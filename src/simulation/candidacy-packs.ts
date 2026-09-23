@@ -33,6 +33,7 @@ import {
   officeQualifications as compiledOfficeQualifications,
   qualificationSourceRef,
   qualificationStateLabel,
+  stateName,
 } from "./office-qualification-rules";
 import type {
   QualificationOfficeFamily,
@@ -174,7 +175,10 @@ function officeQualification(
   );
   if (rules) {
     const source = {
-      authority: "constitution" as const,
+      authority:
+        rules.minimumAge.state === "KNOWN"
+          ? (rules.minimumAge.source.authority ?? ("constitution" as const))
+          : ("constitution" as const),
       citation:
         rules.minimumAge.state === "KNOWN"
           ? rules.minimumAge.source.legalLocator
@@ -191,12 +195,27 @@ function officeQualification(
         rules.minimumAge.state === "KNOWN"
           ? rules.minimumAge.source.retrievedAt
           : null,
-      verification: "verified" as const,
+      verification:
+        rules.minimumAge.state === "KNOWN"
+          ? (rules.minimumAge.source.verification ?? ("verified" as const))
+          : ("verified" as const),
       note:
         rules.minimumAge.state === "KNOWN"
           ? rules.minimumAge.source.researchLineage
           : null,
     };
+    // A set that states who may serve but not for how long leaves the term
+    // where it was: a state the game has not otherwise read keeps its drawn
+    // term, so an election calendar already running in a save does not move.
+    const officeFamilyForTerm = officeFamilyForChamberKey(chamberKey);
+    const drawnTerm =
+      officeFamilyForTerm === null || stateLawHasBeenRead(jurisdictionKey)
+        ? null
+        : standInQualification(
+            jurisdictionKey,
+            "TERM_LENGTH",
+            officeFamilyForTerm,
+          );
     return {
       minimumAge:
         rules.minimumAge.state === "KNOWN"
@@ -213,7 +232,12 @@ function officeQualification(
       termYears:
         rules.termYears.state === "KNOWN"
           ? knownRule(rules.termYears.value, source)
-          : unknownRule("Term length is not resolved."),
+          : drawnTerm !== null
+            ? knownRule(
+                drawnTerm.value,
+                standInQualificationSourceRef(drawnTerm),
+              )
+            : unknownRule("Term length is not resolved."),
       filing: unknownRule(
         "The qualification source establishes who may serve, not a filing deadline or filing authority.",
       ),
@@ -346,7 +370,7 @@ function officeQualification(
           stateResidence === null
             ? unknownRule(NO_QUALIFICATION_CORPUS)
             : knownRule(
-                `${stateResidence.value} years in the state immediately preceding filing`,
+                `${stateResidence.value} ${stateResidence.value === 1 ? "year" : "years"} in the state immediately preceding filing`,
                 standInQualificationSourceRef(stateResidence),
               ),
         termYears: standIn("TERM_LENGTH"),
@@ -364,6 +388,25 @@ function officeQualification(
 }
 
 /**
+ * The chamber as it is called in its own state: "Texas House of
+ * Representatives", "Nebraska Legislature". The pack records the chamber's
+ * bare name ("House of Representatives") and the state it belongs to; the
+ * state's canonical name comes from the pack's own jurisdiction key. Where the
+ * state is not one of the canonical fifty, or the pack's name already carries
+ * it, the pack's name is used as it stands (San Antonio, Texas House,
+ * 2026-09-23: every role and committee read "the House of Representatives").
+ */
+export function stateChamberName(
+  jurisdictionKey: string,
+  chamberName: string,
+): string {
+  const state = stateName(jurisdictionKey);
+  if (state === stateName("") || chamberName.startsWith(state))
+    return chamberName;
+  return `${state} ${chamberName}`;
+}
+
+/**
  * Turns an accepted legislative pack into the offices it demonstrably
  * establishes. One office per chamber, carrying that chamber's own citation.
  * Nothing is added that the pack does not already assert.
@@ -373,16 +416,17 @@ export function candidacyPackFromRulePack(
 ): CandidacyPack {
   const offices = pack.chambers.map((chamber): ElectiveOfficeOption => {
     const officeKey = `${pack.packId}:${chamber.chamberKey}`;
+    const chamberName = stateChamberName(pack.jurisdictionKey, chamber.name);
     return {
       officeKey,
-      chamberName: chamber.name,
+      chamberName,
       office: {
         officeKey,
         // A description of the seat, not a claimed formal title. The packs do
         // not record what members of these chambers are styled, and guessing
         // "Representative" or "Senator" from a chamber name would be inventing
         // a fact about an institution.
-        title: `Seat in the ${chamber.name}`,
+        title: `Seat in the ${chamberName}`,
         // District identity is bound at filing from an explicit Gazetteer
         // record, not from this chamber-level office option.
         seatKey: null,

@@ -269,34 +269,25 @@ describe("GOVERNING 4: bills and the budget reach the governor", () => {
       agenda.options[0]!.key,
     ).world;
 
-    const openBill = (w: World) =>
-      governingMatters(w, office.officeKey).find(
-        (m) =>
-          m.family === "bill" &&
-          m.status === "open" &&
-          m.holderPersonId === personId,
-      );
-
-    // Colorado's legislature has no written measures, so no bill reaches this desk.
-    // The office says that plainly instead of inventing one, and the rest of
-    // its work carries on.
+    // Colorado's legislature has no written measures, but its seated members
+    // file bills of their own on each bill day, so the office never records
+    // that no bill reached it.
     current = passTo(current, "2027-05-01");
-    expect(openBill(current)).toBeUndefined();
-    const notesForThisOffice = (w: World) =>
-      w.history.events.filter(
+    const memberBills = (current.history.legislativeMeasures ?? []).filter(
+      (measure) =>
+        measure.jurisdictionId === office.jurisdictionId &&
+        measure.stableKey.endsWith(":agenda") &&
+        measure.introducedAt >= "2027-01-10",
+    );
+    expect(memberBills.length).toBeGreaterThan(0);
+    expect(
+      current.history.events.filter(
         (event) =>
           event.tags.includes("governing:no-compiled-legislature") &&
-          event.tags.includes(`office:${office.officeKey}`),
-      );
-    const note = notesForThisOffice(current)[0]!;
-    // The player reads what the office saw, never how the game is built.
-    expect(note.summary).toMatch(/^No bill reached .+ this session\.$/);
-    expect(note.summary).not.toMatch(/compiled|written|the game/);
-    // Said once for the session, not once a day.
-    // Once per session for this office, not once a bill day.
-    const noteKeys = notesForThisOffice(current).map((e) => e.stableKey);
-    expect(new Set(noteKeys).size).toBe(noteKeys.length);
-    expect(noteKeys.filter((key) => key.endsWith(":2027"))).toHaveLength(1);
+          event.tags.includes(`office:${office.officeKey}`) &&
+          event.stableKey.endsWith(":2027"),
+      ),
+    ).toHaveLength(0);
     expect(
       governingMatters(current, office.officeKey).some(
         (m) => m.family === "implementation",

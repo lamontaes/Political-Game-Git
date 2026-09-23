@@ -226,6 +226,14 @@ export function projectBillPaper(
       case "vetoed":
         record.push(`Returned by the ${executive} without approval ${when}.`);
         break;
+      case "became-law-without-signature":
+        record.push(
+          `Approved without the ${executive}'s signature when the time to act ran out ${when}.`,
+        );
+        break;
+      case "override-period-expired":
+        record.push(`The time to override the veto ran out ${when}.`);
+        break;
       case "override-chamber-recorded":
         record.push(
           `The ${chamberName(action)} voted on overriding the veto ${when}${tally}.`,

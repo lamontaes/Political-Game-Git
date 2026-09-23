@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
 import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -51,6 +52,14 @@ import {
   STATE_GOVERNING_CALENDAR,
   scheduleGoverningSeasons,
 } from "./governing-calendar";
+import { ensureStateLegislatureOpening } from "../nationwide-world/state-legislature-opening";
+import { worldOpeningVersionOf } from "../world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+import { fileMemberAgendaBill } from "./member-agenda";
+import {
+  ensureOfficeholderPrinciples,
+  principleVoteConsideration,
+} from "./officeholder-principles";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -643,7 +652,7 @@ export function governingMatterById(
   world: World,
   matterId: EntityId,
 ): GoverningMatter | null {
-  const event = world.history.events.find((e) => e.id === matterId);
+  const event = eventById(world, matterId);
   return event && event.type === GOVERNING_MATTER_OPENED
     ? matterFromEvent(world, event)
     : null;
@@ -1589,21 +1598,39 @@ export function governingNpcDecisionHandler(
       recordDecision(world, matter, null, "lapsed", matter.holderPersonId),
       "No available choice.",
     );
-  const recommendation = staffRecommendation(world, matter);
+  let next = world;
+  let principled: GoverningMatter["options"][number] | undefined;
+  const measure =
+    matter.family === "bill" && matter.measureId
+      ? next.history.legislativeMeasures?.find(
+          (entry) => entry.id === matter.measureId,
+        )
+      : undefined;
+  if (measure) {
+    // A governor whose own principles bear on the bill more than slightly
+    // signs or returns it on them, whatever the staff advise.
+    next = ensureOfficeholderPrinciples(next, [matter.holderPersonId]);
+    const bearing = principleVoteConsideration(
+      next,
+      matter.holderPersonId,
+      measure,
+    );
+    if (bearing && bearing.importance !== "slight")
+      principled = matter.options.find(
+        (o) =>
+          o.key ===
+          (bearing.optionKey === "vote-yea" ? "bill:sign" : "bill:return"),
+      );
+  }
+  const recommendation = staffRecommendation(next, matter);
   const rng = new SeededRng(`${matter.stableKey}:npc-choice`);
   const recommended =
     recommendation && rng.integer(0, 4) > 0
       ? matter.options.find((o) => o.key === recommendation.optionKey)
       : undefined;
-  const option = recommended ?? rng.pick(matter.options);
+  const option = principled ?? recommended ?? rng.pick(matter.options);
   return resolved(
-    recordDecision(
-      world,
-      matter,
-      option,
-      "officeholder",
-      matter.holderPersonId,
-    ),
+    recordDecision(next, matter, option, "officeholder", matter.holderPersonId),
     "The officeholder decided.",
   );
 }
@@ -1850,17 +1877,32 @@ export function governingSeasonHandler(
         instance: due.dueAt,
         programKeys,
       });
-    } else if (authoredMeasuresForJurisdiction(office.jurisdictionId).length) {
-      // A legislature with written measures files a real bill; it reaches
-      // the governor through the legislative clock.
-      next = fileLegislatureMeasure(next, {
+    } else {
+      const intake = {
         jurisdictionId: office.jurisdictionId,
         intakeKey: `${office.officeKey}:${due.dueAt}`,
-      });
-    } else {
-      // No bill is invented for a legislature with no written measures. The
-      // office's other work continues, and the gap is stated once a year.
-      next = recordMissingLegislatureNote(next, office, due.dueAt);
+      };
+      // Every state's legislature sits, not only the home state's: one not
+      // yet seated is seated on its first bill day, the same way the home
+      // state's is at the opening. A legacy replay keeps the world it built.
+      if (worldOpeningVersionOf(next) === CRUNCH46_WORLD_OPENING_VERSION)
+        next = ensureStateLegislatureOpening(
+          next,
+          office.holderPersonId,
+          office.stateUsps,
+        );
+      const filedBefore = next.history.legislativeMeasures?.length ?? 0;
+      // A legislature with written measures files a real bill; it reaches
+      // the governor through the legislative clock.
+      if (authoredMeasuresForJurisdiction(office.jurisdictionId).length)
+        next = fileLegislatureMeasure(next, intake);
+      // A seated member also files a bill of their own, on the question
+      // their principles press hardest.
+      next = fileMemberAgendaBill(next, intake);
+      // Where nobody filed anything, no bill is invented. The office's other
+      // work continues, and the gap is stated once a year.
+      if ((next.history.legislativeMeasures?.length ?? 0) === filedBefore)
+        next = recordMissingLegislatureNote(next, office, due.dueAt);
     }
     next = openProgramMatters(next, office);
     next = scheduleGoverningSeasons(next, officeKey!, office.jurisdictionId);
@@ -1949,16 +1991,23 @@ const institutionStepWithProgramMatters = (() => {
   };
 })();
 
-export const STATE_GOVERNING_HANDLERS = [
-  [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
-  ...CONGRESS_LAWMAKING_HANDLERS,
-  [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
-  [GOVERNING_SEASON, governingSeasonHandler],
-  [GOVERNING_TRANSITION, governingTransitionHandler],
-  [GOVERNING_DEADLINE, governingDeadlineHandler],
-  [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
-  [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
-] as const;
+/**
+ * The governing handlers, built when a registry asks for them rather than when
+ * this module loads: several of the keys belong to modules that import this
+ * one, and are not defined yet while it is loading.
+ */
+export function stateGoverningHandlers() {
+  return [
+    [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
+    ...CONGRESS_LAWMAKING_HANDLERS,
+    [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
+    [GOVERNING_SEASON, governingSeasonHandler],
+    [GOVERNING_TRANSITION, governingTransitionHandler],
+    [GOVERNING_DEADLINE, governingDeadlineHandler],
+    [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
+    [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
+  ] as const;
+}
 
 /** Recorded decisions and outcomes for an office, newest first. */
 export function governingOutcomes(

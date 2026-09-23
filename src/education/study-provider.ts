@@ -32,6 +32,7 @@ import {
 } from "../simulation/education-study-terms";
 import type { AcceptedEducationTerms } from "../simulation/education-study-terms";
 import { addDays } from "../simulation/dates";
+import { stillInGradeSchool } from "../simulation/school-stages";
 const provenance = {
   kind: "authored",
   note: "EDU-PATH7 v1 simulated noncredit opportunity and terms. Source supports only institution/category; admission, schedule, fees and completion below are game-authored, not official institutional policy.",
@@ -50,7 +51,7 @@ export function studyDefinition(
     title: `${capability.label.trim()} — noncredit study`,
     responsibility: `Study ${capability.label.trim().toLowerCase()} across the accepted noncredit period.`,
     program: `postsecondary:edu-path7-${capability.code.toLowerCase()}`,
-    credential: `Completed noncredit ${capability.label.trim().toLowerCase()} study (game-authored record; no degree or license)`,
+    credential: `Completed noncredit ${capability.label.trim().toLowerCase()} study (not a degree or license)`,
     prerequisiteProgram: null,
     minimumAge: 18,
     sessionMinutes: 0,
@@ -139,6 +140,8 @@ export function studyPathFor(
     studyDefinition(institution, capability)
   );
 }
+export const GRADE_SCHOOL_REASON =
+  "College comes after high school. For now, school is where you study.";
 /** Whether the game can take an application for this listed capability. */
 export function canApplyFor(capability: EducationCapability): boolean {
   return (
@@ -155,9 +158,15 @@ export function educationOptionReason(
   if (world.control.kind !== "person") return "Choose a person to study.";
   const dateReason = institutionDateReason(institution, world.currentDate);
   if (dateReason) return dateReason;
+  // A child still in school applies to college once high school is behind
+  // them; somebody grown who has left school applies as anybody would.
+  if (stillInGradeSchool(world, world.control.personId))
+    return GRADE_SCHOOL_REASON;
   if (institution.kind !== "postsecondary" || !canApplyFor(capability))
     return "This college does not take applications for this through the game.";
   const path = studyPathFor(institution, capability);
+  const already = alreadyStudyingOrOffered(world, institution, capability);
+  if (already) return already;
   if (
     path.prerequisiteProgram &&
     !hasLifePathCredential(
@@ -168,6 +177,47 @@ export function educationOptionReason(
   )
     return "This needs a bachelor's degree first.";
   return lifePathEntryReason(world, world.control.personId, path);
+}
+/**
+ * One place per program per college. A second application for a degree the
+ * person is already studying, has been accepted for or already holds an offer
+ * for went through, and left two enrollments in one program.
+ */
+function alreadyStudyingOrOffered(
+  world: World,
+  institution: EducationInstitution,
+  capability: EducationCapability,
+): string | null {
+  if (world.control.kind !== "person") return null;
+  const actor = world.control.personId;
+  const program = studyPathFor(institution, capability).program;
+  const org = world.history.organizations.find(
+    (o) => o.stableKey === `edu-path7:institution:${institution.id}`,
+  );
+  if (
+    org &&
+    world.history.educationEnrollments.some(
+      (e) =>
+        e.personId === actor &&
+        e.organizationId === org.id &&
+        e.programKind === program &&
+        ["active", "expected", "temporarily-inactive"].includes(
+          educationEnrollmentStateAt(world, e.id)?.status ?? "",
+        ),
+    )
+  )
+    return "You're already enrolled in this program.";
+  if (
+    pendingEducationOffers(world).some((offer) => {
+      const terms = parseEducationTerms(offer.description);
+      return (
+        terms?.institutionId === institution.id &&
+        terms.capabilityCode === capability.code
+      );
+    })
+  )
+    return "You already have an offer for this program. You can accept or decline it below.";
+  return null;
 }
 function event(
   world: World,
@@ -211,21 +261,7 @@ export function applyForEducation(
   if (!capability) throw new Error("Unknown capability");
   const reason = educationOptionReason(world, institution, capability);
   if (reason) return { ok: false as const, world, message: reason };
-  if (
-    pendingEducationOffers(world).some((a) => {
-      const terms = parseEducationTerms(a.description);
-      return (
-        terms?.institutionId === institution.id &&
-        terms.capabilityCode === capabilityCode
-      );
-    })
-  )
-    return {
-      ok: true as const,
-      world,
-      message:
-        "Your existing saved offer is ready to review; no duplicate application was created.",
-    };
+  // A second request while an offer waits is refused by the reason above.
   const actor = world.control.kind === "person" ? world.control.personId : null;
   if (!actor) throw new Error("No person");
   const stableKey = `edu-path7:institution:${institution.id}`;
@@ -255,7 +291,7 @@ export function applyForEducation(
     [org.id],
     degree
       ? `You applied to ${institution.name} for ${path.credential!.toLowerCase()}.`
-      : `You requested the game-authored noncredit study option at ${institution.name}. No attendance, degree or payment is recorded.`,
+      : `You asked ${institution.name} about noncredit study. Nothing is booked or paid yet.`,
   );
   const terms: AcceptedEducationTerms = {
     version: 2,
@@ -283,7 +319,7 @@ export function applyForEducation(
     // open-admission college admits anyone by its own reported policy.
     message: degree
       ? `${institution.name} offered you a place. Review the terms before accepting.`
-      : "A game-authored noncredit offer is available. Review its terms before accepting; this is not official admission.",
+      : `${institution.name} offered you a noncredit place. Review the terms before accepting.`,
   };
 }
 export function pendingEducationOffers(world: World) {
@@ -342,7 +378,7 @@ export function respondToEducationOffer(
     return {
       ok: false as const,
       world,
-      message: "Grace must be a nonnegative whole number of simulated days.",
+      message: "Grace must be a whole number of days, zero or more.",
     };
   const terms =
     offeredTerms?.version === 2

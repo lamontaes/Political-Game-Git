@@ -1,0 +1,26 @@
+{
+  "filedAt": "2026-09-23T12:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "committees, staff and appointments",
+  "notes": [
+    "The first player to win a seat in Congress (Washington's 7th District) kept his shop job and a stock-clerk job from his teens after taking office. The game leaves every other job in place until this rule is on file; it does not guess a forced exit."
+  ],
+  "priority": "P2",
+  "question": "When a person takes a US public office, which outside work may they keep? For members of Congress, state legislators (full-time and part-time chambers), governors and other statewide officers, mayors and council members: is an ordinary job allowed, is outside earned income capped (and at what amount), which kinds of work are barred outright, and must a business or professional practice be given up or put in trust?",
+  "questionId": "outside-work-while-in-office",
+  "relatedQuestionIds": [
+    "what-public-officials-are-paid",
+    "elected-office-staff-by-level"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "committees, staff and appointments thread",
+  "sourcesChecked": [
+    {
+      "source": "The game's office and employment records as the game loads them",
+      "whatItDidNotSettle": "Nothing recorded says whether an officeholder may keep another job, so every office keeps them all."
+    }
+  ],
+  "title": "What outside work an officeholder may keep",
+  "usableAnswer": "A table by office level (and by state where the rule differs) giving whether ordinary employment is allowed, any cap on outside earned income with its amount and year, the kinds of work barred, and the named rule or statute for each, so the game can end, cap or allow a player's other jobs when they take office.",
+  "whyItMatters": "A player who wins office should give up the jobs the office rules out and keep the ones it allows. Today every officeholder keeps every job, which no rule supports."
+}

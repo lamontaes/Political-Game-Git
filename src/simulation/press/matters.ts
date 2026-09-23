@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import {
   activeCampaignForCandidate,
   campaignForCandidate,
@@ -597,9 +598,7 @@ export function pressLedgerReviewHandler(
   });
   const discovery =
     next === world
-      ? world.history.events.find(
-          (event) => event.id === occurrence.occurrenceEventId,
-        )!
+      ? eventById(world, occurrence.occurrenceEventId)!
       : next.history.events.at(-1)!;
   const actor = occurrence.actorPersonIds[0]!;
   if (

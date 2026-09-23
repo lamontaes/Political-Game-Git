@@ -286,10 +286,7 @@ export function enterLifePath(
     path.kind === "study" &&
     (!Number.isSafeInteger(graceDays) || graceDays < 0)
   )
-    return fail(
-      world,
-      "Grace must be a nonnegative whole number of simulated days.",
-    );
+    return fail(world, "Grace must be a whole number of days, zero or more.");
   const acceptedPath =
     path.kind === "study"
       ? { ...periodizedStudyPath(path), tuitionGraceDays: graceDays }
@@ -898,7 +895,7 @@ function createLifePathRoutineHook(): RoutineTimeHook {
           responsiblePersonId: actor,
           location: {
             locationKey: `life-paths2:${path.id}`,
-            label: path.organizationName,
+            label: employerName(path),
             jurisdictionId: null,
           },
           sourceEntityIds: [slot.relationshipId],

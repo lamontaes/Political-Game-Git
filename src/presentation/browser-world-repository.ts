@@ -12,9 +12,13 @@ import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { factsForPerson, personName } from "../simulation/people";
 import {
   createWorldSnapshot,
-  deserializeWorld,
-  serializeWorld,
+  readWorldSnapshot,
+  serializeWorldAs,
+  serializeWorldSnapshot,
+  storedFormatVersion,
   worldContentId,
+  type WorldSnapshot,
+  type WorldSnapshotFormatVersion,
 } from "../simulation/serialization";
 import type {
   EntityId,
@@ -630,9 +634,7 @@ export class BrowserSaveStore {
         throw new Error("This save cannot be inspected safely.");
       if (read.record.saveId !== saveId)
         throw new Error("Save identity mismatch.");
-      return migrateUnpinnedAppearanceCatalog(
-        deserializeWorld(read.record.payload),
-      );
+      return migrateUnpinnedAppearanceCatalog(read.world);
     });
   }
 
@@ -677,7 +679,7 @@ export class BrowserSaveStore {
       if (record.saveId !== saveId) {
         throw new Error("This saved game does not match the one asked for.");
       }
-      const world = deserializeWorld(record.payload);
+      const world = read.world;
       // Opening a save is how a tab comes to hold the slot: what it has in
       // hand now *is* what is stored, so it may write over it. The payload was
       // not rewritten, so what is durable is what was read.
@@ -694,19 +696,26 @@ export class BrowserSaveStore {
       // generation where it is, so opening a save in a second tab does not
       // take the slot away from the tab that is playing it. And it is
       // conditional, so it cannot land on top of a newer save.
-      await this.#commit(saveId, (current) => {
-        const now = readSlotState(current);
-        if (now.kind !== "present" || now.generation !== record.generation) {
-          return { write: null, result: undefined };
-        }
-        return {
-          write: {
-            ...record,
-            metadata: { ...record.metadata, lastPlayedAt },
-          },
-          result: undefined,
-        };
-      });
+      try {
+        await this.#commit(saveId, (current) => {
+          const now = readSlotState(current);
+          if (now.kind !== "present" || now.generation !== record.generation) {
+            return { write: null, result: undefined };
+          }
+          return {
+            write: {
+              ...record,
+              metadata: { ...record.metadata, lastPlayedAt },
+            },
+            result: undefined,
+          };
+        });
+      } catch {
+        // The world is already read and whole. Writing the stamp rewrites the
+        // record, and a long life's record can be refused or run out of room;
+        // that must not turn a save that opened into one that "could not be
+        // opened". The stored record is unchanged, so the slot stays ours.
+      }
       return migrateUnpinnedAppearanceCatalog(world);
     });
   }
@@ -1102,9 +1111,29 @@ export class BrowserSaveStore {
     return this.#databasePromise;
   }
 
+  /**
+   * One record, read again if the browser refuses it.
+   *
+   * Chromium sometimes will not read a large value ("Failed to read large
+   * IndexedDB value") and reads the same value a moment later. A 40 MB Juneau
+   * life opened in three fresh browsers out of four; in the fourth it stayed
+   * "needs attention" because one refusal was taken as the answer. A read
+   * changes nothing, so asking again is safe; after the last try the refusal
+   * stands and the caller reports it.
+   */
   async #get(saveId: IDBValidKey): Promise<unknown | undefined> {
     const database = await this.#database();
-    return runRequest(database, "readonly", (store) => store.get(saveId));
+    for (let attempt = 0; ; attempt += 1) {
+      try {
+        return await runRequest(database, "readonly", (store) =>
+          store.get(saveId),
+        );
+      } catch (error) {
+        const wait = READ_RETRY_DELAYS_MS[attempt];
+        if (wait === undefined) throw error;
+        await this.#delay(wait);
+      }
+    }
   }
 
   async #commit<T>(
@@ -1138,27 +1167,35 @@ interface PreparedRecord {
 }
 
 function prepareWorldRecord(world: World): PreparedRecord {
-  const player = controlledPlayer(world);
   // One snapshot, used for the summary, the payload and the content identity.
-  // `serializeWorld` is exactly `JSON.stringify(createWorldSnapshot(world))`.
+  // `serializeWorld` is exactly `serializeWorldSnapshot(createWorldSnapshot())`.
   const snapshot = createWorldSnapshot(world);
   return {
-    payload: JSON.stringify(snapshot),
+    payload: serializeWorldSnapshot(snapshot),
     contentId: snapshot.snapshotId,
-    fields: {
-      worldId: world.id,
-      snapshotId: snapshot.snapshotId,
-      snapshotFormatVersion: snapshot.formatVersion,
-      worldSchemaVersion: world.schemaVersion,
-      worldGeneratorVersion: world.generatorVersion,
-      playerPersonId: player.id,
-      playerName: personName(player),
-      playerAge: ageOnDate(player.birthDate, world.currentDate),
-      ...(watchedFromStart(world) ? { observing: true as const } : {}),
-      residence: currentResidence(world, player),
-      currentMoment: { ...world.currentMoment },
-      actionSequence: world.actionSequence,
-    },
+    fields: worldRecordFields(world, snapshot),
+  };
+}
+
+/** The summary fields a record of this world carries. */
+function worldRecordFields(
+  world: World,
+  snapshot: WorldSnapshot,
+): PreparedRecord["fields"] {
+  const player = controlledPlayer(world);
+  return {
+    worldId: world.id,
+    snapshotId: snapshot.snapshotId,
+    snapshotFormatVersion: storedFormatVersion(snapshot),
+    worldSchemaVersion: world.schemaVersion,
+    worldGeneratorVersion: world.generatorVersion,
+    playerPersonId: player.id,
+    playerName: personName(player),
+    playerAge: ageOnDate(player.birthDate, world.currentDate),
+    ...(watchedFromStart(world) ? { observing: true as const } : {}),
+    residence: currentResidence(world, player),
+    currentMoment: { ...world.currentMoment },
+    actionSequence: world.actionSequence,
   };
 }
 
@@ -1209,7 +1246,15 @@ export function createBrowserWorldRecord(
 }
 
 type ReadRecord =
-  | { readonly kind: "healthy"; readonly record: StoredBrowserWorldRecord }
+  | {
+      readonly kind: "healthy";
+      readonly record: StoredBrowserWorldRecord;
+      /**
+       * The world the check read to prove the record, so a caller opening the
+       * save uses it instead of reading 80 MB of text a second time.
+       */
+      readonly world: World;
+    }
   | { readonly kind: "deleted"; readonly saveId: EntityId }
   | { readonly kind: "damaged"; readonly quarantine: QuarantinedSave };
 
@@ -1286,8 +1331,9 @@ export function readStoredRecord(value: unknown): ReadRecord {
   }
 
   let world: World;
+  let formatVersion: WorldSnapshotFormatVersion;
   try {
-    world = deserializeWorld(value.payload);
+    ({ world, formatVersion } = readWorldSnapshot(value.payload));
   } catch {
     return damaged(
       saveId,
@@ -1297,7 +1343,10 @@ export function readStoredRecord(value: unknown): ReadRecord {
       savedAt,
     );
   }
-  if (value.payload !== serializeWorld(world)) {
+  // Compared in the format the record was written in: a save from before roll
+  // calls were packed is the same save, and is rewritten packed on its next
+  // write.
+  if (value.payload !== serializeWorldAs(world, formatVersion)) {
     return damaged(
       saveId,
       "altered-after-write",
@@ -1307,7 +1356,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
     );
   }
 
-  const migrated = migrateRecord(value, world);
+  const migrated = migrateRecord(value, world, formatVersion);
   if (migrated === null) {
     return damaged(
       saveId,
@@ -1317,7 +1366,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
       savedAt,
     );
   }
-  return { kind: "healthy", record: migrated };
+  return { kind: "healthy", record: migrated, world };
 }
 
 /**
@@ -1334,6 +1383,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
 function migrateRecord(
   value: Record<string, unknown>,
   world: World,
+  formatVersion: WorldSnapshotFormatVersion,
 ): StoredBrowserWorldRecord | null {
   if (typeof value.saveId !== "string") return null;
   const saveId = value.saveId as EntityId;
@@ -1347,13 +1397,24 @@ function migrateRecord(
       ? value.generation
       : 0;
 
-  const expected = createBrowserWorldRecord(
-    world,
-    metadata.savedAt as string,
-    metadata.createdAt as string,
-    saveId,
-    generation,
-  ).metadata;
+  // The summary a record written now would carry, in the format this one was
+  // written in. Only the fields are built: the payload was just compared, and
+  // writing a big world out again only to read its summary cost seconds.
+  const snapshot = createWorldSnapshot(world);
+  const expected: BrowserWorldSummary = {
+    ...completeRecord(
+      {
+        payload: "",
+        contentId: snapshot.snapshotId,
+        fields: worldRecordFields(world, snapshot),
+      },
+      saveId,
+      metadata.savedAt as string,
+      metadata.createdAt as string,
+      generation,
+    ).metadata,
+    snapshotFormatVersion: formatVersion,
+  };
   const actual: BrowserWorldSummary = {
     ...(metadata as unknown as BrowserWorldSummary),
     saveId,
@@ -1378,6 +1439,9 @@ function migrateRecord(
 /* -------------------------------------------------------------------------- */
 /* Summaries.                                                                  */
 /* -------------------------------------------------------------------------- */
+
+/** Pauses before each further read of a record the browser refused. */
+const READ_RETRY_DELAYS_MS: readonly number[] = [500, 2000];
 
 /** A summary built for one list only, never stored, carries no generation. */
 const UNKNOWN_GENERATION = -1;

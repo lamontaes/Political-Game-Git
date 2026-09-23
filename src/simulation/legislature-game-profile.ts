@@ -52,6 +52,8 @@ import {
   type VoteDenominator,
   type VoteThresholdRule,
 } from "./legislature-rules";
+import { districtIdentityCatalog } from "../districts/catalog";
+import { listDistrictIdentities } from "../districts/query";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { STATES } from "./state-reference";
 import { vetoOverrideReadingFor } from "./veto-override-source-readings";
@@ -263,7 +265,37 @@ const SETTLED_CHAMBER_SEATS: Readonly<
       note: "A House of not fewer than 375 nor more than 400 members, apportioned by statute at 400, and a Senate of twenty-four. Settled law: the counts are certain, though the apportionment statute's text was not retrieved for this entry. The rest of this legislature is the game's own.",
     },
   },
+  "US-PR": {
+    lower: 51,
+    upper: 27,
+    source: {
+      authority: "constitution",
+      citation: "P.R. Const. art. III, §§ 2-3",
+      sourceTitle:
+        "Constitution of the Commonwealth of Puerto Rico, Article III",
+      sourceUrl: "https://poderjudicial.pr/constitucion/articulo-iii/",
+      retrievedAt: null,
+      verification: "verified",
+      note: "Twenty-seven Senators (two from each of eight districts and eleven at large) and fifty-one Representatives (one from each of forty districts and eleven at large), per the research answer OCD-PUERTO-RICO-GOVERNMENT-AND-MUNICIPIOS (2026-09-22). This is the base composition; the additional minority-party members Article III, § 7 can add are not modeled. The rest of this legislature is the game's own.",
+    },
+  },
 };
+
+export type SeatBasis = "settled" | "census-districts" | "drawn";
+
+/**
+ * How many districts the Census draws for one of a state's chambers; zero
+ * where it draws none.
+ */
+function censusDistrictCount(
+  stateJurisdictionKey: string,
+  chamber: "state-lower" | "state-upper",
+): number {
+  return listDistrictIdentities(districtIdentityCatalog(), {
+    stateUsps: stateJurisdictionKey.replace(/^US-/, ""),
+    chamber,
+  }).length;
+}
 
 /** The drawn shape of one state's legislature, before it becomes a rule pack. */
 export interface LegislatureProfile {
@@ -271,6 +303,13 @@ export interface LegislatureProfile {
   readonly version: string;
   readonly lowerSeats: number;
   readonly upperSeats: number;
+  /**
+   * Where each seat count comes from: settled law, the state's own Census
+   * legislative districts at one member to a district, or a draw from the
+   * researched range where neither exists.
+   */
+  readonly lowerSeatsBasis: SeatBasis;
+  readonly upperSeatsBasis: SeatBasis;
   /** Where the seat counts come from when they are settled law, not drawn. */
   readonly seatSource: RuleSourceRef | null;
   readonly vetoWindowDaysInSession: number;
@@ -319,12 +358,31 @@ export function legislatureProfileFor(
     lowerSeats - 1,
     Math.max(2, Math.round((lowerSeats * percent) / 100)),
   );
+  // PLACEHOLDER until state-legislature-chamber-sizes-and-quorum is answered:
+  // settled law wins. Then a state's own Census districts, which are a record
+  // of that state rather than a range across others, though a multi-member
+  // district seats more than one. The draw comes last. The seated chambers
+  // are sized the same way.
   const settled = SETTLED_CHAMBER_SEATS[stateJurisdictionKey] ?? null;
+  const lowerDistricts = censusDistrictCount(
+    stateJurisdictionKey,
+    "state-lower",
+  );
+  const upperDistricts = censusDistrictCount(
+    stateJurisdictionKey,
+    "state-upper",
+  );
+  const basis = (districts: number): SeatBasis =>
+    settled ? "settled" : districts > 0 ? "census-districts" : "drawn";
   return {
     stateJurisdictionKey,
     version: LEGISLATURE_GAME_PROFILE_VERSION,
-    lowerSeats: settled?.lower ?? lowerSeats,
-    upperSeats: settled?.upper ?? upperSeats,
+    lowerSeats:
+      settled?.lower ?? (lowerDistricts > 0 ? lowerDistricts : lowerSeats),
+    upperSeats:
+      settled?.upper ?? (upperDistricts > 0 ? upperDistricts : upperSeats),
+    lowerSeatsBasis: basis(lowerDistricts),
+    upperSeatsBasis: basis(upperDistricts),
     seatSource: settled?.source ?? null,
     vetoWindowDaysInSession: drawFrom(
       stateJurisdictionKey,
@@ -369,18 +427,38 @@ const SESSION_SOURCE = profileSource(
   "The game's standing rule until this state's session calendar is researched: the legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over. This is not a reading of the state's law.",
 );
 
+/**
+ * PLACEHOLDER, not law. Every researched chamber refers a measure to a
+ * standing committee before the floor, and a committee reports on a majority
+ * of its members. Which committees an unresearched chamber has, and their
+ * sizes, come from its own rules; until they are read, each chamber has one
+ * standing committee of about a sixth of its seats, between five and
+ * twenty-five members, so that a bill can reach the floor at all.
+ */
+const COMMITTEE_SOURCE = profileSource(
+  "Committees",
+  "The game's standing rule until this chamber's rules are read: one standing committee hears every bill and reports it on a majority of its members. This is not a reading of the state's law.",
+);
+
+function committeeSize(seats: number): number {
+  return Math.max(5, Math.min(25, Math.round(seats / 6)));
+}
+
 function profileChamber(
   chamberKey: string,
   name: string,
   billDesignationPrefix: string,
   seats: number,
+  seatBasis: SeatBasis,
   settledSource: RuleSourceRef | null = null,
 ): ChamberRule {
   const seatSource =
     settledSource ??
     profileSource(
       "Seats",
-      `The chamber seats ${seats} members, drawn from the range the compiled states span and fixed for this state.`,
+      seatBasis === "census-districts"
+        ? `The chamber seats ${seats} members, one for each of the state's Census legislative districts; how many members a district elects has not been read.`
+        : `The chamber seats ${seats} members, drawn from the range the compiled states span and fixed for this state.`,
     );
   const quorum: VoteThresholdRule = majorityOf(
     "members-elected",
@@ -407,7 +485,25 @@ function profileChamber(
         "A measure is referred to committee before it reaches the floor. Which committee, and on what terms, comes from chamber rules that have not been read.",
       ),
     },
-    committees: [],
+    committees: [
+      {
+        committeeKey: `${chamberKey}-standing`,
+        name: "Standing committee",
+        appointedMembers: committeeSize(seats),
+        membershipBasis: "scenario-fixture",
+        reportThreshold: majorityOf(
+          "committee-members-appointed",
+          "a majority of the committee's membership",
+          COMMITTEE_SOURCE,
+        ),
+        chairMayDeclineToHear: unknownRule(
+          "Whether a committee chair may decline to take a bill up is set by this chamber's own rules, which have not been read.",
+        ),
+        publicHearingNotice: unknownRule(
+          "How much notice a committee hearing takes is set by this chamber's own rules, which have not been read.",
+        ),
+      },
+    ],
     floorStages: [
       {
         stageKey: "final-passage",
@@ -483,6 +579,7 @@ export function legislatureProfilePack(
         "House of Representatives",
         "HB",
         profile.lowerSeats,
+        profile.lowerSeatsBasis,
         profile.seatSource,
       ),
       profileChamber(
@@ -490,6 +587,7 @@ export function legislatureProfilePack(
         "Senate",
         "SB",
         profile.upperSeats,
+        profile.upperSeatsBasis,
         profile.seatSource,
       ),
     ],

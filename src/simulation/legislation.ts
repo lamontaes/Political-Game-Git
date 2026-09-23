@@ -129,11 +129,33 @@ export function measureActions(
   world: World,
   measureId: EntityId,
 ): readonly LegislativeActionRecord[] {
-  return (world.history.legislativeActions ?? [])
-    .filter((action) => action.measureId === measureId)
-    .slice()
-    .sort((a, b) => a.sequence - b.sequence);
+  const actions = world.history.legislativeActions ?? [];
+  let byMeasure = ACTIONS_BY_MEASURE.get(actions);
+  if (!byMeasure) {
+    byMeasure = new Map();
+    for (const action of actions) {
+      const list = byMeasure.get(action.measureId);
+      if (list) list.push(action);
+      else byMeasure.set(action.measureId, [action]);
+    }
+    for (const list of byMeasure.values())
+      list.sort((a, b) => a.sequence - b.sequence);
+    ACTIONS_BY_MEASURE.set(actions, byMeasure);
+  }
+  return byMeasure.get(measureId) ?? NO_ACTIONS;
 }
+
+/**
+ * Actions grouped by measure, per actions array. Replaying a measure and
+ * checking a save both ask for one measure's actions, once per measure, and
+ * each answer filtered every action ever taken. History arrays are replaced,
+ * never edited, so the grouping is exact for the array it was built from.
+ */
+const ACTIONS_BY_MEASURE = new WeakMap<
+  readonly LegislativeActionRecord[],
+  Map<EntityId, LegislativeActionRecord[]>
+>();
+const NO_ACTIONS: readonly LegislativeActionRecord[] = Object.freeze([]);
 
 // ---------------------------------------------------------------------------
 // Legal replay
@@ -517,6 +539,28 @@ function applyRecordedAction(
       const gate = requirePhase(state, action.kind, ["awaiting-executive"]);
       if (!gate.ok) return gate;
       state.phase = "awaiting-override";
+      return LEGAL;
+    }
+    case "became-law-without-signature": {
+      const gate = requirePhase(state, action.kind, ["awaiting-executive"]);
+      if (!gate.ok) return gate;
+      const outcome = pack.executive.inactionOutcomeInSession;
+      if (
+        outcome.kind !== "known" ||
+        outcome.value !== "becomes-law-without-signature"
+      ) {
+        return illegal(
+          `${pack.displayName} has no resolved rule under which the ${pack.executive.titleLabel}'s silence approves a measure`,
+        );
+      }
+      state.phase = "awaiting-enactment";
+      return LEGAL;
+    }
+    case "override-period-expired": {
+      const gate = requirePhase(state, action.kind, ["awaiting-override"]);
+      if (!gate.ok) return gate;
+      state.phase = "failed";
+      state.outcome = "vetoed-and-sustained";
       return LEGAL;
     }
     case "override-chamber-recorded": {
@@ -1288,37 +1332,53 @@ export function nextMeasureStableKey(
   if (prefix.trim().length === 0) {
     throw new Error("A stable key prefix must not be empty.");
   }
-  const taken = new Set<string>();
-  const families: readonly (readonly {
-    readonly measureId: EntityId;
-    readonly stableKey: string;
-  }[])[] = [
-    world.history.legislativeActions ?? [],
-    world.history.committeeReferrals ?? [],
-    world.history.committeeActions ?? [],
-    world.history.legislativeAmendments ?? [],
-    world.history.legislativeVotes ?? [],
-    world.history.executiveDispositions ?? [],
-    world.history.legislativeEnactments ?? [],
-  ];
-  for (const family of families) {
-    for (const record of family) {
-      // Writers require globally unique keys within a history family. Another
-      // measure's use of the same operation prefix is still a collision.
-      taken.add(record.stableKey);
-    }
-  }
-  for (const item of world.history.futureDueItems ?? []) {
-    taken.add(item.stableKey);
-  }
-  for (let n = 1; n <= taken.size + 1; n += 1) {
+  const blocked = blockedStableKeys(world);
+  for (let n = 1; n <= blocked.size + 1; n += 1) {
     const candidate = `${prefix}:${n}`;
-    const collides = [...taken].some(
-      (key) => key === candidate || key.startsWith(`${candidate}:`),
-    );
-    if (!collides) return candidate;
+    if (!blocked.has(candidate)) return candidate;
   }
   throw new Error(`Could not derive a free stable key for '${prefix}'.`);
+}
+
+const BLOCKED_STABLE_KEYS_ANCHOR = {};
+
+/**
+ * Every stable key a new legislative record may not take: each key already
+ * written, and each key that another starts with followed by a colon. A key
+ * collides when it is taken or when a taken key extends it. The legislative
+ * clock asks for a new key at every step, and on a long save each answer used
+ * to compare every candidate against every key in eight history families.
+ */
+function blockedStableKeys(world: World): ReadonlySet<string> {
+  const history = world.history;
+  const families = [
+    history.legislativeActions,
+    history.committeeReferrals,
+    history.committeeActions,
+    history.legislativeAmendments,
+    history.legislativeVotes,
+    history.executiveDispositions,
+    history.legislativeEnactments,
+    history.futureDueItems,
+  ] as const;
+  return indexOverArrays(BLOCKED_STABLE_KEYS_ANCHOR, families, () => {
+    const blocked = new Set<string>();
+    for (const family of families) {
+      // Writers require globally unique keys within a history family. Another
+      // measure's use of the same operation prefix is still a collision.
+      for (const record of family ?? []) {
+        const key = record.stableKey;
+        blocked.add(key);
+        for (
+          let at = key.indexOf(":");
+          at !== -1;
+          at = key.indexOf(":", at + 1)
+        )
+          blocked.add(key.slice(0, at));
+      }
+    }
+    return blocked;
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -2279,6 +2339,8 @@ export interface ExecutiveActionInput {
   readonly measureId: EntityId;
   readonly action: Extract<ExecutiveActionKind, "signed" | "vetoed">;
   readonly rationale: string;
+  /** The person who acted, when known: named in the news and on the event. */
+  readonly actorPersonId?: EntityId;
 }
 
 export function recordExecutiveAction(
@@ -2299,6 +2361,11 @@ export function recordExecutiveAction(
   );
   const pack = rulePackById(measure.rulePackId);
   const signed = input.action === "signed";
+  const actor =
+    input.actorPersonId !== undefined
+      ? world.people[input.actorPersonId]
+      : undefined;
+  const actorName = actor ? ` ${personName(actor)}` : "";
 
   const disposition: ExecutiveDispositionRecord = {
     id: createStableId(
@@ -2338,9 +2405,20 @@ export function recordExecutiveAction(
     floorStageKey: null,
     actorLabel: pack.executive.titleLabel,
     rationale: input.rationale,
-    summary: signed
-      ? `The ${pack.executive.titleLabel} signed ${measure.designation}.`
-      : `The ${pack.executive.titleLabel} vetoed ${measure.designation}.`,
+    summary: actor
+      ? `${pack.executive.titleLabel}${actorName} ${signed ? "signed" : "vetoed"} ${measure.designation}.`
+      : signed
+        ? `The ${pack.executive.titleLabel} signed ${measure.designation}.`
+        : `The ${pack.executive.titleLabel} vetoed ${measure.designation}.`,
+    participants: actor
+      ? [
+          {
+            personId: actor.id,
+            role: "focus:subject",
+            detail: pack.executive.titleLabel,
+          },
+        ]
+      : [],
     eventType: signed
       ? "legislation.measure-signed"
       : "legislation.measure-vetoed",
@@ -2371,6 +2449,107 @@ export interface OverrideAttemptInput {
  * rule: some legislatures vote separately in each chamber, and others sit
  * jointly as a single larger body with a single threshold.
  */
+export interface ExecutiveInactionInput {
+  readonly stableKey: string;
+  readonly measureId: EntityId;
+  readonly rationale: string;
+}
+
+/**
+ * The executive let the time to act run out, and the pack says that silence
+ * approves the measure. Recorded as its own disposition, never as a
+ * signature nobody gave.
+ */
+export function recordExecutiveInaction(
+  world: World,
+  input: ExecutiveInactionInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  assertPhase(
+    world,
+    input.measureId,
+    ["awaiting-executive"],
+    "record that the executive did not act",
+  );
+  assertUniqueStableKey(
+    world.history.executiveDispositions,
+    input.stableKey,
+    "Executive disposition",
+  );
+  const pack = rulePackById(measure.rulePackId);
+  const disposition: ExecutiveDispositionRecord = {
+    id: createStableId(
+      "executive-disposition",
+      `${measure.id}:${input.stableKey}`,
+    ),
+    stableKey: input.stableKey,
+    sequence: world.history.nextSequence,
+    measureId: measure.id,
+    actedAt: world.currentDate,
+    action: "became-law-without-signature",
+    actorLabel: pack.executive.titleLabel,
+    rationale: input.rationale,
+  };
+  const withDisposition: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 1,
+      executiveDispositions: [
+        ...(world.history.executiveDispositions ?? []),
+        disposition,
+      ],
+    },
+  };
+  return appendAction(withDisposition, {
+    measure,
+    kind: "became-law-without-signature",
+    stableKey: `${input.stableKey}:became-law-without-signature`,
+    chamberKey: null,
+    committeeKey: null,
+    floorStageKey: null,
+    actorLabel: pack.executive.titleLabel,
+    rationale: input.rationale,
+    summary: `${measure.designation} was approved without the ${pack.executive.titleLabel}'s signature when the time to act ran out.`,
+    eventType: "legislation.measure-approved-without-signature",
+    tags: ["legislation.approved-without-signature"],
+    involvedEntityIds: [disposition.id],
+  });
+}
+
+export interface OverridePeriodExpiredInput {
+  readonly stableKey: string;
+  readonly measureId: EntityId;
+  readonly rationale: string;
+}
+
+/** The time the pack allows to reconsider a veto ran out; the veto stands. */
+export function recordOverridePeriodExpired(
+  world: World,
+  input: OverridePeriodExpiredInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  assertPhase(
+    world,
+    input.measureId,
+    ["awaiting-override"],
+    "close the override period",
+  );
+  return appendAction(world, {
+    measure,
+    kind: "override-period-expired",
+    stableKey: input.stableKey,
+    chamberKey: null,
+    committeeKey: null,
+    floorStageKey: null,
+    actorLabel: rulePackById(measure.rulePackId).displayName,
+    rationale: input.rationale,
+    summary: `The time to override the veto of ${measure.designation} ran out; the veto stands.`,
+    eventType: "legislation.override-period-expired",
+    tags: ["legislation.failed", "legislation.veto-stood"],
+  });
+}
+
 export function attemptVetoOverride(
   world: World,
   input: OverrideAttemptInput,

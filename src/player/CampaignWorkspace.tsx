@@ -25,7 +25,7 @@ import type {
   MoneyAmount,
   World,
 } from "../simulation";
-import { districtSeatMustBeNamed } from "../simulation";
+import { candidacyEligibility, districtSeatMustBeNamed } from "../simulation";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { DistrictResidencePanel } from "./DistrictResidencePanel";
 import { CampaignWeekPanel } from "./CampaignWeekPanel";
@@ -36,6 +36,8 @@ import {
 } from "./campaign-planning-layout";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
+import { CampaignFilings } from "./CampaignFilings";
+import { CampaignOwnMoney } from "./CampaignOwnMoney";
 import { CampaignSpendingReports } from "./CampaignSpendingReports";
 import { MogulOffersPanel } from "./MogulOffersPanel";
 
@@ -170,6 +172,23 @@ export function CampaignWorkspace({
       selectedOffice.officeKey,
       world.currentDate,
     );
+  // The office list is checked before a seat is named, so it can say
+  // "eligible" for a seat the named district then refuses. Ask again with the
+  // seat, and say why beside the button rather than only after a click.
+  const boundRefusal = useMemo(() => {
+    if (!person || !selectedOffice || !needsDistrict || !districtBinding)
+      return null;
+    const check = candidacyEligibility(world, {
+      personId,
+      jurisdictionId: person.homeJurisdictionId,
+      officeKey: selectedOffice.officeKey,
+      alreadyACandidate: false,
+      districtBinding,
+    });
+    return check.eligible
+      ? null
+      : check.blocks.map((block) => block.reason).join(" ");
+  }, [world, personId, person, selectedOffice, needsDistrict, districtBinding]);
 
   function run<T>(work: () => T, apply: (value: T) => void) {
     try {
@@ -270,8 +289,14 @@ export function CampaignWorkspace({
     strategy?.priorityChoices.find(
       (choice) => choice.key === strategy.proposedPriorityKey,
     )?.label ?? null;
+  // With the office browser on screen and nothing chosen, each office already
+  // carries its own requirement beside its name. Joining every office's
+  // refusal into one unlabeled paragraph below it read as contradictory ages
+  // ("at least 24", "at least 30", "at least 21") with no office attached.
   const unavailable =
-    view.phase === "unavailable" && view.unavailableReason
+    view.phase === "unavailable" &&
+    view.unavailableReason &&
+    (offices.length === 0 || selectedOfficeKey !== null)
       ? splitEligibilityText(view.unavailableReason)
       : null;
   const authorityDetail = [
@@ -425,7 +450,7 @@ export function CampaignWorkspace({
         <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
             {selectedOffice
-              ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}. Nobody has asked ${view.candidateName} to stand for it. That is not usually how it starts.`
+              ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}.`
               : "Choose one of the offices above to see whether you can file for it."}
           </p>
           {needsDistrict && selectedOffice ? (
@@ -442,7 +467,9 @@ export function CampaignWorkspace({
             data-testid="file-candidacy"
             className="game-campaign-action"
             disabled={
-              !selectedOffice?.eligible || (needsDistrict && !districtBinding)
+              !selectedOffice?.eligible ||
+              (needsDistrict && !districtBinding) ||
+              boundRefusal !== null
             }
             onClick={file}
           >
@@ -464,6 +491,11 @@ export function CampaignWorkspace({
               The committee opens with nothing in it.
             </span>
           </button>
+          {boundRefusal ? (
+            <p className="game-note" data-testid="file-candidacy-refusal">
+              {boundRefusal}
+            </p>
+          ) : null}
           {DIAGNOSTICS && authorityDetail.length > 0 ? (
             <details className="game-campaign-gaps game-campaign-detail">
               <summary>What the game does not know about this</summary>
@@ -491,9 +523,28 @@ export function CampaignWorkspace({
           <p data-testid="campaign-treasury">
             The committee has {money(view.treasury)}.
           </p>
+          {view.phase === "active" ? (
+            <CampaignOwnMoney
+              world={world}
+              personId={personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : null}
+          {view.phase === "active" && view.campaignId ? (
+            <CampaignFilings
+              world={world}
+              personId={personId}
+              campaignId={view.campaignId}
+              onWorldChange={onWorldChange}
+              readableDate={readableCampaignDate}
+            />
+          ) : null}
 
           {view.reading ? (
             <p className="game-campaign-memo" data-testid="campaign-memo">
+              <span data-testid="campaign-memo-dated">
+                {view.reading.dated}
+              </span>{" "}
               {view.reading.summary}
               {view.reading.change ? (
                 <span data-testid="campaign-memo-change">
@@ -733,7 +784,11 @@ export function CampaignWorkspace({
           ) : null}
 
           {view.phase === "active" ? (
-            <OpponentActivityPanel world={world} personId={personId} />
+            <OpponentActivityPanel
+              world={world}
+              personId={personId}
+              campaignId={view.campaignId}
+            />
           ) : null}
 
           <MogulOffersPanel

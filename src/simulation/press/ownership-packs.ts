@@ -102,9 +102,12 @@ export interface OwnershipPack {
  * outlet it holds and changes nothing downstream, and the load report lists
  * it as not yet simulated.
  *
+ * `share-content-across-outlets` is simulated as a standing order: once the
+ * owner gives it, each story one of its outlets publishes also runs in every
+ * sibling outlet whose own audience the story is relevant to, credited to the
+ * newsroom that reported it (the owner's decision of 2026-09-22).
+ *
  * Named in packs and NOT YET SIMULATED (blanket rule applies):
- * - `share-content-across-outlets` — one story run by every sibling outlet.
- *   Needs the press desk to accept a sibling's publication as its own story.
  * - `coordinate-editorial-line` — must-run segments, a common endorsement.
  *   Needs outlet editorial stance, which the desk does not model.
  * - `consolidate-newsrooms` — merging desks or closing an outlet. Needs an
@@ -116,6 +119,7 @@ export interface OwnershipPack {
 export const MEDIA_OWNER_EFFECTS = [
   "reduce-newsroom-staff",
   "acquire-outlet",
+  "share-content-across-outlets",
 ] as const;
 export type SimulatedOwnerEffect = (typeof MEDIA_OWNER_EFFECTS)[number];
 

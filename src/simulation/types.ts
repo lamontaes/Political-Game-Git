@@ -2733,6 +2733,16 @@ export interface RoutineTimeHook {
 export interface FutureTransitionHandlerRegistry {
   get(transitionKey: FutureTransitionKey): FutureTransitionHandler | undefined;
   readonly routine?: RoutineTimeHook;
+  /**
+   * Whether an advance should also stop at a tentative hold, or its journey,
+   * that the advance itself put on the controlled person's calendar. A
+   * confirmed commitment written on the way is always a stop; a tentative one
+   * is not unless this says so, because a long skip that stopped at every
+   * posted invitation only to let it lapse would repeat itself once per hold.
+   */
+  readonly stopAtNewTentativeHold?: (
+    activity: ScheduledActivityRecord,
+  ) => boolean;
 }
 
 export interface MoneyAmount {
@@ -3186,8 +3196,19 @@ export interface DistrictSeatBinding {
   readonly stateUsps: string;
 }
 
+/**
+ * `split-home-assignment`: the home place crosses several districts of the
+ * chamber and the published join cannot say which one this home is in, so the
+ * game placed the home in one of those districts — by seed at the opening, or
+ * where the player later said it is. It is only ever one of the districts that
+ * actually cross the recorded home place. GAME PROFILE placeholder: see
+ * `assignSplitHomeDistricts`.
+ */
 export type DistrictResidenceProvenanceMethod =
-  "authored" | "simulated-event" | "canonical-home-join";
+  | "authored"
+  | "simulated-event"
+  | "canonical-home-join"
+  | "split-home-assignment";
 
 export interface DistrictResidenceProvenance {
   readonly method: DistrictResidenceProvenanceMethod;
@@ -3441,7 +3462,10 @@ export interface CampaignComplianceDocumentRecord {
   readonly committeeOrganizationId: EntityId;
   readonly rulePackId: string;
   readonly kind:
-    "statement-of-spending-intent" | "periodic-report" | "amendment";
+    | "statement-of-spending-intent"
+    | "statement-of-organization"
+    | "periodic-report"
+    | "amendment";
   readonly schedule:
     | "initial"
     | "60-day-preelection"
@@ -4001,9 +4025,11 @@ export type LegislativeActionKind =
   | "presented-to-executive"
   | "signed"
   | "vetoed"
+  | "became-law-without-signature"
   | "override-chamber-recorded"
   | "override-succeeded"
   | "override-failed"
+  | "override-period-expired"
   | "enacted"
   | "died-on-adjournment";
 

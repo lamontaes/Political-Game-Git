@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { districtIdentityCatalog } from "../districts/catalog";
+import { listDistrictIdentities } from "../districts/query";
 import { makeIsoDate } from "./dates";
 import { createScenarioWorld } from "./demo";
 import type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
@@ -112,17 +114,58 @@ describe("what it draws, and from where", () => {
       // A settled size is the law, not a draw, and may fall outside it.
       if (profile === null || profile.seatSource !== null) continue;
       expect(Number.isInteger(profile.lowerSeats)).toBe(true);
+      // A state's own Census districts size its chambers (next test); the
+      // spread is for the chambers the Census draws no districts for.
+      if (profile.lowerSeatsBasis === "census-districts") continue;
       expect(profile.lowerSeats).toBeGreaterThanOrEqual(lowest);
       expect(profile.lowerSeats).toBeLessThanOrEqual(highest);
     }
+  });
+
+  it("seats a chamber by the state's own Census districts where there are any", () => {
+    let sized = 0;
+    for (const identity of UNCOMPILED) {
+      const profile = legislatureProfileFor(identity.jurisdictionKey);
+      if (profile === null) continue;
+      // Settled law wins over the Census districts.
+      if (profile.seatSource !== null) {
+        expect(profile.lowerSeatsBasis).toBe("settled");
+        expect(profile.upperSeatsBasis).toBe("settled");
+        continue;
+      }
+      const usps = identity.jurisdictionKey.replace(/^US-/, "");
+      const count = (chamber: "state-lower" | "state-upper") =>
+        listDistrictIdentities(districtIdentityCatalog(), {
+          stateUsps: usps,
+          chamber,
+        }).length;
+      if (count("state-lower") > 0) {
+        sized += 1;
+        expect(profile.lowerSeatsBasis).toBe("census-districts");
+        expect(profile.lowerSeats).toBe(count("state-lower"));
+      } else expect(profile.lowerSeatsBasis).toBe("drawn");
+      if (count("state-upper") > 0) {
+        expect(profile.upperSeatsBasis).toBe("census-districts");
+        expect(profile.upperSeats).toBe(count("state-upper"));
+      } else expect(profile.upperSeatsBasis).toBe("drawn");
+    }
+    expect(sized).toBeGreaterThan(0);
   });
 
   it("never seats a senate as large as its own house", () => {
     for (const identity of UNCOMPILED) {
       const profile = legislatureProfileFor(identity.jurisdictionKey);
       if (profile === null) continue;
-      expect(profile.upperSeats).toBeLessThan(profile.lowerSeats);
       expect(profile.upperSeats).toBeGreaterThanOrEqual(2);
+      // Where the Census sizes both chambers, a state whose house districts
+      // each elect several members can show as many house districts as
+      // senate districts; the draw never produces that.
+      if (
+        profile.lowerSeatsBasis === "census-districts" &&
+        profile.upperSeatsBasis === "census-districts"
+      )
+        continue;
+      expect(profile.upperSeats).toBeLessThan(profile.lowerSeats);
     }
   });
 
@@ -330,6 +373,19 @@ describe("every chamber in the country can be seated", () => {
     ).toEqual([
       { seats: 400, basis: "researched" },
       { seats: 24, basis: "researched" },
+    ]);
+    expect(() => assertRulePackIntegrity(pack)).not.toThrow();
+  });
+
+  it("seats Puerto Rico's Legislative Assembly at its constitutional 51 and 27", () => {
+    const profile = legislatureProfileFor("US-PR")!;
+    expect([profile.lowerSeats, profile.upperSeats]).toEqual([51, 27]);
+    const pack = legislatureForState("US-PR")!;
+    expect(
+      pack.chambers.map((chamber) => seatsForChamber(pack, chamber.chamberKey)),
+    ).toEqual([
+      { seats: 51, basis: "researched" },
+      { seats: 27, basis: "researched" },
     ]);
     expect(() => assertRulePackIntegrity(pack)).not.toThrow();
   });

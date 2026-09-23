@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { addDays } from "./dates";
 import { agreedToRequest, recalledRequest } from "./people-recall";
 import type {
@@ -48,7 +49,7 @@ export const peopleRequestContradictionRoute: ContradictionRoute = {
     recipientPersonId: EntityId,
   ): ContradictionEvidence | null {
     // The request itself says who was asked; the stance is theirs.
-    const request = world.history.events.find((event) => event.id === id);
+    const request = eventById(world, id);
     const askedOfId = request?.participants.find(
       (entry) => entry.role === "focus:asked-of",
     )?.personId;

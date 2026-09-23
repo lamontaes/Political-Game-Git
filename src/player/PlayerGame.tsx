@@ -83,6 +83,7 @@ import {
 } from "../presentation/local-governing-seat";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
+import { personPronouns } from "../simulation/person-identity";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { PublicServicePanel } from "./politics/PublicServicePanel";
@@ -146,6 +147,8 @@ import {
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
+  chooseTodayCalendarOption,
+  todayCalendarOptions,
   presentPeopleSentence,
   projectStoryMoment,
   type StoryMoment,
@@ -174,6 +177,7 @@ import {
   placeStartFacts,
   type PlaceStartFact,
 } from "../presentation/place-start-summary";
+import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
 import {
   openOrdinaryLife,
@@ -250,10 +254,12 @@ import { TaxWorkWorkspace } from "./TaxWorkWorkspace";
 import { NationwideCandidacyWorkspace } from "./NationwideCandidacyWorkspace";
 import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
+import { MemberVotesPanel } from "./MemberVotesPanel";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
 import { congressSeatStatus } from "../presentation/congress-candidacy";
 import { congressStatusText } from "./CongressCandidacySection";
+import { congressCommitteeMembership } from "../presentation/legislative-office-context";
 import {
   projectOfficeTransition,
   projectSwearingIn,
@@ -725,7 +731,12 @@ export function PlayerGame() {
       startPlaying(world, personId, null, saveId);
       setNotice(null);
     } catch {
-      setProblem("That saved game could not be opened.");
+      // Said plainly that nothing was lost: a player who read only "could not
+      // be opened" about the one save of a sixteen-year life had no reason to
+      // believe it was still there.
+      setProblem(
+        "That saved game could not be opened just now. It has been kept, not deleted. Try again, or after the next update.",
+      );
     }
   }
 
@@ -1830,6 +1841,15 @@ function SetupScreen({
                     {fact.text}
                   </p>
                 ))}
+              {placeRegionalFacts(place).map((fact) => (
+                <p
+                  key={fact.key}
+                  className="game-hint"
+                  data-testid={`place-regional-${fact.key}`}
+                >
+                  {fact.text}
+                </p>
+              ))}
               {populationFacts.map((fact) => (
                 <p
                   key={`${fact.kind}:${fact.text}:${fact.asOf}`}
@@ -5178,7 +5198,8 @@ function renderWorkspace({
             <p>
               {capabilities.person.givenName} works for the{" "}
               {capabilities.workPlace?.displayName} legislature, so what is in
-              front of the chamber is in front of them too.
+              front of the chamber is in front of{" "}
+              {personPronouns(capabilities.person).object} too.
             </p>
             <OfficeOnboardingWorkspace
               world={session.world}
@@ -5229,6 +5250,11 @@ function renderWorkspace({
                 {floorNote}
               </p>
             ) : null}
+            <MemberVotesPanel
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onLegislativeChange}
+            />
             {capabilities.legislativeJurisdictionId ? (
               <DocketWorkspace
                 world={session.world}
@@ -5530,11 +5556,21 @@ function renderWorkspace({
           body: (
             <div data-testid="congress-seat-held">
               <p>{congressStatusText(congressSeat)}</p>
+              <p data-testid="congress-committees">
+                {committeeText(
+                  congressCommitteeMembership(
+                    session.world,
+                    session.personId,
+                    congressSeat.identity.seat.chamberKey,
+                  ),
+                )}
+              </p>
               <p className="game-note">
                 Your seat, its term and your record in it are real, and the seat
                 is decided again at its next election; file for it under
-                Campaigns to keep it. Floor votes, committees and a member's
-                office staff are not yet something you can take part in.
+                Campaigns to keep it. Floor votes, committee votes and a
+                member's office staff are not yet something you can take part
+                in.
               </p>
             </div>
           ),
@@ -5702,6 +5738,10 @@ function StoryView({
     [session.world, session.personId],
   );
   const crisisStop = useCrisisStop(session.world);
+  const todayOptions = useMemo(
+    () => todayCalendarOptions(session.world, session.personId),
+    [session.world, session.personId],
+  );
 
   return (
     <section className="game-story life-moment" data-testid="story-section">
@@ -5812,6 +5852,35 @@ function StoryView({
             <small>{option.description}</small>
           </button>
         ))}
+        {/*
+          What today's calendar holds, beside letting time pass. Time stops
+          at a commitment due today, so without these the button below
+          stopped and nothing on this screen said why or offered the meeting
+          (Detroit life, September 23, 2026). The quiet stretch carries the
+          same choices in its own options.
+        */}
+        {moment.scene.kind === "ordinary-stretch"
+          ? null
+          : todayOptions.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                className="ui-action ui-action--choice"
+                data-testid="story-today-calendar"
+                onClick={() => {
+                  const next = chooseTodayCalendarOption(session.world, {
+                    personId: session.personId,
+                    optionKey: option.key,
+                    transitionHandlers:
+                      createCampaignElectionTransitionRegistry(),
+                  });
+                  if (next) onWorldChange(next);
+                }}
+              >
+                {option.label}
+                <small>{option.description}</small>
+              </button>
+            ))}
         {moment.scene.kind === "ordinary-stretch" ? null : (
           <button
             type="button"
@@ -6332,3 +6401,11 @@ function WorkLayout({
   );
 }
 import { NationalElectionResults } from "./NationalElectionResults";
+
+function committeeText(
+  membership: ReturnType<typeof congressCommitteeMembership>,
+): string {
+  return membership.kind === "committees"
+    ? membership.label
+    : membership.reason;
+}

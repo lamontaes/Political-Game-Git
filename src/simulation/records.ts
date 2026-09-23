@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
   appendClaimRecord,
@@ -359,10 +360,6 @@ function requirePerson(world: World, personId: EntityId) {
     throw new Error(`Missing person: ${personId}`);
   }
   return person;
-}
-
-function eventById(world: World, eventId: EntityId) {
-  return world.history.events.find((event) => event.id === eventId);
 }
 
 function requireEvent(world: World, eventId: EntityId): HistoricalEvent {

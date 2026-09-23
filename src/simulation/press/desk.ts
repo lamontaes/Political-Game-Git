@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import { addDays, spokenDate } from "../dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -39,6 +40,7 @@ import {
   reporterRoles,
   stateOfJurisdiction,
 } from "./outlets";
+import { sharingSiblings } from "./ownership";
 import {
   MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
   PRESS_CONTRACT_VERSION,
@@ -214,6 +216,40 @@ function writeDisposition(
 }
 
 /**
+ * How many stories the outlet can work at once, which follows its newsroom.
+ *
+ * The tier's capacity is what the outlet carries fully staffed. After a cut it
+ * carries the same share of that capacity as it keeps of its recorded
+ * reporters, rounded up so one reporter still works one story, and nothing
+ * once nobody is left. The owner decided (2026-09-22) that fewer local
+ * reporters can mean fewer local stories, following the recorded staffing
+ * rather than a fixed percentage; this is that rule with no number of its own.
+ * PLACEHOLDER, NOT RESEARCHED: that capacity scales in proportion to staff is
+ * itself a design choice, not a finding.
+ *
+ * NOT MODELED YET: which beats go uncovered first. A smaller newsroom takes
+ * fewer stories of every kind, ranked by the same newsworthiness as before.
+ */
+export function outletAssignmentCapacity(
+  world: World,
+  outlet: MediaOutletRecord,
+): number {
+  const full = MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier];
+  const roles = reporterRoles(world, outlet.id);
+  // The newsroom the outlet opened with is what its tier capacity was set
+  // for; a later hire replaces somebody rather than growing that base.
+  const opening = roles.filter(
+    (role) => role.startedAt <= outlet.establishedAt,
+  ).length;
+  const staffed = opening > 0 ? opening : roles.length;
+  // An outlet with no recorded newsroom keeps its tier's capacity; assignment
+  // still needs a current reporter, so it takes nothing either way.
+  if (staffed === 0) return full;
+  const current = roles.filter((role) => reporterIsCurrent(world, role)).length;
+  return Math.min(full, Math.ceil((full * current) / staffed));
+}
+
+/**
  * The outlet decides whether a lead becomes an assignment. A lead can be
  * declined (no story), queued (capacity is full), or taken by one current
  * reporter whose beat and geography fit. Capacity is a workload limit.
@@ -230,7 +266,7 @@ export function assignStory(world: World, leadId: EntityId): World {
       reasonKey: "press:no-current-reporter-for-beat",
     });
   }
-  const capacity = MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier];
+  const capacity = outletAssignmentCapacity(world, outlet);
   if (activeAssignments(world, outlet.id).length >= capacity) {
     return latest
       ? world
@@ -499,8 +535,7 @@ export function recordSubjectResponse(
     context: {
       location: null,
       socialContext: latest.eventId
-        ? (world.history.events.find((event) => event.id === latest.eventId)
-            ?.context.socialContext ?? null)
+        ? (eventById(world, latest.eventId)?.context.socialContext ?? null)
         : null,
       pressure: null,
       choice: input.kind,
@@ -521,7 +556,7 @@ function responderOf(
   world: World,
   record: StoryDispositionRecord,
 ): EntityId | null {
-  const event = world.history.events.find((item) => item.id === record.eventId);
+  const event = eventById(world, record.eventId);
   return (
     event?.participants.find((entry) => entry.role === "agency:press-source")
       ?.personId ?? null
@@ -783,7 +818,7 @@ export function storyMaterial(
         .publiclyUsable,
   );
   const publicBasis = lead.basisEventIds
-    .map((id) => world.history.events.find((event) => event.id === id)!)
+    .map((id) => eventById(world, id)!)
     .filter((event) => event.visibility === "public");
   const named = usable.some(
     (contribution) =>
@@ -1032,7 +1067,115 @@ function publishStory(
     });
   }
   next = recordProfessionalReaders(next, lead, story, publication);
+  next = shareWithSiblings(next, lead, story, reporterId);
   return { world: next, eventId: story.id };
+}
+
+/**
+ * Runs a published story in the owner's other outlets, when the owner has
+ * ordered its outlets to share (`sharingSiblings`). Each copy is the
+ * sibling's own publication of the same words, credited to the newsroom that
+ * reported it, and runs only where the story is relevant to that sibling's
+ * audience by the same test the sibling's own desk uses. A sibling already
+ * working the same occurrence keeps its own story.
+ *
+ * PLACEHOLDER, NOT RESEARCHED: relevance here is `outletCovers` alone. The
+ * sibling's newsworthiness ranking and routine-item limit do not gate a shared
+ * copy, because ChatGPT found no rule for which sibling picks a story up
+ * (`what-coordinated-owner-practices-change-in-the-news`); a threshold would
+ * be an invented number.
+ */
+function shareWithSiblings(
+  world: World,
+  lead: StoryLeadRecord,
+  story: HistoricalEvent,
+  reporterId: EntityId,
+): World {
+  const siblings = sharingSiblings(world, lead.outletId);
+  if (siblings.length === 0) return world;
+  const origin = requirePressRecord(world, "media-outlet", lead.outletId);
+  const basis = lead.basisEventIds
+    .map((id) => eventById(world, id))
+    .filter((event): event is HistoricalEvent => event !== undefined);
+  const credit = `Originally reported by ${personName(world.people[reporterId]!)} for ${origin.name}.`;
+  let next = world;
+  for (const sibling of siblings) {
+    if (!basis.some((event) => outletCovers(next, sibling, event))) continue;
+    const working = storyLeads(next).some(
+      (other) =>
+        other.outletId === sibling.id &&
+        other.basisEventIds.some(
+          (id) => id === story.id || lead.basisEventIds.includes(id),
+        ),
+    );
+    if (working) continue;
+    const created = recordStoryLead(next, {
+      stableKey: `${lead.stableKey}:shared:${sibling.id}`,
+      outletId: sibling.id,
+      family: lead.family,
+      route: "owner-shared",
+      basisEventIds: [...lead.basisEventIds, story.id],
+      subjectPersonIds: lead.subjectPersonIds,
+      jurisdictionId: lead.jurisdictionId,
+      matterId: lead.matterId,
+      followsPublicationId: null,
+    });
+    next = recordWorldEvent(created.world, {
+      stableKey: `${created.lead.stableKey}:story`,
+      type: PRESS_STORY_EVENT_TYPE,
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: lead.jurisdictionId,
+      involvedEntityIds: sortedUnique([
+        ...story.involvedEntityIds.filter(
+          (id) => id !== origin.organizationId && id !== lead.id,
+        ),
+        sibling.organizationId,
+        created.lead.id,
+      ]),
+      participants: story.participants,
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        PRESS_CONTRACT_VERSION,
+        "press.publication",
+        "press.shared",
+        `${PRESS_STORY_OUTLET_TAG}${sibling.id}`,
+        `${PRESS_STORY_LEAD_TAG}${created.lead.id}`,
+        `press.shared-from:${origin.id}`,
+        `press.family:${lead.family}`,
+        ...(lead.matterId ? [`${PRESS_MATTER_TAG}${lead.matterId}`] : []),
+        // The copy says what the original said, so it is corrected with it.
+        ...story.tags.filter(
+          (tag) =>
+            tag === "press.narrowed" || tag === "press.unattributed-assertion",
+        ),
+      ],
+      summary: story.summary,
+      context: {
+        location: null,
+        socialContext: story.context.socialContext
+          ? `${story.context.socialContext}\n\n${credit}`
+          : credit,
+        pressure: null,
+        choice: null,
+        motivation: credit,
+        immediateReaction: null,
+      },
+    });
+    const copy = next.history.events.at(-1)!;
+    next = publishPublicEvent(next, {
+      stableKey: `${created.lead.stableKey}:publication`,
+      sourceEventId: copy.id,
+      outletId: sibling.id,
+    });
+    next = writeDisposition(next, created.lead, "published", {
+      reasonKey: "press:shared-by-owner",
+      eventId: copy.id,
+      publicationId: next.history.publications!.at(-1)!.id,
+    });
+  }
+  return next;
 }
 
 /**
@@ -1097,9 +1240,7 @@ export function composeStory(
   contributions: readonly SourceContributionRecord[],
 ): StoryCopy {
   const outlet = requirePressRecord(world, "media-outlet", lead.outletId);
-  const basis = lead.basisEventIds.map((id) =>
-    world.history.events.find((event) => event.id === id)!,
-  );
+  const basis = lead.basisEventIds.map((id) => eventById(world, id)!);
   const publicBasis = basis.filter((event) => event.visibility === "public");
   const paragraphs: string[] = [];
   let unattributedAssertion = false;
@@ -1146,9 +1287,7 @@ export function composeStory(
     if (!subject) continue;
     const response = dispositionsForLead(world, lead.id)
       .filter((record) => record.decision === "subject-responded")
-      .map((record) =>
-        world.history.events.find((event) => event.id === record.eventId)!,
-      )
+      .map((record) => eventById(world, record.eventId)!)
       .find((event) =>
         event.participants.some(
           (entry) =>
@@ -1234,7 +1373,7 @@ export function procedureStatusSentence(
     );
     const last = publicSteps.at(-1);
     if (!last) continue;
-    const event = world.history.events.find((item) => item.id === last.eventId);
+    const event = eventById(world, last.eventId);
     if (event) sentences.push(event.summary);
   }
   if (sentences.length === 0) {
@@ -1387,7 +1526,7 @@ function sweepOutlet(
     routed.push(created);
     if (matterId) byMatter.set(matterId, created);
   }
-  const capacity = MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier];
+  const capacity = outletAssignmentCapacity(next, outlet);
   const free = Math.max(
     0,
     capacity - activeAssignments(next, outlet.id).length,
@@ -1701,9 +1840,7 @@ function beatForEventType(type: string): MediaBeat {
 
 function beatForLead(world: World, lead: StoryLeadRecord): MediaBeat {
   if (lead.matterId) return "investigations";
-  const event = world.history.events.find(
-    (item) => item.id === lead.basisEventIds[0],
-  );
+  const event = eventById(world, lead.basisEventIds[0]);
   const beat = event ? beatForEventType(event.type) : "general-assignment";
   const outlet = requirePressRecord(world, "media-outlet", lead.outletId);
   if (beat === "statehouse" && outlet.scope === "national") return "congress";
@@ -1755,9 +1892,7 @@ function chooseReporter(
 }
 
 function storyQuestion(world: World, lead: StoryLeadRecord): string {
-  const basis = world.history.events.find(
-    (event) => event.id === lead.basisEventIds[0],
-  )!;
+  const basis = eventById(world, lead.basisEventIds[0])!;
   if (lead.matterId) {
     const allegation = pressRecordsOfKind(world, "matter-allegation")
       .filter((record) => record.matterId === lead.matterId)
@@ -1783,9 +1918,7 @@ function issueDueCorrections(world: World): World {
     const history = dispositionsForLead(next, lead.id);
     if (history.at(-1)?.decision !== "published") continue;
     const story = history
-      .map((record) =>
-        next.history.events.find((event) => event.id === record.eventId),
-      )
+      .map((record) => eventById(next, record.eventId))
       .find((event) => event?.type === PRESS_STORY_EVENT_TYPE);
     if (!story?.tags.includes("press.unattributed-assertion")) continue;
     const matter = requirePressRecord(next, "matter", lead.matterId);

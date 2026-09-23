@@ -3,6 +3,7 @@ import {
   requireElectionContest,
 } from "./election-contests";
 import { personName } from "./people";
+import { addDays } from "./dates";
 import { recordWorldEvent } from "./world";
 import type { EntityId, World } from "./types";
 
@@ -34,6 +35,33 @@ export function electionSpeechGiven(
 ) {
   const key = speechKey(contestId, personId);
   return world.history.events.find((event) => event.stableKey === key) ?? null;
+}
+
+/**
+ * How long after the result an election-night speech can still be given.
+ *
+ * A victory speech or a concession belongs to the night the result came in
+ * and the day or two after; three months on it is not election night any
+ * more (San Antonio, Texas House, 2026-09-23). Three days, counted from the
+ * result's own recorded date, is the whole rule.
+ */
+export const ELECTION_SPEECH_WINDOW_DAYS = 3;
+
+/**
+ * Whether the player can still choose to give their election-night speech:
+ * the race is decided, they have not spoken, and the window is open.
+ */
+export function electionSpeechOpen(
+  world: World,
+  contestId: EntityId,
+  personId: EntityId,
+): boolean {
+  const result = electionContestResult(world, contestId);
+  if (!result) return false;
+  if (electionSpeechGiven(world, contestId, personId)) return false;
+  return (
+    world.currentDate <= addDays(result.resolvedAt, ELECTION_SPEECH_WINDOW_DAYS)
+  );
 }
 
 /**

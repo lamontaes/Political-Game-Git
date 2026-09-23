@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { createMindProvenance, recordGoalState } from "./mind";
 import type {
   DecisionConsideration,
@@ -167,9 +168,7 @@ export function recordGoalStepTaken(
   if (!goal) {
     throw new Error("A goal step requires an active goal.");
   }
-  const event = world.history.events.find(
-    (candidate) => candidate.id === input.eventId,
-  );
+  const event = eventById(world, input.eventId);
   if (!event) {
     throw new Error("A goal step requires an event that happened.");
   }
