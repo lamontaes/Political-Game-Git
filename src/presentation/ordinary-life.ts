@@ -43,6 +43,7 @@ import {
   lapseVenueActivity,
   releaseMissedHolds,
 } from "./scheduled-activity-choice";
+import { isCivicHold } from "./civic-hold";
 import { keepAcceptedSocialOccasion } from "./social-invitation";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 
@@ -339,6 +340,15 @@ export interface PassOrdinaryDaysOptions {
    * hold is left standing; nothing is declined on the player's behalf.
    */
   readonly stopForTentativeHolds?: boolean;
+  /**
+   * Stop at a public, party or campaign hold that comes due, even when a
+   * social one would lapse. The story's quiet stretch caps itself at the civic
+   * holds already on the calendar, but a party chapter posts its next meeting
+   * a week or two ahead, so a four-month stretch used to let every meeting
+   * posted during it lapse unseen (a D.C. life, February to June 2039: four).
+   * Pressing again from the stop lets that one lapse, as before.
+   */
+  readonly stopForCivicHolds?: boolean;
 }
 
 export function passOrdinaryDays(
@@ -404,12 +414,20 @@ function advanceOrdinaryDays(
   // registry composes the ordinary life handlers with the election handler, so
   // election day arrives without either the life or the contest being dropped.
   const ordinaryHandlers = createCampaignElectionTransitionRegistry();
-  const handlers = options.handlers
+  const composed = options.handlers
     ? composeFutureTransitionHandlerRegistries(
         options.handlers,
         ordinaryHandlers,
       )
     : ordinaryHandlers;
+  // Asked to stop at civic holds, the advance also stops at one it posts on
+  // the way, so the check below sees it come due instead of it being run past.
+  const handlers: FutureTransitionHandlerRegistry = options.stopForCivicHolds
+    ? composeFutureTransitionHandlerRegistries(composed, {
+        get: () => undefined,
+        stopAtNewTentativeHold: isCivicHold,
+      })
+    : composed;
   // CRUNCH46 CRISIS: every advancing World carries the mortality model; an
   // older save starts exposure at its next month boundary.
   // A child saved before school stages is caught up to the stage for their
@@ -482,6 +500,15 @@ function advanceOrdinaryDays(
     if (!optional || stepped.control.kind !== "person") return stepped;
     // The player asked to be stopped here. The hold stays; they decide.
     if (options.stopForTentativeHolds) return stepped;
+    // A civic hold stops the stretch too, unless the stretch began at it: then
+    // the player has seen it and chose to let time run on.
+    if (
+      options.stopForCivicHolds &&
+      isCivicHold(optional) &&
+      compareSimulationMoments(stepped.currentMoment, migrated.currentMoment) >
+        0
+    )
+      return stepped;
     const lapsed = lapseVenueActivity(
       stepped,
       stepped.control.personId,

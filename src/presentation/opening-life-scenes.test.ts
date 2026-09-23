@@ -12,6 +12,7 @@ import {
   deserializeWorld,
 } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { schoolStageToday } from "../simulation/school-stages";
 import {
   openNextLifeScene,
   currentOpeningLifeScene,
@@ -305,7 +306,15 @@ describe("supported school situation breadth", () => {
   it.each([5, 6, 7])(
     "plays the available authored school moments at age %i",
     (age) => {
-      const game = start(`school-breadth-${age}`, age);
+      // A five-year-old born after the cutoff waits for the fall, with no
+      // school yet, so take the first seed whose child is already in school.
+      let game = start(`school-breadth-${age}`, age);
+      for (
+        let n = 1;
+        schoolStageToday(game.world, game.playerPersonId) === "before";
+        n++
+      )
+        game = start(`school-breadth-${age}-${n}`, age);
       let world = game.world;
       const expected = availableOpeningLifeScenes(world, game.playerPersonId)
         .filter((entry) => entry.definition.setting === "school")

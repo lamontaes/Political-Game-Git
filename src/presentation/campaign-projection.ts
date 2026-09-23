@@ -30,6 +30,7 @@ import {
   daysUntilElection,
   electionContestResult,
   electionSpeechGiven,
+  electionSpeechOpen,
   recordElectionSpeech,
   type ElectionSpeechKind,
   ensureCampaignOpponents,
@@ -63,6 +64,7 @@ import type {
   World,
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
+import { personPronouns } from "../simulation/person-identity";
 
 /**
  * What a candidate can actually see.
@@ -483,6 +485,8 @@ export function projectCampaign(
       .filter((profile) => profile.organizationId === campaign.organizationId)
       .at(-1)?.name ?? null;
   const result = electionContestResult(world, campaign.contestId);
+  // The candidate's recorded pronouns; they/them only when the record is silent.
+  const pronouns = personPronouns(world.people[personId]);
 
   return {
     phase: state.status,
@@ -505,17 +509,22 @@ export function projectCampaign(
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
     sessions: sessionsFor(world, campaign),
     reading: latestReading(world, campaign),
-    speech: result
-      ? {
-          kind:
-            result.winnerPersonId === personId
-              ? ("victory" as const)
-              : ("concession" as const),
-          winnerName: displayName(world, result.winnerPersonId),
-          given:
-            electionSpeechGiven(world, contest.id, personId)?.summary ?? null,
-        }
-      : null,
+    // A speech already given stays on the record; one not given is offered
+    // only while it is still election night's to give.
+    speech:
+      result &&
+      (electionSpeechGiven(world, contest.id, personId) ||
+        electionSpeechOpen(world, contest.id, personId))
+        ? {
+            kind:
+              result.winnerPersonId === personId
+                ? ("victory" as const)
+                : ("concession" as const),
+            winnerName: displayName(world, result.winnerPersonId),
+            given:
+              electionSpeechGiven(world, contest.id, personId)?.summary ?? null,
+          }
+        : null,
     tallies: (() => {
       const rows = result?.tallies ?? [];
       const printed = displayedSharePercents(rows.map((row) => row.voteShare));
@@ -531,14 +540,21 @@ export function projectCampaign(
         ? ((term) =>
             term
               ? "alreadyHeld" in term && term.alreadyHeld
-                ? `${candidateName} won${resultMargin(result, personId)} and keeps the seat. The new term begins ${proseDate(term.startsAt)}.`
-                : `${candidateName} won${resultMargin(result, personId)}. The term begins ${proseDate(term.startsAt)}; until then the office is not theirs.`
+                ? term.startsAt <= world.currentDate
+                  ? `${candidateName} won${resultMargin(result, personId)} and kept the seat. The new term began ${proseDate(term.startsAt)}.`
+                  : `${candidateName} won${resultMargin(result, personId)} and keeps the seat. The new term begins ${proseDate(term.startsAt)}.`
+                : // Once the term has begun, "until then" is over: the
+                  // office is theirs, and saying otherwise contradicts the
+                  // office page beside it (San Antonio, Texas House, 2026-09-23).
+                  term.startsAt <= world.currentDate
+                  ? `${candidateName} won${resultMargin(result, personId)}. The term began ${proseDate(term.startsAt)}.`
+                  : `${candidateName} won${resultMargin(result, personId)}. The term begins ${proseDate(term.startsAt)}; until then the office is not ${pronouns.possessivePronoun}.`
               : `${candidateName} won${resultMargin(result, personId)}.`)(
             wonSeatTerm(world, personId, contest, result) ??
               executiveTermStart(world, personId, contest.id),
           )
         : state.status === "lost"
-          ? `${candidateName} lost${resultMargin(result, personId)}. That is a thing that happened to them, not the end of them — tomorrow is still there.`
+          ? `${candidateName} lost${resultMargin(result, personId)}. That is a thing that happened to ${pronouns.object}, not the end of ${pronouns.object} — tomorrow is still there.`
           : null,
   };
 }
@@ -1111,6 +1127,13 @@ export function giveElectionSpeech(world: World, personId: EntityId): World {
   if (!campaign) throw new Error("There is no race to speak about.");
   if (!electionContestResult(world, campaign.contestId))
     throw new Error("The race has not been decided yet.");
+  if (
+    !electionSpeechGiven(world, campaign.contestId, personId) &&
+    !electionSpeechOpen(world, campaign.contestId, personId)
+  )
+    throw new Error(
+      "Election night is over; the moment for a speech has passed.",
+    );
   return recordElectionSpeech(world, campaign.contestId, personId);
 }
 

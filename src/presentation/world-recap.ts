@@ -9,6 +9,7 @@ import {
   type IsoDate,
   type World,
 } from "../simulation";
+import { ownElectionResultSentence } from "./own-election";
 import { isWorldMachineryEvent } from "./world39-news";
 
 /**
@@ -50,6 +51,11 @@ export interface RecapEntry {
   readonly importance: DevelopmentImportance | null;
   /** How many recorded stages this entry stands for since the frontier. */
   readonly updates: number;
+  /**
+   * The player's own race, decided. It leads the recap: of everything that
+   * happened while time passed, this is the one thing that happened to them.
+   */
+  readonly ownResult: boolean;
 }
 
 const IMPORTANCE_RANK: Readonly<Record<DevelopmentImportance, number>> = {
@@ -57,6 +63,9 @@ const IMPORTANCE_RANK: Readonly<Record<DevelopmentImportance, number>> = {
   notable: 2,
   minor: 1,
 };
+
+/** Above every matter's importance, so the player's own result leads. */
+const OWN_RESULT_RANK = 4;
 
 export interface WorldRecap {
   /** The frontier this recap was read from. */
@@ -101,6 +110,27 @@ export function projectWorldRecap(
     );
   }
 
+  // The player's own decided race. Its outcome event names the player, so
+  // the learned path above leaves it out as the player's own doing — which is
+  // how a San Antonio council loss arrived with only withdrawn city proposals
+  // in the recap. A published story of the same result keeps its outlet, but
+  // the line is the player's own: won or lost, and by how much.
+  for (const item of ownResultsSince(world, playerPersonId, frontier)) {
+    const published = entries.get(item.eventId);
+    entries.set(
+      item.eventId,
+      published
+        ? {
+            ...item,
+            key: published.key,
+            attribution: published.attribution,
+            inNews: true,
+            sequence: Math.max(published.sequence, item.sequence),
+          }
+        : item,
+    );
+  }
+
   // Stages of one public matter become one entry: its latest stage, with a
   // count of the stages it stands for. Only W's recorded matter identity
   // groups; nothing is joined by date, place or wording.
@@ -130,7 +160,11 @@ export function projectWorldRecap(
   }
 
   const rank = (entry: RecapEntry) =>
-    entry.importance ? IMPORTANCE_RANK[entry.importance] : 0;
+    entry.ownResult
+      ? OWN_RESULT_RANK
+      : entry.importance
+        ? IMPORTANCE_RANK[entry.importance]
+        : 0;
   const ordered = [...grouped.values()].sort(
     (left, right) =>
       rank(right) - rank(left) ||
@@ -180,6 +214,7 @@ function newsSince(world: World, frontier: number): RecapEntry[] {
       matterId: null,
       importance: null,
       updates: 1,
+      ownResult: false,
     }));
 }
 
@@ -228,6 +263,53 @@ function learnedSince(
       matterId: null,
       importance: null,
       updates: 1,
+      ownResult: false,
+    });
+  }
+  return entries;
+}
+
+/**
+ * Each race the player stood in and that was decided after the frontier, read
+ * from its recorded result: "You lost the race for City Council District 3,
+ * 44.1% to 55.9%." Nothing is added that the result does not record.
+ */
+function ownResultsSince(
+  world: World,
+  playerPersonId: EntityId,
+  frontier: number,
+): RecapEntry[] {
+  const events = new Map(
+    world.history.events.map((event) => [event.id, event]),
+  );
+  const entries: RecapEntry[] = [];
+  for (const result of world.history.electionContestResults ?? []) {
+    if (result.sequence < frontier || result.resolvedAt > world.currentDate)
+      continue;
+    const contest = (world.history.electionContests ?? []).find(
+      (candidate) => candidate.id === result.contestId,
+    );
+    if (!contest?.candidatePersonIds.includes(playerPersonId)) continue;
+    const headline = ownElectionResultSentence(
+      world,
+      contest.id,
+      playerPersonId,
+    );
+    if (!headline) continue;
+    const event = events.get(result.outcomeEventId);
+    entries.push({
+      key: `own-result:${result.id}`,
+      eventId: result.outcomeEventId,
+      sequence: result.sequence,
+      at: result.resolvedAt,
+      headline,
+      attribution: null,
+      inNews: false,
+      people: event ? participantsOf(world, event, playerPersonId) : [],
+      matterId: null,
+      importance: null,
+      updates: 1,
+      ownResult: true,
     });
   }
   return entries;
