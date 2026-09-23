@@ -1112,7 +1112,11 @@ function startWorker(track, retry = false, receivedFirst = false) {
     else hub.queue.push({ track, receivedFirst });
     return { ok: true, message: "Queued after the current build." };
   }
-  hub.phase[track] = { phase: "fetching", message: "Fetching…" };
+  hub.phase[track] = {
+    phase: "fetching",
+    message: "Fetching…",
+    checkStartedAt: new Date().toISOString(),
+  };
   const workerArguments = [
     workerPath,
     "--data-root",
@@ -1209,6 +1213,7 @@ function onWorkerEvent(track, event) {
   } else if (event.kind === "progress") {
     logLine(event.message);
     hub.phase[track] = {
+      checkStartedAt: hub.phase[track]?.checkStartedAt,
       phase: event.phase ?? hub.phase[track]?.phase ?? "preparing",
       message: event.message,
     };
