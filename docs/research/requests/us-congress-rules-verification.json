@@ -1,0 +1,25 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "us-congress-rules-verification",
+  "title": "Verify Congress's procedural rules and which committee each federal issue goes to",
+  "question": "Please verify, with citations to the current House Rules, the Standing Rules of the Senate and the U.S. Code, each of the following as the game states it: (1) House Rule XII: the Speaker refers each bill to the committee or committees with jurisdiction under Rule X; (2) House Rule XI, clause 2(h): a committee reports by a majority vote with a majority actually present; (3) Senate Rule XVII: the presiding officer refers each bill under Rule XXV; (4) Senate Rule XXII: cloture on a measure takes three-fifths of the Senators duly chosen and sworn; (5) 2 U.S.C. 2a: the House has 435 Representatives; (6) a federal law takes effect on enactment unless it says otherwise (Gozlon-Peretz v. United States, 498 U.S. 395); (7) a veto override takes two-thirds of the members present in each House, a quorum being present (Missouri Pacific Ry. v. Kansas, 248 U.S. 276). Then: (8) for each of the sixty issues in the us-federal policy pack, which House committee and which Senate committee it is ordinarily referred to, and the current size of each committee named; (9) what happens to a pending bill when a Congress ends, and how the pocket veto works when Congress adjourns.",
+  "whyItMatters": "The Congress rule pack marks every rule above as partial because the instrument was not retrieved; only Article I, sections 3, 5 and 7, were read, from the Constitution transcript the repository holds. Committee referral is mapped by whole policy field as a placeholder (Medicare, for example, is shared by two House committees and belongs to Senate Finance), and committee sizes are the game's.",
+  "impact": "background",
+  "lane": "governing and legislative",
+  "usableAnswer": "For 1-7, confirmed or corrected with the exact citation and quoted operative text. For 8, a table of issue key to House committee and Senate committee, with each committee's current membership count. For 9, the rule with a citation.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/congress-rule-pack.ts on branch claude/project-thread-szdhao",
+      "whatItDidNotSettle": "Rules marked partial and CONGRESS_COMMITTEE_BY_DOMAIN, a placeholder."
+    },
+    {
+      "source": "data/source/constitutional-process/raw/us-quorum.html (Constitution transcript, archives.gov, retrieved 2026-09-13)",
+      "whatItDidNotSettle": "Settles Article I only; says nothing about chamber rules, committees or statute."
+    }
+  ],
+  "requestedBy": "Congress passes laws thread (technical team lead)",
+  "filedAt": "2026-09-23T02:00:00.000Z",
+  "priority": "P2",
+  "notes": [],
+  "relatedQuestionIds": ["how-congress-moves-bills"]
+}

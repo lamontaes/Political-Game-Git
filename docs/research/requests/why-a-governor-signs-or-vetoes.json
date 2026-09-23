@@ -1,0 +1,30 @@
+{
+  "filedAt": "2026-09-23T03:15:00.000Z",
+  "impact": "blocks-work",
+  "lane": "modular legislation",
+  "priority": "P1",
+  "requestVersion": "research-request/v1",
+  "questionId": "why-a-governor-signs-or-vetoes",
+  "title": "Why a governor signs or vetoes a bill, and how often each happens",
+  "question": "When a bill reaches a governor, what actually decides whether it is signed, vetoed, or left to become law without a signature? Consider party control (the same party as the legislature or divided government), whether the governor or their party sponsored or supported the bill, the margin it passed by, a veto threat issued earlier, fiscal cost, and the governor's stated agenda. And as an observed calibration target only, what share of enacted-or-vetoed bills do governors veto: overall, under unified versus divided government, and in a few named states over recent sessions? Cite each figure.",
+  "usableAnswer": "The factors that decide a signature or a veto, each with evidence of how strongly it matters, and observed veto shares (overall, unified versus divided government, several named states) with citations and years. The game uses the factors as reasons in the governor's decision; the shares are only a check against its outcomes, never a dice roll.",
+  "whyItMatters": "Non-player governors replayed developer fixtures written to demonstrate vetoes, so an observed Nebraska world vetoed 31 of 32 bills in 13 years and nothing became law. That is fixed by routing every sitting governor through the ordinary decision, but that decision signs three bills in four on a chief of staff's word, which is an unapproved placeholder. lamontae's world-agendas decision (2026-09-22) approves no success rate, so the governor needs real reasons.",
+  "notes": [
+    "Rules and reasons first; any observed rate is a calibration target, not a probability to roll."
+  ],
+  "relatedQuestionIds": [
+    "legislative-step-pacing-and-veto-override",
+    "how-a-governor-decides-and-how-a-legislature-votes-in-play"
+  ],
+  "requestedBy": "modular legislation thread, from the observer finding relayed 2026-09-22 10:51 p.m. Eastern",
+  "sourcesChecked": [
+    {
+      "source": "legislative-step-pacing-and-veto-override (answered, A09)",
+      "whatItDidNotSettle": "It rules overrides must be member decisions, not a roll, but says nothing about why or how often a governor signs."
+    },
+    {
+      "source": "src/simulation/governing/state-governing.ts staffRecommendation",
+      "whatItDidNotSettle": "Three signatures in four, drawn from a seed; no source."
+    }
+  ]
+}
