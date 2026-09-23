@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-22T23:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "ordinary adult life",
+  "notes": [
+    "The owner asked for this directly: a governor who took office four years ago had never been paid."
+  ],
+  "priority": "P1",
+  "question": "What is each US public office actually paid, by office and by jurisdiction, for governors, lieutenant governors, other statewide officers, state legislators (including per diem and whether the job is part-time), state judges, mayors, city and county council members, county officials, members of Congress, and ordinary state and local civil servants? How is it paid (salary, per diem, stipend), how often, and can the officeholder decline or donate it?",
+  "questionId": "what-public-officials-are-paid",
+  "relatedQuestionIds": ["what-a-person-spends-to-live"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "ordinary adult life thread",
+  "sourcesChecked": [
+    {
+      "source": "The game's office and employment records as the game loads them",
+      "whatItDidNotSettle": "Offices are recorded as paid work with no amount. The game now pays one placeholder of $60,000 a year to every office in every state."
+    }
+  ],
+  "title": "What public officials are paid, by office and state",
+  "usableAnswer": "A table by jurisdiction (all 52: 50 states, D.C. and Puerto Rico) and office giving the annual salary or per diem with its year and a named public source that can be refreshed, how often it is paid, whether the office is part-time, and any rule letting an officeholder refuse or donate pay.",
+  "whyItMatters": "Officeholders were never paid, so a governor's money stood still for four years. Pay is also the baseline that makes corruption mean something: a bribe matters against what the job pays."
+}

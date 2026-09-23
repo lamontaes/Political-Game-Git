@@ -1,3 +1,7 @@
+import {
+  RESIDENT_CHAPTER_NAME_VERSION,
+  type PartyChapterNameVersion,
+} from "../simulation/living-world/party-chapters";
 import { initializeJudicialOfficePractice } from "../simulation/judicial-office-start";
 import {
   initializeStateAgencyStart,
@@ -7,6 +11,7 @@ import {
 import {
   defaultPronounsForGender,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  CHILDHOOD_GENERATION_V2,
   generationInputsFor,
   lifePlaceByKey,
   questionnaireLength,
@@ -172,6 +177,17 @@ export interface NewGameSetup {
   readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
   /** New lives use contextual history; missing preserves legacy replays. */
   readonly earlierLifeGenerationVersion?: "context-v2";
+  /**
+   * Absent keeps the childhood a replay was written under: fixed birth dates
+   * for the parent, classmate and teacher, and "<town> public school" for a
+   * child who starts in school. New Game stamps the repair.
+   */
+  readonly childhoodGenerationVersion?: typeof CHILDHOOD_GENERATION_V2;
+  /**
+   * Absent keeps the home party chapters' recorded names ("County of Adams
+   * Democrats"). New Game names them as residents say the place.
+   */
+  readonly partyChapterNameVersion?: PartyChapterNameVersion;
   readonly questionnaireCopyVersion?: "playtest65-v2";
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
@@ -218,6 +234,10 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   gender: "unstated",
   appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
   givenNameGenerationVersion: DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  // A classmate born on the player's own birthday, in every save, was the
+  // fixed offset this replaces.
+  childhoodGenerationVersion: CHILDHOOD_GENERATION_V2,
+  partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
   // that the game should not invent a biography nobody chose. Measured cost of
@@ -450,6 +470,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
       setup.appearanceRecipeVersion ?? LEGACY_APPEARANCE_RECIPE_VERSION,
     givenNameGenerationVersion: setup.givenNameGenerationVersion,
     earlierLifeGenerationVersion: setup.earlierLifeGenerationVersion,
+    ...(setup.childhoodGenerationVersion === undefined
+      ? {}
+      : { childhoodGenerationVersion: setup.childhoodGenerationVersion }),
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),

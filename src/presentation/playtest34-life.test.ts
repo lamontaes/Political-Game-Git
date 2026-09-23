@@ -31,7 +31,10 @@ import {
   availableAdultSituations,
   buildAdultLifeContext,
 } from "../simulation/adult-situations";
-import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
+import {
+  lifeOpportunitiesFor,
+  writeLegacyHouseholdEveningInvitation,
+} from "../simulation/life-opportunities";
 import {
   assertWorldIntegrity,
   advanceWorldMinutes,
@@ -325,7 +328,14 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
     { seed: "p34-life-confidence", kind: "confidence-disclosed" },
     { seed: "p34-life-lexington-fayette", kind: "household-evening" },
   ])("retains producer context for $kind after reload", ({ seed, kind }) => {
-    const { world, personId } = life(seed);
+    const opened = life(seed);
+    const personId = opened.personId;
+    // Play stopped writing the evening invitation on 2026-09-22; a save made
+    // before then still carries one, and it must still reload intact.
+    const world =
+      kind === "household-evening"
+        ? writeLegacyHouseholdEveningInvitation(opened.world, personId)
+        : opened.world;
     const loaded = deserializeWorld(serializeWorld(world));
     const request = lifeOpportunitiesFor(loaded, personId).find(
       (e) => e.kind === kind,

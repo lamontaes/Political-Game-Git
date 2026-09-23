@@ -19,7 +19,7 @@ import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
 import { availablePlayerConversations } from "../presentation/player-conversation";
 import { ContactDialog } from "./ContactDialog";
 import { ContactsPanel } from "./ContactsPanel";
-import { ConversationStarters } from "./SceneConversation";
+import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { PressSourceDesk } from "./PressSourceDesk";
 import { RecallCardsPanel } from "./RecallCardsPanel";
 
@@ -269,6 +269,48 @@ describe("Conversations in People", () => {
     const together = starters(everyone);
     expect(together).toContain("Talk to somebody here");
     expect(together).not.toContain("From people who are not here");
+  });
+});
+
+describe("A conversation with somebody who is not in the room", () => {
+  function opened(presentPersonIds: readonly EntityId[]) {
+    const entry = availablePlayerConversations(
+      adult.world,
+      adult.personId,
+    ).find(
+      (candidate) => candidate.room.eligibleAddresseePersonIds.length > 0,
+    )!;
+    const other = entry.room.eligibleAddresseePersonIds[0]!;
+    const html = renderToStaticMarkup(
+      <SceneConversation
+        world={adult.world}
+        playerPersonId={adult.personId}
+        subject={entry.subject}
+        addressee={other}
+        onWorldChange={() => {}}
+        onChange={() => {}}
+        onBack={() => {}}
+        presentPersonIds={presentPersonIds}
+      />,
+    );
+    return { html, other };
+  }
+
+  it("is a phone call, not somebody standing here", () => {
+    const { html, other } = opened([]);
+    expect(html).toContain('data-testid="talk-remote"');
+    expect(html).toMatch(
+      new RegExp(`data-remote="true"[^>]*data-testid="talk-face-${other}"`),
+    );
+  });
+
+  it("is face to face when they are in the room", () => {
+    const first = opened([]);
+    const { html, other } = opened([first.other]);
+    expect(html).not.toContain('data-testid="talk-remote"');
+    expect(html).toMatch(
+      new RegExp(`data-remote="false"[^>]*data-testid="talk-face-${other}"`),
+    );
   });
 });
 

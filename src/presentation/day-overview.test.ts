@@ -7,7 +7,10 @@ import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { calendarEntryFor } from "./player-calendar";
 import { CAREER_PROVIDERS } from "./career-path7-provider";
-import { seekCareerOffer } from "../simulation/career-path7";
+import {
+  respondCareerOffer,
+  seekCareerOffer,
+} from "../simulation/career-path7";
 
 function adultLife(overrides: Partial<NewGameSetup> = {}, seed = "pt3-today") {
   const game = createNewGameWorld({
@@ -168,6 +171,38 @@ describe("PT3 an offer of work that has not been answered", () => {
     expect(offerLater.sentence).not.toMatch(/to start on/);
     expect(offerLater.sentence).not.toContain("2026-01");
     expect(offerLater.sentence).not.toContain("January");
+  });
+
+  it("stops asking for an answer once the offer is accepted", () => {
+    // An Eastport walk: Fatima accepted the shop job and the day still said
+    // the offer was waiting for her answer.
+    const { world, personId } = lifeWithAnOfferSought();
+    const provider = CAREER_PROVIDERS.find((entry) =>
+      String(entry.pathId).includes("shop"),
+    )!;
+    const offerId = projectWorkRole(world, personId).awaitingAnswer[0]!
+      .relationshipId;
+    const accepted = respondCareerOffer(world, offerId, provider, true);
+    expect(accepted.ok).toBe(true);
+
+    const role = projectWorkRole(accepted.world, personId);
+    expect(role.awaitingAnswer[0]!.answer).toBe("accepted");
+    expect(role.sentence).not.toMatch(/waiting for your answer/);
+    expect(role.sentence).toMatch(/You accepted work as .+\. It begins /);
+    // Nothing is waiting on the player until the start date comes.
+    expect(
+      projectToday(accepted.world, personId).waiting.some((entry) =>
+        entry.key.startsWith("work-offer:"),
+      ),
+    ).toBe(false);
+
+    // Once it has, beginning the work is what waits on them.
+    const started = passOrdinaryDays(accepted.world, 2);
+    const waiting = projectToday(started, personId).waiting.find((entry) =>
+      entry.key.startsWith("work-offer:"),
+    );
+    expect(waiting?.sentence).toMatch(/You can begin it under Work\./);
+    expect(waiting?.sentence).not.toMatch(/waiting for your answer/);
   });
 
   it("says nothing about offers when none is outstanding", () => {
