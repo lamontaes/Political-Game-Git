@@ -1,0 +1,131 @@
+import { describe, expect, it } from "vitest";
+import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  adultLifeIn,
+  passUntil,
+  runToElection,
+  suppliedWin,
+} from "../../tests/fixtures/state-executive-entry";
+import {
+  activeWorkRelationshipsAt,
+  campaignForCandidate,
+  legislativeTermForRelationship,
+  requireElectionContest,
+  serializeWorld,
+  workRelationshipHistoryForPerson,
+  workStatusAt,
+  type EntityId,
+  type World,
+} from "../simulation";
+import { campaignElectionDate, projectCampaign } from "./campaign-projection";
+import { projectCampaignOffices } from "./campaign-office-discovery";
+import { projectWorkRole } from "./day-overview";
+import { proseDate } from "./prose-dates";
+
+function seats(world: World, personId: EntityId) {
+  return workRelationshipHistoryForPerson(world, personId).filter(
+    (relationship) => relationship.kind === "employment:legislative-member",
+  );
+}
+
+function activeSeats(world: World, personId: EntityId) {
+  return activeWorkRelationshipsAt(world, personId).filter(
+    (entry) => entry.relationship.kind === "employment:legislative-member",
+  );
+}
+
+describe("a Nevada Assembly seat's term", () => {
+  it("ends on its date during ordinary days, and the seat leaves the work line", () => {
+    const { world, personId } = adultLifeIn("NV", "seat-terms-nv-expiry");
+    const won = runToElection(
+      fileForOffice(world, personId),
+      personId,
+      suppliedWin(personId),
+    );
+    const seat = seats(won, personId)[0]!;
+    const term = legislativeTermForRelationship(won, seat.id)!;
+    const title = projectCampaign(won, personId).officeTitle;
+
+    const seated = passUntil(won, term.startsAt);
+    expect(workStatusAt(seated, seat.id)?.status).toBe("active");
+    expect(projectWorkRole(seated, personId).roles).toContain(title);
+
+    const after = passUntil(seated, term.endsAt);
+    expect(after.currentDate >= term.endsAt).toBe(true);
+    expect(workStatusAt(after, seat.id)?.status).toBe("ended");
+    expect(activeSeats(after, personId)).toEqual([]);
+    expect(projectWorkRole(after, personId).roles).not.toContain(title);
+  }, 600_000);
+
+  it("is continued, not doubled, when the member runs again for the seat and wins", () => {
+    const { world, personId } = adultLifeIn("NV", "seat-terms-nv-refile");
+    const first = runToElection(
+      fileForOffice(world, personId),
+      personId,
+      suppliedWin(personId),
+    );
+    const firstSeat = seats(first, personId)[0]!;
+    const firstTerm = legislativeTermForRelationship(first, firstSeat.id)!;
+    const seated = passUntil(first, firstTerm.startsAt);
+    expect(activeSeats(seated, personId)).toHaveLength(1);
+
+    const again = runToElection(
+      fileForOffice(seated, personId),
+      personId,
+      suppliedWin(personId),
+    );
+    expect(projectCampaign(again, personId).phase).toBe("won");
+    const secondSeat = seats(again, personId).find(
+      (relationship) => relationship.id !== firstSeat.id,
+    )!;
+    const secondTerm = legislativeTermForRelationship(again, secondSeat.id)!;
+    // The term is still ahead, but the member already sits in this seat.
+    expect(secondTerm.startsAt < firstTerm.endsAt).toBe(true);
+    expect(projectCampaign(again, personId).afterword).toBe(
+      `${projectCampaign(again, personId).candidateName} won and keeps the seat. The new term begins ${proseDate(secondTerm.startsAt)}.`,
+    );
+
+    const renewed = passUntil(again, secondTerm.startsAt);
+    expect(
+      activeSeats(renewed, personId).map((entry) => entry.relationship.id),
+    ).toEqual([secondSeat.id]);
+    expect(workStatusAt(renewed, firstSeat.id)?.status).toBe("ended");
+    expect(workStatusAt(renewed, firstSeat.id)?.effectiveAt).toBe(
+      secondTerm.startsAt,
+    );
+  }, 600_000);
+});
+
+describe("office discovery's election date", () => {
+  it("reads the office's own calendar, then the recorded contest, as a date and nothing else", () => {
+    const { world, personId } = adultLifeIn("NV", "seat-terms-nv-discovery");
+    const before = serializeWorld(world);
+    const offices = projectCampaignOffices(world, personId);
+    expect(offices.length).toBeGreaterThan(0);
+    for (const office of offices) {
+      const date = campaignElectionDate(
+        world,
+        world.people[personId]!.homeJurisdictionId,
+        office.officeKey,
+      );
+      expect(office.timing).toBe(`The next election is ${proseDate(date)}.`);
+      expect(office.timing).not.toMatch(
+        /recorded|contest|simulated|authored|\d{4}-\d{2}-\d{2}/,
+      );
+    }
+    expect(serializeWorld(world)).toBe(before);
+
+    const filed = fileForOffice(world, personId);
+    const contest = requireElectionContest(
+      filed,
+      campaignForCandidate(filed, personId)!.contestId,
+    );
+    const own = projectCampaignOffices(filed, personId).find(
+      (office) => office.officeKey === contest.office.officeKey,
+    )!;
+    // The fixture's short authored race, not the calendar date.
+    expect(own.timing).toBe(
+      `The next election is ${proseDate(contest.electionDate)}.`,
+    );
+  });
+});

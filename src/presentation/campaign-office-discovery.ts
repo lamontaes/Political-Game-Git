@@ -8,6 +8,8 @@ import {
   personName,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
+import { campaignElectionDate } from "./campaign-projection";
+import { proseDate } from "./prose-dates";
 
 /** Read-only established alternatives, not a national office/calendar engine. */
 export function projectCampaignOffices(world: World, personId: EntityId) {
@@ -57,14 +59,16 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
         eligibility: eligibility.eligible
           ? "Currently eligible under the represented rules. Filing rechecks them."
           : eligibility.blocks.map((block) => block.reason).join(" "),
-        timing: upcoming.length
-          ? upcoming
-              .map(
-                (contest) =>
-                  `${contest.electionDate} — recorded ${contest.provenance.method} contest`,
-              )
-              .join("; ")
-          : "Upcoming election timing is not established in this save.",
+        // The contest already on the record, else the office's own calendar:
+        // the same date a filing today would stand in.
+        timing: `The next election is ${proseDate(
+          upcoming[0]?.electionDate ??
+            campaignElectionDate(
+              world,
+              person.homeJurisdictionId,
+              option.officeKey,
+            ),
+        )}.`,
         connections: [
           ...(own ? ["Your recorded campaign is for this office."] : []),
           ...[...new Set(contacts)].map(

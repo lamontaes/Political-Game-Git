@@ -151,7 +151,7 @@ test("Presque Isle, Maine: the town's mayor is a race a life can run and win", a
   await openElsewhere(page, "campaign");
   const browser = page.getByTestId("campaign-office-browser");
   await expect(browser).toContainText(
-    "Filing rechecks them.Upcoming election timing is not established in this save.MayorCity of Presque Isle",
+    "Filing rechecks them.The next election is February 2, 2026.MayorCity of Presque Isle",
   );
 
   await fileCandidacy(page, mayor.officeKey);

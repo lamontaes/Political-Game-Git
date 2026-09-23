@@ -29,7 +29,7 @@ function life() {
 }
 
 describe("deliberate supported office discovery", () => {
-  it("lists established alternatives without writing or inventing timing or connections", () => {
+  it("lists established alternatives with their election dates, without writing or inventing connections", () => {
     const { world, personId } = life();
     const before = serializeWorld(world);
     const offices = projectCampaignOffices(world, personId);
@@ -40,8 +40,13 @@ describe("deliberate supported office discovery", () => {
     expect(
       offices.every((office) => office.governmentLevel === "State government"),
     ).toBe(true);
+    // The office's own calendar, said as a date, with no record-keeping words.
     expect(
-      offices.every((office) => office.timing.includes("not established")),
+      offices.every((office) =>
+        /^The next election is [A-Z][a-z]+ \d{1,2}, \d{4}\.$/.test(
+          office.timing,
+        ),
+      ),
     ).toBe(true);
     expect(offices.every((office) => office.connections.length === 0)).toBe(
       true,
