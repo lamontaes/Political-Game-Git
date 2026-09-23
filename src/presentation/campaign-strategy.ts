@@ -1,4 +1,5 @@
 import { displayMoney } from "./money-display";
+import { contestDistrictGeography } from "../simulation/campaign-geography";
 import {
   activeCampaignForCandidate,
   campaignActionResult,
@@ -116,12 +117,10 @@ function geographyFor(
   campaign: CampaignRecord,
 ): CampaignStrategyGeographyChoice {
   const contest = requireElectionContest(world, campaign.contestId);
-  const binding = contest.office.districtBinding ?? null;
-  if (binding) {
-    const chamber = binding.chamber.replaceAll("-", " ");
+  const district = contestDistrictGeography(contest.office);
+  if (district) {
     return {
-      key: `district:${binding.vintage}:${binding.chamber}:${binding.geoid}`,
-      label: `${binding.stateUsps} ${chamber} district ${binding.geoid}`,
+      ...district,
       kind: "district",
       explanation:
         "This is the district identity selected for the contest. The game does not infer precinct detail from it.",

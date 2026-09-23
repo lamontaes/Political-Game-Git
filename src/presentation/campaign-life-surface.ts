@@ -607,12 +607,23 @@ export interface OpponentActivityRow {
   readonly summary: string;
 }
 
-/** Public steps by the other campaigns that this person learned of, newest first. */
+/**
+ * Public steps by the other campaigns in this campaign's race that this person
+ * learned of, newest first. Rivals from the person's earlier races do not
+ * appear.
+ */
 export function projectOpponentActivityPanel(
   world: World,
   personId: EntityId,
+  campaignId: EntityId,
 ): readonly OpponentActivityRow[] {
-  return [...projectKnownOpponentActivity(world, personId)]
+  const campaign = campaignById(world, campaignId);
+  if (!campaign) return [];
+  return [
+    ...projectKnownOpponentActivity(world, personId, {
+      contestId: campaign.contestId,
+    }),
+  ]
     .reverse()
     .map((row) => ({
       eventId: row.eventId,

@@ -1,4 +1,5 @@
 import { jailTermOn } from "./justice/jail-terms";
+import { contestDistrictGeography } from "./campaign-geography";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
   migrationReviewHandler,
@@ -975,10 +976,7 @@ export function scheduleCampaignAction(
         throw new Error("The approved geography does not match this campaign.");
       }
     } else {
-      const binding = contest.office.districtBinding ?? null;
-      const expected = binding
-        ? `district:${binding.vintage}:${binding.chamber}:${binding.geoid}`
-        : null;
+      const expected = contestDistrictGeography(contest.office)?.key ?? null;
       if (strategy.geographyKey !== expected) {
         throw new Error("The approved district does not match this campaign.");
       }

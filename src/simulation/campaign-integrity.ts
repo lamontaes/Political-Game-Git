@@ -1,4 +1,5 @@
 import { assertCampaignLifeIntegrity } from "./campaign-life-integrity";
+import { contestDistrictGeography } from "./campaign-geography";
 import { assertCampaignOpponentIntegrity } from "./campaign-opponent-integrity";
 import { assertCampaignWeeklyPlanIntegrity } from "./campaign-weekly-plan-integrity";
 import { candidacyPackById } from "./candidacy-packs";
@@ -403,10 +404,12 @@ function assertCampaignActions(
           return work ? [work.personId] : [];
         }),
       );
-      const districtBinding = contest?.office.districtBinding ?? null;
+      const district = contest
+        ? contestDistrictGeography(contest.office)
+        : null;
       const expectedGeographyKey =
-        strategy.geographyKind === "district" && districtBinding
-          ? `district:${districtBinding.vintage}:${districtBinding.chamber}:${districtBinding.geoid}`
+        strategy.geographyKind === "district" && district
+          ? district.key
           : `jurisdiction:${campaign.jurisdictionId}`;
       if (
         strategy.geographyKey !== expectedGeographyKey ||
