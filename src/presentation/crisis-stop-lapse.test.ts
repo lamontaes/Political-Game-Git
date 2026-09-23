@@ -56,7 +56,7 @@ describe(
         sourceReference: null,
       });
       const stop = crisisStopAfter(world, since)!;
-      expect(stop.sentence).toContain("a federal disaster request");
+      expect(stop.sentence).toContain("request a federal disaster declaration");
       const episodeId = crisisRecords(world)
         .filter((record) => record.kind === "hazard-episode")
         .at(-1)!.id;
