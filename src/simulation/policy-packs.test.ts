@@ -339,7 +339,7 @@ describe("the federal pack", () => {
     }
   });
 
-  it("overwrites nothing the state and local catalogue already had", () => {
+  it("overwrites nothing the state and local catalog already had", () => {
     const before = createPolicyCatalog({
       catalogVersion: catalog.catalogVersion,
       ...loadPolicyPacks([

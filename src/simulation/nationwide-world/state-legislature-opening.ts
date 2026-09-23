@@ -67,7 +67,7 @@ import type { DistrictIdentity } from "../../districts/types";
  * **How big a chamber is.** The accepted rule pack's own seat count wins. Where
  * the pack does not know it, the chamber gets one member per Census legislative
  * district for that chamber in that state. That is the state's own geography,
- * never a neighbour's rule, and it is exactly right for a chamber of
+ * never a neighbor's rule, and it is exactly right for a chamber of
  * single-member districts; for a state that elects several members per
  * district it undercounts, and the opening record names which basis each
  * chamber was seated on. Where
@@ -75,10 +75,10 @@ import type { DistrictIdentity } from "../../districts/types";
  * opening says so, rather than inventing a size.
  *
  * **Party.** Each seat's lean is drawn from the save's own generated political
- * conditions: centred on this state's House seats as the save generated them,
+ * conditions: centered on this state's House seats as the save generated them,
  * and spread by how far House districts inside one state differ from each
  * other across the whole save. A state whose House seats carry no two-party
- * share is centred on its own statewide Senate contests; one with neither
+ * share is centered on its own statewide Senate contests; one with neither
  * seats its members without a party rather than guessing one.
  *
  * Only a current opening calls this, for the player's home state, once.
@@ -218,7 +218,7 @@ export function ensureStateLegislatureOpening(
   stateUsps: string,
 ): World {
   const pack = stateCandidacyPack(`US-${stateUsps}`);
-  // NOT MODELLED HERE: the District of Columbia's legislature is the Council
+  // NOT MODELED HERE: the District of Columbia's legislature is the Council
   // of the District of Columbia, thirteen members under D.C. Code § 1-204.01,
   // subject to congressional review. It is described in the municipal
   // governance data, not as a state pack, and this opening does not seat it.
@@ -255,7 +255,7 @@ export function ensureStateLegislatureOpening(
   // measurements. Puerto Rico's members get no party until
   // puerto-rico-legislative-parties is answered.
   //
-  // A seat's lean: this state's own centre, as the save generated its House
+  // A seat's lean: this state's own center, as the save generated its House
   // seats, spread by how much House districts inside one state actually
   // differ from each other across the whole save. Both numbers are read from
   // this save's own generated conditions; neither is another state's.
@@ -274,8 +274,8 @@ export function ensureStateLegislatureOpening(
     values.reduce((sum, value) => sum + value, 0) / values.length;
   const home = houseShares.get(stateUsps) ?? [];
   // A state whose House seats carry no two-party margin (an at-large seat
-  // decided another way) is centred on its own statewide Senate contests
-  // instead, generated from the same conditions. Never a neighbour's.
+  // decided another way) is centered on its own statewide Senate contests
+  // instead, generated from the same conditions. Never a neighbor's.
   const statewide = congressSeats()
     .filter(
       (seat) => seat.chamberKey === "us-senate" && seat.stateUsps === stateUsps,
@@ -287,7 +287,7 @@ export function ensureStateLegislatureOpening(
     )
     .filter((share): share is number => share !== null)
     .map((share) => logit(clampShare(share, 1e-6)));
-  const centre =
+  const center =
     home.length > 0
       ? mean(home)
       : statewide.length > 0
@@ -373,8 +373,8 @@ export function ensureStateLegislatureOpening(
       const seatKey = STATE_LEGISLATURE_KEYS.seat(chamber.officeKey, ordinal);
       const seatRng = rng.fork(`seat:${chamber.officeKey}:${ordinal}`);
       let party: string | null = null;
-      if (centre !== null && parties.length === 2) {
-        const lean = centre + spread * standardNormal(seatRng.fork("lean"));
+      if (center !== null && parties.length === 2) {
+        const lean = center + spread * standardNormal(seatRng.fork("lean"));
         party = logistic(lean) >= 0.5 ? "democratic" : "republican";
       }
       const age = seatRng.integer(minimumAge + 7, 81);

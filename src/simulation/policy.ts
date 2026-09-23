@@ -58,7 +58,7 @@ export function createPolicyIssueDefinition(
 }
 
 /**
- * The issues a catalogue says are ordinarily decided at one level.
+ * The issues a catalog says are ordinarily decided at one level.
  *
  * An issue that names no level is left out, not included: nobody established
  * where it is decided, and an unknown is not permission to raise it anywhere.

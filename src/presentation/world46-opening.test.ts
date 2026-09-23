@@ -140,7 +140,7 @@ const sha256 = (text: string) =>
  * `world.policyCatalog` under the `us-federal:` namespace. Same predicted
  * movement, same evidence: LEGACY_OPENING_SHAPE, as re-set above, PASSED
  * unchanged on the run that moved these, and the pack's own test proves every id and record the
- * catalogue already had is untouched and in its old place.
+ * catalog already had is untouched and in its old place.
  */
 const FED321F7_LEGACY = {
   kentucky: "6cf6cccd95c62cca5504d753373bb7172629c9d980a6da25d1047cdc4f9255de",

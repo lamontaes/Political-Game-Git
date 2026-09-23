@@ -32,8 +32,8 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
   US_POLICY_POSITIONS_PACK,
   // Federal government, in its own namespace. It references nothing in the
   // packs above and nothing above references it, so its place here decides
-  // only where its rows sit in the catalogue order: after, so every id the
-  // state and local catalogue already had keeps its position.
+  // only where its rows sit in the catalog order: after, so every id the
+  // state and local catalog already had keeps its position.
   US_FEDERAL_POLICY_PACK,
 ];
 

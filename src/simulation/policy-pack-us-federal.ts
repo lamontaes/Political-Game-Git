@@ -43,7 +43,7 @@ const SOURCES = [
 ] as const;
 
 const NOTE =
-  "Federal issue vocabulary compiled from the official CRS policy-area scope notes plus the listed programme/authority sources. Grouping and question phrasing are director synthesis, not an official CRS replacement, exact legal profile or measurement of agenda frequency. This pack neither renames nor replaces the current state/local pack.";
+  "Federal issue vocabulary compiled from the official CRS policy-area scope notes plus the listed program/authority sources. Grouping and question phrasing are director synthesis, not an official CRS replacement, exact legal profile or measurement of agenda frequency. This pack neither renames nor replaces the current state/local pack.";
 
 export const US_FEDERAL_POLICY_PACK: PolicyPack = {
   pack: "us-federal",
@@ -264,7 +264,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "defense",
       name: "Veterans' federal benefits and services",
       description:
-        "What federal benefits and services are provided for covered veterans and families? Federal eligibility and funding differ from a state's additional veteran services or a city's assistance programme.",
+        "What federal benefits and services are provided for covered veterans and families? Federal eligibility and funding differ from a state's additional veteran services or a city's assistance program.",
       levels: ["federal"],
     },
     {
@@ -280,7 +280,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "foreign-affairs",
       name: "Foreign assistance and humanitarian support",
       description:
-        "Which overseas programmes receive support and on what terms? International federal assistance is distinct from domestic intergovernmental transfers and local charitable activity.",
+        "Which overseas programs receive support and on what terms? International federal assistance is distinct from domestic intergovernmental transfers and local charitable activity.",
       levels: ["federal"],
     },
     {
@@ -304,7 +304,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "trade",
       name: "Trade agreements and trade adjustment",
       description:
-        "What international trade commitments and domestic adjustment support should be adopted? A national trade agreement is not a local business licence or a state's workforce programme.",
+        "What international trade commitments and domestic adjustment support should be adopted? A national trade agreement is not a local business license or a state's workforce program.",
       levels: ["federal"],
     },
     {
@@ -344,7 +344,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "health",
       name: "Medicare coverage and payment",
       description:
-        "What covered benefits, payment arrangements and federal financing should Medicare use? Medicare is a federal programme, distinct from state insurance regulation and state Medicaid choices.",
+        "What covered benefits, payment arrangements and federal financing should Medicare use? Medicare is a federal program, distinct from state insurance regulation and state Medicaid choices.",
       levels: ["federal"],
     },
     {
@@ -352,7 +352,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "health",
       name: "Medicaid federal requirements and financing",
       description:
-        "What federal requirements, matching and permitted programme options apply to Medicaid? The federal framework and financing are not the state's own administration and supported choices within that framework.",
+        "What federal requirements, matching and permitted program options apply to Medicaid? The federal framework and financing are not the state's own administration and supported choices within that framework.",
       levels: ["federal"],
     },
     {
@@ -368,7 +368,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "social-insurance",
       name: "Social Security retirement and survivors benefits",
       description:
-        "How should the federal retirement and survivors programme define benefits and financing? It is not a state public-employee pension or a local relief payment.",
+        "How should the federal retirement and survivors program define benefits and financing? It is not a state public-employee pension or a local relief payment.",
       levels: ["federal"],
     },
     {
@@ -384,7 +384,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "social-insurance",
       name: "Federal income and nutrition assistance",
       description:
-        "What federal funding, eligibility framework and administration govern supported assistance programmes? National programme rules, state administration and local delivery are linked but not the same government decision.",
+        "What federal funding, eligibility framework and administration govern supported assistance programs? National program rules, state administration and local delivery are linked but not the same government decision.",
       levels: ["federal"],
     },
     {
@@ -408,7 +408,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "education",
       name: "Education research and national information",
       description:
-        "What federal research, evaluation and education information should be supported? A national evidence programme does not itself decide a local school's teaching or fabricate an individual's credentials.",
+        "What federal research, evaluation and education information should be supported? A national evidence program does not itself decide a local school's teaching or fabricate an individual's credentials.",
       levels: ["federal"],
     },
     {
@@ -432,7 +432,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "labor-commerce",
       name: "Small-business and industrial support",
       description:
-        "What federal finance, procurement opportunities or development support should enterprises receive? A federal programme supplies its own terms and funds, not a guaranteed viable business or automatic local hiring.",
+        "What federal finance, procurement opportunities or development support should enterprises receive? A federal program supplies its own terms and funds, not a guaranteed viable business or automatic local hiring.",
       levels: ["federal"],
     },
     {
@@ -462,9 +462,9 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
     {
       key: "transport-water.surface-transport",
       domain: "transport-water",
-      name: "Federal surface transportation programmes",
+      name: "Federal surface transportation programs",
       description:
-        "What federal programme funding, conditions and safety framework support surface transport? The federal programme and allocation differ from a state or locality choosing and delivering its particular road or transit work.",
+        "What federal program funding, conditions and safety framework support surface transport? The federal program and allocation differ from a state or locality choosing and delivering its particular road or transit work.",
       levels: ["federal"],
     },
     {
@@ -510,9 +510,9 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
     {
       key: "agriculture.producer-support",
       domain: "agriculture",
-      name: "Agricultural support and risk programmes",
+      name: "Agricultural support and risk programs",
       description:
-        "Which national agricultural support and risk-management arrangements should be offered? Federal programme terms differ from local land use and a farm's actual production, costs and decisions.",
+        "Which national agricultural support and risk-management arrangements should be offered? Federal program terms differ from local land use and a farm's actual production, costs and decisions.",
       levels: ["federal"],
     },
     {
@@ -528,7 +528,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "agriculture",
       name: "Rural development assistance",
       description:
-        "What federal investment and assistance should support rural places? Federal programme eligibility is separate from a particular county's project choice, service need and delivery.",
+        "What federal investment and assistance should support rural places? Federal program eligibility is separate from a particular county's project choice, service need and delivery.",
       levels: ["federal"],
     },
     {
@@ -536,7 +536,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "emergencies",
       name: "Disaster assistance to people",
       description:
-        "What federal disaster assistance is available to eligible affected people? A federal declaration/programme does not itself pay every household or replace state/local aid.",
+        "What federal disaster assistance is available to eligible affected people? A federal declaration/program does not itself pay every household or replace state/local aid.",
       levels: ["federal"],
     },
     {
@@ -552,15 +552,15 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "emergencies",
       name: "Disaster mitigation and preparedness",
       description:
-        "What federal support should reduce future exposure and improve resilience? Federal programme support is not a guarantee of local preparedness or a cancellation of hazards.",
+        "What federal support should reduce future exposure and improve resilience? Federal program support is not a guarantee of local preparedness or a cancellation of hazards.",
       levels: ["federal"],
     },
     {
       key: "justice-rights.federal-justice",
       domain: "justice-rights",
-      name: "Federal offences, courts and corrections",
+      name: "Federal offenses, courts and corrections",
       description:
-        "What federal offences, procedures, judicial capacity and correctional responsibilities should apply? Federal jurisdiction is distinct from state criminal law and local policing; an allegation does not grant jurisdiction or establish guilt.",
+        "What federal offenses, procedures, judicial capacity and correctional responsibilities should apply? Federal jurisdiction is distinct from state criminal law and local policing; an allegation does not grant jurisdiction or establish guilt.",
       levels: ["federal"],
     },
     {
@@ -606,9 +606,9 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
     {
       key: "science-communications.research-space",
       domain: "science-communications",
-      name: "Federal research and space programmes",
+      name: "Federal research and space programs",
       description:
-        "Which national research and space programmes are authorized and funded? Federal programme support is not a local university's internal decision or an automatic scientific discovery.",
+        "Which national research and space programs are authorized and funded? Federal program support is not a local university's internal decision or an automatic scientific discovery.",
       levels: ["federal"],
     },
     {
@@ -640,7 +640,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "territories-culture",
       name: "Territories and the District of Columbia",
       description:
-        "What federal relationships, powers and programme treatment apply to territories and D.C.? D.C. and Puerto Rico are not ordinary states or municipalities; their separate profiles still determine local authority.",
+        "What federal relationships, powers and program treatment apply to territories and D.C.? D.C. and Puerto Rico are not ordinary states or municipalities; their separate profiles still determine local authority.",
       levels: ["federal"],
     },
     {
@@ -943,9 +943,9 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
     },
     {
       key: "knowledge.transport-water.surface-transport",
-      name: "Federal surface transportation programmes",
+      name: "Federal surface transportation programs",
       description:
-        "Understanding the federal question: Federal surface transportation programmes. Registration does not give anybody this knowledge.",
+        "Understanding the federal question: Federal surface transportation programs. Registration does not give anybody this knowledge.",
       scope: "issue",
       about: "transport-water.surface-transport",
     },
@@ -991,9 +991,9 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
     },
     {
       key: "knowledge.agriculture.producer-support",
-      name: "Agricultural support and risk programmes",
+      name: "Agricultural support and risk programs",
       description:
-        "Understanding the federal question: Agricultural support and risk programmes. Registration does not give anybody this knowledge.",
+        "Understanding the federal question: Agricultural support and risk programs. Registration does not give anybody this knowledge.",
       scope: "issue",
       about: "agriculture.producer-support",
     },
@@ -1039,9 +1039,9 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
     },
     {
       key: "knowledge.justice-rights.federal-justice",
-      name: "Federal offences, courts and corrections",
+      name: "Federal offenses, courts and corrections",
       description:
-        "Understanding the federal question: Federal offences, courts and corrections. Registration does not give anybody this knowledge.",
+        "Understanding the federal question: Federal offenses, courts and corrections. Registration does not give anybody this knowledge.",
       scope: "issue",
       about: "justice-rights.federal-justice",
     },
@@ -1087,9 +1087,9 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
     },
     {
       key: "knowledge.science-communications.research-space",
-      name: "Federal research and space programmes",
+      name: "Federal research and space programs",
       description:
-        "Understanding the federal question: Federal research and space programmes. Registration does not give anybody this knowledge.",
+        "Understanding the federal question: Federal research and space programs. Registration does not give anybody this knowledge.",
       scope: "issue",
       about: "science-communications.research-space",
     },
