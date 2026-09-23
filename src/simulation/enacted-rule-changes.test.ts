@@ -740,6 +740,6 @@ describe("A California constitutional amendment changing a rule", () => {
         },
         ordinaryMeasureId: null,
       }),
-    ).toThrow(/federal and charter changes are not modeled/);
+    ).toThrow(/no other federal rule is modeled yet/);
   });
 });
