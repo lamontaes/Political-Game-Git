@@ -379,7 +379,8 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
   // A first-time filer starts behind somebody who is already known. Nothing
   // here is a handicap the player can read; it is a starting position.
   // A candidate's past moves where they start: a remembered ethics finding,
-  // or a sitting governor's record on the economy (`record-in-office.ts`).
+  // a sitting governor's record on the economy, or how the voters here see
+  // their votes on the questions they hold views about (`record-in-office.ts`).
   const weights = campaign.candidateSupportScopes.map((scope) => ({
     id: scope.candidatePersonId,
     weight: Math.max(
@@ -391,6 +392,7 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
           world,
           scope.candidatePersonId,
           campaign.filedAt,
+          campaign.jurisdictionId,
         ),
     ),
   }));

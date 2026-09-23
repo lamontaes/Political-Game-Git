@@ -1338,6 +1338,8 @@ export interface IntroduceMeasureInput {
   readonly policyAlternativeIds?: readonly EntityId[];
   /** The policy questions the measure is about. See the record's own note. */
   readonly propositionIds?: readonly EntityId[];
+  /** Which way it answers each of them. See the record's own note. */
+  readonly propositionAnswers?: LegislativeMeasureRecord["propositionAnswers"];
 }
 
 /** Files a measure and gives it institutional identity. */
@@ -1397,6 +1399,22 @@ export function introduceMeasure(
     }
   }
 
+  const answered = new Set<EntityId>();
+  for (const row of input.propositionAnswers ?? []) {
+    // A direction is a claim about one of the bill's own questions, once.
+    if (!(input.propositionIds ?? []).includes(row.propositionId)) {
+      throw new Error(
+        `Measure answers a question it is not about: ${row.propositionId}`,
+      );
+    }
+    if (answered.has(row.propositionId)) {
+      throw new Error(
+        `Measure answers the same question twice: ${row.propositionId}`,
+      );
+    }
+    answered.add(row.propositionId);
+  }
+
   const measure: LegislativeMeasureRecord = {
     id: createStableId(
       "legislative-measure",
@@ -1417,6 +1435,16 @@ export function introduceMeasure(
     sourceDocumentKey: input.sourceDocumentKey ?? null,
     policyAlternativeIds: [...(input.policyAlternativeIds ?? [])],
     propositionIds: [...(input.propositionIds ?? [])],
+    // Written only when given, so a measure that says nothing keeps the bytes
+    // every measure had before bills could say which way they answer.
+    ...(input.propositionAnswers && input.propositionAnswers.length > 0
+      ? {
+          propositionAnswers: input.propositionAnswers.map((row) => ({
+            propositionId: row.propositionId,
+            answer: row.answer,
+          })),
+        }
+      : {}),
   };
 
   const withMeasure: World = {

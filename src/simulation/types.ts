@@ -3950,6 +3950,17 @@ export interface LegislativeMeasureRecord {
    * measure in every save written so far.
    */
   readonly propositionIds?: readonly EntityId[];
+  /**
+   * Which way the measure answers each question it is about: "yes" when
+   * enacting it does what the question proposes, "no" when it does the
+   * reverse. A question in `propositionIds` with no row here is a bill that
+   * does not say, and a vote on it is not a vote for or against anything
+   * (`issue-record.ts`). Optional for the same reason as `propositionIds`.
+   */
+  readonly propositionAnswers?: readonly {
+    readonly propositionId: EntityId;
+    readonly answer: "yes" | "no";
+  }[];
 }
 
 export type LegislativeActionKind =
