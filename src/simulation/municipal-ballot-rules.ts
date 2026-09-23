@@ -44,8 +44,10 @@ import {
   municipalRulePackFor,
 } from "./municipal-election-rule-packs";
 import type {
+  MunicipalRecallDoctrine,
   MunicipalRunoffRule,
   MunicipalSourceRef,
+  PetitionThreshold,
 } from "./municipal-election-rules";
 
 export type MunicipalBallotRuleBasis =
@@ -488,4 +490,139 @@ function countRankedChoice(
     rounds.push({ ...round, eliminated: last });
     for (const id of last) continuing.delete(id);
   }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Recall                                                                      */
+/* -------------------------------------------------------------------------- */
+
+/** How a town's voters may remove an official, and on what basis that is known. */
+export interface ResolvedMunicipalRecallRule {
+  readonly stateUsps: string;
+  readonly doctrine: MunicipalRecallDoctrine;
+  readonly doctrineBasis: MunicipalBallotRuleBasis;
+  /** Null where recall exists but no pack says how many signatures it needs. */
+  readonly threshold: PetitionThreshold | null;
+  /** Null where there is no recall petition at all. */
+  readonly circulationDays: number | null;
+  readonly circulationBasis: MunicipalBallotRuleBasis | null;
+  /** Null where no pack says. */
+  readonly groundsRequired: boolean | null;
+}
+
+interface RecallSpread {
+  readonly doctrines: readonly {
+    doctrine: MunicipalRecallDoctrine;
+    weight: number;
+  }[];
+  readonly windows: readonly { days: number; weight: number }[];
+}
+
+let recallSpread: RecallSpread | null = null;
+
+/** The spread across states whose pack reads a recall doctrine and window. */
+export function municipalRecallNationalSpread(): RecallSpread {
+  if (recallSpread) return recallSpread;
+  const doctrines = new Map<MunicipalRecallDoctrine, number>();
+  const windows = new Map<number, number>();
+  for (const usps of Object.keys(MUNICIPAL_ELECTION_RULE_PACKS).sort()) {
+    const rules = MUNICIPAL_ELECTION_RULE_PACKS[usps]!.directDemocracy;
+    if (rules.recallDoctrine.kind !== "known") continue;
+    const doctrine = rules.recallDoctrine.value;
+    doctrines.set(doctrine, (doctrines.get(doctrine) ?? 0) + 1);
+    if (rules.recallCirculationWindowDays.kind === "known") {
+      const days = rules.recallCirculationWindowDays.value;
+      windows.set(days, (windows.get(days) ?? 0) + 1);
+    }
+  }
+  recallSpread = {
+    doctrines: [...doctrines.entries()]
+      .sort((left, right) => left[0].localeCompare(right[0]))
+      .map(([doctrine, weight]) => ({ doctrine, weight })),
+    windows: [...windows.entries()]
+      .sort((left, right) => left[0] - right[0])
+      .map(([days, weight]) => ({ days, weight })),
+  };
+  if (
+    recallSpread.doctrines.length === 0 ||
+    recallSpread.windows.length === 0
+  ) {
+    throw new Error(
+      "No state resolves a municipal recall doctrine and window, so there is no national range to draw from.",
+    );
+  }
+  return recallSpread;
+}
+
+const PETITIONED_DOCTRINES: ReadonlySet<MunicipalRecallDoctrine> = new Set([
+  "two-question-standalone",
+  "simultaneous-incumbent-replacement",
+  "yes-no-retention",
+]);
+
+/**
+ * Whether and how a town's voters may recall an official.
+ *
+ * Read from the state's pack where it names a doctrine (`state-law-unverified`,
+ * since no pack is audited). Where the pack is missing or does not settle it,
+ * the doctrine is drawn from the spread of the states that do, stable per
+ * state (`national-range-drawn`), never another state's law. A petition
+ * window the pack leaves unknown is drawn the same way.
+ */
+export function resolveMunicipalRecallRule(
+  stateUsps: string,
+): ResolvedMunicipalRecallRule {
+  const usps = stateUsps.toUpperCase();
+  const rules = municipalRulePackFor(usps)?.directDemocracy;
+  const spread = municipalRecallNationalSpread();
+  const readDoctrine =
+    rules?.recallDoctrine.kind === "known" ? rules.recallDoctrine.value : null;
+  const doctrine =
+    readDoctrine ??
+    stablePick(
+      `municipal-recall-doctrine:${usps}`,
+      spread.doctrines,
+      spread.doctrines.map((entry) => entry.doctrine),
+    );
+  const doctrineBasis: MunicipalBallotRuleBasis =
+    readDoctrine === null ? "national-range-drawn" : "state-law-unverified";
+  if (!PETITIONED_DOCTRINES.has(doctrine))
+    return {
+      stateUsps: usps,
+      doctrine,
+      doctrineBasis,
+      threshold: null,
+      circulationDays: null,
+      circulationBasis: null,
+      groundsRequired: null,
+    };
+  // A drawn doctrine borrows nothing else from the pack: the pack said
+  // nothing settled about recall there.
+  const read = readDoctrine === null ? null : rules!;
+  const readWindow =
+    read?.recallCirculationWindowDays.kind === "known"
+      ? read.recallCirculationWindowDays.value
+      : null;
+  return {
+    stateUsps: usps,
+    doctrine,
+    doctrineBasis,
+    threshold:
+      read?.recallPetitionThreshold.kind === "known"
+        ? read.recallPetitionThreshold.value
+        : null,
+    circulationDays:
+      readWindow ??
+      stablePick(
+        `municipal-recall-window:${usps}`,
+        spread.windows,
+        spread.windows.map((entry) => entry.days),
+      ),
+    circulationBasis:
+      readWindow === null ? "national-range-drawn" : "state-law-unverified",
+    groundsRequired:
+      read?.recallGroundsRequired.kind === "known"
+        ? read.recallGroundsRequired.value
+        : null,
+  };
 }

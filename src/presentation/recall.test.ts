@@ -111,7 +111,8 @@ describe("recalling a town official", () => {
         stateUsps: "NE",
         doctrine: "yes-no-retention",
         circulationDays: 30,
-        circulationBasis: "researched",
+        doctrineBasis: "state-law-unverified",
+        circulationBasis: "state-law-unverified",
       });
       expect(
         canStartRecallPetition(world, {
@@ -290,31 +291,45 @@ describe("recalling a town official", () => {
     expect(recallPetitions(closed)[0]!.phase).toBe("lapsed");
   });
 
-  it("refuses where the law gives no recall, or where it is unsettled", () => {
-    // Indiana gives towns no recall; New Mexico's sources did not settle it.
-    for (const [placeKey, reason] of [
-      ["1805860", "Indiana law gives towns no recall."],
-      [
-        "3570500",
-        "New Mexico law on recalling a town official could not be settled from its sources.",
-      ],
-    ] as const) {
-      const town = ordinaryStart(placeKey, "recall-B");
-      expect(municipalRecallRule(town.governmentKey)).toEqual({
-        available: false,
-        reason,
-      });
-      expect(
-        canStartRecallPetition(town.world, {
-          petitionerPersonId: town.player,
-          governmentKey: town.governmentKey,
-          targetPersonId: town.member,
-        }),
-      ).toEqual({ allowed: false, reason });
-      expect(() =>
-        petition(town.world, town.governmentKey, town.player, town.member),
-      ).toThrow(reason);
-    }
+  it("refuses where the law gives no recall", () => {
+    const reason = "Towns in Indiana cannot recall their officials.";
+    const town = ordinaryStart("1805860", "recall-B");
+    expect(municipalRecallRule(town.governmentKey)).toEqual({
+      available: false,
+      reason,
+    });
+    expect(
+      canStartRecallPetition(town.world, {
+        petitionerPersonId: town.player,
+        governmentKey: town.governmentKey,
+        targetPersonId: town.member,
+      }),
+    ).toEqual({ allowed: false, reason });
+    expect(() =>
+      petition(town.world, town.governmentKey, town.player, town.member),
+    ).toThrow(reason);
+  });
+
+  it("draws an unsettled state's rule from the national range, not a refusal", () => {
+    // New Mexico's pack does not settle town recall, so its rule is drawn
+    // from the states that do, the same for every New Mexico town and save.
+    const town = ordinaryStart("3570500", "recall-B");
+    const rule = municipalRecallRule(town.governmentKey);
+    expect(rule).toMatchObject({
+      available: true,
+      stateUsps: "NM",
+      doctrineBasis: "national-range-drawn",
+      circulationBasis: "national-range-drawn",
+      threshold: null,
+    });
+    expect(municipalRecallRule(town.governmentKey)).toEqual(rule);
+    const started = petition(
+      town.world,
+      town.governmentKey,
+      town.player,
+      town.member,
+    );
+    expect(recallPetitions(started)[0]!.phase).toBe("circulating");
   });
 
   it("refuses a petitioner from out of town and a target with no seat", () => {
@@ -391,7 +406,7 @@ describe("recalling a town official", () => {
     expect(
       projectRecall(indiana.world, indiana.governmentKey, indiana.player),
     ).toEqual({
-      unavailable: "Indiana law gives towns no recall.",
+      unavailable: "Towns in Indiana cannot recall their officials.",
       rule: null,
       targets: [],
       petitions: [],

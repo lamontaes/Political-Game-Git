@@ -34,7 +34,9 @@ test.describe("recall panel", () => {
       "/tests/browser/municipal.html?place=1805860&role=neighbor-member",
     );
     const panel = page.getByTestId("municipal-recall");
-    await expect(panel).toContainText("Indiana law gives towns no recall.");
+    await expect(panel).toContainText(
+      "Towns in Indiana cannot recall their officials.",
+    );
     await expect(panel.getByRole("button")).toHaveCount(0);
   });
 });

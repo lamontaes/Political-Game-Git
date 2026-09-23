@@ -5,11 +5,14 @@ before the term ends: petition, signature threshold, recall election.
 
 ## What is read from law
 
-`municipalRecallRule(governmentKey)` reads the researched municipal rule pack
-for the town's state (`municipal-election-rule-packs.ts`): doctrine, petition
-threshold, circulation window and whether grounds are required. No pack, an
-unsettled doctrine, `prohibited` or `judicial-cause-removal-trial` all refuse
-with a reason. An unknown rule is not permission.
+`municipalRecallRule(governmentKey)` reads through the authorized resolver
+`resolveMunicipalRecallRule` in `municipal-ballot-rules.ts`, the only reader
+of the municipal rule packs: doctrine, petition threshold, circulation window
+and whether grounds are required, each labeled `state-law-unverified`. Where a
+state has no pack or its pack does not settle the doctrine or window, it is
+drawn from the range the read states span, stable per state, and labeled
+`national-range-drawn`. `prohibited` and `judicial-cause-removal-trial` refuse
+with a reason.
 
 ## Records
 
@@ -25,8 +28,7 @@ A removal ends the seat's organization participation with the context
 ## Placeholders, pending `recall-of-officials-52`
 
 `RECALL_PROFILE`: qualification is a keyed draw (35%), the yes share is drawn
-from 30% to 65%, the election is 75 days after the petition closes, and a
-window the pack leaves unknown is 90 days. The draws are exported
+from 30% to 65%, the election is 75 days after the petition closes,. The draws are exported
 (`recallPetitionQualifies`, `recallYesShare`) so tests can reason about them.
 
 ## Not modeled, with the blanket rule applied

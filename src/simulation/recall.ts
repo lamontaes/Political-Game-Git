@@ -3,11 +3,13 @@ import { scheduleFutureDueItem } from "./future-transitions";
 import { organizationParticipationStateHistory } from "./life-queries";
 import { recordOrganizationParticipationState } from "./life";
 import { municipalGovernmentByKey } from "./municipal-government";
-import { municipalRulePackFor } from "./municipal-election-rule-packs";
 import {
-  municipalValueOrNull,
-  type MunicipalRecallDoctrine,
-  type PetitionThreshold,
+  resolveMunicipalRecallRule,
+  type MunicipalBallotRuleBasis,
+} from "./municipal-ballot-rules";
+import type {
+  MunicipalRecallDoctrine,
+  PetitionThreshold,
 } from "./municipal-election-rules";
 import {
   municipalGovernmentJurisdictionId,
@@ -36,10 +38,12 @@ import { recordWorldEvent } from "./world";
  * player is watching or not.
  *
  * What is read from law: whether a state lets towns recall at all, and the
- * doctrine, signature threshold and circulation window, from the researched
- * municipal rule packs (`municipal-election-rule-packs.ts`). A state with no
- * pack, or whose pack does not say, cannot recall: an unknown rule is not
- * permission.
+ * doctrine, signature threshold and circulation window, through the
+ * authorized resolver `resolveMunicipalRecallRule` (`municipal-ballot-rules.ts`),
+ * which reads the state's municipal rule pack. Where the pack is missing or
+ * does not settle the doctrine or window, the owner's standing rule applies:
+ * it is drawn from the range the read states span, stable per state, and
+ * labeled `national-range-drawn`. It is never another state's law.
  *
  * PLACEHOLDERS, NOT RESEARCH, pending `recall-of-officials-52`:
  * - Whether a petition gathers enough signatures. The game has no count of a
@@ -49,7 +53,6 @@ import { recordWorldEvent } from "./world";
  * - The recall vote itself, a keyed draw in `RECALL_PROFILE.removeYesShare`,
  *   recorded as shares of 10,000 because turnout is not modeled.
  * - When the election is held: `electionLeadDays` after the petition closes.
- * - A circulation window the pack leaves unknown: `circulationDaysFallback`.
  *
  * NOT MODELED, with the blanket rule applied meanwhile:
  * - Recall of state officers, legislators and judges. Refused with the reason
@@ -81,8 +84,6 @@ export const RECALL_PROFILE = {
   removeYesShare: [3_000, 6_500],
   /** Days from the petition closing to the recall election. */
   electionLeadDays: 75,
-  /** Circulation window where the state's pack leaves it unknown. */
-  circulationDaysFallback: 90,
 } as const;
 
 const PLACEHOLDER_NOTE = `${RECALL_PROFILE.id}: a placeholder pending research (recall-of-officials-52), not any jurisdiction's record.`;
@@ -92,51 +93,44 @@ export type RecallRule =
       readonly available: true;
       readonly stateUsps: string;
       readonly doctrine: MunicipalRecallDoctrine;
+      readonly doctrineBasis: MunicipalBallotRuleBasis;
       readonly threshold: PetitionThreshold | null;
       readonly circulationDays: number;
-      readonly circulationBasis: "researched" | "placeholder";
+      readonly circulationBasis: MunicipalBallotRuleBasis;
       readonly groundsRequired: boolean | null;
     }
   | { readonly available: false; readonly reason: string };
 
-/** The recall rule for a seat on one town's governing body. */
+/**
+ * The recall rule for a seat on one town's governing body, read through the
+ * authorized municipal rule resolver: the state's own reading where its pack
+ * settles it, otherwise drawn from the national range, stable per state.
+ */
 export function municipalRecallRule(governmentKey: string): RecallRule {
   const government = municipalGovernmentByKey(governmentKey);
   if (!government)
     return { available: false, reason: "This town's government is not known." };
-  const pack = municipalRulePackFor(government.state);
   const state = stateName(government.state);
-  if (!pack)
+  const rule = resolveMunicipalRecallRule(government.state);
+  if (rule.doctrine === "prohibited")
     return {
       available: false,
-      reason: `Whether towns in ${state} can recall their officials has not been researched yet.`,
+      reason: `Towns in ${state} cannot recall their officials.`,
     };
-  const rules = pack.directDemocracy;
-  const doctrine = municipalValueOrNull(rules.recallDoctrine);
-  if (doctrine === null)
-    return {
-      available: false,
-      reason: `${state} law on recalling a town official could not be settled from its sources.`,
-    };
-  if (doctrine === "prohibited")
-    return {
-      available: false,
-      reason: `${state} law gives towns no recall.`,
-    };
-  if (doctrine === "judicial-cause-removal-trial")
+  if (rule.doctrine === "judicial-cause-removal-trial")
     return {
       available: false,
       reason: `In ${state} a town official is removed by a court for cause, not by a recall vote.`,
     };
-  const window = municipalValueOrNull(rules.recallCirculationWindowDays);
   return {
     available: true,
-    stateUsps: government.state,
-    doctrine,
-    threshold: municipalValueOrNull(rules.recallPetitionThreshold),
-    circulationDays: window ?? RECALL_PROFILE.circulationDaysFallback,
-    circulationBasis: window === null ? "placeholder" : "researched",
-    groundsRequired: municipalValueOrNull(rules.recallGroundsRequired),
+    stateUsps: rule.stateUsps,
+    doctrine: rule.doctrine,
+    doctrineBasis: rule.doctrineBasis,
+    threshold: rule.threshold,
+    circulationDays: rule.circulationDays!,
+    circulationBasis: rule.circulationBasis!,
+    groundsRequired: rule.groundsRequired,
   };
 }
 
@@ -370,8 +364,8 @@ export function startRecallPetition(
     provenance: {
       kind: "authored",
       note:
-        rule.circulationBasis === "placeholder"
-          ? `${PLACEHOLDER_NOTE} The circulation window is unknown in this state's law.`
+        rule.circulationBasis === "national-range-drawn"
+          ? `The circulation window is drawn from the national range; ${rule.stateUsps}'s own is not settled.`
           : `The petition circulates for ${rule.circulationDays} days under ${rule.stateUsps} law.`,
     },
   });
