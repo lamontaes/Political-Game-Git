@@ -38,6 +38,12 @@ export interface SeatedMember {
   readonly personId: EntityId | null;
   /** Descriptive grouping shown to the player; carries no mechanical weight. */
   readonly caucusLabel: string;
+  /**
+   * The national party the member holds, where the chamber was seated with
+   * it already read (Congress). Absent, a vote reads it from the member's
+   * party participation.
+   */
+  readonly partyKey?: string | null;
 }
 
 export interface SeatedBody {

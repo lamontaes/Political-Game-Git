@@ -23,6 +23,11 @@ import type {
   WorkItemStateRecord,
 } from "../types";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
+import { isCongressMeasure } from "./congress-chambers";
+import {
+  CONGRESS_LAWMAKING_HANDLERS,
+  presidentDesk,
+} from "./congress-lawmaking";
 import {
   currentStateExecutiveHolders,
   type StateExecutiveHolderRecord,
@@ -1848,8 +1853,14 @@ export const governorDesk: ExecutiveDeskHandler = (
  * enacted an appropriation puts that money in front of its executive the same
  * day, rather than waiting for the next season.
  */
+/** The governor's desk for a state bill, the President's for a federal one. */
+const executiveDesk: ExecutiveDeskHandler = (world, measure, blueprint) =>
+  isCongressMeasure(measure)
+    ? presidentDesk(world, measure)
+    : governorDesk(world, measure, blueprint);
+
 const institutionStepWithProgramMatters = (() => {
-  const step = createInstitutionStepHandler(governorDesk);
+  const step = createInstitutionStepHandler(executiveDesk);
   return (world: World, due: FutureDueItem): FutureTransitionHandlerResult => {
     const result = step(world, due);
     // Reading every office on every legislative step would cost the clock a
@@ -1872,6 +1883,7 @@ const institutionStepWithProgramMatters = (() => {
 
 export const STATE_GOVERNING_HANDLERS = [
   [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
+  ...CONGRESS_LAWMAKING_HANDLERS,
   [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
   [GOVERNING_SEASON, governingSeasonHandler],
   [GOVERNING_TRANSITION, governingTransitionHandler],
