@@ -158,10 +158,16 @@ const sha256 = (text: string) =>
  * AND AGAIN 2026-09-23, when the federal pack's text took American spellings
  * (programs, offenses, license). Only that authored text moved; the ids and
  * LEGACY_OPENING_SHAPE did not.
+ *
+ * RE-ACCEPTED 2026-09-23 because the income-tax question in the state and local
+ * policy pack can now be decided by a municipality as well as a state (Ohio
+ * Revised Code 718.04; Philadelphia's Wage and Earnings Tax).
+ * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
+ * only the stripped catalog field moved.
  */
 const FED321F7_LEGACY = {
-  kentucky: "66909a6abc88327d922a16be12c1c44c7b2a23319cbd74170e18ad1ad6f9675b",
-  peebles: "507463587fdeb50c00a89f97e21a42cfd72790ff35712a84a01835431f6b8f5b",
+  kentucky: "da1cecb376ea36cf3bc9b9e73816889a57a1148ef05806f79eb4ef6e3e46e4c7",
+  peebles: "86e7aa487478e44f87e40afc68300bc7c74b9180f1e3aacd3f3bb31e5a58444a",
 } as const;
 
 /**

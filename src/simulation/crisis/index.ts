@@ -28,6 +28,10 @@ import {
   warPowersHandler,
 } from "./international";
 import {
+  CRIME_SAMPLE_TRANSITION_KEY,
+  crimeSampleHandler,
+} from "../crime/producer";
+import {
   MORTALITY_DEATH_KEY,
   MORTALITY_WINDOW_KEY,
   mortalityDeathHandler,
@@ -58,6 +62,9 @@ export function createCrisisTransitionRegistry() {
     [NPC_DISCLOSURE_KEY, npcHealthDisclosureHandler],
     [HAZARD_SAMPLE_TRANSITION_KEY, hazardSampleHandler],
     [HAZARD_EPISODE_TRANSITION_KEY, hazardEpisodeHandler],
+    // Ordinary local crime shares the crisis namespace so every clock path
+    // settles it; the module itself lives in `../crime`.
+    [CRIME_SAMPLE_TRANSITION_KEY, crimeSampleHandler],
     [DISASTER_STATE_REVIEW_KEY, disasterStateReviewHandler],
     [DISASTER_FEDERAL_REVIEW_KEY, disasterFederalReviewHandler],
     [DISASTER_REPAIR_CYCLE_KEY, disasterRepairCycleHandler],

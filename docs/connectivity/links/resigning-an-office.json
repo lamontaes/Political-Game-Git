@@ -13,7 +13,7 @@
     {
       "at": "src/simulation/nationwide-world/state-executives.ts:398 (stateExecutiveVacatedOn)",
       "owner": "Nationwide government",
-      "reads": "Honors a resignation when naming who holds a state office. It filters on an event type nothing in play writes, so it never matches."
+      "reads": "Honors a resignation when naming who holds a state office. The press desk now writes the event it filters on (#523), so a resigning state executive leaves the office."
     }
   ],
   "missing": [
