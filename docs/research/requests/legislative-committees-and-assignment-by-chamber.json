@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-23T03:45:00.000Z",
+  "impact": "blocks-work",
+  "lane": "committees, staff and appointments",
+  "notes": [
+    "The game deals members to a chamber's committees with a seeded, everyone-serves-once profile (src/simulation/governing/committee-assignment.ts). It is a labeled gameplay profile, not law, and it ignores any request.",
+    "Not asked: committee hearing procedure or report thresholds, which the legislature pack request already covers."
+  ],
+  "priority": "P1",
+  "question": "For each state legislative chamber (both houses of the 49 bicameral legislatures, the Nebraska Legislature), the D.C. Council, Puerto Rico's two chambers, and the U.S. House and Senate, answered as one set: (1) the list of standing committees in the current session, with the subject each has jurisdiction over; (2) roughly how many members sit on each, or the chamber's rule for sizing them; (3) who assigns members to committees (the presiding officer, a committee on committees, each party caucus, a rules committee, by seniority) and whether the minority party names its own members; (4) when assignments are made (organizational session, start of each session, after every election) and whether a member keeps a seat from one term to the next; (5) how many committees a typical member sits on, and any rule limiting it; (6) whether a new member can ask for a committee, and how much that request counts; (7) how chairs are chosen. Cite the chamber rule or official roster and mark anything not found as UNKNOWN. Where a full list is too long, give the committees and assignment rule for the ten largest chambers and the rule alone for the rest.",
+  "questionId": "legislative-committees-and-assignment-by-chamber",
+  "relatedQuestionIds": [
+    "legislature-packs-for-every-unbuilt-jurisdiction",
+    "new-member-transition-and-orientation",
+    "legislative-caucus-and-coalition-formation"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Committees, staff and appointments thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/legislature-rule-packs.ts and legislature-game-profile.ts at main 64753b47",
+      "whatItDidNotSettle": "Kentucky has one scenario Transportation committee per house (sizes 17 and 11, marked scenario-fixture); Nebraska has one; every other pack and the national game profile list no committees at all."
+    },
+    {
+      "source": "The open request legislature-packs-for-every-unbuilt-jurisdiction",
+      "whatItDidNotSettle": "Asks how a bill moves through committee referral, not which committees exist or how members are assigned to them."
+    }
+  ],
+  "title": "Which standing committees each legislative chamber has, and how members are put on them",
+  "usableAnswer": "Per chamber: committee names with subject, a size or sizing rule, the assigning authority, when assignments happen, a typical number of committees per member, whether requests are honored, and how chairs are picked, each cited or marked UNKNOWN. A national pattern (the common arrangement and the notable exceptions) is enough for places not individually read.",
+  "whyItMatters": "The owner asked for committee assignments (2026-09-22, 11:24 p.m. Eastern). Today only Kentucky and Nebraska carry any committee, one each, and a seated player is always told they have not been appointed to one. The game already asks a member-elect to send committee requests before the term begins, but nothing reads them. Without the real committee lists and the real assignment rule, the game would have to invent committees and invent who hands them out."
+}
