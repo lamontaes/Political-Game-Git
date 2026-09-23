@@ -87,3 +87,40 @@ for (const g of [...groups.values()].sort(
       `    ${g.example.detail.split("\n").slice(0, 6).join("\n    ")}`,
     );
 }
+
+// How alike childhoods are: which scene IDs children (under 18) were shown,
+// across games. A scene every life gets is a shared template.
+const childScenes = rows
+  .map(
+    (g) =>
+      new Set(
+        (
+          (g as { scenes?: { age: number | null; situation: string | null }[] })
+            .scenes ?? []
+        )
+          .filter((s) => s.age !== null && s.age < 18 && s.situation)
+          .map((s) => s.situation!),
+      ),
+  )
+  .filter((set) => set.size > 0);
+if (childScenes.length > 1) {
+  const reach = new Map<string, number>();
+  for (const set of childScenes)
+    for (const id of set) reach.set(id, (reach.get(id) ?? 0) + 1);
+  let overlap = 0;
+  let pairs = 0;
+  for (let i = 0; i < childScenes.length; i++)
+    for (let j = i + 1; j < childScenes.length; j++) {
+      const a = childScenes[i]!;
+      const b = childScenes[j]!;
+      const shared = [...a].filter((id) => b.has(id)).length;
+      overlap += shared / (a.size + b.size - shared);
+      pairs += 1;
+    }
+  console.log("");
+  console.log(
+    `childhoods: ${childScenes.length} lives, ${reach.size} distinct scene IDs, mean pairwise overlap ${((overlap / pairs) * 100).toFixed(1)}% (Jaccard)`,
+  );
+  for (const [id, n] of [...reach].sort((a, b) => b[1] - a[1]).slice(0, 10))
+    console.log(`    ${n}/${childScenes.length} lives: ${id}`);
+}
