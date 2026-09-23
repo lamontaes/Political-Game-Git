@@ -149,11 +149,15 @@ function packVote(
   return { roster: index, dispositions: letters, reasons: reasonRefs };
 }
 
-/** True when rebuilding this disposition gives back the identical object. */
+/**
+ * True when rebuilding this disposition gives back the object as it is
+ * written: judged on its JSON form, so a key holding `undefined`, which JSON
+ * drops, counts as absent here too.
+ */
 function packable(value: unknown): value is LegislativeVoteDisposition {
   if (typeof value !== "object" || value === null) return false;
-  const keys = Object.keys(value);
   const record = value as Record<string, unknown>;
+  const keys = Object.keys(value).filter((key) => record[key] !== undefined);
   const shaped =
     (keys.length === 3 || (keys.length === 4 && keys[3] === "reason")) &&
     keys[0] === "memberKey" &&

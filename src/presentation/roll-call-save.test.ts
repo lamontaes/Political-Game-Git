@@ -149,6 +149,27 @@ describe("roll calls in a save", () => {
     expect(stored[0].dispositions).toEqual(unusual.dispositions);
   });
 
+  it("never writes a vote whose reason is left undefined", () => {
+    // JSON would drop the key, so the saved vote could not be the one in
+    // memory. The world check refuses such a world before anything is written.
+    const [first, ...rest] = votes;
+    const withUndefined: LegislativeVoteRecord = {
+      ...first!,
+      dispositions: first!.dispositions.map((entry, index) =>
+        index === 0 ? { ...entry, reason: undefined } : entry,
+      ),
+    };
+    expect(() =>
+      serializeWorld({
+        ...world,
+        history: {
+          ...world.history,
+          legislativeVotes: [withUndefined, ...rest],
+        },
+      }),
+    ).toThrow(/Non-JSON-safe/);
+  });
+
   it("writes a world with no roll call exactly as before", () => {
     const plain = createDemoWorld("roll-call-save-plain");
     expect(plain.history.legislativeVotes ?? []).toHaveLength(0);
