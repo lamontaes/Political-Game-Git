@@ -355,15 +355,13 @@ describe("election day, and the morning after", () => {
     expect(view.offers).toEqual([]);
   });
 
-  it("lets a lost election be a thing that happened, said plainly", () => {
+  it("lets a lost election be a thing that happened, not an ending", () => {
     // Whichever way this seed falls, the morning after has to work.
     const played = playToTheEnd("election-after", 0);
     const view = projectCampaign(played.world, played.personId);
     expect(view.afterword).not.toBeNull();
     if (view.phase === "lost") {
-      expect(view.afterword).toMatch(
-        new RegExp(`^${view.candidateName} lost(, [\\d.]+% to [\\d.]+%)?\\.$`),
-      );
+      expect(view.afterword).toMatch(/not the end of them/i);
     }
 
     const nextWeek = passCampaignDays(played.world, played.personId, 7);
