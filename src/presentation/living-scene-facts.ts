@@ -3,6 +3,7 @@ import {
   personName,
   householdMembershipsAt,
   lifePlaceStateIdentities,
+  recordedDistrictMembership,
 } from "../simulation";
 import {
   projectOrientationView,
@@ -166,25 +167,38 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
           actorFor(orientation.homeState.governor, "governor", "governor"),
         ].filter(valid)
       : [];
-  // One actual House member and one Senator, never a fabricated 535-person
-  // hallway. Either Senator represents the whole state. A House member is
-  // shown only when the state has a single seat, so the member is certainly
-  // the player's: the first home-state seat used to stand in, which showed a
-  // San Antonio life the Representative for Texas's 1st district, in East
-  // Texas. The home's own district is not joined for Congress here, and a
-  // split city such as San Antonio has no one district to name.
+  // One home-state Senator, and the House member only for the district this
+  // life's home is recorded in (or a state's single at-large seat). A city the
+  // Census place file splits between districts names no House member: the
+  // first seat in the state is not the player's district. Never a fabricated
+  // 535-person hallway.
   const homeUsps = orientation.homeState?.stateUsps;
+  const houseDistrict = recordedDistrictMembership(
+    world,
+    playerId,
+    "congressional",
+    world.currentDate,
+  )?.binding;
+  const homeSeat = (
+    chamber: NonNullable<typeof orientation.congress>["house"],
+    house: boolean,
+  ) => {
+    const seats = chamber.seats.filter((entry) => entry.stateUsps === homeUsps);
+    if (!house) return seats.find((entry) => entry.occupant.kind === "member");
+    if (houseDistrict)
+      return seats.find(
+        (entry) =>
+          entry.stateUsps === houseDistrict.stateUsps &&
+          entry.district === houseDistrict.geoid.slice(2),
+      );
+    return seats.length === 1 && seats[0]!.district === "00"
+      ? seats[0]
+      : undefined;
+  };
   const congressActors = orientation.congress
     ? [orientation.congress.house, orientation.congress.senate].flatMap(
-        (chamber) => {
-          const homeSeats = chamber.seats.filter(
-            (entry) => entry.stateUsps === homeUsps,
-          );
-          const seat = (
-            chamber.chamberKey !== "us-senate" && homeSeats.length !== 1
-              ? []
-              : homeSeats
-          ).find((entry) => entry.occupant.kind === "member");
+        (chamber, index) => {
+          const seat = homeSeat(chamber, index === 0);
           return seat?.occupant.kind === "member"
             ? [
                 actorFor(

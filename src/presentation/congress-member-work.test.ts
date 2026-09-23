@@ -35,8 +35,13 @@ function ordinaryJobs(world: World, personId: string) {
 describe("a member of Congress is paid for the seat", () => {
   it("starts a paid job on January 3, keeps the jobs they had, and ends with the term", () => {
     const { world, personId } = adultLifeIn("OR", "congress-work-or");
+    // The seat for the district the home is recorded in, so the Government
+    // screen's "represented by" row for that home is the player's own seat.
     const house = congressCandidacyForPerson(world, personId)!.seats.find(
-      (seat) => seat.identity.seat.chamberKey === "us-house" && seat.eligible,
+      (seat) =>
+        seat.identity.seat.chamberKey === "us-house" &&
+        seat.eligible &&
+        seat.homeDistrict === "recorded",
     );
     if (!house)
       throw new Error("This seed's player cannot stand for the House.");
@@ -85,8 +90,8 @@ describe("a member of Congress is paid for the seat", () => {
     );
     expect(paid.length).toBeGreaterThanOrEqual(2);
 
-    // The Government screen places the member in the district of the seat
-    // they hold, since the home's own district is not recorded.
+    // The Government screen shows the home's recorded district, whose seat
+    // the member now holds.
     const government = projectGovernmentBrowser(seated, personId);
     const row = government.representedBy!.find((r) => r.key === "us-house")!;
     expect(row.district).toMatch(/^Oregon, district \d+$/);

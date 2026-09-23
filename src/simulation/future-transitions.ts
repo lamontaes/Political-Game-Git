@@ -136,6 +136,9 @@ export function composeFutureTransitionHandlerRegistries(
   ...registries: readonly FutureTransitionHandlerRegistry[]
 ): FutureTransitionHandlerRegistry {
   const routine = registries.find((registry) => registry.routine)?.routine;
+  const stopAtNewTentativeHold = registries.find(
+    (registry) => registry.stopAtNewTentativeHold,
+  )?.stopAtNewTentativeHold;
   return {
     get: (transitionKey) => {
       for (const registry of registries) {
@@ -147,6 +150,7 @@ export function composeFutureTransitionHandlerRegistries(
       return undefined;
     },
     ...(routine ? { routine } : {}),
+    ...(stopAtNewTentativeHold ? { stopAtNewTentativeHold } : {}),
   };
 }
 
@@ -279,9 +283,7 @@ export function setFutureDueItemTerminalState(
   }
   assertOptional(input.context, "Future due-item context");
   if (input.outcomeEventId !== null) {
-    const event = world.history.events.find(
-      (candidate) => candidate.id === input.outcomeEventId,
-    );
+    const event = eventById(world, input.outcomeEventId);
     if (
       !event ||
       event.sequence <= dueItem.sequence ||

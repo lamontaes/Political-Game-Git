@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { wasRefused } from "./scheduled-activity-answer";
 import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
@@ -2342,9 +2343,7 @@ export function projectCampaignLifeActivities(
                   : "expired"
               : "expired";
       const outcomeEvent = outcome
-        ? world.history.events.find(
-            (event) => event.id === outcome.outcomeEventId,
-          )
+        ? eventById(world, outcome.outcomeEventId)
         : undefined;
       return {
         lifeActivityId: record.id,

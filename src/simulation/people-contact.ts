@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays, ageOnDate } from "./dates";
 import { evaluateDecision } from "./decisions";
@@ -526,9 +527,7 @@ export function answerContact(
   world: World,
   input: AnswerContactInput,
 ): { world: World; eventId: EntityId } {
-  const proposal = world.history.events.find(
-    (event) => event.id === input.proposalEventId,
-  );
+  const proposal = eventById(world, input.proposalEventId);
   if (!proposal || proposal.type !== CONTACT_PROPOSED_EVENT) {
     throw new Error("That is not a meeting proposal.");
   }
@@ -692,9 +691,7 @@ export function npcContactAnswer(
   world: World,
   proposalEventId: EntityId,
 ): { answer: ContactAnswer; counterOn: IsoDate | null; world: World } {
-  const proposal = world.history.events.find(
-    (event) => event.id === proposalEventId,
-  )!;
+  const proposal = eventById(world, proposalEventId)!;
   const from = proposal.participants.find(
     (entry) => entry.role === "agency:asked",
   )!.personId;
@@ -840,9 +837,7 @@ export function counterWithNewDay(
     readonly note?: string;
   },
 ): World {
-  const proposal = world.history.events.find(
-    (event) => event.id === input.proposalEventId,
-  );
+  const proposal = eventById(world, input.proposalEventId);
   if (!proposal || proposal.type !== CONTACT_PROPOSED_EVENT) {
     throw new Error("That is not a meeting proposal.");
   }
@@ -1298,9 +1293,7 @@ export function contactAnswerTransitionHandler(
     ),
   );
   if (!proposalId) return done("proposal-missing");
-  const proposal = world.history.events.find(
-    (event) => event.id === proposalId,
-  )!;
+  const proposal = eventById(world, proposalId)!;
   const to = proposal.participants.find(
     (entry) => entry.role === "focus:asked-of",
   )!.personId;

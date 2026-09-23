@@ -1332,37 +1332,53 @@ export function nextMeasureStableKey(
   if (prefix.trim().length === 0) {
     throw new Error("A stable key prefix must not be empty.");
   }
-  const taken = new Set<string>();
-  const families: readonly (readonly {
-    readonly measureId: EntityId;
-    readonly stableKey: string;
-  }[])[] = [
-    world.history.legislativeActions ?? [],
-    world.history.committeeReferrals ?? [],
-    world.history.committeeActions ?? [],
-    world.history.legislativeAmendments ?? [],
-    world.history.legislativeVotes ?? [],
-    world.history.executiveDispositions ?? [],
-    world.history.legislativeEnactments ?? [],
-  ];
-  for (const family of families) {
-    for (const record of family) {
-      // Writers require globally unique keys within a history family. Another
-      // measure's use of the same operation prefix is still a collision.
-      taken.add(record.stableKey);
-    }
-  }
-  for (const item of world.history.futureDueItems ?? []) {
-    taken.add(item.stableKey);
-  }
-  for (let n = 1; n <= taken.size + 1; n += 1) {
+  const blocked = blockedStableKeys(world);
+  for (let n = 1; n <= blocked.size + 1; n += 1) {
     const candidate = `${prefix}:${n}`;
-    const collides = [...taken].some(
-      (key) => key === candidate || key.startsWith(`${candidate}:`),
-    );
-    if (!collides) return candidate;
+    if (!blocked.has(candidate)) return candidate;
   }
   throw new Error(`Could not derive a free stable key for '${prefix}'.`);
+}
+
+const BLOCKED_STABLE_KEYS_ANCHOR = {};
+
+/**
+ * Every stable key a new legislative record may not take: each key already
+ * written, and each key that another starts with followed by a colon. A key
+ * collides when it is taken or when a taken key extends it. The legislative
+ * clock asks for a new key at every step, and on a long save each answer used
+ * to compare every candidate against every key in eight history families.
+ */
+function blockedStableKeys(world: World): ReadonlySet<string> {
+  const history = world.history;
+  const families = [
+    history.legislativeActions,
+    history.committeeReferrals,
+    history.committeeActions,
+    history.legislativeAmendments,
+    history.legislativeVotes,
+    history.executiveDispositions,
+    history.legislativeEnactments,
+    history.futureDueItems,
+  ] as const;
+  return indexOverArrays(BLOCKED_STABLE_KEYS_ANCHOR, families, () => {
+    const blocked = new Set<string>();
+    for (const family of families) {
+      // Writers require globally unique keys within a history family. Another
+      // measure's use of the same operation prefix is still a collision.
+      for (const record of family ?? []) {
+        const key = record.stableKey;
+        blocked.add(key);
+        for (
+          let at = key.indexOf(":");
+          at !== -1;
+          at = key.indexOf(":", at + 1)
+        )
+          blocked.add(key.slice(0, at));
+      }
+    }
+    return blocked;
+  });
 }
 
 // ---------------------------------------------------------------------------

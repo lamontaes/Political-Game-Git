@@ -1,5 +1,6 @@
 import { deathCausePhrase } from "./crisis/death-causes";
 import { crisisPersonDeathRecipientNotices } from "./crisis/death-notices";
+import { eventById } from "./event-index";
 import { addDays, spokenDate } from "./dates";
 import { personName } from "./people";
 import { describePersonContext } from "./person-context";
@@ -105,9 +106,7 @@ export function applyDeathNotices(
     ) {
       continue;
     }
-    const death = next.history.events.find(
-      (event) => event.id === notice.deathEventId,
-    );
+    const death = eventById(next, notice.deathEventId);
     if (!death) continue;
     const name = personName(deceased);
     const relation = relationWord(notice.relationKind);

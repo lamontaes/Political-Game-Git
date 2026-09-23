@@ -433,7 +433,9 @@ describe("a hazard death has a cause (Hagerstown, Maryland)", () => {
         },
       });
       let stretchFrom = current;
-      for (let i = 0; i < 12 && !deathOf(current, playerId); i += 1) {
+      // A stretch also stops at a meeting posted while it runs, so the count
+      // of stretches to the death is not fixed; the bound only ends a loop.
+      for (let i = 0; i < 60 && !deathOf(current, playerId); i += 1) {
         stretchFrom = current;
         current = letStoryTimePass(current, playerId);
       }

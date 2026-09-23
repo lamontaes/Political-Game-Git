@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import { addDays, spokenDate } from "../dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -534,8 +535,7 @@ export function recordSubjectResponse(
     context: {
       location: null,
       socialContext: latest.eventId
-        ? (world.history.events.find((event) => event.id === latest.eventId)
-            ?.context.socialContext ?? null)
+        ? (eventById(world, latest.eventId)?.context.socialContext ?? null)
         : null,
       pressure: null,
       choice: input.kind,
@@ -556,7 +556,7 @@ function responderOf(
   world: World,
   record: StoryDispositionRecord,
 ): EntityId | null {
-  const event = world.history.events.find((item) => item.id === record.eventId);
+  const event = eventById(world, record.eventId);
   return (
     event?.participants.find((entry) => entry.role === "agency:press-source")
       ?.personId ?? null
@@ -818,7 +818,7 @@ export function storyMaterial(
         .publiclyUsable,
   );
   const publicBasis = lead.basisEventIds
-    .map((id) => world.history.events.find((event) => event.id === id)!)
+    .map((id) => eventById(world, id)!)
     .filter((event) => event.visibility === "public");
   const named = usable.some(
     (contribution) =>
@@ -1095,7 +1095,7 @@ function shareWithSiblings(
   if (siblings.length === 0) return world;
   const origin = requirePressRecord(world, "media-outlet", lead.outletId);
   const basis = lead.basisEventIds
-    .map((id) => world.history.events.find((event) => event.id === id))
+    .map((id) => eventById(world, id))
     .filter((event): event is HistoricalEvent => event !== undefined);
   const credit = `Originally reported by ${personName(world.people[reporterId]!)} for ${origin.name}.`;
   let next = world;
@@ -1240,9 +1240,7 @@ export function composeStory(
   contributions: readonly SourceContributionRecord[],
 ): StoryCopy {
   const outlet = requirePressRecord(world, "media-outlet", lead.outletId);
-  const basis = lead.basisEventIds.map((id) =>
-    world.history.events.find((event) => event.id === id)!,
-  );
+  const basis = lead.basisEventIds.map((id) => eventById(world, id)!);
   const publicBasis = basis.filter((event) => event.visibility === "public");
   const paragraphs: string[] = [];
   let unattributedAssertion = false;
@@ -1289,9 +1287,7 @@ export function composeStory(
     if (!subject) continue;
     const response = dispositionsForLead(world, lead.id)
       .filter((record) => record.decision === "subject-responded")
-      .map((record) =>
-        world.history.events.find((event) => event.id === record.eventId)!,
-      )
+      .map((record) => eventById(world, record.eventId)!)
       .find((event) =>
         event.participants.some(
           (entry) =>
@@ -1377,7 +1373,7 @@ export function procedureStatusSentence(
     );
     const last = publicSteps.at(-1);
     if (!last) continue;
-    const event = world.history.events.find((item) => item.id === last.eventId);
+    const event = eventById(world, last.eventId);
     if (event) sentences.push(event.summary);
   }
   if (sentences.length === 0) {
@@ -1844,9 +1840,7 @@ function beatForEventType(type: string): MediaBeat {
 
 function beatForLead(world: World, lead: StoryLeadRecord): MediaBeat {
   if (lead.matterId) return "investigations";
-  const event = world.history.events.find(
-    (item) => item.id === lead.basisEventIds[0],
-  );
+  const event = eventById(world, lead.basisEventIds[0]);
   const beat = event ? beatForEventType(event.type) : "general-assignment";
   const outlet = requirePressRecord(world, "media-outlet", lead.outletId);
   if (beat === "statehouse" && outlet.scope === "national") return "congress";
@@ -1898,9 +1892,7 @@ function chooseReporter(
 }
 
 function storyQuestion(world: World, lead: StoryLeadRecord): string {
-  const basis = world.history.events.find(
-    (event) => event.id === lead.basisEventIds[0],
-  )!;
+  const basis = eventById(world, lead.basisEventIds[0])!;
   if (lead.matterId) {
     const allegation = pressRecordsOfKind(world, "matter-allegation")
       .filter((record) => record.matterId === lead.matterId)
@@ -1926,9 +1918,7 @@ function issueDueCorrections(world: World): World {
     const history = dispositionsForLead(next, lead.id);
     if (history.at(-1)?.decision !== "published") continue;
     const story = history
-      .map((record) =>
-        next.history.events.find((event) => event.id === record.eventId),
-      )
+      .map((record) => eventById(next, record.eventId))
       .find((event) => event?.type === PRESS_STORY_EVENT_TYPE);
     if (!story?.tags.includes("press.unattributed-assertion")) continue;
     const matter = requirePressRecord(next, "matter", lead.matterId);
