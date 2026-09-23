@@ -1,3 +1,4 @@
+import { CONTACT_PROPOSED_EVENT } from "./people-contact-events";
 import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays } from "./dates";
 import { evaluateDecision } from "./decisions";
@@ -64,7 +65,7 @@ import type {
  * hour like any other activity.
  */
 
-export const CONTACT_PROPOSED_EVENT = "life.meeting-proposed";
+export { CONTACT_PROPOSED_EVENT } from "./people-contact-events";
 export const CONTACT_ACCEPTED_EVENT = "life.meeting-accepted";
 export const CONTACT_COUNTERED_EVENT = "life.meeting-counter-offered";
 export const CONTACT_DECLINED_EVENT = "life.meeting-declined";
