@@ -15,6 +15,7 @@ import {
   homeStateUsps,
   worldOpeningVersionOf,
   CRUNCH46_WORLD_OPENING_VERSION,
+  currentFederalTenure,
 } from "../simulation";
 import type {
   EntityId,
@@ -265,51 +266,26 @@ export function openingOfficeholders(world: World) {
 }
 
 function federalOfficeholders(world: World) {
-  const opening = [...OFFICES, VICE_PRESIDENT].flatMap((office) =>
-    world.history.events.flatMap((term) => {
-      if (
-        term.type !== "world.office-tenure" ||
-        !term.tags.includes(`office:${office.key}`) ||
-        term.occurredAt > world.currentDate
-      )
-        return [];
-      const personId = term.participants.find(
-        (participant) => participant.role === "focus:subject",
-      )?.personId;
-      if (!personId || !world.people[personId]) return [];
-      const endExclusive =
-        office.years === null
-          ? null
-          : makeIsoDate(
-              `${Number(term.occurredAt.slice(0, 4)) + office.years}-${office.monthDay}`,
-            );
-      if (endExclusive !== null && world.currentDate >= endExclusive) return [];
-      if (
-        world.history.personDeaths.some(
-          (death) =>
-            death.personId === personId && death.diedAt <= world.currentDate,
-        )
-      )
-        return [];
-      return [
-        {
-          officeKey: office.key,
-          title: office.title,
-          personId,
-          personName: personName(world.people[personId]!),
-          termId: term.id,
-          organizationId: organizationIdFor(
-            world.id,
-            `${VERSION}:${office.key}`,
-          ),
-          startedAt: term.occurredAt,
-          endExclusive,
-          identityProvenance: "fictional-simulation" as const,
-          sources: Object.values(OPENING_OFFICE_SOURCES) as string[],
-        },
-      ];
-    }),
-  );
+  // Whoever the latest tenure record names: the opening holder, or one who
+  // came to the office later by succession or confirmation.
+  const opening = [...OFFICES, VICE_PRESIDENT].flatMap((office) => {
+    const tenure = currentFederalTenure(world, office.key);
+    if (!tenure) return [];
+    return [
+      {
+        officeKey: office.key,
+        title: office.title,
+        personId: tenure.personId,
+        personName: personName(world.people[tenure.personId]!),
+        termId: tenure.event.id,
+        organizationId: organizationIdFor(world.id, `${VERSION}:${office.key}`),
+        startedAt: tenure.startedAt,
+        endExclusive: tenure.endExclusive,
+        identityProvenance: "fictional-simulation" as const,
+        sources: Object.values(OPENING_OFFICE_SOURCES) as string[],
+      },
+    ];
+  });
   let result = opening;
   for (const office of ["president", "vice-president"] as const) {
     const actual = nationalOfficeHolder(world, office);
