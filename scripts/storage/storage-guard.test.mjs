@@ -5,6 +5,7 @@ import {
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  realpathSync,
   rmSync,
   symlinkSync,
   utimesSync,
@@ -72,6 +73,43 @@ function publishedClone(name) {
 }
 
 describe("workspace reuse", () => {
+  it("releases an exact clean published workspace without deleting it", () => {
+    const guard = guardWith();
+    const folder = realpathSync(publishedClone("PG-RELEASE"));
+    guard.register({ owner: "C", folder });
+    expect(() =>
+      guard.releaseWorkspace({ owner: "someone-else", folder }),
+    ).toThrowError(/No active workspace/);
+    const released = guard.releaseWorkspace({ owner: "C", folder });
+    expect(released.state).toBe("released");
+    expect(existsSync(folder)).toBe(true);
+    expect(guard.retirementBlockers(folder)).toEqual([]);
+    expect(() => guard.ensureWorkspace({ owner: "C" })).toThrowError(
+      /No registered workspace/,
+    );
+  });
+
+  it("keeps dirty or leased workspaces active", () => {
+    const guard = guardWith();
+    const folder = realpathSync(publishedClone("PG-HELD"));
+    guard.register({ owner: "C", folder });
+    writeFileSync(path.join(folder, "private-input.png"), "keep");
+    expect(() => guard.releaseWorkspace({ owner: "C", folder })).toThrowError(
+      /untracked-files/,
+    );
+    rmSync(path.join(folder, "private-input.png"));
+    const lease = guard.reserve({
+      operation: "test",
+      target: folder,
+      owner: "C",
+    });
+    expect(() => guard.releaseWorkspace({ owner: "C", folder })).toThrowError(
+      /live-reservation/,
+    );
+    expect(guard.registry().workspaces[0].state).toBe("active");
+    guard.release(lease.id);
+  });
+
   it("returns the same registered folder for every request from one owner", () => {
     const guard = guardWith();
     const folder = path.join(sandbox, "PG-OWNER-A");
@@ -193,6 +231,15 @@ describe("reserved headroom", () => {
       guard.reserve({ operation: "extract", target: sandbox, owner: "E" })
         .bytes,
     ).toBe(4 * GiB);
+  });
+
+  it("reserves bounded headroom for focused tests", () => {
+    const test = guardWith().reserve({
+      operation: "test",
+      target: sandbox,
+      owner: "E",
+    });
+    expect(test.bytes).toBe(1 * GiB);
   });
 
   it("has no unlimited default for an operation it cannot size", () => {
@@ -864,6 +911,149 @@ describe("G2 — output cleanup honors the protected boundary", () => {
     expect(
       after.removed.map((entry) => path.basename(entry.path)).sort(),
     ).toEqual(["h2", "h3"]);
+  });
+
+  it("retires only exact manifested runs and refuses a changed plan before any deletion", () => {
+    const workspace = path.join(sandbox, "PG-WS-EXACT");
+    const root = path.join(workspace, "test-results", "runs");
+    const first = run(root, "first", 5000);
+    const second = run(root, "second", 5001);
+    const unknown = run(root, "unknown", 5002);
+    const guard = createStorageGuard({
+      stateDir: path.join(sandbox, "state"),
+      freeBytes: () => 200 * GiB,
+      policy,
+    });
+    guard.register({ owner: "A", folder: workspace });
+    guard.registerOutputRoot({ root }); // historical contents stay by default
+    const items = [first, second].map((folder) => ({
+      path: folder,
+      expectedManifest: contentManifest(folder),
+    }));
+    writeFileSync(path.join(second, "trace.bin"), "changed");
+    expect(() =>
+      guard.retireOutputRuns(root, items, { apply: true }),
+    ).toThrowError(/changed since its manifest/);
+    expect(existsSync(first)).toBe(true);
+    expect(existsSync(second)).toBe(true);
+    items[1].expectedManifest = contentManifest(second);
+    expect(
+      guard.retireOutputRuns(root, items).map((entry) => entry.removed),
+    ).toEqual([false, false]);
+    expect(
+      guard
+        .retireOutputRuns(root, items, { apply: true })
+        .map((entry) => entry.removed),
+    ).toEqual([true, true]);
+    expect(existsSync(unknown)).toBe(true);
+  });
+
+  it("refuses a pinned, symlinked, duplicate or nonchild exact output run", () => {
+    const workspace = path.join(sandbox, "PG-WS-EXACT-SAFE");
+    const root = path.join(workspace, "test-results", "runs");
+    const pinned = run(root, "pinned", 5000, (folder) => {
+      writeFileSync(path.join(folder, ".pin"), "keep");
+    });
+    const other = run(root, "other", 5001);
+    const guard = createStorageGuard({
+      stateDir: path.join(sandbox, "state"),
+      freeBytes: () => 200 * GiB,
+      policy,
+    });
+    guard.register({ owner: "A", folder: workspace });
+    guard.registerOutputRoot({ root });
+    const item = { path: other, expectedManifest: contentManifest(other) };
+    expect(() =>
+      guard.retireOutputRuns(
+        root,
+        [{ path: pinned, expectedManifest: contentManifest(pinned) }],
+        { apply: true },
+      ),
+    ).toThrowError(/pinned/);
+    expect(() =>
+      guard.retireOutputRuns(root, [item, item], { apply: true }),
+    ).toThrowError(/unique manifest-bound/);
+    expect(() =>
+      guard.retireOutputRuns(root, [{ ...item, path: workspace }], {
+        apply: true,
+      }),
+    ).toThrowError(/immediate run/);
+    const alias = path.join(root, "alias");
+    symlinkSync(other, alias);
+    expect(() =>
+      guard.retireOutputRuns(root, [{ ...item, path: alias }], { apply: true }),
+    ).toThrowError(/real run directory/);
+    expect(existsSync(other)).toBe(true);
+  });
+
+  it("refuses old manifested runs targeted by a live reservation, including a nested target", () => {
+    const workspace = path.join(sandbox, "PG-WS-LIVE-OLD");
+    const root = path.join(workspace, "test-results", "runs");
+    const old = run(root, "old", 5000, (folder) => {
+      mkdirSync(path.join(folder, "nested"));
+      writeFileSync(path.join(folder, "nested", "result.txt"), "result");
+    });
+    const guard = createStorageGuard({
+      stateDir: path.join(sandbox, "state"),
+      freeBytes: () => 200 * GiB,
+      policy,
+    });
+    guard.register({ owner: "A", folder: workspace });
+    guard.registerOutputRoot({ root });
+    const item = { path: old, expectedManifest: contentManifest(old) };
+    for (const target of [old, path.join(old, "nested")]) {
+      const lease = guard.reserve({ operation: "test", target, owner: "A" });
+      expect(() => guard.retireOutputRuns(root, [item])).toThrowError(
+        /live.*targets this run/,
+      );
+      guard.release(lease.id);
+    }
+    expect(existsSync(old)).toBe(true);
+  });
+
+  it("refuses late active workspaces inside a manifested output run", () => {
+    const workspace = path.join(sandbox, "PG-WS-NESTED-ACTIVE");
+    const root = path.join(workspace, "test-results", "runs");
+    const old = run(root, "old", 5000, (folder) =>
+      mkdirSync(path.join(folder, "source")),
+    );
+    const guard = guardWith();
+    guard.register({ owner: "A", folder: workspace });
+    guard.registerOutputRoot({ root });
+    const item = { path: old, expectedManifest: contentManifest(old) };
+    guard.register({ owner: "B", folder: path.join(old, "source") });
+    expect(() => guard.retireOutputRuns(root, [item])).toThrowError(
+      /active-workspace/,
+    );
+    expect(existsSync(old)).toBe(true);
+  });
+
+  it("refuses a nested Git source or external symlink dependent in a run", () => {
+    const workspace = path.join(sandbox, "PG-WS-RUN-SOURCE");
+    const root = path.join(workspace, "test-results", "runs");
+    const source = run(root, "source", 5000, (folder) => {
+      mkdirSync(path.join(folder, "nested"));
+      writeFileSync(path.join(folder, "nested", ".git"), "gitdir: held");
+    });
+    const dependent = run(root, "dependent", 5001);
+    const guard = guardWith();
+    guard.register({ owner: "A", folder: workspace });
+    guard.registerOutputRoot({ root });
+    expect(() =>
+      guard.retireOutputRuns(root, [
+        { path: source, expectedManifest: contentManifest(source) },
+      ]),
+    ).toThrowError(/holds-source/);
+    const item = {
+      path: dependent,
+      expectedManifest: contentManifest(dependent),
+    };
+    symlinkSync(dependent, path.join(workspace, "shared-run"));
+    expect(() => guard.retireOutputRuns(root, [item])).toThrowError(
+      /symlink-target/,
+    );
+    expect(existsSync(source)).toBe(true);
+    expect(existsSync(dependent)).toBe(true);
   });
 });
 
