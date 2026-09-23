@@ -27,7 +27,3 @@ Not modeled yet, and marked so in the code: running for President yourself,
 primaries and campaigns, faithless electors, and a tie in the Electoral
 College. A tie leaves the offices empty until the contingent election in
 Congress is built.
-
-The legislature of a state the game has not read now says plainly that its
-yearly session and the rule that pending bills die at adjournment are the
-game's own, not that state's law.

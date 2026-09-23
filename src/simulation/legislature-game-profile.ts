@@ -308,16 +308,16 @@ const ORIGINATION_SOURCE = profileSource(
   "A measure may start in either chamber. The game applies this where a state's own origination rule has not been read; a state that confines a class of measure to one chamber will say so once its instruments are compiled.",
 );
 /**
- * PLACEHOLDER, NOT LAW. Whether an unread state's legislature meets every year
- * or every other year, and whether a pending bill carries over, is research
- * question `generated-legislature-session-frequency-and-carryover`. Blanket
- * rule meanwhile: a regular session each year, and pending measures die at
- * adjournment sine die. Real states differ on both, so this is recorded as
- * the game's own rule rather than as the state's.
+ * PLACEHOLDER, not law. How often an unresearched legislature sits and whether
+ * a pending measure survives adjournment are unknown: several real states meet
+ * only every other year, and some carry bills over within a biennium. Filed as
+ * `generated-legislature-session-frequency-and-carryover`. Until it is
+ * answered the game applies one blanket rule — an annual session whose pending
+ * measures die at sine die — so that bills can finish at all, and says so.
  */
 const SESSION_SOURCE = profileSource(
   "Session",
-  "Not researched for this state. The game's own rule until it is: a regular session each year, and a measure still pending when the legislature adjourns sine die does not carry over.",
+  "The game's standing rule until this state's session calendar is researched: the legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over. This is not a reading of the state's law.",
 );
 
 function profileChamber(
@@ -523,8 +523,8 @@ export function legislatureProfilePack(
       "This legislature has not been compiled from its state's own constitution or rules. Its structure, seat counts, veto windows and override threshold are the game's own, drawn from the range the compiled states span, and none of them is a claim about this state's law.",
       "The chamber names and bill prefixes are the ordinary American ones. A state whose lower chamber is an Assembly or a House of Delegates will say so once its instruments are compiled.",
       "Committee structure, referral among committees, hearing guarantees and report thresholds come from chamber rules that have not been read.",
-      "How often this legislature meets and whether a pending bill carries over have not been read; the generated pack meets every year and lets pending measures die at adjournment.",
       "Conference between the chambers is not modelled.",
+      "How often this legislature meets and whether a pending measure carries over after adjournment have not been read; the annual session with bills dying at adjournment is the game's standing rule until they are.",
       "Whether this state overrides a veto in joint session rather than chamber by chamber has not been read; the generated pack uses the chamber-by-chamber form every compiled state but one uses.",
       ...override.unexpressed,
     ],

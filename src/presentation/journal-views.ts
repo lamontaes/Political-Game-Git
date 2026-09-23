@@ -33,6 +33,23 @@ export interface JournalSection {
    * there were and the date of the last.
    */
   readonly repeats: readonly JournalRepeat[];
+  /**
+   * The entries again, as a chronicle is read: each carries the month it
+   * happened in when the month changes, and a new paragraph starts at a month
+   * change once the current one has run a few sentences. Only the record's own
+   * dates are used. The retrospective voice the owner asked for ("who would
+   * have known", "you had no idea what you were in for") is PENDING RESEARCH,
+   * question `journal-chronicle-voice`, and is not written until it is
+   * answered.
+   */
+  readonly chronicle: readonly JournalChronicleLine[];
+}
+
+export interface JournalChronicleLine {
+  readonly entry: World39BiographyEntry;
+  /** "In March" or "In March 2027"; null when the month has not changed. */
+  readonly lead: string | null;
+  readonly startsParagraph: boolean;
 }
 
 export interface JournalRepeat {
@@ -92,6 +109,95 @@ export function collapseJournalRepeats(
   };
 }
 
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+] as const;
+
+/** Sentences a paragraph runs before a month change may start a new one. */
+export const CHRONICLE_PARAGRAPH_SENTENCES = 4;
+
+/** Opening words that read the same in lower case after a lead. */
+const LOWERCASE_AFTER_LEAD = new Set([
+  "You",
+  "Your",
+  "The",
+  "A",
+  "An",
+  "Somebody",
+  "Someone",
+  "Nobody",
+  "Privately",
+]);
+
+/**
+ * Joins a month lead to a recorded sentence. The sentence's own words are
+ * kept; only a common opening word is lowered, so a name stays capitalized.
+ */
+export function withChronicleLead(lead: string | null, text: string): string {
+  if (!lead) return text;
+  const first = text.split(/\s/, 1)[0] ?? "";
+  const body = LOWERCASE_AFTER_LEAD.has(first)
+    ? text.charAt(0).toLowerCase() + text.slice(1)
+    : text;
+  return `${lead}, ${body}`;
+}
+
+/** Whether a sentence already says when it happened near its start. */
+function datesItself(text: string): boolean {
+  const opening = text.split(/\s+/).slice(0, 6).join(" ");
+  return MONTH_NAMES.some((month) => opening.includes(month));
+}
+
+export function chronicleLines(
+  entries: readonly World39BiographyEntry[],
+): readonly JournalChronicleLine[] {
+  const lines: JournalChronicleLine[] = [];
+  let previousMonth: string | null = null;
+  let previousYear: string | null = null;
+  let sentences = 0;
+  for (const entry of entries) {
+    const year = entry.at.slice(0, 4);
+    const monthKey = entry.at.slice(0, 7);
+    const monthChanged = monthKey !== previousMonth;
+    const monthName = MONTH_NAMES[Number(entry.at.slice(5, 7)) - 1];
+    const lead =
+      monthChanged &&
+      monthName &&
+      entry.kind !== "account" &&
+      !datesItself(entry.text)
+        ? previousYear === null || year === previousYear
+          ? `In ${monthName}`
+          : `In ${monthName} ${year}`
+        : null;
+    const startsParagraph =
+      lines.length === 0 ||
+      (monthChanged && sentences >= CHRONICLE_PARAGRAPH_SENTENCES);
+    if (startsParagraph) sentences = 0;
+    sentences += 1;
+    lines.push({ entry, lead, startsParagraph });
+    previousMonth = monthKey;
+    previousYear = year;
+  }
+  return lines;
+}
+
+function withChronicle(
+  collapsed: ReturnType<typeof collapseJournalRepeats>,
+): Pick<JournalSection, "entries" | "repeats" | "chronicle"> {
+  return { ...collapsed, chronicle: chronicleLines(collapsed.entries) };
+}
+
 export interface JournalViewModel {
   readonly name: string;
   readonly view: JournalView;
@@ -139,7 +245,7 @@ export function projectJournalView(
               key: chapter.key,
               heading: chapter.heading,
               span: chapter.year,
-              ...collapseJournalRepeats(entries),
+              ...withChronicle(collapseJournalRepeats(entries)),
             },
           ];
     });
@@ -169,7 +275,7 @@ export function projectJournalView(
       key,
       heading: group.heading,
       span: spanOf(group.entries),
-      ...collapseJournalRepeats(group.entries),
+      ...withChronicle(collapseJournalRepeats(group.entries)),
     }));
   }
 

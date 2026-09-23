@@ -7,6 +7,7 @@ import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import { buildProductionWorld } from "../presentation/production-world";
 import { requireLifePlace } from "./index";
 import { ensureLivingWorldOpening } from "./living-world/opening";
+import { cohortGivenNames } from "./given-name-cohorts";
 import { GIVEN_NAME_GENERATION_POOLS_V1 } from "./names-data";
 import type { GenderIdentityKey, Person } from "./types";
 
@@ -67,6 +68,10 @@ function disagreements(people: readonly Person[]): string[] {
     if (gender !== "male" && gender !== "female") continue;
     const pool = poolOf(person.givenName);
     if (pool === "neutral" || pool === gender) continue;
+    // A birth-year name comes from the SSA's own list for the person's sex,
+    // which carries names the authored pools file under the other (Willie on
+    // the girls' list of the 1920s). That is the source agreeing, not a slip.
+    if (cohortGivenNames(gender).has(person.givenName)) continue;
     wrong.push(
       `${person.givenName} ${person.familyName} is recorded ${gender} and carries a ${pool} given name`,
     );
@@ -223,8 +228,10 @@ describe("a generated population's names agree with its genders", () => {
     // A new game's own policy, not a value this test picked: the legacy
     // branch below it is reachable only by a save recorded before the repair,
     // and it has to stay reachable for those saves to replay.
+    // `cohort-v1` is `identity-v1` and then the birth-year names, so the
+    // gender agreement this checks has to hold under it too.
     expect(DEFAULT_NEW_GAME_SETUP.livingWorldMemberNameVersion).toBe(
-      "identity-v1",
+      "cohort-v1",
     );
     const seated = ensureLivingWorldOpening(
       built.world,
