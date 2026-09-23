@@ -517,7 +517,10 @@ export function produceMogulOffers(world: World): World {
   return reviewAcceptedDeals(next);
 }
 
-function considerApproach(world: World, mogulId: EntityId): World {
+function considerApproach(before: World, mogulId: EntityId): World {
+  // A public finding is on the record for anyone; the mogul reads the ones
+  // about each candidate they can reach before weighing them.
+  const world = learnPublicFindings(before, mogulId);
   const interests = mogulInterests(world, mogulId);
   const options = reachableCommittees(world, mogulId).flatMap((committee) =>
     interests
@@ -591,10 +594,21 @@ function considerApproach(world: World, mogulId: EntityId): World {
           confidence: "high",
           explanation:
             "The candidate has a public ethics finding against them, so a quiet arrangement looks less likely to be refused or reported.",
-          sourceRefs: findings.map((finding) => ({
-            kind: "historical-event" as const,
-            eventId: finding.step.eventId,
-          })),
+          // What the mogul read of each finding, or the finding itself when
+          // they took part in it.
+          sourceRefs: findings.map((finding) => {
+            const read = world.history.knowledge.find(
+              (row) =>
+                row.personId === mogulId &&
+                row.eventId === finding.step.eventId,
+            );
+            return read
+              ? { kind: "event-knowledge" as const, knowledgeId: read.id }
+              : {
+                  kind: "historical-event" as const,
+                  eventId: finding.step.eventId,
+                };
+          }),
         }
       : {
           stableKey: "mogul:clean-record-risk",
@@ -666,6 +680,45 @@ function considerApproach(world: World, mogulId: EntityId): World {
     return next;
   }
   return npcAnswers(next, made.eventId);
+}
+
+/**
+ * The mogul learns, from the public record, every adverse finding against a
+ * candidate they can reach that they do not already know. Nothing is written
+ * for a finding they already know or took part in.
+ */
+function learnPublicFindings(world: World, mogulId: EntityId): World {
+  let next = world;
+  for (const committee of reachableCommittees(world, mogulId)) {
+    for (const finding of publicAdverseFindingsAgainst(
+      world,
+      committee.candidatePersonId,
+    )) {
+      const eventId = finding.step.eventId;
+      const event = next.history.events.find((row) => row.id === eventId);
+      if (!event || event.involvedEntityIds.includes(mogulId)) continue;
+      if (
+        next.history.knowledge.some(
+          (row) => row.personId === mogulId && row.eventId === eventId,
+        )
+      )
+        continue;
+      next = recordEventKnowledge(next, {
+        stableKey: `mogul-read:${mogulId}:${eventId}`,
+        personId: mogulId,
+        eventId,
+        learnedAt: next.currentDate,
+        believedSummary: event.summary,
+        accuracy: "accurate",
+        confidence: "high",
+        source: {
+          kind: "public-record",
+          reference: finding.proceeding.institutionLabel,
+        },
+      });
+    }
+  }
+  return next;
 }
 
 interface MakeOfferInput {

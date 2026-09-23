@@ -34,6 +34,7 @@ import { produceCaughtLyingLeads } from "./caught-lying";
 import { produceCampaignSpendingReports } from "./spending-reports";
 import { ensurePressExposureCoverage } from "./views";
 import { produceMogulOffers } from "../moguls";
+import { ensureVeryRichInPlayerState } from "../very-rich";
 import {
   PRESS_PROCEEDING_TRANSITION_KEY,
   pressProceedingStepHandler,
@@ -55,10 +56,12 @@ function pressWeeklyHandler(
       ensurePressHomeCoverage(
         produceCaughtLyingLeads(
           produceMogulOffers(
-            produceCampaignFinanceScrutiny(
-              produceCampaignSpendingReports(
-                applyPendingDisasterHandlingReactions(
-                  advanceProsecutions(world),
+            ensureVeryRichInPlayerState(
+              produceCampaignFinanceScrutiny(
+                produceCampaignSpendingReports(
+                  applyPendingDisasterHandlingReactions(
+                    advanceProsecutions(world),
+                  ),
                 ),
               ),
             ),

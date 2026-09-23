@@ -128,11 +128,26 @@ function balance(world: World, personId: EntityId): number {
   );
 }
 
-/** Weekly passes until the mogul has made an offer to the player. */
-function untilOfferToPlayer(world: World, personId: EntityId): World {
+/**
+ * The fixture mogul's open offers to the player. The state's own very rich
+ * people are seated on the first weekly pass and may approach too; these tests
+ * follow the one they set up.
+ */
+function openOffersFrom(world: World, personId: EntityId, mogulId: EntityId) {
+  return openMogulOffersFor(world, personId).filter(
+    (offer) => offer.mogulPersonId === mogulId,
+  );
+}
+
+/** Weekly passes until the fixture mogul has made an offer to the player. */
+function untilOfferToPlayer(
+  world: World,
+  personId: EntityId,
+  mogulId: EntityId,
+): World {
   let next = world;
   for (let week = 0; week < 60; week += 1) {
-    if (openMogulOffersFor(next, personId).length > 0) return next;
+    if (openOffersFrom(next, personId, mogulId).length > 0) return next;
     next = passOrdinaryDays(next, 7);
   }
   return next;
@@ -232,8 +247,8 @@ describe("a very rich person with an interest makes offers", () => {
 describe("the player takes a deal and never delivers", () => {
   function takeDeal(seed: string) {
     const race = oregonRace(seed);
-    let world = untilOfferToPlayer(race.world, race.personId);
-    let offer = openMogulOffersFor(world, race.personId)[0];
+    let world = untilOfferToPlayer(race.world, race.personId, race.mogulId);
+    let offer = openOffersFrom(world, race.personId, race.mogulId)[0];
     // A donation is not what this test is about; decline it and wait again.
     for (
       let tries = 0;
@@ -247,8 +262,9 @@ describe("the player takes a deal and never delivers", () => {
       world = untilOfferToPlayer(
         passOrdinaryDays(world, UNRESEARCHED_MOGUL_OFFERS.reconsiderDays),
         race.personId,
+        race.mogulId,
       );
-      offer = openMogulOffersFor(world, race.personId)[0];
+      offer = openOffersFrom(world, race.personId, race.mogulId)[0];
     }
     return { race, world, offer };
   }
@@ -286,14 +302,18 @@ describe("the player takes a deal and never delivers", () => {
   it(
     "shows the player who offered, how much and what for",
     () => {
-      const view = projectMogulOffers(world, race.personId)[0]!;
+      const view = projectMogulOffers(world, race.personId).find(
+        (row) => row.offerEventId === offer!.eventId,
+      )!;
       expect(view.offer).toMatch(/offers your campaign \$[\d,]+\.$/);
       expect(view.ask).toBe(
         "In return, they want you to say in public that you oppose this: " +
           `${world.policyCatalog.propositions[race.propositionId]!.name}.`,
       );
       expect(view.canAnswer).toBe(true);
-      const after = projectMogulOffers(accepted.world, race.personId)[0]!;
+      const after = projectMogulOffers(accepted.world, race.personId).find(
+        (row) => row.offerEventId === offer!.eventId,
+      )!;
       expect(after.canAnswer).toBe(false);
       expect(after.canDeliver).toBe(true);
       expect(after.deliverLabel).toBe("Say in public that you oppose it");
