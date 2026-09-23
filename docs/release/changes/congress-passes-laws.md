@@ -16,3 +16,11 @@ each House can override a veto. A tax bill has to start in the House. Every
 member casts their own vote and each ballot records why. A federal law takes
 effect the day it is enacted. What a federal law changes in the world is not
 built yet; each bill says so plainly.
+
+You can read any of Congress's recent bills from Politics, Government, United
+States. Each one is printed the way Congress prints a bill: the Congress and
+session, who introduced it and with whom, the committee it went to, the
+enacting clause, its sections, and a record of each House's vote and the
+President's decision underneath. A bill's votes and history now show dates
+the way you would write them, and a bill sent to the President says so rather
+than naming a governor.
