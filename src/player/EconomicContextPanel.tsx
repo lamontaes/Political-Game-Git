@@ -218,14 +218,13 @@ export function EconomicContextView({
       {carried.length > 0 ? (
         <section
           className="economic-carried"
-          aria-label="Since the last published figures"
+          aria-label="Where things stand now"
           data-testid="economic-carried"
         >
-          <h3>Since the last published figures</h3>
+          <h3>Where things stand now</h3>
           <p className="game-note">
-            No newer figures have been published in this world, so these follow
-            its own economy: prices, output and jobs since then. They are this
-            world&apos;s conditions, not an agency&apos;s release.
+            These have moved with prices, output and jobs in this world since
+            the time each one started from.
           </p>
           <ul>
             {carried.map((figure) => (

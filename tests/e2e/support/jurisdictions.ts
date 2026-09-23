@@ -189,7 +189,7 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     municipal: false,
     candidacy: {
       kind: "cannot-file",
-      because: ["Upcoming election timing is not established in this save"],
+      because: ["The next election is November 3, 2026."],
     },
     note: "A large city the municipal corpus does not carry, so the place has a state legislature but no city government record.",
   },

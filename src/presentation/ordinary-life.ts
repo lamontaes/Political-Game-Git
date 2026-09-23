@@ -4,6 +4,7 @@ import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { seatWinnersOwedTheirTerm } from "../simulation/office-entry-repair";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
+import { migrateLegacyLegislativeSeats } from "../simulation/legislative-office-terms";
 import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
 import { catchUpLegacySchoolStages } from "../simulation/school-stages";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
@@ -398,8 +399,10 @@ function advanceOrdinaryDays(
   // age; see catchUpLegacySchoolStages. A territory life saved before
   // territories had a Governor has one seated; see catchUpTerritoryGovernor.
   const migrated = ensureCrisisMortality(
-    catchUpTerritoryGovernor(
-      catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+    migrateLegacyLegislativeSeats(
+      catchUpTerritoryGovernor(
+        catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+      ),
     ),
   );
   const wholeDays = Math.max(1, Math.trunc(days));
