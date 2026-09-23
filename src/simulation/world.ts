@@ -3,6 +3,7 @@ import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
+import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
@@ -1095,13 +1096,16 @@ function advanceWorldUnchecked(
 
   const continued = applyCrisisRepairFunding(
     applyCrisisOfficeContinuity(
-      applyConstitutionalReform(
+      applyCongressLawmaking(
         world.currentDate,
-        applyGovernorTurnover(
+        applyConstitutionalReform(
           world.currentDate,
-          applyCongressTurnover(
+          applyGovernorTurnover(
             world.currentDate,
-            applyNationalTermTransitions(advanced),
+            applyCongressTurnover(
+              world.currentDate,
+              applyNationalTermTransitions(advanced),
+            ),
           ),
         ),
       ),
