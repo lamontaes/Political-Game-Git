@@ -75,7 +75,9 @@ for (const viewport of [
         exact: true,
       })
       .click();
-    await expect(study).toContainText("disclosed deadline");
+    await expect(study).toContainText(
+      "Tuition is still unpaid, and it is due by",
+    );
     await expect(routine.getByTestId("personal-routine-outcome")).toContainText(
       "Tuition is unpaid",
     );
