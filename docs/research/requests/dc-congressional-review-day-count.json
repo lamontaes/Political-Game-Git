@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-23T08:20:00.000Z",
+  "impact": "background",
+  "lane": "D.C. Council ordinances",
+  "priority": "P2",
+  "question": "Under D.C. Code § 1-206.02(c)(1), an act takes effect when a 30-day period expires, excluding Saturdays, Sundays, holidays and any day neither House is in session because of an adjournment sine die, a recess of more than 3 days, or an adjournment of more than 3 days. (1) Which holidays count (federal holidays under 5 U.S.C. § 6103, District holidays, or both)? (2) How does the Council's Office of the General Counsel compute the projected law date, and does the day of transmittal count as day 1? (3) In practice, how many calendar days does review take, by time of year (for example, acts transmitted in July versus in October)? (4) How often in the last 20 years has Congress enacted a disapproval resolution, and which acts? (5) Criminal-law acts get a 60-day period under paragraph (2): how is that counted?",
+  "questionId": "dc-congressional-review-day-count",
+  "relatedQuestionIds": [
+    "dc-council-rules-of-organization-and-procedure",
+    "dc-mayor-action-on-council-acts",
+    "dc-council-legislative-volume"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Codex's overnight dispatch (item 12d, D.C. Council ordinances missing), relayed by the coordinator at 3:34 a.m. Eastern on September 23, 2026; filed by the D.C. Council thread",
+  "sourcesChecked": [
+    {
+      "source": "D.C. Code §§ 1-204.04, 1-204.12 and 1-206.02, locked in data/source/municipal-governance/raw from the Council's law-xml-codified repository",
+      "whatItDidNotSettle": "The section states what is excluded, not which holidays, how the start day is counted, or what the House and Senate sitting calendars usually do to the count."
+    }
+  ],
+  "title": "Counting the 30-day congressional review of a D.C. act",
+  "usableAnswer": "The counting rule stated so a program can apply it, the holiday list, a table of typical review lengths by month, and the disapproval history.",
+  "whyItMatters": "The game computes an act's effective date from the day the Chairman transmits it, counting only weekdays, taking both Houses as sitting and excluding no holidays (placeholder in src/simulation/municipal-ordinance-procedure.ts). Acts sent during an August recess therefore take effect weeks earlier in play than in life."
+}

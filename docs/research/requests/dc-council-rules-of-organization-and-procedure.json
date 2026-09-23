@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-23T08:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "D.C. Council ordinances",
+  "priority": "P1",
+  "question": "From the Council of the District of Columbia's current Rules of Organization and Procedure (Council Period 26), answer as one set: (1) who may introduce a bill (any member, the Chairman at the Mayor's request, other bodies) and how introduction happens (filed with the Secretary, read at a legislative meeting); (2) whether every bill is referred to a standing committee, who refers it, whether a committee must hold a hearing and report before first reading, and what happens to a bill a committee never reports; (3) whether the Council votes at first reading and at final reading, and by what count; (4) how the Council's legislative meetings are scheduled (how often, and whether the 13-day interval of D.C. Code § 1-204.12(a) is usually satisfied by consecutive meetings); (5) emergency and temporary acts: the two-thirds emergency declaration, the 90-day limit, how a temporary act follows, and its usual 225-day life; (6) whether a bill not enacted by the end of a two-year Council Period dies. Cite the rule numbers.",
+  "questionId": "dc-council-rules-of-organization-and-procedure",
+  "relatedQuestionIds": [
+    "dc-mayor-action-on-council-acts",
+    "dc-congressional-review-day-count",
+    "dc-council-legislative-volume"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Codex's overnight dispatch (item 12d, D.C. Council ordinances missing), relayed by the coordinator at 3:34 a.m. Eastern on September 23, 2026; filed by the D.C. Council thread",
+  "sourcesChecked": [
+    {
+      "source": "D.C. Code §§ 1-204.04, 1-204.12 and 1-206.02, locked in data/source/municipal-governance/raw from the Council's law-xml-codified repository",
+      "whatItDidNotSettle": "The Home Rule Act fixes the vote, quorum, readings, the Mayor's action and congressional review, and requires the Council to adopt its own rules; it says nothing about introduction, committees or a first-reading vote."
+    },
+    {
+      "source": "code.dccouncil.gov and lims.dccouncil.gov",
+      "whatItDidNotSettle": "The proxy refuses both hosts from this environment, so the Council's rules resolution could not be retrieved."
+    }
+  ],
+  "title": "How the D.C. Council's own rules move an act: introduction, committees and votes at each reading",
+  "usableAnswer": "A short list, one line per point (1) to (6), each with its rule citation, plus anything the rules say that would change a two-reading, committee-free model.",
+  "whyItMatters": "The game now carries D.C. Council acts through the Home Rule Act's procedure (two readings with 13 days intervening, a majority of those present and voting, the Mayor, a two-thirds reenactment, congressional review). The statute leaves introduction, committees and the reading votes to the Council's own rules (§ 1-204.04(c)), which could not be read here. Until then the game uses a placeholder (src/simulation/municipal-procedure-placeholders.ts): any member introduces, no committee stage, and both readings are voted by a majority of those present and voting."
+}

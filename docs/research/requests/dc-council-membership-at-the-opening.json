@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-23T08:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "D.C. Council ordinances",
+  "priority": "P2",
+  "question": "For the Council of the District of Columbia: (1) the usual party composition (Democrats, independents, the two at-large seats that D.C. Code reserves from the majority party, Statehood Green, Republicans) and how it has changed since 2000; (2) the typical age and years of service of members; (3) which seats are elected in which years (the four-year staggered terms of wards 1, 2, 4, 6 and 8 versus 3, 5 and 7, the at-large seats and the Chairman); (4) the qualifications for a Council seat (age, residency, registration, ward residency).",
+  "questionId": "dc-council-membership-at-the-opening",
+  "relatedQuestionIds": [
+    "dc-council-rules-of-organization-and-procedure",
+    "dc-mayor-action-on-council-acts",
+    "dc-congressional-review-day-count"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Codex's overnight dispatch (item 12d, D.C. Council ordinances missing), relayed by the coordinator at 3:34 a.m. Eastern on September 23, 2026; filed by the D.C. Council thread",
+  "sourcesChecked": [
+    {
+      "source": "D.C. Code §§ 1-204.04, 1-204.12 and 1-206.02, locked in data/source/municipal-governance/raw from the Council's law-xml-codified repository",
+      "whatItDidNotSettle": "§ 1-204.01 (already locked) fixes thirteen members, the Chairman and four at large and one per ward; it does not give party, age, term staggering or qualifications."
+    }
+  ],
+  "title": "Who sits on the D.C. Council at a game's start: party, age, tenure and which seat is up",
+  "usableAnswer": "A party table, an age and tenure summary, the seat-by-year election schedule, and the qualifications, each with its source.",
+  "whyItMatters": "A life started in the District now seats all thirteen members (src/simulation/nationwide-world/district-of-columbia-council-opening.ts). Their ages are drawn from 25 to 80, nobody has a party because the save's political conditions carry no share for the District, and a player who wins a Council race takes the lowest-numbered opening member's seat because a race names no ward or at-large seat. All three are placeholders."
+}

@@ -518,6 +518,28 @@ function applyRecordedAction(
       state.phase = "awaiting-override";
       return LEGAL;
     }
+    case "became-law-without-signature": {
+      const gate = requirePhase(state, action.kind, ["awaiting-executive"]);
+      if (!gate.ok) return gate;
+      const outcome = pack.executive.inactionOutcomeInSession;
+      if (
+        outcome.kind !== "known" ||
+        outcome.value !== "becomes-law-without-signature"
+      ) {
+        return illegal(
+          `${pack.displayName} has no resolved rule under which the ${pack.executive.titleLabel}'s silence approves a measure`,
+        );
+      }
+      state.phase = "awaiting-enactment";
+      return LEGAL;
+    }
+    case "override-period-expired": {
+      const gate = requirePhase(state, action.kind, ["awaiting-override"]);
+      if (!gate.ok) return gate;
+      state.phase = "failed";
+      state.outcome = "vetoed-and-sustained";
+      return LEGAL;
+    }
     case "override-chamber-recorded": {
       const gate = requirePhase(state, action.kind, ["awaiting-override"]);
       if (!gate.ok) return gate;
@@ -2370,6 +2392,107 @@ export interface OverrideAttemptInput {
  * rule: some legislatures vote separately in each chamber, and others sit
  * jointly as a single larger body with a single threshold.
  */
+export interface ExecutiveInactionInput {
+  readonly stableKey: string;
+  readonly measureId: EntityId;
+  readonly rationale: string;
+}
+
+/**
+ * The executive let the time to act run out, and the pack says that silence
+ * approves the measure. Recorded as its own disposition, never as a
+ * signature nobody gave.
+ */
+export function recordExecutiveInaction(
+  world: World,
+  input: ExecutiveInactionInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  assertPhase(
+    world,
+    input.measureId,
+    ["awaiting-executive"],
+    "record that the executive did not act",
+  );
+  assertUniqueStableKey(
+    world.history.executiveDispositions,
+    input.stableKey,
+    "Executive disposition",
+  );
+  const pack = rulePackById(measure.rulePackId);
+  const disposition: ExecutiveDispositionRecord = {
+    id: createStableId(
+      "executive-disposition",
+      `${measure.id}:${input.stableKey}`,
+    ),
+    stableKey: input.stableKey,
+    sequence: world.history.nextSequence,
+    measureId: measure.id,
+    actedAt: world.currentDate,
+    action: "became-law-without-signature",
+    actorLabel: pack.executive.titleLabel,
+    rationale: input.rationale,
+  };
+  const withDisposition: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 1,
+      executiveDispositions: [
+        ...(world.history.executiveDispositions ?? []),
+        disposition,
+      ],
+    },
+  };
+  return appendAction(withDisposition, {
+    measure,
+    kind: "became-law-without-signature",
+    stableKey: `${input.stableKey}:became-law-without-signature`,
+    chamberKey: null,
+    committeeKey: null,
+    floorStageKey: null,
+    actorLabel: pack.executive.titleLabel,
+    rationale: input.rationale,
+    summary: `${measure.designation} was approved without the ${pack.executive.titleLabel}'s signature when the time to act ran out.`,
+    eventType: "legislation.measure-approved-without-signature",
+    tags: ["legislation.approved-without-signature"],
+    involvedEntityIds: [disposition.id],
+  });
+}
+
+export interface OverridePeriodExpiredInput {
+  readonly stableKey: string;
+  readonly measureId: EntityId;
+  readonly rationale: string;
+}
+
+/** The time the pack allows to reconsider a veto ran out; the veto stands. */
+export function recordOverridePeriodExpired(
+  world: World,
+  input: OverridePeriodExpiredInput,
+): World {
+  const measure = requireMeasure(world, input.measureId);
+  assertPhase(
+    world,
+    input.measureId,
+    ["awaiting-override"],
+    "close the override period",
+  );
+  return appendAction(world, {
+    measure,
+    kind: "override-period-expired",
+    stableKey: input.stableKey,
+    chamberKey: null,
+    committeeKey: null,
+    floorStageKey: null,
+    actorLabel: rulePackById(measure.rulePackId).displayName,
+    rationale: input.rationale,
+    summary: `The time to override the veto of ${measure.designation} ran out; the veto stands.`,
+    eventType: "legislation.override-period-expired",
+    tags: ["legislation.failed", "legislation.veto-stood"],
+  });
+}
+
 export function attemptVetoOverride(
   world: World,
   input: OverrideAttemptInput,

@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-23T08:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "D.C. Council ordinances",
+  "priority": "P2",
+  "question": "For the Mayors of the District of Columbia across recent Council Periods (at least 2015 to 2026), what share of acts transmitted to the Mayor were (1) signed, (2) allowed to become law without signature after the 10-day period of D.C. Code § 1-204.04(e), and (3) returned with disapproval? How many vetoes were overridden? What kinds of acts draw a return or an unsigned approval (subjects, budget acts, acts the Mayor opposed in testimony)? How long after transmittal does the Mayor usually act?",
+  "questionId": "dc-mayor-action-on-council-acts",
+  "relatedQuestionIds": [
+    "dc-council-rules-of-organization-and-procedure",
+    "dc-congressional-review-day-count",
+    "dc-council-legislative-volume"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Codex's overnight dispatch (item 12d, D.C. Council ordinances missing), relayed by the coordinator at 3:34 a.m. Eastern on September 23, 2026; filed by the D.C. Council thread",
+  "sourcesChecked": [
+    {
+      "source": "D.C. Code §§ 1-204.04, 1-204.12 and 1-206.02, locked in data/source/municipal-governance/raw from the Council's law-xml-codified repository",
+      "whatItDidNotSettle": "The statute gives the Mayor's options and the deemed-approval rule, not how often each happens."
+    }
+  ],
+  "title": "How often the D.C. Mayor signs, lets pass unsigned, or returns a Council act",
+  "usableAnswer": "Three shares with their counts and years, the override count, a line on which acts are returned, and the typical days to act.",
+  "whyItMatters": "In play, a Mayor the player does not control signs every act on the last day to act. That is a placeholder (MUNICIPAL_EXECUTIVE_PLACEHOLDER_ID in src/simulation/municipal-ordinance-procedure.ts); a Mayor who never returns an act makes the override route unreachable except for a player who is Mayor."
+}

@@ -1,5 +1,7 @@
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
+import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
+import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
   canonicalJson,
@@ -145,9 +147,11 @@ function ensureHomeStateLegislature(
     return world;
   }
   const stateUsps = homeStateUsps(world, playerPersonId);
-  return stateUsps
-    ? ensureStateLegislatureOpening(world, playerPersonId, stateUsps)
-    : world;
+  if (!stateUsps) return world;
+  // The District's legislature is its Council, which is seated on its own.
+  return stateUsps === "DC"
+    ? scheduleDcCouncilSitting(ensureDistrictOfColumbiaCouncilOpening(world))
+    : ensureStateLegislatureOpening(world, playerPersonId, stateUsps);
 }
 
 /**

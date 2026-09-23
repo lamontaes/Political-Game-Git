@@ -481,6 +481,9 @@ function exportReading(
       committeeReferral: value(procedure.committeeReferral),
       committeeReferralState: stateOf(procedure.committeeReferral),
       introductionToPassage: value(procedure.introductionToPassage),
+      ...(procedure.betweenReadings?.state === "KNOWN"
+        ? { betweenReadings: procedure.betweenReadings.value }
+        : {}),
     },
     budget: {
       fiscalYear: value(budget.fiscalYear),

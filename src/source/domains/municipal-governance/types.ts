@@ -291,6 +291,12 @@ export interface LegislativeProcedure {
   readonly effectivePublication: Sourced<string>;
   /** Least time between introduction and passage, and its stated exception. */
   readonly introductionToPassage: Sourced<IntroductionToPassageRule>;
+  /** Least time between one reading and the next, and its stated exception. */
+  /**
+   * Optional and omitted where no source fixed one, so a record that never
+   * carried the field hashes exactly as it did before it existed.
+   */
+  readonly betweenReadings?: Sourced<IntroductionToPassageRule>;
 }
 
 /** Omitted basis preserves the original whole-intervening-day contract. */

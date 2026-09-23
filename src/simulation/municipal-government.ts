@@ -29,6 +29,7 @@
  * offer, and the player is told which instrument would have to say what.
  */
 
+import { municipalProcedurePlaceholder } from "./municipal-procedure-placeholders";
 import {
   MUNICIPAL_GOVERNMENTS_JSON,
   MUNICIPAL_GOVERNMENTS_META,
@@ -129,6 +130,8 @@ export interface MunicipalProcedure {
   readonly committeeReferralState?: string;
   /** Least time between introduction and passage, where a source fixed one. */
   readonly introductionToPassage?: MunicipalPassageInterval | null;
+  /** Least time between one reading and the next, where a source fixed one. */
+  readonly betweenReadings?: MunicipalPassageInterval | null;
 }
 
 /** Missing basis retains old pack and saved-world passage timing. */
@@ -623,7 +626,10 @@ export function municipalRulePackFor(
       reason:
         "Research reports are inspectable evidence, not operative procedure.",
     });
-  if (reading.procedure.introductionSponsorship === null)
+  const placeholder = municipalProcedurePlaceholder(government.key);
+  if (reading.procedure.introductionSponsorship === null && placeholder)
+    outside.push(placeholder.note);
+  if (reading.procedure.introductionSponsorship === null && !placeholder)
     missing.push({
       field: "introduction",
       reason: "Introduction authority is UNKNOWN.",
@@ -748,7 +754,9 @@ export function municipalRulePackFor(
           // between introduction and passage opens the floor directly.
           floorWithoutReferral:
             reading.procedure.committeeReferralState ===
-              "NO_REQUIREMENT_FOUND" && reading.procedure.introductionToPassage
+              "NO_REQUIREMENT_FOUND" &&
+            (reading.procedure.introductionToPassage ||
+              reading.procedure.betweenReadings)
               ? knownRule(true, municipalRuleSourceRef(reading, "referral"))
               : unknownRule(
                   "No instrument read establishes that an ordinance reaches the floor without a committee.",
@@ -756,7 +764,12 @@ export function municipalRulePackFor(
           source: municipalRuleSourceRef(reading, "referral"),
         },
         committees: [],
-        floorStages: buildFloorStages(reading, passage, passageSource),
+        floorStages: buildFloorStages(
+          reading,
+          passage,
+          passageSource,
+          placeholder?.everyReadingVoted === true,
+        ),
         amendments: {
           floorAmendmentsAllowed:
             reading.procedure.amendment === null
@@ -885,6 +898,7 @@ function buildFloorStages(
   reading: MunicipalReading,
   passage: VoteThresholdRule,
   passageSource: RuleSourceRef,
+  everyReadingVoted = false,
 ): LegislativeRulePack["chambers"][number]["floorStages"] {
   const readings = reading.procedure.readings;
   if (readings === null)
@@ -901,9 +915,13 @@ function buildFloorStages(
               "No instrument read establishes whether this reading takes amendments.",
             ),
       separateLegislativeDayRequired: true,
-      vote: unknownRule(
-        "This reading decides nothing; the instrument puts the vote at the final reading.",
-      ),
+      // A placeholder, where one is set: the reading is put to the same vote
+      // as final passage (municipal-procedure-placeholders.ts).
+      vote: everyReadingVoted
+        ? knownRule(passage, passageSource)
+        : unknownRule(
+            "This reading decides nothing; the instrument puts the vote at the final reading.",
+          ),
       source: municipalRuleSourceRef(reading, `reading ${index}`),
     });
   }

@@ -1713,6 +1713,9 @@ export const PRODUCTION_PACK_ARTIFACTS: Readonly<
     "dc-code-1-204-21",
     "dc-code-1-204-22",
     "dc-code-1-207-71",
+    "dc-code-1-204-04",
+    "dc-code-1-204-12",
+    "dc-code-1-206-02",
   ],
   "us-or-portland": [
     "or-portland-charter-2-102",

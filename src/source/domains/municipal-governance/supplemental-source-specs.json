@@ -214,5 +214,69 @@
       "length": 655,
       "sha256": "5a4fded6574f954107281cfc851e6f5473dc0667ee3c2620f2b3d91481564359"
     }
+  },
+  {
+    "artifactId": "dc-code-1-204-04",
+    "url": "https://raw.githubusercontent.com/DCCouncil/law-xml-codified/master/us/dc/council/code/titles/1/sections/1-204.04.xml",
+    "provider": "Council of the District of Columbia, D.C. Law Library (law-xml-codified)",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-204.04 Powers of the Council",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-204-04.xml",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "An act passed by the Council shall be presented by the Chairman of the Council to the Mayor,",
+          "endsWith": "two-thirds of the members of the Council present and voting vote to reenact such act, the act so reenacted shall become law subject to the provisions of § 1-206.02(c) ."
+        }
+      ],
+      "length": 1315,
+      "sha256": "526a5a857bcb8c37ad7f7cf643bce3dfde9882ee6978f99ebbf7ccbbc44ce8f7"
+    }
+  },
+  {
+    "artifactId": "dc-code-1-204-12",
+    "url": "https://raw.githubusercontent.com/DCCouncil/law-xml-codified/master/us/dc/council/code/titles/1/sections/1-204.12.xml",
+    "provider": "Council of the District of Columbia, D.C. Law Library (law-xml-codified)",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-204.12 Acts, resolutions, and requirements for quorum",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-204-12.xml",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "The Council, to discharge the powers and duties imposed herein,",
+          "endsWith": "such act shall be effective for a period of not to exceed 90 days."
+        },
+        {
+          "beginsWith": "A majority of the Council shall constitute a quorum",
+          "endsWith": "except a lesser number may hold hearings."
+        }
+      ],
+      "length": 1087,
+      "sha256": "e27c156e7b84ccd13c8781419afb3f6d4c842239d6bcf1d9195e2f83e145ec41"
+    }
+  },
+  {
+    "artifactId": "dc-code-1-206-02",
+    "url": "https://raw.githubusercontent.com/DCCouncil/law-xml-codified/master/us/dc/council/code/titles/1/sections/1-206.02.xml",
+    "provider": "Council of the District of Columbia, D.C. Law Library (law-xml-codified)",
+    "jurisdictionKey": "US-DC",
+    "enactingBody": "United States Congress",
+    "instrumentKind": "statute",
+    "instrumentTitle": "D.C. Code § 1-206.02 Limitations on the Council",
+    "localPath": "data/source/municipal-governance/raw/dc-code-1-206-02.xml",
+    "enacted": {
+      "regions": [
+        {
+          "beginsWith": "the Chairman of the Council shall transmit to the Speaker of the House of Representatives, and the President of the Senate, a copy of each act passed by the Council",
+          "endsWith": "unless during such 30-day period, there has been enacted into law a joint resolution disapproving such act."
+        }
+      ],
+      "length": 1183,
+      "sha256": "68315c7e3a08d5a74583245a04fff289715747df44463f9ba6d566eddbdecf23"
+    }
   }
 ]

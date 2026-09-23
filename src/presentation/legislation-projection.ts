@@ -143,9 +143,11 @@ const ACTION_HEADLINES: Readonly<Record<LegislativeActionKind, string>> = {
   "presented-to-executive": "Sent to the governor",
   signed: "Signed",
   vetoed: "Vetoed",
+  "became-law-without-signature": "Approved without a signature",
   "override-chamber-recorded": "Chamber voted on the override",
   "override-succeeded": "Veto overridden",
   "override-failed": "Override failed",
+  "override-period-expired": "The veto stood",
   enacted: "Became law",
   "died-on-adjournment": "Died when the session ended",
 };

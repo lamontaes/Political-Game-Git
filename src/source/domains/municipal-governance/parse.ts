@@ -183,6 +183,12 @@ export interface MunicipalPackInput {
      * passage, where a source established one.
      */
     readonly introductionToPassage?: Cell;
+    /**
+     * Optional: the least time between one reading of a measure and the next,
+     * where a source established one (D.C. Code § 1-204.12(a): at least 13
+     * days intervening between each reading).
+     */
+    readonly betweenReadings?: Cell;
   };
   readonly budgetProcedure: {
     readonly fiscalYear: Cell;
