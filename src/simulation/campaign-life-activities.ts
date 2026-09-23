@@ -345,7 +345,7 @@ function journeyFor(
  * The last moment a yes can still be given to an offered hold: when the person
  * would have to set out for it, or its start when nobody travels. Accepting
  * refuses from this moment on, and the projection stops offering it here, so
- * the two cannot disagree. A cancelled journey still says when it would have
+ * the two cannot disagree. A canceled journey still says when it would have
  * left, which keeps the moment readable after a lapse released it.
  */
 function answerDeadline(
