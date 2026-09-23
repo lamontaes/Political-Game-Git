@@ -5,6 +5,7 @@ import {
   officeStaffingView,
   openOfficeStaffSearch,
   personName,
+  staffAssessmentSummary,
   type EntityId,
   type StaffableOffice,
   type World,
@@ -104,9 +105,8 @@ export function OfficeStaffHiring({
                 return (
                   <li key={candidate.personId}>
                     <p>
-                      <strong>{name}</strong>: {candidate.assessment.background}
-                      ; {candidate.assessment.strength}, but{" "}
-                      {candidate.assessment.caution}.
+                      <strong>{name}</strong>.{" "}
+                      {staffAssessmentSummary(name, candidate.assessment)}
                     </p>
                     <button
                       type="button"

@@ -465,3 +465,4 @@ export function hireOfficeStaff(
     note: `${person.givenName} ${person.familyName} now works for you as ${position.title}.`,
   };
 }
+export { staffAssessmentSummary } from "./staff-evidence";

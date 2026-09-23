@@ -210,6 +210,7 @@ export function chiefOfStaffFor(
 import {
   generateStaffCandidateHistory,
   staffAssessment,
+  staffAssessmentSummary,
   staffKnowsLegislature,
 } from "./staff-evidence";
 import type { StaffAssessment } from "./staff-evidence";
@@ -326,7 +327,7 @@ function optionsFor(
               label: `Hire ${personName(person)}`,
               effect:
                 "Becomes chief of staff, recommends choices and can take matters you hand over.",
-              tradeoff: `${assessment.background}; ${assessment.strength}, but ${assessment.caution}.`,
+              tradeoff: staffAssessmentSummary(personName(person), assessment),
               personId,
               assessment,
             },
@@ -640,7 +641,7 @@ export function staffRecommendation(
       return {
         optionKey: pick.key,
         byPersonId: chief,
-        reason: `${assessment.background}, and thinks ${pick.label.toLowerCase()} is where the office can show results.`,
+        reason: `${assessment.background} Thinks ${pick.label.toLowerCase()} is where the office can show results.`,
       };
     }
     case "budget": {
@@ -672,7 +673,7 @@ export function staffRecommendation(
           ? {
               optionKey: "bill:sign",
               byPersonId: chief,
-              reason: `${assessment.background}, and sees no reason to pick this fight.`,
+              reason: `${assessment.background} Sees no reason to pick this fight.`,
             }
           : {
               optionKey: "bill:return",
