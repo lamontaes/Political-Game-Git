@@ -1,4 +1,4 @@
-import { recordNewlyEnactedTaxPolicies } from "./tax-policy-transition";
+import { applyNewlyEnactedLawEffects } from "../simulation/enacted-law-effects";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { publishPublicEvent } from "../simulation/public-information";
 import { resolvePublicationSource } from "../simulation/public-information-integrity";
@@ -25,7 +25,9 @@ function publishNewProceedings(before: World, after: World): World {
   const existing = new Set(
     (before.history.legislativeActions ?? []).map((action) => action.id),
   );
-  let next = recordNewlyEnactedTaxPolicies(before, after);
+  // A newly enacted law changes the records it governs (a tax policy,
+  // spending authority) before its proceedings are published.
+  let next = applyNewlyEnactedLawEffects(before, after);
   for (const action of after.history.legislativeActions ?? []) {
     if (existing.has(action.id)) continue;
     const event = next.history.events.find(

@@ -4,6 +4,7 @@ import type { EntityId, World } from "../simulation";
 import {
   performVenueActivity,
   venueActivities,
+  venueTimingLabel,
 } from "../presentation/venue-activity";
 import { abandonUnperformableCommitment } from "../presentation/scheduled-activity-choice";
 
@@ -28,7 +29,7 @@ export function VenueActivityPanel({
           You have finished {completed.title} at {completed.location.label}.
         </p>
       ) : null}
-      {entries.map(({ activity, elapsedMinutes, refusal, abandonable }) => (
+      {entries.map(({ activity, refusal, abandonable }) => (
         <div key={activity.id}>
           <p>
             {activity.title} · {activity.location.label}
@@ -88,10 +89,7 @@ export function VenueActivityPanel({
               Give up on this
             </button>
           ) : null}
-          <p>
-            {refusal ??
-              `${elapsedMinutes} minutes, including any wait before it begins.`}
-          </p>
+          <p>{refusal ?? venueTimingLabel(world, activity.id)}</p>
           {abandonable ? (
             <p data-testid={`venue-activity-give-up-note-${activity.id}`}>
               Giving up takes no time and spends nothing. It clears the

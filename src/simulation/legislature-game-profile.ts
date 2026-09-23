@@ -263,6 +263,20 @@ const SETTLED_CHAMBER_SEATS: Readonly<
       note: "A House of not fewer than 375 nor more than 400 members, apportioned by statute at 400, and a Senate of twenty-four. Settled law: the counts are certain, though the apportionment statute's text was not retrieved for this entry. The rest of this legislature is the game's own.",
     },
   },
+  "US-PR": {
+    lower: 51,
+    upper: 27,
+    source: {
+      authority: "constitution",
+      citation: "P.R. Const. art. III, §§ 2-3",
+      sourceTitle:
+        "Constitution of the Commonwealth of Puerto Rico, Article III",
+      sourceUrl: "https://poderjudicial.pr/constitucion/articulo-iii/",
+      retrievedAt: null,
+      verification: "verified",
+      note: "Twenty-seven Senators (two from each of eight districts and eleven at large) and fifty-one Representatives (one from each of forty districts and eleven at large), per the research answer OCD-PUERTO-RICO-GOVERNMENT-AND-MUNICIPIOS (2026-09-22). This is the base composition; the additional minority-party members Article III, § 7 can add are not modeled. The rest of this legislature is the game's own.",
+    },
+  },
 };
 
 /** The drawn shape of one state's legislature, before it becomes a rule pack. */
@@ -507,7 +521,7 @@ export function legislatureProfilePack(
         PASSAGE_SOURCE,
       ),
       conference: unknownRule(
-        "How this legislature resolves a difference between its chambers is set by joint rules that have not been read, so conference is not modelled.",
+        "How this legislature resolves a difference between its chambers is set by joint rules that have not been read, so conference is not modeled.",
       ),
       source: PASSAGE_SOURCE,
     },
@@ -582,7 +596,7 @@ export function legislatureProfilePack(
       "This legislature has not been compiled from its state's own constitution or rules. Its structure, seat counts, veto windows and override threshold are the game's own, drawn from the range the compiled states span, and none of them is a claim about this state's law.",
       "The chamber names and bill prefixes are the ordinary American ones. A state whose lower chamber is an Assembly or a House of Delegates will say so once its instruments are compiled.",
       "Committee structure, referral among committees, hearing guarantees and report thresholds come from chamber rules that have not been read.",
-      "Conference between the chambers is not modelled.",
+      "Conference between the chambers is not modeled.",
       "How often this legislature meets and whether a pending measure carries over after adjournment have not been read; the annual session with bills dying at adjournment is the game's standing rule until they are.",
       "Whether this state overrides a veto in joint session rather than chamber by chamber has not been read; the generated pack uses the chamber-by-chamber form every compiled state but one uses.",
       ...override.unexpressed,
