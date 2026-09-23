@@ -14,6 +14,11 @@ import {
   type PressAnswerChoice,
   type World,
 } from "../simulation";
+import {
+  answerForOfficeOnDesk,
+  projectOfficeMatters,
+  type OfficeAnswerKind,
+} from "../presentation/office-response";
 import { proseDate } from "../presentation/prose-dates";
 import {
   projectPressStoriesAbout,
@@ -120,6 +125,7 @@ export function PressDeskPanel({
               <li key={matter.matterId}>
                 <MatterItem
                   world={world}
+                  personId={personId}
                   matter={matter}
                   onWorldChange={onWorldChange}
                 />
@@ -376,15 +382,37 @@ function PressRequestItem({
 
 function MatterItem({
   world,
+  personId,
   matter,
   onWorldChange,
 }: {
   readonly world: World;
+  readonly personId: EntityId;
   readonly matter: KnownMatterView;
   readonly onWorldChange: (next: World) => void;
 }) {
   const [problem, setProblem] = useState<string | null>(null);
+  const [officeLine, setOfficeLine] = useState<string | null>(null);
+  const [confirmingResignation, setConfirmingResignation] = useState(false);
   const waiting = matter.awaitingYourChoice;
+  const office = projectOfficeMatters(world, personId).find(
+    (entry) => entry.matterId === matter.matterId,
+  );
+  function answer(kind: OfficeAnswerKind) {
+    try {
+      const said = answerForOfficeOnDesk(world, {
+        personId,
+        matterId: matter.matterId,
+        kind,
+      });
+      setOfficeLine(said.line);
+      setConfirmingResignation(false);
+      setProblem(null);
+      onWorldChange(said.world);
+    } catch (error) {
+      setProblem(problemText(error));
+    }
+  }
   function respond(choice: "counsel-responds" | "no-response") {
     if (!waiting) return;
     try {
@@ -425,6 +453,65 @@ function MatterItem({
             Do not respond
           </button>
         </div>
+      ) : null}
+      {office ? (
+        <div
+          className="pg-press-desk-actions"
+          data-testid="press-desk-office-answer"
+        >
+          <p className="game-note">
+            As {office.officeTitle}, you can answer for this in public.{" "}
+            {office.note}
+          </p>
+          {office.options
+            .filter((option) => !option.endsOffice)
+            .map((option) => (
+              <button
+                key={option.kind}
+                type="button"
+                title={option.description}
+                onClick={() => answer(option.kind)}
+              >
+                {option.label}
+              </button>
+            ))}
+          {office.options
+            .filter((option) => option.endsOffice)
+            .map((option) =>
+              confirmingResignation ? (
+                <span key={option.kind}>
+                  <span className="game-note"> {option.description} </span>
+                  <button type="button" onClick={() => answer(option.kind)}>
+                    Yes, resign
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmingResignation(false)}
+                  >
+                    Keep the office
+                  </button>
+                </span>
+              ) : (
+                <button
+                  key={option.kind}
+                  type="button"
+                  title={option.description}
+                  onClick={() => setConfirmingResignation(true)}
+                >
+                  {option.label}
+                </button>
+              ),
+            )}
+        </div>
+      ) : null}
+      {officeLine ? (
+        <p
+          className="game-note"
+          role="status"
+          data-testid="press-desk-office-outcome"
+        >
+          {officeLine}
+        </p>
       ) : null}
       {problem ? (
         <p className="game-problem" role="status">
