@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-23T01:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "empty offices and term dates",
+  "priority": "P1",
+  "question": "For each of the 50 states, D.C. and Puerto Rico, answered as one set: what are the qualifications to serve in each chamber of the state legislature (for D.C., the Council; for Puerto Rico, each house of the Legislative Assembly)? Give the minimum age, the length of state residency and of district residency, U.S. citizenship and for how long, any qualified-elector or registration requirement, any felony or other bar, and the date each is tested (filing, election or taking office). Cite the constitutional or statutory provision and mark anything not found as UNKNOWN. Maine is the known case to reproduce: Me. Const. art. IV, pt. 1, §4 is understood to require a Representative to be 21, which the game currently contradicts.",
+  "questionId": "state-legislator-qualifications-in-every-unread-state",
+  "relatedQuestionIds": [
+    "governor-qualifications-in-every-state",
+    "legislature-packs-for-every-unbuilt-jurisdiction",
+    "national-range-instrument-for-non-states"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Empty offices and term dates thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/office-qualifications.generated.ts at main ab76629c (OFFICE_QUALIFICATIONS_META)",
+      "whatItDidNotSettle": "Compiled legislator qualifications exist for MA, MN, MO, NE, NJ, NV and OH only."
+    },
+    {
+      "source": "src/simulation/legislature-rule-packs.ts at main ab76629c",
+      "whatItDidNotSettle": "Legislature packs have been read for AK, IL, KY, MD, MN, MO, NE, NV and OH; their constitutions state qualifications the qualification corpus has not compiled."
+    },
+    {
+      "source": "Direct retrieval of legislature.maine.gov from this environment",
+      "whatItDidNotSettle": "Refused by the network proxy (403), so Maine's text could not be read and entered here."
+    }
+  ],
+  "title": "What it takes to serve in each state legislature, in every state the game has not read",
+  "usableAnswer": "A table with one row per jurisdiction and chamber: minimum age; state residency and its length; district residency and its length; citizenship; elector or registration requirement; other bars; the date each is tested; citations; and an evidence status per field. Rows marked UNKNOWN stay on the game's drawn range.",
+  "whyItMatters": "In about 42 states the game does not have the legislature's real qualifications, so it draws a value for each from the range seven researched states span (src/simulation/office-qualification-profile.ts standInQualification). The draw is stable per state but is not that state's law, and it is shown to the player as the office's rule. In Maine the draw asks a House candidate to be 23, which the constitution does not, so a 21- or 22-year-old eligible in law is refused in play. Any state can be wrong in the same way in either direction, and nobody can tell which from inside the game. Real law overrides the draw as soon as it is compiled; the mechanism is already there."
+}
