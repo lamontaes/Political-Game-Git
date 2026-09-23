@@ -4241,10 +4241,17 @@ export interface LegislativeEnactmentRecord {
   /** Chapter or act designation when the measure became law. */
   readonly actDesignation: string | null;
   /**
-   * When the act takes effect. Null means the rule pack did not resolve a
-   * default effective-date rule, which is not the same as taking effect now.
+   * When the act takes effect. New enactments record a concrete date; older
+   * saves may carry null and retain their original game-interval reading.
    */
   readonly effectiveAt: IsoDate | null;
+  /** New records distinguish source dates from game defaults. */
+  readonly effectiveDateBasis?: "source-default" | "game-default";
+  /** A new game's fallback stays fixed when future profiles change. */
+  readonly effectiveDateGameProfile?: {
+    readonly version: string;
+    readonly days: number;
+  };
   readonly outcomeEventId: EntityId;
 }
 

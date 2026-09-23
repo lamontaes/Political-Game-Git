@@ -1,6 +1,11 @@
 import { addDays, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
+import {
+  resolveLegislativeEffectiveDate,
+  STATUTE_EFFECTIVE_DEFAULT_DAYS,
+  STATUTE_EFFECTIVE_GAME_DEFAULT_VERSION,
+} from "./legislative-effective-date";
 import { indexOverArrays } from "./history-index";
 import {
   assertOriginationPermitted,
@@ -2709,6 +2714,11 @@ export interface RecordEnactmentInput {
   readonly measureId: EntityId;
   readonly actDesignation?: string | null;
   readonly effectiveAt?: string | null;
+  /** An expressly fictional route date, held apart from sourced defaults. */
+  readonly effectiveDateGameProfile?: {
+    readonly version: string;
+    readonly days: number;
+  };
 }
 
 /** Closes out a measure that became law. */
@@ -2738,10 +2748,23 @@ export function recordEnactment(
     "Enactment",
   );
   const pack = rulePackById(measure.rulePackId);
-  const effectiveRule = pack.enactment.defaultEffectiveRule;
-  if (input.effectiveAt === undefined && effectiveRule.kind !== "known") {
-    // The rule pack does not resolve when acts take effect; the enactment is
-    // recorded without inventing an effective date.
+  const defaultDate = resolveLegislativeEffectiveDate(pack, world.currentDate);
+  const profile = input.effectiveDateGameProfile;
+  if (profile) {
+    if (
+      !profile.version.trim() ||
+      !Number.isSafeInteger(profile.days) ||
+      profile.days < 0
+    ) {
+      throw new Error(
+        "An effective-date game profile needs a version and nonnegative whole days.",
+      );
+    }
+    if (input.effectiveAt != null) {
+      throw new Error(
+        "Give either an explicit effective date or a game profile, not both.",
+      );
+    }
   }
 
   const next = appendAction(world, {
@@ -2776,7 +2799,25 @@ export function recordEnactment(
     resolvedAt: next.currentDate,
     outcome: "enacted",
     actDesignation: input.actDesignation ?? null,
-    effectiveAt: input.effectiveAt ? makeIsoDate(input.effectiveAt) : null,
+    effectiveAt: profile
+      ? addDays(next.currentDate, profile.days)
+      : input.effectiveAt == null
+        ? defaultDate.effectiveAt
+        : makeIsoDate(input.effectiveAt),
+    ...(input.effectiveAt == null
+      ? {
+          effectiveDateBasis: profile ? "game-default" : defaultDate.kind,
+          ...(profile || defaultDate.kind === "game-default"
+            ? {
+                effectiveDateGameProfile: {
+                  version:
+                    profile?.version ?? STATUTE_EFFECTIVE_GAME_DEFAULT_VERSION,
+                  days: profile?.days ?? STATUTE_EFFECTIVE_DEFAULT_DAYS,
+                },
+              }
+            : {}),
+        }
+      : {}),
     outcomeEventId: event.id,
   };
 

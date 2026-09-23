@@ -1,6 +1,7 @@
-import { makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "./dates";
 import { eventById } from "./event-index";
 import { historyIndex } from "./history-index";
+import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import {
   assertOriginationPermitted,
   chamberByKey,
@@ -499,6 +500,49 @@ export function assertLegislationIntegrity(
     makeIsoDate(enactment.resolvedAt);
     if (enactment.effectiveAt !== null) {
       makeIsoDate(enactment.effectiveAt);
+    }
+    const basis = enactment.effectiveDateBasis;
+    const profile = enactment.effectiveDateGameProfile;
+    if (
+      basis !== undefined &&
+      basis !== "source-default" &&
+      basis !== "game-default"
+    ) {
+      throw new Error(
+        `Enactment has an unknown effective-date basis: ${enactment.id}`,
+      );
+    }
+    if (profile) {
+      if (
+        basis !== "game-default" ||
+        typeof profile.version !== "string" ||
+        !profile.version.trim() ||
+        !Number.isSafeInteger(profile.days) ||
+        profile.days < 0 ||
+        enactment.effectiveAt !== addDays(enactment.resolvedAt, profile.days)
+      ) {
+        throw new Error(
+          `Enactment game effective date does not match its profile: ${enactment.id}`,
+        );
+      }
+    } else if (basis === "game-default") {
+      throw new Error(
+        `Enactment game effective date lacks its profile: ${enactment.id}`,
+      );
+    }
+    if (basis === "source-default") {
+      const resolved = resolveLegislativeEffectiveDate(
+        rulePackById(measure.rulePackId),
+        enactment.resolvedAt,
+      );
+      if (
+        resolved.kind !== "source-default" ||
+        resolved.effectiveAt !== enactment.effectiveAt
+      ) {
+        throw new Error(
+          `Enactment source effective date does not match its rule: ${enactment.id}`,
+        );
+      }
     }
   }
 

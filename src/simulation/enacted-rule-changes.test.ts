@@ -225,9 +225,13 @@ describe("A Kentucky bill changing the House's rules", () => {
     const world = enact(scenario, filed);
     const enactment = world.history.legislativeEnactments!.at(-1)!;
     expect(enactment.outcome).toBe("enacted");
-    // Nothing in play dates an act, and Kentucky's effective-date rule is not
-    // modeled, so the blanket ninety days applies and says so.
-    expect(enactment.effectiveAt).toBeNull();
+    // This World records its declared game interval as a concrete date.
+    expect(enactment.effectiveAt).toBe(addDays(enactment.resolvedAt, 90));
+    expect(enactment.effectiveDateBasis).toBe("game-default");
+    expect(enactment.effectiveDateGameProfile).toEqual({
+      version: "ocd-statute-effective-game-default/v1",
+      days: 90,
+    });
     const effectiveAt = addDays(enactment.resolvedAt, 90);
     expect(enactedRuleChanges(world)[0]?.operativeBasis).toBe("game-default");
 
@@ -238,8 +242,7 @@ describe("A Kentucky bill changing the House's rules", () => {
       ruleScope: "state-statute",
       validFrom: effectiveAt,
     });
-    expect(seats.source?.citation).toContain("2026 Ky. Acts ch. 40");
-    expect(seats.source?.citation).toContain("default of 90 days");
+    expect(seats.source?.citation).toBe("2026 Ky. Acts ch. 40");
     expect(houseRule(world, "term.years", effectiveAt).value).toBe(4);
     // A term's end is derived from its length, so it follows.
     expect(houseRule(world, "term.expiry", effectiveAt).value).toEqual({

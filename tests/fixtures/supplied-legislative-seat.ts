@@ -20,6 +20,8 @@ import {
   recordWorkStatus,
   resolveElectionContest,
   requireLifePlace,
+  searchLifePlaces,
+  stateJurisdictionForKey,
   scheduleElectionContest,
   type CampaignRecord,
   type EntityId,
@@ -31,15 +33,25 @@ import {
  * election producer proof. Fictional ballots and an explicit terminal/seat
  * receipt are supplied; production result/work writers validate those inputs.
  */
+function seatFixturePlaceKey(stateKey: string): string {
+  const authored = (
+    {
+      "US-KY": "kentucky",
+      "US-NE": "nebraska",
+      "US-AK": "alaska",
+    } as Readonly<Record<string, string>>
+  )[stateKey];
+  if (authored) return authored;
+  const locality = searchLifePlaces("", 1, {
+    stateJurisdictionKey: stateKey,
+    scope: "locality",
+  })[0];
+  if (!locality) throw new Error(`No playable locality in ${stateKey}.`);
+  return locality.key;
+}
+
 export function suppliedLegislativeSeat(stateKey: string, chamberKey: string) {
-  const placeKey =
-    (
-      {
-        "US-KY": "kentucky",
-        "US-NE": "nebraska",
-        "US-AK": "alaska",
-      } as Readonly<Record<string, string>>
-    )[stateKey] ?? `state:${stateKey}`;
+  const placeKey = seatFixturePlaceKey(stateKey);
   const built = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     seed: `s30-s-supplied:${stateKey}:${chamberKey}`,
@@ -65,15 +77,12 @@ export function addSuppliedLegislativeSeat(
   chamberKey: string,
   namespace = "s30-s",
 ) {
-  const placeKey =
-    (
-      {
-        "US-KY": "kentucky",
-        "US-NE": "nebraska",
-        "US-AK": "alaska",
-      } as Readonly<Record<string, string>>
-    )[stateKey] ?? `state:${stateKey}`;
+  const placeKey = seatFixturePlaceKey(stateKey);
   const place = requireLifePlace(placeKey);
+  const governingJurisdiction = stateJurisdictionForKey(stateKey);
+  if (!governingJurisdiction)
+    throw new Error(`No governing state identity for ${stateKey}.`);
+  const governingJurisdictionId = governingJurisdiction.id;
   const pack = candidacyPackForJurisdiction(place.context.jurisdiction.id)!;
   const office = pack.offices.find(
     (entry) =>
@@ -81,7 +90,20 @@ export function addSuppliedLegislativeSeat(
   )!;
   if (!office)
     throw new Error(`No actual office for ${stateKey}/${chamberKey}.`);
-  let world = ensureCampaignSupportMetric(initialWorld);
+  let world = initialWorld.jurisdictions[governingJurisdictionId]
+    ? initialWorld
+    : {
+        ...initialWorld,
+        jurisdictions: {
+          ...initialWorld.jurisdictions,
+          [governingJurisdictionId]: governingJurisdiction,
+        },
+        jurisdictionOrder: [
+          ...initialWorld.jurisdictionOrder,
+          governingJurisdictionId,
+        ],
+      };
+  world = ensureCampaignSupportMetric(world);
   const filedAt = world.currentDate;
   world = recordWorldEvent(world, {
     stableKey: `${namespace}:supplied-filing`,
@@ -308,7 +330,7 @@ export function addSuppliedLegislativeSeat(
     initialProfile: {
       name: pack.displayName,
       classification: "sector:government",
-      locationJurisdictionId: place.context.jurisdiction.id,
+      locationJurisdictionId: governingJurisdictionId,
     },
   });
   const organizationId = world.history.organizations.at(-1)!.id;
@@ -326,14 +348,14 @@ export function addSuppliedLegislativeSeat(
     initialRole: {
       title: office.office.title,
       occupationClassification: "service:elected-legislator",
-      locationJurisdictionId: place.context.jurisdiction.id,
+      locationJurisdictionId: governingJurisdictionId,
       timeDemand: {
         expectedWeekly: { minimumHours: 10, maximumHours: 45 },
         attention: "high",
         concurrency: "partly-concurrent",
         scheduleRigidity: "mixed",
         interruptibility: "limited",
-        locationJurisdictionId: place.context.jurisdiction.id,
+        locationJurisdictionId: governingJurisdictionId,
       },
     },
   });
@@ -341,7 +363,7 @@ export function addSuppliedLegislativeSeat(
   return {
     world,
     personId,
-    jurisdictionId: place.context.jurisdiction.id,
+    jurisdictionId: governingJurisdictionId,
     packId: pack.legislativeRulePackId,
     fixtureKind: "supplied-result-and-seat" as const,
   };
