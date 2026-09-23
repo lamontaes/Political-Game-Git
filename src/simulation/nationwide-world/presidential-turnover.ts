@@ -129,12 +129,13 @@ import type {
  *   President (U.S. Const. amend. XII). The procedure is law; the votes are a
  *   PLACEHOLDER: each member votes for their own party's nominee, a
  *   delegation votes for whichever nominee most of its voting members chose,
- *   and an evenly divided delegation casts no vote. Filed with
- *   `how-a-presidential-election-plays-out`. The House votes once; a
- *   vacant Senate seat counts as a vote for no one: a majority of the whole
- *   number is 51 whatever the vacancies (research question). A
- *   deadlocked House leaves the presidency unfilled, because the Vice
- *   President-elect acting as President (amend. XX, § 3) is NOT MODELED.
+ *   and an evenly divided delegation casts no vote. A vacant Senate seat
+ *   counts as a vote for no one, so a majority is 51 whatever the
+ *   vacancies. Both are filed with
+ *   `when-the-presidency-and-vice-presidency-are-both-empty`. Each body
+ *   votes once. A deadlocked House leaves the presidency unfilled, because
+ *   the Vice President-elect acting as President (amend. XX, § 3) is NOT
+ *   MODELED.
  * - A President-elect who dies before the inauguration (Twentieth Amendment,
  *   § 3): the term is not entered.
  * - Natural-born citizenship and fourteen years' residence: every nominee is

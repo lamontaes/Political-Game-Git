@@ -383,6 +383,7 @@ export function presidentDesk(
       measure.id,
       decision.action,
       decision.rationale,
+      president.personId,
     ),
     measure.id,
   );
