@@ -1,0 +1,30 @@
+{
+  "candidateAnswers": [
+    {
+      "label": "U.S. Department of Labor state table",
+      "position": "Use the Wage and Hour Division's consolidated state minimum wage table, plus the Puerto Rico minimum wage act, and file local minimums from each city's ordinance.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T04:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Jobs (job market), with Laws that change the world",
+  "notes": [
+    "Once filed, a minimum wage becomes a law the player could change, so Laws that change the world may want it as policy state rather than a constant."
+  ],
+  "priority": "P2",
+  "question": "Job offers are written no lower than the federal minimum of $7.25 an hour. The game has no state, territory or city minimum on file, so an offer in Nevada or Washington could fall below the law there. What is the current minimum wage in each of the 50 states, D.C. and Puerto Rico, with the date each took effect and any scheduled increase? Which cities and counties set a higher local minimum? Are there lower rates for tipped work or young workers that an ordinary listing should respect?",
+  "questionId": "minimum-wages-by-place",
+  "relatedQuestionIds": ["job-market-calibration"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Jobs thread, for lamontae (owner)",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation (search for minimum wage)",
+      "whatItDidNotSettle": "No minimum-wage record exists in the simulation."
+    }
+  ],
+  "title": "The minimum wage in each state, D.C., Puerto Rico and the local places that set their own",
+  "usableAnswer": "A table by jurisdiction: rate, effective date, scheduled changes, tipped rate, and source link. Local minimums as a separate list.",
+  "whyItMatters": "The owner's answer says wage rules still constrain generated offers where established. Without them the floor is federal everywhere."
+}

@@ -3,6 +3,7 @@ import { proseDate } from "../presentation/prose-dates";
 import { formatMinute } from "../presentation/player-calendar";
 import { useState } from "react";
 import { CareerPathsPanel } from "./CareerPathsPanel";
+import { JobListingsPanel } from "./JobListingsPanel";
 import { EducationOptionsPanel } from "./EducationOptionsPanel";
 import type {
   EntityId,
@@ -141,11 +142,20 @@ export function LifePathsPanel({
         </button>
       </div>
       <div hidden={browse !== "work"}>
-        <CareerPathsPanel
-          world={world}
-          onWorldChange={onWorldChange}
-          transitionHandlers={handlers}
-        />
+        <JobListingsPanel world={world} onWorldChange={onWorldChange} />
+        {/*
+          The three authored jobs every town used to show. Kept, folded away,
+          so a life already working one still reaches it; the town's own
+          listings above are the Jobs screen now.
+        */}
+        <details>
+          <summary>Other work</summary>
+          <CareerPathsPanel
+            world={world}
+            onWorldChange={onWorldChange}
+            transitionHandlers={handlers}
+          />
+        </details>
       </div>
       <div hidden={browse !== "study"}>
         <EducationOptionsPanel world={world} onWorldChange={onWorldChange} />

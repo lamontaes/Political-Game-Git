@@ -30,6 +30,11 @@ import type {
   TaxAssessmentRecord,
   TaxCollectionRecord,
 } from "./tax-types";
+import type {
+  JobApplicationRecord,
+  JobApplicationStepRecord,
+  JobOpeningRecord,
+} from "./job-market-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
 declare const currencyCodeBrand: unique symbol;
@@ -60,6 +65,9 @@ export type EntityKind =
   | "tax-base"
   | "tax-assessment"
   | "tax-collection"
+  | "job-opening"
+  | "job-application"
+  | "job-application-step"
   | "appraisal"
   | "belief"
   | "causal-mechanism-definition"
@@ -3753,6 +3761,10 @@ export interface HistoryStore {
   readonly taxBases?: readonly TaxBaseRecord[];
   readonly taxAssessments?: readonly TaxAssessmentRecord[];
   readonly taxCollections?: readonly TaxCollectionRecord[];
+  /** Optional: job openings and applications; see `job-market.ts`. */
+  readonly jobOpenings?: readonly JobOpeningRecord[];
+  readonly jobApplications?: readonly JobApplicationRecord[];
+  readonly jobApplicationSteps?: readonly JobApplicationStepRecord[];
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
   readonly organizationProfiles: readonly OrganizationProfileRecord[];
