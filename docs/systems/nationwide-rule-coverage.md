@@ -10,21 +10,21 @@ Rule admission only. An admitted field is a compiled, dated rule the resolver wi
 - States where standing for at least one legislative seat is admitted: 3.
 - States where a legislative term rule is admitted: 1.
 - General-purpose governments in the catalog: 38704.
-- Governments with at least one admitted local action: 3.
+- Governments with at least one admitted local action: 4.
 - Loaded municipal records: 144; mapped to a catalog unit: 65.
 
 Missing mandatory fields for passing an ordinance (first missing field per government):
 
 - `body.seats`: 38699
-- `ordinance.introductionToPassage`: 2
-- `ordinance.passage`: 2
+- `ordinance.introductionToPassage`: 3
+- `ordinance.passage`: 1
 
 ## By unit type
 
 | Type | Units | Enacted instrument compiled | Introduce ordinance | Pass ordinance | Appropriation vote rule | Pass appropriation | Inherited default only | Identity only |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | county | 3031 | 0 | 0 | 0 | 95 | 0 | 95 | 2936 |
-| municipality | 19489 | 5 | 3 | 1 | 227 | 2 | 225 | 19259 |
+| municipality | 19489 | 5 | 4 | 1 | 227 | 2 | 225 | 19259 |
 | township | 16184 | 0 | 0 | 0 | 0 | 0 | 0 | 16184 |
 
 ## By state
@@ -89,6 +89,7 @@ Ordinary initialization, office/contest producers and save continuity are not me
 
 ## Governments with an admitted local route
 
+- CITY OF WASHINGTON DC (DC, `gus2025:124214`): introduce-ordinance
 - CITY OF CHARLOTTESVILLE (VA, `gus2025:194177`): introduce-ordinance, pass-ordinance, pass-appropriation
 - CITY OF RICHMOND (VA, `gus2025:194178`): introduce-ordinance, pass-appropriation
 - CITY OF CARSON CITY (NV, `gus2025:194943`): introduce-ordinance
