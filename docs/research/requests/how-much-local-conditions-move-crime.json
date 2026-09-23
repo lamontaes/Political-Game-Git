@@ -1,0 +1,19 @@
+{
+  "filedAt": "2026-09-23T04:15:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Local crime",
+  "priority": "P1",
+  "question": "How much do local conditions move the rates of assault, robbery, burglary and vandalism in an American place? For each cause, what is the measured size of the effect: unemployment (per percentage point), poverty rate and the share of residents in deep poverty or homelessness, income inequality, police officers per 1,000 residents and police spending, incarceration and sentencing changes, and social spending such as housing support or summer jobs? How quickly does each effect show up after the cause changes, and does it differ between violent and property offenses?",
+  "questionId": "how-much-local-conditions-move-crime",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Local crime thread; lamontae said on 2026-09-22 at 11:46 p.m. ET that crime needs real causes and real effects, and asked for the sizes to go to ChatGPT",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crime/causes.ts UNRESEARCHED_UNEMPLOYMENT_EFFECT and CRIME_CAUSE_SEAMS",
+      "whatItDidNotSettle": "Unemployment already moves crime at a placeholder size (1 to 3% per point above 4%, depending on the offense). Poverty, policing and enacted laws are listed as causes the game cannot read yet, and none has a researched size."
+    }
+  ],
+  "title": "How much unemployment, poverty, policing and policy move crime in a place",
+  "usableAnswer": "A table with one row per cause and one column per offense. Each cell holds the effect size in a form the game can apply, such as the percent change in the offense rate per unit of the cause, with its lag in months, its source, and a confidence note. Say which effects are well established and which are contested. Where no measured figure exists for a cause, say so rather than estimate.",
+  "whyItMatters": "Crime in the game should rise and fall for reasons. So far only unemployment moves it, and at a made-up size. These answers set how strongly the state of the economy, a town's poverty, its police and the laws the player passes change crime."
+}

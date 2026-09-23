@@ -30,6 +30,7 @@ import {
   VICTIM_KNOWS,
   type CrimeOffense,
 } from "./contract";
+import { crimeRateMultiplier } from "./causes";
 
 /**
  * Ordinary local crime, as background life.
@@ -147,6 +148,7 @@ export function sampleMonthlyCrime(
     ageOnDate(world.people[personId]!.birthDate, monthStart) >=
     UNRESEARCHED_LOCAL_CRIME.minimumVictimAge;
   const sampled: SampledCrime[] = [];
+  const multiplier = causeMultipliers(world, monthStart);
   const draw = (
     offense: CrimeOffense,
     targetId: EntityId,
@@ -155,7 +157,8 @@ export function sampleMonthlyCrime(
   ) => {
     const rule = crimeRule(offense);
     const rng = stream(world, monthKeyOf(monthStart), offense, targetId);
-    if (rng.next() >= monthlyChance(rule.annualRate)) return;
+    const rate = rule.annualRate * multiplier(jurisdictionId, offense);
+    if (rng.next() >= monthlyChance(rate)) return;
     const day = rng.integer(1, days + 1);
     sampled.push({
       offense,
@@ -246,13 +249,20 @@ export function sampleTownPoliceLog(
 ): readonly LoggedTownCrime[] {
   const monthEnd = addDays(firstOfNextMonth(monthStart), -1);
   const days = Number(monthEnd.slice(8, 10));
-  const weights = UNRESEARCHED_LOCAL_CRIME.offenses.map((rule) => ({
+  const multiplier = causeMultipliers(world, monthStart);
+  const baseWeights = UNRESEARCHED_LOCAL_CRIME.offenses.map((rule) => ({
     offense: rule.offense,
     weight: rule.annualRate * rule.reportedShare,
   }));
-  const total = weights.reduce((sum, row) => sum + row.weight, 0);
+  const baseTotal = baseWeights.reduce((sum, row) => sum + row.weight, 0);
   const logged: LoggedTownCrime[] = [];
   for (const jurisdictionId of townsWithResidents(world)) {
+    // The causes move each offense; the log's size moves with their mix.
+    const weights = baseWeights.map((row) => ({
+      offense: row.offense,
+      weight: row.weight * multiplier(jurisdictionId, row.offense),
+    }));
+    const total = weights.reduce((sum, row) => sum + row.weight, 0);
     const rng = stream(
       world,
       "town-log",
@@ -261,7 +271,7 @@ export function sampleTownPoliceLog(
     );
     const count = poisson(
       rng.fork("count"),
-      UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth,
+      (UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * total) / baseTotal,
     );
     for (let index = 0; index < count; index += 1) {
       const draw = rng.fork(`report:${index}`);
@@ -310,6 +320,28 @@ function recordTownLogEntry(
     summary: `Police in ${placeName(entry.jurisdictionId)} took a report of ${REPORTED_OFFENSE_PHRASE[entry.offense]}.`,
     context: EMPTY_CONTEXT,
   });
+}
+
+/** Cause multipliers for one month, read once per place and offense. */
+function causeMultipliers(
+  world: World,
+  monthStart: IsoDate,
+): (jurisdictionId: EntityId, offense: CrimeOffense) => number {
+  const cache = new Map<string, number>();
+  return (jurisdictionId, offense) => {
+    const key = `${jurisdictionId}|${offense}`;
+    let value = cache.get(key);
+    if (value === undefined) {
+      value = crimeRateMultiplier(
+        world,
+        jurisdictionId,
+        offense,
+        monthStart,
+      ).multiplier;
+      cache.set(key, value);
+    }
+    return value;
+  };
 }
 
 function incidentKey(monthStart: IsoDate, crime: SampledCrime): string {

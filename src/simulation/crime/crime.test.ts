@@ -8,7 +8,11 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
+import { causesInPeriod } from "../pressure/causes";
 import {
+  CRIME_CAUSE_SEAMS,
+  crimeRateMultiplier,
+  UNRESEARCHED_UNEMPLOYMENT_EFFECT,
   CRIME_EVENT_TYPES,
   CRIME_SAMPLE_TRANSITION_KEY,
   crimeIncidents,
@@ -98,6 +102,12 @@ describe("ordinary local crime", () => {
           arrests: arrests.length,
           storyLeads: leads.length,
           homeTownFigures: figures,
+          burglaryMultiplierAtEnd: crimeRateMultiplier(
+            later,
+            town,
+            "burglary",
+            later.currentDate,
+          ),
           sample: reported.slice(0, 3).map((event) => event.summary),
         }),
       );
@@ -125,9 +135,53 @@ describe("ordinary local crime", () => {
           ).toBe(true);
         }
       }
+      // Reported crime feeds fear and the pressure to leave its state.
+      const crimeContributions = [
+        ...causesInPeriod(
+          later,
+          life.world.currentDate,
+          later.currentDate,
+        ).values(),
+      ]
+        .flat()
+        .filter((row) => row.causeKey.startsWith("crime:"));
+      expect(crimeContributions.length).toBe(reported.length * 2);
       // Nothing is dated before the life was opened.
       for (const event of incidents) {
         expect(event.occurredAt >= life.world.currentDate).toBe(true);
+      }
+    },
+    LONG,
+  );
+
+  it(
+    "recorded unemployment moves crime, and every unread cause says why",
+    () => {
+      const life = open("local-crime-causes");
+      const town = life.world.people[life.playerPersonId]!.homeJurisdictionId;
+      const reading = crimeRateMultiplier(
+        life.world,
+        town,
+        "burglary",
+        life.world.currentDate,
+      );
+      const unemployment = reading.causes.find(
+        (cause) => cause.key === "cause-unemployment",
+      );
+      if (unemployment) {
+        expect(reading.multiplier).toBeGreaterThanOrEqual(
+          UNRESEARCHED_UNEMPLOYMENT_EFFECT.floor,
+        );
+        expect(reading.multiplier).toBeLessThanOrEqual(
+          UNRESEARCHED_UNEMPLOYMENT_EFFECT.ceiling,
+        );
+      } else {
+        // No figure recorded is not a figure of zero: the base rate applies.
+        expect(reading.multiplier).toBe(1);
+      }
+      console.info(JSON.stringify({ openingReading: reading }));
+      for (const seam of CRIME_CAUSE_SEAMS) {
+        expect(seam.rule.length).toBeGreaterThan(0);
       }
     },
     LONG,

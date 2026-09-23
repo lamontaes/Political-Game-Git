@@ -5,8 +5,13 @@
  * the reason.
  */
 
+import type { CrimeOffense } from "../crime/contract";
+import { CRIME_EVENT_TYPES, offenseOf } from "../crime/producer";
 import type { HazardMagnitude } from "../crisis/types";
-import { stateKeyForJurisdiction } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
+} from "../life-places";
 import type { EntityId, IsoDate, World } from "../types";
 import type { PressureContribution } from "./contract";
 
@@ -30,6 +35,18 @@ export const BLANKET_HAZARD_PRESSURE: Readonly<
  * arrive. Not researched.
  */
 export const BLANKET_TAX_RATE_PRESSURE = 5;
+
+/**
+ * BLANKET: how much one reported offense adds to fear and to the pressure to
+ * leave its state. Violent offenses count double. Not researched; filed as
+ * `what-crime-does-to-a-town-and-its-people`.
+ */
+export const BLANKET_CRIME_PRESSURE: Readonly<Record<CrimeOffense, number>> = {
+  assault: 0.002,
+  robbery: 0.002,
+  burglary: 0.001,
+  vandalism: 0.001,
+};
 
 /** Contributions by state key for one quarter, `periodStart` to `periodEnd` inclusive. */
 export function causesInPeriod(
@@ -88,6 +105,22 @@ export function causesInPeriod(
       amount: Math.abs(change) * BLANKET_TAX_RATE_PRESSURE,
       sourceId: policy.id,
     });
+  }
+  // Reported crime: what the public police log shows, not what went unreported.
+  for (const event of world.history.events) {
+    if (event.type !== CRIME_EVENT_TYPES.reported || !within(event.occurredAt))
+      continue;
+    const offense = offenseOf(event);
+    // A town is not its state: read the state the town sits in.
+    const stateKey = event.jurisdictionId
+      ? (lifePlaceByJurisdictionId(event.jurisdictionId)
+          ?.stateJurisdictionKey ?? null)
+      : null;
+    if (!offense || !stateKey) continue;
+    const amount = BLANKET_CRIME_PRESSURE[offense];
+    const causeKey = `crime:${offense}`;
+    add(stateKey, { causeKey, kind: "fear", amount, sourceId: event.id });
+    add(stateKey, { causeKey, kind: "leave", amount, sourceId: event.id });
   }
   return byState;
 }

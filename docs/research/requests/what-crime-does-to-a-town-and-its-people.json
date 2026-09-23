@@ -1,0 +1,19 @@
+{
+  "filedAt": "2026-09-23T04:15:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Local crime",
+  "priority": "P1",
+  "question": "What does crime do to an American place and to the people it happens to? For a place, how much does a rise in reported crime change how many people move out and how many move in, business openings and closures (especially retail and restaurants), and home values, and how long does each effect last? For a victim, how does being a victim of assault, robbery, burglary or vandalism change their trust in neighbors and police, their fear, whether they move, their work and health, and their political views and turnout, and for how long?",
+  "questionId": "what-crime-does-to-a-town-and-its-people",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Local crime thread; lamontae said on 2026-09-22 at 11:46 p.m. ET that crime needs real effects, reaching votes, moving, business and people's lives",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/pressure/causes.ts BLANKET_CRIME_PRESSURE",
+      "whatItDidNotSettle": "Each reported offense already adds fear and pressure to leave its state, at a placeholder size (0.002 for assault and robbery, 0.001 for burglary and vandalism). Nothing moves business, home values or a victim's life, because no one has said by how much."
+    }
+  ],
+  "title": "What crime does to a town's movers, businesses and home values, and to its victims",
+  "usableAnswer": "Two short tables with sources. The first lists effects on a place (out-migration, in-migration, business openings and closures, home values), each with its size per unit of reported crime, its lag and its duration. The second lists effects on a victim (trust, fear, moving, work, health, political views, turnout) by offense, each with its size and duration. Where evidence is thin, say so.",
+  "whyItMatters": "Crime now pushes people to leave a state, at a made-up size, and does nothing else. The owner wants it to reach where people live, what businesses do and how victims' lives change. Research answers replace the placeholders so the size comes from evidence, not invention."
+}
