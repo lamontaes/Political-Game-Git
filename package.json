@@ -54,6 +54,7 @@
     "format": "prettier --check .",
     "format:write": "prettier --write .",
     "research:request": "node --import tsx scripts/research/cli-research-request.ts",
+    "connectivity:links": "node --import tsx scripts/connectivity/cli-producer-links.ts",
     "connectivity:map": "node --import tsx scripts/connectivity/cli-connectivity-map.ts",
     "intake:texas-senate": "node --import tsx scripts/art-asset-factory/cli-intake.ts",
     "validate:art": "node --import tsx scripts/art-asset-factory/cli-validate.ts",
