@@ -562,23 +562,6 @@ export function incidentsByDefinitionAt(
   });
 }
 
-export function incidentsByKindAt(
-  world: World,
-  incidentKind: IncidentRecord["incidentKind"],
-  scope: MetricScope,
-  cutoff: HistoricalCutoff,
-): readonly IncidentRecord[] {
-  validateCutoff(world, cutoff);
-  return world.history.incidents.flatMap((incident) => {
-    const availableIncident = incidentAt(world, incident.id, cutoff);
-    return incident.incidentKind === incidentKind &&
-      sameScope(incident.scope, scope) &&
-      availableIncident
-      ? [availableIncident]
-      : [];
-  });
-}
-
 export function incidentCausalRoot(
   world: World,
   incidentId: IncidentRecord["id"],

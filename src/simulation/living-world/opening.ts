@@ -18,6 +18,7 @@ import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   personName,
 } from "../people";
+import { birthCohortGivenName } from "../given-name-cohorts";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
 import type { EntityId, IsoDate, LifeRecordProvenance, World } from "../types";
@@ -152,8 +153,12 @@ function pad(value: number): string {
   return String(value).padStart(2, "0");
 }
 
-/** Additive replay policy; absent means the original unrestricted name draw. */
-export type LivingWorldMemberNameVersion = "identity-v1";
+/**
+ * Additive replay policy; absent means the original unrestricted name draw.
+ * `identity-v1` draws each member's given name to agree with their gender;
+ * `cohort-v1` does that and then follows the year they were born.
+ */
+export type LivingWorldMemberNameVersion = "identity-v1" | "cohort-v1";
 
 /**
  * Establishes a new save's public national world once: both chambers of
@@ -390,17 +395,26 @@ export function ensureLivingWorldOpening(
     // changes only the given-name draw; no stream, writer key or person ID moves.
     const identity = generatePersonIdentity(seatRng.fork("identity"));
     const name =
-      memberNameVersion === "identity-v1"
-        ? drawCanonicalNameForGender(
+      memberNameVersion === undefined
+        ? drawCanonicalName(seatRng.fork("name"))
+        : drawCanonicalNameForGender(
             seatRng.fork("name"),
             identity.gender,
             undefined,
             DISTINCT_GIVEN_NAME_GENERATION_VERSION,
-          )
-        : drawCanonicalName(seatRng.fork("name"));
+          );
     memberInputs.push({
       stableKey: plan.memberKey,
       ...name,
+      ...(memberNameVersion === "cohort-v1"
+        ? {
+            givenName: birthCohortGivenName(world.seed, plan.memberKey, {
+              ...name,
+              birthDate: plan.birthDate,
+              gender: identity.gender,
+            }),
+          }
+        : {}),
       identity,
       birthDate: plan.birthDate,
       homeJurisdictionId: stateJurisdictionForKey(`US-${plan.seat.stateUsps}`)!

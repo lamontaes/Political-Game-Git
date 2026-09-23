@@ -18,12 +18,19 @@ import {
   pressLedgerReviewHandler,
   produceCampaignFinanceScrutiny,
 } from "./matters";
-import { ensurePressLocalCoverage, ensurePressMediaOpening } from "./outlets";
+import {
+  ensurePressHomeCoverage,
+  ensurePressLocalCoverage,
+  ensurePressMediaOpening,
+} from "./outlets";
 import {
   ensureMediaOwnership,
   PRESS_OWNER_REVIEW_TRANSITION_KEY,
   pressOwnerReviewHandler,
 } from "./ownership";
+import { applyPendingDisasterHandlingReactions } from "../crisis/handling-reactions";
+import { produceCaughtLyingLeads } from "./caught-lying";
+import { produceCampaignSpendingReports } from "./spending-reports";
 import { ensurePressExposureCoverage } from "./views";
 import {
   PRESS_PROCEEDING_TRANSITION_KEY,
@@ -32,7 +39,8 @@ import {
 
 /**
  * The weekly desk sweep also lets a rival decide about a complaint and
- * materializes coverage for newly exposed state politics, and gives any new
+ * keeps the player's own town and state covered, materializes coverage for
+ * newly exposed state politics, and gives any new
  * outlet its founding owner, before the outlets look at the week's public
  * record.
  */
@@ -41,7 +49,17 @@ function pressWeeklyHandler(
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
   const prepared = ensureMediaOwnership(
-    ensurePressExposureCoverage(produceCampaignFinanceScrutiny(world)),
+    ensurePressExposureCoverage(
+      ensurePressHomeCoverage(
+        produceCaughtLyingLeads(
+          produceCampaignFinanceScrutiny(
+            produceCampaignSpendingReports(
+              applyPendingDisasterHandlingReactions(world),
+            ),
+          ),
+        ),
+      ),
+    ),
   );
   return pressDeskSweepHandler(prepared, dueItem);
 }

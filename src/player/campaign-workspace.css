@@ -301,7 +301,43 @@
 
 .game-campaign-life-requests {
   display: grid;
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.6rem;
+}
+
+.game-campaign-life-requests > h4 {
+  grid-column: 1 / -1;
+}
+
+.game-campaign-life-chapter {
+  display: grid;
+  gap: 0.45rem;
+  border: 1px solid rgba(200, 212, 223, 0.18);
+  border-radius: 0.45rem;
+  padding: 0.6rem 0.7rem;
+  background: rgba(8, 14, 22, 0.35);
+}
+
+.game-campaign-life-chapter-name {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.game-campaign-life-chapter-name small {
+  color: var(--pg-ivory-dim, rgba(225, 232, 238, 0.76));
+  font-size: 0.8rem;
+}
+
+.game-campaign-life-actions--menu {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+}
+
+.game-campaign-life-actions--menu > button {
+  justify-content: flex-start;
+  text-align: left;
+  width: 100%;
 }
 
 .game-campaign-life button:focus-visible,
@@ -372,4 +408,26 @@
 /* Not the primary route in, so it does not compete for the eye. */
 .game-campaign-planning-slot[data-primary="false"] {
   padding-inline-start: 0.75rem;
+}
+
+.game-campaign-spending details {
+  overflow-x: auto;
+  margin: 0.25rem 0;
+}
+
+.game-campaign-spending table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.game-campaign-spending th,
+.game-campaign-spending td {
+  padding: 0.2rem 0.5rem;
+  text-align: left;
+}
+
+.game-campaign-spending td:last-child,
+.game-campaign-spending th:last-child {
+  text-align: right;
 }

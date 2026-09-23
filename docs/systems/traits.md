@@ -489,6 +489,12 @@ deliberate: a test arranging a person's temperament is not modeling a change,
 and making it pretend to be one would have every fixture inventing a force it
 does not mean.
 
+`attemptTraitChange` takes one of the five by its bare name or any loaded trait
+by its qualified key (`pack:key`). The five keep their own reader and writer, so
+every record they have produced is produced identically; any other trait is
+read and written on its own pack's scale, and a value the scale declares no step
+for is refused rather than rounded.
+
 ### An unestablished trait does not move
 
 `traitResistance` returns `unestablished` for a person with no record, and
@@ -576,7 +582,10 @@ the trait set itself and the pace of personality change.
 Said plainly, with what the next step would be.
 
 **No file discovery.** Nothing scans the disk. The build's own packs are a list
-in `trait-registry.ts`; a life's installed content packs may each carry a
+in `compiled-trait-packs.ts`, the one place a new one is added: a pack listed
+there is seeded for everybody when it says it is seeded, shown on the person
+card once written, argues in the decisions its effects name and can be moved by
+events, with no other code naming it; a life's installed content packs may each carry a
 `traits` block in this same shape, imported through the content pack screen and
 saved with the life (`installed-trait-packs.ts`, `traitRegistryFor`). A mod's
 traits are qualified by its content pack id, a malformed row is skipped and
@@ -615,3 +624,30 @@ trait's `scopes`. That refusal is the feature. Whether reliability in ordinary
 life is the same thing as reliability at a bargaining table is a real question,
 and the seam makes somebody answer it in the trait's own declaration instead of
 answering it by accident in a call site.
+
+## The personality catalog (added 2026-09-22)
+
+The researched catalog (`docs/research/chatgpt-answers/2026-09-22-depth2/personality-scale-dispositions.json`,
+DEPTH2 answer A01) maps 121 words to 102 scales: 18 two-ended and 84 one-sided.
+Four of them (deliberation, reliability, conflict, risk) mean what the five
+already mean and are bound to them rather than declared again. The other 98 are
+the `personality-v1` pack in `src/simulation/personality-catalogue.ts`, built
+from `personality-catalogue.generated.ts`, which
+`scripts/traits/personality-catalogue.ts` regenerates from the received file.
+
+- **One-sided scales** declare `sides: "one"`. The loader refuses a negative
+  seed, `encodeRegisteredTrait` refuses a negative value, and a low-pole record
+  reads as unrecorded. The unmarked end is the balanced expression.
+- **Sparse.** The pack is `conferred-only`, so the generic seeder draws
+  nothing. `seedSalientQualities` in `people-traits.ts` writes one or two
+  qualities per adult (18 and over), family first and then a scale inside it,
+  and never for the controlled character. Everything else stays unrecorded,
+  which is unknown, not unmarked.
+- **Movability** comes from the scale's tuning profile. The numbers are
+  private calibration ordered by the research's relative rules; they were not
+  researched.
+- **No effects yet.** The profile scopes are the research's intended readers,
+  not decisions that exist. A lean is admitted only against a declared decision.
+- **Its wording is part of every save.** The save check compares stored
+  definitions with the pack field for field, so revised research text goes in a
+  new pack version rather than regenerating `personality-v1` in place.

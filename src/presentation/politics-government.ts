@@ -6,9 +6,12 @@ import {
   stateJurisdictionForKey,
 } from "../simulation/life-places";
 import { governmentUnitsForPlace } from "../simulation/government-units";
+import type { GovernmentUnitIdentity } from "../simulation/government-units";
+import { organizationParticipationStateAt } from "../simulation/life-queries";
 import {
   homeLocalGovernmentUnits,
   localGovernmentDisplayName,
+  localGovernmentOrganizationKey,
 } from "../simulation/nationwide-world/local-governments";
 import {
   municipalGovernmentForLifePlace,
@@ -139,6 +142,39 @@ export interface GovernmentRecordLink {
   readonly key: string;
   readonly label: string;
   readonly measureId: EntityId;
+}
+
+/** People with an active seat on an unread town's governing body. */
+function localGoverningBodyMembers(
+  world: World,
+  unit: GovernmentUnitIdentity,
+): readonly EntityId[] {
+  const organization = world.history.organizations.find(
+    (entry) => entry.stableKey === localGovernmentOrganizationKey(unit),
+  );
+  if (!organization) return [];
+  return [
+    ...new Set(
+      world.history.organizationParticipations
+        .filter(
+          (participation) =>
+            participation.organizationId === organization.id &&
+            participation.startedAt <= world.currentDate &&
+            world.people[participation.personId] !== undefined,
+        )
+        .filter((participation) => {
+          const state = organizationParticipationStateAt(
+            world,
+            participation.id,
+          );
+          return (
+            state?.status === "active" &&
+            state.roleKind === "leader:municipal-member"
+          );
+        })
+        .map((participation) => participation.personId),
+    ),
+  ];
 }
 
 export interface GovernmentEntry {
@@ -348,13 +384,23 @@ function localBranches(
   const localGovernments: GovernmentEntry[] = branches.length
     ? []
     : (place.sourceGeoid ? governmentUnitsForPlace(place.sourceGeoid) : []).map(
-        (unit) => ({
-          key: `unit:${unit.id}`,
-          title: localGovernmentDisplayName(unit),
-          holderName: null,
-          holderPersonId: null,
-          detail: "Government details are limited.",
-        }),
+        (unit) => {
+          // Whoever the save has seated on this town's governing body. The
+          // town's own government has not been read, but a member elected to
+          // it is a recorded fact and is named, not left off the list.
+          const members = localGoverningBodyMembers(world, unit);
+          return {
+            key: `unit:${unit.id}`,
+            title: localGovernmentDisplayName(unit),
+            holderName: members.length
+              ? members.map((id) => personName(world.people[id]!)).join(", ")
+              : null,
+            holderPersonId: members.length === 1 ? members[0]! : null,
+            detail: members.length
+              ? `${members.length === 1 ? "Member" : "Members"} of the governing body. Other government details are limited.`
+              : "Government details are limited.",
+          };
+        },
       );
   return {
     governs: government?.displayName ?? place.displayName,

@@ -2,10 +2,12 @@ import { useMemo, useState } from "react";
 
 import "./campaign-workspace.css";
 import { projectCampaignOffices } from "../presentation/campaign-office-discovery";
+import { displayMoney } from "../presentation/money-display";
 
 import {
   campaignElectionDate,
   fileForOffice,
+  groupCampaignSessions,
   projectCampaign,
   spendAnAfternoon,
 } from "../presentation/campaign-projection";
@@ -33,6 +35,7 @@ import {
 } from "./campaign-planning-layout";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
+import { CampaignSpendingReports } from "./CampaignSpendingReports";
 
 /**
  * Running for something.
@@ -62,9 +65,7 @@ export interface CampaignWorkspaceProps {
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
-function money(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
-}
+const money: (amount: MoneyAmount) => string = displayMoney;
 
 const MONTHS = [
   "January",
@@ -656,6 +657,26 @@ export function CampaignWorkspace({
             ) : null}
           </div>
 
+          {/*
+            The result leads. It used to sit below the whole session log, and
+            a Presque Isle race put it under about three hundred lines.
+          */}
+          {view.tallies.length > 0 ? (
+            <div data-testid="campaign-result">
+              <p className="game-scene" data-testid="campaign-afterword">
+                {view.afterword}
+              </p>
+              <ul className="game-campaign-tallies">
+                {view.tallies.map((tally) => (
+                  <li key={tally.candidatePersonId}>
+                    {tally.candidateName}
+                    {tally.isThisCandidate ? " (you)" : ""} —{" "}
+                    {tally.displayedSharePercent}%
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
           {strategyReport ? (
             <section
               className="game-campaign-strategy-report"
@@ -663,11 +684,7 @@ export function CampaignWorkspace({
             >
               <h3>What happened</h3>
               <p>{strategyReport.attribution}</p>
-              <p>
-                The player chose {strategyReport.chosenPriorityLabel} for{" "}
-                {strategyReport.geographyLabel}, with a ceiling of{" "}
-                {money(strategyReport.approvedSpendCeiling)}.
-              </p>
+              <p>{strategyReport.choice}</p>
               <p>{strategyReport.outcome}</p>
               {strategyReport.observedResult ? (
                 <p className="game-note">{strategyReport.observedResult}</p>
@@ -679,36 +696,23 @@ export function CampaignWorkspace({
             <OpponentActivityPanel world={world} personId={personId} />
           ) : null}
 
+          <CampaignSpendingReports world={world} personId={personId} />
+
           {view.sessions.length > 0 ? (
             <ul className="game-campaign-log" data-testid="campaign-log">
-              {view.sessions.map((session) => (
-                <li key={session.id}>
-                  <strong>{session.title}</strong> ·{" "}
-                  {readableCampaignDate(session.on)}
-                  {session.outcome ? <span> — {session.outcome}</span> : null}
-                  {session.blockedBy.length > 0 ? (
-                    <span> — waiting on {session.blockedBy.join(", ")}.</span>
+              {groupCampaignSessions(view.sessions).map((group) => (
+                <li key={group.key}>
+                  <strong>{group.title}</strong> ·{" "}
+                  {group.count === 1
+                    ? readableCampaignDate(group.firstOn)
+                    : `${group.count} sessions, ${readableCampaignDate(group.firstOn)} to ${readableCampaignDate(group.lastOn)}`}
+                  {group.outcome ? <span> — {group.outcome}</span> : null}
+                  {group.blockedBy.length > 0 ? (
+                    <span> — waiting on {group.blockedBy.join(", ")}.</span>
                   ) : null}
                 </li>
               ))}
             </ul>
-          ) : null}
-
-          {view.tallies.length > 0 ? (
-            <div data-testid="campaign-result">
-              <p className="game-scene" data-testid="campaign-afterword">
-                {view.afterword}
-              </p>
-              <ul className="game-campaign-tallies">
-                {view.tallies.map((tally) => (
-                  <li key={tally.candidatePersonId}>
-                    {tally.candidateName}
-                    {tally.isThisCandidate ? " (them)" : ""} —{" "}
-                    {tally.displayedSharePercent}%
-                  </li>
-                ))}
-              </ul>
-            </div>
           ) : null}
         </>
       ) : null}

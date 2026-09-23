@@ -7075,7 +7075,7 @@ body:where(.pg-game) .game-campaign-tallies {
 }
 
 .life-shell .scene-backdrop-content[data-content="conversation"] > .pg-talk {
-  width: min(46rem, 100%);
+  width: min(36rem, 100%);
 }
 
 /* --- People standing in the room --------------------------------------- */
@@ -7234,74 +7234,6 @@ body:where(.pg-game) .game-campaign-tallies {
 .scene-backdrop-object {
   position: absolute;
   pointer-events: auto;
-}
-
-.room-papers {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: 0;
-  border-radius: 0.35rem;
-  background: transparent;
-  cursor: pointer;
-  /* Nothing at rest. The plate's own painted papers are what is there. */
-  outline-offset: 0.2rem;
-}
-
-/*
-  The reveal, and it is only a reveal: it says how much is waiting, not what,
-  because reading the table from across the room is what pressing it is for.
-*/
-.room-papers-hint {
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 0.3rem);
-  transform: translateX(-50%);
-  white-space: nowrap;
-  font-size: 0.78rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.3rem;
-  background: var(--pg-surface, #1c1c1ce6);
-  color: var(--pg-on-surface, #f4f4f4);
-  opacity: 0;
-  transition: opacity 120ms ease;
-  pointer-events: none;
-}
-
-.room-papers:hover .room-papers-hint,
-.room-papers:focus-visible .room-papers-hint {
-  opacity: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .room-papers-hint {
-    transition: none;
-  }
-}
-
-.room-papers-open {
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 0.5rem);
-  transform: translateX(-50%);
-  z-index: 2;
-  min-width: min(22rem, 78vw);
-  max-width: min(28rem, 92vw);
-  padding: 0.7rem 0.8rem;
-  border-radius: 0.45rem;
-  background: var(--pg-surface, #1c1c1cf2);
-  color: var(--pg-on-surface, #f4f4f4);
-  box-shadow: 0 0.6rem 1.6rem #0000005c;
-  text-align: left;
-}
-
-.room-papers-open ul {
-  margin: 0 0 0.5rem;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
 }
 
 .scene-person-token {
@@ -7526,6 +7458,66 @@ body:where(.pg-game) .game-campaign-tallies {
 
 .pg-moment-opener:hover {
   border-color: var(--run-a-gold);
+}
+
+/*
+ * The reached public meeting, docked beside the moment opener.
+ *
+ * Unstyled, its buttons ran as one long row from the dock's centre and landed
+ * over the corner Day and Week controls at 1440x900 and 1280x800 (Eastport,
+ * January 6, 2026). A bounded card with its choices stacked keeps them
+ * together, and it rides above the corner cluster's measured reserve so the
+ * two never share a band. No backdrop-filter or transform here: the agenda
+ * reader is a fixed child and must stay positioned against the window.
+ */
+.pg-meeting-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.45rem;
+  align-self: flex-end;
+  box-sizing: border-box;
+  width: min(22rem, 100%);
+  margin-bottom: var(--pg-nav-reserve, 5.5rem);
+  padding: 0.8rem 0.9rem 0.9rem;
+  color: var(--run-a-ink);
+  background: linear-gradient(180deg, rgb(18 29 46 / 92%), rgb(11 19 32 / 94%));
+  border: 1px solid var(--run-a-line);
+  border-radius: 0.7rem;
+  box-shadow: 0 0.8rem 2rem rgb(8 13 22 / 42%);
+  font-family: var(--pg-font-ui);
+  font-size: 0.95rem;
+}
+
+.pg-meeting-panel > h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.pg-meeting-panel > p {
+  margin: 0;
+  color: var(--run-a-muted);
+  font-size: 0.85rem;
+}
+
+.pg-meeting-panel > .ui-action {
+  width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+
+/* Between these widths the dock itself already sits above the cluster. */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .pg-meeting-panel {
+    margin-bottom: 0;
+  }
+}
+
+/* On a phone the dock is in the page flow, not over the corner cluster. */
+@media (width <= 52rem) {
+  .pg-meeting-panel {
+    margin-bottom: 0;
+  }
 }
 
 /* --- The compact moment panel ------------------------------------------ */

@@ -1,6 +1,6 @@
 # Personality held at once: 121-candidate classification for owner review
 
-**Prepared:** 2026-09-22. **Source:** the 121-candidate research catalog in the Continuous Coordinator audit package (Drive file `1X2XNIRptns55BhuaXf2g0T6MRBHYy9k0`), the `traits-held-at-once` question rendered from `9540769a`, the current five-scale implementation, and the owner’s inline replies on 2026-09-22. This is a design proposal for engineering communication, not a claim that all 121 candidates are approved or implemented. It contains no per-trait coefficients.
+**Prepared:** 2026-09-22. **Source:** the 121-candidate research catalogue in the Continuous Coordinator audit package (Drive file `1X2XNIRptns55BhuaXf2g0T6MRBHYy9k0`), the `traits-held-at-once` question rendered from `9540769a`, the current five-scale implementation, and the owner’s inline replies on 2026-09-22. This is a design proposal for engineering communication, not a claim that all 121 candidates are approved or implemented. It contains no per-trait coefficients.
 
 ## Owner decisions already received
 
@@ -10,10 +10,10 @@
 
 ## Classification rule
 
-- **S:** an expression of one existing bipolar mechanism. The two ends cannot be simultaneously active as the same measurement in the same context. The expression may still be shown as a descriptor on the card. The existing sociability scale remains internal; none of these catalog labels is its safe universal opposite because sociability, disclosure, shyness, and desire for solitude differ.
-- **D:** a proposed independent descriptor, with its own condition and evidence. It may coexist with another descriptor even if the two create tension. The catalog gives behavior boundaries, not frequencies or guaranteed outcomes. `D, related to ...` means shared mechanisms or a contextual variant, not an automatic alias.
+- **S:** an expression of one existing bipolar mechanism. The two ends cannot be simultaneously active as the same measurement in the same context. The expression may still be shown as a descriptor on the card. The existing sociability scale remains internal; none of these catalogue labels is its safe universal opposite because sociability, disclosure, shyness, and desire for solitude differ.
+- **D:** a proposed independent descriptor, with its own condition and evidence. It may coexist with another descriptor even if the two create tension. The catalogue gives behavior boundaries, not frequencies or guaranteed outcomes. `D, related to ...` means shared mechanisms or a contextual variant, not an automatic alias.
 - **X:** retain as behavior/wording but set aside as a separate general trait because a narrower existing descriptor and context already explain it.
-- These are **modeling judgments**, not claims that psychological research proves this exact taxonomy. Only four pairs are assigned to existing scales. The 121-source catalog is a candidate list and contains no final approval, prevalence, or effects.
+- These are **modeling judgments**, not claims that psychological research proves this exact taxonomy. Only four pairs are assigned to existing scales. The 121-source catalogue is a candidate list and contains no final approval, prevalence, or effects.
 
 ## Exclusion, coexistence, and variants
 
@@ -27,7 +27,7 @@
 - **Adult start:** seed a coherent deeper profile, show only one or two well-established descriptors if that is what the recorded/generated history supports, and make further descriptors inspectable or discoverable through actual behavior. The card should not imply the person has only those one or two.
 - **Youth start:** allow zero, one, or several visible descriptors according to the character’s history and strength of evidence; some may be explicitly tentative. Do not tie a fixed count to age or make every youth blank. A later event can strengthen, weaken, or replace `timid` with a more confident pattern, but a single scene should not instantly rewrite a stable trait.
 - **Lifetime:** no arbitrary fixed descriptor slot cap. Add, retire, or revise descriptors when recorded life warrants it. UI can foreground the few most salient ones and let the player open detail. This is a display limit, not a simulation cap. No rates or thresholds have been approved.
-- **Catalog gaps:** the owner’s examples `lustful` and `ashamed`/`shameful` are not IDs in this 121-candidate source. Treat those as new candidate concepts to define with owner-approved wording and boundaries; do not pretend this roster covers them. `ashamed` may be a temporary state rather than a stable descriptor, so its classification needs a separate decision.
+- **Catalogue gaps:** the owner’s examples `lustful` and `ashamed`/`shameful` are not IDs in this 121-candidate source. Treat those as new candidate concepts to define with owner-approved wording and boundaries; do not pretend this roster covers them. `ashamed` may be a temporary state rather than a stable descriptor, so its classification needs a separate decision.
 
 ## All 121 source IDs
 
@@ -161,7 +161,7 @@
 
 ## Evidence and limits
 
-- The source catalog is research with 121 candidates and 29 additional concepts. Its examples are not empirical prevalence estimates or coded mechanics. Original source IDs, meanings, examples, and boundaries must travel with an eventual design spec.
+- The source catalogue is research with 121 candidates and 29 additional concepts. Its examples are not empirical prevalence estimates or coded mechanics. Original source IDs, meanings, examples, and boundaries must travel with an eventual design spec.
 - The present engine accepts bipolar traits with a middle; it does not yet establish separate descriptor storage, exclusion metadata, or a player-facing acceptance of this mapping. PR #405’s pack loading does not settle those product rules.
 - Developmental psychology supports context-sensitive expression and change over life, but does not provide game-ready rates or prove these 121 labels: [Whole Trait Theory, original paper record](https://pubmed.ncbi.nlm.nih.gov/26097268/); [DeYoung et al., hierarchical facets original paper](https://www.cs.uky.edu/~sgware/reading/papers/deyoung2007between.pdf); [event experience and personality development, original study](https://pubmed.ncbi.nlm.nih.gov/37956070/).
 - Pending owner answer: whether apparent opposites are allowed together when recorded history and context make both true. Do not close this question or ship exclusions until that answer is incorporated.

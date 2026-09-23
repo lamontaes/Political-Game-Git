@@ -1,13 +1,22 @@
 import {
+  governmentUnitDisplayName,
+  governmentUnitRecordedName,
+} from "./government-unit-names";
+import {
   GOVERNMENT_UNITS_META,
   PLACE_COUNTY_RELATIONS_META,
   countyGovernmentUnit,
+  countyGeoidsForPlace,
   countyGovernmentUnitsForPlace,
   governmentUnitsForPlace,
 } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { createOrganization } from "../life";
-import { lifePlaceByJurisdictionId, lifePlaceByKey } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  lifePlaceByKey,
+  residentNameForJurisdiction,
+} from "../life-places";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import type { EntityId, IsoDate, Jurisdiction, World } from "../types";
 import { governingJurisdictionIdFor } from "./government-jurisdiction";
@@ -137,25 +146,111 @@ export function homeLocalGovernmentUnits(
   };
 }
 
-const LOWERCASE_WORDS = new Set(["of", "the", "and", "de", "la", "du"]);
-
-/** The publisher's own name, in ordinary capitals; no words are added or dropped. */
+/** The unit's name as people write it; see `governmentUnitDisplayName`. */
 export function localGovernmentDisplayName(
   unit: GovernmentUnitIdentity,
 ): string {
-  return unit.name
-    .toLowerCase()
-    .split(" ")
-    .map((word, index) =>
-      index > 0 && LOWERCASE_WORDS.has(word)
-        ? word
-        : word.replace(
-            /(^|[-'(])([a-z])/g,
-            (_, lead: string, letter: string) =>
-              `${lead}${letter.toUpperCase()}`,
-          ),
-    )
-    .join(" ");
+  return governmentUnitDisplayName(unit);
+}
+
+/** The name an organization for this unit is written into a world under. */
+export function localGovernmentRecordedName(
+  unit: GovernmentUnitIdentity,
+): string {
+  return governmentUnitRecordedName(unit);
+}
+
+/**
+ * The government's area as a resident says it: "Baltimore County", not the
+ * listing's filing name "County of Baltimore". For a party chapter, a club or
+ * anything else named for the place rather than for the government itself.
+ * Falls back to the display name for a unit with no seated place.
+ */
+export function localGovernmentAreaName(unit: GovernmentUnitIdentity): string {
+  const jurisdiction = jurisdictionForUnit(unit);
+  return jurisdiction
+    ? residentNameForJurisdiction(
+        jurisdiction.name,
+        jurisdiction.parentName ?? null,
+      )
+    : localGovernmentDisplayName(unit);
+}
+
+/**
+ * States whose party committees are town and ward committees rather than
+ * county ones. A blanket rule, filed for research as
+ * `party-local-organizing-unit-by-state`: New England towns govern themselves
+ * and several of its county governments were abolished, so a place there with
+ * no county government is named for itself, not for its county's area.
+ */
+const TOWN_ORGANIZED_STATES: ReadonlySet<string> = new Set([
+  "US-CT",
+  "US-MA",
+  "US-ME",
+  "US-NH",
+  "US-RI",
+  "US-VT",
+]);
+
+// A county-equivalent's legal kind, as the Census names its area. What is left
+// is the name a resident knows it by.
+const COUNTY_AREA_KIND =
+  / (County|Parish|Borough|City and Borough|Municipality|city)$/;
+
+/**
+ * The area a person's local party organization is named for: the county,
+ * parish or borough they live in, the way they say it, or their own town where
+ * the town is the county or where there is no county to name.
+ *
+ * Parties organize by county, parish and borough, and they do so whether or
+ * not that area has a separate government. Houma, Louisiana is run by the
+ * Terrebonne Parish consolidated government, which the Census listing files as
+ * a municipality, so reading only county governments named its chapter for
+ * Houma; the parish is the Terrebonne Parish Democrats. So:
+ *
+ *   - A county government of the home place: that county, as residents say it.
+ *   - Otherwise the one county area the place lies in (2020 geography), named
+ *     as residents say it: "Terrebonne Parish", "Davidson County".
+ *   - The town itself when that area is the town (Denver, Juneau, Anchorage,
+ *     Richmond, St. Louis, Philadelphia), when the place spans several county
+ *     areas and none can be chosen (New York), when the area is a Census Area
+ *     that is only statistical (Bethel, Alaska), when the state has no county
+ *     area named for the place (Connecticut), and in the town-organized states
+ *     above.
+ */
+export function homeLocalPartyAreaName(
+  world: World,
+  personId: EntityId,
+): string | null {
+  const county = homeLocalGovernmentUnits(world, personId).counties[0];
+  if (county) return localGovernmentAreaName(county);
+  const person = world.people[personId];
+  const home = person ? world.jurisdictions[person.homeJurisdictionId] : null;
+  if (!home) return null;
+  const town = residentNameForJurisdiction(home.name, home.parentName ?? null);
+  const place = lifePlaceByJurisdictionId(home.id);
+  if (
+    !place ||
+    place.scope !== "locality" ||
+    !place.sourceGeoid ||
+    (place.stateJurisdictionKey !== null &&
+      TOWN_ORGANIZED_STATES.has(place.stateJurisdictionKey))
+  ) {
+    return town;
+  }
+  const areas = countyGeoidsForPlace(place.sourceGeoid);
+  if (areas.length !== 1) return town;
+  const area = lifePlaceByKey(`county:${areas[0]}`);
+  if (!area) return town;
+  const areaName = residentNameForJurisdiction(
+    area.displayName,
+    area.withinName,
+  );
+  if (areaName.endsWith(" Census Area")) return town;
+  const core = areaName.replace(COUNTY_AREA_KIND, "");
+  return core === town || core === place.displayName.split(",")[0]
+    ? town
+    : areaName;
 }
 
 export function localGovernmentOrganizationKey(
@@ -245,7 +340,8 @@ export function ensureLocalGovernmentOrganization(
           note: `Placed from ${GOVERNMENT_UNITS_META.artifactId} ${unit.id}, which speaks as of ${asOf}, after this world's ${next.currentDate}; not backdated.`,
         },
     initialProfile: {
-      name: localGovernmentDisplayName(unit),
+      // The recorded name, unchanged since worlds were first built with it.
+      name: governmentUnitRecordedName(unit),
       classification:
         unit.unitType === "county"
           ? "service:county-government"

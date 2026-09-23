@@ -83,12 +83,15 @@ export interface OfficeTransitionProfile {
   readonly electTitle: (officeName: string) => string;
   /** Player-facing: how the term begins. */
   readonly entry: string;
+  /** Player-facing: the swearing-in, as this institution holds it. */
+  readonly swearingIn: string;
   readonly services: readonly OfficeTransitionService[];
   /** Developer-facing: what this profile does not model yet. */
   readonly notCoded: readonly string[];
 }
 
 const COMMON_NOT_CODED = [
+  "Taking the oath is recorded as a public event; not taking it does not yet withhold the office's powers, and no jurisdiction's deadline for taking it is coded. Each jurisdiction's actual ceremony (who administers it, where, the oath's text) is filed with research.",
   "Attending a service is recorded; no later office consumer reads the attendance yet, so it changes no staff, knowledge or standing.",
   "Attendance costs no game time yet; the services are not calendar activities.",
   "Other winners' transitions are not simulated; they take up office on the start date.",
@@ -110,6 +113,8 @@ const FEDERAL_HOUSE: OfficeTransitionProfile = {
   electTitle: () => "Member-elect of the House",
   entry:
     "The term begins at noon on January 3, when the new House meets, elects its Speaker and swears in its members together.",
+  swearingIn:
+    "On the House floor the Speaker administers the oath to the new members together, right hand raised. Many repeat it afterward with the Speaker and their families for the photographs.",
   services: [
     {
       key: "house-new-member-orientation",
@@ -173,6 +178,8 @@ const FEDERAL_SENATE: OfficeTransitionProfile = {
   electTitle: () => "Senator-elect",
   entry:
     "The term begins at noon on January 3. New senators take the oath in the chamber, customarily escorted by their state's other senator.",
+  swearingIn:
+    "The Vice President administers the oath at the front of the chamber to new senators a few at a time, each walked down the aisle by a colleague, and each signs the oath book.",
   services: [
     {
       key: "senate-orientation",
@@ -227,6 +234,8 @@ const STATE_LEGISLATURE_BLANKET: OfficeTransitionProfile = {
   electTitle: (chamber) => `Member-elect of the ${chamber}`,
   entry:
     "The seat is yours from the first day of the term, when members take the oath and the chamber organizes.",
+  swearingIn:
+    "On the opening day of the session the members take the oath together in the chamber, with families in the gallery.",
   services: [
     {
       key: "legislature-new-member-orientation",
@@ -278,6 +287,8 @@ const STATE_EXECUTIVE_BLANKET: OfficeTransitionProfile = {
   electTitle: (officeTitle) => `${officeTitle}-elect`,
   entry:
     "The office is yours from the first day of the term, and only once you have qualified for it.",
+  swearingIn:
+    "At the inauguration, before a public audience at the capitol, a judge administers the oath of office.",
   services: [
     {
       key: "executive-transition-team",
@@ -317,6 +328,8 @@ const LOCAL_BLANKET: OfficeTransitionProfile = {
   coverage: "blanket",
   electTitle: (officeTitle) => `${officeTitle}, elect`,
   entry: "The office is yours once you take the oath at the start of the term.",
+  swearingIn:
+    "The oath is administered at the start of the term, before the new body's first meeting.",
   services: [
     {
       key: "local-orientation",
@@ -485,6 +498,79 @@ export function attendTransitionService(
       `office-transition-service:${input.service.key}`,
     ],
     summary: `Attended ${input.service.title} as ${input.electTitle}.`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
+export const OFFICE_OATH_TAKEN = "office.oath-taken";
+
+function oathKey(personId: EntityId, contestId: EntityId) {
+  return `office-oath:${contestId}:${personId}`;
+}
+
+/** The recorded swearing-in for this term, if the officeholder has taken it. */
+export function oathOfOfficeRecord(
+  world: World,
+  personId: EntityId,
+  contestId: EntityId,
+) {
+  return (
+    world.history.events.find(
+      (event) =>
+        event.type === OFFICE_OATH_TAKEN &&
+        event.stableKey === oathKey(personId, contestId),
+    ) ?? null
+  );
+}
+
+/**
+ * The officeholder is sworn in. A public event on or after the first day of
+ * the term: before it the office is not theirs to swear into, and the World is
+ * left unchanged with a refusal. Taking it twice records once.
+ */
+export function takeOathOfOffice(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly contestId: EntityId;
+    readonly jurisdictionId: EntityId;
+    /** The office as it is held, e.g. "Member of the House of Representatives". */
+    readonly officeTitle: string;
+    readonly startsAt: IsoDate;
+    readonly profile: OfficeTransitionProfile;
+  },
+): World {
+  if (oathOfOfficeRecord(world, input.personId, input.contestId)) return world;
+  if (world.currentDate < input.startsAt)
+    throw new Error(
+      `The term does not begin until ${input.startsAt}; there is no oath to take yet.`,
+    );
+  const summary = `Sworn in as ${input.officeTitle}.`;
+  return recordWorldEvent(world, {
+    stableKey: oathKey(input.personId, input.contestId),
+    type: OFFICE_OATH_TAKEN,
+    occurredAt: makeIsoDate(world.currentDate),
+    recordedAt: makeIsoDate(world.currentDate),
+    jurisdictionId: input.jurisdictionId,
+    involvedEntityIds: [input.personId, input.contestId],
+    participants: [
+      {
+        personId: input.personId,
+        role: "focus:officeholder",
+        detail: summary,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [`office-transition:${input.profile.key}`, "office-oath"],
+    summary,
     context: {
       location: null,
       socialContext: null,

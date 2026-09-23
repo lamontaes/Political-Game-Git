@@ -134,7 +134,7 @@ describe("Puerto Rico's Legislative Assembly", () => {
 });
 
 describe("the District of Columbia", () => {
-  it("seats no state legislature: its Council is not modelled here", () => {
+  it("seats no state legislature: its Council is not modeled here", () => {
     const { world, playerPersonId } = openLife(
       "Washington",
       "District of Columbia",

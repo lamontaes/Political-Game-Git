@@ -3,11 +3,14 @@ import { describe, expect, it } from "vitest";
 import {
   addDays,
   campaignForCandidate,
+  campaignState,
   ensureCampaignOpponents,
   ensureStateJurisdiction,
   fileCampaign,
   deserializeWorld,
   makeCurrencyCode,
+  personName,
+  publicOrganizationKey,
   searchLifePlaces,
   serializeWorld,
   stateExecutiveIdentity,
@@ -15,18 +18,28 @@ import {
 } from "../simulation";
 import type { World } from "../simulation";
 import {
+  CLAIM_CONTRADICTION_EVENT,
+  CLAIM_EVIDENCE_TAG_PREFIX,
+} from "../simulation/claim-stances";
+import {
+  answerPressRequest,
+  campaignSpendingReports,
   CANDIDATE_PAYMENTS_REPORTED_EVENT,
   generatedStateOversightBody,
+  pressAnswerStance,
+  projectPressDesk,
   pressRecordsOfKind,
   publicAdverseFindingsAgainst,
   spendCampaignFundsPersonally,
   UNRESEARCHED_FINDING_EFFECTS,
+  UNRESEARCHED_REPEAT_OFFENSE,
   UNRESEARCHED_STATE_OVERSIGHT,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { supportAfterLoss } from "../simulation/campaign-support";
 import { spendAnAfternoon } from "./campaign-projection";
+import { projectCampaignSpendingReports } from "./campaign-spending-reports";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
@@ -56,10 +69,12 @@ function adultLifeIn(usps: string, seed: string) {
  * themselves from the committee twice, a week apart, and does nothing else.
  * Nobody keeps the books. The payments reach the committee's public reports;
  * from there a rival or the state's own review of reports opens the matter,
- * and Washington's generated oversight body (its researched ethics body
- * covers the legislature, not this office) runs it to a finding.
+ * and the Washington State Public Disclosure Commission runs it to a finding
+ * (Washington's legislative ethics body hears only the legislature).
  */
-function washingtonFinding() {
+function washingtonFinding(
+  options: { readonly lieToReporters?: boolean } = {},
+) {
   const { world, personId } = adultLifeIn("WA", "ethics-consequences-wa");
   const identity = stateExecutiveIdentity("WA")!;
   const jurisdictionId = stateJurisdictionForKey("US-WA")!.id;
@@ -108,12 +123,33 @@ function washingtonFinding() {
     pressRecordsOfKind(w, "proceeding-step").find(
       (step) => step.outcome === "finding",
     );
-  for (let chunk = 0; chunk < 14 && !finding(after); chunk += 1) {
-    after = passOrdinaryDays(after, 30);
+  const lies: string[] = [];
+  const step = options.lieToReporters ? 7 : 30;
+  for (let days = 0; days < 420 && !finding(after); days += step) {
+    after = passOrdinaryDays(after, step);
+    if (!options.lieToReporters) continue;
+    // Every reporter who asks about the money before the finding is told,
+    // falsely, that there is nothing to it.
+    for (const request of projectPressDesk(after, personId).incomingRequests) {
+      const lead = pressRecordsOfKind(after, "story-lead").find(
+        (row) => row.id === request.leadId,
+      );
+      if (!lead?.matterId) continue;
+      if (!request.answerOptions.some((o) => o.choice === "false-denial"))
+        continue;
+      const stance = pressAnswerStance(
+        after,
+        request.leadId,
+        personId,
+        "false-denial",
+      );
+      after = answerPressRequest(after, { leadId: request.leadId, ...stance });
+      lies.push(request.reporterPersonId);
+    }
   }
-  const step = finding(after)!;
+  const found = finding(after)!;
   const proceeding = pressRecordsOfKind(after, "matter-proceeding").find(
-    (row) => row.id === step.proceedingId,
+    (row) => row.id === found.proceedingId,
   )!;
   const own = (w: World) =>
     resourcePositionAt(w, { kind: "person", personId }, makeCurrencyCode("USD"))
@@ -125,8 +161,9 @@ function washingtonFinding() {
     campaign,
     ownBefore: own(funded),
     ownAfterFirst: own(first.world),
-    step,
+    step: found,
     proceeding,
+    lies,
     occurrences: [first.occurrence, second.occurrence],
   };
 }
@@ -155,14 +192,14 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
         expect(reportedFlows.has(flowId)).toBe(true);
   });
 
-  it("reaches a public finding by Washington's generated oversight body", () => {
+  it("reaches a public finding by the Washington State Public Disclosure Commission", () => {
     const body = generatedStateOversightBody(
       run.after,
       run.campaign.jurisdictionId,
     )!;
     expect(run.proceeding.procedureKey).toBe("generated-state-oversight");
     expect(run.proceeding.institutionLabel).toBe(body.name);
-    expect(body.name.startsWith("Washington ")).toBe(true);
+    expect(body.name).toBe("Washington State Public Disclosure Commission");
     expect(run.step.publicStep).toBe(true);
     // Whoever noticed first: the rival, or the body's own review of reports.
     expect([run.rivalId, null]).toContain(run.proceeding.complainantPersonId);
@@ -206,7 +243,7 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     ).toBe(UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints.finding);
   });
 
-  it("orders both payments repaid to the committee", () => {
+  it("orders both payments paid to the state, not back to the committee", () => {
     const order = run.after.history.events.find(
       (event) =>
         event.type === "matter.restitution-ordered" &&
@@ -220,10 +257,15 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
       (row) => row.resourceFlowId === flow.id,
     )!;
     expect(repaid.attemptedAmount.minorUnits).toBe(40_000);
+    // Paid to Washington, where it cannot be withdrawn again.
+    const state = stateJurisdictionForKey("US-WA")!.id;
     expect(flow.recipient).toEqual({
       kind: "organization",
-      organizationId: run.campaign.organizationId,
+      organizationId: run.after.history.organizations.find(
+        (row) => row.stableKey === publicOrganizationKey(state),
+      )!.id,
     });
+    expect(order.summary).toContain("to the state of Washington");
   });
 
   it("fines the candidate per payment, paid to the state", () => {
@@ -285,6 +327,218 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
   });
 });
 
+/**
+ * The replay that found three holes: payments after a finding were never
+ * charged, money taken late in a campaign was never reviewed once the
+ * campaign ended, and the candidate's hometown paper never covered the case.
+ * The same Washington candidate keeps paying themselves after the finding,
+ * once more just before the election, and the world runs on past it.
+ */
+describe("a Washington candidate who keeps taking after a finding", () => {
+  const run = washingtonFinding();
+  const rent = (w: World, key: string) =>
+    spendCampaignFundsPersonally(w, {
+      stableKey: `ethics-consequences:after:${key}`,
+      amountMinorUnits: 10_000,
+      purpose: "rent",
+    });
+  let world = run.after;
+  const later: string[] = [];
+  for (let month = 0; month < 3; month += 1) {
+    const paid = rent(world, `${month}`);
+    later.push(...paid.occurrence.resourceFlowIds);
+    world = passOrdinaryDays(paid.world, 30);
+  }
+  const second = () =>
+    pressRecordsOfKind(world, "proceeding-step").filter(
+      (step) => step.outcome === "finding",
+    );
+  for (let chunk = 0; chunk < 14 && second().length < 2; chunk += 1) {
+    world = passOrdinaryDays(world, 30);
+  }
+  const findings = second();
+  // One more payment in the campaign's last weeks, then past election day.
+  const electionDate = addDays(run.campaign.filedAt, 480);
+  while (addDays(world.currentDate, 21) < electionDate) {
+    world = passOrdinaryDays(world, 7);
+  }
+  const lastWeeks = rent(world, "last-weeks");
+  world = lastWeeks.world;
+  const afterElection = addDays(electionDate, 60);
+  while (world.currentDate < afterElection) {
+    world = passOrdinaryDays(world, 30);
+  }
+
+  it("opens a new round for each batch taken after a finding", () => {
+    const matters = pressRecordsOfKind(world, "matter").filter((matter) =>
+      matter.stableKey.startsWith(
+        `press46:candidate-payments:${run.campaign.id}`,
+      ),
+    );
+    // The first case; the three rent payments after its finding; and the
+    // last-weeks payment, taken after the second finding.
+    expect(matters.map((matter) => matter.stableKey.split(":").at(-1))).toEqual(
+      [run.campaign.id, "2", "3"],
+    );
+    expect(findings).toHaveLength(2);
+  });
+
+  it("orders the later payments repaid, and only those", () => {
+    const repaid = world.history.resourceFlows
+      .filter((row) => row.basisKind === "custom:ethics-restitution")
+      .map(
+        (flow) =>
+          world.history.resourceTransferOutcomes.find(
+            (row) => row.resourceFlowId === flow.id,
+          )!.attemptedAmount.minorUnits,
+      );
+    expect(repaid).toEqual([40_000, 30_000]);
+  });
+
+  it("fines a repeat finding more heavily, and says why", () => {
+    const body = generatedStateOversightBody(
+      world,
+      run.campaign.jurisdictionId,
+    )!;
+    const fines = world.history.resourceFlows
+      .filter((row) => row.basisKind === "custom:civil-penalty")
+      .map(
+        (flow) =>
+          world.history.resourceTransferOutcomes.find(
+            (row) => row.resourceFlowId === flow.id,
+          )!.attemptedAmount.minorUnits,
+      );
+    expect(fines).toEqual([
+      body.civilPenaltyPerPaymentMinorUnits * 2,
+      body.civilPenaltyPerPaymentMinorUnits *
+        3 *
+        (1 + UNRESEARCHED_REPEAT_OFFENSE.civilPenaltyStepPerPriorFinding),
+    ]);
+    const notices = world.history.events.filter(
+      (event) => event.type === "matter.civil-penalty-imposed",
+    );
+    expect(notices[0]!.summary).not.toContain("found against before");
+    expect(notices[1]!.summary).toContain("found against before");
+  });
+
+  it("still reports money taken in the campaign's last weeks after it ends", () => {
+    expect(campaignState(world, run.campaign.id).status).not.toBe("active");
+    const reported = new Set(
+      world.history.events
+        .filter((event) => event.type === CANDIDATE_PAYMENTS_REPORTED_EVENT)
+        .flatMap((event) => event.involvedEntityIds),
+    );
+    for (const flowId of [...later, ...lastWeeks.occurrence.resourceFlowIds])
+      expect(reported.has(flowId)).toBe(true);
+  });
+
+  it("is covered by the candidate's hometown paper", () => {
+    const home = world.people[run.personId]!.homeJurisdictionId;
+    const hometown = pressRecordsOfKind(world, "media-outlet").filter(
+      (outlet) =>
+        outlet.scope === "local" &&
+        outlet.primaryJurisdictionIds.includes(home),
+    );
+    expect(hometown.length).toBeGreaterThan(0);
+    const leads = pressRecordsOfKind(world, "story-lead").filter(
+      (lead) =>
+        hometown.some((outlet) => outlet.id === lead.outletId) &&
+        lead.matterId !== null,
+    );
+    expect(leads.length).toBeGreaterThan(0);
+  });
+});
+
+describe("a Washington candidate who lies to reporters about the money", () => {
+  const run = washingtonFinding({ lieToReporters: true });
+  const read = passOrdinaryDays(run.after, 8);
+
+  it("is asked about it before the finding and denies it", () => {
+    expect(run.lies.length).toBeGreaterThan(0);
+  });
+
+  it("is caught in the lie once the finding is published", () => {
+    const caught = read.history.events.filter(
+      (event) =>
+        event.type === CLAIM_CONTRADICTION_EVENT &&
+        event.tags.includes("claim.intent.deceive") &&
+        event.participants.some(
+          (entry) =>
+            entry.role === "focus:subject" && entry.personId === run.personId,
+        ),
+    );
+    const discoverers = caught.flatMap((event) =>
+      event.participants
+        .filter((entry) => entry.role === "agency:discoverer")
+        .map((entry) => entry.personId),
+    );
+    expect(discoverers.length).toBeGreaterThan(0);
+    for (const reporterId of discoverers)
+      expect(run.lies).toContain(reporterId);
+    expect(
+      caught.every((event) =>
+        event.tags.includes(`${CLAIM_EVIDENCE_TAG_PREFIX}${run.step.eventId}`),
+      ),
+    ).toBe(true);
+  });
+
+  it("gives the reporter who was lied to a follow-up story", () => {
+    const followUps = pressRecordsOfKind(read, "story-lead").filter(
+      (lead) =>
+        lead.family === "follow-up" &&
+        lead.route === "public-record" &&
+        lead.basisEventIds.includes(run.step.eventId) &&
+        lead.basisEventIds.some(
+          (id) =>
+            read.history.events.find((event) => event.id === id)?.type ===
+            CLAIM_CONTRADICTION_EVENT,
+        ) &&
+        lead.subjectPersonIds.includes(run.personId),
+    );
+    expect(followUps.length).toBeGreaterThan(0);
+  });
+});
+
+describe("a Washington candidate's spending reports", () => {
+  const run = washingtonFinding();
+
+  it("files every payment out of the committee, and the reader can see who got it", () => {
+    const reports = campaignSpendingReports(
+      run.after,
+      run.campaign.organizationId,
+    );
+    expect(reports.length).toBeGreaterThan(0);
+    const lines = reports.flatMap((report) => report.lines);
+    const toCandidate = lines.filter(
+      (line) => line.purpose === "paid-to-candidate",
+    );
+    expect(toCandidate.map((line) => line.amountMinorUnits)).toEqual([
+      20_000, 20_000,
+    ]);
+    expect(new Set(toCandidate.map((line) => line.date)).size).toBe(2);
+    // Each payment is on exactly one report.
+    const flows = lines.map((line) => line.flowId);
+    expect(new Set(flows).size).toBe(flows.length);
+    for (const report of reports)
+      expect(report.totalMinorUnits).toBe(
+        report.lines.reduce((sum, line) => sum + line.amountMinorUnits, 0),
+      );
+  });
+
+  it("shows them on the campaign screen in plain words", () => {
+    const committees = projectCampaignSpendingReports(run.after, run.personId);
+    const own = committees.find((committee) => committee.yours)!;
+    const lines = own.reports.flatMap((report) => report.lines);
+    const paid = lines.filter(
+      (line) => line.purpose === "Paid to the candidate",
+    );
+    expect(paid).toHaveLength(2);
+    expect(paid.every((line) => line.amount === "$200")).toBe(true);
+    const name = personName(run.after.people[run.personId]!);
+    expect(paid.every((line) => line.payee === name)).toBe(true);
+  });
+});
+
 describe("a generated oversight body", () => {
   it("is the same body for a state every time and differs between states", () => {
     const { world } = adultLifeIn("OR", "generated-body-or");
@@ -298,10 +552,11 @@ describe("a generated oversight body", () => {
         stateJurisdictionForKey(key)!.id,
       )!,
     );
-    expect(bodies.map((body) => body.name.split(" ")[0])).toEqual([
-      "New",
-      "Georgia",
-      "Maine",
+    // The researched regulator's name, never a neighbor's.
+    expect(bodies.map((body) => body.name)).toEqual([
+      "New Mexico State Ethics Commission",
+      "Georgia State Ethics Commission",
+      "Maine Commission on Governmental Ethics and Election Practices",
     ]);
     const again = generatedStateOversightBody(
       deserializeWorld(serializeWorld(withStates)),

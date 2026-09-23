@@ -360,7 +360,7 @@ function memberConsiderations(
 
   // Who the member has actually been working with on this: the person
   // carrying the bill, not anyone at all. A strengthened relationship with a
-  // neighbour is no reason to vote for a stranger's bill.
+  // neighbor is no reason to vote for a stranger's bill.
   const sponsorPersonId = requireMeasure(world, measureId).sponsorPersonId;
   const interaction = sponsorPersonId
     ? [...world.history.relationshipInteractions]

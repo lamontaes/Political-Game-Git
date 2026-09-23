@@ -17,6 +17,12 @@ import {
 import { CLAIM_CONTRADICTION_TRANSITION_KEY } from "../simulation/claim-contradictions";
 import { recordTraitChange } from "../simulation/people-traits";
 import type { PeopleTrait } from "../simulation/people-trait-definitions";
+import {
+  pressRecordByKey,
+  pressRecordsOfKind,
+  produceCaughtLyingLeads,
+  reporterRoles,
+} from "../simulation/press";
 import { seekCivicPressContact } from "../simulation/press-reach";
 import type { ContextualSceneSubject } from "./contextual-scenes";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
@@ -325,6 +331,56 @@ describe("a reporter's question about an actual promise", () => {
       "admit-it",
       "keep-denying",
       "no-comment-again",
+    ]);
+  });
+
+  it("a lie a reporter catches goes to their desk as a story, on the source's record", () => {
+    const willing = sourceWho(["conflict", 2]);
+    let world = say(willing, player, "scene-reporter-question", "deny");
+    for (let day = 0; day < 10; day += 1) {
+      world = passOrdinaryDays(world, 1, { stopForTentativeHolds: true });
+    }
+    // What the press desk's weekly sweep does with it. (Called directly: the
+    // player has not taken the reporter's callback yet, and that hold keeps
+    // the ordinary day from passing in this fixture.)
+    world = produceCaughtLyingLeads(world);
+    const found = world.history.events.find(
+      (event) => event.type === CLAIM_CONTRADICTION_EVENT,
+    )!;
+    const reporterId = found.participants.find(
+      (entry) => entry.role === "agency:discoverer",
+    )!.personId;
+    const role = reporterRoles(world).find(
+      (candidate) => candidate.personId === reporterId,
+    );
+    const agreement = pressRecordByKey(
+      world,
+      "source-agreement",
+      `press46:caught-lying:${found.id}`,
+    );
+    // Only a working reporter has a desk to take it to.
+    if (!role) {
+      expect(agreement).toBeNull();
+      return;
+    }
+    expect(agreement?.terms).toBe("on-record");
+    expect(agreement?.outletId).toBe(role.outletId);
+    const lead = pressRecordsOfKind(world, "story-lead").find(
+      (row) =>
+        row.outletId === role.outletId &&
+        row.route === "source-tip" &&
+        row.subjectPersonIds.includes(player),
+    );
+    expect(lead).toBeDefined();
+    // The reporter takes it and, before anything runs, asks the player to
+    // respond; the named source is enough corroboration for the desk to run
+    // it after that, if it decides to.
+    const dispositions = pressRecordsOfKind(world, "story-disposition").filter(
+      (row) => row.leadId === lead!.id,
+    );
+    expect(dispositions.map((row) => row.decision)).toEqual([
+      "assigned",
+      "response-requested",
     ]);
   });
 

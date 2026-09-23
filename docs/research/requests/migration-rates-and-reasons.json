@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-22T22:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "migration and settlement",
+  "notes": [
+    "The owner asked for this on 2026-09-22 in his own words: \"I also like moving and settlement patterns, etc.\" He chose people visibly moving between towns and states as the first piece, ahead of large waves, saying the first informs the second.",
+    "Related: what-the-simulated-people-are-a-sample-of. The town's recorded residents are a sample of the real town, so a per-resident rate is applied to the sample. If the answer implies a different way to scale, say so."
+  ],
+  "priority": "P1",
+  "question": "The game now moves households out of the player's town and brings newcomers in, at flat placeholder rates. What are the real figures to replace them with? (1) The share of people who move in a year, split by distance: within the same county, to another county in the same state, to another state. (2) How that share varies with age and life stage: young adults, families with school-age children, retirees. (3) The main stated reasons for moving, in the categories this game records (work, family, housing and cost, life stage, other), with their rough shares for local moves and for long-distance moves. (4) Whether households usually move together or one member leaves, and how often a move is a young adult leaving the parents' household. (5) Where people go: how much distance, jobs, family and cost decide the destination, and the largest current state-to-state flows. (6) How these have changed since 1950, since a multi-generation game will pass through several eras.",
+  "questionId": "migration-rates-and-reasons",
+  "relatedQuestionIds": [
+    "what-the-simulated-people-are-a-sample-of",
+    "society-wide-waves-causes-pace-scale"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "migration and settlement thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/migration/review.ts and contract.ts on claude/project-thread-ltkqvu",
+      "whatItDidNotSettle": "These establish what the game does today and which numbers are placeholders (BLANKET_DEPARTURE_CHANCE_PER_YEAR, BLANKET_ARRIVALS_PER_RESIDENT_PER_YEAR, BLANKET_SAME_STATE_SHARE, BLANKET_ARRIVAL_AGE). They say nothing about the real rates."
+    }
+  ],
+  "title": "How often ordinary Americans move, how far, and why",
+  "usableAnswer": "Annual mover rates by distance band and by age band, with the survey and year each comes from; the reason shares for local and long-distance moves; the share of moves that are whole households; and a short note on how the rates changed by decade since 1950. Rates as percentages per year are enough. A statement that a figure has no good source is also usable.",
+  "whyItMatters": "Measured on main at 07e68281 before this work: a ten-year Lexington replay recorded nobody new ever moving to or being born in the town. The scaffold on branch claude/project-thread-ltkqvu fixes the mechanism: a monthly review in src/simulation/migration/review.ts reviews each adult once a year and moves whole households with a recorded reason. Its numbers are placeholders: 4% of eligible adults leave per year, arrivals match that, half of leavers stay in their state, and newcomers are 20 to 65. The reason is always life-course:unrecorded because nothing reads jobs, family or cost yet. With real rates by age and distance, a player's town turns over at the right pace across a career, and the reasons a move records become causes a player could see and influence."
+}

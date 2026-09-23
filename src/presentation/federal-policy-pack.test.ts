@@ -51,7 +51,7 @@ describe.each(PLACES)(
       ).toEqual([]);
     });
 
-    it("survives Save and Continue with the catalogue intact", () => {
+    it("survives Save and Continue with the catalog intact", () => {
       const restored = deserializeWorld(serializeWorld(world));
       expect(restored.policyCatalog.subjectOrder).toEqual(
         world.policyCatalog.subjectOrder,

@@ -89,10 +89,18 @@ export function SceneConversation({
   onChange,
   onBack,
   transitionHandlers,
+  presentPersonIds,
 }: {
   readonly world: World;
   readonly playerPersonId: EntityId;
   readonly subject: ConversationSubjectKey;
+  /**
+   * Who is actually in the room with the player. Somebody spoken to who is not
+   * among them is on the phone, not standing here; the constitution draws only
+   * the people really present. Omitted, everyone the conversation names is
+   * taken as present, which is what every caller meant before this existed.
+   */
+  readonly presentPersonIds?: readonly EntityId[];
   /** Who the player is facing. A request: the projection corrects it. */
   readonly addressee: ConversationAddressee;
   readonly onWorldChange: (world: World) => void;
@@ -281,8 +289,15 @@ export function SceneConversation({
   const history = conversationHistoryPage(turns, historyPage ?? 0);
   /*
    * Who is on the strip: you, whoever you are facing, and everybody the room
-   * says is physically here — in that order, without repeats.
+   * says is physically here — in that order, without repeats. A conversation
+   * names its people as present whether or not they are in the room; the
+   * room the player is standing in decides who actually is, and anybody else
+   * is on the phone.
    */
+  const remote = (id: EntityId) =>
+    presentPersonIds !== undefined &&
+    id !== playerPersonId &&
+    !presentPersonIds.includes(id);
   const faces: EntityId[] = [];
   const addFace = (id: EntityId | null | undefined) => {
     if (id && world.people[id] && !faces.includes(id)) faces.push(id);
@@ -290,7 +305,9 @@ export function SceneConversation({
   addFace(playerPersonId);
   addFace(facing);
   for (const id of view.room.eligibleAddresseePersonIds) addFace(id);
-  for (const id of view.room.physicallyPresentPersonIds) addFace(id);
+  for (const id of view.room.physicallyPresentPersonIds)
+    if (!remote(id)) addFace(id);
+  const onThePhone = facing !== null && remote(facing);
   const canFace = (id: EntityId) =>
     view.addressees.some((choice) => choice.key === id);
   const activeSpeakerId: EntityId | null = current
@@ -398,6 +415,7 @@ export function SceneConversation({
                 data-speaking={speaking ? "true" : "false"}
                 data-addressed={addressed ? "true" : "false"}
                 data-person-id={personId}
+                data-remote={remote(personId) ? "true" : "false"}
                 data-testid={`talk-face-${personId}`}
                 {...(eligible
                   ? {
@@ -426,6 +444,9 @@ export function SceneConversation({
             {name}
           </h2>
           <p className="pg-talk-relation">
+            {onThePhone ? (
+              <span data-testid="talk-remote">On the phone · </span>
+            ) : null}
             {relationship ? (
               <span data-testid="talk-relationship">{relationship}</span>
             ) : null}
@@ -643,8 +664,9 @@ export function SceneConversation({
           </div>
 
           {/*
-            Who else hears it, what talking costs, and why a volume is closed —
-            one quiet line, so the box keeps its height.
+            Who else hears it, and why a volume is closed — one quiet line, so
+            the box keeps its height. What a choice costs in time is said on
+            the choice ("Spend half an hour together"), not as a rule here.
           */}
           {!view.settled ? (
             <p className="pg-talk-hearing">
@@ -654,9 +676,6 @@ export function SceneConversation({
                       bystanders.length === 1 ? "hears" : "hear"
                     } this too.`
                   : "Nobody else hears this."}
-                {subject === "life-talk"
-                  ? " Dialogue and reading dialogue take no time; spending half an hour together takes 30 minutes."
-                  : ""}
               </span>
               {privateReason ? (
                 <>
@@ -797,14 +816,24 @@ function HeardNote({
  * nobody at home has no kitchen conversation, one who has left school has no
  * corridor. What changed is that this list no longer draws every conversation
  * in full. Choosing one opens it in the conversation box in the room.
+ *
+ * "Here" means the room: the people the current scene actually puts with the
+ * player. A conversation can also be open with somebody who is not in the
+ * room — a favor a parent asked for, a notice a neighbor mentioned — and the
+ * playtest found those listed under "Talk to somebody here" in the flat of a
+ * man who lives alone. Those are still offered, because answering them is
+ * real, but under a heading that does not claim anybody is present.
  */
 export function ConversationStarters({
   world,
   personId,
+  presentPersonIds,
   onStart,
 }: {
   readonly world: World;
   readonly personId: EntityId;
+  /** Who the current scene puts in the room with the player. */
+  readonly presentPersonIds: readonly EntityId[];
   readonly onStart: (
     addresseePersonId: EntityId,
     subject: ConversationSubjectKey,
@@ -818,37 +847,53 @@ export function ConversationStarters({
     [world, personId],
   );
   if (available.length === 0) return null;
+  const isHere = (entry: (typeof available)[number]) =>
+    entry.room.eligibleAddresseePersonIds.every((id) =>
+      presentPersonIds.includes(id),
+    );
+  const here = available.filter(isHere);
+  const elsewhere = available.filter((entry) => !isHere(entry));
+  const starter = (entry: (typeof available)[number]) => {
+    const first = entry.room.eligibleAddresseePersonIds[0]!;
+    const names = entry.room.eligibleAddresseePersonIds
+      .map((id) => personName(world.people[id]!))
+      .join(", ");
+    return (
+      <li key={entry.subject}>
+        <button
+          type="button"
+          className="ui-action ui-action--subtle"
+          data-testid={`conversation-start-${entry.subject}`}
+          data-here={isHere(entry) ? "true" : "false"}
+          onClick={() => onStart(first, entry.subject)}
+        >
+          {entry.topicLabel}
+          <small>
+            {names}
+            {entry.settled ? " · settled for now" : ""}
+          </small>
+        </button>
+      </li>
+    );
+  };
   return (
     <section
       className="pg-personal-section pg-talk-starters"
-      aria-labelledby="pg-talk-starters-heading"
+      aria-label="Conversations"
       data-testid="conversations"
     >
-      <h3 id="pg-talk-starters-heading">Talk to somebody here</h3>
-      <ul>
-        {available.map((entry) => {
-          const first = entry.room.eligibleAddresseePersonIds[0]!;
-          const names = entry.room.eligibleAddresseePersonIds
-            .map((id) => personName(world.people[id]!))
-            .join(", ");
-          return (
-            <li key={entry.subject}>
-              <button
-                type="button"
-                className="ui-action ui-action--subtle"
-                data-testid={`conversation-start-${entry.subject}`}
-                onClick={() => onStart(first, entry.subject)}
-              >
-                {entry.topicLabel}
-                <small>
-                  {names}
-                  {entry.settled ? " · settled for now" : ""}
-                </small>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      {here.length > 0 ? (
+        <div data-testid="conversations-here">
+          <h3>Talk to somebody here</h3>
+          <ul>{here.map(starter)}</ul>
+        </div>
+      ) : null}
+      {elsewhere.length > 0 ? (
+        <div data-testid="conversations-elsewhere">
+          <h3>From people who are not here</h3>
+          <ul>{elsewhere.map(starter)}</ul>
+        </div>
+      ) : null}
     </section>
   );
 }

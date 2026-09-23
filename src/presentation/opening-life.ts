@@ -20,6 +20,7 @@ import {
   worldOpeningVersionOf,
   CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
+import { ensureMigrationSchedule } from "../simulation/migration";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   ensureMacroEconomyStarted,
@@ -113,6 +114,7 @@ export function generateOpeningLife(
                     game.playerPersonId,
                   ),
                   game.playerPersonId,
+                  session.setup.partyChapterNameVersion,
                 ),
                 game.playerPersonId,
               ),
@@ -151,8 +153,10 @@ function ensureHomeStateLegislature(
  * what WORLD's unchanged-hash control depends on.
  */
 function openedWorld(world: World, playerPersonId: EntityId): World {
+  // Migration is scheduled only for a current opening too, so a legacy replay
+  // keeps the world it always built (MIGRATION_SEAMS "old-saves").
   return pressOpeningApplies(world)
-    ? ensurePressOpening(world, playerPersonId)
+    ? ensureMigrationSchedule(ensurePressOpening(world, playerPersonId))
     : world;
 }
 
