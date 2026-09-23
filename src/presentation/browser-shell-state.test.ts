@@ -286,11 +286,14 @@ describe("portable transfer uses the shell's v3 codec", () => {
     const exported = await exportPortableSave(store, SLOT);
     if (exported.status !== "ok") throw new Error(exported.reason);
     const text = serializePortableSave(exported.bundle);
-    // Long lives exported from play measured 13 to 29 MB.
-    const longLife = text + " ".repeat(30 * 1024 * 1024);
+    // The largest life measured so far exported at 91.6 MB (Casper).
+    const longLife = text + " ".repeat(92 * 1000 * 1000);
     expect(parsePortableSave(longLife).status).toBe("ok");
+    expect(PORTABLE_SAVE_MAX_BYTES).toBeGreaterThanOrEqual(
+      2 * 92 * 1000 * 1000,
+    );
     expect(
-      parsePortableSave(text + " ".repeat(PORTABLE_SAVE_MAX_BYTES)),
+      parsePortableSave(text, { maxBytes: text.length - 1 }),
     ).toMatchObject({ status: "error", failure: "too-large" });
   });
 
