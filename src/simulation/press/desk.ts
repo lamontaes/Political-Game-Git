@@ -222,6 +222,8 @@ function writeDisposition(
  * once nobody is left. The owner decided (2026-09-22) that fewer local
  * reporters can mean fewer local stories, following the recorded staffing
  * rather than a fixed percentage; this is that rule with no number of its own.
+ * PLACEHOLDER, NOT RESEARCHED: that capacity scales in proportion to staff is
+ * itself a design choice, not a finding.
  *
  * NOT MODELED YET: which beats go uncovered first. A smaller newsroom takes
  * fewer stories of every kind, ranked by the same newsworthiness as before.
@@ -232,11 +234,17 @@ export function outletAssignmentCapacity(
 ): number {
   const full = MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier];
   const roles = reporterRoles(world, outlet.id);
+  // The newsroom the outlet opened with is what its tier capacity was set
+  // for; a later hire replaces somebody rather than growing that base.
+  const opening = roles.filter(
+    (role) => role.startedAt <= outlet.establishedAt,
+  ).length;
+  const staffed = opening > 0 ? opening : roles.length;
   // An outlet with no recorded newsroom keeps its tier's capacity; assignment
   // still needs a current reporter, so it takes nothing either way.
-  if (roles.length === 0) return full;
+  if (staffed === 0) return full;
   const current = roles.filter((role) => reporterIsCurrent(world, role)).length;
-  return Math.min(full, Math.ceil((full * current) / roles.length));
+  return Math.min(full, Math.ceil((full * current) / staffed));
 }
 
 /**
@@ -1062,6 +1070,12 @@ function publishStory(
  * reported it, and runs only where the story is relevant to that sibling's
  * audience by the same test the sibling's own desk uses. A sibling already
  * working the same occurrence keeps its own story.
+ *
+ * PLACEHOLDER, NOT RESEARCHED: relevance here is `outletCovers` alone. The
+ * sibling's newsworthiness ranking and routine-item limit do not gate a shared
+ * copy, because ChatGPT found no rule for which sibling picks a story up
+ * (`what-coordinated-owner-practices-change-in-the-news`); a threshold would
+ * be an invented number.
  */
 function shareWithSiblings(
   world: World,
@@ -1123,11 +1137,18 @@ function shareWithSiblings(
         `press.shared-from:${origin.id}`,
         `press.family:${lead.family}`,
         ...(lead.matterId ? [`${PRESS_MATTER_TAG}${lead.matterId}`] : []),
+        // The copy says what the original said, so it is corrected with it.
+        ...story.tags.filter(
+          (tag) =>
+            tag === "press.narrowed" || tag === "press.unattributed-assertion",
+        ),
       ],
       summary: story.summary,
       context: {
         location: null,
-        socialContext: `${story.context.socialContext}\n\n${credit}`,
+        socialContext: story.context.socialContext
+          ? `${story.context.socialContext}\n\n${credit}`
+          : credit,
         pressure: null,
         choice: null,
         motivation: credit,

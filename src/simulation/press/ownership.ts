@@ -145,6 +145,9 @@ export function sharingSiblings(
   const ordered = ownerDirectives(world, owner.id).some(
     (directive) =>
       directive.effect === "share-content-across-outlets" &&
+      // An order recorded before sharing was simulated said it changed
+      // nothing, and an old save keeps that meaning.
+      directive.simulated &&
       directive.decidedAt <= world.currentDate,
   );
   if (!ordered) return [];

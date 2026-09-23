@@ -544,6 +544,20 @@ describe("media owners", () => {
     }
     // Before the order, the same outlet shares with nobody.
     expect(sharingSiblings(owned, origin.id)).toEqual([]);
+    // An order an older save recorded as changing nothing still changes
+    // nothing.
+    const recordedAsInert: World = {
+      ...ordered,
+      history: {
+        ...ordered.history,
+        pressRecords: (ordered.history.pressRecords ?? []).map((record) =>
+          record.kind === "owner-directive"
+            ? { ...record, simulated: false }
+            : record,
+        ),
+      },
+    };
+    expect(sharingSiblings(recordedAsInert, origin.id)).toEqual([]);
   });
 
   it("stops reviewing, and says so, when the owner's pack is no longer loaded", () => {
