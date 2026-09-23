@@ -17,7 +17,11 @@ import {
   socialInvitationsFor,
 } from "./social-invitation";
 import { passOrdinaryDays } from "./ordinary-life";
-import { performVenueActivity, venueActivities } from "./venue-activity";
+import {
+  performVenueActivity,
+  venueActivities,
+  venueTimingLabel,
+} from "./venue-activity";
 
 function start(placeKey: string, seed: string) {
   const game = createNewGameWorld({
@@ -206,6 +210,55 @@ describe("a Saturday invitation, said yes to", () => {
     expect(attended).toHaveLength(1);
     expect(attended[0]!.involvedEntityIds).toContain(askerId);
   }, 120_000);
+
+  it("going to it without answering first is the yes, and books the trip", () => {
+    const opened = start("2338740", "saturday-2338740");
+    const personId = opened.personId;
+    const invitation = socialInvitationsFor(opened.world, personId)[0]!;
+    const askerId = askerOf(opened.world, invitation.invitationEventId);
+    // Friday, with the week's other business behind the player.
+    const world = passOrdinaryDays(opened.world, 4);
+    expect(socialInvitationsFor(world, personId)[0]?.activityId).toBe(
+      invitation.activityId,
+    );
+    const entry = venueActivities(world, personId).find(
+      ({ activity }) => activity.id === invitation.activityId,
+    )!;
+    // It used to read "You have no way to get from Home to <asker>'s home yet."
+    expect(entry.refusal).toBeNull();
+    const kept = performVenueActivity(world, personId, invitation.activityId);
+    expect(scheduledActivityState(kept, invitation.activityId).status).toBe(
+      "cancelled",
+    );
+    const attended = kept.history.events.filter(
+      (event) => event.type === "life.social-occasion-attended",
+    );
+    expect(attended).toHaveLength(1);
+    expect(attended[0]!.involvedEntityIds).toContain(askerId);
+    expect(
+      kept.history.scheduledActivities.some(
+        (activity) =>
+          activity.kind === "travel" &&
+          scheduledActivityState(kept, activity.id).status === "completed",
+      ),
+    ).toBe(true);
+  }, 120_000);
+
+  it("says when the trip leaves and how long it takes, not the wait in minutes", () => {
+    const { world, personId } = start("3222500", "saturday-3222500");
+    const invitation = socialInvitationsFor(world, personId)[0]!;
+    const accepted = acceptSocialInvitation(world, {
+      personId,
+      activityId: invitation.activityId,
+      revision: invitation.revision,
+    });
+    const trip = accepted.history.scheduledActivities.at(-1)!;
+    expect(trip.kind).toBe("travel");
+    // It used to read "6090 minutes, including any wait before it begins."
+    expect(venueTimingLabel(accepted, trip.id)).toMatch(
+      /^Starts Saturday, [A-Z][a-z]+ \d{1,2}, \d{4} at 2:45 p\.m\. and takes 15 minutes\.$/,
+    );
+  });
 
   it("answered in conversation, moves the calendar with the answer", () => {
     const { world, personId } = start("2015900", SEEDS["2015900"]!);

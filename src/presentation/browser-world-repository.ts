@@ -13,8 +13,12 @@ import { factsForPerson, personName } from "../simulation/people";
 import {
   createWorldSnapshot,
   deserializeWorld,
-  serializeWorld,
+  readWorldSnapshot,
+  serializeWorldAs,
+  serializeWorldSnapshot,
+  storedFormatVersion,
   worldContentId,
+  type WorldSnapshotFormatVersion,
 } from "../simulation/serialization";
 import type {
   EntityId,
@@ -1167,15 +1171,15 @@ interface PreparedRecord {
 function prepareWorldRecord(world: World): PreparedRecord {
   const player = controlledPlayer(world);
   // One snapshot, used for the summary, the payload and the content identity.
-  // `serializeWorld` is exactly `JSON.stringify(createWorldSnapshot(world))`.
+  // `serializeWorld` is exactly `serializeWorldSnapshot(createWorldSnapshot())`.
   const snapshot = createWorldSnapshot(world);
   return {
-    payload: JSON.stringify(snapshot),
+    payload: serializeWorldSnapshot(snapshot),
     contentId: snapshot.snapshotId,
     fields: {
       worldId: world.id,
       snapshotId: snapshot.snapshotId,
-      snapshotFormatVersion: snapshot.formatVersion,
+      snapshotFormatVersion: storedFormatVersion(snapshot),
       worldSchemaVersion: world.schemaVersion,
       worldGeneratorVersion: world.generatorVersion,
       playerPersonId: player.id,
@@ -1313,8 +1317,9 @@ export function readStoredRecord(value: unknown): ReadRecord {
   }
 
   let world: World;
+  let formatVersion: WorldSnapshotFormatVersion;
   try {
-    world = deserializeWorld(value.payload);
+    ({ world, formatVersion } = readWorldSnapshot(value.payload));
   } catch {
     return damaged(
       saveId,
@@ -1324,7 +1329,10 @@ export function readStoredRecord(value: unknown): ReadRecord {
       savedAt,
     );
   }
-  if (value.payload !== serializeWorld(world)) {
+  // Compared in the format the record was written in: a save from before roll
+  // calls were packed is the same save, and is rewritten packed on its next
+  // write.
+  if (value.payload !== serializeWorldAs(world, formatVersion)) {
     return damaged(
       saveId,
       "altered-after-write",
@@ -1334,7 +1342,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
     );
   }
 
-  const migrated = migrateRecord(value, world);
+  const migrated = migrateRecord(value, world, formatVersion);
   if (migrated === null) {
     return damaged(
       saveId,
@@ -1361,6 +1369,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
 function migrateRecord(
   value: Record<string, unknown>,
   world: World,
+  formatVersion: WorldSnapshotFormatVersion,
 ): StoredBrowserWorldRecord | null {
   if (typeof value.saveId !== "string") return null;
   const saveId = value.saveId as EntityId;
@@ -1374,13 +1383,16 @@ function migrateRecord(
       ? value.generation
       : 0;
 
-  const expected = createBrowserWorldRecord(
-    world,
-    metadata.savedAt as string,
-    metadata.createdAt as string,
-    saveId,
-    generation,
-  ).metadata;
+  const expected: BrowserWorldSummary = {
+    ...createBrowserWorldRecord(
+      world,
+      metadata.savedAt as string,
+      metadata.createdAt as string,
+      saveId,
+      generation,
+    ).metadata,
+    snapshotFormatVersion: formatVersion,
+  };
   const actual: BrowserWorldSummary = {
     ...(metadata as unknown as BrowserWorldSummary),
     saveId,
