@@ -145,10 +145,14 @@ const sha256 = (text: string) =>
  * movement, same evidence: LEGACY_OPENING_SHAPE, as re-set above, PASSED
  * unchanged on the run that moved these, and the pack's own test proves every id and record the
  * catalog already had is untouched and in its old place.
+ *
+ * AND AGAIN 2026-09-23, when the federal pack's text took American spellings
+ * (programs, offenses, license). Only that authored text moved; the ids and
+ * LEGACY_OPENING_SHAPE did not.
  */
 const FED321F7_LEGACY = {
-  kentucky: "6cf6cccd95c62cca5504d753373bb7172629c9d980a6da25d1047cdc4f9255de",
-  peebles: "87a074b6e5ed57bad73f1507139ace65fdfb93c7ea81ef17c3efda94077c7406",
+  kentucky: "4210ed00e56e6ec70bc9f2e68026d5ad087ecf1b141c0480c8534f91d0819b2a",
+  peebles: "2bb890b718ee72744e55972e484391638af1ad7d25c1d5adbc302d0caa5e5fc8",
 } as const;
 
 /**
