@@ -254,6 +254,7 @@ export * from "./national-election-offices";
 export * from "./legislative-election-rules";
 export * from "./legislative-office-terms";
 export * from "./office-transition";
+export * from "./oath-of-office";
 export * from "./office-entry-repair";
 export * from "./late-term-entry-events";
 export * from "./constitutional-process";
