@@ -5,7 +5,8 @@
   "lane": "people and life",
   "notes": [
     "PLACEHOLDERS IN CODE, marked as such: the Saturday invitation runs 3 to 6 p.m., at the asker's home, with a 15-minute local trip there. The hours were already in the game; the home and the trip were added so a yes can actually be kept. None of the three is researched.",
-    "PLAYER-FACING INPUT: yes. The player sees 'Rachel Kim asked you over on Saturday afternoon. Going is optional.', can say yes, and the afternoon then goes on their calendar and is recorded as time spent with that person."
+    "PLAYER-FACING INPUT: yes. The player sees 'Rachel Kim asked you over on Saturday afternoon. Going is optional.', can say yes, and the afternoon then goes on their calendar and is recorded as time spent with that person.",
+    "ChatGPT dialogue export owner review, 2026-09-23 12:10 a.m. ET (docs/research/chatgpt-answers/2026-09-23-dialogue-review-0415/Our Civic Duty - dialogue export owner review - September 23 2026.md): adult.weekend-invitation is 'playable' although its condition is always true and it names no inviter. Owner product rule in that review: dialogue grows from what the simulation recorded happened; the selector must not create an incident by choosing a prewritten scene. Its next engineering proof is one recorded invitation or request, shown in two non-Kentucky lives with save and continue. Routed to How deep are choices and dialogue."
   ],
   "priority": "P1",
   "question": "When an adult American is invited to something by a neighbor or someone local they know, what kinds of occasion are those invitations actually for, how long do they last, when in the week do they fall, and how far away are they?",
