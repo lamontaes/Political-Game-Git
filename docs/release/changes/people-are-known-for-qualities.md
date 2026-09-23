@@ -6,7 +6,7 @@ section: Added
 ---
 
 Beyond the five temperament traits, the adults you meet are now each known for
-one or two named qualities drawn from a catalogue of ninety-eight: somebody can
+one or two named qualities drawn from a catalog of ninety-eight: somebody can
 be industrious, cocky, blunt or forgiving, and those show on their
 card. A quality that is a marked habit rather than one end of a scale, such as
 cocky, is never given an invented opposite: somebody who is not cocky is not

@@ -6,7 +6,8 @@
     "The childhood scenes are in src/simulation/opening-life-content.ts. Each has a premise, a cast (guardian, sibling, peer, housemate) and two to four choices with an aftermath line. Example: a peer offers to swap snacks after the lunch monitor said not to; the child can swap quietly, say trading isn't allowed, or keep their own snack.",
     "Playing a scene with somebody is now recorded as contact between the two of them, and moves nothing. The missing piece is per choice: whether it moves any of the five lines (warmth, trust, respect, commitment, tension) for the other person, and which way.",
     "It is plausible that most choices move nothing and a few matter a great deal. Say so where that is the answer.",
-    "Two people can read the same choice differently: the guardian and the peer in the same scene need not agree."
+    "Two people can read the same choice differently: the guardian and the peer in the same scene need not agree.",
+    "lamontae's decision, recorded by ChatGPT on September 22, 2026 (about 8:25 to 9:00 p.m. Eastern; docs/research/chatgpt-answers/2026-09-23-amendments-and-owner-decisions-0109/ocd-owner-decision-early-life-callbacks-2026-09-22.md): effects vary by person and context. Use the recorded action and the other person's temperament and history; a routine encounter may move no relationship line. ChatGPT's inference: a fixed identical change for every participant would conflict with this. Per-choice mappings and magnitudes remain open, so the question stays open."
   ],
   "priority": "P1",
   "question": "For each childhood scene choice played with another person, what does that choice mean to the other person: which of the five relationship lines it moves for them, in which direction, and how strongly (as minor, meaningful or major rather than a number)?",

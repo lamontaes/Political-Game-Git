@@ -11,10 +11,9 @@ raises the limit from two terms to three, a two-term governor can stand again.
 If it changes the term from four years to six, the office's elections move to
 the new cycle from the first term the law reaches.
 
-Every state has a limit in one of three states. Missouri, Nebraska and Ohio
-use the limit read from their own constitutions. Any other state uses a limit
-drawn from the limits those states enacted. The draw is fixed per state across
-saves and never copied from a neighbor, and it is recorded as the game's own.
+Missouri, Nebraska and Ohio use the limit read from their own constitutions.
+A state whose law the game has not read has no limit: an office is
+term-limited only where the law says so.
 A consecutive limit resets after a term sat out; a lifetime limit does not. A
 law that is silent on terms already served counts them.
 

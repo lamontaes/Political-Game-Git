@@ -30,6 +30,7 @@ import {
 } from "./ownership";
 import { applyPendingDisasterHandlingReactions } from "../crisis/handling-reactions";
 import { produceCaughtLyingLeads } from "./caught-lying";
+import { produceCampaignSpendingReports } from "./spending-reports";
 import { ensurePressExposureCoverage } from "./views";
 import {
   PRESS_PROCEEDING_TRANSITION_KEY,
@@ -52,7 +53,9 @@ function pressWeeklyHandler(
       ensurePressHomeCoverage(
         produceCaughtLyingLeads(
           produceCampaignFinanceScrutiny(
-            applyPendingDisasterHandlingReactions(world),
+            produceCampaignSpendingReports(
+              applyPendingDisasterHandlingReactions(world),
+            ),
           ),
         ),
       ),

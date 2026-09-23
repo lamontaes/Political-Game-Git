@@ -333,6 +333,7 @@ import {
   reportReturnToTitle,
   type ReturnToTitleRequest,
 } from "./return-to-title-bridge";
+import { HomePurchasePanel } from "./HomePurchasePanel";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
 import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
 import {
@@ -4554,6 +4555,11 @@ function renderWorkspace({
             personId={session.personId}
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
+          />
+          <HomePurchasePanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
           />
           {view.section !== "finances" && (
             <>

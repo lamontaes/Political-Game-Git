@@ -15,6 +15,7 @@ export * from "./claim-route";
 export * from "./findings";
 export * from "./finding-consequences";
 export * from "./caught-lying";
+export * from "./spending-reports";
 export * from "./ownership-packs";
 export * from "./ownership-pack-default";
 export * from "./ownership";

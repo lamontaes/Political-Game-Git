@@ -171,7 +171,7 @@ describe("migration scaffold", () => {
         return probe.people[neighbourId]!.homeJurisdictionId !== town;
       },
     )!;
-    expect(quarter, "the neighbour is reviewed in some quarter").toBeDefined();
+    expect(quarter, "the neighbor is reviewed in some quarter").toBeDefined();
     const world = reviewTown(seeded, quarter, {
       departureChancePerYear: 1,
       arrivalsPerResidentPerYear: 12,
@@ -220,7 +220,7 @@ describe("migration scaffold", () => {
           arrivalsPerResidentPerYear: 0,
         }).people[neighbourId]!.homeJurisdictionId !== town,
     );
-    expect(quarter, "doubled pressure moves the neighbour").toBeDefined();
+    expect(quarter, "doubled pressure moves the neighbor").toBeDefined();
     const world = reviewTown(waved, quarter!, {
       departureChancePerYear: 0.5,
       arrivalsPerResidentPerYear: 0,
