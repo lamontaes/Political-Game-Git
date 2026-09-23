@@ -286,7 +286,7 @@ const STATE_EXECUTIVE_BLANKET: OfficeTransitionProfile = {
   coverage: "blanket",
   electTitle: (officeTitle) => `${officeTitle}-elect`,
   entry:
-    "The office is yours from the first day of the term, and only once you have qualified for it.",
+    "The office is yours from the first day of the term, when you take the oath. The office's requirements are checked for you; nothing has to be filed.",
   swearingIn:
     "At the inauguration, before a public audience at the capitol, a judge administers the oath of office.",
   services: [
