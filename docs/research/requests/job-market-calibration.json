@@ -1,0 +1,43 @@
+{
+  "candidateAnswers": [
+    {
+      "label": "Calibrate from JOLTS and CPS",
+      "position": "Use BLS JOLTS openings and hires rates by industry for how often openings appear and how often they end in a hire, and CPS part-time shares by occupation for part-time work. Answer times and missed-start handling stay a bounded game profile.",
+      "recommended": true
+    },
+    {
+      "label": "Keep the placeholders as a game profile",
+      "position": "Accept the current numbers as a deliberate game profile and record that decision, so they stop being placeholders.",
+      "recommended": false
+    }
+  ],
+  "filedAt": "2026-09-23T04:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Jobs (job market), with Ordinary adult life",
+  "notes": [
+    "The code keeps every number in one object, JOB_MARKET_PLACEHOLDER in src/simulation/job-market.ts, so an answer replaces one block.",
+    "Deadlines are drawn once when their record is written and saved, so an answer changes new openings and offers only; saved ones keep their dates."
+  ],
+  "priority": "P1",
+  "question": "The Jobs screen now lists real openings at a town's own employers and lets a player apply, be put forward by someone they know, get turned down, accept, start, or miss a start. The owner approved two ranges (an opening takes applications for 7 to 28 days; an offer waits 3 to 7 days for an answer). Everything else is a marked placeholder. Please give a defensible range or rule for each: (1) how often an employer with a given kind of role posts a new opening (the placeholder is a 35% chance each week per role, one open listing per role at a time); (2) what share of hourly openings are part-time, and their usual weekly hours (placeholder 30%, 16 to 32 hours); (3) how far one employer's offer sits from what it already pays that role (placeholder plus or minus 8%); (4) how many days after applying an employer answers (placeholder 2 to 7); (5) the chance an application ends in an offer, for a cold application and for one where a current employee put in a word (placeholder 45% and 75%), and what else about the applicant should change it; (6) how many days after the reply deadline work starts (placeholder 1 to 7); (7) after a missed first day, how many days the employer waits (placeholder 2), how likely it is to call and set a new date rather than withdraw (placeholder: always when a contact referred the person, otherwise 50%), and how soon the new date is (placeholder 3 to 7 days); (8) which occupations are usually salaried rather than hourly (placeholder: professional occupations are salaried, everything else hourly).",
+  "questionId": "job-market-calibration",
+  "relatedQuestionIds": [
+    "employers-and-job-listings",
+    "businesses-owners-and-wealth"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Jobs thread, for lamontae (owner)",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-23-jobs-and-units-0311/ (Jobs owner decisions and the work-hours source intake), on PR #531",
+      "whatItDidNotSettle": "They settle what a listing shows, how pay is quoted, that applications can be refused and that a missed start leads to follow-up or withdrawal. They say exact deadline lengths are private calibration and give no rates, answer times or hiring chances. The work-hours note says CPS and ACS support weekly-hour ranges but not a particular employer's schedule."
+    },
+    {
+      "source": "Owner decision, 9/22 13:18 UTC, recorded in team memory as owner-decisions-2026-09-22-midday",
+      "whatItDidNotSettle": "Approved the 7 to 28 day and 3 to 7 day ranges only."
+    }
+  ],
+  "title": "How often towns post openings, how long employers take to answer, how often they hire, and what happens after a missed start",
+  "usableAnswer": "A number or range for each of the eight points, with the source or the reasoning, and whether it should differ by town size, industry or state. Where a source cannot answer, say so and give a bounded game profile instead.",
+  "whyItMatters": "Each of these decides what a player sees on Jobs week to week and how forgiving hiring is. They are invented today, and the owner's rule is that invented depth is filed, not tuned."
+}

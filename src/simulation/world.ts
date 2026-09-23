@@ -37,6 +37,10 @@ import {
   publicProgramRecords,
 } from "./public-program-integrity";
 import {
+  assertJobMarketIntegrity,
+  jobMarketHistoryRecords,
+} from "./job-market-integrity";
+import {
   assertTaxIntegrity,
   taxEntityExists,
   taxEntityAvailableAt,
@@ -1698,6 +1702,7 @@ function validateHistoryIntegrity(world: World): void {
   }
   const records = [
     ...taxHistoryRecords(world),
+    ...jobMarketHistoryRecords(world),
     ...lifeHistoryRecords(world),
     ...resourceHousingHistoryRecords(world),
     ...worldMetricHistoryRecords(world),
@@ -1856,6 +1861,7 @@ function validateHistoryIntegrity(world: World): void {
   assertLifeHistoryIntegrity(world, ids);
   assertResourceHousingIntegrity(world, ids);
   assertTaxIntegrity(world, ids);
+  assertJobMarketIntegrity(world, ids);
   assertPublicPaymentIntegrity(world);
   assertWorldMetricIntegrity(world, ids);
   assertCausalEffectIntegrity(world, ids);
