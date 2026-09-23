@@ -1,4 +1,5 @@
 import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
+import { SCHOOL_STAGES_V1 } from "../simulation/school-stages";
 import { RESIDENT_CHAPTER_NAME_VERSION } from "../simulation/living-world/party-chapters";
 import {
   canonicalPriorEncoding,
@@ -235,6 +236,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.schoolNameVersion === undefined
       ? {}
       : { schoolNameVersion: setup.schoolNameVersion }),
+    ...(setup.schoolStageVersion === undefined
+      ? {}
+      : { schoolStageVersion: setup.schoolStageVersion }),
     ...(setup.birthYear === undefined ? {} : { birthYear: setup.birthYear }),
     ...(setup.openingDataVersion === undefined
       ? {}
@@ -396,6 +400,11 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   if (
+    record.schoolStageVersion !== undefined &&
+    record.schoolStageVersion !== SCHOOL_STAGES_V1
+  )
+    return null;
+  if (
     givenNameGenerationVersion !== undefined &&
     givenNameGenerationVersion !== LEGACY_GIVEN_NAME_GENERATION_VERSION &&
     givenNameGenerationVersion !== DISTINCT_GIVEN_NAME_GENERATION_VERSION &&
@@ -480,6 +489,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.schoolNameVersion === undefined
       ? {}
       : { schoolNameVersion: SCHOOL_NAMES_V2_VERSION }),
+    ...(record.schoolStageVersion === undefined
+      ? {}
+      : { schoolStageVersion: SCHOOL_STAGES_V1 }),
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion: appearanceRecipeVersion as string }),
