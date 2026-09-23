@@ -1,5 +1,7 @@
 import { campaigns, campaignState } from "../campaign-queries";
 import { recordSupportLoss } from "../campaign-support";
+import { recheckRoutedClaims } from "../claim-contradictions";
+import { claimStancesBy } from "../claim-stances";
 import { electionContestStatus } from "../election-contests";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { personName } from "../people";
@@ -79,8 +81,50 @@ export function applyFindingConsequences(
       next = restitutionConsequence(next, proceeding, respondentId, step);
     }
     next = socialConsequence(next, proceeding, respondentId, event);
+    next = deniedToConsequence(next, proceeding, respondentId, event);
   }
   return next;
+}
+
+/**
+ * Whoever the respondent denied this matter to, a reporter asking about it,
+ * follows it and reads the finding when it is published; the denial is then
+ * checked against it at once. Before this a lie told with "Deny it" was
+ * checked once, before any finding existed, and never again.
+ */
+function deniedToConsequence(
+  world: World,
+  proceeding: MatterProceedingRecord,
+  respondentId: EntityId,
+  event: HistoricalEvent,
+): World {
+  const propositionKey = `matter:${proceeding.matterId}`;
+  const askers = sortedUnique(
+    claimStancesBy(world, respondentId)
+      .filter(({ stance }) => stance.propositionKey === propositionKey)
+      .flatMap(({ stance }) => stance.recipientPersonIds),
+  ).filter((personId) => personId !== respondentId && world.people[personId]);
+  if (askers.length === 0) return world;
+  let next = world;
+  for (const personId of askers) {
+    if (
+      next.history.knowledge.some(
+        (record) => record.personId === personId && record.eventId === event.id,
+      )
+    )
+      continue;
+    next = recordEventKnowledge(next, {
+      stableKey: `${event.stableKey}:followed-by:${personId}`,
+      personId,
+      eventId: event.id,
+      learnedAt: next.currentDate,
+      believedSummary: event.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "public-record", reference: proceeding.institutionLabel },
+    });
+  }
+  return recheckRoutedClaims(next, respondentId, propositionKey);
 }
 
 function supportConsequence(
