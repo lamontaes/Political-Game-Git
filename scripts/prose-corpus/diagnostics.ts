@@ -120,6 +120,9 @@ function bindableSlots(record: ProseRecord): ReadonlySet<string> {
     // traceable exactly when the family declares that detail, which is what
     // puts the key in the record's grounding.
     if (ref.key.startsWith("detail:")) bindable.add(ref.key);
+    // `{school}` names the school the player attends today, which a record
+    // that requires the enrollment has established.
+    if (ref.key === "fact:school.enrolled") bindable.add("school");
   }
   return bindable;
 }
