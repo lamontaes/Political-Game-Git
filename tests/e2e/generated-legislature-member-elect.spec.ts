@@ -11,9 +11,9 @@ import { enterLife, goTo } from "./support/creator";
  * the months between saves are passed with the simulation's own day runner,
  * not by clicking through them.
  */
-for (const { town, placeKey } of [
-  { town: "Presque Isle, Maine", placeKey: "2360825" },
-  { town: "Dahlonega, Georgia", placeKey: "1321240" },
+for (const { town, placeKey, state } of [
+  { town: "Presque Isle, Maine", placeKey: "2360825", state: "Maine" },
+  { town: "Dahlonega, Georgia", placeKey: "1321240", state: "Georgia" },
 ])
   test(`a House winner in ${town} waits, is seated on the term's first day and takes the oath`, async ({
     page,
@@ -88,9 +88,31 @@ for (const { town, placeKey } of [
     await expect(swearingIn).toContainText(
       "Your term as Member of the House of Representatives began January 1, 2027",
     );
+    // Choose what to swear on, and to affirm; then repeat each of the six
+    // phrases after the officiant. Only the last one records the oath.
+    await expect(page.getByTestId("swearing-in-take-oath")).toBeDisabled();
+    await swearingIn
+      .getByLabel(`A copy of the Constitution of ${state}`)
+      .check();
+    await swearingIn.getByLabel("Affirm, without an appeal to God").check();
+    await swearingIn.screenshot({
+      path: test.info().outputPath(`oath-choice-${placeKey}.png`),
+    });
     await page.getByTestId("swearing-in-take-oath").click();
+    await expect(swearingIn).toContainText("repeat after me");
+    const repeat = page.getByTestId("swearing-in-repeat");
+    await expect(repeat).toContainText(/^“I, .+,”$/);
+    for (let phrase = 0; phrase < 5; phrase += 1) await repeat.click();
+    await expect(page.getByTestId("swearing-in-spoken")).toContainText(
+      `do solemnly affirm that I will support the Constitution of the United States and the Constitution of ${state},`,
+    );
+    await expect(repeat).toContainText("to the best of my ability.");
+    await swearingIn.screenshot({
+      path: test.info().outputPath(`oath-recital-${placeKey}.png`),
+    });
+    await repeat.click();
     await expect(page.getByTestId("swearing-in-done")).toContainText(
-      "You raised your right hand and took the oath of office as Member of the House of Representatives.",
+      `With your hand on a copy of the Constitution of ${state}, you raised your right hand and affirmed the oath of office as Member of the House of Representatives.`,
     );
     await page.screenshot({
       path: test.info().outputPath(`sworn-in-${placeKey}.png`),
