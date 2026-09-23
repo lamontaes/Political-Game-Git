@@ -7,8 +7,8 @@
     "This container could not reach codes.ohio.gov (the proxy refused the connection), so the Ohio statute could not be acquired into data/source/state-local-fiscal-authority. A first-party copy of each authorizing statute, as retrievable page text or PDF with its URL and retrieval date, is what the corpus needs."
   ],
   "priority": "P2",
-  "question": "In which of the 52 jurisdictions (the 50 states, D.C. and Puerto Rico) may a municipality, a county, or a school district levy a tax on individual income or wages, and under what authority? For each jurisdiction and each of those three levels: authorized, authorized with voter approval, authorized for named places only, or not authorized; the statute or constitutional section and its official URL; the effective date of the authority; any statewide rate cap; and whether residents get a credit for income tax paid to another local government.",
-  "questionId": "local-income-tax-authority-52-jurisdictions",
+  "question": "In which of the 56 places (the 50 states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands) may a municipality, a county, or a school district levy a tax on individual income or wages, and under what authority? Ohio municipal authority (Ohio Revised Code 718.04) and Philadelphia's single Wage and Earnings Tax are already answered in A15, so start from that answer and do not re-research them. For each other place and each of those three levels: authorized, authorized with voter approval, authorized for named places only, or not authorized; the statute or constitutional section and its official URL; the effective date of the authority; any statewide rate cap; and whether residents get a credit for income tax paid to another local government. For a territory, say also whether a local level exists at all.",
+  "questionId": "local-income-tax-authority-56-places",
   "requestVersion": "research-request/v1",
   "requestedBy": "Issue voting and city taxes thread",
   "sourcesChecked": [
@@ -22,6 +22,6 @@
     }
   ],
   "title": "Where cities and counties may levy an income tax",
-  "usableAnswer": "A 52-row by three-level table: authorization status, citation with official URL, effective date, rate cap, voter-approval requirement and resident credit rule, one row per jurisdiction and level, with 'not authorized' stated explicitly rather than left blank. Named-place authority (such as a single city) listed by place.",
-  "whyItMatters": "A city income tax should exist only where the city really has the power. Today none exists anywhere, which is wrong for Ohio, Pennsylvania, Michigan and others; granting it everywhere would be wrong for most states."
+  "usableAnswer": "A 56-row by three-level table: authorization status, citation with official URL, effective date, rate cap, voter-approval requirement and resident credit rule, one row per place and level, with 'not authorized' or 'no such level' stated explicitly rather than left blank. Named-place authority (such as a single city) listed by place. Ohio's rows may simply cite A15.",
+  "whyItMatters": "A city income tax should exist only where the city really has the power. Today none exists anywhere, which A15 already shows is wrong for Ohio and Philadelphia; granting it everywhere would be wrong for most states."
 }

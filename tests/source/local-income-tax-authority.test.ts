@@ -18,7 +18,7 @@ import { createProductionPolicyCatalog } from "../../src/simulation/production-c
  * Revised Code 718.04 lets a municipal corporation levy one, and that
  * Philadelphia levies one. It did not establish county authority, and it is
  * not a nationwide survey: that is filed as
- * `local-income-tax-authority-52-jurisdictions`.
+ * `local-income-tax-authority-56-places`.
  */
 const ROOT = resolve(import.meta.dirname, "../..");
 const INSTRUMENT = "INDIVIDUAL_INCOME_TAX";
