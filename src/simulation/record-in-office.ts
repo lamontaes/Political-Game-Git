@@ -1,3 +1,4 @@
+import { disasterHandlingWeight } from "./crisis/handling-reactions";
 import { governingOfficeForPerson } from "./governing/state-governing";
 import {
   macroConditionsAt,
@@ -96,8 +97,9 @@ export function recordInOffice(
  * What a candidate's past adds to or takes from their starting weight in a
  * new contest: a public ethics finding still in voters' memory starts them
  * further back, and a sitting governor starts ahead or behind on what
- * happened to unemployment on their watch. Both are UNRESEARCHED blanket
- * rules (`press/findings.ts` and above).
+ * happened to unemployment on their watch, and anyone remembered for how they
+ * handled a disaster starts ahead or behind for it. All are UNRESEARCHED
+ * blanket rules (`press/findings.ts`, above, `crisis/handling-reactions.ts`).
  */
 export function startingSupportAdjustment(
   world: World,
@@ -106,7 +108,8 @@ export function startingSupportAdjustment(
 ): number {
   const findings = rememberedAdverseFindingsAgainst(world, personId, asOf);
   return (
-    (recordInOffice(world, personId, asOf)?.weight ?? 0) -
+    (recordInOffice(world, personId, asOf)?.weight ?? 0) +
+    disasterHandlingWeight(world, personId, asOf) -
     findings.length * UNRESEARCHED_FINDING_EFFECTS.laterContestWeightPenalty
   );
 }

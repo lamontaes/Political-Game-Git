@@ -17,6 +17,11 @@ import type {
 import { isPersonAliveAt, recordPersonDeath } from "../vitality";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordOfficialContinuity } from "./continuity";
+import {
+  applyDisasterHandlingReactions,
+  federalDeclarationWarranted,
+  stateRequestWarranted,
+} from "./handling-reactions";
 import { beginHealthEpisode } from "./health";
 import { closeHealthEpisodesForDeath } from "./health-queries";
 import { currentGovernorOf, currentPresidentOf } from "./offices";
@@ -109,13 +114,6 @@ export const PROVISIONAL_DISASTER_POLICY = Object.freeze({
     ],
   } satisfies Record<HazardMagnitude, readonly string[]>,
 });
-
-const MAGNITUDE_RANK: Record<HazardMagnitude, number> = {
-  minor: 0,
-  moderate: 1,
-  major: 2,
-  catastrophic: 3,
-};
 
 export interface DeclareHazardEpisodeInput {
   readonly stableKey: string;
@@ -536,7 +534,7 @@ function recordResponse(
     ],
     summary: input.summary,
   });
-  return appendCrisisRecord(event.world, {
+  const appended = appendCrisisRecord(event.world, {
     kind: "disaster-response",
     stableKey: key,
     effectiveAt: world.currentDate,
@@ -551,6 +549,12 @@ function recordResponse(
     reason: input.reason,
     programs: [...input.programs],
   });
+  const recorded = disasterResponses(appended, episode.id).find(
+    (record) => record.stableKey === key,
+  );
+  return recorded
+    ? applyDisasterHandlingReactions(appended, recorded)
+    : appended;
 }
 
 function controlledBy(world: World, personId: EntityId): boolean {
@@ -745,9 +749,7 @@ export const disasterStateReviewHandler: FutureTransitionHandler = (
   const assessment = disasterAssessment(world, episode.id)!;
   const destroyedHomes =
     assessment.destroyed.household + assessment.destroyed.dwelling;
-  const request =
-    MAGNITUDE_RANK[episode.magnitude] >= MAGNITUDE_RANK.major ||
-    (episode.magnitude === "moderate" && destroyedHomes > 0);
+  const request = stateRequestWarranted(episode.magnitude, destroyedHomes);
   return settled(
     applyStateDecision(
       world,
@@ -801,7 +803,7 @@ export const disasterFederalReviewHandler: FutureTransitionHandler = (
       "resolved",
       "awaiting-player",
     );
-  const declare = MAGNITUDE_RANK[episode.magnitude] >= MAGNITUDE_RANK.major;
+  const declare = federalDeclarationWarranted(episode.magnitude);
   return settled(
     applyFederalDecision(
       world,
