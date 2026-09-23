@@ -31,9 +31,11 @@ import {
   isKnown,
   knownValueOrNull,
   notApplicableRule,
+  type LegislativeRulePack,
   type RuleSourceRef,
   type RuleValue,
 } from "./legislature-rules";
+import { withCommitteeStandIns } from "./standing-committee";
 
 // ---------------------------------------------------------------------------
 // Walkers — these tests check properties of *every* value in *every* pack, so
@@ -558,6 +560,13 @@ describe("executive-authority: presentment composition, not duplication", () => 
 // copy of anyone's veto, and that nothing else moved.
 // ---------------------------------------------------------------------------
 
+function withoutCommittees(pack: LegislativeRulePack): LegislativeRulePack {
+  return {
+    ...pack,
+    chambers: pack.chambers.map((chamber) => ({ ...chamber, committees: [] })),
+  };
+}
+
 describe("executive-authority: Minnesota and Illinois presentment after #102", () => {
   it("resolves Minnesota to the live accepted MN legislative pack", () => {
     const ref = MINNESOTA_EXECUTIVE_PACK.presentment.legislativeRulePackId;
@@ -565,7 +574,13 @@ describe("executive-authority: Minnesota and Illinois presentment after #102", (
     expect(knownValueOrNull(ref)).toBe("us-mn-legislature-v1");
 
     const mnLegis = rulePackById("us-mn-legislature-v1");
-    expect(mnLegis).toBe(MINNESOTA_RULE_PACK);
+    // The accepted pack as played: its own record, with only the stand-in
+    // standing committee added to chambers whose committees are unread.
+    expect(mnLegis).toBe(withCommitteeStandIns(MINNESOTA_RULE_PACK));
+    expect(withoutCommittees(mnLegis)).toEqual(
+      withoutCommittees(MINNESOTA_RULE_PACK),
+    );
+    expect(mnLegis.executive).toBe(MINNESOTA_RULE_PACK.executive);
     expect(mnLegis.jurisdictionKey).toBe(
       MINNESOTA_EXECUTIVE_PACK.jurisdictionKey,
     );
@@ -585,7 +600,13 @@ describe("executive-authority: Minnesota and Illinois presentment after #102", (
     expect(knownValueOrNull(ref)).toBe("us-il-general-assembly-v1");
 
     const ilLegis = rulePackById("us-il-general-assembly-v1");
-    expect(ilLegis).toBe(ILLINOIS_RULE_PACK);
+    // The accepted pack as played: its own record, with only the stand-in
+    // standing committee added to chambers whose committees are unread.
+    expect(ilLegis).toBe(withCommitteeStandIns(ILLINOIS_RULE_PACK));
+    expect(withoutCommittees(ilLegis)).toEqual(
+      withoutCommittees(ILLINOIS_RULE_PACK),
+    );
+    expect(ilLegis.executive).toBe(ILLINOIS_RULE_PACK.executive);
     expect(ilLegis.jurisdictionKey).toBe(
       ILLINOIS_EXECUTIVE_PACK.jurisdictionKey,
     );

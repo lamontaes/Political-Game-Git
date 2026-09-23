@@ -3,7 +3,9 @@ import {
   CONTACT_DECLINED_EVENT,
   CONTACT_PROPOSED_EVENT,
 } from "../simulation/people-contact";
+import { SCENE_BINDING_EVENT } from "../simulation/scene-bindings";
 import {
+  addDays,
   ageOnDate,
   activeEducationEnrollmentsAt,
   activeLifeCommitmentsAt,
@@ -22,6 +24,7 @@ import {
   type ThreadAnchor,
   type World,
 } from "../simulation";
+import { ownElectionResultsDecided } from "./own-election";
 
 /**
  * The time between the moments, said out loud — or nothing at all.
@@ -112,18 +115,29 @@ export interface ConnectiveNarration {
  * count would read as a log line. No season is named — "By the spring" was the
  * corpus's single most copied bridge, and the season added no state.
  */
-function elapsedPhrase(days: number): string {
+export function elapsedPhrase(days: number): string {
   if (days <= 1) return "The next day";
   if (days <= 10) return "Within the week";
   if (days <= 24) return "A couple of weeks on";
   if (days <= 45) return "A month later";
   if (days <= 100) return "A couple of months on";
-  if (days <= 200) return "Half a year on";
-  if (days <= 400) return "A year on";
-  if (days <= 800) return "The better part of two years later";
+  if (days <= 220) return "Half a year on";
+  // Nine months is not a year: Winnemucca read "A year on" after 270 days.
+  if (days <= 320) return "Most of a year later";
+  if (days <= 450) return "A year on";
+  // Caribou read "The better part of two years later" after 13 months.
+  if (days <= 600) return "A year and a half on";
+  if (days < 730) return "The better part of two years later";
   const years = Math.round(days / 365);
   return `${years} years later`;
 }
+
+/**
+ * How recently a race of the player's own must have been decided for a
+ * life's first told moment to lead with it. The same week the household's
+ * reaction to a result stays open for.
+ */
+const RECENT_OWN_RESULT_DAYS = 7;
 
 /* -------------------------------------------------------------------------- */
 /* Composition                                                                 */
@@ -208,6 +222,16 @@ export function composeConnectiveNarration(
         ? `Home jurisdiction resolves to ${place.displayName}; age on ${until}.`
         : `Age on ${until}; no place is recorded.`,
     );
+    // A race of the player's own decided in the last few days is part of
+    // where the life stands, and comes before the standing facts.
+    for (const line of ownElectionResultsDecided(
+      world,
+      person.id,
+      addDays(until, -RECENT_OWN_RESULT_DAYS),
+      until,
+    )) {
+      say(line.sentence, "civic", [line.anchor], line.anchor.note);
+    }
     for (const line of openingFacts(world, person.id)) {
       say(line.sentence, line.kind, line.anchors, line.note);
       if (sentences.length >= maximum) break;
@@ -228,11 +252,14 @@ export function composeConnectiveNarration(
   // An invitation still waiting on the player is an offer, not something that
   // happened: it is shown as a moment to answer, and "You saw" it would be
   // false. Its answer, once played, is a record of its own.
+  // A scene binding is bookkeeping about a situation, written beside the
+  // record of what happened; it is not a second thing that happened.
   const moved = (anchor: ThreadAnchor) =>
     anchor.role !== "context" &&
     anchor.at > since &&
     anchor.at <= until &&
-    !isLifeOpportunityOffer(world, anchor);
+    !isLifeOpportunityOffer(world, anchor) &&
+    !isSceneBinding(world, anchor);
   const changed = threads.filter((thread) => thread.anchors.some(moved));
 
   // What moved, where the record can name it. A thread whose subject cannot
@@ -261,12 +288,17 @@ export function composeConnectiveNarration(
     });
   }
 
+  // The player's own races decided inside the gap. A result is the one thing
+  // in the interval that happened to them whether or not they did anything,
+  // so it leads what moved.
+  const results = ownElectionResultsDecided(world, personId, since, until);
+
   const crossed = toAge > fromAge;
 
   // The elapsed opener exists to situate what follows. When nothing follows —
   // no nameable movement, no birthday — it would be a sentence whose whole
   // payload is that time passed, and the composer stays silent instead.
-  if (days > 0 && (movements.length > 0 || crossed)) {
+  if (days > 0 && (movements.length > 0 || results.length > 0 || crossed)) {
     const opener = elapsedPhrase(days);
     say(
       crossed ? `${opener}, and you're ${toAge} now.` : `${opener}.`,
@@ -278,6 +310,9 @@ export function composeConnectiveNarration(
     );
   }
 
+  for (const line of results) {
+    say(line.sentence, "civic", [line.anchor], line.anchor.note);
+  }
   for (const movement of movements) {
     say(movement.sentence, "thread", movement.anchors, movement.note);
   }
@@ -306,6 +341,10 @@ function isLifeOpportunityOffer(world: World, anchor: ThreadAnchor): boolean {
 /** The event behind an anchor, when the anchor names one. */
 function anchorEvent(world: World, anchor: ThreadAnchor) {
   return world.history.events.find((entry) => entry.id === anchor.recordId);
+}
+
+function isSceneBinding(world: World, anchor: ThreadAnchor): boolean {
+  return anchorEvent(world, anchor)?.type === SCENE_BINDING_EVENT;
 }
 
 /**
@@ -362,7 +401,11 @@ function threadMovementSentence(
     // is somebody trying, the second is the two of them settling it between
     // them. Neither is a meeting, and they do not share a sentence.
     if (moving.every((anchor) => isUnanswered(world, anchor))) {
-      return moved > 1
+      // An ask and the day it lapsed are two records of one attempt.
+      const asks = moving.filter(
+        (anchor) => anchorEvent(world, anchor)?.type === CONTACT_PROPOSED_EVENT,
+      ).length;
+      return asks > 1
         ? `${subject} tried to reach you more than once.`
         : `${subject} tried to reach you.`;
     }

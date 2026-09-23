@@ -65,7 +65,11 @@ export function questionnairePathCeiling(
   path: SetupQuestionnairePath,
   setup?: NewGameSetup,
 ): number {
-  return questionnaireLength(path, setup ? lifeContextFor(setup) : undefined);
+  return questionnaireLength(
+    path,
+    setup ? lifeContextFor(setup) : undefined,
+    setup?.questionnaireSelectionVersion,
+  );
 }
 
 /**
@@ -96,7 +100,9 @@ export function questionnairePathNote(
     case "short":
       return `Up to ${questionnairePathCeiling("short", setup)} imagined situations. You can start playing sooner.`;
     case "deep":
-      return TEXT39_UI_COPY.questionnaireNote;
+      return setup?.questionnaireSelectionVersion === "curated-v1"
+        ? "About 10 to 12 imagined situations. You can start playing at any time."
+        : TEXT39_UI_COPY.questionnaireNote;
     case "skipped":
       return "Start playing without answering setup questions.";
   }
@@ -123,12 +129,14 @@ export function questionnaireScreenFor(
     worldSeed: worldSeedFor(setup),
     personKey: personKeyFor(setup),
     depth: path,
+    selectionVersion: setup.questionnaireSelectionVersion,
     answers: setup.priors ?? [],
     life: lifeContextFor(setup),
   });
   if (!step) return null;
   const item =
-    setup.questionnaireCopyVersion === "playtest65-v2"
+    setup.questionnaireCopyVersion === "playtest65-v2" &&
+    !step.item.key.endsWith(".curated-v1")
       ? playtest65QuestionnaireItem(step.item)
       : step.item;
   return {

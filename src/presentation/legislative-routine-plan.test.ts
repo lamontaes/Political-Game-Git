@@ -198,7 +198,7 @@ describe("explicit non-voting legislative routine plans", () => {
     }
   });
 
-  it("never turns a routine preference into a vote or invents an unsupported committee", () => {
+  it("never turns a routine preference into a vote, and refers to the stand-in committee", () => {
     const bill = ordinaryBill("US-IL");
     expect(() =>
       authorizeLegislativeRoutinePlan(bill.world, {
@@ -210,11 +210,13 @@ describe("explicit non-voting legislative routine plans", () => {
       ...bill.input,
       steps: ["request-referral"],
     });
-    const before = serializeWorld(plan.world);
+    // Illinois's committees are unread; the referral goes to the stand-in
+    // standing committee (owner decision 2026-09-23) and records no vote.
     const result = executeLegislativeRoutinePlan(plan.world, plan.planId);
-    expect(result.status).toBe("refused");
-    expect(result.reason).toMatch(/committee identity/);
-    expect(serializeWorld(result.world)).toBe(before);
+    expect(result.status).toBe("completed");
+    const position = measurePosition(result.world, bill.input.measureId);
+    expect(position.phase).toBe("in-committee");
+    expect(position.committeeKey).toBe("house-standing");
     expect(result.world.history.legislativeVotes).toEqual(
       plan.world.history.legislativeVotes,
     );

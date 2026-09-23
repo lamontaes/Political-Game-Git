@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { addDays, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -34,6 +35,11 @@ import {
   seatsForChamber,
 } from "./legislature-game-profile";
 
+/**
+ * The federal jurisdiction's canonical slugs: `us-federal` is the one every
+ * World's national election records use (`national-election-geography.ts`).
+ */
+const FEDERAL_SLUGS: readonly string[] = ["united-states", "us", "us-federal"];
 export const ARTICLE_V_STATE_KEYS = Object.freeze(
   "AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY"
     .split(" ")
@@ -243,7 +249,7 @@ export function constitutionalProposalRuleForWorld(
   const profile = stateKey ? stateAmendmentProfile(stateKey) : null;
   if (
     (!federal && !state) ||
-    (federal && !["united-states", "us"].includes(j.slug)) ||
+    (federal && !FEDERAL_SLUGS.includes(j.slug)) ||
     (state && !profile)
   )
     return {
@@ -252,8 +258,14 @@ export function constitutionalProposalRuleForWorld(
         "This jurisdiction/process has no supported constitutional proposal rule.",
     };
   // A sourced rule applies from its observation; a game-profile rule claims no
-  // source and so no observation date.
-  if (world.currentDate < "2026-09-13" && profile?.basis !== "game-profile")
+  // source and so no observation date. Article V's route is older than any
+  // start: its text is unchanged since 1789 and its two-thirds reading dates
+  // from 1920, so the federal route has no observation gate.
+  if (
+    !federal &&
+    world.currentDate < "2026-09-13" &&
+    profile?.basis !== "game-profile"
+  )
     return {
       available: false,
       reason:
@@ -356,13 +368,17 @@ export function proposeConstitutionalMeasure(
     );
   // Canonical slugs, not name matching or a supplied access tag.
   const slugs = federal
-    ? ["united-states", "us"]
+    ? FEDERAL_SLUGS
     : charter
       ? ["carson-city", "us-nv-carson-city"]
       : [];
   if (!slugs.includes(j.slug) && !profile)
     throw Error("Canonical jurisdiction identity does not match the process.");
-  if (world.currentDate < "2026-09-13" && profile?.basis !== "game-profile")
+  if (
+    !federal &&
+    world.currentDate < "2026-09-13" &&
+    profile?.basis !== "game-profile"
+  )
     throw Error(
       "This current-source process is supported from its 2026-09-13 observation; earlier applicability is not established.",
     );
@@ -629,10 +645,19 @@ function proposingBodies(
     ];
   return stateAmendmentProfile(m.jurisdictionKey)?.bodies ?? [];
 }
+/**
+ * `recorded` is true when checking a vote already in history rather than one
+ * about to be written. A body's size can be corrected after a vote was taken
+ * (Nebraska's single chamber was 128 until #557 made it 49), and a roll call
+ * is a record of the chamber that sat, not of the size known today: checking
+ * the old vote against the new size rejected every saved life that held one.
+ * A new vote is still held to today's size.
+ */
 function assertDetail(
   world: World,
   m: ConstitutionalMeasureRecord,
   d: ConstitutionalActionDetail,
+  recorded = false,
 ) {
   const p = constitutionalPosition(world, m.id);
   const actions = constitutionalActions(world, m.id);
@@ -664,11 +689,14 @@ function assertDetail(
     // U.S. Article I § 5 and California Article IV § 7(a), locked in this domain.
     if (v.presentMembers !== present || present <= v.eligibleMembers / 2)
       throw Error("The rollcall must record actual presence and a quorum.");
+    const bodyMembers = proposingBodies(m).find(
+      (body) => body.bodyKey === d.bodyKey,
+    )?.members;
     const eligible =
-      m.processKind === "federal-amendment"
+      m.processKind === "federal-amendment" ||
+      (recorded && bodyMembers !== undefined && v.eligibleMembers > 0)
         ? v.eligibleMembers
-        : (proposingBodies(m).find((body) => body.bodyKey === d.bodyKey)
-            ?.members ?? -1);
+        : (bodyMembers ?? -1);
     if (v.eligibleMembers !== eligible || v.dispositions.length !== eligible)
       throw Error(
         "Rollcall membership must include every eligible member, including absences.",
@@ -1047,9 +1075,9 @@ export function assertConstitutionalIntegrity(
       if (r.detail.kind === "proposed") {
         if (prior || r.occurredAt !== m.introducedAt)
           throw Error("Duplicate or delayed constitutional proposal.");
-      } else assertDetail(at, m, r.detail);
+      } else assertDetail(at, m, r.detail, true);
       const key = `${m.id}:constitutional-action:${constitutionalActions(replay, m.id).length}`;
-      const event = world.history.events.find((e) => e.id === r.eventId);
+      const event = eventById(world, r.eventId);
       if (
         r.stableKey !== key ||
         r.id !==

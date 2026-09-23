@@ -99,7 +99,7 @@ describe("a Kentucky legislator-elect", () => {
     expect(view).not.toBeNull();
     expect(view!.startsAt.endsWith("-01-01")).toBe(true);
     expect(view!.electTitle).toBe(
-      "Member-elect of the House of Representatives",
+      "Member-elect of the Kentucky House of Representatives",
     );
     expect(view!.qualification).toBe("not-required");
     expect(view!.daysUntilStart).toBeGreaterThan(0);

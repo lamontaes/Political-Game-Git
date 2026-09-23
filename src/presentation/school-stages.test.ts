@@ -11,6 +11,7 @@ import { advanceWorld, assertWorldIntegrity } from "../simulation/world";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { letTimePass } from "./formative-play";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { projectPersonalRecord } from "./personal-record";
 
 /**
  * A child who started at five was still at the elementary school at eighteen:
@@ -132,7 +133,22 @@ describe("a child moves on through school while the game is played", () => {
     let world = openOrdinaryLife(start.world, playerId);
     const first = schooling(world, playerId);
     expect(first).toHaveLength(1);
-    expect(first[0]!.status).toBe("active");
+    // Born September 3: five, but not due in kindergarten until the fall.
+    expect(world.people[playerId]!.birthDate.slice(5)).toBe("09-03");
+    expect(first[0]!.status).toBe("expected");
+    expect(first[0]!.startedAt > world.currentDate).toBe(true);
+    expect(first[0]!.startedAt.slice(0, 4)).toBe(world.currentDate.slice(0, 4));
+    expect(first[0]!.startedAt.slice(5) >= "08-15").toBe(true);
+    // The record reads the place as ahead, not as a school already left.
+    expect(
+      projectPersonalRecord(world, playerId)!.education.map((l) => l.text),
+    ).toEqual([
+      expect.stringMatching(
+        new RegExp(
+          `, starting in the fall of ${world.currentDate.slice(0, 4)}\\.$`,
+        ),
+      ),
+    ]);
     const ageOn = (date: string) =>
       Number(date.slice(0, 4)) -
       Number(world.people[playerId]!.birthDate.slice(0, 4)) -
@@ -173,6 +189,11 @@ describe("a child moves on through school while the game is played", () => {
       "schooling:secondary",
     ]);
     expect(rows.at(-1)!.status).toBe("active");
+    const record = projectPersonalRecord(world, playerId)!.education.map(
+      (line) => line.text,
+    );
+    expect(record[0]).toMatch(/, \d{4} to \d{4}\.$/);
+    expect(record.at(-1)).toMatch(/, since \d{4}\.$/);
     expect(new Set(rows.map((row) => row.school)).size).toBe(3);
     // Middle school begins at eleven or twelve, high school at fourteen or
     // fifteen, by the fall calendar; never elementary at sixteen.
@@ -184,9 +205,37 @@ describe("a child moves on through school while the game is played", () => {
     )!.age;
     expect([11, 12]).toContain(middleFrom);
     expect([14, 15]).toContain(highFrom);
+    // Six school years of elementary, not seven.
+    const middle = rows.find((row) => row.programKind === "schooling:middle")!;
+    expect(
+      Number(middle.startedAt.slice(0, 4)) -
+        Number(first[0]!.startedAt.slice(0, 4)),
+    ).toBe(6);
     expect(byAge.at(-1)!.programKind).toBe("schooling:secondary");
     assertWorldIntegrity(world);
   }, 900_000);
+
+  it("dates a start from the school year, not the fifth birthday", () => {
+    for (const seed of ["a", "b", "c", "d", "e", "f"]) {
+      const { world, playerId } = childIn(
+        "Tucson",
+        "AZ",
+        `school-stages:tucson:${seed}`,
+        5,
+      );
+      const birth = world.people[playerId]!.birthDate;
+      const [row] = schooling(world, playerId);
+      const kindergarten =
+        Number(birth.slice(0, 4)) + (birth.slice(5) <= "09-01" ? 5 : 6);
+      // The first day of a school year, in the fall they are due to start.
+      expect(row!.startedAt.slice(0, 4)).toBe(String(kindergarten));
+      expect(row!.startedAt.slice(5) >= "08-15").toBe(true);
+      expect(row!.startedAt.slice(5) <= "09-09").toBe(true);
+      expect(row!.status).toBe(
+        row!.startedAt > world.currentDate ? "expected" : "active",
+      );
+    }
+  });
 
   it("moves a ten-year-old on to middle school through the year skips a child plays", () => {
     const { world: start, playerId } = childIn(

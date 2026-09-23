@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import type {
@@ -278,9 +279,7 @@ function validateDiscoveryEvent(
 ): void {
   const stableKey = evidenceDiscoveryEventStableKey(discovery.stableKey);
   const expectedId = createStableId("event", `${world.id}:${stableKey}`);
-  const event = world.history.events.find(
-    (candidate) => candidate.id === discovery.discoveryEventId,
-  );
+  const event = eventById(world, discovery.discoveryEventId);
   const expectedInvolvedIds = canonicalIds([
     discovery.personId,
     discovery.evidenceArtifactId,
@@ -378,7 +377,7 @@ function sourceTruthAvailableAt(
   asOfDate: string,
   sequenceExclusive: number,
 ): boolean {
-  const event = world.history.events.find((record) => record.id === id);
+  const event = eventById(world, id);
   if (event) {
     return event.occurredAt <= asOfDate && event.sequence < sequenceExclusive;
   }

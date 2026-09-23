@@ -39,43 +39,60 @@ async function beginOrdinaryLife(page: Page): Promise<void> {
 async function selectConnection(
   page: Page,
   candidateIds: readonly string[],
-): Promise<{ firstId: string; secondId: string }> {
+): Promise<{ firstId: string; secondId: string; isPlayer: boolean }> {
   expect(candidateIds.length).toBeGreaterThanOrEqual(1);
+  /*
+   * The played person is a node in their own web. In a fresh life the web is
+   * often a star around them, so the only connection somebody has is the
+   * player, whose card has no Talk button. Prefer somebody else; accept the
+   * player's own card only when nobody else is connected.
+   */
+  const playerId = (
+    (await page
+      .locator('[data-testid^="people-web-node-"]')
+      .filter({ has: page.locator('circle[aria-label="You"]') })
+      .getAttribute("data-testid")) ?? ""
+  ).replace("people-web-node-", "");
+  expect(playerId).not.toBe("");
 
-  for (const firstId of candidateIds) {
-    const node = page.getByTestId(`people-web-node-${firstId}`);
-    await node.locator("circle").click();
-    await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
-      "data-person-id",
-      firstId,
-    );
-
-    const connections = page
-      .getByTestId("person-card-connections")
-      .getByRole("button");
-    const connectionCount = await connections.count();
-    for (
-      let connectionIndex = 0;
-      connectionIndex < connectionCount;
-      connectionIndex += 1
-    ) {
-      const connection = connections.nth(connectionIndex);
-      const secondId = (
-        (await connection.getAttribute("data-testid")) ?? ""
-      ).replace("person-card-connection-", "");
-      if (!secondId || secondId === firstId) continue;
-
-      /*
-       * Use the keyboard route for the second selection. The first selection
-       * above is a real pointer click on the rendered SVG node.
-       */
-      await connection.focus();
-      await page.keyboard.press("Enter");
-      await expect(page.getByTestId("full-dossier")).toHaveAttribute(
+  for (const allowPlayer of [false, true]) {
+    for (const firstId of candidateIds.filter((id) => id !== playerId)) {
+      const node = page.getByTestId(`people-web-node-${firstId}`);
+      await node.locator("circle").click();
+      await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
         "data-person-id",
-        secondId,
+        firstId,
       );
-      return { firstId, secondId };
+
+      const connections = page
+        .getByTestId("person-card-connections")
+        .getByRole("button");
+      const connectionCount = await connections.count();
+      for (
+        let connectionIndex = 0;
+        connectionIndex < connectionCount;
+        connectionIndex += 1
+      ) {
+        const connection = connections.nth(connectionIndex);
+        const secondId = (
+          (await connection.getAttribute("data-testid")) ?? ""
+        ).replace("person-card-connection-", "");
+        if (!secondId || secondId === firstId) continue;
+        if (secondId === playerId && !allowPlayer) continue;
+
+        /*
+         * Use the keyboard route for the second selection. The first
+         * selection above is a real pointer click on the rendered SVG node.
+         */
+        await connection.focus();
+        await page.keyboard.press("Enter");
+        // One person card: choosing a connection moves the same card to them.
+        await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
+          "data-person-id",
+          secondId,
+        );
+        return { firstId, secondId, isPlayer: secondId === playerId };
+      }
     }
   }
 
@@ -111,7 +128,7 @@ async function provePeopleWebRoute(
     fullPage: true,
   });
 
-  const { secondId } = await selectConnection(page, candidateIds);
+  const { secondId, isPlayer } = await selectConnection(page, candidateIds);
   await page.getByTestId("quick-dossier-pin").click();
   await page.getByTestId("people-overlay-close").click();
 
@@ -135,11 +152,20 @@ async function provePeopleWebRoute(
   );
 
   const talk = page.getByTestId("dossier-talk");
-  if (await talk.isEnabled()) {
+  if (isPlayer) {
+    // Your own card offers no way to talk to yourself.
+    await expect(page.getByTestId("full-dossier")).toContainText(
+      "This is you.",
+    );
+    await expect(talk).toHaveCount(0);
+  }
+  if (!isPlayer && (await talk.isEnabled())) {
     await talk.focus();
     await page.keyboard.press("Enter");
   } else {
-    await expect(page.getByTestId("dossier-talk-unavailable")).toBeVisible();
+    if (!isPlayer) {
+      await expect(page.getByTestId("dossier-talk-unavailable")).toBeVisible();
+    }
     await page.getByTestId("person-workspace-back").click();
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await goTo(page, "elsewhere-people");

@@ -86,7 +86,7 @@ for (const { town, placeKey, state } of [
     await expect(page.getByTestId("no-office")).toHaveCount(0);
     const swearingIn = page.getByTestId("swearing-in");
     await expect(swearingIn).toContainText(
-      "Your term as Member of the House of Representatives began January 1, 2027",
+      `Your term as Member of the ${state} House of Representatives began January 1, 2027`,
     );
     // Choose what to swear on, and to affirm; then repeat each of the six
     // phrases after the officiant. Only the last one records the oath.
@@ -112,7 +112,7 @@ for (const { town, placeKey, state } of [
     });
     await repeat.click();
     await expect(page.getByTestId("swearing-in-done")).toContainText(
-      `With your hand on a copy of the Constitution of ${state}, you raised your right hand and affirmed the oath of office as Member of the House of Representatives.`,
+      `With your hand on a copy of the Constitution of ${state}, you raised your right hand and affirmed the oath of office as Member of the ${state} House of Representatives.`,
     );
     await page.screenshot({
       path: test.info().outputPath(`sworn-in-${placeKey}.png`),

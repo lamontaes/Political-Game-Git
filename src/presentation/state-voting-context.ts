@@ -40,7 +40,11 @@
  * not be readable as a zero. The union below keeps that, so `?? 0` still has
  * nothing to attach to on this side either.
  */
-import { US_STATE_NAMES } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import {
+  US_STATE_NAMES,
+  US_TERRITORY_GOVERNED_NAMES,
+} from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import { isTerritoryUsps } from "../simulation/state-reference";
 import { makeIsoDate } from "../simulation/dates";
 
 /**
@@ -189,6 +193,15 @@ export function projectStateVotingContext(
     ],
   });
   const name = CPS_STATE_NAMES[stateUsps];
+  if (isTerritoryUsps(stateUsps)) {
+    const territory =
+      US_TERRITORY_GOVERNED_NAMES[
+        stateUsps as keyof typeof US_TERRITORY_GOVERNED_NAMES
+      ] ?? "this territory";
+    return empty(
+      `This survey covers the fifty states and the District of Columbia. It does not report ${territory}.`,
+    );
+  }
   if (!name) return empty("No reviewed state identity matches this selection.");
   try {
     makeIsoDate(asOf);

@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { recordEventKnowledge } from "./records";
 import type {
   DecisionConsideration,
@@ -139,9 +140,7 @@ export function createPolicyDecisionContext(
       (candidate) => candidate.id === inputOption.knowledgeId,
     );
     const knowledgeEvent = knowledge
-      ? world.history.events.find(
-          (candidate) => candidate.id === knowledge.eventId,
-        )
+      ? eventById(world, knowledge.eventId)
       : undefined;
     if (
       !knowledge ||

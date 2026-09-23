@@ -18,7 +18,6 @@ import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "../national-election-geography";
-import { US_FEDERAL_POLICY_PACK } from "../policy-pack-us-federal";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -45,10 +44,15 @@ import {
   scheduleInstitutionStep,
 } from "./legislative-clock";
 import type { SeatedMember } from "../legislation-scenarios";
+import { lawInForce } from "./law-in-force";
+import {
+  ensureOfficeholderPrinciples,
+  principledLeaning,
+} from "./officeholder-principles";
 
 /**
- * CONGRESS MAKES LAW — members of Congress file bills on the issues they have
- * taken up, colleagues who share the issue sign on, and the bill moves through
+ * CONGRESS MAKES LAW — members of Congress file bills on the questions their
+ * own principles press hardest, colleagues who lean the same way sign on, and the bill moves through
  * both Houses and to the President on the same clock that moves a state bill.
  *
  * Every step after filing belongs to the legislative clock
@@ -57,10 +61,10 @@ import type { SeatedMember } from "../legislation-scenarios";
  * does not: it files bills, it gathers cosponsors, and it decides what the
  * President does with a bill on the desk.
  *
- * What a bill changes once it is law is NOT built yet. A Congress bill names
- * the federal issue it is about and nothing more, because the record of what
- * a bill does to a policy question is being built by the Legislation thread,
- * and the effect of each federal issue on the world is asked as
+ * A Congress bill answers one federal question in the policy catalog, yes
+ * or no, and once enacted that answer is federal law (see law-in-force.ts),
+ * which outranks a state's. What the answer changes in the world beyond the
+ * law itself is not built yet; it is asked as
  * `what-each-level-of-government-may-legislate`.
  */
 
@@ -76,49 +80,68 @@ export const SPONSOR_MOTIVE_EVENT = "legislation.sponsor-motive" as const;
  *   real Congress files more than ten thousand bills in two years and enacts
  *   a few hundred; a save cannot carry ten thousand, so this is a trickle of
  *   the bills that get a hearing.
- * - Each member has taken up two federal issues, drawn once for that person
- *   and stable for life. What a member really takes up (their state, their
- *   committee, their district's industries, their own history) is asked.
- * - Every other member of the sponsor's party who shares the issue signs on.
- *   A member of the other party who shares it signs on one time in ten.
+ * - A member files on the federal question their own principles press
+ *   hardest, once the summed weight reaches the filing threshold: the same
+ *   placeholder threshold a state legislator files at (member-agenda.ts).
+ * - Every other member of the sponsor's party whose principles lean the same
+ *   way that hard signs on. A member of the other party who leans that way
+ *   signs on one time in ten.
  */
 export const CONGRESS_LAWMAKING_PROFILE = {
   id: "ocd-congress-lawmaking/v1",
   intakeDayOfMonth: 1,
-  priorityIssuesPerMember: 2,
+  filingThreshold: 3,
   crossPartyCosponsorOneIn: 10,
 } as const;
 
-type FederalIssue = NonNullable<typeof US_FEDERAL_POLICY_PACK.issues>[number];
+/** A federal question in the catalog, with the federal issue it sits under. */
+interface FederalQuestion {
+  readonly propositionId: EntityId;
+  /** The issue key inside the federal pack, such as `tax.income-tax`. */
+  readonly issueKey: string;
+}
 
-/** The federal issues a member of Congress has taken up, stable for life. */
-export function memberPriorityIssues(
-  world: World,
-  personId: EntityId,
-): readonly FederalIssue[] {
-  const rng = new SeededRng(world.seed).fork(
-    `${CONGRESS_LAWMAKING_VERSION}:priorities:${personId}`,
-  );
-  const pool = [...(US_FEDERAL_POLICY_PACK.issues ?? [])];
-  const chosen: FederalIssue[] = [];
-  while (
-    chosen.length < CONGRESS_LAWMAKING_PROFILE.priorityIssuesPerMember &&
-    pool.length > 0
-  ) {
-    chosen.push(pool.splice(rng.integer(0, pool.length), 1)[0]!);
+const FEDERAL_ISSUE_PREFIX = "us-federal:";
+
+/** The questions in the catalog that are decided at the federal level. */
+function federalQuestions(world: World): readonly FederalQuestion[] {
+  const catalog = world.policyCatalog;
+  const questions: FederalQuestion[] = [];
+  for (const propositionId of catalog.propositionOrder) {
+    const issue = catalog.issues[catalog.propositions[propositionId]!.issueId];
+    if (
+      !issue?.levels?.includes("federal") ||
+      !issue.stableKey.startsWith(FEDERAL_ISSUE_PREFIX)
+    )
+      continue;
+    questions.push({
+      propositionId,
+      issueKey: issue.stableKey.slice(FEDERAL_ISSUE_PREFIX.length),
+    });
   }
-  return chosen;
+  return questions;
 }
 
 function subjectClassFor(
-  issue: FederalIssue,
+  issueKey: string,
 ): LegislativeMeasureRecord["subjectClass"] {
-  if (issue.domain === "tax") return "revenue";
-  if (issue.key === "budget.appropriations") return "appropriation";
+  if (issueKey.startsWith("tax.")) return "revenue";
+  if (issueKey === "budget.appropriations") return "appropriation";
   return "general-policy";
 }
 
-const SMALL_WORDS = new Set(["and", "of", "the", "for", "in", "on", "or"]);
+const SMALL_WORDS = new Set([
+  "a",
+  "an",
+  "and",
+  "of",
+  "the",
+  "for",
+  "in",
+  "on",
+  "or",
+  "to",
+]);
 function titleCase(name: string): string {
   return name
     .split(" ")
@@ -134,11 +157,92 @@ function controlledPersonId(world: World): EntityId | null {
   return world.control.kind === "person" ? world.control.personId : null;
 }
 
+/** A federal bill still moving that answers the question. */
+function pendingFederalBillOn(world: World, propositionId: EntityId): boolean {
+  return (world.history.legislativeMeasures ?? []).some(
+    (measure) =>
+      isCongressMeasure(measure) &&
+      (measure.propositionAnswers ?? []).some(
+        (row) => row.propositionId === propositionId,
+      ) &&
+      !measurePosition(world, measure.id).terminal,
+  );
+}
+
 /**
- * One member of one House files a bill on an issue they have taken up.
- * Unchanged when Congress is not seated, when nobody in the chamber can file
- * (a Senate full of members whose only issues are taxes, which must start in
- * the House), or when this intake already ran.
+ * The bill a member's principles move them to file: the question they lean
+ * on hardest, past the filing threshold, that this House may start a bill on,
+ * where federal law does not already say what they want and no federal bill
+ * on it is moving. Support files a bill to enact unless the law already says
+ * yes; opposition files only a repeal of a law that says yes. Null when
+ * nothing moves them.
+ */
+function memberBillChoice(
+  world: World,
+  personId: EntityId,
+  chamberKey: "house" | "senate",
+  questions: readonly FederalQuestion[],
+  lawAnswers: Map<EntityId, "yes" | "no" | null>,
+  pending: Map<EntityId, boolean>,
+): {
+  readonly question: FederalQuestion;
+  readonly answer: "yes" | "no";
+  readonly weight: number;
+} | null {
+  let best: {
+    question: FederalQuestion;
+    answer: "yes" | "no";
+    weight: number;
+  } | null = null;
+  for (const question of questions) {
+    if (
+      chamberKey !== "house" &&
+      subjectClassFor(question.issueKey) === "revenue"
+    )
+      continue;
+    const leaning = principledLeaning(
+      world,
+      personId,
+      question.propositionId,
+    ).score;
+    if (Math.abs(leaning) < CONGRESS_LAWMAKING_PROFILE.filingThreshold)
+      continue;
+    if (best && Math.abs(leaning) <= best.weight) continue;
+    if (!lawAnswers.has(question.propositionId))
+      lawAnswers.set(
+        question.propositionId,
+        lawInForce(
+          world,
+          NATIONAL_ELECTION_JURISDICTION.id,
+          question.propositionId,
+        )?.answer ?? null,
+      );
+    const lawAnswer = lawAnswers.get(question.propositionId);
+    const answer: "yes" | "no" | null =
+      leaning > 0
+        ? lawAnswer === "yes"
+          ? null
+          : "yes"
+        : lawAnswer === "yes"
+          ? "no"
+          : null;
+    if (!answer) continue;
+    if (!pending.has(question.propositionId))
+      pending.set(
+        question.propositionId,
+        pendingFederalBillOn(world, question.propositionId),
+      );
+    if (pending.get(question.propositionId)) continue;
+    best = { question, answer, weight: Math.abs(leaning) };
+  }
+  return best;
+}
+
+/**
+ * One member of one House files a bill on the federal question their own
+ * principles press hardest (see officeholder-principles.ts). Unchanged when
+ * Congress is not seated, when no member leans hard enough on any open
+ * question this House may start, or when this intake already ran.
  */
 export function fileCongressBill(
   world: World,
@@ -149,41 +253,58 @@ export function fileCongressBill(
 ): World {
   const seated = seatedCongressChamber(world, input.chamberKey);
   if (!seated) return world;
+  const intakePrefix = `${CONGRESS_LAWMAKING_VERSION}:`;
+  const intakeSuffix = `:${input.intakeKey}:${input.chamberKey}`;
+  if (
+    (world.history.legislativeMeasures ?? []).some(
+      (measure) =>
+        measure.stableKey.startsWith(intakePrefix) &&
+        measure.stableKey.endsWith(intakeSuffix),
+    )
+  )
+    return world;
   const player = controlledPersonId(world);
   const rng = new SeededRng(world.seed).fork(
     `${CONGRESS_LAWMAKING_VERSION}:${input.intakeKey}:${input.chamberKey}`,
   );
-  const candidates = seated.body.members.filter(
+  // Every member who will vote on the bill holds principles, in both Houses.
+  let next = ensureOfficeholderPrinciples(
+    world,
+    (["house", "senate"] as const).flatMap(
+      (chamberKey) =>
+        seatedCongressChamber(world, chamberKey)?.body.members.flatMap(
+          (member) => (member.personId ? [member.personId] : []),
+        ) ?? [],
+    ),
+  );
+  const questions = federalQuestions(next);
+  const chamber = chamberByKey(US_CONGRESS_RULE_PACK, input.chamberKey);
+  // Draw sponsors until one is moved to file something.
+  const order = seated.body.members.filter(
     (member) => member.personId && member.personId !== player,
   );
-  const chamber = chamberByKey(US_CONGRESS_RULE_PACK, input.chamberKey);
-  // Draw sponsors until one has an issue this House may start a bill on.
-  const order = [...candidates];
+  const lawAnswers = new Map<EntityId, "yes" | "no" | null>();
+  const pending = new Map<EntityId, boolean>();
   let sponsor: SeatedMember | null = null;
-  let issue: FederalIssue | null = null;
-  while (order.length > 0 && !issue) {
-    const next = order.splice(rng.integer(0, order.length), 1)[0]!;
-    const fileable = memberPriorityIssues(world, next.personId!).filter(
-      (candidate) =>
-        subjectClassFor(candidate) !== "revenue" ||
-        input.chamberKey === "house",
+  let choice: ReturnType<typeof memberBillChoice> = null;
+  while (order.length > 0 && !choice) {
+    const candidate = order.splice(rng.integer(0, order.length), 1)[0]!;
+    choice = memberBillChoice(
+      next,
+      candidate.personId!,
+      input.chamberKey,
+      questions,
+      lawAnswers,
+      pending,
     );
-    if (fileable.length > 0) {
-      sponsor = next;
-      issue = rng.fork("issue").pick(fileable);
-    }
+    if (choice) sponsor = candidate;
   }
-  if (!sponsor || !issue) return world;
+  if (!sponsor || !choice) return world;
 
-  const stableKey = `${CONGRESS_LAWMAKING_VERSION}:${issue.key}:${input.intakeKey}:${input.chamberKey}`;
-  if (
-    (world.history.legislativeMeasures ?? []).some(
-      (measure) => measure.stableKey === stableKey,
-    )
-  )
-    return world;
-
-  let next = ensureNationalElectionJurisdiction(world);
+  const { question, answer } = choice;
+  const proposition = next.policyCatalog.propositions[question.propositionId]!;
+  const stableKey = `${CONGRESS_LAWMAKING_VERSION}:${question.issueKey}${intakeSuffix}`;
+  next = ensureNationalElectionJurisdiction(next);
   const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
   const year = world.currentDate.slice(0, 4);
   const designation = nextMeasureDesignation(next, {
@@ -195,12 +316,20 @@ export function fileCongressBill(
     jurisdictionId,
     rulePackId: US_CONGRESS_PACK_ID,
     designation,
-    shortTitle: `${titleCase(issue.name)} Act of ${year}`,
-    summary: `A bill on ${issue.name.toLowerCase()}, filed by ${sponsor.name}. What it would change is not written yet: the game does not yet model what a federal law on this issue does.`,
+    shortTitle:
+      answer === "yes"
+        ? `${titleCase(proposition.name)} Act of ${year}`
+        : `${titleCase(proposition.name)} Repeal Act of ${year}`,
+    summary:
+      answer === "yes"
+        ? `${proposition.question} This bill says yes.`
+        : `${proposition.question} This bill repeals the law that says yes.`,
     origin: "member-introduction",
-    subjectClass: subjectClassFor(issue),
+    subjectClass: subjectClassFor(question.issueKey),
     sponsorPersonId: sponsor.personId,
     originChamberKey: input.chamberKey,
+    propositionIds: [question.propositionId],
+    propositionAnswers: [{ propositionId: question.propositionId, answer }],
   });
   const measure = next.history.legislativeMeasures!.at(-1)!;
   next = recordWorldEvent(next, {
@@ -221,17 +350,22 @@ export function fileCongressBill(
     visibility: "public",
     tags: [
       CONGRESS_LAWMAKING_VERSION,
-      `issue:${issue.key}`,
-      "motive:priority-issue",
+      `issue:${question.issueKey}`,
+      `proposition:${proposition.stableKey}`,
+      "motive:principle",
     ],
-    summary: `${sponsor.name} filed ${designation} on ${issue.name.toLowerCase()}, one of the issues they have taken up in Congress.`,
+    summary:
+      answer === "yes"
+        ? `${sponsor.name} filed ${designation} because their own principles call for it: ${proposition.question}`
+        : `${sponsor.name} filed ${designation} to repeal a law their own principles oppose: ${proposition.question}`,
     context: emptyContext(),
   });
   next = gatherCosponsors(
     next,
     measure,
     sponsor,
-    issue,
+    question,
+    answer,
     seated.body.members,
     rng,
   );
@@ -242,7 +376,8 @@ function gatherCosponsors(
   world: World,
   measure: LegislativeMeasureRecord,
   sponsor: SeatedMember,
-  issue: FederalIssue,
+  question: FederalQuestion,
+  answer: "yes" | "no",
   members: readonly SeatedMember[],
   rng: SeededRng,
 ): World {
@@ -254,10 +389,14 @@ function gatherCosponsors(
       member.personId === player
     )
       return false;
+    const leaning = principledLeaning(
+      world,
+      member.personId,
+      question.propositionId,
+    ).score;
     if (
-      !memberPriorityIssues(world, member.personId).some(
-        (candidate) => candidate.key === issue.key,
-      )
+      (answer === "yes" ? leaning : -leaning) <
+      CONGRESS_LAWMAKING_PROFILE.filingThreshold
     )
       return false;
     if (member.partyKey && member.partyKey === sponsor.partyKey) return true;
@@ -285,8 +424,8 @@ function gatherCosponsors(
     })),
     personFactConstraints: [],
     visibility: "public",
-    tags: [CONGRESS_LAWMAKING_VERSION, `issue:${issue.key}`],
-    summary: `${joining.length === 1 ? "One member" : `${joining.length} members`} who also work on ${issue.name.toLowerCase()} signed on to ${measure.designation}: ${joining.map((member) => member.name).join(", ")}.`,
+    tags: [CONGRESS_LAWMAKING_VERSION, `issue:${question.issueKey}`],
+    summary: `${joining.length === 1 ? "One member" : `${joining.length} members`} whose principles lean the same way signed on to ${measure.designation}: ${joining.map((member) => member.name).join(", ")}.`,
     context: emptyContext(),
   });
 }
@@ -383,6 +522,7 @@ export function presidentDesk(
       measure.id,
       decision.action,
       decision.rationale,
+      president.personId,
     ),
     measure.id,
   );
