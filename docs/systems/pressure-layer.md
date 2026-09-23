@@ -22,6 +22,12 @@ builds, not from a script" (source copy
 - **Town movers.** The migration review weights a leaving household's
   destination by pull and a newcomer's origin by push, and multiplies the
   chance a free household in town leaves by its own state's push.
+- **More reasons** (`src/simulation/migration/review.ts`). Losing a job, the
+  town's unemployment against the nation's, an unusually bad quarter of crime
+  in town, and a relative in another state all change who leaves and where
+  they go. A state's own recorded unemployment feeds its pressure. Each
+  reason, read or not, is a row in `PRESSURE_SEAMS`; the research question
+  is `why-americans-move-causes-and-strengths`.
 - **Displacement** (`src/simulation/migration/review.ts`). At the next
   quarterly review, a household whose home a disaster destroyed or damaged may
   leave town for good, and its occupancy and tenure end on the move. A
