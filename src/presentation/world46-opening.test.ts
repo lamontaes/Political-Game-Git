@@ -147,10 +147,16 @@ const sha256 = (text: string) =>
  * identities changed. Kentucky: 3 given names and 9 summaries, each made
  * identical by one renamed person's old given name, plus `snapshotId`.
  * Peebles: 4 and 12, plus `snapshotId`. 0 unexplained.
+ *
+ * RE-ACCEPTED 2026-09-23 because the income-tax question in the state and local
+ * policy pack can now be decided by a municipality as well as a state (Ohio
+ * Revised Code 718.04; Philadelphia's Wage and Earnings Tax).
+ * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
+ * only the stripped catalog field moved.
  */
 const FED321F7_LEGACY = {
-  kentucky: "df117fc95d6d93f763e9e0a044f046ca29fa4929233f62a252fc17838129a296",
-  peebles: "f219ba89129d604c739d7f70bfb1e5cff469d24a402280faf1d36dddb992b52f",
+  kentucky: "53446f1532a0f906a101e639259d26957df1b039c658e729fce7c637b7af3292",
+  peebles: "0bf0b219f1803629293f5777fa013ce137dc0f979b3748560afad279ae5f0390",
 } as const;
 
 /**
