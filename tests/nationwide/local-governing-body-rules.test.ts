@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { governmentUnitsForPlace } from "../../src/simulation/government-units";
+import {
+  allGovernmentUnits,
+  governmentUnitsForPlace,
+} from "../../src/simulation/government-units";
 import {
   localGoverningBodyReadSpread,
   localGoverningBodyRules,
   localRuleCoverage,
 } from "../../src/simulation/nationwide-world/local-governing-body-rules";
 import { townSeatRulesSentence } from "../../src/presentation/local-governing-seat";
+import { governmentUnitDisplayName } from "../../src/simulation/nationwide-world/government-unit-names";
 
 /**
  * Which towns' governing-body rules the game has read, and what every other
@@ -85,14 +89,27 @@ describe("a town nobody has read", () => {
   );
 
   it("never draws the extremes: a consolidated city's council is not typical", () => {
-    const { seats } = localGoverningBodyReadSpread();
-    expect(Math.min(...seats)).toBeGreaterThanOrEqual(5);
+    const { seats, termYears } = localGoverningBodyReadSpread();
+    expect(Math.min(...seats)).toBe(4);
     expect(Math.max(...seats)).toBeLessThanOrEqual(15);
-    // Across many unread towns more than one size comes out.
-    const drawn = new Set<number>();
-    for (const geoid of Object.values(UNREAD))
-      drawn.add(rulesAt(geoid).seats!.value);
-    expect(drawn.size).toBeGreaterThan(1);
+    expect(termYears).toEqual([2, 3, 4, 6]);
+  });
+
+  it("across the country, unread towns come out in ICMA's national shares", () => {
+    // ICMA 2018 as ChatGPT reported it: 5 seats 39.3%, 7 seats 26.1%, 4-year
+    // terms 63.6% of those with a stated length.
+    const unread = allGovernmentUnits()
+      .map(localGoverningBodyRules)
+      .filter(
+        (rules) => rules !== null && rules.researchedGovernmentKey === null,
+      );
+    expect(unread.length).toBeGreaterThan(19_000);
+    const share = (pick: (r: (typeof unread)[number]) => boolean) =>
+      unread.filter(pick).length / unread.length;
+    expect(share((r) => r!.seats!.value === 5)).toBeCloseTo(0.393, 1);
+    expect(share((r) => r!.seats!.value === 7)).toBeCloseTo(0.261, 1);
+    expect(share((r) => r!.termYears!.value === 4)).toBeCloseTo(0.652, 1);
+    expect(share((r) => r!.seats!.value >= 8)).toBeCloseTo(0.101, 1);
   });
 });
 
@@ -110,7 +127,7 @@ describe("what the office screen says about the body", () => {
         termYears: { value: 2, basis: "typical" },
       }),
     ).toBe(
-      "The game has not read how this body is made up, so it gives it 9 seats and 2-year terms, as the councils it has read typically have.",
+      "The game has not read how this body is made up, so it gives it 9 seats and 2-year terms, as town councils across the country commonly have.",
     );
     expect(
       townSeatRulesSentence({
@@ -118,8 +135,23 @@ describe("what the office screen says about the body", () => {
         termYears: { value: 3, basis: "typical" },
       }),
     ).toBe(
-      "By the town's own rules the body has 5 seats. The game has not read the rest, so it gives it 3-year terms, as the councils it has read typically have.",
+      "By the town's own rules the body has 5 seats. The game has not read the rest, so it gives it 3-year terms, as town councils across the country commonly have.",
     );
     expect(townSeatRulesSentence({ seats: null, termYears: null })).toBeNull();
+  });
+});
+
+describe("a government's name as people write it", () => {
+  it.each([
+    ["COUNTY OF WASHINGTON", "county", "Washington County"],
+    ["COUNTY OF ST LOUIS", "county", "St. Louis County"],
+    ["PARISH OF ST JAMES", "county", "St. James Parish"],
+    ["BOROUGH OF KODIAK ISLAND", "county", "Kodiak Island Borough"],
+    ["BOROUGH OF PRINCETON", "municipality", "Borough of Princeton"],
+    ["CITY OF ST MARYS", "municipality", "City of St. Marys"],
+    ["CITY OF EASTPORT", "municipality", "City of Eastport"],
+    ["TOWN OF WEST ST", "municipality", "Town of West St"],
+  ] as const)("%s reads %s", (name, unitType, expected) => {
+    expect(governmentUnitDisplayName({ name, unitType })).toBe(expected);
   });
 });

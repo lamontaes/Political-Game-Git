@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-23T00:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "observer mode",
+  "notes": [
+    "Measured in the game (observer mode, Montana opening, seed decades-1, main at fe17ae91): 535 public officeholders at the opening, almost all of them members of Congress. Median age 57, quartiles 46 and 68, oldest 82, 20 aged 80 or over. The game kills everyone with the SSA 2023 period life table (src/simulation/crisis/mortality.ts, mortality-table.ts), averaged across sexes. Summed over those 535 people, that table expects 6.6 deaths a year. Eight watched years produced 60 officeholder deaths, which matches the table.",
+    "Recent real Congresses have lost about two to four sitting members a year to death. That is roughly half of what the game produces. The likely reason is that members of Congress are wealthier and better insured than the general population the table describes. This is an inference, not a measured source; please confirm or correct it.",
+    "Do not propose a made-up multiplier. The owner's standing rule is that depth is never invented. If published mortality for legislators, or for the relevant income or education group, exists, cite it. If not, say so."
+  ],
+  "priority": "P2",
+  "question": "How many sitting members of the U.S. Congress have died in office each year over the last 20 to 30 years, and is there published mortality evidence (for legislators, or for their income and education group) that says how their death rate compares with the SSA period life table at the same ages?",
+  "questionId": "officeholder-death-rate-versus-life-table",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "observer mode thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/ssa-2023-period-life-table.json, the only mortality table in the game",
+      "whatItDidNotSettle": "It is general-population mortality. It says nothing about whether officeholders die at that rate."
+    },
+    {
+      "source": "The game's own eight-year observer run",
+      "whatItDidNotSettle": "It shows the game faithfully applies the table (60 deaths against about 6.6 a year expected). It cannot say whether the table is right for this population."
+    }
+  ],
+  "title": "Do members of Congress die at general-population rates?",
+  "usableAnswer": "A per-year count of deaths in office for the House and Senate over at least 20 years, with the source. Then either a cited ratio or table describing legislator (or high-income, college-educated) mortality against general-population mortality by age, or an explicit statement that none exists and what was checked.",
+  "whyItMatters": "The owner read '60 officeholders died in 8 years' in an observer run and asked whether that is real. The game applies general-population death rates to members of Congress, which produces about 7 or 8 deaths in office a year, where recent real Congresses have seen about 2 to 4. Each death triggers a vacancy and a replacement, so this drives how often seats turn over in every long save."
+}
