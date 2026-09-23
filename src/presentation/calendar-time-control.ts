@@ -107,7 +107,22 @@ export function playCalendarActivity(
       outcome: entry.refusal,
     };
   }
-  const next = performVenueActivity(world, personId, activityId);
+  let next: World;
+  try {
+    next = performVenueActivity(world, personId, activityId);
+  } catch (error) {
+    // A writer that refuses (a buy the committee can no longer pay for, a
+    // session that is not the week's next) says why, and nothing is written:
+    // the wait before it is discarded with the refusal.
+    return {
+      world,
+      reached: world.currentMoment,
+      outcome:
+        error instanceof Error
+          ? error.message
+          : "This event could not be played now.",
+    };
+  }
   if (next === world) {
     return {
       world,
