@@ -8,6 +8,7 @@ import type { EntityId, IsoDate, World } from "../simulation";
 import { seatedChamberForPack } from "../simulation/governing/chamber-votes";
 import { committeesForPerson } from "../simulation/governing/committee-assignment";
 import { US_CONGRESS_PACK_ID } from "../simulation/congress-rule-pack";
+import { stateChamberName } from "../simulation/candidacy-packs";
 import {
   resolveActiveMemberSeat,
   type ActiveMemberSeat,
@@ -109,16 +110,14 @@ export function projectLegislativeOfficeContext(
     );
     const jurisdiction = world.jurisdictions[seat.governingJurisdictionId];
     if (contest && work && jurisdiction) {
-      const chamber = chamberByKey(
-        rulePackById(seat.legislativeRulePackId),
-        seat.chamberKey,
-      );
+      const pack = rulePackById(seat.legislativeRulePackId);
+      const chamber = chamberByKey(pack, seat.chamberKey);
       member = {
         kind: "member",
         seat,
         officeKey: contest.office.officeKey,
         officeTitle: contest.office.title,
-        chamberLabel: chamber.name,
+        chamberLabel: stateChamberName(pack.jurisdictionKey, chamber.name),
         jurisdictionLabel: jurisdiction.name,
         recordedWorkStartedAt: work.relationship.startedAt,
         label: `${contest.office.title} · ${jurisdiction.name}`,

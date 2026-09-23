@@ -6382,9 +6382,9 @@
       "anchor": "projectCampaign-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} lost{resultMargin(result,personId)}. That is a thing that happened to them, not the end of them — tomorrow is still there.",
+      "text": "{candidateName} lost{resultMargin(result,personId)}. That is a thing that happened to {pronouns.object}, not the end of {pronouns.object} — tomorrow is still there.",
       "occurrence": 0,
-      "textRevision": "3d0e0d36028a"
+      "textRevision": "7cd60596906c"
     },
     {
       "anchor": "projectCampaign-0002",
@@ -6398,9 +6398,9 @@
       "anchor": "projectCampaign-0003",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won{resultMargin(result,personId)}. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
+      "text": "{candidateName} won{resultMargin(result,personId)}. The term begins {proseDate(term.startsAt)}; until then the office is not {pronouns.possessivePronoun}.",
       "occurrence": 0,
-      "textRevision": "82d601f954f4"
+      "textRevision": "e865b44e5412"
     },
     {
       "anchor": "projectCampaign-0004",
@@ -6409,6 +6409,22 @@
       "text": "{candidateName} won{resultMargin(result,personId)} and keeps the seat. The new term begins {proseDate(term.startsAt)}.",
       "occurrence": 0,
       "textRevision": "e1f6b7d4eb13"
+    },
+    {
+      "anchor": "projectCampaign-0005",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won{resultMargin(result,personId)} and kept the seat. The new term began {proseDate(term.startsAt)}.",
+      "occurrence": 0,
+      "textRevision": "5937580405bf"
+    },
+    {
+      "anchor": "projectCampaign-0006",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won{resultMargin(result,personId)}. The term began {proseDate(term.startsAt)}.",
+      "occurrence": 0,
+      "textRevision": "fd6352a560d6"
     },
     {
       "anchor": "projectDisclosure-0001",

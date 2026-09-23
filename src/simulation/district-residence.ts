@@ -169,7 +169,14 @@ export function districtResidenceSince(
         (interval.endedOn === null || interval.endedOn > onDate),
     )
     .sort((left, right) => left.startedOn.localeCompare(right.startedOn));
-  return covering[0]?.startedOn ?? null;
+  const earliest = covering[0];
+  if (!earliest) return null;
+  // A seat bound to the district the world-creation join recorded is dated
+  // the same way the unbound question is, so the office list and the filing
+  // agree on how long a lifelong resident has lived there.
+  return earliest.provenance.method === "canonical-home-join"
+    ? membershipStartedOn(world, earliest, onDate)
+    : earliest.startedOn;
 }
 
 /**
@@ -227,11 +234,24 @@ export function recordedDistrictResidenceSince(
    * catalog's vintage, and nothing here claims where a boundary ran in an
    * earlier year.
    */
-  const person = world.people[personId];
+  return membershipStartedOn(world, membership, onDate);
+}
+
+/**
+ * When a membership interval's person came to live in its district: the
+ * interval's own start, or, for the join written at world creation, the
+ * household record's earlier start. See `recordedDistrictResidenceSince`.
+ */
+function membershipStartedOn(
+  world: World,
+  membership: DistrictResidenceInterval,
+  onDate: IsoDate,
+): IsoDate {
+  const person = world.people[membership.personId];
   if (!person) return membership.startedOn;
   const livedHereSince = homeJurisdictionResidenceSince(
     world,
-    personId,
+    membership.personId,
     person.homeJurisdictionId,
     onDate,
   );

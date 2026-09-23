@@ -2,19 +2,21 @@ import { test, expect } from "./fixtures";
 import { startLife, enterLife, goTo } from "./support/creator";
 
 /*
- * An eighteen-year-old in Peoria, Illinois opens Jobs and study, then Study.
+ * A nineteen-year-old in Peoria, Illinois, out of high school, opens Jobs and
+ * study, then Study. (Someone still in high school sees their school there
+ * instead: college comes after it.)
  *
  * A playtest there read the Study tab as offering only the game's own college:
  * the real-college finder was on the page, but a long scroll below six program
  * cards. The finder now comes first, the page carries no provenance wording,
  * and a real college can be applied to — once.
  */
-test("an eighteen-year-old in Peoria finds and applies to a real college from the Study tab", async ({
+test("a nineteen-year-old in Peoria finds and applies to a real college from the Study tab", async ({
   page,
 }) => {
   test.setTimeout(120_000);
   await page.goto("/?seed=adult-college-finder-peoria");
-  await startLife(page, { place: "Peoria", state: "Illinois", age: 18 });
+  await startLife(page, { place: "Peoria", state: "Illinois", age: 19 });
   await enterLife(page);
   await goTo(page, "nav-jobs");
   await page

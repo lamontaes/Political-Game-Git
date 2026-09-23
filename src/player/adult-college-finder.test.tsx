@@ -4,10 +4,10 @@ import { describe, expect, it } from "vitest";
 import { createNewGameWorld } from "../presentation/new-game";
 import { explicitNewGameSetup } from "../presentation/new-game-geography";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
-import { projectWorkRole } from "../presentation/day-overview";
 import { advanceWorld } from "../simulation";
 import { ageOnDate } from "../simulation/dates";
 import { LIFE_PATHS2_HANDLERS } from "../simulation/life-paths2";
+import { schoolStageToday } from "../simulation/school-stages";
 import {
   loadEducationCatalog,
   type FetchLike,
@@ -20,22 +20,24 @@ import {
 import { LifePathsPanel } from "./LifePathsPanel";
 
 /*
- * Peoria, Illinois: a girl who turns eighteen in her last year of high
- * school. A playtest there reported the Study tab showing only the game's own
+ * Peoria, Illinois: a young woman a year out of high school. A playtest there,
+ * at eighteen, reported the Study tab showing only the game's own
  * college and no way to apply to a real one. In a real browser the finder
  * was on the page, a long scroll below six program cards, so the screen she
  * opened read as having no real colleges. These pin the order, the plain
- * wording and the route from the shipped directory to an application.
+ * wording and the route from the shipped directory to an application. Someone
+ * still in high school sees their school on the Study tab instead, since
+ * college comes after it; that is the child school screen's to pin.
  */
 
 const PEORIA = "1759000";
 
-function peoriaEighteen() {
+function peoriaNineteen() {
   const game = createNewGameWorld(
     explicitNewGameSetup({
       placeKey: PEORIA,
       seed: "peoria-adult-college-finder",
-      startAge: 17,
+      startAge: 18,
       birthMonth: 1,
       birthDay: 6,
       gender: "female",
@@ -65,19 +67,17 @@ const fromPublic: FetchLike = async (input: string) => {
   };
 };
 
-describe("the Study tab for an eighteen-year-old in Peoria", () => {
-  const { world, personId } = peoriaEighteen();
+describe("the Study tab for a nineteen-year-old in Peoria", () => {
+  const { world, personId } = peoriaNineteen();
   const markup = renderToStaticMarkup(
     <LifePathsPanel world={world} onWorldChange={() => {}} />,
   );
 
-  it("is a real eighteen-year-old still finishing high school", () => {
+  it("is a real nineteen-year-old who has finished high school", () => {
     const person = world.people[personId]!;
-    expect(ageOnDate(person.birthDate, world.currentDate)).toBe(18);
-    // Named, so it does not read as a college place nobody took.
-    expect(projectWorkRole(world, personId).sentence).toMatch(
-      /You are a student at [^.]+ High School\./,
-    );
+    expect(ageOnDate(person.birthDate, world.currentDate)).toBe(19);
+    expect(schoolStageToday(world, personId)).toBe("after");
+    expect(markup).not.toContain('data-testid="study-grade-school"');
   });
 
   it("puts the college finder before the game's own programs", () => {
