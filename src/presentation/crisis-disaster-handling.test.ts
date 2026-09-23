@@ -140,7 +140,10 @@ describe("a governor's handling of a disaster is noticed", () => {
       expect(disasterHandlingWeight(asked, governorId, asked.currentDate)).toBe(
         UNRESEARCHED_DISASTER_HANDLING.laterContestWeight.sound,
       );
-      const { said } = reactionsTo(asked, governorId);
+      // The people around them react on the next weekly news sweep.
+      const read = passOrdinaryDays(asked, 8);
+      const { traces, said } = reactionsTo(read, governorId);
+      expect(traces.length).toBeGreaterThan(0);
       for (const event of said)
         expect(event.type).toBe("crisis.handling-praise");
     },

@@ -14,6 +14,10 @@ import type {
   ContactProposal,
 } from "../simulation/people-contact";
 import { describePersonContext } from "../simulation/person-context";
+import {
+  describeRelationshipStanding,
+  readRelationshipStanding,
+} from "../simulation/relationship-standing";
 import { proseDate } from "./prose-dates";
 
 /**
@@ -52,6 +56,18 @@ export interface ContactEntry {
   readonly lastContactOn: IsoDate | null;
   readonly lastContactSpoken: string | null;
   readonly outOfTouch: boolean;
+  /**
+   * Whether they live with the played person now. Living together is being in
+   * touch, so the screen says so rather than quoting the last date something
+   * happened to be recorded between them.
+   */
+  readonly livesWithYou: boolean;
+  /**
+   * How the played person stands with them, in the same sentence the person
+   * card uses: a falling out, a debt or a friendship gone quiet. Null when
+   * there is nothing past the ordinary to say.
+   */
+  readonly standing: string | null;
   readonly channels: readonly ContactChannel[];
   readonly actions: readonly ContactAction[];
   readonly outstanding: OutstandingProposal | null;
@@ -76,6 +92,8 @@ export function projectContacts(
   );
   const contacts = contactBases(world, personId).map((basis): ContactEntry => {
     const outstanding = outstandingWith(proposals, personId, basis.personId);
+    const standing = readRelationshipStanding(world, personId, basis.personId);
+    const livesWithYou = standing.absence.sharesHome;
     const waiting =
       outstanding?.direction === "you-asked"
         ? `You asked, and ${basis.name} has not answered yet.`
@@ -91,7 +109,12 @@ export function projectContacts(
       lastContactSpoken: basis.lastContactOn
         ? proseDate(basis.lastContactOn)
         : null,
-      outOfTouch: basis.gap === "long-gap",
+      outOfTouch: !livesWithYou && basis.gap === "long-gap",
+      livesWithYou,
+      standing: describeRelationshipStanding(
+        standing,
+        world.people[basis.personId]?.givenName ?? basis.name,
+      ),
       channels: basis.channels,
       actions: [
         {
