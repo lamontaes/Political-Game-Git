@@ -56,20 +56,19 @@ async function compositionPainted(node: HTMLElement, signal: AbortSignal) {
   return false;
 }
 
-/** Keeps the outgoing composition mounted while the entire next chapter arrives.
+/** Keeps the outgoing composition mounted while the entire next chapter arrives,
+ * then fades it out before the arriving chapter fades in.
  * Nothing here reads or writes simulation state. Only the two visible chapters
  * and the caller's one adjacent plate are retained. */
 export function SceneChapterTransition({
   chapterKey,
   children,
   nextPlateUrl,
-  paused = false,
   onReady,
 }: {
   readonly chapterKey: string;
   readonly children: ReactNode;
   readonly nextPlateUrl?: string | null;
-  readonly paused?: boolean;
   readonly onReady?: () => void;
 }) {
   const [frames, setFrames] = useState<{
@@ -127,28 +126,11 @@ export function SceneChapterTransition({
     };
   }, [nextPlateUrl]);
   useLayoutEffect(() => {
-    // Pause the old camera at its actual painted position, without remounting
-    // its subtree or restarting its drift at the beginning of the fade.
-    leavingRef.current
-      ?.getAnimations({ subtree: true })
-      .forEach((animation) => {
-        if (
-          animation.effect instanceof KeyframeEffect &&
-          animation.effect.target === leavingRef.current
-        )
-          return;
-        animation.pause();
-      });
+    // The scenes hold still: the only motion is the chapter change itself, a
+    // fade out of the old card to the dark ground and then a fade in of the
+    // new one, so the two cards' words are never on screen at once.
     const node = currentRef.current;
     if (!node) return;
-    if (!paused && !reduced)
-      node.getAnimations({ subtree: true }).forEach((animation) => {
-        if (
-          animation instanceof CSSAnimation &&
-          animation.animationName === "pg-chapter-drift"
-        )
-          animation.play();
-      });
     let cancelled = false;
     const controller = new AbortController();
     let frame = 0;
@@ -185,7 +167,7 @@ export function SceneChapterTransition({
     <div
       className="pg-scene-chapters"
       data-testid="scene-chapters"
-      data-motion={paused || reduced ? "paused" : "playing"}
+      data-motion={reduced ? "reduced" : "fade"}
       data-ready={frames.ready}
     >
       {[...(frames.leaving ? [frames.leaving] : []), frames.current].map(

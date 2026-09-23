@@ -8,7 +8,10 @@ import {
   type CSSProperties,
   type ReactNode,
 } from "react";
-import { acquirePreparedVariant } from "./engine-people29-svg";
+import {
+  acquirePreparedVariant,
+  type PreparedVariantPriority,
+} from "./engine-people29-svg";
 import type { AppearanceMaterial } from "../simulation/appearance-material";
 import { ENGINE_PEOPLE29_TEMPLATES } from "../presentation/engine-people29-data";
 
@@ -135,6 +138,13 @@ function ModularCharacterLayers({
   );
 }
 
+/**
+ * How urgently the characters below are needed. An option thumbnail provides
+ * "low" so the figure the player is changing renders first.
+ */
+export const PreparedArtworkPriority =
+  createContext<PreparedVariantPriority>("high");
+
 /** Resolve every material layer before showing a person. A rejected layer must
  * never produce a headless or partially dressed person. */
 const MaterialGroupContext = createContext<ReadonlyMap<string, string> | null>(
@@ -155,6 +165,7 @@ export function MaterialGroup({
   readonly children: ReactNode;
 }) {
   const request = JSON.stringify([layers, expression]);
+  const priority = useContext(PreparedArtworkPriority);
   const [result, setResult] = useState<{
     request: string;
     urls: Map<string, string>;
@@ -194,6 +205,7 @@ export function MaterialGroup({
           layer.material,
           ids,
           faceExpression,
+          priority,
         );
         leases.push(lease);
         const url = await lease.url;
@@ -231,6 +243,7 @@ export function MaterialGroup({
     };
     // The request contains every input that can alter pixels. Captured children
     // are the geometry/identity snapshot for those pixels while a newer request loads.
+    // Priority orders work only; it never changes the pixels of a request.
   }, [request]);
   const current = result?.request === request ? result : undefined;
   const displayed = useRef<
@@ -270,6 +283,55 @@ export function MaterialGroup({
   );
 }
 
+/**
+ * Prepares the artwork of figures the player may ask for next (a neighbouring
+ * body) at the lowest priority, so choosing one finds its layers ready. Draws
+ * nothing and creates no fact; the leases only keep the rendered variants.
+ */
+export function PreparedArtworkPreload({
+  plans,
+}: {
+  readonly plans: readonly CharacterRenderPlan[];
+}) {
+  const request = JSON.stringify(
+    plans.map((plan) => [
+      plan.material ?? null,
+      plan.layers.map((layer) => layer.assetId),
+    ]),
+  );
+  useEffect(() => {
+    const leases: ReturnType<typeof acquirePreparedVariant>[] = [];
+    for (const [material, ids] of JSON.parse(request) as [
+      AppearanceMaterial | null,
+      string[],
+    ][]) {
+      if (!material) continue;
+      for (const id of ids) {
+        if (!ENGINE_PEOPLE29_TEMPLATES[id]) continue;
+        try {
+          const lease = acquirePreparedVariant(
+            id,
+            material,
+            ids,
+            "neutral",
+            "idle",
+          );
+          void lease.url.catch(() => {});
+          leases.push(lease);
+        } catch {
+          // A figure that cannot be prepared is reported when it is shown.
+        }
+      }
+    }
+    // Release after the next commit's figures have acquired the same layers,
+    // so a chosen neighbour keeps what was prepared for it.
+    return () => {
+      setTimeout(() => leases.forEach((lease) => lease.release()), 0);
+    };
+  }, [request]);
+  return null;
+}
+
 export function ModularCharacter(props: ModularCharacterProps) {
   return (
     <MaterialGroup
@@ -298,6 +360,7 @@ export function MaterialImage({
   expression?: "neutral" | "smile";
 }) {
   const group = useContext(MaterialGroupContext);
+  const priority = useContext(PreparedArtworkPriority);
   const groupedUrl = group?.get(assetId);
   const wanted =
     !group && material && ENGINE_PEOPLE29_TEMPLATES[assetId]
@@ -321,6 +384,7 @@ export function MaterialImage({
         parameters,
         drawn,
         faceExpression,
+        priority,
       );
       void acquired.url.then(
         (url) => {

@@ -6,7 +6,7 @@
 
 - Each agency is a regulator or filing/enforcement lead identified from the linked public source. Some jurisdictions split filing, complaint intake, civil enforcement, and criminal referral; read the detail before assigning authority in the game.
 - A cited overview does not verify every legal detail in its row. `UNKNOWN` means no fact should be generated from that field. Local office rules, deadlines, remedy amounts, and effective dates need provision-level checks before a legal profile is approved.
-- Keep the game’s actual fictional case history and government-unit IDs separate from this real-world source map. A jurisdiction-wide game fallback should be labeled a simulated profile, not verified law.
+- Keep the game’s actual fictional case history and government-unit IDs separate from this real-world source map. A jurisdiction-wide game fallback should be labelled a simulated profile, not verified law.
 - The live question `state-campaign-finance-regulators` remains open for exact authority, own-initiative review, complaint stages and deadlines, personal-use rule, and civil-penalty proof in every jurisdiction.
 
 ## Nationwide index
