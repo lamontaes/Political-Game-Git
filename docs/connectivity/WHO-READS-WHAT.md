@@ -295,4 +295,4 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 ## How this document is made
 
-Rendered September 23, 2026 from commit fe63f6e6 by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand.
+Rendered September 23, 2026 from commit 947c366d by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand.
