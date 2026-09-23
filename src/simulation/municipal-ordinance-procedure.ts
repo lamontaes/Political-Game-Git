@@ -23,6 +23,7 @@
  */
 
 import { addDays } from "./dates";
+import { applyEnactedLawEffects } from "./enacted-law-effects";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { currentStateExecutiveHolders } from "./nationwide-world/state-executives";
 import type { MunicipalPassageInterval } from "./municipal-government";
@@ -667,12 +668,14 @@ function afterFinalPassage(
       reading.procedure.effectivePublication?.includes(
         "from the date of its passage",
       ) === true;
-    return recordEnactment(next, {
+    next = recordEnactment(next, {
       stableKey: `${measure.stableKey}:enactment`,
       measureId: measure.id,
       actDesignation: measure.designation,
       effectiveAt: effectiveFromPassage ? next.currentDate : null,
     });
+    // Every enactment passes through the one effects step, a council's too.
+    return applyEnactedLawEffects(next, measure.id);
   }
   next = presentMeasureToExecutive(next, {
     stableKey: `${measure.stableKey}:presented`,
@@ -726,12 +729,13 @@ function enactCouncilMeasure(
         )
       ? world.currentDate
       : null;
-  return recordEnactment(world, {
+  const next = recordEnactment(world, {
     stableKey: `${measure.stableKey}:enactment`,
     measureId: measure.id,
     actDesignation: measure.designation,
     effectiveAt,
   });
+  return applyEnactedLawEffects(next, measure.id);
 }
 
 function measureOfThisCouncil(
