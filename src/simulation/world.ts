@@ -2,6 +2,7 @@ import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
+import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
@@ -1115,7 +1116,10 @@ function advanceWorldUnchecked(
                 world.currentDate,
                 applyCongressTurnover(
                   world.currentDate,
-                  applyNationalTermTransitions(advanced),
+                  applyStateLegislatureTurnover(
+                    world.currentDate,
+                    applyNationalTermTransitions(advanced),
+                  ),
                 ),
               ),
             ),

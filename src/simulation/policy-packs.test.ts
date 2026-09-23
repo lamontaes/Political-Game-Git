@@ -31,6 +31,7 @@ describe("what a build ships with", () => {
       "us-state-and-local",
       "us-policy-positions",
       "us-federal",
+      "us-federal-positions",
     ]);
     const stateAndLocal = registry.report.packs.find(
       (entry) => entry.pack === "us-state-and-local",

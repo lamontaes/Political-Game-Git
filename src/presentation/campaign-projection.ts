@@ -21,10 +21,12 @@ import {
   campaignResultsFor,
   campaignState,
   campaignTreasuryPosition,
+  campaignWeeklyPlanForAction,
   candidacyEligibility,
   electiveOfficesForJurisdiction,
   compareSimulationMoments,
   controlledCommitmentsBlockingActivityPerformance,
+  daysBetween,
   daysUntilElection,
   electionContestResult,
   electionSpeechGiven,
@@ -35,6 +37,7 @@ import {
   lifePlaceByJurisdictionId,
   localGoverningBodyIdentityForOfficeKey,
   makeCurrencyCode,
+  makeIsoDate,
   nextStateLegislativeElection,
   performCampaignAction,
   personName,
@@ -173,7 +176,24 @@ export interface CampaignReading {
   /** The sentence the candidate was actually told. */
   readonly summary: string;
   readonly on: string;
-  /** How far the count moved since the one before, when it moved. */
+  /**
+   * When this count was taken, in words, and that nothing newer exists.
+   *
+   * A count is only taken when the campaign works, so the memo on the desk
+   * can be weeks old: Detroit's said the same thing for the last 52 days of
+   * the race. The date is the count's own, never today's.
+   */
+  readonly dated: string;
+  /**
+   * How far the count moved since the one before, when it moved.
+   *
+   * In whole points, the difference between the two numbers the memos print,
+   * dated with the earlier count's own day. "The one before" is the last count
+   * taken on an earlier day and outside this count's own weekly plan. A condensed week takes several counts at once and the player sees
+   * only the last; comparing it with a count from the same batch told a
+   * Seattle candidate "Up 8.1 points" on a memo that had fallen from about
+   * 47 to about 30 since the last one they had seen.
+   */
   readonly change: string | null;
 }
 
@@ -792,11 +812,16 @@ function sessionsFor(
  * but has not recorded anybody reading is not something the player knows, and
  * the difference matters on the day somebody else reads it first.
  */
+interface RecordedReading extends Omit<CampaignReading, "change" | "dated"> {
+  /** The weekly plan that booked the session, or null for an afternoon. */
+  readonly planId: EntityId | null;
+}
+
 function readingFrom(
   world: World,
   campaign: CampaignRecord,
   result: ReturnType<typeof campaignResultsFor>[number],
-): Omit<CampaignReading, "change"> | null {
+): RecordedReading | null {
   const knowledge = world.history.knowledge.find(
     (candidate) =>
       candidate.id === result.feedbackKnowledgeId &&
@@ -817,7 +842,17 @@ function readingFrom(
         : null,
     summary: knowledge.believedSummary,
     on: result.completedAt,
+    planId:
+      campaignWeeklyPlanForAction(world, result.campaignActionId)?.id ?? null,
   };
+}
+
+/** "Counted today", or the count's own date and how long ago that was. */
+function countDated(on: IsoDate, today: IsoDate): string {
+  const days = daysBetween(on, today);
+  if (days <= 0) return `Counted today, ${proseDate(on)}.`;
+  if (days === 1) return `Counted yesterday, ${proseDate(on)}.`;
+  return `Counted ${proseDate(on)}, ${days} days ago. Nobody has counted since.`;
 }
 
 function latestReading(
@@ -830,17 +865,34 @@ function latestReading(
   });
   const latest = readings.at(-1);
   if (!latest) return null;
-  const previous = readings.at(-2);
+  // The last count from before this one's batch, on an earlier day: a weekly
+  // plan's sessions, condensed or not, are one batch, and an afternoon is a
+  // batch of one. A Texas week's three counts on one day each said "since the
+  // count on" that same day.
+  const previous = readings
+    .slice(0, -1)
+    .filter(
+      (reading) =>
+        reading.on < latest.on &&
+        (latest.planId === null || reading.planId !== latest.planId),
+    )
+    .at(-1);
   // A count is an estimate, so a move between two of them is the estimate's
-  // move, not a measurement of what caused it. Said only when it moved.
+  // move, not a measurement of what caused it. Said only when it moved, and
+  // in the whole points the memos themselves print: Texas memos reading 63
+  // and then 60 had said "Down 2.2".
   const points = previous
-    ? Math.round((latest.percent - previous.percent) * 10) / 10
+    ? Math.round(latest.percent) - Math.round(previous.percent)
     : 0;
   return {
-    ...latest,
+    percent: latest.percent,
+    marginPercent: latest.marginPercent,
+    summary: latest.summary,
+    on: latest.on,
+    dated: countDated(makeIsoDate(latest.on), world.currentDate),
     change:
       previous && points !== 0
-        ? `${points > 0 ? "Up" : "Down"} ${Math.abs(points).toFixed(1)} points since the count on ${proseDate(previous.on)}.`
+        ? `${points > 0 ? "Up" : "Down"} ${Math.abs(points)} ${Math.abs(points) === 1 ? "point" : "points"} since the count on ${proseDate(previous.on)}.`
         : null,
   };
 }
