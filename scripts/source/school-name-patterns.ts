@@ -206,5 +206,5 @@ if (process.argv[1]?.endsWith("school-name-patterns.ts")) {
   const out = "src/simulation/school-name-patterns.json";
   const { writeFileSync } = await import("node:fs");
   writeFileSync(out, `${JSON.stringify(measureSchoolNamePatterns())}\n`);
-  console.log(`Wrote ${out}`);
+  console.log(`Wrote ${out}; run prettier --write on it before committing.`);
 }
