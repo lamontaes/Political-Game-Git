@@ -554,6 +554,11 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
           stage: "the-year-you-were-inseparable",
           days: 500,
         },
+        // Cast afresh from whoever the record knows, so without this a
+        // teacher could be the friend who drifted (Bend, 2026-09-23: a
+        // nine-year-old and their teacher "down to running into each other").
+        // A childhood friend is at most a year or two past eighteen by now.
+        { kind: "role-age-below", role: "familiar", age: 21 },
       ],
       lines: [
         "You and {role:familiar} are down to running into each other.",
