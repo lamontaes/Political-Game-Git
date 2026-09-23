@@ -130,6 +130,8 @@ export interface GameResult {
   readonly generationsPlayed: number;
   readonly ended: string;
   readonly offices: readonly string[];
+  /** The campaign screen's phase when the game stopped. */
+  readonly campaignPhase?: string;
   readonly ms: number;
   readonly findings: readonly Finding[];
 }
@@ -309,8 +311,6 @@ export function playGame(spec: GameSpec): GameResult {
   const endBy = addYears(world.currentDate, spec.years);
   let lastDate = world.currentDate;
   let sameDateCommands = 0;
-  let lastSceneKey = "";
-  let sameScene = 0;
   const recent: string[] = [];
   let blocked = false;
 
@@ -373,26 +373,35 @@ export function playGame(spec: GameSpec): GameResult {
           name: `story:${scene.kind}`,
           offered: true,
           weight: 6 / Math.max(1, options.length),
-          run: (world) =>
-            chooseStoryOption(world, {
+          run: (world) => {
+            const next = chooseStoryOption(world, {
               personId,
               scene,
               optionKey: option.key,
               transitionHandlers: handlers,
-            }),
+            });
+            // A choice the screen offered must change something: the same
+            // scene, same options, same minute is a button that does nothing.
+            if (scene.kind !== "ordinary-stretch") {
+              const after = projectStoryMoment(next, personId).scene;
+              if (
+                next.currentMoment.date === world.currentMoment.date &&
+                next.currentMoment.minuteOfDay ===
+                  world.currentMoment.minuteOfDay &&
+                after.prose === scene.prose &&
+                after.options.map((o) => o.key).join() ===
+                  options.map((o) => o.key).join()
+              )
+                note({
+                  kind: "stuck-scene",
+                  signature: `choosing "${option.label}" left the same ${scene.kind} scene and clock`,
+                  detail: `${scene.prose.slice(0, 300)} | options: ${options.map((o) => o.label).join(" / ")}`,
+                });
+            }
+            return next;
+          },
         });
       }
-      const sceneKey = `${scene.kind}|${scene.prose.slice(0, 120)}|${options.map((o) => o.key).join(",")}|${JSON.stringify(world.currentMoment)}`;
-      if (scene.kind !== "ordinary-stretch" && sceneKey === lastSceneKey)
-        sameScene += 1;
-      else sameScene = 0;
-      lastSceneKey = sceneKey;
-      if (sameScene === 12)
-        note({
-          kind: "stuck-scene",
-          signature: `same ${scene.kind} scene offered 12 times with the clock not moving`,
-          detail: `${scene.prose.slice(0, 200)} | options: ${options.map((o) => o.label).join(" / ")}`,
-        });
     }
 
     // Today, read for text only.
@@ -939,9 +948,16 @@ export function playGame(spec: GameSpec): GameResult {
     if (steps % 40 === 0) roundTrip(world);
   }
   roundTrip(world);
+  let campaignPhase = "unknown";
+  try {
+    campaignPhase = projectCampaign(world, personId).phase;
+  } catch (error) {
+    campaignPhase = `threw: ${(error as Error).message}`;
+  }
   return {
     spec,
     startDate,
+    campaignPhase,
     endDate: world.currentDate,
     steps,
     actions,
@@ -954,8 +970,9 @@ export function playGame(spec: GameSpec): GameResult {
 }
 
 function addYears(date: string, years: number): string {
-  const [y, rest] = [Number(date.slice(0, 4)), date.slice(4)];
-  return `${y + years}${rest}`;
+  const d = new Date(`${date}T00:00:00Z`);
+  d.setUTCMonth(d.getUTCMonth() + Math.round(years * 12));
+  return d.toISOString().slice(0, 10);
 }
 
 export function placeFor(usps: string, random: () => number) {

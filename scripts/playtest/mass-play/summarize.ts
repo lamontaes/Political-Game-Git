@@ -50,6 +50,16 @@ const years = rows.reduce(
 console.log(
   `games ${rows.length}; simulated years ${years.toFixed(1)}; states ${new Set(rows.map((r) => r.spec.usps)).size}; generations>1: ${rows.filter((r) => r.generationsPlayed > 1).length}; filed: ${rows.filter((r) => r.offices?.length).length}`,
 );
+const phases = new Map<string, number>();
+for (const g of rows)
+  phases.set(
+    g.campaignPhase ?? "-",
+    (phases.get(g.campaignPhase ?? "-") ?? 0) + 1,
+  );
+console.log(
+  "campaign phase at the end:",
+  [...phases].map(([k, v]) => `${k}=${v}`).join(", "),
+);
 console.log("ended:", [...ended].map(([k, v]) => `${k}=${v}`).join(", "));
 const actions = new Map<string, number>();
 for (const g of rows)
