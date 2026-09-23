@@ -1,0 +1,44 @@
+{
+  "filedAt": "2026-09-23T04:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "transition services for winners",
+  "priority": "P1",
+  "question": "What does a governor's working year actually look like, month by month, so a played governor's office has a real rhythm instead of long silences? Answer for all 50 states, D.C. (the mayor) and Puerto Rico, and mark every entry as sourced, synthesized or unknown. (1) The budget cycle: whether it is annual or biennial, when the fiscal year starts, when the governor must submit the budget and in what form, when the legislature must pass it, what happens if it does not (shutdown, continuing funds), and when mid-year revisions, supplemental requests or allotment cuts happen. (2) Bills: when the regular session runs each year (and in off years, where sessions are biennial), when bills reach the governor in volume (the end-of-session rush), how long the governor has to act in and out of session, and how many bills a typical governor signs or vetoes in a year. (3) Appointments, as cadence only: roughly how many appointments come due in a governor's year and in which months, and whether board and commission terms expire on fixed dates so they cluster. Which offices are appointable, confirmation and removal are asked separately in appointed-positions-an-executive-fills; do not repeat them. (4) The rest of the year: recurring duties outside session, such as executive orders, emergency and disaster declarations, clemency and pardons, extradition, agency oversight and rulemaking sign-off, the State of the State address, federal grant applications, national and regional governors' meetings, ceremonial proclamations, and constituent mail. Give rough annual volumes where they are known. (5) Constituent and agency requests: how a governor's office receives and handles casework, and how often agency heads bring decisions to the governor. (6) A representative sample of three contrasting states, with one full-time and one part-time legislature, laid out as a twelve-month calendar a game can follow, plus the blanket pattern the other states would use until each is researched.",
+  "questionId": "governor-year-round-cadence",
+  "readFirst": {
+    "saidAt": "2026-09-23T04:23:08.000Z",
+    "saidBy": "coordinator, from the long playthrough",
+    "words": "From Fatima, Governor of Maine: after a March 30, 2031 progress report, the office was silent for seven months. There was no budget, no bills, no appointments and no requests, and it said \"Nothing is waiting on you\" every week. A governor's job needs a real rhythm: the budget cycle, bill signings and vetoes, appointments, and constituent and agency requests."
+  },
+  "relatedQuestionIds": [
+    "executive-powers-in-every-jurisdiction",
+    "legislative-step-pacing-and-veto-override",
+    "how-a-governor-decides-and-how-a-legislature-votes-in-play",
+    "generated-legislature-session-frequency-and-carryover",
+    "elected-office-staff-by-level",
+    "appointed-positions-an-executive-fills"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "coordinator relay of the long playthrough, 2026-09-23 at 12:23 a.m. Eastern; filed by the transition services thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/governing/governing-calendar.ts on main",
+      "whatItDidNotSettle": "STATE_GOVERNING_CALENDAR (ocd-state-governing-calendar/v1) is a disclosed game calendar: a budget season on December 1 and bill days on February 15, March 15 and April 15, the same in every state. Nothing is scheduled between April 15 and December 1, which is the seven-month silence."
+    },
+    {
+      "source": "src/simulation/governing/state-governing.ts on main, run forward on Fatima's save through 2031",
+      "whatItDidNotSettle": "Only the nine compiled legislatures send bills. In Maine and every other generated state, each bill day records that no bill reached the governor. Chains end after one step: a set priority opens one implementation matter, then one progress report. The agenda matter is opened only for the first year. Nothing opens appointments, casework, agency requests or emergencies."
+    },
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-23-executive-powers-0135",
+      "whatItDidNotSettle": "It gives veto windows, and for some states budget submission and appointment powers, but it is a table of powers, not a calendar of when the work arrives or how much of it there is. Budget and appointment entries are UNKNOWN for many states."
+    },
+    {
+      "source": "docs/research/requests/legislative-step-pacing-and-veto-override.json and how-a-governor-decides-and-how-a-legislature-votes-in-play.json",
+      "whatItDidNotSettle": "Both ask how a bill moves or how a decision is made, not when a governor's year brings which work."
+    }
+  ],
+  "title": "A governor's working year: when the budget, bills, appointments and requests actually arrive",
+  "usableAnswer": "Table 1: one row per state, covering budget cycle, fiscal year start, submission deadline, session months, bill-action days in and out of session, and typical annual bills signed and vetoed. Table 2: appointment cadence, covering the rough yearly count and the months when terms expire. Table 3: recurring non-session duties with rough annual volumes. Then three sample twelve-month calendars and the blanket pattern for the rest. Mark every entry as sourced, synthesized or unknown.",
+  "whyItMatters": "A played governor currently gets a December budget and three spring bill days and nothing else, so from mid-April to December the office says \"Nothing is waiting on you\" every week. The game should give the office its actual rhythm from each state's own calendar, and not invent busywork to fill the gap."
+}

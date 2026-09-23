@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { fileForOffice } from "../presentation/campaign-projection";
+import { proseDate } from "../presentation/prose-dates";
 import {
   bindingForDistrict,
   offeredDistricts,
@@ -168,9 +169,9 @@ export function DistrictResidencePanel({
             </p>
           ) : recorded ? (
             <p data-testid="district-residence-recorded">
-              The world has recorded this character living in this chamber's
-              district since {recorded.startedOn}. Filing for any other district
-              on this list would be refused.
+              You have lived in this chamber's district since{" "}
+              {proseDate(recorded.startedOn)}. Filing for any other district on
+              this list would be refused.
             </p>
           ) : splitTown ? (
             <p data-testid="district-residence-unrecorded">
@@ -178,8 +179,8 @@ export function DistrictResidencePanel({
             </p>
           ) : (
             <p data-testid="district-residence-unrecorded">
-              The world has not recorded which of these districts this character
-              lives in, so naming one here will not prove it.
+              Which of these districts you live in is not on record, so naming
+              one here will not prove it.
             </p>
           )}
           <button

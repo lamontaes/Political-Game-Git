@@ -78,6 +78,11 @@ import {
 
 export const STATE_GOVERNING_VERSION = "state-governing/v1";
 
+/** A sentence used as the opening clause of a longer one: no stop mid-sentence. */
+function clause(sentence: string): string {
+  return sentence.replace(/\.$/, "");
+}
+
 export const GOVERNING_MATTER_OPENED = "governing.matter-opened" as const;
 export const GOVERNING_MATTER_DECIDED = "governing.matter-decided" as const;
 export const GOVERNING_OUTCOME = "governing.outcome" as const;
@@ -326,7 +331,7 @@ function optionsFor(
               label: `Hire ${personName(person)}`,
               effect:
                 "Becomes chief of staff, recommends choices and can take matters you hand over.",
-              tradeoff: `${assessment.background}; ${assessment.strength}, but ${assessment.caution}.`,
+              tradeoff: `${clause(assessment.background)}; ${assessment.strength}, but ${assessment.caution}.`,
               personId,
               assessment,
             },
@@ -640,7 +645,7 @@ export function staffRecommendation(
       return {
         optionKey: pick.key,
         byPersonId: chief,
-        reason: `${assessment.background}, and thinks ${pick.label.toLowerCase()} is where the office can show results.`,
+        reason: `${clause(assessment.background)}, and thinks ${pick.label.toLowerCase()} is where the office can show results.`,
       };
     }
     case "budget": {
@@ -668,11 +673,14 @@ export function staffRecommendation(
             byPersonId: chief,
             reason: "It moves the office's own priority.",
           }
-        : rng.integer(0, 3) > 0
+        : // PLACEHOLDER: three signatures in four. How often a governor signs
+          // what reaches the desk is filed as
+          // `why-a-governor-signs-or-vetoes`; no rate is approved.
+          rng.integer(0, 3) > 0
           ? {
               optionKey: "bill:sign",
               byPersonId: chief,
-              reason: `${assessment.background}, and sees no reason to pick this fight.`,
+              reason: `${clause(assessment.background)}, and sees no reason to pick this fight.`,
             }
           : {
               optionKey: "bill:return",
@@ -1742,10 +1750,10 @@ function recordMissingLegislatureNote(
       `office:${office.officeKey}`,
       "governing:no-compiled-legislature",
     ],
-    // The legislature itself may well be compiled (Nevada's and Illinois's
-    // are, and a player can sit in them): what is missing is written bills
-    // for its other members to file. Saying "not compiled" was untrue there.
-    summary: `No bill reached ${office.title} this session: the game has no bills written for ${office.stateUsps}'s legislature yet, so none were filed. The office's other work is unaffected.`,
+    // What is missing is bills for the legislature's members to file; the
+    // tag says so for development. The player reads only what the office
+    // saw, never how the game is built.
+    summary: `No bill reached ${office.title} this session.`,
     context: emptyContext(),
   });
 }
@@ -1803,11 +1811,18 @@ export function governingSeasonHandler(
 }
 
 /**
- * A bill on the governor's desk. The player governor gets a bound matter; a
- * non-player governor acts on an authored disposition where the bill carries
- * one, and otherwise decides in the ordinary course through the same matter.
- * Without a materialized governorship, an authored disposition still stands
- * and nothing is invented.
+ * A bill on the governor's desk. Whoever holds the governorship, player or
+ * not, decides it through the same bound matter. Only where no governorship
+ * has been materialized does a bill's authored disposition still stand, so an
+ * older save keeps its scripted ending and nothing is invented for it.
+ *
+ * The authored dispositions were written for developer scenarios that set out
+ * to demonstrate a veto and an override, so almost all of them are vetoes. A
+ * sitting non-player governor used to replay them, which is how an observed
+ * Nebraska world saw 31 of 32 bills vetoed in 13 years and nothing become law.
+ * How often a real governor signs is not settled here: the ordinary decision
+ * this now reaches is a marked placeholder, filed as
+ * `why-a-governor-signs-or-vetoes`.
  */
 export const governorDesk: ExecutiveDeskHandler = (
   world,
@@ -1825,7 +1840,7 @@ export const governorDesk: ExecutiveDeskHandler = (
       event.tags.includes("matter-family:bill"),
   );
   if (alreadyOpen) return world;
-  if (office && (office.controlledByPlayer || !blueprint.governorAction))
+  if (office)
     return openMatter(world, office, {
       family: "bill",
       instance: `measure:${measure.id}`,

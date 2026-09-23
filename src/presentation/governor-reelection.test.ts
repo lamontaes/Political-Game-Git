@@ -27,12 +27,16 @@ describe("a sitting governor can run for another term", () => {
     const filed = fileForStateExecutiveOffice(world, personId);
     const decided = runToElection(filed, personId, suppliedWin(personId));
     const planned = stateExecutiveEntryStatus(decided, personId);
-    if (planned.kind !== "awaiting-qualification")
+    if (
+      planned.kind !== "awaiting-qualification" &&
+      planned.kind !== "qualified-awaiting-entry"
+    )
       throw new Error(`Expected a won term, found ${planned.kind}`);
-    const serving = passUntil(
-      qualifyForStateExecutiveTerm(decided, personId),
-      addDays(planned.startsAt, 400),
-    );
+    const qualified =
+      planned.kind === "awaiting-qualification"
+        ? qualifyForStateExecutiveTerm(decided, personId)
+        : decided;
+    const serving = passUntil(qualified, addDays(planned.startsAt, 400));
     expect(stateExecutiveEntryStatus(serving, personId).kind).toBe("in-office");
     const calendar = stateExecutiveOfficeCalendar(serving, "AK")!;
     expect(calendar.nextElection <= planned.endsAt).toBe(true);

@@ -258,7 +258,7 @@ export function validateProducerLinks(
 }
 
 const STATE_WORDS: Record<LinkState, string> = {
-  open: "open, nobody has taken it",
+  open: "open with nobody on it",
   "in-flight": "being built in an open pull request",
   "handed-off": "handed to its owner",
   "needs-research": "waiting on research",
@@ -299,12 +299,15 @@ export function renderProducerLinks(
     (state) =>
       `${allMissing.filter(({ link }) => link.state === state).length} ${STATE_WORDS[state]}`,
   );
+  const idle = sorted.filter((entry) => !entry.producer.runsInPlay).length;
   const lines: string[] = [
     "# Who writes what, and who reads it",
     "",
-    "Every system in the game that writes something, what it writes, what reads it, and what should read it and does not. A missing link is a defect, and names the thread that owns each end.",
+    "Every system in the game that writes something, what it writes, what reads it, and what should read it and does not. Each missing link is a defect, and each one names the thread that owns each end.",
     "",
-    `${sorted.length} producers, ${allMissing.length} missing links: ${counts.join(", ")}.`,
+    `${sorted.length} producers, and ${idle} of them never run in an ordinary game. ${allMissing.length} missing links: ${counts.join("; ")}.`,
+    "",
+    "Nothing here waits on the owner. An open link needs a thread to take it; the others are already with a thread or with research.",
     "",
     "## Open defects, by the thread that owns the reading end",
     "",
@@ -369,7 +372,7 @@ export function renderProducerLinks(
   lines.push(
     "## How this document is made",
     "",
-    `Rendered ${header.generatedAt} from commit ${header.head} by \`npm run connectivity:links -- render --write\`, one entry per file in \`${PRODUCER_LINK_DIRECTORY}/\`. Do not edit it by hand.`,
+    `Rendered ${header.generatedAt} from commit ${header.head} by \`npm run connectivity:links -- render --write\`, one entry per file in \`${PRODUCER_LINK_DIRECTORY}/\`. Do not edit it by hand. Each producer was counted at the commit its line names, which can be older than the render.`,
     "",
   );
   return `${lines.join("\n").trimEnd().replace(ISO_DATE, humanDate)}\n`;

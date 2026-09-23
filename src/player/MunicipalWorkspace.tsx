@@ -6,6 +6,10 @@ import { proseDate } from "../presentation/prose-dates";
 import { formatMinute } from "../presentation/player-calendar";
 import { municipalCapacitySourceUrl } from "../simulation/municipal-capacity";
 import { municipalVenueForActivity } from "../presentation/municipal-venue";
+import {
+  projectRecall,
+  startProjectedRecallPetition,
+} from "../presentation/recall";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import type {
@@ -607,6 +611,78 @@ export function MunicipalWorkspace({
               </ul>
             )}
           </section>
+
+          {view.isHomeGovernment && world.control.kind === "person"
+            ? (() => {
+                const petitionerId = world.control.personId;
+                const recall = projectRecall(
+                  world,
+                  view.government.key,
+                  petitionerId,
+                );
+                return (
+                  <section
+                    className="municipal-panel"
+                    data-testid="municipal-recall"
+                  >
+                    <h3>{"Recall"}</h3>
+                    {recall.unavailable ? (
+                      <p>{recall.unavailable}</p>
+                    ) : (
+                      <>
+                        <p>{recall.rule}</p>
+                        {recall.targets.length === 0 ? (
+                          <p>{"No seated official here is known to you."}</p>
+                        ) : (
+                          <ul className="municipal-people-list">
+                            {recall.targets.map((target) => (
+                              <li key={target.personId}>
+                                <strong>{target.name}</strong>
+                                {target.seatLabel
+                                  ? ` (${target.seatLabel})`
+                                  : null}
+                                {target.refusal ? (
+                                  <span>{` — ${target.refusal}`}</span>
+                                ) : (
+                                  <>
+                                    {" "}
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        onWorldChange(
+                                          startProjectedRecallPetition(
+                                            world,
+                                            view.government.key,
+                                            petitionerId,
+                                            target.personId,
+                                          ),
+                                        );
+                                        setMessage(
+                                          `A petition to recall ${target.name} is now circulating.`,
+                                        );
+                                      }}
+                                    >
+                                      {"Start a recall petition"}
+                                    </button>
+                                  </>
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </>
+                    )}
+                    {recall.petitions.length > 0 ? (
+                      <ul>
+                        {recall.petitions.map((line, index) => (
+                          <li key={index}>{line}</li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </section>
+                );
+              })()
+            : null}
 
           <section
             className="municipal-panel"

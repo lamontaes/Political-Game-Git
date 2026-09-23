@@ -42,7 +42,12 @@ import {
   committeeHearingTransitionHandler,
 } from "../simulation/legislation";
 import { addDays, daysBetween } from "../simulation/dates";
-import type { World } from "../simulation/types";
+import type {
+  LegislativeQuestionIdentity,
+  LegislativeVoteDisposition,
+  World,
+} from "../simulation/types";
+import { decideChamberVote } from "../simulation/governing/chamber-votes";
 import { dispositionsHonoringOfficeInstructions } from "./office-vote-instruction";
 
 /**
@@ -73,11 +78,40 @@ function counts(scenario: LegislativeProcedureContext, key: string) {
   }
   return plan;
 }
+/**
+ * How the members answered. Where the chamber is the state's seated
+ * legislature, each member decides for their own reasons and the player is
+ * never voted for; otherwise the scenario's recorded decisions stand.
+ */
 function recordedDispositions(
   scenario: LegislativeProcedureContext,
   members: readonly SeatedMember[],
   question: string,
-) {
+  decided?: {
+    readonly world: World;
+    readonly stableKey: string;
+    readonly question: Omit<
+      LegislativeQuestionIdentity,
+      "measureId" | "amendmentStableKey" | "provisionKey"
+    >;
+  },
+): readonly LegislativeVoteDisposition[] {
+  if (scenario.memberDecisions && decided) {
+    return decideChamberVote(decided.world, {
+      stableKey: decided.stableKey,
+      question: {
+        question: {
+          ...decided.question,
+          measureId: scenario.measureId,
+          amendmentStableKey: null,
+          provisionKey: null,
+        },
+        questionLabel: question,
+      },
+      members,
+      playerPersonId: scenario.memberDecisions.playerPersonId,
+    });
+  }
   const dispositions = dispositionsFromCounts(
     members,
     counts(scenario, question),
@@ -90,6 +124,26 @@ function recordedDispositions(
           : record,
       )
     : dispositions;
+}
+
+/** Everyone the vote recorded as taking part. */
+function presentFor(
+  scenario: LegislativeProcedureContext,
+  members: readonly SeatedMember[],
+  dispositions: readonly LegislativeVoteDisposition[],
+): number {
+  return scenario.memberDecisions
+    ? dispositions.filter(
+        (entry) =>
+          entry.disposition !== "absent" && entry.disposition !== "excused",
+      ).length
+    : members.length;
+}
+
+function method(scenario: LegislativeProcedureContext) {
+  return scenario.memberDecisions
+    ? ("member-decisions" as const)
+    : ("authored-fixture" as const);
 }
 
 export function applyLegislativeStep(
@@ -162,19 +216,29 @@ export function applyLegislativeStep(
     case "move-committee-report": {
       const committee = chamber.committees[0]!;
       const body = bodyForChamber(scenario, chamberKey);
+      const stableKey = key(`committee:${chamberKey}`);
       const next = recordCommitteeDisposition(world, {
-        stableKey: key(`committee:${chamberKey}`),
+        stableKey,
         measureId,
         recommendation: "favorable",
         dispositions: recordedDispositions(
           scenario,
           committeeMembers(body, committee.appointedMembers),
           votePlanKeyForCommittee(committee.committeeKey),
+          {
+            world,
+            stableKey,
+            question: {
+              purpose: "committee-report",
+              forumKey: committee.committeeKey,
+              floorStageKey: null,
+            },
+          },
         ),
         rationale:
           "The committee weighed the testimony it heard and voted on reporting the bill.",
         provenance: {
-          method: "authored-fixture",
+          method: method(scenario),
           note: "Committee members' recorded decisions for this scenario.",
           sourceEntityIds: scenario.recordedSittingEventId
             ? [scenario.recordedSittingEventId]
@@ -199,25 +263,36 @@ export function applyLegislativeStep(
       };
     case "offer-amendment": {
       const body = bodyForChamber(scenario, chamberKey);
+      const stableKey = key(`amendment:${chamberKey}`);
+      const dispositions = dispositionsHonoringOfficeInstructions(world, {
+        measureId,
+        chamberKey,
+        dispositions: recordedDispositions(
+          scenario,
+          body.members,
+          votePlanKeyForAmendment(chamberKey),
+          {
+            world,
+            stableKey,
+            question: {
+              purpose: "amendment",
+              forumKey: chamberKey,
+              floorStageKey: null,
+            },
+          },
+        ),
+      });
       const next = offerFloorAmendment(world, {
-        stableKey: key(`amendment:${chamberKey}`),
+        stableKey,
         measureId,
         description:
           "Narrow the pilot so it starts in the counties already served.",
         offeredByLabel: "Floor sponsor",
-        dispositions: dispositionsHonoringOfficeInstructions(world, {
-          measureId,
-          chamberKey,
-          dispositions: recordedDispositions(
-            scenario,
-            body.members,
-            votePlanKeyForAmendment(chamberKey),
-          ),
-        }),
-        presentMembers: body.members.length,
+        dispositions,
+        presentMembers: presentFor(scenario, body.members, dispositions),
         electedMembers: body.members.length,
         provenance: {
-          method: "authored-fixture",
+          method: method(scenario),
           note: "Members' recorded decisions on the amendment.",
           sourceEntityIds: scenario.recordedSittingEventId
             ? [scenario.recordedSittingEventId]
@@ -252,22 +327,33 @@ export function applyLegislativeStep(
     case "move-floor-vote": {
       const body = bodyForChamber(scenario, chamberKey);
       const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
-      const next = takeFloorVote(world, {
-        stableKey: key(`floor:${chamberKey}:${stage.stageKey}`),
+      const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
+      const dispositions = dispositionsHonoringOfficeInstructions(world, {
         measureId,
-        dispositions: dispositionsHonoringOfficeInstructions(world, {
-          measureId,
-          chamberKey,
-          dispositions: recordedDispositions(
-            scenario,
-            body.members,
-            votePlanKeyForFloor(chamberKey, stage.stageKey),
-          ),
-        }),
-        presentMembers: body.members.length,
+        chamberKey,
+        dispositions: recordedDispositions(
+          scenario,
+          body.members,
+          votePlanKeyForFloor(chamberKey, stage.stageKey),
+          {
+            world,
+            stableKey,
+            question: {
+              purpose: "floor-stage",
+              forumKey: chamberKey,
+              floorStageKey: stage.stageKey,
+            },
+          },
+        ),
+      });
+      const next = takeFloorVote(world, {
+        stableKey,
+        measureId,
+        dispositions,
+        presentMembers: presentFor(scenario, body.members, dispositions),
         electedMembers: body.members.length,
         provenance: {
-          method: "authored-fixture",
+          method: method(scenario),
           note: "Members' recorded decisions on this question.",
           sourceEntityIds: scenario.recordedSittingEventId
             ? [scenario.recordedSittingEventId]
@@ -316,22 +402,33 @@ export function applyLegislativeStep(
     }
     case "move-concurrence": {
       const body = bodyForChamber(scenario, chamberKey);
-      const next = recordConcurrenceVote(world, {
-        stableKey: key(`concurrence:${chamberKey}`),
+      const stableKey = key(`concurrence:${chamberKey}`);
+      const dispositions = dispositionsHonoringOfficeInstructions(world, {
         measureId,
-        dispositions: dispositionsHonoringOfficeInstructions(world, {
-          measureId,
-          chamberKey,
-          dispositions: recordedDispositions(
-            scenario,
-            body.members,
-            votePlanKeyForConcurrence(chamberKey),
-          ),
-        }),
-        presentMembers: body.members.length,
+        chamberKey,
+        dispositions: recordedDispositions(
+          scenario,
+          body.members,
+          votePlanKeyForConcurrence(chamberKey),
+          {
+            world,
+            stableKey,
+            question: {
+              purpose: "concurrence",
+              forumKey: chamberKey,
+              floorStageKey: null,
+            },
+          },
+        ),
+      });
+      const next = recordConcurrenceVote(world, {
+        stableKey,
+        measureId,
+        dispositions,
+        presentMembers: presentFor(scenario, body.members, dispositions),
         electedMembers: body.members.length,
         provenance: {
-          method: "authored-fixture",
+          method: method(scenario),
           note: "Members' recorded decisions on accepting the other chamber's changes.",
           sourceEntityIds: scenario.recordedSittingEventId
             ? [scenario.recordedSittingEventId]
@@ -387,6 +484,16 @@ export function applyLegislativeStep(
     }
     case "move-veto-override": {
       const override = pack.executive.override;
+      const overrideKey = key("override");
+      const decidedFor = (forumKey: string) => ({
+        world,
+        stableKey: `${overrideKey}:${forumKey}`,
+        question: {
+          purpose: "veto-override" as const,
+          forumKey,
+          floorStageKey: null,
+        },
+      });
       const forums =
         override.kind === "joint-session"
           ? [
@@ -396,6 +503,7 @@ export function applyLegislativeStep(
                   scenario,
                   jointBody(scenario).members,
                   votePlanKeyForOverride("joint"),
+                  decidedFor("joint"),
                 ),
                 presentMembers: jointBody(scenario).members.length,
                 electedMembers: jointBody(scenario).members.length,
@@ -403,24 +511,30 @@ export function applyLegislativeStep(
             ]
           : pack.chamberOrder.map((forumChamberKey) => {
               const body = bodyForChamber(scenario, forumChamberKey);
+              const dispositions = recordedDispositions(
+                scenario,
+                body.members,
+                votePlanKeyForOverride(forumChamberKey),
+                decidedFor(forumChamberKey),
+              );
               return {
                 forumKey: forumChamberKey,
-                dispositions: recordedDispositions(
+                dispositions,
+                presentMembers: presentFor(
                   scenario,
                   body.members,
-                  votePlanKeyForOverride(forumChamberKey),
+                  dispositions,
                 ),
-                presentMembers: body.members.length,
                 electedMembers: body.members.length,
               };
             });
       const next = attemptVetoOverride(world, {
-        stableKey: key("override"),
+        stableKey: overrideKey,
         measureId,
         forums,
         rationale: "The legislature reconsidered the vetoed bill.",
         provenance: {
-          method: "authored-fixture",
+          method: method(scenario),
           note: "Members' recorded decisions on the override.",
           sourceEntityIds: scenario.recordedSittingEventId
             ? [scenario.recordedSittingEventId]

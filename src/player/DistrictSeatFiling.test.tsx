@@ -1,4 +1,5 @@
 import { renderToStaticMarkup } from "react-dom/server";
+import { proseDate } from "../presentation/prose-dates";
 import { describe, expect, it, vi } from "vitest";
 
 vi.setConfig({ testTimeout: 300_000 });
@@ -143,7 +144,7 @@ describe("a seat filled by district", () => {
     expect(markup).not.toContain("Choose an office");
     expect(markup).not.toContain("File for this district");
     expect(markup).toContain("district-residence-recorded");
-    expect(markup).toContain(recorded!.startedOn);
+    expect(markup).toContain(proseDate(recorded!.startedOn));
     // The control shows the recorded district as its current answer, so a
     // player who presses the filing button without touching it files for the
     // district they actually live in.

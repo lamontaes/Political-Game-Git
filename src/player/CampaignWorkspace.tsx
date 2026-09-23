@@ -37,6 +37,7 @@ import {
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
 import { CampaignSpendingReports } from "./CampaignSpendingReports";
+import { MogulOffersPanel } from "./MogulOffersPanel";
 
 /**
  * Running for something.
@@ -520,6 +521,12 @@ export function CampaignWorkspace({
           {view.reading ? (
             <p className="game-campaign-memo" data-testid="campaign-memo">
               {view.reading.summary}
+              {view.reading.change ? (
+                <span data-testid="campaign-memo-change">
+                  {" "}
+                  {view.reading.change}
+                </span>
+              ) : null}
               {view.reading.marginPercent !== null ? (
                 <small>
                   Somebody&rsquo;s estimate from the calls they made. The margin
@@ -754,6 +761,12 @@ export function CampaignWorkspace({
           {view.phase === "active" ? (
             <OpponentActivityPanel world={world} personId={personId} />
           ) : null}
+
+          <MogulOffersPanel
+            world={world}
+            personId={personId}
+            onWorldChange={onWorldChange}
+          />
 
           <CampaignSpendingReports world={world} personId={personId} />
 

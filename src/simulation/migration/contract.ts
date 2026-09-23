@@ -50,10 +50,11 @@ export const MIGRATION_REVIEW_TRANSITION_KEY = "migration:quarterly-review";
  * - `family:` joining or following family. Not produced yet.
  * - `cost:` housing or living costs. Not produced yet.
  * - `wave:` a wave's pressure; the suffix is the wave key.
+ * - `disaster:` a disaster destroyed or damaged the home.
  * - `custom:` anything else, named.
  */
 export type MoveReasonNamespace =
-  "life-course" | "work" | "family" | "cost" | "wave" | "custom";
+  "life-course" | "work" | "family" | "cost" | "wave" | "disaster" | "custom";
 export type MoveReasonKey = `${MoveReasonNamespace}:${string}`;
 
 export const MOVE_REASON_NAMESPACES: readonly MoveReasonNamespace[] = [
@@ -62,6 +63,7 @@ export const MOVE_REASON_NAMESPACES: readonly MoveReasonNamespace[] = [
   "family",
   "cost",
   "wave",
+  "disaster",
   "custom",
 ];
 
@@ -99,8 +101,24 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     connects:
       "Jobs, schooling, housing tenure, organization and party membership, dwellings and office tie a person to a place.",
     status: "not-built",
-    rule: "Anybody with any such record is not eligible to move, and neither is their household. Moving would leave a job or a seat in the old town, so the move is refused with that reason rather than half-done.",
-    where: "src/simulation/migration/relocate.ts moveTies()",
+    rule: "Anybody with such a record active today is not eligible to move, and neither is their household; a job, school, membership, lease or campaign that has ended holds nobody. Moving would leave a job or a seat in the old town, so the move is refused with that reason rather than half-done. Housing is ended on the move only for a household a disaster displaced.",
+    where: "src/simulation/migration/relocate.ts moveTieReader()",
+  },
+  {
+    key: "disaster-displacement",
+    connects:
+      "A household whose home a disaster destroyed or damaged leaving town for good.",
+    status: "built",
+    rule: "BLANKET: at the next quarterly review, 40 percent of households whose home was destroyed and 5 percent of those whose home was damaged leave town, reason disaster:home-destroyed or disaster:home-damaged, and their dwelling occupancy and housing tenure end on the move. A household held by a job, school, membership or campaign stays, because ending those is not built.",
+    where: "src/simulation/migration/review.ts BLANKET_DISPLACED_LEAVE_CHANCE",
+  },
+  {
+    key: "displacement-and-return",
+    connects:
+      "Households leaving a wrecked home for a while, living elsewhere, and coming back.",
+    status: "not-built",
+    rule: "A displaced household either leaves town for good or stays in the damaged home while it is repaired. Nobody is recorded as living elsewhere for a while.",
+    where: "src/simulation/migration/review.ts",
   },
   {
     key: "player-household",
@@ -137,7 +155,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     key: "where-people-go",
     connects: "Choosing a destination from distance, jobs, family and cost.",
     status: "not-built",
-    rule: "BLANKET: a departing household goes somewhere else in its own state or to another state, drawn from the world's own jurisdictions. A town the world knows is used only as the player's town for arrivals; departures land at state level because the world holds no other seated towns.",
+    rule: "BLANKET: a departing household goes somewhere else in its own state or to another state, drawn from the world's own jurisdictions; another state is weighted by the pressure layer's pull, and a newcomer's origin by its push. A town the world knows is used only as the player's town for arrivals; departures land at state level because the world holds no other seated towns.",
     where: "src/simulation/migration/review.ts chooseDestination()",
   },
   {
@@ -159,7 +177,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     key: "arriving-families",
     connects: "Households arriving together, with children.",
     status: "not-built",
-    rule: "Arrivals are single adults with no household record.",
+    rule: "Arrivals are single adults, each living alone in a one-person household located in town, with no dwelling record. The household is what lets a disaster in town reach them.",
     where: "src/simulation/migration/review.ts",
   },
   {
@@ -219,7 +237,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     connects: "Modders adding their own waves.",
     status: "not-built",
     rule: "The catalog is a list in source validated like data. Loading a wave from a runtime content pack is not built.",
-    where: "src/simulation/migration/waves.ts WAVE_CATALOGUE",
+    where: "src/simulation/migration/waves.ts WAVE_CATALOG",
   },
   {
     key: "old-saves",

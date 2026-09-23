@@ -50,6 +50,7 @@ function legacySetup(placeKey: string, seed: string): NewGameSetup {
     .childhoodGenerationVersion;
   delete (legacy as { partyChapterNameVersion?: unknown })
     .partyChapterNameVersion;
+  delete (legacy as { schoolNameVersion?: unknown }).schoolNameVersion;
   return {
     ...legacy,
     seed,
@@ -147,10 +148,27 @@ const sha256 = (text: string) =>
  * identities changed. Kentucky: 3 given names and 9 summaries, each made
  * identical by one renamed person's old given name, plus `snapshotId`.
  * Peebles: 4 and 12, plus `snapshotId`. 0 unexplained.
+ *
+ * AND RE-ACCEPTED ON TOP OF THOSE 2026-09-22, for the federal policy pack: twenty
+ * federal domains, sixty federal issues and sixty knowledge subjects, all in
+ * `world.policyCatalog` under the `us-federal:` namespace. Same predicted
+ * movement, same evidence: LEGACY_OPENING_SHAPE, as re-set above, PASSED
+ * unchanged on the run that moved these, and the pack's own test proves every id and record the
+ * catalog already had is untouched and in its old place.
+ *
+ * AND AGAIN 2026-09-23, when the federal pack's text took American spellings
+ * (programs, offenses, license). Only that authored text moved; the ids and
+ * LEGACY_OPENING_SHAPE did not.
+ *
+ * RE-ACCEPTED 2026-09-23 because the income-tax question in the state and local
+ * policy pack can now be decided by a municipality as well as a state (Ohio
+ * Revised Code 718.04; Philadelphia's Wage and Earnings Tax).
+ * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
+ * only the stripped catalog field moved.
  */
 const FED321F7_LEGACY = {
-  kentucky: "df117fc95d6d93f763e9e0a044f046ca29fa4929233f62a252fc17838129a296",
-  peebles: "f219ba89129d604c739d7f70bfb1e5cff469d24a402280faf1d36dddb992b52f",
+  kentucky: "da1cecb376ea36cf3bc9b9e73816889a57a1148ef05806f79eb4ef6e3e46e4c7",
+  peebles: "86e7aa487478e44f87e40afc68300bc7c74b9180f1e3aacd3f3bb31e5a58444a",
 } as const;
 
 /**
