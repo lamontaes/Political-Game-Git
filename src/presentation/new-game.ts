@@ -1,4 +1,5 @@
 import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
+import { SCHOOL_STAGES_V1 } from "../simulation/school-stages";
 import {
   RESIDENT_CHAPTER_NAME_VERSION,
   type PartyChapterNameVersion,
@@ -195,6 +196,11 @@ export interface NewGameSetup {
    */
   readonly schoolNameVersion?: typeof SCHOOL_NAMES_V2_VERSION;
   /**
+   * Absent keeps an old replay's child at the school they started in. New Game
+   * declares the repair, where a child moves on to middle and high school.
+   */
+  readonly schoolStageVersion?: typeof SCHOOL_STAGES_V1;
+  /**
    * Absent keeps an old replay's family, every one born on the player's
    * birthday. New Game declares the repair, where each has their own.
    */
@@ -250,6 +256,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   childhoodGenerationVersion: CHILDHOOD_GENERATION_V2,
   partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION,
   schoolNameVersion: SCHOOL_NAMES_V2_VERSION,
+  schoolStageVersion: SCHOOL_STAGES_V1,
   familyBirthdayVersion: FAMILY_BIRTHDAYS_V1,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
@@ -489,6 +496,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.schoolNameVersion === undefined
       ? {}
       : { schoolNameVersion: setup.schoolNameVersion }),
+    ...(setup.schoolStageVersion === undefined
+      ? {}
+      : { schoolStageVersion: setup.schoolStageVersion }),
     ...(setup.familyBirthdayVersion === undefined
       ? {}
       : { familyBirthdayVersion: setup.familyBirthdayVersion }),
