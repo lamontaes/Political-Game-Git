@@ -38,7 +38,6 @@ import { recordPersonDeath } from "../vitality";
 import { advanceWorld } from "../world";
 import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
 import { currentFederalTenure } from "../federal-tenures";
-import { publicPartyAffiliation } from "../living-world/congress";
 import {
   VICE_PRESIDENTIAL_VACANCY_PROFILE,
   VICE_PRESIDENT_NOMINATED_EVENT,
@@ -236,7 +235,7 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(currentPresidentOf(reopened)!.personId).toBe(vice.personId);
   }, 300_000);
 
-  it("a Vice President who dies is replaced by the President's confirmed nominee, whose House seat is then filled", () => {
+  it("a Vice President who dies is replaced by the President's confirmed nominee for the rest of the term", () => {
     const world = openingWorld("k3-vice");
     const vice = currentFederalTenure(world, "us-vice-president")!;
     const president = currentPresidentOf(world)!;
@@ -268,16 +267,25 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     const nomineeId = nomination.participants.find(
       (p) => p.role === "focus:subject",
     )!.personId;
-    const seat = projectCongress(next)!.house.seats.find(
+    // Anyone old enough, other than the President and the player's own
+    // character; not confined to any office or party.
+    expect(nomineeId).not.toBe(president.personId);
+    if (next.control.kind === "person")
+      expect(nomineeId).not.toBe(next.control.personId);
+    const nomineeBirthYear = Number(
+      next.people[nomineeId]!.birthDate.slice(0, 4),
+    );
+    expect(
+      Number(next.currentDate.slice(0, 4)) - nomineeBirthYear,
+    ).toBeGreaterThanOrEqual(35);
+    const heldSeat = [
+      ...projectCongress(next)!.house.seats,
+      ...projectCongress(next)!.senate.seats,
+    ].find(
       (s) =>
         s.occupant.kind === "member" &&
         s.occupant.member.personId === nomineeId,
-    )!;
-    expect(seat).toBeDefined();
-    if (seat.occupant.kind !== "member") throw new Error("fixture");
-    // The President's own party, where the President has one.
-    const party = publicPartyAffiliation(next, president.personId);
-    if (party) expect(seat.occupant.member.partyOrganizationId).toBe(party);
+    );
     // Still vacant while Congress considers the nomination.
     expect(currentFederalTenure(next, "us-vice-president")).toBeNull();
 
@@ -294,17 +302,14 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(
       publicOfficesHeldBy(next, nomineeId).map((ref) => ref.officeKey),
     ).toEqual(["us-vice-president"]);
-    const left = projectCongress(next)!.house.seats.find(
-      (s) => s.seatKey === seat.seatKey,
-    )!;
-    expect(left.occupant.kind).toBe("vacancy");
-    expect(
-      next.history.futureDueItems.some(
-        (due) =>
-          due.transitionKey === "governing:house-special-election" &&
-          due.stableKey.includes(seat.seatKey),
-      ),
-    ).toBe(true);
+    // A nominee who sat in Congress has left the seat.
+    if (heldSeat) {
+      const left = [
+        ...projectCongress(next)!.house.seats,
+        ...projectCongress(next)!.senate.seats,
+      ].find((s) => s.seatKey === heldSeat.seatKey)!;
+      expect(left.occupant.kind).toBe("vacancy");
+    }
     const reopened = deserializeWorld(serializeWorld(next));
     expect(currentFederalTenure(reopened, "us-vice-president")!.personId).toBe(
       nomineeId,

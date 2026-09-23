@@ -17,10 +17,7 @@ import {
   seatTermWindow,
 } from "../living-world/congress-seats";
 import type { CongressSeat } from "../living-world/congress-seats";
-import {
-  projectCongress,
-  publicPartyAffiliation,
-} from "../living-world/congress";
+import { projectCongress } from "../living-world/congress";
 import {
   CONGRESS_TURNOVER_PROFILE,
   congressionalElectionDay,
@@ -670,11 +667,16 @@ function rulingFor(
  *   to confirm one. The two times it has happened took 57 days (1973) and
  *   121 days (1974) from nomination to confirmation; the profile below sits
  *   between them and is not a finding.
- * - whom a President nominates. Blanket rule meanwhile: a sitting member of
- *   the House of the President's own party, old enough for the office, whose
- *   seat is then filled the way any vacated House seat is.
- * - whether Congress ever refuses. Blanket rule meanwhile: both houses
- *   confirm, as they did both times.
+ * - whom a President nominates. The amendment lets the President name anyone
+ *   eligible to be Vice President; the game has no rule for whom a President
+ *   would choose. Blanket rule meanwhile: an even draw among every living
+ *   person in the World old enough for the office (35), other than the
+ *   President and the player's own character, who would have to be asked.
+ *   Citizenship and fourteen years' residence are not recorded on a person,
+ *   so they are not checked. A nominee who sat in Congress leaves the seat,
+ *   which is then filled the way any vacated seat is.
+ * - how Congress votes. The amendment requires a majority of both houses.
+ *   Blanket rule meanwhile: both houses confirm, as they did both times.
  */
 export const VICE_PRESIDENT_NOMINATION =
   "governing:vice-president-nomination" as const;
@@ -817,25 +819,25 @@ export function vicePresidentNominationHandler(
       world,
       "There is no sitting President to nominate a Vice President.",
     );
-  const presidentParty = publicPartyAffiliation(world, president.personId);
-  const members = (projectCongress(world)?.house.seats ?? []).flatMap((seat) =>
-    seat.occupant.kind === "member" &&
-    seat.occupant.member.personId !== president.personId &&
-    ageOn(seat.occupant.member.birthDate, world.currentDate) >=
-      VICE_PRESIDENT_MINIMUM_AGE
-      ? [seat.occupant.member]
-      : [],
-  );
-  const sameParty = members.filter(
-    (member) =>
-      presidentParty !== null && member.partyOrganizationId === presidentParty,
-  );
-  const pool = sameParty.length ? sameParty : members;
+  // PLACEHOLDER: whom the President chooses (see the profile above).
+  const controlled =
+    world.control.kind === "person" ? world.control.personId : null;
+  const dead = new Set(world.history.personDeaths.map((row) => row.personId));
+  const pool = Object.values(world.people)
+    .filter(
+      (person) =>
+        person.id !== president.personId &&
+        person.id !== controlled &&
+        !dead.has(person.id) &&
+        ageOn(person.birthDate, world.currentDate) >=
+          VICE_PRESIDENT_MINIMUM_AGE,
+    )
+    .map((person) => person.id)
+    .sort();
   if (!pool.length)
-    return resolved(world, "No member of the House could be nominated.");
-  const nominee = new SeededRng(world.seed)
-    .fork(due.stableKey)
-    .pick([...pool].sort((a, b) => a.personId.localeCompare(b.personId)));
+    return resolved(world, "Nobody in the World is eligible to be nominated.");
+  const nomineeId = new SeededRng(world.seed).fork(due.stableKey).pick(pool);
+  const nominee = { personId: nomineeId };
   const presidentName = personName(world.people[president.personId]!);
   const nomineeName = personName(world.people[nominee.personId]!);
   let next = recordWorldEvent(world, {
@@ -854,7 +856,7 @@ export function vicePresidentNominationHandler(
       {
         personId: nominee.personId,
         role: "focus:subject",
-        detail: nominee.title,
+        detail: "Nominee for Vice President",
       },
     ],
     personFactConstraints: [],
@@ -865,7 +867,7 @@ export function vicePresidentNominationHandler(
       `vacancy:${vacancyDate}`,
       `provenance:${VICE_PRESIDENTIAL_VACANCY_PROFILE.id}`,
     ],
-    summary: `President ${presidentName} nominated ${nomineeName}, the ${nominee.title}, to be Vice President. Both houses of Congress must confirm the nomination.`,
+    summary: `President ${presidentName} nominated ${nomineeName} to be Vice President. Both houses of Congress must confirm the nomination.`,
     context: CONTEXT,
   });
   const nominatedEventId = next.history.events.at(-1)!.id;
@@ -916,8 +918,13 @@ export function vicePresidentConfirmationHandler(
       "The nominee died before the vote; the President nominates again.",
     );
   }
-  // The seat the nominee leaves, read before they take the new office.
-  const houseSeat = (projectCongress(world)?.house.seats ?? []).find(
+  // The seat in Congress the nominee leaves, if any, read before they take
+  // the new office.
+  const congress = projectCongress(world);
+  const heldSeat = [
+    ...(congress?.house.seats ?? []),
+    ...(congress?.senate.seats ?? []),
+  ].find(
     (seat) =>
       seat.occupant.kind === "member" &&
       seat.occupant.member.personId === nomineeId,
@@ -950,9 +957,9 @@ export function vicePresidentConfirmationHandler(
     context: CONTEXT,
   });
   const confirmedEventId = next.history.events.at(-1)!.id;
-  const seat = houseSeat
+  const seat = heldSeat
     ? congressSeats().find(
-        (candidate) => candidate.seatKey === houseSeat.seatKey,
+        (candidate) => candidate.seatKey === heldSeat.seatKey,
       )
     : undefined;
   if (seat)

@@ -11,7 +11,7 @@
   "sourcesChecked": [
     {
       "source": "src/simulation/governing/office-continuity.ts (VICE_PRESIDENTIAL_VACANCY_PROFILE), this branch",
-      "whatItDidNotSettle": "The route is built on the amendment's text, but its three choices are placeholders: 10 days to nominate, 75 days to confirm, a House member of the President's party as the nominee, and confirmation always succeeds."
+      "whatItDidNotSettle": "The route is built on the amendment's text, but its three choices are placeholders: 10 days to nominate, 75 days to confirm, an even draw among everyone old enough (other than the player) as the nominee, and confirmation always succeeds."
     }
   ],
   "title": "How a vacant vice presidency is filled in practice",
