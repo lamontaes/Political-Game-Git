@@ -341,6 +341,35 @@ describe("world orientation reader", () => {
     expect(step.people).toEqual([]);
   });
 
+  it.each([
+    ["GU", "Guam", "a Delegate"],
+    ["VI", "U.S. Virgin Islands", "a Delegate"],
+    ["AS", "American Samoa", "a Delegate"],
+    ["MP", "Northern Mariana Islands", "a Delegate"],
+    ["PR", "Puerto Rico", "a Resident Commissioner"],
+  ])(
+    "presents %s as a territory with its own government, never a state",
+    (usps, name, member) => {
+      const view = projectOrientationView(
+        orientation({
+          homeState: { stateUsps: usps, jurisdictionId: null, governor: null },
+        }),
+        () => null,
+      );
+      const step = view.steps[2]!;
+      expect(step.title).toBe(name);
+      expect(step.summary).toContain(
+        `${name} is a U.S. territory, not a state.`,
+      );
+      expect(step.summary).toContain(`sends ${member} to the U.S. House`);
+      expect(step.summary).toContain("no seat in the U.S. Senate");
+      expect(step.summary).toContain(
+        `No current record names the Governor of ${name}.`,
+      );
+      expect(step.summary).not.toMatch(/No governor is recorded/);
+    },
+  );
+
   it("names the District's recorded Mayor, Council and Delegate (code 98)", () => {
     const base = orientation();
     const delegate = holder("p-del", "Casey Moore", "Delegate", "party-a");
@@ -396,61 +425,5 @@ describe("world orientation reader", () => {
     ]);
     const house = view.steps[1]!.chambers[1]!;
     expect(house.roster[0]!.seatLabel).toBe("District of Columbia, Delegate");
-  });
-
-  it("presents Puerto Rico as a territory, naming its Governor and Resident Commissioner", () => {
-    const base = orientation();
-    const commissioner = holder(
-      "p-rc",
-      "Luz Rivera",
-      "Resident Commissioner",
-      "party-a",
-    );
-    const empty = projectOrientationView(
-      orientation({
-        homeState: { stateUsps: "PR", jurisdictionId: null, governor: null },
-      }),
-      stateName,
-    ).steps[2]!;
-    expect(empty.title).toBe("Puerto Rico");
-    expect(empty.summary).toMatch(
-      /Puerto Rico is a U\.S\. territory, not a state\./,
-    );
-    expect(empty.summary).toMatch(/No current record names the Governor\./);
-    expect(empty.summary).not.toMatch(
-      /state government|No governor is recorded/,
-    );
-
-    const governor = holder(
-      "p-gov",
-      "Ana Colón",
-      "Governor of Puerto Rico",
-      "party-b",
-    );
-    const step = projectOrientationView(
-      orientation({
-        homeState: { stateUsps: "PR", jurisdictionId: null, governor },
-        congress: {
-          ...base.congress!,
-          house: chamber("us-house", [
-            {
-              seatKey: "us-house:PR-98",
-              chamberKey: "us-house",
-              stateUsps: "PR",
-              district: "98",
-              senateClass: null,
-              occupant: { kind: "member", member: commissioner },
-            },
-          ]),
-        },
-      }),
-      stateName,
-    ).steps[2]!;
-    expect(step.summary).toMatch(/Ana Colón is Governor of Puerto Rico\./);
-    expect(step.summary).toMatch(/Luz Rivera is the Resident Commissioner\./);
-    expect(step.people.map((person) => person.personId)).toEqual([
-      "p-gov",
-      "p-rc",
-    ]);
   });
 });

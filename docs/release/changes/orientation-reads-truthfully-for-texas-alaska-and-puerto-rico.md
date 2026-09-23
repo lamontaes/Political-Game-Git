@@ -2,7 +2,7 @@
 id: orientation-reads-truthfully-for-texas-alaska-and-puerto-rico
 impact: patch
 section: Fixed
-title: The opening and filing screens no longer mislead about districts, elections and Puerto Rico
+title: The opening and filing screens no longer mislead about districts, elections or Puerto Rico's voting survey
 ---
 
 The House roster on the opening screen lists every member from a state, and
@@ -15,7 +15,5 @@ four years out as "the next regular election". The card now names the
 election that is still ahead, says its field has closed, and then gives the
 election a filing enters.
 
-Puerto Rico was called a state. Its opening card now says it is a U.S.
-territory with its own Governor, Legislative Assembly and Resident
-Commissioner. The voting card explains that the survey does not report
-Puerto Rico.
+The voting card on a Puerto Rico life explains that the survey does not
+report Puerto Rico, instead of saying no state matches.

@@ -986,14 +986,20 @@ function swearInWinners(world: World): World {
 /**
  * Called whenever the canonical clock moves. Swears in winners whose term has
  * begun and makes sure the next presidential election's field closing is on
- * the calendar. Writes nothing for a date the clock has not crossed.
+ * the calendar.
+ *
+ * The oath is checked on every move, not only when the date changes: the term
+ * starts at noon, and a clock that crosses noon on January 20 without changing
+ * the date must still seat the winner the moment the old term ends. The
+ * calendar is only extended when a date has been crossed.
  */
 export function applyPresidentialTurnover(
   before: IsoDate,
   world: World,
 ): World {
-  if (world.currentDate <= before || !hasPresidency(world)) return world;
+  if (!hasPresidency(world)) return world;
   let next = swearInWinners(world);
+  if (world.currentDate <= before) return next;
   const cycle = nextPresidentialCycle(next);
   if (electionForCycle(next, cycle)) return next;
   const stableKey = `${cycleKey(cycle)}:field-close`;

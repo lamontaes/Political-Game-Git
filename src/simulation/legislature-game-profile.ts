@@ -217,8 +217,22 @@ export function researchedExecutiveSpread(): {
  *
  * Puerto Rico is not listed: its Legislative Assembly really is bicameral, so
  * the generated shape is the right one even before its own instruments are read.
+ *
+ * Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana
+ * Islands are declined too. Guam's and the Virgin Islands' legislatures sit as
+ * one chamber, American Samoa's Fono seats its Senate by matai custom, and a
+ * territorial legislature is not a state's under any of them, so a House and
+ * Senate drawn from the researched states would be a shape none of them has.
+ * PLACEHOLDER until each territory's own legislature is compiled from the
+ * answered `inhabited-territories-government-and-statehood` research.
  */
-const NO_STATE_LEGISLATURE: ReadonlySet<string> = new Set(["US-DC"]);
+const NO_STATE_LEGISLATURE: ReadonlySet<string> = new Set([
+  "US-DC",
+  "US-GU",
+  "US-VI",
+  "US-AS",
+  "US-MP",
+]);
 
 /**
  * Chamber sizes that are settled law, applied in place of the draw. Only

@@ -33,7 +33,10 @@ import type {
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { shortPersonName } from "./conversation-subjects";
-import { lapseVenueActivity } from "./scheduled-activity-choice";
+import {
+  lapseVenueActivity,
+  releaseMissedHolds,
+} from "./scheduled-activity-choice";
 import { keepAcceptedSocialOccasion } from "./social-invitation";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 
@@ -358,7 +361,10 @@ function passOrdinaryDaysUnchecked(
   ) {
     return advanced;
   }
-  return refreshContextualScenes(advanced, advanced.control.personId);
+  return refreshContextualScenes(
+    releaseMissedHolds(advanced, advanced.control.personId),
+    advanced.control.personId,
+  );
 }
 
 function advanceOrdinaryDays(

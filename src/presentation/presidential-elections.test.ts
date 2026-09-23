@@ -4,11 +4,13 @@ import {
   passUntil,
 } from "../../tests/fixtures/state-executive-entry";
 import {
+  advanceWorldMinutes,
   deserializeWorld,
   nationalOutcome,
   nationalRecords,
   presidentialTermsCounted,
   serializeWorld,
+  simulationMinutesBetween,
 } from "../simulation";
 import type { World } from "../simulation";
 import { currentPublicOfficeholders } from "./opening-officeholders";
@@ -76,6 +78,36 @@ describe("PRESIDENTIAL CONTINUITY: the presidency is elected on the clock", () =
       "election.presidential-electoral-count",
     ])
       expect(types.has(type)).toBe(true);
+
+    // Noon on January 20 is crossed within one day: one minute before, the
+    // old term still runs; one minute after, the winner holds the office.
+    // Neither step changes the date, so the oath cannot wait for midnight.
+    const plan = nationalRecords(eve, held.id).find(
+      (record) => record.kind === "term-plan" && record.office === "president",
+    );
+    expect(plan?.kind).toBe("term-plan");
+    const noon = plan!.kind === "term-plan" ? plan!.startsAt : null;
+    const beforeNoon = advanceWorldMinutes(
+      eve,
+      simulationMinutesBetween(eve.currentMoment, noon!) - 1,
+    );
+    expect(beforeNoon.currentDate).toBe("2029-01-20");
+    expect(holder(beforeNoon, "us-president")?.personId).toBe(opening.personId);
+    const afterNoon = advanceWorldMinutes(beforeNoon, 2);
+    expect(afterNoon.currentDate).toBe("2029-01-20");
+    expect(holder(afterNoon, "us-president")?.personId).toBe(
+      president!.personId,
+    );
+    expect(holder(afterNoon, "us-vice-president")?.personId).toBe(
+      vicePresident!.personId,
+    );
+    const reloadedAtNoon = deserializeWorld(serializeWorld(afterNoon));
+    expect(holder(reloadedAtNoon, "us-president")?.personId).toBe(
+      president!.personId,
+    );
+    expect(holder(reloadedAtNoon, "us-vice-president")?.personId).toBe(
+      vicePresident!.personId,
+    );
 
     // After noon on January 20 the winners hold the offices.
     const inaugurated = passUntil(eve, "2029-01-22");
