@@ -203,6 +203,29 @@
     {
       "artifacts": [
         {
+          "artifactId": "census-rel-2020-cd119-place20-national",
+          "sha256": "84b82f512a43b0593b2c25c703cd0dc4ff10982abd9142956d326376bd846367",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2025-01-03",
+      "boundedSampleReason": null,
+      "canonicalSha256": "f79df5c17e3a43fbbbacb8470036847a4c651a74eb415b342a14e61a85df17a5",
+      "compiler": {
+        "name": "cd-place-relations",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "f79df5c17e3a43fbbbacb8470036847a4c651a74eb415b342a14e61a85df17a5",
+      "corpusId": "cd-place-relations",
+      "domain": "cd-place-relations",
+      "isCompleteUniverse": true,
+      "recordCount": 32188,
+      "universeDescription": "Every 2020 Census place that the U.S. Census Bureau 119th Congressional District to 2020 Place national relationship file intersects with a congressional district, classified as whole-place membership (exactly one intersecting district) or a split, including delegate districts and excluding district remainders outside every place."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "cps-2024-vote04a",
           "sha256": "068e47d3c7fc970107bd5b4ceb68d557d2cba48158e521b50806f60227da5deb",
           "sliceOfParent": null,
