@@ -236,7 +236,38 @@ const NO_STATE_LEGISLATURE: ReadonlySet<string> = new Set([
   "US-MP",
 ]);
 
-export type SeatBasis = "census-districts" | "drawn";
+/**
+ * Chamber sizes that are settled law, applied in place of the draw. Only
+ * states whose size is beyond doubt are listed; every other unread state's
+ * size is still drawn, and the full table is research question
+ * `state-legislature-chamber-sizes-and-quorum`.
+ */
+const SETTLED_CHAMBER_SEATS: Readonly<
+  Record<
+    string,
+    {
+      readonly lower: number;
+      readonly upper: number;
+      readonly source: RuleSourceRef;
+    }
+  >
+> = {
+  "US-NH": {
+    lower: 400,
+    upper: 24,
+    source: {
+      authority: "constitution",
+      citation: "N.H. Const. Pt. II, Arts. 9 and 25",
+      sourceTitle: "Constitution of the State of New Hampshire",
+      sourceUrl: "https://www.nh.gov/glance/constitution.htm",
+      retrievedAt: null,
+      verification: "verified",
+      note: "A House of not fewer than 375 nor more than 400 members, apportioned by statute at 400, and a Senate of twenty-four. Settled law: the counts are certain, though the apportionment statute's text was not retrieved for this entry. The rest of this legislature is the game's own.",
+    },
+  },
+};
+
+export type SeatBasis = "settled" | "census-districts" | "drawn";
 
 /**
  * How many districts the Census draws for one of a state's chambers; zero
@@ -259,12 +290,14 @@ export interface LegislatureProfile {
   readonly lowerSeats: number;
   readonly upperSeats: number;
   /**
-   * Where each seat count comes from: the state's own Census legislative
-   * districts, one member to a district, or a draw from the researched range
-   * where the Census has none.
+   * Where each seat count comes from: settled law, the state's own Census
+   * legislative districts at one member to a district, or a draw from the
+   * researched range where neither exists.
    */
   readonly lowerSeatsBasis: SeatBasis;
   readonly upperSeatsBasis: SeatBasis;
+  /** Where the seat counts come from when they are settled law, not drawn. */
+  readonly seatSource: RuleSourceRef | null;
   readonly vetoWindowDaysInSession: number;
   readonly vetoWindowDaysAfterAdjournment: number;
   readonly overrideFraction: readonly [number, number];
@@ -312,10 +345,11 @@ export function legislatureProfileFor(
     Math.max(2, Math.round((lowerSeats * percent) / 100)),
   );
   // PLACEHOLDER until state-legislature-chamber-sizes-and-quorum is answered:
-  // a Census district is not a seat, and a multi-member district seats more
-  // than one. Still, a state's own districts are a record of that state, not
-  // a range across others, so they win over the draw; the seated chambers
+  // settled law wins. Then a state's own Census districts, which are a record
+  // of that state rather than a range across others, though a multi-member
+  // district seats more than one. The draw comes last. The seated chambers
   // are sized the same way.
+  const settled = SETTLED_CHAMBER_SEATS[stateJurisdictionKey] ?? null;
   const lowerDistricts = censusDistrictCount(
     stateJurisdictionKey,
     "state-lower",
@@ -324,13 +358,18 @@ export function legislatureProfileFor(
     stateJurisdictionKey,
     "state-upper",
   );
+  const basis = (districts: number): SeatBasis =>
+    settled ? "settled" : districts > 0 ? "census-districts" : "drawn";
   return {
     stateJurisdictionKey,
     version: LEGISLATURE_GAME_PROFILE_VERSION,
-    lowerSeats: lowerDistricts > 0 ? lowerDistricts : lowerSeats,
-    upperSeats: upperDistricts > 0 ? upperDistricts : upperSeats,
-    lowerSeatsBasis: lowerDistricts > 0 ? "census-districts" : "drawn",
-    upperSeatsBasis: upperDistricts > 0 ? "census-districts" : "drawn",
+    lowerSeats:
+      settled?.lower ?? (lowerDistricts > 0 ? lowerDistricts : lowerSeats),
+    upperSeats:
+      settled?.upper ?? (upperDistricts > 0 ? upperDistricts : upperSeats),
+    lowerSeatsBasis: basis(lowerDistricts),
+    upperSeatsBasis: basis(upperDistricts),
+    seatSource: settled?.source ?? null,
     vetoWindowDaysInSession: drawFrom(
       stateJurisdictionKey,
       "veto-in-session",
@@ -397,13 +436,16 @@ function profileChamber(
   billDesignationPrefix: string,
   seats: number,
   seatBasis: SeatBasis,
+  settledSource: RuleSourceRef | null = null,
 ): ChamberRule {
-  const seatSource = profileSource(
-    "Seats",
-    seatBasis === "census-districts"
-      ? `The chamber seats ${seats} members, one for each of the state's Census legislative districts; how many members a district elects has not been read.`
-      : `The chamber seats ${seats} members, drawn from the range the compiled states span and fixed for this state.`,
-  );
+  const seatSource =
+    settledSource ??
+    profileSource(
+      "Seats",
+      seatBasis === "census-districts"
+        ? `The chamber seats ${seats} members, one for each of the state's Census legislative districts; how many members a district elects has not been read.`
+        : `The chamber seats ${seats} members, drawn from the range the compiled states span and fixed for this state.`,
+    );
   const quorum: VoteThresholdRule = majorityOf(
     "members-elected",
     "a majority of the members elected to the chamber",
@@ -524,6 +566,7 @@ export function legislatureProfilePack(
         "HB",
         profile.lowerSeats,
         profile.lowerSeatsBasis,
+        profile.seatSource,
       ),
       profileChamber(
         "senate",
@@ -531,6 +574,7 @@ export function legislatureProfilePack(
         "SB",
         profile.upperSeats,
         profile.upperSeatsBasis,
+        profile.seatSource,
       ),
     ],
     chamberOrder: ["house", "senate"],
@@ -722,7 +766,12 @@ export function seatsForChamber(
     // claim this whole module exists to avoid.
     return {
       seats: chamber.seats.value,
-      basis: pack.basis === "game-profile" ? "game-profile" : "researched",
+      // A settled size inside a generated pack carries its own citation.
+      basis:
+        pack.basis === "game-profile" &&
+        chamber.seats.source.authority === "game-profile"
+          ? "game-profile"
+          : "researched",
     };
   }
   const spread = researchedChamberSpread();

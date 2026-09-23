@@ -111,7 +111,8 @@ describe("what it draws, and from where", () => {
     const highest = lowerSeats[lowerSeats.length - 1]!;
     for (const identity of UNCOMPILED) {
       const profile = legislatureProfileFor(identity.jurisdictionKey);
-      if (profile === null) continue;
+      // A settled size is the law, not a draw, and may fall outside it.
+      if (profile === null || profile.seatSource !== null) continue;
       expect(Number.isInteger(profile.lowerSeats)).toBe(true);
       // A state's own Census districts size its chambers (next test); the
       // spread is for the chambers the Census draws no districts for.
@@ -126,6 +127,12 @@ describe("what it draws, and from where", () => {
     for (const identity of UNCOMPILED) {
       const profile = legislatureProfileFor(identity.jurisdictionKey);
       if (profile === null) continue;
+      // Settled law wins over the Census districts.
+      if (profile.seatSource !== null) {
+        expect(profile.lowerSeatsBasis).toBe("settled");
+        expect(profile.upperSeatsBasis).toBe("settled");
+        continue;
+      }
       const usps = identity.jurisdictionKey.replace(/^US-/, "");
       const count = (chamber: "state-lower" | "state-upper") =>
         listDistrictIdentities(districtIdentityCatalog(), {
@@ -357,12 +364,34 @@ describe("every chamber in the country can be seated", () => {
     expect(house.seats).toBe(99);
   });
 
-  it("fills the three compiled chambers whose count was never read", () => {
-    // Kentucky, Nebraska and Nevada all delegate the number away, and none of
-    // the delegated instruments was read. The pack still says so.
+  it("seats New Hampshire at its settled 400 and 24, not a draw", () => {
+    const profile = legislatureProfileFor("US-NH")!;
+    expect([profile.lowerSeats, profile.upperSeats]).toEqual([400, 24]);
+    const pack = legislatureForState("US-NH")!;
+    expect(
+      pack.chambers.map((chamber) => seatsForChamber(pack, chamber.chamberKey)),
+    ).toEqual([
+      { seats: 400, basis: "researched" },
+      { seats: 24, basis: "researched" },
+    ]);
+    expect(() => assertRulePackIntegrity(pack)).not.toThrow();
+  });
+
+  it("seats Nebraska's one house at its settled forty-nine", () => {
+    const pack = LEGISLATIVE_RULE_PACKS.find(
+      (candidate) => candidate.packId === "us-ne-legislature-v1",
+    )!;
+    expect(seatsForChamber(pack, "legislature")).toEqual({
+      seats: 49,
+      basis: "researched",
+    });
+  });
+
+  it("fills the two compiled legislatures whose count was never read", () => {
+    // Kentucky and Nevada delegate the number away, and neither delegated
+    // instrument was read. The pack still says so.
     for (const packId of [
       "us-ky-general-assembly-v1",
-      "us-ne-legislature-v1",
       "us-nv-legislature-v1",
     ]) {
       const pack = LEGISLATIVE_RULE_PACKS.find(
