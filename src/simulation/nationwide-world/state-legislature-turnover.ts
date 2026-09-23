@@ -249,10 +249,13 @@ function holdStateLegislativeElection(
       characterHistoryContextPersonId(next, outcome.successorKey!),
   );
   const returning = outcomes.filter((o) => o.returningPersonId).length;
-  const termStarts = legislativeTermDates(
-    outcomes[0]!.officeKey,
-    electionDay,
-  )?.startsAt;
+  // Each chamber's own term start: the sourced rule where there is one.
+  const termStartOf = (officeKey: string) =>
+    legislativeTermDates(officeKey, electionDay)?.startsAt ??
+    makeIsoDate(`${Number(electionDay.slice(0, 4)) + 1}-01-01`);
+  const termStarts = [
+    ...new Set(outcomes.map((outcome) => termStartOf(outcome.officeKey))),
+  ];
   const bodyId = createStableId(
     "organization",
     `${next.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
@@ -273,6 +276,7 @@ function holdStateLegislativeElection(
         outcome.party ?? "none",
         outcome.returningPersonId ? "returning" : "new",
         outcome.leavingPersonId ?? "",
+        termStartOf(outcome.officeKey),
       ].join("|"),
     })),
     personFactConstraints: [],
@@ -281,7 +285,7 @@ function holdStateLegislativeElection(
       V,
       STATE_LEGISLATURE_TURNOVER_PROFILE.id,
       `pack:${packId}`,
-      ...(termStarts ? [`term-start:${termStarts}`] : []),
+      ...termStarts.map((date) => `term-start:${date}`),
     ],
     summary: `Voters chose all ${outcomes.length} members of the ${pack.displayName} in the ${electionDay.slice(0, 4)} general election: ${returning} return and ${outcomes.length - returning} seats get new members.`,
     context: {
@@ -342,10 +346,11 @@ function seatStateLegislativeWinners(
     ]),
   );
   for (const participant of results.participants) {
-    const [officeKey, ordinalText, party, kind] = (
+    const [officeKey, ordinalText, party, kind, , startsOn] = (
       participant.detail ?? ""
     ).split("|");
     if (kind !== "new" || !officeKey || !ordinalText) continue;
+    if (startsOn && startsOn !== termStart) continue;
     const ordinal = Number(ordinalText);
     const tenureKey = `${STATE_LEGISLATURE_KEYS.seat(officeKey, ordinal)}:tenure:${termStart}`;
     if (next.history.workRelationships.some((w) => w.stableKey === tenureKey))
@@ -438,6 +443,21 @@ export function applyStateLegislatureTurnover(
 ): World {
   const after = world.currentDate;
   if (after <= before) return world;
+  // Cheap window test before any history scan: a regular legislative
+  // election falls between November 2 and 8, and a term begins on January 1
+  // (legislativeTermDates). A move that crosses neither does nothing.
+  let crossesAny = false;
+  for (
+    let year = Number(before.slice(0, 4));
+    year <= Number(after.slice(0, 4)) && !crossesAny;
+    year += 1
+  ) {
+    const january = `${year}-01-01`;
+    crossesAny =
+      (before < january && january <= after) ||
+      (before < `${year}-11-08` && `${year}-11-02` <= after);
+  }
+  if (!crossesAny) return world;
   const packs = seatedPacks(world);
   if (packs.length === 0) return world;
   let next = world;
@@ -456,14 +476,18 @@ export function applyStateLegislatureTurnover(
       const results = next.history.events.find(
         (event) => event.stableKey === resultsKey(packId, electionDay),
       );
-      const termStart = results ? tagValue(results, "term-start:") : null;
-      if (results && termStart && before < termStart && termStart <= after)
-        next = seatStateLegislativeWinners(
-          next,
-          packId,
-          results,
-          makeIsoDate(termStart),
-        );
+      if (!results) continue;
+      for (const tag of results.tags) {
+        if (!tag.startsWith("term-start:")) continue;
+        const termStart = tag.slice("term-start:".length);
+        if (before < termStart && termStart <= after)
+          next = seatStateLegislativeWinners(
+            next,
+            packId,
+            results,
+            makeIsoDate(termStart),
+          );
+      }
     }
   }
   return next;

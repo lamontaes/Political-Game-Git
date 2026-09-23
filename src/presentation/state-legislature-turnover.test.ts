@@ -48,9 +48,13 @@ describe("STATE LEGISLATIVE CONTINUITY: seats are refilled at each regular elect
         (death) => death.personId === newcomer.personId,
       );
       if (died) continue;
-      expect(
-        members.some((member) => member.personId === newcomer.personId),
-      ).toBe(true);
+      const member = members.find(
+        (candidate) => candidate.personId === newcomer.personId,
+      );
+      expect(member).toBeDefined();
+      // The new member carries their own party, not the seat's last holder's.
+      const party = newcomer.detail!.split("|")[2];
+      expect(member!.party).toBe(party === "none" ? null : party);
     }
     for (const newcomer of newcomers) {
       const leaving = newcomer.detail?.split("|")[4];

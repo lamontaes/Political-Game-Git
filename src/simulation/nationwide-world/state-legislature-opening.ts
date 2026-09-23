@@ -583,8 +583,9 @@ export function stateLegislators(
     const affiliation =
       world.history.organizationParticipations.find(
         (participation) =>
+          participation.personId === work.personId &&
           participation.stableKey ===
-          `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
+            `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
       ) ??
       world.history.organizationParticipations.find(
         (participation) =>
