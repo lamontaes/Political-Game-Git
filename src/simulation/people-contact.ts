@@ -29,6 +29,7 @@ import {
   goalConsiderations,
   recordGoalStepTaken,
 } from "./people-goal-pursuit";
+import { SeededRng } from "./rng";
 import { recordWorldEvent } from "./world";
 import {
   DATE_KIND,
@@ -962,8 +963,59 @@ const REACH_OUT_PAIR_SPACING_DAYS = 240;
  * returned.
  */
 const REACH_OUT_UNANSWERED_LIMIT = 2;
-/** How far ahead somebody suggests meeting when they call. */
-const REACH_OUT_NOTICE_DAYS = 9;
+/**
+ * How far ahead somebody suggests meeting when they call, and how long they
+ * leave it before calling again, differ from one pair of people to another.
+ *
+ * They used to be one fixed number each for everybody. With every new life
+ * starting on the same day, unrelated lives received the same call and the
+ * same evening: one friend rang exactly every five months, and a fresh
+ * Maryland life met somebody on the very evening another life had (Time
+ * skips thread, 2026-09-23).
+ *
+ * PLACEHOLDER, NOT RESEARCH: the ranges are calibration until
+ * `relationship-absence-thresholds` and `what-moves-a-relationship` give
+ * real ones. What is not a placeholder is that the variation belongs to the
+ * two people, stays the same for them on every load, and is drawn from
+ * nothing else.
+ */
+const REACH_OUT_NOTICE_DAYS_MIN = 5;
+const REACH_OUT_NOTICE_DAYS_SPREAD = 10;
+const REACH_OUT_PAIR_SPACING_SPREAD = 0.5;
+/** On any day they could ring, the share of days they actually do. */
+const REACH_OUT_DAILY_SHARE = 0.25;
+
+/** A number in [0, 1) that belongs to this world and key and never changes. */
+function unitFor(world: World, key: string): number {
+  return new SeededRng(world.seed).fork(key).next();
+}
+
+function pairKey(a: EntityId, b: EntityId): string {
+  return [a, b].sort().join(":");
+}
+
+function reachOutNoticeDays(world: World, a: EntityId, b: EntityId): number {
+  return (
+    REACH_OUT_NOTICE_DAYS_MIN +
+    Math.floor(
+      unitFor(world, `reach-out-notice:${pairKey(a, b)}`) *
+        REACH_OUT_NOTICE_DAYS_SPREAD,
+    )
+  );
+}
+
+function reachOutPairSpacingDays(
+  world: World,
+  a: EntityId,
+  b: EntityId,
+): number {
+  const spread =
+    1 -
+    REACH_OUT_PAIR_SPACING_SPREAD / 2 +
+    unitFor(world, `reach-out-spacing:${pairKey(a, b)}`) *
+      REACH_OUT_PAIR_SPACING_SPREAD;
+  return Math.round(REACH_OUT_PAIR_SPACING_DAYS * spread);
+}
 
 /**
  * Somebody decides, on their own, to get back in touch (CRUNCH47 B1, P3).
@@ -999,7 +1051,11 @@ function askedRecently(
   const last = proposalsFrom(world, playerPersonId, otherPersonId).at(-1);
   return (
     !!last &&
-    last.occurredAt > addDays(world.currentDate, -REACH_OUT_PAIR_SPACING_DAYS)
+    last.occurredAt >
+      addDays(
+        world.currentDate,
+        -reachOutPairSpacingDays(world, playerPersonId, otherPersonId),
+      )
   );
 }
 
@@ -1045,10 +1101,22 @@ export function produceReachingOut(
       event.involvedEntityIds.includes(playerPersonId),
   );
   if (recent) return world;
-  const on = addDays(world.currentDate, REACH_OUT_NOTICE_DAYS);
   for (const basis of contactBases(world, playerPersonId)) {
     if (basis.gap !== "long-gap" && basis.gap !== "reconnected") continue;
     if (!basis.lastContactOn) continue;
+    // Not the first day it becomes possible for everyone at once: each pair
+    // has its own days (see the placeholder above).
+    if (
+      unitFor(
+        world,
+        `reach-out-day:${pairKey(playerPersonId, basis.personId)}:${world.currentDate}`,
+      ) >= REACH_OUT_DAILY_SHARE
+    )
+      continue;
+    const on = addDays(
+      world.currentDate,
+      reachOutNoticeDays(world, playerPersonId, basis.personId),
+    );
     if (openProposal(world, playerPersonId, basis.personId)) continue;
     if (askedRecently(world, playerPersonId, basis.personId)) continue;
     if (stoppedAsking(world, playerPersonId, basis.personId)) continue;
