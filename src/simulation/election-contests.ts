@@ -965,7 +965,8 @@ function resultSummary(
   winnerPersonId: EntityId,
   tallies: readonly CandidateTally[],
 ): string {
-  const race = `the race for ${officeTitle}${placeName ? ` in ${placeName}` : ""}`;
+  // "Governor of Kentucky" already names its place; say it once.
+  const race = `the race for ${officeTitle}${placeName && !officeTitle.includes(placeName) ? ` in ${placeName}` : ""}`;
   const own = tallies.find(
     (tally) => tally.candidatePersonId === winnerPersonId,
   );
