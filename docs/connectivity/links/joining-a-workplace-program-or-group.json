@@ -1,0 +1,46 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "joining-a-workplace-program-or-group",
+  "title": "Taking a job, enrolling in a program, or joining a group",
+  "producer": {
+    "at": "src/simulation/career-path7.ts#seekCareerOffer, src/education/study-provider.ts#respondToEducationOffer, src/presentation/ordinary-community.ts#joinOrdinaryGroup",
+    "owner": "People and life",
+    "writes": "A work relationship at an employer, an education enrollment at an institution, or an organization participation.",
+    "runsInPlay": true,
+    "runsDetail": "Jobs and study offers three authored jobs (career-path7.ts:91) and a real college directory (EducationOptionsPanel.tsx:277). The life screen offers the walking group (LifeScenePanel.tsx:349)."
+  },
+  "readers": [],
+  "missing": [
+    {
+      "reader": "Meeting coworkers, classmates and fellow members",
+      "readerOwner": "Relationships",
+      "state": "in-flight",
+      "detail": "social-introductions.ts reads a shared active employer, studyPeers at the same institution, and a shared active organization participation.",
+      "inFlight": "Relationships: #527",
+      "readerAt": "src/simulation/social-introductions.ts#introductionCandidates"
+    },
+    {
+      "reader": "Coworkers, classmates and fellow members who live in the town",
+      "readerOwner": "Every town in America",
+      "state": "open",
+      "detail": "On the real new-game route for a 24-year-old in Houma or Reno on 1/5/2026, the world has 2 households and about 560 people, and 556 to 558 of them have no residence. Nobody who lives in town works, studies or belongs anywhere; the market, the service club and the parish government have no one. The authored employers have no location, and the player enrolls at a college alone. Nothing changes after 30 days.",
+      "readerAt": "src/presentation/production-world.ts"
+    },
+    {
+      "reader": "A congregation to join",
+      "readerOwner": "Every town in America",
+      "state": "open",
+      "detail": "No organization classification exists for a congregation (taxonomy.ts:149-157), so nothing can be joined or attended. ChatGPT's answer names a place of worship as where 21% of adults met a close friend.",
+      "readerAt": "src/simulation/taxonomy.ts"
+    },
+    {
+      "reader": "A high-school classmate who has finished high school",
+      "readerOwner": "People and life",
+      "state": "handed-off",
+      "detail": "A summarized earlier life opens the classmate's high-school enrollment and never closes it (character-history.ts:2664-2678), so a 25-year-old is still enrolled at Houma High.",
+      "handedOff": "September 23, 2026: sent to People and life with a reproduction; it needs a new childhood generation version"
+    }
+  ],
+  "measuredAt": "main at 64753b47, measured 2026-09-23",
+  "recordedAt": "2026-09-23T03:45:00.000Z"
+}
