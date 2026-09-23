@@ -31,6 +31,8 @@ import {
   CRIME_SAMPLE_TRANSITION_KEY,
   crimeSampleHandler,
 } from "../crime/producer";
+import { FATAL_ILLNESS_ONSET_KEY } from "./death-causes";
+import { fatalIllnessOnsetHandler } from "./fatal-illness";
 import {
   MORTALITY_DEATH_KEY,
   MORTALITY_WINDOW_KEY,
@@ -43,6 +45,8 @@ export * from "./records";
 export * from "./mortality-table";
 export * from "./hazard";
 export * from "./mortality";
+export * from "./death-causes";
+export * from "./fatal-illness";
 export * from "./health";
 export * from "./health-queries";
 export * from "./offices";
@@ -58,6 +62,7 @@ export function createCrisisTransitionRegistry() {
   return createFutureTransitionHandlerRegistry([
     [MORTALITY_WINDOW_KEY, mortalityWindowHandler],
     [MORTALITY_DEATH_KEY, mortalityDeathHandler],
+    [FATAL_ILLNESS_ONSET_KEY, fatalIllnessOnsetHandler],
     [HEALTH_REVIEW_KEY, healthReviewHandler],
     [NPC_DISCLOSURE_KEY, npcHealthDisclosureHandler],
     [HAZARD_SAMPLE_TRANSITION_KEY, hazardSampleHandler],

@@ -6,7 +6,12 @@ import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
 import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
 import { catchUpLegacySchoolStages } from "../simulation/school-stages";
-import { ensureCrisisMortality } from "../simulation/crisis/mortality";
+import {
+  crisisMortalityRunning,
+  ensureCrisisMortality,
+  nextMortalityFrontier,
+} from "../simulation/crisis/mortality";
+import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import {
   activeChildAuthoritiesAt,
   currentLifeCutoff,
@@ -352,7 +357,7 @@ function passOrdinaryDaysUnchecked(
   days: number,
   supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry,
 ): World {
-  const advanced = advanceOrdinaryDays(world, days, supplied);
+  const advanced = advanceStoppingAtOwnDeath(world, days, supplied);
   // A stretch that actually passed is a transition at which the world may bind
   // the situations it has made answerable (PROSE B). A refused advance writes
   // nothing.
@@ -367,6 +372,61 @@ function passOrdinaryDaysUnchecked(
     releaseMissedHolds(advanced, advanced.control.personId),
     advanced.control.personId,
   );
+}
+
+/**
+ * A long advance stops on the day the played character dies.
+ *
+ * The hazard model writes a death on the exact day it falls, but a quiet
+ * stretch of several weeks used to run straight on past it, so the ending
+ * screen appeared with the world's date weeks after the death it reported. The
+ * stretch is now crossed in legs that end on each day a death could be
+ * written for the character: a mortality window opening, or their own
+ * scheduled death. After each leg a death ends the advance there, on the
+ * morning of the day it happened. Nothing else about the advance changes; a
+ * leg that stops early for any other reason ends the advance as before.
+ */
+function advanceStoppingAtOwnDeath(
+  world: World,
+  days: number,
+  supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry,
+): World {
+  if (world.control.kind !== "person")
+    return advanceOrdinaryDays(world, days, supplied);
+  const personId = world.control.personId;
+  const wholeDays = Math.max(1, Math.trunc(days));
+  const finalDate = addDays(world.currentDate, wholeDays);
+  let current = world;
+  for (let leg = 0; leg < 64; leg += 1) {
+    // A save from before the mortality model gets its first window during
+    // the first day passed; one day first lets the legs see it.
+    const frontier = crisisMortalityRunning(current)
+      ? nextMortalityFrontier(current, personId, finalDate)
+      : addDays(current.currentDate, 1);
+    const legEnd =
+      frontier !== null && frontier < finalDate ? frontier : finalDate;
+    const legDays = Math.max(1, daysBetween(current.currentDate, legEnd));
+    const next = advanceOrdinaryDays(current, legDays, supplied);
+    if (
+      !isPersonAliveAt(next, personId, {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      })
+    )
+      return next;
+    if (
+      legEnd >= finalDate ||
+      next === current ||
+      next.currentDate < legEnd ||
+      compareSimulationMoments(next.currentMoment, current.currentMoment) <=
+        0 ||
+      (next.currentDate === legEnd &&
+        next.currentMoment.minuteOfDay < ORDINARY_DAY_START_MINUTE)
+    )
+      return next;
+    current = next;
+  }
+  return current;
 }
 
 function advanceOrdinaryDays(

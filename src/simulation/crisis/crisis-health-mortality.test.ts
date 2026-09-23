@@ -24,6 +24,9 @@ import {
   crisisPersonDeathNotices,
   crisisProtectedDecisions,
   crisisRecords,
+  DEATH_CAUSE_ILLNESS_WITH_COURSE,
+  DEATH_CAUSE_INJURY,
+  DEATH_CAUSE_SUDDEN_ILLNESS,
   discloseHealthEpisode,
   ensureCrisisMortality,
   latestHealthState,
@@ -138,7 +141,17 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
       const whole = advanceWorld(world, 1_100, REGISTRY);
       const deaths = deathsOf(whole);
       expect(deaths.length).toBeGreaterThan(0);
-      expect(deaths.every((d) => d.endsWith(MORTALITY_CAUSE_KEY))).toBe(true);
+      // Each death carries a broad cause now; none is left unresolved.
+      expect(
+        deaths.every((d) =>
+          [
+            DEATH_CAUSE_ILLNESS_WITH_COURSE,
+            DEATH_CAUSE_SUDDEN_ILLNESS,
+            DEATH_CAUSE_INJURY,
+          ].some((key) => d.endsWith(key)),
+        ),
+      ).toBe(true);
+      expect(deaths.some((d) => d.endsWith(MORTALITY_CAUSE_KEY))).toBe(false);
       for (const step of [1, 7, 31, 90, 365]) {
         if (step === 1) {
           // Daily stepping is the slowest partition; sample its first year.
@@ -209,9 +222,9 @@ describe("CRISIS K1 ordinary mortality in the World", () => {
       );
       const notices = crisisPersonDeathNotices(run);
       expect(notices.length).toBe(run.history.personDeaths.length);
-      expect(notices.every((n) => !n.heldOffice && !n.causeResolved)).toBe(
-        true,
-      );
+      // A drawn broad cause is a resolved cause; the older unresolved key is
+      // the only unresolved one.
+      expect(notices.every((n) => !n.heldOffice && n.causeResolved)).toBe(true);
       expect(crisisOfficeContinuityNotices(run)).toEqual([]);
       // The private death event is not public news.
       for (const death of run.history.personDeaths)

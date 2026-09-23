@@ -17,6 +17,7 @@ import {
   waitThenContinue,
   type SuccessorRelation,
 } from "../simulation/people-continuation";
+import { deathSentence } from "../simulation/crisis/death-causes";
 import { describePersonContext } from "../simulation/person-context";
 import { proseDate } from "./prose-dates";
 
@@ -135,7 +136,13 @@ export function projectLifeContinuation(
     ended: ended.kind,
     heading:
       ended.kind === "death"
-        ? `${name} died on ${proseDate(ended.on)}.`
+        ? deathSentence(
+            name,
+            world.history.personDeaths.find(
+              (death) => death.personId === playedPersonId,
+            )?.causeKey ?? null,
+            proseDate(ended.on),
+          )
         : `You stopped playing ${name} on ${proseDate(ended.on)}. ${person.givenName} goes on living.`,
     choices,
     noSuccessorReason:
