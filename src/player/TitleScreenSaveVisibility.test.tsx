@@ -78,6 +78,41 @@ describe("the title screen distinguishes a set-aside save from none", () => {
   });
 });
 
+describe("the title screen while the saved lives are being read", () => {
+  function renderListing(saveListing: "loading" | "failed"): string {
+    return renderToStaticMarkup(
+      <TitleScreen
+        saves={[]}
+        savesUnavailable={false}
+        saveListing={saveListing}
+        onRetrySaves={() => {}}
+        problem={null}
+        onNewGame={() => {}}
+        onContinue={() => {}}
+        onOpenSaves={() => {}}
+        onOpenOptions={() => {}}
+      />,
+    );
+  }
+
+  it("does not say there are none before the list has been read", () => {
+    // A 40 MB life takes a while to open; the empty list in the meantime
+    // read as "None yet".
+    const markup = renderListing("loading");
+    expect(markup).not.toContain("None yet");
+    expect(markup).toContain("Opening your saved lives");
+  });
+
+  it("reports a failed read as a failed read, not blocked storage", () => {
+    const markup = renderListing("failed");
+    expect(markup).not.toContain("None yet");
+    expect(markup).not.toContain("will not let the game store anything");
+    expect(markup).toContain("could not be read just now");
+    expect(markup).toContain("Nothing was deleted");
+    expect(markup).toContain("Try again");
+  });
+});
+
 describe("Observer Mode on the title screen", () => {
   it("offers watching the world in one press", () => {
     const markup = renderToStaticMarkup(
