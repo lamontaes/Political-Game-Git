@@ -5,6 +5,7 @@ export * from "./causal-effects";
 export * from "./candidacy-packs";
 export * from "./candidacy";
 export * from "./district-residence";
+export * from "./campaign-speeches";
 export * from "./migration";
 export * from "./pressure";
 export * from "./campaign-queries";
@@ -67,6 +68,7 @@ export {
   campaignLifeOutreachTransitionHandler,
   ensureCampaignLifeOutreach,
   offerCampaignLifeActivity,
+  oldEnoughForCampaignLife,
   projectCampaignGuidance,
   projectCampaignLifeActivities,
   recordCampaignLifeAttendance,
