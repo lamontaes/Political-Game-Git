@@ -1,6 +1,7 @@
 import { addDays, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
+import { indexOverArrays } from "./history-index";
 import {
   assertOriginationPermitted,
   chamberByKey,
@@ -128,11 +129,33 @@ export function measureActions(
   world: World,
   measureId: EntityId,
 ): readonly LegislativeActionRecord[] {
-  return (world.history.legislativeActions ?? [])
-    .filter((action) => action.measureId === measureId)
-    .slice()
-    .sort((a, b) => a.sequence - b.sequence);
+  const actions = world.history.legislativeActions ?? [];
+  let byMeasure = ACTIONS_BY_MEASURE.get(actions);
+  if (!byMeasure) {
+    byMeasure = new Map();
+    for (const action of actions) {
+      const list = byMeasure.get(action.measureId);
+      if (list) list.push(action);
+      else byMeasure.set(action.measureId, [action]);
+    }
+    for (const list of byMeasure.values())
+      list.sort((a, b) => a.sequence - b.sequence);
+    ACTIONS_BY_MEASURE.set(actions, byMeasure);
+  }
+  return byMeasure.get(measureId) ?? NO_ACTIONS;
 }
+
+/**
+ * Actions grouped by measure, per actions array. Replaying a measure and
+ * checking a save both ask for one measure's actions, once per measure, and
+ * each answer filtered every action ever taken. History arrays are replaced,
+ * never edited, so the grouping is exact for the array it was built from.
+ */
+const ACTIONS_BY_MEASURE = new WeakMap<
+  readonly LegislativeActionRecord[],
+  Map<EntityId, LegislativeActionRecord[]>
+>();
+const NO_ACTIONS: readonly LegislativeActionRecord[] = Object.freeze([]);
 
 // ---------------------------------------------------------------------------
 // Legal replay
@@ -2278,6 +2301,8 @@ export interface ExecutiveActionInput {
   readonly measureId: EntityId;
   readonly action: Extract<ExecutiveActionKind, "signed" | "vetoed">;
   readonly rationale: string;
+  /** The person who acted, when known: named in the news and on the event. */
+  readonly actorPersonId?: EntityId;
 }
 
 export function recordExecutiveAction(
@@ -2298,6 +2323,11 @@ export function recordExecutiveAction(
   );
   const pack = rulePackById(measure.rulePackId);
   const signed = input.action === "signed";
+  const actor =
+    input.actorPersonId !== undefined
+      ? world.people[input.actorPersonId]
+      : undefined;
+  const actorName = actor ? ` ${personName(actor)}` : "";
 
   const disposition: ExecutiveDispositionRecord = {
     id: createStableId(
@@ -2337,9 +2367,20 @@ export function recordExecutiveAction(
     floorStageKey: null,
     actorLabel: pack.executive.titleLabel,
     rationale: input.rationale,
-    summary: signed
-      ? `The ${pack.executive.titleLabel} signed ${measure.designation}.`
-      : `The ${pack.executive.titleLabel} vetoed ${measure.designation}.`,
+    summary: actor
+      ? `${pack.executive.titleLabel}${actorName} ${signed ? "signed" : "vetoed"} ${measure.designation}.`
+      : signed
+        ? `The ${pack.executive.titleLabel} signed ${measure.designation}.`
+        : `The ${pack.executive.titleLabel} vetoed ${measure.designation}.`,
+    participants: actor
+      ? [
+          {
+            personId: actor.id,
+            role: "focus:subject",
+            detail: pack.executive.titleLabel,
+          },
+        ]
+      : [],
     eventType: signed
       ? "legislation.measure-signed"
       : "legislation.measure-vetoed",
@@ -2800,8 +2841,44 @@ export function legislationHistoryRecords(
   ];
 }
 
+type LegislationRecord = { readonly id: EntityId; readonly sequence: number };
+
+/** Anchors the id index below; its identity is all that matters. */
+const LEGISLATION_INDEX_ANCHOR = {};
+
+/**
+ * Legislative records by id, the first one in `legislationHistoryRecords`
+ * order, as a `.find` over that list would return. The integrity pass asks
+ * this for every canonical source it checks, and each answer used to copy
+ * eight history families into one array and scan it.
+ */
+function legislationRecordIndex(
+  world: World,
+): ReadonlyMap<EntityId, LegislationRecord> {
+  const history = world.history;
+  return indexOverArrays(
+    LEGISLATION_INDEX_ANCHOR,
+    [
+      history.legislativeMeasures,
+      history.legislativeActions,
+      history.committeeReferrals,
+      history.committeeActions,
+      history.legislativeAmendments,
+      history.legislativeVotes,
+      history.executiveDispositions,
+      history.legislativeEnactments,
+    ],
+    () => {
+      const index = new Map<EntityId, LegislationRecord>();
+      for (const record of legislationHistoryRecords(world))
+        if (!index.has(record.id)) index.set(record.id, record);
+      return index;
+    },
+  );
+}
+
 export function legislationEntityExists(world: World, id: EntityId): boolean {
-  return legislationHistoryRecords(world).some((record) => record.id === id);
+  return legislationRecordIndex(world).has(id);
 }
 
 export function legislationEntityAvailableAt(
@@ -2810,9 +2887,7 @@ export function legislationEntityAvailableAt(
   asOfDate: string,
   sequenceExclusive: number,
 ): boolean {
-  const record = legislationHistoryRecords(world).find(
-    (candidate) => candidate.id === id,
-  );
+  const record = legislationRecordIndex(world).get(id);
   if (!record || record.sequence >= sequenceExclusive) return false;
   const dated = record as unknown as {
     readonly introducedAt?: IsoDate;

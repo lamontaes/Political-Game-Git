@@ -2,16 +2,24 @@ import { addDays, makeIsoDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
   createEducationEnrollment,
+  createOrganization,
   recordEducationEnrollmentState,
 } from "./life";
-import { educationEnrollmentStateAt } from "./life-queries";
+import { residentNameForJurisdiction } from "./life-places";
+import {
+  educationEnrollmentStateAt,
+  organizationProfileAt,
+} from "./life-queries";
 import { SeededRng } from "./rng";
+import { generateSchoolNames, SCHOOL_NAMES_V2_VERSION } from "./school-names";
+import { STATES } from "./state-reference";
 import type {
   EducationEnrollment,
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  Jurisdiction,
   World,
 } from "./types";
 
@@ -344,4 +352,202 @@ export function schoolStageTransitionHandler(
     provenance: { kind: "simulated", sourceEntityIds: [personId!] },
   });
   return done(next, FINISHED[stage]);
+}
+
+const STAGES: readonly SchoolStageKey[] = ["elementary", "middle", "high"];
+
+/** The stage a child started a school in, read from their age that day. */
+function stageAtAge(age: number): SchoolStageKey {
+  return age < 11 ? "elementary" : age < 14 ? "middle" : "high";
+}
+
+function wholeYearsBetween(from: IsoDate, to: IsoDate): number {
+  const years = Number(to.slice(0, 4)) - Number(from.slice(0, 4));
+  return to.slice(5) < from.slice(5) ? years - 1 : years;
+}
+
+/**
+ * The stage the school calendar puts this child in today, or null once the
+ * last of them has ended.
+ */
+function stageOnCalendar(
+  world: World,
+  personId: EntityId,
+): SchoolStageKey | null {
+  const start = kindergartenYear(world.people[personId]!.birthDate);
+  return (
+    STAGES.find(
+      (stage) =>
+        world.currentDate <
+        onCalendar(
+          world,
+          personId,
+          start + SCHOOL_STAGE_CALENDAR.endsAfterYears[stage],
+          SCHOOL_STAGE_CALENDAR.termEnds,
+          "ends",
+        ),
+    ) ?? null
+  );
+}
+
+/**
+ * A life saved before children moved on through school.
+ *
+ * Those saves hold one enrollment, at the school the new game wrote under
+ * `${stableKey}:school`, and nothing after it, so a teenager (or a grown
+ * adult) is still at the elementary school they started in. The first time
+ * such a save moves forward, it is caught up to today from the same
+ * calendar a new game uses:
+ *
+ * 1. A child still in the stage they started in stays at that school, and the
+ *    end of the stage is scheduled as a new game would.
+ * 2. A child the calendar has moved past it leaves that school today and
+ *    starts the school for their stage today, with the rest of their class.
+ *    Nothing is back-dated: the save never recorded the years between, so
+ *    none are written.
+ * 3. Somebody past the end of high school leaves school today.
+ *
+ * The later schools are named the way a new game names them, in the town the
+ * child's school is in. A save that already has a stage change, or whose
+ * schooling is not that shape, is left alone, so running this again changes
+ * nothing.
+ */
+export function catchUpLegacySchoolStages(world: World): World {
+  let next = world;
+  for (const organization of world.history.organizations) {
+    if (!organization.stableKey.endsWith(":school")) continue;
+    const schoolKey = organization.stableKey;
+    const lead = next.history.educationEnrollments.find(
+      (enrollment) =>
+        enrollment.stableKey ===
+          `${schoolKey.slice(0, -":school".length)}:enrollment` &&
+        enrollment.organizationId === organization.id &&
+        enrollment.programKind === "schooling:general",
+    );
+    if (!lead) continue;
+    if (educationEnrollmentStateAt(next, lead.id)?.status !== "active")
+      continue;
+    if (
+      next.history.futureDueItems.some((item) =>
+        item.stableKey.startsWith(`${schoolKey}:stage:`),
+      )
+    )
+      continue;
+    const person = next.people[lead.personId];
+    if (!person) continue;
+    if (next.history.personDeaths.some((death) => death.personId === person.id))
+      continue;
+    next = catchUpSchool(next, schoolKey, lead);
+  }
+  return next;
+}
+
+function catchUpSchool(
+  world: World,
+  schoolKey: string,
+  lead: EducationEnrollment,
+): World {
+  const personId = lead.personId;
+  const today = makeIsoDate(world.currentDate);
+  const started = stageAtAge(
+    wholeYearsBetween(world.people[personId]!.birthDate, lead.startedAt),
+  );
+  const due = stageOnCalendar(world, personId);
+  const jurisdictionId =
+    organizationProfileAt(world, lead.organizationId)?.locationJurisdictionId ??
+    null;
+  const classmates = classOf(world, lead, "active");
+
+  if (due === null) {
+    let next = world;
+    for (const enrollment of classmates)
+      next = recordEducationEnrollmentState(next, {
+        stableKey: `${enrollment.stableKey}:ended`,
+        enrollmentId: enrollment.id,
+        effectiveAt: today,
+        status: "ended",
+        contextKind: CONTEXT[started],
+        reason: "Left school.",
+        provenance: PROVENANCE,
+        supersedesStateId: educationEnrollmentStateAt(next, enrollment.id)!.id,
+      });
+    return next;
+  }
+
+  // Without the town the school is in there is nothing to name the next
+  // school after, and no name is invented: the save is left as it was.
+  const jurisdiction = jurisdictionId
+    ? world.jurisdictions[jurisdictionId]
+    : undefined;
+  if (!jurisdiction) return world;
+  const ahead = STAGES.slice(STAGES.indexOf(due));
+  const names = stageSchoolNames(world, jurisdiction);
+  let next = world;
+  for (const stage of ahead) {
+    if (stage === due && due === started) continue;
+    const stableKey = `${schoolKey}:${stage}`;
+    if (next.history.organizations.some((o) => o.stableKey === stableKey))
+      continue;
+    next = createOrganization(next, {
+      stableKey,
+      formedAt: today,
+      provenance: PROVENANCE,
+      initialProfile: {
+        name: names[stage],
+        classification: "sector:education",
+        locationJurisdictionId: jurisdictionId,
+      },
+    });
+  }
+
+  if (due !== started) {
+    const school = next.history.organizations.find(
+      (organization) => organization.stableKey === `${schoolKey}:${due}`,
+    )!.id;
+    for (const enrollment of classmates) {
+      next = recordEducationEnrollmentState(next, {
+        stableKey: `${enrollment.stableKey}:transferred`,
+        enrollmentId: enrollment.id,
+        effectiveAt: today,
+        status: "transferred",
+        contextKind: CONTEXT[started],
+        reason: `Moved on to ${due === "high" ? "high" : "middle"} school.`,
+        provenance: PROVENANCE,
+        supersedesStateId: educationEnrollmentStateAt(next, enrollment.id)!.id,
+      });
+      next = createEducationEnrollment(next, {
+        stableKey: `${schoolKey}:${due}:${enrollment.personId}`,
+        personId: enrollment.personId,
+        organizationId: school,
+        startedAt: today,
+        programKind: PROGRAM[due],
+        contextKind: CONTEXT[due],
+        provenance: PROVENANCE,
+      });
+    }
+  }
+  return scheduleSchoolStageEnd(next, {
+    schoolKey,
+    personId,
+    stage: due,
+    jurisdictionId,
+  });
+}
+
+/** The same draw a new game makes for a town's three schools. */
+function stageSchoolNames(
+  world: World,
+  jurisdiction: Jurisdiction,
+): Readonly<Record<SchoolStageKey, string>> {
+  const state = jurisdiction.parentName
+    ? (Object.entries(STATES).find(
+        ([, reference]) => reference.name === jurisdiction.parentName,
+      )?.[0] ?? null)
+    : null;
+  return generateSchoolNames(
+    new SeededRng(world.seed).fork("production-world-v1:child-school"),
+    residentNameForJurisdiction(jurisdiction.name, jurisdiction.parentName),
+    SCHOOL_NAMES_V2_VERSION,
+    { state },
+  );
 }

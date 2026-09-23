@@ -3,6 +3,7 @@ import { proseDate } from "../presentation/prose-dates";
 import { formatMinute } from "../presentation/player-calendar";
 import { useState } from "react";
 import { CareerPathsPanel } from "./CareerPathsPanel";
+import { JobListingsPanel } from "./JobListingsPanel";
 import { EducationOptionsPanel } from "./EducationOptionsPanel";
 import type {
   EntityId,
@@ -95,6 +96,19 @@ export function LifePathsPanel({
     ...world.history.educationEnrollments,
     ...world.history.workRelationships,
   ].filter((r) => r.personId === actor && pathForRelationship(world, r.id));
+  // An offer or job from the older work list stays in view: folding it away
+  // hid the only "Begin accepted work" button a Greenwich life had.
+  const olderWorkInPlay = world.history.workRelationships.some(
+    (w) =>
+      w.personId === actor &&
+      ["expected", "active"].includes(
+        workStatusAt(world, w.id)?.status ?? "",
+      ) &&
+      world.history.events.some(
+        (e) =>
+          e.type === "career-path7.offer" && e.involvedEntityIds.includes(w.id),
+      ),
+  );
   const offers = world.history.workRelationships.filter(
     (w) =>
       w.personId !== actor &&
@@ -108,6 +122,85 @@ export function LifePathsPanel({
   const name = (id: EntityId) =>
     world.people[id]?.givenName + " " + world.people[id]?.familyName;
   const weeklyLoad = routineWeeklyLoad(world, actor);
+  const renderPath = (rawPath: (typeof LIFE_PATHS2_CATALOG)[number]) => {
+    const path =
+      rawPath.kind === "study" ? periodizedStudyPath(rawPath) : rawPath;
+    const reason = lifePathEntryReason(world, actor, path);
+    return (
+      <article key={path.id}>
+        <h4>{path.title}</h4>
+        <p>{employerName(path)}</p>
+        <p>{path.responsibility}</p>
+        <p>
+          {path.kind === "study" && studyUsesPeriodModel(path)
+            ? studyProgramCostLabel(path)
+            : path.sessionMinutes > 0
+              ? `${path.sessionMinutes / 60} hours per session. ${
+                  path.sessionCostMinor > 0
+                    ? `You pay $${path.sessionCostMinor / 100} after each attended session.`
+                    : path.sessionPayMinor > 0
+                      ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
+                      : "This is unpaid volunteer work."
+                }`
+              : path.sessionPayMinor > 0
+                ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
+                : "This is unpaid volunteer work."}
+        </p>
+        {path.kind === "study" && path.credential && (
+          <p>Completing leads to: {path.credential}.</p>
+        )}
+        {path.kind === "study" ? (
+          <>
+            <p>
+              Accepting fixes the price, duration, credential and funding terms
+              for this enrollment. Tuition uses available personal cash at
+              period end. No loan or free tuition is automatic.
+            </p>
+            <label>
+              Tuition grace days for {path.title}{" "}
+              <input
+                type="number"
+                min="0"
+                step="1"
+                value={
+                  grace[path.id] ?? String(DEFAULT_AUTHORED_TUITION_GRACE_DAYS)
+                }
+                onChange={(e) =>
+                  setGrace({ ...grace, [path.id]: e.target.value })
+                }
+              />
+            </label>
+            <p>
+              This editable game-authored grace begins when a period cannot be
+              funded. At its disclosed deadline, unfunded study pauses; work,
+              pay and the World continue.
+            </p>
+          </>
+        ) : null}
+        {reason && <p>{reason}</p>}
+        <button
+          disabled={!!reason}
+          onClick={() =>
+            act(
+              enterLifePath(world, path.id, {
+                tuitionGraceDays:
+                  grace[path.id] === undefined
+                    ? DEFAULT_AUTHORED_TUITION_GRACE_DAYS
+                    : (grace[path.id] ?? "").trim() === ""
+                      ? NaN
+                      : Number(grace[path.id]),
+              }),
+            )
+          }
+        >
+          {path.kind === "study" ? "Enroll in" : "Accept"} {path.title}
+        </button>
+      </article>
+    );
+  };
+  const personalPaths = LIFE_PATHS2_CATALOG.filter(
+    (p) => p.scope === "personal",
+  );
   return (
     <section aria-label="Education and work">
       {/*
@@ -144,13 +237,31 @@ export function LifePathsPanel({
         </button>
       </div>
       <div hidden={browse !== "work"}>
-        <CareerPathsPanel
-          world={world}
-          onWorldChange={onWorldChange}
-          transitionHandlers={handlers}
-        />
+        <JobListingsPanel world={world} onWorldChange={onWorldChange} />
+        {/*
+          The three authored jobs every town used to show. Kept, folded away,
+          so a life already working one still reaches it; the town's own
+          listings above are the Jobs screen now.
+        */}
+        <details open={olderWorkInPlay}>
+          <summary>Other work</summary>
+          <CareerPathsPanel
+            world={world}
+            onWorldChange={onWorldChange}
+            transitionHandlers={handlers}
+          />
+        </details>
       </div>
       <div hidden={browse !== "study"}>
+        {/*
+          The programs a person can actually enroll in come first. They used
+          to sit only under the collapsed "Other paths and invitations", so
+          the Study tab showed a directory where nothing could be applied for,
+          and a Casper life never found the certificate that opens the
+          best-paid job.
+        */}
+        <h3>Programs you can enroll in</h3>
+        {personalPaths.filter((p) => p.kind === "study").map(renderPath)}
         <EducationOptionsPanel world={world} onWorldChange={onWorldChange} />
       </div>
       <details>
@@ -175,86 +286,7 @@ export function LifePathsPanel({
             penalty.
           </p>
         ) : null}
-        {LIFE_PATHS2_CATALOG.filter((p) => p.scope === "personal").map(
-          (rawPath) => {
-            const path =
-              rawPath.kind === "study" ? periodizedStudyPath(rawPath) : rawPath;
-            const reason = lifePathEntryReason(world, actor, path);
-            return (
-              <article key={path.id}>
-                <h4>{path.title}</h4>
-                <p>{employerName(path)}</p>
-                <p>{path.responsibility}</p>
-                <p>
-                  {path.kind === "study" && studyUsesPeriodModel(path)
-                    ? studyProgramCostLabel(path)
-                    : path.sessionMinutes > 0
-                      ? `${path.sessionMinutes / 60} hours per session. ${
-                          path.sessionCostMinor > 0
-                            ? `You pay $${path.sessionCostMinor / 100} after each attended session.`
-                            : path.sessionPayMinor > 0
-                              ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
-                              : "This is unpaid volunteer work."
-                        }`
-                      : path.sessionPayMinor > 0
-                        ? `The employer pays $${path.sessionPayMinor / 100} the day after each completed shift.`
-                        : "This is unpaid volunteer work."}
-                </p>
-                {path.kind === "study" && path.credential && (
-                  <p>Completing leads to: {path.credential}.</p>
-                )}
-                {path.kind === "study" ? (
-                  <>
-                    <p>
-                      Accepting fixes the price, duration, credential and
-                      funding terms for this enrollment. Tuition uses available
-                      personal cash at period end. No loan or free tuition is
-                      automatic.
-                    </p>
-                    <label>
-                      Tuition grace days for {path.title}{" "}
-                      <input
-                        type="number"
-                        min="0"
-                        step="1"
-                        value={
-                          grace[path.id] ??
-                          String(DEFAULT_AUTHORED_TUITION_GRACE_DAYS)
-                        }
-                        onChange={(e) =>
-                          setGrace({ ...grace, [path.id]: e.target.value })
-                        }
-                      />
-                    </label>
-                    <p>
-                      This editable game-authored grace begins when a period
-                      cannot be funded. At its disclosed deadline, unfunded
-                      study pauses; work, pay and the World continue.
-                    </p>
-                  </>
-                ) : null}
-                {reason && <p>{reason}</p>}
-                <button
-                  disabled={!!reason}
-                  onClick={() =>
-                    act(
-                      enterLifePath(world, path.id, {
-                        tuitionGraceDays:
-                          grace[path.id] === undefined
-                            ? DEFAULT_AUTHORED_TUITION_GRACE_DAYS
-                            : (grace[path.id] ?? "").trim() === ""
-                              ? NaN
-                              : Number(grace[path.id]),
-                      }),
-                    )
-                  }
-                >
-                  {path.kind === "study" ? "Enroll in" : "Accept"} {path.title}
-                </button>
-              </article>
-            );
-          },
-        )}
+        {personalPaths.filter((p) => p.kind !== "study").map(renderPath)}
       </details>
       {/*
         One clock. This panel used to call `advanceWorldMinutes(world, 1440)`
