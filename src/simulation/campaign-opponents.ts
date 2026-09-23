@@ -19,6 +19,7 @@ import {
   campaignState,
   requireCampaign,
 } from "./campaign-queries";
+import { planCampaignOperatingWeek } from "./campaign-operating-costs";
 import { recordSupportShift } from "./campaign-support";
 import { addDays, makeIsoDate } from "./dates";
 import { evaluateDecision } from "./decisions";
@@ -1399,6 +1400,8 @@ export function campaignWeeklyEvaluationHandler(
       ]);
     }
   }
+  // The week's bills for this committee and each one running against it.
+  next = planCampaignOperatingWeek(next, campaign, weekStart);
   return {
     world: next,
     status: "resolved",
