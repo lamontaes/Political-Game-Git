@@ -5,6 +5,7 @@ import {
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
+import { disasterHandlingWeight } from "./crisis/handling-reactions";
 import { currentGoverningOffices } from "./governing/state-governing";
 import { searchLifePlaces } from "./index";
 import {
@@ -67,14 +68,22 @@ describe("a governor's record on the economy", { timeout: SLOW }, () => {
       ),
     );
     expect(record.weight).toBe(expected);
-    // Nothing else on this person's record, so that is the whole adjustment.
+    // No finding on this person's record, so the economy and any disaster
+    // they handled in the meantime are the whole adjustment.
     expect(
       startingSupportAdjustment(
         later,
         office!.holderPersonId,
         later.currentDate,
       ),
-    ).toBe(expected);
+    ).toBe(
+      expected +
+        disasterHandlingWeight(
+          later,
+          office!.holderPersonId,
+          later.currentDate,
+        ),
+    );
   });
 
   it("means nothing for somebody who holds no such office", () => {

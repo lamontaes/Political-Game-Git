@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-22T23:50:00.000Z",
+  "impact": "blocks-work",
+  "lane": "nationwide government",
+  "notes": [
+    "Where lamontae's intent is needed rather than a fact, write it as a short numbered question he can answer in a word, with your recommendation marked; do not decide it for him.",
+    "The game covers 56 places: the 50 states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands."
+  ],
+  "priority": "P1",
+  "question": "For each of the 50 states, the D.C. mayor, and the executives of Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, answered as one set: veto powers (full veto, line-item or item-reduction, amendatory veto, pocket veto) and the days allowed to act, in session and after adjournment; which offices the executive appoints, which need legislative confirmation, and removal power; emergency and disaster powers, their time limits, and who can end them; budget authority (who proposes the budget, whether the executive can cut spending after enactment, balanced-budget rules); executive orders and reorganization; pardon and clemency, and any board that shares it; the power to call special sessions; and whether other executive officers (lieutenant governor, attorney general, and so on) are separately elected. Cite each provision and mark anything not found as UNKNOWN.",
+  "questionId": "executive-powers-in-every-jurisdiction",
+  "readFirst": {
+    "saidAt": "2026-09-22T23:44:56.000Z",
+    "saidBy": "lamontae",
+    "words": "Because right now I think executive for every state should be built, right? Um, like the specific powers and stuff of the executive, I don't know."
+  },
+  "relatedQuestionIds": [
+    "how-a-governor-decides-and-how-a-legislature-votes-in-play",
+    "legislative-step-pacing-and-veto-override",
+    "inhabited-territories-government-and-statehood"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, from lamontae's message of 2026-09-22 7:44 p.m. Eastern",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/executive-authority-rule-packs.ts at main 16f22202",
+      "whatItDidNotSettle": "Packs exist for US, KY, NE, AK, MN and IL only; UNRESEARCHED_JURISDICTIONS names WI."
+    },
+    {
+      "source": "how-a-governor-decides-and-how-a-legislature-votes-in-play (research record)",
+      "whatItDidNotSettle": "It asks how a governor decides in play, not what each executive is legally allowed to do."
+    }
+  ],
+  "title": "What the governor, or its equivalent, can actually do in every state and territory",
+  "usableAnswer": "One row per jurisdiction (56 rows) with each power listed in the question, the days or limits that apply, a citation for each, and an evidence status per field. Note where the equivalent office is not called governor (the D.C. mayor) and where federal law limits a territory's executive.",
+  "whyItMatters": "src/simulation/executive-authority-rule-packs.ts has executive-authority packs for the federal government and only five states (Kentucky, Nebraska, Alaska, Minnesota, Illinois), and names Wisconsin as unresearched. A governor elected anywhere else has no sourced powers, so governing there falls back to generic behavior. lamontae said on 2026-09-22 that the executive for every state should be built, with its specific powers."
+}
