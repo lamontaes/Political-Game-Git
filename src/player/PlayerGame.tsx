@@ -725,7 +725,12 @@ export function PlayerGame() {
       startPlaying(world, personId, null, saveId);
       setNotice(null);
     } catch {
-      setProblem("That saved game could not be opened.");
+      // Said plainly that nothing was lost: a player who read only "could not
+      // be opened" about the one save of a sixteen-year life had no reason to
+      // believe it was still there.
+      setProblem(
+        "That saved game could not be opened just now. It has been kept, not deleted. Try again, or after the next update.",
+      );
     }
   }
 
