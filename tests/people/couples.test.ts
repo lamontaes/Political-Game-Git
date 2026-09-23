@@ -23,6 +23,7 @@ import {
 } from "../../src/presentation/venue-activity";
 import {
   COUPLE_KIND,
+  dateRefusal,
   coupleBetween,
   keptDates,
 } from "../../src/simulation/couples";
@@ -181,5 +182,54 @@ describe("two people become a couple", () => {
       }
     }
     expect(kinSeen).toBeGreaterThan(0);
+  }, 300_000);
+});
+
+describe("somebody who raised you is never somebody to ask out", () => {
+  /*
+   * Rhode Island (main 22b4f13e): Parker asked out Jennifer Brooks, the
+   * guardian who raised Parker, and the date went ahead. A guardian from an
+   * age-five start holds a guardianship record and no kinship record, and the
+   * guardianship ends at eighteen. The player is made an adult here by moving
+   * the birth date, which is the one thing this test changes by hand; the
+   * guardianship record is the game's own.
+   */
+  it("refuses a date with a guardian, in both directions", () => {
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        placeKey: "4459000",
+        seed: "g:ri",
+        startAge: 5,
+      }),
+    ).game!;
+    const playerId = game.playerPersonId;
+    const opened = openOrdinaryLife(game.world, playerId);
+    const authority = opened.history.childAuthorities.find(
+      (record) =>
+        record.childPersonId === playerId && record.holder.kind === "person",
+    )!;
+    expect(authority).toBeDefined();
+    const guardianId = (authority.holder as { personId: EntityId }).personId;
+    // The case that was reported: no kinship record joins the two of them.
+    expect(
+      opened.history.kinshipRelationships.some(
+        (kin) =>
+          kin.personIds.includes(playerId) &&
+          kin.personIds.includes(guardianId),
+      ),
+    ).toBe(false);
+    const world: World = {
+      ...opened,
+      people: {
+        ...opened.people,
+        [playerId]: { ...opened.people[playerId]!, birthDate: "2000-01-05" },
+      },
+    };
+    expect(dateRefusal(world, playerId, guardianId)).toBe("You are family.");
+    expect(dateRefusal(world, guardianId, playerId)).toBe("You are family.");
+    expect(action(world, playerId, guardianId, "ask-on-a-date")).toBe(
+      undefined,
+    );
   }, 300_000);
 });
