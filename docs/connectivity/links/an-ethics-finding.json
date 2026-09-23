@@ -7,7 +7,7 @@
     "owner": "Consequences for corruption",
     "writes": "For an adverse public outcome: lost campaign support, restitution, knowledge of the finding for party contacts, colleagues and close contacts, their private responses, and a recheck of earlier denials.",
     "runsInPlay": true,
-    "runsDetail": "Weekly press sweep through pressProceedingStepHandler (procedures.ts:1007). A complaint can only be about the player; see a-scandal-about-somebody."
+    "runsDetail": "Weekly press sweep through pressProceedingStepHandler (procedures.ts:1007). Since #535 a campaign-money complaint can name anyone with a recorded campaign-money occurrence; other complaints still name only the player."
   },
   "readers": [
     {
