@@ -416,7 +416,7 @@ _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 75 realized lines, 49 linked back to a template.
+20 beats, 72 realized lines, 49 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -496,8 +496,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 #### Beat 6 — 2026-03-24, age 34 (adult)
 
-> A couple of months on.
-> Judith Lewis tried to reach you.
+
 
 David Todd, your dad: “There are a few things around the house I cannot manage on my own anymore. Could you come by for an hour or two on Saturday morning?” It would take about 2 hours; answering takes no time.
 
@@ -542,7 +541,6 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 > A couple of months on, and you're 35 now.
 > Judith Lewis tried to reach you.
-> Edward Miles tried to reach you.
 
 You're at home with fifteen minutes free.
 
@@ -574,7 +572,7 @@ _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requir
 #### Beat 13 — 2026-06-10, age 35 (episode, opening.adult.home.free-time/moment)
 
 > A month later.
-> Edward Miles tried to reach you.
+> Judith Lewis tried to reach you.
 
 You're at home with fifteen minutes free.
 
@@ -1360,7 +1358,7 @@ _Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requir
 #### Beat 5 — 2026-02-09, age 41 (adult)
 
 > A month later.
-> Christopher Patrick tried to reach you.
+> Christopher Marshall tried to reach you.
 
 John Tillman, your dad: “There are a few things around the house I cannot manage on my own anymore. Could you come by for an hour or two on Saturday morning?” It would take about 2 hours; answering takes no time.
 

@@ -7,10 +7,9 @@ import {
   US_CONGRESS_PACK_ID,
   US_CONGRESS_RULE_PACK,
 } from "../simulation/congress-rule-pack";
-import {
-  measureCosponsors,
-  seatedCongressChamber,
-} from "../simulation/governing/congress-chambers";
+import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
+import { CONGRESS_LAWMAKING_PROFILE } from "../simulation/governing/congress-lawmaking";
+import { principledLeaning } from "../simulation/governing/officeholder-principles";
 import {
   measureActions,
   measureEnactment,
@@ -108,6 +107,46 @@ describe("Congress makes law in an ordinary life", () => {
     ).toBeGreaterThan(0);
   });
 
+  it("files each bill on a federal question the sponsor's own principles press, yes or no", () => {
+    for (const bill of bills) {
+      expect(bill.propositionAnswers).toHaveLength(1);
+      const row = bill.propositionAnswers![0]!;
+      expect(bill.propositionIds).toEqual([row.propositionId]);
+      const proposition = later.policyCatalog.propositions[row.propositionId]!;
+      const issue = later.policyCatalog.issues[proposition.issueId]!;
+      expect(issue.levels).toContain("federal");
+      const leaning = principledLeaning(
+        later,
+        bill.sponsorPersonId!,
+        row.propositionId,
+      ).score;
+      expect(row.answer === "yes" ? leaning : -leaning).toBeGreaterThanOrEqual(
+        CONGRESS_LAWMAKING_PROFILE.filingThreshold,
+      );
+    }
+  });
+
+  it("divides a roll call: members vote their own principles, not only their party", () => {
+    const floor = bills
+      .flatMap((bill) => measureVotes(later, bill.id))
+      .filter((vote) => vote.purpose === "floor-stage");
+    expect(floor.length).toBeGreaterThan(0);
+    // Every Congress roll call used to be unanimous (432 to 0): members had
+    // only a party cue, and the other party's cue was no objection.
+    const divided = floor.filter(
+      (vote) => vote.tally.yea > 0 && vote.tally.nay > 0,
+    );
+    expect(divided.length).toBeGreaterThan(floor.length / 2);
+    for (const vote of divided) {
+      const reasons = new Set(
+        vote.dispositions.map((ballot) => ballot.reason ?? ""),
+      );
+      expect(
+        [...reasons].some((reason) => reason.startsWith("member:principle:")),
+      ).toBe(true);
+    }
+  });
+
   it("enacts a bill that both Houses passed and the President signed, in force that day", () => {
     const enacted = bills.filter(
       (bill) => measurePosition(later, bill.id).phase === "enacted",
@@ -129,7 +168,7 @@ describe("Congress makes law in an ordinary life", () => {
     }
   });
 
-  it("lets the Senate filibuster a bill only one party is behind", () => {
+  it("lets the Senate filibuster a bill that cannot find sixty votes", () => {
     const filibustered = bills.filter((bill) =>
       measureVotes(later, bill.id).some(
         (vote) => vote.floorStageKey === "cloture" && vote.outcome === "failed",
@@ -137,19 +176,27 @@ describe("Congress makes law in an ordinary life", () => {
     );
     expect(filibustered.length).toBeGreaterThan(0);
     for (const bill of filibustered) {
-      const backers = [
-        bill.sponsorPersonId!,
-        ...measureCosponsors(later, bill.id),
-      ];
-      expect(new Set(backers.map((id) => partyOf.get(id))).size).toBe(1);
       const cloture = measureVotes(later, bill.id).find(
         (vote) => vote.floorStageKey === "cloture",
       )!;
-      // Three-fifths of the senators sworn, whoever voted.
+      // Three-fifths of the senators sworn, whoever voted. Since members vote
+      // their own principles, a bill with backers in both parties can fall
+      // short too, so who backed it no longer decides this alone.
       expect(cloture.requiredVotes).toBe(
         Math.ceil((cloture.denominatorValue * 3) / 5),
       );
       expect(cloture.tally.yea).toBeLessThan(cloture.requiredVotes);
+      expect(cloture.tally.nay).toBeGreaterThan(0);
+      // Nothing after a failed cloture: the bill never reached passage.
+      expect(
+        measureVotes(later, bill.id).some(
+          (vote) =>
+            vote.forum.kind === "chamber" &&
+            vote.forum.chamberKey === "senate" &&
+            vote.floorStageKey === "passage" &&
+            vote.sequence > cloture.sequence,
+        ),
+      ).toBe(false);
     }
   });
 

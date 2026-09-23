@@ -578,15 +578,20 @@ export function stateLegislators(
     if (!isPersonAliveAt(world, work.personId, currentLifeCutoff(world)))
       continue;
     if (workStatusAt(world, work.id)?.status !== "active") continue;
-    const match = work.stableKey.startsWith(prefix)
-      ? /^(.*):seat:(\d+):tenure$/.exec(work.stableKey.slice(prefix.length))
-      : null;
+    const match = seatTenureMatch(work.stableKey);
     if (!match) continue;
-    const affiliation = world.history.organizationParticipations.find(
-      (participation) =>
-        participation.stableKey ===
-        `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
-    );
+    const affiliation =
+      world.history.organizationParticipations.find(
+        (participation) =>
+          participation.personId === work.personId &&
+          participation.stableKey ===
+            `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
+      ) ??
+      world.history.organizationParticipations.find(
+        (participation) =>
+          participation.personId === work.personId &&
+          participation.kind === PARTY_AFFILIATION_KIND,
+      );
     const party = affiliation
       ? (["democratic", "republican"].find(
           (key) =>
@@ -637,29 +642,61 @@ export function stateLegislativeSeats(
       member,
     ]),
   );
-  const prefix = `${V}:`;
-  const seats: StateLegislativeSeatView[] = [];
+  // Each seat's latest tenure speaks for it: its sitting member, else the
+  // most recent holder, whose death (if any) is why it is empty.
+  const latest = new Map<
+    string,
+    { work: (typeof world.history.workRelationships)[number]; seat: string[] }
+  >();
   for (const work of world.history.workRelationships) {
     if (work.organizationId !== bodyId) continue;
     if (work.kind !== "employment:legislative-member") continue;
-    const match = work.stableKey.startsWith(prefix)
-      ? /^(.*):seat:(\d+):tenure$/.exec(work.stableKey.slice(prefix.length))
-      : null;
+    const match = seatTenureMatch(work.stableKey);
     if (!match) continue;
-    const member = sitting.get(work.id) ?? null;
-    seats.push({
-      officeKey: match[1]!,
-      ordinal: Number(match[2]),
-      title: member?.title ?? workRoleAt(world, work.id)?.title ?? "",
-      member,
-      holderDiedOn: member
-        ? null
-        : (world.history.personDeaths.find(
-            (death) => death.personId === work.personId,
-          )?.diedAt ?? null),
-    });
+    const seatKey = `${match[1]}|${match[2]}`;
+    const earlier = latest.get(seatKey);
+    if (earlier) {
+      const earlierSitting = sitting.has(earlier.work.id);
+      const thisSitting = sitting.has(work.id);
+      if (earlierSitting && !thisSitting) continue;
+      if (
+        earlierSitting === thisSitting &&
+        earlier.work.startedAt > work.startedAt
+      )
+        continue;
+    }
+    latest.set(seatKey, { work, seat: [match[1]!, match[2]!] });
   }
-  return seats.sort(
-    (a, b) => a.officeKey.localeCompare(b.officeKey) || a.ordinal - b.ordinal,
-  );
+  return [...latest.values()]
+    .map(({ work, seat }) => {
+      const member = sitting.get(work.id) ?? null;
+      return {
+        officeKey: seat[0]!,
+        ordinal: Number(seat[1]),
+        title: member?.title ?? workRoleAt(world, work.id)?.title ?? "",
+        member,
+        holderDiedOn: member
+          ? null
+          : (world.history.personDeaths.find(
+              (death) => death.personId === work.personId,
+            )?.diedAt ?? null),
+      };
+    })
+    .sort(
+      (a, b) => a.officeKey.localeCompare(b.officeKey) || a.ordinal - b.ordinal,
+    );
+}
+
+/**
+ * The officeKey and ordinal an opening seat's tenure belongs to. The
+ * opening's own tenure is `<officeKey>:seat:<n>:tenure`; a member elected
+ * later holds `<officeKey>:seat:<n>:tenure:<term start>`.
+ */
+export function seatTenureMatch(stableKey: string): RegExpExecArray | null {
+  const prefix = `${V}:`;
+  return stableKey.startsWith(prefix)
+    ? /^(.*):seat:(\d+):tenure(?::\d{4}-\d{2}-\d{2})?$/.exec(
+        stableKey.slice(prefix.length),
+      )
+    : null;
 }
