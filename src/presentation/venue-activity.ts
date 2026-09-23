@@ -1,5 +1,6 @@
 import { recordOrdinaryMeetingPresence } from "../simulation/ordinary-meeting-presence";
 import {
+  CAMPAIGN_LIFE_CATALOG,
   canPersonAccess,
   advanceWorldMinutes,
   compareSimulationMoments,
@@ -18,7 +19,11 @@ import {
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
 import { recordDomainAttendance } from "./activity-attendance";
-import { openingLifeLocation } from "./life-scene-flow";
+import {
+  openingLifeLocation,
+  openingNeighborhoodWalkOffer,
+} from "./life-scene-flow";
+import { releaseMissedHolds } from "./scheduled-activity-choice";
 import { completedActivityHere } from "./scene-venues";
 import {
   recordSocialOccasionAttendance,
@@ -231,6 +236,14 @@ export function venueActivities(
         compareSimulationMoments(state.end, world.currentMoment) <= 0
       )
         return false;
+      // Likewise a journey whose time to leave has gone: nobody can make it,
+      // and a save may still hold ones time stepped past before they were
+      // released (see `releaseMissedHolds`).
+      if (
+        activity.kind === "travel" &&
+        compareSimulationMoments(state.start, world.currentMoment) < 0
+      )
+        return false;
       return (
         activity.responsiblePersonId === personId ||
         (activity.responsiblePersonId === null && activity.kind === "tentative")
@@ -281,7 +294,25 @@ export function venueActivities(
            */
           const metWhereverTheyMeet =
             activity.location.locationKey === CONTACT_LOCATION_KEY;
-          if (
+          /*
+           * A phone shift is worked from home. Its label names no place to
+           * travel to, so comparing labels refused it everywhere, at home
+           * included. It needs the player to be home, and nothing else.
+           */
+          const workedFromHome =
+            activity.location.locationKey ===
+            CAMPAIGN_LIFE_CATALOG["phone-shift"].locationKey;
+          if (!refusal && workedFromHome) {
+            const origin = openingLifeLocation(world, personId);
+            if (origin?.setting !== "home") {
+              refusal = `This is worked from home, and you are at ${origin?.label ?? "a place the game has not recorded"}.`;
+              // Going home first keeps it. Only when there is no getting home
+              // in time is it the dead end that giving it up exists for.
+              unperformable =
+                openingNeighborhoodWalkOffer(world, personId, "home")
+                  .unavailable !== null;
+            }
+          } else if (
             !refusal &&
             activity.kind !== "travel" &&
             !journey &&
@@ -348,6 +379,25 @@ export function performVenueActivity(
   personId: EntityId,
   activityId: EntityId,
   transitionHandlers: FutureTransitionHandlerRegistry = createCampaignElectionTransitionRegistry(),
+  options?: PerformVenueActivityOptions,
+): World {
+  const performed = performVenueActivityOnce(
+    world,
+    personId,
+    activityId,
+    transitionHandlers,
+    options,
+  );
+  // The wait before it can cross days in which an organizer booked something
+  // for a time already gone; see `releaseMissedHolds`.
+  return performed === world ? world : releaseMissedHolds(performed, personId);
+}
+
+function performVenueActivityOnce(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+  transitionHandlers: FutureTransitionHandlerRegistry,
   options?: PerformVenueActivityOptions,
 ): World {
   const attendance = options?.attendance ?? "attended";

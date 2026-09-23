@@ -80,31 +80,44 @@ class FakeDatabase {
       },
       onversionchange: null,
       close: () => undefined,
-      transaction: (name: string) => this.#transaction(name),
+      transaction: (names: string | readonly string[]) =>
+        this.#transaction(names),
     } as unknown as IDBDatabase;
   }
 
-  #transaction(name: string): IDBTransaction {
-    const records = this.stores.get(name) ?? new Map<string, unknown>();
-    this.stores.set(name, records);
+  #transaction(names: string | readonly string[]): IDBTransaction {
+    const scope = typeof names === "string" ? [names] : [...names];
+    const recordsOf = (name: string) => {
+      const records = this.stores.get(name) ?? new Map<string, unknown>();
+      this.stores.set(name, records);
+      return records;
+    };
+    for (const name of scope) recordsOf(name);
     const transaction: Record<string, unknown> = {
       error: null,
       oncomplete: null,
       onerror: null,
       onabort: null,
-      objectStore: () => ({
-        get: (key: string) => request(records.get(key)),
-        put: (value: { saveId: string }) => {
-          records.set(value.saveId, structuredClone(value));
-          return request(undefined);
-        },
-        delete: (key: string) => {
-          records.delete(key);
-          return request(undefined);
-        },
-      }),
+      objectStore: (name: string = scope[0]!) => {
+        const records = recordsOf(name);
+        return {
+          get: (key: string) => request(records.get(key)),
+          getAll: () => request([...records.values()]),
+          getAllKeys: () => request([...records.keys()]),
+          put: (value: { saveId: string }) => {
+            records.set(value.saveId, structuredClone(value));
+            return request(undefined);
+          },
+          delete: (key: string) => {
+            records.delete(key);
+            return request(undefined);
+          },
+        };
+      },
     };
 
+    let outstanding = 0;
+    let completed = false;
     function request(result: unknown): IDBRequest {
       const pending: Record<string, unknown> = {
         result,
@@ -112,9 +125,17 @@ class FakeDatabase {
         onsuccess: null,
         onerror: null,
       };
+      outstanding += 1;
       queueMicrotask(() => {
         (pending.onsuccess as (() => void) | null)?.();
-        (transaction.oncomplete as (() => void) | null)?.();
+        outstanding -= 1;
+        // Complete once, after every request this transaction issued —
+        // including any issued from a success handler — has settled.
+        queueMicrotask(() => {
+          if (outstanding > 0 || completed) return;
+          completed = true;
+          (transaction.oncomplete as (() => void) | null)?.();
+        });
       });
       return pending as unknown as IDBRequest;
     }

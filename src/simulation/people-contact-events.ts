@@ -14,3 +14,4 @@ export const CONTACT_DECLINED_EVENT = "life.meeting-declined";
 export const CONTACT_ANSWER_TRANSITION_KEY = "people:contact-answer";
 export const CONTACT_TAG = "contact.v1";
 export const CONTACT_LOCATION_KEY = "people-contact:meeting";
+export const CONTACT_CALLED_OFF_EVENT = "life.meeting-called-off";
