@@ -9,7 +9,15 @@ import { createOrganization, createWorkRelationship } from "../life";
 import { stateJurisdictionForKey } from "../life-places";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import type { World } from "../types";
+import {
+  newsworthiness,
+  outletCovers,
+  storyLeads,
+  ensurePressDeskSchedule,
+} from "./desk";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { ensurePressHomeCoverage, mediaOutlets } from "./outlets";
+import { advanceWorld, recordWorldEvent } from "../world";
 
 /**
  * Who gets a newsroom. Every town a player lives in has local journalism, a
@@ -128,4 +136,99 @@ describe("press coverage", () => {
     expect(kinds.size).toBeGreaterThan(1);
     expect(local("4865384").name).toBe(local("4865384").name);
   }, 120_000);
+
+  it("Nome's paper covers its own resident even when the record is the state's", () => {
+    const game = opening("0254920", "press-coverage-nome");
+    const world = game.world;
+    const person = world.people[game.playerPersonId]!;
+    const local = mediaOutlets(world).find(
+      (outlet) =>
+        outlet.scope === "local" &&
+        outlet.primaryJurisdictionIds.includes(person.homeJurisdictionId),
+    )!;
+    const alaska = stateJurisdictionForKey("US-AK")!.id;
+    const decided = (key: string, named: boolean) =>
+      recordWorldEvent(world, {
+        stableKey: `press-coverage-nome:${key}`,
+        type: "governing.matter-decided",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: alaska,
+        involvedEntityIds: named ? [person.id] : [alaska],
+        participants: named
+          ? [{ personId: person.id, role: "focus:subject", detail: null }]
+          : [],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: ["office:us-ak-governor"],
+        summary: "The governor decided a matter.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    const plain = decided("plain", false);
+    const named = decided("named", true);
+    expect(local).toBeDefined();
+    expect(outletCovers(plain, local, plain.history.events.at(-1)!)).toBe(
+      false,
+    );
+    const event = named.history.events.at(-1)!;
+    expect(outletCovers(named, local, event)).toBe(true);
+    expect(
+      newsworthiness(named, local, event).reasons.map((reason) => reason.key),
+    ).toContain("resident");
+  }, 120_000);
+});
+
+describe("a paper does not reprint the same story", () => {
+  it("covers a development once, not every time the same words recur", () => {
+    const game = opening("0254920", "press-no-reprint");
+    const person = game.world.people[game.playerPersonId]!;
+    const home = person.homeJurisdictionId;
+    const record = (world: World, key: string, summary: string) =>
+      recordWorldEvent(world, {
+        stableKey: `press-no-reprint:${key}`,
+        type: "governing.matter-decided",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: home,
+        involvedEntityIds: [person.id],
+        participants: [
+          { personId: person.id, role: "focus:subject", detail: null },
+        ],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: ["importance:major"],
+        summary,
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    const handlers = createCampaignElectionTransitionRegistry();
+    let world = ensurePressDeskSchedule(game.world);
+    world = record(world, "first", "The town adopted the road repair plan.");
+    const first = world.history.events.at(-1)!.id;
+    world = advanceWorld(world, 8, handlers);
+    world = record(world, "again", "The town adopted the road repair plan.");
+    const again = world.history.events.at(-1)!.id;
+    world = record(world, "new", "The town adopted the park shelter rules.");
+    const fresh = world.history.events.at(-1)!.id;
+    world = advanceWorld(world, 8, handlers);
+    const bases = new Set(
+      storyLeads(world).flatMap((lead) => lead.basisEventIds),
+    );
+    expect(bases.has(first)).toBe(true);
+    expect(bases.has(again)).toBe(false);
+    expect(bases.has(fresh)).toBe(true);
+  }, 600_000);
 });
