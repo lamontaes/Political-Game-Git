@@ -311,7 +311,7 @@ export async function ensureUpdateDependencies({
     previous.installedLock === digest(installedLock)
   )
     return { reused: true };
-  // Invalidate before npm can fail or be cancelled partway through an install.
+  // Invalidate before npm can fail or be canceled partway through an install.
   writeJson(receipt, { identity: null });
   await run("/usr/bin/env", ["npm", "ci", "--no-audit", "--no-fund"], {
     cwd: sourcePath,
