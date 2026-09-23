@@ -10,8 +10,10 @@ import {
 } from "../../presentation/opening-life";
 import type { World } from "../types";
 import {
+  HAZARD_EPISODE_TRANSITION_KEY,
   HAZARD_SAMPLE_TRANSITION_KEY,
   STORM_CATALOG,
+  hazardSampleHandler,
   crisisRecords,
   representedHazardAreas,
   representedRate,
@@ -102,10 +104,36 @@ describe("automatic hazard production", () => {
           ).toBe(true);
         }
       }
-      // Episodes arrive on their recorded day, not all on the first.
-      const days = sampled.map((record) => record.effectiveAt.slice(8, 10));
-      expect(sampled.length).toBeGreaterThan(2);
-      expect(days.some((day) => day !== "01")).toBe(true);
+      // Only reports a town would live through become its disasters.
+      for (const record of sampled) {
+        if (record.kind !== "hazard-episode") continue;
+        expect(["major", "catastrophic"]).toContain(record.magnitude);
+      }
+      // Episodes are drawn on their recorded day, not all on the first.
+      const drawnDays = Array.from({ length: 12 }, (_, month) =>
+        sampleMonthlyHazards(
+          life.world,
+          makeIsoDate(`2027-${String(month + 1).padStart(2, "0")}-01`),
+        ),
+      ).flat();
+      expect(drawnDays.length).toBeGreaterThan(2);
+      expect(drawnDays.some((sample) => sample.dayOfMonth !== 1)).toBe(true);
+      const due = life.world.history.futureDueItems.find(
+        (item) => item.transitionKey === HAZARD_SAMPLE_TRANSITION_KEY,
+      )!;
+      const arrivals = Array.from({ length: 24 }, (_, month) => {
+        const dueAt = makeIsoDate(
+          `${2027 + Math.floor(month / 12)}-${String((month % 12) + 1).padStart(2, "0")}-01`,
+        );
+        return hazardSampleHandler(life.world, { ...due, dueAt })
+          .world.history.futureDueItems.filter(
+            (item) => item.transitionKey === HAZARD_EPISODE_TRANSITION_KEY,
+          )
+          .map((item) => item.dueAt);
+      }).flat();
+      console.info(JSON.stringify({ scheduledArrivals: arrivals.length }));
+      expect(arrivals.length).toBeGreaterThan(0);
+      expect(arrivals.every((date) => !date.endsWith("-01"))).toBe(true);
       // Replaying the same month on the same world gives the same sample.
       const month = makeIsoDate(
         addDays(life.world.currentDate, 40).slice(0, 8) + "01",

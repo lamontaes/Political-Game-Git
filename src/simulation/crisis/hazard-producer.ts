@@ -105,6 +105,21 @@ const FAMILY_OF: Readonly<Record<string, HazardFamily>> = {
 };
 
 /**
+ * PLACEHOLDER, NOT RESEARCHED: which recorded reports become a disaster the
+ * town lives through. The catalog counts every thunderstorm-wind and flood
+ * REPORT, and declaring each one as a damaging episode gave one county about
+ * fifteen disasters a year (Delaware County, Ohio; Stapleton, Alabama). Until
+ * `which-storm-reports-a-town-experiences-as-a-disaster` is answered, only
+ * episodes the ladder below calls major or catastrophic are declared; the
+ * rest are still drawn, so the stream's randomness is unchanged, and left
+ * unrecorded.
+ */
+const FELT_AS_DISASTER: ReadonlySet<HazardMagnitude> = new Set([
+  "major",
+  "catastrophic",
+]);
+
+/**
  * Authored magnitude ladder over the recorded episode's own size. Not a
  * damage estimate: the damage model reads represented assets separately.
  */
@@ -447,6 +462,7 @@ export function hazardSampleHandler(
     world,
     monthStart,
   ).entries()) {
+    if (!FELT_AS_DISASTER.has(sample.magnitude)) continue;
     // An episode arrives on its recorded episode's own day, not all of them
     // on the first of the month (playtests, 2026-09-22).
     const day = Math.min(Math.max(1, sample.dayOfMonth), lastDay);
