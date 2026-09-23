@@ -371,13 +371,17 @@ function handlerFor(
 }
 
 /*
- * Serializing the whole World before and after every handler proves no
- * handler mutated its input, at the price of two passes over the entire save
- * per scheduled item. The test suite (tests/support/deep-transition-guard.ts)
- * and the development client keep that proof. Everything else that passes
- * time -- the shipped client, observer runs, playtest and CLI scripts -- runs
- * without it and keeps the cheap shape check below, which still catches a
- * record pushed onto, or a field reassigned on, the input.
+ * The test suite (tests/support/deep-transition-guard.ts) and the
+ * development client prove that no handler mutates its input. The proof used
+ * to serialize the whole World before and after every handler, two passes
+ * over the entire save per scheduled item, which made each year of a long
+ * save cost more than the one before. It now freezes the input instead: a
+ * write to any part of it throws at the write itself. The World is
+ * persistent, so a handler's result shares almost everything with its input,
+ * and only the records created since the last freeze are walked. Everything
+ * else that passes time -- the shipped client, observer runs, playtest and CLI
+ * scripts -- runs without it and keeps the cheap shape check below, which
+ * still catches a record pushed onto, or a field reassigned on, the input.
  */
 let deepTransitionInputGuard =
   (globalThis as { readonly __civicDeepTransitionGuard?: boolean })
@@ -385,6 +389,27 @@ let deepTransitionInputGuard =
 
 export function setDeepTransitionInputGuard(enabled: boolean): void {
   deepTransitionInputGuard = enabled;
+}
+
+/** Every object this guard has frozen, with everything beneath it. */
+const deeplyFrozen = new WeakSet<object>();
+
+function freezeDeeply(value: unknown): void {
+  if (typeof value !== "object" || value === null) return;
+  if (deeplyFrozen.has(value)) return;
+  deeplyFrozen.add(value);
+  for (const child of Object.values(value)) freezeDeeply(child);
+  Object.freeze(value);
+}
+
+/** A write to a frozen record: what a handler mutating its input throws. */
+function isFrozenWrite(error: unknown): boolean {
+  return (
+    error instanceof TypeError &&
+    /read[- ]only|not extensible|Cannot (assign|add|delete|define|redefine)|frozen/i.test(
+      error.message,
+    )
+  );
 }
 
 function shallowWorldShape(world: World): string {
@@ -453,7 +478,15 @@ export function resolveFutureDueItemsThrough(
       }
       candidates.shift();
     }
-    if (!item) return working;
+    if (!item) {
+      // Each item's result is checked for the rules this loop owns as it
+      // lands; the whole World is validated once, here, for the batch. A
+      // check per item cost a full pass over every record for each due item,
+      // and a step that resolves hundreds of legislative sittings paid it
+      // hundreds of times. Nothing in between is returned to a caller.
+      assertWorldIntegrity(working);
+      return working;
+    }
     const handler = handlerFor(registry, item.transitionKey);
     if (!handler) {
       throw new Error(
@@ -473,19 +506,24 @@ export function resolveFutureDueItemsThrough(
         preferredUtcOffsetMinutes: working.currentMoment.utcOffsetMinutes,
       }),
     };
-    const unchangedInput = deepTransitionInputGuard
-      ? JSON.stringify(atDueDate)
-      : null;
+    if (deepTransitionInputGuard) freezeDeeply(atDueDate);
     const shallowInput = shallowWorldShape(atDueDate);
     const dueItemsBefore = atDueDate.history.futureDueItems;
     const dueStatesBefore = atDueDate.history.futureDueItemStates;
     // The handler's writers skip their per-write whole-world check; what it
     // returns is validated once, in full, below, before it is kept.
-    const result = withWorldIntegrityDeferred(() => handler(atDueDate, item));
-    if (
-      shallowWorldShape(atDueDate) !== shallowInput ||
-      (unchangedInput !== null && JSON.stringify(atDueDate) !== unchangedInput)
-    ) {
+    let result: ReturnType<FutureTransitionHandler>;
+    try {
+      result = withWorldIntegrityDeferred(() => handler(atDueDate, item));
+    } catch (error) {
+      if (isFrozenWrite(error)) {
+        throw new Error("Future-transition handler mutated its input world.", {
+          cause: error,
+        });
+      }
+      throw error;
+    }
+    if (shallowWorldShape(atDueDate) !== shallowInput) {
       throw new Error("Future-transition handler mutated its input world.");
     }
     if (
@@ -536,7 +574,7 @@ export function resolveFutureDueItemsThrough(
       );
     }
     // Recording the item's terminal state only appends to the due history, so
-    // the handler's result and that record are validated together, once.
+    // the handler's result and that record are validated with the batch.
     working = withWorldIntegrityDeferred(() =>
       setFutureDueItemTerminalState(result.world, {
         stableKey: `${item.stableKey}:state:${result.status}:${item.dueAt}`,
@@ -548,7 +586,6 @@ export function resolveFutureDueItemsThrough(
         outcomeEventId: result.outcomeEventId,
       }),
     );
-    assertWorldIntegrity(working);
   }
 }
 

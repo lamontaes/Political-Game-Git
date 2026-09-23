@@ -12,7 +12,7 @@ declare is reported as undeclared rather than filled in from a guess.
 
 | Family | Templates | Withheld | Undeclared grounding | Canonical concerns |
 | --- | --- | --- | --- | --- |
-| `campaign/campaign-status` | 26 | 0 | 0 | candidacy |
+| `campaign/campaign-status` | 27 | 0 | 0 | candidacy |
 | `conversation/commit-contract` | 110 | 0 | 0 | — |
 | `conversation/contextual-scene` | 257 | 0 | 0 | — |
 | `conversation/conversation-subject` | 64 | 0 | 0 | — |
@@ -36,7 +36,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `life/personal-aims` | 19 | 0 | 0 | — |
 | `life/press-disclosure` | 5 | 0 | 0 | — |
 | `life/recall-cards` | 10 | 0 | 0 | — |
-| `narration/connective` | 43 | 0 | 0 | elapsed-time |
+| `narration/connective` | 45 | 0 | 0 | elapsed-time |
 | `narration/thread-recap` | 36 | 0 | 0 | — |
 | `ordinary/work-item` | 4 | 0 | 4 | — |
 | `setup/questionnaire` | 618 | 0 | 0 | — |

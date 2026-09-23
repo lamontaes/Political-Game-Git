@@ -4,6 +4,10 @@ import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { seatWinnersOwedTheirTerm } from "../simulation/office-entry-repair";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
+import { migrateLegacyLegislativeSeats } from "../simulation/legislative-office-terms";
+import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
+import { catchUpLegacySchoolStages } from "../simulation/school-stages";
+import { catchUpComingOfAge } from "../simulation/coming-of-age";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   activeChildAuthoritiesAt,
@@ -350,7 +354,10 @@ function passOrdinaryDaysUnchecked(
   days: number,
   supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry,
 ): World {
-  const advanced = advanceOrdinaryDays(world, days, supplied);
+  // A birthday the stretch just crossed is answered in the same stretch, not
+  // the next time somebody passes a day.
+  const stepped = advanceOrdinaryDays(world, days, supplied);
+  const advanced = stepped === world ? stepped : catchUpComingOfAge(stepped);
   // A stretch that actually passed is a transition at which the world may bind
   // the situations it has made answerable (PROSE B). A refused advance writes
   // nothing.
@@ -392,7 +399,19 @@ function advanceOrdinaryDays(
     : ordinaryHandlers;
   // CRUNCH46 CRISIS: every advancing World carries the mortality model; an
   // older save starts exposure at its next month boundary.
-  const migrated = ensureCrisisMortality(migrateLegacyStudyProgression(world));
+  // A child saved before school stages is caught up to the stage for their
+  // age; see catchUpLegacySchoolStages. A territory life saved before
+  // territories had a Governor has one seated; see catchUpTerritoryGovernor.
+  // Somebody grown is nobody's child to answer for; see catchUpComingOfAge.
+  const migrated = ensureCrisisMortality(
+    catchUpComingOfAge(
+      migrateLegacyLegislativeSeats(
+        catchUpTerritoryGovernor(
+          catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+        ),
+      ),
+    ),
+  );
   const wholeDays = Math.max(1, Math.trunc(days));
   const morning = simulationMomentAtLocalTime({
     date: addDays(migrated.currentDate, wholeDays),

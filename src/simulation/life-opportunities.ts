@@ -25,6 +25,7 @@ import {
 } from "./time-work";
 import { settleLivingCosts } from "./cost-of-living";
 import { settleOfficeSalaries } from "./office-salary";
+import { advanceJobMarket } from "./job-market";
 import { settleMortgages } from "./home-purchase";
 import { recordWorldEvent } from "./world";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
@@ -507,6 +508,7 @@ export function refreshLifeOpportunities(
 
   let next = replenishHouseholdWeek(world, personId);
   next = settleOfficeSalaries(next, personId);
+  next = advanceJobMarket(next, personId);
   next = settleMortgages(next, personId);
   next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
