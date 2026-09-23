@@ -41,8 +41,12 @@ import {
 export const PORTABLE_SAVE_KIND = "our-civic-duty-portable-save";
 export const PORTABLE_SAVE_FORMAT_VERSION = 1;
 export const PORTABLE_SAVE_EXTENSION = "ocd-life.json";
-/** Refuse anything larger before parsing. 8 MiB is well above a healthy life. */
-export const PORTABLE_SAVE_MAX_BYTES = 8 * 1024 * 1024;
+/**
+ * Refuse anything larger before parsing. The largest lives measured so far
+ * export at 68 MB (Ketchikan) and 91.6 MB (Casper), and a life runs on to
+ * death, so the ceiling leaves well over twice that.
+ */
+export const PORTABLE_SAVE_MAX_BYTES = 256 * 1024 * 1024;
 
 export type PortableArtProvenance = "production" | "candidate-review";
 
