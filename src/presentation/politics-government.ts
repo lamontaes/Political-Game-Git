@@ -1,5 +1,5 @@
 import { personName } from "../simulation";
-import type { EntityId, World } from "../simulation";
+import type { EntityId, IsoDate, World } from "../simulation";
 import { municipalSeats } from "../simulation/municipal-public-work";
 import {
   lifePlaceByJurisdictionId,
@@ -37,6 +37,7 @@ import {
   stateLegislators,
   stateSeatTitle,
 } from "../simulation/nationwide-world/state-legislature-opening";
+import { nextStateSeatFilling } from "../simulation/nationwide-world/state-legislature-turnover";
 import { isTerritoryUsps } from "../simulation/state-reference";
 import {
   US_TERRITORY_GOVERNED_NAMES,
@@ -867,10 +868,28 @@ function seatedStateRoster(
       holderPersonId: seat.member?.personId ?? null,
       note: seat.member
         ? null
-        : seat.holderDiedOn
-          ? `Vacant since ${proseDate(seat.holderDiedOn)}, when the member died. State legislative elections are not held yet, so no one has filled the seat.`
-          : "Vacant. State legislative elections are not held yet, so no one has filled the seat.",
+        : stateVacancyNote(world, candidacy.packId, seat),
     }));
+}
+
+function stateVacancyNote(
+  world: World,
+  packId: string,
+  seat: { officeKey: string; ordinal: number; holderDiedOn: IsoDate | null },
+): string {
+  const since = seat.holderDiedOn
+    ? `Vacant since ${proseDate(seat.holderDiedOn)}, when the member died.`
+    : "Vacant.";
+  const filling = nextStateSeatFilling(
+    world,
+    packId,
+    seat.officeKey,
+    seat.ordinal,
+  );
+  if (!filling) return since;
+  return filling.takesOfficeOn
+    ? `${since} The member elected on ${proseDate(filling.electedOn)} takes the seat on ${proseDate(filling.takesOfficeOn)}.`
+    : `${since} The seat is filled at the regular election on ${proseDate(filling.electedOn)}.`;
 }
 
 function representedBy(
