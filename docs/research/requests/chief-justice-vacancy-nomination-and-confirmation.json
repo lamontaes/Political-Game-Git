@@ -1,0 +1,22 @@
+{
+  "filedAt": "2026-09-23T03:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "empty offices and term dates",
+  "priority": "P2",
+  "question": "When the office of Chief Justice of the United States falls vacant, how long have Presidents taken to name a nominee, and how long has the Senate taken to confirm or reject one? Cover every Chief Justice vacancy since 1930 with the dates of vacancy, nomination, hearings and floor vote and the margin. How often was a sitting associate justice elevated instead of an outsider, and what prior offices did nominees hold? Who presides over the Court meanwhile?",
+  "questionId": "chief-justice-vacancy-nomination-and-confirmation",
+  "relatedQuestionIds": [
+    "vice-presidential-vacancy-nomination-and-confirmation"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Empty offices and term dates thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/governing/chief-justice-vacancy.ts (CHIEF_JUSTICE_VACANCY_PROFILE), this branch",
+      "whatItDidNotSettle": "The route follows art. II, sec. 2, cl. 2, but its choices are placeholders: 30 days to nominate, 70 days to confirm, an even draw among every living adult other than the President, the Vice President and the player as the nominee, and the Senate always confirms."
+    }
+  ],
+  "title": "How a vacant Chief Justiceship is filled in practice",
+  "usableAnswer": "A table of the vacancies with dates and votes, the share of elevations versus outside picks, the typical prior office of a nominee, and a ruling on whether the game should ever let the Senate refuse or stall a nomination.",
+  "whyItMatters": "Playtest worlds lost their Chief Justice three times and never filled the seat. The game now fills it the way the Constitution says, but how fast, with whom and whether it can fail are the game's guesses until this is answered."
+}
