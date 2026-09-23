@@ -2,13 +2,15 @@
 
 Every system in the game that writes something, what it writes, what reads it, and what should read it and does not. A missing link is a defect, and names the thread that owns each end.
 
-13 producers, 27 missing links: 8 open, nobody has taken it, 5 being built in an open pull request, 4 handed to its owner, 7 waiting on research, 3 closed.
+14 producers, 31 missing links: 10 open, nobody has taken it, 6 being built in an open pull request, 5 handed to its owner, 7 waiting on research, 3 closed.
 
 ## Open defects, by the thread that owns the reading end
 
 ### Every town in America
 
 1. **A city election using its own counting rule.** From sourced local election and ballot rules (producer owned by Every town in America). open, nobody has taken it.
+2. **Coworkers, classmates and fellow members who live in the town.** From taking a job, enrolling in a program, or joining a group (producer owned by People and life). open, nobody has taken it.
+3. **A congregation to join.** From taking a job, enrolling in a program, or joining a group (producer owned by People and life). open, nobody has taken it.
 
 ### How the world changes
 
@@ -45,11 +47,13 @@ Every system in the game that writes something, what it writes, what reads it, a
 6. **The party's standing with the member: endorsements withdrawn, a primary challenge, leadership calling for resignation.** From an ethics finding (producer owned by Consequences for corruption). waiting on research.
 7. **Newcomers bringing their politics, and places changing because of who lives there.** From someone moving in or out of town (producer owned by Migration and big social movements). open, nobody has taken it.
 8. **A wave feeding party evolution.** From someone moving in or out of town (producer owned by Migration and big social movements). open, nobody has taken it.
-9. **Real census households for a new character's family.** From two people becoming partners (producer owned by Relationships). open, nobody has taken it.
+9. **A high-school classmate who has finished high school.** From taking a job, enrolling in a program, or joining a group (producer owned by People and life). handed to its owner.
+10. **Real census households for a new character's family.** From two people becoming partners (producer owned by Relationships). open, nobody has taken it.
 
 ### Relationships
 
-1. **Two people who grow close becoming a couple, including a one-night stand.** From two people becoming partners (producer owned by Relationships). being built in an open pull request.
+1. **Meeting coworkers, classmates and fellow members.** From taking a job, enrolling in a program, or joining a group (producer owned by People and life). being built in an open pull request.
+2. **Two people who grow close becoming a couple, including a one-night stand.** From two people becoming partners (producer owned by Relationships). being built in an open pull request.
 
 ### Running for office
 
@@ -271,6 +275,23 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 1. **A city election using its own counting rule** (Every town in America; open, nobody has taken it). Gated, not forgotten: the source audit is what closes it, then the election handler reads the tabulator. (hook: `src/simulation/municipal-election-rules.ts#MUNICIPAL_RULES_AUDIT_GATE`)
 
+### Taking a job, enrolling in a program, or joining a group
+
+`joining-a-workplace-program-or-group` · counted at main at 64753b47, measured September 23, 2026 · producer owned by People and life
+
+**Writes.** A work relationship at an employer, an education enrollment at an institution, or an organization participation. (`src/simulation/career-path7.ts#seekCareerOffer, src/education/study-provider.ts#respondToEducationOffer, src/presentation/ordinary-community.ts#joinOrdinaryGroup`)
+
+**Runs in an ordinary save.** Yes. Jobs and study offers three authored jobs (career-path7.ts:91) and a real college directory (EducationOptionsPanel.tsx:277). The life screen offers the walking group (LifeScenePanel.tsx:349).
+
+**Read by.** Nothing outside tests.
+
+**Should be read by, and is not.**
+
+1. **Meeting coworkers, classmates and fellow members** (Relationships; being built in an open pull request). social-introductions.ts reads a shared active employer, studyPeers at the same institution, and a shared active organization participation. (hook: `src/simulation/social-introductions.ts#introductionCandidates`; in flight: Relationships: #527)
+2. **Coworkers, classmates and fellow members who live in the town** (Every town in America; open, nobody has taken it). On the real new-game route for a 24-year-old in Houma or Reno on 1/5/2026, the world has 2 households and about 560 people, and 556 to 558 of them have no residence. Nobody who lives in town works, studies or belongs anywhere; the market, the service club and the parish government have no one. The authored employers have no location, and the player enrolls at a college alone. Nothing changes after 30 days. (hook: `src/presentation/production-world.ts`)
+3. **A congregation to join** (Every town in America; open, nobody has taken it). No organization classification exists for a congregation (taxonomy.ts:149-157), so nothing can be joined or attended. ChatGPT's answer names a place of worship as where 21% of adults met a close friend. (hook: `src/simulation/taxonomy.ts`)
+4. **A high-school classmate who has finished high school** (People and life; handed to its owner). A summarized earlier life opens the classmate's high-school enrollment and never closes it (character-history.ts:2664-2678), so a 25-year-old is still enrolled at Houma High. (handed off: September 23, 2026: sent to People and life with a reproduction; it needs a new childhood generation version)
+
 ### Two people becoming partners
 
 `a-couple-forming` · counted at main at 130dd113, measured September 23, 2026 · producer owned by Relationships
@@ -290,4 +311,4 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 ## How this document is made
 
-Rendered September 23, 2026 from commit e6e20142b (links modified) by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand.
+Rendered September 23, 2026 from commit df4b57fa4 (links modified) by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand.
