@@ -58,6 +58,9 @@ export default defineConfig({
     // Hosted shards deal the path-sorted suite out one file per shard so
     // expensive alphabetical clusters do not land on one runner.
     sequence: { sequencer: RoundRobinSequencer },
+    // The deep "a handler never mutates its input" proof runs in every test;
+    // shipped and scripted runs keep only the cheap shape check.
+    setupFiles: ["tests/support/deep-transition-guard.ts"],
     exclude: [
       ...configDefaults.exclude,
       "tests/e2e/**",

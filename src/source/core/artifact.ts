@@ -37,6 +37,13 @@ export interface ArtifactRetrieval {
   readonly retrievedAt: string;
   readonly httpStatus: number;
   readonly responseBytes: number;
+  /**
+   * How the bytes reached this repository when no command here fetched them,
+   * e.g. a file another agent downloaded from the publisher and committed. The
+   * digest is still what makes the bytes evidence; this says whose retrieval
+   * `retrievedAt` stands for and what it does not know.
+   */
+  readonly deliveryNote?: string;
 }
 
 /** A zip/tar member carries its own digest alongside its container's. */

@@ -289,9 +289,9 @@ describe("GOVERNING 4: bills and the budget reach the governor", () => {
           event.tags.includes(`office:${office.officeKey}`),
       );
     const note = notesForThisOffice(current)[0]!;
-    expect(note.summary).toContain("has no bills written");
-    expect(note.summary).not.toContain("has not compiled");
-    expect(note.summary).toContain("other work is unaffected");
+    // The player reads what the office saw, never how the game is built.
+    expect(note.summary).toMatch(/^No bill reached .+ this session\.$/);
+    expect(note.summary).not.toMatch(/compiled|written|the game/);
     // Said once for the session, not once a day.
     // Once per session for this office, not once a bill day.
     const noteKeys = notesForThisOffice(current).map((e) => e.stableKey);

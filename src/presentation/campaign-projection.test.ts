@@ -1,3 +1,4 @@
+import { personPronouns } from "../simulation/person-identity";
 import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
@@ -255,8 +256,13 @@ describe("what the game will and will not offer", () => {
     });
     const view = projectCampaign(built.world, built.playerPersonId);
     expect(view.phase).toBe("unavailable");
-    expect(view.unavailableReason).toMatch(/its own adult rule/i);
+    // The requirement a player is held to, worded as any other requirement;
+    // that it is the game's placeholder floor stays on the block's kind.
+    expect(view.unavailableReason).toMatch(
+      /You must be at least 21 to stand for this office\./,
+    );
     expect(view.unavailableReason).not.toMatch(/law says/i);
+    expect(view.unavailableReason).not.toMatch(/has not read|the game/i);
   });
 });
 
@@ -361,7 +367,8 @@ describe("election day, and the morning after", () => {
     const view = projectCampaign(played.world, played.personId);
     expect(view.afterword).not.toBeNull();
     if (view.phase === "lost") {
-      expect(view.afterword).toMatch(/not the end of them/i);
+      const them = personPronouns(played.world.people[played.personId]).object;
+      expect(view.afterword).toContain(`not the end of ${them}`);
     }
 
     const nextWeek = passCampaignDays(played.world, played.personId, 7);

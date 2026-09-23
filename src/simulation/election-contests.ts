@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
   cancelFutureDueItem,
@@ -301,7 +302,13 @@ export function resolveElectionContest(
     personFactConstraints: [],
     visibility: "public",
     tags: ["election", "election.result", `office:${contest.office.officeKey}`],
-    summary: `${contest.office.title} election resolved in ${jurisdiction?.name ?? "jurisdiction"}. Winner: ${winner ? personName(winner) : winnerPersonId}.`,
+    summary: resultSummary(
+      winner ? personName(winner) : winnerPersonId,
+      contest.office.title,
+      jurisdiction?.name ?? null,
+      winnerPersonId,
+      tallies,
+    ),
     context: {
       location: {
         jurisdictionId: contest.jurisdictionId,
@@ -722,9 +729,7 @@ export function assertElectionContestIntegrity(
       );
     }
 
-    const outcomeEvent = world.history.events.find(
-      (event) => event.id === result.outcomeEventId,
-    );
+    const outcomeEvent = eventById(world, result.outcomeEventId);
     if (!outcomeEvent) {
       throw new Error(
         `Election contest result references missing outcome event: ${result.outcomeEventId}`,
@@ -870,7 +875,7 @@ function canonicalEntityAvailable(
   ) {
     return true;
   }
-  const event = world.history.events.find((record) => record.id === id);
+  const event = eventById(world, id);
   if (event) {
     return event.occurredAt <= asOfDate && event.sequence < sequenceExclusive;
   }
@@ -941,4 +946,32 @@ function assertNotPresidentialOffice(key: string): void {
     throw new Error(
       "Presidential offices require the national electoral resolver, not a direct popular-vote contest.",
     );
+}
+
+function sharePercent(share: number): string {
+  return `${(share * 100).toFixed(1)}%`;
+}
+
+/**
+ * The public record of a result, with the winner's share and the runner-up's,
+ * so a story written from it can report the margin: "Ivy Ford won the race for
+ * Governor in Maine, 75.5% to 24.5%."
+ */
+function resultSummary(
+  winnerName: string,
+  officeTitle: string,
+  placeName: string | null,
+  winnerPersonId: EntityId,
+  tallies: readonly CandidateTally[],
+): string {
+  // "Governor of Kentucky" already names its place; say it once.
+  const race = `the race for ${officeTitle}${placeName && !officeTitle.includes(placeName) ? ` in ${placeName}` : ""}`;
+  const own = tallies.find(
+    (tally) => tally.candidatePersonId === winnerPersonId,
+  );
+  const next = [...tallies]
+    .filter((tally) => tally.candidatePersonId !== winnerPersonId)
+    .sort((left, right) => right.voteShare - left.voteShare)[0];
+  if (!own || !next) return `${winnerName} won ${race} unopposed.`;
+  return `${winnerName} won ${race}, ${sharePercent(own.voteShare)} to ${sharePercent(next.voteShare)}.`;
 }

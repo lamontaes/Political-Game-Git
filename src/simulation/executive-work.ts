@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { activeLifePathWorkers } from "./life-paths2-workers";
 /** Explicit executive consumer actions. Every successful action uses the 92H
  * compiler and canonical record writers; no serialized workflow engine. */
@@ -766,7 +767,7 @@ export function synchronizeExecutiveInbox(world: World): World {
     const authority = office.pack.presentment.legislativeRulePackId;
     if (authority.kind !== "known" || authority.value !== measure.rulePackId)
       continue;
-    const event = world.history.events.find((e) => e.id === action.eventId)!;
+    const event = eventById(world, action.eventId)!;
     next = receiveExecutiveWork(
       next,
       event.id,

@@ -8,12 +8,13 @@ import {
 import { recordFiledProvision } from "../legislative-politics";
 import { legislativeWorkKey } from "../legislative-work-key";
 import { rulePackById } from "../legislature-rule-packs";
-import { appropriationFromEnactedMeasure } from "./program-governing";
+import { applyEnactedLawEffects } from "../enacted-law-effects";
 import {
   scheduleFutureDueItem,
   futureDueItemStateAt,
 } from "../future-transitions";
 import {
+  attemptVetoOverride,
   availableMeasureSteps,
   COMMITTEE_HEARING_TRANSITION_KEY,
   enrollMeasure,
@@ -44,11 +45,19 @@ import {
   votePlanKeyForCommittee,
   votePlanKeyForConcurrence,
   votePlanKeyForFloor,
+  votePlanKeyForOverride,
   type LegislativeBlueprint,
   type SeatedBody,
 } from "../legislation-scenarios";
 import { committeeRoster } from "./committee-assignment";
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
+import { ensureOfficeholderPrinciples } from "./officeholder-principles";
+import {
+  congressBlueprint,
+  congressReferralCommittee,
+  isCongressMeasure,
+  scheduleCongressSitting,
+} from "./congress-chambers";
 import {
   chamberByKey,
   defaultOriginChamber,
@@ -159,10 +168,14 @@ function effectiveOwner(
 ): MeasureStepOwner | null {
   const owner = measureStepOwner(world, measure.id, measure.originChamberKey);
   if (owner === "sponsor-office" && !playerOfficeHoldsMeasure(world, measure))
-    // A non-player sponsor's requests go through on the clock; a veto
-    // override is left to a later, decision-backed producer.
+    // A non-player sponsor's requests go through on the clock. A veto
+    // override is put to the members where the legislature is seated with
+    // real people, so the result is their decisions against the state's own
+    // override rule; with no seated members there is nobody to decide it.
     return measurePosition(world, measure.id).phase === "awaiting-override"
-      ? null
+      ? isSeatedChamber(world, legislativeBlueprintForMeasure(world, measure))
+        ? "institution"
+        : null
       : "institution";
   return owner;
 }
@@ -229,6 +242,7 @@ export function legislativeBlueprintForMeasure(
   world: World,
   measure: LegislativeMeasureRecord,
 ): LegislativeBlueprint {
+  if (isCongressMeasure(measure)) return congressBlueprint(world);
   const eligible = legislativeScenarioKeysForPlace(measure.jurisdictionId);
   const authored = eligible.find(
     (key) => legislativeBlueprint(key).shortTitle === measure.shortTitle,
@@ -323,6 +337,7 @@ function decide(
     "amendmentStableKey" | "provisionKey"
   >,
   stableKey: string,
+  contested?: boolean,
 ) {
   const seated = members.length > 0 && members.every((m) => m.personId);
   if (!seated || !isSeatedChamber(world, blueprint)) {
@@ -339,6 +354,11 @@ function decide(
         questionLabel: planKey,
       },
       members,
+      // The player is never voted for: a player sitting in this chamber who
+      // has not cast a ballot is recorded absent, not decided for.
+      playerPersonId:
+        world.control.kind === "person" ? world.control.personId : null,
+      ...(contested === undefined ? {} : { contested }),
     }),
     method: "member-decisions" as const,
   };
@@ -377,11 +397,26 @@ function provenance(
 
 /** Applies the institution's next step to one measure, if it has one. */
 export function applyInstitutionStep(
-  world: World,
+  before: World,
   measureId: EntityId,
   onExecutiveDesk: ExecutiveDeskHandler,
 ): InstitutionStepResult {
-  const measure = requireMeasure(world, measureId);
+  const measure = requireMeasure(before, measureId);
+  // Every seated member who may vote on the bill holds principles of their
+  // own before any question is put, Congress's members included: without
+  // them a member had only a party cue, and every roll call was unanimous.
+  const world = ensureOfficeholderPrinciples(
+    before,
+    bodiesForMeasure(
+      before,
+      measure,
+      legislativeBlueprintForMeasure(before, measure),
+    ).flatMap((body) =>
+      body.members.flatMap((member) =>
+        member.personId ? [member.personId] : [],
+      ),
+    ),
+  );
   const blueprint = legislativeBlueprintForMeasure(world, measure);
   const pack = blueprint.pack;
   const owner = effectiveOwner(world, measure);
@@ -448,7 +483,12 @@ export function applyInstitutionStep(
     };
   }
   if (steps.includes("request-referral")) {
-    const committee = chamber.committees[0];
+    // A Congress bill goes to the committee for its policy field; any other
+    // bill to the chamber's first compiled committee.
+    const referredKey = congressReferralCommittee(measure, chamberKey);
+    const committee =
+      chamber.committees.find((entry) => entry.committeeKey === referredKey) ??
+      chamber.committees[0];
     if (!committee)
       return {
         kind: "blocked",
@@ -536,6 +576,13 @@ export function applyInstitutionStep(
             floorStageKey: stage.stageKey,
           },
           stableKey,
+          // PLACEHOLDER until research question how-congress-moves-bills is
+          // answered: a Senate cloture vote divides by party, so a bill with
+          // backers from only one party needs sixty of that party to get past
+          // a filibuster.
+          isCongressMeasure(measure) && stage.stageKey === "cloture"
+            ? true
+            : undefined,
         )
       : null;
     if (!body || !decided)
@@ -559,6 +606,90 @@ export function applyInstitutionStep(
         ),
       }),
       "move-floor-vote",
+    );
+  }
+  if (steps.includes("move-veto-override")) {
+    // Every returned bill is reconsidered: whether leadership would bring a
+    // given override up at all is not modeled, and the members' own votes
+    // against the state's threshold decide it (DEPTH2 A09: an override is
+    // member decisions checked against the correct voting rule, not a roll).
+    const override = pack.executive.override;
+    if (override.kind === "not-applicable" || bodies.length === 0)
+      return {
+        kind: "blocked",
+        reason: `The legislature has no seated members to reconsider the veto.`,
+      };
+    const stableKey = key("override");
+    const question = (forumKey: string) => ({
+      measureId,
+      purpose: "veto-override" as const,
+      forumKey,
+      floorStageKey: null,
+    });
+    const forums =
+      override.kind === "joint-session"
+        ? (() => {
+            const members = bodies.flatMap((entry) => entry.members);
+            const decided = decide(
+              world,
+              blueprint,
+              members,
+              votePlanKeyForOverride("joint"),
+              question("joint"),
+              `${stableKey}:joint`,
+            );
+            return decided
+              ? [
+                  {
+                    forumKey: "joint",
+                    dispositions: decided.dispositions,
+                    presentMembers: present(decided.dispositions),
+                    electedMembers: members.length,
+                  },
+                ]
+              : null;
+          })()
+        : pack.chamberOrder.map((forumKey) => {
+            const forumBody = bodies.find(
+              (entry) => entry.chamberKey === forumKey,
+            );
+            const decided = forumBody
+              ? decide(
+                  world,
+                  blueprint,
+                  forumBody.members,
+                  votePlanKeyForOverride(forumKey),
+                  question(forumKey),
+                  `${stableKey}:${forumKey}`,
+                )
+              : null;
+            return decided && forumBody
+              ? {
+                  forumKey,
+                  dispositions: decided.dispositions,
+                  presentMembers: present(decided.dispositions),
+                  electedMembers: forumBody.members.length,
+                }
+              : null;
+          });
+    if (!forums || forums.some((forum) => forum === null))
+      return {
+        kind: "blocked",
+        reason:
+          "The legislature has no recorded member decisions on the override.",
+      };
+    return applied(
+      attemptVetoOverride(world, {
+        stableKey,
+        measureId,
+        forums: forums.map((forum) => forum!),
+        rationale: "The legislature reconsidered the vetoed bill.",
+        provenance: provenance(
+          "Members' recorded decisions on overriding the veto.",
+          "member-decisions",
+        ),
+      }),
+      "move-veto-override",
     );
   }
   if (steps.includes("move-concurrence")) {
@@ -621,10 +752,20 @@ export function applyInstitutionStep(
     );
   if (steps.includes("record-enactment"))
     return applied(
-      // Enactment is also where an appropriation becomes spending authority
-      // the executive can commit; a measure without an amount writes nothing.
-      appropriationFromEnactedMeasure(
-        recordEnactment(world, { stableKey: key("enactment"), measureId }),
+      // Enactment is also where the law changes what it governs: an
+      // appropriation becomes spending authority the executive can commit, a
+      // levy becomes a tax policy. A measure without either writes nothing.
+      applyEnactedLawEffects(
+        recordEnactment(world, {
+          stableKey: key("enactment"),
+          measureId,
+          // A federal law takes effect on the day it is enacted unless it
+          // says otherwise (the Congress pack's enactment rule), and no
+          // Congress bill here says otherwise.
+          ...(isCongressMeasure(measure)
+            ? { effectiveAt: world.currentDate }
+            : {}),
+        }),
         measureId,
       ),
       "record-enactment",
@@ -638,10 +779,12 @@ export function recordGovernorDecisionOnMeasure(
   measureId: EntityId,
   action: "signed" | "vetoed",
   rationale: string,
+  actorPersonId?: EntityId,
 ): World {
   if (measurePosition(world, measureId).phase !== "awaiting-executive")
     return world;
   return recordExecutiveAction(world, {
+    ...(actorPersonId !== undefined ? { actorPersonId } : {}),
     stableKey: nextMeasureStableKey(
       world,
       measureId,
@@ -687,6 +830,11 @@ export function scheduleInstitutionStep(
   const measure = requireMeasure(world, measureId);
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return world;
+  // Congress's bills move together at its sittings, not on dates of their own.
+  if (isCongressMeasure(measure))
+    return measureSessionIsClosed(world, measureId).closed
+      ? world
+      : scheduleCongressSitting(world);
   if (pendingInstitutionStep(world, measureId, excludeDueItemId)) return world;
   if (measureSessionIsClosed(world, measureId).closed) return world;
   const dueAt =
@@ -753,7 +901,13 @@ export function createInstitutionStepHandler(
           "The chamber waits for its next scheduled business on this bill.",
         );
       case "executive":
-        return done(result.world, "The bill is on the executive's desk.");
+        // An executive who decides on the day puts the bill back in the
+        // institution's hands; this step is still the one running, so it is
+        // excluded or the next step would never be scheduled.
+        return done(
+          scheduleInstitutionStep(result.world, measureId, undefined, due.id),
+          "The bill is on the executive's desk.",
+        );
       case "applied":
         return done(
           scheduleInstitutionStep(result.world, measureId, undefined, due.id),

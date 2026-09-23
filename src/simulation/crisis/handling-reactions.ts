@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import { addDays } from "../dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { personName } from "../people";
@@ -161,9 +162,7 @@ export function applyDisasterHandlingReactions(
   const verdict = handlingVerdict(world, response);
   const personId = response.actorPersonId;
   if (!verdict || !personId || !world.people[personId]) return world;
-  const event = world.history.events.find(
-    (candidate) => candidate.id === response.eventId,
-  );
+  const event = eventById(world, response.eventId);
   if (!event) return world;
   let next = world;
   for (const campaign of campaigns(next)) {
@@ -245,9 +244,7 @@ export function applyPendingDisasterHandlingReactions(world: World): World {
     if (next.history.events.some((event) => event.stableKey === stableKey))
       continue;
     next = applyDisasterHandlingReactions(next, record);
-    const decided = next.history.events.find(
-      (event) => event.id === record.eventId,
-    );
+    const decided = eventById(next, record.eventId);
     next = recordWorldEvent(next, {
       stableKey,
       type: JUDGED_EVENT,

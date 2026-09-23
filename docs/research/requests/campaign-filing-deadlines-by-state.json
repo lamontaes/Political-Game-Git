@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-23T05:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "campaign spending reports",
+  "notes": [
+    "The game has read campaign-finance filing law for three states only: Kentucky (a statement of spending intent within 5 days of filing, reports through KEFMS, public on receipt), Minnesota (one principal campaign committee, required above $750 from others) and Nebraska (no contribution or spending until a statement of organization is filed and a qualified-elector treasurer is named).",
+    "Every other state now uses a placeholder: the committee must file a statement of organization within 5 to 15 days of the candidate filing, drawn once per state from that range and stable for the state, and a filed statement is a public record. The range is UNRESEARCHED_CAMPAIGN_FILING_RULE in src/simulation/campaign-compliance.ts.",
+    "Periodic reports (pre-election and post-election) are not filed anywhere in the game yet, because no state's business-day calendar or report schedule is modeled. The existing request campaign-expenditure-reports covers what a report line carries; this one covers who must register, when, and which reports fall due."
+  ],
+  "priority": "P1",
+  "question": "For each of the 50 states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, for a candidate for state or local office: (1) what the committee must file to register (name of the form, such as statement of organization or candidate registration) and the deadline, counted from what event (filing for office, first contribution, first expenditure, or crossing a dollar threshold, with the threshold), (2) whether a treasurer is required and what qualifies one, (3) whether a candidate may have more than one committee for the same office, (4) the schedule of periodic reports (which reports, the dates or days before and after the election, and whether deadlines count business or calendar days), (5) whether filings are public on receipt and where they are published, and (6) the penalty for a late or missed registration or report. Cite the statute or regulation for each.",
+  "questionId": "campaign-filing-deadlines-by-state",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Campaign spending reports thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/campaign-compliance.generated.ts",
+      "whatItDidNotSettle": "Holds reviewed rules for Kentucky, Minnesota and Nebraska only."
+    },
+    {
+      "source": "docs/research/requests/campaign-expenditure-reports.json",
+      "whatItDidNotSettle": "Asks what a spending-report line must carry, not who must register, by when, or which reports fall due."
+    }
+  ],
+  "title": "Campaign committee registration, treasurer, one-committee rules and report deadlines, by state",
+  "usableAnswer": "One row per state and territory: registration form name, deadline and trigger event with any threshold, treasurer requirement, one-committee rule, periodic report schedule with business or calendar days, public-on-receipt yes or no, and late-filing penalty, each with a citation. UNKNOWN where no source settles it.",
+  "whyItMatters": "A campaign's filings are where a reporter or rival first finds something wrong: a committee that never registered, a report filed late, a second committee. With a placeholder deadline in 53 places the game cannot tell a player whether a real state would have fined them."
+}

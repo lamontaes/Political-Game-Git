@@ -807,8 +807,8 @@ export function PoliticalMap(props: PoliticalMapProps) {
         </button>
         <span className="pg-map-muted">
           {days === 0
-            ? "This save has no earlier recorded day to show."
-            : `From ${proseDate(earliest)}. Past days show what this save recorded then; nothing is recolored by later changes.`}
+            ? "There is no earlier day to look back to."
+            : `You can look back to ${proseDate(earliest)}. Each past day shows the map as it stood then.`}
         </span>
       </div>
 
@@ -1051,9 +1051,7 @@ export function PoliticalMap(props: PoliticalMapProps) {
               ))}
             </svg>
             <p className="pg-map-attribution">
-              Boundaries: U.S. Census Bureau 2025 cartographic boundary files
-              (119th Congress districts; state legislative districts as Census
-              publishes them). Alaska and Hawaii are drawn as insets.
+              Alaska and Hawaii are drawn as insets.
             </p>
           </div>
         ) : null}

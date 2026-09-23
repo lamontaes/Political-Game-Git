@@ -1,5 +1,5 @@
 import { personName } from "../simulation";
-import type { EntityId, World } from "../simulation";
+import type { EntityId, IsoDate, World } from "../simulation";
 import { municipalSeats } from "../simulation/municipal-public-work";
 import {
   lifePlaceByJurisdictionId,
@@ -20,6 +20,10 @@ import {
 } from "../simulation/municipal-government";
 import { stateExecutiveOffice } from "../simulation/nationwide-world/state-executives";
 import { projectCongress } from "../simulation/living-world/congress";
+import {
+  US_CONGRESS_PACK_ID,
+  US_CONGRESS_RULE_PACK,
+} from "../simulation/congress-rule-pack";
 import { organizationNameAt } from "../simulation/living-world/party-registry";
 import type {
   ChamberView,
@@ -27,7 +31,23 @@ import type {
   SeatView,
 } from "../simulation/living-world/contract";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
-import { districtResidenceIntervals } from "../simulation/district-residence";
+import { stateCandidacyPack } from "../simulation/candidacy-packs";
+import {
+  planStateChambers,
+  stateLegislativeSeats,
+  stateLegislators,
+  stateSeatTitle,
+} from "../simulation/nationwide-world/state-legislature-opening";
+import { nextStateSeatFilling } from "../simulation/nationwide-world/state-legislature-turnover";
+import { isTerritoryUsps } from "../simulation/state-reference";
+import {
+  US_TERRITORY_GOVERNED_NAMES,
+  isUsTerritoryWithGovernor,
+} from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import {
+  canonicalHomeDistrictCandidates,
+  districtResidenceIntervals,
+} from "../simulation/district-residence";
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
   districtIdentityByRecordId,
@@ -64,6 +84,28 @@ const SCOPE_LABELS: Readonly<Record<GovernmentScope, string>> = {
   state: "State",
   federal: "Federal",
 };
+
+/**
+ * A territory's own government is not a state government: Puerto Rico, Guam,
+ * the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands
+ * each govern themselves, so the scope reads "Territory" there.
+ */
+function scopeLabelFor(scope: GovernmentScope, usps: string | null): string {
+  return scope === "state" && usps !== null && isTerritoryUsps(usps)
+    ? "Territory"
+    : SCOPE_LABELS[scope];
+}
+
+/** "Guam", "the U.S. Virgin Islands": a jurisdiction's name inside a sentence. */
+function nameInSentence(usps: string | null, name: string): string {
+  return usps !== null && isUsTerritoryWithGovernor(usps)
+    ? US_TERRITORY_GOVERNED_NAMES[usps]
+    : name;
+}
+
+function possessive(name: string): string {
+  return name.endsWith("s") ? `${name}'` : `${name}'s`;
+}
 
 const BRANCH_LABELS: Readonly<Record<GovernmentBranch, string>> = {
   legislative: "Legislative",
@@ -431,7 +473,9 @@ function stateBranches(
   const stateName = stateKey
     ? (stateJurisdictionForKey(stateKey)?.name ?? null)
     : null;
-  const subject = stateName ?? "this place's state";
+  const subject = stateName
+    ? nameInSentence(stateKey ? stateKey.slice(3) : null, stateName)
+    : "this place's state";
   if (!stateKey || !/^US-[A-Z]{2}$/.test(stateKey)) {
     const none = "No state government is recorded for this place.";
     return {
@@ -468,15 +512,26 @@ function stateBranches(
               : "No bills are on record for this legislature in this save.",
           records,
         },
-        ...pack.chambers.map((chamber) => ({
-          key: `chamber:${pack.packId}:${chamber.chamberKey}`,
-          title: chamber.name,
-          holderName: null,
-          holderPersonId: null,
-          detail: null,
-          rosterNote:
-            "No current record of this chamber's members is kept in this save.",
-        })),
+        ...pack.chambers.map((chamber) => {
+          const roster = seatedStateRoster(
+            world,
+            stateKey.slice(3),
+            chamber.chamberKey,
+          );
+          return {
+            key: `chamber:${pack.packId}:${chamber.chamberKey}`,
+            title: chamber.name,
+            holderName: null,
+            holderPersonId: null,
+            detail: null,
+            ...(roster.length
+              ? { roster }
+              : {
+                  rosterNote:
+                    "No current record of this chamber's members is kept in this save.",
+                }),
+          };
+        }),
       ]
     : [];
   const office = stateExecutiveOffice(stateKey.slice(3));
@@ -498,17 +553,17 @@ function stateBranches(
       branch(
         "legislative",
         legislative,
-        `The game has not established ${subject}'s legislature.`,
+        `No record of ${possessive(subject)} legislature is kept in this save.`,
       ),
       branch(
         "executive",
         executive,
-        `The game has not established ${subject}'s executive office.`,
+        `No record of ${possessive(subject)} executive office is kept in this save.`,
       ),
       branch(
         "judicial",
         [],
-        `The game has not established ${subject}'s courts.`,
+        `No record of ${possessive(subject)} courts is kept in this save.`,
       ),
     ],
   };
@@ -519,22 +574,47 @@ function federalBranches(world: World): {
   branches: GovernmentBranchView[];
 } {
   const congress = projectCongress(world);
+  const records: GovernmentRecordLink[] = (
+    world.history.legislativeMeasures ?? []
+  )
+    .filter((measure) => measure.rulePackId === US_CONGRESS_PACK_ID)
+    .sort((left, right) => right.sequence - left.sequence)
+    .slice(0, 10)
+    .map((measure) => ({
+      key: `measure:${measure.id}`,
+      label: `${measure.designation} — ${measure.shortTitle}`,
+      measureId: measure.id,
+    }));
+  const congressEntry: GovernmentEntry = {
+    key: `legislature:${US_CONGRESS_PACK_ID}`,
+    title: US_CONGRESS_RULE_PACK.displayName,
+    holderName: null,
+    holderPersonId: null,
+    detail:
+      records.length > 0
+        ? "Recent bills on record open with their committee referrals, votes and the President's decision."
+        : "No bills are on record for Congress in this save.",
+    records,
+  };
   const legislative: GovernmentEntry[] = congress
-    ? [congress.senate, congress.house].map((chamber) => ({
-        key: `chamber:${chamber.chamberKey}`,
-        title: chamber.name,
-        holderName: null,
-        holderPersonId: null,
-        detail: null,
-        counts: {
-          seats: chamber.totals.seats,
-          members: chamber.totals.members,
-          vacancies: chamber.totals.vacancies,
-          noCurrentRecord: chamber.totals.noCurrentRecord,
-        },
-        roster: chamber.seats.map((seat) => seatRow(world, seat)),
-        standings: chamberStandings(world, chamber),
-      }))
+    ? [
+        congressEntry,
+        ...[congress.senate, congress.house].map((chamber) => ({
+          key: `chamber:${chamber.chamberKey}`,
+          title: chamber.name,
+          holderName: null,
+          holderPersonId: null,
+          detail: null,
+          counts: {
+            seats: chamber.totals.seats,
+            members: chamber.totals.members,
+            vacancies: chamber.totals.vacancies,
+            noCurrentRecord: chamber.totals.noCurrentRecord,
+          },
+          roster: chamber.seats.map((seat) => seatRow(world, seat)),
+          standings: chamberStandings(world, chamber),
+        })),
+      ]
     : [];
   const president = holderEntry(
     world,
@@ -725,6 +805,94 @@ function seatHolder(seat: SeatView) {
   };
 }
 
+/**
+ * Why no House member is named. A home place the Census file splits between
+ * districts names those districts, and only those, without choosing one.
+ */
+function houseNote(
+  world: World,
+  personId: EntityId,
+  state: string,
+  houseSeats: readonly SeatView[],
+): string {
+  const candidates = canonicalHomeDistrictCandidates(
+    world,
+    personId,
+    "congressional",
+  ).flatMap((geoid) => {
+    const seat = houseSeats.find((entry) => entry.district === geoid.slice(2));
+    return seat ? [seatLabelFor(seat)] : [];
+  });
+  return candidates.length > 1
+    ? `Your home place is split between ${candidates.slice(0, -1).join(", ")} and ${candidates.at(-1)!} (Census place–district relationship), and the save does not record which one your home is in.`
+    : `Your congressional district in ${state} is not recorded for your home.`;
+}
+
+const chamberPlanCache = new Map<
+  string,
+  ReturnType<typeof planStateChambers>["chambers"]
+>();
+
+/** A state's seated chambers, planned once per pack (pure and fixed). */
+function seatedChamberPlans(
+  pack: NonNullable<ReturnType<typeof stateCandidacyPack>>,
+) {
+  let plans = chamberPlanCache.get(pack.packId);
+  if (!plans) {
+    plans = planStateChambers(pack).chambers;
+    chamberPlanCache.set(pack.packId, plans);
+  }
+  return plans;
+}
+
+/** The sitting members of a seated state chamber, in seat order. */
+function seatedStateRoster(
+  world: World,
+  usps: string,
+  chamberKey: string,
+): GovernmentSeatRow[] {
+  const candidacy = stateCandidacyPack(`US-${usps}`);
+  if (!candidacy) return [];
+  const suffix = `:${chamberKey}`;
+  return stateLegislativeSeats(world, candidacy.packId)
+    .filter((seat) => seat.officeKey.endsWith(suffix))
+    .map((seat) => ({
+      key: `${seat.officeKey}:${seat.ordinal}`,
+      seatLabel: seat.title,
+      // Null: every member is from this state, so there is no separate
+      // home-state delegation to list above the roster.
+      stateUsps: null,
+      status: seat.member ? ("member" as const) : ("vacancy" as const),
+      holderName: seat.member
+        ? personName(world.people[seat.member.personId]!)
+        : null,
+      holderPersonId: seat.member?.personId ?? null,
+      note: seat.member
+        ? null
+        : stateVacancyNote(world, candidacy.packId, seat),
+    }));
+}
+
+function stateVacancyNote(
+  world: World,
+  packId: string,
+  seat: { officeKey: string; ordinal: number; holderDiedOn: IsoDate | null },
+): string {
+  const since = seat.holderDiedOn
+    ? `Vacant since ${proseDate(seat.holderDiedOn)}, when the member died.`
+    : "Vacant.";
+  const filling = nextStateSeatFilling(
+    world,
+    packId,
+    seat.officeKey,
+    seat.ordinal,
+  );
+  if (!filling) return since;
+  return filling.takesOfficeOn
+    ? `${since} The member elected on ${proseDate(filling.electedOn)} takes the seat on ${proseDate(filling.takesOfficeOn)}.`
+    : `${since} The seat is filled at the regular election on ${proseDate(filling.electedOn)}.`;
+}
+
 function representedBy(
   world: World,
   personId: EntityId,
@@ -758,46 +926,116 @@ function representedBy(
     : houseSeats.length === 1 && houseSeats[0]!.district === "00"
       ? houseSeats[0]
       : undefined;
-  rows.push({
-    key: "us-house",
-    office: "U.S. House",
-    district: houseSeat ? seatLabelFor(houseSeat) : null,
-    holders: houseSeat ? [seatHolder(houseSeat)] : [],
-    note: houseSeat
-      ? null
-      : `Your congressional district in ${state} is not recorded for your home.`,
-  });
+  if (isTerritoryUsps(usps)) {
+    // A territory sends one nonvoting member to the House, elected
+    // territory-wide, and has no seat in the Senate. The 435 seats the game
+    // seats are the states' alone, so this member is not among them yet.
+    const title =
+      usps === "PR" ? "Resident Commissioner" : "Delegate to the U.S. House";
+    rows.push({
+      key: "us-house",
+      office: title,
+      district: nameInSentence(usps, state).replace(/^the /, ""),
+      holders: [],
+      note: `${title === "Resident Commissioner" ? "The Resident Commissioner" : "The Delegate"} speaks for all of ${nameInSentence(usps, state)} in the House and does not cast final votes there. No current record names who holds the seat.`,
+    });
+  } else {
+    // A member of the House is placed in the district of the seat they
+    // hold, which is recorded, when the home's own district is not.
+    const shownSeat =
+      houseSeat ??
+      houseSeats.find(
+        (seat) =>
+          seat.occupant.kind === "member" &&
+          seat.occupant.member.personId === personId,
+      );
+    rows.push({
+      key: "us-house",
+      office: "U.S. House",
+      district: shownSeat ? seatLabelFor(shownSeat) : null,
+      holders: shownSeat ? [seatHolder(shownSeat)] : [],
+      note: shownSeat ? null : houseNote(world, personId, state, houseSeats),
+    });
 
-  const senateSeats =
-    congress?.senate.seats.filter((seat) => seat.stateUsps === usps) ?? [];
-  rows.push({
-    key: "us-senate",
-    office: "U.S. Senate",
-    district: state,
-    holders: senateSeats.map(seatHolder),
-    note:
-      senateSeats.length > 0
-        ? null
-        : "No record of the Senate's membership is kept in this save.",
-  });
+    const senateSeats =
+      congress?.senate.seats.filter((seat) => seat.stateUsps === usps) ?? [];
+    rows.push({
+      key: "us-senate",
+      office: "U.S. Senate",
+      district: state,
+      holders: senateSeats.map(seatHolder),
+      note:
+        senateSeats.length > 0
+          ? null
+          : "No record of the Senate's membership is kept in this save.",
+    });
+  }
 
   const pack = legislativeRulePackForState(`US-${usps}`);
+  const candidacy = stateCandidacyPack(`US-${usps}`);
+  const seated = candidacy ? stateLegislators(world, candidacy.packId) : [];
+  const plans = candidacy && seated.length ? seatedChamberPlans(candidacy) : [];
   for (const chamber of pack?.chambers ?? []) {
     const gazetteer = gazetteerChamberForOfficeChamberKey(chamber.chamberKey);
     const interval = gazetteer ? recorded(gazetteer) : null;
     const identity = interval
       ? districtIdentityByRecordId(catalog, interval.binding.recordId)
       : null;
+    // The members the opening seated in this district, by seat ordinal, and
+    // any the law elects at large for the whole state. A member's recorded
+    // title must agree with the seat's district, so a save seated under an
+    // older plan never names someone for a district they were not given.
+    const plan = plans.find((candidate) =>
+      candidate.officeKey.endsWith(`:${chamber.chamberKey}`),
+    );
+    const representing = (member: (typeof seated)[number]) => {
+      if (!plan || member.officeKey !== plan.officeKey) return false;
+      if (member.ordinal > plan.size - plan.atLargeSeats)
+        return (
+          member.title ===
+          stateSeatTitle(plan.chamberName, null, member.ordinal, true)
+        );
+      const district = plan.districts[member.ordinal - 1];
+      return (
+        !!identity &&
+        district?.recordId === identity.recordId &&
+        member.title ===
+          stateSeatTitle(plan.chamberName, district, member.ordinal)
+      );
+    };
+    const atLarge = identity
+      ? seated.filter(
+          (member) =>
+            representing(member) &&
+            plan !== undefined &&
+            member.ordinal > plan.size - plan.atLargeSeats,
+        ).length
+      : 0;
+    const holders = identity
+      ? seated
+          .filter(representing)
+          .sort((a, b) => a.ordinal - b.ordinal)
+          .map((member) => ({
+            key: `${member.officeKey}:${member.ordinal}`,
+            status: "member" as const,
+            name: personName(world.people[member.personId]!),
+            personId: member.personId,
+          }))
+      : [];
     rows.push({
       key: `state:${chamber.chamberKey}`,
       office: chamber.name,
       district: identity
         ? (identity.sourceName ?? `District ${identity.districtCode}`)
         : null,
-      holders: [],
-      note: identity
-        ? "No current record of who holds this seat."
-        : "Your district for this chamber is not recorded for your home.",
+      holders,
+      note: !identity
+        ? "Your district for this chamber is not recorded for your home."
+        : holders.length === 0
+          ? "No current record of who holds this seat."
+          : atLarge > 0
+            ? `${atLarge} of them are elected at large and represent all of ${nameInSentence(usps, state)}.`
+            : null,
     });
   }
   return rows;
@@ -863,7 +1101,7 @@ export function projectGovernmentBrowser(
       isHome: browsingId === homeId,
     },
     scope,
-    scopeLabel: SCOPE_LABELS[scope],
+    scopeLabel: scopeLabelFor(scope, browsingUsps),
     governs: resolved.governs,
     branches: resolved.branches,
     localGovernments: local?.localGovernments ?? [],
@@ -919,7 +1157,9 @@ export function issuesPlaceForSelection(
     const state = stateKey ? stateJurisdictionForKey(stateKey) : null;
     if (state && world.jurisdictions[state.id]) {
       jurisdictionId = state.id;
-      label = `${prefix}: the state of ${state.name}`;
+      label = isTerritoryUsps(stateKey!.slice(3))
+        ? `${prefix}: ${nameInSentence(stateKey!.slice(3), state.name)}`
+        : `${prefix}: the state of ${state.name}`;
     } else {
       note = `No state public finance record is kept for ${ref.label}; showing the place itself.`;
     }
@@ -937,6 +1177,9 @@ export function issuesPlaceForSelection(
   return { jurisdictionId, label, note };
 }
 
-export function governmentScopeLabel(scope: GovernmentScope): string {
-  return SCOPE_LABELS[scope];
+export function governmentScopeLabel(
+  scope: GovernmentScope,
+  usps: string | null = null,
+): string {
+  return scopeLabelFor(scope, usps);
 }

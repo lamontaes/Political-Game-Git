@@ -4,7 +4,8 @@
   "lane": "world divergence",
   "notes": [
     "Measured while proving the dead-governor fix: in an ordinary Kentucky save the open governor's race was held on 2026-11-03, and the natural run's next field closed in 2030. Kentucky actually elects its governor in odd-numbered years (2023, 2027, 2031).",
-    "Kentucky is the default normal-start state, so this is the governor's race most players will see."
+    "Kentucky is the default normal-start state, so this is the governor's race most players will see.",
+    "Playtesting lane, 2026-09-23 12:17 a.m. ET (Anchorage full-game walk at main 6fb4e1b5): on October 5, 2026 the game already names November 5, 2030 as Alaska's next governor election, skipping November 3, 2026. Please answer, with the statute section: when does candidate filing close for Alaska's 2026 governor election (primary and general), so the game can tell whether a player could still enter the 2026 race on that date? This is a filing-deadline question, not a term question."
   ],
   "priority": "P1",
   "question": "Every state except Washington runs its governor's elections on one game-profile rule in src/simulation/nationwide-world/state-executive-term-rules.ts: a four-year term, elections in the cycle containing 2026, the November general election, and a term beginning the first Monday of January. The file itself marks those values as 'PROPOSED PARAMETERS, pending the director's confirmation'. The rule is wrong at least for the states that elect governors in odd-numbered years (Kentucky, Louisiana, Mississippi, New Jersey and Virginia) and for the states with two-year terms (New Hampshire and Vermont). For each of the fifty states, and for D.C.'s mayor and Puerto Rico's governor if they belong in the same table, what are the term length, the election cycle (a reference year and a cycle length), the general election day, and the rule for when the term begins, each with a citation?",

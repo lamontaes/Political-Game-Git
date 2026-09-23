@@ -38,6 +38,12 @@ export interface SeatedMember {
   readonly personId: EntityId | null;
   /** Descriptive grouping shown to the player; carries no mechanical weight. */
   readonly caucusLabel: string;
+  /**
+   * The national party the member holds, where the chamber was seated with
+   * it already read (Congress). Absent, a vote reads it from the member's
+   * party participation.
+   */
+  readonly partyKey?: string | null;
 }
 
 export interface SeatedBody {
@@ -800,6 +806,35 @@ export function createLegislativeScenario(
     votePlan: blueprint.votePlan,
     governorAction: blueprint.governorAction,
     governorRationale: blueprint.governorRationale,
+  };
+}
+
+/**
+ * The procedure a living institution's bills run under, carrying no authored
+ * bill at all: every measure it moves is filed by a member in play, so there
+ * is no designation, title or vote count to supply.
+ */
+export function procedureOnlyBlueprint(input: {
+  readonly scenarioKey: string;
+  readonly pack: LegislativeRulePack;
+  readonly context: DemoJurisdictionContext;
+  readonly governorRationale: string;
+}): LegislativeBlueprint {
+  return {
+    scenarioKey: input.scenarioKey,
+    label: input.pack.displayName,
+    measureNotice: AUTHORED_MEASURE_NOTICE,
+    context: input.context,
+    pack: input.pack,
+    authoredDesignation: null,
+    shortTitle: "",
+    summary: "",
+    subjectClass: "general-policy",
+    nonpartisan: false,
+    votePlan: {},
+    governorAction: null,
+    governorRationale: input.governorRationale,
+    propositionKeys: [],
   };
 }
 

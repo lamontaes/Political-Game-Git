@@ -178,7 +178,9 @@ describe("protected decisions after time passed", () => {
     const since = crisisStopBaseline(world);
     const stop = crisisStopAfter(withEpisode(), since);
     expect(stop?.target).toBe("health");
-    expect(stop?.sentence).toContain("a health matter only you can disclose");
+    expect(stop?.sentence).toBe(
+      "Decide whether to disclose your health matter.",
+    );
   });
 
   it("offers no decision to a character who holds no such office", () => {

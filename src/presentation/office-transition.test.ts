@@ -99,7 +99,7 @@ describe("a Kentucky legislator-elect", () => {
     expect(view).not.toBeNull();
     expect(view!.startsAt.endsWith("-01-01")).toBe(true);
     expect(view!.electTitle).toBe(
-      "Member-elect of the House of Representatives",
+      "Member-elect of the Kentucky House of Representatives",
     );
     expect(view!.qualification).toBe("not-required");
     expect(view!.daysUntilStart).toBeGreaterThan(0);
@@ -184,9 +184,15 @@ describe("a governor-elect", () => {
     const swearingIn = projectSwearingIn(inOffice, personId)!;
     expect(swearingIn.officeTitle).toBe("Governor");
     expect(swearingIn.ceremony).toMatch(/inauguration/);
-    expect(
-      projectSwearingIn(takeOathForHeldOffice(inOffice, personId), personId)!
-        .swornInOn,
-    ).toBe(inOffice.currentDate);
+    const sworn = projectSwearingIn(
+      takeOathForHeldOffice(inOffice, personId, {
+        swornOn: "bible",
+        form: "swear",
+      }),
+      personId,
+    )!;
+    expect(sworn.swornInOn).toBe(inOffice.currentDate);
+    expect(sworn.swornOn?.label).toBe("A Bible");
+    expect(sworn.form).toBe("swear");
   }, 240_000);
 });

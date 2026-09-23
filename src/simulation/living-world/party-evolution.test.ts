@@ -632,3 +632,17 @@ describe("a member weighing whether to leave the body", () => {
     LONG,
   );
 });
+
+describe("a group founded around a position is named, not labeled", () => {
+  it("every option carries a name a group could be called", () => {
+    const names = PARTY_QUESTIONS.flatMap((q) =>
+      q.options.map((option) => option.foundingName),
+    );
+    expect(new Set(names).size).toBe(names.length);
+    for (const name of names) {
+      expect(name).toMatch(/^[A-Z][A-Za-z]*( [A-Z][A-Za-z]*)* League$/);
+      // A position label is an instruction, not a name.
+      expect(name).not.toMatch(/\b(first|follow|set|keep|cooperate)\b/i);
+    }
+  });
+});

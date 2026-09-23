@@ -302,9 +302,31 @@ export function resolvedTitleLecternHero(
   return resolveTitleLecternHero(saves[0], library);
 }
 
+/**
+ * Where reading the saved-life list stands. Absent means it was read.
+ *
+ * Reading a large life can take a while, and the list was empty until it
+ * finished, so a player with a 40 MB Alaska life read "None yet · import one"
+ * while their save was still being opened. A failed read was reported as a
+ * browser that "will not let the game store anything", which was not what had
+ * happened either.
+ *
+ * "outdated" is this page being an older copy of the game than the one that
+ * last kept the saves: a tab or a cached page left over from before an update.
+ * Reading again cannot help; reloading the page can.
+ */
+export type SaveListingState = "loading" | "read" | "failed" | "outdated";
+
+/** Loads the page again, bringing in the build that kept the saves. */
+export function reloadPage(): void {
+  window.location.reload();
+}
+
 export function TitleScreen({
   saves,
   savesUnavailable,
+  saveListing = "read",
+  onRetrySaves,
   problem,
   onNewGame,
   onWatch,
@@ -328,6 +350,9 @@ export function TitleScreen({
    */
   readonly damaged?: readonly QuarantinedSave[];
   readonly savesUnavailable: boolean;
+  readonly saveListing?: SaveListingState;
+  /** Read the saved-life list again after a failed read. */
+  readonly onRetrySaves?: () => void;
   readonly problem: string | null;
   readonly onNewGame: () => void;
   /** Observer Mode: open a world with nobody played and let it run. */
@@ -339,6 +364,9 @@ export function TitleScreen({
 }) {
   const recent = saves[0];
   const setAside = damaged?.length ?? 0;
+  const reading = saveListing === "loading";
+  const unread = saveListing === "failed";
+  const outdated = saveListing === "outdated";
 
   // The room behind this screen is painted by the persistent ambient shell in
   // `PlayerGame`, not here. Mounting a second tableau was what made New Game
@@ -376,6 +404,10 @@ export function TitleScreen({
                 : `${recent.playerName}, ${recent.playerAge}`}
               {recent.residence ? ` \u00b7 ${recent.residence.name}` : ""}
             </small>
+          ) : reading ? (
+            <small data-testid="continue-reading">
+              Opening your saved lives…
+            </small>
           ) : setAside > 0 ? (
             // A disabled button with no reason is the same silence one layer
             // down, so it says why it cannot be pressed and where to go.
@@ -394,15 +426,21 @@ export function TitleScreen({
         >
           Saved games
           <small>
-            {saves.length > 0
-              ? setAside > 0
-                ? `${saves.length} saved \u00b7 ${setAside} needs attention`
-                : `${saves.length} saved`
-              : setAside > 0
-                ? setAside === 1
-                  ? "1 saved game needs attention"
-                  : `${setAside} saved games need attention`
-                : "None yet \u00b7 import one"}
+            {reading
+              ? "Opening…"
+              : outdated && saves.length === 0
+                ? "Reload the page to open them"
+                : unread && saves.length === 0
+                  ? "Could not be read just now"
+                  : saves.length > 0
+                    ? setAside > 0
+                      ? `${saves.length} saved \u00b7 ${setAside} needs attention`
+                      : `${saves.length} saved`
+                    : setAside > 0
+                      ? setAside === 1
+                        ? "1 saved game needs attention"
+                        : `${setAside} saved games need attention`
+                      : "None yet \u00b7 import one"}
           </small>
         </button>
         <button
@@ -437,6 +475,25 @@ export function TitleScreen({
         <p className="game-note">
           This browser will not let the game store anything, so a game played
           here will not still be here later.
+        </p>
+      ) : null}
+      {unread ? (
+        <p className="game-problem" data-testid="saves-unread">
+          Your saved lives could not be read just now. Nothing was deleted.{" "}
+          {onRetrySaves ? (
+            <button type="button" onClick={onRetrySaves}>
+              Try again
+            </button>
+          ) : null}
+        </p>
+      ) : null}
+      {outdated ? (
+        <p className="game-problem" data-testid="saves-outdated">
+          This page is an older copy of the game than the one that kept your
+          saved lives. Reload the page to open them. Nothing was deleted.{" "}
+          <button type="button" onClick={reloadPage}>
+            Reload
+          </button>
         </p>
       ) : null}
       {problem ? <p className="game-problem">{problem}</p> : null}

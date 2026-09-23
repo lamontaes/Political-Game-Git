@@ -71,6 +71,29 @@ function broken(world: World): World {
 }
 
 describe("deferred world integrity", () => {
+  // First in the file: a later test switches the guard back on by hand.
+  it("runs the deep guard in the test suite, catching an in-place edit", () => {
+    const registry = createFutureTransitionHandlerRegistry([
+      [
+        "test:integrity-deferred",
+        (current) => {
+          // Same shape, changed content: only the deep guard sees this.
+          (current.history.events.at(-1) as { summary: string }).summary =
+            "Rewritten in place.";
+          return {
+            world: current,
+            status: "resolved",
+            reasonKey: null,
+            context: null,
+            outcomeEventId: null,
+          };
+        },
+      ],
+    ]);
+    expect(() =>
+      advanceWorldMinutes(withEvent(scheduled()), 2 * 24 * 60, registry),
+    ).toThrow(/mutated its input world/);
+  });
   it("skips the check only inside the deferred scope", () => {
     const bad = broken(base());
     expect(() =>

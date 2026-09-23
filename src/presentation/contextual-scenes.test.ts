@@ -10,11 +10,15 @@ import {
   claimStanceOf,
 } from "../simulation/claim-stances";
 import { CLAIM_CONTRADICTION_TRANSITION_KEY } from "../simulation/claim-contradictions";
-import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
+import {
+  lifeOpportunitiesFor,
+  writeLegacyFamiliarRequest,
+} from "../simulation/life-opportunities";
 import { projectPartyEncounters } from "../simulation/living-world/party-chapters";
 import { sceneBindingsFor } from "../simulation/scene-bindings";
 import { letAdultTimePass } from "./adult-life";
 import { spokenDay, spokenEvening } from "./contextual-scene-families";
+import { refreshContextualScenes } from "./contextual-scene-producers";
 import type { ContextualSceneSubject } from "./contextual-scenes";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -333,14 +337,26 @@ describe("a favor somebody actually asked for", () => {
   it("the asker's own words open it; agreeing answers the same request the Story would", () => {
     const life = adultLife("prose-b-1");
     const player = life.playerPersonId;
-    let world = life.world;
-    for (
-      let step = 0;
-      step < 30 && !offered(world, player, "scene-favor");
-      step += 1
-    ) {
-      world = letAdultTimePass(world, 3);
-    }
+    // Play no longer writes the picnic favor. This reproduces a save made
+    // before 2026-09-23 that carries one, asked on the first ordinary day
+    // after the opening.
+    const asked = refreshContextualScenes(
+      writeLegacyFamiliarRequest(
+        letAdultTimePass(life.world, 1),
+        player,
+        "favour-request",
+      ),
+      player,
+    );
+    // An old friend's recorded request to meet, where this life holds one,
+    // takes the same conversation first. Answering it frees the slot, and the
+    // next day the picnic favor is the one that opens.
+    const first = projectPlayerConversation(asked, player, "scene-favor");
+    const world =
+      first && !first.openingLine.includes("Could you look over my invitation")
+        ? letAdultTimePass(say(asked, player, "scene-favor", "say-no"), 1)
+        : asked;
+    expect(offered(world, player, "scene-favor")).toBe(true);
     const view = projectPlayerConversation(world, player, "scene-favor")!;
     expect(view).not.toBeNull();
     expect(view.openingLine).toContain("Could you look over my invitation");
@@ -350,11 +366,11 @@ describe("a favor somebody actually asked for", () => {
       "decline",
       "ask-how-long",
     ]);
-    const asked = say(world, player, "scene-favor", "ask-how-long");
-    expect(asked.history.events.at(-1)!.context.immediateReaction).toMatch(
+    const howLong = say(world, player, "scene-favor", "ask-how-long");
+    expect(howLong.history.events.at(-1)!.context.immediateReaction).toMatch(
       /About 20 minutes/,
     );
-    const agreed = say(asked, player, "scene-favor", "agree-with-limit");
+    const agreed = say(howLong, player, "scene-favor", "agree-with-limit");
     expect(
       agreed.history.events.some(
         (event) =>

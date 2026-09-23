@@ -7,6 +7,7 @@ import { displayMoney } from "../presentation/money-display";
 import {
   campaignElectionDate,
   fileForOffice,
+  giveElectionSpeech,
   groupCampaignSessions,
   projectCampaign,
   spendAnAfternoon,
@@ -35,7 +36,10 @@ import {
 } from "./campaign-planning-layout";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
+import { CampaignFilings } from "./CampaignFilings";
+import { CampaignOwnMoney } from "./CampaignOwnMoney";
 import { CampaignSpendingReports } from "./CampaignSpendingReports";
+import { MogulOffersPanel } from "./MogulOffersPanel";
 
 /**
  * Running for something.
@@ -268,8 +272,14 @@ export function CampaignWorkspace({
     strategy?.priorityChoices.find(
       (choice) => choice.key === strategy.proposedPriorityKey,
     )?.label ?? null;
+  // With the office browser on screen and nothing chosen, each office already
+  // carries its own requirement beside its name. Joining every office's
+  // refusal into one unlabeled paragraph below it read as contradictory ages
+  // ("at least 24", "at least 30", "at least 21") with no office attached.
   const unavailable =
-    view.phase === "unavailable" && view.unavailableReason
+    view.phase === "unavailable" &&
+    view.unavailableReason &&
+    (offices.length === 0 || selectedOfficeKey !== null)
       ? splitEligibilityText(view.unavailableReason)
       : null;
   const authorityDetail = [
@@ -423,7 +433,7 @@ export function CampaignWorkspace({
         <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
             {selectedOffice
-              ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}. Nobody has asked ${view.candidateName} to stand for it. That is not usually how it starts.`
+              ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}.`
               : "Choose one of the offices above to see whether you can file for it."}
           </p>
           {needsDistrict && selectedOffice ? (
@@ -489,10 +499,35 @@ export function CampaignWorkspace({
           <p data-testid="campaign-treasury">
             The committee has {money(view.treasury)}.
           </p>
+          {view.phase === "active" ? (
+            <CampaignOwnMoney
+              world={world}
+              personId={personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : null}
+          {view.phase === "active" && view.campaignId ? (
+            <CampaignFilings
+              world={world}
+              personId={personId}
+              campaignId={view.campaignId}
+              onWorldChange={onWorldChange}
+              readableDate={readableCampaignDate}
+            />
+          ) : null}
 
           {view.reading ? (
             <p className="game-campaign-memo" data-testid="campaign-memo">
+              <span data-testid="campaign-memo-dated">
+                {view.reading.dated}
+              </span>{" "}
               {view.reading.summary}
+              {view.reading.change ? (
+                <span data-testid="campaign-memo-change">
+                  {" "}
+                  {view.reading.change}
+                </span>
+              ) : null}
               {view.reading.marginPercent !== null ? (
                 <small>
                   Somebody&rsquo;s estimate from the calls they made. The margin
@@ -675,6 +710,38 @@ export function CampaignWorkspace({
                   </li>
                 ))}
               </ul>
+              {view.speech ? (
+                view.speech.given ? (
+                  <p className="game-note" data-testid="campaign-speech-given">
+                    {view.speech.given}
+                  </p>
+                ) : (
+                  <button
+                    type="button"
+                    className="game-campaign-action"
+                    data-testid="campaign-speech"
+                    data-kind={view.speech.kind}
+                    onClick={() => {
+                      try {
+                        onWorldChange(giveElectionSpeech(world, personId));
+                        setProblem(null);
+                      } catch (error) {
+                        setProblem(
+                          error instanceof Error
+                            ? error.message
+                            : String(error),
+                        );
+                      }
+                    }}
+                  >
+                    <span className="game-campaign-action-label">
+                      {view.speech.kind === "victory"
+                        ? "Give your victory speech"
+                        : `Concede to ${view.speech.winnerName}`}
+                    </span>
+                  </button>
+                )
+              ) : null}
             </div>
           ) : null}
           {strategyReport ? (
@@ -693,8 +760,18 @@ export function CampaignWorkspace({
           ) : null}
 
           {view.phase === "active" ? (
-            <OpponentActivityPanel world={world} personId={personId} />
+            <OpponentActivityPanel
+              world={world}
+              personId={personId}
+              campaignId={view.campaignId}
+            />
           ) : null}
+
+          <MogulOffersPanel
+            world={world}
+            personId={personId}
+            onWorldChange={onWorldChange}
+          />
 
           <CampaignSpendingReports world={world} personId={personId} />
 

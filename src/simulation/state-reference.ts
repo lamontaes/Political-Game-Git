@@ -26,6 +26,23 @@ export interface StateReference {
   readonly utcOffsetMinutes: number;
 }
 
+/**
+ * The five inhabited territories. Each is its own government and electorate:
+ * not a state, with no state's rules, and with a Delegate or (Puerto Rico) a
+ * Resident Commissioner in the House and nobody in the Senate.
+ */
+export const TERRITORY_USPS: ReadonlySet<string> = new Set([
+  "PR",
+  "GU",
+  "VI",
+  "AS",
+  "MP",
+]);
+
+export function isTerritoryUsps(usps: string | null | undefined): boolean {
+  return usps != null && TERRITORY_USPS.has(usps);
+}
+
 export const EASTERN = { timeZone: "America/New_York", utcOffsetMinutes: -300 };
 const CENTRAL = { timeZone: "America/Chicago", utcOffsetMinutes: -360 };
 const MOUNTAIN = { timeZone: "America/Denver", utcOffsetMinutes: -420 };
@@ -87,5 +104,25 @@ export const STATES: Readonly<Record<string, StateReference>> = {
     name: "Puerto Rico",
     timeZone: "America/Puerto_Rico",
     utcOffsetMinutes: -240,
+  },
+  // The four other inhabited territories. Each is its own government and
+  // electorate, never a state; listing one here gives it a name and a clock
+  // and nothing else. Their places come from `territory-places.ts`, because
+  // the Census Gazetteer behind the national place list does not cover them.
+  GU: { name: "Guam", timeZone: "Pacific/Guam", utcOffsetMinutes: 600 },
+  VI: {
+    name: "U.S. Virgin Islands",
+    timeZone: "America/St_Thomas",
+    utcOffsetMinutes: -240,
+  },
+  AS: {
+    name: "American Samoa",
+    timeZone: "Pacific/Pago_Pago",
+    utcOffsetMinutes: -660,
+  },
+  MP: {
+    name: "Northern Mariana Islands",
+    timeZone: "Pacific/Saipan",
+    utcOffsetMinutes: 600,
   },
 };

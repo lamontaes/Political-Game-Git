@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import {
   CLAIM_CONTRADICTION_EVENT,
@@ -416,14 +417,12 @@ function promiseBasis(
     };
   }
   // `accepted:` — the player said yes to an organizer's meeting invitation.
-  const accepted = world.history.events.find((event) => event.id === id);
+  const accepted = eventById(world, id);
   if (!accepted) return null;
   const invitationId = accepted.tags
     .find((tag) => tag.startsWith("invitation:"))
     ?.slice("invitation:".length);
-  const invitation = world.history.events.find(
-    (event) => event.id === invitationId,
-  );
+  const invitation = eventById(world, invitationId);
   const organizer = invitation?.participants.find(
     (entry) => entry.role === "agency:asked" && entry.personId !== speakerId,
   )?.personId;
@@ -622,9 +621,7 @@ export function commitmentPromisee(
   world: World,
   commitment: { readonly eventId: EntityId; readonly holderPersonId: EntityId },
 ): EntityId | null {
-  const event = world.history.events.find(
-    (entry) => entry.id === commitment.eventId,
-  );
+  const event = eventById(world, commitment.eventId);
   const respondent = event?.participants.find(
     (entry) =>
       entry.personId !== commitment.holderPersonId &&

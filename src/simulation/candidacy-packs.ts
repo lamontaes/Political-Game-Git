@@ -1,3 +1,4 @@
+import { settledQualification } from "./settled-qualifications";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import {
   legislatureForState,
@@ -18,6 +19,10 @@ import { candidateQualificationRuleSet } from "./candidate-qualification";
 import { makeIsoDate } from "./dates";
 import { stateExecutiveCandidacyPacks } from "./nationwide-world/state-executive-candidacy-packs";
 import {
+  congressCandidacyPack,
+  congressSeatIdentityForPackId,
+} from "./nationwide-world/congress-candidacy-packs";
+import {
   localGoverningBodyCandidacyPack,
   localGoverningBodyIdentityForPackId,
 } from "./nationwide-world/local-governing-body-candidacy-packs";
@@ -28,6 +33,7 @@ import {
   officeQualifications as compiledOfficeQualifications,
   qualificationSourceRef,
   qualificationStateLabel,
+  stateName,
 } from "./office-qualification-rules";
 import type {
   QualificationOfficeFamily,
@@ -316,6 +322,14 @@ function officeQualification(
     const standIn = (
       field: Parameters<typeof standInQualification>[1],
     ): RuleValue<number> => {
+      // A value the state's constitution states plainly is applied before the
+      // corpus reaches it, instead of a draw that would contradict it.
+      const settled = settledQualification(
+        jurisdictionKey,
+        field,
+        officeFamily,
+      );
+      if (settled !== null) return knownRule(settled.value, settled.source);
       const drawn = standInQualification(jurisdictionKey, field, officeFamily);
       if (drawn === null) return unknownRule(NO_QUALIFICATION_CORPUS);
       return knownRule(drawn.value, standInQualificationSourceRef(drawn));
@@ -333,7 +347,7 @@ function officeQualification(
           stateResidence === null
             ? unknownRule(NO_QUALIFICATION_CORPUS)
             : knownRule(
-                `${stateResidence.value} years in the state immediately preceding filing`,
+                `${stateResidence.value} ${stateResidence.value === 1 ? "year" : "years"} in the state immediately preceding filing`,
                 standInQualificationSourceRef(stateResidence),
               ),
         termYears: standIn("TERM_LENGTH"),
@@ -351,6 +365,25 @@ function officeQualification(
 }
 
 /**
+ * The chamber as it is called in its own state: "Texas House of
+ * Representatives", "Nebraska Legislature". The pack records the chamber's
+ * bare name ("House of Representatives") and the state it belongs to; the
+ * state's canonical name comes from the pack's own jurisdiction key. Where the
+ * state is not one of the canonical fifty, or the pack's name already carries
+ * it, the pack's name is used as it stands (San Antonio, Texas House,
+ * 2026-09-23: every role and committee read "the House of Representatives").
+ */
+export function stateChamberName(
+  jurisdictionKey: string,
+  chamberName: string,
+): string {
+  const state = stateName(jurisdictionKey);
+  if (state === stateName("") || chamberName.startsWith(state))
+    return chamberName;
+  return `${state} ${chamberName}`;
+}
+
+/**
  * Turns an accepted legislative pack into the offices it demonstrably
  * establishes. One office per chamber, carrying that chamber's own citation.
  * Nothing is added that the pack does not already assert.
@@ -360,16 +393,17 @@ export function candidacyPackFromRulePack(
 ): CandidacyPack {
   const offices = pack.chambers.map((chamber): ElectiveOfficeOption => {
     const officeKey = `${pack.packId}:${chamber.chamberKey}`;
+    const chamberName = stateChamberName(pack.jurisdictionKey, chamber.name);
     return {
       officeKey,
-      chamberName: chamber.name,
+      chamberName,
       office: {
         officeKey,
         // A description of the seat, not a claimed formal title. The packs do
         // not record what members of these chambers are styled, and guessing
         // "Representative" or "Senator" from a chamber name would be inventing
         // a fact about an institution.
-        title: `Seat in the ${chamber.name}`,
+        title: `Seat in the ${chamberName}`,
         // District identity is bound at filing from an explicit Gazetteer
         // record, not from this chamber-level office option.
         seatKey: null,
@@ -427,7 +461,7 @@ export function candidacyPacks(): readonly CandidacyPack[] {
 
 /**
  * A candidacy pack by id: an accepted legislative pack, a state's single
- * executive office, or a town's governing body. Executive offices are resolvable here so a filed campaign
+ * executive office, a town's governing body, or a seat in Congress. Executive offices are resolvable here so a filed campaign
  * keeps its authority, but they are not listed by `candidacyPacks()`: that set
  * still says which states have accepted legislative rules, and an executive
  * office pack carries no sourced qualification of its own.
@@ -438,8 +472,14 @@ export function candidacyPackById(packId: string): CandidacyPack | null {
     stateExecutiveCandidacyPacks().find((pack) => pack.packId === packId) ??
     localGoverningBodyPack(packId) ??
     generatedCandidacyPackById(packId) ??
-    null
+    congressPack(packId)
   );
+}
+
+/** A seat in Congress, resolved from its own pack id; built on demand. */
+function congressPack(packId: string): CandidacyPack | null {
+  const identity = congressSeatIdentityForPackId(packId);
+  return identity ? congressCandidacyPack(identity) : null;
 }
 
 /** A town's governing body, resolved from its own pack id; built on demand. */

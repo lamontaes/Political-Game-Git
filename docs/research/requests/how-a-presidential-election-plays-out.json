@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-23T00:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide government",
+  "notes": [
+    "The owner's words, 2026-09-22: the missing president and vice president are 'crazy', and 'the Constitution is implemented, but it needs to be wired.'"
+  ],
+  "priority": "P1",
+  "question": "The game now holds a presidential election every fourth November from 2028, with nobody played, through the Electoral College records it already had. Four parts of it are the game's own placeholders and need research. FIRST, how much a presidential result moves between cycles: the national two-party swing from one presidential election to the next, how much of a state's swing is shared by its region and how much is its own, over the modern era (say 1976 to 2024), and how an incumbent running again changes that. SECOND, how the major parties choose nominees today: primaries and caucuses, the calendar, how many serious candidates enter, how often an incumbent president is challenged for renomination, and how a running mate is chosen, including how often the running mate comes from a different region. THIRD, who the nominees are: the ages at nomination, the offices nominees held before (governor, senator, vice president, other), and the states they came from, weighted or not by state size. FOURTH, how often a sitting president eligible for another term chose not to run, and why.",
+  "questionId": "how-a-presidential-election-plays-out",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Nationwide government thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/nationwide-world/presidential-turnover.ts, PRESIDENTIAL_TURNOVER_PROFILE and presidentialElectionDayHandler",
+      "whatItDidNotSettle": "Carries the placeholders named above, marked as the game's own."
+    },
+    {
+      "source": "src/simulation/world-setup/crunch46-provisional-policy.json, political swing spreads",
+      "whatItDidNotSettle": "These spreads set how far a new world starts from the certified baseline. They were not measured as cycle-to-cycle movement and are reused here only as a stand-in."
+    },
+    {
+      "source": "docs/research/requests/running-for-congress-and-president-as-data.json",
+      "whatItDidNotSettle": "Asks how a player could run for president (qualifications, primaries, ballot access). It does not ask how an election with no player in it should be decided or who the nominees are."
+    },
+    {
+      "source": "docs/research/requests/should-partisan-geography-move.json (answered)",
+      "whatItDidNotSettle": "Says lean should come from current opinion, not a fixed drift. It gives no measured cycle-to-cycle movement for a stand-in to use meanwhile."
+    }
+  ],
+  "title": "How a presidential election plays out when nobody in it is played",
+  "usableAnswer": "Numbers with dates and sources: the distribution of the national presidential two-party swing between consecutive cycles, its regional and state components, and any incumbency effect; the nomination process as steps with dates; a table of modern nominees with age, prior office and state; and the count of eligible incumbents who declined to run. Where the owner's intent needs a choice (for example whether the player can be a nominee, or whether third parties appear), say so as a question for him.",
+  "whyItMatters": "The owner found the presidency went empty in January 2029 because nothing ever held the election. It is now held, but four of its inputs are placeholders: each state's vote starts from its certified 2024 two-party share and moves by a swing drawn fresh each cycle using the spread the world's starting politics already uses; nominees are drawn aged 45 to 69 from a state weighted by its electors; an eligible incumbent runs again four times in five and not at 78 or older. The answered question should-partisan-geography-move says a state's lean should come from its people's current opinion rather than a fixed swing; this placeholder is what stands in until that producer exists."
+}
