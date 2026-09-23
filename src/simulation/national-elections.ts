@@ -377,6 +377,36 @@ function validateChoiceList(
       "Supplied constitutional choice list excludes a higher count or has an unresolved cutoff tie.",
     );
 }
+/**
+ * The Twelfth Amendment's choice lists for an office no one won by a majority:
+ * the persons with the highest numbers of electoral votes, not exceeding three
+ * for President and two for Vice President. Empty for an office that has a
+ * majority winner, and empty when a tie at the cutoff leaves the list for
+ * Congress to settle.
+ */
+export function constitutionalChoiceList(
+  world: World,
+  electionId: EntityId,
+  office: "president" | "vice-president",
+): readonly EntityId[] {
+  const proposal = nationalCountProposal(world, electionId);
+  if (
+    (office === "president"
+      ? proposal.presidentPersonId
+      : proposal.vicePresidentPersonId) !== null
+  )
+    return [];
+  const totals = ballotTotals(world, electionId, office)
+    .filter((total) => total.votes > 0)
+    .sort((a, b) => b.votes - a.votes);
+  const limit = office === "president" ? 3 : 2;
+  if (
+    totals.length > limit &&
+    totals[limit]!.votes === totals[limit - 1]!.votes
+  )
+    return [];
+  return totals.slice(0, limit).map((total) => total.personId);
+}
 export function recordContingentChoice(
   world: World,
   input: Omit<
@@ -693,9 +723,12 @@ function validateNationalRecord(
         throw new Error("House choice does not use senator membership.");
       if (
         record.office === "vice-president" &&
+        // The whole number is every seat, filled or not: a vacant seat
+        // counts against the majority rather than shrinking it.
         (record.wholeNumber !== CONTINGENT_STATES.length * 2 ||
-          record.senatorPersonIds.length !== record.wholeNumber ||
-          new Set(record.senatorPersonIds).size !== record.wholeNumber ||
+          record.senatorPersonIds.length > record.wholeNumber ||
+          new Set(record.senatorPersonIds).size !==
+            record.senatorPersonIds.length ||
           record.senatorPersonIds.some((id) => !world.people[id]) ||
           record.votes.some(
             (vote) =>
