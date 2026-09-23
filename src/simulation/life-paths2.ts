@@ -20,6 +20,8 @@ import {
   completedStudyPeriods,
   educationStudyPeriodDueHandler,
   EDUCATION_STUDY_PERIOD_DUE_KEY,
+  educationStudyBeginsHandler,
+  EDUCATION_STUDY_BEGINS_KEY,
   periodizedStudyPath,
   completeStudyPeriod,
   studyTuitionStatus,
@@ -1069,6 +1071,8 @@ const LIFE_PATHS2_CORE_HANDLERS = createFutureTransitionHandlerRegistry(
 export const LIFE_PATHS2_HANDLERS = composeFutureTransitionHandlerRegistries(
   createFutureTransitionHandlerRegistry([
     [EDUCATION_STUDY_PERIOD_DUE_KEY, educationStudyPeriodDueHandler],
+    // An accepted college place starts on its first day of classes.
+    [EDUCATION_STUDY_BEGINS_KEY, educationStudyBeginsHandler],
     // A child moves on through school while the game is played.
     [SCHOOL_STAGE_TRANSITION_KEY, schoolStageTransitionHandler],
   ]),

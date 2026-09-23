@@ -12,7 +12,9 @@ import { projectRelevantEducationDirectory } from "../presentation/practical-opp
 import { searchInstitutions } from "../education/catalog";
 import {
   applyForEducation,
+  awaitingEducationDecisions,
   canApplyFor,
+  credentialPhrase,
   educationOptionReason,
   GRADE_SCHOOL_REASON,
   pendingEducationOffers,
@@ -21,7 +23,11 @@ import {
   studyPathFor,
 } from "../education/study-provider";
 import { pathForRelationship } from "../simulation/life-paths2";
-import { stillInGradeSchool } from "../simulation/school-stages";
+import {
+  inFinalHighSchoolYear,
+  stillInGradeSchool,
+} from "../simulation/school-stages";
+import { proseDate } from "../presentation/prose-dates";
 import { schoolingSentence } from "../presentation/day-overview";
 import {
   studyEnrollmentProgressLabel,
@@ -94,11 +100,22 @@ export function EducationOptionsPanel({
   }, [availableCatalog, query, kind, offset, wide, world]);
   const institution = availableCatalog.find((r) => r.id === selected);
   // A child still in school is shown their school, not a college directory
-  // to apply from.
-  const gradeSchool =
+  // to apply from. A senior in their last year sees both: they apply now,
+  // for classes that start after they graduate.
+  const inSchool =
     world.control.kind === "person" &&
-    stillInGradeSchool(world, world.control.personId)
+    stillInGradeSchool(world, world.control.personId);
+  const senior =
+    inSchool &&
+    world.control.kind === "person" &&
+    inFinalHighSchoolYear(world, world.control.personId);
+  const gradeSchool =
+    inSchool && !senior && world.control.kind === "person"
       ? `${schoolingSentence(world, world.control.personId) ?? "You are still of school age."} ${GRADE_SCHOOL_REASON}`
+      : null;
+  const seniorYear =
+    senior && world.control.kind === "person"
+      ? `${schoolingSentence(world, world.control.personId) ?? ""} You can apply to college now. Classes start in the fall after you graduate.`.trim()
       : null;
   const [grace, setGrace] = useState<Record<string, string>>({});
   const act = (result: { ok: boolean; world: World; message: string }) => {
@@ -145,10 +162,22 @@ export function EducationOptionsPanel({
         catalog's own records and the developer tools. It used to be printed
         here, above the list, on the player's screen.
       */}
+      {awaitingEducationDecisions(world).map((application) => (
+        <p key={application.offerId} data-testid="study-application-waiting">
+          You applied to {application.organizationName}
+          {application.credential
+            ? ` for ${credentialPhrase(application.credential)}`
+            : ""}
+          . You&apos;ll hear back by {proseDate(application.decisionAt)}.
+        </p>
+      ))}
       {gradeSchool !== null ? (
         <p data-testid="study-grade-school">{gradeSchool}</p>
       ) : (
         <>
+          {seniorYear !== null && (
+            <p data-testid="study-senior-year">{seniorYear}</p>
+          )}
           <label>
             Search institutions{" "}
             <input
@@ -261,15 +290,9 @@ export function EducationOptionsPanel({
               <h4>{institution.name}</h4>
               <p>{institution.statusLabel}</p>
               {/*
-            The record id, the release stage and the county GEOID belonged to
-            whoever compiled the directory. What a prospective student needs to
-            know is that the listing does not go as far as prices and entry
-            requirements, which is said as a person would say it.
-          */}
-              <p>
-                The directory doesn&apos;t list tuition or entry requirements.
-                You&apos;d have to ask them.
-              </p>
+                Nothing here says where the listing came from. Each option
+                below gives its own cost and whether you can apply.
+              */}
               <ul>
                 {institution.capabilities
                   .filter((c) => c.state === "offered")
