@@ -1,0 +1,31 @@
+{
+  "candidateAnswers": [
+    {
+      "label": "Shift-share by county",
+      "position": "Apply the national change in an industry to each county in proportion to that industry's share of county employment (a shift-share model), with a local multiplier for spillover drawn from the economics literature.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T04:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Jobs (job market), with Laws that change the world",
+  "notes": [
+    "Owner, September 22, 11:46 p.m. ET: 'if you go completely on electric power... West Virginia should suffer consequences.'",
+    "The CBP county file could not be fetched in this environment (Census blocks the proxy and the Drive copy is over the Drive tool's 10 MB limit), so it is not in the game yet."
+  ],
+  "priority": "P1",
+  "question": "The owner wants jobs to react to what happens: a national move off coal should hurt West Virginia. The job market draws openings from each town's employers. The planned next step reads each county's industry mix from the Census 2023 County Business Patterns counts. What should link a policy or market change in one industry to a county's jobs? For a given shock (for example a coal phase-out, a tariff, a plant closing), how much should openings, hiring and pay change in counties by that industry's share of local employment, how fast, and how much should spill into other local businesses?",
+  "questionId": "local-jobs-react-to-industry-shocks",
+  "relatedQuestionIds": ["job-market-calibration"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Jobs thread, for lamontae (owner)",
+  "sourcesChecked": [
+    {
+      "source": "Our Civic Duty - readme for nationwide county industry data - 2023 CBP.md, on PR #531",
+      "whatItDidNotSettle": "Supplies each county's industry counts, which give the exposure, but no rule for how a change moves them."
+    }
+  ],
+  "title": "How a national change in one industry should move jobs in the places that depend on it",
+  "usableAnswer": "A rule of the form: change in openings and hiring in a county equals some function of that industry's share of county employment and the size of the national change, with a speed, a floor, and a local spillover, plus the sources behind it.",
+  "whyItMatters": "Without it the job market is the same whatever the country does, which the owner named as a goal on 9/23."
+}

@@ -165,8 +165,8 @@ export function NationwideCandidacyWorkspace({
             <>
               {candidacy.eligible ? (
                 <p>
-                  You may stand for {candidacy.identity.title} of your state
-                  today. Filing opens a campaign with nothing in it.
+                  You may stand for {candidacy.identity.displayName} today.
+                  Filing opens a campaign with nothing in it.
                 </p>
               ) : (
                 <BlockList blocks={candidacy.blocks} />
@@ -185,7 +185,9 @@ export function NationwideCandidacyWorkspace({
                 </span>
                 <span className="game-campaign-action-note">
                   {calendar
-                    ? `The next regular election is ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
+                    ? calendar.closedElection
+                      ? `The next regular election is ${readableCampaignDate(calendar.closedElection)}, and its candidate field has closed. A filing today stands in the one after, ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
+                      : `The next regular election is ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
                     : null}
                 </span>
               </button>
@@ -245,8 +247,8 @@ export function NationwideCandidacyWorkspace({
         </section>
       ) : (
         <p className="game-note" data-testid="state-executive-unavailable">
-          This life is not set in one of the fifty states, so there is no state
-          executive office to stand for.
+          No chief executive office is on record for where this life is set, so
+          there is none to stand for.
         </p>
       )}
       <CongressCandidacySection

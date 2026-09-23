@@ -13,6 +13,7 @@ import type { EntityId, World } from "../simulation";
 import {
   BROWSER_WORLD_RECORD_KIND,
   BrowserSaveStore,
+  SavesKeptByNewerBuildError,
   createBrowserWorldRecord,
   readStoredRecord,
   validateBrowserWorldRecord,
@@ -2206,4 +2207,32 @@ it("a save whose summary cannot be written leaves both stores as they were", asy
 
   factory.control.observer = null;
   expect(await store.load(saveId)).toEqual(world);
+});
+
+describe("saves kept by a newer version of the game", () => {
+  it("says so rather than that the saves could not be opened", async () => {
+    // The browser refuses to open a database at an older version than the
+    // one on disk: a tab or cached page from before an update, after the
+    // update has run once. Nothing is wrong with the saves.
+    const factory = {
+      open: () => {
+        const request = {
+          error: new DOMException("newer on disk", "VersionError"),
+          onupgradeneeded: null,
+          onsuccess: null,
+          onerror: null as (() => void) | null,
+          onblocked: null,
+        };
+        queueMicrotask(() => request.onerror?.());
+        return request;
+      },
+    } as unknown as IDBFactory;
+    const store = new BrowserSaveStore({
+      indexedDB: factory,
+      databaseName: "newer-worlds",
+    });
+    await expect(store.list()).rejects.toBeInstanceOf(
+      SavesKeptByNewerBuildError,
+    );
+  });
 });

@@ -68,6 +68,27 @@ function areKin(world: World, a: EntityId, b: EntityId): boolean {
   );
 }
 
+/**
+ * Whether one of them ever raised or cared for the other. It reads the whole
+ * record, not what is current: a guardianship ends when the child turns
+ * eighteen, and a Rhode Island life whose guardian had no kinship record was
+ * then offered a date with her (playtest on main 22b4f13e, 2026-09-23).
+ */
+function everInTheirCare(world: World, a: EntityId, b: EntityId): boolean {
+  const pair = (x: EntityId, y: EntityId) =>
+    (x === a && y === b) || (x === b && y === a);
+  return (
+    world.history.childAuthorities.some(
+      (authority) =>
+        authority.holder.kind === "person" &&
+        pair(authority.holder.personId, authority.childPersonId),
+    ) ||
+    world.history.careResponsibilities.some((care) =>
+      pair(care.caregiverPersonId, care.recipientPersonId),
+    )
+  );
+}
+
 /** Why these two cannot go out together, or null when they can. */
 export function dateRefusal(
   world: World,
@@ -79,6 +100,7 @@ export function dateRefusal(
     return "Dates are between adults.";
   }
   if (areKin(world, personId, otherId)) return "You are family.";
+  if (everInTheirCare(world, personId, otherId)) return "You are family.";
   return null;
 }
 
