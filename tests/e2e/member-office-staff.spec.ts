@@ -1,21 +1,43 @@
-import { expect, test } from "./fixtures";
-import { enterLife, goTo, saveLife, startLife } from "./support/creator";
-import { reachMemberOffice } from "./support/legislative-entry";
+import { expect, test, type Page } from "./fixtures";
+import { enterLife, goTo, saveLife } from "./support/creator";
 
 /**
- * A Nevada life wins an Assembly seat through the ordinary route, then hires
- * a Legislative Aide from the office's own applicants. The staff briefing,
- * empty on the first day, reads the hire, and the hire survives a reload.
+ * A Nevada Assembly member's first days in office: hiring a Legislative Aide
+ * from the office's own applicants. The staff briefing, empty on the first
+ * day, reads the hire, and the hire survives a reload.
+ *
+ * Downstream of a seat, so the seat is the supplied-result fixture the unit
+ * suite uses (fictional ballots, the production result and seat writers),
+ * saved and continued through the ordinary front door. Winning the seat is
+ * other specs' job.
  */
-test("a new Nevada legislator hires a Legislative Aide", async ({
+async function enterSuppliedNevadaSeat(page: Page) {
+  await page.goto("/");
+  await expect(page.getByTestId("new-game")).toBeVisible();
+  await page.evaluate(async () => {
+    const fixturePath = "/tests/fixtures/supplied-legislative-seat.ts";
+    const storePath = "/src/presentation/browser-world-repository.ts";
+    const { suppliedLegislativeSeat } = await import(
+      /* @vite-ignore */ fixturePath
+    );
+    const { BrowserSaveStore } = await import(/* @vite-ignore */ storePath);
+    const { world } = suppliedLegislativeSeat("US-NV", "assembly");
+    const store = new BrowserSaveStore();
+    const saved = await store.save(world, store.newSaveId(world));
+    if (saved.status !== "saved")
+      throw new Error(`Supplied seat refused: ${saved.status}`);
+  });
+  await page.reload();
+  await page.getByTestId("continue").click();
+  await enterLife(page);
+  await goTo(page, "elsewhere-work");
+}
+
+test("a new Nevada Assembly member hires a Legislative Aide", async ({
   page,
 }, testInfo) => {
-  test.setTimeout(600_000);
-  await page.goto("/?seed=member-office-staff-nv");
-  await startLife(page, { age: 40, place: "Reno", state: "Nevada" });
-  await enterLife(page);
-  await reachMemberOffice(page);
-  await goTo(page, "elsewhere-work");
+  test.setTimeout(300_000);
+  await enterSuppliedNevadaSeat(page);
 
   const hiring = page.getByTestId("office-staff-hiring");
   await expect(hiring.getByTestId("office-staff-none-hired")).toBeVisible();
