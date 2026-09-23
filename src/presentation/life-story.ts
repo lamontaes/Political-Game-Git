@@ -113,6 +113,20 @@ export interface StoryOption {
 }
 
 /**
+ * The small line printed under a story choice, or null when there is none.
+ *
+ * An instant choice carries no time label. Current content gives it its own
+ * label as the description, and older content said "No time passes"; neither
+ * is repeated under the button. A real duration or note still shows.
+ */
+export function storyOptionNote(option: StoryOption): string | null {
+  const note = option.description.trim();
+  if (note === "" || note === option.label.trim()) return null;
+  if (note === "No time passes") return null;
+  return note;
+}
+
+/**
  * Somebody in the scene, and who they are to the player.
  *
  * `withPeople` — a list of bare names — is what the play surface had, and it

@@ -151,6 +151,7 @@ import {
   todayCalendarOptions,
   presentPeopleSentence,
   projectStoryMoment,
+  storyOptionNote,
   type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
@@ -5849,7 +5850,9 @@ function StoryView({
             }
           >
             {option.label}
-            <small>{option.description}</small>
+            {storyOptionNote(option) !== null ? (
+              <small>{storyOptionNote(option)}</small>
+            ) : null}
           </button>
         ))}
         {/*
