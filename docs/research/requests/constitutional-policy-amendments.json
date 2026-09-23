@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-23T04:08:00.000Z",
+  "impact": "shapes-design",
+  "lane": "rule-changing laws (deconstructing systems)",
+  "notes": [
+    "The owner asked for amendments on any subject, not only office rules, and for people to have their own reasons for wanting a law. He named Prohibition and the abolition of slavery as examples. The engine now lets a state amendment adopt or repeal any proposition in the policy catalog that states decide (64 today, for example 'Legalize cannabis sales' or 'Restrict abortion'), and change whether its towns may recall their officials. Until this is answered, the world proposes one of these at a placeholder rate of 15 per mille per state-year, picks the subject evenly among them, and labels it as having no recorded cause.",
+    "A policy written into a constitution currently changes nothing else in the game. No statute is voided and no behavior changes. What it should do is part of this question."
+  ],
+  "priority": "P1",
+  "question": "Which policy subjects have states written into (or removed from) their constitutions by amendment, and which federal amendments did the same (Prohibition and its repeal, abolition, the income tax, and so on)? For each subject, how often has it come up, what set it off, and how often did it pass? And once a policy is in a constitution, what does that do in practice: does it void contrary statutes, bind local governments, need enabling legislation, or get tested in court first?",
+  "questionId": "constitutional-policy-amendments",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "rule-changing laws thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/constitutional-amendment-causes-by-subject.json",
+      "whatItDidNotSettle": "It asks about office and structural subjects (legislature size, terms, qualifications), not policy placed in a constitution."
+    },
+    {
+      "source": "src/simulation/policy-pack-us-policy-positions.ts",
+      "whatItDidNotSettle": "It lists the propositions a person can hold a view on. It does not say which ones states actually constitutionalize, or how often."
+    }
+  ],
+  "title": "Policy written into constitutions: which subjects, how often, and what it does",
+  "usableAnswer": "Two tables. First, per policy subject: whether states or the federal Constitution have amended on it, a few examples with state and year, the recurring causes (each tagged as observable in a simulation or not), rough frequency, and pass rate. Map each subject to a proposition in the game's policy catalog where one fits, and name the ones the catalog lacks. Second, the legal effect of a constitutional policy provision, per state where it differs: whether it voids contrary statutes, needs enabling legislation, binds local governments, and how courts treat it. Cite a source per row; Ballotpedia, the Book of the States and NCSL are acceptable starting points.",
+  "whyItMatters": "Without it the observer world amends policy for no reason at a guessed rate, and an amendment it passes changes nothing. Both are placeholders the owner has asked to replace with real causes."
+}
