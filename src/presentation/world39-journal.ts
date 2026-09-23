@@ -10,6 +10,7 @@ import {
   type IsoDate,
   type World,
 } from "../simulation";
+import { crimeJournalLine } from "../simulation/crime/journal";
 import { ownElectionResultSentence } from "./own-election";
 import { proseDate, proseMonthYear, proseYear } from "./prose-dates";
 
@@ -232,10 +233,14 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     if (/^(setup|simulation|information|evidence|world)\./.test(event.type))
       continue;
     if (STANDING_STATE_EVENT_TYPES.has(event.type)) continue;
+    // A crime says what happened to its victim; nobody else's Journal has it.
+    const crimeLine = crimeJournalLine(event, personId);
+    if (crimeLine === null) continue;
     const text = livedWorld39Sentence(
-      event.type === "life.conversation"
-        ? conversationSentence(world, event, personId)
-        : inOwnVoice(ownWords ?? event.summary, ownName),
+      crimeLine ??
+        (event.type === "life.conversation"
+          ? conversationSentence(world, event, personId)
+          : inOwnVoice(ownWords ?? event.summary, ownName)),
     );
     if (!text) continue;
     covered.add(event.id);

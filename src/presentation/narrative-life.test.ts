@@ -1052,14 +1052,20 @@ describe("Two lives differ for causal reasons, not in their names", () => {
     ).toBe(true);
   });
 
-  it("gives the two of them different numbers of live threads", () => {
+  it("gives the two of them different thread counts", () => {
     const left = playedShape("shape-a", 10);
     const right = playedShape("shape-c", 10);
     // Not a claim that any two lives must differ on this axis — only that
     // these two do, for reasons the records carry rather than by construction.
+    // Every count the report keeps is compared. Since #475 routed invitations
+    // through whoever is closest, these two seeds carry the same live and
+    // pressing counts and differ in how many threads have gone dormant (1
+    // against 2), which is still a difference the records carry.
     const different =
       left.threads.live !== right.threads.live ||
       left.threads.pressing !== right.threads.pressing ||
+      left.threads.dormant !== right.threads.dormant ||
+      left.threads.settled !== right.threads.settled ||
       left.threadTitles.length !== right.threadTitles.length;
     expect(
       different,

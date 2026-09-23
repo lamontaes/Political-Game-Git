@@ -113,6 +113,9 @@ export function projectWorld39News(world: World, personId: EntityId) {
         !publishedEvents.has(event.id) &&
         !officeEvents.has(event.id) &&
         !isWorldMachineryEvent(event.type, event.tags) &&
+        // A police report is news only in its own town.
+        (!event.type.startsWith("crime.") ||
+          event.jurisdictionId === jurisdictionId) &&
         closeToHome(event) &&
         resolvePublicationSource(world, event) !== null,
     )

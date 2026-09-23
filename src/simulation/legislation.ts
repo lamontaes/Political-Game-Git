@@ -2301,6 +2301,8 @@ export interface ExecutiveActionInput {
   readonly measureId: EntityId;
   readonly action: Extract<ExecutiveActionKind, "signed" | "vetoed">;
   readonly rationale: string;
+  /** The person who acted, when known: named in the news and on the event. */
+  readonly actorPersonId?: EntityId;
 }
 
 export function recordExecutiveAction(
@@ -2321,6 +2323,11 @@ export function recordExecutiveAction(
   );
   const pack = rulePackById(measure.rulePackId);
   const signed = input.action === "signed";
+  const actor =
+    input.actorPersonId !== undefined
+      ? world.people[input.actorPersonId]
+      : undefined;
+  const actorName = actor ? ` ${personName(actor)}` : "";
 
   const disposition: ExecutiveDispositionRecord = {
     id: createStableId(
@@ -2360,9 +2367,20 @@ export function recordExecutiveAction(
     floorStageKey: null,
     actorLabel: pack.executive.titleLabel,
     rationale: input.rationale,
-    summary: signed
-      ? `The ${pack.executive.titleLabel} signed ${measure.designation}.`
-      : `The ${pack.executive.titleLabel} vetoed ${measure.designation}.`,
+    summary: actor
+      ? `${pack.executive.titleLabel}${actorName} ${signed ? "signed" : "vetoed"} ${measure.designation}.`
+      : signed
+        ? `The ${pack.executive.titleLabel} signed ${measure.designation}.`
+        : `The ${pack.executive.titleLabel} vetoed ${measure.designation}.`,
+    participants: actor
+      ? [
+          {
+            personId: actor.id,
+            role: "focus:subject",
+            detail: pack.executive.titleLabel,
+          },
+        ]
+      : [],
     eventType: signed
       ? "legislation.measure-signed"
       : "legislation.measure-vetoed",

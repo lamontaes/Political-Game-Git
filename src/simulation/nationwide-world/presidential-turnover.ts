@@ -12,6 +12,10 @@ import {
   PARTY_AFFILIATION_KIND,
   livingWorldOrganizationId,
 } from "../living-world/opening";
+import {
+  projectCongress,
+  publicPartyAffiliation,
+} from "../living-world/congress";
 import { SETTING_PARTY_NAMES } from "../living-world/party-registry";
 import {
   applyNationalTermTransitions,
@@ -26,6 +30,7 @@ import {
   nationalUnitJurisdiction,
 } from "../national-election-geography";
 import {
+  CONTINGENT_STATES,
   ELECTORAL_ALLOCATION,
   FIRST_NATIONAL_CYCLE,
   nationalElectionRules,
@@ -33,6 +38,7 @@ import {
 import {
   appendNationalRecord,
   nationalAllocation,
+  recordContingentChoice,
   nationalOutcome,
   nationalPersonAlive,
   nationalRecords,
@@ -40,6 +46,7 @@ import {
 } from "../national-elections";
 import type {
   NationalElection,
+  NationalElectoralCount,
   NationalTermPlan,
   NationalUnitResult,
   PresidentialTicket,
@@ -116,9 +123,19 @@ import type {
  *   the world's opening presidency already does.
  * - Faithless electors: every elector votes for the ticket that carried their
  *   unit.
- * - An Electoral College tie or no majority: the House and Senate contingent
- *   elections have receivers but no producer, so no one is seated and the
- *   office stays empty. A tie between two tickets is rare but possible.
+ * - How members vote in a contingent election. When no ticket wins a majority
+ *   of the electoral votes (a 269-269 tie), the House chooses the President
+ *   with one vote per state delegation and the Senate chooses the Vice
+ *   President (U.S. Const. amend. XII). The procedure is law; the votes are a
+ *   PLACEHOLDER: each member votes for their own party's nominee, a
+ *   delegation votes for whichever nominee most of its voting members chose,
+ *   and an evenly divided delegation casts no vote. A vacant Senate seat
+ *   counts as a vote for no one, so a majority is 51 whatever the
+ *   vacancies. Both are filed with
+ *   `when-the-presidency-and-vice-presidency-are-both-empty`. Each body
+ *   votes once. A deadlocked House leaves the presidency unfilled, because
+ *   the Vice President-elect acting as President (amend. XX, § 3) is NOT
+ *   MODELED.
  * - A President-elect who dies before the inauguration (Twentieth Amendment,
  *   § 3): the term is not entered.
  * - Natural-born citizenship and fourteen years' residence: every nominee is
@@ -875,6 +892,160 @@ export function presidentialElectorsMeetHandler(
   return done(next, `The ${cycle} electors voted.`);
 }
 
+/** The party whose nominee a member of Congress votes for (placeholder). */
+function contingentVote(
+  world: World,
+  personId: EntityId,
+  candidates: readonly EntityId[],
+  nomineeOf: (ticket: PresidentialTicket) => EntityId,
+  election: NationalElection,
+): EntityId | null {
+  const organizationId = publicPartyAffiliation(world, personId);
+  const index = PARTIES.findIndex(
+    (party) =>
+      livingWorldOrganizationId(
+        world,
+        LIVING_WORLD_KEYS.nationalParty(party),
+      ) === organizationId,
+  );
+  const ticket = index < 0 ? undefined : election.tickets[index];
+  const nominee = ticket ? nomineeOf(ticket) : null;
+  return nominee && candidates.includes(nominee) ? nominee : null;
+}
+
+/**
+ * No ticket won a majority: the House chooses the President, one vote per
+ * state, and the Senate the Vice President (U.S. Const. amend. XII). Members
+ * vote their party's nominee (a placeholder; see the file header). Each body
+ * votes once, and a failed vote is recorded as one.
+ */
+function holdContingentElections(
+  world: World,
+  election: NationalElection,
+  key: string,
+): World {
+  const count = nationalRecords(world, election.id).find(
+    (record): record is NationalElectoralCount => record.kind === "count",
+  );
+  if (!count) return world;
+  const congress = projectCongress(world);
+  let next = world;
+  const provenance = (note: string) => ({
+    method: "simulated" as const,
+    sourceEntityIds: [count.id],
+    note: `${PRESIDENTIAL_TURNOVER_PROFILE.id}: ${note} Placeholder, not research.`,
+  });
+  const held = (office: "president" | "vice-president") =>
+    nationalRecords(next, election.id).some(
+      (record) =>
+        record.kind === "contingent-choice" && record.office === office,
+    );
+  if (
+    !count.presidentPersonId &&
+    count.presidentialChoicePersonIds.length &&
+    !held("president")
+  ) {
+    const candidates = count.presidentialChoicePersonIds;
+    const votes: { voterKey: string; candidatePersonId: EntityId | null }[] =
+      [];
+    for (const state of CONTINGENT_STATES) {
+      const members = (congress?.house.seats ?? []).flatMap((seat) =>
+        seat.stateUsps === state && seat.occupant.kind === "member"
+          ? [seat.occupant.member.personId]
+          : [],
+      );
+      if (!members.length) continue;
+      const tally = new Map<EntityId, number>();
+      for (const personId of members) {
+        const choice = contingentVote(
+          next,
+          personId,
+          candidates,
+          (ticket) => ticket.presidentPersonId,
+          election,
+        );
+        if (choice) tally.set(choice, (tally.get(choice) ?? 0) + 1);
+      }
+      const ranked = [...tally].sort((a, b) => b[1] - a[1]);
+      votes.push({
+        voterKey: state,
+        candidatePersonId:
+          ranked.length &&
+          (ranked.length === 1 || ranked[0]![1] > ranked[1]![1])
+            ? ranked[0]![0]
+            : null,
+      });
+    }
+    next = recordContingentChoice(next, {
+      stableKey: `${key}:house-choice`,
+      electionId: election.id,
+      countId: count.id,
+      office: "president",
+      votes,
+      wholeNumber: CONTINGENT_STATES.length,
+      senatorPersonIds: [],
+      provenance: provenance(
+        "each state delegation votes for the nominee most of its members' parties put forward.",
+      ),
+    });
+    const chosen = nationalOutcome(next, election.id, "president");
+    const counted = (id: EntityId) =>
+      votes.filter((vote) => vote.candidatePersonId === id).length;
+    next = recordPublicEvent(next, {
+      stableKey: `${key}:house-choice`,
+      type: COUNT_EVENT,
+      personIds: [...candidates],
+      tags: ["election", "contingent:house"],
+      summary: chosen
+        ? `No ticket won a majority of the electoral votes, so the House chose the President, one vote per state: ${personName(next, chosen.personId)} carried ${counted(chosen.personId)} of ${CONTINGENT_STATES.length} delegations.`
+        : `No ticket won a majority of the electoral votes, and the House, voting one state at a time, did not give any nominee ${Math.floor(CONTINGENT_STATES.length / 2) + 1} delegations. ${candidates.map((id) => `${personName(next, id)} carried ${counted(id)}`).join(" and ")}. The presidency stays unfilled.`,
+    });
+  }
+  if (
+    !count.vicePresidentPersonId &&
+    count.vicePresidentialChoicePersonIds.length &&
+    !held("vice-president")
+  ) {
+    const candidates = count.vicePresidentialChoicePersonIds;
+    const senators = (congress?.senate.seats ?? []).flatMap((seat) =>
+      seat.occupant.kind === "member" ? [seat.occupant.member.personId] : [],
+    );
+    const votes = senators.map((personId) => ({
+      voterKey: personId,
+      candidatePersonId: contingentVote(
+        next,
+        personId,
+        candidates,
+        (ticket) => ticket.vicePresidentPersonId,
+        election,
+      ),
+    }));
+    next = recordContingentChoice(next, {
+      stableKey: `${key}:senate-choice`,
+      electionId: election.id,
+      countId: count.id,
+      office: "vice-president",
+      votes,
+      wholeNumber: CONTINGENT_STATES.length * 2,
+      senatorPersonIds: senators,
+      provenance: provenance("each senator votes for their party's nominee."),
+    });
+    const chosen = nationalOutcome(next, election.id, "vice-president");
+    const counted = (id: EntityId) =>
+      votes.filter((vote) => vote.candidatePersonId === id).length;
+    next = recordPublicEvent(next, {
+      stableKey: `${key}:senate-choice`,
+      type: COUNT_EVENT,
+      personIds: [...candidates],
+      tags: ["election", "contingent:senate"],
+      summary: chosen
+        ? `The Senate chose the Vice President: ${personName(next, chosen.personId)}, with ${counted(chosen.personId)} of 100 votes.`
+        : `The Senate did not give any nominee for Vice President the 51 votes a majority of its 100 seats needs. ${candidates.map((id) => `${personName(next, id)} had ${counted(id)}`).join(" and ")}. The vice presidency stays unfilled.`,
+    });
+  }
+  return next;
+}
+
 /** The day after the count: the winners' terms are dated. */
 export function presidentialTermPlanHandler(
   world: World,
@@ -885,27 +1056,25 @@ export function presidentialTermPlanHandler(
   const { cycle, election } = found;
   const key = cycleKey(cycle);
   let next = world;
+  next = holdContingentElections(next, election, key);
   const president = nationalOutcome(next, election.id, "president");
   const vicePresident = nationalOutcome(next, election.id, "vice-president");
-  if (!president || !vicePresident) {
+  if (president && vicePresident)
     next = recordPublicEvent(next, {
-      stableKey: `${key}:no-majority`,
+      stableKey: `${key}:counted`,
       type: COUNT_EVENT,
-      personIds: [],
-      tags: ["election", "count:no-majority"],
-      summary:
-        "No ticket won a majority of the electoral votes, and the contingent election in Congress has not been held.",
+      personIds: [president.personId, vicePresident.personId],
+      tags: ["election"],
+      summary: `${
+        nationalRecords(next, election.id).some(
+          (record) => record.kind === "contingent-choice",
+        )
+          ? "After the contingent elections, "
+          : "Congress counted the electoral votes: "
+      }${personName(next, president.personId)} is elected President and ${personName(next, vicePresident.personId)} Vice President.`,
     });
-    return done(next, "No majority; the contingent election is not modeled.");
-  }
-  next = recordPublicEvent(next, {
-    stableKey: `${key}:counted`,
-    type: COUNT_EVENT,
-    personIds: [president.personId, vicePresident.personId],
-    tags: ["election"],
-    summary: `Congress counted the electoral votes: ${personName(next, president.personId)} is elected President and ${personName(next, vicePresident.personId)} Vice President.`,
-  });
   for (const office of ["president", "vice-president"] as const) {
+    if (!nationalOutcome(next, election.id, office)) continue;
     if (
       nationalRecords(next, election.id).some(
         (record) => record.kind === "term-plan" && record.office === office,

@@ -346,16 +346,7 @@ There is a rule at work that nobody follows, and today somebody older is telling
 - Say nobody does that
 - Do it, then say something after
 
-#### Beat 10 — 2026-01-05, age 15 (formative)
-
-
-
-Something at school is wrong enough that people are talking about doing something, and the talking has reached you.
-
-- **Help organize it** ← chosen
-- Stay out of it
-
-#### Beat 11 — 2026-01-05, age 15 (ordinary-stretch)
+#### Beat 10 — 2026-01-05, age 15 (ordinary-stretch)
 
 
 
@@ -363,7 +354,7 @@ Something at school is wrong enough that people are talking about doing somethin
 
 - **Let the year run on** ← chosen
 
-#### Beat 12 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/moment)
+#### Beat 11 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/moment)
 
 
 
@@ -375,7 +366,7 @@ You're at home, and the next fifteen minutes are yours.
 
 _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household._
 
-#### Beat 13 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/follow-through)
+#### Beat 12 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/follow-through)
 
 
 
@@ -386,7 +377,7 @@ Your drawing is in front of you. Do you want to add anything?
 
 _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-28._
 
-#### Beat 14 — 2026-01-28, age 15 (ordinary-stretch)
+#### Beat 13 — 2026-01-28, age 15 (ordinary-stretch)
 
 
 
@@ -394,7 +385,7 @@ _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires
 
 - **Let the year run on** ← chosen
 
-#### Beat 15 — 2026-01-29, age 15 (episode, opening.young.home.choose-activity/moment)
+#### Beat 14 — 2026-01-29, age 15 (episode, opening.young.home.choose-activity/moment)
 
 
 
@@ -405,6 +396,17 @@ You're at home, and the next fifteen minutes are yours.
 - Take a quiet break
 
 _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household._
+
+#### Beat 15 — 2026-01-29, age 15 (episode, opening.young.home.choose-activity/follow-through)
+
+
+
+Your drawing is in front of you. Do you want to add anything?
+
+- **Add to the picture** ← chosen
+- Put your picture somewhere safe
+
+_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-29._
 
 
 ---
@@ -1131,7 +1133,7 @@ A little money of your own, in a pocket, and nobody telling you what it is for.
 
 #### Beat 36 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-was-still-there)
 
-> A year on, and you're 8 now.
+> Most of a year later, and you're 8 now.
 
 It's quiet work, and a kid is at the window again. You remember what you did the first time.
 
