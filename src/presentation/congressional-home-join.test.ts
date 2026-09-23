@@ -1,4 +1,9 @@
 import { describe, expect, it } from "vitest";
+import {
+  passUntil,
+  runToElection,
+  suppliedWin,
+} from "../../tests/fixtures/state-executive-entry";
 
 import { districtIdentityCatalog } from "../districts/catalog";
 import { districtMembershipFromCanonicalHome } from "../districts/query";
@@ -11,7 +16,11 @@ import type { NewGameSetup } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectLivingSceneOpening } from "./living-scene-facts";
 import { projectGovernmentBrowser } from "./politics-government";
-import { congressCandidacyForPerson } from "./congress-candidacy";
+import {
+  congressCandidacyForPerson,
+  congressSeatStatus,
+  fileForCongressSeat,
+} from "./congress-candidacy";
 
 /*
  * The U.S. House district of a home, from the Census 119th Congress–2020 place
@@ -151,6 +160,39 @@ describe("congressional home join from the 119th CD–place file", () => {
     expect(house?.district).toBeNull();
     expect(house?.note).toBe(
       "Your home place is split between Illinois, district 16 and Illinois, district 17 (Census place–district relationship), and the save does not record which one your home is in.",
+    );
+  }, 120_000);
+
+  it("a Peoria member's held House seat does not become their unrecorded home district", () => {
+    const { world, personId } = lifeAt(PEORIA, "cd-join-peoria-member");
+    const seat = congressCandidacyForPerson(world, personId)!.seats.find(
+      (candidate) => candidate.identity.officeKey === "us-house:IL-16",
+    );
+    expect(seat?.eligible).toBe(true);
+    const filed = fileForCongressSeat(
+      world,
+      personId,
+      seat!.identity.officeKey,
+    );
+    const decided = runToElection(filed, personId, suppliedWin(personId));
+    const status = congressSeatStatus(decided, personId);
+    if (status.kind !== "won-awaiting-term")
+      throw new Error(`Expected a House win, got ${status.kind}`);
+    const seated = passUntil(decided, status.startsAt);
+    expect(congressSeatStatus(seated, personId)).toMatchObject({
+      kind: "in-office",
+      identity: { officeKey: "us-house:IL-16" },
+    });
+    expect(congressionalIntervals(seated, personId)).toEqual([]);
+
+    const house = projectGovernmentBrowser(
+      seated,
+      personId,
+    ).representedBy?.find((row) => row.key === "us-house");
+    expect(house?.district).toBeNull();
+    expect(house?.holders).toEqual([]);
+    expect(house?.note).toContain(
+      "Your home place is split between Illinois, district 16 and Illinois, district 17",
     );
   }, 120_000);
 
