@@ -79,7 +79,9 @@ describe("the title screen distinguishes a set-aside save from none", () => {
 });
 
 describe("the title screen while the saved lives are being read", () => {
-  function renderListing(saveListing: "loading" | "failed"): string {
+  function renderListing(
+    saveListing: "loading" | "failed" | "outdated",
+  ): string {
     return renderToStaticMarkup(
       <TitleScreen
         saves={[]}
@@ -110,6 +112,17 @@ describe("the title screen while the saved lives are being read", () => {
     expect(markup).toContain("could not be read just now");
     expect(markup).toContain("Nothing was deleted");
     expect(markup).toContain("Try again");
+  });
+
+  it("asks for a reload when the saves were kept by a newer version", () => {
+    // A cached page from before an update cannot open a database the update
+    // already moved on; it showed no saves at all, as if the life were gone.
+    const markup = renderListing("outdated");
+    expect(markup).not.toContain("None yet");
+    expect(markup).not.toContain("Try again");
+    expect(markup).toContain("older copy of the game");
+    expect(markup).toContain("Reload");
+    expect(markup).toContain("Nothing was deleted");
   });
 });
 
