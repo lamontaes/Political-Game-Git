@@ -1101,18 +1101,25 @@ export function assertLifeHistoryIntegrity(
 }
 
 function validateResidenceMultiplicity(world: World): void {
+  // Each person's membership-state dates, gathered in one pass: looking every
+  // state's membership up again for every person grew with the square of the
+  // town (`town-residents`).
+  const personOf = new Map(
+    world.history.householdMemberships.map((membership) => [
+      membership.id,
+      membership.personId,
+    ]),
+  );
+  const datesOf = new Map<EntityId, Set<string>>();
+  for (const state of world.history.householdMembershipStates) {
+    const personId = personOf.get(state.membershipId);
+    if (personId === undefined) continue;
+    let dates = datesOf.get(personId);
+    if (!dates) datesOf.set(personId, (dates = new Set()));
+    dates.add(state.effectiveAt);
+  }
   for (const personId of world.personOrder) {
-    const dates = new Set(
-      world.history.householdMembershipStates
-        .filter((state) => {
-          const membership = byId(
-            world.history.householdMemberships,
-            state.membershipId,
-          );
-          return membership?.personId === personId;
-        })
-        .map((state) => state.effectiveAt),
-    );
+    const dates = datesOf.get(personId) ?? new Set<string>();
     for (const date of dates) {
       const sequence = world.history.nextSequence;
       const active = householdMembershipsAt(world, personId, {

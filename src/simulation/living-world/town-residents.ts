@@ -71,8 +71,6 @@ const PROVENANCE = {
   generatorKey: TOWN_RESIDENTS_VERSION,
 };
 
-/** PLACEHOLDER pending `town-household-composition`: people per household. */
-const PEOPLE_PER_HOUSEHOLD = 2.5;
 /**
  * PLACEHOLDER: the size used for a place the Census estimates do not cover
  * (a census-designated place, or one not matched). Never shown to the player.
@@ -98,6 +96,25 @@ const HOUSEHOLD_SHAPES: readonly (readonly [HouseholdShape, number])[] = [
   ["parent-with-children", 0.1],
   ["housemates", 0.12],
 ];
+
+/** How many people a household of each shape holds on average. */
+const MEAN_MEMBERS: Readonly<Record<HouseholdShape, number>> = {
+  alone: 1,
+  couple: 2,
+  // One to three children.
+  "couple-with-children": 4,
+  "parent-with-children": 3,
+  housemates: 2,
+};
+
+/**
+ * People per household, from the shapes above, so the town's homes hold its
+ * population. PLACEHOLDER with them, pending `town-household-composition`.
+ */
+export const PEOPLE_PER_HOUSEHOLD = HOUSEHOLD_SHAPES.reduce(
+  (sum, [shape, share]) => sum + share * MEAN_MEMBERS[shape],
+  0,
+);
 
 /**
  * BLS Current Population Survey, 2025 annual average: 59.7% of the civilian
@@ -364,7 +381,7 @@ export function materializeTownHousehold(
   const ids = inputs.map((input) =>
     characterHistoryContextPersonId(next, input.stableKey),
   );
-  return withWorldIntegrityDeferred(() => {
+  const written = withWorldIntegrityDeferred(() => {
     next = createHousehold(next, {
       stableKey: key,
       formedAt: today,
@@ -431,6 +448,9 @@ export function materializeTownHousehold(
     });
     return next;
   });
+  // A no-op inside `ensureTownResidents`, which checks once at its end.
+  assertWorldIntegrity(written);
+  return written;
 }
 
 /**
@@ -510,6 +530,15 @@ export function ensureTownResidents(
   world: World,
   playerPersonId: EntityId,
 ): World {
+  // Hundreds of writes; the world is checked once, whole, at the end.
+  const next = withWorldIntegrityDeferred(() =>
+    seatTownResidents(world, playerPersonId),
+  );
+  assertWorldIntegrity(next);
+  return next;
+}
+
+function seatTownResidents(world: World, playerPersonId: EntityId): World {
   const town = playerTown(world, playerPersonId);
   if (!town) return world;
   const prefix = `${TOWN_RESIDENTS_VERSION}:${town}`;
@@ -633,9 +662,7 @@ export function ensureTownResidents(
   }
 
   // Children of the written households go to the town's schools.
-  next = enrollWrittenChildren(next, town);
-  assertWorldIntegrity(next);
-  return next;
+  return enrollWrittenChildren(next, town);
 }
 
 const SCHOOL_AGES: Readonly<Record<string, readonly [number, number]>> = {

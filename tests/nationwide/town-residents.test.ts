@@ -8,6 +8,7 @@ import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import { organizationProfileAt } from "../../src/simulation/life-queries";
 import {
   NEIGHBOR_HOUSEHOLDS,
+  PEOPLE_PER_HOUSEHOLD,
   TOWN_RESIDENTS_VERSION,
   UNKNOWN_TOWN_POPULATION,
   describeTownResidents,
@@ -139,11 +140,11 @@ describe("the town's size", { timeout: 180_000 }, () => {
     const town = world.people[personId]!.homeJurisdictionId;
     const roster = townRoster(town);
     expect(roster.referencePopulation).toBe(283_621);
-    expect(roster.households).toBe(Math.ceil(283_621 / 2.5));
+    expect(roster.households).toBe(Math.ceil(283_621 / PEOPLE_PER_HOUSEHOLD));
     const described = describeTownResidents(world, town);
     // The sampled estimate lands near the reference it was generated from.
-    expect(described.estimated.people / 283_621).toBeGreaterThan(0.8);
-    expect(described.estimated.people / 283_621).toBeLessThan(1.2);
+    expect(described.estimated.people / 283_621).toBeGreaterThan(0.95);
+    expect(described.estimated.people / 283_621).toBeLessThan(1.05);
     expect(UNKNOWN_TOWN_POPULATION).toBeGreaterThan(0);
   });
 
