@@ -340,13 +340,13 @@ export function validateCivicSymbols(
     seen.add(id);
 
     if (!CIVIC_SYMBOL_KINDS.includes(symbol.kind)) {
-      finding("unknown-kind", id, `Kind '${symbol.kind}' is not recognised.`);
+      finding("unknown-kind", id, `Kind '${symbol.kind}' is not recognized.`);
     }
     if (!CIVIC_SYMBOL_LEVELS.includes(symbol.level)) {
       finding(
         "unknown-level",
         id,
-        `Level '${symbol.level}' is not recognised.`,
+        `Level '${symbol.level}' is not recognized.`,
       );
     }
     if (!CIVIC_SYMBOL_ASSET_STATUSES.includes(symbol.asset_status)) {
