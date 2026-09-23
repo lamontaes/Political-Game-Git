@@ -3987,6 +3987,22 @@
       "textRevision": "9ca23e47665b"
     },
     {
+      "anchor": "elapsedPhrase-0010",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "A year and a half on",
+      "occurrence": 0,
+      "textRevision": "5ddabad67856"
+    },
+    {
+      "anchor": "elapsedPhrase-0011",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "Most of a year later",
+      "occurrence": 0,
+      "textRevision": "ce7a93efa7eb"
+    },
+    {
       "anchor": "executiveSource-0001",
       "sourcePath": "src/simulation/municipal-government.ts",
       "symbol": "executiveSource",

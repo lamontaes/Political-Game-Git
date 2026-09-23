@@ -300,11 +300,10 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   await wonSeatWithWorkOpen(page);
   const office = page.getByTestId("docket-office-record");
   await office.locator("summary").click();
-  // The office record says this in the player's own words now; "No committee
-  // appointment record" was database wording, which the copy guard forbids.
-  await expect(office).toContainText(
-    "You have not been appointed to a committee",
-  );
+  // The office record says why there is no committee seat, in the player's
+  // own words: this chamber's other members are not in the game, so its
+  // committees have nobody on them.
+  await expect(office).toContainText("its committees have no members");
   await page.getByTestId("open-drafting-table").click();
   await page
     .getByTestId(

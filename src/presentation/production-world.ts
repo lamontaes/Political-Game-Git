@@ -858,7 +858,7 @@ function establishAgeEligibleState(
           provenance: PROVENANCE,
           initialProfile: {
             name: schooling.current.name,
-            classification: "sector:education",
+            classification: "service:school",
             locationJurisdictionId: jurisdictionId,
           },
         },
@@ -891,7 +891,7 @@ function establishAgeEligibleState(
             provenance: PROVENANCE,
             initialProfile: {
               name: stage.name,
-              classification: "sector:education",
+              classification: "service:school",
               locationJurisdictionId: jurisdictionId,
             },
           },
@@ -1225,7 +1225,7 @@ function earlierSchooling(
           provenance: PROVENANCE,
           initialProfile: {
             name: stage.name,
-            classification: "sector:education",
+            classification: "service:school",
             locationJurisdictionId: jurisdictionId,
           },
         },

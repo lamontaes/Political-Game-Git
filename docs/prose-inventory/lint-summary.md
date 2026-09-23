@@ -22,10 +22,10 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 3267 templates, 3048 distinct texts.
+- 3269 templates, 3050 distinct texts.
 - 193 exact duplicate groups.
 - 204 normalized duplicate groups.
-- 28 near-duplicate clusters (Jaccard ≥ 0.72).
+- 29 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".

@@ -42,6 +42,10 @@ for (const viewport of [
     await enterLife(page);
     let routine = await personal(page);
     await routine
+      .getByRole("group", { name: "Browse opportunities" })
+      .getByRole("button", { name: "Study", exact: true })
+      .click();
+    await routine
       .getByLabel(
         "Tuition grace days for College office administration certificate",
         { exact: true },
@@ -181,6 +185,10 @@ for (const viewport of [
     const routine = await personal(page);
     await routine
       .getByRole("button", { name: "Accept Shop assistant", exact: true })
+      .click();
+    await routine
+      .getByRole("group", { name: "Browse opportunities" })
+      .getByRole("button", { name: "Study", exact: true })
       .click();
     await routine
       .getByRole("button", {
