@@ -1,6 +1,7 @@
 import { evaluateDecision } from "../decisions";
 import { requireMeasure } from "../legislation";
 import { memberVoteConsiderations } from "../legislative-member-decisions";
+import { principleVoteConsideration } from "./officeholder-principles";
 import type { MemberVoteQuestion } from "../legislative-member-decisions";
 import type { SeatedBody, SeatedMember } from "../legislation-scenarios";
 import {
@@ -176,6 +177,9 @@ export function decideChamberVote(
         (consideration) =>
           consideration.stableKey !== "member:nothing-decisive",
       ),
+      ...[principleVoteConsideration(world, member.personId, measure)].filter(
+        (consideration) => consideration !== null,
+      ),
       ...partyCue(
         world,
         member.personId,
@@ -223,7 +227,8 @@ export function decideChamberVote(
             ? "nay"
             : "present-not-voting",
       reason: decisive
-        ? decisive.stableKey.startsWith("member:party-cue:")
+        ? decisive.stableKey.startsWith("member:party-cue:") ||
+          decisive.stableKey.startsWith("member:principle:")
           ? decisive.stableKey
           : decisive.stableKey.split(":").slice(0, 2).join(":")
         : "member:no-reason",

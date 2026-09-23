@@ -37,6 +37,7 @@ import {
   placeMeasureOnCalendar,
   presentMeasureToExecutive,
   recordCommitteeDisposition,
+  recordAdjournmentDeath,
   recordConcurrenceVote,
   recordEnactment,
   attemptVetoOverride,
@@ -316,6 +317,7 @@ export type InstitutionStepResult =
       readonly world?: World;
     }
   | { readonly kind: "blocked"; readonly reason: string }
+  | { readonly kind: "ended"; readonly world: World }
   | { readonly kind: "executive"; readonly world: World }
   | { readonly kind: "idle" };
 
@@ -421,6 +423,26 @@ export function applyInstitutionStep(
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
   const session = measureSessionIsClosed(world, measureId);
+  // Where the rules say a pending bill dies when the session adjourns, one
+  // still before the legislature dies; that is how most bills end.
+  const dies = pack.session.measuresDieAtAdjournment;
+  if (
+    session.closed &&
+    owner !== "executive" &&
+    dies.kind === "known" &&
+    dies.value
+  )
+    return {
+      kind: "ended",
+      world: recordAdjournmentDeath(world, {
+        stableKey: nextMeasureStableKey(
+          world,
+          measureId,
+          `measure:${measureId}:died-on-adjournment`,
+        ),
+        measureId,
+      }),
+    };
   if (session.closed)
     return {
       kind: "blocked",
@@ -871,6 +893,8 @@ export function createInstitutionStepHandler(
           ),
           "The chamber waits for its next scheduled business on this bill.",
         );
+      case "ended":
+        return done(result.world, "The bill died when the session adjourned.");
       case "executive":
         return done(result.world, "The bill is on the executive's desk.");
       case "applied":
@@ -1128,6 +1152,8 @@ function scheduledInstitutionStepDate(
 /** Late afternoon, the day before the roll call. */
 const MEMBER_VOTE_NOTICE_MINUTE = 16 * 60;
 const MEMBER_VOTE_NOTICE_MINUTES = 60;
+/** How soon a late notice comes, in minutes. */
+const MEMBER_VOTE_NOTICE_SOON = 30;
 
 /**
  * A question the player sits on goes on their calendar the day before it is
@@ -1153,13 +1179,21 @@ function noticeMemberVote(
       )
     )
       continue;
-    const start = simulationMomentAtLocalTime({
+    const dayBefore = simulationMomentAtLocalTime({
       date: addDays(voteOn, -1),
       minuteOfDay: MEMBER_VOTE_NOTICE_MINUTE,
       timeZone: next.currentMoment.timeZone,
       preferredUtcOffsetMinutes: next.currentMoment.utcOffsetMinutes,
     });
-    if (compareSimulationMoments(start, next.currentMoment) <= 0) continue;
+    // A question put tomorrow, set after late afternoon, is noticed as soon
+    // as it is set. One put today has already been reached by the clock.
+    const start =
+      compareSimulationMoments(dayBefore, next.currentMoment) > 0
+        ? dayBefore
+        : voteOn > next.currentDate
+          ? addSimulationMinutes(next.currentMoment, MEMBER_VOTE_NOTICE_SOON)
+          : null;
+    if (!start) continue;
     const measure = requireMeasure(next, measureId);
     const what =
       forum.question.purpose === "committee-report"

@@ -186,14 +186,17 @@ describe("a seated player's own vote", () => {
 
   it("puts later questions on the member's calendar, and without a ballot records them absent", () => {
     let next = seated;
+    // Questions already set when play moved were set before this member was
+    // the player; the list above offers those. The calendar notice is for
+    // questions set afterwards.
+    const setBefore = new Set(
+      memberVotesAhead(seated, member).map((entry) => entry.question.measureId),
+    );
     const absentVote = () =>
       (next.history.legislativeVotes ?? []).find(
         (vote) =>
           vote.takenAt > seated.currentDate &&
-          !(
-            vote.measureId === pending!.question.measureId &&
-            vote.purpose === pending!.question.purpose
-          ) &&
+          !setBefore.has(vote.measureId) &&
           vote.dispositions.some(
             (entry) =>
               entry.personId === member &&

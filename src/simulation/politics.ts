@@ -208,6 +208,32 @@ export function recordPrinciple(
   world: World,
   input: PrincipleRecordInput,
 ): World {
+  checkPrincipleInput(world, input);
+  return validateNext(world, {
+    ...world,
+    history: appendPrincipleRecord(world.history, world.id, input),
+  });
+}
+
+/**
+ * Several principles at once, each checked as `recordPrinciple` checks it and
+ * the World validated once at the end: a chamber of two hundred members is
+ * otherwise seconds of repeated whole-world validation.
+ */
+export function recordPrinciples(
+  world: World,
+  inputs: readonly PrincipleRecordInput[],
+): World {
+  if (inputs.length === 0) return world;
+  let history = world.history;
+  for (const input of inputs) {
+    checkPrincipleInput({ ...world, history }, input);
+    history = appendPrincipleRecord(history, world.id, input);
+  }
+  return validateNext(world, { ...world, history });
+}
+
+function checkPrincipleInput(world: World, input: PrincipleRecordInput): void {
   requirePerson(world, input.personId);
   if (!world.policyCatalog.principles[input.principleId]) {
     throw new Error(`Missing political principle: ${input.principleId}`);
@@ -233,10 +259,6 @@ export function recordPrinciple(
     (record) => record.principleId,
     (record) => record.formedAt,
   );
-  return validateNext(world, {
-    ...world,
-    history: appendPrincipleRecord(world.history, world.id, input),
-  });
 }
 
 export function recordSubjectKnowledge(

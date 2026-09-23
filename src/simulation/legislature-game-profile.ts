@@ -52,6 +52,8 @@ import {
   type VoteDenominator,
   type VoteThresholdRule,
 } from "./legislature-rules";
+import { districtIdentityCatalog } from "../districts/catalog";
+import { listDistrictIdentities } from "../districts/query";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { STATES } from "./state-reference";
 import { vetoOverrideReadingFor } from "./veto-override-source-readings";
@@ -220,12 +222,35 @@ export function researchedExecutiveSpread(): {
  */
 const NO_STATE_LEGISLATURE: ReadonlySet<string> = new Set(["US-DC"]);
 
+export type SeatBasis = "census-districts" | "drawn";
+
+/**
+ * How many districts the Census draws for one of a state's chambers; zero
+ * where it draws none.
+ */
+function censusDistrictCount(
+  stateJurisdictionKey: string,
+  chamber: "state-lower" | "state-upper",
+): number {
+  return listDistrictIdentities(districtIdentityCatalog(), {
+    stateUsps: stateJurisdictionKey.replace(/^US-/, ""),
+    chamber,
+  }).length;
+}
+
 /** The drawn shape of one state's legislature, before it becomes a rule pack. */
 export interface LegislatureProfile {
   readonly stateJurisdictionKey: string;
   readonly version: string;
   readonly lowerSeats: number;
   readonly upperSeats: number;
+  /**
+   * Where each seat count comes from: the state's own Census legislative
+   * districts, one member to a district, or a draw from the researched range
+   * where the Census has none.
+   */
+  readonly lowerSeatsBasis: SeatBasis;
+  readonly upperSeatsBasis: SeatBasis;
   readonly vetoWindowDaysInSession: number;
   readonly vetoWindowDaysAfterAdjournment: number;
   readonly overrideFraction: readonly [number, number];
@@ -272,11 +297,26 @@ export function legislatureProfileFor(
     lowerSeats - 1,
     Math.max(2, Math.round((lowerSeats * percent) / 100)),
   );
+  // PLACEHOLDER until state-legislature-chamber-sizes-and-quorum is answered:
+  // a Census district is not a seat, and a multi-member district seats more
+  // than one. Still, a state's own districts are a record of that state, not
+  // a range across others, so they win over the draw; the seated chambers
+  // are sized the same way.
+  const lowerDistricts = censusDistrictCount(
+    stateJurisdictionKey,
+    "state-lower",
+  );
+  const upperDistricts = censusDistrictCount(
+    stateJurisdictionKey,
+    "state-upper",
+  );
   return {
     stateJurisdictionKey,
     version: LEGISLATURE_GAME_PROFILE_VERSION,
-    lowerSeats,
-    upperSeats,
+    lowerSeats: lowerDistricts > 0 ? lowerDistricts : lowerSeats,
+    upperSeats: upperDistricts > 0 ? upperDistricts : upperSeats,
+    lowerSeatsBasis: lowerDistricts > 0 ? "census-districts" : "drawn",
+    upperSeatsBasis: upperDistricts > 0 ? "census-districts" : "drawn",
     vetoWindowDaysInSession: drawFrom(
       stateJurisdictionKey,
       "veto-in-session",
@@ -320,15 +360,35 @@ const SESSION_SOURCE = profileSource(
   "The game's standing rule until this state's session calendar is researched: the legislature sits in a regular annual session and a measure still pending when it adjourns sine die does not carry over. This is not a reading of the state's law.",
 );
 
+/**
+ * PLACEHOLDER, not law. Every researched chamber refers a measure to a
+ * standing committee before the floor, and a committee reports on a majority
+ * of its members. Which committees an unresearched chamber has, and their
+ * sizes, come from its own rules; until they are read, each chamber has one
+ * standing committee of about a sixth of its seats, between five and
+ * twenty-five members, so that a bill can reach the floor at all.
+ */
+const COMMITTEE_SOURCE = profileSource(
+  "Committees",
+  "The game's standing rule until this chamber's rules are read: one standing committee hears every bill and reports it on a majority of its members. This is not a reading of the state's law.",
+);
+
+function committeeSize(seats: number): number {
+  return Math.max(5, Math.min(25, Math.round(seats / 6)));
+}
+
 function profileChamber(
   chamberKey: string,
   name: string,
   billDesignationPrefix: string,
   seats: number,
+  seatBasis: SeatBasis,
 ): ChamberRule {
   const seatSource = profileSource(
     "Seats",
-    `The chamber seats ${seats} members, drawn from the range the compiled states span and fixed for this state.`,
+    seatBasis === "census-districts"
+      ? `The chamber seats ${seats} members, one for each of the state's Census legislative districts; how many members a district elects has not been read.`
+      : `The chamber seats ${seats} members, drawn from the range the compiled states span and fixed for this state.`,
   );
   const quorum: VoteThresholdRule = majorityOf(
     "members-elected",
@@ -355,7 +415,25 @@ function profileChamber(
         "A measure is referred to committee before it reaches the floor. Which committee, and on what terms, comes from chamber rules that have not been read.",
       ),
     },
-    committees: [],
+    committees: [
+      {
+        committeeKey: `${chamberKey}-standing`,
+        name: "Standing committee",
+        appointedMembers: committeeSize(seats),
+        membershipBasis: "scenario-fixture",
+        reportThreshold: majorityOf(
+          "committee-members-appointed",
+          "a majority of the committee's membership",
+          COMMITTEE_SOURCE,
+        ),
+        chairMayDeclineToHear: unknownRule(
+          "Whether a committee chair may decline to take a bill up is set by this chamber's own rules, which have not been read.",
+        ),
+        publicHearingNotice: unknownRule(
+          "How much notice a committee hearing takes is set by this chamber's own rules, which have not been read.",
+        ),
+      },
+    ],
     floorStages: [
       {
         stageKey: "final-passage",
@@ -431,8 +509,15 @@ export function legislatureProfilePack(
         "House of Representatives",
         "HB",
         profile.lowerSeats,
+        profile.lowerSeatsBasis,
       ),
-      profileChamber("senate", "Senate", "SB", profile.upperSeats),
+      profileChamber(
+        "senate",
+        "Senate",
+        "SB",
+        profile.upperSeats,
+        profile.upperSeatsBasis,
+      ),
     ],
     chamberOrder: ["house", "senate"],
     origination: {

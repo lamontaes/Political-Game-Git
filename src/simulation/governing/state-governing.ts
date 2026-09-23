@@ -46,6 +46,11 @@ import {
   STATE_GOVERNING_CALENDAR,
   scheduleGoverningSeasons,
 } from "./governing-calendar";
+import { fileMemberAgendaBill } from "./member-agenda";
+import {
+  ensureOfficeholderPrinciples,
+  principleVoteConsideration,
+} from "./officeholder-principles";
 
 /**
  * STATE GOVERNING — the shared practical loop every governorship runs.
@@ -1526,21 +1531,39 @@ export function governingNpcDecisionHandler(
       recordDecision(world, matter, null, "lapsed", matter.holderPersonId),
       "No available choice.",
     );
-  const recommendation = staffRecommendation(world, matter);
+  let next = world;
+  let principled: GoverningMatter["options"][number] | undefined;
+  const measure =
+    matter.family === "bill" && matter.measureId
+      ? next.history.legislativeMeasures?.find(
+          (entry) => entry.id === matter.measureId,
+        )
+      : undefined;
+  if (measure) {
+    // A governor whose own principles bear on the bill more than slightly
+    // signs or returns it on them, whatever the staff advise.
+    next = ensureOfficeholderPrinciples(next, [matter.holderPersonId]);
+    const bearing = principleVoteConsideration(
+      next,
+      matter.holderPersonId,
+      measure,
+    );
+    if (bearing && bearing.importance !== "slight")
+      principled = matter.options.find(
+        (o) =>
+          o.key ===
+          (bearing.optionKey === "vote-yea" ? "bill:sign" : "bill:return"),
+      );
+  }
+  const recommendation = staffRecommendation(next, matter);
   const rng = new SeededRng(`${matter.stableKey}:npc-choice`);
   const recommended =
     recommendation && rng.integer(0, 4) > 0
       ? matter.options.find((o) => o.key === recommendation.optionKey)
       : undefined;
-  const option = recommended ?? rng.pick(matter.options);
+  const option = principled ?? recommended ?? rng.pick(matter.options);
   return resolved(
-    recordDecision(
-      world,
-      matter,
-      option,
-      "officeholder",
-      matter.holderPersonId,
-    ),
+    recordDecision(next, matter, option, "officeholder", matter.holderPersonId),
     "The officeholder decided.",
   );
 }
@@ -1787,17 +1810,23 @@ export function governingSeasonHandler(
         instance: due.dueAt,
         programKeys,
       });
-    } else if (authoredMeasuresForJurisdiction(office.jurisdictionId).length) {
-      // A legislature with written measures files a real bill; it reaches
-      // the governor through the legislative clock.
-      next = fileLegislatureMeasure(next, {
+    } else {
+      const intake = {
         jurisdictionId: office.jurisdictionId,
         intakeKey: `${office.officeKey}:${due.dueAt}`,
-      });
-    } else {
-      // No bill is invented for a legislature with no written measures. The
-      // office's other work continues, and the gap is stated once a year.
-      next = recordMissingLegislatureNote(next, office, due.dueAt);
+      };
+      const filedBefore = next.history.legislativeMeasures?.length ?? 0;
+      // A legislature with written measures files a real bill; it reaches
+      // the governor through the legislative clock.
+      if (authoredMeasuresForJurisdiction(office.jurisdictionId).length)
+        next = fileLegislatureMeasure(next, intake);
+      // A seated member also files a bill of their own, on the question
+      // their principles press hardest.
+      next = fileMemberAgendaBill(next, intake);
+      // Where nobody filed anything, no bill is invented. The office's other
+      // work continues, and the gap is stated once a year.
+      if ((next.history.legislativeMeasures?.length ?? 0) === filedBefore)
+        next = recordMissingLegislatureNote(next, office, due.dueAt);
     }
     next = openProgramMatters(next, office);
     next = scheduleGoverningSeasons(next, officeKey!, office.jurisdictionId);
