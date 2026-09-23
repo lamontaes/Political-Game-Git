@@ -272,7 +272,7 @@ function spendableMinorUnits(
           (action) =>
             action.plannedSpend !== null &&
             campaignActionResult(world, action.id) === null &&
-            // A buy let go, cancelled, or whose time passed will never run.
+            // A buy let go, called off, or whose time passed will never run.
             scheduledActivityState(world, action.scheduledActivityId).status ===
               "scheduled" &&
             scheduledActivityState(world, action.scheduledActivityId).start
