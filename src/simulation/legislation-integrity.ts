@@ -160,6 +160,20 @@ export function assertLegislationIntegrity(
         );
       }
     }
+    // A direction is only meaningful for one of the bill's own questions.
+    const answered = new Set<EntityId>();
+    for (const row of measure.propositionAnswers ?? []) {
+      if (
+        !(measure.propositionIds ?? []).includes(row.propositionId) ||
+        answered.has(row.propositionId) ||
+        (row.answer !== "yes" && row.answer !== "no")
+      ) {
+        throw new Error(
+          `Legislative measure has an invalid answer for a policy proposition: ${row.propositionId}`,
+        );
+      }
+      answered.add(row.propositionId);
+    }
   }
 
   const voteById = new Map<EntityId, LegislativeVoteRecord>();

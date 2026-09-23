@@ -10,7 +10,6 @@ import {
 } from "../presentation/campaign-projection";
 import {
   fileForStateExecutiveOffice,
-  qualifyForStateExecutiveTerm,
   recoverOffCycleStateExecutiveTerm,
   stateExecutiveCandidacyForPerson,
   stateExecutiveEntryStatus,
@@ -215,22 +214,7 @@ export function NationwideCandidacyWorkspace({
             </button>
           ) : null}
           {status.kind === "awaiting-qualification" ? (
-            <>
-              <BlockList blocks={status.qualificationBlocks} />
-              <button
-                type="button"
-                className="game-campaign-action"
-                data-testid="qualify-state-executive"
-                disabled={status.qualificationBlocks.length > 0}
-                onClick={() =>
-                  act(() => qualifyForStateExecutiveTerm(world, personId))
-                }
-              >
-                <span className="game-campaign-action-label">
-                  Qualify for the term
-                </span>
-              </button>
-            </>
+            <BlockList blocks={status.qualificationBlocks} />
           ) : null}
           {problem ? (
             <p
@@ -288,9 +272,9 @@ function statusText(status: StateExecutiveEntryStatus): string | null {
     case "won-off-cycle":
       return `You won. ${status.reason}`;
     case "awaiting-qualification":
-      return `You won. The term runs from ${readableCampaignDate(status.startsAt)} to ${readableCampaignDate(status.endsAt)}, and you must qualify before it begins.`;
+      return `You won. The term runs from ${readableCampaignDate(status.startsAt)} to ${readableCampaignDate(status.endsAt)}, but a requirement of the office is not met, and until it is you cannot take it up.`;
     case "qualified-awaiting-entry":
-      return `You have qualified. The term begins ${readableCampaignDate(status.startsAt)}.`;
+      return `You won. The term begins ${readableCampaignDate(status.startsAt)}, and you take the oath that day.`;
     case "in-office":
       return `You hold this office until ${readableCampaignDate(status.endsAt)}.`;
     case "term-over-or-not-entered":

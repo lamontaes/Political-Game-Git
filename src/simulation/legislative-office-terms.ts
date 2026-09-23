@@ -1,4 +1,10 @@
 import { candidacyEligibility } from "./candidacy";
+import {
+  LATE_TERM_ENTRY,
+  lateTermEntryKey,
+  lateTermEntryRecorded,
+} from "./late-term-entry-events";
+import { recordWorldEvent } from "./world";
 import { candidacyPackById, candidacyPacks } from "./candidacy-packs";
 import { makeIsoDate } from "./dates";
 import {
@@ -245,9 +251,10 @@ export function activeLegislativeTermEvidence(
     })
   )
     return null;
-  const entered = world.history.futureDueItemStates.some(
-    (s) => s.dueItemId === term.entry.id && s.status === "resolved",
-  );
+  const entered =
+    world.history.futureDueItemStates.some(
+      (s) => s.dueItemId === term.entry.id && s.status === "resolved",
+    ) || lateTermEntryRecorded(world, relationshipId);
   return entered ? term : null;
 }
 
@@ -259,6 +266,91 @@ function blocked(world: World, reason: string): FutureTransitionHandlerResult {
     context: reason,
     outcomeEventId: null,
   };
+}
+
+/**
+ * Seats a recorded winner in their term: the same eligibility re-read on the
+ * day, the same-seat predecessor ended, and the seat made active. Returns the
+ * reason instead when the winner cannot enter. Shared by the term's own entry
+ * and by a late entry for a save whose entry was refused by a defect since
+ * fixed.
+ */
+function enterLegislativeSeat(
+  world: World,
+  input: {
+    readonly term: NonNullable<
+      ReturnType<typeof legislativeTermForRelationship>
+    >;
+    readonly status: NonNullable<ReturnType<typeof workStatusAt>>;
+    readonly stableKey: string;
+    readonly effectiveAt: IsoDate;
+  },
+): World | string {
+  const { term, status, stableKey, effectiveAt } = input;
+  let next = world;
+  if (status.status !== "expected")
+    return "This office entry has ended or changed; it cannot be reactivated.";
+  const qualification = candidacyEligibility(world, {
+    personId: term.relationship.personId,
+    jurisdictionId: term.contest.jurisdictionId,
+    officeKey: term.contest.office.officeKey,
+    districtBinding: term.contest.office.districtBinding,
+    alreadyACandidate: false,
+  });
+  if (
+    !qualification.eligible ||
+    !isPersonAliveAt(world, term.relationship.personId, {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    })
+  )
+    return (
+      qualification.blocks.map((b) => b.reason).join(" ") ||
+      "The recorded winner is not alive for entry."
+    );
+  // Only a proven same seat is replaced. Other independent offices remain S-scoped.
+  for (const old of world.history.workRelationships) {
+    const prior = legislativeTermForRelationship(next, old.id);
+    const priorStatus = workStatusAt(next, old.id);
+    if (
+      old.id === term.relationship.id ||
+      !prior ||
+      prior.contest.office.officeKey !== term.contest.office.officeKey ||
+      prior.governing.id !== term.governing.id ||
+      prior.seatKey !== term.seatKey ||
+      prior.startsAt > term.startsAt ||
+      !priorStatus ||
+      priorStatus.status === "ended" ||
+      priorStatus.status === "expected"
+    )
+      continue;
+    next = recordWorkStatus(next, {
+      stableKey: `${stableKey}:replace:${old.id}`,
+      workRelationshipId: old.id,
+      effectiveAt,
+      status: "ended",
+      reason: "The recorded successor entered this same seat.",
+      provenance: {
+        kind: "simulated-event",
+        eventId: term.result.outcomeEventId,
+      },
+      supersedesStatusId: priorStatus.id,
+    });
+  }
+  next = recordWorkStatus(next, {
+    stableKey: `${stableKey}:active`,
+    workRelationshipId: term.relationship.id,
+    effectiveAt,
+    status: "active",
+    reason:
+      "Supported dated term entry; the recorded winner's qualification is checked separately from the result.",
+    provenance: {
+      kind: "simulated-event",
+      eventId: term.result.outcomeEventId,
+    },
+    supersedesStatusId: status.id,
+  });
+  return next;
 }
 
 export function legislativeTermTransitionHandler(
@@ -279,72 +371,14 @@ export function legislativeTermTransitionHandler(
   if (!status) return blocked(world, "The expected office work is missing.");
   let next = world;
   if (due.transitionKey === LEGISLATIVE_TERM_ENTRY) {
-    if (status.status !== "expected")
-      return blocked(
-        world,
-        "This office entry has ended or changed; it cannot be reactivated.",
-      );
-    const qualification = candidacyEligibility(world, {
-      personId: term.relationship.personId,
-      jurisdictionId: term.contest.jurisdictionId,
-      officeKey: term.contest.office.officeKey,
-      districtBinding: term.contest.office.districtBinding,
-      alreadyACandidate: false,
-    });
-    if (
-      !qualification.eligible ||
-      !isPersonAliveAt(world, term.relationship.personId, {
-        asOfDate: world.currentDate,
-        historySequenceExclusive: world.history.nextSequence,
-      })
-    )
-      return blocked(
-        world,
-        qualification.blocks.map((b) => b.reason).join(" ") ||
-          "The recorded winner is not alive for entry.",
-      );
-    // Only a proven same seat is replaced. Other independent offices remain S-scoped.
-    for (const old of world.history.workRelationships) {
-      const prior = legislativeTermForRelationship(next, old.id);
-      const priorStatus = workStatusAt(next, old.id);
-      if (
-        old.id === relationship!.id ||
-        !prior ||
-        prior.contest.office.officeKey !== term.contest.office.officeKey ||
-        prior.governing.id !== term.governing.id ||
-        prior.seatKey !== term.seatKey ||
-        prior.startsAt > term.startsAt ||
-        !priorStatus ||
-        priorStatus.status === "ended" ||
-        priorStatus.status === "expected"
-      )
-        continue;
-      next = recordWorkStatus(next, {
-        stableKey: `${due.stableKey}:replace:${old.id}`,
-        workRelationshipId: old.id,
-        effectiveAt: due.dueAt,
-        status: "ended",
-        reason: "The recorded successor entered this same seat.",
-        provenance: {
-          kind: "simulated-event",
-          eventId: term.result.outcomeEventId,
-        },
-        supersedesStatusId: priorStatus.id,
-      });
-    }
-    next = recordWorkStatus(next, {
-      stableKey: `${due.stableKey}:active`,
-      workRelationshipId: relationship!.id,
+    const entered = enterLegislativeSeat(world, {
+      term,
+      status,
+      stableKey: due.stableKey,
       effectiveAt: due.dueAt,
-      status: "active",
-      reason:
-        "Supported dated term entry; the recorded winner's qualification is checked separately from the result.",
-      provenance: {
-        kind: "simulated-event",
-        eventId: term.result.outcomeEventId,
-      },
-      supersedesStatusId: status.id,
     });
+    if (typeof entered === "string") return blocked(world, entered);
+    next = entered;
   } else if (due.transitionKey === LEGISLATIVE_TERM_EXPIRY) {
     if (status.status !== "ended")
       next = recordWorkStatus(next, {
@@ -378,4 +412,73 @@ export function createLegislativeTermTransitionRegistry() {
     [LEGISLATIVE_TERM_ENTRY, legislativeTermTransitionHandler],
     [LEGISLATIVE_TERM_EXPIRY, legislativeTermTransitionHandler],
   ]);
+}
+
+/**
+ * Seats a winner whose term has begun but whose entry on its first day was
+ * refused, when nothing refuses them now. The refusals this repairs were
+ * defects (a first-time member's own seat counted against a term limit), so a
+ * save stuck behind one is seated from today rather than left holding an
+ * office it can never take. Returns the World unchanged when there is nothing
+ * to repair or the winner still cannot enter.
+ */
+export function enterLegislativeTermLate(
+  world: World,
+  relationshipId: EntityId,
+): World {
+  const term = legislativeTermForRelationship(world, relationshipId);
+  const status = workStatusAt(world, relationshipId);
+  if (
+    !term ||
+    !status ||
+    status.status !== "expected" ||
+    world.currentDate < term.startsAt ||
+    world.currentDate >= term.endsAt ||
+    lateTermEntryRecorded(world, relationshipId)
+  )
+    return world;
+  const entryState = world.history.futureDueItemStates
+    .filter((state) => state.dueItemId === term.entry.id)
+    .at(-1);
+  if (entryState?.status !== "blocked") return world;
+  const key = lateTermEntryKey(relationshipId);
+  const entered = enterLegislativeSeat(world, {
+    term,
+    status,
+    stableKey: key,
+    effectiveAt: world.currentDate,
+  });
+  if (typeof entered === "string") return world;
+  const summary = `Took up the seat after the term began; its first-day entry had been refused (${entryState.context ?? "no reason recorded"}).`;
+  return recordWorldEvent(entered, {
+    stableKey: key,
+    type: LATE_TERM_ENTRY,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: term.governing.id,
+    involvedEntityIds: [
+      term.relationship.personId,
+      relationshipId,
+      term.contest.id,
+    ],
+    participants: [
+      {
+        personId: term.relationship.personId,
+        role: "focus:officeholder",
+        detail: summary,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["late-term-entry", "legislative"],
+    summary,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
 }
