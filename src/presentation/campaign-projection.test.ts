@@ -361,7 +361,9 @@ describe("election day, and the morning after", () => {
     const view = projectCampaign(played.world, played.personId);
     expect(view.afterword).not.toBeNull();
     if (view.phase === "lost") {
-      expect(view.afterword).toBe(`${view.candidateName} lost.`);
+      expect(view.afterword).toMatch(
+        new RegExp(`^${view.candidateName} lost(, [\\d.]+% to [\\d.]+%)?\\.$`),
+      );
     }
 
     const nextWeek = passCampaignDays(played.world, played.personId, 7);
