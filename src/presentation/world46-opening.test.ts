@@ -46,6 +46,10 @@ function legacySetup(placeKey: string, seed: string): NewGameSetup {
     .earlierLifeGenerationVersion;
   delete (legacy as { livingWorldMemberNameVersion?: unknown })
     .livingWorldMemberNameVersion;
+  delete (legacy as { childhoodGenerationVersion?: unknown })
+    .childhoodGenerationVersion;
+  delete (legacy as { partyChapterNameVersion?: unknown })
+    .partyChapterNameVersion;
   return {
     ...legacy,
     seed,

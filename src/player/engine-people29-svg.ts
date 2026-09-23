@@ -328,7 +328,7 @@ export async function renderPreparedSvg(
  * Who is waiting for a variant. A figure the player is looking at ("high":
  * the creator's preview, a room's people) renders before an option thumbnail
  * ("low"), and both before a choice the player has not made yet ("idle", a
- * neighbouring body warmed in advance). Every thumbnail of a face or hair grid
+ * neighboring body warmed in advance). Every thumbnail of a face or hair grid
  * changes with the body; without an order the preview appeared only after all
  * of them had rendered.
  */

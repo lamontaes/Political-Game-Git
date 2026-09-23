@@ -1,6 +1,7 @@
 import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import type { EntityId, World } from "../types";
+import { worldIntegrityDeferred } from "../world";
 import { validatePressRecords } from "./integrity";
 import type {
   PressRecord,
@@ -14,13 +15,104 @@ export function pressRecords(world: World): readonly PressRecord[] {
   return world.history.pressRecords ?? [];
 }
 
+/*
+ * A read index over one press history array. The family is append-only and
+ * every append makes a new array, so an index is keyed by the array itself and
+ * can never describe a different history. When the next array starts with the
+ * last indexed one, the index is extended in place and moves to it, so a desk
+ * sweep that appends one record at a time pays for each record once instead
+ * of rescanning the whole family on every lookup.
+ */
+interface PressIndex {
+  length: number;
+  readonly byKind: Map<PressRecordKind, PressRecord[]>;
+  readonly byId: Map<EntityId, PressRecord>;
+  readonly byKey: Map<string, PressRecord>;
+  readonly dispositionsByLead: Map<EntityId, PressRecord[]>;
+}
+
+const INDEXES = new WeakMap<readonly PressRecord[], PressIndex>();
+let lastIndexed: {
+  records: readonly PressRecord[];
+  index: PressIndex;
+} | null = null;
+
+function extendIndex(
+  index: PressIndex,
+  records: readonly PressRecord[],
+): PressIndex {
+  for (let at = index.length; at < records.length; at += 1) {
+    const record = records[at]!;
+    const ofKind = index.byKind.get(record.kind);
+    if (ofKind) ofKind.push(record);
+    else index.byKind.set(record.kind, [record]);
+    index.byId.set(record.id, record);
+    index.byKey.set(record.stableKey, record);
+    if (record.kind === "story-disposition") {
+      const forLead = index.dispositionsByLead.get(record.leadId);
+      if (forLead) forLead.push(record);
+      else index.dispositionsByLead.set(record.leadId, [record]);
+    }
+  }
+  index.length = records.length;
+  return index;
+}
+
+function continues(
+  records: readonly PressRecord[],
+  previous: readonly PressRecord[],
+): boolean {
+  if (records.length < previous.length) return false;
+  for (let at = previous.length - 1; at >= 0; at -= 1) {
+    if (records[at] !== previous[at]) return false;
+  }
+  return true;
+}
+
+function pressIndex(world: World): PressIndex {
+  const records = pressRecords(world);
+  const cached = INDEXES.get(records);
+  if (cached) return cached;
+  let index: PressIndex;
+  if (lastIndexed && continues(records, lastIndexed.records)) {
+    // The previous array's index is handed over; that array loses it.
+    INDEXES.delete(lastIndexed.records);
+    index = extendIndex(lastIndexed.index, records);
+  } else {
+    index = extendIndex(
+      {
+        length: 0,
+        byKind: new Map(),
+        byId: new Map(),
+        byKey: new Map(),
+        dispositionsByLead: new Map(),
+      },
+      records,
+    );
+  }
+  INDEXES.set(records, index);
+  lastIndexed = { records, index };
+  return index;
+}
+
 export function pressRecordsOfKind<K extends PressRecordKind>(
   world: World,
   kind: K,
 ): readonly PressRecordOf<K>[] {
-  return pressRecords(world).filter(
-    (record): record is PressRecordOf<K> => record.kind === kind,
-  );
+  return [
+    ...((pressIndex(world).byKind.get(kind) ?? []) as PressRecordOf<K>[]),
+  ];
+}
+
+/** Dispositions of one story lead, in append order. */
+export function pressDispositionsForLead(
+  world: World,
+  leadId: EntityId,
+): readonly PressRecordOf<"story-disposition">[] {
+  return [
+    ...((pressIndex(world).dispositionsByLead.get(leadId) ??
+      []) as PressRecordOf<"story-disposition">[]),
+  ];
 }
 
 export function pressRecordById<K extends PressRecordKind>(
@@ -28,7 +120,7 @@ export function pressRecordById<K extends PressRecordKind>(
   kind: K,
   id: EntityId,
 ): PressRecordOf<K> | null {
-  const record = pressRecords(world).find((candidate) => candidate.id === id);
+  const record = pressIndex(world).byId.get(id);
   return record && record.kind === kind ? (record as PressRecordOf<K>) : null;
 }
 
@@ -47,9 +139,7 @@ export function pressRecordByKey<K extends PressRecordKind>(
   kind: K,
   stableKey: string,
 ): PressRecordOf<K> | null {
-  const record = pressRecords(world).find(
-    (candidate) => candidate.stableKey === stableKey,
-  );
+  const record = pressIndex(world).byKey.get(stableKey);
   return record && record.kind === kind ? (record as PressRecordOf<K>) : null;
 }
 
@@ -59,8 +149,7 @@ export function pressRecordId(world: World, stableKey: string): EntityId {
 
 /**
  * The single append boundary for the family. Identity, sequence and recording
- * date come from the World. The family is validated here; the full World check
- * runs at every other writer and after every due-item handler.
+ * date come from the World.
  */
 export function appendPressRecord<K extends PressRecordKind>(
   world: World,
@@ -71,7 +160,7 @@ export function appendPressRecord<K extends PressRecordKind>(
   if (stableKey.trim().length === 0) {
     throw new Error("Press record stable key must not be empty.");
   }
-  if (pressRecords(world).some((record) => record.stableKey === stableKey)) {
+  if (pressIndex(world).byKey.has(stableKey)) {
     throw new Error(`Press record stable key already exists: ${stableKey}`);
   }
   const record = {
@@ -89,6 +178,10 @@ export function appendPressRecord<K extends PressRecordKind>(
       pressRecords: [...pressRecords(world), record],
     },
   };
-  validatePressRecords(next, next.history.pressRecords!, new Set());
+  // Inside a clock advance the whole World, this family included, is
+  // validated once when the advance ends; elsewhere the family is checked now.
+  if (!worldIntegrityDeferred()) {
+    validatePressRecords(next, next.history.pressRecords!, new Set());
+  }
   return { world: next, record };
 }

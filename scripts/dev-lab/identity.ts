@@ -1,6 +1,12 @@
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFileSync, realpathSync, statSync } from "node:fs";
+import {
+  lstatSync,
+  readFileSync,
+  readlinkSync,
+  realpathSync,
+  statSync,
+} from "node:fs";
 import { resolve } from "node:path";
 
 // Private inputs remain part of identity. Hash unchanged bytes once per
@@ -8,6 +14,20 @@ import { resolve } from "node:path";
 // mtimes invalidate the cached digest through ctime/inode as well as size.
 const inputDigests = new Map<string, { stamp: string; digest: string }>();
 function inputDigest(file: string): string {
+  // Git lists a directory symlink as one untracked path. Bind that path to its
+  // target without trying to read the target directory as a file.
+  const link = lstatSync(file, { bigint: true });
+  if (link.isSymbolicLink() && statSync(file).isDirectory()) {
+    const stamp = `${link.dev}:${link.ino}:${link.size}:${link.mtimeNs}:${link.ctimeNs}`;
+    const previous = inputDigests.get(file);
+    if (previous?.stamp === stamp) return previous.digest;
+    const digest = createHash("sha256")
+      .update("directory-symlink\0")
+      .update(readlinkSync(file))
+      .digest("hex");
+    inputDigests.set(file, { stamp, digest });
+    return digest;
+  }
   const stat = statSync(file, { bigint: true });
   const stamp = `${stat.dev}:${stat.ino}:${stat.size}:${stat.mtimeNs}:${stat.ctimeNs}`;
   const previous = inputDigests.get(file);
