@@ -36,6 +36,7 @@ import {
   OPENING_LIFE_FAMILIES,
   openingLifeFamily,
   openingLifeSceneAtStage,
+  OPENING_LIFE_OPTIONAL_ACTIVITIES,
 } from "../simulation/opening-life-content";
 import {
   eligibleEpisodeBeats,
@@ -286,19 +287,11 @@ export function openNextLifeScene(
     throw new Error(
       "A new backdrop is not travel. A place transition is required.",
     );
-  const eligible = availableOpeningLifeScenes(world, personId).filter(
-    ({ definition, beat }) =>
+  const eligible = unplayedOpeningLifeScenes(world, personId).filter(
+    ({ definition }) =>
       definition.setting === setting &&
-      !world.history.events.some(
-        (event) =>
-          event.type === OPEN &&
-          event.involvedEntityIds.includes(personId) &&
-          event.tags.includes(`family:${definition.key}`) &&
-          (event.tags.find((tag) => tag.startsWith("opening-stage:")) ??
-            "opening-stage:moment") === `opening-stage:${beat.stageKey}` &&
-          (definition.recurrence !== "daily" ||
-            event.occurredAt === world.currentDate),
-      ),
+      // Free time is something the player chooses to do, not a scene.
+      !OPENING_LIFE_OPTIONAL_ACTIVITIES.includes(definition.key),
   );
   if (!eligible.length) return world;
   const index =
@@ -317,8 +310,84 @@ export function openNextLifeScene(
     ({ definition, beat }) =>
       definition.key === previousFamily && beat.stageKey === "follow-through",
   );
-  const { definition, counterpartPersonId, beat } =
-    continuation ?? eligible[index]!;
+  return openLifeSceneEntry(world, personId, continuation ?? eligible[index]!);
+}
+
+type OpeningLifeSceneEntry = ReturnType<
+  typeof availableOpeningLifeScenes
+>[number];
+
+/** Eligible scenes this life has not already opened at that stage. */
+function unplayedOpeningLifeScenes(
+  world: World,
+  personId: EntityId,
+): readonly OpeningLifeSceneEntry[] {
+  return availableOpeningLifeScenes(world, personId).filter(
+    ({ definition, beat }) =>
+      !world.history.events.some(
+        (event) =>
+          event.type === OPEN &&
+          event.involvedEntityIds.includes(personId) &&
+          event.tags.includes(`family:${definition.key}`) &&
+          (event.tags.find((tag) => tag.startsWith("opening-stage:")) ??
+            "opening-stage:moment") === `opening-stage:${beat.stageKey}` &&
+          (definition.recurrence !== "daily" ||
+            event.occurredAt === world.currentDate),
+      ),
+  );
+}
+
+/**
+ * The free-time activity open to this life now: reading, drawing or resting.
+ *
+ * These are the player's to choose (owner, 2026-09-22), so the scene flow
+ * never opens one by itself; the player does, from beside the moment.
+ */
+export function freeTimeActivity(
+  world: World,
+  personId: EntityId,
+): OpeningLifeSceneEntry | null {
+  if (currentOpeningLifeScene(world, personId)) return null;
+  return (
+    unplayedOpeningLifeScenes(world, personId).find(({ definition }) =>
+      OPENING_LIFE_OPTIONAL_ACTIVITIES.includes(definition.key),
+    ) ?? null
+  );
+}
+
+/** Spends the player's free minutes on the chosen activity. */
+export function chooseFreeTimeActivity(
+  world: World,
+  personId: EntityId,
+  choiceKey: string,
+  handlers?: FutureTransitionHandlerRegistry,
+): World {
+  if (world.control.kind !== "person" || world.control.personId !== personId)
+    throw new Error("Only the player can choose.");
+  const entry = freeTimeActivity(world, personId);
+  if (
+    !entry ||
+    !entry.definition.choices.some((choice) => choice.key === choiceKey)
+  )
+    throw new Error("That free-time activity is no longer open.");
+  const opened = openLifeSceneEntry(world, personId, entry);
+  const scene = currentOpeningLifeScene(opened, personId);
+  if (!scene) throw new Error("That free-time activity could not start.");
+  return chooseOpeningLifeScene(
+    opened,
+    personId,
+    scene.eventId,
+    choiceKey,
+    handlers,
+  );
+}
+
+/** Records that the scene has opened, with who is present to see it. */
+function openLifeSceneEntry(
+  world: World,
+  personId: EntityId,
+  { definition, counterpartPersonId, beat }: OpeningLifeSceneEntry,
+): World {
   const present =
     definition.setting === "home"
       ? homePeople(world, personId)

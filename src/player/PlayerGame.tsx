@@ -147,6 +147,7 @@ import {
   chooseStoryOption,
   presentPeopleSentence,
   projectStoryMoment,
+  chooseFreeTimeActivity,
   type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
@@ -5741,6 +5742,42 @@ function StoryView({
           </button>
         )}
       </div>
+
+      {moment.freeTime ? (
+        <section className="life-free-time" data-testid="story-free-time">
+          {/*
+            Reading, drawing and resting are the player's to choose, so they
+            sit beside the moment instead of arriving as one (owner decision).
+          */}
+          <h4 className="game-choices-heading">Free time</h4>
+          <p className="game-note">{moment.freeTime.prose}</p>
+          <div className="game-choices life-choices">
+            {moment.freeTime.options.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                className="ui-action ui-action--choice ui-action--quiet"
+                data-testid={`story-free-time-${option.key}`}
+                onClick={() =>
+                  onWorldChange(
+                    chooseFreeTimeActivity(session.world, {
+                      personId: session.personId,
+                      optionKey: option.key,
+                      transitionHandlers:
+                        createCampaignElectionTransitionRegistry(),
+                    }),
+                  )
+                }
+              >
+                {option.label}
+                {option.description ? (
+                  <small>{option.description}</small>
+                ) : null}
+              </button>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {crisisStop.stop ? (
         <p className="game-note" role="status" data-testid="story-crisis-stop">

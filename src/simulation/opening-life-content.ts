@@ -1308,6 +1308,23 @@ export const OPENING_LIFE_ADDITIONS = OPENING_LIFE_SCENES.filter(
     ),
 );
 /**
+ * Everyday activities the player chooses to do, rather than scenes that happen
+ * to them (owner, 2026-09-22): fifteen minutes of reading, drawing or resting.
+ * They are offered beside the current moment and never selected as one.
+ */
+export const OPENING_LIFE_OPTIONAL_ACTIVITIES: readonly string[] = [
+  "young.home.choose-activity",
+  "adult.home.free-time",
+];
+
+/** Whether an episode key is one of the optional everyday activities. */
+export function isOptionalOpeningActivity(episodeKey: string): boolean {
+  return OPENING_LIFE_OPTIONAL_ACTIVITIES.some(
+    (key) => episodeKey === `opening.${key}`,
+  );
+}
+
+/**
  * Opening scenes the owner has taken out of play. Each stays authored so a
  * save that already holds one still reads, and is never offered again.
  */

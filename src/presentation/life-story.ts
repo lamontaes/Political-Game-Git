@@ -1,8 +1,13 @@
 import {
   OPENING_LIFE_ADDITIONS,
+  isOptionalOpeningActivity,
   openingLifeSceneAtStage,
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
+import {
+  chooseFreeTimeActivity as chooseFreeTimeActivityInFlow,
+  freeTimeActivity,
+} from "./life-scene-flow";
 import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
 import {
   lifeActivityHandlers,
@@ -191,6 +196,11 @@ export interface StoryMoment {
   readonly people: readonly RecurringPerson[];
   /** True while the growing-up years are still being played. */
   readonly formativeYears: boolean;
+  /**
+   * Something the player may choose to do with a few free minutes, offered
+   * beside the moment rather than as one, or null when nothing is open.
+   */
+  readonly freeTime: Extract<StoryScene, { kind: "episode" }> | null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -258,7 +268,46 @@ export function projectStoryMoment(
     openThreads: openThreadRecaps(world, personId),
     people: recurringPeople(world, personId).slice(0, 5),
     formativeYears,
+    freeTime: freeTimeScene(world, personId),
   };
+}
+
+/**
+ * The free-time activity open to this life right now, as a scene to show
+ * beside the moment. Reading, drawing and resting are the player's to choose
+ * (owner, 2026-09-22), so they never compete with the moment for the screen.
+ */
+export function freeTimeScene(
+  world: World,
+  personId: EntityId,
+): Extract<StoryScene, { kind: "episode" }> | null {
+  const entry = freeTimeActivity(world, personId);
+  if (!entry) return null;
+  return {
+    kind: "episode",
+    prose: entry.beat.prose,
+    options: entry.beat.options,
+    withPeople: [],
+    presentPeople: [],
+    beat: entry.beat,
+  };
+}
+
+/** Spends the player's free minutes on the chosen activity. */
+export function chooseFreeTimeActivity(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly optionKey: string;
+    readonly transitionHandlers?: FutureTransitionHandlerRegistry;
+  },
+): World {
+  return chooseFreeTimeActivityInFlow(
+    world,
+    input.personId,
+    input.optionKey,
+    input.transitionHandlers,
+  );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -333,25 +382,28 @@ function gatherCandidates(
     personId,
     families: EPISODE_FAMILIES,
   });
-  const episodes: Candidate[] = eligibility.beats.map((beat) => {
-    const thread = threadForEpisodeBeat(threads, beat);
-    return {
-      beat,
-      thread,
-      candidate: {
-        key: `episode:${beat.instanceKey}/${beat.stageKey}` as const,
-        band: formativeYears
-          ? ("adolescence" as const)
-          : ("adulthood" as const),
-        stakes: beat.stakes,
-        tensions: beat.tensions,
-        relevance: episodeRelevance(beat, thread),
-        // A later stage exists only because an earlier one was played, which
-        // is exactly the claim the selector's continuity credit is for.
-        followsFromHistory: beat.continues,
-      },
-    };
-  });
+  const episodes: Candidate[] = eligibility.beats
+    // Free time is offered beside the moment, never chosen as one.
+    .filter((beat) => !isOptionalOpeningActivity(beat.episodeKey))
+    .map((beat) => {
+      const thread = threadForEpisodeBeat(threads, beat);
+      return {
+        beat,
+        thread,
+        candidate: {
+          key: `episode:${beat.instanceKey}/${beat.stageKey}` as const,
+          band: formativeYears
+            ? ("adolescence" as const)
+            : ("adulthood" as const),
+          stakes: beat.stakes,
+          tensions: beat.tensions,
+          relevance: episodeRelevance(beat, thread),
+          // A later stage exists only because an earlier one was played, which
+          // is exactly the claim the selector's continuity credit is for.
+          followsFromHistory: beat.continues,
+        },
+      };
+    });
 
   // The banks stay in the ranking rather than being replaced. A composed
   // episode is a better answer when there is one; when there is not, the

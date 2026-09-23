@@ -12,11 +12,14 @@ import {
   deserializeWorld,
 } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { OPENING_LIFE_OPTIONAL_ACTIVITIES } from "../simulation/opening-life-content";
 import {
   openNextLifeScene,
   currentOpeningLifeScene,
   chooseOpeningLifeScene,
   availableOpeningLifeScenes,
+  chooseFreeTimeActivity,
+  freeTimeActivity,
 } from "./life-scene-flow";
 import {
   commitLifeConversation,
@@ -40,64 +43,45 @@ describe("OPENING-LIFE1 canonical scenes", () => {
       let world = game.world;
       const activity =
         age < 18 ? "young.home.choose-activity" : "adult.home.free-time";
+      // Free time is the player's to choose; the scene flow never opens it.
+      let scenes = world;
       for (let attempt = 0; attempt < 20; attempt++) {
-        const opened = openNextLifeScene(world, game.playerPersonId);
-        const scene = currentOpeningLifeScene(opened, game.playerPersonId);
+        scenes = openNextLifeScene(scenes, game.playerPersonId);
+        const scene = currentOpeningLifeScene(scenes, game.playerPersonId);
         if (!scene) break;
-        world = chooseOpeningLifeScene(
-          opened,
+        expect(scene.definition.key).not.toBe(activity);
+        scenes = chooseOpeningLifeScene(
+          scenes,
           game.playerPersonId,
           scene.eventId,
           scene.definition.choices[0]!.key,
         );
       }
-      const first = world.history.events.find(
-        (event) =>
-          event.type === "life.scene.opened" &&
-          event.tags.includes(`family:${activity}`) &&
-          event.tags.includes("opening-stage:moment"),
-      )!;
-      expect(first).toBeDefined();
-      expect(
-        availableOpeningLifeScenes(world, game.playerPersonId).some(
-          (entry) => entry.definition.key === activity,
-        ),
-      ).toBe(false);
+      const offered = freeTimeActivity(world, game.playerPersonId);
+      expect(offered?.definition.key).toBe(activity);
+      expect(offered?.beat.stageKey).toBe("moment");
+      world = chooseFreeTimeActivity(world, game.playerPersonId, "rest");
+      const openedMoments = (w: typeof world) =>
+        w.history.events.filter(
+          (event) =>
+            event.type === "life.scene.opened" &&
+            event.tags.includes(`family:${activity}`) &&
+            event.tags.includes("opening-stage:moment"),
+        );
+      expect(openedMoments(world)).toHaveLength(1);
+      // Once a day.
+      expect(freeTimeActivity(world, game.playerPersonId)).toBeNull();
       world = advanceWorldMinutes(
         world,
         1440 - world.currentMoment.minuteOfDay + 600,
       );
       world = deserializeWorld(serializeWorld(world));
-      expect(
-        availableOpeningLifeScenes(world, game.playerPersonId).some(
-          (entry) => entry.definition.key === activity,
-        ),
-      ).toBe(true);
-      for (let attempt = 0; attempt < 20; attempt++) {
-        world = openNextLifeScene(world, game.playerPersonId);
-        const scene = currentOpeningLifeScene(world, game.playerPersonId)!;
-        expect(scene).not.toBeNull();
-        world = chooseOpeningLifeScene(
-          world,
-          game.playerPersonId,
-          scene.eventId,
-          scene.definition.choices[0]!.key,
-        );
-        if (scene.definition.key === activity) {
-          expect(scene.eventId).not.toBe(first.id);
-          expect(
-            world.history.events.filter(
-              (event) =>
-                event.type === "life.scene.opened" &&
-                event.tags.includes(`family:${activity}`) &&
-                event.tags.includes("opening-stage:moment"),
-            ),
-          ).toHaveLength(2);
-          assertWorldIntegrity(world);
-          return;
-        }
-      }
-      throw new Error("The later-day activity was never offered.");
+      const tomorrow = freeTimeActivity(world, game.playerPersonId);
+      expect(tomorrow?.definition.key).toBe(activity);
+      expect(tomorrow?.beat.stageKey).toBe("moment");
+      world = chooseFreeTimeActivity(world, game.playerPersonId, "rest");
+      expect(openedMoments(world)).toHaveLength(2);
+      assertWorldIntegrity(world);
     },
   );
   it("sustains distinct home moments, with zero-write reads and saved choices", () => {
@@ -106,7 +90,12 @@ describe("OPENING-LIFE1 canonical scenes", () => {
     const eligible = availableOpeningLifeScenes(
       world,
       game.playerPersonId,
-    ).filter((entry) => entry.definition.setting === "home");
+    ).filter(
+      (entry) =>
+        entry.definition.setting === "home" &&
+        // Free time is offered beside the scenes, never opened as one.
+        !OPENING_LIFE_OPTIONAL_ACTIVITIES.includes(entry.definition.key),
+    );
     const seen = new Set<string>();
     let resolved = 0;
     for (let i = 0; i < eligible.length * 2; i++) {
@@ -310,7 +299,9 @@ describe("supported school situation breadth", () => {
       const expected = availableOpeningLifeScenes(world, game.playerPersonId)
         .filter((entry) => entry.definition.setting === "school")
         .map((entry) => entry.definition.key);
-      expect(expected.length).toBeGreaterThan(4);
+      // Four or more: the owner withdrew the blue-crayon scene (2026-09-22),
+      // which had made it five at age 5.
+      expect(expected.length).toBeGreaterThanOrEqual(4);
       const played: string[] = [];
       const stages = new Set<string>();
       for (let i = 0; i < expected.length * 2; i++) {
