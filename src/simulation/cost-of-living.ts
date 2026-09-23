@@ -5,9 +5,15 @@ import { recordEventKnowledge } from "./records";
 import {
   createResourceFlow,
   money,
+  recordResourceFlowTerms,
   recordResourceTransferOutcome,
 } from "./resources";
-import { resourcePositionAt, sameEndpoint } from "./resource-queries";
+import {
+  resourceFlowTermsAt,
+  resourcePositionAt,
+  sameEndpoint,
+} from "./resource-queries";
+import { homeOwnedSince, personOwnsHome } from "./home-purchase";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
 
@@ -44,6 +50,9 @@ import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
  */
 export const LIVING_COSTS_PLACEHOLDER = {
   monthlyPerAdultMinor: 150_000,
+  /** The rent inside that figure, which a household that owns its home pays
+   * as a mortgage instead. Same research question, same status. */
+  housingShareMinor: 90_000,
   currency: "USD",
   researchQuestionId: "what-a-person-spends-to-live",
 } as const;
@@ -75,6 +84,18 @@ function primaryHouseholdId(world: World, personId: EntityId): EntityId | null {
     (entry) => entry.state.residenceRole === "primary",
   );
   return homes.length === 1 ? homes[0]!.household.id : null;
+}
+
+/** What a month costs this person on a date: less the rent once they own. */
+function monthlyCostMinor(
+  world: World,
+  personId: EntityId,
+  asOfDate: IsoDate,
+): number {
+  return personOwnsHome(world, personId, asOfDate)
+    ? LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
+        LIVING_COSTS_PLACEHOLDER.housingShareMinor
+    : LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;
 }
 
 function dollars(minor: number): string {
@@ -115,7 +136,7 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
   if (!householdId) return world;
 
   const monthly = money(
-    LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor,
+    monthlyCostMinor(world, personId, world.currentDate),
     currency,
   );
   let next = world;
@@ -142,6 +163,34 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
       },
     });
     return next;
+  }
+
+  // Owning a home drops the rent from the month from the day it was bought.
+  const terms = resourceFlowTermsAt(next, flow.id);
+  if (
+    terms &&
+    terms.status === "active" &&
+    terms.amount.minorUnits !== monthly.minorUnits
+  ) {
+    // Dated from the purchase, so months after it are charged without rent
+    // even when this is the first settlement since.
+    const since = homeOwnedSince(next, personId);
+    const effectiveAt =
+      since !== null && since >= terms.effectiveAt ? since : next.currentDate;
+    next = recordResourceFlowTerms(next, {
+      stableKey: `${flow.stableKey}:terms:${effectiveAt}`,
+      resourceFlowId: flow.id,
+      effectiveAt,
+      status: "active",
+      amount: monthly,
+      cadenceKind: terms.cadenceKind,
+      reason:
+        monthly.minorUnits < terms.amount.minorUnits
+          ? "The household owns its home now, so rent is no longer part of the month."
+          : "The household no longer owns its home, so rent is part of the month again.",
+      provenance: flow.provenance,
+      supersedesTermsId: terms.id,
+    });
   }
 
   // Rent is paid monthly, so everything is due on the first of the month,
@@ -189,10 +238,12 @@ function settleMonth(
   flow: ResourceFlow,
   dueOn: IsoDate,
 ): World {
-  const monthly = money(
-    LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor,
-    LIVING_COSTS_PLACEHOLDER.currency,
-  );
+  const monthly = resourceFlowTermsAt(world, flow.id, {
+    asOfDate: dueOn,
+    historySequenceExclusive: world.history.nextSequence,
+  })!.amount;
+  const renting =
+    monthly.minorUnits >= LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;
   // The lowest balance from the day the month fell due to today. A long quiet
   // stretch is settled late, and a charge backdated to its due day must not
   // take money that something dated after it (tuition, say) already spent.
@@ -220,12 +271,21 @@ function settleMonth(
     attemptedAmount: monthly,
     transferredAmount: money(paid, monthly.currency),
     reasonKind: status === "completed" ? null : "capacity:insufficient-funds",
-    note: `Rent, food and bills for ${monthName(dueOn)}.`,
+    note: renting
+      ? `Rent, food and bills for ${monthName(dueOn)}.`
+      : `Food and bills for ${monthName(dueOn)}.`,
     provenance: flow.provenance,
   });
   return status === "completed"
     ? next
-    : recordFirstShortfall(next, personId, monthly.minorUnits, paid, dueOn);
+    : recordFirstShortfall(
+        next,
+        personId,
+        monthly.minorUnits,
+        paid,
+        dueOn,
+        renting,
+      );
 }
 
 /**
@@ -242,7 +302,9 @@ function recordFirstShortfall(
   owedMinor: number,
   paidMinor: number,
   dueOn: IsoDate,
+  renting: boolean,
 ): World {
+  const costs = renting ? "rent, food and bills" : "food and bills";
   const already = world.history.events.some(
     (event) =>
       event.involvedEntityIds.includes(personId) &&
@@ -255,8 +317,8 @@ function recordFirstShortfall(
   const jurisdictionId = place?.context.jurisdiction.id ?? null;
   const summary =
     paidMinor > 0
-      ? `${monthName(dueOn)}'s rent, food and bills came to ${dollars(owedMinor)}, and you had ${dollars(paidMinor)} to put toward them. You are ${dollars(owedMinor - paidMinor)} short.`
-      : `${monthName(dueOn)}'s rent, food and bills came to ${dollars(owedMinor)}, and you had nothing left to put toward them.`;
+      ? `${monthName(dueOn)}'s ${costs} came to ${dollars(owedMinor)}, and you had ${dollars(paidMinor)} to put toward them. You are ${dollars(owedMinor - paidMinor)} short.`
+      : `${monthName(dueOn)}'s ${costs} came to ${dollars(owedMinor)}, and you had nothing left to put toward them.`;
   const stableKey = `living-costs-shortfall:${personId}:${dueOn}`;
   const next = recordWorldEvent(world, {
     stableKey,
