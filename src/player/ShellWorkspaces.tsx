@@ -1678,7 +1678,7 @@ export function PersonalWorkspace({
         <h3>The place you live</h3>
         <p className="game-note">
           {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
-          {world.currentDate}
+          {proseDate(world.currentDate)}
         </p>
         {/*
           The compact lines come from a generated file committed per place, and

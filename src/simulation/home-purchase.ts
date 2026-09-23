@@ -1,4 +1,4 @@
-import { makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "./dates";
 import { moneyText } from "./money-text";
 import { householdMembershipsAt } from "./life-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
@@ -63,6 +63,10 @@ export const HOME_PURCHASE_PLACEHOLDER = {
 } as const;
 
 export const MORTGAGE_BASIS = "housing:mortgage" as const;
+/** The age of majority, below which a person cannot sign a deed or a loan.
+ * Eighteen in most states; the few exceptions are part of the same research
+ * question. */
+export const HOME_BUYING_AGE = 18;
 export const MISSED_MORTGAGE_TAG = "life.mortgage-missed";
 const CATCH_UP_LIMIT_MONTHS = 480;
 
@@ -127,6 +131,11 @@ export function homeOwnedSince(
     : (ownedHomeFor(world, householdId)?.startedAt ?? null);
 }
 
+/** Whether the game keeps this person's money. Unknown is not zero. */
+export function moneyIsTracked(world: World, personId: EntityId): boolean {
+  return balance(world, personId) !== null;
+}
+
 function balance(world: World, personId: EntityId): number | null {
   const owner = { kind: "person" as const, personId };
   const tracked = world.history.resourcePositions.some(
@@ -156,6 +165,8 @@ export function homePurchaseReason(
     return "Only the person you are playing can buy a home.";
   const person = world.people[personId];
   if (!person) return "This person is not in the world.";
+  if (ageOnDate(person.birthDate, world.currentDate) < HOME_BUYING_AGE)
+    return `You have to be ${HOME_BUYING_AGE} to buy a home.`;
   if (!lifePlaceByJurisdictionId(person.homeJurisdictionId))
     return "The game does not know which town you live in.";
   const householdId = primaryHouseholdId(world, personId);
