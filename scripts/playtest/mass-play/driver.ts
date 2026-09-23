@@ -1100,11 +1100,15 @@ export function driftSnapshot(
     try {
       const position = measurePosition(world, measure.id);
       if (position.phase === "enacted") enacted += 1;
-      if (/veto/.test(position.phase)) vetoed += 1;
     } catch {
       // A measure the replay cannot read is counted but not classified.
     }
   }
+  // A veto is an action, not a resting phase: an overridden veto ends
+  // "enacted" and a sustained one "failed".
+  vetoed = (world.history.legislativeActions ?? []).filter(
+    (action) => action.kind === "vetoed",
+  ).length;
   const contests = world.history.electionContests ?? [];
   const decided = contests.filter(
     (c) =>
