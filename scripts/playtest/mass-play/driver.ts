@@ -1070,6 +1070,11 @@ export function playGame(spec: GameSpec): GameResult {
     if (steps % 40 === 0) roundTrip(world);
   }
   roundTrip(world);
+  if (process.env.MASS_PLAY_DUMP_END)
+    writeFileSync(
+      `${process.env.MASS_PLAY_DUMP_END}/${spec.id}-end.json`,
+      JSON.stringify({ personId, save: serializeWorld(world) }),
+    );
   let driftEnd: DriftSnapshot | null = null;
   try {
     driftEnd = driftSnapshot(world, personId, startDate ?? world.currentDate);
