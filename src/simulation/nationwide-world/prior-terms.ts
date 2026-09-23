@@ -1,6 +1,7 @@
 import { makeIsoDate } from "../dates";
 import { electedExecutiveTermForRelationship } from "../executive-work-context";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
+import { workStatusAt } from "../life-queries";
 import type { EntityId, IsoDate, World } from "../types";
 
 /** One term the World records a person as having held in an office. */
@@ -16,7 +17,10 @@ export interface DatedTermInOffice {
  * once it has begun on its recorded date: an elected executive term, a dated
  * legislative term won through a campaign contest for that office, or a
  * fictional opening tenure naming this person. A planned term that has not
- * begun is not a prior term.
+ * begun is not a prior term, and neither is one still waiting to be entered:
+ * on its first day the entry re-reads eligibility, and counting the very term
+ * being entered as already served made a Missouri term limit refuse a
+ * first-time member their own seat.
  *
  * This is the World's own office record, so an empty list means these records
  * name no such term, which is what a term limit is tested against.
@@ -29,6 +33,7 @@ export function datedTermsInOffice(
   const terms: DatedTermInOffice[] = [];
   for (const relationship of world.history.workRelationships) {
     if (relationship.personId !== personId) continue;
+    if (workStatusAt(world, relationship.id)?.status === "expected") continue;
     if (relationship.kind === "employment:executive-office") {
       const term = electedExecutiveTermForRelationship(world, relationship.id);
       if (

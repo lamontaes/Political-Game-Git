@@ -134,13 +134,13 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
     status,
     "The life filed and campaigned every week the controls offered and still lost. That is a statement about the campaign model, not a seed to retry.",
   ).not.toHaveAttribute("data-status", "lost");
-  await expect(status).toHaveAttribute("data-status", "awaiting-qualification");
-  await expect(status).toContainText("January 4, 2027");
-  await page.getByTestId("qualify-state-executive").click();
+  // No Qualify step: the office's requirements are checked for the winner.
   await expect(status).toHaveAttribute(
     "data-status",
     "qualified-awaiting-entry",
   );
+  await expect(status).toContainText("January 4, 2027");
+  await expect(page.getByTestId("qualify-state-executive")).toHaveCount(0);
   await passWeeksUntil(
     page,
     async () => (await status.getAttribute("data-status")) === "in-office",

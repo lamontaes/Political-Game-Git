@@ -1,0 +1,24 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "local-election-rules",
+  "title": "Sourced local election and ballot rules",
+  "producer": {
+    "at": "src/simulation/municipal-election-rule-packs.ts#municipalRulePackFor",
+    "owner": "Every town in America",
+    "writes": "Municipal election law for 51 jurisdictions, and runoff and ranked-choice counting (municipal-ballot-rules.ts#tabulateBallot).",
+    "runsInPlay": false,
+    "runsDetail": "The three files reach only each other. Play uses a different municipalRulePackFor in municipal-government.ts:574. MUNICIPAL_RULES_AUDIT_GATE keeps the sourced values off candidacy screens until a source audit promotes them."
+  },
+  "readers": [],
+  "missing": [
+    {
+      "reader": "A city election using its own counting rule",
+      "readerOwner": "Every town in America",
+      "state": "open",
+      "detail": "A source audit must promote the rule values first. Then the election handler reads the tabulator.",
+      "readerAt": "src/simulation/municipal-election-rules.ts#MUNICIPAL_RULES_AUDIT_GATE"
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T02:00:00.000Z"
+}
