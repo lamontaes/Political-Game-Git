@@ -46,7 +46,6 @@ import {
   type CalendarHorizon,
 } from "../presentation/player-calendar";
 import { projectLifeRecord } from "../presentation/life-record";
-import { proseDate } from "../presentation/prose-dates";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
 import { projectOpeningLife } from "../presentation/opening-life";
 import { projectPersonalRecord } from "../presentation/personal-record";
