@@ -186,6 +186,22 @@ function businessKey(jurisdictionId: EntityId, kind: LocalBusinessKind) {
   return `local-business:${jurisdictionId}:${kind.key}`;
 }
 
+/**
+ * The stable keys of the businesses already seated in a town, in one pass.
+ * This runs at every transition of a life, so it reads the organizations once
+ * rather than once per kind.
+ */
+function seatedBusinessKeys(
+  world: World,
+  jurisdictionId: EntityId,
+): ReadonlySet<string> {
+  const prefix = `local-business:${jurisdictionId}:`;
+  const keys = new Set<string>();
+  for (const record of world.history.organizations)
+    if (record.stableKey.startsWith(prefix)) keys.add(record.stableKey);
+  return keys;
+}
+
 /** The businesses seated in a town, in catalog order. */
 export function localBusinessesIn(
   world: World,
@@ -260,11 +276,9 @@ export function seatLocalBusinesses(
   jurisdictionId: EntityId,
 ): World {
   if (!world.jurisdictions[jurisdictionId]) return world;
+  const seated = seatedBusinessKeys(world, jurisdictionId);
   const missing = LOCAL_BUSINESS_KINDS.filter(
-    (kind) =>
-      !world.history.organizations.some(
-        (record) => record.stableKey === businessKey(jurisdictionId, kind),
-      ),
+    (kind) => !seated.has(businessKey(jurisdictionId, kind)),
   );
   if (missing.length === 0) return world;
   const today = world.currentDate;
@@ -513,20 +527,29 @@ function touchesTrackedMoney(world: World, flow: ResourceFlow): boolean {
   );
 }
 
-function businessFlows(
+/** The revenue, wage and owner's-draw flows of these businesses, in one pass. */
+function businessFlowsOf(
   world: World,
-  organizationId: EntityId,
+  organizationIds: ReadonlySet<EntityId>,
 ): readonly ResourceFlow[] {
+  if (organizationIds.size === 0) return [];
   return world.history.resourceFlows.filter(
     (flow) =>
       (flow.basisKind === BUSINESS_REVENUE_BASIS &&
         flow.recipient.kind === "organization" &&
-        flow.recipient.organizationId === organizationId) ||
+        organizationIds.has(flow.recipient.organizationId)) ||
       ((flow.basisKind === BUSINESS_WAGES_BASIS ||
         flow.basisKind === OWNER_DRAW_BASIS) &&
         flow.source.kind === "organization" &&
-        flow.source.organizationId === organizationId),
+        organizationIds.has(flow.source.organizationId)),
   );
+}
+
+function businessFlows(
+  world: World,
+  organizationId: EntityId,
+): readonly ResourceFlow[] {
+  return businessFlowsOf(world, new Set([organizationId]));
 }
 
 /**
@@ -590,12 +613,15 @@ export function settleLocalBusinesses(
   world: World,
   jurisdictionId: EntityId,
 ): World {
-  return settleFlows(
-    world,
-    localBusinessesIn(world, jurisdictionId).flatMap(({ organization }) =>
-      businessFlows(world, organization.id),
-    ),
-  );
+  // Nothing is settled until somebody's money is kept, and at the start of a
+  // life nobody's in town is. Checking that first keeps the check that runs
+  // at every transition from walking every flow in the world.
+  if (world.history.resourcePositions.length === 0) return world;
+  const prefix = `local-business:${jurisdictionId}:`;
+  const ids = new Set<EntityId>();
+  for (const record of world.history.organizations)
+    if (record.stableKey.startsWith(prefix)) ids.add(record.id);
+  return settleFlows(world, businessFlowsOf(world, ids));
 }
 
 /** Seats and settles the businesses of the town this person lives in. */
