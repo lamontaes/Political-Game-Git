@@ -974,7 +974,7 @@ const REACH_OUT_UNANSWERED_LIMIT = 2;
  * skips thread, 2026-09-23).
  *
  * PLACEHOLDER, NOT RESEARCH: the ranges are calibration until
- * `relationship-absence-thresholds` and `what-moves-a-relationship` give
+ * `how-often-people-and-groups-get-in-touch` (and the relationship answers) give
  * real ones. What is not a placeholder is that the variation belongs to the
  * two people, stays the same for them on every load, and is drawn from
  * nothing else.
