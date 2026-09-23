@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-23T03:50:00.000Z",
+  "impact": "shapes-design",
+  "lane": "How the world changes (press coverage)",
+  "priority": "P1",
+  "question": "Study real newspapers (a small-town weekly, a mid-size city daily, a statehouse outlet, a national paper) over ordinary weeks: what kinds of stories do they run and in what proportion? Cover public meetings and budgets, courts and crime, schools, business openings and closings, obituaries, weather and disasters, elections and campaigns, profiles, human-interest, sports, arts and culture, investigations, opinion. What makes one paper's mix different from another's, and what does a paper cover about its own residents that a larger outlet never would?",
+  "questionId": "what-a-real-newspaper-covers-in-a-week",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "How the world changes thread, on lamontae's 2026-09-23 03:46Z direction: 'Defer to ChatGPT for other news stories. It can look at real newspapers to go ahead and get the media more diverse. Hopefully not just floods and taxes.'",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/desk.ts eventIsNewsCandidate and newsworthiness (DEPTH2 A07)",
+      "whatItDidNotSettle": "The desk covers whatever the simulation records, weighted by consequence. It has no notion of a paper's normal mix, so a save's news is mostly the few record types that fire often (hazards, prices, tax and routine governing)."
+    },
+    {
+      "source": "docs/research/requests/what-makes-an-event-worth-printing.json",
+      "whatItDidNotSettle": "Asks how to weigh one event, not what a week of a real paper looks like."
+    }
+  ],
+  "title": "What a real local, state and national paper covers in a week",
+  "usableAnswer": "A table per outlet type: story categories with a typical share of a week's stories and one real example headline each, then a list of which categories need a record the game does not yet write (for example school board meetings, obituaries, business openings), so the engineering lanes know what producers to add.",
+  "whyItMatters": "Players read the news as the world's heartbeat. Today it is dominated by a handful of repetitive record types; the owner wants papers that feel like real ones."
+}
