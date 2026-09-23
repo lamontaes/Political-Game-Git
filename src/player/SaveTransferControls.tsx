@@ -7,6 +7,7 @@ import {
   exportPortableSave,
   importPortableSave,
   parsePortableSave,
+  PORTABLE_SAVE_MAX_BYTES,
   serializePortableSave,
   type PortableArtProvenance,
 } from "../presentation/portable-save";
@@ -91,7 +92,7 @@ export function SaveImportControl({
     if (!file) return;
     setBusy(true);
     try {
-      if (file.size > 8 * 1024 * 1024) {
+      if (file.size > PORTABLE_SAVE_MAX_BYTES) {
         onSettled(
           null,
           "That file is larger than a saved life is allowed to be.",

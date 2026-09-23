@@ -109,7 +109,6 @@ describe("EconomicContextView as ordinary play renders it", () => {
     expect(html).toContain('data-testid="economic-context-panel"');
     expect(html).toContain("Fayette, KY");
     expect(html).toContain("Exact values");
-    expect(html).toContain("observations");
 
     /*
      * And none of the ingestion record reaches the player: no retrieval date,
@@ -124,6 +123,20 @@ describe("EconomicContextView as ordinary play renders it", () => {
     expect(html).not.toContain("Sources and scope");
     expect(html).not.toContain("Not established");
     expect(html).not.toContain("simulated history");
+    /*
+     * Nor the provenance a resident would not know: the products behind the
+     * figures and their observation counts, the day a figure reached the
+     * simulation, the word "published", a provider's footnote mark, or a
+     * machine date or period code such as 2026-09-03, 2026-M07 or FY2025.
+     */
+    const text = stripMarkup(html);
+    expect(text).not.toMatch(/observations/i);
+    expect(text).not.toMatch(/Available to the simulation/);
+    expect(text).not.toMatch(/published/i);
+    expect(text).not.toMatch(/\*/);
+    expect(text).not.toMatch(
+      /\b\d{4}-\d{2}-\d{2}\b|\b\d{4}-M\d{2}\b|\bFY\d{4}\b/,
+    );
   });
 });
 

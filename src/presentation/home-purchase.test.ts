@@ -15,16 +15,25 @@ import {
   MORTGAGE_BASIS,
   buyHome,
   homePurchaseReason,
+  homePurchaseTerms,
   personOwnsHome,
 } from "../simulation/home-purchase";
+import {
+  macroConditionsAt,
+  macroMonthHistory,
+  macroScopeForJurisdiction,
+} from "../simulation/macro-economy/readers";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { createResourcePosition, money } from "../simulation/resources";
 import type { EntityId, World } from "../simulation";
 import { letAdultTimePass } from "./adult-life";
+import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+import { advanceWorld } from "../simulation/world";
 import { projectHomePurchase } from "./home-purchase-view";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
+import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 
 /**
  * Buying a home, asked for by the owner so that money has something to buy.
@@ -222,6 +231,57 @@ describe("buying a home", () => {
     const reloaded = deserializeWorld(serializeWorld(later));
     expect(serializeWorld(refreshLifeOpportunities(reloaded, personId))).toBe(
       serializeWorld(later),
+    );
+  });
+
+  it("prices the house in the world's prices, not the first month's", () => {
+    // The opening route starts the world's own economy, as play does.
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "home-purchase-prices",
+        placeKey: "3502000",
+        startAge: 35,
+        questionnaire: "skipped" as const,
+      }),
+    ).game!;
+    const start = {
+      personId: game.playerPersonId,
+      world: createResourcePosition(game.world, {
+        stableKey: "test:opening-savings",
+        owner: { kind: "person", personId: game.playerPersonId },
+        openedAt: game.world.currentDate,
+        openingBalance: money(10_000_000, "USD"),
+        provenance: { kind: "authored", note: "Test savings." },
+      }),
+    };
+    const home = start.world.people[start.personId]!.homeJurisdictionId;
+    expect(homePurchaseTerms(start.world, home).priceMinor).toBe(
+      HOME_PURCHASE_PLACEHOLDER.priceMinor,
+    );
+    // The world's own economy runs on the transition clock, as in play.
+    const later = advanceWorld(
+      start.world,
+      400,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const now =
+      macroConditionsAt(
+        later,
+        macroScopeForJurisdiction(home),
+        later.currentDate,
+      ) ?? macroConditionsAt(later, "national", later.currentDate)!;
+    const first = macroMonthHistory(later, "national", later.currentDate)[0]!;
+    const factor = now.priceIndex / first.priceIndex;
+    expect(factor).not.toBe(1);
+    const terms = homePurchaseTerms(later, home);
+    expect(terms.priceMinor).toBe(
+      Math.round((HOME_PURCHASE_PLACEHOLDER.priceMinor * factor) / 100_000) *
+        100_000,
+    );
+    const shown = projectHomePurchase(later, start.personId);
+    expect(shown?.terms).toContain(
+      `$${(terms.priceMinor / 100).toLocaleString("en-US")}`,
     );
   });
 });
