@@ -394,6 +394,8 @@ export type CrisisStopTarget = "health" | "authority";
 export interface CrisisStop {
   readonly sentence: string;
   readonly target: CrisisStopTarget;
+  /** The protected decisions it names, so it can close once none is open. */
+  readonly decisionKeys: readonly string[];
 }
 
 const STOP_TEXT = {
@@ -431,7 +433,12 @@ export function crisisStopAfter(
   const raised = crisisProtectedDecisions(world, afterSequence).flatMap(
     (decision) =>
       decision.kind in STOP_TEXT
-        ? [STOP_TEXT[decision.kind as keyof typeof STOP_TEXT]]
+        ? [
+            {
+              ...STOP_TEXT[decision.kind as keyof typeof STOP_TEXT],
+              key: decision.key,
+            },
+          ]
         : [],
   );
   if (raised.length === 0) return null;
@@ -443,7 +450,19 @@ export function crisisStopAfter(
   return {
     sentence: `While time was passing, something came up that only you can decide: ${list}.`,
     target: raised[0]!.target,
+    decisionKeys: raised.map((entry) => entry.key),
   };
+}
+
+/**
+ * Whether any decision `stop` names is still waiting on the player. A request
+ * window that closed, or a decision already made, closes the stop.
+ */
+export function crisisStopStillOpen(world: World, stop: CrisisStop): boolean {
+  const open = new Set(
+    crisisProtectedDecisions(world, -1).map((decision) => decision.key),
+  );
+  return stop.decisionKeys.some((key) => open.has(key));
 }
 
 /** The history sequence a later `crisisStopAfter` should read from. */

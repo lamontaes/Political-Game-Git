@@ -1,0 +1,23 @@
+{
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Running for office across America thread",
+  "lane": "campaigns",
+  "impact": "shapes-design",
+  "filedAt": "2026-09-22T23:56:00.000Z",
+  "questionId": "incumbency-advantage-in-a-race",
+  "priority": "P1",
+  "title": "Where an incumbent's advantage in a race comes from, and how big it is",
+  "question": "How much better does an incumbent do than a comparable challenger, and where does that come from? Specifically: re-election rates and typical vote-share advantage for governors, U.S. House and Senate members, state legislators and local officials; how much of that advantage is name recognition, money and donors, staff and organization, weaker challengers (scare-off), and the record in office; and how a scandal, a bad economy or a poorly handled disaster erodes it.",
+  "whyItMatters": "The owner, 2026-09-22 at 7:39 p.m. ET: 'Incumbents should get, you know, not a plus fifty boost or whatever, but incumbents win a lot, defer to ChatGPT.' Today every candidate starts on a random weight between 850 and 1,150 whether they hold the office or not. As of this branch, a sitting governor who runs again is at last the player's opponent, but with no advantage at all.",
+  "usableAnswer": "Re-election rates and typical margins by office level, with a range. Then the advantage broken into its sources, so the game can produce it from recognition, money, organization and record rather than as a flat bonus. Then how much each kind of bad news takes away.",
+  "notes": [
+    "What the game does, read at the running-for-office branch: starting support weights are drawn from 850 to 1,150 (campaigns.ts, around line 379). A public ethics finding in the last memory window costs a later candidacy 90 weight (UNRESEARCHED_FINDING_EFFECTS in src/simulation/press/findings.ts). Nothing else distinguishes an incumbent.",
+    "ChatGPT's A09 answer already rules out a flat bonus: reuse the candidate, organization, finite-audience and participation model, with no forced upsets. This asks for the magnitudes that model needs."
+  ],
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/how-an-election-night-should-come-out.json (A09)",
+      "whatItDidNotSettle": "Sets the modeling approach and supplies no coefficients."
+    }
+  ]
+}

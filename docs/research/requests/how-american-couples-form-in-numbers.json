@@ -1,0 +1,33 @@
+{
+  "filedAt": "2026-09-23T04:00:00.000Z",
+  "impact": "blocks-work",
+  "lane": "personality and relationships",
+  "notes": [
+    "The owner, 2026-09-23 11:50 p.m. ET, asked how relationships and couples work; the coordinator asked that the real patterns go to ChatGPT before anything is built. The owner has already ruled that couples go all the way (dating, living together, marriage) and that one-night stands exist.",
+    "Companion to how-two-people-become-a-couple, which asks for the stages and rules. This one asks for the measured American patterns the pace should be calibrated against, so no rate is invented.",
+    "Measured on main at 68a88a21: nothing in play creates a partnership. People and life's having-a-child conversation (people-family-plan.ts) and the adult partner scenes (adult-situations.ts) read one and never find it."
+  ],
+  "priority": "P1",
+  "question": "What do national U.S. data say about how couples form and progress: how long people usually date before becoming exclusive, before moving in together, and before marrying; what share of marriages follow living together first; how common casual one-time sexual encounters are among adults by age; how often dating relationships, cohabitations and marriages end, and after how long; and how these differ by age, and by state where the data allow?",
+  "questionId": "how-american-couples-form-in-numbers",
+  "relatedQuestionIds": [
+    "how-two-people-become-a-couple",
+    "how-people-meet-new-people",
+    "how-a-marriage-is-made-in-each-jurisdiction"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "The owner's question in the project chat, 2026-09-23 11:50 p.m. ET, routed by the coordinator: send the real patterns (how people date, move in and marry, and at what rates) to ChatGPT before building couples.",
+  "sourcesChecked": [
+    {
+      "source": "how-people-meet-new-people (answered 2026-09-23)",
+      "whatItDidNotSettle": "Covers first meetings only and says no annual rate exists for acquaintances; says nothing about romance, cohabitation or marriage."
+    },
+    {
+      "source": "how-two-people-become-a-couple (open)",
+      "whatItDidNotSettle": "Asks for stages and rules, not the measured timings and rates the game's pace should follow."
+    }
+  ],
+  "title": "How American couples form, in numbers",
+  "usableAnswer": "Cited national figures (with year and population) for: time from first date to exclusivity, to living together, to marriage; share of marriages preceded by cohabitation; prevalence of one-time casual encounters by age band; breakup, separation and divorce rates by duration; age at first marriage by state. Where no measurement exists, say UNKNOWN so the game labels its number a calibration.",
+  "whyItMatters": "Couples are being built now. Without measured pacing, every threshold for dating, moving in, marrying and breaking up would be invented."
+}
