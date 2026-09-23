@@ -12,7 +12,7 @@ brings in an act on a question the District decides, such as consumer data
 privacy, and the act comes back for a second reading at least two weeks later.
 If it carries both times, it goes to the Mayor, who signs it or sends it back.
 A signed act takes effect after Congress's review period. In a year of play,
-about two dozen acts came in and roughly half became law.
+25 acts came in and 10 became law.
 
 A councilmember can do the same from the city screen. You bring in an act and
 vote at each reading. The screen shows which reading comes next and the earliest
