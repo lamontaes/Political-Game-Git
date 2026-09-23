@@ -1,5 +1,6 @@
 import { deserializeWorld } from "../simulation/serialization";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
+import { migrateLegacyLegislativeSeats } from "../simulation/legislative-office-terms";
 import type { EntityId } from "../simulation/types";
 import {
   EMPTY_SHELL_STATE,
@@ -358,8 +359,8 @@ export async function importPortableSave(
   });
   if (checked.status === "error") return checked;
   bundle = checked.bundle;
-  const world = migrateLegacyStudyProgression(
-    deserializeWorld(bundle.world.payload),
+  const world = migrateLegacyLegislativeSeats(
+    migrateLegacyStudyProgression(deserializeWorld(bundle.world.payload)),
   );
   const saveId = store.newSaveId(world);
   const existing = options.existingSaveIds

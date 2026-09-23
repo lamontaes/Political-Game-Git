@@ -22,7 +22,7 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 3258 templates, 3040 distinct texts.
+- 3259 templates, 3041 distinct texts.
 - 192 exact duplicate groups.
 - 203 normalized duplicate groups.
 - 36 near-duplicate clusters (Jaccard ≥ 0.72).
@@ -42,10 +42,10 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `you want to` | 19 | 4 |
 | `it is not` | 18 | 4 |
 | `asked you to` | 17 | 6 |
-| `the end of` | 16 | 5 |
 | `you tell you` | 16 | 1 |
 | `at the end` | 15 | 4 |
 | `at the end of` | 15 | 4 |
+| `the end of` | 15 | 4 |
 | `a long time` | 14 | 4 |
 | `instrument read establishes` | 14 | 2 |
 | `the two of` | 14 | 4 |

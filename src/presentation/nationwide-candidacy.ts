@@ -68,6 +68,8 @@ export function stateExecutiveCandidacyForPerson(
 export interface StateExecutiveOfficeCalendar {
   /** The next regular general election a filing today would stand in. */
   readonly nextElection: IsoDate;
+  /** A nearer regular election whose candidate field has already closed. */
+  readonly closedElection: IsoDate | null;
   /** The term that election would win. */
   readonly termStartsAt: IsoDate;
   readonly termEndsAt: IsoDate;
@@ -98,6 +100,7 @@ export function stateExecutiveOfficeCalendar(
       : "mixed";
   return {
     nextElection,
+    closedElection: term.closedElectionDay,
     termStartsAt: term.startsAt,
     termEndsAt: term.endsAt,
     basis,

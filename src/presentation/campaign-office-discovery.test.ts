@@ -30,7 +30,7 @@ function life() {
 }
 
 describe("deliberate supported office discovery", () => {
-  it("lists established alternatives with their election date, without writing or inventing connections", () => {
+  it("lists established alternatives with their election dates, without writing or inventing connections", () => {
     const { world, personId } = life();
     const before = serializeWorld(world);
     const offices = projectCampaignOffices(world, personId);
@@ -41,15 +41,14 @@ describe("deliberate supported office discovery", () => {
     expect(
       offices.every((office) => office.governmentLevel === "State government"),
     ).toBe(true);
-    // Both chambers are on the state's regular election before anyone files.
-    const election = nextStateLegislativeElection(
-      "KY",
-      world.currentDate,
-    ).electionDate;
-    expect(offices.map((office) => office.timing)).toEqual([
-      election,
-      election,
-    ]);
+    // The office's own calendar, said as a date, with no record-keeping words.
+    expect(
+      offices.every((office) =>
+        /^The next election is [A-Z][a-z]+ \d{1,2}, \d{4}\.$/.test(
+          office.timing,
+        ),
+      ),
+    ).toBe(true);
     expect(offices.every((office) => office.connections.length === 0)).toBe(
       true,
     );

@@ -1201,16 +1201,25 @@ _Grounded by: Stage tattle-boundary was played on 2026-01-05.; 248 day(s) since 
 Seed `p85c-owner-clock`, start age 34, Luke Vance.
 6 beats, 27 realized lines, 21 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
 
 ### Campaign
 
 - Filed: true
 - Office: Seat in the House of Representatives
 - Sessions: 6
-- Resolved: true (lost)
+- Resolved: true (won)
 
-_No legislative surface: the capability layer did not open one for this run._
+### Legislative surface reached
+
+- HB 292 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
+  - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
+  - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
+  - Filed on 2027-03-13. Filed in the House of Representatives.
+  - Committee on Committees
+  - Committee on Committees decides which committee takes the measure.
+  - Ask for the bill to be sent to a committee
+  - Even-year sessions run 60 legislative days and adjourn by April 15; odd-year sessions run 30 legislative days and adjourn by March 30.
 
 
 ### Beats
