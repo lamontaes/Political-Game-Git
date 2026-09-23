@@ -1107,21 +1107,22 @@ function countyCongressional(
 }
 
 const PLACE_METHOD =
-  "All of this place's land lies in one district (Census 119th Congress district–2020 place relationship).";
+  "The Census 119th Congress district–2020 place relationship file lists this place with only this district.";
 const PLACE_CANDIDATE_METHOD =
-  "The place's land spans these districts (Census 119th Congress district–2020 place relationship); an address would decide.";
+  "The Census 119th Congress district–2020 place relationship file lists this place with each of these districts; an address would decide.";
 
+/**
+ * The same place join the canonical home join writes residence from, so the
+ * map and the saved record cannot disagree about a place.
+ */
 function placeCongressional(placeGeoid: string): DistrictRelation {
-  const direct = packedLookup(
-    candidates.placeCongressional.byState as PackedTable,
-    placeGeoid,
-  );
-  if (typeof direct === "string")
-    return { kind: "known", geoid: direct, method: PLACE_METHOD };
-  if (direct)
+  const join = placeDistrictJoin(placeGeoid, "congressional");
+  if (join.kind === "whole-place")
+    return { kind: "known", geoid: join.districtGeoid, method: PLACE_METHOD };
+  if (join.kind === "split")
     return {
       kind: "candidates",
-      geoids: [...direct],
+      geoids: [...(join.candidateDistrictGeoids ?? [])],
       method: PLACE_CANDIDATE_METHOD,
     };
   // A place newer than the 2020 relationship file falls back to its counties.

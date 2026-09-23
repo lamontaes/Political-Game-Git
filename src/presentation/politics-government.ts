@@ -30,7 +30,10 @@ import type {
   SeatView,
 } from "../simulation/living-world/contract";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
-import { districtResidenceIntervals } from "../simulation/district-residence";
+import {
+  canonicalHomeDistrictCandidates,
+  districtResidenceIntervals,
+} from "../simulation/district-residence";
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
   districtIdentityByRecordId,
@@ -753,6 +756,29 @@ function seatHolder(seat: SeatView) {
   };
 }
 
+/**
+ * Why no House member is named. A home place the Census file splits between
+ * districts names those districts, and only those, without choosing one.
+ */
+function houseNote(
+  world: World,
+  personId: EntityId,
+  state: string,
+  houseSeats: readonly SeatView[],
+): string {
+  const candidates = canonicalHomeDistrictCandidates(
+    world,
+    personId,
+    "congressional",
+  ).flatMap((geoid) => {
+    const seat = houseSeats.find((entry) => entry.district === geoid.slice(2));
+    return seat ? [seatLabelFor(seat)] : [];
+  });
+  return candidates.length > 1
+    ? `Your home place is split between ${candidates.slice(0, -1).join(", ")} and ${candidates.at(-1)!} (Census place–district relationship), and the save does not record which one your home is in.`
+    : `Your congressional district in ${state} is not recorded for your home.`;
+}
+
 function representedBy(
   world: World,
   personId: EntityId,
@@ -791,9 +817,7 @@ function representedBy(
     office: "U.S. House",
     district: houseSeat ? seatLabelFor(houseSeat) : null,
     holders: houseSeat ? [seatHolder(houseSeat)] : [],
-    note: houseSeat
-      ? null
-      : `Your congressional district in ${state} is not recorded for your home.`,
+    note: houseSeat ? null : houseNote(world, personId, state, houseSeats),
   });
 
   const senateSeats =

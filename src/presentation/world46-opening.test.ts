@@ -51,6 +51,10 @@ function legacySetup(placeKey: string, seed: string): NewGameSetup {
   delete (legacy as { partyChapterNameVersion?: unknown })
     .partyChapterNameVersion;
   delete (legacy as { schoolNameVersion?: unknown }).schoolNameVersion;
+  // A descriptor from before the congressional home join has no join version,
+  // and its replay records the state chambers only.
+  delete (legacy as { districtHomeJoinVersion?: unknown })
+    .districtHomeJoinVersion;
   return {
     ...legacy,
     seed,

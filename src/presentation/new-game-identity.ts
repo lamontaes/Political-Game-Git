@@ -1,5 +1,6 @@
 import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
 import { SCHOOL_STAGES_V1 } from "../simulation/school-stages";
+import { CONGRESSIONAL_HOME_JOIN_V1 } from "../simulation/district-residence";
 import { RESIDENT_CHAPTER_NAME_VERSION } from "../simulation/living-world/party-chapters";
 import {
   canonicalPriorEncoding,
@@ -236,6 +237,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.schoolStageVersion === undefined
       ? {}
       : { schoolStageVersion: setup.schoolStageVersion }),
+    ...(setup.districtHomeJoinVersion === undefined
+      ? {}
+      : { districtHomeJoinVersion: setup.districtHomeJoinVersion }),
     ...(setup.birthYear === undefined ? {} : { birthYear: setup.birthYear }),
     ...(setup.openingDataVersion === undefined
       ? {}
@@ -397,6 +401,11 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   if (
+    record.districtHomeJoinVersion !== undefined &&
+    record.districtHomeJoinVersion !== CONGRESSIONAL_HOME_JOIN_V1
+  )
+    return null;
+  if (
     givenNameGenerationVersion !== undefined &&
     givenNameGenerationVersion !== LEGACY_GIVEN_NAME_GENERATION_VERSION &&
     givenNameGenerationVersion !== DISTINCT_GIVEN_NAME_GENERATION_VERSION &&
@@ -481,6 +490,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.schoolStageVersion === undefined
       ? {}
       : { schoolStageVersion: SCHOOL_STAGES_V1 }),
+    ...(record.districtHomeJoinVersion === undefined
+      ? {}
+      : { districtHomeJoinVersion: CONGRESSIONAL_HOME_JOIN_V1 }),
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion: appearanceRecipeVersion as string }),
