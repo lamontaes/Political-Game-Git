@@ -144,33 +144,20 @@ export const FEDERAL_MINIMUM_HOURLY_MINOR = 725;
 export const MINIMUM_APPLICANT_AGE = 16;
 
 /**
- * PLACEHOLDER(research: public-employer-roles-and-pay). The part-time work a
- * county or city government takes a teenager on for, and what it pays, until
- * ChatGPT says which such roles public bodies offer and at what rate. The pay
- * is the federal minimum, not this government's scale.
+ * PLACEHOLDER(research: teen-first-jobs). What a teenager's first job pays by
+ * the hour, until ChatGPT says what first jobs pay by state: the federal
+ * minimum, not this employer's pay.
  */
-export const TEEN_PUBLIC_ROLE_PLACEHOLDER = {
-  researchQuestionId: "public-employer-roles-and-pay",
-  roles: [
-    {
-      title: "Library page",
-      occupationClassification: "occupation:library-assistant",
-    },
-    {
-      title: "Recreation aide",
-      occupationClassification: "occupation:recreation-worker",
-    },
-  ],
+export const FIRST_JOB_PAY_PLACEHOLDER = {
+  researchQuestionId: "teen-first-jobs",
   hourlyMinor: FEDERAL_MINIMUM_HOURLY_MINOR,
-  /** Hours around a school week, as the first-job situation always offered. */
-  weeklyHours: { minimumHours: 8, maximumHours: 14 },
 } as const;
 
 /**
- * The stable key the first-job situation gave its work relationship before
- * it was hired through the job market. Such a job was recorded as paid with
- * no pay; from the first settlement after this change it is paid forward,
- * never for the weeks already gone.
+ * The stable key of the job the first-job situation records. It was recorded
+ * as paid with no pay; it is now paid weekly from the day it is taken, and a
+ * saved one from the first settlement after this change, never for the weeks
+ * already gone.
  */
 export const LEGACY_FIRST_JOB_WORK_KEY = "formative-play:first-job:work";
 
@@ -1146,184 +1133,6 @@ export function leaveJob(
 /* A first job                                                                */
 /* -------------------------------------------------------------------------- */
 
-/** One part-time role a teenager could be taken on for, and its terms. */
-export interface TeenWorkRole {
-  readonly organizationId: EntityId;
-  readonly jurisdictionId: EntityId;
-  readonly title: string;
-  readonly occupationClassification: OccupationClassification | null;
-  readonly hourlyMinor: number;
-  readonly currency: string;
-  readonly weeklyHours: {
-    readonly minimumHours: number;
-    readonly maximumHours: number;
-  };
-  readonly placeholder: boolean;
-}
-
-/**
- * The part-time work in this person's town a teenager could take: a
- * business's part-time roles at what it pays its staff, then each public
- * body's placeholder roles. Reads only; a public body not yet recorded is not
- * listed here, which is why a first job seats them before it chooses.
- */
-export function teenWorkRoles(
-  world: World,
-  personId: EntityId,
-): readonly TeenWorkRole[] {
-  const roles: TeenWorkRole[] = [];
-  for (const role of townEmployerRoles(world, personId)) {
-    if (role.source !== "staff-pay") continue;
-    if (role.weeklyHours.maximumHours > JOB_MARKET_PLACEHOLDER.fullTimeHours)
-      continue;
-    const hours =
-      (role.weeklyHours.minimumHours + role.weeklyHours.maximumHours) / 2;
-    roles.push({
-      organizationId: role.organizationId,
-      jurisdictionId: role.jurisdictionId,
-      title: role.title,
-      occupationClassification: role.occupationClassification,
-      hourlyMinor: Math.max(
-        FEDERAL_MINIMUM_HOURLY_MINOR,
-        Math.round(role.annualMinor / 52 / hours),
-      ),
-      currency: role.currency,
-      weeklyHours: TEEN_PUBLIC_ROLE_PLACEHOLDER.weeklyHours,
-      placeholder: false,
-    });
-  }
-  for (const organizationId of publicBodyOrganizations(world, personId)) {
-    const profile = organizationProfileAt(world, organizationId);
-    if (!profile?.locationJurisdictionId) continue;
-    for (const role of TEEN_PUBLIC_ROLE_PLACEHOLDER.roles)
-      roles.push({
-        organizationId,
-        jurisdictionId: profile.locationJurisdictionId,
-        title: role.title,
-        occupationClassification: role.occupationClassification,
-        hourlyMinor: TEEN_PUBLIC_ROLE_PLACEHOLDER.hourlyMinor,
-        currency: "USD",
-        weeklyHours: TEEN_PUBLIC_ROLE_PLACEHOLDER.weeklyHours,
-        placeholder: true,
-      });
-  }
-  return roles;
-}
-
-/**
- * Whether this person's town has anywhere a teenager could be taken on:
- * a business with part-time staff, or a local government on file for the
- * place. Reads only.
- */
-export function teenWorkPossible(world: World, personId: EntityId): boolean {
-  if (teenWorkRoles(world, personId).length > 0) return true;
-  const units = homeLocalGovernmentUnits(world, personId);
-  return units.municipal.length + units.counties.length > 0;
-}
-
-/**
- * The town employer a teenager's first job is with: the town's public bodies
- * recorded first, then one role drawn for this person, seed-stable. Null
- * where the town has none, and the world is unchanged then.
- */
-export function chooseTeenWork(
-  world: World,
-  personId: EntityId,
-): { readonly world: World; readonly role: TeenWorkRole } | null {
-  const seated = ensureHomeLocalGovernments(world, personId);
-  const roles = teenWorkRoles(seated, personId);
-  if (roles.length === 0) return null;
-  const rng = rngFor(seated, `teen-first-job:${personId}`);
-  const role = roles[Math.floor(rng.next() * roles.length)]!;
-  return { world: seated, role };
-}
-
-/**
- * Writes the hire behind a job taken in a scene rather than from a listing:
- * the opening it filled, the application, the offer, its acceptance and the
- * start, all on the day, and the weekly pay. The work relationship is the
- * one the scene already recorded, so nothing is written twice.
- */
-export function recordArrangedHire(
-  world: World,
-  input: {
-    readonly personId: EntityId;
-    readonly role: TeenWorkRole;
-    readonly workRelationshipId: EntityId;
-  },
-): World {
-  const { personId, role, workRelationshipId } = input;
-  const today = world.currentDate;
-  const provenanceNote = role.placeholder
-    ? `${PROVENANCE_NOTE} The role and its pay are the placeholder teen public-body profile (research: ${TEEN_PUBLIC_ROLE_PLACEHOLDER.researchQuestionId}).`
-    : PROVENANCE_NOTE;
-  const openingKey = `job-opening:arranged:${workRelationshipId}`;
-  let next = append(world, "jobOpenings", "job-opening", {
-    stableKey: openingKey,
-    organizationId: role.organizationId,
-    jurisdictionId: role.jurisdictionId,
-    title: role.title,
-    occupationClassification: role.occupationClassification,
-    pay: { basis: "hourly", amount: money(role.hourlyMinor, role.currency) },
-    weeklyHours: role.weeklyHours,
-    schedule: null,
-    qualifications: null,
-    earliestStartAt: null,
-    opensAt: today,
-    closesAt: today,
-    provenance: { kind: "authored", note: provenanceNote },
-  });
-  const opening = (next.history.jobOpenings ?? []).find(
-    (row) => row.stableKey === openingKey,
-  )!;
-  const applicationKey = `job-application:arranged:${workRelationshipId}`;
-  next = append(next, "jobApplications", "job-application", {
-    stableKey: applicationKey,
-    openingId: opening.id,
-    personId,
-    route: "applied",
-    introducerPersonId: null,
-    submittedAt: today,
-    decisionAt: today,
-  });
-  const application = (next.history.jobApplications ?? []).find(
-    (row) => row.stableKey === applicationKey,
-  )!;
-  if (applicationSteps(next, application.id).length > 0) return next;
-  const employer = organizationName(next, role.organizationId);
-  const hours = Math.round(
-    (role.weeklyHours.minimumHours + role.weeklyHours.maximumHours) / 2,
-  );
-  next = addStep(next, application, {
-    kind: "offered",
-    occurredAt: today,
-    replyBy: today,
-    startAt: today,
-    agreedWeeklyHours: hours,
-    summary: `${employer} offered you work as ${role.title.toLowerCase()}.`,
-  });
-  next = addStep(next, application, {
-    kind: "accepted",
-    occurredAt: today,
-    startAt: today,
-    summary: `You accepted the job at ${employer}.`,
-  });
-  next = addStep(next, application, {
-    kind: "started",
-    occurredAt: today,
-    workRelationshipId,
-    summary: `You started as ${role.title.toLowerCase()} at ${employer}.`,
-  });
-  return payWeekly(
-    next,
-    personId,
-    workRelationshipId,
-    role.hourlyMinor * hours,
-    role.currency,
-    provenanceNote,
-  );
-}
-
 function payWeekly(
   world: World,
   personId: EntityId,
@@ -1350,10 +1159,12 @@ function payWeekly(
 }
 
 /**
- * A first job recorded before hiring went through the job market was paid
- * nothing. It is paid from today at the placeholder teen terms, forward only.
+ * Pays a teenager's first job weekly from today, at its expected hours (the
+ * middle of the range) and the placeholder hourly rate. Called when the job
+ * is taken; a saved one is found at the next settlement and paid forward
+ * only. Unchanged when the job is not active or is already paid.
  */
-function payLegacyFirstJob(world: World, personId: EntityId): World {
+export function payFirstJob(world: World, personId: EntityId): World {
   const work = world.history.workRelationships.find(
     (row) =>
       row.personId === personId &&
@@ -1361,18 +1172,16 @@ function payLegacyFirstJob(world: World, personId: EntityId): World {
       row.compensation === "paid",
   );
   if (!work || workStatusAt(world, work.id)?.status !== "active") return world;
-  const hours = Math.round(
-    (TEEN_PUBLIC_ROLE_PLACEHOLDER.weeklyHours.minimumHours +
-      TEEN_PUBLIC_ROLE_PLACEHOLDER.weeklyHours.maximumHours) /
-      2,
-  );
+  const weekly = activeRole(world, work)?.timeDemand.expectedWeekly;
+  if (!weekly) return world;
+  const hours = Math.round((weekly.minimumHours + weekly.maximumHours) / 2);
   return payWeekly(
     world,
     personId,
     work.id,
-    TEEN_PUBLIC_ROLE_PLACEHOLDER.hourlyMinor * hours,
+    FIRST_JOB_PAY_PLACEHOLDER.hourlyMinor * hours,
     "USD",
-    `A first job recorded as paid with no pay, paid forward from ${world.currentDate} at the placeholder teen terms (research: ${TEEN_PUBLIC_ROLE_PLACEHOLDER.researchQuestionId}).`,
+    `A first job, paid weekly from ${world.currentDate} for ${hours} hours at the placeholder rate (research: ${FIRST_JOB_PAY_PLACEHOLDER.researchQuestionId}).`,
   );
 }
 
@@ -1471,7 +1280,7 @@ function isActiveOn(world: World, workId: EntityId, date: IsoDate): boolean {
  * nothing new.
  */
 export function settleJobPay(world: World, personId: EntityId): World {
-  let next = payLegacyFirstJob(world, personId);
+  let next = payFirstJob(world, personId);
   for (const work of next.history.workRelationships) {
     if (work.personId !== personId) continue;
     const flow = next.history.resourceFlows.find(

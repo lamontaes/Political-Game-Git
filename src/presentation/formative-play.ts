@@ -7,6 +7,7 @@ import {
   addDays,
   ageOnDate,
   availableLifeSituations,
+  createOrganization,
   currentLifeCutoff,
   dateAtAge,
   didPeopleShareEducationOrganization,
@@ -35,11 +36,7 @@ import {
   resolveFormativeCompanion,
 } from "./formative-context";
 import type { ConversationRoomContext } from "./run-b-conversation";
-import {
-  chooseTeenWork,
-  recordArrangedHire,
-  type TeenWorkRole,
-} from "../simulation/job-market";
+import { payFirstJob } from "../simulation/job-market";
 
 /**
  * The growing-up years, played.
@@ -269,8 +266,8 @@ export function chooseFormativeOption(
     input.situationKey === "formative.teen-work-opportunity" &&
     input.optionKey === "accept";
   const staged = takingTheJob
-    ? openTeenEmployer(world, input.personId)
-    : { world, opportunity: undefined, role: undefined };
+    ? openTeenEmployer(world, jurisdictionId)
+    : { world, opportunity: undefined };
 
   // The companion is written into the world here rather than when the scene
   // was drawn, because a person only exists once something actually happened
@@ -306,19 +303,12 @@ export function chooseFormativeOption(
     eligibilityProvider: formativeEligibilityProvider(input.situationKey),
     teenWorkOpportunity: staged.opportunity,
   });
-  if (result.status === "blocked" || !staged.opportunity || !staged.role) {
+  if (result.status === "blocked") {
     return result.world;
   }
-  const workStableKey = staged.opportunity.workStableKey;
-  const work = result.world.history.workRelationships.find(
-    (row) => row.stableKey === workStableKey,
-  );
-  return work
-    ? recordArrangedHire(result.world, {
-        personId: input.personId,
-        role: staged.role,
-        workRelationshipId: work.id,
-      })
+  // The job is paid, so it is paid from the day it is taken.
+  return takingTheJob
+    ? payFirstJob(result.world, input.personId)
     : result.world;
 }
 
@@ -326,38 +316,57 @@ export function chooseFormativeOption(
  * The first job.
  *
  * A teenager can only take a job if there is somewhere to take it, so the
- * employer is one of the town's own, chosen before the choice is recorded: a
- * business with part-time staff, or the county or city government. The hire
- * itself is written afterward through the job market, with its pay.
+ * employer is recorded before the choice is. It is a small local grocery
+ * because that is a job the eligibility rules can actually check hours and age
+ * against — not a claim about any real employer or wage.
  */
 function openTeenEmployer(
   world: World,
-  personId: EntityId,
-): {
-  readonly world: World;
-  readonly opportunity: TeenWorkOpportunity;
-  readonly role: TeenWorkRole;
-} {
-  const chosen = chooseTeenWork(world, personId);
-  if (!chosen) throw new Error("Nobody in this town is taking anyone on.");
-  const { role } = chosen;
+  jurisdictionId: EntityId | null,
+): { readonly world: World; readonly opportunity: TeenWorkOpportunity } {
+  const stableKey = "formative-play:first-job";
+  const provenance = {
+    kind: "generated" as const,
+    generatorKey: "formative-first-job-v1",
+  };
+  const existing = world.history.organizations.find(
+    (organization) => organization.stableKey === stableKey,
+  );
+  const next = existing
+    ? world
+    : createOrganization(world, {
+        stableKey,
+        formedAt: world.currentDate,
+        provenance,
+        initialProfile: {
+          name: "Neighborhood grocery",
+          classification: "enterprise:retail",
+          locationJurisdictionId: jurisdictionId,
+        },
+      });
+  const organization =
+    existing ??
+    next.history.organizations.find(
+      (candidate) => candidate.stableKey === stableKey,
+    );
+  if (!organization) {
+    throw new Error("The first job has nowhere to happen.");
+  }
   return {
-    world: chosen.world,
-    role,
+    world: next,
     opportunity: {
-      organizationId: role.organizationId,
-      workStableKey: `formative-play:first-job:${personId}:work`,
-      title: role.title,
+      organizationId: organization.id,
+      workStableKey: "formative-play:first-job:work",
+      title: "Weekend stock clerk",
       workKind: "employment:part-time",
-      occupationClassification:
-        role.occupationClassification ?? "occupation:general-labor",
+      occupationClassification: "occupation:retail-stock",
       timeDemand: {
-        expectedWeekly: role.weeklyHours,
+        expectedWeekly: { minimumHours: 8, maximumHours: 14 },
         attention: "moderate",
         concurrency: "mostly-exclusive",
         scheduleRigidity: "rigid",
         interruptibility: "limited",
-        locationJurisdictionId: role.jurisdictionId,
+        locationJurisdictionId: jurisdictionId,
       },
     },
   };

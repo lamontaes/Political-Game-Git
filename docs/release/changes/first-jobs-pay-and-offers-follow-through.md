@@ -2,22 +2,14 @@
 id: first-jobs-pay-and-offers-follow-through
 impact: patch
 section: Fixed
-title: A first job is with a town employer and pays, and older job offers no longer wait forever
+title: A teenager's first job pays, and older job offers no longer wait forever
 ---
 
-A teenager who took a job used to become a weekend stock clerk at the same
-invented neighborhood grocery in every town, recorded as paid and never paid.
-The first job is now with one of the town's own employers, such as a library
-page for the City of Ely or a recreation aide for Cass County, and it is hired
-through the job market with an application, an offer and a start. It pays
-weekly.
-
-## Limits and saves
-
-The role and its pay are placeholders until the research on teen first jobs
-comes back. Where a town has no employer on file, as in Puerto Rico for now,
-no job is offered. A saved game's unpaid first job is paid from the next week
-on, never for weeks already gone.
+A teenager who took a job was recorded as paid and never paid, so a life that
+kept the job into adulthood had no money. The first job now pays every week
+from the day it is taken, for its usual hours at a placeholder hourly rate. A
+saved game's unpaid first job is paid from the next week on, never for weeks
+already gone.
 
 ## Older offers
 

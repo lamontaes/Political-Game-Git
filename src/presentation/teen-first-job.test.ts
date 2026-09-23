@@ -6,27 +6,21 @@ import {
 } from "../simulation";
 import type { EntityId, World } from "../simulation/types";
 import { createOrganization, createWorkRelationship } from "../simulation/life";
-import {
-  LEGACY_FIRST_JOB_WORK_KEY,
-  applicationSteps,
-  employerDisplayName,
-} from "../simulation/job-market";
+import { LEGACY_FIRST_JOB_WORK_KEY } from "../simulation/job-market";
 import { workStatusAt } from "../simulation/life-queries";
 import { createExplicitGeographyLife } from "./new-game-geography";
-import { formativeSituationAvailable } from "./formative-context";
 import { chooseFormativeOption } from "./formative-play";
 import { passOrdinaryDays } from "./ordinary-life";
 
 /**
- * A teenager's first job, played from the new-game route in several places,
- * never Kentucky. It used to be a weekend stock clerk at the same invented
- * grocery in every town, recorded as paid and never paid. Now it is one of
- * the town's own employers, hired through the job market, and it pays weekly.
+ * A teenager's first job, played from the new-game route, never Kentucky. It
+ * was recorded as paid and never paid, so lives that kept it into adulthood
+ * had no money. It now pays weekly from the day it is taken. Who the employer
+ * is stays as it was; that is separate work.
  */
 
 const ELY = "3223500";
 const HOUMA = "2236255";
-const SAN_JUAN = "7276770";
 const JOB = "formative.teen-work-opportunity";
 
 function teen(placeKey: string, seed: string) {
@@ -52,7 +46,7 @@ function firstJob(world: World, personId: EntityId) {
   return world.history.workRelationships.find(
     (work) =>
       work.personId === personId &&
-      work.stableKey === `formative-play:first-job:${personId}:work`,
+      work.stableKey === LEGACY_FIRST_JOB_WORK_KEY,
   );
 }
 
@@ -70,65 +64,23 @@ function paymentsFor(world: World, workId: EntityId) {
 }
 
 describe("a teenager's first job", () => {
-  it("is with the town's own employer, hired through the job market, and pays weekly across a reload", () => {
+  it("pays weekly from the day it is taken, across a save and reload", () => {
     const { world, personId } = teen(ELY, "teen-job-ely");
-    expect(formativeSituationAvailable(world, personId, JOB)).toBe(true);
-
     const hired = takeTheJob(world, personId);
     const work = firstJob(hired, personId)!;
     expect(work).toBeDefined();
     expect(workStatusAt(hired, work.id)?.status).toBe("active");
-    expect(employerDisplayName(hired, work.organizationId!)).toMatch(
-      /White Pine County|Ely/,
-    );
-
-    const application = hired.history.jobApplications!.find(
-      (row) => row.personId === personId,
-    )!;
-    expect(
-      applicationSteps(hired, application.id).map((step) => step.kind),
-    ).toEqual(["offered", "accepted", "started"]);
-    expect(
-      applicationSteps(hired, application.id).at(-1)!.workRelationshipId,
-    ).toBe(work.id);
-    // Filled on the day, so it never shows as a listing.
-    const opening = hired.history.jobOpenings!.find(
-      (row) => row.id === application.openingId,
-    )!;
-    expect(opening.closesAt).toBe(opening.opensAt);
+    expect(paymentsFor(hired, work.id).flow?.startsAt).toBe(hired.currentDate);
 
     const reloaded = deserializeWorld(serializeWorld(hired));
     assertWorldIntegrity(reloaded);
     const later = passOrdinaryDays(reloaded, 21);
-    const { flow, paid } = paymentsFor(later, work.id);
-    expect(flow).not.toBeNull();
+    const { paid } = paymentsFor(later, work.id);
     expect(paid.length).toBe(3);
-    // 11 hours at the federal minimum, the marked placeholder.
+    // 11 hours, the middle of its 8 to 14, at the federal minimum: the
+    // marked placeholder.
     expect(paid[0]!.transferredAmount.minorUnits).toBe(725 * 11);
     assertWorldIntegrity(later);
-  });
-
-  it("differs by town: Ely and Houma hire with different employers", () => {
-    const ely = teen(ELY, "teen-job-compare");
-    const houma = teen(HOUMA, "teen-job-compare");
-    const elyHired = takeTheJob(ely.world, ely.personId);
-    const houmaHired = takeTheJob(houma.world, houma.personId);
-    const elyEmployer = employerDisplayName(
-      elyHired,
-      firstJob(elyHired, ely.personId)!.organizationId!,
-    );
-    const houmaEmployer = employerDisplayName(
-      houmaHired,
-      firstJob(houmaHired, houma.personId)!.organizationId!,
-    );
-    expect(elyEmployer).not.toBe(houmaEmployer);
-    expect(elyEmployer).not.toMatch(/Neighborhood/);
-    expect(houmaEmployer).not.toMatch(/Neighborhood/);
-  });
-
-  it("is not offered in San Juan, where no employer is on file yet", () => {
-    const { world, personId } = teen(SAN_JUAN, "teen-job-san-juan");
-    expect(formativeSituationAvailable(world, personId, JOB)).toBe(false);
   });
 
   it("pays an older save's unpaid first job from now on, never for weeks already gone", () => {

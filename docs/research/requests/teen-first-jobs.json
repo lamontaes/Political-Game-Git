@@ -10,12 +10,11 @@
   "impact": "shapes-design",
   "lane": "Jobs (job market)",
   "notes": [
-    "The placeholder is TEEN_PUBLIC_ROLE_PLACEHOLDER in src/simulation/job-market.ts: a library page or recreation aide at the town's county or city government, 8 to 14 hours a week, at the federal minimum of $7.25 an hour.",
-    "A town business with part-time staff is used first; none exist on main yet, so every teen first job today is with a public body.",
-    "Puerto Rico and the other territories have no public body on file, so no first job is offered there yet."
+    "The placeholder is FIRST_JOB_PAY_PLACEHOLDER in src/simulation/job-market.ts: the federal minimum of $7.25 an hour for the job's usual hours.",
+    "The employer is still the same generated neighborhood grocery in every town; replacing it with the town's own employers is separate work that waits on town businesses and territorial employer coverage."
   ],
   "priority": "P2",
-  "question": "A teenager's first job now comes from the town's own employers. Until town businesses exist, it is one of two placeholder public-body roles (library page or recreation aide) at the federal minimum wage, 8 to 14 hours a week. Which first jobs do 14- to 17-year-olds actually hold, how does that vary by place and industry, what do they pay by state, and what hour limits apply to minors during the school year?",
+  "question": "A teenager's first job is a weekend stock clerk at a generated neighborhood grocery, 8 to 14 hours a week, now paid at the federal minimum wage as a placeholder. Which first jobs do 14- to 17-year-olds actually hold, how does that vary by place and industry (including the five inhabited territories), what do they pay by state or territory, and what hour limits apply to minors during the school year?",
   "questionId": "teen-first-jobs",
   "relatedQuestionIds": [
     "public-employer-roles-and-pay",
@@ -32,5 +31,5 @@
   ],
   "title": "Which first jobs teenagers hold, and what they pay",
   "usableAnswer": "A short list of first jobs by place type or industry, each with a typical hourly pay range by state and its source, plus the hour limits for 14- and 15-year-olds and for 16- and 17-year-olds during the school year.",
-  "whyItMatters": "Every life that takes a job as a teenager goes through this, and today every one of them is a library page or recreation aide at minimum wage."
+  "whyItMatters": "Every life that takes a job as a teenager goes through this, and today every one of them is the same stock clerk at minimum wage."
 }
