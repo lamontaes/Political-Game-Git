@@ -5,7 +5,7 @@ section: Changed
 title: Newsrooms now weigh how much a story matters, and big local news can go national.
 ---
 
-Newsrooms still favour open matters and stories that name people. They now
+Newsrooms still favor open matters and stories that name people. They now
 also weigh the scale an event records, such as how severe a flood was, whether
 it involves a public office, and whether it happened in the outlet's own area.
 Good news and bad news of the same size count the same. When a member of
