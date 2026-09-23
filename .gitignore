@@ -7,6 +7,9 @@ playwright-report/
 test-results/
 .DS_Store
 *.log
+# ChatGPT's answer folders keep every file byte for byte, logs included;
+# each folder's SHA256SUMS lists them and a test checks them.
+!docs/research/chatgpt-answers/**/*.log
 .env
 .env.*
 !.env.example

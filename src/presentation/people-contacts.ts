@@ -1,6 +1,8 @@
 import { addDays, personName } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
+  CONTACT_ACCEPTED_EVENT,
+  CONTACT_DECLINED_EVENT,
   CONTACT_MAXIMUM_NOTICE_DAYS,
   CONTACT_MINIMUM_NOTICE_DAYS,
   answerContact,
@@ -14,6 +16,10 @@ import type {
   ContactProposal,
 } from "../simulation/people-contact";
 import { describePersonContext } from "../simulation/person-context";
+import {
+  describeRelationshipStanding,
+  readRelationshipStanding,
+} from "../simulation/relationship-standing";
 import { proseDate } from "./prose-dates";
 
 /**
@@ -52,6 +58,25 @@ export interface ContactEntry {
   readonly lastContactOn: IsoDate | null;
   readonly lastContactSpoken: string | null;
   readonly outOfTouch: boolean;
+  /**
+   * Whether they live with the played person now. Living together is being in
+   * touch, so the screen says so rather than quoting the last date something
+   * happened to be recorded between them.
+   */
+  readonly livesWithYou: boolean;
+  /**
+   * How the played person stands with them, in the same sentence the person
+   * card uses: a falling out, a debt or a friendship gone quiet. Null when
+   * there is nothing past the ordinary to say.
+   */
+  readonly standing: string | null;
+  /**
+   * What became of the last time one of them asked the other, while it still
+   * matters: the day has not come yet, or the answer is under a week old.
+   * Without it an answered request simply vanished and the Ask button came
+   * back, which read as though the request had been lost.
+   */
+  readonly lastAnswer: string | null;
   readonly channels: readonly ContactChannel[];
   readonly actions: readonly ContactAction[];
   readonly outstanding: OutstandingProposal | null;
@@ -76,6 +101,8 @@ export function projectContacts(
   );
   const contacts = contactBases(world, personId).map((basis): ContactEntry => {
     const outstanding = outstandingWith(proposals, personId, basis.personId);
+    const standing = readRelationshipStanding(world, personId, basis.personId);
+    const livesWithYou = standing.absence.sharesHome;
     const waiting =
       outstanding?.direction === "you-asked"
         ? `You asked, and ${basis.name} has not answered yet.`
@@ -91,7 +118,13 @@ export function projectContacts(
       lastContactSpoken: basis.lastContactOn
         ? proseDate(basis.lastContactOn)
         : null,
-      outOfTouch: basis.gap === "long-gap",
+      outOfTouch: !livesWithYou && basis.gap === "long-gap",
+      livesWithYou,
+      lastAnswer: lastAnswerBetween(world, personId, basis.personId),
+      standing: describeRelationshipStanding(
+        standing,
+        world.people[basis.personId]?.givenName ?? basis.name,
+      ),
       channels: basis.channels,
       actions: [
         {
@@ -203,4 +236,53 @@ export function offerAnotherDay(
     proposalEventId: input.proposalEventId,
     on: input.on,
   });
+}
+
+/** How long an answer stays on the row once its day has passed. Display only. */
+const ANSWER_SHOWN_FOR_DAYS = 7;
+
+function lastAnswerBetween(
+  world: World,
+  personId: EntityId,
+  otherId: EntityId,
+): string | null {
+  const proposal = contactProposals(world, personId)
+    .filter(
+      (entry) =>
+        entry.answered &&
+        (entry.fromPersonId === otherId || entry.toPersonId === otherId),
+    )
+    .at(-1);
+  if (!proposal) return null;
+  const answer = world.history.events
+    .filter(
+      (event) =>
+        (event.type === CONTACT_ACCEPTED_EVENT ||
+          event.type === CONTACT_DECLINED_EVENT) &&
+        event.tags.includes(`contact.proposal:${proposal.eventId}`),
+    )
+    .at(-1);
+  if (!answer) return null;
+  const stillMatters =
+    proposal.on >= world.currentDate ||
+    addDays(answer.occurredAt, ANSWER_SHOWN_FOR_DAYS) >= world.currentDate;
+  if (!stillMatters) return null;
+  const other = world.people[otherId];
+  if (!other) return null;
+  const name = other.givenName;
+  const day = proseDate(proposal.on);
+  const theyAnswered = proposal.fromPersonId === personId;
+  if (answer.tags.includes("contact.lapsed")) {
+    return theyAnswered
+      ? `You asked to meet on ${day}, and ${name} never answered.`
+      : `${name} asked to meet on ${day}, and the day passed without an answer.`;
+  }
+  if (answer.type === CONTACT_ACCEPTED_EVENT) {
+    return theyAnswered
+      ? `${name} said yes to meeting on ${day}.`
+      : `You said yes to meeting ${name} on ${day}.`;
+  }
+  return theyAnswered
+    ? `${name} could not meet on ${day}.`
+    : `You told ${name} you could not meet on ${day}.`;
 }

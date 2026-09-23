@@ -45,7 +45,7 @@ export * from "./offices";
 export * from "./continuity";
 export * from "./notices";
 export * from "./disaster";
-export * from "./handling-reactions";
+export * from "./disaster-warrants";
 export * from "./hazard-producer";
 export * from "./international";
 

@@ -38,14 +38,14 @@ if (!bookkeeper) return done("press:no-one-reviewed-the-books");
 With an empty list there is never a bookkeeper, so the path always ends on
 `press:no-one-reviewed-the-books`.
 
-## The offence works
+## The offense works
 
 The other half is real. `press/matters.ts:68` carries the action — "Use
 campaign money for a personal expense. This is misuse of campaign funds" — and
 `:150` types it as `finance.campaign-funds-personal-use`. It moves real money
 and it can be alleged and taken to an ethics body.
 
-So the offence is implemented and the thing that would discover it is looking
+So the offense is implemented and the thing that would discover it is looking
 at an empty list.
 
 ## Two things it is not, which matter for how this gets written up

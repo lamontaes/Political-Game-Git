@@ -184,7 +184,7 @@ export function observedTraitLabels(
   world: World,
   personId: EntityId,
 ): readonly string[] {
-  // One pass over the person's records first: most of the catalogue is
+  // One pass over the person's records first: most of the catalog is
   // unrecorded for anybody, and reading each trait separately would scan the
   // whole history once per trait on every render of a card.
   const recorded = new Set(
@@ -205,7 +205,7 @@ export function observedTraitLabels(
  * Every seeded trait this life has loaded beyond the build's own five: the
  * build's other packs and whatever its content packs install. The five are not
  * here: they keep their own stream and their own writer below, so a life is
- * written exactly as before for them. A catalogue added as a pack is seeded
+ * written exactly as before for them. A catalog added as a pack is seeded
  * here without a line of code naming it.
  */
 function registeredSeededTraits(world: World): readonly RegisteredTrait[] {
@@ -354,11 +354,11 @@ const SALIENT_QUALITIES_FROM_AGE = 18;
 
 /**
  * Writes the one or two qualities an adult is known for, once, from their own
- * stream, out of the personality catalogue.
+ * stream, out of the personality catalog.
  *
- * Sparse on purpose: every other scale in the catalogue stays unrecorded,
+ * Sparse on purpose: every other scale in the catalog stays unrecorded,
  * which reads as unknown, not as "not like that". The draw picks a family
- * before a scale inside it, so a family the catalogue holds many words for is
+ * before a scale inside it, so a family the catalog holds many words for is
  * no more common for that, and it reads nothing about the person but who they
  * are: not their sex, race, income, schooling or party.
  *
@@ -367,7 +367,7 @@ const SALIENT_QUALITIES_FROM_AGE = 18;
  * are PRIVATE CALIBRATION, not researched: one or two with equal odds, and
  * strongly held one time in four.
  *
- * Anybody holding any catalogue record already has theirs, so this writes
+ * Anybody holding any catalog record already has theirs, so this writes
  * nothing twice and never over a quality a life has since moved. Children are
  * left until they are adults, because these are adult descriptors, not an
  * infant's nature.

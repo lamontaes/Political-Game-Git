@@ -70,7 +70,11 @@ import {
 import { recordWorldEvent } from "./world";
 import { evaluateLifeEligibility } from "./life-eligibility";
 import { SeededRng } from "./rng";
-import { lifePathDefinition, LIFE_PATHS2_CATALOG } from "./life-paths2-catalog";
+import {
+  employerName,
+  lifePathDefinition,
+  LIFE_PATHS2_CATALOG,
+} from "./life-paths2-catalog";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type {
   EntityId,
@@ -208,7 +212,7 @@ function ensureOrganization(
     formedAt: world.currentDate,
     provenance: authored,
     initialProfile: {
-      name: path.organizationName,
+      name: employerName(path),
       classification:
         path.kind === "study" ? "service:college" : "community:association",
       locationJurisdictionId: null,
@@ -523,7 +527,7 @@ export function scheduleLifePathSession(
       responsiblePersonId: actor,
       location: {
         locationKey: `life-paths2:${path.id}`,
-        label: path.organizationName,
+        label: employerName(path),
         jurisdictionId: null,
       },
       sourceEntityIds: [id],
@@ -1274,7 +1278,7 @@ export function recruitLifePathPerson(
         formedAt: world.currentDate,
         provenance: authored,
         initialProfile: {
-          name: "Personal work project (fictional)",
+          name: "Personal work project",
           classification: "community:personal-project",
           locationJurisdictionId: null,
         },

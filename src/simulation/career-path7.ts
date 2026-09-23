@@ -15,7 +15,7 @@ import {
 } from "./resources";
 import { resourceFlowTermsAt } from "./resource-queries";
 import { recordWorldEvent } from "./world";
-import { lifePathDefinition } from "./life-paths2-catalog";
+import { employerName, lifePathDefinition } from "./life-paths2-catalog";
 import {
   lifePathEntryReason,
   pathForRelationship,
@@ -119,7 +119,7 @@ export function seekCareerOffer(w: World, p: CareerProvider): LifePathResult {
       formedAt: n.currentDate,
       provenance: authored,
       initialProfile: {
-        name: path.organizationName,
+        name: employerName(path),
         classification: "community:cooperative",
         locationJurisdictionId: null,
       },
@@ -161,7 +161,7 @@ export function seekCareerOffer(w: World, p: CareerProvider): LifePathResult {
     n,
     "offer",
     [a, org.id, work.id],
-    `${path.organizationName} offers ${path.title}: $${(path.sessionPayMinor / 100).toFixed(2)} for each completed ${path.sessionMinutes}-minute shift, paid the following day. Terms are game-authored. Source task context: O*NET ${p.sourceVersion}, ${p.occupationCode}.`,
+    `${employerName(path)} offers ${path.title}: $${(path.sessionPayMinor / 100).toFixed(2)} for each completed ${path.sessionMinutes}-minute shift, paid the following day.`,
   );
   return result(
     n,
@@ -182,6 +182,20 @@ function owned(w: World, id: EntityId, p: CareerProvider) {
       ),
   );
 }
+/**
+ * Whether the character has accepted this offer's terms.
+ *
+ * Accepting records an event and leaves the work status at `expected` until
+ * the character begins on or after the start date, so the status alone cannot
+ * tell an accepted offer from an unanswered one. Everything that asks "is this
+ * offer still waiting for an answer?" reads this instead.
+ */
+export function careerOfferAccepted(w: World, id: EntityId): boolean {
+  return w.history.events.some(
+    (e) =>
+      e.type === "career-path7.accepted" && e.involvedEntityIds.includes(id),
+  );
+}
 export function respondCareerOffer(
   w: World,
   id: EntityId,
@@ -195,12 +209,7 @@ export function respondCareerOffer(
     const reason = careerEligibility(w, p);
     if (reason) return result(w, false, reason);
   }
-  if (
-    w.history.events.some(
-      (e) =>
-        e.type === "career-path7.accepted" && e.involvedEntityIds.includes(id),
-    )
-  )
+  if (careerOfferAccepted(w, id))
     return result(w, false, "You have already accepted these terms.");
   if (accept)
     return result(
@@ -239,10 +248,7 @@ export function startCareerWork(
     !r ||
     workStatusAt(w, id)?.status !== "expected" ||
     r.startedAt > w.currentDate ||
-    !w.history.events.some(
-      (e) =>
-        e.type === "career-path7.accepted" && e.involvedEntityIds.includes(id),
-    )
+    !careerOfferAccepted(w, id)
   )
     return result(w, false, "Accept the offer and wait until its start date.");
   const reason = careerEligibility(w, p);
@@ -301,7 +307,7 @@ export function scheduleCareerTask(
       scheduled.world,
       "task-planned",
       [r.personId, id, activity.id],
-      `O*NET ${p.sourceVersion} task ${task.id}: ${task.text}`,
+      `Planned for your next shift: ${task.text}`,
     ),
     true,
     "The responsibility is scheduled within your next shift.",
