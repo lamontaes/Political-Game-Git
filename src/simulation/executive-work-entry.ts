@@ -27,6 +27,7 @@ import {
   EXECUTIVE_QUALIFICATION,
   EXECUTIVE_TERM_END,
   electedExecutiveOfficeForKey,
+  electedExecutiveOfficeJurisdiction,
   electedExecutiveTermForRelationship,
   recordedExecutiveQualification,
   resolveExecutiveOffice,
@@ -308,7 +309,9 @@ function requireElectedExecutiveContest(world: World, contestId: EntityId) {
   if (!office) {
     throw new Error("That office is not an elected executive office.");
   }
-  const jurisdiction = stateJurisdictionForKey(office.jurisdictionKey);
+  const jurisdiction = electedExecutiveOfficeJurisdiction(
+    office.jurisdictionKey,
+  );
   if (!jurisdiction) {
     throw new Error(
       "This office has no supported governing jurisdiction in this World.",

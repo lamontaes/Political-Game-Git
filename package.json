@@ -12,6 +12,8 @@
     "build:steps": "npm run typecheck && npm run export:state-voting-context && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs && node scripts/stamp-client-provenance.mjs",
     "preview": "vite preview",
     "demo": "node --import tsx src/cli/demo.ts",
+    "playtest:mass": "node --import tsx scripts/playtest/mass-play/run.ts",
+    "playtest:mass-summary": "node --import tsx scripts/playtest/mass-play/summarize.ts",
     "source:acquire": "node --import tsx scripts/source/acquire.ts",
     "source:verify-artifacts": "node --import tsx scripts/source/verify-artifacts.ts",
     "source:compile": "node --import tsx scripts/source/compile.ts",
