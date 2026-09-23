@@ -5,6 +5,8 @@ import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
+import { applyFederalReform } from "./living-world/federal-reform";
+import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
 import {
   addDays,
@@ -1672,11 +1674,17 @@ function setCurrentMoment(
     applyCrisisOfficeContinuity(
       applyCongressLawmaking(
         crossedFrom,
-        applyConstitutionalReform(
+        applyFederalReform(
           crossedFrom,
-          applyGovernorTurnover(
+          applyConstitutionalReform(
             crossedFrom,
-            applyCongressTurnover(crossedFrom, moved),
+            applyPresidentialTurnover(
+              crossedFrom,
+              applyGovernorTurnover(
+                crossedFrom,
+                applyCongressTurnover(crossedFrom, moved),
+              ),
+            ),
           ),
         ),
       ),
