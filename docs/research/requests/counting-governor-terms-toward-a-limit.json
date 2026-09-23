@@ -21,7 +21,7 @@
     },
     {
       "source": "src/simulation/nationwide-world/executive-term-rules-in-world.ts, deferredFromImmediate",
-      "whatItDidNotSettle": "A term-length change aimed at the sitting term is applied from the next term, because moving a sitting term's end is not modelled."
+      "whatItDidNotSettle": "A term-length change aimed at the sitting term is applied from the next term, because moving a sitting term's end is not modeled."
     },
     {
       "source": "docs/research/requests/executive-terms-and-incumbency-turnover.json and changing-governor-term-limits.json",
