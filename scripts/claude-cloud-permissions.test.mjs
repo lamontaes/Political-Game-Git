@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import process from "node:process";
 import { URL } from "node:url";
-import { test } from "node:test";
+import { test } from "vitest";
 import { cloudPermission } from "./claude-cloud-permissions.mjs";
 
 const input = {
