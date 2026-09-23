@@ -25,7 +25,7 @@ itself was seen in all fifteen towns of
 Filing for anything, anywhere, produced a two-name ballot. The campaign band
 read "Running against <one name>" and election night printed the player and one
 other person. The winning share sat between 71% and 90% in every town walked,
-which is what a two-horse race with one modelled candidate produces.
+which is what a two-horse race with one modeled candidate produces.
 
 lamontae's ruling, which is what makes this a defect rather than a design
 choice: "Of course the candidate should face more than one. there's primaries.

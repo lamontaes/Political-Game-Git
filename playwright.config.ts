@@ -10,7 +10,7 @@ const nodeBinary = process.execPath;
  * Setting PLAYWRIGHT_PORT gives a concurrent worktree a server of its own. The port
  * default is unchanged; server reuse now requires explicit opt-in plus identity verification.
  */
-import { dirname } from "node:path";
+import { dirname, join } from "node:path";
 import { gateEntryPoint } from "./scripts/storage/storage-guard.mjs";
 import { runConfig } from "./scripts/dev-lab/run-config";
 import { historicalEvidenceHashes } from "./scripts/dev-lab/historical-evidence";
@@ -27,6 +27,13 @@ if (process.env.TEST_WORKER_INDEX === undefined)
     outputPaths: [run.artifacts],
   });
 process.env.PG_RUN_ID = run.runId;
+// The Art Desk bridge can write to the owner's persistent store and shared
+// Drive mirror by default. Every browser run must use its own disposable store,
+// including when the runner inherited a live app's environment.
+const artbenchDataRoot = join(run.artifacts, "artbench");
+process.env.PG_ARTBENCH_DATA_ROOT = artbenchDataRoot;
+process.env.PG_ARTBENCH_DRIVE_ROOT = join(run.artifacts, "artbench-exchange");
+process.env.PG_ARTBENCH_OWNER_ID = "e2e-fixture-owner";
 const expectedIdentity = sourceIdentity();
 
 export default defineConfig({
@@ -37,6 +44,7 @@ export default defineConfig({
   metadata: {
     expectedIdentity,
     artifacts: run.artifacts,
+    artbenchDataRoot,
     historicalEvidence: historicalEvidenceHashes(),
   },
   /*
