@@ -1,5 +1,6 @@
 import { legislativeTermDates } from "../simulation/legislative-office-terms";
 import { proseDate } from "./prose-dates";
+import { jailTermOn } from "../simulation/justice/jail-terms";
 import {
   FILING_LEAD_DAYS,
   nextTownElection,
@@ -33,6 +34,7 @@ import {
   scheduleCampaignAction,
   scheduledActivityState,
   simulationMomentAtLocalTime,
+  stateExecutiveEntryStatus,
 } from "../simulation";
 import type {
   CampaignActionKind,
@@ -477,11 +479,11 @@ export function projectCampaign(
         ? ((term) =>
             term
               ? `${candidateName} won. The term begins ${proseDate(term.startsAt)}; until then the office is not theirs.`
-              : `${candidateName} won. The seat is theirs, and so is everything that came before it.`)(
+              : `${candidateName} won.`)(
             legislativeTermDates(
               contest.office.officeKey,
               contest.electionDate,
-            ),
+            ) ?? executiveTermStart(world, personId, contest.id),
           )
         : state.status === "lost"
           ? `${candidateName} lost. That is a thing that happened to them, not the end of them — tomorrow is still there.`
@@ -604,15 +606,18 @@ function offersFor(
   const daysLeft = daysUntilElection(world, campaign);
   const closed = daysLeft <= 0;
   const buy = advertisingBuyFor(treasury);
+  const jailed = jailTermOn(world, campaign.candidatePersonId);
   return (["fundraising", "outreach", "advertising"] as const).map((kind) => {
     const spend = kind === "advertising" ? buy : null;
-    const unavailable = closed
-      ? "Election day has arrived. There is nothing left to do but wait for the count."
-      : kind === "advertising" && treasury.minorUnits <= 0
-        ? "There is nothing in the account to spend."
-        : freeSlotToday(world, campaign.candidatePersonId, kind) === null
-          ? "The rest of today is already spoken for. Get on with the day and pick this up tomorrow."
-          : null;
+    const unavailable = jailed
+      ? `You are in jail until ${proseDate(jailed.until)}. Your name stays on the ballot, but you cannot campaign.`
+      : closed
+        ? "Election day has arrived. There is nothing left to do but wait for the count."
+        : kind === "advertising" && treasury.minorUnits <= 0
+          ? "There is nothing in the account to spend."
+          : freeSlotToday(world, campaign.candidatePersonId, kind) === null
+            ? "The rest of today is already spoken for. Get on with the day and pick this up tomorrow."
+            : null;
     return {
       kind,
       label:
@@ -919,4 +924,16 @@ export function candidateAge(world: World, personId: EntityId): number {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
   return ageOnDate(person.birthDate, world.currentDate);
+}
+
+/** When a won state executive term begins, where the game has dated it. */
+function executiveTermStart(
+  world: World,
+  personId: EntityId,
+  contestId: EntityId,
+): { readonly startsAt: IsoDate } | null {
+  const status = stateExecutiveEntryStatus(world, personId);
+  return "startsAt" in status && status.contestId === contestId
+    ? { startsAt: status.startsAt }
+    : null;
 }
