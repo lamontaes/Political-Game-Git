@@ -124,7 +124,7 @@ export function elapsedPhrase(days: number): string {
   if (days <= 450) return "A year on";
   // Caribou read "The better part of two years later" after 13 months.
   if (days <= 600) return "A year and a half on";
-  if (days < 730) return "Nearly two years later";
+  if (days < 730) return "The better part of two years later";
   const years = Math.round(days / 365);
   return `${years} years later`;
 }

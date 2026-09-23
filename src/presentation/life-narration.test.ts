@@ -260,7 +260,7 @@ describe("the elapsed opener says the gap a person would say", () => {
     [365, "A year on"],
     [406, "A year on"],
     [540, "A year and a half on"],
-    [700, "Nearly two years later"],
+    [700, "The better part of two years later"],
     [730, "2 years later"],
     [1100, "3 years later"],
   ])("%i days reads %s", (days, phrase) => {
