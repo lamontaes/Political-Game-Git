@@ -12,6 +12,7 @@ import { adoptEnactedTaxPolicy } from "./tax-policy";
 import { taxActivationReadiness } from "./tax-policy-activation";
 import {
   TRANSIT_FAMILY_KEY,
+  TRANSIT_PROGRAM_KEY,
   TRANSIT_VARIANT_KEY,
 } from "./legislation-transit-families";
 import { resolveTransitFunding } from "./transit-funding";
@@ -187,7 +188,9 @@ function isPinnedTransitMeasure(world: World, measureId: EntityId): boolean {
   const lineage = draftLineageForMeasure(world, measureId);
   return (
     lineage?.familyKey === TRANSIT_FAMILY_KEY &&
-    lineage.variantKey === TRANSIT_VARIANT_KEY
+    lineage.variantKey === TRANSIT_VARIANT_KEY &&
+    lineage.authorityKey === TRANSIT_PROGRAM_KEY &&
+    !lineage.authorityMeasureId
   );
 }
 
@@ -318,7 +321,7 @@ export function enactedLawEffects(
     measureId,
     designation: enactment.actDesignation ?? measure.designation,
     shortTitle: measure.shortTitle,
-    level: levelOfGovernment(world, measure.jurisdictionId),
+    level: levelOfGovernment(world, measure),
     enactedOn: enactment.resolvedAt,
     effectiveAt: enactment.effectiveAt,
     lines,
@@ -467,10 +470,12 @@ function clauseDimensions(
 
 function levelOfGovernment(
   world: World,
-  jurisdictionId: EntityId,
+  measure: { readonly jurisdictionId: EntityId; readonly rulePackId: string },
 ): LawLevelOfGovernment {
-  const jurisdiction = world.jurisdictions[jurisdictionId];
+  if (measure.rulePackId === "us-congress-v1") return "federal";
+  const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction) return "local";
-  if (["united-states", "us"].includes(jurisdiction.slug)) return "federal";
+  if (["us-federal", "united-states", "us"].includes(jurisdiction.slug))
+    return "federal";
   return stateKeyForJurisdictionSlug(jurisdiction.slug) ? "state" : "local";
 }

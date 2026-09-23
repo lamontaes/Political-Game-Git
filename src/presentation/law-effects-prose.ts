@@ -33,8 +33,11 @@ const dollars = (minorUnits: number) => formatMinorUnits(minorUnits, "USD");
 function sentenceFor(line: LawEffectLine): string {
   switch (line.kind) {
     case "tax": {
+      // The reason stays in the record: it is written for the tax engine, not
+      // for a reader, and an older save can hold a tax enacted before every
+      // route adopted one.
       if (line.status === "refused")
-        return `The tax on ${line.baseLabel} has not taken effect. ${line.reason ?? ""}`.trim();
+        return `The tax on ${line.baseLabel} has not taken effect, and nothing is being collected under it.`;
       if (line.status === "scheduled")
         return `The tax on ${line.baseLabel} takes effect on ${proseDate(line.effectiveAt!)}. Nothing is collected before then.`;
       const collected =
@@ -53,7 +56,9 @@ function sentenceFor(line: LawEffectLine): string {
       const familyKey = line.programKey.split(":")[0] ?? "";
       const title =
         familyKey === "appropriations" ? null : programFamilyTitle(familyKey);
-      const program = title ? ` for ${title.toLowerCase()}` : "";
+      const program = title
+        ? ` for ${title.charAt(0).toLowerCase()}${title.slice(1)}`
+        : "";
       const amount = dollars(line.amountMinorUnits);
       if (line.status === "scheduled")
         return `It provides ${amount}${program}, which can be spent from ${proseDate(line.availableFrom)}.`;
@@ -78,7 +83,7 @@ function sentenceFor(line: LawEffectLine): string {
     case "transit":
       return line.status === "available"
         ? `Its transit money${line.amountMinorUnits !== null ? `, ${dollars(line.amountMinorUnits)},` : ""} is available to run service.`
-        : `Its transit money has not reached service. ${line.reason ?? ""}`.trim();
+        : "Its transit money has not reached service yet.";
     case "rule-change": {
       const rule = isAmendableRuleField(line.field)
         ? amendableRuleFieldLabel(line.field)
