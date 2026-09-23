@@ -1,5 +1,5 @@
 import { homePartyChapters } from "./living-world/party-chapters";
-import { addDays } from "./dates";
+import { addDays, ageOnDate } from "./dates";
 import { evaluateDecision } from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
@@ -201,7 +201,13 @@ export function contactBases(
     const other = interaction.personIds.find((id) => id !== personId);
     if (other) add(other, "somebody you know");
   }
-  for (const chapter of homePartyChapters(world)) {
+  // A party chapter's organizer is somebody an adult can reach about party
+  // work. A child was offered a meeting with one (Juneau playtest,
+  // 2026-09-23); party and campaign activity is for adults.
+  const person = world.people[personId];
+  const adult =
+    !!person && ageOnDate(person.birthDate, world.currentDate) >= 18;
+  for (const chapter of adult ? homePartyChapters(world) : []) {
     if (chapter.organizerPersonId) {
       add(chapter.organizerPersonId, `public organizer of ${chapter.name}`);
     }

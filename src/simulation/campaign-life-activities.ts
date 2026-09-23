@@ -130,8 +130,11 @@ export const CAMPAIGN_LIFE_CONTACT_TAG = "campaign.contact";
 export const CAMPAIGN_LIFE_LATEST_END_MINUTE = 21 * 60;
 
 /** Authored cadence for this fictional setting, not a claim about any party. */
+/** Party and campaign activities are for adults: the age every offer checks. */
+export const CAMPAIGN_LIFE_MINIMUM_AGE = 18;
+
 const LIFE = {
-  minimumAge: 18,
+  minimumAge: CAMPAIGN_LIFE_MINIMUM_AGE,
   firstOutreachDays: [5, 12],
   deferDays: 7,
   nextOutreachDays: [10, 21],

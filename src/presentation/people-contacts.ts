@@ -1,4 +1,4 @@
-import { addDays, personName } from "../simulation";
+import { addDays, ageOnDate, personName } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   CONTACT_ACCEPTED_EVENT,
@@ -147,16 +147,27 @@ export function projectContacts(
       ),
       channels: basis.channels,
       actions: [
-        {
-          kind: "ask-to-meet",
-          label: `Ask ${basis.name} to meet`,
-          available: !outstanding,
-          unavailableReason:
-            waiting ??
-            (outstanding
-              ? `${basis.name} has asked you first; answer that.`
-              : null),
-        },
+        childAskingAnAdult(world, personId, basis.personId, {
+          family: basis.basis.includes("family"),
+          livesWithYou,
+        })
+          ? {
+              kind: "ask-to-meet",
+              label: `Ask ${basis.name} to meet`,
+              available: false,
+              unavailableReason:
+                "Seeing an adult outside your family is something your parent or guardian arranges.",
+            }
+          : {
+              kind: "ask-to-meet",
+              label: `Ask ${basis.name} to meet`,
+              available: !outstanding,
+              unavailableReason:
+                waiting ??
+                (outstanding
+                  ? `${basis.name} has asked you first; answer that.`
+                  : null),
+            },
         ...romanticActions(world, personId, basis.personId, basis.name, {
           outstanding: !!outstanding,
           waiting,
@@ -208,6 +219,28 @@ function outstandingWith(
     onSpoken: proseDate(found.on),
     purpose: found.purpose,
   };
+}
+
+/**
+ * A child arranging, on their own, to see an adult who is neither family nor
+ * somebody they live with. The game does not offer it: an 8-year-old was
+ * offered a meeting with a party organizer (Juneau playtest, 2026-09-23).
+ * Family, housemates and children their own age stay reachable.
+ */
+function childAskingAnAdult(
+  world: World,
+  personId: EntityId,
+  otherId: EntityId,
+  ties: { readonly family: boolean; readonly livesWithYou: boolean },
+): boolean {
+  if (ties.family || ties.livesWithYou) return false;
+  const person = world.people[personId];
+  const other = world.people[otherId];
+  if (!person || !other) return false;
+  return (
+    ageOnDate(person.birthDate, world.currentDate) < 18 &&
+    ageOnDate(other.birthDate, world.currentDate) >= 18
+  );
 }
 
 /**

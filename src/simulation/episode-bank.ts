@@ -472,6 +472,11 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
   family: "companionship",
   authority: PLAYTEST_AUTHORITY,
   roles: ["familiar"],
+  // A friend a child grows up with is somebody their own age. Without this a
+  // child's teacher was cast as the friend whose house they spent the year in
+  // (Juneau playtest, 2026-09-23). The bus-stop stages merged in below were
+  // authored with the same restriction.
+  peerRoles: ["familiar"],
   stages: [
     ...LIFE_CONTENT_92C_COMPANIONSHIP_STAGES,
     {
