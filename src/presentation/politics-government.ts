@@ -33,7 +33,9 @@ import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import {
   planStateChambers,
+  stateLegislativeSeats,
   stateLegislators,
+  stateSeatTitle,
 } from "../simulation/nationwide-world/state-legislature-opening";
 import { isTerritoryUsps } from "../simulation/state-reference";
 import {
@@ -824,19 +826,24 @@ function seatedStateRoster(
   const candidacy = stateCandidacyPack(`US-${usps}`);
   if (!candidacy) return [];
   const suffix = `:${chamberKey}`;
-  return stateLegislators(world, candidacy.packId)
-    .filter((member) => member.officeKey.endsWith(suffix))
-    .sort((a, b) => a.ordinal - b.ordinal)
-    .map((member) => ({
-      key: `${member.officeKey}:${member.ordinal}`,
-      seatLabel: member.title,
+  return stateLegislativeSeats(world, candidacy.packId)
+    .filter((seat) => seat.officeKey.endsWith(suffix))
+    .map((seat) => ({
+      key: `${seat.officeKey}:${seat.ordinal}`,
+      seatLabel: seat.title,
       // Null: every member is from this state, so there is no separate
       // home-state delegation to list above the roster.
       stateUsps: null,
-      status: "member" as const,
-      holderName: personName(world.people[member.personId]!),
-      holderPersonId: member.personId,
-      note: null,
+      status: seat.member ? ("member" as const) : ("vacancy" as const),
+      holderName: seat.member
+        ? personName(world.people[seat.member.personId]!)
+        : null,
+      holderPersonId: seat.member?.personId ?? null,
+      note: seat.member
+        ? null
+        : seat.holderDiedOn
+          ? `Vacant since ${proseDate(seat.holderDiedOn)}, when the member died. State legislative elections are not held yet, so no one has filled the seat.`
+          : "Vacant. State legislative elections are not held yet, so no one has filled the seat.",
     }));
 }
 
@@ -887,12 +894,21 @@ function representedBy(
       note: `${title === "Resident Commissioner" ? "The Resident Commissioner" : "The Delegate"} speaks for all of ${nameInSentence(usps, state)} in the House and does not cast final votes there. No current record names who holds the seat.`,
     });
   } else {
+    // A member of the House is placed in the district of the seat they
+    // hold, which is recorded, when the home's own district is not.
+    const shownSeat =
+      houseSeat ??
+      houseSeats.find(
+        (seat) =>
+          seat.occupant.kind === "member" &&
+          seat.occupant.member.personId === personId,
+      );
     rows.push({
       key: "us-house",
       office: "U.S. House",
-      district: houseSeat ? seatLabelFor(houseSeat) : null,
-      holders: houseSeat ? [seatHolder(houseSeat)] : [],
-      note: houseSeat
+      district: shownSeat ? seatLabelFor(shownSeat) : null,
+      holders: shownSeat ? [seatHolder(shownSeat)] : [],
+      note: shownSeat
         ? null
         : `Your congressional district in ${state} is not recorded for your home.`,
     });
@@ -921,27 +937,47 @@ function representedBy(
     const identity = interval
       ? districtIdentityByRecordId(catalog, interval.binding.recordId)
       : null;
-    // The members the opening seated in this district, by seat ordinal.
+    // The members the opening seated in this district, by seat ordinal, and
+    // any the law elects at large for the whole state. A member's recorded
+    // title must agree with the seat's district, so a save seated under an
+    // older plan never names someone for a district they were not given.
     const plan = plans.find((candidate) =>
       candidate.officeKey.endsWith(`:${chamber.chamberKey}`),
     );
-    const holders =
-      identity && plan
-        ? seated
-            .filter(
-              (member) =>
-                member.officeKey === plan.officeKey &&
-                plan.districts[member.ordinal - 1]?.recordId ===
-                  identity.recordId,
-            )
-            .sort((a, b) => a.ordinal - b.ordinal)
-            .map((member) => ({
-              key: `${member.officeKey}:${member.ordinal}`,
-              status: "member" as const,
-              name: personName(world.people[member.personId]!),
-              personId: member.personId,
-            }))
-        : [];
+    const representing = (member: (typeof seated)[number]) => {
+      if (!plan || member.officeKey !== plan.officeKey) return false;
+      if (member.ordinal > plan.size - plan.atLargeSeats)
+        return (
+          member.title ===
+          stateSeatTitle(plan.chamberName, null, member.ordinal, true)
+        );
+      const district = plan.districts[member.ordinal - 1];
+      return (
+        !!identity &&
+        district?.recordId === identity.recordId &&
+        member.title ===
+          stateSeatTitle(plan.chamberName, district, member.ordinal)
+      );
+    };
+    const atLarge = identity
+      ? seated.filter(
+          (member) =>
+            representing(member) &&
+            plan !== undefined &&
+            member.ordinal > plan.size - plan.atLargeSeats,
+        ).length
+      : 0;
+    const holders = identity
+      ? seated
+          .filter(representing)
+          .sort((a, b) => a.ordinal - b.ordinal)
+          .map((member) => ({
+            key: `${member.officeKey}:${member.ordinal}`,
+            status: "member" as const,
+            name: personName(world.people[member.personId]!),
+            personId: member.personId,
+          }))
+      : [];
     rows.push({
       key: `state:${chamber.chamberKey}`,
       office: chamber.name,
@@ -951,9 +987,11 @@ function representedBy(
       holders,
       note: !identity
         ? "Your district for this chamber is not recorded for your home."
-        : holders.length
-          ? null
-          : "No current record of who holds this seat.",
+        : holders.length === 0
+          ? "No current record of who holds this seat."
+          : atLarge > 0
+            ? `${atLarge} of them are elected at large and represent all of ${nameInSentence(usps, state)}.`
+            : null,
     });
   }
   return rows;

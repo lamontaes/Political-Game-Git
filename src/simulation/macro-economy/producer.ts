@@ -15,6 +15,7 @@ import {
   annualizedQuarterlyGrowthPct,
   drawInnovations,
   roundMacro,
+  stepLocalMonth,
   stepMonth,
   twelveMonthChangePct,
   type MacroImpulses,
@@ -25,6 +26,7 @@ import {
   CHANGE_AUTHORED_IMPULSES_VERSION,
   CRUNCH46_PROVISIONAL_POLICY as POLICY,
   MACRO_POLICY_VERSION,
+  UNEMPLOYMENT_RECOVERY_RULE,
 } from "./policy";
 import { MACRO_ORIGIN_READERS, type MacroOriginReader } from "./sources";
 import {
@@ -324,13 +326,13 @@ function nationalMonth(
     innovations,
     impulses,
     shockKeys,
+    unemploymentRule: UNEMPLOYMENT_RECOVERY_RULE,
   };
 }
 
 /**
  * A jurisdiction's local layer: national movement plus that place's own
- * shocks, with no independent random economy. Unemployment follows the
- * lagged local growth gap by the same section-13 coefficient.
+ * shocks, with no independent random economy (see `stepLocalMonth`).
  */
 function localMonth(
   store: MacroEconomyStore,
@@ -341,9 +343,6 @@ function localMonth(
 ): MacroMonthRecord {
   const previous = lastMonth(store, scope);
   const prior = previous ? stateOf(previous) : previousNational;
-  const growthGap = prior.growthPct - previousNational.growthPct;
-  const unemploymentGap =
-    prior.unemploymentPct - previousNational.unemploymentPct;
   const exposure = {
     basis: "national-average-no-local-source" as const,
     multiplier: 1,
@@ -355,22 +354,11 @@ function localMonth(
     monthKey,
     exposure.multiplier,
   );
-  const m = POLICY.monthly;
-  const growthPct = roundMacro(
-    national.growthPct + m.growthPersistence * growthGap + impulses.growthPp,
-  );
-  const bounds = POLICY.bounds.unemploymentPct;
-  const unemploymentPct = roundMacro(
-    Math.min(
-      bounds.max,
-      Math.max(
-        bounds.min,
-        national.unemploymentPct +
-          unemploymentGap -
-          m.unemploymentGrowthGapCoefficient * growthGap +
-          impulses.laborPp,
-      ),
-    ),
+  const { growthPct, unemploymentPct } = stepLocalMonth(
+    national,
+    previousNational,
+    prior,
+    impulses,
   );
   return {
     key: monthRecordKey(scope, monthKey),
@@ -399,6 +387,7 @@ function localMonth(
       pricePp: 0,
     },
     shockKeys,
+    unemploymentRule: UNEMPLOYMENT_RECOVERY_RULE,
   };
 }
 

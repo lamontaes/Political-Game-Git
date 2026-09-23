@@ -106,6 +106,8 @@ export interface SeatedChamberPlan {
   readonly basis: ChamberSizeBasis;
   /** The district each seat sits in, by ordinal; null where none is bound. */
   readonly districts: readonly (DistrictIdentity | null)[];
+  /** How many of the last seats are elected at large, by law. */
+  readonly atLargeSeats: number;
 }
 
 /**
@@ -161,34 +163,56 @@ export function planStateChambers(pack: CandidacyPack): {
       });
       continue;
     }
+    const atLargeSeats = Math.min(
+      size,
+      AT_LARGE_SEATS[pack.jurisdictionKey]?.[chamberKey] ?? 0,
+    );
     chambers.push({
       officeKey: office.officeKey,
       chamberKey,
       chamberName: office.chamberName,
       size,
       basis,
-      districts: bindDistricts(size, districts),
+      districts: bindDistricts(size - atLargeSeats, districts, size),
+      atLargeSeats,
     });
   }
   return { chambers, unseated };
 }
 
 /**
+ * Seats a chamber elects at large, by jurisdiction and chamber key, where the
+ * law says so. Puerto Rico: eleven Senators and eleven Representatives at
+ * large beside the district members (P.R. Const. art. III, §§ 2-3; research
+ * answer OCD-PUERTO-RICO-GOVERNMENT-AND-MUNICIPIOS, 2026-09-22).
+ */
+const AT_LARGE_SEATS: Readonly<
+  Record<string, Readonly<Record<string, number>>>
+> = {
+  "US-PR": { house: 11, senate: 11 },
+};
+
+/**
  * Seats to districts. One member each where the counts match, an equal number
  * each where the seats divide evenly, and none bound otherwise: a seat is
- * never put in a district the record cannot support.
+ * never put in a district the record cannot support. Seats past the district
+ * seats are at-large seats, bound to no district.
  */
 function bindDistricts(
-  size: number,
+  districtSeats: number,
   districts: readonly DistrictIdentity[],
+  size: number = districtSeats,
 ): readonly (DistrictIdentity | null)[] {
-  if (districts.length === 0 || size % districts.length !== 0) {
+  if (
+    districtSeats <= 0 ||
+    districts.length === 0 ||
+    districtSeats % districts.length !== 0
+  ) {
     return Array.from({ length: size }, () => null);
   }
-  const perDistrict = size / districts.length;
-  return Array.from(
-    { length: size },
-    (_, index) => districts[Math.floor(index / perDistrict)]!,
+  const perDistrict = districtSeats / districts.length;
+  return Array.from({ length: size }, (_, index) =>
+    index < districtSeats ? districts[Math.floor(index / perDistrict)]! : null,
   );
 }
 
@@ -206,7 +230,9 @@ export function stateSeatTitle(
   chamberName: string,
   district: DistrictIdentity | null,
   ordinal: number,
+  atLarge = false,
 ): string {
+  if (atLarge) return `Member of the ${chamberName}, At Large`;
   return district
     ? `Member of the ${chamberName}, District ${district.districtCode.replace(/^0+(?=\d)/, "")}`
     : `Member of the ${chamberName}, Seat ${ordinal}`;
@@ -435,6 +461,7 @@ export function ensureStateLegislatureOpening(
       member.chamber.chamberName,
       member.district,
       member.ordinal,
+      member.ordinal > member.chamber.size - member.chamber.atLargeSeats,
     );
     seats.push({
       stableKey: `${STATE_LEGISLATURE_KEYS.seat(member.chamber.officeKey, member.ordinal)}:tenure`,
@@ -579,4 +606,60 @@ export function stateLegislators(
     });
   }
   return views;
+}
+
+export interface StateLegislativeSeatView {
+  readonly officeKey: string;
+  readonly ordinal: number;
+  readonly title: string;
+  /** The sitting member, or null when the seat has no living holder. */
+  readonly member: StateLegislatorView | null;
+  /** When the seat's last holder died, where that is the reason it is empty. */
+  readonly holderDiedOn: IsoDate | null;
+}
+
+/**
+ * Every seat an opening filled, whether or not it still has a holder. A seat
+ * whose member has died stays on the list as empty, so a chamber keeps its
+ * size on the screen rather than shrinking to its survivors.
+ */
+export function stateLegislativeSeats(
+  world: World,
+  packId: string,
+): readonly StateLegislativeSeatView[] {
+  const bodyId = createStableId(
+    "organization",
+    `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
+  );
+  const sitting = new Map(
+    stateLegislators(world, packId).map((member) => [
+      member.workRelationshipId,
+      member,
+    ]),
+  );
+  const prefix = `${V}:`;
+  const seats: StateLegislativeSeatView[] = [];
+  for (const work of world.history.workRelationships) {
+    if (work.organizationId !== bodyId) continue;
+    if (work.kind !== "employment:legislative-member") continue;
+    const match = work.stableKey.startsWith(prefix)
+      ? /^(.*):seat:(\d+):tenure$/.exec(work.stableKey.slice(prefix.length))
+      : null;
+    if (!match) continue;
+    const member = sitting.get(work.id) ?? null;
+    seats.push({
+      officeKey: match[1]!,
+      ordinal: Number(match[2]),
+      title: member?.title ?? workRoleAt(world, work.id)?.title ?? "",
+      member,
+      holderDiedOn: member
+        ? null
+        : (world.history.personDeaths.find(
+            (death) => death.personId === work.personId,
+          )?.diedAt ?? null),
+    });
+  }
+  return seats.sort(
+    (a, b) => a.officeKey.localeCompare(b.officeKey) || a.ordinal - b.ordinal,
+  );
 }
