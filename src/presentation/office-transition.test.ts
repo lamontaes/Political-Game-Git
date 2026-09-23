@@ -19,9 +19,7 @@ import {
   OFFICE_TRANSITION_SERVICE_ATTENDED,
   unadmittedRuleCapabilityResolver,
 } from "../simulation";
-import {
-  fileForStateExecutiveOffice,
-} from "./nationwide-candidacy";
+import { fileForStateExecutiveOffice } from "./nationwide-candidacy";
 import {
   attendOfficeTransitionService,
   projectOfficeTransition,
