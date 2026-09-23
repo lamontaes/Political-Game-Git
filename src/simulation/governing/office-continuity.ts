@@ -18,6 +18,10 @@ import {
 } from "../living-world/congress-seats";
 import type { CongressSeat } from "../living-world/congress-seats";
 import {
+  projectCongress,
+  publicPartyAffiliation,
+} from "../living-world/congress";
+import {
   CONGRESS_TURNOVER_PROFILE,
   congressionalElectionDay,
 } from "../living-world/congress-turnover";
@@ -31,6 +35,14 @@ import {
   congressSeatTitle,
   livingWorldOrganizationId,
 } from "../living-world/opening";
+import { currentPresidentOf } from "../crisis/offices";
+import {
+  FEDERAL_TENURE_EVENT,
+  FEDERAL_VACANCY_EVENT,
+  currentFederalTenure,
+  federalTenureEnd,
+  latestFederalOfficeRecord,
+} from "../federal-tenures";
 import { nationalOfficeHolder } from "../national-election-consumer";
 import { appendNationalRecord, nationalRecords } from "../national-elections";
 import { drawCanonicalNamedIdentity, personName } from "../people";
@@ -202,11 +214,25 @@ function specialElectionKey(seat: CongressSeat, vacancyDate: IsoDate): string {
   return `${OFFICE_CONTINUITY_VERSION}:special:${seat.seatKey}:${vacancyDate}`;
 }
 
-/** A dead member's seat becomes vacant from the day of death. */
+interface SeatVacancyCause {
+  readonly effectiveDate: IsoDate;
+  /** A tag value: `member-died`, `member-became-vice-president`. */
+  readonly key: string;
+  /** Finishes "The seat of the … is vacant …". */
+  readonly clause: string;
+}
+
+const MEMBER_DIED = (effectiveDate: IsoDate): SeatVacancyCause => ({
+  effectiveDate,
+  key: "member-died",
+  clause: "after the member's death",
+});
+
+/** A member's seat becomes vacant from the day they leave it. */
 function vacateSeat(
   world: World,
   seat: CongressSeat,
-  notice: OfficeContinuityNoticeInput,
+  notice: SeatVacancyCause,
 ): { world: World; ruling: OfficeContinuityRuling } {
   const title = congressSeatTitle(seat);
   const stableKey = `${OFFICE_CONTINUITY_VERSION}:vacancy:${seat.seatKey}:${notice.effectiveDate}`;
@@ -229,9 +255,9 @@ function vacateSeat(
       visibility: "public",
       tags: [
         ...seatTags(seat, notice.effectiveDate),
-        "vacancy-cause:member-died",
+        `vacancy-cause:${notice.key}`,
       ],
-      summary: `The seat of the ${title} is vacant after the member's death.`,
+      summary: `The seat of the ${title} is vacant ${notice.clause}.`,
       context: CONTEXT,
     });
   if (seat.chamberKey === "us-senate")
@@ -416,27 +442,37 @@ function presidentialRuling(
       record.id === office.termEvidenceId &&
       record.office === "president",
   );
-  if (!plan || plan.kind !== "term-plan")
-    return {
-      world,
-      ruling: {
-        ...base,
-        outcome: "blocked",
-        sentence:
-          "The Vice President becomes President under the Twenty-Fifth Amendment, but this world's opening records name no Vice President, so the presidency stays unfilled.",
-      },
-    };
+  const noVicePresident = {
+    world,
+    ruling: {
+      ...base,
+      outcome: "blocked" as const,
+      sentence:
+        "There is no sitting Vice President. The Speaker of the House is next under 3 U.S.C. § 19, but that line of succession is not modeled, so the presidency stays unfilled.",
+    },
+  };
+  if (!plan || plan.kind !== "term-plan") {
+    // A President seated by tenure record: the opening's, or one who came to
+    // the office by succession. The Vice President by tenure record succeeds.
+    const vacated = latestFederalOfficeRecord(world, "us-president");
+    const vice = currentFederalTenure(world, "us-vice-president");
+    const termEnd = vacated ? federalTenureEnd("us-president", vacated) : null;
+    if (!vice || !termEnd) return noVicePresident;
+    return tenureSuccession(world, notice, base, vice.personId, termEnd);
+  }
   const vice = nationalOfficeHolder(world, "vice-president");
-  if (!vice || vice.plan.electionId !== plan.electionId)
-    return {
+  if (!vice || vice.plan.electionId !== plan.electionId) {
+    // A Vice President confirmed under § 2 holds by tenure record.
+    const confirmed = currentFederalTenure(world, "us-vice-president");
+    if (!confirmed) return noVicePresident;
+    return tenureSuccession(
       world,
-      ruling: {
-        ...base,
-        outcome: "blocked",
-        sentence:
-          "There is no sitting Vice President. The Speaker of the House is next under 3 U.S.C. § 19, but that line of succession is not modeled, so the presidency stays unfilled.",
-      },
-    };
+      notice,
+      base,
+      confirmed.personId,
+      plan.endsAt.date,
+    );
+  }
   const death = world.history.personDeaths.find(
     (row) => row.id === notice.sourceRecordId,
   );
@@ -473,11 +509,85 @@ function presidentialRuling(
     },
   });
   return {
+    world: openVicePresidentialVacancy(next, {
+      vacancyDate: death.diedAt,
+      formerHolderId: vice.plan.personId,
+      presidentId: vice.plan.personId,
+      cause: "became-president",
+    }),
+    ruling: {
+      ...base,
+      outcome: "succeeded",
+      sentence: `${personName(world.people[vice.plan.personId]!)} became President under the Twenty-Fifth Amendment. ${VICE_PRESIDENCY_VACANT_SENTENCE}`,
+    },
+  };
+}
+
+/**
+ * § 1 for a presidency held by tenure record: the Vice President becomes
+ * President for the rest of the term, and the vice presidency falls vacant.
+ */
+function tenureSuccession(
+  world: World,
+  notice: OfficeContinuityNoticeInput,
+  base: { readonly officeKey: string; readonly title: string },
+  vicePersonId: EntityId,
+  termEnd: IsoDate,
+): { world: World; ruling: OfficeContinuityRuling } {
+  const death = world.history.personDeaths.find(
+    (row) => row.id === notice.sourceRecordId,
+  );
+  if (!death)
+    return {
+      world,
+      ruling: {
+        ...base,
+        outcome: "blocked",
+        sentence: "The death this notice reports is not in the record.",
+      },
+    };
+  const successor = world.people[vicePersonId]!;
+  const former = world.people[death.personId];
+  const stableKey = `${OFFICE_CONTINUITY_VERSION}:president-by-succession:${death.id}`;
+  let next = world;
+  if (!next.history.events.some((event) => event.stableKey === stableKey))
+    next = recordWorldEvent(next, {
+      stableKey,
+      type: FEDERAL_TENURE_EVENT,
+      occurredAt: death.diedAt,
+      recordedAt: next.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [vicePersonId],
+      participants: [
+        {
+          personId: vicePersonId,
+          role: "focus:subject",
+          detail: "President of the United States",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        OFFICE_CONTINUITY_VERSION,
+        "office:us-president",
+        `term-end:${termEnd}`,
+        "basis:us-const-amend-xxv-s1",
+      ],
+      summary: `${personName(successor)} became President of the United States${former ? ` on the death of ${personName(former)}` : ""}, and serves the rest of the term.`,
+      context: CONTEXT,
+    });
+  next = openVicePresidentialVacancy(next, {
+    vacancyDate: death.diedAt,
+    formerHolderId: vicePersonId,
+    presidentId: vicePersonId,
+    cause: "became-president",
+  });
+  return {
     world: next,
     ruling: {
       ...base,
       outcome: "succeeded",
-      sentence: `${personName(world.people[vice.plan.personId]!)} became President under the Twenty-Fifth Amendment. The vice presidency is vacant until a nominee is confirmed by both houses, which is not modeled.`,
+      sentence: `${personName(successor)} became President under the Twenty-Fifth Amendment. ${VICE_PRESIDENCY_VACANT_SENTENCE}`,
     },
   };
 }
@@ -506,18 +616,26 @@ function rulingFor(
           "Illness does not remove anyone from this office; it stays with its holder.",
       },
     };
-  if (office.officeKey === "us-vice-president")
+  if (office.officeKey === "us-vice-president") {
+    const president = currentPresidentOf(world);
     return {
-      world,
+      world: openVicePresidentialVacancy(world, {
+        vacancyDate: notice.effectiveDate,
+        formerHolderId: notice.personId,
+        presidentId: president?.personId ?? null,
+        cause: "vice-president-died",
+      }),
       ruling: {
         ...base,
         outcome: "vacant",
-        sentence:
-          "The vice presidency is vacant. The Twenty-Fifth Amendment (§ 2) fills it by presidential nomination and confirmation by both houses, which is not modeled.",
+        sentence: president
+          ? VICE_PRESIDENCY_VACANT_SENTENCE
+          : "The vice presidency is vacant, and with no sitting President there is nobody to nominate a successor.",
       },
     };
+  }
   const seat = seatFor(office.officeKey);
-  if (seat) return vacateSeat(world, seat, notice);
+  if (seat) return vacateSeat(world, seat, MEMBER_DIED(notice.effectiveDate));
   const governorship = governorOffice(office.officeKey);
   if (governorship)
     return {
@@ -537,6 +655,317 @@ function rulingFor(
         "How this office is filled is not compiled, so it stays unfilled.",
     },
   };
+}
+
+/**
+ * THE VICE PRESIDENCY FALLS VACANT — Twenty-Fifth Amendment, § 2: "Whenever
+ * there is a vacancy in the office of the Vice President, the President shall
+ * nominate a Vice President who shall take office upon confirmation by a
+ * majority vote of both Houses of Congress."
+ *
+ * The route is law; its pace and its choices are not, and each is marked:
+ *
+ * PLACEHOLDER (filed as `vice-presidential-vacancy-nomination-and-confirmation`):
+ * - how long a President takes to name a nominee, and how long Congress takes
+ *   to confirm one. The two times it has happened took 57 days (1973) and
+ *   121 days (1974) from nomination to confirmation; the profile below sits
+ *   between them and is not a finding.
+ * - whom a President nominates. Blanket rule meanwhile: a sitting member of
+ *   the House of the President's own party, old enough for the office, whose
+ *   seat is then filled the way any vacated House seat is.
+ * - whether Congress ever refuses. Blanket rule meanwhile: both houses
+ *   confirm, as they did both times.
+ */
+export const VICE_PRESIDENT_NOMINATION =
+  "governing:vice-president-nomination" as const;
+export const VICE_PRESIDENT_CONFIRMATION =
+  "governing:vice-president-confirmation" as const;
+export const VICE_PRESIDENT_NOMINATED_EVENT =
+  "governing.vice-president-nominated" as const;
+
+export const VICE_PRESIDENTIAL_VACANCY_PROFILE = {
+  id: "ocd-vice-presidential-vacancy-game-profile/v1",
+  daysFromVacancyToNomination: 10,
+  daysFromNominationToConfirmation: 75,
+} as const;
+
+/** U.S. Const. art. II, § 1, cl. 5, read with amend. XII. */
+const VICE_PRESIDENT_MINIMUM_AGE = 35;
+
+const VICE_PRESIDENCY_VACANT_SENTENCE =
+  "The vice presidency is vacant until the President's nominee is confirmed by both houses of Congress.";
+
+type VicePresidentialVacancyCause = "vice-president-died" | "became-president";
+
+function vicePresidencyHeld(world: World): boolean {
+  return (
+    nationalOfficeHolder(world, "vice-president") !== null ||
+    currentFederalTenure(world, "us-vice-president") !== null
+  );
+}
+
+/** When the sitting President's term ends, by either record. */
+function presidentialTermEnd(world: World): IsoDate | null {
+  const elected = nationalOfficeHolder(world, "president");
+  if (elected) return elected.plan.endsAt.date;
+  return currentFederalTenure(world, "us-president")?.endExclusive ?? null;
+}
+
+function nominationKey(vacancyDate: IsoDate, after: IsoDate): string {
+  return `${OFFICE_CONTINUITY_VERSION}:vp-nomination:${vacancyDate}:${after}`;
+}
+
+function scheduleNomination(
+  world: World,
+  vacancyDate: IsoDate,
+  presidentId: EntityId,
+): World {
+  const stableKey = nominationKey(vacancyDate, world.currentDate);
+  if (world.history.futureDueItems.some((due) => due.stableKey === stableKey))
+    return world;
+  return scheduleFutureDueItem(world, {
+    stableKey,
+    dueAt: addDays(
+      world.currentDate,
+      VICE_PRESIDENTIAL_VACANCY_PROFILE.daysFromVacancyToNomination,
+    ),
+    transitionKey: VICE_PRESIDENT_NOMINATION,
+    entityIds: [presidentId],
+    jurisdictionId: null,
+    provenance: {
+      kind: "authored",
+      note: `${VICE_PRESIDENTIAL_VACANCY_PROFILE.id}: the President nominates a Vice President (U.S. Const. amend. XXV, § 2); the ${VICE_PRESIDENTIAL_VACANCY_PROFILE.daysFromVacancyToNomination}-day interval is a game profile.`,
+    },
+  });
+}
+
+/**
+ * Records that the vice presidency is vacant and puts the President's
+ * nomination on the calendar. Once per vacancy.
+ */
+function openVicePresidentialVacancy(
+  world: World,
+  input: {
+    readonly vacancyDate: IsoDate;
+    readonly formerHolderId: EntityId;
+    readonly presidentId: EntityId | null;
+    readonly cause: VicePresidentialVacancyCause;
+  },
+): World {
+  const stableKey = `${OFFICE_CONTINUITY_VERSION}:vp-vacancy:${input.vacancyDate}`;
+  if (world.history.events.some((event) => event.stableKey === stableKey))
+    return world;
+  const former = world.people[input.formerHolderId];
+  let next = recordWorldEvent(world, {
+    stableKey,
+    type: FEDERAL_VACANCY_EVENT,
+    occurredAt: input.vacancyDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [input.formerHolderId],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      OFFICE_CONTINUITY_VERSION,
+      "office:us-vice-president",
+      `vacancy-cause:${input.cause}`,
+    ],
+    summary:
+      input.cause === "became-president"
+        ? `The vice presidency is vacant: ${former ? personName(former) : "the Vice President"} became President.`
+        : `The vice presidency is vacant after the death of ${former ? personName(former) : "the Vice President"}.`,
+    context: CONTEXT,
+  });
+  if (input.presidentId)
+    next = scheduleNomination(next, input.vacancyDate, input.presidentId);
+  return next;
+}
+
+function resolved(
+  world: World,
+  context: string,
+  outcomeEventId: EntityId | null = null,
+): FutureTransitionHandlerResult {
+  return {
+    world,
+    status: "resolved",
+    reasonKey: null,
+    context,
+    outcomeEventId,
+  };
+}
+
+function ageOn(birthDate: IsoDate, date: IsoDate): number {
+  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
+  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
+}
+
+/** The President names a nominee. */
+export function vicePresidentNominationHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const match = /:vp-nomination:(\d{4}-\d{2}-\d{2}):/.exec(due.stableKey);
+  if (!match) return resolved(world, "No vacancy matches this nomination.");
+  const vacancyDate = makeIsoDate(match[1]!);
+  if (vicePresidencyHeld(world))
+    return resolved(world, "The vice presidency is already filled.");
+  const president = currentPresidentOf(world);
+  if (!president)
+    return resolved(
+      world,
+      "There is no sitting President to nominate a Vice President.",
+    );
+  const presidentParty = publicPartyAffiliation(world, president.personId);
+  const members = (projectCongress(world)?.house.seats ?? []).flatMap((seat) =>
+    seat.occupant.kind === "member" &&
+    seat.occupant.member.personId !== president.personId &&
+    ageOn(seat.occupant.member.birthDate, world.currentDate) >=
+      VICE_PRESIDENT_MINIMUM_AGE
+      ? [seat.occupant.member]
+      : [],
+  );
+  const sameParty = members.filter(
+    (member) =>
+      presidentParty !== null && member.partyOrganizationId === presidentParty,
+  );
+  const pool = sameParty.length ? sameParty : members;
+  if (!pool.length)
+    return resolved(world, "No member of the House could be nominated.");
+  const nominee = new SeededRng(world.seed)
+    .fork(due.stableKey)
+    .pick([...pool].sort((a, b) => a.personId.localeCompare(b.personId)));
+  const presidentName = personName(world.people[president.personId]!);
+  const nomineeName = personName(world.people[nominee.personId]!);
+  let next = recordWorldEvent(world, {
+    stableKey: `${due.stableKey}:nominated`,
+    type: VICE_PRESIDENT_NOMINATED_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [president.personId, nominee.personId],
+    participants: [
+      {
+        personId: president.personId,
+        role: "focus:actor",
+        detail: "President",
+      },
+      {
+        personId: nominee.personId,
+        role: "focus:subject",
+        detail: nominee.title,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      OFFICE_CONTINUITY_VERSION,
+      "office:us-vice-president",
+      `vacancy:${vacancyDate}`,
+      `provenance:${VICE_PRESIDENTIAL_VACANCY_PROFILE.id}`,
+    ],
+    summary: `President ${presidentName} nominated ${nomineeName}, the ${nominee.title}, to be Vice President. Both houses of Congress must confirm the nomination.`,
+    context: CONTEXT,
+  });
+  const nominatedEventId = next.history.events.at(-1)!.id;
+  next = scheduleFutureDueItem(next, {
+    stableKey: `${OFFICE_CONTINUITY_VERSION}:vp-confirmation:${vacancyDate}:${nominee.personId}`,
+    dueAt: addDays(
+      next.currentDate,
+      VICE_PRESIDENTIAL_VACANCY_PROFILE.daysFromNominationToConfirmation,
+    ),
+    transitionKey: VICE_PRESIDENT_CONFIRMATION,
+    entityIds: [nominee.personId],
+    jurisdictionId: null,
+    provenance: {
+      kind: "authored",
+      note: `${VICE_PRESIDENTIAL_VACANCY_PROFILE.id}: both houses vote on the nomination (U.S. Const. amend. XXV, § 2); the ${VICE_PRESIDENTIAL_VACANCY_PROFILE.daysFromNominationToConfirmation}-day interval and the confirmation are a game profile.`,
+    },
+  });
+  return resolved(next, `${nomineeName} was nominated.`, nominatedEventId);
+}
+
+/** Both houses confirm; the nominee takes office for the rest of the term. */
+export function vicePresidentConfirmationHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const match = /:vp-confirmation:(\d{4}-\d{2}-\d{2}):(.+)$/.exec(
+    due.stableKey,
+  );
+  if (!match) return resolved(world, "No nomination matches.");
+  const vacancyDate = makeIsoDate(match[1]!);
+  const nomineeId = match[2]! as EntityId;
+  if (vicePresidencyHeld(world))
+    return resolved(world, "The vice presidency is already filled.");
+  const termEnd = presidentialTermEnd(world);
+  if (!termEnd || world.currentDate >= termEnd)
+    return resolved(world, "The term ended before the vote.");
+  const nominee = world.people[nomineeId];
+  const dead = world.history.personDeaths.some(
+    (death) =>
+      death.personId === nomineeId && death.diedAt <= world.currentDate,
+  );
+  if (!nominee || dead) {
+    const president = currentPresidentOf(world);
+    return resolved(
+      president
+        ? scheduleNomination(world, vacancyDate, president.personId)
+        : world,
+      "The nominee died before the vote; the President nominates again.",
+    );
+  }
+  // The seat the nominee leaves, read before they take the new office.
+  const houseSeat = (projectCongress(world)?.house.seats ?? []).find(
+    (seat) =>
+      seat.occupant.kind === "member" &&
+      seat.occupant.member.personId === nomineeId,
+  );
+  let next = recordWorldEvent(world, {
+    stableKey: `${due.stableKey}:confirmed`,
+    type: FEDERAL_TENURE_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [nomineeId],
+    participants: [
+      {
+        personId: nomineeId,
+        role: "focus:subject",
+        detail: "Vice President of the United States",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      OFFICE_CONTINUITY_VERSION,
+      "office:us-vice-president",
+      `term-end:${termEnd}`,
+      "basis:us-const-amend-xxv-s2",
+      `vacancy:${vacancyDate}`,
+      `provenance:${VICE_PRESIDENTIAL_VACANCY_PROFILE.id}`,
+    ],
+    summary: `Both houses of Congress confirmed ${personName(nominee)} as Vice President of the United States, to serve the rest of the term.`,
+    context: CONTEXT,
+  });
+  const confirmedEventId = next.history.events.at(-1)!.id;
+  const seat = houseSeat
+    ? congressSeats().find(
+        (candidate) => candidate.seatKey === houseSeat.seatKey,
+      )
+    : undefined;
+  if (seat)
+    next = vacateSeat(next, seat, {
+      effectiveDate: next.currentDate,
+      key: "member-became-vice-president",
+      clause: "after the member became Vice President",
+    }).world;
+  return resolved(
+    next,
+    `${personName(nominee)} was confirmed as Vice President.`,
+    confirmedEventId,
+  );
 }
 
 /**
@@ -631,4 +1060,6 @@ export function officeContinuityRulings(
 
 export const OFFICE_CONTINUITY_HANDLERS = [
   [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
+  [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],
+  [VICE_PRESIDENT_CONFIRMATION, vicePresidentConfirmationHandler],
 ] as const;

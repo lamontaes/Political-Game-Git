@@ -1,0 +1,20 @@
+{
+  "filedAt": "2026-09-23T01:57:00.000Z",
+  "impact": "shapes-design",
+  "lane": "empty offices and term dates",
+  "priority": "P2",
+  "question": "When the vice presidency falls vacant and is filled under the Twenty-Fifth Amendment, section 2: how long does a President take to name a nominee, how long do the House and Senate take to confirm, and whom do Presidents choose? Cover the two real cases (Gerald Ford in 1973 and Nelson Rockefeller in 1974) with dates of vacancy, nomination, committee hearings and each chamber's vote and margin, plus any documented shortlists. Then say what the constitutional text and congressional practice imply when the two houses are controlled by the President's opponents, and whether either chamber can refuse to act at all.",
+  "questionId": "vice-presidential-vacancy-nomination-and-confirmation",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Empty offices and term dates thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/governing/office-continuity.ts (VICE_PRESIDENTIAL_VACANCY_PROFILE), this branch",
+      "whatItDidNotSettle": "The route is built on the amendment's text, but its three choices are placeholders: 10 days to nominate, 75 days to confirm, a House member of the President's party as the nominee, and confirmation always succeeds."
+    }
+  ],
+  "title": "How a vacant vice presidency is filled in practice",
+  "usableAnswer": "A table of the two cases with the dates and votes; a short account of how each nominee was chosen; and a ruling on whether the game should ever let Congress refuse or delay a nomination, with the circumstances where it would.",
+  "whyItMatters": "An Observer-mode world in Fayetteville, North Carolina lost its Vice President in October 2026 and never replaced them. The game now fills the office the way the amendment says, but how fast, with whom and whether it can fail are the game's guesses until this is answered."
+}
