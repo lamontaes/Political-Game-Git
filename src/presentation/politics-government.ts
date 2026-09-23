@@ -19,6 +19,10 @@ import {
 } from "../simulation/municipal-government";
 import { stateExecutiveOffice } from "../simulation/nationwide-world/state-executives";
 import { projectCongress } from "../simulation/living-world/congress";
+import {
+  US_CONGRESS_PACK_ID,
+  US_CONGRESS_RULE_PACK,
+} from "../simulation/congress-rule-pack";
 import { organizationNameAt } from "../simulation/living-world/party-registry";
 import type {
   ChamberView,
@@ -518,22 +522,47 @@ function federalBranches(world: World): {
   branches: GovernmentBranchView[];
 } {
   const congress = projectCongress(world);
+  const records: GovernmentRecordLink[] = (
+    world.history.legislativeMeasures ?? []
+  )
+    .filter((measure) => measure.rulePackId === US_CONGRESS_PACK_ID)
+    .sort((left, right) => right.sequence - left.sequence)
+    .slice(0, 10)
+    .map((measure) => ({
+      key: `measure:${measure.id}`,
+      label: `${measure.designation} — ${measure.shortTitle}`,
+      measureId: measure.id,
+    }));
+  const congressEntry: GovernmentEntry = {
+    key: `legislature:${US_CONGRESS_PACK_ID}`,
+    title: US_CONGRESS_RULE_PACK.displayName,
+    holderName: null,
+    holderPersonId: null,
+    detail:
+      records.length > 0
+        ? "Recent bills on record open with their committee referrals, votes and the President's decision."
+        : "No bills are on record for Congress in this save.",
+    records,
+  };
   const legislative: GovernmentEntry[] = congress
-    ? [congress.senate, congress.house].map((chamber) => ({
-        key: `chamber:${chamber.chamberKey}`,
-        title: chamber.name,
-        holderName: null,
-        holderPersonId: null,
-        detail: null,
-        counts: {
-          seats: chamber.totals.seats,
-          members: chamber.totals.members,
-          vacancies: chamber.totals.vacancies,
-          noCurrentRecord: chamber.totals.noCurrentRecord,
-        },
-        roster: chamber.seats.map((seat) => seatRow(world, seat)),
-        standings: chamberStandings(world, chamber),
-      }))
+    ? [
+        congressEntry,
+        ...[congress.senate, congress.house].map((chamber) => ({
+          key: `chamber:${chamber.chamberKey}`,
+          title: chamber.name,
+          holderName: null,
+          holderPersonId: null,
+          detail: null,
+          counts: {
+            seats: chamber.totals.seats,
+            members: chamber.totals.members,
+            vacancies: chamber.totals.vacancies,
+            noCurrentRecord: chamber.totals.noCurrentRecord,
+          },
+          roster: chamber.seats.map((seat) => seatRow(world, seat)),
+          standings: chamberStandings(world, chamber),
+        })),
+      ]
     : [];
   const president = holderEntry(
     world,
