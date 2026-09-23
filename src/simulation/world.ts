@@ -3,6 +3,7 @@ import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
+import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
@@ -1086,17 +1087,20 @@ export function advanceWorld(
 
   const continued = applyCrisisRepairFunding(
     applyCrisisOfficeContinuity(
-      applyFederalReform(
+      applyCongressLawmaking(
         world.currentDate,
-        applyConstitutionalReform(
+        applyFederalReform(
           world.currentDate,
-          applyPresidentialTurnover(
+          applyConstitutionalReform(
             world.currentDate,
-            applyGovernorTurnover(
+            applyPresidentialTurnover(
               world.currentDate,
-              applyCongressTurnover(
+              applyGovernorTurnover(
                 world.currentDate,
-                applyNationalTermTransitions(advanced),
+                applyCongressTurnover(
+                  world.currentDate,
+                  applyNationalTermTransitions(advanced),
+                ),
               ),
             ),
           ),

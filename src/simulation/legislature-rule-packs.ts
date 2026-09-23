@@ -1,3 +1,4 @@
+import { federalRulePackById } from "./congress-rule-pack";
 import { legislatureProfilePackById } from "./legislature-game-profile";
 import { municipalRulePackById } from "./municipal-rule-registry";
 import {
@@ -2606,6 +2607,9 @@ export const LEGISLATIVE_RULE_PACKS: readonly LegislativeRulePack[] = [
 export function rulePackById(packId: string): LegislativeRulePack {
   const pack =
     LEGISLATIVE_RULE_PACKS.find((candidate) => candidate.packId === packId) ??
+    // Congress, like a council, is moved by the same engine and is not a
+    // state legislature.
+    federalRulePackById(packId) ??
     municipalRulePackById(packId) ??
     // A save made in a state with no compiled pack records a generated one, and
     // it has to resolve or the save opens onto a seat with no chamber under it.
