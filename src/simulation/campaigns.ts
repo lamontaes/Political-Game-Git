@@ -177,6 +177,7 @@ import {
   quantityBasisPoints,
   recordSupportShift,
 } from "./campaign-support";
+import { moneyText } from "./money-text";
 
 /**
  * Standing for office.
@@ -1180,7 +1181,7 @@ function actionCompletionEvent(world: World, activityId: EntityId): EntityId {
 }
 
 function moneyLabel(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+  return moneyText(amount);
 }
 
 function actionMoney(
