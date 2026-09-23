@@ -8499,6 +8499,14 @@
       "textRevision": "1b5c8d4ed244"
     },
     {
+      "anchor": "unavailable-0004",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "unavailable",
+      "text": "You are in jail until {proseDate(jailed.until)}. Your name stays on the ballot, but you cannot campaign.",
+      "occurrence": 0,
+      "textRevision": "a33c21fe36f6"
+    },
+    {
       "anchor": "unavailableReason-0001",
       "sourcePath": "src/presentation/people-goals.ts",
       "symbol": "unavailableReason",
