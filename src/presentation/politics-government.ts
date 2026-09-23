@@ -6,6 +6,7 @@ import {
   stateJurisdictionForKey,
 } from "../simulation/life-places";
 import { governmentUnitsForPlace } from "../simulation/government-units";
+import { localGoverningBodyName } from "../simulation/nationwide-world/local-governing-body-names";
 import type { GovernmentUnitIdentity } from "../simulation/government-units";
 import { organizationParticipationStateAt } from "../simulation/life-queries";
 import {
@@ -400,7 +401,7 @@ function localBranches(
           const offices = [
             mayors.length ? "Mayor." : null,
             members.length
-              ? `${members.length === 1 ? "Member" : "Members"} of the governing body.`
+              ? `${members.length === 1 ? "Member" : "Members"} of the ${localGoverningBodyName(unit).bodyName}.`
               : null,
           ].filter((part): part is string => part !== null);
           return {

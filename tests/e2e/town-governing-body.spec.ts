@@ -33,7 +33,9 @@ const TOWNS = [
     town: "Presque Isle",
     state: "Maine",
     government: "City of Presque Isle",
-    seated: "You sit on the governing body of City of Presque Isle",
+    // The game's placeholder for a city whose own body has not been read.
+    bodyName: "Presque Isle City Council",
+    seated: "You sit on the City Council of City of Presque Isle",
     rules: "The game has not read how this body is made up",
     cityScreen: false,
   },
@@ -45,6 +47,8 @@ const TOWNS = [
     town: "Bangor",
     state: "Maine",
     government: "City of Bangor",
+    // Read from the city's compiled government.
+    bodyName: "Bangor City Council",
     seated: "You sit on the",
     rules: "By the town's own rules the body has",
     cityScreen: true,
@@ -86,12 +90,12 @@ for (const town of TOWNS) {
       page.getByRole("heading", { name: "The state's top office" }),
     ).toBeVisible();
     await expect(browser).toContainText(
-      `Local governmentMember of the governing body${town.government}`,
+      `Local governmentCouncil member${town.government}`,
     );
 
     await fileCandidacy(page, body.officeKey);
     await expect(page.getByTestId("campaign-band")).toContainText(
-      `${town.government} governing body`,
+      town.bodyName,
     );
 
     expect(await campaignUntilDecided(page, passDay, 45)).toBe(true);
