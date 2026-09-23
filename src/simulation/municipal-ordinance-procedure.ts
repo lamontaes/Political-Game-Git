@@ -205,7 +205,7 @@ export function municipalOrdinanceStatus(
   const presented = actions
     .filter((action) => action.kind === "presented-to-executive")
     .at(-1);
-  const window = reading.procedure.mayoralActionWindow;
+  const actionWindow = reading.procedure.mayoralActionWindow;
   const last = [...actions]
     .reverse()
     .find((action) =>
@@ -232,10 +232,10 @@ export function municipalOrdinanceStatus(
       : null,
     stageLabel: position.phase === "on-floor" ? (stage?.label ?? null) : null,
     executiveActsBy:
-      position.phase === "awaiting-executive" && presented && window
-        ? window.dayBasis === "BUSINESS"
-          ? addWeekdays(presented.occurredAt, window.daysToAct)
-          : addDays(presented.occurredAt, window.daysToAct)
+      position.phase === "awaiting-executive" && presented && actionWindow
+        ? actionWindow.dayBasis === "BUSINESS"
+          ? addWeekdays(presented.occurredAt, actionWindow.daysToAct)
+          : addDays(presented.occurredAt, actionWindow.daysToAct)
         : null,
     playerIsExecutive:
       world.control.kind === "person" &&
@@ -634,12 +634,12 @@ function afterFinalPassage(
     stableKey: `${measure.stableKey}:presented`,
     measureId: measure.id,
   });
-  const window = executiveWindow(governmentKey);
-  if (!window) return next;
+  const actionWindow = executiveWindow(governmentKey);
+  if (!actionWindow) return next;
   const dueAt =
-    window.dayBasis === "BUSINESS"
-      ? addWeekdays(next.currentDate, window.daysToAct)
-      : addDays(next.currentDate, window.daysToAct);
+    actionWindow.dayBasis === "BUSINESS"
+      ? addWeekdays(next.currentDate, actionWindow.daysToAct)
+      : addDays(next.currentDate, actionWindow.daysToAct);
   // The executive's desk is looked at on the last day to act. An executive the
   // player does not control signs then (a placeholder, below); a player who
   // holds the office decides for themselves, and the pack's rule for silence
@@ -652,8 +652,8 @@ function afterFinalPassage(
     jurisdictionId: measure.jurisdictionId,
     provenance: {
       kind: "authored",
-      note: `The ${window.daysToAct}-${window.dayBasis === "BUSINESS" ? "weekday" : "day"} period to act on ${measure.designation} closes on ${dueAt}${
-        window.dayBasis === "BUSINESS"
+      note: `The ${actionWindow.daysToAct}-${actionWindow.dayBasis === "BUSINESS" ? "weekday" : "day"} period to act on ${measure.designation} closes on ${dueAt}${
+        actionWindow.dayBasis === "BUSINESS"
           ? "; holidays are not excluded (placeholder pending dc-congressional-review-day-count)"
           : ""
       }.`,
@@ -874,8 +874,8 @@ export function councilActExecutiveDeadlineHandler(
     return resolved(world, "The executive already acted.");
   const governmentKey = councilOfMeasure(measure);
   if (!governmentKey) return resolved(world, "No council matches.");
-  const window = executiveWindow(governmentKey);
-  if (window?.inactionOutcome !== "BECOMES_LAW_WITHOUT_SIGNATURE")
+  const actionWindow = executiveWindow(governmentKey);
+  if (actionWindow?.inactionOutcome !== "BECOMES_LAW_WITHOUT_SIGNATURE")
     return resolved(
       world,
       "No rule says what the executive's silence does here.",
@@ -903,9 +903,9 @@ export function councilActExecutiveDeadlineHandler(
     .filter((action) => action.kind === "presented-to-executive")
     .at(-1);
   const lastDay = presented
-    ? window.dayBasis === "BUSINESS"
-      ? addWeekdays(presented.occurredAt, window.daysToAct)
-      : addDays(presented.occurredAt, window.daysToAct)
+    ? actionWindow.dayBasis === "BUSINESS"
+      ? addWeekdays(presented.occurredAt, actionWindow.daysToAct)
+      : addDays(presented.occurredAt, actionWindow.daysToAct)
     : world.currentDate;
   if (world.currentDate <= lastDay) {
     return resolved(
@@ -926,7 +926,7 @@ export function councilActExecutiveDeadlineHandler(
   const next = recordExecutiveInaction(world, {
     stableKey: `${measure.stableKey}:executive-silence`,
     measureId: measure.id,
-    rationale: `Not returned within ${window.daysToAct} days of presentment, so deemed approved.`,
+    rationale: `Not returned within ${actionWindow.daysToAct} days of presentment, so deemed approved.`,
   });
   return resolved(
     enactCouncilMeasure(next, governmentKey, measure),
