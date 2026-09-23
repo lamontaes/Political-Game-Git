@@ -23,6 +23,7 @@ import {
   type SimulationMoment,
   type World,
 } from "../simulation";
+import { moneyText } from "../simulation/money-text";
 import { formatMinute } from "./player-calendar";
 import { proseDate } from "./prose-dates";
 import { venueActivities } from "./venue-activity";
@@ -47,14 +48,7 @@ export function readableDatesIn(text: string): string {
 
 /** "$1,234.50" for dollars; other currencies keep their code. */
 export function dollars(amount: MoneyAmount): string {
-  const sign = amount.minorUnits < 0 ? "-" : "";
-  const value = (Math.abs(amount.minorUnits) / 100).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return amount.currency === "USD"
-    ? `${sign}$${value}`
-    : `${amount.currency} ${sign}${value}`;
+  return moneyText(amount);
 }
 
 /**
