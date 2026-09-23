@@ -10,6 +10,7 @@ import {
   type ScheduledActivityRecord,
   type World,
 } from "../simulation";
+import { nextOwnElection } from "./own-election";
 import { EARLIER_COMMITMENT_REFUSAL, venueActivities } from "./venue-activity";
 
 /**
@@ -128,13 +129,31 @@ export function capQuietStretch(
   pacingDays: number,
   options: KnownCalendarOptions = {},
 ): { readonly days: number; readonly cappedBy: KnownCalendarItem | null } {
+  let days = pacingDays;
+  let cappedBy: KnownCalendarItem | null = null;
   const next = nextKnownCalendarItem(world, personId, options);
   if (next) {
     const until = daysBetween(world.currentDate, next.date);
-    if (until >= 1 && until <= pacingDays)
-      return { days: until, cappedBy: next };
+    if (until >= 1 && until <= days) {
+      days = until;
+      cappedBy = next;
+    }
   }
-  return { days: pacingDays, cappedBy: null };
+  // The player's own election ends the stretch the morning after, when the
+  // result is in (the Running for office lane's rule, shared here so both
+  // quiet buttons keep it).
+  const election = nextOwnElection(world, personId);
+  if (election) {
+    const until = daysBetween(world.currentDate, election.electionDate) + 1;
+    if (until >= 1 && until < days) {
+      days = until;
+      cappedBy = {
+        title: `Election day: ${election.title}`,
+        date: election.electionDate,
+      };
+    }
+  }
+  return { days, cappedBy };
 }
 
 /**

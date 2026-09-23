@@ -27,6 +27,14 @@ import {
   meetSomebodyNew,
 } from "../simulation/social-introductions";
 import type { IntroductionSetting } from "../simulation/social-introductions";
+import {
+  askToBeACouple,
+  coupleAskRefusal,
+  coupleBetween,
+  dateRefusal,
+  endCouple,
+  keptDates,
+} from "../simulation/couples";
 import { proseDate } from "./prose-dates";
 
 /**
@@ -42,7 +50,12 @@ import { proseDate } from "./prose-dates";
  */
 
 export interface ContactAction {
-  readonly kind: "ask-to-meet" | "answer-proposal";
+  readonly kind:
+    | "ask-to-meet"
+    | "answer-proposal"
+    | "ask-on-a-date"
+    | "ask-to-be-a-couple"
+    | "end-couple";
   readonly label: string;
   readonly available: boolean;
   readonly unavailableReason: string | null;
@@ -144,6 +157,10 @@ export function projectContacts(
               ? `${basis.name} has asked you first; answer that.`
               : null),
         },
+        ...romanticActions(world, personId, basis.personId, basis.name, {
+          outstanding: !!outstanding,
+          waiting,
+        }),
         ...(outstanding && outstanding.direction === "they-asked"
           ? [
               {
@@ -190,6 +207,122 @@ function outstandingWith(
     on: found.on,
     onSpoken: proseDate(found.on),
     purpose: found.purpose,
+  };
+}
+
+/**
+ * Asking somebody out, asking to be a couple, and ending it, where each is
+ * something these two could do. A date is offered only between adults who
+ * are not family; becoming a couple only after dates actually kept. A
+ * refusal that says why is shown, not hidden, once there has been a date.
+ */
+function romanticActions(
+  world: World,
+  personId: EntityId,
+  otherId: EntityId,
+  name: string,
+  state: { readonly outstanding: boolean; readonly waiting: string | null },
+): ContactAction[] {
+  if (dateRefusal(world, personId, otherId)) return [];
+  if (coupleBetween(world, personId, otherId)) {
+    return [
+      {
+        kind: "end-couple",
+        label: `End things with ${name}`,
+        available: true,
+        unavailableReason: null,
+      },
+    ];
+  }
+  const actions: ContactAction[] = [
+    {
+      kind: "ask-on-a-date",
+      label: `Ask ${name} out`,
+      available: !state.outstanding,
+      unavailableReason:
+        state.waiting ??
+        (state.outstanding
+          ? `${name} has asked you first; answer that.`
+          : null),
+    },
+  ];
+  if (keptDates(world, personId, otherId).length > 0) {
+    const refusal = coupleAskRefusal(world, personId, otherId);
+    actions.push({
+      kind: "ask-to-be-a-couple",
+      label: `Ask ${name} to be a couple`,
+      available: !refusal,
+      unavailableReason: refusal,
+    });
+  }
+  return actions;
+}
+
+/** Ask somebody out on a day. They answer it as a date. */
+export function askOnADate(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly otherPersonId: EntityId;
+    readonly on: IsoDate;
+  },
+): World {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== input.personId
+  ) {
+    throw new Error("Only the character being played can ask somebody out.");
+  }
+  const other = world.people[input.otherPersonId];
+  if (!other) throw new Error("There is nobody there to ask.");
+  return proposeContact(world, {
+    stableKey: `date:${input.personId}:${input.otherPersonId}:${input.on}`,
+    fromPersonId: input.personId,
+    toPersonId: input.otherPersonId,
+    on: input.on,
+    purpose: `Go out with ${personName(other)}`,
+    date: true,
+  }).world;
+}
+
+/**
+ * Ask, in person, to be a couple. The answer comes back at once, with the
+ * sentence that says it.
+ */
+export function askToBeTogether(
+  world: World,
+  input: { readonly personId: EntityId; readonly otherPersonId: EntityId },
+): { readonly world: World; readonly said: string } {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== input.personId
+  ) {
+    throw new Error("Only the character being played can ask that.");
+  }
+  const answered = askToBeACouple(world, input);
+  const given = world.people[input.otherPersonId]!.givenName;
+  return {
+    world: answered.world,
+    said: answered.accepted
+      ? `${given} said yes. You are together now.`
+      : `${given} said no.`,
+  };
+}
+
+/** End it. The other person does not have to agree. */
+export function breakUp(
+  world: World,
+  input: { readonly personId: EntityId; readonly otherPersonId: EntityId },
+): { readonly world: World; readonly said: string } {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== input.personId
+  ) {
+    throw new Error("Only the character being played can end it.");
+  }
+  return {
+    world: endCouple(world, input),
+    said: `You ended things with ${world.people[input.otherPersonId]!.givenName}.`,
   };
 }
 

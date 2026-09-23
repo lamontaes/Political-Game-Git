@@ -624,7 +624,7 @@ export function ordinaryStretchOptions(
   world: World,
   personId: EntityId,
 ): readonly StoryOption[] {
-  const { cappedBy } = capQuietStretch(
+  const { days, cappedBy } = capQuietStretch(
     world,
     personId,
     quietStepDays(world.currentDate),
@@ -636,7 +636,7 @@ export function ordinaryStretchOptions(
       key: "let-it-run",
       label: "Let the weeks run on",
       description: cappedBy
-        ? `Until the morning of ${longDate(cappedBy.date)}: ${cappedBy.title}.`
+        ? `Until the morning of ${longDate(addDays(world.currentDate, days))}: ${cappedBy.title}.`
         : "Pick it up again when something needs you.",
     },
   ];
@@ -937,8 +937,8 @@ export function letStoryTimePass(
   if (formativeIntervalAt(world, personId) !== null) {
     return letTimePass(world, personId, advanceDays);
   }
-  // Never past the next thing on the calendar: a quiet stretch that walked
-  // through a meeting the player was invited to decided for them.
+  // Never past the next thing on the calendar, nor past the player's own
+  // election: a quiet stretch that walked through either decided for them.
   const { days } = capQuietStretch(
     world,
     personId,
