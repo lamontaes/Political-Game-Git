@@ -27,3 +27,11 @@ boroughs. The note about places that span several of them appears only when
 yours does, and gives the actual number ("This place lies in two parishes, and
 each is listed above."). A place with no separate county, parish or borough
 government is told so plainly instead of citing a government listing.
+
+Ohio, Missouri and Nebraska's governors, and any seat whose age comes from the
+state's written rules, now use the same sentence too, in place of "Too young to
+stand: this office has a minimum age of 30, and this character is 18." A
+requirement a character cannot yet show, such as being a qualified elector or
+fifteen years a citizen, reads "This office requires a candidate who is a
+qualified elector, and nothing yet shows that you meet it." instead of
+explaining what the game does not record.

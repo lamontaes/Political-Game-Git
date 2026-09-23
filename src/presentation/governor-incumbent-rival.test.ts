@@ -39,7 +39,10 @@ function tryFiling(world: World, personId: EntityId): World | null {
   try {
     return fileForStateExecutiveOffice(world, personId);
   } catch (error) {
-    if (error instanceof Error && /does not record that/.test(error.message))
+    if (
+      error instanceof Error &&
+      /nothing yet shows that you meet it/.test(error.message)
+    )
       return null;
     throw error;
   }

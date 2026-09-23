@@ -394,7 +394,7 @@ function assessEnactedQualification(
       verdict: meets ? "meets" : "fails",
       reason: meets
         ? `Old enough: ${law} this office has a minimum age of ${change.value}.`
-        : `Too young to stand: ${law} this office has a minimum age of ${change.value}, and this character is ${person.age}.`,
+        : `You must be at least ${change.value} to stand for this office, ${law.slice(0, -1)}.`,
       source: null,
     };
   }

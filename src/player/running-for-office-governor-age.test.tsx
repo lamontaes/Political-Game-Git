@@ -32,9 +32,15 @@ import type { EntityId, World } from "../simulation";
  * its own office, and the governor's is the age the filing enforces. Lake
  * Charles's screen also named "Calcasieu Parish" and then spoke of counties;
  * Louisiana has parishes and Alaska boroughs.
+ *
+ * Ohio and Missouri reach the governor through a different path, the state's
+ * own written qualifications, which said "Too young to stand: this office has
+ * a minimum age of 30, and this character is 18" and "The game does not record
+ * that about a character". Those read like every other office now.
  */
 
-const PROVENANCE = /has not read|the game|compiled|rule pack|census|listing/i;
+const PROVENANCE =
+  /has not read|the game|compiled|rule pack|census|listing|sourced|does not record|this character/i;
 
 interface Life {
   readonly world: World;
@@ -214,6 +220,82 @@ describe.each([
         ),
       ).toBe(true);
     }, 60_000); // opens two more lives, one at each age
+  },
+);
+
+function governorSection(life: Life): string {
+  const markup = renderRaceScreen(life);
+  const start = markup.indexOf('data-testid="state-executive-candidacy"');
+  expect(start).toBeGreaterThan(-1);
+  return visibleText(markup.slice(markup.lastIndexOf("<", start)));
+}
+
+describe.each([
+  ["Columbus", "US-OH", "OH", "Governor of Ohio", "qualified elector"],
+  [
+    "Kansas City",
+    "US-MO",
+    "MO",
+    "Governor of Missouri",
+    "United States citizenship",
+  ],
+] as const)(
+  "The governor's requirements from %s",
+  (placeName, stateKey, usps, title, unrecorded) => {
+    let life: Life;
+
+    beforeAll(() => {
+      life = openLife(placeName, stateKey, `governor-rules-${usps}`);
+    });
+
+    it("words its age and its other requirement for the player", () => {
+      const governor = governorSection(life);
+      expect(governor).toContain(title);
+      const ages = ageMinimums(governor);
+      expect(ages, governor).toHaveLength(1);
+      expect(governor).toContain(
+        `You must be at least ${ages[0]} to stand for this office.`,
+      );
+      expect(governor).toContain(unrecorded);
+      expect(governor).toContain("nothing yet shows that you meet it.");
+      expect(governor).not.toMatch(/too young to stand/i);
+      expect(governor).not.toMatch(PROVENANCE);
+
+      const candidacy = stateExecutiveCandidacyForPerson(
+        life.world,
+        life.personId,
+      )!;
+      expect(candidacy.identity.stateUsps).toBe(usps);
+      expect(
+        candidacy.blocks.flatMap((block) => ageMinimums(block.reason)),
+      ).toEqual(ages);
+    });
+
+    it("drops the age at exactly the age it shows", () => {
+      const [shown] = stateExecutiveCandidacyForPerson(
+        life.world,
+        life.personId,
+      )!.blocks.flatMap((block) => ageMinimums(block.reason));
+      const ageBlocks = (age: number) => {
+        const aged = openLife(
+          placeName,
+          stateKey,
+          `governor-rules-${usps}-${age}`,
+          age,
+        );
+        const candidacy = stateExecutiveCandidacyForPerson(
+          aged.world,
+          aged.personId,
+        )!;
+        return candidacy.blocks
+          .map((block) => block.reason)
+          .filter((reason) => ageMinimums(reason).length > 0);
+      };
+      expect(ageBlocks(shown! - 1)).toEqual([
+        `You must be at least ${shown} to stand for this office.`,
+      ]);
+      expect(ageBlocks(shown!)).toEqual([]);
+    }, 60_000);
   },
 );
 

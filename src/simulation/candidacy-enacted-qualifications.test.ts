@@ -74,7 +74,7 @@ describe("a law passed in the game changes who may stand", () => {
       eligibility(world).blocks.find(
         (block) =>
           block.kind === "sourced-minimum-age" &&
-          block.reason.includes(`minimum age of ${minimum}`),
+          block.reason.includes(`at least ${minimum} to stand`),
       );
 
     const enacted = enactThrough(scenario, filed);
