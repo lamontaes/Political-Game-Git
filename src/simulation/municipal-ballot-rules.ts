@@ -531,11 +531,17 @@ export function resolveMunicipalElectionTiming(
 /* Recall                                                                      */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Where a recall doctrine comes from: the state's pack, a draw, or a law
+ * enacted during play (`enacted-in-game`).
+ */
+export type MunicipalRecallBasis = MunicipalBallotRuleBasis | "enacted-in-game";
+
 /** How a town's voters may remove an official, and on what basis that is known. */
 export interface ResolvedMunicipalRecallRule {
   readonly stateUsps: string;
   readonly doctrine: MunicipalRecallDoctrine;
-  readonly doctrineBasis: MunicipalBallotRuleBasis;
+  readonly doctrineBasis: MunicipalRecallBasis;
   /** Null where recall exists but no pack says how many signatures it needs. */
   readonly threshold: PetitionThreshold | null;
   /** Null where there is no recall petition at all. */
@@ -603,24 +609,41 @@ const PETITIONED_DOCTRINES: ReadonlySet<MunicipalRecallDoctrine> = new Set([
  * the doctrine is drawn from the spread of the states that do, stable per
  * state (`national-range-drawn`), never another state's law. A petition
  * window the pack leaves unknown is drawn the same way.
+ *
+ * `enactedDoctrine` is a doctrine a law passed during play put in force
+ * (`enacted-rule-changes.ts`). It replaces the pack's or the drawn doctrine.
+ * NOT MODELED: what else such a law says (its window, threshold or grounds).
+ * Blanket rule meanwhile: where the new doctrine is the one the pack reads,
+ * the pack's details stand; otherwise the new law borrows nothing from the old
+ * one and its window is drawn from the national range.
  */
 export function resolveMunicipalRecallRule(
   stateUsps: string,
+  enactedDoctrine: MunicipalRecallDoctrine | null = null,
 ): ResolvedMunicipalRecallRule {
   const usps = stateUsps.toUpperCase();
   const rules = municipalRulePackFor(usps)?.directDemocracy;
   const spread = municipalRecallNationalSpread();
-  const readDoctrine =
+  const packDoctrine =
     rules?.recallDoctrine.kind === "known" ? rules.recallDoctrine.value : null;
+  const readDoctrine =
+    enactedDoctrine === null || enactedDoctrine === packDoctrine
+      ? packDoctrine
+      : null;
   const doctrine =
+    enactedDoctrine ??
     readDoctrine ??
     stablePick(
       `municipal-recall-doctrine:${usps}`,
       spread.doctrines,
       spread.doctrines.map((entry) => entry.doctrine),
     );
-  const doctrineBasis: MunicipalBallotRuleBasis =
-    readDoctrine === null ? "national-range-drawn" : "state-law-unverified";
+  const doctrineBasis: MunicipalRecallBasis =
+    enactedDoctrine !== null
+      ? "enacted-in-game"
+      : readDoctrine === null
+        ? "national-range-drawn"
+        : "state-law-unverified";
   if (!PETITIONED_DOCTRINES.has(doctrine))
     return {
       stateUsps: usps,
