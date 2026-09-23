@@ -79,6 +79,7 @@ export function flowsForYear(
   stateKeys: readonly string[],
   readings: ReadonlyMap<string, PressureReading>,
   year: number,
+  flowYear: number,
 ): readonly StateFlowRecord[] {
   const round = (value: number) => Math.round(value * 1000) / 1000;
   return stateKeys.map((origin) => {
@@ -99,8 +100,9 @@ export function flowsForYear(
       .slice(0, FLOW_DESTINATIONS_KEPT)
       .map((entry) => ({ ...entry, sharePct: round(entry.sharePct) }));
     return {
-      key: `${year}:${origin}`,
+      key: `${flowYear}:${origin}`,
       year,
+      flowYear,
       fromStateKey: origin,
       outflowSharePct: round(
         BLANKET_BASE_OUTFLOW_PCT_PER_YEAR * pushOf(readings.get(origin)),

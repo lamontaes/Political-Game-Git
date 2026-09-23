@@ -7,6 +7,7 @@ import {
   mattersForSubject,
   pressRecordsOfKind,
 } from "../simulation/press";
+import { recordOfficeConsequence } from "../simulation/governing/office-consequence";
 import { recordWorldEvent } from "../simulation/world";
 import { proseDate } from "./prose-dates";
 
@@ -334,4 +335,17 @@ export function matterSubjectCount(world: World, personId: EntityId): number {
   return pressRecordsOfKind(world, "matter").filter((matter) =>
     matter.subjectPersonIds.includes(personId),
   ).length;
+}
+
+/**
+ * What the press desk calls when the player picks an answer: the answer said
+ * through GOVERNING's real writer, and the sentence to print about what the
+ * office did with it.
+ */
+export function answerForOfficeOnDesk(
+  world: World,
+  input: AnswerForOfficeInput,
+): { readonly world: World; readonly line: string } {
+  const result = answerForOffice(world, input, recordOfficeConsequence);
+  return { world: result.world, line: officeOutcomeLine(result) };
 }
