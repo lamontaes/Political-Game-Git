@@ -357,14 +357,7 @@ export function projectPersonalGoals(
       .filter((goal) => goal.status === "active" || goal.status === "paused")
       .map((goal) => goalKey(goal.family, goal.targetEntityId)),
   );
-  // A child is not offered a romantic aim at all, not even as a refusal: the
-  // family is left off the list rather than explained.
-  const adult =
-    ageOnDate(world.people[personId]!.birthDate, world.currentDate) >= 18;
-  const offered = PERSONAL_GOAL_FAMILIES.filter(
-    (family) => adult || family !== "adult-relationship",
-  );
-  const choices = offered.map((family): GoalFamilyChoice => {
+  const choices = PERSONAL_GOAL_FAMILIES.map((family): GoalFamilyChoice => {
     const targets = targetsFor(world, personId, family).filter(
       (target) => !held.has(goalKey(family, target.targetEntityId)),
     );
