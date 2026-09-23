@@ -13,7 +13,7 @@ import {
 } from "../simulation/people-contact";
 import { recordTraitChange } from "../simulation/people-traits";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { openOrdinaryLife } from "./ordinary-life";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 
 /**
  * The one place a personality makes somebody act rather than answer.
@@ -66,6 +66,20 @@ function everybody(
   return next;
 }
 
+/**
+ * A month of ordinary days, asking each day whether somebody gets in touch.
+ * Each pair has its own days for it, so one day is not a fair trial.
+ */
+function aMonthOfDays(start: World, personId: EntityId): World {
+  let world = start;
+  for (let day = 0; day < 30; day += 1) {
+    world = produceReachingOut(world, personId);
+    if (contactProposals(world, personId).length > 0) return world;
+    world = passOrdinaryDays(world, 1);
+  }
+  return world;
+}
+
 describe("somebody gets back in touch on their own, or does not", () => {
   it("writes a proposal from the other person, not from the player", () => {
     const { world, personId } = life("reach-a");
@@ -75,7 +89,7 @@ describe("somebody gets back in touch on their own, or does not", () => {
     ).toBe(true);
     expect(contactProposals(world, personId)).toEqual([]);
 
-    const after = produceReachingOut(world, personId);
+    const after = aMonthOfDays(world, personId);
     const proposals = contactProposals(after, personId);
     expect(proposals).toHaveLength(1);
     // Theirs, not the player's. This is the whole point of the module.
@@ -97,9 +111,7 @@ describe("somebody gets back in touch on their own, or does not", () => {
       "reliability",
       -2,
     );
-    expect(contactProposals(produceReachingOut(reserved, personId))).toEqual(
-      [],
-    );
+    expect(contactProposals(aMonthOfDays(reserved, personId))).toEqual([]);
   });
 
   it("happens when they are the sort of person who does", () => {
@@ -110,13 +122,14 @@ describe("somebody gets back in touch on their own, or does not", () => {
       "reliability",
       2,
     );
-    const after = produceReachingOut(outgoing, personId);
+    const after = aMonthOfDays(outgoing, personId);
     expect(contactProposals(after, personId).length).toBeGreaterThan(0);
   });
 
   it("does not ask again while the first ask is still standing", () => {
     const { world, personId } = life("reach-a");
-    const once = produceReachingOut(world, personId);
+    const once = aMonthOfDays(world, personId);
+    expect(contactProposals(once, personId).length).toBeGreaterThan(0);
     const twice = produceReachingOut(once, personId);
     expect(contactProposals(twice, personId)).toEqual(
       contactProposals(once, personId),

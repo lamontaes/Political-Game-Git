@@ -9,7 +9,10 @@ import {
 import { personName } from "../simulation/people";
 import { recordPersonDeath } from "../simulation/vitality";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
-import { scheduledActivityState } from "../simulation/time-work";
+import {
+  cancelScheduledActivity,
+  scheduledActivityState,
+} from "../simulation/time-work";
 import type { EntityId, World } from "../simulation/types";
 import {
   acceptSocialInvitation,
@@ -203,6 +206,36 @@ describe("a Saturday invitation, said yes to", () => {
           scheduledActivityState(kept, activity.id).status === "completed",
       ),
     ).toBe(true);
+  }, 120_000);
+
+  it("books the trip at Attend when a kept afternoon has none", () => {
+    const opened = start("3222500", "saturday-elko-trip");
+    const personId = opened.personId;
+    const invitation = socialInvitationsFor(opened.world, personId)[0]!;
+    const accepted = acceptSocialInvitation(opened.world, {
+      personId,
+      activityId: invitation.activityId,
+      revision: invitation.revision,
+    });
+    const plan = accepted.history.scheduledActivities.at(-2)!;
+    const trip = accepted.history.scheduledActivities.at(-1)!;
+    expect(trip.kind).toBe("travel");
+    // Whatever path left the afternoon without its trip (Elko, 2026-09-23).
+    const tripless = passOrdinaryDays(
+      cancelScheduledActivity(accepted, trip.id),
+      4,
+    );
+    const entry = venueActivities(tripless, personId).find(
+      ({ activity }) => activity.id === plan.id,
+    )!;
+    expect(entry.refusal).toBeNull();
+    const kept = performVenueActivity(tripless, personId, plan.id);
+    expect(scheduledActivityState(kept, plan.id).status).toBe("completed");
+    expect(
+      kept.history.events.filter(
+        (event) => event.type === "life.social-occasion-attended",
+      ),
+    ).toHaveLength(1);
   }, 120_000);
 
   it("says when the trip leaves and how long it takes, not the wait in minutes", () => {

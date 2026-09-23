@@ -73,6 +73,7 @@ export {
   projectCampaignLifeActivities,
   recordCampaignLifeAttendance,
   requestCampaignLifeActivity,
+  campaignLifeRefusal,
 } from "./campaign-life-activities";
 export type {
   CampaignGuidanceOffice,
