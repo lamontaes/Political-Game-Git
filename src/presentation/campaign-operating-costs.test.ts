@@ -18,10 +18,12 @@ import type { CampaignRecord, EntityId, World } from "../simulation";
 import {
   CAMPAIGN_OPERATING_PAYMENT_KEY,
   campaignOperatingPayments,
+  campaignOperatingSpending,
   UNRESEARCHED_OPERATING_COSTS,
 } from "../simulation/campaign-operating-costs";
 import { campaignSpendingReports } from "../simulation/press";
 import { resourcePositionAt } from "../simulation/resource-queries";
+import { cancelScheduledActivity } from "../simulation/time-work";
 import { spendAnAfternoon } from "./campaign-projection";
 import { projectCampaignSpendingReports } from "./campaign-spending-reports";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -157,7 +159,7 @@ describe("campaign operating costs", () => {
       timeZone: world.currentMoment.timeZone,
       preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
     });
-    world = scheduleCampaignAction(world, {
+    const scheduled = scheduleCampaignAction(world, {
       campaignId: campaign.id,
       kind: "advertising",
       plan: {
@@ -172,7 +174,8 @@ describe("campaign operating costs", () => {
         summary: "An approved advertising buy.",
       },
       spend: { minorUnits: reserved, currency: campaign.treasuryCurrency },
-    }).world;
+    });
+    world = scheduled.world;
     const later = passOrdinaryDays(world, 25);
     expect(
       operatingPayments(later, campaign.organizationId).length,
@@ -180,6 +183,17 @@ describe("campaign operating costs", () => {
     expect(
       balance(later, campaign.organizationId, campaign),
     ).toBeGreaterThanOrEqual(reserved);
+
+    // A buy the candidate lets go holds nothing back.
+    const dropped = passOrdinaryDays(
+      cancelScheduledActivity(world, scheduled.action.scheduledActivityId),
+      25,
+    );
+    expect(
+      campaignOperatingSpending(dropped, campaign.organizationId),
+    ).toBeGreaterThan(
+      campaignOperatingSpending(later, campaign.organizationId),
+    );
   }, 300_000);
 
   it("puts no Oregon bill on or after election day", () => {

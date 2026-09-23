@@ -16,6 +16,7 @@ import { createOrganization } from "./life";
 import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import { createResourceFlow, recordResourceTransferOutcome } from "./resources";
 import { SeededRng } from "./rng";
+import { scheduledActivityState } from "./time-work";
 import type {
   CampaignRecord,
   EntityId,
@@ -129,6 +130,7 @@ export function operatingCategoryOfClassification(
 interface OperatingCommittee {
   readonly organizationId: EntityId;
   readonly campaign: CampaignRecord;
+  readonly candidatePersonId: EntityId;
   /** The player's own committee has approved advertising it must keep money for. */
   readonly own: boolean;
 }
@@ -138,15 +140,38 @@ function committeesFor(
   campaign: CampaignRecord,
 ): readonly OperatingCommittee[] {
   return [
-    { organizationId: campaign.organizationId, campaign, own: true },
+    {
+      organizationId: campaign.organizationId,
+      campaign,
+      candidatePersonId: campaign.candidatePersonId,
+      own: true,
+    },
     ...campaignOpponentRecords(world)
       .filter((opponent) => opponent.rivalCampaignId === campaign.id)
       .map((opponent) => ({
         organizationId: opponent.committeeOrganizationId,
         campaign,
+        candidatePersonId: opponent.candidatePersonId,
         own: false,
       })),
   ];
+}
+
+/**
+ * A committee still in the race: its candidate is alive and still on the
+ * ballot. A rival who died or left the contest runs up no more bills.
+ */
+function stillRunning(world: World, committee: OperatingCommittee): boolean {
+  if (
+    world.history.personDeaths.some(
+      (death) => death.personId === committee.candidatePersonId,
+    )
+  )
+    return false;
+  return requireElectionContest(
+    world,
+    committee.campaign.contestId,
+  ).candidatePersonIds.includes(committee.candidatePersonId);
 }
 
 function committeeByOrganization(
@@ -185,13 +210,14 @@ export function planCampaignOperatingWeek(
   let next = world;
   const worked = campaignResultsFor(world, campaign.id).some(
     (result) =>
-      result.completedAt > addDays(weekStart, -7) &&
-      result.completedAt <= weekStart,
+      result.completedAt >= addDays(weekStart, -7) &&
+      result.completedAt < weekStart,
   );
   for (const committee of committeesFor(world, campaign)) {
     // Bills follow the work: a committee whose candidate did no campaign work
     // in the week just ended runs up none. A rival acts every week.
     if (committee.own && !worked) continue;
+    if (!stillRunning(world, committee)) continue;
     const rng = new SeededRng(world.seed).fork(
       `campaign-operating-week:${committee.organizationId}:${weekStart}`,
     );
@@ -245,7 +271,12 @@ function spendableMinorUnits(
         .filter(
           (action) =>
             action.plannedSpend !== null &&
-            campaignActionResult(world, action.id) === null,
+            campaignActionResult(world, action.id) === null &&
+            // A buy let go, cancelled, or whose time passed will never run.
+            scheduledActivityState(world, action.scheduledActivityId).status ===
+              "scheduled" &&
+            scheduledActivityState(world, action.scheduledActivityId).start
+              .date >= world.currentDate,
         )
         .reduce((sum, action) => sum + action.plannedSpend!.minorUnits, 0)
     : 0;
@@ -361,6 +392,15 @@ export function campaignOperatingPaymentHandler(
       world,
       status: "cancelled",
       reasonKey: "campaign:race-over",
+      context: null,
+      outcomeEventId: null,
+    };
+  }
+  if (!stillRunning(world, committee)) {
+    return {
+      world,
+      status: "cancelled",
+      reasonKey: "campaign:candidate-left-race",
       context: null,
       outcomeEventId: null,
     };
