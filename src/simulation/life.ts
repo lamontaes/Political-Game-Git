@@ -853,6 +853,30 @@ export function createWorkRelationship(
   world: World,
   input: CreateWorkRelationshipInput,
 ): World {
+  return commit(world, workRelationshipHistory(world, input));
+}
+
+/**
+ * The same writer for many jobs at once, for seating a town's businesses.
+ * Each input is validated exactly as the single writer does, against the
+ * world as it stands after the ones before it. Integrity is asserted once
+ * over the result instead of once per job.
+ */
+export function createWorkRelationships(
+  world: World,
+  inputs: readonly CreateWorkRelationshipInput[],
+): World {
+  if (inputs.length === 0) return world;
+  let probe = world;
+  for (const input of inputs)
+    probe = { ...probe, history: workRelationshipHistory(probe, input) };
+  return commit(world, probe.history);
+}
+
+function workRelationshipHistory(
+  world: World,
+  input: CreateWorkRelationshipInput,
+): World["history"] {
   assertUniqueStableKey(
     world.history.workRelationships,
     input.stableKey,
@@ -932,13 +956,13 @@ export function createWorkRelationship(
     provenance: cloneLifeProvenance(input.provenance),
     supersedesRoleId: null,
   };
-  return commit(world, {
+  return {
     ...world.history,
     nextSequence: world.history.nextSequence + 3,
     workRelationships: [...world.history.workRelationships, relationship],
     workStatuses: [...world.history.workStatuses, status],
     workRoles: [...world.history.workRoles, role],
-  });
+  };
 }
 
 export function recordWorkStatus(

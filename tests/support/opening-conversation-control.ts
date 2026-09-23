@@ -1,6 +1,7 @@
 import delta from "../fixtures/opening-conversation-delta.json";
 import journeyDelta from "../fixtures/next24-journey-conversation-delta.json";
 import removalDelta from "../fixtures/sit-and-talk-removal-conversation-delta.json";
+import businessesDelta from "../fixtures/town-businesses-conversation-delta.json";
 import type { ordinaryConversationReplayRecords } from "./ordinary-conversation-replay";
 
 /** Undo only the inspected, source-accounted OPENING delta before comparing
@@ -11,10 +12,11 @@ export function acceptedMainComparableReplay(
   input: ReturnType<typeof ordinaryConversationReplayRecords>,
 ) {
   const result = structuredClone(input);
-  // Reverse the newest inspected delta first: the removed evening invitation,
-  // then the journey identity delta. No prose, unknown leaf, or missing
+  // Reverse the newest inspected delta first: the town's businesses, the
+  // removed evening invitation, then the journey identity delta. No prose, unknown leaf, or missing
   // reference can be normalized away.
   for (const change of [
+    ...businessesDelta.changes,
     ...removalDelta.changes,
     ...journeyDelta.changes,
     ...delta.changes,

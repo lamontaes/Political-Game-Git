@@ -4,7 +4,11 @@ import {
   characterHistoryContextPersonId,
   type CharacterHistoryContextPersonInput,
 } from "./character-history";
-import { createOrganization, createWorkRelationship } from "./life";
+import {
+  createOrganization,
+  createWorkRelationships,
+  type CreateWorkRelationshipInput,
+} from "./life";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
@@ -12,8 +16,9 @@ import {
 } from "./people";
 import { generatePersonIdentity } from "./person-identity";
 import {
-  createResourceFlow,
+  createResourceFlows,
   money,
+  type CreateResourceFlowInput,
   recordResourceTransferOutcomes,
   type RecordResourceTransferOutcomeInput,
 } from "./resources";
@@ -347,6 +352,8 @@ export function seatLocalBusinesses(
   const personId = (input: CharacterHistoryContextPersonInput) =>
     characterHistoryContextPersonId(next, input.stableKey);
 
+  const jobs: CreateWorkRelationshipInput[] = [];
+  const flows: CreateResourceFlowInput[] = [];
   for (const plan of plans) {
     const key = businessKey(jurisdictionId, plan.kind);
     next = createOrganization(next, {
@@ -363,7 +370,7 @@ export function seatLocalBusinesses(
     const organizationId = next.history.organizations.at(-1)!.id;
     const business = { kind: "organization" as const, organizationId };
     const ownerId = personId(plan.owner);
-    next = createWorkRelationship(next, {
+    jobs.push({
       stableKey: `${key}:owner:work`,
       personId: ownerId,
       organizationId,
@@ -381,7 +388,7 @@ export function seatLocalBusinesses(
         timeDemand: { ...FULL_TIME, locationJurisdictionId: jurisdictionId },
       },
     });
-    next = createResourceFlow(next, {
+    flows.push({
       stableKey: `${key}:revenue`,
       source: {
         kind: "organization",
@@ -397,7 +404,7 @@ export function seatLocalBusinesses(
       jurisdictionId,
       provenance,
     });
-    next = createResourceFlow(next, {
+    flows.push({
       stableKey: `${key}:owner:draw`,
       source: business,
       recipient: { kind: "person", personId: ownerId },
@@ -412,7 +419,7 @@ export function seatLocalBusinesses(
     });
     plan.workers.forEach(({ input, since }, index) => {
       const workerId = personId(input);
-      next = createWorkRelationship(next, {
+      jobs.push({
         stableKey: `${key}:worker:${index + 1}:work`,
         personId: workerId,
         organizationId,
@@ -430,7 +437,7 @@ export function seatLocalBusinesses(
           timeDemand: { ...FULL_TIME, locationJurisdictionId: jurisdictionId },
         },
       });
-      next = createResourceFlow(next, {
+      flows.push({
         stableKey: `${key}:worker:${index + 1}:wages`,
         source: business,
         recipient: { kind: "person", personId: workerId },
@@ -445,7 +452,11 @@ export function seatLocalBusinesses(
       });
     });
   }
-  return next;
+  // One integrity check for each batch rather than one per record: a town
+  // is about sixty records, and seating them one by one cost a new life a
+  // fifth of a second.
+  next = createWorkRelationships(next, jobs);
+  return createResourceFlows(next, flows);
 }
 
 function firstOfNextMonth(date: IsoDate): IsoDate {
