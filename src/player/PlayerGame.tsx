@@ -176,6 +176,7 @@ import {
   placeStartFacts,
   type PlaceStartFact,
 } from "../presentation/place-start-summary";
+import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
 import {
   openOrdinaryLife,
@@ -1838,6 +1839,15 @@ function SetupScreen({
                     {fact.text}
                   </p>
                 ))}
+              {placeRegionalFacts(place).map((fact) => (
+                <p
+                  key={fact.key}
+                  className="game-hint"
+                  data-testid={`place-regional-${fact.key}`}
+                >
+                  {fact.text}
+                </p>
+              ))}
               {populationFacts.map((fact) => (
                 <p
                   key={`${fact.kind}:${fact.text}:${fact.asOf}`}
