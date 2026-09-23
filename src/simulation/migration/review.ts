@@ -28,6 +28,7 @@ import {
   stateJurisdictionForKey,
 } from "../life-places";
 import { drawCanonicalNamedIdentity } from "../people";
+import { observerAnchorPersonId } from "../people-continuation";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type {
@@ -150,10 +151,19 @@ export function migrationReviewHandler(
   };
 }
 
-/** The player's town, when the player lives in a seated town. */
+/**
+ * The player's town, when the player lives in a seated town. A world watched
+ * from the start has no player, so the town is the observer anchor's.
+ */
 export function migrationTown(world: World): EntityId | null {
-  if (world.control.kind !== "person") return null;
-  const home = world.people[world.control.personId]?.homeJurisdictionId;
+  const personId =
+    world.control.kind === "person"
+      ? world.control.personId
+      : world.control.kind === "observer"
+        ? observerAnchorPersonId(world)
+        : null;
+  if (!personId) return null;
+  const home = world.people[personId]?.homeJurisdictionId;
   if (!home) return null;
   return world.jurisdictions[home]?.kind === "census-place" ? home : null;
 }
