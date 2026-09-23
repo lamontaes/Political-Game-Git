@@ -965,11 +965,25 @@ function assertOrdered(
     throw new Error(`${label} history is not in append-sequence order.`);
 }
 
+/**
+ * History arrays are replaced, never edited, so an id index per array is
+ * exact. Provenance checks ask this for every record, and a scan per question
+ * made one check cost records times events on a long save.
+ */
+const BY_ID = new WeakMap<readonly unknown[], Map<EntityId, unknown>>();
+
 function byId<T extends { readonly id: EntityId }>(
   records: readonly T[],
   id: EntityId,
 ): T | undefined {
-  return records.find((record) => record.id === id);
+  let index = BY_ID.get(records);
+  if (!index) {
+    index = new Map();
+    for (const record of records)
+      if (!index.has(record.id)) index.set(record.id, record);
+    BY_ID.set(records, index);
+  }
+  return index.get(id) as T | undefined;
 }
 
 function member<T extends string>(
