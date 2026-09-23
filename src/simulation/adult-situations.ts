@@ -2843,6 +2843,20 @@ export function bindRequestSituation(
               : `They told ${person.name} they cannot help with the picnic.`,
       })),
     };
+  // An invitation with a reason in the host's own life (`initiator-occasions`).
+  // The host's words are the prose; the answer names the host and the task.
+  if (situation.key === "adult.weekend-invitation")
+    return {
+      ...situation,
+      prose,
+      options: situation.options.map((option) => ({
+        ...option,
+        memory:
+          option.key === "say-yes"
+            ? `You told ${person.name} you would ${details.task.replace(/^go to /, "come to ")}.`
+            : `You told ${person.name} you would not be coming on Saturday.`,
+      })),
+    };
   if (situation.key === "adult.household-quiet-evening")
     return {
       ...situation,

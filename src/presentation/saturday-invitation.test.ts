@@ -28,11 +28,41 @@ function start(placeKey: string, seed: string) {
     startKind: "custom",
     household: "shares-a-home",
   });
-  const world = refreshLifeOpportunities(
+  let world = refreshLifeOpportunities(
     openOrdinaryLifeRecords(game.world, game.playerPersonId),
     game.playerPersonId,
   );
+  // An invitation now needs a reason in the host's own life, so it arrives
+  // when one of the people this life knows has one: days pass until then.
+  for (
+    let day = 0;
+    day < INVITATION_SEARCH_DAYS &&
+    socialInvitationsFor(world, game.playerPersonId).length === 0;
+    day += 1
+  ) {
+    world = refreshLifeOpportunities(
+      passOrdinaryDays(world, 1),
+      game.playerPersonId,
+    );
+  }
   return { world, personId: game.playerPersonId };
+}
+
+const INVITATION_SEARCH_DAYS = 400;
+
+/**
+ * Seeds whose worlds hold somebody with a reason to have people over within
+ * the search window. Plain "saturday-2015900" has nobody who does in 400
+ * days, which is a correct answer and not the one these tests are about.
+ */
+const SEEDS: Record<string, string> = {
+  "5114968": "saturday-5114968",
+  "2015900": "saturday-2015900-d",
+  "0200065": "saturday-0200065",
+};
+
+function daysUntil(from: string, to: string): number {
+  return Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000);
 }
 
 function askerOf(world: World, eventId: EntityId): EntityId {
@@ -51,7 +81,7 @@ describe("a Saturday invitation, said yes to", () => {
   it.each(PLACES)(
     "in %s (%s), names who asked, becomes a plan, and is kept",
     (placeKey) => {
-      const { world, personId } = start(placeKey, `saturday-${placeKey}`);
+      const { world, personId } = start(placeKey, SEEDS[placeKey]!);
       const invitation = socialInvitationsFor(world, personId)[0];
       expect(invitation).toBeDefined();
       const askerId = askerOf(world, invitation!.invitationEventId);
@@ -61,8 +91,11 @@ describe("a Saturday invitation, said yes to", () => {
       const asking = world.history.events.find(
         (event) => event.id === invitation!.invitationEventId,
       )!;
-      expect(asking.summary).toBe(
-        `${asker} asked you over on Saturday afternoon. Going is optional.`,
+      // Who asked, and the reason from their own life, dated.
+      expect(asking.summary).toMatch(
+        new RegExp(
+          `^${asker}, who (turns \\d+|moved|started at .+) on [A-Z][a-z]+ \\d{1,2}, \\d{4}, asked you over`,
+        ),
       );
       expect(invitation!.title).toBe(`Saturday afternoon at ${asker}'s`);
       const known = world.history.knowledge.find(
@@ -72,7 +105,7 @@ describe("a Saturday invitation, said yes to", () => {
       )!;
       expect(known.believedSummary).toMatch(
         new RegExp(
-          `^${asker} asked you over on the afternoon of [A-Z][a-z]+ \\d{1,2}, \\d{4}\\. Going is optional\\.$`,
+          `^${asker} .+ on the afternoon of [A-Z][a-z]+ \\d{1,2}, \\d{4}\\. Going is optional\\.$`,
         ),
       );
 
@@ -102,7 +135,10 @@ describe("a Saturday invitation, said yes to", () => {
 
       // The week passes as a player would pass it. Saturday's plan is what
       // stops it, not something that lapses on the way.
-      const saturday = passOrdinaryDays(accepted, 5);
+      const saturday = passOrdinaryDays(
+        accepted,
+        daysUntil(accepted.currentDate, invitation!.start.date),
+      );
       expect(scheduledActivityState(saturday, plan.id).status).toBe(
         "scheduled",
       );
@@ -156,7 +192,10 @@ describe("a Saturday invitation, said yes to", () => {
     });
     const plan = accepted.history.scheduledActivities.at(-2)!;
     expect(plan.kind).toBe("confirmed");
-    const week = passOrdinaryDays(accepted, 7);
+    const week = passOrdinaryDays(
+      accepted,
+      daysUntil(accepted.currentDate, invitation.start.date) + 1,
+    );
     expect(
       week.currentDate > scheduledActivityState(accepted, plan.id).start.date,
     ).toBe(true);
@@ -169,7 +208,7 @@ describe("a Saturday invitation, said yes to", () => {
   }, 120_000);
 
   it("answered in conversation, moves the calendar with the answer", () => {
-    const { world, personId } = start("2015900", "saturday-2015900");
+    const { world, personId } = start("2015900", SEEDS["2015900"]!);
     const invitation = socialInvitationsFor(world, personId)[0]!;
     const askerId = askerOf(world, invitation.invitationEventId);
 

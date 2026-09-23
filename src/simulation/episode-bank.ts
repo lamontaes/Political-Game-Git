@@ -161,6 +161,11 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
     {
       key: "noticing",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Nothing records the peer's late returns, curfews or whereabouts (dialogue review, 2026-09-23).",
+        },
         needsHouseholdPeer,
         // The peer is the one who is out and about, so the peer — not only the
         // player — has to be old enough for that to be plausible.
@@ -353,6 +358,11 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
     {
       key: "it-got-worse",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "The late-night call is implied by a timer, not recorded, and the branch ignores what the player actually chose (dialogue review, 2026-09-23).",
+        },
         needsHouseholdPeer,
         { kind: "after-stage", stage: "noticing" },
         { kind: "days-since-stage", stage: "noticing", days: 400 },
@@ -658,6 +668,11 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
       // which is the thing they have actually been carrying.
       key: "the-one-you-did-not-go-with",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "The friend's return is implied by a timer, and the branch collapses different earlier choices (dialogue review, 2026-09-23).",
+        },
         needsFamiliar,
         { kind: "age-at-least", age: 21 },
         { kind: "after-stage", stage: "the-year-you-were-inseparable" },
@@ -785,6 +800,11 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
       recordSceneContext: true,
       sceneSetting: "school",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "No broken object, damage or blame is recorded before the scene is chosen (dialogue review, 2026-09-23).",
+        },
         { kind: "fact", fact: "school.enrolled" },
         { kind: "age-below", age: 18 },
         /*
@@ -976,6 +996,11 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
     {
       key: "the-first-time-it-is-said",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "No record divides the household's chores or time, so nobody can be right that the week does not balance (dialogue review, 2026-09-23).",
+        },
         needsHouseholdPeer,
         answersForThemselves,
         { kind: "age-at-least", age: 18 },
@@ -1050,6 +1075,11 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
     {
       key: "it-was-taken-seriously",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Five months of chores are implied by a timer; no work was recorded (dialogue review, 2026-09-23).",
+        },
         needsHouseholdPeer,
         {
           kind: "after-choice",
@@ -1199,6 +1229,11 @@ const WORK_STANDING: EpisodeFamily = {
     {
       key: "the-rule-and-the-person",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "No workplace rule, case or affected person is recorded (dialogue review, 2026-09-23).",
+        },
         needsColleague,
         { kind: "fact", fact: "work.employed" },
         { kind: "age-at-least", age: 18 },
@@ -1331,6 +1366,11 @@ const WORK_STANDING: EpisodeFamily = {
       // and the stage under this one is what happens instead.
       key: "the-offer",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "The job offer is implied by a timer; no offer or employer is recorded (dialogue review, 2026-09-23).",
+        },
         { kind: "fact", fact: "work.employed" },
         { kind: "after-stage", stage: "the-rule-and-the-person" },
         {
@@ -1502,6 +1542,11 @@ const MONEY_OWED: EpisodeFamily = {
     {
       key: "the-first-letter",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "An open obligation is not a letter the player cannot pay; the missed-payment record is not read yet (dialogue review, 2026-09-23).",
+        },
         { kind: "fact", fact: "money.obligation" },
         { kind: "age-at-least", age: 18 },
       ],
@@ -1560,6 +1605,11 @@ const MONEY_OWED: EpisodeFamily = {
     {
       key: "arrangement-held",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Eight months of payments are implied by a timer; no payment plan was recorded (dialogue review, 2026-09-23).",
+        },
         { kind: "after-choice", stage: "the-first-letter", option: "call" },
         { kind: "days-since-stage", stage: "the-first-letter", days: 240 },
       ],
@@ -1881,7 +1931,14 @@ const NEIGHBOURHOOD: EpisodeFamily = {
     ...LIFE_CONTENT_92C_CIVIC_STAGES,
     {
       key: "the-meeting",
-      requires: [{ kind: "age-at-least", age: 18 }],
+      requires: [
+        {
+          kind: "withheld",
+          reason:
+            "No building, notice or meeting is recorded; choosing the scene used to create the group it describes (dialogue review, 2026-09-23).",
+        },
+        { kind: "age-at-least", age: 18 },
+      ],
       lines: [
         "There is a notice on the door of the building at the end of the road about what is going to happen to it.",
         "The meeting is on Tuesday and nobody you know is going.",
@@ -2148,6 +2205,11 @@ const POLITICAL_APPROACH: EpisodeFamily = {
     {
       key: "the-approach",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "No party, district history or approach by a party member is recorded (dialogue review, 2026-09-23).",
+        },
         needsCommunityMember,
         { kind: "fact", fact: "civic.participation" },
         { kind: "age-at-least", age: 21 },
