@@ -139,6 +139,7 @@ import {
 
 import {
   BrowserSaveStore,
+  SavesKeptByNewerBuildError,
   type BrowserWorldSummary,
   type QuarantinedSave,
 } from "../presentation/browser-world-repository";
@@ -215,6 +216,7 @@ import {
   resolvedTitlePresentation,
   resolvedTitleLecternHero,
   type SaveListingState,
+  reloadPage,
 } from "./TitleScreen";
 import {
   readReplaySeed,
@@ -253,6 +255,7 @@ import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
 import { congressSeatStatus } from "../presentation/congress-candidacy";
 import { congressStatusText } from "./CongressCandidacySection";
+import { congressCommitteeMembership } from "../presentation/legislative-office-context";
 import {
   projectOfficeTransition,
   projectSwearingIn,
@@ -266,7 +269,8 @@ import {
   selectedDocketKey,
   selectDocketBill,
 } from "../presentation/legislation-docket-selection";
-import { measureById } from "../simulation";
+import { homeStateUsps, measureById } from "../simulation";
+import { isTerritoryUsps } from "../simulation/state-reference";
 import { measureGate } from "../simulation/legislation";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { InvokerFocusReturn } from "./PersonSceneActionMenu";
@@ -516,8 +520,10 @@ export function PlayerGame() {
       setSaves(listing.saves);
       setDamaged(listing.damaged);
       setSaveListing("read");
-    } catch {
-      setSaveListing("failed");
+    } catch (error) {
+      setSaveListing(
+        error instanceof SavesKeptByNewerBuildError ? "outdated" : "failed",
+      );
     }
   }, [store]);
 
@@ -721,7 +727,12 @@ export function PlayerGame() {
       startPlaying(world, personId, null, saveId);
       setNotice(null);
     } catch {
-      setProblem("That saved game could not be opened.");
+      // Said plainly that nothing was lost: a player who read only "could not
+      // be opened" about the one save of a sixteen-year life had no reason to
+      // believe it was still there.
+      setProblem(
+        "That saved game could not be opened just now. It has been kept, not deleted. Try again, or after the next update.",
+      );
     }
   }
 
@@ -2315,6 +2326,15 @@ function SavesScreen({
           Your saved lives could not be read just now. Nothing was deleted.{" "}
           <button type="button" onClick={onRetrySaves}>
             Try again
+          </button>
+        </p>
+      ) : null}
+      {saveListing === "outdated" ? (
+        <p className="game-problem" role="alert" data-testid="saves-outdated">
+          This page is an older copy of the game than the one that kept your
+          saved lives. Reload the page to open them. Nothing was deleted.{" "}
+          <button type="button" onClick={reloadPage}>
+            Reload
           </button>
         </p>
       ) : null}
@@ -5463,7 +5483,9 @@ function renderWorkspace({
       if (half === "campaign") {
         sections.push({
           key: "statewide",
-          title: "The state's top office",
+          title: isTerritoryUsps(homeStateUsps(session.world, session.personId))
+            ? "The territory's top office"
+            : "The state's top office",
           body: (
             <NationwideCandidacyWorkspace
               world={session.world}
@@ -5520,11 +5542,21 @@ function renderWorkspace({
           body: (
             <div data-testid="congress-seat-held">
               <p>{congressStatusText(congressSeat)}</p>
+              <p data-testid="congress-committees">
+                {committeeText(
+                  congressCommitteeMembership(
+                    session.world,
+                    session.personId,
+                    congressSeat.identity.seat.chamberKey,
+                  ),
+                )}
+              </p>
               <p className="game-note">
                 Your seat, its term and your record in it are real, and the seat
                 is decided again at its next election; file for it under
-                Campaigns to keep it. Floor votes, committees and a member's
-                office staff are not yet something you can take part in.
+                Campaigns to keep it. Floor votes, committee votes and a
+                member's office staff are not yet something you can take part
+                in.
               </p>
             </div>
           ),
@@ -6322,3 +6354,11 @@ function WorkLayout({
   );
 }
 import { NationalElectionResults } from "./NationalElectionResults";
+
+function committeeText(
+  membership: ReturnType<typeof congressCommitteeMembership>,
+): string {
+  return membership.kind === "committees"
+    ? membership.label
+    : membership.reason;
+}

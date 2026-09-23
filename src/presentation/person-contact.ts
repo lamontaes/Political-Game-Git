@@ -5,6 +5,8 @@ import {
   type FutureTransitionHandlerRegistry,
   type World,
 } from "../simulation";
+import { currentLifeCutoff } from "../simulation/life-queries";
+import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { openConversationWith } from "./person-conversation-entry";
 import {
   currentOpeningLifeScene,
@@ -67,6 +69,28 @@ export function projectPersonContact(
 ): PersonContact {
   const person = world.people[personId];
   const name = person ? personName(person) : "them";
+  /*
+   * Nobody talks to, meets or visits somebody who has died. A Ketchikan
+   * father marked "No longer living" still offered Talk and Meet (playtest on
+   * main 22b4f13e, 2026-09-23).
+   */
+  if (person && !isPersonAliveAt(world, personId, currentLifeCutoff(world))) {
+    const reason = `${name} has died.`;
+    return {
+      personId,
+      presentNow: false,
+      talk: { available: false, label: "Talk", reason, kind: "talk" },
+      contact: { available: false, label: "Contact", reason, kind: "contact" },
+      meet: { available: false, label: "Meet", reason, kind: "meet" },
+      travel: {
+        available: false,
+        label: "Travel to",
+        reason,
+        kind: "travel",
+        walk: null,
+      },
+    };
+  }
   const present =
     options.presentPersonIds ??
     currentOpeningLifeScene(world, playerPersonId)?.presentPersonIds ??

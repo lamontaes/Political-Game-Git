@@ -37,6 +37,10 @@ import {
   publicProgramRecords,
 } from "./public-program-integrity";
 import {
+  assertJobMarketIntegrity,
+  jobMarketHistoryRecords,
+} from "./job-market-integrity";
+import {
   assertTaxIntegrity,
   taxEntityExists,
   taxEntityAvailableAt,
@@ -228,6 +232,7 @@ import type {
   MindCatalog,
   Person,
   PersonFact,
+  PropositionExposureRecord,
   PersonFactKind,
   PolicyCatalog,
   SetupPriorStore,
@@ -1698,6 +1703,7 @@ function validateHistoryIntegrity(world: World): void {
   }
   const records = [
     ...taxHistoryRecords(world),
+    ...jobMarketHistoryRecords(world),
     ...lifeHistoryRecords(world),
     ...resourceHousingHistoryRecords(world),
     ...worldMetricHistoryRecords(world),
@@ -1856,6 +1862,7 @@ function validateHistoryIntegrity(world: World): void {
   assertLifeHistoryIntegrity(world, ids);
   assertResourceHousingIntegrity(world, ids);
   assertTaxIntegrity(world, ids);
+  assertJobMarketIntegrity(world, ids);
   assertPublicPaymentIntegrity(world);
   assertWorldMetricIntegrity(world, ids);
   assertCausalEffectIntegrity(world, ids);
@@ -2823,6 +2830,10 @@ function validatePoliticalHistory(
     world.history.subjectKnowledge.map((record) => [record.id, record]),
   );
 
+  const exposureById = new Map<EntityId, PropositionExposureRecord>();
+  for (const exposure of world.history.propositionExposures)
+    if (!exposureById.has(exposure.id)) exposureById.set(exposure.id, exposure);
+
   for (const belief of world.history.privateBeliefs) {
     assertHistoryIdentity(ids, world, belief, "belief");
     validatePoliticalRecordCore(
@@ -2853,9 +2864,7 @@ function validatePoliticalHistory(
       exposureIds,
     );
     for (const exposureId of belief.formation.propositionExposureIds) {
-      const exposure = world.history.propositionExposures.find(
-        (candidate) => candidate.id === exposureId,
-      );
+      const exposure = exposureById.get(exposureId);
       if (exposure?.propositionId !== belief.propositionId) {
         throw new Error(
           `Belief formation references an exposure to another proposition: ${exposureId}`,
@@ -3501,15 +3510,9 @@ function validatePoliticalSupersession<
   selectDate: (candidate: T) => IsoDate,
   label: string,
 ): void {
-  const previous = [...recordsById.values()]
-    .filter(
-      (candidate) =>
-        candidate.personId === record.personId &&
-        selectSubject(candidate) === selectSubject(record) &&
-        candidate.sequence < record.sequence,
-    )
-    .sort((left, right) => left.sequence - right.sequence)
-    .at(-1);
+  const previous = previousPoliticalRecords(recordsById, selectSubject).get(
+    record.id,
+  );
   const prior = priorId === null ? undefined : recordsById.get(priorId);
   if (
     (previous === undefined && priorId !== null) ||
@@ -3523,6 +3526,60 @@ function validatePoliticalSupersession<
   ) {
     throw new Error(`Invalid ${label} supersession reference: ${priorId}`);
   }
+}
+
+/**
+ * For each record, the latest earlier record by the same person about the
+ * same subject, computed in one pass per family. Asking this separately for
+ * every record scanned and sorted the whole family each time, so the check
+ * grew with the square of a long save's political history.
+ */
+const PREVIOUS_POLITICAL_RECORDS = new WeakMap<
+  ReadonlyMap<EntityId, unknown>,
+  Map<EntityId, unknown>
+>();
+
+function previousPoliticalRecords<
+  T extends {
+    readonly id: EntityId;
+    readonly personId: EntityId;
+    readonly sequence: number;
+  },
+>(
+  recordsById: ReadonlyMap<EntityId, T>,
+  selectSubject: (candidate: T) => EntityId,
+): ReadonlyMap<EntityId, T | undefined> {
+  const cached = PREVIOUS_POLITICAL_RECORDS.get(recordsById);
+  if (cached) return cached as Map<EntityId, T | undefined>;
+  const ordered = [...recordsById.values()].sort(
+    (left, right) => left.sequence - right.sequence,
+  );
+  const latest = new Map<string, T>();
+  const previous = new Map<EntityId, T | undefined>();
+  // Records sharing a sequence are not earlier than one another, so each
+  // group sees only what came before the group.
+  for (let start = 0; start < ordered.length;) {
+    let end = start;
+    while (
+      end < ordered.length &&
+      ordered[end]!.sequence === ordered[start]!.sequence
+    )
+      end += 1;
+    for (let index = start; index < end; index += 1) {
+      const record = ordered[index]!;
+      previous.set(
+        record.id,
+        latest.get(`${record.personId}\u0000${selectSubject(record)}`),
+      );
+    }
+    for (let index = start; index < end; index += 1) {
+      const record = ordered[index]!;
+      latest.set(`${record.personId}\u0000${selectSubject(record)}`, record);
+    }
+    start = end;
+  }
+  PREVIOUS_POLITICAL_RECORDS.set(recordsById, previous);
+  return previous;
 }
 
 function assertCanonicalEntityIds(

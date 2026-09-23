@@ -332,19 +332,35 @@ describe("Government rosters, representation and the Issues place", () => {
     }
   });
 
-  it("gives a state legislature its chambers without inventing members", () => {
+  it("lists a state chamber's seated members, and no one it did not seat", () => {
     const view = projectGovernmentBrowser(life.world, life.personId, {
       scope: "state",
     });
     const legislative = view.branches.find(
       (branch) => branch.branch === "legislative",
     )!;
+    const seated = new Set(
+      legislative.entries.flatMap((entry) =>
+        (entry.roster ?? []).map((row) => row.holderPersonId),
+      ),
+    );
     for (const entry of legislative.entries.filter((item) =>
       item.key.startsWith("chamber:"),
     )) {
-      expect(entry.roster ?? []).toHaveLength(0);
-      expect(entry.rosterNote).toMatch(/No current record/);
+      if ((entry.roster ?? []).length === 0)
+        expect(entry.rosterNote).toMatch(/No current record/);
+      for (const row of entry.roster ?? []) {
+        expect(row.status).toBe("member");
+        expect(life.world.people[row.holderPersonId!]).toBeDefined();
+      }
     }
+    // Every member listed is a seated legislator, each listed once.
+    expect(seated.size).toBe(
+      legislative.entries.reduce(
+        (sum, entry) => sum + (entry.roster?.length ?? 0),
+        0,
+      ),
+    );
   });
 
   it("points Issues at the place chosen in Government and says which", () => {
