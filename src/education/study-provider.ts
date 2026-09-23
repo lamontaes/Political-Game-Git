@@ -9,7 +9,16 @@ import {
   studyPeriodDueDate,
   totalStudyPeriods,
 } from "../simulation/education-study-progression";
-import { lifePathEntryReason } from "../simulation/life-paths2";
+import {
+  hasLifePathCredential,
+  lifePathEntryReason,
+} from "../simulation/life-paths2";
+import { lifePathDefinition } from "../simulation/life-paths2-catalog";
+import {
+  DEGREE_RESEARCH_QUESTION_ID,
+  degreeLevelForCode,
+  degreeProgramFor,
+} from "../simulation/degree-levels";
 import {
   createOrganization,
   createEducationEnrollment,
@@ -69,6 +78,75 @@ export function studyDefinition(
     provenance,
   };
 }
+/**
+ * A degree at a real college, for the award levels in `degree-levels.ts`.
+ *
+ * The college and the level come from the directory. Everything else is a
+ * PLACEHOLDER(research: who-gets-into-college-and-what-it-costs): length, pace
+ * and tuition are copied from the game's own authored degree paths, not
+ * invented again here, and the offer carries the directory row as evidence.
+ */
+export function degreeStudyDefinition(
+  institution: EducationInstitution,
+  capability: EducationCapability,
+): LifePathDefinition | null {
+  const level = degreeLevelForCode(capability.code);
+  if (!level || capability.kind !== "award") return null;
+  const template = lifePathDefinition(level.placeholderTemplateId);
+  const academicYears = template.academicYears!;
+  const periodsPerYear = template.periodsPerYear!;
+  const daysPerPeriod = template.daysPerPeriod!;
+  return {
+    id: `edu-path7-${institution.officialId}-${level.code.toLowerCase()}`,
+    version: 1,
+    kind: "study",
+    scope: "personal",
+    organizationName: institution.name,
+    title: `${level.credential} at ${institution.name}`,
+    responsibility: `Study toward ${level.credential.toLowerCase()} across the accepted periods.`,
+    program: degreeProgramFor(level),
+    credential: level.credential,
+    prerequisiteProgram: level.prerequisiteProgram,
+    minimumAge: 18,
+    sessionMinutes: 0,
+    sessionStartMinute: 0,
+    minimumGapDays: 0,
+    requiredSessions: null,
+    minimumElapsedDays: academicYears * periodsPerYear * daysPerPeriod,
+    sessionCostMinor: 0,
+    sessionPayMinor: 0,
+    progressionModel: "periods",
+    academicYears,
+    periodsPerYear,
+    daysPerPeriod,
+    periodCostMinor: template.periodCostMinor!,
+    tuitionGraceDays: DEFAULT_AUTHORED_TUITION_GRACE_DAYS,
+    volunteerSupported: false,
+    timeDemand: template.timeDemand,
+    provenance: {
+      kind: "authored",
+      note: `EDU-PATH7 degree. Source supports the institution and the award level; admission, length, schedule and tuition are placeholders copied from ${level.placeholderTemplateId} pending research question ${DEGREE_RESEARCH_QUESTION_ID}.`,
+    },
+  };
+}
+/** The study this capability offers: a degree where the game runs one. */
+export function studyPathFor(
+  institution: EducationInstitution,
+  capability: EducationCapability,
+): LifePathDefinition {
+  return (
+    degreeStudyDefinition(institution, capability) ??
+    studyDefinition(institution, capability)
+  );
+}
+/** Whether the game can take an application for this listed capability. */
+export function canApplyFor(capability: EducationCapability): boolean {
+  return (
+    capability.state === "offered" &&
+    (capability.kind === "noncredit" ||
+      (capability.kind === "award" && !!degreeLevelForCode(capability.code)))
+  );
+}
 export function educationOptionReason(
   world: World,
   institution: EducationInstitution,
@@ -77,17 +155,19 @@ export function educationOptionReason(
   if (world.control.kind !== "person") return "Choose a person to study.";
   const dateReason = institutionDateReason(institution, world.currentDate);
   if (dateReason) return dateReason;
+  if (institution.kind !== "postsecondary" || !canApplyFor(capability))
+    return "This college does not take applications for this through the game.";
+  const path = studyPathFor(institution, capability);
   if (
-    institution.kind !== "postsecondary" ||
-    capability.kind !== "noncredit" ||
-    capability.state !== "offered"
+    path.prerequisiteProgram &&
+    !hasLifePathCredential(
+      world,
+      world.control.personId,
+      path.prerequisiteProgram,
+    )
   )
-    return "This source does not establish an available noncredit study category. Degree/grade admission, exact program and prerequisites remain unestablished.";
-  return lifePathEntryReason(
-    world,
-    world.control.personId,
-    studyDefinition(institution, capability),
-  );
+    return "This needs a bachelor's degree first.";
+  return lifePathEntryReason(world, world.control.personId, path);
 }
 function event(
   world: World,
@@ -167,11 +247,15 @@ export function applyForEducation(
     });
     org = next.history.organizations.at(-1)!;
   }
+  const path = studyPathFor(institution, capability);
+  const degree = capability.kind === "award";
   next = event(
     next,
     "application",
     [org.id],
-    `You requested the game-authored noncredit study option at ${institution.name}. No attendance, degree or payment is recorded.`,
+    degree
+      ? `You applied to ${institution.name} for ${path.credential!.toLowerCase()}.`
+      : `You requested the game-authored noncredit study option at ${institution.name}. No attendance, degree or payment is recorded.`,
   );
   const terms: AcceptedEducationTerms = {
     version: 2,
@@ -179,7 +263,7 @@ export function applyForEducation(
     institutionId: institution.id,
     capabilityCode,
     sourceEvidence: institution.evidence,
-    path: studyDefinition(institution, capability),
+    path,
   };
   next = recordEvidenceArtifact(next, {
     stableKey: `edu-path7:offer:${next.history.nextSequence}`,
@@ -194,8 +278,12 @@ export function applyForEducation(
   return {
     ok: true as const,
     world: next,
-    message:
-      "A game-authored noncredit offer is available. Review its terms before accepting; this is not official admission.",
+    // PLACEHOLDER(research: who-gets-into-college-and-what-it-costs): every
+    // degree applicant is admitted until admission is researched. An
+    // open-admission college admits anyone by its own reported policy.
+    message: degree
+      ? `${institution.name} offered you a place. Review the terms before accepting.`
+      : "A game-authored noncredit offer is available. Review its terms before accepting; this is not official admission.",
   };
 }
 export function pendingEducationOffers(world: World) {
@@ -240,7 +328,7 @@ export function respondToEducationOffer(
         world,
         "offer-declined",
         [offer.id],
-        "You declined the noncredit study offer.",
+        "You declined the study offer.",
       ),
       message: "Offer declined.",
     };
@@ -327,7 +415,9 @@ export function respondToEducationOffer(
     organizationId: org,
     startedAt: world.currentDate,
     programKind: terms.path.program,
-    contextKind: "program:edu-path7-noncredit",
+    contextKind: degreeLevelForCode(terms.capabilityCode)
+      ? "program:edu-path7-degree"
+      : "program:edu-path7-noncredit",
     provenance,
   });
   const enrollment = next.history.educationEnrollments.at(-1)!;
@@ -335,7 +425,9 @@ export function respondToEducationOffer(
     next,
     "offer-accepted",
     [offer.id, enrollment.id],
-    "You accepted the noncredit study terms. Tuition is due when the study period ends.",
+    degreeLevelForCode(terms.capabilityCode)
+      ? `You accepted a place studying toward ${terms.path.credential!.toLowerCase()}. Tuition is due when each study period ends.`
+      : "You accepted the noncredit study terms. Tuition is due when the study period ends.",
   );
   next = recordAcceptedEducationTerms(next, enrollment.id, terms);
   if (studyUsesPeriodModel(terms.path))

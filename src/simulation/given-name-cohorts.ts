@@ -1,4 +1,4 @@
-import SSA_DECADES from "./given-names-by-decade.json";
+import SSA_DECADES from "./given-names-by-decade.json" with { type: "json" };
 import { SeededRng } from "./rng";
 import type { GenderIdentityKey, IsoDate } from "./types";
 
@@ -7,7 +7,7 @@ import type { GenderIdentityKey, IsoDate } from "./types";
  *
  * ChatGPT's DEPTH1 answer to `given-name-fashion-by-birth-year` is a method:
  * draw a person's given name from what people born in their year were actually
- * called, smooth between neighbouring years rather than cut hard at a decade,
+ * called, smooth between neighboring years rather than cut hard at a decade,
  * and never make a historically rare name impossible. The data here is the
  * SSA's own Top 100 per sex per decade, 1920s to 2020s, with SSA's counts,
  * copied from `docs/research/evidence/ssa-given-names-by-decade.json`. The

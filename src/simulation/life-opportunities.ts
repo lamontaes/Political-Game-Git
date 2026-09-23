@@ -22,6 +22,9 @@ import {
   createWorkItem,
   workPendingEntriesFor,
 } from "./time-work";
+import { settleLivingCosts } from "./cost-of-living";
+import { settleOfficeSalaries } from "./office-salary";
+import { settleMortgages } from "./home-purchase";
 import { recordWorldEvent } from "./world";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
 
@@ -72,6 +75,7 @@ export const LIFE_OPPORTUNITY_KINDS = [
   "meeting-agenda-item",
   "candidacy-approach",
   "returning-favour",
+  "household-shortfall",
 ] as const;
 
 export type LifeOpportunityKind = (typeof LIFE_OPPORTUNITY_KINDS)[number];
@@ -88,6 +92,9 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
   "meeting-agenda-item": "adult.local-issue-position",
   "candidacy-approach": "adult.candidacy-approach",
   "returning-favour": "adult.old-favour-returns",
+  // Written by the weekly living costs in `cost-of-living.ts`, not by the
+  // candidate writer below: the first week a life cannot cover.
+  "household-shortfall": "adult.household-money-shortfall",
 };
 
 /**
@@ -115,6 +122,7 @@ export const LIFE_OPPORTUNITY_REPEATABLE: Readonly<
   "meeting-agenda-item": false,
   "candidacy-approach": false,
   "returning-favour": false,
+  "household-shortfall": false,
 };
 
 export const LIFE_OPPORTUNITY_TAG_PREFIX = "life.opportunity:";
@@ -497,6 +505,9 @@ export function refreshLifeOpportunities(
   if (formativeIntervalAt(world, personId) !== null) return world;
 
   let next = replenishHouseholdWeek(world, personId);
+  next = settleOfficeSalaries(next, personId);
+  next = settleMortgages(next, personId);
+  next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
   return next;
 }
@@ -580,15 +591,36 @@ interface OpportunityCandidate {
  * rather than to an inbox.
  */
 function writeNextOpportunity(world: World, personId: EntityId): World {
-  // Only a life with nothing in front of it gets given anything. This is the
-  // difference between replenishing and nagging: a player who has been asked
-  // three things and answered none of them is not short of things to do, and a
-  // world that wrote them a fourth every time a month went by would turn a
-  // quiet stretch into a stream of notifications and make silence impossible.
-  if (lifeOpportunitiesFor(world, personId).length > 0) return world;
+  // A life with nothing in front of it is filled up to the cap. A life that
+  // already has something open gets at most one new thing per transition.
+  //
+  // This used to be "only a life with nothing in front of it gets anything",
+  // and in the long playthrough that was the wall: one request that never
+  // expired held the life still, and Fatima Erickson in Eastport, Maine was
+  // offered the same five moments for three years. The cap still stops a
+  // quiet stretch from turning into an inbox; one a day stops it from
+  // arriving all at once.
+  //
+  // PLACEHOLDER(research: what-an-ordinary-adult-year-contains): how often an
+  // ordinary adult is asked something is unresearched. The cap and the
+  // one-a-day pace are pacing rules, not rates.
+  //
+  // "Per transition" is kept idempotent by the day: a life that already has
+  // something open gets nothing more on a day something was already written
+  // for it, so reopening a save, or a screen change, writes nothing new.
+  const open = lifeOpportunitiesFor(world, personId);
+  const writtenToday = `life-opportunity:${personId}:${world.currentDate}:`;
+  if (
+    open.length > 0 &&
+    world.history.events.some((event) =>
+      event.stableKey.startsWith(writtenToday),
+    )
+  )
+    return world;
+  const budget = open.length === 0 ? OPEN_LIFE_OPPORTUNITY_LIMIT : 1;
 
   let next = world;
-  for (let attempt = 0; attempt < OPEN_LIFE_OPPORTUNITY_LIMIT; attempt += 1) {
+  for (let attempt = 0; attempt < budget; attempt += 1) {
     const open = lifeOpportunitiesFor(next, personId);
     if (open.length >= OPEN_LIFE_OPPORTUNITY_LIMIT) return next;
 
@@ -675,6 +707,82 @@ function favourActuallyPerformedFor(
 }
 
 /**
+ * The evening "sit and talk" invitation, as a save written before 2026-09-22
+ * holds it. Play no longer writes one (the owner removed it: accepting led to
+ * no conversation, only a calendar hold). Kept so the records such a save
+ * carries, and the scenes that still answer them, can be reproduced exactly.
+ */
+function householdEveningCandidate(
+  world: World,
+  personId: EntityId,
+  householdCompanionId: EntityId,
+  jurisdictionId: EntityId | null,
+): OpportunityCandidate {
+  return {
+    kind: "household-evening",
+    counterpartPersonId: householdCompanionId,
+    write: (current, stableKey) =>
+      writeAsk(current, {
+        stableKey,
+        kind: "household-evening",
+        personId,
+        askerPersonId: householdCompanionId,
+        jurisdictionId,
+        type: "life.household-evening-proposed",
+        summary: `${personName(world.people[householdCompanionId]!)} said they would be home this evening and invited them to sit and talk.`,
+        detail: "Invited them to sit and talk this evening",
+        details: {
+          version: 1,
+          task: "sit and talk at home this evening",
+          opening:
+            "I will be home this evening. Would you like to sit and talk?",
+          condition: null,
+          minutes: 120,
+        },
+        believed:
+          "The evening is free at home and the other person will be in.",
+        // A particular evening, and it is tonight. Without the date this is
+        // not a free evening at all but a standing offer, and a standing
+        // offer would sit unanswered in the life forever while the world
+        // waited for it to be taken up.
+        occasion: {
+          title: "An evening in",
+          summary:
+            "The evening at home, with the person who lives here saying they would be in for it.",
+          date: world.currentDate,
+          startHour: 20,
+          endHour: 22,
+          label: "Home",
+        },
+      }),
+  };
+}
+
+/** Writes a pre-removal evening invitation the way play used to. */
+export function writeLegacyHouseholdEveningInvitation(
+  world: World,
+  personId: EntityId,
+): World {
+  const companionId = firstOf(
+    world,
+    householdCompanionIds(world, personId, currentLifeCutoff(world)),
+  );
+  if (!companionId) return world;
+  const place = lifePlaceByJurisdictionId(
+    world.people[personId]!.homeJurisdictionId,
+  );
+  return householdEveningCandidate(
+    world,
+    personId,
+    companionId,
+    place?.context.jurisdiction.id ?? null,
+  ).write(
+    world,
+    `life-opportunity:${personId}:${world.currentDate}:household-evening`,
+  );
+}
+
+/**
  * Which of the eight this world can support today.
  *
  * Every one of them needs a real person, a real record or both, and a kind
@@ -706,10 +814,6 @@ function eligibleOpportunities(
     candidates.push(candidate);
   };
 
-  const householdCompanionId = firstOf(
-    world,
-    householdCompanionIds(world, personId, cutoff),
-  );
   const localId = firstOf(world, localNeighbourIds(world, personId, cutoff));
   const familiarId = firstOf(world, familiarPersonIds(world, personId, cutoff));
   const colleagueId = firstOf(world, colleagueIds(world, personId, cutoff));
@@ -718,46 +822,9 @@ function eligibleOpportunities(
     communityMemberIds(world, personId, cutoff),
   );
 
-  if (householdCompanionId) {
-    push({
-      kind: "household-evening",
-      counterpartPersonId: householdCompanionId,
-      write: (current, stableKey) =>
-        writeAsk(current, {
-          stableKey,
-          kind: "household-evening",
-          personId,
-          askerPersonId: householdCompanionId,
-          jurisdictionId,
-          type: "life.household-evening-proposed",
-          summary: `${personName(world.people[householdCompanionId]!)} said they would be home this evening and invited them to sit and talk.`,
-          detail: "Invited them to sit and talk this evening",
-          details: {
-            version: 1,
-            task: "sit and talk at home this evening",
-            opening:
-              "I will be home this evening. Would you like to sit and talk?",
-            condition: null,
-            minutes: 120,
-          },
-          believed:
-            "The evening is free at home and the other person will be in.",
-          // A particular evening, and it is tonight. Without the date this is
-          // not a free evening at all but a standing offer, and a standing
-          // offer would sit unanswered in the life forever while the world
-          // waited for it to be taken up.
-          occasion: {
-            title: "An evening in",
-            summary:
-              "The evening at home, with the person who lives here saying they would be in for it.",
-            date: world.currentDate,
-            startHour: 20,
-            endHour: 22,
-            label: "Home",
-          },
-        }),
-    });
-  }
+  // Removed by the owner, 2026-09-22: accepting the evening led to no
+  // conversation, only a calendar hold. No new invitation is written; one
+  // already in a save still reads and resolves through its old records.
 
   if (localId) {
     push({

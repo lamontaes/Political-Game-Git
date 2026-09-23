@@ -7,7 +7,7 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../presentation/opening-life";
-import SSA_COPY from "./given-names-by-decade.json";
+import SSA_COPY from "./given-names-by-decade.json" with { type: "json" };
 import {
   birthYearDecadeWeights,
   cohortGivenNames,
