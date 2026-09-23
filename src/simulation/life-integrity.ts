@@ -40,6 +40,7 @@ import {
 import type {
   ChildAuthorityHolder,
   EntityId,
+  IsoDate,
   LifeLoadResolutionRecord,
   LifeRecordProvenance,
   MindStrength,
@@ -1110,7 +1111,7 @@ function validateResidenceMultiplicity(world: World): void {
       membership.personId,
     ]),
   );
-  const datesOf = new Map<EntityId, Set<string>>();
+  const datesOf = new Map<EntityId, Set<IsoDate>>();
   for (const state of world.history.householdMembershipStates) {
     const personId = personOf.get(state.membershipId);
     if (personId === undefined) continue;
@@ -1119,7 +1120,7 @@ function validateResidenceMultiplicity(world: World): void {
     dates.add(state.effectiveAt);
   }
   for (const personId of world.personOrder) {
-    const dates = datesOf.get(personId) ?? new Set<string>();
+    const dates = datesOf.get(personId) ?? new Set<IsoDate>();
     for (const date of dates) {
       const sequence = world.history.nextSequence;
       const active = householdMembershipsAt(world, personId, {
