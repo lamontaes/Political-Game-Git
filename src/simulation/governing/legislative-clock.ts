@@ -51,6 +51,7 @@ import {
 } from "../legislation-scenarios";
 import { committeeRoster } from "./committee-assignment";
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
+import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import {
   congressBlueprint,
   congressReferralCommittee,
@@ -396,11 +397,26 @@ function provenance(
 
 /** Applies the institution's next step to one measure, if it has one. */
 export function applyInstitutionStep(
-  world: World,
+  before: World,
   measureId: EntityId,
   onExecutiveDesk: ExecutiveDeskHandler,
 ): InstitutionStepResult {
-  const measure = requireMeasure(world, measureId);
+  const measure = requireMeasure(before, measureId);
+  // Every seated member who may vote on the bill holds principles of their
+  // own before any question is put, Congress's members included: without
+  // them a member had only a party cue, and every roll call was unanimous.
+  const world = ensureOfficeholderPrinciples(
+    before,
+    bodiesForMeasure(
+      before,
+      measure,
+      legislativeBlueprintForMeasure(before, measure),
+    ).flatMap((body) =>
+      body.members.flatMap((member) =>
+        member.personId ? [member.personId] : [],
+      ),
+    ),
+  );
   const blueprint = legislativeBlueprintForMeasure(world, measure);
   const pack = blueprint.pack;
   const owner = effectiveOwner(world, measure);
