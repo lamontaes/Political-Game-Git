@@ -446,6 +446,9 @@ function lastAnswerBetween(
   const name = other.givenName;
   const day = proseDate(proposal.on);
   const theyAnswered = proposal.fromPersonId === personId;
+  if (answer.tags.includes("contact.withdrawn")) {
+    return `The date on ${day} did not go ahead.`;
+  }
   if (answer.tags.includes("contact.lapsed")) {
     return theyAnswered
       ? `You asked to meet on ${day}, and ${name} never answered.`
