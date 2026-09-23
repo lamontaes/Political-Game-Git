@@ -887,12 +887,21 @@ function representedBy(
       note: `${title === "Resident Commissioner" ? "The Resident Commissioner" : "The Delegate"} speaks for all of ${nameInSentence(usps, state)} in the House and does not cast final votes there. No current record names who holds the seat.`,
     });
   } else {
+    // A member of the House is placed in the district of the seat they
+    // hold, which is recorded, when the home's own district is not.
+    const shownSeat =
+      houseSeat ??
+      houseSeats.find(
+        (seat) =>
+          seat.occupant.kind === "member" &&
+          seat.occupant.member.personId === personId,
+      );
     rows.push({
       key: "us-house",
       office: "U.S. House",
-      district: houseSeat ? seatLabelFor(houseSeat) : null,
-      holders: houseSeat ? [seatHolder(houseSeat)] : [],
-      note: houseSeat
+      district: shownSeat ? seatLabelFor(shownSeat) : null,
+      holders: shownSeat ? [seatHolder(shownSeat)] : [],
+      note: shownSeat
         ? null
         : `Your congressional district in ${state} is not recorded for your home.`,
     });
