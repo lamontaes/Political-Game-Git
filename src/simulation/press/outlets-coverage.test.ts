@@ -9,9 +9,15 @@ import { createOrganization, createWorkRelationship } from "../life";
 import { stateJurisdictionForKey } from "../life-places";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import type { World } from "../types";
-import { newsworthiness, outletCovers } from "./desk";
+import {
+  newsworthiness,
+  outletCovers,
+  storyLeads,
+  ensurePressDeskSchedule,
+} from "./desk";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { ensurePressHomeCoverage, mediaOutlets } from "./outlets";
-import { recordWorldEvent } from "../world";
+import { advanceWorld, recordWorldEvent } from "../world";
 
 /**
  * Who gets a newsroom. Every town a player lives in has local journalism, a
@@ -177,4 +183,52 @@ describe("press coverage", () => {
       newsworthiness(named, local, event).reasons.map((reason) => reason.key),
     ).toContain("resident");
   }, 120_000);
+});
+
+describe("a paper does not reprint the same story", () => {
+  it("covers a development once, not every time the same words recur", () => {
+    const game = opening("0254920", "press-no-reprint");
+    const person = game.world.people[game.playerPersonId]!;
+    const home = person.homeJurisdictionId;
+    const record = (world: World, key: string, summary: string) =>
+      recordWorldEvent(world, {
+        stableKey: `press-no-reprint:${key}`,
+        type: "governing.matter-decided",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: home,
+        involvedEntityIds: [person.id],
+        participants: [
+          { personId: person.id, role: "focus:subject", detail: null },
+        ],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: ["importance:major"],
+        summary,
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    const handlers = createCampaignElectionTransitionRegistry();
+    let world = ensurePressDeskSchedule(game.world);
+    world = record(world, "first", "The town adopted the road repair plan.");
+    const first = world.history.events.at(-1)!.id;
+    world = advanceWorld(world, 8, handlers);
+    world = record(world, "again", "The town adopted the road repair plan.");
+    const again = world.history.events.at(-1)!.id;
+    world = record(world, "new", "The town adopted the park shelter rules.");
+    const fresh = world.history.events.at(-1)!.id;
+    world = advanceWorld(world, 8, handlers);
+    const bases = new Set(
+      storyLeads(world).flatMap((lead) => lead.basisEventIds),
+    );
+    expect(bases.has(first)).toBe(true);
+    expect(bases.has(again)).toBe(false);
+    expect(bases.has(fresh)).toBe(true);
+  }, 600_000);
 });

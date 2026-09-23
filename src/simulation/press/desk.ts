@@ -1319,6 +1319,15 @@ function sweepOutlet(
       .filter((lead) => lead.outletId === outlet.id)
       .flatMap((lead) => lead.basisEventIds),
   );
+  // A development this paper has already taken up, word for word, is not
+  // news the second time. Detroit's and Clarksdale's papers reprinted the same
+  // interim fishing arrangement and the same withdrawn road-repair proposal
+  // for ten years because each recurrence was a new record.
+  const coveredSummaries = new Set(
+    next.history.events
+      .filter((event) => covered.has(event.id))
+      .map((event) => event.summary),
+  );
   // One matter, one open story: while this outlet is still working a story on
   // a matter, later developments on it wait for that story to run and then
   // become its follow-up, instead of a second reporter's question the same
@@ -1338,6 +1347,7 @@ function sweepOutlet(
   );
   const judgedEvents = candidates
     .filter((event) => !covered.has(event.id))
+    .filter((event) => !coveredSummaries.has(event.summary))
     .filter((event) => {
       const matterId = matterIdOf(event);
       return matterId === null || !openMatters.has(matterId);
