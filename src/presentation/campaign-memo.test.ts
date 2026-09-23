@@ -42,9 +42,14 @@ function filedLife(seed: string, placeKey: string) {
 
 /** The signed move a change line states, or 0 when it states none. */
 function statedMove(change: string | null): number {
-  const match = change?.match(/^(Up|Down) (\d+\.\d) points since/);
+  const match = change?.match(/^(Up|Down) (\d+) points? since/);
   if (!match) return 0;
   return (match[1] === "Up" ? 1 : -1) * Number(match[2]);
+}
+
+/** The whole number a memo prints ("somewhere around 63 percent"). */
+function printed(summary: string): number {
+  return Number(summary.match(/around (\d+) percent/)![1]);
 }
 
 /** One week of field work planned and then done in one sitting. */
@@ -64,34 +69,82 @@ function condensedWeek(world: World, personId: EntityId): World {
 }
 
 describe("the field memo's move, week to week", () => {
-  it("measures a condensed week against the count the player last saw", () => {
-    const filed = filedLife("memo-move-seattle", "5363000");
+  it.each([
+    ["Seattle", "memo-move-seattle", "5363000"],
+    ["Houston", "memo-move-houston", "4835000"],
+  ])(
+    "measures a condensed %s week against the count the player last saw",
+    (_city, seed, placeKey) => {
+      const filed = filedLife(seed, placeKey);
+      const personId = filed.personId;
+      let world = spendAnAfternoon(filed.world, personId, "fundraising");
+      let shown = projectCampaign(world, personId).reading!;
+      let falls = 0;
+      let stated = 0;
+      for (let week = 0; week < 12; week += 1) {
+        world = condensedWeek(passOrdinaryDays(world, 7), personId);
+        const reading = projectCampaign(world, personId).reading!;
+        // A condensed week takes several counts, some on one day; the screen
+        // shows the last, and says how far it is from the one on the screen
+        // before the week, in the whole points both memos print.
+        expect(reading.on > shown.on).toBe(true);
+        const moved = printed(reading.summary) - printed(shown.summary);
+        expect(statedMove(reading.change)).toBe(moved);
+        if (moved === 0) {
+          expect(reading.change).toBeNull();
+        } else {
+          stated += 1;
+          // Dated with the earlier count's own day, never the memo's.
+          expect(
+            reading.change!.endsWith(
+              ` since the count on ${proseDate(shown.on)}.`,
+            ),
+          ).toBe(true);
+          expect(reading.change).not.toContain(proseDate(reading.on));
+        }
+        if (moved < 0) {
+          falls += 1;
+          expect(reading.change).toMatch(/^Down /);
+        }
+        shown = reading;
+      }
+      // A series with no fall in it would not test the sign.
+      expect(falls).toBeGreaterThan(0);
+      expect(stated).toBeGreaterThan(0);
+    },
+    120_000,
+  );
+});
+
+describe("several counts in one day", () => {
+  it("never dates a Houston move with the memo's own day", () => {
+    const filed = filedLife("memo-same-day-houston", "4835000");
     const personId = filed.personId;
     let world = filed.world;
-    world = spendAnAfternoon(world, personId, "fundraising");
-    let shown = projectCampaign(world, personId).reading!;
-    let falls = 0;
-    for (let week = 0; week < 12; week += 1) {
-      world = condensedWeek(passOrdinaryDays(world, 7), personId);
+    // Afternoon after afternoon on the filing day: each takes a count.
+    for (let session = 0; session < 3; session += 1) {
+      world = spendAnAfternoon(world, personId, "outreach");
       const reading = projectCampaign(world, personId).reading!;
-      // A condensed week takes several counts; the screen shows the last and
-      // says how far it is from the one on the screen before the week.
-      expect(reading.on).not.toBe(shown.on);
-      const moved = Math.round((reading.percent - shown.percent) * 10) / 10;
-      expect(statedMove(reading.change)).toBe(moved);
-      if (moved !== 0) {
-        expect(reading.change).toContain(
-          `since the count on ${proseDate(shown.on)}.`,
-        );
-      }
-      if (moved < 0) {
-        falls += 1;
-        expect(reading.change).toMatch(/^Down /);
-      }
-      shown = reading;
+      expect(reading.on).toBe(world.currentDate);
+      // Nothing was counted on an earlier day, so there is no move to state.
+      expect(reading.change).toBeNull();
     }
-    // A series with no fall in it would not test the sign.
-    expect(falls).toBeGreaterThan(0);
+    const lastOfDay = projectCampaign(world, personId).reading!;
+
+    world = passOrdinaryDays(world, 1);
+    world = spendAnAfternoon(world, personId, "outreach");
+    world = spendAnAfternoon(world, personId, "outreach");
+    const next = projectCampaign(world, personId).reading!;
+    expect(next.on > lastOfDay.on).toBe(true);
+    const moved = printed(next.summary) - printed(lastOfDay.summary);
+    expect(statedMove(next.change)).toBe(moved);
+    if (moved !== 0) {
+      expect(
+        next.change!.endsWith(
+          ` since the count on ${proseDate(lastOfDay.on)}.`,
+        ),
+      ).toBe(true);
+    }
   }, 120_000);
 });
 

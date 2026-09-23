@@ -180,8 +180,9 @@ export interface CampaignReading {
   /**
    * How far the count moved since the one before, when it moved.
    *
-   * "The one before" is the last count taken outside this count's own weekly
-   * plan. A condensed week takes several counts at once and the player sees
+   * In whole points, the difference between the two numbers the memos print,
+   * dated with the earlier count's own day. "The one before" is the last count
+   * taken on an earlier day and outside this count's own weekly plan. A condensed week takes several counts at once and the player sees
    * only the last; comparing it with a count from the same batch told a
    * Seattle candidate "Up 8.1 points" on a memo that had fallen from about
    * 47 to about 30 since the last one they had seen.
@@ -812,18 +813,24 @@ function latestReading(
   });
   const latest = readings.at(-1);
   if (!latest) return null;
-  // The last count from before this one's batch: a weekly plan's sessions,
-  // condensed or not, are one batch, and an afternoon is a batch of one.
+  // The last count from before this one's batch, on an earlier day: a weekly
+  // plan's sessions, condensed or not, are one batch, and an afternoon is a
+  // batch of one. A Texas week's three counts on one day each said "since the
+  // count on" that same day.
   const previous = readings
     .slice(0, -1)
     .filter(
-      (reading) => latest.planId === null || reading.planId !== latest.planId,
+      (reading) =>
+        reading.on < latest.on &&
+        (latest.planId === null || reading.planId !== latest.planId),
     )
     .at(-1);
   // A count is an estimate, so a move between two of them is the estimate's
-  // move, not a measurement of what caused it. Said only when it moved.
+  // move, not a measurement of what caused it. Said only when it moved, and
+  // in the whole points the memos themselves print: Texas memos reading 63
+  // and then 60 had said "Down 2.2".
   const points = previous
-    ? Math.round((latest.percent - previous.percent) * 10) / 10
+    ? Math.round(latest.percent) - Math.round(previous.percent)
     : 0;
   return {
     percent: latest.percent,
@@ -833,7 +840,7 @@ function latestReading(
     dated: countDated(makeIsoDate(latest.on), world.currentDate),
     change:
       previous && points !== 0
-        ? `${points > 0 ? "Up" : "Down"} ${Math.abs(points).toFixed(1)} points since the count on ${proseDate(previous.on)}.`
+        ? `${points > 0 ? "Up" : "Down"} ${Math.abs(points)} ${Math.abs(points) === 1 ? "point" : "points"} since the count on ${proseDate(previous.on)}.`
         : null,
   };
 }

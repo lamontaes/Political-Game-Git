@@ -9,8 +9,12 @@ After a condensed campaign week, the field memo compared its number with a
 count taken earlier in that same week, one you never saw. A Seattle memo
 said "Up 8.1 points" when the number had fallen from about 47 to about 30
 since the last one on the screen. A week's counts now move from the last
-count before that week, which is the one you saw. A single afternoon of work
-still compares with the count just before it.
+count before that week, which is the one you saw. Other counts move from the
+last count taken on an earlier day, so a memo no longer says "since the count
+on" its own date after several afternoons of work in one day.
+
+The move is now given in the whole points the memos print. Texas memos that
+read 63 and then 60 said "Down 2.2"; they now say "Down 3 points".
 
 A count is only taken when the campaign works, so a memo can sit unchanged
 for weeks. It now opens with its own date, for example "Counted September
