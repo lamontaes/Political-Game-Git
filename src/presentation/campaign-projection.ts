@@ -1,5 +1,6 @@
 import { legislativeTermDates } from "../simulation/legislative-office-terms";
 import { proseDate } from "./prose-dates";
+import { jailTermOn } from "../simulation/justice/jail-terms";
 import {
   FILING_LEAD_DAYS,
   nextTownElection,
@@ -604,15 +605,18 @@ function offersFor(
   const daysLeft = daysUntilElection(world, campaign);
   const closed = daysLeft <= 0;
   const buy = advertisingBuyFor(treasury);
+  const jailed = jailTermOn(world, campaign.candidatePersonId);
   return (["fundraising", "outreach", "advertising"] as const).map((kind) => {
     const spend = kind === "advertising" ? buy : null;
-    const unavailable = closed
-      ? "Election day has arrived. There is nothing left to do but wait for the count."
-      : kind === "advertising" && treasury.minorUnits <= 0
-        ? "There is nothing in the account to spend."
-        : freeSlotToday(world, campaign.candidatePersonId, kind) === null
-          ? "The rest of today is already spoken for. Get on with the day and pick this up tomorrow."
-          : null;
+    const unavailable = jailed
+      ? `You are in jail until ${proseDate(jailed.until)}. Your name stays on the ballot, but you cannot campaign.`
+      : closed
+        ? "Election day has arrived. There is nothing left to do but wait for the count."
+        : kind === "advertising" && treasury.minorUnits <= 0
+          ? "There is nothing in the account to spend."
+          : freeSlotToday(world, campaign.candidatePersonId, kind) === null
+            ? "The rest of today is already spoken for. Get on with the day and pick this up tomorrow."
+            : null;
     return {
       kind,
       label:
