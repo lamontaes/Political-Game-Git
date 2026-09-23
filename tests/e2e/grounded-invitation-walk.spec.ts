@@ -27,7 +27,7 @@ const LIVES = [
   { state: "Oregon", place: "Bend", seed: "walk-bend" },
   { state: "Vermont", place: "Burlington", seed: "walk-burlington" },
 ] as const;
-const MAX_STRETCHES = 400;
+const MAX_STRETCHES = Number(process.env.OCD_WALK_STRETCHES ?? 400);
 
 for (const life of LIVES) {
   test(`an invitation with a reason, in ${life.place}, ${life.state}`, async ({
@@ -71,7 +71,10 @@ for (const life of LIVES) {
       await openMoment(page);
       const section = page.getByTestId("story-section");
       const text = (await section.count()) ? await section.innerText() : "";
-      const first = text.split("\n").slice(0, 3).join(" / ");
+      const prose = page.getByTestId("story-prose");
+      const first = (await prose.count())
+        ? (await prose.first().innerText()).slice(0, 160)
+        : "(no scene prose)";
       note(`- ${await clock.innerText()}: ${first}`);
       const whole = await page.locator("body").innerText();
       if (/I turn \d+|moved on|I started at|on my own anymore|getting the new place/.test(whole) && !text) {
