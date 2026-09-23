@@ -566,6 +566,11 @@ export function PeopleWorkspace({
                   ) : person.context ? (
                     <small>{person.context}</small>
                   ) : null}
+                  {person.strain ? (
+                    <small data-testid={`people-strain-${person.personId}`}>
+                      {person.strain}
+                    </small>
+                  ) : null}
                 </button>
                 <PinToggle
                   className="ui-action ui-action--rail"
