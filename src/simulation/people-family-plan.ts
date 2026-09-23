@@ -215,7 +215,11 @@ export function proposeFamilyPlan(
     personFactConstraints: [],
     visibility: "private",
     tags: [FAMILY_PLAN_TAG, `family-plan.kind:${input.kind}`],
-    summary: `${personName(person)} raised having a family with ${personName(partner)}.`,
+    // Read by the player, who is the one raising it.
+    summary:
+      input.kind === "birth"
+        ? `You told ${personName(partner)} you would like to have a child together.`
+        : `You told ${personName(partner)} you would like to adopt a child together.`,
     context: {
       location: null,
       socialContext: "Two people deciding something together.",
@@ -347,8 +351,10 @@ function answerFamilyPlan(
       ...(agreed ? ["family-plan.agreed", `family-plan.on:${on}`] : []),
     ],
     summary: agreed
-      ? `${personName(partner)} agreed to it.`
-      : `${personName(partner)} would rather wait.`,
+      ? kind === "birth"
+        ? `${personName(partner)} said yes to having a child with you.`
+        : `${personName(partner)} said yes to adopting a child with you.`
+      : `${personName(partner)} would rather wait for now.`,
     context: {
       location: null,
       socialContext: "Two people deciding something together.",

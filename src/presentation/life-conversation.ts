@@ -34,6 +34,10 @@ import {
 } from "../simulation";
 import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
 import {
+  familyPlanAvailability,
+  proposeFamilyPlan,
+} from "../simulation/people-family-plan";
+import {
   latestPersonalValue,
   latestPersonalityTendency,
 } from "../simulation/queries";
@@ -65,6 +69,8 @@ export const LIFE_TALK_INTENTS = {
   declineProposal: "Decline their suggestion",
   cancelProposal: "Cancel your plans together",
   nothing: "Say it can wait",
+  familyChild: "Talk about having a child together",
+  familyAdopt: "Talk about adopting a child together",
 } as const;
 /**
  * A fixed intent, or telling them one particular thing from the player's own
@@ -244,6 +250,12 @@ export function projectLifeConversation(
           latestProposal.tags.includes("life.answer:company-accepted"))))
   )
     intents.push("spendTime");
+  // Two people who share a home and are together can raise a family. Nothing
+  // is decided here: the other person answers in a day or two, from their own
+  // temperament, through the family plan's own writer.
+  const family = familyPlanAvailability(world, playerPersonId);
+  if (family.available && family.partnerPersonId === personId)
+    intents.push("familyChild", "familyAdopt");
   intents.push("leave");
   return {
     context,
@@ -537,6 +549,9 @@ function replyFor(
         ? `I remember saying, “${remembered.context.immediateReaction}”`
         : "We haven't talked about that.";
     }
+    case "familyChild":
+    case "familyAdopt":
+      return "That's a big thing. Give me a couple of days to think about it, and I'll tell you.";
     case "acknowledge":
       return "Thanks for hearing me out.";
     case "leave":
@@ -808,6 +823,11 @@ export function commitLifeConversation(
     timeTogether: input.intent === "spendTime",
     date: input.intent === "date" && answer === "date-accepted",
   });
+  if (input.intent === "familyChild" || input.intent === "familyAdopt")
+    next = proposeFamilyPlan(next, {
+      personId: input.playerPersonId,
+      kind: input.intent === "familyChild" ? "birth" : "adoption",
+    });
   if (input.intent === "spendTime") {
     next = completeOrdinaryGoal(
       next,
