@@ -35,6 +35,7 @@ import {
 } from "./campaign-planning-layout";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
+import { CampaignSpendingReports } from "./CampaignSpendingReports";
 
 /**
  * Running for something.
@@ -694,6 +695,8 @@ export function CampaignWorkspace({
           {view.phase === "active" ? (
             <OpponentActivityPanel world={world} personId={personId} />
           ) : null}
+
+          <CampaignSpendingReports world={world} personId={personId} />
 
           {view.sessions.length > 0 ? (
             <ul className="game-campaign-log" data-testid="campaign-log">
