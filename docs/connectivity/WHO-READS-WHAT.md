@@ -2,13 +2,9 @@
 
 Every system in the game that writes something, what it writes, what reads it, and what should read it and does not. A missing link is a defect, and names the thread that owns each end.
 
-13 producers, 27 missing links: 8 open, nobody has taken it, 5 being built in an open pull request, 5 handed to its owner, 7 waiting on research, 2 closed.
+13 producers, 27 missing links: 8 open, nobody has taken it, 5 being built in an open pull request, 4 handed to its owner, 7 waiting on research, 3 closed.
 
 ## Open defects, by the thread that owns the reading end
-
-### Consequences for corruption
-
-1. **A complaint about anyone who is not the player.** From a complaint opened against an officeholder (producer owned by Consequences for corruption). handed to its owner.
 
 ### Every town in America
 
@@ -77,7 +73,7 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 **Should be read by, and is not.**
 
-1. **A complaint about anyone who is not the player** (Consequences for corruption; handed to its owner). openMatter accepts any subject, but no producer ever names an NPC. ChatGPT answered: broaden the actors and incidents on the existing weekly route; no quota. (question: `what-opens-a-scandal-about-somebody-else`; handed off: September 23, 2026: Consequences for corruption took it, after the office response)
+1. **A complaint about anyone who is not the player** (Consequences for corruption; closed). Built by Consequences for corruption (#535). Every campaign-money scrutiny producer now runs for each living person with a recorded campaign-money occurrence as well as the person the player controls (scrutinySubjects in press/matters.ts:1040). Other kinds of incident still name only the player. (question: `what-opens-a-scandal-about-somebody-else`; proved by `src/presentation/ethics-finding-consequences.test.ts`)
 
 ### A disaster
 
@@ -294,4 +290,4 @@ Every system in the game that writes something, what it writes, what reads it, a
 
 ## How this document is made
 
-Rendered September 23, 2026 from commit 21587d7cf (links modified) by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand.
+Rendered September 23, 2026 from commit e6e20142b (links modified) by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand.
