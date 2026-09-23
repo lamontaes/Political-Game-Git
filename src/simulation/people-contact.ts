@@ -1,10 +1,7 @@
 import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays } from "./dates";
 import { evaluateDecision } from "./decisions";
-import {
-  createFutureTransitionHandlerRegistry,
-  scheduleFutureDueItem,
-} from "./future-transitions";
+import { scheduleFutureDueItem } from "./future-transitions";
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
@@ -1120,7 +1117,12 @@ export function contactAnswerTransitionHandler(
   return done(`contact-${decided.answer}`, answered.world, answered.eventId);
 }
 
-export const PEOPLE_CONTACT_HANDLERS: FutureTransitionHandlerRegistry =
-  createFutureTransitionHandlerRegistry([
-    [CONTACT_ANSWER_TRANSITION_KEY, contactAnswerTransitionHandler],
-  ]);
+// Built without createFutureTransitionHandlerRegistry: this module sits in
+// an import cycle with future-transitions, and calling into it while this
+// module initializes crashed every tsx script (corpus:prose among them).
+export const PEOPLE_CONTACT_HANDLERS: FutureTransitionHandlerRegistry = {
+  get: (transitionKey) =>
+    transitionKey === CONTACT_ANSWER_TRANSITION_KEY
+      ? contactAnswerTransitionHandler
+      : undefined,
+};
