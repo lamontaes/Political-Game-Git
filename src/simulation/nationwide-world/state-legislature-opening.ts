@@ -589,15 +589,20 @@ export function stateLegislators(
     officeKey: string;
     ordinal: number;
     firstWinnerId: EntityId;
+    startedAt: IsoDate;
   }[] = [];
+  // A seat's newest generated tenure decides whether it passed to a winner;
+  // an older one that did says nothing once the seat was filled again.
+  const newestTenure = new Map<string, IsoDate>();
   for (const work of world.history.workRelationships) {
     if (work.organizationId !== bodyId) continue;
     if (work.kind !== "employment:legislative-member") continue;
     if (!world.people[work.personId]) continue;
-    const match = work.stableKey.startsWith(prefix)
-      ? /^(.*):seat:(\d+):tenure$/.exec(work.stableKey.slice(prefix.length))
-      : null;
+    const match = seatTenureMatch(work.stableKey);
     if (!match) continue;
+    const seatKey = `${match[1]}:${match[2]}`;
+    if ((newestTenure.get(seatKey) ?? "") < work.startedAt)
+      newestTenure.set(seatKey, work.startedAt);
     const status = workStatusAt(world, work.id);
     if (status?.status !== "active") {
       // The seat passed to whoever won its district; list them in it below.
@@ -609,27 +614,37 @@ export function stateLegislators(
           officeKey: match[1]!,
           ordinal: Number(match[2]),
           firstWinnerId: status.stableKey.slice(REPLACED_BY.length) as EntityId,
+          startedAt: work.startedAt,
         });
       continue;
     }
     if (!isPersonAliveAt(world, work.personId, currentLifeCutoff(world)))
       continue;
+    // A seat's affiliation stableKey is shared by everyone who has held it,
+    // so each member reads only their own record, else their own party.
     if (affiliations === null) {
       affiliations = new Map();
-      for (const participation of world.history.organizationParticipations)
+      for (const participation of world.history.organizationParticipations) {
+        const seatKey = `${participation.personId}|${participation.stableKey}`;
         if (
           participation.stableKey.startsWith(prefix) &&
-          !affiliations.has(participation.stableKey)
+          !affiliations.has(seatKey)
         )
-          affiliations.set(
-            participation.stableKey,
-            participation.organizationId,
-          );
+          affiliations.set(seatKey, participation.organizationId);
+        const ownKey = `${participation.personId}|`;
+        if (
+          participation.kind === PARTY_AFFILIATION_KIND &&
+          !affiliations.has(ownKey)
+        )
+          affiliations.set(ownKey, participation.organizationId);
+      }
     }
-    const affiliatedWith = affiliations.get(
-      `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
+    const party = nationalPartyOf(
+      world,
+      affiliations.get(
+        `${work.personId}|${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
+      ) ?? affiliations.get(`${work.personId}|`),
     );
-    const party = nationalPartyOf(world, affiliatedWith);
     views.push({
       personId: work.personId,
       workRelationshipId: work.id,
@@ -639,8 +654,12 @@ export function stateLegislators(
       party,
     });
   }
-  if (passedOn.length > 0)
-    views.push(...districtWinnersHolding(world, packId, bodyId, passedOn));
+  const stillPassedOn = passedOn.filter(
+    (seat) =>
+      newestTenure.get(`${seat.officeKey}:${seat.ordinal}`) === seat.startedAt,
+  );
+  if (stillPassedOn.length > 0)
+    views.push(...districtWinnersHolding(world, packId, bodyId, stillPassedOn));
   return views;
 }
 
@@ -806,9 +825,14 @@ export function endOpeningMemberForWinner(
   for (let ordinal = 1; ordinal <= chamber.size; ordinal += 1) {
     const district = chamber.districts[ordinal - 1];
     if (!district || district.recordId !== binding.recordId) continue;
+    // The seat's generated member: the opening's, or one a later regular
+    // election seated (`...:tenure:<term start>`).
     const tenureKey = `${STATE_LEGISLATURE_KEYS.seat(input.officeKey, ordinal)}:tenure`;
     const work = world.history.workRelationships.find(
-      (candidate) => candidate.stableKey === tenureKey,
+      (candidate) =>
+        (candidate.stableKey === tenureKey ||
+          candidate.stableKey.startsWith(`${tenureKey}:`)) &&
+        workStatusAt(world, candidate.id)?.status === "active",
     );
     const status = work && workStatusAt(world, work.id);
     if (!work || status?.status !== "active") continue;
@@ -823,6 +847,23 @@ export function endOpeningMemberForWinner(
     });
   }
   return world;
+}
+
+/**
+ * Whether a seat is held by a district's election winner (a candidacy the
+ * campaign decided) rather than a member the game generated. The state's
+ * regular turnover leaves such a seat to its own contest.
+ */
+export function seatHeldByDistrictWinner(
+  world: World,
+  seat: StateLegislativeSeatView,
+): boolean {
+  const member = seat.member;
+  if (!member) return false;
+  const work = world.history.workRelationships.find(
+    (candidate) => candidate.id === member.workRelationshipId,
+  );
+  return work !== undefined && seatTenureMatch(work.stableKey) === null;
 }
 
 export interface StateLegislativeSeatView {
@@ -850,35 +891,68 @@ export function stateLegislativeSeats(
   );
   // Keyed by seat, not by tenure: a seat the opening's member gave up to an
   // election winner is held under the winner's own relationship.
+  const members = stateLegislators(world, packId);
   const sitting = new Map(
-    stateLegislators(world, packId).map((member) => [
-      `${member.officeKey}:${member.ordinal}`,
-      member,
-    ]),
+    members.map((member) => [`${member.officeKey}:${member.ordinal}`, member]),
   );
-  const prefix = `${V}:`;
-  const seats: StateLegislativeSeatView[] = [];
+  const sittingTenures = new Set(
+    members.map((member) => member.workRelationshipId),
+  );
+  // Each seat's latest tenure speaks for it: its sitting member, else the
+  // most recent holder, whose death (if any) is why it is empty.
+  const latest = new Map<
+    string,
+    { work: (typeof world.history.workRelationships)[number]; seat: string[] }
+  >();
   for (const work of world.history.workRelationships) {
     if (work.organizationId !== bodyId) continue;
     if (work.kind !== "employment:legislative-member") continue;
-    const match = work.stableKey.startsWith(prefix)
-      ? /^(.*):seat:(\d+):tenure$/.exec(work.stableKey.slice(prefix.length))
-      : null;
+    const match = seatTenureMatch(work.stableKey);
     if (!match) continue;
-    const member = sitting.get(`${match[1]}:${match[2]}`) ?? null;
-    seats.push({
-      officeKey: match[1]!,
-      ordinal: Number(match[2]),
-      title: member?.title ?? workRoleAt(world, work.id)?.title ?? "",
-      member,
-      holderDiedOn: member
-        ? null
-        : (world.history.personDeaths.find(
-            (death) => death.personId === work.personId,
-          )?.diedAt ?? null),
-    });
+    const seatKey = `${match[1]}|${match[2]}`;
+    const earlier = latest.get(seatKey);
+    if (earlier) {
+      const earlierSitting = sittingTenures.has(earlier.work.id);
+      const thisSitting = sittingTenures.has(work.id);
+      if (earlierSitting && !thisSitting) continue;
+      if (
+        earlierSitting === thisSitting &&
+        earlier.work.startedAt > work.startedAt
+      )
+        continue;
+    }
+    latest.set(seatKey, { work, seat: [match[1]!, match[2]!] });
   }
-  return seats.sort(
-    (a, b) => a.officeKey.localeCompare(b.officeKey) || a.ordinal - b.ordinal,
-  );
+  return [...latest.values()]
+    .map(({ work, seat }) => {
+      const member = sitting.get(`${seat[0]}:${seat[1]}`) ?? null;
+      return {
+        officeKey: seat[0]!,
+        ordinal: Number(seat[1]),
+        title: member?.title ?? workRoleAt(world, work.id)?.title ?? "",
+        member,
+        holderDiedOn: member
+          ? null
+          : (world.history.personDeaths.find(
+              (death) => death.personId === work.personId,
+            )?.diedAt ?? null),
+      };
+    })
+    .sort(
+      (a, b) => a.officeKey.localeCompare(b.officeKey) || a.ordinal - b.ordinal,
+    );
+}
+
+/**
+ * The officeKey and ordinal an opening seat's tenure belongs to. The
+ * opening's own tenure is `<officeKey>:seat:<n>:tenure`; a member elected
+ * later holds `<officeKey>:seat:<n>:tenure:<term start>`.
+ */
+export function seatTenureMatch(stableKey: string): RegExpExecArray | null {
+  const prefix = `${V}:`;
+  return stableKey.startsWith(prefix)
+    ? /^(.*):seat:(\d+):tenure(?::\d{4}-\d{2}-\d{2})?$/.exec(
+        stableKey.slice(prefix.length),
+      )
+    : null;
 }

@@ -21,6 +21,7 @@ import {
   stateLegislators,
   STATE_LEGISLATURE_KEYS,
 } from "../simulation/nationwide-world/state-legislature-opening";
+import { STATE_LEGISLATIVE_RESULTS_EVENT } from "../simulation/nationwide-world/state-legislature-turnover";
 import { addDays, compareSimulationMoments } from "../simulation";
 import type { World } from "../simulation";
 import { scheduledActivityState } from "../simulation/time-work";
@@ -49,26 +50,7 @@ function passAsMember(world: World, personId: string, date: string): World {
           moved.currentMoment,
         ) === 0,
     );
-    if (!due) {
-      console.log(
-        "DBG",
-        moved.currentMoment,
-        JSON.stringify(
-          moved.history.scheduledActivities
-            .filter(
-              (a) =>
-                scheduledActivityState(moved, a.id).status === "scheduled" &&
-                a.participantPersonIds.includes(personId),
-            )
-            .map((a) => [
-              a.stableKey,
-              a.kind,
-              scheduledActivityState(moved, a.id).start,
-            ]),
-        ),
-      );
-      return moved;
-    }
+    if (!due) return moved;
     const played = playCalendarActivity(moved, personId, due.id);
     next = played.world;
   }
@@ -210,5 +192,32 @@ describe("a won state House seat in a chamber the game seated", () => {
     expect(
       held.map((member) => [member.workRelationshipId, member.ordinal]),
     ).toEqual([[next.id, ordinal]]);
+
+    // Serving out the first term instead: the state's regular election held
+    // while the player sits leaves the seat to the player's own contest. It
+    // decides no outcome for it and seats no generated member in it.
+    const through = passAsMember(seated, personId, "2028-11-10");
+    expect(workStatusAt(through, seat.id)?.status).toBe("active");
+    const whileSeated = through.history.events.filter(
+      (event) =>
+        event.type === STATE_LEGISLATIVE_RESULTS_EVENT &&
+        event.occurredAt > seat.startedAt,
+    );
+    expect(whileSeated.length).toBeGreaterThan(0);
+    for (const event of whileSeated)
+      expect(
+        event.participants.filter((participant) =>
+          participant.detail?.startsWith(`${house.officeKey}|${ordinal}|`),
+        ),
+      ).toEqual([]);
+    const seatTenure = `${STATE_LEGISLATURE_KEYS.seat(house.officeKey, ordinal)}:tenure`;
+    expect(
+      through.history.workRelationships.filter(
+        (relationship) =>
+          (relationship.stableKey === seatTenure ||
+            relationship.stableKey.startsWith(`${seatTenure}:`)) &&
+          workStatusAt(through, relationship.id)?.status === "active",
+      ),
+    ).toEqual([]);
   }, 900_000);
 });
