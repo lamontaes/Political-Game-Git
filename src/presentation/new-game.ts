@@ -1,4 +1,5 @@
 import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
+import { SCHOOL_STAGES_V1 } from "../simulation/school-stages";
 import {
   RESIDENT_CHAPTER_NAME_VERSION,
   type PartyChapterNameVersion,
@@ -194,6 +195,11 @@ export interface NewGameSetup {
    * measured draw, where a small town's high school is usually named for it.
    */
   readonly schoolNameVersion?: typeof SCHOOL_NAMES_V2_VERSION;
+  /**
+   * Absent keeps an old replay's child at the school they started in. New Game
+   * declares the repair, where a child moves on to middle and high school.
+   */
+  readonly schoolStageVersion?: typeof SCHOOL_STAGES_V1;
   readonly questionnaireCopyVersion?: "playtest65-v2";
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
@@ -245,6 +251,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   childhoodGenerationVersion: CHILDHOOD_GENERATION_V2,
   partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION,
   schoolNameVersion: SCHOOL_NAMES_V2_VERSION,
+  schoolStageVersion: SCHOOL_STAGES_V1,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
   // that the game should not invent a biography nobody chose. Measured cost of
@@ -483,6 +490,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.schoolNameVersion === undefined
       ? {}
       : { schoolNameVersion: setup.schoolNameVersion }),
+    ...(setup.schoolStageVersion === undefined
+      ? {}
+      : { schoolStageVersion: setup.schoolStageVersion }),
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
