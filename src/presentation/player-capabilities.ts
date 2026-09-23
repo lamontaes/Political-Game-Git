@@ -76,7 +76,9 @@ export interface PlayerCapabilities {
   /** The jurisdiction the legislative surface is answerable to, when there is one. */
   readonly legislativeJurisdictionId: EntityId | null;
   /**
-   * There is something here to run for, or something already being run. False
+   * There is something here to run for (an office this place elects, whether
+   * or not the character can file for it yet), or something already being
+   * run. False
    * does not mean the character is uninterested; it means the game has nothing
    * truthful to offer them, and `withheld` says which.
    */
@@ -139,9 +141,15 @@ export function resolvePlayerCapabilities(world: World): PlayerCapabilities {
         alreadyACandidate: false,
       }),
   );
+  // An office this place elects is something to run for even when the
+  // character cannot file for it today: the Campaigns browser lists each one
+  // with its own requirement. Withholding the whole surface behind the first
+  // refusal showed a Rapid City eighteen-year-old one unlabeled sentence about
+  // a House seat and no offices at all.
   const campaign =
     !formativeYears &&
-    (candidacies.some((entry) => entry.eligible) ||
+    (options.length > 0 ||
+      candidacies.some((entry) => entry.eligible) ||
       pastOrPresentCampaign !== null);
 
   const withheld: WithheldCapability[] = [];
