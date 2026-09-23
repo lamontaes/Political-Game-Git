@@ -401,7 +401,7 @@ export function validateAssetBankManifest(
           "production-out-of-family",
           "warning",
           id,
-          `Entry '${id}' is out of the established style family but is dispositioned production; it will read as a different game beside its neighbours.`,
+          `Entry '${id}' is out of the established style family but is dispositioned production; it will read as a different game beside its neighbors.`,
         );
       }
     }
