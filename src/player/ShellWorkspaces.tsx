@@ -1,4 +1,9 @@
-import { dollars } from "../presentation/campaign-life-surface";
+import { InterruptionChecklist } from "./InterruptionChecklist";
+import {
+  dollars,
+  readableDatesIn,
+} from "../presentation/campaign-life-surface";
+import { projectBillPaper, type BillPaper } from "../presentation/bill-paper";
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
 import {
   clampWorkspace,
@@ -60,10 +65,7 @@ import {
   isPinned,
   type InterruptionPreferences,
 } from "../presentation/shell-navigation";
-import {
-  INTERRUPTION_CATEGORIES,
-  interruptionHandlers,
-} from "../presentation/interruption-policy";
+import { interruptionHandlers } from "../presentation/interruption-policy";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
 import {
@@ -77,7 +79,7 @@ import {
 } from "../presentation/calendar-campaign-life";
 import { previewTimeCommand } from "../presentation/time-command";
 import { venueActivities } from "../presentation/venue-activity";
-import { proseWeekdayDate } from "../presentation/prose-dates";
+import { proseDate, proseWeekdayDate } from "../presentation/prose-dates";
 import {
   PROTECTED_STOP_NOTE,
   describeInterval,
@@ -567,6 +569,11 @@ export function PeopleWorkspace({
                   ) : person.context ? (
                     <small>{person.context}</small>
                   ) : null}
+                  {person.strain ? (
+                    <small data-testid={`people-strain-${person.personId}`}>
+                      {person.strain}
+                    </small>
+                  ) : null}
                 </button>
                 <PinToggle
                   className="ui-action ui-action--rail"
@@ -969,42 +976,10 @@ export function CalendarWorkspaceSurface({
             time. A preference here never spends money, casts a vote or commits
             you to anything; it only decides where a skip pauses.
           </p>
-          <ul className="pg-interruption-list">
-            {INTERRUPTION_CATEGORIES.map((category) =>
-              category.key === "always" ? (
-                <li key={category.key} data-testid="interruption-always">
-                  <label className="pg-check pg-check--fixed">
-                    <input type="checkbox" checked disabled readOnly />
-                    <span>
-                      <strong>{category.label}</strong>
-                      <small>{category.detail}</small>
-                    </span>
-                  </label>
-                </li>
-              ) : (
-                <li key={category.key}>
-                  <label className="pg-check">
-                    <input
-                      type="checkbox"
-                      data-testid={`interruption-${category.key}`}
-                      checked={interruptions[category.key]}
-                      disabled={!onInterruptionChange}
-                      onChange={(event) =>
-                        onInterruptionChange?.(
-                          category.key as keyof InterruptionPreferences,
-                          event.target.checked,
-                        )
-                      }
-                    />
-                    <span>
-                      <strong>{category.label}</strong>
-                      <small>{category.detail}</small>
-                    </span>
-                  </label>
-                </li>
-              ),
-            )}
-          </ul>
+          <InterruptionChecklist
+            interruptions={interruptions}
+            onChange={onInterruptionChange}
+          />
         </div>
       ) : null}
     </>
@@ -1352,8 +1327,10 @@ export function MeasureSurface({
   }
 
   const yours = measure.sponsorPersonId === personId;
+  const paper = projectBillPaper(world, measureId);
   return (
     <div data-testid="measure-detail" data-measure-id={measureId}>
+      {paper ? <BillPaperView paper={paper} /> : null}
       <p className="pg-kicker" data-testid="measure-designation">
         {briefing.designation}
       </p>
@@ -1378,20 +1355,88 @@ export function MeasureSurface({
         </p>
       ) : null}
       <p data-testid="measure-standing">{briefing.whereItStands}</p>
+      {briefing.outcomeNote ? (
+        <p data-testid="measure-outcome">
+          {readableDatesIn(briefing.outcomeNote)}
+        </p>
+      ) : null}
       {briefing.votes.length > 0 ? (
         <section className="pg-personal-section">
           <h3>Votes</h3>
           <ul data-testid="measure-votes">
             {briefing.votes.map((vote) => (
-              <li key={`${vote.question}-${vote.when}`}>
-                {vote.when} · {vote.question} · {vote.result} ({vote.yea}–
-                {vote.nay})
+              <li key={`${vote.question}-${vote.when}-${vote.where}`}>
+                {proseDate(vote.when)} · {vote.where} · {vote.question} ·{" "}
+                {vote.result} ({vote.yea}–{vote.nay}; {vote.needed} of{" "}
+                {vote.outOf} needed)
               </li>
             ))}
           </ul>
         </section>
       ) : null}
+      {briefing.history.length > 0 ? (
+        <section className="pg-personal-section">
+          <h3>How it got here</h3>
+          <ol data-testid="measure-history">
+            {briefing.history.map((line, index) => (
+              <li key={`${line.when}-${index}`}>
+                {proseDate(line.when)} · {line.headline}. {line.detail}
+                {line.voteSummary ? ` ${line.voteSummary}` : ""}
+              </li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
     </div>
+  );
+}
+
+/**
+ * A Congress bill as Congress prints it, with its status stamped on top and
+ * what each House and the President did underneath.
+ */
+function BillPaperView({ paper }: { readonly paper: BillPaper }) {
+  return (
+    <article
+      className="measure-paper bill-paper"
+      data-testid="bill-paper"
+      data-enacted={paper.enacted ? "true" : "false"}
+    >
+      <p className="measure-paper-stamp" data-testid="bill-paper-stamp">
+        {paper.stamp}
+      </p>
+      <div className="bill-paper-masthead">
+        <p>
+          {paper.congressLine}
+          <br />
+          {paper.sessionLine}
+        </p>
+        <p className="bill-paper-designation">{paper.designation}</p>
+      </div>
+      <p className="bill-paper-chamber">{paper.chamberLine}</p>
+      <p className="bill-paper-introduction">{paper.introduction}</p>
+      <p className="bill-paper-kind">{paper.kindLabel}</p>
+      <p className="bill-paper-clause">{paper.enactingClause}</p>
+      {paper.sections.map((section) => (
+        <section
+          key={section.label}
+          className="measure-section"
+          data-missing={section.missing ? "true" : "false"}
+        >
+          <h3>
+            {section.label} {section.heading}
+          </h3>
+          <p>{section.text}</p>
+        </section>
+      ))}
+      {paper.record.length > 0 ? (
+        <ol className="bill-paper-record" data-testid="bill-paper-record">
+          {paper.record.map((line, index) => (
+            <li key={`${index}-${line}`}>{line}</li>
+          ))}
+        </ol>
+      ) : null}
+    </article>
   );
 }
 
@@ -1563,7 +1608,8 @@ export function PersonalWorkspace({
                 <h4>{chapter.heading}</h4>
                 {chapter.entries.map((entry) => (
                   <p key={entry.key}>
-                    <time>{entry.at}</time> · {entry.sentence}
+                    <time dateTime={entry.at}>{proseDate(entry.at)}</time> ·{" "}
+                    {entry.sentence}
                   </p>
                 ))}
               </section>

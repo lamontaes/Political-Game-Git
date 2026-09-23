@@ -1229,14 +1229,12 @@ export interface OpeningLifeLater {
 }
 
 /**
- * PENDING RESEARCH — which-later-answers-an-early-choice-deserves.
- *
- * Deliberately empty. The owner's rule (2026-09-22): depth is not invented.
- * Which earlier choices come back, with whom, after how long and in what
- * words is authored content, filed with ChatGPT as a research question, and
- * nothing is offered to a player until an answer fills this table. The
- * mechanism below is exercised by tests against proposed entries kept out of
- * shipped play (`opening-life-later.fixture.ts`).
+ * Deliberately empty. The owner rejected all eight drafted later scenes on
+ * 2026-09-22 (research question `which-later-answers-an-early-choice-deserves`)
+ * and approves any replacement individually, by exact text. A later scene
+ * returns to an earlier choice only when it changes a relationship, creates a
+ * real opportunity or presents a meaningful new decision. The mechanism below
+ * is exercised by tests against a placeholder entry that is not content.
  */
 export const OPENING_LIFE_LATER: Readonly<
   Record<string, readonly OpeningLifeLater[]>
@@ -1389,9 +1387,11 @@ export function openingLifeFamily(
         options: scene.choices.map((choice) => ({
           key: choice.key,
           label: choice.label.replaceAll("{person}", slot),
+          // An instant choice carries no time label; the label itself is the
+          // description, which the conversation renderer does not repeat.
           description: openingChoiceMinutes(scene, choice)
             ? `${openingChoiceMinutes(scene, choice)} minutes`
-            : "No time passes",
+            : choice.label.replaceAll("{person}", slot),
           memory: choice.aftermath.replaceAll("{person}", slot),
           nudges: [],
           aftermath: null,
@@ -1428,7 +1428,7 @@ export function openingLifeFamily(
                     choice,
                   )
                     ? `${openingChoiceMinutes({ ...scene, minutes: 5 }, choice)} minutes`
-                    : "No time passes",
+                    : choice.label.replaceAll("{person}", slot),
                   memory: choice.aftermath.replaceAll("{person}", slot),
                   nudges: [],
                   aftermath: null,
@@ -1483,7 +1483,7 @@ export function openingLifeFamily(
             label: choice.label.replaceAll("{person}", slot),
             description: openingChoiceMinutes(atStage, choice)
               ? `${openingChoiceMinutes(atStage, choice)} minutes`
-              : "No time passes",
+              : choice.label.replaceAll("{person}", slot),
             memory: choice.aftermath.replaceAll("{person}", slot),
             nudges: [],
             aftermath: null,
