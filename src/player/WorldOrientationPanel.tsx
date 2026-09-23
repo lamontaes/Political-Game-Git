@@ -393,10 +393,12 @@ export function WorldOrientationPanel({
                       stateUsps={homeStateUsps}
                       asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
                     />
-                    <OpeningStateVoting
-                      stateUsps={homeStateUsps}
-                      asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
-                    />
+                    {isTerritoryUsps(homeStateUsps) ? null : (
+                      <OpeningStateVoting
+                        stateUsps={homeStateUsps}
+                        asOf={world?.currentDate ?? regionalContext?.asOf ?? ""}
+                      />
+                    )}
                   </div>
                   {backdrop.kind === "region-preview" &&
                   regionalPlates.length > 1 ? (
