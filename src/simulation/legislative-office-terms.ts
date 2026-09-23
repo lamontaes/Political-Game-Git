@@ -465,8 +465,6 @@ function enterLegislativeSeat(
   // A chamber the game seated at its opening gives up the district's seat.
   next = endOpeningMemberForWinner(next, {
     candidacyPackId: term.campaign.candidacyPackId,
-    officeKey: term.contest.office.officeKey,
-    districtBinding: term.contest.office.districtBinding,
     winnerWorkRelationshipId: term.relationship.id,
     effectiveAt,
     outcomeEventId: term.result.outcomeEventId,

@@ -21,6 +21,7 @@ import {
   stateLegislators,
   STATE_LEGISLATURE_KEYS,
 } from "../simulation/nationwide-world/state-legislature-opening";
+import { legislativeTermForRelationship } from "../simulation/legislative-office-terms";
 import { STATE_LEGISLATIVE_RESULTS_EVENT } from "../simulation/nationwide-world/state-legislature-turnover";
 import { addDays, compareSimulationMoments } from "../simulation";
 import type { World } from "../simulation";
@@ -194,10 +195,12 @@ describe("a won state House seat in a chamber the game seated", () => {
     ).toEqual([[next.id, ordinal]]);
 
     // Serving out the first term instead: the state's regular election held
-    // while the player sits leaves the seat to the player's own contest. It
-    // decides no outcome for it and seats no generated member in it.
+    // while the player sits does not cut the term short. Where the player is
+    // not on that ballot, the seat's next member is chosen for the term that
+    // begins only when the player's own term ends.
     const through = passAsMember(seated, personId, "2028-11-10");
     expect(workStatusAt(through, seat.id)?.status).toBe("active");
+    const term = legislativeTermForRelationship(through, seat.id)!;
     const whileSeated = through.history.events.filter(
       (event) =>
         event.type === STATE_LEGISLATIVE_RESULTS_EVENT &&
@@ -205,11 +208,17 @@ describe("a won state House seat in a chamber the game seated", () => {
     );
     expect(whileSeated.length).toBeGreaterThan(0);
     for (const event of whileSeated)
-      expect(
-        event.participants.filter((participant) =>
-          participant.detail?.startsWith(`${house.officeKey}|${ordinal}|`),
-        ),
-      ).toEqual([]);
+      for (const participant of event.participants) {
+        const [officeKey, seatOrdinal, , kind, leaving, startsOn] = (
+          participant.detail ?? ""
+        ).split("|");
+        if (officeKey !== house.officeKey || Number(seatOrdinal) !== ordinal)
+          continue;
+        expect(participant.personId).not.toBe(personId);
+        expect(kind).toBe("new");
+        expect(leaving).toBe(personId);
+        expect(startsOn! >= term.endsAt).toBe(true);
+      }
     const seatTenure = `${STATE_LEGISLATURE_KEYS.seat(house.officeKey, ordinal)}:tenure`;
     expect(
       through.history.workRelationships.filter(

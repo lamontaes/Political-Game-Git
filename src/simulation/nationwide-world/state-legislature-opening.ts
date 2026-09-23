@@ -8,6 +8,7 @@ import type {
   CharacterHistoryTransition,
 } from "../character-history";
 import { candidacyPackById, stateCandidacyPack } from "../candidacy-packs";
+import { legislativeTermForRelationship } from "../legislative-office-terms";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
@@ -24,14 +25,7 @@ import {
 } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
-import type {
-  DistrictSeatBinding,
-  EntityId,
-  IsoDate,
-  LifeRecordProvenance,
-  WorkRelationship,
-  World,
-} from "../types";
+import type { EntityId, IsoDate, LifeRecordProvenance, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
   createOrganizationParticipations,
@@ -559,6 +553,23 @@ function pad(value: number): string {
   return String(value).padStart(2, "0");
 }
 
+/** "democratic" or "republican" for a national party's organization id. */
+function nationalPartyKey(
+  world: World,
+  organizationId: EntityId | undefined,
+): string | null {
+  if (!organizationId) return null;
+  return (
+    ["democratic", "republican"].find(
+      (key) =>
+        livingWorldOrganizationId(
+          world,
+          LIVING_WORLD_KEYS.nationalParty(key),
+        ) === organizationId,
+    ) ?? null
+  );
+}
+
 export interface StateLegislatorView {
   readonly personId: EntityId;
   readonly workRelationshipId: EntityId;
@@ -567,6 +578,8 @@ export interface StateLegislatorView {
   readonly title: string;
   /** Null where the member has no recorded public party. */
   readonly party: string | null;
+  /** True for a member seated by a campaign (the player, or a rival who beat them). */
+  readonly byCampaign: boolean;
 }
 
 /**
@@ -584,286 +597,72 @@ export function stateLegislators(
   );
   const prefix = `${V}:`;
   const views: StateLegislatorView[] = [];
-  let affiliations: Map<string, EntityId> | null = null;
-  const passedOn: {
-    officeKey: string;
-    ordinal: number;
-    firstWinnerId: EntityId;
-    startedAt: IsoDate;
-  }[] = [];
-  // A seat's newest generated tenure decides whether it passed to a winner;
-  // an older one that did says nothing once the seat was filled again.
-  const newestTenure = new Map<string, IsoDate>();
   for (const work of world.history.workRelationships) {
     if (work.organizationId !== bodyId) continue;
     if (work.kind !== "employment:legislative-member") continue;
     if (!world.people[work.personId]) continue;
-    const match = seatTenureMatch(work.stableKey);
-    if (!match) continue;
-    const seatKey = `${match[1]}:${match[2]}`;
-    if ((newestTenure.get(seatKey) ?? "") < work.startedAt)
-      newestTenure.set(seatKey, work.startedAt);
-    const status = workStatusAt(world, work.id);
-    if (status?.status !== "active") {
-      // The seat passed to whoever won its district; list them in it below.
-      if (
-        status?.status === "ended" &&
-        status.stableKey.startsWith(REPLACED_BY)
-      )
-        passedOn.push({
-          officeKey: match[1]!,
-          ordinal: Number(match[2]),
-          firstWinnerId: status.stableKey.slice(REPLACED_BY.length) as EntityId,
-          startedAt: work.startedAt,
-        });
-      continue;
-    }
     if (!isPersonAliveAt(world, work.personId, currentLifeCutoff(world)))
       continue;
-    // A seat's affiliation stableKey is shared by everyone who has held it,
-    // so each member reads only their own record, else their own party.
-    if (affiliations === null) {
-      affiliations = new Map();
-      for (const participation of world.history.organizationParticipations) {
-        const seatKey = `${participation.personId}|${participation.stableKey}`;
-        if (
-          participation.stableKey.startsWith(prefix) &&
-          !affiliations.has(seatKey)
-        )
-          affiliations.set(seatKey, participation.organizationId);
-        const ownKey = `${participation.personId}|`;
-        if (
-          participation.kind === PARTY_AFFILIATION_KIND &&
-          !affiliations.has(ownKey)
-        )
-          affiliations.set(ownKey, participation.organizationId);
-      }
-    }
-    const party = nationalPartyOf(
-      world,
-      affiliations.get(
-        `${work.personId}|${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
-      ) ?? affiliations.get(`${work.personId}|`),
-    );
+    if (workStatusAt(world, work.id)?.status !== "active") continue;
+    const match = seatTenureMatch(work.stableKey);
+    if (!match) continue;
+    const affiliation =
+      world.history.organizationParticipations.find(
+        (participation) =>
+          participation.personId === work.personId &&
+          participation.stableKey ===
+            `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
+      ) ??
+      world.history.organizationParticipations.find(
+        (participation) =>
+          participation.personId === work.personId &&
+          participation.kind === PARTY_AFFILIATION_KIND,
+      );
     views.push({
       personId: work.personId,
       workRelationshipId: work.id,
       officeKey: match[1]!,
       ordinal: Number(match[2]),
       title: workRoleAt(world, work.id)?.title ?? "",
-      party,
+      party: nationalPartyKey(world, affiliation?.organizationId),
+      byCampaign: false,
     });
   }
-  const stillPassedOn = passedOn.filter(
-    (seat) =>
-      newestTenure.get(`${seat.officeKey}:${seat.ordinal}`) === seat.startedAt,
-  );
-  if (stillPassedOn.length > 0)
-    views.push(...districtWinnersHolding(world, packId, bodyId, stillPassedOn));
-  return views;
-}
-
-const REPLACED_BY = `${V}:replaced-by:`;
-
-function nationalPartyOf(
-  world: World,
-  organizationId: EntityId | undefined,
-): string | null {
-  if (!organizationId) return null;
-  return (
-    ["democratic", "republican"].find(
-      (key) =>
-        livingWorldOrganizationId(
-          world,
-          LIVING_WORLD_KEYS.nationalParty(key),
-        ) === organizationId,
-    ) ?? null
-  );
-}
-
-const plannedChambers = new Map<string, readonly SeatedChamberPlan[]>();
-
-function plannedChambersFor(packId: string): readonly SeatedChamberPlan[] {
-  let chambers = plannedChambers.get(packId);
-  if (!chambers) {
-    const pack = candidacyPackById(packId);
-    chambers = pack ? planStateChambers(pack).chambers : [];
-    plannedChambers.set(packId, chambers);
-  }
-  return chambers;
-}
-
-/**
- * Who holds each seat the opening's member gave up to an election winner: the
- * first winner while they serve, then whoever has since won the same
- * district's seat and serves now. A seat whose winner has left and has no
- * serving successor is vacant and not listed.
- */
-function districtWinnersHolding(
-  world: World,
-  packId: string,
-  bodyId: EntityId,
-  passedOn: readonly {
-    officeKey: string;
-    ordinal: number;
-    firstWinnerId: EntityId;
-  }[],
-): StateLegislatorView[] {
-  const cutoff = currentLifeCutoff(world);
-  const serving = (work: WorkRelationship) =>
-    Boolean(world.people[work.personId]) &&
-    workStatusAt(world, work.id)?.status === "active" &&
-    isPersonAliveAt(world, work.personId, cutoff);
-  const contests = new Map(
-    (world.history.electionContests ?? []).map((contest) => [
-      contest.id,
-      contest,
-    ]),
-  );
-  const officeByEvent = new Map<
-    string,
-    { officeKey: string; district: string | null }
-  >();
-  for (const result of world.history.electionContestResults ?? []) {
-    const contest = contests.get(result.contestId);
-    if (contest)
-      officeByEvent.set(result.outcomeEventId, {
-        officeKey: contest.office.officeKey,
-        district: contest.office.districtBinding?.recordId ?? null,
-      });
-  }
-  const winners = world.history.workRelationships.filter(
-    (work) =>
-      work.organizationId === bodyId &&
-      work.kind === "employment:legislative-member" &&
-      work.provenance.kind === "simulated-event" &&
-      !work.stableKey.startsWith(`${V}:`) &&
-      serving(work),
-  );
-  const claimed = new Set<EntityId>();
-  const views: StateLegislatorView[] = [];
-  const holderFor = (seat: (typeof passedOn)[number]) => {
-    const first = world.history.workRelationships.find(
-      (work) => work.id === seat.firstWinnerId,
-    );
-    if (first && !claimed.has(first.id) && serving(first)) return first;
-    const district = plannedChambersFor(packId).find(
-      (chamber) => chamber.officeKey === seat.officeKey,
-    )?.districts[seat.ordinal - 1];
-    if (!district) return undefined;
-    return winners
-      .filter((work) => {
-        if (claimed.has(work.id) || work.provenance.kind !== "simulated-event")
-          return false;
-        const office = officeByEvent.get(work.provenance.eventId);
-        return (
-          office?.officeKey === seat.officeKey &&
-          office.district === district.recordId
-        );
-      })
-      .sort((l, r) => l.startedAt.localeCompare(r.startedAt))[0];
-  };
-  // First winners who still serve keep their own seats before any later
-  // winner of a shared district is placed.
-  const ordered = [...passedOn].sort(
-    (l, r) =>
-      Number(!winners.some((work) => work.id === l.firstWinnerId)) -
-      Number(!winners.some((work) => work.id === r.firstWinnerId)),
-  );
-  for (const seat of ordered) {
-    const work = holderFor(seat);
-    if (!work) continue;
-    claimed.add(work.id);
-    let party: string | null = null;
-    for (const entry of activeOrganizationParticipationsAt(
+  // A campaign's winner sits in their district's seat. The seat's earlier
+  // holder left when the term began, so the two are never both listed.
+  for (const holder of campaignSeatHolders(world, packId)) {
+    if (holder.status !== "active") continue;
+    if (!world.people[holder.personId]) continue;
+    if (!isPersonAliveAt(world, holder.personId, currentLifeCutoff(world)))
+      continue;
+    const affiliation = activeOrganizationParticipationsAt(
       world,
-      work.personId,
-    )) {
-      party = nationalPartyOf(world, entry.participation.organizationId);
-      if (party) break;
-    }
+      holder.personId,
+    ).find(
+      (entry) => entry.participation.kind === PARTY_AFFILIATION_KIND,
+    )?.participation;
     views.push({
-      personId: work.personId,
-      workRelationshipId: work.id,
-      officeKey: seat.officeKey,
-      ordinal: seat.ordinal,
-      title: workRoleAt(world, work.id)?.title ?? "",
-      party,
+      personId: holder.personId,
+      workRelationshipId: holder.workRelationshipId,
+      officeKey: holder.officeKey,
+      ordinal: holder.ordinal,
+      title: holder.title,
+      party: nationalPartyKey(world, affiliation?.organizationId),
+      byCampaign: true,
     });
   }
-  return views;
-}
-
-/**
- * Ends the opening's member for the district a winner takes, on the day the
- * winner's term begins. The seat is the lowest-numbered one in that district
- * the opening's member still holds, so a district that elects several members
- * gives up one seat per winner. Nothing changes where the chamber was never
- * seated, the contest names no district, or no opening seat is bound to it:
- * a seat is never guessed from a chamber-wide list.
- */
-export function endOpeningMemberForWinner(
-  world: World,
-  input: {
-    readonly candidacyPackId: string;
-    readonly officeKey: string;
-    readonly districtBinding: DistrictSeatBinding | null | undefined;
-    readonly winnerWorkRelationshipId: EntityId;
-    readonly effectiveAt: IsoDate;
-    readonly outcomeEventId: EntityId;
-  },
-): World {
-  const binding = input.districtBinding;
-  if (!binding || !stateLegislatureEstablished(world, input.candidacyPackId))
-    return world;
-  const pack = candidacyPackById(input.candidacyPackId);
-  if (!pack) return world;
-  const chamber = planStateChambers(pack).chambers.find(
-    (candidate) => candidate.officeKey === input.officeKey,
+  // A save made before campaign winners were placed in their seat can still
+  // show the member they replaced as serving. The winner holds the seat.
+  const campaignSeats = new Set(
+    views
+      .filter((view) => view.byCampaign)
+      .map((view) => `${view.officeKey}|${view.ordinal}`),
   );
-  if (!chamber) return world;
-  for (let ordinal = 1; ordinal <= chamber.size; ordinal += 1) {
-    const district = chamber.districts[ordinal - 1];
-    if (!district || district.recordId !== binding.recordId) continue;
-    // The seat's generated member: the opening's, or one a later regular
-    // election seated (`...:tenure:<term start>`).
-    const tenureKey = `${STATE_LEGISLATURE_KEYS.seat(input.officeKey, ordinal)}:tenure`;
-    const work = world.history.workRelationships.find(
-      (candidate) =>
-        (candidate.stableKey === tenureKey ||
-          candidate.stableKey.startsWith(`${tenureKey}:`)) &&
-        workStatusAt(world, candidate.id)?.status === "active",
-    );
-    const status = work && workStatusAt(world, work.id);
-    if (!work || status?.status !== "active") continue;
-    return recordWorkStatus(world, {
-      stableKey: `${REPLACED_BY}${input.winnerWorkRelationshipId}`,
-      workRelationshipId: work.id,
-      effectiveAt: input.effectiveAt,
-      status: "ended",
-      reason: "The winner of this district's election took the seat.",
-      provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
-      supersedesStatusId: status.id,
-    });
-  }
-  return world;
-}
-
-/**
- * Whether a seat is held by a district's election winner (a candidacy the
- * campaign decided) rather than a member the game generated. The state's
- * regular turnover leaves such a seat to its own contest.
- */
-export function seatHeldByDistrictWinner(
-  world: World,
-  seat: StateLegislativeSeatView,
-): boolean {
-  const member = seat.member;
-  if (!member) return false;
-  const work = world.history.workRelationships.find(
-    (candidate) => candidate.id === member.workRelationshipId,
+  return views.filter(
+    (view) =>
+      view.byCampaign ||
+      !campaignSeats.has(`${view.officeKey}|${view.ordinal}`),
   );
-  return work !== undefined && seatTenureMatch(work.stableKey) === null;
 }
 
 export interface StateLegislativeSeatView {
@@ -889,14 +688,11 @@ export function stateLegislativeSeats(
     "organization",
     `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
   );
-  // Keyed by seat, not by tenure: a seat the opening's member gave up to an
-  // election winner is held under the winner's own relationship.
-  const members = stateLegislators(world, packId);
   const sitting = new Map(
-    members.map((member) => [`${member.officeKey}:${member.ordinal}`, member]),
-  );
-  const sittingTenures = new Set(
-    members.map((member) => member.workRelationshipId),
+    stateLegislators(world, packId).map((member) => [
+      member.workRelationshipId,
+      member,
+    ]),
   );
   // Each seat's latest tenure speaks for it: its sitting member, else the
   // most recent holder, whose death (if any) is why it is empty.
@@ -912,8 +708,8 @@ export function stateLegislativeSeats(
     const seatKey = `${match[1]}|${match[2]}`;
     const earlier = latest.get(seatKey);
     if (earlier) {
-      const earlierSitting = sittingTenures.has(earlier.work.id);
-      const thisSitting = sittingTenures.has(work.id);
+      const earlierSitting = sitting.has(earlier.work.id);
+      const thisSitting = sitting.has(work.id);
       if (earlierSitting && !thisSitting) continue;
       if (
         earlierSitting === thisSitting &&
@@ -923,9 +719,16 @@ export function stateLegislativeSeats(
     }
     latest.set(seatKey, { work, seat: [match[1]!, match[2]!] });
   }
-  return [...latest.values()]
-    .map(({ work, seat }) => {
-      const member = sitting.get(`${seat[0]}:${seat[1]}`) ?? null;
+  // A seat a campaign's winner now holds speaks for them, not for the
+  // tenure that ended when their term began.
+  const byCampaign = new Map(
+    [...sitting.values()]
+      .filter((member) => member.byCampaign)
+      .map((member) => [`${member.officeKey}|${member.ordinal}`, member]),
+  );
+  return [...latest.entries()]
+    .map(([seatKey, { work, seat }]) => {
+      const member = byCampaign.get(seatKey) ?? sitting.get(work.id) ?? null;
       return {
         officeKey: seat[0]!,
         ordinal: Number(seat[1]),
@@ -955,4 +758,169 @@ export function seatTenureMatch(stableKey: string): RegExpExecArray | null {
         stableKey.slice(prefix.length),
       )
     : null;
+}
+
+const plansByPack = new Map<string, readonly SeatedChamberPlan[]>();
+
+function seatedPlans(packId: string): readonly SeatedChamberPlan[] {
+  let plans = plansByPack.get(packId);
+  if (!plans) {
+    const pack = candidacyPackById(packId);
+    plans = pack ? planStateChambers(pack).chambers : [];
+    plansByPack.set(packId, plans);
+  }
+  return plans;
+}
+
+/**
+ * The seats a district elects in one chamber, in seat order, with the title
+ * each carries. More than one where the state elects several members per
+ * district.
+ */
+export function stateSeatsInDistrict(
+  packId: string,
+  officeKey: string,
+  districtRecordId: string,
+): readonly { ordinal: number; title: string }[] {
+  const plan = seatedPlans(packId).find((p) => p.officeKey === officeKey);
+  if (!plan) return [];
+  const seats: { ordinal: number; title: string }[] = [];
+  plan.districts.forEach((district, index) => {
+    const ordinal = index + 1;
+    if (ordinal > plan.size - plan.atLargeSeats) return;
+    if (district?.recordId !== districtRecordId) return;
+    seats.push({
+      ordinal,
+      title: stateSeatTitle(plan.chamberName, district, ordinal),
+    });
+  });
+  return seats;
+}
+
+export interface CampaignSeatHolder {
+  readonly personId: EntityId;
+  readonly workRelationshipId: EntityId;
+  readonly contestId: EntityId;
+  readonly officeKey: string;
+  readonly ordinal: number;
+  readonly title: string;
+  readonly startsAt: IsoDate;
+  readonly endsAt: IsoDate;
+  readonly status: "expected" | "active";
+}
+
+/**
+ * The members a campaign put in one of an opening's seats: the player, or a
+ * rival who beat them. The campaign system seats them in its own record,
+ * named for their district, so each is placed here in that district's seat.
+ * Where a district elects several members, a returning member keeps their
+ * own seat and anyone else takes the first seat no other campaign holds. A
+ * term that has ended, or a record without a district, holds no seat.
+ */
+export function campaignSeatHolders(
+  world: World,
+  packId: string,
+): readonly CampaignSeatHolder[] {
+  const bodyId = createStableId(
+    "organization",
+    `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
+  );
+  const terms = world.history.workRelationships
+    .filter(
+      (work) =>
+        work.organizationId === bodyId &&
+        work.kind === "employment:legislative-member" &&
+        !seatTenureMatch(work.stableKey),
+    )
+    .map((work) => ({
+      work,
+      status: workStatusAt(world, work.id)?.status,
+      term: legislativeTermForRelationship(world, work.id),
+    }))
+    .filter(
+      (entry) =>
+        (entry.status === "expected" || entry.status === "active") &&
+        entry.term?.contest.office.districtBinding &&
+        // A member who has died holds no seat, whatever their record says.
+        !world.history.personDeaths.some(
+          (death) => death.personId === entry.work.personId,
+        ),
+    )
+    .sort(
+      (a, b) =>
+        a.work.startedAt.localeCompare(b.work.startedAt) ||
+        a.work.id.localeCompare(b.work.id),
+    );
+  const held = new Map<string, EntityId>();
+  const holders: CampaignSeatHolder[] = [];
+  for (const { work, status, term } of terms) {
+    const officeKey = term!.contest.office.officeKey;
+    const seats = stateSeatsInDistrict(
+      packId,
+      officeKey,
+      term!.contest.office.districtBinding!.recordId,
+    );
+    const seat =
+      seats.find(
+        (s) => held.get(`${officeKey}|${s.ordinal}`) === work.personId,
+      ) ?? seats.find((s) => !held.has(`${officeKey}|${s.ordinal}`));
+    if (!seat) continue;
+    held.set(`${officeKey}|${seat.ordinal}`, work.personId);
+    holders.push({
+      personId: work.personId,
+      workRelationshipId: work.id,
+      contestId: term!.contest.id,
+      officeKey,
+      ordinal: seat.ordinal,
+      title: seat.title,
+      startsAt: term!.startsAt,
+      endsAt: term!.endsAt,
+      status: status as "expected" | "active",
+    });
+  }
+  return holders;
+}
+
+/**
+ * Ends the generated member (the opening's, or one a regular election seated)
+ * in the seat a campaign's winner takes, on the day the winner's term begins,
+ * so the seat has one holder from its first day. The seat is the one
+ * `campaignSeatHolders` places the winner in. Nothing changes where the
+ * chamber was never seated or the winner's record names no district seat.
+ * The regular election's own term start ends the same member when it runs
+ * first; each records the end only while the member still serves.
+ */
+export function endOpeningMemberForWinner(
+  world: World,
+  input: {
+    readonly candidacyPackId: string;
+    readonly winnerWorkRelationshipId: EntityId;
+    readonly effectiveAt: IsoDate;
+    readonly outcomeEventId: EntityId;
+  },
+): World {
+  if (!stateLegislatureEstablished(world, input.candidacyPackId)) return world;
+  const holder = campaignSeatHolders(world, input.candidacyPackId).find(
+    (candidate) =>
+      candidate.workRelationshipId === input.winnerWorkRelationshipId,
+  );
+  if (!holder) return world;
+  const tenureKey = `${STATE_LEGISLATURE_KEYS.seat(holder.officeKey, holder.ordinal)}:tenure`;
+  const work = world.history.workRelationships.find(
+    (candidate) =>
+      (candidate.stableKey === tenureKey ||
+        candidate.stableKey.startsWith(`${tenureKey}:`)) &&
+      workStatusAt(world, candidate.id)?.status === "active",
+  );
+  const status = work && workStatusAt(world, work.id);
+  if (!work || status?.status !== "active") return world;
+  return recordWorkStatus(world, {
+    stableKey: `${V}:replaced-by:${input.winnerWorkRelationshipId}`,
+    workRelationshipId: work.id,
+    effectiveAt: input.effectiveAt,
+    status: "ended",
+    reason: "The winner of this district's election took the seat.",
+    provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
+    supersedesStatusId: status.id,
+  });
 }

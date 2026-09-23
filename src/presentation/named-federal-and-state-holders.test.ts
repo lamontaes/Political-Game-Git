@@ -118,6 +118,9 @@ describe("the people who govern a home are named", () => {
     expect(seat.status).toBe("vacancy");
     expect(seat.holderPersonId).toBeNull();
     expect(seat.note).toMatch(/^Vacant since .*, when the member died\./);
+    expect(seat.note).toMatch(
+      /The seat is filled at the regular election on November \d+, 20\d\d\.$/,
+    );
     expect(stateLegislators(after, packId)).toHaveLength(members.length - 1);
   }, 900_000);
 });

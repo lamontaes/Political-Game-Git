@@ -120,13 +120,17 @@ describe("district identity catalog", () => {
         chamber: "state-lower",
       }).kind,
     ).toBe("conflicting");
-    expect(
-      districtMembershipFromCanonicalHome({
-        homeJurisdictionId: "adak",
-        catalog,
-        placeGeoid: "0200065",
-        chamber: "congressional",
-      }).kind,
-    ).toBe("unknown");
+    // Congressional membership reads the 119th CD–place file: Adak is listed
+    // only with Alaska's at-large district.
+    const adakHouse = districtMembershipFromCanonicalHome({
+      homeJurisdictionId: "adak",
+      catalog,
+      placeGeoid: "0200065",
+      chamber: "congressional",
+    });
+    expect(adakHouse.kind).toBe("known");
+    expect(adakHouse.kind === "known" && adakHouse.binding.recordId).toBe(
+      "congressional:0200",
+    );
   });
 });
