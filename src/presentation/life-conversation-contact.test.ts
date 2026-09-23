@@ -98,7 +98,10 @@ describe("talking to somebody", () => {
       expect(added[0]!.occurredAt).toBe(world.currentDate);
 
       const card = projectPersonDossier(world, playerPersonId, parentId);
-      expect(card.lastInteraction).toContain("You last spoke on");
+      // A parent at home reads as living together; the talk today still shows.
+      expect(card.lastInteraction).toMatch(
+        /^You last spoke on |You spoke today\.$/,
+      );
       expect(
         relationshipHistory(world, playerPersonId, parentId).at(-1)!.occurredAt,
       ).toBe(world.currentDate);

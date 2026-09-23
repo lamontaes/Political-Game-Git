@@ -9,6 +9,10 @@ import {
   type SimulationMoment,
   type World,
 } from "../simulation";
+import {
+  callOffContactMeeting,
+  CONTACT_LOCATION_KEY,
+} from "../simulation/people-contact";
 import { interruptionHandlers } from "./interruption-policy";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import { describeRoutineOutcome } from "./routine-outcome";
@@ -107,7 +111,22 @@ export function playCalendarActivity(
       outcome: entry.refusal,
     };
   }
-  const next = performVenueActivity(world, personId, activityId);
+  let next: World;
+  try {
+    next = performVenueActivity(world, personId, activityId);
+  } catch (error) {
+    // A writer that refuses (a buy the committee can no longer pay for, a
+    // session that is not the week's next) says why, and nothing is written:
+    // the wait before it is discarded with the refusal.
+    return {
+      world,
+      reached: world.currentMoment,
+      outcome:
+        error instanceof Error
+          ? error.message
+          : "This event could not be played now.",
+    };
+  }
   if (next === world) {
     return {
       world,
@@ -202,6 +221,30 @@ export function declineCalendarActivity(
   personId: EntityId,
   activityId: EntityId,
 ): CalendarTimeResult {
+  /*
+   * A meeting two people agreed to is not an optional hold, but it can still
+   * be called off: the other person is told, and it goes in their history.
+   * Before this, Decline on one refused and time could not pass it
+   * (New Jersey and New Hampshire playtests, 2026-09-23).
+   */
+  const meeting = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === activityId,
+  );
+  if (
+    meeting?.kind === "confirmed" &&
+    meeting.location.locationKey === CONTACT_LOCATION_KEY &&
+    world.control.kind === "person" &&
+    world.control.personId === personId
+  ) {
+    const calledOff = callOffContactMeeting(world, { personId, activityId });
+    const otherId = meeting.participantPersonIds.find((id) => id !== personId);
+    const given = otherId ? world.people[otherId]?.givenName : null;
+    return {
+      world: calledOff,
+      reached: calledOff.currentMoment,
+      outcome: `You called it off${given ? `, and ${given} knows` : ""}. No time passed.`,
+    };
+  }
   const next = declineVenueActivity(world, personId, activityId);
   if (next === world) {
     return {

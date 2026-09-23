@@ -6,7 +6,15 @@
  * adopted amendment. A preference is not a floor vote.
  */
 
-import { personName } from "../simulation";
+import {
+  legislativeMemberOffice,
+  officeStaffIncumbencyRecords,
+  officeStaffPositionRecords,
+  officeStaffingView,
+  personName,
+  type OfficeStaffingView,
+  type StaffableOffice,
+} from "../simulation";
 import { activeLifePathWorkers } from "../simulation/life-paths2-workers";
 import {
   currentMeasureProvisions,
@@ -159,6 +167,8 @@ export interface OfficeOnboardingProjection {
     typeof evaluateOfficeVoteInstruction
   > | null;
   readonly briefing: OfficeStaffBriefing;
+  /** The member's own office positions: who holds them and who applied. */
+  readonly staffing: OfficeStaffingView | null;
   readonly wroteNothing: true;
 }
 
@@ -178,6 +188,7 @@ export function projectOfficeOnboarding(
       instruction: null,
       instructionStatus: null,
       briefing: emptyBriefing("no-staff", []),
+      staffing: null,
       wroteNothing: true,
     };
   }
@@ -232,8 +243,28 @@ export function projectOfficeOnboarding(
     instruction,
     instructionStatus,
     briefing,
+    staffing: officeStaffingView(
+      world,
+      memberStaffOffice(world, seat, playerPersonId),
+    ),
     wroteNothing: true,
   };
+}
+
+/** The member's own office, as the staff-hiring records know it. */
+export function memberStaffOffice(
+  world: World,
+  seat: ActiveMemberSeat,
+  playerPersonId: EntityId,
+): StaffableOffice {
+  const player = world.people[playerPersonId];
+  return legislativeMemberOffice({
+    seatRelationshipId: seat.relationshipId,
+    organizationId: seat.organizationId,
+    jurisdictionId: seat.governingJurisdictionId,
+    holderPersonId: playerPersonId,
+    title: player ? personName(player) : "this member",
+  });
 }
 
 export function officeOnboardingDraftResetKey(
@@ -254,11 +285,30 @@ export function listOfficeStaff(
   seat: ActiveMemberSeat,
   playerPersonId: EntityId,
 ): readonly OfficeStaffMember[] {
+  // Staff hired into a position work for that position's office. Everybody
+  // shares the chamber's organization, so a staffer bound to another member's
+  // office is not this member's staff; one bound to none (a production start's
+  // legislative office) still is.
+  const ownOffice = memberStaffOffice(world, seat, playerPersonId).officeKey;
+  const positionOffice = new Map(
+    officeStaffPositionRecords(world).map((record) => [
+      record.id,
+      record.officeKey,
+    ]),
+  );
+  const boundOffice = new Map(
+    officeStaffIncumbencyRecords(world).map((record) => [
+      record.workRelationshipId,
+      positionOffice.get(record.positionId) ?? null,
+    ]),
+  );
   return activeLifePathWorkers(world, seat.organizationId)
     .filter(
       (entry) =>
         entry.personId !== playerPersonId &&
-        entry.relationship.kind === "employment:legislative-staff",
+        entry.relationship.kind === "employment:legislative-staff" &&
+        (!boundOffice.has(entry.relationship.id) ||
+          boundOffice.get(entry.relationship.id) === ownOffice),
     )
     .map((entry) => {
       const person = world.people[entry.personId];

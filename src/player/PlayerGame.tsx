@@ -139,12 +139,15 @@ import {
 
 import {
   BrowserSaveStore,
+  SavesKeptByNewerBuildError,
   type BrowserWorldSummary,
   type QuarantinedSave,
 } from "../presentation/browser-world-repository";
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
+  chooseTodayCalendarOption,
+  todayCalendarOptions,
   presentPeopleSentence,
   projectStoryMoment,
   type StoryMoment,
@@ -214,6 +217,8 @@ import {
   TitleScreen,
   resolvedTitlePresentation,
   resolvedTitleLecternHero,
+  type SaveListingState,
+  reloadPage,
 } from "./TitleScreen";
 import {
   readReplaySeed,
@@ -249,6 +254,9 @@ import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
+import { congressSeatStatus } from "../presentation/congress-candidacy";
+import { congressStatusText } from "./CongressCandidacySection";
+import { congressCommitteeMembership } from "../presentation/legislative-office-context";
 import {
   projectOfficeTransition,
   projectSwearingIn,
@@ -262,7 +270,8 @@ import {
   selectedDocketKey,
   selectDocketBill,
 } from "../presentation/legislation-docket-selection";
-import { measureById } from "../simulation";
+import { homeStateUsps, measureById } from "../simulation";
+import { isTerritoryUsps } from "../simulation/state-reference";
 import { measureGate } from "../simulation/legislation";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { InvokerFocusReturn } from "./PersonSceneActionMenu";
@@ -492,17 +501,30 @@ export function PlayerGame() {
   const [notice, setNotice] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const [damaged, setDamaged] = useState<readonly QuarantinedSave[]>([]);
-  const [savesUnavailable, setSavesUnavailable] = useState(store === null);
+  const savesUnavailable = store === null;
+  const [saveListing, setSaveListing] = useState<SaveListingState>(
+    store === null ? "read" : "loading",
+  );
 
+  /*
+   * A failed read is not a browser that refuses storage. The store exists,
+   * so writing may still work and the saves may still be there; saying the
+   * browser "will not let the game store anything" told a player with a
+   * 40 MB life that it was gone. The screens say the list could not be read
+   * and offer to read it again, and until the first read finishes they say
+   * the lives are being opened rather than that there are none.
+   */
   const refreshSaves = useCallback(async () => {
     if (!store) return;
     try {
       const listing = await store.list();
       setSaves(listing.saves);
       setDamaged(listing.damaged);
-      setSavesUnavailable(false);
-    } catch {
-      setSavesUnavailable(true);
+      setSaveListing("read");
+    } catch (error) {
+      setSaveListing(
+        error instanceof SavesKeptByNewerBuildError ? "outdated" : "failed",
+      );
     }
   }, [store]);
 
@@ -706,7 +728,12 @@ export function PlayerGame() {
       startPlaying(world, personId, null, saveId);
       setNotice(null);
     } catch {
-      setProblem("That saved game could not be opened.");
+      // Said plainly that nothing was lost: a player who read only "could not
+      // be opened" about the one save of a sixteen-year life had no reason to
+      // believe it was still there.
+      setProblem(
+        "That saved game could not be opened just now. It has been kept, not deleted. Try again, or after the next update.",
+      );
     }
   }
 
@@ -834,6 +861,11 @@ export function PlayerGame() {
             saves={saves}
             damaged={damaged}
             savesUnavailable={savesUnavailable}
+            saveListing={saveListing}
+            onRetrySaves={() => {
+              setSaveListing("loading");
+              void refreshSaves();
+            }}
             problem={problem}
             onNewGame={() => {
               setProblem(null);
@@ -1004,6 +1036,11 @@ export function PlayerGame() {
         saves={saves}
         damaged={damaged}
         savesUnavailable={savesUnavailable}
+        saveListing={saveListing}
+        onRetrySaves={() => {
+          setSaveListing("loading");
+          void refreshSaves();
+        }}
         notice={notice}
         problem={problem}
         artProvenance={previewMode}
@@ -2238,6 +2275,8 @@ function SavesScreen({
   saves,
   damaged,
   savesUnavailable,
+  saveListing,
+  onRetrySaves,
   notice,
   problem,
   artProvenance,
@@ -2250,6 +2289,8 @@ function SavesScreen({
   readonly saves: readonly BrowserWorldSummary[];
   readonly damaged: readonly QuarantinedSave[];
   readonly savesUnavailable: boolean;
+  readonly saveListing: SaveListingState;
+  readonly onRetrySaves: () => void;
   readonly notice: string | null;
   readonly problem: string | null;
   readonly artProvenance: "production" | "candidate-review";
@@ -2276,7 +2317,29 @@ function SavesScreen({
           {problem}
         </p>
       ) : null}
-      {saves.length === 0 && !savesUnavailable ? (
+      {saveListing === "loading" ? (
+        <p className="game-note" data-testid="saves-reading">
+          Opening your saved lives. A long life can take a moment.
+        </p>
+      ) : null}
+      {saveListing === "failed" ? (
+        <p className="game-problem" role="alert" data-testid="saves-unread">
+          Your saved lives could not be read just now. Nothing was deleted.{" "}
+          <button type="button" onClick={onRetrySaves}>
+            Try again
+          </button>
+        </p>
+      ) : null}
+      {saveListing === "outdated" ? (
+        <p className="game-problem" role="alert" data-testid="saves-outdated">
+          This page is an older copy of the game than the one that kept your
+          saved lives. Reload the page to open them. Nothing was deleted.{" "}
+          <button type="button" onClick={reloadPage}>
+            Reload
+          </button>
+        </p>
+      ) : null}
+      {saves.length === 0 && !savesUnavailable && saveListing === "read" ? (
         <p className="game-note" data-testid="saves-empty">
           No lives are saved in this browser yet. You can import a saved life
           below.
@@ -2352,13 +2415,21 @@ function SavesScreen({
                 data-testid="damaged-entry"
               >
                 <span>{entry.reason}</span>
-                {entry.mightBeReadableLater ? (
+                {entry.defect === "could-not-open-now" ? (
+                  <span className="game-note">
+                    The browser would not read it this time, so it cannot be
+                    removed now either. Try again later.
+                  </span>
+                ) : entry.mightBeReadableLater ? (
                   <span className="game-note">
                     A later version of the game may be able to open it, so it is
                     worth keeping for now.
                   </span>
                 ) : null}
-                {entry.saveId ? (
+                {entry.saveId && entry.defect !== "could-not-open-now" ? (
+                  // Not offered for a save the browser would not read just
+                  // now: removing it reads the whole record, and would fail
+                  // on exactly that save.
                   // The same two steps a healthy save gets. These are the ones
                   // the screen has just said may open in a later version and
                   // are worth keeping, so a single click was the weakest guard
@@ -5408,7 +5479,9 @@ function renderWorkspace({
       if (half === "campaign") {
         sections.push({
           key: "statewide",
-          title: "The state's top office",
+          title: isTerritoryUsps(homeStateUsps(session.world, session.personId))
+            ? "The territory's top office"
+            : "The state's top office",
           body: (
             <NationwideCandidacyWorkspace
               world={session.world}
@@ -5445,6 +5518,43 @@ function renderWorkspace({
               world={session.world}
               onWorldChange={onWorldChange}
             />
+          ),
+        });
+      }
+      const congressSeat =
+        officeHalf && !sections.some((section) => section.key === "office")
+          ? congressSeatStatus(session.world, session.personId)
+          : null;
+      if (congressSeat?.kind === "in-office") {
+        /*
+         * A seat in Congress, read from the same record the Congress overview
+         * and turnover use. The chamber's floor and committees are not yet
+         * something a member can take part in, and the card says so instead
+         * of offering work that does nothing.
+         */
+        sections.push({
+          key: "office",
+          title: "Your office",
+          body: (
+            <div data-testid="congress-seat-held">
+              <p>{congressStatusText(congressSeat)}</p>
+              <p data-testid="congress-committees">
+                {committeeText(
+                  congressCommitteeMembership(
+                    session.world,
+                    session.personId,
+                    congressSeat.identity.seat.chamberKey,
+                  ),
+                )}
+              </p>
+              <p className="game-note">
+                Your seat, its term and your record in it are real, and the seat
+                is decided again at its next election; file for it under
+                Campaigns to keep it. Floor votes, committee votes and a
+                member's office staff are not yet something you can take part
+                in.
+              </p>
+            </div>
           ),
         });
       }
@@ -5610,6 +5720,10 @@ function StoryView({
     [session.world, session.personId],
   );
   const crisisStop = useCrisisStop(session.world);
+  const todayOptions = useMemo(
+    () => todayCalendarOptions(session.world, session.personId),
+    [session.world, session.personId],
+  );
 
   return (
     <section className="game-story life-moment" data-testid="story-section">
@@ -5720,6 +5834,35 @@ function StoryView({
             <small>{option.description}</small>
           </button>
         ))}
+        {/*
+          What today's calendar holds, beside letting time pass. Time stops
+          at a commitment due today, so without these the button below
+          stopped and nothing on this screen said why or offered the meeting
+          (Detroit life, September 23, 2026). The quiet stretch carries the
+          same choices in its own options.
+        */}
+        {moment.scene.kind === "ordinary-stretch"
+          ? null
+          : todayOptions.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                className="ui-action ui-action--choice"
+                data-testid="story-today-calendar"
+                onClick={() => {
+                  const next = chooseTodayCalendarOption(session.world, {
+                    personId: session.personId,
+                    optionKey: option.key,
+                    transitionHandlers:
+                      createCampaignElectionTransitionRegistry(),
+                  });
+                  if (next) onWorldChange(next);
+                }}
+              >
+                {option.label}
+                <small>{option.description}</small>
+              </button>
+            ))}
         {moment.scene.kind === "ordinary-stretch" ? null : (
           <button
             type="button"
@@ -6240,3 +6383,11 @@ function WorkLayout({
   );
 }
 import { NationalElectionResults } from "./NationalElectionResults";
+
+function committeeText(
+  membership: ReturnType<typeof congressCommitteeMembership>,
+): string {
+  return membership.kind === "committees"
+    ? membership.label
+    : membership.reason;
+}

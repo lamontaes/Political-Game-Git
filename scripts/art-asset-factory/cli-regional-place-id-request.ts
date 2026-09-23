@@ -77,7 +77,7 @@ function ask(): string {
   );
   lines.push("");
   lines.push(
-    '**An empty list is a real answer.** A region whose honest answer is "no county can be named without more work" should come back with empty lists, not with a guess. It costs nothing: a region nothing matches shows no picture, which is the current behaviour.',
+    '**An empty list is a real answer.** A region whose honest answer is "no county can be named without more work" should come back with empty lists, not with a guess. It costs nothing: a region nothing matches shows no picture, which is the current behavior.',
   );
   lines.push("");
   lines.push("## The rules the answer has to satisfy");

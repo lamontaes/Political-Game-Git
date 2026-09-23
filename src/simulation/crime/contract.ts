@@ -126,6 +126,22 @@ export const VICTIM_KNOWS: Readonly<Record<CrimeOffense, string>> = {
   vandalism: "Someone vandalized {name}'s home.",
 };
 
+/**
+ * The private record of an offense nobody reported. Only the victims know of
+ * it, so it says what happened to them, by name. `{names}` is the victims,
+ * `{place}` the town.
+ */
+export const UNREPORTED_OFFENSE_RECORD: Readonly<Record<CrimeOffense, string>> =
+  {
+    assault:
+      "{names} was assaulted in {place} and did not report it to police.",
+    robbery: "{names} was robbed in {place} and did not report it to police.",
+    burglary:
+      "Someone broke into the {place} home of {names}. No one reported it to police.",
+    vandalism:
+      "Someone vandalized the {place} home of {names}. No one reported it to police.",
+  };
+
 export function crimeRule(offense: CrimeOffense): CrimeOffenseRule {
   const rule = UNRESEARCHED_LOCAL_CRIME.offenses.find(
     (candidate) => candidate.offense === offense,
