@@ -13,10 +13,13 @@ import {
   seatBodyForPack,
   serializeWorld,
 } from "../simulation";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  campaignUntilDecided,
+  fileForOffice,
+} from "../../tests/fixtures/campaign-fixture";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
-import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
+import { openOrdinaryLife } from "./ordinary-life";
+import { projectCampaign } from "./campaign-projection";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import { applyLegislativeStep } from "./legislation-session";
 import { fileBundleDraft } from "./legislation-bundle-docket";
@@ -52,19 +55,18 @@ function wonSeat() {
     questionnaire: "skipped",
   });
   const personId = built.playerPersonId;
+  /*
+   * Plays through the shared helper rather than the weaker hand-rolled
+   * sequence that used to live here: one fundraising afternoon, three outreach
+   * afternoons, then sixty idle days. That sequence won only against a single
+   * opponent. A contest now opens with two to four, so the idle days lost the
+   * race and this fixture reported "lost" — the campaign stopped working, not
+   * the measure-editing rules these cases exist to prove. The assertion is
+   * unchanged; only the effort that reaches it is, and it is now the same
+   * effort every other seated-member fixture uses.
+   */
   let world = fileForOffice(openOrdinaryLife(built.world, personId), personId);
-  world = spendAnAfternoon(world, personId, "fundraising");
-  for (let index = 0; index < 3; index += 1) {
-    world = passOrdinaryDays(world);
-    world = spendAnAfternoon(world, personId, "outreach");
-  }
-  for (
-    let day = 0;
-    day < 60 && projectCampaign(world, personId).phase === "active";
-    day += 1
-  ) {
-    world = passOrdinaryDays(world);
-  }
+  world = campaignUntilDecided(world, personId);
   expect(projectCampaign(world, personId).phase).toBe("won");
   return { world: enterSupportedTerm(world, personId), personId };
 }

@@ -4,16 +4,17 @@ import type { EntityId, World } from "../types";
 import { stateOfJurisdiction } from "./outlets";
 
 /**
- * UNRESEARCHED. A generated state oversight body for campaign money and for
- * legislators in states whose own body has not been read.
+ * UNRESEARCHED calendar and penalties for the state body that oversees
+ * campaign money. Its name is researched (below); the rest is generated.
  *
  * Every state has somebody who reviews candidates' campaign-finance reports
  * and hears complaints about them, but the game has read only legislative
  * ethics bodies (`state-ethics-bodies.ts`), and those do not hear a governor's
- * or a mayor's campaign money. Until a state's real regulator is researched,
- * it gets a body generated from this range: a realistic name, a calendar and
- * a civil-penalty scale drawn once per state from its own key, so the same
- * state always has the same body in every save and different states differ.
+ * or a mayor's campaign money. Each state's real regulator is now named, but
+ * how long its steps take and what it fines are not researched, so those are
+ * drawn once per state from this range and its own key: the same state always
+ * has the same calendar in every save, and different states differ. The
+ * generated name forms remain only for a state whose key is not recorded.
  *
  * None of these values is any state's law. Filed with the research queue as
  * `state-campaign-finance-regulators`; a researched row replaces the
@@ -46,6 +47,71 @@ export const UNRESEARCHED_STATE_OVERSIGHT = {
   /** Civil penalty per payment found to be personal use, in cents. */
   civilPenaltyPerPaymentMinorUnits: [50_000, 500_000],
 } as const;
+
+/**
+ * The real body that hears campaign-finance complaints in each jurisdiction,
+ * by name only (ChatGPT research, 2026-09-22,
+ * `docs/research/chatgpt-answers/2026-09-22-campaign-finance-regulators`).
+ * Where a jurisdiction splits filing from enforcement, this is the body that
+ * investigates or decides. Its calendar and penalties are still the generated
+ * profile above: the research marks them unknown, so none is taken from it.
+ */
+export const STATE_CAMPAIGN_FINANCE_REGULATOR_NAMES: Readonly<
+  Record<string, string>
+> = {
+  "US-AL": "Alabama State Ethics Commission",
+  "US-AK": "Alaska Public Offices Commission",
+  "US-AZ": "Arizona Secretary of State",
+  "US-AR": "Arkansas Ethics Commission",
+  "US-CA": "California Fair Political Practices Commission",
+  "US-CO": "Colorado Secretary of State",
+  "US-CT": "Connecticut State Elections Enforcement Commission",
+  "US-DE": "Delaware State Election Commissioner",
+  "US-FL": "Florida Elections Commission",
+  "US-GA": "Georgia State Ethics Commission",
+  "US-HI": "Hawaii Campaign Spending Commission",
+  "US-ID": "Idaho Secretary of State",
+  "US-IL": "Illinois State Board of Elections",
+  "US-IN": "Indiana Election Commission",
+  "US-IA": "Iowa Ethics and Campaign Disclosure Board",
+  "US-KS": "Kansas Governmental Ethics Commission",
+  "US-KY": "Kentucky Registry of Election Finance",
+  "US-LA": "Louisiana Board of Ethics",
+  "US-ME": "Maine Commission on Governmental Ethics and Election Practices",
+  "US-MD": "Maryland State Board of Elections",
+  "US-MA": "Massachusetts Office of Campaign and Political Finance",
+  "US-MI": "Michigan Bureau of Elections",
+  "US-MN": "Minnesota Campaign Finance and Public Disclosure Board",
+  "US-MS": "Mississippi Secretary of State",
+  "US-MO": "Missouri Ethics Commission",
+  "US-MT": "Montana Commissioner of Political Practices",
+  "US-NE": "Nebraska Accountability and Disclosure Commission",
+  "US-NV": "Nevada Secretary of State",
+  "US-NH": "New Hampshire Secretary of State",
+  "US-NJ": "New Jersey Election Law Enforcement Commission",
+  "US-NM": "New Mexico State Ethics Commission",
+  "US-NY": "New York State Board of Elections",
+  "US-NC": "North Carolina State Board of Elections",
+  "US-ND": "North Dakota Secretary of State",
+  "US-OH": "Ohio Elections Commission",
+  "US-OK": "Oklahoma Ethics Commission",
+  "US-OR": "Oregon Secretary of State",
+  "US-PA": "Pennsylvania Department of State",
+  "US-RI": "Rhode Island Board of Elections",
+  "US-SC": "South Carolina State Ethics Commission",
+  "US-SD": "South Dakota Secretary of State",
+  "US-TN": "Tennessee Registry of Election Finance",
+  "US-TX": "Texas Ethics Commission",
+  "US-UT": "Utah Lieutenant Governor's Office",
+  "US-VT": "Vermont Attorney General",
+  "US-VA": "Virginia Department of Elections",
+  "US-WA": "Washington State Public Disclosure Commission",
+  "US-WV": "West Virginia Secretary of State",
+  "US-WI": "Wisconsin Ethics Commission",
+  "US-WY": "Wyoming Secretary of State",
+  "US-DC": "District of Columbia Office of Campaign Finance",
+  "US-PR": "Puerto Rico Office of the Electoral Comptroller",
+};
 
 export interface GeneratedStateOversightBody {
   readonly stateJurisdictionId: EntityId;
@@ -84,12 +150,15 @@ export function generatedStateOversightBody(
   const state = stateId ? world.jurisdictions[stateId] : undefined;
   if (!stateId || !state) return null;
   const rule = UNRESEARCHED_STATE_OVERSIGHT;
-  const seed = `${rule.version}:${stateKeyForJurisdiction(state) ?? state.slug}`;
+  const stateKey = stateKeyForJurisdiction(state);
+  const seed = `${rule.version}:${stateKey ?? state.slug}`;
   const form =
     rule.nameForms[draw(seed, "name", [0, rule.nameForms.length - 1])]!;
   return {
     stateJurisdictionId: stateId,
-    name: `${state.name} ${form}`,
+    name:
+      (stateKey ? STATE_CAMPAIGN_FINANCE_REGULATOR_NAMES[stateKey] : null) ??
+      `${state.name} ${form}`,
     intervalDays: {
       intake: draw(seed, "intake", rule.intervalDays.intake),
       notice: draw(seed, "notice", rule.intervalDays.notice),
