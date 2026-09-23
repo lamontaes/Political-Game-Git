@@ -652,7 +652,7 @@ _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requir
 **Intent.** Persistent cast across years: a family that binds one canonical person and returns to them in later beats. This lane does NOT claim the 92C childhood-pact callback specifically — that claim is only made when the pact stage and a later stage of the same instance are both actually played, which `demonstrated` reports separately.
 
 Seed `corpus-long-tail`, start age 7, Peter Fleming.
-40 beats, 147 realized lines, 112 linked back to a template.
+40 beats, 147 realized lines, 111 linked back to a template.
 
 **Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.roughhouse-line, episode:opening.early.peer.secret-whisper, episode:opening.early.peer.sidewalk-game, episode:opening.early.peer.toy-damage-accidental, episode:opening.early.school.crayon-sharing, episode:opening.early.school.lunchbox-swap, episode:opening.early.school.playground-turn, episode:opening.early.school.spilled-paint, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
@@ -1080,7 +1080,7 @@ _Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 18.; Requires a
 
 
 
-A room of children you do not know, a coat hook with your name on it, and an adult who claps twice when it is time to listen.
+The first morning at Magnolia Elementary School: a room of children you do not know, a coat hook with your name on it, and an adult who claps twice when it is time to listen.
 
 - **Join in** ← chosen
 - Hang back and watch
