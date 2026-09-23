@@ -1,4 +1,4 @@
-/* global Buffer, process */
+/* global Buffer, process, URL */
 import test from "node:test";
 import { execFileSync } from "node:child_process";
 import { leaseUpdateWorkspace } from "../private-controller/update-workspace.mjs";
