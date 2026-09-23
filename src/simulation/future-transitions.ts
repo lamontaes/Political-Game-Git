@@ -371,17 +371,21 @@ function handlerFor(
 }
 
 /*
- * Tests and development prove that no handler mutates its input. The proof
- * used to serialize the whole World before and after every handler, two
- * passes over the entire save per scheduled item, which made each year of a
- * long save cost more than the one before. It now freezes the input instead:
- * a write to any part of it throws at the write itself. The World is
+ * The test suite (tests/support/deep-transition-guard.ts) and the
+ * development client prove that no handler mutates its input. The proof used
+ * to serialize the whole World before and after every handler, two passes
+ * over the entire save per scheduled item, which made each year of a long
+ * save cost more than the one before. It now freezes the input instead: a
+ * write to any part of it throws at the write itself. The World is
  * persistent, so a handler's result shares almost everything with its input,
- * and only the records created since the last freeze are walked. The shipped
- * client turns the proof off and keeps the cheap shape check below, which
+ * and only the records created since the last freeze are walked. Everything
+ * else that passes time -- the shipped client, observer runs, playtest and CLI
+ * scripts -- runs without it and keeps the cheap shape check below, which
  * still catches a record pushed onto, or a field reassigned on, the input.
  */
-let deepTransitionInputGuard = true;
+let deepTransitionInputGuard =
+  (globalThis as { readonly __civicDeepTransitionGuard?: boolean })
+    .__civicDeepTransitionGuard === true;
 
 export function setDeepTransitionInputGuard(enabled: boolean): void {
   deepTransitionInputGuard = enabled;

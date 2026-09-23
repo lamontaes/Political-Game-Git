@@ -22,6 +22,7 @@ import type {
 } from "../presentation/regional-opening-plate";
 import type { EntityId, World } from "../simulation";
 import { GameSelect } from "./controls/GameSelect";
+import { isTerritoryUsps } from "../simulation/state-reference";
 import { OpeningStatePopulation } from "./OpeningStatePopulation";
 import { OpeningStateVoting } from "./OpeningStateVoting";
 import { SavedPersonFigure } from "./SavedPersonFigure";
@@ -370,7 +371,9 @@ export function WorldOrientationPanel({
                       <h3>
                         {homeStateUsps === "DC"
                           ? "Your District government"
-                          : "Your state government"}
+                          : isTerritoryUsps(homeStateUsps)
+                            ? "Your territory's government"
+                            : "Your state government"}
                       </h3>
                       <p>{step.summary}</p>
                       {step.people.length > 0 ? (

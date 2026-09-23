@@ -32,7 +32,10 @@ describe("what a town needs before it plays", () => {
   it("offers a life anywhere and a legislature almost nowhere", () => {
     const coverage = lifePlaceCoverage();
     expect(coverage.supportsArbitrarySelection).toBe(true);
-    expect(coverage.placeCount).toBe(35582);
+    // 10 authored + 32,350 places + 3,222 counties + 44 placeholder towns on
+    // Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana
+    // Islands, which the Census Gazetteer does not cover.
+    expect(coverage.placeCount).toBe(35626);
     expect(coverage.provenance?.recordCount).toBe(32350);
     expect(coverage.countyProvenance?.recordCount).toBe(3222);
 
