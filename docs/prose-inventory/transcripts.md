@@ -421,7 +421,7 @@ _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 80 realized lines, 47 linked back to a template.
+20 beats, 79 realized lines, 47 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -530,7 +530,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 > A couple of months on.
 > You and Jaden Lewis were in and out of each other's business more than once.
-> You and Manuel Todd were in and out of each other's business more than once.
+> You saw Manuel Todd.
 
 The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
 
@@ -654,7 +654,6 @@ _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requir
 
 > A month later.
 > Emil Miles tried to reach you.
-> You saw Manuel Todd.
 
 Five months on, the parts you took are still yours, and nobody has had to mention it again. Tonight Gage Terrell asks whether you would rather swap two of them.
 
