@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-23T01:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "rule-changing laws (deconstructing systems)",
+  "notes": [
+    "The owner wants the world to amend constitutions on its own, rarely and from real causes. The engine can already amend these rules in any state: chamber size, legislative term length, minimum age, state and district residency, governor term length and governor term limit. Only the governor term limit has a cause wired (governor-term-limit-amendment-causes asks for that one in depth). This record asks the same for every other subject, and for the federal Constitution.",
+    "The answer should name causes the game could observe: a population change, a court ruling, a scandal, a long-serving incumbent, a partisan majority, a reform movement, a neighboring state's change. Where a cause is something the game does not track, say so; that tells the engine what it still needs to record."
+  ],
+  "priority": "P1",
+  "question": "For each subject a state constitution's amendments commonly change (legislature size, legislative term length, legislative term limits, age and residency qualifications, governor term length, governor term limits, other statewide offices, judicial selection), what circumstances have historically led a state to propose a change, how often each subject comes up, and how often such proposals pass? The same for federal amendments that cleared Congress.",
+  "questionId": "constitutional-amendment-causes-by-subject",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "rule-changing laws thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/constitutional-amendment-frequency.json",
+      "whatItDidNotSettle": "It asks overall rates and the list of recurring subjects, not what sets off a proposal on each subject."
+    },
+    {
+      "source": "src/simulation/living-world/constitutional-reform.ts",
+      "whatItDidNotSettle": "It wires a cause only for the governor's term limit, and that cause is itself a placeholder."
+    }
+  ],
+  "title": "What makes a state amend its constitution, subject by subject",
+  "usableAnswer": "A table per subject: the recurring causes (each tagged as observable in a simulation or not), representative examples with state and year, the share of proposals on that subject that passed, and roughly how often each state takes up that subject. Cite a source per row; Ballotpedia and the Book of the States are acceptable starting points.",
+  "whyItMatters": "Without it the observer world either never amends anything but term limits, or amends other rules for invented reasons, which the owner has ruled out."
+}
