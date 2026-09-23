@@ -295,19 +295,31 @@ function vacateSeat(
       summary: `The seat of the ${title} is vacant ${notice.clause}.`,
       context: CONTEXT,
     });
+  return scheduleSeatFilling(next, seat, notice.effectiveDate);
+}
+
+/**
+ * Schedules whatever fills a seat that became vacant on a date, however it
+ * was vacated: a Senate appointment and special election, or a House special
+ * election. The vacancy record itself is the caller's.
+ */
+export function scheduleSeatFilling(
+  world: World,
+  seat: CongressSeat,
+  vacancyDate: IsoDate,
+): { world: World; ruling: OfficeContinuityRuling } {
+  const title = congressSeatTitle(seat);
+  const chamberId = livingWorldOrganizationId(
+    world,
+    LIVING_WORLD_KEYS.chamber(seat.chamberKey),
+  );
+  const stateId = stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id;
+  let next = world;
   if (seat.chamberKey === "us-senate")
-    return openSenateVacancy(
-      next,
-      seat,
-      notice.effectiveDate,
-      chamberId,
-      stateId,
-    );
-  const window = seatTermWindow(seat, notice.effectiveDate);
+    return openSenateVacancy(next, seat, vacancyDate, chamberId, stateId);
+  const window = seatTermWindow(seat, vacancyDate);
   const electionDay = addDays(
-    next.currentDate > notice.effectiveDate
-      ? next.currentDate
-      : notice.effectiveDate,
+    next.currentDate > vacancyDate ? next.currentDate : vacancyDate,
     HOUSE_SPECIAL_ELECTION_PROFILE.daysFromVacancyToElection,
   );
   const regular = congressionalElectionDay(
@@ -323,7 +335,7 @@ function vacateSeat(
         sentence: `The seat is vacant until the regular election on ${regular} fills it for the next term.`,
       },
     };
-  const dueKey = specialElectionKey(seat, notice.effectiveDate);
+  const dueKey = specialElectionKey(seat, vacancyDate);
   if (!next.history.futureDueItems.some((due) => due.stableKey === dueKey))
     next = scheduleFutureDueItem(next, {
       stableKey: dueKey,
