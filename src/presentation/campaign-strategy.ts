@@ -1,4 +1,5 @@
 import { displayMoney } from "./money-display";
+import { proseDate } from "./prose-dates";
 import {
   activeCampaignForCandidate,
   campaignActionResult,
@@ -206,7 +207,7 @@ export function projectCampaignStrategy(
       ? "The campaign has no open work period."
       : `${view.daysLeft} ${view.daysLeft === 1 ? "day remains" : "days remain"} before the recorded election date.`,
     view.reading
-      ? `The latest campaign memo is dated ${view.reading.on}.`
+      ? `The latest campaign memo is dated ${proseDate(view.reading.on)}.`
       : "The campaign has no field memo yet.",
   ];
   return {
