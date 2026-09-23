@@ -28,6 +28,7 @@ import {
   PRESS_OWNER_REVIEW_TRANSITION_KEY,
   pressOwnerReviewHandler,
 } from "./ownership";
+import { applyPendingDisasterHandlingReactions } from "../crisis/handling-reactions";
 import { produceCaughtLyingLeads } from "./caught-lying";
 import { ensurePressExposureCoverage } from "./views";
 import {
@@ -49,7 +50,11 @@ function pressWeeklyHandler(
   const prepared = ensureMediaOwnership(
     ensurePressExposureCoverage(
       ensurePressHomeCoverage(
-        produceCaughtLyingLeads(produceCampaignFinanceScrutiny(world)),
+        produceCaughtLyingLeads(
+          produceCampaignFinanceScrutiny(
+            applyPendingDisasterHandlingReactions(world),
+          ),
+        ),
       ),
     ),
   );

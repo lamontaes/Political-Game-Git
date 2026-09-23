@@ -109,9 +109,11 @@ export function PressDeskPanel({
         )}
       </DeskGroup>
 
-      <DeskGroup id="matters" title="Matters about you">
+      <DeskGroup id="matters" title="Complaints and questions about you">
         {desk.matters.length === 0 ? (
-          <p className="game-note">No matter about you is known to you.</p>
+          <p className="game-note">
+            Nobody has raised anything about you that you know of.
+          </p>
         ) : (
           <ul className="pg-press-desk-list">
             {desk.matters.map((matter) => (
