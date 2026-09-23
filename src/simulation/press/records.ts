@@ -77,6 +77,8 @@ export const LEAD_ROUTES = [
   "press-release",
   "editor-assignment",
   "player-contact",
+  /** A sibling outlet of the same owner ran the story, credited to it. */
+  "owner-shared",
 ] as const;
 export type LeadRoute = (typeof LEAD_ROUTES)[number];
 

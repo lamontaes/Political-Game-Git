@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   GAME_ADULT_CANDIDACY_AGE,
+  advanceWorld,
   ageOnDate,
+  createCampaignElectionTransitionRegistry,
   createScenarioWorld,
   deserializeWorld,
   serializeWorld,
@@ -11,10 +13,17 @@ import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
 import type { EntityId, World } from "../types";
 import { resourcePositionAt } from "../resource-queries";
 import { createResourcePosition, makeCurrencyCode, money } from "../resources";
-import { assertWorldIntegrity } from "../world";
+import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import {
   DEFAULT_MEDIA_OWNERSHIP_PACK,
+  MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
   PRESS_OWNER_REVIEW_TRANSITION_KEY,
+  assignStory,
+  latestDisposition,
+  outletAssignmentCapacity,
+  recordStoryLead,
+  sharingSiblings,
+  storyLeads,
   currentOutletOwnership,
   describeOwnershipLoad,
   ensureMediaOwnership,
@@ -117,11 +126,7 @@ describe("media ownership packs", () => {
     expect(registry.owners.length).toBeGreaterThanOrEqual(4);
     expect(
       registry.report.notYetSimulated.map((entry) => entry.effect).sort(),
-    ).toEqual([
-      "consolidate-newsrooms",
-      "coordinate-editorial-line",
-      "share-content-across-outlets",
-    ]);
+    ).toEqual(["consolidate-newsrooms", "coordinate-editorial-line"]);
     expect(describeOwnershipLoad(registry.report)).toContain(
       "is not simulated yet",
     );
@@ -336,6 +341,24 @@ describe("media owners", () => {
         ),
       ).toBe(true);
     }
+    // Each outlet now works fewer stories at once, in step with the reporters
+    // it kept, and none drops to nothing while somebody is left.
+    for (const outlet of held) {
+      const roles = reporterRoles(after, outlet.id);
+      const kept = roles.filter((role) => reporterIsCurrent(after, role));
+      const full = MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier];
+      expect(outletAssignmentCapacity(after, outlet)).toBe(
+        Math.min(full, Math.ceil((full * kept.length) / roles.length)),
+      );
+      expect(outletAssignmentCapacity(owned, outlet)).toBe(full);
+    }
+    expect(
+      held.some(
+        (outlet) =>
+          outletAssignmentCapacity(after, outlet) <
+          MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier],
+      ),
+    ).toBe(true);
     // The owner reviews again on its own cadence.
     expect(
       after.history.futureDueItems.some((item) =>
@@ -408,7 +431,7 @@ describe("media owners", () => {
 
   it("records a practice the engine cannot carry out yet, and changes nothing else", () => {
     const registry = loadOwnershipPacks([
-      chainPack("share-content-across-outlets"),
+      chainPack("coordinate-editorial-line"),
     ]);
     const { world } = withOutlets("ownership-blanket");
     const owned = ensureMediaOwnership(world, registry);
@@ -418,7 +441,7 @@ describe("media owners", () => {
     const [directive] = ownerDirectives(after);
     expect(directive).toMatchObject({
       simulated: false,
-      effect: "share-content-across-outlets",
+      effect: "coordinate-editorial-line",
       endedWorkRelationshipIds: [],
       ownershipId: null,
     });
@@ -430,6 +453,97 @@ describe("media owners", () => {
       reporterRoles(owned).filter((role) => reporterIsCurrent(owned, role))
         .length,
     );
+  });
+
+  it("runs a story in the owner's other outlets, credited, only where it is relevant", () => {
+    const registry = loadOwnershipPacks([
+      chainPack("share-content-across-outlets"),
+    ]);
+    const { world } = withOutlets("ownership-sharing");
+    const owned = ensureMediaOwnership(world, registry);
+    const ordered = review(owned, "Test Chain Capital", registry).world;
+    assertWorldIntegrity(ordered);
+    expect(ownerDirectives(ordered)[0]).toMatchObject({
+      simulated: true,
+      effect: "share-content-across-outlets",
+    });
+    const origin = mediaOutlets(ordered).find(
+      (outlet) => outlet.product === "general-newspaper",
+    )!;
+    expect(sharingSiblings(ordered, origin.id).length).toBe(
+      mediaOutlets(ordered).length - 1,
+    );
+    // A statement with no place: every national outlet's audience, and no
+    // state newsroom's.
+    const said = recordWorldEvent(ordered, {
+      stableKey: "ownership-test:statement",
+      type: "civic.public-statement",
+      occurredAt: ordered.currentDate,
+      recordedAt: ordered.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [ordered.personOrder[0]!],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [],
+      summary: "A national commission issued its annual report.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const basis = said.history.events.at(-1)!;
+    const lead = recordStoryLead(said, {
+      stableKey: "ownership-test:lead",
+      outletId: origin.id,
+      family: "scheduled-beat",
+      route: "public-record",
+      basisEventIds: [basis.id],
+      subjectPersonIds: [],
+      jurisdictionId: null,
+      matterId: null,
+      followsPublicationId: null,
+    });
+    let after = assignStory(lead.world, lead.lead.id);
+    const handlers = createCampaignElectionTransitionRegistry();
+    for (let day = 0; day < 3; day += 1) {
+      after = advanceWorld(after, 1, handlers);
+    }
+    assertWorldIntegrity(after);
+    expect(latestDisposition(after, lead.lead.id)!.decision).toBe("published");
+    const original = (after.history.publications ?? []).find(
+      (publication) => publication.outletKey === `media:${origin.id}`,
+    )!;
+    const shared = storyLeads(after).filter(
+      (other) => other.route === "owner-shared",
+    );
+    const national = mediaOutlets(after).filter(
+      (outlet) => outlet.scope === "national" && outlet.id !== origin.id,
+    );
+    expect(shared.map((other) => other.outletId).sort()).toEqual(
+      national.map((outlet) => outlet.id).sort(),
+    );
+    for (const copy of shared) {
+      expect(latestDisposition(after, copy.id)).toMatchObject({
+        decision: "published",
+        reasonKey: "press:shared-by-owner",
+        reporterPersonId: null,
+      });
+      const publication = (after.history.publications ?? []).find(
+        (candidate) =>
+          candidate.id === latestDisposition(after, copy.id)!.publicationId,
+      )!;
+      expect(publication.outletKey).toBe(`media:${copy.outletId}`);
+      expect(publication.headline).toBe(original.headline);
+      expect(publication.body).toContain(original.body);
+      expect(publication.body).toContain(`for ${origin.name}.`);
+    }
+    // Before the order, the same outlet shares with nobody.
+    expect(sharingSiblings(owned, origin.id)).toEqual([]);
   });
 
   it("stops reviewing, and says so, when the owner's pack is no longer loaded", () => {

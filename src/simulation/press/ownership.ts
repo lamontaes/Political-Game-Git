@@ -49,7 +49,9 @@ import {
  * Every outlet gets a founding owner drawn from the loaded ownership packs.
  * Each owner reviews its holdings on its own cadence and, at each review, may
  * take any of its practices: cut newsroom jobs across all its outlets, buy an
- * independent outlet, or a practice whose effect is not simulated yet, which
+ * independent outlet, order its outlets to run one another's stories (the
+ * news desk carries that out; see `sharingSiblings`), or a practice whose
+ * effect is not simulated yet, which
  * the blanket rule records against every outlet it holds without changing
  * anything else.
  *
@@ -121,6 +123,34 @@ export function outletOwner(
   return holding
     ? (mediaOwners(world).find((owner) => owner.id === holding.ownerId) ?? null)
     : null;
+}
+
+/**
+ * The other outlets that run this outlet's stories: those its current owner
+ * holds, once that owner has ordered its outlets to share. The order stands
+ * while the owner holds them; a new owner starts with no order of its own.
+ *
+ * NOT MODELED YET: editors and staff resisting the order (the owner decided
+ * they can, with consequences; how is unresearched), and which sibling picks
+ * a story up beyond whether it is relevant to that sibling's own audience.
+ * ChatGPT found no reuse rule, lag or share of output, so every relevant
+ * sibling runs every story the same day.
+ */
+export function sharingSiblings(
+  world: World,
+  outletId: EntityId,
+): readonly MediaOutletRecord[] {
+  const owner = outletOwner(world, outletId);
+  if (!owner) return [];
+  const ordered = ownerDirectives(world, owner.id).some(
+    (directive) =>
+      directive.effect === "share-content-across-outlets" &&
+      directive.decidedAt <= world.currentDate,
+  );
+  if (!ordered) return [];
+  return outletsHeldBy(world, owner.id).filter(
+    (outlet) => outlet.id !== outletId,
+  );
 }
 
 /** Every outlet the owner holds today. */
@@ -354,6 +384,9 @@ function carryOutPractice(
       return reduceNewsroomStaff(world, owner, practice, stableKey, held, rng);
     case "acquire-outlet":
       return acquireOutlet(world, owner, practice, stableKey, rng, registry);
+    case "share-content-across-outlets":
+      if (held.length === 0) return { world, eventId: null };
+      return recordDirective(world, owner, practice, stableKey, held, true);
   }
 }
 
@@ -409,6 +442,22 @@ function recordBlanketDirective(
   stableKey: string,
   held: readonly MediaOutletRecord[],
 ): { readonly world: World; readonly eventId: EntityId } {
+  return recordDirective(world, owner, practice, stableKey, held, false);
+}
+
+/**
+ * A standing order recorded against every outlet the owner holds. When
+ * `simulated`, something else reads it: a sharing order is read by the news
+ * desk each time one of the owner's outlets publishes (`sharingSiblings`).
+ */
+function recordDirective(
+  world: World,
+  owner: MediaOwnerRecord,
+  practice: OwnershipPracticeRow,
+  stableKey: string,
+  held: readonly MediaOutletRecord[],
+  simulated: boolean,
+): { readonly world: World; readonly eventId: EntityId } {
   const event = ownerEvent(world, {
     stableKey: `${stableKey}:event`,
     type: "press.owner.directive",
@@ -423,7 +472,7 @@ function recordBlanketDirective(
     ownerId: owner.id,
     practiceKey: practice.key,
     effect: practice.effect,
-    simulated: false,
+    simulated,
     outletIds: held.map((outlet) => outlet.id),
     decidedAt: world.currentDate,
     eventId: event.eventId,
