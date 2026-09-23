@@ -45,7 +45,7 @@ test("a member-elect sees the transition and attends an open service", async ({
   await expect(panel).toBeVisible();
   await expect(page.getByTestId("no-office")).toHaveCount(0);
   await expect(panel).toContainText(
-    "Member-elect of the House of Representatives",
+    "Member-elect of the Kentucky House of Representatives",
   );
   await expect(panel).toContainText("The term begins January 1, 2027");
   await expect(panel).toContainText("the office and its powers are not yours");

@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   applyCharacterHistoryPlan,
   generateQuickCharacterHistory,
@@ -539,7 +540,7 @@ export function continueAsRelative(
         entry.personId === input.successorId && entry.eventId === eventId,
     );
     if (already) continue;
-    const event = next.history.events.find((entry) => entry.id === eventId)!;
+    const event = eventById(next, eventId)!;
     if (reason === "retirement" && eventId === end.eventId) continue;
     next = recordEventKnowledge(next, {
       stableKey: `${PEOPLE_CONTINUATION_VERSION}:told:${input.successorId}:${eventId}`,

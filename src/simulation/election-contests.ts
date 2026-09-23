@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
   cancelFutureDueItem,
@@ -728,9 +729,7 @@ export function assertElectionContestIntegrity(
       );
     }
 
-    const outcomeEvent = world.history.events.find(
-      (event) => event.id === result.outcomeEventId,
-    );
+    const outcomeEvent = eventById(world, result.outcomeEventId);
     if (!outcomeEvent) {
       throw new Error(
         `Election contest result references missing outcome event: ${result.outcomeEventId}`,
@@ -876,7 +875,7 @@ function canonicalEntityAvailable(
   ) {
     return true;
   }
-  const event = world.history.events.find((record) => record.id === id);
+  const event = eventById(world, id);
   if (event) {
     return event.occurredAt <= asOfDate && event.sequence < sequenceExclusive;
   }
@@ -965,7 +964,8 @@ function resultSummary(
   winnerPersonId: EntityId,
   tallies: readonly CandidateTally[],
 ): string {
-  const race = `the race for ${officeTitle}${placeName ? ` in ${placeName}` : ""}`;
+  // "Governor of Kentucky" already names its place; say it once.
+  const race = `the race for ${officeTitle}${placeName && !officeTitle.includes(placeName) ? ` in ${placeName}` : ""}`;
   const own = tallies.find(
     (tally) => tally.candidatePersonId === winnerPersonId,
   );

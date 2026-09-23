@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import {
   claimStanceTag,
   recordPlayerClaim,
@@ -386,7 +387,7 @@ export function discloseToReporter(
     });
   }
   for (const eventId of input.disclosedEventIds) {
-    const disclosed = next.history.events.find((item) => item.id === eventId)!;
+    const disclosed = eventById(next, eventId)!;
     next = recordEventKnowledge(next, {
       stableKey: `${input.stableKey}:told:${eventId}`,
       personId: agreement.reporterPersonId,

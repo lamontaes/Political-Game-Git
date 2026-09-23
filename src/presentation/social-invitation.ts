@@ -194,13 +194,37 @@ function confirmInvitation(
     access,
   });
   const occasion = next.history.scheduledActivities.at(-1)!;
-  const leaveAt = addSimulationMinutes(
-    invitation.start,
-    -SOCIAL_OCCASION_JOURNEY_MINUTES,
+  return bookSocialOccasionTrip(
+    next,
+    personId,
+    occasion.id,
+    `social-invitation:accept:${hold.id}:journey`,
   );
-  return createScheduledActivity(next, {
-    stableKey: `social-invitation:accept:${hold.id}:journey`,
-    title: `Trip to ${hold.location.label}`,
+}
+
+/**
+ * The short trip to an afternoon the player said yes to, ending as it begins.
+ * Saying yes books it; this also books it again for a kept afternoon whose
+ * trip is missing, so Attend is never refused for want of a way there.
+ * Returns the world unchanged once the afternoon has begun.
+ */
+export function bookSocialOccasionTrip(
+  world: World,
+  personId: EntityId,
+  occasionId: EntityId,
+  stableKey: string,
+): World {
+  const occasion = world.history.scheduledActivities.find(
+    (entry) => entry.id === occasionId,
+  );
+  if (!occasion) return world;
+  const start = scheduledActivityState(world, occasionId).start;
+  if (compareSimulationMoments(start, world.currentMoment) <= 0) return world;
+  const leaveAt = addSimulationMinutes(start, -SOCIAL_OCCASION_JOURNEY_MINUTES);
+  const label = occasion.location.label;
+  return createScheduledActivity(world, {
+    stableKey,
+    title: `Trip to ${label}`,
     summary:
       "A short local trip. Travel cost is not represented; no fare is charged.",
     kind: "travel",
@@ -208,17 +232,17 @@ function confirmInvitation(
       compareSimulationMoments(leaveAt, world.currentMoment) < 0
         ? world.currentMoment
         : leaveAt,
-    end: invitation.start,
+    end: start,
     participantPersonIds: [personId],
     responsiblePersonId: personId,
     location: {
       locationKey: SOCIAL_OCCASION_JOURNEY_KEY,
-      label: `On the way to ${hold.location.label}`,
-      jurisdictionId: hold.location.jurisdictionId,
+      label: `On the way to ${label}`,
+      jurisdictionId: occasion.location.jurisdictionId,
     },
     sourceEntityIds: [occasion.id],
     flexibility: { kind: "fixed" },
-    access,
+    access: { kind: "private", personIds: [personId] },
   });
 }
 

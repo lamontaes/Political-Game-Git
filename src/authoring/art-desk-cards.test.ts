@@ -480,7 +480,7 @@ describe("Art Desk viewed version", () => {
         parent: "cand-street",
         family: street,
         at: "2026-09-17T10:00:00.000Z",
-        note: "TITLE: Main street B - curb repair. CHANGES: kerb.",
+        note: "TITLE: Main street B - curb repair. CHANGES: curb.",
       }),
     ]);
     const card = artDeskCards(view)[0]!;

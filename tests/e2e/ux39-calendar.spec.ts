@@ -59,8 +59,17 @@ test("UX39 ordinary calendar: month/week, pointer/keyboard, date order and uncha
   await expect(today).toHaveAttribute("aria-pressed", "true");
   await today.focus();
   await page.keyboard.press("ArrowRight");
-  const next = page.locator(".ux39-calendar-date:focus");
-  expect(await next.getAttribute("data-calendar-date")).not.toBe(isoDate);
+  /*
+   * The grid moves focus on the next animation frame, so reading whichever
+   * cell has focus straight after the key press sometimes found today still
+   * focused. Wait for the day after today to receive focus instead.
+   */
+  const tomorrow = new Date(`${isoDate}T00:00:00Z`);
+  tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+  const next = page.locator(
+    `.ux39-calendar-date[data-calendar-date="${tomorrow.toISOString().slice(0, 10)}"]`,
+  );
+  await expect(next).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(next).toHaveAttribute("aria-pressed", "true");
   await page.getByTestId("calendar-layout-week").press("Enter");
