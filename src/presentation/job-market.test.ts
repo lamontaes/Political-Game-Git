@@ -250,9 +250,17 @@ describe("jobs in a town", () => {
     let world = start.world;
     const home = world.people[start.personId]!.homeJurisdictionId;
     // Puerto Rico has no Census government listing, so no public body is
-    // named; a town business is the employer here.
+    // named; town businesses are the only employers here.
+    const localBusinessIds = new Set(
+      world.history.organizations
+        .filter((org) => org.stableKey.startsWith("local-business:"))
+        .map((org) => org.id),
+    );
     expect(
-      openJobListings(untilListed(world, start.personId, 2), start.personId),
+      openJobListings(
+        untilListed(world, start.personId, 2),
+        start.personId,
+      ).filter((opening) => !localBusinessIds.has(opening.organizationId)),
     ).toEqual([]);
     const relative = kinshipRelationshipsAt(world, start.personId)
       .flatMap((kin) => kin.personIds)
@@ -262,12 +270,21 @@ describe("jobs in a town", () => {
           ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 30,
       )!;
     world = seatShop(world, home, relative, "Colmado La Esquina");
-    world = untilListed(world, start.personId);
-    const opening = openJobListings(world, start.personId)[0]!;
+    const colmado = world.history.organizations.at(-1)!.id;
+    const colmadoListed = (w: World) =>
+      openJobListings(w, start.personId).some(
+        (entry) => entry.organizationId === colmado,
+      );
+    world = passUntil(world, colmadoListed, 120);
+    const opening = openJobListings(world, start.personId).find(
+      (entry) => entry.organizationId === colmado,
+    )!;
     expect(introducersFor(world, start.personId, opening.id)).toEqual([
       relative,
     ]);
-    const listing = projectJobMarket(world, start.personId).listings[0]!;
+    const listing = projectJobMarket(world, start.personId).listings.find(
+      (entry) => entry.openingId === opening.id,
+    )!;
     expect(listing.employerLine).toMatch(/^Colmado La Esquina/);
     expect(listing.introducers[0]!.label).toMatch(/^Ask .+ to put in a word$/);
 
