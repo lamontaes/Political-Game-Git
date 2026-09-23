@@ -6,7 +6,11 @@ import {
   CHILDHOOD_GENERATION_V2,
   type ChildhoodGenerationVersion,
 } from "../simulation/character-history";
+import { COUPLE_KIND } from "../simulation/couples";
+import { recordPartnershipState } from "../simulation/life";
+import { partnershipStateHistory } from "../simulation/life-queries";
 import { residentNameForJurisdiction } from "../simulation/life-places";
+import { defaultPronounsForGender } from "../simulation/person-identity";
 import {
   SCHOOL_STAGES_V1,
   scheduleSchoolStageEnd,
@@ -154,6 +158,8 @@ export interface ProductionWorldInput {
   readonly schoolStageVersion?: SchoolStageVersion;
   /** Absent keeps an old replay's family, every one born on the player's birthday. */
   readonly familyBirthdayVersion?: FamilyBirthdayVersion;
+  /** Absent keeps an old replay's parents unlinked to each other. */
+  readonly parentPartnerVersion?: ParentPartnerVersion;
 }
 
 /**
@@ -166,6 +172,26 @@ export interface ProductionWorldInput {
  */
 export const FAMILY_BIRTHDAYS_V1 = "family-birthdays-v1" as const;
 export type FamilyBirthdayVersion = typeof FAMILY_BIRTHDAYS_V1;
+
+/**
+ * A child's two parents used to have nothing between them on the record, and
+ * each was drawn a man or a woman on their own, so half of all pairs came out
+ * two men or two women. Under this version:
+ *
+ * 1. Two parents raising the child together are a couple.
+ * 2. A parent who died before the life began was the living parent's partner
+ *    until then.
+ * 3. A parent who lives elsewhere is claimed to be nothing to the other: the
+ *    record does not know whether they ever were.
+ * 4. The second parent is drawn opposite the first, save a small share of
+ *    same-sex couples. Somebody drawn nonbinary keeps that draw.
+ *
+ * PLACEHOLDER, NOT RESEARCHED: the same-sex share, and that a parent who died
+ * had been the other's partner. Filed as `who-a-childs-parents-were-to-each-other`.
+ */
+export const PARENT_PARTNERS_V1 = "parent-partners-v1" as const;
+export type ParentPartnerVersion = typeof PARENT_PARTNERS_V1;
+const SAME_SEX_PARENT_SHARE = 0.01;
 
 export interface ProductionWorld {
   readonly world: World;
@@ -268,6 +294,7 @@ export function buildProductionWorld(
     input.schoolNameVersion,
     input.schoolStageVersion,
     input.familyBirthdayVersion,
+    input.parentPartnerVersion,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -369,6 +396,7 @@ function establishAgeEligibleState(
   schoolNameVersion?: SchoolNameVersion,
   schoolStageVersion?: SchoolStageVersion,
   familyBirthdayVersion?: FamilyBirthdayVersion,
+  parentPartnerVersion?: ParentPartnerVersion,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -576,6 +604,40 @@ function establishAgeEligibleState(
   // as it has always been; a calibration that leaned toward keeping the ground
   // firm moves both ends later and one that leaned toward disruption moves them
   // earlier. The generator still draws. See `setup-generation-inputs.ts`.
+  const partnered =
+    parentPartnerVersion === PARENT_PARTNERS_V1 && familyShape !== "guardian";
+  /**
+   * A parent other than the guardian: drawn on their own key as before, then
+   * under the partner version set opposite the guardian, save the same-sex
+   * share. A nonbinary draw on either side is kept.
+   */
+  const parentIdentity = (key: string): PersonIdentity => {
+    const drawn = generatedIdentityFor(world.seed, key);
+    const first = generatedIdentityFor(world.seed, guardianKey).gender;
+    if (!partnered || drawn.gender === "nonbinary" || first === "nonbinary")
+      return drawn;
+    const sameSex =
+      new SeededRng(world.seed).fork(`${key}:same-sex`).next() <
+      SAME_SEX_PARENT_SHARE;
+    const gender = sameSex ? first : first === "female" ? "male" : "female";
+    return { gender, pronouns: defaultPronounsForGender(gender) };
+  };
+  /**
+   * The two parents as a couple. The record cannot say when they got
+   * together; the earliest date it can vouch for is the child's birth.
+   */
+  const parentsPartnership = (
+    otherId: EntityId,
+  ): CharacterHistoryTransition => ({
+    kind: "partnership",
+    input: {
+      stableKey: `${stableKey}:partnership:parents`,
+      personIds: [guardianId, otherId],
+      startedAt: player.birthDate,
+      kind: COUPLE_KIND,
+      provenance: PROVENANCE,
+    },
+  });
   const [guardianAgeFloor, guardianAgeCeiling] = guardianAgeBand(generation);
   const guardianBirthDate = bornBefore(
     guardianKey,
@@ -753,9 +815,10 @@ function establishAgeEligibleState(
     const otherKey = `${stableKey}:second-parent`;
     const otherId = characterHistoryContextPersonId(world, otherKey);
     const otherRng = new SeededRng(world.seed).fork(otherKey);
+    const secondParentIdentity = parentIdentity(otherKey);
     const secondParentName = drawCanonicalNameForGender(
       otherRng,
-      generatedIdentityFor(world.seed, otherKey).gender,
+      secondParentIdentity.gender,
       undefined,
       givenNameGenerationVersion,
       spokenFor,
@@ -767,7 +830,7 @@ function establishAgeEligibleState(
         input: {
           stableKey: otherKey,
           ...secondParentName,
-          identity: generatedIdentityFor(world.seed, otherKey),
+          identity: secondParentIdentity,
           birthDate: bornBefore(otherKey, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
         },
@@ -808,6 +871,7 @@ function establishAgeEligibleState(
         },
       },
     );
+    if (partnered) transitions.push(parentsPartnership(otherId));
   }
 
   // Fictional starting circumstances are independent of identity and setup priors.
@@ -822,9 +886,10 @@ function establishAgeEligibleState(
   const otherParentId = characterHistoryContextPersonId(world, otherParentKey);
   if (otherParentState !== "unrecorded") {
     const otherRng = new SeededRng(world.seed).fork(otherParentKey);
+    const otherParentIdentity = parentIdentity(otherParentKey);
     const otherParentName = drawCanonicalNameForGender(
       otherRng,
-      generatedIdentityFor(world.seed, otherParentKey).gender,
+      otherParentIdentity.gender,
       undefined,
       givenNameGenerationVersion,
       spokenFor,
@@ -836,7 +901,7 @@ function establishAgeEligibleState(
         input: {
           stableKey: otherParentKey,
           ...otherParentName,
-          identity: generatedIdentityFor(world.seed, otherParentKey),
+          identity: otherParentIdentity,
           birthDate: bornBefore(otherParentKey, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
         },
@@ -852,6 +917,8 @@ function establishAgeEligibleState(
         },
       },
     );
+    if (partnered && otherParentState === "deceased")
+      transitions.push(parentsPartnership(otherParentId));
   }
 
   // `context-v2` declines to assume a school in an ADULT's summarized past,
@@ -995,11 +1062,32 @@ function establishAgeEligibleState(
         jurisdictionId,
       })
     : planned;
+  const diedAt = addDays(world.currentDate, -1);
+  const partnership =
+    partnered && otherParentState === "deceased"
+      ? householdWorld.history.partnerships.find(
+          (row) => row.stableKey === `${stableKey}:partnership:parents`,
+        )
+      : undefined;
+  // The couple ended with the death, not before it.
+  const widowed = partnership
+    ? recordPartnershipState(householdWorld, {
+        stableKey: `${stableKey}:partnership:parents:ended`,
+        partnershipId: partnership.id,
+        effectiveAt: diedAt,
+        status: "ended",
+        provenance: PROVENANCE,
+        supersedesStateId: partnershipStateHistory(
+          householdWorld,
+          partnership.id,
+        ).at(-1)!.id,
+      })
+    : householdWorld;
   return otherParentState === "deceased"
-    ? recordPersonDeath(householdWorld, {
+    ? recordPersonDeath(widowed, {
         stableKey: `${otherParentKey}:death`,
         personId: otherParentId,
-        diedAt: addDays(world.currentDate, -1),
+        diedAt,
         causeKey: "cause:unknown",
         sourceEntityIds: [otherParentId],
         summary:
@@ -1009,7 +1097,7 @@ function establishAgeEligibleState(
           note: "Fictional starting family history; no empirical mortality rate or inferred cause.",
         },
       })
-    : householdWorld;
+    : widowed;
 }
 
 const OFFICE_HOURS = {
