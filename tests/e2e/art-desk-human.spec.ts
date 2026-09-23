@@ -92,9 +92,7 @@ test("art-team conversation and next step stay above the artwork", async ({
       .first()
       .boundingBox();
     expect(imageBox).not.toBeNull();
-    expect(imageBox!.y + imageBox!.height).toBeLessThanOrEqual(
-      viewport.height,
-    );
+    expect(imageBox!.y + imageBox!.height).toBeLessThanOrEqual(viewport.height);
     expect(discussionBox!.y).toBeLessThan(viewport.height);
     expect(discussionBox!.y + discussionBox!.height).toBeLessThanOrEqual(
       viewport.height,
@@ -568,12 +566,15 @@ test("notifications show team replies, retain unread on failure and reopen the e
     expect(response.status()).toBe(201);
     return (await response.json()).events[0];
   };
-  const question = await post({ kind: "owner", id: session.ownerId }, {
-    requestId,
-    candidateId: candidate,
-    kind: "question",
-    text: "Can I use this version?",
-  });
+  const question = await post(
+    { kind: "owner", id: session.ownerId },
+    {
+      requestId,
+      candidateId: candidate,
+      kind: "question",
+      text: "Can I use this version?",
+    },
+  );
   const reply = await post(
     { kind: "agent", id: "art-team" },
     {
@@ -644,7 +645,9 @@ test("notifications show team replies, retain unread on failure and reopen the e
   await expect(
     page.getByTestId(`art-desk-notification-${reply.eventId}`),
   ).toHaveAttribute("data-unread", "false");
-  const unreadBefore = Number((await tab.textContent())?.match(/\d+/)?.[0] ?? 0);
+  const unreadBefore = Number(
+    (await tab.textContent())?.match(/\d+/)?.[0] ?? 0,
+  );
   const incoming = await post(
     { kind: "agent", id: "art-team" },
     {
@@ -661,9 +664,9 @@ test("notifications show team replies, retain unread on failure and reopen the e
   await expect(incomingItem).toHaveAttribute("data-unread", "true", {
     timeout: 22_000,
   });
-  await expect.poll(async () =>
-    Number((await tab.textContent())?.match(/\d+/)?.[0] ?? 0),
-  ).toBe(unreadBefore + 1);
+  await expect
+    .poll(async () => Number((await tab.textContent())?.match(/\d+/)?.[0] ?? 0))
+    .toBe(unreadBefore + 1);
   await page.getByRole("button", { name: "Mark all read" }).click();
   await expect(incomingItem).toHaveAttribute("data-unread", "false");
   await page.screenshot({ path: info.outputPath("notifications-read.png") });
