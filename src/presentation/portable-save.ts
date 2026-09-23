@@ -1,7 +1,9 @@
 import { deserializeWorld } from "../simulation/serialization";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
+import { migrateLegacyLegislativeSeats } from "../simulation/legislative-office-terms";
 import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
 import { catchUpLegacySchoolStages } from "../simulation/school-stages";
+import { catchUpComingOfAge } from "../simulation/coming-of-age";
 import type { EntityId } from "../simulation/types";
 import {
   EMPTY_SHELL_STATE,
@@ -364,9 +366,13 @@ export async function importPortableSave(
   });
   if (checked.status === "error") return checked;
   bundle = checked.bundle;
-  const world = catchUpTerritoryGovernor(
-    catchUpLegacySchoolStages(
-      migrateLegacyStudyProgression(deserializeWorld(bundle.world.payload)),
+  const world = catchUpComingOfAge(
+    migrateLegacyLegislativeSeats(
+      catchUpTerritoryGovernor(
+        catchUpLegacySchoolStages(
+          migrateLegacyStudyProgression(deserializeWorld(bundle.world.payload)),
+        ),
+      ),
     ),
   );
   const saveId = store.newSaveId(world);
