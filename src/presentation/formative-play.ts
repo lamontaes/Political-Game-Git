@@ -252,6 +252,8 @@ const SCHOOL_SCENE_PROSE: Partial<
     `Lunch at ${school}. The table is full except for one gap, and someone is standing at the end of it holding a tray.`,
   "formative.teacher-mentor": (school) =>
     `A teacher at ${school} keeps you back for a minute after the others go, and offers to help with the thing you keep getting wrong.`,
+  "formative.future-preparation": (school) =>
+    `The school year at ${school} is running out, and people keep asking what comes after it.`,
   "formative.school-rule-input": (school) =>
     `${school} is changing a rule, and for once it is asking the people the rule is about.`,
 };

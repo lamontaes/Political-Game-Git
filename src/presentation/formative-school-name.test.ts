@@ -18,6 +18,7 @@ const SCHOOL_SCENES = new Set([
   "formative.lunch-table",
   "formative.teacher-mentor",
   "formative.school-rule-input",
+  "formative.future-preparation",
 ]);
 
 function bend() {
@@ -74,6 +75,10 @@ describe("a school scene is told at the school the child attends", () => {
       const seen = schoolScenesPlayed(seed);
       const named = seen.filter((entry) => entry.school !== null);
       expect(named.length).toBeGreaterThan(0);
+      // The teenage years have one: the Ketchikan report was about 15 to 17.
+      expect(
+        named.some((entry) => entry.key === "formative.future-preparation"),
+      ).toBe(true);
       for (const entry of named) {
         expect(entry.school).not.toMatch(/public school/i);
         expect(entry.prose).toContain(entry.school!);
