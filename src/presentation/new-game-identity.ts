@@ -8,6 +8,7 @@ import {
   GENDER_IDENTITY_KEYS,
   PRONOUN_SET_KEYS,
   SETUP_BANK_VERSION,
+  COHORT_GIVEN_NAME_GENERATION_VERSION,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
   CHILDHOOD_GENERATION_V2,
@@ -336,7 +337,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   const livingWorldMemberNameVersion = record.livingWorldMemberNameVersion;
   if (
     livingWorldMemberNameVersion !== undefined &&
-    livingWorldMemberNameVersion !== "identity-v1"
+    livingWorldMemberNameVersion !== "identity-v1" &&
+    livingWorldMemberNameVersion !== "cohort-v1"
   )
     return null;
   const birthMonth = record.birthMonth;
@@ -379,7 +381,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   if (
     givenNameGenerationVersion !== undefined &&
     givenNameGenerationVersion !== LEGACY_GIVEN_NAME_GENERATION_VERSION &&
-    givenNameGenerationVersion !== DISTINCT_GIVEN_NAME_GENERATION_VERSION
+    givenNameGenerationVersion !== DISTINCT_GIVEN_NAME_GENERATION_VERSION &&
+    givenNameGenerationVersion !== COHORT_GIVEN_NAME_GENERATION_VERSION
   ) {
     return null;
   }

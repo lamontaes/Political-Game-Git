@@ -187,3 +187,37 @@ describe("ALIVE43 W3 background developments", () => {
     );
   }, 60_000);
 });
+
+describe("how a town's proposals end with nobody commenting", () => {
+  // Observer runs with nobody played saw 111 of 111 proposals withdrawn:
+  // adoption was not a possible ending at all. Cary, North Carolina.
+  it("some are adopted and some withdrawn, and none is revised without a comment", () => {
+    let world = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "town-proposals-end",
+        placeKey: "3710740",
+        startAge: 34,
+        questionnaire: "skipped" as const,
+      }),
+    ).game!.world;
+    const start = world.history.nextSequence;
+    world = passOrdinaryDays(world, 7 * 80);
+    const endings = world.history.events
+      .filter(
+        (event) =>
+          event.sequence >= start &&
+          event.type.startsWith("civic.local-matter-") &&
+          !event.type.endsWith("-posted") &&
+          !event.type.endsWith("-extended"),
+      )
+      .map((event) => event.type);
+    expect(endings).toContain("civic.local-matter-adopted");
+    expect(endings).toContain("civic.local-matter-withdrawn");
+    expect(endings).not.toContain("civic.local-matter-revised");
+    const adopted = world.history.events.find(
+      (event) => event.type === "civic.local-matter-adopted",
+    )!;
+    expect(adopted.summary).toMatch(/ adopted its proposal about /);
+  }, 600_000);
+});
