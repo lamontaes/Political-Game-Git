@@ -1229,14 +1229,12 @@ export interface OpeningLifeLater {
 }
 
 /**
- * PENDING RESEARCH — which-later-answers-an-early-choice-deserves.
- *
- * Deliberately empty. The owner's rule (2026-09-22): depth is not invented.
- * Which earlier choices come back, with whom, after how long and in what
- * words is authored content, filed with ChatGPT as a research question, and
- * nothing is offered to a player until an answer fills this table. The
- * mechanism below is exercised by tests against proposed entries kept out of
- * shipped play (`opening-life-later.fixture.ts`).
+ * Deliberately empty. The owner rejected all eight drafted later scenes on
+ * 2026-09-22 (research question `which-later-answers-an-early-choice-deserves`)
+ * and approves any replacement individually, by exact text. A later scene
+ * returns to an earlier choice only when it changes a relationship, creates a
+ * real opportunity or presents a meaningful new decision. The mechanism below
+ * is exercised by tests against a placeholder entry that is not content.
  */
 export const OPENING_LIFE_LATER: Readonly<
   Record<string, readonly OpeningLifeLater[]>

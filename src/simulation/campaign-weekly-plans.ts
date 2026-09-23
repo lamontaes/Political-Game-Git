@@ -1,3 +1,4 @@
+import { jailTermOn } from "./justice/jail-terms";
 import {
   activeCampaignForCandidate,
   campaignActionById,
@@ -978,6 +979,12 @@ export function commitCampaignWeek(
   }
   if (electionContestStatus(world, campaign.contestId) !== "pending") {
     throw new Error("This contest has already been decided.");
+  }
+  const jailed = jailTermOn(world, personId);
+  if (jailed) {
+    throw new Error(
+      `You are in jail until ${jailed.until} and cannot campaign.`,
+    );
   }
   const context = weekContext(world, campaign);
   if (input.weekStart !== context.weekStart) {
