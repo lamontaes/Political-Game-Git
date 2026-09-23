@@ -21,7 +21,7 @@ import type { CampaignRecord, EntityId, IsoDate, World } from "./types";
  * can be wrong by as much as twelve points; with some experience, nine; with
  * three years or more, six, which is what every memo allowed before. The
  * stated margin stays four points, so an amateur memo is more confident than
- * it has any right to be. Not modelled: paying a professional pollster, sample
+ * it has any right to be. Not modeled: paying a professional pollster, sample
  * size, house effects and a campaign's lean toward good news. Filed with
  * ChatGPT as `campaign-polling-accuracy-by-who-does-it`.
  */
