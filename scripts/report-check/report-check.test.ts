@@ -307,6 +307,16 @@ const WRITTEN_BEFORE_THE_STANDARD = new Set([
   "docs/playtest/where-every-number-comes-from-2026-09-22.md",
   "docs/playtest/world-divergence-2026-09-22.md",
   "docs/reports/2026-09-22-transcripts-audit-and-personality-catalogue.md",
+  // Written on the playtest branch before the standard merged, and landed
+  // after it. Older by authorship, not newer reports exempted.
+  "docs/playtest/a-real-election-date-2026-09-22.md",
+  "docs/playtest/a-real-field-of-candidates-2026-09-22.md",
+  "docs/playtest/four-towns-one-year-2026-09-22.md",
+  "docs/playtest/how-big-is-the-game-2026-09-22.md",
+  "docs/playtest/lives-lived-2026-09-22.md",
+  "docs/playtest/pushing-the-creator-to-its-corners-2026-09-22.md",
+  "docs/playtest/the-check-that-never-runs-2026-09-22.md",
+  "docs/playtest/who-prints-the-news-2026-09-22.md",
 ]);
 
 describe("reports committed to the repository", () => {
