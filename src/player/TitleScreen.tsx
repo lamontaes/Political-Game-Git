@@ -310,8 +310,17 @@ export function resolvedTitleLecternHero(
  * while their save was still being opened. A failed read was reported as a
  * browser that "will not let the game store anything", which was not what had
  * happened either.
+ *
+ * "outdated" is this page being an older copy of the game than the one that
+ * last kept the saves: a tab or a cached page left over from before an update.
+ * Reading again cannot help; reloading the page can.
  */
-export type SaveListingState = "loading" | "read" | "failed";
+export type SaveListingState = "loading" | "read" | "failed" | "outdated";
+
+/** Loads the page again, bringing in the build that kept the saves. */
+export function reloadPage(): void {
+  window.location.reload();
+}
 
 export function TitleScreen({
   saves,
@@ -357,6 +366,7 @@ export function TitleScreen({
   const setAside = damaged?.length ?? 0;
   const reading = saveListing === "loading";
   const unread = saveListing === "failed";
+  const outdated = saveListing === "outdated";
 
   // The room behind this screen is painted by the persistent ambient shell in
   // `PlayerGame`, not here. Mounting a second tableau was what made New Game
@@ -418,17 +428,19 @@ export function TitleScreen({
           <small>
             {reading
               ? "Opening…"
-              : unread && saves.length === 0
-                ? "Could not be read just now"
-                : saves.length > 0
-                  ? setAside > 0
-                    ? `${saves.length} saved \u00b7 ${setAside} needs attention`
-                    : `${saves.length} saved`
-                  : setAside > 0
-                    ? setAside === 1
-                      ? "1 saved game needs attention"
-                      : `${setAside} saved games need attention`
-                    : "None yet \u00b7 import one"}
+              : outdated && saves.length === 0
+                ? "Reload the page to open them"
+                : unread && saves.length === 0
+                  ? "Could not be read just now"
+                  : saves.length > 0
+                    ? setAside > 0
+                      ? `${saves.length} saved \u00b7 ${setAside} needs attention`
+                      : `${saves.length} saved`
+                    : setAside > 0
+                      ? setAside === 1
+                        ? "1 saved game needs attention"
+                        : `${setAside} saved games need attention`
+                      : "None yet \u00b7 import one"}
           </small>
         </button>
         <button
@@ -473,6 +485,15 @@ export function TitleScreen({
               Try again
             </button>
           ) : null}
+        </p>
+      ) : null}
+      {outdated ? (
+        <p className="game-problem" data-testid="saves-outdated">
+          This page is an older copy of the game than the one that kept your
+          saved lives. Reload the page to open them. Nothing was deleted.{" "}
+          <button type="button" onClick={reloadPage}>
+            Reload
+          </button>
         </p>
       ) : null}
       {problem ? <p className="game-problem">{problem}</p> : null}
