@@ -1318,8 +1318,29 @@ function sweepOutlet(
       .filter((lead) => lead.outletId === outlet.id)
       .flatMap((lead) => lead.basisEventIds),
   );
-  const routed = candidates
+  // One matter, one open story: while this outlet is still working a story on
+  // a matter, later developments on it wait for that story to run and then
+  // become its follow-up, instead of a second reporter's question the same
+  // day. A reporter asked the Alaska governor the same question three times
+  // in one day because three records on one case arrived in one sweep.
+  const openMatters = new Set(
+    storyLeads(next)
+      .filter((lead) => lead.outletId === outlet.id && lead.matterId)
+      .filter((lead) => {
+        const decision = latestDisposition(next, lead.id)?.decision;
+        return (
+          decision === "queued" ||
+          (decision !== undefined && ACTIVE_STORY_DECISIONS.includes(decision))
+        );
+      })
+      .map((lead) => lead.matterId!),
+  );
+  const judgedEvents = candidates
     .filter((event) => !covered.has(event.id))
+    .filter((event) => {
+      const matterId = matterIdOf(event);
+      return matterId === null || !openMatters.has(matterId);
+    })
     .filter((event) => outletCovers(next, outlet, event))
     .map((event) => {
       const judged = newsworthiness(next, outlet, event);
@@ -1338,6 +1359,24 @@ function sweepOutlet(
         right.priority - left.priority ||
         left.event.sequence - right.event.sequence,
     );
+  // Developments on one matter in the same sweep become one story with every
+  // record as its basis, led by the most newsworthy of them.
+  const routed: {
+    readonly events: HistoricalEvent[];
+    readonly routine: boolean;
+  }[] = [];
+  const byMatter = new Map<EntityId, (typeof routed)[number]>();
+  for (const item of judgedEvents) {
+    const matterId = matterIdOf(item.event);
+    const group = matterId ? byMatter.get(matterId) : undefined;
+    if (group) {
+      group.events.push(item.event);
+      continue;
+    }
+    const created = { events: [item.event], routine: item.routine };
+    routed.push(created);
+    if (matterId) byMatter.set(matterId, created);
+  }
   const capacity = MEDIA_ACTIVE_ASSIGNMENT_CAPACITY[outlet.resourceTier];
   const free = Math.max(
     0,
@@ -1354,7 +1393,8 @@ function sweepOutlet(
     routineTaken += 1;
     return routineTaken <= PRESS_DESK_INTERVALS.routineItemsPerSweep;
   });
-  for (const { event } of chosen) {
+  for (const { events } of chosen) {
+    const event = events[0]!;
     const matterId = matterIdOf(event);
     const followed = matterId
       ? publishedStoryOnMatter(next, outlet.id, matterId)
@@ -1364,8 +1404,10 @@ function sweepOutlet(
       outletId: outlet.id,
       family: followed ? "follow-up" : familyForEvent(event),
       route: "public-record",
-      basisEventIds: [event.id],
-      subjectPersonIds: subjectsOf(next, event),
+      basisEventIds: events.map((item) => item.id),
+      subjectPersonIds: sortedUnique(
+        events.flatMap((item) => subjectsOf(next, item)),
+      ),
       jurisdictionId: event.jurisdictionId,
       matterId,
       followsPublicationId: followed,
