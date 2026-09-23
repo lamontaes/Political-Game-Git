@@ -1066,7 +1066,18 @@ export function advanceWorld(
   }
 
   assertWorldIntegrity(world);
+  // Every writer inside a day advance skips the whole-world check; the
+  // advanced World is checked once at the end, as a clock press is.
+  return advanceWithWorldIntegrityAtEnd(() =>
+    advanceWorldUnchecked(world, days, transitionHandlers),
+  );
+}
 
+function advanceWorldUnchecked(
+  world: World,
+  days: number,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
   const actionSequence = world.actionSequence;
   const nextDate = addDays(world.currentDate, days);
   const nextMoment = simulationMomentOnLocalDate(world.currentMoment, nextDate);
