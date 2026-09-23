@@ -1165,7 +1165,7 @@ There is a new child in the house. The nights are louder, and the adults are tir
 
 #### Beat 38 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-came-out)
 
-> A year on, and you're 8 now.
+> Most of a year later, and you're 8 now.
 
 Vanessa Hunter has not spoken to you since you said it, and has been telling people a different version. One of them asks you, straight out, what happened to the fire-alarm cover by the stairs in the corridor.
 
