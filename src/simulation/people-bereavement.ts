@@ -91,8 +91,18 @@ export function applyDeathNotices(
   notices: readonly PersonDeathRecipientNotice[],
 ): World {
   let next = world;
+  // One pass over the history instead of one per notice: this runs every time
+  // days pass, over every death in play.
+  const applied = new Set(
+    world.history.events.flatMap((event) =>
+      event.type === BEREAVEMENT_NOTICE_EVENT
+        ? event.tags.filter((tag) => tag.startsWith("bereavement.effect:"))
+        : [],
+    ),
+  );
   for (const notice of notices) {
-    if (bereavementNoticeApplied(next, notice.effectKey)) continue;
+    if (applied.has(`bereavement.effect:${notice.effectKey}`)) continue;
+    applied.add(`bereavement.effect:${notice.effectKey}`);
     if (notice.alreadyKnew) continue;
     const recipient = next.people[notice.recipientPersonId];
     const deceased = next.people[notice.personId];

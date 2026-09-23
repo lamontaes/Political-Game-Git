@@ -235,4 +235,45 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
       ),
     ).toHaveLength(2);
   });
+
+  it("tells the family by itself when days pass, so the grief scene can come", () => {
+    // No hand-built notices: the death alone, then an ordinary day.
+    const passed = letAdultTimePass(dead, 1);
+    const learned = passed.history.events.filter(
+      (event) => event.type === BEREAVEMENT_NOTICE_EVENT,
+    );
+    const told = new Set(learned.flatMap((event) => event.involvedEntityIds));
+    expect(told.has(player)).toBe(true);
+    expect(told.has(other)).toBe(true);
+    expect(
+      sceneBindingsFor(passed, player, "home-evening").some(
+        (entry) => entry.binding.variant === "bereaved",
+      ),
+      "a bereavement scene is offered",
+    ).toBe(true);
+    // Another day tells nobody twice.
+    expect(
+      letAdultTimePass(passed, 1).history.events.filter(
+        (event) => event.type === BEREAVEMENT_NOTICE_EVENT,
+      ),
+    ).toHaveLength(learned.length);
+    assertWorldIntegrity(passed);
+  });
+
+  it("does not announce a death from before the game began", () => {
+    const history = recordPersonDeath(second.world, {
+      stableKey: "fixture:grief-old-death",
+      personId: sibling,
+      diedAt: yearsBefore(second.world.startedAt, 1) as never,
+      causeKey: "cause:people-fixture",
+      sourceEntityIds: [second.world.id],
+      summary: "Died the year before.",
+      provenance: { kind: "authored", note: "PEOPLE bereavement fixture." },
+    });
+    expect(
+      letAdultTimePass(history, 1).history.events.filter(
+        (event) => event.type === BEREAVEMENT_NOTICE_EVENT,
+      ),
+    ).toHaveLength(0);
+  });
 });

@@ -24,7 +24,11 @@ import { commitmentPromisee } from "../simulation/claim-contradictions";
 import { evaluateDecision } from "../simulation/decisions";
 import { lifeRequestDetails } from "../simulation/life-request-details";
 import { LIFE_CALLBACK_EVENT } from "../simulation/life-callbacks";
-import { offerBereavementScene } from "../simulation/people-bereavement";
+import {
+  applyDeathNotices,
+  offerBereavementScene,
+} from "../simulation/people-bereavement";
+import { crisisPersonDeathRecipientNotices } from "../simulation/crisis/notices";
 import {
   contactBases,
   contactProposals,
@@ -106,13 +110,36 @@ const STAFF_MEASURE_WINDOW_DAYS = 60;
 
 type Producer = (world: World, personId: EntityId) => World;
 
+/**
+ * Tells each living relative of every death since the world began, once.
+ *
+ * Deaths written into the history a new game starts with are not news on the
+ * day play begins, so only a death on or after the world's start is told.
+ * Re-running changes nothing: a notice already applied is skipped.
+ */
+function learnOfDeathsInPlay(world: World): World {
+  const inPlay = world.history.personDeaths.filter(
+    (death) => death.diedAt >= world.startedAt,
+  );
+  if (inPlay.length === 0) return world;
+  const firstSequence = Math.min(...inPlay.map((death) => death.sequence));
+  const notices = crisisPersonDeathRecipientNotices(world, {
+    afterSequence: firstSequence - 1,
+  }).filter((notice) => notice.diedAt >= world.startedAt);
+  return notices.length === 0 ? world : applyDeathNotices(world, notices);
+}
+
 export function refreshContextualScenes(
-  world: World,
+  given: World,
   personId: EntityId,
 ): World {
-  if (world.control.kind !== "person" || world.control.personId !== personId) {
-    return world;
+  if (given.control.kind !== "person" || given.control.personId !== personId) {
+    return given;
   }
+  // Before anything is offered: the family of somebody who died in play hears
+  // of it, whatever age the played person is. The bereavement scene below
+  // reads exactly these notices.
+  const world = learnOfDeathsInPlay(given);
   const person = world.people[personId];
   if (!person || ageOnDate(person.birthDate, world.currentDate) < 18) {
     return world;
