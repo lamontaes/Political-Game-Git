@@ -19,6 +19,7 @@ import {
 } from "./legislature-rules";
 import { rulePackById } from "./legislature-rule-packs";
 import { personName } from "./people";
+import { recordPropositionExposure } from "./politics";
 import type {
   PolicyPropositionDefinition,
   CommitteeActionRecord,
@@ -1463,7 +1464,7 @@ export function introduceMeasure(
     ? withMeasure.people[measure.sponsorPersonId]
     : null;
 
-  return appendAction(withMeasure, {
+  const introduced = appendAction(withMeasure, {
     measure,
     kind: "introduced",
     stableKey: `${input.stableKey}:introduced`,
@@ -1485,6 +1486,44 @@ export function introduceMeasure(
         ]
       : [],
   });
+  return exposeSponsorToQuestions(introduced, measure, input.stableKey);
+}
+
+/**
+ * The sponsor of a bill has met the questions it is about.
+ *
+ * A bill carries the propositions it bears on (`propositionIds`), and nothing
+ * read them: the only proposition exposures in any save were the demo's, so
+ * the belief pass had nothing to reflect on. Filing a bill is the one moment
+ * we know for a fact that a particular person encountered those questions, so
+ * the sponsor's exposure is recorded here, on the filing event itself. It
+ * says only that they met the question, never which way they lean.
+ */
+function exposeSponsorToQuestions(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  stableKey: string,
+): World {
+  const sponsorId = measure.sponsorPersonId;
+  const propositionIds = measure.propositionIds ?? [];
+  if (!sponsorId || propositionIds.length === 0) return world;
+  const filing = world.history.events.find(
+    (event) => event.stableKey === `event:${stableKey}:introduced`,
+  );
+  if (!filing) return world;
+  let next = world;
+  for (const propositionId of propositionIds) {
+    const proposition = next.policyCatalog.propositions[propositionId];
+    next = recordPropositionExposure(next, {
+      stableKey: `${stableKey}:sponsor-exposure:${propositionId}`,
+      personId: sponsorId,
+      propositionId,
+      encounteredAt: filing.occurredAt,
+      summary: `Sponsored ${measure.designation}, which bears on the question${proposition ? ` "${proposition.name}"` : ""}.`,
+      provenance: { kind: "direct-experience", eventId: filing.id },
+    });
+  }
+  return next;
 }
 
 export interface ReferMeasureInput {

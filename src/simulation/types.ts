@@ -22,6 +22,7 @@ import type {
 import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
+import type { PressureStore } from "./pressure/contract";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -227,8 +228,15 @@ export interface PolicyDomainDefinition {
  * jurisdiction's own capability record decides that, and this list only says
  * which levels are worth asking.
  */
-export type PolicyGovernmentLevel =
-  "state" | "county" | "municipality" | "school-district";
+export const POLICY_GOVERNMENT_LEVELS = [
+  "federal",
+  "state",
+  "county",
+  "municipality",
+  "school-district",
+] as const;
+
+export type PolicyGovernmentLevel = (typeof POLICY_GOVERNMENT_LEVELS)[number];
 
 export interface PolicyIssueDefinition {
   readonly id: EntityId;
@@ -4111,6 +4119,12 @@ export interface LegislativeVoteDisposition {
   /** Canonical person when the member is simulated; null otherwise. */
   readonly personId: EntityId | null;
   readonly disposition: LegislativeMemberDisposition;
+  /**
+   * The member's own reason, as the key of the consideration that decided
+   * it, where the member decided for themselves. Omitted for an authored
+   * count, which has no reason to give, so older votes read as they did.
+   */
+  readonly reason?: string;
 }
 
 export interface LegislativeVoteTally {
@@ -4784,4 +4798,9 @@ export interface World {
    * written before it existed has no macro history and is never retrofitted.
    */
   readonly macroEconomy?: MacroEconomyStore;
+  /**
+   * The pressure layer (2026-09-22). Optional and additive: a world written
+   * before it existed has no readings and is never retrofitted.
+   */
+  readonly pressure?: PressureStore;
 }

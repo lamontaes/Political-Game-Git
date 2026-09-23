@@ -1,3 +1,4 @@
+import { InterruptionChecklist } from "./InterruptionChecklist";
 import {
   useEffect,
   useRef,
@@ -268,6 +269,9 @@ export function ShellNav({
   readonly passing?: boolean;
 }) {
   const open = state.navigation !== "closed";
+  // The interrupt checklist, opened beside Day and Week so what a skip stops
+  // for is in reach at the moment time is passed.
+  const [stopsOpen, setStopsOpen] = useState(false);
   const [visibleNavigation, setVisibleNavigation] = useState(state.navigation);
   if (open && visibleNavigation !== state.navigation)
     setVisibleNavigation(state.navigation);
@@ -551,6 +555,49 @@ export function ShellNav({
             >
               Week <span aria-hidden="true">»</span>
             </button>
+            <button
+              type="button"
+              className="pg-nav-day pg-nav-stops-toggle"
+              data-testid="shell-stops-toggle"
+              aria-expanded={stopsOpen}
+              aria-controls="pg-nav-stops"
+              onClick={() => setStopsOpen((value) => !value)}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") setStopsOpen(false);
+              }}
+            >
+              Stops
+            </button>
+            {stopsOpen ? (
+              <div
+                id="pg-nav-stops"
+                className="pg-nav-stops"
+                role="dialog"
+                aria-label="What passing time stops for"
+                data-testid="shell-stops"
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") setStopsOpen(false);
+                }}
+              >
+                <p className="pg-nav-stops-title">
+                  What passing time stops for
+                </p>
+                <InterruptionChecklist
+                  interruptions={state.preferences.interruptions}
+                  onChange={(key, value) =>
+                    dispatch({ type: "set-interruption", key, value })
+                  }
+                  testIdPrefix="shell-stop"
+                />
+                <button
+                  type="button"
+                  className="ui-action ui-action--subtle"
+                  onClick={() => setStopsOpen(false)}
+                >
+                  Done
+                </button>
+              </div>
+            ) : null}
             {passTargets && raised ? (
               <small
                 className="pg-nav-days-target"
