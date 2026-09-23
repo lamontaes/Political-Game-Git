@@ -1,8 +1,10 @@
 /**
  * How a local race is counted, and which counting rule a given town uses.
  *
- * Two pure pieces that a local race calls; nothing here decides who runs,
- * how support moves or when an election is held.
+ * Pure pieces that a local race calls; nothing here decides who runs or how
+ * support moves. {@link resolveMunicipalElectionTiming} reads which season
+ * state law puts a town's election in, labeled the same way; the day itself is
+ * `town-election-calendar.ts`'s to set.
  *
  * **Which rule a town uses.** The state general-law packs in
  * `municipal-election-rule-packs.ts` resolve a runoff rule for most states.
@@ -44,6 +46,7 @@ import {
   municipalRulePackFor,
 } from "./municipal-election-rule-packs";
 import type {
+  MunicipalElectionTiming,
   MunicipalRecallDoctrine,
   MunicipalRunoffRule,
   MunicipalSourceRef,
@@ -490,6 +493,38 @@ function countRankedChoice(
     rounds.push({ ...round, eliminated: last });
     for (const id of last) continuing.delete(id);
   }
+}
+
+export interface ResolvedMunicipalElectionTiming {
+  readonly timing: MunicipalElectionTiming;
+  readonly basis: Exclude<MunicipalBallotRuleBasis, "national-range-drawn">;
+}
+
+/**
+ * When state municipal law holds a town's elections, or null where the state's
+ * pack does not say. The same labels as the counting rule: a single timing or
+ * a statutory default is `state-law-unverified`; a choice left to each town
+ * with no default is drawn from the allowed options, stable per town. No
+ * national range is drawn for timing, because a date nobody read is not given.
+ */
+export function resolveMunicipalElectionTiming(
+  stateUsps: string,
+  placeKey: string,
+): ResolvedMunicipalElectionTiming | null {
+  const usps = stateUsps.toUpperCase();
+  const rule = municipalRulePackFor(usps)?.electoral.electionTiming;
+  if (!rule) return null;
+  if (rule.kind === "known")
+    return { timing: rule.value, basis: "state-law-unverified" };
+  if (rule.kind !== "locally-selectable") return null;
+  if (rule.statutoryDefault)
+    return { timing: rule.statutoryDefault, basis: "state-law-unverified" };
+  if (rule.options.length === 0) return null;
+  const index = Number(
+    BigInt(`0x${stableHash(`town-election-timing:${usps}:${placeKey}`)}`) %
+      BigInt(rule.options.length),
+  );
+  return { timing: rule.options[index]!, basis: "local-choice-drawn" };
 }
 
 /* -------------------------------------------------------------------------- */

@@ -1787,6 +1787,38 @@
       "textRevision": "cace9870daf8"
     },
     {
+      "anchor": "MunicipalWorkspace-0084",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": " — {target.refusal}",
+      "occurrence": 0,
+      "textRevision": "364ede1aea28"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0085",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "A petition to recall {target.name} is now circulating.",
+      "occurrence": 0,
+      "textRevision": "6bd1015e2f7d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0086",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No seated official here is known to you.",
+      "occurrence": 0,
+      "textRevision": "6f196db01f51"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0087",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Start a recall petition",
+      "occurrence": 0,
+      "textRevision": "8b83ccfb6f97"
+    },
+    {
       "anchor": "OPTIONS-0001",
       "sourcePath": "src/presentation/office-response.ts",
       "symbol": "OPTIONS",
@@ -4025,6 +4057,14 @@
       "text": "{person.familyName} for the {option.chamberName}",
       "occurrence": 0,
       "textRevision": "8e074194b004"
+    },
+    {
+      "anchor": "fileForOffice-0004",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "fileForOffice",
+      "text": "{person.familyName} for {option.office.title}",
+      "occurrence": 0,
+      "textRevision": "15d76fc67d7d"
     },
     {
       "anchor": "homeEvening-0001",

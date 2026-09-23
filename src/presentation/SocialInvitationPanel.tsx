@@ -1,4 +1,5 @@
 import {
+  acceptSocialInvitation,
   declineSocialInvitation,
   socialInvitationsFor,
 } from "./social-invitation";
@@ -26,6 +27,21 @@ export function SocialInvitationPanel({
             {invitation.start.date} · Attendance is optional. You have not
             answered.
           </p>
+          <button
+            type="button"
+            aria-label={`Accept invitation: ${invitation.title}`}
+            onClick={() =>
+              onWorldChange(
+                acceptSocialInvitation(world, {
+                  personId,
+                  activityId: invitation.activityId,
+                  revision: invitation.revision,
+                }),
+              )
+            }
+          >
+            Say you will come
+          </button>
           <button
             type="button"
             aria-label={`Decline invitation: ${invitation.title}`}
