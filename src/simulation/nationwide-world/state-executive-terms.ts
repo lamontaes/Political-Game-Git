@@ -15,6 +15,15 @@ import {
   recordElectedExecutiveQualification,
 } from "../executive-work-entry";
 import { chiefExecutiveJurisdiction } from "./government-jurisdiction";
+import { scheduleGoverningTransition } from "../governing/state-governing";
+import {
+  LATE_TERM_ENTRY,
+  lateTermEntryKey,
+  lateTermEntryRecorded,
+} from "../late-term-entry-events";
+import { recordWorkStatus } from "../life";
+import { workStatusAt } from "../life-queries";
+import { isPersonAliveAt } from "../vitality-integrity";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -218,24 +227,22 @@ export function planOrdinaryStateExecutiveTerm(
     endsAt: dates.endsAt,
     termNote: termNote(identity, dates),
   });
-  // A winner the player does not control qualifies as an ordinary
-  // institutional routine when nothing the game admits stands in the way. The
-  // player's own qualification stays a choice they make.
+  // Every winner, the player included, qualifies as an ordinary routine when
+  // nothing the game admits stands in the way: meeting the office's
+  // requirements is checked, not pressed (lamontae, 2026-09-23: "there should
+  // be no qualify button"). The oath on the first day is the ceremony.
   const winner = result.winnerPersonId;
-  const controlled =
-    planned.control.kind === "person" && planned.control.personId === winner;
-  if (
-    controlled ||
-    routineQualificationBlocks(planned, winner, identity).length > 0
-  )
+  if (routineQualificationBlocks(planned, winner, identity).length > 0)
     return planned;
   return recordElectedExecutiveQualification(planned, {
     contestId,
     personId: winner,
-    qualificationNote:
-      "The winner qualified for the dated term in the ordinary course: every candidate qualification the game has admitted for this office was met. Unadmitted legal requirements remain unverified, not waived.",
+    qualificationNote: ROUTINE_QUALIFICATION_NOTE,
   });
 }
+
+const ROUTINE_QUALIFICATION_NOTE =
+  "The winner qualified for the dated term in the ordinary course: every candidate qualification the game has admitted for this office was met. Unadmitted legal requirements remain unverified, not waived.";
 
 export const OFF_CYCLE_RECOVERY_VERSION =
   "state-executive-off-cycle-recovery/v1";
@@ -532,5 +539,92 @@ export function qualifyForStateExecutiveTerm(
     personId,
     qualificationNote:
       "The winner qualified for the dated term: every candidate qualification the game has admitted for this office was met on this day. Unadmitted legal requirements remain unverified, not waived.",
+  });
+}
+
+/**
+ * Brings a won state executive term up to the rule that there is no Qualify
+ * step. A save planned before that rule holds a player's term with no recorded
+ * qualification: before the term begins it is qualified now, the way any
+ * winner is; after it has begun, a term lost only because the old step was
+ * never pressed is taken up from today. A requirement the game can test and
+ * that fails still refuses, and the World is returned unchanged.
+ */
+export function settleStateExecutiveQualification(
+  world: World,
+  personId: EntityId,
+): World {
+  const status = stateExecutiveEntryStatus(world, personId);
+  if (
+    status.kind !== "awaiting-qualification" &&
+    status.kind !== "term-over-or-not-entered"
+  )
+    return world;
+  const contest = electionContestById(world, status.contestId);
+  const identity =
+    contest && stateExecutiveIdentityForOfficeKey(contest.office.officeKey);
+  const seat = executiveSeatFor(world, status.contestId);
+  const term = seat && electedExecutiveTermForRelationship(world, seat.id);
+  if (!identity || !seat || !term) return world;
+  if (world.currentDate >= term.endsAt) return world;
+  if (routineQualificationBlocks(world, personId, identity).length > 0)
+    return world;
+  let next = recordElectedExecutiveQualification(world, {
+    contestId: status.contestId,
+    personId,
+    qualificationNote: ROUTINE_QUALIFICATION_NOTE,
+    stableKeySuffix: ":settled",
+  });
+  if (status.kind === "awaiting-qualification") return next;
+  const workStatus = workStatusAt(next, seat.id);
+  if (
+    workStatus?.status !== "expected" ||
+    lateTermEntryRecorded(next, seat.id) ||
+    !isPersonAliveAt(next, personId, {
+      asOfDate: next.currentDate,
+      historySequenceExclusive: next.history.nextSequence,
+    })
+  )
+    return next;
+  const key = lateTermEntryKey(seat.id);
+  next = recordWorkStatus(next, {
+    stableKey: `${key}:active`,
+    workRelationshipId: seat.id,
+    effectiveAt: next.currentDate,
+    status: "active",
+    reason:
+      "Late entry: the term's first day passed behind a qualification step the game no longer has.",
+    provenance: {
+      kind: "simulated-event",
+      eventId: term.result.outcomeEventId,
+    },
+    supersedesStatusId: workStatus.id,
+  });
+  next = scheduleGoverningTransition(next, {
+    relationshipId: seat.id,
+    entryDate: next.currentDate,
+    jurisdictionId: term.governing.id,
+  });
+  const summary = `Took up the office of ${identity.title} after the term began; its first-day entry had waited on a qualification step the game no longer has.`;
+  return recordWorldEvent(next, {
+    stableKey: key,
+    type: LATE_TERM_ENTRY,
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: term.governing.id,
+    involvedEntityIds: [personId, seat.id, status.contestId],
+    participants: [{ personId, role: "focus:officeholder", detail: summary }],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["late-term-entry", "executive"],
+    summary,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
   });
 }

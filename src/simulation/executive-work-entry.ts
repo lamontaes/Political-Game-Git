@@ -453,6 +453,11 @@ export function recordElectedExecutiveQualification(
     readonly contestId: EntityId;
     readonly personId: EntityId;
     readonly qualificationNote: string;
+    /**
+     * Distinguishes a qualification recorded by a later repair from the one
+     * recorded when the term was planned. Omitted in the ordinary course.
+     */
+    readonly stableKeySuffix?: string;
   },
 ): World {
   const { contest, result, office, jurisdiction } =
@@ -475,7 +480,7 @@ export function recordElectedExecutiveQualification(
   const winner = world.people[input.personId];
   const who = winner ? personName(winner) : "The winner";
   return recordWorldEvent(world, {
-    stableKey: `executive-qualification:${contest.id}:${input.personId}`,
+    stableKey: `executive-qualification:${contest.id}:${input.personId}${input.stableKeySuffix ?? ""}`,
     type: EXECUTIVE_QUALIFICATION,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
