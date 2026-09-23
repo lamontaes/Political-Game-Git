@@ -31,6 +31,10 @@ test("LIFE-PATHS2 pointer, keyboard, period, interruption and reload proof", asy
     page.getByRole("heading", { name: "LIFE-PATHS2 isolated proof" }),
   ).toBeVisible();
   await page
+    .getByRole("group", { name: "Browse opportunities" })
+    .getByRole("button", { name: "Study", exact: true })
+    .click();
+  await page
     .getByRole("button", {
       name: "Enroll in College office administration certificate",
       exact: true,

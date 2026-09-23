@@ -1,0 +1,35 @@
+{
+  "candidateAnswers": [
+    {
+      "label": "Youth employment by industry",
+      "position": "Use BLS Current Population Survey or OEWS teen-heavy occupations to pick which part-time jobs 14- to 17-year-olds hold, weighted by the town's industry mix once the county file is in, with state rules on hours for minors.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T10:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Jobs (job market)",
+  "notes": [
+    "The placeholder is FIRST_JOB_PAY_PLACEHOLDER in src/simulation/job-market.ts: the federal minimum of $7.25 an hour for the job's usual hours.",
+    "The employer is still the same generated neighborhood grocery in every town; replacing it with the town's own employers is separate work that waits on town businesses and territorial employer coverage."
+  ],
+  "priority": "P2",
+  "question": "A teenager's first job is a weekend stock clerk at a generated neighborhood grocery, 8 to 14 hours a week, now paid at the federal minimum wage as a placeholder. Which first jobs do 14- to 17-year-olds actually hold, how does that vary by place and industry (including the five inhabited territories), what do they pay by state or territory, and what hour limits apply to minors during the school year?",
+  "questionId": "teen-first-jobs",
+  "relatedQuestionIds": [
+    "public-employer-roles-and-pay",
+    "minimum-wages-by-place",
+    "job-market-calibration"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Jobs thread, for lamontae (owner)",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/job-market.ts FEDERAL_MINIMUM_HOURLY_MINOR",
+      "whatItDidNotSettle": "It is the federal floor only; state minimums and youth rules are not on file."
+    }
+  ],
+  "title": "Which first jobs teenagers hold, and what they pay",
+  "usableAnswer": "A short list of first jobs by place type or industry, each with a typical hourly pay range by state and its source, plus the hour limits for 14- and 15-year-olds and for 16- and 17-year-olds during the school year.",
+  "whyItMatters": "Every life that takes a job as a teenager goes through this, and today every one of them is the same stock clerk at minimum wage."
+}

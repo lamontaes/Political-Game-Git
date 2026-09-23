@@ -5,14 +5,16 @@ import {
 } from "../../tests/fixtures/state-executive-entry";
 import {
   advanceWorldMinutes,
+  CONTINGENT_STATES,
   deserializeWorld,
+  nationalElectionRules,
   nationalOutcome,
   nationalRecords,
   presidentialTermsCounted,
   serializeWorld,
   simulationMinutesBetween,
 } from "../simulation";
-import type { World } from "../simulation";
+import type { EntityId, NationalUnitResult, World } from "../simulation";
 import { currentPublicOfficeholders } from "./opening-officeholders";
 
 function holder(world: World, officeKey: string) {
@@ -144,5 +146,105 @@ describe("PRESIDENTIAL CONTINUITY: the presidency is elected on the clock", () =
         (due) => due.stableKey === "presidential-turnover/v1:2032:field-close",
       ),
     ).toBe(true);
+  }, 900_000);
+
+  it("sends a 269-269 tie to the House, one vote per state, and the Vice President to the Senate", () => {
+    const { world } = adultLifeIn("OR", "presidential-tie");
+    // The day after the 2028 election, before the states certify.
+    const counted = passUntil(world, "2028-11-09");
+    const held = election(counted, 2028)!;
+    const [first, second] = held.tickets;
+    // Test fixture only: the reported unit winners are reassigned so the two
+    // tickets carry exactly 269 electors each. The simulation's own swing
+    // rarely lands here, and the tie path is what this test is about.
+    const units = nationalElectionRules(2028).units;
+    let remaining = 269;
+    const firstUnits = new Set<string>();
+    for (const unit of [...units].sort((a, b) => b.electors - a.electors))
+      if (unit.electors <= remaining) {
+        firstUnits.add(unit.key);
+        remaining -= unit.electors;
+      }
+    expect(remaining).toBe(0);
+    const tied: World = {
+      ...counted,
+      history: {
+        ...counted.history,
+        nationalElectionRecords: (
+          counted.history.nationalElectionRecords ?? []
+        ).map((record) =>
+          record.kind === "unit-result" && record.electionId === held.id
+            ? ({
+                ...record,
+                allocationWinnerPersonId: firstUnits.has(record.unitKey)
+                  ? first!.presidentPersonId
+                  : second!.presidentPersonId,
+              } satisfies NationalUnitResult)
+            : record,
+        ),
+      },
+    };
+
+    const afterCount = passUntil(tied, "2029-01-08");
+    const records = nationalRecords(afterCount, held.id);
+    const count = records.find((record) => record.kind === "count");
+    expect(count?.kind).toBe("count");
+    if (count?.kind !== "count") return;
+    expect(count.presidentPersonId).toBeNull();
+    expect([...count.presidentialChoicePersonIds].sort()).toEqual(
+      [first!.presidentPersonId, second!.presidentPersonId].sort(),
+    );
+    const house = records.find(
+      (record) =>
+        record.kind === "contingent-choice" && record.office === "president",
+    );
+    expect(house?.kind).toBe("contingent-choice");
+    if (house?.kind !== "contingent-choice") return;
+    expect(house.wholeNumber).toBe(50);
+    // One vote per state; the District has none.
+    for (const vote of house.votes)
+      expect(CONTINGENT_STATES).toContain(vote.voterKey);
+    const senate = records.find(
+      (record) =>
+        record.kind === "contingent-choice" &&
+        record.office === "vice-president",
+    );
+    expect(senate?.kind).toBe("contingent-choice");
+    if (senate?.kind !== "contingent-choice") return;
+    expect(senate.wholeNumber).toBe(100);
+
+    const president = nationalOutcome(afterCount, held.id, "president");
+    const vicePresident = nationalOutcome(
+      afterCount,
+      held.id,
+      "vice-president",
+    );
+    // Whoever each body chose (or nobody, when a body deadlocks) is what the
+    // term plans follow.
+    const planned = (office: string): EntityId | null => {
+      const plan = records.find(
+        (record) => record.kind === "term-plan" && record.office === office,
+      );
+      return plan?.kind === "term-plan" ? plan.personId : null;
+    };
+    expect(planned("president")).toBe(house.chosenPersonId);
+    expect(planned("vice-president")).toBe(senate.chosenPersonId);
+    expect(president?.personId ?? null).toBe(house.chosenPersonId);
+    expect(vicePresident?.personId ?? null).toBe(senate.chosenPersonId);
+    expect(
+      afterCount.history.events.some((event) =>
+        event.tags.includes("contingent:house"),
+      ),
+    ).toBe(true);
+
+    const inaugurated = passUntil(afterCount, "2029-01-22");
+    if (house.chosenPersonId)
+      expect(holder(inaugurated, "us-president")?.personId).toBe(
+        house.chosenPersonId,
+      );
+    const reopened = deserializeWorld(serializeWorld(inaugurated));
+    expect(
+      nationalOutcome(reopened, held.id, "president")?.personId ?? null,
+    ).toBe(house.chosenPersonId);
   }, 900_000);
 });

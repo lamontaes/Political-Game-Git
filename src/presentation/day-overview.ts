@@ -16,6 +16,8 @@ import { currentOpeningLifeScene } from "./life-scene-flow";
 import { formatMinute, projectPlayerCalendar } from "./player-calendar";
 import { projectOrdinaryDay } from "./ordinary-life";
 import { proseDate } from "./prose-dates";
+import { offerDeadlines } from "./offer-deadlines";
+import { careerReplyBy } from "../simulation/career-path7";
 import {
   electedExecutiveTermForRelationship,
   recordedExecutiveQualification,
@@ -146,12 +148,25 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
               ? electedTermSentence(offer)
               : offer.answer === "accepted"
                 ? acceptedOfferSentence(offer)
-                : offer.startIsAhead
-                  ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`
-                  : `${offer.roleTitle}: an offer of work is waiting for your answer.`,
+                : `${offer.startIsAhead ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.` : `${offer.roleTitle}: an offer of work is waiting for your answer.`}${replyBySentence(world, offer.relationshipId)}`,
+        })),
+      // An offer from a town listing is answered on the Jobs list. It lapses
+      // at its reply date, so it is said here too, with that date: in Atlanta
+      // one lapsed having been shown nowhere but that list.
+      ...offerDeadlines(world, personId)
+        .filter((deadline) => deadline.key.startsWith("job-offer:"))
+        .map((deadline) => ({
+          key: deadline.key,
+          sentence: deadline.sentence,
         })),
     ],
   };
+}
+
+/** The last day to answer an older offer, said so the lapse is no surprise. */
+function replyBySentence(world: World, relationshipId: EntityId): string {
+  const replyBy = careerReplyBy(world, relationshipId);
+  return replyBy ? ` Answer by ${proseDate(replyBy)}, or it lapses.` : "";
 }
 
 /**

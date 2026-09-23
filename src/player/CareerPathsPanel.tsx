@@ -10,6 +10,7 @@ import {
 import {
   startCareerWork,
   careerEligibility,
+  careerExpectedStart,
   careerOfferAccepted,
   seekCareerOffer,
   respondCareerOffer,
@@ -32,6 +33,8 @@ import { projectPracticalOpportunities } from "../presentation/practical-opportu
 import { InlineDayControl } from "./controls/InlineDayControl";
 import { nationalMedianWageSentence } from "../presentation/career-wage";
 import { proseDate } from "../presentation/prose-dates";
+import { addDays } from "../simulation/dates";
+import { JOB_MARKET_PLACEHOLDER } from "../simulation/job-market";
 export function CareerPathsPanel({
   world,
   onWorldChange,
@@ -141,19 +144,25 @@ export function CareerPathsPanel({
         // accepted offer is told apart by its acceptance, not its status.
         const accepted =
           status === "expected" && careerOfferAccepted(world, r.id);
-        const startReached = r.startedAt <= world.currentDate;
+        const expectedStart = careerExpectedStart(world, r.id) ?? r.startedAt;
+        const startReached = expectedStart <= world.currentDate;
+        const calledBack = expectedStart !== r.startedAt;
+        const beginBy = addDays(
+          expectedStart,
+          JOB_MARKET_PLACEHOLDER.missedStartGraceDays,
+        );
         return (
           <article key={r.id}>
             <h4>{workRoleAt(world, r.id)?.title}</h4>
             <p>
               {accepted
                 ? startReached
-                  ? "You accepted this offer. You can begin work now."
-                  : `You accepted this offer. Work begins ${proseDate(r.startedAt)}.`
+                  ? `${calledBack ? "The employer called when you did not come in, and still wants you." : "You accepted this offer."} Begin work by ${proseDate(beginBy)}, or they may withdraw it.`
+                  : `You accepted this offer. Work begins ${proseDate(expectedStart)}.`
                 : status === "expected"
                   ? "Offer awaiting your response"
                   : status === "ended"
-                    ? "Engagement ended"
+                    ? (workStatusAt(world, r.id)?.reason ?? "Engagement ended")
                     : status}
             </p>
             {status === "expected" ? (

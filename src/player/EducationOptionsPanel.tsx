@@ -23,6 +23,7 @@ import {
   studyPathFor,
 } from "../education/study-provider";
 import { pathForRelationship } from "../simulation/life-paths2";
+import { employerName } from "../simulation/life-paths2-catalog";
 import {
   inFinalHighSchoolYear,
   stillInGradeSchool,
@@ -359,7 +360,7 @@ export function EducationOptionsPanel({
             <p>
               {terms ? (
                 <>
-                  Offered by {terms.path.organizationName}:{" "}
+                  Offered by {employerName(terms.path)}:{" "}
                   {studyProgramCostLabel(terms.path)} Completion leads to{" "}
                   {terms.path.credential}. Tuition is due at period end from
                   available personal cash. No automatic loan or free tuition.{" "}
@@ -374,8 +375,7 @@ export function EducationOptionsPanel({
             {terms?.version === 2 ? (
               <>
                 <label>
-                  Tuition grace days for offer from{" "}
-                  {terms.path.organizationName}{" "}
+                  Tuition grace days for offer from {employerName(terms.path)}{" "}
                   <input
                     type="number"
                     min="0"
