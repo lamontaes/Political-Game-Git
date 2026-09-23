@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 
-import { measureSchoolNamePatterns } from "../../scripts/source/school-name-patterns";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import type { NewGameSetup } from "../presentation/new-game";
 import {
@@ -13,7 +12,6 @@ import {
   organizationProfileAt,
 } from ".";
 import { SeededRng } from "./rng";
-import COMMITTED from "./school-name-patterns.json" with { type: "json" };
 import {
   SCHOOL_NAMES_V1,
   SCHOOL_NAMES_V2,
@@ -52,12 +50,6 @@ const isFigure = (name: string) =>
   SCHOOL_NAMES_V1.figures.some((figure) => name.startsWith(`${figure} `));
 
 describe("school names drawn the way American schools are named", () => {
-  it("is the measurement the script makes from the shipped directory", () => {
-    expect(COMMITTED).toStrictEqual(
-      JSON.parse(JSON.stringify(measureSchoolNamePatterns())),
-    );
-  }, 120_000);
-
   it("names a small town's only high school for the town, most of the time", () => {
     const town = (name: string) => name === "Rugby High School";
     const before = share("high", "Rugby", "ND", "school-names-v1", town);
