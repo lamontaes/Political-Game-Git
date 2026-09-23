@@ -7,7 +7,10 @@ import {
   pendingDisasterDecisions,
 } from "../simulation/crisis/disaster";
 import { householdLocationAt } from "../simulation/life-queries";
-import { searchLifePlaces } from "../simulation/life-places";
+import {
+  lifePlaceByJurisdictionId,
+  searchLifePlaces,
+} from "../simulation/life-places";
 import type { EntityId, World } from "../simulation/types";
 import {
   crisisStopAfter,
@@ -81,13 +84,28 @@ describe(
       const { world: opened, home } = playedGovernorOfMaine(
         "crisis-stop-nothing",
       );
+      // A place in Maine where the world has no homes: the player's own town has
+      // its residents seated, and even a minor flood damages some of them.
+      const lived = new Set(
+        opened.history.households.flatMap(
+          (household) =>
+            householdLocationAt(opened, household.id)?.jurisdictionId ?? [],
+        ),
+      );
+      const quiet = opened.jurisdictionOrder.find(
+        (id) =>
+          id !== home &&
+          !lived.has(id) &&
+          lifePlaceByJurisdictionId(id)?.stateJurisdictionKey === "US-ME",
+      );
+      expect(quiet).toBeDefined();
       const since = crisisStopBaseline(opened);
       let world = declareHazardEpisode(opened, {
         stableKey: "maine-quiet-flood",
         family: "flood",
         magnitude: "minor",
         stateUsps: "ME",
-        jurisdictionIds: [home],
+        jurisdictionIds: [quiet],
         durationDays: 2,
         basis: "Declared test episode; not a local hazard prediction.",
         sourceReference: null,
