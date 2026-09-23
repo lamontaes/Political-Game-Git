@@ -86,6 +86,8 @@ function lives(withRepair: boolean) {
 
 describe("a child's two parents are something to each other", () => {
   const repaired = lives(true);
+  // Built with the repaired lives, outside any one test's time limit.
+  const legacy = lives(false);
 
   it("makes parents raising a child together a couple", () => {
     const together = repaired.filter(
@@ -126,7 +128,7 @@ describe("a child's two parents are something to each other", () => {
   });
 
   it("keeps an old setup's parents as they were", () => {
-    const old = lives(false);
+    const old = legacy;
     expect(old.every((life) => !life.couple)).toBe(true);
     const binary = old.filter(
       (life) =>
