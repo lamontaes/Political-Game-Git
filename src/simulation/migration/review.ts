@@ -161,7 +161,8 @@ export function migrationTown(world: World): EntityId | null {
   if (world.control.kind !== "person") return null;
   const home = world.people[world.control.personId]?.homeJurisdictionId;
   if (!home) return null;
-  return world.jurisdictions[home]?.kind === "census-place" ? home : null;
+  const kind = world.jurisdictions[home]?.kind;
+  return kind === "census-place" || kind === "territory-place" ? home : null;
 }
 
 /** The yearly rates a review applies before wave pressure. */

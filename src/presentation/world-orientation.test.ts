@@ -341,6 +341,33 @@ describe("world orientation reader", () => {
     expect(step.people).toEqual([]);
   });
 
+  it.each([
+    ["GU", "Guam", "a Delegate"],
+    ["VI", "U.S. Virgin Islands", "a Delegate"],
+    ["AS", "American Samoa", "a Delegate"],
+    ["MP", "Northern Mariana Islands", "a Delegate"],
+    ["PR", "Puerto Rico", "a Resident Commissioner"],
+  ])(
+    "presents %s as a territory with its own government, never a state",
+    (usps, name, member) => {
+      const view = projectOrientationView(
+        orientation({
+          homeState: { stateUsps: usps, jurisdictionId: null, governor: null },
+        }),
+        () => null,
+      );
+      const step = view.steps[2]!;
+      expect(step.title).toBe(name);
+      expect(step.summary).toContain(`${name} is a U.S. territory, not a state.`);
+      expect(step.summary).toContain(`sends ${member} to the U.S. House`);
+      expect(step.summary).toContain("no seat in the U.S. Senate");
+      expect(step.summary).toContain(
+        `No current record names the Governor of ${name}.`,
+      );
+      expect(step.summary).not.toMatch(/No governor is recorded/);
+    },
+  );
+
   it("names the District's recorded Mayor, Council and Delegate (code 98)", () => {
     const base = orientation();
     const delegate = holder("p-del", "Casey Moore", "Delegate", "party-a");
