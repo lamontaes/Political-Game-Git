@@ -45,3 +45,11 @@ from 30% to 65%, the election is 75 days after the petition closes,. The draws a
 The Recall section of the municipal workspace (`src/presentation/recall.ts`,
 `MunicipalWorkspace.tsx`) lists seated officials in the player's home town
 with a Start button or the reason it is refused, and a line per petition.
+
+## Changed by law (added 2026-09-23)
+
+A statute or state amendment can change the doctrine through the
+`municipal.recall.doctrine` rule field (`docs/systems/enacted-rule-changes.md`).
+The rule is read when a petition starts; a refusal under an enacted doctrine
+names the law ("Towns in Nebraska cannot recall their officials since
+Proposed Amendment (2031): Recall of town officials.").

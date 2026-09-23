@@ -1029,9 +1029,7 @@ export function commitCampaignWeek(
       throw new Error("That campaign geography is not available.");
     }
     if (!channel.geographyKinds.includes(place.kind)) {
-      throw new Error(
-        `${channel.label} cannot be bought for that geography in this game.`,
-      );
+      throw new Error(`${channel.label} cannot be bought for that place.`);
     }
     const amount = input.advertising.amount;
     if (

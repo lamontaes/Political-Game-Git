@@ -3,7 +3,10 @@ import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
+import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
+import { applyFederalReform } from "./living-world/federal-reform";
+import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import {
@@ -1065,7 +1068,18 @@ export function advanceWorld(
   }
 
   assertWorldIntegrity(world);
+  // Every writer inside a day advance skips the whole-world check; the
+  // advanced World is checked once at the end, as a clock press is.
+  return advanceWithWorldIntegrityAtEnd(() =>
+    advanceWorldUnchecked(world, days, transitionHandlers),
+  );
+}
 
+function advanceWorldUnchecked(
+  world: World,
+  days: number,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
   const actionSequence = world.actionSequence;
   const nextDate = addDays(world.currentDate, days);
   const nextMoment = simulationMomentOnLocalDate(world.currentMoment, nextDate);
@@ -1084,13 +1098,22 @@ export function advanceWorld(
 
   const continued = applyCrisisRepairFunding(
     applyCrisisOfficeContinuity(
-      applyConstitutionalReform(
+      applyCongressLawmaking(
         world.currentDate,
-        applyGovernorTurnover(
+        applyFederalReform(
           world.currentDate,
-          applyCongressTurnover(
+          applyConstitutionalReform(
             world.currentDate,
-            applyNationalTermTransitions(advanced),
+            applyPresidentialTurnover(
+              world.currentDate,
+              applyGovernorTurnover(
+                world.currentDate,
+                applyCongressTurnover(
+                  world.currentDate,
+                  applyNationalTermTransitions(advanced),
+                ),
+              ),
+            ),
           ),
         ),
       ),

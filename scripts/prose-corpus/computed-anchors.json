@@ -6294,25 +6294,25 @@
       "anchor": "projectCampaign-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} lost. That is a thing that happened to them, not the end of them — tomorrow is still there.",
+      "text": "{candidateName} lost{resultMargin(result,personId)}. That is a thing that happened to them, not the end of them — tomorrow is still there.",
       "occurrence": 0,
-      "textRevision": "0486ea5ede7c"
+      "textRevision": "3d0e0d36028a"
     },
     {
       "anchor": "projectCampaign-0002",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won.",
+      "text": "{candidateName} won{resultMargin(result,personId)}.",
       "occurrence": 0,
-      "textRevision": "7b3d27de03a5"
+      "textRevision": "fe5082dbd274"
     },
     {
       "anchor": "projectCampaign-0003",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
+      "text": "{candidateName} won{resultMargin(result,personId)}. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
       "occurrence": 0,
-      "textRevision": "17d4e131512b"
+      "textRevision": "82d601f954f4"
     },
     {
       "anchor": "projectDisclosure-0001",

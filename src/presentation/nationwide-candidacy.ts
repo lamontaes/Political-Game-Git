@@ -1,4 +1,6 @@
 import {
+  incumbentGovernorStandingAgain,
+  stateExecutiveEntryStatus,
   candidacyEligibility,
   ensureCampaignOpponents,
   ensureStateJurisdiction,
@@ -6,6 +8,8 @@ import {
   homeStateUsps,
   makeCurrencyCode,
   nextFilableStateExecutiveTerm,
+  nextRegularElectionInWorld,
+  addDays,
   stateExecutiveIdentity,
   chiefExecutiveJurisdiction,
 } from "../simulation";
@@ -65,6 +69,12 @@ export function stateExecutiveCandidacyForPerson(
 export interface StateExecutiveOfficeCalendar {
   /** The next regular general election a filing today would stand in. */
   readonly nextElection: IsoDate;
+  /**
+   * An earlier regular election still ahead whose candidate field has already
+   * closed, so a filing today cannot stand in it. Null when the next election
+   * is the one a filing enters.
+   */
+  readonly closedElection: IsoDate | null;
   /** The term that election would win. */
   readonly termStartsAt: IsoDate;
   readonly termEndsAt: IsoDate;
@@ -87,6 +97,13 @@ export function stateExecutiveOfficeCalendar(
   const term = nextFilableStateExecutiveTerm(world, stateUsps);
   if (!term) return null;
   const { rule, electionDay: nextElection } = term;
+  const upcoming = nextRegularElectionInWorld(
+    world,
+    stateUsps,
+    addDays(world.currentDate, 1),
+  );
+  const closedElection =
+    upcoming !== null && upcoming < nextElection ? upcoming : null;
   const bases = Object.values(rule.basis);
   const basis = bases.every((b) => b === "verified")
     ? "verified"
@@ -95,6 +112,7 @@ export function stateExecutiveOfficeCalendar(
       : "mixed";
   return {
     nextElection,
+    closedElection,
     termStartsAt: term.startsAt,
     termEndsAt: term.endsAt,
     basis,
@@ -102,6 +120,27 @@ export function stateExecutiveOfficeCalendar(
     sources: rule.sources,
     ruleVersion: rule.ruleVersion,
   };
+}
+
+/**
+ * Whether a sitting governor may stand for the next term: the same candidacy
+ * rules anyone filing meets, which include the state's term limit for the term
+ * the election fills. Null when this person does not hold the office now.
+ */
+export function stateExecutiveReelection(
+  world: World,
+  personId: EntityId,
+): { readonly canStand: boolean; readonly reason: string | null } | null {
+  if (stateExecutiveEntryStatus(world, personId).kind !== "in-office")
+    return null;
+  const candidacy = stateExecutiveCandidacyForPerson(world, personId);
+  if (!candidacy) return null;
+  return candidacy.eligible
+    ? { canStand: true, reason: null }
+    : {
+        canStand: false,
+        reason: candidacy.blocks.map((block) => block.reason).join(" "),
+      };
 }
 
 /**
@@ -123,39 +162,48 @@ export function fileForStateExecutiveOffice(
     world,
     candidacy.identity.stateUsps,
   );
-  const opponents = ensureCampaignOpponents(registered, {
-    stableKey,
-    // Rivals for a statewide office live in the state: in the candidate's own
-    // home place, so a rival who wins can qualify like anyone else.
-    jurisdictionId: person.homeJurisdictionId,
-    // One opponent, which is a placeholder and is known to be one.
-    //
-    // A flat field of two to four was built here and withdrawn on lamontae's
-    // ruling of 2026-09-22: "You should only have more than one opponent in
-    // the primary, or if there's an independent, you can also have no
-    // opponent." A field belongs in a primary; a general carries the nominees
-    // plus any independent who ran; and an unopposed seat has to stay
-    // possible, because that is real. None of those three exist yet, and each
-    // of them needs a place on the year, which is the same thing the 28-day
-    // countdown below is standing in for. Recorded in
-    // `docs/playtest/a-real-field-of-candidates-2026-09-22.md`; the shape is
-    // filed as research in `state-legislative-seat-calendar-and-field`.
-    count: 1,
-    excludePersonIds: [personId],
-  });
+  // The office's own regular election: verified where the state's law is
+  // compiled, otherwise the game's disclosed calendar. Never a fixed number of
+  // days after filing.
+  const electionDate = stateExecutiveOfficeCalendar(
+    world,
+    candidacy.identity.stateUsps,
+  )!.nextElection;
+  // A sitting governor who stands again is the opponent. Only an open seat
+  // draws a new rival, who lives in the state: in the candidate's own home
+  // place, so a rival who wins can qualify like anyone else.
+  const incumbent = incumbentGovernorStandingAgain(
+    registered,
+    candidacy.identity.stateUsps,
+    electionDate,
+  );
+  const opponents =
+    incumbent.incumbentPersonId && incumbent.incumbentPersonId !== personId
+      ? { world: incumbent.world, personIds: [incumbent.incumbentPersonId] }
+      : ensureCampaignOpponents(incumbent.world, {
+          stableKey,
+          jurisdictionId: person.homeJurisdictionId,
+          // One opponent, which is a placeholder and is known to be one.
+          //
+          // A flat field of two to four was built here and withdrawn on
+          // lamontae's ruling of 2026-09-22: "You should only have more than
+          // one opponent in the primary, or if there's an independent, you
+          // can also have no opponent." A field belongs in a primary; a
+          // general carries the nominees plus any independent who ran; and an
+          // unopposed seat has to stay possible, because that is real.
+          // Recorded in `docs/playtest/a-real-field-of-candidates-2026-09-22.md`;
+          // the shape is filed as research in
+          // `state-legislative-seat-calendar-and-field`.
+          count: 1,
+          excludePersonIds: [personId],
+        });
   return fileCampaign(opponents.world, {
     stableKey,
     candidatePersonId: personId,
     jurisdictionId: candidacy.jurisdictionId,
     officeKey: candidacy.identity.officeKey,
     districtBinding: null,
-    // The office's own regular election: verified where the state's law is
-    // compiled, otherwise the game's disclosed calendar. Never a fixed
-    // number of days after filing.
-    electionDate: stateExecutiveOfficeCalendar(
-      world,
-      candidacy.identity.stateUsps,
-    )!.nextElection,
+    electionDate,
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
     committeeName: `${person.familyName} for ${candidacy.identity.displayName}`,

@@ -1,0 +1,25 @@
+{
+  "filedAt": "2026-09-23T05:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "The school and college directory the game ships is one academic year's listing (NCES/IPEDS style rows with a sourceYear such as 2025-26). The code is institutionDateReason in src/education/catalog.ts.",
+    "Before this change, any date outside the listing's own July-to-June year was refused, so a player who starts at 5 could never apply to college at 18. Found in a playtest: a San Antonio life in December 2038 had every college application disabled.",
+    "Placeholder now in use: after the listing's year, the latest row is carried forward unchanged (same institution, same status, same offerings). Before the listing's year it is still refused, because the listing is no founding date."
+  ],
+  "priority": "P2",
+  "question": "When a game moves years past the most recent school and college directory, how should the directory for a later year be inherited? Specifically: (1) what share of U.S. colleges and K-12 schools close, merge or open per year, by sector (public, private nonprofit, for-profit; community college, four-year) and by state where it differs; (2) how often a college adds or drops a degree level or program in a year; (3) whether a simple rule (carry every row forward, or apply sector closure rates) is defensible for a game spanning decades.",
+  "questionId": "how-a-future-year-inherits-the-school-directory",
+  "relatedQuestionIds": ["who-gets-into-college-and-what-it-costs"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "The coordinator relaying a playtest blocker, 2026-09-23 (about 12:56 a.m. Eastern): nobody who starts young can go to college. The coordinator's default: carry the latest directory row forward as a marked placeholder and file this question.",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/who-gets-into-college-and-what-it-costs.json",
+      "whatItDidNotSettle": "Asks about admission and cost. It does not ask how the list of institutions changes over the years."
+    }
+  ],
+  "title": "How a future year inherits the school and college directory",
+  "usableAnswer": "Annual closure, merger and opening rates by sector (and state where they differ), and annual rates of programs added or dropped, as national defaults. 'Carry rows forward for N years, then apply a rate' is an acceptable shape.",
+  "whyItMatters": "Every player who starts as a child reaches college age years after the shipped directory. Until this is answered, every listed school and college stays open with the same offerings forever."
+}

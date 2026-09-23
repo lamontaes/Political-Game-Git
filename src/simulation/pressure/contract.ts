@@ -141,10 +141,69 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
   },
   {
     key: "cause-state-economy",
-    connects: "Jobs and wages in one state compared with another.",
+    connects: "Jobs in one state compared with the nation.",
+    status: "built",
+    rule: "BLANKET: when the economy records a state's own month, each percentage point its unemployment sits above the nation's adds 0.02 to the pressure to leave, and each point below adds 0.02 to the pull to arrive. The economy records a place separately only after a disaster or public spending there, so most states read as the nation. On the town side, each point of the player's town's unemployment above the nation's adds 5 percent to the chance a free household leaves. Wages are not recorded.",
+    where:
+      "src/simulation/pressure/causes.ts BLANKET_UNEMPLOYMENT_GAP_PRESSURE",
+  },
+  {
+    key: "cause-job-loss",
+    connects: "Somebody who lost a job and has not found another.",
+    status: "built",
+    rule: "BLANKET: in the year after a job ends with no other job, a person is three times as likely to leave town, reason work:job-lost.",
+    where: "src/simulation/migration/review.ts BLANKET_JOB_LOSS_MULTIPLIER",
+  },
+  {
+    key: "cause-crime",
+    connects: "Crime in the player's town driving people away.",
+    status: "built",
+    rule: "BLANKET: each reported assault or robbery in town beyond the police log's usual quarter adds 5 percent to the chance a free household leaves. Every town has the same usual log, so only an unusually bad quarter pushes. Crime is not compared between states.",
+    where:
+      "src/simulation/migration/review.ts BLANKET_TOWN_CRIME_PUSH_PER_EXCESS_REPORT",
+  },
+  {
+    key: "cause-family",
+    connects: "Moving to be near family.",
+    status: "built",
+    rule: "BLANKET: a leaving person weighs a state where a living relative lives three times as heavily; if they go there, the reason is family:near-kin. Following a partner, caring for a parent and a new family forming are not read.",
+    where: "src/simulation/migration/review.ts BLANKET_FAMILY_PULL",
+  },
+  {
+    key: "cause-schools",
+    connects: "Families moving for better schools.",
     status: "not-built",
-    rule: "Unemployment is recorded nationally, and locally only after a disaster, so it moves every state alike and is not read as a difference between states.",
-    where: "src/simulation/macro-economy/readers.ts",
+    rule: "Not read. The world records schools and enrollments but nothing about how good a school is.",
+    where: "src/simulation/school-names.ts",
+  },
+  {
+    key: "cause-housing-supply",
+    connects:
+      "Housing shortages and prices pushing people out, cheap housing drawing them in.",
+    status: "not-built",
+    rule: "Not read. The economy's housing balance is national only; a local one is never compiled.",
+    where: "src/simulation/macro-economy/types.ts MacroHousingCondition",
+  },
+  {
+    key: "cause-politics-fit",
+    connects: "People moving toward places whose politics match theirs.",
+    status: "not-built",
+    rule: "Not read. Research is filed on whether this is real and how strong it is.",
+    where: "src/simulation/pressure/causes.ts",
+  },
+  {
+    key: "cause-life-stage",
+    connects: "Retirement, college, a first job and old age moving people.",
+    status: "not-built",
+    rule: "Not read. Every adult in town has the same chance of leaving at any age.",
+    where: "src/simulation/migration/review.ts",
+  },
+  {
+    key: "cause-military",
+    connects: "Military service moving people and their families.",
+    status: "not-built",
+    rule: "Not read by the migration review. A service member's reassignment has its own life route.",
+    where: "src/simulation/character-history.ts composePcsRelocationPlan",
   },
   {
     key: "cause-cost-of-living",

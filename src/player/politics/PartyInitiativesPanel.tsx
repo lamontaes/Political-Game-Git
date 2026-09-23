@@ -172,7 +172,7 @@ export function PartyInitiativesPanel({
       return;
     }
     if (level !== "national" && !chosenPlace) {
-      setNote("No place in this game fits that level.");
+      setNote("No place fits that level.");
       return;
     }
     const proposed = run(
@@ -312,7 +312,7 @@ export function PartyInitiativesPanel({
           </>
         ) : (
           <p className="game-note" data-testid="party-propose-no-place">
-            No place in this game fits that level.
+            No place fits that level.
           </p>
         )}
         <button type="submit" data-testid="party-propose-submit">

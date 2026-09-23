@@ -56,6 +56,9 @@ import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
 import { projectCampaignSpendingReports } from "./campaign-spending-reports";
 import { continueAs, retireFromPlay } from "./people-continuation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { projectPeopleDirectory } from "./people-directory";
+import { projectPersonDossier } from "./person-dossier";
+import { proseDate } from "./prose-dates";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 
@@ -347,6 +350,39 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
         expect(interaction?.change).toBe("strained");
     }
   });
+
+  it("shows on the People screen who kept away after it became public", () => {
+    const distanced = pressRecordsOfKind(run.after, "matter-response").filter(
+      (response) => response.response === "distance",
+    );
+    // An empty loop below would pass on nothing, so somebody must distance.
+    expect(distanced.length).toBeGreaterThan(0);
+    const people = projectPeopleDirectory(run.after, run.personId).people;
+    for (const response of distanced) {
+      const given = run.after.people[response.actorPersonId]!.givenName;
+      const line = `${given} has kept away from you since ${proseDate(response.respondedAt)}, after the case against you became public.`;
+      expect(
+        people.find((row) => row.personId === response.actorPersonId)?.strain,
+      ).toBe(line);
+      expect(
+        projectPersonDossier(run.after, run.personId, response.actorPersonId)
+          .strain,
+      ).toBe(line);
+    }
+  });
+
+  it("shows the next count's move since the one before the finding", () => {
+    const before = projectCampaign(run.after, run.personId).reading!;
+    const counted = spendAnAfternoon(run.after, run.personId, "outreach");
+    const after = projectCampaign(counted, run.personId).reading!;
+    expect(after.on).not.toBe(before.on);
+    const points = Math.round((after.percent - before.percent) * 10) / 10;
+    expect(after.change).toBe(
+      points === 0
+        ? null
+        : `${points > 0 ? "Up" : "Down"} ${Math.abs(points).toFixed(1)} points since the count on ${proseDate(before.on)}.`,
+    );
+  }, 900_000);
 
   it("survives a save", () => {
     const reopened = deserializeWorld(serializeWorld(run.after));

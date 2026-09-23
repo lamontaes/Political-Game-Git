@@ -14,6 +14,7 @@ import {
   workStatusAt,
 } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
+import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import { hasPersonDiscoveredEvidence } from "./evidence";
 import {
   executiveGoverningKernelById,
@@ -29,7 +30,7 @@ import {
 import { measurePosition } from "./legislation";
 import { workItemState } from "./time-work";
 import { addDays, addSimulationMinutes } from "./dates";
-import type { EntityId, World } from "./types";
+import type { EntityId, Jurisdiction, World } from "./types";
 
 export const EXECUTIVE_TERM_END = "executive-work:term-end" as const;
 export const EXECUTIVE_ENTRY = "executive.custom-start";
@@ -169,6 +170,25 @@ export function electedExecutiveOfficeForKey(
   };
 }
 
+/**
+ * The jurisdiction an elected executive office governs from.
+ *
+ * A state's key resolves to its state jurisdiction. The District of Columbia's
+ * `US-DC` does not: its Mayor governs from the city jurisdiction the District's
+ * one government already holds, and resolving the key directly yields a
+ * district-wide placeholder no contest was ever run in. Every D.C. life froze
+ * on the day before its first mayoral election because the term planner
+ * compared the contest against that placeholder.
+ */
+export function electedExecutiveOfficeJurisdiction(
+  jurisdictionKey: string,
+): Jurisdiction | null {
+  const usps = /^US-([A-Z]{2})$/.exec(jurisdictionKey)?.[1];
+  return usps
+    ? chiefExecutiveJurisdiction(usps)
+    : stateJurisdictionForKey(jurisdictionKey);
+}
+
 /** Frozen dates live on expected work and future-due records; no second office store. */
 export function electedExecutiveTermForRelationship(
   world: World,
@@ -196,7 +216,8 @@ export function electedExecutiveTermForRelationship(
     world.history.events.find((event) => event.id === result.outcomeEventId);
   const office =
     contest && electedExecutiveOfficeForKey(contest.office.officeKey);
-  const governing = office && stateJurisdictionForKey(office.jurisdictionKey);
+  const governing =
+    office && electedExecutiveOfficeJurisdiction(office.jurisdictionKey);
   if (
     !entry ||
     !expiry ||

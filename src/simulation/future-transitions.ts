@@ -373,11 +373,15 @@ function handlerFor(
 /*
  * Serializing the whole World before and after every handler proves no
  * handler mutated its input, at the price of two passes over the entire save
- * per scheduled item. Tests and development keep that proof. The shipped
- * client turns it off and keeps the cheap shape check below, which still
- * catches a record pushed onto, or a field reassigned on, the input.
+ * per scheduled item. The test suite (tests/support/deep-transition-guard.ts)
+ * and the development client keep that proof. Everything else that passes
+ * time -- the shipped client, observer runs, playtest and CLI scripts -- runs
+ * without it and keeps the cheap shape check below, which still catches a
+ * record pushed onto, or a field reassigned on, the input.
  */
-let deepTransitionInputGuard = true;
+let deepTransitionInputGuard =
+  (globalThis as { readonly __civicDeepTransitionGuard?: boolean })
+    .__civicDeepTransitionGuard === true;
 
 export function setDeepTransitionInputGuard(enabled: boolean): void {
   deepTransitionInputGuard = enabled;

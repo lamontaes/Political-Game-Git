@@ -3,6 +3,7 @@ import {
   openingLifeSceneAtStage,
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
+import { nextOwnElection } from "./own-election";
 import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
 import {
   lifeActivityHandlers,
@@ -10,6 +11,7 @@ import {
 } from "./life-time-handlers";
 import {
   advanceWorldMinutes,
+  daysBetween,
   simulationMinutesBetween,
   describePersonContext,
   introducePerson,
@@ -820,7 +822,15 @@ export function letStoryTimePass(
   if (formativeIntervalAt(world, personId) !== null) {
     return letTimePass(world, personId, advanceDays);
   }
-  return letAdultTimePass(world, quietStepDays(world.currentDate), advanceDays);
+  // A quiet stretch never runs through the player's own election: it ends the
+  // morning after, when the result is in.
+  let days = quietStepDays(world.currentDate);
+  const election = nextOwnElection(world, personId);
+  if (election) {
+    const until = daysBetween(world.currentDate, election.electionDate) + 1;
+    if (until >= 1 && until < days) days = until;
+  }
+  return letAdultTimePass(world, days, advanceDays);
 }
 
 /** The date a quiet adult stretch would reach, for tests that need it. */

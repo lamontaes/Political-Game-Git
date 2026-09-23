@@ -1,7 +1,8 @@
-import { addDays, personName } from "../simulation";
+import { addDays, ageOnDate, personName } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   CONTACT_ACCEPTED_EVENT,
+  CONTACT_ANSWER_DELAY_DAYS,
   CONTACT_DECLINED_EVENT,
   CONTACT_MAXIMUM_NOTICE_DAYS,
   CONTACT_MINIMUM_NOTICE_DAYS,
@@ -27,7 +28,15 @@ import {
   meetSomebodyNew,
 } from "../simulation/social-introductions";
 import type { IntroductionSetting } from "../simulation/social-introductions";
-import { proseDate } from "./prose-dates";
+import {
+  askToBeACouple,
+  coupleAskRefusal,
+  coupleBetween,
+  dateRefusal,
+  endCouple,
+  keptDates,
+} from "../simulation/couples";
+import { proseDate, proseWeekdayDate } from "./prose-dates";
 
 /**
  * Who the played person can reach, and what is outstanding between them
@@ -42,7 +51,12 @@ import { proseDate } from "./prose-dates";
  */
 
 export interface ContactAction {
-  readonly kind: "ask-to-meet" | "answer-proposal";
+  readonly kind:
+    | "ask-to-meet"
+    | "answer-proposal"
+    | "ask-on-a-date"
+    | "ask-to-be-a-couple"
+    | "end-couple";
   readonly label: string;
   readonly available: boolean;
   readonly unavailableReason: string | null;
@@ -134,16 +148,31 @@ export function projectContacts(
       ),
       channels: basis.channels,
       actions: [
-        {
-          kind: "ask-to-meet",
-          label: `Ask ${basis.name} to meet`,
-          available: !outstanding,
-          unavailableReason:
-            waiting ??
-            (outstanding
-              ? `${basis.name} has asked you first; answer that.`
-              : null),
-        },
+        childAskingAnAdult(world, personId, basis.personId, {
+          family: basis.basis.includes("family"),
+          livesWithYou,
+        })
+          ? {
+              kind: "ask-to-meet",
+              label: `Ask ${basis.name} to meet`,
+              available: false,
+              unavailableReason:
+                "Seeing an adult outside your family is something your parent or guardian arranges.",
+            }
+          : {
+              kind: "ask-to-meet",
+              label: `Ask ${basis.name} to meet`,
+              available: !outstanding,
+              unavailableReason:
+                waiting ??
+                (outstanding
+                  ? `${basis.name} has asked you first; answer that.`
+                  : null),
+            },
+        ...romanticActions(world, personId, basis.personId, basis.name, {
+          outstanding: !!outstanding,
+          waiting,
+        }),
         ...(outstanding && outstanding.direction === "they-asked"
           ? [
               {
@@ -190,6 +219,144 @@ function outstandingWith(
     on: found.on,
     onSpoken: proseDate(found.on),
     purpose: found.purpose,
+  };
+}
+
+/**
+ * A child arranging, on their own, to see an adult who is neither family nor
+ * somebody they live with. The game does not offer it: an 8-year-old was
+ * offered a meeting with a party organizer (Juneau playtest, 2026-09-23).
+ * Family, housemates and children their own age stay reachable.
+ */
+function childAskingAnAdult(
+  world: World,
+  personId: EntityId,
+  otherId: EntityId,
+  ties: { readonly family: boolean; readonly livesWithYou: boolean },
+): boolean {
+  if (ties.family || ties.livesWithYou) return false;
+  const person = world.people[personId];
+  const other = world.people[otherId];
+  if (!person || !other) return false;
+  return (
+    ageOnDate(person.birthDate, world.currentDate) < 18 &&
+    ageOnDate(other.birthDate, world.currentDate) >= 18
+  );
+}
+
+/**
+ * Asking somebody out, asking to be a couple, and ending it, where each is
+ * something these two could do. A date is offered only between adults who
+ * are not family; becoming a couple only after dates actually kept. A
+ * refusal that says why is shown, not hidden, once there has been a date.
+ */
+function romanticActions(
+  world: World,
+  personId: EntityId,
+  otherId: EntityId,
+  name: string,
+  state: { readonly outstanding: boolean; readonly waiting: string | null },
+): ContactAction[] {
+  if (dateRefusal(world, personId, otherId)) return [];
+  if (coupleBetween(world, personId, otherId)) {
+    return [
+      {
+        kind: "end-couple",
+        label: `End things with ${name}`,
+        available: true,
+        unavailableReason: null,
+      },
+    ];
+  }
+  const actions: ContactAction[] = [
+    {
+      kind: "ask-on-a-date",
+      label: `Ask ${name} out`,
+      available: !state.outstanding,
+      unavailableReason:
+        state.waiting ??
+        (state.outstanding
+          ? `${name} has asked you first; answer that.`
+          : null),
+    },
+  ];
+  if (keptDates(world, personId, otherId).length > 0) {
+    const refusal = coupleAskRefusal(world, personId, otherId);
+    actions.push({
+      kind: "ask-to-be-a-couple",
+      label: `Ask ${name} to be a couple`,
+      available: !refusal,
+      unavailableReason: refusal,
+    });
+  }
+  return actions;
+}
+
+/** Ask somebody out on a day. They answer it as a date. */
+export function askOnADate(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly otherPersonId: EntityId;
+    readonly on: IsoDate;
+  },
+): World {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== input.personId
+  ) {
+    throw new Error("Only the character being played can ask somebody out.");
+  }
+  const other = world.people[input.otherPersonId];
+  if (!other) throw new Error("There is nobody there to ask.");
+  return proposeContact(world, {
+    stableKey: `date:${input.personId}:${input.otherPersonId}:${input.on}`,
+    fromPersonId: input.personId,
+    toPersonId: input.otherPersonId,
+    on: input.on,
+    purpose: `Go out with ${personName(other)}`,
+    date: true,
+  }).world;
+}
+
+/**
+ * Ask, in person, to be a couple. The answer comes back at once, with the
+ * sentence that says it.
+ */
+export function askToBeTogether(
+  world: World,
+  input: { readonly personId: EntityId; readonly otherPersonId: EntityId },
+): { readonly world: World; readonly said: string } {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== input.personId
+  ) {
+    throw new Error("Only the character being played can ask that.");
+  }
+  const answered = askToBeACouple(world, input);
+  const given = world.people[input.otherPersonId]!.givenName;
+  return {
+    world: answered.world,
+    said: answered.accepted
+      ? `${given} said yes. You are together now.`
+      : `${given} said no.`,
+  };
+}
+
+/** End it. The other person does not have to agree. */
+export function breakUp(
+  world: World,
+  input: { readonly personId: EntityId; readonly otherPersonId: EntityId },
+): { readonly world: World; readonly said: string } {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== input.personId
+  ) {
+    throw new Error("Only the character being played can end it.");
+  }
+  return {
+    world: endCouple(world, input),
+    said: `You ended things with ${world.people[input.otherPersonId]!.givenName}.`,
   };
 }
 
@@ -370,4 +537,23 @@ export function goMeetSomebodyNew(
     ? `You met ${personName(next.people[met]!)}.`
     : "You met nobody new.";
   return { world: next, said };
+}
+
+/**
+ * What the player is told the moment they ask. The answer itself comes later,
+ * from the other person, so the sentence says when to look for it. Before
+ * this the screen said nothing at all, and four playtest lives read the
+ * silence as the button doing nothing (run 2, 2026-09-23).
+ */
+export function askedNote(
+  world: World,
+  input: {
+    readonly otherPersonId: EntityId;
+    readonly on: IsoDate;
+    readonly date: boolean;
+  },
+): string {
+  const given = world.people[input.otherPersonId]?.givenName ?? "They";
+  const what = input.date ? "out" : "to meet";
+  return `You asked ${given} ${what} on ${proseWeekdayDate(input.on)}. ${given} will answer by ${proseWeekdayDate(addDays(world.currentDate, CONTACT_ANSWER_DELAY_DAYS))}.`;
 }

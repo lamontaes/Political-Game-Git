@@ -32,6 +32,12 @@ export const BLANKET_HAZARD_PRESSURE: Readonly<
  */
 export const BLANKET_TAX_RATE_PRESSURE = 5;
 
+/**
+ * BLANKET: pressure per percentage point a state's recorded unemployment sits
+ * above the nation's, to leave; below it, to arrive. Not researched.
+ */
+export const BLANKET_UNEMPLOYMENT_GAP_PRESSURE = 0.02;
+
 /** Contributions by state key for one quarter, `periodStart` to `periodEnd` inclusive. */
 export function causesInPeriod(
   world: World,
@@ -88,6 +94,37 @@ export function causesInPeriod(
       kind: change > 0 ? "leave" : "arrive",
       amount: Math.abs(change) * BLANKET_TAX_RATE_PRESSURE,
       sourceId: policy.id,
+    });
+  }
+
+  // Jobs: a state's own recorded month against the nation's. Only a state the
+  // economy records separately has one (today, after a shock there); every
+  // other state reads as the nation and adds nothing.
+  const months = world.macroEconomy?.months ?? [];
+  const national = new Map(
+    months
+      .filter((row) => row.scope === "national")
+      .map((row) => [row.periodEnd, row]),
+  );
+  const latestByScope = new Map<string, (typeof months)[number]>();
+  for (const row of months) {
+    if (row.scope === "national" || !within(row.recordedAt)) continue;
+    latestByScope.set(row.scope, row);
+  }
+  for (const [scope, row] of latestByScope) {
+    const jurisdiction =
+      world.jurisdictions[scope.slice("jurisdiction:".length) as EntityId];
+    if (jurisdiction?.kind !== "state-placeholder") continue;
+    const stateKey = stateKeyForJurisdiction(jurisdiction);
+    const nation = national.get(row.periodEnd);
+    if (!stateKey || !nation) continue;
+    const gap = row.unemploymentPct - nation.unemploymentPct;
+    if (gap === 0) continue;
+    add(stateKey, {
+      causeKey: "jobs:unemployment-gap",
+      kind: gap > 0 ? "leave" : "arrive",
+      amount: Math.abs(gap) * BLANKET_UNEMPLOYMENT_GAP_PRESSURE,
+      sourceId: row.key as EntityId,
     });
   }
 

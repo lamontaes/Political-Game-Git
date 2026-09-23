@@ -44,9 +44,7 @@ describe("the home panel on Money and property", () => {
       />,
     );
     expect(html).toContain("A house costs $250,000.");
-    expect(html).toContain(
-      "The down payment is $50,000.00. You have $10,000.00.",
-    );
+    expect(html).toContain("The down payment is $50,000. You have $10,000.");
     expect(html).toMatch(/<button[^>]*disabled[^>]*>Buy a home<\/button>/);
   });
 

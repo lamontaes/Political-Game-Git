@@ -1,5 +1,6 @@
 import {
   ageOnDate,
+  electionContestResult,
   personName,
   organizationProfileAt,
   privateBeliefHistory,
@@ -9,6 +10,7 @@ import {
   type IsoDate,
   type World,
 } from "../simulation";
+import { ownElectionResultSentence } from "./own-election";
 import { proseDate, proseMonthYear, proseYear } from "./prose-dates";
 
 export interface World39BiographyEntry {
@@ -348,6 +350,22 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
         commitment.statement,
       ),
       sourceId: commitment.id,
+    });
+  }
+  for (const contest of world.history.electionContests ?? []) {
+    if (!contest.candidatePersonIds.includes(personId)) continue;
+    const result = electionContestResult(world, contest.id);
+    const sentence = result
+      ? ownElectionResultSentence(world, contest.id, personId)
+      : null;
+    if (!result || !sentence || result.resolvedAt > world.currentDate) continue;
+    entries.push({
+      id: `election-result:${result.id}`,
+      at: result.resolvedAt,
+      sequence: result.sequence,
+      kind: "event",
+      text: sentence,
+      sourceId: result.id,
     });
   }
   const sorted = entries.sort(

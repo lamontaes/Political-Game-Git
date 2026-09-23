@@ -1,4 +1,4 @@
-import { addDays, ageOnDate, daysBetween } from "./dates";
+import { addDays, ageOnDate, daysBetween, spokenDate } from "./dates";
 import {
   activeCareResponsibilitiesAt,
   activeEducationEnrollmentsAt,
@@ -929,10 +929,10 @@ function buildThread(input: BuildThreadInput): NarrativeThread {
     standingReason = "One record so far. Nothing has followed it yet.";
   } else if (daysSinceMoved > THREAD_DORMANT_AFTER_DAYS) {
     standing = "dormant";
-    standingReason = `Nothing has moved on it since ${lastMovedAt}, and the subject is still there.`;
+    standingReason = `Nothing has moved on it since ${spokenDate(lastMovedAt)}, and the subject is still there.`;
   } else {
     standing = "running";
-    standingReason = `${moving.length} records name it, most recently on ${lastMovedAt}.`;
+    standingReason = `${moving.length} records name it, most recently on ${spokenDate(lastMovedAt)}.`;
   }
 
   return {

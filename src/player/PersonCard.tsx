@@ -356,6 +356,14 @@ export function PersonCard({
             >
               {dossier.lastInteraction}
             </p>
+            {dossier.strain === null ? null : (
+              <p
+                className="pg-person-card-read"
+                data-testid={expanded ? "dossier-strain" : "quick-strain"}
+              >
+                {dossier.strain}
+              </p>
+            )}
             {dossier.standing === null ? null : (
               <p
                 className="pg-person-card-read"

@@ -39,6 +39,10 @@ import { advanceWorld } from "../world";
 import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
 import { currentFederalTenure } from "../federal-tenures";
 import {
+  CHIEF_JUSTICE_NOMINATED_EVENT,
+  CHIEF_JUSTICE_VACANCY_PROFILE,
+} from "./chief-justice-vacancy";
+import {
   VICE_PRESIDENTIAL_VACANCY_PROFILE,
   VICE_PRESIDENT_NOMINATED_EVENT,
   VICE_PRESIDENT_NOMINATION,
@@ -135,7 +139,7 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(projectCongress(reopened)).toEqual(projectCongress(next));
   }, 300_000);
 
-  it("a Senate seat and a governorship stay unfilled and say which rule is missing", () => {
+  it("a Senate seat stays unfilled and says which rule is missing; a governor's successor serves out the term", () => {
     const world = openingWorld("k3-senate");
     const seat = projectCongress(world)!.senate.seats.find(
       (s) => s.occupant.kind === "member",
@@ -171,11 +175,86 @@ describe("GOVERNING K3: an office after its holder dies", () => {
       },
     ]);
     next = applyOfficeContinuityNotices(second.world, [second.notice]);
+    expect(applyOfficeContinuityNotices(next, [second.notice])).toBe(next);
     const ruling = officeContinuityRulings(next, governor.officeKey)[0]!;
-    expect(ruling.outcome).toBe("blocked");
-    const event = next.history.events.find((e) => e.id === ruling.eventId)!;
-    expect(event.summary).toMatch(/not compiled/);
+    expect(ruling.outcome).toBe("succeeded");
+    // PLACEHOLDER successor (governor-succession.ts): a new person holds the
+    // same office until the same term ends.
+    const successor = currentStateExecutiveHolders(next).find(
+      (h) => h.officeKey === governor.officeKey,
+    )!;
+    expect(successor.personId).not.toBe(governor.personId);
+    expect(successor.origin).toBe("succession");
+    expect(successor.startedAt).toBe(next.currentDate);
+    expect(successor.endExclusive).toBe(governor.endExclusive);
+    expect(
+      publicOfficesHeldBy(next, successor.personId).map((r) => r.officeKey),
+    ).toContain(governor.officeKey);
+    // Past the term's end, the successor no longer holds it.
+    if (governor.endExclusive) {
+      const after = at(next, governor.endExclusive);
+      expect(
+        currentStateExecutiveHolders(after).some(
+          (h) => h.personId === successor.personId,
+        ),
+      ).toBe(false);
+    }
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(
+      currentStateExecutiveHolders(reopened).find(
+        (h) => h.officeKey === governor.officeKey,
+      )!.personId,
+    ).toBe(successor.personId);
   }, 300_000);
+
+  it("a Chief Justice who dies is replaced by the President's nominee once the Senate confirms", () => {
+    const world = openingWorld("k3-chief-justice");
+    const chief = currentFederalTenure(world, "us-chief-justice")!;
+    const president = currentPresidentOf(world)!;
+    expect(
+      publicOfficesHeldBy(world, chief.personId).map((ref) => ref.officeKey),
+    ).toContain("us-chief-justice");
+    const dead = die(world, chief.personId, [
+      {
+        officeKey: "us-chief-justice",
+        title: "Chief Justice of the United States",
+        organizationId: null,
+        termEvidenceId: chief.event.id,
+      },
+    ]);
+    let next = applyOfficeContinuityNotices(dead.world, [dead.notice]);
+    expect(officeContinuityRulings(next, "us-chief-justice")[0]!.outcome).toBe(
+      "vacant",
+    );
+    expect(currentFederalTenure(next, "us-chief-justice")).toBeNull();
+    next = passOrdinaryDays(
+      next,
+      CHIEF_JUSTICE_VACANCY_PROFILE.daysFromVacancyToNomination,
+    );
+    const nomination = next.history.events.find(
+      (event) => event.type === CHIEF_JUSTICE_NOMINATED_EVENT,
+    )!;
+    expect(nomination).toBeDefined();
+    const nomineeId = nomination.participants.find(
+      (p) => p.role === "focus:subject",
+    )!.personId;
+    expect(nomineeId).not.toBe(president.personId);
+    if (next.control.kind === "person")
+      expect(nomineeId).not.toBe(next.control.personId);
+    expect(currentFederalTenure(next, "us-chief-justice")).toBeNull();
+    next = passOrdinaryDays(
+      next,
+      CHIEF_JUSTICE_VACANCY_PROFILE.daysFromNominationToConfirmation,
+    );
+    const confirmed = currentFederalTenure(next, "us-chief-justice")!;
+    expect(confirmed.personId).toBe(nomineeId);
+    // Good behavior: no fixed end.
+    expect(confirmed.endExclusive).toBeNull();
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(currentFederalTenure(reopened, "us-chief-justice")!.personId).toBe(
+      nomineeId,
+    );
+  }, 600_000);
 
   it("the opening Vice President succeeds a President who dies; illness transfers nothing", () => {
     const world = openingWorld("k3-opening");

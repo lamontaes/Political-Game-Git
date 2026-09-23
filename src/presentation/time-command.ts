@@ -26,6 +26,7 @@ import {
   type CalendarTimeResult,
 } from "./calendar-time-control";
 import { interruptionHandlers } from "./interruption-policy";
+import { nextOwnElection, ownElectionResultsBetween } from "./own-election";
 import { letStoryTimePass, quietStepDays } from "./life-story";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import {
@@ -213,6 +214,20 @@ export function previewTimeCommand(
       }
     }
   }
+  // Every skip stops the morning after the player's own election, so the
+  // result is met, not stepped over.
+  const election = nextOwnElection(world, personId);
+  if (election) {
+    const until =
+      wholeDaysBetween(world.currentDate, election.electionDate) + 1;
+    if (until >= 1 && until < days) {
+      days = until;
+      cappedBy = {
+        title: `Election day: ${election.title}`,
+        date: election.electionDate,
+      };
+    }
+  }
   const target = morningAfter(world, days);
   return { target, targetDate: target.date, days, cappedBy };
 }
@@ -259,12 +274,15 @@ function run(
   return {
     world: next,
     reached: next.currentMoment,
-    outcome: describeRoutineOutcome(
-      world,
-      next,
-      request.personId,
-      simulationMinutesBetween(world.currentMoment, preview.target),
-    ),
+    outcome: [
+      ...ownElectionResultsBetween(world, next, request.personId),
+      describeRoutineOutcome(
+        world,
+        next,
+        request.personId,
+        simulationMinutesBetween(world.currentMoment, preview.target),
+      ),
+    ].join(" "),
   };
 }
 

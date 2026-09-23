@@ -1,3 +1,4 @@
+import { recentStrain } from "./relationship-strain";
 import {
   describeRelationshipStanding,
   readRelationshipStanding,
@@ -99,6 +100,8 @@ export interface PersonDossier {
    * nothing to say here and should say nothing rather than "acquainted".
    */
   readonly standing: string | null;
+  /** When the last thing between you strained it, said plainly. */
+  readonly strain: string | null;
   /** Canonical entities this dossier can route to. */
   readonly links: readonly ShellRef[];
 }
@@ -391,6 +394,7 @@ export function projectPersonDossier(
     rightNow: options.rightNow ?? null,
     details,
     lastInteraction: describeInteraction(world, playerId, personId),
+    strain: recentStrain(world, playerId, personId),
     standing:
       personId === playerId
         ? null
