@@ -488,7 +488,11 @@ export function currentStateExecutiveHolders(
     const person = personId ? world.people[personId] : undefined;
     if (!person) continue;
     const unknownStart = tenure.tags.includes("term-start:unknown");
-    const endTag = tenure.tags.find((tag) => tag.startsWith("term-end:"));
+    // A successor's term whose end the game does not know.
+    const unknownEnd = tenure.tags.includes("term-end:unknown");
+    const endTag = unknownEnd
+      ? undefined
+      : tenure.tags.find((tag) => tag.startsWith("term-end:"));
     const endExclusive = endTag
       ? makeIsoDate(endTag.slice("term-end:".length))
       : null;
@@ -510,7 +514,8 @@ export function currentStateExecutiveHolders(
       organizationId: organization.id,
       startedAt: unknownStart ? null : tenure.occurredAt,
       endExclusive,
-      termFactsUnknown: unknownStart ? STATE_EXECUTIVE_TERM_FIELDS : [],
+      termFactsUnknown:
+        unknownStart || unknownEnd ? STATE_EXECUTIVE_TERM_FIELDS : [],
       origin: tenure.tags.includes("provenance:succession")
         ? "succession"
         : "fictional-initial-tenure",

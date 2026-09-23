@@ -5,6 +5,7 @@ import {
 import { makeIsoDate } from "../dates";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
+import { electedExecutiveTermForRelationship } from "../executive-work-context";
 import { SeededRng } from "../rng";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
@@ -53,6 +54,8 @@ export function seatGovernorSuccessor(
   input: {
     readonly vacancyDate: IsoDate;
     readonly formerHolderId: EntityId;
+    /** The dead holder's tenure event or elected work relationship. */
+    readonly formerTermEvidenceId: EntityId | null;
   },
 ): { readonly world: World; readonly successorId: EntityId | null } {
   const stableKey = governorSuccessionKey(
@@ -75,7 +78,12 @@ export function seatGovernorSuccessor(
     (candidate) => candidate.stableKey === office.organizationStableKey,
   );
   if (!organization) return { world, successorId: null };
+  // The rest of the dead holder's own term where it is recorded (an elected
+  // term, or a dated tenure), so the successor meets the next elected term;
+  // otherwise the office's calendar.
   const window = stateExecutiveTermWindow(office, input.vacancyDate);
+  const endExclusive =
+    formerTermEnd(world, input.formerTermEvidenceId) ?? window.endExclusive;
   const rng = new SeededRng(world.seed).fork(holderKey);
   const year = Number(input.vacancyDate.slice(0, 4));
   const age = rng.integer(40, 71);
@@ -117,9 +125,7 @@ export function seatGovernorSuccessor(
       "provenance:succession",
       `provenance:${GOVERNOR_SUCCESSION_PROFILE.id}`,
       ...(window.ruleVersion ? [`term-rule:${window.ruleVersion}`] : []),
-      ...(window.endExclusive === null
-        ? []
-        : [`term-end:${window.endExclusive}`]),
+      endExclusive === null ? "term-end:unknown" : `term-end:${endExclusive}`,
     ],
     summary: `${personName(next.people[successorId]!)} became ${office.displayName}${former ? ` on the death of ${personName(former)}` : ""}, and serves the rest of the term.`,
     context: {
@@ -132,4 +138,19 @@ export function seatGovernorSuccessor(
     },
   });
   return { world: next, successorId };
+}
+
+function formerTermEnd(
+  world: World,
+  evidenceId: EntityId | null,
+): IsoDate | null {
+  if (!evidenceId) return null;
+  const tenure = world.history.events.find((event) => event.id === evidenceId);
+  const tag = tenure?.tags.find(
+    (candidate) =>
+      candidate.startsWith("term-end:") && candidate !== "term-end:unknown",
+  );
+  if (tag) return makeIsoDate(tag.slice("term-end:".length));
+  const elected = electedExecutiveTermForRelationship(world, evidenceId);
+  return elected ? makeIsoDate(elected.endsAt) : null;
 }

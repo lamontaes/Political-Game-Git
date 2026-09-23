@@ -47,7 +47,10 @@ import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import { seatGovernorSuccessor } from "../nationwide-world/governor-succession";
-import { stateExecutiveOffice } from "../nationwide-world/state-executives";
+import {
+  currentStateExecutiveHolders,
+  stateExecutiveOffice,
+} from "../nationwide-world/state-executives";
 import {
   CHIEF_JUSTICE_CONFIRMATION,
   CHIEF_JUSTICE_NOMINATION,
@@ -668,6 +671,7 @@ function rulingFor(
     const seated = seatGovernorSuccessor(world, governorship, {
       vacancyDate: notice.effectiveDate,
       formerHolderId: notice.personId,
+      formerTermEvidenceId: office.termEvidenceId,
     });
     const successor = seated.successorId
       ? seated.world.people[seated.successorId]
@@ -686,7 +690,7 @@ function rulingFor(
           ruling: {
             ...base,
             outcome: "blocked",
-            sentence: `${governorship.displayName} is vacant, and the state's office is not in this World, so no one takes office.`,
+            sentence: `${governorship.displayName} is vacant, and no record of the office exists to seat a successor in.`,
           },
         };
   }
@@ -718,8 +722,8 @@ function rulingFor(
  *   eligible to be Vice President; the game has no rule for whom a President
  *   would choose. Blanket rule meanwhile: an even draw among every living
  *   person in the World old enough for the office (35), other than the
- *   President and the player's own character, who would have to be asked.
- *   Citizenship and fourteen years' residence are not recorded on a person,
+ *   President, the player's own character, who would have to be asked, and
+ *   sitting governors. Citizenship and fourteen years' residence are not recorded on a person,
  *   so they are not checked. A nominee who sat in Congress leaves the seat,
  *   which is then filled the way any vacated seat is.
  * - how Congress votes. The amendment requires a majority of both houses.
@@ -870,11 +874,17 @@ export function vicePresidentNominationHandler(
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
   const dead = new Set(world.history.personDeaths.map((row) => row.personId));
+  // A sitting governor is not drawn: the game has no route for them to give
+  // up the governorship.
+  const governors = new Set(
+    currentStateExecutiveHolders(world).map((holder) => holder.personId),
+  );
   const pool = Object.values(world.people)
     .filter(
       (person) =>
         person.id !== president.personId &&
         person.id !== controlled &&
+        !governors.has(person.id) &&
         !dead.has(person.id) &&
         ageOn(person.birthDate, world.currentDate) >=
           VICE_PRESIDENT_MINIMUM_AGE,

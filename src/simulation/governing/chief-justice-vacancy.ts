@@ -6,6 +6,7 @@ import {
   currentFederalTenure,
 } from "../federal-tenures";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import { personName } from "../people";
 import { SeededRng } from "../rng";
 import type {
@@ -31,8 +32,13 @@ import { recordWorldEvent } from "../world";
  * - whom a President nominates. The game models no judges and has no rule for
  *   whom a President would choose. Blanket rule meanwhile: an even draw among
  *   every living adult in the World, other than the President, the Vice
- *   President and the player's own character, who would have to be asked.
- * - how the Senate votes. Blanket rule meanwhile: the Senate confirms.
+ *   President and the player's own character, who would have to be asked,
+ *   and sitting governors.
+ * - how the Senate votes. Blanket rule meanwhile: the Senate confirms,
+ *   unless the President who made the nomination has left office, in which
+ *   case the nomination lapses and the new President nominates.
+ * - a vacancy with no sitting President waits: nobody nominates, and the
+ *   game does not yet reopen the nomination when a President takes office.
  * - a sitting associate justice being elevated, and the associate seat that
  *   would then open, are not modeled: the game seats no associate justices.
  */
@@ -172,12 +178,18 @@ export function chiefJusticeNominationHandler(
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
   const vice = currentFederalTenure(world, "us-vice-president")?.personId;
+  // A sitting governor is not drawn: the game has no route for them to give
+  // up the governorship.
+  const governors = new Set(
+    currentStateExecutiveHolders(world).map((holder) => holder.personId),
+  );
   const pool = Object.values(world.people)
     .filter(
       (person) =>
         person.id !== president.personId &&
         person.id !== controlled &&
         person.id !== vice &&
+        !governors.has(person.id) &&
         !isDead(world, person.id) &&
         ageOn(person.birthDate, world.currentDate) >= ADULT_AGE,
     )
@@ -254,13 +266,30 @@ export function confirmChiefJustice(
   if (currentFederalTenure(world, "us-chief-justice"))
     return resolved(world, "The office of Chief Justice is already filled.");
   const nominee = world.people[nomineeId];
-  if (!nominee || isDead(world, nomineeId)) {
-    const president = currentPresidentOf(world);
+  const president = currentPresidentOf(world);
+  const nominatedBy = world.history.events
+    .filter(
+      (event) =>
+        event.type === CHIEF_JUSTICE_NOMINATED_EVENT &&
+        event.tags.includes(`vacancy:${vacancyDate}`) &&
+        event.participants.some(
+          (row) => row.role === "focus:subject" && row.personId === nomineeId,
+        ),
+    )
+    .at(-1)
+    ?.participants.find((row) => row.role === "focus:actor")?.personId;
+  if (
+    !nominee ||
+    isDead(world, nomineeId) ||
+    nominatedBy !== president?.personId
+  ) {
     return resolved(
       president
         ? scheduleNomination(world, vacancyDate, president.personId)
         : world,
-      "The nominee died before the vote; the President nominates again.",
+      !nominee || isDead(world, nomineeId)
+        ? "The nominee died before the vote; the President nominates again."
+        : "The President who made the nomination has left office; the nomination lapses.",
     );
   }
   let next = recordWorldEvent(world, {
