@@ -66,6 +66,7 @@ import { authorityDecisions } from "../presentation/crisis-shell";
 import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 import { useCrisisStop } from "./use-crisis-stop";
 import {
+  describeTimeCommandReport,
   TimeCommandProvider,
   useTimeCommand,
   useTimeCommandRunner,
@@ -5610,6 +5611,17 @@ function StoryView({
     [session.world, session.personId],
   );
   const crisisStop = useCrisisStop(session.world);
+  /*
+   * Why "Let time pass" moved nothing. A calendar commitment that is already
+   * due (a meeting the player asked for, say) stops the stretch before it
+   * starts; the runner names it, and without this line the press looked like
+   * it had been ignored. Kept only while the clock is where it was refused.
+   */
+  const [passRefusal, setPassRefusal] = useState<{
+    readonly at: string;
+    readonly note: string;
+  } | null>(null);
+  const momentKey = `${session.world.currentMoment.date}@${session.world.currentMoment.minuteOfDay}`;
 
   return (
     <section className="game-story life-moment" data-testid="story-section">
@@ -5729,7 +5741,14 @@ function StoryView({
             aria-busy={runner.pending}
             onClick={() => {
               crisisStop.watch();
-              runner.submit({ kind: "quiet-stretch" });
+              setPassRefusal(null);
+              runner.submit({ kind: "quiet-stretch" }, (report) =>
+                setPassRefusal(
+                  report.status === "refused"
+                    ? { at: momentKey, note: describeTimeCommandReport(report) }
+                    : null,
+                ),
+              );
             }}
           >
             {moment.formativeYears ? "Let the year run on" : "Let time pass"}
@@ -5741,6 +5760,16 @@ function StoryView({
           </button>
         )}
       </div>
+
+      {passRefusal && passRefusal.at === momentKey ? (
+        <p
+          className="game-note"
+          role="status"
+          data-testid="story-let-time-pass-refused"
+        >
+          {passRefusal.note}
+        </p>
+      ) : null}
 
       {crisisStop.stop ? (
         <p className="game-note" role="status" data-testid="story-crisis-stop">
