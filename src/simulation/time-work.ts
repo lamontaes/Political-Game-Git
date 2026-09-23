@@ -2,6 +2,7 @@ import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
+import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
@@ -1833,7 +1834,10 @@ function setCurrentMoment(
               crossedFrom,
               applyGovernorTurnover(
                 crossedFrom,
-                applyCongressTurnover(crossedFrom, moved),
+                applyCongressTurnover(
+                  crossedFrom,
+                  applyStateLegislatureTurnover(crossedFrom, moved),
+                ),
               ),
             ),
           ),
