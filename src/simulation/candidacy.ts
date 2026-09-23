@@ -4,6 +4,11 @@ import {
   GAME_ADULT_CANDIDACY_AGE,
 } from "./candidacy-packs";
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
+import {
+  assessSecondCommittee,
+  campaignStateJurisdictionKey,
+} from "./campaign-compliance-rules";
+import { activeCampaignForCandidate } from "./campaign-queries";
 import { ageOnDate, completedMonthsBetween } from "./dates";
 import { enactedRuleChangeAt } from "./enacted-rule-changes";
 import {
@@ -790,7 +795,9 @@ export function candidacyEligibility(
   if (input.alreadyACandidate) {
     blocks.push({
       kind: "already-a-candidate",
-      reason: "This character is already running for something.",
+      reason:
+        secondCommitteeRefusal(world, input) ??
+        "This character is already running for something.",
     });
   }
 
@@ -802,6 +809,25 @@ export function candidacyEligibility(
     qualificationAssessments,
     blocks: distinctBlocks(blocks),
   };
+}
+
+/**
+ * Where the state's law forbids a second committee for the office this
+ * character is already running for, the law's own sentence; otherwise null,
+ * and the game's rule against running twice at once speaks instead.
+ */
+function secondCommitteeRefusal(
+  world: World,
+  input: CandidacyEligibilityInput,
+): string | null {
+  const running = activeCampaignForCandidate(world, input.personId);
+  if (!running || running.officeKey !== input.officeKey) return null;
+  const ruling = assessSecondCommittee(world, {
+    personId: input.personId,
+    stateJurisdictionKey: campaignStateJurisdictionKey(running, world),
+    officeKey: input.officeKey,
+  });
+  return ruling.decision === "refused" ? ruling.reason : null;
 }
 
 /**

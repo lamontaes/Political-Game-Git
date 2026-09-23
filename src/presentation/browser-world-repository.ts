@@ -12,12 +12,12 @@ import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { factsForPerson, personName } from "../simulation/people";
 import {
   createWorldSnapshot,
-  deserializeWorld,
   readWorldSnapshot,
   serializeWorldAs,
   serializeWorldSnapshot,
   storedFormatVersion,
   worldContentId,
+  type WorldSnapshot,
   type WorldSnapshotFormatVersion,
 } from "../simulation/serialization";
 import type {
@@ -634,9 +634,7 @@ export class BrowserSaveStore {
         throw new Error("This save cannot be inspected safely.");
       if (read.record.saveId !== saveId)
         throw new Error("Save identity mismatch.");
-      return migrateUnpinnedAppearanceCatalog(
-        deserializeWorld(read.record.payload),
-      );
+      return migrateUnpinnedAppearanceCatalog(read.world);
     });
   }
 
@@ -681,7 +679,7 @@ export class BrowserSaveStore {
       if (record.saveId !== saveId) {
         throw new Error("This saved game does not match the one asked for.");
       }
-      const world = deserializeWorld(record.payload);
+      const world = read.world;
       // Opening a save is how a tab comes to hold the slot: what it has in
       // hand now *is* what is stored, so it may write over it. The payload was
       // not rewritten, so what is durable is what was read.
@@ -1169,27 +1167,35 @@ interface PreparedRecord {
 }
 
 function prepareWorldRecord(world: World): PreparedRecord {
-  const player = controlledPlayer(world);
   // One snapshot, used for the summary, the payload and the content identity.
   // `serializeWorld` is exactly `serializeWorldSnapshot(createWorldSnapshot())`.
   const snapshot = createWorldSnapshot(world);
   return {
     payload: serializeWorldSnapshot(snapshot),
     contentId: snapshot.snapshotId,
-    fields: {
-      worldId: world.id,
-      snapshotId: snapshot.snapshotId,
-      snapshotFormatVersion: storedFormatVersion(snapshot),
-      worldSchemaVersion: world.schemaVersion,
-      worldGeneratorVersion: world.generatorVersion,
-      playerPersonId: player.id,
-      playerName: personName(player),
-      playerAge: ageOnDate(player.birthDate, world.currentDate),
-      ...(watchedFromStart(world) ? { observing: true as const } : {}),
-      residence: currentResidence(world, player),
-      currentMoment: { ...world.currentMoment },
-      actionSequence: world.actionSequence,
-    },
+    fields: worldRecordFields(world, snapshot),
+  };
+}
+
+/** The summary fields a record of this world carries. */
+function worldRecordFields(
+  world: World,
+  snapshot: WorldSnapshot,
+): PreparedRecord["fields"] {
+  const player = controlledPlayer(world);
+  return {
+    worldId: world.id,
+    snapshotId: snapshot.snapshotId,
+    snapshotFormatVersion: storedFormatVersion(snapshot),
+    worldSchemaVersion: world.schemaVersion,
+    worldGeneratorVersion: world.generatorVersion,
+    playerPersonId: player.id,
+    playerName: personName(player),
+    playerAge: ageOnDate(player.birthDate, world.currentDate),
+    ...(watchedFromStart(world) ? { observing: true as const } : {}),
+    residence: currentResidence(world, player),
+    currentMoment: { ...world.currentMoment },
+    actionSequence: world.actionSequence,
   };
 }
 
@@ -1240,7 +1246,15 @@ export function createBrowserWorldRecord(
 }
 
 type ReadRecord =
-  | { readonly kind: "healthy"; readonly record: StoredBrowserWorldRecord }
+  | {
+      readonly kind: "healthy";
+      readonly record: StoredBrowserWorldRecord;
+      /**
+       * The world the check read to prove the record, so a caller opening the
+       * save uses it instead of reading 80 MB of text a second time.
+       */
+      readonly world: World;
+    }
   | { readonly kind: "deleted"; readonly saveId: EntityId }
   | { readonly kind: "damaged"; readonly quarantine: QuarantinedSave };
 
@@ -1352,7 +1366,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
       savedAt,
     );
   }
-  return { kind: "healthy", record: migrated };
+  return { kind: "healthy", record: migrated, world };
 }
 
 /**
@@ -1383,12 +1397,20 @@ function migrateRecord(
       ? value.generation
       : 0;
 
+  // The summary a record written now would carry, in the format this one was
+  // written in. Only the fields are built: the payload was just compared, and
+  // writing a big world out again only to read its summary cost seconds.
+  const snapshot = createWorldSnapshot(world);
   const expected: BrowserWorldSummary = {
-    ...createBrowserWorldRecord(
-      world,
+    ...completeRecord(
+      {
+        payload: "",
+        contentId: snapshot.snapshotId,
+        fields: worldRecordFields(world, snapshot),
+      },
+      saveId,
       metadata.savedAt as string,
       metadata.createdAt as string,
-      saveId,
       generation,
     ).metadata,
     snapshotFormatVersion: formatVersion,

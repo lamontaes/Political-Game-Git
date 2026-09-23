@@ -1,0 +1,20 @@
+{
+  "filedAt": "2026-09-23T13:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "invented-depth audit",
+  "notes": [],
+  "priority": "P2",
+  "question": "How many of the people in a workplace or organization does a typical member actually know, by the size of the place? At what size does sharing a workplace (or a legislative chamber, or a party chapter) stop meaning you know everyone in it, and how quickly does a new member of a state legislature come to know the other members?",
+  "questionId": "how-many-colleagues-a-person-knows",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "relationships thread",
+  "sourcesChecked": [
+    {
+      "source": "how-often-people-and-groups-get-in-touch.json, what-moves-a-relationship.json",
+      "whatItDidNotSettle": "Contact frequency and what changes a relationship, not how many colleagues a person knows."
+    }
+  ],
+  "title": "How many colleagues a person knows, and when a big workplace stops being everyone you know",
+  "usableAnswer": "A size threshold or a curve (share of colleagues known by organization size), from workplace network or organizational sociology studies; for legislatures, anything on how quickly freshmen come to know the chamber.",
+  "whyItMatters": "People counts everyone in a player's workplace or group as somebody they know. After winning a Texas House seat, a playtest character had 181 'Work' acquaintances on the first day (2026-09-23). src/presentation/people-directory.ts EVERYBODY_KNOWS_EVERYBODY_LIMIT now treats a place with more than 20 other people as people to meet, known only once something is on the record between them. The 20 is a PLACEHOLDER."
+}

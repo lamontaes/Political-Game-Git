@@ -451,6 +451,11 @@ export function projectMeasureBriefing(
     whereItStands = `The bill is on the floor of the ${chamber.name} at ${stage.label}.`;
   } else if (position.phase === "awaiting-referral" && chamber) {
     whereItStands = `The bill has been filed in the ${chamber.name} and is waiting to be sent to a committee.`;
+  } else if (
+    position.phase === "awaiting-executive" &&
+    pack.executive.titleLabel !== "Governor"
+  ) {
+    whereItStands = `The bill is on the ${pack.executive.titleLabel}'s desk.`;
   } else if (position.phase === "awaiting-transmittal" && chamber) {
     const onward = nextChamberKey(
       pack,

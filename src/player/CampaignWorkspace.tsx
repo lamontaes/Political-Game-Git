@@ -36,6 +36,8 @@ import {
 } from "./campaign-planning-layout";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
+import { CampaignFilings } from "./CampaignFilings";
+import { CampaignOwnMoney } from "./CampaignOwnMoney";
 import { CampaignSpendingReports } from "./CampaignSpendingReports";
 import { MogulOffersPanel } from "./MogulOffersPanel";
 
@@ -497,9 +499,28 @@ export function CampaignWorkspace({
           <p data-testid="campaign-treasury">
             The committee has {money(view.treasury)}.
           </p>
+          {view.phase === "active" ? (
+            <CampaignOwnMoney
+              world={world}
+              personId={personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : null}
+          {view.phase === "active" && view.campaignId ? (
+            <CampaignFilings
+              world={world}
+              personId={personId}
+              campaignId={view.campaignId}
+              onWorldChange={onWorldChange}
+              readableDate={readableCampaignDate}
+            />
+          ) : null}
 
           {view.reading ? (
             <p className="game-campaign-memo" data-testid="campaign-memo">
+              <span data-testid="campaign-memo-dated">
+                {view.reading.dated}
+              </span>{" "}
               {view.reading.summary}
               {view.reading.change ? (
                 <span data-testid="campaign-memo-change">

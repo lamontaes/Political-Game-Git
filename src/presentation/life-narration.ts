@@ -6,6 +6,7 @@ import {
 } from "../simulation/people-contact";
 import { SCENE_BINDING_EVENT } from "../simulation/scene-bindings";
 import {
+  addDays,
   ageOnDate,
   activeEducationEnrollmentsAt,
   activeLifeCommitmentsAt,
@@ -24,6 +25,7 @@ import {
   type ThreadAnchor,
   type World,
 } from "../simulation";
+import { ownElectionResultsDecided } from "./own-election";
 
 /**
  * The time between the moments, said out loud — or nothing at all.
@@ -131,6 +133,13 @@ export function elapsedPhrase(days: number): string {
   return `${years} years later`;
 }
 
+/**
+ * How recently a race of the player's own must have been decided for a
+ * life's first told moment to lead with it. The same week the household's
+ * reaction to a result stays open for.
+ */
+const RECENT_OWN_RESULT_DAYS = 7;
+
 /* -------------------------------------------------------------------------- */
 /* Composition                                                                 */
 /* -------------------------------------------------------------------------- */
@@ -214,6 +223,16 @@ export function composeConnectiveNarration(
         ? `Home jurisdiction resolves to ${place.displayName}; age on ${until}.`
         : `Age on ${until}; no place is recorded.`,
     );
+    // A race of the player's own decided in the last few days is part of
+    // where the life stands, and comes before the standing facts.
+    for (const line of ownElectionResultsDecided(
+      world,
+      person.id,
+      addDays(until, -RECENT_OWN_RESULT_DAYS),
+      until,
+    )) {
+      say(line.sentence, "civic", [line.anchor], line.anchor.note);
+    }
     for (const line of openingFacts(world, person.id)) {
       say(line.sentence, line.kind, line.anchors, line.note);
       if (sentences.length >= maximum) break;
@@ -270,6 +289,11 @@ export function composeConnectiveNarration(
     });
   }
 
+  // The player's own races decided inside the gap. A result is the one thing
+  // in the interval that happened to them whether or not they did anything,
+  // so it leads what moved.
+  const results = ownElectionResultsDecided(world, personId, since, until);
+
   const crossed = toAge > fromAge;
   // A death the character was told of in this stretch is said first after the
   // gap: it is the news a person would lead with. Its words are the family
@@ -279,7 +303,10 @@ export function composeConnectiveNarration(
   // The elapsed opener exists to situate what follows. When nothing follows —
   // no nameable movement, no birthday — it would be a sentence whose whole
   // payload is that time passed, and the composer stays silent instead.
-  if (days > 0 && (movements.length > 0 || crossed || deaths.length > 0)) {
+  if (
+    days > 0 &&
+    (movements.length > 0 || results.length > 0 || crossed || deaths.length > 0)
+  ) {
     const opener = elapsedPhrase(days);
     say(
       crossed ? `${opener}, and you're ${toAge} now.` : `${opener}.`,
@@ -310,6 +337,9 @@ export function composeConnectiveNarration(
     );
   }
 
+  for (const line of results) {
+    say(line.sentence, "civic", [line.anchor], line.anchor.note);
+  }
   for (const movement of movements) {
     say(movement.sentence, "thread", movement.anchors, movement.note);
   }

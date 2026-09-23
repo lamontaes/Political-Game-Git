@@ -1,7 +1,8 @@
-import { daysBetween } from "./dates";
+import { addDays, daysBetween } from "./dates";
 import { requireElectionContest } from "./election-contests";
-import { createStableId } from "./ids";
+import { createStableId, stableHash } from "./ids";
 import { lifePlaceByJurisdictionId } from "./life-places";
+import { campaignStateJurisdictionKey } from "./campaign-compliance-rules";
 import { requireCampaign } from "./campaign-queries";
 import type {
   CampaignComplianceDocumentRecord,
@@ -310,6 +311,11 @@ export function recordCampaignComplianceDocument(
       "No accepted campaign-compliance pack covers this campaign.",
     );
   }
+  if (input.kind === "statement-of-organization") {
+    throw new Error(
+      "A statement of organization is filed under the placeholder rule, not an accepted pack.",
+    );
+  }
   if (input.stableKey.trim().length === 0) {
     throw new Error("A compliance document needs a stable key.");
   }
@@ -554,4 +560,197 @@ export function assessKentuckyCampaignContribution(
     requiresItemization,
     refusals,
   };
+}
+
+/**
+ * PLACEHOLDER. The first filing a campaign owes where the game has not read
+ * the state's campaign-finance law.
+ *
+ * Nearly every state asks a new candidate's committee to register with the
+ * state (a statement of organization, or the state's own name for it) within
+ * days of filing or of first raising money. Until the per-state answer to
+ * `campaign-filing-deadlines-by-state` lands, each state without a pack gets
+ * a deadline drawn from this national range, stable for that state. It is a
+ * placeholder, never another state's law.
+ */
+export const UNRESEARCHED_CAMPAIGN_FILING_RULE = {
+  version: "campaign-filing-unresearched-v1",
+  provenance: "unresearched-national-range",
+  statementOfOrganizationWithinDays: { min: 5, max: 15 },
+} as const;
+
+/** The placeholder rule's pack id, as recorded on a document it governs. */
+export const UNRESEARCHED_CAMPAIGN_FILING_PACK_ID =
+  UNRESEARCHED_CAMPAIGN_FILING_RULE.version;
+
+/** The drawn deadline for one state, the same every time it is asked. */
+export function unresearchedStatementDeadlineDays(
+  stateJurisdictionKey: string,
+): number {
+  const { min, max } =
+    UNRESEARCHED_CAMPAIGN_FILING_RULE.statementOfOrganizationWithinDays;
+  const draw = Number.parseInt(
+    stableHash(
+      `${UNRESEARCHED_CAMPAIGN_FILING_RULE.version}:${stateJurisdictionKey}`,
+    ).slice(-8),
+    16,
+  );
+  return min + (draw % (max - min + 1));
+}
+
+/** Which first statement a campaign owes, under which rule. */
+export interface CampaignStatementRule {
+  readonly documentKind:
+    "statement-of-spending-intent" | "statement-of-organization";
+  readonly withinDays: number;
+  readonly rulePackId: string;
+  readonly transport: "KEFMS" | null;
+  readonly placeholder: boolean;
+}
+
+/**
+ * The rule for this campaign's first statement: the accepted pack where one
+ * covers the campaign, otherwise the national-range placeholder. Null only
+ * when the campaign's place does not resolve to a state.
+ */
+export function campaignStatementRule(
+  world: World,
+  campaignId: EntityId,
+): CampaignStatementRule | null {
+  const campaign = requireCampaign(world, campaignId);
+  const pack = campaignCompliancePackFor(world, campaign.id);
+  if (pack) {
+    if (
+      pack.statementOfIntentWithinDays.state !== "KNOWN" ||
+      pack.electronicFilingSystem.state !== "KNOWN"
+    ) {
+      return null;
+    }
+    return {
+      documentKind: "statement-of-spending-intent",
+      withinDays: pack.statementOfIntentWithinDays.value,
+      rulePackId: pack.packId,
+      transport: pack.electronicFilingSystem.value,
+      placeholder: false,
+    };
+  }
+  if (campaign.compliancePackId !== null) return null;
+  const stateKey = campaignStateJurisdictionKey(campaign, world);
+  if (!stateKey) return null;
+  return {
+    documentKind: "statement-of-organization",
+    withinDays: unresearchedStatementDeadlineDays(stateKey),
+    rulePackId: UNRESEARCHED_CAMPAIGN_FILING_PACK_ID,
+    transport: null,
+    placeholder: true,
+  };
+}
+
+/** Where a campaign stands on its first required statement. */
+export type CampaignStatementStatus =
+  | { readonly kind: "not-required" }
+  | {
+      readonly kind: "due" | "missed";
+      readonly dueOn: IsoDate;
+      readonly rule: CampaignStatementRule;
+    }
+  | {
+      readonly kind: "filed";
+      readonly filedAt: IsoDate;
+      readonly rule: CampaignStatementRule;
+    };
+
+export function campaignStatementStatus(
+  world: World,
+  campaignId: EntityId,
+): CampaignStatementStatus {
+  const campaign = requireCampaign(world, campaignId);
+  const rule = campaignStatementRule(world, campaign.id);
+  if (!rule) return { kind: "not-required" };
+  const filed = campaignComplianceDocuments(world).find(
+    (record) =>
+      record.campaignId === campaign.id &&
+      record.kind === rule.documentKind &&
+      record.status === "filed",
+  );
+  if (filed?.filedAt) return { kind: "filed", filedAt: filed.filedAt, rule };
+  const dueOn = addDays(campaign.filedAt, rule.withinDays);
+  return {
+    kind: world.currentDate > dueOn ? "missed" : "due",
+    dueOn,
+    rule,
+  };
+}
+
+/**
+ * The committee files its first statement today. It becomes a public record.
+ * Refused, in a sentence, when nothing is due or the deadline has passed.
+ */
+export function fileCampaignStatement(
+  world: World,
+  campaignId: EntityId,
+): World {
+  const status = campaignStatementStatus(world, campaignId);
+  if (status.kind === "not-required") {
+    throw new Error("This campaign has no statement to file.");
+  }
+  if (status.kind === "filed") {
+    throw new Error("The committee's statement is already filed.");
+  }
+  if (status.kind === "missed") {
+    throw new Error("The deadline for the committee's statement has passed.");
+  }
+  const campaign = requireCampaign(world, campaignId);
+  const stableKey = `${campaign.stableKey}:compliance:${status.rule.documentKind}`;
+  if (!status.rule.placeholder) {
+    return recordCampaignComplianceDocument(world, {
+      stableKey,
+      campaignId: campaign.id,
+      kind: "statement-of-spending-intent",
+      schedule: "initial",
+      periodStart: null,
+      periodEnd: null,
+      dueOn: status.dueOn,
+      status: "filed",
+      transport: status.rule.transport,
+      amendsDocumentId: null,
+      correctionReason: null,
+    });
+  }
+  assertWorldIntegrity(world);
+  const record: CampaignComplianceDocumentRecord = {
+    id: createStableId(
+      "campaign-compliance-document",
+      `${world.id}:${stableKey}`,
+    ),
+    stableKey,
+    sequence: world.history.nextSequence,
+    campaignId: campaign.id,
+    committeeOrganizationId: campaign.organizationId,
+    rulePackId: status.rule.rulePackId,
+    kind: "statement-of-organization",
+    schedule: "initial",
+    periodStart: null,
+    periodEnd: null,
+    dueOn: status.dueOn,
+    status: "filed",
+    visibility: "public-record",
+    transport: null,
+    filedAt: world.currentDate,
+    amendsDocumentId: null,
+    correctionReason: null,
+  };
+  const next: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 1,
+      campaignComplianceDocuments: [
+        ...campaignComplianceDocuments(world),
+        record,
+      ],
+    },
+  };
+  assertWorldIntegrity(next);
+  return next;
 }
