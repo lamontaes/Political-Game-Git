@@ -64,6 +64,27 @@ describe("saved living-scene roles and content", () => {
     },
   );
 
+  it.each([
+    ["4865000", "San Antonio, a city split across House districts", false],
+    ["5613900", "Casper, in an at-large state", true],
+  ] as const)(
+    "names a House member only when the member is certainly this home's (%s: %s)",
+    (placeKey, _label, expectHouse) => {
+      const game = life(placeKey, `living-scenes-house:${placeKey}`);
+      const packet = projectLivingSceneOpening(game.world, game.playerPersonId);
+      const congress = packet.chapters.find(
+        (chapter) => chapter.key === "congress",
+      )!;
+      const titles = congress.actors
+        .filter((actor) => actor.role === "congress-member")
+        .map((actor) => actor.person.title);
+      expect(titles.some((title) => /Senator/.test(title))).toBe(true);
+      expect(titles.some((title) => /Representative/.test(title))).toBe(
+        expectHouse,
+      );
+    },
+  );
+
   it.each(["2743000", "1150000"])(
     "binds actual roles and geographic alternatives in %s without navigation writes",
     (placeKey) => {

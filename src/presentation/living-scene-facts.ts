@@ -166,16 +166,25 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
           actorFor(orientation.homeState.governor, "governor", "governor"),
         ].filter(valid)
       : [];
-  // One actual home-state House member and one Senator, never a fabricated
-  // 535-person hallway. This does not claim the House member is YOUR district.
+  // One actual House member and one Senator, never a fabricated 535-person
+  // hallway. Either Senator represents the whole state. A House member is
+  // shown only when the state has a single seat, so the member is certainly
+  // the player's: the first home-state seat used to stand in, which showed a
+  // San Antonio life the Representative for Texas's 1st district, in East
+  // Texas. The home's own district is not joined for Congress here, and a
+  // split city such as San Antonio has no one district to name.
+  const homeUsps = orientation.homeState?.stateUsps;
   const congressActors = orientation.congress
     ? [orientation.congress.house, orientation.congress.senate].flatMap(
         (chamber) => {
-          const seat = chamber.seats.find(
-            (entry) =>
-              entry.stateUsps === orientation.homeState?.stateUsps &&
-              entry.occupant.kind === "member",
+          const homeSeats = chamber.seats.filter(
+            (entry) => entry.stateUsps === homeUsps,
           );
+          const seat = (
+            chamber.chamberKey !== "us-senate" && homeSeats.length !== 1
+              ? []
+              : homeSeats
+          ).find((entry) => entry.occupant.kind === "member");
           return seat?.occupant.kind === "member"
             ? [
                 actorFor(

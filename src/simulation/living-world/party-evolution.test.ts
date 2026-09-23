@@ -632,3 +632,15 @@ describe("a member weighing whether to leave the body", () => {
     LONG,
   );
 });
+
+describe("names of groups founded out of a party body", () => {
+  it("every position carries a written group name, not its option label", () => {
+    for (const question of PARTY_QUESTIONS) {
+      for (const option of question.options) {
+        expect(option.groupName).toMatch(
+          /^[A-Z][A-Za-z]*( [A-Z][A-Za-z]*)* League$/,
+        );
+      }
+    }
+  });
+});
