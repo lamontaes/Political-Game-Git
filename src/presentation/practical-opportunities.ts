@@ -8,6 +8,7 @@ import { CAREER_PROVIDERS } from "./career-path7-provider";
 import { careerEligibility } from "../simulation/career-path7";
 import {
   LIFE_PATHS2_CATALOG,
+  employerName,
   lifePathDefinition,
 } from "../simulation/life-paths2-catalog";
 import {
@@ -56,7 +57,7 @@ export function projectPracticalOpportunities(
     };
   }).filter((item) =>
     terms.every((term) =>
-      `${item.path.title} ${item.path.organizationName} ${item.path.responsibility}`
+      `${item.path.title} ${employerName(item.path)} ${item.path.responsibility}`
         .toLocaleLowerCase("en-US")
         .includes(term),
     ),
@@ -66,7 +67,7 @@ export function projectPracticalOpportunities(
       path.scope === "personal" &&
       path.kind === "study" &&
       terms.every((term) =>
-        `${path.title} ${path.organizationName}`
+        `${path.title} ${employerName(path)}`
           .toLocaleLowerCase("en-US")
           .includes(term),
       ),

@@ -9,7 +9,10 @@ import type {
   FutureTransitionHandlerRegistry,
   World,
 } from "../simulation/types";
-import { LIFE_PATHS2_CATALOG } from "../simulation/life-paths2-catalog";
+import {
+  LIFE_PATHS2_CATALOG,
+  employerName,
+} from "../simulation/life-paths2-catalog";
 import {
   acceptLifePathCounteroffer,
   activateLifePathRecruit,
@@ -180,7 +183,7 @@ export function LifePathsPanel({
             return (
               <article key={path.id}>
                 <h4>{path.title}</h4>
-                <p>{path.organizationName}</p>
+                <p>{employerName(path)}</p>
                 <p>{path.responsibility}</p>
                 <p>
                   {path.kind === "study" && studyUsesPeriodModel(path)
