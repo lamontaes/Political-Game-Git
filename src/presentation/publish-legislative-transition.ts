@@ -43,9 +43,17 @@ function publishNewProceedings(before: World, after: World): World {
       )
     )
       continue;
+    // Dated the day it happened, not the day the transition ends: one
+    // advance can cover months of sittings, and a story stamped with the last
+    // day would put a bill's House vote, its trip to the Senate and its
+    // arrival on the President's desk all on one date.
     next = publishPublicEvent(next, {
       stableKey: `legislative-proceeding:${action.id}`,
       sourceEventId: event.id,
+      publishedAt:
+        event.recordedAt > event.occurredAt
+          ? event.recordedAt
+          : event.occurredAt,
     });
   }
   return next;
