@@ -3,6 +3,7 @@ import {
   generateQuickCharacterHistory,
   type CharacterHistoryPlan,
   type CharacterHistoryTransition,
+  type ChildhoodGenerationVersion,
 } from "./character-history";
 import { dateAtAge } from "./dates";
 import {
@@ -31,6 +32,9 @@ export function generateContextualCharacterHistory(
     // parent, peer and teacher names are actually drawn. The contextual pass
     // re-draws them from each person's own recorded gender regardless.
     readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
+    // Forwarded the same way: the parent, peer and teacher keep the birth
+    // dates the legacy constructor gives them.
+    readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
   },
 ): CharacterHistoryPlan {
   // Existing canonical background wins, including older school/work records.
