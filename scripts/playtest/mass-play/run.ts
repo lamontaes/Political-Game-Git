@@ -9,7 +9,7 @@
  * and seed. Results land as JSON lines in <dir>/games.jsonl.
  */
 import { spawn } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   lifePlaceStateIdentities,
@@ -96,7 +96,9 @@ await Promise.all(
             "tsx",
             "scripts/playtest/mass-play/worker.ts",
             file,
-            outFile,
+            // One file per worker: appends from several processes to one
+            // file on the shared project folder can interleave mid-line.
+            join(out, `games-${k}.jsonl`),
           ],
           { stdio: ["ignore", "ignore", "pipe"] },
         );
@@ -108,5 +110,14 @@ await Promise.all(
         });
       }),
   ),
+);
+writeFileSync(
+  outFile,
+  slices
+    .map((_, k) => {
+      const part = join(out, `games-${k}.jsonl`);
+      return existsSync(part) ? readFileSync(part, "utf8") : "";
+    })
+    .join(""),
 );
 console.log(`${specs.length} games written to ${outFile}`);
