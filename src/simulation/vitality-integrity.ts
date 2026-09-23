@@ -12,6 +12,7 @@ import type {
   MortalityCheckPlanRecord,
   MortalityCheckResultRecord,
   MortalityRngResult,
+  Person,
   PersonDeathRecord,
   PersonFunctionalCapacityRecord,
   PersonFunctionalCapacityStatus,
@@ -579,7 +580,9 @@ export function assertVitalityIntegrity(
       event.type !== "person.capacity-changed" ||
       event.occurredAt !== capacity.effectiveAt ||
       event.recordedAt !== capacity.recordedAt ||
-      event.jurisdictionId !== person.homeJurisdictionId ||
+      !homesOnDate(person, capacity.effectiveAt).includes(
+        event.jurisdictionId as EntityId,
+      ) ||
       event.visibility !== "private" ||
       JSON.stringify(event.tags) !== JSON.stringify(["vitality.capacity"]) ||
       event.participants.length !== 1 ||
@@ -1012,4 +1015,22 @@ function bySequence<T extends { readonly sequence: number }>(
   right: T,
 ): number {
   return left.sequence - right.sequence;
+}
+
+/**
+ * Where a person lived on a date: every residence they held that day (two on
+ * the day of a move), and their home today when no residence fact covers it.
+ * A record written on a date names the home of that date, and a later move
+ * does not make it wrong.
+ */
+function homesOnDate(person: Person, date: IsoDate): readonly EntityId[] {
+  const homes = person.establishedFacts.flatMap((fact) =>
+    fact.kind === "residence" &&
+    fact.jurisdictionId &&
+    fact.occurredAt <= date &&
+    (fact.endedAt === null || fact.endedAt >= date)
+      ? [fact.jurisdictionId]
+      : [],
+  );
+  return homes.length > 0 ? homes : [person.homeJurisdictionId];
 }
