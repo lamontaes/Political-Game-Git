@@ -26,9 +26,12 @@
  * - Interstate compacts, full faith and credit and extradition. They bind
  *   states to each other rather than ranking one level over another; the game
  *   holds no compact and no rule it reads is set by one.
- * - D.C. (congressional review of Council acts under the Home Rule Act) and
- *   Puerto Rico (the territorial clause). Blanket: each is treated as a state
- *   for the levels below federal law.
+ * - D.C. (congressional review of Council acts under the Home Rule Act),
+ *   Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the
+ *   Northern Mariana Islands (the territorial clause, organic acts and the
+ *   Covenant). Blanket: each ranks where a state would for the levels below
+ *   federal law. That is a ranking only; no state's rules are lent to any of
+ *   them.
  */
 
 export type LawLevel =
