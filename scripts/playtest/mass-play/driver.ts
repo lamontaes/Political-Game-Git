@@ -23,6 +23,7 @@ import {
   projectStoryMoment,
 } from "../../../src/presentation/life-story";
 import { projectToday } from "../../../src/presentation/day-overview";
+import { projectWorld39Journal } from "../../../src/presentation/world39-journal";
 import { openingNeighborhoodWalkOffer } from "../../../src/presentation/life-scene-flow";
 import {
   performVenueActivity,
@@ -121,6 +122,23 @@ export interface Finding {
   readonly action: string | null;
 }
 
+/** One scene the player met and what they chose, for reading a life back. */
+export interface SceneTrace {
+  readonly date: string;
+  readonly age: number;
+  readonly place: string | null;
+  readonly kind: string;
+  readonly situation: string | null;
+  readonly prose: string;
+  readonly people: readonly string[];
+  readonly options: readonly string[];
+  readonly chose: string;
+  /** Journal lines written by the choice (new entries only). */
+  readonly journal: readonly string[];
+  /** Where the clock stood after choosing. */
+  readonly after: string;
+}
+
 export interface GameResult {
   readonly spec: GameSpec;
   readonly startDate: string | null;
@@ -132,6 +150,9 @@ export interface GameResult {
   readonly offices: readonly string[];
   /** The campaign screen's phase when the game stopped. */
   readonly campaignPhase?: string;
+  readonly personId?: string;
+  readonly mainCommit?: string;
+  readonly scenes?: readonly SceneTrace[];
   readonly ms: number;
   readonly findings: readonly Finding[];
 }
@@ -312,6 +333,23 @@ export function playGame(spec: GameSpec): GameResult {
   let lastDate = world.currentDate;
   let sameDateCommands = 0;
   const recent: string[] = [];
+  const scenes: SceneTrace[] = [];
+  const newJournalLines = (before: World, after: World): string[] => {
+    try {
+      const seenIds = new Set(
+        projectWorld39Journal(before, personId).chapters.flatMap((c) =>
+          c.entries.map((e) => e.id),
+        ),
+      );
+      return projectWorld39Journal(after, personId)
+        .chapters.flatMap((c) => c.entries)
+        .filter((e) => !seenIds.has(e.id))
+        .map((e) => e.text)
+        .slice(0, 4);
+    } catch (error) {
+      return [`journal threw: ${(error as Error).message}`];
+    }
+  };
   let blocked = false;
 
   const persona = spec.persona;
@@ -360,6 +398,7 @@ export function playGame(spec: GameSpec): GameResult {
         ),
       );
       const scene = story.scene;
+      const moment = story;
       for (const option of persona === "terrible" && hostile.length
         ? hostile
         : options) {
@@ -380,6 +419,28 @@ export function playGame(spec: GameSpec): GameResult {
               optionKey: option.key,
               transitionHandlers: handlers,
             });
+            if (scene.kind !== "ordinary-stretch" && scenes.length < 40)
+              scenes.push({
+                date: world.currentDate,
+                age: moment.age,
+                place: moment.placeName,
+                kind: scene.kind,
+                situation:
+                  "situationKey" in scene
+                    ? String(scene.situationKey)
+                    : scene.kind === "episode"
+                      ? `${scene.beat.episodeKey}/${scene.beat.stageKey}`
+                      : null,
+                prose: scene.prose.slice(0, 600),
+                people: scene.presentPeople.map(
+                  (p) =>
+                    `${p.name}${p.introduction ? ` (${p.introduction})` : ""}`,
+                ),
+                options: options.map((o) => o.label),
+                chose: option.label,
+                journal: newJournalLines(world, next),
+                after: `${next.currentDate} ${next.currentMoment.minuteOfDay}`,
+              });
             // A choice the screen offered must change something: the same
             // scene, same options, same minute is a button that does nothing.
             if (scene.kind !== "ordinary-stretch") {
@@ -958,6 +1019,9 @@ export function playGame(spec: GameSpec): GameResult {
     spec,
     startDate,
     campaignPhase,
+    personId,
+    mainCommit: process.env.MASS_PLAY_MAIN ?? undefined,
+    scenes,
     endDate: world.currentDate,
     steps,
     actions,

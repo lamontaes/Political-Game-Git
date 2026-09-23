@@ -33,7 +33,7 @@ while [ ! -e "$out/STOP" ]; do
   dir="$out/round-$(printf %03d $round)-main-$main_sha"
   mkdir -p "$dir"
   echo "main $main_sha head $head_sha started $(date -u +%FT%TZ)" >"$dir/MAIN"
-  node --import tsx scripts/playtest/mass-play/run.ts --games "$games" --workers 4 \
+  MASS_PLAY_MAIN="$main_sha" node --import tsx scripts/playtest/mass-play/run.ts --games "$games" --workers 4 \
     --years "$years" --mix "$mix" --wall 600000 --out "$dir" \
     --seed "r$round-$main_sha" >"$dir/run.log" 2>&1
   echo "finished $(date -u +%FT%TZ)" >>"$dir/MAIN"
