@@ -8,7 +8,10 @@ import {
 } from "./chief-executive-baseline";
 import type { ChiefExecutiveBaselineRow } from "./chief-executive-baseline";
 import { isDistrictOfColumbia } from "./district-of-columbia-identity";
-import { isUsState } from "./state-executive-candidacy-packs";
+import {
+  isUsState,
+  isUsTerritoryWithGovernor,
+} from "./state-executive-candidacy-packs";
 
 /**
  * When a governor is elected, when the term begins and how long it runs, for
@@ -357,7 +360,8 @@ const VERIFIED: Readonly<Record<string, StateExecutiveTermRule>> = {
 
 /**
  * The rule that dates this jurisdiction's chief-executive terms: the fifty
- * states and, separately, the District of Columbia.
+ * states and, separately, the District of Columbia and the five territories.
+ * No territory's rule has been read, so a territory is always on the profile.
  *
  * A verified rule wins. Otherwise the game profile applies, with its term
  * length calibrated by the research baseline where that jurisdiction has a row,
@@ -367,7 +371,12 @@ const VERIFIED: Readonly<Record<string, StateExecutiveTermRule>> = {
 export function stateExecutiveTermRule(
   stateUsps: string,
 ): StateExecutiveTermRule | null {
-  if (!isUsState(stateUsps) && !isDistrictOfColumbia(stateUsps)) return null;
+  if (
+    !isUsState(stateUsps) &&
+    !isDistrictOfColumbia(stateUsps) &&
+    !isUsTerritoryWithGovernor(stateUsps)
+  )
+    return null;
   const verified = VERIFIED[stateUsps];
   if (verified) return verified;
   const row = chiefExecutiveBaseline(stateUsps);

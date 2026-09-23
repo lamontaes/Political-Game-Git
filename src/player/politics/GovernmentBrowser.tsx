@@ -130,7 +130,7 @@ export function GovernmentBrowser({
             data-testid={`government-scope-${item}`}
             onClick={() => onSelectionChange({ governmentScope: item })}
           >
-            {governmentScopeLabel(item)}
+            {governmentScopeLabel(item, view.browsingState?.usps ?? null)}
           </button>
         ))}
       </div>
