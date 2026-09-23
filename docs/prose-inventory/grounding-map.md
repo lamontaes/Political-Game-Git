@@ -23,7 +23,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `governing/municipal-law-projection` | 48 | 0 | 0 | — |
 | `governing/municipal-work-and-session` | 7 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-workspace` | 81 | 0 | 0 | — |
-| `legislative/measure-briefing` | 94 | 0 | 0 | measure |
+| `legislative/measure-briefing` | 95 | 0 | 0 | measure |
 | `life/adult` | 358 | 238 | 0 | colleague-identity, household-kinship, persistent-cast |
 | `life/callback` | 39 | 0 | 0 | — |
 | `life/episode` | 1020 | 71 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
