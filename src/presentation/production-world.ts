@@ -12,6 +12,11 @@ import {
   scheduleSchoolStageEnd,
   type SchoolStageKey,
   type SchoolStageVersion,
+  SCHOOL_STAGES_V2,
+  scheduleSchoolStageBegin,
+  schoolStageCalendarEnd,
+  schoolStageCalendarStart,
+  schoolStageToday,
 } from "../simulation/school-stages";
 import {
   generateSchoolNames,
@@ -164,6 +169,16 @@ export interface ProductionWorld {
 export const DEPENDENT_AGE_CEILING = 18;
 /** The age the game assumes ordinary schooling has begun by. */
 const SCHOOL_ENTRY_AGE = 5;
+const STAGE_ENTRY_AGE: Record<SchoolStageKey, number> = {
+  elementary: SCHOOL_ENTRY_AGE,
+  middle: 11,
+  high: 14,
+};
+const STAGE_CONTEXT = {
+  elementary: "stage:primary",
+  middle: "stage:primary",
+  high: "stage:secondary",
+} as const;
 
 const PROVENANCE = {
   kind: "generated" as const,
@@ -834,27 +849,55 @@ function establishAgeEligibleState(
   // town already, and the end of the stage the child is in now is scheduled
   // once the plan is applied.
   let advancing: { readonly stage: SchoolStageKey } | null = null;
+  let waiting = false;
   if (age >= SCHOOL_ENTRY_AGE) {
     const schoolKey = `${stableKey}:school`;
+    // Under v2 the stage, and every date, comes from the school calendar
+    // rather than from birthdays; past the end of high school it keeps the
+    // v1 reading, as a seventeen-year-old in school is not a claim to undo.
+    const today =
+      schoolStageVersion === SCHOOL_STAGES_V2 &&
+      childhoodGenerationVersion === CHILDHOOD_GENERATION_V2
+        ? schoolStageToday(world, player.id)
+        : "after";
+    const onCalendar = today !== "after";
+    const calendarStage = today === "before" ? "elementary" : today;
     const schooling = childSchooling(
       world,
       place,
       jurisdictionId,
-      age,
+      calendarStage === "after" ? age : STAGE_ENTRY_AGE[calendarStage],
       childhoodGenerationVersion,
       schoolNameVersion,
     );
     // The world does not know when the school was founded, and does not
     // pretend to: the earliest date it can honestly claim the school existed
-    // is the day this child started attending it.
-    const enrolledOn = dateAtAge(player.birthDate, schooling.current.entryAge);
+    // is the day this child started attending it. A child still waiting for
+    // the first day holds a place at a school that is there today.
+    const enrolledOn = onCalendar
+      ? schoolStageCalendarStart(world, player.id, schooling.current.key)
+      : dateAtAge(player.birthDate, schooling.current.entryAge);
+    waiting = enrolledOn > world.currentDate;
+    const contextKind = onCalendar
+      ? STAGE_CONTEXT[schooling.current.key]
+      : age >= 14
+        ? "stage:secondary"
+        : "stage:primary";
+    const expected = waiting ? { initialStatus: "expected" as const } : {};
     transitions.push(
-      ...earlierSchooling(world, player, stableKey, jurisdictionId, schooling),
+      ...earlierSchooling(
+        world,
+        player,
+        stableKey,
+        jurisdictionId,
+        schooling,
+        onCalendar,
+      ),
       {
         kind: "organization",
         input: {
           stableKey: schoolKey,
-          formedAt: enrolledOn,
+          formedAt: waiting ? world.currentDate : enrolledOn,
           provenance: PROVENANCE,
           initialProfile: {
             name: schooling.current.name,
@@ -870,15 +913,17 @@ function establishAgeEligibleState(
           personId: player.id,
           organizationId: organizationIdFor(world.id, schoolKey),
           startedAt: enrolledOn,
+          ...expected,
           programKind: "schooling:general",
-          contextKind: age >= 14 ? "stage:secondary" : "stage:primary",
+          contextKind,
           provenance: PROVENANCE,
         },
       },
     );
 
     if (
-      schoolStageVersion === SCHOOL_STAGES_V1 &&
+      (schoolStageVersion === SCHOOL_STAGES_V1 ||
+        schoolStageVersion === SCHOOL_STAGES_V2) &&
       childhoodGenerationVersion === CHILDHOOD_GENERATION_V2
     ) {
       advancing = { stage: schooling.current.key };
@@ -934,8 +979,9 @@ function establishAgeEligibleState(
             personId: characterHistoryContextPersonId(world, classmateKey),
             organizationId: organizationIdFor(world.id, schoolKey),
             startedAt: enrolledOn,
+            ...expected,
             programKind: "schooling:general",
-            contextKind: age >= 14 ? "stage:secondary" : "stage:primary",
+            contextKind,
             provenance: PROVENANCE,
           },
         },
@@ -954,14 +1000,22 @@ function establishAgeEligibleState(
       givenNameGenerationVersion,
     ),
   }).world;
-  const householdWorld = advancing
-    ? scheduleSchoolStageEnd(planned, {
-        schoolKey: `${stableKey}:school`,
-        personId: player.id,
-        stage: advancing.stage,
-        jurisdictionId,
-      })
-    : planned;
+  const householdWorld = !advancing
+    ? planned
+    : waiting
+      ? scheduleSchoolStageBegin(planned, {
+          schoolKey: `${stableKey}:school`,
+          personId: player.id,
+          stage: advancing.stage,
+          jurisdictionId,
+          dueAt: schoolStageCalendarStart(planned, player.id, advancing.stage),
+        })
+      : scheduleSchoolStageEnd(planned, {
+          schoolKey: `${stableKey}:school`,
+          personId: player.id,
+          stage: advancing.stage,
+          jurisdictionId,
+        });
   return otherParentState === "deceased"
     ? recordPersonDeath(householdWorld, {
         stableKey: `${otherParentKey}:death`,
@@ -1210,12 +1264,15 @@ function earlierSchooling(
   stableKey: string,
   jurisdictionId: EntityId,
   schooling: ReturnType<typeof childSchooling>,
+  onCalendar: boolean,
 ): CharacterHistoryTransition[] {
   const next = [...schooling.finished.slice(1), schooling.current];
   return schooling.finished.flatMap((stage, index) => {
     const schoolKey = `${stableKey}:school:${stage.key}`;
     const enrollmentKey = `${stableKey}:enrollment:${stage.key}`;
-    const startedAt = dateAtAge(player.birthDate, stage.entryAge);
+    const startedAt = onCalendar
+      ? schoolStageCalendarStart(world, player.id, stage.key)
+      : dateAtAge(player.birthDate, stage.entryAge);
     return [
       {
         kind: "organization",
@@ -1251,7 +1308,9 @@ function earlierSchooling(
         input: {
           stableKey: `${enrollmentKey}:completed`,
           enrollmentStableKey: enrollmentKey,
-          effectiveAt: dateAtAge(player.birthDate, next[index]!.entryAge),
+          effectiveAt: onCalendar
+            ? schoolStageCalendarEnd(world, player.id, stage.key)
+            : dateAtAge(player.birthDate, next[index]!.entryAge),
           status: "completed",
           contextKind:
             stage.key === "elementary" ? "stage:elementary" : "stage:school",
