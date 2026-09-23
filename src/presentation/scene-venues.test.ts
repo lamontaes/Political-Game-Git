@@ -1,3 +1,4 @@
+import { writeLegacyHouseholdEveningInvitation } from "../simulation/life-opportunities";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -181,7 +182,17 @@ describe("where a life actually is", () => {
   });
 
   it("does not equate a scheduled interval with attendance", () => {
-    const life = anOrdinaryLife("venue-invitation");
+    // The household's earlier commitment was the evening invitation. Play
+    // stopped writing it on 2026-09-22; a save made before then still holds
+    // one, and the refusal below still has to respect it.
+    const opened = anOrdinaryLife("venue-invitation");
+    const life = {
+      ...opened,
+      world: writeLegacyHouseholdEveningInvitation(
+        opened.world,
+        opened.personId,
+      ),
+    };
     const meeting = scheduledActivitiesVisibleTo(
       life.world,
       life.personId,
