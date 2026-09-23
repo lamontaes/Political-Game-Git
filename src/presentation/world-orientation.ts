@@ -1,6 +1,7 @@
 import type { OrientationHolderDisplay } from "./municipal-orientation-holder";
 import type { EntityId } from "../simulation";
 import { proseDate } from "./prose-dates";
+import { isTerritoryUsps, STATES } from "../simulation/state-reference";
 import type {
   ChamberView,
   PartyView,
@@ -227,17 +228,11 @@ function chamberSummary(chamber: OrientationChamber): string {
 /** Census congressional code for the DC delegate and PR commissioner. */
 const NON_VOTING_DISTRICT = "98";
 
-/** Places with a House seat code that are not states and have no governor. */
-const NON_STATE_NAMES: Readonly<Record<string, string>> = {
-  DC: "District of Columbia",
-  PR: "Puerto Rico",
-};
-
 function placeName(
   usps: string,
   stateName: (usps: string) => string | null,
 ): string {
-  return stateName(usps) ?? NON_STATE_NAMES[usps] ?? usps;
+  return stateName(usps) ?? STATES[usps]?.name ?? usps;
 }
 
 function seatLabel(
@@ -266,6 +261,20 @@ function stateStep(
   }
   const name = home ? placeName(home.stateUsps, stateName) : null;
   const governor = home?.governor ?? null;
+  if (home && name && isTerritoryUsps(home.stateUsps)) {
+    return {
+      key: "state",
+      title: name,
+      summary: [
+        `${name} is a U.S. territory, not a state. It elects its own Governor and legislature, and sends ${home.stateUsps === "PR" ? "a Resident Commissioner" : "a Delegate"} to the U.S. House, who does not cast final votes there. It has no seat in the U.S. Senate.`,
+        governor
+          ? `${governor.personName} is ${governor.title}.`
+          : `No current record names the Governor of ${name}.`,
+      ].join(" "),
+      people: governor ? [personFor(governor, parties)] : [],
+      chambers: [],
+    };
+  }
   return {
     key: "state",
     title: name ?? "Your state",

@@ -53,7 +53,7 @@ A lower-authority document or implementation cannot silently override a higher-a
 - `npm run corpus:prose` — build the development-time player-facing prose inventory, coverage, diagnostics, transcripts and review packet
 - `npm run storage -- status` — configured storage limits, registered workspaces, protected paths and live reservations
 - `npm run storage -- workspace --owner <owner>` — the owner's registered folder (reused; never a new directory)
-- `npm run storage -- run <operation> -- <command>` — hold the byte reservation until the command ends, fails or is signalled (exit 3, before starting it, when the headroom is not there). Use `test` for focused unit tests (1 GiB estimate), `build` for compilation, `e2e-capture` for browser runs, and `extract` for bounded art extraction.
+- `npm run storage -- run <operation> -- <command>` — hold the byte reservation until the command ends, fails or is signaled (exit 3, before starting it, when the headroom is not there). Use `test` for focused unit tests (1 GiB estimate), `build` for compilation, `e2e-capture` for browser runs, and `extract` for bounded art extraction.
 - `npm run storage -- release-workspace --owner X --path P` — after the owner releases an exact retired workspace, record it as inactive only if all non-registration retirement guards pass. It removes no files. A separate exact manifest and `retire` are still required to reclaim its bytes.
 - `npm run storage -- gate <operation>` — admission check only; holds nothing afterwards
 - `npm run storage -- output-root --path <dir> [--historical-disposable]` — register one exact directory inside a registered workspace as disposable run output
