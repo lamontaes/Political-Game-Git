@@ -1,7 +1,7 @@
 import { crisisEntityAvailableAt } from "./crisis/records";
 import { ageOnDate, dateAtAge, makeIsoDate, yearOf } from "./dates";
 import { eventById } from "./event-index";
-import { historyIndex } from "./history-index";
+import { indexOverArrays } from "./history-index";
 import { createStableId } from "./ids";
 import { assertExactQuantity } from "./quantity";
 import { SeededRng } from "./rng";
@@ -59,19 +59,32 @@ export function vitalityHistoryRecords(
 
 /**
  * Vitality records by id, the first in `vitalityHistoryRecords` order, built
- * once per history. The integrity pass asks this for every source it checks,
+ * once per change to those families. The integrity pass asks this for every source it checks,
  * and each answer copied four families into one array and scanned it.
  */
 function vitalityRecordIndex(
   world: World,
 ): ReadonlyMap<EntityId, VitalityHistoryRecord> {
-  return historyIndex(world, "vitality:records-by-id", () => {
-    const index = new Map<EntityId, VitalityHistoryRecord>();
-    for (const record of vitalityHistoryRecords(world))
-      if (!index.has(record.id)) index.set(record.id, record);
-    return index;
-  });
+  const history = world.history;
+  return indexOverArrays(
+    VITALITY_INDEX_ANCHOR,
+    [
+      history.mortalityCheckPlans,
+      history.mortalityCheckResults,
+      history.personDeaths,
+      history.personFunctionalCapacities,
+    ],
+    () => {
+      const index = new Map<EntityId, VitalityHistoryRecord>();
+      for (const record of vitalityHistoryRecords(world))
+        if (!index.has(record.id)) index.set(record.id, record);
+      return index;
+    },
+  );
 }
+
+/** Anchors the index above; its identity is all that matters. */
+const VITALITY_INDEX_ANCHOR = {};
 
 export function vitalityEntityExists(world: World, id: EntityId): boolean {
   return vitalityRecordIndex(world).has(id);
