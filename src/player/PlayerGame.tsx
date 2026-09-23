@@ -265,7 +265,8 @@ import {
   selectedDocketKey,
   selectDocketBill,
 } from "../presentation/legislation-docket-selection";
-import { measureById } from "../simulation";
+import { homeStateUsps, measureById } from "../simulation";
+import { isTerritoryUsps } from "../simulation/state-reference";
 import { measureGate } from "../simulation/legislation";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { InvokerFocusReturn } from "./PersonSceneActionMenu";
@@ -5457,7 +5458,9 @@ function renderWorkspace({
       if (half === "campaign") {
         sections.push({
           key: "statewide",
-          title: "The state's top office",
+          title: isTerritoryUsps(homeStateUsps(session.world, session.personId))
+            ? "The territory's top office"
+            : "The state's top office",
           body: (
             <NationwideCandidacyWorkspace
               world={session.world}
