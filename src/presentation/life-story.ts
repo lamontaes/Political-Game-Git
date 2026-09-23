@@ -540,10 +540,11 @@ function chooseStoryScene(
 }
 
 /**
- * "Let the weeks run on" stops for commitments, dated matters and civic
- * holds, and lets an unanswered social invitation lapse as it always has.
+ * "Let the weeks run on" stops for commitments, civic holds and the player's
+ * own election, and lets an unanswered social invitation lapse as it always
+ * has. Dated matters are left to the story (see `KnownCalendarOptions`).
  */
-const STORY_STRETCH_STOPS = { socialHolds: false } as const;
+const STORY_STRETCH_STOPS = { socialHolds: false, dueItems: false } as const;
 
 /** The option key that goes to something on today's calendar. */
 const GO_TO_ACTIVITY_PREFIX = "go-to:";

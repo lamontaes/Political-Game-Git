@@ -63,6 +63,16 @@ export interface KnownCalendarOptions {
    * commitments but lets a social invitation lapse. Defaults to true.
    */
   readonly socialHolds?: boolean;
+  /**
+   * Whether a dated matter that names the person stops the stretch. The world
+   * names the player on many of them that ask nothing of the player: a local
+   * development step, a weekly campaign evaluation, a party organizer's
+   * outreach. Near an election in Nevada those stopped "Let the weeks run on"
+   * every day or two, so the story's button leaves them to the story and
+   * stops only for the calendar and the player's own election. Defaults to
+   * true.
+   */
+  readonly dueItems?: boolean;
 }
 
 /**
@@ -105,6 +115,8 @@ export function nextKnownCalendarItem(
     )
       best = { title: activity.title, date: state.start.date, travel };
   }
+  if (options.dueItems === false)
+    return best ? { title: best.title, date: best.date } : null;
   const cutoff = currentLifeCutoff(world);
   for (const due of world.history.futureDueItems) {
     if (!due.entityIds.includes(personId)) continue;
