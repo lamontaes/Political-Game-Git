@@ -1,4 +1,4 @@
-/* global Buffer, process */
+/* global Buffer, process, URL */
 import test from "node:test";
 import { execFileSync } from "node:child_process";
 import { URL } from "node:url";
