@@ -15,5 +15,15 @@
   ],
   "title": "Which recorded storm reports a town experiences as a storm, and which as a disaster",
   "usableAnswer": "For a typical county, the yearly count of NCEI reports, of events residents notice, of damaging events, and of locally declared emergencies, with sources; a rule for which report attributes (magnitude, property damage, deaths or injuries, episode size) separate those tiers; and whether episodes should be spread over the month by their recorded start day.",
-  "whyItMatters": "Playtesters and the owner read the stream as too many disasters. The rate is sourced; what is not is treating every recorded wind report as an event the town lives through. Until this is answered the producer is unchanged."
+  "whyItMatters": "Playtesters and the owner read the stream as too many disasters. The rate is sourced; what is not is treating every recorded wind report as an event the town lives through. Until this is answered the producer is unchanged.",
+  "answer": {
+    "summary": "Owner decision (about 9:45 p.m. Eastern, September 22): four tiers, background weather, a storm felt in town, a damaging event, and a disaster; a town's experienced severity and any emergency or disaster declaration are separate records, and a declaration's area does not prove the town reached the top tier. ChatGPT's source map gives one official source per question: station weather (NWS ASOS, about 950 stations, mostly airports); warnings (NWS API and CAP alerts, which show risk issued, not weather that occurred); reported storms (NCEI Storm Events, which by NWS guidance can include reports with no impact or damage, is county- or zone-coded, and lags about three months); damage (Storm Events estimates, where blank means not reported, not zero, and a county total cannot be assigned to one town); federal declarations (OpenFEMA, a legal decision after a request, and many damaging storms get none). Rules: a county report may stay background weather; a storm reaches a town only if its footprint or effects do; a disaster needs substantial local disruption; keep the source report, place and start day, then record which town was exposed and what happened; a declaration, a government response and a news story are separate consequences.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty - nationwide storm evidence source intake - 2026-09-22.md",
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty — owner decisions on Journal voice and storm tiers — 2026-09-22.md"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-23T02:11:30.000Z",
+    "stillOpen": "No empirical threshold was found that turns a county or zone report into a felt storm or a damage amount into a disaster. Tier cutoffs, expected counts by place and year, town-level damage allocation, when local or federal declarations follow, and what a person notices are all UNKNOWN. Do not tune a rate from the owner's choice alone."
+  }
 }
