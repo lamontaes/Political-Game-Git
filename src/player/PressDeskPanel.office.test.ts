@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
@@ -50,12 +51,12 @@ function legislatorWithAPublicAllegation(): {
 
 function render(world: World, personId: EntityId): string {
   return renderToStaticMarkup(
-    <PressDeskPanel
-      world={world}
-      personId={personId}
-      onWorldChange={() => undefined}
-      onOpenPerson={() => undefined}
-    />,
+    createElement(PressDeskPanel, {
+      world,
+      personId,
+      onWorldChange: () => undefined,
+      onOpenPerson: () => undefined,
+    }),
   );
 }
 
