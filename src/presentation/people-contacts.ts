@@ -2,6 +2,7 @@ import { addDays, ageOnDate, personName } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   CONTACT_ACCEPTED_EVENT,
+  CONTACT_ANSWER_DELAY_DAYS,
   CONTACT_DECLINED_EVENT,
   CONTACT_MAXIMUM_NOTICE_DAYS,
   CONTACT_MINIMUM_NOTICE_DAYS,
@@ -35,7 +36,7 @@ import {
   endCouple,
   keptDates,
 } from "../simulation/couples";
-import { proseDate } from "./prose-dates";
+import { proseDate, proseWeekdayDate } from "./prose-dates";
 
 /**
  * Who the played person can reach, and what is outstanding between them
@@ -536,4 +537,23 @@ export function goMeetSomebodyNew(
     ? `You met ${personName(next.people[met]!)}.`
     : "You met nobody new.";
   return { world: next, said };
+}
+
+/**
+ * What the player is told the moment they ask. The answer itself comes later,
+ * from the other person, so the sentence says when to look for it. Before
+ * this the screen said nothing at all, and four playtest lives read the
+ * silence as the button doing nothing (run 2, 2026-09-23).
+ */
+export function askedNote(
+  world: World,
+  input: {
+    readonly otherPersonId: EntityId;
+    readonly on: IsoDate;
+    readonly date: boolean;
+  },
+): string {
+  const given = world.people[input.otherPersonId]?.givenName ?? "They";
+  const what = input.date ? "out" : "to meet";
+  return `You asked ${given} ${what} on ${proseWeekdayDate(input.on)}. ${given} will answer by ${proseWeekdayDate(addDays(world.currentDate, CONTACT_ANSWER_DELAY_DAYS))}.`;
 }

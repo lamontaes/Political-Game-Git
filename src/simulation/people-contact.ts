@@ -72,6 +72,7 @@ import type {
 import {
   CONTACT_ACCEPTED_EVENT,
   CONTACT_ANSWER_TRANSITION_KEY,
+  CONTACT_CALLED_OFF_EVENT,
   CONTACT_COUNTERED_EVENT,
   CONTACT_DECLINED_EVENT,
   CONTACT_LOCATION_KEY,
@@ -82,6 +83,7 @@ import {
 export {
   CONTACT_ACCEPTED_EVENT,
   CONTACT_ANSWER_TRANSITION_KEY,
+  CONTACT_CALLED_OFF_EVENT,
   CONTACT_COUNTERED_EVENT,
   CONTACT_DECLINED_EVENT,
   CONTACT_LOCATION_KEY,
@@ -90,7 +92,8 @@ export {
 };
 
 /** How long an unanswered proposal waits before the other person answers. */
-const ANSWER_DELAY_DAYS = 1;
+export const CONTACT_ANSWER_DELAY_DAYS = 1;
+const ANSWER_DELAY_DAYS = CONTACT_ANSWER_DELAY_DAYS;
 /** The earliest a proposal may be for: nobody is asked for the same hour. */
 /** For a sentence the player actually reads, in both shapes it needs. */
 function daysNotice(count: number): string {
@@ -1279,6 +1282,100 @@ export function recordContactMeetingKept(
     occurredAt: world.currentDate,
     kind: CONTACT_MEETING_KEPT_KIND,
     change: "strengthened",
+    significance: "minor",
+    summary,
+    tags: [CONTACT_TAG],
+  });
+}
+
+export const CONTACT_CALLED_OFF_KIND = "contact:called-off";
+
+/**
+ * A meeting two people agreed to, called off by one of them before it was
+ * kept. Before this, a confirmed meeting could only be attended: Decline was
+ * for optional holds, time stopped at the meeting, and a player who did not
+ * want to go was stuck on that day (New Jersey and New Hampshire playtests,
+ * 2026-09-23).
+ *
+ * The meeting is cancelled on both calendars, the other person is told, and
+ * the call-off is kept in their history. It is recorded as maintained, so it
+ * moves nothing by itself. PLACEHOLDER, NOT RESEARCH: how much a cancelled
+ * plan costs a relationship is part of `what-moves-a-relationship`; nothing
+ * is invented for it here.
+ */
+export function callOffContactMeeting(
+  world: World,
+  input: { readonly personId: EntityId; readonly activityId: EntityId },
+): World {
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === input.activityId,
+  );
+  if (
+    !activity ||
+    activity.location.locationKey !== CONTACT_LOCATION_KEY ||
+    !activity.participantPersonIds.includes(input.personId)
+  ) {
+    throw new Error("There is no meeting of yours to call off.");
+  }
+  if (scheduledActivityState(world, activity.id).status !== "scheduled") {
+    throw new Error("That meeting is no longer on the calendar.");
+  }
+  const otherId = activity.participantPersonIds.find(
+    (id) => id !== input.personId,
+  );
+  if (!otherId || !world.people[otherId]) {
+    throw new Error("There is no meeting of yours to call off.");
+  }
+  const person = world.people[input.personId]!;
+  const other = world.people[otherId]!;
+  const summary = `${personName(person)} called off meeting ${personName(other)}.`;
+  let next = cancelScheduledActivity(world, activity.id);
+  next = recordWorldEvent(next, {
+    stableKey: `contact-meeting:${activity.id}:called-off`,
+    type: CONTACT_CALLED_OFF_EVENT,
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: activity.location.jurisdictionId,
+    involvedEntityIds: [input.personId, otherId],
+    participants: [
+      { personId: input.personId, role: "agency:actor", detail: summary },
+      {
+        personId: otherId,
+        role: "focus:asked-of",
+        detail: "Had agreed to meet",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [CONTACT_TAG, `contact.meeting:${activity.id}`],
+    summary,
+    context: {
+      location: null,
+      socialContext: "A plan to meet, called off.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const event = next.history.events.at(-1)!;
+  next = recordEventKnowledge(next, {
+    stableKey: `contact-meeting:${activity.id}:called-off:told`,
+    personId: otherId,
+    eventId: event.id,
+    learnedAt: next.currentDate,
+    believedSummary: summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "told-by", sourcePersonId: input.personId, claimId: null },
+  });
+  return recordRelationshipInteraction(next, {
+    stableKey: `contact-meeting:${activity.id}:called-off`,
+    personIds: [input.personId, otherId],
+    eventId: event.id,
+    occurredAt: next.currentDate,
+    kind: CONTACT_CALLED_OFF_KIND,
+    change: "maintained",
     significance: "minor",
     summary,
     tags: [CONTACT_TAG],
