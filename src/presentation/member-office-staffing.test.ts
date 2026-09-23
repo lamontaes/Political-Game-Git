@@ -196,6 +196,55 @@ describe("a seated legislator hires office staff", () => {
     expect(fresh.candidates.map((c) => c.personId)).not.toContain(first);
   });
 
+  it("lets the people the member already met apply instead of strangers", () => {
+    const member = suppliedLegislativeSeat("US-NE", "legislature");
+    const seat = activeMemberSeats(member.world, member.personId)[0]!;
+    const office = memberStaffOffice(member.world, seat, member.personId);
+    const met = Object.keys(member.world.people)
+      .filter((id) => id !== member.personId)
+      .slice(0, 2) as (typeof member.personId)[];
+    expect(
+      openOfficeStaffSearch(member.world, office, {
+        applicants: { "member-legislative-aide": [member.personId] },
+      }).kind,
+    ).toBe("refused");
+    expect(
+      openOfficeStaffSearch(member.world, office, {
+        applicants: { "member-press-secretary": met },
+      }).kind,
+    ).toBe("refused");
+    const peopleBefore = Object.keys(member.world.people).length;
+    let world = done(
+      openOfficeStaffSearch(member.world, office, {
+        applicants: { "member-legislative-aide": met },
+      }),
+    );
+    const [aide, caseworker] = projectOfficeOnboarding(world, member.personId)
+      .staffing!.openings;
+    // The event store orders participants canonically; the set is what matters.
+    expect(aide!.candidates.map((c) => c.personId).sort()).toEqual(
+      [...met].sort(),
+    );
+    // The post nobody was met for still draws generated applicants.
+    expect(caseworker!.candidates).toHaveLength(3);
+    expect(Object.keys(world.people)).toHaveLength(peopleBefore + 3);
+    world = done(
+      hireOfficeStaff(world, office, {
+        positionId: aide!.positionId,
+        personId: met[1]!,
+      }),
+    );
+    expect(
+      projectOfficeOnboarding(world, member.personId).staffing!.filled,
+    ).toEqual([
+      {
+        positionId: aide!.positionId,
+        title: "Legislative Aide",
+        personId: met[1],
+      },
+    ]);
+  });
+
   it("refuses to hire for an office the controlled person does not hold", () => {
     const member = suppliedLegislativeSeat("US-AK", "house");
     const seat = activeMemberSeats(member.world, member.personId)[0]!;
