@@ -3,6 +3,7 @@ import type { EntityId, IsoDate, World } from "../simulation";
 import {
   answerMeeting,
   askOnADate,
+  askedNote,
   askToBeTogether,
   askToMeet,
   breakUp,
@@ -70,10 +71,10 @@ export function ContactsPanel({
   const [days, setDays] = useState<Readonly<Record<string, IsoDate>>>({});
   const dayFor = (key: string): IsoDate => days[key] ?? view.earliestMeetingOn;
 
-  function run(work: () => World) {
+  function run(work: () => World, said: string | null = null) {
     try {
       const next = work();
-      setNote(null);
+      setNote(said);
       if (next !== world) onWorldChange(next);
     } catch (error) {
       // The seam refuses in one player-readable sentence. That is the answer.
@@ -102,6 +103,16 @@ export function ContactsPanel({
       aria-label={focused ? "Getting in touch" : undefined}
     >
       {focused ? null : <h3 id={titleId}>Getting in touch</h3>}
+      {/* Said where it is seen: at the bottom of a long list it went unread. */}
+      {note ? (
+        <p
+          role="status"
+          className="pg-contact-note"
+          data-testid="contacts-note"
+        >
+          {note}
+        </p>
+      ) : null}
       {!contactEntry && view.contacts.length === 0 ? (
         <p data-testid="contacts-empty">
           There is nobody you have a way of reaching yet.
@@ -124,20 +135,32 @@ export function ContactsPanel({
                 }))
               }
               onAsk={(on) =>
-                run(() =>
-                  askToMeet(world, {
-                    personId,
+                run(
+                  () =>
+                    askToMeet(world, {
+                      personId,
+                      otherPersonId: contact.personId,
+                      on,
+                    }),
+                  askedNote(world, {
                     otherPersonId: contact.personId,
                     on,
+                    date: false,
                   }),
                 )
               }
               onAskOut={(on) =>
-                run(() =>
-                  askOnADate(world, {
-                    personId,
+                run(
+                  () =>
+                    askOnADate(world, {
+                      personId,
+                      otherPersonId: contact.personId,
+                      on,
+                    }),
+                  askedNote(world, {
                     otherPersonId: contact.personId,
                     on,
+                    date: true,
                   }),
                 )
               }
@@ -204,15 +227,6 @@ export function ContactsPanel({
             ))}
           </ul>
         </div>
-      ) : null}
-      {note ? (
-        <p
-          role="status"
-          className="pg-contact-note"
-          data-testid="contacts-note"
-        >
-          {note}
-        </p>
       ) : null}
     </section>
   );
