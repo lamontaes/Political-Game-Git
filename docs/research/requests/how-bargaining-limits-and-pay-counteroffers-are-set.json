@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-09-23T03:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "How the world changes (numbers audit)",
+  "priority": "P2",
+  "question": "When a state legislator bargains over a spending bill, how large is the limit a fiscally cautious member will accept, relative to the bill and to the state's budget? When a member caps a requested local amount, how does the program ceiling they commit to relate to that cap? When an employer counters a worker's pay ask for a part-time or hourly job, how far above the posted pay does the counter typically go?",
+  "questionId": "how-bargaining-limits-and-pay-counteroffers-are-set",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "How the world changes thread, answering lamontae's 2026-09-22 11:40 a.m. ET question about where the negotiation numbers come from.",
+  "sourcesChecked": [
+    {
+      "source": "src/presentation/legislative-bargaining-actions.ts fiscalConcernCeilingMinorUnits",
+      "whatItDidNotSettle": "A flat $8.6M limit for every state and bill, typed in."
+    },
+    {
+      "source": "src/presentation/legislative-bargaining.ts cappedAmountMinorUnits * 8",
+      "whatItDidNotSettle": "The committed ceiling is eight times the capped ask, with no basis."
+    },
+    {
+      "source": "src/simulation/life-paths2.ts counteroffer",
+      "whatItDidNotSettle": "The counter is 1.25 times posted pay, with no basis."
+    },
+    {
+      "source": "src/presentation/legislative-bargaining-brief.ts",
+      "whatItDidNotSettle": "The Kentucky bill figures ($8M program, $1.4M asked, $0.6M capped) and the $8,000,000 fiscal note are typed in."
+    }
+  ],
+  "title": "How a legislator's spending limit and an employer's pay counteroffer are set",
+  "usableAnswer": "For each of the three: a typical ratio or range with one sourced example, and what makes it larger or smaller (state budget size, chamber, job type). Say if no general answer exists and the figure should be drawn per state.",
+  "whyItMatters": "These numbers decide whether a player's bill passes and what a job pays after bargaining. They are now marked as placeholders in the code."
+}

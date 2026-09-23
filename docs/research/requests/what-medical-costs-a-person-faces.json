@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-23T03:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "How the world changes (numbers audit)",
+  "priority": "P2",
+  "question": "Should a character's life carry health insurance and medical costs, and if so what are they? For an adult by age, job type and state: whether they are insured and how (employer, marketplace, Medicaid, Medicare, uninsured), the typical monthly premium and yearly out-of-pocket cost, and what an acute or serious illness costs someone insured versus uninsured.",
+  "questionId": "what-medical-costs-a-person-faces",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "How the world changes thread, answering lamontae's 2026-09-22 11:40 a.m. ET question about where the healthcare numbers come from: the game shows none.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/health.ts",
+      "whatItDidNotSettle": "Illness has recovery times only (placeholders), no cost."
+    },
+    {
+      "source": "src/simulation/cost-of-living.ts",
+      "whatItDidNotSettle": "Monthly living costs list rent, food, utilities and other necessities; no medical line."
+    }
+  ],
+  "title": "What medical costs and insurance an ordinary person faces",
+  "usableAnswer": "A design decision (should medical costs exist in play) and, if yes, sourced national figures (KFF, CMS, MEPS) with how they vary by state and age.",
+  "whyItMatters": "Healthcare is a major political issue in the game, but a character never pays for or is insured against anything medical."
+}

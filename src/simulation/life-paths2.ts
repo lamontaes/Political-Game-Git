@@ -1597,6 +1597,7 @@ export function acceptLifePathCounteroffer(
     );
   const terms = resourceFlowTermsAt(world, flow.id)!;
   const amount = money(
+    // PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the 1.25 counteroffer is not sourced.
     Math.max(terms.amount.minorUnits, Math.ceil(path.sessionPayMinor * 1.25)),
     "USD",
   );

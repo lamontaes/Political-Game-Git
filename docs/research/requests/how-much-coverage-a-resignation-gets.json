@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-23T03:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "How the world changes (press coverage)",
+  "priority": "P1",
+  "question": "How much press does a resignation from office get, and from whom? For a town official, a state legislator, a statewide officer, a governor, a member of Congress and a president, what decides whether it is local, statewide or national news and how heavily it is covered: whether it was expected (announced retirement, end of term) or a surprise, a scandal behind it, health, taking another office, and the office's weight? Put it beside how-much-coverage-an-election-result-gets so the two use the same scale.",
+  "questionId": "how-much-coverage-a-resignation-gets",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "How the world changes thread, on lamontae's 2026-09-23 01:44Z direction: 'if a governor or even or a president obviously resigns, it should be massive news. Well, maybe not. I don't know. Feels like it should for in some instances.'",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/desk.ts newsworthiness",
+      "whatItDidNotSettle": "A resignation is scored like any named event about an office; nothing records whether it was a surprise or why it happened."
+    },
+    {
+      "source": "docs/research/requests/how-much-coverage-an-election-result-gets.json",
+      "whatItDidNotSettle": "Covers wins, not departures."
+    }
+  ],
+  "title": "How much coverage a resignation gets, by office and by surprise",
+  "usableAnswer": "A short table: rows are the office levels, columns are expected vs surprise (and scandal), cells give reach (local, state, national) and roughly how many stories, with one real example per row.",
+  "whyItMatters": "The owner wants a governor's or president's resignation to be big news in some cases. Until this is answered, the weight given to a resignation is a marked placeholder."
+}
