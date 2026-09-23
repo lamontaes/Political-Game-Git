@@ -1691,6 +1691,24 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 /**
+ * The saves were last kept by a newer copy of the game than the page open now.
+ *
+ * A database is opened at the version this build knows, and a browser refuses
+ * an older version than the one on disk. That happens when a tab or a cached
+ * page from before an update is still in use after the update ran once. The
+ * saves are untouched; reloading the page brings in the build that kept them.
+ */
+export class SavesKeptByNewerBuildError extends Error {
+  constructor(cause: unknown) {
+    super(
+      "Your saved lives were kept by a newer version of the game than this page.",
+      { cause },
+    );
+    this.name = "SavesKeptByNewerBuildError";
+  }
+}
+
+/**
  * Opens the game's own database, creating or upgrading its stores.
  *
  * Exported so the shell's interface store opens the same database at the same
@@ -1728,7 +1746,11 @@ export function openDatabase(
     };
     request.onerror = () =>
       reject(
-        new Error("Saved games could not be opened.", { cause: request.error }),
+        request.error?.name === "VersionError"
+          ? new SavesKeptByNewerBuildError(request.error)
+          : new Error("Saved games could not be opened.", {
+              cause: request.error,
+            }),
       );
     request.onblocked = () =>
       reject(

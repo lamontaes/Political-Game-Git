@@ -8,6 +8,7 @@ import { applyConstitutionalReform } from "./living-world/constitutional-reform"
 import { applyFederalReform } from "./living-world/federal-reform";
 import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
+import { eventById } from "./event-index";
 import {
   addDays,
   addSimulationMinutes,
@@ -1808,7 +1809,7 @@ function canonicalSourceAvailable(
   sequenceExclusive: number,
 ): boolean {
   if (world.people[id] || world.jurisdictions[id]) return true;
-  const event = world.history.events.find((record) => record.id === id);
+  const event = eventById(world, id);
   if (event)
     return event.sequence < sequenceExclusive && event.occurredAt <= at.date;
   if (lifeEntityExists(world, id)) {
@@ -2264,9 +2265,7 @@ function validateOutcomeEvent(
   at: SimulationMoment,
 ): void {
   if (eventId === null) return;
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (
     !event ||
     event.sequence >= stateSequence ||
