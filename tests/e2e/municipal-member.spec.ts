@@ -111,8 +111,15 @@ test("normal saved municipal member completes work once and reloads without acqu
       request.onerror = () => reject(request.error);
     });
     await new Promise<void>((resolve, reject) => {
-      const transaction = db.transaction("worlds", "readwrite");
+      // The save list reads a summary kept beside each record. Replacing the
+      // record behind the store's back leaves that summary describing the old
+      // one, so it goes too, and the next list summarizes the new record.
+      const transaction = db.transaction(
+        ["worlds", "world-summaries"],
+        "readwrite",
+      );
       transaction.objectStore("worlds").put(value);
+      transaction.objectStore("world-summaries").delete(value.saveId);
       transaction.oncomplete = () => resolve();
       transaction.onerror = () => reject(transaction.error);
     });

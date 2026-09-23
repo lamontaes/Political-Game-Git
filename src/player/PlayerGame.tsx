@@ -2391,7 +2391,12 @@ function SavesScreen({
                 data-testid="damaged-entry"
               >
                 <span>{entry.reason}</span>
-                {entry.mightBeReadableLater ? (
+                {entry.defect === "could-not-open-now" ? (
+                  <span className="game-note">
+                    The browser would not read it this time. Try again later
+                    before deciding anything.
+                  </span>
+                ) : entry.mightBeReadableLater ? (
                   <span className="game-note">
                     A later version of the game may be able to open it, so it is
                     worth keeping for now.
