@@ -87,8 +87,11 @@ describe("a Nevada Assembly seat's term", () => {
     const secondTerm = legislativeTermForRelationship(again, secondSeat.id)!;
     // The term is still ahead, but the member already sits in this seat.
     expect(secondTerm.startsAt < firstTerm.endsAt).toBe(true);
-    expect(projectCampaign(again, personId).afterword).toBe(
-      `${projectCampaign(again, personId).candidateName} won and keeps the seat. The new term begins ${proseDate(secondTerm.startsAt)}.`,
+    const projected = projectCampaign(again, personId);
+    expect(projected.afterword).toMatch(
+      new RegExp(
+        `^${projected.candidateName} won, [\\d.]+% to [\\d.]+% and keeps the seat\\. The new term begins ${proseDate(secondTerm.startsAt)}\\.$`,
+      ),
     );
 
     const renewed = passUntil(again, secondTerm.startsAt);
