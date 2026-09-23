@@ -16,8 +16,11 @@ import {
 } from "../simulation/governing/public-program";
 import { createOrganization } from "../simulation/life";
 import { spendPublicFundsOutsidePurpose } from "../simulation/press";
-import { createResourcePosition } from "../simulation/resources";
-import { pay } from "../../tests/fixtures/public-program-fixture";
+import {
+  createResourceFlow,
+  createResourcePosition,
+  recordResourceTransferOutcome,
+} from "../simulation/resources";
 import {
   ensureTaxPublicAccount,
   publicTaxAccountForJurisdiction,
@@ -98,6 +101,43 @@ function withUnnamedProgram(world: World, jurisdictionId: EntityId) {
     availableThrough: addDays(next.currentDate, 364),
     basis: FIXTURE,
   }).world;
+}
+
+/** Receipts moved into the public account, supplied as a test input. */
+function pay(
+  world: World,
+  stableKey: string,
+  from: EntityId,
+  to: EntityId,
+  amount: number,
+): World {
+  const next = createResourceFlow(world, {
+    stableKey,
+    source: { kind: "organization", organizationId: from },
+    recipient: { kind: "organization", organizationId: to },
+    startsAt: world.currentDate,
+    amount: money(amount, "USD"),
+    cadenceKind: "custom:fixture",
+    basisKind: "custom:fixture-transfer",
+    basisReference: { kind: "general" },
+    restrictionKind: null,
+    jurisdictionId: null,
+    provenance: { kind: "authored", note: FIXTURE.note },
+  });
+  const flow = next.history.resourceFlows.at(-1)!;
+  return recordResourceTransferOutcome(next, {
+    stableKey: `${stableKey}:transfer`,
+    resourceFlowId: flow.id,
+    periodStartsAt: next.currentDate,
+    periodEndsAt: next.currentDate,
+    occurredAt: next.currentDate,
+    attemptedAmount: money(amount, "USD"),
+    transferredAmount: money(amount, "USD"),
+    status: "completed",
+    reasonKind: null,
+    note: FIXTURE.note,
+    provenance: flow.provenance,
+  });
 }
 
 const render = (world: World, personId: EntityId) =>
