@@ -1,0 +1,35 @@
+{
+  "repositoryPathsSearched": [
+    "art/manifest/asset_manifest.json",
+    "art/requests/asset-requests.json",
+    "art/requests/incoming/",
+    "art/requests/promotions/",
+    "src/player/CampaignWorkspace.tsx"
+  ],
+  "driveLocationsSearched": [],
+  "found": "Nothing. All 126 records in the asset manifest were read by asset_type: 109 character components (character-component 46, candidate 35, master 28), 13 environment records (environment-plate 11, environment-master 2), 1 environment-foreground-mask, 1 environment-reference-master and 2 authored-character-pose. There is no interface graphic of any kind in the manifest. All 37 filed requests were read by requestId: seven are interface work — ui-newspaper-page-furniture, ui-masthead-ornaments-four-families, ui-shell-reference-icons, economic-graph-panel-ground, guide-popover-card-ground, politics-hub-tab-band and ui-chamber-vote-margin-graph — and none of them is an election result. ui-chamber-vote-margin-graph is the nearest and is a different thing: how a chamber divides on a measure, not how a contest ended.",
+  "shortfall": "The surface is finished, reachable and played to the end eleven times on 2026-09-22, and it has no artwork. `campaign-result` in src/player/CampaignWorkspace.tsx is a bare <div> with one sentence and a plain <ul> of <li> rows. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet.",
+  "generationRecipe": [
+    "A ruled ground for a short table of results: a returns board or a printed canvass sheet, the thing results were read off before there was a screen. Counted and official rather than celebratory.",
+    "It must hold THREE TO FIVE rows without distortion or a visible seam. Two was the only case until 2026-09-22, when the single hardcoded opponent was replaced with a field of two to four; measured in the browser the same day, Chicago returned five candidates and Galena five.",
+    "A sentence sits above the rows, one to two lines, naming who won.",
+    "No words, numerals or lettering of any kind in the artwork. Every name and every share is generated for that contest.",
+    "No party marks, emblems or colors. The parties in this game are real organizations and their branding is not ours to draw.",
+    "The same treatment is used whether the player won or lost, so nothing in it may read as a trophy or as a defeat. The game's own position is that a lost election leaves the life running."
+  ],
+  "acceptanceCriteria": [
+    "Reads at a glance as the end of something, distinct from the ordinary notes above it on the same panel.",
+    "Holds three, four and five rows equally well; a delivery that only composes at two candidates is wrong.",
+    "Contains no text, numerals or lettering. A delivery with any lettering in it is wrong however good it looks.",
+    "Carries no party emblem, color coding or anything that could be read as one.",
+    "Reads the same for a win and for a loss.",
+    "Does not reduce the contrast of the names and percentages sitting on it."
+  ],
+  "target": {
+    "minimumWidth": 1780,
+    "aspectRatio": "a wide panel that stretches vertically; measured at 890 CSS pixels of content width in the Campaigns panel at a 1440x900 viewport, so 1780 is that at 2x device pixels",
+    "alphaRequired": true,
+    "container": "png",
+    "styleAuthority": "the existing player shell's own type and spacing, as the newspaper page furniture and the Guide popover card were judged; the artwork frames the result rather than restyling it."
+  }
+}
