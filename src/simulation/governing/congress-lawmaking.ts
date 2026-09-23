@@ -464,7 +464,6 @@ export function congressIntakeHandler(
  */
 export function congressSittingHandler(
   world: World,
-  _due: FutureDueItem,
 ): FutureTransitionHandlerResult {
   let next = world;
   let steps = 0;
