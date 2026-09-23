@@ -175,9 +175,13 @@ describe("PT3 an offer of work that has not been answered", () => {
       entry.key.startsWith("work-offer:"),
     )!;
     expect(offerLater.sentence).toMatch(/waiting for your answer/);
-    expect(offerLater.sentence).not.toMatch(/to start on/);
-    expect(offerLater.sentence).not.toContain("2026-01");
-    expect(offerLater.sentence).not.toContain("January");
+    // The date it can still be answered by is ahead, and is said; the start
+    // date that has gone by is not.
+    const [offerPart, replyPart] = offerLater.sentence.split(" Answer by ");
+    expect(replyPart).toMatch(/, or it lapses\.$/);
+    expect(offerPart).not.toMatch(/to start on/);
+    expect(offerPart).not.toContain("2026-01");
+    expect(offerPart).not.toContain("January");
   });
 
   it("stops asking for an answer once the offer is accepted", () => {

@@ -1176,7 +1176,7 @@ export function leaveFirstJobFor(
   );
   const status = work ? workStatusAt(world, work.id) : null;
   if (!work || status?.status !== "active") return world;
-  return recordWorkStatus(world, {
+  const ended = recordWorkStatus(world, {
     stableKey: `${work.stableKey}:left:${world.currentDate}`,
     workRelationshipId: work.id,
     effectiveAt: world.currentDate,
@@ -1185,6 +1185,18 @@ export function leaveFirstJobFor(
     provenance: { kind: "authored", note: PROVENANCE_NOTE },
     supersedesStatusId: status.id,
   });
+  // Said in the life record, so the ending reads back rather than the job
+  // quietly vanishing from the list.
+  const title = activeRole(world, work)?.title ?? "first job";
+  return note(ended, {
+    key: `${work.stableKey}:left:${world.currentDate}`,
+    type: "first-job-left",
+    occurredAt: world.currentDate,
+    personId,
+    involved: [work.id, ...(work.organizationId ? [work.organizationId] : [])],
+    jurisdictionId: null,
+    summary: `You left your ${title.toLowerCase()} job${work.organizationId ? ` at ${organizationName(world, work.organizationId)}` : ""} to work as ${newTitle.toLowerCase()}.`,
+  }).world;
 }
 
 /**
@@ -1378,6 +1390,18 @@ export function settleJobPay(world: World, personId: EntityId): World {
 }
 
 /**
+ * The employer's side of every application as days pass: answers, lapsed
+ * offers and missed starts. It runs on the ordinary clock too, so a plain day
+ * skip no longer leaves an application waiting forever for an answer.
+ */
+export function advanceApplications(world: World, personId: EntityId): World {
+  let next = world;
+  for (const application of applicationsFor(next, personId))
+    next = advanceApplication(next, application);
+  return next;
+}
+
+/**
  * Everything the job market owes a person when time has passed: the town's
  * public bodies recorded as employers, this week's listings, the employer's
  * answers, lapsed and missed offers, and a held job's weekly pay. Idempotent
@@ -1391,7 +1415,5 @@ export function advanceJobMarket(world: World, personId: EntityId): World {
   let next = ensureHomeLocalGovernments(world, personId);
   if (ageOnDate(person.birthDate, next.currentDate) >= MINIMUM_APPLICANT_AGE)
     next = openWeeklyListings(next, personId);
-  for (const application of applicationsFor(next, personId))
-    next = advanceApplication(next, application);
-  return settleJobPay(next, personId);
+  return settleJobPay(advanceApplications(next, personId), personId);
 }

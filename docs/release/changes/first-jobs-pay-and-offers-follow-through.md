@@ -18,3 +18,10 @@ listings. An offer nobody answers lapses after its reply window. An accepted
 job nobody begins gets one call with a new start date, or is withdrawn, and
 the Work screen says the date to begin by. A second job whose shift overlaps
 one already held is refused, and the refusal names both shifts.
+
+## No offer lapses unseen
+
+Skipping days now stops on the last day to answer any offer of work, and says
+so. The day overview names that date. A plain day skip now also brings the
+employer's answer to a job application, which before came only on a quiet
+stretch. When an adult job begins, the teenage first job ends.

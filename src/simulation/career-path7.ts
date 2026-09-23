@@ -647,6 +647,25 @@ export function settleCareerOffers(w: World, personId: EntityId): World {
   return n;
 }
 
+/**
+ * The last day to answer an older offer still waiting on the player, or null
+ * when there is nothing to answer.
+ */
+export function careerReplyBy(w: World, id: EntityId): IsoDate | null {
+  const r = w.history.workRelationships.find((row) => row.id === id);
+  if (!r || !r.stableKey.startsWith("career-path7:")) return null;
+  if (workStatusAt(w, id)?.status !== "expected") return null;
+  if (careerOfferAccepted(w, id)) return null;
+  if (
+    !w.history.events.some(
+      (e) =>
+        e.type === "career-path7.offer" && e.involvedEntityIds.includes(id),
+    )
+  )
+    return null;
+  return replyByOf(w, id, addDays(r.startedAt, -1));
+}
+
 /** The start date an accepted older offer is waiting on now. */
 export function careerExpectedStart(w: World, id: EntityId): IsoDate | null {
   const r = w.history.workRelationships.find((row) => row.id === id);

@@ -17,6 +17,7 @@ import {
   startCareerWork,
 } from "../simulation/career-path7";
 import { CAREER_PROVIDERS } from "./career-path7-provider";
+import { projectLifeRecord } from "./life-record";
 
 /**
  * A teenager's first job, played from the new-game route, never Kentucky. It
@@ -140,6 +141,12 @@ describe("a teenager's first job", () => {
   });
 });
 
+function recordSentences(world: World, personId: EntityId): string[] {
+  return projectLifeRecord(world, personId).chapters.flatMap((chapter) =>
+    chapter.entries.map((entry) => entry.sentence),
+  );
+}
+
 /** A first job held since the teenage years, as a saved game carries it. */
 function withFirstJob(world: World, personId: EntityId) {
   const grocery = createOrganization(world, {
@@ -205,6 +212,9 @@ describe("the first job, once an adult job starts", () => {
     expect(status.status).toBe("ended");
     expect(status.reason).toBe("Left for work as shop assistant.");
     expect(status.effectiveAt).toBe(begun.world.currentDate);
+    expect(recordSentences(begun.world, adult.personId)).toContain(
+      "You left your weekend stock clerk job at Neighborhood grocery to work as shop assistant.",
+    );
     assertWorldIntegrity(begun.world);
   });
 

@@ -31,6 +31,10 @@ import {
 } from "./interruption-policy";
 import { nextOwnElection, ownElectionResultsBetween } from "./own-election";
 import { letStoryTimePass, quietStepDays } from "./life-story";
+import {
+  advanceStoppingForOfferDeadlines,
+  offerDeadlines,
+} from "./offer-deadlines";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import {
   describeRoutineOutcome,
@@ -264,15 +268,13 @@ function run(
       interruptions,
     );
   const advance = (current: World, days: number) =>
-    advanceStoppingForPressRequests(
-      current,
-      request.personId,
-      days,
-      (from, n) =>
+    advanceStoppingForOfferDeadlines(current, request.personId, days, (at, d) =>
+      advanceStoppingForPressRequests(at, request.personId, d, (from, n) =>
         passOrdinaryDays(from, n, {
           handlers: interruptionHandlers(interruptions),
           stopForTentativeHolds: interruptions.stopForTentativeHolds,
         }),
+      ),
     );
   const next =
     command.kind === "quiet-stretch"
@@ -285,6 +287,11 @@ function run(
     reached: next.currentMoment,
     outcome: [
       ...ownElectionResultsBetween(world, next, request.personId),
+      ...offerDeadlines(next, request.personId)
+        .filter((deadline) => deadline.replyBy === next.currentDate)
+        .map(
+          (deadline) => `Today is the last day to answer. ${deadline.sentence}`,
+        ),
       describeRoutineOutcome(
         world,
         next,
