@@ -57,6 +57,11 @@ const LOCAL_STAGES: Readonly<Record<string, StageDefinition>> = {
     importance: "notable",
     nextAfterDays: null,
   },
+  "proposal-adopted": {
+    type: "civic.local-matter-adopted",
+    importance: "notable",
+    nextAfterDays: null,
+  },
   "proposal-withdrawn": {
     type: "civic.local-matter-withdrawn",
     importance: "notable",
@@ -573,20 +578,35 @@ export function developmentStepTransitionHandler(
       : undefined;
     if (!poster) return done("actor-absent");
     const subject = LOCAL_SUBJECTS[subjectIndex] ?? LOCAL_SUBJECTS[0];
+    // A proposal can end adopted as well as withdrawn. Before, adoption was
+    // no stage at all, so every proposal nobody commented on was eventually
+    // withdrawn: 111 of 111 in two long runs with nobody played.
+    //
+    // BLANKET RULE, pending research question `how-a-town-proposal-ends`:
+    // which ending comes is an even draw among the ones open at each stage.
+    // Real shares of adopted, amended, tabled and withdrawn proposals have
+    // not been read.
     const commented = commentsSince(world, matterId, latest.sequence) > 0;
     const options = commented
       ? ["revised-proposal-posted"]
       : latestStage === "comment-period-extended"
-        ? ["proposal-withdrawn", "quiet"]
-        : ["proposal-withdrawn", "comment-period-extended", "quiet"];
+        ? ["proposal-adopted", "proposal-withdrawn", "quiet"]
+        : [
+            "proposal-adopted",
+            "proposal-withdrawn",
+            "comment-period-extended",
+            "quiet",
+          ];
     const chosen = options[rng.integer(0, options.length)]!;
     stage = chosen === "quiet" ? null : chosen;
     summary =
       stage === "revised-proposal-posted"
         ? `${poster} posted a revised proposal about ${subject} after the public comment period.`
-        : stage === "proposal-withdrawn"
-          ? `${poster} withdrew its proposal about ${subject}.`
-          : `${poster} extended the public comment period on its proposal about ${subject}.`;
+        : stage === "proposal-adopted"
+          ? `${poster} adopted its proposal about ${subject}.`
+          : stage === "proposal-withdrawn"
+            ? `${poster} withdrew its proposal about ${subject}.`
+            : `${poster} extended the public comment period on its proposal about ${subject}.`;
   } else {
     const options =
       latestStage === "persisted"

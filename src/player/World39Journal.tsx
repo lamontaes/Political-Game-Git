@@ -5,7 +5,11 @@ import type {
   JournalView,
   PrivateJournal,
 } from "../presentation/shell-navigation";
-import { projectJournalView } from "../presentation/journal-views";
+import {
+  projectJournalView,
+  withChronicleLead,
+  type JournalChronicleLine,
+} from "../presentation/journal-views";
 import { projectLifeRecord } from "../presentation/life-record";
 import { projectWorld39Journal } from "../presentation/world39-journal";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
@@ -114,27 +118,29 @@ export function World39Journal({
                 <span className="world39-chapter-span"> · {chapter.span}</span>
               ) : null}
             </h4>
-            <p>
-              {chapter.entries.map((entry, index) => (
-                <span
-                  key={entry.id}
-                  id={`world39-journal-${entry.id}`}
-                  data-entry-kind={entry.kind}
-                  data-source-id={entry.sourceId}
-                  data-at={entry.at}
-                >
-                  {index > 0 ? " " : ""}
-                  {entry.kind === "account" ? (
-                    <>
-                      <span className="world39-meta">As you heard it: </span>
-                      {entry.text}
-                    </>
-                  ) : (
-                    entry.text
-                  )}
-                </span>
-              ))}
-            </p>
+            {chronicleParagraphs(chapter.chronicle).map((paragraph) => (
+              <p key={paragraph[0]!.entry.id}>
+                {paragraph.map((line, index) => (
+                  <span
+                    key={line.entry.id}
+                    id={`world39-journal-${line.entry.id}`}
+                    data-entry-kind={line.entry.kind}
+                    data-source-id={line.entry.sourceId}
+                    data-at={line.entry.at}
+                  >
+                    {index > 0 ? " " : ""}
+                    {line.entry.kind === "account" ? (
+                      <>
+                        <span className="world39-meta">As you heard it: </span>
+                        {line.entry.text}
+                      </>
+                    ) : (
+                      withChronicleLead(line.lead, line.entry.text)
+                    )}
+                  </span>
+                ))}
+              </p>
+            ))}
             {chapter.repeats.length > 0 ? (
               <p
                 className="world39-repeats"
@@ -189,4 +195,16 @@ export function World39Journal({
       </details>
     </section>
   );
+}
+
+/** The chronicle's lines, split where a line starts a paragraph. */
+function chronicleParagraphs(
+  lines: readonly JournalChronicleLine[],
+): readonly (readonly JournalChronicleLine[])[] {
+  const paragraphs: JournalChronicleLine[][] = [];
+  for (const line of lines) {
+    if (line.startsParagraph || paragraphs.length === 0) paragraphs.push([]);
+    paragraphs[paragraphs.length - 1]!.push(line);
+  }
+  return paragraphs;
 }

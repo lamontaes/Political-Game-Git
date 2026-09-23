@@ -92,7 +92,7 @@ export function renderCatalogueData(text: string): string {
     "// docs/research/chatgpt-answers/2026-09-22-depth2/personality-scale-dispositions.json. Do not edit by hand.",
     `// Source catalog sha256 ${received.source_catalogue_sha256}.`,
     "",
-    // british-spelling-ok: a module path, not prose.
+    // british-spelling-ok: a module path in the generated file, not prose.
     'import type { CatalogueScale } from "./personality-catalogue";',
     "",
     `export const CATALOGUE_SCALES: readonly CatalogueScale[] = ${JSON.stringify(rows, null, 2)};`,
