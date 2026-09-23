@@ -421,7 +421,7 @@ _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 78 realized lines, 45 linked back to a template.
+20 beats, 79 realized lines, 47 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -530,7 +530,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 > A couple of months on.
 > You and Jaden Lewis were in and out of each other's business more than once.
-> Things came up at home with Gage Terrell more than once in that time.
+> You saw Manuel Todd.
 
 The group has settled into eight people and one of them keeps looking at you when a decision needs making. There is a position going that nobody wants and that somebody has to hold.
 
@@ -556,12 +556,12 @@ _Present: Manuel Todd, your dad_
 
 
 
-Gage Terrell, your housemate: “I will be home this evening. Would you like to sit and talk?”
+Manuel Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
 
-- **Agree to sit and talk this evening** ← chosen
-- Decline; keep the evening to yourself
+- **Say you will come** ← chosen
+- Decline the invitation
 
-_Present: Gage Terrell, your housemate_
+_Present: Manuel Todd, your dad_
 
 #### Beat 11 — 2026-03-24, age 34 (adult)
 
@@ -575,18 +575,7 @@ Manuel Todd, your dad: “Could you look over my invitation to the family picnic
 
 _Present: Manuel Todd, your dad_
 
-#### Beat 12 — 2026-03-24, age 34 (adult)
-
-
-
-Manuel Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
-
-- **Say you will come** ← chosen
-- Decline the invitation
-
-_Present: Manuel Todd, your dad_
-
-#### Beat 13 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/moment)
+#### Beat 12 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/moment)
 
 
 
@@ -598,7 +587,7 @@ You're at home with fifteen minutes free.
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 14 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/follow-through)
+#### Beat 13 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/follow-through)
 
 
 
@@ -609,7 +598,7 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-03-24._
 
-#### Beat 15 — 2026-03-24, age 34 (ordinary-stretch)
+#### Beat 14 — 2026-03-24, age 34 (ordinary-stretch)
 
 
 
@@ -617,11 +606,22 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
+#### Beat 15 — 2026-05-10, age 35 (adult)
 
 > A couple of months on, and you're 35 now.
 > Jaden Lewis tried to reach you.
 > You and Emil Miles were in and out of each other's business more than once.
+
+Manuel Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
+
+- **Say you will come** ← chosen
+- Decline the invitation
+
+_Present: Manuel Todd, your dad_
+
+#### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
+
+
 
 You're at home with fifteen minutes free.
 
@@ -642,27 +642,27 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-05-10._
 
-#### Beat 18 — 2026-05-10, age 35 (adult)
+#### Beat 18 — 2026-05-10, age 35 (ordinary-stretch)
 
 
 
-Manuel Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
-
-- **Say you will come** ← chosen
-- Decline the invitation
-
-_Present: Manuel Todd, your dad_
-
-#### Beat 19 — 2026-05-10, age 35 (adult)
 
 
+- **Let the weeks run on** ← chosen
 
-Gage Terrell, your housemate: “I will be home this evening. Would you like to sit and talk?”
+#### Beat 19 — 2026-06-10, age 35 (episode, home.the-week-that-does-not-balance/it-was-taken-seriously)
 
-- **Agree to sit and talk this evening** ← chosen
-- Decline; keep the evening to yourself
+> A month later.
+> Emil Miles tried to reach you.
+
+Five months on, the parts you took are still yours, and nobody has had to mention it again. Tonight Gage Terrell asks whether you would rather swap two of them.
+
+- **Trade the jobs** ← chosen
+- Keep it as it is
 
 _Present: Gage Terrell, your housemate_
+
+_Grounded by: household-peer is Gage Terrell: Resident on the same household record, with no authority either way between them.; At the-first-time-it-is-said they chose take-it-on, on 2026-01-05.; 156 day(s) since the-first-time-it-is-said; needs 150._
 
 
 ---

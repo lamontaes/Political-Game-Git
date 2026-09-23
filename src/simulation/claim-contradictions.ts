@@ -4,6 +4,7 @@ import {
   CLAIM_EVIDENCE_TAG_PREFIX,
   CLAIM_STANCE_EVENT_TAG_PREFIX,
   claimStanceOf,
+  claimStancesBy,
   contradictionFound,
   type ClaimStance,
 } from "./claim-stances";
@@ -164,49 +165,95 @@ export function claimContradictionTransitionHandler(
   }
   const route = CONTRADICTION_ROUTES.find((entry) => entry.prefix === kind);
   if (route && id) {
-    let next = world;
-    let lastEventId: EntityId | null = null;
-    for (const recipientId of stance.recipientPersonIds) {
-      if (
-        recipientId === speakerId ||
-        !next.people[recipientId] ||
-        dying(next, recipientId) ||
-        contradictionFound(next, stanceEvent.id, recipientId)
-      ) {
-        continue;
-      }
-      const evidence = route.evidenceFor(
-        next,
-        stanceEvent,
-        stance,
-        id,
-        recipientId,
-      );
-      if (!evidence) continue;
-      const found = writeDiscovery(next, {
-        stanceEvent,
-        stance,
-        speakerId,
-        discovererId: recipientId,
-        evidenceEventId: evidence.evidenceEventId,
-        family: route.discovery?.family ?? "reporter-question",
-        place: route.discovery?.place ?? "By phone",
-        jurisdictionId:
-          stanceEvent.jurisdictionId ?? fallbackJurisdiction(next),
-        evidenceLabel: evidence.label,
-        facts: {
-          sourceName: evidence.label,
-          questionLabel: stance.proposition,
-        },
-      });
-      next = found.world;
-      lastEventId = found.eventId;
-    }
-    return lastEventId
-      ? done("contradicted", next, lastEventId)
-      : done("no-evidence-yet", next);
+    const checked = routedCheck(
+      world,
+      stanceEvent,
+      stance,
+      speakerId,
+      route,
+      id,
+    );
+    return checked.lastEventId
+      ? done("contradicted", checked.world, checked.lastEventId)
+      : done("no-evidence-yet", checked.world);
   }
   return done("unsupported-proposition");
+}
+
+/** Every recipient the route can show evidence to learns the claim was false. */
+function routedCheck(
+  world: World,
+  stanceEvent: HistoricalEvent,
+  stance: ClaimStance,
+  speakerId: EntityId,
+  route: (typeof CONTRADICTION_ROUTES)[number],
+  id: EntityId,
+): { readonly world: World; readonly lastEventId: EntityId | null } {
+  let next = world;
+  let lastEventId: EntityId | null = null;
+  for (const recipientId of stance.recipientPersonIds) {
+    if (
+      recipientId === speakerId ||
+      !next.people[recipientId] ||
+      dying(next, recipientId) ||
+      contradictionFound(next, stanceEvent.id, recipientId)
+    ) {
+      continue;
+    }
+    const evidence = route.evidenceFor(
+      next,
+      stanceEvent,
+      stance,
+      id,
+      recipientId,
+    );
+    if (!evidence) continue;
+    const found = writeDiscovery(next, {
+      stanceEvent,
+      stance,
+      speakerId,
+      discovererId: recipientId,
+      evidenceEventId: evidence.evidenceEventId,
+      family: route.discovery?.family ?? "reporter-question",
+      place: route.discovery?.place ?? "By phone",
+      jurisdictionId: stanceEvent.jurisdictionId ?? fallbackJurisdiction(next),
+      evidenceLabel: evidence.label,
+      facts: {
+        sourceName: evidence.label,
+        questionLabel: stance.proposition,
+      },
+    });
+    next = found.world;
+    lastEventId = found.eventId;
+  }
+  return { world: next, lastEventId };
+}
+
+/**
+ * Checks `speakerId`'s standing claims on `propositionKey` again now, for a
+ * producer that has just put new evidence in a listener's hands: a public
+ * finding on a matter somebody lied to a reporter about. The scheduled check
+ * runs once, and a claim it found nothing against would otherwise never be
+ * looked at again (Alaska replay, 2026-09-22: four false denials, none ever
+ * contradicted after the finding that disproved them).
+ */
+export function recheckRoutedClaims(
+  world: World,
+  speakerId: EntityId,
+  propositionKey: string,
+): World {
+  const [kind, id] = splitKey(propositionKey);
+  const route = CONTRADICTION_ROUTES.find((entry) => entry.prefix === kind);
+  if (!route || !id || !world.people[speakerId] || dying(world, speakerId))
+    return world;
+  let next = world;
+  for (const { event, stance } of claimStancesBy(world, speakerId)) {
+    if (stance.propositionKey !== propositionKey) continue;
+    if (stance.intent !== "deceive" && stance.intent !== "from-memory")
+      continue;
+    next = routedCheck(next, event, stance, speakerId, route, id).world;
+  }
+  return next;
 }
 
 type Done = (
