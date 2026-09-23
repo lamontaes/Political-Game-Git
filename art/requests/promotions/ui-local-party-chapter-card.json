@@ -7,19 +7,19 @@
     "src/player/CampaignWorkspace.tsx"
   ],
   "driveLocationsSearched": [],
-  "found": "Nothing. All 126 manifest records were read by asset_type and none is an interface graphic; all 38 filed requests were read by requestId and the eight interface ones cover the newspaper, the masthead ornaments, the shell icons, the economic graph ground, the Guide popover card, the Politics hub tab band, the chamber vote-margin graph and the election night result filed alongside this one. ui-shell-reference-icons is the nearest neighbour: it includes a small icon standing for an organization such as a local party chapter, which is a pin-rail mark rather than a ground for the chapter's own block.",
+  "found": "Nothing. All 126 manifest records were read by asset_type and none is an interface graphic; all 38 filed requests were read by requestId and the eight interface ones cover the newspaper, the masthead ornaments, the shell icons, the economic graph ground, the Guide popover card, the Politics hub tab band, the chamber vote-margin graph and the election night result filed alongside this one. ui-shell-reference-icons is the nearest neighbor: it includes a small icon standing for an organization such as a local party chapter, which is a pin-rail mark rather than a ground for the chapter's own block.",
   "shortfall": "The block is reachable in every town the game has walked and has nothing behind it. Measured on 2026-09-22: fifteen towns, from Chicago to Galena, Illinois at about three thousand people, and every one of them rendered two chapters with a named organizer and five activities — including Nashville, Helena and San Juan, where the game refuses the player a ballot and the chapter is the only thing on the screen that is not a refusal. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet.",
   "generationRecipe": [
     "A card ground for a block that names a local chapter, its organizer, and the things it is doing. The reference is the noticeboard in a hired room: a pinned sheet, a taped corner, a folding table. Local and provisional rather than institutional.",
     "It must stretch. The chapter name runs long — 'County of Jo Daviess Democrats' and 'Nashville-Davidson metropolitan government Democrats' are both real strings this surface has rendered — and the activity controls below it wrap to two rows at a 1440-wide viewport.",
-    "No party marks, emblems, colours or names of any kind. One ground serves both parties and any third, and the emblems of real organizations are not ours to draw.",
+    "No party marks, emblems, colors or names of any kind. One ground serves both parties and any third, and the emblems of real organizations are not ours to draw.",
     "Nothing that implies a scale. The chapter is the same object in a town of three thousand and a city of two point seven million.",
     "Nothing that reads as a membership card, a badge or a pledge. The surface says in its own words that coming to any of this is not joining, endorsing or voting, and the artwork must not contradict it.",
     "No words, numerals or lettering of any kind in the artwork."
   ],
   "acceptanceCriteria": [
     "Reads as a local, temporary gathering rather than an institution or a party organ.",
-    "Carries no party emblem, colour coding, or anything a player could read as one; the identical ground under a Democratic and a Republican chapter must look deliberate rather than like a missing variant.",
+    "Carries no party emblem, color coding, or anything a player could read as one; the identical ground under a Democratic and a Republican chapter must look deliberate rather than like a missing variant.",
     "Stretches to a chapter name of up to about sixty characters and to one or two rows of activity controls without distortion or a visible seam.",
     "Contains no text, numerals or lettering.",
     "Does not read as a membership card, a badge or an endorsement.",
