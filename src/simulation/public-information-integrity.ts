@@ -1,6 +1,6 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
-import { historyIndex } from "./history-index";
+import { indexOverArrays } from "./history-index";
 import { pressRecordSequence } from "./press/integrity";
 import {
   MEDIA_OUTLET_KEY_PREFIX,
@@ -330,51 +330,65 @@ function sourceRecordSequence(world: World, id: EntityId): number | null {
 }
 
 /**
- * The lookups a publication's source resolves through, built once per
- * history. Every public event and every publication asked them, and each
+ * The lookups a publication's source resolves through, rebuilt only when
+ * one of those families changes. Every public event and every publication asked them, and each
  * answer scanned its family from the first record, so checking a long save
  * cost events times records. Each map keeps the first match, as `.find` did.
  */
 function sourceIndexes(world: World) {
-  return historyIndex(world, "public-information:sources", () => {
-    const history = world.history;
-    const first = <K, V>(rows: readonly V[], key: (row: V) => K | null) => {
-      const index = new Map<K, V>();
-      for (const row of rows) {
-        const k = key(row);
-        if (k !== null && !index.has(k)) index.set(k, row);
-      }
-      return index;
-    };
-    const sequenceById = new Map<EntityId, number>();
-    for (const rows of [
-      history.legislativeMeasures ?? [],
-      history.legislativeActions ?? [],
-      history.legislativeVotes ?? [],
-      history.taxPolicies ?? [],
-      history.taxCollections ?? [],
-    ] as readonly (readonly { id: EntityId; sequence: number }[])[])
-      for (const row of rows)
-        if (!sequenceById.has(row.id)) sequenceById.set(row.id, row.sequence);
-    return {
-      pressById: first(history.pressRecords ?? [], (row): string => row.id),
-      actionByEventId: first(
+  const history = world.history;
+  return indexOverArrays(
+    PUBLICATION_SOURCE_ANCHOR,
+    [
+      history.pressRecords,
+      history.legislativeMeasures,
+      history.legislativeActions,
+      history.legislativeVotes,
+      history.taxPolicies,
+      history.taxCollections,
+    ],
+    () => {
+      const first = <K, V>(rows: readonly V[], key: (row: V) => K | null) => {
+        const index = new Map<K, V>();
+        for (const row of rows) {
+          const k = key(row);
+          if (k !== null && !index.has(k)) index.set(k, row);
+        }
+        return index;
+      };
+      const sequenceById = new Map<EntityId, number>();
+      for (const rows of [
+        history.legislativeMeasures ?? [],
         history.legislativeActions ?? [],
-        (row) => row.eventId,
-      ),
-      measureById: first(history.legislativeMeasures ?? [], (row) => row.id),
-      voteById: first(history.legislativeVotes ?? [], (row) => row.id),
-      taxPolicyByEventId: first(
+        history.legislativeVotes ?? [],
         history.taxPolicies ?? [],
-        (row) => row.outcomeEventId,
-      ),
-      collectedTaxByEventId: first(history.taxCollections ?? [], (row) =>
-        row.status === "collected" ? row.outcomeEventId : null,
-      ),
-      sequenceById,
-    };
-  });
+        history.taxCollections ?? [],
+      ] as readonly (readonly { id: EntityId; sequence: number }[])[])
+        for (const row of rows)
+          if (!sequenceById.has(row.id)) sequenceById.set(row.id, row.sequence);
+      return {
+        pressById: first(history.pressRecords ?? [], (row): string => row.id),
+        actionByEventId: first(
+          history.legislativeActions ?? [],
+          (row) => row.eventId,
+        ),
+        measureById: first(history.legislativeMeasures ?? [], (row) => row.id),
+        voteById: first(history.legislativeVotes ?? [], (row) => row.id),
+        taxPolicyByEventId: first(
+          history.taxPolicies ?? [],
+          (row) => row.outcomeEventId,
+        ),
+        collectedTaxByEventId: first(history.taxCollections ?? [], (row) =>
+          row.status === "collected" ? row.outcomeEventId : null,
+        ),
+        sequenceById,
+      };
+    },
+  );
 }
+
+/** Anchors the index above; its identity is all that matters. */
+const PUBLICATION_SOURCE_ANCHOR = {};
 
 function canonicalIds(ids: readonly EntityId[]): readonly EntityId[] {
   return [...new Set(ids)].sort((left, right) => left.localeCompare(right));

@@ -17,6 +17,10 @@ import {
 } from "../dates";
 import { createDemoWorld } from "../demo";
 import { projectCongress } from "../living-world/congress";
+import {
+  CONGRESS_RESULTS_EVENT,
+  congressionalElectionDay,
+} from "../living-world/congress-turnover";
 import { SEAT_PARTY_TAG } from "../living-world/opening";
 import {
   nationalOfficeHolder,
@@ -470,6 +474,48 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(currentFederalTenure(reopened, "us-vice-president")!.personId).toBe(
       nomineeId,
     );
+  }, 600_000);
+
+  it("a seat whose member-elect dies before the term begins is filled too", () => {
+    const opened = openingWorld("k3-member-elect");
+    const year = Number(opened.currentDate.slice(0, 4));
+    const electionYear = year % 2 === 0 ? year : year + 1;
+    const electionDay = congressionalElectionDay(electionYear);
+    let next = passOrdinaryDays(
+      opened,
+      daysBetween(opened.currentDate, electionDay) + 1,
+    );
+    const results = next.history.events.find(
+      (event) => event.type === CONGRESS_RESULTS_EVENT,
+    )!;
+    // A newcomer, so the death touches no seat held today.
+    const winner = results.participants.find(
+      (p) =>
+        p.detail?.startsWith("us-house:") && p.detail.split("|")[3] === "new",
+    )!;
+    const seatKey = winner.detail!.split("|")[0]!;
+    next = recordPersonDeath(next, {
+      stableKey: "k3:member-elect-death",
+      personId: winner.personId,
+      diedAt: next.currentDate,
+      causeKey: "cause:external-fixture",
+      sourceEntityIds: [next.id],
+      summary: "A member-elect died.",
+      provenance: VITALITY,
+    });
+    const newStart = makeIsoDate(`${electionYear + 1}-01-03`);
+    next = passOrdinaryDays(next, daysBetween(next.currentDate, newStart) + 1);
+    const view = projectCongress(next)!.house.seats.find(
+      (s) => s.seatKey === seatKey,
+    )!;
+    expect(view.occupant.kind).toBe("vacancy");
+    expect(
+      next.history.futureDueItems.some(
+        (due) =>
+          due.transitionKey === HOUSE_SPECIAL_ELECTION &&
+          due.stableKey.includes(`:special:${seatKey}:${newStart}`),
+      ),
+    ).toBe(true);
   }, 600_000);
 });
 
