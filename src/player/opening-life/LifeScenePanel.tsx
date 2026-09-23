@@ -17,6 +17,8 @@ import {
   chooseOpeningLifeScene,
   openingNeighborhoodWalkOffer,
   openNextLifeScene,
+  openOptionalLifeActivity,
+  optionalLifeActivityAvailable,
   walkOpeningNeighborhood,
 } from "../../presentation/life-scene-flow";
 import { formatMinute } from "../../presentation/player-calendar";
@@ -179,10 +181,6 @@ export function LifeScenePanel({
           <p className="game-scene" data-testid="life-scene-prose">
             {scene.prose}
           </p>
-          <p className="game-note" data-testid="life-scene-minutes">
-            Talking and reading a line take no time. Activity durations are
-            shown on their choices.
-          </p>
           <div
             className="game-choices"
             role="group"
@@ -277,6 +275,18 @@ export function LifeScenePanel({
           >
             See what happens next
           </button>
+          {optionalLifeActivityAvailable(world, playerPersonId) ? (
+            <button
+              className="ui-action ui-action--subtle"
+              type="button"
+              data-testid="life-optional-activity"
+              onClick={() =>
+                onWorldChange(openOptionalLifeActivity(world, playerPersonId))
+              }
+            >
+              Spend a little time on your own
+            </button>
+          ) : null}
         </>
       )}
       {reflection?.target.kind === "personality" ? (

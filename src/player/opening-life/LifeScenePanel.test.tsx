@@ -43,6 +43,26 @@ function render(variant?: "room" | "workspace") {
 }
 
 describe("LifeScenePanel variants", () => {
+  it("offers leisure as a separate action before opening the next scene", () => {
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startKind: "custom",
+      household: "shares-a-home",
+      startAge: 10,
+      seed: "optional-leisure-panel",
+    });
+    const html = renderToStaticMarkup(
+      <LifeScenePanel
+        world={game.world}
+        playerPersonId={game.playerPersonId}
+        onWorldChange={() => {}}
+        onTalkTo={() => {}}
+      />,
+    );
+    expect(html).toContain('data-testid="life-next-scene"');
+    expect(html).toContain('data-testid="life-optional-activity"');
+  });
+
   it("in the room, draws the scene alone: prose and choices, no errands", () => {
     const html = render("room");
     expect(html).toContain('data-testid="life-scene-prose"');

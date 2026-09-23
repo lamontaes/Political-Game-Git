@@ -264,6 +264,45 @@ export function openNextLifeScene(
   personId: EntityId,
   initialSetting?: LifeSceneSetting,
 ): World {
+  return openLifeScene(world, personId, initialSetting, false);
+}
+
+/** A daily leisure choice is available on request, never as the next event. */
+export function openOptionalLifeActivity(
+  world: World,
+  personId: EntityId,
+): World {
+  return openLifeScene(world, personId, undefined, true);
+}
+
+export function optionalLifeActivityAvailable(
+  world: World,
+  personId: EntityId,
+): boolean {
+  if (currentOpeningLifeScene(world, personId)) return false;
+  if ((openingLifeLocation(world, personId)?.setting ?? "home") !== "home")
+    return false;
+  return availableOpeningLifeScenes(world, personId).some(
+    ({ definition, beat }) =>
+      definition.setting === "home" &&
+      definition.recurrence === "daily" &&
+      beat.stageKey === "moment" &&
+      !world.history.events.some(
+        (event) =>
+          event.type === OPEN &&
+          event.involvedEntityIds.includes(personId) &&
+          event.tags.includes(`family:${definition.key}`) &&
+          event.occurredAt === world.currentDate,
+      ),
+  );
+}
+
+function openLifeScene(
+  world: World,
+  personId: EntityId,
+  initialSetting: LifeSceneSetting | undefined,
+  routineOnly: boolean,
+): World {
   if (world.control.kind !== "person" || world.control.personId !== personId)
     throw new Error("Only the player can enter this scene.");
   if (currentOpeningLifeScene(world, personId)) return world;
@@ -290,9 +329,14 @@ export function openNextLifeScene(
     throw new Error(
       "A new backdrop is not travel. A place transition is required.",
     );
+  if (routineOnly && setting !== "home") return world;
   const eligible = availableOpeningLifeScenes(world, personId).filter(
     ({ definition, beat }) =>
       definition.setting === setting &&
+      (routineOnly
+        ? definition.recurrence === "daily" && beat.stageKey === "moment"
+        : definition.recurrence !== "daily" ||
+          beat.stageKey === "follow-through") &&
       !world.history.events.some(
         (event) =>
           event.type === OPEN &&

@@ -28,6 +28,7 @@ import {
   chooseOpeningLifeScene,
   currentOpeningLifeScene,
   openNextLifeScene,
+  openOptionalLifeActivity,
   walkOpeningNeighborhood,
 } from "./life-scene-flow";
 import { projectLifeConversation } from "./life-conversation";
@@ -81,34 +82,22 @@ describe("ordinary-life agency and boundaries", () => {
       game.playerPersonId,
       "learning",
     );
-    for (let n = 0; n < 12; n++) {
-      world = openNextLifeScene(world, game.playerPersonId);
-      const scene = currentOpeningLifeScene(world, game.playerPersonId);
-      if (!scene) break;
-      if (scene.definition.key === "young.home.choose-activity") {
-        expect(activeOrdinaryGoal(world, game.playerPersonId, "learning")).toBe(
-          true,
-        );
-        world = chooseOpeningLifeScene(
-          world,
-          game.playerPersonId,
-          scene.eventId,
-          "read",
-        );
-        expect(activeOrdinaryGoal(world, game.playerPersonId, "learning")).toBe(
-          false,
-        );
-        assertWorldIntegrity(world);
-        return;
-      }
-      world = chooseOpeningLifeScene(
-        world,
-        game.playerPersonId,
-        scene.eventId,
-        scene.choices[0]!.key,
-      );
-    }
-    throw new Error("The available reading activity was not reachable.");
+    world = openOptionalLifeActivity(world, game.playerPersonId);
+    const scene = currentOpeningLifeScene(world, game.playerPersonId)!;
+    expect(scene.definition.key).toBe("young.home.choose-activity");
+    expect(activeOrdinaryGoal(world, game.playerPersonId, "learning")).toBe(
+      true,
+    );
+    world = chooseOpeningLifeScene(
+      world,
+      game.playerPersonId,
+      scene.eventId,
+      "read",
+    );
+    expect(activeOrdinaryGoal(world, game.playerPersonId, "learning")).toBe(
+      false,
+    );
+    assertWorldIntegrity(world);
   });
   it("records accompanied travel and keeps childhood conversations age-appropriate", () => {
     const game = start(6);

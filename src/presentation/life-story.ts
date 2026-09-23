@@ -335,25 +335,34 @@ function gatherCandidates(
     personId,
     families: EPISODE_FAMILIES,
   });
-  const episodes: Candidate[] = eligibility.beats.map((beat) => {
-    const thread = threadForEpisodeBeat(threads, beat);
-    return {
-      beat,
-      thread,
-      candidate: {
-        key: `episode:${beat.instanceKey}/${beat.stageKey}` as const,
-        band: formativeYears
-          ? ("adolescence" as const)
-          : ("adulthood" as const),
-        stakes: beat.stakes,
-        tensions: beat.tensions,
-        relevance: episodeRelevance(beat, thread),
-        // A later stage exists only because an earlier one was played, which
-        // is exactly the claim the selector's continuity credit is for.
-        followsFromHistory: beat.continues,
-      },
-    };
-  });
+  const episodes: Candidate[] = eligibility.beats
+    .filter((beat) => {
+      // Recurring leisure is a player-invoked action. It must not displace a
+      // situation in the life stream merely because the clock reached a new day.
+      const opening = OPENING_LIFE_ADDITIONS.find(
+        (entry) => `opening.${entry.key}` === beat.episodeKey,
+      );
+      return opening?.recurrence !== "daily";
+    })
+    .map((beat) => {
+      const thread = threadForEpisodeBeat(threads, beat);
+      return {
+        beat,
+        thread,
+        candidate: {
+          key: `episode:${beat.instanceKey}/${beat.stageKey}` as const,
+          band: formativeYears
+            ? ("adolescence" as const)
+            : ("adulthood" as const),
+          stakes: beat.stakes,
+          tensions: beat.tensions,
+          relevance: episodeRelevance(beat, thread),
+          // A later stage exists only because an earlier one was played, which
+          // is exactly the claim the selector's continuity credit is for.
+          followsFromHistory: beat.continues,
+        },
+      };
+    });
 
   // The banks stay in the ranking rather than being replaced. A composed
   // episode is a better answer when there is one; when there is not, the
