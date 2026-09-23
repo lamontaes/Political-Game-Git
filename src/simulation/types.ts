@@ -3170,8 +3170,19 @@ export interface DistrictSeatBinding {
   readonly stateUsps: string;
 }
 
+/**
+ * `split-home-assignment`: the home place crosses several districts of the
+ * chamber and the published join cannot say which one this home is in, so the
+ * game placed the home in one of those districts — by seed at the opening, or
+ * where the player later said it is. It is only ever one of the districts that
+ * actually cross the recorded home place. GAME PROFILE placeholder: see
+ * `assignSplitHomeDistricts`.
+ */
 export type DistrictResidenceProvenanceMethod =
-  "authored" | "simulated-event" | "canonical-home-join";
+  | "authored"
+  | "simulated-event"
+  | "canonical-home-join"
+  | "split-home-assignment";
 
 export interface DistrictResidenceProvenance {
   readonly method: DistrictResidenceProvenanceMethod;

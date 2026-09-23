@@ -27,6 +27,7 @@ import {
   recordedDistrictResidenceSince,
   establishDistrictResidence,
   serializeWorld,
+  splitHomeDistricts,
   type EntityId,
   type World,
 } from "../simulation";
@@ -275,14 +276,36 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
   }, 60_000);
 
   it("does not invent membership for a split city or a statewide Alaska home", () => {
-    const ky = createNewGameWorld({
+    const lexington = {
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "districts13-lexington-split",
       startAge: 34,
       placeKey: "lexington-fayette",
-      questionnaire: "skipped",
-    });
-    expect(districtResidenceIntervals(ky.world)).toEqual([]);
+      questionnaire: "skipped" as const,
+    };
+    // The join itself still claims nothing for a split city. A current
+    // opening places the resident in one of the districts crossing the city
+    // (GAME PROFILE placeholder, `assignSplitHomeDistricts`) and says so in the
+    // interval's own method; it is never a canonical-home join.
+    const ky = createNewGameWorld(lexington);
+    const intervals = districtResidenceIntervals(ky.world);
+    expect(intervals.length).toBeGreaterThan(0);
+    for (const interval of intervals) {
+      expect(interval.provenance.method).toBe("split-home-assignment");
+      expect(
+        splitHomeDistricts(
+          ky.world,
+          ky.playerPersonId,
+          interval.binding.chamber,
+        ).map((identity) => identity.recordId),
+      ).toContain(interval.binding.recordId);
+    }
+    // A legacy opening, which is what an older save holds, gets none.
+    const legacy = { ...lexington };
+    delete (legacy as { worldOpeningVersion?: unknown }).worldOpeningVersion;
+    expect(
+      districtResidenceIntervals(createNewGameWorld(legacy).world),
+    ).toEqual([]);
     const { world, personId } = alaskaLife("districts13-state-home");
     expect(districtResidenceIntervals(world)).toEqual([]);
     expect(

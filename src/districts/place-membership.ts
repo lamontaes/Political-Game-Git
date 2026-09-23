@@ -22,6 +22,7 @@ interface GeneratedMembership {
   readonly splitPlaceCount: number;
   readonly wholePlaceByKey: Readonly<Record<string, string>>;
   readonly splitPlaceChambers: Readonly<Record<string, readonly string[]>>;
+  readonly splitDistrictsByKey: Readonly<Record<string, readonly string[]>>;
 }
 
 const catalog = generated as GeneratedMembership;
@@ -51,7 +52,11 @@ export function placeDistrictMembershipCatalog(): GeneratedMembership {
 
 export type PlaceDistrictJoin =
   | { readonly kind: "whole-place"; readonly districtGeoid: string }
-  | { readonly kind: "split" }
+  | {
+      readonly kind: "split";
+      /** Every district of the chamber the place crosses, sorted. */
+      readonly intersectingDistrictGeoids: readonly string[];
+    }
   | { readonly kind: "unknown" };
 
 export function placeDistrictJoin(
@@ -63,6 +68,11 @@ export function placeDistrictJoin(
   const districtGeoid = catalog.wholePlaceByKey[key];
   if (districtGeoid) return { kind: "whole-place", districtGeoid };
   const splitChambers = catalog.splitPlaceChambers[placeGeoid];
-  if (splitChambers?.includes(chamber)) return { kind: "split" };
+  if (splitChambers?.includes(chamber)) {
+    return {
+      kind: "split",
+      intersectingDistrictGeoids: catalog.splitDistrictsByKey[key] ?? [],
+    };
+  }
   return { kind: "unknown" };
 }

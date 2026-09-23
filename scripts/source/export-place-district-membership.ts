@@ -28,6 +28,10 @@ const records = JSON.parse(
 
 const wholePlaceByKey: Record<string, string> = {};
 const splitPlaceChambers: Record<string, string[]> = {};
+// Which districts a split place overlaps, keyed like `wholePlaceByKey`. The
+// runtime needs the list to offer a split town's resident only the districts
+// that actually cross their town.
+const splitDistrictsByKey: Record<string, string[]> = {};
 
 for (const record of records) {
   const key = `${record.placeGeoid}:${record.chamber}`;
@@ -35,6 +39,7 @@ for (const record of records) {
     wholePlaceByKey[key] = record.districtGeoid;
     continue;
   }
+  splitDistrictsByKey[key] = [...record.intersectingDistrictGeoids].sort();
   const chambers = splitPlaceChambers[record.placeGeoid] ?? [];
   chambers.push(record.chamber);
   splitPlaceChambers[record.placeGeoid] = chambers;
@@ -55,6 +60,7 @@ const payload = {
   splitPlaceCount: Object.keys(splitPlaceChambers).length,
   wholePlaceByKey,
   splitPlaceChambers,
+  splitDistrictsByKey,
 };
 
 mkdirSync(resolve(ROOT, "src/districts"), { recursive: true });

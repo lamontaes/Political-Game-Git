@@ -32,6 +32,7 @@ import type {
   World,
 } from "../simulation";
 import { buildProductionWorld } from "./production-world";
+import { assignSplitHomeDistricts } from "../simulation/district-residence";
 import {
   buildSeedFor,
   setupPriorStoreFor,
@@ -477,13 +478,20 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
   });
+  // A town split across several districts gets its resident placed in one of
+  // them (GAME PROFILE placeholder, see `assignSplitHomeDistricts`). Current
+  // openings only: a legacy replay descriptor rebuilds the bytes it always did.
+  const placed =
+    setup.worldOpeningVersion === CRUNCH46_WORLD_OPENING_VERSION
+      ? assignSplitHomeDistricts(built.world, built.playerPersonId)
+      : built.world;
   const office =
     setup.startingLife === "judicial-office-practice"
-      ? initializeJudicialOfficePractice(built.world, {
+      ? initializeJudicialOfficePractice(placed, {
           mode: "custom",
           jurisdictionId: place.context.jurisdiction.id,
         })
-      : { ok: true as const, world: built.world };
+      : { ok: true as const, world: placed };
   if (!office.ok) throw new Error(office.reason);
   // The agency, its authored charter, positions and staff are written once at
   // Custom Begin by the personnel feature's own initializer, after any

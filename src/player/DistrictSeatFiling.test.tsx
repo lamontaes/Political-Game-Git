@@ -56,6 +56,27 @@ function settledLife(stateKey: string, town: string, days: number): Life {
   };
 }
 
+/**
+ * The world as an older save holds it: the split-town placement closed on the
+ * day it was written, so no interval covers today. Closing rather than
+ * deleting keeps history append-oriented.
+ */
+function withoutSplitPlacement(world: World): World {
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      districtResidenceIntervals: (
+        world.history.districtResidenceIntervals ?? []
+      ).map((interval) =>
+        interval.provenance.method === "split-home-assignment"
+          ? { ...interval, endedOn: interval.startedOn }
+          : interval,
+      ),
+    },
+  };
+}
+
 const SITKA_HOUSE = "us-ak-legislature-v1:house";
 
 describe("a seat filled by district", () => {
@@ -130,7 +151,11 @@ describe("a seat filled by district", () => {
   });
 
   it("says so where the world recorded no district at all", () => {
-    const { world, personId } = settledLife("US-MN", "Duluth", 700);
+    // Duluth crosses several districts. A current opening places its resident
+    // in one of them; an older save, which this strips back to, has none.
+    const settled = settledLife("US-MN", "Duluth", 700);
+    const personId = settled.personId;
+    const world = withoutSplitPlacement(settled.world);
     const office = "us-mn-legislature-v1:house";
     expect(recordedDistrictForOffice(world, personId, office)).toBeNull();
     const markup = renderToStaticMarkup(

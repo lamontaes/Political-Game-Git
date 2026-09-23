@@ -141,6 +141,29 @@ export function districtMembershipFromCanonicalHome(input: {
   };
 }
 
+/**
+ * The districts of one chamber a split Census place crosses, as accepted
+ * Gazetteer identities. Empty for a whole place, an unknown place, or a
+ * chamber with no relationship file. This lists the districts a resident of
+ * the town could be in; it does not say which one any resident is in.
+ */
+export function districtsCrossingPlace(
+  catalog: readonly DistrictIdentity[],
+  placeGeoid: string | null,
+  chamber: DistrictChamber,
+): readonly DistrictIdentity[] {
+  if (!placeGeoid) return [];
+  const joined = placeDistrictJoin(placeGeoid, chamber);
+  if (joined.kind !== "split") return [];
+  return joined.intersectingDistrictGeoids.flatMap((geoid) => {
+    const identity = districtIdentityByRecordId(
+      catalog,
+      districtRecordId(chamber, geoid),
+    );
+    return identity && !identity.isUnassignedResidual ? [identity] : [];
+  });
+}
+
 export function resolveDistrictBinding(
   catalog: readonly DistrictIdentity[],
   candidate: DistrictSeatBinding,

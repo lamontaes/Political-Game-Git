@@ -4,7 +4,6 @@ import {
 } from "./government-unit-names";
 import {
   GOVERNMENT_UNITS_META,
-  PLACE_COUNTY_RELATIONS_META,
   countyGovernmentUnit,
   countyGeoidsForPlace,
   countyGovernmentUnitsForPlace,
@@ -57,7 +56,12 @@ export interface HomeLocalGovernmentUnits {
     | null;
 }
 
-const COUNTY_RELATION_EMPTY = `No county government is recorded for this place's county areas as the Census described them on ${PLACE_COUNTY_RELATIONS_META.geographyAsOf}, or the place is not in those files, so its county government is not established.`;
+// Shown to the player, so it says what is not known and never which source
+// did not say it. The source gap it stands for: no county government is
+// recorded for this place's county areas in the Census place-to-county
+// relation, or the place is not in those files.
+const COUNTY_RELATION_EMPTY =
+  "Which county government serves this place is not known.";
 
 /** Which government units serve the place this person lives in. Reads only. */
 export function homeLocalGovernmentUnits(
@@ -99,7 +103,7 @@ export function homeLocalGovernmentUnits(
       : none(
           "county",
           "no-county-government",
-          "The Census Government Units listing records no county government for this county area.",
+          "There is no county government here.",
         );
   }
   const municipal = place.sourceGeoid
@@ -139,9 +143,7 @@ export function homeLocalGovernmentUnits(
     counties: [...counties.values()],
     countyStatus: counties.size > 0 ? "established" : "no-county-government",
     countyReason:
-      counties.size > 0
-        ? null
-        : "The Census Government Units listing records no county government for this city's county area.",
+      counties.size > 0 ? null : "There is no county government here.",
     countyShares: null,
   };
 }

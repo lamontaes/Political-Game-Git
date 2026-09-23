@@ -134,10 +134,11 @@ export function NationwideCandidacyWorkspace({
             government is named.
           </p>
         ) : null}
-        <p className="game-note" data-testid="home-county-spread">
-          A place that lies across several counties keeps every one of them;
-          none is chosen for it.
-        </p>
+        {home.counties.length > 1 ? (
+          <p className="game-note" data-testid="home-county-spread">
+            Your town lies across more than one county.
+          </p>
+        ) : null}
       </section>
 
       {candidacy ? (
