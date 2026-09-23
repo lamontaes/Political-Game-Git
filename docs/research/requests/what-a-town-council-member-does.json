@@ -21,14 +21,16 @@
   "notes": [
     "The game already has a council route for the 60 towns it has compiled: public meetings, ordinance introduction, placing an ordinance on the agenda and a recorded vote (src/simulation/municipal-public-work.ts, src/presentation/municipal-governing.ts). It is keyed to a compiled government, so a member elected in any other town gets nothing.",
     "Found in the council-to-president playtest in Ely, Minnesota and named in ChatGPT's intent readback of 2026-09-22: a won council seat has no work.",
-    "Standing rule from the owner (2026-09-22 22:38Z): depth is never invented. Whatever the game shows for an unread town is a marked placeholder until this is answered."
+    "Standing rule from the owner (2026-09-22 22:38Z): depth is never invented. Whatever the game shows for an unread town is a marked placeholder until this is answered.",
+    "Owner, 2026-09-22 23:31Z, on the long-playthrough report of an Eastport, Maine public meeting on January 6, 2026 that had an empty agenda and rendered as a dark empty room: there is always something going on at a public meeting. The answer should therefore include what a typical regular meeting's agenda holds in each month of the year (budget season, annual appointments, organizational meeting after an election), so no meeting the game renders is empty. How a town proposal ends (adopted, amended, tabled, withdrawn) is asked separately in how-a-town-proposal-ends."
   ],
   "priority": "P1",
   "question": "What does an ordinary member of a town council or village board actually do across a year, in a town the game has not read? How often does the body meet (regular and special meetings), what kinds of items come before it and in what rough proportions (budget and appropriations, ordinances, zoning and land use, contracts and purchases, appointments to boards, proclamations, consent-agenda routine), how many items a typical meeting votes on, how often votes are contested rather than unanimous, and what casework residents bring to a member between meetings. How does this vary by town size and by form of government?",
   "questionId": "what-a-town-council-member-does",
   "relatedQuestionIds": [
     "local-executive-and-council-rules",
-    "town-council-size-by-town-size"
+    "town-council-size-by-town-size",
+    "how-a-town-proposal-ends"
   ],
   "requestVersion": "research-request/v1",
   "requestedBy": "every-town-in-america thread (technical team lead)",

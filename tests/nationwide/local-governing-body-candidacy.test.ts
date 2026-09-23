@@ -14,6 +14,9 @@ import {
   serializeWorld,
 } from "../../src/simulation";
 import { activeOrganizationParticipationsAt } from "../../src/simulation/life-queries";
+import { addDays } from "../../src/simulation/dates";
+import { campaignElectionDate } from "../../src/presentation/campaign-projection";
+import { nextTownElection } from "../../src/simulation/nationwide-world/town-election-calendar";
 import { personName } from "../../src/simulation";
 import { projectCampaignGuidance } from "../../src/simulation/campaign-life-activities";
 import { projectWorkRole } from "../../src/presentation/day-overview";
@@ -206,7 +209,15 @@ describe("standing for the town's governing body and taking the seat", () => {
       expect(listed?.governmentLevel).toBe("Local government");
       expect(listed?.eligible).toBe(true);
 
-      const filed = fileForOffice(world, personId, null, body.officeKey);
+      // The town's own calendar is proved in the calendar test below; the
+      // race here is authored four weeks out so seating is what is tested.
+      const filed = fileForOffice(
+        world,
+        personId,
+        null,
+        body.officeKey,
+        addDays(world.currentDate, 28),
+      );
       const contest = filed.history.electionContests!.at(-1)!;
       expect(contest.office.officeKey).toBe(body.officeKey);
       expect(contest.jurisdictionId).toBe(home);
@@ -240,6 +251,7 @@ describe("standing for the town's governing body and taking the seat", () => {
         seat!.organizationId,
       );
     },
+    60_000,
   );
 });
 
@@ -257,8 +269,18 @@ describe("standing again after a race is over", () => {
       expect(projectCampaign(world, personId, body.officeKey).phase).toBe(
         "can-file",
       );
-      world = fileForOffice(world, personId, null, body.officeKey);
-      expect(world.history.electionContests!.length).toBe(race);
+      world = fileForOffice(
+        world,
+        personId,
+        null,
+        body.officeKey,
+        addDays(world.currentDate, 28),
+      );
+      expect(
+        world.history.electionContests!.filter((contest) =>
+          contest.candidatePersonIds.includes(personId),
+        ).length,
+      ).toBe(race);
       world = runToElection(world, personId, suppliedWin(personId));
       // Until another office is picked, the last race's result stays up.
       expect(projectCampaign(world, personId).phase).toBe("won");
@@ -292,6 +314,45 @@ describe("standing again after a race is over", () => {
       ),
     ).toContain(body.officeKey);
   }, 120_000);
+});
+
+describe("when a town's race is held", () => {
+  // Filed on the opening day, January 5, 2026.
+  it.each([
+    // Minnesota and Kentucky elect towns on the even-year November general
+    // election day; Idaho on the odd-year one.
+    ["Ely, Minnesota", ELY, "2026-11-03"],
+    ["Paducah, Kentucky", PADUCAH, "2026-11-03"],
+    ["American Falls, Idaho", AMERICAN_FALLS, "2027-11-02"],
+  ])("%s is elected on the day state law sets", (_, placeKey, expected) => {
+    const { world, personId } = adultLifeAt(placeKey, `calendar-${placeKey}`);
+    const home = world.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    expect(world.currentDate).toBe("2026-01-05");
+    expect(campaignElectionDate(world, home, body.officeKey)).toBe(expected);
+    const filed = fileForOffice(world, personId, null, body.officeKey);
+    expect(filed.history.electionContests!.at(-1)!.electionDate).toBe(expected);
+  });
+
+  it("a town whose state law leaves the timing open, and names no day, keeps the four-week placeholder", () => {
+    // Maine lets each town choose town meeting day or November; Presque Isle's
+    // drawn choice is town meeting day, whose date has not been read.
+    expect(nextTownElection("ME", "2360825", "2026-01-05" as never)).toBeNull();
+    const { world, personId } = adultLifeAt("2360825", "calendar-presque-isle");
+    const home = world.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    expect(campaignElectionDate(world, home, body.officeKey)).toBe(
+      addDays(world.currentDate, 28),
+    );
+  });
+
+  it("never sets an election closer than the filing lead", () => {
+    expect(nextTownElection("MN", "2719142", "2026-10-10" as never)).toEqual({
+      electionDate: "2028-11-07",
+      timing: "even-year-november-consolidated",
+      basis: "state-law",
+    });
+  });
 });
 
 // 19,480 municipalities join to a place; 18 of them are not functionally active.

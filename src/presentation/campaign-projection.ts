@@ -1,5 +1,9 @@
 import { legislativeTermDates } from "../simulation/legislative-office-terms";
 import { proseDate } from "./prose-dates";
+import {
+  FILING_LEAD_DAYS,
+  nextTownElection,
+} from "../simulation/nationwide-world/town-election-calendar";
 
 import {
   activeCampaignForCandidate,
@@ -665,8 +669,9 @@ function latestReading(
 /**
  * The election a filing for this office stands in. A state legislative seat
  * is elected at the state's next regular legislative election, on the state's
- * own calendar. A town's own body keeps the short authored schedule, which
- * belongs to the local-races work and has no calendar of its own yet.
+ * own calendar. A town's own body is elected on the November general election
+ * day where the state's municipal election law puts it there, and otherwise
+ * on the short placeholder schedule until the town's calendar is read.
  */
 export function campaignElectionDate(
   world: World,
@@ -675,8 +680,19 @@ export function campaignElectionDate(
 ) {
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ?? null;
-  if (localGoverningBodyIdentityForOfficeKey(officeKey) || !stateKey)
-    return addDays(world.currentDate, 28);
+  const town = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (town) {
+    // The state's municipal election law where it fixes the day; otherwise
+    // the marked placeholder in town-election-calendar.ts.
+    const placeGeoid = town.unit.placeGeoid;
+    return (
+      (placeGeoid
+        ? nextTownElection(town.unit.stateUsps, placeGeoid, world.currentDate)
+            ?.electionDate
+        : null) ?? addDays(world.currentDate, FILING_LEAD_DAYS)
+    );
+  }
+  if (!stateKey) return addDays(world.currentDate, 28);
   return nextStateLegislativeElection(
     stateKey.replace(/^US-/, ""),
     world.currentDate,
