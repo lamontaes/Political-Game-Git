@@ -2,7 +2,10 @@ import { useId, useMemo, useState } from "react";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   answerMeeting,
+  askOnADate,
+  askToBeTogether,
   askToMeet,
+  breakUp,
   goMeetSomebodyNew,
   meetingNewOptions,
   offerAnotherDay,
@@ -129,6 +132,30 @@ export function ContactsPanel({
                   }),
                 )
               }
+              onAskOut={(on) =>
+                run(() =>
+                  askOnADate(world, {
+                    personId,
+                    otherPersonId: contact.personId,
+                    on,
+                  }),
+                )
+              }
+              onCouple={(kind) => {
+                try {
+                  const input = { personId, otherPersonId: contact.personId };
+                  const done =
+                    kind === "ask-to-be-a-couple"
+                      ? askToBeTogether(world, input)
+                      : breakUp(world, input);
+                  setNote(done.said);
+                  if (done.world !== world) onWorldChange(done.world);
+                } catch (error) {
+                  setNote(
+                    error instanceof Error ? error.message : String(error),
+                  );
+                }
+              }}
               onAnswer={(eventId, answer) =>
                 run(() =>
                   answerMeeting(world, {
@@ -215,6 +242,8 @@ function ContactRow({
   offerOn,
   onDayChange,
   onAsk,
+  onAskOut,
+  onCouple,
   onAnswer,
   onOfferAnotherDay,
 }: {
@@ -226,6 +255,8 @@ function ContactRow({
   readonly offerOn: IsoDate;
   readonly onDayChange: (which: "ask" | "offer", on: IsoDate) => void;
   readonly onAsk: (on: IsoDate) => void;
+  readonly onAskOut: (on: IsoDate) => void;
+  readonly onCouple: (kind: "ask-to-be-a-couple" | "end-couple") => void;
   readonly onAnswer: (eventId: EntityId, answer: "accept" | "decline") => void;
   readonly onOfferAnotherDay: (eventId: EntityId, on: IsoDate) => void;
 }) {
@@ -233,6 +264,13 @@ function ContactRow({
   const tid = (base: string) =>
     focused ? base.replace(/^contact-/, "contact-focus-") : base;
   const ask = contact.actions.find((action) => action.kind === "ask-to-meet");
+  const askOut = contact.actions.find(
+    (action) => action.kind === "ask-on-a-date",
+  );
+  const couple = contact.actions.find(
+    (action) =>
+      action.kind === "ask-to-be-a-couple" || action.kind === "end-couple",
+  );
   const theyAsked =
     contact.outstanding?.direction === "they-asked"
       ? contact.outstanding
@@ -380,6 +418,16 @@ function ContactRow({
           >
             {ask.label}
           </button>
+          {askOut?.available ? (
+            <button
+              type="button"
+              className="ui-action"
+              data-testid={tid(`contact-ask-out-${contact.personId}`)}
+              onClick={() => onAskOut(askOn)}
+            >
+              {askOut.label}
+            </button>
+          ) : null}
         </div>
       ) : ask ? (
         <p
@@ -388,6 +436,31 @@ function ContactRow({
         >
           {ask.unavailableReason}
         </p>
+      ) : null}
+
+      {/* Becoming a couple is asked in person and answered at once. */}
+      {couple ? (
+        couple.available ? (
+          <div className="pg-contact-actions">
+            <button
+              type="button"
+              className="ui-action"
+              data-testid={tid(`contact-${couple.kind}-${contact.personId}`)}
+              onClick={() =>
+                onCouple(couple.kind as "ask-to-be-a-couple" | "end-couple")
+              }
+            >
+              {couple.label}
+            </button>
+          </div>
+        ) : (
+          <p
+            className="pg-contact-line"
+            data-testid={tid(`contact-couple-unavailable-${contact.personId}`)}
+          >
+            {couple.unavailableReason}
+          </p>
+        )
       ) : null}
     </li>
   );
