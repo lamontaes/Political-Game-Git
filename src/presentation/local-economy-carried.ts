@@ -181,10 +181,60 @@ function format(value: number, unit: CarriedLocalFigure["unit"]): string {
   return unit === "USD per month" ? `${dollars} a month` : `${dollars} a year`;
 }
 
-/** One line per figure, saying which number is real and which is the world's. */
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+/**
+ * A reference period as a player reads it: "July 2026", "2025". The providers'
+ * codes ("2026-M07", "FY2025", "2024-Q3") are bookkeeping, not player text.
+ */
+export function periodInWords(period: string): string {
+  const month = /^(\d{4})-M(\d{2})$/.exec(period);
+  if (month) {
+    const name = MONTHS[Number(month[2]) - 1];
+    if (name) return `${name} ${month[1]}`;
+  }
+  const quarter = /^(\d{4})-Q([1-4])$/.exec(period);
+  if (quarter) {
+    const first = MONTHS[(Number(quarter[2]) - 1) * 3]!;
+    const last = MONTHS[(Number(quarter[2]) - 1) * 3 + 2]!;
+    return `${first} to ${last} ${quarter[1]}`;
+  }
+  const year = /(\d{4})/.exec(period);
+  return year ? year[1]! : period;
+}
+
+/** A place name without a provider's footnote mark ("AK*"). */
+function placeInWords(name: string): string {
+  return name.replace(/\*+$/u, "").trim();
+}
+
+/**
+ * One line per figure: where the world is now and where it started. The
+ * player's line names no publication or agency, only the time the starting
+ * figure describes.
+ */
 export function carriedLocalFigureLine(figure: CarriedLocalFigure): string {
-  return `${figure.label}, ${figure.geographyLabel}: ${format(
+  const direction =
+    figure.carriedValue > figure.realValue
+      ? "up from"
+      : figure.carriedValue < figure.realValue
+        ? "down from"
+        : "the same as";
+  return `${figure.label}, ${placeInWords(figure.geographyLabel)}: ${format(
     figure.carriedValue,
     figure.unit,
-  )} now in this world, from ${format(figure.realValue, figure.unit)} in the last published figure (${figure.realPeriod}).`;
+  )}, ${direction} ${format(figure.realValue, figure.unit)} in ${periodInWords(figure.realPeriod)}.`;
 }

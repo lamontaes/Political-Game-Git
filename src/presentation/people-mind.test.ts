@@ -331,6 +331,23 @@ describe("PEOPLE P2 private aims", () => {
     }
   });
 
+  it("does not offer a child a relationship aim, not even as a refusal", () => {
+    const child = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "people-mind-child",
+        startAge: 12,
+      }),
+    ).game!;
+    const view = projectPersonalGoals(child.world, child.playerPersonId);
+    expect(view.choices.map((choice) => choice.family)).not.toContain(
+      "adult-relationship",
+    );
+    expect(view.choices.map((choice) => choice.label)).not.toContain(
+      "Pursue a relationship",
+    );
+  });
+
   it("setting an aim is private, lists real opportunities, and can be paused and dropped", () => {
     const eventsBefore = life.world.history.events.length;
     const knowledgeBefore = life.world.history.knowledge.length;
