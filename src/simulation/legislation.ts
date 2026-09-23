@@ -129,11 +129,33 @@ export function measureActions(
   world: World,
   measureId: EntityId,
 ): readonly LegislativeActionRecord[] {
-  return (world.history.legislativeActions ?? [])
-    .filter((action) => action.measureId === measureId)
-    .slice()
-    .sort((a, b) => a.sequence - b.sequence);
+  const actions = world.history.legislativeActions ?? [];
+  let byMeasure = ACTIONS_BY_MEASURE.get(actions);
+  if (!byMeasure) {
+    byMeasure = new Map();
+    for (const action of actions) {
+      const list = byMeasure.get(action.measureId);
+      if (list) list.push(action);
+      else byMeasure.set(action.measureId, [action]);
+    }
+    for (const list of byMeasure.values())
+      list.sort((a, b) => a.sequence - b.sequence);
+    ACTIONS_BY_MEASURE.set(actions, byMeasure);
+  }
+  return byMeasure.get(measureId) ?? NO_ACTIONS;
 }
+
+/**
+ * Actions grouped by measure, per actions array. Replaying a measure and
+ * checking a save both ask for one measure's actions, once per measure, and
+ * each answer filtered every action ever taken. History arrays are replaced,
+ * never edited, so the grouping is exact for the array it was built from.
+ */
+const ACTIONS_BY_MEASURE = new WeakMap<
+  readonly LegislativeActionRecord[],
+  Map<EntityId, LegislativeActionRecord[]>
+>();
+const NO_ACTIONS: readonly LegislativeActionRecord[] = Object.freeze([]);
 
 // ---------------------------------------------------------------------------
 // Legal replay
