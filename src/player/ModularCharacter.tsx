@@ -284,7 +284,7 @@ export function MaterialGroup({
 }
 
 /**
- * Prepares the artwork of figures the player may ask for next (a neighbouring
+ * Prepares the artwork of figures the player may ask for next (a neighboring
  * body) at the lowest priority, so choosing one finds its layers ready. Draws
  * nothing and creates no fact; the leases only keep the rendered variants.
  */
@@ -324,7 +324,7 @@ export function PreparedArtworkPreload({
       }
     }
     // Release after the next commit's figures have acquired the same layers,
-    // so a chosen neighbour keeps what was prepared for it.
+    // so a chosen neighbor keeps what was prepared for it.
     return () => {
       setTimeout(() => leases.forEach((lease) => lease.release()), 0);
     };

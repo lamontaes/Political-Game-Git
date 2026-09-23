@@ -2,11 +2,16 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
 import { initializeRuntimeArt } from "./presentation/runtime-art";
+import { setDeepTransitionInputGuard } from "./simulation/future-transitions";
 import "./styles.css";
 import "./player/player.css";
 import "./player/shell.css";
 import "./player/docket.css";
 import "./player/front-door.css";
+
+// The whole-save mutation proof runs in tests and development; a player's
+// clock keeps only the cheap shape check (see future-transitions.ts).
+setDeepTransitionInputGuard(import.meta.env.DEV);
 
 const rootElement = document.getElementById("root");
 

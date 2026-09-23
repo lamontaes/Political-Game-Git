@@ -7,14 +7,14 @@ import type {
 } from "./trait-packs";
 
 /**
- * The personality catalogue: the named qualities a person can be known for,
+ * The personality catalog: the named qualities a person can be known for,
  * beyond the five ordinary-life traits. Somebody can be industrious and
  * lustful and bad at keeping secrets at once, because each of these is its
  * own scale rather than one end of a shared one.
  *
  * The scales come from `docs/research/chatgpt-answers/2026-09-22-depth2/personality-scale-dispositions.json`,
  * received whole and generated into `personality-catalogue.generated.ts` by
- * `scripts/traits/personality-catalogue.ts`. That file maps every catalogue
+ * `scripts/traits/personality-catalogue.ts`. That file maps every catalog
  * word to exactly one scale. Four scales mean what the five already mean
  * (deliberation, reliability, conflict and risk) and are left out here, so
  * one meaning never argues twice.
@@ -26,7 +26,7 @@ import type {
  *
  * **Sparse, on purpose.** Nobody is given ninety-eight readings. A person is
  * seeded with one or two salient qualities, and every other scale stays
- * unrecorded, which is unknown rather than "not like that". The catalogue is
+ * unrecorded, which is unknown rather than "not like that". The catalog is
  * what a person may be; the record is what they are known to be.
  *
  * **Nothing argues yet.** The pack declares no effects. Each profile names the
@@ -182,7 +182,7 @@ function declarationFor(row: CatalogueScale): TraitDeclaration {
     },
     scopes: PROFILE_SCOPES[row.profile],
     // Conferred rather than seeded: a seeded trait is drawn for everybody on
-    // every scale, and this catalogue is sparse. `seedSalientQualities` in
+    // every scale, and this catalog is sparse. `seedSalientQualities` in
     // `people-traits.ts` writes the one or two a person is known for.
     conferredBy: "conferred-only",
     scale: scaleFor(row),
@@ -201,10 +201,10 @@ export function personalityCataloguePack(): TraitPack {
 }
 
 /**
- * The families, in catalogue order, each with its scales.
+ * The families, in catalog order, each with its scales.
  *
  * Seeding picks a family before a scale inside it, as the research asks, so a
- * family the catalogue happens to hold many synonyms for is no more common
+ * family the catalog happens to hold many synonyms for is no more common
  * for that.
  */
 export function catalogueFamilies(): readonly {

@@ -225,12 +225,15 @@ export function composeConnectiveNarration(
   }
 
   const threads = narrativeThreads(world, personId, until);
-  const changed = threads.filter((thread) =>
-    thread.anchors.some(
-      (anchor) =>
-        anchor.role !== "context" && anchor.at > since && anchor.at <= until,
-    ),
-  );
+  // An invitation still waiting on the player is an offer, not something that
+  // happened: it is shown as a moment to answer, and "You saw" it would be
+  // false. Its answer, once played, is a record of its own.
+  const moved = (anchor: ThreadAnchor) =>
+    anchor.role !== "context" &&
+    anchor.at > since &&
+    anchor.at <= until &&
+    !isLifeOpportunityOffer(world, anchor);
+  const changed = threads.filter((thread) => thread.anchors.some(moved));
 
   // What moved, where the record can name it. A thread whose subject cannot
   // be named produces no sentence — the record still holds it, and the scene
@@ -243,10 +246,7 @@ export function composeConnectiveNarration(
   }[] = [];
   for (const thread of changed) {
     if (movements.length >= 2) break;
-    const moving = thread.anchors.filter(
-      (anchor) =>
-        anchor.role !== "context" && anchor.at > since && anchor.at <= until,
-    );
+    const moving = thread.anchors.filter(moved);
     const sentence = threadMovementSentence(
       world,
       thread,
@@ -292,6 +292,15 @@ export function composeConnectiveNarration(
     toAge,
     opening: false,
   };
+}
+
+/** Whether this anchor is a life opportunity offered to the player. */
+function isLifeOpportunityOffer(world: World, anchor: ThreadAnchor): boolean {
+  return (
+    anchorEvent(world, anchor)?.tags.some((tag) =>
+      tag.startsWith("life.opportunity:"),
+    ) ?? false
+  );
 }
 
 /** The event behind an anchor, when the anchor names one. */

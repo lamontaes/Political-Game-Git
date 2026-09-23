@@ -14,6 +14,7 @@ import { STATE_GOVERNING_HANDLERS } from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
+import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -452,16 +453,6 @@ export interface EnsuredOpponents {
   readonly personIds: readonly EntityId[];
 }
 
-/**
- * Somebody to run against.
- *
- * A contest needs at least two people and a quiet life rarely contains a second
- * one already standing for the seat. So the opponent is materialized the way
- * every other background person in this world is: through the character-history
- * context-person writer, named from the versioned corpus by the world's own
- * seed, with a birth date and a residence and nothing else claimed about them.
- * They are a person in the world afterwards, not a slot in a campaign screen.
- */
 export function ensureCampaignOpponents(
   world: World,
   input: EnsureCampaignOpponentsInput,
@@ -1949,6 +1940,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         // GOVERNING: state office matters, their deadlines and reports.
         ...STATE_GOVERNING_HANDLERS,
         ...GOVERNOR_TURNOVER_HANDLERS,
+        // A legislature and voters changing the governor's term limit.
+        ...CONSTITUTIONAL_REFORM_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
