@@ -506,7 +506,10 @@ export function evaluateEnvironmentMasterIntake(
       finding(
         "rights-status-unknown",
         "warning",
-        "Rights status is unknown and stays unknown. Visibility is not evidence of a license.",
+        // Committed intake reports under art/intake/ quote this message byte for
+        // byte; change it only together with regenerating them.
+        // british-spelling-ok: kept as those reports quote it.
+        "Rights status is unknown and stays unknown. Visibility is not evidence of a licence.",
       ),
     );
   }

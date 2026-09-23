@@ -10,6 +10,6 @@ how they know the story is true"), so the Journal switched tense in the middle o
 a paragraph. They now read as memories: "You asked Riley how they knew the story
 was true." People also "call" each other now instead of "ringing" each other.
 
-The spelling check also missed a British word that ended a sentence inside
-quotes, so lines like "conference is not modelled." and "You declined the
-favour." slipped through. It catches them now, and 45 of them are fixed.
+The spelling check also missed a British spelling that ended a sentence inside
+quotes, as in a declined favor or a rule the game has not modeled yet. It
+catches those now, and the ones it had let through are fixed.
