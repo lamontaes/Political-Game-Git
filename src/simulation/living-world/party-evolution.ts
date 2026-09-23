@@ -157,6 +157,11 @@ function question(key: string) {
  * A person's persistent stance on one question: the same person gives the
  * same answer every time, from their own seeded stream. Never shown to the
  * player as a number, and never assigned to the controlled person.
+ *
+ * BLANKET RULE, AWAITING RESEARCH: the draw reads nothing about the person.
+ * Which of their qualities, roles and relationships lean them toward each
+ * option is filed as `what-leans-a-party-member-on-each-question`; until it
+ * is answered the draw stands in, and is stable, so no review rerolls it.
  */
 export function partyActorStance(
   world: World,
@@ -1883,6 +1888,88 @@ export function ensurePartyGoverningBodies(
 }
 
 /**
+ * What is before the body at a review, if anything (ChatGPT's A06).
+ *
+ * A review date lets the body consider business; it does not oblige it to
+ * manufacture any. Every quarter used to take up the next question in the
+ * catalog, whether or not anything had happened, so a settled line was
+ * re-decided on a timer and a member who lost it once lost it again on the
+ * clock, which is how a dispute "recurred" without anything recurring.
+ *
+ * Two causes are recorded today:
+ *
+ * 1. Pending organizational work: a question this body has never settled.
+ * 2. A disappointing election: since the body last settled how it chooses
+ *    candidates, somebody who belongs to this party lost a contest in the
+ *    body's own place (anywhere, for a national body).
+ *
+ * The other causes A06 names (a member's own proposal, a vacancy, a disputed
+ * undertaking, failed implementation, news the members actually learn about)
+ * have no producer here yet. A member's own proposal already has its route:
+ * the player deciding in the body. With nothing before it, the review is
+ * quiet.
+ */
+function businessBefore(
+  world: World,
+  unit: PartyUnitView,
+): { readonly questionKey: PartyQuestionKey; readonly reason: string } | null {
+  const decided = partyBodyDecisions(world, unit.organizationId);
+  const unsettled = PARTY_QUESTIONS.find(
+    (candidate) =>
+      !decided.some((entry) => entry.questionKey === candidate.key),
+  );
+  if (unsettled) return { questionKey: unsettled.key, reason: "never-settled" };
+  const selection = "procedure:candidate-selection" as const;
+  const settledAt = decided
+    .filter((entry) => entry.questionKey === selection)
+    .reduce(
+      (latest, entry) => (entry.decidedAt > latest ? entry.decidedAt : latest),
+      "",
+    );
+  const lost = (world.history.electionContestResults ?? []).some((result) => {
+    if (result.resolvedAt <= settledAt || result.resolvedAt > world.currentDate)
+      return false;
+    const contest = world.history.electionContests?.find(
+      (entry) => entry.id === result.contestId,
+    );
+    if (!contest) return false;
+    if (
+      unit.jurisdictionId !== null &&
+      contest.jurisdictionId !== unit.jurisdictionId
+    )
+      return false;
+    return result.tallies.some(
+      (tally) =>
+        tally.candidatePersonId !== result.winnerPersonId &&
+        belongsToParty(
+          world,
+          tally.candidatePersonId,
+          unit.partyKey,
+          result.resolvedAt,
+        ),
+    );
+  });
+  return lost ? { questionKey: selection, reason: "election-lost" } : null;
+}
+
+/** Whether somebody was publicly of this party on a date. */
+function belongsToParty(
+  world: World,
+  personId: EntityId,
+  partyKey: string,
+  date: IsoDate,
+): boolean {
+  const party = affiliationAt(world, personId, date).partyOrganizationId;
+  return (
+    party !== null &&
+    partyUnits(world).some(
+      (candidate) =>
+        candidate.organizationId === party && candidate.partyKey === partyKey,
+    )
+  );
+}
+
+/**
  * The quarterly meeting: the body decides its next question, and any member
  * whose firm view keeps losing may, with others, act on it. At most one
  * initiative per meeting; nothing happens if nobody chooses to.
@@ -1942,8 +2029,17 @@ export function partyBodyReviewTransitionHandler(
       "no-members-present",
     );
   }
-  const n = partyBodyDecisions(world, unit.organizationId).length;
-  const questionKey = PARTY_QUESTIONS[n % PARTY_QUESTIONS.length]!.key;
+  const business = businessBefore(world, unit);
+  if (business === null) {
+    // A quiet review is a real outcome: nothing is before the body, so it
+    // decides nothing and meets again next quarter.
+    const anchor = partyBodyMembers(world, unit.organizationId)[0];
+    return done(
+      anchor ? scheduleBodyReview(world, unit.organizationId, anchor) : world,
+      "quiet-review",
+    );
+  }
+  const questionKey = business.questionKey;
   const decisionKey = `${dueItem.stableKey}:decision`;
   let next = recordPartyBodyDecision(world, {
     organizationId: unit.organizationId,
