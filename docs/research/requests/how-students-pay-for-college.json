@@ -3,7 +3,7 @@
   "impact": "shapes-design",
   "lane": "ordinary adult life",
   "notes": [
-    "A playtest in Bend, Oregon: Emerson, just out of high school, accepted a place at Oregon State. The first $5,000 tuition bill came due on August 31, 2039 and the only way to pay was personal cash, so their study paused on September 30. The empty account after five years of weekend work is a separate pay bug (#624).",
+    "A playtest in Bend, Oregon: Emerson, just out of high school, accepted a place at Oregon State. The first $5,000 tuition bill came due on August 31, 2039 and the only way to pay was personal cash, so if still unfunded their study would pause at the disclosed deadline, September 30. The empty account after five years of weekend work is a separate pay bug (#624).",
     "Whether a student is admitted, and what tuition costs, is asked in who-gets-into-college-and-what-it-costs. This question is only about how the bill gets paid."
   ],
   "priority": "P1",
