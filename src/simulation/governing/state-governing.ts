@@ -668,7 +668,10 @@ export function staffRecommendation(
             byPersonId: chief,
             reason: "It moves the office's own priority.",
           }
-        : rng.integer(0, 3) > 0
+        : // PLACEHOLDER: three signatures in four. How often a governor signs
+          // what reaches the desk is filed as
+          // `why-a-governor-signs-or-vetoes`; no rate is approved.
+          rng.integer(0, 3) > 0
           ? {
               optionKey: "bill:sign",
               byPersonId: chief,
@@ -1803,11 +1806,18 @@ export function governingSeasonHandler(
 }
 
 /**
- * A bill on the governor's desk. The player governor gets a bound matter; a
- * non-player governor acts on an authored disposition where the bill carries
- * one, and otherwise decides in the ordinary course through the same matter.
- * Without a materialized governorship, an authored disposition still stands
- * and nothing is invented.
+ * A bill on the governor's desk. Whoever holds the governorship, player or
+ * not, decides it through the same bound matter. Only where no governorship
+ * has been materialized does a bill's authored disposition still stand, so an
+ * older save keeps its scripted ending and nothing is invented for it.
+ *
+ * The authored dispositions were written for developer scenarios that set out
+ * to demonstrate a veto and an override, so almost all of them are vetoes. A
+ * sitting non-player governor used to replay them, which is how an observed
+ * Nebraska world saw 31 of 32 bills vetoed in 13 years and nothing become law.
+ * How often a real governor signs is not settled here: the ordinary decision
+ * this now reaches is a marked placeholder, filed as
+ * `why-a-governor-signs-or-vetoes`.
  */
 export const governorDesk: ExecutiveDeskHandler = (
   world,
@@ -1825,7 +1835,7 @@ export const governorDesk: ExecutiveDeskHandler = (
       event.tags.includes("matter-family:bill"),
   );
   if (alreadyOpen) return world;
-  if (office && (office.controlledByPlayer || !blueprint.governorAction))
+  if (office)
     return openMatter(world, office, {
       family: "bill",
       instance: `measure:${measure.id}`,
