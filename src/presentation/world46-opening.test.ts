@@ -52,6 +52,7 @@ function legacySetup(placeKey: string, seed: string): NewGameSetup {
     .partyChapterNameVersion;
   delete (legacy as { schoolNameVersion?: unknown }).schoolNameVersion;
   delete (legacy as { familyBirthdayVersion?: unknown }).familyBirthdayVersion;
+  delete (legacy as { parentPartnerVersion?: unknown }).parentPartnerVersion;
   return {
     ...legacy,
     seed,
