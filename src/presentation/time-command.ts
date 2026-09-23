@@ -7,9 +7,7 @@ import {
   addDays,
   addSimulationMinutes,
   compareSimulationMoments,
-  currentLifeCutoff,
   formativeIntervalAt,
-  futureDueItemStateAt,
   scheduledActivityState,
   simulationMinutesBetween,
   simulationMomentAtLocalTime,
@@ -35,6 +33,7 @@ import {
   advanceStoppingForOfferDeadlines,
   offerDeadlines,
 } from "./offer-deadlines";
+import { capQuietStretch } from "./quiet-stretch";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import {
   describeRoutineOutcome,
@@ -85,6 +84,8 @@ export interface TimeCommandRequest {
   readonly interruptions?: InterruptionPreferences;
 }
 
+export { nextKnownCalendarItem } from "./quiet-stretch";
+
 export type TimeCommandStatus = "accepted" | "stale" | "refused";
 
 export interface TimeCommandReceipt {
@@ -125,35 +126,6 @@ function wholeDaysBetween(from: IsoDate, to: IsoDate): number {
     (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
       86_400_000,
   );
-}
-
-/**
- * The earliest dated thing already waiting on this person after today: a
- * scheduled activity they take part in, or a due item that names them.
- */
-export function nextKnownCalendarItem(
-  world: World,
-  personId: EntityId,
-): { readonly title: string; readonly date: IsoDate } | null {
-  let best: { title: string; date: IsoDate } | null = null;
-  for (const activity of world.history.scheduledActivities) {
-    if (!activity.participantPersonIds.includes(personId)) continue;
-    const state = scheduledActivityState(world, activity.id);
-    if (state.status !== "scheduled") continue;
-    if (state.start.date <= world.currentDate) continue;
-    if (!best || state.start.date < best.date)
-      best = { title: activity.title, date: state.start.date };
-  }
-  const cutoff = currentLifeCutoff(world);
-  for (const due of world.history.futureDueItems) {
-    if (!due.entityIds.includes(personId)) continue;
-    if (due.dueAt <= world.currentDate) continue;
-    if (futureDueItemStateAt(world, due.id, cutoff)?.status !== "scheduled")
-      continue;
-    if (!best || due.dueAt < best.date)
-      best = { title: "A dated matter", date: due.dueAt };
-  }
-  return best;
 }
 
 export function previewTimeCommand(
@@ -211,15 +183,11 @@ export function previewTimeCommand(
   if (command.kind === "days") {
     days = Math.max(1, Math.trunc(command.days));
   } else {
-    days = quietStepDays(world.currentDate);
-    const next = nextKnownCalendarItem(world, personId);
-    if (next) {
-      const until = wholeDaysBetween(world.currentDate, next.date);
-      if (until >= 1 && until <= days) {
-        days = until;
-        cappedBy = next;
-      }
-    }
+    ({ days, cappedBy } = capQuietStretch(
+      world,
+      personId,
+      quietStepDays(world.currentDate),
+    ));
   }
   // Every skip stops the morning after the player's own election, so the
   // result is met, not stepped over.
@@ -396,6 +364,8 @@ export function describeTimeCommandPreview(
           ? `about ${Math.round(preview.days / 7)} weeks`
           : `about ${Math.round(preview.days / 30.4)} months`;
   return preview.cappedBy
-    ? `${span}, to ${date}, when ${preview.cappedBy.title.toLowerCase()} is due`
+    ? // The title as recorded: lowercasing it turned "Saturday afternoon at
+      // Ray Curtis's" into "saturday afternoon at ray curtis's".
+      `${span}, to ${date}: ${preview.cappedBy.title}`
     : `${span}, to ${date}`;
 }
