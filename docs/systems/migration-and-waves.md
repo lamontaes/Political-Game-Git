@@ -45,7 +45,7 @@ the blanket rule the code follows meanwhile. In summary:
 | Wave spread              | no     | One place, fixed intensity, fixed length.                                                                                   |
 | Who a wave moves         | no     | Everyone in scope alike; nobody is selected by group.                                                                       |
 | Wave beliefs and parties | no     | Recorded on the definition, applied to nobody.                                                                              |
-| Modded waves             | no     | The catalog is in source.                                                                                                 |
+| Modded waves             | no     | The catalog is in source.                                                                                                   |
 | Old saves                | no     | Not scheduled.                                                                                                              |
 
 ## Placeholders and research

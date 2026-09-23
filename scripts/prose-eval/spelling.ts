@@ -30,7 +30,7 @@ const files = execFileSync("git", ["ls-files"], { cwd: ROOT, encoding: "utf8" })
   .filter(Boolean);
 
 const findings: string[] = [];
-let repaired = 0;
+const repaired: string[] = [];
 for (const file of files) {
   if (exemptionFor(file) || !proseKindOf(file)) continue;
   let text: string;
@@ -72,12 +72,23 @@ for (const file of files) {
   out += text.slice(cursor);
   if (out !== text && write) {
     writeFileSync(path.join(ROOT, file), out);
-    repaired += 1;
+    repaired.push(file);
   }
 }
 
 for (const finding of findings) console.log(finding);
-if (write) console.log(`Repaired ${repaired} file(s).`);
+if (write && repaired.length) {
+  // A shorter word can leave a Markdown table's columns out of line.
+  execFileSync(
+    "npx",
+    ["prettier", "--write", "--ignore-unknown", ...repaired],
+    {
+      cwd: ROOT,
+      stdio: "ignore",
+    },
+  );
+}
+if (write) console.log(`Repaired ${repaired.length} file(s).`);
 else if (findings.length)
   console.log(`${findings.length} to fix; run npm run spelling -- --write.`);
 process.exit(!write && findings.length ? 1 : 0);
