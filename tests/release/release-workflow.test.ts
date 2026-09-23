@@ -111,21 +111,43 @@ describe("exact validated candidate identity", () => {
     expect(publisher).toContain(
       '"$(git rev-parse "${CANDIDATE_SHA}^{tree}")" == "$CANDIDATE_TREE"',
     );
+    expect(publisher).toContain('target="$CANDIDATE_SHA"');
+    expect(publisher).toContain('git push origin "${target}:refs/heads/main"');
+    expect(publisher).not.toMatch(/git push[^\n]*(--force|\s"?\+)/);
+  });
+
+  it("lays the release onto a main that moved, touching only release files", () => {
+    const publisher = job("publish_candidate");
+    // Main moves every few minutes and a validated candidate takes far
+    // longer, so a fast-forward-only publisher never published at all.
+    expect(publisher).not.toContain(
+      "main advanced before publication. Nothing was published",
+    );
+    // The delta is re-applied only when every path it touches is still
+    // byte-identical to the validated parent.
+    expect(publisher).toContain('"${SOURCE_SHA}:${path}"');
+    expect(publisher).toContain('"${main_tip}:${path}"');
     expect(publisher).toContain(
-      'git push origin "${CANDIDATE_SHA}:refs/heads/main"',
+      "main changed $path after the candidate was validated. Nothing was published",
+    );
+    expect(publisher).toContain('git commit-tree "$tree" -p "$main_tip"');
+    // The laid commit changes exactly what the validated candidate changed.
+    expect(publisher).toContain(
+      '"$(git diff-tree --no-commit-id --name-status -r "$main_tip" "$target")"',
+    );
+    expect(publisher).toContain(
+      '"$(git diff-tree --no-commit-id --name-status -r "$SOURCE_SHA" "$CANDIDATE_SHA")"',
     );
   });
 
-  it("makes a race a no-publication drain and a permission failure a failure", () => {
+  it("retries a lost race, and makes a permission failure a failure", () => {
     const publisher = job("publish_candidate");
+    expect(publisher).toContain("for attempt in 1 2 3 4 5; do");
     expect(publisher).toContain(
-      "main advanced before publication. Nothing was published",
+      "main kept moving through five attempts. Nothing was published",
     );
     expect(publisher).toContain(
-      "main won the publication race. Nothing from this candidate was published",
-    );
-    expect(publisher).toContain(
-      "Publication failed while main still matched the validated parent",
+      "Publication failed while main had not moved. Nothing was published.",
     );
   });
 });

@@ -347,6 +347,24 @@ const DISTRICT_STATE_NAMES: readonly ((place: string) => string)[] = [
 const DISTRICT_KEY = "US-DC";
 
 /*
+ * Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana
+ * Islands have legislatures, not statehouses. Fictional mastheads, named for
+ * the territory. PLACEHOLDER, like Puerto Rico's: each territory's press
+ * identity is unresearched.
+ */
+const TERRITORY_STATE_NAMES: readonly ((place: string) => string)[] = [
+  (territory) => `The ${territory} Daily Record`,
+  (territory) => `${territory} Island Times`,
+  (territory) => `${territory} Legislature Report`,
+];
+const PLACEHOLDER_TERRITORY_KEYS: ReadonlySet<string> = new Set([
+  "US-GU",
+  "US-VI",
+  "US-AS",
+  "US-MP",
+]);
+
+/*
  * A local daily is the rarest of the four: most American towns are served by
  * a weekly, a small digital outlet or a station, and nothing here can tell a
  * city from a hamlet. Weights are an authored spread, not a measurement
@@ -501,7 +519,9 @@ export function ensurePressStateCoverage(
       ? PUERTO_RICO_STATE_NAMES
       : key === DISTRICT_KEY
         ? DISTRICT_STATE_NAMES
-        : profile.names;
+        : key !== null && PLACEHOLDER_TERRITORY_KEYS.has(key)
+          ? TERRITORY_STATE_NAMES
+          : profile.names;
   const plan: OutletPlan = {
     slot,
     product: profile.product,

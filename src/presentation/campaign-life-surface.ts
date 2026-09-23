@@ -3,6 +3,7 @@ import {
   CHAPTER_MEETING_ATTENDED_EVENT,
   campaignById,
   homePartyChapters,
+  oldEnoughForCampaignLife,
   personName,
   projectCampaignGuidance,
   projectCampaignLifeActivities,
@@ -341,8 +342,12 @@ export function projectPartyAndCommunityWork(
     };
   });
 
+  // The writer refuses anyone under eighteen, so a younger player is offered
+  // nothing to ask for: a 16-year-old used to press it and get an error.
   const adult =
-    world.control.kind === "person" && world.control.personId === personId;
+    world.control.kind === "person" &&
+    world.control.personId === personId &&
+    oldEnoughForCampaignLife(world, personId);
   const openFor = (hostPersonId: EntityId, form: CampaignLifeForm) =>
     views.some(
       (view) =>
