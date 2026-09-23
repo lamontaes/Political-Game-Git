@@ -4027,6 +4027,14 @@
       "textRevision": "8e074194b004"
     },
     {
+      "anchor": "fileForOffice-0004",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "fileForOffice",
+      "text": "{person.familyName} for {option.office.title}",
+      "occurrence": 0,
+      "textRevision": "15d76fc67d7d"
+    },
+    {
       "anchor": "homeEvening-0001",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "homeEvening",

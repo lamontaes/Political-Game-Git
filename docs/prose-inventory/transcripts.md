@@ -556,7 +556,7 @@ _Present: David Todd, your dad_
 
 
 
-David Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
+David Todd, your dad: David Todd asked you over on Saturday afternoon. Going is optional.
 
 - **Say you will come** ← chosen
 - Decline the invitation
@@ -606,22 +606,11 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 15 — 2026-05-10, age 35 (adult)
+#### Beat 15 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
 
 > A couple of months on, and you're 35 now.
 > Judith Lewis tried to reach you.
 > You and Edward Miles were in and out of each other's business more than once.
-
-David Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
-
-- **Say you will come** ← chosen
-- Decline the invitation
-
-_Present: David Todd, your dad_
-
-#### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
-
-
 
 You're at home with fifteen minutes free.
 
@@ -631,7 +620,7 @@ You're at home with fifteen minutes free.
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 17 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/follow-through)
+#### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/follow-through)
 
 
 
@@ -642,7 +631,7 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-05-10._
 
-#### Beat 18 — 2026-05-10, age 35 (ordinary-stretch)
+#### Beat 17 — 2026-05-10, age 35 (ordinary-stretch)
 
 
 
@@ -650,7 +639,7 @@ _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requir
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 19 — 2026-06-10, age 35 (episode, home.the-week-that-does-not-balance/it-was-taken-seriously)
+#### Beat 18 — 2026-06-10, age 35 (episode, home.the-week-that-does-not-balance/it-was-taken-seriously)
 
 > A month later.
 > Edward Miles tried to reach you.
@@ -663,6 +652,17 @@ Five months on, the parts you took are still yours, and nobody has had to mentio
 _Present: Gage Terrell, your housemate_
 
 _Grounded by: household-peer is Gage Terrell: Resident on the same household record, with no authority either way between them.; At the-first-time-it-is-said they chose take-it-on, on 2026-01-05.; 156 day(s) since the-first-time-it-is-said; needs 150._
+
+#### Beat 19 — 2026-06-10, age 35 (adult)
+
+
+
+David Todd, your dad: David Todd asked you over on Saturday afternoon. Going is optional.
+
+- **Say you will come** ← chosen
+- Decline the invitation
+
+_Present: David Todd, your dad_
 
 
 ---
@@ -1201,25 +1201,16 @@ _Grounded by: Stage tattle-boundary was played on 2026-01-05.; 248 day(s) since 
 Seed `p85c-owner-clock`, start age 34, Luke Vance.
 6 beats, 27 realized lines, 21 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
 
 ### Campaign
 
 - Filed: true
 - Office: Seat in the House of Representatives
 - Sessions: 6
-- Resolved: true (won)
+- Resolved: true (lost)
 
-### Legislative surface reached
-
-- HB 292 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
-  - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Filed on 2027-03-13. Filed in the House of Representatives.
-  - Committee on Committees
-  - Committee on Committees decides which committee takes the measure.
-  - Ask for the bill to be sent to a committee
-  - Even-year sessions run 60 legislative days and adjourn by April 15; odd-year sessions run 30 legislative days and adjourn by March 30.
+_No legislative surface: the capability layer did not open one for this run._
 
 
 ### Beats

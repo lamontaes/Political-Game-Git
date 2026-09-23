@@ -1,0 +1,24 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "a-new-party",
+  "title": "A party founding itself",
+  "producer": {
+    "at": "src/simulation/living-world/party-evolution.ts#partyBodyReviewTransitionHandler",
+    "owner": "People and life",
+    "writes": "Party evolution records: founded, split off, merged, renamed, platform changed, dissolved.",
+    "runsInPlay": true,
+    "runsDetail": "Runs on its own; a party founds itself by the second year in ordinary saves."
+  },
+  "readers": [],
+  "missing": [
+    {
+      "reader": "A new party getting onto a ballot",
+      "readerOwner": "Running for office",
+      "state": "open",
+      "detail": "partyBallotStatusAt (party-evolution.ts:419) takes no arguments, returns the literal not-represented, and has no caller.",
+      "readerAt": "src/simulation/living-world/party-evolution.ts#partyBallotStatusAt"
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T02:00:00.000Z"
+}

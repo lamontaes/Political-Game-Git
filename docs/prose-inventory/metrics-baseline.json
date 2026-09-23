@@ -1,7 +1,7 @@
 {
-  "digest": "38422c364829c96d",
-  "totalRecords": 3252,
-  "distinctTexts": 3035,
+  "digest": "2a06b215d3ca55ba",
+  "totalRecords": 3253,
+  "distinctTexts": 3036,
   "exactDuplicateGroups": 84,
   "normalizedDuplicateGroups": 95,
   "nearDuplicateClusters": 36,
@@ -11,13 +11,13 @@
     "label-restated-in-description": 9,
     "rather-than-scaffold": 24,
     "third-person-player": 10,
-    "vague-referent": 191
+    "vague-referent": 189
   },
   "reachability": {
     "CURRENTLY_UNREACHABLE": 406,
     "DEV_FIXTURE_ONLY": 110,
     "LEGACY_OR_WITHDRAWN": 90,
-    "PLAYER_REACHABLE": 2268,
+    "PLAYER_REACHABLE": 2269,
     "UNKNOWN": 69,
     "WITHHELD_BY_GROUNDING": 309
   },
@@ -34,6 +34,7 @@
     "prose:campaign:campaign-status:fileForOffice-0001#text": "d8d0eea00a3c",
     "prose:campaign:campaign-status:fileForOffice-0002#text": "09ae3a7352a4",
     "prose:campaign:campaign-status:fileForOffice-0003#text": "8e074194b004",
+    "prose:campaign:campaign-status:fileForOffice-0004#text": "15d76fc67d7d",
     "prose:campaign:campaign-status:offersFor-0001#text": "03651752f61a",
     "prose:campaign:campaign-status:offersFor-0002#text": "b83c13ddd1bc",
     "prose:campaign:campaign-status:offersFor-0003#text": "e5eb367db1b4",
@@ -1091,7 +1092,7 @@
     "prose:life:adult:adult.weekend-invitation#option:stay-in:label": "cf7d0c867029",
     "prose:life:adult:adult.weekend-invitation#option:stay-in:memory": "b4b8aa40e370",
     "prose:life:adult:adult.weekend-invitation#option:stay-in:witnessed": "096acd5f581c",
-    "prose:life:adult:adult.weekend-invitation#prose": "6faa83a11d20",
+    "prose:life:adult:adult.weekend-invitation#prose": "95f73c5d23fc",
     "prose:life:adult:adult.work-colleague-struggling#option:ask-them:description": "21316d6ba7b3",
     "prose:life:adult:adult.work-colleague-struggling#option:ask-them:label": "d054884288a8",
     "prose:life:adult:adult.work-colleague-struggling#option:ask-them:memory": "d13726bc92ce",
@@ -3288,6 +3289,7 @@
     "prose:campaign:campaign-status:fileForOffice-0001#text": "15862db75231",
     "prose:campaign:campaign-status:fileForOffice-0002#text": "15862db75231",
     "prose:campaign:campaign-status:fileForOffice-0003#text": "15862db75231",
+    "prose:campaign:campaign-status:fileForOffice-0004#text": "15862db75231",
     "prose:campaign:campaign-status:offersFor-0001#text": "15862db75231",
     "prose:campaign:campaign-status:offersFor-0002#text": "15862db75231",
     "prose:campaign:campaign-status:offersFor-0003#text": "15862db75231",

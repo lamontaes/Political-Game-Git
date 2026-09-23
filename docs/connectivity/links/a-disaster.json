@@ -1,0 +1,66 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "a-disaster",
+  "title": "A disaster",
+  "producer": {
+    "at": "src/simulation/crisis/hazard-producer.ts#hazardSampleHandler",
+    "owner": "How the world changes",
+    "writes": "A hazard episode, damage to homes, households and organizations, direct deaths (recordPersonDeath, cause crisis-injury), injuries as health episodes, an assessment, and state and federal response stages.",
+    "runsInPlay": true,
+    "runsDetail": "Sampled monthly from the opening (opening-life.ts:101)."
+  },
+  "readers": [
+    {
+      "at": "src/simulation/crisis/health.ts:342 and mortality.ts:115",
+      "owner": "People and life",
+      "reads": "Injuries raise the injured person's mortality hazard."
+    },
+    {
+      "at": "src/simulation/macro-economy/sources.ts:148 (CRISIS_ORIGIN_READER)",
+      "owner": "How the world changes",
+      "reads": "A disaster-reconstruction shock in the monthly economy step."
+    },
+    {
+      "at": "src/simulation/governing/repair-funding.ts via world.ts:1082",
+      "owner": "Nationwide government",
+      "reads": "Public repair funding; a federal declaration makes repair four times faster."
+    },
+    {
+      "at": "src/simulation/crisis/handling-reactions.ts:233",
+      "owner": "Running for office",
+      "reads": "The governor's or president's handling decision moves campaign support."
+    },
+    {
+      "at": "src/simulation/press/desk.ts:1260",
+      "owner": "How the world changes",
+      "reads": "Breaking-crisis stories on the public-safety beat."
+    }
+  ],
+  "missing": [
+    {
+      "reader": "People leaving a town after their homes are destroyed",
+      "readerOwner": "Migration and big social movements",
+      "state": "needs-research",
+      "detail": "Nothing writes a displaced household, and the migration review does not import crisis. The wave-causes seam lists disasters as not built (migration/contract.ts); a cause kind would read recorded damage at migration/waves.ts:288. The departure rate is unresearched.",
+      "researchQuestionId": "migration-rates-and-reasons",
+      "readerAt": "src/simulation/migration/waves.ts#evaluateCause"
+    },
+    {
+      "reader": "Voters in the stricken place judging the damage itself, not only the handling",
+      "readerOwner": "Running for office",
+      "state": "needs-research",
+      "detail": "Support moves only on a handling decision. No reader of damage or deaths by area touches a vote.",
+      "researchQuestionId": "disaster-handling-reactions",
+      "readerAt": "src/simulation/crisis/handling-reactions.ts"
+    },
+    {
+      "reader": "A disaster shaping what people believe",
+      "readerOwner": "People and life",
+      "state": "needs-research",
+      "detail": "Answered in principle (event, known exposure, memory, relevance to a proposition, the existing evaluator). Blocked on the belief pass being scheduled at all; see what-a-person-believes.",
+      "researchQuestionId": "what-should-the-world-do-to-a-person"
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T02:00:00.000Z"
+}
