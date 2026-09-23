@@ -6403,6 +6403,14 @@
       "textRevision": "82d601f954f4"
     },
     {
+      "anchor": "projectCampaign-0004",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won{resultMargin(result,personId)} and keeps the seat. The new term begins {proseDate(term.startsAt)}.",
+      "occurrence": 0,
+      "textRevision": "e1f6b7d4eb13"
+    },
+    {
       "anchor": "projectDisclosure-0001",
       "sourcePath": "src/presentation/press-disclosure.ts",
       "symbol": "projectDisclosure",

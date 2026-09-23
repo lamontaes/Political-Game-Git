@@ -1,5 +1,6 @@
 import { canonicalJson } from "./canonical-json";
 import { createStableId } from "./ids";
+import { packRollCalls, unpackRollCalls } from "./roll-call-packing";
 import type { EntityId, IsoDate, World } from "./types";
 import { assertWorldIntegrity } from "./world";
 
@@ -19,11 +20,25 @@ export const WORLD_SNAPSHOT_FORMAT_VERSION = 15;
 /** Old readers must refuse instead of silently ignoring runtime definitions. */
 export const CONTENT_PACK_SNAPSHOT_FORMAT_VERSION = 16;
 
+/**
+ * Formats 17 and 18 are 15 and 16 with their roll calls packed on disk (see
+ * `roll-call-packing.ts`). The world they hold is the same world; only the
+ * bytes differ, and an older reader must refuse them rather than misread a
+ * packed vote as a malformed one. A world with no roll call to pack is still
+ * written as 15 or 16, byte for byte as before, and every format is read.
+ */
+export const PACKED_WORLD_SNAPSHOT_FORMAT_VERSION = 17;
+export const PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION = 18;
+
+export type WorldSnapshotFormatVersion =
+  | typeof WORLD_SNAPSHOT_FORMAT_VERSION
+  | typeof CONTENT_PACK_SNAPSHOT_FORMAT_VERSION
+  | typeof PACKED_WORLD_SNAPSHOT_FORMAT_VERSION
+  | typeof PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION;
+
 export interface WorldSnapshot {
   readonly format: "political-life-world";
-  readonly formatVersion:
-    | typeof WORLD_SNAPSHOT_FORMAT_VERSION
-    | typeof CONTENT_PACK_SNAPSHOT_FORMAT_VERSION;
+  readonly formatVersion: WorldSnapshotFormatVersion;
   readonly snapshotId: EntityId;
   readonly worldId: EntityId;
   readonly savedAtWorldDate: IsoDate;
@@ -47,8 +62,61 @@ export function createWorldSnapshot(world: World): WorldSnapshot {
   };
 }
 
+/**
+ * The saved form of a world: packed when it has roll calls to pack, otherwise
+ * exactly the plain snapshot.
+ */
 export function serializeWorld(world: World): string {
-  return JSON.stringify(createWorldSnapshot(world));
+  return serializeWorldSnapshot(createWorldSnapshot(world));
+}
+
+/** A snapshot as written to disk, in the format `storedFormatVersion` names. */
+export function serializeWorldSnapshot(snapshot: WorldSnapshot): string {
+  const packed = packRollCalls(snapshot.world);
+  if (packed === null) return JSON.stringify(snapshot);
+  return JSON.stringify({
+    ...snapshot,
+    formatVersion: packedFormat(snapshot.formatVersion),
+    world: packed.world,
+    rollCalls: packed.packing,
+  });
+}
+
+/** The format a snapshot is stored under. */
+export function storedFormatVersion(
+  snapshot: WorldSnapshot,
+): WorldSnapshotFormatVersion {
+  return packRollCallsApplies(snapshot.world)
+    ? packedFormat(snapshot.formatVersion)
+    : snapshot.formatVersion;
+}
+
+/**
+ * A world written in the format it was read from. A store that checks a
+ * record was not altered after it was written compares against this, so a
+ * save written before packing existed still reads as the save it is.
+ */
+export function serializeWorldAs(
+  world: World,
+  formatVersion: WorldSnapshotFormatVersion,
+): string {
+  const snapshot = createWorldSnapshot(world);
+  return formatVersion === snapshot.formatVersion
+    ? JSON.stringify(snapshot)
+    : serializeWorldSnapshot(snapshot);
+}
+
+function packRollCallsApplies(world: World): boolean {
+  return packRollCalls(world) !== null;
+}
+
+function packedFormat(
+  formatVersion: WorldSnapshotFormatVersion,
+): WorldSnapshotFormatVersion {
+  return formatVersion === CONTENT_PACK_SNAPSHOT_FORMAT_VERSION ||
+    formatVersion === PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION
+    ? PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION
+    : PACKED_WORLD_SNAPSHOT_FORMAT_VERSION;
 }
 
 /**
@@ -81,6 +149,14 @@ export function worldContentId(world: World): EntityId {
 }
 
 export function deserializeWorld(payload: string): World {
+  return readWorldSnapshot(payload).world;
+}
+
+/** A saved world, with the format it was written in. */
+export function readWorldSnapshot(payload: string): {
+  readonly world: World;
+  readonly formatVersion: WorldSnapshotFormatVersion;
+} {
   let parsed: unknown;
   try {
     parsed = JSON.parse(payload);
@@ -90,21 +166,32 @@ export function deserializeWorld(payload: string): World {
   if (!isRecord(parsed)) {
     throw new Error("World snapshot must be a JSON object.");
   }
+  const formatVersion = parsed.formatVersion;
+  const packed =
+    formatVersion === PACKED_WORLD_SNAPSHOT_FORMAT_VERSION ||
+    formatVersion === PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION;
   if (
     parsed.format !== "political-life-world" ||
-    (parsed.formatVersion !== WORLD_SNAPSHOT_FORMAT_VERSION &&
-      parsed.formatVersion !== CONTENT_PACK_SNAPSHOT_FORMAT_VERSION)
+    (!packed &&
+      formatVersion !== WORLD_SNAPSHOT_FORMAT_VERSION &&
+      formatVersion !== CONTENT_PACK_SNAPSHOT_FORMAT_VERSION)
   ) {
     throw new Error("World snapshot uses an unsupported format version.");
   }
   if (!isRecord(parsed.world)) {
     throw new Error("World snapshot is missing its world payload.");
   }
+  if (!packed && parsed.rollCalls !== undefined) {
+    throw new Error("World snapshot packs roll calls its format does not.");
+  }
 
-  const world = parsed.world as unknown as World;
+  const world = packed
+    ? unpackRollCalls(parsed.world as unknown as World, parsed.rollCalls)
+    : (parsed.world as unknown as World);
   if (
     (world.contentPacks !== undefined) !==
-    (parsed.formatVersion === CONTENT_PACK_SNAPSHOT_FORMAT_VERSION)
+    (formatVersion === CONTENT_PACK_SNAPSHOT_FORMAT_VERSION ||
+      formatVersion === PACKED_CONTENT_PACK_SNAPSHOT_FORMAT_VERSION)
   ) {
     throw new Error(
       "World content packs require their supported snapshot format.",
@@ -119,7 +206,15 @@ export function deserializeWorld(payload: string): World {
   ) {
     throw new Error("World snapshot metadata does not match its payload.");
   }
-  return structuredClone(world);
+  // A packed format is only ever written for a world with a roll call to
+  // pack. A plain one may hold roll calls: every save before packing did.
+  if (packed && !packRollCallsApplies(world)) {
+    throw new Error("World snapshot format does not match its roll calls.");
+  }
+  return {
+    world: structuredClone(world),
+    formatVersion: formatVersion as WorldSnapshotFormatVersion,
+  };
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

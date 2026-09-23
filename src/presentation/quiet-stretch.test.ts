@@ -19,6 +19,8 @@ import {
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
+import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
+import { venueActivities } from "./venue-activity";
 import {
   goableToday,
   isCivicHold,
@@ -33,10 +35,10 @@ import {
  * community room, and a social invitation, in Reno.
  */
 
-function renoLife(): { world: World; personId: EntityId } {
+function renoLife(startAge = 34): { world: World; personId: EntityId } {
   const created = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
-    startAge: 34,
+    startAge,
     placeKey: "3260600",
     questionnaire: "skipped",
     priors: [],
@@ -57,6 +59,7 @@ function hold(
     readonly daysAhead: number;
     readonly locationKey: string;
     readonly startMinute?: number;
+    readonly kind?: "tentative" | "confirmed";
   },
 ): { world: World; activityId: EntityId } {
   const date = addDays(world.currentDate, input.daysAhead);
@@ -71,7 +74,7 @@ function hold(
     stableKey: `quiet-stretch-test:${input.key}`,
     title: input.title,
     summary: "Coming is optional.",
-    kind: "tentative",
+    kind: input.kind ?? "tentative",
     start: at(input.startMinute ?? 19 * 60),
     end: at((input.startMinute ?? 19 * 60) + 60),
     participantPersonIds: [personId],
@@ -250,5 +253,128 @@ describe("beside Let time pass", () => {
     expect(
       chooseTodayCalendarOption(morning, { personId, optionKey: "let-it-run" }),
     ).toBeNull();
+  });
+});
+
+/**
+ * Four saves froze on one day in the lives run of September 23, 2026: two
+ * teenagers (Wellsboro, Pennsylvania and Washington, D.C.) and an eighteen-year-
+ * old in Las Cruces, each with a meeting they had arranged starting that
+ * minute. Time will not step over a confirmed commitment, and nothing on the
+ * moment offered a way to go, so every skip came back unmoved.
+ */
+describe("a commitment due now", () => {
+  it("is offered to a child too, and going lets the year run on", () => {
+    const { world: opened, personId } = renoLife(14);
+    const { world, activityId } = hold(opened, personId, {
+      key: "child-meeting",
+      title: "Meeting with a friend",
+      daysAhead: 0,
+      locationKey: CONTACT_LOCATION_KEY,
+      startMinute: opened.currentMoment.minuteOfDay,
+      kind: "confirmed",
+    });
+    expect(letStoryTimePass(world, personId).currentDate).toBe(
+      world.currentDate,
+    );
+    expect(todayCalendarOptions(world, personId).map((o) => o.label)).toEqual([
+      "Attend: Meeting with a friend",
+    ]);
+    const went = chooseTodayCalendarOption(world, {
+      personId,
+      optionKey: `go-to:${activityId}`,
+    })!;
+    expect(scheduledActivityState(went, activityId).status).toBe("completed");
+    expect(
+      letStoryTimePass(went, personId).currentDate > went.currentDate,
+    ).toBe(true);
+  });
+
+  it("can be let go once its time has passed", () => {
+    const { world: opened, personId } = renoLife();
+    const { world: booked, activityId } = hold(opened, personId, {
+      key: "missed-meeting",
+      title: "Meeting with a friend",
+      daysAhead: 0,
+      locationKey: CONTACT_LOCATION_KEY,
+      startMinute: opened.currentMoment.minuteOfDay + 30,
+      kind: "confirmed",
+    });
+    // The clock will not step over a confirmed commitment now, so a missed one
+    // exists only in saves an older build carried past it; set the clock the
+    // way such a save has it, an hour after the start.
+    const world: World = {
+      ...booked,
+      currentMoment: {
+        ...booked.currentMoment,
+        minuteOfDay: booked.currentMoment.minuteOfDay + 90,
+      },
+    };
+    const options = todayCalendarOptions(world, personId);
+    expect(options.map((o) => o.label)).toEqual([
+      "Let it go: Meeting with a friend",
+    ]);
+    const let_go = chooseTodayCalendarOption(world, {
+      personId,
+      optionKey: options[0]!.key,
+    })!;
+    expect(scheduledActivityState(let_go, activityId).status).toBe("cancelled");
+    expect(todayCalendarOptions(let_go, personId)).toEqual([]);
+  });
+
+  it("gathers several missed commitments into one choice", () => {
+    const life = renoLife();
+    const personId = life.personId;
+    let booked = life.world;
+    const opened0 = booked.currentMoment.minuteOfDay;
+    const ids: EntityId[] = [];
+    for (const [index, key] of ["first", "second"].entries()) {
+      const made = hold(booked, personId, {
+        key: `missed-${key}`,
+        title: `Meeting (${key})`,
+        daysAhead: 0,
+        locationKey: CONTACT_LOCATION_KEY,
+        startMinute: opened0 + 30 + index * 70,
+        kind: "confirmed",
+      });
+      booked = made.world;
+      ids.push(made.activityId);
+    }
+    const world: World = {
+      ...booked,
+      currentMoment: {
+        ...booked.currentMoment,
+        minuteOfDay: opened0 + 180,
+      },
+    };
+    const options = todayCalendarOptions(world, personId);
+    expect(options.map((o) => o.label)).toEqual([
+      "Let go of 2 commitments that can no longer be kept",
+    ]);
+    const cleared = chooseTodayCalendarOption(world, {
+      personId,
+      optionKey: options[0]!.key,
+    })!;
+    for (const id of ids)
+      expect(scheduledActivityState(cleared, id).status).toBe("cancelled");
+  });
+
+  it("does not push a commitment later today it cannot reach from here", () => {
+    const { world: opened, personId } = renoLife();
+    const { world, activityId } = hold(opened, personId, {
+      key: "unreachable-tomorrow",
+      title: "Meeting across town",
+      daysAhead: 0,
+      startMinute: opened.currentMoment.minuteOfDay + 120,
+      locationKey: "quiet-stretch-test:nowhere",
+      kind: "confirmed",
+    });
+    // The Places screen may still offer giving it up; the moment does not.
+    expect(
+      venueActivities(world, personId).find(
+        (entry) => entry.activity.id === activityId,
+      )?.abandonable,
+    ).toBe(true);
+    expect(todayCalendarOptions(world, personId)).toEqual([]);
   });
 });

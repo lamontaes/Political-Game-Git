@@ -1,0 +1,29 @@
+{
+  "filedAt": "2026-09-23T08:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "macro economy (unemployment that never recovers)",
+  "notes": [
+    "Measured on main 5476eb6b before the fix: six Northeast saves ended at 6.8% to 10.8% national unemployment from a 5.0% start, and two project saves climbed from 4.1% to 6.0% (Fatima, 59 months) and from 4.7% to 5.8% (Selena McGuire, 46 months). In Fatima's save, of the 1.97-point rise the lagged growth gap contributed 1.10, shock labor impulses 0.39 and random draws 0.51. Mean growth was 1.5% against a 2% anchor because the only national shock origin the game writes is a shipping delay (trade-disruption), so the gap was one-sided.",
+    "The fix adds UNRESEARCHED_UNEMPLOYMENT_RECOVERY in src/simulation/macro-economy/policy.ts: unemployment's distance from a normal rate of 4.6% (section 13's own zero-cycle start value) keeps 0.985 of itself each month, a half-life of about four years. 0.985 is read off one episode, BLS national unemployment of 10.0% in October 2009 and 7.8% in October 2012, and is an illustration, not an estimate. A place's gap from the national rate fades at the same retention.",
+    "With the rule, a slowdown that holds growth half a point under the anchor settles unemployment about 1.3 points above normal instead of climbing without limit.",
+    "Related open questions: simulated-economy-anchors-and-release-timing (anchors and persistence in general) and realized-public-money-macro-magnitudes (shock sizes)."
+  ],
+  "priority": "P1",
+  "question": "How fast does the US unemployment rate return toward its normal level after a downturn, what is that normal level nationally and for each state, and how much of a state's gap from the national rate persists from month to month?",
+  "questionId": "unemployment-return-to-normal",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Unemployment that never recovers thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/macro-economy/policy.ts CRUNCH46_PROVISIONAL_POLICY",
+      "whatItDidNotSettle": "Section 13 gives an Okun-style response to growth but no return toward a normal rate, and labels 4.6% only as a retained calibration example."
+    },
+    {
+      "source": "Codex overnight CTO dispatch 2026-09-23 (Drive 1WL9Q126qCzK9D4_PPX7q8A03HLvBVHiMwV3s_4oP180): FRED UNRATE 5.0% December 2007, 10.0% October 2009, 3.6% December 2019; BLS 2010 state averages Nevada 14.9%, North Dakota 3.9%",
+      "whatItDidNotSettle": "Shows one recession's path and the state spread, not a monthly persistence, a normal rate or how state gaps decay."
+    }
+  ],
+  "title": "How fast unemployment comes back after a downturn, nationally and in each state",
+  "usableAnswer": "A normal (natural or long-run) unemployment rate for the nation and, where it differs, for each of the 50 states, D.C. and Puerto Rico, with a source or a range; a monthly persistence or half-life of the national gap from that rate, with the estimate cited; and the monthly persistence of a state's gap from the national rate. Say where no estimate exists rather than supply one.",
+  "whyItMatters": "Every simulated world's unemployment used to climb and never come back, which drives migration pressure, governors' records in office and the local figures a player reads. The fix pulls it back at a placeholder speed toward one national figure used for every state; researched values decide how long a recession hurts and whether Nevada and North Dakota recover differently."
+}
