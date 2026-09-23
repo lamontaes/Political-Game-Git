@@ -409,3 +409,25 @@
 .game-campaign-planning-slot[data-primary="false"] {
   padding-inline-start: 0.75rem;
 }
+
+.game-campaign-spending details {
+  overflow-x: auto;
+  margin: 0.25rem 0;
+}
+
+.game-campaign-spending table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.game-campaign-spending th,
+.game-campaign-spending td {
+  padding: 0.2rem 0.5rem;
+  text-align: left;
+}
+
+.game-campaign-spending td:last-child,
+.game-campaign-spending th:last-child {
+  text-align: right;
+}
