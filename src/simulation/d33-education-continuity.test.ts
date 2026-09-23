@@ -35,6 +35,9 @@ import {
   completedStudyPeriods,
   educationStudyPeriodDueHandler,
   routineWeeklyLoad,
+  readableTuitionSummary,
+  tuitionGraceSentence,
+  TUITION_PAUSED_SENTENCE,
 } from "./education-study-progression";
 import { resourcePositionAt } from "./resource-queries";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
@@ -133,6 +136,23 @@ describe("D33 accepted study continuity", () => {
     expect(paused.maximumHours).toBe(load.maximumHours - study.maximumHours);
     expect(paused.commitments).toBe(1);
   });
+  it("reads a tuition line an older save recorded in plain words", () => {
+    expect(
+      readableTuitionSummary(
+        "Tuition is unpaid. Your accepted authored grace deadline is 2040-08-11; arrange available personal funding or study pauses. Work and the World continue.",
+      ),
+    ).toBe(
+      "Your tuition is unpaid. You have until August 11, 2040 to pay it before your studies pause.",
+    );
+    expect(
+      readableTuitionSummary(
+        "Tuition remained unfunded at its deadline. Study paused; work, pay and the World continue.",
+      ),
+    ).toBe(TUITION_PAUSED_SENTENCE);
+    expect(readableTuitionSummary("You completed study period 1 of 2.")).toBe(
+      "You completed study period 1 of 2.",
+    );
+  });
   it("warns for the accepted 30 days then pauses only study, once across reload, while ordinary work and pay continue", () => {
     let w = enterLifePath(fixture(0), "college-bachelors").world;
     const enrollment = w.history.educationEnrollments.at(-1)!,
@@ -148,6 +168,15 @@ describe("D33 accepted study continuity", () => {
     const refused = settleStudyTuition(w, enrollment.id);
     expect(refused.ok).toBe(false);
     expect(refused.world).toBe(w);
+    // What the journal reads: a spoken date and plain words.
+    const opened = w.history.events.filter(
+      (e) => e.type === "life-paths2.tuition-grace-opened",
+    );
+    expect(opened).toHaveLength(1);
+    expect(opened[0]!.summary).toBe(tuitionGraceSentence(addDays(blocked, 30)));
+    expect(opened[0]!.summary).toMatch(
+      /^Your tuition is unpaid\. You have until [A-Z][a-z]+ \d{1,2}, \d{4} to pay it before your studies pause\.$/,
+    );
     w = deserializeWorld(serializeWorld(w));
     w = advanceWorld(w, 29, LIFE_PATHS2_HANDLERS);
     expect(educationEnrollmentStateAt(w, enrollment.id)?.status).toBe("active");

@@ -56,6 +56,15 @@ import {
   studyUsesPeriodUi,
 } from "./education-study-display";
 import { GameSelect } from "./controls/GameSelect";
+import { moneyText } from "../simulation/money-text";
+
+/** "45 days" as a player reads it; an unfinished entry reads plainly. */
+function graceDaysLabel(entry: string): string {
+  const days = Number(entry);
+  if (entry.trim() === "" || !Number.isInteger(days) || days < 0)
+    return "the number of days you set";
+  return days === 1 ? "1 day" : `${days} days`;
+}
 
 /** Feature-local adapter. UI-CORE owns opening/closing this panel and the World. */
 export interface LifePathsPanelProps {
@@ -152,9 +161,9 @@ export function LifePathsPanel({
         {path.kind === "study" ? (
           <>
             <p>
-              Accepting fixes the price, duration, credential and funding terms
-              for this enrollment. Tuition uses available personal cash at
-              period end. No loan or free tuition is automatic.
+              Enrolling fixes the price, length and credential for as long as
+              you study. Tuition comes out of your own money at the end of each
+              period. No loan or free tuition is arranged for you.
             </p>
             <label>
               Tuition grace days for {path.title}{" "}
@@ -171,9 +180,12 @@ export function LifePathsPanel({
               />
             </label>
             <p>
-              This editable game-authored grace begins when a period cannot be
-              funded. At its disclosed deadline, unfunded study pauses; work,
-              pay and the World continue.
+              If a period can&apos;t be paid, you have{" "}
+              {graceDaysLabel(
+                grace[path.id] ?? String(DEFAULT_AUTHORED_TUITION_GRACE_DAYS),
+              )}{" "}
+              to pay it. After that your studies pause until you do; your work
+              and pay carry on.
             </p>
           </>
         ) : null}
@@ -254,15 +266,18 @@ export function LifePathsPanel({
       </div>
       <div hidden={browse !== "study"}>
         {/*
-          The programs a person can actually enroll in come first. They used
-          to sit only under the collapsed "Other paths and invitations", so
-          the Study tab showed a directory where nothing could be applied for,
-          and a Casper life never found the certificate that opens the
-          best-paid job.
+          The real colleges come first. Six long program cards used to sit
+          above the finder, so the screen an eighteen-year-old in Peoria opened
+          showed only the game's own college and read as if no real college
+          could be applied to: the finder was there, a long scroll below the
+          fold. The programs stay open underneath rather than folded away,
+          because a Casper life that never found the certificate opening the
+          best-paid job is why they came out of "Other paths" in the first
+          place.
         */}
+        <EducationOptionsPanel world={world} onWorldChange={onWorldChange} />
         <h3>Programs you can enroll in</h3>
         {personalPaths.filter((p) => p.kind === "study").map(renderPath)}
-        <EducationOptionsPanel world={world} onWorldChange={onWorldChange} />
       </div>
       <details>
         <summary>Other paths and invitations</summary>
@@ -272,11 +287,10 @@ export function LifePathsPanel({
           onWorldChange={onWorldChange}
         />
         <h3>Available paths</h3>
-        <p>These opportunities and terms are fictional parts of the game.</p>
         <p>
           Accepted work, care and study: {weeklyLoad.minimumHours}–
-          {weeklyLoad.maximumHours} authored hours per week. This is a
-          time-demand range, not a measured capacity or penalty.
+          {weeklyLoad.maximumHours} hours per week. That is how much time they
+          ask of you, not a limit on what you can do.
         </p>
         {weeklyLoad.commitments > 1 ? (
           <p>
@@ -354,11 +368,11 @@ export function LifePathsPanel({
             </p>
             {path.kind === "study" ? (
               <p>
-                Accepted terms: {studyProgramCostLabel(path)}{" "}
-                Available-personal-cash funding;{" "}
+                Your terms: {studyProgramCostLabel(path)} Paid from your own
+                money;{" "}
                 {path.tuitionGraceDays === undefined
-                  ? "legacy terms have no authored grace deadline"
-                  : `${path.tuitionGraceDays} simulated-day authored tuition grace`}
+                  ? "no grace period"
+                  : `${graceDaysLabel(String(path.tuitionGraceDays))} of tuition grace`}
                 .
               </p>
             ) : null}
@@ -366,12 +380,16 @@ export function LifePathsPanel({
               <>
                 <p>
                   {tuition.paused
-                    ? "Study paused for unfunded tuition. Work and the World continue."
+                    ? "Your studies are paused until this tuition is paid. Your work and pay carry on."
                     : tuition.deadline
-                      ? `Tuition is still unpaid, and it is due by ${proseDate(tuition.deadline)}. If it is not paid by then, only your study pauses.`
-                      : "Tuition remains unfunded. Legacy terms have no new grace deadline; completion waits for funding."}{" "}
-                  This accepted period requires $
-                  {(tuition.amountMinor / 100).toFixed(2)} USD.
+                      ? `Your tuition is unpaid. You have until ${proseDate(tuition.deadline)} to pay it before your studies pause.`
+                      : "Your tuition is unpaid. You can't finish until it is paid."}{" "}
+                  This period costs{" "}
+                  {moneyText({
+                    minorUnits: tuition.amountMinor,
+                    currency: "USD",
+                  })}
+                  .
                 </p>
                 <button
                   type="button"
