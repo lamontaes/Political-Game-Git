@@ -34,6 +34,7 @@ import type {
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { shortPersonName } from "./conversation-subjects";
 import { lapseVenueActivity } from "./scheduled-activity-choice";
+import { keepAcceptedSocialOccasion } from "./social-invitation";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 
 /**
@@ -420,6 +421,20 @@ function advanceOrdinaryDays(
     const stepped = advanceWorldMinutes(current, minutes, handlers);
     if (compareSimulationMoments(stepped.currentMoment, morning) >= 0)
       return stepped;
+
+    // A Saturday the player said yes to is kept, unless they asked to be
+    // stopped at such things and play them instead.
+    if (stepped.control.kind === "person" && !options.stopForTentativeHolds) {
+      const kept = keepAcceptedSocialOccasion(
+        stepped,
+        stepped.control.personId,
+        handlers,
+      );
+      if (kept !== stepped) {
+        current = kept;
+        continue;
+      }
+    }
 
     // Passing time is not a choice not to attend. It used to be recorded as
     // one: this wrote a refusal, with a fabricated "Decline <title>" against

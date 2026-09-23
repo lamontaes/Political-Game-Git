@@ -10,7 +10,7 @@ import {
 } from "../simulation/civil-personnel-start";
 import {
   defaultPronounsForGender,
-  DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  COHORT_GIVEN_NAME_GENERATION_VERSION,
   CHILDHOOD_GENERATION_V3,
   type ChildhoodGenerationVersion,
   generationInputsFor,
@@ -138,7 +138,7 @@ export interface NewGameSetup {
   /** Additive initialization policy; absent descriptors preserve older construction. */
   readonly openingDataVersion?: "playtest65-v1";
   /** New descriptors opt in; absent preserves the original member-name draw. */
-  readonly livingWorldMemberNameVersion?: "identity-v1";
+  readonly livingWorldMemberNameVersion?: "identity-v1" | "cohort-v1";
   readonly birthMonth?: number;
   readonly birthDay?: number;
   /**
@@ -234,7 +234,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // with it by accident.
   gender: "unstated",
   appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
-  givenNameGenerationVersion: DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  givenNameGenerationVersion: COHORT_GIVEN_NAME_GENERATION_VERSION,
   // A classmate born on the player's own birthday, in every save, was the
   // fixed offset v2 replaced; two lives in two states with the same childhood
   // line for line, all on their birthdays, is what v3 replaces.
@@ -257,7 +257,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   questionnaireCopyVersion: "playtest65-v2",
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
   openingDataVersion: "playtest65-v1",
-  livingWorldMemberNameVersion: "identity-v1",
+  livingWorldMemberNameVersion: "cohort-v1",
   questionnaire: "short",
   priors: [],
 };

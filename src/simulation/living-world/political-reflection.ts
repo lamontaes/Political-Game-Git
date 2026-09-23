@@ -11,6 +11,7 @@ import type {
   PoliticalBeliefFormationOutcome,
 } from "../political-belief-formation";
 import { activePartnershipsAt } from "../life-queries";
+import { politicalCultureFactors } from "../nationwide-world/political-culture";
 import { recordPropositionExposure } from "../politics";
 import { latestPrinciple, latestPrivateBelief } from "../queries";
 import { SeededRng } from "../rng";
@@ -466,7 +467,13 @@ export function politicalReflectionTransitionHandler(
     stableKey: `${V}:${dueItem.stableKey}`,
     personId,
     propositionId: exposure.propositionId,
-    factors: factors.map((entry) => entry.factor),
+    factors: [
+      ...factors.map((entry) => entry.factor),
+      // Where they live, once a place's culture is researched. Every culture
+      // is empty until `political-culture-of-each-jurisdiction` is answered,
+      // so this adds nothing today; see `nationwide-world/political-culture.ts`.
+      ...politicalCultureFactors(world, personId, exposure.propositionId),
+    ],
     beliefDimensionsFor: (outcome) =>
       dimensionsFor(
         outcome,

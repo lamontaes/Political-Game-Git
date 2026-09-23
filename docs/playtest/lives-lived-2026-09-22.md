@@ -259,6 +259,6 @@ Honestly, in one place, so it is not discovered later:
   `partyBallotStatusAt()` has zero callers.
 - The counts that decide what a life contains are small: 17 offices, 6 traits,
   2 hazard families, 0 propositions, 0 assassinations. The big numbers — 35,582
-  places, 127 issues, 21 crisis kinds — are catalogue.
+  places, 127 issues, 21 crisis kinds — are catalog.
 - An enacted law moves nothing. A production save carries zero causal
   mechanisms, with one exception, an enacted tax levy.

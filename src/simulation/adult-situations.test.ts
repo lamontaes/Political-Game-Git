@@ -21,7 +21,9 @@ import type { EntityId } from "./types";
 
 const WITHHELD_KEYS = [
   "adult.household-repair",
-  "adult.household-money-shortfall",
+  // adult.household-money-shortfall is no longer withheld: the weekly living
+  // costs now write the record it was waiting for. It is offered only while
+  // that record is open, which ordinary-adult-life.test.ts proves.
   "adult.unexpected-expense",
   "adult.small-windfall",
   "adult.housing-repair-standoff",

@@ -27,7 +27,9 @@ import {
   drawCanonicalNameForGender,
   generatePersonIdentity,
   generateQuickCharacterHistory,
+  COHORT_GIVEN_NAME_GENERATION_VERSION,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
+  withBirthCohortGivenNames,
   personName,
   recordWorldEvent,
   recordPersonDeath,
@@ -458,7 +460,12 @@ function establishAgeEligibleState(
       stableKey,
       mode: "quick-generated",
       personId: player.id,
-      transitions,
+      transitions: cohortNamed(
+        withEarlierLife,
+        player,
+        transitions,
+        givenNameGenerationVersion,
+      ),
     }).world;
     if (
       earlierLifeGenerationVersion !== "context-v2" ||
@@ -894,7 +901,12 @@ function establishAgeEligibleState(
     stableKey,
     mode: "quick-generated",
     personId: player.id,
-    transitions,
+    transitions: cohortNamed(
+      world,
+      player,
+      transitions,
+      givenNameGenerationVersion,
+    ),
   }).world;
   return otherParentState === "deceased"
     ? recordPersonDeath(householdWorld, {
@@ -1001,18 +1013,24 @@ function summarizeEarlierLife(
     version === "context-v2"
       ? generateContextualCharacterHistory
       : generateQuickCharacterHistory;
-  const next = applyCharacterHistoryPlan(
-    world,
-    generateHistory(world, {
-      stableKey,
-      personId: player.id,
-      jurisdictionId,
+  const plan = generateHistory(world, {
+    stableKey,
+    personId: player.id,
+    jurisdictionId,
+    givenNameGenerationVersion,
+    ...(childhoodGenerationVersion === undefined
+      ? {}
+      : { childhoodGenerationVersion }),
+  });
+  const next = applyCharacterHistoryPlan(world, {
+    ...plan,
+    transitions: cohortNamed(
+      world,
+      player,
+      plan.transitions,
       givenNameGenerationVersion,
-      ...(childhoodGenerationVersion === undefined
-        ? {}
-        : { childhoodGenerationVersion }),
-    }),
-  ).world;
+    ),
+  }).world;
   return applyCharacterHistoryPlan(next, {
     stableKey: `${stableKey}:left-home`,
     mode: "quick-generated",
@@ -1182,6 +1200,22 @@ function earlierSchooling(
       },
     ] satisfies CharacterHistoryTransition[];
   });
+}
+
+/**
+ * Under the birth-year repair, the people a plan invents take given names that
+ * follow the year each was born. Every other version passes the plan through
+ * untouched, so an older replay rebuilds the household it described.
+ */
+function cohortNamed(
+  world: World,
+  player: Person,
+  transitions: readonly CharacterHistoryTransition[],
+  version: GivenNameGenerationVersion,
+): readonly CharacterHistoryTransition[] {
+  return version === COHORT_GIVEN_NAME_GENERATION_VERSION
+    ? withBirthCohortGivenNames(world.seed, transitions, [player.givenName])
+    : transitions;
 }
 
 function yearsBefore(date: IsoDate, years: number): IsoDate {
