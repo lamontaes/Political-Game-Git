@@ -4,7 +4,7 @@
   "lane": "rule-changing laws (deconstructing systems)",
   "notes": [
     "The owner asked that the relationship between the federal government, the states, their constitutions, city charters and the federal Constitution be established, and how they relate: state laws, interstate laws and so on. One answer set covering all 52 jurisdictions (50 states, D.C., Puerto Rico).",
-    "The engine now orders law by level: federal constitution, federal statute, state constitution, state statute, local charter, local ordinance, with a higher level in force outranking a lower one. What it does NOT know, and marks as unmodelled with a blanket rule, is each state's local-authority doctrine, where federal law preempts and where it only sets a floor, and interstate compacts. Answers replace those blanket rules.",
+    "The engine now orders law by level: federal constitution, federal statute, state constitution, state statute, local charter, local ordinance, with a higher level in force outranking a lower one. What it does NOT know, and marks as unmodeled with a blanket rule, is each state's local-authority doctrine, where federal law preempts and where it only sets a floor, and interstate compacts. Answers replace those blanket rules.",
     "Keep rules to what the game can act on: which level may change which kind of rule, and which instrument a state requires. Case law histories are not needed beyond the rule they establish."
   ],
   "priority": "P1",
