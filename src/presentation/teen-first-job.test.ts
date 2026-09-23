@@ -10,7 +10,13 @@ import { LEGACY_FIRST_JOB_WORK_KEY } from "../simulation/job-market";
 import { workStatusAt } from "../simulation/life-queries";
 import { createExplicitGeographyLife } from "./new-game-geography";
 import { chooseFormativeOption } from "./formative-play";
-import { passOrdinaryDays } from "./ordinary-life";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import {
+  respondCareerOffer,
+  seekCareerOffer,
+  startCareerWork,
+} from "../simulation/career-path7";
+import { CAREER_PROVIDERS } from "./career-path7-provider";
 
 /**
  * A teenager's first job, played from the new-game route, never Kentucky. It
@@ -131,5 +137,109 @@ describe("a teenager's first job", () => {
     const after = passOrdinaryDays(found, 14);
     expect(paymentsFor(after, work.id).paid).toHaveLength(2);
     assertWorldIntegrity(after);
+  });
+});
+
+/** A first job held since the teenage years, as a saved game carries it. */
+function withFirstJob(world: World, personId: EntityId) {
+  const grocery = createOrganization(world, {
+    stableKey: "formative-play:first-job",
+    formedAt: world.currentDate,
+    provenance: { kind: "generated", generatorKey: "formative-first-job-v1" },
+    initialProfile: {
+      name: "Neighborhood grocery",
+      classification: "enterprise:retail",
+      locationJurisdictionId: world.people[personId]!.homeJurisdictionId,
+    },
+  });
+  const next = createWorkRelationship(grocery, {
+    stableKey: LEGACY_FIRST_JOB_WORK_KEY,
+    personId,
+    organizationId: grocery.history.organizations.at(-1)!.id,
+    startedAt: grocery.currentDate,
+    kind: "employment:part-time",
+    compensation: "paid",
+    authority: "directed",
+    dependency: "dependent",
+    economicRisk: "organization-borne",
+    provenance: { kind: "generated", generatorKey: "formative-first-job-v1" },
+    initialRole: {
+      title: "Weekend stock clerk",
+      occupationClassification: "occupation:retail-stock",
+      locationJurisdictionId: null,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 8, maximumHours: 14 },
+        attention: "moderate",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "rigid",
+        interruptibility: "limited",
+        locationJurisdictionId: null,
+      },
+    },
+  });
+  return { world: next, workId: next.history.workRelationships.at(-1)!.id };
+}
+
+function grownUp(placeKey: string, seed: string) {
+  const life = createExplicitGeographyLife({ placeKey, seed, startAge: 24 });
+  const personId = life.game.playerPersonId;
+  return { personId, world: openOrdinaryLife(life.game.world, personId) };
+}
+
+describe("the first job, once an adult job starts", () => {
+  const shop = CAREER_PROVIDERS.find((p) => p.pathId === "shop-assistant")!;
+
+  it("ends the day the adult job begins, naming it", () => {
+    const adult = grownUp(ELY, "first-job-ends");
+    const { world, workId } = withFirstJob(adult.world, adult.personId);
+    const sought = seekCareerOffer(world, shop).world;
+    const offer = sought.history.workRelationships.at(-1)!;
+    const accepted = respondCareerOffer(sought, offer.id, shop, true).world;
+    const begun = startCareerWork(
+      passOrdinaryDays(accepted, 1),
+      offer.id,
+      shop,
+    );
+    expect(begun.ok).toBe(true);
+    const status = workStatusAt(begun.world, workId)!;
+    expect(status.status).toBe("ended");
+    expect(status.reason).toBe("Left for work as shop assistant.");
+    expect(status.effectiveAt).toBe(begun.world.currentDate);
+    assertWorldIntegrity(begun.world);
+  });
+
+  it("ends in a saved game where the adult job already started, from the next day on", () => {
+    const adult = grownUp(HOUMA, "first-job-saved");
+    const { world, workId } = withFirstJob(adult.world, adult.personId);
+    const shopJob = createWorkRelationship(world, {
+      stableKey: "saved-shop-job",
+      personId: adult.personId,
+      organizationId: world.history.organizations.at(-1)!.id,
+      startedAt: world.currentDate,
+      kind: "employment:life-paths2-shop-assistant",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "partly-dependent",
+      economicRisk: "organization-borne",
+      provenance: { kind: "generated", generatorKey: "saved-game-fixture" },
+      initialRole: {
+        title: "Shop assistant",
+        occupationClassification: "occupation:retail-sales",
+        locationJurisdictionId: null,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 20, maximumHours: 28 },
+          attention: "moderate",
+          concurrency: "mostly-exclusive",
+          scheduleRigidity: "rigid",
+          interruptibility: "limited",
+          locationJurisdictionId: null,
+        },
+      },
+    });
+    const later = passOrdinaryDays(shopJob, 1);
+    const status = workStatusAt(later, workId)!;
+    expect(status.status).toBe("ended");
+    expect(status.effectiveAt).toBe(later.currentDate);
+    assertWorldIntegrity(later);
   });
 });

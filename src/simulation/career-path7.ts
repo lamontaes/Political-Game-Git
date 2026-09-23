@@ -25,7 +25,12 @@ import {
 import { resourceFlowTermsAt } from "./resource-queries";
 import { recordWorldEvent } from "./world";
 import { SeededRng } from "./rng";
-import { JOB_MARKET_PLACEHOLDER, JOB_TIMING, spoken } from "./job-market";
+import {
+  JOB_MARKET_PLACEHOLDER,
+  JOB_TIMING,
+  leaveFirstJobFor,
+  spoken,
+} from "./job-market";
 import { employerName, lifePathDefinition } from "./life-paths2-catalog";
 import {
   lifePathEntryReason,
@@ -334,6 +339,7 @@ export function startCareerWork(
     provenance: authored,
     supersedesTermsId: terms.id,
   });
+  n = leaveFirstJobFor(n, r.personId, workRoleAt(n, id)?.title ?? "new work");
   return result(n, true, "You began the accepted work.");
 }
 

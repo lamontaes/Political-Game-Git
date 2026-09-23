@@ -1065,6 +1065,7 @@ export function startJob(
     },
   });
   const work = next.history.workRelationships.at(-1)!;
+  next = leaveFirstJobFor(next, application.personId, opening.title);
   const weekly =
     opening.pay.basis === "annual-salary"
       ? Math.round(opening.pay.amount.minorUnits / 52)
@@ -1156,6 +1157,63 @@ function payWeekly(
     jurisdictionId: null,
     provenance: { kind: "authored", note },
   });
+}
+
+/**
+ * A teenager's first job ends when an adult job starts: the stock clerk job
+ * used to run on beside every later job for life, in all nine of the regional
+ * roll-call lives. Ended today, with the new job named. Unchanged when there
+ * is no active first job.
+ */
+export function leaveFirstJobFor(
+  world: World,
+  personId: EntityId,
+  newTitle: string,
+): World {
+  const work = world.history.workRelationships.find(
+    (row) =>
+      row.personId === personId && row.stableKey === LEGACY_FIRST_JOB_WORK_KEY,
+  );
+  const status = work ? workStatusAt(world, work.id) : null;
+  if (!work || status?.status !== "active") return world;
+  return recordWorkStatus(world, {
+    stableKey: `${work.stableKey}:left:${world.currentDate}`,
+    workRelationshipId: work.id,
+    effectiveAt: world.currentDate,
+    status: "ended",
+    reason: `Left for work as ${newTitle.toLowerCase()}.`,
+    provenance: { kind: "authored", note: PROVENANCE_NOTE },
+    supersedesStatusId: status.id,
+  });
+}
+
+/**
+ * A saved adult who already started another job while the first job ran on
+ * leaves the first job at the next settlement, forward only.
+ */
+function retireSupersededFirstJob(world: World, personId: EntityId): World {
+  const person = world.people[personId];
+  if (!person || ageOnDate(person.birthDate, world.currentDate) < 18)
+    return world;
+  const first = world.history.workRelationships.find(
+    (row) =>
+      row.personId === personId && row.stableKey === LEGACY_FIRST_JOB_WORK_KEY,
+  );
+  if (!first || workStatusAt(world, first.id)?.status !== "active")
+    return world;
+  const later = world.history.workRelationships.find(
+    (row) =>
+      row.personId === personId &&
+      row.id !== first.id &&
+      row.kind.startsWith("employment:") &&
+      workStatusAt(world, row.id)?.status === "active",
+  );
+  if (!later) return world;
+  return leaveFirstJobFor(
+    world,
+    personId,
+    activeRole(world, later)?.title ?? "another job",
+  );
 }
 
 /**
@@ -1280,7 +1338,7 @@ function isActiveOn(world: World, workId: EntityId, date: IsoDate): boolean {
  * nothing new.
  */
 export function settleJobPay(world: World, personId: EntityId): World {
-  let next = payFirstJob(world, personId);
+  let next = payFirstJob(retireSupersededFirstJob(world, personId), personId);
   for (const work of next.history.workRelationships) {
     if (work.personId !== personId) continue;
     const flow = next.history.resourceFlows.find(
