@@ -10,8 +10,6 @@ week later. On the first of each month the person you play pays their share of
 rent, food and bills. A person holding public office is paid a salary.
 Associate's, bachelor's and master's degrees can be applied for and finished.
 
-## What changed
-
 The errands take two and a half hours on the calendar and clear the list.
 Before, the same list came back every week.
 
