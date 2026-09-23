@@ -1,5 +1,5 @@
 {
-  "digest": "3d191e202abcec7c",
+  "digest": "6e8fe993c5146d71",
   "totalRecords": 3253,
   "distinctTexts": 3036,
   "exactDuplicateGroups": 84,
@@ -11,7 +11,7 @@
     "label-restated-in-description": 9,
     "rather-than-scaffold": 24,
     "third-person-player": 10,
-    "vague-referent": 191
+    "vague-referent": 189
   },
   "reachability": {
     "CURRENTLY_UNREACHABLE": 406,
@@ -1092,7 +1092,7 @@
     "prose:life:adult:adult.weekend-invitation#option:stay-in:label": "cf7d0c867029",
     "prose:life:adult:adult.weekend-invitation#option:stay-in:memory": "b4b8aa40e370",
     "prose:life:adult:adult.weekend-invitation#option:stay-in:witnessed": "096acd5f581c",
-    "prose:life:adult:adult.weekend-invitation#prose": "6faa83a11d20",
+    "prose:life:adult:adult.weekend-invitation#prose": "95f73c5d23fc",
     "prose:life:adult:adult.work-colleague-struggling#option:ask-them:description": "21316d6ba7b3",
     "prose:life:adult:adult.work-colleague-struggling#option:ask-them:label": "d054884288a8",
     "prose:life:adult:adult.work-colleague-struggling#option:ask-them:memory": "d13726bc92ce",
