@@ -30,6 +30,7 @@ import type {
   PronounSetKey,
   SetupAnswerRecord,
   SetupQuestionnairePath,
+  QuestionnaireSelectionVersion,
   World,
 } from "../simulation";
 import { buildProductionWorld } from "./production-world";
@@ -157,6 +158,8 @@ export interface NewGameSetup {
    * world it always built.
    */
   readonly questionnaire?: SetupQuestionnairePath;
+  /** Absent replays use the original fixed-opening sequence. */
+  readonly questionnaireSelectionVersion?: QuestionnaireSelectionVersion;
   /**
    * What they answered, in the order they were asked.
    *
@@ -260,6 +263,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // that writes one until a properly sourced history replaces it. The version
   // and its tests stay so a replay written under it still rebuilds.
   questionnaireCopyVersion: "playtest65-v2",
+  questionnaireSelectionVersion: "curated-v1",
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
   openingDataVersion: "playtest65-v1",
   livingWorldMemberNameVersion: "cohort-v1",
@@ -364,7 +368,10 @@ export function newGameSetupProblems(
   }
   const path = setup.questionnaire ?? "skipped";
   const answered = setup.priors?.length ?? 0;
-  if (answered > questionnaireLength(path)) {
+  if (
+    answered >
+    questionnaireLength(path, undefined, setup.questionnaireSelectionVersion)
+  ) {
     problems.push({
       field: "priors",
       message: "There are more answers here than that path ever asks for.",

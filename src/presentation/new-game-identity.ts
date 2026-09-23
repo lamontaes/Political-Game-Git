@@ -217,6 +217,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
+    ...(setup.questionnaireSelectionVersion === undefined
+      ? {}
+      : { questionnaireSelectionVersion: setup.questionnaireSelectionVersion }),
     ...(setup.questionnaireCopyVersion === undefined
       ? {}
       : { questionnaireCopyVersion: setup.questionnaireCopyVersion }),
@@ -368,6 +371,11 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   if (
+    record.questionnaireSelectionVersion !== undefined &&
+    record.questionnaireSelectionVersion !== "curated-v1"
+  )
+    return null;
+  if (
     record.earlierLifeGenerationVersion !== undefined &&
     record.earlierLifeGenerationVersion !== "context-v2"
   )
@@ -457,6 +465,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.questionnaireCopyVersion === undefined
       ? {}
       : { questionnaireCopyVersion: "playtest65-v2" as const }),
+    ...(record.questionnaireSelectionVersion === undefined
+      ? {}
+      : { questionnaireSelectionVersion: "curated-v1" as const }),
     ...(record.earlierLifeGenerationVersion === undefined
       ? {}
       : { earlierLifeGenerationVersion: "context-v2" as const }),
