@@ -3,6 +3,7 @@ import {
   SCHOOL_STAGES_V2,
   type SchoolStageVersion,
 } from "../simulation/school-stages";
+import { CONGRESSIONAL_HOME_JOIN_V1 } from "../simulation/district-residence";
 import {
   RESIDENT_CHAPTER_NAME_VERSION,
   type PartyChapterNameVersion,
@@ -218,6 +219,12 @@ export interface NewGameSetup {
    * a man or a woman on their own. New Game declares the repair.
    */
   readonly parentPartnerVersion?: typeof PARENT_PARTNERS_V1;
+  /**
+   * Absent keeps an old replay's home join to the state legislative chambers.
+   * New Game declares the join that also records the U.S. House district when
+   * the Census place file lists the home place with exactly one district.
+   */
+  readonly districtHomeJoinVersion?: typeof CONGRESSIONAL_HOME_JOIN_V1;
   readonly questionnaireCopyVersion?: "playtest65-v2";
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
@@ -272,6 +279,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   schoolStageVersion: SCHOOL_STAGES_V2,
   familyBirthdayVersion: FAMILY_BIRTHDAYS_V1,
   parentPartnerVersion: PARENT_PARTNERS_V1,
+  districtHomeJoinVersion: CONGRESSIONAL_HOME_JOIN_V1,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
   // that the game should not invent a biography nobody chose. Measured cost of
@@ -513,6 +521,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.schoolStageVersion === undefined
       ? {}
       : { schoolStageVersion: setup.schoolStageVersion }),
+    ...(setup.districtHomeJoinVersion === undefined
+      ? {}
+      : { districtHomeJoinVersion: setup.districtHomeJoinVersion }),
     ...(setup.familyBirthdayVersion === undefined
       ? {}
       : { familyBirthdayVersion: setup.familyBirthdayVersion }),

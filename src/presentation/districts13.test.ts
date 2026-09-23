@@ -281,7 +281,15 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
       placeKey: "lexington-fayette",
       questionnaire: "skipped",
     });
-    expect(districtResidenceIntervals(ky.world)).toEqual([]);
+    // Lexington-Fayette is split between state house districts, so no state
+    // chamber is recorded. The 119th CD–place file lists it only with
+    // Kentucky's 6th, so the U.S. House district is.
+    expect(
+      districtResidenceIntervals(ky.world).map((interval) => [
+        interval.binding.recordId,
+        interval.provenance.method,
+      ]),
+    ).toEqual([["congressional:2106", "canonical-home-join"]]);
     const { world, personId } = alaskaLife("districts13-state-home");
     expect(districtResidenceIntervals(world)).toEqual([]);
     expect(
