@@ -1,0 +1,24 @@
+{
+  "candidateAnswers": [],
+  "filedAt": "2026-09-22T22:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "PLACEHOLDERS IN CODE, marked 'PRIVATE CALIBRATION, NOT RESEARCHED' in src/simulation/personality-catalogue.ts: how many years each of the seven profiles takes to settle (manner 6, follow-through 8, relational 8, motivation 10, pressure 10, cognition 12, appraisal 12), the spacing between counted experiences (60 to 120 days), and the floor below which an unsettled quality cannot fall. They only put A01's relative order into numbers around the five traits' existing values.",
+    "Also a placeholder: one in four seeded qualities is written 'strong' rather than 'moderate', and each adult is given one or two. A01 said to record sparsely but gave no count or share."
+  ],
+  "priority": "P1",
+  "question": "For each of the seven catalogue tuning profiles in A01 (appraisal, manner, cognition, follow-through, motivation, relational, pressure), how quickly do those qualities change in adults, and how many marked qualities does a typical adult show strongly enough for people around them to name?",
+  "questionId": "how-fast-catalogue-qualities-change",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life lane",
+  "sourcesChecked": [
+    {
+      "source": "DEPTH2 A01, personality-scale-dispositions.json, its seven tuning profiles and nine rules",
+      "whatItDidNotSettle": "Gives the profiles in relative order (manner adapts most readily, self-image and broad cognition need broader evidence) and says numbers are private calibration. It gives no pace, no spacing and no count."
+    }
+  ],
+  "title": "How fast the named personality qualities change, and how many a person shows",
+  "usableAnswer": "Per profile, a realistic range for how long a marked quality takes to become settled and how much sustained contrary experience it takes to move one; and a realistic range for how many named qualities an adult is typically known for, with how often one is strongly marked. Ranges from personality research are enough.",
+  "whyItMatters": "The catalogue (PR #430) gives each adult one or two named qualities and lets them move with experience. The numbers deciding how fast are ours and not researched. They change no outcome today, since the qualities argue in no decision yet, but they will as soon as one does."
+}

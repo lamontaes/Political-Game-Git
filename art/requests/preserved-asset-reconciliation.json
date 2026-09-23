@@ -1861,6 +1861,13 @@
       "preservedUnits": [],
       "evidencePaths": [],
       "reason": "Nothing preserved bears on this. The preserved packet is character components and a small number of environment plates, and a search of the 126-asset manifest for trait, personality, temperament, icon, glyph, badge, symbol and mark returns only character layers and the two seated candidate renders. There is no interface glyph in the project at all, preserved or shipped, so no preserved asset could answer or restate an ask for marks standing for the ends of the five temperaments."
+    },
+    {
+      "requestId": "env-domestic-small-town-house-living-room",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Nothing preserved answers this. The only domestic interiors in the preserved packet and the asset manifest are the three city apartment living rooms (modest, ordinary and canonical), and this request exists because those apartments show brick apartment blocks outside the window when the household lives in a detached house in a small town. No detached-house interior, preserved or shipped, exists to answer or restate it."
     }
   ],
   "unlinkedPreservedAssets": [
