@@ -16,6 +16,7 @@ import {
   scheduleFutureDueItem,
 } from "./future-transitions";
 import { recordWorkStatus } from "./life";
+import { endOpeningMemberForWinner } from "./nationwide-world/state-legislature-opening";
 import { workStatusAt, workRoleAt } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -337,6 +338,15 @@ function enterLegislativeSeat(
       supersedesStatusId: priorStatus.id,
     });
   }
+  // A chamber the game seated at its opening gives up the district's seat.
+  next = endOpeningMemberForWinner(next, {
+    candidacyPackId: term.campaign.candidacyPackId,
+    officeKey: term.contest.office.officeKey,
+    districtBinding: term.contest.office.districtBinding,
+    winnerWorkRelationshipId: term.relationship.id,
+    effectiveAt,
+    outcomeEventId: term.result.outcomeEventId,
+  });
   next = recordWorkStatus(next, {
     stableKey: `${stableKey}:active`,
     workRelationshipId: term.relationship.id,

@@ -431,17 +431,20 @@ export function applyInstitutionStep(
   // Every seated member who may vote on the bill holds principles of their
   // own before any question is put, Congress's members included: without
   // them a member had only a party cue, and every roll call was unanimous.
-  const world = ensureOfficeholderPrinciples(
-    before,
-    bodiesForMeasure(
+  const world = closeLapsedVoteNotices(
+    ensureOfficeholderPrinciples(
       before,
-      measure,
-      legislativeBlueprintForMeasure(before, measure),
-    ).flatMap((body) =>
-      body.members.flatMap((member) =>
-        member.personId ? [member.personId] : [],
+      bodiesForMeasure(
+        before,
+        measure,
+        legislativeBlueprintForMeasure(before, measure),
+      ).flatMap((body) =>
+        body.members.flatMap((member) =>
+          member.personId ? [member.personId] : [],
+        ),
       ),
     ),
+    measureId,
   );
   const blueprint = legislativeBlueprintForMeasure(world, measure);
   const pack = blueprint.pack;
@@ -1181,6 +1184,31 @@ export function castMemberBallot(
     scheduledActivityState(next, notice.id).status === "scheduled"
     ? cancelScheduledActivity(next, notice.id)
     : next;
+}
+
+/**
+ * A reminder to decide a vote that time passed without the player attending
+ * it (a campaign afternoon, a trip) is over once the reminder's hour is past;
+ * it no longer waits on the calendar. The roll call still records the player
+ * absent unless they decided.
+ */
+function closeLapsedVoteNotices(world: World, measureId: EntityId): World {
+  const prefix = `${LEGISLATIVE_CLOCK_VERSION}:member-vote:`;
+  let next = world;
+  for (const activity of world.history.scheduledActivities) {
+    if (
+      !activity.stableKey.startsWith(prefix) ||
+      !activity.sourceEntityIds.includes(measureId)
+    )
+      continue;
+    const state = scheduledActivityState(next, activity.id);
+    if (
+      state.status === "scheduled" &&
+      compareSimulationMoments(state.end, next.currentMoment) <= 0
+    )
+      next = cancelScheduledActivity(next, activity.id);
+  }
+  return next;
 }
 
 function memberVoteNoticeKey(
