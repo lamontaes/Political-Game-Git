@@ -10,6 +10,7 @@ import type {
   PoliticalBeliefFormationFactor,
   PoliticalBeliefFormationOutcome,
 } from "../political-belief-formation";
+import { activePartnershipsAt } from "../life-queries";
 import { recordPropositionExposure } from "../politics";
 import { latestPrinciple, latestPrivateBelief } from "../queries";
 import { SeededRng } from "../rng";
@@ -37,8 +38,10 @@ import type {
  * ordinary day with nothing saying why.
  *
  * This is the caller. A person turns a question over because they met it:
- * they filed the bill, or somebody told them about it. Each meeting schedules
- * one reflection on that question, the next day, for people who are not the
+ * they filed the bill, somebody told them about it, the bill later passed or
+ * died, or something in their own life brought it back (`VIEW_TRIGGERS`).
+ * Each meeting has them think it over after a while, or leave it until the
+ * next such moment (`reflectionDelayDays`), for people who are not the
  * player, and the view is formed only out of what that person actually has.
  * Nobody reconsiders on a timer, and hearing the same bill again from the
  * same event is not a second meeting.
@@ -166,43 +169,254 @@ export function encounterProposalsInEvent(
     const controlled =
       next.control.kind === "person" &&
       next.control.personId === input.personId;
-    // Two tellings on one day are one evening's thinking, not two.
-    const alreadyDue = next.history.futureDueItems.some(
+    // Somebody already turning this question over does not start again
+    // because they heard it twice before sitting down with it.
+    const pending = next.history.futureDueItems.some(
       (item) =>
         item.transitionKey === POLITICAL_REFLECTION_TRANSITION_KEY &&
         item.entityIds.includes(input.personId) &&
-        item.dueAt === addDays(exposure.encounteredAt, 1) &&
+        item.dueAt > next.currentDate &&
         next.history.propositionExposures.some(
           (other) =>
             item.stableKey === `${V}:considers:${other.id}` &&
             other.propositionId === propositionId,
         ),
     );
-    if (!controlled && !alreadyDue)
+    if (!controlled && !pending)
       next = schedulePoliticalReflection(next, exposure);
   }
   return next;
 }
 
 /**
- * Thinking a question over, the day after meeting it.
+ * How long somebody takes to think a question over, or whether they leave it
+ * until something later brings it back.
  *
- * The next day is the soonest the clock allows (a due item falls after the day
- * it is scheduled), not a researched pace of deliberation.
+ * PLACEHOLDER, NOT RESEARCHED. The owner's direction: sometimes a day,
+ * sometimes a week, sometimes it is triggered by something later on. The
+ * shares below only put that in order: half the time the next day, a third of
+ * the time within a week, and otherwise not until they meet the question
+ * again. Filed as `what-starts-and-paces-a-political-view`. Drawn once per
+ * meeting from the world's seed, so a save always reads the same.
+ */
+export const REFLECTION_PACE = {
+  nextDayShare: 0.5,
+  withinWeekShare: 0.35,
+  longestDays: 7,
+} as const;
+
+export function reflectionDelayDays(
+  world: World,
+  exposure: PropositionExposureRecord,
+): number | null {
+  const rng = new SeededRng(world.seed).fork(`${V}:pace:${exposure.id}`);
+  const roll = rng.next();
+  if (roll < REFLECTION_PACE.nextDayShare) return 1;
+  if (roll < REFLECTION_PACE.nextDayShare + REFLECTION_PACE.withinWeekShare)
+    return rng.integer(2, REFLECTION_PACE.longestDays + 1);
+  return null;
+}
+
+/**
+ * Thinking a question over, a while after meeting it — or not until
+ * something later brings it back (see `reflectionDelayDays`).
  */
 export function schedulePoliticalReflection(
   world: World,
   exposure: PropositionExposureRecord,
 ): World {
+  const delay = reflectionDelayDays(world, exposure);
+  if (delay === null) return world;
   return scheduleFutureDueItem(world, {
     stableKey: `${V}:considers:${exposure.id}`,
-    dueAt: addDays(exposure.encounteredAt, 1),
+    dueAt: addDays(exposure.encounteredAt, delay),
     transitionKey: POLITICAL_REFLECTION_TRANSITION_KEY,
     entityIds: [exposure.personId],
     jurisdictionId: null,
     provenance: { kind: "initialization", reference: `${V}:considers` },
   });
 }
+
+/**
+ * Something in a life that brings back questions a person has already met.
+ *
+ * A trigger names an event type, whose life it happens in (the person's own,
+ * or also their close family's), and the policy domains it bears on. When it
+ * happens, each question in those domains the person has met before comes
+ * back to mind and is thought over again, paced as a first meeting is. It
+ * never tells anybody about a bill they have not heard of.
+ *
+ * SCAFFOLDING. The one row below is the owner's own example (a parent's
+ * cancer and health care), recorded as such; the rest of the list — a rally,
+ * a job loss, a disaster, a tax bill, a school closing — and what each bears
+ * on are filed as `what-starts-and-paces-a-political-view`, for ChatGPT to
+ * put to the owner. A new row needs no other code. Family is reached only
+ * once they know what happened.
+ */
+export interface ViewTrigger {
+  readonly key: string;
+  readonly eventType: string;
+  /** When present, the event must carry one of these tags. */
+  readonly anyTag?: readonly string[];
+  readonly reaches: "the-person" | "the-person-and-close-family";
+  readonly domainKeys: readonly string[];
+  readonly status: "owner-example-placeholder" | "researched";
+}
+
+export const VIEW_TRIGGERS: readonly ViewTrigger[] = [
+  {
+    key: "serious-illness-close-to-home",
+    eventType: "health.episode-began",
+    anyTag: ["severity:serious", "severity:chronic"],
+    reaches: "the-person-and-close-family",
+    domainKeys: ["health-human-services"],
+    status: "owner-example-placeholder",
+  },
+];
+
+/** Close family for a trigger: parents, children, siblings and partners. */
+function closeFamilyOf(world: World, personId: EntityId): readonly EntityId[] {
+  const kin = world.history.kinshipRelationships
+    .filter(
+      (entry) =>
+        entry.personIds.includes(personId) &&
+        entry.establishedAt <= world.currentDate &&
+        (/^lineal:(.*parent-child|child)$/.test(entry.kind) ||
+          entry.kind === "collateral:sibling"),
+    )
+    .flatMap((entry) => entry.personIds);
+  const partners = activePartnershipsAt(world, personId).flatMap(
+    (entry) => entry.personIds,
+  );
+  return [...new Set([...kin, ...partners])].filter((id) => id !== personId);
+}
+
+/**
+ * Brings back questions for everyone an event reaches under `VIEW_TRIGGERS`.
+ * Cheap when nothing matches, which is nearly always.
+ */
+export function reconsiderAfterEvent(
+  world: World,
+  event: HistoricalEvent,
+): World {
+  const triggers = VIEW_TRIGGERS.filter(
+    (trigger) =>
+      trigger.eventType === event.type &&
+      (!trigger.anyTag ||
+        trigger.anyTag.some((tag) => event.tags.includes(tag))),
+  );
+  if (triggers.length === 0) return world;
+  let next = world;
+  for (const trigger of triggers) {
+    const domainIds = new Set(
+      // A domain key names the domain in any pack: "health-human-services"
+      // is the state-and-local pack's and any other pack's of that name.
+      next.policyCatalog.domainOrder.filter((id) => {
+        const key = next.policyCatalog.domains[id]!.stableKey;
+        return trigger.domainKeys.some(
+          (wanted) => key === wanted || key.endsWith(`:${wanted}`),
+        );
+      }),
+    );
+    const subjects = event.participants.map((entry) => entry.personId);
+    for (const subject of subjects) {
+      const reached = new Set<EntityId>([subject]);
+      if (trigger.reaches === "the-person-and-close-family")
+        // Family is reached only once they know: an illness kept private
+        // changes nobody else's mind.
+        for (const id of closeFamilyOf(next, subject))
+          if (
+            next.history.knowledge.some(
+              (record) =>
+                record.personId === id &&
+                record.eventId === event.id &&
+                record.learnedAt <= next.currentDate,
+            )
+          )
+            reached.add(id);
+      for (const personId of reached) {
+        const met = [
+          ...new Set(
+            next.history.propositionExposures
+              .filter((exposure) => exposure.personId === personId)
+              .map((exposure) => exposure.propositionId),
+          ),
+        ].filter((id) => {
+          const proposition = next.policyCatalog.propositions[id];
+          const issue = proposition
+            ? next.policyCatalog.issues[proposition.issueId]
+            : undefined;
+          return issue !== undefined && domainIds.has(issue.domainId);
+        });
+        for (const propositionId of met) {
+          const stableKey = `${V}:again:${personId}:${propositionId}:${event.id}`;
+          if (
+            next.history.propositionExposures.some(
+              (exposure) => exposure.stableKey === stableKey,
+            )
+          )
+            continue;
+          next = recordPropositionExposure(next, {
+            stableKey,
+            personId,
+            propositionId,
+            encounteredAt: next.currentDate,
+            summary: event.summary,
+            provenance:
+              personId === subject
+                ? { kind: "direct-experience", eventId: event.id }
+                : { kind: "told-by", sourcePersonId: subject, claimId: null },
+          });
+          const exposure = next.history.propositionExposures.at(-1)!;
+          const controlled =
+            next.control.kind === "person" &&
+            next.control.personId === personId;
+          if (!controlled) next = schedulePoliticalReflection(next, exposure);
+        }
+      }
+    }
+  }
+  return next;
+}
+
+/**
+ * A bill somebody has met reaches its end — signed, vetoed, enacted or dead —
+ * and they think it over again. That is the "later on" a view waits for.
+ */
+export function reconsiderOnBillOutcome(
+  world: World,
+  event: HistoricalEvent,
+): World {
+  if (!BILL_OUTCOME_EVENTS.has(event.type)) return world;
+  const propositions = new Set(proposalsInEvent(world, event));
+  if (propositions.size === 0) return world;
+  const people = [
+    ...new Set(
+      world.history.propositionExposures
+        .filter((exposure) => propositions.has(exposure.propositionId))
+        .map((exposure) => exposure.personId),
+    ),
+  ];
+  let next = world;
+  for (const personId of people)
+    next = encounterProposalsInEvent(next, {
+      personId,
+      event,
+      summary: event.summary,
+      provenance: {
+        kind: "public-record",
+        reference: `${event.type}:${event.id}`,
+      },
+    });
+  return next;
+}
+
+const BILL_OUTCOME_EVENTS = new Set([
+  "legislation.measure-signed",
+  "legislation.measure-vetoed",
+  "legislation.measure-enacted",
+  "legislation.measure-died",
+]);
 
 export function politicalReflectionTransitionHandler(
   world: World,

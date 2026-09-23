@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { introduceMeasure } from "../simulation/legislation";
+import { beginHealthEpisode } from "../simulation/crisis/health";
 import { rulePackById } from "../simulation/legislature-rule-packs";
 import { searchLifePlaces } from "../simulation/life-places";
 import { ensureStateJurisdiction } from "../simulation/nationwide-world/state-executives";
@@ -19,6 +20,7 @@ import {
   encounterProposalsInEvent,
   issuesTheyCareAbout,
   proposalsInEvent,
+  reconsiderOnBillOutcome,
 } from "../simulation/living-world/political-reflection";
 
 const OHIO = "us-oh-general-assembly-v1";
@@ -31,6 +33,29 @@ const OHIO = "us-oh-general-assembly-v1";
 function withBill(
   seedNote: string,
   bearing: "consistent-with" | "against" = "consistent-with",
+  pace: "thought-over" | "left-for-later" = "thought-over",
+  domainKey?: string,
+) {
+  // Whether somebody sits down with a question soon or leaves it is drawn
+  // from the save; pick the first save that does what the test is about.
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    const found = billIn(`${seedNote}-${attempt}`, bearing, domainKey);
+    const met = encounterProposalsInEvent(found.world, {
+      personId: found.sponsor,
+      event: found.event,
+      summary: found.event.summary,
+      provenance: { kind: "direct-experience", eventId: found.event.id },
+    });
+    const scheduled = dueFor(met, found.sponsor).length > 0;
+    if (scheduled === (pace === "thought-over")) return found;
+  }
+  throw new Error(`No save in forty leaves the question ${pace}.`);
+}
+
+function billIn(
+  seedNote: string,
+  bearing: "consistent-with" | "against",
+  domainKey?: string,
 ) {
   const place = searchLifePlaces("Columbus", 20).find(
     (entry) => entry.stateJurisdictionKey === "US-OH",
@@ -44,8 +69,13 @@ function withBill(
   const world = ensureStateJurisdiction(opened, "OH");
   const proposition = world.policyCatalog.propositionOrder
     .map((id) => world.policyCatalog.propositions[id]!)
-    .find((entry) =>
-      (entry.principles ?? []).some((row) => row.bearing === bearing),
+    .find(
+      (entry) =>
+        (entry.principles ?? []).some((row) => row.bearing === bearing) &&
+        (!domainKey ||
+          world.policyCatalog.domains[
+            world.policyCatalog.issues[entry.issueId]!.domainId
+          ]!.stableKey.endsWith(`:${domainKey}`)),
     )!;
   expect(proposition).toBeDefined();
   const sponsor = world.personOrder.find(
@@ -116,9 +146,12 @@ function dueFor(world: World, personId: EntityId): readonly FutureDueItem[] {
   );
 }
 
-/** The next ordinary day passes, the way a player passes it. */
+/** Ordinary days pass, the way a player passes them, until it is due. */
 function reflect(world: World, item: FutureDueItem) {
-  const next = passOrdinaryDays(world, 1);
+  const days = Math.round(
+    (Date.parse(item.dueAt) - Date.parse(world.currentDate)) / 86_400_000,
+  );
+  const next = passOrdinaryDays(world, days);
   const state = next.history.futureDueItemStates
     .filter((entry) => entry.dueItemId === item.id)
     .at(-1);
@@ -275,6 +308,81 @@ describe("people form political views from what they meet", () => {
       latest.flexibility,
     ]).toEqual(["support", "settled", "central", "firm"]);
   });
+
+  it("somebody who leaves a bill for later thinks it over when it is signed", () => {
+    const { world, sponsor, event } = withBill(
+      "later",
+      "consistent-with",
+      "left-for-later",
+    );
+    const met = encounterProposalsInEvent(world, {
+      personId: sponsor,
+      event,
+      summary: event.summary,
+      provenance: { kind: "direct-experience", eventId: event.id },
+    });
+    expect(dueFor(met, sponsor)).toEqual([]);
+    // No compiled legislature settles whether a bill dies at adjournment,
+    // and a signing needs both chambers first, so the end is the filing
+    // event read as a signing: this exercises the reaction, not the clock.
+    const died = met;
+    const ended = {
+      ...event,
+      id: `${event.id}:signed`,
+      type: "legislation.measure-signed" as const,
+    };
+    const back = reconsiderOnBillOutcome(died, ended);
+    expect(
+      back.history.propositionExposures.filter(
+        (exposure) =>
+          exposure.personId === sponsor &&
+          exposure.provenance.kind === "public-record",
+      ),
+    ).toHaveLength(1);
+    // Somebody who never met the bill hears nothing from its end.
+    expect(
+      back.history.propositionExposures.filter(
+        (exposure) => exposure.personId !== sponsor,
+      ),
+    ).toEqual([]);
+  });
+
+  it.each([
+    ["serious", 1],
+    ["acute", 0],
+  ] as const)(
+    "a %s illness brings back the health questions somebody has met",
+    (severity, expected) => {
+      const { world, sponsor, event } = withBill(
+        `illness-${severity}`,
+        "consistent-with",
+        "thought-over",
+        "health-human-services",
+      );
+      const met = encounterProposalsInEvent(world, {
+        personId: sponsor,
+        event,
+        summary: event.summary,
+        provenance: { kind: "direct-experience", eventId: event.id },
+      });
+      const ill = beginHealthEpisode(met, {
+        stableKey: `reflection-test:ill:${severity}`,
+        personId: sponsor,
+        severity,
+        initialLimitation: "limited",
+        origin: { kind: "authored", note: "Test fixture: an illness." },
+        causalParentIds: [],
+      });
+      const after = passOrdinaryDays(ill, 1);
+      expect(
+        after.history.propositionExposures.filter(
+          (exposure) =>
+            exposure.personId === sponsor &&
+            exposure.stableKey.startsWith("people-reflection:again:"),
+        ),
+      ).toHaveLength(expected);
+    },
+  );
 
   it("an adult cares about a handful of issues, the same ones on every reading", () => {
     const { world, sponsor } = withBill("cares");
