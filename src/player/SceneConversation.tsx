@@ -89,10 +89,18 @@ export function SceneConversation({
   onChange,
   onBack,
   transitionHandlers,
+  presentPersonIds,
 }: {
   readonly world: World;
   readonly playerPersonId: EntityId;
   readonly subject: ConversationSubjectKey;
+  /**
+   * Who is actually in the room with the player. Somebody spoken to who is not
+   * among them is on the phone, not standing here; the constitution draws only
+   * the people really present. Omitted, everyone the conversation names is
+   * taken as present, which is what every caller meant before this existed.
+   */
+  readonly presentPersonIds?: readonly EntityId[];
   /** Who the player is facing. A request: the projection corrects it. */
   readonly addressee: ConversationAddressee;
   readonly onWorldChange: (world: World) => void;
@@ -281,8 +289,15 @@ export function SceneConversation({
   const history = conversationHistoryPage(turns, historyPage ?? 0);
   /*
    * Who is on the strip: you, whoever you are facing, and everybody the room
-   * says is physically here — in that order, without repeats.
+   * says is physically here — in that order, without repeats. A conversation
+   * names its people as present whether or not they are in the room; the
+   * room the player is standing in decides who actually is, and anybody else
+   * is on the phone.
    */
+  const remote = (id: EntityId) =>
+    presentPersonIds !== undefined &&
+    id !== playerPersonId &&
+    !presentPersonIds.includes(id);
   const faces: EntityId[] = [];
   const addFace = (id: EntityId | null | undefined) => {
     if (id && world.people[id] && !faces.includes(id)) faces.push(id);
@@ -290,7 +305,9 @@ export function SceneConversation({
   addFace(playerPersonId);
   addFace(facing);
   for (const id of view.room.eligibleAddresseePersonIds) addFace(id);
-  for (const id of view.room.physicallyPresentPersonIds) addFace(id);
+  for (const id of view.room.physicallyPresentPersonIds)
+    if (!remote(id)) addFace(id);
+  const onThePhone = facing !== null && remote(facing);
   const canFace = (id: EntityId) =>
     view.addressees.some((choice) => choice.key === id);
   const activeSpeakerId: EntityId | null = current
@@ -398,6 +415,7 @@ export function SceneConversation({
                 data-speaking={speaking ? "true" : "false"}
                 data-addressed={addressed ? "true" : "false"}
                 data-person-id={personId}
+                data-remote={remote(personId) ? "true" : "false"}
                 data-testid={`talk-face-${personId}`}
                 {...(eligible
                   ? {
@@ -426,6 +444,9 @@ export function SceneConversation({
             {name}
           </h2>
           <p className="pg-talk-relation">
+            {onThePhone ? (
+              <span data-testid="talk-remote">On the phone · </span>
+            ) : null}
             {relationship ? (
               <span data-testid="talk-relationship">{relationship}</span>
             ) : null}

@@ -3592,6 +3592,7 @@ function PlayingScreen({
                           if (facing !== "everyone") setReturnFocusTo(facing);
                         }}
                         transitionHandlers={createCampaignElectionTransitionRegistry()}
+                        presentPersonIds={presentPersonIds}
                       />
                     ) : showOrientation ? (
                       <WorldOrientationPanel
