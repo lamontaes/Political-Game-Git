@@ -51,6 +51,7 @@ import {
   type World,
   type EntityId,
 } from "../simulation";
+import { PAYROLL_WITHHOLDING_BASIS } from "../simulation/statutory-tax";
 
 function life(
   seed = "p34-life-lexington-fayette",
@@ -281,6 +282,9 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
     const paid = tomorrow.history.resourceTransferOutcomes.filter(
       (o) =>
         o.status === "completed" &&
+        // Not the tax withheld from that pay.
+        tomorrow.history.resourceFlows.find((f) => f.id === o.resourceFlowId)
+          ?.basisKind !== PAYROLL_WITHHOLDING_BASIS &&
         !morning.history.resourceTransferOutcomes.some(
           (before) => before.id === o.id,
         ),

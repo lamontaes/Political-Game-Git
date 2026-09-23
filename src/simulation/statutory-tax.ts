@@ -185,7 +185,9 @@ function paycheckLiabilities(
       dueAt: rule.side === "employee" ? outcome.occurredAt : null,
       sourceUrl: rule.sourceUrl,
       researchQuestionId:
-        rule.side === "employee" ? null : "employment-tax-deposit-schedule",
+        rule.side === "employee"
+          ? null
+          : "employer-payroll-tax-deposits-and-unemployment",
     });
   }
   for (const rule of FEDERAL_UNPRICED_PAYROLL_RULES) {
@@ -241,9 +243,7 @@ function paycheckLiabilities(
         stateKey,
         employee,
         "rule-unknown",
-        place.status === "imposed"
-          ? "state-wage-income-tax-withholding"
-          : "state-wage-income-tax-status",
+        "state-wage-income-tax-withholding",
         place.sourceUrl,
       ),
     );
@@ -254,7 +254,7 @@ function paycheckLiabilities(
       `${stateKey}:local`,
       employee,
       "rule-unknown",
-      "local-wage-taxes-by-place",
+      "local-income-tax-authority-56-places",
       null,
     ),
   );
@@ -284,15 +284,15 @@ function federalCoverageGap(
 ): string | null {
   if (taxYear < FIRST_VERIFIED_TAX_YEAR) return "tax-rules-before-2026";
   if (!stateKey) return "tax-residence-unrecorded";
-  if (isTerritory(stateKey)) return "federal-employment-tax-in-territories";
+  if (isTerritory(stateKey)) return "employment-tax-coverage-exceptions";
   if (employer.kind !== "organization")
-    return "household-employer-employment-tax";
+    return "employment-tax-coverage-exceptions";
   const classification = organizationProfileAt(
     world,
     employer.organizationId,
   )?.classification;
   if (classification === "sector:government")
-    return "government-employee-employment-tax-coverage";
+    return "employment-tax-coverage-exceptions";
   return null;
 }
 

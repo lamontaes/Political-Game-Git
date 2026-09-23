@@ -100,9 +100,11 @@ describe("LIFE-PATHS2 canonical progression", () => {
     ).world;
     expect(balance(w)).toBe(100000);
     w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
-    expect(balance(w)).toBe(107200);
+    // Each $72.00 shift has $4.46 Social Security and $1.04 Medicare withheld.
+    expect(balance(w)).toBe(107200 - 550);
     w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
-    expect(balance(w)).toBe(107200);
+    // Each $72.00 shift has $4.46 Social Security and $1.04 Medicare withheld.
+    expect(balance(w)).toBe(107200 - 550);
   });
   it("uses the same known willing person, delegates real work, and stops after departure", () => {
     let w = fixture();
@@ -362,11 +364,12 @@ describe("LIFE-PATHS2 progression and shared execution", () => {
       expect(result.ok).toBe(true);
       w = advanceWorld(result.world, 1, LIFE_PATHS2_HANDLERS);
     }
-    expect(balance(w)).toBe(172000);
+    // Each $72.00 shift has $4.46 Social Security and $1.04 Medicare withheld.
+    expect(balance(w)).toBe(172000 - 10 * 550);
     const raised = progressLifePathWork(w, id);
     expect(raised.ok).toBe(true);
     w = raised.world;
-    expect(balance(w)).toBe(172000);
+    expect(balance(w)).toBe(172000 - 10 * 550);
     const savedRaise = deserializeWorld(serializeWorld(w));
     expect(progressLifePathWork(savedRaise, id).world).toBe(savedRaise);
     w = savedRaise;
@@ -377,7 +380,8 @@ describe("LIFE-PATHS2 progression and shared execution", () => {
     ).world;
     w = changeLifePathStatus(w, id, "leave").world;
     w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
-    expect(balance(w)).toBe(179920);
+    // The raised $79.20 shift has $4.91 Social Security and $1.15 Medicare withheld.
+    expect(balance(w)).toBe(179920 - 10 * 550 - 606);
     expect(changeLifePathStatus(w, id, "return").world).toBe(w);
   }, 30000);
   it.each([false, true])(
@@ -539,7 +543,8 @@ for (const [path, intervals, totalCost, program, timeout] of [
         ).world;
         const earned = balance(w);
         w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
-        expect(balance(w)).toBe(earned + 15000);
+        // $150.00 of pay less $9.30 Social Security and $2.18 Medicare.
+        expect(balance(w)).toBe(earned + 15000 - 1148);
       }
       expect(deserializeWorld(serializeWorld(w))).toEqual(w);
     },

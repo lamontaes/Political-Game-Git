@@ -12,7 +12,7 @@
  * the game carries the acquired law forward until a law in the game changes
  * it (the same baseline `TaxTerms.legalBaselineAssumption` names). Annual
  * indexing that real law would apply is not invented; the question is filed
- * as `social-security-wage-base-after-2026`. Years before 2026 are UNKNOWN.
+ * in `employment-tax-coverage-exceptions`. Years before 2026 are UNKNOWN.
  */
 
 export const STATUTORY_TAX_RESEARCH_RECORD =
@@ -123,7 +123,7 @@ export const FEDERAL_UNPRICED_PAYROLL_RULES: readonly UnpricedPayrollRule[] = [
     side: "employer",
     status: "rule-unknown",
     sourceUrl: "https://www.irs.gov/publications/p15",
-    researchQuestionId: "futa-credit-and-state-unemployment-contributions",
+    researchQuestionId: "employer-payroll-tax-deposits-and-unemployment",
   },
 ];
 
