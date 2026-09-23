@@ -2,6 +2,7 @@ import {
   generateContextualCharacterHistory,
   type EarlierLifeGenerationVersion,
 } from "../simulation/contextual-character-history";
+import { scheduleSchoolStageEnd } from "../simulation/school-stages";
 import {
   CHILDHOOD_GENERATION_V3,
   childhoodSpreadsBirthDates,
@@ -819,6 +820,11 @@ function establishAgeEligibleState(
   // biography. Gating this on the version left a ten-year-old with no
   // enrollment, so `in-school` did not hold, every early.school and early.peer
   // opening became ineligible, and the town had no school in it.
+  // Under childhood-v3 a child moves on through school while the game is
+  // played: the schools of the stages still ahead are in town already, and the
+  // end of the stage the child is in now is scheduled below.
+  let advancing: { readonly stage: "elementary" | "middle" | "high" } | null =
+    null;
   if (age >= SCHOOL_ENTRY_AGE) {
     const schoolKey = `${stableKey}:school`;
     const schooling = childSchooling(
@@ -861,6 +867,24 @@ function establishAgeEligibleState(
         },
       },
     );
+
+    if (childhoodGenerationVersion === CHILDHOOD_GENERATION_V3) {
+      advancing = { stage: schooling.current.key };
+      for (const stage of schooling.later)
+        transitions.push({
+          kind: "organization",
+          input: {
+            stableKey: `${stableKey}:school:${stage.key}`,
+            formedAt: world.currentDate,
+            provenance: PROVENANCE,
+            initialProfile: {
+              name: stage.name,
+              classification: "sector:education",
+              locationJurisdictionId: jurisdictionId,
+            },
+          },
+        });
+    }
 
     // Two other children at the same school.
     //
@@ -907,7 +931,7 @@ function establishAgeEligibleState(
     }
   }
 
-  const householdWorld = applyCharacterHistoryPlan(world, {
+  const planned = applyCharacterHistoryPlan(world, {
     stableKey,
     mode: "quick-generated",
     personId: player.id,
@@ -918,6 +942,14 @@ function establishAgeEligibleState(
       givenNameGenerationVersion,
     ),
   }).world;
+  const householdWorld = advancing
+    ? scheduleSchoolStageEnd(planned, {
+        schoolKey: `${stableKey}:school`,
+        personId: player.id,
+        stage: advancing.stage,
+        jurisdictionId,
+      })
+    : planned;
   return otherParentState === "deceased"
     ? recordPersonDeath(householdWorld, {
         stableKey: `${otherParentKey}:death`,
@@ -1121,6 +1153,7 @@ function childSchooling(
 ): {
   readonly current: ChildSchoolStage;
   readonly finished: readonly ChildSchoolStage[];
+  readonly later: readonly ChildSchoolStage[];
 } {
   if (!childhoodSpreadsBirthDates(version)) {
     return {
@@ -1130,6 +1163,7 @@ function childSchooling(
         entryAge: SCHOOL_ENTRY_AGE,
       },
       finished: [],
+      later: [],
     };
   }
   const jurisdiction = world.jurisdictions[jurisdictionId];
@@ -1148,7 +1182,11 @@ function childSchooling(
     { key: "high", name: names.high, entryAge: 14 },
   ];
   const reached = stages.filter((stage) => age >= stage.entryAge);
-  return { current: reached.at(-1)!, finished: reached.slice(0, -1) };
+  return {
+    current: reached.at(-1)!,
+    finished: reached.slice(0, -1),
+    later: stages.filter((stage) => age < stage.entryAge),
+  };
 }
 
 /**
