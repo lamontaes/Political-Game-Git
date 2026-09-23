@@ -621,10 +621,15 @@ describe("PRESS46 established finding, leak and ground rules", () => {
     const flow = concluded.history.resourceFlows.find(
       (row) => row.basisKind === "custom:ethics-restitution",
     )!;
-    expect(flow.recipient).toEqual({
-      kind: "organization",
-      organizationId: fixture.campaign.organizationId,
-    });
+    // Paid to the government, never back into the committee it came from.
+    expect(flow.recipient.kind).toBe("organization");
+    const recipient = concluded.history.organizations.find(
+      (row) =>
+        flow.recipient.kind === "organization" &&
+        row.id === flow.recipient.organizationId,
+    )!;
+    expect(recipient.id).not.toBe(fixture.campaign.organizationId);
+    expect(recipient.stableKey).toMatch(/^public-government:/);
     const outcome = concluded.history.resourceTransferOutcomes.find(
       (row) => row.resourceFlowId === flow.id,
     )!;

@@ -5,7 +5,8 @@ import {
 import { isoDateFromParts } from "../dates";
 import { createOrganization, createWorkRelationship } from "../life";
 import { activeWorkRelationshipsAt } from "../life-queries";
-import { homeLocalGovernmentStatus } from "../nationwide-world/local-governments";
+import { lifePlaceByJurisdictionId } from "../life-places";
+import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import { drawCanonicalNameForGender, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
@@ -150,17 +151,224 @@ const NATIONAL_PLANS: readonly OutletPlan[] = [
   },
 ];
 
-const STATE_NAME_FORMS = [
-  (state: string) => `${state} Capitol Dispatch`,
-  (state: string) => `${state} Statehouse Review`,
-  (state: string) => `The ${state} Civic Record`,
-] as const;
+/*
+ * Starter profiles, not a ceiling. A town's newsroom is drawn once per save
+ * from the profiles below, so one town gets a weekly and another a station;
+ * a state's newsroom is one kind for now (see STATE_PROFILE). The kind of
+ * outlet decides its media, cadence, staff and reach. No population figure
+ * reaches this module, so nothing here claims a place is big enough for a
+ * daily: the draw is a spread of plausible newsrooms, stable for the save.
+ *
+ * PLACEHOLDER, NOT RESEARCHED: the kinds, their staff and the weights below
+ * were authored on 2026-09-22 and are filed as the research question
+ * `what-newsrooms-cover-a-town-and-a-state`. Replace them with the answer.
+ */
+interface OutletProfile {
+  readonly product: MediaProduct;
+  readonly mediums: readonly MediaMedium[];
+  readonly beats: readonly MediaBeat[];
+  readonly resourceTier: MediaResourceTier;
+  readonly cadence: MediaCadence;
+  readonly desks: OutletPlan["desks"];
+  readonly names: readonly ((place: string) => string)[];
+}
 
-const LOCAL_NAME_FORMS = [
-  (place: string) => `${place} Civic Bulletin`,
-  (place: string) => `${place} Community Report`,
-  (place: string) => `${place} Neighborhood Newsletter`,
-] as const;
+/*
+ * Every state gets the same kind of newsroom, varied only by its masthead.
+ * The press desk, ownership market and story capacity are all built around a
+ * standard statehouse newsroom, and which states are served by a public
+ * broadcaster, a large daily or a small politics site instead is exactly what
+ * the research question above has to answer. Until it does, the kind is not
+ * drawn (PLACEHOLDER).
+ */
+const STATE_PROFILE: OutletProfile = {
+  product: "state-newsroom",
+  mediums: ["text", "digital", "audio"],
+  beats: [
+    "statehouse",
+    "campaigns",
+    "local-government",
+    "investigations",
+    "business-economy",
+    "public-safety",
+  ],
+  resourceTier: "standard",
+  cadence: "daily",
+  desks: [
+    {
+      title: "Statehouse reporter",
+      beats: ["statehouse", "campaigns", "investigations"],
+    },
+    {
+      title: "Regional reporter",
+      beats: [
+        "local-government",
+        "public-safety",
+        "business-economy",
+        "investigations",
+      ],
+    },
+  ],
+  names: [
+    (state) => `${state} Capitol Dispatch`,
+    (state) => `${state} Statehouse Review`,
+    (state) => `The ${state} Civic Record`,
+    (state) => `The ${state} Ledger`,
+    (state) => `The ${state} Herald`,
+    (state) => `${state} Public Media`,
+    (state) => `${state} Capitol Watch`,
+    (state) => `${state} Politics Report`,
+  ],
+};
+
+const LOCAL_PROFILES: readonly OutletProfile[] = [
+  {
+    product: "community-outlet",
+    mediums: ["digital", "newsletter"],
+    beats: ["local-government", "public-safety", "campaigns"],
+    resourceTier: "small",
+    cadence: "periodic",
+    desks: [
+      {
+        title: "Community reporter",
+        beats: ["local-government", "public-safety", "campaigns"],
+      },
+    ],
+    names: [
+      (place) => `${place} Civic Bulletin`,
+      (place) => `${place} Community Report`,
+      (place) => `${place} Neighborhood Newsletter`,
+    ],
+  },
+  {
+    product: "general-newspaper",
+    mediums: ["text", "digital"],
+    beats: [
+      "local-government",
+      "public-safety",
+      "business-economy",
+      "campaigns",
+    ],
+    resourceTier: "small",
+    cadence: "periodic",
+    desks: [
+      {
+        title: "Staff writer",
+        beats: [
+          "local-government",
+          "public-safety",
+          "business-economy",
+          "campaigns",
+        ],
+      },
+    ],
+    names: [
+      (place) => `The ${place} Gazette`,
+      (place) => `${place} Weekly Courier`,
+      (place) => `The ${place} Sentinel`,
+    ],
+  },
+  {
+    product: "general-newspaper",
+    mediums: ["text", "digital"],
+    beats: [
+      "local-government",
+      "public-safety",
+      "business-economy",
+      "campaigns",
+      "investigations",
+    ],
+    resourceTier: "standard",
+    cadence: "daily",
+    desks: [
+      {
+        title: "City hall reporter",
+        beats: ["local-government", "campaigns"],
+      },
+      {
+        title: "Courts and public safety reporter",
+        beats: ["public-safety", "investigations"],
+      },
+    ],
+    names: [
+      (place) => `The ${place} Tribune`,
+      (place) => `${place} Daily News`,
+      (place) => `The ${place} Evening Post`,
+    ],
+  },
+  {
+    product: "public-affairs-broadcaster",
+    mediums: ["audio", "digital"],
+    beats: ["local-government", "public-safety", "campaigns"],
+    resourceTier: "small",
+    cadence: "daily",
+    desks: [
+      {
+        title: "Local news host",
+        beats: ["local-government", "public-safety", "campaigns"],
+      },
+    ],
+    names: [
+      (place) => `${place} Community Radio`,
+      (place) => `${place} Public Radio`,
+      (place) => `Radio ${place}`,
+    ],
+  },
+];
+
+/*
+ * Puerto Rico keeps its own press identity. Its newsrooms work in Spanish
+ * first, so the island's outlets carry Spanish mastheads, and the
+ * commonwealth's newsroom covers the Capitolio, not a "statehouse". These
+ * are fictional names, like every other masthead here. PLACEHOLDER: the
+ * island's press identity is part of the same research question.
+ */
+const PUERTO_RICO_STATE_NAMES: readonly ((place: string) => string)[] = [
+  () => "El Heraldo de Puerto Rico",
+  () => "La Crónica del Capitolio",
+  () => "Noticiero Isleño",
+];
+const PUERTO_RICO_LOCAL_NAMES: readonly ((place: string) => string)[] = [
+  (place) => `La Voz de ${place}`,
+  (place) => `El Informador de ${place}`,
+  (place) => `Noticias de ${place}`,
+];
+const PUERTO_RICO_KEY = "US-PR";
+
+/*
+ * The District of Columbia has a council and a mayor, not a legislature, and
+ * no state above it; its newsroom is named for the District.
+ */
+const DISTRICT_STATE_NAMES: readonly ((place: string) => string)[] = [
+  () => "The District Ledger",
+  () => "The District Civic Record",
+  () => "District Council Report",
+];
+const DISTRICT_KEY = "US-DC";
+
+/*
+ * A local daily is the rarest of the four: most American towns are served by
+ * a weekly, a small digital outlet or a station, and nothing here can tell a
+ * city from a hamlet. Weights are an authored spread, not a measurement
+ * (PLACEHOLDER, see above).
+ */
+const LOCAL_PROFILE_WEIGHTS: readonly number[] = [3, 3, 1, 2];
+
+function drawProfile(
+  world: World,
+  slot: string,
+  profiles: readonly OutletProfile[],
+  weights: readonly number[],
+): OutletProfile {
+  const rng = new SeededRng(world.seed).fork(`press46:outlets:${slot}:profile`);
+  const total = weights.reduce((sum, weight) => sum + weight, 0);
+  let roll = rng.integer(0, total);
+  for (let index = 0; index < profiles.length; index += 1) {
+    roll -= weights[index]!;
+    if (roll < 0) return profiles[index]!;
+  }
+  return profiles[0]!;
+}
 
 export interface MediaOutletView {
   readonly outlet: MediaOutletRecord;
@@ -228,9 +436,49 @@ export function ensurePressMediaOpening(
       rng.pick(plan.names),
     ).world;
   }
-  const home = homeStateJurisdictionId(next, playerPersonId);
-  if (home && playerStartsInStatePolitics(next, playerPersonId, home)) {
-    next = ensurePressStateCoverage(next, home);
+  return ensurePressHomeStateCoverage(next, playerPersonId);
+}
+
+/**
+ * Every resident's own state or territory has a newsroom from the start, so
+ * its politics can reach the news before the player holds any office there.
+ * A territory the World has not seated yet is registered by its identity
+ * alone; nothing about its government comes with it.
+ */
+export function ensurePressHomeStateCoverage(
+  world: World,
+  personId: EntityId,
+): World {
+  const person = world.people[personId];
+  if (!person) return world;
+  let next = world;
+  let state = homeStateJurisdictionId(next, personId);
+  if (!state) {
+    const key = lifePlaceByJurisdictionId(
+      person.homeJurisdictionId,
+    )?.stateJurisdictionKey;
+    if (key) {
+      next = ensureStateJurisdictionForKey(next, key);
+      state = homeStateJurisdictionId(next, personId);
+    }
+  }
+  return state ? ensurePressStateCoverage(next, state) : next;
+}
+
+/**
+ * The controlled person's own town and state are always covered, including
+ * after a move and in saves from before this rule; a state they have since
+ * taken a legislative or elected role in is covered too.
+ */
+export function ensurePressHomeCoverage(world: World): World {
+  if (world.control.kind !== "person") return world;
+  const personId = world.control.personId;
+  let next = ensurePressLocalCoverage(
+    ensurePressHomeStateCoverage(world, personId),
+    personId,
+  );
+  for (const state of statesOfPoliticalRoles(next, personId)) {
+    next = ensurePressStateCoverage(next, state);
   }
   return next;
 }
@@ -245,52 +493,47 @@ export function ensurePressStateCoverage(
 ): World {
   const state = world.jurisdictions[stateJurisdictionId];
   if (!state || !state.kind.startsWith("state")) return world;
+  const slot = `state:${state.slug}`;
+  const profile = STATE_PROFILE;
+  const key = stateKeyOf(state.slug);
+  const names =
+    key === PUERTO_RICO_KEY
+      ? PUERTO_RICO_STATE_NAMES
+      : key === DISTRICT_KEY
+        ? DISTRICT_STATE_NAMES
+        : profile.names;
   const plan: OutletPlan = {
-    slot: `state:${state.slug}`,
-    product: "state-newsroom",
+    slot,
+    product: profile.product,
     scope: "state",
-    mediums: ["text", "digital", "audio"],
-    beats: [
-      "statehouse",
-      "campaigns",
-      "local-government",
-      "investigations",
-      "business-economy",
-      "public-safety",
-    ],
-    resourceTier: "standard",
-    cadence: "daily",
+    mediums: profile.mediums,
+    beats: profile.beats,
+    resourceTier: profile.resourceTier,
+    cadence: profile.cadence,
     acceptsDeepBackground: false,
     names: [],
-    desks: [
-      {
-        title: "Statehouse reporter",
-        beats: ["statehouse", "campaigns", "investigations"],
-      },
-      {
-        title: "Regional reporter",
-        beats: [
-          "local-government",
-          "public-safety",
-          "business-economy",
-          "investigations",
-        ],
-      },
-    ],
+    desks: profile.desks,
   };
   return ensureOutlet(
     world,
     plan,
     `${OUTLET_KEY}${plan.slot}`,
     [stateJurisdictionId],
-    (rng) => rng.pick(STATE_NAME_FORMS)(state.name),
+    (rng) => rng.pick(names)(state.name),
   ).world;
 }
 
+/** `state-us-pr-placeholder` → `US-PR`; null for any other slug shape. */
+function stateKeyOf(slug: string): string | null {
+  const match = /^state-us-([a-z]{2})(?:-|$)/.exec(slug);
+  return match ? `US-${match[1]!.toUpperCase()}` : null;
+}
+
 /**
- * Local coverage for one place: a small community outlet only where a
- * represented local government exists for the resident; otherwise nothing
- * new (the state newsroom's regional reporter covers it).
+ * Local coverage for one place. Every town a resident lives in has local
+ * journalism, whether or not the World models its government: a missing
+ * council record limits what can be reported about that council, not whether
+ * the town has a newspaper.
  */
 export function ensurePressLocalCoverage(
   world: World,
@@ -299,35 +542,37 @@ export function ensurePressLocalCoverage(
   const person = world.people[residentPersonId];
   const place = person ? world.jurisdictions[person.homeJurisdictionId] : null;
   if (!person || !place || place.kind.startsWith("state")) return world;
-  const local = homeLocalGovernmentStatus(world, residentPersonId);
-  if (local.governments.length === 0) {
-    const state = homeStateJurisdictionId(world, residentPersonId);
-    return state ? ensurePressStateCoverage(world, state) : world;
-  }
   const shortName = place.name.split(",")[0]!.trim();
+  const slot = `local:${place.slug}`;
+  const profile = drawProfile(
+    world,
+    slot,
+    LOCAL_PROFILES,
+    LOCAL_PROFILE_WEIGHTS,
+  );
+  const names =
+    lifePlaceByJurisdictionId(place.id)?.stateJurisdictionKey ===
+    PUERTO_RICO_KEY
+      ? PUERTO_RICO_LOCAL_NAMES
+      : profile.names;
   const plan: OutletPlan = {
-    slot: `local:${place.slug}`,
-    product: "community-outlet",
+    slot,
+    product: profile.product,
     scope: "local",
-    mediums: ["digital", "newsletter"],
-    beats: ["local-government", "public-safety", "campaigns"],
-    resourceTier: "small",
-    cadence: "periodic",
+    mediums: profile.mediums,
+    beats: profile.beats,
+    resourceTier: profile.resourceTier,
+    cadence: profile.cadence,
     acceptsDeepBackground: false,
     names: [],
-    desks: [
-      {
-        title: "Community reporter",
-        beats: ["local-government", "public-safety", "campaigns"],
-      },
-    ],
+    desks: profile.desks,
   };
   return ensureOutlet(
     world,
     plan,
     `${OUTLET_KEY}${plan.slot}`,
     [place.id],
-    (rng) => rng.pick(LOCAL_NAME_FORMS)(shortName),
+    (rng) => rng.pick(names)(shortName),
   ).world;
 }
 
@@ -368,19 +613,22 @@ export function stateOfJurisdiction(
   return stateJurisdictionNamed(world, jurisdiction.parentName);
 }
 
-function playerStartsInStatePolitics(
+/** States where a person holds a legislative job or an office today. */
+function statesOfPoliticalRoles(
   world: World,
-  playerPersonId: EntityId,
-  stateJurisdictionId: EntityId,
-): boolean {
-  return activeWorkRelationshipsAt(world, playerPersonId).some(
-    (entry) =>
-      (entry.relationship.kind.startsWith("employment:legislative") ||
-        entry.relationship.kind.startsWith("office:")) &&
-      (entry.role.locationJurisdictionId === null ||
-        stateOfJurisdiction(world, entry.role.locationJurisdictionId) ===
-          stateJurisdictionId),
-  );
+  personId: EntityId,
+): readonly EntityId[] {
+  const states = new Set<EntityId>();
+  for (const entry of activeWorkRelationshipsAt(world, personId)) {
+    if (
+      !entry.relationship.kind.startsWith("employment:legislative") &&
+      !entry.relationship.kind.startsWith("office:")
+    )
+      continue;
+    const state = stateOfJurisdiction(world, entry.role.locationJurisdictionId);
+    if (state) states.add(state);
+  }
+  return [...states].sort();
 }
 
 function ensureOutlet(
