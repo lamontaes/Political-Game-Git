@@ -7,6 +7,7 @@ import {
 } from "../world-setup/deterministic-math";
 import {
   CRUNCH46_PROVISIONAL_POLICY as POLICY,
+  UNRESEARCHED_UNEMPLOYMENT_RECOVERY as RECOVERY,
   type MacroRegime,
 } from "./policy";
 
@@ -120,9 +121,17 @@ export function drawInnovations(rng: SeededRng): MacroInnovations {
   };
 }
 
+function boundedUnemployment(value: number): number {
+  const bounds = POLICY.bounds.unemploymentPct;
+  return roundMacro(Math.min(bounds.max, Math.max(bounds.min, value)));
+}
+
 /**
  * Section 13 monthly transition. `previous.growthPct` is the lagged growth
  * that moves unemployment; the new growth does not act until next month.
+ * Unemployment's distance from the normal rate fades by
+ * `UNRESEARCHED_UNEMPLOYMENT_RECOVERY`, so a slowdown raises it for as long
+ * as growth stays weak and it comes back once growth does.
  */
 export function stepMonth(
   previous: MacroMonthlyState,
@@ -132,24 +141,19 @@ export function stepMonth(
   const m = POLICY.monthly;
   const anchor = POLICY.baseline.growthAnchorPct;
   const inflationAnchor = POLICY.baseline.inflationAnchorPct;
-  const bounds = POLICY.bounds.unemploymentPct;
   const growthPct = roundMacro(
     anchor +
       m.growthPersistence * (previous.growthPct - anchor) +
       innovations.growth +
       impulses.growthPp,
   );
-  const unemploymentPct = roundMacro(
-    Math.min(
-      bounds.max,
-      Math.max(
-        bounds.min,
-        previous.unemploymentPct -
-          m.unemploymentGrowthGapCoefficient * (previous.growthPct - anchor) +
-          innovations.unemployment +
-          impulses.laborPp,
-      ),
-    ),
+  const natural = RECOVERY.naturalRatePct;
+  const unemploymentPct = boundedUnemployment(
+    natural +
+      RECOVERY.monthlyGapRetention * (previous.unemploymentPct - natural) -
+      m.unemploymentGrowthGapCoefficient * (previous.growthPct - anchor) +
+      innovations.unemployment +
+      impulses.laborPp,
   );
   const inflationPct = roundMacro(
     inflationAnchor +
@@ -167,6 +171,41 @@ export function stepMonth(
     ),
     priceIndex: roundMacro(
       previous.priceIndex * detExp(inflationPct / 100 / 12),
+    ),
+  };
+}
+
+export interface MacroLocalStep {
+  readonly growthPct: number;
+  readonly unemploymentPct: number;
+}
+
+/**
+ * A jurisdiction's month: this month's national figures plus the place's
+ * own gaps and shocks, with no independent random economy. The local growth
+ * gap fades at section 13's growth persistence and the local unemployment
+ * gap at the same retention as the national gap from its normal rate, so a
+ * local shock raises local unemployment and then lets it rejoin the nation.
+ */
+export function stepLocalMonth(
+  national: MacroMonthlyState,
+  previousNational: MacroMonthlyState,
+  previousLocal: MacroMonthlyState,
+  impulses: MacroImpulses,
+): MacroLocalStep {
+  const m = POLICY.monthly;
+  const growthGap = previousLocal.growthPct - previousNational.growthPct;
+  const unemploymentGap =
+    previousLocal.unemploymentPct - previousNational.unemploymentPct;
+  return {
+    growthPct: roundMacro(
+      national.growthPct + m.growthPersistence * growthGap + impulses.growthPp,
+    ),
+    unemploymentPct: boundedUnemployment(
+      national.unemploymentPct +
+        RECOVERY.monthlyGapRetention * unemploymentGap -
+        m.unemploymentGrowthGapCoefficient * growthGap +
+        impulses.laborPp,
     ),
   };
 }

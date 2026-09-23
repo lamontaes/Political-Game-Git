@@ -29,6 +29,7 @@ import {
   goalConsiderations,
   recordGoalStepTaken,
 } from "./people-goal-pursuit";
+import { SeededRng } from "./rng";
 import { recordWorldEvent } from "./world";
 import {
   DATE_KIND,
@@ -538,6 +539,12 @@ export function answerContact(
     (entry) => entry.role === "focus:asked-of",
   )!.personId;
   const meetingId = meetingFor(world, proposal.id);
+  // A date asked for before one of them was with somebody cannot now be
+  // agreed to (see `dateRefusal`); saying no, or another day, still can.
+  if (input.answer !== "decline" && proposal.tags.includes(DATE_OCCASION_TAG)) {
+    const refusal = dateRefusal(world, from, to);
+    if (refusal) throw new Error(refusal);
+  }
   const on = proposal.tags
     .find((tag) => tag.startsWith("contact.on:"))!
     .slice("contact.on:".length) as IsoDate;
@@ -956,8 +963,59 @@ const REACH_OUT_PAIR_SPACING_DAYS = 240;
  * returned.
  */
 const REACH_OUT_UNANSWERED_LIMIT = 2;
-/** How far ahead somebody suggests meeting when they call. */
-const REACH_OUT_NOTICE_DAYS = 9;
+/**
+ * How far ahead somebody suggests meeting when they call, and how long they
+ * leave it before calling again, differ from one pair of people to another.
+ *
+ * They used to be one fixed number each for everybody. With every new life
+ * starting on the same day, unrelated lives received the same call and the
+ * same evening: one friend rang exactly every five months, and a fresh
+ * Maryland life met somebody on the very evening another life had (Time
+ * skips thread, 2026-09-23).
+ *
+ * PLACEHOLDER, NOT RESEARCH: the ranges are calibration until
+ * `how-often-people-and-groups-get-in-touch` (and the relationship answers) give
+ * real ones. What is not a placeholder is that the variation belongs to the
+ * two people, stays the same for them on every load, and is drawn from
+ * nothing else.
+ */
+const REACH_OUT_NOTICE_DAYS_MIN = 5;
+const REACH_OUT_NOTICE_DAYS_SPREAD = 10;
+const REACH_OUT_PAIR_SPACING_SPREAD = 0.5;
+/** On any day they could ring, the share of days they actually do. */
+const REACH_OUT_DAILY_SHARE = 0.25;
+
+/** A number in [0, 1) that belongs to this world and key and never changes. */
+function unitFor(world: World, key: string): number {
+  return new SeededRng(world.seed).fork(key).next();
+}
+
+function pairKey(a: EntityId, b: EntityId): string {
+  return [a, b].sort().join(":");
+}
+
+function reachOutNoticeDays(world: World, a: EntityId, b: EntityId): number {
+  return (
+    REACH_OUT_NOTICE_DAYS_MIN +
+    Math.floor(
+      unitFor(world, `reach-out-notice:${pairKey(a, b)}`) *
+        REACH_OUT_NOTICE_DAYS_SPREAD,
+    )
+  );
+}
+
+function reachOutPairSpacingDays(
+  world: World,
+  a: EntityId,
+  b: EntityId,
+): number {
+  const spread =
+    1 -
+    REACH_OUT_PAIR_SPACING_SPREAD / 2 +
+    unitFor(world, `reach-out-spacing:${pairKey(a, b)}`) *
+      REACH_OUT_PAIR_SPACING_SPREAD;
+  return Math.round(REACH_OUT_PAIR_SPACING_DAYS * spread);
+}
 
 /**
  * Somebody decides, on their own, to get back in touch (CRUNCH47 B1, P3).
@@ -993,7 +1051,11 @@ function askedRecently(
   const last = proposalsFrom(world, playerPersonId, otherPersonId).at(-1);
   return (
     !!last &&
-    last.occurredAt > addDays(world.currentDate, -REACH_OUT_PAIR_SPACING_DAYS)
+    last.occurredAt >
+      addDays(
+        world.currentDate,
+        -reachOutPairSpacingDays(world, playerPersonId, otherPersonId),
+      )
   );
 }
 
@@ -1039,10 +1101,22 @@ export function produceReachingOut(
       event.involvedEntityIds.includes(playerPersonId),
   );
   if (recent) return world;
-  const on = addDays(world.currentDate, REACH_OUT_NOTICE_DAYS);
   for (const basis of contactBases(world, playerPersonId)) {
     if (basis.gap !== "long-gap" && basis.gap !== "reconnected") continue;
     if (!basis.lastContactOn) continue;
+    // Not the first day it becomes possible for everyone at once: each pair
+    // has its own days (see the placeholder above).
+    if (
+      unitFor(
+        world,
+        `reach-out-day:${pairKey(playerPersonId, basis.personId)}:${world.currentDate}`,
+      ) >= REACH_OUT_DAILY_SHARE
+    )
+      continue;
+    const on = addDays(
+      world.currentDate,
+      reachOutNoticeDays(world, playerPersonId, basis.personId),
+    );
     if (openProposal(world, playerPersonId, basis.personId)) continue;
     if (askedRecently(world, playerPersonId, basis.personId)) continue;
     if (stoppedAsking(world, playerPersonId, basis.personId)) continue;
@@ -1161,6 +1235,45 @@ export function produceReachingOut(
   return world;
 }
 
+/** A date that can no longer go ahead, closed without anyone's answer. */
+function withdrawDate(world: World, proposal: HistoricalEvent): World {
+  const from = proposal.participants.find(
+    (entry) => entry.role === "agency:asked",
+  )!.personId;
+  const to = proposal.participants.find(
+    (entry) => entry.role === "focus:asked-of",
+  )!.personId;
+  let next = recordWorldEvent(world, {
+    stableKey: `contact:${proposal.id}:withdrawn`,
+    type: CONTACT_DECLINED_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: proposal.jurisdictionId,
+    involvedEntityIds: [from, to],
+    participants: [
+      { personId: from, role: "agency:actor", detail: "Asked for the date" },
+      { personId: to, role: "focus:asked-of", detail: "Had been asked out" },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [CONTACT_TAG, `contact.proposal:${proposal.id}`, "contact.withdrawn"],
+    summary: `The date ${personName(world.people[from]!)} asked ${personName(world.people[to]!)} for did not go ahead.`,
+    context: {
+      location: null,
+      socialContext: "A date that could no longer happen.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const meeting = meetingFor(next, proposal.id);
+  if (meeting && scheduledActivityState(next, meeting).status === "scheduled") {
+    next = cancelScheduledActivity(next, meeting);
+  }
+  return next;
+}
+
 export function contactAnswerTransitionHandler(
   world: World,
   dueItem: FutureDueItem,
@@ -1200,6 +1313,18 @@ export function contactAnswerTransitionHandler(
       ?.answered
   ) {
     return done("already-answered");
+  }
+  /*
+   * A date asked for before either of them was with somebody, and still
+   * unanswered, does not go ahead now. It is withdrawn and recorded as such,
+   * not answered as if the other person had chosen (Massachusetts roll call,
+   * 2026-09-23: asks made while already in a couple).
+   */
+  if (
+    proposal.tags.includes(DATE_OCCASION_TAG) &&
+    dateRefusal(world, from, to)
+  ) {
+    return done("date-withdrawn", withdrawDate(world, proposal));
   }
   const decided = npcContactAnswer(world, proposalId);
   /*
