@@ -68,6 +68,7 @@ import {
   derivePersonAppearance,
 } from "./person-appearance";
 import { generatePersonIdentity } from "./person-identity";
+import { birthCohortGivenName } from "./given-name-cohorts";
 import { SeededRng } from "./rng";
 import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
 import {
@@ -153,6 +154,39 @@ export interface CharacterHistoryContextPersonInput {
 type WithProvenance<T> = Omit<T, "provenance"> & {
   readonly provenance: CharacterHistoryProvenance;
 };
+
+/**
+ * The people a plan invents, with given names that follow the year each was
+ * born. Only the given name can change, and only on a stream of its own, so
+ * every other draw in the plan stays where it was. Names already handed out,
+ * the player's included, are passed along so a household does not end up with
+ * two people of the same first name.
+ */
+export function withBirthCohortGivenNames(
+  worldSeed: string,
+  transitions: readonly CharacterHistoryTransition[],
+  takenGivenNames: readonly string[],
+): CharacterHistoryTransition[] {
+  const taken = [...takenGivenNames];
+  return transitions.map((entry) => {
+    if (entry.kind !== "context-person") return entry;
+    const givenName = birthCohortGivenName(
+      worldSeed,
+      entry.input.stableKey,
+      {
+        givenName: entry.input.givenName,
+        familyName: entry.input.familyName,
+        birthDate: entry.input.birthDate,
+        gender: entry.input.identity?.gender,
+      },
+      taken,
+    );
+    taken.push(givenName);
+    return givenName === entry.input.givenName
+      ? entry
+      : { ...entry, input: { ...entry.input, givenName } };
+  });
+}
 
 export type CharacterHistoryTransition =
   | {
