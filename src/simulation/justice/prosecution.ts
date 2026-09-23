@@ -120,6 +120,8 @@ export interface ProsecutionReferralInput {
 
 const OFFENSE_LABELS: Readonly<Record<string, string>> = {
   "campaign-funds-personal-use": "taking campaign money for personal use",
+  "public-funds-outside-purpose":
+    "paying themselves public money set aside for another purpose",
 };
 
 function offenseLabel(offenseKey: string): string {

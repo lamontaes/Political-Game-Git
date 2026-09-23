@@ -31,6 +31,8 @@ export type {
 export {
   OUTSIDE_MANDATE_EVENT,
   OUTSIDE_MANDATE_TAG,
+  outsideMandateOfficeHeld,
+  outsideMandatePayerRole,
   outsideMandatePayments,
   recordOutsideMandatePublicPayment,
 } from "../governing/outside-mandate-payment";

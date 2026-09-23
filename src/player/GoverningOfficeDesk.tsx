@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { spendPublicFundsOutsidePurpose } from "../simulation/press";
 import {
   recordOfficeWorkflowPreference,
   type EntityId,
@@ -69,7 +70,13 @@ export function GoverningOfficeDesk({
       ) : (
         <ul className="office-desk-list" data-testid="office-programs">
           {desk.programs.map((program) => (
-            <ProgramCard key={program.programKey} program={program} />
+            <ProgramCard
+              key={program.programKey}
+              program={program}
+              world={world}
+              personId={personId}
+              onWorldChange={onWorldChange}
+            />
           ))}
         </ul>
       )}
@@ -175,7 +182,17 @@ export function GoverningOfficeDesk({
   );
 }
 
-function ProgramCard({ program }: { readonly program: OfficeProgram }) {
+function ProgramCard({
+  program,
+  world,
+  personId,
+  onWorldChange,
+}: {
+  readonly program: OfficeProgram;
+  readonly world: World;
+  readonly personId: EntityId;
+  readonly onWorldChange: (world: World) => void;
+}) {
   return (
     <li className="office-program" data-testid="office-program">
       {/*
@@ -201,7 +218,13 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
         </p>
       ) : (
         program.appropriations.map((appropriation) => (
-          <Appropriation key={appropriation.id} appropriation={appropriation} />
+          <Appropriation
+            key={appropriation.id}
+            appropriation={appropriation}
+            world={world}
+            personId={personId}
+            onWorldChange={onWorldChange}
+          />
         ))
       )}
 
@@ -253,8 +276,14 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
 
 function Appropriation({
   appropriation,
+  world,
+  personId,
+  onWorldChange,
 }: {
   readonly appropriation: OfficeProgramAppropriation;
+  readonly world: World;
+  readonly personId: EntityId;
+  readonly onWorldChange: (world: World) => void;
 }) {
   return (
     <div
@@ -282,10 +311,120 @@ function Appropriation({
           {appropriation.authority.reason}
         </p>
       )}
+      {appropriation.outsidePurposeLines.length > 0 ? (
+        <ul data-testid="office-program-outside-purpose">
+          {appropriation.outsidePurposeLines.map((line, index) => (
+            <li key={`${index}-${line}`}>{line}</li>
+          ))}
+        </ul>
+      ) : null}
+      {appropriation.outsidePurpose ? (
+        <OutsidePurposeForm
+          appropriationId={appropriation.id}
+          label={appropriation.outsidePurpose.label}
+          balanceMinorUnits={appropriation.outsidePurpose.balanceMinorUnits}
+          world={world}
+          personId={personId}
+          onWorldChange={onWorldChange}
+        />
+      ) : null}
       <details>
         <summary>Where this figure comes from</summary>
         <p>{appropriation.basisNote}</p>
       </details>
     </div>
   );
+}
+
+/**
+ * Paying yourself from the appropriation for something it does not cover.
+ * Tucked behind its own disclosure and worded as what it is; the amount is
+ * not clamped, so an amount over the account's cash is refused with the
+ * writer's own reason rather than quietly becoming a different amount.
+ */
+function OutsidePurposeForm({
+  appropriationId,
+  label,
+  balanceMinorUnits,
+  world,
+  personId,
+  onWorldChange,
+}: {
+  readonly appropriationId: EntityId;
+  readonly label: string;
+  readonly balanceMinorUnits: number;
+  readonly world: World;
+  readonly personId: EntityId;
+  readonly onWorldChange: (world: World) => void;
+}) {
+  const [amount, setAmount] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [problem, setProblem] = useState<string | null>(null);
+  const parsed = Number(amount);
+  const amountMinorUnits = Number.isFinite(parsed)
+    ? Math.round(parsed * 100)
+    : 0;
+  const ready = amountMinorUnits > 0 && purpose.trim() !== "";
+  const pay = () => {
+    if (!ready) return;
+    try {
+      const result = spendPublicFundsOutsidePurpose(world, {
+        stableKey: `press46:outside-purpose:${personId}:${world.actionSequence}`,
+        personId,
+        appropriationId,
+        amountMinorUnits,
+        purpose: purpose.trim(),
+      });
+      setAmount("");
+      setPurpose("");
+      setProblem(null);
+      onWorldChange(result.world);
+    } catch (error) {
+      setProblem(error instanceof Error ? error.message : String(error));
+    }
+  };
+  return (
+    <details data-testid="office-program-outside-purpose-form">
+      <summary>Use this money for something else</summary>
+      <p className="game-note">{label}</p>
+      <p className="game-note">
+        {`The public account holds ${formatDollars(balanceMinorUnits)}.`}
+      </p>
+      <div className="game-fields">
+        <label>
+          Amount in dollars
+          <input
+            type="number"
+            min={0}
+            step="0.01"
+            value={amount}
+            onChange={(event) => setAmount(event.target.value)}
+          />
+        </label>
+        <label>
+          What the money pays for
+          <input
+            type="text"
+            value={purpose}
+            onChange={(event) => setPurpose(event.target.value)}
+          />
+        </label>
+      </div>
+      <button type="button" disabled={!ready} onClick={pay}>
+        Pay yourself from this appropriation
+      </button>
+      {problem ? (
+        <p className="game-problem" role="status">
+          {problem}
+        </p>
+      ) : null}
+    </details>
+  );
+}
+
+function formatDollars(minorUnits: number): string {
+  return (minorUnits / 100).toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
 }

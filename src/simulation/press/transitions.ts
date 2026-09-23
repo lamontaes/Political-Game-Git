@@ -1,3 +1,7 @@
+import {
+  PUBLIC_LEDGER_REVIEW_TRANSITION_KEY,
+  publicLedgerReviewHandler,
+} from "./public-funds-misuse";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import type {
   EntityId,
@@ -76,6 +80,7 @@ export function createPressTransitionRegistry(): FutureTransitionHandlerRegistry
     [PRESS_STORY_STEP_TRANSITION_KEY, pressStoryStepHandler],
     [PRESS_PROCEEDING_TRANSITION_KEY, pressProceedingStepHandler],
     [PRESS_LEDGER_REVIEW_TRANSITION_KEY, pressLedgerReviewHandler],
+    [PUBLIC_LEDGER_REVIEW_TRANSITION_KEY, publicLedgerReviewHandler],
     [
       PRESS_OWNER_REVIEW_TRANSITION_KEY,
       (world, dueItem) => pressOwnerReviewHandler(world, dueItem),

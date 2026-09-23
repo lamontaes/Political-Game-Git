@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-23T09:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "A governor (or anyone whose job reaches a public account) can now pay themselves from an appropriation for something it does not cover (src/simulation/press/public-funds-misuse.ts). A coworker may find the ledger entry a month later, ask about it, and after asking once may file a complaint.",
+    "Until this is answered, a complaint about anyone other than a legislator in a state with a researched legislative ethics body goes to the game's simulated inquiry, which says plainly it cannot sanction anyone and only issues a report. The review interval (30 days) and who does the reviewing (the first coworker in the World's order) are authored placeholders.",
+    "Companion to campaign-money-criminal-referral and criminal-sentence-consequences, which cover campaign money and what a sentence does. This asks who investigates public money spent outside its purpose."
+  ],
+  "priority": "P1",
+  "question": "For each of the 50 states, D.C. and Puerto Rico, when a governor, another statewide executive, a state agency official, a legislator or a local official spends appropriated public money on something the appropriation does not cover (including paying themselves): (1) which bodies can investigate it (state auditor or comptroller, inspector general, attorney general, ethics commission, legislature, local prosecutor), and what starts an investigation (complaint, routine audit, referral); (2) whether audits of executive accounts happen on a routine schedule and how often; (3) the procedural steps and typical timelines, and which are confidential; (4) the civil and administrative sanctions available (repayment, fines, censure, impeachment or removal) and who imposes them; (5) when it becomes a crime, under which statutes, and who prosecutes; (6) real cases with who, year, amount, how it was found, and the outcome.",
+  "questionId": "public-funds-misuse-oversight",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/state-ethics-bodies.ts",
+      "whatItDidNotSettle": "Covers state legislative ethics bodies only, for legislators; no body for executives or local officials and nothing specific to appropriated public money."
+    },
+    {
+      "source": "docs/research/requests/campaign-money-criminal-referral.json (open)",
+      "whatItDidNotSettle": "About campaign money, not appropriated public funds."
+    }
+  ],
+  "title": "Who investigates public money spent outside its purpose, state by state",
+  "usableAnswer": "One row per jurisdiction and office type: investigating bodies and triggers, routine audit frequency, steps with timelines and confidentiality, available sanctions and who imposes them, the criminal statute and prosecutor, and real cases. UNKNOWN where no source settles it; no invented probabilities.",
+  "whyItMatters": "The misuse is now playable, but for a governor the only body that can hear it is a simulated review with no power to act. Real auditors, inspectors general and attorneys general decide whether it ends in repayment, removal or prosecution."
+}

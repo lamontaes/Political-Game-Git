@@ -91,10 +91,12 @@ export function applyFindingConsequences(
 }
 
 /**
- * A finding that somebody took campaign money for themselves may go to
+ * A finding that somebody took campaign money for themselves (M1), or paid
+ * themselves public money set aside for something else (M7), may go to
  * prosecutors (`justice/prosecution.ts`): a chance, likelier with each
- * finding that stands against them. The payments are on the committee's own
- * filed reports, so the evidence is documentary. When a regulator refers,
+ * finding that stands against them. The payments are on the committee's
+ * filed reports or the public account's ledger, so the evidence is
+ * documentary. When a regulator refers,
  * and everything after, is an UNRESEARCHED placeholder.
  */
 function referralConsequence(
@@ -105,7 +107,7 @@ function referralConsequence(
   event: HistoricalEvent,
 ): World {
   const matter = requirePressRecord(world, "matter", proceeding.matterId);
-  if (matter.family !== "M1") return world;
+  if (matter.family !== "M1" && matter.family !== "M7") return world;
   const standing = priorAdverseFindings(world, respondentId, step).length + 1;
   const key = `${step.stableKey}:${respondentId}`;
   if (!regulatorRefers(world, key, standing)) return world;
@@ -113,7 +115,10 @@ function referralConsequence(
     stableKey: key,
     subjectPersonId: respondentId,
     jurisdictionId: matter.jurisdictionId,
-    offenseKey: "campaign-funds-personal-use",
+    offenseKey:
+      matter.family === "M7"
+        ? "public-funds-outside-purpose"
+        : "campaign-funds-personal-use",
     referredBy: {
       kind: "regulator",
       label: proceeding.institutionLabel,
@@ -219,10 +224,11 @@ function misusedCampaignMoney(
   respondentId: EntityId,
 ): readonly MisusedMoney[] {
   const matter = requirePressRecord(world, "matter", proceeding.matterId);
-  if (matter.family !== "M1") return [];
+  if (matter.family !== "M1" && matter.family !== "M7") return [];
   const theirs = pressRecordsOfKind(world, "financial-occurrence").filter(
     (record) =>
-      record.family === "M1" && record.actorPersonIds.includes(respondentId),
+      record.family === matter.family &&
+      record.actorPersonIds.includes(respondentId),
   );
   const linkedFlowIds = new Set(
     pressRecordsOfKind(world, "matter-evidence-link")
@@ -392,6 +398,10 @@ function restitutionConsequence(
 ): World {
   let next = world;
   const misused = misusedCampaignMoney(next, proceeding, respondentId);
+  const what =
+    requirePressRecord(next, "matter", proceeding.matterId).family === "M7"
+      ? "the public money found misused"
+      : "the campaign money found misused";
   for (const owed of misused) {
     const name = personName(next.people[respondentId]!);
     const dollars = formatDollars(owed.amount);
@@ -406,8 +416,8 @@ function restitutionConsequence(
       consequenceTag: "matter.consequence:restitution",
       basisKind: "custom:ethics-restitution",
       restrictionKind: "purpose:general",
-      paidSummary: `${name} paid ${dollars}, the campaign money found misused, to the ${governmentName}, as the ${proceeding.institutionLabel} required.`,
-      unpaidSummary: `The ${proceeding.institutionLabel} required ${name} to pay ${dollars}, the campaign money found misused, to the ${governmentName}; ${name} did not have it, and the debt stands unpaid.`,
+      paidSummary: `${name} paid ${dollars}, ${what}, to the ${governmentName}, as the ${proceeding.institutionLabel} required.`,
+      unpaidSummary: `The ${proceeding.institutionLabel} required ${name} to pay ${dollars}, ${what}, to the ${governmentName}; ${name} did not have it, and the debt stands unpaid.`,
       motivation:
         "Forfeiture of the misused amount itself, ordered with the finding.",
     });

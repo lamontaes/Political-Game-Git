@@ -1,4 +1,8 @@
 import { organizationProfileAt, workStatusAt } from "../life-queries";
+import {
+  governingOfficeForPerson,
+  type GoverningOffice,
+} from "./state-governing";
 import { publicProgramRecords } from "../public-program-integrity";
 import { resourcePositionAt } from "../resource-queries";
 import {
@@ -33,7 +37,12 @@ export const OUTSIDE_MANDATE_EVENT = "fiscal.outside-mandate-payment" as const;
 export interface OutsideMandatePaymentInput {
   readonly stableKey: string;
   readonly payerPersonId: EntityId;
-  readonly payerWorkRoleId: EntityId;
+  /**
+   * The payer's job with access to the account, or null when the payer acts
+   * as the sitting holder of the government's executive office, which is
+   * recorded as a tenure rather than a job.
+   */
+  readonly payerWorkRoleId: EntityId | null;
   /** The public-program appropriation whose account paid. */
   readonly fundingId: EntityId;
   readonly operationKey: string;
@@ -52,6 +61,92 @@ export interface OutsideMandatePaymentResult {
 
 function flowKey(input: OutsideMandatePaymentInput): string {
   return `${OUTSIDE_MANDATE_VERSION}:${input.fundingId}:${input.operationKey}`;
+}
+
+/**
+ * Whether this work role gives its holder access to the appropriation's
+ * account: a current job with the account's own organization, or with a
+ * public employer of the same jurisdiction.
+ */
+function roleReachesAccount(
+  world: World,
+  personId: EntityId,
+  roleId: EntityId,
+  appropriation: PublicProgramAppropriationRecord,
+): boolean {
+  const role = world.history.workRoles.find((r) => r.id === roleId);
+  const relationship = role
+    ? world.history.workRelationships.find(
+        (w) => w.id === role.workRelationshipId,
+      )
+    : undefined;
+  if (
+    !relationship ||
+    relationship.personId !== personId ||
+    workStatusAt(world, relationship.id)?.status !== "active"
+  )
+    return false;
+  if (relationship.organizationId === appropriation.accountOrganizationId)
+    return true;
+  const employer = relationship.organizationId
+    ? (organizationProfileAt(world, relationship.organizationId) ?? null)
+    : null;
+  return (
+    employer !== null &&
+    (employer.classification === "sector:government" ||
+      employer.classification.startsWith("service:")) &&
+    employer.locationJurisdictionId === appropriation.jurisdictionId
+  );
+}
+
+/**
+ * The first of a person's work roles that reaches this appropriation's
+ * account, or null when none does. Read-only.
+ */
+export function outsideMandatePayerRole(
+  world: World,
+  personId: EntityId,
+  fundingId: EntityId,
+): EntityId | null {
+  const appropriation = publicProgramRecords(world).find(
+    (record): record is PublicProgramAppropriationRecord =>
+      record.id === fundingId && record.kind === "appropriation",
+  );
+  if (!appropriation) return null;
+  const relationshipIds = new Set(
+    world.history.workRelationships
+      .filter((w) => w.personId === personId)
+      .map((w) => w.id),
+  );
+  return (
+    world.history.workRoles.find(
+      (role) =>
+        relationshipIds.has(role.workRelationshipId) &&
+        roleReachesAccount(world, personId, role.id, appropriation),
+    )?.id ?? null
+  );
+}
+
+/**
+ * The executive office this person holds over the appropriation's
+ * government, if any. A governor's tenure carries no work relationship, and
+ * holding the office is what gives the access.
+ */
+export function outsideMandateOfficeHeld(
+  world: World,
+  personId: EntityId,
+  fundingId: EntityId,
+): GoverningOffice | null {
+  const appropriation = publicProgramRecords(world).find(
+    (record): record is PublicProgramAppropriationRecord =>
+      record.id === fundingId && record.kind === "appropriation",
+  );
+  const office = governingOfficeForPerson(world, personId);
+  return appropriation &&
+    office &&
+    office.jurisdictionId === appropriation.jurisdictionId
+    ? office
+    : null;
 }
 
 /** Throws with the reason when the payment cannot happen; writes once. */
@@ -85,30 +180,18 @@ export function recordOutsideMandatePublicPayment(
       record.id === input.fundingId && record.kind === "appropriation",
   );
   if (!appropriation) throw new Error("No such public appropriation.");
-  const role = world.history.workRoles.find(
-    (r) => r.id === input.payerWorkRoleId,
-  );
-  const relationship = role
-    ? world.history.workRelationships.find(
-        (w) => w.id === role.workRelationshipId,
-      )
+  const role = input.payerWorkRoleId
+    ? world.history.workRoles.find((r) => r.id === input.payerWorkRoleId)
     : undefined;
-  const employer = relationship?.organizationId
-    ? (organizationProfileAt(world, relationship.organizationId) ?? null)
-    : null;
-  const publicEmployer =
-    relationship?.organizationId === appropriation.accountOrganizationId ||
-    (employer !== null &&
-      (employer.classification === "sector:government" ||
-        employer.classification.startsWith("service:")) &&
-      employer.locationJurisdictionId === appropriation.jurisdictionId);
-  if (
-    !role ||
-    !relationship ||
-    relationship.personId !== input.payerPersonId ||
-    workStatusAt(world, relationship.id)?.status !== "active" ||
-    !publicEmployer
-  )
+  const office = input.payerWorkRoleId
+    ? null
+    : outsideMandateOfficeHeld(world, input.payerPersonId, appropriation.id);
+  const payerTitle =
+    role &&
+    roleReachesAccount(world, input.payerPersonId, role.id, appropriation)
+      ? role.title
+      : (office?.title ?? null);
+  if (!payerTitle)
     throw new Error(
       "The payer holds no current position with access to this public account.",
     );
@@ -133,7 +216,7 @@ export function recordOutsideMandatePublicPayment(
       {
         personId: input.payerPersonId,
         role: "agency:outside-mandate-payment",
-        detail: role.title,
+        detail: payerTitle,
       },
     ],
     personFactConstraints: [],

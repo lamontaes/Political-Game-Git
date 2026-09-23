@@ -11,8 +11,13 @@ import {
 import { addDays } from "../simulation/dates";
 import {
   declareProgramCapacity,
+  programAppropriations,
   recordProgramAppropriation,
 } from "../simulation/governing/public-program";
+import { createOrganization } from "../simulation/life";
+import { spendPublicFundsOutsidePurpose } from "../simulation/press";
+import { createResourcePosition } from "../simulation/resources";
+import { pay } from "../../tests/fixtures/public-program-fixture";
 import {
   ensureTaxPublicAccount,
   publicTaxAccountForJurisdiction,
@@ -144,6 +149,69 @@ describe("GoverningOfficeDesk", () => {
     expect(html).toContain('data-testid="office-program-uncommitted"');
     expect(html).toContain('data-testid="office-program-no-options"');
     expect(html).not.toContain('data-testid="office-program-commitment"');
+  }, 120_000);
+
+  it("offers paying yourself from a funded appropriation, and lists what was taken", () => {
+    const { world } = coloradoLife("desk-render-outside-purpose");
+    const office = currentGoverningOffices(world)[0]!;
+    let seeded = withTransitProgram(world, office.jurisdictionId);
+    // With no cash in the account there is nothing to take, so no control.
+    expect(render(seeded, office.holderPersonId)).not.toContain(
+      'data-testid="office-program-outside-purpose-form"',
+    );
+    const account = publicTaxAccountForJurisdiction(
+      seeded,
+      office.jurisdictionId,
+    )!;
+    seeded = createOrganization(seeded, {
+      stableKey: "desk-render:payer",
+      formedAt: seeded.currentDate,
+      provenance: { kind: "authored", note: FIXTURE.note },
+      initialProfile: {
+        name: "Fixture receipts payer",
+        classification: "sector:private",
+        locationJurisdictionId: office.jurisdictionId,
+      },
+    });
+    const payer = seeded.history.organizations.at(-1)!.id;
+    seeded = createResourcePosition(seeded, {
+      stableKey: "desk-render:payer:USD",
+      owner: { kind: "organization", organizationId: payer },
+      openedAt: seeded.currentDate,
+      openingBalance: money(100_000_00, "USD"),
+      provenance: { kind: "authored", note: FIXTURE.note },
+    });
+    seeded = pay(
+      seeded,
+      "desk-render:receipts",
+      payer,
+      account.organizationId,
+      100_000_00,
+    );
+    const offered = render(seeded, office.holderPersonId);
+    expect(offered).toContain(
+      'data-testid="office-program-outside-purpose-form"',
+    );
+    expect(offered).toContain("Use this money for something else");
+    expect(offered).toContain("is spending public money outside its purpose.");
+    expect(offered).toContain("The public account holds $100,000.00.");
+    expect(offered).not.toContain(
+      'data-testid="office-program-outside-purpose"',
+    );
+
+    const taken = spendPublicFundsOutsidePurpose(seeded, {
+      stableKey: "desk-render:taken",
+      personId: office.holderPersonId,
+      appropriationId: programAppropriations(seeded, "transit:state-bus")[0]!
+        .id,
+      amountMinorUnits: 2_500_00,
+      purpose: "a family vacation",
+    }).world;
+    const html = render(taken, office.holderPersonId);
+    expect(html).toContain('data-testid="office-program-outside-purpose"');
+    expect(html).toContain(
+      "$2,500 was paid out for a family vacation, which this appropriation does not cover.",
+    );
   }, 120_000);
 
   it("never titles a program with its record key when nothing names the service", () => {

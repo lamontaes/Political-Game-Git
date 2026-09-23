@@ -1,4 +1,8 @@
 import {
+  outsideMandatePayments,
+  publicFundsMisuseAvailability,
+} from "../simulation/press";
+import {
   activeWorkRelationshipsAt,
   currentOfficeWorkflowPreference,
   governingOfficeForPerson,
@@ -74,6 +78,16 @@ export interface OfficeProgramAppropriation {
    * nothing has been put to this office to decide between.
    */
   readonly alternativesNote: string | null;
+  /**
+   * Paying yourself from this appropriation for something it does not cover.
+   * Present only where the office's holder could actually do it.
+   */
+  readonly outsidePurpose: {
+    readonly label: string;
+    readonly balanceMinorUnits: number;
+  } | null;
+  /** Payments already charged to it for something it does not cover. */
+  readonly outsidePurposeLines: readonly string[];
 }
 
 export interface OfficeProgram {
@@ -256,6 +270,7 @@ function appropriationView(
     record,
   );
   const position = programPosition(world, record.programKey, record.id);
+  const misuse = publicFundsMisuseAvailability(world, personId, record.id);
   return {
     id: record.id,
     amountLine: `${dollars(record.amount)} appropriated.`,
@@ -267,6 +282,21 @@ function appropriationView(
       authority.status === "available"
         ? "No alternatives have been put to this office for this appropriation, so there is nothing to decide between yet."
         : null,
+    outsidePurpose: misuse.available
+      ? { label: misuse.reason, balanceMinorUnits: misuse.balanceMinorUnits }
+      : null,
+    outsidePurposeLines: outsideMandatePayments(world, record.id).flatMap(
+      ({ eventId, resourceFlowId }) => {
+        const event = world.history.events.find((row) => row.id === eventId);
+        const paid = world.history.resourceTransferOutcomes.find(
+          (row) => row.resourceFlowId === resourceFlowId,
+        );
+        if (!event || !paid) return [];
+        return [
+          `${proseDate(event.occurredAt)}: ${dollars(paid.transferredAmount)} was paid out for ${event.context.choice ?? "a purpose not recorded"}, which this appropriation does not cover.`,
+        ];
+      },
+    ),
   };
 }
 
