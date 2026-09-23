@@ -24,6 +24,7 @@ import {
   PRESS_OWNER_REVIEW_TRANSITION_KEY,
   pressOwnerReviewHandler,
 } from "./ownership";
+import { applyPendingDisasterHandlingReactions } from "../crisis/handling-reactions";
 import { produceCaughtLyingLeads } from "./caught-lying";
 import { ensurePressExposureCoverage } from "./views";
 import {
@@ -43,7 +44,11 @@ function pressWeeklyHandler(
 ): FutureTransitionHandlerResult {
   const prepared = ensureMediaOwnership(
     ensurePressExposureCoverage(
-      produceCaughtLyingLeads(produceCampaignFinanceScrutiny(world)),
+      produceCaughtLyingLeads(
+        produceCampaignFinanceScrutiny(
+          applyPendingDisasterHandlingReactions(world),
+        ),
+      ),
     ),
   );
   return pressDeskSweepHandler(prepared, dueItem);
