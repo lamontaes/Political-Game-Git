@@ -33,6 +33,7 @@ import { releaseMissedHolds } from "./scheduled-activity-choice";
 import { completedActivityHere } from "./scene-venues";
 import {
   acceptSocialInvitation,
+  bookSocialOccasionTrip,
   recordSocialOccasionAttendance,
   socialInvitationsFor,
   SOCIAL_OCCASION_JOURNEY_KEY,
@@ -363,7 +364,8 @@ export function venueActivities(
             !metWhereverTheyMeet &&
             // Going to an invitation nobody has answered yet is the yes, and
             // saying yes books the trip there; see `performVenueActivityOnce`.
-            openInvitationFor(world, personId, activity.id) === null
+            openInvitationFor(world, personId, activity.id) === null &&
+            !tripCanBeBooked(world, activity)
           ) {
             const origin = openingLifeLocation(world, personId);
             if (!origin) {
@@ -506,6 +508,22 @@ function openInvitationFor(
     : null;
 }
 
+/**
+ * An afternoon the player said yes to, not yet begun, with no trip booked to
+ * it. Saying yes books the trip; where it is missing anyway, Attend books it
+ * rather than refusing with "no way to get" there (Elko playtest, 2026-09-23).
+ */
+function tripCanBeBooked(world: World, activity: ScheduledActivityRecord) {
+  return (
+    activity.kind === "confirmed" &&
+    activity.location.locationKey === SOCIAL_OCCASION_LOCATION_KEY &&
+    compareSimulationMoments(
+      scheduledActivityState(world, activity.id).start,
+      world.currentMoment,
+    ) > 0
+  );
+}
+
 function performVenueActivityOnce(
   world: World,
   personId: EntityId,
@@ -540,6 +558,28 @@ function performVenueActivityOnce(
   const entry = venueActivities(world, personId, transitionHandlers).find(
     ({ activity }) => activity.id === activityId,
   );
+  if (
+    entry &&
+    !entry.refusal &&
+    !entry.journey &&
+    tripCanBeBooked(world, entry.activity)
+  ) {
+    const booked = bookSocialOccasionTrip(
+      world,
+      personId,
+      activityId,
+      `social-occasion:${activityId}:journey:${world.history.nextSequence}`,
+    );
+    return booked === world
+      ? world
+      : performVenueActivityOnce(
+          booked,
+          personId,
+          activityId,
+          transitionHandlers,
+          options,
+        );
+  }
   if (
     !entry ||
     entry.refusal ||
