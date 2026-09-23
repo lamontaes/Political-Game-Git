@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-23T01:00:00.000Z",
+  "impact": "blocks-work",
+  "lane": "modular legislation",
+  "priority": "P0",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "modular legislation thread, from lamontae's message of 2026-09-22 8:53 p.m. Eastern",
+  "notes": [
+    "Answer as one set covering 56 places: the 50 states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, plus federal taxes.",
+    "Rules only, never observations. Mark anything not found as UNKNOWN rather than borrowing another place's rule."
+  ],
+  "readFirst": {
+    "saidAt": "2026-09-23T00:53:27.000Z",
+    "saidBy": "lamontae",
+    "words": "EVERY BILL NEEDS TO HAVE AN IMPACT. refer to chatgpt.same with 2. 3 obviously everyone should. 4 fix and refer"
+  },
+  "questionId": "who-pays-which-taxes-56-places",
+  "title": "Who pays which taxes, at what rate, in every state and territory",
+  "question": "For federal taxes and for each of the 56 places and its counties and cities as a rule: which taxes are levied on people and on businesses (individual income, payroll, sales and use, property, corporate income or gross receipts, excise, local income or wage), who owes each, the base and the rate or brackets in force for the latest tax year, standard exemptions or deductions that change who pays nothing, how and when each is collected (withholding each pay period, at the register, a yearly bill, quarterly estimates), and which government receives it. Cite each and mark anything not found as UNKNOWN.",
+  "usableAnswer": "One row per tax per level per place: payer (person or business, and which), base, rate or brackets with the tax year, exemption thresholds, collection method and frequency, receiving government, citation and evidence status.",
+  "whyItMatters": "Today only the player ever pays a tax, and only after declaring their own income; no other person or business is ever assessed. lamontae said on 2026-09-22 that everyone should pay. The engine can collect from every household and business now, but every rate and base it would use has to come from this answer rather than be invented.",
+  "relatedQuestionIds": [
+    "local-income-tax-authority-56-places",
+    "which-local-governments-can-tax-income",
+    "what-each-level-of-government-may-legislate"
+  ],
+  "sourcesChecked": [
+    {
+      "source": "src/fiscal-authority/tax-powers.generated.json at main",
+      "whatItDidNotSettle": "It holds one jurisdiction, Alaska, and records a power to tax, not who pays or at what rate."
+    },
+    {
+      "source": "src/simulation/tax-policy.ts at main",
+      "whatItDidNotSettle": "Collection works, but the only tax base in play is the player's own declared income."
+    }
+  ]
+}

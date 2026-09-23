@@ -1,12 +1,16 @@
 import { campaigns, campaignState } from "../campaign-queries";
 import { recordSupportLoss } from "../campaign-support";
+import { recheckRoutedClaims } from "../claim-contradictions";
+import { claimStancesBy } from "../claim-stances";
 import { electionContestStatus } from "../election-contests";
 import { ensureLifePathPersonalPosition } from "../life-paths2-resources";
 import { personName } from "../people";
+import { createOrganization } from "../life";
 import { recordEventKnowledge } from "../records";
 import { resourcePositionAt } from "../resource-queries";
 import {
   createResourceFlow,
+  createResourcePosition,
   recordResourceTransferOutcome,
 } from "../resources";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "../tax-policy";
@@ -77,8 +81,50 @@ export function applyFindingConsequences(
       next = restitutionConsequence(next, proceeding, respondentId, step);
     }
     next = socialConsequence(next, proceeding, respondentId, event);
+    next = deniedToConsequence(next, proceeding, respondentId, event);
   }
   return next;
+}
+
+/**
+ * Whoever the respondent denied this matter to, a reporter asking about it,
+ * follows it and reads the finding when it is published; the denial is then
+ * checked against it at once. Before this a lie told with "Deny it" was
+ * checked once, before any finding existed, and never again.
+ */
+function deniedToConsequence(
+  world: World,
+  proceeding: MatterProceedingRecord,
+  respondentId: EntityId,
+  event: HistoricalEvent,
+): World {
+  const propositionKey = `matter:${proceeding.matterId}`;
+  const askers = sortedUnique(
+    claimStancesBy(world, respondentId)
+      .filter(({ stance }) => stance.propositionKey === propositionKey)
+      .flatMap(({ stance }) => stance.recipientPersonIds),
+  ).filter((personId) => personId !== respondentId && world.people[personId]);
+  if (askers.length === 0) return world;
+  let next = world;
+  for (const personId of askers) {
+    if (
+      next.history.knowledge.some(
+        (record) => record.personId === personId && record.eventId === event.id,
+      )
+    )
+      continue;
+    next = recordEventKnowledge(next, {
+      stableKey: `${event.stableKey}:followed-by:${personId}`,
+      personId,
+      eventId: event.id,
+      learnedAt: next.currentDate,
+      believedSummary: event.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "public-record", reference: proceeding.institutionLabel },
+    });
+  }
+  return recheckRoutedClaims(next, respondentId, propositionKey);
 }
 
 function supportConsequence(
@@ -202,6 +248,103 @@ function misusedCampaignMoney(
     }));
 }
 
+/** The state a jurisdiction belongs to, when the World records one. */
+function stateOf(world: World, jurisdictionId: EntityId): EntityId | null {
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  if (!jurisdiction) return null;
+  if (jurisdiction.kind.startsWith("state")) return jurisdiction.id;
+  return (
+    world.jurisdictionOrder.find((id) => {
+      const candidate = world.jurisdictions[id]!;
+      return (
+        candidate.kind.startsWith("state") &&
+        candidate.name === jurisdiction.parentName
+      );
+    }) ?? null
+  );
+}
+
+/**
+ * The government that receives what a body orders paid: the state whose body
+ * heard it, or the United States for the FEC. Owner ruling, 2026-09-22: money
+ * found misused goes to the government, not back into the committee, where
+ * it could be taken again (in a replay, $34,949 of a $40,571 repayment was
+ * withdrawn three days later). What each government then does with forfeited
+ * campaign money is not modeled; it is held as general receipts.
+ */
+function receivingGovernment(
+  world: World,
+  proceeding: MatterProceedingRecord,
+): {
+  readonly world: World;
+  readonly organizationId: EntityId;
+  readonly label: string;
+} {
+  const matter = requirePressRecord(world, "matter", proceeding.matterId);
+  const stateId =
+    proceeding.procedureKey === "fec-enforcement"
+      ? null
+      : matter.jurisdictionId && stateOf(world, matter.jurisdictionId);
+  if (stateId) {
+    const next = ensureTaxPublicAccount(world, stateId);
+    return {
+      world: next,
+      organizationId: next.history.organizations.find(
+        (row) => row.stableKey === publicOrganizationKey(stateId),
+      )!.id,
+      label: `state of ${next.jurisdictions[stateId]!.name}`,
+    };
+  }
+  return {
+    ...ensureUnitedStatesTreasury(world),
+    label: "United States Treasury",
+  };
+}
+
+const US_TREASURY_KEY = "public-government:united-states:treasury";
+
+function ensureUnitedStatesTreasury(world: World): {
+  readonly world: World;
+  readonly organizationId: EntityId;
+} {
+  let next = world;
+  let organization = next.history.organizations.find(
+    (row) => row.stableKey === US_TREASURY_KEY,
+  );
+  if (!organization) {
+    next = createOrganization(next, {
+      stableKey: US_TREASURY_KEY,
+      formedAt: next.currentDate,
+      provenance: {
+        kind: "authored",
+        note: "Sparse federal receipts account for money federal bodies order paid; no factual treasury cash is asserted.",
+      },
+      initialProfile: {
+        name: "United States Treasury",
+        classification: "sector:government",
+        locationJurisdictionId: null,
+      },
+    });
+    organization = next.history.organizations.find(
+      (row) => row.stableKey === US_TREASURY_KEY,
+    )!;
+    next = createResourcePosition(next, {
+      stableKey: `${US_TREASURY_KEY}:modeled-receipts:USD`,
+      owner: { kind: "organization", organizationId: organization.id },
+      openedAt: next.currentDate,
+      openingBalance: {
+        minorUnits: 0,
+        currency: "USD" as MoneyAmount["currency"],
+      },
+      provenance: {
+        kind: "authored",
+        note: "Known zero opening of the modeled receipts account.",
+      },
+    });
+  }
+  return { world: next, organizationId: organization.id };
+}
+
 function restitutionConsequence(
   world: World,
   proceeding: MatterProceedingRecord,
@@ -213,18 +356,21 @@ function restitutionConsequence(
   for (const owed of misused) {
     const name = personName(next.people[respondentId]!);
     const dollars = formatDollars(owed.amount);
+    const government = receivingGovernment(next, proceeding);
+    next = government.world;
+    const governmentName = government.label;
     next = orderPayment(next, proceeding, respondentId, {
       key: `${step.stableKey}:restitution:${respondentId}:${owed.organizationId}`,
-      recipientOrganizationId: owed.organizationId,
+      recipientOrganizationId: government.organizationId,
       amount: owed.amount,
       eventType: "matter.restitution-ordered",
       consequenceTag: "matter.consequence:restitution",
       basisKind: "custom:ethics-restitution",
-      restrictionKind: "purpose:campaign",
-      paidSummary: `${name} repaid ${dollars} of campaign money to the committee, as the ${proceeding.institutionLabel} required.`,
-      unpaidSummary: `The ${proceeding.institutionLabel} required ${name} to repay ${dollars} of campaign money; ${name} did not have it, and the debt stands unpaid.`,
+      restrictionKind: "purpose:general",
+      paidSummary: `${name} paid ${dollars}, the campaign money found misused, to the ${governmentName}, as the ${proceeding.institutionLabel} required.`,
+      unpaidSummary: `The ${proceeding.institutionLabel} required ${name} to pay ${dollars}, the campaign money found misused, to the ${governmentName}; ${name} did not have it, and the debt stands unpaid.`,
       motivation:
-        "Repayment of the misused amount itself, ordered with the finding.",
+        "Forfeiture of the misused amount itself, ordered with the finding.",
     });
   }
   return proceeding.procedureKey === "generated-state-oversight" &&
