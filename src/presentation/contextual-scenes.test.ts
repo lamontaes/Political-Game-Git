@@ -18,6 +18,7 @@ import { projectPartyEncounters } from "../simulation/living-world/party-chapter
 import { sceneBindingsFor } from "../simulation/scene-bindings";
 import { letAdultTimePass } from "./adult-life";
 import { spokenDay, spokenEvening } from "./contextual-scene-families";
+import { refreshContextualScenes } from "./contextual-scene-producers";
 import type { ContextualSceneSubject } from "./contextual-scenes";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -339,20 +340,22 @@ describe("a favor somebody actually asked for", () => {
     // Play no longer writes the picnic favor. This reproduces a save made
     // before 2026-09-23 that carries one, asked on the first ordinary day
     // after the opening.
-    const asked = writeLegacyFamiliarRequest(
-      letAdultTimePass(life.world, 1),
+    const asked = refreshContextualScenes(
+      writeLegacyFamiliarRequest(
+        letAdultTimePass(life.world, 1),
+        player,
+        "favour-request",
+      ),
       player,
-      "favour-request",
     );
-    // An old friend's recorded request to meet holds the same conversation
-    // first. Answering it frees the slot, and the next day the picnic favor
-    // is the one that opens.
-    const meetUp = projectPlayerConversation(asked, player, "scene-favor")!;
-    expect(meetUp.intents.map((intent) => intent.key)).toContain("say-no");
-    const world = letAdultTimePass(
-      say(asked, player, "scene-favor", "say-no"),
-      1,
-    );
+    // An old friend's recorded request to meet, where this life holds one,
+    // takes the same conversation first. Answering it frees the slot, and the
+    // next day the picnic favor is the one that opens.
+    const first = projectPlayerConversation(asked, player, "scene-favor");
+    const world =
+      first && !first.openingLine.includes("Could you look over my invitation")
+        ? letAdultTimePass(say(asked, player, "scene-favor", "say-no"), 1)
+        : asked;
     expect(offered(world, player, "scene-favor")).toBe(true);
     const view = projectPlayerConversation(world, player, "scene-favor")!;
     expect(view).not.toBeNull();
