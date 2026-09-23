@@ -360,7 +360,7 @@ describe("when a town's race is held", () => {
     expect(nextTownElection("MN", "2719142", "2026-10-10" as never)).toEqual({
       electionDate: "2028-11-07",
       timing: "even-year-november-consolidated",
-      basis: "state-law",
+      basis: "state-law-unverified",
     });
   });
 });

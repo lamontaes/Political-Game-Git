@@ -1,7 +1,7 @@
 import { addDays, makeIsoDate } from "../dates";
 import type { IsoDate } from "../types";
-import { stableHash } from "../ids";
-import { municipalRulePackFor } from "../municipal-election-rule-packs";
+import { resolveMunicipalElectionTiming } from "../municipal-ballot-rules";
+import type { MunicipalBallotRuleBasis } from "../municipal-ballot-rules";
 import type { MunicipalElectionTiming } from "../municipal-election-rules";
 
 /**
@@ -14,10 +14,11 @@ import type { MunicipalElectionTiming } from "../municipal-election-rules";
  * town meeting day, a June or August consolidated date) names a season or an
  * event whose exact day the game has not read, so no date is made up for it.
  *
- * Where state law leaves the choice to each town and no town's choice is
- * recorded, the town's choice is drawn from the options the law allows,
- * stable per town, the same way `resolveMunicipalBallotRule` draws a local
- * counting rule.
+ * Which timing a town has is read through `resolveMunicipalElectionTiming`,
+ * the one authorized reader of the state packs, and carries its label: the
+ * packs are unaudited, so a state's rule is `state-law-unverified`, and where
+ * the law leaves the choice to each town with no default, the town's choice is
+ * drawn from the options the law allows, stable per town.
  *
  * PLACEHOLDER, pending research question
  * `town-election-calendar-from-state-municipal-law`: a filing must come at
@@ -26,11 +27,10 @@ import type { MunicipalElectionTiming } from "../municipal-election-rules";
  */
 export const FILING_LEAD_DAYS = 28;
 
-export type TownElectionBasis =
-  /** State law fixes the timing and the day. */
-  | "state-law"
-  /** State law allows several timings; this town's is drawn from them. */
-  | "local-choice-drawn";
+export type TownElectionBasis = Exclude<
+  MunicipalBallotRuleBasis,
+  "national-range-drawn"
+>;
 
 export interface TownElection {
   readonly electionDate: IsoDate;
@@ -54,24 +54,6 @@ export function novemberGeneralElectionDay(year: number): IsoDate {
   throw new Error(`No November election day found in ${year}.`);
 }
 
-function timingFor(
-  stateUsps: string,
-  placeGeoid: string,
-): { timing: MunicipalElectionTiming; basis: TownElectionBasis } | null {
-  const rule = municipalRulePackFor(stateUsps)?.electoral.electionTiming;
-  if (!rule) return null;
-  if (rule.kind === "known") return { timing: rule.value, basis: "state-law" };
-  if (rule.kind !== "locally-selectable") return null;
-  if (rule.statutoryDefault)
-    return { timing: rule.statutoryDefault, basis: "state-law" };
-  const index = Number(
-    BigInt(
-      `0x${stableHash(`town-election-timing:${stateUsps.toUpperCase()}:${placeGeoid}`)}`,
-    ) % BigInt(rule.options.length),
-  );
-  return { timing: rule.options[index]!, basis: "local-choice-drawn" };
-}
-
 /**
  * The town's next election at least `FILING_LEAD_DAYS` after `onDate`, or
  * null where the law read so far does not fix its day.
@@ -81,7 +63,7 @@ export function nextTownElection(
   placeGeoid: string,
   onDate: IsoDate,
 ): TownElection | null {
-  const found = timingFor(stateUsps, placeGeoid);
+  const found = resolveMunicipalElectionTiming(stateUsps, placeGeoid);
   if (!found) return null;
   const parity = NOVEMBER_PARITY[found.timing];
   if (parity === undefined) return null;
