@@ -59,6 +59,7 @@ import type {
   EntityId,
   IsoDate,
   OccupationClassification,
+  WorkAuthority,
   WorkRelationshipKind,
   World,
 } from "../types";
@@ -158,6 +159,7 @@ const EMPLOYER_ROLES: Readonly<
       readonly title: string;
       readonly occupation: OccupationClassification;
       readonly kind: WorkRelationshipKind;
+      readonly authority: WorkAuthority;
     }
   >
 > = {
@@ -165,11 +167,14 @@ const EMPLOYER_ROLES: Readonly<
     title: "Store clerk",
     occupation: "profession:retail-sales",
     kind: "employment:retail",
+    // Staff on the floor, not the store's managers.
+    authority: "directed",
   },
   "service:school": {
     title: "Teacher",
     occupation: "profession:teacher",
     kind: "employment:education",
+    authority: "directed",
   },
 };
 
@@ -182,7 +187,7 @@ interface SkeletonMember {
 export interface TownHouseholdSkeleton {
   readonly index: number;
   readonly shape: HouseholdShape;
-  /** Ages today, adults first. */
+  /** Ages on the day the world began, adults first. */
   readonly members: readonly SkeletonMember[];
 }
 
@@ -321,6 +326,15 @@ function birthDateForAge(rng: SeededRng, today: IsoDate, age: number): IsoDate {
     : makeIsoDate(`${year - 1}-${month}-${day}`);
 }
 
+/** Who household `index` would be written out as: names and birthdays. Pure. */
+export function townHouseholdPeople(
+  world: World,
+  town: EntityId,
+  index: number,
+): readonly CharacterHistoryContextPersonInput[] {
+  return namedMembers(world, town, townHouseholdSkeleton(world, town, index));
+}
+
 function namedMembers(
   world: World,
   town: EntityId,
@@ -335,9 +349,12 @@ function namedMembers(
       personRng.fork("name"),
       generatePersonIdentity(personRng.fork("identity")),
     );
+    // Skeleton ages are ages on the day the world began, so a household
+    // written years into a save has the same birthdays as one written on day
+    // one (`materializeTownHousehold`).
     const birthDate = birthDateForAge(
       personRng.fork("birth"),
-      world.currentDate,
+      world.startedAt,
       member.age,
     );
     // Housemates keep their own names; a family shares the first adult's.
@@ -601,7 +618,7 @@ function seatTownResidents(world: World, playerPersonId: EntityId): World {
           startedAt: today,
           kind: role.kind,
           compensation: "paid",
-          authority: "directs-others",
+          authority: role.authority,
           dependency: "dependent",
           economicRisk: "organization-borne",
           provenance: PROVENANCE,

@@ -15,20 +15,23 @@ import {
   ensureTownResidents,
   materializeTownHousehold,
   townHouseholdSkeleton,
+  townHouseholdPeople,
   townRoster,
 } from "../../src/simulation/living-world/town-residents";
+import { characterHistoryContextPersonId } from "../../src/simulation/character-history";
+import { makeIsoDate } from "../../src/simulation/dates";
 import type { EntityId, World } from "../../src/simulation";
 
 const HOUMA = "2236255";
 const RENO = "3260600";
 
-function openAt(placeKey: string, seed: string) {
+function openAt(placeKey: string, seed: string, startAge = 24) {
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
       seed,
       placeKey,
-      startAge: 24,
+      startAge,
       questionnaire: "skipped",
     }),
   ).game!;
@@ -120,6 +123,41 @@ describe("a new game's town has residents", { timeout: 180_000 }, () => {
     120_000,
   );
 
+  it("a five-year-old's town has classmates, teachers and staff who are not all bosses", () => {
+    const { world, personId } = openAt(HOUMA, "residents-age-five", 5);
+    const town = world.people[personId]!.homeJurisdictionId;
+    // The child's own school is a school like any other in town.
+    const [enrollment] = world.history.educationEnrollments.filter(
+      (record) => record.personId === personId,
+    );
+    const schools = townOrganizations(world, town, "service:school");
+    expect(
+      schools.some((school) => school.id === enrollment!.organizationId),
+    ).toBe(true);
+    const people = new Set(
+      world.history.householdMemberships
+        .filter((membership) =>
+          seated(world).some((h) => h.id === membership.householdId),
+        )
+        .map((membership) => membership.personId),
+    );
+    const staff = world.history.workRelationships.filter((work) =>
+      people.has(work.personId),
+    );
+    expect(
+      staff.some((work) => work.organizationId === enrollment!.organizationId),
+    ).toBe(true);
+    expect(
+      world.history.educationEnrollments.some(
+        (record) =>
+          people.has(record.personId) &&
+          record.organizationId === enrollment!.organizationId,
+      ),
+    ).toBe(true);
+    expect(staff.length).toBeGreaterThan(0);
+    for (const work of staff) expect(work.authority).toBe("directed");
+  });
+
   it("seats a town once", () => {
     const { world, personId } = openAt(RENO, "residents-once");
     expect(ensureTownResidents(world, personId)).toBe(world);
@@ -146,6 +184,32 @@ describe("the town's size", { timeout: 180_000 }, () => {
     expect(described.estimated.people / 283_621).toBeGreaterThan(0.95);
     expect(described.estimated.people / 283_621).toBeLessThan(1.05);
     expect(UNKNOWN_TOWN_POPULATION).toBeGreaterThan(0);
+  });
+
+  it("a household written years later has the birthdays it would have had on day one", () => {
+    const { world, personId } = openAt(HOUMA, "residents-birthdays");
+    const town = world.people[personId]!.homeJurisdictionId;
+    const index = townRoster(town).households - 2;
+    // Seven years on; only the clock differs.
+    const later = {
+      ...world,
+      currentDate: makeIsoDate(
+        `${Number(world.currentDate.slice(0, 4)) + 7}${world.currentDate.slice(4)}`,
+      ),
+    };
+    const births = (at: World) =>
+      townHouseholdPeople(at, town, index).map((person) => person.birthDate);
+    expect(births(later)).toEqual(births(world));
+    // And they are the birthdays actually written.
+    const written = materializeTownHousehold(world, town, index);
+    expect(
+      townHouseholdPeople(world, town, index).map(
+        (person) =>
+          written.people[
+            characterHistoryContextPersonId(written, person.stableKey)
+          ]!.birthDate,
+      ),
+    ).toEqual(births(world));
   });
 
   it("writes a household once, as the same people its skeleton describes", () => {
