@@ -809,6 +809,35 @@ export function createLegislativeScenario(
   };
 }
 
+/**
+ * The procedure a living institution's bills run under, carrying no authored
+ * bill at all: every measure it moves is filed by a member in play, so there
+ * is no designation, title or vote count to supply.
+ */
+export function procedureOnlyBlueprint(input: {
+  readonly scenarioKey: string;
+  readonly pack: LegislativeRulePack;
+  readonly context: DemoJurisdictionContext;
+  readonly governorRationale: string;
+}): LegislativeBlueprint {
+  return {
+    scenarioKey: input.scenarioKey,
+    label: input.pack.displayName,
+    measureNotice: AUTHORED_MEASURE_NOTICE,
+    context: input.context,
+    pack: input.pack,
+    authoredDesignation: null,
+    shortTitle: "",
+    summary: "",
+    subjectClass: "general-policy",
+    nonpartisan: false,
+    votePlan: {},
+    governorAction: null,
+    governorRationale: input.governorRationale,
+    propositionKeys: [],
+  };
+}
+
 /** Fictional opportunity content, composed against the selected institution.
  * No legal rule is borrowed from any fixture; decisions are expressly authored.
  * The existing bargaining adapter can replace modeled members' dispositions.

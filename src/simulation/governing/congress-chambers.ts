@@ -4,7 +4,7 @@ import {
   US_CONGRESS_RULE_PACK,
 } from "../congress-rule-pack";
 import {
-  AUTHORED_MEASURE_NOTICE,
+  procedureOnlyBlueprint,
   type LegislativeBlueprint,
   type SeatedBody,
   type SeatedMember,
@@ -89,10 +89,9 @@ export function seatedCongressChamber(
  * blueprint carries procedure only and no vote counts at all.
  */
 export function congressBlueprint(world: World): LegislativeBlueprint {
-  return {
+  return procedureOnlyBlueprint({
     scenarioKey: `institution:${US_CONGRESS_PACK_ID}`,
-    label: US_CONGRESS_RULE_PACK.displayName,
-    measureNotice: AUTHORED_MEASURE_NOTICE,
+    pack: US_CONGRESS_RULE_PACK,
     context: {
       jurisdiction: NATIONAL_ELECTION_JURISDICTION,
       initialMoment: world.currentMoment,
@@ -100,18 +99,9 @@ export function congressBlueprint(world: World): LegislativeBlueprint {
       goalScope: "United States",
       householdLocationLabel: "Washington, D.C.",
     },
-    pack: US_CONGRESS_RULE_PACK,
-    authoredDesignation: null,
-    shortTitle: "",
-    summary: "",
-    subjectClass: "general-policy",
-    nonpartisan: false,
-    votePlan: {},
-    governorAction: null,
     governorRationale:
       "The President decides a bill on the desk; no disposition is written in advance.",
-    propositionKeys: [],
-  };
+  });
 }
 
 /**
