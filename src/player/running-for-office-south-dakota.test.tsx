@@ -97,7 +97,7 @@ describe("Running for office from Rapid City, South Dakota, at eighteen", () => 
         "Seat in the South Dakota House of Representatives",
       ],
       ["South Dakota Legislature", "Seat in the South Dakota Senate"],
-      ["City of Rapid City", "Member of the governing body"],
+      ["City of Rapid City", "Council member"],
       ["City of Rapid City", "Mayor"],
     ]);
 
