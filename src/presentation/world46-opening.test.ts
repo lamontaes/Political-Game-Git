@@ -46,6 +46,10 @@ function legacySetup(placeKey: string, seed: string): NewGameSetup {
     .earlierLifeGenerationVersion;
   delete (legacy as { livingWorldMemberNameVersion?: unknown })
     .livingWorldMemberNameVersion;
+  delete (legacy as { childhoodGenerationVersion?: unknown })
+    .childhoodGenerationVersion;
+  delete (legacy as { partyChapterNameVersion?: unknown })
+    .partyChapterNameVersion;
   return {
     ...legacy,
     seed,
@@ -134,10 +138,30 @@ const sha256 = (text: string) =>
  * authored text now spells labor, defense and program the American way.
  * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
  * only the stripped catalog field moved.
+ *
+ * RE-ACCEPTED AGAIN the same day, for given names that follow the year a
+ * person was born (`given-name-v3`, which today's new game declares; the
+ * opening's members stay on their legacy draw here because this fixture
+ * deletes `livingWorldMemberNameVersion`). Measured the same way against
+ * `origin/main` after #457: same people and ids, identical leaf paths, 0
+ * identities changed. Kentucky: 3 given names and 9 summaries, each made
+ * identical by one renamed person's old given name, plus `snapshotId`.
+ * Peebles: 4 and 12, plus `snapshotId`. 0 unexplained.
+ *
+ * AND RE-ACCEPTED ON TOP OF THOSE 2026-09-22, for the federal policy pack: twenty
+ * federal domains, sixty federal issues and sixty knowledge subjects, all in
+ * `world.policyCatalog` under the `us-federal:` namespace. Same predicted
+ * movement, same evidence: LEGACY_OPENING_SHAPE, as re-set above, PASSED
+ * unchanged on the run that moved these, and the pack's own test proves every id and record the
+ * catalog already had is untouched and in its old place.
+ *
+ * AND AGAIN 2026-09-23, when the federal pack's text took American spellings
+ * (programs, offenses, license). Only that authored text moved; the ids and
+ * LEGACY_OPENING_SHAPE did not.
  */
 const FED321F7_LEGACY = {
-  kentucky: "706f7d7781627c691f3016ab4bbeec5bec6f9e22ce1396b44a5ac1c952a6359d",
-  peebles: "48b86a048c3a3b1b4792c1d059c4c869e00bc48fdcdadbe10bb98a8aa695d9e8",
+  kentucky: "66909a6abc88327d922a16be12c1c44c7b2a23319cbd74170e18ad1ad6f9675b",
+  peebles: "507463587fdeb50c00a89f97e21a42cfd72790ff35712a84a01835431f6b8f5b",
 } as const;
 
 /**
@@ -149,8 +173,8 @@ const FED321F7_LEGACY = {
  * test above was reaching for and could not hold on its own.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "039d5fc55cc85c1f3a1a1487f101faa56d0158be229af007b0878edf2b431ec2",
-  peebles: "f50d53595074667a4183212edc0eeb00d4286079b1060635b884949cd737fdd8",
+  kentucky: "481fbb3d8461b313d10ee288f73c4aeee6b92e5baf0d574073c12a2020d06ebd",
+  peebles: "bb444b62a885f7dec65f15b01b283322f1d740fc74873e2b84ec26b4c39007d2",
 } as const;
 
 /**

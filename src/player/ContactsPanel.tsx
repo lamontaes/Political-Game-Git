@@ -212,10 +212,29 @@ function ContactRow({
         When they were last in touch, when the world knows. With no date there
         is nothing to say: an unknown last contact is not "never".
       */}
-      {contact.lastContactSpoken ? (
+      {contact.livesWithYou ? (
+        <p className="pg-contact-line">You live together.</p>
+      ) : contact.lastContactSpoken ? (
         <p className="pg-contact-line">
           Last in touch {contact.lastContactSpoken}.
           {contact.outOfTouch ? " It has been a long while." : ""}
+        </p>
+      ) : null}
+      {contact.lastAnswer ? (
+        <p
+          className="pg-contact-line"
+          data-testid={tid(`contact-last-answer-${contact.personId}`)}
+        >
+          {contact.lastAnswer}
+        </p>
+      ) : null}
+      {/* How things stand between them, when there is something to say. */}
+      {contact.standing ? (
+        <p
+          className="pg-contact-line"
+          data-testid={tid(`contact-standing-${contact.personId}`)}
+        >
+          {contact.standing}
         </p>
       ) : null}
 

@@ -10,6 +10,7 @@ import {
   setupPriorsOf,
 } from "../simulation";
 import type { EntityId, LifeSituationKey, World } from "../simulation";
+import { writeLegacyHouseholdEveningInvitation } from "../simulation/life-opportunities";
 import {
   chooseAdultOption,
   letAdultTimePass,
@@ -457,7 +458,11 @@ describe("Acceptance 3 — a played life outruns the questionnaire", () => {
     ).length;
     expect(beforeSetupEntries).toBeGreaterThan(0);
 
-    const played = playAdultLife(world, personId, 10, 1);
+    // Twelve beats, not ten. Since a life with something open can be offered
+    // one new request a day, the Saturday invitation comes round a
+    // beat earlier and ten beats land on a tie (14 against 14) where they used
+    // to clear it by one; the claim is about a played life, not a count.
+    const played = playAdultLife(world, personId, 12, 1);
     const after = playerModelFor(played.world, personId);
     const gameplayEntries = after.trail.filter(
       (entry) => entry.strength === "enacted",
@@ -571,7 +576,11 @@ describe("Acceptance 12 — a callback is canonical, replayable and traceable", 
     // E) the household is generated and may be solo, so this pins the custom
     // route that keeps the shared home the situation is written for.
     const setup = calibrate({ ...ADULT, startKind: "custom" }, 0);
-    const { world, personId } = openLife(setup);
+    const opened = openLife(setup);
+    const personId = opened.personId;
+    // Play stopped writing this invitation on 2026-09-22; a save made before
+    // then still answers one.
+    const world = writeLegacyHouseholdEveningInvitation(opened.world, personId);
     const alone = chooseAdultOption(world, {
       personId,
       situationKey: "adult.household-quiet-evening",

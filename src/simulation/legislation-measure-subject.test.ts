@@ -77,8 +77,10 @@ function introduce(
   world: World,
   stableKey: string,
   propositionIds?: readonly EntityId[],
+  sponsorPersonId?: EntityId,
 ): World {
   return introduceMeasure(world, {
+    sponsorPersonId,
     stableKey,
     jurisdictionId: JURISDICTION,
     rulePackId: "us-ky-general-assembly-v1",
@@ -107,6 +109,42 @@ describe("what a bill says it is about", () => {
     const world = introduce(base, "linked", [propositionId]);
     const about = measurePropositions(world, measureByKey(world, "linked").id);
     expect(about.map((p) => p.name)).toEqual(["Fund rural transit"]);
+  });
+
+  /**
+   * The bill's questions reach a person.
+   *
+   * Until this link, the only proposition exposures in any save were the
+   * demo's, so the belief pass had nothing to reflect on. The sponsor of a
+   * bill has met its questions as a matter of record, on the filing itself.
+   */
+  it("exposes the sponsor to the questions the bill is about, and nobody else", () => {
+    const scenario = createLegislativeScenario("kentucky");
+    const { world: base, propositionId } = withOneProposition(scenario.world);
+    const sponsorId = Object.values(base.people).find(
+      (person) => person.birthDate <= base.currentDate,
+    )!.id;
+    const world = introduce(base, "sponsored", [propositionId], sponsorId);
+
+    const exposures = world.history.propositionExposures.filter(
+      (exposure) => exposure.propositionId === propositionId,
+    );
+    expect(exposures).toHaveLength(1);
+    expect(exposures[0]!.personId).toBe(sponsorId);
+    const filing = world.history.events.find(
+      (event) => event.stableKey === "event:sponsored:introduced",
+    )!;
+    expect(exposures[0]!.provenance).toEqual({
+      kind: "direct-experience",
+      eventId: filing.id,
+    });
+    expect(() => assertWorldIntegrity(world)).not.toThrow();
+
+    // A bill with no sponsor on record exposes nobody.
+    const unsponsored = introduce(base, "unsponsored", [propositionId]);
+    expect(unsponsored.history.propositionExposures).toEqual(
+      base.history.propositionExposures,
+    );
   });
 
   it("refuses a question this world's catalog does not hold", () => {

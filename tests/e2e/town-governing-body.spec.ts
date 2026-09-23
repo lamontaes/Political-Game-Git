@@ -133,3 +133,48 @@ for (const town of TOWNS) {
     await expect(page.getByTestId("file-candidacy")).toBeEnabled();
   });
 }
+
+// A town whose voters elect its mayor. Presque Isle's own charter has not been
+// read, so the mayor's race and term are the typical ones, and the office
+// screen says so.
+test("Presque Isle, Maine: the town's mayor is a race a life can run and win", async ({
+  page,
+}) => {
+  test.setTimeout(240_000);
+  const mayor = localGoverningBodiesForJurisdiction(
+    lifePlaceByKey("2360825")!.context.jurisdiction.id,
+  ).find((office) => office.seat === "chief-executive")!;
+
+  await page.goto("/");
+  await startLife(page, { age: 34, state: "Maine", place: "Presque Isle" });
+  await enterLife(page);
+  await openElsewhere(page, "campaign");
+  const browser = page.getByTestId("campaign-office-browser");
+  await expect(browser).toContainText(
+    "Filing rechecks them.Upcoming election timing is not established in this save.MayorCity of Presque Isle",
+  );
+
+  await fileCandidacy(page, mayor.officeKey);
+  await expect(page.getByTestId("campaign-band")).toContainText(
+    " for Mayor · ",
+  );
+
+  expect(await campaignUntilDecided(page, passDay, 45)).toBe(true);
+  const result = (
+    await page.getByTestId("campaign-result").innerText()
+  ).replace(/\s+/g, " ");
+  console.log(`\n==== Presque Isle mayor result ====\n${result}\n`);
+  expect(result).toMatch(/ won\./);
+
+  await openElsewhere(page, "work");
+  const seat = page.getByTestId("town-seat");
+  await expect(seat).toContainText(
+    "You have been Mayor, City of Presque Isle, since",
+  );
+  await expect(page.getByTestId("town-seat-rules")).toContainText(
+    "The game has not read how long this town's mayor serves",
+  );
+  console.log(
+    `---- Your office ----\n${(await seat.innerText()).replace(/\s+/g, " ")}\n`,
+  );
+});

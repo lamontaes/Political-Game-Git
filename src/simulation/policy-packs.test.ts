@@ -7,6 +7,10 @@ import {
   type PolicyPack,
 } from "./policy-packs";
 import { POLICY_PACKS, loadedPolicyRegistry } from "./policy-pack-registry";
+import { US_FEDERAL_POLICY_PACK } from "./policy-pack-us-federal";
+import { US_POLICY_POSITIONS_PACK } from "./policy-pack-us-policy-positions";
+import { US_STATE_AND_LOCAL_POLICY_PACK } from "./policy-pack-us-state-and-local";
+import { createPolicyCatalog, policyIssuesDecidedAt } from "./policy";
 import { createProductionPolicyCatalog } from "./production-catalog";
 
 const AUTHORED = {
@@ -26,13 +30,18 @@ describe("what a build ships with", () => {
     expect(POLICY_PACKS.map((entry) => entry.pack)).toEqual([
       "us-state-and-local",
       "us-policy-positions",
+      "us-federal",
     ]);
-    expect(catalog.domainOrder.length).toBe(13);
+    const stateAndLocal = registry.report.packs.find(
+      (entry) => entry.pack === "us-state-and-local",
+    );
+    expect(stateAndLocal?.domains.length).toBe(13);
+    expect(catalog.domainOrder.length).toBe(13 + 20);
     expect(catalog.issueOrder.length).toBeGreaterThan(100);
     expect(registry.report.rejections).toEqual([]);
   });
 
-  it("ships positions a person can hold, and still no knowledge subjects", () => {
+  it("ships positions a person can hold, and knowledge subjects only for federal questions", () => {
     // Propositions are what a player can actually see. Every player-facing
     // reader of the catalog reads propositions — the political profile screen
     // and the journal — and none reads domains or issues, so a vocabulary
@@ -45,9 +54,15 @@ describe("what a build ships with", () => {
       expect(proposition.question.endsWith("?")).toBe(true);
       expect(catalog.issues[proposition.issueId]).toBeDefined();
     }
-    // Still nothing here, and the emptiness is the honest answer: no
-    // knowledge subject has been established.
-    expect(catalog.subjectOrder).toEqual([]);
+    // The federal pack is the first to establish anything a person can know
+    // about, one subject per federal question. The state and local pack
+    // still establishes none, and that emptiness is still the honest answer.
+    expect(catalog.subjectOrder.length).toBe(60);
+    for (const id of catalog.subjectOrder) {
+      expect(catalog.subjects[id]!.stableKey.startsWith("us-federal:")).toBe(
+        true,
+      );
+    }
   });
 
   it("gives every position the principles it engages", () => {
@@ -172,15 +187,26 @@ describe("what a build ships with", () => {
     expect(registry.propositions).toEqual([]);
   });
 
-  it("puts a position in every domain, so no domain is a heading with nothing under it", () => {
+  it("puts a position in every state and local domain, so none is a heading with nothing under it", () => {
     const domainsWithPropositions = new Set(
       catalog.propositionOrder.map(
         (id) => catalog.issues[catalog.propositions[id]!.issueId]!.domainId,
       ),
     );
-    for (const domain of registry.domains) {
+    const stateAndLocal = registry.domains.filter((domain) =>
+      domain.stableKey.startsWith("us-state-and-local:"),
+    );
+    expect(stateAndLocal.length).toBe(13);
+    for (const domain of stateAndLocal) {
       expect(domainsWithPropositions.has(domain.id)).toBe(true);
     }
+    // No federal position has been authored yet, and the report says so
+    // rather than the federal fields looking finished.
+    const federal = registry.report.packs.find(
+      (entry) => entry.pack === "us-federal",
+    );
+    expect(federal?.propositions).toEqual([]);
+    expect(federal?.registeredButUnused.length).toBe(60);
   });
 
   it("leaves no domain without a question in it", () => {
@@ -242,6 +268,137 @@ describe("what a build ships with", () => {
 
   it("says what it loaded rather than saying nothing", () => {
     expect(describePolicyLoad(registry.report)).toContain("us-state-and-local");
+  });
+});
+
+describe("the federal pack", () => {
+  const registry = loadedPolicyRegistry();
+  const catalog = createProductionPolicyCatalog();
+  const federal = registry.report.packs.find(
+    (entry) => entry.pack === "us-federal",
+  );
+
+  it("loads all of what the research sent, and rejects nothing", () => {
+    expect(federal?.provenance).toBe("sourced");
+    expect(federal?.domains.length).toBe(20);
+    expect(federal?.issues.length).toBe(60);
+    expect(federal?.subjects.length).toBe(60);
+    expect(federal?.principles).toEqual([]);
+    expect(
+      registry.report.rejections.filter((entry) => entry.pack === "us-federal"),
+    ).toEqual([]);
+    // Counted against the rows as written, so a row the loader quietly
+    // dropped would show here rather than in a shorter-looking report.
+    expect(US_FEDERAL_POLICY_PACK.domains?.length).toBe(20);
+    expect(US_FEDERAL_POLICY_PACK.issues?.length).toBe(60);
+    expect(US_FEDERAL_POLICY_PACK.subjects?.length).toBe(60);
+  });
+
+  it("routes every federal question to the federal level and nowhere else", () => {
+    const federalIssues = registry.issues.filter((issue) =>
+      issue.stableKey.startsWith("us-federal:"),
+    );
+    expect(federalIssues.length).toBe(60);
+    for (const issue of federalIssues) {
+      expect(issue.levels).toEqual(["federal"]);
+    }
+  });
+
+  it("filters by level: federal questions at federal, state questions at state, and never each other's", () => {
+    const atFederal = policyIssuesDecidedAt(catalog, "federal");
+    expect(atFederal.length).toBe(60);
+    expect(
+      atFederal.every((issue) => issue.stableKey.startsWith("us-federal:")),
+    ).toBe(true);
+    const atState = policyIssuesDecidedAt(catalog, "state");
+    expect(atState.length).toBeGreaterThan(0);
+    expect(
+      atState.some((issue) => issue.stableKey.startsWith("us-federal:")),
+    ).toBe(false);
+    expect(
+      policyIssuesDecidedAt(catalog, "municipality").some((issue) =>
+        issue.stableKey.startsWith("us-federal:"),
+      ),
+    ).toBe(false);
+  });
+
+  it("keeps a shared subject two questions: federal education aid is not local school operation", () => {
+    const education = registry.issues.filter((issue) =>
+      /education|school/i.test(issue.name),
+    );
+    const federalOnes = education.filter((issue) =>
+      issue.stableKey.startsWith("us-federal:"),
+    );
+    const stateOnes = education.filter((issue) =>
+      issue.stableKey.startsWith("us-state-and-local:"),
+    );
+    expect(federalOnes.length).toBeGreaterThan(0);
+    expect(stateOnes.length).toBeGreaterThan(0);
+    for (const issue of stateOnes) {
+      expect(issue.levels ?? []).not.toContain("federal");
+    }
+  });
+
+  it("overwrites nothing the state and local catalog already had", () => {
+    const before = createPolicyCatalog({
+      catalogVersion: catalog.catalogVersion,
+      ...loadPolicyPacks([
+        US_STATE_AND_LOCAL_POLICY_PACK,
+        US_POLICY_POSITIONS_PACK,
+      ]),
+    });
+    for (const [orderKey, recordKey] of [
+      ["domainOrder", "domains"],
+      ["issueOrder", "issues"],
+      ["propositionOrder", "propositions"],
+      ["principleOrder", "principles"],
+    ] as const) {
+      // Every id keeps its place at the front, and every record its bytes.
+      expect(catalog[orderKey].slice(0, before[orderKey].length)).toEqual(
+        before[orderKey],
+      );
+      for (const id of before[orderKey]) {
+        expect(catalog[recordKey][id]).toEqual(before[recordKey][id]);
+      }
+    }
+    expect(before.subjectOrder).toEqual([]);
+  });
+
+  it("points every subject at a federal question, one each", () => {
+    const about = new Set<string>();
+    for (const id of catalog.subjectOrder) {
+      const subject = catalog.subjects[id]!;
+      expect(subject.scope).toBe("issue");
+      const issue = catalog.issues[subject.referenceId!];
+      expect(issue?.stableKey.startsWith("us-federal:")).toBe(true);
+      about.add(subject.referenceId!);
+    }
+    expect(about.size).toBe(60);
+  });
+
+  it("drops a level nobody defined, by name, and keeps the question", () => {
+    const loaded = loadPolicyPacks([
+      pack({
+        pack: "levels",
+        domains: [{ key: "d", name: "D", description: "A domain." }],
+        issues: [
+          {
+            key: "i",
+            domain: "d",
+            name: "I",
+            description: "A question.",
+            levels: ["federal", "galactic" as never, "federal"],
+          },
+        ],
+      }),
+    ]);
+    expect(loaded.issues[0]?.levels).toEqual(["federal"]);
+    expect(loaded.report.rejections).toEqual([
+      expect.objectContaining({
+        pack: "levels",
+        where: 'issue "i" level "galactic"',
+      }),
+    ]);
   });
 });
 

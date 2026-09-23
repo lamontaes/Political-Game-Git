@@ -151,5 +151,8 @@ describe("PEOPLE P14: a childhood that is lived before it is directed", () => {
     expect(() =>
       playChildhoodMoment(grown.world, { personId: grown.player }),
     ).toThrow(/nothing to play/);
-  });
+    // Opens five lives. Measured 2026-09-22: about 3.5s on main at 616dcdb5
+    // and about 4.5 to 6s once each opening seats its home state's legislature,
+    // since every commit re-checks the whole world's integrity.
+  }, 20_000);
 });

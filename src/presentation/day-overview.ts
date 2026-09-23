@@ -19,6 +19,7 @@ import {
   recordedExecutiveQualification,
 } from "../simulation/executive-work-context";
 import { completedActivityHere } from "./scene-venues";
+import { careerOfferAccepted } from "../simulation/career-path7";
 
 /**
  * Today, as four answers rather than a stack of panels.
@@ -118,8 +119,14 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
       // "What is waiting on me?" is one of the four questions this surface
       // exists to answer, and an unanswered offer of work is exactly that.
       // A qualified term is waiting on the calendar, not on the player.
+      // An accepted offer is waiting on nothing until its start date comes;
+      // from then on it waits on the player beginning it.
       ...offersAwaitingAnswer(world, personId)
-        .filter((offer) => offer.answer !== "qualified")
+        .filter(
+          (offer) =>
+            offer.answer !== "qualified" &&
+            !(offer.answer === "accepted" && offer.startIsAhead),
+        )
         .map((offer) => ({
           key: `work-offer:${offer.relationshipId}`,
           // The start date is quoted only while it is still ahead. An offer
@@ -133,9 +140,11 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
           sentence:
             offer.answer === "qualify"
               ? electedTermSentence(offer)
-              : offer.startIsAhead
-                ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`
-                : `${offer.roleTitle}: an offer of work is waiting for your answer.`,
+              : offer.answer === "accepted"
+                ? acceptedOfferSentence(offer)
+                : offer.startIsAhead
+                  ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`
+                  : `${offer.roleTitle}: an offer of work is waiting for your answer.`,
         })),
     ],
   };
@@ -156,7 +165,7 @@ export interface WorkRole {
   readonly roles: readonly string[];
   /** How many programs of study are active. */
   readonly studying: number;
-  /** Offers made and not yet answered. Not roles, and never counted as ones. */
+  /** Offers made and not yet begun: unanswered, accepted, or a won term. Not roles, and never counted as ones. */
   readonly awaitingAnswer: readonly OfferAwaitingAnswer[];
   /** One sentence for the top of Work. */
   readonly sentence: string;
@@ -202,8 +211,12 @@ export interface OfferAwaitingAnswer {
    * Springfield governors walked on 4965f63c read "An offer of work as
    * Governor is waiting for your answer" on every screen, found no Accept for
    * it on Work, and the one that never pressed Qualify lost the term.
+   *
+   * An ordinary offer the character has accepted is "accepted": its status
+   * stays `expected` until they begin on the start date, and an Eastport walk
+   * read "waiting for your answer" about a shop job Fatima had already taken.
    */
-  readonly answer: "accept" | "qualify" | "qualified";
+  readonly answer: "accept" | "accepted" | "qualify" | "qualified";
 }
 
 export function offersAwaitingAnswer(
@@ -229,7 +242,9 @@ export function offersAwaitingAnswer(
           startsOn: relationship.startedAt,
           startIsAhead: relationship.startedAt > world.currentDate,
           answer: !electedTerm
-            ? "accept"
+            ? careerOfferAccepted(world, relationship.id)
+              ? "accepted"
+              : "accept"
             : recordedExecutiveQualification(world, relationship.id)
               ? "qualified"
               : "qualify",
@@ -249,12 +264,24 @@ export function electedTermSentence(offer: OfferAwaitingAnswer): string {
     : `You won the race for ${offer.roleTitle}. Qualify for the term under Campaigns before it begins on ${proseDate(offer.startsOn)}.`;
 }
 
+/** An accepted offer: when it begins, or that it can be begun now. */
+export function acceptedOfferSentence(offer: OfferAwaitingAnswer): string {
+  return offer.startIsAhead
+    ? `You accepted work as ${offer.roleTitle}. It begins ${proseDate(offer.startsOn)}.`
+    : `You accepted work as ${offer.roleTitle}. You can begin it under Work.`;
+}
+
 function offerSentence(allOffers: readonly OfferAwaitingAnswer[]): string {
   const terms = allOffers
-    .filter((offer) => offer.answer !== "accept")
+    .filter(
+      (offer) => offer.answer === "qualify" || offer.answer === "qualified",
+    )
     .map(electedTermSentence);
+  const accepted = allOffers
+    .filter((offer) => offer.answer === "accepted")
+    .map(acceptedOfferSentence);
   const offers = allOffers.filter((offer) => offer.answer === "accept");
-  return [ordinaryOfferSentence(offers), ...terms]
+  return [ordinaryOfferSentence(offers), ...accepted, ...terms]
     .filter((part) => part.length > 0)
     .join(" ");
 }
@@ -285,7 +312,11 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
       ),
       ...(congress.kind === "in-office" ? [congress.identity.displayName] : []),
       ...(townSeat
-        ? [`Member of the ${townSeat.bodyName}, ${townSeat.governmentName}`]
+        ? [
+            townSeat.office === "mayor"
+              ? `${townSeat.mayorTitle}, ${townSeat.governmentName}`
+              : `Member of the ${townSeat.bodyName}, ${townSeat.governmentName}`,
+          ]
         : []),
     ]),
   ];

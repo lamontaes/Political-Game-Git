@@ -5,14 +5,22 @@ import type { OwnershipPack } from "./ownership-packs";
  * American news outlets. Every name is a fictional composition; none is a real
  * company.
  *
- * PLACEHOLDERS, NOT RESEARCH. Every number here is invented to make the system
- * run, and none is a finding: the founding weights, review intervals,
- * likelihoods, job-cut shares and asking prices, and which kinds of owner do
- * what. Each is an open research question, filed as
- * `media-owners-coordinating-their-outlets` (owner kinds and market share)
- * and `what-coordinated-owner-practices-change-in-the-news` (what each kind
- * does, what moves it, what outlets sell for). Replace them from the answers;
- * do not tune them by feel.
+ * FOUNDING SHARES FOR NEWSPAPERS AND LOCAL DIGITAL OUTLETS ARE SOURCED; the
+ * rest is placeholder. `foundingWeightByProduct` below reads as percentages
+ * from ChatGPT's answer to `media-owners-coordinating-their-outlets` (Medill
+ * 2025 news census): 47% of newspapers are independently owned, over 95% are
+ * for-profit, and 44% of standalone local digital outlets are nonprofit. Where
+ * the source gives only one owner kind's share, the remainder is split among
+ * the other eligible owners in the ratio their plain `foundingWeight` already
+ * had; that split is ours, not a finding.
+ *
+ * PLACEHOLDERS, NOT RESEARCH: every other number here is invented to make the
+ * system run: the plain founding weights (broadcasters and national
+ * publications), review intervals, likelihoods, job-cut shares, asking prices,
+ * and which kinds of owner do what. They stay open as
+ * `what-coordinated-owner-practices-change-in-the-news` (annual rates per owner
+ * kind, sharing and must-run mechanics, merger rules, sale prices). Replace
+ * them from the answers; do not tune them by feel.
  */
 export const DEFAULT_MEDIA_OWNERSHIP_PACK: OwnershipPack = {
   id: "media-ownership.default",
@@ -91,6 +99,11 @@ export const DEFAULT_MEDIA_OWNERSHIP_PACK: OwnershipPack = {
         products: ["general-newspaper", "state-newsroom", "community-outlet"],
       },
       foundingWeight: 3,
+      foundingWeightByProduct: {
+        "general-newspaper": 53,
+        "state-newsroom": 29,
+        "community-outlet": 21,
+      },
       reviewEveryDays: 91,
       sellsOutlets: false,
       practices: [
@@ -110,6 +123,7 @@ export const DEFAULT_MEDIA_OWNERSHIP_PACK: OwnershipPack = {
       ],
       holds: { products: ["state-newsroom", "community-outlet"] },
       foundingWeight: 2,
+      foundingWeightByProduct: { "state-newsroom": 20, "community-outlet": 14 },
       reviewEveryDays: 182,
       sellsOutlets: true,
       practices: [
@@ -146,6 +160,7 @@ export const DEFAULT_MEDIA_OWNERSHIP_PACK: OwnershipPack = {
         ],
       },
       foundingWeight: 1,
+      foundingWeightByProduct: { "state-newsroom": 4, "community-outlet": 44 },
       reviewEveryDays: 365,
       sellsOutlets: false,
       practices: ["practice.share-content"],
@@ -157,6 +172,11 @@ export const DEFAULT_MEDIA_OWNERSHIP_PACK: OwnershipPack = {
       perOutlet: true,
       holds: {},
       foundingWeight: 3,
+      foundingWeightByProduct: {
+        "general-newspaper": 47,
+        "state-newsroom": 47,
+        "community-outlet": 21,
+      },
       reviewEveryDays: 365,
       sellsOutlets: true,
       practices: [],

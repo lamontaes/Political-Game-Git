@@ -8,7 +8,7 @@
     "Also a placeholder: one in four seeded qualities is written 'strong' rather than 'moderate', and each adult is given one or two. A01 said to record sparsely but gave no count or share."
   ],
   "priority": "P1",
-  "question": "For each of the seven catalogue tuning profiles in A01 (appraisal, manner, cognition, follow-through, motivation, relational, pressure), how quickly do those qualities change in adults, and how many marked qualities does a typical adult show strongly enough for people around them to name?",
+  "question": "For each of the seven catalog tuning profiles in A01 (appraisal, manner, cognition, follow-through, motivation, relational, pressure), how quickly do those qualities change in adults, and how many marked qualities does a typical adult show strongly enough for people around them to name?",
   "questionId": "how-fast-catalogue-qualities-change",
   "requestVersion": "research-request/v1",
   "requestedBy": "people and life lane",
@@ -20,5 +20,5 @@
   ],
   "title": "How fast the named personality qualities change, and how many a person shows",
   "usableAnswer": "Per profile, a realistic range for how long a marked quality takes to become settled and how much sustained contrary experience it takes to move one; and a realistic range for how many named qualities an adult is typically known for, with how often one is strongly marked. Ranges from personality research are enough.",
-  "whyItMatters": "The catalogue (PR #430) gives each adult one or two named qualities and lets them move with experience. The numbers deciding how fast are ours and not researched. They change no outcome today, since the qualities argue in no decision yet, but they will as soon as one does."
+  "whyItMatters": "The catalog (PR #430) gives each adult one or two named qualities and lets them move with experience. The numbers deciding how fast are ours and not researched. They change no outcome today, since the qualities argue in no decision yet, but they will as soon as one does."
 }

@@ -13,10 +13,12 @@ import {
   datedTransitionServices,
   electionContestById,
   legislativeTermForRelationship,
+  oathOfOfficeRecord,
   officeTransitionProfile,
   stateExecutiveEntryStatus,
   stateExecutiveIdentityForOfficeKey,
   stateJurisdictionForKey,
+  takeOathOfOffice,
   transitionServiceStatus,
   workRelationshipHistoryForPerson,
   workRoleAt,
@@ -233,4 +235,105 @@ export function attendOfficeTransitionService(
     profile: resolved.profile,
     service,
   });
+}
+
+export interface SwearingInView {
+  readonly contestId: EntityId;
+  readonly officeTitle: string;
+  readonly startedOn: IsoDate;
+  /** How this institution holds the ceremony. */
+  readonly ceremony: string;
+  /** When the oath was taken, or null while it is still to take. */
+  readonly swornInOn: IsoDate | null;
+}
+
+interface ResolvedTerm {
+  readonly contestId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly officeTitle: string;
+  readonly startsAt: IsoDate;
+  readonly profile: OfficeTransitionProfile;
+}
+
+function heldLegislativeTerm(
+  world: World,
+  personId: EntityId,
+): ResolvedTerm | null {
+  for (const relationship of workRelationshipHistoryForPerson(
+    world,
+    personId,
+  )) {
+    if (relationship.kind !== "employment:legislative-member") continue;
+    if (workStatusAt(world, relationship.id)?.status !== "active") continue;
+    const term = legislativeTermForRelationship(world, relationship.id);
+    if (!term || world.currentDate < term.startsAt) continue;
+    if (world.currentDate >= term.endsAt) continue;
+    const chamber =
+      term.pack.offices.find(
+        (office) => office.officeKey === term.contest.office.officeKey,
+      )?.chamberName ?? "legislature";
+    return {
+      contestId: term.contest.id,
+      jurisdictionId: term.governing.id,
+      officeTitle: `Member of the ${chamber}`,
+      startsAt: term.startsAt,
+      profile: officeTransitionProfile("state-legislature"),
+    };
+  }
+  return null;
+}
+
+function heldExecutiveTerm(
+  world: World,
+  personId: EntityId,
+): ResolvedTerm | null {
+  const status = stateExecutiveEntryStatus(world, personId);
+  if (status.kind !== "in-office") return null;
+  const contest = electionContestById(world, status.contestId);
+  const identity =
+    contest && stateExecutiveIdentityForOfficeKey(contest.office.officeKey);
+  const jurisdiction =
+    identity && stateJurisdictionForKey(identity.jurisdictionKey);
+  if (!contest || !identity || !jurisdiction) return null;
+  return {
+    contestId: contest.id,
+    jurisdictionId: jurisdiction.id,
+    officeTitle: identity.title,
+    startsAt: status.startsAt,
+    profile: officeTransitionProfile("state-executive"),
+  };
+}
+
+function heldTerm(world: World, personId: EntityId): ResolvedTerm | null {
+  return (
+    heldLegislativeTerm(world, personId) ?? heldExecutiveTerm(world, personId)
+  );
+}
+
+/**
+ * The swearing-in for the term being served, from its first day. Shown until
+ * the oath is taken and on the day it is; null outside a held term.
+ */
+export function projectSwearingIn(
+  world: World,
+  personId: EntityId,
+): SwearingInView | null {
+  const held = heldTerm(world, personId);
+  if (!held) return null;
+  const record = oathOfOfficeRecord(world, personId, held.contestId);
+  if (record && record.occurredAt < world.currentDate) return null;
+  return {
+    contestId: held.contestId,
+    officeTitle: held.officeTitle,
+    startedOn: held.startsAt,
+    ceremony: held.profile.swearingIn,
+    swornInOn: record ? record.occurredAt : null,
+  };
+}
+
+/** Take the oath for the term being served. Refuses, unchanged, outside one. */
+export function takeOathForHeldOffice(world: World, personId: EntityId): World {
+  const held = heldTerm(world, personId);
+  if (!held) throw new Error("There is no office to be sworn into.");
+  return takeOathOfOffice(world, { personId, ...held });
 }

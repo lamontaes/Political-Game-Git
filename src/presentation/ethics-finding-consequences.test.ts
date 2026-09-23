@@ -9,6 +9,8 @@ import {
   fileCampaign,
   deserializeWorld,
   makeCurrencyCode,
+  personName,
+  publicOrganizationKey,
   searchLifePlaces,
   serializeWorld,
   stateExecutiveIdentity,
@@ -16,8 +18,16 @@ import {
 } from "../simulation";
 import type { World } from "../simulation";
 import {
+  CLAIM_CONTRADICTION_EVENT,
+  CLAIM_EVIDENCE_TAG_PREFIX,
+} from "../simulation/claim-stances";
+import {
+  answerPressRequest,
+  campaignSpendingReports,
   CANDIDATE_PAYMENTS_REPORTED_EVENT,
   generatedStateOversightBody,
+  pressAnswerStance,
+  projectPressDesk,
   pressRecordsOfKind,
   publicAdverseFindingsAgainst,
   spendCampaignFundsPersonally,
@@ -26,9 +36,12 @@ import {
   UNRESEARCHED_STATE_OVERSIGHT,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
+import { successorCandidates } from "../simulation/people-continuation";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { supportAfterLoss } from "../simulation/campaign-support";
 import { spendAnAfternoon } from "./campaign-projection";
+import { projectCampaignSpendingReports } from "./campaign-spending-reports";
+import { continueAs, retireFromPlay } from "./people-continuation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
@@ -61,7 +74,12 @@ function adultLifeIn(usps: string, seed: string) {
  * and the Washington State Public Disclosure Commission runs it to a finding
  * (Washington's legislative ethics body hears only the legislature).
  */
-function washingtonFinding() {
+function washingtonFinding(
+  options: {
+    readonly lieToReporters?: boolean;
+    readonly handOffAfterTaking?: boolean;
+  } = {},
+) {
   const { world, personId } = adultLifeIn("WA", "ethics-consequences-wa");
   const identity = stateExecutiveIdentity("WA")!;
   const jurisdictionId = stateJurisdictionForKey("US-WA")!.id;
@@ -106,16 +124,47 @@ function washingtonFinding() {
     },
   );
   let after = second.world;
+  // The player retires the candidate from play and continues as a relative,
+  // the game's own route: what the candidate took is still on the record.
+  let handedTo: string | null = null;
+  if (options.handOffAfterTaking) {
+    const retired = retireFromPlay(after, personId);
+    handedTo = successorCandidates(retired, personId).find(
+      (entry) => entry.availableNow,
+    )!.personId;
+    after = continueAs(retired, personId, handedTo);
+  }
   const finding = (w: World) =>
     pressRecordsOfKind(w, "proceeding-step").find(
       (step) => step.outcome === "finding",
     );
-  for (let chunk = 0; chunk < 14 && !finding(after); chunk += 1) {
-    after = passOrdinaryDays(after, 30);
+  const lies: string[] = [];
+  const step = options.lieToReporters ? 7 : 30;
+  for (let days = 0; days < 420 && !finding(after); days += step) {
+    after = passOrdinaryDays(after, step);
+    if (!options.lieToReporters) continue;
+    // Every reporter who asks about the money before the finding is told,
+    // falsely, that there is nothing to it.
+    for (const request of projectPressDesk(after, personId).incomingRequests) {
+      const lead = pressRecordsOfKind(after, "story-lead").find(
+        (row) => row.id === request.leadId,
+      );
+      if (!lead?.matterId) continue;
+      if (!request.answerOptions.some((o) => o.choice === "false-denial"))
+        continue;
+      const stance = pressAnswerStance(
+        after,
+        request.leadId,
+        personId,
+        "false-denial",
+      );
+      after = answerPressRequest(after, { leadId: request.leadId, ...stance });
+      lies.push(request.reporterPersonId);
+    }
   }
-  const step = finding(after)!;
+  const found = finding(after)!;
   const proceeding = pressRecordsOfKind(after, "matter-proceeding").find(
-    (row) => row.id === step.proceedingId,
+    (row) => row.id === found.proceedingId,
   )!;
   const own = (w: World) =>
     resourcePositionAt(w, { kind: "person", personId }, makeCurrencyCode("USD"))
@@ -127,8 +176,10 @@ function washingtonFinding() {
     campaign,
     ownBefore: own(funded),
     ownAfterFirst: own(first.world),
-    step,
+    step: found,
     proceeding,
+    lies,
+    handedTo,
     occurrences: [first.occurrence, second.occurrence],
   };
 }
@@ -208,7 +259,7 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     ).toBe(UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints.finding);
   });
 
-  it("orders both payments repaid to the committee", () => {
+  it("orders both payments paid to the state, not back to the committee", () => {
     const order = run.after.history.events.find(
       (event) =>
         event.type === "matter.restitution-ordered" &&
@@ -222,10 +273,15 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
       (row) => row.resourceFlowId === flow.id,
     )!;
     expect(repaid.attemptedAmount.minorUnits).toBe(40_000);
+    // Paid to Washington, where it cannot be withdrawn again.
+    const state = stateJurisdictionForKey("US-WA")!.id;
     expect(flow.recipient).toEqual({
       kind: "organization",
-      organizationId: run.campaign.organizationId,
+      organizationId: run.after.history.organizations.find(
+        (row) => row.stableKey === publicOrganizationKey(state),
+      )!.id,
     });
+    expect(order.summary).toContain("to the state of Washington");
   });
 
   it("fines the candidate per payment, paid to the state", () => {
@@ -406,6 +462,121 @@ describe("a Washington candidate who keeps taking after a finding", () => {
         lead.matterId !== null,
     );
     expect(leads.length).toBeGreaterThan(0);
+  });
+});
+
+describe("a Washington candidate who lies to reporters about the money", () => {
+  const run = washingtonFinding({ lieToReporters: true });
+  const read = passOrdinaryDays(run.after, 8);
+
+  it("is asked about it before the finding and denies it", () => {
+    expect(run.lies.length).toBeGreaterThan(0);
+  });
+
+  it("is caught in the lie once the finding is published", () => {
+    const caught = read.history.events.filter(
+      (event) =>
+        event.type === CLAIM_CONTRADICTION_EVENT &&
+        event.tags.includes("claim.intent.deceive") &&
+        event.participants.some(
+          (entry) =>
+            entry.role === "focus:subject" && entry.personId === run.personId,
+        ),
+    );
+    const discoverers = caught.flatMap((event) =>
+      event.participants
+        .filter((entry) => entry.role === "agency:discoverer")
+        .map((entry) => entry.personId),
+    );
+    expect(discoverers.length).toBeGreaterThan(0);
+    for (const reporterId of discoverers)
+      expect(run.lies).toContain(reporterId);
+    expect(
+      caught.every((event) =>
+        event.tags.includes(`${CLAIM_EVIDENCE_TAG_PREFIX}${run.step.eventId}`),
+      ),
+    ).toBe(true);
+  });
+
+  it("gives the reporter who was lied to a follow-up story", () => {
+    const followUps = pressRecordsOfKind(read, "story-lead").filter(
+      (lead) =>
+        lead.family === "follow-up" &&
+        lead.route === "public-record" &&
+        lead.basisEventIds.includes(run.step.eventId) &&
+        lead.basisEventIds.some(
+          (id) =>
+            read.history.events.find((event) => event.id === id)?.type ===
+            CLAIM_CONTRADICTION_EVENT,
+        ) &&
+        lead.subjectPersonIds.includes(run.personId),
+    );
+    expect(followUps.length).toBeGreaterThan(0);
+  });
+});
+
+describe("a Washington candidate's spending reports", () => {
+  const run = washingtonFinding();
+
+  it("files every payment out of the committee, and the reader can see who got it", () => {
+    const reports = campaignSpendingReports(
+      run.after,
+      run.campaign.organizationId,
+    );
+    expect(reports.length).toBeGreaterThan(0);
+    const lines = reports.flatMap((report) => report.lines);
+    const toCandidate = lines.filter(
+      (line) => line.purpose === "paid-to-candidate",
+    );
+    expect(toCandidate.map((line) => line.amountMinorUnits)).toEqual([
+      20_000, 20_000,
+    ]);
+    expect(new Set(toCandidate.map((line) => line.date)).size).toBe(2);
+    // Each payment is on exactly one report.
+    const flows = lines.map((line) => line.flowId);
+    expect(new Set(flows).size).toBe(flows.length);
+    for (const report of reports)
+      expect(report.totalMinorUnits).toBe(
+        report.lines.reduce((sum, line) => sum + line.amountMinorUnits, 0),
+      );
+  });
+
+  it("shows them on the campaign screen in plain words", () => {
+    const committees = projectCampaignSpendingReports(run.after, run.personId);
+    const own = committees.find((committee) => committee.yours)!;
+    const lines = own.reports.flatMap((report) => report.lines);
+    const paid = lines.filter(
+      (line) => line.purpose === "Paid to the candidate",
+    );
+    expect(paid).toHaveLength(2);
+    expect(paid.every((line) => line.amount === "$200")).toBe(true);
+    const name = personName(run.after.people[run.personId]!);
+    expect(paid.every((line) => line.payee === name)).toBe(true);
+  });
+});
+
+describe("a Washington candidate the player stops playing after taking money", () => {
+  const run = washingtonFinding({ handOffAfterTaking: true });
+
+  it("is still reported, noticed and found against", () => {
+    // Every scrutiny route used to read only the controlled person, so
+    // switching to somebody else left the candidate's taking unseen for good.
+    expect(run.after.control).toEqual({
+      kind: "person",
+      personId: run.handedTo,
+    });
+    expect(run.proceeding.respondentPersonIds).toEqual([run.personId]);
+    expect(run.step.publicStep).toBe(true);
+    expect(publicAdverseFindingsAgainst(run.after, run.personId)).toHaveLength(
+      1,
+    );
+  });
+
+  it("does not open a case about the person now played, who took nothing", () => {
+    const matters = pressRecordsOfKind(run.after, "matter");
+    expect(
+      matters.some((matter) => matter.subjectPersonIds.includes(run.handedTo!)),
+    ).toBe(false);
   });
 });
 
