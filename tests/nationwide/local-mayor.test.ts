@@ -13,6 +13,7 @@ import {
   serializeWorld,
 } from "../../src/simulation";
 import { localChiefExecutiveRules } from "../../src/simulation/nationwide-world/local-chief-executive-rules";
+import { placePopulationCoverage } from "../../src/simulation/nationwide-world/place-population";
 import { localChiefExecutiveIdentity } from "../../src/simulation/nationwide-world/local-governing-body-candidacy-packs";
 import { municipalGovernmentForUnit } from "../../src/simulation/rule-capability-resolver";
 import {
@@ -62,7 +63,7 @@ const CHARLOTTESVILLE = "5114968";
 
 const rulesAt = (placeGeoid: string) => {
   const rules = governmentUnitsForPlace(placeGeoid)
-    .map(localChiefExecutiveRules)
+    .map((unit) => localChiefExecutiveRules(unit))
     .filter((entry) => entry !== null);
   expect(rules).toHaveLength(1);
   return rules[0]!;
@@ -135,7 +136,7 @@ describe("how a town's mayor is chosen", () => {
     // chief's term 49.4%, a 2-year one 28.6%.
     const unread = allGovernmentUnits()
       .filter((unit) => unit.placeGeoid !== null)
-      .map(localChiefExecutiveRules)
+      .map((unit) => localChiefExecutiveRules(unit))
       .filter(
         (rules) => rules !== null && rules.researchedGovernmentKey === null,
       );
@@ -326,4 +327,40 @@ describe("running for mayor", () => {
       ).toHaveLength(1);
     }
   }, 120_000);
+});
+
+describe("the owner's interim rule for large cities", () => {
+  // lamontae, 2026-09-23: until a city's own rule is read, a city of more than
+  // 100,000 people elects its mayor. The game holds no town populations yet,
+  // so the rule is proved with supplied ones and today changes no town.
+  it("holds no town populations yet, so no town is changed today", () => {
+    expect(placePopulationCoverage()).toBe(0);
+  });
+
+  it("gives an unread large city an elected mayor, and never overrides a read rule", () => {
+    const unitAt = (geoid: string) =>
+      governmentUnitsForPlace(geoid).find(
+        (unit) => localChiefExecutiveRules(unit) !== null,
+      )!;
+    // Philadelphia's record does not say how its mayor is chosen, and the
+    // national draw gives it a council-chosen one.
+    const philadelphia = unitAt("4260000");
+    expect(localChiefExecutiveRules(philadelphia)!.directlyElected).toEqual({
+      value: false,
+      basis: "typical",
+    });
+    expect(
+      localChiefExecutiveRules(philadelphia, () => 1_573_916)!.directlyElected,
+    ).toEqual({ value: true, basis: "owner-interim" });
+    // At or below the line, the draw stands.
+    expect(
+      localChiefExecutiveRules(philadelphia, () => 100_000)!.directlyElected
+        .basis,
+    ).toBe("typical");
+    // Iowa City's council chooses its mayor by its own rules, whatever its size.
+    expect(
+      localChiefExecutiveRules(unitAt(IOWA_CITY), () => 500_000)!
+        .directlyElected,
+    ).toEqual({ value: false, basis: "read" });
+  });
 });

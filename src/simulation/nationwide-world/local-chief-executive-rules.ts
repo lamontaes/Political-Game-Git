@@ -4,6 +4,7 @@ import type { GovernmentUnitIdentity } from "../government-units";
 import { primaryReading } from "../municipal-government";
 import type { MunicipalReading } from "../municipal-government";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
+import { placePopulation } from "./place-population";
 
 /**
  * Whether a town elects its chief official, and by what title and for how
@@ -20,6 +21,14 @@ import { municipalGovernmentForUnit } from "../rule-capability-resolver";
  *   0.7%;
  * - the chief elected official's term: 1 year 13.5%, 2 years 28.6%, 3 years
  *   6.1%, 4 years 49.4%.
+ *
+ * The owner's interim rule, not research (lamontae, 2026-09-23 9:07 p.m. ET,
+ * "yes to the democratically elected mayor"): until a city's own rule is read,
+ * a city of more than `OWNER_LARGE_CITY_POPULATION` people elects its mayor
+ * directly rather than drawing, since nearly every large American city does.
+ * A read rule overrides it. It applies only where the town's population is
+ * known, and `place-population.ts` holds none yet, so today it changes no
+ * town; it takes effect the day that table is filled.
  *
  * Only a directly elected chief official is a race anybody can file for. A
  * town whose council chooses its mayor from among its members has no mayoral
@@ -44,7 +53,14 @@ import { municipalGovernmentForUnit } from "../rule-capability-resolver";
  *   council seat is not settled, so the council seat is left as it is.
  */
 
-export type ChiefExecutiveBasis = "read" | "typical";
+export type ChiefExecutiveBasis =
+  | "read"
+  | "typical"
+  /** The owner's interim rule for large cities, until the city is read. */
+  | "owner-interim";
+
+/** The owner's interim rule: above this many people, a mayor is elected. */
+export const OWNER_LARGE_CITY_POPULATION = 100_000;
 
 export interface ChiefExecutiveValue<T> {
   readonly value: T;
@@ -123,10 +139,7 @@ export function readDirectElection(reading: MunicipalReading): boolean | null {
   if (reading.mayor?.structuralPosition === "SEPARATE_CHIEF_EXECUTIVE")
     return true;
   if (reading.form === "MAYOR_COUNCIL") return true;
-  if (
-    reading.form === "TOWN_MEETING" ||
-    reading.form === "ANNUAL_TOWN_MEETING"
-  )
+  if (reading.form === "TOWN_MEETING" || reading.form === "ANNUAL_TOWN_MEETING")
     return false;
   return null;
 }
@@ -151,11 +164,15 @@ export function readMayorTerm(reading: MunicipalReading): number | null {
 
 export function localChiefExecutiveRules(
   unit: GovernmentUnitIdentity,
+  populationOf: (placeGeoid: string) => number | null = placePopulation,
 ): LocalChiefExecutiveRules | null {
   if (unit.unitType !== "municipality" || !unit.functionalActive) return null;
   const government = municipalGovernmentForUnit(unit);
   const reading = government ? primaryReading(government) : null;
   const direct = reading ? readDirectElection(reading) : null;
+  const population = unit.placeGeoid ? populationOf(unit.placeGeoid) : null;
+  const largeCity =
+    population !== null && population > OWNER_LARGE_CITY_POPULATION;
   const term = reading ? readMayorTerm(reading) : null;
   return {
     unitId: unit.id,
@@ -163,7 +180,9 @@ export function localChiefExecutiveRules(
     directlyElected:
       direct !== null
         ? { value: direct, basis: "read" }
-        : draw(SELECTION_SHARES, unit.id, "selection"),
+        : largeCity
+          ? { value: true, basis: "owner-interim" }
+          : draw(SELECTION_SHARES, unit.id, "selection"),
     title: reading?.mayor?.title
       ? { value: reading.mayor.title, basis: "read" }
       : { value: "Mayor", basis: "typical" },

@@ -96,7 +96,10 @@ export function localGoverningSeatFor(
     : readMayorYears !== null
       ? { value: readMayorYears, basis: "read" }
       : chief
-        ? { value: chief.termYears.value, basis: chief.termYears.basis }
+        ? {
+            value: chief.termYears.value,
+            basis: chief.termYears.basis === "read" ? "read" : "typical",
+          }
         : null;
   return {
     organizationId: held.participation.organizationId,
