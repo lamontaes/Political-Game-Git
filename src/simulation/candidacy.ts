@@ -691,7 +691,7 @@ export function candidacyEligibility(
         // as a sourced one is: the player is not told that this office's rule
         // was drawn, and the provenance stays in the record where an auditor
         // looks for it.
-        reason: `This office asks for a candidate to be at least ${profileMinimumAge}.`,
+        reason: `You must be at least ${profileMinimumAge} to stand for this office.`,
       });
     }
   } else if (
@@ -699,9 +699,18 @@ export function candidacyEligibility(
     !sourcedMinimumAge &&
     age < GAME_ADULT_CANDIDACY_AGE
   ) {
+    // PLACEHOLDER RULE: no minimum age has been read for this office, so the
+    // game's own adult floor (GAME_ADULT_CANDIDACY_AGE) stands in for it. The
+    // real values are already requested under docs/research/requests/:
+    // governor-qualifications-in-every-state (and its primary-law
+    // verification), state-legislator-qualifications-in-every-unread-state
+    // and local-executive-and-council-rules.
+    // The player reads the requirement they are held to, worded exactly as a
+    // read or drawn rule is; where the number came from stays with the block's
+    // kind and this comment, not on the screen.
     blocks.push({
       kind: "below-game-adult-age",
-      reason: `The game has not read this state's minimum age for the office, so it holds to its own adult rule and will not put anyone under ${GAME_ADULT_CANDIDACY_AGE} on a ballot.`,
+      reason: `You must be at least ${GAME_ADULT_CANDIDACY_AGE} to stand for this office.`,
     });
   }
   // Every chief executive's office has a term limit in one of three states:
