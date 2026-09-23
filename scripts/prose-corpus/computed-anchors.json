@@ -6294,33 +6294,33 @@
       "anchor": "projectCampaign-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} lost.",
+      "text": "{candidateName} lost{resultMargin(result,personId)}.",
       "occurrence": 0,
-      "textRevision": "b1b5bf639f05"
+      "textRevision": "a9b174625a87"
     },
     {
       "anchor": "projectCampaign-0002",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won.",
+      "text": "{candidateName} won{resultMargin(result,personId)}.",
       "occurrence": 0,
-      "textRevision": "7b3d27de03a5"
+      "textRevision": "fe5082dbd274"
     },
     {
       "anchor": "projectCampaign-0003",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
+      "text": "{candidateName} won{resultMargin(result,personId)}. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
       "occurrence": 0,
-      "textRevision": "17d4e131512b"
+      "textRevision": "82d601f954f4"
     },
     {
-      "anchor": "projectCampaign-0004",
+      "anchor": "projectCampaign-0005",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won and keeps the seat. The new term begins {proseDate(term.startsAt)}.",
+      "text": "{candidateName} won{resultMargin(result,personId)} and keeps the seat. The new term begins {proseDate(term.startsAt)}.",
       "occurrence": 0,
-      "textRevision": "eb5423fa7153"
+      "textRevision": "e1f6b7d4eb13"
     },
     {
       "anchor": "projectDisclosure-0001",
