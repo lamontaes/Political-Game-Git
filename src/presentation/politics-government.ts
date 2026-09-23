@@ -849,12 +849,17 @@ function seatedStateRoster(
 function stateVacancyNote(
   world: World,
   packId: string,
-  seat: { officeKey: string; holderDiedOn: IsoDate | null },
+  seat: { officeKey: string; ordinal: number; holderDiedOn: IsoDate | null },
 ): string {
   const since = seat.holderDiedOn
     ? `Vacant since ${proseDate(seat.holderDiedOn)}, when the member died.`
     : "Vacant.";
-  const filling = nextStateSeatFilling(world, packId, seat.officeKey);
+  const filling = nextStateSeatFilling(
+    world,
+    packId,
+    seat.officeKey,
+    seat.ordinal,
+  );
   if (!filling) return since;
   return filling.takesOfficeOn
     ? `${since} The member elected on ${proseDate(filling.electedOn)} takes the seat on ${proseDate(filling.takesOfficeOn)}.`

@@ -650,7 +650,18 @@ export function stateLegislators(
       byCampaign: true,
     });
   }
-  return views;
+  // A save made before campaign winners were placed in their seat can still
+  // show the member they replaced as serving. The winner holds the seat.
+  const campaignSeats = new Set(
+    views
+      .filter((view) => view.byCampaign)
+      .map((view) => `${view.officeKey}|${view.ordinal}`),
+  );
+  return views.filter(
+    (view) =>
+      view.byCampaign ||
+      !campaignSeats.has(`${view.officeKey}|${view.ordinal}`),
+  );
 }
 
 export interface StateLegislativeSeatView {
@@ -828,7 +839,11 @@ export function campaignSeatHolders(
     .filter(
       (entry) =>
         (entry.status === "expected" || entry.status === "active") &&
-        entry.term?.contest.office.districtBinding,
+        entry.term?.contest.office.districtBinding &&
+        // A member who has died holds no seat, whatever their record says.
+        !world.history.personDeaths.some(
+          (death) => death.personId === entry.work.personId,
+        ),
     )
     .sort(
       (a, b) =>

@@ -5,10 +5,15 @@ import {
   passUntil,
   suppliedWin,
 } from "../../tests/fixtures/state-executive-entry";
-import { deserializeWorld, serializeWorld } from "../simulation";
+import {
+  deserializeWorld,
+  recordPersonDeath,
+  serializeWorld,
+} from "../simulation";
 import type { EntityId, World } from "../simulation";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import {
+  campaignSeatHolders,
   stateLegislativeSeats,
   stateLegislators,
   stateSeatsInDistrict,
@@ -16,7 +21,10 @@ import {
 import { fileForOffice } from "./campaign-projection";
 import { recordedDistrictForOffice } from "./district-selection";
 import { passOrdinaryDays } from "./ordinary-life";
-import { STATE_LEGISLATIVE_RESULTS_EVENT } from "../simulation/nationwide-world/state-legislature-turnover";
+import {
+  STATE_LEGISLATIVE_RESULTS_EVENT,
+  nextStateSeatFilling,
+} from "../simulation/nationwide-world/state-legislature-turnover";
 
 describe("STATE LEGISLATIVE CONTINUITY: seats are refilled at each regular election", () => {
   it("decides every Nevada seat on election day and seats the new members when the term begins", () => {
@@ -169,5 +177,21 @@ describe("STATE LEGISLATIVE CONTINUITY: a player's campaign decides their own di
     expect(stateLegislators(reopened, pack.packId)).toEqual(
       stateLegislators(seated, pack.packId),
     );
+
+    // A winner who dies holds the seat no longer, so the next regular
+    // election fills it rather than waiting out their term.
+    const died = recordPersonDeath(seated, {
+      stableKey: `test-death:${personId}`,
+      personId,
+      diedAt: seated.currentDate,
+      causeKey: "cause:people-fixture",
+      sourceEntityIds: [seated.id],
+      summary: "Died; the cause is not recorded.",
+      provenance: { kind: "authored", note: "Campaign-seat fixture." },
+    });
+    expect(campaignSeatHolders(died, pack.packId)).toHaveLength(0);
+    expect(
+      nextStateSeatFilling(died, pack.packId, officeKey, seat!.ordinal),
+    ).toEqual({ electedOn: "2028-11-07", takesOfficeOn: null });
   }, 900_000);
 });
