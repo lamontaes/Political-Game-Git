@@ -14,7 +14,7 @@
       "request_id": "trait-catalogue-poles-and-tuning-rules",
       "answer_section": "A01",
       "disposition": "answered-design-and-data",
-      "remaining": "Map actual registered decision scopes, implement any needed one-sided adapter, apply labeled private tuning and execute real loader/person tests.",
+      "remaining": "Map actual registered decision scopes, implement any needed one-sided adapter, apply labelled private tuning and execute real loader/person tests.",
       "implementation": "Not implemented or tested by this director batch; existing source owner receives and verifies."
     },
     {

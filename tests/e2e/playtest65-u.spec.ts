@@ -194,7 +194,15 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   expect((await calendar.boundingBox())!.x).not.toBe(old!.x);
   await calendar.getByRole("button", { name: /Resize Calendar/ }).focus();
   await page.keyboard.press("ArrowDown");
-  await calendar.getByRole("button", { name: "Reset layout" }).click();
+  // A moved frame offers to keep its size; double-clicking the title bar
+  // returns it to the default instead.
+  await expect(
+    calendar.getByTestId("calendar-workspace-keep-layout"),
+  ).toBeVisible();
+  await header.dblclick();
+  await expect(
+    calendar.getByTestId("calendar-workspace-keep-layout"),
+  ).toHaveCount(0);
   await expect(
     calendar.getByRole("button", { name: "Close", exact: true }),
   ).toBeInViewport();

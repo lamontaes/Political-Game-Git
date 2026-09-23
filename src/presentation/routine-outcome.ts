@@ -8,7 +8,25 @@ import {
   type World,
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
-import { proseDate } from "./prose-dates";
+import { proseDate, proseWeekdayDate } from "./prose-dates";
+
+/** "7:00 a.m.": a time of day as a person would say it. */
+export function proseClockTime(minuteOfDay: number): string {
+  const hour = Math.floor(minuteOfDay / 60) % 24;
+  const minute = minuteOfDay % 60;
+  const twelve = hour % 12 === 0 ? 12 : hour % 12;
+  return `${twelve}:${minute.toString().padStart(2, "0")} ${hour < 12 ? "a.m." : "p.m."}`;
+}
+
+/**
+ * What a skip produced beyond the clock itself, or null when it produced
+ * nothing else. The room's corner already shows the new date and time, so a
+ * notice that would only repeat it is not shown.
+ */
+export function routineOutcomeAfterClock(outcome: string): string | null {
+  const rest = outcome.split("\n").slice(1).join("\n").trim();
+  return rest ? rest : null;
+}
 
 /** Elapsed clock duration, not a guessed number of calendar dates. */
 export function formatRoutineElapsedMinutes(minutes: number): string {
@@ -36,16 +54,12 @@ export function describeRoutineOutcome(
     before.currentMoment,
     after.currentMoment,
   );
+  // The first line is always the clock; `routineOutcomeAfterClock` relies on it.
   const lines = [
     elapsed > 0
-      ? `${formatRoutineElapsedMinutes(elapsed)} passed (${elapsed} minutes). Now ${after.currentDate} at ${Math.floor(
-          after.currentMoment.minuteOfDay / 60,
-        )
-          .toString()
-          .padStart(
-            2,
-            "0",
-          )}:${(after.currentMoment.minuteOfDay % 60).toString().padStart(2, "0")}.`
+      ? `It is now ${proseWeekdayDate(after.currentDate)}, ${proseClockTime(
+          after.currentMoment.minuteOfDay,
+        )}.`
       : "No time passed.",
   ];
   const events = after.history.events.slice(before.history.events.length);

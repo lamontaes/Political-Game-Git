@@ -19,7 +19,7 @@ import {
 import { organizationParticipationStateAt } from "../life-queries";
 import {
   homeLocalGovernmentUnits,
-  localGovernmentDisplayName,
+  localGovernmentRecordedName,
 } from "../nationwide-world/local-governments";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
@@ -136,8 +136,10 @@ export function ensureHomePartyChapters(
   if (parties.length === 0) return world;
 
   const county = homeLocalGovernmentUnits(world, playerPersonId).counties[0];
+  // The recorded form: chapter names are written into the world, and an old
+  // save's opening must rebuild byte for byte.
   const area = county
-    ? localGovernmentDisplayName(county)
+    ? localGovernmentRecordedName(county)
     : (world.jurisdictions[player.homeJurisdictionId]?.name ?? null);
   if (!area) return world;
   const date = world.currentDate;
