@@ -173,11 +173,8 @@ describe("the businesses of a town", () => {
       outcomesFor(next, BUSINESS_REVENUE_BASIS).map((o) => o.periodStartsAt),
     );
     // Ten weeks from this start crosses exactly this many month-starts.
-    expect([
-      world.currentDate,
-      next.currentDate,
-      months.size,
-    ]).toMatchInlineSnapshot(`
+    expect([world.currentDate, next.currentDate, months.size])
+      .toMatchInlineSnapshot(`
       [
         "2026-01-05",
         "2026-03-16",
