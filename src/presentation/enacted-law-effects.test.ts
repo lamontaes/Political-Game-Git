@@ -11,6 +11,7 @@ import {
   availableMeasureSteps,
   measurePosition,
 } from "../simulation/legislation";
+import { fileBundleDraft } from "./legislation-bundle-docket";
 import { fileDraft } from "./legislation-docket";
 import { projectMeasureBriefing } from "./legislation-projection";
 import { applyLegislativeStep } from "./legislation-session";
@@ -92,6 +93,53 @@ describe("a law the player passes changes what it governs", () => {
     // than implying delivery.
     expect(money.committedMinorUnits).toBe(0);
     expect(money.paidMinorUnits).toBe(0);
+  });
+
+  it("funds every part of a multi-part bill, a transit part included", () => {
+    const scenario = createLegislativeScenario("nebraska");
+    const filed = fileBundleDraft(scenario.world, {
+      scenarioKey: "nebraska",
+      playerPersonId: scenario.playerPersonId,
+      jurisdictionId:
+        scenario.world.history.legislativeMeasures![0]!.jurisdictionId,
+      subjectRule: "unrestricted",
+      components: [
+        {
+          componentKey: "transit-money",
+          familyKey: "appropriations",
+          variantKey: "transit-staged-service-v1",
+          subject: "transit",
+          authorityKey: "standing:rural-transit-assistance",
+        },
+        {
+          componentKey: "schools-money",
+          familyKey: "appropriations",
+          variantKey: "single-programme",
+          subject: "schools",
+          authorityKey: "standing:school-facilities",
+        },
+      ],
+    });
+    const measureId = filed.bill.measureId;
+    let world = filed.world;
+    for (
+      let guard = 0;
+      guard < 40 && measurePosition(world, measureId).phase !== "enacted";
+      guard++
+    ) {
+      const step = availableMeasureSteps(world, measureId).find(
+        (key) => key !== "offer-amendment",
+      );
+      if (!step) break;
+      world = publishLegislativeTransition(
+        world,
+        applyLegislativeStep({ ...scenario, measureId }, world, step).world,
+      );
+    }
+    expect(measurePosition(world, measureId).outcome).toBe("enacted");
+    // Only a single-family transit bill reads its own clause; a bundle's
+    // parts each become their own spending authority.
+    expect(appropriations(world, measureId)).toHaveLength(2);
   });
 
   it("writes each effect once, however many routes apply it", () => {

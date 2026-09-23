@@ -1,6 +1,9 @@
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
 import { enactedRuleChanges } from "./enacted-rule-changes";
-import { draftLineageComponents } from "./legislation-draft-lineage";
+import {
+  draftLineageComponents,
+  draftLineageForMeasure,
+} from "./legislation-draft-lineage";
 import { programFamilies } from "./legislation-program-families";
 import type { ClauseDimension } from "./legislation-content-contracts";
 import { currentMeasureProvisions } from "./legislative-politics";
@@ -178,10 +181,13 @@ export function applyNewlyEnactedLawEffects(
 }
 
 function isPinnedTransitMeasure(world: World, measureId: EntityId): boolean {
-  return draftLineageComponents(world, measureId).some(
-    (lineage) =>
-      lineage.familyKey === TRANSIT_FAMILY_KEY &&
-      lineage.variantKey === TRANSIT_VARIANT_KEY,
+  // The same test `resolveTransitFunding` applies: a single-family measure
+  // only. A bundle's transit part gets generic authority like its other
+  // parts, as it always has, and skipping it would drop them all.
+  const lineage = draftLineageForMeasure(world, measureId);
+  return (
+    lineage?.familyKey === TRANSIT_FAMILY_KEY &&
+    lineage.variantKey === TRANSIT_VARIANT_KEY
   );
 }
 
