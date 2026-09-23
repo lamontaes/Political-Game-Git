@@ -54,8 +54,8 @@ import { passOrdinaryDays } from "./ordinary-life";
  * shared clock. Nothing is supplied; the win is earned, and it stops the
  * moment real work has earned it rather than after a fixed guess.
  */
-function wonKentuckyCampaign() {
-  const { world, personId } = adultLifeIn("KY", "nationwide-dated");
+function wonMinnesotaCampaign() {
+  const { world, personId } = adultLifeIn("MN", "nationwide-dated");
   let next = fileForStateExecutiveOffice(world, personId);
   const contest = next.history.electionContests!.at(-1)!;
   // Campaign in the run-up, not months out. A lead built early is not a lead
@@ -166,14 +166,16 @@ describe("GOVERNING state executive outcomes: won, lost, and a winner who dies",
 
 describe("NATIONWIDE ordinary state executive entry once term facts are admitted (test fixture, not law)", () => {
   it("won contest -> dated term -> qualification -> entry -> governed action -> reopen", () => {
+    // Minnesota: a 2026 governor's race, and executive powers compiled for the
+    // governed action below.
     bindRuleCapabilityResolver(FIXTURE_TERM_FACTS);
-    const { world, personId, rounds } = wonKentuckyCampaign();
+    const { world, personId, rounds } = wonMinnesotaCampaign();
     console.info(
       `[nationwide-entry dated route] won after ${rounds} rounds of campaign work`,
     );
     // Earned on the ordinary path, not supplied by a fixture handler.
     expect(projectCampaign(world, personId).phase).toBe("won");
-    const kentucky = stateExecutiveIdentity("KY")!;
+    const minnesota = stateExecutiveIdentity("MN")!;
 
     // Meeting the office's requirements is checked for the winner, not
     // pressed: the won term is already qualified, and nothing is on the
@@ -193,10 +195,10 @@ describe("NATIONWIDE ordinary state executive entry once term facts are admitted
     expect(stateExecutiveEntryStatus(entered, personId).kind).toBe("in-office");
     const office = resolveExecutiveOffice(entered)!;
     expect(office.origin).toBe("elected-term");
-    expect(office.pack.office.officeKey).toBe(kentucky.officeKey);
+    expect(office.pack.office.officeKey).toBe(minnesota.officeKey);
     expect(office.relationship.startedAt).toBe(planned.startsAt);
     const holder = currentPublicOfficeholders(entered).find(
-      (record) => record.officeKey === kentucky.officeKey,
+      (record) => record.officeKey === minnesota.officeKey,
     )!;
     expect(holder.personId).toBe(personId);
     expect(holder.startedAt).toBe(planned.startsAt);
@@ -247,7 +249,7 @@ describe("NATIONWIDE ordinary state executive entry once term facts are admitted
     // Losing needs no search: not campaigning is how a filing loses. One life,
     // one filing, no work, and the ordinary handler decides it.
     {
-      const { world, personId } = adultLifeIn("KY", "nationwide-lost");
+      const { world, personId } = adultLifeIn("PA", "nationwide-lost");
       const decided = runToElection(
         fileForStateExecutiveOffice(world, personId),
         personId,

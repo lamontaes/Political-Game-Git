@@ -3,6 +3,7 @@ import {
   writeFileSync,
   rmSync,
   symlinkSync,
+  unlinkSync,
   mkdirSync,
   statSync,
   utimesSync,
@@ -93,6 +94,29 @@ describe("Shared-machine harness", () => {
       expect(sourceIdentityInputs(root)).toEqual([]);
       writeFileSync(join(root, "source.txt"), "two");
       expect(sourceIdentityInputs(root)).toEqual(["source.txt"]);
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  });
+  it("identifies an untracked directory symlink without reading it as a file", () => {
+    const root = mkdtempSync(join(tmpdir(), "dev-lab-link-"));
+    try {
+      const git = (...args: string[]) =>
+        execFileSync("git", args, { cwd: root, stdio: "pipe" });
+      git("init");
+      git("config", "user.name", "Harness test");
+      git("config", "user.email", "test@example.invalid");
+      writeFileSync(join(root, "source.txt"), "one");
+      git("add", ".");
+      git("commit", "-m", "fixture");
+      mkdirSync(join(root, "output"));
+      symlinkSync("output", join(root, "output-link"));
+      expect(sourceIdentityInputs(root)).toEqual(["output-link"]);
+      const before = sourceIdentity(root).sourceDigest;
+      mkdirSync(join(root, "new-output"));
+      unlinkSync(join(root, "output-link"));
+      symlinkSync("new-output", join(root, "output-link"));
+      expect(sourceIdentity(root).sourceDigest).not.toBe(before);
     } finally {
       rmSync(root, { recursive: true, force: true });
     }

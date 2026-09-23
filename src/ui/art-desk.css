@@ -49,11 +49,11 @@
 }
 .art-desk-layout {
   display: grid;
-  grid-template-columns: minmax(220px, 34%) minmax(0, 1fr);
+  grid-template-columns: minmax(220px, 26%) minmax(0, 1fr);
   gap: 16px;
   align-items: start;
 }
-@media (max-width: 900px) {
+@media (max-width: 700px) {
   .art-desk-layout {
     grid-template-columns: 1fr;
   }
@@ -130,6 +130,32 @@
   border-radius: 8px;
   padding: 16px;
   min-width: 0;
+}
+.art-desk-detail--with-image {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(13rem, 26%);
+  gap: 0.35rem 0.75rem;
+  align-items: start;
+}
+.art-desk-detail--with-image > * {
+  order: 3;
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+.art-desk-detail--with-image > h2,
+.art-desk-detail--with-image > .art-desk-meta,
+.art-desk-detail--with-image > .art-desk-warning {
+  order: 0;
+}
+.art-desk-detail--with-image > .art-desk-viewed {
+  order: 1;
+  grid-column: 1;
+  margin-top: 0;
+}
+.art-desk-detail--with-image > .art-desk-discussion {
+  order: 2;
+  grid-column: 2;
+  margin: 0;
 }
 .art-desk-preview {
   min-height: 120px;
@@ -522,9 +548,32 @@
   margin: 0.6rem 0;
 }
 .art-desk-discussion {
-  border-top: 1px solid #cfc5b3;
-  margin-top: 1rem;
-  padding-top: 0.75rem;
+  border: 1px solid #cfc5b3;
+  border-radius: 6px;
+  background: #faf8f2;
+  margin: 0.6rem 0;
+  padding: 0.6rem;
+}
+.art-desk-discussion h3 {
+  margin: 0 0 0.25rem;
+  font-size: 0.98rem;
+}
+.art-desk-message-history {
+  max-height: 8rem;
+  overflow-y: auto;
+  border-block: 1px solid #e1d9ca;
+  margin: 0.4rem 0;
+  padding: 0.2rem 0;
+}
+.art-desk-next-step {
+  background: #eaf0e9;
+  border-left: 3px solid #497056;
+  margin: 0.4rem 0;
+  padding: 0.45rem 0.55rem;
+}
+.art-desk-message-composer summary {
+  cursor: pointer;
+  font-weight: 600;
 }
 .art-desk-discussion textarea {
   display: block;
@@ -534,7 +583,7 @@
   font: inherit;
 }
 .art-desk-message {
-  padding: 0.65rem;
+  padding: 0.4rem;
   margin: 0.5rem 0;
   background: #f3efe6;
   border-radius: 5px;
@@ -588,6 +637,15 @@
 .art-desk-message:focus {
   outline: 2px solid #ad6d26;
   outline-offset: 4px;
+}
+@media (max-width: 700px) {
+  .art-desk-detail--with-image {
+    grid-template-columns: 1fr;
+  }
+  .art-desk-detail--with-image > .art-desk-viewed,
+  .art-desk-detail--with-image > .art-desk-discussion {
+    grid-column: 1;
+  }
 }
 .art-desk-toolbar[hidden] {
   display: none;

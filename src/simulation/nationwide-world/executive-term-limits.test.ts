@@ -35,9 +35,7 @@ import { qualificationRows } from "../office-qualification-rules";
 import {
   checkExecutiveTermLimit,
   compiledExecutiveTermLimit,
-  drawnExecutiveTermLimit,
   parseTermLimitCode,
-  researchedExecutiveTermLimits,
 } from "./executive-term-limits";
 import {
   isStateExecutiveElectionYearInWorld,
@@ -488,7 +486,7 @@ describe("A governor's term length, changed by law", () => {
 });
 
 describe("A state the game has not read", () => {
-  it("reads every researched limit it is given, rather than drawing over one it cannot parse", () => {
+  it("reads every researched limit it is given, rather than silently lifting one it cannot parse", () => {
     const rows = qualificationRows().filter(
       (row) =>
         row.officeFamily === "GOVERNOR" &&
@@ -503,17 +501,12 @@ describe("A state the game has not read", () => {
       ).not.toBeNull();
   });
 
-  it("draws its limit from the limits read states actually enacted, the same every time", () => {
-    const read = researchedExecutiveTermLimits();
-    expect(read.length).toBeGreaterThan(0);
+  it("bars nobody where the law has not been read", () => {
     const onDate = makeIsoDate("2027-01-04") as IsoDate;
     const nevada = compiledExecutiveTermLimit("NV", onDate);
-    expect(nevada.basis).toBe("game-profile");
-    expect(nevada.provenance).toContain("not researched");
-    expect(read).toContainEqual(nevada.limit);
-    expect(drawnExecutiveTermLimit("NV")).toEqual(nevada.limit);
-    expect(compiledExecutiveTermLimit("NV", onDate)).toEqual(nevada);
-    // Read states keep their own law rather than the draw.
+    expect(nevada.basis).toBe("not-researched");
+    expect(nevada.limit).toBeNull();
+    // Read states keep their own law.
     expect(compiledExecutiveTermLimit("MO", onDate).limit).toEqual({
       maxConsecutiveTerms: null,
       maxLifetimeTerms: 2,
