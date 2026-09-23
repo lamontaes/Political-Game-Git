@@ -23,6 +23,7 @@ import {
 } from "../../src/presentation/venue-activity";
 import {
   COUPLE_KIND,
+  coupleAskRefusal,
   dateRefusal,
   coupleBetween,
   keptDates,
@@ -30,7 +31,15 @@ import {
 import { CONTACT_LOCATION_KEY } from "../../src/simulation/people-contact";
 import { describePersonContext } from "../../src/simulation/person-context";
 import { introducedPeople } from "../../src/simulation/social-introductions";
+import { scheduledActivityState } from "../../src/simulation";
 import type { EntityId, World } from "../../src/simulation";
+import {
+  deserializeWorld,
+  serializeWorld,
+} from "../../src/simulation/serialization";
+
+const KIN =
+  /\b(mom|dad|mother|father|sister|brother|son|daughter|grand|aunt|uncle|cousin)/;
 
 /**
  * Two people going out and becoming a couple, played through the People
@@ -127,6 +136,19 @@ describe("two people become a couple", () => {
         action(world, playerId, otherId, "ask-to-be-a-couple")?.available,
       ).toBe(true);
 
+      // A date asked of somebody else just before, still unanswered.
+      const thirdId = projectContacts(world, playerId).contacts.find(
+        (entry) =>
+          entry.personId !== otherId &&
+          action(world, playerId, entry.personId, "ask-on-a-date")?.available,
+      )?.personId;
+      if (thirdId) {
+        world = askOnADate(world, {
+          personId: playerId,
+          otherPersonId: thirdId,
+          on: projectContacts(world, playerId).earliestMeetingOn,
+        });
+      }
       const answered = askToBeTogether(world, {
         personId: playerId,
         otherPersonId: otherId,
@@ -134,7 +156,49 @@ describe("two people become a couple", () => {
       expect(answered.said).toMatch(/said yes/);
       world = answered.world;
       const couple = coupleBetween(world, playerId, otherId)!;
+      if (thirdId) {
+        // The earlier ask does not become a date now; it is withdrawn, and
+        // the row says so rather than an answer the other person never gave.
+        world = passOrdinaryDays(world, 1);
+        const row = projectContacts(world, playerId).contacts.find(
+          (entry) => entry.personId === thirdId,
+        );
+        expect(row?.lastAnswer).toMatch(/^The date on .+ did not go ahead\.$/);
+        expect(
+          world.history.scheduledActivities.some(
+            (activity) =>
+              activity.location.locationKey === CONTACT_LOCATION_KEY &&
+              activity.participantPersonIds.includes(thirdId) &&
+              scheduledActivityState(world, activity.id).status === "scheduled",
+          ),
+        ).toBe(false);
+      }
       expect(couple.kind).toBe(COUPLE_KIND);
+      // One couple at a time (Massachusetts roll call, two partners at once).
+      // Saved and reopened, nobody else is offered a date or a couple, and
+      // the couple itself still stands.
+      const reopened = deserializeWorld(serializeWorld(world));
+      const partnerName = reopened.people[otherId]!.givenName;
+      const others = projectContacts(reopened, playerId).contacts.filter(
+        (entry) =>
+          entry.personId !== otherId && !entry.relationshipLabel?.match(KIN),
+      );
+      expect(others.length).toBeGreaterThan(0);
+      for (const entry of others) {
+        // Neither a date nor a couple is offered with anyone else.
+        expect(
+          action(reopened, playerId, entry.personId, "ask-on-a-date"),
+        ).toBe(undefined);
+        expect(
+          action(reopened, playerId, entry.personId, "ask-to-be-a-couple"),
+        ).toBe(undefined);
+        expect(coupleAskRefusal(reopened, playerId, entry.personId)).toMatch(
+          new RegExp(
+            `^You are with ${partnerName}\\.|^You are family\\.|^Dates are between adults\\.`,
+          ),
+        );
+      }
+      expect(coupleBetween(reopened, playerId, otherId)).not.toBe(null);
       // Every system that asks after a partner now finds one.
       expect(
         describePersonContext(world, playerId, otherId)?.relationship,
@@ -156,8 +220,6 @@ describe("two people become a couple", () => {
   }
 
   it("never offers a date with family, or to anyone under eighteen", () => {
-    const KIN =
-      /\b(mom|dad|mother|father|sister|brother|son|daughter|grand|aunt|uncle|cousin)/;
     let kinSeen = 0;
     for (const startAge of [26, 15]) {
       const game = generateOpeningLife(

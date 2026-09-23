@@ -36,7 +36,7 @@ import type {
   SetupQuestionnairePath,
   World,
 } from "../simulation";
-import { buildProductionWorld } from "./production-world";
+import { buildProductionWorld, FAMILY_BIRTHDAYS_V1 } from "./production-world";
 import {
   buildSeedFor,
   setupPriorStoreFor,
@@ -204,6 +204,11 @@ export interface NewGameSetup {
    * declares v2, where every school date comes from the school calendar.
    */
   readonly schoolStageVersion?: SchoolStageVersion;
+  /**
+   * Absent keeps an old replay's family, every one born on the player's
+   * birthday. New Game declares the repair, where each has their own.
+   */
+  readonly familyBirthdayVersion?: typeof FAMILY_BIRTHDAYS_V1;
   readonly questionnaireCopyVersion?: "playtest65-v2";
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
@@ -256,6 +261,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION,
   schoolNameVersion: SCHOOL_NAMES_V2_VERSION,
   schoolStageVersion: SCHOOL_STAGES_V2,
+  familyBirthdayVersion: FAMILY_BIRTHDAYS_V1,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
   // that the game should not invent a biography nobody chose. Measured cost of
@@ -497,6 +503,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.schoolStageVersion === undefined
       ? {}
       : { schoolStageVersion: setup.schoolStageVersion }),
+    ...(setup.familyBirthdayVersion === undefined
+      ? {}
+      : { familyBirthdayVersion: setup.familyBirthdayVersion }),
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),

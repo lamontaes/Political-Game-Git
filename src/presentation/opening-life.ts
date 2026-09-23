@@ -1,3 +1,5 @@
+import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
+import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
@@ -55,6 +57,20 @@ export function generateOpeningLife(
   session: OpeningLifeSession,
 ): OpeningLifeSession {
   if (session.game) return session;
+  // Every opening step is a write that would otherwise validate the whole
+  // World on its own. A state with a large legislature seats hundreds of
+  // members and their histories one write at a time, so the opening is built
+  // with those checks deferred and the World it hands over is validated once,
+  // in full, at the end.
+  let built: OpeningLifeSession | undefined;
+  advanceWithWorldIntegrityAtEnd(() => {
+    built = buildOpeningLife(session);
+    return built.game!.world;
+  });
+  return built!;
+}
+
+function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
   const game = createNewGameWorld(session.setup);
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
@@ -158,8 +174,15 @@ function ensureHomeStateLegislature(
 function openedWorld(world: World, playerPersonId: EntityId): World {
   // Migration is scheduled only for a current opening too, so a legacy replay
   // keeps the world it always built (MIGRATION_SEAMS "old-saves").
+  // The town's residents are seated before migration is scheduled, so the
+  // first quarterly review already has neighbors who might leave.
   return pressOpeningApplies(world)
-    ? ensureMigrationSchedule(ensurePressOpening(world, playerPersonId))
+    ? ensureMigrationSchedule(
+        ensureTownResidents(
+          ensurePressOpening(world, playerPersonId),
+          playerPersonId,
+        ),
+      )
     : world;
 }
 

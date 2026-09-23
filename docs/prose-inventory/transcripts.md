@@ -421,7 +421,7 @@ _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 79 realized lines, 47 linked back to a template.
+20 beats, 78 realized lines, 47 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:civic.the-thing-nobody-else-turned-up-for, episode:home.the-week-that-does-not-balance, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -606,7 +606,47 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 15 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
+#### Beat 15 — 2026-03-28, age 34 (episode, opening.adult.home.free-time/moment)
+
+
+
+You're at home with fifteen minutes free.
+
+- **Read** ← chosen
+- Rest
+- Sketch
+
+_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
+
+#### Beat 16 — 2026-03-28, age 34 (episode, opening.adult.home.free-time/follow-through)
+
+
+
+You've been reading for the last fifteen minutes. You can read for five more, or stop here.
+
+- **Read five more minutes** ← chosen
+- Mark your place and stop
+
+_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-03-28._
+
+#### Beat 17 — 2026-03-28, age 34 (ordinary-stretch)
+
+
+
+
+
+- **Attend: Saturday afternoon at David Todd's** ← chosen
+- Let the weeks run on
+
+#### Beat 18 — 2026-03-28, age 34 (ordinary-stretch)
+
+
+
+
+
+- **Let the weeks run on** ← chosen
+
+#### Beat 19 — 2026-05-14, age 35 (episode, opening.adult.home.free-time/moment)
 
 > A couple of months on, and you're 35 now.
 > Judith Lewis tried to reach you.
@@ -619,50 +659,6 @@ You're at home with fifteen minutes free.
 - Sketch
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/follow-through)
-
-
-
-You've been reading for the last fifteen minutes. You can read for five more, or stop here.
-
-- **Read five more minutes** ← chosen
-- Mark your place and stop
-
-_Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-05-10._
-
-#### Beat 17 — 2026-05-10, age 35 (ordinary-stretch)
-
-
-
-
-
-- **Let the weeks run on** ← chosen
-
-#### Beat 18 — 2026-06-10, age 35 (episode, home.the-week-that-does-not-balance/it-was-taken-seriously)
-
-> A month later.
-> Edward Miles tried to reach you.
-
-Five months on, the parts you took are still yours, and nobody has had to mention it again. Tonight Gage Terrell asks whether you would rather swap two of them.
-
-- **Trade the jobs** ← chosen
-- Keep it as it is
-
-_Present: Gage Terrell, your housemate_
-
-_Grounded by: household-peer is Gage Terrell: Resident on the same household record, with no authority either way between them.; At the-first-time-it-is-said they chose take-it-on, on 2026-01-05.; 156 day(s) since the-first-time-it-is-said; needs 150._
-
-#### Beat 19 — 2026-06-10, age 35 (adult)
-
-
-
-David Todd, your dad: David Todd asked you over on Saturday afternoon. Going is optional.
-
-- **Say you will come** ← chosen
-- Decline the invitation
-
-_Present: David Todd, your dad_
 
 
 ---
@@ -750,7 +746,7 @@ Zoe Fleming has just pulled what you were playing with right out of your hands. 
 
 _Present: Zoe Fleming, your younger sister_
 
-_Grounded by: household.shared: Somebody else is on the household record.; household-peer is Zoe Fleming, 3, young enough (under 5).; answers-for-themselves does not hold, as required.; Age 7; needs at least 5.; Age 7; needs to be under 8._
+_Grounded by: household.shared: Somebody else is on the household record.; household-peer is Zoe Fleming, 2, young enough (under 5).; answers-for-themselves does not hold, as required.; Age 7; needs at least 5.; Age 7; needs to be under 8._
 
 #### Beat 5 — 2026-01-05, age 7 (episode, opening.early.community.curious-neighbor/moment)
 
@@ -1169,7 +1165,7 @@ There is a new child in the house. The nights are louder, and the adults are tir
 
 #### Beat 38 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-came-out)
 
-> A year on, and you're 8 now.
+> Most of a year later, and you're 8 now.
 
 Vanessa Hunter has not spoken to you since you said it, and has been telling people a different version. One of them asks you, straight out, what happened to the fire-alarm cover by the stairs in the corridor.
 

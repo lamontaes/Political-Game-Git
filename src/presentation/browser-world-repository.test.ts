@@ -2090,6 +2090,7 @@ describe("The save list reads summaries, not worlds", () => {
     const store = new BrowserSaveStore({
       indexedDB: factory.asFactory(),
       databaseName: "test-worlds",
+      delay: async () => {},
     });
     const healthy = playerWorld("kept-healthy");
     const healthyId = store.newSaveId(healthy);
@@ -2137,6 +2138,83 @@ describe("The save list reads summaries, not worlds", () => {
       [healthyId, "save_large"].sort(),
     );
     expect(JSON.stringify(factory.records.get("save_large"))).toBe(before);
+  });
+
+  it("reads a refused old save again, and keeps its summary once it reads", async () => {
+    // A 40 MB Juneau life opened in three fresh browsers of four. In the
+    // fourth the browser refused the one read the list made, and the save
+    // stayed "needs attention" although it was healthy.
+    const factory = new FakeIndexedDbFactory().asVersionTwo();
+    const waits: number[] = [];
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      databaseName: "test-worlds",
+      delay: async (milliseconds) => {
+        waits.push(milliseconds);
+      },
+    });
+    const large = playerWorld("refused-once");
+    factory.setRaw(
+      "save_large",
+      createBrowserWorldRecord(
+        large,
+        "2026-04-01T10:00:00.000Z",
+        "2026-04-01T10:00:00.000Z",
+        "save_large" as EntityId,
+        3,
+      ),
+    );
+    const before = JSON.stringify(factory.records.get("save_large"));
+    let refusals = 1;
+    factory.control.observer = (storeName, operation) => {
+      if (storeName === "worlds" && operation === "get" && refusals > 0) {
+        refusals -= 1;
+        throw new Error("UnknownError: Failed to read large IndexedDB value");
+      }
+    };
+
+    const listing = await store.list();
+    expect(listing.damaged).toEqual([]);
+    expect(listing.saves.map((save) => save.saveId)).toEqual(["save_large"]);
+    expect(waits).toEqual([500]);
+    // Read once, summarized once: the next list never reads the record.
+    expect(factory.summaryRecords.has("save_large")).toBe(true);
+    expect(JSON.stringify(factory.records.get("save_large"))).toBe(before);
+  });
+
+  it("stops asking after three refusals of the same read", async () => {
+    const factory = new FakeIndexedDbFactory().asVersionTwo();
+    const waits: number[] = [];
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      databaseName: "test-worlds",
+      delay: async (milliseconds) => {
+        waits.push(milliseconds);
+      },
+    });
+    factory.setRaw(
+      "save_large",
+      createBrowserWorldRecord(
+        playerWorld("refused-always"),
+        "2026-04-01T10:00:00.000Z",
+        "2026-04-01T10:00:00.000Z",
+        "save_large" as EntityId,
+        3,
+      ),
+    );
+    let reads = 0;
+    factory.control.observer = (storeName, operation) => {
+      if (storeName === "worlds" && operation === "get") {
+        reads += 1;
+        throw new Error("UnknownError: Failed to read large IndexedDB value");
+      }
+    };
+    const listing = await store.list();
+    expect(listing.damaged.map((entry) => entry.defect)).toEqual([
+      "could-not-open-now",
+    ]);
+    expect(reads).toBe(3);
+    expect(waits).toEqual([500, 2000]);
   });
 
   it("keeps the summary in step through save, autosave, opening, delete and import", async () => {
