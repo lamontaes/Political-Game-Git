@@ -161,7 +161,13 @@ function DocketWorkspaceBody({
             {officeContext.member.recordedWorkStartedAt}.
           </p>
           <p>
-            <GuideTermText text={officeContext.committeeMembership.reason} />
+            <GuideTermText
+              text={
+                officeContext.committeeMembership.kind === "committees"
+                  ? officeContext.committeeMembership.label
+                  : officeContext.committeeMembership.reason
+              }
+            />
           </p>
         </details>
       ) : null}
