@@ -63,6 +63,7 @@ const SEEDS: Record<string, string> = {
   "5114968": "saturday-5114968",
   "2015900": "saturday-2015900-d",
   "0200065": "saturday-0200065",
+  "3222500": "saturday-3222500-b",
 };
 
 function daysUntil(from: string, to: string): number {
@@ -245,7 +246,7 @@ describe("a Saturday invitation, said yes to", () => {
   }, 120_000);
 
   it("says when the trip leaves and how long it takes, not the wait in minutes", () => {
-    const { world, personId } = start("3222500", "saturday-3222500");
+    const { world, personId } = start("3222500", SEEDS["3222500"]!);
     const invitation = socialInvitationsFor(world, personId)[0]!;
     const accepted = acceptSocialInvitation(world, {
       personId,
