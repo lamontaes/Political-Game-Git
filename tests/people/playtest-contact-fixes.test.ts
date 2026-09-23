@@ -96,7 +96,9 @@ describe("a child is not offered adult meetings or party work", () => {
 
 describe("asking somebody out, and calling it off", () => {
   it("says when the answer comes, and a confirmed date can be called off", () => {
-    let { world, playerId } = openLife("3260600", "call-off:reno", 26);
+    const opened = openLife("3260600", "call-off:reno", 26);
+    const playerId = opened.playerId;
+    let world = opened.world;
     world = joinOrdinaryGroup(world, playerId);
     const option = meetingNewOptions(world, playerId)[0]!;
     world = goMeetSomebodyNew(world, {
