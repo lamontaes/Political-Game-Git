@@ -47,6 +47,7 @@ import {
 } from "./dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
 import { assertMacroEconomyIntegrity } from "./macro-economy/store";
+import { assertPressureIntegrity } from "./pressure/integrity";
 import {
   assertCausalEffectIntegrity,
   assertCausalMechanismCatalogIntegrity,
@@ -593,6 +594,7 @@ function validateWorldIntegrity(world: World): void {
   }
   validateHistoryIntegrity(world);
   if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
+  if (world.pressure !== undefined) assertPressureIntegrity(world);
 }
 
 export function recordWorldEvent(

@@ -137,7 +137,7 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     key: "where-people-go",
     connects: "Choosing a destination from distance, jobs, family and cost.",
     status: "not-built",
-    rule: "BLANKET: a departing household goes somewhere else in its own state or to another state, drawn from the world's own jurisdictions. A town the world knows is used only as the player's town for arrivals; departures land at state level because the world holds no other seated towns.",
+    rule: "BLANKET: a departing household goes somewhere else in its own state or to another state, drawn from the world's own jurisdictions; another state is weighted by the pressure layer's pull, and a newcomer's origin by its push. A town the world knows is used only as the player's town for arrivals; departures land at state level because the world holds no other seated towns.",
     where: "src/simulation/migration/review.ts chooseDestination()",
   },
   {

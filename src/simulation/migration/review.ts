@@ -51,6 +51,7 @@ import {
   playerHouseholdPeople,
   type PlannedMove,
 } from "./relocate";
+import { stateWeights, stepPressure } from "../pressure";
 import { activeWavesCovering, stepWaves, wavePressure } from "./waves";
 
 /**
@@ -105,7 +106,9 @@ export function migrationReviewHandler(
   if (dueItem.transitionKey !== MIGRATION_REVIEW_TRANSITION_KEY)
     throw new Error("The migration review received another transition.");
   const index = Number(dueItem.stableKey.slice(REVIEW_KEY_PREFIX.length));
-  let next = reviewTown(world, index);
+  // The state pressures step first, so this review's movers read this
+  // quarter's pull and push.
+  let next = reviewTown(stepPressure(world), index);
   next = scheduleFutureDueItem(next, {
     stableKey: `${REVIEW_KEY_PREFIX}${index + 1}`,
     dueAt: addDays(next.currentDate, MIGRATION_REVIEW_INTERVAL_DAYS),
@@ -273,6 +276,10 @@ function reviewQuarter(personId: EntityId): number {
 interface DestinationPool {
   readonly ownState: EntityId | null;
   readonly otherStates: readonly EntityId[];
+  /** Pull of each other state, for a destination; all 1 with no readings. */
+  readonly pull: readonly number[];
+  /** Push of each other state, for a newcomer's origin. */
+  readonly push: readonly number[];
 }
 
 /**
@@ -288,16 +295,35 @@ function destinationPool(world: World, town: EntityId): DestinationPool {
   const ownStateId = stateKey ? stateJurisdictionForKey(stateKey)?.id : null;
   const ownState =
     ownStateId && states.includes(ownStateId) ? ownStateId : null;
+  const otherStates = states.filter((id) => id !== ownState);
   return {
     ownState,
-    otherStates: states.filter((id) => id !== ownState),
+    otherStates,
+    pull: stateWeights(world, otherStates, "pull"),
+    push: stateWeights(world, otherStates, "push"),
   };
 }
 
-function chooseDestination(rng: SeededRng, pool: DestinationPool): EntityId {
+/**
+ * Own state or another, and which other state weighted by the pressure
+ * layer's latest readings (`town-movers`): pull for a household leaving, push
+ * for where a newcomer came from. Even weights when nothing is recorded.
+ */
+function chooseDestination(
+  rng: SeededRng,
+  pool: DestinationPool,
+  weighting: "pull" | "push" = "pull",
+): EntityId {
   if (pool.ownState && rng.next() < BLANKET_SAME_STATE_SHARE)
     return pool.ownState;
-  return pool.otherStates[rng.integer(0, pool.otherStates.length)]!;
+  const weights = weighting === "pull" ? pool.pull : pool.push;
+  const total = weights.reduce((sum, weight) => sum + weight, 0);
+  let draw = rng.next() * total;
+  for (let index = 0; index < pool.otherStates.length; index += 1) {
+    draw -= weights[index]!;
+    if (draw < 0) return pool.otherStates[index]!;
+  }
+  return pool.otherStates.at(-1)!;
 }
 
 /**
@@ -327,7 +353,7 @@ function arrivalInputs(
       BLANKET_ARRIVAL_AGE[0],
       BLANKET_ARRIVAL_AGE[1],
     );
-    const origin = chooseDestination(personRng.fork("origin"), pool);
+    const origin = chooseDestination(personRng.fork("origin"), pool, "push");
     inputs.push({
       stableKey: `migration:newcomer:${town}:${index}:${n}`,
       ...drawCanonicalNamedIdentity(

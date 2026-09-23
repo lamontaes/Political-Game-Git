@@ -22,6 +22,7 @@ import type {
 import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
+import type { PressureStore } from "./pressure/contract";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -4773,4 +4774,9 @@ export interface World {
    * written before it existed has no macro history and is never retrofitted.
    */
   readonly macroEconomy?: MacroEconomyStore;
+  /**
+   * The pressure layer (2026-09-22). Optional and additive: a world written
+   * before it existed has no readings and is never retrofitted.
+   */
+  readonly pressure?: PressureStore;
 }
