@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { favorEntries } from "./life-favors";
 import { lifeRequestDetails } from "./life-request-details";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "./types";
@@ -99,7 +100,7 @@ export function requestBehindCallback(
     .find((tag) => tag.startsWith("origin:"))
     ?.slice("origin:".length);
   if (!originId) return null;
-  const origin = world.history.events.find((event) => event.id === originId);
+  const origin = eventById(world, originId);
   if (!origin) return null;
   // The callback names the choice the player made, not the request it
   // answered; the request is the one whose saved terms that choice replied to.
@@ -112,11 +113,7 @@ export function requestBehindCallback(
     entries.find(
       (entry) =>
         origin.involvedEntityIds.includes(entry.counterpartPersonId) &&
-        !!lifeRequestDetails(
-          world.history.events.find(
-            (event) => event.id === entry.requestEventId,
-          )!,
-        ),
+        !!lifeRequestDetails(eventById(world, entry.requestEventId)!),
     ) ??
     null
   );

@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
 import { makeIsoDate } from "./dates";
@@ -1355,9 +1356,7 @@ function validateLifeProvenance(
       );
       return;
     case "simulated-event": {
-      const event = world.history.events.find(
-        (record) => record.id === provenance.eventId,
-      );
+      const event = eventById(world, provenance.eventId);
       if (
         !event ||
         event.sequence >= world.history.nextSequence ||

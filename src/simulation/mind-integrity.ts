@@ -341,9 +341,7 @@ function validateGoalHistory(world: World): void {
 function validateAppraisalHistory(world: World): void {
   for (const record of world.history.appraisals) {
     validatePersonDate(world, record.personId, record.appraisedAt, record.id);
-    const event = world.history.events.find(
-      (candidate) => candidate.id === record.eventId,
-    );
+    const event = eventById(world, record.eventId);
     const memory =
       record.memoryId === null
         ? undefined
@@ -1072,9 +1070,7 @@ function validateSourceRefs(
         );
         break;
       case "historical-event": {
-        const event = world.history.events.find(
-          (candidate) => candidate.id === reference.eventId,
-        );
+        const event = eventById(world, reference.eventId);
         const accessible =
           !!event &&
           (event.involvedEntityIds.includes(personId) ||

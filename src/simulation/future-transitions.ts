@@ -283,9 +283,7 @@ export function setFutureDueItemTerminalState(
   }
   assertOptional(input.context, "Future due-item context");
   if (input.outcomeEventId !== null) {
-    const event = world.history.events.find(
-      (candidate) => candidate.id === input.outcomeEventId,
-    );
+    const event = eventById(world, input.outcomeEventId);
     if (
       !event ||
       event.sequence <= dueItem.sequence ||

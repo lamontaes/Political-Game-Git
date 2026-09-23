@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 /** Incident-to-response consumer. State lives in existing event, Work, schedule,
  * knowledge and resource records; this module owns no engine or save schema. */
 import { personActionAvailabilityAt } from "./vitality-integrity";
@@ -72,7 +73,7 @@ function knows(w: World, p: EntityId, e: HistoricalEvent) {
   );
 }
 function event(w: World, id: EntityId) {
-  const e = w.history.events.find((x) => x.id === id);
+  const e = eventById(w, id);
   if (!e || !available(w, e))
     throw new Error("Event is unavailable or in the future.");
   return e;
@@ -174,7 +175,7 @@ export function receiveExecutiveWorkIfCurrentOffice(
 ): World {
   const office = resolveExecutiveOffice(world);
   if (!office) return world;
-  const event = world.history.events.find((entry) => entry.id === eventId);
+  const event = eventById(world, eventId);
   if (!event || event.jurisdictionId !== office.jurisdictionId) return world;
   return receiveExecutiveWork(world, eventId, title, summary);
 }
@@ -183,7 +184,7 @@ export function knownIncidentsAwaitingReport(w: World) {
   if (w.control.kind !== "person") return [];
   const personId = w.control.personId;
   return w.history.incidents.flatMap((incident) => {
-    const onset = w.history.events.find((e) => e.id === incident.onsetEventId);
+    const onset = eventById(w, incident.onsetEventId);
     if (!onset || !knows(w, personId, onset)) return [];
     const key = `incident-response:report:${onset.id}:${personId}:${personId}`;
     if (w.history.events.some((e) => e.stableKey === key)) return [];
@@ -559,7 +560,7 @@ function responseReportId(
     (c) => c.stableKey === `${e.stableKey}:cause`,
   );
   for (const id of cause?.sourceEntityIds ?? []) {
-    const source = w.history.events.find((x) => x.id === id);
+    const source = eventById(w, id);
     if (source) {
       const report = responseReportId(w, source, seen);
       if (report) return report;
@@ -670,9 +671,7 @@ export function incidentResponseView(w: World) {
     ),
     awaiting: knownIncidentsAwaitingReport(w),
     publicOnsets: w.history.incidents.flatMap((incident) => {
-      const onset = w.history.events.find(
-        (e) => e.id === incident.onsetEventId,
-      );
+      const onset = eventById(w, incident.onsetEventId);
       if (!onset || onset.visibility !== "public" || !knows(w, p, onset))
         return [];
       return [onset];

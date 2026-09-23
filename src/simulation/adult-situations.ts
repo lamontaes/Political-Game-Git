@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { lifeRequestDetails } from "./life-request-details";
 import { describePersonContext } from "./person-context";
 import {
@@ -2727,9 +2728,7 @@ export function bindRequestSituation(
     context.personId,
     context.asOfDate,
   ).find((entry) => entry.kind === situation.opportunity);
-  const event = context.world.history.events.find(
-    (entry) => entry.id === request?.eventId,
-  );
+  const event = eventById(context.world, request?.eventId);
   if (!event) return situation;
   if (!request?.counterpartPersonId)
     return {
