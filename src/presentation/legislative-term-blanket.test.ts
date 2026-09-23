@@ -11,6 +11,7 @@ import {
   addDays,
   bindRuleCapabilityResolver,
   OFFICE_OATH_TAKEN,
+  oathChoiceOf,
   BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
   legislativeBlueprint,
   legislativeTermDates,
@@ -20,9 +21,11 @@ import {
   workRelationshipHistoryForPerson,
   workStatusAt,
 } from "../simulation";
+import type { OathForm, OathSwornOn } from "../simulation";
 import { projectCampaign } from "./campaign-projection";
 import {
   projectOfficeTransition,
+  oathWordsForHeldOffice,
   projectSwearingIn,
   takeOathForHeldOffice,
 } from "./office-transition";
@@ -124,23 +127,52 @@ describe.each(["ME", "GA", "MT", "IA", "TX", "MO"])(
 
       // Before the term there is nothing to swear into.
       expect(projectSwearingIn(decided, personId)).toBeNull();
-      expect(() => takeOathForHeldOffice(decided, personId)).toThrow(
+      const choice: { swornOn: OathSwornOn; form: OathForm } = {
+        swornOn: "state-constitution",
+        form: "affirm",
+      };
+      expect(() => takeOathForHeldOffice(decided, personId, choice)).toThrow(
         /no office to be sworn into/,
       );
       // From its first day the oath is waiting, and taking it is public.
       const waiting = projectSwearingIn(seated, personId)!;
       expect(waiting.swornInOn).toBeNull();
       expect(waiting.officeTitle).toMatch(/^Member of the /);
-      const sworn = takeOathForHeldOffice(seated, personId);
+      const stateName = waiting.swornOnOptions.find(
+        (option) => option.key === "state-constitution",
+      )!.label;
+      expect(stateName).toMatch(/^A copy of the Constitution of [A-Z]/);
+
+      // The words come phrase by phrase, in the player's own name.
+      const words = oathWordsForHeldOffice(seated, personId, "affirm");
+      expect(words[0]).toBe(`I, ${waiting.personName},`);
+      expect(words.join(" ")).toContain(
+        "do solemnly affirm that I will support the Constitution of the United States",
+      );
+      expect(words.join(" ")).not.toContain("God");
+      expect(oathWordsForHeldOffice(seated, personId, "swear").at(-1)).toBe(
+        "So help me God.",
+      );
+
+      // A saved or modded caller can pass anything; the writer refuses it.
+      expect(() =>
+        takeOathForHeldOffice(seated, personId, {
+          swornOn: "a-horseshoe" as OathSwornOn,
+          form: "swear",
+        }),
+      ).toThrow(/Choose what to swear on/);
+      const sworn = takeOathForHeldOffice(seated, personId, choice);
       const oath = sworn.history.events.filter(
         (event) => event.type === OFFICE_OATH_TAKEN,
       );
       expect(oath).toHaveLength(1);
       expect(oath[0]!.visibility).toBe("public");
-      expect(takeOathForHeldOffice(sworn, personId)).toBe(sworn);
-      expect(projectSwearingIn(sworn, personId)!.swornInOn).toBe(
-        seated.currentDate,
-      );
+      expect(oathChoiceOf(oath[0]!)).toEqual(choice);
+      expect(takeOathForHeldOffice(sworn, personId, choice)).toBe(sworn);
+      const done = projectSwearingIn(sworn, personId)!;
+      expect(done.swornInOn).toBe(seated.currentDate);
+      expect(done.swornOn?.key).toBe("state-constitution");
+      expect(done.form).toBe("affirm");
       expect(
         projectSwearingIn(
           passUntil(sworn, addDays(sworn.currentDate, 1)),
