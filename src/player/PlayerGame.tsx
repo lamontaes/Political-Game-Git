@@ -249,7 +249,11 @@ import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
-import { projectOfficeTransition } from "../presentation/office-transition";
+import {
+  projectOfficeTransition,
+  projectSwearingIn,
+} from "../presentation/office-transition";
+import { SwearingInPanel } from "./SwearingInPanel";
 import {
   docketBill,
   type DocketBill,
@@ -5282,6 +5286,23 @@ function renderWorkspace({
           ),
         });
       }
+      const swearingIn = officeHalf
+        ? projectSwearingIn(session.world, session.personId)
+        : null;
+      if (swearingIn) {
+        sections.push({
+          key: "swearing-in",
+          title: "Swearing-in",
+          body: (
+            <SwearingInPanel
+              world={session.world}
+              personId={session.personId}
+              swearingIn={swearingIn}
+              onWorldChange={onWorldChange}
+            />
+          ),
+        });
+      }
       /*
        * A disaster request or an international choice belongs to whoever
        * actually holds the office being asked, so the section exists only
@@ -6148,7 +6169,8 @@ interface WorkSection {
     | "paths"
     | "personnel"
     | "crisis"
-    | "transition";
+    | "transition"
+    | "swearing-in";
   readonly title: string;
   readonly body: ReactNode;
 }
