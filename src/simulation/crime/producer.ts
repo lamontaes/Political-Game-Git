@@ -24,6 +24,7 @@ import {
   REPORTED_OFFENSE_PHRASE,
   UNRESEARCHED_LOCAL_CRIME,
   UNRESEARCHED_TOWN_POLICE_LOG,
+  UNREPORTED_OFFENSE_RECORD,
   VICTIM_KNOWS,
   type CrimeOffense,
 } from "./contract";
@@ -380,7 +381,9 @@ function recordIncident(
     ],
     summary: crime.reported
       ? `Police in ${place} took a report of ${REPORTED_OFFENSE_PHRASE[crime.offense]}.`
-      : `${capitalized(REPORTED_OFFENSE_PHRASE[crime.offense])} in ${place} went unreported.`,
+      : UNREPORTED_OFFENSE_RECORD[crime.offense]
+          .replace("{names}", namesOf(world, crime.victimPersonIds))
+          .replace("{place}", place),
     context: EMPTY_CONTEXT,
   });
   const event = next.history.events.at(-1)!;
@@ -403,8 +406,13 @@ function recordIncident(
   return known;
 }
 
-function capitalized(text: string): string {
-  return text.charAt(0).toUpperCase() + text.slice(1);
+/** "Ana Ruiz", "Ana Ruiz and Ben Ruiz", "Ana Ruiz, Ben Ruiz, and Cy Ruiz". */
+function namesOf(world: World, personIds: readonly EntityId[]): string {
+  const names = [...personIds]
+    .sort()
+    .map((personId) => personName(world.people[personId]!));
+  if (names.length <= 2) return names.join(" and ");
+  return `${names.slice(0, -1).join(", ")}, and ${names.at(-1)}`;
 }
 
 /** Every recorded crime incident, reported or not, oldest first. */
@@ -454,6 +462,8 @@ export function arrestReferral(
       personId: null,
     },
     basisEventIds: [incident.id, arrest.id],
+    // UNRESEARCHED: a police arrest rests on what the victim and witnesses say.
+    evidence: "testimony",
     standingFindings: 0,
   };
 }

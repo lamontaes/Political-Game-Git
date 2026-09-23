@@ -10,6 +10,8 @@ import {
 } from "../../presentation/opening-life";
 import { causesInPeriod } from "../pressure/causes";
 import { projectWorld39News } from "../../presentation/world39-news";
+import { projectWorld39Journal } from "../../presentation/world39-journal";
+import { personName } from "../people";
 import {
   CRIME_CAUSE_SEAMS,
   crimeRateMultiplier,
@@ -125,7 +127,31 @@ describe("ordinary local crime", () => {
           expect(event.summary).not.toContain(person.familyName);
         }
       }
-      for (const event of unreported) expect(event.visibility).toBe("private");
+      // Nobody reported it, so only the victims know, and their Journal says
+      // what happened to them rather than a crime they could not have heard of.
+      expect(unreported.length).toBeGreaterThan(0);
+      for (const event of unreported) {
+        expect(event.visibility).toBe("private");
+        expect(event.summary).not.toContain("went unreported");
+        for (const participant of event.participants) {
+          const name = personName(later.people[participant.personId]!);
+          expect(event.summary).toContain(name);
+          const journal = projectWorld39Journal(later, participant.personId);
+          expect(
+            journal.entries.some((entry) => entry.sourceId === event.id),
+          ).toBe(true);
+        }
+      }
+      const unreportedIds = new Set(unreported.map((event) => event.id));
+      for (const { id: personId } of Object.values(later.people)) {
+        for (const entry of projectWorld39Journal(later, personId).entries) {
+          if (!unreportedIds.has(entry.sourceId)) continue;
+          const event = unreported.find((row) => row.id === entry.sourceId)!;
+          expect(
+            event.participants.some((row) => row.personId === personId),
+          ).toBe(true);
+        }
+      }
       // Every victim knows what happened to them.
       for (const event of incidents) {
         for (const participant of event.participants) {
