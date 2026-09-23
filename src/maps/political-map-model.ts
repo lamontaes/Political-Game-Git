@@ -945,7 +945,7 @@ export function inspectRegion(
       relations.push("Your home is in this district.");
     if (home.kind === "candidates" && home.geoids.includes(input.geoid))
       relations.push(
-        `Your home may be in this district. ${home.geoids.length} districts are possible and the save does not record which one.`,
+        `Your home may be in this district. Your town lies across ${home.geoids.length} of them.`,
       );
     if (
       player.seats.some(
