@@ -5727,11 +5727,8 @@ function StoryView({
   );
   const crisisStop = useCrisisStop(session.world);
   const todayOptions = useMemo(
-    () =>
-      moment.formativeYears
-        ? []
-        : todayCalendarOptions(session.world, session.personId),
-    [session.world, session.personId, moment.formativeYears],
+    () => todayCalendarOptions(session.world, session.personId),
+    [session.world, session.personId],
   );
 
   return (

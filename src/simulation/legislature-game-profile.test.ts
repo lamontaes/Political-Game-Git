@@ -377,6 +377,19 @@ describe("every chamber in the country can be seated", () => {
     expect(() => assertRulePackIntegrity(pack)).not.toThrow();
   });
 
+  it("seats Puerto Rico's Legislative Assembly at its constitutional 51 and 27", () => {
+    const profile = legislatureProfileFor("US-PR")!;
+    expect([profile.lowerSeats, profile.upperSeats]).toEqual([51, 27]);
+    const pack = legislatureForState("US-PR")!;
+    expect(
+      pack.chambers.map((chamber) => seatsForChamber(pack, chamber.chamberKey)),
+    ).toEqual([
+      { seats: 51, basis: "researched" },
+      { seats: 27, basis: "researched" },
+    ]);
+    expect(() => assertRulePackIntegrity(pack)).not.toThrow();
+  });
+
   it("seats Nebraska's one house at its settled forty-nine", () => {
     const pack = LEGISLATIVE_RULE_PACKS.find(
       (candidate) => candidate.packId === "us-ne-legislature-v1",
