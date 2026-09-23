@@ -13,6 +13,7 @@ import {
   episodeRoleBindings,
   performScheduledActivity,
   playEpisodeOption,
+  recordEducationEnrollmentState,
   recordWorkStatus,
   recordWorldEvent,
   scheduledActivityState,
@@ -67,6 +68,8 @@ interface LifeOptions {
   readonly enrolled?: boolean;
   /** Put the other adult on a different employer's books instead. */
   readonly otherElsewhere?: boolean;
+  /** Enroll the other adult in the player's program too. */
+  readonly classmate?: boolean;
 }
 
 function life(options: LifeOptions) {
@@ -186,6 +189,22 @@ function life(options: LifeOptions) {
                 provenance,
               },
             },
+            ...(options.classmate
+              ? [
+                  {
+                    kind: "education" as const,
+                    input: {
+                      stableKey: "test:classmate-enrollment",
+                      personId: otherId,
+                      organizationId: schoolId,
+                      startedAt: game.world.currentDate,
+                      programKind: "postsecondary:office-certificate" as const,
+                      contextKind: "track:open-learning" as const,
+                      provenance,
+                    },
+                  },
+                ]
+              : []),
           ]
         : []),
     ],
@@ -841,6 +860,48 @@ describe("an open circumstance keeps speaking only while its premise holds", () 
     expect(lifeCircumstancesFor(left, fixture.playerId).length).toBeLessThan(
       OPEN_LIFE_CIRCUMSTANCE_LIMIT,
     );
+  });
+
+  it("lets the shared coursework go once the course is left", () => {
+    const fixture = life({
+      seed: "coursework-left",
+      startAge: 20,
+      enrolled: true,
+      classmate: true,
+    });
+    const world = refreshUntil(
+      fixture.world,
+      fixture.playerId,
+      "shared-assignment",
+      60,
+    );
+    expect(
+      lifeCircumstancesFor(world, fixture.playerId).some(
+        (entry) => entry.kind === "shared-assignment",
+      ),
+    ).toBe(true);
+    const enrollment = world.history.educationEnrollments.find(
+      (entry) =>
+        entry.personId === fixture.playerId &&
+        entry.programKind === "postsecondary:office-certificate",
+    )!;
+    const left = recordEducationEnrollmentState(world, {
+      stableKey: "test:coursework-left:withdrawn",
+      enrollmentId: enrollment.id,
+      effectiveAt: world.currentDate,
+      status: "withdrawn",
+      contextKind: "track:open-learning",
+      reason: "Left the course.",
+      provenance,
+      supersedesStateId: world.history.educationEnrollmentStates
+        .filter((entry) => entry.enrollmentId === enrollment.id)
+        .at(-1)!.id,
+    });
+    expect(
+      lifeCircumstancesFor(left, fixture.playerId).some(
+        (entry) => entry.kind === "shared-assignment",
+      ),
+    ).toBe(false);
   });
 
   it("never re-issues a request this life has already answered", () => {
