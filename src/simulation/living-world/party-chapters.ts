@@ -1021,7 +1021,12 @@ export function projectPartyEncounters(
                   compareSimulationMoments(state.end, world.currentMoment) > 0
                 ? meeting.kind === "confirmed"
                   ? "accepted"
-                  : "offered"
+                  : // acceptChapterInvitation refuses once the meeting has
+                    // begun, so an invitation is only open until then.
+                    compareSimulationMoments(state.start, world.currentMoment) >
+                      0
+                    ? "offered"
+                    : "expired"
                 : "expired";
         return [
           {

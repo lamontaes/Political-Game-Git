@@ -149,9 +149,11 @@ const ACTION_HEADLINES: Readonly<Record<LegislativeActionKind, string>> = {
   "presented-to-executive": "Sent to the governor",
   signed: "Signed",
   vetoed: "Vetoed",
+  "became-law-without-signature": "Approved without a signature",
   "override-chamber-recorded": "Chamber voted on the override",
   "override-succeeded": "Veto overridden",
   "override-failed": "Override failed",
+  "override-period-expired": "The veto stood",
   enacted: "Became law",
   "died-on-adjournment": "Died when the session ended",
 };
@@ -449,6 +451,11 @@ export function projectMeasureBriefing(
     whereItStands = `The bill is on the floor of the ${chamber.name} at ${stage.label}.`;
   } else if (position.phase === "awaiting-referral" && chamber) {
     whereItStands = `The bill has been filed in the ${chamber.name} and is waiting to be sent to a committee.`;
+  } else if (
+    position.phase === "awaiting-executive" &&
+    pack.executive.titleLabel !== "Governor"
+  ) {
+    whereItStands = `The bill is on the ${pack.executive.titleLabel}'s desk.`;
   } else if (position.phase === "awaiting-transmittal" && chamber) {
     const onward = nextChamberKey(
       pack,

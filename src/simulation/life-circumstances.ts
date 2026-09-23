@@ -300,6 +300,11 @@ function premiseStillHolds(
         counterpartId !== null &&
         sharesEmployer(world, personId, counterpartId, cutoff)
       );
+    // Coursework belongs to a course. Once this person has left it — the
+    // enrollment ended, withdrew, transferred or completed — "it is due" is no
+    // longer true and the circumstance stops holding one of the open slots.
+    case "shared-assignment":
+      return activeEducationEnrollmentsAt(world, personId, cutoff).length > 0;
     default:
       return true;
   }

@@ -1,3 +1,5 @@
+import { advanceApplications, settleJobPay } from "../simulation/job-market";
+import { settleCareerOffers } from "../simulation/career-path7";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
@@ -7,6 +9,7 @@ import { migrateLegacyStudyProgression } from "../simulation/education-study-pro
 import { migrateLegacyLegislativeSeats } from "../simulation/legislative-office-terms";
 import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
 import { catchUpLegacySchoolStages } from "../simulation/school-stages";
+import { catchUpComingOfAge } from "../simulation/coming-of-age";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   activeChildAuthoritiesAt,
@@ -353,7 +356,10 @@ function passOrdinaryDaysUnchecked(
   days: number,
   supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry,
 ): World {
-  const advanced = advanceOrdinaryDays(world, days, supplied);
+  // A birthday the stretch just crossed is answered in the same stretch, not
+  // the next time somebody passes a day.
+  const stepped = advanceOrdinaryDays(world, days, supplied);
+  const advanced = stepped === world ? stepped : catchUpComingOfAge(stepped);
   // A stretch that actually passed is a transition at which the world may bind
   // the situations it has made answerable (PROSE B). A refused advance writes
   // nothing.
@@ -364,9 +370,20 @@ function passOrdinaryDaysUnchecked(
   ) {
     return advanced;
   }
+  // A held job pays for each whole week that passed, at any age: a teenager's
+  // first job is paid here too, not only once adult life begins. An offer on
+  // the older work list lapses, or is followed up or withdrawn after a missed
+  // start, as days pass. So does the employer's side of a job application.
+  const personId = advanced.control.personId;
   return refreshContextualScenes(
-    releaseMissedHolds(advanced, advanced.control.personId),
-    advanced.control.personId,
+    releaseMissedHolds(
+      settleCareerOffers(
+        settleJobPay(advanceApplications(advanced, personId), personId),
+        personId,
+      ),
+      personId,
+    ),
+    personId,
   );
 }
 
@@ -398,10 +415,13 @@ function advanceOrdinaryDays(
   // A child saved before school stages is caught up to the stage for their
   // age; see catchUpLegacySchoolStages. A territory life saved before
   // territories had a Governor has one seated; see catchUpTerritoryGovernor.
+  // Somebody grown is nobody's child to answer for; see catchUpComingOfAge.
   const migrated = ensureCrisisMortality(
-    migrateLegacyLegislativeSeats(
-      catchUpTerritoryGovernor(
-        catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+    catchUpComingOfAge(
+      migrateLegacyLegislativeSeats(
+        catchUpTerritoryGovernor(
+          catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+        ),
       ),
     ),
   );

@@ -7,6 +7,10 @@ import { publishLegislativeTransition } from "./publish-legislative-transition";
 import { projectPublicInformationPanel } from "./public-information-adapters";
 import { projectDynamicSurfaces } from "./surface-projection";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
+import { advanceWorld, lifePlaceSearch } from "../simulation";
+import { lifeActivityHandlers } from "./life-time-handlers";
+import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 
 describe("normal legislative publication composition", () => {
   it("publishes a real completed action once and preserves read/save purity", () => {
@@ -75,4 +79,41 @@ describe("normal legislative publication composition", () => {
       model,
     );
   });
+
+  it("dates each proceeding the day it happened, however long the advance", () => {
+    // Observed in a Fairbanks, Alaska life: a bill's House vote, its trip to
+    // the Senate and its presentation to the President, months apart, were
+    // all published on the one day the player's advance ended.
+    const place = lifePlaceSearch("Fairbanks", 20).find(
+      (candidate) => candidate.displayName === "Fairbanks, Alaska",
+    )!;
+    const { world } = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        placeKey: place.key,
+        seed: "proceedings-dated-when-they-happen",
+      }),
+    ).game!;
+    const handlers = lifeActivityHandlers();
+    let after = world;
+    for (let day = 0; day < 90; day += 1)
+      after = advanceWorld(after, 1, handlers);
+    expect(after.currentDate > world.currentDate).toBe(true);
+    const published = publishLegislativeTransition(world, after);
+    const events = new Map(
+      published.history.events.map((event) => [event.id, event]),
+    );
+    const proceedings = (published.history.publications ?? []).filter(
+      (publication) =>
+        publication.stableKey.startsWith("legislative-proceeding:"),
+    );
+    expect(proceedings.length).toBeGreaterThan(0);
+    for (const publication of proceedings)
+      expect(publication.publishedAt).toBe(
+        events.get(publication.sourceEventId)!.occurredAt,
+      );
+    expect(new Set(proceedings.map((p) => p.publishedAt)).size).toBeGreaterThan(
+      1,
+    );
+  }, 600_000);
 });

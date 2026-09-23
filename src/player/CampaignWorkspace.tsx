@@ -36,6 +36,7 @@ import {
 } from "./campaign-planning-layout";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
+import { CampaignOwnMoney } from "./CampaignOwnMoney";
 import { CampaignSpendingReports } from "./CampaignSpendingReports";
 import { MogulOffersPanel } from "./MogulOffersPanel";
 
@@ -270,8 +271,14 @@ export function CampaignWorkspace({
     strategy?.priorityChoices.find(
       (choice) => choice.key === strategy.proposedPriorityKey,
     )?.label ?? null;
+  // With the office browser on screen and nothing chosen, each office already
+  // carries its own requirement beside its name. Joining every office's
+  // refusal into one unlabeled paragraph below it read as contradictory ages
+  // ("at least 24", "at least 30", "at least 21") with no office attached.
   const unavailable =
-    view.phase === "unavailable" && view.unavailableReason
+    view.phase === "unavailable" &&
+    view.unavailableReason &&
+    (offices.length === 0 || selectedOfficeKey !== null)
       ? splitEligibilityText(view.unavailableReason)
       : null;
   const authorityDetail = [
@@ -491,9 +498,19 @@ export function CampaignWorkspace({
           <p data-testid="campaign-treasury">
             The committee has {money(view.treasury)}.
           </p>
+          {view.phase === "active" ? (
+            <CampaignOwnMoney
+              world={world}
+              personId={personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : null}
 
           {view.reading ? (
             <p className="game-campaign-memo" data-testid="campaign-memo">
+              <span data-testid="campaign-memo-dated">
+                {view.reading.dated}
+              </span>{" "}
               {view.reading.summary}
               {view.reading.change ? (
                 <span data-testid="campaign-memo-change">

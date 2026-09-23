@@ -1,5 +1,6 @@
 import {
   acceptCampaignLifeActivity,
+  campaignLifeRefusal,
   advanceWorldMinutes,
   commitCampaignWeek,
   compareSimulationMoments,
@@ -23,6 +24,7 @@ import {
   type World,
 } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+import { lapsedAnswerSentence } from "./campaign-life-surface";
 import { declineVenueActivity } from "./scheduled-activity-choice";
 import { performVenueActivity, venueActivities } from "./venue-activity";
 
@@ -54,7 +56,14 @@ export function acceptPartyWork(
   lifeActivityId: EntityId,
 ): World {
   const view = lifeView(world, personId, lifeActivityId);
-  if (view.state !== "offered") throw new Error(NOTHING_TO_DO);
+  if (view.state !== "offered") {
+    throw new Error(lapsedAnswerSentence(world, view) ?? NOTHING_TO_DO);
+  }
+  const refusal = campaignLifeRefusal(world, personId, {
+    kind: "accept",
+    lifeActivityId,
+  });
+  if (refusal) throw new Error(refusal);
   const next = acceptCampaignLifeActivity(world, personId, lifeActivityId);
   if (next === world) {
     throw new Error("It is too late to say yes to that now.");
@@ -89,6 +98,13 @@ export function partyWorkBlockedReason(
   if (view.state === "completed") return null;
   if (view.state !== "accepted" && view.state !== "offered")
     return NOTHING_TO_DO;
+  if (view.state === "offered") {
+    const refusal = campaignLifeRefusal(world, personId, {
+      kind: "accept",
+      lifeActivityId,
+    });
+    if (refusal) return refusal;
+  }
   if (view.presence === "in-person") {
     const entry = venueActivities(world, personId, handlers).find(
       ({ activity }) => activity.id === view.scheduledActivityId,
