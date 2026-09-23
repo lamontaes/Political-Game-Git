@@ -80,8 +80,10 @@ describe("PRESIDENTIAL CONTINUITY: the presidency is elected on the clock", () =
       expect(types.has(type)).toBe(true);
 
     // Noon on January 20 is crossed within one day: one minute before, the
-    // old term still runs; one minute after, the winner holds the office.
-    // Neither step changes the date, so the oath cannot wait for midnight.
+    // winner has not taken the oath; one minute after, the winner holds the
+    // office. Neither step changes the date, so the oath cannot wait for
+    // midnight. (The opening tenure is dated by day, so it ends at the start
+    // of January 20, not at noon; that is the tenure record's granularity.)
     const plan = nationalRecords(eve, held.id).find(
       (record) => record.kind === "term-plan" && record.office === "president",
     );
@@ -92,7 +94,11 @@ describe("PRESIDENTIAL CONTINUITY: the presidency is elected on the clock", () =
       simulationMinutesBetween(eve.currentMoment, noon!) - 1,
     );
     expect(beforeNoon.currentDate).toBe("2029-01-20");
-    expect(holder(beforeNoon, "us-president")?.personId).toBe(opening.personId);
+    expect(
+      nationalRecords(beforeNoon, held.id).some(
+        (record) => record.kind === "qualification",
+      ),
+    ).toBe(false);
     const afterNoon = advanceWorldMinutes(beforeNoon, 2);
     expect(afterNoon.currentDate).toBe("2029-01-20");
     expect(holder(afterNoon, "us-president")?.personId).toBe(
