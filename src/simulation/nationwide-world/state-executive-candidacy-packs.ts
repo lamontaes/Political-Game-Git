@@ -14,7 +14,7 @@ import {
 
 /**
  * Chief executive offices as candidacy packs: the fifty states, and the
- * District of Columbia separately.
+ * District of Columbia and the five territories separately.
  *
  * A leaf, like `candidacy-packs.ts` it composes into: no places, no World. It
  * says only that each state has one chief executive office a person can stand
@@ -28,7 +28,8 @@ import {
  * The fifty states, and only those. The District of Columbia has a chief
  * executive — a Mayor, not a governor — and is carried separately below, so
  * that everything counting states (congressional seats, electors, statewide
- * contests) keeps counting fifty. Puerto Rico is not in either list.
+ * contests) keeps counting fifty. The territories, Puerto Rico among them,
+ * are carried separately too.
  */
 export const US_STATE_NAMES = {
   AL: "Alabama",
@@ -94,22 +95,57 @@ export function isUsState(stateUsps: string): stateUsps is UsStateUsps {
 }
 
 /**
- * Every jurisdiction with a chief executive of its own: the fifty states and
- * the District. Producers that mean "each government's own executive" read
- * this; producers that mean "the states" keep reading `US_STATE_USPS`.
+ * The five inhabited territories, each of which elects its own Governor.
+ *
+ * PLACEHOLDER. That each territory has one elected Governor is well known, but
+ * the organic acts and territorial constitutions that establish the office
+ * were not retrieved here, so no qualification, term or filing value is taken
+ * from them: every one stays UNKNOWN below, and the game's own national-range
+ * profile fills the gap exactly as it does for an unread state, disclosed as
+ * the game's own. The territory research request (`territory-place-identities`)
+ * asks for the real rules. A territory is its own government and electorate;
+ * nothing here lends it a state's law.
+ */
+export const US_TERRITORY_GOVERNED_NAMES = {
+  PR: "Puerto Rico",
+  GU: "Guam",
+  VI: "the U.S. Virgin Islands",
+  AS: "American Samoa",
+  MP: "the Northern Mariana Islands",
+} as const;
+
+export type UsTerritoryUsps = keyof typeof US_TERRITORY_GOVERNED_NAMES;
+
+export function isUsTerritoryWithGovernor(key: string): key is UsTerritoryUsps {
+  return Object.prototype.hasOwnProperty.call(US_TERRITORY_GOVERNED_NAMES, key);
+}
+
+/**
+ * Every jurisdiction with a chief executive of its own: the fifty states, the
+ * District and the five territories. Producers that mean "each government's
+ * own executive" read this; producers that mean "the states" keep reading
+ * `US_STATE_USPS`.
  */
 export const CHIEF_EXECUTIVE_JURISDICTIONS: readonly string[] = [
   ...US_STATE_USPS,
   DISTRICT_OF_COLUMBIA_USPS,
+  ...(Object.keys(US_TERRITORY_GOVERNED_NAMES) as UsTerritoryUsps[]),
 ];
 
 export function isChiefExecutiveJurisdiction(key: string): boolean {
-  return isUsState(key) || isDistrictOfColumbia(key);
+  return (
+    isUsState(key) ||
+    isDistrictOfColumbia(key) ||
+    isUsTerritoryWithGovernor(key)
+  );
 }
 
-/** The jurisdiction's own name, for a state or for the District. */
+/** The jurisdiction's own name, for a state, the District or a territory. */
 export function chiefExecutiveJurisdictionName(key: string): string {
   if (isDistrictOfColumbia(key)) return "District of Columbia";
+  if (isUsTerritoryWithGovernor(key)) {
+    return US_TERRITORY_GOVERNED_NAMES[key].replace(/^the /, "");
+  }
   return isUsState(key) ? US_STATE_NAMES[key] : key;
 }
 
@@ -155,6 +191,18 @@ export function stateExecutiveIdentity(
   stateUsps: string,
 ): StateExecutiveIdentity | null {
   if (isDistrictOfColumbia(stateUsps)) return DISTRICT_OF_COLUMBIA_IDENTITY;
+  if (isUsTerritoryWithGovernor(stateUsps)) {
+    const officeKey = `us-${stateUsps.toLowerCase()}-governor`;
+    return {
+      stateUsps,
+      jurisdictionKey: `US-${stateUsps}`,
+      officeKey,
+      title: "Governor",
+      displayName: `Governor of ${US_TERRITORY_GOVERNED_NAMES[stateUsps]}`,
+      executivePackId: null,
+      candidacyPackId: `${officeKey}:candidacy`,
+    };
+  }
   if (!isUsState(stateUsps)) return null;
   const jurisdictionKey = `US-${stateUsps}`;
   const pack = executiveRulePackForJurisdiction(jurisdictionKey);
@@ -209,10 +257,26 @@ const DISTRICT_STRUCTURE_SOURCE: RuleSourceRef = {
   note: "Cited for the existence of a single elected Mayor and a Council. The section was not retrieved word for word here, and nothing about selection, term or powers is taken from it.",
 };
 
+/**
+ * PLACEHOLDER. Establishes only that the territory elects one Governor; the
+ * organic act or territorial constitution itself was not retrieved.
+ */
+const TERRITORY_STRUCTURE_SOURCE: RuleSourceRef = {
+  authority: "research-reference",
+  citation: "Territory research request territory-place-identities",
+  sourceTitle: "U.S. territory governments (placeholder until researched)",
+  sourceUrl: null,
+  retrievedAt: null,
+  verification: "unresolved",
+  note: "Each inhabited territory elects one Governor. Nothing about who may hold the office, how long a term runs or how a candidate files is taken from this placeholder.",
+};
+
 function candidacyPackFor(identity: StateExecutiveIdentity): CandidacyPack {
   const structure = isDistrictOfColumbia(identity.stateUsps)
     ? DISTRICT_STRUCTURE_SOURCE
-    : STRUCTURE_SOURCE;
+    : isUsTerritoryWithGovernor(identity.stateUsps)
+      ? TERRITORY_STRUCTURE_SOURCE
+      : STRUCTURE_SOURCE;
   const option: ElectiveOfficeOption = {
     officeKey: identity.officeKey,
     chamberName: identity.displayName,
