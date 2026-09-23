@@ -31,8 +31,8 @@ declare is reported as undeclared rather than filled in from a guess.
 | `life/introduction` | 12 | 0 | 0 | — |
 | `life/life-continuation` | 12 | 0 | 0 | — |
 | `life/office-answer` | 17 | 0 | 0 | candidacy |
-| `life/opening-conversation-intents` | 16 | 0 | 0 | — |
-| `life/opening-conversation-replies` | 59 | 0 | 0 | — |
+| `life/opening-conversation-intents` | 17 | 0 | 0 | — |
+| `life/opening-conversation-replies` | 62 | 0 | 0 | — |
 | `life/personal-aims` | 19 | 0 | 0 | — |
 | `life/press-disclosure` | 5 | 0 | 0 | — |
 | `life/recall-cards` | 10 | 0 | 0 | — |
