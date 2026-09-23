@@ -65,6 +65,7 @@ import {
   pushOf,
   stateWeights,
   stepPressure,
+  stepPressureEvents,
 } from "../pressure";
 import { activeWavesCovering, stepWaves, wavePressure } from "./waves";
 
@@ -132,8 +133,13 @@ export function migrationReviewHandler(
     throw new Error("The migration review received another transition.");
   const index = Number(dueItem.stableKey.slice(REVIEW_KEY_PREFIX.length));
   // The state pressures step first, so this review's movers read this
-  // quarter's pull and push.
-  let next = reviewTown(stepPressure(world), index);
+  // quarter's pull and push. What a new quarter's pressure sets off (unrest,
+  // threats, attacks, international crises) follows it once.
+  const stepped = stepPressure(world);
+  let next = reviewTown(
+    stepped === world ? world : stepPressureEvents(stepped),
+    index,
+  );
   next = scheduleFutureDueItem(next, {
     stableKey: `${REVIEW_KEY_PREFIX}${index + 1}`,
     dueAt: addDays(next.currentDate, MIGRATION_REVIEW_INTERVAL_DAYS),

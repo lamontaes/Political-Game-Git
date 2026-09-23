@@ -7,7 +7,11 @@ import {
   type ChildhoodGenerationVersion,
 } from "../simulation/character-history";
 import { residentNameForJurisdiction } from "../simulation/life-places";
-import { generateSchoolNames } from "../simulation/school-names";
+import {
+  generateSchoolNames,
+  stateUsps,
+  type SchoolNameVersion,
+} from "../simulation/school-names";
 import { LEGACY_COHERENT_CATALOG_GENERATION } from "../simulation/person-appearance";
 import {
   guardianAgeBand,
@@ -138,6 +142,8 @@ export interface ProductionWorldInput {
   readonly earlierLifeGenerationVersion?: EarlierLifeGenerationVersion;
   /** Absent keeps an old replay's childhood birth dates and school name. */
   readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
+  /** Absent keeps an old replay's school names (the v1 draw). */
+  readonly schoolNameVersion?: SchoolNameVersion;
 }
 
 export interface ProductionWorld {
@@ -238,6 +244,7 @@ export function buildProductionWorld(
     input.givenNameGenerationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
     input.earlierLifeGenerationVersion,
     input.childhoodGenerationVersion,
+    input.schoolNameVersion,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -336,6 +343,7 @@ function establishAgeEligibleState(
   givenNameGenerationVersion: GivenNameGenerationVersion,
   earlierLifeGenerationVersion?: EarlierLifeGenerationVersion,
   childhoodGenerationVersion?: ChildhoodGenerationVersion,
+  schoolNameVersion?: SchoolNameVersion,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -402,6 +410,7 @@ function establishAgeEligibleState(
       givenNameGenerationVersion,
       earlierLifeGenerationVersion,
       childhoodGenerationVersion,
+      schoolNameVersion,
     );
     transitions.push({
       kind: "household-membership",
@@ -817,6 +826,7 @@ function establishAgeEligibleState(
       jurisdictionId,
       age,
       childhoodGenerationVersion,
+      schoolNameVersion,
     );
     // The world does not know when the school was founded, and does not
     // pretend to: the earliest date it can honestly claim the school existed
@@ -1006,6 +1016,7 @@ function summarizeEarlierLife(
   givenNameGenerationVersion: GivenNameGenerationVersion,
   version?: EarlierLifeGenerationVersion,
   childhoodGenerationVersion?: ChildhoodGenerationVersion,
+  schoolNameVersion?: SchoolNameVersion,
 ): World {
   const stableKey = "production:earlier-life";
   const generateHistory =
@@ -1020,6 +1031,7 @@ function summarizeEarlierLife(
     ...(childhoodGenerationVersion === undefined
       ? {}
       : { childhoodGenerationVersion }),
+    ...(schoolNameVersion === undefined ? {} : { schoolNameVersion }),
   });
   const next = applyCharacterHistoryPlan(world, {
     ...plan,
@@ -1102,6 +1114,7 @@ function childSchooling(
   jurisdictionId: EntityId,
   age: number,
   version: ChildhoodGenerationVersion | undefined,
+  schoolNameVersion: SchoolNameVersion | undefined,
 ): {
   readonly current: ChildSchoolStage;
   readonly finished: readonly ChildSchoolStage[];
@@ -1123,6 +1136,8 @@ function childSchooling(
       jurisdiction?.name ?? place.displayName,
       jurisdiction?.parentName ?? null,
     ),
+    schoolNameVersion,
+    { state: stateUsps(place.stateJurisdictionKey) },
   );
   const stages: readonly ChildSchoolStage[] = [
     { key: "elementary", name: names.elementary, entryAge: SCHOOL_ENTRY_AGE },
