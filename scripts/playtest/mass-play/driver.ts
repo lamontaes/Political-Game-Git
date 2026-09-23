@@ -486,12 +486,22 @@ export function playGame(spec: GameSpec): GameResult {
                 after.prose === scene.prose &&
                 after.options.map((o) => o.key).join() ===
                   options.map((o) => o.key).join()
-              )
+              ) {
                 note({
                   kind: "stuck-scene",
                   signature: `choosing "${option.label}" left the same ${scene.kind} scene and clock`,
                   detail: `${scene.prose.slice(0, 300)} | options: ${options.map((o) => o.label).join(" / ")}`,
                 });
+                if (process.env.MASS_PLAY_DUMP)
+                  writeFileSync(
+                    `${process.env.MASS_PLAY_DUMP}/${spec.id}-stuck-scene.json`,
+                    JSON.stringify({
+                      personId,
+                      optionKey: option.key,
+                      save: serializeWorld(world),
+                    }),
+                  );
+              }
             }
             return next;
           },
