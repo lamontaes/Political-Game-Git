@@ -5,6 +5,8 @@ import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
+import { applyFederalReform } from "./living-world/federal-reform";
+import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import {
@@ -1102,13 +1104,19 @@ function advanceWorldUnchecked(
     applyCrisisOfficeContinuity(
       applyCongressLawmaking(
         world.currentDate,
-        applyConstitutionalReform(
+        applyFederalReform(
           world.currentDate,
-          applyGovernorTurnover(
+          applyConstitutionalReform(
             world.currentDate,
-            applyCongressTurnover(
+            applyPresidentialTurnover(
               world.currentDate,
-              applyNationalTermTransitions(advanced),
+              applyGovernorTurnover(
+                world.currentDate,
+                applyCongressTurnover(
+                  world.currentDate,
+                  applyNationalTermTransitions(advanced),
+                ),
+              ),
             ),
           ),
         ),
