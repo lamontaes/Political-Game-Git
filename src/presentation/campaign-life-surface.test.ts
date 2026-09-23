@@ -177,9 +177,7 @@ describe(
       });
       const refusal = projectCampaignWeekPanel(refused, player)!.refusal!;
       expect(refusal.explanation).toMatch(/did not have enough money/);
-      expect(refusal.moneyNote).toMatch(
-        /had \$0; that money was not touched/,
-      );
+      expect(refusal.moneyNote).toMatch(/had \$0; that money was not touched/);
 
       const again = projectCampaignWeek(refused, player)!;
       const committed = commitCampaignWeek(refused, player, {
