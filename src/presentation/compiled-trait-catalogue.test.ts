@@ -5,7 +5,7 @@ import type { TraitPack } from "../simulation/trait-packs";
 
 /**
  * A trait added to the build as a pack is seeded, shown and saved with no
- * other code naming it. This is the route the researched catalogue will take:
+ * other code naming it. This is the route the researched catalog will take:
  * a pack beside the five, not a sixth entry in a hard-coded list.
  */
 const CATALOGUE: TraitPack = {

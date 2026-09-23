@@ -66,7 +66,7 @@ describe("only an observed temperament is shown", () => {
       const leaning = personTraits(written, id).filter(
         (trait) => trait.recordId !== null && trait.label !== null,
       );
-      // The five, then any named quality from the personality catalogue
+      // The five, then any named quality from the personality catalog
       // this person is known for, each read from its own record.
       const qualities = [...traitRegistryFor(written).traits.values()]
         .filter((trait) => trait.pack === PERSONALITY_PACK)
