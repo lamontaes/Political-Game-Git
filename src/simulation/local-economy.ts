@@ -14,9 +14,10 @@ import { generatePersonIdentity } from "./person-identity";
 import {
   createResourceFlow,
   money,
-  recordResourceTransferOutcome,
+  recordResourceTransferOutcomes,
+  type RecordResourceTransferOutcomeInput,
 } from "./resources";
-import { resourceFlowTermsAt } from "./resource-queries";
+import { resourceFlowTermsAt, sameEndpoint } from "./resource-queries";
 import { SeededRng } from "./rng";
 import type {
   EntityId,
@@ -456,27 +457,25 @@ function firstOfNextMonth(date: IsoDate): IsoDate {
   );
 }
 
-function settleFlowMonthly(world: World, flow: ResourceFlow): World {
-  let latest: IsoDate | null = null;
-  for (const outcome of world.history.resourceTransferOutcomes)
-    if (
-      outcome.resourceFlowId === flow.id &&
-      (latest === null || outcome.periodStartsAt > latest)
-    )
-      latest = outcome.periodStartsAt;
-  let next = world;
+/** What one flow is owed for each first of the month since it last settled. */
+function dueOutcomes(
+  world: World,
+  flow: ResourceFlow,
+  latest: IsoDate | null,
+): RecordResourceTransferOutcomeInput[] {
+  const due: RecordResourceTransferOutcomeInput[] = [];
   let dueOn = firstOfNextMonth(latest ?? flow.startsAt);
   for (
     let month = 0;
-    month < CATCH_UP_LIMIT_MONTHS && dueOn <= next.currentDate;
+    month < CATCH_UP_LIMIT_MONTHS && dueOn <= world.currentDate;
     month += 1
   ) {
-    const terms = resourceFlowTermsAt(next, flow.id, {
+    const terms = resourceFlowTermsAt(world, flow.id, {
       asOfDate: dueOn,
-      historySequenceExclusive: next.history.nextSequence,
+      historySequenceExclusive: world.history.nextSequence,
     });
     if (!terms || terms.status !== "active") break;
-    next = recordResourceTransferOutcome(next, {
+    due.push({
       stableKey: `${flow.stableKey}:${dueOn}`,
       resourceFlowId: flow.id,
       periodStartsAt: dueOn,
@@ -491,7 +490,72 @@ function settleFlowMonthly(world: World, flow: ResourceFlow): World {
     });
     dueOn = firstOfNextMonth(dueOn);
   }
-  return next;
+  return due;
+}
+
+/** Whether the game keeps a balance for either end of this flow. */
+function touchesTrackedMoney(world: World, flow: ResourceFlow): boolean {
+  return world.history.resourcePositions.some(
+    (position) =>
+      sameEndpoint(position.owner, flow.source) ||
+      sameEndpoint(position.owner, flow.recipient),
+  );
+}
+
+function businessFlows(
+  world: World,
+  organizationId: EntityId,
+): readonly ResourceFlow[] {
+  return world.history.resourceFlows.filter(
+    (flow) =>
+      (flow.basisKind === BUSINESS_REVENUE_BASIS &&
+        flow.recipient.kind === "organization" &&
+        flow.recipient.organizationId === organizationId) ||
+      ((flow.basisKind === BUSINESS_WAGES_BASIS ||
+        flow.basisKind === OWNER_DRAW_BASIS) &&
+        flow.source.kind === "organization" &&
+        flow.source.organizationId === organizationId),
+  );
+}
+
+/**
+ * Writes every due month at once, in date order with each month's revenue
+ * ahead of its pay, so a month's pay is never recorded before its takings.
+ * One integrity check for the whole batch.
+ *
+ * Only money the game keeps a balance for is settled. Nobody's savings are
+ * known for a town's shopkeepers yet, and unknown is not zero, so a payment
+ * between two untracked ends would change nothing anyone can read while
+ * adding a record every month for every job in town, forever. The flows
+ * themselves are the record of what each business takes in and pays; the
+ * months settle from the day either end's money starts being tracked.
+ */
+function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
+  const tracked = flows.filter((flow) => touchesTrackedMoney(world, flow));
+  if (tracked.length === 0) return world;
+  const latest = new Map<EntityId, IsoDate>();
+  const ids = new Set(tracked.map((flow) => flow.id));
+  for (const outcome of world.history.resourceTransferOutcomes) {
+    if (!ids.has(outcome.resourceFlowId)) continue;
+    const seen = latest.get(outcome.resourceFlowId);
+    if (seen === undefined || outcome.periodStartsAt > seen)
+      latest.set(outcome.resourceFlowId, outcome.periodStartsAt);
+  }
+  const due = tracked.flatMap((flow) =>
+    dueOutcomes(world, flow, latest.get(flow.id) ?? null).map((input) => ({
+      input,
+      revenue: flow.basisKind === BUSINESS_REVENUE_BASIS,
+    })),
+  );
+  due.sort(
+    (a, b) =>
+      a.input.periodStartsAt.localeCompare(b.input.periodStartsAt) ||
+      Number(b.revenue) - Number(a.revenue),
+  );
+  return recordResourceTransferOutcomes(
+    world,
+    due.map((entry) => entry.input),
+  );
 }
 
 /**
@@ -507,36 +571,20 @@ export function settleBusinessMoney(
   world: World,
   organizationId: EntityId,
 ): World {
-  const flows = world.history.resourceFlows.filter(
-    (flow) =>
-      (flow.basisKind === BUSINESS_REVENUE_BASIS &&
-        flow.recipient.kind === "organization" &&
-        flow.recipient.organizationId === organizationId) ||
-      ((flow.basisKind === BUSINESS_WAGES_BASIS ||
-        flow.basisKind === OWNER_DRAW_BASIS) &&
-        flow.source.kind === "organization" &&
-        flow.source.organizationId === organizationId),
-  );
-  // Revenue first, so a month's pay is never recorded before its takings.
-  flows.sort(
-    (a, b) =>
-      Number(b.basisKind === BUSINESS_REVENUE_BASIS) -
-      Number(a.basisKind === BUSINESS_REVENUE_BASIS),
-  );
-  let next = world;
-  for (const flow of flows) next = settleFlowMonthly(next, flow);
-  return next;
+  return settleFlows(world, businessFlows(world, organizationId));
 }
 
-/** The same, for every business seated in a town. */
+/** The same, for every business seated in a town, as one batch. */
 export function settleLocalBusinesses(
   world: World,
   jurisdictionId: EntityId,
 ): World {
-  let next = world;
-  for (const { organization } of localBusinessesIn(world, jurisdictionId))
-    next = settleBusinessMoney(next, organization.id);
-  return next;
+  return settleFlows(
+    world,
+    localBusinessesIn(world, jurisdictionId).flatMap(({ organization }) =>
+      businessFlows(world, organization.id),
+    ),
+  );
 }
 
 /** Seats and settles the businesses of the town this person lives in. */

@@ -17,6 +17,8 @@ import {
   refreshLocalEconomy,
 } from "../simulation/local-economy";
 import { isPlayableWork } from "../simulation/playable-work";
+import { resourcePositionAt } from "../simulation/resource-queries";
+import { createResourcePosition, money } from "../simulation/resources";
 import type { EntityId, World } from "../simulation";
 import { letAdultTimePass } from "./adult-life";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -117,38 +119,92 @@ describe("the businesses of a town", () => {
     );
   });
 
-  it("takes in revenue and pays its owner every month, from the day it was seated", () => {
-    const { world, personId } = openedLife();
-    expect(outcomesFor(world, BUSINESS_REVENUE_BASIS)).toHaveLength(0);
+  it("records each business's monthly revenue and pay without writing a ledger nobody can read", () => {
+    const { world, townId } = openedLife();
+    const [grocery] = localBusinessesIn(world, townId);
+    const flows = world.history.resourceFlows.filter((flow) =>
+      flow.stableKey.startsWith(`${grocery!.organization.stableKey}:`),
+    );
+    // Revenue, the owner's draw and three paychecks, each a monthly flow.
+    expect(flows.map((flow) => flow.basisKind).sort()).toEqual(
+      [
+        BUSINESS_WAGES_BASIS,
+        BUSINESS_WAGES_BASIS,
+        BUSINESS_WAGES_BASIS,
+        OWNER_DRAW_BASIS,
+        BUSINESS_REVENUE_BASIS,
+      ].sort(),
+    );
+    // Nobody's savings are tracked for the town's shopkeepers, so months pass
+    // without adding a payment record for every job in town.
     let next = world;
+    for (let step = 0; step < 10; step += 1) next = letAdultTimePass(next, 7);
+    expect(outcomesFor(next, BUSINESS_REVENUE_BASIS)).toHaveLength(0);
+    expect(outcomesFor(next, OWNER_DRAW_BASIS)).toHaveLength(0);
+  });
+
+  it("settles a business's months once its money is tracked, and only once", () => {
+    const { world, personId, townId } = openedLife();
+    const [grocery] = localBusinessesIn(world, townId);
+    const business = {
+      kind: "organization" as const,
+      organizationId: grocery!.organization.id,
+    };
+    const ownerId = world.history.workRelationships.find(
+      (work) =>
+        work.organizationId === grocery!.organization.id &&
+        work.kind === BUSINESS_OWNER_WORK_KIND,
+    )!.personId;
+    let tracked = world;
+    for (const [key, owner] of [
+      ["test:grocery-books", business],
+      ["test:grocer-savings", { kind: "person" as const, personId: ownerId }],
+    ] as const)
+      tracked = createResourcePosition(tracked, {
+        stableKey: key,
+        owner,
+        openedAt: tracked.currentDate,
+        openingBalance: money(0, "USD"),
+        provenance: { kind: "authored", note: "Test books." },
+      });
+    let next = tracked;
     for (let step = 0; step < 10; step += 1) next = letAdultTimePass(next, 7);
     const months = new Set(
       outcomesFor(next, BUSINESS_REVENUE_BASIS).map((o) => o.periodStartsAt),
     );
-    // The life opens on the first-of-month schedule's own terms: ten weeks
-    // from this start crosses exactly this many month-starts.
-    expect([world.currentDate, next.currentDate, months.size])
-      .toMatchInlineSnapshot(`
+    // Ten weeks from this start crosses exactly this many month-starts.
+    expect([
+      world.currentDate,
+      next.currentDate,
+      months.size,
+    ]).toMatchInlineSnapshot(`
       [
         "2026-01-05",
         "2026-03-16",
         2,
       ]
     `);
-    expect(outcomesFor(next, BUSINESS_REVENUE_BASIS)).toHaveLength(
-      months.size * LOCAL_BUSINESS_KINDS.length,
-    );
-    expect(outcomesFor(next, OWNER_DRAW_BASIS)).toHaveLength(
-      months.size * LOCAL_BUSINESS_KINDS.length,
-    );
-    const staff = LOCAL_BUSINESS_KINDS.reduce((sum, k) => sum + k.workers, 0);
-    expect(staff).toBe(18);
+    expect(outcomesFor(next, BUSINESS_REVENUE_BASIS)).toHaveLength(months.size);
+    expect(outcomesFor(next, OWNER_DRAW_BASIS)).toHaveLength(months.size);
     expect(outcomesFor(next, BUSINESS_WAGES_BASIS)).toHaveLength(
-      months.size * staff,
+      months.size * 3,
     );
-    for (const basis of [OWNER_DRAW_BASIS, BUSINESS_WAGES_BASIS])
+    for (const basis of [
+      BUSINESS_REVENUE_BASIS,
+      OWNER_DRAW_BASIS,
+      BUSINESS_WAGES_BASIS,
+    ])
       for (const outcome of outcomesFor(next, basis))
         expect(outcome.status).toBe("completed");
+    const usd = money(0, "USD").currency;
+    // $60,000 in, $5,000 to the owner and $2,800 to each of three staff.
+    expect(
+      resourcePositionAt(next, business, usd)!.liquidBalance.minorUnits,
+    ).toBe(months.size * (6_000_000 - 500_000 - 3 * 280_000));
+    expect(
+      resourcePositionAt(next, { kind: "person", personId: ownerId }, usd)!
+        .liquidBalance.minorUnits,
+    ).toBe(months.size * 500_000);
     // Settling again, or after a reload, writes nothing new.
     const reloaded = deserializeWorld(serializeWorld(next));
     expect(
