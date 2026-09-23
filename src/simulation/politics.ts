@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
   appendCampaignCommitmentRecord,
@@ -369,9 +370,7 @@ function validateFormation(
     ...referencedKnowledge.map((knowledge) => knowledge.eventId),
   ]);
   for (const eventId of formation.relevantEventIds) {
-    const event = world.history.events.find(
-      (candidate) => candidate.id === eventId,
-    );
+    const event = eventById(world, eventId);
     if (
       !event ||
       event.occurredAt > formedAt ||
@@ -531,9 +530,7 @@ function validatePropositionExposureProvenance(
 ): void {
   switch (provenance.kind) {
     case "direct-experience": {
-      const event = world.history.events.find(
-        (candidate) => candidate.id === provenance.eventId,
-      );
+      const event = eventById(world, provenance.eventId);
       if (
         !event ||
         event.occurredAt > encounteredAt ||
@@ -633,9 +630,7 @@ function validateSubjectKnowledgeProvenance(
         throw new Error("Event-derived knowledge requires at least one event.");
       }
       for (const eventId of provenance.eventIds) {
-        const event = world.history.events.find(
-          (candidate) => candidate.id === eventId,
-        );
+        const event = eventById(world, eventId);
         if (
           !event ||
           event.occurredAt > recordedAt ||
@@ -693,9 +688,7 @@ function validateSourceEvent(
   recordDate: string,
 ): void {
   if (eventId === null) return;
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (
     !event ||
     event.occurredAt !== recordDate ||

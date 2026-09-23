@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import type { ClaimStance } from "../claim-stances";
 import { personName } from "../people";
 import type { EntityId, IsoDate, World } from "../types";
@@ -172,9 +173,7 @@ export function projectPressDesk(
     )
       return [];
     const reporterPersonId = assignedReporter(world, lead.id)!;
-    const request = world.history.events.find(
-      (event) => event.id === latest.eventId,
-    )!;
+    const request = eventById(world, latest.eventId)!;
     return [
       {
         leadId: lead.id,

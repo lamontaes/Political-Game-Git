@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
 import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -651,7 +652,7 @@ export function governingMatterById(
   world: World,
   matterId: EntityId,
 ): GoverningMatter | null {
-  const event = world.history.events.find((e) => e.id === matterId);
+  const event = eventById(world, matterId);
   return event && event.type === GOVERNING_MATTER_OPENED
     ? matterFromEvent(world, event)
     : null;

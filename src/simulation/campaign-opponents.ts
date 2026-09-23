@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   characterHistoryContextPersonId,
@@ -1261,9 +1262,7 @@ function runOpponentStep(
   const kind: CampaignOpponentStepKind =
     written.note !== null ? "fundraising" : chosen;
   let next = written.world;
-  const event = next.history.events.find(
-    (candidate) => candidate.id === written.outcomeEventId,
-  )!;
+  const event = eventById(next, written.outcomeEventId)!;
   if (event.visibility === "public") {
     next = recordEventKnowledge(next, {
       stableKey: `${stepKey}:known-by:${campaign.candidatePersonId}`,
@@ -1437,11 +1436,14 @@ export interface KnownOpponentActivity {
 /**
  * Opponent activity this person actually learned about, oldest first. Only
  * public steps with a knowledge record for the person appear; the rival's
- * private emphasis, treasury and limited steps never do. Pure.
+ * private emphasis, treasury and limited steps never do. With a `contestId`,
+ * only rivals in that race count: what an earlier race's opponent did is not
+ * news about the current one. Pure.
  */
 export function projectKnownOpponentActivity(
   world: World,
   personId: EntityId,
+  options: { readonly contestId?: EntityId } = {},
 ): readonly KnownOpponentActivity[] {
   const steps = campaignOpponentStepRecords(world);
   if (steps.length === 0) return [];
@@ -1467,8 +1469,10 @@ export function projectKnownOpponentActivity(
   const rows: { sequence: number; row: KnownOpponentActivity }[] = [];
   for (const step of steps) {
     const opponent = opponents.get(step.opponentId);
+    if (!opponent) continue;
+    if (options.contestId && opponent.contestId !== options.contestId) continue;
     const event = events.get(step.outcomeEventId);
-    if (!opponent || !event || event.visibility !== "public") continue;
+    if (!event || event.visibility !== "public") continue;
     const believedSummary = knowledgeByEvent.get(event.id);
     if (believedSummary === undefined) continue;
     rows.push({

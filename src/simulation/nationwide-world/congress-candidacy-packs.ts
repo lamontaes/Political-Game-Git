@@ -87,6 +87,21 @@ export function congressSeatDisplayName(seat: CongressSeat): string {
   return `U.S. Representative for ${state}'s ${district}`;
 }
 
+/**
+ * The House district a seat represents, as a place name: "Washington's 7th
+ * Congressional District", or "Wyoming's At-Large Congressional District".
+ * Null for a Senate seat, which represents the whole state.
+ */
+export function congressionalDistrictName(seat: CongressSeat): string | null {
+  if (seat.chamberKey !== "us-house") return null;
+  const state =
+    US_STATE_NAMES[seat.stateUsps as keyof typeof US_STATE_NAMES] ??
+    seat.stateUsps;
+  return seat.district === "00"
+    ? `${state}'s At-Large Congressional District`
+    : `${state}'s ${ordinal(Number(seat.district))} Congressional District`;
+}
+
 function identityFor(seat: CongressSeat): CongressSeatIdentity {
   const house = seat.chamberKey === "us-house";
   return {

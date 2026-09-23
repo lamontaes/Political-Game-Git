@@ -293,6 +293,18 @@ export function assertResourceHousingIntegrity(
     provenance(world, terms.provenance, terms.effectiveAt, terms.sequence);
   }
 
+  // The settlement periods already checked on each flow, in date order.
+  // Outcomes are in append order (checked above), and each one is refused if
+  // it overlaps an earlier one on its flow, so the periods kept here never
+  // overlap one another: sorted by start, they are sorted by end too. Whether
+  // a new period overlaps any of them is then a question for the one that
+  // starts last on or before the new period ends. Comparing each outcome with
+  // every outcome of the whole life made a long save's check cost outcomes
+  // times outcomes.
+  const periodsByFlow = new Map<
+    EntityId,
+    { readonly startsAt: string; readonly endsAt: string }[]
+  >();
   for (const outcome of h.resourceTransferOutcomes) {
     const flow = byId(h.resourceFlows, outcome.resourceFlowId);
     if (!flow || flow.sequence >= outcome.sequence)
@@ -306,23 +318,27 @@ export function assertResourceHousingIntegrity(
       outcome.occurredAt < outcome.periodEndsAt
     )
       throw new Error(`Invalid resource outcome chronology: ${outcome.id}`);
+    const periods = periodsByFlow.get(outcome.resourceFlowId) ?? [];
+    const at = periodsStartingBy(periods, outcome.periodEndsAt);
+    const latest = periods[at - 1];
     if (
-      h.resourceTransferOutcomes.some(
-        (other) =>
-          other.sequence < outcome.sequence &&
-          other.resourceFlowId === outcome.resourceFlowId &&
-          settlementPeriodsOverlap(
-            outcome.periodStartsAt,
-            outcome.periodEndsAt,
-            other.periodStartsAt,
-            other.periodEndsAt,
-          ),
+      latest &&
+      settlementPeriodsOverlap(
+        outcome.periodStartsAt,
+        outcome.periodEndsAt,
+        latest.startsAt,
+        latest.endsAt,
       )
     ) {
       throw new Error(
         `Resource outcome has an overlapping settlement period: ${outcome.id}`,
       );
     }
+    periods.splice(at, 0, {
+      startsAt: outcome.periodStartsAt,
+      endsAt: outcome.periodEndsAt,
+    });
+    periodsByFlow.set(outcome.resourceFlowId, periods);
     money(outcome.attemptedAmount, "attempted resource amount", true);
     money(outcome.transferredAmount, "transferred resource amount");
     if (outcome.attemptedAmount.currency !== outcome.transferredAmount.currency)
@@ -916,6 +932,21 @@ function validateOutcome(
     status,
     "resource outcome status",
   );
+}
+
+/** How many of these start on or before the date: a binary search. */
+function periodsStartingBy(
+  periods: readonly { readonly startsAt: string }[],
+  date: string,
+): number {
+  let low = 0;
+  let high = periods.length;
+  while (low < high) {
+    const middle = (low + high) >> 1;
+    if (periods[middle]!.startsAt <= date) low = middle + 1;
+    else high = middle;
+  }
+  return low;
 }
 
 function settlementPeriodsOverlap(
