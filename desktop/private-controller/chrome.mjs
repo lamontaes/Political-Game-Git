@@ -18,6 +18,8 @@ let showDetails = false;
 let chosen = null;
 let last = null;
 let busy = false;
+let installing = false;
+let installMessage = null;
 
 function esc(text) {
   const span = document.createElement("span");
@@ -125,7 +127,15 @@ function render(state) {
   // The hub already resolved the pill against disk evidence, so a recorded
   // build whose payload is gone never paints as "Up to date" here.
   const missing = update.kind === "needs-rebuild";
-  const pill = `<span class="pill ${esc(update.kind)}">${esc(update.text)}</span>`;
+  const switchingChoice =
+    Boolean(chosen) && trackIdOf(chosen) !== state.selectedTrack;
+  const updateText =
+    installing && state.phase?.phase !== "installing"
+      ? "Installing update…"
+      : switchingChoice && selected?.pending && update.kind === "waiting"
+        ? "Update ready for the current version"
+        : update.text;
+  const pill = `<span class="pill ${esc(update.kind)}">${esc(updateText)}</span>`;
   let html = pill;
   if (showDetails) {
     const revision =
@@ -175,6 +185,7 @@ function render(state) {
       ? ` <span class="when">· last checked ${esc(checked)}</span>`
       : "";
   status.innerHTML = html;
+  if (installMessage) status.textContent = installMessage;
   status.title = [
     item.title,
     item.purpose,
@@ -189,7 +200,7 @@ function render(state) {
     .join("\n");
   const building = state.building === state.selectedTrack;
   const check = $("check-updates");
-  check.disabled = building;
+  check.disabled = building || installing;
   check.textContent = ["failed", "offline"].includes(update.kind)
     ? "Try again"
     : "Check for updates";
@@ -199,11 +210,13 @@ function render(state) {
   const switching = Boolean(chosen) && state.activeTab === "play";
   $("switch-version").hidden = !switching;
   $("apply").hidden = switching || !selected?.pending;
+  $("apply").disabled = installing;
   // A pending build that carries a newer release number names it; one that
   // is the same release rebuilt from newer main is just "Install update".
   const pendingVersion = releaseVersion(selected?.pending);
-  $("apply").textContent =
-    pendingVersion && pendingVersion !== releaseVersion(selected?.current)
+  $("apply").textContent = installing
+    ? "Installing…"
+    : pendingVersion && pendingVersion !== releaseVersion(selected?.current)
       ? `Install update ${pendingVersion}`
       : "Install update";
   $("return-main").hidden = state.selectedTrack === "main";
@@ -254,6 +267,7 @@ async function loadChooser() {
 
 track.addEventListener("focus", () => void loadChooser());
 track.addEventListener("change", async () => {
+  installMessage = null;
   if (track.value === TECHNICAL) {
     showTechnical = !showTechnical;
     if (last) render(last);
@@ -293,6 +307,7 @@ $("copy-ref").addEventListener("click", async () => {
   window.setTimeout(() => ($("copy-ref").textContent = "Copy revision"), 1500);
 });
 $("check-updates").addEventListener("click", async () => {
+  installMessage = null;
   const result = await hub.checkUpdates();
   if (result && result.ok === false && result.message)
     status.textContent = result.message;
@@ -310,7 +325,24 @@ $("return-title").addEventListener("click", async () => {
   }
 });
 $("reveal-download").addEventListener("click", () => hub.revealDownload());
-$("apply").addEventListener("click", () => hub.apply(last?.selectedTrack));
+$("apply").addEventListener("click", async () => {
+  if (installing || !last) return;
+  const id = last.selectedTrack;
+  installing = true;
+  installMessage = null;
+  render(last);
+  try {
+    const result = await hub.apply(id);
+    if (!result?.ok && last?.selectedTrack === id)
+      installMessage =
+        result?.message ?? "The update could not be installed. Try again.";
+  } catch {
+    installMessage = "The update could not be installed. Try again.";
+  } finally {
+    installing = false;
+    if (last) render(last);
+  }
+});
 $("return-main").addEventListener("click", () => hub.returnMain());
 $("cancel-build").addEventListener("click", () => hub.cancelBuild());
 
