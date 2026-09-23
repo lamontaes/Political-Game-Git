@@ -165,11 +165,21 @@ export function worldContentId(world: World): EntityId {
   return createWorldSnapshot(world).snapshotId;
 }
 
+/**
+ * A copy of a saved world that the caller may do with as it likes, including
+ * edit it in place to test that a check catches the change.
+ */
 export function deserializeWorld(payload: string): World {
-  return readWorldSnapshot(payload).world;
+  return structuredClone(readWorldSnapshot(payload).world);
 }
 
-/** A saved world, with the format it was written in. */
+/**
+ * A saved world, with the format it was written in. The world is the checked
+ * one itself, not a copy, so it must not be edited in place: an edit would go
+ * unchecked. The browser save store reads through this, where a copy doubled
+ * the memory a big save took to open and threw away the lookups the check had
+ * just built.
+ */
 export function readWorldSnapshot(payload: string): {
   readonly world: World;
   readonly formatVersion: WorldSnapshotFormatVersion;
@@ -228,9 +238,6 @@ export function readWorldSnapshot(payload: string): {
   if (packed && !packRollCallsApplies(world)) {
     throw new Error("World snapshot format does not match its roll calls.");
   }
-  // The parsed world belongs to nobody else, so it is returned as it is.
-  // Copying it doubled the memory a big save took to open, and threw away the
-  // lookups its check had just built.
   return {
     world,
     formatVersion: formatVersion as WorldSnapshotFormatVersion,
