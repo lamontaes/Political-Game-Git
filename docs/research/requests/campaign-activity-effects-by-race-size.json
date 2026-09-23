@@ -1,0 +1,29 @@
+{
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Running for office across America thread",
+  "lane": "campaigns",
+  "impact": "shapes-design",
+  "filedAt": "2026-09-22T23:10:00.000Z",
+  "questionId": "campaign-activity-effects-by-race-size",
+  "priority": "P0",
+  "title": "How much each kind of campaign work really moves a race, by race size",
+  "question": "How much does each kind of campaign work move a candidate's support, and how does that change with the size of the race? Specifically, for an afternoon of door-to-door canvassing, a phone bank, a paid advertising buy of a given size, a public event, and an endorsement: roughly how many voters does each reach and how many does it move, in a town council race, a state house district, a state senate district, a U.S. House district and a statewide race. Also: how quickly does the return fall as a candidate's support rises, how much of the electorate is realistically persuadable at all, and does that differ with partisan lean.",
+  "whyItMatters": "Every afternoon of door-knocking added about 1.4 points of support, the same in a town of two thousand as in a whole state, and the same at 90% as at 40%. A playtest candidate canvassed from 48% to 96% of the vote. The owner called the 1.4 points unacceptable. A stand-in ceiling now stops campaign gains at 75% and shrinks them above half, but the size of each gain is still invented.",
+  "usableAnswer": "For each activity and race size, a typical number of voters reached and the share of them moved, or a net vote-share change per unit of effort, with a realistic range; the shape of diminishing returns as support rises (for example the share of voters still persuadable at 50%, 60% and 70%); and a note where the answer differs by partisan lean or by incumbency.",
+  "notes": [
+    "Asked by the owner on 2026-09-22 at 22:52Z: 'the every afternoon of door knocking added 1.4 points. That needs to be thrown to chat GPT as well. That's unacceptable.'",
+    "What the game does, read on main at 880525eb: requestedGainBasisPoints in src/simulation/campaigns.ts gives an outreach afternoon minutes x workers x 3/2 basis points, times a draw between 0.6 and 1.41, with no reference to the size of the electorate. An advertising buy gives one basis point per five dollars spent. Rival campaigns use the same formula (src/simulation/campaign-opponents.ts).",
+    "The stand-in added with this question: work moves support at full strength up to half the field, is scaled by the headroom left below 75% above that, and moves nothing at 75% (CAMPAIGN_SUPPORT_CEILING_BASIS_POINTS in src/simulation/campaign-support.ts). It will be replaced by the answer.",
+    "Related, filed by another lane and not yet merged: realistic-vote-shares-and-how-far-a-campaign-moves-them, which asks about final vote shares. This asks about the effect of each unit of campaign work."
+  ],
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/campaigns.ts, requestedGainBasisPoints",
+      "whatItDidNotSettle": "States the formula the game uses; carries no claim about real campaigns."
+    },
+    {
+      "source": "src/simulation/campaign-opponents.ts",
+      "whatItDidNotSettle": "Reuses the player's formula for rivals so the two are comparable; says nothing about the right size."
+    }
+  ]
+}

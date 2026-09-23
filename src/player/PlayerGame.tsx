@@ -330,6 +330,11 @@ import {
   type ReturnToTitleRequest,
 } from "./return-to-title-bridge";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
+import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
+import {
+  observerSetup,
+  openObserverWorld,
+} from "../presentation/observer-world";
 import {
   SaveImportControl,
   SaveTransferControls,
@@ -831,6 +836,25 @@ export function PlayerGame() {
                 setSessionSeed(resolveSessionSeed("", window.crypto));
               }
               setScreen({ kind: "setup" });
+            }}
+            onWatch={() => {
+              setProblem(null);
+              try {
+                const { seed } = resolveSessionSeed("", window.crypto);
+                const observed = openObserverWorld(observerSetup(seed));
+                startPlaying(
+                  observed.world,
+                  observed.anchorPersonId,
+                  seed,
+                  null,
+                );
+              } catch (error) {
+                setProblem(
+                  error instanceof Error
+                    ? error.message
+                    : "The world could not be opened.",
+                );
+              }
             }}
             onContinue={() => void continueMostRecent()}
             onOpenSaves={() => setScreen({ kind: "saves" })}
@@ -2257,9 +2281,11 @@ function SavesScreen({
         {saves.map((save) => (
           <li key={save.saveId} data-testid="save-entry">
             <div>
-              <strong>{save.playerName}</strong>
+              <strong>
+                {save.observing ? "Watching the world" : save.playerName}
+              </strong>
               <span>
-                {save.playerAge}
+                {save.observing ? "Nobody played" : save.playerAge}
                 {save.residence ? ` · ${save.residence.name}` : ""} ·{" "}
                 {proseDate(save.currentMoment.date)}
               </span>
@@ -3565,6 +3591,7 @@ function PlayingScreen({
                           if (facing !== "everyone") setReturnFocusTo(facing);
                         }}
                         transitionHandlers={createCampaignElectionTransitionRegistry()}
+                        presentPersonIds={presentPersonIds}
                       />
                     ) : showOrientation ? (
                       <WorldOrientationPanel
@@ -3696,6 +3723,15 @@ function PlayingScreen({
               >
                 <strong>Observing</strong>
                 <span>Nobody is being played. You can look, not act.</span>
+                <ObserverClock
+                  world={storedSession.world}
+                  onAdvance={(next, base) =>
+                    onControlChange(next, base, { kind: "observing" })
+                  }
+                  onOpenRecord={() =>
+                    dispatch({ type: "go-to-surface", surface: "world-record" })
+                  }
+                />
                 {continuation && !showContinuation ? (
                   <button
                     ref={observingButton}
@@ -4937,6 +4973,18 @@ function renderWorkspace({
           openKey={guideTermKey}
           onSetLearned={(semanticKey, learned) =>
             dispatch({ type: "set-guide-term-learned", semanticKey, learned })
+          }
+        />,
+      );
+
+    case "world-record":
+      return frame(
+        "World record",
+        "world-record-workspace",
+        <ObserverRecordWorkspace
+          world={session.world}
+          onOpenPerson={(personId) =>
+            openEntity({ kind: "person", id: personId })
           }
         />,
       );

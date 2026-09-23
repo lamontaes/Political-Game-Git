@@ -1,0 +1,28 @@
+{
+  "candidateAnswers": [],
+  "filedAt": "2026-09-22T22:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "PLACEHOLDERS IN CODE, marked as such: the Saturday invitation runs 3 to 6 p.m., at the asker's home, with a 15-minute local trip there. The hours were already in the game; the home and the trip were added so a yes can actually be kept. None of the three is researched.",
+    "PLAYER-FACING INPUT: yes. The player sees 'Rachel Kim asked you over on Saturday afternoon. Going is optional.', can say yes, and the afternoon then goes on their calendar and is recorded as time spent with that person."
+  ],
+  "priority": "P1",
+  "question": "When an adult American is invited to something by a neighbor or someone local they know, what kinds of occasion are those invitations actually for, how long do they last, when in the week do they fall, and how far away are they?",
+  "questionId": "what-ordinary-invitations-are-for",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/life-opportunities.ts, the social-occasion writer",
+      "whatItDidNotSettle": "Writes one kind of invitation, always the next Saturday from 3 to 6 p.m., with nothing saying what it is for."
+    },
+    {
+      "source": "The DEPTH2 answers (A01 to A15)",
+      "whatItDidNotSettle": "Covers traits, formative situations, relationship absence and parties; nothing on what ordinary social invitations are."
+    }
+  ],
+  "title": "What an ordinary invitation from someone local is for",
+  "usableAnswer": "A short list of the common kinds (a meal at someone's home, a cookout, a birthday, a game on TV, church or club events, and so on), each with a typical day and time, a typical length, whether it is at the host's home or somewhere else, and roughly how often an adult gets asked. A realistic range is enough where the answer varies; say where it differs between a small town and a city.",
+  "whyItMatters": "Every ordinary invitation in the game is currently the same unspecified Saturday afternoon. Before this change it could not even be accepted: saying yes left it to lapse as 'passed without an answer'. Now a yes is kept, so what the invitation is and how long it takes is time the player really spends. Guessing it would be inventing depth."
+}

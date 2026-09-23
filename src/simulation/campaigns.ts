@@ -1,3 +1,7 @@
+import {
+  MIGRATION_REVIEW_TRANSITION_KEY,
+  migrationReviewHandler,
+} from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
@@ -450,16 +454,6 @@ export interface EnsuredOpponents {
   readonly personIds: readonly EntityId[];
 }
 
-/**
- * Somebody to run against.
- *
- * A contest needs at least two people and a quiet life rarely contains a second
- * one already standing for the seat. So the opponent is materialized the way
- * every other background person in this world is: through the character-history
- * context-person writer, named from the versioned corpus by the world's own
- * seed, with a birth date and a residence and nothing else claimed about them.
- * They are a person in the world afterwards, not a slot in a campaign screen.
- */
 export function ensureCampaignOpponents(
   world: World,
   input: EnsureCampaignOpponentsInput,
@@ -1996,6 +1990,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
+        // MIGRATION: households leave town, newcomers arrive, waves step.
+        [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),
