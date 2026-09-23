@@ -171,6 +171,7 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
       player,
       "scene-home-evening",
     )!;
+    expect(view.briefing).not.toContain(" — their ");
     expect(view.openingLine).toMatch(/keep thinking|doesn’t seem real/);
     expect(view.intents.map((intent) => intent.key)).toEqual([
       "nothing-to-say",

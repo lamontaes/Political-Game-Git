@@ -488,10 +488,9 @@ const homeEvening: SceneFamilyDefinition = {
   briefing(context) {
     const { binding } = context;
     if (binding.variant === "bereaved") {
-      const relation = context.has("relation")
-        ? ` — their ${context.fact("relation")}`
-        : "";
-      return `${context.fact("deceasedName")} has died. ${context.fullName}${relation} is here, and the two of you have not spoken about it.`;
+      // The saved relation names what the deceased was to the player. It does
+      // not establish what the speaker was to the deceased.
+      return `${context.fact("deceasedName")} has died. ${context.fullName} is here, and the two of you have not spoken about it.`;
     }
     if (binding.variant === "claim-came-back") {
       return `${context.fullName} saw you leave for the ${context.fact("activityTitle")} after you said you would be home.`;
