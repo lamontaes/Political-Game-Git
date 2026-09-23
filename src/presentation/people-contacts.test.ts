@@ -381,3 +381,31 @@ describe("what the People screen says about somebody", () => {
     expect(contact.standing).toMatch(/would not rely on/);
   });
 });
+
+describe("what became of asking", () => {
+  it("says what they answered instead of quietly offering Ask again", () => {
+    // The owner's playtest: "You have already asked", then a day later the
+    // Ask button again, with nothing to say an answer had come.
+    for (const seed of ["contacts-answer-a", "contacts-answer-b"]) {
+      const { player, world } = adultLife(seed);
+      for (const contact of projectContacts(world, player).contacts) {
+        const asked = askToMeet(world, {
+          personId: player,
+          otherPersonId: contact.personId,
+          on: addDays(world.currentDate, 3),
+        });
+        const later = passOrdinaryDays(asked, 1);
+        const entry = projectContacts(later, player).contacts.find(
+          (candidate) => candidate.personId === contact.personId,
+        )!;
+        if (entry.outstanding) continue;
+        expect(entry.lastAnswer).toMatch(
+          new RegExp(later.people[contact.personId]!.givenName),
+        );
+        expect(entry.lastAnswer).not.toMatch(/\d{4}-\d{2}-\d{2}/);
+        return;
+      }
+    }
+    throw new Error("No request was answered within a day.");
+  });
+});

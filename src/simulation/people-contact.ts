@@ -596,7 +596,15 @@ export function answerContact(
       start,
       end,
       participantPersonIds: [from, to],
-      responsiblePersonId: from,
+      // Whoever carries the meeting out. Between two other people that is the
+      // one who asked. When the played person is one of the two, it is theirs
+      // to attend whoever asked: an old contact who rang and was told yes used
+      // to hold the meeting as theirs alone, and Attend never offered it.
+      responsiblePersonId:
+        next.control.kind === "person" &&
+        (next.control.personId === from || next.control.personId === to)
+          ? next.control.personId
+          : from,
       location: {
         locationKey: CONTACT_LOCATION_KEY,
         label: "Arranged in person",

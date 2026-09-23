@@ -21,7 +21,75 @@ export interface JournalSection {
   readonly heading: string;
   /** "2019" or "2014–2019": the years this section's entries fall in. */
   readonly span: string | null;
+  /** What happened once, in order. */
   readonly entries: readonly World39BiographyEntry[];
+  /**
+   * What happened again and again, said once each, after the rest.
+   *
+   * A Houma life's three-year chapter was one paragraph of about fifty party
+   * invitations that differed only in a name and a date, with the real events
+   * lost among them. A sentence whose shape recurs at least
+   * `REPEAT_THRESHOLD` times in a section is given once, with how many more
+   * there were and the date of the last.
+   */
+  readonly repeats: readonly JournalRepeat[];
+}
+
+export interface JournalRepeat {
+  /** The first of them, as recorded. */
+  readonly first: World39BiographyEntry;
+  /** Every one, including the first. */
+  readonly count: number;
+  readonly lastAt: string;
+}
+
+export const REPEAT_THRESHOLD = 3;
+
+const MONTH =
+  /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/g;
+
+/**
+ * A sentence with its particulars taken out: names, dates and numbers. Two
+ * sentences with the same shape say the same kind of thing about different
+ * people or days.
+ */
+export function journalSentenceShape(text: string): string {
+  return text
+    .replace(MONTH, "#")
+    .replace(/\d+/g, "#")
+    .replace(/\b[A-Z][\w'’.-]*/g, "N")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export function collapseJournalRepeats(
+  entries: readonly World39BiographyEntry[],
+): {
+  readonly entries: readonly World39BiographyEntry[];
+  readonly repeats: readonly JournalRepeat[];
+} {
+  const byShape = new Map<string, World39BiographyEntry[]>();
+  for (const entry of entries) {
+    const shape = `${entry.kind}:${journalSentenceShape(entry.text)}`;
+    const group = byShape.get(shape);
+    if (group) group.push(entry);
+    else byShape.set(shape, [entry]);
+  }
+  const repeated = new Set<string>();
+  const repeats: JournalRepeat[] = [];
+  for (const group of byShape.values()) {
+    if (group.length < REPEAT_THRESHOLD) continue;
+    for (const entry of group) repeated.add(entry.id);
+    repeats.push({
+      first: group[0]!,
+      count: group.length,
+      lastAt: group[group.length - 1]!.at,
+    });
+  }
+  return {
+    entries: entries.filter((entry) => !repeated.has(entry.id)),
+    repeats,
+  };
 }
 
 export interface JournalViewModel {
@@ -71,7 +139,7 @@ export function projectJournalView(
               key: chapter.key,
               heading: chapter.heading,
               span: chapter.year,
-              entries,
+              ...collapseJournalRepeats(entries),
             },
           ];
     });
@@ -101,7 +169,7 @@ export function projectJournalView(
       key,
       heading: group.heading,
       span: spanOf(group.entries),
-      entries: group.entries,
+      ...collapseJournalRepeats(group.entries),
     }));
   }
 
@@ -112,7 +180,10 @@ export function projectJournalView(
     years,
     sections,
     entryCount: sections.reduce(
-      (total, section) => total + section.entries.length,
+      (total, section) =>
+        total +
+        section.entries.length +
+        section.repeats.reduce((sum, repeat) => sum + repeat.count, 0),
       0,
     ),
   };

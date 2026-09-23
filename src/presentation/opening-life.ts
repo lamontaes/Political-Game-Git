@@ -113,6 +113,7 @@ export function generateOpeningLife(
                     game.playerPersonId,
                   ),
                   game.playerPersonId,
+                  session.setup.partyChapterNameVersion,
                 ),
                 game.playerPersonId,
               ),
