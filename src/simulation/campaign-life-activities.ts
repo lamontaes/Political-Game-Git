@@ -130,11 +130,8 @@ export const CAMPAIGN_LIFE_CONTACT_TAG = "campaign.contact";
 export const CAMPAIGN_LIFE_LATEST_END_MINUTE = 21 * 60;
 
 /** Authored cadence for this fictional setting, not a claim about any party. */
-/** Party and campaign activities are for adults: the age every offer checks. */
-export const CAMPAIGN_LIFE_MINIMUM_AGE = 18;
-
 const LIFE = {
-  minimumAge: CAMPAIGN_LIFE_MINIMUM_AGE,
+  minimumAge: 18,
   firstOutreachDays: [5, 12],
   deferDays: 7,
   nextOutreachDays: [10, 21],
@@ -147,6 +144,18 @@ const LIFE = {
   fundraiserMinorUnits: [25_000, 150_000],
   contactAgeYears: [22, 75],
 } as const;
+
+/** Whether this person is old enough to take up party and campaign work. */
+export function oldEnoughForCampaignLife(
+  world: World,
+  personId: EntityId,
+): boolean {
+  const person = world.people[personId];
+  return (
+    !!person &&
+    ageOnDate(person.birthDate, world.currentDate) >= LIFE.minimumAge
+  );
+}
 
 const FIELD_FORMS: readonly CampaignLifeForm[] = [
   "door-canvass",
@@ -367,6 +376,57 @@ function busy(
       state.status === "scheduled" &&
       compareSimulationMoments(start, state.end) < 0 &&
       compareSimulationMoments(state.start, end) < 0
+    );
+  });
+}
+
+/**
+ * The return leg home from the community room, in minutes, for a hold that has
+ * the authored journey there; zero for anything worked from where you are.
+ */
+function returnMinutes(world: World, hold: ScheduledActivityRecord): number {
+  const journey = journeyFor(world, hold);
+  if (!journey) return 0;
+  const state = scheduledActivityState(world, journey.id);
+  return Math.max(0, simulationMinutesBetween(state.start, state.end));
+}
+
+/**
+ * `busy`, for the person who has to be there, counting the walk home.
+ *
+ * An in-person evening ends at the community room, and the person still has
+ * to get home before anything worked from home can begin. Only the journey
+ * there was ever on the calendar, so a phone shift could be booked for the
+ * minute a meeting ended: the walk home then collided with it and did
+ * nothing, and the shift could not be worked from the community room (mass
+ * play in Bisbee, Arizona, 2026-09-23). The new hold's own walk home and every
+ * existing in-person hold's walk home are counted here.
+ */
+function subjectBusy(
+  world: World,
+  personId: EntityId,
+  entry: CampaignLifeCatalogEntry,
+  leave: SimulationMoment,
+  end: SimulationMoment,
+  ignoredActivityIds: readonly EntityId[] = [],
+): boolean {
+  const home =
+    entry.journeyKey === null
+      ? end
+      : addSimulationMinutes(end, entry.journeyMinutes);
+  if (busy(world, [personId], leave, home, ignoredActivityIds)) return true;
+  return world.history.scheduledActivities.some((activity) => {
+    if (ignoredActivityIds.includes(activity.id)) return false;
+    if (!activity.participantPersonIds.includes(personId)) return false;
+    if (activity.kind === "travel") return false;
+    const state = scheduledActivityState(world, activity.id);
+    if (state.status !== "scheduled") return false;
+    const back = returnMinutes(world, activity);
+    if (back === 0) return false;
+    const backHome = addSimulationMinutes(state.end, back);
+    return (
+      compareSimulationMoments(leave, backHome) < 0 &&
+      compareSimulationMoments(state.start, home) < 0
     );
   });
 }
@@ -623,7 +683,7 @@ export function offerCampaignLifeActivity(
     entry.journeyKey === null
       ? start
       : addSimulationMinutes(start, -entry.journeyMinutes);
-  if (busy(world, [input.subjectPersonId], leave, end)) {
+  if (subjectBusy(world, input.subjectPersonId, entry, leave, end)) {
     throw new Error(
       `You already have something on your calendar then, so the ${entry.title.toLowerCase()} could not be arranged.`,
     );
@@ -782,7 +842,10 @@ export function acceptCampaignLifeActivity(
     : state.start;
   const ignored = [tentative.id, ...(journey ? [journey.id] : [])];
   if (compareSimulationMoments(leave, world.currentMoment) <= 0) return world;
-  if (busy(world, [personId, record.hostPersonId], leave, state.end, ignored)) {
+  if (
+    subjectBusy(world, personId, entry, leave, state.end, ignored) ||
+    busy(world, [record.hostPersonId], state.start, state.end, ignored)
+  ) {
     throw new Error(
       `Something else is now on the calendar then, so the ${entry.title.toLowerCase()} cannot be confirmed.`,
     );
@@ -922,7 +985,7 @@ export function requestCampaignLifeActivity(
       entry.journeyKey === null
         ? start
         : addSimulationMinutes(start, -entry.journeyMinutes);
-    if (busy(world, [personId], leave, end)) continue;
+    if (subjectBusy(world, personId, entry, leave, end)) continue;
     if (busy(world, [hostPersonId], start, end)) continue;
     return offerCampaignLifeActivity(world, {
       form: input.form,

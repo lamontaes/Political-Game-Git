@@ -3,6 +3,7 @@ import {
   CHAPTER_MEETING_ATTENDED_EVENT,
   campaignById,
   homePartyChapters,
+  oldEnoughForCampaignLife,
   personName,
   projectCampaignGuidance,
   projectCampaignLifeActivities,
@@ -24,8 +25,6 @@ import {
   type World,
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
-import { ageOnDate } from "../simulation/dates";
-import { CAMPAIGN_LIFE_MINIMUM_AGE } from "../simulation/campaign-life-activities";
 import { formatMinute } from "./player-calendar";
 import { proseDate } from "./prose-dates";
 import { venueActivities } from "./venue-activity";
@@ -343,15 +342,12 @@ export function projectPartyAndCommunityWork(
     };
   });
 
-  // Offered only to the person being played, and only once they are old
-  // enough to take any of it up. A child used to be offered every chapter's
-  // work, and every request was then refused (mass play, 2026-09-23).
-  const person = world.people[personId];
+  // The writer refuses anyone under eighteen, so a younger player is offered
+  // nothing to ask for: a 16-year-old used to press it and get an error.
   const adult =
     world.control.kind === "person" &&
     world.control.personId === personId &&
-    !!person &&
-    ageOnDate(person.birthDate, world.currentDate) >= CAMPAIGN_LIFE_MINIMUM_AGE;
+    oldEnoughForCampaignLife(world, personId);
   const openFor = (hostPersonId: EntityId, form: CampaignLifeForm) =>
     views.some(
       (view) =>
