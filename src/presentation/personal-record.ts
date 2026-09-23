@@ -6,6 +6,7 @@ import {
   campaignTreasuryPosition,
   describePersonContext,
   educationEnrollmentHistoryForPerson,
+  educationEnrollmentStateAt,
   householdLocationAt,
   organizationProfileAt,
   peopleInHouseholdAt,
@@ -204,11 +205,19 @@ export function projectPersonalRecord(
   )) {
     const name = organizationProfileAt(world, enrollment.organizationId)?.name;
     if (!name) continue;
+    const state = educationEnrollmentStateAt(world, enrollment.id);
+    const from = enrollment.startedAt.slice(0, 4);
+    // A place still to be taken up reads as ahead, and a school that is over
+    // says when it ended, so neither reads as the other.
     education.push({
       key: enrollment.id,
       text: ongoing.has(enrollment.id)
-        ? `${name}, since ${enrollment.startedAt.slice(0, 4)}.`
-        : `${name}, from ${enrollment.startedAt.slice(0, 4)}.`,
+        ? `${name}, since ${from}.`
+        : state?.status === "expected"
+          ? `${name}, starting ${enrollment.startedAt.slice(5, 7) >= "07" ? "in the fall of " : "in "}${from}.`
+          : state && state.status !== "active"
+            ? `${name}, ${from} to ${state.effectiveAt.slice(0, 4)}.`
+            : `${name}, from ${from}.`,
     });
   }
 

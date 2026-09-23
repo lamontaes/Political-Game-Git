@@ -83,6 +83,7 @@ import {
 } from "../presentation/local-governing-seat";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
+import { personPronouns } from "../simulation/person-identity";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { PublicServicePanel } from "./politics/PublicServicePanel";
@@ -176,6 +177,7 @@ import {
   placeStartFacts,
   type PlaceStartFact,
 } from "../presentation/place-start-summary";
+import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
 import {
   openOrdinaryLife,
@@ -1839,6 +1841,15 @@ function SetupScreen({
                     {fact.text}
                   </p>
                 ))}
+              {placeRegionalFacts(place).map((fact) => (
+                <p
+                  key={fact.key}
+                  className="game-hint"
+                  data-testid={`place-regional-${fact.key}`}
+                >
+                  {fact.text}
+                </p>
+              ))}
               {populationFacts.map((fact) => (
                 <p
                   key={`${fact.kind}:${fact.text}:${fact.asOf}`}
@@ -5187,7 +5198,8 @@ function renderWorkspace({
             <p>
               {capabilities.person.givenName} works for the{" "}
               {capabilities.workPlace?.displayName} legislature, so what is in
-              front of the chamber is in front of them too.
+              front of the chamber is in front of{" "}
+              {personPronouns(capabilities.person).object} too.
             </p>
             <OfficeOnboardingWorkspace
               world={session.world}
