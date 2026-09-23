@@ -7,6 +7,8 @@ import {
   projectPartyEncounters,
 } from "../simulation/living-world/party-chapters";
 import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
+import { personTrait } from "../simulation/people-traits";
+import { deriveRelationshipSummary } from "../simulation/queries";
 import {
   answerContact,
   counterWithNewDay,
@@ -364,61 +366,49 @@ function meetUpAnswers(context: SceneContext): SceneAnswer[] {
 /**
  * After a death in the family (CRUNCH47 B1).
  *
- * Nothing here is required and nothing is measured. These are things one
- * person might say to another who lost the same person: remembering them,
- * offering to take something on, admitting there is nothing to say, or leaving
- * it for now. Anybody may say any of them, and the world records only that
- * they were said.
+ * The death notice establishes grief, not a shared memory or an arrangement
+ * needing help. Those answers require their own recorded facts and are withheld
+ * until a producer can bind them. The speaker's response to an honest answer
+ * depends on how this pair has actually related and the speaker's recorded
+ * sociability; a death alone cannot improve their relationship.
  */
 function bereavedAnswers(context: SceneContext): SceneAnswer[] {
-  const given = context.fact("deceasedGiven");
+  const sociability = personTrait(
+    context.world,
+    context.speaker.id,
+    "sociability",
+  );
+  const close =
+    deriveRelationshipSummary(
+      context.world,
+      context.speaker.id,
+      context.player.id,
+    ).closeness === "close";
+  const warmlyReceptive =
+    sociability.recordId !== null && sociability.value > 0 && close;
   return [
-    {
-      key: "remember-them",
-      label: `Say something about ${given}`,
-      description: "Remember them out loud.",
-      statement: `I keep coming back to the small things about ${given}.`,
-      replies: says(context, [
-        "“So do I. That’s the part that gets me,” {name} says.",
-        "“Tell me one. I’d like to hear it,” {name} says.",
-      ]),
-      record: `The player and ${context.name} remembered ${given} together.`,
-      relationship: {
-        kind: "support:grieved-together",
-        change: "strengthened",
-        significance: "meaningful",
-        summary: ({ playerName, otherName }) =>
-          `${playerName} and ${otherName} talked about ${given}.`,
-      },
-    },
-    {
-      key: "offer-help",
-      label: "Offer to take something on",
-      description: "There are arrangements, and you can carry some of them.",
-      statement: "Tell me what needs doing. I can take some of it.",
-      replies: says(context, [
-        "“That would help. I’ll write you a list,” {name} says.",
-        "“Thank you. I didn’t want to ask,” {name} says.",
-      ]),
-      record: `The player offered ${context.name} to take on some of the arrangements for ${given}.`,
-      relationship: {
-        kind: "support:offered-help",
-        change: "strengthened",
-        significance: "meaningful",
-        summary: ({ playerName, otherName }) =>
-          `${playerName} offered to carry some of what ${otherName} was left with.`,
-      },
-    },
     {
       key: "nothing-to-say",
       label: "Say you don’t know what to say",
       description: "Be honest about that much.",
       statement: "I don’t know what to say about it yet.",
       replies: says(context, [
-        "“Nobody does. It’s all right,” {name} says.",
-        "“You don’t have to,” {name} says.",
+        warmlyReceptive
+          ? "“Nobody does. It’s all right,” {name} says."
+          : "“You don’t have to,” {name} says.",
       ]),
       record: `The player told ${context.name} they had no words for it yet.`,
+      ...(warmlyReceptive
+        ? {
+            relationship: {
+              kind: "support:honest-about-grief",
+              change: "strengthened",
+              significance: "minor",
+              summary: ({ playerName, otherName }) =>
+                `${playerName} and ${otherName} talked about ${context.fact("deceasedGiven")}.`,
+            } satisfies NonNullable<SceneAnswer["relationship"]>,
+          }
+        : {}),
     },
     {
       key: "leave-it",
@@ -426,8 +416,9 @@ function bereavedAnswers(context: SceneContext): SceneAnswer[] {
       description: "Not tonight.",
       statement: "Not tonight. I can’t.",
       replies: says(context, [
-        "“All right. I’m here,” {name} says.",
-        "“Another time,” {name} says.",
+        warmlyReceptive
+          ? "“All right. I’m here,” {name} says."
+          : "“Another time,” {name} says.",
       ]),
       record: `The player left it for another time with ${context.name}.`,
     },
@@ -523,7 +514,6 @@ const homeEvening: SceneFamilyDefinition = {
       const given = context.fact("deceasedGiven");
       return says(context, [
         `“I keep thinking I should call ${given},” {name} says.`,
-        `“It still doesn’t seem real, about ${given},” {name} says.`,
       ]);
     }
     if (binding.variant === "claim-came-back") {
