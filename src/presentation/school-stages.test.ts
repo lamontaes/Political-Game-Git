@@ -11,6 +11,7 @@ import { advanceWorld, assertWorldIntegrity } from "../simulation/world";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { letTimePass } from "./formative-play";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { projectPersonalRecord } from "./personal-record";
 
 /**
  * A child who started at five was still at the elementary school at eighteen:
@@ -138,6 +139,16 @@ describe("a child moves on through school while the game is played", () => {
     expect(first[0]!.startedAt > world.currentDate).toBe(true);
     expect(first[0]!.startedAt.slice(0, 4)).toBe(world.currentDate.slice(0, 4));
     expect(first[0]!.startedAt.slice(5) >= "08-15").toBe(true);
+    // The record reads the place as ahead, not as a school already left.
+    expect(
+      projectPersonalRecord(world, playerId)!.education.map((l) => l.text),
+    ).toEqual([
+      expect.stringMatching(
+        new RegExp(
+          `, starting in the fall of ${world.currentDate.slice(0, 4)}\\.$`,
+        ),
+      ),
+    ]);
     const ageOn = (date: string) =>
       Number(date.slice(0, 4)) -
       Number(world.people[playerId]!.birthDate.slice(0, 4)) -
@@ -178,6 +189,11 @@ describe("a child moves on through school while the game is played", () => {
       "schooling:secondary",
     ]);
     expect(rows.at(-1)!.status).toBe("active");
+    const record = projectPersonalRecord(world, playerId)!.education.map(
+      (line) => line.text,
+    );
+    expect(record[0]).toMatch(/, \d{4} to \d{4}\.$/);
+    expect(record.at(-1)).toMatch(/, since \d{4}\.$/);
     expect(new Set(rows.map((row) => row.school)).size).toBe(3);
     // Middle school begins at eleven or twelve, high school at fourteen or
     // fifteen, by the fall calendar; never elementary at sixteen.
