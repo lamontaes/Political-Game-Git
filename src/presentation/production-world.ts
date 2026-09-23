@@ -144,7 +144,20 @@ export interface ProductionWorldInput {
   readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
   /** Absent keeps an old replay's school names (the v1 draw). */
   readonly schoolNameVersion?: SchoolNameVersion;
+  /** Absent keeps an old replay's family, every one born on the player's birthday. */
+  readonly familyBirthdayVersion?: FamilyBirthdayVersion;
 }
+
+/**
+ * The family, housemates and classmates a start writes used to share the
+ * player's birthday: each was born a whole number of years before or after
+ * them, to the day. Under this version each has a birthday of their own, up
+ * to half a year either side, drawn apart from every other draw so the rest
+ * of the family comes out the same. A brother or sister only ever moves
+ * further from the player, never closer.
+ */
+export const FAMILY_BIRTHDAYS_V1 = "family-birthdays-v1" as const;
+export type FamilyBirthdayVersion = typeof FAMILY_BIRTHDAYS_V1;
 
 export interface ProductionWorld {
   readonly world: World;
@@ -245,6 +258,7 @@ export function buildProductionWorld(
     input.earlierLifeGenerationVersion,
     input.childhoodGenerationVersion,
     input.schoolNameVersion,
+    input.familyBirthdayVersion,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -344,9 +358,28 @@ function establishAgeEligibleState(
   earlierLifeGenerationVersion?: EarlierLifeGenerationVersion,
   childhoodGenerationVersion?: ChildhoodGenerationVersion,
   schoolNameVersion?: SchoolNameVersion,
+  familyBirthdayVersion?: FamilyBirthdayVersion,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
+  /**
+   * Born `years` before the player (after them, when negative), on a birthday
+   * of their own under the family-birthday version. `awayFrom` keeps a
+   * sibling on their side of the player, only ever further away.
+   */
+  const bornBefore = (
+    key: string,
+    years: number,
+    awayFrom = false,
+  ): IsoDate => {
+    const date = yearsBefore(player.birthDate, years);
+    if (familyBirthdayVersion !== FAMILY_BIRTHDAYS_V1) return date;
+    const drawn = new SeededRng(world.seed)
+      .fork(`${key}:birthday`)
+      .integer(-182, 183);
+    const shift = awayFrom ? (years > 0 ? -1 : 1) * Math.abs(drawn) : drawn;
+    return addDays(date, shift);
+  };
   const dependent = age < DEPENDENT_AGE_CEILING;
   const stableKey = "production:initial-life";
   const householdKey = `${stableKey}:household`;
@@ -445,7 +478,7 @@ function establishAgeEligibleState(
             stableKey: otherKey,
             ...otherName,
             identity: generatedIdentityFor(world.seed, otherKey),
-            birthDate: yearsBefore(player.birthDate, rng.integer(-6, 7)),
+            birthDate: bornBefore(otherKey, rng.integer(-6, 7)),
             homeJurisdictionId: jurisdictionId,
           },
         },
@@ -534,8 +567,8 @@ function establishAgeEligibleState(
   // firm moves both ends later and one that leaned toward disruption moves them
   // earlier. The generator still draws. See `setup-generation-inputs.ts`.
   const [guardianAgeFloor, guardianAgeCeiling] = guardianAgeBand(generation);
-  const guardianBirthDate = yearsBefore(
-    player.birthDate,
+  const guardianBirthDate = bornBefore(
+    guardianKey,
     rng.integer(guardianAgeFloor, guardianAgeCeiling),
   );
 
@@ -638,7 +671,7 @@ function establishAgeEligibleState(
     // the candidates sit on is tilted by the care lean; the pick is still the
     // generator's.
     const yearsApart = rng.pick([...siblingAgeGaps(generation)]);
-    const siblingBirthDate = yearsBefore(player.birthDate, yearsApart);
+    const siblingBirthDate = bornBefore(siblingKey, yearsApart, true);
     // A record cannot predate either person in it, so a sibling born after the
     // player establishes the kinship on the day the younger of them arrived.
     const siblingKinshipDate =
@@ -725,7 +758,7 @@ function establishAgeEligibleState(
           stableKey: otherKey,
           ...secondParentName,
           identity: generatedIdentityFor(world.seed, otherKey),
-          birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
+          birthDate: bornBefore(otherKey, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
         },
       },
@@ -794,7 +827,7 @@ function establishAgeEligibleState(
           stableKey: otherParentKey,
           ...otherParentName,
           identity: generatedIdentityFor(world.seed, otherParentKey),
-          birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
+          birthDate: bornBefore(otherParentKey, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
         },
       },
@@ -886,7 +919,7 @@ function establishAgeEligibleState(
             stableKey: classmateKey,
             ...classmateName,
             identity: generatedIdentityFor(world.seed, classmateKey),
-            birthDate: yearsBefore(player.birthDate, rng.integer(-1, 2)),
+            birthDate: bornBefore(classmateKey, rng.integer(-1, 2)),
             homeJurisdictionId: jurisdictionId,
           },
         },
