@@ -172,6 +172,7 @@ export function WorkspaceFrame({
   const [draft, setDraft] = useState<WorkspaceLayout | null>(null);
   const [liveLayout, setLiveLayout] = useState<WorkspaceLayout | null>(null);
   const [closing, setClosing] = useState(false);
+  const closeTimer = useRef<number | null>(null);
   const [viewport, setViewport] = useState(() => ({
     width: typeof window === "undefined" ? 1280 : window.innerWidth,
     height: typeof window === "undefined" ? 860 : window.innerHeight,
@@ -196,6 +197,22 @@ export function WorkspaceFrame({
   useEffect(() => {
     setDraft(null);
   }, [testid]);
+  /*
+   * A close waits out its fade before it takes the player back to the room.
+   * Opening something else during the fade, a pin pressed as the People
+   * workspace fades, reuses this frame for the new workspace, and the old
+   * timer then closed the page just opened (People web browser test on main
+   * 54bebe81, 2026-09-23). A new workspace cancels the close it replaced.
+   */
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current !== null) {
+        window.clearTimeout(closeTimer.current);
+        closeTimer.current = null;
+      }
+      setClosing(false);
+    };
+  }, [testid]);
   useEffect(() => {
     const resize = () =>
       setViewport({ width: window.innerWidth, height: window.innerHeight });
@@ -216,7 +233,10 @@ export function WorkspaceFrame({
       return;
     }
     setClosing(true);
-    window.setTimeout(onClose, WORKSPACE_CLOSE_MS);
+    closeTimer.current = window.setTimeout(() => {
+      closeTimer.current = null;
+      onClose();
+    }, WORKSPACE_CLOSE_MS);
   }
   function start(
     event: ReactPointerEvent<HTMLElement>,

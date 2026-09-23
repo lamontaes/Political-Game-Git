@@ -118,7 +118,8 @@ test.describe("the docket, from the ordinary route", () => {
 
     // Two genuinely different proposals, compared by reading them.
     await expect(options).toContainText("Program authorization");
-    await expect(options).not.toContainText("Program authorization");
+    // british-spelling-ok: proves the old British label is gone from the list.
+    await expect(options).not.toContainText("Programme authorization");
     await expect(options).toContainText("Transit access");
     await expect(options).toContainText("Bridge and culvert maintenance");
     await expect(options).toContainText("Broadband access");
