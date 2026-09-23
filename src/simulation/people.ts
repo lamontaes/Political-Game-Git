@@ -9,7 +9,7 @@ import { createStableId } from "./ids";
 import {
   DEFAULT_CORPUS_VERSION,
   DEMO_NAMES_V4,
-  givenNamePoolForStatedGender,
+  givenNamePoolForCorpus,
   getNameCorpus,
 } from "./names-data";
 import { derivePersonAppearance } from "./person-appearance";
@@ -584,9 +584,10 @@ function statedGenderGivenName(
   worldSeed: string,
   generationKey: string,
   gender: GenderIdentityKey | undefined,
+  corpusVersion: string,
 ): string | null {
   if (gender === undefined || gender === "unstated") return null;
-  const pool = givenNamePoolForStatedGender(gender);
+  const pool = givenNamePoolForCorpus(getNameCorpus(corpusVersion), gender);
   return new SeededRng(worldSeed)
     .fork(`${generationKey}:stated-gender-given-name`)
     .pick(pool);
@@ -605,7 +606,11 @@ export function createStartingPerson(input: StartingPersonInput): Person {
   // Both names are drawn whether or not they are used, so a player who types
   // one of them does not shift the birthday of the person they are naming.
   const drawnGivenName = rng.pick(corpus.givenNames);
-  const drawnFamilyName = rng.pick(corpus.familyNames);
+  const firstFamilyName = rng.pick(corpus.familyNames);
+  const drawnFamilyName =
+    corpus.surnamesCarried === 2
+      ? `${firstFamilyName} ${rng.pick(corpus.familyNames)}`
+      : firstFamilyName;
   // A player who states a gender and leaves the name blank is asking for a name
   // that goes with what they just said. That draw runs on its own forked
   // stream, so honoring it cannot move the birthday, the appearance, or any
@@ -614,6 +619,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
     input.worldSeed,
     generationKey,
     input.identity?.gender,
+    corpusVersion,
   );
   const givenName =
     input.givenName?.trim() || statedGivenName || drawnGivenName;
@@ -725,9 +731,14 @@ function drawUnrestrictedName(
   corpusVersion: string = DEFAULT_CORPUS_VERSION,
 ): { readonly givenName: string; readonly familyName: string } {
   const corpus = getNameCorpus(corpusVersion);
+  const givenName = rng.pick(corpus.givenNames);
+  const familyName = rng.pick(corpus.familyNames);
   return {
-    givenName: rng.pick(corpus.givenNames),
-    familyName: rng.pick(corpus.familyNames),
+    givenName,
+    familyName:
+      corpus.surnamesCarried === 2
+        ? `${familyName} ${rng.pick(corpus.familyNames)}`
+        : familyName,
   };
 }
 
@@ -805,7 +816,7 @@ export function drawCanonicalNameForGender(
 ): { readonly givenName: string; readonly familyName: string } {
   const drawn = drawUnrestrictedName(rng, corpusVersion);
   if (gender === "unstated") return drawn;
-  const pool = givenNamePoolForStatedGender(gender);
+  const pool = givenNamePoolForCorpus(getNameCorpus(corpusVersion), gender);
   if (generationVersion === LEGACY_GIVEN_NAME_GENERATION_VERSION) {
     return {
       givenName: rng.fork("canonical-name:gendered-given-name").pick(pool),

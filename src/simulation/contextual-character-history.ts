@@ -7,6 +7,7 @@ import {
   type ChildhoodGenerationVersion,
 } from "./character-history";
 import { dateAtAge } from "./dates";
+import { familyNameFromParent } from "./names-data";
 import {
   drawCanonicalNameForGender,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
@@ -38,6 +39,8 @@ export function generateContextualCharacterHistory(
     readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
     // Forwarded the same way: the schools are named by the legacy constructor.
     readonly schoolNameVersion?: SchoolNameVersion;
+    // The corpus of the place this life began in, for the re-drawn names.
+    readonly nameCorpusVersion?: string;
   },
 ): CharacterHistoryPlan {
   // Existing canonical background wins, including older school/work records.
@@ -82,7 +85,7 @@ export function generateContextualCharacterHistory(
       const name = drawCanonicalNameForGender(
         rng.fork(entry.input.stableKey),
         entry.input.identity?.gender ?? "unstated",
-        undefined,
+        input.nameCorpusVersion,
         DISTINCT_GIVEN_NAME_GENERATION_VERSION,
         spokenFor,
       );
@@ -93,7 +96,11 @@ export function generateContextualCharacterHistory(
           ...entry.input,
           ...name,
           ...(entry.input.stableKey === key("parent")
-            ? { familyName: player.familyName }
+            ? {
+                familyName:
+                  familyNameFromParent(player.familyName, 0, name.familyName) ??
+                  player.familyName,
+              }
             : {}),
         },
       };

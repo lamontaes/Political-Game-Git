@@ -9,6 +9,7 @@ import {
   yearOf,
 } from "./dates";
 import { PUBLIC_MEETING_KEY } from "./life-opportunities";
+import { nameCorpusVersionForWorld } from "./place-name-corpus";
 import {
   drawCanonicalNameForGender,
   personName,
@@ -275,7 +276,7 @@ function writePresence(
       ...drawCanonicalNameForGender(
         rng,
         identity.gender,
-        undefined,
+        nameCorpusVersionForWorld(completed, jurisdictionId),
         DISTINCT_GIVEN_NAME_GENERATION_VERSION,
       ),
       identity,

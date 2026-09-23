@@ -14,6 +14,13 @@ import {
 } from "../simulation/school-names";
 import { LEGACY_COHERENT_CATALOG_GENERATION } from "../simulation/person-appearance";
 import {
+  familyNameFromParent,
+  getNameCorpus,
+  nameCorpusVersionForPlace,
+  type PlaceNameVersion,
+} from "../simulation/names-data";
+import { PLACE_NAMES_TAG } from "../simulation/place-name-corpus";
+import {
   guardianAgeBand,
   siblingAgeGaps,
   applyCharacterHistoryPlan,
@@ -43,6 +50,7 @@ import { establishLifePersonality } from "../simulation/life-personality";
 import type {
   CharacterHistoryTransition,
   EntityId,
+  GenderIdentityKey,
   GivenNameGenerationVersion,
   IsoDate,
   LifePlace,
@@ -144,6 +152,8 @@ export interface ProductionWorldInput {
   readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
   /** Absent keeps an old replay's school names (the v1 draw). */
   readonly schoolNameVersion?: SchoolNameVersion;
+  /** Absent names every life from the national corpus, as old replays did. */
+  readonly placeNameVersion?: PlaceNameVersion;
 }
 
 export interface ProductionWorld {
@@ -184,6 +194,10 @@ export function buildProductionWorld(
   const jurisdiction = place.context.jurisdiction;
   const currentDate = place.context.initialMoment.date as IsoDate;
   const worldId = createWorldId(input.seed, "production");
+  const nameCorpusVersion = nameCorpusVersionForPlace(
+    stateUsps(place.stateJurisdictionKey),
+    input.placeNameVersion,
+  );
 
   // Step 2 before step 1 in code, because a world is created with its people:
   // the person is built with the identity the player asked for so that no
@@ -199,6 +213,7 @@ export function buildProductionWorld(
       : { birthMonth: input.birthMonth, birthDay: input.birthDay }),
     givenName: input.givenName,
     familyName: input.familyName,
+    corpusVersion: nameCorpusVersion,
     // A life starting now is drawn under the coherent recipe, declared here
     // rather than taken from a default, so that people already saved — and
     // the fixture worlds with accepted serialized bytes — keep the recipe
@@ -245,6 +260,7 @@ export function buildProductionWorld(
     input.earlierLifeGenerationVersion,
     input.childhoodGenerationVersion,
     input.schoolNameVersion,
+    nameCorpusVersion,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -297,7 +313,11 @@ function recordCreation(
     ],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["world.created", "life.started"],
+    tags: [
+      "world.created",
+      "life.started",
+      ...(input.placeNameVersion === undefined ? [] : [PLACE_NAMES_TAG]),
+    ],
     summary: `${name} is ${age}, and lives in ${place.displayName}. This is where their life is picked up.`,
     context: {
       location: {
@@ -341,9 +361,10 @@ function establishAgeEligibleState(
   generation: SetupGenerationInputs | null,
   familyStructureSeed: string,
   givenNameGenerationVersion: GivenNameGenerationVersion,
-  earlierLifeGenerationVersion?: EarlierLifeGenerationVersion,
-  childhoodGenerationVersion?: ChildhoodGenerationVersion,
-  schoolNameVersion?: SchoolNameVersion,
+  earlierLifeGenerationVersion: EarlierLifeGenerationVersion | undefined,
+  childhoodGenerationVersion: ChildhoodGenerationVersion | undefined,
+  schoolNameVersion: SchoolNameVersion | undefined,
+  nameCorpusVersion: string,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -411,6 +432,7 @@ function establishAgeEligibleState(
       earlierLifeGenerationVersion,
       childhoodGenerationVersion,
       schoolNameVersion,
+      nameCorpusVersion,
     );
     transitions.push({
       kind: "household-membership",
@@ -433,7 +455,7 @@ function establishAgeEligibleState(
       const otherName = drawCanonicalNameForGender(
         rng,
         generatedIdentityFor(world.seed, otherKey).gender,
-        undefined,
+        nameCorpusVersion,
         givenNameGenerationVersion,
         spokenFor,
       );
@@ -473,6 +495,7 @@ function establishAgeEligibleState(
         player,
         transitions,
         givenNameGenerationVersion,
+        nameCorpusVersion,
       ),
     }).world;
     if (
@@ -519,7 +542,7 @@ function establishAgeEligibleState(
   const guardianName = drawCanonicalNameForGender(
     rng,
     generatedIdentityFor(world.seed, guardianKey).gender,
-    undefined,
+    nameCorpusVersion,
     givenNameGenerationVersion,
     spokenFor,
   );
@@ -628,7 +651,7 @@ function establishAgeEligibleState(
     const siblingName = drawCanonicalNameForGender(
       rng,
       generatedIdentityFor(world.seed, siblingKey).gender,
-      undefined,
+      nameCorpusVersion,
       givenNameGenerationVersion,
       spokenFor,
     );
@@ -713,7 +736,7 @@ function establishAgeEligibleState(
     const secondParentName = drawCanonicalNameForGender(
       otherRng,
       generatedIdentityFor(world.seed, otherKey).gender,
-      undefined,
+      nameCorpusVersion,
       givenNameGenerationVersion,
       spokenFor,
     );
@@ -782,7 +805,7 @@ function establishAgeEligibleState(
     const otherParentName = drawCanonicalNameForGender(
       otherRng,
       generatedIdentityFor(world.seed, otherParentKey).gender,
-      undefined,
+      nameCorpusVersion,
       givenNameGenerationVersion,
       spokenFor,
     );
@@ -874,7 +897,7 @@ function establishAgeEligibleState(
       const classmateName = drawCanonicalNameForGender(
         rng,
         generatedIdentityFor(world.seed, classmateKey).gender,
-        undefined,
+        nameCorpusVersion,
         givenNameGenerationVersion,
         spokenFor,
       );
@@ -913,8 +936,31 @@ function establishAgeEligibleState(
     transitions: cohortNamed(
       world,
       player,
-      transitions,
+      withParentSurnames(transitions, player.familyName, [
+        {
+          stableKey: guardianKey,
+          ownFamilyName: guardianName.familyName,
+          gender: generatedIdentityFor(world.seed, guardianKey).gender,
+        },
+        ...[`${stableKey}:second-parent`, otherParentKey].flatMap((key) => {
+          const entry = transitions.find(
+            (candidate) =>
+              candidate.kind === "context-person" &&
+              candidate.input.stableKey === key,
+          );
+          return entry?.kind === "context-person"
+            ? [
+                {
+                  stableKey: key,
+                  ownFamilyName: entry.input.familyName,
+                  gender: generatedIdentityFor(world.seed, key).gender,
+                },
+              ]
+            : [];
+        }),
+      ]),
       givenNameGenerationVersion,
+      nameCorpusVersion,
     ),
   }).world;
   return otherParentState === "deceased"
@@ -1014,9 +1060,10 @@ function summarizeEarlierLife(
   player: Person,
   jurisdictionId: EntityId,
   givenNameGenerationVersion: GivenNameGenerationVersion,
-  version?: EarlierLifeGenerationVersion,
-  childhoodGenerationVersion?: ChildhoodGenerationVersion,
-  schoolNameVersion?: SchoolNameVersion,
+  version: EarlierLifeGenerationVersion | undefined,
+  childhoodGenerationVersion: ChildhoodGenerationVersion | undefined,
+  schoolNameVersion: SchoolNameVersion | undefined,
+  nameCorpusVersion: string,
 ): World {
   const stableKey = "production:earlier-life";
   const generateHistory =
@@ -1032,6 +1079,7 @@ function summarizeEarlierLife(
       ? {}
       : { childhoodGenerationVersion }),
     ...(schoolNameVersion === undefined ? {} : { schoolNameVersion }),
+    nameCorpusVersion,
   });
   const next = applyCharacterHistoryPlan(world, {
     ...plan,
@@ -1040,6 +1088,7 @@ function summarizeEarlierLife(
       player,
       plan.transitions,
       givenNameGenerationVersion,
+      nameCorpusVersion,
     ),
   }).world;
   return applyCharacterHistoryPlan(next, {
@@ -1224,10 +1273,53 @@ function cohortNamed(
   player: Person,
   transitions: readonly CharacterHistoryTransition[],
   version: GivenNameGenerationVersion,
+  nameCorpusVersion: string,
 ): readonly CharacterHistoryTransition[] {
-  return version === COHORT_GIVEN_NAME_GENERATION_VERSION
+  // The birth-year tables are the SSA's, which do not cover a place with its
+  // own measured names; a life there keeps the name its own corpus gave.
+  return version === COHORT_GIVEN_NAME_GENERATION_VERSION &&
+    getNameCorpus(nameCorpusVersion).givenNamesBySex === undefined
     ? withBirthCohortGivenNames(world.seed, transitions, [player.givenName])
     : transitions;
+}
+
+/**
+ * Where a child carries one surname from each parent, the parents carry them
+ * too: whoever passed the first surname has it first, the other parent has
+ * the second, and each keeps their own second surname after it. The first
+ * surname is the father's where the household has exactly one man among its
+ * parents, and otherwise the first-listed parent's. Anywhere a name is a
+ * single surname, nobody's family name changes.
+ */
+function withParentSurnames(
+  transitions: readonly CharacterHistoryTransition[],
+  childFamilyName: string,
+  parents: readonly {
+    readonly stableKey: string;
+    readonly ownFamilyName: string;
+    readonly gender: GenderIdentityKey;
+  }[],
+): readonly CharacterHistoryTransition[] {
+  const men = parents.filter((parent) => parent.gender === "male");
+  const first = men.length === 1 ? men[0]! : parents[0];
+  const passes = new Map(
+    parents.map((parent) => [parent.stableKey, parent === first ? 0 : 1]),
+  );
+  return transitions.map((entry) => {
+    if (entry.kind !== "context-person") return entry;
+    const parent = parents.find(
+      (candidate) => candidate.stableKey === entry.input.stableKey,
+    );
+    if (parent === undefined) return entry;
+    const familyName = familyNameFromParent(
+      childFamilyName,
+      passes.get(parent.stableKey) as 0 | 1,
+      parent.ownFamilyName,
+    );
+    return familyName === null
+      ? entry
+      : { ...entry, input: { ...entry.input, familyName } };
+  });
 }
 
 function yearsBefore(date: IsoDate, years: number): IsoDate {

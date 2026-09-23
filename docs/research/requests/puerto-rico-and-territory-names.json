@@ -1,0 +1,49 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "Honorees were mostly born before 1950, so a child born in 2015 is named like a grandparent, and the surname weights are those of people a town chose to honor.",
+      "argumentFor": "Already measured from a file the game ships, and it fixes the reported defect: a Mayagüez household is named the island's way.",
+      "label": "Keep the honoree names",
+      "position": "Keep drawing Puerto Rico names from the given names and surnames of the people the island's schools are named for, and keep the territories on the national names.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "Needs the sources below compiled into counts.",
+      "argumentFor": "Names that follow the year a person was born, surnames weighted by how many people carry them, and a Guam, Saipan, St. Croix or Pago Pago life named the way people there are named.",
+      "label": "Measured names by place and year",
+      "position": "Replace the honoree names with measured given names by sex and birth year and surnames by frequency, for Puerto Rico and each territory.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T05:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Names that match the person",
+  "notes": [
+    "The national corpus is SSA given names and Census surnames; the SSA's national and state files do not include Puerto Rico's births, and the game never read a territory's names.",
+    "Puerto Rico now names a new life, its household, and the people it meets locally from the island's own names with two surnames (the father's first surname, then the mother's). The honoree sample is 459 people from 865 schools; 265 of them are written with two surnames.",
+    "Guam (7 honorees), the Northern Mariana Islands (1), the U.S. Virgin Islands (3) and American Samoa (0) have too few named schools to draw from, so those lives still get national names.",
+    "Officeholders, the resident commissioner, reporters and campaign opponents in Puerto Rico are still named from the national corpus."
+  ],
+  "priority": "P1",
+  "question": "What are the given names by sex and birth year, and the surnames with how many people carry them, for Puerto Rico, Guam, the Northern Mariana Islands, the U.S. Virgin Islands and American Samoa? And how does each place write a person's name: in Puerto Rico, is the everyday written form both surnames or only the first, and in Guam and the Northern Marianas, are Chamorro and Carolinian names written with one surname or two? For American Samoa, is a matai title written with a person's name, and does a child take a parent's given name as a surname?",
+  "questionId": "puerto-rico-and-territory-names",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Names that match the person thread",
+  "sourcesChecked": [
+    {
+      "source": "public/education, the CCD 2025-26 school file, measured by scripts/source/place-name-corpora.ts",
+      "whatItDidNotSettle": "Honorees are an older generation and a chosen few; the territories have almost no schools named for people."
+    },
+    {
+      "source": "src/simulation/names-data.ts and given-names-by-decade.json (SSA national, Census surnames)",
+      "whatItDidNotSettle": "Neither covers Puerto Rico's births or the territories."
+    },
+    {
+      "source": "census.gov and ssa.gov",
+      "whatItDidNotSettle": "Not reachable from this environment."
+    }
+  ],
+  "title": "Names people carry in Puerto Rico and the territories",
+  "usableAnswer": "For each place, a table of given names by sex with counts by birth decade (Puerto Rico's Demographic Registry publishes names by year) and a surname table with counts (the Census 2010 or 2020 surname files for Puerto Rico and the island areas, or a comparable source), plus one line per place on how a name is written.",
+  "whyItMatters": "A life begun in Mayagüez drew Douglas Pope from the random name button, and a household of Alexander Rosado, Frances Patton and Waylon Rosado. Puerto Rico is fixed with an older generation's names; the four territories are not fixed at all."
+}

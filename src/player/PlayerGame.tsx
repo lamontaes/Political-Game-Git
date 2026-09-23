@@ -32,6 +32,7 @@ import { resolveCreatorBirthday } from "../presentation/creator-full-birthday";
 import { CreatorBirthdayFields } from "./CreatorBirthdayFields";
 import { projectHometownPage } from "../presentation/creator-hometown-page";
 import { previewCreatorNames } from "../presentation/creator-name-preview";
+import { stateUsps } from "../simulation/school-names";
 import {
   creatorBirthDate,
   creatorCharacterHint,
@@ -1515,6 +1516,7 @@ function SetupScreen({
                     setup.seed,
                     chosenGender,
                     salt,
+                    stateUsps(location.stateJurisdictionKey),
                   );
                   setNameDraws(salt);
                   setSetup((now) => ({

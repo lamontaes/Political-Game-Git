@@ -76,6 +76,7 @@ import {
 } from "./person-appearance";
 import { generatePersonIdentity } from "./person-identity";
 import { birthCohortGivenName } from "./given-name-cohorts";
+import { DEFAULT_CORPUS_VERSION, familyNameFromParent } from "./names-data";
 import { SeededRng } from "./rng";
 import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
 import {
@@ -2258,6 +2259,8 @@ export function generateQuickCharacterHistory(
     readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
     /** Absent keeps the v1 school-name draw an old replay was written under. */
     readonly schoolNameVersion?: SchoolNameVersion;
+    /** The name corpus of the place this life began in; absent, the national one. */
+    readonly nameCorpusVersion?: string;
   },
 ): CharacterHistoryPlan {
   const person = requirePerson(world, input.personId);
@@ -2307,13 +2310,24 @@ export function generateQuickCharacterHistory(
   // recorded before this existed has to rebuild to the same bytes it was
   // captured with, so the legacy branch keeps the two separate draws on the
   // two streams it always used. A new game declares v2 and gets the pairing.
-  const spokenFor: string[] = [];
+  //
+  // The birth-year pass later keeps these clear of the player's own first
+  // name. A place with its own corpus skips that pass, so the player's name is
+  // spoken for from the start there instead.
+  const spokenFor: string[] =
+    input.nameCorpusVersion === undefined ||
+    input.nameCorpusVersion === DEFAULT_CORPUS_VERSION
+      ? []
+      : [person.givenName];
   const named = (suffix: string) => {
     const identity = generatePersonIdentity(rng.fork(`${suffix}:identity`));
     if (givenNameGenerationVersion === LEGACY_GIVEN_NAME_GENERATION_VERSION) {
       return { ...drawCanonicalName(rng.fork(suffix)), identity };
     }
     const drawn = drawCanonicalNamedIdentity(rng.fork(suffix), identity, {
+      ...(input.nameCorpusVersion === undefined
+        ? {}
+        : { corpusVersion: input.nameCorpusVersion }),
       generationVersion: givenNameGenerationVersion,
       takenGivenNames: spokenFor,
     });
@@ -2338,6 +2352,7 @@ export function generateQuickCharacterHistory(
     rng,
     input.childhoodGenerationVersion,
   );
+  const parentNamed = named("parent");
   const contextPeople: readonly {
     readonly kind: "context-person";
     readonly input: CharacterHistoryContextPersonInput;
@@ -2354,10 +2369,14 @@ export function generateQuickCharacterHistory(
         // what gave the owner a father called Maria: the pronouns came off one
         // stream and the name off the whole corpus on another, with nothing
         // joining them.
-        ...named("parent"),
+        ...parentNamed,
         // A child usually shares a name with whoever raised them. A household
-        // convention, and no claim about either of them beyond that.
-        familyName: person.familyName,
+        // convention, and no claim about either of them beyond that. Where a
+        // name is two surnames, one from each parent, the parent has the first
+        // and their own second after it.
+        familyName:
+          familyNameFromParent(person.familyName, 0, parentNamed.familyName) ??
+          person.familyName,
         birthDate: bornBefore.parent,
         homeJurisdictionId: input.jurisdictionId,
       },
