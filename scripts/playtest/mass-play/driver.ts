@@ -23,6 +23,7 @@ import {
   projectStoryMoment,
 } from "../../../src/presentation/life-story";
 import { projectToday } from "../../../src/presentation/day-overview";
+import { openingNeighborhoodWalkOffer } from "../../../src/presentation/life-scene-flow";
 import {
   performVenueActivity,
   venueActivities,
@@ -662,22 +663,36 @@ export function playGame(spec: GameSpec): GameResult {
     return list;
   }
 
+  function walkOffered(destination: "home" | "neighborhood"): boolean {
+    try {
+      return !openingNeighborhoodWalkOffer(world!, personId, destination)
+        .unavailable;
+    } catch (error) {
+      note({
+        kind: "crash",
+        signature: `openingNeighborhoodWalkOffer: ${signatureOf(error)}`,
+        detail: String((error as Error)?.stack ?? error).slice(0, 1500),
+      });
+      return false;
+    }
+  }
+
   function timeCommand(): TimeCommand {
     const r = random();
     // A player told they are somewhere they cannot leave from tries going home.
-    if (blocked && r < 0.3) return { kind: "walk", destination: "home" };
+    if (blocked && r < 0.3 && walkOffered("home"))
+      return { kind: "walk", destination: "home" };
     switch (persona) {
       case "idle":
         return r < 0.5 ? { kind: "quiet-stretch" } : { kind: "days", days: 30 };
       case "chaotic":
-        return r < 0.2
-          ? {
-              kind: "walk",
-              destination: pick(["home", "neighborhood"] as const),
-            }
-          : r < 0.35
-            ? { kind: "quiet-stretch" }
-            : { kind: "days", days: pick([1, 1, 7, 14, 30, 90]) };
+        if (r < 0.2) {
+          const destination = pick(["home", "neighborhood"] as const);
+          if (walkOffered(destination)) return { kind: "walk", destination };
+        }
+        return r < 0.35
+          ? { kind: "quiet-stretch" }
+          : { kind: "days", days: pick([1, 1, 7, 14, 30, 90]) };
       default:
         return r < 0.25 ? { kind: "days", days: 1 } : { kind: "days", days: 7 };
     }
@@ -865,7 +880,12 @@ export function playGame(spec: GameSpec): GameResult {
       world = result.world;
       actions[current] = (actions[current] ?? 0) + 1;
       blocked = /resolve this commitment/.test(result.receipt.outcome);
-      if (result.receipt.status !== "accepted")
+      // Stopping for a commitment is the clock working; the stuck check
+      // catches one that can never be resolved.
+      if (
+        result.receipt.status !== "accepted" &&
+        !/resolve this commitment/.test(result.receipt.outcome)
+      )
         note({
           kind: "time-refused",
           signature: `${command.kind} ${result.receipt.status}: ${result.receipt.outcome.replace(/\d+/g, "#").slice(0, 140)}`,

@@ -58,7 +58,7 @@ for (let i = 0; i < games; i++) {
   const persona = personas[Math.floor(random() * personas.length)]!;
   const startAge =
     mix === "dynasty"
-      ? 18 + Math.floor(random() * 30)
+      ? 55 + Math.floor(random() * 25)
       : [10, 16, 18, 21, 25, 30, 40, 55, 70][Math.floor(random() * 9)]!;
   specs.push({
     id: `${runSeed}-${i}`,
