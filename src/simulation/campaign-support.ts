@@ -43,7 +43,7 @@ export const SUPPORT_DENOMINATOR = 10_000;
  * candidate, player and rival alike, and only to what campaigning earns: a
  * share that comes from a rival's loss is not capped here.
  *
- * Not modelled: the size of the electorate (an afternoon on the doors is worth
+ * Not modeled: the size of the electorate (an afternoon on the doors is worth
  * the same in a town of two thousand and a district of two hundred thousand),
  * partisan lean, and turnout. Filed with ChatGPT as
  * `campaign-effort-to-support-magnitudes`, beside

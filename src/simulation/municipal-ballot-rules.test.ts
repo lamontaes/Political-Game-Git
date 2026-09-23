@@ -70,9 +70,9 @@ describe("which counting rule a town uses", () => {
     }
   });
 
-  it("records every state, D.C. and Puerto Rico, and which ones are filled in", () => {
+  it("records every state, D.C. and the five territories, and which ones are filled in", () => {
     const coverage = municipalBallotRuleCoverage();
-    expect(coverage).toHaveLength(52);
+    expect(coverage).toHaveLength(56);
     const byUsps = new Map(coverage.map((row) => [row.stateUsps, row]));
     expect(byUsps.get("GA")?.basis).toBe("state-law-unverified");
     // Texas lets each town choose but names the rule it has until it does.
@@ -84,18 +84,24 @@ describe("which counting rule a town uses", () => {
     expect(byUsps.get("FL")?.options.length).toBeGreaterThan(1);
     expect(byUsps.get("PR")?.basis).toBe("national-range-drawn");
     expect(byUsps.get("AR")?.basis).toBe("national-range-drawn");
+    // Guam, the Virgin Islands, American Samoa and the Northern Mariana
+    // Islands are unresearched, so each draws from the national range rather
+    // than borrowing any state's rule.
+    for (const usps of ["GU", "VI", "AS", "MP"]) {
+      expect(byUsps.get(usps)?.basis).toBe("national-range-drawn");
+    }
     const counts = new Map<string, number>();
     for (const row of coverage) {
       counts.set(row.basis, (counts.get(row.basis) ?? 0) + 1);
     }
     // Measured on main at b659bb3c: 41 jurisdictions read one rule and 4
     // more (AK, ID, NM, TX) name a default for towns that have not chosen; 5
-    // leave it to each town with no default; Arkansas and Puerto Rico are
-    // filled in.
+    // leave it to each town with no default; Arkansas, Puerto Rico and the
+    // four other territories are filled in from the national range.
     expect(Object.fromEntries(counts)).toEqual({
       "state-law-unverified": 45,
       "local-choice-drawn": 5,
-      "national-range-drawn": 2,
+      "national-range-drawn": 6,
     });
   });
 });

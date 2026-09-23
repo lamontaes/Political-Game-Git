@@ -45,13 +45,15 @@ describe("the gap this closes", () => {
     expect(UNCOMPILED.length).toBeGreaterThan(30);
   });
 
-  it("gives every one of them a legislature anyway, except the District", () => {
+  it("gives every one of them a legislature anyway, except the District and four territories", () => {
     for (const identity of UNCOMPILED) {
       const pack = legislatureForState(identity.jurisdictionKey);
-      if (identity.usps === "DC") {
+      if (["DC", "GU", "VI", "AS", "MP"].includes(identity.usps)) {
         // The District is legislated for by one Council, not a House and a
         // Senate. A generated bicameral legislature would not be provisional,
-        // it would be a shape the District has never had.
+        // it would be a shape the District has never had. Guam and the Virgin
+        // Islands sit as one chamber, and no territorial legislature is a
+        // state's, so the four are declined until their own are compiled.
         expect(pack).toBeNull();
         continue;
       }
