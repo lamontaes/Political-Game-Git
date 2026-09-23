@@ -308,7 +308,6 @@ const MEETING_NEW_LABELS: Record<
 > = {
   work: "Get to know somebody at work",
   study: "Get to know somebody on your program",
-  neighborhood: "Meet somebody in the neighborhood",
 };
 
 /**

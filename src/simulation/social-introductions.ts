@@ -31,8 +31,14 @@ import { recordWorldEvent } from "./world";
  * - group: somebody taking part in the same organization (a congregation, a
  *   club, a chapter), as the world records participation;
  * - friend-of-friend: somebody a person the player already gets on with, or
- *   lives with, or is family to, has history with;
- * - neighborhood: an adult who lives in the same place.
+ *   lives with, or is family to, has history with.
+ *
+ * Living in the same town is deliberately not a setting. ChatGPT's answer to
+ * `how-people-meet-new-people` (2026-09-23) is that a shared setting makes a
+ * candidate and a town is not a shared setting; neighbors are people in the
+ * same building or nearby homes. The world records a household's town and
+ * nothing finer, so there is no honest way yet to say who lives nearby, and
+ * nobody is offered as a neighbor until residence geography exists.
  *
  * The owner ruled both ways in (2026-09-23): new people come into a life as
  * time passes, and the player can go and meet somebody by choice. Both write
@@ -44,17 +50,17 @@ import { recordWorldEvent } from "./world";
  * of them actually do. So it is recorded as maintained contact, which the
  * standing reader counts as being in touch and nothing more.
  *
- * PLACEHOLDER, NOT RESEARCH: how often introductions happen on their own, and
- * which setting they come from, are filed with ChatGPT as
- * `how-people-meet-new-people`. `INTRODUCTION_SPACING_DAYS` and the even draw
- * across settings stand in until that answer comes back.
+ * CALIBRATION, NOT RESEARCH: ChatGPT's answer to `how-people-meet-new-people`
+ * found no annual acquaintance count or per-interaction chance to use, and
+ * says any number here must be a labeled calibration. `INTRODUCTION_SPACING_DAYS`
+ * and the even draw across settings are that calibration.
  */
 
 export const INTRODUCTION_EVENT = "life.introduction";
 export const INTRODUCTION_KIND = "contact:introduced";
 
 export type IntroductionSetting =
-  "work" | "study" | "group" | "friend-of-friend" | "neighborhood";
+  "work" | "study" | "group" | "friend-of-friend";
 
 export interface IntroductionCandidate {
   readonly personId: EntityId;
@@ -65,7 +71,7 @@ export interface IntroductionCandidate {
   readonly organizationId: EntityId | null;
 }
 
-/** Placeholder pace for introductions that happen on their own. See header. */
+/** Calibration pace for introductions that happen on their own. See header. */
 const INTRODUCTION_SPACING_DAYS = 14;
 
 const ADULT_AGE = 18;
@@ -232,20 +238,6 @@ export function introductionCandidates(
     }
   }
 
-  if (adult) {
-    const home = world.people[personId]!.homeJurisdictionId;
-    for (const otherId of world.personOrder) {
-      if (otherId === personId || !world.people[otherId]) continue;
-      if (world.people[otherId]!.homeJurisdictionId !== home) continue;
-      if (!isAdult(world, otherId)) continue;
-      add({
-        personId: otherId,
-        setting: "neighborhood",
-        viaPersonId: null,
-        organizationId: null,
-      });
-    }
-  }
   return candidates;
 }
 
@@ -275,8 +267,6 @@ export function introductionSettingPhrase(
     }
     case "friend-of-friend":
       return `through ${world.people[candidate.viaPersonId!]!.givenName}`;
-    case "neighborhood":
-      return "in the neighborhood";
   }
 }
 

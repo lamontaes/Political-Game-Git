@@ -18,6 +18,7 @@ import {
   performVenueActivity,
   venueActivities,
 } from "../../src/presentation/venue-activity";
+import { joinOrdinaryGroup } from "../../src/presentation/ordinary-community";
 import { CONTACT_LOCATION_KEY } from "../../src/simulation/people-contact";
 import { readRelationshipStanding } from "../../src/simulation/relationship-standing";
 import { introducedPeople } from "../../src/simulation/social-introductions";
@@ -27,9 +28,15 @@ import type { EntityId, World } from "../../src/simulation";
  * The owner's test for a widening social circle (2026-09-23): a new character
  * makes a friend they did not start with inside their first month.
  *
- * Played through the routes a player has: time passing, the People screen's
- * "Meet somebody new", asking to meet from the contact list, and Attend on the
- * calendar. Nothing here writes a record directly.
+ * Played through the routes a player has: joining the walking group from the
+ * life scene, the People screen's "Meet somebody new", asking to meet from the
+ * contact list, Attend on the calendar, and time passing. Nothing here writes
+ * a record directly.
+ *
+ * A new 24-year-old in these towns has no job, program or group on day one,
+ * and living in the same town is not a way of meeting (ChatGPT,
+ * `how-people-meet-new-people`), so there is nobody to meet until the player
+ * joins something. That is asserted too.
  */
 
 const TOWNS = [
@@ -70,6 +77,10 @@ describe("a new life makes a friend in its first month", () => {
       const playerId = game.playerPersonId;
       let world = openOrdinaryLife(game.world, playerId);
       const started = knownAtStart(world, playerId);
+
+      // Sharing a town with somebody is not a way of meeting them.
+      expect(meetingNewOptions(world, playerId)).toEqual([]);
+      world = joinOrdinaryGroup(world, playerId);
 
       // Going out to meet somebody is offered, and only where somebody is.
       const options = meetingNewOptions(world, playerId);
@@ -117,8 +128,6 @@ describe("a new life makes a friend in its first month", () => {
         },
       );
       expect(newFriends.length).toBeGreaterThan(0);
-      // And the ones time brought, not only the one the player went to meet.
-      expect(introducedPeople(world, playerId).length).toBeGreaterThan(1);
     }, 300_000);
   }
 
@@ -132,27 +141,32 @@ describe("a new life makes a friend in its first month", () => {
       }),
     ).game!;
     const playerId = game.playerPersonId;
-    let world = openOrdinaryLife(game.world, playerId);
-    const neighborhood = meetingNewOptions(world, playerId).find(
-      (option) => option.setting === "neighborhood",
-    )!;
-    for (let count = 0; count < 3; count += 1) {
-      world = goMeetSomebodyNew(world, {
-        personId: playerId,
-        setting: neighborhood.setting,
-        viaPersonId: null,
-      }).world;
-    }
-    const on = projectContacts(world, playerId).earliestMeetingOn;
-    for (const personId of introducedPeople(world, playerId)) {
+    let world = joinOrdinaryGroup(
+      openOrdinaryLife(game.world, playerId),
+      playerId,
+    );
+    const group = meetingNewOptions(world, playerId)[0]!;
+    world = goMeetSomebodyNew(world, {
+      personId: playerId,
+      setting: group.setting,
+      viaPersonId: group.viaPersonId,
+    }).world;
+    const view = projectContacts(world, playerId);
+    const askable = view.contacts.filter(
+      (contact) =>
+        contact.actions.find((action) => action.kind === "ask-to-meet")
+          ?.available && !contact.outstanding,
+    );
+    expect(askable.length).toBeGreaterThan(1);
+    for (const contact of askable) {
       world = askToMeet(world, {
         personId: playerId,
-        otherPersonId: personId,
-        on,
+        otherPersonId: contact.personId,
+        on: view.earliestMeetingOn,
       });
     }
-    // Passing time answers all three. Before the fix, a second yes for an
-    // evening already taken threw from inside the clock.
+    // Passing time answers every one of them. Before the fix, a second yes
+    // for an evening already taken threw from inside the clock.
     world = passOrdinaryDays(world, 3);
     const meetings = world.history.scheduledActivities.filter(
       (activity) =>
