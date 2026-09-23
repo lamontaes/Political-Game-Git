@@ -81,15 +81,12 @@ export function ensureOfficeholderPrinciples(
   const inputs: PrincipleRecordInput[] = [];
   // Keyed on this draw's own rows, not on any principle: a person another
   // writer gave a single principle still gets the rest of the draw.
-  const held = new Set(
-    world.history.principles
-      .filter((row) =>
-        row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
-      )
-      .map((row) => row.personId),
-  );
+  const held = (personId: EntityId) =>
+    (principlesByPerson(world).get(personId) ?? []).some((row) =>
+      row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
+    );
   for (const personId of new Set(personIds)) {
-    if (held.has(personId) || !world.people[personId]) continue;
+    if (!world.people[personId] || held(personId)) continue;
     if (world.control.kind === "person" && world.control.personId === personId)
       continue;
     const own = new Set(
