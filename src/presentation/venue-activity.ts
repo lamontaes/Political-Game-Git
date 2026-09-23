@@ -207,6 +207,10 @@ function arrivedDestinationFor(
 }
 
 /** A player action over existing scheduled activity truth; no separate clock. */
+/** The refusal for an activity blocked by an earlier open one the same day. */
+export const EARLIER_COMMITMENT_REFUSAL =
+  "An earlier commitment must be resolved first.";
+
 export function venueActivities(
   world: World,
   personId: EntityId,
@@ -270,8 +274,7 @@ export function venueActivities(
               id !== journey?.activity.id &&
               !transitionHandlers.routine?.isAutoResolvableActivity(world, id),
           );
-          if (blockers.length)
-            refusal = "An earlier commitment must be resolved first.";
+          if (blockers.length) refusal = EARLIER_COMMITMENT_REFUSAL;
           /*
            * A meeting two people arranged between themselves is held wherever
            * they meet; it names no venue to travel to, so it asks for no

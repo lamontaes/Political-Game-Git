@@ -10,7 +10,7 @@ import {
   type ScheduledActivityRecord,
   type World,
 } from "../simulation";
-import { venueActivities } from "./venue-activity";
+import { EARLIER_COMMITMENT_REFUSAL, venueActivities } from "./venue-activity";
 
 /**
  * How far a quiet stretch may run, whichever control asked for it.
@@ -159,5 +159,45 @@ export function goableToday(
         compareSimulationMoments(start, world.currentMoment) >= 0
       );
     })
+    .map((entry) => entry.activity);
+}
+
+/**
+ * Holds today the player could turn down to free a later one.
+ *
+ * An unanswered invitation at noon blocks an evening meeting, because the
+ * venue list will not let anyone attend a later activity while an earlier one
+ * is still open. Without a way to answer the noon one, the only choice left
+ * was to let the weeks run on, which lapsed both. So when something later
+ * today is blocked, each earlier open hold is offered as one to turn down.
+ */
+export function blockingHoldsToday(
+  world: World,
+  personId: EntityId,
+): readonly ScheduledActivityRecord[] {
+  const today = venueActivities(world, personId).filter((entry) => {
+    if (entry.activity.kind === "travel") return false;
+    const start = scheduledActivityState(world, entry.activity.id).start;
+    return (
+      start.date === world.currentDate &&
+      compareSimulationMoments(start, world.currentMoment) >= 0
+    );
+  });
+  const blocked = today.filter(
+    (entry) => entry.refusal === EARLIER_COMMITMENT_REFUSAL,
+  );
+  if (blocked.length === 0) return [];
+  const latest = blocked
+    .map((entry) => scheduledActivityState(world, entry.activity.id).start)
+    .reduce((a, b) => (compareSimulationMoments(a, b) >= 0 ? a : b));
+  return today
+    .filter(
+      (entry) =>
+        entry.activity.kind === "tentative" &&
+        compareSimulationMoments(
+          scheduledActivityState(world, entry.activity.id).start,
+          latest,
+        ) < 0,
+    )
     .map((entry) => entry.activity);
 }

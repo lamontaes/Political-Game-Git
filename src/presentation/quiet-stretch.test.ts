@@ -54,6 +54,7 @@ function hold(
     readonly title: string;
     readonly daysAhead: number;
     readonly locationKey: string;
+    readonly startMinute?: number;
   },
 ): { world: World; activityId: EntityId } {
   const date = addDays(world.currentDate, input.daysAhead);
@@ -69,8 +70,8 @@ function hold(
     title: input.title,
     summary: "Coming is optional.",
     kind: "tentative",
-    start: at(19 * 60),
-    end: at(20 * 60),
+    start: at(input.startMinute ?? 19 * 60),
+    end: at((input.startMinute ?? 19 * 60) + 60),
     participantPersonIds: [personId],
     responsiblePersonId: personId,
     location: {
@@ -184,5 +185,44 @@ describe("a quiet stretch stops for civic life", () => {
     expect(
       ordinaryStretchOptions(world, personId).map((option) => option.label),
     ).toContain("Attend: Chapter open meeting");
+  });
+});
+
+describe("an invitation earlier the same day", () => {
+  it("can be turned down so the evening meeting can be attended", () => {
+    const { world: opened, personId } = renoLife();
+    const meeting = opened.history.scheduledActivities.find(
+      (activity) => activity.title === "Posted public meeting",
+    )!;
+    const morning = letStoryTimePass(opened, personId);
+    // A noon invitation on the meeting's own day.
+    const lunch = hold(morning, personId, {
+      key: "lunch",
+      title: "Lunch at a neighbor's",
+      daysAhead: 0,
+      locationKey: "quiet-stretch-test:neighbor",
+      startMinute: 12 * 60,
+    });
+    const blocked = ordinaryStretchOptions(lunch.world, personId);
+    expect(blocked.map((option) => option.label)).not.toContain(
+      "Attend: Posted public meeting",
+    );
+    const turnDown = blocked.find(
+      (option) => option.key === `turn-down:${lunch.activityId}`,
+    );
+    expect(turnDown?.label).toBe("Turn down: Lunch at a neighbor's");
+
+    const freed = chooseStoryOption(lunch.world, {
+      personId,
+      scene: quietScene(lunch.world, personId),
+      optionKey: turnDown!.key,
+    });
+    expect(scheduledActivityState(freed, lunch.activityId).status).toBe(
+      "cancelled",
+    );
+    expect(
+      ordinaryStretchOptions(freed, personId).map((option) => option.label),
+    ).toContain("Attend: Posted public meeting");
+    expect(scheduledActivityState(freed, meeting.id).status).toBe("scheduled");
   });
 });

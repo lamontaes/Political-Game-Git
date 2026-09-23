@@ -5,7 +5,12 @@ import {
 } from "../simulation/opening-life-content";
 import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
 import { formatMinute } from "./player-calendar";
-import { capQuietStretch, goableToday } from "./quiet-stretch";
+import {
+  blockingHoldsToday,
+  capQuietStretch,
+  goableToday,
+} from "./quiet-stretch";
+import { declineVenueActivity } from "./scheduled-activity-choice";
 import { performVenueActivity } from "./venue-activity";
 import {
   lifeActivityHandlers,
@@ -543,6 +548,9 @@ const STORY_STRETCH_STOPS = { socialHolds: false } as const;
 /** The option key that goes to something on today's calendar. */
 const GO_TO_ACTIVITY_PREFIX = "go-to:";
 
+/** The option key that turns down a hold blocking something later today. */
+const TURN_DOWN_PREFIX = "turn-down:";
+
 /**
  * What a quiet adult stretch offers: whatever today's calendar holds that the
  * player can go to, and letting the weeks run on as far as the next thing on
@@ -561,6 +569,11 @@ export function ordinaryStretchOptions(
       description: `${formatMinute(start.minuteOfDay)} today. ${activity.summary}`,
     };
   });
+  const turningDown = blockingHoldsToday(world, personId).map((activity) => ({
+    key: `${TURN_DOWN_PREFIX}${activity.id}`,
+    label: `Turn down: ${activity.title}`,
+    description: "Say you will not come, so the rest of today is free.",
+  }));
   const { cappedBy } = capQuietStretch(
     world,
     personId,
@@ -569,6 +582,7 @@ export function ordinaryStretchOptions(
   );
   return [
     ...going,
+    ...turningDown,
     {
       key: "let-it-run",
       label: "Let the weeks run on",
@@ -842,6 +856,14 @@ export function chooseStoryOption(
           activity.id,
           input.transitionHandlers,
         );
+      }
+      if (input.optionKey.startsWith(TURN_DOWN_PREFIX)) {
+        const wanted = input.optionKey.slice(TURN_DOWN_PREFIX.length);
+        const activity = blockingHoldsToday(world, input.personId).find(
+          (candidate) => candidate.id === wanted,
+        );
+        if (!activity) return world;
+        return declineVenueActivity(world, input.personId, activity.id);
       }
       return letStoryTimePass(world, input.personId, input.advanceDays);
     }
