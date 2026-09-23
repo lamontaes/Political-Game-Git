@@ -23,6 +23,7 @@ import { scheduledActivityState } from "../../src/simulation";
 import {
   CONTACT_CALLED_OFF_EVENT,
   CONTACT_CALLED_OFF_KIND,
+  CONTACT_COUNTERED_EVENT,
   CONTACT_LOCATION_KEY,
 } from "../../src/simulation/people-contact";
 import { introducedPeople } from "../../src/simulation/social-introductions";
@@ -181,5 +182,44 @@ describe("a person at home is not a stranger on the card", () => {
       ).toMatch(/^You live together\./);
     }
     expect(world.history.relationshipInteractions.length).toBe(before);
+  }, 300_000);
+});
+
+describe("an answer of another day reaches the person who asked", () => {
+  /*
+   * Peoria (main 15dbdd4f): Nicole asked Samantha out five times in a year and
+   * never heard back. The answer was "not that day, but another", and only
+   * the refusal half of it was written: nothing showed, and no day came back.
+   */
+  it("shows the other day as their question to answer", () => {
+    const { world: opened, playerId } = openLife("1759000", "p:3", 18);
+    let world = opened;
+    const asked = projectContacts(world, playerId).contacts.filter(
+      (contact) =>
+        contact.actions.find((entry) => entry.kind === "ask-on-a-date")
+          ?.available,
+    );
+    for (const contact of asked) {
+      world = askOnADate(world, {
+        personId: playerId,
+        otherPersonId: contact.personId,
+        on: projectContacts(world, playerId).earliestMeetingOn,
+      });
+    }
+    world = passOrdinaryDays(world, 1);
+    const countered = world.history.events.filter(
+      (event) => event.type === CONTACT_COUNTERED_EVENT,
+    );
+    expect(countered.length).toBeGreaterThan(0);
+    for (const event of countered) {
+      const otherId = event.involvedEntityIds.find((id) => id !== playerId)!;
+      const row = projectContacts(world, playerId).contacts.find(
+        (contact) => contact.personId === otherId,
+      )!;
+      expect(
+        row.actions.find((entry) => entry.kind === "answer-proposal")
+          ?.available,
+      ).toBe(true);
+    }
   }, 300_000);
 });

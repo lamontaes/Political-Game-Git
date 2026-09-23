@@ -452,6 +452,11 @@ function lastAnswerBetween(
       : `${name} asked to meet on ${day}, and the day passed without an answer.`;
   }
   if (answer.type === CONTACT_ACCEPTED_EVENT) {
+    if (proposal.date) {
+      return theyAnswered
+        ? `${name} said yes to going out on ${day}.`
+        : `You said yes to going out with ${name} on ${day}.`;
+    }
     return theyAnswered
       ? `${name} said yes to meeting on ${day}.`
       : `You said yes to meeting ${name} on ${day}.`;
