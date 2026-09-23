@@ -114,6 +114,17 @@ function describeInteraction(
   // The player's own card is not somebody the player has or has not spoken to.
   if (personId === playerId) return "This is you.";
   const summary = deriveRelationshipSummary(world, playerId, personId);
+  /*
+   * Living together is not a conversation on record, and none is invented
+   * for it. But a sister in the same home read "You haven't spoken," and a
+   * father "You last spoke" seventeen months back (Fairbanks and Elko
+   * playtests, 2026-09-23). The card says what the record does establish.
+   */
+  if (readRelationshipStanding(world, playerId, personId).absence.sharesHome) {
+    return summary.lastInteractionAt === world.currentDate
+      ? "You live together. You spoke today."
+      : "You live together.";
+  }
   if (summary.interactionCount === 0) {
     return "You haven't spoken.";
   }

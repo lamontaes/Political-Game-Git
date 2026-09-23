@@ -178,6 +178,35 @@ describe("editorial copy", () => {
     expect(copy).toContain("U.S. Senator from Kentucky");
   });
 
+  it("says a vacant Senate seat is filled by appointment, then by election", () => {
+    const { world, personId } = fixture();
+    const died = record(world, "senator-died-2", {
+      type: "crisis.officeholder-died",
+      tags: ["crisis"],
+      summary: "Died while holding office: U.S. Senator from Kentucky.",
+      involved: [personId],
+    });
+    const ruling = record(died.world, "ruling-2", {
+      type: "governing.office-continuity",
+      tags: [
+        "continuity-change:death",
+        `crisis-origin:${died.event.id}`,
+        "office:us-senate:KY-1",
+        "outcome:us-senate:KY-1:special-election",
+      ],
+      summary: "X: U.S. Senator from Kentucky: The seat is vacant.",
+      involved: [personId],
+    });
+    const copy = editorialParagraphs(
+      ruling.world,
+      ruling.event,
+      stateOutlet(ruling.world),
+    ).join("\n");
+    expect(copy).toContain(
+      "The governor will appoint a temporary senator until a special election fills the seat.",
+    );
+  });
+
   it("writes a hazard's size and count from its tags, not '(major)'", () => {
     const { world } = fixture();
     const one = record(world, "storm-1", {
