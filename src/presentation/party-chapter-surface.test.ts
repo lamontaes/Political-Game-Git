@@ -2,11 +2,17 @@ import { describe, expect, it } from "vitest";
 
 import {
   acceptChapterInvitation,
+  advanceWorldMinutes,
+  cancelScheduledActivity,
+  compareSimulationMoments,
+  scheduledActivityState,
+  simulationMinutesBetween,
   projectPartyEncounters,
   serializeWorld,
   type EntityId,
   type World,
 } from "../simulation";
+import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
   encodeStoredShellState,
   readStoredShellState,
@@ -86,6 +92,42 @@ describe("party chapter surface and pins", () => {
     expect(row.actions).toEqual(["attend"]);
     expect(row.stateLabel).toBe("You said you would come");
     expect(after.organizer?.personId).toBe(chapter.organizer?.personId);
+  });
+
+  it("an invitation stops offering Accept once the meeting has begun, as the accept writer does", () => {
+    const invited = untilInvited(life.world, player)!;
+    const { activityId } = invited.meeting;
+    const start = scheduledActivityState(invited.world, activityId).start;
+    // Ordinary waiting stops where the journey there would leave, and Accept
+    // still works then. Without a journey the clock reaches the start itself.
+    let world = invited.world;
+    for (const journey of world.history.scheduledActivities)
+      if (
+        journey.kind === "travel" &&
+        journey.sourceEntityIds.includes(activityId) &&
+        scheduledActivityState(world, journey.id).status === "scheduled"
+      )
+        world = cancelScheduledActivity(world, journey.id);
+    for (let step = 0; step < 8; step += 1) {
+      const minutes = simulationMinutesBetween(world.currentMoment, start);
+      if (minutes <= 0) break;
+      const next = advanceWorldMinutes(
+        world,
+        minutes,
+        createCampaignElectionTransitionRegistry(),
+      );
+      if (next === world) break;
+      world = next;
+    }
+    expect(compareSimulationMoments(world.currentMoment, start)).toBe(0);
+    expect(scheduledActivityState(world, activityId).status).toBe("scheduled");
+    expect(acceptChapterInvitation(world, player, activityId)).toBe(world);
+    const row = projectPartyChapter(
+      world,
+      player,
+      invited.chapter.organizationId,
+    )!.meetings.find((entry) => entry.activityId === activityId)!;
+    expect(row.actions).not.toContain("accept");
   });
 
   it("declining leaves a declined meeting with nothing more to do", () => {

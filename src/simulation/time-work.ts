@@ -839,6 +839,78 @@ export function assignWorkItem(
   return next;
 }
 
+export interface LapseWorkItemInput {
+  readonly workItemId: EntityId;
+  readonly stableKey: string;
+  /** One sentence for the record: what went by without the work. */
+  readonly summary: string;
+}
+
+/**
+ * Closes active work nobody did, because the time it was for has gone.
+ *
+ * Recorded as canceled, with an event that says so, rather than completed:
+ * nothing claims the work happened or who might have done it instead. The
+ * work keeps whatever effort was already put in.
+ */
+export function lapseWorkItem(world: World, input: LapseWorkItemInput): World {
+  const item = world.history.workItems.find(
+    (candidate) => candidate.id === input.workItemId,
+  );
+  const previous = latestWorkStateUnchecked(world, input.workItemId);
+  if (!item || !previous || previous.status !== "active") {
+    throw new Error("Only active work can lapse.");
+  }
+  let next = recordWorldEvent(world, {
+    stableKey: `${input.stableKey}:event`,
+    type: "work.item-lapsed",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: item.jurisdictionId,
+    involvedEntityIds: [
+      item.id,
+      ...previous.assignedPersonIds,
+      ...(item.jurisdictionId ? [item.jurisdictionId] : []),
+    ],
+    participants: previous.assignedPersonIds.map((personId) => ({
+      personId,
+      role: "agency:responsible" as const,
+      detail: `Did not get to ${item.title}`,
+    })),
+    personFactConstraints: [],
+    visibility: item.access.kind === "office" ? "limited" : "private",
+    tags: ["work.lapsed"],
+    summary: input.summary,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const outcomeEvent = next.history.events.at(-1);
+  if (!outcomeEvent) throw new Error("Work lapse did not record its event.");
+  next = appendWorkState(next, {
+    id: createStableId("work-item-state", `${next.id}:${input.stableKey}`),
+    stableKey: input.stableKey,
+    sequence: next.history.nextSequence,
+    workItemId: item.id,
+    recordedAt: cloneMoment(next.currentMoment),
+    status: "cancelled",
+    assignedPersonIds: previous.assignedPersonIds,
+    playerRequirement: "none",
+    waitingOnPersonIds: [],
+    blocker: null,
+    completedEffortMinutes: previous.completedEffortMinutes,
+    scheduledActivityId: previous.scheduledActivityId,
+    outcomeEventId: outcomeEvent.id,
+    supersedesStateId: previous.id,
+  });
+  return next;
+}
+
 export function workPendingEntriesFor(
   world: World,
   controlledPersonId: EntityId,
