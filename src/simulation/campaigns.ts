@@ -459,8 +459,9 @@ export function ensureCampaignOpponents(
   world: World,
   input: EnsureCampaignOpponentsInput,
 ): EnsuredOpponents {
-  if (!Number.isSafeInteger(input.count) || input.count < 1) {
-    throw new Error("A contest needs at least one opponent.");
+  // Zero is an unopposed race, which is real and has to stay possible.
+  if (!Number.isSafeInteger(input.count) || input.count < 0) {
+    throw new Error("An opponent count is a whole number, zero or more.");
   }
   const excluded = new Set(input.excludePersonIds);
   let next = world;
@@ -597,8 +598,10 @@ export function fileCampaign(
   const packId = eligibility.pack.packId;
 
   const rivals = canonicalIds(input.rivalPersonIds, "Campaign rivals");
-  if (rivals.length === 0 || rivals.includes(input.candidatePersonId)) {
-    throw new Error("Campaign filing requires at least one distinct rival.");
+  // No rival is a real race: an unopposed seat. It still has a campaign, a
+  // committee and an election day; nobody else is on the ballot.
+  if (rivals.includes(input.candidatePersonId)) {
+    throw new Error("A candidate cannot also be their own rival.");
   }
   const staffPersonIds = canonicalIds(input.staffPersonIds, "Campaign staff");
   if (
@@ -1505,10 +1508,21 @@ export function evaluateCampaignAwareOutcome(
 ): CampaignOutcome {
   const contest = requireElectionContest(world, contestId);
   const campaign = campaignForContest(world, contestId);
-  if (!campaign || contest.candidatePersonIds.length < 2) {
-    throw new Error(
-      "A campaign-aware result needs a filed campaign and somebody to run against.",
-    );
+  if (!campaign) {
+    throw new Error("A campaign-aware result needs a filed campaign.");
+  }
+  // Unopposed: every vote counted goes to the one name on the ballot.
+  if (contest.candidatePersonIds.length === 1) {
+    return {
+      winnerPersonId: contest.candidatePersonIds[0]!,
+      tallies: [
+        {
+          candidatePersonId: contest.candidatePersonIds[0]!,
+          votes: SUPPORT_DENOMINATOR,
+          voteShare: 1,
+        },
+      ],
+    };
   }
   const scores = campaign.candidateSupportScopes.map((scope) => {
     const support = quantityBasisPoints(

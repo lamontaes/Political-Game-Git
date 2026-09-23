@@ -3,6 +3,7 @@ import {
   stateExecutiveEntryStatus,
   candidacyEligibility,
   ensureCampaignOpponents,
+  generalElectionField,
   ensureStateJurisdiction,
   fileCampaign,
   homeStateUsps,
@@ -161,26 +162,35 @@ export function fileForStateExecutiveOffice(
     candidacy.identity.stateUsps,
     electionDate,
   );
-  const opponents =
-    incumbent.incumbentPersonId && incumbent.incumbentPersonId !== personId
-      ? { world: incumbent.world, personIds: [incumbent.incumbentPersonId] }
-      : ensureCampaignOpponents(incumbent.world, {
-          stableKey,
-          jurisdictionId: person.homeJurisdictionId,
-          // One opponent, which is a placeholder and is known to be one.
-          //
-          // A flat field of two to four was built here and withdrawn on
-          // lamontae's ruling of 2026-09-22: "You should only have more than
-          // one opponent in the primary, or if there's an independent, you
-          // can also have no opponent." A field belongs in a primary; a
-          // general carries the nominees plus any independent who ran; and an
-          // unopposed seat has to stay possible, because that is real.
-          // Recorded in `docs/playtest/a-real-field-of-candidates-2026-09-22.md`;
-          // the shape is filed as research in
-          // `state-legislative-seat-calendar-and-field`.
-          count: 1,
-          excludePersonIds: [personId],
-        });
+  const incumbentStanding =
+    incumbent.incumbentPersonId !== null &&
+    incumbent.incumbentPersonId !== personId;
+  // The other party's nominee (the incumbent, if standing again), plus any
+  // independent who ran: see `contest-field.ts`. A governorship is never left
+  // unopposed there.
+  const field = generalElectionField(world.seed, {
+    stableKey,
+    officeKey: candidacy.identity.officeKey,
+    incumbentStanding,
+  });
+  const drawn = ensureCampaignOpponents(incumbent.world, {
+    stableKey,
+    // New rivals live in the state: in the candidate's own home place, so a
+    // rival who wins can qualify like anyone else.
+    jurisdictionId: person.homeJurisdictionId,
+    count: (incumbentStanding ? 0 : field.partyOpponents) + field.independents,
+    excludePersonIds: [
+      personId,
+      ...(incumbentStanding ? [incumbent.incumbentPersonId!] : []),
+    ],
+  });
+  const opponents = {
+    world: drawn.world,
+    personIds: [
+      ...(incumbentStanding ? [incumbent.incumbentPersonId!] : []),
+      ...drawn.personIds,
+    ],
+  };
   return fileCampaign(opponents.world, {
     stableKey,
     candidatePersonId: personId,

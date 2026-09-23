@@ -21,6 +21,7 @@ import {
   recordElectionSpeech,
   type ElectionSpeechKind,
   ensureCampaignOpponents,
+  generalElectionField,
   fileCampaign,
   lifePlaceByJurisdictionId,
   localGoverningBodyIdentityForOfficeKey,
@@ -809,10 +810,17 @@ export function fileForOffice(
     throw new Error("There is no office here the game has read the rules for.");
   }
   const stableKey = `candidacy:${personId}:${world.currentDate}`;
+  // The other party's nominee unless the seat is unopposed, and any
+  // independent who ran: see `contest-field.ts`.
+  const field = generalElectionField(world.seed, {
+    stableKey,
+    officeKey: option.officeKey,
+    incumbentStanding: false,
+  });
   const opponents = ensureCampaignOpponents(world, {
     stableKey,
     jurisdictionId,
-    count: 1,
+    count: field.partyOpponents + field.independents,
     excludePersonIds: [personId],
   });
   const electionDate =

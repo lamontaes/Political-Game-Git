@@ -485,7 +485,9 @@ export function CampaignWorkspace({
               : ` · decided ${readableCampaignDate(view.electionDate ?? "")}`}
           </p>
           <p data-testid="campaign-opponents">
-            Running against {view.opponentNames.join(", ")}.
+            {view.opponentNames.length === 0
+              ? "Nobody else filed. The seat is unopposed."
+              : `Running against ${joinNames(view.opponentNames)}.`}
           </p>
           <p data-testid="campaign-treasury">
             The committee has {money(view.treasury)}.
@@ -764,4 +766,10 @@ export function CampaignWorkspace({
       ) : null}
     </section>
   );
+}
+
+/** "A", "A and B", "A, B and C". */
+function joinNames(names: readonly string[]): string {
+  if (names.length <= 1) return names.join("");
+  return `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
 }
