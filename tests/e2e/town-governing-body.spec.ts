@@ -155,7 +155,9 @@ test("Presque Isle, Maine: the town's mayor is a race a life can run and win", a
   );
 
   await fileCandidacy(page, mayor.officeKey);
-  await expect(page.getByTestId("campaign-band")).toContainText(" for Mayor · ");
+  await expect(page.getByTestId("campaign-band")).toContainText(
+    " for Mayor · ",
+  );
 
   expect(await campaignUntilDecided(page, passDay, 45)).toBe(true);
   const result = (

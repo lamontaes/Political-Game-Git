@@ -1030,6 +1030,25 @@ function openCandidatePaymentsMatter(
  * prosecutors. Each is filed with the research queue as
  * `campaign-misconduct-detection-routes`.
  */
+/**
+ * Whose campaign money the scrutiny routes read: the controlled person, and
+ * anybody else with a recorded payment from their committee to themselves (a
+ * real M1 occurrence), such as a candidate the player no longer controls.
+ * Only a recorded incident makes somebody a subject: nobody is accused of
+ * something that never happened, and there is no quota of scandals.
+ */
+function scrutinySubjects(world: World): readonly EntityId[] {
+  const subjects = new Set<EntityId>();
+  if (world.control.kind === "person") subjects.add(world.control.personId);
+  const dead = new Set(world.history.personDeaths.map((row) => row.personId));
+  for (const occurrence of pressRecordsOfKind(world, "financial-occurrence")) {
+    if (occurrence.family !== "M1") continue;
+    for (const personId of occurrence.actorPersonIds)
+      if (world.people[personId] && !dead.has(personId)) subjects.add(personId);
+  }
+  return [...subjects].sort();
+}
+
 export function produceCampaignFinanceScrutiny(world: World): World {
   return produceRegulatorReview(
     produceRivalComplaints(
@@ -1044,8 +1063,10 @@ export function produceCampaignFinanceScrutiny(world: World): World {
  * everything reported before it rather than only what the complaint named.
  */
 function linkLaterReportedPayments(world: World): World {
-  if (world.control.kind !== "person") return world;
-  const playerId = world.control.personId;
+  return scrutinySubjects(world).reduce(linkLaterReportedPaymentsFor, world);
+}
+
+function linkLaterReportedPaymentsFor(world: World, playerId: EntityId): World {
   const campaign = campaignForCandidate(world, playerId);
   if (!campaign) return world;
   const round = candidatePaymentsRound(world, campaign);
@@ -1070,8 +1091,16 @@ function linkLaterReportedPayments(world: World): World {
 }
 
 function produceCandidatePaymentReports(world: World): World {
-  if (world.control.kind !== "person") return world;
-  const playerId = world.control.personId;
+  return scrutinySubjects(world).reduce(
+    produceCandidatePaymentReportsFor,
+    world,
+  );
+}
+
+function produceCandidatePaymentReportsFor(
+  world: World,
+  playerId: EntityId,
+): World {
   const campaign = campaignForCandidate(world, playerId);
   if (!campaign) return world;
   const reports = world.history.events.filter(
@@ -1182,8 +1211,10 @@ function reportedCandidatePayments(
  * the FEC's complaint route: its own report review is not built.
  */
 function produceRegulatorReview(world: World): World {
-  if (world.control.kind !== "person") return world;
-  const playerId = world.control.personId;
+  return scrutinySubjects(world).reduce(produceRegulatorReviewFor, world);
+}
+
+function produceRegulatorReviewFor(world: World, playerId: EntityId): World {
   const campaign = campaignForCandidate(world, playerId);
   if (!campaign) return world;
   if (procedureForSubject(world, playerId, campaign) === "fec-enforcement")
@@ -1260,8 +1291,16 @@ function produceRegulatorReview(world: World): World {
  * time a new payment appears on the reports.
  */
 function produceCandidatePaymentComplaint(world: World): World {
-  if (world.control.kind !== "person") return world;
-  const playerId = world.control.personId;
+  return scrutinySubjects(world).reduce(
+    produceCandidatePaymentComplaintFor,
+    world,
+  );
+}
+
+function produceCandidatePaymentComplaintFor(
+  world: World,
+  playerId: EntityId,
+): World {
   const campaign = campaignForCandidate(world, playerId);
   if (!campaign) return world;
   const round = candidatePaymentsRound(world, campaign);
