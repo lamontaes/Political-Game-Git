@@ -41,7 +41,7 @@ describe("a won executive term", () => {
     expect(status.kind).toBe("qualified-awaiting-entry");
     if (status.kind !== "qualified-awaiting-entry") return;
     expect(projectCampaign(decided, personId).afterword).toMatch(
-      /won\. The term begins .+; until then the office is not theirs\./,
+      /won(, [\d.]+% to [\d.]+%)?\. The term begins .+; until then the office is not theirs\./,
     );
 
     const [offer] = projectWorkRole(decided, personId).awaitingAnswer;

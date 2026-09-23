@@ -26,6 +26,7 @@ import {
   futureDueItemStateAt,
 } from "../future-transitions";
 import {
+  attemptVetoOverride,
   availableMeasureSteps,
   COMMITTEE_HEARING_TRANSITION_KEY,
   enrollMeasure,
@@ -40,7 +41,6 @@ import {
   recordAdjournmentDeath,
   recordConcurrenceVote,
   recordEnactment,
-  attemptVetoOverride,
   recordExecutiveAction,
   referMeasure,
   requireMeasure,
@@ -72,6 +72,12 @@ import {
   type MemberBallot,
 } from "./member-ballots";
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
+import {
+  congressBlueprint,
+  congressReferralCommittee,
+  isCongressMeasure,
+  scheduleCongressSitting,
+} from "./congress-chambers";
 import {
   chamberByKey,
   defaultOriginChamber,
@@ -256,6 +262,7 @@ export function legislativeBlueprintForMeasure(
   world: World,
   measure: LegislativeMeasureRecord,
 ): LegislativeBlueprint {
+  if (isCongressMeasure(measure)) return congressBlueprint(world);
   const eligible = legislativeScenarioKeysForPlace(measure.jurisdictionId);
   const authored = eligible.find(
     (key) => legislativeBlueprint(key).shortTitle === measure.shortTitle,
@@ -351,6 +358,7 @@ function decide(
     "amendmentStableKey" | "provisionKey"
   >,
   stableKey: string,
+  contested?: boolean,
 ) {
   const seated = members.length > 0 && members.every((m) => m.personId);
   if (!seated || !isSeatedChamber(world, blueprint)) {
@@ -375,6 +383,7 @@ function decide(
         world.control.kind === "person"
           ? memberBallotOn(world, world.control.personId, question)
           : null,
+      ...(contested === undefined ? {} : { contested }),
     }),
     method: "member-decisions" as const,
   };
@@ -504,7 +513,12 @@ export function applyInstitutionStep(
     };
   }
   if (steps.includes("request-referral")) {
-    const committee = chamber.committees[0];
+    // A Congress bill goes to the committee for its policy field; any other
+    // bill to the chamber's first compiled committee.
+    const referredKey = congressReferralCommittee(measure, chamberKey);
+    const committee =
+      chamber.committees.find((entry) => entry.committeeKey === referredKey) ??
+      chamber.committees[0];
     if (!committee)
       return {
         kind: "blocked",
@@ -592,6 +606,13 @@ export function applyInstitutionStep(
             floorStageKey: stage.stageKey,
           },
           stableKey,
+          // PLACEHOLDER until research question how-congress-moves-bills is
+          // answered: a Senate cloture vote divides by party, so a bill with
+          // backers from only one party needs sixty of that party to get past
+          // a filibuster.
+          isCongressMeasure(measure) && stage.stageKey === "cloture"
+            ? true
+            : undefined,
         )
       : null;
     if (!body || !decided)
@@ -764,7 +785,16 @@ export function applyInstitutionStep(
       // Enactment is also where an appropriation becomes spending authority
       // the executive can commit; a measure without an amount writes nothing.
       appropriationFromEnactedMeasure(
-        recordEnactment(world, { stableKey: key("enactment"), measureId }),
+        recordEnactment(world, {
+          stableKey: key("enactment"),
+          measureId,
+          // A federal law takes effect on the day it is enacted unless it
+          // says otherwise (the Congress pack's enactment rule), and no
+          // Congress bill here says otherwise.
+          ...(isCongressMeasure(measure)
+            ? { effectiveAt: world.currentDate }
+            : {}),
+        }),
         measureId,
       ),
       "record-enactment",
@@ -827,6 +857,11 @@ export function scheduleInstitutionStep(
   const measure = requireMeasure(world, measureId);
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return world;
+  // Congress's bills move together at its sittings, not on dates of their own.
+  if (isCongressMeasure(measure))
+    return measureSessionIsClosed(world, measureId).closed
+      ? world
+      : scheduleCongressSitting(world);
   if (pendingInstitutionStep(world, measureId, excludeDueItemId)) return world;
   if (measureSessionIsClosed(world, measureId).closed) return world;
   const dueAt =
@@ -896,7 +931,13 @@ export function createInstitutionStepHandler(
       case "ended":
         return done(result.world, "The bill died when the session adjourned.");
       case "executive":
-        return done(result.world, "The bill is on the executive's desk.");
+        // An executive who decides on the day puts the bill back in the
+        // institution's hands; this step is still the one running, so it is
+        // excluded or the next step would never be scheduled.
+        return done(
+          scheduleInstitutionStep(result.world, measureId, undefined, due.id),
+          "The bill is on the executive's desk.",
+        );
       case "applied":
         return done(
           scheduleInstitutionStep(result.world, measureId, undefined, due.id),

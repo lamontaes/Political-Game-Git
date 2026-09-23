@@ -13,6 +13,8 @@ import {
   stateLegislators,
 } from "../nationwide-world/state-legislature-opening";
 import { activeOrganizationParticipationsAt } from "../life-queries";
+import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
+import { measureCosponsors, seatedCongressChamber } from "./congress-chambers";
 import { personName } from "../people";
 import { currentHistoricalCutoff } from "../queries";
 import type {
@@ -70,6 +72,9 @@ export function seatedChamberForPack(
   chamberKey: string,
   chamberName: string,
 ): SeatedChamber | null {
+  // Congress is seated from the living world's own seat roll.
+  if (rulePackId === US_CONGRESS_PACK_ID)
+    return seatedCongressChamber(world, chamberKey);
   const candidacyPackId = `${rulePackId}:candidacy`;
   if (!stateLegislatureEstablished(world, candidacyPackId)) return null;
   const officeKey = `${rulePackId}:${chamberKey}`;
@@ -124,6 +129,11 @@ export interface ChamberVoteInput {
   readonly playerPersonId?: EntityId | null;
   /** The player's own ballot, when they cast one. */
   readonly playerBallot?: LegislativeMemberDisposition | null;
+  /**
+   * Whether the parties line up against each other on this question. Absent,
+   * only a veto override divides by party.
+   */
+  readonly contested?: boolean;
 }
 
 const OPTIONS = [
@@ -141,9 +151,40 @@ export function decideChamberVote(
   input: ChamberVoteInput,
 ): readonly LegislativeVoteDisposition[] {
   const measure = requireMeasure(world, input.question.question.measureId);
-  const sponsorParty = measure.sponsorPersonId
-    ? publicPartyOf(world, measure.sponsorPersonId)
-    : null;
+  // A Congress bill's backers may sit in the other House, and a member of
+  // Congress holds their party on the seat roll rather than as a
+  // participation record, so both Houses are read.
+  const known = [
+    ...input.members,
+    ...(measure.rulePackId === US_CONGRESS_PACK_ID
+      ? ["house", "senate"].flatMap(
+          (chamberKey) =>
+            seatedCongressChamber(world, chamberKey)?.body.members ?? [],
+        )
+      : []),
+  ];
+  const partyOf = (personId: EntityId): string | null => {
+    const seated = known.find((member) => member.personId === personId);
+    return seated?.partyKey !== undefined
+      ? seated.partyKey
+      : publicPartyOf(world, personId);
+  };
+  // Everyone whose name is on the bill: the sponsor and the members who
+  // signed on. A bill with names from both parties is a bill both parties
+  // have a member behind.
+  const cosponsors = measureCosponsors(world, measure.id);
+  const backers = [
+    ...(measure.sponsorPersonId ? [measure.sponsorPersonId] : []),
+    ...cosponsors,
+  ];
+  const sponsorParties = new Set(
+    backers.flatMap((personId) => {
+      const party = partyOf(personId);
+      return party ? [party] : [];
+    }),
+  );
+  const contested =
+    input.contested ?? input.question.question.purpose === "veto-override";
   const cutoff = currentHistoricalCutoff(world);
   return input.members.map((member): LegislativeVoteDisposition => {
     if (member.personId === null) {
@@ -181,11 +222,12 @@ export function decideChamberVote(
         (consideration) => consideration !== null,
       ),
       ...partyCue(
-        world,
         member.personId,
+        partyOf(member.personId),
         measure.sponsorPersonId,
-        sponsorParty,
-        input.question.question.purpose === "veto-override",
+        cosponsors,
+        sponsorParties,
+        contested,
       ),
     ];
     if (considerations.length === 0) {
@@ -237,10 +279,11 @@ export function decideChamberVote(
 }
 
 function partyCue(
-  world: World,
   personId: EntityId,
+  party: string | null,
   sponsorPersonId: EntityId | null,
-  sponsorParty: string | null,
+  cosponsors: readonly EntityId[],
+  sponsorParties: ReadonlySet<string>,
   contested: boolean,
 ): readonly DecisionConsideration[] {
   if (sponsorPersonId === personId)
@@ -256,11 +299,23 @@ function partyCue(
         sourceRefs: [],
       },
     ];
-  const party = publicPartyOf(world, personId);
+  if (cosponsors.includes(personId))
+    return [
+      {
+        stableKey: "member:cosponsor",
+        optionKey: "vote-yea",
+        sourceType: "context:own-bill",
+        direction: "supports",
+        importance: "strong",
+        confidence: "high",
+        explanation: "The member put their name on this bill.",
+        sourceRefs: [],
+      },
+    ];
   // A member with no national party, as in Puerto Rico's chambers, or a bill
   // whose sponsor has none, carries no party cue either way.
-  const same = party !== null && party === sponsorParty;
-  if (contested && (!party || !sponsorParty)) return [];
+  const same = party !== null && sponsorParties.has(party);
+  if (contested && (!party || sponsorParties.size === 0)) return [];
   // Most bills pass by wide margins: a member of the other party with no
   // conviction about a bill has no reason to vote it down. Party lines hold
   // where the question is a contest between the parties, an override of the
