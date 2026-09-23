@@ -1,4 +1,5 @@
 import { executiveRulePackForOfficeKey } from "../simulation/executive-authority-rule-packs";
+import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { electionContestById } from "../simulation/election-contests";
 import { publishPublicEvent } from "../simulation/public-information";
 import { resolvePublicationSource } from "../simulation/public-information-integrity";
@@ -15,6 +16,13 @@ export function publishExecutivePublicOutcomes(
   after: World,
 ): World {
   if (before === after) return after;
+  // One whole-World check for every outcome published here, not one each.
+  return advanceWithWorldIntegrityAtEnd(() =>
+    publishNewOutcomes(before, after),
+  );
+}
+
+function publishNewOutcomes(before: World, after: World): World {
   let next = publishLegislativeTransition(before, after);
   for (const result of after.history.electionContestResults ?? []) {
     const contest = electionContestById(next, result.contestId);
