@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { assertCampaignLifeIntegrity } from "./campaign-life-integrity";
 import { assertCampaignOpponentIntegrity } from "./campaign-opponent-integrity";
 import { assertCampaignWeeklyPlanIntegrity } from "./campaign-weekly-plan-integrity";
@@ -225,9 +226,7 @@ function assertCampaignRoots(
     throw new Error(`Campaign treasury is invalid: ${campaign.id}`);
   }
 
-  const filingEvent = world.history.events.find(
-    (event) => event.id === campaign.filingEventId,
-  );
+  const filingEvent = eventById(world, campaign.filingEventId);
   if (
     !filingEvent ||
     filingEvent.sequence >= campaign.sequence ||
@@ -470,15 +469,11 @@ function assertCampaignActionResults(
       );
     }
 
-    const outcomeEvent = world.history.events.find(
-      (event) => event.id === result.outcomeEventId,
-    );
+    const outcomeEvent = eventById(world, result.outcomeEventId);
     const observation = world.history.metricObservations.find(
       (item) => item.id === result.observationId,
     );
-    const feedbackEvent = world.history.events.find(
-      (event) => event.id === result.feedbackEventId,
-    );
+    const feedbackEvent = eventById(world, result.feedbackEventId);
     const knowledge = world.history.knowledge.find(
       (item) => item.id === result.feedbackKnowledgeId,
     );

@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 /** Custom Start remains an authored office premise and is never an election.
  * Ordinary elected occupancy consumes a recorded result as provenance, then a
  * supplied dated term and recorded qualification. The result date is not the
@@ -323,9 +324,7 @@ function requireElectedExecutiveContest(world: World, contestId: EntityId) {
       "The contest was not run in the jurisdiction this office governs.",
     );
   }
-  const outcome = world.history.events.find(
-    (event) => event.id === result.outcomeEventId,
-  );
+  const outcome = eventById(world, result.outcomeEventId);
   if (!outcome || outcome.type !== "election.contest-resolved") {
     throw new Error("The recorded election result names no public outcome.");
   }

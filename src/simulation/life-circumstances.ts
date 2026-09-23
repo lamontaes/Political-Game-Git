@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   addDays,
   ageOnDate,
@@ -1062,9 +1063,7 @@ function requesterOf(
   eventId: EntityId,
   personId: EntityId,
 ): EntityId | null {
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   return (
     event?.participants.find(
       (participant) =>
@@ -1114,9 +1113,7 @@ function agreedCoverageRequests(
     )
       continue;
     const agreement = agreements.find((entry) => {
-      const played = world.history.events.find(
-        (event) => event.id === entry.eventId,
-      );
+      const played = eventById(world, entry.eventId);
       return (
         entry.sequence > request.sequence &&
         played?.involvedEntityIds.includes(requesterPersonId) === true

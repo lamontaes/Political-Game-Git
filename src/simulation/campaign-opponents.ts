@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   characterHistoryContextPersonId,
@@ -1261,9 +1262,7 @@ function runOpponentStep(
   const kind: CampaignOpponentStepKind =
     written.note !== null ? "fundraising" : chosen;
   let next = written.world;
-  const event = next.history.events.find(
-    (candidate) => candidate.id === written.outcomeEventId,
-  )!;
+  const event = eventById(next, written.outcomeEventId)!;
   if (event.visibility === "public") {
     next = recordEventKnowledge(next, {
       stableKey: `${stepKey}:known-by:${campaign.candidatePersonId}`,

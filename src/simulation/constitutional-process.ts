@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { addDays, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -1076,7 +1077,7 @@ export function assertConstitutionalIntegrity(
           throw Error("Duplicate or delayed constitutional proposal.");
       } else assertDetail(at, m, r.detail, true);
       const key = `${m.id}:constitutional-action:${constitutionalActions(replay, m.id).length}`;
-      const event = world.history.events.find((e) => e.id === r.eventId);
+      const event = eventById(world, r.eventId);
       if (
         r.stableKey !== key ||
         r.id !==

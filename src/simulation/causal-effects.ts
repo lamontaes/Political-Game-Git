@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { addDays, daysBetween, makeIsoDate } from "./dates";
 import {
   futureTransitionEntityAvailableAt,
@@ -1307,7 +1308,7 @@ function canonicalEntityAvailable(
       policyRecord.sequence < sequenceExclusive
     );
   }
-  const event = world.history.events.find((record) => record.id === id);
+  const event = eventById(world, id);
   if (event) {
     return event.recordedAt <= asOfDate && event.sequence < sequenceExclusive;
   }

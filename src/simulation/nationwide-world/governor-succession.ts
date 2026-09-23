@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -145,7 +146,7 @@ function formerTermEnd(
   evidenceId: EntityId | null,
 ): IsoDate | null {
   if (!evidenceId) return null;
-  const tenure = world.history.events.find((event) => event.id === evidenceId);
+  const tenure = eventById(world, evidenceId);
   const tag = tenure?.tags.find(
     (candidate) =>
       candidate.startsWith("term-end:") && candidate !== "term-end:unknown",
