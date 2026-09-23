@@ -61,13 +61,25 @@ import type {
  * hour like any other activity.
  */
 
-export const CONTACT_PROPOSED_EVENT = "life.meeting-proposed";
-export const CONTACT_ACCEPTED_EVENT = "life.meeting-accepted";
-export const CONTACT_COUNTERED_EVENT = "life.meeting-counter-offered";
-export const CONTACT_DECLINED_EVENT = "life.meeting-declined";
-export const CONTACT_ANSWER_TRANSITION_KEY = "people:contact-answer";
-export const CONTACT_TAG = "contact.v1";
-export const CONTACT_LOCATION_KEY = "people-contact:meeting";
+import {
+  CONTACT_ACCEPTED_EVENT,
+  CONTACT_ANSWER_TRANSITION_KEY,
+  CONTACT_COUNTERED_EVENT,
+  CONTACT_DECLINED_EVENT,
+  CONTACT_LOCATION_KEY,
+  CONTACT_PROPOSED_EVENT,
+  CONTACT_TAG,
+} from "./people-contact-events";
+
+export {
+  CONTACT_ACCEPTED_EVENT,
+  CONTACT_ANSWER_TRANSITION_KEY,
+  CONTACT_COUNTERED_EVENT,
+  CONTACT_DECLINED_EVENT,
+  CONTACT_LOCATION_KEY,
+  CONTACT_PROPOSED_EVENT,
+  CONTACT_TAG,
+};
 
 /** How long an unanswered proposal waits before the other person answers. */
 const ANSWER_DELAY_DAYS = 1;
