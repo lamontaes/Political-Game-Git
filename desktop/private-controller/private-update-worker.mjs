@@ -32,6 +32,11 @@ import {
 } from "./hub-model.mjs";
 import { loadContent } from "../runtime-content.mjs";
 import {
+  leaseUpdateWorkspace,
+  prepareUpdateWorkspace,
+  ensureUpdateDependencies,
+} from "./update-workspace.mjs";
+import {
   assessUpdateTarget,
   buildPresentOnDisk,
   buildRecord,
@@ -88,11 +93,19 @@ const receivedFirst = args.includes("--received-first");
 const hubExecutable = valueAfter("--hub-executable") ?? process.execPath;
 
 let activeChild = null;
+let updateLease = null;
 let cancelled = false;
 for (const signal of ["SIGINT", "SIGTERM"]) {
   process.on(signal, () => {
     cancelled = true;
-    activeChild?.kill("SIGTERM");
+    if (activeChild?.pid) {
+      try {
+        if (process.platform === "win32") activeChild.kill("SIGTERM");
+        else process.kill(-activeChild.pid, "SIGTERM");
+      } catch (error) {
+        if (error.code !== "ESRCH") throw error;
+      }
+    }
   });
 }
 
@@ -147,6 +160,40 @@ if (!dataRoot || !path.isAbsolute(dataRoot)) {
 
 async function run(command, commandArgs, options = {}) {
   if (cancelled) throw new Error("Update cancelled.");
+  const started = Date.now();
+  let buildStage = null;
+  let stageStarted = started;
+  let outputLine = "";
+  const observeBuildOutput = (chunk) => {
+    if (!options.env?.VITE_RUNTIME_CONTENT || !commandArgs.includes("build"))
+      return;
+    outputLine += chunk;
+    const lines = outputLine.split("\n");
+    outputLine = lines.pop();
+    for (const line of lines) {
+      const next = /^> .* typecheck\s*$/.test(line)
+        ? "validation"
+        : /^> .* export:state-voting-context\s*$/.test(line)
+          ? "data preparation"
+          : /vite v.*building .*production/.test(line)
+            ? "compilation"
+            : /built in [\d.]+s/.test(line)
+              ? "provenance"
+              : /Stamped client provenance/.test(line)
+                ? "complete"
+                : null;
+      if (!next || next === buildStage) continue;
+      if (buildStage)
+        emit(
+          "log",
+          `Build phase ${buildStage}: ${Date.now() - stageStarted} ms between output markers.`,
+        );
+      buildStage = next;
+      stageStarted = Date.now();
+      if (next !== "complete")
+        emit("progress", `Preparing update: ${next}.`, { phase: "preparing" });
+    }
+  };
   emit("progress", options.label ?? `${command} ${commandArgs.join(" ")}`, {
     ...(options.phase ? { phase: options.phase } : {}),
   });
@@ -155,15 +202,26 @@ async function run(command, commandArgs, options = {}) {
       cwd: options.cwd,
       env: { ...process.env, ...options.env },
       stdio: ["ignore", "pipe", "pipe"],
+      detached: process.platform !== "win32",
     });
     activeChild = child;
+    if (child.pid)
+      updateLease?.setChild(child.pid, process.platform !== "win32");
     child.stdout.setEncoding("utf8");
     child.stderr.setEncoding("utf8");
-    child.stdout.on("data", (chunk) => emit("log", chunk.trimEnd()));
+    child.stdout.on("data", (chunk) => {
+      emit("log", chunk.trimEnd());
+      observeBuildOutput(chunk);
+    });
     child.stderr.on("data", (chunk) => emit("log", chunk.trimEnd()));
     child.on("error", reject);
-    child.on("exit", (code, signal) => {
+    child.on("close", (code, signal) => {
       activeChild = null;
+      updateLease?.setChild(null);
+      emit(
+        "log",
+        `${options.label ?? command}: ${Date.now() - started} ms (${signal ?? `exit ${code}`}).`,
+      );
       if (cancelled) return reject(new Error("Update cancelled."));
       if (code === 0) return resolve();
       reject(
@@ -182,8 +240,11 @@ async function capture(command, commandArgs, options = {}) {
       cwd: options.cwd,
       env: { ...process.env, ...options.env },
       stdio: ["ignore", "pipe", "pipe"],
+      detached: process.platform !== "win32",
     });
     activeChild = child;
+    if (child.pid)
+      updateLease?.setChild(child.pid, process.platform !== "win32");
     child.stdout.setEncoding("utf8");
     child.stderr.setEncoding("utf8");
     child.stdout.on("data", (chunk) => {
@@ -193,8 +254,9 @@ async function capture(command, commandArgs, options = {}) {
       if (options.echoErrors) emit("log", chunk.trimEnd());
     });
     child.on("error", reject);
-    child.on("exit", (code) => {
+    child.on("close", (code) => {
       activeChild = null;
+      updateLease?.setChild(null);
       if (cancelled) return reject(new Error("Update cancelled."));
       if (code === 0) resolve();
       else reject(new Error(`${options.label ?? command} failed.`));
@@ -357,25 +419,40 @@ async function prepareRuntimeContentSuccessor({
       `The ${label} build ${targetRevision.slice(0, 12)} is already verified and waiting to be activated.`,
       { outcome: "pending", track: id, revision: targetRevision },
     );
-  const paths = controllerPaths(
+  const runPreparation = (command, commandArgs, options) => {
+    const operation =
+      commandArgs[0] === "worktree"
+        ? "workspace-create"
+        : commandArgs[0] === "npm" && commandArgs[1] === "ci"
+          ? "install"
+          : null;
+    return operation
+      ? run(
+          process.execPath,
+          [
+            path.join(repositoryPath, "scripts/storage/cli.mjs"),
+            "run",
+            operation,
+            "--",
+            command,
+            ...commandArgs,
+          ],
+          options,
+        )
+      : run(command, commandArgs, options);
+  };
+  const paths = await prepareUpdateWorkspace({
     dataRoot,
-    targetRevision,
-    content.id.slice(0, 12),
-  );
-  await removeOwnedStaging(paths, repositoryPath);
-  mkdirSync(paths.stagingRoot, { recursive: true });
-  writeFileSync(
-    path.join(paths.stagingRoot, ".ocd-private-controller-staging"),
-    "1\n",
-  );
-  await run(
-    "/usr/bin/git",
-    ["worktree", "add", "--detach", paths.sourcePath, targetRevision],
-    {
-      cwd: repositoryPath,
-      label: "Creating a clean runtime-content build workspace",
-    },
-  );
+    repositoryPath,
+    revision: targetRevision,
+    preferredSource: controllerPaths(
+      dataRoot,
+      existing.current.revision,
+      content.id.slice(0, 12),
+    ).sourcePath,
+    run: runPreparation,
+    capture,
+  });
   const exactHead = await capture("/usr/bin/git", ["rev-parse", "HEAD"], {
     cwd: paths.sourcePath,
     label: "Verifying the build revision",
@@ -396,12 +473,29 @@ async function prepareRuntimeContentSuccessor({
   const buildEnvironment = {
     VITE_OCD_BUILD_PROFILE: "internal-art-review",
     VITE_RUNTIME_CONTENT: "1",
+    // TypeScript validates changed source/config/compiler signatures itself.
+    // Keeping its path stable lets that check reuse valid incremental state.
+    PG_RUN_ID: "controller-update",
+    PG_ARTIFACTS_DIR: path.join(paths.sourcePath, "test-results", "runs"),
   };
-  await run("/usr/bin/env", ["npm", "ci", "--no-audit", "--no-fund"], {
+  const nodeIdentity = await capture(
+    "/usr/bin/env",
+    [
+      "node",
+      "-p",
+      "JSON.stringify({node:process.version,abi:process.versions.modules,platform:process.platform,arch:process.arch})",
+    ],
+    { cwd: paths.sourcePath },
+  );
+  const npmVersion = await capture("/usr/bin/env", ["npm", "--version"], {
     cwd: paths.sourcePath,
-    label: "Installing pinned game dependencies",
-    phase: "preparing",
   });
+  const dependencies = await ensureUpdateDependencies({
+    ...paths,
+    toolchain: `${nodeIdentity}\n${npmVersion}`,
+    run: runPreparation,
+  });
+  if (dependencies.reused) emit("log", "Reusing unchanged game dependencies.");
   await run("/usr/bin/env", ["npm", "run", "build"], {
     cwd: paths.sourcePath,
     env: buildEnvironment,
@@ -496,6 +590,17 @@ async function prepareRuntimeContentSuccessor({
 }
 
 async function main(received = null) {
+  const release = leaseUpdateWorkspace(dataRoot);
+  updateLease = release;
+  try {
+    return await prepareUpdate(received);
+  } finally {
+    updateLease = null;
+    release();
+  }
+}
+
+async function prepareUpdate(received = null) {
   const statePath = path.join(path.resolve(dataRoot), "state.json");
   const initialState = readState(statePath);
   if (!initialState)

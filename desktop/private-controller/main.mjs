@@ -469,6 +469,7 @@ function publicState() {
           phase: hub.phase[selected] ?? null,
           check: checks[selected] ?? null,
           build: selectedBuild,
+          pending: state?.tracks[selected]?.pending ?? null,
           building: hub.workerTrack === selected,
         });
         // A remote check says nothing about the disk: the pill is resolved
@@ -1259,11 +1260,11 @@ function onWorkerEvent(track, event) {
         noteCheck(
           track,
           activated === true
-            ? "ready"
+            ? "up-to-date"
             : activated === "retained"
               ? "waiting"
               : "failed",
-          event.message,
+          activated === true ? "Update installed." : event.message,
           event.revision,
         );
         afterComplete(track);
@@ -1331,6 +1332,8 @@ async function activateVerifiedPending(id) {
     )
       return "retained";
     atomicWrite(statePath, activatePending(state, id));
+    hub.phase[id] = { phase: "ready", message: "Update installed." };
+    noteCheck(id, "up-to-date", "Update installed.", pending.revision);
     return true;
   } catch (error) {
     logLine(`Waiting update was retained without activation: ${error.message}`);
@@ -1343,7 +1346,36 @@ async function activateVerifiedPending(id) {
   }
 }
 
+const applyingUpdates = new Set();
 async function applyPending(id) {
+  if (applyingUpdates.has(id))
+    return { ok: false, message: "The update is already being installed." };
+  applyingUpdates.add(id);
+  const started = Date.now();
+  try {
+    hub.phase[id] = { phase: "installing", message: "Verifying update…" };
+    broadcast();
+    const result = await installPending(id);
+    hub.phase[id] = {
+      phase: result.ok ? "ready" : "failed",
+      message: result.message,
+    };
+    return result;
+  } catch (error) {
+    logLine(`Update installation failed: ${error.message}`);
+    const message = "The update could not be installed. Try again.";
+    hub.phase[id] = { phase: "failed", message };
+    return { ok: false, message };
+  } finally {
+    applyingUpdates.delete(id);
+    logLine(
+      `Update installation attempt finished in ${Date.now() - started} ms.`,
+    );
+    broadcast();
+  }
+}
+
+async function installPending(id) {
   const state = readState();
   if (!state?.tracks[id]?.pending)
     return { ok: false, message: "Nothing is waiting." };
@@ -1363,6 +1395,11 @@ async function applyPending(id) {
         "The update could not be verified. Your current game is unchanged.",
     };
   }
+  hub.phase[id] = {
+    phase: "installing",
+    message: "Closing the game to install…",
+  };
+  broadcast();
   if (!(await closePlay(id)))
     return {
       ok: false,
@@ -1376,6 +1413,8 @@ async function applyPending(id) {
         "The update changed while opening. Your previous game was retained.",
     };
   }
+  hub.phase[id] = { phase: "installing", message: "Opening the updated game…" };
+  broadcast();
   const opened = await openPlay(id);
   layout();
   broadcast();
