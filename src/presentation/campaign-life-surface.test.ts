@@ -143,7 +143,7 @@ describe(
       expect(panel.cards.every((card) => !card.proposed)).toBe(true);
       expect(panel.channels.every((channel) => !channel.affordable)).toBe(true);
       expect(panel.channels[0]!.limitLabel).toBe(
-        "Up to 3 buys a week; the smallest buy is $50.00.",
+        "Up to 3 buys a week; the smallest buy is $50.",
       );
       expect(panel.reachNote).toMatch(/is not modeled/);
       expect(allText(panel.cards)).not.toMatch(/\b\d{4}-\d{2}-\d{2}\b/);

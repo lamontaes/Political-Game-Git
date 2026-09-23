@@ -127,7 +127,7 @@ for (const viewport of [
       .press("Enter");
     await expect(study).toContainText("Completed");
     await expect(routine.getByTestId("personal-routine-outcome")).toContainText(
-      "Paid $600.00",
+      "Paid $600",
     );
     await saveLife(page);
     const paid = await readSavedLegislativeWorld(page);
@@ -256,7 +256,7 @@ for (const viewport of [
       .click();
     await expect(study).toContainText("Completed");
     await expect(routine.getByTestId("personal-routine-outcome")).toContainText(
-      "Paid $600.00",
+      "Paid $600",
     );
     await expect(routine.getByTestId("personal-routine-outcome")).toContainText(
       "Office administration certificate",
