@@ -2511,6 +2511,42 @@
   color: var(--pg-ivory-dim);
 }
 
+.pg-observer-clock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--pg-space-2);
+}
+
+.pg-observer-clock [data-testid="observer-date"] {
+  color: var(--pg-ivory);
+  font-variant-numeric: tabular-nums;
+}
+
+.pg-observer-problem {
+  color: var(--pg-brass);
+}
+
+.pg-world-record section {
+  margin-block: var(--pg-space-4);
+}
+
+.pg-world-record table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pg-world-record th,
+.pg-world-record td {
+  padding: var(--pg-space-1) var(--pg-space-2);
+  text-align: left;
+  vertical-align: top;
+}
+
+.pg-world-record ul {
+  padding-inline-start: var(--pg-space-4);
+}
+
 .pg-retire-confirm {
   display: flex;
   flex-wrap: wrap;

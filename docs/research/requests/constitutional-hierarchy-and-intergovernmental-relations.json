@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-22T22:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "rule-changing laws (deconstructing systems)",
+  "notes": [
+    "The owner asked that the relationship between the federal government, the states, their constitutions, city charters and the federal Constitution be established, and how they relate: state laws, interstate laws and so on. One answer set covering all 52 jurisdictions (50 states, D.C., Puerto Rico).",
+    "The engine now orders law by level: federal constitution, federal statute, state constitution, state statute, local charter, local ordinance, with a higher level in force outranking a lower one. What it does NOT know, and marks as unmodelled with a blanket rule, is each state's local-authority doctrine, where federal law preempts and where it only sets a floor, and interstate compacts. Answers replace those blanket rules.",
+    "Keep rules to what the game can act on: which level may change which kind of rule, and which instrument a state requires. Case law histories are not needed beyond the rule they establish."
+  ],
+  "priority": "P1",
+  "question": "For each of the 50 states, D.C. and Puerto Rico: is local government governed by home rule or Dillon's rule (and for which classes of local government), what may a city charter change without the state, and where does state law preempt local ordinances? Federally: which areas of state law are preempted outright, which only have a federal floor, and how do D.C. (congressional review under the Home Rule Act) and Puerto Rico (territorial clause) differ? And which interstate compacts, full-faith-and-credit and extradition rules bind states to each other?",
+  "questionId": "constitutional-hierarchy-and-intergovernmental-relations",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "rule-changing laws thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/enacted-rule-changes.ts",
+      "whatItDidNotSettle": "It orders instruments by level but holds no per-state doctrine: every state is treated alike, marked as a blanket rule."
+    },
+    {
+      "source": "src/simulation/rule-capability-resolver.ts",
+      "whatItDidNotSettle": "It distinguishes a state statute binding a class of localities from a state default yielding to local law, but only for the fields it reads, and has no home-rule table."
+    },
+    {
+      "source": "docs/research/requests/modern-state-constitutions-fully-mutable.json",
+      "whatItDidNotSettle": "It asks what a state cannot change because federal law overrides it, per provision, but not the general preemption structure, local authority or interstate relations."
+    }
+  ],
+  "title": "How federal, state, charter and local law rank and relate, in all 52 jurisdictions",
+  "usableAnswer": "One row per jurisdiction: local-authority doctrine (home rule constitutional or statutory, Dillon's rule, or mixed, by class of local government), what a charter can change unaided, notable state preemption of local ordinances (for example firearms, minimum wage, tax), with citations. A federal section: the main fields of express and field preemption versus floor preemption, the D.C. and Puerto Rico special cases, and the compacts in force by subject with member states. A short representation scheme: levels, which level may change which rule, and how a conflict resolves.",
+  "whyItMatters": "A law passed at any level now changes the rules the game reads. Without the real hierarchy every city can do what its state forbids and no state is bound by another, which makes long observer runs wrong in a way nobody can see."
+}

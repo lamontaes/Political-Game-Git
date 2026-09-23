@@ -14,6 +14,10 @@ import {
   serializeWorld,
 } from "../../src/simulation";
 import { activeOrganizationParticipationsAt } from "../../src/simulation/life-queries";
+import { personName } from "../../src/simulation";
+import { projectCampaignGuidance } from "../../src/simulation/campaign-life-activities";
+import { projectWorkRole } from "../../src/presentation/day-overview";
+import { projectGovernmentBrowser } from "../../src/presentation/politics-government";
 import type { EntityId, World } from "../../src/simulation";
 import {
   fileForOffice,
@@ -264,6 +268,29 @@ describe("standing again after a race is over", () => {
       expect(seats).toHaveLength(1);
       expect(localGoverningSeatFor(world, personId)).not.toBeNull();
     }
+
+    // The seat reads as an office everywhere the life is described.
+    const name = personName(world.people[personId]!);
+    expect(projectWorkRole(world, personId).sentence).toBe(
+      "Your role: Member of the governing body, City of Ely.",
+    );
+    const ely = projectGovernmentBrowser(world, personId).localGovernments.find(
+      (entry) => entry.key === `unit:${body.unit.id}`,
+    );
+    expect(ely?.holderName).toBe(name);
+    expect(ely?.detail).toContain("Member of the governing body.");
+    // The county above it is named the way Minnesotans say it.
+    expect(
+      projectGovernmentBrowser(world, personId).alsoGoverning.map(
+        (entry) => entry.title,
+      ),
+    ).toContain("St. Louis County");
+    // A party host's advice knows the town's own seat.
+    expect(
+      projectCampaignGuidance(world, personId).offices.map(
+        (office) => office.officeKey,
+      ),
+    ).toContain(body.officeKey);
   }, 120_000);
 });
 
