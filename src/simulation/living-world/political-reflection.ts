@@ -152,21 +152,31 @@ export function encounterProposalsInEvent(
   let next = world;
   for (const propositionId of proposalsInEvent(world, input.event)) {
     const stableKey = `${V}:met:${input.personId}:${propositionId}:${input.event.id}`;
-    if (
-      next.history.propositionExposures.some(
-        (exposure) => exposure.stableKey === stableKey,
-      )
-    )
-      continue;
-    next = recordPropositionExposure(next, {
-      stableKey,
-      personId: input.personId,
-      propositionId,
-      encounteredAt: next.currentDate,
-      summary: input.summary,
-      provenance: input.provenance,
-    });
-    const exposure = next.history.propositionExposures.at(-1)!;
+    // Meeting it once is one exposure, whoever wrote it down. Filing a bill
+    // already records its sponsor's exposure (`introduceMeasure`), so this
+    // takes that one up rather than writing a second.
+    const already = next.history.propositionExposures.find(
+      (exposure) =>
+        exposure.stableKey === stableKey ||
+        (exposure.personId === input.personId &&
+          exposure.propositionId === propositionId &&
+          exposure.encounteredAt === next.currentDate &&
+          exposure.stableKey.endsWith(`:sponsor-exposure:${propositionId}`)),
+    );
+    if (!already)
+      next = recordPropositionExposure(next, {
+        stableKey,
+        personId: input.personId,
+        propositionId,
+        encounteredAt: next.currentDate,
+        summary: input.summary,
+        provenance: input.provenance,
+      });
+    const exposure = already ?? next.history.propositionExposures.at(-1)!;
+    const considered = next.history.futureDueItems.some(
+      (item) => item.stableKey === `${V}:considers:${exposure.id}`,
+    );
+    if (considered) continue;
     const controlled =
       next.control.kind === "person" &&
       next.control.personId === input.personId;
