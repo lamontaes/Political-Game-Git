@@ -339,6 +339,21 @@ function journeyFor(
   );
 }
 
+/**
+ * The last moment a yes can still be given to an offered hold: when the person
+ * would have to set out for it, or its start when nobody travels. Accepting
+ * refuses from this moment on, and the projection stops offering it here, so
+ * the two cannot disagree. A cancelled journey still says when it would have
+ * left, which keeps the moment readable after a lapse released it.
+ */
+function answerDeadline(
+  world: World,
+  hold: ScheduledActivityRecord,
+): SimulationMoment {
+  const journey = journeyFor(world, hold);
+  return scheduledActivityState(world, (journey ?? hold).id).start;
+}
+
 function outcomeFor(
   world: World,
   lifeActivityId: EntityId,
@@ -837,9 +852,7 @@ export function acceptCampaignLifeActivity(
     return world;
   const entry = campaignLifeCatalogEntry(record.form);
   const journey = journeyFor(world, tentative);
-  const leave = journey
-    ? scheduledActivityState(world, journey.id).start
-    : state.start;
+  const leave = answerDeadline(world, tentative);
   const ignored = [tentative.id, ...(journey ? [journey.id] : [])];
   if (compareSimulationMoments(leave, world.currentMoment) <= 0) return world;
   if (
@@ -2175,6 +2188,12 @@ export interface CampaignLifeActivityView {
   readonly scheduledActivityId: EntityId;
   readonly start: SimulationMoment;
   readonly end: SimulationMoment;
+  /**
+   * For an offer that was never said yes to: the moment an answer was needed
+   * by, which is when the person would have had to set out. Null once it was
+   * accepted, and for anything asked for, which never needed an answer.
+   */
+  readonly answerBy: SimulationMoment | null;
   readonly presence: CampaignLifeCatalogEntry["presence"];
   readonly journeyMinutes: number | null;
   readonly travelCostDisclosure: string | null;
@@ -2211,8 +2230,13 @@ export function projectCampaignLifeActivities(
       const holdState = scheduledActivityState(world, hold.id);
       const outcome = outcomeFor(world, record.id);
       const holds = holdsFor(world, record).map((activity) => activity.id);
+      const answerBy =
+        hold.kind === "tentative" ? answerDeadline(world, hold) : null;
       // A hold that has completed but whose outcome is not yet recorded is
-      // still "completed" (with outcome null), never "expired".
+      // still "completed" (with outcome null), never "expired". An offer is
+      // only open until its answer was needed by: the accept writer refuses
+      // from that moment, so offering it past then offered a yes that could
+      // only fail.
       const state: CampaignLifeActivityState =
         outcome || holdState.status === "completed"
           ? "completed"
@@ -2222,7 +2246,9 @@ export function projectCampaignLifeActivities(
                 compareSimulationMoments(holdState.end, world.currentMoment) > 0
               ? hold.kind === "confirmed"
                 ? "accepted"
-                : "offered"
+                : compareSimulationMoments(answerBy!, world.currentMoment) > 0
+                  ? "offered"
+                  : "expired"
               : "expired";
       const outcomeEvent = outcome
         ? world.history.events.find(
@@ -2242,6 +2268,7 @@ export function projectCampaignLifeActivities(
         scheduledActivityId: hold.id,
         start: holdState.start,
         end: holdState.end,
+        answerBy,
         presence: entry.presence,
         journeyMinutes: entry.journeyKey === null ? null : entry.journeyMinutes,
         travelCostDisclosure:

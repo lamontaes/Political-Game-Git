@@ -106,6 +106,22 @@ const STATE_LABELS: Readonly<
   completed: "Done.",
 };
 
+/**
+ * An offer nobody said yes to before it had to be answered: the organization
+ * needed to know by the time the person would have set out. Null for anything
+ * that was accepted, asked for, declined or done.
+ */
+export function lapsedAnswerSentence(
+  world: World,
+  view: CampaignLifeActivityView,
+): string | null {
+  if (view.state !== "expired" || view.answerBy === null) return null;
+  const name = organizationName(world, view.hostOrganizationId);
+  const organization = `${name.charAt(0).toUpperCase()}${name.slice(1)}`;
+  const deadline = readableMoment(view.answerBy);
+  return `${organization} needed an answer by ${deadline}; that has passed.`;
+}
+
 export interface PartyWorkRow {
   readonly lifeActivityId: EntityId;
   readonly form: CampaignLifeForm;
@@ -318,7 +334,7 @@ export function projectPartyAndCommunityWork(
       state: view.state,
       stateLabel: awaitingRecord
         ? "It has happened. What came of it is not recorded yet."
-        : STATE_LABELS[view.state],
+        : (lapsedAnswerSentence(world, view) ?? STATE_LABELS[view.state]),
       when: readableMoment(view.start),
       placeLabel: hold?.location.label ?? "",
       presence: view.presence,
