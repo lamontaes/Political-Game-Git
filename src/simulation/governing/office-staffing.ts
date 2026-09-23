@@ -142,15 +142,30 @@ export interface OfficeStaffingOutcome {
  */
 export function establishOfficeStaffPositions(
   world: World,
-  office: GoverningOffice,
+  office: Pick<GoverningOffice, "officeKey" | "organizationId"> & {
+    /** Null where no state's civil-service boundary applies to this office. */
+    readonly stateUsps: string | null;
+  },
+  table: {
+    readonly positions: readonly OfficeStaffPositionProfile[];
+    readonly profile: string;
+    readonly classReading?: OfficeStaffClassReading;
+  } = { positions: OFFICE_STAFF_POSITIONS, profile: OFFICE_STAFFING_PROFILE },
 ): OfficeStaffingOutcome {
-  const reading = officeStaffClass(office.stateUsps, world.currentDate);
+  const reading: OfficeStaffClassReading =
+    table.classReading ??
+    (office.stateUsps
+      ? officeStaffClass(office.stateUsps, world.currentDate)
+      : {
+          civilClass: "unknown",
+          basis: `No state civil-service boundary applies to this office, so the class is recorded unknown. Which positions it has is ${table.profile}, an authored gameplay profile.`,
+        });
   const existing = officeStaffPositionRecords(world);
   const established: string[] = [];
   const alreadyAuthorized: string[] = [];
   const added: OfficeStaffPositionRecord[] = [];
   let sequence = world.history.nextSequence;
-  for (const position of OFFICE_STAFF_POSITIONS) {
+  for (const position of table.positions) {
     const stableKey = officeStaffPositionKey(office, position.classKey);
     if (existing.some((record) => record.stableKey === stableKey)) {
       alreadyAuthorized.push(position.classKey);
@@ -168,7 +183,7 @@ export function establishOfficeStaffPositions(
       duty: position.duty,
       civilClass: reading.civilClass,
       civilClassBasis: reading.basis,
-      profile: OFFICE_STAFFING_PROFILE,
+      profile: table.profile,
     });
     established.push(position.classKey);
     sequence += 1;

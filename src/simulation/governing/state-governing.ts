@@ -753,9 +753,9 @@ function pad(value: number): string {
   return value.toString().padStart(2, "0");
 }
 
-function createCandidates(
+export function createCandidates(
   world: World,
-  office: GoverningOffice,
+  office: Pick<GoverningOffice, "holderPersonId" | "jurisdictionId">,
   matterKey: string,
   count: number,
 ): { world: World; personIds: EntityId[] } {

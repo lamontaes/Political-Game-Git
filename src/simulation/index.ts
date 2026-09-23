@@ -278,6 +278,8 @@ export * from "./nationwide-world/state-executive-turnover";
 export * from "./nationwide-world/state-executive-turnover-calendar";
 export * from "./nationwide-world/state-legislative-election-calendar";
 export * from "./governing/state-governing";
+export * from "./governing/office-staff-hiring";
+export * from "./governing/office-staffing";
 export * from "./governing/state-disposition";
 export * from "./governing/governing-calendar";
 export * from "./nationwide-world/residence-duration";
