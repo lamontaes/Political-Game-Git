@@ -214,6 +214,7 @@ import {
   TitleScreen,
   resolvedTitlePresentation,
   resolvedTitleLecternHero,
+  type SaveListingState,
 } from "./TitleScreen";
 import {
   readReplaySeed,
@@ -492,17 +493,28 @@ export function PlayerGame() {
   const [notice, setNotice] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const [damaged, setDamaged] = useState<readonly QuarantinedSave[]>([]);
-  const [savesUnavailable, setSavesUnavailable] = useState(store === null);
+  const savesUnavailable = store === null;
+  const [saveListing, setSaveListing] = useState<SaveListingState>(
+    store === null ? "read" : "loading",
+  );
 
+  /*
+   * A failed read is not a browser that refuses storage. The store exists,
+   * so writing may still work and the saves may still be there; saying the
+   * browser "will not let the game store anything" told a player with a
+   * 40 MB life that it was gone. The screens say the list could not be read
+   * and offer to read it again, and until the first read finishes they say
+   * the lives are being opened rather than that there are none.
+   */
   const refreshSaves = useCallback(async () => {
     if (!store) return;
     try {
       const listing = await store.list();
       setSaves(listing.saves);
       setDamaged(listing.damaged);
-      setSavesUnavailable(false);
+      setSaveListing("read");
     } catch {
-      setSavesUnavailable(true);
+      setSaveListing("failed");
     }
   }, [store]);
 
@@ -834,6 +846,11 @@ export function PlayerGame() {
             saves={saves}
             damaged={damaged}
             savesUnavailable={savesUnavailable}
+            saveListing={saveListing}
+            onRetrySaves={() => {
+              setSaveListing("loading");
+              void refreshSaves();
+            }}
             problem={problem}
             onNewGame={() => {
               setProblem(null);
@@ -1004,6 +1021,11 @@ export function PlayerGame() {
         saves={saves}
         damaged={damaged}
         savesUnavailable={savesUnavailable}
+        saveListing={saveListing}
+        onRetrySaves={() => {
+          setSaveListing("loading");
+          void refreshSaves();
+        }}
         notice={notice}
         problem={problem}
         artProvenance={previewMode}
@@ -2238,6 +2260,8 @@ function SavesScreen({
   saves,
   damaged,
   savesUnavailable,
+  saveListing,
+  onRetrySaves,
   notice,
   problem,
   artProvenance,
@@ -2250,6 +2274,8 @@ function SavesScreen({
   readonly saves: readonly BrowserWorldSummary[];
   readonly damaged: readonly QuarantinedSave[];
   readonly savesUnavailable: boolean;
+  readonly saveListing: SaveListingState;
+  readonly onRetrySaves: () => void;
   readonly notice: string | null;
   readonly problem: string | null;
   readonly artProvenance: "production" | "candidate-review";
@@ -2276,7 +2302,20 @@ function SavesScreen({
           {problem}
         </p>
       ) : null}
-      {saves.length === 0 && !savesUnavailable ? (
+      {saveListing === "loading" ? (
+        <p className="game-note" data-testid="saves-reading">
+          Opening your saved lives. A long life can take a moment.
+        </p>
+      ) : null}
+      {saveListing === "failed" ? (
+        <p className="game-problem" role="alert" data-testid="saves-unread">
+          Your saved lives could not be read just now. Nothing was deleted.{" "}
+          <button type="button" onClick={onRetrySaves}>
+            Try again
+          </button>
+        </p>
+      ) : null}
+      {saves.length === 0 && !savesUnavailable && saveListing === "read" ? (
         <p className="game-note" data-testid="saves-empty">
           No lives are saved in this browser yet. You can import a saved life
           below.
