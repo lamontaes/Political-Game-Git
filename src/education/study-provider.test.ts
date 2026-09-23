@@ -31,7 +31,7 @@ import {
 } from "../simulation/life-paths2";
 import { completedStudyPeriods } from "../simulation/education-study-progression";
 import type { EducationInstitution } from "./types";
-import type { World } from "../simulation/types";
+import type { EntityId, World } from "../simulation/types";
 // Semantic fixture only; authentic source vectors are tested separately through locked production.
 const institution: EducationInstitution = {
   id: "ipeds-unit:999999",
@@ -297,9 +297,29 @@ describe("saved accepted terms controls", () => {
     };
     expect(respondToEducationOffer(other, offer.id, true).ok).toBe(false);
     w = respondToEducationOffer(w, offer.id, true).world;
-    w = applyForEducation(w, institution, "NONCRDT1").world;
+    // A second application for the program being studied is refused before
+    // any offer is written.
+    const again = applyForEducation(w, institution, "NONCRDT1");
+    expect(again.ok).toBe(false);
+    expect(again.message).toBe("You're already enrolled in this program.");
+    expect(again.world).toBe(w);
+    expect(pendingEducationOffers(w)).toHaveLength(0);
+    // A save from before that refusal can still hold a second offer for the
+    // same program; accepting it is refused too.
+    const stale = {
+      ...w,
+      history: {
+        ...w.history,
+        evidenceArtifacts: [
+          ...w.history.evidenceArtifacts,
+          { ...offer, id: "evidence-artifact_stale-second-offer" as EntityId },
+        ],
+      },
+    };
+    expect(pendingEducationOffers(stale)).toHaveLength(1);
     expect(
-      respondToEducationOffer(w, pendingEducationOffers(w)[0]!.id, true).ok,
+      respondToEducationOffer(stale, pendingEducationOffers(stale)[0]!.id, true)
+        .ok,
     ).toBe(false);
   });
   it("keeps legacy session terms playable when saved before period simplification", () => {
@@ -444,6 +464,65 @@ describe("applying for a degree at a real college", () => {
         studyPathFor(college, capability("LEVEL7")),
       ),
     ).toBeNull();
+  });
+
+  it("takes one application per degree: refused while an offer waits, while studying and while interrupted", () => {
+    let w = fixture();
+    w = applyForEducation(w, college, "LEVEL5").world;
+    // Refused while the college has yet to answer...
+    expect(educationOptionReason(w, college, capability("LEVEL5"))).toMatch(
+      /^You already applied to .+\. You'll hear back by /,
+    );
+    const waiting = applyForEducation(w, college, "LEVEL5");
+    expect(waiting.ok).toBe(false);
+    expect(waiting.world).toBe(w);
+    // ...and once it has, while the offer waits for an answer.
+    w = advanceWorld(w, ADMISSION_DECISION_DAYS, LIFE_PATHS2_HANDLERS);
+    expect(pendingEducationOffers(w)).toHaveLength(1);
+    expect(educationOptionReason(w, college, capability("LEVEL5"))).toBe(
+      "You already have an offer for this program. You can accept or decline it below.",
+    );
+    const twice = applyForEducation(w, college, "LEVEL5");
+    expect(twice.ok).toBe(false);
+    expect(twice.world).toBe(w);
+    w = respondToEducationOffer(
+      w,
+      pendingEducationOffers(w)[0]!.id,
+      true,
+    ).world;
+    const enrollment = w.history.educationEnrollments.at(-1)!;
+    expect(educationOptionReason(w, college, capability("LEVEL5"))).toBe(
+      "You're already enrolled in this program.",
+    );
+    expect(applyForEducation(w, college, "LEVEL5").ok).toBe(false);
+    // A place accepted in the spring starts with the fall term.
+    for (
+      let month = 0;
+      month < 12 &&
+      educationEnrollmentStateAt(w, enrollment.id)?.status !== "active";
+      month++
+    )
+      w = advanceWorld(w, 30, LIFE_PATHS2_HANDLERS);
+    expect(educationEnrollmentStateAt(w, enrollment.id)?.status).toBe("active");
+    expect(applyForEducation(w, college, "LEVEL5").ok).toBe(false);
+    w = changeLifePathStatus(w, enrollment.id, "pause").world;
+    expect(educationEnrollmentStateAt(w, enrollment.id)?.status).toBe(
+      "temporarily-inactive",
+    );
+    expect(applyForEducation(w, college, "LEVEL5").ok).toBe(false);
+    // Another college's bachelor's is a different place, still open.
+    expect(
+      educationOptionReason(
+        w,
+        { ...college, id: "ipeds-unit:777777", officialId: "777777" },
+        capability("LEVEL5"),
+      ),
+    ).toBeNull();
+    expect(
+      w.history.educationEnrollments.filter(
+        (e) => e.programKind === enrollment.programKind,
+      ),
+    ).toHaveLength(1);
   });
 
   it("asks for a bachelor's before a master's, and leaves doctorates listed only", () => {

@@ -35,7 +35,10 @@ describe("every authored opening continuation depends on the saved answer", () =
         ...DEFAULT_NEW_GAME_SETUP,
         startKind: "custom",
         household: "shares-a-home",
-        seed: "repair6-branches",
+        // A child already in school at the youngest age: under the school
+        // calendar the "repair6-branches" five-year-old, born after
+        // September 1, is still waiting for kindergarten.
+        seed: "repair6-branches-a",
         startAge: definition.ages[0],
       });
       // A scene true only at one time of day is played at that time.

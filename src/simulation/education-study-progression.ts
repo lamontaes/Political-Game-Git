@@ -16,11 +16,40 @@ import {
   futureDueItemStateAt,
 } from "./future-transitions";
 import { cancelScheduledActivity, scheduledActivityState } from "./time-work";
-import { addDays, daysBetween } from "./dates";
+import { addDays, daysBetween, spokenDate } from "./dates";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type { EntityId, IsoDate, World } from "./types";
 
 const prefix = "life-paths2.";
+
+/**
+ * What the journal and the day report say when a period's tuition goes
+ * unpaid. Plain words and a spoken date: this is a sentence the player reads,
+ * not a note about how the grace was configured.
+ */
+export function tuitionGraceSentence(deadline: IsoDate | string): string {
+  return `Your tuition is unpaid. You have until ${spokenDate(deadline)} to pay it before your studies pause.`;
+}
+export const TUITION_PAUSED_SENTENCE =
+  "Your tuition was still unpaid at the deadline, so your studies are paused. Your work and pay carry on.";
+
+/**
+ * The same two sentences for a save written before they were plain. The
+ * recorded summary stays as it was; only what the player reads is new.
+ */
+export function readableTuitionSummary(summary: string): string {
+  const grace =
+    /^Tuition is unpaid\. Your accepted authored grace deadline is (\d{4}-\d{2}-\d{2});/.exec(
+      summary,
+    );
+  if (grace) return tuitionGraceSentence(grace[1]!);
+  if (
+    summary ===
+    "Tuition remained unfunded at its deadline. Study paused; work, pay and the World continue."
+  )
+    return TUITION_PAUSED_SENTENCE;
+  return summary;
+}
 const periodDueKey = "education:study-period-due" as const;
 const graceDuePrefix = `${prefix}study-grace-deadline:`;
 const authored = {
@@ -289,7 +318,7 @@ function pauseUnfundedStudy(world: World, enrollmentId: EntityId): World {
     next,
     "tuition-paused",
     [enrollmentId],
-    "Tuition remained unfunded at its deadline. Study paused; work, pay and the World continue.",
+    TUITION_PAUSED_SENTENCE,
     [
       `tuition-pause-state:${next.history.educationEnrollmentStates.at(-1)!.id}`,
     ],
@@ -825,7 +854,7 @@ export const educationStudyPeriodDueHandler: FutureTransitionHandler = (
         graceWorld,
         "tuition-grace-opened",
         [enrollmentId, graceWorld.history.futureDueItems.at(-1)!.id],
-        `Tuition is unpaid. Your accepted authored grace deadline is ${deadline}; arrange available personal funding or study pauses. Work and the World continue.`,
+        tuitionGraceSentence(deadline),
       );
     }
     return {

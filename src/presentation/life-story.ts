@@ -15,6 +15,7 @@ import {
   abandonUnperformableCommitment,
   declineVenueActivity,
 } from "./scheduled-activity-choice";
+import { passOrdinaryDays } from "./ordinary-life";
 import { performVenueActivity } from "./venue-activity";
 import {
   lifeActivityHandlers,
@@ -554,6 +555,13 @@ function chooseStoryScene(
  */
 const STORY_STRETCH_STOPS = { socialHolds: false, dueItems: false } as const;
 
+/**
+ * Days pass for the story's own buttons stopping at a civic hold posted
+ * during the stretch, not only at ones already on the calendar when it began.
+ */
+const STORY_DAY_ADVANCE: OrdinaryLifeDayAdvance = (world, days) =>
+  passOrdinaryDays(world, days, { stopForCivicHolds: true });
+
 /** The option key that goes to something on today's calendar. */
 const GO_TO_ACTIVITY_PREFIX = "go-to:";
 
@@ -984,7 +992,7 @@ export function quietStepDays(from: IsoDate): number {
 export function letStoryTimePass(
   world: World,
   personId: EntityId,
-  advanceDays?: OrdinaryLifeDayAdvance,
+  advanceDays: OrdinaryLifeDayAdvance = STORY_DAY_ADVANCE,
 ): World {
   if (formativeIntervalAt(world, personId) !== null) {
     return letTimePass(world, personId, advanceDays);

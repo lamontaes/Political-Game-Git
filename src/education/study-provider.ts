@@ -59,7 +59,7 @@ export function studyDefinition(
     title: `${capability.label.trim()} — noncredit study`,
     responsibility: `Study ${capability.label.trim().toLowerCase()} across the accepted noncredit period.`,
     program: `postsecondary:edu-path7-${capability.code.toLowerCase()}`,
-    credential: `Completed noncredit ${capability.label.trim().toLowerCase()} study (game-authored record; no degree or license)`,
+    credential: `Completed noncredit ${capability.label.trim().toLowerCase()} study (not a degree or license)`,
     prerequisiteProgram: null,
     minimumAge: 18,
     sessionMinutes: 0,
@@ -243,6 +243,8 @@ export function educationOptionReason(
   if (institution.kind !== "postsecondary" || !canApplyFor(capability))
     return "This college does not take applications for this through the game.";
   const path = studyPathFor(institution, capability);
+  const already = alreadyStudyingOrOffered(world, institution, capability);
+  if (already) return already;
   if (
     path.prerequisiteProgram &&
     !hasLifePathCredential(
@@ -253,6 +255,49 @@ export function educationOptionReason(
   )
     return "This needs a bachelor's degree first.";
   return studyEntryReason(world, world.control.personId, path);
+}
+/**
+ * One place per program per college. A second application for a degree the
+ * person is already studying, has been accepted for or already holds an offer
+ * for went through, and left two enrollments in one program.
+ */
+function alreadyStudyingOrOffered(
+  world: World,
+  institution: EducationInstitution,
+  capability: EducationCapability,
+): string | null {
+  if (world.control.kind !== "person") return null;
+  const actor = world.control.personId;
+  const program = studyPathFor(institution, capability).program;
+  const org = world.history.organizations.find(
+    (o) => o.stableKey === `edu-path7:institution:${institution.id}`,
+  );
+  if (
+    org &&
+    world.history.educationEnrollments.some(
+      (e) =>
+        e.personId === actor &&
+        e.organizationId === org.id &&
+        e.programKind === program &&
+        ["active", "expected", "temporarily-inactive"].includes(
+          educationEnrollmentStateAt(world, e.id)?.status ?? "",
+        ),
+    )
+  )
+    return "You're already enrolled in this program.";
+  const earlier = unansweredEducationApplications(world).find((offer) => {
+    const terms = parseEducationTerms(offer.description);
+    return (
+      terms?.institutionId === institution.id &&
+      terms.capabilityCode === capability.code
+    );
+  });
+  if (!earlier) return null;
+  // Still waiting on the college: say when it answers, not that it did.
+  const decisionAt = offerDecisionAt(earlier);
+  return decisionAt && decisionAt > world.currentDate
+    ? `You already applied to ${institution.name}. You'll hear back by ${proseDate(decisionAt)}.`
+    : "You already have an offer for this program. You can accept or decline it below.";
 }
 function event(
   world: World,
@@ -296,24 +341,7 @@ export function applyForEducation(
   if (!capability) throw new Error("Unknown capability");
   const reason = educationOptionReason(world, institution, capability);
   if (reason) return { ok: false as const, world, message: reason };
-  const earlier = unansweredEducationApplications(world).find((a) => {
-    const terms = parseEducationTerms(a.description);
-    return (
-      terms?.institutionId === institution.id &&
-      terms.capabilityCode === capabilityCode
-    );
-  });
-  if (earlier) {
-    const decisionAt = offerDecisionAt(earlier);
-    return {
-      ok: true as const,
-      world,
-      message:
-        decisionAt && decisionAt > world.currentDate
-          ? `You already applied to ${institution.name}. You'll hear back by ${proseDate(decisionAt)}.`
-          : "Your existing saved offer is ready to review; no duplicate application was created.",
-    };
-  }
+  // A second request while an offer waits is refused by the reason above.
   const actor = world.control.kind === "person" ? world.control.personId : null;
   if (!actor) throw new Error("No person");
   const stableKey = `edu-path7:institution:${institution.id}`;
@@ -343,7 +371,7 @@ export function applyForEducation(
     [org.id],
     degree
       ? `You applied to ${institution.name} for ${credentialPhrase(path.credential!)}.`
-      : `You requested the game-authored noncredit study option at ${institution.name}. No attendance, degree or payment is recorded.`,
+      : `You asked ${institution.name} about noncredit study. Nothing is booked or paid yet.`,
   );
   // A degree application is answered after a wait; the offer is saved now,
   // with the day it is decided, and can be seen and answered from that day.
@@ -377,7 +405,7 @@ export function applyForEducation(
     // open-admission college admits anyone by its own reported policy.
     message: degree
       ? `You applied to ${institution.name}. You'll hear back by ${proseDate(decisionAt!)}.`
-      : "A game-authored noncredit offer is available. Review its terms before accepting; this is not official admission.",
+      : `${institution.name} offered you a noncredit place. Review the terms before accepting.`,
   };
 }
 /**
@@ -500,7 +528,7 @@ export function respondToEducationOffer(
     return {
       ok: false as const,
       world,
-      message: "Grace must be a nonnegative whole number of simulated days.",
+      message: "Grace must be a whole number of days, zero or more.",
     };
   const terms =
     offeredTerms?.version === 2

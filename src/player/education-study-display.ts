@@ -10,9 +10,10 @@ import {
 import { educationEnrollmentStateAt } from "../simulation/life-queries";
 import { enrollmentStudyModel } from "../simulation/life-paths2";
 import type { EntityId, World } from "../simulation/types";
+import { moneyText } from "../simulation/money-text";
 
 function dollars(minor: number): string {
-  return `$${(minor / 100).toFixed(2)}`;
+  return moneyText({ minorUnits: minor, currency: "USD" });
 }
 
 export function studyProgramCostLabel(path: LifePathDefinition): string {
@@ -21,11 +22,11 @@ export function studyProgramCostLabel(path: LifePathDefinition): string {
     const years = path.academicYears ?? 0;
     const per = path.periodCostMinor ?? 0;
     const periods = totalStudyPeriods(path);
-    return `${years} academic year${years === 1 ? "" : "s"}, ${periods} period${periods === 1 ? "" : "s"}, at least ${minimumStudyElapsedDays(path)} simulated days, ${dollars(per)} per period (${dollars(total)} total, game-authored).`;
+    return `${years} academic year${years === 1 ? "" : "s"}, ${periods} period${periods === 1 ? "" : "s"}, at least ${minimumStudyElapsedDays(path)} days, ${dollars(per)} per period (${dollars(total)} in all).`;
   }
   if (path.requiredSessions && path.sessionCostMinor > 0)
-    return `${path.requiredSessions} sessions at ${dollars(path.sessionCostMinor)} each (${dollars(path.requiredSessions * path.sessionCostMinor)} total, game-authored).`;
-  return "Game-authored terms.";
+    return `${path.requiredSessions} sessions at ${dollars(path.sessionCostMinor)} each (${dollars(path.requiredSessions * path.sessionCostMinor)} in all).`;
+  return "Terms are set when you enroll.";
 }
 
 export function studyEnrollmentProgressLabel(

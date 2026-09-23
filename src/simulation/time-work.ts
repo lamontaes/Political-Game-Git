@@ -214,6 +214,10 @@ const LATEST_ACTIVITY_STATE = new WeakMap<
   readonly ScheduledActivityStateRecord[],
   Map<EntityId, ScheduledActivityStateRecord>
 >();
+const ACTIVITY_BY_ID = new WeakMap<
+  readonly ScheduledActivityRecord[],
+  Map<EntityId, ScheduledActivityRecord>
+>();
 const LATEST_WORK_STATE = new WeakMap<
   readonly WorkItemStateRecord[],
   Map<EntityId, WorkItemStateRecord>
@@ -236,9 +240,11 @@ export function scheduledActivityState(
   world: World,
   activityId: EntityId,
 ): ScheduledActivityStateRecord {
-  const activity = world.history.scheduledActivities.find(
-    (candidate) => candidate.id === activityId,
-  );
+  const activity = latestIndex(
+    ACTIVITY_BY_ID,
+    world.history.scheduledActivities,
+    (candidate) => candidate.id,
+  ).get(activityId);
   const state = latestActivityStateUnchecked(world, activityId);
   if (!activity || !state) {
     throw new Error(`Missing scheduled activity or state: ${activityId}`);
@@ -932,21 +938,59 @@ export function workPendingEntriesFor(
     );
 }
 
+/**
+ * Answers by activity list, then state list, then person. A redraw asks this
+ * once for every activity on the calendar, and each answer used to filter and
+ * sort the whole life's activities, looking each one up by scanning the list
+ * again.
+ */
+const VISIBLE_ACTIVITIES = new WeakMap<
+  readonly ScheduledActivityRecord[],
+  WeakMap<
+    readonly ScheduledActivityStateRecord[],
+    Map<EntityId, readonly ScheduledActivityRecord[]>
+  >
+>();
+
 export function scheduledActivitiesVisibleTo(
   world: World,
   personId: EntityId,
 ): readonly ScheduledActivityRecord[] {
-  return world.history.scheduledActivities
+  const activities = world.history.scheduledActivities;
+  const states = world.history.scheduledActivityStates;
+  let byStates = VISIBLE_ACTIVITIES.get(activities);
+  if (!byStates) {
+    byStates = new WeakMap();
+    VISIBLE_ACTIVITIES.set(activities, byStates);
+  }
+  let byPerson = byStates.get(states);
+  if (!byPerson) {
+    byPerson = new Map();
+    byStates.set(states, byPerson);
+  }
+  const cached = byPerson.get(personId);
+  if (cached) return cached;
+  const mine = activities
     .filter((activity) => canPersonAccess(activity.access, personId))
-    .filter((activity) => activity.participantPersonIds.includes(personId))
-    .sort((left, right) => {
-      const leftState = scheduledActivityState(world, left.id);
-      const rightState = scheduledActivityState(world, right.id);
-      return (
-        compareSimulationMoments(leftState.start, rightState.start) ||
-        left.id.localeCompare(right.id)
-      );
-    });
+    .filter((activity) => activity.participantPersonIds.includes(personId));
+  // A single activity needs no ordering, and was never looked up for it.
+  const visible =
+    mine.length < 2
+      ? mine
+      : mine
+          .map((activity) => ({
+            activity,
+            start: scheduledActivityState(world, activity.id).start,
+          }))
+          .sort(
+            (left, right) =>
+              compareSimulationMoments(left.start, right.start) ||
+              left.activity.id.localeCompare(right.activity.id),
+          )
+          .map((entry) => entry.activity);
+  Object.freeze(visible);
+  byPerson.set(personId, visible);
+  return visible;
 }
 
 function deriveWorkPendingGroup(
@@ -1045,7 +1089,11 @@ export function advanceWorldMinutes(
     if (!transitionHandlers.routine) {
       if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0)
         return world;
-      return advanceCanonicalMinutes(world, minutes, null, transitionHandlers);
+      return advanceStoppingAtNewCommitments(
+        world,
+        minutes,
+        transitionHandlers,
+      );
     }
     return resolveAdvanceWithRoutine(
       world,
@@ -1173,18 +1221,16 @@ function resolveAdvanceWithRoutine(
       const stop = scheduledActivityState(current, blockers[0]!).start;
       const minutes = simulationMinutesBetween(current.currentMoment, stop);
       if (minutes > 0)
-        current = advanceCanonicalMinutes(
+        current = advanceStoppingAtNewCommitments(
           current,
           minutes,
-          null,
           transitionHandlers,
         );
       return current;
     }
-    return advanceCanonicalMinutes(
+    return advanceStoppingAtNewCommitments(
       current,
       remaining,
-      null,
       transitionHandlers,
     );
   }
@@ -1285,6 +1331,82 @@ interface ExactTransition {
     | "activity-completion";
   readonly entityId: EntityId | null;
   readonly completedEffortMinutes: number | null;
+}
+
+/**
+ * A plain advance that does not run past something it wrote on the way.
+ *
+ * The stops are read before the advance, but the due items it settles on the
+ * way can put new activities on the controlled person's calendar: a party
+ * chapter posts its next open meeting four days ahead. An advance of four
+ * months used to run straight past every such meeting, and each was released
+ * at the end as having passed without an answer (a D.C. life lost four
+ * between February and June 2039). When that happens the advance is taken
+ * again from the same world, only as far as the earliest such start, where
+ * the ordinary stops apply. The world is pure, so the second advance writes
+ * the same history up to that point.
+ *
+ * A confirmed commitment written on the way is always a stop, since the next
+ * advance could not step over it either. A tentative hold is a stop only when
+ * the registry's stopAtNewTentativeHold says so: a four-year skip that
+ * stopped at every posted invitation, only for the caller to let it lapse,
+ * repeated the whole remaining skip once per invitation.
+ */
+function advanceStoppingAtNewCommitments(
+  world: World,
+  minutes: number,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  let span = minutes;
+  for (let attempt = 0; attempt < 64; attempt++) {
+    const advanced = advanceCanonicalMinutes(
+      world,
+      span,
+      null,
+      transitionHandlers,
+    );
+    if (world.control.kind !== "person") return advanced;
+    const personId = world.control.personId;
+    const written = advanced.history.scheduledActivities.slice(
+      world.history.scheduledActivities.length,
+    );
+    const byId = new Map(
+      advanced.history.scheduledActivities.map((entry) => [entry.id, entry]),
+    );
+    // A tentative hold is a stop only when the caller asks for it; a journey
+    // counts as the kind of hold it leads to.
+    const isStop = (activity: ScheduledActivityRecord): boolean => {
+      const holds =
+        activity.kind === "travel"
+          ? activity.sourceEntityIds.flatMap((id) => {
+              const source = byId.get(id);
+              return source ? [source] : [];
+            })
+          : [activity];
+      if (holds.length === 0) return true;
+      return holds.some(
+        (hold) =>
+          hold.kind !== "tentative" ||
+          (transitionHandlers.stopAtNewTentativeHold?.(hold) ?? false),
+      );
+    };
+    let earliest: SimulationMoment | null = null;
+    for (const activity of written) {
+      if (!activity.participantPersonIds.includes(personId)) continue;
+      if (!isStop(activity)) continue;
+      const state = latestActivityStateUnchecked(advanced, activity.id);
+      if (state?.status !== "scheduled") continue;
+      if (compareSimulationMoments(state.start, world.currentMoment) <= 0)
+        continue;
+      if (compareSimulationMoments(state.start, advanced.currentMoment) >= 0)
+        continue;
+      if (!earliest || compareSimulationMoments(state.start, earliest) < 0)
+        earliest = state.start;
+    }
+    if (!earliest) return advanced;
+    span = simulationMinutesBetween(world.currentMoment, earliest);
+  }
+  throw new Error("Advancing to a newly scheduled activity did not converge.");
 }
 
 function advanceCanonicalMinutes(
