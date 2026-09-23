@@ -32,6 +32,8 @@ import type { HazardFamily, HazardMagnitude } from "./types";
  * only decides that an episode occurs, where, and how wide.
  */
 export const HAZARD_SAMPLE_TRANSITION_KEY = "crisis:hazard-sample";
+/** One sampled episode, arriving on its recorded day of the month. */
+export const HAZARD_EPISODE_TRANSITION_KEY = "crisis:hazard-episode";
 export const HAZARD_PRODUCER_VERSION = "crisis-hazard-producer-v1";
 
 /** The authored sampling law, stated so nobody has to infer it from code. */
@@ -101,6 +103,21 @@ const FAMILY_OF: Readonly<Record<string, HazardFamily>> = {
   "flash-flood": "flood",
   "thunderstorm-wind": "severe-storm",
 };
+
+/**
+ * PLACEHOLDER, NOT RESEARCHED: which recorded reports become a disaster the
+ * town lives through. The catalog counts every thunderstorm-wind and flood
+ * REPORT, and declaring each one as a damaging episode gave one county about
+ * fifteen disasters a year (Delaware County, Ohio; Stapleton, Alabama). Until
+ * `which-storm-reports-a-town-experiences-as-a-disaster` is answered, only
+ * episodes the ladder below calls major or catastrophic are declared; the
+ * rest are still drawn, so the stream's randomness is unchanged, and left
+ * unrecorded.
+ */
+const FELT_AS_DISASTER: ReadonlySet<HazardMagnitude> = new Set([
+  "major",
+  "catastrophic",
+]);
 
 /**
  * Authored magnitude ladder over the recorded episode's own size. Not a
@@ -262,6 +279,8 @@ export interface SampledHazard {
   readonly durationDays: number;
   readonly recordedEpisodeId: string;
   readonly recordedAreaCount: number;
+  /** The recorded episode's own start day, 1-31. */
+  readonly dayOfMonth: number;
 }
 
 /**
@@ -329,6 +348,7 @@ export function sampleMonthlyHazards(
           durationDays: recordedDurationDays(recorded),
           recordedEpisodeId: recorded.episodeId,
           recordedAreaCount,
+          dayOfMonth: Number(recorded.startDate.slice(8, 10)) || 1,
         });
       }
     }
@@ -435,20 +455,36 @@ export function hazardSampleHandler(
   const monthStart = makeIsoDate(dueItem.dueAt);
   let next = world;
   let declared = 0;
+  const lastDay = Number(
+    addDays(firstOfNextMonth(addDays(monthStart, 1)), -1).slice(8, 10),
+  );
   for (const [index, sample] of sampleMonthlyHazards(
     world,
     monthStart,
   ).entries()) {
-    next = declareHazardEpisode(next, {
-      stableKey: `${HAZARD_PRODUCER_VERSION}:${monthKeyOf(monthStart)}:${sample.stateUsps}:${sample.sourceFamily}:${index}`,
-      family: sample.family,
-      magnitude: sample.magnitude,
-      stateUsps: sample.stateUsps,
-      jurisdictionIds: sample.jurisdictionIds,
-      durationDays: sample.durationDays,
-      basis: `${HAZARD_SAMPLING_CONTRACT.label}: resampled from NCEI Storm Events episode ${sample.recordedEpisodeId} (${sample.sourceFamily}, ${sample.recordedAreaCount} recorded county area(s)); count drawn ${HAZARD_SAMPLING_CONTRACT.countLaw}.`,
-      sourceReference: `ncei-storm-events:${sample.recordedEpisodeId}`,
-    });
+    if (!FELT_AS_DISASTER.has(sample.magnitude)) continue;
+    // An episode arrives on its recorded episode's own day, not all of them
+    // on the first of the month (playtests, 2026-09-22).
+    const day = Math.min(Math.max(1, sample.dayOfMonth), lastDay);
+    const input = episodeInput(monthStart, index, sample);
+    const arrives = makeIsoDate(
+      `${monthStart.slice(0, 8)}${String(day).padStart(2, "0")}`,
+    );
+    if (arrives <= next.currentDate) {
+      next = declareHazardEpisode(next, input);
+    } else {
+      next = scheduleFutureDueItem(next, {
+        stableKey: episodeDueKey(monthStart, index, sample),
+        dueAt: arrives,
+        transitionKey: HAZARD_EPISODE_TRANSITION_KEY,
+        entityIds: [...sample.jurisdictionIds].sort(),
+        jurisdictionId: sample.jurisdictionIds[0]!,
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [sample.jurisdictionIds[0]!],
+        },
+      });
+    }
     declared += 1;
   }
   // The exposure scan is the expensive part; one per handler call.
@@ -474,6 +510,100 @@ export function hazardSampleHandler(
     status: "resolved",
     reasonKey:
       declared === 0 ? "crisis:no-hazard-this-month" : "crisis:hazard-sampled",
+    context: null,
+    outcomeEventId: null,
+  };
+}
+
+function episodeInput(
+  monthStart: IsoDate,
+  index: number,
+  sample: Pick<
+    SampledHazard,
+    | "stateUsps"
+    | "sourceFamily"
+    | "family"
+    | "magnitude"
+    | "jurisdictionIds"
+    | "durationDays"
+    | "recordedEpisodeId"
+    | "recordedAreaCount"
+  >,
+) {
+  return {
+    stableKey: `${HAZARD_PRODUCER_VERSION}:${monthKeyOf(monthStart)}:${sample.stateUsps}:${sample.sourceFamily}:${index}`,
+    family: sample.family,
+    magnitude: sample.magnitude,
+    stateUsps: sample.stateUsps,
+    jurisdictionIds: sample.jurisdictionIds,
+    durationDays: sample.durationDays,
+    basis: `${HAZARD_SAMPLING_CONTRACT.label}: resampled from NCEI Storm Events episode ${sample.recordedEpisodeId} (${sample.sourceFamily}, ${sample.recordedAreaCount} recorded county area(s)); count drawn ${HAZARD_SAMPLING_CONTRACT.countLaw}.`,
+    sourceReference: `ncei-storm-events:${sample.recordedEpisodeId}`,
+  };
+}
+
+/*
+ * The due item carries the sample in its stable key, so the episode that
+ * arrives later in the month is exactly the one drawn on the first, whatever
+ * the World has represented since.
+ */
+function episodeDueKey(
+  monthStart: IsoDate,
+  index: number,
+  sample: SampledHazard,
+): string {
+  return [
+    HAZARD_PRODUCER_VERSION,
+    "episode",
+    monthKeyOf(monthStart),
+    sample.stateUsps,
+    sample.sourceFamily,
+    index,
+    sample.family,
+    sample.magnitude,
+    sample.durationDays,
+    sample.recordedAreaCount,
+    sample.recordedEpisodeId,
+  ].join("|");
+}
+
+export function hazardEpisodeHandler(
+  world: World,
+  dueItem: FutureDueItem,
+): FutureTransitionHandlerResult {
+  if (dueItem.transitionKey !== HAZARD_EPISODE_TRANSITION_KEY) {
+    throw new Error("The hazard episode handler received another transition.");
+  }
+  const [
+    ,
+    ,
+    month,
+    stateUsps,
+    sourceFamily,
+    index,
+    family,
+    magnitude,
+    durationDays,
+    recordedAreaCount,
+    recordedEpisodeId,
+  ] = dueItem.stableKey.split("|");
+  const next = declareHazardEpisode(
+    world,
+    episodeInput(makeIsoDate(`${month}-01`), Number(index), {
+      stateUsps: stateUsps!,
+      sourceFamily: sourceFamily!,
+      family: family as HazardFamily,
+      magnitude: magnitude as HazardMagnitude,
+      jurisdictionIds: dueItem.entityIds,
+      durationDays: Number(durationDays),
+      recordedEpisodeId: recordedEpisodeId!,
+      recordedAreaCount: Number(recordedAreaCount),
+    }),
+  );
+  return {
+    world: next,
+    status: "resolved",
+    reasonKey: "crisis:hazard-arrived",
     context: null,
     outcomeEventId: null,
   };

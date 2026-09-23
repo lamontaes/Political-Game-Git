@@ -77,7 +77,7 @@ describe("CRISIS to GOVERNING: a death reaches the office on the clock", () => {
     const oneDay = passOrdinaryDays(world, 1);
     const rulings = officeContinuityRulings(oneDay, governor.officeKey);
     expect(rulings).toHaveLength(1);
-    expect(rulings[0]!.outcome).toBe("blocked");
+    expect(rulings[0]!.outcome).toBe("succeeded");
     expect(continuityEvents(oneDay, governor.officeKey)).toHaveLength(1);
 
     // Moving further writes nothing more for the same death.
