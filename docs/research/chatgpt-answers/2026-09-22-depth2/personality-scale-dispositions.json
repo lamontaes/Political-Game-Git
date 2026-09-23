@@ -2,7 +2,7 @@
   "schema": "ocd-personality-scale-receiving/1",
   "date": "2026-09-22",
   "basis": "Original 121-candidate research meanings retained; pairing/encoding is director-authored game design, not an empirical psychological factor model.",
-  "status": "Complete catalog disposition and qualitative tuning input; NOT an executed TraitPack, not all behaviors implemented.",
+  "status": "Complete catalogue disposition and qualitative tuning input; NOT an executed TraitPack, not all behaviors implemented.",
   "source_catalogue_sha256": "868726452fc66ead40a7c5eec601f2a2fe6962ca0a31582009187c01177fbf14",
   "candidate_count": 121,
   "scales": [
@@ -4111,7 +4111,7 @@
     },
     "manner": {
       "description": "How a person expresses or approaches an exchange, not whether they are right.",
-      "spread": "Choose salient style within a family before descriptors so catalog synonym counts do not set prevalence. Neutral/unmarked is common; unknown remains unknown.",
+      "spread": "Choose salient style within a family before descriptors so catalogue synonym counts do not set prevalence. Neutral/unmarked is common; unknown remains unknown.",
       "strength": "Consistency in freely chosen behavior, with audience and setting retained.",
       "scopes": [
         "life:ordinary",
@@ -4196,13 +4196,13 @@
     "Knowledge, skills, diagnosis, occupation, actual relationship standing and goals are separate. Do not grant them through a trait.",
     "Keep the existing five base axes and IDs. Bind equivalent deliberate/reliability/conflict/risk meanings as aliases to their existing qualified definitions where exact; do not duplicate effects. Existing sociability must be distinguished from private disclosure, shyness and selective closeness.",
     "Proposal scopes in this file describe intended consumers, not verified registered DecisionDeclaration ids. Existing owner maps actual scope/option keys before effect admission.",
-    "Private calibration is allowed and must be separately labeled. This response supplies relative rules, not 121 arbitrary numerical constants.",
+    "Private calibration is allowed and must be separately labelled. This response supplies relative rules, not 121 arbitrary numerical constants.",
     "Opposite-end mapping is content preparation, not permission to flatten or remove meanings the owner requested."
   ],
   "existing_store_evidence": {
     "path": "src/simulation/mind-catalog.ts",
     "head": "4965f63c",
-    "finding": "The existing canonical mind catalog permits one or more expressions; curiosity, loyalty and ambition are already declared with one expression. The stricter two-pole requirement lives in trait-packs.ts, not in the underlying whole-world store.",
+    "finding": "The existing canonical mind catalogue permits one or more expressions; curiosity, loyalty and ambition are already declared with one expression. The stricter two-pole requirement lives in trait-packs.ts, not in the underlying whole-world store.",
     "receiving": "Prefer a small explicit one-sided declaration/value policy in the existing trait-pack adapter. Keep the plain unmarked counterpart supplied here for compatibility; do not falsely pair independent traits or rebuild the mind store."
   }
 }

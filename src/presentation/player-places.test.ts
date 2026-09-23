@@ -108,7 +108,7 @@ describe("player-places projection", () => {
     );
     expect(venueOffer).toBeDefined();
     expect(venueOffer!.durationLabel).toBeNull();
-    expect(venueOffer!.unavailable).toMatch(/cannot establish a journey/);
+    expect(venueOffer!.unavailable).toMatch(/no way to get to/);
     expect(venueOffer!.declineActivityId).toBe(venueOffer!.activityId);
     expect(
       performVenueActivity(

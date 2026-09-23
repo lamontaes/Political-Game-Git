@@ -531,7 +531,7 @@ describe("a favor is leaned on only after the covered shift was worked", () => {
       venueActivities(unknownOrigin, fixture.playerId).find(
         (entry) => entry.activity.id === shift.id,
       )?.refusal,
-    ).toMatch(/current location is not recorded/i);
+    ).toMatch(/no way to get to .* from where you are/i);
     expect(
       performVenueActivity(unknownOrigin, fixture.playerId, shift.id),
     ).toBe(unknownOrigin);
