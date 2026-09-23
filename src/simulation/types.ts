@@ -2733,6 +2733,16 @@ export interface RoutineTimeHook {
 export interface FutureTransitionHandlerRegistry {
   get(transitionKey: FutureTransitionKey): FutureTransitionHandler | undefined;
   readonly routine?: RoutineTimeHook;
+  /**
+   * Whether an advance should also stop at a tentative hold, or its journey,
+   * that the advance itself put on the controlled person's calendar. A
+   * confirmed commitment written on the way is always a stop; a tentative one
+   * is not unless this says so, because a long skip that stopped at every
+   * posted invitation only to let it lapse would repeat itself once per hold.
+   */
+  readonly stopAtNewTentativeHold?: (
+    activity: ScheduledActivityRecord,
+  ) => boolean;
 }
 
 export interface MoneyAmount {

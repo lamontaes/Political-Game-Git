@@ -1300,6 +1300,12 @@ interface ExactTransition {
  * again from the same world, only as far as the earliest such start, where
  * the ordinary stops apply. The world is pure, so the second advance writes
  * the same history up to that point.
+ *
+ * A confirmed commitment written on the way is always a stop, since the next
+ * advance could not step over it either. A tentative hold is a stop only when
+ * the registry's stopAtNewTentativeHold says so: a four-year skip that
+ * stopped at every posted invitation, only for the caller to let it lapse,
+ * repeated the whole remaining skip once per invitation.
  */
 function advanceStoppingAtNewCommitments(
   world: World,
@@ -1316,11 +1322,33 @@ function advanceStoppingAtNewCommitments(
     );
     if (world.control.kind !== "person") return advanced;
     const personId = world.control.personId;
-    let earliest: SimulationMoment | null = null;
-    for (const activity of advanced.history.scheduledActivities.slice(
+    const written = advanced.history.scheduledActivities.slice(
       world.history.scheduledActivities.length,
-    )) {
+    );
+    const byId = new Map(
+      advanced.history.scheduledActivities.map((entry) => [entry.id, entry]),
+    );
+    // A tentative hold is a stop only when the caller asks for it; a journey
+    // counts as the kind of hold it leads to.
+    const isStop = (activity: ScheduledActivityRecord): boolean => {
+      const holds =
+        activity.kind === "travel"
+          ? activity.sourceEntityIds.flatMap((id) => {
+              const source = byId.get(id);
+              return source ? [source] : [];
+            })
+          : [activity];
+      if (holds.length === 0) return true;
+      return holds.some(
+        (hold) =>
+          hold.kind !== "tentative" ||
+          (transitionHandlers.stopAtNewTentativeHold?.(hold) ?? false),
+      );
+    };
+    let earliest: SimulationMoment | null = null;
+    for (const activity of written) {
       if (!activity.participantPersonIds.includes(personId)) continue;
+      if (!isStop(activity)) continue;
       const state = latestActivityStateUnchecked(advanced, activity.id);
       if (state?.status !== "scheduled") continue;
       if (compareSimulationMoments(state.start, world.currentMoment) <= 0)

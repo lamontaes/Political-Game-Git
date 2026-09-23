@@ -414,12 +414,20 @@ function advanceOrdinaryDays(
   // registry composes the ordinary life handlers with the election handler, so
   // election day arrives without either the life or the contest being dropped.
   const ordinaryHandlers = createCampaignElectionTransitionRegistry();
-  const handlers = options.handlers
+  const composed = options.handlers
     ? composeFutureTransitionHandlerRegistries(
         options.handlers,
         ordinaryHandlers,
       )
     : ordinaryHandlers;
+  // Asked to stop at civic holds, the advance also stops at one it posts on
+  // the way, so the check below sees it come due instead of it being run past.
+  const handlers: FutureTransitionHandlerRegistry = options.stopForCivicHolds
+    ? composeFutureTransitionHandlerRegistries(composed, {
+        get: () => undefined,
+        stopAtNewTentativeHold: isCivicHold,
+      })
+    : composed;
   // CRUNCH46 CRISIS: every advancing World carries the mortality model; an
   // older save starts exposure at its next month boundary.
   // A child saved before school stages is caught up to the stage for their
