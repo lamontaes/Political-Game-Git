@@ -1,3 +1,7 @@
+import {
+  ensureOpeningPriorLocalRecords,
+  projectPublicMatters,
+} from "../simulation/living-world/developments";
 import { describe, expect, it } from "vitest";
 import { serializeWorld, deserializeWorld } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -110,6 +114,81 @@ describe("PLAYTEST65 canonical opening", () => {
       projectOpeningWorldSnapshot(deserializeWorld(before), playerPersonId),
     ).toEqual(snapshot);
   });
+  it("rebuilds a playtest65-v1 replay with its fixed, already-concluded local records", () => {
+    const setup = {
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "playtest65-w-opening",
+      placeKey: "lexington-fayette",
+      household: "lives-alone" as const,
+      startKind: "custom" as const,
+    };
+    const replay = { ...setup, openingDataVersion: "playtest65-v1" as const };
+    const { world, playerPersonId } = generateOpeningLife(
+      prepareOpeningLife(replay),
+    ).game!;
+    const before = serializeWorld(world);
+    // The same descriptor rebuilds the same bytes.
+    expect(
+      serializeWorld(
+        generateOpeningLife(prepareOpeningLife(replay)).game!.world,
+      ),
+    ).toBe(before);
+    const prior = world.history.events.filter((event) =>
+      event.stableKey.startsWith("playtest65:prior-local"),
+    );
+    expect(prior).toHaveLength(4);
+    expect(
+      prior.every(
+        (event) =>
+          event.occurredAt < world.currentDate &&
+          event.participants.length === 0 &&
+          !event.involvedEntityIds.includes(playerPersonId),
+      ),
+    ).toBe(true);
+    expect(
+      projectPublicMatters(world)
+        .filter((matter) =>
+          matter.matterId.startsWith("playtest65:prior-local"),
+        )
+        .every((matter) => matter.concluded && !matter.openForComment),
+    ).toBe(true);
+    expect(ensureOpeningPriorLocalRecords(world, playerPersonId)).toBe(world);
+    const archivedPublications = (world.history.publications ?? []).filter(
+      (publication) =>
+        prior.some((event) => event.id === publication.sourceEventId),
+    );
+    expect(archivedPublications).toHaveLength(4);
+    expect(
+      archivedPublications.every(
+        (publication) => publication.publishedAt < world.currentDate,
+      ),
+    ).toBe(true);
+    expect(serializeWorld(world)).toBe(before);
+
+    // v2 differs from v1 only by the fixed records: same world, player,
+    // location and officeholders, no prior-local history.
+    const current = generateOpeningLife(
+      prepareOpeningLife({ ...setup, openingDataVersion: "playtest65-v2" }),
+    ).game!;
+    expect(DEFAULT_NEW_GAME_SETUP.openingDataVersion).toBe("playtest65-v2");
+    expect(current.world.id).toBe(world.id);
+    expect(current.playerPersonId).toBe(playerPersonId);
+    expect(current.world.people[playerPersonId]).toEqual(
+      world.people[playerPersonId],
+    );
+    const orientationOf = (w: typeof world) => ({
+      ...projectOpeningWorldSnapshot(w, playerPersonId).orientation,
+      worldRevision: null,
+      publicMatters: null,
+    });
+    expect(orientationOf(current.world)).toEqual(orientationOf(world));
+    expect(
+      current.world.history.events.some((event) =>
+        event.stableKey.startsWith("playtest65:prior-local"),
+      ),
+    ).toBe(false);
+  });
+
   it("binds the D.C. beat to its actual locality and preserves presentation identity through reload", () => {
     const { world, playerPersonId } = generateOpeningLife(
       prepareOpeningLife({

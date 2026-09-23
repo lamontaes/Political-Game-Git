@@ -106,6 +106,12 @@ export type NewGameHousehold = "lives-alone" | "shares-a-home";
  */
 export type NewGameStartKind = "normal" | "custom";
 
+/**
+ * Opening-data construction a replay descriptor records. "playtest65-v1"
+ * stays for replays written under it; new games use "playtest65-v2".
+ */
+export type OpeningDataVersion = "playtest65-v1" | "playtest65-v2";
+
 export interface NewGameSetup {
   readonly startKind?: NewGameStartKind;
   readonly placeKey: string;
@@ -136,8 +142,12 @@ export interface NewGameSetup {
    */
   /** Explicit creator year; retained while month/day are unresolved. */
   readonly birthYear?: number;
-  /** Additive initialization policy; absent descriptors preserve older construction. */
-  readonly openingDataVersion?: "playtest65-v1";
+  /**
+   * Additive initialization policy; absent descriptors preserve older
+   * construction. "playtest65-v1" also writes two fixed, already-concluded
+   * local matters; "playtest65-v2" (new games) opens without them.
+   */
+  readonly openingDataVersion?: OpeningDataVersion;
   /** New descriptors opt in; absent preserves the original member-name draw. */
   readonly livingWorldMemberNameVersion?: "identity-v1" | "cohort-v1";
   readonly birthMonth?: number;
@@ -268,7 +278,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // and its tests stay so a replay written under it still rebuilds.
   questionnaireCopyVersion: "playtest65-v2",
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
-  openingDataVersion: "playtest65-v1",
+  openingDataVersion: "playtest65-v2",
   livingWorldMemberNameVersion: "cohort-v1",
   questionnaire: "short",
   priors: [],
