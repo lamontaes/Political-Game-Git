@@ -21,3 +21,6 @@ The list of offices you could run for now shows every office's next election
 as a date, for example "The next election is November 3, 2026." Before, most
 offices said the timing was not established. An office with a race already on
 record shows that race's date.
+
+An office you can run for now says "You can stand for this office." It no
+longer says you are eligible "under the represented rules."
