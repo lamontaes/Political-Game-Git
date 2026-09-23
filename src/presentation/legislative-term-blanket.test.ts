@@ -93,7 +93,7 @@ describe("a legislative term in a state with no sourced term rule", () => {
   }, 600_000);
 });
 
-describe.each(["ME", "GA"])(
+describe.each(["ME", "GA", "MT", "IA", "TX", "MO"])(
   "a legislative term in %s, a state the game generates rather than compiles",
   (usps) => {
     it("waits, shows the transition, and is seated with a working office", () => {
