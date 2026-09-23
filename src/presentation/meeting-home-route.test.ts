@@ -25,6 +25,11 @@ import {
 } from "./life-scene-flow";
 import { venueActivities } from "./venue-activity";
 import { declineVenueActivity } from "./scheduled-activity-choice";
+import { passOrdinaryDays } from "./ordinary-life";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import type { World } from "../simulation/types";
+
+const INVITATION_SEARCH_DAYS = 400;
 
 function start(placeKey: string) {
   const game = buildProductionWorld({
@@ -215,12 +220,36 @@ describe("recorded local meeting return and activity ownership", () => {
     expect(declineVenueActivity(next, player, activity.id)).toBe(next);
   });
   it("new invitations bind their actual recipient, with no change from inspection", () => {
-    const { world, player } = start("0477000");
-    let next = world;
-    for (let i = 0; i < 6; i++) next = refreshLifeOpportunities(next, player);
-    const invitations = next.history.scheduledActivities.filter((entry) =>
-      entry.location.locationKey?.startsWith("life-opportunity:"),
+    // An invitation now starts with a reason in the host's own records (a
+    // birthday coming up, a move, new work) and the host deciding to ask, so
+    // this uses a world known to hold such a host (the same seed the
+    // Saturday invitation tests use) and lets ordinary days pass until
+    // somebody this life knows asks.
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "saturday-2015900-d",
+      startAge: 35,
+      placeKey: "2015900",
+      startKind: "custom",
+      household: "shares-a-home",
+    });
+    const player = game.playerPersonId;
+    const invitationsIn = (current: World) =>
+      current.history.scheduledActivities.filter((entry) =>
+        entry.location.locationKey?.startsWith("life-opportunity:"),
+      );
+    let next = refreshLifeOpportunities(
+      openOrdinaryLifeRecords(game.world, player),
+      player,
     );
+    for (
+      let day = 0;
+      day < INVITATION_SEARCH_DAYS && invitationsIn(next).length === 0;
+      day += 1
+    ) {
+      next = refreshLifeOpportunities(passOrdinaryDays(next, 1), player);
+    }
+    const invitations = invitationsIn(next);
     expect(invitations.length).toBeGreaterThan(0);
     for (const activity of invitations) {
       expect(activity.responsiblePersonId).toBe(player);

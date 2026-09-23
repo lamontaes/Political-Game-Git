@@ -14,20 +14,33 @@ import {
   socialInvitationsFor,
   declineSocialInvitation,
 } from "./social-invitation";
+import { passOrdinaryDays } from "./ordinary-life";
 
 function start() {
   const game = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
-    seed: "ui-edu-path7-normal",
+    // A Kansas city whose world holds somebody with a birthday to mark in
+    // the first year; an invitation needs a reason in the host's own life.
+    seed: "saturday-2015900-d",
     startAge: 35,
-    placeKey: "kentucky",
+    placeKey: "2015900",
     startKind: "custom",
     household: "shares-a-home",
   });
-  const world = refreshLifeOpportunities(
+  let world = refreshLifeOpportunities(
     openOrdinaryLifeRecords(game.world, game.playerPersonId),
     game.playerPersonId,
   );
+  for (
+    let day = 0;
+    day < 400 && socialInvitationsFor(world, game.playerPersonId).length === 0;
+    day += 1
+  ) {
+    world = refreshLifeOpportunities(
+      passOrdinaryDays(world, 1),
+      game.playerPersonId,
+    );
+  }
   return { world, personId: game.playerPersonId };
 }
 describe("explicit personal invitation refusal", () => {
