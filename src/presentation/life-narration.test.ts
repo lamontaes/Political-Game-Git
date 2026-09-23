@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import { narrativeThreads, serializeWorld } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import { composeConnectiveNarration, openThreadRecaps } from "./life-narration";
+import {
+  composeConnectiveNarration,
+  elapsedPhrase,
+  openThreadRecaps,
+} from "./life-narration";
 import {
   chooseStoryOption,
   letStoryTimePass,
@@ -247,5 +251,19 @@ describe("The narration stays second person and moves nothing", () => {
       (thread) => `${thread.key}:${thread.standing}`,
     );
     expect(second).toEqual(first);
+  });
+});
+
+describe("the elapsed opener says the gap a person would say", () => {
+  it.each([
+    [270, "Most of a year later"],
+    [365, "A year on"],
+    [406, "A year on"],
+    [540, "A year and a half on"],
+    [700, "Nearly two years later"],
+    [730, "2 years later"],
+    [1100, "3 years later"],
+  ])("%i days reads %s", (days, phrase) => {
+    expect(elapsedPhrase(days)).toBe(phrase);
   });
 });
