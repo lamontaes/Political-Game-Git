@@ -29,6 +29,7 @@ import {
   pressOwnerReviewHandler,
 } from "./ownership";
 import { applyPendingDisasterHandlingReactions } from "../crisis/handling-reactions";
+import { advanceProsecutions } from "../justice/prosecution";
 import { produceCaughtLyingLeads } from "./caught-lying";
 import { produceCampaignSpendingReports } from "./spending-reports";
 import { ensurePressExposureCoverage } from "./views";
@@ -56,7 +57,9 @@ function pressWeeklyHandler(
           produceMogulOffers(
             produceCampaignFinanceScrutiny(
               produceCampaignSpendingReports(
-                applyPendingDisasterHandlingReactions(world),
+                applyPendingDisasterHandlingReactions(
+                  advanceProsecutions(world),
+                ),
               ),
             ),
           ),

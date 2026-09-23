@@ -21,6 +21,7 @@ import {
   CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
 import { ensureMigrationSchedule } from "../simulation/migration";
+import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   ensureMacroEconomyStarted,
@@ -100,25 +101,27 @@ export function generateOpeningLife(
       // start it on their first ordinary-day pass, as before.
       world: openedWorld(
         ensureOpeningMortality(
-          ensureHazardProduction(
-            ensureLivingWorldDevelopments(
-              // Standing chapter committees exist only in current openings.
-              ensurePartyGoverningBodies(
-                ensureHomePartyChapters(
-                  ensureHomeStateLegislature(
-                    ensureLivingWorldOpening(
-                      withPriorRecords,
+          ensureCrimeProduction(
+            ensureHazardProduction(
+              ensureLivingWorldDevelopments(
+                // Standing chapter committees exist only in current openings.
+                ensurePartyGoverningBodies(
+                  ensureHomePartyChapters(
+                    ensureHomeStateLegislature(
+                      ensureLivingWorldOpening(
+                        withPriorRecords,
+                        game.playerPersonId,
+                        session.setup.livingWorldMemberNameVersion,
+                      ),
                       game.playerPersonId,
-                      session.setup.livingWorldMemberNameVersion,
                     ),
                     game.playerPersonId,
+                    session.setup.partyChapterNameVersion,
                   ),
                   game.playerPersonId,
-                  session.setup.partyChapterNameVersion,
                 ),
                 game.playerPersonId,
               ),
-              game.playerPersonId,
             ),
           ),
           session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,

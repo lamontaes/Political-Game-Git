@@ -1,3 +1,7 @@
+import {
+  operatingCategoryOfClassification,
+  type OperatingCategory,
+} from "../campaign-operating-costs";
 import { campaignOpponentRecords, campaigns } from "../campaign-queries";
 import { addDays } from "../dates";
 import { organizationNameAt } from "../living-world/party-registry";
@@ -23,7 +27,21 @@ export const UNRESEARCHED_SPENDING_REPORTS = {
 export const CAMPAIGN_SPENDING_REPORTED_EVENT =
   "campaign-finance.spending-reported";
 
-export type SpendingPurpose = "advertising" | "paid-to-candidate" | "other";
+export type SpendingPurpose =
+  "advertising" | "paid-to-candidate" | OperatingCategory | "other";
+
+/** What a payee is paid for, read from its latest profile. */
+function vendorCategory(
+  world: World,
+  organizationId: EntityId,
+): OperatingCategory | null {
+  let classification: string | null = null;
+  for (const record of world.history.organizationProfiles) {
+    if (record.organizationId === organizationId)
+      classification = record.classification;
+  }
+  return operatingCategoryOfClassification(classification);
+}
 
 export interface SpendingReportLine {
   readonly flowId: EntityId;
@@ -92,7 +110,9 @@ function completedSpending(
         : recipient.kind === "organization" &&
             recipient.organizationId === committee.vendorOrganizationId
           ? "advertising"
-          : "other";
+          : recipient.kind === "organization"
+            ? (vendorCategory(world, recipient.organizationId) ?? "other")
+            : "other";
     const payee =
       recipient.kind === "person"
         ? world.people[recipient.personId]
