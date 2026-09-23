@@ -3,6 +3,10 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { householdLocationAt, peopleInHouseholdAt } from "../life-queries";
 import { personName } from "../people";
+import {
+  referForProsecution,
+  type ProsecutionReferralInput,
+} from "../justice/prosecution";
 import { recordEventKnowledge } from "../records";
 import { SeededRng } from "../rng";
 import type {
@@ -393,36 +397,11 @@ export function offenseOf(event: HistoricalEvent): CrimeOffense | null {
 }
 
 /**
- * The justice hand-off, in the shape the justice route (`src/simulation/justice/`,
- * built by the corruption-consequences lane) will export, so an officeholder's
- * case and a street arrest go through one charge, trial and sentence.
- * PLACEHOLDER until that module merges: it records nothing.
- *
- * A referral names the person charged. Today no arrest names one (see
- * `OFFENDERS_ARE_NOT_REPRESENTED`), so `arrestReferral` returns null and
- * nothing is referred; the call site is ready for the day offenders exist.
+ * The justice hand-off: an arrest goes to the one prosecution route an
+ * officeholder's case also uses. A referral names the person charged, and no
+ * arrest names one yet (see `OFFENDERS_ARE_NOT_REPRESENTED`), so
+ * `arrestReferral` returns null and nothing is referred until offenders exist.
  */
-export interface ProsecutionReferralInput {
-  readonly stableKey: string;
-  readonly subjectPersonId: EntityId;
-  readonly jurisdictionId: EntityId;
-  readonly offenseKey: string;
-  readonly referredBy: {
-    readonly kind: "regulator" | "police" | "prosecutor-own-motion";
-    readonly label: string;
-    readonly personId: EntityId | null;
-  };
-  readonly basisEventIds: readonly EntityId[];
-}
-
-export function referForProsecution(
-  world: World,
-  input: ProsecutionReferralInput,
-): { readonly world: World; readonly referralId: EntityId | null } {
-  void input;
-  return { world, referralId: null };
-}
-
 function arrestReferral(
   incident: HistoricalEvent,
   arrest: HistoricalEvent,
@@ -441,6 +420,7 @@ function arrestReferral(
       personId: null,
     },
     basisEventIds: [incident.id, arrest.id],
+    standingFindings: 0,
   };
 }
 

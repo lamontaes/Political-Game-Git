@@ -56,6 +56,11 @@ export interface ProsecutionReferralInput {
 
 const OFFENSE_LABELS: Readonly<Record<string, string>> = {
   "campaign-funds-personal-use": "taking campaign money for personal use",
+  // Local crime (`src/simulation/crime`), keyed `crime:<offense>`.
+  "crime:assault": "assault",
+  "crime:robbery": "robbery",
+  "crime:burglary": "burglary",
+  "crime:vandalism": "vandalism",
 };
 
 function offenseLabel(offenseKey: string): string {
