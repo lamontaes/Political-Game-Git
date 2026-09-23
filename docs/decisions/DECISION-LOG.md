@@ -3277,3 +3277,37 @@ either document.
 (landed with #394) refuses any `src/player` line outside a diagnostics gate
 that offers a sources or citations panel, reads a citation field, or links off
 the game.
+
+## D-095 — A release publishes onto a main that has moved
+
+**Decided by the owner, 2026-09-23 01:46Z.** He asked why the version number
+never changes: "I just want it to automatically update. Based on the size of
+the update or the breadth of the update. Every time." The release publisher
+could only fast-forward `main`, and only if `main` had not moved during the
+roughly thirty-five minutes a candidate takes to validate. On a `main` that
+takes a merge every few minutes that never happens, and no automated release
+had ever published; `0.4.0` was set by hand.
+
+**The change.** When `main` has moved, the publisher lays the validated
+release delta (the version fields, `PATCH_NOTES.md`, the consumed-change
+ledger and the deleted declarations) onto `main`'s new tip as one new commit,
+provided every file in that delta is still byte-identical to the validated
+parent. It retries up to five times while `main` keeps moving. It never
+forces a push, never merges source, and still runs no repository code with
+write authority.
+
+**What this settles.**
+
+- The size of each bump still comes from the declarations: `minor` for a
+  player-visible feature, `patch` for a player-visible fix, and no bump for
+  `none`.
+- The published commit carries merges that landed during the build and
+  were not part of that run's validation. They are gated before merge, and
+  the next release validates them.
+- If another release, or any hand edit, changes one of the release files
+  in the meantime, this release stands down and its declarations wait for
+  the next push.
+
+**How it is held.** `tests/release/release-workflow.test.ts` pins the
+byte-identity condition, the one-commit re-application, the unforced push and
+the retry bound.

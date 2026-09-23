@@ -79,8 +79,11 @@ A push to `main` runs `.github/workflows/release.yml`, which:
    job checks out no repository tree, installs no dependencies, and runs no
    repository code. It verifies the bundle, exact parent/commit/tree identity,
    exact three-file artifact shape, allowed metadata-only path set,
-   regular-file modes, and all three version fields before attempting one
-   fast-forward push of the unchanged commit;
+   regular-file modes, and all three version fields. If `main` has not moved
+   it fast-forwards the unchanged commit. If it has, and every file the
+   release touches is still byte-identical to the validated parent, it lays
+   the same release delta onto `main`'s new tip as one new commit and pushes
+   that, retrying up to five times while `main` keeps moving;
 7. when release automation is not enabled, uploads the exact candidate bundle
    and review patch and stops without publishing.
 
@@ -119,10 +122,20 @@ npm run release:recover
 - **A reused change id is an error, not a second release.** The ledger holds
   every consumed id, and `release:check` fails on a collision.
 - **Two merges cannot allocate the same number.** The version is read from the
-  revision being released, not remembered, and the release lands as one push
-  that must fast-forward. If `main` moved underneath, the push is refused, the
-  declarations stay unconsumed, and the next push event picks them up. Nothing
-  is half-published, because publication is that single push.
+  revision being released, not remembered, and the release lands as one
+  non-forced push. A busy `main` moves many times during the build, so the
+  publisher does not require it to stand still (it did until D-095, and no
+  release ever published). It re-applies the release's own files onto the new
+  tip instead, and only while none of them has changed since the validated
+  parent. `package.json`, the lockfile, `PATCH_NOTES.md` and the ledger change
+  only in a release, so a second release in between shows up as a change and
+  this one stands down. Its declarations stay unconsumed, and the next push
+  event picks them up. Nothing is half-published, because publication is that
+  single push.
+- **What a release validates.** The validated candidate is the tree at the
+  merge that triggered the run. Merges that land during the build are in the
+  published commit but were not in that validation; they are gated before
+  merge, and the next release validates them.
 - **Order does not matter.** A run consumes everything pending at its revision,
   so a run that lost the race recovers whatever an earlier one left behind.
   Actions does not guarantee queue order, and this design does not need it.

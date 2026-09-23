@@ -198,7 +198,7 @@ jobs:
           name: validated-release-candidate
           path: ${{ runner.temp }}/release-candidate
 
-      - name: Verify and fast-forward the unchanged candidate commit
+      - name: Verify the candidate and publish it onto main
         env:
           GITHUB_TOKEN: ${{ github.token }}
           SOURCE_SHA: ${{ needs.build_candidate.outputs.source_sha }}
@@ -206,6 +206,10 @@ jobs:
           CANDIDATE_TREE: ${{ needs.build_candidate.outputs.candidate_tree }}
           BUNDLE_SHA256: ${{ needs.build_candidate.outputs.bundle_sha256 }}
           NEXT_VERSION: ${{ needs.build_candidate.outputs.next_version }}
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
         shell: bash
         run: |
           set -euo pipefail
@@ -230,28 +234,25 @@ jobs:
           cd "$publisher"
           remote_url="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git remote add origin "$remote_url"
-          remote_head="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
-          if [[ "$remote_head" != "$SOURCE_SHA" ]]; then
-            echo "::warning::main advanced before publication. Nothing was published; use the manual final drain if no later merge triggers recovery."
-            exit 0
-          fi
-          git fetch --no-tags --depth=1 origin \
-            "refs/heads/main:refs/remotes/origin/main"
-          [[ "$(git rev-parse refs/remotes/origin/main)" == "$SOURCE_SHA" ]]
+          # The checked parent is fetched by id, so main may already have moved on.
+          git fetch --no-tags --depth=1 origin "$SOURCE_SHA"
           git bundle verify "$bundle"
           git fetch --no-tags "$bundle" HEAD:refs/candidates/release
           [[ "$(git rev-parse refs/candidates/release)" == "$CANDIDATE_SHA" ]]
           [[ "$(git rev-parse "${CANDIDATE_SHA}^{tree}")" == "$CANDIDATE_TREE" ]]
           [[ "$(git show -s --format=%P "$CANDIDATE_SHA")" == "$SOURCE_SHA" ]]
-          [[ "$(git show -s --format=%s "$CANDIDATE_SHA")" == "Release ${NEXT_VERSION} [release-automation]" ]]
+          subject="Release ${NEXT_VERSION} [release-automation]"
+          [[ "$(git show -s --format=%s "$CANDIDATE_SHA")" == "$subject" ]]
 
           seen_package=0
           seen_lock=0
           seen_notes=0
           seen_ledger=0
           declaration_deletes=0
+          delta="$RUNNER_TEMP/release-delta"
+          : > "$delta"
           while IFS= read -r -d '' status && IFS= read -r -d '' path; do
-            [[ "$path" != /* && "$path" != *$'\n'* && "$path" != *$'\r'* ]]
+            [[ "$path" != /* && "$path" != *$'\n'* && "$path" != *$'\r'* && "$path" != *$'\t'* ]]
             case "/$path/" in
               */../*|*/./*|*//*) echo "::error::Unsafe candidate path: $path"; exit 1 ;;
             esac
@@ -272,6 +273,7 @@ jobs:
               entry="$(git ls-tree "$CANDIDATE_SHA" -- "$path")"
               [[ "${entry%% *}" == "100644" ]]
             fi
+            printf '%s\t%s\n' "$status" "$path" >> "$delta"
           done < <(git diff-tree --no-commit-id --name-status -r -z "$SOURCE_SHA" "$CANDIDATE_SHA")
           [[ "$seen_package" == 1 && "$seen_lock" == 1 && "$seen_notes" == 1 && "$seen_ledger" == 1 ]]
           [[ "$declaration_deletes" -ge 1 ]]
@@ -283,14 +285,55 @@ jobs:
           [[ "$lock_version" == "$package_version" ]]
           [[ "$lock_root_version" == "$package_version" ]]
 
-          if git push origin "${CANDIDATE_SHA}:refs/heads/main"; then
-            echo "Published unchanged validated candidate $CANDIDATE_SHA."
-            exit 0
-          fi
-          remote_after="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
-          if [[ "$remote_after" != "$SOURCE_SHA" ]]; then
-            echo "::warning::main won the publication race. Nothing from this candidate was published; a later event or manual drain will recover pending declarations."
-            exit 0
-          fi
-          echo "::error::Publication failed while main still matched the validated parent. Nothing was published."
-          exit 1
+          # Main keeps moving while the candidate is validated. The release
+          # delta touches only release metadata, so when main has moved the
+          # same delta is laid onto main's new tip, provided every file it
+          # touches is still byte-identical to the validated parent. Anything
+          # else is left for the next push, whose run releases what is pending.
+          for attempt in 1 2 3 4 5; do
+            remote_head="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+            if [[ "$remote_head" == "$SOURCE_SHA" ]]; then
+              target="$CANDIDATE_SHA"
+            else
+              git fetch --no-tags --depth=1 origin "+refs/heads/main:refs/remotes/origin/main"
+              main_tip="$(git rev-parse refs/remotes/origin/main)"
+              while IFS=$'\t' read -r status path; do
+                if [[ "$(git rev-parse -q --verify "${SOURCE_SHA}:${path}" || true)" != \
+                      "$(git rev-parse -q --verify "${main_tip}:${path}" || true)" ]]; then
+                  echo "::warning::main changed $path after the candidate was validated. Nothing was published; the next push releases what is pending."
+                  exit 0
+                fi
+              done < "$delta"
+              index="$RUNNER_TEMP/release-index"
+              rm -f "$index"
+              GIT_INDEX_FILE="$index" git read-tree "$main_tip"
+              while IFS=$'\t' read -r status path; do
+                if [[ "$status" == "D" ]]; then
+                  GIT_INDEX_FILE="$index" git update-index --force-remove -- "$path"
+                else
+                  blob="$(git rev-parse "${CANDIDATE_SHA}:${path}")"
+                  GIT_INDEX_FILE="$index" git update-index --add --cacheinfo "100644,${blob},${path}"
+                fi
+              done < "$delta"
+              tree="$(GIT_INDEX_FILE="$index" git write-tree)"
+              target="$(git commit-tree "$tree" -p "$main_tip" -m "$subject")"
+              [[ "$(git diff-tree --no-commit-id --name-status -r "$main_tip" "$target")" == \
+                 "$(git diff-tree --no-commit-id --name-status -r "$SOURCE_SHA" "$CANDIDATE_SHA")" ]]
+              for path in package.json package-lock.json PATCH_NOTES.md docs/release/consumed-changes.json; do
+                [[ "$(git rev-parse "${target}:${path}")" == "$(git rev-parse "${CANDIDATE_SHA}:${path}")" ]]
+              done
+            fi
+
+            if git push origin "${target}:refs/heads/main"; then
+              echo "Published release ${NEXT_VERSION} as $target (validated candidate $CANDIDATE_SHA)."
+              exit 0
+            fi
+            remote_after="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+            if [[ "$remote_after" == "$remote_head" ]]; then
+              echo "::error::Publication failed while main had not moved. Nothing was published."
+              exit 1
+            fi
+            echo "main moved during publication (attempt $attempt); laying the release onto the new tip."
+          done
+          echo "::warning::main kept moving through five attempts. Nothing was published; the next push releases what is pending."
+          exit 0
