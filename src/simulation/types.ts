@@ -4001,9 +4001,11 @@ export type LegislativeActionKind =
   | "presented-to-executive"
   | "signed"
   | "vetoed"
+  | "became-law-without-signature"
   | "override-chamber-recorded"
   | "override-succeeded"
   | "override-failed"
+  | "override-period-expired"
   | "enacted"
   | "died-on-adjournment";
 

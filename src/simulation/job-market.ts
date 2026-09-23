@@ -143,6 +143,24 @@ export const FEDERAL_MINIMUM_HOURLY_MINOR = 725;
  */
 export const MINIMUM_APPLICANT_AGE = 16;
 
+/**
+ * PLACEHOLDER(research: teen-first-jobs). What a teenager's first job pays by
+ * the hour, until ChatGPT says what first jobs pay by state: the federal
+ * minimum, not this employer's pay.
+ */
+export const FIRST_JOB_PAY_PLACEHOLDER = {
+  researchQuestionId: "teen-first-jobs",
+  hourlyMinor: FEDERAL_MINIMUM_HOURLY_MINOR,
+} as const;
+
+/**
+ * The stable key of the job the first-job situation records. It was recorded
+ * as paid with no pay; it is now paid weekly from the day it is taken, and a
+ * saved one from the first settlement after this change, never for the weeks
+ * already gone.
+ */
+export const LEGACY_FIRST_JOB_WORK_KEY = "formative-play:first-job:work";
+
 export const JOB_MARKET_WORK_KIND = "employment:job-market" as const;
 const PAY_KEY_PREFIX = "job-pay:";
 const WEEK_DAYS = 7;
@@ -378,7 +396,8 @@ const SPOKEN_DATE = new Intl.DateTimeFormat("en-US", {
 });
 
 /** A date as a sentence says it: "October 5, 2026". */
-function spoken(date: IsoDate | null): string {
+/** A date as a person says it: "February 8, 2026". */
+export function spoken(date: IsoDate | null): string {
   return date ? SPOKEN_DATE.format(new Date(`${date}T00:00:00Z`)) : "";
 }
 
@@ -1046,6 +1065,7 @@ export function startJob(
     },
   });
   const work = next.history.workRelationships.at(-1)!;
+  next = leaveFirstJobFor(next, application.personId, opening.title);
   const weekly =
     opening.pay.basis === "annual-salary"
       ? Math.round(opening.pay.amount.minorUnits / 52)
@@ -1108,6 +1128,131 @@ export function leaveJob(
     ok: true,
     message: `You left your job at ${organizationName(world, work.organizationId!)}.`,
   };
+}
+
+/* -------------------------------------------------------------------------- */
+/* A first job                                                                */
+/* -------------------------------------------------------------------------- */
+
+function payWeekly(
+  world: World,
+  personId: EntityId,
+  workRelationshipId: EntityId,
+  weeklyMinor: number,
+  currency: string,
+  note: string,
+): World {
+  const stableKey = `${PAY_KEY_PREFIX}${workRelationshipId}`;
+  if (world.history.resourceFlows.some((row) => row.stableKey === stableKey))
+    return world;
+  const amount = money(weeklyMinor, currency);
+  const next = ensureLifePathPersonalPosition(world, personId, amount.currency);
+  return createWorkCompensation(next, {
+    stableKey,
+    workRelationshipId,
+    startsAt: next.currentDate,
+    amount,
+    cadenceKind: "schedule:weekly",
+    restrictionKind: null,
+    jurisdictionId: null,
+    provenance: { kind: "authored", note },
+  });
+}
+
+/**
+ * A teenager's first job ends when an adult job starts: the stock clerk job
+ * used to run on beside every later job for life, in all nine of the regional
+ * roll-call lives. Ended today, with the new job named. Unchanged when there
+ * is no active first job.
+ */
+export function leaveFirstJobFor(
+  world: World,
+  personId: EntityId,
+  newTitle: string,
+): World {
+  const work = world.history.workRelationships.find(
+    (row) =>
+      row.personId === personId && row.stableKey === LEGACY_FIRST_JOB_WORK_KEY,
+  );
+  const status = work ? workStatusAt(world, work.id) : null;
+  if (!work || status?.status !== "active") return world;
+  const ended = recordWorkStatus(world, {
+    stableKey: `${work.stableKey}:left:${world.currentDate}`,
+    workRelationshipId: work.id,
+    effectiveAt: world.currentDate,
+    status: "ended",
+    reason: `Left for work as ${newTitle.toLowerCase()}.`,
+    provenance: { kind: "authored", note: PROVENANCE_NOTE },
+    supersedesStatusId: status.id,
+  });
+  // Said in the life record, so the ending reads back rather than the job
+  // quietly vanishing from the list.
+  const title = activeRole(world, work)?.title ?? "first job";
+  return note(ended, {
+    key: `${work.stableKey}:left:${world.currentDate}`,
+    type: "first-job-left",
+    occurredAt: world.currentDate,
+    personId,
+    involved: [work.id, ...(work.organizationId ? [work.organizationId] : [])],
+    jurisdictionId: null,
+    summary: `You left your ${title.toLowerCase()} job${work.organizationId ? ` at ${organizationName(world, work.organizationId)}` : ""} to work as ${newTitle.toLowerCase()}.`,
+  }).world;
+}
+
+/**
+ * A saved adult who already started another job while the first job ran on
+ * leaves the first job at the next settlement, forward only.
+ */
+function retireSupersededFirstJob(world: World, personId: EntityId): World {
+  const person = world.people[personId];
+  if (!person || ageOnDate(person.birthDate, world.currentDate) < 18)
+    return world;
+  const first = world.history.workRelationships.find(
+    (row) =>
+      row.personId === personId && row.stableKey === LEGACY_FIRST_JOB_WORK_KEY,
+  );
+  if (!first || workStatusAt(world, first.id)?.status !== "active")
+    return world;
+  const later = world.history.workRelationships.find(
+    (row) =>
+      row.personId === personId &&
+      row.id !== first.id &&
+      row.kind.startsWith("employment:") &&
+      workStatusAt(world, row.id)?.status === "active",
+  );
+  if (!later) return world;
+  return leaveFirstJobFor(
+    world,
+    personId,
+    activeRole(world, later)?.title ?? "another job",
+  );
+}
+
+/**
+ * Pays a teenager's first job weekly from today, at its expected hours (the
+ * middle of the range) and the placeholder hourly rate. Called when the job
+ * is taken; a saved one is found at the next settlement and paid forward
+ * only. Unchanged when the job is not active or is already paid.
+ */
+export function payFirstJob(world: World, personId: EntityId): World {
+  const work = world.history.workRelationships.find(
+    (row) =>
+      row.personId === personId &&
+      row.stableKey === LEGACY_FIRST_JOB_WORK_KEY &&
+      row.compensation === "paid",
+  );
+  if (!work || workStatusAt(world, work.id)?.status !== "active") return world;
+  const weekly = activeRole(world, work)?.timeDemand.expectedWeekly;
+  if (!weekly) return world;
+  const hours = Math.round((weekly.minimumHours + weekly.maximumHours) / 2);
+  return payWeekly(
+    world,
+    personId,
+    work.id,
+    FIRST_JOB_PAY_PLACEHOLDER.hourlyMinor * hours,
+    "USD",
+    `A first job, paid weekly from ${world.currentDate} for ${hours} hours at the placeholder rate (research: ${FIRST_JOB_PAY_PLACEHOLDER.researchQuestionId}).`,
+  );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1205,10 +1350,9 @@ function isActiveOn(world: World, workId: EntityId, date: IsoDate): boolean {
  * nothing new.
  */
 export function settleJobPay(world: World, personId: EntityId): World {
-  let next = world;
-  for (const work of world.history.workRelationships) {
-    if (work.personId !== personId || work.kind !== JOB_MARKET_WORK_KIND)
-      continue;
+  let next = payFirstJob(retireSupersededFirstJob(world, personId), personId);
+  for (const work of next.history.workRelationships) {
+    if (work.personId !== personId) continue;
     const flow = next.history.resourceFlows.find(
       (row) => row.stableKey === payKey(work),
     );
@@ -1246,6 +1390,18 @@ export function settleJobPay(world: World, personId: EntityId): World {
 }
 
 /**
+ * The employer's side of every application as days pass: answers, lapsed
+ * offers and missed starts. It runs on the ordinary clock too, so a plain day
+ * skip no longer leaves an application waiting forever for an answer.
+ */
+export function advanceApplications(world: World, personId: EntityId): World {
+  let next = world;
+  for (const application of applicationsFor(next, personId))
+    next = advanceApplication(next, application);
+  return next;
+}
+
+/**
  * Everything the job market owes a person when time has passed: the town's
  * public bodies recorded as employers, this week's listings, the employer's
  * answers, lapsed and missed offers, and a held job's weekly pay. Idempotent
@@ -1259,7 +1415,5 @@ export function advanceJobMarket(world: World, personId: EntityId): World {
   let next = ensureHomeLocalGovernments(world, personId);
   if (ageOnDate(person.birthDate, next.currentDate) >= MINIMUM_APPLICANT_AGE)
     next = openWeeklyListings(next, personId);
-  for (const application of applicationsFor(next, personId))
-    next = advanceApplication(next, application);
-  return settleJobPay(next, personId);
+  return settleJobPay(advanceApplications(next, personId), personId);
 }

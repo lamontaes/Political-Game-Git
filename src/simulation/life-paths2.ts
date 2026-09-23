@@ -898,7 +898,7 @@ function createLifePathRoutineHook(): RoutineTimeHook {
           responsiblePersonId: actor,
           location: {
             locationKey: `life-paths2:${path.id}`,
-            label: path.organizationName,
+            label: employerName(path),
             jurisdictionId: null,
           },
           sourceEntityIds: [slot.relationshipId],

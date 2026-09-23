@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-23T08:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "D.C. Council ordinances",
+  "priority": "P1",
+  "question": "For the D.C. Council in recent Council Periods: (1) how many bills are introduced per two-year period, and how many permanent acts, emergency acts and temporary acts are enacted; (2) how many legislative meetings it holds per year, and in which months it recesses; (3) the rough subject mix of enacted permanent acts (ceremonial and naming, land and property dispositions, public safety, housing, taxes and budget support, health, education, government operations); (4) what share of introduced bills reach a first-reading vote; (5) how often a final vote is not unanimous, and how often an act fails a vote on the floor rather than dying in committee.",
+  "questionId": "dc-council-legislative-volume",
+  "relatedQuestionIds": [
+    "dc-council-rules-of-organization-and-procedure",
+    "dc-mayor-action-on-council-acts",
+    "dc-congressional-review-day-count"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Codex's overnight dispatch (item 12d, D.C. Council ordinances missing), relayed by the coordinator at 3:34 a.m. Eastern on September 23, 2026; filed by the D.C. Council thread",
+  "sourcesChecked": [
+    {
+      "source": "D.C. Code §§ 1-204.04, 1-204.12 and 1-206.02, locked in data/source/municipal-governance/raw from the Council's law-xml-codified repository",
+      "whatItDidNotSettle": "The statute sets procedure, not volume, calendar or subject mix."
+    }
+  ],
+  "title": "How much legislation the D.C. Council takes up, and on what",
+  "usableAnswer": "Counts per Council Period for (1), a meeting calendar for (2), a subject table for (3), and two or three shares for (4) and (5), each marked measured or estimated.",
+  "whyItMatters": "In play the Council sits every 14 days, one member introduces one act at each sitting on a question from the game's policy catalog, and each member's ballot is a game-authored stand-in (src/simulation/dc-council-sittings.ts). A year from January 5, 2026 gave 25 acts and 11 laws; about half failed on the floor, which is likely far too many. Every one of those numbers is a placeholder."
+}
