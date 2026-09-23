@@ -10,6 +10,7 @@ import {
   type IsoDate,
   type World,
 } from "../simulation";
+import { INTRODUCTION_EVENT } from "../simulation/social-introductions";
 import { ownElectionResultSentence } from "./own-election";
 import { proseDate, proseMonthYear, proseYear } from "./prose-dates";
 
@@ -235,7 +236,9 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     const text = livedWorld39Sentence(
       event.type === "life.conversation"
         ? conversationSentence(world, event, personId)
-        : inOwnVoice(ownWords ?? event.summary, ownName),
+        : (event.type === INTRODUCTION_EVENT &&
+            introductionSentence(world, event, personId)) ||
+            inOwnVoice(ownWords ?? event.summary, ownName),
     );
     if (!text) continue;
     covered.add(event.id);
@@ -525,6 +528,43 @@ function conversationSentence(
   }
   if (personId === listenerId) return `You talked with ${nameOf(speakerId)}.`;
   return `You heard ${nameOf(speakerId)} talking with ${nameOf(listenerId)}.`;
+}
+
+/**
+ * An introduction's summary names both people in the third person. The
+ * account says who this person met, and where, from the event's own
+ * participants and the setting phrase its social context carries.
+ */
+function introductionSentence(
+  world: World,
+  event: World["history"]["events"][number],
+  personId: EntityId,
+): string | null {
+  const phrase = /^Two people meeting (.+)\.$/.exec(
+    event.context.socialContext ?? "",
+  )?.[1];
+  if (!phrase) return null;
+  const nameOf = (id: EntityId) => {
+    const somebody = world.people[id];
+    return somebody ? personName(somebody) : null;
+  };
+  const met = event.participants.filter(
+    (row) => row.detail === "Met somebody new",
+  );
+  if (met.some((row) => row.personId === personId)) {
+    const other = met.find((row) => row.personId !== personId);
+    const name = other ? nameOf(other.personId) : null;
+    return name ? `You met ${name} ${phrase}.` : null;
+  }
+  if (
+    event.participants.some(
+      (row) => row.personId === personId && row.role === "agency:introducer",
+    )
+  ) {
+    const [first, second] = met.map((row) => nameOf(row.personId));
+    return first && second ? `You introduced ${first} to ${second}.` : null;
+  }
+  return null;
 }
 
 /** Offer-state events the opportunity producer records before anything happens. */
