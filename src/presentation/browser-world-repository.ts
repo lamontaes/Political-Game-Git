@@ -1943,6 +1943,13 @@ function runCompareAndSwap<T>(
             new Error("Saving did not finish.", { cause: summaryWrite.error }),
           );
       } catch (error) {
+        // A put that throws before it is queued leaves the other one queued.
+        // Abort, so a record never lands without its summary or the reverse.
+        try {
+          transaction.abort();
+        } catch {
+          // Already finished or aborting; nothing more to undo.
+        }
         fail(new Error("Saving did not finish.", { cause: error }));
       }
     };

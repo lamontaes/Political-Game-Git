@@ -2393,8 +2393,8 @@ function SavesScreen({
                 <span>{entry.reason}</span>
                 {entry.defect === "could-not-open-now" ? (
                   <span className="game-note">
-                    The browser would not read it this time. Try again later
-                    before deciding anything.
+                    The browser would not read it this time, so it cannot be
+                    removed now either. Try again later.
                   </span>
                 ) : entry.mightBeReadableLater ? (
                   <span className="game-note">
@@ -2402,7 +2402,10 @@ function SavesScreen({
                     worth keeping for now.
                   </span>
                 ) : null}
-                {entry.saveId ? (
+                {entry.saveId && entry.defect !== "could-not-open-now" ? (
+                  // Not offered for a save the browser would not read just
+                  // now: removing it reads the whole record, and would fail
+                  // on exactly that save.
                   // The same two steps a healthy save gets. These are the ones
                   // the screen has just said may open in a later version and
                   // are worth keeping, so a single click was the weakest guard

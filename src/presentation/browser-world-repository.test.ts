@@ -55,6 +55,13 @@ class FakeTransaction {
   readonly #storeFor: (name: string) => Map<string, unknown>;
   readonly #control: FakeStorageControl;
   readonly #queue: (() => void)[] = [];
+  /** What each written key held before this transaction, so abort can undo it. */
+  readonly #undo: {
+    records: Map<string, unknown>;
+    key: string;
+    had: boolean;
+    value: unknown;
+  }[] = [];
   #active = false;
   #running = false;
   #settling = false;
@@ -99,11 +106,23 @@ class FakeTransaction {
           ) {
             throw new Error("Fake IndexedDB record is missing its key.");
           }
+          this.#undo.push({
+            records,
+            key: value.saveId,
+            had: records.has(value.saveId),
+            value: records.get(value.saveId),
+          });
           records.set(value.saveId, structuredClone(value));
           return value.saveId;
         }),
       delete: (key: IDBValidKey) =>
         this.#request(name, "delete", () => {
+          this.#undo.push({
+            records,
+            key: String(key),
+            had: records.has(String(key)),
+            value: records.get(String(key)),
+          });
           records.delete(String(key));
           return undefined;
         }),
@@ -187,10 +206,20 @@ class FakeTransaction {
     });
   }
 
+  /** Called by code under test, the way it would call the browser's. */
+  abort(): void {
+    this.#abort();
+  }
+
   #abort(): void {
     if (this.#settled) return;
     this.#settled = true;
     this.#queue.length = 0;
+    // An aborted transaction leaves nothing behind, as in a browser.
+    for (const entry of this.#undo.reverse()) {
+      if (entry.had) entry.records.set(entry.key, entry.value);
+      else entry.records.delete(entry.key);
+    }
     this.onabort?.();
     this.#release?.();
   }
@@ -2150,4 +2179,31 @@ describe("The save list reads summaries, not worlds", () => {
     expect(listing.saves.map((save) => save.saveId)).toEqual([imported.saveId]);
     expect(listing.damaged).toEqual([]);
   });
+});
+
+it("a save whose summary cannot be written leaves both stores as they were", async () => {
+  const { store, factory } = storeWith();
+  const world = playerWorld("summary-put-fails");
+  const saveId = store.newSaveId(world);
+  await store.save(world, saveId);
+  const recordBefore = JSON.stringify(factory.records.get(saveId));
+  const summaryBefore = JSON.stringify(factory.summaryRecords.get(saveId));
+
+  factory.control.observer = (storeName, operation) => {
+    if (storeName === "world-summaries" && operation === "put") {
+      throw new Error("Fake IndexedDB refused the summary.");
+    }
+  };
+  const outcome = store.save(
+    withRecordedEvent(world, "summary-put-fails:one"),
+    saveId,
+  );
+  await expect(outcome).rejects.toThrow();
+  expect(JSON.stringify(factory.records.get(saveId))).toBe(recordBefore);
+  expect(JSON.stringify(factory.summaryRecords.get(saveId))).toBe(
+    summaryBefore,
+  );
+
+  factory.control.observer = null;
+  expect(await store.load(saveId)).toEqual(world);
 });
