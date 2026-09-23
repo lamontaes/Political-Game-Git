@@ -142,16 +142,25 @@ describe("ordinary local crime", () => {
           ).toBe(true);
         }
       }
-      const unreportedIds = new Set(unreported.map((event) => event.id));
+      // A crime reaches a person's own Journal only if it happened to them
+      // (direct knowledge requires being in the record), and then it says so
+      // in their words rather than as a town police item.
+      const crimeById = new Map(
+        [...incidents, ...arrests].map((event) => [event.id, event]),
+      );
+      let victimLines = 0;
       for (const { id: personId } of Object.values(later.people)) {
         for (const entry of projectWorld39Journal(later, personId).entries) {
-          if (!unreportedIds.has(entry.sourceId)) continue;
-          const event = unreported.find((row) => row.id === entry.sourceId)!;
+          const event = crimeById.get(entry.sourceId as never);
+          if (!event) continue;
           expect(
             event.participants.some((row) => row.personId === personId),
           ).toBe(true);
+          expect(entry.text).toMatch(/\byou(r)?\b/i);
+          victimLines += 1;
         }
       }
+      expect(victimLines).toBeGreaterThan(0);
       // Every victim knows what happened to them.
       for (const event of incidents) {
         for (const participant of event.participants) {

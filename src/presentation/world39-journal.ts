@@ -10,6 +10,7 @@ import {
   type IsoDate,
   type World,
 } from "../simulation";
+import { crimeJournalLine } from "../simulation/crime/journal";
 import { ownElectionResultSentence } from "./own-election";
 import { proseDate, proseMonthYear, proseYear } from "./prose-dates";
 
@@ -220,7 +221,10 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     if (!participated && !directlyKnown) continue;
     if (/^(setup|simulation|information|evidence|world)\./.test(event.type))
       continue;
-    const text = livedWorld39Sentence(event.summary);
+    // A town's police log is news; only a victim's Journal carries a crime.
+    const crimeLine = crimeJournalLine(event, personId);
+    if (crimeLine === null) continue;
+    const text = livedWorld39Sentence(crimeLine ?? event.summary);
     if (!text) continue;
     covered.add(event.id);
     entries.push({
