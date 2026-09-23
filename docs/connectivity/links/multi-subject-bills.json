@@ -1,0 +1,23 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "multi-subject-bills",
+  "title": "Bills with several subjects, and delegated bill steps",
+  "producer": {
+    "at": "src/simulation/legislation-bundle.ts",
+    "owner": "Legislation",
+    "writes": "Bundled clauses composed into one measure; delegated routine steps and a sitting member's floor action (legislative-routine-plan.ts, legislative-current-member-action.ts).",
+    "runsInPlay": false,
+    "runsDetail": "legislation-bundle-composition.ts, legislative-routine-plan.ts and legislative-current-member-action.ts have no caller; no screen reaches them."
+  },
+  "readers": [],
+  "missing": [
+    {
+      "reader": "A player drafting a bill with several subjects, or delegating routine steps",
+      "readerOwner": "Legislation",
+      "state": "open",
+      "detail": "About 2,560 lines built with no route. Wire into DocketWorkspace or trim; the Legislation thread decides."
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T02:00:00.000Z"
+}

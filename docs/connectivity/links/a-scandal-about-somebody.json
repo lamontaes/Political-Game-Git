@@ -1,0 +1,31 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "a-scandal-about-somebody",
+  "title": "A complaint opened against an officeholder",
+  "producer": {
+    "at": "src/simulation/press/matters.ts#produceRivalComplaints",
+    "owner": "Consequences for corruption",
+    "writes": "A rival's decision to file, an ethics matter and a proceeding before the state's commission.",
+    "runsInPlay": true,
+    "runsDetail": "Weekly press sweep, but only against the player, only when the player's campaign paid a vendor, and at most one per campaign."
+  },
+  "readers": [
+    {
+      "at": "src/simulation/press/procedures.ts#advanceProceeding",
+      "owner": "Consequences for corruption",
+      "reads": "Runs the proceeding on statutory deadlines."
+    }
+  ],
+  "missing": [
+    {
+      "reader": "A complaint about anyone who is not the player",
+      "readerOwner": "Consequences for corruption",
+      "state": "handed-off",
+      "detail": "openMatter accepts any subject, but no producer ever names an NPC. ChatGPT answered: broaden the actors and incidents on the existing weekly route; no quota.",
+      "researchQuestionId": "what-opens-a-scandal-about-somebody-else",
+      "handedOff": "2026-09-23, brief sent to Consequences for corruption"
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T02:00:00.000Z"
+}

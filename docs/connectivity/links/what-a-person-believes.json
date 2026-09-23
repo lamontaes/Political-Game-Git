@@ -1,0 +1,62 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "what-a-person-believes",
+  "title": "A person forming a political view",
+  "producer": {
+    "at": "src/simulation/political-belief-formation.ts#applyNpcPoliticalBeliefFormation",
+    "owner": "People and life",
+    "writes": "Private beliefs with a decision trace; with its sibling recorders in politics.ts, public positions, campaign commitments, principles, subject knowledge and proposition exposures.",
+    "runsInPlay": false,
+    "runsDetail": "The only non-test caller of the formation engine and of five recorders in politics.ts is src/simulation/demo.ts. The scheduled pass living-world/political-reflection.ts is finished and imported by nothing, so it is in no handler registry and nothing schedules a first reflection."
+  },
+  "readers": [
+    {
+      "at": "src/ui/PoliticalProfile.tsx:236",
+      "owner": "People and life",
+      "reads": "Displays beliefs, positions and commitments."
+    },
+    {
+      "at": "src/presentation/world39-journal.ts:295",
+      "owner": "People and life",
+      "reads": "Journals them."
+    }
+  ],
+  "missing": [
+    {
+      "reader": "The reflection pass on the ordinary clock",
+      "readerOwner": "People and life",
+      "state": "handed-off",
+      "detail": "Register politicalReflectionTransitionHandler and schedule each NPC's first reflection. 66 propositions now exist (US_POLICY_POSITIONS_PACK, authored fiction), each naming the principles it engages, which was the first unblock the pass's own comment names. It still has no exposures to reflect on and no person holds a principle.",
+      "handedOff": "2026-09-23, brief sent to People and life"
+    },
+    {
+      "reader": "Where a person's principles come from",
+      "readerOwner": "People and life",
+      "state": "needs-research",
+      "detail": "recordPrinciple has no caller outside demo.ts. D-093 says a person's own character and history decide; the weighting from temperament to principle is the research.",
+      "researchQuestionId": "what-should-the-world-do-to-a-person"
+    },
+    {
+      "reader": "A voter's views deciding a vote",
+      "readerOwner": "Running for office",
+      "state": "in-flight",
+      "detail": "An election result reads a support score plus a seeded swing (campaigns.ts:1494) or seeded random votes (election-contests.ts:142). No view of any voter is read.",
+      "inFlight": "#489 weighs an officeholder's record question by question; it does not read voters' own beliefs"
+    },
+    {
+      "reader": "A legislator's views deciding their floor vote",
+      "readerOwner": "Legislation",
+      "state": "in-flight",
+      "detail": "Floor and committee votes come from authored vote plans (legislation-session.ts:69, legislative-clock.ts:288).",
+      "inFlight": "#440 lets every seated legislator cast their own vote"
+    },
+    {
+      "reader": "A party's stances coming from its members' views",
+      "readerOwner": "People and life",
+      "state": "open",
+      "detail": "partyActorStance (living-world/party-evolution.ts:161) is a seeded random pick."
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T02:00:00.000Z"
+}
