@@ -1,8 +1,7 @@
-import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { renderRegionalMeasures } from "../../../scripts/source/export-regional-measures";
 import { placeRegionalFacts } from "../../presentation/place-regional-facts";
 import { searchLifePlaces } from "../index";
 import {
@@ -23,12 +22,23 @@ const d = (date: string) => date as IsoDate;
 
 describe("regional measures", () => {
   it("regenerate byte-identically from the locked BEA, HUD and LAUS corpora", () => {
-    const committed = readFileSync(
-      resolve(import.meta.dirname, "regional-measures.generated.json"),
-      "utf8",
+    // Run as its own process: runtime modules and their tests may not import
+    // the source substrate (A16).
+    const output = execFileSync(
+      process.execPath,
+      [
+        "--import",
+        "tsx",
+        resolve(
+          import.meta.dirname,
+          "../../../scripts/source/export-regional-measures.ts",
+        ),
+        "--check",
+      ],
+      { encoding: "utf8" },
     );
-    expect(renderRegionalMeasures()).toBe(committed);
-  });
+    expect(output).toContain("regenerate byte-identically");
+  }, 60_000);
 
   it("cover every one of the fifty-six places the game can start in", () => {
     expect([...regionalMeasureJurisdictions()].sort()).toEqual(
