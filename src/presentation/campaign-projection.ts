@@ -435,17 +435,39 @@ export function projectCampaign(
       state.status === "won"
         ? ((term) =>
             term
-              ? `${candidateName} won. The term begins ${proseDate(term.startsAt)}; until then the office is not theirs.`
-              : `${candidateName} won. The seat is theirs, and so is everything that came before it.`)(
+              ? `${candidateName} won${resultMargin(result, personId)}. The term begins ${proseDate(term.startsAt)}; until then the office is not theirs.`
+              : `${candidateName} won${resultMargin(result, personId)}. The seat is theirs, and so is everything that came before it.`)(
             legislativeTermDates(
               contest.office.officeKey,
               contest.electionDate,
             ),
           )
         : state.status === "lost"
-          ? `${candidateName} lost. That is a thing that happened to them, not the end of them — tomorrow is still there.`
+          ? `${candidateName} lost${resultMargin(result, personId)}. That is a thing that happened to them, not the end of them — tomorrow is still there.`
           : null,
   };
+}
+
+/**
+ * ", 52.3% to 47.7%": this candidate's share against the best of the others,
+ * or nothing when there is no one else in the result.
+ */
+function resultMargin(
+  result: ReturnType<typeof electionContestResult>,
+  personId: EntityId,
+): string {
+  const rows = result?.tallies ?? [];
+  // The same rounding as the table under it, so the two never disagree.
+  const printed = displayedSharePercents(rows.map((row) => row.voteShare));
+  const own = rows.findIndex((row) => row.candidatePersonId === personId);
+  const other = rows
+    .map((row, index) => ({ row, index }))
+    .filter(({ row }) => row.candidatePersonId !== personId)
+    .sort((left, right) => right.row.voteShare - left.row.voteShare)[0];
+  if (own < 0 || !other) return "";
+  const ownShare = printed[own];
+  const otherShare = printed[other.index];
+  return `, ${ownShare}% to ${otherShare}%`;
 }
 
 /**
