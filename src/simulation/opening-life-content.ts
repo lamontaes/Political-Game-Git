@@ -1387,9 +1387,11 @@ export function openingLifeFamily(
         options: scene.choices.map((choice) => ({
           key: choice.key,
           label: choice.label.replaceAll("{person}", slot),
+          // An instant choice carries no time label; the label itself is the
+          // description, which the conversation renderer does not repeat.
           description: openingChoiceMinutes(scene, choice)
             ? `${openingChoiceMinutes(scene, choice)} minutes`
-            : "No time passes",
+            : choice.label.replaceAll("{person}", slot),
           memory: choice.aftermath.replaceAll("{person}", slot),
           nudges: [],
           aftermath: null,
@@ -1426,7 +1428,7 @@ export function openingLifeFamily(
                     choice,
                   )
                     ? `${openingChoiceMinutes({ ...scene, minutes: 5 }, choice)} minutes`
-                    : "No time passes",
+                    : choice.label.replaceAll("{person}", slot),
                   memory: choice.aftermath.replaceAll("{person}", slot),
                   nudges: [],
                   aftermath: null,
@@ -1481,7 +1483,7 @@ export function openingLifeFamily(
             label: choice.label.replaceAll("{person}", slot),
             description: openingChoiceMinutes(atStage, choice)
               ? `${openingChoiceMinutes(atStage, choice)} minutes`
-              : "No time passes",
+              : choice.label.replaceAll("{person}", slot),
             memory: choice.aftermath.replaceAll("{person}", slot),
             nudges: [],
             aftermath: null,
