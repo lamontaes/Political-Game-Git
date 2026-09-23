@@ -1,0 +1,40 @@
+{
+  "filedAt": "2026-09-23T04:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "long lives in the territories",
+  "priority": "P1",
+  "question": "The game's place list comes from the 2025 Census Gazetteer, which covers the 50 states, D.C. and Puerto Rico only, so none of the four other inhabited territories has a single place a life can start in. For Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, give the official list of places a resident would say they live in, with their Census 2020 Island Areas codes: (1) each territory's county-equivalent units (Guam; St. Croix, St. John, St. Thomas; American Samoa's Eastern, Western and Manu'a districts and Swains Island; the Northern Islands, Rota, Saipan and Tinian municipalities) with their five-digit FIPS codes; (2) the places or census designated places inside each, with their seven-digit place codes and 2020 populations; (3) the spelling a resident uses, including the okina and glottal marks where official names carry them (for example Hagåtña, Nu'uuli), and the plain spelling a search box should also accept; (4) which of these is a unit of local government in its own right (Guam's 19 villages with elected mayors; the Northern Mariana Islands' four municipalities with elected mayors and municipal councils; American Samoa's villages under matai and county councils; the U.S. Virgin Islands, which has no municipal government) versus a statistical place only. Say the source and vintage for each list.",
+  "questionId": "territory-place-identities",
+  "readFirst": {
+    "saidAt": "2026-09-23T04:19:38.000Z",
+    "saidBy": "lamontae",
+    "words": "Also start lives on each of the territories."
+  },
+  "relatedQuestionIds": [
+    "inhabited-territories-government-and-statehood",
+    "puerto-rico-government-and-municipios"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "lamontae, 2026-09-23 at 12:19 a.m. Eastern (\"Also start lives on each of the territories.\"); filed by the long lives in the territories thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/national-places.generated.ts on main 632f8184 (census-gazetteer-2025-places-zip, 32,350 rows)",
+      "whatItDidNotSettle": "Covers the 50 states, D.C. and Puerto Rico only; no row for any of the four other territories."
+    },
+    {
+      "source": "src/simulation/national-counties.generated.ts on main 632f8184 (census-gazetteer-2025-counties-zip, 3,222 rows)",
+      "whatItDidNotSettle": "No county-equivalent for Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands."
+    },
+    {
+      "source": "docs/research/requests/inhabited-territories-government-and-statehood.json (answered 2026-09-22)",
+      "whatItDidNotSettle": "Answers offices, qualifications, voters and status; does not list places or give their Census codes."
+    },
+    {
+      "source": "www2.census.gov from this environment",
+      "whatItDidNotSettle": "Blocked by the network proxy (403), so the Island Areas code lists could not be fetched directly."
+    }
+  ],
+  "title": "Which towns and villages a life can start in on Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands",
+  "usableAnswer": "One table per territory: place name as a resident writes it, a plain-letter search spelling, the Census 2020 Island Areas place code, the county-equivalent it sits in, its 2020 population, and whether it is a local government with elected officers (and which), with the source and vintage of each column.",
+  "whyItMatters": "lamontae asked on September 23, 2026 for a life in every territory. To let one start today, the territories thread seated a marked placeholder list of well-known villages and towns (src/simulation/territory-places.ts on branch claude/project-thread-ysy15i), keyed in its own namespace rather than with invented Census codes. Every such key is a provisional identity: once real place codes arrive the list is replaced and a crosswalk carries existing saves forward. Until then the placeholder list may omit villages and the population of each is unknown, so nothing in the game may treat a territory town's size as known."
+}
