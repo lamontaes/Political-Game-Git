@@ -4,12 +4,16 @@ import {
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
 import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
+import { formatMinute } from "./player-calendar";
+import { capQuietStretch, goableToday } from "./quiet-stretch";
+import { performVenueActivity } from "./venue-activity";
 import {
   lifeActivityHandlers,
   type OrdinaryLifeDayAdvance,
 } from "./life-time-handlers";
 import {
   advanceWorldMinutes,
+  scheduledActivityState,
   simulationMinutesBetween,
   describePersonContext,
   introducePerson,
@@ -516,16 +520,63 @@ function chooseStoryScene(
   return {
     kind: "ordinary-stretch",
     prose: "",
-    options: [
-      {
-        key: "let-it-run",
-        label: formativeYears ? "Let the year run on" : "Let the weeks run on",
-        description: "Pick it up again when something needs you.",
-      },
-    ],
+    options: formativeYears
+      ? [
+          {
+            key: "let-it-run",
+            label: "Let the year run on",
+            description: "Pick it up again when something needs you.",
+          },
+        ]
+      : ordinaryStretchOptions(world, personId),
     withPeople: [],
     presentPeople: [],
   };
+}
+
+/**
+ * "Let the weeks run on" stops for commitments, dated matters and civic
+ * holds, and lets an unanswered social invitation lapse as it always has.
+ */
+const STORY_STRETCH_STOPS = { socialHolds: false } as const;
+
+/** The option key that goes to something on today's calendar. */
+const GO_TO_ACTIVITY_PREFIX = "go-to:";
+
+/**
+ * What a quiet adult stretch offers: whatever today's calendar holds that the
+ * player can go to, and letting the weeks run on as far as the next thing on
+ * it. A meeting the player was invited to is a real choice on the day it
+ * happens, not something the clock decides by walking past it.
+ */
+export function ordinaryStretchOptions(
+  world: World,
+  personId: EntityId,
+): readonly StoryOption[] {
+  const going = goableToday(world, personId).map((activity) => {
+    const start = scheduledActivityState(world, activity.id).start;
+    return {
+      key: `${GO_TO_ACTIVITY_PREFIX}${activity.id}`,
+      label: `Attend: ${activity.title}`,
+      description: `${formatMinute(start.minuteOfDay)} today. ${activity.summary}`,
+    };
+  });
+  const { cappedBy } = capQuietStretch(
+    world,
+    personId,
+    quietStepDays(world.currentDate),
+    STORY_STRETCH_STOPS,
+  );
+  return [
+    ...going,
+    {
+      key: "let-it-run",
+      label: "Let the weeks run on",
+      description: cappedBy
+        ? `Until the morning of ${longDate(cappedBy.date)}: ${cappedBy.title}.`
+        : "Pick it up again when something needs you.",
+    },
+  ];
 }
 
 /**
@@ -778,8 +829,22 @@ export function chooseStoryOption(
         optionKey: input.optionKey,
         transitionHandlers: lifeActivityHandlers(input.transitionHandlers),
       });
-    case "ordinary-stretch":
+    case "ordinary-stretch": {
+      if (input.optionKey.startsWith(GO_TO_ACTIVITY_PREFIX)) {
+        const wanted = input.optionKey.slice(GO_TO_ACTIVITY_PREFIX.length);
+        const activity = goableToday(world, input.personId).find(
+          (candidate) => candidate.id === wanted,
+        );
+        if (!activity) return world;
+        return performVenueActivity(
+          world,
+          input.personId,
+          activity.id,
+          input.transitionHandlers,
+        );
+      }
       return letStoryTimePass(world, input.personId, input.advanceDays);
+    }
   }
 }
 
@@ -820,7 +885,15 @@ export function letStoryTimePass(
   if (formativeIntervalAt(world, personId) !== null) {
     return letTimePass(world, personId, advanceDays);
   }
-  return letAdultTimePass(world, quietStepDays(world.currentDate), advanceDays);
+  // Never past the next thing on the calendar: a quiet stretch that walked
+  // through a meeting the player was invited to decided for them.
+  const { days } = capQuietStretch(
+    world,
+    personId,
+    quietStepDays(world.currentDate),
+    STORY_STRETCH_STOPS,
+  );
+  return letAdultTimePass(world, days, advanceDays);
 }
 
 /** The date a quiet adult stretch would reach, for tests that need it. */

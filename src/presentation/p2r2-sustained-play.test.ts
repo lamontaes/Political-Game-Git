@@ -279,7 +279,10 @@ describe("a normal route stays a normal route", () => {
       const filed = fileForOffice(world, personId);
       const campaign = campaignForCandidate(filed, personId)!;
       let current = filed;
-      for (let step = 0; step < 20; step += 1) {
+      // A quiet stretch now stops on the morning of each meeting and campaign
+      // shift on the calendar, and the choosing route is offered each of them,
+      // so the four weeks to election day take more steps than they did.
+      for (let step = 0; step < 40; step += 1) {
         if (electionContestResult(current, campaign.contestId)) break;
         if (route === "quiet") {
           current = letStoryTimePass(current, personId);
