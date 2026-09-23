@@ -36,8 +36,8 @@ describe("current questionnaire setup and replay", () => {
       decodeReplayDescriptor(encodeReplayDescriptor(setup))
         ?.questionnaireSelectionVersion,
     ).toBe("curated-v1");
-    const { questionnaireSelectionVersion: _selectionVersion, ...oldSetup } =
-      setup;
+    const { questionnaireSelectionVersion, ...oldSetup } = setup;
+    expect(questionnaireSelectionVersion).toBe("curated-v1");
     expect(
       decodeReplayDescriptor(encodeReplayDescriptor(oldSetup))
         ?.questionnaireSelectionVersion,
