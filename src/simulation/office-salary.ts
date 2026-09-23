@@ -43,6 +43,7 @@ export const PAID_OFFICE_KINDS: readonly string[] = [
   "employment:state-agency-director",
   "employment:civil-service",
   "employment:executive-staff",
+  "employment:congress-member",
 ];
 
 const WEEK_DAYS = 7;

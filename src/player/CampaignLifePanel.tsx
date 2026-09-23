@@ -277,6 +277,8 @@ export function CampaignLifePanel({
                       type="button"
                       className="ui-action"
                       data-testid={`party-work-request-${option.form}-${organizationId}`}
+                      disabled={option.unavailableReason !== null}
+                      title={option.unavailableReason ?? undefined}
                       onClick={() =>
                         apply(() =>
                           requestPartyWork(
@@ -290,6 +292,21 @@ export function CampaignLifePanel({
                     >
                       {option.title}
                     </button>
+                  ))}
+                {view.requestable
+                  .filter(
+                    (option) =>
+                      option.hostOrganizationId === organizationId &&
+                      option.unavailableReason !== null,
+                  )
+                  .map((option) => (
+                    <small
+                      key={`${option.form}-reason`}
+                      className="game-campaign-life-line"
+                      data-testid={`party-work-request-reason-${option.form}-${organizationId}`}
+                    >
+                      {option.title}: {option.unavailableReason}
+                    </small>
                   ))}
               </span>
             </div>

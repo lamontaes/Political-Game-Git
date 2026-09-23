@@ -478,7 +478,15 @@ export function resolveFutureDueItemsThrough(
       }
       candidates.shift();
     }
-    if (!item) return working;
+    if (!item) {
+      // Each item's result is checked for the rules this loop owns as it
+      // lands; the whole World is validated once, here, for the batch. A
+      // check per item cost a full pass over every record for each due item,
+      // and a step that resolves hundreds of legislative sittings paid it
+      // hundreds of times. Nothing in between is returned to a caller.
+      assertWorldIntegrity(working);
+      return working;
+    }
     const handler = handlerFor(registry, item.transitionKey);
     if (!handler) {
       throw new Error(
@@ -566,7 +574,7 @@ export function resolveFutureDueItemsThrough(
       );
     }
     // Recording the item's terminal state only appends to the due history, so
-    // the handler's result and that record are validated together, once.
+    // the handler's result and that record are validated with the batch.
     working = withWorldIntegrityDeferred(() =>
       setFutureDueItemTerminalState(result.world, {
         stableKey: `${item.stableKey}:state:${result.status}:${item.dueAt}`,
@@ -578,7 +586,6 @@ export function resolveFutureDueItemsThrough(
         outcomeEventId: result.outcomeEventId,
       }),
     );
-    assertWorldIntegrity(working);
   }
 }
 

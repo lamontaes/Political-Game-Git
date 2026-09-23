@@ -5,6 +5,7 @@ import {
   GAMEPLAY_SECTORS,
   MACRO_POLICY_VERSION,
   MACRO_SHOCK_KINDS,
+  UNEMPLOYMENT_RECOVERY_RULE,
 } from "./policy";
 import type {
   MacroEconomyStore,
@@ -265,7 +266,9 @@ export function assertMacroEconomyIntegrity(world: World): void {
         (!Number.isFinite(month.exposure.multiplier) ||
           month.exposure.multiplier < 0)) ||
       month.realIncomeIndex !== null ||
-      month.policyRate.lowerPct > month.policyRate.upperPct
+      month.policyRate.lowerPct > month.policyRate.upperPct ||
+      (month.unemploymentRule !== undefined &&
+        month.unemploymentRule !== UNEMPLOYMENT_RECOVERY_RULE)
     ) {
       throw new Error(`Macro month violates a stock or bound: ${month.key}`);
     }
