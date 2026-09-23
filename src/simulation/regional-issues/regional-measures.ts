@@ -9,8 +9,10 @@ import type { IsoDate } from "../types";
  * Every figure is a publisher's own observation (BEA regional price parities
  * and personal income, HUD Fair Market Rents and income limits, BLS LAUS),
  * exported by `scripts/source/export-regional-measures.ts`. A reader asks on a
- * date and gets the latest period that had ended by then, never a later one.
- * A missing series is absent, never zero.
+ * date and gets only figures the locked edition proves were public by then:
+ * the publisher's release date, or the retrieval date where no release date
+ * is recorded (the economic-context source-time rule). A missing series is
+ * absent, never zero.
  */
 
 export type RegionalMeasureKey =
@@ -32,7 +34,12 @@ export const REGIONAL_MEASURE_KEYS: readonly RegionalMeasureKey[] = [
 
 export interface RegionalObservation {
   readonly period: string;
-  readonly periodEnd: IsoDate;
+  /** Last day the period covers, as an ISO date. */
+  readonly periodEnd: string;
+  /** First date the locked edition is proven public, as an ISO date. */
+  readonly knownAvailableOn: string;
+  readonly knownAvailableOnBasis:
+    "publisher-release-date" | "retrieval-date-fallback";
   readonly value: number;
   /** The same figure for the nation, or null where the source publishes none. */
   readonly national: number | null;
@@ -81,13 +88,13 @@ function latestBy(
 ): RegionalObservation | null {
   let latest: RegionalObservation | null = null;
   for (const observation of series)
-    if (observation.periodEnd <= date) latest = observation;
+    if (observation.knownAvailableOn <= date) latest = observation;
   return latest;
 }
 
 /**
- * The latest figure of each measure whose period had ended by `date`. A
- * measure with nothing that early is null: unknown, not zero.
+ * The latest figure of each measure that was public by `date`. A measure with
+ * nothing public that early is null: unknown, not zero.
  */
 export function regionalMeasuresOn(
   jurisdictionKey: string,
@@ -111,7 +118,8 @@ export function regionalMeasuresOn(
  * A state's regional housing cost against the nation, for readers such as
  * migration's `cost:` reason: BEA's housing price parity divided by the
  * nation's for the same year (1.05 is five percent above), plus a year of
- * two-bedroom rent as a share of the median family's income. Either part is
+ * HUD's two-bedroom Fair Market Rent benchmark as a share of HUD's area median
+ * family income. Both are area benchmarks, not any household's rent or pay. Either part is
  * null where its source has nothing on that date. It is a measurement only:
  * how much of it makes anyone move is a rule this module does not hold.
  */
@@ -133,19 +141,20 @@ export function regionalHousingCost(
   const price = measures.housingPriceIndex;
   const rent = measures.twoBedroomFairMarketRent;
   const income = measures.medianFamilyIncome;
-  const rentPairs = rent && income && rent.period === income.period;
+  const pair =
+    rent && income && rent.period === income.period ? { rent, income } : null;
   return {
     jurisdictionKey,
     housingPriceRelativeToNation:
       price && price.national ? price.value / price.national : null,
     housingPricePeriod: price?.period ?? null,
-    rentShareOfMedianFamilyIncome: rentPairs
-      ? (rent.value * 12) / income.value
+    rentShareOfMedianFamilyIncome: pair
+      ? (pair.rent.value * 12) / pair.income.value
       : null,
     nationalRentShareOfMedianFamilyIncome:
-      rentPairs && rent.national && income.national
-        ? (rent.national * 12) / income.national
+      pair && pair.rent.national && pair.income.national
+        ? (pair.rent.national * 12) / pair.income.national
         : null,
-    rentPeriod: rentPairs ? rent.period : null,
+    rentPeriod: pair ? pair.rent.period : null,
   };
 }

@@ -18,11 +18,14 @@ const root = resolve(import.meta.dirname, "../..");
 const TARGET =
   "src/simulation/regional-issues/regional-measures.generated.json";
 
+interface Evidence {
+  readonly evidence: { readonly artifactId: string };
+}
 interface KnownValue {
   readonly state: string;
   readonly value?: number;
 }
-interface BeaRow {
+interface BeaRow extends Evidence {
   readonly tableName: string;
   readonly lineCode: string;
   readonly geoFips: string;
@@ -36,7 +39,7 @@ interface HudArea {
   readonly stateFips: string;
   readonly stateUsps: string;
 }
-interface HudRow {
+interface HudRow extends Evidence {
   readonly recordKind: "fair-market-rent" | "income-limit";
   readonly productVintage: string;
   readonly area: HudArea;
@@ -44,7 +47,7 @@ interface HudRow {
   readonly rentByBedrooms?: Record<string, number>;
   readonly areaMedianFamilyIncome?: number | null;
 }
-interface LausRow {
+interface LausRow extends Evidence {
   readonly area: { readonly areaTypeCode: string; readonly areaText: string };
   readonly measure: { readonly code: string };
   readonly seasonalAdjustmentCode: string;
@@ -65,6 +68,14 @@ export interface RegionalObservation {
   readonly period: string;
   /** Last day the period covers; a reader never uses a period that ends after the date it asks about. */
   readonly periodEnd: string;
+  /**
+   * The first date the locked edition carrying this figure is proven to have
+   * been public: the publisher's release date, or, where none is recorded,
+   * the date it was retrieved. A reader never shows a figure before this.
+   */
+  readonly knownAvailableOn: string;
+  readonly knownAvailableOnBasis:
+    "publisher-release-date" | "retrieval-date-fallback";
   readonly value: number;
   /** The same figure for the nation, or null where the source publishes none. */
   readonly national: number | null;
@@ -99,6 +110,51 @@ function readCorpus<T>(domain: string): { rows: T[]; sha256: string } {
   };
 }
 
+interface Availability {
+  readonly knownAvailableOn: string;
+  readonly knownAvailableOnBasis:
+    "publisher-release-date" | "retrieval-date-fallback";
+}
+
+/** Availability of every artifact in a domain's lock, the economic-context source-time rule. */
+function readAvailability(domain: string): Map<string, Availability> {
+  const lock = JSON.parse(
+    readFileSync(
+      resolve(root, `data/source/${domain}/artifact-lock.json`),
+      "utf8",
+    ),
+  ) as {
+    artifacts: {
+      artifactId: string;
+      publisher: { releaseDate: string | null };
+      retrieval: { retrievedAt: string };
+    }[];
+  };
+  return new Map(
+    lock.artifacts.map((artifact) => [
+      artifact.artifactId,
+      artifact.publisher.releaseDate
+        ? {
+            knownAvailableOn: artifact.publisher.releaseDate,
+            knownAvailableOnBasis: "publisher-release-date",
+          }
+        : {
+            knownAvailableOn: artifact.retrieval.retrievedAt.slice(0, 10),
+            knownAvailableOnBasis: "retrieval-date-fallback",
+          },
+    ]),
+  );
+}
+
+function availabilityOf(
+  locks: Map<string, Availability>,
+  artifactId: string,
+): Availability {
+  const found = locks.get(artifactId);
+  if (!found) throw new Error(`Artifact ${artifactId} is not in its lock.`);
+  return found;
+}
+
 function known(value: KnownValue): number | null {
   return value.state === "KNOWN" && typeof value.value === "number"
     ? value.value
@@ -121,6 +177,9 @@ export function renderRegionalMeasures(): string {
   const bea = readCorpus<BeaRow>("bea-regional");
   const hud = readCorpus<HudRow>("hud-housing");
   const laus = readCorpus<LausRow>("bls-laus");
+  const beaLock = readAvailability("bea-regional");
+  const hudLock = readAvailability("hud-housing");
+  const lausLock = readAvailability("bls-laus");
 
   // Identity: USPS code by state FIPS, from HUD, which covers all fifty-six.
   const uspsByFips = new Map<string, string>();
@@ -174,6 +233,7 @@ export function renderRegionalMeasures(): string {
     slot(usps, measure).push({
       period: row.year,
       periodEnd: `${row.year}-12-31`,
+      ...availabilityOf(beaLock, row.evidence.artifactId),
       value,
       national: beaNational.get(`${key}:${row.year}`) ?? null,
     });
@@ -197,6 +257,7 @@ export function renderRegionalMeasures(): string {
     sums.set(key, sum);
   };
   const vintages = new Set<string>();
+  const artifactOf = new Map<string, string>();
   for (const row of hud.rows) {
     const weight = population.get(
       `${row.productVintage}:${row.area.hudFipsCode}`,
@@ -212,6 +273,13 @@ export function renderRegionalMeasures(): string {
         ? "twoBedroomFairMarketRent"
         : "medianFamilyIncome";
     vintages.add(row.productVintage);
+    const artifactKey = `${measure}:${row.productVintage}`;
+    if (
+      (artifactOf.get(artifactKey) ?? row.evidence.artifactId) !==
+      row.evidence.artifactId
+    )
+      throw new Error(`${artifactKey} spans more than one artifact.`);
+    artifactOf.set(artifactKey, row.evidence.artifactId);
     add(
       `${measure}:${row.productVintage}:${row.area.stateUsps}`,
       value,
@@ -227,6 +295,7 @@ export function renderRegionalMeasures(): string {
     slot(usps, measure).push({
       period: vintage,
       periodEnd: hudPeriodEnd(vintage),
+      ...availabilityOf(hudLock, artifactOf.get(`${measure}:${vintage}`)!),
       value: Math.round(sum.weighted / sum.weight),
       national: national
         ? Math.round(national.weighted / national.weight)
@@ -246,6 +315,7 @@ export function renderRegionalMeasures(): string {
     slot(usps, "unemploymentRate").push({
       period: `${row.year}-${month[1]}`,
       periodEnd: monthEnd(row.year, Number(month[1])),
+      ...availabilityOf(lausLock, row.evidence.artifactId),
       value,
       national: null,
     });

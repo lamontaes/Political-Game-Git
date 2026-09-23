@@ -3,14 +3,16 @@ import { regionalMeasuresOn } from "../simulation/regional-issues/regional-measu
 import type { RegionalObservation } from "../simulation/regional-issues/regional-measures";
 
 /**
- * What living in the chosen hometown's state costs and pays, as published
- * figures the player can weigh before they start: housing prices against the
- * nation, what a two-bedroom rents for, what a typical family earns, and how
- * many are out of work.
+ * Published figures about the chosen hometown's state that the player can
+ * weigh before they start: how its housing prices compare with the nation,
+ * the federal fair market rent benchmark for a two-bedroom unit, area median
+ * family income, and the unemployment rate.
  *
- * Only figures whose period had ended by the life's start date. A figure that
- * is missing is left out, never shown as zero. Nothing here says whether any of
- * it is a political issue there: that is `regional-issues.ts`, awaiting
+ * Each line names its measure, the area it covers and the year it describes,
+ * because these are area benchmarks and statistics, not an apartment on offer
+ * or anyone's pay. Only figures public by the life's start date appear, and a
+ * missing figure is left out, never shown as zero. Nothing here says whether
+ * any of it is a political issue there: that is `regional-issues.ts`, awaiting
  * research.
  */
 export interface PlaceRegionalFact {
@@ -48,11 +50,20 @@ function housingPriceText(
 ): string | null {
   if (!index.national) return null;
   const percent = Math.round((index.value / index.national - 1) * 100);
-  if (percent === 0)
-    return `Housing in ${name} costs about the national average.`;
+  const lead = `In ${index.period}, housing prices across ${name} ran`;
+  if (percent === 0) return `${lead} about even with the national level.`;
   return percent > 0
-    ? `Housing in ${name} costs about ${percent}% more than the national average.`
-    : `Housing in ${name} costs about ${-percent}% less than the national average.`;
+    ? `${lead} about ${percent}% above the national level.`
+    : `${lead} about ${-percent}% below the national level.`;
+}
+
+function yearLabel(period: string): string {
+  const fiscal = /^FY(\d{4})$/.exec(period);
+  return fiscal ? `fiscal year ${fiscal[1]}` : period;
+}
+
+function nationally(national: number | null): string {
+  return national ? ` (${dollars(national)} nationally)` : "";
 }
 
 export function placeRegionalFacts(
@@ -77,18 +88,14 @@ export function placeRegionalFacts(
   if (rent)
     facts.push({
       key: "rent",
-      text: rent.national
-        ? `A two-bedroom apartment in ${name} rents for about ${dollars(rent.value)} a month, against ${dollars(rent.national)} nationally.`
-        : `A two-bedroom apartment in ${name} rents for about ${dollars(rent.value)} a month.`,
+      text: `The federal fair market rent for a two-bedroom unit, averaged across ${name}, is ${dollars(rent.value)} a month for ${yearLabel(rent.period)}${nationally(rent.national)}. It is a benchmark, not an apartment's asking rent.`,
     });
 
   const income = measures.medianFamilyIncome;
   if (income)
     facts.push({
       key: "family-income",
-      text: income.national
-        ? `A typical family in ${name} earns about ${dollars(income.value)} a year, against ${dollars(income.national)} nationally.`
-        : `A typical family in ${name} earns about ${dollars(income.value)} a year.`,
+      text: `Area median family income, averaged across ${name}, is ${dollars(income.value)} for ${yearLabel(income.period)}${nationally(income.national)}.`,
     });
 
   const jobless = measures.unemploymentRate;
@@ -96,7 +103,7 @@ export function placeRegionalFacts(
   if (jobless && month)
     facts.push({
       key: "unemployment",
-      text: `Unemployment in ${name} was ${jobless.value}% in ${month}.`,
+      text: `${name}'s seasonally adjusted unemployment rate was ${jobless.value}% in ${month}.`,
     });
 
   return facts;

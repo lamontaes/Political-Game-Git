@@ -12,11 +12,14 @@ import {
   REGIONAL_ISSUE_JURISDICTIONS,
   type JurisdictionRegionalIssues,
 } from "./regional-issues";
+import type { IsoDate } from "../types";
 import {
   regionalHousingCost,
   regionalMeasureJurisdictions,
   regionalMeasuresOn,
 } from "./regional-measures";
+
+const d = (date: string) => date as IsoDate;
 
 describe("regional measures", () => {
   it("regenerate byte-identically from the locked BEA, HUD and LAUS corpora", () => {
@@ -33,27 +36,51 @@ describe("regional measures", () => {
     );
   });
 
-  it("never answer with a period that had not ended on the date asked", () => {
-    const early = regionalMeasuresOn("US-RI", "2026-01-05")!;
-    expect(early.unemploymentRate?.period).toBe("2025-12");
-    expect(early.housingPriceIndex?.period).toBe("2024");
-    expect(early.twoBedroomFairMarketRent?.period).toBe("FY2025");
-    const before = regionalMeasuresOn("US-RI", "2019-06-01")!;
-    expect(before.housingPriceIndex).toBeNull();
-    expect(before.unemploymentRate).toBeNull();
+  it("show nothing before the locked edition was public", () => {
+    // BEA's SARPP edition carrying 2024 was released February 19, 2026.
+    expect(
+      regionalMeasuresOn("US-RI", d("2026-02-18"))!.housingPriceIndex,
+    ).toBeNull();
+    const released = regionalMeasuresOn("US-RI", d("2026-02-19"))!;
+    expect(released.housingPriceIndex?.period).toBe("2024");
+    expect(released.housingPriceIndex?.knownAvailableOnBasis).toBe(
+      "publisher-release-date",
+    );
+    // HUD's FY2025 Fair Market Rents were released August 14, 2024.
+    expect(
+      regionalMeasuresOn("US-RI", d("2024-08-13"))!.twoBedroomFairMarketRent,
+    ).toBeNull();
+    expect(
+      regionalMeasuresOn("US-RI", d("2024-08-14"))!.twoBedroomFairMarketRent
+        ?.period,
+    ).toBe("FY2025");
+    // LAUS and HUD income limits carry no release date, so they wait for the
+    // date they were retrieved.
+    const beforeRetrieval = regionalMeasuresOn("US-RI", d("2026-09-02"))!;
+    expect(beforeRetrieval.unemploymentRate).toBeNull();
+    expect(beforeRetrieval.medianFamilyIncome).toBeNull();
+    const retrieved = regionalMeasuresOn("US-RI", d("2026-09-03"))!;
+    expect(retrieved.unemploymentRate?.period).toBe("2026-07");
+    expect(retrieved.unemploymentRate?.knownAvailableOnBasis).toBe(
+      "retrieval-date-fallback",
+    );
+    expect(retrieved.medianFamilyIncome?.period).toBe("FY2025");
   });
 
   it("leave a series a place does not have unknown, not zero", () => {
-    const guam = regionalMeasuresOn("US-GU", "2026-01-05")!;
+    const guam = regionalMeasuresOn("US-GU", d("2026-09-03"))!;
     expect(guam.housingPriceIndex).toBeNull();
     expect(guam.unemploymentRate).toBeNull();
     expect(guam.twoBedroomFairMarketRent?.value).toBeGreaterThan(0);
-    expect(regionalMeasuresOn("US-ZZ", "2026-01-05")).toBeNull();
+    expect(regionalMeasuresOn("US-ZZ", d("2026-01-05"))).toBeNull();
   });
 
   it("give migration a housing cost against the nation", () => {
-    const california = regionalHousingCost("US-CA", "2026-01-05")!;
-    const mississippi = regionalHousingCost("US-MS", "2026-01-05")!;
+    const early = regionalHousingCost("US-CA", d("2026-01-05"))!;
+    expect(early.housingPriceRelativeToNation).toBeNull();
+    expect(early.rentShareOfMedianFamilyIncome).toBeNull();
+    const california = regionalHousingCost("US-CA", d("2026-09-03"))!;
+    const mississippi = regionalHousingCost("US-MS", d("2026-09-03"))!;
     expect(california.housingPriceRelativeToNation).toBeGreaterThan(1);
     expect(mississippi.housingPriceRelativeToNation).toBeLessThan(1);
     expect(california.rentShareOfMedianFamilyIncome).toBeGreaterThan(
@@ -111,7 +138,7 @@ describe("regional issues", () => {
   });
 
   it("lay each published figure beside the catalog issue it measures", () => {
-    const pressures = measuredPressures("US-RI", "2026-01-05");
+    const pressures = measuredPressures("US-RI", d("2026-09-03"));
     const housing = pressures.filter(
       (pressure) =>
         pressure.issueKey === "housing-land-use.housing-affordability",
@@ -129,27 +156,47 @@ describe("regional issues", () => {
 });
 
 describe("a hometown's regional figures", () => {
-  it("tell the player what housing costs and pays in Rhode Island", () => {
-    const providence = searchLifePlaces("Providence", 8, {
+  const providence = () =>
+    searchLifePlaces("Providence", 8, {
       stateJurisdictionKey: "US-RI",
       scope: "locality",
     }).find((place) => /^Providence,/i.test(place.displayName))!;
-    const facts = placeRegionalFacts(providence);
-    expect(facts.map((fact) => fact.key)).toEqual([
-      "housing-price",
-      "rent",
-      "family-income",
-      "unemployment",
-    ]);
-    const text = facts.map((fact) => fact.text).join("\n");
-    expect(text).toMatch(/Housing in Rhode Island costs about \d+% more/);
+
+  it("show only what was public when the life begins", () => {
+    const place = providence();
+    expect(place.context.initialMoment.date).toBe("2026-01-05");
+    const facts = placeRegionalFacts(place);
+    expect(facts.map((fact) => fact.key)).toEqual(["rent"]);
+    expect(facts[0]!.text).toBe(
+      "The federal fair market rent for a two-bedroom unit, averaged across Rhode Island, is $1,645 a month for fiscal year 2025 ($1,675 nationally). It is a benchmark, not an apartment's asking rent.",
+    );
+  });
+
+  it("label every figure as a benchmark or statistic with its area and year", () => {
+    const place = providence();
+    const later = {
+      ...place,
+      context: {
+        ...place.context,
+        initialMoment: {
+          ...place.context.initialMoment,
+          date: d("2026-09-03"),
+        },
+      },
+    } as typeof place;
+    const text = placeRegionalFacts(later)
+      .map((fact) => fact.text)
+      .join("\n");
     expect(text).toMatch(
-      /two-bedroom apartment in Rhode Island rents for about \$1,\d{3} a month/,
+      /In 2024, housing prices across Rhode Island ran about \d+% above the national level\./,
     );
     expect(text).toMatch(
-      /Unemployment in Rhode Island was [\d.]+% in December 2025\./,
+      /Area median family income, averaged across Rhode Island, is \$115,961 for fiscal year 2025/,
     );
-    expect(text).not.toMatch(/HUD|BEA|LAUS|Bureau|parity/);
+    expect(text).toMatch(
+      /Rhode Island's seasonally adjusted unemployment rate was [\d.]+% in July 2026\./,
+    );
+    expect(text).not.toMatch(/rents for|earns|HUD|BEA|LAUS|Bureau|parity/);
   });
 
   it("leave out what a territory's sources do not publish", () => {
@@ -157,7 +204,17 @@ describe("a hometown's regional figures", () => {
       stateJurisdictionKey: "US-PR",
     });
     expect(sanJuan).toBeDefined();
-    const keys = placeRegionalFacts(sanJuan!).map((fact) => fact.key);
+    const later = {
+      ...sanJuan!,
+      context: {
+        ...sanJuan!.context,
+        initialMoment: {
+          ...sanJuan!.context.initialMoment,
+          date: d("2026-09-03"),
+        },
+      },
+    } as typeof sanJuan;
+    const keys = placeRegionalFacts(later!).map((fact) => fact.key);
     expect(keys).toEqual(["rent", "family-income", "unemployment"]);
   });
 });
