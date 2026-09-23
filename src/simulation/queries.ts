@@ -218,6 +218,11 @@ export function didPeoplePreviouslyWorkTogether(
   );
 }
 
+import {
+  readRelationshipStanding,
+  type RelationshipDimension,
+} from "./relationship-standing";
+
 export type RelationshipCloseness =
   "none" | "acquainted" | "close" | "estranged";
 
@@ -227,38 +232,66 @@ export interface DerivedRelationshipSummary {
   readonly lastInteractionAt: IsoDate | null;
 }
 
+/**
+ * The old four-bucket reading, now expressed on top of the five lines.
+ *
+ * Kept because callers ask this question and a player-facing sentence needs a
+ * short answer, but it is no longer its own model: `relationship-standing.ts`
+ * holds the rules and this collapses them. "close" now needs affection or
+ * reliance rather than any interaction at all, and "estranged" needs live
+ * friction or an adverse line rather than a negative sum, so a quarrel that was
+ * made up is no longer permanent and a run of work meetings is no longer a
+ * friendship. Time apart is read per line; see that file and
+ * `relationship-absence.ts`.
+ */
 export function deriveRelationshipSummary(
   world: World,
   firstPersonId: EntityId,
   secondPersonId: EntityId,
 ): DerivedRelationshipSummary {
-  const history = relationshipHistory(world, firstPersonId, secondPersonId);
-  let hiddenScore = 0;
-  for (const interaction of history) {
-    const magnitude =
-      interaction.significance === "major"
-        ? 3
-        : interaction.significance === "meaningful"
-          ? 2
-          : 1;
-    hiddenScore +=
-      interaction.change === "ended" ||
-      interaction.change === "strained" ||
-      interaction.kind.startsWith("conflict:")
-        ? -magnitude
-        : magnitude;
-  }
+  const standing = readRelationshipStanding(
+    world,
+    firstPersonId,
+    secondPersonId,
+  );
+  const { readings } = standing;
+  const marked = (dimension: RelationshipDimension): boolean =>
+    readings[dimension].band === "marked" ||
+    readings[dimension].band === "strong";
+
+  // Time apart, per DEPTH2: warmth goes dormant rather than hostile and comes
+  // back quickly at a reunion; reliance needs current evidence; what is owed
+  // does not fade; a quarrel left alone goes quiet without being settled,
+  // which is distance rather than estrangement.
+  const currency = standing.absence.currency;
+  const warmthCurrent = currency === "current" || currency === "reconnecting";
+  const trustCurrent = currency === "current";
+  // A quarrel is live while they are in the usual way of seeing each other. A
+  // reunion brings it back into view without making them estranged again:
+  // civil but reluctant, until something new happens between them.
+  const tensionLive = currency === "current";
+
+  const estranged =
+    (marked("tension") && tensionLive) ||
+    (marked("warmth") && readings.warmth.adverse) ||
+    (marked("trust") && readings.trust.adverse);
+  const close =
+    !estranged &&
+    ((marked("warmth") && !readings.warmth.adverse && warmthCurrent) ||
+      (marked("trust") && !readings.trust.adverse && trustCurrent) ||
+      marked("commitment"));
+
   return {
     closeness:
-      history.length === 0
+      standing.interactionCount === 0
         ? "none"
-        : hiddenScore < 0
+        : estranged
           ? "estranged"
-          : hiddenScore >= 3
+          : close
             ? "close"
             : "acquainted",
-    interactionCount: history.length,
-    lastInteractionAt: history.at(-1)?.occurredAt ?? null,
+    interactionCount: standing.interactionCount,
+    lastInteractionAt: standing.lastInteractionAt,
   };
 }
 

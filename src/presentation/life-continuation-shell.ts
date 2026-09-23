@@ -1,5 +1,9 @@
 import type { EntityId, World } from "../simulation";
-import { controlHandoffs, lifeEnd } from "../simulation/people-continuation";
+import {
+  controlHandoffs,
+  lifeEnd,
+  observerAnchorPersonId,
+} from "../simulation/people-continuation";
 import {
   projectLifeContinuation,
   type LifeContinuationView,
@@ -14,12 +18,27 @@ import type { ShellSurface } from "./shell-navigation";
 
 /**
  * Whose eyes the shell reads the world through: the controlled character, or
- * — while observing — the last character played. Null when there is nobody.
+ * — while observing — the last character played, or, in a world watched from
+ * its start, the resident it is watched from. Null when there is nobody.
  */
 export function shellViewpointPersonId(world: World): EntityId | null {
   if (world.control.kind === "person") return world.control.personId;
+  const last = lastPlayedPersonId(world);
+  return last ?? observerAnchorPersonId(world);
+}
+
+function lastPlayedPersonId(world: World): EntityId | null {
   const last = controlHandoffs(world).at(-1)?.fromPersonId ?? null;
   return last !== null && world.people[last] ? last : null;
+}
+
+/** A world opened with nobody played, rather than one whose life ended. */
+export function watchedFromStart(world: World): boolean {
+  return (
+    world.control.kind === "observer" &&
+    lastPlayedPersonId(world) === null &&
+    observerAnchorPersonId(world) !== null
+  );
 }
 
 export function isObserving(world: World): boolean {
@@ -42,7 +61,12 @@ export function shellReadOnly(world: World): boolean {
 export function playedLifeContinuation(
   world: World,
 ): LifeContinuationView | null {
-  const personId = shellViewpointPersonId(world);
+  // Nobody was ever played in a world watched from its start, so there is no
+  // life for anybody to continue.
+  const personId =
+    world.control.kind === "person"
+      ? world.control.personId
+      : lastPlayedPersonId(world);
   return personId === null ? null : projectLifeContinuation(world, personId);
 }
 
@@ -68,11 +92,13 @@ const READ_ONLY_SURFACES: readonly (ShellSurface | "entity")[] = [
   "news",
   "journal",
   "government",
+  "government-map",
   "municipal",
   "parties",
   "politics",
   "options",
   "patch-notes",
+  "world-record",
   "entity",
 ];
 
