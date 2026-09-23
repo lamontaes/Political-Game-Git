@@ -985,6 +985,76 @@ describe("G2 — output cleanup honors the protected boundary", () => {
     ).toThrowError(/real run directory/);
     expect(existsSync(other)).toBe(true);
   });
+
+  it("refuses old manifested runs targeted by a live reservation, including a nested target", () => {
+    const workspace = path.join(sandbox, "PG-WS-LIVE-OLD");
+    const root = path.join(workspace, "test-results", "runs");
+    const old = run(root, "old", 5000, (folder) => {
+      mkdirSync(path.join(folder, "nested"));
+      writeFileSync(path.join(folder, "nested", "result.txt"), "result");
+    });
+    const guard = createStorageGuard({
+      stateDir: path.join(sandbox, "state"),
+      freeBytes: () => 200 * GiB,
+      policy,
+    });
+    guard.register({ owner: "A", folder: workspace });
+    guard.registerOutputRoot({ root });
+    const item = { path: old, expectedManifest: contentManifest(old) };
+    for (const target of [old, path.join(old, "nested")]) {
+      const lease = guard.reserve({ operation: "test", target, owner: "A" });
+      expect(() => guard.retireOutputRuns(root, [item])).toThrowError(
+        /live.*targets this run/,
+      );
+      guard.release(lease.id);
+    }
+    expect(existsSync(old)).toBe(true);
+  });
+
+  it("refuses late active workspaces inside a manifested output run", () => {
+    const workspace = path.join(sandbox, "PG-WS-NESTED-ACTIVE");
+    const root = path.join(workspace, "test-results", "runs");
+    const old = run(root, "old", 5000, (folder) =>
+      mkdirSync(path.join(folder, "source")),
+    );
+    const guard = guardWith();
+    guard.register({ owner: "A", folder: workspace });
+    guard.registerOutputRoot({ root });
+    const item = { path: old, expectedManifest: contentManifest(old) };
+    guard.register({ owner: "B", folder: path.join(old, "source") });
+    expect(() => guard.retireOutputRuns(root, [item])).toThrowError(
+      /active-workspace/,
+    );
+    expect(existsSync(old)).toBe(true);
+  });
+
+  it("refuses a nested Git source or external symlink dependent in a run", () => {
+    const workspace = path.join(sandbox, "PG-WS-RUN-SOURCE");
+    const root = path.join(workspace, "test-results", "runs");
+    const source = run(root, "source", 5000, (folder) => {
+      mkdirSync(path.join(folder, "nested"));
+      writeFileSync(path.join(folder, "nested", ".git"), "gitdir: held");
+    });
+    const dependent = run(root, "dependent", 5001);
+    const guard = guardWith();
+    guard.register({ owner: "A", folder: workspace });
+    guard.registerOutputRoot({ root });
+    expect(() =>
+      guard.retireOutputRuns(root, [
+        { path: source, expectedManifest: contentManifest(source) },
+      ]),
+    ).toThrowError(/holds-source/);
+    const item = {
+      path: dependent,
+      expectedManifest: contentManifest(dependent),
+    };
+    symlinkSync(dependent, path.join(workspace, "shared-run"));
+    expect(() => guard.retireOutputRuns(root, [item])).toThrowError(
+      /symlink-target/,
+    );
+    expect(existsSync(source)).toBe(true);
+    expect(existsSync(dependent)).toBe(true);
+  });
 });
 
 describe("G3 — the reservation is held through the actual child operation", () => {

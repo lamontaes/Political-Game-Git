@@ -876,6 +876,15 @@ export function createStorageGuard(options = {}) {
       }
       for (const name of entries) {
         const sibling = path.join(root, name);
+        try {
+          if (lstatSync(sibling).isSymbolicLink()) {
+            if (isInside(real(sibling), folder))
+              dependents.push(`${sibling} → ${real(sibling)}`);
+            continue;
+          }
+        } catch {
+          continue;
+        }
         if ((real(sibling) + path.sep).startsWith(inside)) continue;
         for (const holder of [sibling, path.join(sibling, "desktop")]) {
           let links = [];
@@ -1202,12 +1211,17 @@ export function createStorageGuard(options = {}) {
   /** Why one run directory must stay, or null when it is eligible. */
   function keepReason(run, registration) {
     if (holdsPin(run.path)) return "pinned";
+    for (const entry of registry().workspaces)
+      if (entry.state === "active" && isInside(entry.path, run.path))
+        return `active-workspace: ${entry.owner}`;
     for (const entry of protectedList())
       if (isInside(entry.path, run.path) || isInside(run.path, entry.path))
         return `protected: ${entry.path}`;
     for (const entry of liveReservations()) {
       if ((entry.outputPaths ?? []).some((held) => isInside(held, run.path)))
         return `live: ${entry.operation} by ${entry.owner} is writing it`;
+      if (isInside(entry.target, run.path))
+        return `live: ${entry.operation} by ${entry.owner} targets this run`;
       if (isInside(run.path, entry.target) && run.mtimeMs >= entry.createdAt)
         return `live: written since ${entry.operation} by ${entry.owner} began`;
     }
@@ -1217,6 +1231,42 @@ export function createStorageGuard(options = {}) {
       run.mtimeMs < registration.registeredAt
     )
       return "historical: older than this root's registration, no disposition recorded";
+    return null;
+  }
+
+  /** A run may be ordinary output only while it holds no source or external
+   * dependency. Scan only at a deletion boundary, never merely to measure a
+   * root for admission. Symlinks inside the run are not traversed.
+   */
+  function sourceOrDependencyReason(folder, root) {
+    const current = registry();
+    const nestedRoot = (current.outputRoots ?? []).find(
+      (entry) => entry.path !== root && isInside(entry.path, folder),
+    );
+    if (nestedRoot) return `registered-output-root: ${nestedRoot.path}`;
+    const searchRoots = [
+      ...new Set([
+        path.dirname(root),
+        ...current.workspaces.map((entry) => entry.path),
+      ]),
+    ];
+    const linked = symlinkDependents(folder, searchRoots);
+    if (linked.length) return `symlink-target: ${linked.join(", ")}`;
+    const pending = [folder];
+    while (pending.length) {
+      const directory = pending.pop();
+      let entries;
+      try {
+        entries = readdirSync(directory, { withFileTypes: true });
+      } catch {
+        return `unreadable-output: ${directory}`;
+      }
+      for (const entry of entries) {
+        if (entry.name === ".git") return `holds-source: ${directory}`;
+        if (entry.isDirectory() && !entry.isSymbolicLink())
+          pending.push(path.join(directory, entry.name));
+      }
+    }
     return null;
   }
 
@@ -1292,10 +1342,17 @@ export function createStorageGuard(options = {}) {
         });
         continue;
       }
+      const structural = sourceOrDependencyReason(run.path, base);
+      if (structural !== null) {
+        kept.push({ ...run, pinned: false, reason: structural });
+        continue;
+      }
       if (apply) {
         // Recheck at the moment of removal: a pin, a protection or a live
         // producer may have appeared since the listing above.
-        const late = keepReason(run, registration);
+        const late =
+          keepReason(run, registration) ??
+          sourceOrDependencyReason(run.path, base);
         const still = real(run.path);
         if (late !== null || !isInside(still, base) || still === base) {
           kept.push({ ...run, pinned: late === "pinned", reason: late });
@@ -1377,6 +1434,12 @@ export function createStorageGuard(options = {}) {
         throw new StorageRefusal(
           "held-output-run",
           `Refused: ${named} is ${reason}.`,
+        );
+      const structural = sourceOrDependencyReason(named, base);
+      if (structural !== null)
+        throw new StorageRefusal(
+          "held-output-run",
+          `Refused: ${named} is ${structural}.`,
         );
       const actual = contentManifest(named);
       if (
