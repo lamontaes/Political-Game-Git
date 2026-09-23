@@ -1,3 +1,4 @@
+import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
@@ -36,6 +37,7 @@ import {
   resolveFormativeCompanion,
 } from "./formative-context";
 import type { ConversationRoomContext } from "./run-b-conversation";
+import { payFirstJob } from "../simulation/job-market";
 
 /**
  * The growing-up years, played.
@@ -305,7 +307,10 @@ export function chooseFormativeOption(
   if (result.status === "blocked") {
     return result.world;
   }
-  return result.world;
+  // The job is paid, so it is paid from the day it is taken.
+  return takingTheJob
+    ? payFirstJob(result.world, input.personId)
+    : result.world;
 }
 
 /**
@@ -411,20 +416,26 @@ function advanceToNextMoment(
   // Explicit long formative skips still use the same routine clock. Bounded
   // requests avoid exhausting its finite daily-resolution loop; any reached
   // interruption stops the whole request rather than being jumped around.
-  let advanced = world;
-  for (let remaining = days; remaining > 0;) {
-    const chunk = Math.min(31, remaining);
-    const targetDate = addDays(advanced.currentDate, chunk);
-    const next = advanceDays(advanced, chunk);
-    advanced = next;
-    if (
-      next.currentDate < targetDate ||
-      (next.currentDate === targetDate &&
-        next.currentMoment.minuteOfDay < ORDINARY_DAY_START_MINUTE)
-    )
-      break;
-    remaining -= chunk;
-  }
+  // The chunks are one press, so the whole World is validated once, when the
+  // last chunk lands, not after each month. On a long save each check read
+  // every record, and a year skip paid for seven of them.
+  const advanced = advanceWithWorldIntegrityAtEnd(() => {
+    let reached = world;
+    for (let remaining = days; remaining > 0;) {
+      const chunk = Math.min(31, remaining);
+      const targetDate = addDays(reached.currentDate, chunk);
+      const next = advanceDays(reached, chunk);
+      reached = next;
+      if (
+        next.currentDate < targetDate ||
+        (next.currentDate === targetDate &&
+          next.currentMoment.minuteOfDay < ORDINARY_DAY_START_MINUTE)
+      )
+        break;
+      remaining -= chunk;
+    }
+    return reached;
+  });
   return refreshLifeCircumstances(advanced, personId);
 }
 

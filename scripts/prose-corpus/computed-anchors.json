@@ -155,6 +155,22 @@
       "textRevision": "b80ce067127c"
     },
     {
+      "anchor": "ACTION_HEADLINES-0020",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Approved without a signature",
+      "occurrence": 0,
+      "textRevision": "4f87cf4ceb17"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0021",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "The veto stood",
+      "occurrence": 0,
+      "textRevision": "6c83ed3827c1"
+    },
+    {
       "anchor": "ART_PREVIEW_LABEL-0001",
       "sourcePath": "src/presentation/art-preview.ts",
       "symbol": "ART_PREVIEW_LABEL",
@@ -1817,6 +1833,62 @@
       "text": "Start a recall petition",
       "occurrence": 0,
       "textRevision": "8b83ccfb6f97"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0088",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Approved without {governing.executiveName}'s signature. ",
+      "occurrence": 0,
+      "textRevision": "da7c8ae7b075"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0089",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Reenacted over the return. ",
+      "occurrence": 0,
+      "textRevision": "8a9881eae087"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0090",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Signed by {governing.executiveName}. ",
+      "occurrence": 0,
+      "textRevision": "41e94ced3325"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0091",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "The council did not pass it.",
+      "occurrence": 0,
+      "textRevision": "85eb7238edb0"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0092",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "a date not read",
+      "occurrence": 0,
+      "textRevision": "b4e052d9c3f7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0093",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "a date not read",
+      "occurrence": 1,
+      "textRevision": "b4e052d9c3f7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0094",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "{governing.executiveName.charAt(0).toUpperCase()+governing.executiveName.slice(1)} returned it, and it was not reenacted.",
+      "occurrence": 0,
+      "textRevision": "a3018b3eac3a"
     },
     {
       "anchor": "OPTIONS-0001",
@@ -3913,6 +3985,22 @@
       "text": "{years} years later",
       "occurrence": 0,
       "textRevision": "9ca23e47665b"
+    },
+    {
+      "anchor": "elapsedPhrase-0010",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "A year and a half on",
+      "occurrence": 0,
+      "textRevision": "5ddabad67856"
+    },
+    {
+      "anchor": "elapsedPhrase-0011",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "Most of a year later",
+      "occurrence": 0,
+      "textRevision": "ce7a93efa7eb"
     },
     {
       "anchor": "executiveSource-0001",
@@ -6294,25 +6382,33 @@
       "anchor": "projectCampaign-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} lost. That is a thing that happened to them, not the end of them — tomorrow is still there.",
+      "text": "{candidateName} lost{resultMargin(result,personId)}. That is a thing that happened to them, not the end of them — tomorrow is still there.",
       "occurrence": 0,
-      "textRevision": "0486ea5ede7c"
+      "textRevision": "3d0e0d36028a"
     },
     {
       "anchor": "projectCampaign-0002",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won.",
+      "text": "{candidateName} won{resultMargin(result,personId)}.",
       "occurrence": 0,
-      "textRevision": "7b3d27de03a5"
+      "textRevision": "fe5082dbd274"
     },
     {
       "anchor": "projectCampaign-0003",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
+      "text": "{candidateName} won{resultMargin(result,personId)}. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
       "occurrence": 0,
-      "textRevision": "17d4e131512b"
+      "textRevision": "82d601f954f4"
+    },
+    {
+      "anchor": "projectCampaign-0004",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won{resultMargin(result,personId)} and keeps the seat. The new term begins {proseDate(term.startsAt)}.",
+      "occurrence": 0,
+      "textRevision": "e1f6b7d4eb13"
     },
     {
       "anchor": "projectDisclosure-0001",

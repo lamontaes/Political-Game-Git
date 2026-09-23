@@ -1,3 +1,4 @@
+import { settledQualification } from "./settled-qualifications";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import {
   legislatureForState,
@@ -17,6 +18,10 @@ import type { ElectiveOfficeRef } from "./types";
 import { candidateQualificationRuleSet } from "./candidate-qualification";
 import { makeIsoDate } from "./dates";
 import { stateExecutiveCandidacyPacks } from "./nationwide-world/state-executive-candidacy-packs";
+import {
+  congressCandidacyPack,
+  congressSeatIdentityForPackId,
+} from "./nationwide-world/congress-candidacy-packs";
 import {
   localGoverningBodyCandidacyPack,
   localGoverningBodyIdentityForPackId,
@@ -316,6 +321,14 @@ function officeQualification(
     const standIn = (
       field: Parameters<typeof standInQualification>[1],
     ): RuleValue<number> => {
+      // A value the state's constitution states plainly is applied before the
+      // corpus reaches it, instead of a draw that would contradict it.
+      const settled = settledQualification(
+        jurisdictionKey,
+        field,
+        officeFamily,
+      );
+      if (settled !== null) return knownRule(settled.value, settled.source);
       const drawn = standInQualification(jurisdictionKey, field, officeFamily);
       if (drawn === null) return unknownRule(NO_QUALIFICATION_CORPUS);
       return knownRule(drawn.value, standInQualificationSourceRef(drawn));
@@ -427,7 +440,7 @@ export function candidacyPacks(): readonly CandidacyPack[] {
 
 /**
  * A candidacy pack by id: an accepted legislative pack, a state's single
- * executive office, or a town's governing body. Executive offices are resolvable here so a filed campaign
+ * executive office, a town's governing body, or a seat in Congress. Executive offices are resolvable here so a filed campaign
  * keeps its authority, but they are not listed by `candidacyPacks()`: that set
  * still says which states have accepted legislative rules, and an executive
  * office pack carries no sourced qualification of its own.
@@ -438,8 +451,14 @@ export function candidacyPackById(packId: string): CandidacyPack | null {
     stateExecutiveCandidacyPacks().find((pack) => pack.packId === packId) ??
     localGoverningBodyPack(packId) ??
     generatedCandidacyPackById(packId) ??
-    null
+    congressPack(packId)
   );
+}
+
+/** A seat in Congress, resolved from its own pack id; built on demand. */
+function congressPack(packId: string): CandidacyPack | null {
+  const identity = congressSeatIdentityForPackId(packId);
+  return identity ? congressCandidacyPack(identity) : null;
 }
 
 /** A town's governing body, resolved from its own pack id; built on demand. */

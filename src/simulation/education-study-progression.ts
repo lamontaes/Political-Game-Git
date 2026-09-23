@@ -472,7 +472,7 @@ export function cancelStudyPeriodDues(
         dueItemId: due.id,
         effectiveAt: next.currentDate,
         reasonKey: "education:study-interrupted",
-        context: "Study interrupted; period due cancelled.",
+        context: "Study interrupted; period due canceled.",
       });
   }
   return next;

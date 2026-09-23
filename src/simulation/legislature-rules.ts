@@ -851,13 +851,19 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
   if (pack.jurisdictionKey.trim().length === 0) {
     throw new Error(`Rule pack '${pack.packId}' must name a jurisdiction.`);
   }
+  // Congress is the one legislature above the states: its pack names the
+  // United States and encodes no state.
+  const federal =
+    pack.jurisdictionKey === "US" && /^us-congress-/.test(pack.packId);
   const packState = /^us-([a-z]{2})-/.exec(pack.packId)?.[1];
-  if (!packState) {
+  if (!federal && !packState) {
     throw new Error(
       `Rule pack '${pack.packId}' must encode a standardized two-letter state segment.`,
     );
   }
-  const encodedJurisdictionKey = `US-${packState.toUpperCase()}`;
+  const encodedJurisdictionKey = federal
+    ? "US"
+    : `US-${packState!.toUpperCase()}`;
   if (pack.jurisdictionKey !== encodedJurisdictionKey) {
     throw new Error(
       `Rule pack '${pack.packId}' encodes '${encodedJurisdictionKey}' but declares jurisdiction '${pack.jurisdictionKey}'.`,
@@ -918,11 +924,15 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
       );
     }
     if (formalSeats.kind === "known") {
-      const acceptable =
-        pack.basis === "game-profile" ? "game-profile" : "verified";
-      if (formalSeats.source.verification !== acceptable) {
+      // A generated pack may carry a settled, verified size in place of its
+      // draw; a researched pack may carry nothing but a verified one.
+      const acceptable: readonly string[] =
+        pack.basis === "game-profile"
+          ? ["game-profile", "verified"]
+          : ["verified"];
+      if (!acceptable.includes(formalSeats.source.verification)) {
         throw new Error(
-          `Known formal seat count for '${chamber.chamberKey}' must cite a ${acceptable} source.`,
+          `Known formal seat count for '${chamber.chamberKey}' must cite a ${acceptable.join(" or ")} source.`,
         );
       }
     }

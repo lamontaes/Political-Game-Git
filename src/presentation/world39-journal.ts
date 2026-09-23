@@ -1,5 +1,6 @@
 import {
   ageOnDate,
+  electionContestResult,
   personName,
   organizationProfileAt,
   privateBeliefHistory,
@@ -9,6 +10,9 @@ import {
   type IsoDate,
   type World,
 } from "../simulation";
+import { INTRODUCTION_EVENT } from "../simulation/social-introductions";
+import { crimeJournalLine } from "../simulation/crime/journal";
+import { ownElectionResultSentence } from "./own-election";
 import { proseDate, proseMonthYear, proseYear } from "./prose-dates";
 
 export interface World39BiographyEntry {
@@ -61,6 +65,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
   const entries: World39BiographyEntry[] = [];
   if (!person) return { name: "", entries, chapters: [] };
   const frontier = { historySequenceExclusive: world.history.nextSequence };
+  const ownName = personName(person);
   entries.push({
     id: `birth:${person.id}`,
     at: person.birthDate,
@@ -207,7 +212,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
         row.personId === personId &&
         (row.role.startsWith("agency:") || row.role.startsWith("presence:")),
     );
-    const directlyKnown = world.history.knowledge.some(
+    const directKnowledge = world.history.knowledge.find(
       (row) =>
         row.personId === personId &&
         row.eventId === event.id &&
@@ -215,10 +220,31 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
         row.source.kind === "direct" &&
         row.accuracy === "accurate",
     );
-    if (!participated && !directlyKnown) continue;
+    if (!participated && !directKnowledge) continue;
+    // Somebody something happened to (a crime's victim) knows it in their own
+    // words; the event's summary is the public log's ("Police in Fairbanks
+    // took a report of an assault"), which reads as a town notice.
+    const affected = event.participants.some(
+      (row) => row.personId === personId && row.role.startsWith("impact:"),
+    );
+    const ownWords =
+      affected && directKnowledge?.believedSummary.trim()
+        ? directKnowledge.believedSummary
+        : null;
     if (/^(setup|simulation|information|evidence|world)\./.test(event.type))
       continue;
-    const text = livedWorld39Sentence(event.summary);
+    if (STANDING_STATE_EVENT_TYPES.has(event.type)) continue;
+    // A crime says what happened to its victim; nobody else's Journal has it.
+    const crimeLine = crimeJournalLine(event, personId);
+    if (crimeLine === null) continue;
+    const text = livedWorld39Sentence(
+      crimeLine ??
+        (event.type === "life.conversation"
+          ? conversationSentence(world, event, personId)
+          : (event.type === INTRODUCTION_EVENT &&
+              introductionSentence(world, event, personId)) ||
+            inOwnVoice(ownWords ?? event.summary, ownName)),
+    );
     if (!text) continue;
     covered.add(event.id);
     entries.push({
@@ -282,7 +308,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
       at: account.learnedAt,
       sequence: account.sequence,
       kind: "account",
-      text: account.believedSummary,
+      text: inOwnVoice(account.believedSummary, ownName),
       sourceId: account.id,
     });
   }
@@ -350,6 +376,22 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
       sourceId: commitment.id,
     });
   }
+  for (const contest of world.history.electionContests ?? []) {
+    if (!contest.candidatePersonIds.includes(personId)) continue;
+    const result = electionContestResult(world, contest.id);
+    const sentence = result
+      ? ownElectionResultSentence(world, contest.id, personId)
+      : null;
+    if (!result || !sentence || result.resolvedAt > world.currentDate) continue;
+    entries.push({
+      id: `election-result:${result.id}`,
+      at: result.resolvedAt,
+      sequence: result.sequence,
+      kind: "event",
+      text: sentence,
+      sourceId: result.id,
+    });
+  }
   const sorted = entries.sort(
     (a, b) =>
       a.at.localeCompare(b.at) ||
@@ -392,6 +434,142 @@ export function groupWorld39Chapters(
     });
   }
   return chapters;
+}
+
+/**
+ * Events that record the state of an open item rather than something that
+ * happened: a posted agenda, coursework still due, a choice still open. Their
+ * summaries describe the present ("is due", "You have a path"), and the
+ * record's open items already carry them, so the account leaves them out.
+ */
+const STANDING_STATE_EVENT_TYPES = new Set([
+  "civic.meeting-agenda-item",
+  "school.shared-assignment",
+  "work.own-shift-coverage-needed",
+  "life.education-work-crossroad",
+]);
+
+/**
+ * A canonical summary names people in the third person ("Selena McGuire met
+ * Alice May"). The account is addressed to its subject, so their own name
+ * becomes "you". Only the name is replaced, plus the verb agreement that a
+ * leading "You" needs; the rest of the sentence keeps its own words.
+ */
+export function inOwnVoice(text: string, ownName: string): string {
+  if (!ownName) return text;
+  let out = text;
+  if (out.startsWith(`${ownName}'s `)) {
+    out = `Your ${out.slice(ownName.length + 3)}`;
+  } else if (out.startsWith(`${ownName} `)) {
+    const rest = out
+      .slice(ownName.length + 1)
+      .replace(/^(was|is|has)\b/, (verb) => AGREEMENT[verb]!);
+    out = `You ${rest}`;
+  }
+  // Whole names only, so "Ann Lee" never matches inside "Joann Lee".
+  const name = ownName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return out
+    .replace(new RegExp(`(?<![\\w-])${name}'s\\b`, "g"), "your")
+    .replace(new RegExp(`(?<![\\w-])${name}(?![\\w-])`, "g"), "you");
+}
+
+const AGREEMENT: Readonly<Record<string, string>> = {
+  was: "were",
+  is: "are",
+  has: "have",
+};
+
+/** What the speaker did, in the past tense, for each fixed talk intent. */
+const SPOKEN_PAST: Readonly<Record<string, (name: string) => string>> = {
+  greet: (name) => `You said hello to ${name}.`,
+  scene: (name) =>
+    `You talked with ${name} about what was happening around you.`,
+  activity: (name) => `You asked ${name} what they would like to do.`,
+  explain: (name) => `You asked ${name} why.`,
+  suggestGame: (name) => `You suggested playing a game with ${name}.`,
+  suggestQuiet: (name) => `You suggested sitting and talking with ${name}.`,
+  share: (name) => `You asked ${name} if you could tell them something.`,
+  matter: (name) => `You mentioned something in the news to ${name}.`,
+  remember: (name) => `You talked with ${name} about an earlier conversation.`,
+  acknowledge: (name) => `You let ${name} know you had heard.`,
+  leave: (name) => `You said goodbye to ${name}.`,
+  date: (name) => `You asked ${name} if they would like it to be a date.`,
+  spendTime: (name) => `You spent half an hour with ${name}.`,
+  acceptProposal: (name) => `You agreed to ${name}'s suggestion.`,
+  declineProposal: (name) => `You declined ${name}'s suggestion.`,
+  cancelProposal: (name) => `You canceled your plans with ${name}.`,
+  nothing: (name) => `You told ${name} it could wait.`,
+};
+
+/**
+ * A conversation's canonical summary is its transcript ("Selena McGuire: Say
+ * hello. Dakota Austin: Hi, Selena."), which reads as a script in a life
+ * story. The account says what this person did in it, from the event's own
+ * intent tag and participants.
+ */
+function conversationSentence(
+  world: World,
+  event: World["history"]["events"][number],
+  personId: EntityId,
+): string {
+  const speakerId = event.participants.find(
+    (row) => row.role === "focus:subject",
+  )?.personId;
+  const listenerId = event.participants.find(
+    (row) => row.role === "coordination:counterpart",
+  )?.personId;
+  const nameOf = (id: EntityId | undefined) => {
+    const somebody = id ? world.people[id] : undefined;
+    return somebody ? personName(somebody) : "somebody";
+  };
+  if (personId === speakerId) {
+    const intent =
+      event.tags
+        .find((tag) => tag.startsWith("life.talk:"))
+        ?.slice("life.talk:".length) ?? "";
+    const phrase = SPOKEN_PAST[intent];
+    const listener = nameOf(listenerId);
+    return phrase ? phrase(listener) : `You talked with ${listener}.`;
+  }
+  if (personId === listenerId) return `You talked with ${nameOf(speakerId)}.`;
+  return `You heard ${nameOf(speakerId)} talking with ${nameOf(listenerId)}.`;
+}
+
+/**
+ * An introduction's summary names both people in the third person. The
+ * account says who this person met, and where, from the event's own
+ * participants and the setting phrase its social context carries.
+ */
+function introductionSentence(
+  world: World,
+  event: World["history"]["events"][number],
+  personId: EntityId,
+): string | null {
+  const phrase = /^Two people meeting (.+)\.$/.exec(
+    event.context.socialContext ?? "",
+  )?.[1];
+  if (!phrase) return null;
+  const nameOf = (id: EntityId) => {
+    const somebody = world.people[id];
+    return somebody ? personName(somebody) : null;
+  };
+  const met = event.participants.filter(
+    (row) => row.detail === "Met somebody new",
+  );
+  if (met.some((row) => row.personId === personId)) {
+    const other = met.find((row) => row.personId !== personId);
+    const name = other ? nameOf(other.personId) : null;
+    return name ? `You met ${name} ${phrase}.` : null;
+  }
+  if (
+    event.participants.some(
+      (row) => row.personId === personId && row.role === "agency:introducer",
+    )
+  ) {
+    const [first, second] = met.map((row) => nameOf(row.personId));
+    return first && second ? `You introduced ${first} to ${second}.` : null;
+  }
+  return null;
 }
 
 /** Offer-state events the opportunity producer records before anything happens. */

@@ -46,7 +46,7 @@
       "code-beliefs: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/political-belief-formation.ts — Existing evaluator, personally sourced factors, private record, no-opinion and player/NPC boundary.",
       "code-policy-pack: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/policy-packs.ts — Authored-fiction/sourced provenance, cross-pack issue references, optional proposition rows; inspected lines 1–210.",
       "code-policy: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/policy.ts — Definition construction and parameter validation, inspected lines 1–230.",
-      "code-vocabulary: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/policy-pack-us-state-and-local.ts — Current 13-domain issue keys, actual issue rows read in lines 1–770. This is not a new count of the entire catalogue.",
+      "code-vocabulary: https://github.com/lamontaes/Political-Game-Git/blob/4965f63c41fe69621c72f47725c0d2914257f3ea/src/simulation/policy-pack-us-state-and-local.ts — Current 13-domain issue keys, actual issue rows read in lines 1–770. This is not a new count of the entire catalog.",
       "current-queue: https://docs.google.com/document/d/1yVVxtG0YNaKsb85O5TF9ZkxGWWU5N9sSoQWM1qa_FVM/edit — Read complete 16:34Z / 22-open / 44-answered render. Worker caller counts beyond independently inspected bodies remain reports."
     ],
     "answeredBy": "ChatGPT",

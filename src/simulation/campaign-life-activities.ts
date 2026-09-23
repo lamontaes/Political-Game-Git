@@ -145,6 +145,18 @@ const LIFE = {
   contactAgeYears: [22, 75],
 } as const;
 
+/** Whether this person is old enough to take up party and campaign work. */
+export function oldEnoughForCampaignLife(
+  world: World,
+  personId: EntityId,
+): boolean {
+  const person = world.people[personId];
+  return (
+    !!person &&
+    ageOnDate(person.birthDate, world.currentDate) >= LIFE.minimumAge
+  );
+}
+
 const FIELD_FORMS: readonly CampaignLifeForm[] = [
   "door-canvass",
   "phone-shift",
@@ -178,6 +190,8 @@ export interface RequestCampaignLifeActivityInput {
 function controlled(world: World, personId: EntityId): boolean {
   return world.control.kind === "person" && world.control.personId === personId;
 }
+
+const HOST_UNAVAILABLE = "Nobody is available to host that.";
 
 function deceased(world: World, personId: EntityId): boolean {
   return world.history.personDeaths.some(
@@ -327,6 +341,21 @@ function journeyFor(
   );
 }
 
+/**
+ * The last moment a yes can still be given to an offered hold: when the person
+ * would have to set out for it, or its start when nobody travels. Accepting
+ * refuses from this moment on, and the projection stops offering it here, so
+ * the two cannot disagree. A canceled journey still says when it would have
+ * left, which keeps the moment readable after a lapse released it.
+ */
+function answerDeadline(
+  world: World,
+  hold: ScheduledActivityRecord,
+): SimulationMoment {
+  const journey = journeyFor(world, hold);
+  return scheduledActivityState(world, (journey ?? hold).id).start;
+}
+
 function outcomeFor(
   world: World,
   lifeActivityId: EntityId,
@@ -364,6 +393,57 @@ function busy(
       state.status === "scheduled" &&
       compareSimulationMoments(start, state.end) < 0 &&
       compareSimulationMoments(state.start, end) < 0
+    );
+  });
+}
+
+/**
+ * The return leg home from the community room, in minutes, for a hold that has
+ * the authored journey there; zero for anything worked from where you are.
+ */
+function returnMinutes(world: World, hold: ScheduledActivityRecord): number {
+  const journey = journeyFor(world, hold);
+  if (!journey) return 0;
+  const state = scheduledActivityState(world, journey.id);
+  return Math.max(0, simulationMinutesBetween(state.start, state.end));
+}
+
+/**
+ * `busy`, for the person who has to be there, counting the walk home.
+ *
+ * An in-person evening ends at the community room, and the person still has
+ * to get home before anything worked from home can begin. Only the journey
+ * there was ever on the calendar, so a phone shift could be booked for the
+ * minute a meeting ended: the walk home then collided with it and did
+ * nothing, and the shift could not be worked from the community room (mass
+ * play in Bisbee, Arizona, 2026-09-23). The new hold's own walk home and every
+ * existing in-person hold's walk home are counted here.
+ */
+function subjectBusy(
+  world: World,
+  personId: EntityId,
+  entry: CampaignLifeCatalogEntry,
+  leave: SimulationMoment,
+  end: SimulationMoment,
+  ignoredActivityIds: readonly EntityId[] = [],
+): boolean {
+  const home =
+    entry.journeyKey === null
+      ? end
+      : addSimulationMinutes(end, entry.journeyMinutes);
+  if (busy(world, [personId], leave, home, ignoredActivityIds)) return true;
+  return world.history.scheduledActivities.some((activity) => {
+    if (ignoredActivityIds.includes(activity.id)) return false;
+    if (!activity.participantPersonIds.includes(personId)) return false;
+    if (activity.kind === "travel") return false;
+    const state = scheduledActivityState(world, activity.id);
+    if (state.status !== "scheduled") return false;
+    const back = returnMinutes(world, activity);
+    if (back === 0) return false;
+    const backHome = addSimulationMinutes(state.end, back);
+    return (
+      compareSimulationMoments(leave, backHome) < 0 &&
+      compareSimulationMoments(state.start, home) < 0
     );
   });
 }
@@ -409,7 +489,7 @@ function validateParties(
   }
   const host = world.people[input.hostPersonId];
   if (!host || deceased(world, host.id)) {
-    throw new Error("Nobody is available to host that.");
+    throw new Error(HOST_UNAVAILABLE);
   }
   if (host.id === subject.id) {
     throw new Error("Somebody else has to host this.");
@@ -620,7 +700,7 @@ export function offerCampaignLifeActivity(
     entry.journeyKey === null
       ? start
       : addSimulationMinutes(start, -entry.journeyMinutes);
-  if (busy(world, [input.subjectPersonId], leave, end)) {
+  if (subjectBusy(world, input.subjectPersonId, entry, leave, end)) {
     throw new Error(
       `You already have something on your calendar then, so the ${entry.title.toLowerCase()} could not be arranged.`,
     );
@@ -755,35 +835,113 @@ export function offerCampaignLifeActivity(
  * Says yes ahead of time: the optional hold becomes a commitment. Returns the
  * same world when there is nothing to accept.
  */
-export function acceptCampaignLifeActivity(
+type AcceptancePlan =
+  | {
+      readonly refusal: null;
+      readonly record: CampaignLifeActivityRecord;
+      readonly tentative: ScheduledActivityRecord;
+      readonly entry: CampaignLifeCatalogEntry;
+      readonly ignored: readonly EntityId[];
+      readonly start: SimulationMoment;
+      readonly end: SimulationMoment;
+    }
+  | {
+      readonly refusal: string;
+      /** Nothing is waiting on an answer: the writer returns the same World. */
+      readonly nothingToAccept: boolean;
+    };
+
+const NO_LONGER_OPEN = "That is no longer waiting on an answer.";
+
+/** Every check the accept writer makes, without writing. */
+function planAcceptance(
   world: World,
   personId: EntityId,
   lifeActivityId: EntityId,
-): World {
+): AcceptancePlan {
+  const closed = { refusal: NO_LONGER_OPEN, nothingToAccept: true } as const;
   const record = lifeActivityById(world, lifeActivityId);
-  if (!record || record.subjectPersonId !== personId) return world;
+  if (!record || record.subjectPersonId !== personId) return closed;
   if (!controlled(world, personId) || outcomeFor(world, record.id))
-    return world;
+    return closed;
   const tentative = currentHold(world, record);
-  if (tentative.kind !== "tentative") return world;
+  if (tentative.kind !== "tentative") return closed;
   const state = scheduledActivityState(world, tentative.id);
   if (
     state.status !== "scheduled" ||
     compareSimulationMoments(state.start, world.currentMoment) <= 0
   )
-    return world;
+    return closed;
   const entry = campaignLifeCatalogEntry(record.form);
   const journey = journeyFor(world, tentative);
-  const leave = journey
-    ? scheduledActivityState(world, journey.id).start
-    : state.start;
+  const leave = answerDeadline(world, tentative);
   const ignored = [tentative.id, ...(journey ? [journey.id] : [])];
-  if (compareSimulationMoments(leave, world.currentMoment) <= 0) return world;
-  if (busy(world, [personId, record.hostPersonId], leave, state.end, ignored)) {
-    throw new Error(
-      `Something else is now on the calendar then, so the ${entry.title.toLowerCase()} cannot be confirmed.`,
-    );
+  if (compareSimulationMoments(leave, world.currentMoment) <= 0) return closed;
+  const host = world.people[record.hostPersonId];
+  if (!host || deceased(world, host.id)) {
+    return { refusal: HOST_UNAVAILABLE, nothingToAccept: false };
   }
+  if (
+    subjectBusy(world, personId, entry, leave, state.end, ignored) ||
+    busy(world, [record.hostPersonId], state.start, state.end, ignored)
+  ) {
+    return {
+      refusal: `Something else is now on the calendar then, so the ${entry.title.toLowerCase()} cannot be confirmed.`,
+      nothingToAccept: false,
+    };
+  }
+  return {
+    refusal: null,
+    record,
+    tentative,
+    entry,
+    ignored,
+    start: state.start,
+    end: state.end,
+  };
+}
+
+/**
+ * The one preflight for the player's party and campaign answers: why the
+ * writer would refuse, in its own sentence, or null when it would go through.
+ * The surfaces ask this before offering a button, and the writers make the
+ * same checks, so a listed choice is never one that can only be refused.
+ *
+ * - `request`: asking a chapter or committee for an activity (no host
+ *   available, no evening free for both in the next two weeks, ...).
+ * - `accept`: saying yes to an offer (the answer deadline has passed, the
+ *   host is no longer available, something else is now on the calendar).
+ */
+export function campaignLifeRefusal(
+  world: World,
+  personId: EntityId,
+  question:
+    | ({ readonly kind: "request" } & RequestCampaignLifeActivityInput)
+    | { readonly kind: "accept"; readonly lifeActivityId: EntityId },
+): string | null {
+  if (question.kind === "accept") {
+    return planAcceptance(world, personId, question.lifeActivityId).refusal;
+  }
+  try {
+    planCampaignLifeRequest(world, personId, question);
+    return null;
+  } catch (error) {
+    return error instanceof Error ? error.message : String(error);
+  }
+}
+
+export function acceptCampaignLifeActivity(
+  world: World,
+  personId: EntityId,
+  lifeActivityId: EntityId,
+): World {
+  const plan = planAcceptance(world, personId, lifeActivityId);
+  if (plan.refusal !== null) {
+    if (plan.nothingToAccept) return world;
+    throw new Error(plan.refusal);
+  }
+  const { record, tentative, entry, ignored } = plan;
+  const state = { start: plan.start, end: plan.end };
   // Built on a local value: if anything below throws, nothing escapes.
   let next = recordWorldEvent(world, {
     stableKey: `${record.stableKey}:accepted`,
@@ -840,6 +998,18 @@ export function requestCampaignLifeActivity(
   personId: EntityId,
   input: RequestCampaignLifeActivityInput,
 ): World {
+  return offerCampaignLifeActivity(
+    world,
+    planCampaignLifeRequest(world, personId, input),
+  );
+}
+
+/** Finds the host and the first shared free evening; throws one sentence. */
+function planCampaignLifeRequest(
+  world: World,
+  personId: EntityId,
+  input: RequestCampaignLifeActivityInput,
+): OfferCampaignLifeActivityInput {
   if (!controlled(world, personId)) {
     throw new Error("Only the person you are playing can ask for this.");
   }
@@ -919,9 +1089,9 @@ export function requestCampaignLifeActivity(
       entry.journeyKey === null
         ? start
         : addSimulationMinutes(start, -entry.journeyMinutes);
-    if (busy(world, [personId], leave, end)) continue;
+    if (subjectBusy(world, personId, entry, leave, end)) continue;
     if (busy(world, [hostPersonId], start, end)) continue;
-    return offerCampaignLifeActivity(world, {
+    return {
       form: input.form,
       hostOrganizationId: input.hostOrganizationId,
       hostPersonId,
@@ -930,7 +1100,7 @@ export function requestCampaignLifeActivity(
       origin: "subject-request",
       start,
       stableKey: `${organizationKey}:campaign-life:request:${personId}:${input.form}:${ordinal}`,
-    });
+    };
   }
   throw new Error(
     `Neither you nor ${parties.hostName} has a shared free evening in the next two weeks for a ${entry.title.toLowerCase()}.`,
@@ -2109,6 +2279,12 @@ export interface CampaignLifeActivityView {
   readonly scheduledActivityId: EntityId;
   readonly start: SimulationMoment;
   readonly end: SimulationMoment;
+  /**
+   * For an offer that was never said yes to: the moment an answer was needed
+   * by, which is when the person would have had to set out. Null once it was
+   * accepted, and for anything asked for, which never needed an answer.
+   */
+  readonly answerBy: SimulationMoment | null;
   readonly presence: CampaignLifeCatalogEntry["presence"];
   readonly journeyMinutes: number | null;
   readonly travelCostDisclosure: string | null;
@@ -2145,8 +2321,13 @@ export function projectCampaignLifeActivities(
       const holdState = scheduledActivityState(world, hold.id);
       const outcome = outcomeFor(world, record.id);
       const holds = holdsFor(world, record).map((activity) => activity.id);
+      const answerBy =
+        hold.kind === "tentative" ? answerDeadline(world, hold) : null;
       // A hold that has completed but whose outcome is not yet recorded is
-      // still "completed" (with outcome null), never "expired".
+      // still "completed" (with outcome null), never "expired". An offer is
+      // only open until its answer was needed by: the accept writer refuses
+      // from that moment, so offering it past then offered a yes that could
+      // only fail.
       const state: CampaignLifeActivityState =
         outcome || holdState.status === "completed"
           ? "completed"
@@ -2156,7 +2337,9 @@ export function projectCampaignLifeActivities(
                 compareSimulationMoments(holdState.end, world.currentMoment) > 0
               ? hold.kind === "confirmed"
                 ? "accepted"
-                : "offered"
+                : compareSimulationMoments(answerBy!, world.currentMoment) > 0
+                  ? "offered"
+                  : "expired"
               : "expired";
       const outcomeEvent = outcome
         ? world.history.events.find(
@@ -2176,6 +2359,7 @@ export function projectCampaignLifeActivities(
         scheduledActivityId: hold.id,
         start: holdState.start,
         end: holdState.end,
+        answerBy,
         presence: entry.presence,
         journeyMinutes: entry.journeyKey === null ? null : entry.journeyMinutes,
         travelCostDisclosure:

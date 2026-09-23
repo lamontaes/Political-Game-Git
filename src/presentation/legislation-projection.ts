@@ -18,6 +18,7 @@ import {
   nextChamberKey,
 } from "../simulation/legislature-rules";
 import { personName } from "../simulation/people";
+import { lawEffectSentences } from "./law-effects-prose";
 import type {
   EntityId,
   LegislativeActionKind,
@@ -99,6 +100,11 @@ export interface MeasureBriefing {
   readonly votes: readonly MeasureVoteSummary[];
   readonly finished: boolean;
   readonly outcomeNote: string | null;
+  /**
+   * What the law changed in the world, one sentence per effect, and which of
+   * its parts nothing acts on yet. Empty until the bill is law.
+   */
+  readonly whatItChanged: readonly string[];
 }
 
 const PHASE_SENTENCES: Readonly<Record<MeasurePhase, string>> = {
@@ -143,9 +149,11 @@ const ACTION_HEADLINES: Readonly<Record<LegislativeActionKind, string>> = {
   "presented-to-executive": "Sent to the governor",
   signed: "Signed",
   vetoed: "Vetoed",
+  "became-law-without-signature": "Approved without a signature",
   "override-chamber-recorded": "Chamber voted on the override",
   "override-succeeded": "Veto overridden",
   "override-failed": "Override failed",
+  "override-period-expired": "The veto stood",
   enacted: "Became law",
   "died-on-adjournment": "Died when the session ended",
 };
@@ -453,9 +461,16 @@ export function projectMeasureBriefing(
     whereItStands = `The ${chamber.name} passed the bill; it now goes to the ${target?.name ?? "other chamber"}.`;
   }
 
+  // The desk a bill goes to is the pack's executive: a governor, or for
+  // Congress the President.
+  const headline = (kind: LegislativeActionKind): string =>
+    kind === "presented-to-executive" &&
+    pack.executive.titleLabel !== "Governor"
+      ? `Sent to the ${pack.executive.titleLabel}`
+      : ACTION_HEADLINES[kind];
   const latest = actions.at(-1) ?? null;
   const whatJustHappened = latest
-    ? `${ACTION_HEADLINES[latest.kind]} on ${latest.occurredAt}. ${latest.rationale}`
+    ? `${headline(latest.kind)} on ${latest.occurredAt}. ${latest.rationale}`
     : null;
 
   const options = availableMeasureSteps(world, measureId).map((step) =>
@@ -466,7 +481,7 @@ export function projectMeasureBriefing(
     const vote = action.voteId ? votesById.get(action.voteId) : undefined;
     return {
       when: action.occurredAt,
-      headline: ACTION_HEADLINES[action.kind],
+      headline: headline(action.kind),
       detail: action.rationale,
       voteSummary: vote ? voteSentence(vote) : null,
     };
@@ -537,5 +552,6 @@ export function projectMeasureBriefing(
     votes: voteSummaries,
     finished: position.terminal,
     outcomeNote,
+    whatItChanged: lawEffectSentences(world, measureId),
   };
 }

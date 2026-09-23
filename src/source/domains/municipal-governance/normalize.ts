@@ -401,6 +401,14 @@ function normalizePack(
       "legislativeProcedure/introductionToPassage",
       "no source read for this government fixed a least time between an ordinance's introduction and its passage.",
     ),
+    ...(pack.legislativeProcedure.betweenReadings
+      ? {
+          betweenReadings: cell<IntroductionToPassageRule>(
+            pack.legislativeProcedure.betweenReadings,
+            "legislativeProcedure/betweenReadings",
+          ),
+        }
+      : {}),
   };
 
   const budgetProcedure: BudgetProcedure = {

@@ -3,6 +3,7 @@ import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
 } from "../simulation";
+import { congressSeatStatus } from "./congress-candidacy";
 import {
   workRelationshipHistoryForPerson,
   workRoleAt,
@@ -13,6 +14,8 @@ import { currentOpeningLifeScene } from "./life-scene-flow";
 import { formatMinute, projectPlayerCalendar } from "./player-calendar";
 import { projectOrdinaryDay } from "./ordinary-life";
 import { proseDate } from "./prose-dates";
+import { offerDeadlines } from "./offer-deadlines";
+import { careerReplyBy } from "../simulation/career-path7";
 import {
   electedExecutiveTermForRelationship,
   recordedExecutiveQualification,
@@ -142,12 +145,25 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
               ? electedTermSentence(offer)
               : offer.answer === "accepted"
                 ? acceptedOfferSentence(offer)
-                : offer.startIsAhead
-                  ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`
-                  : `${offer.roleTitle}: an offer of work is waiting for your answer.`,
+                : `${offer.startIsAhead ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.` : `${offer.roleTitle}: an offer of work is waiting for your answer.`}${replyBySentence(world, offer.relationshipId)}`,
+        })),
+      // An offer from a town listing is answered on the Jobs list. It lapses
+      // at its reply date, so it is said here too, with that date: in Atlanta
+      // one lapsed having been shown nowhere but that list.
+      ...offerDeadlines(world, personId)
+        .filter((deadline) => deadline.key.startsWith("job-offer:"))
+        .map((deadline) => ({
+          key: deadline.key,
+          sentence: deadline.sentence,
         })),
     ],
   };
+}
+
+/** The last day to answer an older offer, said so the lapse is no surprise. */
+function replyBySentence(world: World, relationshipId: EntityId): string {
+  const replyBy = careerReplyBy(world, relationshipId);
+  return replyBy ? ` Answer by ${proseDate(replyBy)}, or it lapses.` : "";
 }
 
 /**
@@ -302,6 +318,9 @@ function ordinaryOfferSentence(offers: readonly OfferAwaitingAnswer[]): string {
 }
 
 export function projectWorkRole(world: World, personId: EntityId): WorkRole {
+  // A seat in Congress is held through the Congress record, not a work
+  // relationship, so it is read from there and named alongside any job.
+  const congress = congressSeatStatus(world, personId);
   // A town council seat is held through the town government's organization,
   // not a work relationship, so it is added here by name. Leaving it out had a
   // member who won in Ely, Minnesota read "You do not hold a job or an office"
@@ -312,6 +331,7 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
       ...activeWorkRelationshipsAt(world, personId).map(
         (entry) => entry.role.title,
       ),
+      ...(congress.kind === "in-office" ? [congress.identity.displayName] : []),
       ...(townSeat
         ? [
             townSeat.office === "mayor"
@@ -321,6 +341,10 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
         : []),
     ]),
   ];
+  const congressElect =
+    congress.kind === "won-awaiting-term"
+      ? `You won the race for ${congress.identity.displayName}. You take the seat on ${proseDate(congress.startsAt)}.`
+      : "";
   const studying = activeEducationEnrollmentsAt(world, personId).length;
   const study =
     studying === 0
@@ -339,6 +363,7 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
       ? "You do not hold a job or an office right now."
       : `${roles.length === 1 ? "Your role" : "Your roles"}: ${roles.join("; ")}.`,
     offer,
+    congressElect,
     study,
   ]
     .filter((part) => part.length > 0)
