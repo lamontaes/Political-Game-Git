@@ -5,6 +5,8 @@ import {
 } from "./national-election-geography";
 import { validateTimeDemand } from "./life";
 import { compareSimulationMoments, makeIsoDate } from "./dates";
+import { eventById } from "./event-index";
+import { indexOverArrays } from "./history-index";
 import { createStableId } from "./ids";
 import {
   nationalElectionRules,
@@ -50,8 +52,66 @@ export function nationalEntityAvailableAt(
   return !!record && record.recordedAt <= date && record.sequence < sequence;
 }
 export function nationalEntityExists(world: World, id: EntityId): boolean {
-  return nationalHistoryRecords(world).some((record) => record.id === id);
+  return nationalSourceIndex(world).has(id);
 }
+
+/** Anchors the index below; its identity is all that matters. */
+const NATIONAL_SOURCE_ANCHOR = {};
+
+/**
+ * National records and election contests by id, the first match in the order
+ * the linear scans read them. Writers and the save check ask this for every
+ * record and every cited source, and each answer copied and scanned whole
+ * history families. It is rebuilt only when one of those families changes,
+ * so ordinary writes elsewhere in history keep it.
+ */
+function nationalSourceIndex(
+  world: World,
+): ReadonlyMap<EntityId, ProvenanceSource> {
+  const history = world.history;
+  return indexOverArrays(
+    NATIONAL_SOURCE_ANCHOR,
+    [
+      history.nationalElections,
+      history.nationalElectionRecords,
+      history.electionContests,
+      history.electionContestResults,
+    ],
+    () => {
+      const national = new Map<EntityId, ProvenanceSource>();
+      for (const record of nationalHistoryRecords(world))
+        if (!national.has(record.id)) national.set(record.id, record);
+      return national;
+    },
+  );
+}
+
+/** Contests and their results by id, kept apart: they are not national records. */
+const CONTEST_SOURCE_ANCHOR = {};
+
+function contestSourceIndex(
+  world: World,
+): ReadonlyMap<EntityId, ProvenanceSource> {
+  const history = world.history;
+  return indexOverArrays(
+    CONTEST_SOURCE_ANCHOR,
+    [history.electionContests, history.electionContestResults],
+    () => {
+      const contests = new Map<EntityId, ProvenanceSource>();
+      for (const record of history.electionContests ?? [])
+        if (!contests.has(record.id)) contests.set(record.id, record);
+      for (const record of history.electionContestResults ?? [])
+        if (!contests.has(record.id)) contests.set(record.id, record);
+      return contests;
+    },
+  );
+}
+
+type ProvenanceSource =
+  | ReturnType<typeof nationalHistoryRecords>[number]
+  | NonNullable<World["history"]["electionContests"]>[number]
+  | NonNullable<World["history"]["electionContestResults"]>[number]
+  | World["history"]["events"][number];
 export function nationalHistoryRecords(world: World) {
   return [
     ...(world.history.nationalElections ?? []),
@@ -74,12 +134,10 @@ function validateProvenance(
     throw new Error("Invalid national provenance.");
   note(provenance.note ?? "", "National provenance note");
   for (const id of provenance.sourceEntityIds) {
-    const record = [
-      ...nationalHistoryRecords(world),
-      ...(world.history.electionContests ?? []),
-      ...(world.history.electionContestResults ?? []),
-      ...world.history.events,
-    ].find((record) => record.id === id);
+    const record =
+      nationalSourceIndex(world).get(id) ??
+      contestSourceIndex(world).get(id) ??
+      eventById(world, id);
     if (id === world.id || world.people[id] || world.jurisdictions[id])
       continue;
     if (!record || record.sequence >= sequence)
@@ -376,6 +434,36 @@ function validateChoiceList(
     throw new Error(
       "Supplied constitutional choice list excludes a higher count or has an unresolved cutoff tie.",
     );
+}
+/**
+ * The Twelfth Amendment's choice lists for an office no one won by a majority:
+ * the persons with the highest numbers of electoral votes, not exceeding three
+ * for President and two for Vice President. Empty for an office that has a
+ * majority winner, and empty when a tie at the cutoff leaves the list for
+ * Congress to settle.
+ */
+export function constitutionalChoiceList(
+  world: World,
+  electionId: EntityId,
+  office: "president" | "vice-president",
+): readonly EntityId[] {
+  const proposal = nationalCountProposal(world, electionId);
+  if (
+    (office === "president"
+      ? proposal.presidentPersonId
+      : proposal.vicePresidentPersonId) !== null
+  )
+    return [];
+  const totals = ballotTotals(world, electionId, office)
+    .filter((total) => total.votes > 0)
+    .sort((a, b) => b.votes - a.votes);
+  const limit = office === "president" ? 3 : 2;
+  if (
+    totals.length > limit &&
+    totals[limit]!.votes === totals[limit - 1]!.votes
+  )
+    return [];
+  return totals.slice(0, limit).map((total) => total.personId);
 }
 export function recordContingentChoice(
   world: World,
@@ -693,9 +781,12 @@ function validateNationalRecord(
         throw new Error("House choice does not use senator membership.");
       if (
         record.office === "vice-president" &&
+        // The whole number is every seat, filled or not: a vacant seat
+        // counts against the majority rather than shrinking it.
         (record.wholeNumber !== CONTINGENT_STATES.length * 2 ||
-          record.senatorPersonIds.length !== record.wholeNumber ||
-          new Set(record.senatorPersonIds).size !== record.wholeNumber ||
+          record.senatorPersonIds.length > record.wholeNumber ||
+          new Set(record.senatorPersonIds).size !==
+            record.senatorPersonIds.length ||
           record.senatorPersonIds.some((id) => !world.people[id]) ||
           record.votes.some(
             (vote) =>

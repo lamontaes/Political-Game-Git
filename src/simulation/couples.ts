@@ -101,6 +101,25 @@ export function dateRefusal(
   }
   if (areKin(world, personId, otherId)) return "You are family.";
   if (everInTheirCare(world, personId, otherId)) return "You are family.";
+  /*
+   * One person at a time. A Massachusetts life asked a second person to be a
+   * couple while still with the first, heard yes, and had two partners; then
+   * she was offered a third date (roll call, 2026-09-23). Whether anyone in
+   * the game steps out on a partner is the owner's open question, so nothing
+   * here offers it: the existing couple stands, and nothing new begins until
+   * it has ended.
+   */
+  const current = withSomebodyElse(world, personId, otherId);
+  if (current) {
+    const partnerId = current.personIds.find((id) => id !== personId);
+    const partner = partnerId ? world.people[partnerId] : undefined;
+    return partner
+      ? `You are with ${partner.givenName}. That would have to end first.`
+      : "You are with somebody else. That would have to end first.";
+  }
+  if (withSomebodyElse(world, otherId, personId)) {
+    return `${world.people[otherId]!.givenName} is with somebody.`;
+  }
   return null;
 }
 
@@ -314,7 +333,12 @@ export function askToBeACouple(
     randomness: "close-choices",
     retention: "ephemeral",
   });
-  const accepted = evaluation.selectedOptionKey === "accept";
+  // Somebody already with another person does not become a second couple;
+  // what weighs on their answer is in `romanticConsiderations`, and this is
+  // the one outcome it cannot be.
+  const accepted =
+    evaluation.selectedOptionKey === "accept" &&
+    !withSomebodyElse(world, otherPersonId, personId);
   const summary = accepted
     ? `${personName(asker)} asked ${personName(asked)} to be a couple, and ${asked.givenName} said yes.`
     : `${personName(asker)} asked ${personName(asked)} to be a couple, and ${asked.givenName} said no.`;
