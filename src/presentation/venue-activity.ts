@@ -1,9 +1,14 @@
 import { recordOrdinaryMeetingPresence } from "../simulation/ordinary-meeting-presence";
 import {
+  CAMPAIGN_LIFE_CATALOG,
+  campaignActionForActivity,
+  campaignWeeklyPlanForAction,
   canPersonAccess,
   advanceWorldMinutes,
   compareSimulationMoments,
   controlledCommitmentsBlockingActivityPerformance,
+  performCampaignAction,
+  performCampaignWeekSession,
   performScheduledActivity,
   recordWorldEvent,
   scheduledActivitiesVisibleTo,
@@ -18,7 +23,11 @@ import {
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
 import { recordDomainAttendance } from "./activity-attendance";
-import { openingLifeLocation } from "./life-scene-flow";
+import {
+  openingLifeLocation,
+  openingNeighborhoodWalkOffer,
+} from "./life-scene-flow";
+import { releaseMissedHolds } from "./scheduled-activity-choice";
 import { completedActivityHere } from "./scene-venues";
 import {
   recordSocialOccasionAttendance,
@@ -207,6 +216,10 @@ function arrivedDestinationFor(
 }
 
 /** A player action over existing scheduled activity truth; no separate clock. */
+/** The refusal for an activity blocked by an earlier open one the same day. */
+export const EARLIER_COMMITMENT_REFUSAL =
+  "An earlier commitment must be resolved first.";
+
 export function venueActivities(
   world: World,
   personId: EntityId,
@@ -229,6 +242,14 @@ export function venueActivities(
       if (
         activity.kind === "tentative" &&
         compareSimulationMoments(state.end, world.currentMoment) <= 0
+      )
+        return false;
+      // Likewise a journey whose time to leave has gone: nobody can make it,
+      // and a save may still hold ones time stepped past before they were
+      // released (see `releaseMissedHolds`).
+      if (
+        activity.kind === "travel" &&
+        compareSimulationMoments(state.start, world.currentMoment) < 0
       )
         return false;
       return (
@@ -270,8 +291,7 @@ export function venueActivities(
               id !== journey?.activity.id &&
               !transitionHandlers.routine?.isAutoResolvableActivity(world, id),
           );
-          if (blockers.length)
-            refusal = "An earlier commitment must be resolved first.";
+          if (blockers.length) refusal = EARLIER_COMMITMENT_REFUSAL;
           /*
            * A meeting two people arranged between themselves is held wherever
            * they meet; it names no venue to travel to, so it asks for no
@@ -281,7 +301,47 @@ export function venueActivities(
            */
           const metWhereverTheyMeet =
             activity.location.locationKey === CONTACT_LOCATION_KEY;
-          if (
+          /*
+           * A phone shift is worked from home. Its label names no place to
+           * travel to, so comparing labels refused it everywhere, at home
+           * included. It needs the player to be home, and nothing else.
+           */
+          const workedFromHome =
+            activity.location.locationKey ===
+            CAMPAIGN_LIFE_CATALOG["phone-shift"].locationKey;
+          /*
+           * A campaign session — a field shift, a call session, an advertising
+           * sign-off — is done where the campaign does it, by the campaign's
+           * own writer, as the Campaigns tab has always done it. Its label
+           * ("The campaign's call desk") names no place the game has a
+           * journey to, so comparing labels refused every one of them and
+           * left a confirmed hold nobody could keep: a mayoral run in
+           * Eufaula, Alabama had no route to the call desk or to a field
+           * shift. No travel is invented for it; it is performed in place.
+           */
+          const campaignAction = campaignActionForActivity(world, activity.id);
+          if (!refusal && campaignAction) {
+            const plan = campaignWeeklyPlanForAction(world, campaignAction.id);
+            if (
+              plan &&
+              compareSimulationMoments(
+                scheduledActivityState(world, activity.id).start,
+                world.currentMoment,
+              ) < 0
+            )
+              refusal =
+                "The time for that session has already passed, so it can no longer be done as planned. Let it go from the campaign's week.";
+          } else if (!refusal && workedFromHome) {
+            const origin = openingLifeLocation(world, personId);
+            if (origin?.setting !== "home") {
+              refusal = `This is worked from home, and you are at ${origin?.label ?? "a place the game has not recorded"}.`;
+              // Going home first keeps it. Only when there is no getting home
+              // in time is it the dead end that giving it up exists for.
+              unperformable =
+                openingNeighborhoodWalkOffer(world, personId, "home")
+                  .unavailable !== null;
+            }
+          } else if (
             !refusal &&
             activity.kind !== "travel" &&
             !journey &&
@@ -350,6 +410,25 @@ export function performVenueActivity(
   transitionHandlers: FutureTransitionHandlerRegistry = createCampaignElectionTransitionRegistry(),
   options?: PerformVenueActivityOptions,
 ): World {
+  const performed = performVenueActivityOnce(
+    world,
+    personId,
+    activityId,
+    transitionHandlers,
+    options,
+  );
+  // The wait before it can cross days in which an organizer booked something
+  // for a time already gone; see `releaseMissedHolds`.
+  return performed === world ? world : releaseMissedHolds(performed, personId);
+}
+
+function performVenueActivityOnce(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+  options?: PerformVenueActivityOptions,
+): World {
   const attendance = options?.attendance ?? "attended";
   const entry = venueActivities(world, personId, transitionHandlers).find(
     ({ activity }) => activity.id === activityId,
@@ -374,6 +453,16 @@ export function performVenueActivity(
         : world;
     if (compareSimulationMoments(waited.currentMoment, start) < 0)
       return waited;
+    // Campaign work is done in place by the campaign's own writer, so its
+    // money and outreach are recorded; the bare calendar completion below
+    // would mark it done with neither. No arrival is recorded: nobody went
+    // anywhere the game has a route for.
+    const campaignAction = campaignActionForActivity(waited, activityId);
+    if (campaignAction) {
+      return campaignWeeklyPlanForAction(waited, campaignAction.id)
+        ? performCampaignWeekSession(waited, personId, campaignAction.id)
+        : performCampaignAction(waited, campaignAction.id);
+    }
     // Existing campaign outcomes and bounded ordinary-meeting presence are
     // written only after successful completion; bare journeys add neither.
     const performed = recordOrdinaryMeetingPresence(

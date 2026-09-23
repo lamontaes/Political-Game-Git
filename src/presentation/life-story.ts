@@ -4,12 +4,21 @@ import {
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
 import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
+import { formatMinute } from "./player-calendar";
+import {
+  blockingHoldsToday,
+  capQuietStretch,
+  goableToday,
+} from "./quiet-stretch";
+import { declineVenueActivity } from "./scheduled-activity-choice";
+import { performVenueActivity } from "./venue-activity";
 import {
   lifeActivityHandlers,
   type OrdinaryLifeDayAdvance,
 } from "./life-time-handlers";
 import {
   advanceWorldMinutes,
+  scheduledActivityState,
   simulationMinutesBetween,
   describePersonContext,
   introducePerson,
@@ -516,16 +525,122 @@ function chooseStoryScene(
   return {
     kind: "ordinary-stretch",
     prose: "",
-    options: [
-      {
-        key: "let-it-run",
-        label: formativeYears ? "Let the year run on" : "Let the weeks run on",
-        description: "Pick it up again when something needs you.",
-      },
-    ],
+    options: formativeYears
+      ? [
+          {
+            key: "let-it-run",
+            label: "Let the year run on",
+            description: "Pick it up again when something needs you.",
+          },
+        ]
+      : ordinaryStretchOptions(world, personId),
     withPeople: [],
     presentPeople: [],
   };
+}
+
+/**
+ * "Let the weeks run on" stops for commitments, civic holds and the player's
+ * own election, and lets an unanswered social invitation lapse as it always
+ * has. Dated matters are left to the story (see `KnownCalendarOptions`).
+ */
+const STORY_STRETCH_STOPS = { socialHolds: false, dueItems: false } as const;
+
+/** The option key that goes to something on today's calendar. */
+const GO_TO_ACTIVITY_PREFIX = "go-to:";
+
+/** The option key that turns down a hold blocking something later today. */
+const TURN_DOWN_PREFIX = "turn-down:";
+
+/**
+ * What today's calendar asks of the player, as choices: attend each thing they
+ * can go to, and turn down an open invitation that blocks a later one. Offered
+ * beside every way of letting time pass, because time stops at a commitment
+ * due today and a button that stops without saying why looks like it did
+ * nothing (Detroit life, September 23, 2026).
+ */
+export function todayCalendarOptions(
+  world: World,
+  personId: EntityId,
+): readonly StoryOption[] {
+  const going = goableToday(world, personId).map((activity) => {
+    const start = scheduledActivityState(world, activity.id).start;
+    return {
+      key: `${GO_TO_ACTIVITY_PREFIX}${activity.id}`,
+      label: `Attend: ${activity.title}`,
+      description: `${formatMinute(start.minuteOfDay)} today. ${activity.summary}`,
+    };
+  });
+  const turningDown = blockingHoldsToday(world, personId).map((activity) => ({
+    key: `${TURN_DOWN_PREFIX}${activity.id}`,
+    label: `Turn down: ${activity.title}`,
+    description: "Say you will not come, so the rest of today is free.",
+  }));
+  return [...going, ...turningDown];
+}
+
+/**
+ * Plays one of `todayCalendarOptions`. Null when the key is not one of them;
+ * the unchanged world when the activity is no longer on offer.
+ */
+export function chooseTodayCalendarOption(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly optionKey: string;
+    readonly transitionHandlers?: FutureTransitionHandlerRegistry;
+  },
+): World | null {
+  if (input.optionKey.startsWith(GO_TO_ACTIVITY_PREFIX)) {
+    const wanted = input.optionKey.slice(GO_TO_ACTIVITY_PREFIX.length);
+    const activity = goableToday(world, input.personId).find(
+      (candidate) => candidate.id === wanted,
+    );
+    if (!activity) return world;
+    return performVenueActivity(
+      world,
+      input.personId,
+      activity.id,
+      input.transitionHandlers,
+    );
+  }
+  if (input.optionKey.startsWith(TURN_DOWN_PREFIX)) {
+    const wanted = input.optionKey.slice(TURN_DOWN_PREFIX.length);
+    const activity = blockingHoldsToday(world, input.personId).find(
+      (candidate) => candidate.id === wanted,
+    );
+    if (!activity) return world;
+    return declineVenueActivity(world, input.personId, activity.id);
+  }
+  return null;
+}
+
+/**
+ * What a quiet adult stretch offers: whatever today's calendar holds that the
+ * player can go to, and letting the weeks run on as far as the next thing on
+ * it. A meeting the player was invited to is a real choice on the day it
+ * happens, not something the clock decides by walking past it.
+ */
+export function ordinaryStretchOptions(
+  world: World,
+  personId: EntityId,
+): readonly StoryOption[] {
+  const { days, cappedBy } = capQuietStretch(
+    world,
+    personId,
+    quietStepDays(world.currentDate),
+    STORY_STRETCH_STOPS,
+  );
+  return [
+    ...todayCalendarOptions(world, personId),
+    {
+      key: "let-it-run",
+      label: "Let the weeks run on",
+      description: cappedBy
+        ? `Until the morning of ${longDate(addDays(world.currentDate, days))}: ${cappedBy.title}.`
+        : "Pick it up again when something needs you.",
+    },
+  ];
 }
 
 /**
@@ -778,8 +893,11 @@ export function chooseStoryOption(
         optionKey: input.optionKey,
         transitionHandlers: lifeActivityHandlers(input.transitionHandlers),
       });
-    case "ordinary-stretch":
+    case "ordinary-stretch": {
+      const today = chooseTodayCalendarOption(world, input);
+      if (today) return today;
       return letStoryTimePass(world, input.personId, input.advanceDays);
+    }
   }
 }
 
@@ -820,7 +938,15 @@ export function letStoryTimePass(
   if (formativeIntervalAt(world, personId) !== null) {
     return letTimePass(world, personId, advanceDays);
   }
-  return letAdultTimePass(world, quietStepDays(world.currentDate), advanceDays);
+  // Never past the next thing on the calendar, nor past the player's own
+  // election: a quiet stretch that walked through either decided for them.
+  const { days } = capQuietStretch(
+    world,
+    personId,
+    quietStepDays(world.currentDate),
+    STORY_STRETCH_STOPS,
+  );
+  return letAdultTimePass(world, days, advanceDays);
 }
 
 /** The date a quiet adult stretch would reach, for tests that need it. */

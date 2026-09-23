@@ -222,7 +222,7 @@ const FEDERAL_SENATE: OfficeTransitionProfile = {
   notCoded: [
     ...COMMON_NOT_CODED,
     "The player cannot run for the Senate yet; this profile serves the day that candidacy exists.",
-    "Office suite assignment by seniority is not modelled.",
+    "Office suite assignment by seniority is not modeled.",
     "Windows are the usual November calendar, not a specific Congress's published schedule.",
   ],
 };

@@ -1,3 +1,4 @@
+import { federalRulePackById } from "./congress-rule-pack";
 import { legislatureProfilePackById } from "./legislature-game-profile";
 import { municipalRulePackById } from "./municipal-rule-registry";
 import {
@@ -459,7 +460,7 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
       KY_SEC_46,
     ),
     conference: unknownRule(
-      "Both chambers provide for conference committees, but the composition and report rules were not read for this pack, and conference is not modelled.",
+      "Both chambers provide for conference committees, but the composition and report rules were not read for this pack, and conference is not modeled.",
     ),
     source: KY_HOUSE_RULE_54,
   },
@@ -536,7 +537,7 @@ export const KENTUCKY_RULE_PACK: LegislativeRulePack = {
     "Constitutional quorum fraction is unresolved.",
     "Default effective-date rule is unresolved; Sec. 55 is the section to review.",
     "What becomes of a pending measure at adjournment is unresolved.",
-    "Conference committee composition and report rules are unresolved, and conference is not modelled.",
+    "Conference committee composition and report rules are unresolved, and conference is not modeled.",
     "Committee sizes here are the scenario's, not Kentucky's.",
   ],
 };
@@ -582,6 +583,14 @@ const NE_ART3_SEC10 = source(
   "partial",
   "Ninety legislative days in odd-numbered years and sixty in even-numbered years. This section sets session length; it does not itself say what becomes of a pending bill.",
 );
+const NE_ART3_SEC6 = source(
+  "constitution",
+  "Neb. Const. Art. III, Sec. 6",
+  "The Constitution of the State of Nebraska",
+  NE_CONST_URL,
+  "verified",
+  "One house of not more than fifty nor fewer than thirty members; statute fixes the number at forty-nine, one per legislative district. Settled law: the count is certain, though the statute's text was not retrieved for this entry.",
+);
 const NE_RULE_3 = source(
   "permanent-rules",
   "Legislative Rule 3",
@@ -616,9 +625,7 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
       chamberKey: "legislature",
       name: "Legislature",
       billDesignationPrefix: "LB",
-      seats: unknownRule(
-        "The game does not know how many seats Nebraska's chamber formally has, and it will not guess a number.",
-      ),
+      seats: knownRule(49, NE_ART3_SEC6),
       quorum: unknownRule(
         "Nebraska's quorum fraction was not resolved for this pack.",
       ),
@@ -990,7 +997,7 @@ export const ALASKA_RULE_PACK: LegislativeRulePack = {
       AK_ART2_SEC14,
     ),
     conference: unknownRule(
-      "Alaska provides for conference committees, but the rule was not read for this pack, and conference is not modelled.",
+      "Alaska provides for conference committees, but the rule was not read for this pack, and conference is not modeled.",
     ),
     source: AK_UNIFORM_43,
   },
@@ -1066,7 +1073,7 @@ export const ALASKA_RULE_PACK: LegislativeRulePack = {
     "The authority for floor amendments is unresolved, so this pack does not permit them.",
     "Whether every referred bill is guaranteed a hearing is unresolved.",
     "Whether measures carry over within a legislature is unresolved.",
-    "Conference committee rules are unresolved, and conference is not modelled.",
+    "Conference committee rules are unresolved, and conference is not modeled.",
     "Committee sizes here are the scenario's, not Alaska's.",
   ],
 };
@@ -1320,7 +1327,7 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
       MN_ART4_SEC22,
     ),
     conference: unknownRule(
-      "Minnesota resolves inter-chamber differences by conference committee under each house's rules and the joint rules, which were not read for this pack; conference is not modelled.",
+      "Minnesota resolves inter-chamber differences by conference committee under each house's rules and the joint rules, which were not read for this pack; conference is not modeled.",
     ),
     source: MN_ART4_SEC20,
   },
@@ -1384,7 +1391,7 @@ export const MINNESOTA_RULE_PACK: LegislativeRulePack = {
   unresolvedGaps: [
     "Minnesota's committee structure, referral among committees, and report and discharge thresholds are set by each house's rules and the joint rules, which were not read for this pack.",
     "Minnesota's authority for floor amendments and any germaneness standard are set by each house's rules, which were not read for this pack.",
-    "Minnesota's conference committee composition and report rules are unresolved, and conference is not modelled.",
+    "Minnesota's conference committee composition and report rules are unresolved, and conference is not modeled.",
     "Whether a Minnesota measure dies at a given adjournment, as distinct from at the end of the biennium, is unresolved.",
     "This pack models a single third-reading final-passage stage; the Minnesota Constitution requires consideration on three different days (art. IV, § 19), but the intermediate general-orders and second-reading stages come from chamber rules not read here.",
     "Whether a Minnesota bill may be amended at third reading is unresolved, so this pack does not permit an amendment at that stage.",
@@ -1529,7 +1536,7 @@ export const ILLINOIS_RULE_PACK: LegislativeRulePack = {
       IL_ART4_SEC8,
     ),
     conference: unknownRule(
-      "Illinois resolves inter-chamber differences by conference committee under the joint rules and each house's rules, which were not read for this pack; conference is not modelled.",
+      "Illinois resolves inter-chamber differences by conference committee under the joint rules and each house's rules, which were not read for this pack; conference is not modeled.",
     ),
     source: IL_ART4_SEC8,
   },
@@ -1587,7 +1594,7 @@ export const ILLINOIS_RULE_PACK: LegislativeRulePack = {
   unresolvedGaps: [
     "Illinois's committee structure, referral among committees, and report and discharge thresholds are set by each house's rules and the joint rules, which were not read for this pack.",
     "Illinois's germaneness standard applied to floor amendments is set by each house's rules, which were not read for this pack.",
-    "Illinois's conference committee composition and report rules are unresolved, and conference is not modelled.",
+    "Illinois's conference committee composition and report rules are unresolved, and conference is not modeled.",
     "The default effective-date rule is set by the Effective Date of Laws Act (5 ILCS 75), which was not read for this pack.",
     "Whether an Illinois measure dies at a given adjournment, as distinct from at the end of the two-year General Assembly, is unresolved.",
     "This pack models a single third-reading final-passage stage; the Illinois Constitution requires a reading by title on three different days (art. IV, § 8), but the intermediate reading and amendment stages come from chamber rules not read here.",
@@ -1691,7 +1698,7 @@ const MD_ART3_SECS14_15 = marylandSource(
 const MD_ART3_SEC19 = marylandSource(
   "Md. Const. art. III, § 19",
   "III",
-  'Powers of each House: each House "shall appoint its own officers, determine the rules of its own proceedings, punish a member for disorderly or disrespectful behaviour." This is the authority under which Maryland\'s referral, committee and floor-amendment rules are made; those chamber rules were not read for this pack.',
+  'Powers of each House: each House "shall appoint its own officers, determine the rules of its own proceedings, punish a member for disorderly or disrespectful behavior." This is the authority under which Maryland\'s referral, committee and floor-amendment rules are made; those chamber rules were not read for this pack.',
 );
 const MD_ART3_SEC20 = marylandSource(
   "Md. Const. art. III, § 20",
@@ -1827,7 +1834,7 @@ export const MARYLAND_RULE_PACK: LegislativeRulePack = {
       MD_ART3_SEC28,
     ),
     conference: unknownRule(
-      "Maryland resolves inter-chamber differences by conference committee under each House's rules, which were not read for this pack; conference is not modelled.",
+      "Maryland resolves inter-chamber differences by conference committee under each House's rules, which were not read for this pack; conference is not modeled.",
     ),
     source: MD_ART3_SEC27,
   },
@@ -1887,7 +1894,7 @@ export const MARYLAND_RULE_PACK: LegislativeRulePack = {
   unresolvedGaps: [
     "Maryland's committee structure, referral among committees, and report and discharge thresholds are set by each House's rules under art. III, § 19, which were not read for this pack.",
     "Maryland's germaneness standard for amendments, and whether a bill may be amended at third reading, are chamber-rules matters left unresolved here.",
-    "Maryland's conference committee composition and report rules are unresolved, and conference is not modelled.",
+    "Maryland's conference committee composition and report rules are unresolved, and conference is not modeled.",
     "Art. III, § 27(a) forbids a bill to originate in either House during the last thirty-five calendar days of a regular session unless two-thirds of the members elected so determine. The origination schema records which chambers may start a measure, not a date after which none may, so that cutoff is carried in the § 27 note rather than as a rule the runtime enforces.",
     "Maryland's appropriation routes and Budget Bill veto path do not fit the ordinary fields: art. III, § 52(2) recognizes both Budget Bills and Supplementary Appropriation Bills, while current art. II, § 17(f)-(g) gives the Governor a limited item veto over Executive Department items the General Assembly increased or added and provides return plus item-by-item reconsideration in an extraordinary session convened within thirty days. This pack's executive fields continue to model only the ordinary bill track.",
     "Md. Const. art. II, § 17(b) is a pocket veto: a bill the General Assembly's adjournment prevents the Governor from returning 'shall not be a law'. The schema records an inaction outcome for a bill left unacted on in session, which in Maryland is that it becomes law, and has no field for the adjournment case, so the pocket veto is carried in the § 17 note.",
@@ -2137,7 +2144,7 @@ export const MISSOURI_RULE_PACK: LegislativeRulePack = {
   ],
   unresolvedGaps: [
     "Missouri's committee structure, committee sizes and report thresholds are set by each house's rules, which were not read for this pack; the constitution requires referral without naming the committees.",
-    "Mo. Const. art. III, § 22 lets one-third of the elected members of a house relieve a committee of a bill and place it on the calendar. The schema records committee discretion per committee and has no field for a chamber-wide discharge threshold, so that power is carried in the § 22 note rather than modelled.",
+    "Mo. Const. art. III, § 22 lets one-third of the elected members of a house relieve a committee of a bill and place it on the calendar. The schema records committee discretion per committee and has no field for a chamber-wide discharge threshold, so that power is carried in the § 22 note rather than modeled.",
     "Mo. Const. art. III, § 27 fixes the threshold for adopting a conference report but not the composition of a Missouri conference committee, and a conference rule cannot be recorded from the threshold alone.",
     "Missouri's veto session is a scheduled institution: art. III, § 32 automatically reconvenes the general assembly on the first Wednesday following the second Monday in September for up to ten calendar days when a bill is returned on or after the fifth day before the last day for considering bills. The schema records the override threshold and forum but not when the forum sits, so the veto session is carried in the § 32 note.",
     "The 6:00 p.m. tabling deadline in art. III, § 20(a) and the sixtieth-legislative-day limit on introducing bills in art. III, § 25 are calendar mechanics the schema has no field for.",
@@ -2280,7 +2287,7 @@ export const NEVADA_RULE_PACK: LegislativeRulePack = {
       NV_ART4_SEC18,
     ),
     conference: unknownRule(
-      "Nevada resolves inter-chamber differences by conference committee under each House's rules and the joint standing rules, which were not read for this pack; conference is not modelled.",
+      "Nevada resolves inter-chamber differences by conference committee under each House's rules and the joint standing rules, which were not read for this pack; conference is not modeled.",
     ),
     source: NV_ART4_SEC16,
   },
@@ -2347,7 +2354,7 @@ export const NEVADA_RULE_PACK: LegislativeRulePack = {
     "Whether the Nevada Governor may object to an item of an appropriation is unresolved; art. 4, § 35 speaks only of returning a bill.",
     "Nevada's default effective date is set by NRS 218D.330, which was not read for this pack.",
     "Nevada's committee structure, referral among committees, hearing guarantees, and report and discharge thresholds are set by each House's rules and the joint standing rules under art. 4, § 6, which were not read for this pack.",
-    "Nevada's conference committee composition and report rules are unresolved, and conference is not modelled.",
+    "Nevada's conference committee composition and report rules are unresolved, and conference is not modeled.",
     "Whether a Nevada measure dies at adjournment is unresolved; art. 4, § 2 voids late action without saying what becomes of a pending bill.",
     "This pack models a single third-reading final-passage stage; art. 4, § 18(1) requires reading by sections on three several days, but the intermediate stages come from chamber rules not read here.",
     "The biennial commencement date in art. 4, § 2 is recorded in the session rule's text; the schema has no field for how often a legislature meets, so a consumer that needs the biennium must read the rule rather than a flag.",
@@ -2507,7 +2514,7 @@ export const OHIO_RULE_PACK: LegislativeRulePack = {
       OH_ART2_SEC15,
     ),
     conference: unknownRule(
-      "Ohio resolves inter-chamber differences by conference committee under each house's rules and the joint rules, which were not read for this pack; conference is not modelled.",
+      "Ohio resolves inter-chamber differences by conference committee under each house's rules and the joint rules, which were not read for this pack; conference is not modeled.",
     ),
     source: OH_ART2_SEC15,
   },
@@ -2566,7 +2573,7 @@ export const OHIO_RULE_PACK: LegislativeRulePack = {
   unresolvedGaps: [
     "Ohio's committee structure, referral among committees, and report and discharge thresholds are set by each house's rules under art. II, § 7, which were not read for this pack.",
     "Ohio's germaneness standard for amendments, and whether a bill may be amended at its third consideration, are chamber-rules matters left unresolved here.",
-    "Ohio's conference committee composition and report rules are unresolved, and conference is not modelled.",
+    "Ohio's conference committee composition and report rules are unresolved, and conference is not modeled.",
     "Ohio Const. art. II, § 1d creates distinct immediate-effect categories: tax levies and current-expense appropriations take immediate effect under § 1d, while an emergency law does so only after the specified two-thirds elected-members vote and a separate statement of reasons passed by separate roll call. The schema records one default effective rule and has no field for these category-specific routes, so they remain an explicit gap without changing the ordinary § 1c ninety-days-after-filing default.",
     "Whether an Ohio measure dies at a given adjournment, as distinct from at the end of the two-year general assembly, is unresolved.",
     "This pack models a single final-passage stage; art. II, § 15(C) requires consideration on three different days, but the intermediate stages come from chamber rules not read here.",
@@ -2600,6 +2607,9 @@ export const LEGISLATIVE_RULE_PACKS: readonly LegislativeRulePack[] = [
 export function rulePackById(packId: string): LegislativeRulePack {
   const pack =
     LEGISLATIVE_RULE_PACKS.find((candidate) => candidate.packId === packId) ??
+    // Congress, like a council, is moved by the same engine and is not a
+    // state legislature.
+    federalRulePackById(packId) ??
     municipalRulePackById(packId) ??
     // A save made in a state with no compiled pack records a generated one, and
     // it has to resolve or the save opens onto a seat with no chamber under it.
