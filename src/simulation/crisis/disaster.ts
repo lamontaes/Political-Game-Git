@@ -18,10 +18,9 @@ import { isPersonAliveAt, recordPersonDeath } from "../vitality";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordOfficialContinuity } from "./continuity";
 import {
-  applyDisasterHandlingReactions,
   federalDeclarationWarranted,
   stateRequestWarranted,
-} from "./handling-reactions";
+} from "./disaster-warrants";
 import { beginHealthEpisode } from "./health";
 import { closeHealthEpisodesForDeath } from "./health-queries";
 import { currentGovernorOf, currentPresidentOf } from "./offices";
@@ -534,7 +533,12 @@ function recordResponse(
     ],
     summary: input.summary,
   });
-  const appended = appendCrisisRecord(event.world, {
+  // What voters and the people around the decision-maker make of it is
+  // judged from this record by the weekly press sweep
+  // (`applyPendingDisasterHandlingReactions`), not here: calling it from
+  // this module put the whole relationship graph inside the transition
+  // registry's own import cycle.
+  return appendCrisisRecord(event.world, {
     kind: "disaster-response",
     stableKey: key,
     effectiveAt: world.currentDate,
@@ -549,12 +553,6 @@ function recordResponse(
     reason: input.reason,
     programs: [...input.programs],
   });
-  const recorded = disasterResponses(appended, episode.id).find(
-    (record) => record.stableKey === key,
-  );
-  return recorded
-    ? applyDisasterHandlingReactions(appended, recorded)
-    : appended;
 }
 
 function controlledBy(world: World, personId: EntityId): boolean {

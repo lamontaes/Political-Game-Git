@@ -249,7 +249,11 @@ import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
-import { projectOfficeTransition } from "../presentation/office-transition";
+import {
+  projectOfficeTransition,
+  projectSwearingIn,
+} from "../presentation/office-transition";
+import { SwearingInPanel } from "./SwearingInPanel";
 import {
   docketBill,
   type DocketBill,
@@ -329,6 +333,7 @@ import {
   reportReturnToTitle,
   type ReturnToTitleRequest,
 } from "./return-to-title-bridge";
+import { HomePurchasePanel } from "./HomePurchasePanel";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
 import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
 import {
@@ -3591,6 +3596,7 @@ function PlayingScreen({
                           if (facing !== "everyone") setReturnFocusTo(facing);
                         }}
                         transitionHandlers={createCampaignElectionTransitionRegistry()}
+                        presentPersonIds={presentPersonIds}
                       />
                     ) : showOrientation ? (
                       <WorldOrientationPanel
@@ -4550,6 +4556,11 @@ function renderWorkspace({
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
           />
+          <HomePurchasePanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+          />
           {view.section !== "finances" && (
             <>
               <PersonalGoalsPanel
@@ -5270,6 +5281,23 @@ function renderWorkspace({
               world={session.world}
               personId={session.personId}
               transition={transition}
+              onWorldChange={onWorldChange}
+            />
+          ),
+        });
+      }
+      const swearingIn = officeHalf
+        ? projectSwearingIn(session.world, session.personId)
+        : null;
+      if (swearingIn) {
+        sections.push({
+          key: "swearing-in",
+          title: "Swearing-in",
+          body: (
+            <SwearingInPanel
+              world={session.world}
+              personId={session.personId}
+              swearingIn={swearingIn}
               onWorldChange={onWorldChange}
             />
           ),
@@ -6141,7 +6169,8 @@ interface WorkSection {
     | "paths"
     | "personnel"
     | "crisis"
-    | "transition";
+    | "transition"
+    | "swearing-in";
   readonly title: string;
   readonly body: ReactNode;
 }

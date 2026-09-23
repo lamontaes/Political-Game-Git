@@ -2,6 +2,12 @@ import {
   generateContextualCharacterHistory,
   type EarlierLifeGenerationVersion,
 } from "../simulation/contextual-character-history";
+import {
+  CHILDHOOD_GENERATION_V2,
+  type ChildhoodGenerationVersion,
+} from "../simulation/character-history";
+import { residentNameForJurisdiction } from "../simulation/life-places";
+import { generateSchoolNames } from "../simulation/school-names";
 import { LEGACY_COHERENT_CATALOG_GENERATION } from "../simulation/person-appearance";
 import {
   guardianAgeBand,
@@ -128,6 +134,8 @@ export interface ProductionWorldInput {
   readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
   /** Absent preserves the original school/work history in replay descriptors. */
   readonly earlierLifeGenerationVersion?: EarlierLifeGenerationVersion;
+  /** Absent keeps an old replay's childhood birth dates and school name. */
+  readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
 }
 
 export interface ProductionWorld {
@@ -227,6 +235,7 @@ export function buildProductionWorld(
     input.familyStructureSeed ?? input.seed,
     input.givenNameGenerationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
     input.earlierLifeGenerationVersion,
+    input.childhoodGenerationVersion,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -324,6 +333,7 @@ function establishAgeEligibleState(
   familyStructureSeed: string,
   givenNameGenerationVersion: GivenNameGenerationVersion,
   earlierLifeGenerationVersion?: EarlierLifeGenerationVersion,
+  childhoodGenerationVersion?: ChildhoodGenerationVersion,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -389,6 +399,7 @@ function establishAgeEligibleState(
       jurisdictionId,
       givenNameGenerationVersion,
       earlierLifeGenerationVersion,
+      childhoodGenerationVersion,
     );
     transitions.push({
       kind: "household-membership",
@@ -793,11 +804,19 @@ function establishAgeEligibleState(
   // opening became ineligible, and the town had no school in it.
   if (age >= SCHOOL_ENTRY_AGE) {
     const schoolKey = `${stableKey}:school`;
+    const schooling = childSchooling(
+      world,
+      place,
+      jurisdictionId,
+      age,
+      childhoodGenerationVersion,
+    );
     // The world does not know when the school was founded, and does not
     // pretend to: the earliest date it can honestly claim the school existed
     // is the day this child started attending it.
-    const enrolledOn = dateAtAge(player.birthDate, SCHOOL_ENTRY_AGE);
+    const enrolledOn = dateAtAge(player.birthDate, schooling.current.entryAge);
     transitions.push(
+      ...earlierSchooling(world, player, stableKey, jurisdictionId, schooling),
       {
         kind: "organization",
         input: {
@@ -805,7 +824,7 @@ function establishAgeEligibleState(
           formedAt: enrolledOn,
           provenance: PROVENANCE,
           initialProfile: {
-            name: `${place.displayName} public school`,
+            name: schooling.current.name,
             classification: "sector:education",
             locationJurisdictionId: jurisdictionId,
           },
@@ -974,6 +993,7 @@ function summarizeEarlierLife(
   jurisdictionId: EntityId,
   givenNameGenerationVersion: GivenNameGenerationVersion,
   version?: EarlierLifeGenerationVersion,
+  childhoodGenerationVersion?: ChildhoodGenerationVersion,
 ): World {
   const stableKey = "production:earlier-life";
   const generateHistory =
@@ -987,6 +1007,9 @@ function summarizeEarlierLife(
       personId: player.id,
       jurisdictionId,
       givenNameGenerationVersion,
+      ...(childhoodGenerationVersion === undefined
+        ? {}
+        : { childhoodGenerationVersion }),
     }),
   ).world;
   return applyCharacterHistoryPlan(next, {
@@ -1039,6 +1062,125 @@ function summarizeEarlierLife(
  * silently pointing at nothing.
  */
 /** The same calendar year arithmetic the character-history writer uses. */
+/**
+ * The schools a child who starts in school has attended, up to the one they
+ * attend now. The legacy school was the place with "public school" after it
+ * ("Ely, Nevada public school"), attended since five, which is not what anybody
+ * calls a school. Under the childhood repair each stage is a generated name,
+ * drawn through the same generator and stem the summarized adult history uses
+ * so a town's schools read alike, at the ages that history uses: elementary
+ * school from five, middle school from eleven, high school from fourteen. A
+ * seventeen-year-old has finished the first two and is in the third.
+ */
+interface ChildSchoolStage {
+  readonly key: "elementary" | "middle" | "high";
+  readonly name: string;
+  readonly entryAge: number;
+}
+
+function childSchooling(
+  world: World,
+  place: LifePlace,
+  jurisdictionId: EntityId,
+  age: number,
+  version: ChildhoodGenerationVersion | undefined,
+): {
+  readonly current: ChildSchoolStage;
+  readonly finished: readonly ChildSchoolStage[];
+} {
+  if (version !== CHILDHOOD_GENERATION_V2) {
+    return {
+      current: {
+        key: "elementary",
+        name: `${place.displayName} public school`,
+        entryAge: SCHOOL_ENTRY_AGE,
+      },
+      finished: [],
+    };
+  }
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  const names = generateSchoolNames(
+    new SeededRng(world.seed).fork("production-world-v1:child-school"),
+    residentNameForJurisdiction(
+      jurisdiction?.name ?? place.displayName,
+      jurisdiction?.parentName ?? null,
+    ),
+  );
+  const stages: readonly ChildSchoolStage[] = [
+    { key: "elementary", name: names.elementary, entryAge: SCHOOL_ENTRY_AGE },
+    { key: "middle", name: names.middle, entryAge: 11 },
+    { key: "high", name: names.high, entryAge: 14 },
+  ];
+  const reached = stages.filter((stage) => age >= stage.entryAge);
+  return { current: reached.at(-1)!, finished: reached.slice(0, -1) };
+}
+
+/**
+ * The schools a child finished before the one they attend now: each one
+ * attended from its entry age and completed the day the next began.
+ */
+function earlierSchooling(
+  world: World,
+  player: Person,
+  stableKey: string,
+  jurisdictionId: EntityId,
+  schooling: ReturnType<typeof childSchooling>,
+): CharacterHistoryTransition[] {
+  const next = [...schooling.finished.slice(1), schooling.current];
+  return schooling.finished.flatMap((stage, index) => {
+    const schoolKey = `${stableKey}:school:${stage.key}`;
+    const enrollmentKey = `${stableKey}:enrollment:${stage.key}`;
+    const startedAt = dateAtAge(player.birthDate, stage.entryAge);
+    return [
+      {
+        kind: "organization",
+        input: {
+          stableKey: schoolKey,
+          formedAt: startedAt,
+          provenance: PROVENANCE,
+          initialProfile: {
+            name: stage.name,
+            classification: "sector:education",
+            locationJurisdictionId: jurisdictionId,
+          },
+        },
+      },
+      {
+        kind: "education",
+        input: {
+          stableKey: enrollmentKey,
+          personId: player.id,
+          organizationId: organizationIdFor(world.id, schoolKey),
+          startedAt,
+          programKind:
+            stage.key === "elementary"
+              ? "schooling:elementary"
+              : "schooling:middle",
+          contextKind:
+            stage.key === "elementary" ? "stage:elementary" : "stage:school",
+          provenance: PROVENANCE,
+        },
+      },
+      {
+        kind: "education-state",
+        input: {
+          stableKey: `${enrollmentKey}:completed`,
+          enrollmentStableKey: enrollmentKey,
+          effectiveAt: dateAtAge(player.birthDate, next[index]!.entryAge),
+          status: "completed",
+          contextKind:
+            stage.key === "elementary" ? "stage:elementary" : "stage:school",
+          reason:
+            stage.key === "elementary"
+              ? "Completed elementary school."
+              : "Completed the middle-school program.",
+          provenance: PROVENANCE,
+        },
+      },
+    ] satisfies CharacterHistoryTransition[];
+  });
+}
+
 function yearsBefore(date: IsoDate, years: number): IsoDate {
   return `${(Number(date.slice(0, 4)) - years).toString().padStart(4, "0")}${date.slice(4)}` as IsoDate;
 }

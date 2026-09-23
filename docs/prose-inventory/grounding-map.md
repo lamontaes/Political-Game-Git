@@ -24,15 +24,15 @@ declare is reported as undeclared rather than filled in from a guess.
 | `governing/municipal-work-and-session` | 7 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-workspace` | 77 | 0 | 0 | — |
 | `legislative/measure-briefing` | 94 | 0 | 0 | measure |
-| `life/adult` | 358 | 248 | 0 | colleague-identity, household-kinship, persistent-cast |
+| `life/adult` | 358 | 238 | 0 | colleague-identity, household-kinship, persistent-cast |
 | `life/callback` | 39 | 0 | 0 | — |
 | `life/episode` | 1020 | 71 | 0 | activity-evidence, age, colleague-identity, elapsed-time, enrollment, household-kinship, incident-locality, persistent-cast, work-standing |
 | `life/formative` | 177 | 0 | 0 | persistent-cast |
 | `life/introduction` | 12 | 0 | 0 | — |
 | `life/life-continuation` | 12 | 0 | 0 | — |
 | `life/office-answer` | 17 | 0 | 0 | candidacy |
-| `life/opening-conversation-intents` | 16 | 0 | 0 | — |
-| `life/opening-conversation-replies` | 59 | 0 | 0 | — |
+| `life/opening-conversation-intents` | 17 | 0 | 0 | — |
+| `life/opening-conversation-replies` | 62 | 0 | 0 | — |
 | `life/personal-aims` | 19 | 0 | 0 | — |
 | `life/press-disclosure` | 5 | 0 | 0 | — |
 | `life/recall-cards` | 10 | 0 | 0 | — |
@@ -64,7 +64,7 @@ count is how many families' declared grounding touches each one.
 
 ## Withheld scenes and the evidence each one is missing
 
-319 templates across 30 distinct
+309 templates across 29 distinct
 missing-evidence reasons. Each reason is the bank's own, read from the stage's
 `withheld` requirement rather than restated here.
 
@@ -97,7 +97,6 @@ missing-evidence reasons. Each reason is the bank's own, read from the stage's
 - **adult.household-repair** — The scene depends on a specific broken household object, and the world keeps no record that could name one. Until a canonical household object or repair record exists, an unnamed broken 'something' cannot be grounded, and a prettier synonym for 'thing' would not ground it either.
 - **adult.unexpected-expense** — The scene depends on a specific object having broken and on the month's arithmetic, and the world records neither objects nor monthly amounts. An unnamed broken 'something' with an unstated cost cannot be grounded.
 - **adult.housing-repair-standoff** — The scene depends on a specific unrepaired defect and a recorded repair-responsible counterpart, and the world contains neither: dwellings carry no defect records and tenures name no landlord. Withheld rather than rewritten around an unnamed broken 'something'.
-- **adult.household-money-shortfall** — The scene depends on the month's arithmetic having moved, and the world keeps no monthly income or spending record that could say so. Grounded money pressure lives in adult.debt-call and adult.housing-cost-change, which read recorded obligations.
 
 ## Families whose grounding the banks do not declare
 

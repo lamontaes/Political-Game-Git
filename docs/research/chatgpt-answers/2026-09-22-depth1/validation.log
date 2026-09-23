@@ -1,0 +1,17 @@
+test_funded_transfer_is_exact_and_idempotent (__main__.IsolatedConservationExamples.test_funded_transfer_is_exact_and_idempotent) ... ok
+test_job_roles_are_not_residents_or_unique_workers (__main__.IsolatedConservationExamples.test_job_roles_are_not_residents_or_unique_workers) ... ok
+test_materialization_does_not_add_a_resident (__main__.IsolatedConservationExamples.test_materialization_does_not_add_a_resident) ... ok
+test_migration_and_real_birth_are_different (__main__.IsolatedConservationExamples.test_migration_and_real_birth_are_different) ... ok
+test_candidate_and_binding_notes_match (__main__.ResearchInputs.test_candidate_and_binding_notes_match) ... ok
+test_depth_recipe_fields_and_uniqueness (__main__.ResearchInputs.test_depth_recipe_fields_and_uniqueness) ... ok
+test_family_profile_not_empirical_or_a_family_exclusion (__main__.ResearchInputs.test_family_profile_not_empirical_or_a_family_exclusion) ... ok
+test_proposition_candidate_shape (__main__.ResearchInputs.test_proposition_candidate_shape) ... ok
+test_queue_dispositions_cover_read_queue_without_duplicates (__main__.ResearchInputs.test_queue_dispositions_cover_read_queue_without_duplicates) ... ok
+test_relationship_rubric_avoids_default_greeting_or_refusal_points (__main__.ResearchInputs.test_relationship_rubric_avoids_default_greeting_or_refusal_points) ... ok
+test_sampling_experiment_units (__main__.ResearchInputs.test_sampling_experiment_units) ... ok
+test_source_references_resolve (__main__.ResearchInputs.test_source_references_resolve) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.001s
+
+OK

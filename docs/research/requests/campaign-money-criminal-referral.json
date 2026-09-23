@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-23T00:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "Today no campaign-money case ever leaves the civil regulator: there is no referral to prosecutors, no charge, trial, plea, sentence or incarceration anywhere in the simulation.",
+    "The owner (2026-09-23, 8:30 p.m. ET) asked what happens if a candidate is caught again and whether people can go to jail. The game will get scaffolding: a regulator may refer a case to a prosecutor, and a charge proceeds through placeholder steps to a possible sentence, every rate and step marked UNRESEARCHED until this is answered.",
+    "Already answered for federal cases (campaign-misconduct-detection-routes, 2026-09-22): DOJ prosecution requires knowing and willful intent. That answer gives no referral rate, delay or sentencing range."
+  ],
+  "priority": "P1",
+  "question": "For personal use of campaign funds by state and local candidates in each of the 50 states, D.C. and Puerto Rico, and for federal candidates: (1) which conduct is a crime (the statute and its mental-state requirement, e.g. knowing and willful), and at what amount it becomes a felony; (2) who can refer a case to prosecutors (the regulator, an auditor, anyone) and who prosecutes (attorney general, district attorney, U.S. Attorney); (3) the steps from referral to charge, plea or trial, and sentence, with any statutory deadlines or limitation periods; (4) statutory penalty ranges (fine, restitution, imprisonment, disqualification from office or future candidacy); and (5) real cases per jurisdiction where available: who, year, amount taken, whether repeat conduct, charge, plea or verdict, and sentence actually served.",
+  "questionId": "campaign-money-criminal-referral",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/campaign-misconduct-detection-routes.json (answered 2026-09-22)",
+      "whatItDidNotSettle": "Establishes the federal knowing-and-willful threshold and DOJ's role only; no state criminal routes, penalty ranges, referral practice or case outcomes."
+    },
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-22-campaign-finance-regulators/CAMPAIGN-FINANCE-REGULATORS-52.md",
+      "whatItDidNotSettle": "Mentions criminal referral as a split in some states (Arizona, Vermont, Tennessee) without statutes, thresholds or penalties."
+    }
+  ],
+  "title": "When taking campaign money becomes a crime, who prosecutes it, and what sentence follows",
+  "usableAnswer": "One row per jurisdiction (plus federal): criminal statute and mental state, felony threshold, referring and prosecuting bodies, procedural steps and limitation period, penalty ranges including disqualification, and real case outcomes. UNKNOWN where no source settles it; no invented probabilities.",
+  "whyItMatters": "A candidate who keeps taking campaign money after being caught faces only rising civil fines. Whether and when that becomes a prosecution, and what it costs her, is the ceiling of the whole corruption consequence ladder."
+}

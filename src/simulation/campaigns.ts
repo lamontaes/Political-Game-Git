@@ -14,6 +14,7 @@ import { STATE_GOVERNING_HANDLERS } from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
+import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -1941,6 +1942,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         // GOVERNING: state office matters, their deadlines and reports.
         ...STATE_GOVERNING_HANDLERS,
         ...GOVERNOR_TURNOVER_HANDLERS,
+        // A legislature and voters changing the governor's term limit.
+        ...CONSTITUTIONAL_REFORM_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.

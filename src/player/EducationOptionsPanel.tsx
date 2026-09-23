@@ -12,10 +12,12 @@ import { projectRelevantEducationDirectory } from "../presentation/practical-opp
 import { searchInstitutions } from "../education/catalog";
 import {
   applyForEducation,
+  canApplyFor,
   educationOptionReason,
   pendingEducationOffers,
   respondToEducationOffer,
   studyDefinition,
+  studyPathFor,
 } from "../education/study-provider";
 import { pathForRelationship } from "../simulation/life-paths2";
 import {
@@ -278,6 +280,24 @@ export function EducationOptionsPanel({
                         Request {c.label.trim()} study offer
                       </button>
                     </>
+                  ) : canApplyFor(c) ? (
+                    <>
+                      <p>
+                        {educationOptionReason(world, institution, c) ??
+                          studyProgramCostLabel(studyPathFor(institution, c))}
+                      </p>
+                      <button
+                        type="button"
+                        disabled={
+                          !!educationOptionReason(world, institution, c)
+                        }
+                        onClick={() =>
+                          act(applyForEducation(world, institution, c.code))
+                        }
+                      >
+                        Apply for {c.label.trim()}
+                      </button>
+                    </>
                   ) : (
                     <p>Listed here, but not something you can apply for.</p>
                   )}
@@ -290,7 +310,11 @@ export function EducationOptionsPanel({
         const terms = parseEducationTerms(offer.description);
         return (
           <section key={offer.id} aria-label="Study offer">
-            <h4>Review noncredit study offer</h4>
+            <h4>
+              {terms?.capabilityCode.startsWith("LEVEL")
+                ? "Review your offer of a place"
+                : "Review noncredit study offer"}
+            </h4>
             <p>
               {terms ? (
                 <>

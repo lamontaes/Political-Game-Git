@@ -102,6 +102,7 @@
     "measure:references": "node --import tsx scripts/art-asset-factory/cli-measure-references.ts",
     "report:life": "node --import tsx scripts/life-report.ts",
     "prose:eval": "node --import tsx scripts/prose-eval/cli.ts",
+    "spelling": "node --import tsx scripts/prose-eval/spelling.ts",
     "report:check": "node scripts/report-check/cli.mjs",
     "corpus:prose": "node --import tsx scripts/prose-corpus/cli.ts",
     "fixture:municipal-governance": "node --import tsx scripts/source/municipal-governance-fixture.ts",

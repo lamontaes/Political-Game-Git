@@ -200,14 +200,29 @@ export function venueActivities(
   transitionHandlers: FutureTransitionHandlerRegistry = createCampaignElectionTransitionRegistry(),
 ) {
   return scheduledActivitiesVisibleTo(world, personId)
-    .filter(
-      (activity) =>
-        scheduledActivityState(world, activity.id).status === "scheduled" &&
-        activity.participantPersonIds.includes(personId) &&
-        (activity.responsiblePersonId === personId ||
-          (activity.responsiblePersonId === null &&
-            activity.kind === "tentative")),
-    )
+    .filter((activity) => {
+      const state = scheduledActivityState(world, activity.id);
+      if (state.status !== "scheduled") return false;
+      if (!activity.participantPersonIds.includes(personId)) return false;
+      /*
+       * An optional hold whose time has gone stays "scheduled" in the record
+       * when nothing lapsed it: it is still true that it was offered. It is
+       * no longer something anyone can go to, though. A Nevada life eight
+       * years in listed 104 past party meetings under Places, none of which
+       * could be answered, and the page slowed with them. A confirmed
+       * commitment is kept however late, because time will not step over it
+       * and the player has to be able to resolve it.
+       */
+      if (
+        activity.kind === "tentative" &&
+        compareSimulationMoments(state.end, world.currentMoment) <= 0
+      )
+        return false;
+      return (
+        activity.responsiblePersonId === personId ||
+        (activity.responsiblePersonId === null && activity.kind === "tentative")
+      );
+    })
     .map((activity) => {
       let refusal: string | null = null;
       let elapsedMinutes: number | null = null;
