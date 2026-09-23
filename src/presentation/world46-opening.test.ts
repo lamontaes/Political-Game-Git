@@ -147,10 +147,21 @@ const sha256 = (text: string) =>
  * identities changed. Kentucky: 3 given names and 9 summaries, each made
  * identical by one renamed person's old given name, plus `snapshotId`.
  * Peebles: 4 and 12, plus `snapshotId`. 0 unexplained.
+ *
+ * AND RE-ACCEPTED ON TOP OF THOSE 2026-09-22, for the federal policy pack: twenty
+ * federal domains, sixty federal issues and sixty knowledge subjects, all in
+ * `world.policyCatalog` under the `us-federal:` namespace. Same predicted
+ * movement, same evidence: LEGACY_OPENING_SHAPE, as re-set above, PASSED
+ * unchanged on the run that moved these, and the pack's own test proves every id and record the
+ * catalog already had is untouched and in its old place.
+ *
+ * AND AGAIN 2026-09-23, when the federal pack's text took American spellings
+ * (programs, offenses, license). Only that authored text moved; the ids and
+ * LEGACY_OPENING_SHAPE did not.
  */
 const FED321F7_LEGACY = {
-  kentucky: "df117fc95d6d93f763e9e0a044f046ca29fa4929233f62a252fc17838129a296",
-  peebles: "f219ba89129d604c739d7f70bfb1e5cff469d24a402280faf1d36dddb992b52f",
+  kentucky: "66909a6abc88327d922a16be12c1c44c7b2a23319cbd74170e18ad1ad6f9675b",
+  peebles: "507463587fdeb50c00a89f97e21a42cfd72790ff35712a84a01835431f6b8f5b",
 } as const;
 
 /**
