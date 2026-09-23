@@ -64,6 +64,44 @@ const balanceOf = (world: World, personId: EntityId) =>
   )!.liquidBalance.minorUnits;
 
 describe("buying a home", () => {
+  it("offers nothing to a child, even one with money", () => {
+    const created = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startAge: 10,
+      placeKey: "0203000",
+      questionnaire: "skipped",
+      priors: [],
+      seed: "home-purchase-child",
+    } as NewGameSetup);
+    const personId = created.playerPersonId;
+    const world = createResourcePosition(created.world, {
+      stableKey: "test:child-savings",
+      owner: { kind: "person", personId },
+      openedAt: created.world.currentDate,
+      openingBalance: money(10_000_000, "USD"),
+      provenance: { kind: "authored", note: "Test savings." },
+    });
+    expect(projectHomePurchase(world, personId)).toBeNull();
+    expect(homePurchaseReason(world, personId)).toBe(
+      "You have to be 18 to buy a home.",
+    );
+    expect(buyHome(world, personId).status).toBe("not-bought");
+  });
+
+  it("offers nothing when the game does not hold the person's money", () => {
+    const created = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startAge: 35,
+      placeKey: "3502000",
+      questionnaire: "skipped",
+      priors: [],
+      seed: "home-purchase",
+    } as NewGameSetup);
+    const personId = created.playerPersonId;
+    const opened = openOrdinaryLife(created.world, personId);
+    expect(projectHomePurchase(opened, personId)).toBeNull();
+  });
+
   it("says what the down payment is when there is not enough saved", () => {
     const { world, personId } = lifeWithSavings(1_000_000);
     expect(homePurchaseReason(world, personId)).toBe(
