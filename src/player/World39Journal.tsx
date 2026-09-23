@@ -1,3 +1,4 @@
+import { proseDate } from "../presentation/prose-dates";
 import { useState, type ReactNode } from "react";
 import type { EntityId, World } from "../simulation";
 import type {
@@ -134,6 +135,27 @@ export function World39Journal({
                 </span>
               ))}
             </p>
+            {chapter.repeats.length > 0 ? (
+              <p
+                className="world39-repeats"
+                data-testid="world39-chapter-repeats"
+              >
+                {chapter.repeats.map((repeat, index) => (
+                  <span
+                    key={repeat.first.id}
+                    id={`world39-journal-${repeat.first.id}`}
+                    data-entry-kind={repeat.first.kind}
+                    data-source-id={repeat.first.sourceId}
+                    data-at={repeat.first.at}
+                    data-count={repeat.count}
+                  >
+                    {index > 0 ? " " : ""}
+                    {repeat.first.text} {repeat.count - 1} more like it
+                    followed, the last on {proseDate(repeat.lastAt)}.
+                  </span>
+                ))}
+              </p>
+            ) : null}
           </section>
         ))}
       </div>
