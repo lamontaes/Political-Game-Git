@@ -21,7 +21,6 @@ import {
 } from "../simulation";
 import {
   fileForStateExecutiveOffice,
-  qualifyForStateExecutiveTerm,
 } from "./nationwide-candidacy";
 import {
   attendOfficeTransitionService,
@@ -168,7 +167,7 @@ describe("a Kentucky legislator-elect", () => {
 });
 
 describe("a governor-elect", () => {
-  it("carries the qualification step and the executive services until the term begins", () => {
+  it("is qualified without a step and carries the executive services until the term begins", () => {
     const { world, personId } = adultLifeIn("NV", "office-transition-NV");
     const decided = runToElection(
       fileForStateExecutiveOffice(world, personId),
@@ -177,15 +176,11 @@ describe("a governor-elect", () => {
     );
     const view = projectOfficeTransition(decided, personId)!;
     expect(view.electTitle).toBe("Governor-elect");
-    expect(view.qualification).toBe("needed");
+    expect(view.qualification).toBe("done");
     expect(view.services.map((s) => s.key)).toContain(
       "executive-transition-team",
     );
-    const qualified = qualifyForStateExecutiveTerm(decided, personId);
-    expect(projectOfficeTransition(qualified, personId)!.qualification).toBe(
-      "done",
-    );
-    const inOffice = passUntil(qualified, view.startsAt);
+    const inOffice = passUntil(decided, view.startsAt);
     expect(projectOfficeTransition(inOffice, personId)).toBeNull();
     // A governor is sworn in too, at an inauguration rather than in a chamber.
     const swearingIn = projectSwearingIn(inOffice, personId)!;

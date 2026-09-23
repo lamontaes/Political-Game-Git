@@ -95,8 +95,8 @@ describe("GOVERNING state executive outcomes: won, lost, and a winner who dies",
     const decided = runToElection(filed, personId, suppliedWin(personId));
     expect(projectCampaign(decided, personId).phase).toBe("won");
     const planned = stateExecutiveEntryStatus(decided, personId);
-    expect(planned.kind).toBe("awaiting-qualification");
-    if (planned.kind !== "awaiting-qualification") return;
+    expect(planned.kind).toBe("qualified-awaiting-entry");
+    if (planned.kind !== "qualified-awaiting-entry") return;
 
     const qualified = qualifyForStateExecutiveTerm(decided, personId);
 
@@ -175,27 +175,19 @@ describe("NATIONWIDE ordinary state executive entry once term facts are admitted
     expect(projectCampaign(world, personId).phase).toBe("won");
     const kentucky = stateExecutiveIdentity("KY")!;
 
+    // Meeting the office's requirements is checked for the winner, not
+    // pressed: the won term is already qualified, and nothing is on the
+    // player's desk until the start date.
     const planned = stateExecutiveEntryStatus(world, personId);
-    expect(planned.kind).toBe("awaiting-qualification");
-    if (planned.kind !== "awaiting-qualification") return;
+    expect(planned.kind).toBe("qualified-awaiting-entry");
+    if (planned.kind !== "qualified-awaiting-entry") return;
     // The admitted fixture's reference start follows the regular election.
     expect(planned.startsAt).toBe("2027-01-15");
     expect(planned.endsAt).toBe("2031-01-15");
-    expect(planned.qualificationBlocks).toEqual([]);
     expect(resolveExecutiveOffice(world)).toBeNull();
 
-    // Control: without recorded qualification the term is not entered.
-    const unqualified = passUntil(world, planned.startsAt);
-    expect(resolveExecutiveOffice(unqualified)).toBeNull();
-    expect(stateExecutiveEntryStatus(unqualified, personId).kind).toBe(
-      "term-over-or-not-entered",
-    );
-
     const qualified = qualifyForStateExecutiveTerm(world, personId);
-    expect(stateExecutiveEntryStatus(qualified, personId).kind).toBe(
-      "qualified-awaiting-entry",
-    );
-    expect(qualifyForStateExecutiveTerm(qualified, personId)).toBe(qualified);
+    expect(qualified).toBe(world);
 
     const entered = passUntil(qualified, planned.startsAt);
     expect(stateExecutiveEntryStatus(entered, personId).kind).toBe("in-office");
@@ -238,15 +230,16 @@ describe("NATIONWIDE ordinary state executive entry once term facts are admitted
         outcome.summary,
       ),
     ).toBe(governed);
-    // Control: the same public event gives a non-holder nothing.
+    // Control: the same public event gives a non-holder nothing. Before the
+    // start date the winner holds nothing yet.
     expect(
       receiveExecutiveWorkIfCurrentOffice(
-        unqualified,
+        world,
         outcome.id,
         "Transition briefing",
         outcome.summary,
       ),
-    ).toBe(unqualified);
+    ).toBe(world);
   }, 240_000);
 
   it("a lost contest never produces a term for the loser", () => {

@@ -1,4 +1,5 @@
 import { activeLifePathWorkers } from "./life-paths2-workers";
+import { lateTermEntryRecorded } from "./late-term-entry-events";
 import { isPersonAliveAt } from "./vitality-integrity";
 /** EXEC-WORK2: read canonical office/work/evidence, never caller authority. */
 import { EXECUTIVE_AUTHORITY_RULE_PACKS } from "./executive-authority-rule-packs";
@@ -276,9 +277,11 @@ export function activeElectedExecutiveTermEvidence(
     })
   )
     return null;
-  const entered = world.history.futureDueItemStates.some(
-    (state) => state.dueItemId === term.entry.id && state.status === "resolved",
-  );
+  const entered =
+    world.history.futureDueItemStates.some(
+      (state) =>
+        state.dueItemId === term.entry.id && state.status === "resolved",
+    ) || lateTermEntryRecorded(world, relationshipId);
   return entered ? term : null;
 }
 

@@ -29,6 +29,7 @@ import {
   scheduleCampaignAction,
   scheduledActivityState,
   simulationMomentAtLocalTime,
+  stateExecutiveEntryStatus,
 } from "../simulation";
 import type {
   CampaignActionKind,
@@ -469,14 +470,12 @@ export function projectCampaign(
     })(),
     afterword:
       state.status === "won"
-        ? ((term) =>
-            term
-              ? `${candidateName} won. The term begins ${proseDate(term.startsAt)}; until then the office is not theirs.`
-              : `${candidateName} won. The seat is theirs, and so is everything that came before it.`)(
-            legislativeTermDates(
-              contest.office.officeKey,
-              contest.electionDate,
-            ),
+        ? ((startsAt) =>
+            startsAt
+              ? `${candidateName} won. The term begins ${proseDate(startsAt)}; until then the office is not theirs.`
+              : `${candidateName} won.`)(
+            legislativeTermDates(contest.office.officeKey, contest.electionDate)
+              ?.startsAt ?? executiveTermStart(world, personId, contest.id),
           )
         : state.status === "lost"
           ? `${candidateName} lost. That is a thing that happened to them, not the end of them — tomorrow is still there.`
@@ -897,4 +896,16 @@ export function candidateAge(world: World, personId: EntityId): number {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
   return ageOnDate(person.birthDate, world.currentDate);
+}
+
+/** When a won state executive term begins, where the game has dated it. */
+function executiveTermStart(
+  world: World,
+  personId: EntityId,
+  contestId: EntityId,
+): IsoDate | null {
+  const status = stateExecutiveEntryStatus(world, personId);
+  return "startsAt" in status && status.contestId === contestId
+    ? status.startsAt
+    : null;
 }

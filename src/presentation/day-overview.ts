@@ -17,6 +17,7 @@ import {
   electedExecutiveTermForRelationship,
   recordedExecutiveQualification,
 } from "../simulation/executive-work-context";
+import { legislativeTermForRelationship } from "../simulation/legislative-office-terms";
 import { completedActivityHere } from "./scene-venues";
 import { careerOfferAccepted } from "../simulation/career-path7";
 
@@ -234,6 +235,11 @@ export function offersAwaitingAnswer(
       // A term whose start has passed unqualified is not entered late, so it
       // is no longer anything the player can answer.
       if (electedTerm && world.currentDate >= electedTerm.startsAt) return [];
+      // A won legislative seat is not an offer either: it waits for its term
+      // and is taken up on the first day, and "Before you take office" says
+      // so. Listing it here read "An offer of work as Seat in the House of
+      // Representatives is waiting for your answer" with nothing to answer.
+      if (legislativeTermForRelationship(world, relationship.id)) return [];
       return [
         {
           relationshipId: relationship.id,
@@ -259,8 +265,8 @@ export function offersAwaitingAnswer(
  */
 export function electedTermSentence(offer: OfferAwaitingAnswer): string {
   return offer.answer === "qualified"
-    ? `You have qualified as ${offer.roleTitle}. The term begins ${proseDate(offer.startsOn)}.`
-    : `You won the race for ${offer.roleTitle}. Qualify for the term under Campaigns before it begins on ${proseDate(offer.startsOn)}.`;
+    ? `You won the race for ${offer.roleTitle}. The term begins ${proseDate(offer.startsOn)}, and you take the oath that day.`
+    : `You won the race for ${offer.roleTitle}, but a requirement of the office is not met, and until it is you cannot take it up. Campaigns says which.`;
 }
 
 /** An accepted offer: when it begins, or that it can be begun now. */
