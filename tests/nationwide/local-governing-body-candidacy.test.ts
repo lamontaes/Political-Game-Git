@@ -104,11 +104,15 @@ describe("a town's governing body, across the country", () => {
   it("offers Bowling Green's body beside Kentucky's seats, and invents nothing about it", () => {
     const here = jurisdictionOf(BOWLING_GREEN);
     const bodies = localGoverningBodiesForJurisdiction(here);
-    expect(bodies).toHaveLength(1);
+    // The body, and the mayor the city's voters elect at large.
+    expect(bodies.map((office) => office.seat)).toEqual([
+      "governing-body",
+      "chief-executive",
+    ]);
     const offices = electiveOfficesForJurisdiction(here);
-    // The state's offices are still reached; the town's is added, not swapped.
-    expect(offices.length).toBeGreaterThan(1);
-    const body = offices.at(-1)!;
+    // The state's offices are still reached; the town's are added, not swapped.
+    expect(offices.length).toBeGreaterThan(2);
+    const body = offices.at(-2)!;
     expect(body.officeKey).toBe(bodies[0]!.officeKey);
     expect(body.chamberName).toBe("City of Bowling Green governing body");
     expect(body.seats.kind).toBe("unknown");
@@ -140,10 +144,16 @@ describe("a town's governing body, across the country", () => {
       const local = offices.filter((office) =>
         localGoverningBodyIdentityForOfficeKey(office.officeKey),
       );
-      expect(local.map((office) => office.recordedBy.packName)).toEqual([
-        government,
-      ]);
-      expect(offices.at(-1)).toBe(local[0]);
+      // The body first, then the mayor where the town's voters elect one.
+      expect(local[0]!.recordedBy.packName).toBe(government);
+      expect(local[0]!.office.title).toBe("Member of the governing body");
+      expect(
+        local.slice(1).map((office) => [
+          office.recordedBy.packName,
+          office.office.title,
+        ]),
+      ).toEqual(local.length > 1 ? [[government, "Mayor"]] : []);
+      expect(offices.slice(-local.length)).toEqual(local);
     },
   );
 

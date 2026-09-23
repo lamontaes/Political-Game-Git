@@ -13,8 +13,8 @@ import {
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import {
+  localElectedOffices,
   localGoverningBodyCandidacyPack,
-  localGoverningBodyIdentity,
   localGoverningBodyIdentityForOfficeKey,
 } from "./nationwide-world/local-governing-body-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
@@ -73,7 +73,8 @@ export function candidacyPackForJurisdiction(
 }
 
 /**
- * The governing bodies of the town governments this place has, as the Census
+ * The elected offices of the town governments this place has (the governing
+ * body, and the mayor where the town elects one directly), as the Census
  * Government Units listing joins them to it. A place with no government of its
  * own (a census-designated place) has none and is never given one.
  *
@@ -85,15 +86,15 @@ export function localGoverningBodiesForJurisdiction(
 ): readonly LocalGoverningBodyIdentity[] {
   const place = lifePlaceByJurisdictionId(jurisdictionId);
   if (!place || place.scope !== "locality" || !place.sourceGeoid) return [];
-  return governmentUnitsForPlace(place.sourceGeoid)
-    .map(localGoverningBodyIdentity)
-    .filter((identity) => identity !== null);
+  return governmentUnitsForPlace(place.sourceGeoid).flatMap(
+    localElectedOffices,
+  );
 }
 
 /**
  * Every office a person living here could stand for, in the order a ballot
  * reads upward: the state's offices the place reaches, then the town's own
- * governing body. The governorship is offered on its own screen, as before.
+ * governing body and, where the town elects one, its mayor. The governorship is offered on its own screen, as before.
  */
 export function electiveOfficesForJurisdiction(
   jurisdictionId: EntityId,

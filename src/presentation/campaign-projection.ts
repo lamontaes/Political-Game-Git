@@ -739,8 +739,13 @@ export function fileForOffice(
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
     // What a committee is actually called: the candidate and the body they
-    // want a seat in, rather than the game's own description of the seat.
-    committeeName: `${person.familyName} for the ${option.chamberName}`,
+    // want a seat in, rather than the game's own description of the seat. A
+    // mayor sits in no body, so the committee is named for the office.
+    committeeName:
+      localGoverningBodyIdentityForOfficeKey(option.officeKey)?.seat ===
+      "chief-executive"
+        ? `${person.familyName} for ${option.office.title}`
+        : `${person.familyName} for the ${option.chamberName}`,
     donorPoolName: "People who might give",
     advertisingVendorName: "Whoever sells the advertising",
     staffPersonIds: [],
