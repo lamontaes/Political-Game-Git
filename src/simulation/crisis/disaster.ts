@@ -566,6 +566,34 @@ function requestDeadline(episode: HazardEpisodeRecord): IsoDate {
   );
 }
 
+/**
+ * Whether a disaster left nothing a federal request could answer: no home or
+ * building damaged or destroyed, no one hurt, and below the game's own
+ * standard for asking. The played governor is not asked about one.
+ *
+ * UNRESEARCHED placeholder: whether a governor ever requests a declaration
+ * with nothing damaged is filed as `disaster-request-with-no-damage`.
+ */
+function nothingToRequest(world: World, episode: HazardEpisodeRecord): boolean {
+  const assessment = disasterAssessment(world, episode.id);
+  if (!assessment) return false;
+  if (
+    stateRequestWarranted(
+      episode.magnitude,
+      assessment.destroyed.household + assessment.destroyed.dwelling,
+    )
+  )
+    return false;
+  const sum = (counts: Readonly<Record<string, number>>) =>
+    Object.values(counts).reduce((total, count) => total + count, 0);
+  return (
+    sum(assessment.damaged) === 0 &&
+    sum(assessment.destroyed) === 0 &&
+    assessment.injuredPersonIds.length === 0 &&
+    assessment.deceasedPersonIds.length === 0
+  );
+}
+
 /** The governor's decision, made by the player who holds that office. */
 export function decideStateDisasterRequest(
   world: World,
@@ -719,6 +747,19 @@ export const disasterStateReviewHandler: FutureTransitionHandler = (
     );
   const deadline = requestDeadline(episode);
   if (controlledBy(world, governor.personId)) {
+    if (nothingToRequest(world, episode))
+      return settled(
+        applyStateDecision(
+          world,
+          episode,
+          null,
+          "decline",
+          "institution",
+          "Nothing was damaged and no one was hurt, so no request was made.",
+        ),
+        "resolved",
+        "nothing-damaged",
+      );
     if (world.currentDate >= deadline)
       return settled(
         applyStateDecision(
@@ -928,7 +969,8 @@ export function pendingDisasterDecisions(
     if (
       governor?.personId === personId &&
       !hasStage(world, record.id, ["state-request", "no-state-request"]) &&
-      world.currentDate <= requestDeadline(record)
+      world.currentDate <= requestDeadline(record) &&
+      !nothingToRequest(world, record)
     )
       return [
         {

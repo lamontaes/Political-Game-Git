@@ -16,6 +16,7 @@ import {
   type EventParticipantRole,
 } from "../simulation";
 import { publishPublicEvent } from "../simulation/public-information";
+import { stateOfJurisdiction } from "../simulation/press/outlets";
 
 function opening(seed: string) {
   return generateOpeningLife(
@@ -147,6 +148,47 @@ describe("WORLD39 saved-world readers", () => {
     );
     expect(item?.eventTime).toBe(source.occurredAt);
     expect(model.learnedEventIds.has(source.id)).toBe(false);
+  });
+
+  it("shows events from the reader's own state, not a police log in another state", () => {
+    const game = opening("world39-close-to-home");
+    const home = game.world.people[game.playerPersonId]!.homeJurisdictionId!;
+    const homeState = stateOfJurisdiction(game.world, home);
+    expect(homeState).not.toBeNull();
+    const elsewhere = Object.keys(game.world.jurisdictions).find((id) => {
+      const state = stateOfJurisdiction(game.world, id);
+      return state !== null && state !== homeState;
+    })!;
+    expect(elsewhere).toBeDefined();
+    const at = (world: World, key: string, jurisdictionId: EntityId) =>
+      recordWorldEvent(world, {
+        stableKey: key,
+        type: "community.meeting",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId,
+        involvedEntityIds: [jurisdictionId],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: [],
+        summary: `A meeting was held (${key}).`,
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    const world = at(at(game.world, "here", home), "far-away", elsewhere);
+    const summaries = projectWorld39News(
+      world,
+      game.playerPersonId,
+    ).publicEvents.map((entry) => entry.summary);
+    expect(summaries).toContain("A meeting was held (here).");
+    expect(summaries).not.toContain("A meeting was held (far-away).");
   });
 
   it("refuses private subject-only truth while retaining this person's fallible account", () => {

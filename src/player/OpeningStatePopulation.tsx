@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { isTerritoryUsps } from "../simulation/state-reference";
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
   queryMapPlaceDemography,
@@ -50,7 +51,11 @@ export function OpeningStatePopulation({
   return (
     <section data-testid="opening-state-population">
       <h3>
-        {stateUsps === "DC" ? "People in the District" : "People in your state"}
+        {stateUsps === "DC"
+          ? "People in the District"
+          : isTerritoryUsps(stateUsps)
+            ? "People in the territory"
+            : "People in your state"}
       </h3>
       {population ? (
         <figure className="pg-state-population-figure">
