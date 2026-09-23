@@ -281,7 +281,7 @@ export function EducationOptionsPanel({
                         <>
                           <p>
                             {educationOptionReason(world, institution, c) ??
-                              `Game-authored option: ${studyProgramCostLabel(studyDefinition(institution, c))} Completion records noncredit study, never a degree or license.`}
+                              `${studyProgramCostLabel(studyDefinition(institution, c))} Finishing it is noncredit study, not a degree or license.`}
                           </p>
                           <button
                             type="button"
@@ -370,10 +370,10 @@ export function EducationOptionsPanel({
                   />
                 </label>
                 <p>
-                  This editable, game-authored grace starts if tuition cannot be
-                  funded at period end. At the disclosed deadline, only study
-                  pauses; work and the World continue. Accepting freezes these
-                  terms for this enrollment.
+                  If a period can&apos;t be paid, you have this many days to pay
+                  it. After that your studies pause until you do; your work and
+                  pay carry on. Accepting fixes these terms for as long as you
+                  study.
                 </p>
               </>
             ) : null}

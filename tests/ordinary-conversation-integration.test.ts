@@ -32,6 +32,11 @@ const EXTERNAL_MAIN_CONTROL = {
 // life now seats the town's eight businesses, their owners and staff, and
 // their monthly revenue and pay (164 records), and main's job market then
 // records openings at those businesses (3 more), so it moved from 112 to 279.
+// The same day the opening stopped writing the reasonless Saturday afternoon
+// invitation (its event, tentative hold, hold state and knowledge) and the
+// picnic favor and confidence (an event and knowledge each): none came from the
+// asker's own records. Eight records fewer moves the frontier from 279 to 271;
+// the wording is unchanged.
 const EXPECTED_P2_IDENTITY = {
   household: "5b96fd286949de9fe8805c81ecc750dac7baf7de1d3bf12086c8b5d5f3684488",
   householdCallback:
@@ -66,8 +71,8 @@ const EXPECTED_COUNTS = {
 describe("PR79 optional consequence hook preserves ordinary subjects", () => {
   it("accounts explicitly for P2R2 initialization while preserving wording", () => {
     const current = ordinaryConversationReplayRecords();
-    expect(current.household.initialNextSequence).toBe(279);
-    expect(current.householdCallback.initialNextSequence).toBe(279);
+    expect(current.household.initialNextSequence).toBe(271);
+    expect(current.householdCallback.initialNextSequence).toBe(271);
     expect(journeyDelta.wordingAfter).toEqual(journeyDelta.wordingBefore);
     const replay = acceptedMainComparableReplay(current);
     const household = ordinaryConversationFingerprint(replay.household);
@@ -120,11 +125,11 @@ describe("PR79 optional consequence hook preserves ordinary subjects", () => {
 
       for (const relationship of household.records.relationship) {
         expect(eventIds.has(relationship.eventId)).toBe(true);
-        expect(relationship.stableKey).toContain("frontier-279");
+        expect(relationship.stableKey).toContain("frontier-271");
       }
       for (const commitment of household.records.commitment) {
         expect(eventIds.has(commitment.provenance.eventId)).toBe(true);
-        expect(commitment.stableKey).toContain("frontier-279");
+        expect(commitment.stableKey).toContain("frontier-271");
       }
       for (const due of household.records.aftermath) {
         const referencedEvents = due.entityIds.filter((id) =>
@@ -135,14 +140,14 @@ describe("PR79 optional consequence hook preserves ordinary subjects", () => {
         expect(
           due.provenance.sourceEntityIds.every((id) => eventIds.has(id)),
         ).toBe(true);
-        expect(due.stableKey).toContain("frontier-279");
+        expect(due.stableKey).toContain("frontier-271");
       }
       for (const turn of household.records.turns) {
         const commitmentId = turn.semantic.commitmentId;
         if (commitmentId !== null) {
           expect(commitmentIds.has(commitmentId)).toBe(true);
         }
-        expect(turn.semantic.turnKey).toContain("frontier-279");
+        expect(turn.semantic.turnKey).toContain("frontier-271");
       }
     }
   });

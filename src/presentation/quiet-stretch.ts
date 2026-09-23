@@ -1,8 +1,10 @@
 import {
+  addDays,
   compareSimulationMoments,
   currentLifeCutoff,
   daysBetween,
   futureDueItemStateAt,
+  nextKnownOccasionNoticeDate,
   scheduledActivityState,
   type EntityId,
   type IsoDate,
@@ -141,6 +143,21 @@ export function capQuietStretch(
         title: `Election day: ${election.title}`,
         date: election.electionDate,
       };
+    }
+  }
+  // Nor through the days in which somebody the player knows would ask them
+  // over for a birthday: it ends the morning that notice opens, so the ask is
+  // made while there is still time to answer it.
+  const notice = nextKnownOccasionNoticeDate(
+    world,
+    personId,
+    addDays(world.currentDate, days - 1),
+  );
+  if (notice) {
+    const until = daysBetween(world.currentDate, notice);
+    if (until >= 1 && until < days) {
+      days = until;
+      cappedBy = null;
     }
   }
   return { days, cappedBy };
