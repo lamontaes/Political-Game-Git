@@ -226,7 +226,7 @@ _Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; school-peer
 **Intent.** Adolescence: school, household load and the first work-standing situations.
 
 Seed `corpus-adolescence`, start age 15, Dawn Merritt.
-16 beats, 57 realized lines, 48 linked back to a template.
+16 beats, 57 realized lines, 47 linked back to a template.
 
 **Actually demonstrated:** age-band:adolescence, connective-narration, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
@@ -300,7 +300,7 @@ Something local needs hands on a Saturday, and someone has asked whether you are
 
 
 
-The year is running out, and people keep asking what comes after it.
+The school year at Lexington High School is running out, and people keep asking what comes after it.
 
 - **Take a concrete step** ← chosen
 - Keep your options open
