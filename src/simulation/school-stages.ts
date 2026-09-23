@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, ageOnDate, makeIsoDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
   createEducationEnrollment,
@@ -46,7 +46,17 @@ export const SCHOOL_STAGE_TRANSITION_KEY = "schooling:stage-change" as const;
  * nothing after it, so an old save rebuilds the world it described.
  */
 export const SCHOOL_STAGES_V1 = "school-stages-v1" as const;
-export type SchoolStageVersion = typeof SCHOOL_STAGES_V1;
+/**
+ * The start also dates the school it writes from this calendar: a child
+ * starts each stage on the first day of a school year, not on a birthday, and
+ * a five-year-old not yet due in kindergarten waits for the fall. Under v1 the
+ * first school began on the fifth birthday, so a child born after September 1
+ * was a year ahead of the calendar that moves them on, and spent seven years
+ * in elementary school.
+ */
+export const SCHOOL_STAGES_V2 = "school-stages-v2" as const;
+export type SchoolStageVersion =
+  typeof SCHOOL_STAGES_V1 | typeof SCHOOL_STAGES_V2;
 
 export const SCHOOL_STAGE_CALENDAR = {
   schoolAgeCutoff: "09-01",
@@ -54,6 +64,8 @@ export const SCHOOL_STAGE_CALENDAR = {
   termEnds: { month: 5, day: 20, spreadDays: 27 },
   /** Years after kindergarten begins that each stage ends. */
   endsAfterYears: { elementary: 6, middle: 9, high: 13 },
+  /** Years after kindergarten begins that each stage starts. */
+  startsAfterYears: { elementary: 0, middle: 6, high: 9 },
 } as const;
 
 export type SchoolStageKey = keyof typeof SCHOOL_STAGE_CALENDAR.endsAfterYears;
@@ -147,6 +159,79 @@ export function schoolStageEndsAt(
   return date;
 }
 
+/** The first day of the stage on this child's calendar. */
+export function schoolStageCalendarStart(
+  world: World,
+  personId: EntityId,
+  stage: SchoolStageKey,
+): IsoDate {
+  return onCalendar(
+    world,
+    personId,
+    kindergartenYear(world.people[personId]!.birthDate) +
+      SCHOOL_STAGE_CALENDAR.startsAfterYears[stage],
+    SCHOOL_STAGE_CALENDAR.termStarts,
+    "starts",
+  );
+}
+
+/** The last day of the stage on this child's calendar. */
+export function schoolStageCalendarEnd(
+  world: World,
+  personId: EntityId,
+  stage: SchoolStageKey,
+): IsoDate {
+  return onCalendar(
+    world,
+    personId,
+    kindergartenYear(world.people[personId]!.birthDate) +
+      SCHOOL_STAGE_CALENDAR.endsAfterYears[stage],
+    SCHOOL_STAGE_CALENDAR.termEnds,
+    "ends",
+  );
+}
+
+/**
+ * Where the calendar puts the child today: not started yet, in a stage (the
+ * summer before a stage counts as that stage), or past the end of high school.
+ */
+export function schoolStageToday(
+  world: World,
+  personId: EntityId,
+): SchoolStageKey | "before" | "after" {
+  if (
+    world.currentDate < schoolStageCalendarStart(world, personId, "elementary")
+  )
+    return "before";
+  return (
+    (["elementary", "middle", "high"] as const).find(
+      (stage) =>
+        world.currentDate < schoolStageCalendarEnd(world, personId, stage),
+    ) ?? "after"
+  );
+}
+
+/** Schedules the first day of a stage a child is waiting to start. */
+export function scheduleSchoolStageBegin(
+  world: World,
+  input: {
+    readonly schoolKey: string;
+    readonly personId: EntityId;
+    readonly stage: SchoolStageKey;
+    readonly jurisdictionId: EntityId | null;
+    readonly dueAt: IsoDate;
+  },
+): World {
+  return scheduleFutureDueItem(world, {
+    stableKey: `${input.schoolKey}:stage:begins:${input.stage}`,
+    dueAt: input.dueAt,
+    transitionKey: SCHOOL_STAGE_TRANSITION_KEY,
+    entityIds: [input.personId],
+    jurisdictionId: input.jurisdictionId,
+    provenance: { kind: "initialization", reference: input.schoolKey },
+  });
+}
+
 function schoolYearStartsAfter(
   world: World,
   personId: EntityId,
@@ -207,6 +292,88 @@ function openSchooling(
       enrollment.personId === personId &&
       enrollment.programKind.startsWith("schooling:") &&
       educationEnrollmentStateAt(world, enrollment.id)?.status === status,
+  );
+}
+
+/**
+ * The grade the school calendar puts a child in on a date: 0 for
+ * kindergarten, then 1 through 12, or null before kindergarten or after
+ * senior year.
+ *
+ * The same calendar that moves children through school: kindergarten in the
+ * fall after they are five by September 1. The summer counts as the grade
+ * just finished, until this child's next school year starts.
+ */
+export function schoolGradeOn(
+  world: World,
+  personId: EntityId,
+  date: IsoDate = world.currentDate,
+): number | null {
+  const person = world.people[personId];
+  if (!person) return null;
+  const year = Number(date.slice(0, 4));
+  const starts = onCalendar(
+    world,
+    personId,
+    year,
+    SCHOOL_STAGE_CALENDAR.termStarts,
+    "starts",
+  );
+  const schoolYear = date >= starts ? year : year - 1;
+  const grade = schoolYear - kindergartenYear(person.birthDate);
+  return grade >= 0 && grade <= 12 ? grade : null;
+}
+
+export interface CurrentSchooling {
+  readonly enrollment: EducationEnrollment;
+  /** "expected" is a place waiting for the next school year. */
+  readonly status: "active" | "expected";
+  readonly schoolName: string | null;
+  /** From the calendar on the day they attend it; null when it says none. */
+  readonly grade: number | null;
+}
+
+/**
+ * The school a child attends now or, over the summer, the one waiting for
+ * them in the fall. Null for a life with no schooling enrollment open.
+ */
+export function currentSchooling(
+  world: World,
+  personId: EntityId,
+): CurrentSchooling | null {
+  const active = openSchooling(world, personId, "active");
+  const enrollment = active ?? openSchooling(world, personId, "expected");
+  if (!enrollment) return null;
+  return {
+    enrollment,
+    status: active ? "active" : "expected",
+    schoolName:
+      organizationProfileAt(world, enrollment.organizationId)?.name ?? null,
+    grade: schoolGradeOn(
+      world,
+      personId,
+      active || enrollment.startedAt < world.currentDate
+        ? world.currentDate
+        : enrollment.startedAt,
+    ),
+  };
+}
+
+/**
+ * Whether this person is still a school-age pupil rather than somebody who
+ * could apply to college: at a school or waiting on one, or under sixteen
+ * without a high-school diploma.
+ */
+export function stillInGradeSchool(world: World, personId: EntityId): boolean {
+  if (currentSchooling(world, personId)) return true;
+  const person = world.people[personId];
+  if (!person) return false;
+  if (ageOnDate(person.birthDate, world.currentDate) >= 16) return false;
+  return !world.history.educationEnrollments.some(
+    (enrollment) =>
+      enrollment.personId === personId &&
+      enrollment.programKind === PROGRAM.high &&
+      educationEnrollmentStateAt(world, enrollment.id)?.status === "completed",
   );
 }
 

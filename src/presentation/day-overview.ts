@@ -23,6 +23,7 @@ import {
 import { legislativeTermForRelationship } from "../simulation/legislative-office-terms";
 import { completedActivityHere } from "./scene-venues";
 import { careerOfferAccepted } from "../simulation/career-path7";
+import { currentSchooling } from "../simulation/school-stages";
 
 /**
  * Today, as four answers rather than a stack of panels.
@@ -317,6 +318,53 @@ function ordinaryOfferSentence(offers: readonly OfferAwaitingAnswer[]): string {
     .join("; ")}.`;
 }
 
+const GRADE_WORDS = [
+  "kindergarten",
+  "first grade",
+  "second grade",
+  "third grade",
+  "fourth grade",
+  "fifth grade",
+  "sixth grade",
+  "seventh grade",
+  "eighth grade",
+  "ninth grade",
+  "tenth grade",
+  "eleventh grade",
+  "twelfth grade",
+] as const;
+
+/**
+ * The school a child goes to and the grade they are in, or, over the summer,
+ * the school and grade they start in the fall. Null for a life with no
+ * schooling enrollment open; no grade is guessed where the calendar gives none.
+ */
+export function schoolingSentence(
+  world: World,
+  personId: EntityId,
+): string | null {
+  const schooling = currentSchooling(world, personId);
+  if (!schooling) return null;
+  const grade =
+    schooling.grade === null ? null : (GRADE_WORDS[schooling.grade] ?? null);
+  const at = schooling.schoolName ? ` at ${schooling.schoolName}` : "";
+  if (schooling.status === "expected") {
+    const startsAt = schooling.enrollment.startedAt;
+    const when =
+      startsAt <= world.currentDate
+        ? ""
+        : startsAt.slice(0, 4) === world.currentDate.slice(0, 4) &&
+            startsAt.slice(5) >= "08-01"
+          ? ` this fall, on ${proseDate(startsAt)}`
+          : ` on ${proseDate(startsAt)}`;
+    return `You start ${grade ?? "school"}${at}${when}.`;
+  }
+  if (grade) return `You're in ${grade}${at}.`;
+  return schooling.schoolName
+    ? `You go to ${schooling.schoolName}.`
+    : "You are a student.";
+}
+
 export function projectWorkRole(world: World, personId: EntityId): WorkRole {
   // A seat in Congress is held through the Congress record, not a work
   // relationship, so it is read from there and named alongside any job.
@@ -345,13 +393,29 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
     congress.kind === "won-awaiting-term"
       ? `You won the race for ${congress.identity.displayName}. You take the seat on ${proseDate(congress.startsAt)}.`
       : "";
-  const studying = activeEducationEnrollmentsAt(world, personId).length;
-  const study =
-    studying === 0
+  const active = activeEducationEnrollmentsAt(world, personId);
+  const studying = active.length;
+  // A child's school is named, with the grade the school calendar gives it.
+  // "You are a student." was all an eleven-year-old in Peoria read about the
+  // school they go to every weekday, and over the summer not even that.
+  const school = schoolingSentence(world, personId);
+  const otherStudy = school
+    ? active.filter(
+        (entry) => !entry.enrollment.programKind.startsWith("schooling:"),
+      ).length
+    : studying;
+  const study = [
+    school ?? "",
+    otherStudy === 0
       ? ""
-      : studying === 1
-        ? "You are a student."
-        : `You are enrolled in ${studying} programs.`;
+      : school
+        ? `You are also enrolled in ${otherStudy === 1 ? "one other program" : `${otherStudy} other programs`}.`
+        : otherStudy === 1
+          ? "You are a student."
+          : `You are enrolled in ${otherStudy} programs.`,
+  ]
+    .filter((part) => part.length > 0)
+    .join(" ");
   // An unanswered offer is not a role and is never reported as one. It is
   // added to the same sentence because that sentence is the only thing this
   // character reads about their working life, and leaving it out is what made

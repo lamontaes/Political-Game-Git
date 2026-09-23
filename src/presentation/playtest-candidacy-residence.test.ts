@@ -5,6 +5,9 @@ import { recordedDistrictResidenceSince } from "../simulation/district-residence
 import { stateResidenceSince } from "../simulation/nationwide-world/residence-duration";
 import { createExplicitGeographyLife } from "./new-game-geography";
 import { letAdultTimePass } from "./adult-life";
+import { recordedDistrictForOffice } from "./district-selection";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 
 /**
  * Found by playing, not by reading: in Alaska, Nebraska, Ohio and the
@@ -64,6 +67,35 @@ describe("standing for a seat in the state you have always lived in", () => {
       MONTHS_PAST_OBSERVATION,
     );
     const result = eligibility(world, personId, officeKey);
+    expect(result.blocks.map((block) => block.reason)).toEqual([]);
+    expect(result.eligible).toBe(true);
+  });
+
+  it("lets a lifelong resident file for their own district's seat", () => {
+    // Found by the simulated-lives loop in Waterbury, Nebraska: the office
+    // list said "you can stand", and filing with the recorded district bound
+    // refused with "lived here 1 month". The list dated the district from the
+    // household record; the bound seat dated it from the day the world was
+    // written. Both now read the same way.
+    const built = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "playtest-bound-waterbury",
+      startAge: 25,
+      placeKey: "3151630",
+      questionnaire: "skipped",
+    });
+    const personId = built.playerPersonId;
+    const world = passOrdinaryDays(openOrdinaryLife(built.world, personId), 49);
+    const officeKey = "us-ne-legislature-v1:legislature";
+    const recorded = recordedDistrictForOffice(world, personId, officeKey);
+    expect(recorded).not.toBeNull();
+    const result = candidacyEligibility(world, {
+      personId,
+      jurisdictionId: world.people[personId]!.homeJurisdictionId,
+      officeKey,
+      alreadyACandidate: false,
+      districtBinding: recorded!.binding,
+    });
     expect(result.blocks.map((block) => block.reason)).toEqual([]);
     expect(result.eligible).toBe(true);
   });
