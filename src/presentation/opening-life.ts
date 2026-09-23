@@ -101,31 +101,22 @@ export function generateOpeningLife(
       // start it on their first ordinary-day pass, as before.
       world: openedWorld(
         ensureOpeningMortality(
-<<<<<<< HEAD
           ensureCrimeProduction(
             ensureHazardProduction(
               ensureLivingWorldDevelopments(
                 // Standing chapter committees exist only in current openings.
                 ensurePartyGoverningBodies(
                   ensureHomePartyChapters(
-=======
-          ensureHazardProduction(
-            ensureLivingWorldDevelopments(
-              // Standing chapter committees exist only in current openings.
-              ensurePartyGoverningBodies(
-                ensureHomePartyChapters(
-                  ensureHomeStateLegislature(
->>>>>>> origin/main
-                    ensureLivingWorldOpening(
-                      withPriorRecords,
+                    ensureHomeStateLegislature(
+                      ensureLivingWorldOpening(
+                        withPriorRecords,
+                        game.playerPersonId,
+                        session.setup.livingWorldMemberNameVersion,
+                      ),
                       game.playerPersonId,
-                      session.setup.livingWorldMemberNameVersion,
                     ),
                     game.playerPersonId,
-<<<<<<< HEAD
                     session.setup.partyChapterNameVersion,
-=======
->>>>>>> origin/main
                   ),
                   game.playerPersonId,
                 ),
