@@ -13,6 +13,7 @@ import { serializeWorld } from "../serialization";
 import type { World } from "../types";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import { projectCongress } from "../living-world/congress";
+import { NATIONAL_REACH_SCALE, recordedScale } from "../press/desk";
 import {
   officeConsequences,
   recordOfficeConsequence,
@@ -89,8 +90,25 @@ describe("GOVERNING D2: what an office does about an allegation", () => {
     if (resigned.outcome.changed) {
       expect(resigned.outcome.kind).toBe("term-closed");
       expect(resigned.outcome.effectiveAt).toBe(world.currentDate);
-      expect(resigned.outcome.note).toMatch(/not compiled/);
+      expect(resigned.outcome.note).toMatch(/own rules/);
+      expect(resigned.outcome.note).not.toMatch(/\d{4}-\d{2}-\d{2}|the game/);
     }
+    // A governor resigning is national news: the record carries the weight
+    // a national paper reads (a placeholder until the research answers).
+    const resignation = resigned.world.history.events.find(
+      (event) => event.id === resigned.eventId,
+    )!;
+    expect(governor.officeKey).toMatch(/-governor$/);
+    expect(resignation.tags).toContain("importance:major");
+    expect(recordedScale(resignation)).toBeGreaterThanOrEqual(
+      NATIONAL_REACH_SCALE,
+    );
+    // Answering a question is not news of that size.
+    expect(
+      next.history.events.some((event) =>
+        event.tags.includes("importance:major"),
+      ),
+    ).toBe(false);
     expect(
       currentStateExecutiveHolders(resigned.world).some(
         (row) => row.officeKey === governor.officeKey,
@@ -167,6 +185,10 @@ describe("GOVERNING D2: what an office does about an allegation", () => {
         due.stableKey.endsWith(`:${seat.seatKey}:${world.currentDate}`),
       ),
     ).toBe(true);
+    expect(
+      result.world.history.events.find((event) => event.id === result.eventId)!
+        .tags,
+    ).toContain("importance:notable");
     // Somebody else's seat is still not theirs to resign.
     const stranger = world.personOrder.find((id) => id !== member)!;
     const refused = recordOfficeConsequence(world, {

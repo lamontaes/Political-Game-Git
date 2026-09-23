@@ -10,6 +10,7 @@ import {
   spokenDate,
 } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { formatStatutoryDate } from "../legislation-content-contracts";
 import { stateJurisdictionForKey } from "../life-places";
 import { LIVING_WORLD_SCENARIO_PROFILE } from "../living-world/contract";
 import {
@@ -332,7 +333,12 @@ export function scheduleSeatFilling(
         officeKey: seat.seatKey,
         title,
         outcome: "vacant",
-        sentence: `The seat is vacant until the regular election on ${regular} fills it for the next term.`,
+        // A vacancy after the regular election has already been held waits
+        // for the new term rather than for an election in the past.
+        sentence:
+          regular > next.currentDate
+            ? `The seat is vacant until the regular election on ${formatStatutoryDate(regular)}.`
+            : `The seat stays vacant until the new term begins on ${formatStatutoryDate(window.endExclusive)}.`,
       },
     };
   const dueKey = specialElectionKey(seat, vacancyDate);
@@ -612,8 +618,10 @@ function presidentialRuling(
     ruling: {
       ...base,
       outcome: "blocked" as const,
+      // PLACEHOLDER: the Speaker is next under 3 U.S.C. § 19, but that line of
+      // succession is not compiled. The sentence is printed to players.
       sentence:
-        "There is no sitting Vice President. The Speaker of the House is next under 3 U.S.C. § 19, but that line of succession is not modeled, so the presidency stays unfilled.",
+        "The presidency is vacant, and with no sitting Vice President no successor has taken office.",
     },
   };
   if (!plan || plan.kind !== "term-plan") {
@@ -852,8 +860,9 @@ function rulingFor(
     ruling: {
       ...base,
       outcome: "blocked",
-      sentence:
-        "How this office is filled is not compiled, so it stays unfilled.",
+      // PLACEHOLDER: how this office is filled is not compiled. The sentence
+      // is printed to players and says only what happened.
+      sentence: "The office is vacant, and no successor has taken office.",
     },
   };
 }
@@ -1256,9 +1265,12 @@ export function applyOfficeContinuityNotices(
           `outcome:${ruling.officeKey}:${ruling.outcome}`,
         ]),
       ],
-      summary: `${person ? personName(person) : "An officeholder"}: ${rulings
-        .map((ruling) => `${ruling.title}: ${ruling.sentence}`)
-        .join(" ")}`,
+      summary: rulings
+        .map(
+          (ruling) =>
+            `${person ? `${personName(person)}, ${ruling.title}.` : `${ruling.title}.`} ${ruling.sentence}`,
+        )
+        .join(" "),
       context: CONTEXT,
     });
   }
