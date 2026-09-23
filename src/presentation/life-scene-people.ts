@@ -110,7 +110,7 @@ export interface ScenePersonLayer {
 export interface PlacedScenePerson {
   readonly personId: string;
   readonly name: string;
-  /** "your mom", "who is in your class", or null. */
+  /** "your mom", "your classmate", or null. */
   readonly relationship: string | null;
   readonly anchorId: string;
   readonly seated: boolean;
@@ -236,7 +236,7 @@ function resolveSavedWardrobe(
  * is broad, and hiding that by squeezing it is the failure.
  *
  * The transform is anchored on the CONTACT POINT rather than on a corner: the
- * figure's own floor line lands on the anchor's contact line and its centre of
+ * figure's own floor line lands on the anchor's contact line and its center of
  * footprint lands on the anchor's x. Corner-anchoring made a rescaled person
  * float off the floor, which reads as a placement bug in art that has none.
  *
@@ -278,7 +278,7 @@ export function fitLayersToBox(
   const scale = box.heightPercent / height;
 
   // Where the figure must end up: its feet on the anchor's contact line, its
-  // footprint centred on the anchor's x.
+  // footprint centered on the anchor's x.
   const contactY = box.topPercent + box.heightPercent;
   const contactX = box.leftPercent + box.widthPercent / 2;
   // Where the figure's own contact point is, before scaling.

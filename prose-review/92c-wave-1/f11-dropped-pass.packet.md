@@ -9,7 +9,7 @@ KNOWN WORLD FACTS:
   CHARACTER KNOWLEDGE: that something fell. You do not know what it is or whether {role:familiar} has noticed.
   ESTABLISHED TRAITS: none.
   EARLIER CHOICES: none.
-  UNKNOWN / DO NOT ASSUME: any weekday, calendar date, month or clock time; any name beyond the role slots named above; any sum of money, wage, price, rent or debt figure; the name of any employer, school, college, programme or organisation; whether the character attends a four-year college, lives on a campus, or lives away from family; any consequence that follows the choice. Also unknown: what the dropped thing is, where the bus goes, when it comes, and how well the two of you know each other.
+  UNKNOWN / DO NOT ASSUME: any weekday, calendar date, month or clock time; any name beyond the role slots named above; any sum of money, wage, price, rent or debt figure; the name of any employer, school, college, program or organization; whether the character attends a four-year college, lives on a campus, or lives away from family; any consequence that follows the choice. Also unknown: what the dropped thing is, where the bus goes, when it comes, and how well the two of you know each other.
   ALLOWED INTERPRETATION: the character may pick it up and hand it back, tell {role:familiar} they dropped something, or look away.
   Additionally: do not say whether the bus is coming or late. Do not describe the weather.
   PURPOSE: A small courtesy between two people who share a morning routine. The scene ends at the choice.
@@ -22,4 +22,4 @@ WITHHELD. The world models no transit mode, route, stop or timetable, so
 unconditional, explained withholding requirement. This packet and its static
 output are retained for the inventory and for the day a transit journey is a
 record. The first version gated this on a commute circumstance written from a
-job plus an enrolment, which was the defect RETURN14 section D names.
+job plus an enrollment, which was the defect RETURN14 section D names.

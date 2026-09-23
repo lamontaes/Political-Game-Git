@@ -55,6 +55,7 @@ import {
 import { editorialHeadline, editorialParagraphs } from "./editorial";
 import {
   appendPressRecord,
+  pressDispositionsForLead,
   pressRecordsOfKind,
   requirePressRecord,
 } from "./store";
@@ -107,9 +108,7 @@ export function dispositionsForLead(
   world: World,
   leadId: EntityId,
 ): readonly StoryDispositionRecord[] {
-  return pressRecordsOfKind(world, "story-disposition").filter(
-    (record) => record.leadId === leadId,
-  );
+  return pressDispositionsForLead(world, leadId);
 }
 
 export function latestDisposition(
@@ -1322,7 +1321,18 @@ function sweepOutlet(
   const routed = candidates
     .filter((event) => !covered.has(event.id))
     .filter((event) => outletCovers(next, outlet, event))
-    .map((event) => ({ event, priority: leadPriority(next, outlet, event) }))
+    .map((event) => {
+      const judged = newsworthiness(next, outlet, event);
+      return {
+        event,
+        priority: judged.score,
+        routine: !judged.reasons.some(
+          (reason) =>
+            SUBSTANTIVE_REASONS.has(reason.key) &&
+            (reason.key !== "scale" || reason.weight >= SUBSTANTIVE_SCALE),
+        ),
+      };
+    })
     .sort(
       (left, right) =>
         right.priority - left.priority ||
@@ -1334,10 +1344,13 @@ function sweepOutlet(
     capacity - activeAssignments(next, outlet.id).length,
   );
   // Authored editorial attention: one routine item per weekly review; items
-  // about a matter or a named person may use the rest of the free capacity.
+  // with a substantive reason (a matter, named people, a recorded scale above
+  // minor, a public office) may use the rest of the free capacity. Being on
+  // the beat or in the outlet's own town does not by itself make an item more
+  // than routine.
   let routineTaken = 0;
-  const chosen = routed.slice(0, free).filter(({ priority }) => {
-    if (priority >= 2) return true;
+  const chosen = routed.slice(0, free).filter(({ routine }) => {
+    if (!routine) return true;
     routineTaken += 1;
     return routineTaken <= PRESS_DESK_INTERVALS.routineItemsPerSweep;
   });
@@ -1362,14 +1375,23 @@ function sweepOutlet(
   return next;
 }
 
-function outletCovers(
+export function outletCovers(
   world: World,
   outlet: MediaOutletRecord,
   event: HistoricalEvent,
 ): boolean {
   if (outlet.scope === "national") {
-    return event.jurisdictionId === null || isNationalOffice(event);
+    // A place-bound event reaches a national outlet only through what it
+    // records: a federal office it concerns, or a scale that reaches past the
+    // place. Its geography is never rewritten to null to get it there.
+    return (
+      event.jurisdictionId === null ||
+      isNationalOffice(event) ||
+      concernsFederalOffice(event) ||
+      recordedScale(event) >= NATIONAL_REACH_SCALE
+    );
   }
+  if (hometownMatter(world, outlet, event)) return true;
   if (event.jurisdictionId === null) return false;
   if (outlet.primaryJurisdictionIds.includes(event.jurisdictionId)) return true;
   if (outlet.scope === "state") {
@@ -1380,6 +1402,29 @@ function outletCovers(
   return false;
 }
 
+/**
+ * A matter about somebody from the outlet's own town is local news wherever
+ * the proceeding sits: a state body's finding against a hometown candidate is
+ * recorded at the state, and before this only the statehouse paper saw it
+ * (Washington replay, 2026-09-22). Only matters, not every public event a
+ * resident appears in. How far a scandal travels beyond the hometown and the
+ * state (national outlets, neighboring markets) depends on who the person is
+ * and how surprising it is; that is filed as `how-far-a-scandal-travels` and
+ * not decided here.
+ */
+function hometownMatter(
+  world: World,
+  outlet: MediaOutletRecord,
+  event: HistoricalEvent,
+): boolean {
+  if (outlet.scope !== "local" || !matterIdOf(event)) return false;
+  return subjectsOf(world, event).some((personId) =>
+    outlet.primaryJurisdictionIds.includes(
+      world.people[personId]!.homeJurisdictionId,
+    ),
+  );
+}
+
 function isNationalOffice(event: HistoricalEvent): boolean {
   return (
     event.type.startsWith("congress.") ||
@@ -1388,17 +1433,98 @@ function isNationalOffice(event: HistoricalEvent): boolean {
   );
 }
 
-function leadPriority(
+const FEDERAL_OFFICE_TAG_PREFIXES = [
+  "office:us-house:",
+  "office:us-senate:",
+  "office:us-president",
+  "office:us-vice-president",
+] as const;
+
+function concernsFederalOffice(event: HistoricalEvent): boolean {
+  return event.tags.some((tag) =>
+    FEDERAL_OFFICE_TAG_PREFIXES.some((prefix) => tag.startsWith(prefix)),
+  );
+}
+
+/**
+ * The scale an event itself records, on one ladder: 0 when it records none.
+ * Read from the writer's own tags (a hazard's `magnitude:`, a development's
+ * `importance:`), never inferred from its type or summary.
+ */
+const RECORDED_SCALE: Readonly<Record<string, number>> = {
+  "magnitude:minor": 1,
+  "magnitude:moderate": 2,
+  "magnitude:major": 3,
+  "magnitude:catastrophic": 4,
+  "importance:minor": 1,
+  "importance:notable": 2,
+  "importance:major": 3,
+};
+
+/** At or above this, a place-bound event is national news. */
+export const NATIONAL_REACH_SCALE = 3;
+
+export function recordedScale(event: HistoricalEvent): number {
+  return Math.max(0, ...event.tags.map((tag) => RECORDED_SCALE[tag] ?? 0));
+}
+
+export interface Newsworthiness {
+  readonly score: number;
+  /** Each consideration that counted, with its weight, in a fixed order. */
+  readonly reasons: readonly {
+    readonly key: string;
+    readonly weight: number;
+  }[];
+}
+
+/**
+ * DEPTH2 A07: a lead is judged on public consequence, not on whether it is
+ * bad news. Every term reads something the event recorded or where the outlet
+ * stands; none reads whether the news is good or bad, so a gain and a loss of
+ * the same recorded scale weigh the same.
+ *
+ * - `matter` +4: an open public matter, with its accountability and record.
+ * - `named-people` +2: it names who acted or was affected.
+ * - `scale` +1 to +4: the scale the event records (see `recordedScale`).
+ * - `public-office` +2: it concerns a public office by name.
+ * - `audience` +1: it happened in the outlet's own primary jurisdiction.
+ * - `beat` +1: it falls on one of the outlet's beats.
+ */
+export function newsworthiness(
   world: World,
   outlet: MediaOutletRecord,
   event: HistoricalEvent,
-): number {
-  let priority = 0;
-  if (matterIdOf(event)) priority += 4;
-  if (subjectsOf(world, event).length > 0) priority += 2;
-  if (outlet.beats.includes(beatForEventType(event.type))) priority += 1;
-  return priority;
+): Newsworthiness {
+  const reasons: { key: string; weight: number }[] = [];
+  if (matterIdOf(event)) reasons.push({ key: "matter", weight: 4 });
+  if (subjectsOf(world, event).length > 0)
+    reasons.push({ key: "named-people", weight: 2 });
+  const scale = recordedScale(event);
+  if (scale > 0) reasons.push({ key: "scale", weight: scale });
+  if (event.tags.some((tag) => tag.startsWith("office:")))
+    reasons.push({ key: "public-office", weight: 2 });
+  if (
+    event.jurisdictionId !== null &&
+    outlet.primaryJurisdictionIds.includes(event.jurisdictionId)
+  )
+    reasons.push({ key: "audience", weight: 1 });
+  if (outlet.beats.includes(beatForEventType(event.type)))
+    reasons.push({ key: "beat", weight: 1 });
+  return {
+    score: reasons.reduce((total, reason) => total + reason.weight, 0),
+    reasons,
+  };
 }
+
+/** A recorded scale this large is more than routine; `minor` is not. */
+const SUBSTANTIVE_SCALE = 2;
+
+const SUBSTANTIVE_REASONS: ReadonlySet<string> = new Set([
+  "matter",
+  "named-people",
+  "scale",
+  "public-office",
+]);
 
 export function matterIdOf(event: HistoricalEvent): EntityId | null {
   const tag = event.tags.find((candidate) =>
@@ -1422,12 +1548,29 @@ function publishedStoryOnMatter(
   return null;
 }
 
+/**
+ * People who bring or carry an account rather than being its subject. A story
+ * about an allegation is about the accused: the accuser is its source, and
+ * asking the accuser to respond had them dispute their own claim (Eastport,
+ * Maine playthrough, 2026-09-22).
+ */
+const ACCOUNT_BEARER_ROLES: ReadonlySet<string> = new Set([
+  "agency:alleger",
+  "agency:complainant",
+  "agency:concerned-staff",
+  "agency:press-source",
+  "agency:reporter",
+  "agency:witness",
+]);
+
 function subjectsOf(world: World, event: HistoricalEvent): EntityId[] {
   return sortedUnique(
     event.participants
       .filter(
         (entry) =>
-          entry.role.startsWith("agency:") || entry.role.startsWith("focus:"),
+          (entry.role.startsWith("agency:") ||
+            entry.role.startsWith("focus:")) &&
+          !ACCOUNT_BEARER_ROLES.has(entry.role),
       )
       .map((entry) => entry.personId)
       .filter((personId) => world.people[personId])

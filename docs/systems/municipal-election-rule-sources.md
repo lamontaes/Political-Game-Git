@@ -59,13 +59,13 @@ number into that field.
 
 The JSON also contains two deliberately separate registers:
 
-- `sourceFrontiers` is the four-item section 7 catalogue copied verbatim from
+- `sourceFrontiers` is the four-item section 7 catalog copied verbatim from
   92O: North Carolina election-method synchronization, Illinois non-home-rule
   term-limit jurisprudence, Texas Type A runoff versus local plurality custom,
   and Kentucky urban-county/metro initiative authority.
 - `compilerConflicts` is the ten-item implementation review register. These are
   conflicts or unsafe shapes found while compiling the profiles. They are not
-  labelled as 92O's own section 7 catalogue.
+  labeled as 92O's own section 7 catalog.
 
 ## Why the packet's flat TypeScript proposal is not used
 
@@ -137,7 +137,7 @@ Updated 2026-09-22. The packs have one consumer,
 majority trigger a town's local races are counted under. It was added at the
 owner's request that local races follow each state's ballot rules and that a
 place with no researched rule draw from a realistic national range rather than
-refuse. It honours the gate by labelling, not by refusing: every value it
+refuse. It honors the gate by labeling, not by refusing: every value it
 returns carries a `basis` of `state-law-unverified`, `local-choice-drawn` or
 `national-range-drawn`, so no consumer can present a pack value as settled
 law. It has no candidacy, campaign or player-facing caller of its own; the

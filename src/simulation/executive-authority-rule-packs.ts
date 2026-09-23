@@ -258,7 +258,7 @@ const US_ART2_S1_C1 = federalArticleII(
 );
 const US_ART2_S2_C1 = federalArticleII(
   "U.S. Const. Art. II, Sec. 2, cl. 1",
-  "The President shall be Commander in Chief of the Army and Navy of the United States, and of the Militia of the several States, when called into the actual Service of the United States; ... and he shall have Power to grant Reprieves and Pardons for Offences against the United States, except in Cases of Impeachment.",
+  "The President shall be Commander in Chief of the Army and Navy of the United States, and of the Militia of the several States, when called into the actual Service of the United States; ... and he shall have Power to grant Reprieves and Pardons for Offenses against the United States, except in Cases of Impeachment.",
 );
 const US_ART2_S2_C2 = federalArticleII(
   "U.S. Const. Art. II, Sec. 2, cl. 2",
@@ -391,7 +391,7 @@ const US_FEDERAL_EXECUTIVE_PACK: ExecutiveAuthorityRulePack = {
     // the operative text.
     model: executiveKnown<ClemencyModel>("executive-sole", US_ART2_S2_C1),
     scope: executiveKnown(
-      "Reprieves and pardons for offences against the United States, except in cases of impeachment.",
+      "Reprieves and pardons for offenses against the United States, except in cases of impeachment.",
       US_ART2_S2_C1,
     ),
     source: US_ART2_S2_C1,

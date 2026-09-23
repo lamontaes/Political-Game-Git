@@ -22,4 +22,4 @@ needs the network, so it is allowed to come back unknown — and unknown is
 reported as unknown rather than as "there is none", since a warning that
 overstates what it knows is one people learn to scroll past.
 
-No player-facing behaviour changes: this is the authoring queue.
+No player-facing behavior changes: this is the authoring queue.

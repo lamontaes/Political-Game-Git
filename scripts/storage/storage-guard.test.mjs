@@ -698,7 +698,7 @@ describe("G1 — approval binds bytes, not status lines", () => {
   });
 });
 
-describe("G2 — output cleanup honours the protected boundary", () => {
+describe("G2 — output cleanup honors the protected boundary", () => {
   function run(root, name, ageMinutes, extra = () => {}) {
     const folder = path.join(root, name);
     mkdirSync(folder, { recursive: true });
@@ -997,7 +997,7 @@ describe("G3 — the reservation is held through the actual child operation", ()
     expect(held()).toHaveLength(0);
   });
 
-  it("serialises simultaneous admissions: six racers, room for one, exactly one admitted", async () => {
+  it("serializes simultaneous admissions: six racers, room for one, exactly one admitted", async () => {
     const release = path.join(sandbox, "racers-may-finish");
     const script = `const fs=require("fs");const t=setInterval(()=>{if(fs.existsSync(${JSON.stringify(release)})){clearInterval(t)}},20)`;
     const racers = Array.from({ length: 6 }, () => managed(script));

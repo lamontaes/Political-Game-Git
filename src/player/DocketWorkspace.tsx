@@ -531,6 +531,14 @@ function FiledBillPanel({
             {sponsor ? personName(sponsor) : "Not recorded"}
           </dd>
         </div>
+        {briefing.questions.length > 0 ? (
+          <div>
+            <dt>Bears on</dt>
+            <dd data-testid="docket-questions">
+              {briefing.questions.join(" ")}
+            </dd>
+          </div>
+        ) : null}
         <div>
           <dt>Your part in it</dt>
           <dd data-testid="docket-role">

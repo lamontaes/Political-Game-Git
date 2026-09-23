@@ -1,10 +1,7 @@
 import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays } from "./dates";
 import { evaluateDecision } from "./decisions";
-import {
-  createFutureTransitionHandlerRegistry,
-  scheduleFutureDueItem,
-} from "./future-transitions";
+import { scheduleFutureDueItem } from "./future-transitions";
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
@@ -26,6 +23,11 @@ import {
   scheduledActivityState,
 } from "./time-work";
 import { isPersonAliveAt } from "./vitality-integrity";
+import {
+  activeGoalFor,
+  goalConsiderations,
+  recordGoalStepTaken,
+} from "./people-goal-pursuit";
 import { recordWorldEvent } from "./world";
 import type {
   DecisionConsideration,
@@ -47,9 +49,11 @@ import type {
  * them, and what else is already on that day. A refusal and a different day
  * offered back are both ordinary answers, and neither ends anything.
  *
- * Nothing here decays. A friendship that has not been in view for a year is
- * still a friendship; the gap is a fact the other person may weigh, not a
- * number counting down. And no NPC is required to say yes because the player
+ * Nothing here counts down. The owner ruled on 2026-09-22 that relationships
+ * do fade with absence, and they do, as a state read from dated history in
+ * `relationship-absence.ts`: a friendship not in view for a year may have gone
+ * less current or dormant there, and still be a friendship. This file adds no
+ * fading of its own. And no NPC is required to say yes because the player
  * asked nicely.
  *
  * One request, one answer, one commitment. Agreeing writes a confirmed entry
@@ -57,13 +61,25 @@ import type {
  * hour like any other activity.
  */
 
-export const CONTACT_PROPOSED_EVENT = "life.meeting-proposed";
-export const CONTACT_ACCEPTED_EVENT = "life.meeting-accepted";
-export const CONTACT_COUNTERED_EVENT = "life.meeting-counter-offered";
-export const CONTACT_DECLINED_EVENT = "life.meeting-declined";
-export const CONTACT_ANSWER_TRANSITION_KEY = "people:contact-answer";
-export const CONTACT_TAG = "contact.v1";
-export const CONTACT_LOCATION_KEY = "people-contact:meeting";
+import {
+  CONTACT_ACCEPTED_EVENT,
+  CONTACT_ANSWER_TRANSITION_KEY,
+  CONTACT_COUNTERED_EVENT,
+  CONTACT_DECLINED_EVENT,
+  CONTACT_LOCATION_KEY,
+  CONTACT_PROPOSED_EVENT,
+  CONTACT_TAG,
+} from "./people-contact-events";
+
+export {
+  CONTACT_ACCEPTED_EVENT,
+  CONTACT_ANSWER_TRANSITION_KEY,
+  CONTACT_COUNTERED_EVENT,
+  CONTACT_DECLINED_EVENT,
+  CONTACT_LOCATION_KEY,
+  CONTACT_PROPOSED_EVENT,
+  CONTACT_TAG,
+};
 
 /** How long an unanswered proposal waits before the other person answers. */
 const ANSWER_DELAY_DAYS = 1;
@@ -853,9 +869,10 @@ const REACH_OUT_PAIR_SPACING_DAYS = 240;
 /**
  * After this many unanswered attempts, they stop asking.
  *
- * Not a decayed friendship — nothing here decays, and they would still answer
- * if the player called tomorrow. It is the ordinary fact that people stop
- * being the one who rings when the ringing is never returned.
+ * Not the friendship fading, which `relationship-absence.ts` reads separately;
+ * they would still answer if the player called tomorrow. It is the ordinary
+ * fact that people stop being the one who rings when the ringing is never
+ * returned.
  */
 const REACH_OUT_UNANSWERED_LIMIT = 2;
 /** How far ahead somebody suggests meeting when they call. */
@@ -950,6 +967,35 @@ export function produceReachingOut(
     if (stoppedAsking(world, playerPersonId, basis.personId)) continue;
     const withTraits = ensurePeopleTraits(world, [basis.personId]);
     const considerations: DecisionConsideration[] = [
+      /*
+       * Their own private goal, weighed beside their temperament.
+       *
+       * This is the first place in the game where a generated person's goal
+       * reaches a decision they make. It is a lean and not a trigger: somebody
+       * who has been meaning to keep up with people is likelier to be the one
+       * who rings, and it does not settle the question on its own.
+       *
+       * Only the goal that argues FOR acting is read here, deliberately. A
+       * privacy goal arguing for leaving it would be just as plausible, and it
+       * would make this change silence people who ring today rather than only
+       * add a reason to ring — which is a design question about what a private
+       * goal may suppress, and belongs with the pursuit research rather than
+       * being settled in a wiring commit. A person with no active connection
+       * goal contributes nothing here and decides exactly as before.
+       */
+      ...goalConsiderations(
+        withTraits,
+        basis.personId,
+        `reach-out:${playerPersonId}:${world.currentDate}`,
+        [
+          {
+            optionKey: "get-in-touch",
+            goalKey: "opening-life:connection",
+            direction: "supports",
+            explanation: "They have been meaning to keep up with people.",
+          },
+        ],
+      ),
       ...traitConsiderations(
         withTraits,
         basis.personId,
@@ -1005,14 +1051,31 @@ export function produceReachingOut(
       retention: "ephemeral",
     });
     if (evaluation.selectedOptionKey !== "get-in-touch") continue;
-    return proposeContact(withTraits, {
+    const proposed = proposeContact(withTraits, {
       stableKey: `reach-out:${basis.personId}:${playerPersonId}:${world.currentDate}`,
       fromPersonId: basis.personId,
       toPersonId: playerPersonId,
       on,
       purpose: "Catch up, after a long while",
       answerInPerson: true,
-    }).world;
+    });
+    /*
+     * If keeping up with people is what they were trying to do, this was a step
+     * toward it — recorded against the proposal that actually happened, never
+     * against the intention. The goal stays active, because ringing one person
+     * is not finishing it, and somebody without that goal records nothing.
+     */
+    return activeGoalFor(
+      proposed.world,
+      basis.personId,
+      "opening-life:connection",
+    )
+      ? recordGoalStepTaken(proposed.world, {
+          personId: basis.personId,
+          goalKey: "opening-life:connection",
+          eventId: proposed.proposal.eventId,
+        })
+      : proposed.world;
   }
   return world;
 }
@@ -1066,7 +1129,12 @@ export function contactAnswerTransitionHandler(
   return done(`contact-${decided.answer}`, answered.world, answered.eventId);
 }
 
-export const PEOPLE_CONTACT_HANDLERS: FutureTransitionHandlerRegistry =
-  createFutureTransitionHandlerRegistry([
-    [CONTACT_ANSWER_TRANSITION_KEY, contactAnswerTransitionHandler],
-  ]);
+// Built without createFutureTransitionHandlerRegistry: this module sits in
+// an import cycle with future-transitions, and calling into it while this
+// module initializes crashed every tsx script (corpus:prose among them).
+export const PEOPLE_CONTACT_HANDLERS: FutureTransitionHandlerRegistry = {
+  get: (transitionKey) =>
+    transitionKey === CONTACT_ANSWER_TRANSITION_KEY
+      ? contactAnswerTransitionHandler
+      : undefined,
+};

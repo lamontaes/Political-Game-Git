@@ -187,7 +187,7 @@ export interface SceneFamilyDefinition {
   settled(context: SceneContext, answer: string | null): string;
   /**
    * Whether an unanswered scene still describes the world. A scene whose
-   * event was cancelled, or whose request was answered elsewhere, is not
+   * event was canceled, or whose request was answered elsewhere, is not
    * offered.
    */
   relevant?(world: World, bound: BoundScene): boolean;

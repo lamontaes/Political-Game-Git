@@ -1,3 +1,4 @@
+import { localGoverningSeatFor } from "./local-governing-seat";
 import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
@@ -12,6 +13,10 @@ import { currentOpeningLifeScene } from "./life-scene-flow";
 import { formatMinute, projectPlayerCalendar } from "./player-calendar";
 import { projectOrdinaryDay } from "./ordinary-life";
 import { proseDate } from "./prose-dates";
+import {
+  electedExecutiveTermForRelationship,
+  recordedExecutiveQualification,
+} from "../simulation/executive-work-context";
 import { completedActivityHere } from "./scene-venues";
 
 /**
@@ -111,20 +116,26 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
         })),
       // "What is waiting on me?" is one of the four questions this surface
       // exists to answer, and an unanswered offer of work is exactly that.
-      ...offersAwaitingAnswer(world, personId).map((offer) => ({
-        key: `work-offer:${offer.relationshipId}`,
-        // The start date is quoted only while it is still ahead. An offer
-        // written on the first day carries a start date of the next one, and
-        // an unanswered offer keeps that date as time passes: eleven weeks
-        // later the day was reading "to start on January 6" about a date long
-        // gone, which is worse than saying nothing, because a start date in
-        // the past reads as a broken game rather than an open decision. The
-        // date is not re-stated as something acceptance would settle, because
-        // nothing here moves it.
-        sentence: offer.startIsAhead
-          ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`
-          : `${offer.roleTitle}: an offer of work is waiting for your answer.`,
-      })),
+      // A qualified term is waiting on the calendar, not on the player.
+      ...offersAwaitingAnswer(world, personId)
+        .filter((offer) => offer.answer !== "qualified")
+        .map((offer) => ({
+          key: `work-offer:${offer.relationshipId}`,
+          // The start date is quoted only while it is still ahead. An offer
+          // written on the first day carries a start date of the next one, and
+          // an unanswered offer keeps that date as time passes: eleven weeks
+          // later the day was reading "to start on January 6" about a date long
+          // gone, which is worse than saying nothing, because a start date in
+          // the past reads as a broken game rather than an open decision. The
+          // date is not re-stated as something acceptance would settle, because
+          // nothing here moves it.
+          sentence:
+            offer.answer === "qualify"
+              ? electedTermSentence(offer)
+              : offer.startIsAhead
+                ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`
+                : `${offer.roleTitle}: an offer of work is waiting for your answer.`,
+        })),
     ],
   };
 }
@@ -174,12 +185,24 @@ export interface OfferAwaitingAnswer {
   /**
    * Whether that date is still ahead of today.
    *
-   * The judgement lives here rather than in one sentence somewhere, so the
+   * The judgment lives here rather than in one sentence somewhere, so the
    * next thing that renders an offer inherits it instead of having to
    * rediscover that `startsOn` goes stale. See "Values whose meaning decays
    * with time" in `docs/systems/player-presentation.md`.
    */
   readonly startIsAhead: boolean;
+  /**
+   * How this offer is answered.
+   *
+   * An ordinary offer is accepted or refused on Work. A won executive term is
+   * not an offer anybody accepts there: it is taken up by qualifying for it on
+   * Campaigns before the term begins, and once qualified the clock seats the
+   * winner on the start date with nothing left to answer. Two Reno and
+   * Springfield governors walked on 4965f63c read "An offer of work as
+   * Governor is waiting for your answer" on every screen, found no Accept for
+   * it on Work, and the one that never pressed Qualify lost the term.
+   */
+  readonly answer: "accept" | "qualify" | "qualified";
 }
 
 export function offersAwaitingAnswer(
@@ -189,21 +212,53 @@ export function offersAwaitingAnswer(
   return workRelationshipHistoryForPerson(world, personId).flatMap(
     (relationship) => {
       const role = workRoleAt(world, relationship.id);
-      return workStatusAt(world, relationship.id)?.status === "expected" && role
-        ? [
-            {
-              relationshipId: relationship.id,
-              roleTitle: role.title,
-              startsOn: relationship.startedAt,
-              startIsAhead: relationship.startedAt > world.currentDate,
-            },
-          ]
-        : [];
+      if (workStatusAt(world, relationship.id)?.status !== "expected" || !role)
+        return [];
+      const electedTerm = electedExecutiveTermForRelationship(
+        world,
+        relationship.id,
+      );
+      // A term whose start has passed unqualified is not entered late, so it
+      // is no longer anything the player can answer.
+      if (electedTerm && world.currentDate >= electedTerm.startsAt) return [];
+      return [
+        {
+          relationshipId: relationship.id,
+          roleTitle: role.title,
+          startsOn: relationship.startedAt,
+          startIsAhead: relationship.startedAt > world.currentDate,
+          answer: !electedTerm
+            ? "accept"
+            : recordedExecutiveQualification(world, relationship.id)
+              ? "qualified"
+              : "qualify",
+        },
+      ];
     },
   );
 }
 
-function offerSentence(offers: readonly OfferAwaitingAnswer[]): string {
+/**
+ * The sentence for a won executive term, which is qualified for rather than
+ * accepted. Said where the answer is, so nobody goes looking for it on Work.
+ */
+export function electedTermSentence(offer: OfferAwaitingAnswer): string {
+  return offer.answer === "qualified"
+    ? `You have qualified as ${offer.roleTitle}. The term begins ${proseDate(offer.startsOn)}.`
+    : `You won the race for ${offer.roleTitle}. Qualify for the term under Campaigns before it begins on ${proseDate(offer.startsOn)}.`;
+}
+
+function offerSentence(allOffers: readonly OfferAwaitingAnswer[]): string {
+  const terms = allOffers
+    .filter((offer) => offer.answer !== "accept")
+    .map(electedTermSentence);
+  const offers = allOffers.filter((offer) => offer.answer === "accept");
+  return [ordinaryOfferSentence(offers), ...terms]
+    .filter((part) => part.length > 0)
+    .join(" ");
+}
+
+function ordinaryOfferSentence(offers: readonly OfferAwaitingAnswer[]): string {
   if (offers.length === 0) return "";
   if (offers.length === 1) {
     return `An offer of work as ${offers[0]!.roleTitle} is waiting for your answer.`;
@@ -214,12 +269,20 @@ function offerSentence(offers: readonly OfferAwaitingAnswer[]): string {
 }
 
 export function projectWorkRole(world: World, personId: EntityId): WorkRole {
+  // A town council seat is held through the town government's organization,
+  // not a work relationship, so it is added here by name. Leaving it out had a
+  // member who won in Ely, Minnesota read "You do not hold a job or an office"
+  // directly above the line saying which body they sat on.
+  const townSeat = localGoverningSeatFor(world, personId);
   const roles = [
-    ...new Set(
-      activeWorkRelationshipsAt(world, personId).map(
+    ...new Set([
+      ...activeWorkRelationshipsAt(world, personId).map(
         (entry) => entry.role.title,
       ),
-    ),
+      ...(townSeat
+        ? [`Member of the ${townSeat.bodyName}, ${townSeat.governmentName}`]
+        : []),
+    ]),
   ];
   const studying = activeEducationEnrollmentsAt(world, personId).length;
   const study =

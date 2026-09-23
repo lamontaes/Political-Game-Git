@@ -4,11 +4,8 @@ import { makeIsoDate } from "../dates";
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
 import { activeElectedExecutiveTermEvidence } from "../executive-work-context";
 import { createStableId } from "../ids";
-import {
-  lifePlaceByJurisdictionId,
-  stateJurisdictionForKey,
-} from "../life-places";
-import { drawCanonicalName, personName } from "../people";
+import { lifePlaceByJurisdictionId } from "../life-places";
+import { drawCanonicalNameForGender, personName } from "../people";
 import { SeededRng } from "../rng";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
@@ -23,10 +20,15 @@ import {
   stateExecutiveTermRule,
 } from "./state-executive-term-rules";
 import {
+  CHIEF_EXECUTIVE_JURISDICTIONS,
   STATE_GOVERNMENT_STRUCTURE_SOURCE,
-  US_STATE_USPS,
   stateExecutiveIdentity,
 } from "./state-executive-candidacy-packs";
+import {
+  DISTRICT_OF_COLUMBIA_STRUCTURE_SOURCE,
+  isDistrictOfColumbia,
+} from "./district-of-columbia-identity";
+import { chiefExecutiveJurisdiction } from "./government-jurisdiction";
 
 export const STATE_EXECUTIVE_WRITER_VERSION = "nationwide-state-executive-v1";
 
@@ -55,7 +57,7 @@ export function stateExecutiveOffice(
 ): StateExecutiveOffice | null {
   const identity = stateExecutiveIdentity(stateUsps);
   if (!identity) return null;
-  const jurisdiction = stateJurisdictionForKey(identity.jurisdictionKey);
+  const jurisdiction = chiefExecutiveJurisdiction(identity.stateUsps);
   if (!jurisdiction) return null;
   const pack = identity.executivePackId
     ? executiveRulePackForJurisdiction(identity.jurisdictionKey)
@@ -71,7 +73,9 @@ export function stateExecutiveOffice(
       : `executive-office:${identity.officeKey}`,
     authorityPackId: identity.executivePackId,
     sources: [
-      STATE_GOVERNMENT_STRUCTURE_SOURCE,
+      isDistrictOfColumbia(identity.stateUsps)
+        ? DISTRICT_OF_COLUMBIA_STRUCTURE_SOURCE
+        : STATE_GOVERNMENT_STRUCTURE_SOURCE,
       ...(pack?.office.source.sourceUrl ? [pack.office.source.sourceUrl] : []),
     ],
   };
@@ -206,7 +210,26 @@ function registerStateJurisdiction(
   office: StateExecutiveOffice,
 ): World {
   if (world.jurisdictions[office.jurisdictionId]) return world;
-  const jurisdiction = stateJurisdictionForKey(office.jurisdictionKey)!;
+  const jurisdiction = chiefExecutiveJurisdiction(office.stateUsps)!;
+  return {
+    ...world,
+    jurisdictions: { ...world.jurisdictions, [jurisdiction.id]: jurisdiction },
+    jurisdictionOrder: [...world.jurisdictionOrder, jurisdiction.id],
+  };
+}
+
+/**
+ * Registers a state's or territory's jurisdiction identity by its key
+ * (`US-KY`, `US-PR`, `US-DC`), once. It carries identity only: no office, no
+ * government and no rules come with it. Unknown keys change nothing.
+ */
+export function ensureStateJurisdictionForKey(
+  world: World,
+  jurisdictionKey: string,
+): World {
+  const match = /^US-([A-Z]{2})$/.exec(jurisdictionKey);
+  const jurisdiction = match ? chiefExecutiveJurisdiction(match[1]!) : null;
+  if (!jurisdiction || world.jurisdictions[jurisdiction.id]) return world;
   return {
     ...world,
     jurisdictions: { ...world.jurisdictions, [jurisdiction.id]: jurisdiction },
@@ -269,7 +292,7 @@ export function ensureStateExecutiveIncumbent(
       kind: "context-person",
       input: {
         stableKey: holderKey,
-        ...drawCanonicalName(rng),
+        ...drawCanonicalNameForGender(rng, "unstated"),
         birthDate: makeIsoDate(`${anchorYear - rng.integer(45, 70)}-01-01`),
         homeJurisdictionId: office.jurisdictionId,
       },
@@ -366,7 +389,7 @@ export interface StateExecutiveHolderRecord {
  */
 /**
  * The office-consequence record that vacates an office, named here so the
- * holder reader can honour a resignation without importing the governing
+ * holder reader can honor a resignation without importing the governing
  * writer that produces one.
  */
 export const OFFICE_CONSEQUENCE_EVENT_TYPE = "governing.office-consequence";
@@ -397,7 +420,7 @@ export function currentStateExecutiveHolders(
   world: World,
 ): readonly StateExecutiveHolderRecord[] {
   const records: StateExecutiveHolderRecord[] = [];
-  for (const stateUsps of US_STATE_USPS) {
+  for (const stateUsps of CHIEF_EXECUTIVE_JURISDICTIONS) {
     const office = stateExecutiveOffice(stateUsps);
     if (!office) continue;
     const organization = world.history.organizations.find(

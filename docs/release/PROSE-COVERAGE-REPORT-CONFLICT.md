@@ -2,7 +2,7 @@
 
 **Applied 2026-09-22.** This was written as a proposal; the owner chose it and
 its recommendation — shrink what is tracked to the assertion surface — is now
-the repository's behaviour. `coverage-report.md` and `README.md` are ignored
+the repository's behavior. `coverage-report.md` and `README.md` are ignored
 alongside their four siblings, the tripwire reads the tracked
 `coverage-counts.json`, and the on-disk comparison defect described at the end
 is fixed. The analysis below is kept as written, as the reasoning behind the

@@ -6,6 +6,11 @@ import {
   municipalGovernmentByKey,
   primaryReading,
 } from "../simulation/municipal-government";
+import {
+  localGoverningBodyRulesForGovernmentKey,
+  localGoverningBodyRulesForUnitId,
+} from "../simulation/nationwide-world/local-governing-body-rules";
+import type { LocalRuleValue } from "../simulation/nationwide-world/local-governing-body-rules";
 import type { EntityId, IsoDate, World } from "../simulation";
 
 /**
@@ -32,6 +37,12 @@ export interface LocalGoverningSeat {
    * council business opens under the city's own screen.
    */
   readonly hasCityScreen: boolean;
+  /**
+   * How many seats the body has and how long a term runs: the town's own rule
+   * where it was read, a typical value otherwise, and labeled so.
+   */
+  readonly seats: LocalRuleValue | null;
+  readonly termYears: LocalRuleValue | null;
 }
 
 export function localGoverningSeatFor(
@@ -56,6 +67,13 @@ export function localGoverningSeatFor(
     : null;
   const compiled = compiledKey ? municipalGovernmentByKey(compiledKey) : null;
   const reading = compiled ? primaryReading(compiled) : null;
+  const rules = compiledKey
+    ? localGoverningBodyRulesForGovernmentKey(compiledKey)
+    : organization?.stableKey.startsWith("local-government:")
+      ? localGoverningBodyRulesForUnitId(
+          organization.stableKey.slice("local-government:".length),
+        )
+      : null;
   return {
     organizationId: held.participation.organizationId,
     governmentName:
@@ -66,5 +84,41 @@ export function localGoverningSeatFor(
     since: held.participation.startedAt as IsoDate,
     seatContext: held.state.context,
     hasCityScreen: compiled !== null,
+    seats: rules?.seats ?? null,
+    termYears: rules?.termYears ?? null,
   };
+}
+
+/**
+ * One sentence on the body's size and term, saying which the town's own rules
+ * state and which are typical values the game has given it. Null when neither
+ * is known at all.
+ */
+export function townSeatRulesSentence(
+  seat: Pick<LocalGoverningSeat, "seats" | "termYears">,
+): string | null {
+  const seats = seat.seats
+    ? `${seat.seats.value} ${seat.seats.value === 1 ? "seat" : "seats"}`
+    : null;
+  const term = seat.termYears ? `${seat.termYears.value}-year terms` : null;
+  const read = [
+    seat.seats?.basis === "read" ? seats : null,
+    seat.termYears?.basis === "read" ? term : null,
+  ].filter((part): part is string => part !== null);
+  const typical = [
+    seat.seats?.basis === "typical" ? seats : null,
+    seat.termYears?.basis === "typical" ? term : null,
+  ].filter((part): part is string => part !== null);
+  const sentences: string[] = [];
+  if (read.length > 0)
+    sentences.push(
+      `By the town's own rules the body has ${read.join(" and ")}.`,
+    );
+  if (typical.length > 0)
+    sentences.push(
+      `The game has not read ${
+        read.length > 0 ? "the rest" : "how this body is made up"
+      }, so it gives it ${typical.join(" and ")}, as town councils across the country commonly have.`,
+    );
+  return sentences.length > 0 ? sentences.join(" ") : null;
 }

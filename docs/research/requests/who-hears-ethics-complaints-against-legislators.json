@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-22T22:42:00.000Z",
+  "impact": "blocks-work",
+  "lane": "consequences for corruption and laws",
+  "priority": "P1",
+  "question": "For each of these 28 jurisdictions, answered as one complete set: Arizona, Arkansas, California, Colorado, Delaware, Georgia, Idaho, Indiana, Iowa, Kansas, Louisiana, Maine, Massachusetts, Michigan, Mississippi, Montana, New Hampshire, New Mexico, North Dakota, Oklahoma, Puerto Rico, South Dakota, Tennessee, Utah, Vermont, Virginia, West Virginia and Wyoming. Which body receives and hears an ethics complaint against a sitting state legislator (a chamber ethics committee, a joint committee, an independent commission, or none)? Does each chamber have its own? Who may file, what the stages are with any statutory deadlines, what findings the body can make, and which body imposes a sanction (reprimand, censure, fine, expulsion)? Cite the rule, statute or constitutional provision, and mark anything not found as UNKNOWN rather than inferring it.",
+  "questionId": "who-hears-ethics-complaints-against-legislators",
+  "relatedQuestionIds": [
+    "state-campaign-finance-regulators",
+    "campaign-misconduct-detection-routes",
+    "ethics-finding-electoral-magnitudes"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread, filed by the research intake thread",
+  "sourcesChecked": [
+    {
+      "source": "ChatGPT's campaign finance regulator map, docs/research/chatgpt-answers/2026-09-22-campaign-finance-regulators/CAMPAIGN-FINANCE-REGULATORS-52.md (Drive 1ZBWrR2STXFYIMNFRjJW0xaJ6OqfL04LM)",
+      "whatItDidNotSettle": "It names campaign finance regulators, not the body that hears ethics complaints against legislators."
+    },
+    {
+      "source": "src/simulation/press/state-ethics-bodies.ts at main 616dcdb5",
+      "whatItDidNotSettle": "Covers 23 jurisdictions, plus Kentucky in procedures.ts; the 28 listed have no entry."
+    }
+  ],
+  "title": "Who hears an ethics complaint against a state legislator, in every jurisdiction the game has not researched",
+  "usableAnswer": "A 28-row table: jurisdiction; intake body; hearing body per chamber; who may file; stages and deadlines; available findings; sanctioning body; citations; and an evidence status for each field (official law, secondary synthesis, or UNKNOWN).",
+  "whyItMatters": "The game has a researched legislative ethics body for 24 jurisdictions only: Kentucky's hand-written KLEC procedure (src/simulation/press/procedures.ts) and 23 table rows (src/simulation/press/state-ethics-bodies.ts STATE_LEGISLATIVE_ETHICS_BODIES at main 616dcdb5: AK, AL, CT, DC, FL, HI, IL, MD, MN, MO, NC, NE, NJ, NV, NY, OH, OR, PA, RI, SC, TX, WA, WI). Everywhere else it uses a generated body. lamontae's standing rule is that no depth gets invented, so until this is answered a complaint against a legislator in those 28 places runs through a body that may not exist. This was the second half of state-campaign-finance-regulators; ChatGPT's 52-jurisdiction regulator map (21:34Z) covered campaign finance enforcement and did not address it, so it is split out here.",
+  "answer": {
+    "summary": "A 28-row inventory completing all 52 jurisdictions with the earlier 24. The best-sourced sequences: Colorado House (respondent answers in 10 days, preliminary investigation 30 days, 7 days to request a hearing, hearing within 14; reprimand or censure by majority, expulsion by two-thirds); Iowa (anyone may file, conduct within 3 years, independent special counsel investigates); Maine (shared commission, conduct within 2 years, 10 days' hearing notice, 90-day target, findings go to the member's chamber); Utah (two members or two voters with personal knowledge, 60-day pre-election blackout, 30-day preliminary review); Virginia (any citizen by sworn complaint, 60-day pre-election blackout); Wyoming (Joint Rule 22-1, expulsion two-thirds, reprimand or censure majority). Also: Kansas Senate needs three or more senators and a five-member select committee hears it; Georgia Senate accepts anyone within 4 years; New Mexico harassment cases get a 45-day hearing on a preponderance standard; North Dakota's Ethics Commission has a 3-year window; Vermont's commission gains powers only on Sept 1, 2027; Michigan has only a narrow conflict-of-interest advisory committee. Unverified details stay UNKNOWN and must not be put into play.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2340/Our-Civic-Duty--legislative-ethics-complaint-routes-remaining-28-jurisdictions--2026-09-22.md (Drive 1AFZmTMjU_qixs6h_2l9cR96Dq_a18Ycz, SHA-256 785f599b1d38b5a8d30ac535d23df88270ecdd20ded8c20d2b9f98c6734ed90e)"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T23:40:00.000Z",
+    "stillOpen": "Not a complete procedural code. Highest-priority gaps: Arkansas, Delaware, Idaho, Louisiana, Massachusetts, Mississippi, New Hampshire, Oklahoma, South Dakota, the current Tennessee Senate process, the Puerto Rico House, and current Michigan and Indiana chamber procedures; Montana, Vermont and parts of Tennessee and Virginia need current-rule refreshes."
+  }
+}

@@ -131,6 +131,20 @@ const ROWS: readonly SourcedQualification[] = JSON.parse(
 export { OFFICE_QUALIFICATIONS_META };
 
 /**
+ * Every compiled row, for a reader that asks about the corpus as a whole
+ * rather than about one state.
+ *
+ * `officeQualifications` answers "what does this state require", which is the
+ * question almost every caller has. This answers "what has the game read",
+ * which is the question the disclosed game profile has to ask in order to
+ * measure a typical value rather than invent one. Returned as the same frozen
+ * array the module already holds; nothing here may write to it.
+ */
+export function qualificationRows(): readonly SourcedQualification[] {
+  return ROWS;
+}
+
+/**
  * The state's own name, for a sentence a player reads.
  *
  * A refusal that says "this state" when the game knows perfectly well which
@@ -666,7 +680,7 @@ export function assessOfficeQualifications(
     /*
      * Everything else is read and reported, and deliberately not decided.
      *
-     * The world models no bar admission, no naturalisation date and no voter
+     * The world models no bar admission, no naturalization date and no voter
      * registration, so a citizenship, elector or professional requirement has
      * nothing to test against. Saying "meets" would hand out an eligibility the
      * game never checked.

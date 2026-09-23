@@ -11,7 +11,7 @@ KNOWN WORLD FACTS:
   CHARACTER KNOWLEDGE: you remember what you said and why. Nothing establishes what happened to anyone as a result.
   ESTABLISHED TRAITS: none.
   EARLIER CHOICES: you said, out loud, what you had seen at the tip pool.
-  UNKNOWN / DO NOT ASSUME: any weekday, calendar date, month or clock time; any name beyond the role slots named above; any sum of money, wage, price, rent or debt figure; the name of any employer, school, college, programme or organisation; whether the character attends a four-year college, lives on a campus, or lives away from family; any consequence that follows the choice.
+  UNKNOWN / DO NOT ASSUME: any weekday, calendar date, month or clock time; any name beyond the role slots named above; any sum of money, wage, price, rent or debt figure; the name of any employer, school, college, program or organization; whether the character attends a four-year college, lives on a campus, or lives away from family; any consequence that follows the choice.
   ALLOWED INTERPRETATION: none beyond the facts above.
   Additionally: do not establish any outcome — nobody was fired, cleared, punished or vindicated, and none of that may be stated or implied. The person asking has no name and none may be invented.
   PURPOSE: A thing you said once, still in circulation, with somebody asking you to say it again. Going over it either settles it or starts it up.

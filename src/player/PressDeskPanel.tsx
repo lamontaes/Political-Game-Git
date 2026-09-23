@@ -3,12 +3,14 @@ import {
   answerPressRequest,
   pressAnswerStance,
   projectPressDesk,
+  purchaseOutlet,
   respondToComplaint,
   spendCampaignFundsPersonally,
   type EntityId,
   type IncomingPressRequest,
   type KnownMatterView,
   type MediaScope,
+  type PressOutletSummary,
   type PressAnswerChoice,
   type World,
 } from "../simulation";
@@ -107,9 +109,11 @@ export function PressDeskPanel({
         )}
       </DeskGroup>
 
-      <DeskGroup id="matters" title="Matters about you">
+      <DeskGroup id="matters" title="Complaints and questions about you">
         {desk.matters.length === 0 ? (
-          <p className="game-note">No matter about you is known to you.</p>
+          <p className="game-note">
+            Nobody has raised anything about you that you know of.
+          </p>
         ) : (
           <ul className="pg-press-desk-list">
             {desk.matters.map((matter) => (
@@ -174,6 +178,12 @@ export function PressDeskPanel({
                     </span>
                   ) : null}
                 </p>
+                <OutletPurchase
+                  outlet={outlet}
+                  world={world}
+                  personId={personId}
+                  onWorldChange={onWorldChange}
+                />
                 {outlet.reporters.length > 0 ? (
                   <ul className="pg-press-desk-list">
                     {outlet.reporters.map((reporter) => (
@@ -515,5 +525,69 @@ function PersonalUseSection({
         </p>
       ) : null}
     </section>
+  );
+}
+
+/**
+ * Buying an outlet outright. Shown only where the owner is selling; a price
+ * the viewer cannot pay says why instead of offering the button.
+ */
+function OutletPurchase({
+  outlet,
+  world,
+  personId,
+  onWorldChange,
+}: {
+  readonly outlet: PressOutletSummary;
+  readonly world: World;
+  readonly personId: EntityId;
+  readonly onWorldChange: (next: World) => void;
+}) {
+  const [problem, setProblem] = useState<string | null>(null);
+  const terms = outlet.purchase;
+  if (terms.status === "already-yours") {
+    return <p className="game-note">You own this outlet.</p>;
+  }
+  if (terms.priceMinorUnits === null) return null;
+  if (terms.status !== "available") {
+    if (
+      terms.status !== "cannot-afford" &&
+      terms.status !== "savings-not-on-record"
+    )
+      return null;
+    return (
+      <p className="game-note">
+        For sale at {dollars(terms.priceMinorUnits)}. {terms.reason}
+      </p>
+    );
+  }
+  return (
+    <p className="pg-press-desk-line">
+      <span className="game-note">
+        {terms.sellerName} would sell it for {dollars(terms.priceMinorUnits)}
+        .{" "}
+      </span>
+      <button
+        type="button"
+        data-testid={`press-desk-buy-${outlet.outletId}`}
+        onClick={() => {
+          try {
+            onWorldChange(
+              purchaseOutlet(world, {
+                stableKey: `player-purchase:${personId}:${outlet.outletId}:${world.history.nextSequence}`,
+                buyerPersonId: personId,
+                outletId: outlet.outletId,
+              }),
+            );
+            setProblem(null);
+          } catch (error) {
+            setProblem(problemText(error));
+          }
+        }}
+      >
+        Buy {outlet.name}
+      </button>
+      {problem ? <span className="game-note"> {problem}</span> : null}
+    </p>
   );
 }

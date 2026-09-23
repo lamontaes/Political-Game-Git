@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./fixtures";
 
 test("office onboarding records workflow only through Record, without voting", async ({
   page,

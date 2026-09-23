@@ -1,4 +1,5 @@
 import { wasRefused } from "./scheduled-activity-answer";
+import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
@@ -31,7 +32,10 @@ import {
 } from "./campaign-queries";
 import { recordSupportShift } from "./campaign-support";
 import { GAME_ADULT_CANDIDACY_AGE } from "./candidacy-packs";
-import { candidacyAuthority } from "./candidacy";
+import {
+  candidacyAuthority,
+  electiveOfficesForJurisdiction,
+} from "./candidacy";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -63,7 +67,7 @@ import {
   homePartyChapters,
   type HomePartyChapter,
 } from "./living-world/party-chapters";
-import { drawCanonicalName, personName } from "./people";
+import { drawCanonicalNamedIdentity, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
@@ -974,7 +978,7 @@ export interface CampaignGuidanceView {
   readonly filingDeadline: CampaignGuidanceUnestablished;
   readonly filingFees: CampaignGuidanceUnestablished;
   readonly petitions: CampaignGuidanceUnestablished;
-  /** The game's own adult floor, labelled as the game's and not the law's. */
+  /** The game's own adult floor, labeled as the game's and not the law's. */
   readonly gameAdultCandidacyAge: number;
   readonly runningNow: boolean;
 }
@@ -1009,14 +1013,20 @@ export function projectCampaignGuidance(
   const person = world.people[personId];
   if (!person) throw new Error("That person is not in this world.");
   const authority = candidacyAuthority(person.homeJurisdictionId);
-  const offices = (authority.pack?.offices ?? []).map((option) => ({
-    officeKey: option.officeKey,
-    chamberName: option.chamberName,
-    minimumAge: guidanceValue(option.qualification.minimumAge),
-    residency: guidanceValue(option.qualification.residency),
-    termYears: guidanceValue(option.qualification.termYears),
-    filing: guidanceValue(option.qualification.filing),
-  }));
+  // Every office this place offers, the town's own governing body included,
+  // so the advice matches the office list on Campaigns. Reading only the
+  // state's pack told an Eastport, Maine resident no office was known while
+  // the town council was open to file for.
+  const offices = electiveOfficesForJurisdiction(person.homeJurisdictionId).map(
+    (option) => ({
+      officeKey: option.officeKey,
+      chamberName: option.chamberName,
+      minimumAge: guidanceValue(option.qualification.minimumAge),
+      residency: guidanceValue(option.qualification.residency),
+      termYears: guidanceValue(option.qualification.termYears),
+      filing: guidanceValue(option.qualification.filing),
+    }),
+  );
   return {
     personId,
     jurisdictionId: person.homeJurisdictionId,
@@ -1075,8 +1085,10 @@ function ensureContactPerson(
     rng.integer(LIFE.contactAgeYears[0], LIFE.contactAgeYears[1] + 1);
   const next = createCharacterHistoryContextPerson(world, {
     stableKey,
-    ...drawCanonicalName(rng.fork("name")),
-    identity: generatePersonIdentity(rng.fork("identity")),
+    ...drawCanonicalNamedIdentity(
+      rng.fork("name"),
+      generatePersonIdentity(rng.fork("identity")),
+    ),
     birthDate: makeIsoDate(
       `${year}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
     ),
@@ -1149,6 +1161,21 @@ function supportRequestDecision(
       confidence: "high",
       explanation: "Nothing on record says they share the chapter's party.",
       sourceRefs: [],
+    });
+  }
+  for (const finding of rememberedAdverseFindingsAgainst(
+    world,
+    record.subjectPersonId,
+  )) {
+    considerations.push({
+      stableKey: `${decisionKey}:public-finding:${finding.step.id}`,
+      optionKey: "decline",
+      sourceType: "context:public-ethics-finding",
+      direction: "supports",
+      importance: "strong",
+      confidence: "high",
+      explanation: `The ${finding.proceeding.institutionLabel} has made a public finding against them.`,
+      sourceRefs: [{ kind: "historical-event", eventId: finding.step.eventId }],
     });
   }
   const evaluation = evaluateDecision(world, {

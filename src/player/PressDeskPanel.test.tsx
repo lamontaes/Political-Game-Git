@@ -13,6 +13,10 @@ import {
   ensurePressDeskSchedule,
   ensurePressMediaOpening,
   ensurePressStateCoverage,
+  ensureMediaOwnership,
+  createResourcePosition,
+  money,
+  projectPressDesk,
   fileCampaign,
   fileRivalComplaint,
   makeCurrencyCode,
@@ -186,7 +190,9 @@ describe("PressDeskPanel", () => {
     expect(html).toContain('data-testid="press-desk-panel"');
     expect(html).toContain("No reporter is waiting on an answer from you.");
     expect(html).toContain("Nothing has been published about you yet.");
-    expect(html).toContain("No matter about you is known to you.");
+    expect(html).toContain(
+      "Nobody has raised anything about you that you know of.",
+    );
     expect(html).toContain("You have no ground rules agreed with a reporter.");
     expect(html).toContain("No news outlet is recorded here.");
     expect(html).not.toContain('data-testid="press-desk-story"');
@@ -215,5 +221,27 @@ describe("PressDeskPanel", () => {
     const before = serializeWorld(covered.world);
     render(covered.world, covered.playerId);
     expect(serializeWorld(covered.world)).toBe(before);
+  });
+
+  it("names each outlet's owner, and offers an outlet for sale to a viewer who can pay", () => {
+    let world = ensureMediaOwnership(covered.world);
+    world = createResourcePosition(world, {
+      stableKey: "press-desk-mount:savings",
+      owner: { kind: "person", personId: covered.playerId },
+      openedAt: world.currentDate,
+      openingBalance: money(1_000_000_000_00, makeCurrencyCode("USD")),
+      provenance: { kind: "authored", note: "Test savings." },
+    });
+    const html = render(world, covered.playerId);
+    expect(html).toContain("· owned by ");
+    const forSale = projectPressDesk(world, covered.playerId).outlets.filter(
+      (outlet) => outlet.purchase.status === "available",
+    );
+    // This seed's outlets include at least one whose owner sells.
+    expect(forSale.length).toBeGreaterThan(0);
+    for (const outlet of forSale) {
+      expect(html).toContain(`data-testid="press-desk-buy-${outlet.outletId}"`);
+      expect(html).toContain(`Buy ${outlet.name}`);
+    }
   });
 });

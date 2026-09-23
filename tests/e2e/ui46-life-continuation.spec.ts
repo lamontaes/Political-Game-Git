@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 import {
   enterLife,
   goTo,
@@ -13,7 +13,7 @@ import {
  *
  * An adult who shares a home retires from play from Options, through the
  * in-game confirmation. The continuation view says who could be played next,
- * or why nobody can. Keeping observing leaves a read-only shell labelled
+ * or why nobody can. Keeping observing leaves a read-only shell labeled
  * Observing with no time controls. Saving and reloading that observed world
  * is the second test, which waits on a simulation repair described there.
  */

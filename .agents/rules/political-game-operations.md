@@ -28,4 +28,4 @@ During edits: `npm run agent:test-cadence` for focused commands matched to chang
 
 Before readiness/LAND: `npm run agent:test-cadence -- --readiness`, then record exact-source stages with `node scripts/agent-run-receipt.mjs`.
 
-Prior-head failures, cancelled browser jobs, and skipped CI stages are historical until reproduced on the current head.
+Prior-head failures, canceled browser jobs, and skipped CI stages are historical until reproduced on the current head.

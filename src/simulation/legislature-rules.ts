@@ -3,9 +3,9 @@
  *
  * This module describes what a legislature's *formal rules* say. It contains no
  * jurisdiction-specific facts: those live in rule packs compiled from sourced
- * research. Nothing here models political behaviour — how a member is likely to
- * vote, who owes whom a favour, or what leadership prefers. Formal rule and
- * observed political behaviour stay separate concepts by construction.
+ * research. Nothing here models political behavior — how a member is likely to
+ * vote, who owes whom a favor, or what leadership prefers. Formal rule and
+ * observed political behavior stay separate concepts by construction.
  *
  * Three epistemic states are distinct everywhere and never collapse:
  * - `known`           the rule is resolved from an official source;
@@ -26,9 +26,26 @@ export type RuleAuthorityLayer =
   | "uniform-rules"
   | "statute"
   | "parliamentary-fallback"
-  | "research-reference";
+  | "research-reference"
+  /**
+   * Not an authority at all: the game's own disclosed rule, used where no
+   * instrument for this jurisdiction has been read. It is named as a layer so
+   * that a generated rule cannot be mistaken for a constitutional one by a
+   * consumer reading the layer, and so that a pack carrying one is detectable
+   * by inspection rather than by trusting whoever wrote it.
+   */
+  | "game-profile";
 
-export type RuleVerificationStatus = "verified" | "partial" | "unresolved";
+export type RuleVerificationStatus =
+  | "verified"
+  | "partial"
+  | "unresolved"
+  /**
+   * The value came from the game's own profile rather than from a source.
+   * `assertRulePackIntegrity` permits it only inside a pack that declares
+   * itself a game profile, so it can never appear in a researched pack.
+   */
+  | "game-profile";
 
 /** Citation for one institutional rule, carried into the runtime. */
 export interface RuleSourceRef {
@@ -125,7 +142,7 @@ export function requireKnown<T>(value: RuleValue<T>, label: string): T {
 export type VoteDenominator =
   /**
    * Members actually elected and entitled to serve. This equals the chamber's
-   * authorised seats only when no seat is vacant; a vacancy lowers it.
+   * authorized seats only when no seat is vacant; a vacancy lowers it.
    */
   | "members-elected"
   /** Members actually present when the vote is taken. */
@@ -340,6 +357,20 @@ export interface ChamberRule {
   readonly chamberKey: string;
   readonly name: string;
   /**
+   * What this chamber calls a bill it has just received: "HB", "SB", "LB",
+   * "AB".
+   *
+   * It lives on the chamber record, and is required, because it is a fact
+   * about this chamber rather than a convention some consumer can infer. A
+   * chamber key is not enough: Maryland's lower house is a House of Delegates
+   * and Nevada's is an Assembly, and the only reason a switch over four keys
+   * worked is that every packed legislature happened to use one of them. A
+   * required field means a legislature cannot be added without saying what its
+   * chamber numbers its bills, instead of a consumer discovering it by
+   * throwing.
+   */
+  readonly billDesignationPrefix: string;
+  /**
    * Formally authorized seats in the chamber.
    *
    * A seat count is not automatically constitutional: Minnesota's constitution
@@ -520,6 +551,22 @@ export interface LegislativeRulePack {
   readonly packId: string;
   readonly jurisdictionKey: string;
   readonly displayName: string;
+  /**
+   * Whether this pack states read law or the game's own rule.
+   *
+   * `researched` is the only kind that describes a real legislature. It is
+   * compiled from instruments that were actually retrieved, and every rule in
+   * it either cites one or says plainly that nothing resolved it.
+   *
+   * `game-profile` is the state that used to be missing, and its absence is
+   * why forty-two states had no legislature at all rather than a provisional
+   * one. Such a pack is playable and disclosed: its rules are drawn from the
+   * spread the researched packs span, they are stable for that state forever,
+   * and they are labeled `game-profile` at every source ref so nothing can
+   * quote one back as that state's law. Reading the state's own instruments
+   * replaces the whole pack.
+   */
+  readonly basis: "researched" | "game-profile";
   readonly structure: LegislatureStructure;
   readonly chambers: readonly ChamberRule[];
   /**
@@ -547,6 +594,14 @@ export interface LegislativeRulePack {
 // ---------------------------------------------------------------------------
 // Pack access and validation
 // ---------------------------------------------------------------------------
+
+/** What a bill introduced in this chamber is called, from the chamber itself. */
+export function chamberDesignationPrefix(
+  pack: LegislativeRulePack,
+  chamberKey: string,
+): string {
+  return chamberByKey(pack, chamberKey).billDesignationPrefix;
+}
 
 export function chamberByKey(
   pack: LegislativeRulePack,
@@ -862,13 +917,14 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
         `Unresolved formal seat count for '${chamber.chamberKey}' must not carry a numeric value or source.`,
       );
     }
-    if (
-      formalSeats.kind === "known" &&
-      formalSeats.source.verification !== "verified"
-    ) {
-      throw new Error(
-        `Known formal seat count for '${chamber.chamberKey}' must cite a verified source.`,
-      );
+    if (formalSeats.kind === "known") {
+      const acceptable =
+        pack.basis === "game-profile" ? "game-profile" : "verified";
+      if (formalSeats.source.verification !== acceptable) {
+        throw new Error(
+          `Known formal seat count for '${chamber.chamberKey}' must cite a ${acceptable} source.`,
+        );
+      }
     }
     if (chamber.floorStages.length === 0) {
       throw new Error(
@@ -1096,4 +1152,58 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
   for (const source of pack.sources) {
     assertSourceRef(source, `source in '${pack.packId}'`);
   }
+
+  assertBasisIsHonest(pack);
+}
+
+/**
+ * The blend that is forbidden runs one way only.
+ *
+ * A researched pack that carried one generated rule would be the worst of both:
+ * everything about it says "this is the law of this state", and one field would
+ * not be. That is refused, at any depth.
+ *
+ * The other direction is not a failure, it is the goal. A game profile exists
+ * because nothing has been read; the moment something IS read for one of its
+ * rules, the read value belongs there and the drawn one must give way. Real law
+ * always overrides a generated value, and a check that refused a constitution
+ * inside a generated pack would have made honoring that impossible. The pack
+ * still declares itself `game-profile`, because most of it still is, and each
+ * rule's own source ref says which kind it is.
+ *
+ * The walk is total rather than field-by-field because a source ref can sit at
+ * any depth — on a threshold, inside a floor stage, under a committee — and a
+ * check that only looked where someone remembered would pass the one they
+ * forgot.
+ */
+function assertBasisIsHonest(pack: LegislativeRulePack): void {
+  if (pack.basis === "game-profile") return;
+  const wanted = null;
+  const seen = new Set<object>();
+  const walk = (node: unknown, path: string): void => {
+    if (node === null || typeof node !== "object") return;
+    if (seen.has(node)) return;
+    seen.add(node);
+    if (Array.isArray(node)) {
+      node.forEach((entry, index) => walk(entry, `${path}[${index}]`));
+      return;
+    }
+    const record = node as Record<string, unknown>;
+    if (
+      typeof record.authority === "string" &&
+      typeof record.verification === "string" &&
+      typeof record.citation === "string"
+    ) {
+      const isProfile = record.verification === "game-profile";
+      if (wanted === null && isProfile) {
+        throw new Error(
+          `Researched pack '${pack.packId}' carries a game-profile source at ${path}: ${record.citation}. A researched legislature may not carry a generated rule.`,
+        );
+      }
+    }
+    for (const [key, value] of Object.entries(record)) {
+      walk(value, `${path}.${key}`);
+    }
+  };
+  walk(pack, pack.packId);
 }

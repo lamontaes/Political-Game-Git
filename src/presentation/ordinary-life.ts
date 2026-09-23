@@ -1,3 +1,4 @@
+import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { refreshContextualScenes } from "./contextual-scene-producers";
@@ -88,9 +89,9 @@ function standingClause(days: number, waitingOnSomeoneElse: boolean): string {
 /**
  * What became of the calendar hold this is about, if it is about one.
  *
- * Read from the records rather than from the hold being cancelled. A first
+ * Read from the records rather than from the hold being canceled. A first
  * version asked the activity's state, which the standing-things tests caught
- * at once: a hold whose day simply passed is cancelled too, so an invitation
+ * at once: a hold whose day simply passed is canceled too, so an invitation
  * nobody ever answered read back as one the player had refused. Declining and
  * letting something lapse are different facts about a life, and only one of
  * them is a decision. A record too old to tell the two apart leaves the thing
@@ -127,7 +128,7 @@ export interface PendingThing {
    * How long it has been standing, in days.
    *
    * Carried on the record rather than worked out inside one sentence, so
-   * anything else that lists these inherits the judgement. The authored
+   * anything else that lists these inherits the judgment. The authored
    * summary is fixed text: on its own it read word for word the same on the
    * first day of a life and three months later, which is how a life that had
    * stopped going anywhere still looked exactly like a life on its first
@@ -331,6 +332,16 @@ export function passOrdinaryDays(
   days = 1,
   supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry = {},
 ): World {
+  return advanceWithWorldIntegrityAtEnd(() =>
+    passOrdinaryDaysUnchecked(world, days, supplied),
+  );
+}
+
+function passOrdinaryDaysUnchecked(
+  world: World,
+  days: number,
+  supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry,
+): World {
   const advanced = advanceOrdinaryDays(world, days, supplied);
   // A stretch that actually passed is a transition at which the world may bind
   // the situations it has made answerable (PROSE B). A refused advance writes
@@ -358,7 +369,7 @@ function advanceOrdinaryDays(
   // A day passed here is the same day as a day passed on the adult surface,
   // and a callback that comes due on it must be answered rather than stepped
   // over — time refuses to step over one it has no handler for, which is the
-  // behaviour that keeps a scheduled consequence from being lost. The campaign
+  // behavior that keeps a scheduled consequence from being lost. The campaign
   // registry composes the ordinary life handlers with the election handler, so
   // election day arrives without either the life or the contest being dropped.
   const ordinaryHandlers = createCampaignElectionTransitionRegistry();
@@ -468,7 +479,7 @@ function clockTime(minuteOfDay: number): string {
  * can say something meant for one of them; three cannot, not without leaving,
  * and the game does not record anybody leaving. So a third person in the
  * household makes a private word unavailable, and the reason names them rather
- * than greying out a control and saying nothing.
+ * than graying out a control and saying nothing.
  */
 export function householdConversationRoom(
   world: World,
@@ -527,10 +538,10 @@ export function householdConversationRoom(
 }
 
 /**
- * A neighbour, and a notice that concerns both of them.
+ * A neighbor, and a notice that concerns both of them.
  *
  * Grounded in two records and nothing else: the character lives somewhere, and
- * so does somebody who is not in their household. That is what a neighbour is
+ * so does somebody who is not in their household. That is what a neighbor is
  * — the game does not have a friendship score to consult and will not invent
  * one. Where the world has nobody in the same place outside the household,
  * there is no doorstep conversation, which is the truthful outcome.
@@ -558,7 +569,7 @@ export function neighborhoodConversationRoom(
     if (!candidate) return false;
     if (candidate.homeJurisdictionId !== person.homeJurisdictionId)
       return false;
-    // Somebody you live with is not a neighbour; that conversation is the one
+    // Somebody you live with is not a neighbor; that conversation is the one
     // at the kitchen table.
     return !householdMembershipsAt(world, candidateId, cutoff).some((entry) =>
       household.has(entry.membership.householdId),

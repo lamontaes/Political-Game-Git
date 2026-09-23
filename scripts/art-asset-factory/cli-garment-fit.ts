@@ -346,7 +346,7 @@ for (const [family, components] of [...garmentsByFamily].sort(([a], [b]) =>
       kind,
       classification: "morphology-specific",
       authored_for_body_family: only[0] ?? null,
-      basis: `Declares one body family (${only.join(", ") || "none"}) and no second morphology has been measured against it. Classified by the absence of evidence, not by a judgement about the art: nothing is reused, so nothing needs a fit.`,
+      basis: `Declares one body family (${only.join(", ") || "none"}) and no second morphology has been measured against it. Classified by the absence of evidence, not by a judgment about the art: nothing is reused, so nothing needs a fit.`,
       profiles: [],
     });
     continue;

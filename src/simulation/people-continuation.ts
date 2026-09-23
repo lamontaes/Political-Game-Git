@@ -9,6 +9,7 @@ import {
   householdMembershipStateHistory,
   householdMembershipsAt,
   kinshipRelationshipsAt,
+  peopleInHouseholdAt,
 } from "./life-queries";
 import { childrenOf, grandchildrenOf, parentsOf } from "./people-family";
 import { personName } from "./people";
@@ -40,7 +41,7 @@ import { recordWorldEvent } from "./world";
  * temperament, relationships, aims, office or money. A person who owned
  * property individually leaves it in a pending estate; household and joint
  * holdings keep their existing shares; campaign and public money was never
- * theirs to leave. Probate is not modelled and not claimed.
+ * theirs to leave. Probate is not modeled and not claimed.
  *
  * Retiring a character from play is not their death and does not end any job
  * or office they hold. They simply stop being played.
@@ -228,7 +229,10 @@ export type SuccessorRelation =
   | "grandchild"
   | "sibling"
   | "partner"
+  | "parent"
+  | "household"
   | "protege"
+  | "mentor"
   | "close-associate"
   | "other";
 
@@ -306,12 +310,32 @@ export function successorCandidates(
       "partner",
     );
   }
+  // A parent is family the record already names; leaving one to the wider
+  // list offered a player's own father as "no connection on record".
+  for (const id of parentsOf(world, predecessorId)) add(id, "parent");
+  // Somebody under the same roof today is not a stranger either, whether or
+  // not any kinship record joins them.
+  for (const entry of householdMembershipsAt(world, predecessorId)) {
+    for (const id of peopleInHouseholdAt(world, entry.membership.householdId)) {
+      add(id, "household");
+    }
+  }
   // Somebody they taught, or somebody they kept up with for years. Not family,
   // but not a stranger either, and the owner asked for both to be offered.
   for (const interaction of meaningfulBonds(world, predecessorId)) {
     const other = interaction.personIds.find((id) => id !== predecessorId)!;
+    // Which of them taught is not in the record's order: the history writer
+    // sorts the ids. Every mentorship the game writes is an elder guiding a
+    // younger person, so the elder is the mentor. Reading every mentorship as
+    // "someone they taught" offered a 34-year-old her own middle-school
+    // teacher as her pupil.
     const mentorship = interaction.kind.startsWith("mentorship:");
-    add(other, mentorship ? "protege" : "close-associate", interaction.summary);
+    const relation: SuccessorRelation = !mentorship
+      ? "close-associate"
+      : world.people[other]!.birthDate < world.people[predecessorId]!.birthDate
+        ? "mentor"
+        : "protege";
+    add(other, relation, interaction.summary);
   }
   // And anybody else alive and old enough. Offered plainly as what it is: a
   // life this one did not touch, which the player may take up anyway.
@@ -858,4 +882,72 @@ function daysBetween(from: IsoDate, to: IsoDate): number {
     (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
       86_400_000,
   );
+}
+
+/* ------------------------------------------------------------------ *
+ * Observer Mode from the start (Constitution rule 30)
+ * ------------------------------------------------------------------ */
+
+export const OBSERVER_OPENED_EVENT = "game.observer-opened";
+const OBSERVER_ANCHOR_TAG_PREFIX = "observer-anchor:";
+
+/**
+ * Hands a freshly opened world to nobody.
+ *
+ * The opening generator builds a world around one resident, so the same
+ * systems produce the same town whether it is played or watched. Here nobody
+ * takes that resident: they live on as an ordinary person, and the world runs
+ * with no player in it. The resident is recorded as the anchor so a save can
+ * say where the world is watched from and reading surfaces have a place to
+ * stand. It is never treated as a played life: no handoff is written, so no
+ * continuation is offered for someone who was never played.
+ */
+export function observeFromOpening(
+  world: World,
+  anchorPersonId: EntityId,
+): World {
+  if (world.control.kind === "observer") return world;
+  const anchor = world.people[anchorPersonId];
+  if (!anchor) throw new Error("The world has no one to watch it from.");
+  if (controlHandoffs(world).length > 0 || observerAnchorPersonId(world)) {
+    throw new Error(
+      "Only a world nobody has played can be watched from its start.",
+    );
+  }
+  const next = recordWorldEvent(world, {
+    stableKey: `${PEOPLE_CONTINUATION_VERSION}:observer-opened:${anchorPersonId}`,
+    type: OBSERVER_OPENED_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: anchor.homeJurisdictionId,
+    involvedEntityIds: [anchorPersonId],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [`${OBSERVER_ANCHOR_TAG_PREFIX}${anchorPersonId}`],
+    summary: "The world began with nobody played in it.",
+    context: {
+      location: null,
+      socialContext: "A choice of how to play, not an event in the world.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return { ...next, control: { kind: "observer" } };
+}
+
+/** The resident a world watched from its start is watched from, if any. */
+export function observerAnchorPersonId(world: World): EntityId | null {
+  for (const event of world.history.events) {
+    if (event.type !== OBSERVER_OPENED_EVENT) continue;
+    const tag = event.tags.find((entry) =>
+      entry.startsWith(OBSERVER_ANCHOR_TAG_PREFIX),
+    );
+    const id = tag?.slice(OBSERVER_ANCHOR_TAG_PREFIX.length) as
+      EntityId | undefined;
+    if (id && world.people[id]) return id;
+  }
+  return null;
 }

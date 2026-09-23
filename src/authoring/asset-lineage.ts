@@ -43,7 +43,7 @@ import {
  *   OUTSIDE this repository: an upscaler, a retouch pass, a paint-over. Its
  *   pixel count exceeds the detail behind it and it must say by how much.
  * - `production-normalized` — a derivative made INSIDE this repository by a
- *   deterministic, reproducible normalization (crop, colour-space, container).
+ *   deterministic, reproducible normalization (crop, color-space, container).
  *   Normalization never enlarges, so detail is preserved exactly.
  * - `runtime-tier` — a member of a raster ladder, derived by the tier
  *   pipeline. Registered through the tier plan, not through master intake.
@@ -158,7 +158,7 @@ export interface AssetLineageDeclaration {
   readonly nativeDetail: NativeDetailDeclaration;
   /**
    * Rights status, carried through from the manifest vocabulary. Unknown stays
-   * unknown; visibility is never evidence of a licence.
+   * unknown; visibility is never evidence of a license.
    */
   readonly rightsStatus?: "public-domain" | "licensed" | "owned" | "unknown";
   readonly approvedBy?: string;
@@ -203,7 +203,7 @@ export interface EnvironmentMasterCandidate {
 
 /**
  * - `production` — may become a plate and a runtime tier ladder.
- * - `reference` — kept and catalogued, never shipped as a plate.
+ * - `reference` — kept and cataloged, never shipped as a plate.
  * - `reject` — not admissible; the reasons say why.
  */
 export type IntakeDisposition = "production" | "reference" | "reject";
@@ -325,7 +325,7 @@ export function targetClassUsesEnvironmentMasterFloor(
 }
 
 /**
- * The whole intake judgement for one candidate, as a value.
+ * The whole intake judgment for one candidate, as a value.
  *
  * Nothing here reads a filename to decide anything that matters. Naming
  * conventions are a convenience for humans and a source of confident errors for
@@ -496,7 +496,7 @@ export function evaluateEnvironmentMasterIntake(
       finding(
         "reference-only-cannot-ship",
         "note",
-        "Catalogued as reference. It informs authoring and is never painted as a plate.",
+        "Cataloged as reference. It informs authoring and is never painted as a plate.",
       ),
     );
   }

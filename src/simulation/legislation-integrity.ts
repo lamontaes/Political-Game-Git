@@ -150,8 +150,8 @@ export function assertLegislationIntegrity(
         );
       }
     }
-    // A measure may say what question it is about, and the catalogue is what
-    // decides which questions exist. A link to one the catalogue does not hold
+    // A measure may say what question it is about, and the catalog is what
+    // decides which questions exist. A link to one the catalog does not hold
     // would make a save claim a bill is about something nothing defines.
     for (const propositionId of measure.propositionIds ?? []) {
       if (!world.policyCatalog.propositions[propositionId]) {

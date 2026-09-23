@@ -105,7 +105,7 @@ attributes and this document.
 - A secondhand account is narrated only when somebody told this person, or a
   record, outlet or rumor reached them, about something that has happened.
   Knowledge the opportunity producer writes about a standing offer (a
-  proposed evening, an invitation, a favour asked, a confidence shared, a
+  proposed evening, an invitation, a favor asked, a confidence shared, a
   meeting notice) is the state of an offer; the record's open items carry it,
   the account does not.
 - Generic tests use an explicit non-Kentucky locality; Lexington remains a

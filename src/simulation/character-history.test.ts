@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { addDays } from "./dates";
 
 import {
   LEXINGTON_PLACEHOLDER_ID,
@@ -510,13 +511,30 @@ describe("persistent character and history foundation", () => {
         "employment.unemployment",
       ),
     ).toBe(true);
+    // Close when it happened. Read decades later with nothing between them
+    // since, the bond has gone dormant, so it is no longer close now; see
+    // relationship-absence.ts (DEPTH2 A03).
+    const unemployment = built.world.history.events.find(
+      (event) => event.id === built.unemploymentEventId,
+    )!;
+    const soonAfter = {
+      ...built.world,
+      currentDate: addDays(unemployment.occurredAt, 30),
+    };
+    expect(
+      hasCloseRelationshipWithPersonAffectedByEvent(
+        soonAfter,
+        firstId,
+        built.unemploymentEventId,
+      ),
+    ).toBe(true);
     expect(
       hasCloseRelationshipWithPersonAffectedByEvent(
         built.world,
         firstId,
         built.unemploymentEventId,
       ),
-    ).toBe(true);
+    ).toBe(false);
     expect(
       didPeoplePreviouslyWorkTogether(built.world, firstId, secondId),
     ).toBe(true);

@@ -15,6 +15,7 @@ import {
   householdMembershipsAt,
   peopleInHouseholdAt,
   kinshipRelationshipsAt,
+  recordRelationshipInteraction,
   recordWorldEvent,
   recordEventKnowledge,
   advanceWorldMinutes,
@@ -34,7 +35,7 @@ import {
   OPENING_LIFE_ADDITIONS,
   OPENING_LIFE_FAMILIES,
   openingLifeFamily,
-  OPENING_LIFE_FOLLOWUPS,
+  openingLifeSceneAtStage,
 } from "../simulation/opening-life-content";
 import {
   eligibleEpisodeBeats,
@@ -146,16 +147,9 @@ function definitionAtStage(
   definition: LifeSceneDefinition,
   stageKey: string,
 ): LifeSceneDefinition {
-  if (stageKey === "moment") return definition;
-  const followup = OPENING_LIFE_FOLLOWUPS[definition.key];
-  if (stageKey !== "follow-through" || !followup)
-    throw new Error("Unknown opening stage.");
-  return {
-    ...definition,
-    minutes: 5,
-    premise: followup.premise,
-    choices: followup.choices,
-  };
+  const atStage = openingLifeSceneAtStage(definition, stageKey);
+  if (!atStage) throw new Error("Unknown opening stage.");
+  return atStage;
 }
 
 /** All eligible definitions are inspectable without creating a person or event. */
@@ -457,7 +451,7 @@ export function chooseOpeningLifeScene(
       ? personName(world.people[scene.counterpartPersonId]!)
       : "",
   );
-  const next = recordWorldEvent(advanced, {
+  const answered = recordWorldEvent(advanced, {
     stableKey: `opening-life:scene-answer:${eventId}`,
     type: CLOSED,
     occurredAt: world.currentDate,
@@ -499,6 +493,24 @@ export function chooseOpeningLifeScene(
       immediateReaction: aftermath,
     },
   });
+  // A scene played with somebody is time the two of them spent together, and
+  // goes on their shared record the way a conversation does. This is contact
+  // only: it moves none of the five lines on its own, per the conduct rubric
+  // for `what-moves-a-relationship`. What a particular choice means to the
+  // other person is authored per choice and is not decided here.
+  const next = scene.counterpartPersonId
+    ? recordRelationshipInteraction(answered, {
+        stableKey: `opening-life:scene-contact:${eventId}`,
+        personIds: [personId, scene.counterpartPersonId],
+        eventId: answered.history.events.at(-1)!.id,
+        occurredAt: world.currentDate,
+        kind: "contact:shared-moment",
+        change: "maintained",
+        significance: "meaningful",
+        summary: aftermath,
+        tags: ["opening-life-v1", `family:${scene.definition.key}`],
+      })
+    : answered;
   // Deciding what to make time for records the plan itself, through the same
   // writer the personal-plans menu uses. The scene's own answer event is
   // already written, so the plan follows the choice rather than standing in

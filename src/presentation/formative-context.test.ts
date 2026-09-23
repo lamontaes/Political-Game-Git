@@ -27,7 +27,7 @@ import { createNewGameWorld } from "./new-game";
  *
  * The audit reproduced an eight-year-old sharing a lunch table with a
  * twenty-eight-year-old and a pacing constant that ignored the accepted anchor
- * budget in favour of an invented arrival rate. Both were the same mistake:
+ * budget in favor of an invented arrival rate. Both were the same mistake:
  * treating a formative scene as content to be shown rather than as something
  * that either has its context or does not happen.
  */
@@ -109,7 +109,7 @@ describe("Who is actually in the scene", () => {
   });
 
   it("does not invent a school so a classroom scene can play", () => {
-    // Below school-entry age there is no enrolment, so no classmate and no
+    // Below school-entry age there is no enrollment, so no classmate and no
     // teacher — and the situations that need them are simply not offered.
     const { world, playerPersonId } = child(5);
     const enrolled = world.history.educationEnrollments.filter(
@@ -343,7 +343,7 @@ describe("A companion holds the part they are given", () => {
     );
     expect(mine.length).toBeGreaterThan(0);
     // Age made them plausible. The audit found nothing had made them true: a
-    // similarly aged stranger was returned as a classmate with no enrolment at
+    // similarly aged stranger was returned as a classmate with no enrollment at
     // this school, or at any school.
     const theirs = activeEducationEnrollmentsAt(after, resolved!.personId).map(
       (entry) => entry.enrollment.organizationId,

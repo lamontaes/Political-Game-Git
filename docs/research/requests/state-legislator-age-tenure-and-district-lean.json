@@ -1,0 +1,21 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "state-legislator-age-tenure-and-district-lean",
+  "title": "How old state legislators are, how long they have served, and how party varies across a state's districts",
+  "question": "For U.S. state legislators: (1) what is the age distribution of sitting members, by chamber and state type; (2) how many years have sitting members served, as a distribution, and how term limits change it in the states that have them; (3) within one state, how widely does the two-party vote vary from district to district, so that a generated chamber's party split matches real states of similar overall lean?",
+  "whyItMatters": "When a life opens, every seat in the home state's legislature is filled with a generated member. Until this is answered the game uses marked placeholders: an age drawn evenly between the chamber's minimum age plus seven and eighty, years served drawn evenly from zero to twelve, and each seat's party drawn from the state's generated lean plus a pooled within-state spread. The owner ruled that depth must not be invented.",
+  "impact": "shapes-design",
+  "lane": "governing and legislative",
+  "usableAnswer": "Age distribution (median, quartiles, share under 40 and over 70) by chamber; tenure distribution (median, quartiles) with the term-limit states noted; the district-to-district standard deviation of two-party share within states, or a table of seat share against statewide share. Citations per figure.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/nationwide-world/state-legislature-opening.ts on branch claude/project-thread-d0xosf at 3f92df2d (PR #440)",
+      "whatItDidNotSettle": "The age, tenure and spread rules there are the game's own placeholders."
+    }
+  ],
+  "requestedBy": "modular legislation thread (technical team lead)",
+  "filedAt": "2026-09-22T22:45:00.000Z",
+  "priority": "P1",
+  "notes": ["Aggregates only; no names of sitting members are wanted."],
+  "relatedQuestionIds": ["state-legislature-chamber-sizes-and-quorum"]
+}

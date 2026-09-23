@@ -1,17 +1,13 @@
 import {
-  addDays,
   candidacyEligibility,
   ensureCampaignOpponents,
   ensureStateJurisdiction,
   fileCampaign,
   homeStateUsps,
   makeCurrencyCode,
-  nextRegularElection,
-  regularFieldClosed,
+  nextFilableStateExecutiveTerm,
   stateExecutiveIdentity,
-  stateExecutiveTermRule,
-  stateJurisdictionForKey,
-  termDatesAfterElection,
+  chiefExecutiveJurisdiction,
 } from "../simulation";
 import { describeStateExecutiveTerm } from "./state-executive-term-description";
 import type {
@@ -49,7 +45,7 @@ export function stateExecutiveCandidacyForPerson(
   const usps = homeStateUsps(world, personId);
   const identity = usps ? stateExecutiveIdentity(usps) : null;
   const jurisdiction = identity
-    ? stateJurisdictionForKey(identity.jurisdictionKey)
+    ? chiefExecutiveJurisdiction(identity.stateUsps)
     : null;
   if (!identity || !jurisdiction) return null;
   const eligibility = candidacyEligibility(world, {
@@ -85,14 +81,12 @@ export function stateExecutiveOfficeCalendar(
   world: World,
   stateUsps: string,
 ): StateExecutiveOfficeCalendar | null {
-  const rule = stateExecutiveTermRule(stateUsps);
-  if (!rule) return null;
   // A filing stands in the next regular election whose candidate field is
-  // still open; once a field closes, the office's next cycle is the one.
-  let nextElection = nextRegularElection(rule, addDays(world.currentDate, 1));
-  if (regularFieldClosed(world, nextElection))
-    nextElection = nextRegularElection(rule, addDays(nextElection, 1));
-  const term = termDatesAfterElection(rule, nextElection);
+  // still open, on the calendar this World's law sets; once a field closes,
+  // the office's next cycle is the one.
+  const term = nextFilableStateExecutiveTerm(world, stateUsps);
+  if (!term) return null;
+  const { rule, electionDay: nextElection } = term;
   const bases = Object.values(rule.basis);
   const basis = bases.every((b) => b === "verified")
     ? "verified"
@@ -134,6 +128,18 @@ export function fileForStateExecutiveOffice(
     // Rivals for a statewide office live in the state: in the candidate's own
     // home place, so a rival who wins can qualify like anyone else.
     jurisdictionId: person.homeJurisdictionId,
+    // One opponent, which is a placeholder and is known to be one.
+    //
+    // A flat field of two to four was built here and withdrawn on lamontae's
+    // ruling of 2026-09-22: "You should only have more than one opponent in
+    // the primary, or if there's an independent, you can also have no
+    // opponent." A field belongs in a primary; a general carries the nominees
+    // plus any independent who ran; and an unopposed seat has to stay
+    // possible, because that is real. None of those three exist yet, and each
+    // of them needs a place on the year, which is the same thing the 28-day
+    // countdown below is standing in for. Recorded in
+    // `docs/playtest/a-real-field-of-candidates-2026-09-22.md`; the shape is
+    // filed as research in `state-legislative-seat-calendar-and-field`.
     count: 1,
     excludePersonIds: [personId],
   });

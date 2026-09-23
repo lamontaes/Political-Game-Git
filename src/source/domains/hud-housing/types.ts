@@ -3,7 +3,7 @@
  *
  * These are two different statutory products. Fair Market Rents are the rent
  * standard HUD publishes for a rental market area, used to set payment
- * standards; Income Limits are the thresholds that determine programme
+ * standards; Income Limits are the thresholds that determine program
  * eligibility. They are calculated differently, they are published on different
  * annual calendars, and their area definitions do not have to agree. The audit
  * found them bundled into one record under one vintage, so here they are
@@ -12,7 +12,7 @@
  * What neither of them is: a statement about any household. An FMR is not a
  * rent anybody pays — it is the 40th percentile of a market, and most tenants
  * pay something else. An income limit is not a finding that any person
- * qualifies for anything; eligibility is a determination made by a programme
+ * qualifies for anything; eligibility is a determination made by a program
  * administrator on facts this substrate does not hold.
  */
 

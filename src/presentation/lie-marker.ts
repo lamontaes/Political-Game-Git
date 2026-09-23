@@ -1,7 +1,7 @@
 /**
  * Lie marker seam (OCD-UI-009, UI DECISION FOLLOW-THROUGH).
  *
- * A choice is labelled "Lie" only when the choice itself declares that the
+ * A choice is labeled "Lie" only when the choice itself declares that the
  * player means to deceive. Being wrong, being unsure (`"uncertain"`, an
  * answer from memory), or saying something a listener later doubts is not a
  * lie, and the interface never infers intent from how a claim turned out.

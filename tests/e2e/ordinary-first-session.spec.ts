@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "./fixtures";
 import { enterLife, fillCreator, goTo } from "./support/creator";
 
 /**
@@ -49,7 +49,7 @@ async function probe(page: Page, tag: string) {
   await reveal(page, "nav-personal");
   out("people: contacts", await text(page, "contacts"));
   out("people: no contacts", await text(page, "contacts-empty"));
-  out("people: meeting window", await text(page, "contacts-meeting-window"));
+  out("people: conversations", await text(page, "conversations"));
 }
 
 async function play(page: Page, tag: string, state: string, town: string) {
