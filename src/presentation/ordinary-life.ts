@@ -4,6 +4,7 @@ import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { seatWinnersOwedTheirTerm } from "../simulation/office-entry-repair";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
+import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   activeChildAuthoritiesAt,
@@ -392,7 +393,11 @@ function advanceOrdinaryDays(
     : ordinaryHandlers;
   // CRUNCH46 CRISIS: every advancing World carries the mortality model; an
   // older save starts exposure at its next month boundary.
-  const migrated = ensureCrisisMortality(migrateLegacyStudyProgression(world));
+  // A territory life saved before territories had a Governor has one seated;
+  // see catchUpTerritoryGovernor.
+  const migrated = ensureCrisisMortality(
+    catchUpTerritoryGovernor(migrateLegacyStudyProgression(world)),
+  );
   const wholeDays = Math.max(1, Math.trunc(days));
   const morning = simulationMomentAtLocalTime({
     date: addDays(migrated.currentDate, wholeDays),
