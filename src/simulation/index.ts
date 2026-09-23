@@ -68,6 +68,7 @@ export {
   campaignLifeOutreachTransitionHandler,
   ensureCampaignLifeOutreach,
   offerCampaignLifeActivity,
+  oldEnoughForCampaignLife,
   projectCampaignGuidance,
   projectCampaignLifeActivities,
   recordCampaignLifeAttendance,

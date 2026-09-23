@@ -49,7 +49,7 @@ describe("NATIONWIDE opening state executive", () => {
   it("names exactly the fifty states, and gives the District its own office", () => {
     const corpusStates = lifePlaceStateIdentities()
       .map((state) => state.usps)
-      .filter((usps) => usps !== "DC" && usps !== "PR")
+      .filter((usps) => !["DC", "PR", "GU", "VI", "AS", "MP"].includes(usps))
       .sort();
     expect([...US_STATE_USPS].sort()).toEqual(corpusStates);
     // NATIONWIDE1 asks for the District separately from the states: it is not
@@ -61,6 +61,11 @@ describe("NATIONWIDE opening state executive", () => {
     expect(district.displayName).toBe("Mayor of the District of Columbia");
     expect(district.displayName).not.toContain("Governor");
     expect(stateExecutiveOffice("PR")).toBeNull();
+    // The same absence for the four other territories: each has its own
+    // elected Governor, and none is compiled yet.
+    for (const usps of ["GU", "VI", "AS", "MP"]) {
+      expect(stateExecutiveOffice(usps)).toBeNull();
+    }
   });
 
   it.each([...US_STATE_USPS])(
