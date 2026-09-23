@@ -3,6 +3,7 @@ import {
   CONTACT_DECLINED_EVENT,
   CONTACT_PROPOSED_EVENT,
 } from "../simulation/people-contact";
+import { SCENE_BINDING_EVENT } from "../simulation/scene-bindings";
 import {
   ageOnDate,
   activeEducationEnrollmentsAt,
@@ -232,11 +233,14 @@ export function composeConnectiveNarration(
   // An invitation still waiting on the player is an offer, not something that
   // happened: it is shown as a moment to answer, and "You saw" it would be
   // false. Its answer, once played, is a record of its own.
+  // A scene binding is bookkeeping about a situation, written beside the
+  // record of what happened; it is not a second thing that happened.
   const moved = (anchor: ThreadAnchor) =>
     anchor.role !== "context" &&
     anchor.at > since &&
     anchor.at <= until &&
-    !isLifeOpportunityOffer(world, anchor);
+    !isLifeOpportunityOffer(world, anchor) &&
+    !isSceneBinding(world, anchor);
   const changed = threads.filter((thread) => thread.anchors.some(moved));
 
   // What moved, where the record can name it. A thread whose subject cannot
@@ -312,6 +316,10 @@ function anchorEvent(world: World, anchor: ThreadAnchor) {
   return world.history.events.find((entry) => entry.id === anchor.recordId);
 }
 
+function isSceneBinding(world: World, anchor: ThreadAnchor): boolean {
+  return anchorEvent(world, anchor)?.type === SCENE_BINDING_EVENT;
+}
+
 /**
  * Whether this anchor is an attempt to make contact rather than contact.
  *
@@ -366,7 +374,11 @@ function threadMovementSentence(
     // is somebody trying, the second is the two of them settling it between
     // them. Neither is a meeting, and they do not share a sentence.
     if (moving.every((anchor) => isUnanswered(world, anchor))) {
-      return moved > 1
+      // An ask and the day it lapsed are two records of one attempt.
+      const asks = moving.filter(
+        (anchor) => anchorEvent(world, anchor)?.type === CONTACT_PROPOSED_EVENT,
+      ).length;
+      return asks > 1
         ? `${subject} tried to reach you more than once.`
         : `${subject} tried to reach you.`;
     }

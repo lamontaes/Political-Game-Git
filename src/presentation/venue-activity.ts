@@ -30,7 +30,9 @@ import {
 import { releaseMissedHolds } from "./scheduled-activity-choice";
 import { completedActivityHere } from "./scene-venues";
 import {
+  acceptSocialInvitation,
   recordSocialOccasionAttendance,
+  socialInvitationsFor,
   SOCIAL_OCCASION_JOURNEY_KEY,
   SOCIAL_OCCASION_LOCATION_KEY,
 } from "./social-invitation";
@@ -342,7 +344,10 @@ export function venueActivities(
             !refusal &&
             activity.kind !== "travel" &&
             !journey &&
-            !metWhereverTheyMeet
+            !metWhereverTheyMeet &&
+            // Going to an invitation nobody has answered yet is the yes, and
+            // saying yes books the trip there; see `performVenueActivityOnce`.
+            openInvitationFor(world, personId, activity.id) === null
           ) {
             const origin = openingLifeLocation(world, personId);
             if (!origin) {
@@ -419,6 +424,25 @@ export function performVenueActivity(
   return performed === world ? world : releaseMissedHolds(performed, personId);
 }
 
+/**
+ * A Saturday invitation still waiting on the player's answer, whose afternoon
+ * has not begun. Its hold carries no trip, because the trip is booked by the
+ * yes; pressing Attend on it used to refuse with "no way to get" there.
+ */
+function openInvitationFor(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+) {
+  const invitation = socialInvitationsFor(world, personId).find(
+    (entry) => entry.activityId === activityId,
+  );
+  return invitation &&
+    compareSimulationMoments(invitation.start, world.currentMoment) > 0
+    ? invitation
+    : null;
+}
+
 function performVenueActivityOnce(
   world: World,
   personId: EntityId,
@@ -427,6 +451,29 @@ function performVenueActivityOnce(
   options?: PerformVenueActivityOptions,
 ): World {
   const attendance = options?.attendance ?? "attended";
+  const invitation = openInvitationFor(world, personId, activityId);
+  if (invitation && attendance === "attended") {
+    const accepted = acceptSocialInvitation(world, {
+      personId,
+      activityId,
+      revision: invitation.revision,
+    });
+    const plan = accepted.history.scheduledActivities.find(
+      (candidate) =>
+        candidate.kind === "confirmed" &&
+        candidate.sourceEntityIds.includes(invitation.invitationEventId) &&
+        scheduledActivityState(accepted, candidate.id).status === "scheduled",
+    );
+    return plan
+      ? performVenueActivityOnce(
+          accepted,
+          personId,
+          plan.id,
+          transitionHandlers,
+          options,
+        )
+      : accepted;
+  }
   const entry = venueActivities(world, personId, transitionHandlers).find(
     ({ activity }) => activity.id === activityId,
   );

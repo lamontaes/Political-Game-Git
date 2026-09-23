@@ -29,6 +29,7 @@ import {
   exportPortableSave,
   importPortableSave,
   parsePortableSave,
+  PORTABLE_SAVE_MAX_BYTES,
   readPortableInterfaceState,
   serializePortableSave,
   type PortableSaveBundle,
@@ -278,6 +279,19 @@ describe("portable transfer uses the shell's v3 codec", () => {
       originalInterface,
     );
     expect(serializeWorld(playerWorld())).toBe(originalWorld);
+  });
+
+  it("reads back a file the size a long life exports, and still refuses a runaway one", async () => {
+    const { store } = fixture();
+    const exported = await exportPortableSave(store, SLOT);
+    if (exported.status !== "ok") throw new Error(exported.reason);
+    const text = serializePortableSave(exported.bundle);
+    // Long lives exported from play measured 13 to 29 MB.
+    const longLife = text + " ".repeat(30 * 1024 * 1024);
+    expect(parsePortableSave(longLife).status).toBe("ok");
+    expect(
+      parsePortableSave(text + " ".repeat(PORTABLE_SAVE_MAX_BYTES)),
+    ).toMatchObject({ status: "error", failure: "too-large" });
   });
 
   it("migrates legacy study only in a new imported slot while retaining interface v3 and old history", async () => {

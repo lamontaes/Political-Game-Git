@@ -168,6 +168,39 @@ describe("a Saturday invitation, said yes to", () => {
     expect(attended[0]!.involvedEntityIds).toContain(askerId);
   }, 120_000);
 
+  it("going to it without answering first is the yes, and books the trip", () => {
+    const opened = start("2338740", "saturday-2338740");
+    const personId = opened.personId;
+    const invitation = socialInvitationsFor(opened.world, personId)[0]!;
+    const askerId = askerOf(opened.world, invitation.invitationEventId);
+    // Friday, with the week's other business behind the player.
+    const world = passOrdinaryDays(opened.world, 4);
+    expect(socialInvitationsFor(world, personId)[0]?.activityId).toBe(
+      invitation.activityId,
+    );
+    const entry = venueActivities(world, personId).find(
+      ({ activity }) => activity.id === invitation.activityId,
+    )!;
+    // It used to read "You have no way to get from Home to <asker>'s home yet."
+    expect(entry.refusal).toBeNull();
+    const kept = performVenueActivity(world, personId, invitation.activityId);
+    expect(scheduledActivityState(kept, invitation.activityId).status).toBe(
+      "cancelled",
+    );
+    const attended = kept.history.events.filter(
+      (event) => event.type === "life.social-occasion-attended",
+    );
+    expect(attended).toHaveLength(1);
+    expect(attended[0]!.involvedEntityIds).toContain(askerId);
+    expect(
+      kept.history.scheduledActivities.some(
+        (activity) =>
+          activity.kind === "travel" &&
+          scheduledActivityState(kept, activity.id).status === "completed",
+      ),
+    ).toBe(true);
+  }, 120_000);
+
   it("answered in conversation, moves the calendar with the answer", () => {
     const { world, personId } = start("2015900", "saturday-2015900");
     const invitation = socialInvitationsFor(world, personId)[0]!;

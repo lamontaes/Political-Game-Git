@@ -40,8 +40,11 @@ import {
 export const PORTABLE_SAVE_KIND = "our-civic-duty-portable-save";
 export const PORTABLE_SAVE_FORMAT_VERSION = 1;
 export const PORTABLE_SAVE_EXTENSION = "ocd-life.json";
-/** Refuse anything larger before parsing. 8 MiB is well above a healthy life. */
-export const PORTABLE_SAVE_MAX_BYTES = 8 * 1024 * 1024;
+/**
+ * Refuse anything larger before parsing. Long lives exported from play measure
+ * 13 to 29 MB, so the ceiling sits well above that rather than below it.
+ */
+export const PORTABLE_SAVE_MAX_BYTES = 64 * 1024 * 1024;
 
 export type PortableArtProvenance = "production" | "candidate-review";
 
