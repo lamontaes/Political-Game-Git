@@ -600,8 +600,16 @@ describe("seat counts cite the instrument that actually fixes them", () => {
     }
   });
 
+  it("seats Nebraska's one house at forty-nine, citing its constitution", () => {
+    expect(NEBRASKA_RULE_PACK.chambers[0]!.seats).toMatchObject({
+      kind: "known",
+      value: 49,
+      source: { citation: "Neb. Const. Art. III, Sec. 6" },
+    });
+  });
+
   it("carries no number when the formal count remains unresolved", () => {
-    for (const pack of [KENTUCKY_RULE_PACK, NEBRASKA_RULE_PACK]) {
+    for (const pack of [KENTUCKY_RULE_PACK]) {
       for (const chamber of pack.chambers) {
         expect(chamber.seats.kind, `${pack.packId}`).toBe("unknown");
         expect("value" in chamber.seats, `${pack.packId}`).toBe(false);

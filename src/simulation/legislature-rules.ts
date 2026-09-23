@@ -918,11 +918,15 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
       );
     }
     if (formalSeats.kind === "known") {
-      const acceptable =
-        pack.basis === "game-profile" ? "game-profile" : "verified";
-      if (formalSeats.source.verification !== acceptable) {
+      // A generated pack may carry a settled, verified size in place of its
+      // draw; a researched pack may carry nothing but a verified one.
+      const acceptable: readonly string[] =
+        pack.basis === "game-profile"
+          ? ["game-profile", "verified"]
+          : ["verified"];
+      if (!acceptable.includes(formalSeats.source.verification)) {
         throw new Error(
-          `Known formal seat count for '${chamber.chamberKey}' must cite a ${acceptable} source.`,
+          `Known formal seat count for '${chamber.chamberKey}' must cite a ${acceptable.join(" or ")} source.`,
         );
       }
     }

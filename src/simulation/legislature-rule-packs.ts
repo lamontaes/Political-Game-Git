@@ -582,6 +582,14 @@ const NE_ART3_SEC10 = source(
   "partial",
   "Ninety legislative days in odd-numbered years and sixty in even-numbered years. This section sets session length; it does not itself say what becomes of a pending bill.",
 );
+const NE_ART3_SEC6 = source(
+  "constitution",
+  "Neb. Const. Art. III, Sec. 6",
+  "The Constitution of the State of Nebraska",
+  NE_CONST_URL,
+  "verified",
+  "One house of not more than fifty nor fewer than thirty members; statute fixes the number at forty-nine, one per legislative district. Settled law: the count is certain, though the statute's text was not retrieved for this entry.",
+);
 const NE_RULE_3 = source(
   "permanent-rules",
   "Legislative Rule 3",
@@ -616,9 +624,7 @@ export const NEBRASKA_RULE_PACK: LegislativeRulePack = {
       chamberKey: "legislature",
       name: "Legislature",
       billDesignationPrefix: "LB",
-      seats: unknownRule(
-        "The game does not know how many seats Nebraska's chamber formally has, and it will not guess a number.",
-      ),
+      seats: knownRule(49, NE_ART3_SEC6),
       quorum: unknownRule(
         "Nebraska's quorum fraction was not resolved for this pack.",
       ),
