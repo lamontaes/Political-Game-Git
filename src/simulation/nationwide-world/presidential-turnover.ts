@@ -57,6 +57,11 @@ import { CRUNCH46_POLICY } from "../world-setup/policy";
 import { applySwing, calibrationRow } from "../world-setup/political-start";
 import { recordWorldEvent } from "../world";
 import {
+  FEDERAL_TENURE_EVENT,
+  currentFederalTenure,
+  federalTenureEnd,
+} from "../federal-tenures";
+import {
   FEDERAL_JURISDICTION_KEY,
   ruleValueInWorld,
   type TermLimitRule,
@@ -253,27 +258,14 @@ function partyOf(world: World, personId: EntityId): MajorParty | null {
   return null;
 }
 
-/** The sitting Vice President: elected, else the opening one while their term runs. */
+/**
+ * The sitting Vice President: elected, else whoever the federal tenure
+ * records seat (the opening one, or a successor confirmed to a vacancy).
+ */
 function currentVicePresident(world: World): EntityId | null {
   const elected = nationalOfficeHolder(world, "vice-president");
   if (elected) return elected.plan.personId;
-  const opening = world.history.events
-    .filter(
-      (event) =>
-        event.type === "world.office-tenure" &&
-        event.tags.includes("office:us-vice-president") &&
-        event.occurredAt <= world.currentDate,
-    )
-    .at(-1);
-  if (!opening) return null;
-  const endsAt = makeIsoDate(
-    `${Number(opening.occurredAt.slice(0, 4)) + 4}-01-20`,
-  );
-  if (world.currentDate >= endsAt) return null;
-  const personId = opening.participants.find(
-    (participant) => participant.role === "focus:subject",
-  )?.personId;
-  return personId && nationalPersonAlive(world, personId) ? personId : null;
+  return currentFederalTenure(world, "us-vice-president")?.personId ?? null;
 }
 
 /**
@@ -288,17 +280,27 @@ export function presidentialTermsCounted(
   since: IsoDate | null = null,
 ): number {
   const counts = (startsAt: IsoDate) => since === null || startsAt >= since;
-  const opening = world.history.events.filter(
-    (event) =>
-      event.type === "world.office-tenure" &&
-      event.tags.includes("office:us-president") &&
-      counts(event.occurredAt) &&
-      event.participants.some(
+  // A tenure record is the opening's own term, or a successor's remainder of
+  // someone else's (its `term-end:` tag); a remainder counts only when more
+  // than two years of it were left, as a national succession does below.
+  const opening = world.history.events.filter((event) => {
+    if (
+      event.type !== FEDERAL_TENURE_EVENT ||
+      !event.tags.includes("office:us-president") ||
+      !counts(event.occurredAt) ||
+      !event.participants.some(
         (participant) =>
           participant.role === "focus:subject" &&
           participant.personId === personId,
-      ),
-  ).length;
+      )
+    )
+      return false;
+    const endsAt = federalTenureEnd("us-president", event);
+    return (
+      !event.tags.some((tag) => tag.startsWith("term-end:")) ||
+      (endsAt !== null && addDays(event.occurredAt, 365 * 2) < endsAt)
+    );
+  }).length;
   const records = nationalRecords(world);
   const elected = records.filter(
     (record) =>
