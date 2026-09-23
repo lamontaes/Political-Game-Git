@@ -8,7 +8,7 @@ import {
 import { recordFiledProvision } from "../legislative-politics";
 import { legislativeWorkKey } from "../legislative-work-key";
 import { rulePackById } from "../legislature-rule-packs";
-import { appropriationFromEnactedMeasure } from "./program-governing";
+import { applyEnactedLawEffects } from "../enacted-law-effects";
 import {
   scheduleFutureDueItem,
   futureDueItemStateAt,
@@ -51,6 +51,7 @@ import {
 } from "../legislation-scenarios";
 import { committeeRoster } from "./committee-assignment";
 import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
+import { ensureOfficeholderPrinciples } from "./officeholder-principles";
 import {
   congressBlueprint,
   congressReferralCommittee,
@@ -396,11 +397,26 @@ function provenance(
 
 /** Applies the institution's next step to one measure, if it has one. */
 export function applyInstitutionStep(
-  world: World,
+  before: World,
   measureId: EntityId,
   onExecutiveDesk: ExecutiveDeskHandler,
 ): InstitutionStepResult {
-  const measure = requireMeasure(world, measureId);
+  const measure = requireMeasure(before, measureId);
+  // Every seated member who may vote on the bill holds principles of their
+  // own before any question is put, Congress's members included: without
+  // them a member had only a party cue, and every roll call was unanimous.
+  const world = ensureOfficeholderPrinciples(
+    before,
+    bodiesForMeasure(
+      before,
+      measure,
+      legislativeBlueprintForMeasure(before, measure),
+    ).flatMap((body) =>
+      body.members.flatMap((member) =>
+        member.personId ? [member.personId] : [],
+      ),
+    ),
+  );
   const blueprint = legislativeBlueprintForMeasure(world, measure);
   const pack = blueprint.pack;
   const owner = effectiveOwner(world, measure);
@@ -736,9 +752,10 @@ export function applyInstitutionStep(
     );
   if (steps.includes("record-enactment"))
     return applied(
-      // Enactment is also where an appropriation becomes spending authority
-      // the executive can commit; a measure without an amount writes nothing.
-      appropriationFromEnactedMeasure(
+      // Enactment is also where the law changes what it governs: an
+      // appropriation becomes spending authority the executive can commit, a
+      // levy becomes a tax policy. A measure without either writes nothing.
+      applyEnactedLawEffects(
         recordEnactment(world, {
           stableKey: key("enactment"),
           measureId,
@@ -762,10 +779,12 @@ export function recordGovernorDecisionOnMeasure(
   measureId: EntityId,
   action: "signed" | "vetoed",
   rationale: string,
+  actorPersonId?: EntityId,
 ): World {
   if (measurePosition(world, measureId).phase !== "awaiting-executive")
     return world;
   return recordExecutiveAction(world, {
+    ...(actorPersonId !== undefined ? { actorPersonId } : {}),
     stableKey: nextMeasureStableKey(
       world,
       measureId,

@@ -30,7 +30,7 @@ import {
 } from "../simulation/life-paths2";
 import { completedStudyPeriods } from "../simulation/education-study-progression";
 import type { EducationInstitution } from "./types";
-import type { World } from "../simulation/types";
+import type { EntityId, World } from "../simulation/types";
 // Semantic fixture only; authentic source vectors are tested separately through locked production.
 const institution: EducationInstitution = {
   id: "ipeds-unit:999999",
@@ -67,13 +67,13 @@ const institution: EducationInstitution = {
     },
   ],
 };
-function fixture() {
+function fixture(on = "2025-01-06") {
   const d = createDemoWorld("edu-semantic", {
     context: {
       ...LEXINGTON_DEMO_CONTEXT,
       initialMoment: {
         ...LEXINGTON_DEMO_CONTEXT.initialMoment,
-        date: makeIsoDate("2025-01-06"),
+        date: makeIsoDate(on),
       },
     },
   });
@@ -83,7 +83,7 @@ function fixture() {
     people: d.personOrder.map((id) => ({
       ...d.people[id]!,
       establishedFacts: d.people[id]!.establishedFacts.filter(
-        (f) => f.occurredAt <= "2025-01-06",
+        (f) => f.occurredAt <= on,
       ),
     })),
     jurisdictions: d.jurisdictionOrder.map((id) => d.jurisdictions[id]!),
@@ -167,6 +167,27 @@ describe("EDU canonical LIFE composition", () => {
     expect(w.history.educationEnrollments).toHaveLength(1);
     expect(deserializeWorld(serializeWorld(w))).toEqual(w);
   });
+  it("carries the directory forward: somebody grown in play applies years later, and studies across a save", () => {
+    // Fifteen years past the listing's year, where a child who started at five
+    // would reach college age. The row is carried forward unchanged; the
+    // application, the place, the saved terms and the earned credential all go
+    // through the same canonical route as in the listing's own year.
+    let w = fixture("2040-01-09");
+    const start = balance(w);
+    const applied = applyForEducation(w, institution, "NONCRDT1");
+    expect(applied.ok).toBe(true);
+    w = applied.world;
+    const offer = pendingEducationOffers(w)[0]!;
+    w = respondToEducationOffer(w, offer.id, true).world;
+    const e = w.history.educationEnrollments.at(-1)!;
+    expect(e.startedAt >= "2040-01-09").toBe(true);
+    w = deserializeWorld(serializeWorld(w));
+    w = advanceWorld(w, 79, LIFE_PATHS2_HANDLERS);
+    expect(completedStudyPeriods(w, e.id)).toBe(1);
+    expect(educationEnrollmentStateAt(w, e.id)?.status).toBe("completed");
+    expect(hasLifePathCredential(w, e.personId, e.programKind)).toBe(true);
+    expect(balance(w)).toBe(start - 20000);
+  });
   it("refuses missing capabilities, historical extrapolation and closed institutions without mutation", () => {
     const w = fixture();
     for (const modified of [
@@ -189,6 +210,22 @@ describe("EDU canonical LIFE composition", () => {
         institution.capabilities[0]!,
       ),
     ).toMatch(/2024/);
+    // After the directory's year the listing carries forward, so somebody who
+    // started young can apply when they are grown; before it, still refused.
+    expect(
+      educationOptionReason(
+        { ...w, currentDate: "2038-12-01" as World["currentDate"] },
+        institution,
+        institution.capabilities[0]!,
+      ) ?? "",
+    ).not.toMatch(/directory describes/);
+    expect(
+      educationOptionReason(
+        { ...w, currentDate: "2024-06-30" as World["currentDate"] },
+        institution,
+        institution.capabilities[0]!,
+      ),
+    ).toMatch(/directory describes 2024-25/);
   });
   it("declines without enrollment and leaves catalog-only LIFE behavior intact", () => {
     let w = fixture();
@@ -259,9 +296,29 @@ describe("saved accepted terms controls", () => {
     };
     expect(respondToEducationOffer(other, offer.id, true).ok).toBe(false);
     w = respondToEducationOffer(w, offer.id, true).world;
-    w = applyForEducation(w, institution, "NONCRDT1").world;
+    // A second application for the program being studied is refused before
+    // any offer is written.
+    const again = applyForEducation(w, institution, "NONCRDT1");
+    expect(again.ok).toBe(false);
+    expect(again.message).toBe("You're already enrolled in this program.");
+    expect(again.world).toBe(w);
+    expect(pendingEducationOffers(w)).toHaveLength(0);
+    // A save from before that refusal can still hold a second offer for the
+    // same program; accepting it is refused too.
+    const stale = {
+      ...w,
+      history: {
+        ...w.history,
+        evidenceArtifacts: [
+          ...w.history.evidenceArtifacts,
+          { ...offer, id: "evidence-artifact_stale-second-offer" as EntityId },
+        ],
+      },
+    };
+    expect(pendingEducationOffers(stale)).toHaveLength(1);
     expect(
-      respondToEducationOffer(w, pendingEducationOffers(w)[0]!.id, true).ok,
+      respondToEducationOffer(stale, pendingEducationOffers(stale)[0]!.id, true)
+        .ok,
     ).toBe(false);
   });
   it("keeps legacy session terms playable when saved before period simplification", () => {
@@ -386,6 +443,46 @@ describe("applying for a degree at a real college", () => {
         studyPathFor(college, capability("LEVEL7")),
       ),
     ).toBeNull();
+  });
+
+  it("takes one application per degree: refused while an offer waits, while studying and while interrupted", () => {
+    let w = fixture();
+    w = applyForEducation(w, college, "LEVEL5").world;
+    expect(pendingEducationOffers(w)).toHaveLength(1);
+    expect(educationOptionReason(w, college, capability("LEVEL5"))).toBe(
+      "You already have an offer for this program. You can accept or decline it below.",
+    );
+    const twice = applyForEducation(w, college, "LEVEL5");
+    expect(twice.ok).toBe(false);
+    expect(twice.world).toBe(w);
+    w = respondToEducationOffer(
+      w,
+      pendingEducationOffers(w)[0]!.id,
+      true,
+    ).world;
+    const enrollment = w.history.educationEnrollments.at(-1)!;
+    expect(educationOptionReason(w, college, capability("LEVEL5"))).toBe(
+      "You're already enrolled in this program.",
+    );
+    expect(applyForEducation(w, college, "LEVEL5").ok).toBe(false);
+    w = changeLifePathStatus(w, enrollment.id, "pause").world;
+    expect(educationEnrollmentStateAt(w, enrollment.id)?.status).toBe(
+      "temporarily-inactive",
+    );
+    expect(applyForEducation(w, college, "LEVEL5").ok).toBe(false);
+    // Another college's bachelor's is a different place, still open.
+    expect(
+      educationOptionReason(
+        w,
+        { ...college, id: "ipeds-unit:777777", officialId: "777777" },
+        capability("LEVEL5"),
+      ),
+    ).toBeNull();
+    expect(
+      w.history.educationEnrollments.filter(
+        (e) => e.programKind === enrollment.programKind,
+      ),
+    ).toHaveLength(1);
   });
 
   it("asks for a bachelor's before a master's, and leaves doctorates listed only", () => {

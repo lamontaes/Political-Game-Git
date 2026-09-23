@@ -5,9 +5,17 @@
  * the reason.
  */
 
+import {
+  UNRESEARCHED_TOWN_POLICE_LOG,
+  type CrimeOffense,
+} from "../crime/contract";
+import { CRIME_EVENT_TYPES, offenseOf } from "../crime/producer";
 import type { HazardMagnitude } from "../crisis/types";
-import { stateKeyForJurisdiction } from "../life-places";
-import type { EntityId, IsoDate, World } from "../types";
+import {
+  lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
+} from "../life-places";
+import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { angerCausesInPeriod } from "./anger";
 import type { PressureContribution } from "./contract";
 
@@ -31,6 +39,20 @@ export const BLANKET_HAZARD_PRESSURE: Readonly<
  * arrive. Not researched.
  */
 export const BLANKET_TAX_RATE_PRESSURE = 5;
+
+/**
+ * BLANKET: how much one reported offense beyond a town's ordinary police log
+ * adds to fear in its state. Violent offenses count double. Only fear: the
+ * pressure to leave a town over crime is the migration lane's town push, and
+ * counting it here too would count it twice. Not researched; filed as
+ * `what-crime-does-to-a-town-and-its-people`.
+ */
+export const BLANKET_CRIME_PRESSURE: Readonly<Record<CrimeOffense, number>> = {
+  assault: 0.002,
+  robbery: 0.002,
+  burglary: 0.001,
+  vandalism: 0.001,
+};
 
 /**
  * BLANKET: pressure per percentage point a state's recorded unemployment sits
@@ -95,6 +117,42 @@ export function causesInPeriod(
       amount: Math.abs(change) * BLANKET_TAX_RATE_PRESSURE,
       sourceId: policy.id,
     });
+  }
+  // Reported crime beyond a town's ordinary police log: an ordinary month of
+  // reports is background, not news that frightens a state.
+  const periodDays =
+    (Date.parse(periodEnd) - Date.parse(periodStart)) / 86_400_000 + 1;
+  const ordinaryReports = Math.round(
+    (UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * periodDays * 12) / 365.25,
+  );
+  const reportedByTown = new Map<EntityId, HistoricalEvent[]>();
+  for (const event of world.history.events) {
+    if (event.type !== CRIME_EVENT_TYPES.reported || !within(event.occurredAt))
+      continue;
+    if (!event.jurisdictionId) continue;
+    const list = reportedByTown.get(event.jurisdictionId) ?? [];
+    list.push(event);
+    reportedByTown.set(event.jurisdictionId, list);
+  }
+  for (const [townId, events] of reportedByTown) {
+    // A town is not its state: read the state the town sits in.
+    const stateKey =
+      lifePlaceByJurisdictionId(townId)?.stateJurisdictionKey ?? null;
+    if (!stateKey) continue;
+    const ordered = [...events].sort(
+      (a, b) =>
+        a.occurredAt.localeCompare(b.occurredAt) || a.id.localeCompare(b.id),
+    );
+    for (const event of ordered.slice(ordinaryReports)) {
+      const offense = offenseOf(event);
+      if (!offense) continue;
+      add(stateKey, {
+        causeKey: `crime:${offense}`,
+        kind: "fear",
+        amount: BLANKET_CRIME_PRESSURE[offense],
+        sourceId: event.id,
+      });
+    }
   }
 
   // Jobs: a state's own recorded month against the nation's. Only a state the

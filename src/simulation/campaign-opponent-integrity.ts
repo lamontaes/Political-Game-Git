@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   assertCampaignRecordIdentity,
   assertCampaignRecordsOrdered,
@@ -142,9 +143,7 @@ export function assertCampaignOpponentIntegrity(
       fail("Campaign opponent acted twice in one week", step.id);
     }
     stepWeeks.add(week);
-    const event = world.history.events.find(
-      (record) => record.id === step.outcomeEventId,
-    );
+    const event = eventById(world, step.outcomeEventId);
     if (
       !event ||
       event.sequence >= step.sequence ||

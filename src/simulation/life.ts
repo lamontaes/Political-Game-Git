@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { addDays, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -1974,9 +1975,7 @@ function validateLifeProvenance(
       assertNonEmpty(provenance.generatorKey, "Generated life provenance key");
       return;
     case "simulated-event": {
-      const event = world.history.events.find(
-        (candidate) => candidate.id === provenance.eventId,
-      );
+      const event = eventById(world, provenance.eventId);
       if (
         !event ||
         event.sequence >= world.history.nextSequence ||

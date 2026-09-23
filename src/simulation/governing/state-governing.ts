@@ -1,9 +1,10 @@
+import { eventById } from "../event-index";
 import { applyCharacterHistoryPlan } from "../character-history";
 import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
-import { createWorkRelationship } from "../life";
-import { activeWorkRelationshipsAt } from "../life-queries";
+import { createWorkRelationship, recordWorkStatus } from "../life";
+import { activeWorkRelationshipsAt, workStatusAt } from "../life-queries";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
@@ -202,18 +203,37 @@ export const CHIEF_OF_STAFF_CLASSIFICATION =
 /** The office's current chief of staff, if one has been hired. */
 export function chiefOfStaffFor(
   world: World,
-  office: GoverningOffice,
+  office: Pick<GoverningOffice, "organizationId">,
 ): EntityId | null {
-  for (const personId of world.personOrder) {
-    const active = activeWorkRelationshipsAt(world, personId).some(
-      ({ relationship, role }) =>
-        relationship.organizationId === office.organizationId &&
-        relationship.kind === "employment:executive-staff" &&
-        role.occupationClassification === CHIEF_OF_STAFF_CLASSIFICATION,
-    );
-    if (active) return personId;
-  }
-  return null;
+  return chiefOfStaffWork(world, office.organizationId)[0]?.personId ?? null;
+}
+
+/** Every active chief-of-staff job in the office, in person order. */
+function chiefOfStaffWork(
+  world: World,
+  organizationId: EntityId,
+): readonly { readonly personId: EntityId; readonly workId: EntityId }[] {
+  return world.personOrder.flatMap((personId) =>
+    activeWorkRelationshipsAt(world, personId)
+      .filter(
+        ({ relationship, role }) =>
+          relationship.organizationId === organizationId &&
+          relationship.kind === "employment:executive-staff" &&
+          role.occupationClassification === CHIEF_OF_STAFF_CLASSIFICATION,
+      )
+      .map(({ relationship }) => ({ personId, workId: relationship.id })),
+  );
+}
+
+/** Whether this person is already a chief of staff in this office. */
+function isSittingChief(
+  world: World,
+  organizationId: EntityId,
+  personId: EntityId,
+): boolean {
+  return chiefOfStaffWork(world, organizationId).some(
+    (work) => work.personId === personId,
+  );
 }
 
 /** Qualitative, seeded from the person: never a number shown to the player. */
@@ -330,12 +350,16 @@ function optionsFor(
           const person = world.people[personId];
           if (!person) return [];
           const assessment = staffAssessment(world, personId);
+          const sitting = event.involvedEntityIds.some((organizationId) =>
+            isSittingChief(world, organizationId, personId),
+          );
           return [
             {
               key: `hire:${personId}`,
-              label: `Hire ${personName(person)}`,
-              effect:
-                "Becomes chief of staff, recommends choices and can take matters you hand over.",
+              label: `${sitting ? "Keep" : "Hire"} ${personName(person)}`,
+              effect: sitting
+                ? "Stays on as chief of staff from the last administration, recommends choices and can take matters you hand over."
+                : "Becomes chief of staff, recommends choices and can take matters you hand over.",
               tradeoff: `${clause(assessment.background)}; ${assessment.strength}, but ${assessment.caution}.`,
               personId,
               assessment,
@@ -620,7 +644,7 @@ export function governingMatterById(
   world: World,
   matterId: EntityId,
 ): GoverningMatter | null {
-  const event = world.history.events.find((e) => e.id === matterId);
+  const event = eventById(world, matterId);
   return event && event.type === GOVERNING_MATTER_OPENED
     ? matterFromEvent(world, event)
     : null;
@@ -950,10 +974,15 @@ export function openTransitionMatters(world: World, officeKey: string): World {
   // what makes an unfilled one findable by somebody looking for the work.
   const staffed = establishOfficeStaffPositions(world, office);
   const candidates = createCandidates(staffed.world, office, key, 3);
+  // A chief of staff who served the last holder is still employed; the new
+  // holder keeps them or replaces them, and does not end up with two.
+  const sitting = chiefOfStaffFor(staffed.world, office);
   let next = openMatter(candidates.world, office, {
     family: "chief-of-staff",
     instance: "transition",
-    candidatePersonIds: candidates.personIds,
+    candidatePersonIds: sitting
+      ? [sitting, ...candidates.personIds]
+      : candidates.personIds,
   });
   const rng = new SeededRng(`${key}:agenda`);
   const pool = PROGRAM_FAMILIES.map((family) => family.familyKey);
@@ -1063,6 +1092,14 @@ function decisionSummary(
   switch (matter.family) {
     case "chief-of-staff": {
       const hired = option.personId ? world.people[option.personId] : null;
+      if (
+        hired &&
+        isSittingChief(world, office.organizationId, option.personId!)
+      )
+        return {
+          summary: `${who}, ${office.title}, kept ${personName(hired)} on as chief of staff.`,
+          visibility: "public",
+        };
       return {
         summary: `${who}, ${office.title}, named ${hired ? personName(hired) : "a new"} chief of staff.`,
         visibility: "public",
@@ -1142,8 +1179,25 @@ function applyConsequence(
   switch (matter.family) {
     case "chief-of-staff": {
       if (!option.personId || !world.people[option.personId]) return world;
+      if (isSittingChief(world, office.organizationId, option.personId))
+        return world;
+      // Whoever held the job before leaves it when somebody else is hired.
+      let replaced = world;
+      for (const departing of chiefOfStaffWork(world, office.organizationId)) {
+        const status = workStatusAt(replaced, departing.workId);
+        if (!status) continue;
+        replaced = recordWorkStatus(replaced, {
+          stableKey: `${matter.stableKey}:replaced:${departing.personId}`,
+          workRelationshipId: departing.workId,
+          effectiveAt: replaced.currentDate,
+          status: "ended",
+          reason: "Replaced as chief of staff by the new officeholder.",
+          supersedesStatusId: status.id,
+          provenance: { kind: "simulated-event", eventId: decisionEventId },
+        });
+      }
       const workStableKey = `${matter.stableKey}:hire`;
-      const employed = createWorkRelationship(world, {
+      const employed = createWorkRelationship(replaced, {
         stableKey: workStableKey,
         personId: option.personId,
         organizationId: office.organizationId,
@@ -1896,16 +1950,23 @@ const institutionStepWithProgramMatters = (() => {
   };
 })();
 
-export const STATE_GOVERNING_HANDLERS = [
-  [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
-  ...CONGRESS_LAWMAKING_HANDLERS,
-  [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
-  [GOVERNING_SEASON, governingSeasonHandler],
-  [GOVERNING_TRANSITION, governingTransitionHandler],
-  [GOVERNING_DEADLINE, governingDeadlineHandler],
-  [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
-  [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
-] as const;
+/**
+ * The governing handlers, built when a registry asks for them rather than when
+ * this module loads: several of the keys belong to modules that import this
+ * one, and are not defined yet while it is loading.
+ */
+export function stateGoverningHandlers() {
+  return [
+    [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
+    ...CONGRESS_LAWMAKING_HANDLERS,
+    [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
+    [GOVERNING_SEASON, governingSeasonHandler],
+    [GOVERNING_TRANSITION, governingTransitionHandler],
+    [GOVERNING_DEADLINE, governingDeadlineHandler],
+    [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
+    [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
+  ] as const;
+}
 
 /** Recorded decisions and outcomes for an office, newest first. */
 export function governingOutcomes(

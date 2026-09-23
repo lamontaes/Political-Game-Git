@@ -8,11 +8,11 @@ import { US_STATE_NAMES } from "./state-executive-candidacy-packs";
 /**
  * Seats in the U.S. House and Senate as candidacy packs, one per seat.
  *
- * A leaf like its state-executive neighbour: no places, no World. The seat
+ * A leaf like its state-executive neighbor: no places, no World. The seat
  * keys are the Congress record's own (`us-house:NV-02`,
  * `us-senate:NV:class-3`), used as the office key AND the seat key on the
  * contest, so the contest a player files in is the one congressional
- * turnover reads on election day, and the member it seats on 3 January is the
+ * turnover reads on election day, and the member it seats on January 3 is the
  * same person the Congress overview shows.
  *
  * What the Constitution itself establishes is carried as known: a
@@ -85,6 +85,21 @@ export function congressSeatDisplayName(seat: CongressSeat): string {
       ? "at-large congressional district"
       : `${ordinal(Number(seat.district))} congressional district`;
   return `U.S. Representative for ${state}'s ${district}`;
+}
+
+/**
+ * The House district a seat represents, as a place name: "Washington's 7th
+ * Congressional District", or "Wyoming's At-Large Congressional District".
+ * Null for a Senate seat, which represents the whole state.
+ */
+export function congressionalDistrictName(seat: CongressSeat): string | null {
+  if (seat.chamberKey !== "us-house") return null;
+  const state =
+    US_STATE_NAMES[seat.stateUsps as keyof typeof US_STATE_NAMES] ??
+    seat.stateUsps;
+  return seat.district === "00"
+    ? `${state}'s At-Large Congressional District`
+    : `${state}'s ${ordinal(Number(seat.district))} Congressional District`;
 }
 
 function identityFor(seat: CongressSeat): CongressSeatIdentity {

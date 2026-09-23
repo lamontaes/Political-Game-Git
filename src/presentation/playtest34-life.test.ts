@@ -33,6 +33,7 @@ import {
 } from "../simulation/adult-situations";
 import {
   lifeOpportunitiesFor,
+  writeLegacyFamiliarRequest,
   writeLegacyHouseholdEveningInvitation,
 } from "../simulation/life-opportunities";
 import {
@@ -75,6 +76,25 @@ function life(
     personId: game.playerPersonId,
   };
 }
+/**
+ * An adult life holding the picnic favor. Play stopped writing it on
+ * 2026-09-23; this reproduces a save made before then, which still carries
+ * one and must still run request → agreement → performance → follow-through.
+ */
+function favorLife(
+  seed = "p34-life-lexington-fayette",
+  placeKey = "lexington-fayette",
+) {
+  const opened = life(seed, 35, placeKey);
+  return {
+    world: writeLegacyFamiliarRequest(
+      opened.world,
+      opened.personId,
+      "favour-request",
+    ),
+    personId: opened.personId,
+  };
+}
 function line(
   world: World,
   personId: EntityId,
@@ -101,7 +121,10 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
   it.each(["lexington-fayette"])(
     "assembles an ordinary named favor in %s, binds a limit once and charges only performance",
     (placeKey) => {
-      const { world, personId } = life(`p34-life-${placeKey}`, 35, placeKey);
+      // Play itself no longer asks the picnic favor of anyone.
+      const fresh = life(`p34-life-${placeKey}`, 35, placeKey);
+      expect(favorEntries(fresh.world, fresh.personId)).toHaveLength(0);
+      const { world, personId } = favorLife(`p34-life-${placeKey}`, placeKey);
       const entry = favorEntries(world, personId)[0]!;
       expect(entry).toBeDefined();
       const scene = availableAdultSituations(
@@ -172,7 +195,7 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
   );
 
   it("a saved unperformed agreement returns with the same person/task; due replay cannot repeat it", () => {
-    const { world, personId } = life();
+    const { world, personId } = favorLife();
     const entry = favorEntries(world, personId)[0]!;
     const agreed = chooseAdultOption(world, {
       personId,
@@ -212,7 +235,7 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
   });
 
   it("a confirmed commitment inside the performance interval blocks it without losing time or creating rewards", () => {
-    const { world, personId } = life();
+    const { world, personId } = favorLife();
     const entry = favorEntries(world, personId)[0]!;
     const agreed = chooseAdultOption(world, {
       personId,
@@ -254,7 +277,7 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
   });
 
   it("keeps favor performance outside the accepted paid shift and settles its wages once after reload", () => {
-    const { world, personId } = life();
+    const { world, personId } = favorLife();
     const entry = favorEntries(world, personId)[0]!;
     const agreed = chooseAdultOption(world, {
       personId,
@@ -297,7 +320,7 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
   });
 
   it("withdraws a specific commitment without elapsed time or a performance reward", () => {
-    const { world, personId } = life();
+    const { world, personId } = favorLife();
     const entry = favorEntries(world, personId)[0]!;
     const agreed = chooseAdultOption(world, {
       personId,
@@ -330,12 +353,17 @@ describe("PLAYTEST34 canonical request → choice → performance → saved foll
   ])("retains producer context for $kind after reload", ({ seed, kind }) => {
     const opened = life(seed);
     const personId = opened.personId;
-    // Play stopped writing the evening invitation on 2026-09-22; a save made
-    // before then still carries one, and it must still reload intact.
+    // Play stopped writing the evening invitation on 2026-09-22 and the
+    // picnic confidence on 2026-09-23; a save made before then still carries
+    // one, and it must still reload intact.
     const world =
       kind === "household-evening"
         ? writeLegacyHouseholdEveningInvitation(opened.world, personId)
-        : opened.world;
+        : writeLegacyFamiliarRequest(
+            opened.world,
+            personId,
+            "confidence-disclosed",
+          );
     const loaded = deserializeWorld(serializeWorld(world));
     const request = lifeOpportunitiesFor(loaded, personId).find(
       (e) => e.kind === kind,

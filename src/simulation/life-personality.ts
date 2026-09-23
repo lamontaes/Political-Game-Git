@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { LIFE_MIND_CONTENT_VERSION, LIFE_MIND_IDS } from "./life-mind-content";
 import {
   createMindProvenance,
@@ -240,7 +241,7 @@ export function completeOrdinaryGoal(
     )
     .at(-1);
   if (previous?.status !== "active") return world;
-  const event = world.history.events.find((entry) => entry.id === eventId);
+  const event = eventById(world, eventId);
   if (
     !event ||
     !(

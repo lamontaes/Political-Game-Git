@@ -1,5 +1,6 @@
 import {
   addDays,
+  canonicalHomeDistrictCandidates,
   candidacyEligibility,
   congressCandidacyPack,
   congressSeatIdentitiesForState,
@@ -12,6 +13,7 @@ import {
   homeStateUsps,
   makeCurrencyCode,
   makeIsoDate,
+  recordedDistrictMembership,
   seatTermWindow,
   stateJurisdictionForKey,
   SEAT_TENURE_EVENT,
@@ -30,7 +32,7 @@ import type {
  * Standing for Congress from the state a person lives in.
  *
  * Every seat is the Congress record's own, so filing here, the contest it
- * opens, the result, and the member congressional turnover seats on 3 January
+ * opens, the result, and the member congressional turnover seats on January 3
  * are one seat and one person throughout. Reading is free and writes nothing;
  * only `fileForCongressSeat` changes the World.
  */
@@ -70,9 +72,21 @@ export function congressSeatCalendar(
   }
 }
 
+/**
+ * How this House seat relates to the player's home: the district the save
+ * records the home in, one of the districts a split home place touches, or
+ * neither. Senate seats are always null. Nothing here restricts filing.
+ */
+export type CongressHomeDistrictMark = "recorded" | "candidate" | null;
+
+export const HOME_DISTRICT_RECORDED_LABEL = "Your district";
+export const HOME_DISTRICT_CANDIDATE_LABEL =
+  "Your home may be in this district.";
+
 export interface CongressSeatCandidacy {
   readonly identity: CongressSeatIdentity;
   readonly calendar: CongressSeatCalendar;
+  readonly homeDistrict: CongressHomeDistrictMark;
   readonly eligible: boolean;
   readonly blocks: readonly CandidacyBlock[];
 }
@@ -102,6 +116,30 @@ export function congressCandidacyForPerson(
       ? stateJurisdictionForKey(identities[0]!.jurisdictionKey)
       : null;
   if (!usps || !jurisdiction) return null;
+  const recorded = recordedDistrictMembership(
+    world,
+    personId,
+    "congressional",
+    world.currentDate,
+  )?.binding;
+  const candidates = recorded
+    ? []
+    : canonicalHomeDistrictCandidates(world, personId, "congressional");
+  const homeDistrict = (
+    identity: CongressSeatIdentity,
+  ): CongressHomeDistrictMark => {
+    if (identity.seat.chamberKey !== "us-house") return null;
+    const district = identity.seat.district;
+    if (recorded)
+      return recorded.stateUsps === identity.stateUsps &&
+        recorded.geoid.slice(2) === district
+        ? "recorded"
+        : null;
+    // Candidates are the home place's own districts, so in the home state.
+    return candidates.some((geoid) => geoid.slice(2) === district)
+      ? "candidate"
+      : null;
+  };
   const withCalendars = identities.map((identity) => ({
     identity,
     calendar: congressSeatCalendar(world, identity),
@@ -132,6 +170,7 @@ export function congressCandidacyForPerson(
       return {
         identity,
         calendar,
+        homeDistrict: homeDistrict(identity),
         eligible: eligibility.eligible,
         blocks: eligibility.blocks,
       };

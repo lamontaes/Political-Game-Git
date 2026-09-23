@@ -366,7 +366,7 @@ export function assessCandidateQualification(
       refusals.push({
         kind: "minimum-age",
         field: "minimumAge",
-        reason: `Too young to stand: this office has a minimum age of ${rules.minimumAge.value}.`,
+        reason: `You must be at least ${rules.minimumAge.value} to stand for this office.`,
         source: rules.minimumAge.source,
       });
     }

@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
   EVIDENCE_DISCOVERY_EVENT_TAG,
@@ -166,7 +167,7 @@ export function recordEvidenceDiscovery(
     },
   });
   const eventId = createStableId("event", `${world.id}:${eventStableKey}`);
-  const event = working.history.events.find((record) => record.id === eventId);
+  const event = eventById(working, eventId);
   if (!event) {
     throw new Error("Evidence discovery event was not committed.");
   }

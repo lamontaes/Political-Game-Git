@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { addDays, ageOnDate, daysBetween, spokenDate } from "./dates";
 import {
   activeCareResponsibilitiesAt,
@@ -730,9 +731,7 @@ function commitmentThreads(
       due.provenance.kind === "simulated"
         ? (due.provenance.sourceEntityIds[0] ?? null)
         : null;
-    const origin = originId
-      ? (world.history.events.find((event) => event.id === originId) ?? null)
-      : null;
+    const origin = originId ? (eventById(world, originId) ?? null) : null;
     if (!origin) continue;
     const anchors: ThreadAnchor[] = [
       {

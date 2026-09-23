@@ -64,12 +64,27 @@ function expectResolvedOnce(before: World, after: World, personId: string) {
   );
 }
 
+/**
+ * Quiet stretches until the contest is decided. One stretch used to run the
+ * whole four weeks; it now stops on the morning of each meeting and campaign
+ * shift on the calendar first.
+ */
+function quietUntilDecided(world: World, personId: string): World {
+  const campaign = campaignForCandidate(world, personId)!;
+  let current = world;
+  for (let step = 0; step < 20; step += 1) {
+    if (electionContestResult(current, campaign.contestId)) break;
+    current = letStoryTimePass(current, personId);
+  }
+  return current;
+}
+
 describe("every adult story route carries the world's pending election", () => {
   it("resolves it while quiet time passes", () => {
     const life = filedLife();
     expectResolvedOnce(
       life.world,
-      letStoryTimePass(life.world, life.personId),
+      quietUntilDecided(life.world, life.personId),
       life.personId,
     );
   });
@@ -92,7 +107,7 @@ describe("every adult story route carries the world's pending election", () => {
     ).toBeNull();
     expectResolvedOnce(
       next,
-      letStoryTimePass(next, life.personId),
+      quietUntilDecided(next, life.personId),
       life.personId,
     );
     expect(next.history.events.length).toBeGreaterThan(
@@ -102,11 +117,21 @@ describe("every adult story route carries the world's pending election", () => {
 
   it("a free canonical episode choice leaves it pending, then explicit time dispatches it", () => {
     const life = filedLife();
+    // The first offered beat used to be the neighborhood meeting, which costs
+    // nothing to decide. The dialogue review of 2026-09-23 withheld it (no
+    // building, notice or meeting is recorded), and the first offered beat is
+    // now fifteen minutes of free time, which is an activity that spends its
+    // own minutes. Planning the week is still a free choice, so it carries the
+    // claim.
     const beat = eligibleEpisodeBeats({
       world: life.world,
       personId: life.personId,
       families: EPISODE_FAMILIES,
-    }).beats[0]!;
+    }).beats.find(
+      (candidate) =>
+        candidate.episodeKey === "opening.adult.home.plan-week" &&
+        candidate.stageKey === "moment",
+    )!;
     expect(beat).toBeDefined();
     const next = chooseStoryOption(life.world, {
       personId: life.personId,
@@ -129,7 +154,7 @@ describe("every adult story route carries the world's pending election", () => {
     ).toBeNull();
     expectResolvedOnce(
       next,
-      letStoryTimePass(next, life.personId),
+      quietUntilDecided(next, life.personId),
       life.personId,
     );
   });
