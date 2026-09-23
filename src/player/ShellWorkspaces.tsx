@@ -1369,6 +1369,12 @@ export function MeasureSurface({
                 {proseDate(vote.when)} · {vote.where} · {vote.question} ·{" "}
                 {vote.result} ({vote.yea}–{vote.nay}; {vote.needed} of{" "}
                 {vote.outOf} needed)
+                {vote.yours ? (
+                  <>
+                    {" "}
+                    <span data-testid="measure-your-vote">{vote.yours}</span>
+                  </>
+                ) : null}
               </li>
             ))}
           </ul>
