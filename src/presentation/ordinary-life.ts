@@ -1,3 +1,5 @@
+import { advanceApplications, settleJobPay } from "../simulation/job-market";
+import { settleCareerOffers } from "../simulation/career-path7";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
@@ -378,9 +380,20 @@ function passOrdinaryDaysUnchecked(
   ) {
     return advanced;
   }
+  // A held job pays for each whole week that passed, at any age: a teenager's
+  // first job is paid here too, not only once adult life begins. An offer on
+  // the older work list lapses, or is followed up or withdrawn after a missed
+  // start, as days pass. So does the employer's side of a job application.
+  const personId = advanced.control.personId;
   return refreshContextualScenes(
-    releaseMissedHolds(advanced, advanced.control.personId),
-    advanced.control.personId,
+    releaseMissedHolds(
+      settleCareerOffers(
+        settleJobPay(advanceApplications(advanced, personId), personId),
+        personId,
+      ),
+      personId,
+    ),
+    personId,
   );
 }
 
