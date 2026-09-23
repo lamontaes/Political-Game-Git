@@ -1,4 +1,5 @@
 import { refreshContextualScenes } from "./contextual-scene-producers";
+import { settleSocialInvitationFromScene } from "./social-invitation";
 import { passOrdinaryDays } from "./ordinary-life";
 import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
 import { bindRequestSituation } from "../simulation/adult-situations";
@@ -460,7 +461,18 @@ export function chooseAdultOption(
           stableKey,
         });
 
-  return refreshLifeOpportunities(withAftermath, input.personId);
+  // A yes to the Saturday invitation is a plan and a no frees the afternoon;
+  // the calendar hold follows what was said rather than lapsing unanswered.
+  const settled =
+    input.situationKey === "adult.weekend-invitation"
+      ? settleSocialInvitationFromScene(world, withAftermath, {
+          personId: input.personId,
+          counterpartPersonId: companionId,
+          accepted: input.optionKey === "say-yes",
+        })
+      : withAftermath;
+
+  return refreshLifeOpportunities(settled, input.personId);
 }
 
 /**
