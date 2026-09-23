@@ -10,6 +10,13 @@ import {
   type TalkProposalTerms,
 } from "./life-talk-proposals";
 import { currentLifeTalkScene } from "./life-talk-presence";
+import {
+  TELL_PREFIX,
+  findTellTopic,
+  tellAnswer,
+  tellableTopics,
+  toldSummary,
+} from "./life-talk-topics";
 import { currentKnownMatter, matterAwareness } from "./current-matters";
 import {
   ageOnDate,
@@ -57,8 +64,34 @@ export const LIFE_TALK_INTENTS = {
   acceptProposal: "Agree to their suggestion",
   declineProposal: "Decline their suggestion",
   cancelProposal: "Cancel your plans together",
+  nothing: "Say it can wait",
 } as const;
-export type LifeTalkIntent = keyof typeof LIFE_TALK_INTENTS;
+/**
+ * A fixed intent, or telling them one particular thing from the player's own
+ * life (`tell:<topic>`); see `life-talk-topics.ts`.
+ */
+export type LifeTalkIntent =
+  keyof typeof LIFE_TALK_INTENTS | `${typeof TELL_PREFIX}${string}`;
+
+function isTellIntent(
+  intent: LifeTalkIntent,
+): intent is `${typeof TELL_PREFIX}${string}` {
+  return intent.startsWith(TELL_PREFIX);
+}
+
+/** The words for an intent, whether fixed or a particular thing to tell. */
+export function lifeTalkIntentLabel(
+  world: World,
+  playerPersonId: EntityId,
+  personId: EntityId,
+  intent: LifeTalkIntent,
+): string {
+  if (!isTellIntent(intent)) return LIFE_TALK_INTENTS[intent];
+  return (
+    findTellTopic(world, playerPersonId, personId, intent)?.label ??
+    "Tell them something"
+  );
+}
 /**
  * How a raised matter is labeled, and how a later "remember" finds its
  * headline again. Distinct from the scene conversation's "Bring up:" topic
@@ -128,6 +161,18 @@ export function projectLifeConversation(
   // counterpart's answer depends on what their own records say they know.
   const matter = currentKnownMatter(world, playerPersonId);
   if (matter) intents.push("matter");
+  // Having asked to tell them something and been told to go ahead, the
+  // player can tell them something real from their own life, or say it can
+  // wait. Nothing is offered that the world does not hold.
+  const invited =
+    previousIntent === "share" &&
+    !previous?.tags.includes("life.answer:private");
+  const topics = invited ? tellableTopics(world, playerPersonId, personId) : [];
+  if (invited)
+    intents.push(
+      ...topics.map((topic) => topic.key as LifeTalkIntent),
+      "nothing",
+    );
   if (previousIntent === "activity")
     intents.push("suggestGame", "suggestQuiet");
   if (
@@ -217,7 +262,10 @@ export function projectLifeConversation(
               ? `Decline to ${proposal.label}`
               : proposal && key === "spendTime"
                 ? `Spend 30 minutes: ${proposal.label}`
-                : LIFE_TALK_INTENTS[key],
+                : isTellIntent(key)
+                  ? (topics.find((topic) => topic.key === key)?.label ??
+                    "Tell them something")
+                  : LIFE_TALK_INTENTS[key],
     })),
     transcript: history.map((event) => ({
       eventId: event.id,
@@ -226,6 +274,24 @@ export function projectLifeConversation(
       reply: event.context.immediateReaction!,
     })),
   };
+}
+
+function parentOfYoungPlayer(
+  world: World,
+  playerPersonId: EntityId,
+  personId: EntityId,
+): boolean {
+  const relation = describePersonContext(
+    world,
+    playerPersonId,
+    personId,
+  )?.relationship;
+  return (
+    ["your mom", "your dad", "your parent", "your guardian"].includes(
+      relation ?? "",
+    ) &&
+    ageOnDate(world.people[playerPersonId]!.birthDate, world.currentDate) < 13
+  );
 }
 
 function willingToDate(world: World, personId: EntityId): boolean {
@@ -309,6 +375,14 @@ function replyFor(
   const privatePerson =
     latestPersonalValue(world, personId, LIFE_MIND_IDS.privacy)?.orientation ===
     "embraces";
+  if (isTellIntent(intent)) {
+    const topic = findTellTopic(world, playerPersonId, personId, intent);
+    return topic
+      ? tellAnswer(world, playerPersonId, personId, topic, {
+          parentOfYoungPlayer: parent && youngPlayer,
+        }).reply
+      : "What were you going to say?";
+  }
   switch (intent) {
     case "scene": {
       const scene = currentLifeTalkScene(world, playerPersonId)!;
@@ -467,6 +541,10 @@ function replyFor(
       return "Thanks for hearing me out.";
     case "leave":
       return "See you.";
+    case "nothing":
+      return parent && youngPlayer
+        ? "All right. You can tell me whenever you like."
+        : "All right. Another time, then.";
   }
 }
 
@@ -527,6 +605,18 @@ export function commitLifeConversation(
   )
     return advanced;
   const reply = replyFor(world, view.context, input.intent);
+  const tellTopic = isTellIntent(input.intent)
+    ? findTellTopic(world, input.playerPersonId, input.personId, input.intent)
+    : null;
+  const told = tellTopic
+    ? tellAnswer(world, input.playerPersonId, input.personId, tellTopic, {
+        parentOfYoungPlayer: parentOfYoungPlayer(
+          world,
+          input.playerPersonId,
+          input.personId,
+        ),
+      })
+    : null;
   const proposal = view.proposal;
   const matchingOffer =
     proposal?.status === "proposed" &&
@@ -594,11 +684,24 @@ export function commitLifeConversation(
           ? leisure
           : input.intent === "matter" && view.matter
             ? `matter-${matterAwareness(world, input.personId, view.matter.eventId)}`
-            : latestPersonalValue(world, input.personId, LIFE_MIND_IDS.privacy)
-                  ?.orientation === "embraces"
-              ? "private"
-              : "open";
+            : told
+              ? told.heard
+                ? "told"
+                : "not-now"
+              : latestPersonalValue(
+                    world,
+                    input.personId,
+                    LIFE_MIND_IDS.privacy,
+                  )?.orientation === "embraces"
+                ? "private"
+                : "open";
   const stableKey = `opening-life:talk:${input.playerPersonId}:${input.personId}:${input.revision}`;
+  const intentLabel = lifeTalkIntentLabel(
+    world,
+    input.playerPersonId,
+    input.personId,
+    input.intent,
+  );
   let next = recordWorldEvent(advanced, {
     stableKey,
     type: "life.conversation",
@@ -652,7 +755,7 @@ export function commitLifeConversation(
           ]
         : []),
     ],
-    summary: `${personName(world.people[input.playerPersonId]!)}: ${LIFE_TALK_INTENTS[input.intent]}. ${personName(world.people[input.personId]!)}: ${reply}`,
+    summary: `${personName(world.people[input.playerPersonId]!)}: ${intentLabel}. ${personName(world.people[input.personId]!)}: ${reply}`,
     context: {
       location: {
         jurisdictionId: world.people[input.playerPersonId]!.homeJurisdictionId,
@@ -678,6 +781,23 @@ export function commitLifeConversation(
       accuracy: "accurate",
       confidence: "high",
       source: { kind: "direct" },
+    });
+  // Told and taken in: the listener now knows it, from the player, as far as
+  // they rely on the player's word.
+  if (tellTopic?.kind === "experience" && told?.heard)
+    next = recordEventKnowledge(next, {
+      stableKey: `${stableKey}:told:${input.personId}`,
+      personId: input.personId,
+      eventId: tellTopic.eventId,
+      learnedAt: advanced.currentDate,
+      believedSummary: toldSummary(world, input.playerPersonId, tellTopic),
+      accuracy: "accurate",
+      confidence: told.confidence,
+      source: {
+        kind: "told-by",
+        sourcePersonId: input.playerPersonId,
+        claimId: null,
+      },
     });
   next = recordConversationContact(next, {
     playerPersonId: input.playerPersonId,

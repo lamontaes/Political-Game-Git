@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-23T00:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "ordinary adult life",
+  "notes": [
+    "The owner asked for buying houses so that money matters. The game already has records for a dwelling, who owns or leases it, and a debt tied to it; nothing in play writes them."
+  ],
+  "priority": "P1",
+  "question": "What does it realistically take for an ordinary American adult to buy a home, by state and by town size (small town, suburb, city)? Typical purchase price of a starter home, the usual down payment share, closing costs, whether and when a lender approves a mortgage (income, savings, credit), the usual mortgage length and interest rate, the monthly payment including property tax and insurance, and how that compares with renting the same kind of home. What happens when a homeowner misses mortgage payments, and how long until foreclosure?",
+  "questionId": "what-it-takes-to-buy-a-home",
+  "relatedQuestionIds": ["what-a-person-spends-to-live"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "ordinary adult life thread",
+  "sourcesChecked": [
+    {
+      "source": "The game's housing records (dwelling, housing tenure, resource obligation with a housing tenure) as built",
+      "whatItDidNotSettle": "They can hold an owned home and a mortgage, but carry no prices, rates or approval rules, and nothing in ordinary play creates them."
+    }
+  ],
+  "title": "What it takes to buy a home, by state and town size",
+  "usableAnswer": "For each of the 52 jurisdictions (50 states, D.C. and Puerto Rico), or by region where the spread is small: starter-home price bands by town size, usual down payment share, closing costs, typical mortgage term and rate with a year, monthly property tax and insurance, the usual lender approval rule in plain terms, the missed-payment-to-foreclosure timeline, and a named public source for each so the game can refresh it.",
+  "whyItMatters": "Money has nothing to buy. A home is the largest purchase most people make, the usual reason to save, and the first thing a bribe or a lost job threatens. Until this is answered the game can only use one national placeholder price."
+}

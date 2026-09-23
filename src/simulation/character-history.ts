@@ -2209,6 +2209,12 @@ export function generateQuickCharacterHistory(
      * written under rather than being quietly renamed.
      */
     readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
+    /**
+     * Absent keeps the fixed offsets every replay before the repair was
+     * written under: a classmate born on the player's own birthday, a parent
+     * exactly 28 years older to the day and a teacher exactly 30.
+     */
+    readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
   },
 ): CharacterHistoryPlan {
   const person = requirePerson(world, input.personId);
@@ -2277,6 +2283,11 @@ export function generateQuickCharacterHistory(
   const workEvent = key("event:work");
   const futureEvent = key("event:future");
   const age = (value: number) => dateAtAge(person.birthDate, value);
+  const bornBefore = contextBirthDates(
+    person.birthDate,
+    rng,
+    input.childhoodGenerationVersion,
+  );
   const contextPeople: readonly {
     readonly kind: "context-person";
     readonly input: CharacterHistoryContextPersonInput;
@@ -2297,7 +2308,7 @@ export function generateQuickCharacterHistory(
         // A child usually shares a name with whoever raised them. A household
         // convention, and no claim about either of them beyond that.
         familyName: person.familyName,
-        birthDate: yearsBefore(person.birthDate, 28),
+        birthDate: bornBefore.parent,
         homeJurisdictionId: input.jurisdictionId,
       },
     },
@@ -2306,8 +2317,8 @@ export function generateQuickCharacterHistory(
       input: {
         stableKey: peerKey,
         ...named("peer"),
-        // Born the same year, because a peer has to actually be one.
-        birthDate: age(0),
+        // In the same school year, because a peer has to actually be one.
+        birthDate: bornBefore.peer,
         homeJurisdictionId: input.jurisdictionId,
       },
     },
@@ -2317,7 +2328,7 @@ export function generateQuickCharacterHistory(
         stableKey: teacherKey,
         ...named("teacher"),
         // An adult, because the role requires one.
-        birthDate: yearsBefore(person.birthDate, 30),
+        birthDate: bornBefore.teacher,
         homeJurisdictionId: input.jurisdictionId,
       },
     },
@@ -3240,6 +3251,56 @@ function moderateTimeDemand(
     scheduleRigidity: "mixed",
     interruptibility: "limited",
     locationJurisdictionId,
+  };
+}
+
+/**
+ * The childhood repair a new game declares. Under it the parent, classmate and
+ * teacher of a summarized childhood get birthdays of their own, and a child who
+ * starts in school attends a school with a generated name rather than "<town>
+ * public school". A replay that never named it keeps what it was written under.
+ */
+export const CHILDHOOD_GENERATION_V2 = "childhood-v2";
+export type ChildhoodGenerationVersion = typeof CHILDHOOD_GENERATION_V2;
+
+/**
+ * Birth dates for the three people a summarized childhood meets.
+ *
+ * The legacy offsets put a stranger on the player's exact birthday in every
+ * save, with a parent and a teacher born on the same day of the year as well.
+ * The spread draws each on its own fork, so no other draw in the history
+ * moves. The ranges are authored, not measured: a classmate within half a year
+ * either side, never the same day; a parent 22 to 39 years older; a teacher 24
+ * to 56, which keeps them of working age when the child is ten or twelve.
+ */
+function contextBirthDates(
+  birthDate: IsoDate,
+  rng: SeededRng,
+  version: ChildhoodGenerationVersion | undefined,
+): {
+  readonly parent: IsoDate;
+  readonly peer: IsoDate;
+  readonly teacher: IsoDate;
+} {
+  if (version !== CHILDHOOD_GENERATION_V2) {
+    return {
+      parent: yearsBefore(birthDate, 28),
+      peer: birthDate,
+      teacher: yearsBefore(birthDate, 30),
+    };
+  }
+  const older = (suffix: string, minYears: number, maxYears: number) => {
+    const draw = rng.fork(`${suffix}:birth-date`);
+    const years = draw.integer(minYears, maxYears + 1);
+    return addDays(yearsBefore(birthDate, years), -draw.integer(0, 365));
+  };
+  const peerDraw = rng.fork("peer:birth-date");
+  const peerOffset =
+    peerDraw.integer(1, 183) * (peerDraw.next() < 0.5 ? -1 : 1);
+  return {
+    parent: older("parent", 22, 38),
+    peer: addDays(birthDate, peerOffset),
+    teacher: older("teacher", 24, 55),
   };
 }
 

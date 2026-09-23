@@ -10,13 +10,17 @@ import {
 import {
   startCareerWork,
   careerEligibility,
+  careerOfferAccepted,
   seekCareerOffer,
   respondCareerOffer,
   performCareerWork,
   acceptCareerResponsibilities,
   resignCareer,
 } from "../simulation/career-path7";
-import { lifePathDefinition } from "../simulation/life-paths2-catalog";
+import {
+  employerName,
+  lifePathDefinition,
+} from "../simulation/life-paths2-catalog";
 import {
   pathForRelationship,
   LIFE_PATHS2_HANDLERS,
@@ -26,6 +30,8 @@ import { workRoleAt, workStatusAt } from "../simulation/life-queries";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 import { projectPracticalOpportunities } from "../presentation/practical-opportunities";
 import { InlineDayControl } from "./controls/InlineDayControl";
+import { nationalMedianWageSentence } from "../presentation/career-wage";
+import { proseDate } from "../presentation/prose-dates";
 export function CareerPathsPanel({
   world,
   onWorldChange,
@@ -90,7 +96,7 @@ export function CareerPathsPanel({
           >
             <strong>{choice.path.title}</strong>
             <small>
-              {choice.path.organizationName} ·{" "}
+              {employerName(choice.path)} ·{" "}
               {choice.relationshipId
                 ? choice.status
                 : (choice.unavailable ?? "Meets the listed entry requirements")}
@@ -108,15 +114,10 @@ export function CareerPathsPanel({
       </button>
       <h4>{path.title}</h4>
       <p>
-        {path.organizationName} pays ${(path.sessionPayMinor / 100).toFixed(2)}{" "}
-        for a completed {path.sessionMinutes}-minute shift, on the following
-        day.
+        {employerName(path)} pays ${(path.sessionPayMinor / 100).toFixed(2)} for
+        a completed {path.sessionMinutes}-minute shift, on the following day.
       </p>
       <p>{path.responsibility}</p>
-      <p>
-        These are fictional employer terms. Training requirements are the
-        employer’s authored requirements, not legal licenses.
-      </p>
       <button
         disabled={!!reason}
         onClick={() => act(seekCareerOffer(world, p))}
@@ -132,38 +133,50 @@ export function CareerPathsPanel({
        * screen.
        */}
       {world.currentDate >= "2026-09-09" && source.wage && (
-        <p>
-          Nationally, this work pays a median of{" "}
-          {source.wage.hourlyMedian ?? "an unlisted amount"} an hour,{" "}
-          {source.wage.annualMedian ?? "an unlisted amount"} a year. What it
-          pays here, and what anyone would offer you, is another question.
-        </p>
+        <p>{nationalMedianWageSentence(source.wage)}</p>
       )}
       {mine.map((r) => {
         const status = workStatusAt(world, r.id)?.status;
+        // Accepting leaves the status at "expected" until work begins, so an
+        // accepted offer is told apart by its acceptance, not its status.
+        const accepted =
+          status === "expected" && careerOfferAccepted(world, r.id);
+        const startReached = r.startedAt <= world.currentDate;
         return (
           <article key={r.id}>
             <h4>{workRoleAt(world, r.id)?.title}</h4>
             <p>
-              {status === "expected"
-                ? "Offer awaiting your response"
-                : status === "ended"
-                  ? "Engagement ended"
-                  : status}
+              {accepted
+                ? startReached
+                  ? "You accepted this offer. You can begin work now."
+                  : `You accepted this offer. Work begins ${proseDate(r.startedAt)}.`
+                : status === "expected"
+                  ? "Offer awaiting your response"
+                  : status === "ended"
+                    ? "Engagement ended"
+                    : status}
             </p>
             {status === "expected" ? (
               <>
-                <button
-                  onClick={() => act(respondCareerOffer(world, r.id, p, true))}
-                >
-                  Accept offer
-                </button>
-                <button
-                  onClick={() => act(respondCareerOffer(world, r.id, p, false))}
-                >
-                  Refuse offer
-                </button>
-                <p>Start date: {r.startedAt}</p>
+                {accepted ? null : (
+                  <>
+                    <button
+                      onClick={() =>
+                        act(respondCareerOffer(world, r.id, p, true))
+                      }
+                    >
+                      Accept offer
+                    </button>
+                    <button
+                      onClick={() =>
+                        act(respondCareerOffer(world, r.id, p, false))
+                      }
+                    >
+                      Refuse offer
+                    </button>
+                    <p>Starts {proseDate(r.startedAt)}.</p>
+                  </>
+                )}
                 {/*
                   One clock. "Wait one day" used to call `advanceWorldMinutes`
                   from its own onClick: no disclosed destination, no pending
@@ -178,9 +191,11 @@ export function CareerPathsPanel({
                   onOutcome={setNotice}
                   unavailableNote="Waiting a day is not offered here: this panel is open outside the play shell, which owns the one clock."
                 />
-                <button onClick={() => act(startCareerWork(world, r.id, p))}>
-                  Begin accepted work
-                </button>
+                {accepted ? (
+                  <button onClick={() => act(startCareerWork(world, r.id, p))}>
+                    Begin accepted work
+                  </button>
+                ) : null}
               </>
             ) : status === "active" ? (
               <>
