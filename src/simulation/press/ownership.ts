@@ -61,6 +61,11 @@ import {
  *   of newsworthiness admits them.
  * - What a reporter does after losing the job. The job ends through the
  *   ordinary work writer; nothing yet looks for new work on their behalf.
+ * - Editors and staff resisting a directive. The owner decided (2026-09-22)
+ *   that they can, with consequences, and that the record should keep what
+ *   was ordered, what the outlet did and what readers saw. The forms of
+ *   resistance and what they cost are still unresearched, so for now every
+ *   directive is carried out as ordered.
  */
 
 export const MEDIA_OWNERSHIP_PACKS: readonly OwnershipPack[] = [
@@ -159,13 +164,13 @@ export function ensureMediaOwnership(
   for (const outlet of mediaOutlets(world)) {
     if (currentOutletOwnership(next, outlet.id)) continue;
     const eligible = registry.owners.filter(
-      (row) => row.foundingWeight > 0 && ownerMayHold(row, outlet),
+      (row) => foundingWeightFor(row, outlet) > 0 && ownerMayHold(row, outlet),
     );
     if (eligible.length === 0) continue;
     const rng = new SeededRng(world.seed).fork(
       `press:ownership:founding:${outlet.stableKey}`,
     );
-    const row = weightedPick(rng, eligible);
+    const row = weightedPick(rng, eligible, outlet);
     const owned = ensureOwner(next, row, outlet);
     next = appendPressRecord(owned.world, "outlet-ownership", {
       stableKey: `${HOLDING_KEY}${outlet.id}:0`,
@@ -182,14 +187,25 @@ export function ensureMediaOwnership(
   return next;
 }
 
+function foundingWeightFor(
+  row: LoadedOwnershipOwner,
+  outlet: MediaOutletRecord,
+): number {
+  return row.foundingWeightByProduct?.[outlet.product] ?? row.foundingWeight;
+}
+
 function weightedPick(
   rng: SeededRng,
   rows: readonly LoadedOwnershipOwner[],
+  outlet: MediaOutletRecord,
 ): LoadedOwnershipOwner {
-  const total = rows.reduce((sum, row) => sum + row.foundingWeight, 0);
+  const total = rows.reduce(
+    (sum, row) => sum + foundingWeightFor(row, outlet),
+    0,
+  );
   let draw = rng.next() * total;
   for (const row of rows) {
-    draw -= row.foundingWeight;
+    draw -= foundingWeightFor(row, outlet);
     if (draw < 0) return row;
   }
   return rows.at(-1)!;
