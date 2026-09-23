@@ -33,6 +33,7 @@ import {
   compareSimulationMoments,
 } from "../simulation";
 import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
+import { encounterProposalsInEvent } from "../simulation/living-world/political-reflection";
 import {
   familyPlanAvailability,
   proposeFamilyPlan,
@@ -823,6 +824,25 @@ export function commitLifeConversation(
     timeTogether: input.intent === "spendTime",
     date: input.intent === "date" && answer === "date-accepted",
   });
+  // Somebody told about a bill has met what it proposes.
+  const raised =
+    input.intent === "matter" && view.matter
+      ? next.history.events.find((entry) => entry.id === view.matter!.eventId)
+      : undefined;
+  if (raised)
+    for (const personId of currentLifeTalkScene(world, input.playerPersonId)!
+      .presentPersonIds)
+      if (personId !== input.playerPersonId)
+        next = encounterProposalsInEvent(next, {
+          personId,
+          event: raised,
+          summary: raised.summary,
+          provenance: {
+            kind: "told-by",
+            sourcePersonId: input.playerPersonId,
+            claimId: null,
+          },
+        });
   if (input.intent === "familyChild" || input.intent === "familyAdopt")
     next = proposeFamilyPlan(next, {
       personId: input.playerPersonId,

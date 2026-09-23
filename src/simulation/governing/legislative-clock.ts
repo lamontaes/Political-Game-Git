@@ -1,4 +1,5 @@
 import { addDays, makeIsoDate } from "../dates";
+import { encounterProposalsInEvent } from "../living-world/political-reflection";
 import { compileBillDraft } from "../legislation-drafting";
 import { recordDraftLineage } from "../legislation-draft-lineage";
 import {
@@ -730,6 +731,14 @@ export function fileLegislatureMeasure(
     propositionIds: catalogPropositionIds(next, blueprint.propositionKeys),
   });
   const measure = next.history.legislativeMeasures!.at(-1)!;
+  // The member who filed it has met what it proposes, and will think it over.
+  const filed = next.history.events.at(-1)!;
+  next = encounterProposalsInEvent(next, {
+    personId: sponsorPersonId,
+    event: filed,
+    summary: filed.summary,
+    provenance: { kind: "direct-experience", eventId: filed.id },
+  });
   if (blueprint.subjectClass === "appropriation")
     next = attachAppropriationClauses(next, measure, stableKey);
   return scheduleInstitutionStep(next, measure.id);

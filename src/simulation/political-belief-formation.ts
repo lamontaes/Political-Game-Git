@@ -51,6 +51,14 @@ export interface PoliticalBeliefFormationInput {
   readonly constraints?: readonly DecisionConstraint[];
   readonly randomness?: "none" | "close-choices";
   readonly beliefDimensions?: PoliticalBeliefDimensions;
+  /**
+   * Dimensions chosen once the outcome is known, for a caller whose sources
+   * say how firmly a view is held only after they say which view it is.
+   * Takes precedence over `beliefDimensions`.
+   */
+  readonly beliefDimensionsFor?: (
+    outcome: Exclude<PoliticalBeliefFormationOutcome, "no-opinion" | "defer">,
+  ) => PoliticalBeliefDimensions;
 }
 
 export interface PoliticalBeliefDimensions {
@@ -170,7 +178,11 @@ export function evaluatePoliticalBeliefFormation(
   const beliefDimensions =
     politicalOutcome === "no-opinion" || politicalOutcome === "defer"
       ? null
-      : validateBeliefDimensions(politicalOutcome, input.beliefDimensions);
+      : validateBeliefDimensions(
+          politicalOutcome,
+          input.beliefDimensionsFor?.(politicalOutcome) ??
+            input.beliefDimensions,
+        );
   return {
     personId: input.personId,
     propositionId: input.propositionId,
