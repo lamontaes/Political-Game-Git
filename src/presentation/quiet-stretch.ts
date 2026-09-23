@@ -232,3 +232,18 @@ export function blockingHoldsToday(
     )
     .map((entry) => entry.activity);
 }
+
+/**
+ * Commitments the game has no way to let the player keep, which they may
+ * therefore give up: one whose start has gone by, or one with no route to it.
+ * Offered wherever the player can act, because time will not step over a
+ * confirmed commitment and a life holding one has no other move.
+ */
+export function lettableGo(
+  world: World,
+  personId: EntityId,
+): readonly ScheduledActivityRecord[] {
+  return venueActivities(world, personId)
+    .filter((entry) => entry.abandonable)
+    .map((entry) => entry.activity);
+}

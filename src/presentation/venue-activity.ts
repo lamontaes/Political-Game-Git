@@ -220,6 +220,14 @@ function arrivedDestinationFor(
 export const EARLIER_COMMITMENT_REFUSAL =
   "An earlier commitment must be resolved first.";
 
+/** Why a commitment whose start has gone by cannot be kept. */
+export const LATE_COMMITMENT_REFUSAL =
+  "Its time has passed, so it can no longer be kept. You can let it go.";
+
+/** What the clock says when asked to start an activity after its start. */
+const LATE_START_ERROR =
+  "A scheduled activity cannot be started after its interval began.";
+
 export function venueActivities(
   world: World,
   personId: EntityId,
@@ -357,10 +365,25 @@ export function venueActivities(
             }
           }
         } catch (error) {
-          refusal =
-            error instanceof Error
+          /*
+           * A commitment whose start has already gone by. Time never steps
+           * over one, so it can only be here because an older build did, or
+           * because the player reached its hour some other way. Nobody can
+           * start it now, which makes it the dead end giving up exists for.
+           * The raw error used to be shown as the reason, with no button
+           * beside it (Southeast lives; a D.C. save held four of them).
+           */
+          const late =
+            error instanceof Error &&
+            error.message === LATE_START_ERROR &&
+            activity.kind !== "tentative" &&
+            activity.kind !== "travel";
+          refusal = late
+            ? LATE_COMMITMENT_REFUSAL
+            : error instanceof Error
               ? error.message
               : "This activity cannot be performed now.";
+          if (late) unperformable = true;
         }
       }
       return {
