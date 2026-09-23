@@ -8,6 +8,8 @@ import {
   homeStateUsps,
   makeCurrencyCode,
   nextFilableStateExecutiveTerm,
+  nextRegularElectionInWorld,
+  addDays,
   stateExecutiveIdentity,
   chiefExecutiveJurisdiction,
 } from "../simulation";
@@ -67,7 +69,11 @@ export function stateExecutiveCandidacyForPerson(
 export interface StateExecutiveOfficeCalendar {
   /** The next regular general election a filing today would stand in. */
   readonly nextElection: IsoDate;
-  /** A nearer regular election whose candidate field has already closed. */
+  /**
+   * An earlier regular election still ahead whose candidate field has already
+   * closed, so a filing today cannot stand in it. Null when the next election
+   * is the one a filing enters.
+   */
   readonly closedElection: IsoDate | null;
   /** The term that election would win. */
   readonly termStartsAt: IsoDate;
@@ -91,6 +97,13 @@ export function stateExecutiveOfficeCalendar(
   const term = nextFilableStateExecutiveTerm(world, stateUsps);
   if (!term) return null;
   const { rule, electionDay: nextElection } = term;
+  const upcoming = nextRegularElectionInWorld(
+    world,
+    stateUsps,
+    addDays(world.currentDate, 1),
+  );
+  const closedElection =
+    upcoming !== null && upcoming < nextElection ? upcoming : null;
   const bases = Object.values(rule.basis);
   const basis = bases.every((b) => b === "verified")
     ? "verified"
@@ -99,7 +112,7 @@ export function stateExecutiveOfficeCalendar(
       : "mixed";
   return {
     nextElection,
-    closedElection: term.closedElectionDay,
+    closedElection,
     termStartsAt: term.startsAt,
     termEndsAt: term.endsAt,
     basis,

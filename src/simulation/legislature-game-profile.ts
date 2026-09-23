@@ -217,8 +217,53 @@ export function researchedExecutiveSpread(): {
  *
  * Puerto Rico is not listed: its Legislative Assembly really is bicameral, so
  * the generated shape is the right one even before its own instruments are read.
+ *
+ * Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana
+ * Islands are declined too. Guam's and the Virgin Islands' legislatures sit as
+ * one chamber, American Samoa's Fono seats its Senate by matai custom, and a
+ * territorial legislature is not a state's under any of them, so a House and
+ * Senate drawn from the researched states would be a shape none of them has.
+ * PLACEHOLDER until each territory's own legislature is compiled from the
+ * answered `inhabited-territories-government-and-statehood` research.
  */
-const NO_STATE_LEGISLATURE: ReadonlySet<string> = new Set(["US-DC"]);
+const NO_STATE_LEGISLATURE: ReadonlySet<string> = new Set([
+  "US-DC",
+  "US-GU",
+  "US-VI",
+  "US-AS",
+  "US-MP",
+]);
+
+/**
+ * Chamber sizes that are settled law, applied in place of the draw. Only
+ * states whose size is beyond doubt are listed; every other unread state's
+ * size is still drawn, and the full table is research question
+ * `state-legislature-chamber-sizes-and-quorum`.
+ */
+const SETTLED_CHAMBER_SEATS: Readonly<
+  Record<
+    string,
+    {
+      readonly lower: number;
+      readonly upper: number;
+      readonly source: RuleSourceRef;
+    }
+  >
+> = {
+  "US-NH": {
+    lower: 400,
+    upper: 24,
+    source: {
+      authority: "constitution",
+      citation: "N.H. Const. Pt. II, Arts. 9 and 25",
+      sourceTitle: "Constitution of the State of New Hampshire",
+      sourceUrl: "https://www.nh.gov/glance/constitution.htm",
+      retrievedAt: null,
+      verification: "verified",
+      note: "A House of not fewer than 375 nor more than 400 members, apportioned by statute at 400, and a Senate of twenty-four. Settled law: the counts are certain, though the apportionment statute's text was not retrieved for this entry. The rest of this legislature is the game's own.",
+    },
+  },
+};
 
 /** The drawn shape of one state's legislature, before it becomes a rule pack. */
 export interface LegislatureProfile {
@@ -226,6 +271,8 @@ export interface LegislatureProfile {
   readonly version: string;
   readonly lowerSeats: number;
   readonly upperSeats: number;
+  /** Where the seat counts come from when they are settled law, not drawn. */
+  readonly seatSource: RuleSourceRef | null;
   readonly vetoWindowDaysInSession: number;
   readonly vetoWindowDaysAfterAdjournment: number;
   readonly overrideFraction: readonly [number, number];
@@ -272,11 +319,13 @@ export function legislatureProfileFor(
     lowerSeats - 1,
     Math.max(2, Math.round((lowerSeats * percent) / 100)),
   );
+  const settled = SETTLED_CHAMBER_SEATS[stateJurisdictionKey] ?? null;
   return {
     stateJurisdictionKey,
     version: LEGISLATURE_GAME_PROFILE_VERSION,
-    lowerSeats,
-    upperSeats,
+    lowerSeats: settled?.lower ?? lowerSeats,
+    upperSeats: settled?.upper ?? upperSeats,
+    seatSource: settled?.source ?? null,
     vetoWindowDaysInSession: drawFrom(
       stateJurisdictionKey,
       "veto-in-session",
@@ -325,11 +374,14 @@ function profileChamber(
   name: string,
   billDesignationPrefix: string,
   seats: number,
+  settledSource: RuleSourceRef | null = null,
 ): ChamberRule {
-  const seatSource = profileSource(
-    "Seats",
-    `The chamber seats ${seats} members, drawn from the range the compiled states span and fixed for this state.`,
-  );
+  const seatSource =
+    settledSource ??
+    profileSource(
+      "Seats",
+      `The chamber seats ${seats} members, drawn from the range the compiled states span and fixed for this state.`,
+    );
   const quorum: VoteThresholdRule = majorityOf(
     "members-elected",
     "a majority of the members elected to the chamber",
@@ -431,8 +483,15 @@ export function legislatureProfilePack(
         "House of Representatives",
         "HB",
         profile.lowerSeats,
+        profile.seatSource,
       ),
-      profileChamber("senate", "Senate", "SB", profile.upperSeats),
+      profileChamber(
+        "senate",
+        "Senate",
+        "SB",
+        profile.upperSeats,
+        profile.seatSource,
+      ),
     ],
     chamberOrder: ["house", "senate"],
     origination: {
@@ -448,7 +507,7 @@ export function legislatureProfilePack(
         PASSAGE_SOURCE,
       ),
       conference: unknownRule(
-        "How this legislature resolves a difference between its chambers is set by joint rules that have not been read, so conference is not modelled.",
+        "How this legislature resolves a difference between its chambers is set by joint rules that have not been read, so conference is not modeled.",
       ),
       source: PASSAGE_SOURCE,
     },
@@ -523,7 +582,7 @@ export function legislatureProfilePack(
       "This legislature has not been compiled from its state's own constitution or rules. Its structure, seat counts, veto windows and override threshold are the game's own, drawn from the range the compiled states span, and none of them is a claim about this state's law.",
       "The chamber names and bill prefixes are the ordinary American ones. A state whose lower chamber is an Assembly or a House of Delegates will say so once its instruments are compiled.",
       "Committee structure, referral among committees, hearing guarantees and report thresholds come from chamber rules that have not been read.",
-      "Conference between the chambers is not modelled.",
+      "Conference between the chambers is not modeled.",
       "How often this legislature meets and whether a pending measure carries over after adjournment have not been read; the annual session with bills dying at adjournment is the game's standing rule until they are.",
       "Whether this state overrides a veto in joint session rather than chamber by chamber has not been read; the generated pack uses the chamber-by-chamber form every compiled state but one uses.",
       ...override.unexpressed,
@@ -623,7 +682,12 @@ export function seatsForChamber(
     // claim this whole module exists to avoid.
     return {
       seats: chamber.seats.value,
-      basis: pack.basis === "game-profile" ? "game-profile" : "researched",
+      // A settled size inside a generated pack carries its own citation.
+      basis:
+        pack.basis === "game-profile" &&
+        chamber.seats.source.authority === "game-profile"
+          ? "game-profile"
+          : "researched",
     };
   }
   const spread = researchedChamberSpread();

@@ -1,4 +1,8 @@
 import {
+  SCHOOL_STAGE_TRANSITION_KEY,
+  schoolStageTransitionHandler,
+} from "./school-stages";
+import {
   acceptedEducationPath,
   legacyAcceptedEducationPath,
   recordAcceptedEducationTerms,
@@ -1065,6 +1069,8 @@ const LIFE_PATHS2_CORE_HANDLERS = createFutureTransitionHandlerRegistry(
 export const LIFE_PATHS2_HANDLERS = composeFutureTransitionHandlerRegistries(
   createFutureTransitionHandlerRegistry([
     [EDUCATION_STUDY_PERIOD_DUE_KEY, educationStudyPeriodDueHandler],
+    // A child moves on through school while the game is played.
+    [SCHOOL_STAGE_TRANSITION_KEY, schoolStageTransitionHandler],
   ]),
   LIFE_PATHS2_CORE_HANDLERS,
 );
@@ -1604,6 +1610,7 @@ export function acceptLifePathCounteroffer(
     );
   const terms = resourceFlowTermsAt(world, flow.id)!;
   const amount = money(
+    // PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the 1.25 counteroffer is not sourced.
     Math.max(terms.amount.minorUnits, Math.ceil(path.sessionPayMinor * 1.25)),
     "USD",
   );

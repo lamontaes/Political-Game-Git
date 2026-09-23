@@ -31,6 +31,7 @@ import {
   pressRecordByKey,
   answerPressRequest,
   appendPressRecord,
+  activeAssignments,
   assignedReporter,
   canInstitutionAct,
   discloseToReporter,
@@ -592,6 +593,42 @@ describe("PRESS46 established finding, leak and ground rules", () => {
         e.tags.includes(`press46.matter:${opened.matter.id}`),
     );
     expect(delegated).toHaveLength(1);
+  });
+
+  it("prints dates in words and no game wording in any story", () => {
+    const stories = (concluded.history.publications ?? []).filter((p) =>
+      p.outletKey.startsWith("media:"),
+    );
+    expect(stories.length).toBeGreaterThan(0);
+    for (const story of stories)
+      expect(`${story.headline}\n${story.body}`).not.toMatch(
+        /\b\d{4}-\d{2}-\d{2}\b|in this game|the game has/,
+      );
+  });
+
+  it("asks the subject about one case once at a time, never twice in a day", () => {
+    const requests = concluded.history.events.filter(
+      (e) =>
+        e.type === "press.response-requested" &&
+        e.tags.includes(`press46.matter:${opened.matter.id}`),
+    );
+    expect(requests.length).toBeGreaterThan(0);
+    const perOutletDay = new Map<string, number>();
+    for (const request of requests) {
+      const outlet = request.tags.find((tag) =>
+        tag.startsWith("press.outlet:"),
+      );
+      const key = `${outlet}|${request.occurredAt}`;
+      perOutletDay.set(key, (perOutletDay.get(key) ?? 0) + 1);
+    }
+    expect([...perOutletDay.values()].every((count) => count === 1)).toBe(true);
+    // And no outlet works two stories on the case at once.
+    for (const outlet of mediaOutlets(concluded)) {
+      const open = activeAssignments(concluded, outlet.id).filter(
+        (lead) => lead.matterId === opened.matter.id,
+      );
+      expect(open.length).toBeLessThanOrEqual(1);
+    }
   });
 
   it("makes the finding order the misused money repaid, and costs no decided race", () => {

@@ -149,8 +149,6 @@ export interface FilableStateExecutiveTerm {
   readonly startsAt: IsoDate;
   readonly endsAt: IsoDate;
   readonly rule: StateExecutiveTermRuleInWorld;
-  /** A nearer regular election whose field has already closed, if any. */
-  readonly closedElectionDay: IsoDate | null;
 }
 
 /**
@@ -167,16 +165,13 @@ export function nextFilableStateExecutiveTerm(
     stateUsps,
     addDays(world.currentDate, 1),
   );
-  let closedElectionDay: IsoDate | null = null;
-  if (electionDay !== null && regularFieldClosed(world, electionDay)) {
-    closedElectionDay = electionDay;
+  if (electionDay !== null && regularFieldClosed(world, electionDay))
     electionDay = nextRegularElectionInWorld(
       world,
       stateUsps,
       addDays(electionDay, 1),
     );
-  }
   if (electionDay === null) return null;
   const term = termDatesAfterElectionInWorld(world, stateUsps, electionDay);
-  return term ? { electionDay, ...term, closedElectionDay } : null;
+  return term ? { electionDay, ...term } : null;
 }

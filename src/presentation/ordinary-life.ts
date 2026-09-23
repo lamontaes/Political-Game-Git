@@ -5,6 +5,8 @@ import { seatWinnersOwedTheirTerm } from "../simulation/office-entry-repair";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
 import { migrateLegacyLegislativeSeats } from "../simulation/legislative-office-terms";
+import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
+import { catchUpLegacySchoolStages } from "../simulation/school-stages";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   activeChildAuthoritiesAt,
@@ -34,7 +36,10 @@ import type {
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { shortPersonName } from "./conversation-subjects";
-import { lapseVenueActivity } from "./scheduled-activity-choice";
+import {
+  lapseVenueActivity,
+  releaseMissedHolds,
+} from "./scheduled-activity-choice";
 import { keepAcceptedSocialOccasion } from "./social-invitation";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 
@@ -359,7 +364,10 @@ function passOrdinaryDaysUnchecked(
   ) {
     return advanced;
   }
-  return refreshContextualScenes(advanced, advanced.control.personId);
+  return refreshContextualScenes(
+    releaseMissedHolds(advanced, advanced.control.personId),
+    advanced.control.personId,
+  );
 }
 
 function advanceOrdinaryDays(
@@ -387,8 +395,15 @@ function advanceOrdinaryDays(
     : ordinaryHandlers;
   // CRUNCH46 CRISIS: every advancing World carries the mortality model; an
   // older save starts exposure at its next month boundary.
+  // A child saved before school stages is caught up to the stage for their
+  // age; see catchUpLegacySchoolStages. A territory life saved before
+  // territories had a Governor has one seated; see catchUpTerritoryGovernor.
   const migrated = ensureCrisisMortality(
-    migrateLegacyLegislativeSeats(migrateLegacyStudyProgression(world)),
+    migrateLegacyLegislativeSeats(
+      catchUpTerritoryGovernor(
+        catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+      ),
+    ),
   );
   const wholeDays = Math.max(1, Math.trunc(days));
   const morning = simulationMomentAtLocalTime({
