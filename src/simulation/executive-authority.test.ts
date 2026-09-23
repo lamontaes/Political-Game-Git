@@ -619,12 +619,10 @@ describe("executive-authority: Minnesota and Illinois presentment after #102", (
     const ref = US_FEDERAL_EXECUTIVE_PACK.presentment.legislativeRulePackId;
     expect(ref.kind).toBe("unknown");
     expect(knownValueOrNull(ref)).toBeNull();
-    // No compiled federal legislative pack exists to reference.
-    for (const id of [
-      "us-federal-congress-v1",
-      "us-congress-v1",
-      "us-us-congress-v1",
-    ]) {
+    // The Congress pack (us-congress-v1) now exists, but this executive pack
+    // has not been re-audited to point at it, so the reference stays unknown.
+    // No other federal id resolves.
+    for (const id of ["us-federal-congress-v1", "us-us-congress-v1"]) {
       expect(() => rulePackById(id)).toThrow(
         /No legislative rule pack is registered/,
       );

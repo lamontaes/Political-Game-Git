@@ -22,7 +22,11 @@ import {
   stableHash,
   simulationMinutesBetween,
   personName,
+  addSimulationMinutes,
+  compareSimulationMoments,
+  scheduledActivityState,
 } from "../simulation";
+import { formatMinute } from "./player-calendar";
 import type {
   World,
   EntityId,
@@ -740,17 +744,54 @@ export function openingNeighborhoodWalkOffer(
     !resolved.ok && destination === "home"
       ? meetingHomeRoute(world, personId)
       : null;
+  const minutes =
+    returnRoute?.kind === "available"
+      ? returnRoute.route.duration.minutes
+      : OPENING_WALK_MINUTES;
   return {
     destination,
     label: destination === "home" ? "Walk home" : "Take a short walk nearby",
-    minutes:
-      returnRoute?.kind === "available"
-        ? returnRoute.route.duration.minutes
-        : OPENING_WALK_MINUTES,
+    minutes,
     unavailable:
-      resolved.ok || returnRoute?.kind === "available" ? null : resolved.reason,
+      resolved.ok || returnRoute?.kind === "available"
+        ? walkClash(world, personId, minutes)
+        : resolved.reason,
     fromLabel: openingWalkOrigin(world, personId)?.location.label ?? null,
   };
+}
+
+/**
+ * Why the walk cannot be taken now because something already on the calendar
+ * falls inside it, or null. The walk is itself a calendar entry, and the
+ * calendar refuses two things at once, so without this the offer read as
+ * available and pressing it answered "Nothing changed" (a phone shift from
+ * home booked for the minute a party meeting ended, Bisbee, Arizona).
+ */
+function walkClash(
+  world: World,
+  personId: EntityId,
+  minutes: number,
+): string | null {
+  const arrive = addSimulationMinutes(world.currentMoment, minutes);
+  const clash = world.history.scheduledActivities
+    .filter((activity) => activity.participantPersonIds.includes(personId))
+    .map((activity) => ({
+      activity,
+      state: scheduledActivityState(world, activity.id),
+    }))
+    .filter(
+      ({ state }) =>
+        state.status === "scheduled" &&
+        compareSimulationMoments(state.start, arrive) < 0 &&
+        compareSimulationMoments(world.currentMoment, state.end) < 0,
+    )
+    .sort((left, right) =>
+      compareSimulationMoments(left.state.start, right.state.start),
+    )[0];
+  if (!clash) return null;
+  return compareSimulationMoments(clash.state.start, world.currentMoment) <= 0
+    ? `“${clash.activity.title}” is on your calendar now, so you cannot set off yet.`
+    : `“${clash.activity.title}” starts at ${formatMinute(clash.state.start.minuteOfDay)}, before you could get there.`;
 }
 
 /** The authored short local walk. Not a measured distance or speed. */

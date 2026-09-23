@@ -4,8 +4,13 @@ import { organizationParticipationStateHistory } from "./life-queries";
 import { recordOrganizationParticipationState } from "./life";
 import { municipalGovernmentByKey } from "./municipal-government";
 import {
+  municipalLawOfficeKey,
+  ruleValueInWorld,
+} from "./enacted-rule-changes";
+import {
   resolveMunicipalRecallRule,
   type MunicipalBallotRuleBasis,
+  type MunicipalRecallBasis,
 } from "./municipal-ballot-rules";
 import type {
   MunicipalRecallDoctrine,
@@ -63,6 +68,10 @@ import { recordWorldEvent } from "./world";
  *   keep-or-remove question, and the seat stays empty until the town's next
  *   regular election; a replacement race on the same ballot and a vacancy
  *   appointment are not modeled.
+ * - A law that changes a state's recall rule mid-petition. The rule is read
+ *   when a petition starts (a law enacted in play through
+ *   `enacted-rule-changes.ts` included); a petition already circulating runs
+ *   its course under the rule it started under.
  * - Anyone other than a resident starting a petition, and the world starting
  *   one on its own (no recorded cause exists yet).
  */
@@ -93,7 +102,7 @@ export type RecallRule =
       readonly available: true;
       readonly stateUsps: string;
       readonly doctrine: MunicipalRecallDoctrine;
-      readonly doctrineBasis: MunicipalBallotRuleBasis;
+      readonly doctrineBasis: MunicipalRecallBasis;
       readonly threshold: PetitionThreshold | null;
       readonly circulationDays: number;
       readonly circulationBasis: MunicipalBallotRuleBasis;
@@ -103,24 +112,48 @@ export type RecallRule =
 
 /**
  * The recall rule for a seat on one town's governing body, read through the
- * authorized municipal rule resolver: the state's own reading where its pack
- * settles it, otherwise drawn from the national range, stable per state.
+ * authorized municipal rule resolver: a law this World enacted on it where one
+ * is in force, else the state's own reading where its pack settles it, else
+ * drawn from the national range, stable per state.
+ *
+ * Without a World only the compiled rule is read.
  */
-export function municipalRecallRule(governmentKey: string): RecallRule {
+export function municipalRecallRule(
+  governmentKey: string,
+  world?: World,
+): RecallRule {
   const government = municipalGovernmentByKey(governmentKey);
   if (!government)
     return { available: false, reason: "This town's government is not known." };
   const state = stateName(government.state);
-  const rule = resolveMunicipalRecallRule(government.state);
+  const enacted = world
+    ? ruleValueInWorld(
+        world,
+        {
+          jurisdiction: government.state,
+          officeKey: municipalLawOfficeKey(government.state),
+          field: "municipal.recall.doctrine",
+          onDate: world.currentDate,
+        },
+        null,
+      )
+    : null;
+  const enactedDoctrine =
+    enacted?.source === "enacted"
+      ? (enacted.value as MunicipalRecallDoctrine)
+      : null;
+  const rule = resolveMunicipalRecallRule(government.state, enactedDoctrine);
+  const since =
+    enacted?.source === "enacted" ? ` since ${enacted.designation}` : "";
   if (rule.doctrine === "prohibited")
     return {
       available: false,
-      reason: `Towns in ${state} cannot recall their officials.`,
+      reason: `Towns in ${state} cannot recall their officials${since}.`,
     };
   if (rule.doctrine === "judicial-cause-removal-trial")
     return {
       available: false,
-      reason: `In ${state} a town official is removed by a court for cause, not by a recall vote.`,
+      reason: `In ${state} a town official is removed by a court for cause, not by a recall vote${since}.`,
     };
   return {
     available: true,
@@ -253,7 +286,7 @@ export function canStartRecallPetition(
     readonly targetPersonId: EntityId;
   },
 ): RecallStartCheck {
-  const rule = municipalRecallRule(input.governmentKey);
+  const rule = municipalRecallRule(input.governmentKey, world);
   if (!rule.available) return { allowed: false, reason: rule.reason };
   const petitioner = world.people[input.petitionerPersonId];
   if (!petitioner) return { allowed: false, reason: "No such person." };
