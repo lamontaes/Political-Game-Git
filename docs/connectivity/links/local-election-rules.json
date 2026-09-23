@@ -15,7 +15,7 @@
       "reader": "A city election using its own counting rule",
       "readerOwner": "Every town in America",
       "state": "open",
-      "detail": "Gated, not forgotten: the source audit is what closes it, then the election handler reads the tabulator.",
+      "detail": "A source audit must promote the rule values first. Then the election handler reads the tabulator.",
       "readerAt": "src/simulation/municipal-election-rules.ts#MUNICIPAL_RULES_AUDIT_GATE"
     }
   ],

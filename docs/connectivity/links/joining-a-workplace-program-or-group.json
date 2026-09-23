@@ -23,7 +23,7 @@
       "reader": "Coworkers, classmates and fellow members who live in the town",
       "readerOwner": "Every town in America",
       "state": "open",
-      "detail": "On the real new-game route for a 24-year-old in Houma or Reno on 1/5/2026, the world has 2 households and about 560 people, and 556 to 558 of them have no residence. Nobody who lives in town works, studies or belongs anywhere; the market, the service club and the parish government have no one. The authored employers have no location, and the player enrolls at a college alone. Nothing changes after 30 days.",
+      "detail": "On the real new-game route for a 24-year-old in Houma or Reno on January 5, 2026, the world has about 560 people but only 2 households, and only the player's own household has a residence. Nobody who lives in town works, studies or belongs anywhere; the market, the service club and the parish government have no one. The authored employers have no location, and the player enrolls at a college alone. Nothing changes after 30 days.",
       "readerAt": "src/presentation/production-world.ts"
     },
     {
