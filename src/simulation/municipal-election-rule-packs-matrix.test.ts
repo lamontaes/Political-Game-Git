@@ -442,7 +442,8 @@ describe("the lane boundary", () => {
     // a national range. `municipal-ballot-rules.ts` honors the audit gate by
     // labeling every value it returns with its basis (`state-law-unverified`
     // and so on), never as settled law. Candidacy, campaign and player-facing
-    // code still read the packs only through it.
+    // code still read the packs only through it; so does the town election
+    // calendar, through its `resolveMunicipalElectionTiming`.
     expect(packReaders()).toEqual([
       "src/simulation/municipal-ballot-rules.test.ts",
       "src/simulation/municipal-ballot-rules.ts",
