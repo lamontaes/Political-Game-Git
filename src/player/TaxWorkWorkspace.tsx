@@ -35,7 +35,7 @@ export function exactDollarInput(value: string): number {
   return Number(result);
 }
 const display = (amount: number) =>
-  `${Math.floor(amount / 100)}.${String(amount % 100).padStart(2, "0")} USD`;
+  `$${Math.floor(amount / 100).toLocaleString("en-US")}.${String(amount % 100).padStart(2, "0")}`;
 
 /** Feature-local mount for A's ordinary Work surface. S's shared measure reader
  * receives onOpenMeasure; this component owns neither legislation nor storage.

@@ -625,9 +625,9 @@ life is the same thing as reliability at a bargaining table is a real question,
 and the seam makes somebody answer it in the trait's own declaration instead of
 answering it by accident in a call site.
 
-## The personality catalogue (added 2026-09-22)
+## The personality catalog (added 2026-09-22)
 
-The researched catalogue (`docs/research/chatgpt-answers/2026-09-22-depth2/personality-scale-dispositions.json`,
+The researched catalog (`docs/research/chatgpt-answers/2026-09-22-depth2/personality-scale-dispositions.json`,
 DEPTH2 answer A01) maps 121 words to 102 scales: 18 two-ended and 84 one-sided.
 Four of them (deliberation, reliability, conflict, risk) mean what the five
 already mean and are bound to them rather than declared again. The other 98 are
