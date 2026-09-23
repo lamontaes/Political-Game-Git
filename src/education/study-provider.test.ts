@@ -18,10 +18,12 @@ import {
   respondToEducationOffer,
   educationOptionReason,
   studyDefinition,
+  studyPathFor,
 } from "./study-provider";
 import {
   changeLifePathStatus,
   hasLifePathCredential,
+  lifePathEntryReason,
   pathForRelationship,
   enterLifePath,
   LIFE_PATHS2_HANDLERS,
@@ -279,5 +281,121 @@ describe("saved accepted terms controls", () => {
     };
     expect(legacyPath.requiredSessions).toBe(8);
     expect(legacyPath.sessionCostMinor).toBe(2500);
+  });
+});
+describe("applying for a degree at a real college", () => {
+  const college: EducationInstitution = {
+    ...institution,
+    capabilities: [
+      ...institution.capabilities,
+      {
+        code: "LEVEL5",
+        label: "Bachelor's degree",
+        kind: "award",
+        state: "offered",
+        raw: "1",
+      },
+      {
+        code: "LEVEL7",
+        label: "Master's degree",
+        kind: "award",
+        state: "offered",
+        raw: "1",
+      },
+      {
+        code: "LEVEL17",
+        label: "Doctor's degree - research/scholarship",
+        kind: "award",
+        state: "offered",
+        raw: "1",
+      },
+    ],
+  };
+  const capability = (code: string) =>
+    college.capabilities.find((c) => c.code === code)!;
+
+  it("offers a place, enrolls, and records a bachelor's that law school accepts", () => {
+    const w0 = fixture();
+    expect(educationOptionReason(w0, college, capability("LEVEL5"))).toBeNull();
+    const applied = applyForEducation(w0, college, "LEVEL5");
+    expect(applied.ok).toBe(true);
+    const offer = pendingEducationOffers(applied.world)[0]!;
+    const accepted = respondToEducationOffer(applied.world, offer.id, true);
+    expect(accepted.ok).toBe(true);
+    const enrollment = accepted.world.history.educationEnrollments.at(-1)!;
+    expect(enrollment.programKind).toBe("postsecondary:edu-path7-level5");
+    const path = pathForRelationship(accepted.world, enrollment.id)!;
+    expect(path.credential).toBe("Bachelor's degree");
+    expect(path.academicYears).toBe(4);
+    // Survives a save.
+    expect(deserializeWorld(serializeWorld(accepted.world))).toEqual(
+      accepted.world,
+    );
+    // Law school and graduate study check for a bachelor's under its old
+    // program name; a completed real-college bachelor's counts.
+    const personId = accepted.world.personOrder[0]!;
+    expect(
+      hasLifePathCredential(
+        accepted.world,
+        personId,
+        "postsecondary:bachelors-degree",
+      ),
+    ).toBe(false);
+  });
+
+  it("completes a four-year bachelor's that graduate study then accepts", () => {
+    // Enough recorded money for eight periods of placeholder tuition.
+    let w = fixture();
+    const richer = createResourcePosition(
+      createWorld({
+        seed: w.seed,
+        currentDate: w.currentDate,
+        people: w.personOrder.map((id) => w.people[id]!),
+        jurisdictions: w.jurisdictionOrder.map((id) => w.jurisdictions[id]!),
+        control: w.control,
+      }),
+      {
+        stableKey: "funds",
+        owner: { kind: "person", personId: w.personOrder[0]! },
+        openedAt: w.currentDate,
+        openingBalance: money(5_000_000, "USD"),
+        provenance: { kind: "authored", note: "test" },
+      },
+    );
+    w = applyForEducation(richer, college, "LEVEL5").world;
+    w = respondToEducationOffer(
+      w,
+      pendingEducationOffers(w)[0]!.id,
+      true,
+    ).world;
+    const enrollmentId = w.history.educationEnrollments.at(-1)!.id;
+    w = advanceWorld(w, 4 * 2 * 182 + 60, LIFE_PATHS2_HANDLERS);
+    expect(educationEnrollmentStateAt(w, enrollmentId)?.status).toBe(
+      "completed",
+    );
+    const personId = w.personOrder[0]!;
+    expect(
+      hasLifePathCredential(w, personId, "postsecondary:bachelors-degree"),
+    ).toBe(true);
+    // Four years on, this directory vintage no longer describes the
+    // college, so the master's is checked against its own entry rule.
+    expect(
+      lifePathEntryReason(
+        w,
+        personId,
+        studyPathFor(college, capability("LEVEL7")),
+      ),
+    ).toBeNull();
+  });
+
+  it("asks for a bachelor's before a master's, and leaves doctorates listed only", () => {
+    const w0 = fixture();
+    expect(educationOptionReason(w0, college, capability("LEVEL7"))).toMatch(
+      /bachelor's degree first/,
+    );
+    expect(applyForEducation(w0, college, "LEVEL7").ok).toBe(false);
+    expect(educationOptionReason(w0, college, capability("LEVEL17"))).toMatch(
+      /does not take applications/,
+    );
   });
 });

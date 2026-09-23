@@ -1,0 +1,45 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "141 of 144 read cities, Portland OR among them, can never pass an ordinance, and a council member's main work is proposals that pass or fail.",
+      "argumentFor": "Nothing is invented; the game refuses rather than guesses.",
+      "label": "Keep refusing until each city is read",
+      "position": "A city whose charter reading gives no vote to adopt an ordinance cannot carry one, and the screen says why.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "A few cities need a supermajority or a majority of the full council rather than of those present, and a blanket rule gets them wrong until read.",
+      "argumentFor": "Proposals can pass everywhere, as the owner asked, and a read rule replaces the blanket one the day it lands.",
+      "label": "Read what can be read, a labeled blanket rule for the rest",
+      "position": "Each named city gets its real adoption vote and what happens after adoption (mayor's signature or veto, override vote). Any city still unread uses a blanket rule, labeled as typical, until it is read.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T01:20:00.000Z",
+  "impact": "blocks-work",
+  "lane": "nationwide coverage",
+  "notes": [
+    "Measured on origin/main 2026-09-23 ~01:15Z: of the 144 compiled municipal governments, 3 carry an ORDINANCE_ADOPTION power row with a vote threshold. The other 141 are refused at 'carry an ordinance' with 'passage threshold' listed as missing (src/simulation/municipal-government.ts, the ordinance rules check). Portland OR, raised by ChatGPT's playtest at 2ed3a0fe, is one of them: its reading has a quorum (7 of 12) and passageAbsence 'Not established by the retrieved Charter § 2-102.'",
+    "Most of the same cities also lack what happens after adoption: whether the ordinance goes to the mayor, how long the mayor has, and the override vote. The game cannot tell when a measure is finished without that.",
+    "The owner's direction (via ChatGPT, 2026-09-22 7:48 p.m. ET): playable local office needs real decisions and consequences, with routine agenda work summarized. The owner also said town proposals should be able to pass."
+  ],
+  "priority": "P1",
+  "question": "For each of the 141 compiled cities whose reading gives no ordinance adoption vote, what vote adopts an ordinance (majority of those present, of the full council, or a supermajority) and what happens after adoption (the mayor's signature or veto, the time allowed, the override vote)? And for a town the game has not read at all, what adoption vote and post-adoption step are typical?",
+  "questionId": "council-ordinance-passage-vote",
+  "relatedQuestionIds": [
+    "how-a-town-proposal-ends",
+    "what-a-town-council-member-does",
+    "town-mayor-rules-by-town-size"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "every-town-in-america thread (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "The compiled municipal governments' readings (powers, procedure.passageText, passageAbsence, mayoralActionState, overrideState)",
+      "whatItDidNotSettle": "141 of 144 give no adoption vote; most give no post-adoption step."
+    }
+  ],
+  "title": "The vote a council needs to pass an ordinance",
+  "usableAnswer": "One line per named city: the adoption vote, whether the mayor signs or may veto, the days allowed, and the override vote, with the charter section named. Then the typical rule for an unread town. Unknown stays marked unknown.",
+  "whyItMatters": "Without it, a player on nearly any read city's council can never pass a proposal, which is most of what the office is for."
+}

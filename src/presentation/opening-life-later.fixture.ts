@@ -1,11 +1,10 @@
 import type { OpeningLifeLater } from "../simulation/opening-life-content";
 
 /**
- * PROPOSED, NOT SHIPPED. Eight later answers drafted to exercise the
- * later-stage mechanism and filed with ChatGPT as research question
- * `which-later-answers-an-early-choice-deserves`. Nothing here reaches a
- * player; shipped play reads `OPENING_LIFE_LATER`, which stays empty until
- * that question is answered.
+ * REJECTED, NOT SHIPPED. The owner dropped all eight on 2026-09-22 (research
+ * question `which-later-answers-an-early-choice-deserves`). They stay here only
+ * as test fixtures that exercise the later-stage mechanism; shipped play reads
+ * `OPENING_LIFE_LATER`, which is empty.
  */
 export const PROPOSED_OPENING_LIFE_LATER: Readonly<
   Record<string, readonly OpeningLifeLater[]>

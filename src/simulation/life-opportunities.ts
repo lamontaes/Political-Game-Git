@@ -15,6 +15,7 @@ import {
   kinshipRelationshipsAt,
   peopleInHouseholdAt,
 } from "./life-queries";
+import { formatStatutoryDate } from "./legislation-content-contracts";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { recordEventKnowledge } from "./records";
 import {
@@ -22,6 +23,9 @@ import {
   createWorkItem,
   workPendingEntriesFor,
 } from "./time-work";
+import { settleLivingCosts } from "./cost-of-living";
+import { settleOfficeSalaries } from "./office-salary";
+import { settleMortgages } from "./home-purchase";
 import { recordWorldEvent } from "./world";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
 
@@ -72,6 +76,7 @@ export const LIFE_OPPORTUNITY_KINDS = [
   "meeting-agenda-item",
   "candidacy-approach",
   "returning-favour",
+  "household-shortfall",
 ] as const;
 
 export type LifeOpportunityKind = (typeof LIFE_OPPORTUNITY_KINDS)[number];
@@ -88,6 +93,9 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
   "meeting-agenda-item": "adult.local-issue-position",
   "candidacy-approach": "adult.candidacy-approach",
   "returning-favour": "adult.old-favour-returns",
+  // Written by the weekly living costs in `cost-of-living.ts`, not by the
+  // candidate writer below: the first week a life cannot cover.
+  "household-shortfall": "adult.household-money-shortfall",
 };
 
 /**
@@ -115,6 +123,7 @@ export const LIFE_OPPORTUNITY_REPEATABLE: Readonly<
   "meeting-agenda-item": false,
   "candidacy-approach": false,
   "returning-favour": false,
+  "household-shortfall": false,
 };
 
 export const LIFE_OPPORTUNITY_TAG_PREFIX = "life.opportunity:";
@@ -497,6 +506,9 @@ export function refreshLifeOpportunities(
   if (formativeIntervalAt(world, personId) !== null) return world;
 
   let next = replenishHouseholdWeek(world, personId);
+  next = settleOfficeSalaries(next, personId);
+  next = settleMortgages(next, personId);
+  next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
   return next;
 }
@@ -580,15 +592,36 @@ interface OpportunityCandidate {
  * rather than to an inbox.
  */
 function writeNextOpportunity(world: World, personId: EntityId): World {
-  // Only a life with nothing in front of it gets given anything. This is the
-  // difference between replenishing and nagging: a player who has been asked
-  // three things and answered none of them is not short of things to do, and a
-  // world that wrote them a fourth every time a month went by would turn a
-  // quiet stretch into a stream of notifications and make silence impossible.
-  if (lifeOpportunitiesFor(world, personId).length > 0) return world;
+  // A life with nothing in front of it is filled up to the cap. A life that
+  // already has something open gets at most one new thing per transition.
+  //
+  // This used to be "only a life with nothing in front of it gets anything",
+  // and in the long playthrough that was the wall: one request that never
+  // expired held the life still, and Fatima Erickson in Eastport, Maine was
+  // offered the same five moments for three years. The cap still stops a
+  // quiet stretch from turning into an inbox; one a day stops it from
+  // arriving all at once.
+  //
+  // PLACEHOLDER(research: what-an-ordinary-adult-year-contains): how often an
+  // ordinary adult is asked something is unresearched. The cap and the
+  // one-a-day pace are pacing rules, not rates.
+  //
+  // "Per transition" is kept idempotent by the day: a life that already has
+  // something open gets nothing more on a day something was already written
+  // for it, so reopening a save, or a screen change, writes nothing new.
+  const open = lifeOpportunitiesFor(world, personId);
+  const writtenToday = `life-opportunity:${personId}:${world.currentDate}:`;
+  if (
+    open.length > 0 &&
+    world.history.events.some((event) =>
+      event.stableKey.startsWith(writtenToday),
+    )
+  )
+    return world;
+  const budget = open.length === 0 ? OPEN_LIFE_OPPORTUNITY_LIMIT : 1;
 
   let next = world;
-  for (let attempt = 0; attempt < OPEN_LIFE_OPPORTUNITY_LIMIT; attempt += 1) {
+  for (let attempt = 0; attempt < budget; attempt += 1) {
     const open = lifeOpportunitiesFor(next, personId);
     if (open.length >= OPEN_LIFE_OPPORTUNITY_LIMIT) return next;
 
@@ -731,7 +764,7 @@ export function writeLegacyHouseholdEveningInvitation(
   world: World,
   personId: EntityId,
 ): World {
-  const companionId = firstOf(
+  const companionId = askerChooser(world, personId)(
     world,
     householdCompanionIds(world, personId, currentLifeCutoff(world)),
   );
@@ -782,6 +815,7 @@ function eligibleOpportunities(
     candidates.push(candidate);
   };
 
+  const firstOf = askerChooser(world, personId);
   const localId = firstOf(world, localNeighbourIds(world, personId, cutoff));
   const familiarId = firstOf(world, familiarPersonIds(world, personId, cutoff));
   const colleagueId = firstOf(world, colleagueIds(world, personId, cutoff));
@@ -795,6 +829,8 @@ function eligibleOpportunities(
   // already in a save still reads and resolves through its old records.
 
   if (localId) {
+    const asker = personName(world.people[localId]!);
+    const saturday = nextSaturday(world.currentDate);
     push({
       kind: "social-occasion",
       counterpartPersonId: localId,
@@ -806,19 +842,18 @@ function eligibleOpportunities(
           askerPersonId: localId,
           jurisdictionId,
           type: "life.social-occasion-invited",
-          summary:
-            "Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.",
-          detail: "Asked them to come",
-          believed:
-            "There is something on Saturday they were asked to, and nobody needs them there.",
+          // The asker's own home, which is a record: they live in this
+          // place, in a household that is not the player's.
+          summary: `${asker} asked you over on Saturday afternoon. Going is optional.`,
+          detail: "Asked them over on Saturday afternoon",
+          believed: `${asker} asked you over on the afternoon of ${formatStatutoryDate(saturday)}. Going is optional.`,
           occasion: {
-            title: "Something on Saturday",
-            summary:
-              "An occasion somebody local asked them to. Attendance was invited, not required.",
-            date: nextSaturday(world.currentDate),
+            title: `Saturday afternoon at ${asker}'s`,
+            summary: `${asker} asked you over for the afternoon. Going is optional.`,
+            date: saturday,
             startHour: 15,
             endHour: 18,
-            label: place?.displayName ?? "The neighborhood",
+            label: `${asker}'s home`,
           },
         }),
     });
@@ -1398,10 +1433,12 @@ function colleagueIds(
   personId: EntityId,
   cutoff: HistoricalCutoff,
 ): readonly EntityId[] {
-  const employerIds = new Set(
-    activeWorkRelationshipsAt(world, personId, cutoff).map(
-      (entry) => entry.relationship.organizationId,
-    ),
+  // Work with no employer on record is nobody's workplace: two people who
+  // each have such work do not share one.
+  const employerIds = new Set<EntityId | null>(
+    activeWorkRelationshipsAt(world, personId, cutoff)
+      .map((entry) => entry.relationship.organizationId)
+      .filter((id): id is EntityId => id !== null),
   );
   if (employerIds.size === 0) return [];
   return world.personOrder.filter(
@@ -1434,11 +1471,47 @@ function communityMemberIds(
 }
 
 /** The world's own person order decides, so a replay reaches the same person. */
-function firstOf(world: World, pool: readonly EntityId[]): EntityId | null {
-  for (const candidate of world.personOrder) {
-    if (pool.includes(candidate)) return candidate;
-  }
-  return null;
+/**
+ * Who asks, out of everybody who could.
+ *
+ * It used to be whoever came first in the world's list, so one neighbor asked
+ * every Saturday for a whole life. Now it is whoever has gone longest without
+ * asking this person anything, and somebody who never has goes first; ties go
+ * to the world's order. That is read from the asks already written, so the same
+ * world always picks the same person and the next ask moves on.
+ *
+ * Nobody who has died asks anything. Every pool here is read from records that
+ * outlast a life — kinship, a household, old interactions — so this is the one
+ * place that sees them all and the one place that says so.
+ */
+export function askerChooser(world: World, personId: EntityId) {
+  const lastAsked = new Map<EntityId, number>();
+  world.history.events.forEach((event, index) => {
+    if (!event.involvedEntityIds.includes(personId)) return;
+    if (!event.tags.some((tag) => tag.startsWith(LIFE_OPPORTUNITY_TAG_PREFIX)))
+      return;
+    for (const participant of event.participants)
+      if (participant.role === "agency:asked")
+        lastAsked.set(participant.personId, index);
+  });
+  return (current: World, pool: readonly EntityId[]): EntityId | null => {
+    let chosen: EntityId | null = null;
+    let chosenAt = Infinity;
+    const dead = new Set(
+      current.history.personDeaths
+        .filter((death) => death.diedAt <= current.currentDate)
+        .map((death) => death.personId),
+    );
+    for (const candidate of current.personOrder) {
+      if (!pool.includes(candidate) || dead.has(candidate)) continue;
+      const at = lastAsked.get(candidate) ?? -1;
+      if (at < chosenAt) {
+        chosen = candidate;
+        chosenAt = at;
+      }
+    }
+    return chosen;
+  };
 }
 
 function ageOn(birthDate: IsoDate, on: IsoDate): number {
