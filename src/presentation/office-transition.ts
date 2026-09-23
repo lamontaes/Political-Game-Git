@@ -13,7 +13,11 @@ import {
   datedTransitionServices,
   electionContestById,
   legislativeTermForRelationship,
+  oathChoiceOf,
   oathOfOfficeRecord,
+  oathSwornOnOptions,
+  personName,
+  stateOathOfOffice,
   officeTransitionProfile,
   stateExecutiveEntryStatus,
   stateExecutiveIdentityForOfficeKey,
@@ -28,6 +32,9 @@ import type {
   DatedTransitionService,
   EntityId,
   IsoDate,
+  OathForm,
+  OathSwornOn,
+  OathSwornOnOption,
   OfficeTransitionProfile,
   TransitionServiceStatus,
   World,
@@ -215,6 +222,12 @@ export interface SwearingInView {
   readonly ceremony: string;
   /** When the oath was taken, or null while it is still to take. */
   readonly swornInOn: IsoDate | null;
+  /** The name the officeholder speaks in the oath. */
+  readonly personName: string;
+  readonly swornOnOptions: readonly OathSwornOnOption[];
+  /** What the recorded oath was taken on; null before it, or for an older record. */
+  readonly swornOn: OathSwornOnOption | null;
+  readonly form: OathForm | null;
 }
 
 interface ResolvedTerm {
@@ -223,6 +236,7 @@ interface ResolvedTerm {
   readonly officeTitle: string;
   readonly startsAt: IsoDate;
   readonly profile: OfficeTransitionProfile;
+  readonly stateName: string;
 }
 
 function heldLegislativeTerm(
@@ -248,6 +262,7 @@ function heldLegislativeTerm(
       officeTitle: `Member of the ${chamber}`,
       startsAt: term.startsAt,
       profile: officeTransitionProfile("state-legislature"),
+      stateName: term.governing.name,
     };
   }
   return null;
@@ -271,6 +286,7 @@ function heldExecutiveTerm(
     officeTitle: identity.title,
     startsAt: status.startsAt,
     profile: officeTransitionProfile("state-executive"),
+    stateName: jurisdiction.name,
   };
 }
 
@@ -292,18 +308,55 @@ export function projectSwearingIn(
   if (!held) return null;
   const record = oathOfOfficeRecord(world, personId, held.contestId);
   if (record && record.occurredAt < world.currentDate) return null;
+  const options = oathSwornOnOptions(held.stateName);
+  const choice = record ? oathChoiceOf(record) : null;
   return {
     contestId: held.contestId,
     officeTitle: held.officeTitle,
     startedOn: held.startsAt,
     ceremony: held.profile.swearingIn,
     swornInOn: record ? record.occurredAt : null,
+    personName: speakerName(world, personId),
+    swornOnOptions: options,
+    swornOn: choice
+      ? (options.find((option) => option.key === choice.swornOn) ?? null)
+      : null,
+    form: choice?.form ?? null,
   };
 }
 
-/** Take the oath for the term being served. Refuses, unchanged, outside one. */
-export function takeOathForHeldOffice(world: World, personId: EntityId): World {
+function speakerName(world: World, personId: EntityId): string {
+  const person = world.people[personId];
+  if (!person) throw new Error(`No person ${personId}.`);
+  return personName(person);
+}
+
+/**
+ * The oath for the term being served, phrase by phrase, as the officiant reads
+ * it and the officeholder repeats it. Reading it records nothing.
+ */
+export function oathWordsForHeldOffice(
+  world: World,
+  personId: EntityId,
+  form: OathForm,
+): readonly string[] {
   const held = heldTerm(world, personId);
   if (!held) throw new Error("There is no office to be sworn into.");
-  return takeOathOfOffice(world, { personId, ...held });
+  return stateOathOfOffice({
+    personName: speakerName(world, personId),
+    stateName: held.stateName,
+    officeTitle: held.officeTitle,
+    form,
+  }).map((phrase) => phrase.text);
+}
+
+/** Take the oath for the term being served. Refuses, unchanged, outside one. */
+export function takeOathForHeldOffice(
+  world: World,
+  personId: EntityId,
+  choice: { readonly swornOn: OathSwornOn; readonly form: OathForm },
+): World {
+  const held = heldTerm(world, personId);
+  if (!held) throw new Error("There is no office to be sworn into.");
+  return takeOathOfOffice(world, { personId, ...held, ...choice });
 }
