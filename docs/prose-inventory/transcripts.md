@@ -416,7 +416,7 @@ _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 79 realized lines, 49 linked back to a template.
+20 beats, 76 realized lines, 49 linked back to a template.
 
 **Actually demonstrated:** age-band:adult, connective-narration, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
@@ -508,19 +508,7 @@ David Todd, your dad: “There are a few things around the house I cannot manage
 
 _Present: David Todd, your dad_
 
-#### Beat 7 — 2026-03-24, age 34 (adult)
-
-
-
-David Todd, your dad: “I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.”
-
-- **Agree to keep this conversation private** ← chosen
-- Ask them to tell the picnic guests
-- Say you cannot help with the picnic
-
-_Present: David Todd, your dad_
-
-#### Beat 8 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/moment)
+#### Beat 7 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/moment)
 
 
 
@@ -532,7 +520,7 @@ You're at home with fifteen minutes free.
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 9 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/follow-through)
+#### Beat 8 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/follow-through)
 
 
 
@@ -543,7 +531,7 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-03-24._
 
-#### Beat 10 — 2026-03-24, age 34 (ordinary-stretch)
+#### Beat 9 — 2026-03-24, age 34 (ordinary-stretch)
 
 
 
@@ -551,7 +539,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 11 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
+#### Beat 10 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
 
 > A couple of months on, and you're 35 now.
 > Judith Lewis tried to reach you.
@@ -565,7 +553,7 @@ You're at home with fifteen minutes free.
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 12 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/follow-through)
+#### Beat 11 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/follow-through)
 
 
 
@@ -576,7 +564,7 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-05-10._
 
-#### Beat 13 — 2026-05-10, age 35 (ordinary-stretch)
+#### Beat 12 — 2026-05-10, age 35 (ordinary-stretch)
 
 
 
@@ -584,7 +572,7 @@ _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requir
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 14 — 2026-06-10, age 35 (episode, opening.adult.home.free-time/moment)
+#### Beat 13 — 2026-06-10, age 35 (episode, opening.adult.home.free-time/moment)
 
 > A month later.
 > Edward Miles tried to reach you.
@@ -597,7 +585,7 @@ You're at home with fifteen minutes free.
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 15 — 2026-06-10, age 35 (episode, opening.adult.home.free-time/follow-through)
+#### Beat 14 — 2026-06-10, age 35 (episode, opening.adult.home.free-time/follow-through)
 
 
 
@@ -608,7 +596,7 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-06-10._
 
-#### Beat 16 — 2026-06-10, age 35 (ordinary-stretch)
+#### Beat 15 — 2026-06-10, age 35 (ordinary-stretch)
 
 
 
@@ -616,10 +604,9 @@ _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requir
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 17 — 2026-08-17, age 35 (adult)
+#### Beat 16 — 2026-08-17, age 35 (adult)
 
 > A couple of months on.
-> What you said you'd do about David Todd came up.
 > What you said you'd do about David Todd came up.
 
 David Todd, your dad: “I turn 72 on Thursday, August 27, and I am having a few people over that Saturday afternoon. Would you come?”
@@ -629,7 +616,7 @@ David Todd, your dad: “I turn 72 on Thursday, August 27, and I am having a few
 
 _Present: David Todd, your dad_
 
-#### Beat 18 — 2026-08-17, age 35 (episode, opening.adult.home.free-time/moment)
+#### Beat 17 — 2026-08-17, age 35 (episode, opening.adult.home.free-time/moment)
 
 
 
@@ -641,7 +628,7 @@ You're at home with fifteen minutes free.
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 19 — 2026-08-17, age 35 (episode, opening.adult.home.free-time/follow-through)
+#### Beat 18 — 2026-08-17, age 35 (episode, opening.adult.home.free-time/follow-through)
 
 
 
@@ -651,6 +638,14 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 - Mark your place and stop
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-08-17._
+
+#### Beat 19 — 2026-08-17, age 35 (ordinary-stretch)
+
+
+
+
+
+- **Let the weeks run on** ← chosen
 
 
 ---

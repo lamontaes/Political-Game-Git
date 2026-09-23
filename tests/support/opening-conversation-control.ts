@@ -1,7 +1,7 @@
 import delta from "../fixtures/opening-conversation-delta.json";
 import journeyDelta from "../fixtures/next24-journey-conversation-delta.json";
 import removalDelta from "../fixtures/sit-and-talk-removal-conversation-delta.json";
-import saturdayDelta from "../fixtures/saturday-invitation-removal-conversation-delta.json";
+import saturdayDelta from "../fixtures/opening-requests-removal-conversation-delta.json";
 import type { ordinaryConversationReplayRecords } from "./ordinary-conversation-replay";
 
 /** Undo only the inspected, source-accounted OPENING delta before comparing
@@ -13,7 +13,7 @@ export function acceptedMainComparableReplay(
 ) {
   const result = structuredClone(input);
   // Reverse the newest inspected delta first: the retired reasonless Saturday
-  // invitation (2026-09-23), then the removed evening invitation, then the
+  // invitation and picnic favor and confidence (2026-09-23), then the removed evening invitation, then the
   // journey identity delta. No prose, unknown leaf, or missing
   // reference can be normalized away.
   for (const change of [

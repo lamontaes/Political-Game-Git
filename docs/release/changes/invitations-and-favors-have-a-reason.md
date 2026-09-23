@@ -11,5 +11,5 @@ asks you to come by and help around the house. Each reason is true of that
 person, and whether they ask depends on their temperament. Letting weeks pass
 now stops on the morning a birthday invitation would go out. The reasonless
 Saturday invitation is gone, and twelve scenes whose events were never
-recorded are withheld until they are. The picnic favor remains only where
-nobody you know has a home on record.
+recorded are withheld until they are. The picnic favor and confidence are no
+longer written.

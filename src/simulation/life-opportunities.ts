@@ -966,35 +966,13 @@ function eligibleOpportunities(
   // from anything in the asker's own life. Neither is written any more; one
   // already in a save still reads and resolves through its old records.
   //
-  // The favor is asked for a reason on the asker's own record where one
-  // exists: a recent move, or being older and the only person in their
-  // household.
-  //
-  // PLACEHOLDER(retire-when: the people a life knows have recorded homes and
-  // circumstances — the town-population and people lanes): where nobody known
-  // has such a reason, the old picnic favor and confidence are still written,
-  // because in today's worlds most acquaintances have no home on record and an
-  // adult year without them is a year of errands and nothing else. Measured
-  // 2026-09-23: a 34-year-old in five places saw only the local meeting and
-  // the errands in sixteen three-week stretches without them.
+  // The favor is asked only for a reason on the asker's own record: a recent
+  // move, or being older and the only person in their household. Where nobody
+  // known has such a reason, nothing is asked and the stretch stays quiet. The
+  // confidence has no grounded producer yet and is not written.
   const favour = askerWithFavour(world, personId, [
     ...familiarPersonIds(world, personId, cutoff),
   ]);
-  for (const kind of favour
-    ? (["confidence-disclosed"] as const)
-    : (["favour-request", "confidence-disclosed"] as const)) {
-    const legacyAsker = askerChooser(world, personId)(
-      world,
-      familiarPersonIds(world, personId, cutoff),
-    );
-    if (!legacyAsker) break;
-    push({
-      kind,
-      counterpartPersonId: legacyAsker,
-      write: (current, stableKey) =>
-        writeLegacyFamiliarRequest(current, personId, kind, stableKey),
-    });
-  }
   if (favour) {
     const asker = favour.askerPersonId;
     push({
