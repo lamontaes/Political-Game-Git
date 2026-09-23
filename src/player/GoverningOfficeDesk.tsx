@@ -42,7 +42,7 @@ export function GoverningOfficeDesk({
 
   const setCasework = (
     officeRelationshipId: EntityId,
-    votingMode: OfficeVotingWorkflowMode,
+    votingMode: OfficeVotingWorkflowMode | null,
     caseworkMode: OfficeCaseworkWorkflowMode,
   ) => {
     const result = recordOfficeWorkflowPreference(world, {
@@ -116,7 +116,7 @@ export function GoverningOfficeDesk({
       )}
 
       <h4>Casework</h4>
-      {casework && casework.votingMode ? (
+      {casework ? (
         <div className="office-desk-casework">
           {/*
             The trigger is a combobox button, which `for` cannot label, so the
@@ -135,7 +135,7 @@ export function GoverningOfficeDesk({
               const chosen = CASEWORK_CHOICES.find(
                 (choice) => choice.mode === event.target.value,
               );
-              if (chosen && casework.votingMode)
+              if (chosen)
                 setCasework(
                   casework.officeRelationshipId,
                   casework.votingMode,
@@ -143,6 +143,11 @@ export function GoverningOfficeDesk({
                 );
             }}
           >
+            {casework.mode === null ? (
+              <option value="" disabled>
+                Not chosen yet
+              </option>
+            ) : null}
             {CASEWORK_CHOICES.map((choice) => (
               <option key={choice.mode} value={choice.mode}>
                 {choice.label}

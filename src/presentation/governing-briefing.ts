@@ -155,7 +155,14 @@ export function projectGoverningBriefing(
         : null,
     significant: open.slice(0, BRIEFING_SIGNIFICANT_LIMIT),
     more: open.slice(BRIEFING_SIGNIFICANT_LIMIT),
+    // This officeholder's own term: a predecessor's budgets are not what came
+    // of anything this governor decided.
     recent: governingOutcomes(world, office.officeKey)
+      .filter(
+        (event) =>
+          office.termStartedAt === null ||
+          event.occurredAt >= office.termStartedAt,
+      )
       .slice(0, 5)
       .map((event) => ({
         date: americanDate(event.occurredAt),

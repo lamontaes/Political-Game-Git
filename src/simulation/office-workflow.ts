@@ -150,7 +150,8 @@ export type OfficeWorkflowWriteResult =
 export interface RecordOfficeWorkflowPreferenceInput {
   readonly personId: EntityId;
   readonly officeRelationshipId: EntityId;
-  readonly votingMode: OfficeVotingWorkflowMode;
+  /** Null only for an office that casts no votes; a legislative seat needs one. */
+  readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
 }
 
@@ -176,7 +177,10 @@ export function recordOfficeWorkflowPreference(
       "An office preference must belong to the person who holds the office.",
     );
   }
-  if (!VOTING_MODES.includes(input.votingMode)) {
+  if (input.votingMode === null) {
+    if (relationship.kind === "employment:legislative-member")
+      return refused(world, "A legislative seat needs a voting workflow.");
+  } else if (!VOTING_MODES.includes(input.votingMode)) {
     return refused(world, "That voting workflow is not a supported choice.");
   }
   if (!CASEWORK_MODES.includes(input.caseworkMode)) {

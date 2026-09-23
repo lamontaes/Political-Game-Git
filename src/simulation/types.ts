@@ -4278,7 +4278,11 @@ export interface OfficeWorkflowPreferenceRecord {
   readonly sequence: number;
   readonly personId: EntityId;
   readonly officeRelationshipId: EntityId;
-  readonly votingMode: OfficeVotingWorkflowMode;
+  /**
+   * Null for an office that casts no votes, such as a governor's: its
+   * casework is still the officeholder's to arrange.
+   */
+  readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
   readonly recordedAt: IsoDate;
   readonly supersedesPreferenceId: EntityId | null;

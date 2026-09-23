@@ -221,7 +221,8 @@ export function OfficeOnboardingWorkspace({
       {projection.preference ? (
         <p data-testid="office-preference-recorded">
           Recorded for this office:{" "}
-          {projection.preference.votingMode.replaceAll("-", " ")};{" "}
+          {/* A legislative seat's record always holds a voting workflow. */}
+          {(projection.preference.votingMode ?? "").replaceAll("-", " ")};{" "}
           {projection.preference.caseworkMode.replaceAll("-", " ")}. Recording
           this does not cast a vote or finish constituent work.
         </p>
