@@ -8,6 +8,12 @@ import {
 } from "../simulation/character-history";
 import { residentNameForJurisdiction } from "../simulation/life-places";
 import {
+  SCHOOL_STAGES_V1,
+  scheduleSchoolStageEnd,
+  type SchoolStageKey,
+  type SchoolStageVersion,
+} from "../simulation/school-stages";
+import {
   generateSchoolNames,
   stateUsps,
   type SchoolNameVersion,
@@ -144,6 +150,8 @@ export interface ProductionWorldInput {
   readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
   /** Absent keeps an old replay's school names (the v1 draw). */
   readonly schoolNameVersion?: SchoolNameVersion;
+  /** Absent keeps an old replay's child in the school they started at. */
+  readonly schoolStageVersion?: SchoolStageVersion;
 }
 
 export interface ProductionWorld {
@@ -245,6 +253,7 @@ export function buildProductionWorld(
     input.earlierLifeGenerationVersion,
     input.childhoodGenerationVersion,
     input.schoolNameVersion,
+    input.schoolStageVersion,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -344,6 +353,7 @@ function establishAgeEligibleState(
   earlierLifeGenerationVersion?: EarlierLifeGenerationVersion,
   childhoodGenerationVersion?: ChildhoodGenerationVersion,
   schoolNameVersion?: SchoolNameVersion,
+  schoolStageVersion?: SchoolStageVersion,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -818,6 +828,12 @@ function establishAgeEligibleState(
   // biography. Gating this on the version left a ten-year-old with no
   // enrollment, so `in-school` did not hold, every early.school and early.peer
   // opening became ineligible, and the town had no school in it.
+  //
+  // Under the school-stage repair the child also moves on through school
+  // while the game is played: the schools of the stages still ahead are in
+  // town already, and the end of the stage the child is in now is scheduled
+  // once the plan is applied.
+  let advancing: { readonly stage: SchoolStageKey } | null = null;
   if (age >= SCHOOL_ENTRY_AGE) {
     const schoolKey = `${stableKey}:school`;
     const schooling = childSchooling(
@@ -860,6 +876,27 @@ function establishAgeEligibleState(
         },
       },
     );
+
+    if (
+      schoolStageVersion === SCHOOL_STAGES_V1 &&
+      childhoodGenerationVersion === CHILDHOOD_GENERATION_V2
+    ) {
+      advancing = { stage: schooling.current.key };
+      for (const stage of schooling.later)
+        transitions.push({
+          kind: "organization",
+          input: {
+            stableKey: `${schoolKey}:${stage.key}`,
+            formedAt: world.currentDate,
+            provenance: PROVENANCE,
+            initialProfile: {
+              name: stage.name,
+              classification: "sector:education",
+              locationJurisdictionId: jurisdictionId,
+            },
+          },
+        });
+    }
 
     // Two other children at the same school.
     //
@@ -906,7 +943,7 @@ function establishAgeEligibleState(
     }
   }
 
-  const householdWorld = applyCharacterHistoryPlan(world, {
+  const planned = applyCharacterHistoryPlan(world, {
     stableKey,
     mode: "quick-generated",
     personId: player.id,
@@ -917,6 +954,14 @@ function establishAgeEligibleState(
       givenNameGenerationVersion,
     ),
   }).world;
+  const householdWorld = advancing
+    ? scheduleSchoolStageEnd(planned, {
+        schoolKey: `${stableKey}:school`,
+        personId: player.id,
+        stage: advancing.stage,
+        jurisdictionId,
+      })
+    : planned;
   return otherParentState === "deceased"
     ? recordPersonDeath(householdWorld, {
         stableKey: `${otherParentKey}:death`,
@@ -1103,7 +1148,7 @@ function summarizeEarlierLife(
  * seventeen-year-old has finished the first two and is in the third.
  */
 interface ChildSchoolStage {
-  readonly key: "elementary" | "middle" | "high";
+  readonly key: SchoolStageKey;
   readonly name: string;
   readonly entryAge: number;
 }
@@ -1118,6 +1163,8 @@ function childSchooling(
 ): {
   readonly current: ChildSchoolStage;
   readonly finished: readonly ChildSchoolStage[];
+  /** The stages still ahead, whose schools a child moves on to in play. */
+  readonly later: readonly ChildSchoolStage[];
 } {
   if (version !== CHILDHOOD_GENERATION_V2) {
     return {
@@ -1127,6 +1174,7 @@ function childSchooling(
         entryAge: SCHOOL_ENTRY_AGE,
       },
       finished: [],
+      later: [],
     };
   }
   const jurisdiction = world.jurisdictions[jurisdictionId];
@@ -1145,7 +1193,11 @@ function childSchooling(
     { key: "high", name: names.high, entryAge: 14 },
   ];
   const reached = stages.filter((stage) => age >= stage.entryAge);
-  return { current: reached.at(-1)!, finished: reached.slice(0, -1) };
+  return {
+    current: reached.at(-1)!,
+    finished: reached.slice(0, -1),
+    later: stages.filter((stage) => age < stage.entryAge),
+  };
 }
 
 /**
