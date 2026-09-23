@@ -67,13 +67,13 @@ const institution: EducationInstitution = {
     },
   ],
 };
-function fixture() {
+function fixture(on = "2025-01-06") {
   const d = createDemoWorld("edu-semantic", {
     context: {
       ...LEXINGTON_DEMO_CONTEXT,
       initialMoment: {
         ...LEXINGTON_DEMO_CONTEXT.initialMoment,
-        date: makeIsoDate("2025-01-06"),
+        date: makeIsoDate(on),
       },
     },
   });
@@ -83,7 +83,7 @@ function fixture() {
     people: d.personOrder.map((id) => ({
       ...d.people[id]!,
       establishedFacts: d.people[id]!.establishedFacts.filter(
-        (f) => f.occurredAt <= "2025-01-06",
+        (f) => f.occurredAt <= on,
       ),
     })),
     jurisdictions: d.jurisdictionOrder.map((id) => d.jurisdictions[id]!),
@@ -166,6 +166,27 @@ describe("EDU canonical LIFE composition", () => {
     expect(balance(w)).toBe(start - 20000);
     expect(w.history.educationEnrollments).toHaveLength(1);
     expect(deserializeWorld(serializeWorld(w))).toEqual(w);
+  });
+  it("carries the directory forward: somebody grown in play applies years later, and studies across a save", () => {
+    // Fifteen years past the listing's year, where a child who started at five
+    // would reach college age. The row is carried forward unchanged; the
+    // application, the place, the saved terms and the earned credential all go
+    // through the same canonical route as in the listing's own year.
+    let w = fixture("2040-01-09");
+    const start = balance(w);
+    const applied = applyForEducation(w, institution, "NONCRDT1");
+    expect(applied.ok).toBe(true);
+    w = applied.world;
+    const offer = pendingEducationOffers(w)[0]!;
+    w = respondToEducationOffer(w, offer.id, true).world;
+    const e = w.history.educationEnrollments.at(-1)!;
+    expect(e.startedAt >= "2040-01-09").toBe(true);
+    w = deserializeWorld(serializeWorld(w));
+    w = advanceWorld(w, 79, LIFE_PATHS2_HANDLERS);
+    expect(completedStudyPeriods(w, e.id)).toBe(1);
+    expect(educationEnrollmentStateAt(w, e.id)?.status).toBe("completed");
+    expect(hasLifePathCredential(w, e.personId, e.programKind)).toBe(true);
+    expect(balance(w)).toBe(start - 20000);
   });
   it("refuses missing capabilities, historical extrapolation and closed institutions without mutation", () => {
     const w = fixture();

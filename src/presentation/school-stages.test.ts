@@ -9,6 +9,7 @@ import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import type { EntityId, World } from "../simulation/types";
 import { advanceWorld, assertWorldIntegrity } from "../simulation/world";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { letTimePass } from "./formative-play";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 
 /**
@@ -186,4 +187,24 @@ describe("a child moves on through school while the game is played", () => {
     expect(byAge.at(-1)!.programKind).toBe("schooling:secondary");
     assertWorldIntegrity(world);
   }, 900_000);
+
+  it("moves a ten-year-old on to middle school through the year skips a child plays", () => {
+    const { world: start, playerId } = childIn(
+      "Lewiston",
+      "ME",
+      "school-stages:lewiston",
+      10,
+    );
+    const birth = start.people[playerId]!.birthDate;
+    let world = start;
+    // "Let the year run on" is the only way forward a child has.
+    while (world.currentDate < `${Number(birth.slice(0, 4)) + 12}-12-31`)
+      world = letTimePass(world, playerId);
+    const rows = schooling(world, playerId);
+    expect(rows.map((row) => [row.programKind, row.status])).toEqual([
+      ["schooling:general", "completed"],
+      ["schooling:middle", "active"],
+    ]);
+    assertWorldIntegrity(world);
+  }, 600_000);
 });
