@@ -376,11 +376,12 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     const counted = spendAnAfternoon(run.after, run.personId, "outreach");
     const after = projectCampaign(counted, run.personId).reading!;
     expect(after.on).not.toBe(before.on);
-    const points = Math.round((after.percent - before.percent) * 10) / 10;
+    // In the whole points the two memos print.
+    const points = Math.round(after.percent) - Math.round(before.percent);
     expect(after.change).toBe(
       points === 0
         ? null
-        : `${points > 0 ? "Up" : "Down"} ${Math.abs(points).toFixed(1)} points since the count on ${proseDate(before.on)}.`,
+        : `${points > 0 ? "Up" : "Down"} ${Math.abs(points)} ${Math.abs(points) === 1 ? "point" : "points"} since the count on ${proseDate(before.on)}.`,
     );
   }, 900_000);
 

@@ -346,7 +346,7 @@ function officeQualification(
           stateResidence === null
             ? unknownRule(NO_QUALIFICATION_CORPUS)
             : knownRule(
-                `${stateResidence.value} years in the state immediately preceding filing`,
+                `${stateResidence.value} ${stateResidence.value === 1 ? "year" : "years"} in the state immediately preceding filing`,
                 standInQualificationSourceRef(stateResidence),
               ),
         termYears: standIn("TERM_LENGTH"),

@@ -508,6 +508,9 @@ export function CampaignWorkspace({
 
           {view.reading ? (
             <p className="game-campaign-memo" data-testid="campaign-memo">
+              <span data-testid="campaign-memo-dated">
+                {view.reading.dated}
+              </span>{" "}
               {view.reading.summary}
               {view.reading.change ? (
                 <span data-testid="campaign-memo-change">
