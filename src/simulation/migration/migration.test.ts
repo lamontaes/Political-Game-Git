@@ -10,7 +10,24 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
+import { declareHazardEpisode } from "../crisis/disaster";
+import { crisisRecords } from "../crisis/records";
 import { makeIsoDate } from "../dates";
+import { recordOrganizationParticipationState } from "../life";
+import {
+  activeOrganizationParticipationsAt,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
+} from "../life-queries";
+import {
+  createDwelling,
+  createHousingTenure,
+  startDwellingOccupancy,
+} from "../resources";
+import {
+  activeDwellingOccupanciesAt,
+  activeHousingTenuresAt,
+} from "../resource-queries";
 import { factsForPerson } from "../people";
 import { stateJurisdictionForKey } from "../life-places";
 import { serializeWorld } from "../serialization";
@@ -25,6 +42,8 @@ import {
   evaluateCause,
   reviewTown,
   moveTies,
+  moveTieReader,
+  playerHouseholdPeople,
   recordedMoves,
   recordedWaves,
   relocateHousehold,
@@ -133,7 +152,9 @@ describe("migration scaffold", () => {
     ).toThrow("The player's household moves only when the player chooses to.");
 
     const tied = [...moveTies(opened.world).keys()].find(
-      (id) => opened.world.people[id]?.homeJurisdictionId === town,
+      (id) =>
+        opened.world.people[id]?.homeJurisdictionId === town &&
+        !playerHouseholdPeople(opened.world).has(id),
     );
     expect(tied, "the opening seats somebody tied to the town").toBeDefined();
     expect(() =>
@@ -208,7 +229,151 @@ describe("migration scaffold", () => {
         }),
       ),
     ).toBe(serializeWorld(world));
+  }, 60_000);
+
+  it("a membership that has ended no longer holds a person in town", () => {
+    const reader = moveTieReader(opened.world);
+    const member = opened.world.personOrder.find(
+      (id) =>
+        opened.world.people[id]!.homeJurisdictionId === town &&
+        id !== opened.playerId &&
+        reader.bindingTie(id) === "belongs to an organization or party" &&
+        activeOrganizationParticipationsAt(opened.world, id).length > 0,
+    )!;
+    expect(member, "the opening seats a party member in town").toBeDefined();
+    let world = opened.world;
+    for (const active of activeOrganizationParticipationsAt(world, member))
+      world = recordOrganizationParticipationState(world, {
+        stableKey: `migration-test:left:${active.participation.id}`,
+        participationId: active.participation.id,
+        effectiveAt: world.currentDate,
+        status: "ended",
+        roleKind: active.state.roleKind,
+        context: null,
+        provenance: { kind: "authored", note: "migration test" },
+        supersedesStateId: active.state.id,
+      });
+    // Before, any record at all, ended or not, held them.
+    expect(moveTies(world, [member]).get(member)).toBeUndefined();
+    expect(
+      world.history.organizationParticipations.some(
+        (record) => record.personId === member,
+      ),
+    ).toBe(true);
   });
+
+  it("a disaster that wrecks newcomers' homes sends some away for good", () => {
+    // A year of arrivals, so the town holds households a disaster can reach.
+    const settled = reviewTown(opened.world, 0, {
+      departureChancePerYear: 0,
+      arrivalsPerResidentPerYear: 6,
+    });
+    const newcomers = settled.history.events
+      .filter((event) => event.type === "migration.arrived")
+      .map((event) => event.participants[0]!.personId);
+    expect(newcomers.length).toBeGreaterThan(10);
+    for (const id of newcomers)
+      expect(householdMembershipsAt(settled, id)).toHaveLength(1);
+
+    // One newcomer's household leases a recorded home.
+    const renter = newcomers[0]!;
+    const householdId = householdMembershipsAt(settled, renter)[0]!.household
+      .id;
+    const provenance = { kind: "authored" as const, note: "migration test" };
+    let housed = createDwelling(settled, {
+      stableKey: "migration-test:dwelling",
+      establishedAt: settled.currentDate,
+      jurisdictionId: town,
+      locationLabel: "An apartment in town",
+      classification: "residential:apartment",
+      provenance,
+    });
+    const dwellingId = housed.history.dwellings.at(-1)!.id;
+    housed = startDwellingOccupancy(housed, {
+      stableKey: "migration-test:occupancy",
+      occupant: { kind: "household", householdId },
+      dwellingId,
+      startedAt: housed.currentDate,
+      residenceRole: "primary",
+      kind: "residence:renter",
+      provenance,
+    });
+    housed = createHousingTenure(housed, {
+      stableKey: "migration-test:lease",
+      holder: { kind: "household", householdId },
+      dwellingId,
+      startedAt: housed.currentDate,
+      kind: "lease:month-to-month",
+      context: null,
+      provenance,
+    });
+    expect(moveTieReader(housed).housingTie(renter)).not.toBeNull();
+
+    const struck = declareHazardEpisode(housed, {
+      stableKey: "migration-test-flood",
+      family: "flood",
+      magnitude: "catastrophic",
+      stateUsps: "VA",
+      jurisdictionIds: [town],
+      durationDays: 4,
+      basis: "Declared test episode; not a local hazard prediction.",
+      sourceReference: null,
+    });
+    const wrecked = crisisRecords(struck).flatMap((record) =>
+      record.kind === "disaster-damage" &&
+      record.targetKind === "household" &&
+      record.level !== "service-interrupted"
+        ? [record]
+        : [],
+    );
+    expect(wrecked.length).toBeGreaterThan(0);
+
+    // Everybody whose home was hit leaves, and nobody else does.
+    const after = reviewTown(struck, 1, {
+      departureChancePerYear: 0,
+      arrivalsPerResidentPerYear: 0,
+      displacedLeaveChance: { destroyed: 1, damaged: 1 },
+    });
+    assertWorldIntegrity(after);
+    const moves = recordedMoves(after);
+    const freeWrecked = wrecked.filter(
+      (record) =>
+        peopleInHouseholdAt(struck, record.targetId).every(
+          (id) => !moveTieReader(struck).bindingTie(id),
+        ) &&
+        !peopleInHouseholdAt(struck, record.targetId).includes(opened.playerId),
+    );
+    expect(freeWrecked.length).toBeGreaterThan(0);
+    expect(moves.map((move) => move.causeId).sort()).toEqual(
+      freeWrecked.map((record) => record.id).sort(),
+    );
+    for (const move of moves) {
+      const damage = wrecked.find((record) => record.id === move.causeId)!;
+      expect(move.reason).toBe(`disaster:home-${damage.level}`);
+      expect(move.fromJurisdictionId).toBe(town);
+    }
+
+    // A leased home that was hit is given up on the move.
+    const renterLeft = moves.some((move) => move.personIds.includes(renter));
+    const leases = activeHousingTenuresAt(after).filter(
+      (tenure) => tenure.dwellingId === dwellingId,
+    );
+    const occupied = activeDwellingOccupanciesAt(after).filter(
+      (occupancy) => occupancy.dwellingId === dwellingId,
+    );
+    expect(leases.length === 0).toBe(renterLeft);
+    expect(occupied.length === 0).toBe(renterLeft);
+
+    // With the blanket chance, a destroyed home is left more often than a
+    // damaged one, and some households stay to rebuild.
+    const blanket = recordedMoves(
+      reviewTown(struck, 1, {
+        departureChancePerYear: 0,
+        arrivalsPerResidentPerYear: 0,
+      }),
+    );
+    expect(blanket.length).toBeLessThan(moves.length);
+  }, 60_000);
 
   it("a wave covering the town is named as the reason people leave", () => {
     const { world: seeded, neighborId } = withNeighbor(opened.world, town);

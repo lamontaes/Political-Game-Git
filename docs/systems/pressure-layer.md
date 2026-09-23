@@ -20,7 +20,16 @@ builds, not from a script" (source copy
   destinations are recorded, and a public `migration.state-flows` event names
   the state pushing hardest.
 - **Town movers.** The migration review weights a leaving household's
-  destination by pull and a newcomer's origin by push.
+  destination by pull and a newcomer's origin by push, and multiplies the
+  chance a free household in town leaves by its own state's push.
+- **Displacement** (`src/simulation/migration/review.ts`). At the next
+  quarterly review, a household whose home a disaster destroyed or damaged may
+  leave town for good, and its occupancy and tenure end on the move. A
+  household held by a job, school, membership or campaign stays. Newcomers now
+  live in a one-person household in town, which is what lets a disaster reach
+  them. Leaving for a while and coming back is not built
+  (`displacement-and-return` in `MIGRATION_SEAMS`); the research question is
+  `disaster-displacement-and-return`.
 
 ## What is not
 

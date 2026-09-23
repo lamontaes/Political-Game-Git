@@ -2,7 +2,7 @@
 id: states-push-and-pull-movers
 impact: minor
 section: Added
-title: Disasters and taxes push people out of a state
+title: Disasters and taxes push people out of a state and out of town
 ---
 
 Each state now carries a pressure to leave and a pull to arrive, and they
@@ -15,6 +15,12 @@ states and where most of them went. When one state is pushing people out, the
 newspapers can report it. Households leaving your town lean toward states that
 are drawing people, and newcomers more often come from states that are pushing
 them out.
+
+When a disaster destroys or damages homes in your town, some of those
+households leave for good at the next quarterly review; the rest stay and
+rebuild. People who move to your town now have a household of their own there,
+so a disaster can reach them. Someone whose job, school or membership had
+already ended is no longer kept in town by it.
 
 Many real reasons are not read yet: each state's starting taxes, living
 costs, jobs, climate and how people feel about its laws. Until those come back

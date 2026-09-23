@@ -43,10 +43,18 @@ import {
   MIGRATION_REVIEW_TRANSITION_KEY,
   type MoveReasonKey,
 } from "./contract";
+import { crisisRecords } from "../crisis/records";
+import {
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
+} from "../life";
+import { peopleInHouseholdAt } from "../life-queries";
+import { activeDwellingOccupanciesAt } from "../resource-queries";
 import {
   applyMoves,
   deadPeople,
-  moveTies,
+  moveTieReader,
   planMove,
   playerHouseholdPeople,
   type PlannedMove,
@@ -79,6 +87,17 @@ export const BLANKET_SAME_STATE_SHARE = 0.5;
 
 /** BLANKET: a newcomer's age on arrival, inclusive-exclusive. Not researched. */
 export const BLANKET_ARRIVAL_AGE = [20, 66] as const;
+
+/**
+ * BLANKET: the chance a household whose home a disaster destroyed or damaged
+ * leaves town for good rather than staying to rebuild. The owner, September
+ * 22, 2026: after Hurricane Katrina, many people never came back. Not
+ * researched; filed as `disaster-displacement-and-return`.
+ */
+export const BLANKET_DISPLACED_LEAVE_CHANCE = {
+  destroyed: 0.4,
+  damaged: 0.05,
+} as const;
 
 /** Reviews per year; each person is considered in one of them. */
 export const MIGRATION_REVIEWS_PER_YEAR = 4;
@@ -143,11 +162,15 @@ export function migrationTown(world: World): EntityId | null {
 export interface MigrationRates {
   readonly departureChancePerYear: number;
   readonly arrivalsPerResidentPerYear: number;
+  readonly displacedLeaveChance?: Readonly<
+    Record<keyof typeof BLANKET_DISPLACED_LEAVE_CHANCE, number>
+  >;
 }
 
 export const BLANKET_MIGRATION_RATES: MigrationRates = {
   departureChancePerYear: BLANKET_DEPARTURE_CHANCE_PER_YEAR,
   arrivalsPerResidentPerYear: BLANKET_ARRIVALS_PER_RESIDENT_PER_YEAR,
+  displacedLeaveChance: BLANKET_DISPLACED_LEAVE_CHANCE,
 };
 
 /**
@@ -189,6 +212,53 @@ export function reviewTown(
 
   const moving = new Set<EntityId>();
   const moves: PlannedMove[] = [];
+  const planned = (plan: ReturnType<typeof planMove>) => {
+    if (plan.kind === "refused") return;
+    if (plan.move.personIds.some((id) => moving.has(id))) return;
+    for (const id of plan.move.personIds) moving.add(id);
+    moves.push(plan.move);
+  };
+
+  // Households whose homes a disaster destroyed or damaged since the last
+  // review, whatever quarter they are reviewed in (`disaster-displacement`).
+  // A household and its dwelling can both be recorded as damaged; one draw.
+  const considered = new Set<EntityId>();
+  for (const home of displacedHomes(next, town)) {
+    if (home.personIds.some((id) => considered.has(id))) continue;
+    for (const id of home.personIds) considered.add(id);
+    const rng = new SeededRng(next.seed).fork(
+      `${MIGRATION_CONTRACT_VERSION}:displaced:${home.damageId}`,
+    );
+    const leaveChance = (rates.displacedLeaveChance ??
+      BLANKET_DISPLACED_LEAVE_CHANCE)[home.level];
+    if (rng.next() >= leaveChance) continue;
+    context ??= {
+      ties: moveTieReader(next),
+      playerHousehold: playerHouseholdPeople(next),
+      dead,
+    };
+    const personId = home.personIds.find((id) => !dead.has(id));
+    if (!personId || moving.has(personId)) continue;
+    planned(
+      planMove(
+        next,
+        {
+          stableKey: `${index}:displaced:${home.damageId}`,
+          personId,
+          toJurisdictionId: chooseDestination(
+            rng.fork("destination"),
+            destinations,
+          ),
+          reason: `disaster:home-${home.level}`,
+          waveKey: null,
+          endsHousing: true,
+          causeId: home.damageId,
+        },
+        context,
+      ),
+    );
+  }
+
   for (const personId of residents) {
     if (moving.has(personId)) continue;
     if (reviewQuarter(personId) !== index % MIGRATION_REVIEWS_PER_YEAR)
@@ -200,7 +270,7 @@ export function reviewTown(
     );
     if (rng.next() >= chance) continue;
     context ??= {
-      ties: moveTies(next),
+      ties: moveTieReader(next),
       playerHousehold: playerHouseholdPeople(next),
       dead,
     };
@@ -218,10 +288,7 @@ export function reviewTown(
       },
       context,
     );
-    if (plan.kind === "refused") continue;
-    if (plan.move.personIds.some((id) => moving.has(id))) continue;
-    for (const id of plan.move.personIds) moving.add(id);
-    moves.push(plan.move);
+    planned(plan);
   }
   next = applyMoves(next, moves);
 
@@ -269,8 +336,57 @@ export function reviewTown(
         immediateReaction: null,
       },
     });
+    next = seatNewcomerHousehold(
+      next,
+      personId,
+      input.stableKey,
+      town,
+      next.history.events.at(-1)!.id,
+    );
   }
   return next;
+}
+
+/**
+ * BLANKET (`arriving-families`): a newcomer lives alone in a household of
+ * their own, located in town. It is what lets a disaster in town reach them
+ * and what a later family or partner joins; it carries no dwelling yet.
+ */
+function seatNewcomerHousehold(
+  world: World,
+  personId: EntityId,
+  stableKey: string,
+  town: EntityId,
+  eventId: EntityId,
+): World {
+  const provenance = { kind: "simulated-event" as const, eventId };
+  const person = world.people[personId]!;
+  let next = createHousehold(world, {
+    stableKey: `${stableKey}:household`,
+    formedAt: world.currentDate,
+    label: `${person.givenName} ${person.familyName}'s household`,
+    provenance,
+  });
+  const householdId = next.history.households.at(-1)!.id;
+  next = recordHouseholdLocation(next, {
+    stableKey: `${stableKey}:household-location`,
+    householdId,
+    effectiveAt: next.currentDate,
+    jurisdictionId: town,
+    label: next.jurisdictions[town]!.name,
+    kind: "residence:arrived",
+    provenance,
+    supersedesLocationId: null,
+  });
+  return startHouseholdMembership(next, {
+    stableKey: `${stableKey}:household-membership`,
+    personId,
+    householdId,
+    startedAt: next.currentDate,
+    residenceRole: "primary",
+    kind: "resident:member",
+    provenance,
+  });
 }
 
 /**
@@ -281,6 +397,48 @@ export function reviewTown(
 export function statePushOnTown(world: World, town: EntityId): number {
   const stateKey = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
   return stateKey ? pushOf(latestReadings(world).get(stateKey)) : 1;
+}
+
+interface DisplacedHome {
+  readonly damageId: EntityId;
+  readonly level: keyof typeof BLANKET_DISPLACED_LEAVE_CHANCE;
+  readonly personIds: readonly EntityId[];
+}
+
+/**
+ * Homes in town a disaster destroyed or damaged since the last review, with
+ * who lived there. A damaged dwelling is read through who occupies it today.
+ */
+function displacedHomes(
+  world: World,
+  town: EntityId,
+): readonly DisplacedHome[] {
+  const since = addDays(world.currentDate, -MIGRATION_REVIEW_INTERVAL_DAYS);
+  const homes: DisplacedHome[] = [];
+  let occupancies: ReturnType<typeof activeDwellingOccupanciesAt> | null = null;
+  for (const record of crisisRecords(world)) {
+    if (record.kind !== "disaster-damage") continue;
+    if (record.jurisdictionId !== town) continue;
+    if (record.level !== "destroyed" && record.level !== "damaged") continue;
+    if (record.effectiveAt <= since || record.effectiveAt > world.currentDate)
+      continue;
+    let personIds: readonly EntityId[] = [];
+    if (record.targetKind === "household") {
+      personIds = peopleInHouseholdAt(world, record.targetId);
+    } else if (record.targetKind === "dwelling") {
+      occupancies ??= activeDwellingOccupanciesAt(world);
+      personIds = occupancies
+        .filter((occupancy) => occupancy.dwellingId === record.targetId)
+        .flatMap((occupancy) =>
+          occupancy.occupant.kind === "person"
+            ? [occupancy.occupant.personId]
+            : peopleInHouseholdAt(world, occupancy.occupant.householdId),
+        );
+    }
+    if (personIds.length > 0)
+      homes.push({ damageId: record.id, level: record.level, personIds });
+  }
+  return homes;
 }
 
 /** Which quarter of the year a person is reviewed in: fixed per person. */
