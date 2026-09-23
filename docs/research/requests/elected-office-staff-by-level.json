@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-09-23T03:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "committees, staff and appointments",
+  "notes": [
+    "The owner still has two pending choices in the transition request: whether campaign staff become the transition team (Q3) and whether hiring can start before the term (Q5). This question does not ask ChatGPT to settle those; it asks what is true in the world.",
+    "Until this is answered, the game marks the legislator's staff table as a placeholder."
+  ],
+  "priority": "P1",
+  "question": "When someone takes office, what staff do they get to hire, and who pays for them? Answered as one set: (1) state legislators, for all 50 states, D.C. and Puerto Rico: whether a member has personal staff at all, how many (year-round and during session), typical titles (chief of staff, legislative aide, district or constituent caseworker, scheduler, communications), whether staff are shared by a caucus or committee instead, and the member's staff allowance where one exists; (2) governors: the typical size and core titles of the governor's own office (not the agencies), and which of those serve at the governor's pleasure; (3) U.S. House and Senate members: the staff cap (the House's 18 full-time and 4 part-time), the Members' Representational Allowance and Senate equivalent, and the usual Washington and district roles; (4) city council members and mayors: about five examples spanning a large city, a mid-size city and a small town, including places where members have no staff. Also: (5) whether a new official typically hires people from their campaign, and (6) whether these jobs are civil service or at-will. Cite each figure or mark it UNKNOWN.",
+  "questionId": "elected-office-staff-by-level",
+  "relatedQuestionIds": [
+    "new-member-transition-and-orientation",
+    "what-a-town-council-member-does"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Committees, staff and appointments thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/governing/office-staffing.ts at main 64753b47",
+      "whatItDidNotSettle": "Three positions for an executive office, labeled governing-office-staffing/v1, an authored gameplay profile, not sourced. Nothing for any legislature, Congress or council."
+    },
+    {
+      "source": "The partial answer to new-member-transition-and-orientation (2026-09-22, 7:15 p.m. Eastern)",
+      "whatItDidNotSettle": "Covers Congress's Members' Representational Allowance as an operating allowance and orientation programs; does not give a staff count or titles for state legislators, governors or councils."
+    }
+  ],
+  "title": "What staff an elected official actually gets, by office and place",
+  "usableAnswer": "For each level, the number of staff positions an ordinary officeholder has and their titles, with a note of the big variations (full-time versus citizen legislatures, large versus small cities), each cited or marked UNKNOWN. A few representative states per pattern is enough for legislators.",
+  "whyItMatters": "The owner asked for hiring office staff when the player is elected (2026-09-22, 11:24 p.m. Eastern), and earlier decided that staff are playable after a win. Today only a governor gets a staffing table: three positions (Chief of Staff, Legislative Director, Caseworker) that the game itself labels an authored profile. Legislators, members of Congress and council members get none, so an office's choice to let staff handle casework has nobody to hand it to."
+}

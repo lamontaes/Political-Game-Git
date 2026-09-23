@@ -125,7 +125,7 @@ export function sourceTermsAttributable(terms: SourceTerms): boolean {
 }
 
 /** ALIVE44 chunk 4 first families. */
-export const MISCONDUCT_FAMILIES = ["M1", "M2", "M7"] as const;
+export const MISCONDUCT_FAMILIES = ["M1", "M2", "M4", "M7"] as const;
 export type MisconductFamily = (typeof MISCONDUCT_FAMILIES)[number];
 
 export const MISCONDUCT_FAMILY_LABELS: Readonly<
@@ -133,6 +133,7 @@ export const MISCONDUCT_FAMILY_LABELS: Readonly<
 > = {
   M1: "Campaign funds used for personal purposes",
   M2: "Undisclosed conflict of interest",
+  M4: "Money given for an official's promised action",
   M7: "Public funds spent outside their authorized purpose",
 };
 
