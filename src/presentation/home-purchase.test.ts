@@ -206,6 +206,9 @@ describe("buying a home", () => {
     );
   });
 
+  // Fourteen years of play. The town's businesses add 26 people and their
+  // jobs to every day of it: about 3.6 seconds without them and 5.1 with them
+  // on this machine, which is over the default 5-second limit.
   it("takes only what is left in the last month and then stops", () => {
     const { world, personId } = lifeWithSavings(100_000_000);
     const bought = buyHome(world, personId);
@@ -232,7 +235,7 @@ describe("buying a home", () => {
     expect(serializeWorld(refreshLifeOpportunities(reloaded, personId))).toBe(
       serializeWorld(later),
     );
-  });
+  }, 20_000);
 
   it("prices the house in the world's prices, not the first month's", () => {
     // The opening route starts the world's own economy, as play does.

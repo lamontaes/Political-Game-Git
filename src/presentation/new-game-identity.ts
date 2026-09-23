@@ -3,7 +3,7 @@ import {
   SCHOOL_STAGES_V1,
   SCHOOL_STAGES_V2,
 } from "../simulation/school-stages";
-import { FAMILY_BIRTHDAYS_V1 } from "./production-world";
+import { FAMILY_BIRTHDAYS_V1, PARENT_PARTNERS_V1 } from "./production-world";
 import { RESIDENT_CHAPTER_NAME_VERSION } from "../simulation/living-world/party-chapters";
 import {
   canonicalPriorEncoding,
@@ -243,6 +243,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.familyBirthdayVersion === undefined
       ? {}
       : { familyBirthdayVersion: setup.familyBirthdayVersion }),
+    ...(setup.parentPartnerVersion === undefined
+      ? {}
+      : { parentPartnerVersion: setup.parentPartnerVersion }),
     ...(setup.birthYear === undefined ? {} : { birthYear: setup.birthYear }),
     ...(setup.openingDataVersion === undefined
       ? {}
@@ -410,6 +413,11 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   if (
+    record.parentPartnerVersion !== undefined &&
+    record.parentPartnerVersion !== PARENT_PARTNERS_V1
+  )
+    return null;
+  if (
     givenNameGenerationVersion !== undefined &&
     givenNameGenerationVersion !== LEGACY_GIVEN_NAME_GENERATION_VERSION &&
     givenNameGenerationVersion !== DISTINCT_GIVEN_NAME_GENERATION_VERSION &&
@@ -502,6 +510,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.familyBirthdayVersion === undefined
       ? {}
       : { familyBirthdayVersion: FAMILY_BIRTHDAYS_V1 }),
+    ...(record.parentPartnerVersion === undefined
+      ? {}
+      : { parentPartnerVersion: PARENT_PARTNERS_V1 }),
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion: appearanceRecipeVersion as string }),
