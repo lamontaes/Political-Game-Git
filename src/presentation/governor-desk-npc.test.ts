@@ -13,9 +13,12 @@ import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
  *
  * Measured 2026-09-23 over 36 months with the seed below: before, all nine
  * Alaska bills that reached the desk were vetoed; after, six were enacted.
+ * And a returned bill is put back to the members: before, no override was
+ * ever attempted; after, the joint session voted on each of the three
+ * vetoes (49-11, 47-11 and 47-11 against a threshold of 40 or 45 of 60).
  */
 describe("a governor the player does not control", () => {
-  it("signs some bills into law instead of vetoing every one", () => {
+  it("signs some bills into law, and the legislature votes on the vetoes", () => {
     const place = searchLifePlaces("", 1, {
       stateJurisdictionKey: "US-AK",
       scope: "locality",
@@ -43,5 +46,10 @@ describe("a governor the player does not control", () => {
       .map((measure) => measurePosition(world, measure.id).phase);
     expect(phases.length).toBeGreaterThan(0);
     expect(phases).toContain("enacted");
+    const overrides = world.history.events.filter((event) =>
+      event.type.startsWith("legislation.override"),
+    );
+    expect(overrides.length).toBeGreaterThan(0);
+    expect(phases).not.toContain("awaiting-override");
   }, 900_000);
 });
