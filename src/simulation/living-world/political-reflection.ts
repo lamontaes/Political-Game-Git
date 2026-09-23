@@ -160,7 +160,8 @@ export function encounterProposalsInEvent(
         exposure.stableKey === stableKey ||
         (exposure.personId === input.personId &&
           exposure.propositionId === propositionId &&
-          exposure.encounteredAt === next.currentDate &&
+          exposure.provenance.kind === "direct-experience" &&
+          exposure.provenance.eventId === input.event.id &&
           exposure.stableKey.endsWith(`:sponsor-exposure:${propositionId}`)),
     );
     if (!already)

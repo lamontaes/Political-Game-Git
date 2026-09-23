@@ -2923,7 +2923,7 @@ export function generateQuickCharacterHistory(
 const SUMMARIZED_CHILDHOOD = {
   /** A child who is five by this day of the year starts school that fall. */
   schoolAgeCutoff: "09-01",
-  /** The first day of a school year falls in this window. */
+  /** The first day of a school year falls in this range. */
   termStarts: { month: 8, day: 15, spreadDays: 25 },
   /** And the last day in this one. */
   termEnds: { month: 5, day: 20, spreadDays: 27 },
@@ -2944,7 +2944,7 @@ const SUMMARIZED_CHILDHOOD = {
  * Left out on purpose: a situation whose scene asserts a fact the summary has
  * no record of. A new baby in the house is a sibling nobody wrote; someone ill
  * in bed, or needing more care than the household can spread around, is an
- * illness nobody recorded; a month's plans cancelled for money is a shortfall
+ * illness nobody recorded; a month's plans canceled for money is a shortfall
  * nothing measured. Those stay playable, where the world holds the fact, and
  * out of a summary that would be inventing it.
  */
@@ -3015,13 +3015,13 @@ function variedChildhood(
   };
   const onCalendar = (
     year: number,
-    window: { readonly month: number; readonly day: number },
+    range: { readonly month: number; readonly day: number },
     spreadDays: number,
     suffix: string,
   ): IsoDate =>
     addDays(
       makeIsoDate(
-        `${String(year).padStart(4, "0")}-${String(window.month).padStart(2, "0")}-${String(window.day).padStart(2, "0")}`,
+        `${String(year).padStart(4, "0")}-${String(range.month).padStart(2, "0")}-${String(range.day).padStart(2, "0")}`,
       ),
       rng.fork(`${suffix}:day`).integer(0, spreadDays),
     );

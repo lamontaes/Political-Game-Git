@@ -210,7 +210,7 @@ export const SHOWN_TRAIT_LIMIT = 2;
  * ChatGPT's answer to `traits-held-at-once` and `person-starting-trait-count`:
  * an adult shows one or two descriptors over a richer profile, and that is a
  * display limit, not a cap on what a person is. So nothing here is removed
- * from anybody; the rest stay recorded and keep working. The catalogue's
+ * from anybody; the rest stay recorded and keep working. The catalog's
  * qualities come first, because they are the salient ones a person was given
  * to be known by; then the five by how strongly they are held, strongest
  * first; ties keep the registry's order.

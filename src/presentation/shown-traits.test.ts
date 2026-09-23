@@ -40,7 +40,7 @@ describe("a person's card", () => {
         expect(shown.length).toBeLessThanOrEqual(2);
         expect(shown.length).toBe(Math.min(2, everything.length));
         for (const label of shown) expect(everything).toContain(label);
-        // The catalogue's own qualities are what the person is known for.
+        // The catalog's own qualities are what the person is known for.
         const salient = [...traitRegistryFor(world).traits.values()]
           .filter((trait) => trait.pack === PERSONALITY_PACK)
           .flatMap((trait) => {
