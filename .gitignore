@@ -41,15 +41,13 @@ docs/prose-inventory/coverage-candidates.json
 docs/prose-inventory/prose-inventory.json
 docs/prose-inventory/prose-inventory.csv
 docs/prose-inventory/review-packet.html
-# The coverage report and the README are generated too, and they conflicted on
-# essentially every base merge: both are mostly per-file lists that move when
-# anybody adds a file under `src/`, so two branches adding a source file
-# collide by construction. The guarantee the report carried — a stale report
-# fails the build — now lives in the five numbers of the tracked
-# `coverage-counts.json`, which conflicts only if two branches change the
-# totals.
+# The coverage report, its counts and the README are generated too, and they
+# conflicted on essentially every base merge: they move when anybody adds a
+# file or a string under `src/`, so two branches collide by construction.
+# `npm run corpus:prose` measures them on demand.
 docs/prose-inventory/coverage-report.md
 docs/prose-inventory/README.md
+docs/prose-inventory/coverage-counts.json
 
 # The dehardwire census is generated the same way and conflicted the same way,
 # and unlike the coverage report it guarded nothing: the `--check` case

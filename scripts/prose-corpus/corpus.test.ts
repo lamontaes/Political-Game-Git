@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
@@ -650,33 +651,25 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     }
   });
 
-  it("reports counts that match a live measurement, not a stale run", () => {
-    // Composition note (UI-FINISH8): accepted main pinned three literal
-    // counts here, re-measured on its own tree. Those numbers cannot survive a
-    // composition — this branch alone adds a seed family and a corpus of its
-    // own — and refreshing them is exactly the "fix the number" move the rest
-    // of this file exists to avoid. The live comparison below makes the same
-    // claim without a magic value: the committed report has to agree with what
-    // the scanner measures now, so a stale report still fails.
-    // Compare the committed report to the live scanner, not a count pinned to
-    // an older source tree. Adding a valid feature must regenerate the report;
-    // it must not require silently weakening or refreshing a magic test number.
-    // The tripwire moved from `coverage-report.md` to `coverage-counts.json`
-    // and did not weaken: it asserted on these numbers before and asserts on
-    // the same numbers now. What changed is that the 545-line report carrying
-    // them is no longer committed, because its per-file candidate list
-    // conflicted on essentially every base merge while claiming nothing.
+  it("reports counts from a live measurement, never from a committed copy", () => {
+    // This case used to compare a committed `coverage-counts.json` with the
+    // scanner, so a stale committed copy failed the build. The copy is no
+    // longer committed: its totals move whenever anybody adds a string under
+    // `src/`, so it conflicted on every base merge and made every open pull
+    // request re-run the full suite. With no committed copy there is nothing
+    // to go stale; the counts are what `npm run corpus:prose` measures when it
+    // runs. What still has to hold is that no copy creeps back into the tree,
+    // because a tracked one would be compared by `corpus:prose check` and
+    // would bring the conflicts back.
+    const tracked = execFileSync(
+      "git",
+      ["ls-files", "--", "docs/prose-inventory/coverage-counts.json"],
+      { encoding: "utf8" },
+    );
+    expect(tracked).toBe("");
     const coverage = buildCoverageReport(inventory);
-    const committed = JSON.parse(
-      readFileSync("docs/prose-inventory/coverage-counts.json", "utf8"),
-    ) as {
-      scannedFiles: number;
-      totalLiterals: number;
-      counts: Record<string, number>;
-    };
-    expect(committed.scannedFiles).toBe(coverage.scannedFiles);
-    expect(committed.totalLiterals).toBe(coverage.totalLiterals);
-    expect(committed.counts).toStrictEqual({ ...coverage.counts });
+    expect(coverage.scannedFiles).toBeGreaterThan(0);
+    expect(coverage.totalLiterals).toBeGreaterThan(0);
   }, 30_000);
 });
 

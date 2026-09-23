@@ -1172,12 +1172,12 @@ function main(): void {
       ["grounding-map.md", groundingMarkdown(buildGroundingMap(inventory))],
       ["metrics-baseline.json", stableJson(baseline)],
     ];
-    // Six of these artifacts are generated but not committed: four because
-    // their committed revisions were most of the repository's history, and
-    // `coverage-report.md` and `README.md` because they conflicted on
-    // essentially every base merge while asserting nothing that
-    // `coverage-counts.json` does not assert in five numbers. An artifact
-    // absent from the commit is therefore normal rather than a fault.
+    // None of these artifacts is committed any more: four because their
+    // committed revisions were most of the repository's history, and
+    // `coverage-report.md`, `coverage-counts.json` and `README.md` because
+    // they conflicted on essentially every base merge. An artifact absent from
+    // the commit is therefore normal rather than a fault; one that is tracked
+    // is still compared with a fresh regeneration.
     let compared = 0;
     for (const [name, expected] of exact) {
       const found = committed(name);
