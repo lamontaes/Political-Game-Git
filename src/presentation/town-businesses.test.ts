@@ -9,6 +9,8 @@ import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import {
   BUSINESS_OWNER_WORK_KIND,
   BUSINESS_REVENUE_BASIS,
+  BUSINESS_WAGES_BASIS,
+  BUSINESS_WORKER_WORK_KIND,
   LOCAL_BUSINESS_KINDS,
   OWNER_DRAW_BASIS,
   localBusinessesIn,
@@ -57,7 +59,24 @@ const outcomesFor = (world: World, basis: string) =>
 
 describe("the businesses of a town", () => {
   it("seats every business with an owner and staff when a life opens", () => {
+    const created = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startAge: 30,
+      placeKey: "1608830",
+      questionnaire: "skipped",
+      priors: [],
+      seed: "town-businesses",
+    } as NewGameSetup);
+    const earlier = new Set(created.world.personOrder);
     const { world, townId } = openedLife();
+    // Staff and owners are new townspeople; nobody who already lived there
+    // is handed one of these jobs.
+    for (const work of world.history.workRelationships)
+      if (
+        work.kind === BUSINESS_OWNER_WORK_KIND ||
+        work.kind === BUSINESS_WORKER_WORK_KIND
+      )
+        expect(earlier.has(work.personId)).toBe(false);
     const seated = localBusinessesIn(world, townId);
     expect(seated).toHaveLength(LOCAL_BUSINESS_KINDS.length);
     const lines = projectTownBusinesses(world, townId);
@@ -106,15 +125,30 @@ describe("the businesses of a town", () => {
     const months = new Set(
       outcomesFor(next, BUSINESS_REVENUE_BASIS).map((o) => o.periodStartsAt),
     );
-    expect(months.size).toBeGreaterThanOrEqual(2);
+    // The life opens on the first-of-month schedule's own terms: ten weeks
+    // from this start crosses exactly this many month-starts.
+    expect([world.currentDate, next.currentDate, months.size])
+      .toMatchInlineSnapshot(`
+      [
+        "2026-01-05",
+        "2026-03-16",
+        2,
+      ]
+    `);
     expect(outcomesFor(next, BUSINESS_REVENUE_BASIS)).toHaveLength(
       months.size * LOCAL_BUSINESS_KINDS.length,
     );
     expect(outcomesFor(next, OWNER_DRAW_BASIS)).toHaveLength(
       months.size * LOCAL_BUSINESS_KINDS.length,
     );
-    for (const outcome of outcomesFor(next, OWNER_DRAW_BASIS))
-      expect(outcome.status).toBe("completed");
+    const staff = LOCAL_BUSINESS_KINDS.reduce((sum, k) => sum + k.workers, 0);
+    expect(staff).toBe(18);
+    expect(outcomesFor(next, BUSINESS_WAGES_BASIS)).toHaveLength(
+      months.size * staff,
+    );
+    for (const basis of [OWNER_DRAW_BASIS, BUSINESS_WAGES_BASIS])
+      for (const outcome of outcomesFor(next, basis))
+        expect(outcome.status).toBe("completed");
     // Settling again, or after a reload, writes nothing new.
     const reloaded = deserializeWorld(serializeWorld(next));
     expect(
