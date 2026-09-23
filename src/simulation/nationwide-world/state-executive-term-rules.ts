@@ -1,3 +1,4 @@
+import { chiefExecutiveElectionCycle } from "./chief-executive-election-cycles";
 import { makeIsoDate } from "../dates";
 import type { IsoDate } from "../types";
 import {
@@ -358,11 +359,16 @@ export function stateExecutiveTermRule(
   const row = chiefExecutiveBaseline(stateUsps);
   const termYears =
     row?.ordinaryTermYears ?? STATE_EXECUTIVE_GAME_PROFILE.termYears;
+  // Which years hold the election, from the researched calendar where the
+  // office is not on the cycle containing 2026 (Kentucky, New Jersey and
+  // Virginia among them); see chief-executive-election-cycles.ts.
+  const cycle = chiefExecutiveElectionCycle(stateUsps);
+  const version = row
+    ? `${STATE_EXECUTIVE_GAME_PROFILE_VERSION}+calibrated:${row.key}:${termYears}y`
+    : STATE_EXECUTIVE_GAME_PROFILE_VERSION;
   return {
     stateUsps,
-    ruleVersion: row
-      ? `${STATE_EXECUTIVE_GAME_PROFILE_VERSION}+calibrated:${row.key}:${termYears}y`
-      : STATE_EXECUTIVE_GAME_PROFILE_VERSION,
+    ruleVersion: cycle ? `${version}+cycle:${cycle.referenceYear}` : version,
     basis: {
       termYears: "game-profile",
       commencement: "game-profile",
@@ -374,6 +380,9 @@ export function stateExecutiveTermRule(
       ...STATE_EXECUTIVE_GAME_PROFILE.election,
       // An office cannot be elected less often than its term ends.
       cycleYears: termYears,
+      referenceYear:
+        cycle?.referenceYear ??
+        STATE_EXECUTIVE_GAME_PROFILE.election.referenceYear,
     },
     sources: [],
     calibration: row

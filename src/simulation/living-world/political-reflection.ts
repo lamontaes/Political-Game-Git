@@ -13,6 +13,7 @@ import type {
   PropositionExposureRecord,
   World,
 } from "../types";
+import { politicalCultureFactors } from "../nationwide-world/political-culture";
 
 /**
  * A person comes to hold a political view, in the ordinary course of living.
@@ -159,32 +160,32 @@ function openQuestionFor(
 /**
  * What this person has that bears on this question.
  *
- * NOTHING, TODAY, AND THAT IS THE FINDING RATHER THAN A STUB. A factor has to
- * favour one of the engine's outcomes, so supplying one means asserting which
- * way something points. The only recorded thing a person holds that carries
- * its own direction is a `PrincipleRecord` — they endorse or reject a named
- * principle — and no proposition declares which principles it engages, so
- * there is no join from a person's convictions to a question. A memory does
- * not carry a direction; neither does a temperament. Mapping either to
- * support or oppose would be a theory of politics written by an engineer and
- * then, in a save, indistinguishable from a measured one.
+ * One thing today, and it is empty until researched: the political culture of
+ * the place they live, read through the principles the question engages
+ * (`nationwide-world/political-culture.ts`). Every culture awaits research
+ * question `political-culture-of-each-jurisdiction`, so for now this adds
+ * nothing and people form views exactly as before.
  *
- * So this pass reads what the engine already derives honestly — a prior belief
- * and a trusted cue — and adds nothing of its own. Most people will form no
+ * Nothing else is supplied, and that is the finding rather than a stub. A
+ * factor has to favour one of the engine's outcomes, so supplying one means
+ * asserting which way something points. A memory does not carry a direction;
+ * neither does a temperament. Mapping either to support or oppose would be a
+ * theory of politics written by an engineer and then, in a save,
+ * indistinguishable from a measured one. The engine separately reads what it
+ * derives honestly, a prior belief and a trusted cue. Most people will form no
  * view, which is true of them today and is recorded as having been considered
  * rather than left blank.
  *
- * Two things unblock it, in this order: the pack declaring, per proposition,
- * which principles it engages; and the answer to
- * `where-a-persons-politics-comes-from` for everything below a principle.
+ * Everything below a principle waits on the answer to
+ * `where-a-persons-politics-comes-from` being turned into inputs.
  */
 function factorsFor(
   world: World,
   personId: EntityId,
   exposure: PropositionExposureRecord,
 ): readonly PoliticalBeliefFormationFactor[] {
-  void world;
-  void personId;
-  void exposure;
-  return [];
+  // Where they live, once a place's culture is researched. Every culture is
+  // empty until `political-culture-of-each-jurisdiction` is answered, so this
+  // adds nothing today; see `nationwide-world/political-culture.ts`.
+  return politicalCultureFactors(world, personId, exposure.propositionId);
 }
