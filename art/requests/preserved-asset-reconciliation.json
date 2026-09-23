@@ -1842,6 +1842,20 @@
       "reason": "Nothing preserved bears on this, for the same measured reason as the page-furniture request above: none of the 20 preserved units is interface artwork, and the manifest holds none either. These are three state marks on the player's own list, which no character component or environment plate could stand in for."
     },
     {
+      "requestId": "ui-election-night-result",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Checked rather than assumed: the 20 manifest files carry 479 assets and not one id matches ui, card, panel, graph, chart, interface, newspaper or banner. The preserved packet is character components and environment plates. Election night is drawn entirely in markup today, so there is no preserved unit that could answer or restate this ask."
+    },
+    {
+      "requestId": "ui-local-party-chapter-card",
+      "verdict": "unaffected-still-required",
+      "preservedUnits": [],
+      "evidencePaths": [],
+      "reason": "Same check, same answer: no interface artwork exists anywhere in the manifest's 479 assets, and the preserved cargo is characters and environments. The chapter card is markup and a fallback, not a plate, so nothing preserved bears on it."
+    },
+    {
       "requestId": "ui-temperament-marks-ten-poles",
       "verdict": "unaffected-still-required",
       "preservedUnits": [],
