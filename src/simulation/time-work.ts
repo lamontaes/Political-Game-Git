@@ -972,7 +972,11 @@ export function advanceWorldMinutes(
     if (!transitionHandlers.routine) {
       if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0)
         return world;
-      return advanceCanonicalMinutes(world, minutes, null, transitionHandlers);
+      return advanceStoppingAtNewCommitments(
+        world,
+        minutes,
+        transitionHandlers,
+      );
     }
     return resolveAdvanceWithRoutine(
       world,
@@ -1100,18 +1104,16 @@ function resolveAdvanceWithRoutine(
       const stop = scheduledActivityState(current, blockers[0]!).start;
       const minutes = simulationMinutesBetween(current.currentMoment, stop);
       if (minutes > 0)
-        current = advanceCanonicalMinutes(
+        current = advanceStoppingAtNewCommitments(
           current,
           minutes,
-          null,
           transitionHandlers,
         );
       return current;
     }
-    return advanceCanonicalMinutes(
+    return advanceStoppingAtNewCommitments(
       current,
       remaining,
-      null,
       transitionHandlers,
     );
   }
@@ -1212,6 +1214,54 @@ interface ExactTransition {
     | "activity-completion";
   readonly entityId: EntityId | null;
   readonly completedEffortMinutes: number | null;
+}
+
+/**
+ * A plain advance that does not run past something it wrote on the way.
+ *
+ * The stops are read before the advance, but the due items it settles on the
+ * way can put new activities on the controlled person's calendar: a party
+ * chapter posts its next open meeting four days ahead. An advance of four
+ * months used to run straight past every such meeting, and each was released
+ * at the end as having passed without an answer (a D.C. life lost four
+ * between February and June 2039). When that happens the advance is taken
+ * again from the same world, only as far as the earliest such start, where
+ * the ordinary stops apply. The world is pure, so the second advance writes
+ * the same history up to that point.
+ */
+function advanceStoppingAtNewCommitments(
+  world: World,
+  minutes: number,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  let span = minutes;
+  for (let attempt = 0; attempt < 64; attempt++) {
+    const advanced = advanceCanonicalMinutes(
+      world,
+      span,
+      null,
+      transitionHandlers,
+    );
+    if (world.control.kind !== "person") return advanced;
+    const personId = world.control.personId;
+    let earliest: SimulationMoment | null = null;
+    for (const activity of advanced.history.scheduledActivities.slice(
+      world.history.scheduledActivities.length,
+    )) {
+      if (!activity.participantPersonIds.includes(personId)) continue;
+      const state = latestActivityStateUnchecked(advanced, activity.id);
+      if (state?.status !== "scheduled") continue;
+      if (compareSimulationMoments(state.start, world.currentMoment) <= 0)
+        continue;
+      if (compareSimulationMoments(state.start, advanced.currentMoment) >= 0)
+        continue;
+      if (!earliest || compareSimulationMoments(state.start, earliest) < 0)
+        earliest = state.start;
+    }
+    if (!earliest) return advanced;
+    span = simulationMinutesBetween(world.currentMoment, earliest);
+  }
+  throw new Error("Advancing to a newly scheduled activity did not converge.");
 }
 
 function advanceCanonicalMinutes(
