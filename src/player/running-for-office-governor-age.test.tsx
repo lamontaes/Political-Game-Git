@@ -121,7 +121,7 @@ describe.each([
       const markup = renderRaceScreen(life);
       const start = markup.indexOf('data-testid="state-executive-candidacy"');
       expect(start).toBeGreaterThan(-1);
-      const governor = visibleText(markup.slice(start));
+      const governor = visibleText(governorMarkup(markup, start));
       expect(governor).toContain(title);
       const ages = ageMinimums(governor);
       expect(ages, governor).toHaveLength(1);
@@ -227,7 +227,13 @@ function governorSection(life: Life): string {
   const markup = renderRaceScreen(life);
   const start = markup.indexOf('data-testid="state-executive-candidacy"');
   expect(start).toBeGreaterThan(-1);
-  return visibleText(markup.slice(markup.lastIndexOf("<", start)));
+  return visibleText(governorMarkup(markup, markup.lastIndexOf("<", start)));
+}
+
+/** The governor card's markup: from `start` up to the Congress section, which follows it. */
+function governorMarkup(markup: string, start: number): string {
+  const congress = markup.indexOf('data-testid="congress-', start);
+  return markup.slice(start, congress === -1 ? undefined : congress);
 }
 
 describe.each([
