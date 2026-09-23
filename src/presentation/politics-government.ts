@@ -33,6 +33,7 @@ import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import {
   planStateChambers,
+  stateLegislativeSeats,
   stateLegislators,
   stateSeatTitle,
 } from "../simulation/nationwide-world/state-legislature-opening";
@@ -825,19 +826,24 @@ function seatedStateRoster(
   const candidacy = stateCandidacyPack(`US-${usps}`);
   if (!candidacy) return [];
   const suffix = `:${chamberKey}`;
-  return stateLegislators(world, candidacy.packId)
-    .filter((member) => member.officeKey.endsWith(suffix))
-    .sort((a, b) => a.ordinal - b.ordinal)
-    .map((member) => ({
-      key: `${member.officeKey}:${member.ordinal}`,
-      seatLabel: member.title,
+  return stateLegislativeSeats(world, candidacy.packId)
+    .filter((seat) => seat.officeKey.endsWith(suffix))
+    .map((seat) => ({
+      key: `${seat.officeKey}:${seat.ordinal}`,
+      seatLabel: seat.title,
       // Null: every member is from this state, so there is no separate
       // home-state delegation to list above the roster.
       stateUsps: null,
-      status: "member" as const,
-      holderName: personName(world.people[member.personId]!),
-      holderPersonId: member.personId,
-      note: null,
+      status: seat.member ? ("member" as const) : ("vacancy" as const),
+      holderName: seat.member
+        ? personName(world.people[seat.member.personId]!)
+        : null,
+      holderPersonId: seat.member?.personId ?? null,
+      note: seat.member
+        ? null
+        : seat.holderDiedOn
+          ? `Vacant since ${proseDate(seat.holderDiedOn)}, when the member died. State legislative elections are not held yet, so no one has filled the seat.`
+          : "Vacant. State legislative elections are not held yet, so no one has filled the seat.",
     }));
 }
 
