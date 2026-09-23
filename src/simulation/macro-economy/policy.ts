@@ -45,6 +45,34 @@ export const CRUNCH46_PROVISIONAL_POLICY = {
   bounds: { unemploymentPct: { min: 0, max: 100 } },
 } as const;
 
+/**
+ * UNRESEARCHED. Unemployment's pull back toward its normal level.
+ *
+ * Section 13 moves unemployment only by changes: last month's rate plus the
+ * lagged growth gap, a draw and shock impulses. With nothing drawing it back,
+ * every recessionary shock left a permanent step, and because the only
+ * national shock origin the game produces is a slowdown, every world
+ * ratcheted upward and stayed there. This rule keeps that month-to-month
+ * response and lets the distance from the normal rate fade.
+ *
+ * `naturalRatePct` is the rate section 13 itself treats as neutral: the
+ * starting draw at a zero cycle latent (`baseline.unemploymentPct`).
+ * `monthlyGapRetention` is a placeholder read off one episode, BLS national
+ * unemployment of 10.0% in October 2009 and 7.8% in October 2012
+ * (((7.8 - 4.6) / (10.0 - 4.6)) ** (1 / 36) is about 0.985, a half-life of
+ * about four years). That recovery also carried slow growth, so it is an
+ * illustration, not an estimate. Both are filed as
+ * `unemployment-return-to-normal`.
+ */
+export const UNEMPLOYMENT_RECOVERY_RULE =
+  "unemployment-returns-to-normal/v1" as const;
+
+export const UNRESEARCHED_UNEMPLOYMENT_RECOVERY = {
+  rule: UNEMPLOYMENT_RECOVERY_RULE,
+  naturalRatePct: CRUNCH46_PROVISIONAL_POLICY.baseline.unemploymentPct,
+  monthlyGapRetention: 0.985,
+} as const;
+
 export type MacroRegime =
   keyof typeof CRUNCH46_PROVISIONAL_POLICY.regimeWeights;
 

@@ -17,11 +17,18 @@ import {
   annualizedQuarterlyGrowthPct,
   standardNormal,
   startValuesFromLatents,
+  stepLocalMonth,
   stepMonth,
   twelveMonthChangePct,
+  NO_IMPULSES,
   type MacroLatents,
+  type MacroMonthlyState,
 } from "./kernel";
-import { CRUNCH46_PROVISIONAL_POLICY, type MacroRegime } from "./policy";
+import {
+  CRUNCH46_PROVISIONAL_POLICY,
+  UNRESEARCHED_UNEMPLOYMENT_RECOVERY,
+  type MacroRegime,
+} from "./policy";
 import {
   MACRO_MONTHLY_STEP_KEY,
   ensureMacroEconomyStarted,
@@ -164,12 +171,84 @@ describe("section 13 kernel arithmetic", () => {
     );
     expect(next.growthPct).toBeCloseTo(2 + 0.85 * 1 + 0.1 - 0.2, 6);
     // Uses previous growth (3), not the new growth.
-    expect(next.unemploymentPct).toBeCloseTo(5 - 0.04 * 1 + 0.01 + 0.05, 6);
+    expect(next.unemploymentPct).toBeCloseTo(
+      4.6 + 0.985 * (5 - 4.6) - 0.04 * 1 + 0.01 + 0.05,
+      6,
+    );
     expect(next.inflationPct).toBeCloseTo(2 + 0.95 * 2 - 0.02 + 0.1, 6);
     expect(next.realOutputIndex).toBeCloseTo(
       100 * Math.exp(next.growthPct / 1200),
       5,
     );
+  });
+
+  const calm = { growth: 0, unemployment: 0, inflation: 0 };
+  const natural = UNRESEARCHED_UNEMPLOYMENT_RECOVERY.naturalRatePct;
+  const steady = (unemploymentPct: number): MacroMonthlyState => ({
+    growthPct: 2,
+    unemploymentPct,
+    inflationPct: 2,
+    realOutputIndex: 100,
+    priceIndex: 100,
+  });
+
+  it("brings unemployment back toward its normal rate once growth recovers", () => {
+    let state = steady(10);
+    const path: number[] = [];
+    for (let month = 0; month < 240; month += 1) {
+      state = stepMonth(state, calm, NO_IMPULSES);
+      path.push(state.unemploymentPct);
+    }
+    for (let index = 1; index < path.length; index += 1) {
+      expect(path[index]!).toBeLessThan(path[index - 1]!);
+      expect(path[index]!).toBeGreaterThan(natural);
+    }
+    // Roughly half the distance is gone in four years, and nearly all of it
+    // in twenty; the old rule held 10% forever.
+    expect(path[47]! - natural).toBeCloseTo((10 - natural) / 2, 0);
+    expect(path.at(-1)! - natural).toBeLessThan(0.3);
+  });
+
+  it("holds a long slowdown at a raised level instead of a climb", () => {
+    // A slowdown that keeps growth half a point under its anchor for fifty
+    // years, the drag every world's shipping delays put on it.
+    const drag = { growthPp: -0.075, laborPp: 0, pricePp: 0 };
+    let state = steady(natural);
+    const yearly: number[] = [];
+    for (let month = 1; month <= 600; month += 1) {
+      state = stepMonth(state, calm, drag);
+      if (month % 12 === 0) yearly.push(state.unemploymentPct);
+    }
+    const ceiling = natural + (0.04 * 0.5) / (1 - 0.985);
+    expect(state.growthPct).toBeCloseTo(1.5, 3);
+    expect(yearly.at(-1)!).toBeLessThan(ceiling + 0.01);
+    expect(yearly.at(-1)!).toBeGreaterThan(natural + 1);
+    expect(Math.abs(yearly.at(-1)! - yearly.at(-2)!)).toBeLessThan(0.01);
+  });
+
+  it("raises a place's unemployment on a local shock and lets it rejoin the nation", () => {
+    const nation = steady(natural);
+    let local = steady(natural);
+    const shock = { growthPp: -0.25, laborPp: 0.03, pricePp: 0 };
+    const path: number[] = [];
+    for (let month = 0; month < 180; month += 1) {
+      const step = stepLocalMonth(
+        nation,
+        nation,
+        local,
+        month < 12 ? shock : NO_IMPULSES,
+      );
+      local = { ...local, ...step };
+      path.push(local.unemploymentPct - natural);
+    }
+    const peak = Math.max(...path);
+    expect(peak).toBeGreaterThan(0.5);
+    expect(path.indexOf(peak)).toBeGreaterThanOrEqual(11);
+    // Falls every month after the peak and is mostly gone ten years on.
+    for (let index = path.indexOf(peak) + 1; index < path.length; index += 1) {
+      expect(path[index]!).toBeLessThan(path[index - 1]!);
+    }
+    expect(path[131]!).toBeLessThan(peak * 0.25);
   });
 
   it("keeps unemployment inside mathematical bounds in an adverse tail", () => {

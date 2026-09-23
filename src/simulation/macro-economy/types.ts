@@ -6,6 +6,7 @@ import type {
   MACRO_POLICY_VERSION,
   MacroRegime,
   MacroShockKind,
+  UNEMPLOYMENT_RECOVERY_RULE,
 } from "./policy";
 
 export const MACRO_ECONOMY_CONTRACT_VERSION = "change-macro/v1" as const;
@@ -88,6 +89,12 @@ export interface MacroMonthRecord {
   };
   /** Shocks whose intensity contributed to this month, sorted. */
   readonly shockKeys: readonly string[];
+  /**
+   * The unemployment rule that wrote this month. Absent on months written
+   * before unemployment returned toward its normal rate; those stay as they
+   * were recorded.
+   */
+  readonly unemploymentRule?: typeof UNEMPLOYMENT_RECOVERY_RULE;
 }
 
 export type MacroShockPersistence =
