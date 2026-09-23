@@ -111,6 +111,21 @@ describe("a summarized childhood of the person's own", () => {
       // One school ends before the next begins, never overlapping it.
       expect(schools[0]!.completedAt! < schools[1]!.startedAt).toBe(true);
       expect(schools[1]!.completedAt! < schools[2]!.startedAt).toBe(true);
+      // The classmate finished high school with the class, and is not still
+      // enrolled as an adult.
+      const classmateSchooling = world.history.educationEnrollments.filter(
+        (row) =>
+          row.personId !== playerId &&
+          row.programKind === "schooling:secondary",
+      );
+      expect(classmateSchooling).toHaveLength(1);
+      expect(
+        world.history.educationEnrollmentStates.find(
+          (state) =>
+            state.enrollmentId === classmateSchooling[0]!.id &&
+            state.status === "completed",
+        )?.effectiveAt,
+      ).toBe(schools[2]!.completedAt);
       // The teacher taught at a school this child attended, and is still
       // somebody the player knows as their teacher.
       const schoolIds = new Set(

@@ -3133,6 +3133,21 @@ function variedChildhood(
         provenance: generated,
       },
     });
+    // And graduates with the class, rather than staying enrolled for good.
+    if (happened(high.endsAt)) {
+      transitions.push({
+        kind: "education-state",
+        input: {
+          stableKey: `${key("education:peer")}:completed`,
+          enrollmentStableKey: key("education:peer"),
+          effectiveAt: high.endsAt,
+          status: "completed",
+          contextKind: "stage:school",
+          reason: "Graduated from high school.",
+          provenance: generated,
+        },
+      });
+    }
   }
 
   // A move, for some households, to another home in the same place. The
