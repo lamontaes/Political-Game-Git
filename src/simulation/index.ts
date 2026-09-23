@@ -6,6 +6,7 @@ export * from "./candidacy-packs";
 export * from "./candidacy";
 export * from "./district-residence";
 export * from "./migration";
+export * from "./pressure";
 export * from "./campaign-queries";
 export * from "./campaign-compliance";
 export * from "./campaign-compliance-rules";
