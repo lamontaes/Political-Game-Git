@@ -24,13 +24,11 @@ import { stateExecutiveIdentity } from "./state-executive-candidacy-packs";
  *   amendment, through the shared record of enacted rule changes. It wins over
  *   both others once it is operative, so a legislature that raises the limit
  *   from two terms to three changes who may stand.
- * - `game-profile`: NOT RESEARCHED. The game has not read this state's limit.
- *   Blanket rule meanwhile, per the owner's standing rule for unread states:
- *   a limit drawn from the limits the researched states actually enacted,
- *   fixed per state so it never changes between saves, and never copied from a
- *   neighbor. The draw is labeled as the game's own wherever it is recorded.
- *   Real states with no limit at all exist; none has been read, so "no limit"
- *   is not in the spread yet. It enters the moment a state without one is.
+ * - `not-researched`: the game has not read this state's limit, so there is
+ *   none. The owner's rule (2026-09-22): an office is term-limited only where
+ *   the law explicitly says so; where the law is silent or unread, nobody is
+ *   barred. NOT RESEARCHED for the other forty-nine chief executives; the
+ *   research is `governor-qualifications-in-every-state` and its follow-ups.
  *
  * What a limit MEANS is decided here, not by the law that sets it:
  *
@@ -52,13 +50,10 @@ import { stateExecutiveIdentity } from "./state-executive-candidacy-packs";
  * research question `counting-governor-terms-toward-a-limit` is answered.
  */
 
-export const EXECUTIVE_TERM_LIMIT_PROFILE_VERSION =
-  "ocd-executive-term-limit-game-profile/v1";
-
 /** A term beginning this soon after the last one ended is consecutive with it. */
 export const CONSECUTIVE_GAP_DAYS = 90;
 
-export type ExecutiveTermLimitBasis = "sourced" | "enacted" | "game-profile";
+export type ExecutiveTermLimitBasis = "sourced" | "enacted" | "not-researched";
 
 export interface ExecutiveTermLimit {
   readonly stateUsps: string;
@@ -107,37 +102,7 @@ function governorLimitRows(): readonly SourcedQualification[] {
   );
 }
 
-/**
- * Every governor limit a researched state actually enacted, one entry per
- * state, so a limit two states share is twice as likely to be drawn as one
- * only a single state has.
- */
-export function researchedExecutiveTermLimits(): readonly TermLimitRule[] {
-  return governorLimitRows().map((row) =>
-    parseTermLimitCode(String(row.value))!,
-  );
-}
-
-/** FNV-1a over the state and field, written out so it can never be retuned under saves. */
-function draw(stateUsps: string): number {
-  const text = `${EXECUTIVE_TERM_LIMIT_PROFILE_VERSION}|${stateUsps}|executive.term.limit`;
-  let hash = 0x811c9dc5;
-  for (let index = 0; index < text.length; index += 1) {
-    hash ^= text.charCodeAt(index);
-    hash = Math.imul(hash, 0x01000193) >>> 0;
-  }
-  return hash >>> 0;
-}
-
-/** The game's own limit for a state it has not read. Fixed per state. */
-export function drawnExecutiveTermLimit(stateUsps: string): TermLimitRule {
-  const options = researchedExecutiveTermLimits();
-  if (options.length === 0)
-    throw new Error("No researched governor term limit to draw from.");
-  return options[draw(stateUsps) % options.length]!;
-}
-
-/** The limit before any law of this World changes it: sourced, else drawn. */
+/** The limit before any law of this World changes it: sourced, else none. */
 export function compiledExecutiveTermLimit(
   stateUsps: string,
   onDate: IsoDate,
@@ -157,9 +122,10 @@ export function compiledExecutiveTermLimit(
     };
   return {
     stateUsps,
-    limit: drawnExecutiveTermLimit(stateUsps),
-    basis: "game-profile",
-    provenance: `${EXECUTIVE_TERM_LIMIT_PROFILE_VERSION}: not researched; drawn from the ${researchedExecutiveTermLimits().length} researched governor limits.`,
+    limit: null,
+    basis: "not-researched",
+    provenance:
+      "Not researched: no limit is applied until the state's law is read.",
   };
 }
 

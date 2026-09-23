@@ -38,7 +38,7 @@ utility resilience, critical infrastructure, education facilities, health
 service capacity, environmental monitoring, procurement disclosure, social
 service access, agricultural conservation, veteran transition referrals.
 
-This is the deepest catalogue in the game and it is reachable in three states.
+This is the deepest catalog in the game and it is reachable in three states.
 
 ## Convictions
 
@@ -66,7 +66,7 @@ can do with it.
 | People in a new world (with Congress seated) | **555–559** |
 | People without Congress                      | **20–25**   |
 
-Six traits is the whole personality catalogue. A mod cannot add a seventh: the
+Six traits is the whole personality catalog. A mod cannot add a seventh: the
 registry calls `loadTraitPacks` with a literal array of two compiled packs and
 `RuntimeContentPack` has no trait field.
 
@@ -141,7 +141,7 @@ Kentucky life. The hazard system runs.
 
 ## Parties
 
-A new party organisation **is founded on its own** in an ordinary save with no
+A new party organization **is founded on its own** in an ordinary save with no
 player involvement — measured by the divergence lane at year two. So the
 founding half of a third party is not hypothetical.
 
@@ -155,7 +155,7 @@ founded party's ballot status never reaches a screen.
 ## What this adds up to
 
 The counts that are large — 35,582 places, 127 issues, 43 program
-configurations, 21 crisis record kinds — are mostly catalogue. The counts that
+configurations, 21 crisis record kinds — are mostly catalog. The counts that
 decide what a life can contain are small: 17 offices, 6 traits, 2 hazard
 families, 0 propositions, 0 assassinations.
 

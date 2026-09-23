@@ -58,7 +58,7 @@ export interface WaveDefinition {
   readonly key: string;
   /** Player-facing name, in the words a newspaper would use. */
   readonly label: string;
-  /** What the wave is, for a reader of the catalogue. Not player text. */
+  /** What the wave is, for a reader of the catalog. Not player text. */
   readonly description: string;
   /** Any one met cause begins the wave. */
   readonly causes: readonly WaveCause[];
@@ -70,7 +70,7 @@ export interface WaveDefinition {
 }
 
 /**
- * The starting catalogue. Three shapes, one of each kind of wave the owner
+ * The starting catalog. Three shapes, one of each kind of wave the owner
  * named or implied. Every duration and multiplier here is BLANKET, pending
  * `society-wide-waves-causes-pace-scale`.
  */
