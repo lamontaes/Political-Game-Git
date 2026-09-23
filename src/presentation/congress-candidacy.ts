@@ -30,7 +30,7 @@ import type {
  * Standing for Congress from the state a person lives in.
  *
  * Every seat is the Congress record's own, so filing here, the contest it
- * opens, the result, and the member congressional turnover seats on 3 January
+ * opens, the result, and the member congressional turnover seats on January 3
  * are one seat and one person throughout. Reading is free and writes nothing;
  * only `fileForCongressSeat` changes the World.
  */

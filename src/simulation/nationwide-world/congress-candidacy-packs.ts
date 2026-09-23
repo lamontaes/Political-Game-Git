@@ -8,11 +8,11 @@ import { US_STATE_NAMES } from "./state-executive-candidacy-packs";
 /**
  * Seats in the U.S. House and Senate as candidacy packs, one per seat.
  *
- * A leaf like its state-executive neighbour: no places, no World. The seat
+ * A leaf like its state-executive neighbor: no places, no World. The seat
  * keys are the Congress record's own (`us-house:NV-02`,
  * `us-senate:NV:class-3`), used as the office key AND the seat key on the
  * contest, so the contest a player files in is the one congressional
- * turnover reads on election day, and the member it seats on 3 January is the
+ * turnover reads on election day, and the member it seats on January 3 is the
  * same person the Congress overview shows.
  *
  * What the Constitution itself establishes is carried as known: a
