@@ -1,0 +1,40 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "Every town gets the same mix, which is the single national average the owner has asked us to avoid where better is available.",
+      "argumentFor": "One national table is quick and sourced.",
+      "label": "One national household-type table",
+      "position": "Use the Census Bureau's national shares of household types, sizes and ages of members.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "More data to carry, one row per state or county.",
+      "argumentFor": "A retirement town, a college town and a suburb would start with the households they really have.",
+      "label": "Household-type shares by state or county",
+      "position": "Use the ACS household-type table for the town's state or county, falling back to the national one.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T04:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide coverage",
+  "notes": [
+    "Built 2026-09-23 on branch claude/project-thread-l04zry-residents: src/simulation/living-world/town-residents.ts seats up to 40 households in the player's town at the start of a game. The shares it uses are marked placeholders: 28% one person alone, 30% a couple with no children at home, 20% a couple with children, 10% one parent with children, 12% unrelated housemates; one to three children; every couple recorded as married; adult ages drawn evenly within a band. None of these came from a source.",
+    "The employed share of adults (59.7%, BLS CPS 2025 annual average, Table 57) is sourced and is not part of this question."
+  ],
+  "priority": "P1",
+  "question": "What share of American households are (a) one person living alone, (b) a married couple with no children under 18 at home, (c) a married couple with children under 18, (d) an unmarried couple, with and without children, (e) a single parent with children under 18, and (f) other non-family households such as roommates? For each, what is the usual number of children and the age distribution of the householder? Nationally from the latest ACS 1-year tables, and by state (or county) where the table exists.",
+  "questionId": "town-household-composition",
+  "relatedQuestionIds": ["place-population-today", "town-congregations"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "every-town-in-america thread (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "data/source/acs-pums in this repository",
+      "whatItDidNotSettle": "It is a 200-household quality-check slice of Wyoming only, not a national or per-state table."
+    }
+  ],
+  "title": "What kinds of households a town has",
+  "usableAnswer": "A table of household-type shares (and children per household, and householder age bands) nationally and by state, with the ACS table ID, year and URL named.",
+  "whyItMatters": "A new game's town now has neighbors, and their households are drawn from these shares. Today the shares are invented placeholders."
+}

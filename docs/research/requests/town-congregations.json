@@ -1,0 +1,43 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "The same two congregations in every town reads as false in a Utah town, a Brooklyn neighborhood or a Texas county seat.",
+      "argumentFor": "Nothing is claimed about any real town's faith.",
+      "label": "Keep two generic congregations everywhere",
+      "position": "Every town has two generically named Christian congregations and 45% of households belong to one.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "A county table has to be carried and matched to towns.",
+      "argumentFor": "The 2020 U.S. Religion Census counts congregations and adherents by county and tradition, so a town would start with the faiths actually present there.",
+      "label": "Congregations by county from the U.S. Religion Census",
+      "position": "Draw each town's congregations and membership from its county's counts in the 2020 U.S. Religion Census.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T04:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide coverage",
+  "notes": [
+    "Built 2026-09-23 on branch claude/project-thread-l04zry-residents: every new game's town gets two congregations, 'First Community Church of <town>' and '<town> Community Fellowship', and 45% of seated households belong to one. Both the names and the share are marked placeholders; no source was read for either.",
+    "Congregations were asked for because the relationships lane's research says 21% of close friends were met at a place of worship (Survey Center on American Life, 2021), and the game had no organization type for a congregation at all."
+  ],
+  "priority": "P1",
+  "question": "For each U.S. county, how many congregations of each religious tradition are there, and what share of residents are adherents of each (the 2020 U.S. Religion Census, ASARB)? Nationally, what share of adults are members of a congregation and what share attend at least monthly (Gallup, Pew)? And what are ordinary congregation names by tradition, so a generated one is plausible without naming a real congregation?",
+  "questionId": "town-congregations",
+  "relatedQuestionIds": [
+    "town-household-composition",
+    "how-people-meet-new-people"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "every-town-in-america thread (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "docs/research in this repository",
+      "whatItDidNotSettle": "Congregations appear only as open questions about where people meet; no counts, shares or names exist."
+    }
+  ],
+  "title": "Which congregations a town has",
+  "usableAnswer": "A CSV of county FIPS, religious tradition, congregations and adherents from the 2020 U.S. Religion Census, plus national membership and attendance shares with their sources, plus a short list of naming patterns by tradition.",
+  "whyItMatters": "A congregation is one of the main places Americans meet friends. The town now has two placeholder congregations; which faiths are present and how many people belong is invented."
+}
