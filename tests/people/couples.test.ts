@@ -90,7 +90,9 @@ function metSomebody(town: string, placeKey: string) {
 describe("two people become a couple", () => {
   for (const [town, placeKey] of TOWNS) {
     it(`${town}: two dates, then asked, then together`, () => {
-      let { world, playerId, otherId } = metSomebody(town, placeKey);
+      const met = metSomebody(town, placeKey);
+      const { playerId, otherId } = met;
+      let world = met.world;
       // Nothing to ask about before the two of them have been out.
       expect(action(world, playerId, otherId, "ask-to-be-a-couple")).toBe(
         undefined,
