@@ -3,6 +3,7 @@ import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
+import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { workStatusAt } from "./life-queries";
 import {
   addDays,
@@ -44,7 +45,11 @@ import {
   EMPTY_FUTURE_TRANSITION_HANDLERS,
   resolveFutureDueItemsThrough,
 } from "./future-transitions";
-import { assertWorldIntegrity, recordWorldEvent } from "./world";
+import {
+  advanceWithWorldIntegrityAtEnd,
+  assertWorldIntegrity,
+  recordWorldEvent,
+} from "./world";
 
 export interface CreateScheduledActivityInput {
   readonly stableKey: string;
@@ -942,16 +947,18 @@ export function advanceWorldMinutes(
   minutes: number,
   transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
 ): World {
-  if (!transitionHandlers.routine) {
-    if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0)
-      return world;
-    return advanceCanonicalMinutes(world, minutes, null, transitionHandlers);
-  }
-  return resolveAdvanceWithRoutine(
-    world,
-    addSimulationMinutes(world.currentMoment, minutes),
-    transitionHandlers,
-  );
+  return advanceWithWorldIntegrityAtEnd(() => {
+    if (!transitionHandlers.routine) {
+      if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0)
+        return world;
+      return advanceCanonicalMinutes(world, minutes, null, transitionHandlers);
+    }
+    return resolveAdvanceWithRoutine(
+      world,
+      addSimulationMinutes(world.currentMoment, minutes),
+      transitionHandlers,
+    );
+  });
 }
 
 function nonRoutineBlockingIds(
@@ -1645,9 +1652,12 @@ function setCurrentMoment(
   // office the day it happens. The consumer applies each notice once.
   return applyCrisisRepairFunding(
     applyCrisisOfficeContinuity(
-      applyGovernorTurnover(
+      applyConstitutionalReform(
         crossedFrom,
-        applyCongressTurnover(crossedFrom, moved),
+        applyGovernorTurnover(
+          crossedFrom,
+          applyCongressTurnover(crossedFrom, moved),
+        ),
       ),
     ),
   );

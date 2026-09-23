@@ -298,8 +298,12 @@ export function buildAdultLifeContext(
   ];
 
   const work = activeWorkRelationshipsAt(world, personId, lifeCutoff);
-  const employerIds = new Set(
-    work.map((entry) => entry.relationship.organizationId),
+  // Work with no employer on record is nobody's workplace: two people who
+  // each have such work do not share one.
+  const employerIds = new Set<EntityId | null>(
+    work
+      .map((entry) => entry.relationship.organizationId)
+      .filter((id): id is EntityId => id !== null),
   );
   const colleagueIds = [
     ...new Set(
@@ -651,12 +655,15 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.household-money-shortfall",
+    // Was withheld: "the world keeps no monthly income or spending record that
+    // could say so". The weekly living costs in `cost-of-living.ts` are that
+    // record now, and the first week a life cannot cover is written as this
+    // opportunity with the amounts in it. The prose shown is that record's own
+    // summary; the line below is the fallback for a save without one.
+    opportunity: "household-shortfall",
     companion: null,
     stakes: "notable",
-    withheld:
-      "The scene depends on the month's arithmetic having moved, and the world keeps no monthly income or spending record that could say so. Grounded money pressure lives in adult.debt-call and adult.housing-cost-change, which read recorded obligations.",
-    prose:
-      "The month does not add up the way it did. Nothing has gone wrong; the numbers have simply moved.",
+    prose: "This month's money does not cover this month's costs.",
     tensions: [
       tension(
         "security-stability",
@@ -684,9 +691,9 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       },
       {
         key: "say-so",
-        label: "Say the month is tight",
+        label: "Say money is tight",
         description: "Put it in front of whoever else it affects.",
-        memory: "You said that money was tight that month.",
+        memory: "You said that money was tight.",
         stance: "engaged",
         nudges: [
           nudge("privacy-preference", -0.55),
@@ -2550,8 +2557,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     // recorded as holding is a goodwill that quietly goes nowhere.
     companion: "other-household",
     stakes: "ordinary",
-    prose:
-      "Somebody local asked you to something on Saturday. Nobody needs you there.",
+    prose: "You have been asked over on Saturday afternoon. Going is optional.",
     tensions: [],
     available: always,
     options: [

@@ -4,10 +4,10 @@ import {
   CLAIM_EVIDENCE_TAG_PREFIX,
 } from "../claim-stances";
 import type { EntityId, HistoricalEvent, World } from "../types";
-import { assignStory } from "./desk";
+import { assignStory, recordStoryLead } from "./desk";
 import { reporterIsCurrent, reporterRoles } from "./outlets";
 import { discloseToReporter, negotiateGroundRules } from "./sources";
-import { pressRecordByKey } from "./store";
+import { pressRecordById, pressRecordByKey, pressRecordsOfKind } from "./store";
 
 const CAUGHT_LYING_KEY_PREFIX = "press46:caught-lying:";
 
@@ -53,7 +53,17 @@ export function produceCaughtLyingLeads(world: World): World {
     const confirmed = next.history.events.find(
       (event) => event.id === evidenceId,
     );
-    if (confirmed?.type !== SOURCE_CONFIRMED_EVENT) continue;
+    if (confirmed && confirmed.type !== SOURCE_CONFIRMED_EVENT) {
+      next = leadFromPublishedFinding(next, {
+        stableKey,
+        found,
+        evidence: confirmed,
+        outletId: role.outletId,
+        speakerId,
+      });
+      continue;
+    }
+    if (!confirmed) continue;
     const sourceId = participant(confirmed, "agency:source");
     const claim = next.history.claims.find(
       (row) => row.stableKey === `${confirmed.stableKey}:claim`,
@@ -87,4 +97,46 @@ export function produceCaughtLyingLeads(world: World): World {
       : disclosed.world;
   }
   return next;
+}
+
+/**
+ * A denial contradicted by a body's published finding needs no source: the
+ * finding is the record. The reporter who was told the denial takes it to
+ * their desk as a follow-up on the same matter, and the desk's own rules
+ * decide whether and how it runs.
+ */
+function leadFromPublishedFinding(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly found: HistoricalEvent;
+    readonly evidence: HistoricalEvent;
+    readonly outletId: EntityId;
+    readonly speakerId: EntityId;
+  },
+): World {
+  const step = pressRecordsOfKind(world, "proceeding-step").find(
+    (candidate) => candidate.eventId === input.evidence.id,
+  );
+  if (!step?.publicStep) return world;
+  const proceeding = pressRecordById(
+    world,
+    "matter-proceeding",
+    step.proceedingId,
+  );
+  if (!proceeding) return world;
+  if (pressRecordByKey(world, "story-lead", `${input.stableKey}:lead`))
+    return world;
+  const created = recordStoryLead(world, {
+    stableKey: `${input.stableKey}:lead`,
+    outletId: input.outletId,
+    family: "follow-up",
+    route: "public-record",
+    basisEventIds: [input.found.id, input.evidence.id],
+    subjectPersonIds: [input.speakerId],
+    jurisdictionId: input.evidence.jurisdictionId,
+    matterId: proceeding.matterId,
+    followsPublicationId: null,
+  });
+  return assignStory(created.world, created.lead.id);
 }

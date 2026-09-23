@@ -1,0 +1,41 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "employers-and-job-listings",
+  "title": "Who employs people in each town, and what a job listing should show the player",
+  "question": "Every life in every town sees the same short list under Jobs. There are three paid jobs: shop assistant, repair worker and office assistant. Each is offered by the same invented employer everywhere, with no address, and each pays a fixed amount per four-hour shift. The list also offers three volunteer or campaign roles and six study programs. Decide: (1) who the employers in a town should be (real employers by name, generated employers of realistic kinds for the place, public employers such as the county, the school district and the state, or a mix) and whether a small town and a large city should differ in how many there are and of what kinds; (2) which occupations a town should offer, and whether that should follow the place's real mix of work (retail, health care, farming, fishing, oil and gas, government); (3) what a listing should say: title, employer, place, hours, pay, requirements, and whether a national or state median belongs on it at all; (4) how pay should be set: per hour, per shift or per year, and whether it varies by state, by town or by employer; (5) how a person finds and gets a job: seeing a listing, asking someone they know, being offered one by a relationship, and whether an application can be turned down; (6) whether a job starts on a fixed date, and what happens to an accepted offer that is never begun; (7) whether jobs connect to politics: public employment, patronage, union membership, a campaign or office job; (8) what the owner should be asked so that the answer matches what he wants from ordinary work, which he ranks low but not absent.",
+  "whyItMatters": "Jobs is the same screen in every town in the country, so a life in Houma, Louisiana, and a life in Ely, Nevada, are offered the same three jobs at the same three invented employers. A Houma walk on September 22, 2026, read employer names ending in \"(fictional)\" and a pay line printed as bare table numbers; both are fixed now, but the list behind them is still one list for the whole country. Engineering should not invent employers, occupations or pay scales to fill it, so it needs a decision before it can make Jobs depend on the place.",
+  "impact": "blocks-work",
+  "lane": "player UI (Jobs screen), with people and life",
+  "usableAnswer": "A position on each of the eight numbered points in plain words, and a short list of questions for the owner with one-word answers. For points (1), (2) and (4), say which public data could supply the answer for all 52 jurisdictions the game seats, or that a generated range is acceptable, and what the range should be drawn from. One written example listing for a small town and one for a large city, in American English, would settle the wording.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/life-paths2-catalog.ts and src/presentation/career-path7-provider.ts at branch claude/project-thread-c3vjm4 (off main f4580c3d)",
+      "whatItDidNotSettle": "Establishes what exists: 12 opportunities, of which 3 are paid jobs, each tied to one authored employer with no location, paying a fixed amount per shift (the shop assistant pays $72 for a 240-minute shift). The 3 jobs carry national median wages from an occupation table for display only. Nothing reads the character's state or town. It does not say what employers or jobs a place should have."
+    },
+    {
+      "source": "docs/research/requests/how-a-life-begins-and-grows-up.json",
+      "whatItDidNotSettle": "Covers how a life's history is generated to its starting age, including work a person already holds. It does not cover what work a place offers once play begins."
+    }
+  ],
+  "candidateAnswers": [
+    {
+      "label": "Generated employers by place type",
+      "recommended": true,
+      "position": "Generate a town's employers from the kinds of work public data says the place has, with realistic invented names and addresses, plus the real public employers (county, school district, state agencies) named by their office. Pay per hour, varying by state within a range drawn from public wage data. Listings show title, employer, place, hours and hourly pay, and no national median."
+    },
+    {
+      "label": "Keep one national list",
+      "recommended": false,
+      "position": "Keep a short national list of jobs, reworded, with pay adjusted by state. Cheap, but every town stays the same, which is what the walk found."
+    }
+  ],
+  "requestedBy": "player UI lane, for lamontae (owner)",
+  "filedAt": "2026-09-23T00:20:00.000Z",
+  "priority": "P1",
+  "notes": [
+    "The coordinator relayed the owner's ask to take the employers and job-listings question to ChatGPT and to have ChatGPT ask him questions about it.",
+    "Fixed in the same change as this filing, so they need no answer: employer names no longer show \"(fictional)\", the national median reads as \"$17.03 an hour, $35,410 a year\", and an accepted offer no longer says it is waiting for an answer.",
+    "Old saves keep the employers they already recorded whatever is decided; engineering handles that."
+  ],
+  "relatedQuestionIds": ["how-a-life-begins-and-grows-up"]
+}

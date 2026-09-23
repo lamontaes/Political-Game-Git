@@ -1,3 +1,4 @@
+import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { refreshContextualScenes } from "./contextual-scene-producers";
@@ -32,6 +33,7 @@ import type {
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { shortPersonName } from "./conversation-subjects";
 import { lapseVenueActivity } from "./scheduled-activity-choice";
+import { keepAcceptedSocialOccasion } from "./social-invitation";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 
 /**
@@ -331,6 +333,16 @@ export function passOrdinaryDays(
   days = 1,
   supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry = {},
 ): World {
+  return advanceWithWorldIntegrityAtEnd(() =>
+    passOrdinaryDaysUnchecked(world, days, supplied),
+  );
+}
+
+function passOrdinaryDaysUnchecked(
+  world: World,
+  days: number,
+  supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry,
+): World {
   const advanced = advanceOrdinaryDays(world, days, supplied);
   // A stretch that actually passed is a transition at which the world may bind
   // the situations it has made answerable (PROSE B). A refused advance writes
@@ -385,6 +397,20 @@ function advanceOrdinaryDays(
     const stepped = advanceWorldMinutes(current, minutes, handlers);
     if (compareSimulationMoments(stepped.currentMoment, morning) >= 0)
       return stepped;
+
+    // A Saturday the player said yes to is kept, unless they asked to be
+    // stopped at such things and play them instead.
+    if (stepped.control.kind === "person" && !options.stopForTentativeHolds) {
+      const kept = keepAcceptedSocialOccasion(
+        stepped,
+        stepped.control.personId,
+        handlers,
+      );
+      if (kept !== stepped) {
+        current = kept;
+        continue;
+      }
+    }
 
     // Passing time is not a choice not to attend. It used to be recorded as
     // one: this wrote a refusal, with a fabricated "Decline <title>" against

@@ -249,7 +249,11 @@ import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
-import { projectOfficeTransition } from "../presentation/office-transition";
+import {
+  projectOfficeTransition,
+  projectSwearingIn,
+} from "../presentation/office-transition";
+import { SwearingInPanel } from "./SwearingInPanel";
 import {
   docketBill,
   type DocketBill,
@@ -329,7 +333,13 @@ import {
   reportReturnToTitle,
   type ReturnToTitleRequest,
 } from "./return-to-title-bridge";
+import { HomePurchasePanel } from "./HomePurchasePanel";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
+import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
+import {
+  observerSetup,
+  openObserverWorld,
+} from "../presentation/observer-world";
 import {
   SaveImportControl,
   SaveTransferControls,
@@ -831,6 +841,25 @@ export function PlayerGame() {
                 setSessionSeed(resolveSessionSeed("", window.crypto));
               }
               setScreen({ kind: "setup" });
+            }}
+            onWatch={() => {
+              setProblem(null);
+              try {
+                const { seed } = resolveSessionSeed("", window.crypto);
+                const observed = openObserverWorld(observerSetup(seed));
+                startPlaying(
+                  observed.world,
+                  observed.anchorPersonId,
+                  seed,
+                  null,
+                );
+              } catch (error) {
+                setProblem(
+                  error instanceof Error
+                    ? error.message
+                    : "The world could not be opened.",
+                );
+              }
             }}
             onContinue={() => void continueMostRecent()}
             onOpenSaves={() => setScreen({ kind: "saves" })}
@@ -2257,9 +2286,11 @@ function SavesScreen({
         {saves.map((save) => (
           <li key={save.saveId} data-testid="save-entry">
             <div>
-              <strong>{save.playerName}</strong>
+              <strong>
+                {save.observing ? "Watching the world" : save.playerName}
+              </strong>
               <span>
-                {save.playerAge}
+                {save.observing ? "Nobody played" : save.playerAge}
                 {save.residence ? ` · ${save.residence.name}` : ""} ·{" "}
                 {proseDate(save.currentMoment.date)}
               </span>
@@ -3565,6 +3596,7 @@ function PlayingScreen({
                           if (facing !== "everyone") setReturnFocusTo(facing);
                         }}
                         transitionHandlers={createCampaignElectionTransitionRegistry()}
+                        presentPersonIds={presentPersonIds}
                       />
                     ) : showOrientation ? (
                       <WorldOrientationPanel
@@ -3696,6 +3728,15 @@ function PlayingScreen({
               >
                 <strong>Observing</strong>
                 <span>Nobody is being played. You can look, not act.</span>
+                <ObserverClock
+                  world={storedSession.world}
+                  onAdvance={(next, base) =>
+                    onControlChange(next, base, { kind: "observing" })
+                  }
+                  onOpenRecord={() =>
+                    dispatch({ type: "go-to-surface", surface: "world-record" })
+                  }
+                />
                 {continuation && !showContinuation ? (
                   <button
                     ref={observingButton}
@@ -4515,6 +4556,11 @@ function renderWorkspace({
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
           />
+          <HomePurchasePanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+          />
           {view.section !== "finances" && (
             <>
               <PersonalGoalsPanel
@@ -4941,6 +4987,18 @@ function renderWorkspace({
         />,
       );
 
+    case "world-record":
+      return frame(
+        "World record",
+        "world-record-workspace",
+        <ObserverRecordWorkspace
+          world={session.world}
+          onOpenPerson={(personId) =>
+            openEntity({ kind: "person", id: personId })
+          }
+        />,
+      );
+
     case "patch-notes":
       return frame(
         "Patch notes",
@@ -5228,6 +5286,23 @@ function renderWorkspace({
           ),
         });
       }
+      const swearingIn = officeHalf
+        ? projectSwearingIn(session.world, session.personId)
+        : null;
+      if (swearingIn) {
+        sections.push({
+          key: "swearing-in",
+          title: "Swearing-in",
+          body: (
+            <SwearingInPanel
+              world={session.world}
+              personId={session.personId}
+              swearingIn={swearingIn}
+              onWorldChange={onWorldChange}
+            />
+          ),
+        });
+      }
       /*
        * A disaster request or an international choice belongs to whoever
        * actually holds the office being asked, so the section exists only
@@ -5390,8 +5465,9 @@ function renderWorkspace({
           body: (
             <div data-testid="town-seat">
               <p>
-                You sit on the {townSeat.bodyName} of {townSeat.governmentName},
-                since {proseDate(townSeat.since)}.
+                {townSeat.office === "mayor"
+                  ? `You have been ${townSeat.mayorTitle}, ${townSeat.governmentName}, since ${proseDate(townSeat.since)}.`
+                  : `You sit on the ${townSeat.bodyName} of ${townSeat.governmentName}, since ${proseDate(townSeat.since)}.`}
               </p>
               {townSeatRulesSentence(townSeat) ? (
                 <p data-testid="town-seat-rules">
@@ -6094,7 +6170,8 @@ interface WorkSection {
     | "paths"
     | "personnel"
     | "crisis"
-    | "transition";
+    | "transition"
+    | "swearing-in";
   readonly title: string;
   readonly body: ReactNode;
 }

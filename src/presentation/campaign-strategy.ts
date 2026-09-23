@@ -1,3 +1,4 @@
+import { displayMoney } from "./money-display";
 import {
   activeCampaignForCandidate,
   campaignActionResult,
@@ -81,13 +82,16 @@ export interface CampaignStrategyReport {
   readonly geographyLabel: string;
   readonly approvedSpendCeiling: MoneyAmount;
   readonly actualSpend: MoneyAmount | null;
+  /**
+   * What the player chose, said to them. A Presque Isle walk read "The player
+   * chose Direct outreach … with a ceiling of USD 0.00" about their own plan.
+   */
+  readonly choice: string;
   readonly outcome: string;
   readonly observedResult: string | null;
 }
 
-function money(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
-}
+const money = displayMoney;
 
 function zero(currency: CurrencyCode): MoneyAmount {
   return { minorUnits: 0, currency };
@@ -302,7 +306,9 @@ export function projectLatestCampaignStrategyReport(
   );
   const attribution = action.strategy.proposerPersonId
     ? `${personName(world.people[action.strategy.proposerPersonId]!)} proposed the starting priority.`
-    : "The candidate made this plan without campaign staff.";
+    : "You made this plan without campaign staff.";
+  const ceiling = action.strategy.approvedSpendCeiling;
+  const label = actionLabel(action.kind);
   return {
     actionId: action.id,
     attribution,
@@ -310,10 +316,14 @@ export function projectLatestCampaignStrategyReport(
       action.kind === action.strategy.proposedActionKind
         ? "accepted-proposal"
         : "changed-plan",
-    chosenPriorityLabel: actionLabel(action.kind),
+    chosenPriorityLabel: label,
     geographyLabel: action.strategy.geographyLabel,
     approvedSpendCeiling: { ...action.strategy.approvedSpendCeiling },
     actualSpend: result.spentAmount ? { ...result.spentAmount } : null,
+    choice:
+      ceiling.minorUnits === 0
+        ? `You chose ${label.toLowerCase()} in ${action.strategy.geographyLabel}, with no money set aside for it.`
+        : `You chose ${label.toLowerCase()} in ${action.strategy.geographyLabel}, and approved spending up to ${money(ceiling)}.`,
     outcome: outcome?.summary ?? "The campaign action completed.",
     observedResult: feedback?.summary ?? null,
   };
