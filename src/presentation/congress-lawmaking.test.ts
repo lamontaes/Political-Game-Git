@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { advanceWorld, lifePlaceSearch } from "../simulation";
 import type { World } from "../simulation";
+import { makeIsoDate } from "../simulation/dates";
 import {
   US_CONGRESS_PACK_ID,
   US_CONGRESS_RULE_PACK,
@@ -21,6 +22,7 @@ import {
   rulePackById,
 } from "../simulation/legislature-rule-packs";
 import { assertRulePackIntegrity } from "../simulation/legislature-rules";
+import { congressSittingOn, projectBillPaper } from "./bill-paper";
 import { lifeActivityHandlers } from "./life-time-handlers";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -159,5 +161,50 @@ describe("Congress makes law in an ordinary life", () => {
       for (const ballot of vote.dispositions)
         expect(ballot.reason ?? "").toMatch(/^member:/);
     }
+  });
+
+  it("prints an enacted bill the way Congress prints one, with what each House and the President did", () => {
+    const enacted = bills.find(
+      (bill) => measurePosition(later, bill.id).phase === "enacted",
+    )!;
+    const paper = projectBillPaper(later, enacted.id)!;
+    expect(paper.congressLine).toBe("119th CONGRESS");
+    expect(paper.designation).toBe(enacted.designation);
+    expect(paper.kindLabel).toBe("AN ACT");
+    expect(paper.stamp).toMatch(/^LAW · IN EFFECT [A-Z]+ \d{1,2}, 2026$/);
+    expect(paper.sections[0]!.text).toContain(enacted.shortTitle);
+    // The operative text is not modeled, and the paper says so.
+    expect(paper.sections.some((section) => section.missing)).toBe(true);
+    expect(paper.record.some((line) => /^Passed the House/.test(line))).toBe(
+      true,
+    );
+    expect(paper.record.some((line) => /^Passed the Senate/.test(line))).toBe(
+      true,
+    );
+    expect(paper.record).toContainEqual(
+      expect.stringMatching(/^Approved by the President /),
+    );
+    expect(paper.record.at(-1)).toMatch(/^Became law /);
+  });
+});
+
+describe("the Congress sitting on a date", () => {
+  it("counts Congresses from 1789 and starts each on January 3 of an odd year", () => {
+    expect(congressSittingOn(makeIsoDate("2025-01-03"))).toEqual({
+      congress: 119,
+      session: 1,
+    });
+    expect(congressSittingOn(makeIsoDate("2026-03-31"))).toEqual({
+      congress: 119,
+      session: 2,
+    });
+    expect(congressSittingOn(makeIsoDate("2027-01-02"))).toEqual({
+      congress: 119,
+      session: 2,
+    });
+    expect(congressSittingOn(makeIsoDate("1789-03-04"))).toEqual({
+      congress: 1,
+      session: 1,
+    });
   });
 });
