@@ -12,6 +12,7 @@ import {
   CONTACT_COUNTERED_EVENT,
   CONTACT_DECLINED_EVENT,
   CONTACT_PROPOSED_EVENT,
+  contactBases,
   contactProposals,
 } from "../simulation/people-contact";
 import { recordRelationshipInteraction } from "../simulation/records";
@@ -45,6 +46,22 @@ function adultLife(seed: string) {
     player: game.playerPersonId,
     world: openOrdinaryLife(game.world, game.playerPersonId),
   };
+}
+
+/**
+ * A life with somebody from long ago the player parted from on good terms.
+ * Childhoods are drawn, and an old tie that ended in a falling-out is left
+ * alone by design; pick the first save with one that did not.
+ */
+function lifeWithAnOldFriend(seedNote: string) {
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    const life = adultLife(`${seedNote}-${attempt}`);
+    const friendly = contactBases(life.world, life.player).some(
+      (basis) => basis.gap === "long-gap" && basis.lastContactOn !== null,
+    );
+    if (friendly) return life;
+  }
+  throw new Error("No save in twenty has an old friend on good terms.");
 }
 
 const answersTo = (world: World, proposalEventId: EntityId) =>
@@ -248,7 +265,7 @@ describe("PEOPLE P3: reaching somebody", () => {
 
 describe("PEOPLE P3: somebody gets back in touch", () => {
   it("an old contact can reach out while the player never opens their page", () => {
-    const { player, world } = adultLife("people-contact-c");
+    const { player, world } = lifeWithAnOldFriend("people-contact-c");
     let current = world;
     let invited = false;
     for (let step = 0; step < 60 && !invited; step += 1) {
@@ -287,7 +304,7 @@ describe("PEOPLE P3: somebody gets back in touch", () => {
 
 describe("PEOPLE P3: the call, answered in the conversation", () => {
   it("is a scene with three real answers, and yes puts it on the calendar", () => {
-    const { player, world } = adultLife("people-contact-c");
+    const { player, world } = lifeWithAnOldFriend("people-contact-c");
     let current = world;
     let view = null as ReturnType<typeof projectPlayerConversation>;
     for (let step = 0; step < 20 && !view; step += 1) {

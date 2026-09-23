@@ -1227,6 +1227,22 @@
       "textRevision": "fa32565f4c95"
     },
     {
+      "anchor": "LIFE_TALK_INTENTS-0019",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Talk about adopting a child together",
+      "occurrence": 0,
+      "textRevision": "c25421764a18"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0020",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Talk about having a child together",
+      "occurrence": 0,
+      "textRevision": "a451b7d37792"
+    },
+    {
       "anchor": "MunicipalWorkspace-0001",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -7601,6 +7617,14 @@
       "text": "What were you going to say?",
       "occurrence": 0,
       "textRevision": "5fadd86fcab7"
+    },
+    {
+      "anchor": "replyFor-0067",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "That's a big thing. Give me a couple of days to think about it, and I'll tell you.",
+      "occurrence": 0,
+      "textRevision": "43a143873aeb"
     },
     {
       "anchor": "reporterQuestion-0001",

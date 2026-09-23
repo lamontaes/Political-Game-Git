@@ -12,7 +12,8 @@ import {
 import {
   defaultPronounsForGender,
   COHORT_GIVEN_NAME_GENERATION_VERSION,
-  CHILDHOOD_GENERATION_V2,
+  CHILDHOOD_GENERATION_V3,
+  type ChildhoodGenerationVersion,
   generationInputsFor,
   lifePlaceByKey,
   questionnaireLength,
@@ -183,7 +184,7 @@ export interface NewGameSetup {
    * for the parent, classmate and teacher, and "<town> public school" for a
    * child who starts in school. New Game stamps the repair.
    */
-  readonly childhoodGenerationVersion?: typeof CHILDHOOD_GENERATION_V2;
+  readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
   /**
    * Absent keeps the home party chapters' recorded names ("County of Adams
    * Democrats"). New Game names them as residents say the place.
@@ -241,8 +242,9 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   appearanceRecipeVersion: COHERENT_APPEARANCE_RECIPE_VERSION,
   givenNameGenerationVersion: COHORT_GIVEN_NAME_GENERATION_VERSION,
   // A classmate born on the player's own birthday, in every save, was the
-  // fixed offset this replaces.
-  childhoodGenerationVersion: CHILDHOOD_GENERATION_V2,
+  // fixed offset v2 replaced; two lives in two states with the same childhood
+  // line for line, all on their birthdays, is what v3 replaces.
+  childhoodGenerationVersion: CHILDHOOD_GENERATION_V3,
   partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION,
   schoolNameVersion: SCHOOL_NAMES_V2_VERSION,
   // OFF, deliberately, and not removed. `context-v2` declines to write a

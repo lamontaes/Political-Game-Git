@@ -1,5 +1,6 @@
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
+import { reconsiderAfterEvent } from "../simulation/living-world/political-reflection";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { seatWinnersOwedTheirTerm } from "../simulation/office-entry-repair";
 import { refreshContextualScenes } from "./contextual-scene-producers";
@@ -358,7 +359,30 @@ function passOrdinaryDaysUnchecked(
   ) {
     return advanced;
   }
-  return refreshContextualScenes(advanced, advanced.control.personId);
+  return refreshContextualScenes(
+    reconsiderAfterEvents(world, advanced),
+    advanced.control.personId,
+  );
+}
+
+/**
+ * What happened from the start of a stretch that brings questions back to
+ * people who met them before (`VIEW_TRIGGERS`). Each event is taken once:
+ * reading it again finds the record it already left.
+ */
+function reconsiderAfterEvents(before: World, after: World): World {
+  // Walk back only through what was recorded from that day on, so a long
+  // save does not reread its whole history every day.
+  const recent = [];
+  for (let index = after.history.events.length - 1; index >= 0; index -= 1) {
+    const event = after.history.events[index]!;
+    if (event.recordedAt < before.currentDate) break;
+    if (event.occurredAt >= before.currentDate) recent.push(event);
+  }
+  let next = after;
+  for (const event of recent.reverse())
+    next = reconsiderAfterEvent(next, event);
+  return next;
 }
 
 function advanceOrdinaryDays(

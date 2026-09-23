@@ -171,6 +171,10 @@ import {
 } from "./world-metrics";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 import { CAMPAIGN_LIFE_HANDLERS } from "./campaign-life-handlers";
+import {
+  POLITICAL_REFLECTION_TRANSITION_KEY,
+  politicalReflectionTransitionHandler,
+} from "./living-world/political-reflection";
 import { ensureCampaignWeeklyEvaluation } from "./campaign-opponents";
 import {
   SUPPORT_DENOMINATOR,
@@ -2029,6 +2033,11 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
         // MIGRATION: households leave town, newcomers arrive, waves step.
         [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
+        // PEOPLE: somebody thinks over a proposal they have just met.
+        [
+          POLITICAL_REFLECTION_TRANSITION_KEY,
+          politicalReflectionTransitionHandler,
+        ],
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),

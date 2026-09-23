@@ -201,6 +201,55 @@ export function observedTraitLabels(
   });
 }
 
+/** How many qualities a person's card shows. */
+export const SHOWN_TRAIT_LIMIT = 2;
+
+/**
+ * The one or two qualities somebody is known for, as their card shows them.
+ *
+ * ChatGPT's answer to `traits-held-at-once` and `person-starting-trait-count`:
+ * an adult shows one or two descriptors over a richer profile, and that is a
+ * display limit, not a cap on what a person is. So nothing here is removed
+ * from anybody; the rest stay recorded and keep working. The catalog's
+ * qualities come first, because they are the salient ones a person was given
+ * to be known by; then the five by how strongly they are held, strongest
+ * first; ties keep the registry's order.
+ */
+export function shownTraitLabels(
+  world: World,
+  personId: EntityId,
+  limit: number = SHOWN_TRAIT_LIMIT,
+): readonly string[] {
+  const recorded = new Set(
+    latestPersonalityTendenciesForPerson(world, personId).map(
+      (record) => record.tendencyId,
+    ),
+  );
+  return [...traitRegistryFor(world).traits.values()]
+    .flatMap((trait, order) => {
+      if (!recorded.has(traitDefinitionFromPack(trait).id)) return [];
+      const reading = readTrait(world, personId, trait);
+      return reading.state === "recorded" && reading.label !== null
+        ? [
+            {
+              label: reading.label,
+              salient: trait.pack === PERSONALITY_PACK,
+              strength: Math.abs(reading.value),
+              order,
+            },
+          ]
+        : [];
+    })
+    .sort(
+      (left, right) =>
+        Number(right.salient) - Number(left.salient) ||
+        right.strength - left.strength ||
+        left.order - right.order,
+    )
+    .slice(0, limit)
+    .map((entry) => entry.label);
+}
+
 /**
  * Every seeded trait this life has loaded beyond the build's own five: the
  * build's other packs and whatever its content packs install. The five are not

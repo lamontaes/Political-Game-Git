@@ -3,7 +3,8 @@ import {
   type EarlierLifeGenerationVersion,
 } from "../simulation/contextual-character-history";
 import {
-  CHILDHOOD_GENERATION_V2,
+  CHILDHOOD_GENERATION_V3,
+  childhoodSpreadsBirthDates,
   type ChildhoodGenerationVersion,
 } from "../simulation/character-history";
 import { residentNameForJurisdiction } from "../simulation/life-places";
@@ -1059,7 +1060,9 @@ function summarizeEarlierLife(
           provenance: PROVENANCE,
         },
       },
-      ...(version === "context-v2"
+      // Under childhood-v3 the summary ends the job itself, when it ended.
+      ...(version === "context-v2" ||
+      childhoodGenerationVersion === CHILDHOOD_GENERATION_V3
         ? []
         : [
             {
@@ -1119,7 +1122,7 @@ function childSchooling(
   readonly current: ChildSchoolStage;
   readonly finished: readonly ChildSchoolStage[];
 } {
-  if (version !== CHILDHOOD_GENERATION_V2) {
+  if (!childhoodSpreadsBirthDates(version)) {
     return {
       current: {
         key: "elementary",

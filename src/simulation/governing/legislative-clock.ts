@@ -1,4 +1,8 @@
 import { addDays, makeIsoDate } from "../dates";
+import {
+  encounterProposalsInEvent,
+  reconsiderOnBillOutcome,
+} from "../living-world/political-reflection";
 import { compileBillDraft } from "../legislation-drafting";
 import { recordDraftLineage } from "../legislation-draft-lineage";
 import {
@@ -838,6 +842,15 @@ export function scheduleInstitutionStep(
   });
 }
 
+/** People who met a bill think it over again when it reaches its end. */
+function reconsiderOnOutcomes(before: World, after: World): World {
+  let next = after;
+  for (const event of after.history.events)
+    if (event.sequence >= before.history.nextSequence)
+      next = reconsiderOnBillOutcome(next, event);
+  return next;
+}
+
 /** Builds the due handler around the governing system's executive seam. */
 export function createInstitutionStepHandler(
   onExecutiveDesk: ExecutiveDeskHandler,
@@ -886,12 +899,22 @@ export function createInstitutionStepHandler(
         // institution's hands; this step is still the one running, so it is
         // excluded or the next step would never be scheduled.
         return done(
-          scheduleInstitutionStep(result.world, measureId, undefined, due.id),
+          scheduleInstitutionStep(
+            reconsiderOnOutcomes(world, result.world),
+            measureId,
+            undefined,
+            due.id,
+          ),
           "The bill is on the executive's desk.",
         );
       case "applied":
         return done(
-          scheduleInstitutionStep(result.world, measureId, undefined, due.id),
+          scheduleInstitutionStep(
+            reconsiderOnOutcomes(world, result.world),
+            measureId,
+            undefined,
+            due.id,
+          ),
           `The institution took the step ${result.step}.`,
         );
     }
@@ -1006,6 +1029,14 @@ export function fileLegislatureMeasure(
     propositionIds: catalogPropositionIds(next, blueprint.propositionKeys),
   });
   const measure = next.history.legislativeMeasures!.at(-1)!;
+  // The member who filed it has met what it proposes, and will think it over.
+  const filed = next.history.events.at(-1)!;
+  next = encounterProposalsInEvent(next, {
+    personId: sponsorPersonId,
+    event: filed,
+    summary: filed.summary,
+    provenance: { kind: "direct-experience", eventId: filed.id },
+  });
   if (blueprint.subjectClass === "appropriation")
     next = attachAppropriationClauses(next, measure, stableKey);
   return scheduleInstitutionStep(next, measure.id);

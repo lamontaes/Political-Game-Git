@@ -78,39 +78,58 @@ const ORDINARY_LIFE_SCOPES = ["life:ordinary"] as const;
  * them, so reliability settles soonest and counts experience on a shorter
  * spacing. These are a first playable set, and changing them is an edit to
  * this file — no code reads a trait name to decide how movable it is.
+ *
+ * **Settling periods: private trial profile B.** ChatGPT's answer to
+ * `personality-change-bands` keeps the strengths, floors, spacing and cap, and
+ * asks for a controlled comparison of two settling profiles. Profile A is the
+ * first playable set (sociability 10 years, deliberation 15, reliability 8,
+ * conflict 12, risk 10). Profile B, used here, is reliability 2, sociability,
+ * conflict and risk 3, and deliberation 5. In its words these are "authored
+ * exploration, not empirical rates", and the owner approved the labeled
+ * experiment, not these numbers as final. Settling is how long a changed
+ * tendency takes to become established, not a timer until the next change.
+ * `PEOPLE_TRAIT_SETTLING_PROFILE_A` keeps A on record for the comparison.
  */
+export const PEOPLE_TRAIT_SETTLING_PROFILE_A: Readonly<Record<string, number>> =
+  {
+    sociability: 10,
+    deliberation: 15,
+    reliability: 8,
+    conflict: 12,
+    risk: 10,
+  };
 const PEOPLE_TRAIT_MOVABILITY: Readonly<Record<string, TraitMovability>> = {
   sociability: {
     settledByStrength: { subtle: 1.5, moderate: 2.5, strong: 4, defining: 5 },
-    settlesOver: 10,
+    settlesOver: 3,
     unsettledFloor: 0.5,
     experienceSpacingDays: 90,
     pressureCap: 3,
   },
   deliberation: {
     settledByStrength: { subtle: 2, moderate: 3.5, strong: 5, defining: 5.75 },
-    settlesOver: 15,
+    settlesOver: 5,
     unsettledFloor: 0.6,
     experienceSpacingDays: 180,
     pressureCap: 3,
   },
   reliability: {
     settledByStrength: { subtle: 1.5, moderate: 2.5, strong: 4, defining: 5 },
-    settlesOver: 8,
+    settlesOver: 2,
     unsettledFloor: 0.5,
     experienceSpacingDays: 60,
     pressureCap: 3,
   },
   conflict: {
     settledByStrength: { subtle: 2, moderate: 3, strong: 4.5, defining: 5.5 },
-    settlesOver: 12,
+    settlesOver: 3,
     unsettledFloor: 0.5,
     experienceSpacingDays: 120,
     pressureCap: 3,
   },
   risk: {
     settledByStrength: { subtle: 1.5, moderate: 2.5, strong: 4, defining: 5 },
-    settlesOver: 10,
+    settlesOver: 3,
     unsettledFloor: 0.5,
     experienceSpacingDays: 90,
     pressureCap: 3,

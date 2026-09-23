@@ -1,0 +1,395 @@
+import { describe, expect, it } from "vitest";
+
+import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+import { introduceMeasure } from "../simulation/legislation";
+import { beginHealthEpisode } from "../simulation/crisis/health";
+import { rulePackById } from "../simulation/legislature-rule-packs";
+import { searchLifePlaces } from "../simulation/life-places";
+import { ensureStateJurisdiction } from "../simulation/nationwide-world/state-executives";
+import { DEFAULT_NEW_GAME_SETUP, createNewGameWorld } from "./new-game";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import {
+  createFormationContext,
+  recordPrinciple,
+  recordPrivateBelief,
+} from "../simulation/politics";
+import type { EntityId, FutureDueItem, World } from "../simulation/types";
+import {
+  CARED_ABOUT_ISSUE_COUNT,
+  POLITICAL_REFLECTION_TRANSITION_KEY,
+  encounterProposalsInEvent,
+  issuesTheyCareAbout,
+  proposalsInEvent,
+  reconsiderOnBillOutcome,
+} from "../simulation/living-world/political-reflection";
+
+const OHIO = "us-oh-general-assembly-v1";
+
+/**
+ * An ordinary start in Columbus, Ohio, with a bill filed in the Ohio
+ * General Assembly by somebody who is not the player, naming one catalog
+ * question that engages a principle `bearing` way.
+ */
+function withBill(
+  seedNote: string,
+  bearing: "consistent-with" | "against" = "consistent-with",
+  pace: "thought-over" | "left-for-later" = "thought-over",
+  domainKey?: string,
+) {
+  // Whether somebody sits down with a question soon or leaves it is drawn
+  // from the save; pick the first save that does what the test is about.
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    const found = billIn(`${seedNote}-${attempt}`, bearing, domainKey);
+    const met = encounterProposalsInEvent(found.world, {
+      personId: found.sponsor,
+      event: found.event,
+      summary: found.event.summary,
+      provenance: { kind: "direct-experience", eventId: found.event.id },
+    });
+    const scheduled = dueFor(met, found.sponsor).length > 0;
+    if (scheduled === (pace === "thought-over")) return found;
+  }
+  throw new Error(`No save in forty leaves the question ${pace}.`);
+}
+
+function billIn(
+  seedNote: string,
+  bearing: "consistent-with" | "against",
+  domainKey?: string,
+) {
+  const place = searchLifePlaces("Columbus", 20).find(
+    (entry) => entry.stateJurisdictionKey === "US-OH",
+  )!;
+  const game = createNewGameWorld({
+    ...DEFAULT_NEW_GAME_SETUP,
+    seed: `reflection-${seedNote}`,
+    placeKey: place.key,
+  });
+  const opened = openOrdinaryLife(game.world, game.playerPersonId);
+  const world = ensureStateJurisdiction(opened, "OH");
+  const proposition = world.policyCatalog.propositionOrder
+    .map((id) => world.policyCatalog.propositions[id]!)
+    .find(
+      (entry) =>
+        (entry.principles ?? []).some((row) => row.bearing === bearing) &&
+        (!domainKey ||
+          world.policyCatalog.domains[
+            world.policyCatalog.issues[entry.issueId]!.domainId
+          ]!.stableKey.endsWith(`:${domainKey}`)),
+    )!;
+  expect(proposition).toBeDefined();
+  const sponsor = world.personOrder.find(
+    (id) =>
+      id !== game.playerPersonId &&
+      Number(world.currentDate.slice(0, 4)) -
+        Number(world.people[id]!.birthDate.slice(0, 4)) >=
+        25,
+  )!;
+  expect(sponsor).toBeDefined();
+  const ohio = Object.values(world.jurisdictions).find(
+    (entry) => entry.name === "Ohio",
+  )!;
+  expect(ohio).toBeDefined();
+  const chamber = rulePackById(OHIO).chambers[0]!;
+  const filed = introduceMeasure(world, {
+    stableKey: `reflection-test:${seedNote}`,
+    jurisdictionId: ohio.id,
+    rulePackId: OHIO,
+    designation: "H.B. 900",
+    shortTitle: "A bill that puts a question",
+    summary: "Filed so a question reaches somebody.",
+    origin: "member-introduction",
+    subjectClass: "general-policy",
+    sponsorPersonId: sponsor,
+    originChamberKey: chamber.chamberKey,
+    propositionIds: [proposition.id],
+  });
+  return {
+    world: filed,
+    playerPersonId: game.playerPersonId,
+    sponsor,
+    proposition,
+    engaged: (proposition.principles ?? []).find(
+      (row) => row.bearing === bearing,
+    )!,
+    event: filed.history.events.at(-1)!,
+  };
+}
+
+function holdPrinciple(
+  world: World,
+  personId: EntityId,
+  principleId: EntityId,
+  stance: "endorses" | "rejects",
+): World {
+  return recordPrinciple(world, {
+    stableKey: `reflection-test:principle:${personId}:${principleId}`,
+    personId,
+    principleId,
+    formedAt: world.currentDate,
+    stance,
+    conviction: "strong",
+    flexibility: "conditional",
+    qualification: null,
+    formation: createFormationContext("reflection:initial", {
+      note: "Test fixture: a principle the person already holds.",
+    }),
+    supersedesPrincipleRecordId: null,
+  });
+}
+
+function dueFor(world: World, personId: EntityId): readonly FutureDueItem[] {
+  return world.history.futureDueItems.filter(
+    (item) =>
+      item.transitionKey === POLITICAL_REFLECTION_TRANSITION_KEY &&
+      item.entityIds.includes(personId),
+  );
+}
+
+/** Ordinary days pass, the way a player passes them, until it is due. */
+function reflect(world: World, item: FutureDueItem) {
+  const days = Math.round(
+    (Date.parse(item.dueAt) - Date.parse(world.currentDate)) / 86_400_000,
+  );
+  const next = passOrdinaryDays(world, days);
+  const state = next.history.futureDueItemStates
+    .filter((entry) => entry.dueItemId === item.id)
+    .at(-1);
+  return { world: next, reasonKey: state?.reasonKey ?? null };
+}
+
+describe("people form political views from what they meet", () => {
+  it("is carried by the handlers ordinary time runs", () => {
+    expect(
+      createCampaignElectionTransitionRegistry().get(
+        POLITICAL_REFLECTION_TRANSITION_KEY,
+      ),
+    ).toBeDefined();
+  });
+
+  it("a filed bill puts its questions, and meeting it once schedules one reflection", () => {
+    const { world, sponsor, proposition, event } = withBill("once");
+    expect(proposalsInEvent(world, event)).toEqual([proposition.id]);
+    const met = encounterProposalsInEvent(world, {
+      personId: sponsor,
+      event,
+      summary: event.summary,
+      provenance: { kind: "direct-experience", eventId: event.id },
+    });
+    expect(
+      met.history.propositionExposures.filter(
+        (exposure) => exposure.personId === sponsor,
+      ),
+    ).toHaveLength(1);
+    expect(dueFor(met, sponsor)).toHaveLength(1);
+    // Hearing about the same filing again is not a second meeting.
+    const again = encounterProposalsInEvent(met, {
+      personId: sponsor,
+      event,
+      summary: event.summary,
+      provenance: { kind: "direct-experience", eventId: event.id },
+    });
+    expect(again).toBe(met);
+  });
+
+  it("the player meets it too, but is never scheduled to decide", () => {
+    const { world, playerPersonId, sponsor, event } = withBill("player");
+    const told = encounterProposalsInEvent(world, {
+      personId: playerPersonId,
+      event,
+      summary: event.summary,
+      provenance: { kind: "told-by", sourcePersonId: sponsor, claimId: null },
+    });
+    expect(
+      told.history.propositionExposures.some(
+        (exposure) => exposure.personId === playerPersonId,
+      ),
+    ).toBe(true);
+    expect(dueFor(told, playerPersonId)).toEqual([]);
+  });
+
+  it("somebody holding none of the principles it engages considers it and forms no view", () => {
+    const { world, sponsor, event } = withBill("no-principle");
+    const met = encounterProposalsInEvent(world, {
+      personId: sponsor,
+      event,
+      summary: event.summary,
+      provenance: { kind: "direct-experience", eventId: event.id },
+    });
+    const result = reflect(met, dueFor(met, sponsor)[0]!);
+    expect(result.reasonKey).toBe("people-reflection:considered-no-view");
+    expect(
+      result.world.history.privateBeliefs.filter(
+        (belief) => belief.personId === sponsor,
+      ),
+    ).toEqual([]);
+    // It was considered, not left blank.
+    expect(
+      result.world.history.decisionTraces.some(
+        (trace) =>
+          trace.context.actorPersonId === sponsor &&
+          trace.context.decisionType === "political-belief-formation",
+      ),
+    ).toBe(true);
+  });
+
+  it.each([
+    ["endorses", "consistent-with", "support"],
+    ["rejects", "consistent-with", "oppose"],
+    ["endorses", "against", "oppose"],
+    ["rejects", "against", "support"],
+  ] as const)(
+    "somebody who %s a principle the question is %s it comes to %s it",
+    (stance, bearing, expected) => {
+      const { world, sponsor, proposition, engaged, event } = withBill(
+        `${stance}-${bearing}`,
+        bearing,
+      );
+      const holding = holdPrinciple(
+        world,
+        sponsor,
+        engaged.principleId,
+        stance,
+      );
+      const met = encounterProposalsInEvent(holding, {
+        personId: sponsor,
+        event,
+        summary: event.summary,
+        provenance: { kind: "direct-experience", eventId: event.id },
+      });
+      const result = reflect(met, dueFor(met, sponsor)[0]!);
+      expect(result.reasonKey).toBe("people-reflection:view-formed");
+      const beliefs = result.world.history.privateBeliefs.filter(
+        (belief) => belief.personId === sponsor,
+      );
+      expect(beliefs).toHaveLength(1);
+      expect(beliefs[0]!.position).toBe(expected);
+      // No firmer than the principle it rests on.
+      expect(beliefs[0]!.conviction).toBe("strong");
+      expect(beliefs[0]!.flexibility).toBe("conditional");
+      const cares = issuesTheyCareAbout(result.world, sponsor).includes(
+        proposition.issueId,
+      );
+      expect(beliefs[0]!.salience).toBe(cares ? "high" : "low");
+    },
+  );
+
+  it("meeting a bill again does not wear down a view already held", () => {
+    const { world, sponsor, proposition, event } = withBill("kept");
+    const held = recordPrivateBelief(world, {
+      stableKey: "reflection-test:held",
+      personId: sponsor,
+      propositionId: proposition.id,
+      formedAt: world.currentDate,
+      position: "support",
+      conviction: "settled",
+      salience: "central",
+      flexibility: "firm",
+      rationale: null,
+      formation: createFormationContext("reflection:initial", {
+        note: "Test fixture: a view the person already holds.",
+      }),
+      supersedesBeliefId: null,
+    });
+    const met = encounterProposalsInEvent(held, {
+      personId: sponsor,
+      event,
+      summary: event.summary,
+      provenance: { kind: "direct-experience", eventId: event.id },
+    });
+    const result = reflect(met, dueFor(met, sponsor)[0]!);
+    const latest = result.world.history.privateBeliefs
+      .filter((belief) => belief.personId === sponsor)
+      .at(-1)!;
+    expect([
+      latest.position,
+      latest.conviction,
+      latest.salience,
+      latest.flexibility,
+    ]).toEqual(["support", "settled", "central", "firm"]);
+  });
+
+  it("somebody who leaves a bill for later thinks it over when it is signed", () => {
+    const { world, sponsor, event } = withBill(
+      "later",
+      "consistent-with",
+      "left-for-later",
+    );
+    const met = encounterProposalsInEvent(world, {
+      personId: sponsor,
+      event,
+      summary: event.summary,
+      provenance: { kind: "direct-experience", eventId: event.id },
+    });
+    expect(dueFor(met, sponsor)).toEqual([]);
+    // No compiled legislature settles whether a bill dies at adjournment,
+    // and a signing needs both chambers first, so the end is the filing
+    // event read as a signing: this exercises the reaction, not the clock.
+    const died = met;
+    const ended = {
+      ...event,
+      id: `${event.id}:signed`,
+      type: "legislation.measure-signed" as const,
+    };
+    const back = reconsiderOnBillOutcome(died, ended);
+    expect(
+      back.history.propositionExposures.filter(
+        (exposure) =>
+          exposure.personId === sponsor &&
+          exposure.provenance.kind === "public-record",
+      ),
+    ).toHaveLength(1);
+    // Somebody who never met the bill hears nothing from its end.
+    expect(
+      back.history.propositionExposures.filter(
+        (exposure) => exposure.personId !== sponsor,
+      ),
+    ).toEqual([]);
+  });
+
+  it.each([
+    ["serious", 1],
+    ["acute", 0],
+  ] as const)(
+    "a %s illness brings back the health questions somebody has met",
+    (severity, expected) => {
+      const { world, sponsor, event } = withBill(
+        `illness-${severity}`,
+        "consistent-with",
+        "thought-over",
+        "health-human-services",
+      );
+      const met = encounterProposalsInEvent(world, {
+        personId: sponsor,
+        event,
+        summary: event.summary,
+        provenance: { kind: "direct-experience", eventId: event.id },
+      });
+      const ill = beginHealthEpisode(met, {
+        stableKey: `reflection-test:ill:${severity}`,
+        personId: sponsor,
+        severity,
+        initialLimitation: "limited",
+        origin: { kind: "authored", note: "Test fixture: an illness." },
+        causalParentIds: [],
+      });
+      const after = passOrdinaryDays(ill, 1);
+      expect(
+        after.history.propositionExposures.filter(
+          (exposure) =>
+            exposure.personId === sponsor &&
+            exposure.stableKey.startsWith("people-reflection:again:"),
+        ),
+      ).toHaveLength(expected);
+    },
+  );
+
+  it("an adult cares about a handful of issues, the same ones on every reading", () => {
+    const { world, sponsor } = withBill("cares");
+    const cares = issuesTheyCareAbout(world, sponsor);
+    expect(cares.length).toBeGreaterThanOrEqual(CARED_ABOUT_ISSUE_COUNT.min);
+    expect(cares.length).toBeLessThanOrEqual(CARED_ABOUT_ISSUE_COUNT.max);
+    expect(issuesTheyCareAbout(world, sponsor)).toEqual(cares);
+    expect(new Set(cares).size).toBe(cares.length);
+  });
+});

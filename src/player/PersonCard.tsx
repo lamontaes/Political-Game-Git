@@ -15,7 +15,7 @@ import { pinKindLabel } from "./ShellPinRail";
 import { PersonPortrait } from "./PersonPortrait";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { projectPersonContact } from "../presentation/person-contact";
-import { observedTraitLabels } from "../simulation/people-traits";
+import { shownTraitLabels } from "../simulation/people-traits";
 import "./people-web.css";
 
 /**
@@ -224,7 +224,7 @@ export function PersonCard({
   const traitLabels =
     isYou || dossier.personId === played || !world.people[dossier.personId]
       ? []
-      : observedTraitLabels(world, dossier.personId);
+      : shownTraitLabels(world, dossier.personId);
   const unavailableReasons = [
     !isYou && onTalk && !contact.talk.available ? contact.talk.reason : null,
     !isYou && !contact.travel.available && !presentNow

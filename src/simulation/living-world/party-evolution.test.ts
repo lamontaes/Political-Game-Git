@@ -6,6 +6,20 @@ import {
 } from "../../presentation/opening-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays } from "../dates";
+import {
+  ELECTION_CONTEST_TRANSITION_KEY,
+  electionContestResult,
+  resolveElectionContest,
+  scheduleElectionContest,
+} from "../election-contests";
+import {
+  composeFutureTransitionHandlerRegistries,
+  createFutureTransitionHandlerRegistry,
+} from "../future-transitions";
+import {
+  lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
+} from "../life-places";
 import type { EntityId, World } from "../types";
 import { advanceWorld, assertWorldIntegrity } from "../world";
 import { partyRecords } from "../world-setup/integrity";
@@ -36,6 +50,7 @@ import {
   organizationNameAt,
   partyColorOrder,
   partyUnitStatusAt,
+  partyUnits,
 } from "./party-registry";
 
 const LONG = 900_000;
@@ -628,6 +643,202 @@ describe("a member weighing whether to leave the body", () => {
         expect(assessment.disputedDecisionIds.length).toBeGreaterThan(0);
       }
       assertWorldIntegrity(world);
+    },
+    LONG,
+  );
+});
+
+describe("what brings business before a party body", () => {
+  const registry = createCampaignElectionTransitionRegistry();
+  const decisionsOf = (world: World, organizationId: EntityId) =>
+    partyBodyDecisions(world, organizationId);
+  function settleEverything(world: World, organizationId: EntityId): World {
+    let next = world;
+    for (const question of PARTY_QUESTIONS) {
+      next = recordPartyBodyDecision(next, {
+        organizationId,
+        questionKey: question.key,
+      });
+    }
+    return next;
+  }
+
+  it(
+    "takes up a question it has never settled, and meets quietly once everything is settled",
+    () => {
+      const chapter = homePartyChapters(base)[0]!;
+      const reviewed = advanceWorld(base, 100, registry);
+      const first = decisionsOf(reviewed, chapter.organizationId);
+      expect(first).toHaveLength(1);
+      expect(first[0]!.questionKey).toBe(PARTY_QUESTIONS[0]!.key);
+
+      const settled = settleEverything(base, chapter.organizationId);
+      const count = decisionsOf(settled, chapter.organizationId).length;
+      const later = advanceWorld(settled, 200, registry);
+      // Two quarterly reviews, nothing before the body, nothing decided.
+      expect(decisionsOf(later, chapter.organizationId)).toHaveLength(count);
+      expect(
+        later.history.futureDueItems.some(
+          (item) =>
+            item.transitionKey === PARTY_BODY_REVIEW_TRANSITION_KEY &&
+            item.entityIds.includes(chapter.organizationId) &&
+            item.dueAt > later.currentDate,
+        ),
+      ).toBe(true);
+    },
+    LONG,
+  );
+
+  /**
+   * Election day as the test says it went: the named winner takes the seat
+   * with three votes in five. Every other due item runs as it would.
+   */
+  function electionWonBy(winnerPersonId: EntityId) {
+    return composeFutureTransitionHandlerRegistries(
+      createFutureTransitionHandlerRegistry([
+        [
+          ELECTION_CONTEST_TRANSITION_KEY,
+          (world, dueItem) => {
+            const contest = world.history.electionContests!.find(
+              (entry) => entry.id === dueItem.entityIds[0],
+            )!;
+            const resolved = resolveElectionContest(world, {
+              stableKey: `${dueItem.stableKey}:result`,
+              contestId: contest.id,
+              resolvedAt: dueItem.dueAt,
+              winnerPersonId,
+              tallies: contest.candidatePersonIds.map((candidatePersonId) => ({
+                candidatePersonId,
+                votes: candidatePersonId === winnerPersonId ? 600 : 400,
+                voteShare: candidatePersonId === winnerPersonId ? 0.6 : 0.4,
+              })),
+              provenance: {
+                method: "authored",
+                sourceEntityIds: [contest.id],
+                note: "Supplied fictional result.",
+              },
+            });
+            return {
+              world: resolved,
+              status: "resolved",
+              reasonKey: null,
+              context: null,
+              outcomeEventId: electionContestResult(resolved, contest.id)!
+                .outcomeEventId,
+            };
+          },
+        ],
+      ]),
+      registry,
+    );
+  }
+
+  /** A settled home chapter, one of its own, and somebody of the other party. */
+  function contestSetup() {
+    const [chapter, rival] = homePartyChapters(base);
+    const unit = partyUnits(base).find(
+      (candidate) => candidate.organizationId === chapter!.organizationId,
+    )!;
+    expect(unit.jurisdictionId).not.toBeNull();
+    const world = settleEverything(base, chapter!.organizationId);
+    const partyOf = (personId: EntityId) =>
+      affiliationAt(world, personId).partyOrganizationId;
+    const ours = partyBodyMembers(world, chapter!.organizationId).find(
+      (personId) =>
+        personId !== playerId &&
+        partyOf(personId) === unit.parentOrganizationId,
+    )!;
+    const theirs = partyBodyMembers(world, rival!.organizationId).find(
+      (personId) =>
+        personId !== playerId &&
+        partyOf(personId) !== null &&
+        partyOf(personId) !== unit.parentOrganizationId,
+    )!;
+    expect(ours).toBeDefined();
+    expect(theirs).toBeDefined();
+    return {
+      chapter: chapter!,
+      unit,
+      world,
+      ours,
+      theirs,
+      count: decisionsOf(world, chapter!.organizationId).length,
+    };
+  }
+
+  function contest(
+    world: World,
+    jurisdictionId: EntityId,
+    candidatePersonIds: readonly EntityId[],
+  ): World {
+    return scheduleElectionContest(world, {
+      stableKey: "test:a06:local-contest",
+      jurisdictionId,
+      office: {
+        officeKey: "test-local-council",
+        title: "Council member",
+        seatKey: null,
+        occupationClassification: "service:local-council",
+      },
+      electionDate: addDays(world.currentDate, 1),
+      candidatePersonIds: [...candidatePersonIds],
+      provenance: {
+        method: "authored",
+        sourceEntityIds: [],
+        note: "Supplied fictional local contest.",
+      },
+    });
+  }
+
+  it(
+    "reconsiders how it chooses candidates once after one of its own loses at home",
+    () => {
+      const { chapter, unit, world, ours, theirs, count } = contestSetup();
+      let next = contest(world, unit.jurisdictionId!, [ours, theirs]);
+      next = advanceWorld(next, 100, electionWonBy(theirs));
+      expect(next.history.electionContestResults).toHaveLength(1);
+      const taken = decisionsOf(next, chapter.organizationId).slice(count);
+      expect(taken.map((decision) => decision.questionKey)).toEqual([
+        "procedure:candidate-selection",
+      ]);
+      // It took the loss up once; two more reviews find nothing new before it.
+      const later = advanceWorld(next, 200, electionWonBy(theirs));
+      expect(decisionsOf(later, chapter.organizationId)).toHaveLength(
+        count + 1,
+      );
+    },
+    LONG,
+  );
+
+  it(
+    "meets quietly when its own candidate wins, or loses somewhere else",
+    () => {
+      const { chapter, unit, world, ours, theirs, count } = contestSetup();
+      // The other party lost; this body has nothing to answer for.
+      const won = advanceWorld(
+        contest(world, unit.jurisdictionId!, [ours, theirs]),
+        100,
+        electionWonBy(ours),
+      );
+      expect(won.history.electionContestResults).toHaveLength(1);
+      expect(decisionsOf(won, chapter.organizationId)).toHaveLength(count);
+
+      // A loss in another state is not this chapter's business.
+      const homeState =
+        stateKeyForJurisdiction(world.jurisdictions[unit.jurisdictionId!]!) ??
+        lifePlaceByJurisdictionId(unit.jurisdictionId!)?.stateJurisdictionKey;
+      const elsewhere = Object.values(world.jurisdictions).find((entry) => {
+        const state = stateKeyForJurisdiction(entry);
+        return state !== null && state !== homeState;
+      })!;
+      expect(elsewhere).toBeDefined();
+      const away = advanceWorld(
+        contest(world, elsewhere.id, [ours, theirs]),
+        100,
+        electionWonBy(theirs),
+      );
+      expect(away.history.electionContestResults).toHaveLength(1);
+      expect(decisionsOf(away, chapter.organizationId)).toHaveLength(count);
     },
     LONG,
   );
