@@ -220,6 +220,14 @@ function ContactRow({
           {contact.outOfTouch ? " It has been a long while." : ""}
         </p>
       ) : null}
+      {contact.lastAnswer ? (
+        <p
+          className="pg-contact-line"
+          data-testid={tid(`contact-last-answer-${contact.personId}`)}
+        >
+          {contact.lastAnswer}
+        </p>
+      ) : null}
       {/* How things stand between them, when there is something to say. */}
       {contact.standing ? (
         <p
