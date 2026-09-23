@@ -396,6 +396,29 @@ describe("sparse political beliefs and principles", () => {
     expect(privatePositionChangeDates(world, id, propositionId)).toStrictEqual([
       livedDate(world, id, 22),
     ]);
+    // A change must supersede the latest view, not an older one it skips.
+    expect(() =>
+      recordPrivateBelief(world, {
+        stableKey: "belief:change:skips-latest",
+        personId: id,
+        propositionId,
+        formedAt: livedDate(world, id, 24),
+        position: "oppose",
+        conviction: "tentative",
+        salience: "high",
+        flexibility: "open",
+        rationale: "Links past the reconsidered view.",
+        formation: createFormationContext("cue:trusted", {
+          cue: {
+            kind: "person:social-contact",
+            sourcePersonId: trustedId,
+            sourceLabel: "Trusted colleague",
+          },
+          evidenceReference: "Synthetic briefing reference",
+        }),
+        supersedesBeliefId: prior.id,
+      }),
+    ).toThrow(/supersession/i);
   });
 
   it("allows broad principles to conflict without generating proposition positions", () => {
