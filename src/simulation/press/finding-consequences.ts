@@ -15,6 +15,8 @@ import { recordWorldEvent } from "../world";
 import { generatedStateOversightBody } from "./generated-state-oversight";
 import {
   isAdversePublicStep,
+  priorAdverseFindings,
+  repeatOffenseMultiplier,
   UNRESEARCHED_FINDING_EFFECTS,
   type AdversePublicOutcome,
 } from "./findings";
@@ -100,8 +102,13 @@ function supportConsequence(
     next = recordSupportLoss(next, campaign, {
       stableKeyBase: `${step.stableKey}:finding-support:${campaign.id}:${respondentId}`,
       loserPersonId: respondentId,
-      lossBasisPoints:
-        UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints[outcome],
+      lossBasisPoints: Math.round(
+        UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints[outcome] *
+          repeatOffenseMultiplier(
+            priorAdverseFindings(next, respondentId, step).length,
+            "support-loss",
+          ),
+      ),
       sourceEntityIds: [event.id],
     }).world;
   }
@@ -247,13 +254,18 @@ function civilPenaltyConsequence(
   const state = next.history.organizations.find(
     (row) => row.stableKey === publicOrganizationKey(body.stateJurisdictionId),
   )!;
+  const prior = priorAdverseFindings(world, respondentId, step).length;
   const amount: MoneyAmount = {
-    minorUnits: body.civilPenaltyPerPaymentMinorUnits * payments,
+    minorUnits: Math.round(
+      body.civilPenaltyPerPaymentMinorUnits *
+        payments *
+        repeatOffenseMultiplier(prior, "civil-penalty"),
+    ),
     currency: misused[0]!.amount.currency,
   };
   const name = personName(next.people[respondentId]!);
   const dollars = formatDollars(amount);
-  const count = payments === 1 ? "one payment" : `${payments} payments`;
+  const count = `${payments === 1 ? "one payment" : `${payments} payments`}${prior > 0 ? `, raised because ${name} had been found against before` : ""}`;
   next = orderPayment(next, proceeding, respondentId, {
     key: `${step.stableKey}:civil-penalty:${respondentId}`,
     recipientOrganizationId: state.id,
@@ -264,7 +276,10 @@ function civilPenaltyConsequence(
     restrictionKind: "purpose:general",
     paidSummary: `The ${proceeding.institutionLabel} fined ${name} ${dollars} for ${count} of campaign money used for personal expenses, and ${name} paid it.`,
     unpaidSummary: `The ${proceeding.institutionLabel} fined ${name} ${dollars} for ${count} of campaign money used for personal expenses; ${name} did not have it, and the fine stands unpaid.`,
-    motivation: "A civil penalty for each payment found.",
+    motivation:
+      prior > 0
+        ? "A civil penalty for each payment found, raised for a repeat offense."
+        : "A civil penalty for each payment found.",
   });
   return next;
 }
