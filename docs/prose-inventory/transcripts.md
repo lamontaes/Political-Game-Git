@@ -684,7 +684,7 @@ Seed `corpus-long-tail`, start age 7, Peter Fleming.
 
 > You're 7, and you live in Lexington, Kentucky.
 > You live with Zoe Fleming and Tracy Fleming.
-> You're enrolled at West Lexington Elementary School.
+> You're enrolled at Magnolia Elementary School.
 
 During the school break, Vanessa Hunter drops a snack into a puddle and starts crying. You still have your own snack.
 

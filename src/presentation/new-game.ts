@@ -1,3 +1,4 @@
+import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
 import {
   RESIDENT_CHAPTER_NAME_VERSION,
   type PartyChapterNameVersion,
@@ -189,6 +190,11 @@ export interface NewGameSetup {
    * Democrats"). New Game names them as residents say the place.
    */
   readonly partyChapterNameVersion?: PartyChapterNameVersion;
+  /**
+   * Absent keeps the v1 school names an old replay drew. New Game declares the
+   * measured draw, where a small town's high school is usually named for it.
+   */
+  readonly schoolNameVersion?: typeof SCHOOL_NAMES_V2_VERSION;
   readonly questionnaireCopyVersion?: "playtest65-v2";
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
@@ -240,6 +246,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // line for line, all on their birthdays, is what v3 replaces.
   childhoodGenerationVersion: CHILDHOOD_GENERATION_V3,
   partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION,
+  schoolNameVersion: SCHOOL_NAMES_V2_VERSION,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
   // that the game should not invent a biography nobody chose. Measured cost of
@@ -475,6 +482,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.childhoodGenerationVersion === undefined
       ? {}
       : { childhoodGenerationVersion: setup.childhoodGenerationVersion }),
+    ...(setup.schoolNameVersion === undefined
+      ? {}
+      : { schoolNameVersion: setup.schoolNameVersion }),
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),

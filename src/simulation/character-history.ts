@@ -67,8 +67,15 @@ import {
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
   type GivenNameGenerationVersion,
 } from "./people";
-import { residentNameForJurisdiction } from "./life-places";
-import { generateSchoolNames } from "./school-names";
+import {
+  lifePlaceByJurisdictionId,
+  residentNameForJurisdiction,
+} from "./life-places";
+import {
+  generateSchoolNames,
+  stateUsps,
+  type SchoolNameVersion,
+} from "./school-names";
 import {
   appearanceLineageFromPeople,
   derivePersonAppearance,
@@ -2256,6 +2263,8 @@ export function generateQuickCharacterHistory(
      * exactly 28 years older to the day and a teacher exactly 30.
      */
     readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
+    /** Absent keeps the v1 school-name draw an old replay was written under. */
+    readonly schoolNameVersion?: SchoolNameVersion;
   },
 ): CharacterHistoryPlan {
   const person = requirePerson(world, input.personId);
@@ -2280,6 +2289,13 @@ export function generateQuickCharacterHistory(
       homeJurisdiction?.name ?? "",
       homeJurisdiction?.parentName ?? null,
     ),
+    input.schoolNameVersion,
+    {
+      state: stateUsps(
+        lifePlaceByJurisdictionId(input.jurisdictionId)?.stateJurisdictionKey ??
+          null,
+      ),
+    },
   );
   const parentKey = key("parent");
   const peerKey = key("peer");

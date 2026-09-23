@@ -31,6 +31,7 @@ import {
   recordCommitteeDisposition,
   recordConcurrenceVote,
   recordEnactment,
+  attemptVetoOverride,
   recordExecutiveAction,
   referMeasure,
   requireMeasure,
@@ -48,6 +49,7 @@ import {
   votePlanKeyForCommittee,
   votePlanKeyForConcurrence,
   votePlanKeyForFloor,
+  votePlanKeyForOverride,
   type LegislativeBlueprint,
   type SeatedBody,
 } from "../legislation-scenarios";
@@ -163,10 +165,14 @@ function effectiveOwner(
 ): MeasureStepOwner | null {
   const owner = measureStepOwner(world, measure.id, measure.originChamberKey);
   if (owner === "sponsor-office" && !playerOfficeHoldsMeasure(world, measure))
-    // A non-player sponsor's requests go through on the clock; a veto
-    // override is left to a later, decision-backed producer.
+    // A non-player sponsor's requests go through on the clock. A veto
+    // override is put to the members where the legislature is seated with
+    // real people, so the result is their decisions against the state's own
+    // override rule; with no seated members there is nobody to decide it.
     return measurePosition(world, measure.id).phase === "awaiting-override"
-      ? null
+      ? isSeatedChamber(world, legislativeBlueprintForMeasure(world, measure))
+        ? "institution"
+        : null
       : "institution";
   return owner;
 }
@@ -343,6 +349,10 @@ function decide(
         questionLabel: planKey,
       },
       members,
+      // The player is never voted for: a player sitting in this chamber who
+      // has not cast a ballot is recorded absent, not decided for.
+      playerPersonId:
+        world.control.kind === "person" ? world.control.personId : null,
     }),
     method: "member-decisions" as const,
   };
@@ -563,6 +573,90 @@ export function applyInstitutionStep(
         ),
       }),
       "move-floor-vote",
+    );
+  }
+  if (steps.includes("move-veto-override")) {
+    // Every returned bill is reconsidered: whether leadership would bring a
+    // given override up at all is not modeled, and the members' own votes
+    // against the state's threshold decide it (DEPTH2 A09: an override is
+    // member decisions checked against the correct voting rule, not a roll).
+    const override = pack.executive.override;
+    if (override.kind === "not-applicable" || bodies.length === 0)
+      return {
+        kind: "blocked",
+        reason: `The legislature has no seated members to reconsider the veto.`,
+      };
+    const stableKey = key("override");
+    const question = (forumKey: string) => ({
+      measureId,
+      purpose: "veto-override" as const,
+      forumKey,
+      floorStageKey: null,
+    });
+    const forums =
+      override.kind === "joint-session"
+        ? (() => {
+            const members = bodies.flatMap((entry) => entry.members);
+            const decided = decide(
+              world,
+              blueprint,
+              members,
+              votePlanKeyForOverride("joint"),
+              question("joint"),
+              `${stableKey}:joint`,
+            );
+            return decided
+              ? [
+                  {
+                    forumKey: "joint",
+                    dispositions: decided.dispositions,
+                    presentMembers: present(decided.dispositions),
+                    electedMembers: members.length,
+                  },
+                ]
+              : null;
+          })()
+        : pack.chamberOrder.map((forumKey) => {
+            const forumBody = bodies.find(
+              (entry) => entry.chamberKey === forumKey,
+            );
+            const decided = forumBody
+              ? decide(
+                  world,
+                  blueprint,
+                  forumBody.members,
+                  votePlanKeyForOverride(forumKey),
+                  question(forumKey),
+                  `${stableKey}:${forumKey}`,
+                )
+              : null;
+            return decided && forumBody
+              ? {
+                  forumKey,
+                  dispositions: decided.dispositions,
+                  presentMembers: present(decided.dispositions),
+                  electedMembers: forumBody.members.length,
+                }
+              : null;
+          });
+    if (!forums || forums.some((forum) => forum === null))
+      return {
+        kind: "blocked",
+        reason:
+          "The legislature has no recorded member decisions on the override.",
+      };
+    return applied(
+      attemptVetoOverride(world, {
+        stableKey,
+        measureId,
+        forums: forums.map((forum) => forum!),
+        rationale: "The legislature reconsidered the vetoed bill.",
+        provenance: provenance(
+          "Members' recorded decisions on overriding the veto.",
+          "member-decisions",
+        ),
+      }),
+      "move-veto-override",
     );
   }
   if (steps.includes("move-concurrence")) {

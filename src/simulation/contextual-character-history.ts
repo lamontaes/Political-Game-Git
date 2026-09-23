@@ -1,3 +1,4 @@
+import type { SchoolNameVersion } from "./school-names";
 import {
   characterHistoryContextPersonId,
   generateQuickCharacterHistory,
@@ -35,6 +36,8 @@ export function generateContextualCharacterHistory(
     // Forwarded the same way: the parent, peer and teacher keep the birth
     // dates the legacy constructor gives them.
     readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
+    // Forwarded the same way: the schools are named by the legacy constructor.
+    readonly schoolNameVersion?: SchoolNameVersion;
   },
 ): CharacterHistoryPlan {
   // Existing canonical background wins, including older school/work records.
