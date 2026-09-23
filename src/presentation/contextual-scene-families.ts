@@ -225,6 +225,7 @@ function cameBackAnswers(
       label: "Deny it",
       description: "Stand by what you said.",
       truthIntent: "deliberate-deception",
+      lieVariantOf: "admit-it",
       statement: deny.statement,
       replies: says(context, deny.replies),
       record: `The player stood by the earlier answer to ${context.name}, knowing it was not true.`,
@@ -700,6 +701,7 @@ const homeEvening: SceneFamilyDefinition = {
           label: "Say you’re staying in, as promised",
           description: `Leave out the ${title}.`,
           truthIntent: "deliberate-deception",
+          lieVariantOf: "still-going",
           statement: "No. I’m staying in tonight, like I said.",
           replies: says(context, [
             `“Good. See you at ${promised},” {name} says.`,
@@ -825,6 +827,7 @@ const homeEvening: SceneFamilyDefinition = {
         label: `Say you’ll be home ${evening}`,
         description: `Leave out the ${title}.`,
         truthIntent: "deliberate-deception",
+        lieVariantOf: "tell-plans",
         statement: `No, nothing. I’ll be home ${evening}.`,
         replies: says(context, [
           "“Good. See you then,” {name} says.",
@@ -997,6 +1000,7 @@ function recalledAnswers(context: SceneContext): SceneAnswer[] {
             label: "Say you agreed",
             description: "You know you declined.",
             truthIntent: "deliberate-deception" as const,
+            lieVariantOf: "said-no",
             statement: `Of course. I said I’d ${lowerFirst(task)}.`,
             replies: says(context, [
               "“Then I must have got it wrong,” {name} says.",
@@ -2293,6 +2297,7 @@ const reporterQuestion: SceneFamilyDefinition = {
         label: "Deny it",
         description: "Say it isn’t so.",
         truthIntent: "deliberate-deception",
+        lieVariantOf: "confirm",
         statement: question.deny,
         replies: says(context, [
           "“Okay. I’ll note that you deny it,” {name} says.",
