@@ -544,6 +544,7 @@ export function stateLegislators(
   );
   const prefix = `${V}:`;
   const views: StateLegislatorView[] = [];
+  let affiliations: Map<string, EntityId> | null = null;
   for (const work of world.history.workRelationships) {
     if (work.organizationId !== bodyId) continue;
     if (work.kind !== "employment:legislative-member") continue;
@@ -555,18 +556,28 @@ export function stateLegislators(
       ? /^(.*):seat:(\d+):tenure$/.exec(work.stableKey.slice(prefix.length))
       : null;
     if (!match) continue;
-    const affiliation = world.history.organizationParticipations.find(
-      (participation) =>
-        participation.stableKey ===
-        `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
+    if (affiliations === null) {
+      affiliations = new Map();
+      for (const participation of world.history.organizationParticipations)
+        if (
+          participation.stableKey.startsWith(prefix) &&
+          !affiliations.has(participation.stableKey)
+        )
+          affiliations.set(
+            participation.stableKey,
+            participation.organizationId,
+          );
+    }
+    const affiliatedWith = affiliations.get(
+      `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
     );
-    const party = affiliation
+    const party = affiliatedWith
       ? (["democratic", "republican"].find(
           (key) =>
             livingWorldOrganizationId(
               world,
               LIVING_WORLD_KEYS.nationalParty(key),
-            ) === affiliation.organizationId,
+            ) === affiliatedWith,
         ) ?? null)
       : null;
     views.push({
