@@ -35,6 +35,11 @@ import {
   planStateChambers,
   stateLegislators,
 } from "../simulation/nationwide-world/state-legislature-opening";
+import { isTerritoryUsps } from "../simulation/state-reference";
+import {
+  US_TERRITORY_GOVERNED_NAMES,
+  isUsTerritoryWithGovernor,
+} from "../simulation/nationwide-world/state-executive-candidacy-packs";
 import { districtResidenceIntervals } from "../simulation/district-residence";
 import { districtIdentityCatalog } from "../districts/catalog";
 import {
@@ -72,6 +77,28 @@ const SCOPE_LABELS: Readonly<Record<GovernmentScope, string>> = {
   state: "State",
   federal: "Federal",
 };
+
+/**
+ * A territory's own government is not a state government: Puerto Rico, Guam,
+ * the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands
+ * each govern themselves, so the scope reads "Territory" there.
+ */
+function scopeLabelFor(scope: GovernmentScope, usps: string | null): string {
+  return scope === "state" && usps !== null && isTerritoryUsps(usps)
+    ? "Territory"
+    : SCOPE_LABELS[scope];
+}
+
+/** "Guam", "the U.S. Virgin Islands": a jurisdiction's name inside a sentence. */
+function nameInSentence(usps: string | null, name: string): string {
+  return usps !== null && isUsTerritoryWithGovernor(usps)
+    ? US_TERRITORY_GOVERNED_NAMES[usps]
+    : name;
+}
+
+function possessive(name: string): string {
+  return name.endsWith("s") ? `${name}'` : `${name}'s`;
+}
 
 const BRANCH_LABELS: Readonly<Record<GovernmentBranch, string>> = {
   legislative: "Legislative",
@@ -439,7 +466,9 @@ function stateBranches(
   const stateName = stateKey
     ? (stateJurisdictionForKey(stateKey)?.name ?? null)
     : null;
-  const subject = stateName ?? "this place's state";
+  const subject = stateName
+    ? nameInSentence(stateKey ? stateKey.slice(3) : null, stateName)
+    : "this place's state";
   if (!stateKey || !/^US-[A-Z]{2}$/.test(stateKey)) {
     const none = "No state government is recorded for this place.";
     return {
@@ -517,17 +546,17 @@ function stateBranches(
       branch(
         "legislative",
         legislative,
-        `The game has not established ${subject}'s legislature.`,
+        `No record of ${possessive(subject)} legislature is kept in this save.`,
       ),
       branch(
         "executive",
         executive,
-        `The game has not established ${subject}'s executive office.`,
+        `No record of ${possessive(subject)} executive office is kept in this save.`,
       ),
       branch(
         "judicial",
         [],
-        `The game has not established ${subject}'s courts.`,
+        `No record of ${possessive(subject)} courts is kept in this save.`,
       ),
     ],
   };
@@ -844,28 +873,43 @@ function representedBy(
     : houseSeats.length === 1 && houseSeats[0]!.district === "00"
       ? houseSeats[0]
       : undefined;
-  rows.push({
-    key: "us-house",
-    office: "U.S. House",
-    district: houseSeat ? seatLabelFor(houseSeat) : null,
-    holders: houseSeat ? [seatHolder(houseSeat)] : [],
-    note: houseSeat
-      ? null
-      : `Your congressional district in ${state} is not recorded for your home.`,
-  });
-
-  const senateSeats =
-    congress?.senate.seats.filter((seat) => seat.stateUsps === usps) ?? [];
-  rows.push({
-    key: "us-senate",
-    office: "U.S. Senate",
-    district: state,
-    holders: senateSeats.map(seatHolder),
-    note:
-      senateSeats.length > 0
+  if (isTerritoryUsps(usps)) {
+    // A territory sends one nonvoting member to the House, elected
+    // territory-wide, and has no seat in the Senate. The 435 seats the game
+    // seats are the states' alone, so this member is not among them yet.
+    const title =
+      usps === "PR" ? "Resident Commissioner" : "Delegate to the U.S. House";
+    rows.push({
+      key: "us-house",
+      office: title,
+      district: nameInSentence(usps, state).replace(/^the /, ""),
+      holders: [],
+      note: `${title === "Resident Commissioner" ? "The Resident Commissioner" : "The Delegate"} speaks for all of ${nameInSentence(usps, state)} in the House and does not cast final votes there. No current record names who holds the seat.`,
+    });
+  } else {
+    rows.push({
+      key: "us-house",
+      office: "U.S. House",
+      district: houseSeat ? seatLabelFor(houseSeat) : null,
+      holders: houseSeat ? [seatHolder(houseSeat)] : [],
+      note: houseSeat
         ? null
-        : "No record of the Senate's membership is kept in this save.",
-  });
+        : `Your congressional district in ${state} is not recorded for your home.`,
+    });
+
+    const senateSeats =
+      congress?.senate.seats.filter((seat) => seat.stateUsps === usps) ?? [];
+    rows.push({
+      key: "us-senate",
+      office: "U.S. Senate",
+      district: state,
+      holders: senateSeats.map(seatHolder),
+      note:
+        senateSeats.length > 0
+          ? null
+          : "No record of the Senate's membership is kept in this save.",
+    });
+  }
 
   const pack = legislativeRulePackForState(`US-${usps}`);
   const candidacy = stateCandidacyPack(`US-${usps}`);
@@ -975,7 +1019,7 @@ export function projectGovernmentBrowser(
       isHome: browsingId === homeId,
     },
     scope,
-    scopeLabel: SCOPE_LABELS[scope],
+    scopeLabel: scopeLabelFor(scope, browsingUsps),
     governs: resolved.governs,
     branches: resolved.branches,
     localGovernments: local?.localGovernments ?? [],
@@ -1031,7 +1075,9 @@ export function issuesPlaceForSelection(
     const state = stateKey ? stateJurisdictionForKey(stateKey) : null;
     if (state && world.jurisdictions[state.id]) {
       jurisdictionId = state.id;
-      label = `${prefix}: the state of ${state.name}`;
+      label = isTerritoryUsps(stateKey!.slice(3))
+        ? `${prefix}: ${nameInSentence(stateKey!.slice(3), state.name)}`
+        : `${prefix}: the state of ${state.name}`;
     } else {
       note = `No state public finance record is kept for ${ref.label}; showing the place itself.`;
     }
@@ -1049,6 +1095,9 @@ export function issuesPlaceForSelection(
   return { jurisdictionId, label, note };
 }
 
-export function governmentScopeLabel(scope: GovernmentScope): string {
-  return SCOPE_LABELS[scope];
+export function governmentScopeLabel(
+  scope: GovernmentScope,
+  usps: string | null = null,
+): string {
+  return scopeLabelFor(scope, usps);
 }

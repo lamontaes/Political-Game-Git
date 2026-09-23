@@ -1,6 +1,7 @@
 import { addDays, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
+import { indexOverArrays } from "./history-index";
 import {
   assertOriginationPermitted,
   chamberByKey,
@@ -2818,8 +2819,44 @@ export function legislationHistoryRecords(
   ];
 }
 
+type LegislationRecord = { readonly id: EntityId; readonly sequence: number };
+
+/** Anchors the id index below; its identity is all that matters. */
+const LEGISLATION_INDEX_ANCHOR = {};
+
+/**
+ * Legislative records by id, the first one in `legislationHistoryRecords`
+ * order, as a `.find` over that list would return. The integrity pass asks
+ * this for every canonical source it checks, and each answer used to copy
+ * eight history families into one array and scan it.
+ */
+function legislationRecordIndex(
+  world: World,
+): ReadonlyMap<EntityId, LegislationRecord> {
+  const history = world.history;
+  return indexOverArrays(
+    LEGISLATION_INDEX_ANCHOR,
+    [
+      history.legislativeMeasures,
+      history.legislativeActions,
+      history.committeeReferrals,
+      history.committeeActions,
+      history.legislativeAmendments,
+      history.legislativeVotes,
+      history.executiveDispositions,
+      history.legislativeEnactments,
+    ],
+    () => {
+      const index = new Map<EntityId, LegislationRecord>();
+      for (const record of legislationHistoryRecords(world))
+        if (!index.has(record.id)) index.set(record.id, record);
+      return index;
+    },
+  );
+}
+
 export function legislationEntityExists(world: World, id: EntityId): boolean {
-  return legislationHistoryRecords(world).some((record) => record.id === id);
+  return legislationRecordIndex(world).has(id);
 }
 
 export function legislationEntityAvailableAt(
@@ -2828,9 +2865,7 @@ export function legislationEntityAvailableAt(
   asOfDate: string,
   sequenceExclusive: number,
 ): boolean {
-  const record = legislationHistoryRecords(world).find(
-    (candidate) => candidate.id === id,
-  );
+  const record = legislationRecordIndex(world).get(id);
   if (!record || record.sequence >= sequenceExclusive) return false;
   const dated = record as unknown as {
     readonly introducedAt?: IsoDate;

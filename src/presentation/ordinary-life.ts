@@ -4,6 +4,7 @@ import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { seatWinnersOwedTheirTerm } from "../simulation/office-entry-repair";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
+import { catchUpLegacySchoolStages } from "../simulation/school-stages";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   activeChildAuthoritiesAt,
@@ -392,7 +393,11 @@ function advanceOrdinaryDays(
     : ordinaryHandlers;
   // CRUNCH46 CRISIS: every advancing World carries the mortality model; an
   // older save starts exposure at its next month boundary.
-  const migrated = ensureCrisisMortality(migrateLegacyStudyProgression(world));
+  // A child saved before school stages is caught up to the stage for their
+  // age; see catchUpLegacySchoolStages.
+  const migrated = ensureCrisisMortality(
+    catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+  );
   const wholeDays = Math.max(1, Math.trunc(days));
   const morning = simulationMomentAtLocalTime({
     date: addDays(migrated.currentDate, wholeDays),
