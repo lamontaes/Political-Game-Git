@@ -139,6 +139,7 @@ import {
 
 import {
   BrowserSaveStore,
+  SavesKeptByNewerBuildError,
   type BrowserWorldSummary,
   type QuarantinedSave,
 } from "../presentation/browser-world-repository";
@@ -215,6 +216,7 @@ import {
   resolvedTitlePresentation,
   resolvedTitleLecternHero,
   type SaveListingState,
+  reloadPage,
 } from "./TitleScreen";
 import {
   readReplaySeed,
@@ -516,8 +518,10 @@ export function PlayerGame() {
       setSaves(listing.saves);
       setDamaged(listing.damaged);
       setSaveListing("read");
-    } catch {
-      setSaveListing("failed");
+    } catch (error) {
+      setSaveListing(
+        error instanceof SavesKeptByNewerBuildError ? "outdated" : "failed",
+      );
     }
   }, [store]);
 
@@ -2315,6 +2319,15 @@ function SavesScreen({
           Your saved lives could not be read just now. Nothing was deleted.{" "}
           <button type="button" onClick={onRetrySaves}>
             Try again
+          </button>
+        </p>
+      ) : null}
+      {saveListing === "outdated" ? (
+        <p className="game-problem" role="alert" data-testid="saves-outdated">
+          This page is an older copy of the game than the one that kept your
+          saved lives. Reload the page to open them. Nothing was deleted.{" "}
+          <button type="button" onClick={reloadPage}>
+            Reload
           </button>
         </p>
       ) : null}
