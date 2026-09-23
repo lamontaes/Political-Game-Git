@@ -1990,16 +1990,23 @@ const institutionStepWithProgramMatters = (() => {
   };
 })();
 
-export const STATE_GOVERNING_HANDLERS = [
-  [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
-  ...CONGRESS_LAWMAKING_HANDLERS,
-  [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
-  [GOVERNING_SEASON, governingSeasonHandler],
-  [GOVERNING_TRANSITION, governingTransitionHandler],
-  [GOVERNING_DEADLINE, governingDeadlineHandler],
-  [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
-  [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
-] as const;
+/**
+ * The governing handlers, built when a registry asks for them rather than when
+ * this module loads: several of the keys belong to modules that import this
+ * one, and are not defined yet while it is loading.
+ */
+export function stateGoverningHandlers() {
+  return [
+    [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
+    ...CONGRESS_LAWMAKING_HANDLERS,
+    [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],
+    [GOVERNING_SEASON, governingSeasonHandler],
+    [GOVERNING_TRANSITION, governingTransitionHandler],
+    [GOVERNING_DEADLINE, governingDeadlineHandler],
+    [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
+    [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
+  ] as const;
+}
 
 /** Recorded decisions and outcomes for an office, newest first. */
 export function governingOutcomes(
