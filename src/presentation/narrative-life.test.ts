@@ -244,6 +244,8 @@ describe("There is enough authored content to play with", () => {
               "self",
               "age",
               "place",
+              // The school attended today, by the school screen's name.
+              "school",
               "role",
               // PT3: which of this family's own authored alternatives the
               // instance drew — what got broken, rather than "something".
