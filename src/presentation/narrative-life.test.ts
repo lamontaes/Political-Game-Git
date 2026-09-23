@@ -1015,9 +1015,13 @@ describe("Two lives differ for causal reasons, not in their names", () => {
     const right = playedShape("shape-c", 10);
     // Not a claim that any two lives must differ on this axis — only that
     // these two do, for reasons the records carry rather than by construction.
+    // Pressing and dormant are the two states a live thread can be in, so a
+    // life with more of its threads gone quiet is a different life even when
+    // the live total matches.
     const different =
       left.threads.live !== right.threads.live ||
       left.threads.pressing !== right.threads.pressing ||
+      left.threads.dormant !== right.threads.dormant ||
       left.threadTitles.length !== right.threadTitles.length;
     expect(
       different,
