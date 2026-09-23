@@ -82,40 +82,78 @@ export const PARTY_EVOLUTION_EVENT = "party.organization-changed";
 
 /**
  * Authored organizational questions a governing body actually decides. They
- * are strategy and procedure, never a real party's ideology.
+ * are strategy and procedure, never a real party's ideology. Each option
+ * carries the name a group founded around it takes: a label is a position
+ * ("Follow the wider party line"), not something a group can be called.
  */
 export const PARTY_QUESTIONS = [
   {
     key: "strategy:cross-party-cooperation",
     label: "Working with other parties",
     options: [
-      { key: "cooperate", label: "Cooperate on shared measures" },
-      { key: "keep-distance", label: "Keep a clear distance" },
+      {
+        key: "cooperate",
+        label: "Cooperate on shared measures",
+        foundingName: "Common Ground League",
+      },
+      {
+        key: "keep-distance",
+        label: "Keep a clear distance",
+        foundingName: "Independent League",
+      },
     ],
   },
   {
     key: "procedure:candidate-selection",
     label: "Choosing candidates",
     options: [
-      { key: "open-contests", label: "Open contests" },
-      { key: "committee-slate", label: "Committee slate" },
+      {
+        key: "open-contests",
+        label: "Open contests",
+        foundingName: "Open Primary League",
+      },
+      {
+        key: "committee-slate",
+        label: "Committee slate",
+        foundingName: "Party Slate League",
+      },
     ],
   },
   {
     key: "platform:first-priority",
     label: "First priority",
     options: [
-      { key: "institutional-reform", label: "Institutional reform first" },
-      { key: "household-costs", label: "Household costs first" },
-      { key: "local-services", label: "Local services first" },
+      {
+        key: "institutional-reform",
+        label: "Institutional reform first",
+        foundingName: "Reform League",
+      },
+      {
+        key: "household-costs",
+        label: "Household costs first",
+        foundingName: "Kitchen Table League",
+      },
+      {
+        key: "local-services",
+        label: "Local services first",
+        foundingName: "Neighborhood Services League",
+      },
     ],
   },
   {
     key: "procedure:local-autonomy",
     label: "Local positions",
     options: [
-      { key: "chapters-decide", label: "Chapters set their own line" },
-      { key: "follow-party-line", label: "Follow the wider party line" },
+      {
+        key: "chapters-decide",
+        label: "Chapters set their own line",
+        foundingName: "Home Rule League",
+      },
+      {
+        key: "follow-party-line",
+        label: "Follow the wider party line",
+        foundingName: "United Party League",
+      },
     ],
   },
 ] as const;
@@ -1960,17 +1998,16 @@ export function partyBodyReviewTransitionHandler(
     );
     if (assessment.kind === "none") continue;
     const stance = partyActorStance(next, personId, assessment.questionKey!);
-    const optionLabel = question(assessment.questionKey!)
-      .options.find((option) => option.key === stance.optionKey)!
-      .label.toLowerCase();
+    const foundingName = question(assessment.questionKey!).options.find(
+      (option) => option.key === stance.optionKey,
+    )!.foundingName;
     const proposed = proposePartyInitiative(next, {
       initiativeKind: assessment.kind,
       proposerPersonId: personId,
       subjectOrganizationIds: [unit.organizationId],
       questionKey: assessment.questionKey,
       disputedDecisionIds: assessment.disputedDecisionIds,
-      proposedName:
-        assessment.kind === "founding" ? `League for ${optionLabel}` : null,
+      proposedName: assessment.kind === "founding" ? foundingName : null,
       level: unit.level,
       jurisdictionId: unit.jurisdictionId,
       reasonKeys: assessment.reasonKeys,
