@@ -11,6 +11,7 @@ import {
   passOrdinaryDays,
 } from "../../presentation/ordinary-life";
 import { declareHazardEpisode } from "../crisis/disaster";
+import { statePushOnTown } from "../migration";
 import { addDays } from "../dates";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import type { World } from "../types";
@@ -112,6 +113,11 @@ describe("the pressure layer", { timeout: LONG }, () => {
     )!.jurisdiction.id;
     expect(stateWeights(first, [arizonaId], "pull")[0]).toBeLessThan(1);
     expect(stateWeights(first, [arizonaId], "push")[0]).toBeGreaterThan(1);
+    // A free household in the flooded state's town is more likely to leave.
+    expect(statePushOnTown(first, opened.home)).toBeCloseTo(
+      1 + BLANKET_HAZARD_PRESSURE.major,
+    );
+    expect(statePushOnTown(opened.world, opened.home)).toBe(1);
     // Oregon had nothing, so it has no reading and reads as no pressure.
     expect(latestReadings(first).has("US-OR")).toBe(false);
 
@@ -141,6 +147,8 @@ describe("the pressure layer", { timeout: LONG }, () => {
     expect(event.visibility).toBe("public");
     expect(event.summary).toContain("Arizona");
     expect(event.tags).toContain("from:US-AZ");
+    // Every other state pulls alike, so no destination is named.
+    expect(event.summary).not.toContain("The most went to");
   });
 
   it("the first quarterly review of a current opening takes the first reading, once", () => {

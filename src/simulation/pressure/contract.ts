@@ -66,7 +66,14 @@ export interface PressureReading {
 /** Where a state's movers went in one year, and how many of its people moved. */
 export interface StateFlowRecord {
   readonly key: string;
+  /**
+   * The calendar year the flow year closed in. Four 91-day quarters drift
+   * against the calendar, so two flow years can close in one calendar year;
+   * `flowYear` is the identity.
+   */
   readonly year: number;
+  /** Which year of stepping this is: 1 for the first four quarters. */
+  readonly flowYear: number;
   readonly fromStateKey: string;
   /** Share of the state's people leaving for another state that year. */
   readonly outflowSharePct: number;
@@ -187,7 +194,7 @@ export const PRESSURE_SEAMS: readonly PressureSeam[] = [
     connects:
       "Where a household leaving the player's town goes, and where a newcomer came from.",
     status: "built",
-    rule: "The migration review draws a destination and an origin state weighted by the latest readings instead of evenly.",
+    rule: "The migration review draws a destination and an origin state weighted by the latest readings instead of evenly, and multiplies the chance a free household in town leaves by its own state's push.",
     where: "src/simulation/migration/review.ts",
   },
   {

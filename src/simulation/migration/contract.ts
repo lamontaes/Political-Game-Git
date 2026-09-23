@@ -218,8 +218,8 @@ export const MIGRATION_SEAMS: readonly MigrationSeam[] = [
     key: "wave-content",
     connects: "Modders adding their own waves.",
     status: "not-built",
-    rule: "The catalogue is a list in source validated like data. Loading a wave from a runtime content pack is not built.",
-    where: "src/simulation/migration/waves.ts WAVE_CATALOGUE",
+    rule: "The catalog is a list in source validated like data. Loading a wave from a runtime content pack is not built.",
+    where: "src/simulation/migration/waves.ts WAVE_CATALOG",
   },
   {
     key: "old-saves",

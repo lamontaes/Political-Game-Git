@@ -51,7 +51,12 @@ import {
   playerHouseholdPeople,
   type PlannedMove,
 } from "./relocate";
-import { stateWeights, stepPressure } from "../pressure";
+import {
+  latestReadings,
+  pushOf,
+  stateWeights,
+  stepPressure,
+} from "../pressure";
 import { activeWavesCovering, stepWaves, wavePressure } from "./waves";
 
 /**
@@ -174,7 +179,10 @@ export function reviewTown(
   // Read only once somebody's draw says they leave; most reviews move nobody.
   let context: Parameters<typeof planMove>[2] | null = null;
   const destinations = destinationPool(next, town);
-  const chance = rates.departureChancePerYear * departure.multiplier;
+  const chance =
+    rates.departureChancePerYear *
+    departure.multiplier *
+    statePushOnTown(next, town);
   const reason: MoveReasonKey = departure.waveKey
     ? `wave:${departure.waveKey}`
     : "life-course:unrecorded";
@@ -263,6 +271,16 @@ export function reviewTown(
     });
   }
   return next;
+}
+
+/**
+ * How hard the town's own state is pushing people out, from the pressure
+ * layer's latest reading: 1 with nothing recorded. A flood or a tax rise in
+ * the state raises the chance a free household in town leaves (`town-movers`).
+ */
+export function statePushOnTown(world: World, town: EntityId): number {
+  const stateKey = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
+  return stateKey ? pushOf(latestReadings(world).get(stateKey)) : 1;
 }
 
 /** Which quarter of the year a person is reviewed in: fixed per person. */

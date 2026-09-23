@@ -116,6 +116,7 @@ export function stepPressure(world: World): World {
           states.map((state) => state.stateKey),
           current,
           Number(periodEnd.slice(0, 4)),
+          ordinal / QUARTERS_PER_FLOW_YEAR,
         )
       : [];
 
@@ -164,7 +165,11 @@ function recordFlowEvent(
   ordinal: number,
 ): World {
   const from = world.jurisdictions[reading.jurisdictionId]!;
-  const top = flow.destinations[0];
+  // Name a destination only when one really draws more than the rest; with
+  // equal pull the first in the list is an accident of sorting.
+  const [first, second] = flow.destinations;
+  const top =
+    first && (!second || first.sharePct > second.sharePct) ? first : undefined;
   const destination = top
     ? worldStates(world).find((state) => state.stateKey === top.stateKey)
     : undefined;

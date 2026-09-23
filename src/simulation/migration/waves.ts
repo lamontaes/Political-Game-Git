@@ -58,7 +58,7 @@ export interface WaveDefinition {
   readonly key: string;
   /** Player-facing name, in the words a newspaper would use. */
   readonly label: string;
-  /** What the wave is, for a reader of the catalogue. Not player text. */
+  /** What the wave is, for a reader of the catalog. Not player text. */
   readonly description: string;
   /** Any one met cause begins the wave. */
   readonly causes: readonly WaveCause[];
@@ -70,11 +70,11 @@ export interface WaveDefinition {
 }
 
 /**
- * The starting catalogue. Three shapes, one of each kind of wave the owner
+ * The starting catalog. Three shapes, one of each kind of wave the owner
  * named or implied. Every duration and multiplier here is BLANKET, pending
  * `society-wide-waves-causes-pace-scale`.
  */
-export const WAVE_CATALOGUE: readonly WaveDefinition[] = [
+export const WAVE_CATALOG: readonly WaveDefinition[] = [
   {
     key: "flight-from-the-city",
     label: "the exodus from the city",
@@ -190,7 +190,7 @@ export interface RecordedWave {
 }
 
 export function waveDefinition(key: string): WaveDefinition | undefined {
-  return WAVE_CATALOGUE.find((definition) => definition.key === key);
+  return WAVE_CATALOG.find((definition) => definition.key === key);
 }
 
 /** Every wave the save records, oldest first. */
@@ -305,7 +305,7 @@ export function stepWaves(world: World, jurisdictionId: EntityId): World {
     if (wave.endedOn === null && wave.endsOn <= next.currentDate)
       next = endWave(next, wave);
   }
-  for (const definition of WAVE_CATALOGUE) {
+  for (const definition of WAVE_CATALOG) {
     const here = waves.filter(
       (wave) =>
         wave.key === definition.key && wave.jurisdictionId === jurisdictionId,
