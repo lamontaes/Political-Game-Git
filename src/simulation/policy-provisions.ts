@@ -89,7 +89,7 @@ export function constitutionalPolicyProvisions(
 ): readonly PolicyProvisionInForce[] {
   const latest = new Map<
     EntityId,
-    PolicyProvisionInForce & { readonly sequence: number }
+    { readonly provision: PolicyProvisionInForce; readonly sequence: number }
   >();
   for (const measure of world.history.constitutionalMeasures ?? []) {
     const delta = measure.ruleDelta;
@@ -101,26 +101,30 @@ export function constitutionalPolicyProvisions(
     const held = latest.get(delta.propositionId);
     if (
       held &&
-      (held.operativeAt > operativeAt ||
-        (held.operativeAt === operativeAt && held.sequence > measure.sequence))
+      (held.provision.operativeAt > operativeAt ||
+        (held.provision.operativeAt === operativeAt &&
+          held.sequence > measure.sequence))
     )
       continue;
     latest.set(delta.propositionId, {
-      stateUsps,
-      propositionId: delta.propositionId,
-      stance: delta.stance,
-      measureId: measure.id,
-      designation: measure.designation,
-      operativeAt,
+      provision: {
+        stateUsps,
+        propositionId: delta.propositionId,
+        stance: delta.stance,
+        measureId: measure.id,
+        designation: measure.designation,
+        operativeAt,
+      },
       sequence: measure.sequence,
     });
   }
   return [...latest.values()]
     .sort(
       (a, b) =>
-        a.operativeAt.localeCompare(b.operativeAt) || a.sequence - b.sequence,
+        a.provision.operativeAt.localeCompare(b.provision.operativeAt) ||
+        a.sequence - b.sequence,
     )
-    .map(({ sequence: _sequence, ...provision }) => provision);
+    .map((entry) => entry.provision);
 }
 
 /** A player-facing sentence for a provision, from the World's catalog. */
