@@ -34,6 +34,7 @@ import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import {
   planStateChambers,
   stateLegislators,
+  stateSeatTitle,
 } from "../simulation/nationwide-world/state-legislature-opening";
 import { isTerritoryUsps } from "../simulation/state-reference";
 import {
@@ -930,27 +931,47 @@ function representedBy(
     const identity = interval
       ? districtIdentityByRecordId(catalog, interval.binding.recordId)
       : null;
-    // The members the opening seated in this district, by seat ordinal.
+    // The members the opening seated in this district, by seat ordinal, and
+    // any the law elects at large for the whole state. A member's recorded
+    // title must agree with the seat's district, so a save seated under an
+    // older plan never names someone for a district they were not given.
     const plan = plans.find((candidate) =>
       candidate.officeKey.endsWith(`:${chamber.chamberKey}`),
     );
-    const holders =
-      identity && plan
-        ? seated
-            .filter(
-              (member) =>
-                member.officeKey === plan.officeKey &&
-                plan.districts[member.ordinal - 1]?.recordId ===
-                  identity.recordId,
-            )
-            .sort((a, b) => a.ordinal - b.ordinal)
-            .map((member) => ({
-              key: `${member.officeKey}:${member.ordinal}`,
-              status: "member" as const,
-              name: personName(world.people[member.personId]!),
-              personId: member.personId,
-            }))
-        : [];
+    const representing = (member: (typeof seated)[number]) => {
+      if (!plan || member.officeKey !== plan.officeKey) return false;
+      if (member.ordinal > plan.size - plan.atLargeSeats)
+        return (
+          member.title ===
+          stateSeatTitle(plan.chamberName, null, member.ordinal, true)
+        );
+      const district = plan.districts[member.ordinal - 1];
+      return (
+        !!identity &&
+        district?.recordId === identity.recordId &&
+        member.title ===
+          stateSeatTitle(plan.chamberName, district, member.ordinal)
+      );
+    };
+    const atLarge = identity
+      ? seated.filter(
+          (member) =>
+            representing(member) &&
+            plan !== undefined &&
+            member.ordinal > plan.size - plan.atLargeSeats,
+        ).length
+      : 0;
+    const holders = identity
+      ? seated
+          .filter(representing)
+          .sort((a, b) => a.ordinal - b.ordinal)
+          .map((member) => ({
+            key: `${member.officeKey}:${member.ordinal}`,
+            status: "member" as const,
+            name: personName(world.people[member.personId]!),
+            personId: member.personId,
+          }))
+      : [];
     rows.push({
       key: `state:${chamber.chamberKey}`,
       office: chamber.name,
@@ -960,9 +981,11 @@ function representedBy(
       holders,
       note: !identity
         ? "Your district for this chamber is not recorded for your home."
-        : holders.length
-          ? null
-          : "No current record of who holds this seat.",
+        : holders.length === 0
+          ? "No current record of who holds this seat."
+          : atLarge > 0
+            ? `${atLarge} of them are elected at large and represent all of ${nameInSentence(usps, state)}.`
+            : null,
     });
   }
   return rows;
