@@ -1,0 +1,45 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "a-move",
+  "title": "Someone moving in or out of town",
+  "producer": {
+    "at": "src/simulation/migration/review.ts#reviewTown",
+    "owner": "Migration and big social movements",
+    "writes": "A migration.moved or migration.arrived event, closed and opened residence facts, and wave beginnings and endings.",
+    "runsInPlay": true,
+    "runsDetail": "Quarterly review, registered at campaigns.ts:1958, for lives opened at the current world version."
+  },
+  "readers": [
+    {
+      "at": "src/simulation/press/desk.ts",
+      "owner": "How the world changes",
+      "reads": "Wave beginnings and endings are public and can be covered."
+    }
+  ],
+  "missing": [
+    {
+      "reader": "Newcomers bringing their politics, and places changing because of who lives there",
+      "readerOwner": "People and life",
+      "state": "open",
+      "detail": "An arrival has a name, an identity and a home state, and no party or belief. This keeps growing the unaffiliated population measured on 2026-09-22 (307 of 851 by year six).",
+      "readerAt": "MIGRATION_SEAMS beliefs-carried"
+    },
+    {
+      "reader": "A wave feeding party evolution",
+      "readerOwner": "People and life",
+      "state": "open",
+      "detail": "Party evolution reads nothing from waves.",
+      "readerAt": "MIGRATION_SEAMS wave-parties"
+    },
+    {
+      "reader": "Moving for work, family or cost",
+      "readerOwner": "Migration and big social movements",
+      "state": "needs-research",
+      "detail": "A flat yearly chance with the reason life-course:unrecorded; only unemployment is read, and only through a wave.",
+      "researchQuestionId": "migration-rates-and-reasons",
+      "readerAt": "src/simulation/migration/review.ts:174"
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T02:00:00.000Z"
+}

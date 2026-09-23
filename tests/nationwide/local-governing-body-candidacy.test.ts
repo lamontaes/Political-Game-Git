@@ -148,10 +148,9 @@ describe("a town's governing body, across the country", () => {
       expect(local[0]!.recordedBy.packName).toBe(government);
       expect(local[0]!.office.title).toBe("Member of the governing body");
       expect(
-        local.slice(1).map((office) => [
-          office.recordedBy.packName,
-          office.office.title,
-        ]),
+        local
+          .slice(1)
+          .map((office) => [office.recordedBy.packName, office.office.title]),
       ).toEqual(local.length > 1 ? [[government, "Mayor"]] : []);
       expect(offices.slice(-local.length)).toEqual(local);
     },

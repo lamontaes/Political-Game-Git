@@ -7,7 +7,8 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
-import { proseWeekdayDate } from "./prose-dates";
+import { moneyText } from "../simulation/money-text";
+import { proseDate, proseWeekdayDate } from "./prose-dates";
 
 /** "7:00 a.m.": a time of day as a person would say it. */
 export function proseClockTime(minuteOfDay: number): string {
@@ -71,7 +72,10 @@ export function describeRoutineOutcome(
     lines.push(
       `${work.length} ordinary work shift${work.length === 1 ? "" : "s"} completed.`,
     );
-  const amounts = new Map<string, number>();
+  const amounts = new Map<
+    string,
+    { label: string; currency: string; minorUnits: number }
+  >();
   for (const outcome of after.history.resourceTransferOutcomes.slice(
     before.history.resourceTransferOutcomes.length,
   )) {
@@ -83,17 +87,23 @@ export function describeRoutineOutcome(
     const sent =
       flow?.source.kind === "person" && flow.source.personId === personId;
     if (received || sent) {
-      const key = `${received ? "Received" : "Paid"} ${outcome.transferredAmount.currency}`;
-      amounts.set(
-        key,
-        (amounts.get(key) ?? 0) + outcome.transferredAmount.minorUnits,
-      );
+      const label = received ? "Received" : "Paid";
+      const currency = outcome.transferredAmount.currency;
+      const key = `${label} ${currency}`;
+      amounts.set(key, {
+        label,
+        currency,
+        minorUnits:
+          (amounts.get(key)?.minorUnits ?? 0) +
+          outcome.transferredAmount.minorUnits,
+      });
       if (outcome.status === "blocked" || outcome.status === "missed")
         lines.push(outcome.note ?? "Payment remains unresolved.");
     }
   }
-  for (const [key, amount] of amounts)
-    if (amount > 0) lines.push(`${key}: ${(amount / 100).toFixed(2)}.`);
+  for (const { label, currency, minorUnits } of amounts.values())
+    if (minorUnits > 0)
+      lines.push(`${label} ${moneyText({ currency, minorUnits })}.`);
   for (const due of after.history.futureDueItems) {
     if (
       due.transitionKey === "life-paths2:pay" &&
@@ -102,7 +112,7 @@ export function describeRoutineOutcome(
         "scheduled"
     )
       lines.push(
-        `Earned shift pay is due ${due.dueAt}; it has not posted yet.`,
+        `Earned shift pay is due ${proseDate(due.dueAt)}; it has not posted yet.`,
       );
   }
   for (const state of after.history.futureDueItemStates.slice(
