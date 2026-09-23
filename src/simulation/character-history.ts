@@ -1,5 +1,11 @@
 import { adultLifeSituations } from "./adult-situations";
-import { addDays, ageOnDate, dateAtAge, makeIsoDate } from "./dates";
+import {
+  addDays,
+  ageOnDate,
+  dateAtAge,
+  daysBetween,
+  makeIsoDate,
+} from "./dates";
 import { createStableId } from "./ids";
 import {
   createCareResponsibility,
@@ -116,6 +122,7 @@ import type {
   RelationshipInteraction,
   LifeEligibilityProvider,
   LifeRecordProvenance,
+  LifeSituationBand,
   LifeSituationKey,
   LifeSituationOption,
   Person,
@@ -2288,6 +2295,113 @@ export function generateQuickCharacterHistory(
     rng,
     input.childhoodGenerationVersion,
   );
+  // The household a summarized childhood is raised in, and the parent who
+  // raises it. Every version writes it the same way.
+  const childhoodHousehold = (): CharacterHistoryTransition[] => [
+    {
+      kind: "household",
+      input: {
+        stableKey: home,
+        formedAt: person.birthDate,
+        label: "Childhood household",
+        provenance: generated,
+      },
+    },
+    {
+      kind: "household-location",
+      input: {
+        stableKey: `${home}:location:birth`,
+        householdStableKey: home,
+        effectiveAt: person.birthDate,
+        jurisdictionId: input.jurisdictionId,
+        label: "Initial family residence",
+        kind: "residence:family-home",
+        provenance: generated,
+      },
+    },
+    {
+      kind: "household-membership",
+      input: {
+        stableKey: `${home}:child`,
+        personId: input.personId,
+        householdId: createStableId("household", `${world.id}:${home}`),
+        startedAt: person.birthDate,
+        residenceRole: "primary",
+        kind: "resident:child",
+        provenance: generated,
+      },
+    },
+    {
+      kind: "household-membership",
+      input: {
+        stableKey: `${home}:parent`,
+        personId: parentId,
+        householdId: createStableId("household", `${world.id}:${home}`),
+        startedAt: person.birthDate,
+        residenceRole: "primary",
+        kind: "resident:adult",
+        provenance: generated,
+      },
+    },
+    {
+      kind: "kinship",
+      input: {
+        stableKey: key("kinship"),
+        personIds: [input.personId, parentId],
+        establishedAt: person.birthDate,
+        kind: "lineal:parent-child",
+        provenance: generated,
+      },
+    },
+    {
+      kind: "care",
+      input: {
+        stableKey: key("care"),
+        caregiverPersonId: parentId,
+        recipientPersonId: input.personId,
+        startedAt: person.birthDate,
+        kind: "supervision:childcare",
+        share: "primary",
+        context: "Childhood care",
+        timeDemand: lowTimeDemand(input.jurisdictionId),
+        provenance: generated,
+      },
+    },
+    {
+      kind: "authority",
+      input: {
+        stableKey: key("authority"),
+        childPersonId: input.personId,
+        holder: { kind: "person", personId: parentId },
+        establishedAt: person.birthDate,
+        kind: "parental:ordinary",
+        basisKind: "custom:family",
+        context: "Childhood authority",
+        provenance: generated,
+      },
+    },
+    {
+      // And it ends when they grow up.
+      //
+      // It did not, before Packet 72, and nothing noticed because nothing
+      // asked. Once a stage could require that a character answers for
+      // themselves, a thirty-four-year-old with an open childhood authority
+      // record was recorded as still being somebody's dependent — so the
+      // adult household family withheld itself from every adult in the
+      // game. A childhood that never ends is a false biography, not a
+      // bookkeeping quirk.
+      kind: "authority-state",
+      input: {
+        stableKey: key("authority:ended"),
+        authorityStableKey: key("authority"),
+        effectiveAt: age(18),
+        status: "ended",
+        basisKind: "custom:family",
+        context: "Reached adulthood",
+        provenance: generated,
+      },
+    },
+  ];
   const contextPeople: readonly {
     readonly kind: "context-person";
     readonly input: CharacterHistoryContextPersonInput;
@@ -2333,6 +2447,27 @@ export function generateQuickCharacterHistory(
       },
     },
   ];
+  if (input.childhoodGenerationVersion === CHILDHOOD_GENERATION_V3) {
+    return {
+      stableKey: input.stableKey,
+      mode: "quick-generated",
+      personId: input.personId,
+      transitions: [
+        ...contextPeople,
+        ...variedChildhood(world, {
+          person,
+          jurisdictionId: input.jurisdictionId,
+          key,
+          rng: rng.fork("childhood-v3"),
+          schoolNames,
+          parentId,
+          peerId,
+          teacherId,
+          household: childhoodHousehold(),
+        }),
+      ],
+    };
+  }
   return {
     stableKey: input.stableKey,
     mode: "quick-generated",
@@ -2404,109 +2539,7 @@ export function generateQuickCharacterHistory(
           },
         },
       },
-      {
-        kind: "household",
-        input: {
-          stableKey: home,
-          formedAt: person.birthDate,
-          label: "Childhood household",
-          provenance: generated,
-        },
-      },
-      {
-        kind: "household-location",
-        input: {
-          stableKey: `${home}:location:birth`,
-          householdStableKey: home,
-          effectiveAt: person.birthDate,
-          jurisdictionId: input.jurisdictionId,
-          label: "Initial family residence",
-          kind: "residence:family-home",
-          provenance: generated,
-        },
-      },
-      {
-        kind: "household-membership",
-        input: {
-          stableKey: `${home}:child`,
-          personId: input.personId,
-          householdId: createStableId("household", `${world.id}:${home}`),
-          startedAt: person.birthDate,
-          residenceRole: "primary",
-          kind: "resident:child",
-          provenance: generated,
-        },
-      },
-      {
-        kind: "household-membership",
-        input: {
-          stableKey: `${home}:parent`,
-          personId: parentId,
-          householdId: createStableId("household", `${world.id}:${home}`),
-          startedAt: person.birthDate,
-          residenceRole: "primary",
-          kind: "resident:adult",
-          provenance: generated,
-        },
-      },
-      {
-        kind: "kinship",
-        input: {
-          stableKey: key("kinship"),
-          personIds: [input.personId, parentId],
-          establishedAt: person.birthDate,
-          kind: "lineal:parent-child",
-          provenance: generated,
-        },
-      },
-      {
-        kind: "care",
-        input: {
-          stableKey: key("care"),
-          caregiverPersonId: parentId,
-          recipientPersonId: input.personId,
-          startedAt: person.birthDate,
-          kind: "supervision:childcare",
-          share: "primary",
-          context: "Childhood care",
-          timeDemand: lowTimeDemand(input.jurisdictionId),
-          provenance: generated,
-        },
-      },
-      {
-        kind: "authority",
-        input: {
-          stableKey: key("authority"),
-          childPersonId: input.personId,
-          holder: { kind: "person", personId: parentId },
-          establishedAt: person.birthDate,
-          kind: "parental:ordinary",
-          basisKind: "custom:family",
-          context: "Childhood authority",
-          provenance: generated,
-        },
-      },
-      {
-        // And it ends when they grow up.
-        //
-        // It did not, before Packet 72, and nothing noticed because nothing
-        // asked. Once a stage could require that a character answers for
-        // themselves, a thirty-four-year-old with an open childhood authority
-        // record was recorded as still being somebody's dependent — so the
-        // adult household family withheld itself from every adult in the
-        // game. A childhood that never ends is a false biography, not a
-        // bookkeeping quirk.
-        kind: "authority-state",
-        input: {
-          stableKey: key("authority:ended"),
-          authorityStableKey: key("authority"),
-          effectiveAt: age(18),
-          status: "ended",
-          basisKind: "custom:family",
-          context: "Reached adulthood",
-          provenance: generated,
-        },
-      },
+      ...childhoodHousehold(),
       {
         kind: "education",
         input: {
@@ -2839,6 +2872,597 @@ export function generateQuickCharacterHistory(
       },
     ],
   };
+}
+
+/**
+ * How a summarized childhood varies from one life to the next.
+ *
+ * PLACEHOLDERS, NOT RESEARCHED. Filed with ChatGPT as
+ * `how-a-summarized-childhood-varies`. Every number here is a stand-in chosen
+ * only so that two lives stop being the same life; none is a claim about how
+ * often American children move, work or start school. The shape is the part
+ * that is meant: school years that start in late summer and end in late
+ * spring, a move that some households make and some do not, a job some
+ * teenagers hold and some do not, and a handful of remembered moments drawn
+ * from the authored situations rather than the same one for everybody.
+ */
+const SUMMARIZED_CHILDHOOD = {
+  /** A child who is five by this day of the year starts school that fall. */
+  schoolAgeCutoff: "09-01",
+  /** The first day of a school year falls in this window. */
+  termStarts: { month: 8, day: 15, spreadDays: 25 },
+  /** And the last day in this one. */
+  termEnds: { month: 5, day: 20, spreadDays: 27 },
+  /** Share of childhoods with a move to another home in the same place. */
+  moveShare: 0.4,
+  /** Share of teenagers with a part-time job before leaving school. */
+  teenJobShare: 0.5,
+  /** How long that job lasts, in days. */
+  teenJobDays: { min: 60, max: 730 },
+  /** Remembered moments beyond the classmate and the teacher. */
+  otherMoments: { min: 1, max: 3 },
+} as const;
+
+/**
+ * The moments a summarized childhood can remember with nobody else in them,
+ * or with the parent it already has.
+ *
+ * Left out on purpose: a situation whose scene asserts a fact the summary has
+ * no record of. A new baby in the house is a sibling nobody wrote; someone ill
+ * in bed, or needing more care than the household can spread around, is an
+ * illness nobody recorded; a month's plans cancelled for money is a shortfall
+ * nothing measured. Those stay playable, where the world holds the fact, and
+ * out of a summary that would be inventing it.
+ */
+const SUMMARIZED_MOMENTS: readonly LifeSituationKey[] = [
+  "formative.school-entry",
+  "formative.small-money",
+  "formative.broken-object",
+  "formative.school-rule-input",
+  "formative.activity-choice",
+  "formative.civic-volunteering",
+  "formative.student-organizing",
+  "formative.future-preparation",
+];
+
+/** The moment every summarized childhood shares with its classmate. */
+const CLASSMATE_MOMENTS: readonly LifeSituationKey[] = [
+  "formative.lunch-table",
+  "formative.friend-conflict",
+];
+
+/**
+ * And with its teacher. Only the one that makes them a mentor: the person
+ * context names somebody "your former teacher" from that guidance, and a
+ * remark let pass in a classroom leaves no tie at all, which left one adult
+ * start in three with a stranger where their teacher had been.
+ */
+const TEACHER_MOMENTS: readonly LifeSituationKey[] = [
+  "formative.teacher-mentor",
+];
+
+/**
+ * A childhood that is this person's own: dated through the year rather than on
+ * each birthday, with school years on a school calendar, and with what
+ * happened in it drawn rather than fixed.
+ *
+ * Nothing is written that has not happened by the day before play begins. A
+ * person who starts at eighteen before their graduation is still enrolled,
+ * which is true, rather than recorded as having finished.
+ */
+function variedChildhood(
+  world: World,
+  input: {
+    readonly person: Person;
+    readonly jurisdictionId: EntityId;
+    readonly key: (suffix: string) => string;
+    readonly rng: SeededRng;
+    readonly schoolNames: ReturnType<typeof generateSchoolNames>;
+    readonly parentId: EntityId;
+    readonly peerId: EntityId;
+    readonly teacherId: EntityId;
+    readonly household: readonly CharacterHistoryTransition[];
+  },
+): CharacterHistoryTransition[] {
+  const { person, jurisdictionId, key, rng } = input;
+  const personId = person.id;
+  const today = world.currentDate;
+  const happened = (date: IsoDate) => date < today;
+  const generated = {
+    kind: "generated" as const,
+    generatorKey: `character-history-v1:${key("childhood-v3")}`,
+  };
+  const age = (value: number) => dateAtAge(person.birthDate, value);
+  const within = (from: IsoDate, until: IsoDate, suffix: string): IsoDate => {
+    const span = daysBetween(from, until);
+    return span <= 0
+      ? from
+      : addDays(from, rng.fork(`${suffix}:day`).integer(0, span));
+  };
+  const onCalendar = (
+    year: number,
+    window: { readonly month: number; readonly day: number },
+    spreadDays: number,
+    suffix: string,
+  ): IsoDate =>
+    addDays(
+      makeIsoDate(
+        `${String(year).padStart(4, "0")}-${String(window.month).padStart(2, "0")}-${String(window.day).padStart(2, "0")}`,
+      ),
+      rng.fork(`${suffix}:day`).integer(0, spreadDays),
+    );
+  const { termStarts, termEnds } = SUMMARIZED_CHILDHOOD;
+  const yearStarts = (year: number, suffix: string) =>
+    onCalendar(year, termStarts, termStarts.spreadDays, `${suffix}:starts`);
+  const yearEnds = (year: number, suffix: string) =>
+    onCalendar(year, termEnds, termEnds.spreadDays, `${suffix}:ends`);
+
+  // Kindergarten the fall they are five, then middle school six years on,
+  // high school three after that, and graduation four after that.
+  const birthYear = Number(person.birthDate.slice(0, 4));
+  const firstYear =
+    birthYear +
+    5 +
+    (person.birthDate.slice(5) > SUMMARIZED_CHILDHOOD.schoolAgeCutoff ? 1 : 0);
+  const schools = [
+    {
+      stage: "elementary",
+      organization: key("elementary-school"),
+      enrollment: key("education:elementary"),
+      programKind: "schooling:elementary",
+      contextKind: "stage:elementary",
+      startsAt: yearStarts(firstYear, "elementary"),
+      endsAt: yearEnds(firstYear + 6, "elementary"),
+      finished: "Finished elementary school.",
+    },
+    {
+      stage: "middle",
+      organization: key("middle-school"),
+      enrollment: key("education:middle-school"),
+      programKind: "schooling:middle",
+      contextKind: "stage:school",
+      startsAt: yearStarts(firstYear + 6, "middle"),
+      endsAt: yearEnds(firstYear + 9, "middle"),
+      finished: "Completed the middle-school program.",
+    },
+    {
+      stage: "high",
+      organization: key("high-school"),
+      enrollment: key("education:high-school"),
+      programKind: "schooling:secondary",
+      contextKind: "stage:school",
+      startsAt: yearStarts(firstYear + 9, "high"),
+      endsAt: yearEnds(firstYear + 13, "high"),
+      finished: "Graduated from high school.",
+    },
+  ] as const;
+  const [elementary, middle, high] = schools;
+  const schoolOn = (date: IsoDate) =>
+    date < middle.startsAt ? elementary : date < high.startsAt ? middle : high;
+  const graduation = high.endsAt;
+
+  const transitions: CharacterHistoryTransition[] = [
+    ...schools.map((school): CharacterHistoryTransition => ({
+      kind: "organization",
+      input: {
+        stableKey: school.organization,
+        formedAt: person.birthDate,
+        provenance: generated,
+        initialProfile: {
+          name: input.schoolNames[school.stage],
+          classification: "service:school",
+          locationJurisdictionId: jurisdictionId,
+        },
+      },
+    })),
+    ...input.household,
+  ];
+  for (const school of schools) {
+    if (!happened(school.startsAt)) continue;
+    transitions.push({
+      kind: "education",
+      input: {
+        stableKey: school.enrollment,
+        personId,
+        organizationId: organizationIdFor(world, school.organization),
+        startedAt: school.startsAt,
+        programKind: school.programKind,
+        contextKind: school.contextKind,
+        provenance: generated,
+      },
+    });
+    if (!happened(school.endsAt)) continue;
+    transitions.push({
+      kind: "education-state",
+      input: {
+        stableKey: `${school.enrollment}:completed`,
+        enrollmentStableKey: school.enrollment,
+        effectiveAt: school.endsAt,
+        status: "completed",
+        contextKind: school.contextKind,
+        reason: school.finished,
+        provenance: generated,
+      },
+    });
+  }
+  // The classmate is in the same high school, as a classmate has to be.
+  if (happened(high.startsAt)) {
+    transitions.push({
+      kind: "education",
+      input: {
+        stableKey: key("education:peer"),
+        personId: input.peerId,
+        organizationId: organizationIdFor(world, high.organization),
+        startedAt: high.startsAt,
+        programKind: "schooling:secondary",
+        contextKind: "stage:school",
+        provenance: generated,
+      },
+    });
+  }
+
+  // A move, for some households, to another home in the same place. The
+  // school does not change with it: nothing says the new home was across a
+  // district line, and the summary does not claim it was.
+  if (rng.fork("move").next() < SUMMARIZED_CHILDHOOD.moveShare) {
+    const movedAt = within(age(1), age(17), "move");
+    if (happened(movedAt)) {
+      const moveEvent = key("event:move");
+      transitions.push(
+        {
+          kind: "event",
+          input: formativeEvent(
+            moveEvent,
+            "life.household-move",
+            movedAt,
+            jurisdictionId,
+            [personId, input.parentId],
+            "The household moved to another home in the same place.",
+          ),
+        },
+        {
+          kind: "household-location",
+          input: {
+            stableKey: `${key("household")}:location:move`,
+            householdStableKey: key("household"),
+            effectiveAt: movedAt,
+            jurisdictionId,
+            label: "Later family residence",
+            kind: "residence:family-home",
+            provenance: { kind: "event", eventStableKey: moveEvent },
+          },
+        },
+      );
+    }
+  }
+
+  // The moments: one with the classmate, one with the teacher, and a few with
+  // nobody else in them, each in its own band and with its own choice.
+  const bandWindow = (band: LifeSituationBand): [IsoDate, IsoDate] =>
+    band === "early-childhood"
+      ? [age(3), age(8)]
+      : band === "middle-childhood"
+        ? [age(8), age(13)]
+        : [age(13), graduation < age(18) ? graduation : age(18)];
+  const moment = (
+    situationKey: LifeSituationKey,
+    companionId: EntityId | null,
+  ): { readonly occurredAt: IsoDate; readonly eventKey: string } | null => {
+    const situation = SITUATIONS.find((item) => item.key === situationKey)!;
+    const draw = rng.fork(`moment:${situationKey}`);
+    const occurredAt =
+      situationKey === "formative.school-entry"
+        ? elementary.startsAt
+        : within(...bandWindow(situation.band), `moment:${situationKey}`);
+    if (!happened(occurredAt)) return null;
+    const option =
+      situation.options[draw.integer(0, situation.options.length)]!;
+    const eventKey = key(`event:${situationKey.slice("formative.".length)}`);
+    transitions.push(
+      ...summarizedMomentTransitions({
+        eventKey,
+        situation,
+        option,
+        occurredAt,
+        personId,
+        companionId,
+        jurisdictionId,
+      }),
+    );
+    return { occurredAt, eventKey };
+  };
+  const pick = (keys: readonly LifeSituationKey[], suffix: string) =>
+    keys[rng.fork(suffix).integer(0, keys.length)]!;
+
+  moment(pick(CLASSMATE_MOMENTS, "classmate"), input.peerId);
+  const teacherMoment = pick(TEACHER_MOMENTS, "teacher");
+  const withTeacher = moment(teacherMoment, input.teacherId);
+  // The teacher teaches at the school the child was in when it happened, and
+  // has since the child arrived there. With no such moment they teach at the
+  // middle school, as every earlier version had it.
+  const teachingAt = withTeacher ? schoolOn(withTeacher.occurredAt) : middle;
+  if (happened(teachingAt.startsAt)) {
+    transitions.push({
+      kind: "work",
+      input: {
+        stableKey: key("work:teacher"),
+        personId: input.teacherId,
+        organizationId: organizationIdFor(world, teachingAt.organization),
+        startedAt: teachingAt.startsAt,
+        kind: "employment:education",
+        compensation: "paid",
+        authority: "directs-others",
+        dependency: "dependent",
+        economicRisk: "organization-borne",
+        provenance: generated,
+        initialRole: {
+          title: "Teacher",
+          occupationClassification: "profession:teacher",
+          locationJurisdictionId: jurisdictionId,
+          timeDemand: moderateTimeDemand(jurisdictionId),
+        },
+      },
+    });
+  }
+  const others = [...SUMMARIZED_MOMENTS];
+  const count = rng
+    .fork("moments:count")
+    .integer(
+      SUMMARIZED_CHILDHOOD.otherMoments.min,
+      SUMMARIZED_CHILDHOOD.otherMoments.max + 1,
+    );
+  const order = rng.fork("moments:order");
+  for (let index = 0; index < count; index += 1) {
+    const [situationKey] = others.splice(order.integer(0, others.length), 1);
+    moment(
+      situationKey!,
+      companionRoleIn(situationKey!) === "household-adult"
+        ? input.parentId
+        : null,
+    );
+  }
+
+  // A part-time job, for some teenagers, that ends when it ends rather than on
+  // the day they leave school.
+  if (rng.fork("teen-work").next() < SUMMARIZED_CHILDHOOD.teenJobShare) {
+    const situation = SITUATIONS.find(
+      (item) => item.key === "formative.teen-work-opportunity",
+    )!;
+    const startedAt = within(age(15), addDays(age(17), 182), "teen-work");
+    if (happened(startedAt)) {
+      const eventKey = key("event:teen-work");
+      const employer = key("teen-employer");
+      const work = key("work:teen");
+      transitions.push(
+        {
+          kind: "organization",
+          input: {
+            stableKey: employer,
+            formedAt: person.birthDate,
+            provenance: generated,
+            // PLACEHOLDER: the one employer every earlier version used. Which
+            // jobs teenagers hold, and what those employers are called, is
+            // part of the filed question.
+            initialProfile: {
+              name: "Neighborhood Market",
+              classification: "enterprise:retail",
+              locationJurisdictionId: jurisdictionId,
+            },
+          },
+        },
+        ...summarizedMomentTransitions({
+          eventKey,
+          situation,
+          option: situation.options.find((option) => option.key === "accept")!,
+          occurredAt: startedAt,
+          personId,
+          companionId: null,
+          jurisdictionId,
+        }),
+        {
+          kind: "work",
+          input: {
+            stableKey: work,
+            personId,
+            organizationId: organizationIdFor(world, employer),
+            startedAt,
+            kind: "employment:part-time",
+            compensation: "paid",
+            authority: "directed",
+            dependency: "dependent",
+            economicRisk: "organization-borne",
+            provenance: { kind: "event", eventStableKey: eventKey },
+            initialRole: {
+              title: "Store assistant",
+              occupationClassification: "occupation:retail-assistant",
+              locationJurisdictionId: jurisdictionId,
+              timeDemand: lowTimeDemand(jurisdictionId),
+            },
+          },
+        },
+      );
+      const endedAt = addDays(
+        startedAt,
+        rng
+          .fork("teen-work:length")
+          .integer(
+            SUMMARIZED_CHILDHOOD.teenJobDays.min,
+            SUMMARIZED_CHILDHOOD.teenJobDays.max + 1,
+          ),
+      );
+      if (happened(endedAt)) {
+        transitions.push({
+          kind: "work-status",
+          input: {
+            stableKey: key("teen-work:ended"),
+            workStableKey: work,
+            effectiveAt: endedAt,
+            status: "ended",
+            reason: "They left the job.",
+            provenance: generated,
+          },
+        });
+      }
+    }
+  }
+  return transitions;
+}
+
+function organizationIdFor(world: World, stableKey: string): EntityId {
+  return createStableId("organization", `${world.id}:${stableKey}`);
+}
+
+/** The household adult a situation's scene has in it, where it has one. */
+function companionRoleIn(
+  situationKey: LifeSituationKey,
+): "household-adult" | null {
+  return situationKey === "formative.broken-object" ? "household-adult" : null;
+}
+
+/**
+ * The records a remembered moment leaves: the same ones a played situation
+ * writes, so a summarized childhood and a played one read alike.
+ */
+function summarizedMomentTransitions(input: {
+  readonly eventKey: string;
+  readonly situation: AvailableLifeSituation;
+  readonly option: LifeSituationOption;
+  readonly occurredAt: IsoDate;
+  readonly personId: EntityId;
+  readonly companionId: EntityId | null;
+  readonly jurisdictionId: EntityId;
+}): CharacterHistoryTransition[] {
+  const { eventKey, situation, option, occurredAt, personId } = input;
+  const witnessed = option.witnessed ?? null;
+  const shared =
+    input.companionId !== null && witnessed !== null ? input.companionId : null;
+  const transitions: CharacterHistoryTransition[] = [
+    {
+      kind: "event",
+      input: {
+        stableKey: eventKey,
+        type: situationEventType(situation.key),
+        occurredAt,
+        recordedAt: occurredAt,
+        jurisdictionId: input.jurisdictionId,
+        involvedEntityIds: [personId, ...(shared ? [shared] : [])],
+        participants: [
+          { personId, role: "agency:actor", detail: option.label },
+          ...(shared
+            ? [
+                {
+                  personId: shared,
+                  role: "presence:participant" as const,
+                  detail: witnessed,
+                },
+              ]
+            : []),
+        ],
+        personFactConstraints: [],
+        visibility: "limited",
+        tags: [situation.key, `choice.${option.key}`],
+        summary: option.memory,
+        context: {
+          location: {
+            jurisdictionId: input.jurisdictionId,
+            label: "Life context",
+            setting: null,
+          },
+          socialContext: situation.key,
+          pressure: situation.prose,
+          choice: option.label,
+          motivation: null,
+          immediateReaction: null,
+        },
+      },
+    },
+    {
+      kind: "knowledge",
+      input: {
+        stableKey: `${eventKey}:knowledge`,
+        personId,
+        eventStableKey: eventKey,
+        learnedAt: occurredAt,
+        believedSummary: option.memory,
+        accuracy: "accurate",
+        confidence: "high",
+        source: { kind: "direct" },
+      },
+    },
+    {
+      kind: "memory",
+      input: {
+        stableKey: `${eventKey}:memory`,
+        personId,
+        eventStableKey: eventKey,
+        formedAt: occurredAt,
+        rememberedSummary: option.memory,
+        interpretation: option.memory,
+        strength: "moderate",
+        relevanceTags: [situation.key],
+        supersedesMemoryId: null,
+      },
+    },
+  ];
+  if (shared !== null && witnessed !== null) {
+    transitions.push(
+      {
+        kind: "knowledge",
+        input: {
+          stableKey: `${eventKey}:knowledge:${shared}`,
+          personId: shared,
+          eventStableKey: eventKey,
+          learnedAt: occurredAt,
+          believedSummary: witnessed,
+          accuracy: "partial",
+          confidence: "medium",
+          source: { kind: "direct" },
+        },
+      },
+      {
+        kind: "interaction",
+        input: {
+          stableKey: `${eventKey}:interaction`,
+          personIds: [personId, shared],
+          eventStableKey: eventKey,
+          occurredAt,
+          kind: interactionKind(
+            situation.key,
+            option.key,
+            option.interactionKind,
+          ),
+          change: interactionChange(option.key, option.relationalChange),
+          significance: "meaningful",
+          summary: witnessed,
+          tags: [situation.key],
+        },
+      },
+    );
+  }
+  transitions.push({
+    kind: "appraisal",
+    input: {
+      stableKey: `${eventKey}:appraisal`,
+      personId,
+      eventStableKey: eventKey,
+      memoryStableKey: `${eventKey}:memory`,
+      knowledgeStableKey: `${eventKey}:knowledge`,
+      appraisedAt: occurredAt,
+      meanings: [
+        {
+          key: "formative-choice",
+          label: "A formative choice",
+          valence: heldBack(option, option.key) ? "mixed" : "positive",
+          intensity: "subtle",
+        },
+      ],
+      interpretation: option.memory,
+      confidence: "medium",
+      involvedPersonIds: shared ? [shared] : [],
+      supersedesAppraisalId: null,
+    },
+  });
+  return transitions;
 }
 
 export function composeApprenticeshipPlan(input: {
@@ -3261,7 +3885,28 @@ function moderateTimeDemand(
  * public school". A replay that never named it keeps what it was written under.
  */
 export const CHILDHOOD_GENERATION_V2 = "childhood-v2";
-export type ChildhoodGenerationVersion = typeof CHILDHOOD_GENERATION_V2;
+
+/**
+ * The childhood a new game declares now. Everything v2 did, and a summarized
+ * childhood of the person's own: dated through the year on a school calendar,
+ * with a move, a teenage job and the remembered moments drawn rather than the
+ * same ones for everybody. Before it, two lives in two states came out line
+ * for line alike: the same move at six, the same school transfer at seven, the
+ * same lunch table at ten, the same store job at sixteen ending on the day
+ * they graduated, all on their birthdays.
+ */
+export const CHILDHOOD_GENERATION_V3 = "childhood-v3";
+export type ChildhoodGenerationVersion =
+  typeof CHILDHOOD_GENERATION_V2 | typeof CHILDHOOD_GENERATION_V3;
+
+/** Whether a version gives the people of a childhood their own birthdays. */
+export function childhoodSpreadsBirthDates(
+  version: ChildhoodGenerationVersion | undefined,
+): boolean {
+  return (
+    version === CHILDHOOD_GENERATION_V2 || version === CHILDHOOD_GENERATION_V3
+  );
+}
 
 /**
  * Birth dates for the three people a summarized childhood meets.
@@ -3282,7 +3927,7 @@ function contextBirthDates(
   readonly peer: IsoDate;
   readonly teacher: IsoDate;
 } {
-  if (version !== CHILDHOOD_GENERATION_V2) {
+  if (!childhoodSpreadsBirthDates(version)) {
     return {
       parent: yearsBefore(birthDate, 28),
       peer: birthDate,

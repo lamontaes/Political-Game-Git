@@ -11,6 +11,7 @@ import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
   CHILDHOOD_GENERATION_V2,
+  CHILDHOOD_GENERATION_V3,
 } from "../simulation";
 import type {
   GenderIdentityKey,
@@ -368,7 +369,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     return null;
   if (
     record.childhoodGenerationVersion !== undefined &&
-    record.childhoodGenerationVersion !== CHILDHOOD_GENERATION_V2
+    record.childhoodGenerationVersion !== CHILDHOOD_GENERATION_V2 &&
+    record.childhoodGenerationVersion !== CHILDHOOD_GENERATION_V3
   )
     return null;
   if (
@@ -450,7 +452,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       : { earlierLifeGenerationVersion: "context-v2" as const }),
     ...(record.childhoodGenerationVersion === undefined
       ? {}
-      : { childhoodGenerationVersion: CHILDHOOD_GENERATION_V2 }),
+      : {
+          childhoodGenerationVersion:
+            record.childhoodGenerationVersion === CHILDHOOD_GENERATION_V3
+              ? CHILDHOOD_GENERATION_V3
+              : CHILDHOOD_GENERATION_V2,
+        }),
     ...(record.partyChapterNameVersion === undefined
       ? {}
       : { partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION }),
