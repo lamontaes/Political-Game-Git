@@ -80,6 +80,7 @@ describe("a life can start in each of the four other territories", () => {
   it("keys every row in its own namespace, uniquely", () => {
     const keys = TERRITORY_PLACE_ROWS.map((row) => row[0]);
     expect(new Set(keys).size).toBe(keys.length);
-    for (const key of keys) expect(key).toMatch(/^territory:[A-Z]{2}:[a-z0-9-]+$/);
+    for (const key of keys)
+      expect(key).toMatch(/^territory:[A-Z]{2}:[a-z0-9-]+$/);
   });
 });

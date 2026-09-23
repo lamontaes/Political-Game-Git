@@ -358,7 +358,9 @@ describe("world orientation reader", () => {
       );
       const step = view.steps[2]!;
       expect(step.title).toBe(name);
-      expect(step.summary).toContain(`${name} is a U.S. territory, not a state.`);
+      expect(step.summary).toContain(
+        `${name} is a U.S. territory, not a state.`,
+      );
       expect(step.summary).toContain(`sends ${member} to the U.S. House`);
       expect(step.summary).toContain("no seat in the U.S. Senate");
       expect(step.summary).toContain(
