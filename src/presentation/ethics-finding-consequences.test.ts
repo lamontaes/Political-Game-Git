@@ -36,10 +36,12 @@ import {
   UNRESEARCHED_STATE_OVERSIGHT,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
+import { successorCandidates } from "../simulation/people-continuation";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { supportAfterLoss } from "../simulation/campaign-support";
 import { spendAnAfternoon } from "./campaign-projection";
 import { projectCampaignSpendingReports } from "./campaign-spending-reports";
+import { continueAs, retireFromPlay } from "./people-continuation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
@@ -73,7 +75,10 @@ function adultLifeIn(usps: string, seed: string) {
  * (Washington's legislative ethics body hears only the legislature).
  */
 function washingtonFinding(
-  options: { readonly lieToReporters?: boolean } = {},
+  options: {
+    readonly lieToReporters?: boolean;
+    readonly handOffAfterTaking?: boolean;
+  } = {},
 ) {
   const { world, personId } = adultLifeIn("WA", "ethics-consequences-wa");
   const identity = stateExecutiveIdentity("WA")!;
@@ -119,6 +124,16 @@ function washingtonFinding(
     },
   );
   let after = second.world;
+  // The player retires the candidate from play and continues as a relative,
+  // the game's own route: what the candidate took is still on the record.
+  let handedTo: string | null = null;
+  if (options.handOffAfterTaking) {
+    const retired = retireFromPlay(after, personId);
+    handedTo = successorCandidates(retired, personId).find(
+      (entry) => entry.availableNow,
+    )!.personId;
+    after = continueAs(retired, personId, handedTo);
+  }
   const finding = (w: World) =>
     pressRecordsOfKind(w, "proceeding-step").find(
       (step) => step.outcome === "finding",
@@ -164,6 +179,7 @@ function washingtonFinding(
     step: found,
     proceeding,
     lies,
+    handedTo,
     occurrences: [first.occurrence, second.occurrence],
   };
 }
@@ -536,6 +552,31 @@ describe("a Washington candidate's spending reports", () => {
     expect(paid.every((line) => line.amount === "$200")).toBe(true);
     const name = personName(run.after.people[run.personId]!);
     expect(paid.every((line) => line.payee === name)).toBe(true);
+  });
+});
+
+describe("a Washington candidate the player stops playing after taking money", () => {
+  const run = washingtonFinding({ handOffAfterTaking: true });
+
+  it("is still reported, noticed and found against", () => {
+    // Every scrutiny route used to read only the controlled person, so
+    // switching to somebody else left the candidate's taking unseen for good.
+    expect(run.after.control).toEqual({
+      kind: "person",
+      personId: run.handedTo,
+    });
+    expect(run.proceeding.respondentPersonIds).toEqual([run.personId]);
+    expect(run.step.publicStep).toBe(true);
+    expect(publicAdverseFindingsAgainst(run.after, run.personId)).toHaveLength(
+      1,
+    );
+  });
+
+  it("does not open a case about the person now played, who took nothing", () => {
+    const matters = pressRecordsOfKind(run.after, "matter");
+    expect(
+      matters.some((matter) => matter.subjectPersonIds.includes(run.handedTo!)),
+    ).toBe(false);
   });
 });
 

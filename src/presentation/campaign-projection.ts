@@ -48,6 +48,7 @@ import type {
   MoneyAmount,
   World,
 } from "../simulation";
+import { moneyText } from "../simulation/money-text";
 
 /**
  * What a candidate can actually see.
@@ -632,7 +633,7 @@ function offersFor(
 }
 
 function money(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+  return moneyText(amount);
 }
 
 function sessionsFor(

@@ -1,0 +1,46 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "an-ethics-finding",
+  "title": "An ethics finding",
+  "producer": {
+    "at": "src/simulation/press/finding-consequences.ts#applyFindingConsequences",
+    "owner": "Consequences for corruption",
+    "writes": "For an adverse public outcome: lost campaign support, restitution, knowledge of the finding for party contacts, colleagues and close contacts, their private responses, and a recheck of earlier denials.",
+    "runsInPlay": true,
+    "runsDetail": "Weekly press sweep through pressProceedingStepHandler (procedures.ts:1007). A complaint can only be about the player; see a-scandal-about-somebody."
+  },
+  "readers": [
+    {
+      "at": "src/simulation/record-in-office.ts:109",
+      "owner": "Running for office",
+      "reads": "Remembered findings lower starting support in the next race."
+    },
+    {
+      "at": "src/simulation/campaign-life-activities.ts:1166 and campaign-opponents.ts:1086",
+      "owner": "Running for office",
+      "reads": "Party chapters and organizers lean toward declining to help."
+    },
+    {
+      "at": "src/simulation/press/responses.ts",
+      "owner": "Relationships",
+      "reads": "Contacts privately support or distance themselves."
+    },
+    {
+      "at": "src/simulation/press/desk.ts:1207",
+      "owner": "How the world changes",
+      "reads": "Allegation stories and proceeding coverage."
+    }
+  ],
+  "missing": [
+    {
+      "reader": "The party's standing with the member: endorsements withdrawn, a primary challenge, leadership calling for resignation",
+      "readerOwner": "People and life",
+      "state": "needs-research",
+      "detail": "Party evolution's body review (living-world/party-evolution.ts:1890) reads no finding. Which public responses follow, and how likely each is, is asked in the scandal-reach question.",
+      "researchQuestionId": "how-far-a-scandal-travels",
+      "readerAt": "src/simulation/living-world/party-evolution.ts#partyBodyReviewTransitionHandler"
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T02:00:00.000Z"
+}
