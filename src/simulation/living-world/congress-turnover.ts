@@ -2,6 +2,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
+import { scheduleSeatFilling } from "../governing/office-continuity";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
 import { makeIsoDate } from "../dates";
 import { electionContestResult } from "../election-contests";
@@ -554,6 +555,7 @@ function seatCongressWinners(world: World, year: number): World {
         summary: `The seat of the ${title} is vacant: the member-elect died before the term began.`,
         context,
       });
+      next = scheduleSeatFilling(next, seat, newStart).world;
       continue;
     }
     next = recordWorldEvent(next, {

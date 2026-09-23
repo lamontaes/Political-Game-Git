@@ -17,7 +17,7 @@ import {
 } from "./constitutional-process";
 import { createDemoWorld } from "./demo";
 import { resolveRequiredVotes } from "./legislature-rules";
-import { offerFloorAmendment } from "./legislation";
+import { buildLegislativeVoteRecord, offerFloorAmendment } from "./legislation";
 import type { Jurisdiction, World } from "./types";
 import type { ProposeConstitutionalMeasureInput } from "./constitutional-process";
 
@@ -434,6 +434,61 @@ describe("S30-K constitutional process", () => {
     if (detail.kind === "proposal-vote")
       Object.assign(detail.vote, { requiredVotes: 1 });
     expect(() => assertWorldIntegrity(forged)).toThrow(/requiredVotes/);
+  });
+  it("keeps a recorded roll call valid after the chamber's size is corrected", () => {
+    // Nebraska's single chamber was 128 until its size was corrected to 49.
+    // A saved life that held a 128-member vote was rejected whole: "That
+    // saved game could not be opened." The vote records the chamber that sat.
+    const w = proposal(setup());
+    const voted = recordConstitutionalProposalVote(
+      w,
+      id(w),
+      "assembly",
+      votes(80, 54),
+      80,
+      AUTHORED,
+    );
+    const older = structuredClone(voted);
+    const action = older.history.constitutionalActions!.at(-1)!;
+    const measure = older.history.constitutionalMeasures!.at(-1)!;
+    if (action.detail.kind !== "proposal-vote") throw Error("No vote.");
+    const recorded = action.detail.vote;
+    Object.assign(action.detail, {
+      vote: buildLegislativeVoteRecord(w, {
+        stableKey: recorded.stableKey,
+        measureId: measure.id,
+        forum: { kind: "chamber", chamberKey: "assembly" },
+        purpose: "constitutional-proposal",
+        threshold: measure.proposalRule!,
+        eligibleMembers: 100,
+        presentMembers: 100,
+        dispositions: votes(100, 70),
+        provenance: recorded.provenance,
+      }),
+    });
+    expect(() => assertWorldIntegrity(older)).not.toThrow();
+    expect(deserializeWorld(serializeWorld(older))).toEqual(older);
+
+    // A roll call that disagrees with itself is still refused.
+    const short = structuredClone(older);
+    const shortDetail = short.history.constitutionalActions!.at(-1)!.detail;
+    if (shortDetail.kind === "proposal-vote")
+      Object.assign(shortDetail.vote, {
+        dispositions: shortDetail.vote.dispositions.slice(1),
+      });
+    expect(() => assertWorldIntegrity(short)).toThrow();
+
+    // A new vote is still held to today's size.
+    expect(() =>
+      recordConstitutionalProposalVote(
+        w,
+        id(w),
+        "assembly",
+        votes(100, 70),
+        100,
+        AUTHORED,
+      ),
+    ).toThrow(/every eligible member/);
   });
   it("keeps older optional-family saves valid and text-only effects truthful", () => {
     const old = setup();
