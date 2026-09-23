@@ -186,7 +186,7 @@ describe("weekly campaign plans", { timeout: 900_000 }, () => {
       "relationships",
     ]);
     expect(view.options.flatMap((option) => option.reasons).join(" ")).toMatch(
-      /committee has USD/,
+      /committee has \$\d/,
     );
     expect(view.reachNote).toMatch(/not modeled/);
     expect(
