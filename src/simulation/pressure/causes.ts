@@ -5,14 +5,17 @@
  * the reason.
  */
 
-import type { CrimeOffense } from "../crime/contract";
+import {
+  UNRESEARCHED_TOWN_POLICE_LOG,
+  type CrimeOffense,
+} from "../crime/contract";
 import { CRIME_EVENT_TYPES, offenseOf } from "../crime/producer";
 import type { HazardMagnitude } from "../crisis/types";
 import {
   lifePlaceByJurisdictionId,
   stateKeyForJurisdiction,
 } from "../life-places";
-import type { EntityId, IsoDate, World } from "../types";
+import type { EntityId, IsoDate, World, HistoricalEvent } from "../types";
 import type { PressureContribution } from "./contract";
 
 /**
@@ -37,8 +40,10 @@ export const BLANKET_HAZARD_PRESSURE: Readonly<
 export const BLANKET_TAX_RATE_PRESSURE = 5;
 
 /**
- * BLANKET: how much one reported offense adds to fear and to the pressure to
- * leave its state. Violent offenses count double. Not researched; filed as
+ * BLANKET: how much one reported offense beyond a town's ordinary police log
+ * adds to fear in its state. Violent offenses count double. Only fear: the
+ * pressure to leave a town over crime is the migration lane's town push, and
+ * counting it here too would count it twice. Not researched; filed as
  * `what-crime-does-to-a-town-and-its-people`.
  */
 export const BLANKET_CRIME_PRESSURE: Readonly<Record<CrimeOffense, number>> = {
@@ -106,21 +111,41 @@ export function causesInPeriod(
       sourceId: policy.id,
     });
   }
-  // Reported crime: what the public police log shows, not what went unreported.
+  // Reported crime beyond a town's ordinary police log: an ordinary month of
+  // reports is background, not news that frightens a state.
+  const periodDays =
+    (Date.parse(periodEnd) - Date.parse(periodStart)) / 86_400_000 + 1;
+  const ordinaryReports = Math.round(
+    (UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * periodDays * 12) / 365.25,
+  );
+  const reportedByTown = new Map<EntityId, HistoricalEvent[]>();
   for (const event of world.history.events) {
     if (event.type !== CRIME_EVENT_TYPES.reported || !within(event.occurredAt))
       continue;
-    const offense = offenseOf(event);
+    if (!event.jurisdictionId) continue;
+    const list = reportedByTown.get(event.jurisdictionId) ?? [];
+    list.push(event);
+    reportedByTown.set(event.jurisdictionId, list);
+  }
+  for (const [townId, events] of reportedByTown) {
     // A town is not its state: read the state the town sits in.
-    const stateKey = event.jurisdictionId
-      ? (lifePlaceByJurisdictionId(event.jurisdictionId)
-          ?.stateJurisdictionKey ?? null)
-      : null;
-    if (!offense || !stateKey) continue;
-    const amount = BLANKET_CRIME_PRESSURE[offense];
-    const causeKey = `crime:${offense}`;
-    add(stateKey, { causeKey, kind: "fear", amount, sourceId: event.id });
-    add(stateKey, { causeKey, kind: "leave", amount, sourceId: event.id });
+    const stateKey =
+      lifePlaceByJurisdictionId(townId)?.stateJurisdictionKey ?? null;
+    if (!stateKey) continue;
+    const ordered = [...events].sort(
+      (a, b) =>
+        a.occurredAt.localeCompare(b.occurredAt) || a.id.localeCompare(b.id),
+    );
+    for (const event of ordered.slice(ordinaryReports)) {
+      const offense = offenseOf(event);
+      if (!offense) continue;
+      add(stateKey, {
+        causeKey: `crime:${offense}`,
+        kind: "fear",
+        amount: BLANKET_CRIME_PRESSURE[offense],
+        sourceId: event.id,
+      });
+    }
   }
   return byState;
 }

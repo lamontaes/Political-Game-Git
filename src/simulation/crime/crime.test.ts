@@ -135,7 +135,8 @@ describe("ordinary local crime", () => {
           ).toBe(true);
         }
       }
-      // Reported crime feeds fear and the pressure to leave its state.
+      // Only reports beyond the town's ordinary police log frighten its
+      // state, and only as fear: leaving a town is migration's town push.
       const crimeContributions = [
         ...causesInPeriod(
           later,
@@ -145,7 +146,9 @@ describe("ordinary local crime", () => {
       ]
         .flat()
         .filter((row) => row.causeKey.startsWith("crime:"));
-      expect(crimeContributions.length).toBe(reported.length * 2);
+      expect(crimeContributions.every((row) => row.kind === "fear")).toBe(true);
+      expect(crimeContributions.length).toBeGreaterThan(0);
+      expect(crimeContributions.length).toBeLessThan(reported.length);
       // Nothing is dated before the life was opened.
       for (const event of incidents) {
         expect(event.occurredAt >= life.world.currentDate).toBe(true);

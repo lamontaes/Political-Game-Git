@@ -89,10 +89,11 @@ export const CRIME_CAUSE_SEAMS: readonly CrimeCauseSeam[] = [
   },
   {
     key: "effect-moving-away",
-    connects: "Crime pushing people to leave a state.",
+    connects: "Crime frightening a state and pushing people to leave a town.",
     status: "built",
-    rule: "BLANKET: each reported offense adds fear and pressure to leave to its state in the pressure layer, more for violent offenses.",
-    where: "src/simulation/pressure/causes.ts",
+    rule: "BLANKET: reported offenses beyond a town's ordinary police log add fear to its state in the pressure layer, more for violent offenses. The pressure to leave the town is the migration lane's town push.",
+    where:
+      "src/simulation/pressure/causes.ts; src/simulation/migration/review.ts",
   },
   {
     key: "effect-news",
