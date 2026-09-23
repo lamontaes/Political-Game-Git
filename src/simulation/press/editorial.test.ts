@@ -241,13 +241,18 @@ describe("editorial copy", () => {
         result.winnerPersonId === winnerId ? loserId! : winnerId!
       ]!,
     );
-    expect(editorialHeadline(resolved, event)).toBe(
-      `${winner} wins election for Governor of Kentucky`,
+    // The result's own record is the headline, margin and all.
+    expect(editorialHeadline(resolved, event)).toBeNull();
+    expect(event.summary).toMatch(
+      new RegExp(
+        `^${winner} won the race for Governor of Kentucky, \\d+\\.\\d% to \\d+\\.\\d%\\.$`,
+      ),
     );
     const [lede] = editorialParagraphs(resolved, event, stateOutlet(resolved));
     expect(lede).toContain(
       `${winner} won the election for Governor of Kentucky on `,
     );
+    expect(lede).toMatch(/ with \d+\.\d% of the vote, defeating /);
     expect(lede).toContain(`defeating ${loser}.`);
     expect(lede).not.toMatch(/Winner:|resolved|votes|percent/);
   });

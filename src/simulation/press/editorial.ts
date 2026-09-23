@@ -450,20 +450,25 @@ function contestResult(world: World, event: HistoricalEvent) {
     .map((id) => world.people[id])
     .filter((person) => person !== undefined)
     .map((person) => personName(person));
-  return { winner: personName(winner), office, losers };
-}
-
-function contestHeadline(world: World, event: HistoricalEvent): string | null {
-  const result = contestResult(world, event);
-  if (!result) return null;
-  return `${result.winner} wins election for ${result.office}`;
+  const share = result.tallies.find(
+    (tally) => tally.candidatePersonId === result.winnerPersonId,
+  )?.voteShare;
+  return {
+    winner: personName(winner),
+    office,
+    losers,
+    share:
+      share !== undefined && losers.length > 0
+        ? `${(share * 100).toFixed(1)}%`
+        : null,
+  };
 }
 
 function contestLede(world: World, event: HistoricalEvent): string | null {
   const result = contestResult(world, event);
   if (!result) return null;
   const when = readableDate(event.occurredAt, event.occurredAt);
-  const opening = `${result.winner} won the election for ${result.office} on ${when}`;
+  const opening = `${result.winner} won the election for ${result.office} on ${when}${result.share ? ` with ${result.share} of the vote` : ""}`;
   return result.losers.length === 0
     ? `${opening}, with no other candidate on the ballot.`
     : `${opening}, defeating ${joinAnd(result.losers)}.`;
@@ -533,9 +538,8 @@ export function editorialHeadline(
     return hazardHeadline(world, event);
   }
   if (isContinuity(event)) return continuityHeadline(world, event);
-  if (event.type === "election.contest-resolved") {
-    return contestHeadline(world, event);
-  }
+  // A result's own record ("Ivy Ford won the race for Governor in Maine,
+  // 75.5% to 24.5%.") already reads as a headline and is printed as one.
   if (event.type === "election.governor-candidacy-intent") {
     return governorIntentHeadline(world, event);
   }
