@@ -232,9 +232,13 @@ function recordEntries(
     // Both still belong in the player's own record — the hold was on their
     // calendar and is gone — so admitting only the refusal silently dropped
     // every lapsed hold from the life record.
+    // An offer of work and what became of it are the player's own too: in
+    // Atlanta a county clerk offer lapsed without ever reaching the record.
     if (
       event.type !== ACTIVITY_DECLINED_EVENT &&
       event.type !== ACTIVITY_LAPSED_EVENT &&
+      !event.tags.includes("job-market") &&
+      !WORK_OFFER_EVENTS.has(event.type) &&
       !event.tags.some(
         (tag) => tag.startsWith("choice.") || tag === "contact.lapsed",
       )
@@ -305,6 +309,15 @@ function conversationSentence(
  * would be this module inventing a memory, and the history under it is not
  * changed by anything here.
  */
+/** The older work list's offers, from the offer to how it ended. */
+const WORK_OFFER_EVENTS = new Set([
+  "career-path7.offer",
+  "career-path7.refused",
+  "career-path7.offer-lapsed",
+  "career-path7.followed-up",
+  "career-path7.withdrawn",
+]);
+
 function readable(summary: string): string | null {
   const trimmed = summary.trim();
   if (trimmed.length < 12) return null;

@@ -30,6 +30,10 @@ import {
 import { deathNewsBetween } from "./death-news";
 import { nextOwnElection, ownElectionResultsBetween } from "./own-election";
 import { letStoryTimePass, quietStepDays } from "./life-story";
+import {
+  advanceStoppingForOfferDeadlines,
+  offerDeadlines,
+} from "./offer-deadlines";
 import { capQuietStretch } from "./quiet-stretch";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import {
@@ -233,15 +237,13 @@ function run(
       interruptions,
     );
   const advance = (current: World, days: number) =>
-    advanceStoppingForPressRequests(
-      current,
-      request.personId,
-      days,
-      (from, n) =>
+    advanceStoppingForOfferDeadlines(current, request.personId, days, (at, d) =>
+      advanceStoppingForPressRequests(at, request.personId, d, (from, n) =>
         passOrdinaryDays(from, n, {
           handlers: interruptionHandlers(interruptions),
           stopForTentativeHolds: interruptions.stopForTentativeHolds,
         }),
+      ),
     );
   const next =
     command.kind === "quiet-stretch"
@@ -260,6 +262,11 @@ function run(
         world.currentDate,
         next.currentDate,
       ).map((news) => news.sentence),
+      ...offerDeadlines(next, request.personId)
+        .filter((deadline) => deadline.replyBy === next.currentDate)
+        .map(
+          (deadline) => `Today is the last day to answer. ${deadline.sentence}`,
+        ),
       describeRoutineOutcome(
         world,
         next,

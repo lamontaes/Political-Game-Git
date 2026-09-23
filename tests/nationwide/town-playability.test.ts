@@ -56,7 +56,7 @@ describe("what a town needs before it plays", () => {
     expect(Object.keys(LEGISLATIVE_RULE_PACKS)).toHaveLength(9);
   });
 
-  it("knows who governs 19,480 places and how none but one of them votes", () => {
+  it("knows who governs 19,480 places and how only two of them vote", () => {
     const rows = JSON.parse(NATIONAL_PLACES_ROWS) as [string, string, string][];
     const governed = rows.filter(
       ([geoid]) => governmentUnitsForPlace(geoid).length > 0,
@@ -66,7 +66,7 @@ describe("what a town needs before it plays", () => {
     expect(governed).toHaveLength(19480);
     expect(municipalGovernments()).toHaveLength(144);
     expect(municipalGovernmentsWithProcedure().map((unit) => unit.key)).toEqual(
-      ["us-va-charlottesville"],
+      ["us-dc-washington", "us-va-charlottesville"],
     );
   });
 
