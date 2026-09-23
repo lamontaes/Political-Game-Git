@@ -191,6 +191,8 @@ function controlled(world: World, personId: EntityId): boolean {
   return world.control.kind === "person" && world.control.personId === personId;
 }
 
+const HOST_UNAVAILABLE = "Nobody is available to host that.";
+
 function deceased(world: World, personId: EntityId): boolean {
   return world.history.personDeaths.some(
     (death) => death.personId === personId,
@@ -487,7 +489,7 @@ function validateParties(
   }
   const host = world.people[input.hostPersonId];
   if (!host || deceased(world, host.id)) {
-    throw new Error("Nobody is available to host that.");
+    throw new Error(HOST_UNAVAILABLE);
   }
   if (host.id === subject.id) {
     throw new Error("Somebody else has to host this.");
@@ -833,36 +835,113 @@ export function offerCampaignLifeActivity(
  * Says yes ahead of time: the optional hold becomes a commitment. Returns the
  * same world when there is nothing to accept.
  */
-export function acceptCampaignLifeActivity(
+type AcceptancePlan =
+  | {
+      readonly refusal: null;
+      readonly record: CampaignLifeActivityRecord;
+      readonly tentative: ScheduledActivityRecord;
+      readonly entry: CampaignLifeCatalogEntry;
+      readonly ignored: readonly EntityId[];
+      readonly start: SimulationMoment;
+      readonly end: SimulationMoment;
+    }
+  | {
+      readonly refusal: string;
+      /** Nothing is waiting on an answer: the writer returns the same World. */
+      readonly nothingToAccept: boolean;
+    };
+
+const NO_LONGER_OPEN = "That is no longer waiting on an answer.";
+
+/** Every check the accept writer makes, without writing. */
+function planAcceptance(
   world: World,
   personId: EntityId,
   lifeActivityId: EntityId,
-): World {
+): AcceptancePlan {
+  const closed = { refusal: NO_LONGER_OPEN, nothingToAccept: true } as const;
   const record = lifeActivityById(world, lifeActivityId);
-  if (!record || record.subjectPersonId !== personId) return world;
+  if (!record || record.subjectPersonId !== personId) return closed;
   if (!controlled(world, personId) || outcomeFor(world, record.id))
-    return world;
+    return closed;
   const tentative = currentHold(world, record);
-  if (tentative.kind !== "tentative") return world;
+  if (tentative.kind !== "tentative") return closed;
   const state = scheduledActivityState(world, tentative.id);
   if (
     state.status !== "scheduled" ||
     compareSimulationMoments(state.start, world.currentMoment) <= 0
   )
-    return world;
+    return closed;
   const entry = campaignLifeCatalogEntry(record.form);
   const journey = journeyFor(world, tentative);
   const leave = answerDeadline(world, tentative);
   const ignored = [tentative.id, ...(journey ? [journey.id] : [])];
-  if (compareSimulationMoments(leave, world.currentMoment) <= 0) return world;
+  if (compareSimulationMoments(leave, world.currentMoment) <= 0) return closed;
+  const host = world.people[record.hostPersonId];
+  if (!host || deceased(world, host.id)) {
+    return { refusal: HOST_UNAVAILABLE, nothingToAccept: false };
+  }
   if (
     subjectBusy(world, personId, entry, leave, state.end, ignored) ||
     busy(world, [record.hostPersonId], state.start, state.end, ignored)
   ) {
-    throw new Error(
-      `Something else is now on the calendar then, so the ${entry.title.toLowerCase()} cannot be confirmed.`,
-    );
+    return {
+      refusal: `Something else is now on the calendar then, so the ${entry.title.toLowerCase()} cannot be confirmed.`,
+      nothingToAccept: false,
+    };
   }
+  return {
+    refusal: null,
+    record,
+    tentative,
+    entry,
+    ignored,
+    start: state.start,
+    end: state.end,
+  };
+}
+
+/**
+ * The one preflight for the player's party and campaign answers: why the
+ * writer would refuse, in its own sentence, or null when it would go through.
+ * The surfaces ask this before offering a button, and the writers make the
+ * same checks, so a listed choice is never one that can only be refused.
+ *
+ * - `request`: asking a chapter or committee for an activity (no host
+ *   available, no evening free for both in the next two weeks, ...).
+ * - `accept`: saying yes to an offer (the answer deadline has passed, the
+ *   host is no longer available, something else is now on the calendar).
+ */
+export function campaignLifeRefusal(
+  world: World,
+  personId: EntityId,
+  question:
+    | ({ readonly kind: "request" } & RequestCampaignLifeActivityInput)
+    | { readonly kind: "accept"; readonly lifeActivityId: EntityId },
+): string | null {
+  if (question.kind === "accept") {
+    return planAcceptance(world, personId, question.lifeActivityId).refusal;
+  }
+  try {
+    planCampaignLifeRequest(world, personId, question);
+    return null;
+  } catch (error) {
+    return error instanceof Error ? error.message : String(error);
+  }
+}
+
+export function acceptCampaignLifeActivity(
+  world: World,
+  personId: EntityId,
+  lifeActivityId: EntityId,
+): World {
+  const plan = planAcceptance(world, personId, lifeActivityId);
+  if (plan.refusal !== null) {
+    if (plan.nothingToAccept) return world;
+    throw new Error(plan.refusal);
+  }
+  const { record, tentative, entry, ignored } = plan;
+  const state = { start: plan.start, end: plan.end };
   // Built on a local value: if anything below throws, nothing escapes.
   let next = recordWorldEvent(world, {
     stableKey: `${record.stableKey}:accepted`,
@@ -923,27 +1002,6 @@ export function requestCampaignLifeActivity(
     world,
     planCampaignLifeRequest(world, personId, input),
   );
-}
-
-/**
- * Why asking for this would be refused right now, in the writer's own
- * sentence, or null when it would be arranged. Pure: the same planning the
- * request writer does, without writing, so a surface can say so before the
- * player presses (two of 180 test lives in Georgia and Colorado were offered a
- * phone shift that could only answer that no shared evening existed). The
- * writer keeps its own guard.
- */
-export function campaignLifeRequestRefusal(
-  world: World,
-  personId: EntityId,
-  input: RequestCampaignLifeActivityInput,
-): string | null {
-  try {
-    planCampaignLifeRequest(world, personId, input);
-    return null;
-  } catch (error) {
-    return error instanceof Error ? error.message : String(error);
-  }
 }
 
 /** Finds the host and the first shared free evening; throws one sentence. */

@@ -2,7 +2,7 @@ import {
   CAMPAIGN_LIFE_CATALOG,
   CHAPTER_MEETING_ATTENDED_EVENT,
   campaignById,
-  campaignLifeRequestRefusal,
+  campaignLifeRefusal,
   homePartyChapters,
   oldEnoughForCampaignLife,
   personName,
@@ -256,8 +256,10 @@ function outcomeLines(
 function actionsFor(
   view: CampaignLifeActivityView,
   awaitingRecord: boolean,
+  acceptRefusal: string | null,
 ): PartyWorkAction[] {
-  if (view.state === "offered") return ["accept", "decline"];
+  if (view.state === "offered")
+    return acceptRefusal === null ? ["accept", "decline"] : ["decline"];
   if (view.state === "accepted") {
     return view.presence === "remote"
       ? ["take-shift"]
@@ -329,6 +331,14 @@ export function projectPartyAndCommunityWork(
     );
     const hostName = nameOf(world, view.hostPersonId);
     const awaitingRecord = view.state === "completed" && view.outcome === null;
+    // A yes the writer would refuse is not offered; its reason is shown.
+    const acceptRefusal =
+      view.state === "offered"
+        ? campaignLifeRefusal(world, personId, {
+            kind: "accept",
+            lifeActivityId: view.lifeActivityId,
+          })
+        : null;
     return {
       lifeActivityId: view.lifeActivityId,
       form: view.form,
@@ -348,10 +358,11 @@ export function projectPartyAndCommunityWork(
         view.journeyMinutes === null
           ? null
           : `A ${view.journeyMinutes}-minute local journey there is included when you go. ${view.travelCostDisclosure ?? ""}`.trim(),
-      actions: actionsFor(view, awaitingRecord),
+      actions: actionsFor(view, awaitingRecord, acceptRefusal),
       awaitingRecord,
-      attendNote:
-        view.state === "accepted" && view.presence === "in-person"
+      attendNote: acceptRefusal
+        ? acceptRefusal
+        : view.state === "accepted" && view.presence === "in-person"
           ? (venue.find(
               (entry) => entry.activity.id === view.scheduledActivityId,
             )?.refusal ?? null)
@@ -392,7 +403,8 @@ export function projectPartyAndCommunityWork(
           hostOrganizationId: chapter.organizationId,
           hostName: nameOf(world, hostId),
           organizationName: chapter.name,
-          unavailableReason: campaignLifeRequestRefusal(world, personId, {
+          unavailableReason: campaignLifeRefusal(world, personId, {
+            kind: "request",
             form,
             hostOrganizationId: chapter.organizationId,
           }),
@@ -412,7 +424,8 @@ export function projectPartyAndCommunityWork(
           hostOrganizationId: campaign.organizationId,
           hostName: nameOf(world, committeeHost),
           organizationName: organizationName(world, campaign.organizationId),
-          unavailableReason: campaignLifeRequestRefusal(world, personId, {
+          unavailableReason: campaignLifeRefusal(world, personId, {
+            kind: "request",
             form,
             hostOrganizationId: campaign.organizationId,
           }),
