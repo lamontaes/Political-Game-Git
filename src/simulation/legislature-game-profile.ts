@@ -263,6 +263,20 @@ const SETTLED_CHAMBER_SEATS: Readonly<
       note: "A House of not fewer than 375 nor more than 400 members, apportioned by statute at 400, and a Senate of twenty-four. Settled law: the counts are certain, though the apportionment statute's text was not retrieved for this entry. The rest of this legislature is the game's own.",
     },
   },
+  "US-PR": {
+    lower: 51,
+    upper: 27,
+    source: {
+      authority: "constitution",
+      citation: "P.R. Const. art. III, §§ 2-3",
+      sourceTitle:
+        "Constitution of the Commonwealth of Puerto Rico, Article III",
+      sourceUrl: "https://poderjudicial.pr/constitucion/articulo-iii/",
+      retrievedAt: null,
+      verification: "verified",
+      note: "Twenty-seven Senators (two from each of eight districts and eleven at large) and fifty-one Representatives (one from each of forty districts and eleven at large), per the research answer OCD-PUERTO-RICO-GOVERNMENT-AND-MUNICIPIOS (2026-09-22). This is the base composition; the additional minority-party members Article III, § 7 can add are not modeled. The rest of this legislature is the game's own.",
+    },
+  },
 };
 
 /** The drawn shape of one state's legislature, before it becomes a rule pack. */
