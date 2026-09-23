@@ -5465,8 +5465,9 @@ function renderWorkspace({
           body: (
             <div data-testid="town-seat">
               <p>
-                You sit on the {townSeat.bodyName} of {townSeat.governmentName},
-                since {proseDate(townSeat.since)}.
+                {townSeat.office === "mayor"
+                  ? `You have been ${townSeat.mayorTitle}, ${townSeat.governmentName}, since ${proseDate(townSeat.since)}.`
+                  : `You sit on the ${townSeat.bodyName} of ${townSeat.governmentName}, since ${proseDate(townSeat.since)}.`}
               </p>
               {townSeatRulesSentence(townSeat) ? (
                 <p data-testid="town-seat-rules">
