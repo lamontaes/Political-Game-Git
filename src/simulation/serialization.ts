@@ -45,6 +45,23 @@ export interface WorldSnapshot {
   readonly world: World;
 }
 
+/**
+ * Snapshot ids by world. A World is never edited in place (every write makes a
+ * new one), so the id of a given World object never changes. Computing it
+ * means writing the whole world out canonically, which on a long save is a
+ * string of 80 MB; opening and checking a save asked for it three times.
+ */
+const SNAPSHOT_IDS = new WeakMap<World, EntityId>();
+
+function snapshotIdOf(world: World): EntityId {
+  let id = SNAPSHOT_IDS.get(world);
+  if (id === undefined) {
+    id = createStableId("snapshot", canonicalJson(world));
+    SNAPSHOT_IDS.set(world, id);
+  }
+  return id;
+}
+
 export function createWorldSnapshot(world: World): WorldSnapshot {
   assertWorldIntegrity(world);
   return {
@@ -55,7 +72,7 @@ export function createWorldSnapshot(world: World): WorldSnapshot {
         : CONTENT_PACK_SNAPSHOT_FORMAT_VERSION,
     // Canonical, so that a world rebuilt with its record maps in a different
     // insertion order is recognized as the world it is.
-    snapshotId: createStableId("snapshot", canonicalJson(world)),
+    snapshotId: snapshotIdOf(world),
     worldId: world.id,
     savedAtWorldDate: world.currentDate,
     world,
@@ -211,8 +228,11 @@ export function readWorldSnapshot(payload: string): {
   if (packed && !packRollCallsApplies(world)) {
     throw new Error("World snapshot format does not match its roll calls.");
   }
+  // The parsed world belongs to nobody else, so it is returned as it is.
+  // Copying it doubled the memory a big save took to open, and threw away the
+  // lookups its check had just built.
   return {
-    world: structuredClone(world),
+    world,
     formatVersion: formatVersion as WorldSnapshotFormatVersion,
   };
 }
