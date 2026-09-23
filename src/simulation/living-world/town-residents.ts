@@ -603,13 +603,16 @@ function seatTownResidents(world: World, playerPersonId: EntityId): World {
   // The player's nearest neighbors, and the grown-ups in them know the player
   // by sight: they live on the same street. It is what lets a neighbor later
   // ask the player over or for a hand (`familiarPersonIds`).
+  const metHouseholds = new Set<number>();
   for (
     let n = 0;
     n < Math.min(NEIGHBOR_HOUSEHOLDS, roster.households);
     n += 1
   ) {
     const neighbor = seat("neighbors", n, () => true);
-    if (!neighbor) continue;
+    // Two slots can land in one household; its grown-ups are met once.
+    if (!neighbor || metHouseholds.has(neighbor.household)) continue;
+    metHouseholds.add(neighbor.household);
     const members = townHouseholdSkeleton(
       next,
       town,
