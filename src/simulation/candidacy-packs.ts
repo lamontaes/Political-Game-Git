@@ -174,7 +174,10 @@ function officeQualification(
   );
   if (rules) {
     const source = {
-      authority: "constitution" as const,
+      authority:
+        rules.minimumAge.state === "KNOWN"
+          ? (rules.minimumAge.source.authority ?? ("constitution" as const))
+          : ("constitution" as const),
       citation:
         rules.minimumAge.state === "KNOWN"
           ? rules.minimumAge.source.legalLocator
@@ -191,12 +194,27 @@ function officeQualification(
         rules.minimumAge.state === "KNOWN"
           ? rules.minimumAge.source.retrievedAt
           : null,
-      verification: "verified" as const,
+      verification:
+        rules.minimumAge.state === "KNOWN"
+          ? (rules.minimumAge.source.verification ?? ("verified" as const))
+          : ("verified" as const),
       note:
         rules.minimumAge.state === "KNOWN"
           ? rules.minimumAge.source.researchLineage
           : null,
     };
+    // A set that states who may serve but not for how long leaves the term
+    // where it was: a state the game has not otherwise read keeps its drawn
+    // term, so an election calendar already running in a save does not move.
+    const officeFamilyForTerm = officeFamilyForChamberKey(chamberKey);
+    const drawnTerm =
+      officeFamilyForTerm === null || stateLawHasBeenRead(jurisdictionKey)
+        ? null
+        : standInQualification(
+            jurisdictionKey,
+            "TERM_LENGTH",
+            officeFamilyForTerm,
+          );
     return {
       minimumAge:
         rules.minimumAge.state === "KNOWN"
@@ -213,7 +231,12 @@ function officeQualification(
       termYears:
         rules.termYears.state === "KNOWN"
           ? knownRule(rules.termYears.value, source)
-          : unknownRule("Term length is not resolved."),
+          : drawnTerm !== null
+            ? knownRule(
+                drawnTerm.value,
+                standInQualificationSourceRef(drawnTerm),
+              )
+            : unknownRule("Term length is not resolved."),
       filing: unknownRule(
         "The qualification source establishes who may serve, not a filing deadline or filing authority.",
       ),
