@@ -26,7 +26,7 @@ const AUTHORED = {
 const NEWSROOM_KEY_PREFIX = "press.civic-newsroom:";
 const REPORTER_KEY_PREFIX = "press.civic-reporter:";
 export const CIVIC_NEWSROOM_ORGANIZATION_NAME =
-  "Civic Desk Cooperative (fictional)";
+  "Civic Desk Cooperative";
 
 export interface PressReachGap {
   readonly code:
