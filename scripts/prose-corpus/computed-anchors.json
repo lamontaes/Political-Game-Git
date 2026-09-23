@@ -6547,6 +6547,14 @@
       "textRevision": "7e9e5d00a119"
     },
     {
+      "anchor": "projectMeasureBriefing-0012",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The bill is on the {pack.executive.titleLabel}'s desk.",
+      "occurrence": 0,
+      "textRevision": "1178fc68a26e"
+    },
+    {
       "anchor": "projectOfficeMatters-0001",
       "sourcePath": "src/presentation/office-response.ts",
       "symbol": "projectOfficeMatters",

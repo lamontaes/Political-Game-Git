@@ -22,7 +22,7 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 3272 templates, 3053 distinct texts.
+- 3273 templates, 3054 distinct texts.
 - 193 exact duplicate groups.
 - 204 normalized duplicate groups.
 - 29 near-duplicate clusters (Jaccard ≥ 0.72).
@@ -54,11 +54,11 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `has asked you` | 13 | 5 |
 | `saves are unchanged` | 13 | 1 |
 | `and it is` | 12 | 5 |
+| `is on the` | 12 | 6 |
 | `no instrument read establishes` | 12 | 1 |
 | `proof of income` | 12 | 2 |
+| `the bill is` | 12 | 2 |
 | `the two of you` | 12 | 4 |
-| `two of you` | 12 | 4 |
-| `you did not` | 12 | 4 |
 
 ### Most repeated sentence openings
 
@@ -68,8 +68,8 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `no instrument read` | 21 |
 | `the player asked` | 21 |
 | `there is a` | 12 |
+| `the bill is` | 11 |
 | `say you will` | 10 |
-| `the bill is` | 10 |
 | `the player told` | 10 |
 | `you asked to` | 10 |
 | `you said you` | 10 |
