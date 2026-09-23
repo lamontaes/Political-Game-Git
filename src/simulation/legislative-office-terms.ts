@@ -258,6 +258,112 @@ export function activeLegislativeTermEvidence(
   return entered ? term : null;
 }
 
+function legacyExpiryStableKey(contestId: EntityId, ruleVersion: string) {
+  return `legislative-term:${contestId}:${ruleVersion}:legacy-expiry`;
+}
+
+/**
+ * A seat won before every state's legislative terms were dated: an
+ * `employment:legislative-member` relationship written by a recorded win,
+ * seated on the result date, with no term entry. Its term is the one the
+ * office's rule gives for the contest it was won in. The expiry, once the
+ * migration has scheduled it, is an ordinary future-due item.
+ */
+export function legacyLegislativeSeat(world: World, relationshipId: EntityId) {
+  const relationship = world.history.workRelationships.find(
+    (r) => r.id === relationshipId,
+  );
+  if (
+    !relationship ||
+    relationship.kind !== "employment:legislative-member" ||
+    relationship.provenance.kind !== "simulated-event" ||
+    world.history.futureDueItems.some(
+      (d) =>
+        d.transitionKey === LEGISLATIVE_TERM_ENTRY &&
+        d.entityIds.includes(relationshipId),
+    )
+  )
+    return null;
+  const eventId = relationship.provenance.eventId;
+  const result = (world.history.electionContestResults ?? []).find(
+    (r) =>
+      r.outcomeEventId === eventId &&
+      r.winnerPersonId === relationship.personId,
+  );
+  const contest = result && electionContestById(world, result.contestId);
+  const timing =
+    contest &&
+    legislativeTermDates(contest.office.officeKey, contest.electionDate);
+  const governingId = workRoleAt(world, relationshipId)?.locationJurisdictionId;
+  if (!result || !contest || !timing || !governingId) return null;
+  const expiryStableKey = legacyExpiryStableKey(contest.id, timing.ruleVersion);
+  return {
+    relationship,
+    contest,
+    result,
+    timing,
+    governingId,
+    expiryStableKey,
+    expiry:
+      world.history.futureDueItems.find(
+        (d) =>
+          d.stableKey === expiryStableKey &&
+          d.transitionKey === LEGISLATIVE_TERM_EXPIRY &&
+          d.entityIds.includes(relationshipId),
+      ) ?? null,
+    endsAt: timing.endsAt,
+    seatKey:
+      contest.office.districtBinding?.recordId ??
+      contest.office.seatKey ??
+      contest.id,
+  };
+}
+
+/**
+ * Older saves seated a legislator outside Kentucky with no term, so the seat
+ * never ended. Each such active seat is given the end its office's rule
+ * dates: an expiry on that date when it is still ahead, or, when the date has
+ * already passed, an end today rather than a rewritten past. Append-only, and
+ * a second pass finds nothing left to do.
+ */
+export function migrateLegacyLegislativeSeats(world: World): World {
+  let next = world;
+  for (const relationship of world.history.workRelationships) {
+    if (relationship.kind !== "employment:legislative-member") continue;
+    const seat = legacyLegislativeSeat(next, relationship.id);
+    const status = seat && workStatusAt(next, relationship.id);
+    if (!seat || seat.expiry || status?.status !== "active") continue;
+    if (seat.endsAt > next.currentDate) {
+      next = scheduleFutureDueItem(next, {
+        stableKey: seat.expiryStableKey,
+        dueAt: seat.endsAt,
+        transitionKey: LEGISLATIVE_TERM_EXPIRY,
+        entityIds: [relationship.id, seat.contest.id, seat.result.id].sort(),
+        jurisdictionId: seat.governingId,
+        provenance: {
+          kind: "authored",
+          note: `A seat recorded before its term was dated. ${seat.timing.note}`,
+        },
+      });
+    } else {
+      next = recordWorkStatus(next, {
+        stableKey: `${seat.expiryStableKey}:ended`,
+        workRelationshipId: relationship.id,
+        effectiveAt: next.currentDate,
+        status: "ended",
+        reason:
+          "The term this seat was won for had already run out; it was still recorded as held, so it ends now.",
+        provenance: {
+          kind: "simulated-event",
+          eventId: seat.result.outcomeEventId,
+        },
+        supersedesStatusId: status.id,
+      });
+    }
+  }
+  return next;
+}
+
 function blocked(world: World, reason: string): FutureTransitionHandlerResult {
   return {
     world,
@@ -308,16 +414,34 @@ function enterLegislativeSeat(
       qualification.blocks.map((b) => b.reason).join(" ") ||
       "The recorded winner is not alive for entry."
     );
-  // Only a proven same seat is replaced. Other independent offices remain S-scoped.
+  // Only a proven same seat is replaced. Other independent offices remain
+  // S-scoped. A member holds one seat in a chamber, so the seat this winner
+  // already holds in it is the one the new term continues, even when neither
+  // filing named a district and each contest is its own seat key.
   for (const old of world.history.workRelationships) {
-    const prior = legislativeTermForRelationship(next, old.id);
+    const dated = legislativeTermForRelationship(next, old.id);
+    const legacySeat = dated ? null : legacyLegislativeSeat(next, old.id);
+    const prior = dated
+      ? {
+          officeKey: dated.contest.office.officeKey,
+          governingId: dated.governing.id,
+          seatKey: dated.seatKey,
+          startsAt: dated.startsAt,
+        }
+      : legacySeat && {
+          officeKey: legacySeat.contest.office.officeKey,
+          governingId: legacySeat.governingId,
+          seatKey: legacySeat.seatKey,
+          startsAt: legacySeat.relationship.startedAt,
+        };
     const priorStatus = workStatusAt(next, old.id);
     if (
       old.id === term.relationship.id ||
       !prior ||
-      prior.contest.office.officeKey !== term.contest.office.officeKey ||
-      prior.governing.id !== term.governing.id ||
-      prior.seatKey !== term.seatKey ||
+      prior.officeKey !== term.contest.office.officeKey ||
+      prior.governingId !== term.governing.id ||
+      (prior.seatKey !== term.seatKey &&
+        old.personId !== term.relationship.personId) ||
       prior.startsAt > term.startsAt ||
       !priorStatus ||
       priorStatus.status === "ended" ||
@@ -362,6 +486,36 @@ export function legislativeTermTransitionHandler(
   );
   const term =
     relationship && legislativeTermForRelationship(world, relationship.id);
+  const legacy =
+    !term &&
+    relationship &&
+    due.transitionKey === LEGISLATIVE_TERM_EXPIRY &&
+    legacyLegislativeSeat(world, relationship.id);
+  if (legacy && legacy.expiry?.id === due.id) {
+    const status = workStatusAt(world, legacy.relationship.id);
+    if (!status) return blocked(world, "The office work is missing.");
+    return {
+      world:
+        status.status === "ended"
+          ? world
+          : recordWorkStatus(world, {
+              stableKey: `${due.stableKey}:ended`,
+              workRelationshipId: legacy.relationship.id,
+              effectiveAt: due.dueAt,
+              status: "ended",
+              reason: "The term expired; historical office work remains.",
+              provenance: {
+                kind: "simulated-event",
+                eventId: legacy.result.outcomeEventId,
+              },
+              supersedesStatusId: status.id,
+            }),
+      status: "resolved",
+      reasonKey: null,
+      context: "Recorded term expired.",
+      outcomeEventId: null,
+    };
+  }
   if (!term || (due.id !== term.entry.id && due.id !== term.expiry.id))
     return blocked(
       world,
