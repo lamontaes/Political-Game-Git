@@ -9,6 +9,7 @@ import {
   prepareOpeningLife,
 } from "../../presentation/opening-life";
 import { causesInPeriod } from "../pressure/causes";
+import { projectWorld39News } from "../../presentation/world39-news";
 import {
   CRIME_CAUSE_SEAMS,
   crimeRateMultiplier,
@@ -152,6 +153,42 @@ describe("ordinary local crime", () => {
       // Nothing is dated before the life was opened.
       for (const event of incidents) {
         expect(event.occurredAt >= life.world.currentDate).toBe(true);
+      }
+    },
+    LONG,
+  );
+
+  it(
+    "the Around you feed shows only the player's own town's crime",
+    () => {
+      // Clarksdale, Mississippi: measured showing Washington police reports.
+      const life = generateOpeningLife(
+        prepareOpeningLife({
+          ...DEFAULT_NEW_GAME_SETUP,
+          seed: "feed-2813820",
+          placeKey: "2813820",
+          startAge: 30,
+          depth: "summarize-earlier-life",
+        }),
+      ).game!;
+      const town = life.world.people[life.playerPersonId]!.homeJurisdictionId;
+      const later = advanceWorld(
+        life.world,
+        120,
+        createCampaignElectionTransitionRegistry(),
+      );
+      const crime = new Map(
+        later.history.events
+          .filter((event) => event.type.startsWith("crime."))
+          .map((event) => [event.id, event]),
+      );
+      expect(
+        [...crime.values()].some((event) => event.jurisdictionId !== town),
+      ).toBe(true);
+      for (const item of projectWorld39News(later, life.playerPersonId)
+        .publicEvents) {
+        const event = crime.get(item.id);
+        if (event) expect(event.jurisdictionId).toBe(town);
       }
     },
     LONG,
