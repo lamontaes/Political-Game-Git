@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { projectPersonDossier } from "../../src/presentation/person-dossier";
 import { projectPartyAndCommunityWork } from "../../src/presentation/campaign-life-surface";
 import { declineCalendarActivity } from "../../src/presentation/calendar-time-control";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
@@ -160,5 +161,25 @@ describe("asking somebody out, and calling it off", () => {
     // Time now passes the evening that was held.
     world = passOrdinaryDays(world, 5);
     expect(world.currentDate > heldOn).toBe(true);
+  }, 300_000);
+});
+
+describe("a person at home is not a stranger on the card", () => {
+  // Fairbanks: a sister at home read "You haven't spoken." Elko: a father at
+  // home read "You last spoke" seventeen months back.
+  it("says they live together, and invents no conversation", () => {
+    const { world, playerId } = openLife("3260600", "card:reno", 12);
+    const athome = projectContacts(world, playerId).contacts.filter(
+      (contact) => contact.livesWithYou,
+    );
+    expect(athome.length).toBeGreaterThan(0);
+    const before = world.history.relationshipInteractions.length;
+    for (const contact of athome) {
+      expect(
+        projectPersonDossier(world, playerId, contact.personId)!
+          .lastInteraction,
+      ).toMatch(/^You live together\./);
+    }
+    expect(world.history.relationshipInteractions.length).toBe(before);
   }, 300_000);
 });
