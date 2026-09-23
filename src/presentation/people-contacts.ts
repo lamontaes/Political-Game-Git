@@ -452,6 +452,11 @@ function lastAnswerBetween(
       : `${name} asked to meet on ${day}, and the day passed without an answer.`;
   }
   if (answer.type === CONTACT_ACCEPTED_EVENT) {
+    if (proposal.date) {
+      return theyAnswered
+        ? `${name} said yes to going out on ${day}.`
+        : `You said yes to going out with ${name} on ${day}.`;
+    }
     return theyAnswered
       ? `${name} said yes to meeting on ${day}.`
       : `You said yes to meeting ${name} on ${day}.`;
@@ -554,6 +559,9 @@ export function askedNote(
   },
 ): string {
   const given = world.people[input.otherPersonId]?.givenName ?? "They";
-  const what = input.date ? "out" : "to meet";
+  // The day named first is the evening asked for, not the day of asking:
+  // "asked Justin out on Thursday" read as the asking, and then an answer
+  // "by Wednesday" came before it (Buffalo playtest, 2026-09-23).
+  const what = input.date ? "to go out" : "to meet";
   return `You asked ${given} ${what} on ${proseWeekdayDate(input.on)}. ${given} will answer by ${proseWeekdayDate(addDays(world.currentDate, CONTACT_ANSWER_DELAY_DAYS))}.`;
 }
