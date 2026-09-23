@@ -25,6 +25,11 @@ import {
 } from "./resource-queries";
 import { recordEventKnowledge } from "./records";
 import { recordWorldEvent } from "./world";
+import {
+  macroConditionsAt,
+  macroMonthHistory,
+  macroScopeForJurisdiction,
+} from "./macro-economy/readers";
 import type {
   EntityId,
   HousingTenure,
@@ -61,6 +66,58 @@ export const HOME_PURCHASE_PLACEHOLDER = {
   currency: "USD",
   researchQuestionId: "what-it-takes-to-buy-a-home",
 } as const;
+
+export interface HomePurchaseTerms {
+  readonly priceMinor: number;
+  readonly downPaymentMinor: number;
+  readonly monthlyPaymentMinor: number;
+}
+
+function roundTo(minor: number, step: number): number {
+  return Math.max(step, Math.round(minor / step) * step);
+}
+
+/**
+ * The placeholder terms in today's prices.
+ *
+ * The placeholder is a price in the world's first month. Since then the world
+ * has its own price level, and rent on the same screen already moves with it,
+ * so a house that never moved read as a bargain within a few years: $250,000
+ * beside rent up half again in Bend. The terms move by the same price level
+ * the rent line uses, the town's own where it has one and the nation's before
+ * that. This makes the placeholder consistent with the world, not right: what
+ * a home costs in a given town is still the research question's to answer.
+ */
+export function homePurchaseTerms(
+  world: World,
+  jurisdictionId: EntityId | null,
+): HomePurchaseTerms {
+  const today = world.currentDate;
+  const now =
+    (jurisdictionId
+      ? macroConditionsAt(
+          world,
+          macroScopeForJurisdiction(jurisdictionId),
+          today,
+        )
+      : null) ?? macroConditionsAt(world, "national", today);
+  const first = macroMonthHistory(world, "national", today)[0] ?? null;
+  const factor =
+    now && first && first.priceIndex > 0
+      ? now.priceIndex / first.priceIndex
+      : 1;
+  return {
+    priceMinor: roundTo(HOME_PURCHASE_PLACEHOLDER.priceMinor * factor, 100_000),
+    downPaymentMinor: roundTo(
+      HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * factor,
+      100_000,
+    ),
+    monthlyPaymentMinor: roundTo(
+      HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * factor,
+      1_000,
+    ),
+  };
+}
 
 export const MORTGAGE_BASIS = "housing:mortgage" as const;
 /** The age of majority, below which a person cannot sign a deed or a loan.
@@ -175,8 +232,12 @@ export function homePurchaseReason(
     return "Your household already owns its home.";
   const have = balance(world, personId);
   if (have === null) return "The game is not tracking your money.";
-  if (have < HOME_PURCHASE_PLACEHOLDER.downPaymentMinor)
-    return `The down payment is ${dollars(HOME_PURCHASE_PLACEHOLDER.downPaymentMinor)}. You have ${dollars(have)}.`;
+  const { downPaymentMinor } = homePurchaseTerms(
+    world,
+    person.homeJurisdictionId,
+  );
+  if (have < downPaymentMinor)
+    return `The down payment is ${dollars(downPaymentMinor)}. You have ${dollars(have)}.`;
   return null;
 }
 
@@ -223,13 +284,11 @@ export function buyHome(world: World, personId: EntityId): HomePurchaseResult {
   const today = world.currentDate;
   const key = `home-purchase:${householdId}:${today}`;
   const currency = money(0, HOME_PURCHASE_PLACEHOLDER.currency).currency;
-  const price = money(HOME_PURCHASE_PLACEHOLDER.priceMinor, currency);
-  const down = money(HOME_PURCHASE_PLACEHOLDER.downPaymentMinor, currency);
+  const terms = homePurchaseTerms(world, person.homeJurisdictionId);
+  const price = money(terms.priceMinor, currency);
+  const down = money(terms.downPaymentMinor, currency);
   const principal = money(price.minorUnits - down.minorUnits, currency);
-  const monthly = money(
-    HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor,
-    currency,
-  );
+  const monthly = money(terms.monthlyPaymentMinor, currency);
   const provenanceNote = `Placeholder home purchase pending research question ${HOME_PURCHASE_PLACEHOLDER.researchQuestionId}.`;
 
   const summary = `You bought a home in ${place.displayName} for ${dollars(price.minorUnits)}, putting ${dollars(down.minorUnits)} down. The mortgage is ${dollars(monthly.minorUnits)} a month.`;
