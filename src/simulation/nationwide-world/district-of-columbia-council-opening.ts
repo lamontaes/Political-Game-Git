@@ -164,37 +164,3 @@ export function ensureDistrictOfColumbiaCouncilOpening(world: World): World {
     },
   });
 }
-
-/**
- * The seat a winner of a Council race takes when every seat is filled: the
- * lowest-numbered member the opening seated who still sits, never the
- * Chairman.
- *
- * PLACEHOLDER, pending `dc-council-membership-at-the-opening`: a Council race
- * in this game names no ward or at-large seat, so which opening member it
- * replaces is the game's own rule, not the seat the race was for.
- */
-export function dcCouncilSeatAWinnerTakes(world: World): {
-  readonly participationId: EntityId;
-  readonly personId: EntityId;
-  readonly seatLabel: string | null;
-} | null {
-  const seats = municipalSeats(world, DC_GOVERNMENT_KEY);
-  for (let ordinal = 2; ordinal <= dcCouncilSeatLabels().length; ordinal += 1) {
-    const personId = characterHistoryContextPersonId(
-      world,
-      dcCouncilMemberKey(ordinal),
-    );
-    const seat = seats.find(
-      (candidate) =>
-        candidate.personId === personId && candidate.role === "member",
-    );
-    if (seat)
-      return {
-        participationId: seat.participationId,
-        personId,
-        seatLabel: seat.seatLabel,
-      };
-  }
-  return null;
-}

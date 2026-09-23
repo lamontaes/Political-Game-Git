@@ -20,5 +20,5 @@
   ],
   "title": "Who sits on the D.C. Council at a game's start: party, age, tenure and which seat is up",
   "usableAnswer": "A party table, an age and tenure summary, the seat-by-year election schedule, and the qualifications, each with its source.",
-  "whyItMatters": "A life started in the District now seats all thirteen members (src/simulation/nationwide-world/district-of-columbia-council-opening.ts). Their ages are drawn from 25 to 80, nobody has a party because the save's political conditions carry no share for the District, and a player who wins a Council race takes the lowest-numbered opening member's seat because a race names no ward or at-large seat. All three are placeholders."
+  "whyItMatters": "A life started in the District now seats all thirteen members (src/simulation/nationwide-world/district-of-columbia-council-opening.ts). Their ages are drawn from 25 to 80, nobody has a party because the save's political conditions carry no share for the District, and a Council race names no ward or at-large seat, so a player who wins it while every seat is filled is not seated at all. The first two are placeholders; the third waits on knowing which seats are up in which year."
 }

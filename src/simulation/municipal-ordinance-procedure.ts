@@ -541,10 +541,54 @@ export const COUNCIL_ACT_OVERRIDE_DEADLINE =
  * disapproval is ever enacted in play.
  */
 const CONGRESSIONAL_REVIEW: Readonly<
-  Record<string, { readonly days: number; readonly citation: string }>
+  Record<
+    string,
+    {
+      readonly days: number;
+      readonly citation: string;
+      readonly criminalCodeDays: number;
+      readonly criminalCodeCitation: string;
+    }
+  >
 > = {
-  "us-dc-washington": { days: 30, citation: "D.C. Code § 1-206.02(c)(1)" },
+  "us-dc-washington": {
+    days: 30,
+    citation: "D.C. Code § 1-206.02(c)(1)",
+    criminalCodeDays: 60,
+    criminalCodeCitation: "D.C. Code § 1-206.02(c)(2)",
+  },
 };
+
+/**
+ * Questions whose acts the game treats as codified in Title 22 (criminal
+ * offenses), 23 (criminal procedure) or 24 (prisoners and their treatment),
+ * which § 1-206.02(c)(2) gives a 60-day review instead of 30.
+ *
+ * PLACEHOLDER, pending `dc-congressional-review-day-count`: an act in play
+ * records the policy question it answers, not the Code title it amends, so
+ * this mapping from question to title is the game's own inference. A
+ * councilmember's own act names no question and takes the ordinary period.
+ * The 60 days are counted like the 30, skipping weekends only.
+ */
+const CRIMINAL_CODE_ISSUE_KEYS: ReadonlySet<string> = new Set([
+  "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
+  "us-state-and-local:justice-public-safety.prosecution-and-defense",
+  "us-state-and-local:justice-public-safety.corrections-and-prisons",
+  "us-state-and-local:justice-public-safety.reentry",
+]);
+
+/** Whether an act answers a question the game places in Titles 22 to 24. */
+export function actAmendsCriminalCode(
+  world: World,
+  measure: LegislativeMeasureRecord,
+): boolean {
+  const catalog = world.policyCatalog;
+  return (measure.propositionIds ?? []).some((id) => {
+    const issueId = catalog.propositions[id]?.issueId;
+    const issue = issueId ? catalog.issues[issueId] : undefined;
+    return issue !== undefined && CRIMINAL_CODE_ISSUE_KEYS.has(issue.stableKey);
+  });
+}
 
 /** Calendar days allowed to reenact a returned act (D.C. Code § 1-204.04(e)). */
 const OVERRIDE_WINDOW_DAYS: Readonly<Record<string, number>> = {
@@ -671,7 +715,12 @@ function enactCouncilMeasure(
   const government = municipalGovernmentByKey(governmentKey)!;
   const reading = primaryReading(government);
   const effectiveAt = review
-    ? congressionalReviewEffectiveOn(world.currentDate, review.days)
+    ? congressionalReviewEffectiveOn(
+        world.currentDate,
+        actAmendsCriminalCode(world, measure)
+          ? review.criminalCodeDays
+          : review.days,
+      )
     : reading.procedure.effectivePublication?.includes(
           "from the date of its passage",
         )

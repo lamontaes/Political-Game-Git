@@ -24,10 +24,6 @@ import { RECALL_HANDLERS } from "./recall";
 import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
 import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
 import {
-  DC_GOVERNMENT_KEY,
-  dcCouncilSeatAWinnerTakes,
-} from "./nationwide-world/district-of-columbia-council-opening";
-import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
 } from "./national-election-consumer";
@@ -1754,31 +1750,7 @@ function seatOnLocalGoverningBody(
       const seated = municipalSeats(next, compiled.key).filter(
         (seat) => seat.role === "member" || seat.role === "presiding-member",
       ).length;
-      if (bodySize !== null && seated >= bodySize) {
-        // A full Council the opening seated: the winner takes an opening
-        // member's seat (a placeholder rule; see the DC opening module).
-        const displaced =
-          compiled.key === DC_GOVERNMENT_KEY
-            ? dcCouncilSeatAWinnerTakes(next)
-            : null;
-        if (!displaced) return next;
-        const state = organizationParticipationStateAt(
-          next,
-          displaced.participationId,
-        );
-        if (!state) return next;
-        next = recordOrganizationParticipationState(next, {
-          stableKey: `${municipalSeatKey(compiled.key, displaced.personId)}:state:succeeded:${contest.id}`,
-          participationId: displaced.participationId,
-          effectiveAt:
-            effectiveAt > next.currentDate ? effectiveAt : next.currentDate,
-          status: "ended",
-          roleKind: state.roleKind,
-          context: `Succeeded after the election of ${contest.electionDate}`,
-          provenance: { kind: "simulated-event", eventId: outcomeEventId },
-          supersedesStateId: state.id,
-        });
-      }
+      if (bodySize !== null && seated >= bodySize) return next;
     }
     stableKey = municipalSeatKey(compiled.key, winnerPersonId);
   } else {

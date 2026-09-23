@@ -31,6 +31,7 @@ import {
 } from "./municipal-government";
 import {
   COUNCIL_ACT_OVERRIDE_DEADLINE,
+  actAmendsCriminalCode,
   actOnCouncilMeasure,
   congressionalReviewEffectiveOn,
   councilActOverrideDeadlineHandler,
@@ -38,10 +39,7 @@ import {
   overrideCouncilVeto,
 } from "./municipal-ordinance-procedure";
 import { municipalMeasures, municipalSeats } from "./municipal-public-work";
-import {
-  DC_GOVERNMENT_KEY,
-  dcCouncilSeatAWinnerTakes,
-} from "./nationwide-world/district-of-columbia-council-opening";
+import { DC_GOVERNMENT_KEY } from "./nationwide-world/district-of-columbia-council-opening";
 import { seatMunicipalMember } from "./municipal-public-work";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { FutureDueItem, World } from "./types";
@@ -66,11 +64,16 @@ function openWashington(seed: string): World {
   ).game!.world;
 }
 
-/** Put the player in an opening member's seat, as a won race would. */
+/**
+ * Put the player in the Ward 1 seat. A test fixture only: a won Council race
+ * names no seat, so play never replaces a sitting member this way.
+ */
 function seatPlayer(world: World): World {
   const player =
     world.control.kind === "person" ? world.control.personId : null;
-  const displaced = dcCouncilSeatAWinnerTakes(world)!;
+  const displaced = municipalSeats(world, DC_GOVERNMENT_KEY).find(
+    (seat) => seat.seatLabel === "Ward 1",
+  )!;
   const state = organizationParticipationStateAt(
     world,
     displaced.participationId,
@@ -90,7 +93,7 @@ function seatPlayer(world: World): World {
     personId: player!,
     startedAt: next.currentDate,
     role: "member",
-    seatLabel: displaced.seatLabel ?? "Ward 1",
+    seatLabel: "Ward 1",
   });
 }
 
@@ -168,10 +171,45 @@ describe("a life that starts in Washington, D.C.", () => {
     expect(
       seats.filter((seat) => seat.seatLabel?.startsWith("Ward ")),
     ).toHaveLength(8);
-    // A winner never displaces the Chairman.
-    expect(dcCouncilSeatAWinnerTakes(opened)!.seatLabel).not.toContain(
-      "Chairman",
-    );
+  });
+
+  it("gives an act on criminal law 60 days of review and others 30", () => {
+    const catalog = opened.policyCatalog;
+    const onIssue = (key: string) => {
+      const issue = Object.values(catalog.issues).find(
+        (candidate) => candidate.stableKey === key,
+      )!;
+      const proposition = Object.values(catalog.propositions).find(
+        (candidate) => candidate.issueId === issue.id,
+      )!;
+      return { propositionIds: [proposition.id] } as const;
+    };
+    // Only the questions an act answers decide its period.
+    const measure = (propositionIds?: readonly string[]) =>
+      ({ propositionIds }) as unknown as Parameters<
+        typeof actAmendsCriminalCode
+      >[1];
+    expect(
+      actAmendsCriminalCode(
+        opened,
+        measure(
+          onIssue(
+            "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
+          ).propositionIds,
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      actAmendsCriminalCode(
+        opened,
+        measure(
+          onIssue("us-state-and-local:technology-privacy.privacy-and-data-use")
+            .propositionIds,
+        ),
+      ),
+    ).toBe(false);
+    // An act that names no question takes the ordinary period.
+    expect(actAmendsCriminalCode(opened, measure(undefined))).toBe(false);
   });
 
   it("passes acts on its own, each under the Home Rule Act's clock", () => {
@@ -199,7 +237,10 @@ describe("a life that starts in Washington, D.C.", () => {
       expect(actions).toContain("presented-to-executive");
       const enactment = measureEnactment(world, measure.id)!;
       expect(enactment.effectiveAt).toBe(
-        congressionalReviewEffectiveOn(enactment.resolvedAt, 30),
+        congressionalReviewEffectiveOn(
+          enactment.resolvedAt,
+          actAmendsCriminalCode(world, measure) ? 60 : 30,
+        ),
       );
     }
     // A save keeps the Council's pending work.

@@ -20,5 +20,5 @@
   ],
   "title": "Counting the 30-day congressional review of a D.C. act",
   "usableAnswer": "The counting rule stated so a program can apply it, the holiday list, a table of typical review lengths by month, and the disapproval history.",
-  "whyItMatters": "The game computes an act's effective date from the day the Chairman transmits it, counting only weekdays, taking both Houses as sitting and excluding no holidays (placeholder in src/simulation/municipal-ordinance-procedure.ts). Acts sent during an August recess therefore take effect weeks earlier in play than in life."
+  "whyItMatters": "The game computes an act's effective date from the day the Chairman transmits it, counting only weekdays, taking both Houses as sitting and excluding no holidays (placeholder in src/simulation/municipal-ordinance-procedure.ts). Acts sent during an August recess therefore take effect weeks earlier in play than in life. Acts answering criminal law, prosecution, prison or reentry questions are given the 60-day period of paragraph (2), counted the same way; which acts are codified in Titles 22 to 24 is inferred from the policy question the act answers."
 }
