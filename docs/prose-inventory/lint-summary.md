@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 385 review warnings.**
+**0 hard errors. 386 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -15,17 +15,17 @@ defect than the one it was aimed at.
 | --- | --- |
 | vague-referent | 191 |
 | label-restated-in-description | 120 |
-| and-it-scaffold | 39 |
+| and-it-scaffold | 40 |
 | rather-than-scaffold | 24 |
 | third-person-player | 10 |
 | anonymous-actor | 1 |
 
 ## Repetition
 
-- 3258 templates, 3040 distinct texts.
-- 192 exact duplicate groups.
-- 203 normalized duplicate groups.
-- 28 near-duplicate clusters (Jaccard ≥ 0.72).
+- 3272 templates, 3053 distinct texts.
+- 193 exact duplicate groups.
+- 204 normalized duplicate groups.
+- 29 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".

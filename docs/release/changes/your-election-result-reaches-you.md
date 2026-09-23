@@ -24,3 +24,18 @@ decisive moment in your life does:
 The line under the result on the campaign screen also used "them" and "theirs"
 for everyone. It now uses your character's own pronouns: "That is a thing that
 happened to him, not the end of him."
+
+After a win, the campaign screen now says so once the term has started: "The
+term began January 1, 2027." Before the term starts, it says the office is not
+yet his, hers or theirs, using the character's pronouns. On the legislative
+office page, the line about the chamber's business uses the character's
+pronouns too.
+
+A victory speech or concession can be given for three days after the result.
+After that it is no longer offered, and a speech you gave stays on the record.
+
+A state legislative seat is now named for the state's own chamber. Your role,
+your campaign committee and your rivals' committees say "the Texas House of
+Representatives" or "the Nebraska Legislature" instead of "the House of
+Representatives". Races filed before this change keep the names they were
+filed with.

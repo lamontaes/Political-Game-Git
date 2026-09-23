@@ -39,6 +39,10 @@ test("normal Day exposes the frozen study/work adapter and scheduled sessions re
     .getByTestId("personal-work-section")
     .getByRole("region", { name: "Education and work" });
   await expect(paths).toBeVisible();
+  await paths
+    .getByRole("group", { name: "Browse opportunities" })
+    .getByRole("button", { name: "Study", exact: true })
+    .click();
   const enroll = paths.getByRole("button", { name: /^Enroll in/ }).first();
   const studyTitle = (await enroll.innerText()).replace(/^Enroll in /, "");
   await enroll.click();
@@ -147,6 +151,10 @@ test("mixed person, session and measure pins preserve identity and clear workspa
   const paths = page
     .getByTestId("office-section")
     .getByRole("region", { name: "Education and work" });
+  await paths
+    .getByRole("group", { name: "Browse opportunities" })
+    .getByRole("button", { name: "Study", exact: true })
+    .click();
   const enroll = paths.getByRole("button", { name: /^Enroll in/ }).first();
   const studyTitle = (await enroll.innerText()).replace(/^Enroll in /, "");
   await enroll.click();

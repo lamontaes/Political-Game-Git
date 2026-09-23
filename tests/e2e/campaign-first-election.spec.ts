@@ -312,7 +312,7 @@ test.describe("A life can stand for something", () => {
     // The committee is named after the body, not after the game's description
     // of the seat.
     await expect(page.getByTestId("campaign-band")).toContainText(
-      /for the House of Representatives/i,
+      /for the [A-Z][a-z]+( [A-Z][a-z]+)? House of Representatives/,
     );
     await expect(page.getByTestId("campaign-treasury")).toContainText("$0.");
     await expect(page.getByTestId("campaign-no-memo")).toBeVisible();

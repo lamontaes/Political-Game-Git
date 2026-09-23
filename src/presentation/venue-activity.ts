@@ -27,10 +27,14 @@ import {
   openingLifeLocation,
   openingNeighborhoodWalkOffer,
 } from "./life-scene-flow";
+import { proseWeekdayDate } from "./prose-dates";
+import { formatRoutineElapsedMinutes, proseClockTime } from "./routine-outcome";
 import { releaseMissedHolds } from "./scheduled-activity-choice";
 import { completedActivityHere } from "./scene-venues";
 import {
+  acceptSocialInvitation,
   recordSocialOccasionAttendance,
+  socialInvitationsFor,
   SOCIAL_OCCASION_JOURNEY_KEY,
   SOCIAL_OCCASION_LOCATION_KEY,
 } from "./social-invitation";
@@ -216,6 +220,22 @@ function arrivedDestinationFor(
 }
 
 /** A player action over existing scheduled activity truth; no separate clock. */
+/** The refusal for an activity blocked by an earlier open one the same day. */
+export const EARLIER_COMMITMENT_REFUSAL =
+  "An earlier commitment must be resolved first.";
+
+/** Why a commitment whose start has gone by cannot be kept. */
+export const LATE_COMMITMENT_REFUSAL =
+  "Its time has passed, so it can no longer be kept. You can let it go.";
+
+/** The same, for a session of a campaign's week. */
+const LATE_CAMPAIGN_SESSION_REFUSAL =
+  "The time for that session has already passed, so it can no longer be done as planned. Let it go from the campaign's week.";
+
+/** What the clock says when asked to start an activity after its start. */
+const LATE_START_ERROR =
+  "A scheduled activity cannot be started after its interval began.";
+
 export function venueActivities(
   world: World,
   personId: EntityId,
@@ -287,8 +307,7 @@ export function venueActivities(
               id !== journey?.activity.id &&
               !transitionHandlers.routine?.isAutoResolvableActivity(world, id),
           );
-          if (blockers.length)
-            refusal = "An earlier commitment must be resolved first.";
+          if (blockers.length) refusal = EARLIER_COMMITMENT_REFUSAL;
           /*
            * A meeting two people arranged between themselves is held wherever
            * they meet; it names no venue to travel to, so it asks for no
@@ -326,8 +345,7 @@ export function venueActivities(
                 world.currentMoment,
               ) < 0
             )
-              refusal =
-                "The time for that session has already passed, so it can no longer be done as planned. Let it go from the campaign's week.";
+              refusal = LATE_CAMPAIGN_SESSION_REFUSAL;
           } else if (!refusal && workedFromHome) {
             const origin = openingLifeLocation(world, personId);
             if (origin?.setting !== "home") {
@@ -342,7 +360,10 @@ export function venueActivities(
             !refusal &&
             activity.kind !== "travel" &&
             !journey &&
-            !metWhereverTheyMeet
+            !metWhereverTheyMeet &&
+            // Going to an invitation nobody has answered yet is the yes, and
+            // saying yes books the trip there; see `performVenueActivityOnce`.
+            openInvitationFor(world, personId, activity.id) === null
           ) {
             const origin = openingLifeLocation(world, personId);
             if (!origin) {
@@ -354,10 +375,33 @@ export function venueActivities(
             }
           }
         } catch (error) {
-          refusal =
-            error instanceof Error
-              ? error.message
-              : "This activity cannot be performed now.";
+          /*
+           * A commitment whose start has already gone by. Time never steps
+           * over one, so it can only be here because an older build did, or
+           * because the player reached its hour some other way. Nobody can
+           * start it now, which makes it the dead end giving up exists for.
+           * The raw error used to be shown as the reason, with no button
+           * beside it (Southeast lives; a D.C. save held four of them).
+           */
+          const lateStart =
+            error instanceof Error && error.message === LATE_START_ERROR;
+          // A campaign week's session is let go from that week, which records
+          // it the campaign's way, so it keeps the campaign's own sentence.
+          const campaignSession =
+            lateStart && campaignActionForActivity(world, activity.id) !== null;
+          const late =
+            lateStart &&
+            !campaignSession &&
+            activity.kind !== "tentative" &&
+            activity.kind !== "travel";
+          refusal = campaignSession
+            ? LATE_CAMPAIGN_SESSION_REFUSAL
+            : late
+              ? LATE_COMMITMENT_REFUSAL
+              : error instanceof Error
+                ? error.message
+                : "This activity cannot be performed now.";
+          if (late) unperformable = true;
         }
       }
       return {
@@ -419,6 +463,49 @@ export function performVenueActivity(
   return performed === world ? world : releaseMissedHolds(performed, personId);
 }
 
+/**
+ * When a commitment starts and how long it takes, as a person would say it.
+ *
+ * The row used to print the whole time until it was over as one number of
+ * minutes: a 15-minute trip to a friend's on Saturday, seen on Tuesday, read
+ * "6090 minutes, including any wait before it begins" (Elko playtest,
+ * 2026-09-23). Null where the timing cannot be read.
+ */
+export function venueTimingLabel(
+  world: World,
+  activityId: EntityId,
+): string | null {
+  try {
+    const timing = scheduledActivityPerformanceTiming(world, activityId);
+    const start = scheduledActivityState(world, activityId).start;
+    const takes = formatRoutineElapsedMinutes(timing.activityMinutes);
+    return timing.waitMinutes > 0
+      ? `Starts ${proseWeekdayDate(start.date)} at ${proseClockTime(start.minuteOfDay)} and takes ${takes}.`
+      : `Takes ${takes}.`;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * A Saturday invitation still waiting on the player's answer, whose afternoon
+ * has not begun. Its hold carries no trip, because the trip is booked by the
+ * yes; pressing Attend on it used to refuse with "no way to get" there.
+ */
+function openInvitationFor(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+) {
+  const invitation = socialInvitationsFor(world, personId).find(
+    (entry) => entry.activityId === activityId,
+  );
+  return invitation &&
+    compareSimulationMoments(invitation.start, world.currentMoment) > 0
+    ? invitation
+    : null;
+}
+
 function performVenueActivityOnce(
   world: World,
   personId: EntityId,
@@ -427,6 +514,29 @@ function performVenueActivityOnce(
   options?: PerformVenueActivityOptions,
 ): World {
   const attendance = options?.attendance ?? "attended";
+  const invitation = openInvitationFor(world, personId, activityId);
+  if (invitation && attendance === "attended") {
+    const accepted = acceptSocialInvitation(world, {
+      personId,
+      activityId,
+      revision: invitation.revision,
+    });
+    const plan = accepted.history.scheduledActivities.find(
+      (candidate) =>
+        candidate.kind === "confirmed" &&
+        candidate.sourceEntityIds.includes(invitation.invitationEventId) &&
+        scheduledActivityState(accepted, candidate.id).status === "scheduled",
+    );
+    return plan
+      ? performVenueActivityOnce(
+          accepted,
+          personId,
+          plan.id,
+          transitionHandlers,
+          options,
+        )
+      : accepted;
+  }
   const entry = venueActivities(world, personId, transitionHandlers).find(
     ({ activity }) => activity.id === activityId,
   );

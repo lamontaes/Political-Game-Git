@@ -1,4 +1,9 @@
-import { legislativeTermDates } from "../simulation/legislative-office-terms";
+import {
+  legacyLegislativeSeat,
+  legislativeTermDates,
+  legislativeTermForRelationship,
+} from "../simulation/legislative-office-terms";
+import { workStatusAt } from "../simulation/life-queries";
 import { proseDate } from "./prose-dates";
 import { jailTermOn } from "../simulation/justice/jail-terms";
 import {
@@ -23,6 +28,7 @@ import {
   daysUntilElection,
   electionContestResult,
   electionSpeechGiven,
+  electionSpeechOpen,
   recordElectionSpeech,
   type ElectionSpeechKind,
   ensureCampaignOpponents,
@@ -46,6 +52,8 @@ import type {
   CampaignStatus,
   CandidateTally,
   DistrictSeatBinding,
+  ElectionContestRecord,
+  ElectionContestResultRecord,
   ElectiveOfficeOption,
   EntityId,
   IsoDate,
@@ -481,17 +489,22 @@ export function projectCampaign(
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
     sessions: sessionsFor(world, campaign),
     reading: latestReading(world, campaign),
-    speech: result
-      ? {
-          kind:
-            result.winnerPersonId === personId
-              ? ("victory" as const)
-              : ("concession" as const),
-          winnerName: displayName(world, result.winnerPersonId),
-          given:
-            electionSpeechGiven(world, contest.id, personId)?.summary ?? null,
-        }
-      : null,
+    // A speech already given stays on the record; one not given is offered
+    // only while it is still election night's to give.
+    speech:
+      result &&
+      (electionSpeechGiven(world, contest.id, personId) ||
+        electionSpeechOpen(world, contest.id, personId))
+        ? {
+            kind:
+              result.winnerPersonId === personId
+                ? ("victory" as const)
+                : ("concession" as const),
+            winnerName: displayName(world, result.winnerPersonId),
+            given:
+              electionSpeechGiven(world, contest.id, personId)?.summary ?? null,
+          }
+        : null,
     tallies: (() => {
       const rows = result?.tallies ?? [];
       const printed = displayedSharePercents(rows.map((row) => row.voteShare));
@@ -506,12 +519,19 @@ export function projectCampaign(
       state.status === "won"
         ? ((term) =>
             term
-              ? `${candidateName} won${resultMargin(result, personId)}. The term begins ${proseDate(term.startsAt)}; until then the office is not ${pronouns.possessivePronoun}.`
+              ? "alreadyHeld" in term && term.alreadyHeld
+                ? term.startsAt <= world.currentDate
+                  ? `${candidateName} won${resultMargin(result, personId)} and kept the seat. The new term began ${proseDate(term.startsAt)}.`
+                  : `${candidateName} won${resultMargin(result, personId)} and keeps the seat. The new term begins ${proseDate(term.startsAt)}.`
+                : // Once the term has begun, "until then" is over: the
+                  // office is theirs, and saying otherwise contradicts the
+                  // office page beside it (San Antonio, Texas House, 2026-09-23).
+                  term.startsAt <= world.currentDate
+                  ? `${candidateName} won${resultMargin(result, personId)}. The term began ${proseDate(term.startsAt)}.`
+                  : `${candidateName} won${resultMargin(result, personId)}. The term begins ${proseDate(term.startsAt)}; until then the office is not ${pronouns.possessivePronoun}.`
               : `${candidateName} won${resultMargin(result, personId)}.`)(
-            legislativeTermDates(
-              contest.office.officeKey,
-              contest.electionDate,
-            ) ?? executiveTermStart(world, personId, contest.id),
+            wonSeatTerm(world, personId, contest, result) ??
+              executiveTermStart(world, personId, contest.id),
           )
         : state.status === "lost"
           ? `${candidateName} lost${resultMargin(result, personId)}. That is a thing that happened to ${pronouns.object}, not the end of ${pronouns.object} — tomorrow is still there.`
@@ -539,6 +559,51 @@ function resultMargin(
   const ownShare = printed[own];
   const otherShare = printed[other.index];
   return `, ${ownShare}% to ${otherShare}%`;
+}
+
+/**
+ * When the won term begins, and whether the winner already sits in that seat.
+ * The start comes from the term the win recorded, and only from the office's
+ * rule when none was recorded. A member who won the seat they already hold
+ * keeps it; the new term follows on from the old one.
+ */
+function wonSeatTerm(
+  world: World,
+  personId: EntityId,
+  contest: ElectionContestRecord,
+  result: ElectionContestResultRecord | null | undefined,
+) {
+  const seats = world.history.workRelationships.filter(
+    (relationship) =>
+      relationship.personId === personId &&
+      relationship.kind === "employment:legislative-member",
+  );
+  const won = result
+    ? seats.find(
+        (relationship) =>
+          relationship.provenance.kind === "simulated-event" &&
+          relationship.provenance.eventId === result.outcomeEventId,
+      )
+    : undefined;
+  const startsAt =
+    (won && legislativeTermForRelationship(world, won.id)?.startsAt) ??
+    legislativeTermDates(contest.office.officeKey, contest.electionDate)
+      ?.startsAt;
+  if (!startsAt) return null;
+  const alreadyHeld = seats.some((relationship) => {
+    if (relationship.id === won?.id || relationship.startedAt >= startsAt)
+      return false;
+    const held =
+      legislativeTermForRelationship(world, relationship.id)?.contest ??
+      legacyLegislativeSeat(world, relationship.id)?.contest;
+    const status = workStatusAt(world, relationship.id);
+    return (
+      held?.office.officeKey === contest.office.officeKey &&
+      (status?.status === "active" ||
+        (status?.status === "ended" && status.effectiveAt >= startsAt))
+    );
+  });
+  return { startsAt, alreadyHeld };
 }
 
 /**
@@ -1010,6 +1075,13 @@ export function giveElectionSpeech(world: World, personId: EntityId): World {
   if (!campaign) throw new Error("There is no race to speak about.");
   if (!electionContestResult(world, campaign.contestId))
     throw new Error("The race has not been decided yet.");
+  if (
+    !electionSpeechGiven(world, campaign.contestId, personId) &&
+    !electionSpeechOpen(world, campaign.contestId, personId)
+  )
+    throw new Error(
+      "Election night is over; the moment for a speech has passed.",
+    );
   return recordElectionSpeech(world, campaign.contestId, personId);
 }
 

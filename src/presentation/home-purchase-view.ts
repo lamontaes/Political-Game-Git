@@ -1,7 +1,11 @@
+import { ageOnDate } from "../simulation/dates";
 import {
+  HOME_BUYING_AGE,
   HOME_PURCHASE_PLACEHOLDER,
   MORTGAGE_BASIS,
   homePurchaseReason,
+  homePurchaseTerms,
+  moneyIsTracked,
   ownedHomeFor,
 } from "../simulation/home-purchase";
 import { householdMembershipsAt } from "../simulation/life-queries";
@@ -56,12 +60,22 @@ export function projectHomePurchase(
             : "The mortgage is paid off.",
     };
   }
+  const person = world.people[personId];
+  // Nothing to offer a child, or anyone whose money the game does not hold:
+  // an offer with no balance behind it is not a choice.
+  if (
+    !person ||
+    ageOnDate(person.birthDate, world.currentDate) < HOME_BUYING_AGE
+  )
+    return null;
+  if (!moneyIsTracked(world, personId)) return null;
   const currency = HOME_PURCHASE_PLACEHOLDER.currency;
+  const terms = homePurchaseTerms(world, person.homeJurisdictionId);
   const reason = homePurchaseReason(world, personId);
   return {
     kind: reason ? "cannot-buy" : "can-buy",
     headline: "Buy a home",
-    terms: `A house costs ${dollars(money(HOME_PURCHASE_PLACEHOLDER.priceMinor, currency))}. You pay ${dollars(money(HOME_PURCHASE_PLACEHOLDER.downPaymentMinor, currency))} down, then ${dollars(money(HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor, currency))} a month on the mortgage instead of rent.`,
+    terms: `A house costs ${dollars(money(terms.priceMinor, currency))}. You pay ${dollars(money(terms.downPaymentMinor, currency))} down, then ${dollars(money(terms.monthlyPaymentMinor, currency))} a month on the mortgage instead of rent.`,
     reason,
   };
 }

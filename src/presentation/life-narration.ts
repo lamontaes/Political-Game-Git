@@ -3,6 +3,7 @@ import {
   CONTACT_DECLINED_EVENT,
   CONTACT_PROPOSED_EVENT,
 } from "../simulation/people-contact";
+import { SCENE_BINDING_EVENT } from "../simulation/scene-bindings";
 import {
   addDays,
   ageOnDate,
@@ -114,15 +115,19 @@ export interface ConnectiveNarration {
  * count would read as a log line. No season is named — "By the spring" was the
  * corpus's single most copied bridge, and the season added no state.
  */
-function elapsedPhrase(days: number): string {
+export function elapsedPhrase(days: number): string {
   if (days <= 1) return "The next day";
   if (days <= 10) return "Within the week";
   if (days <= 24) return "A couple of weeks on";
   if (days <= 45) return "A month later";
   if (days <= 100) return "A couple of months on";
-  if (days <= 200) return "Half a year on";
-  if (days <= 400) return "A year on";
-  if (days <= 800) return "The better part of two years later";
+  if (days <= 220) return "Half a year on";
+  // Nine months is not a year: Winnemucca read "A year on" after 270 days.
+  if (days <= 320) return "Most of a year later";
+  if (days <= 450) return "A year on";
+  // Caribou read "The better part of two years later" after 13 months.
+  if (days <= 600) return "A year and a half on";
+  if (days < 730) return "The better part of two years later";
   const years = Math.round(days / 365);
   return `${years} years later`;
 }
@@ -247,11 +252,14 @@ export function composeConnectiveNarration(
   // An invitation still waiting on the player is an offer, not something that
   // happened: it is shown as a moment to answer, and "You saw" it would be
   // false. Its answer, once played, is a record of its own.
+  // A scene binding is bookkeeping about a situation, written beside the
+  // record of what happened; it is not a second thing that happened.
   const moved = (anchor: ThreadAnchor) =>
     anchor.role !== "context" &&
     anchor.at > since &&
     anchor.at <= until &&
-    !isLifeOpportunityOffer(world, anchor);
+    !isLifeOpportunityOffer(world, anchor) &&
+    !isSceneBinding(world, anchor);
   const changed = threads.filter((thread) => thread.anchors.some(moved));
 
   // What moved, where the record can name it. A thread whose subject cannot
@@ -335,6 +343,10 @@ function anchorEvent(world: World, anchor: ThreadAnchor) {
   return world.history.events.find((entry) => entry.id === anchor.recordId);
 }
 
+function isSceneBinding(world: World, anchor: ThreadAnchor): boolean {
+  return anchorEvent(world, anchor)?.type === SCENE_BINDING_EVENT;
+}
+
 /**
  * Whether this anchor is an attempt to make contact rather than contact.
  *
@@ -389,7 +401,11 @@ function threadMovementSentence(
     // is somebody trying, the second is the two of them settling it between
     // them. Neither is a meeting, and they do not share a sentence.
     if (moving.every((anchor) => isUnanswered(world, anchor))) {
-      return moved > 1
+      // An ask and the day it lapsed are two records of one attempt.
+      const asks = moving.filter(
+        (anchor) => anchorEvent(world, anchor)?.type === CONTACT_PROPOSED_EVENT,
+      ).length;
+      return asks > 1
         ? `${subject} tried to reach you more than once.`
         : `${subject} tried to reach you.`;
     }
