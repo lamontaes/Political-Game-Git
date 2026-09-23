@@ -29,6 +29,10 @@ const mix = opt("mix", "short");
 const out = opt("out", "mass-play-out");
 const runSeed = opt("seed", `mass-${Date.now()}`);
 const wallMs = Number(opt("wall", String(15 * 60_000)));
+// Starting ages to draw from, for example --ages 8,9,10,11,12.
+const ageList = opt("ages", "10,16,18,21,25,30,40,55,70")
+  .split(",")
+  .map(Number);
 mkdirSync(out, { recursive: true });
 
 const random = rng(runSeed);
@@ -59,7 +63,7 @@ for (let i = 0; i < games; i++) {
   const startAge =
     mix === "dynasty"
       ? 55 + Math.floor(random() * 25)
-      : [10, 16, 18, 21, 25, 30, 40, 55, 70][Math.floor(random() * 9)]!;
+      : ageList[Math.floor(random() * ageList.length)]!;
   specs.push({
     id: `${runSeed}-${i}`,
     seed: `${runSeed}-${i}`,
