@@ -1,0 +1,24 @@
+{
+  "candidateAnswers": [],
+  "filedAt": "2026-09-23T00:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "PLACEHOLDERS IN CODE, marked as authored in src/simulation/people-family-plan.ts: a partner answers in 2 days; a birth lands 273 days after a yes and an adoption 210; nobody plans a child past 45; the partner's answer weighs three of the five traits (risk, deliberation, reliability).",
+    "WHAT IS UNREACHABLE TODAY: nothing in play forms a partnership. A player can ask someone on a date in conversation, but no record ever makes two people a couple, so the new 'Talk about having a child together' option only appears for a partnership that already exists. Only a source adapter (ACS PUMS) writes partnerships, and the production opening does not use it."
+  ],
+  "priority": "P1",
+  "question": "How do adult Americans go from dating someone to being a couple, to living together, to marrying, and to deciding on children or adoption, and on what timescales? And how does the chance of a yes to having a child depend on age, circumstances and how the two people get on?",
+  "questionId": "how-couples-form-and-decide-on-children",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/people-family-plan.ts and src/presentation/life-conversation.ts",
+      "whatItDidNotSettle": "The family decision and its dated outcome exist, but the waiting periods, the age limit and what a partner weighs are authored guesses, and nothing forms a couple to begin with."
+    }
+  ],
+  "title": "How couples form, move in, and decide on children",
+  "usableAnswer": "Realistic ranges for the steps from first dates to a committed relationship, moving in and marriage, with how often each happens; typical time from deciding to try for a child to a birth, and from deciding to adopt to a placement; how age and circumstances (money, housing, work) bear on the decision. Ranges and rates from survey data are enough, and say where they differ by age.",
+  "whyItMatters": "The owner's audit asked for births and adoptions to happen in play. The decision is now reachable in conversation, but only for a couple, and couples never form. Building that progression from guesses would be inventing depth."
+}

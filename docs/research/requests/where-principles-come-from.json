@@ -1,0 +1,34 @@
+{
+  "candidateAnswers": [],
+  "filedAt": "2026-09-23T00:45:00.000Z",
+  "impact": "blocks-work",
+  "lane": "people and life",
+  "notes": [
+    "WHAT IS BUILT, on the people-and-life branch: a person meets a proposal when they file a bill that puts it, or when the player mentions a bill to them in conversation. The next day they think it over through the existing belief-formation engine. The only reasons it weighs are the principles they hold that the question engages, as the policy pack declares (all 66 propositions declare them; 14 principles).",
+    "WHAT IS MISSING: nobody in a real game holds any principle. Only src/simulation/demo.ts ever calls recordPrinciple. So every person who meets a proposal today considers it and forms no view, which is recorded, not left blank.",
+    "The answered request where-a-persons-politics-comes-from says goals, values, relevant information and lived consequences are primary; family supplies cues but not inherited beliefs; temperament affects attention and expression, not a left/right lookup; generated adults should get a coherent prior political history where supported. It does not say which of those inputs leads to endorsing or rejecting which principle, and the repository has no join from a value, goal or event to a principle.",
+    "ALSO FOUND: of the nine authored bills the legislative clock files, only Kentucky's name catalog questions. Nebraska's and Alaska's bills put no question, so meeting one forms nothing. Which catalog questions each authored bill puts is a content question for whoever owns those bills."
+  ],
+  "priority": "P1",
+  "question": "For an ordinary generated American adult, which of the game's political principles (for example market restraint or reducing inequality) do they hold at the start, how firmly and how flexibly, and what in their recorded life leads to that: values, goals, work, income, family, place, formative events? How many hold no principle at all, and how do principles change over a life?",
+  "questionId": "where-principles-come-from",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life lane",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/where-a-persons-politics-comes-from.json (answered 2026-09-22)",
+      "whatItDidNotSettle": "It names the kinds of input but not which input bears on which principle, or how common each stance is."
+    },
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-22-depth2 (A01, A02, A05, A06)",
+      "whatItDidNotSettle": "A02 maps formative scenes to personality tendencies, not to political principles; A05 and A06 cover who votes and party agendas. None seeds a person's principles."
+    },
+    {
+      "source": "src/simulation/policy.ts (14 principle definitions) and the us-state-and-local policy pack",
+      "whatItDidNotSettle": "Each proposition declares which principles it engages and which way; nothing says who holds them."
+    }
+  ],
+  "title": "Where an ordinary person's political principles come from",
+  "usableAnswer": "For each of the 14 principles: roughly what share of adults endorse, reject, are torn or hold no view; which recorded inputs make each stance more or less likely, with direction and rough strength; how conviction and flexibility are spread; and whether principles are mostly formed by a given age and then change slowly. Survey-based ranges are enough. If a principle list other than ours fits the evidence better, say so.",
+  "whyItMatters": "The path from meeting a proposal to holding a view now runs in play, but it is empty because nobody holds a principle. Inventing who holds which principle would be a theory of politics authored by an engineer, which D-093 and the owner's rule against invented depth both forbid."
+}
