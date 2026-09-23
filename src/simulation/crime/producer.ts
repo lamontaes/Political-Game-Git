@@ -492,7 +492,7 @@ function recordArrests(
         personId: participant.personId,
         eventId: arrest.id,
         learnedAt: arrestDate,
-        believedSummary: "Police made an arrest in what happened to them.",
+        believedSummary: `Police made an arrest in what happened to ${personName(next.people[participant.personId]!)}.`,
         accuracy: "accurate",
         confidence: "high",
         source: { kind: "direct" },
