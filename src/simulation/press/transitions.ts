@@ -29,9 +29,11 @@ import {
   pressOwnerReviewHandler,
 } from "./ownership";
 import { applyPendingDisasterHandlingReactions } from "../crisis/handling-reactions";
+import { advanceProsecutions } from "../justice/prosecution";
 import { produceCaughtLyingLeads } from "./caught-lying";
 import { produceCampaignSpendingReports } from "./spending-reports";
 import { ensurePressExposureCoverage } from "./views";
+import { produceMogulOffers } from "../moguls";
 import {
   PRESS_PROCEEDING_TRANSITION_KEY,
   pressProceedingStepHandler,
@@ -52,9 +54,13 @@ function pressWeeklyHandler(
     ensurePressExposureCoverage(
       ensurePressHomeCoverage(
         produceCaughtLyingLeads(
-          produceCampaignFinanceScrutiny(
-            produceCampaignSpendingReports(
-              applyPendingDisasterHandlingReactions(world),
+          produceMogulOffers(
+            produceCampaignFinanceScrutiny(
+              produceCampaignSpendingReports(
+                applyPendingDisasterHandlingReactions(
+                  advanceProsecutions(world),
+                ),
+              ),
             ),
           ),
         ),

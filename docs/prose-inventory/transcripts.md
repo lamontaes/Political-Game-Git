@@ -684,7 +684,7 @@ Seed `corpus-long-tail`, start age 7, Peter Fleming.
 
 > You're 7, and you live in Lexington, Kentucky.
 > You live with Zoe Fleming and Tracy Fleming.
-> You're enrolled at West Lexington Elementary School.
+> You're enrolled at Magnolia Elementary School.
 
 During the school break, Vanessa Hunter drops a snack into a puddle and starts crying. You still have your own snack.
 
@@ -1215,7 +1215,7 @@ Seed `p85c-owner-clock`, start age 34, Luke Vance.
 - HB 292 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
   - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
   - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Filed on 2027-03-16. Filed in the House of Representatives.
+  - Filed on 2027-03-13. Filed in the House of Representatives.
   - Committee on Committees
   - Committee on Committees decides which committee takes the measure.
   - Ask for the bill to be sent to a committee
@@ -1326,7 +1326,7 @@ Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
 - HB 365 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
   - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
   - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Filed on 2027-01-14. Filed in the House of Representatives.
+  - Filed on 2027-01-27. Filed in the House of Representatives.
   - Committee on Committees
   - Committee on Committees decides which committee takes the measure.
   - Ask for the bill to be sent to a committee

@@ -55,6 +55,7 @@ export function CampaignSpendingReports({
                       <th scope="col">Paid to</th>
                       <th scope="col">For</th>
                       <th scope="col">Amount</th>
+                      <th scope="col">Spent to date</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -64,6 +65,7 @@ export function CampaignSpendingReports({
                         <td>{line.payee}</td>
                         <td>{line.purpose}</td>
                         <td>{line.amount}</td>
+                        <td>{line.runningTotal}</td>
                       </tr>
                     ))}
                   </tbody>

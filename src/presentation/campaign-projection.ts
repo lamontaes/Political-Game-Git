@@ -1,5 +1,6 @@
 import { legislativeTermDates } from "../simulation/legislative-office-terms";
 import { proseDate } from "./prose-dates";
+import { jailTermOn } from "../simulation/justice/jail-terms";
 import {
   FILING_LEAD_DAYS,
   nextTownElection,
@@ -21,6 +22,9 @@ import {
   controlledCommitmentsBlockingActivityPerformance,
   daysUntilElection,
   electionContestResult,
+  electionSpeechGiven,
+  recordElectionSpeech,
+  type ElectionSpeechKind,
   ensureCampaignOpponents,
   fileCampaign,
   lifePlaceByJurisdictionId,
@@ -33,6 +37,7 @@ import {
   scheduleCampaignAction,
   scheduledActivityState,
   simulationMomentAtLocalTime,
+  stateExecutiveEntryStatus,
 } from "../simulation";
 import type {
   CampaignActionKind,
@@ -161,6 +166,8 @@ export interface CampaignReading {
   /** The sentence the candidate was actually told. */
   readonly summary: string;
   readonly on: string;
+  /** How far the count moved since the one before, when it moved. */
+  readonly change: string | null;
 }
 
 export interface CampaignTallyLine extends CandidateTally {
@@ -243,6 +250,15 @@ export interface CampaignView {
   readonly tallies: readonly CampaignTallyLine[];
   /** After the election: what happened, and that life carries on. */
   readonly afterword: string | null;
+  /**
+   * After the election: the speech this candidate may give (a victory speech
+   * or a concession to the winner), and what they said if they gave it.
+   */
+  readonly speech: {
+    readonly kind: ElectionSpeechKind;
+    readonly winnerName: string;
+    readonly given: string | null;
+  } | null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -462,6 +478,17 @@ export function projectCampaign(
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
     sessions: sessionsFor(world, campaign),
     reading: latestReading(world, campaign),
+    speech: result
+      ? {
+          kind:
+            result.winnerPersonId === personId
+              ? ("victory" as const)
+              : ("concession" as const),
+          winnerName: displayName(world, result.winnerPersonId),
+          given:
+            electionSpeechGiven(world, contest.id, personId)?.summary ?? null,
+        }
+      : null,
     tallies: (() => {
       const rows = result?.tallies ?? [];
       const printed = displayedSharePercents(rows.map((row) => row.voteShare));
@@ -476,17 +503,39 @@ export function projectCampaign(
       state.status === "won"
         ? ((term) =>
             term
-              ? `${candidateName} won. The term begins ${proseDate(term.startsAt)}; until then the office is not theirs.`
-              : `${candidateName} won. The seat is theirs, and so is everything that came before it.`)(
+              ? `${candidateName} won${resultMargin(result, personId)}. The term begins ${proseDate(term.startsAt)}; until then the office is not theirs.`
+              : `${candidateName} won${resultMargin(result, personId)}.`)(
             legislativeTermDates(
               contest.office.officeKey,
               contest.electionDate,
-            ),
+            ) ?? executiveTermStart(world, personId, contest.id),
           )
         : state.status === "lost"
-          ? `${candidateName} lost. That is a thing that happened to them, not the end of them — tomorrow is still there.`
+          ? `${candidateName} lost${resultMargin(result, personId)}. That is a thing that happened to them, not the end of them — tomorrow is still there.`
           : null,
   };
+}
+
+/**
+ * ", 52.3% to 47.7%": this candidate's share against the best of the others,
+ * or nothing when there is no one else in the result.
+ */
+function resultMargin(
+  result: ReturnType<typeof electionContestResult>,
+  personId: EntityId,
+): string {
+  const rows = result?.tallies ?? [];
+  // The same rounding as the table under it, so the two never disagree.
+  const printed = displayedSharePercents(rows.map((row) => row.voteShare));
+  const own = rows.findIndex((row) => row.candidatePersonId === personId);
+  const other = rows
+    .map((row, index) => ({ row, index }))
+    .filter(({ row }) => row.candidatePersonId !== personId)
+    .sort((left, right) => right.row.voteShare - left.row.voteShare)[0];
+  if (own < 0 || !other) return "";
+  const ownShare = printed[own];
+  const otherShare = printed[other.index];
+  return `, ${ownShare}% to ${otherShare}%`;
 }
 
 /**
@@ -573,6 +622,7 @@ function notYetFiled(
     reading: null,
     tallies: [] as readonly CampaignTallyLine[],
     afterword: null,
+    speech: null,
   };
   if (!eligible) {
     return {
@@ -604,15 +654,18 @@ function offersFor(
   const daysLeft = daysUntilElection(world, campaign);
   const closed = daysLeft <= 0;
   const buy = advertisingBuyFor(treasury);
+  const jailed = jailTermOn(world, campaign.candidatePersonId);
   return (["fundraising", "outreach", "advertising"] as const).map((kind) => {
     const spend = kind === "advertising" ? buy : null;
-    const unavailable = closed
-      ? "Election day has arrived. There is nothing left to do but wait for the count."
-      : kind === "advertising" && treasury.minorUnits <= 0
-        ? "There is nothing in the account to spend."
-        : freeSlotToday(world, campaign.candidatePersonId, kind) === null
-          ? "The rest of today is already spoken for. Get on with the day and pick this up tomorrow."
-          : null;
+    const unavailable = jailed
+      ? `You are in jail until ${proseDate(jailed.until)}. Your name stays on the ballot, but you cannot campaign.`
+      : closed
+        ? "Election day has arrived. There is nothing left to do but wait for the count."
+        : kind === "advertising" && treasury.minorUnits <= 0
+          ? "There is nothing in the account to spend."
+          : freeSlotToday(world, campaign.candidatePersonId, kind) === null
+            ? "The rest of today is already spoken for. Get on with the day and pick this up tomorrow."
+            : null;
     return {
       kind,
       label:
@@ -687,12 +740,11 @@ function sessionsFor(
  * but has not recorded anybody reading is not something the player knows, and
  * the difference matters on the day somebody else reads it first.
  */
-function latestReading(
+function readingFrom(
   world: World,
   campaign: CampaignRecord,
-): CampaignReading | null {
-  const result = campaignResultsFor(world, campaign.id).at(-1);
-  if (!result) return null;
+  result: ReturnType<typeof campaignResultsFor>[number],
+): Omit<CampaignReading, "change"> | null {
   const knowledge = world.history.knowledge.find(
     (candidate) =>
       candidate.id === result.feedbackKnowledgeId &&
@@ -713,6 +765,31 @@ function latestReading(
         : null,
     summary: knowledge.believedSummary,
     on: result.completedAt,
+  };
+}
+
+function latestReading(
+  world: World,
+  campaign: CampaignRecord,
+): CampaignReading | null {
+  const readings = campaignResultsFor(world, campaign.id).flatMap((result) => {
+    const reading = readingFrom(world, campaign, result);
+    return reading ? [reading] : [];
+  });
+  const latest = readings.at(-1);
+  if (!latest) return null;
+  const previous = readings.at(-2);
+  // A count is an estimate, so a move between two of them is the estimate's
+  // move, not a measurement of what caused it. Said only when it moved.
+  const points = previous
+    ? Math.round((latest.percent - previous.percent) * 10) / 10
+    : 0;
+  return {
+    ...latest,
+    change:
+      previous && points !== 0
+        ? `${points > 0 ? "Up" : "Down"} ${Math.abs(points).toFixed(1)} points since the count on ${proseDate(previous.on)}.`
+        : null,
   };
 }
 
@@ -919,4 +996,28 @@ export function candidateAge(world: World, personId: EntityId): number {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
   return ageOnDate(person.birthDate, world.currentDate);
+}
+
+/**
+ * The player's election-night speech, given by choice from the result screen:
+ * a victory speech for a winner, a concession to the winner for anyone else.
+ */
+export function giveElectionSpeech(world: World, personId: EntityId): World {
+  const campaign = campaignForCandidate(world, personId);
+  if (!campaign) throw new Error("There is no race to speak about.");
+  if (!electionContestResult(world, campaign.contestId))
+    throw new Error("The race has not been decided yet.");
+  return recordElectionSpeech(world, campaign.contestId, personId);
+}
+
+/** When a won state executive term begins, where the game has dated it. */
+function executiveTermStart(
+  world: World,
+  personId: EntityId,
+  contestId: EntityId,
+): { readonly startsAt: IsoDate } | null {
+  const status = stateExecutiveEntryStatus(world, personId);
+  return "startsAt" in status && status.contestId === contestId
+    ? { startsAt: status.startsAt }
+    : null;
 }

@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays, spokenDate } from "../dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { personName } from "../people";
@@ -385,11 +385,11 @@ export function requestSubjectResponse(world: World, leadId: EntityId): World {
       `${PRESS_STORY_LEAD_TAG}${lead.id}`,
       ...(lead.matterId ? [`${PRESS_MATTER_TAG}${lead.matterId}`] : []),
     ],
-    summary: `${personName(reporter)} of ${outlet.name} asked for a response before ${dueAt}.`,
+    summary: `${personName(reporter)} of ${outlet.name} asked for a response before ${spokenDate(dueAt)}.`,
     context: {
       location: null,
       socialContext: question,
-      pressure: `Responses received by ${dueAt} can be included. No response is reported as no response, not as an admission.`,
+      pressure: `Responses received by ${spokenDate(dueAt)} can be included. No response is reported as no response, not as an admission.`,
       choice: null,
       motivation: "Seek the subject's response before publishing.",
       immediateReaction: null,
@@ -1595,6 +1595,7 @@ function beatForEventType(type: string): MediaBeat {
   if (
     type.startsWith("crisis.") ||
     type.startsWith("disaster.") ||
+    type.startsWith("crime.") ||
     type.startsWith("health.episode-disclosed")
   )
     return "public-safety";

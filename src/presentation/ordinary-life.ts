@@ -1,6 +1,7 @@
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
+import { seatWinnersOwedTheirTerm } from "../simulation/office-entry-repair";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
@@ -32,7 +33,10 @@ import type {
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { shortPersonName } from "./conversation-subjects";
-import { lapseVenueActivity } from "./scheduled-activity-choice";
+import {
+  lapseVenueActivity,
+  releaseMissedHolds,
+} from "./scheduled-activity-choice";
 import { keepAcceptedSocialOccasion } from "./social-invitation";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 
@@ -203,10 +207,13 @@ export function ordinaryLifeAvailableFor(
 export function openOrdinaryLife(world: World, personId: EntityId): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
-  if (!ordinaryLifeAvailableFor(world, personId)) return world;
+  // A save a since-fixed defect kept out of a won office is seated when it
+  // opens, before anything else reads the week.
+  const seated = seatWinnersOwedTheirTerm(world, personId);
+  if (!ordinaryLifeAvailableFor(seated, personId)) return seated;
   return refreshLifeCircumstances(
     refreshLifeOpportunities(
-      openOrdinaryLifeRecords(world, personId),
+      openOrdinaryLifeRecords(seated, personId),
       personId,
     ),
     personId,
@@ -354,7 +361,10 @@ function passOrdinaryDaysUnchecked(
   ) {
     return advanced;
   }
-  return refreshContextualScenes(advanced, advanced.control.personId);
+  return refreshContextualScenes(
+    releaseMissedHolds(advanced, advanced.control.personId),
+    advanced.control.personId,
+  );
 }
 
 function advanceOrdinaryDays(

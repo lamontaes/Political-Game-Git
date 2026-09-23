@@ -13,7 +13,10 @@ import {
   serializeWorld,
 } from "../../src/simulation";
 import { localChiefExecutiveRules } from "../../src/simulation/nationwide-world/local-chief-executive-rules";
-import { placePopulationCoverage } from "../../src/simulation/nationwide-world/place-population";
+import {
+  placePopulation,
+  placePopulationCoverage,
+} from "../../src/simulation/nationwide-world/place-population";
 import { localChiefExecutiveIdentity } from "../../src/simulation/nationwide-world/local-governing-body-candidacy-packs";
 import { municipalGovernmentForUnit } from "../../src/simulation/rule-capability-resolver";
 import {
@@ -331,10 +334,29 @@ describe("running for mayor", () => {
 
 describe("the owner's interim rule for large cities", () => {
   // lamontae, 2026-09-23: until a city's own rule is read, a city of more than
-  // 100,000 people elects its mayor. The game holds no town populations yet,
-  // so the rule is proved with supplied ones and today changes no town.
-  it("holds no town populations yet, so no town is changed today", () => {
-    expect(placePopulationCoverage()).toBe(0);
+  // 100,000 people elects its mayor. Sizes are the Census Bureau's Vintage 2025
+  // estimates (July 1, 2025).
+  it("holds a Census 2025 size for every incorporated place, and unknown stays unknown", () => {
+    expect(placePopulationCoverage()).toBe(19_482);
+    expect(placePopulation("4260000")).toBeGreaterThan(1_000_000);
+    // The Census Bureau counts Carbonate, Colorado as 0; that is a real 0.
+    expect(placePopulation("0812030")).toBe(0);
+    // Urban Honolulu is a census-designated place, not a governed town.
+    expect(placePopulation("1571550")).toBeNull();
+    expect(placePopulation("9999999")).toBeNull();
+  });
+
+  it("gives unread big cities an elected mayor with no supplied size", () => {
+    const unitAt = (geoid: string) =>
+      governmentUnitsForPlace(geoid).find(
+        (unit) => localChiefExecutiveRules(unit) !== null,
+      )!;
+    for (const geoid of ["4260000", "2758000", "3240000", "4865000"]) {
+      expect(localChiefExecutiveRules(unitAt(geoid))!.directlyElected).toEqual({
+        value: true,
+        basis: "owner-interim",
+      });
+    }
   });
 
   it("gives an unread large city an elected mayor, and never overrides a read rule", () => {
@@ -342,13 +364,12 @@ describe("the owner's interim rule for large cities", () => {
       governmentUnitsForPlace(geoid).find(
         (unit) => localChiefExecutiveRules(unit) !== null,
       )!;
-    // Philadelphia's record does not say how its mayor is chosen, and the
-    // national draw gives it a council-chosen one.
+    // Philadelphia's record does not say how its mayor is chosen. Without its
+    // size, the national draw gives it a council-chosen one.
     const philadelphia = unitAt("4260000");
-    expect(localChiefExecutiveRules(philadelphia)!.directlyElected).toEqual({
-      value: false,
-      basis: "typical",
-    });
+    expect(
+      localChiefExecutiveRules(philadelphia, () => null)!.directlyElected,
+    ).toEqual({ value: false, basis: "typical" });
     expect(
       localChiefExecutiveRules(philadelphia, () => 1_573_916)!.directlyElected,
     ).toEqual({ value: true, basis: "owner-interim" });

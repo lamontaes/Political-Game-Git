@@ -147,3 +147,34 @@ describe("fanLayout", () => {
     expect(54 - top + 31).toBeLessThan(768);
   });
 });
+
+describe("ShellNav interrupt checklist", () => {
+  it("offers what passing time stops for beside Day and Week, closed until asked", () => {
+    const html = renderToStaticMarkup(
+      <ShellNav
+        state={INITIAL_SHELL_STATE}
+        dispatch={() => {}}
+        playerName="Jordan Avery Price"
+        dateLabel="Tuesday, January 20, 2026"
+        placeName={null}
+        destinations={DESTINATIONS}
+        canSave
+        unsaved={false}
+        onSave={() => {}}
+        onLeave={() => {}}
+        onPassDays={() => {}}
+      />,
+    );
+    expect(html).toMatch(
+      /data-testid="shell-day-controls"[\s\S]*data-testid="shell-stops-toggle"/,
+    );
+    expect(html).toMatch(
+      /data-testid="shell-stops-toggle"[^>]*aria-expanded="false"|aria-expanded="false"[^>]*data-testid="shell-stops-toggle"/,
+    );
+    expect(html).not.toContain('data-testid="shell-stops"');
+  });
+
+  it("has no checklist control while growing up, when time cannot be passed", () => {
+    expect(render(INITIAL_SHELL_STATE)).not.toContain("shell-stops-toggle");
+  });
+});

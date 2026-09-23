@@ -1386,6 +1386,44 @@
   gap: 2px;
 }
 
+/*
+ * The interrupt checklist opens beside the time controls, above the room and
+ * clear of the portrait, so it can be read before Day or Week is pressed.
+ */
+.pg-nav-stops {
+  position: absolute;
+  left: calc(100% + 0.6rem);
+  bottom: 0;
+  z-index: 2;
+  width: min(24rem, calc(100dvw - 20rem));
+  max-height: min(28rem, calc(var(--pg-vv-height, 100dvh) - 6rem));
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.8rem 0.9rem;
+  color: var(--run-a-ink);
+  background: var(--pg-glass-strong);
+  backdrop-filter: var(--pg-blur);
+  box-shadow: var(--pg-edge), var(--pg-shadow);
+  border-radius: var(--pg-radius);
+  font-family: var(--pg-font-ui);
+}
+
+.pg-nav-stops-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.pg-nav-stops .pg-interruption-list {
+  margin: 0;
+  padding: 0;
+}
+
+.pg-nav-stops > .ui-action {
+  align-self: flex-end;
+}
+
 .pg-nav-day {
   flex: 1 1 auto;
   display: inline-flex;

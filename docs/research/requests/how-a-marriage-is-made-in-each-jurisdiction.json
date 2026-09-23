@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-23T04:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "personality and relationships",
+  "notes": [
+    "Couples in play will reach marriage (owner, 2026-09-23: 'yes both. all the way'). A marriage is a legal act governed by the place it happens, so the game cannot treat it as one national button.",
+    "The owner's standing rule for unresearched jurisdictions applies: real law where read, a realistic national range otherwise, never a neighbor's law. The request covers all 56 places the game will hold."
+  ],
+  "priority": "P2",
+  "question": "In each of the 50 states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, what does it take to marry: minimum age with and without consent, the license (who issues it, fee range, waiting period, how long it stays valid), who may officiate and whether witnesses are needed, whether common-law marriage can still be formed, and what a divorce requires at the simplest (residency period, waiting period, no-fault availability)?",
+  "questionId": "how-a-marriage-is-made-in-each-jurisdiction",
+  "relatedQuestionIds": [
+    "how-two-people-become-a-couple",
+    "how-american-couples-form-in-numbers"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Relationships thread, building couples on the owner's 2026-09-23 answer; under the rule that depth is not invented.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/judicial-office-work.ts",
+      "whatItDidNotSettle": "Reads a legal:marriage partnership for judicial conflicts but says nothing about how one is formed or where."
+    }
+  ],
+  "title": "How a marriage is made, place by place",
+  "usableAnswer": "One row per jurisdiction (56) with minimum age, license issuer, waiting period and validity, officiant and witness rules, common-law marriage status, and the simplest divorce's residency and waiting periods, each cited.",
+  "whyItMatters": "Marriage in play has to follow the law of the place the couple lives, and divorce has to exist for couples to end."
+}

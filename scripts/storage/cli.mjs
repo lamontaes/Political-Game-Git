@@ -5,12 +5,16 @@
  *   status                         limits, free space, registered workspaces
  *   workspace --owner X            the owner's registered folder (never a new one)
  *   register --owner X --path P [--role R]
+ *   release-workspace --owner X --path P
+ *                                  stop reusing one safe, retired workspace; delete separately
  *   protect --path P --reason "…"
  *   run <operation> -- <command>   hold the reservation until the command ends
  *   gate <operation>               admission check only; holds nothing afterwards
  *   output-root --path P [--owner X] [--historical-disposable]
  *                                  name one exact directory as disposable output
  *   outputs [--root P] [--apply]   retention; removes only in a registered root
+ *   outputs --root P --plan FILE [--apply]
+ *                                  remove only exact manifest-bound named runs
  *   check --path P                 every reason a folder may not be retired
  *   record --plan FILE             write each path's content manifest into the plan
  *   retire --plan FILE [--apply]   remove exactly an approved list
@@ -81,6 +85,14 @@ try {
     console.log(
       `registered ${workspace.owner} → ${workspace.path} (${formatBytes(workspace.measuredBytes)})`,
     );
+  } else if (command === "release-workspace") {
+    const workspace = guard.releaseWorkspace({
+      owner: flag("owner"),
+      folder: flag("path"),
+    });
+    console.log(
+      `released ${workspace.owner} → ${workspace.path}; files preserved`,
+    );
   } else if (command === "protect") {
     guard.protect(flag("path"), flag("reason") ?? "protected");
     console.log(`protected ${flag("path")}`);
@@ -128,19 +140,33 @@ try {
   } else if (command === "outputs") {
     const root =
       flag("root") ?? path.join(process.cwd(), "test-results", "runs");
-    const report = guard.pruneOutputs(root, { apply: has("apply") });
-    console.log(
-      `${report.root}: ${formatBytes(report.totalBytes)} in ${report.kept.length + report.removed.length} run(s); budget ${formatBytes(guard.policy.outputBudgetBytes)}; ${report.registered ? "registered output root" : "NOT a registered output root — read-only"}`,
-    );
-    for (const run of report.kept)
-      if (!["recent", "within budget"].includes(run.reason))
+    if (flag("plan")) {
+      const plan = JSON.parse(readFileSync(flag("plan"), "utf8"));
+      const results = guard.retireOutputRuns(root, plan.items, {
+        apply: has("apply"),
+      });
+      for (const result of results)
         console.log(
-          `kept ${formatBytes(run.bytes).padStart(9)} ${run.path} — ${run.reason}`,
+          `${result.removed ? "REMOVED" : "would remove"} ${formatBytes(result.bytes).padStart(9)} ${result.path}`,
         );
-    for (const run of report.removed)
       console.log(
-        `${has("apply") ? "removed" : "would remove"} ${formatBytes(run.bytes).padStart(9)} ${run.path}`,
+        `${has("apply") ? "reclaimed" : "would reclaim"} ${formatBytes(results.reduce((sum, result) => sum + result.bytes, 0))}`,
       );
+    } else {
+      const report = guard.pruneOutputs(root, { apply: has("apply") });
+      console.log(
+        `${report.root}: ${formatBytes(report.totalBytes)} in ${report.kept.length + report.removed.length} run(s); budget ${formatBytes(guard.policy.outputBudgetBytes)}; ${report.registered ? "registered output root" : "NOT a registered output root — read-only"}`,
+      );
+      for (const run of report.kept)
+        if (!["recent", "within budget"].includes(run.reason))
+          console.log(
+            `kept ${formatBytes(run.bytes).padStart(9)} ${run.path} — ${run.reason}`,
+          );
+      for (const run of report.removed)
+        console.log(
+          `${has("apply") ? "removed" : "would remove"} ${formatBytes(run.bytes).padStart(9)} ${run.path}`,
+        );
+    }
   } else if (command === "check") {
     const blockers = guard.retirementBlockers(flag("path"), {
       managedRoot,
