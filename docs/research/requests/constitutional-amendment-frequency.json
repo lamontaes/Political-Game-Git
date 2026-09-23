@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-22T22:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "rule-changing laws (deconstructing systems)",
+  "notes": [
+    "The owner's words: constitutional amendments, state and especially federal, are very rare in most circumstances. The game will propose and ratify amendments with no player, from causes the world records, and needs real rates so decades of observer play look like American history rather than a churn.",
+    "Amendment procedures themselves (legislative referral, initiative, convention, commission, thresholds) are already asked in modern-state-constitutions-fully-mutable. This record asks only how OFTEN each happens and how often proposals fail, so do not repeat the procedures here.",
+    "The engine's present stand-ins, which an answer replaces: a yearly review per chief-executive jurisdiction, proposing only when a recorded cause is present, with rare base rates marked as game profile in src/simulation/living-world/constitutional-reform.ts."
+  ],
+  "priority": "P1",
+  "question": "How often are constitutional amendments proposed and ratified in each of the 50 states, D.C. (Home Rule Act charter amendments) and Puerto Rico, and for the federal Constitution, and what share of proposals fail? Which subjects most often drive them (term limits, legislature size, executive terms, qualifications)?",
+  "questionId": "constitutional-amendment-frequency",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "rule-changing laws thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/modern-state-constitutions-fully-mutable.json",
+      "whatItDidNotSettle": "It asks for procedures and thresholds, not frequencies or failure rates."
+    },
+    {
+      "source": "src/simulation/constitutional-process.ts",
+      "whatItDidNotSettle": "It models federal Article V and California's process from primary text, but holds no rate of amendment at all."
+    }
+  ],
+  "title": "How often constitutions are amended, state by state and federally",
+  "usableAnswer": "Per jurisdiction: amendments proposed and adopted over a stated recent window (for example 1990-2025) and all time, the share of referred proposals that voters or ratifying bodies rejected, and the route each came by (legislative referral, initiative, convention, commission). For the federal Constitution: proposals that cleared Congress versus ratified, and the typical gap between them. Plus a short list of the recurring subjects, with counts where available. Cite a source per row; Ballotpedia and the Book of the States are acceptable starting points if a primary count is not available.",
+  "whyItMatters": "Without real rates the observer world either never amends a constitution or amends one every year. The first is today's behaviour; the second would be worse."
+}
