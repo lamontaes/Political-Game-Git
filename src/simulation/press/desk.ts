@@ -1595,6 +1595,7 @@ function beatForEventType(type: string): MediaBeat {
   if (
     type.startsWith("crisis.") ||
     type.startsWith("disaster.") ||
+    type.startsWith("crime.") ||
     type.startsWith("health.episode-disclosed")
   )
     return "public-safety";
