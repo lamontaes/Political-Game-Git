@@ -19,7 +19,7 @@ import {
 } from "../presentation/ordinary-life";
 import { assertWorldIntegrity, deserializeWorld, serializeWorld } from ".";
 import { addDays } from "./dates";
-import type { World } from "./types";
+import type { EntityId, World } from "./types";
 
 /**
  * The first occasion in play that changes somebody.
@@ -46,16 +46,35 @@ function life(seed: string) {
   };
 }
 
+/**
+ * The first day somebody reaches out. Each pair of people has its own days
+ * for it, so this lets ordinary days pass until one comes, as play does.
+ */
+function firstReachOut(world: World, playerId: EntityId): World {
+  let next = world;
+  for (let day = 0; day < 30; day += 1) {
+    next = produceReachingOut(next, playerId);
+    if (
+      contactProposals(next, playerId).some(
+        (entry) => !entry.answered && entry.toPersonId === playerId,
+      )
+    )
+      return next;
+    next = passOrdinaryDays(next, 1);
+  }
+  return next;
+}
+
 /** Somebody who has reached out to the player, and whose day has gone by. */
 function anAskNobodyAnswered(seed: string) {
   const { world, playerId } = life(seed);
-  const reached = produceReachingOut(world, playerId);
+  const reached = firstReachOut(world, playerId);
   const proposal = contactProposals(reached, playerId).find(
     (entry) => !entry.answered && entry.toPersonId === playerId,
   );
   if (!proposal) return null;
   // Past the evening it was for, without anybody answering it.
-  const later = passOrdinaryDays(reached, 10);
+  const later = passOrdinaryDays(reached, 20);
   return { world: later, playerId, proposal };
 }
 
@@ -95,7 +114,7 @@ describe("somebody reached out and it came to nothing", () => {
 
   it("leaves an ask still ahead of its day alone", () => {
     const { world, playerId } = life("occasion-c");
-    const reached = produceReachingOut(world, playerId);
+    const reached = firstReachOut(world, playerId);
     const open = contactProposals(reached, playerId).find(
       (entry) => !entry.answered,
     );
