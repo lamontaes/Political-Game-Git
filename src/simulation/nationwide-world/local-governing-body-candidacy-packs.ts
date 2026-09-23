@@ -4,6 +4,7 @@ import type { GovernmentUnitIdentity } from "../government-units";
 import { unknownRule } from "../legislature-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { localChiefExecutiveRules } from "./local-chief-executive-rules";
+import { localGoverningBodyName } from "./local-governing-body-names";
 
 /**
  * A town's own governing body as a candidacy pack, for every municipal
@@ -59,11 +60,11 @@ export interface LocalGoverningBodyIdentity {
   /** "City of Bowling Green", the publisher's name in ordinary capitals. */
   readonly governmentName: string;
   /**
-   * "City of Bowling Green governing body", or for a mayor the government
-   * itself, since a mayor sits on no body of that name.
+   * "Seattle City Council" or "Anchorage Assembly" (`local-governing-body-names.ts`),
+   * or for a mayor the government itself, since a mayor sits on no body of that name.
    */
   readonly bodyName: string;
-  /** "Member of the governing body", or the mayor's title, such as "Mayor". */
+  /** "Council member", "Trustee", or the mayor's title, such as "Mayor". */
   readonly officeTitle: string;
 }
 
@@ -80,14 +81,16 @@ export function localGoverningBodyIdentity(
   if (unit.unitType !== "municipality" || !unit.functionalActive) return null;
   const officeKey = `${OFFICE_PREFIX}${unit.publisherId}${OFFICE_SUFFIX}`;
   const governmentName = displayName(unit);
+  // Display only: the office key above never depends on the body's name.
+  const body = localGoverningBodyName(unit);
   return {
     unit,
     seat: "governing-body",
     officeKey,
     candidacyPackId: `${officeKey}:candidacy`,
     governmentName,
-    bodyName: `${governmentName} governing body`,
-    officeTitle: "Member of the governing body",
+    bodyName: body.bodyName,
+    officeTitle: body.memberTitle,
   };
 }
 
