@@ -20,6 +20,11 @@ import {
   NATIONAL_COUNTIES_META,
   NATIONAL_COUNTIES_ROWS,
 } from "./national-counties.generated";
+import {
+  TERRITORY_PLACE_ROWS,
+  TERRITORY_PLACES_META,
+  type TerritoryPlaceRow,
+} from "./territory-places";
 import type { EntityId, Jurisdiction } from "./types";
 
 /**
@@ -569,6 +574,77 @@ function synthesizeNationwidePlace(
   };
 }
 
+/**
+ * A placeholder territory village or town, turned into a playable place.
+ *
+ * Same shape as a corpus locality, with three differences that are the point:
+ * the key and jurisdiction identity are this list's own rather than a Census
+ * code, provenance says `placeholder`, and the jurisdiction kind is
+ * `territory-place` so nothing reads it as a sourced Census place. Its parent
+ * is the territory, never a state.
+ */
+function synthesizeTerritoryPlace(row: TerritoryPlaceRow): LifePlace {
+  const [key, displayName, usps] = row;
+  const territory = STATES[usps];
+  const named = `${displayName}, ${stateName(usps)}`;
+  const jurisdictionId = createStableId("jurisdiction", key);
+  return {
+    key,
+    displayName: named,
+    formalName: null,
+    withinName: stateName(usps),
+    context: {
+      jurisdiction: {
+        id: jurisdictionId,
+        slug: key.replace(/:/g, "-").toLowerCase(),
+        name: named,
+        kind: "territory-place",
+        parentName: stateName(usps),
+        provenance: {
+          asOf: null,
+          source: TERRITORY_PLACES_META.source,
+          jurisdiction: jurisdictionId,
+          status: "placeholder",
+        },
+      },
+      initialMoment: {
+        date: DEMO_START_DATE,
+        minuteOfDay: 9 * 60 + 10,
+        timeZone: territory?.timeZone ?? EASTERN.timeZone,
+        utcOffsetMinutes:
+          territory?.utcOffsetMinutes ?? EASTERN.utcOffsetMinutes,
+      },
+      creationSummary: `Seeded world in ${named}, a placeholder territory place pending the Census Island Areas lists.`,
+      goalScope: named,
+      householdLocationLabel: named,
+    },
+    scope: "locality",
+    stateJurisdictionKey: `US-${usps}`,
+    capabilities: { legislativeScenarioKey: null, candidacyPackId: null },
+  };
+}
+
+let territoryPlaces: ReadonlyMap<string, LifePlace> | null = null;
+
+function territoryPlaceIndex(): ReadonlyMap<string, LifePlace> {
+  territoryPlaces ??= new Map(
+    TERRITORY_PLACE_ROWS.map((row) => [row[0], synthesizeTerritoryPlace(row)]),
+  );
+  return territoryPlaces;
+}
+
+function territoryRowMatches(
+  row: TerritoryPlaceRow,
+  needle: string,
+  inTerritory: boolean,
+): boolean {
+  const local = `${row[1]} ${row[3] ?? ""}`;
+  const haystack = inTerritory
+    ? local
+    : `${local} ${stateName(row[2])} ${row[2]}`;
+  return haystack.toLowerCase().includes(needle);
+}
+
 function placeMatches(place: LifePlace, needle: string): boolean {
   return [place.displayName, place.withinName ?? "", place.formalName ?? ""]
     .join(" ")
@@ -738,6 +814,11 @@ export function searchLifePlaces(
       }
       take(synthesizeNationwidePlace(row));
     }
+    for (const row of TERRITORY_PLACE_ROWS) {
+      if (usps && row[2] !== usps) continue;
+      if (!territoryRowMatches(row, needle, usps !== null)) continue;
+      take(territoryPlaceIndex().get(row[0])!);
+    }
     /*
      * Counties answer to the same filters as everything above. UI144's county
      * rows arrived after the state filter was written, and composed together a
@@ -767,7 +848,8 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
       placeCount:
         allPlaces().length +
         NATIONAL_PLACES_META.recordCount +
-        NATIONAL_COUNTIES_META.recordCount,
+        NATIONAL_COUNTIES_META.recordCount +
+        TERRITORY_PLACE_ROWS.length,
       supportsArbitrarySelection: true,
       outstandingDependency: OUTSTANDING_DEPENDENCY,
       playerNote: PLAYER_NOTE,
@@ -790,6 +872,8 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
     const authored = allPlaces().find((place) => place.key === key);
     if (authored) return authored;
     if (key.startsWith("county:")) return nationwideCounties().get(key) ?? null;
+    if (key.startsWith("territory:"))
+      return territoryPlaceIndex().get(key) ?? null;
     const row = nationwideIndex().get(key);
     return row ? synthesizeNationwidePlace(row) : null;
   },
@@ -802,6 +886,10 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
       (place) => place.context.jurisdiction.id === jurisdictionId,
     );
     if (county) return county;
+    const territory = [...territoryPlaceIndex().values()].find(
+      (place) => place.context.jurisdiction.id === jurisdictionId,
+    );
+    if (territory) return territory;
     // A life started anywhere in the corpus has to be able to find its own
     // place again. Without this, every one of the nationwide places resolved to
     // null the moment anything asked what it could do, so a character living in
