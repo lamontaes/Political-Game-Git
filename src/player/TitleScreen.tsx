@@ -87,7 +87,7 @@ import { PLAYTEST65_WHITE_HOUSE_LAYOUT } from "../presentation/playtest65-visual
  * `title-ambient.ts`. There is no path from here into a World or an RNG.
  */
 
-/** Honours the viewer's own motion preference, and follows it if it changes. */
+/** Honors the viewer's own motion preference, and follows it if it changes. */
 function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
@@ -288,7 +288,7 @@ export function resolvedTitlePresentation(
  * from: the candidate-review bank when this build is in the art preview, the
  * production catalog otherwise. Either way the hero appears only when the
  * private title art and a matching pack variant are present, and resolves to
- * null — today's behaviour — everywhere else.
+ * null — today's behavior — everywhere else.
  */
 export function resolvedTitleLecternHero(
   saves: readonly BrowserWorldSummary[],
@@ -307,6 +307,7 @@ export function TitleScreen({
   savesUnavailable,
   problem,
   onNewGame,
+  onWatch,
   onContinue,
   onOpenSaves,
   onOpenOptions,
@@ -329,6 +330,8 @@ export function TitleScreen({
   readonly savesUnavailable: boolean;
   readonly problem: string | null;
   readonly onNewGame: () => void;
+  /** Observer Mode: open a world with nobody played and let it run. */
+  readonly onWatch?: () => void;
   readonly onContinue: () => void;
   readonly onOpenSaves: () => void;
   readonly onOpenOptions: () => void;
@@ -353,6 +356,12 @@ export function TitleScreen({
         <button type="button" data-testid="new-game" onClick={onNewGame}>
           New game
         </button>
+        {onWatch ? (
+          <button type="button" data-testid="watch-world" onClick={onWatch}>
+            Watch the world
+            <small>Nobody played. It runs on its own.</small>
+          </button>
+        ) : null}
         <button
           type="button"
           data-testid="continue"
@@ -362,7 +371,9 @@ export function TitleScreen({
           Continue
           {recent ? (
             <small>
-              {recent.playerName}, {recent.playerAge}
+              {recent.observing
+                ? "Watching the world"
+                : `${recent.playerName}, ${recent.playerAge}`}
               {recent.residence ? ` \u00b7 ${recent.residence.name}` : ""}
             </small>
           ) : setAside > 0 ? (

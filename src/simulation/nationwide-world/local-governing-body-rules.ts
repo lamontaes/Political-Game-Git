@@ -15,17 +15,25 @@ import { localGoverningBodyIdentity } from "./local-governing-body-candidacy-pac
  * - **Read.** The game has compiled this town's own government, and its
  *   reading states the number of seats or the term. That is the town's rule.
  * - **Typical.** Nothing about this town has been read. Rather than leave a
- *   gap, the town is given a value drawn from what the game HAS read: the
- *   councils it has compiled. A seat count is drawn from the middle half of
- *   the read councils' sizes, so a village is never handed a big
- *   consolidated city's thirty seats, and a term from the terms read anywhere. The draw is
+ *   gap, the town is given a value drawn from the national shares of
+ *   municipal councils in ICMA's 2018 Municipal Form of Government Survey,
+ *   as ChatGPT reported them on 2026-09-22 (answer to
+ *   `local-executive-and-council-rules`; the file is kept verbatim under
+ *   docs/research/chatgpt-answers/2026-09-22-nationwide-2235/). The draw is
  *   stable per town, so a town keeps its council across saves and reloads.
  *
- * PLACEHOLDER, pending research question `town-council-size-by-town-size`:
- * the typical band ignores town size, and the councils read so far are mostly
- * cities. It is replaced by a draw by population band when that is answered.
+ * What that answer does not settle stays marked here rather than made up:
  *
- * A typical value is labelled as typical wherever it is shown, and it never
+ * - The survey gives "4 or fewer" and "8 or more" as bands, not sizes. The
+ *   game draws 4 for the first and, for the second, a size the councils it
+ *   has read actually have between 8 and 15, so a village is never handed a
+ *   big city's thirty seats.
+ * - Shares by town size are not published, so every town draws from the
+ *   same national shares. PLACEHOLDER pending research question
+ *   `town-council-size-by-town-size`.
+ * - "Other" term lengths (1.9%) are left out of the draw.
+ *
+ * A typical value is labeled as typical wherever it is shown, and it never
  * enters the town's candidacy pack as though the town recorded it. Reading a
  * town's charter later replaces the typical value with the read one.
  */
@@ -45,59 +53,92 @@ export interface LocalGoverningBodyRules {
   readonly termYears: LocalRuleValue | null;
 }
 
-interface ReadSpread {
+interface Share {
+  readonly value: number;
+  /** Percent of responding municipalities. */
+  readonly percent: number;
+}
+
+/** ICMA 2018, council size, n=3,910 (see the note above for the bands). */
+const COUNCIL_SIZE_SHARES: readonly Share[] = [
+  { value: 4, percent: 12.0 },
+  { value: 5, percent: 39.3 },
+  { value: 6, percent: 12.5 },
+  { value: 7, percent: 26.1 },
+  // Replaced below by the read sizes from 8 to 15, which share this 10.1%.
+  { value: 8, percent: 10.1 },
+];
+
+/** ICMA 2018, at-large council terms in years, n=3,254; "other" left out. */
+const COUNCIL_TERM_SHARES: readonly Share[] = [
+  { value: 2, percent: 18.6 },
+  { value: 3, percent: 13.1 },
+  { value: 4, percent: 63.6 },
+  { value: 6, percent: 2.8 },
+];
+
+interface TypicalShares {
+  readonly seats: readonly Share[];
+  readonly termYears: readonly Share[];
+}
+
+let shares: TypicalShares | null = null;
+
+/** The national shares, with the "8 or more" band spread over read sizes. */
+function typicalShares(): TypicalShares {
+  if (shares) return shares;
+  const readLarge = new Set<number>();
+  for (const government of municipalGovernments()) {
+    const size = primaryReading(government)?.bodySize ?? null;
+    if (size !== null && size >= 8 && size <= 15) readLarge.add(size);
+  }
+  const large = [...readLarge].sort((a, b) => a - b);
+  const band = COUNCIL_SIZE_SHARES.find((share) => share.value === 8)!;
+  const spread = large.length > 0 ? large : [8];
+  shares = {
+    seats: [
+      ...COUNCIL_SIZE_SHARES.filter((share) => share !== band),
+      ...spread.map((value) => ({
+        value,
+        percent: band.percent / spread.length,
+      })),
+    ],
+    termYears: COUNCIL_TERM_SHARES,
+  };
+  return shares;
+}
+
+/** Every value a typical draw can give, for tests and the record. */
+export function localGoverningBodyReadSpread(): {
   readonly seats: readonly number[];
   readonly termYears: readonly number[];
-}
-
-let spread: ReadSpread | null = null;
-
-/** Every seat count and term the compiled councils state, in a stable order. */
-function readSpread(): ReadSpread {
-  if (spread) return spread;
-  const sizes: number[] = [];
-  const terms: number[] = [];
-  for (const government of municipalGovernments()) {
-    const reading = primaryReading(government);
-    if (!reading) continue;
-    if (reading.bodySize !== null && reading.bodySize > 0)
-      sizes.push(reading.bodySize);
-    for (const term of reading.terms)
-      if (term.years !== null && term.years > 0) terms.push(term.years);
-  }
-  sizes.sort((a, b) => a - b);
-  terms.sort((a, b) => a - b);
-  // The middle half of what was read: the councils at either extreme are big
-  // consolidated cities, which no ordinary town resembles.
-  const lower = sizes[Math.floor((sizes.length - 1) / 4)];
-  const upper = sizes[Math.ceil(((sizes.length - 1) * 3) / 4)];
-  spread = {
-    seats:
-      lower === undefined || upper === undefined
-        ? []
-        : sizes.filter((size) => size >= lower && size <= upper),
-    termYears: terms,
+} {
+  const { seats, termYears } = typicalShares();
+  return {
+    seats: seats.map((share) => share.value).sort((a, b) => a - b),
+    termYears: termYears.map((share) => share.value),
   };
-  return spread;
-}
-
-/** The spread the typical values are drawn from, for tests and the record. */
-export function localGoverningBodyReadSpread(): ReadSpread {
-  return readSpread();
 }
 
 function draw(
-  values: readonly number[],
+  table: readonly Share[],
   unitId: string,
   what: string,
 ): LocalRuleValue | null {
-  if (values.length === 0) return null;
-  const index =
+  if (table.length === 0) return null;
+  const total = table.reduce((sum, share) => sum + share.percent, 0);
+  // A stable point in [0, 1) for this town and this rule.
+  const point =
     Number(
       BigInt(`0x${stableHash(`local-governing-body:${what}:${unitId}`)}`) %
-        BigInt(values.length),
-    ) | 0;
-  return { value: values[index]!, basis: "typical" };
+        1_000_000n,
+    ) / 1_000_000;
+  let reached = 0;
+  for (const share of table) {
+    reached += share.percent / total;
+    if (point < reached) return { value: share.value, basis: "typical" };
+  }
+  return { value: table.at(-1)!.value, basis: "typical" };
 }
 
 /** A single term length the reading states, or null where it states several. */
@@ -127,18 +168,18 @@ export function localGoverningBodyRules(
       ? reading.bodySize
       : null;
   const readYears = government ? readTerm(government) : null;
-  const read = readSpread();
+  const typical = typicalShares();
   return {
     unitId: unit.id,
     researchedGovernmentKey: government?.key ?? null,
     seats:
       readSeats !== null
         ? { value: readSeats, basis: "read" }
-        : draw(read.seats, unit.id, "seats"),
+        : draw(typical.seats, unit.id, "seats"),
     termYears:
       readYears !== null
         ? { value: readYears, basis: "read" }
-        : draw(read.termYears, unit.id, "term"),
+        : draw(typical.termYears, unit.id, "term"),
   };
 }
 

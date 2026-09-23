@@ -52,7 +52,7 @@ export const MODULAR_PERSON_GENERATION_QUEUE: readonly GenerationQueueEntry[] =
     {
       entryId: "facial-hair",
       kind: "facial-hair",
-      description: "Beard and moustache masters at the head's own scale.",
+      description: "Beard and mustache masters at the head's own scale.",
       status: "missing",
       count: 4,
       note: "The slot exists in the catalog and no master has ever been produced for it, in fixture form or otherwise.",
@@ -151,7 +151,7 @@ export const MODULAR_PERSON_GENERATION_QUEUE: readonly GenerationQueueEntry[] =
       count: 35,
       location: "art/generated/approved/pg-modular/",
       blockedBy: "body-complexion-bases",
-      note: "Hashed, reproducible and reviewable at ?view=character-proof&set=real. What they are waiting for is a judgement, and the judgement is currently blocked by the gray bodies underneath them.",
+      note: "Hashed, reproducible and reviewable at ?view=character-proof&set=real. What they are waiting for is a judgment, and the judgment is currently blocked by the gray bodies underneath them.",
     },
 
     // -----------------------------------------------------------------------

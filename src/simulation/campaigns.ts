@@ -1,3 +1,7 @@
+import {
+  MIGRATION_REVIEW_TRANSITION_KEY,
+  migrationReviewHandler,
+} from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
@@ -201,7 +205,7 @@ export const CAMPAIGN_SUPPORT_METRIC_STABLE_KEY =
 /**
  * What the campaign's field memo claims about its own precision. Four points is
  * a claim, not a guarantee: the error below is drawn from a wider range and
- * sometimes lands outside it, which is what makes reading it a judgement.
+ * sometimes lands outside it, which is what makes reading it a judgment.
  */
 const OBSERVATION_MARGIN_BASIS_POINTS = 400;
 
@@ -449,16 +453,6 @@ export interface EnsuredOpponents {
   readonly personIds: readonly EntityId[];
 }
 
-/**
- * Somebody to run against.
- *
- * A contest needs at least two people and a quiet life rarely contains a second
- * one already standing for the seat. So the opponent is materialized the way
- * every other background person in this world is: through the character-history
- * context-person writer, named from the versioned corpus by the world's own
- * seed, with a birth date and a residence and nothing else claimed about them.
- * They are a person in the world afterwards, not a slot in a campaign screen.
- */
 export function ensureCampaignOpponents(
   world: World,
   input: EnsureCampaignOpponentsInput,
@@ -1034,7 +1028,7 @@ export function scheduleCampaignAction(
  * A fundraising session moves nothing. An afternoon on the phones converts the
  * candidate's time into the committee's money, and money persuades nobody until
  * it is spent — which is what an advertising buy is for. Asking somebody who
- * already supports you for a cheque is not the same act as changing a mind, and
+ * already supports you for a check is not the same act as changing a mind, and
  * paying the campaign twice for one afternoon would make the phones strictly
  * better than the doors.
  */
@@ -1963,6 +1957,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
+        // MIGRATION: households leave town, newcomers arrive, waves step.
+        [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),

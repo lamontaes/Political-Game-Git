@@ -281,7 +281,7 @@
       },
       "generationRecipe": [
         "A rented storefront in use as a campaign office: folding tables, mismatched chairs, phones, stacked boxes, a bare wall where a banner would hang.",
-        "Blank walls and blank boards. No candidate name, no slogan, no party colour scheme, no map with places labelled.",
+        "Blank walls and blank boards. No candidate name, no slogan, no party color scheme, no map with places labelled.",
         "Empty of people, with clear foreground floor.",
         "Ordinary and slightly worn rather than glossy."
       ],
@@ -542,8 +542,8 @@
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS",
           "Drive root IMG_5178.PNG"
         ],
-        "found": "The 5056x3392 eight-pose sheet, measured here. Fully transparent pixels carry zero colour, so the background is clean; the defect is confined to the partially-transparent edge, where 67-80 percent of pixels per cell are green-dominant at a mean of roughly (43,79,30). It totals 8.4 percent of the figure's own opaque area. A CORRECTED SINGLE POSE ARRIVED DURING THIS RUN: Drive root IMG_5192.PNG, 5056x3392 RGBA, uploaded 2026-09-04 14:24. It is the standing-conversational pose from this same family with ZERO green-dominant soft-edge pixels, measured the same way \u2014 so the fix is confirmed possible and this request is now about re-exporting the remaining seven poses the same way. It is an unclassified Drive-root upload with no managed copy, so it was measured but NOT ingested. Reconciled against the preserved assets: IMG_5192.PNG is now in the repository rather than only in Drive, and it shows the green contour fix is achievable inside this art family.",
-        "shortfall": "The approved style authority PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png has no silhouette stroke of any colour, so this is out of family rather than house style. Removing it here would mean rewriting the colour of pixels I cannot verify the correct value of, which is a repair the pipeline should not make silently. IMG_5192.PNG does not close it: at 5056x3392 it is the same sheet resolution, so a clean re-export at that size still fails the body floor. The ask is a re-export at production resolution, not only a clean edge."
+        "found": "The 5056x3392 eight-pose sheet, measured here. Fully transparent pixels carry zero color, so the background is clean; the defect is confined to the partially-transparent edge, where 67-80 percent of pixels per cell are green-dominant at a mean of roughly (43,79,30). It totals 8.4 percent of the figure's own opaque area. A CORRECTED SINGLE POSE ARRIVED DURING THIS RUN: Drive root IMG_5192.PNG, 5056x3392 RGBA, uploaded 2026-09-04 14:24. It is the standing-conversational pose from this same family with ZERO green-dominant soft-edge pixels, measured the same way \u2014 so the fix is confirmed possible and this request is now about re-exporting the remaining seven poses the same way. It is an unclassified Drive-root upload with no managed copy, so it was measured but NOT ingested. Reconciled against the preserved assets: IMG_5192.PNG is now in the repository rather than only in Drive, and it shows the green contour fix is achievable inside this art family.",
+        "shortfall": "The approved style authority PG_STYLE_REFERENCE_CHARACTER_P005_APPROVED.png has no silhouette stroke of any color, so this is out of family rather than house style. Removing it here would mean rewriting the color of pixels I cannot verify the correct value of, which is a repair the pipeline should not make silently. IMG_5192.PNG does not close it: at 5056x3392 it is the same sheet resolution, so a clean re-export at that size still fails the body floor. The ask is a re-export at production resolution, not only a clean edge."
       },
       "target": {
         "targetClass": "character-component",
@@ -555,9 +555,9 @@
       },
       "generationRecipe": [
         "Re-export the SAME eight poses from the same source, with no contour, outline or stroke on the silhouette.",
-        "Change nothing else: same body family, same mass and silhouette, same eight poses, same neutral grey bra and briefs, same bare feet, same blank head form.",
-        "Transparent background with a clean anti-aliased edge and no matte colour carried into the semi-transparent pixels.",
-        "If the green line is a deliberate style choice rather than a keying artefact, say so and the project will treat it as house style instead."
+        "Change nothing else: same body family, same mass and silhouette, same eight poses, same neutral gray bra and briefs, same bare feet, same blank head form.",
+        "Transparent background with a clean anti-aliased edge and no matte color carried into the semi-transparent pixels.",
+        "If the green line is a deliberate style choice rather than a keying artifact, say so and the project will treat it as house style instead."
       ],
       "acceptanceCriteria": [
         "Green-dominant pixels are under 2 percent of soft-edge pixels in every cell, measured the same way.",
@@ -605,7 +605,7 @@
         "One full-body standing pose at a lectern, in the SAME body family as the eight-pose sheet: same adult age, same mass and silhouette, same torso-to-leg ratio, same limb thickness.",
         "Hands resting on the top of an unseen lectern at about elbow height, weight settled evenly, square to camera.",
         "The lectern itself is NOT drawn: the room supplies it.",
-        "Same neutral grey bra and briefs, same bare feet, same blank head form as the rest of the family.",
+        "Same neutral gray bra and briefs, same bare feet, same blank head form as the rest of the family.",
         "Transparent background, no silhouette contour."
       ],
       "acceptanceCriteria": [
@@ -708,7 +708,7 @@
       "acceptanceCriteria": [
         "At least 4608 pixels of real width, measured from the file.",
         "Zero baked legible text, addresses or identifiable real buildings.",
-        "A standing contact on the stoop that can be calibrated later; do not invent millimetres in the brief."
+        "A standing contact on the stoop that can be calibrated later; do not invent millimeters in the brief."
       ],
       "dependsOn": [],
       "scope": {
@@ -7184,7 +7184,7 @@
           "src/player/economic-context-panel.css"
         ],
         "driveLocationsSearched": [],
-        "found": "Nothing. art/shared/documents_desk_props/, art/shared/seals_emblems/, art/shared/flags/, art/hero/ and art/events/ each hold only a .gitkeep. art/manifest/asset_manifest.json's 126 assets are env_*, title_*, dev_*, pg_master_* and human_* only; a regex over every asset id for news|paper|masthead|chart|graph|ui|icon|seal|emblem|flag|panel|frame|banner|document|guide|ledger returned nothing but eyewear 'frames' and body 'frame_a/b'. All 24 art/families/ entries are room families. Drive was NOT searched from this session; no Drive access was used, and that is recorded rather than implied. No chart, graph, grid or plotting-paper asset exists, and economic-context-panel.css draws the whole panel from colour values.",
+        "found": "Nothing. art/shared/documents_desk_props/, art/shared/seals_emblems/, art/shared/flags/, art/hero/ and art/events/ each hold only a .gitkeep. art/manifest/asset_manifest.json's 126 assets are env_*, title_*, dev_*, pg_master_* and human_* only; a regex over every asset id for news|paper|masthead|chart|graph|ui|icon|seal|emblem|flag|panel|frame|banner|document|guide|ledger returned nothing but eyewear 'frames' and body 'frame_a/b'. All 24 art/families/ entries are room families. Drive was NOT searched from this session; no Drive access was used, and that is recorded rather than implied. No chart, graph, grid or plotting-paper asset exists, and economic-context-panel.css draws the whole panel from color values.",
         "shortfall": "There is no ground behind any chart in the game. A flat translucent fill is doing the work."
       },
       "target": {
@@ -7285,7 +7285,7 @@
         ],
         "driveLocationsSearched": [],
         "found": "Nothing. art/shared/documents_desk_props/, art/shared/seals_emblems/, art/shared/flags/, art/hero/ and art/events/ each hold only a .gitkeep. art/manifest/asset_manifest.json's 126 assets are env_*, title_*, dev_*, pg_master_* and human_* only; a regex over every asset id for news|paper|masthead|chart|graph|ui|icon|seal|emblem|flag|panel|frame|banner|document|guide|ledger returned nothing but eyewear 'frames' and body 'frame_a/b'. All 24 art/families/ entries are room families. Drive was NOT searched from this session; no Drive access was used, and that is recorded rather than implied. politics-hub.css contains no url() and no image reference of any kind.",
-        "shortfall": "No navigation chrome art exists. The strip is colour values only."
+        "shortfall": "No navigation chrome art exists. The strip is color values only."
       },
       "target": {
         "targetClass": "interface-graphic",
@@ -7371,7 +7371,7 @@
         "runtimeComponent": "no runtime consumer yet",
         "playerVisibleUse": "A chamber view showing how a legislature divides by caucus, and the margin on a vote. No interface reads this yet: `byCaucus` is already computed for every chamber and nothing renders it."
       },
-      "whyNeeded": "The owner listed graphs among the art he wants, and this is the graph the game already has the numbers for. Every chamber's division by caucus is computed and read by no interface, so the missing piece is one screen rather than a system \u2014 and a screen of bare numbers is not what a chamber division should look like. Filing the art now means the screen is not held up waiting for it. Jurisdiction-independent: the treatment is the same for any chamber; the caucus names, counts and colours come from the world.",
+      "whyNeeded": "The owner listed graphs among the art he wants, and this is the graph the game already has the numbers for. Every chamber's division by caucus is computed and read by no interface, so the missing piece is one screen rather than a system \u2014 and a screen of bare numbers is not what a chamber division should look like. Filing the art now means the screen is not held up waiting for it. Jurisdiction-independent: the treatment is the same for any chamber; the caucus names, counts and colors come from the world.",
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/manifest/asset_manifest.json (all 126 assets, by asset_type and asset_id)",
@@ -7394,12 +7394,12 @@
       },
       "generationRecipe": [
         "The parts a chamber division is drawn from, not a finished chart: a seat mark that reads at small size, a rule for the line a majority sits at, and a bracket or cap for the margin.",
-        "The seat mark must work when it is repeated a hundred and more times and must stay readable when it is tinted, because caucus colours are generated per world.",
-        "Neutral between sides. Nothing in the pieces may favour one caucus, and no piece may carry a party's iconography.",
+        "The seat mark must work when it is repeated a hundred and more times and must stay readable when it is tinted, because caucus colors are generated per world.",
+        "Neutral between sides. Nothing in the pieces may favor one caucus, and no piece may carry a party's iconography.",
         "No words, no numbers, no percentages in the artwork. Every count and name on that screen comes from the simulation."
       ],
       "acceptanceCriteria": [
-        "The seat mark is legible repeated a hundred times at small size, and legible tinted any colour.",
+        "The seat mark is legible repeated a hundred times at small size, and legible tinted any color.",
         "Contains no text and no numerals. A delivery with any lettering in it is wrong however good it looks.",
         "Carries no party iconography and reads as neutral between sides.",
         "The division rule and margin bracket read as belonging to the same set as the seat mark."
@@ -7494,7 +7494,7 @@
       },
       "generationRecipe": [
         "A small stack of loose papers and post as it would actually lie on a living-room table, seen from the room's own angle rather than flat-on.",
-        "Two states at identical size and registration. At rest it is tidy and closed and reads as furniture. Attentive, something has plainly arrived \u2014 a corner lifted, an envelope not yet opened, the stack a little out of square. The difference must be legible at a glance and without any change in colour temperature, because the room is painted for its time of day.",
+        "Two states at identical size and registration. At rest it is tidy and closed and reads as furniture. Attentive, something has plainly arrived \u2014 a corner lifted, an envelope not yet opened, the stack a little out of square. The difference must be legible at a glance and without any change in color temperature, because the room is painted for its time of day.",
         "No lettering of any kind: no words, no numerals, no letterhead, no masthead, no handwriting that reads as words. Everything written in this game is generated per world, and a printed word in the artwork would be a sentence the simulation never said.",
         "No seal, flag, party mark or any civic insignia. Those are canonical and never drawn.",
         "It must survive being tinted and dimmed with the rest of the room, and must stay readable at the size the table occupies on a phone."
@@ -7519,7 +7519,7 @@
         "runtimeComponent": "src/presentation/character-components.ts",
         "playerVisibleUse": "The face and hair of every person the player meets: family, colleagues, opponents, the figure at the lectern on the title screen, and the player's own character."
       },
-      "whyNeeded": "Counted across all three banks on 2026-09-22, the project holds no head and no hair component outside the thirty-five pieces D-063 refused by eye for being untextured grey mannequins. The twenty-two banked bodies have no head to go with them; what they have instead is a head painted into the body raster, bald and featureless, recorded as baked_slots [\"head\"] on all eighteen derived bodies. The compositor handles a baked slot correctly, so this is not a rendering defect. The consequence is that approving every body in the bank would still put nobody new on screen, and forcing them in would give every person in the game one shared bald head with nothing variable above the neck. This is the single art gap between the banked bodies and people who look like people.",
+      "whyNeeded": "Counted across all three banks on 2026-09-22, the project holds no head and no hair component outside the thirty-five pieces D-063 refused by eye for being untextured gray mannequins. The twenty-two banked bodies have no head to go with them; what they have instead is a head painted into the body raster, bald and featureless, recorded as baked_slots [\"head\"] on all eighteen derived bodies. The compositor handles a baked slot correctly, so this is not a rendering defect. The consequence is that approving every body in the bank would still put nobody new on screen, and forcing them in would give every person in the game one shared bald head with nothing variable above the neck. This is the single art gap between the banked bodies and people who look like people.",
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/manifest/asset_manifest.json",
@@ -7533,7 +7533,7 @@
           "00_OUR_CIVIC_DUTY_ASSET_FACTORY_ACTIVE/30_CHARACTER_CANDIDATES",
           "05_4K_SOURCE_MASTERS/05C_PEOPLE_POSE_SOURCE_SHEETS"
         ],
-        "found": "Heads: five candidates and six released, every one of the eleven either a D-063 grey mannequin or a dev_ fixture drawn by a repository script. Hair: eight candidates and seven released, on the same footing. The wave-a and ocd banks, which hold the twenty-two bodies and all eighty-nine wardrobe derivatives, hold zero of either kind.",
+        "found": "Heads: five candidates and six released, every one of the eleven either a D-063 gray mannequin or a dev_ fixture drawn by a repository script. Hair: eight candidates and seven released, on the same footing. The wave-a and ocd banks, which hold the twenty-two bodies and all eighty-nine wardrobe derivatives, hold zero of either kind.",
         "shortfall": "There is nothing to search further. No head or hair drawn for the current body direction exists anywhere in the repository or the Drive exchange, and no recovery pass produces one, because the bodies carry their heads baked into the same raster rather than as a layer that could be separated."
       },
       "target": {
@@ -7575,7 +7575,7 @@
         "runtimeComponent": "src/player/PlayerGame.tsx",
         "playerVisibleUse": "The day a player actually lives in: what happened, and what is waiting on them. It is the surface an ordinary life is spent on and the one they return to after every other screen."
       },
-      "whyNeeded": "This is the most-read surface in the game and it is entirely typography. Its whole visual treatment is font size, colour and a one-pixel rule; nothing separates the day's account of itself from the list of things standing. A player who has been playing for an hour has read this screen more than any other and has never seen a picture on it. Jurisdiction-independent: the furniture is the page, not the place. Everything printed on it — names, dates, the things themselves — is generated per world. Filed by the people and life thread on 2026-09-22T07:10:00.000Z (inspection).",
+      "whyNeeded": "This is the most-read surface in the game and it is entirely typography. Its whole visual treatment is font size, color and a one-pixel rule; nothing separates the day's account of itself from the list of things standing. A player who has been playing for an hour has read this screen more than any other and has never seen a picture on it. Jurisdiction-independent: the furniture is the page, not the place. Everything printed on it — names, dates, the things themselves — is generated per world. Filed by the people and life thread on 2026-09-22T07:10:00.000Z (inspection).",
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/manifest/asset_manifest.json",
@@ -7622,7 +7622,7 @@
         "runtimeComponent": "src/player/PlayerGame.tsx",
         "playerVisibleUse": "The list of things waiting on the player, where each entry is one of three different states: still open and standing, refused by the player, or lapsed because its time passed without them ever being asked."
       },
-      "whyNeeded": "These three states were made genuinely different in the simulation and the interface still draws them identically. Every entry in that list is marked by the same 4px grey dot at src/player/player.css:4992 — a thing the player turned down, a thing that expired without them being asked, and a thing still waiting all look the same. The distinction matters because a refusal is something the player did and a lapse is something that happened to them, and a player who cannot tell them apart will read every expired hold as a decision they made. Jurisdiction-independent: these are states of the player's own calendar, not of any place. Filed by the people and life thread on 2026-09-22T07:10:00.000Z (inspection).",
+      "whyNeeded": "These three states were made genuinely different in the simulation and the interface still draws them identically. Every entry in that list is marked by the same 4px gray dot at src/player/player.css:4992 — a thing the player turned down, a thing that expired without them being asked, and a thing still waiting all look the same. The distinction matters because a refusal is something the player did and a lapse is something that happened to them, and a player who cannot tell them apart will read every expired hold as a decision they made. Jurisdiction-independent: these are states of the player's own calendar, not of any place. Filed by the people and life thread on 2026-09-22T07:10:00.000Z (inspection).",
       "inventoryCheck": {
         "repositoryPathsSearched": [
           "art/manifest/asset_manifest.json",
@@ -7648,16 +7648,116 @@
       },
       "generationRecipe": [
         "Three small marks, read at roughly 16px, for: still standing, turned down by the player, and time ran out without an answer.",
-        "Distinguishable from each other at a glance without colour alone, because colour is the first thing a player loses to a screen or to their own eyes.",
+        "Distinguishable from each other at a glance without color alone, because color is the first thing a player loses to a screen or to their own eyes.",
         "Lapsed must not read as a failure or a rebuke. Nothing was done wrong; the player was never asked.",
         "No lettering, no numerals, no check marks or crosses that imply correct and incorrect.",
         "Quiet enough to sit beside body text in a list that may run long."
       ],
       "acceptanceCriteria": [
-        "The three are told apart at 16px, in greyscale, by somebody who has not been told what they mean.",
+        "The three are told apart at 16px, in grayscale, by somebody who has not been told what they mean.",
         "None of the three reads as praise or blame.",
         "Contains no lettering or numerals.",
         "Sits in a text list without pulling the eye away from the words."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "ui-election-night-result",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "A treatment for the night a player finds out whether they won",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/CampaignWorkspace.tsx",
+        "playerVisibleUse": "Election night. The moment the player finds out whether they won the seat they spent the campaign on. It shows one sentence naming the winner, then one line per candidate with their share."
+      },
+      "whyNeeded": "Winning or losing an election is the single largest thing that happens to a character in this game, and it is the payoff for every week the player spent on the campaign. It currently arrives with no more visual weight than a line about a meeting. A refusal to put a character on a ballot already has a request filed for it (ui-no-candidacy-refusal-panel) on exactly this reasoning; the result at the other end of the same campaign has nothing. Measured rather than assumed: eleven candidacies played to a decided result on 2026-09-22 and every one of them ended on the same four plain lines. Jurisdiction-independent: A result is a result in every state and for every office. The sentence and the rows inside it are generated per contest; the treatment around them is the same wherever the seat is. Filed by playtest thread on 2026-09-22T14:40:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/requests/asset-requests.json",
+          "art/requests/incoming/",
+          "art/requests/promotions/",
+          "src/player/CampaignWorkspace.tsx"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing. All 126 records in the asset manifest were read by asset_type: 109 character components (character-component 46, candidate 35, master 28), 13 environment records (environment-plate 11, environment-master 2), 1 environment-foreground-mask, 1 environment-reference-master and 2 authored-character-pose. There is no interface graphic of any kind in the manifest. All 37 filed requests were read by requestId: seven are interface work — ui-newspaper-page-furniture, ui-masthead-ornaments-four-families, ui-shell-reference-icons, economic-graph-panel-ground, guide-popover-card-ground, politics-hub-tab-band and ui-chamber-vote-margin-graph — and none of them is an election result. ui-chamber-vote-margin-graph is the nearest and is a different thing: how a chamber divides on a measure, not how a contest ended.",
+        "shortfall": "The surface is finished, reachable and played to the end eleven times on 2026-09-22, and it has no artwork. `campaign-result` in src/player/CampaignWorkspace.tsx is a bare <div> with one sentence and a plain <ul> of <li> rows. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "minimumWidth": 1780,
+        "aspectRatio": "a wide panel that stretches vertically; measured at 890 CSS pixels of content width in the Campaigns panel at a 1440x900 viewport, so 1780 is that at 2x device pixels",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "the existing player shell's own type and spacing, as the newspaper page furniture and the Guide popover card were judged; the artwork frames the result rather than restyling it.",
+        "targetClass": "interface-graphic"
+      },
+      "generationRecipe": [
+        "A ruled ground for a short table of results: a returns board or a printed canvass sheet, the thing results were read off before there was a screen. Counted and official rather than celebratory.",
+        "It must hold THREE TO FIVE rows without distortion or a visible seam. Two was the only case until 2026-09-22, when the single hardcoded opponent was replaced with a field of two to four; measured in the browser the same day, Chicago returned five candidates and Galena five.",
+        "A sentence sits above the rows, one to two lines, naming who won.",
+        "No words, numerals or lettering of any kind in the artwork. Every name and every share is generated for that contest.",
+        "No party marks, emblems or colours. The parties in this game are real organizations and their branding is not ours to draw.",
+        "The same treatment is used whether the player won or lost, so nothing in it may read as a trophy or as a defeat. The game's own position is that a lost election leaves the life running."
+      ],
+      "acceptanceCriteria": [
+        "Reads at a glance as the end of something, distinct from the ordinary notes above it on the same panel.",
+        "Holds three, four and five rows equally well; a delivery that only composes at two candidates is wrong.",
+        "Contains no text, numerals or lettering. A delivery with any lettering in it is wrong however good it looks.",
+        "Carries no party emblem, colour coding or anything that could be read as one.",
+        "Reads the same for a win and for a loss.",
+        "Does not reduce the contrast of the names and percentages sitting on it."
+      ],
+      "dependsOn": []
+    },
+    {
+      "requestId": "ui-local-party-chapter-card",
+      "requestVersion": 1,
+      "priority": "P2",
+      "status": "queued",
+      "title": "Card ground for a local party chapter and what it is doing this week",
+      "consumer": {
+        "consumerId": "no-declared-consumer",
+        "runtimeComponent": "src/player/CampaignWorkspace.tsx",
+        "playerVisibleUse": "The Party and community work block on the campaign surface, and the chapter listing on Politics ▸ Parties. It names the local chapter and its organizer and offers five things the player can ask to come to."
+      },
+      "whyNeeded": "Party evolution is one of the systems lamontae has said must ship, and the chapter block is where an ordinary player meets it first — before any office, in every town in the country, including the ones where the game refuses them a ballot. It is currently the only thing on some of those screens that is not a refusal, and it looks like a list. Measured rather than assumed: fifteen towns walked on 2026-09-22, two chapters with named organizers and five activities in every single one. Jurisdiction-independent: A chapter is the same object in every town the game has walked, from Galena, Illinois to Chicago, and the artwork carries no party mark, so nothing in it can be jurisdiction-specific. Filed by playtest thread on 2026-09-22T14:40:00.000Z (inspection).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/requests/asset-requests.json",
+          "art/requests/incoming/",
+          "art/requests/promotions/",
+          "src/player/CampaignWorkspace.tsx"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Nothing. All 126 manifest records were read by asset_type and none is an interface graphic; all 38 filed requests were read by requestId and the eight interface ones cover the newspaper, the masthead ornaments, the shell icons, the economic graph ground, the Guide popover card, the Politics hub tab band, the chamber vote-margin graph and the election night result filed alongside this one. ui-shell-reference-icons is the nearest neighbour: it includes a small icon standing for an organization such as a local party chapter, which is a pin-rail mark rather than a ground for the chapter's own block.",
+        "shortfall": "The block is reachable in every town the game has walked and has nothing behind it. Measured on 2026-09-22: fifteen towns, from Chicago to Galena, Illinois at about three thousand people, and every one of them rendered two chapters with a named organizer and five activities — including Nashville, Helena and San Juan, where the game refuses the player a ballot and the chapter is the only thing on the screen that is not a refusal. Drive was not searched: the bench exchange is the return path for delivered artwork, not a place to look for art nobody has made yet."
+      },
+      "target": {
+        "minimumWidth": 1780,
+        "aspectRatio": "a wide card that stretches vertically; measured at 890 CSS pixels of content width in the Campaigns panel at a 1440x900 viewport, so 1780 is that at 2x device pixels",
+        "alphaRequired": true,
+        "container": "png",
+        "styleAuthority": "the existing player shell's own type and spacing, as the Guide popover card ground was judged; the artwork grounds the block rather than restyling the controls on it.",
+        "targetClass": "interface-graphic"
+      },
+      "generationRecipe": [
+        "A card ground for a block that names a local chapter, its organizer, and the things it is doing. The reference is the noticeboard in a hired room: a pinned sheet, a taped corner, a folding table. Local and provisional rather than institutional.",
+        "It must stretch. The chapter name runs long — 'County of Jo Daviess Democrats' and 'Nashville-Davidson metropolitan government Democrats' are both real strings this surface has rendered — and the activity controls below it wrap to two rows at a 1440-wide viewport.",
+        "No party marks, emblems, colours or names of any kind. One ground serves both parties and any third, and the emblems of real organizations are not ours to draw.",
+        "Nothing that implies a scale. The chapter is the same object in a town of three thousand and a city of two point seven million.",
+        "Nothing that reads as a membership card, a badge or a pledge. The surface says in its own words that coming to any of this is not joining, endorsing or voting, and the artwork must not contradict it.",
+        "No words, numerals or lettering of any kind in the artwork."
+      ],
+      "acceptanceCriteria": [
+        "Reads as a local, temporary gathering rather than an institution or a party organ.",
+        "Carries no party emblem, colour coding, or anything a player could read as one; the identical ground under a Democratic and a Republican chapter must look deliberate rather than like a missing variant.",
+        "Stretches to a chapter name of up to about sixty characters and to one or two rows of activity controls without distortion or a visible seam.",
+        "Contains no text, numerals or lettering.",
+        "Does not read as a membership card, a badge or an endorsement.",
+        "Does not reduce the contrast of the organizer's name or the controls sitting on it."
       ],
       "dependsOn": []
     },
@@ -7694,21 +7794,70 @@
       "generationRecipe": [
         "Eleven marks, one per pole, at identical size and optical weight: Reserved / Outgoing; Thinks it through / Acts on impulse; Conciliatory / Confrontational; Lets things slip / Follows through; Cautious / Takes chances; and one for \"Neither, much\", which a person genuinely holds and which must not read as an absence or a blank.",
         "Each pair must read as two ends of one thing rather than as a good one and a bad one. None of these is a fault: somebody conciliatory and somebody confrontational are both whole people, and a player should not be able to tell from the marks alone which the game approves of.",
-        "Nothing that reads as a measurement: no scale, dial, meter, bar, star, tick, cross, filled-versus-empty pair, or anything that implies a number or a score. These are fictional behaviour tendencies and the game never reports them as a quantity.",
+        "Nothing that reads as a measurement: no scale, dial, meter, bar, star, tick, cross, filled-versus-empty pair, or anything that implies a number or a score. These are fictional behavior tendencies and the game never reports them as a quantity.",
         "No lettering of any kind, no initials and no numerals \u2014 everything written in this game is generated per world.",
         "No seal, flag, party mark or civic insignia, and no facial expressions: a face here would contradict the portrait beside it.",
-        "Legible at the size of a line of body text on a phone, in one flat colour the interface can tint, since the card is themed and these sit inside a sentence."
+        "Legible at the size of a line of body text on a phone, in one flat color the interface can tint, since the card is themed and these sit inside a sentence."
       ],
       "acceptanceCriteria": [
         "Eleven files, identical size and registration, each readable at body-text size on a phone.",
         "Shown the pair without the words, a person can say the two belong to the same question, and cannot say which end the game prefers.",
         "Nothing in the set reads as a rating, a score or a filled-versus-empty measurement.",
-        "\"Neither, much\" is a mark of its own and does not read as a missing or greyed-out one.",
+        "\"Neither, much\" is a mark of its own and does not read as a missing or grayed-out one.",
         "Contains no text and no numerals. A delivery with any lettering in it is wrong however good it looks.",
         "Carries no seal, flag or party mark, and no face.",
         "Sits inline in the temperament line without pushing the card's layout around or out-weighing the person's name."
       ],
       "dependsOn": ["ui-shell-reference-icons"]
+    },
+    {
+      "requestId": "env-domestic-small-town-house-living-room",
+      "requestVersion": 1,
+      "priority": "P1",
+      "status": "queued",
+      "title": "A small-town house living room, for lives that do not start in a city",
+      "consumer": {
+        "consumerId": "ordinary-domestic-life",
+        "runtimeComponent": "src/presentation/life-scene.ts",
+        "playerVisibleUse": "The household room shown behind everyday life at home, which is most of play. Seen on a walk in Presque Isle, Maine (about 9,000 people): the home showed a city apartment with brick blocks outside the window."
+      },
+      "whyNeeded": "Home is where ordinary life happens, so this is the room most small-town and rural players see most often. A city apartment in a town of 9,000 tells the player the game does not know where they live. Jurisdiction-independent: The gap is the kind of settlement, not a state: every life outside a large city gets a city apartment today. One ordinary small-town house interior serves towns across the country; regional look is carried by the opening plate, and a window view should show nothing region-specific (a yard, a street of houses, trees), so it does not claim a climate. Filed by art bench and regional scenes thread on 2026-09-22T23:45:00.000Z (playtest).",
+      "inventoryCheck": {
+        "repositoryPathsSearched": [
+          "art/manifest/asset_manifest.json",
+          "art/families/apartment-ordinary/",
+          "art/families/",
+          "art/requests/asset-requests.json",
+          "src/presentation/scene-registry.ts (DOMESTIC_SCENE_IDS)",
+          "src/presentation/life-scene.ts"
+        ],
+        "driveLocationsSearched": [],
+        "found": "Every home interior in the project is an apartment. The manifest's 134 assets hold three domestic records, all in the apartment-ordinary family: canonical 03 and ordinary 02 (released, measured on disk at 1376x768 RGBA PNG, with 5504x3072 masters) and modest 01 (a 1376x768 master, unreleased). No other art family under art/families/ is residential. DOMESTIC_SCENE_IDS lists only canonical 03 and ordinary 02, and resolveLifeScene picks between them by hashing the household id, so where a life is has no bearing on the room.",
+        "shortfall": "An apartment with brick blocks outside the window cannot stand for a house in a town of a few thousand. Drive was not searched: the bench exchange is the return path for delivered artwork, not a store of art nobody has asked for, and no request for a house interior has ever been filed."
+      },
+      "target": {
+        "targetClass": "environment-plate",
+        "minimumWidth": 4608,
+        "aspectRatio": "16:9",
+        "alphaRequired": false,
+        "container": "either",
+        "styleAuthority": "The released apartment living rooms, art/families/apartment-ordinary/env_residence_apartment_living_canonical_03_v1.png and env_residence_apartment_living_ordinary_02_v1.png, which are the style reference the existing domestic request (env-domestic-living-room-4k-masters) was judged against."
+      },
+      "generationRecipe": [
+        "The living room of an ordinary detached single-family house in an American small town, seen first person from where a resident would stand, in the same drawn style as the released apartment living rooms.",
+        "Modest and lived-in: a couch, an armchair, a coffee table, a lamp, a television or bookshelf, a rug over wood or carpet. Nothing wealthy and nothing run-down.",
+        "Windows show a yard, a neighboring house or trees, framed so the season is not stated: no snow, no autumn color, no bare branches, or curtains drawn part-way. No apartment blocks, no city skyline, no brick street wall.",
+        "No people and no pets drawn in. Present household members are rendered separately on top.",
+        "No text, flags, party signs or anything that names a state or region."
+      ],
+      "acceptanceCriteria": [
+        "Reads as a house, not an apartment: nothing visible through the window is a multi-story residential block or city street wall.",
+        "The window view states no season: a snowy, bare-branch or autumn-colored view is wrong for this request.",
+        "Empty of people and animals.",
+        "At least 4608 pixels wide at 16:9, measured from the delivered file, not upscaled from a smaller original.",
+        "Matches the drawing style of the released apartment living rooms closely enough to sit in the same game."
+      ],
+      "dependsOn": []
     }
   ]
 }

@@ -1,3 +1,4 @@
+import { governmentUnitDisplayName } from "./government-unit-names";
 import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { unknownRule } from "../legislature-rules";
@@ -12,7 +13,7 @@ import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
  * establishes that this municipal government exists; the game then holds, as
  * its own disclosed profile, that a general-purpose municipal government has a
  * governing body its residents elect. That is the one thing this file adds,
- * and it is labelled as the game's, not the law's.
+ * and it is labeled as the game's, not the law's.
  *
  * Everything a real charter or statute would settle stays UNKNOWN here on
  * purpose: how many seats, whether they are at large or by ward, who may
@@ -46,24 +47,7 @@ export interface LocalGoverningBodyIdentity {
   readonly bodyName: string;
 }
 
-const LOWERCASE_WORDS = new Set(["of", "the", "and", "de", "la", "du"]);
-
-/** Same casing rule as `localGovernmentDisplayName`, kept leaf-local. */
-function displayName(unit: GovernmentUnitIdentity): string {
-  return unit.name
-    .toLowerCase()
-    .split(" ")
-    .map((word, index) =>
-      index > 0 && LOWERCASE_WORDS.has(word)
-        ? word
-        : word.replace(
-            /(^|[-'(])([a-z])/g,
-            (_, lead: string, letter: string) =>
-              `${lead}${letter.toUpperCase()}`,
-          ),
-    )
-    .join(" ");
-}
+const displayName = governmentUnitDisplayName;
 
 /**
  * The governing body of one municipal government, or null for anything that

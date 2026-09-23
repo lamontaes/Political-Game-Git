@@ -19,7 +19,7 @@ describe("simulation dates", () => {
   });
 
   it("treats a short month's last day as the anniversary", () => {
-    // 31 January has no 31 February, so 28 February is a completed month
+    // January 31 has no February 31, so February 28 is a completed month
     // rather than nought. Counting days instead would get this wrong in the
     // direction that refuses somebody the law admits.
     expect(months("2026-01-31", "2026-02-28")).toBe(1);

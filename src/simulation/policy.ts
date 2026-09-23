@@ -50,7 +50,7 @@ export function createPolicyIssueDefinition(
     domainId,
     name,
     description,
-    // Omitted rather than empty: an issue nobody routed must serialise as it
+    // Omitted rather than empty: an issue nobody routed must serialize as it
     // did before levels existed, so the accepted bytes of a world carrying
     // unrouted issues stay true and an older save stays readable.
     ...(levels.length > 0 ? { levels: [...levels] } : {}),
@@ -75,7 +75,7 @@ export function createPolicyPropositionDefinition(
     parameters: parameters.map((parameter) => ({ ...parameter })),
     tags: canonical(tags),
     // Omitted, not written empty: a proposition whose pack declares no
-    // principle has to serialise byte-for-byte as it did before the field
+    // principle has to serialize byte-for-byte as it did before the field
     // existed. See `PolicyPropositionDefinition.principles`.
     ...(principles.length > 0
       ? {

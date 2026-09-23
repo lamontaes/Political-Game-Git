@@ -1,4 +1,4 @@
-import { compiledTraitPacks } from "./life-mind-content";
+import { compiledTraitPacks } from "./compiled-trait-packs";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
 import {
   BARGAINING_ANSWER_OFFER_DECISION,

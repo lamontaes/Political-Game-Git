@@ -68,7 +68,7 @@ function fixture(kind: "footwear" | "top" = "footwear") {
     name: "Test garment",
     category: "Clothes",
     style: "Everyday cut",
-    colour: "Source colour",
+    colour: "Source color",
     formality: "Everyday",
     provenance: family.provenance,
     variants: [

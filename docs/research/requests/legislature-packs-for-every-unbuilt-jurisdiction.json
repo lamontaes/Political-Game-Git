@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-22T23:50:00.000Z",
+  "impact": "blocks-work",
+  "lane": "nationwide government",
+  "notes": [
+    "Where lamontae's intent is needed rather than a fact, write it as a short numbered question he can answer in a word, with your recommendation marked; do not decide it for him.",
+    "Nationwide research comes as one complete set, never state tranches (lamontae's standing rule)."
+  ],
+  "priority": "P1",
+  "question": "The game has full legislature rules for only nine states (Alaska, Illinois, Kentucky, Maryland, Minnesota, Missouri, Nebraska, Nevada, Ohio). For each of the other 41 states, D.C. and the five inhabited territories (Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands), answered as one set: the chambers and their seat counts; term lengths and whether terms are staggered; when regular sessions meet and for how long, and who can call a special session; quorum; the vote needed to pass a bill, to override a veto, to pass a budget or tax bill, and to propose a constitutional amendment; how a bill moves (introduction, committee referral, readings, floor, the other chamber, conference, presentment to the executive); whether bills carry over between sessions; and how a vacancy is filled. Cite the constitutional, statutory or rule provision and mark anything not found as UNKNOWN.",
+  "questionId": "legislature-packs-for-every-unbuilt-jurisdiction",
+  "readFirst": {
+    "saidAt": "2026-09-22T23:44:56.000Z",
+    "saidBy": "lamontae",
+    "words": "Give a request to ChatGPT about the legislatures that aren't built."
+  },
+  "relatedQuestionIds": [
+    "generated-legislature-session-frequency-and-carryover",
+    "legislative-step-pacing-and-veto-override",
+    "state-legislative-election-calendars"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, from lamontae's message of 2026-09-22 7:44 p.m. Eastern",
+  "sourcesChecked": [
+    {
+      "source": "data/source/state-legislatures/coverage.json and src/simulation/legislature-rule-packs.ts at main 16f22202",
+      "whatItDidNotSettle": "Procedural packs exist only for AK, IL, KY, MD, MN, MO, NE, NV and OH."
+    },
+    {
+      "source": "generated-legislature-session-frequency-and-carryover (research record)",
+      "whatItDidNotSettle": "It covers the generated fallback's sessions and carryover, not each real legislature's full rules."
+    }
+  ],
+  "title": "Full legislature rules for every state and territory the game has not built",
+  "usableAnswer": "One row per jurisdiction (47 rows) with each field listed in the question, a citation for each, and an evidence status per field (verified primary, secondary, UNKNOWN). For D.C., treat the Council as the legislature and note Congress's review of its acts. For each territory, name its legislature and any federal limits on it.",
+  "whyItMatters": "In the 43 states and places without a procedural pack, a player who wins a legislative seat meets scripted counts or a generated range, not that legislature's real rules. data/source/state-legislatures/coverage.json (as of 2026-09-06) lists procedural packs for exactly nine states; eight more have identity only. lamontae asked on 2026-09-22 for the unbuilt legislatures to go to research as one set."
+}

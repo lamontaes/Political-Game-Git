@@ -226,7 +226,7 @@ describe("A Kentucky bill changing the House's rules", () => {
     const enactment = world.history.legislativeEnactments!.at(-1)!;
     expect(enactment.outcome).toBe("enacted");
     // Nothing in play dates an act, and Kentucky's effective-date rule is not
-    // modelled, so the blanket ninety days applies and says so.
+    // modeled, so the blanket ninety days applies and says so.
     expect(enactment.effectiveAt).toBeNull();
     const effectiveAt = addDays(enactment.resolvedAt, 90);
     expect(enactedRuleChanges(world)[0]?.operativeBasis).toBe("game-default");
@@ -740,6 +740,6 @@ describe("A California constitutional amendment changing a rule", () => {
         },
         ordinaryMeasureId: null,
       }),
-    ).toThrow(/federal and charter changes are not modelled/);
+    ).toThrow(/federal and charter changes are not modeled/);
   });
 });

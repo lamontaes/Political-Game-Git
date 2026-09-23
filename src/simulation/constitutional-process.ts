@@ -74,7 +74,7 @@ const CALIFORNIA_BASE = fractionOf(
  * result an amendment takes effect.
  *
  * California's is read from its constitution. Every other state's is NOT
- * MODELLED: its proposal and ratification procedure is asked in
+ * MODELED: its proposal and ratification procedure is asked in
  * `modern-state-constitutions-fully-mutable`. Blanket rule meanwhile: two
  * thirds of the membership of each chamber of the state's legislature (its
  * compiled or game-profile legislature, with the same seat counts every other
@@ -99,7 +99,7 @@ const GAME_PROFILE_AMENDMENT_SOURCE: RuleSourceRef = {
   sourceUrl: null,
   retrievedAt: null,
   verification: "game-profile",
-  note: "Not this state's law. Its real amendment procedure is not modelled yet; two-thirds of each chamber's membership is the game's blanket rule until it is.",
+  note: "Not this state's law. Its real amendment procedure is not modeled yet; two-thirds of each chamber's membership is the game's blanket rule until it is.",
 };
 
 export function stateAmendmentProfile(
@@ -269,7 +269,7 @@ export function constitutionalProposalRuleForWorld(
     rule: constitutionalProposalRuleAt(world, key, world.currentDate),
   };
 }
-/** An office-labelled job alone grants nothing. Reconcile the active election/work chain. */
+/** An office-labeled job alone grants nothing. Reconcile the active election/work chain. */
 export function constitutionalMemberBody(
   world: World,
   personId: EntityId,

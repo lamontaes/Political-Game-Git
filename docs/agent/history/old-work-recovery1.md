@@ -95,7 +95,7 @@ Current `docs/systems/prose-corpus.md` (blob `acdffaacca2537555b8b4c045540d5db11
 | Raster image-error visibility                             | Still reproducible on recovery base: `src/player/useRasterTier.ts` installs an empty `image.onerror` handler. The UI-CORE-RELEASE owner formally accepted ownership on PR #92 and recorded the unresolved follow-up with the placeholder finding; no edit here.                                                                                     |
 | Formative-bank enumeration                                | No longer reproducible. `lifeSituationCatalog()` exposes the current bank and `scripts/prose-corpus/sources/banks.ts` consumes it into the current inventory.                                                                                                                                                                                       |
 
-The OPENING-LIFE1 acknowledgement reported its changes as uncommitted on its own branch and its focused test as 5/5 passing. Those changes are not part of this recovery branch and are not claimed as delivered here.
+The OPENING-LIFE1 acknowledgment reported its changes as uncommitted on its own branch and its focused test as 5/5 passing. Those changes are not part of this recovery branch and are not claimed as delivered here.
 
 ## Finite orphaned-artifact recovery
 
@@ -125,5 +125,5 @@ This packet is sufficient preservation for #92 and per-file disposition for #98/
 
 1. commented and closed unchanged empty carrier #106;
 2. obtained explicit current-owner confirmations, then commented and closed #98 and #100;
-3. obtained exact finding ownership/repair acknowledgements, then commented and closed #92;
+3. obtained exact finding ownership/repair acknowledgments, then commented and closed #92;
 4. re-read every PR state and exact head after closure.

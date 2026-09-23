@@ -225,7 +225,7 @@ reviser's own.
 
 The same discipline as Minnesota and Illinois applies throughout: constitutional
 values only, no committee declared, and the chamber-rule layer left `unknown`
-rather than copied from a neighbour.
+rather than copied from a neighbor.
 
 ### Maryland
 
@@ -367,7 +367,7 @@ Committee sizes in the Kentucky, Nebraska and Alaska packs are the scenario's,
 and carry `membershipBasis: "scenario-fixture"`. Which committee takes a bill is
 likewise the scenario's choice, although the committee names used in Kentucky
 are real and appear in each chamber's own Rule 38. How a member votes is authored
-per scenario and is not a claim about anyone's behaviour. Minnesota, Illinois, Maryland,
+per scenario and is not a claim about anyone's behavior. Minnesota, Illinois, Maryland,
 Missouri, Nevada and Ohio declare no committee at all: their chamber rules were
 not read, so those packs assert no committee the sources did not establish.
 Missouri is worth a second look here — its constitution requires that every bill

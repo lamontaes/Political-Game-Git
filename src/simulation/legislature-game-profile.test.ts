@@ -189,7 +189,7 @@ describe("nothing generated claims to be law", () => {
     // read for one of its rules, the read value belongs there and the drawn one
     // must give way. Four states' override thresholds are exactly that case. A
     // check that refused a constitution inside a generated pack would have made
-    // "real law overrides the draw" impossible to honour.
+    // "real law overrides the draw" impossible to honor.
     const honest = legislatureForState("US-TX")!;
     const compiled = LEGISLATIVE_RULE_PACKS[0]!;
     const blended = {
@@ -483,7 +483,7 @@ describe("real law overrides the draw", () => {
     );
   });
 
-  it("picks the override action, not a neighbouring one that merely names money", () => {
+  it("picks the override action, not a neighboring one that merely names money", () => {
     // Virginia states one rule for "override-whole-or-item-veto" — the "item"
     // there is half a combined operation, not a money-only bar — and a picker
     // that excluded it selected Virginia's rule for ACCEPTING a governor's

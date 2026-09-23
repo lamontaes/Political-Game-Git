@@ -99,8 +99,8 @@ bill currently says, so a member does not vote against the very section they
 asked for.
 
 This is deliberately not a whip count. Seats without a simulated person keep
-their authored dispositions; a member the game has never modelled does not
-acquire a mind because a neighbouring seat has one. Extending this to a whole
+their authored dispositions; a member the game has never modeled does not
+acquire a mind because a neighboring seat has one. Extending this to a whole
 chamber is a separate piece of work with its own content problem, and the seam
 is `deriveMemberDisposition` rather than a guess.
 

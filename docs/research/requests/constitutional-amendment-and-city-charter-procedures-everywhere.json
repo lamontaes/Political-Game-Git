@@ -1,0 +1,37 @@
+{
+  "filedAt": "2026-09-23T00:12:00.000Z",
+  "impact": "blocks-work",
+  "lane": "nationwide government",
+  "notes": [
+    "lamontae says ChatGPT may use Luna sub-agents for this research: split the jurisdictions among them however suits, and deliver one combined set.",
+    "Where lamontae's intent is needed rather than a fact, write it as a short numbered question he can answer in a word, with your recommendation marked."
+  ],
+  "priority": "P1",
+  "question": "Answered as one set. (A) For each of the 50 states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands: every route by which the constitution (or D.C.'s Home Rule Act charter, or a territory's organic act or constitution) can be amended or revised: legislative referral, citizen initiative, convention, commission, or congressional action. For each route give who may propose, the vote needed at each stage (per chamber, in how many sessions), signature counts or percentages and distribution rules, how it reaches the ballot, the voter approval needed, when it takes effect, single-subject rules, and any parts that are entrenched or cannot be amended. (B) For each state, the state-law framework for amending a city charter: whether home rule exists and for which cities; who may propose a charter amendment (council, citizen petition, charter commission); signature thresholds; whether voters must approve, and by what margin; and state limits on what a charter may change. Then the actual charter-amendment procedure for about five representative cities per state, including the largest city, with population and form of government. Cite each provision and mark anything not found as UNKNOWN.",
+  "questionId": "constitutional-amendment-and-city-charter-procedures-everywhere",
+  "readFirst": {
+    "saidAt": "2026-09-23T00:08:36.000Z",
+    "saidBy": "lamontae",
+    "words": "three, go ahead and start, have ChatGPT do that. Tell it it can use Luna sub-agents for that."
+  },
+  "relatedQuestionIds": [
+    "modern-state-constitutions-fully-mutable",
+    "local-executive-and-council-rules",
+    "inhabited-territories-government-and-statehood"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, from lamontae's message of 2026-09-22 8:08 p.m. Eastern",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/constitutional-process.ts at main c8a5a2ba",
+      "whatItDidNotSettle": "Holds procedures only for US, US-CA and the Carson City charter; every other jurisdiction resolves to one of those."
+    },
+    {
+      "source": "modern-state-constitutions-fully-mutable (research record, open)",
+      "whatItDidNotSettle": "Asks for current constitution text and amendment routes for 52 jurisdictions; it does not cover the four other territories or any city charter, and has not been answered."
+    }
+  ],
+  "title": "How constitutions and city charters get amended, in every place",
+  "usableAnswer": "Part A: one row per jurisdiction per amendment route (56 jurisdictions), with each field listed in the question, a citation, and an evidence status. Part B: one row per state for the charter framework, plus one row per sample city (about 250), same fields. UNKNOWN where the text was not found, never a default.",
+  "whyItMatters": "Amending a constitution or charter is playable today only for the U.S. Constitution, California, and Carson City's charter (src/simulation/constitutional-process.ts, where every other state falls back to these). A player anywhere else who proposes an amendment gets another jurisdiction's procedure, which is borrowing a state's rules, which lamontae has ruled out. He asked on 2026-09-22 for this research to start now."
+}

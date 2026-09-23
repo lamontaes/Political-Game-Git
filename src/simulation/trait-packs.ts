@@ -4,7 +4,7 @@ import type { MindStrength, PersonalityTendencyDefinition } from "./types";
 /**
  * Traits as loaded data.
  *
- * A trait is a fictional behaviour tendency: a recurring pattern in how a
+ * A trait is a fictional behavior tendency: a recurring pattern in how a
  * character tends to act. It is not a measurement of a real person, not
  * inferred from anybody's name or place, and never shown to the player as a
  * number. Nothing here changes that.
@@ -91,11 +91,27 @@ export interface TraitDeclaration {
   readonly seed: { readonly spread: readonly number[] } | null;
   /** How movable this kind of trait is at all. See `TraitMovability`. */
   readonly movability: TraitMovability;
+  /**
+   * Whether the trait has two ends or one. Two, when left out.
+   *
+   * A two-ended trait runs between opposites: patient and impatient. A
+   * one-sided trait is a marked pattern and its absence: somebody is cocky, or
+   * shows no marked cockiness, and the absence is not humility. Its low pole is
+   * declared only so the store has an expression for it; it is never drawn,
+   * never written as a lean and never read as one, because a negative value on
+   * a one-sided trait would be an invented opposite.
+   */
+  readonly sides?: "one" | "two";
+}
+
+/** Whether a trait is a marked pattern and its absence rather than a scale. */
+export function isOneSided(trait: TraitDeclaration): boolean {
+  return trait.sides === "one";
 }
 
 /**
  * How movable a kind of trait is at all, which is the declaring pack's
- * judgement rather than the engine's. A pack adding a nearly immovable
+ * judgment rather than the engine's. A pack adding a nearly immovable
  * disposition does it here, without touching code.
  *
  * Every number a change is weighed against lives in this shape. The engine
@@ -341,6 +357,9 @@ function checkTrait(trait: TraitDeclaration, seen: Set<string>): string | null {
     }
     const allowed = new Set(magnitudes);
     for (const value of trait.seed.spread) {
+      if (value < 0 && isOneSided(trait)) {
+        return `trait "${trait.key}" is one-sided but seeds the value ${value}; a one-sided trait has no opposite to draw`;
+      }
       if (value !== 0 && !allowed.has(Math.abs(value))) {
         return `trait "${trait.key}" seeds the value ${value}, which its scale does not declare`;
       }
@@ -597,7 +616,12 @@ export function describeTraitLoad(report: TraitLoadReport): string {
 export function traitDefinitionFromPack(
   trait: RegisteredTrait,
 ): PersonalityTendencyDefinition {
-  return createPersonalityTendencyDefinition(
+  // Registered traits are the registry's own objects and never change, and a
+  // definition's id is a hash of its text: computing it once per trait is what
+  // lets a card read a hundred traits without hashing a hundred definitions.
+  const known = definitionsByTrait.get(trait);
+  if (known) return known;
+  const definition = createPersonalityTendencyDefinition(
     trait.qualifiedKey,
     trait.label,
     trait.description,
@@ -619,7 +643,14 @@ export function traitDefinitionFromPack(
       },
     ],
   );
+  definitionsByTrait.set(trait, definition);
+  return definition;
 }
+
+const definitionsByTrait = new WeakMap<
+  RegisteredTrait,
+  PersonalityTendencyDefinition
+>();
 
 /** Every definition the loaded packs declare, in pack then declaration order. */
 export function traitDefinitions(

@@ -31,7 +31,7 @@ function compareKeys(left: string, right: string): number {
  *
  * Everything else follows `JSON.stringify` exactly, including the parts that
  * are easy to get wrong: `undefined` and functions are dropped from objects
- * and become `null` inside arrays, `toJSON` is honoured, and a cycle throws
+ * and become `null` inside arrays, `toJSON` is honored, and a cycle throws
  * rather than being quietly truncated. A world never holds any of the exotic
  * cases, but a serializer that disagrees with `JSON.stringify` about them
  * would be a second definition of the same thing, and two definitions is how

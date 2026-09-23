@@ -119,7 +119,7 @@ the record cannot name the subject:
 
 - incident threads (subject exists only as a machine semantic key);
 - school/work/civic/political threads whose organization has no recorded
-  profile name (the old "Work" / "School" / "Something in the neighbourhood"
+  profile name (the old "Work" / "School" / "Something in the neighborhood"
   fallback titles);
 - promise callbacks with no nameable counterpart ("Something decided
   earlier");

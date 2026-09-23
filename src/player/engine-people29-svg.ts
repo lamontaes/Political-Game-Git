@@ -324,6 +324,20 @@ export async function renderPreparedSvg(
   return new XMLSerializer().serializeToString(result);
 }
 
+/**
+ * Who is waiting for a variant. A figure the player is looking at ("high":
+ * the creator's preview, a room's people) renders before an option thumbnail
+ * ("low"), and both before a choice the player has not made yet ("idle", a
+ * neighbouring body warmed in advance). Every thumbnail of a face or hair grid
+ * changes with the body; without an order the preview appeared only after all
+ * of them had rendered.
+ */
+export type PreparedVariantPriority = "high" | "low" | "idle";
+const RANK: Record<PreparedVariantPriority, number> = {
+  high: 2,
+  low: 1,
+  idle: 0,
+};
 interface Entry {
   key: string;
   refs: number;
@@ -331,9 +345,78 @@ interface Entry {
   touched: number;
   bytes: number;
   ready: boolean;
+  /** The most urgent request so far; set before the render starts. */
+  priority: PreparedVariantPriority;
+  /** Present while the render waits for a slot; removed when it starts. */
+  waiting?: { start(): void; withdraw(): void };
 }
 const cache = new Map<string, Entry>();
 let sequence = 0;
+/**
+ * Rendering is mostly main-thread work (raster remap and PNG encoding), so
+ * running every request at once only delays each of them until all finish.
+ * A few in flight still overlap fetching and image decoding.
+ */
+const RENDER_SLOTS = 3;
+const renderingAt = [0, 0, 0];
+const waitingRenders: Entry[] = [];
+let pumpQueued = false;
+function pumpRenders() {
+  pumpQueued = false;
+  while (waitingRenders.length) {
+    let best = 0;
+    for (let i = 1; i < waitingRenders.length; i++)
+      if (
+        RANK[waitingRenders[i]!.priority] > RANK[waitingRenders[best]!.priority]
+      )
+        best = i;
+    const rank = RANK[waitingRenders[best]!.priority];
+    const running = renderingAt.reduce((sum, n) => sum + n, 0);
+    // Less urgent work waits until more urgent work in flight has finished.
+    if (
+      running >= RENDER_SLOTS ||
+      renderingAt.some((n, r) => r > rank && n > 0)
+    )
+      return;
+    const [next] = waitingRenders.splice(best, 1);
+    next!.waiting!.start();
+  }
+}
+/** Start after the current commit has enqueued all of its requests, so a
+ * preview mounted beside its thumbnails is ordered before them. */
+function queuePump() {
+  if (pumpQueued) return;
+  pumpQueued = true;
+  queueMicrotask(pumpRenders);
+}
+function scheduleRender(
+  entry: Entry,
+  render: () => Promise<string>,
+): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    entry.waiting = {
+      start() {
+        entry.waiting = undefined;
+        const rank = RANK[entry.priority];
+        renderingAt[rank]!++;
+        render()
+          .then(resolve, reject)
+          .finally(() => {
+            renderingAt[rank]!--;
+            queuePump();
+          });
+      },
+      withdraw() {
+        entry.waiting = undefined;
+        const index = waitingRenders.indexOf(entry);
+        if (index >= 0) waitingRenders.splice(index, 1);
+        reject(new Error("Prepared variant request withdrawn."));
+      },
+    };
+    waitingRenders.push(entry);
+    queuePump();
+  });
+}
 const IDLE_VARIANT_BYTES = 24 * 1024 * 1024;
 const IDLE_VARIANT_COUNT = 24;
 function revoke(entry: Entry) {
@@ -343,9 +426,13 @@ function revoke(entry: Entry) {
   );
 }
 function trimIdleVariants() {
+  // Thumbnails and unvisited choices leave first, so returning to a recent
+  // choice finds its preview.
   const idle = [...cache.values()]
     .filter((e) => e.refs === 0 && e.ready)
-    .sort((a, b) => a.touched - b.touched);
+    .sort(
+      (a, b) => RANK[a.priority] - RANK[b.priority] || a.touched - b.touched,
+    );
   let bytes = idle.reduce((sum, e) => sum + e.bytes, 0);
   while (idle.length > IDLE_VARIANT_COUNT || bytes > IDLE_VARIANT_BYTES) {
     const oldest = idle.shift()!;
@@ -424,31 +511,35 @@ export function acquirePreparedVariant(
   material: AppearanceMaterial,
   drawnIds: readonly string[],
   expression: "neutral" | "smile" = "neutral",
+  priority: PreparedVariantPriority = "high",
 ) {
   const key = preparedVariantKey(assetId, material, drawnIds, expression);
   let entry = cache.get(key);
   if (!entry) {
     // Mounted demand is never evicted. Only completed idle entries are bounded.
-    entry = {
+    const created: Entry = {
       key,
       refs: 0,
       touched: ++sequence,
       bytes: 0,
       ready: false,
-      url: renderPreparedSvg(assetId, material, drawnIds, expression).then(
-        (svg) => {
-          const blob = new Blob([svg], { type: "image/svg+xml" });
-          entry!.bytes = blob.size;
-          entry!.ready = true;
-          return URL.createObjectURL(blob);
-        },
-      ),
+      priority,
+      url: Promise.resolve(""),
     };
+    created.url = scheduleRender(created, () =>
+      renderPreparedSvg(assetId, material, drawnIds, expression),
+    ).then((svg) => {
+      const blob = new Blob([svg], { type: "image/svg+xml" });
+      created.bytes = blob.size;
+      created.ready = true;
+      return URL.createObjectURL(blob);
+    });
+    entry = created;
     cache.set(key, entry);
     void entry.url.catch(() => {
-      if (cache.get(key) === entry) cache.delete(key);
+      if (cache.get(key) === created) cache.delete(key);
     });
-  }
+  } else if (RANK[priority] > RANK[entry.priority]) entry.priority = priority;
   entry.refs++;
   entry.touched = ++sequence;
   const owned = entry;
@@ -464,6 +555,8 @@ export function acquirePreparedVariant(
       if (owned.refs === 0) {
         if (!owned.ready || cache.get(key) !== owned) {
           if (cache.get(key) === owned) cache.delete(key);
+          // Nobody is waiting for a render that has not started: skip it.
+          owned.waiting?.withdraw();
           revoke(owned);
         } else trimIdleVariants();
       }

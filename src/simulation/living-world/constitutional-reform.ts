@@ -52,7 +52,7 @@ import {
  * When the answers come back, they replace `CONSTITUTIONAL_REFORM_PROFILE`
  * and `reformCause`; nothing else here should need to change.
  *
- * NOT MODELLED, with the blanket rule applied meanwhile:
+ * NOT MODELED, with the blanket rule applied meanwhile:
  * - Other subjects of amendment (legislature size, terms, qualifications).
  *   Only the governor's term limit is reviewed.
  * - Initiatives, conventions and commissions. Every proposal is a legislative
@@ -421,7 +421,7 @@ function proposeAndVote(
       body.members,
       {
         method: "authored-fixture",
-        note: `${PLACEHOLDER_NOTE} Members' own positions are not modelled; the chamber's division is drawn and members are recorded by seat.`,
+        note: `${PLACEHOLDER_NOTE} Members' own positions are not modeled; the chamber's division is drawn and members are recorded by seat.`,
         sourceEntityIds: [],
       },
     );
@@ -464,10 +464,10 @@ export function constitutionalReformBallotHandler(
     new SeededRng(world.seed).fork(`${measure.stableKey}:ballot`),
     CONSTITUTIONAL_REFORM_PROFILE.ballotYesPermille[direction],
   );
-  // Shares of 10,000, not ballots: turnout is not modelled.
+  // Shares of 10,000, not ballots: turnout is not modeled.
   const yes = yesPermille * 10;
   // Two measures changing the same rule cannot both pass at one election
-  // until reconciliation is modelled; if another already has, this one goes
+  // until reconciliation is modeled; if another already has, this one goes
   // to the next general election instead of stopping the clock.
   const conflicting = (world.history.constitutionalMeasures ?? []).some(
     (other) =>

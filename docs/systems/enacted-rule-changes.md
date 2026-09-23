@@ -47,7 +47,7 @@ act as its citation), and may establish a rule the game had no compiled value
 for. A changed term length carries into the derived term end. Without a World,
 only compiled law is read, which is right for a question about real law.
 
-## Marked as not modelled, with the blanket rule applied
+## Marked as not modeled, with the blanket rule applied
 
 - **Effective dates.** The rule packs hold each state's effective-date rule as
   prose; nothing computes a date from it and no caller in play passes one, so
@@ -59,7 +59,7 @@ only compiled law is read, which is right for a question about real law.
   change any amendable field, the record keeps which one did, and an amendment
   always outranks a statute.
 - **Floor amendments.** A rule-change clause offered on the floor is not
-  modelled. Blanket rule: clauses are filed before the first floor vote, and
+  modeled. Blanket rule: clauses are filed before the first floor vote, and
   integrity refuses one filed after.
 - **An office registry.** A statute's legislative clause must name a chamber
   of its own rule pack. Elsewhere the office key must carry the state's own
@@ -70,9 +70,13 @@ only compiled law is read, which is right for a question about real law.
 ## Consumers
 
 Anything reading rules through the resolver or the nationwide port with the
-World picks a change up. Consumers that read compiled tables directly (for
-example candidacy qualification rows) do not yet; routing them through the
-resolver is how they join.
+World picks a change up. Candidacy (`candidacyEligibility`) reads the three
+`qualification.*` fields through `enactedRuleChangeAt` for a legislative
+office: a change in force replaces the compiled rule for its field, from
+either compiled source (the pack's rule set or the per-state rows), and its
+refusal names the act. Whether a seat must be named by district
+(`districtSeatMustBeNamed`) still reads compiled rules only, since it takes no
+World. Other consumers that read compiled tables directly do not yet.
 
 ## The levels of law (added 2026-09-22)
 
@@ -83,7 +87,7 @@ takes the highest level in force, then the latest law at that level. Today's
 producers are state statutes and state amendments; the other levels are
 declared so a later producer lands in the right place.
 
-Not modelled, each with its blanket rule and each asked in
+Not modeled, each with its blanket rule and each asked in
 `constitutional-hierarchy-and-intergovernmental-relations`:
 
 - **Home rule versus Dillon's rule**, per state and class of local
@@ -120,6 +124,6 @@ Every cause, rate and margin there is a **placeholder**, not research: the
 owner has ruled out invented depth. They wait on
 `governor-term-limit-amendment-causes` and `constitutional-amendment-frequency`.
 Chamber votes are drawn and recorded by seat, since members' own positions
-are not modelled; the statewide result is in shares of 10,000, since turnout
-is not modelled; only the governor's term limit is reviewed; D.C. and Puerto
+are not modeled; the statewide result is in shares of 10,000, since turnout
+is not modeled; only the governor's term limit is reviewed; D.C. and Puerto
 Rico are not.

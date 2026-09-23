@@ -9,7 +9,7 @@
  * at pixels and decides whether a room has baked people in it or readable text
  * on the wall; doing that properly needs a model this repository does not have
  * and should not acquire as a side effect of building a schema. So every
- * judgement field starts at `unassessed`, and `unassessed` is a first-class
+ * judgment field starts at `unassessed`, and `unassessed` is a first-class
  * value rather than a stand-in for `false`.
  *
  * That distinction is the point. "We looked and there are no baked people" and
@@ -158,7 +158,7 @@ export interface AssetBankEntrySeed {
 }
 
 /**
- * A blank entry: every judgement `unassessed`, every list empty, disposition
+ * A blank entry: every judgment `unassessed`, every list empty, disposition
  * `undecided`.
  *
  * This is what an intake run produces for a folder of candidates. It records
@@ -482,7 +482,7 @@ function assessment(record: Record<string, unknown>, key: string): Assessment {
 /**
  * Parses a manifest written by a person or by an external QA tool.
  *
- * Unrecognised judgement values degrade to `unassessed` rather than throwing:
+ * Unrecognized judgment values degrade to `unassessed` rather than throwing:
  * an external tool inventing a fourth answer should not destroy a 200-entry
  * batch, and `unassessed` is the safe reading of "we do not understand what you
  * told us". Structural problems — a missing id, a non-object entry — do throw,

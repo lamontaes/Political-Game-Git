@@ -35,7 +35,7 @@ export function runtimeArtSelection(): RuntimeArtSelection {
  * An OPTIONAL metadata record: absent from both the snapshot and the bundle is
  * a legitimate state for the caller, which supplies its own empty default.
  *
- * Do not use this for a catalogue, component registry or generation the render
+ * Do not use this for a catalog, component registry or generation the render
  * path cannot work without. Reaching for the bundled default there is how a
  * session with a half-received snapshot ends up drawing the retired cast under
  * the new pack's name; `requiredRuntimeArtMetadata` refuses instead.

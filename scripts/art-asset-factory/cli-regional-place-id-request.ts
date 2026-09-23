@@ -163,7 +163,7 @@ function ask(): string {
     lines.push("```");
     lines.push("");
     lines.push(
-      "Note what it did with the refinement: rather than naming Pima, Pinal and Maricopa as counties, it named places inside them, because the counties contain high country the scene does not describe. That judgement is the work being asked for.",
+      "Note what it did with the refinement: rather than naming Pima, Pinal and Maricopa as counties, it named places inside them, because the counties contain high country the scene does not describe. That judgment is the work being asked for.",
     );
     lines.push("");
   }

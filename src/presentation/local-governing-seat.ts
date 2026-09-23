@@ -39,7 +39,7 @@ export interface LocalGoverningSeat {
   readonly hasCityScreen: boolean;
   /**
    * How many seats the body has and how long a term runs: the town's own rule
-   * where it was read, a typical value otherwise, and labelled so.
+   * where it was read, a typical value otherwise, and labeled so.
    */
   readonly seats: LocalRuleValue | null;
   readonly termYears: LocalRuleValue | null;
@@ -118,7 +118,7 @@ export function townSeatRulesSentence(
     sentences.push(
       `The game has not read ${
         read.length > 0 ? "the rest" : "how this body is made up"
-      }, so it gives it ${typical.join(" and ")}, as the councils it has read typically have.`,
+      }, so it gives it ${typical.join(" and ")}, as town councils across the country commonly have.`,
     );
   return sentences.length > 0 ? sentences.join(" ") : null;
 }

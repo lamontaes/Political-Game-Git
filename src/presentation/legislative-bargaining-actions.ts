@@ -64,7 +64,7 @@ function resolveActionAuthority(
 ): ActionAuthority {
   // The developer fixture's synthetic world carries no canonical seat record
   // and never reaches production (legislative-bargaining-no-fixture.test.ts).
-  // Its banked behaviour is left exactly as it was.
+  // Its banked behavior is left exactly as it was.
   if (!seat.memberSeatStableKey) {
     const position = measurePosition(world, seat.measureId);
     return { chamberKey: position.chamberKey ?? "house", position };
@@ -141,7 +141,7 @@ function resolveActionAuthority(
  * Everything the player says in the members' room is talk. These two functions
  * are where talk either becomes law or does not: an amendment is offered to the
  * chamber and decided by recorded vote, and only if it carries does the
- * negotiated language enter the bill. The people the game has actually modelled
+ * negotiated language enter the bill. The people the game has actually modeled
  * decide for themselves; the rest of the chamber votes as the scenario says it
  * does, because a hundred authored minds is a different project.
  */
@@ -406,7 +406,7 @@ function deriveSimulatedMembers(
   for (const member of seated) {
     if (member.personId === seat.playerPersonId) {
       // The sponsor votes for their own bill. That is the player's own choice,
-      // not a modelled one, and the game does not put the controlled person
+      // not a modeled one, and the game does not put the controlled person
       // through an autonomous decision.
       byPerson.set(member.personId, "yea");
       continue;
@@ -437,7 +437,7 @@ function deriveSimulatedMembers(
 }
 
 /**
- * Puts the modelled members' own decisions into an otherwise authored chamber.
+ * Puts the modeled members' own decisions into an otherwise authored chamber.
  *
  * The authored plan describes how the whole body votes. Each member the game
  * actually models is taken out of that plan and replaced by what they decided,

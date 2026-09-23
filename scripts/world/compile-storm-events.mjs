@@ -1112,9 +1112,9 @@ function buildReconciliation(ctx) {
     `Near-miss EVENT_TYPE rows seen and deliberately excluded: ` +
       `${JSON.stringify(diagnostics.nearMissEventTypeRows)}.`,
     `Rows rejected before episode assembly: ${rejectedTotal} ` +
-      `(${JSON.stringify(rejected)}); unrecognised STATE_FIPS values seen: ` +
+      `(${JSON.stringify(rejected)}); unrecognized STATE_FIPS values seen: ` +
       `${JSON.stringify(diagnostics.unknownStateFipsSeen)}.`,
-    `Every one of those unrecognised codes is a publisher pseudo-code for a ` +
+    `Every one of those unrecognized codes is a publisher pseudo-code for a ` +
       `territory (96 Virgin Islands, 97 American Samoa, 98 Guam, 99 Puerto ` +
       `Rico), not a Census state FIPS. Rewriting them (99 to 72, and so on) ` +
       `was tested against this repository's canonical county corpus by ` +
@@ -1159,7 +1159,7 @@ function buildReconciliation(ctx) {
       `have been emitted as null with missingYearNote rather than divided by ` +
       `a partial exposure.`,
     `Rates are per-exposure-year arithmetic on the declared catalog only. No ` +
-      `rate is modelled, smoothed, extrapolated or borrowed from another ` +
+      `rate is modeled, smoothed, extrapolated or borrowed from another ` +
       `window, family or place.`,
     `Reporting discontinuities inside the window, found by comparing each ` +
       `year's episode count for a family against that family's 25-year median ` +

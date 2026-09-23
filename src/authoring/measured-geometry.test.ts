@@ -217,7 +217,7 @@ describe("bounded estimates stay ranges", () => {
   });
 });
 
-describe("archetypes generalise rather than replicate", () => {
+describe("archetypes generalize rather than replicate", () => {
   it("lets many measured rooms inform one archetype", () => {
     const knownIds = new Set(
       PLACEHOLDER_MEASURED_ROOMS.map((entry) => entry.roomId),

@@ -7,12 +7,12 @@
  * constitution over its own statutes, then state law over the localities it
  * creates). Within one level, the later law governs.
  *
- * What is modelled today: the levels, their rank, and resolution of an enacted
+ * What is modeled today: the levels, their rank, and resolution of an enacted
  * rule change by rank (`enacted-rule-changes.ts`). The producers that exist are
  * state statutes and state constitutional amendments; the others are declared
  * here so a producer added later lands in the right place.
  *
- * NOT MODELLED, each with the blanket rule applied meanwhile, and each asked in
+ * NOT MODELED, each with the blanket rule applied meanwhile, and each asked in
  * `docs/research/requests/constitutional-hierarchy-and-intergovernmental-relations.json`:
  *
  * - Local-authority doctrine (home rule or Dillon's rule, per state and class of
@@ -75,7 +75,7 @@ export function localAuthorityDoctrine(stateUsps: string): {
     stateUsps,
     doctrine: "dillons-rule",
     basis: "game-default",
-    note: "This state's local-authority doctrine is not modelled; the game applies Dillon's rule, so a local instrument changes only what state law grants it.",
+    note: "This state's local-authority doctrine is not modeled; the game applies Dillon's rule, so a local instrument changes only what state law grants it.",
   };
 }
 
@@ -90,6 +90,6 @@ export function localInstrumentMayChange(
   const doctrine = localAuthorityDoctrine(stateUsps);
   return {
     allowed: false,
-    reason: `${doctrine.note} No grant of "${field}" to a local government is modelled.`,
+    reason: `${doctrine.note} No grant of "${field}" to a local government is modeled.`,
   };
 }

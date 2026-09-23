@@ -35,5 +35,8 @@
     "answeredBy": "ChatGPT",
     "answeredAt": "2026-09-22T21:58:00.000Z",
     "stillOpen": "Still open: how a home address maps to a House district; each state's 2026 and 2028 candidate filing deadlines and primary dates, or a rule to derive them; and the whole of part (2), the presidency (the primary and caucus calendar, state-by-state ballot access, and the nominating convention). ChatGPT calls this 'owner intent plus sourced qualifications, not implementation or a passed game test'."
-  }
+  },
+  "notes": [
+    "Code audit from ChatGPT, 2026-09-22 (docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-CONGRESS-ORDINARY-ROUTE--READ-ONLY-AUDIT--2026-09-22.md (Drive 1z9t9vSqxc4vJLpLLIm0pq2T_4MKMUIYB, SHA-256 e77ec52bc7d9ce65aa3ff1afdafd440efd73fef9bf89e0fb1c160fd09ba931bb)), source reading only at 6ce27cdf, nothing run: the ordinary route has no House or Senate candidacy because office discovery (campaign-office-discovery.ts:11-16) lists only offices from the home jurisdiction's candidacy pack, candidacyAuthority (candidacy.ts:98-120) never consults a federal registry, and candidacyPacks (candidacy-packs.ts:352-372) holds only legislative packs and state-executive offices. So filing, campaign, result, certification and seating are all unreachable for Congress. Seat keys (us-house:<state>-<district>, us-senate:<state>:class-<n>) are stable. Severity blocker; no individual owner named."
+  ]
 }

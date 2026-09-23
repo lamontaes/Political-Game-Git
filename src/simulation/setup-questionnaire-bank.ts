@@ -22,7 +22,7 @@ import type { LifeVoiceBand } from "./voice-bands";
  * Every prompt and every option sentence in this file came from a Drive
  * research authority. None of it was written here, and that restriction is
  * deliberate rather than fussy: the settled semantics say the implementing
- * agent is not authorised to invent questionnaire copy, because copy is where
+ * agent is not authorized to invent questionnaire copy, because copy is where
  * the measurement actually lives. A plausible-sounding item written by the
  * thing being calibrated is not a calibration.
  *
@@ -2001,7 +2001,7 @@ export const SETUP_QUESTIONNAIRE_BANK: readonly QuestionnaireItem[] =
  * The three a run opens with, for the life stage it is opening.
  *
  * A life starts somewhere specific, so the calibration does too — and a
- * childhood starts somewhere a child recognises. Before Packet 72 there was
+ * childhood starts somewhere a child recognizes. Before Packet 72 there was
  * one list of three, so every run whatever its age opened on a kitchen table
  * covered in bills at eleven at night. Each band now has its own three, and
  * what comes after them is still decided by what the model needs.

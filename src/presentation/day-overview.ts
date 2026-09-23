@@ -1,3 +1,4 @@
+import { localGoverningSeatFor } from "./local-governing-seat";
 import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
@@ -184,7 +185,7 @@ export interface OfferAwaitingAnswer {
   /**
    * Whether that date is still ahead of today.
    *
-   * The judgement lives here rather than in one sentence somewhere, so the
+   * The judgment lives here rather than in one sentence somewhere, so the
    * next thing that renders an offer inherits it instead of having to
    * rediscover that `startsOn` goes stale. See "Values whose meaning decays
    * with time" in `docs/systems/player-presentation.md`.
@@ -268,12 +269,20 @@ function ordinaryOfferSentence(offers: readonly OfferAwaitingAnswer[]): string {
 }
 
 export function projectWorkRole(world: World, personId: EntityId): WorkRole {
+  // A town council seat is held through the town government's organization,
+  // not a work relationship, so it is added here by name. Leaving it out had a
+  // member who won in Ely, Minnesota read "You do not hold a job or an office"
+  // directly above the line saying which body they sat on.
+  const townSeat = localGoverningSeatFor(world, personId);
   const roles = [
-    ...new Set(
-      activeWorkRelationshipsAt(world, personId).map(
+    ...new Set([
+      ...activeWorkRelationshipsAt(world, personId).map(
         (entry) => entry.role.title,
       ),
-    ),
+      ...(townSeat
+        ? [`Member of the ${townSeat.bodyName}, ${townSeat.governmentName}`]
+        : []),
+    ]),
   ];
   const studying = activeEducationEnrollmentsAt(world, personId).length;
   const study =

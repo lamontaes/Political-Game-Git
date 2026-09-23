@@ -1,0 +1,22 @@
+{
+  "filedAt": "2026-09-22T23:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "src/simulation/press/caught-lying.ts hands the discovery to the desk; src/simulation/claim-contradictions.ts records the discovery and strains the relationship."
+  ],
+  "priority": "P2",
+  "question": "When a reporter establishes that a candidate or official lied to them on the record, and a named source contradicts it in print, what does that typically cost them: vote share, donor and endorsement losses, the reporter's and outlet's later treatment, and does a pattern of such stories compound?",
+  "questionId": "cost-of-being-caught-lying",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/claim-contradictions.ts",
+      "whatItDidNotSettle": "States 'no universal reputation penalty'; there is no researched size for one."
+    }
+  ],
+  "title": "What being caught lying to a reporter costs a candidate",
+  "usableAnswer": "A typical electoral cost (percentage points or a qualitative band) of a published, sourced story that a candidate lied to the press, whether repeated stories compound, and any lasting effect on how that outlet covers the person.",
+  "whyItMatters": "In a 2026-09-22 replay a candidate lied to a reporter four times with no consequence beyond a private strained relationship. A caught lie now goes to the reporter's desk as a story on the named source's record, asking the candidate to respond first. What the published story costs with voters is not applied, because nothing researched says how much."
+}
