@@ -32,6 +32,9 @@ import {
 } from "./responses";
 import { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import { headlineFor } from "./story-voice";
+import { recordBackgroundDeathReaders } from "./ordinary-readership";
+
+export { recordOrdinaryDeathRead } from "./ordinary-readership";
 
 export { PRESS_MATTER_TAG, sortedUnique } from "./shared";
 import {
@@ -1067,6 +1070,7 @@ function publishStory(
     });
   }
   next = recordProfessionalReaders(next, lead, story, publication);
+  next = recordBackgroundDeathReaders(next, lead, publication);
   next = shareWithSiblings(next, lead, story, reporterId);
   return { world: next, eventId: story.id };
 }
