@@ -1,0 +1,35 @@
+{
+  "filedAt": "2026-09-23T01:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [
+    "The code is SUMMARIZED_CHILDHOOD and variedChildhood in src/simulation/character-history.ts. It is used for every grown character's earlier life in a new game (childhood-v3).",
+    "Placeholders in use now: a child who is five by September 1 starts kindergarten that fall. School years start between August 15 and September 8 and end between May 20 and June 15. 40% of childhoods include a move to another home in the same place. 50% of teenagers hold a part-time job at some point between 15 and 17 and a half, lasting 60 to 730 days. One to three remembered moments are drawn beyond one with a classmate and one with a teacher. The option taken in each moment is drawn uniformly.",
+    "The only teen job the game can write is 'Store assistant at Neighborhood Market'. This is the one employer every earlier version used, and it is kept as a marked placeholder.",
+    "Moments whose scene asserts a fact nothing recorded (a new sibling, an illness at home, a money shortfall) are left out of a summarized childhood on purpose, and remain playable.",
+    "Found in a playtest: two lives, in Rugby, North Dakota and Houma, Louisiana, had identical childhoods line for line, all dated on the birthday."
+  ],
+  "priority": "P2",
+  "question": "For a person growing up in the United States, and by state and birth year where it differs: (1) what share of children move home at least once before 18, and how often a move within the same town changes school; (2) the kindergarten age cutoff date by state; (3) the usual first and last days of the school year by state or region; (4) what share of teenagers hold a paid job before leaving high school, at what ages it starts, how long it lasts, and which jobs and kinds of employer are most common; and (5) whether some kinds of formative moment (owning up to breaking something, joining an activity, volunteering, organizing at school, falling out with a friend) are much more common than others.",
+  "questionId": "how-a-summarized-childhood-varies",
+  "relatedQuestionIds": [
+    "childhood-household-composition",
+    "how-a-life-begins-and-grows-up",
+    "childhood-choices-relational-meaning"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "The coordinator relaying a playtest finding, 2026-09-23 (about 9 p.m. Eastern): two different lives came out identical line for line. lamontae, 2026-09-22: 'a person's history is generated up to their age and the state of the world loaded into' and 'i dont want depth to be invented'.",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/how-a-life-begins-and-grows-up.json (DEPTH1 answer)",
+      "whatItDidNotSettle": "Settles births, households and continuity. It gives no childhood base rates for moves, school calendars or teen work."
+    },
+    {
+      "source": "docs/research/requests/childhood-household-composition.json",
+      "whatItDidNotSettle": "Asks who a child lives with. It does not ask about moves, schooling dates, jobs or formative moments."
+    }
+  ],
+  "title": "How a summarized childhood varies: moves, school calendars, teen jobs and formative moments",
+  "usableAnswer": "Shares and ranges per item, varying by state where they vary, as nationally sourced defaults with state overrides. For teen jobs: a short list of common job titles with the kind of employer for each. For formative moments: 'no defensible rate' is an acceptable answer, and the draw then stays uniform.",
+  "whyItMatters": "Every grown character's earlier life is summarized when the game starts. Until this answer arrives, the shares and date windows that make two lives differ are marked stand-ins, and every teenager who works has the same job at the same store."
+}

@@ -30,5 +30,15 @@
   ],
   "title": "How people come to know new people",
   "usableAnswer": "Per setting: whether it introduces people, who (people who actually share that setting in the world), and a pace given as labeled calibration if no evidence exists, with what raises or lowers it. Also what a first meeting records between the two, and whether the player chooses to meet people or it happens as life passes, or both. Behavior before numbers.",
-  "whyItMatters": "Without it nobody's circle ever grows, so there are no friends to make, no one to date and no network to build a political career on, which is the game's core. Inventing the pace would be invented depth, which the owner has ruled out."
+  "whyItMatters": "Without it nobody's circle ever grows, so there are no friends to make, no one to date and no network to build a political career on, which is the game's core. Inventing the pace would be invented depth, which the owner has ruled out.",
+  "answer": {
+    "summary": "People meet through settings they actually share: school, college and youth activities; work; neighbors in the same building or nearby homes; congregations, clubs, volunteering, sports and civic groups; friends of friends and family introductions; online groups. Survey anchors (all cumulative, none annual): 87 percent of teens had a close friend from school (Pew 2018); 54 percent of adults with close friends met one at their or a spouse's workplace, 40 percent through existing friends, 21 percent at a place of worship, 19 percent at a club (Survey Center 2021); 26 percent of adults know all or most neighbors, 62 percent some, 12 percent none (Pew 2025); 57 percent of teens made a friend online (Pew 2015). Rules: a shared setting creates a candidate, never a bond; living in the same town or attending the same large institution is not enough; the player may initiate or accept, and people may initiate on their own; a first meeting records an acquaintance with date, setting and any introducer, and nothing about friendship, trust or romance until later conduct supports it (D-092). Owner decision (People card): add someone after an actual introduction or meaningful exchange; sharing a school, job, neighborhood or room alone does not mean two people know each other.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/RESEARCH-how-people-meet-new-people-2026-09-22.md",
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/READ FIRST - Our Civic Duty research handoff - 2026-09-22 2230 ET.md"
+    ],
+    "answeredBy": "ChatGPT (online-friends denominator independently corrected and reviewed)",
+    "answeredAt": "2026-09-23T02:11:30.000Z",
+    "stillOpen": "No source gives an annual count of new acquaintances, a chance per interaction, personality modifiers, the effect of moving or place size, or how often an acquaintance becomes trusted. Any number used is a labeled game calibration, not a fact."
+  }
 }
