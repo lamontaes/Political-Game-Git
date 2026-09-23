@@ -21,10 +21,14 @@ import { recordEventKnowledge } from "./records";
 import {
   createScheduledActivity,
   createWorkItem,
+  lapseWorkItem,
+  scheduledActivityState,
   workPendingEntriesFor,
 } from "./time-work";
 import { settleLivingCosts } from "./cost-of-living";
 import { settleOfficeSalaries } from "./office-salary";
+import { refreshLocalEconomy } from "./local-economy";
+import { advanceJobMarket } from "./job-market";
 import { settleMortgages } from "./home-purchase";
 import { recordWorldEvent } from "./world";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
@@ -505,11 +509,48 @@ export function refreshLifeOpportunities(
   if (!person) return world;
   if (formativeIntervalAt(world, personId) !== null) return world;
 
-  let next = replenishHouseholdWeek(world, personId);
+  let next = refreshLocalEconomy(world, personId);
+  next = replenishHouseholdWeek(next, personId);
   next = settleOfficeSalaries(next, personId);
+  next = advanceJobMarket(next, personId);
   next = settleMortgages(next, personId);
   next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
+  return next;
+}
+
+/**
+ * A week's groceries nobody bought lapse when the next week comes.
+ *
+ * Before this, an open week was never replaced: San Antonio's James carried
+ * "Still not done, 61 weeks on" for a year, and no new week was written behind
+ * it. The week is recorded as gone by, not as done, and nothing is said about
+ * how the household ate. A week the player has put on the calendar for a day
+ * still ahead stays, because they have a plan for it.
+ */
+function lapseLastHouseholdWeek(world: World, personId: EntityId): World {
+  let next = world;
+  for (const { item, state } of workPendingEntriesFor(world, personId)) {
+    if (
+      !item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY) ||
+      item.focus.kind !== "person" ||
+      item.focus.personId !== personId ||
+      state.status !== "active"
+    )
+      continue;
+    const openedOn = makeIsoDate(item.createdAt.date);
+    if (addDays(openedOn, HOUSEHOLD_WEEK_DAYS) > world.currentDate) continue;
+    if (state.scheduledActivityId !== null) {
+      const hold = scheduledActivityState(next, state.scheduledActivityId);
+      if (hold.status === "scheduled" && hold.start.date >= world.currentDate)
+        continue;
+    }
+    next = lapseWorkItem(next, {
+      workItemId: item.id,
+      stableKey: `${item.stableKey}:lapsed`,
+      summary: "The week went by without the grocery shopping.",
+    });
+  }
   return next;
 }
 
@@ -525,6 +566,7 @@ export function refreshLifeOpportunities(
  * is open at a time, and breadth comes from the opportunity kinds below.
  */
 function replenishHouseholdWeek(world: World, personId: EntityId): World {
+  world = lapseLastHouseholdWeek(world, personId);
   if (hasActiveHouseholdWeek(world, personId)) return world;
   const existing = world.history.workItems.filter((item) =>
     item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY),

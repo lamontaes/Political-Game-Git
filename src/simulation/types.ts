@@ -31,6 +31,11 @@ import type {
   TaxAssessmentRecord,
   TaxCollectionRecord,
 } from "./tax-types";
+import type {
+  JobApplicationRecord,
+  JobApplicationStepRecord,
+  JobOpeningRecord,
+} from "./job-market-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
 declare const currencyCodeBrand: unique symbol;
@@ -61,6 +66,9 @@ export type EntityKind =
   | "tax-base"
   | "tax-assessment"
   | "tax-collection"
+  | "job-opening"
+  | "job-application"
+  | "job-application-step"
   | "appraisal"
   | "belief"
   | "causal-mechanism-definition"
@@ -3433,7 +3441,10 @@ export interface CampaignComplianceDocumentRecord {
   readonly committeeOrganizationId: EntityId;
   readonly rulePackId: string;
   readonly kind:
-    "statement-of-spending-intent" | "periodic-report" | "amendment";
+    | "statement-of-spending-intent"
+    | "statement-of-organization"
+    | "periodic-report"
+    | "amendment";
   readonly schedule:
     | "initial"
     | "60-day-preelection"
@@ -3754,6 +3765,10 @@ export interface HistoryStore {
   readonly taxBases?: readonly TaxBaseRecord[];
   readonly taxAssessments?: readonly TaxAssessmentRecord[];
   readonly taxCollections?: readonly TaxCollectionRecord[];
+  /** Optional: job openings and applications; see `job-market.ts`. */
+  readonly jobOpenings?: readonly JobOpeningRecord[];
+  readonly jobApplications?: readonly JobApplicationRecord[];
+  readonly jobApplicationSteps?: readonly JobApplicationStepRecord[];
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
   readonly organizationProfiles: readonly OrganizationProfileRecord[];
@@ -3989,9 +4004,11 @@ export type LegislativeActionKind =
   | "presented-to-executive"
   | "signed"
   | "vetoed"
+  | "became-law-without-signature"
   | "override-chamber-recorded"
   | "override-succeeded"
   | "override-failed"
+  | "override-period-expired"
   | "enacted"
   | "died-on-adjournment";
 

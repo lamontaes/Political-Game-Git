@@ -2458,7 +2458,7 @@ export const EXECUTIVE_GOVERNING_KERNELS: readonly ExecutiveKernelDefinition[] =
         },
       ],
       declaredLimitations: [
-        "The flag is an observation. Measurement error is withheld by the research, and nothing here promotes a measure to truth about the programme.",
+        "The flag is an observation. Measurement error is withheld by the research, and nothing here promotes a measure to truth about the program.",
         "A performance system is a supplied precondition, not an assumption.",
       ],
     },
@@ -3577,7 +3577,7 @@ export const EXECUTIVE_GOVERNING_KERNELS: readonly ExecutiveKernelDefinition[] =
           stage: "staff-analysis",
           kind: "omitted",
           reason: "kernel-carries-no-such-stage",
-          note: "There is no matter to analyse.",
+          note: "There is no matter to analyze.",
         },
         {
           stage: "counsel-fiscal-review",
@@ -3589,7 +3589,7 @@ export const EXECUTIVE_GOVERNING_KERNELS: readonly ExecutiveKernelDefinition[] =
           stage: "decision-memorandum",
           kind: "omitted",
           reason: "kernel-carries-no-such-stage",
-          note: "There is no matter to memorialise.",
+          note: "There is no matter to memorialize.",
         },
         {
           stage: "chief-of-staff-gate",

@@ -30,6 +30,8 @@ import {
   placeProjectedOrdinanceOnAgenda,
   previewAuthoredCouncilBallots,
   takeProjectedOrdinanceVote,
+  takeProjectedOverrideVote,
+  actOnProjectedCouncilMeasure,
   type OwnOrdinanceBallot,
 } from "../presentation/municipal-governing";
 import {
@@ -57,7 +59,10 @@ function humanLabel(value: string): string {
 
 const ORDINANCE_PHASE_LABELS: Readonly<Record<string, string>> = {
   "awaiting-referral": "Introduced; not yet on the council agenda.",
-  "on-floor": "On the council agenda for passage.",
+  "on-floor": "On the council agenda.",
+  "awaiting-executive": "Passed by the council.",
+  "awaiting-override": "Passed by the council and returned without approval.",
+  "awaiting-enactment": "Passed and approved.",
   enacted: "Passed and recorded.",
   failed: "Not passed.",
 };
@@ -368,7 +373,7 @@ export function MunicipalWorkspace({
               className="municipal-panel"
               data-testid="municipal-ordinances"
             >
-              <h3>Council ordinances</h3>
+              <h3>Council {governing.measureNoun}s</h3>
               {governing.ordinanceIntroduction.ok ? (
                 <form
                   onSubmit={(event) => {
@@ -390,7 +395,7 @@ export function MunicipalWorkspace({
                   }}
                 >
                   <label>
-                    Title of a new ordinance
+                    Title of a new {governing.measureNoun}
                     <input
                       type="text"
                       value={ordinanceTitle}
@@ -401,20 +406,23 @@ export function MunicipalWorkspace({
                     />
                   </label>
                   <button type="submit" disabled={!ordinanceTitle.trim()}>
-                    Introduce ordinance
+                    Introduce {governing.measureNoun}
                   </button>
                 </form>
               ) : (
                 <p>{governing.ordinanceIntroduction.reason}</p>
               )}
               {governing.ordinances.length === 0 ? (
-                <p>No ordinance is before the council in this save.</p>
+                <p>
+                  No {governing.measureNoun} is before the council in this save.
+                </p>
               ) : (
                 <ul className="municipal-ordinance-list">
                   {governing.ordinances.map((ordinance) => {
                     const ballot = ballots[ordinance.measureId] ?? "yea";
                     const preview =
-                      ordinance.phase === "on-floor"
+                      ordinance.phase === "on-floor" ||
+                      ordinance.phase === "awaiting-override"
                         ? previewAuthoredCouncilBallots(
                             world,
                             governing.governmentKey,
@@ -457,9 +465,17 @@ export function MunicipalWorkspace({
                         ) : null}
                         {ordinance.phase === "on-floor" ? (
                           <div className="municipal-ordinance-vote">
+                            {ordinance.stageLabel ? (
+                              <p>Next: {ordinance.stageLabel}.</p>
+                            ) : null}
                             {ordinance.timingRule ? (
                               <p>
                                 {ordinance.timingRule} Earliest valid passage:{" "}
+                                {ordinance.earliestPassageOn}.
+                              </p>
+                            ) : ordinance.earliestPassageOn && tooEarly ? (
+                              <p>
+                                The next reading may not be taken before{" "}
                                 {ordinance.earliestPassageOn}.
                               </p>
                             ) : null}
@@ -547,8 +563,7 @@ export function MunicipalWorkspace({
                                 {tooEarly ? (
                                   <p>
                                     Not before {ordinance.earliestPassageOn}:
-                                    the council's code does not allow passage
-                                    sooner.
+                                    the council's rules do not allow it sooner.
                                   </p>
                                 ) : null}
                               </>
@@ -557,8 +572,117 @@ export function MunicipalWorkspace({
                             )}
                           </div>
                         ) : null}
+                        {ordinance.phase === "awaiting-executive" ? (
+                          <div data-testid="municipal-ordinance-executive">
+                            <p>
+                              With {governing.executiveName}, who has until{" "}
+                              {ordinance.executiveActsBy ?? "a date not read"}{" "}
+                              to sign it or return it to the council.
+                            </p>
+                            {ordinance.playerIsExecutive ? (
+                              <>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    act(
+                                      actOnProjectedCouncilMeasure(
+                                        world,
+                                        governing.governmentKey,
+                                        ordinance.measureId,
+                                        "sign",
+                                      ),
+                                    )
+                                  }
+                                >
+                                  Sign it
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    act(
+                                      actOnProjectedCouncilMeasure(
+                                        world,
+                                        governing.governmentKey,
+                                        ordinance.measureId,
+                                        "return",
+                                      ),
+                                    )
+                                  }
+                                >
+                                  Return it unsigned
+                                </button>
+                              </>
+                            ) : null}
+                          </div>
+                        ) : null}
+                        {ordinance.phase === "awaiting-override" ? (
+                          <div data-testid="municipal-ordinance-override">
+                            <p>
+                              {governing.executiveName.charAt(0).toUpperCase() +
+                                governing.executiveName.slice(1)}{" "}
+                              returned it. The council may reenact it until{" "}
+                              {ordinance.overrideBy ?? "a date not read"}.
+                            </p>
+                            {preview ? (
+                              <>
+                                <fieldset>
+                                  <legend>Your vote to reenact</legend>
+                                  {(
+                                    [
+                                      ["yea", "Yea"],
+                                      ["nay", "Nay"],
+                                    ] as const
+                                  ).map(([value, label]) => (
+                                    <label key={value}>
+                                      <input
+                                        type="radio"
+                                        name={`override-${ordinance.measureId}`}
+                                        value={value}
+                                        checked={ballot === value}
+                                        onChange={() =>
+                                          setBallots({
+                                            ...ballots,
+                                            [ordinance.measureId]: value,
+                                          })
+                                        }
+                                      />
+                                      {label}
+                                    </label>
+                                  ))}
+                                </fieldset>
+                                <p>
+                                  If recorded now: {preview.yea} yea,{" "}
+                                  {preview.nay} nay. Other councilors' ballots
+                                  are game-authored.
+                                </p>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    act(
+                                      takeProjectedOverrideVote(
+                                        world,
+                                        governing.governmentKey,
+                                        ordinance.measureId,
+                                        ballot,
+                                      ),
+                                    )
+                                  }
+                                >
+                                  Record the vote to reenact
+                                </button>
+                              </>
+                            ) : null}
+                          </div>
+                        ) : null}
                         {ordinance.enactment ? (
                           <p data-testid="municipal-ordinance-outcome">
+                            {ordinance.executiveAction === "signed"
+                              ? `Signed by ${governing.executiveName}. `
+                              : ordinance.executiveAction === "unsigned"
+                                ? `Approved without ${governing.executiveName}'s signature. `
+                                : ordinance.executiveAction === "returned"
+                                  ? "Reenacted over the return. "
+                                  : ""}
                             Enacted {ordinance.enactment.resolvedAt}; in effect
                             from{" "}
                             {ordinance.enactment.effectiveAt ??
@@ -568,7 +692,9 @@ export function MunicipalWorkspace({
                         ) : null}
                         {ordinance.phase === "failed" ? (
                           <p data-testid="municipal-ordinance-outcome">
-                            The council did not pass it.
+                            {ordinance.executiveAction === "returned"
+                              ? `${governing.executiveName.charAt(0).toUpperCase() + governing.executiveName.slice(1)} returned it, and it was not reenacted.`
+                              : "The council did not pass it."}
                           </p>
                         ) : null}
                       </li>

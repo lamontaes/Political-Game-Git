@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  homeCountyEquivalentTerm,
   homeLocalGovernmentUnits,
   localGovernmentDisplayName,
 } from "../simulation";
@@ -17,6 +18,7 @@ import {
   stateExecutiveReelection,
 } from "../presentation/nationwide-candidacy";
 import type { StateExecutiveEntryStatus } from "../simulation";
+import { numberWord } from "../simulation/legislation-content-contracts";
 import { readableCampaignDate } from "./CampaignWorkspace";
 import { CongressCandidacySection } from "./CongressCandidacySection";
 import { ownElectionResultSentence } from "../presentation/own-election";
@@ -41,6 +43,8 @@ export function NationwideCandidacyWorkspace({
 }) {
   const [problem, setProblem] = useState<string | null>(null);
   const home = homeLocalGovernmentUnits(world, personId);
+  // Parishes in Louisiana, boroughs in Alaska, counties everywhere else.
+  const countyTerm = homeCountyEquivalentTerm(world, personId);
   const campaignPhase = projectCampaign(world, personId).phase;
   const candidacy = stateExecutiveCandidacyForPerson(
     world,
@@ -130,14 +134,16 @@ export function NationwideCandidacyWorkspace({
         ) : null}
         {home.placeScope === "state" || home.placeScope === null ? (
           <p className="game-note" data-testid="home-no-local">
-            This life is not set in a particular city or county, so no local
-            government is named.
+            This life is not set in a particular city or {countyTerm.singular},
+            so no local government is named.
           </p>
         ) : null}
-        <p className="game-note" data-testid="home-county-spread">
-          A place that lies across several counties keeps every one of them;
-          none is chosen for it.
-        </p>
+        {home.counties.length > 1 ? (
+          <p className="game-note" data-testid="home-county-spread">
+            This place lies in {numberWord(home.counties.length)}{" "}
+            {countyTerm.plural}, and each is listed above.
+          </p>
+        ) : null}
       </section>
 
       {candidacy ? (
@@ -165,8 +171,8 @@ export function NationwideCandidacyWorkspace({
             <>
               {candidacy.eligible ? (
                 <p>
-                  You may stand for {candidacy.identity.title} of your state
-                  today. Filing opens a campaign with nothing in it.
+                  You may stand for {candidacy.identity.displayName} today.
+                  Filing opens a campaign with nothing in it.
                 </p>
               ) : (
                 <BlockList blocks={candidacy.blocks} />
@@ -185,7 +191,9 @@ export function NationwideCandidacyWorkspace({
                 </span>
                 <span className="game-campaign-action-note">
                   {calendar
-                    ? `The next regular election is ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
+                    ? calendar.closedElection
+                      ? `The next regular election is ${readableCampaignDate(calendar.closedElection)}, and its candidate field has closed. A filing today stands in the one after, ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
+                      : `The next regular election is ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
                     : null}
                 </span>
               </button>
@@ -245,8 +253,8 @@ export function NationwideCandidacyWorkspace({
         </section>
       ) : (
         <p className="game-note" data-testid="state-executive-unavailable">
-          This life is not set in one of the fifty states, so there is no state
-          executive office to stand for.
+          No chief executive office is on record for where this life is set, so
+          there is none to stand for.
         </p>
       )}
       <CongressCandidacySection

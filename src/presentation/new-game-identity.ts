@@ -1,5 +1,9 @@
 import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
-import { SCHOOL_STAGES_V1 } from "../simulation/school-stages";
+import {
+  SCHOOL_STAGES_V1,
+  SCHOOL_STAGES_V2,
+} from "../simulation/school-stages";
+import { FAMILY_BIRTHDAYS_V1, PARENT_PARTNERS_V1 } from "./production-world";
 import { CONGRESSIONAL_HOME_JOIN_V1 } from "../simulation/district-residence";
 import { RESIDENT_CHAPTER_NAME_VERSION } from "../simulation/living-world/party-chapters";
 import {
@@ -240,6 +244,12 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.districtHomeJoinVersion === undefined
       ? {}
       : { districtHomeJoinVersion: setup.districtHomeJoinVersion }),
+    ...(setup.familyBirthdayVersion === undefined
+      ? {}
+      : { familyBirthdayVersion: setup.familyBirthdayVersion }),
+    ...(setup.parentPartnerVersion === undefined
+      ? {}
+      : { parentPartnerVersion: setup.parentPartnerVersion }),
     ...(setup.birthYear === undefined ? {} : { birthYear: setup.birthYear }),
     ...(setup.openingDataVersion === undefined
       ? {}
@@ -397,7 +407,18 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     return null;
   if (
     record.schoolStageVersion !== undefined &&
-    record.schoolStageVersion !== SCHOOL_STAGES_V1
+    record.schoolStageVersion !== SCHOOL_STAGES_V1 &&
+    record.schoolStageVersion !== SCHOOL_STAGES_V2
+  )
+    return null;
+  if (
+    record.familyBirthdayVersion !== undefined &&
+    record.familyBirthdayVersion !== FAMILY_BIRTHDAYS_V1
+  )
+    return null;
+  if (
+    record.parentPartnerVersion !== undefined &&
+    record.parentPartnerVersion !== PARENT_PARTNERS_V1
   )
     return null;
   if (
@@ -489,7 +510,18 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
       : { schoolNameVersion: SCHOOL_NAMES_V2_VERSION }),
     ...(record.schoolStageVersion === undefined
       ? {}
-      : { schoolStageVersion: SCHOOL_STAGES_V1 }),
+      : {
+          schoolStageVersion:
+            record.schoolStageVersion === SCHOOL_STAGES_V2
+              ? SCHOOL_STAGES_V2
+              : SCHOOL_STAGES_V1,
+        }),
+    ...(record.familyBirthdayVersion === undefined
+      ? {}
+      : { familyBirthdayVersion: FAMILY_BIRTHDAYS_V1 }),
+    ...(record.parentPartnerVersion === undefined
+      ? {}
+      : { parentPartnerVersion: PARENT_PARTNERS_V1 }),
     ...(record.districtHomeJoinVersion === undefined
       ? {}
       : { districtHomeJoinVersion: CONGRESSIONAL_HOME_JOIN_V1 }),
