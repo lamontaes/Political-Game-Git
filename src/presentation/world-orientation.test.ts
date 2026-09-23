@@ -397,4 +397,60 @@ describe("world orientation reader", () => {
     const house = view.steps[1]!.chambers[1]!;
     expect(house.roster[0]!.seatLabel).toBe("District of Columbia, Delegate");
   });
+
+  it("presents Puerto Rico as a territory, naming its Governor and Resident Commissioner", () => {
+    const base = orientation();
+    const commissioner = holder(
+      "p-rc",
+      "Luz Rivera",
+      "Resident Commissioner",
+      "party-a",
+    );
+    const empty = projectOrientationView(
+      orientation({
+        homeState: { stateUsps: "PR", jurisdictionId: null, governor: null },
+      }),
+      stateName,
+    ).steps[2]!;
+    expect(empty.title).toBe("Puerto Rico");
+    expect(empty.summary).toMatch(
+      /Puerto Rico is a U\.S\. territory, not a state\./,
+    );
+    expect(empty.summary).toMatch(/No current record names the Governor\./);
+    expect(empty.summary).not.toMatch(
+      /state government|No governor is recorded/,
+    );
+
+    const governor = holder(
+      "p-gov",
+      "Ana Colón",
+      "Governor of Puerto Rico",
+      "party-b",
+    );
+    const step = projectOrientationView(
+      orientation({
+        homeState: { stateUsps: "PR", jurisdictionId: null, governor },
+        congress: {
+          ...base.congress!,
+          house: chamber("us-house", [
+            {
+              seatKey: "us-house:PR-98",
+              chamberKey: "us-house",
+              stateUsps: "PR",
+              district: "98",
+              senateClass: null,
+              occupant: { kind: "member", member: commissioner },
+            },
+          ]),
+        },
+      }),
+      stateName,
+    ).steps[2]!;
+    expect(step.summary).toMatch(/Ana Colón is Governor of Puerto Rico\./);
+    expect(step.summary).toMatch(/Luz Rivera is the Resident Commissioner\./);
+    expect(step.people.map((person) => person.personId)).toEqual([
+      "p-gov",
+      "p-rc",
+    ]);
+  });
 });

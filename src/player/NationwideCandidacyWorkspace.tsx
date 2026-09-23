@@ -168,7 +168,9 @@ export function NationwideCandidacyWorkspace({
                 </span>
                 <span className="game-campaign-action-note">
                   {calendar
-                    ? `The next regular election is ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
+                    ? calendar.closedElection
+                      ? `The next regular election is ${readableCampaignDate(calendar.closedElection)}, and its candidate field has closed. A filing today stands in the one after, ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
+                      : `The next regular election is ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
                     : null}
                 </span>
               </button>

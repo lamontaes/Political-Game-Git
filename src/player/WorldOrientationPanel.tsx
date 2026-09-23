@@ -370,7 +370,9 @@ export function WorldOrientationPanel({
                       <h3>
                         {homeStateUsps === "DC"
                           ? "Your District government"
-                          : "Your state government"}
+                          : homeStateUsps === "PR"
+                            ? "Your territory's government"
+                            : "Your state government"}
                       </h3>
                       <p>{step.summary}</p>
                       {step.people.length > 0 ? (
@@ -800,6 +802,12 @@ function ChamberBlock({
             ))}
           </GameSelect>
         </label>
+        <p className="pg-orientation-roster-note">
+          {`All ${stateOptions.find(([usps]) => usps === state)?.[1] ?? "the"} members, in seat order.`}
+          {chamber.chamberKey === "us-house" && state === homeStateUsps
+            ? " The one who represents your home is under Government, in Represented by."
+            : null}
+        </p>
         <ul>
           {rows.map((row) => (
             <li key={row.seatKey}>

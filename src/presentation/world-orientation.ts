@@ -264,6 +264,9 @@ function stateStep(
   if (home?.stateUsps === "DC") {
     return districtOfColumbiaStep(orientation, parties);
   }
+  if (home?.stateUsps === "PR") {
+    return puertoRicoStep(orientation, parties);
+  }
   const name = home ? placeName(home.stateUsps, stateName) : null;
   const governor = home?.governor ?? null;
   return {
@@ -275,6 +278,44 @@ function stateStep(
         ? `No governor is recorded for ${name}.`
         : "This life's records do not name a home state.",
     people: governor ? [personFor(governor, parties)] : [],
+    chambers: [],
+  };
+}
+
+/**
+ * Puerto Rico is a territory with its own government, not a state: it elects
+ * a Governor and a Legislative Assembly, and a Resident Commissioner who sits
+ * in the House without a floor vote. This step names whoever the records hold
+ * and never borrows a state's wording or rules.
+ */
+function puertoRicoStep(
+  orientation: WorldOrientation,
+  parties: ReadonlyMap<EntityId, PartyView>,
+): OrientationStep {
+  const governor = orientation.homeState?.governor ?? null;
+  const commissioner =
+    (orientation.congress?.house.seats ?? []).flatMap((seat) =>
+      seat.stateUsps === "PR" && seat.occupant.kind === "member"
+        ? [seat.occupant.member]
+        : [],
+    )[0] ?? null;
+  const parts = [
+    "Puerto Rico is a U.S. territory, not a state. It elects a Governor and a Legislative Assembly, and a Resident Commissioner to the U.S. House of Representatives.",
+    governor
+      ? `${governor.personName} is ${governor.title}.`
+      : "No current record names the Governor.",
+    commissioner
+      ? `${commissioner.personName} is the Resident Commissioner.`
+      : "No current record names the Resident Commissioner.",
+  ];
+  return {
+    key: "state",
+    title: "Puerto Rico",
+    summary: parts.join(" "),
+    people: [
+      ...(governor ? [personFor(governor, parties)] : []),
+      ...(commissioner ? [personFor(commissioner, parties)] : []),
+    ],
     chambers: [],
   };
 }

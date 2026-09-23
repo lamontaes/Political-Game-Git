@@ -189,6 +189,10 @@ export function projectStateVotingContext(
     ],
   });
   const name = CPS_STATE_NAMES[stateUsps];
+  if (stateUsps === "PR")
+    return empty(
+      "This survey covers the fifty states and the District of Columbia. It does not report Puerto Rico.",
+    );
   if (!name) return empty("No reviewed state identity matches this selection.");
   try {
     makeIsoDate(asOf);

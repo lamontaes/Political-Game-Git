@@ -59,8 +59,13 @@ describe("GOVERNING 3: a governorship continues without the player", () => {
     );
     expect(contests).toHaveLength(1);
     expect(contests[0]!.electionDate).toBe("2026-11-03");
-    expect(stateExecutiveOfficeCalendar(autumn, "CO")!.nextElection).toBe(
-      "2030-11-05",
+    expect(stateExecutiveOfficeCalendar(autumn, "CO")).toMatchObject({
+      nextElection: "2030-11-05",
+      // The 2026 election is still ahead; the card must not call 2030 next.
+      closedElection: "2026-11-03",
+    });
+    expect(stateExecutiveOfficeCalendar(world, "CO")!.closedElection).toBe(
+      null,
     );
 
     // First boundary: someone holds the office from the new term's start.
