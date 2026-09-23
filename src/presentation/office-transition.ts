@@ -21,13 +21,13 @@ import {
   officeTransitionProfile,
   stateExecutiveEntryStatus,
   stateExecutiveIdentityForOfficeKey,
-  stateJurisdictionForKey,
   takeOathOfOffice,
   transitionServiceStatus,
   workRelationshipHistoryForPerson,
   workRoleAt,
   workStatusAt,
 } from "../simulation";
+import { electedExecutiveOfficeJurisdiction } from "../simulation/executive-work-context";
 import type {
   DatedTransitionService,
   EntityId,
@@ -132,7 +132,7 @@ function executiveTransition(
   const identity =
     contest && stateExecutiveIdentityForOfficeKey(contest.office.officeKey);
   const jurisdiction =
-    identity && stateJurisdictionForKey(identity.jurisdictionKey);
+    identity && electedExecutiveOfficeJurisdiction(identity.jurisdictionKey);
   if (!contest || !identity || !jurisdiction) return null;
   const profile = officeTransitionProfile("state-executive");
   return {
@@ -278,7 +278,7 @@ function heldExecutiveTerm(
   const identity =
     contest && stateExecutiveIdentityForOfficeKey(contest.office.officeKey);
   const jurisdiction =
-    identity && stateJurisdictionForKey(identity.jurisdictionKey);
+    identity && electedExecutiveOfficeJurisdiction(identity.jurisdictionKey);
   if (!contest || !identity || !jurisdiction) return null;
   return {
     contestId: contest.id,
