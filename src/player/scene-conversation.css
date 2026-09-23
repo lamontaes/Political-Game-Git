@@ -91,6 +91,12 @@ button.pg-talk-face {
     border-color 160ms ease;
 }
 
+/* Somebody on the phone: drawn as a call, not as a face in the room. */
+.pg-talk-face[data-remote="true"] .person-portrait-mark {
+  border-style: dashed;
+  opacity: 0.8;
+}
+
 .pg-talk-face[data-addressed="true"] .person-portrait-mark {
   border-color: var(--run-a-gold);
   filter: none;
