@@ -13,7 +13,7 @@
   "notes": [
     "Asked by the owner on 2026-09-22 at 22:52Z: 'Polling and stuff like that from your campaign should not be automatic or always correct. It needs to depend on the skill of the people doing the polling.'",
     "What the game does now: src/simulation/campaign-polling.ts finds the candidate or active staff member with the most time in a survey occupation (SOC 19-3022, 15-2041, 13-1161, 19-3094). With none, each of three error draws is up to four points; under three years, three; three years or more, two. The memo still states a four-point margin whoever writes it.",
-    "Not modelled and part of the question: hiring a professional pollster, sample size and cost, and a sponsor's lean toward good news. A memo is still written after every outreach afternoon."
+    "Not modeled and part of the question: hiring a professional pollster, sample size and cost, and a sponsor's lean toward good news. A memo is still written after every outreach afternoon."
   ],
   "sourcesChecked": [
     {

@@ -30,7 +30,7 @@ import type { EntityId, IsoDate } from "./types";
  *   lengths today; the rest do not.
  * - `game-profile`: the disclosed, versioned simulation rule the game applies
  *   where the real rule is not compiled. It is NOT a claim about that state's
- *   law, it is never copied from a neighbouring state, and it is labelled
+ *   law, it is never copied from a neighboring state, and it is labeled
  *   wherever a player inspects the office.
  *
  * What is still missing, and is deliberately not invented here: no state's

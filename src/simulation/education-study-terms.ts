@@ -247,7 +247,7 @@ export function parseEducationTerms(
     } else if (
       terms.origin !== undefined ||
       !/^ipeds-unit:\d{6}$/.test(terms.institutionId) ||
-      !/^NONCRDT[1-8]$/.test(terms.capabilityCode) ||
+      !/^(NONCRDT[1-8]|LEVEL[357])$/.test(terms.capabilityCode) ||
       p.program !==
         `postsecondary:edu-path7-${terms.capabilityCode.toLowerCase()}` ||
       !terms.sourceEvidence.length

@@ -333,6 +333,7 @@ import {
   reportReturnToTitle,
   type ReturnToTitleRequest,
 } from "./return-to-title-bridge";
+import { HomePurchasePanel } from "./HomePurchasePanel";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
 import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
 import {
@@ -4555,6 +4556,11 @@ function renderWorkspace({
             {...(view.section ? { section: view.section } : {})}
             onOpenPerson={openPerson}
           />
+          <HomePurchasePanel
+            world={session.world}
+            personId={session.personId}
+            onWorldChange={onWorldChange}
+          />
           {view.section !== "finances" && (
             <>
               <PersonalGoalsPanel
@@ -5459,8 +5465,9 @@ function renderWorkspace({
           body: (
             <div data-testid="town-seat">
               <p>
-                You sit on the {townSeat.bodyName} of {townSeat.governmentName},
-                since {proseDate(townSeat.since)}.
+                {townSeat.office === "mayor"
+                  ? `You have been ${townSeat.mayorTitle}, ${townSeat.governmentName}, since ${proseDate(townSeat.since)}.`
+                  : `You sit on the ${townSeat.bodyName} of ${townSeat.governmentName}, since ${proseDate(townSeat.since)}.`}
               </p>
               {townSeatRulesSentence(townSeat) ? (
                 <p data-testid="town-seat-rules">

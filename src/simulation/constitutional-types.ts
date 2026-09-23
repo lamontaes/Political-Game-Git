@@ -44,7 +44,7 @@ export interface ConstitutionalMeasureRecord extends Pick<
   | "introducedAt"
 > {
   readonly processKind: ConstitutionalProcessKind;
-  readonly jurisdictionKey: "US" | "US-CA" | "us-nv-carson-city";
+  readonly jurisdictionKey: "US" | `US-${string}` | "us-nv-carson-city";
   readonly text: string;
   readonly textVersion: string;
   readonly sponsoringAuthority: string;
@@ -71,7 +71,8 @@ export type ConstitutionalActionDetail =
   | { readonly kind: "proposed" }
   | {
       readonly kind: "proposal-vote";
-      readonly bodyKey: "house" | "senate" | "assembly";
+      /** A chamber key of the proposing legislature. */
+      readonly bodyKey: string;
       readonly vote: ConstitutionalVoteRecord;
     }
   | {
@@ -107,7 +108,7 @@ export interface ConstitutionalRuleVersionRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
-  readonly jurisdictionKey: "US" | "US-CA";
+  readonly jurisdictionKey: "US" | `US-${string}`;
   readonly measureId: EntityId;
   readonly effectiveAt: IsoDate;
   readonly operativeAt: IsoDate;
