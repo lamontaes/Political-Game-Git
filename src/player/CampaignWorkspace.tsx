@@ -760,7 +760,11 @@ export function CampaignWorkspace({
           ) : null}
 
           {view.phase === "active" ? (
-            <OpponentActivityPanel world={world} personId={personId} />
+            <OpponentActivityPanel
+              world={world}
+              personId={personId}
+              campaignId={view.campaignId}
+            />
           ) : null}
 
           <MogulOffersPanel
