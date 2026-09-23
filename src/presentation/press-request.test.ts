@@ -29,7 +29,7 @@ describe("ordinary press structured statements", () => {
     expect(pitch).toEqual({
       ok: true,
       statement:
-        "The source offers a statement without adding unrecorded claims about “The council published the hearing notice.” on on-background spoken terms to be attributed as “a State Representative” and will not speculate beyond the recorded file.",
+        "The source offers a spoken statement on background, to be attributed to a State Representative, about this development: The council published the hearing notice. They will not speculate beyond what is on the public record.",
     });
     expect(
       composePressRequestPitch({
@@ -52,7 +52,7 @@ describe("ordinary press structured statements", () => {
     expect(question.statement).toContain(
       "The council published the hearing notice.",
     );
-    expect(question.statement).toContain("on-record");
+    expect(question.statement).toContain("Asked on the record:");
   });
 
   it("composes an exact answer from recorded facts before commit", () => {

@@ -1,6 +1,6 @@
 {
   "asOf": "2026-09-08",
-  "canonicalSha256": "034c648a8846406bffca13c52df1daf4e9238ce6f48d645fcafa22265c71b205",
+  "canonicalSha256": "d991c2349ec3b0ee9bc083d386f74aa077421bfb02bc88432ec5cd809f509342",
   "compiler": {
     "name": "municipal-governance",
     "version": "3.0.0"
@@ -52,6 +52,18 @@
     {
       "artifactId": "dc-code-1-207-71",
       "sha256": "39f50dc3171bac97daac328ea64b04159cb9560bd15babc8a205daff4ced6623"
+    },
+    {
+      "artifactId": "dc-code-1-204-04",
+      "sha256": "3374f87ef76d93fcb1fb360519d79dc4dba823cdb47092a0068b6816954d2517"
+    },
+    {
+      "artifactId": "dc-code-1-204-12",
+      "sha256": "340363b65399c1f2ae5aadd3f20df87433d1c63ba15b228a35e59c657bae330a"
+    },
+    {
+      "artifactId": "dc-code-1-206-02",
+      "sha256": "e393d8d0372b2261a76f3d085d5a8b0ed8ff92190fe387c553b60db8a4cdb12a"
     },
     {
       "artifactId": "va-charlottesville-charter",

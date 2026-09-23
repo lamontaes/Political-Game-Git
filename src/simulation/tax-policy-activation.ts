@@ -1,7 +1,7 @@
-import { addDays } from "../simulation/dates";
-import { currentMeasureProvisions } from "../simulation/legislative-politics";
-import { adoptEnactedTaxPolicy, taxLevyText } from "../simulation/tax-policy";
-import type { World, EntityId } from "../simulation";
+import { addDays } from "./dates";
+import { currentMeasureProvisions } from "./legislative-politics";
+import { taxLevyText } from "./tax-policy";
+import type { World, EntityId } from "./types";
 
 export function taxActivationReadiness(
   world: World,
@@ -70,27 +70,4 @@ export function taxActivationReadiness(
     kind: "ready",
     reason: "Enacted adopted tax terms support a prospective policy version.",
   };
-}
-
-/** Called only after an actual legislative action. Unsupported amended text
- * remains enacted canonical law; it does not roll back the action or silently
- * install the old tax effect. Reads and reloads never activate policies.
- */
-export function recordNewlyEnactedTaxPolicies(
-  before: World,
-  after: World,
-): World {
-  const previous = new Set(
-    (before.history.legislativeEnactments ?? []).map((row) => row.id),
-  );
-  let next = after;
-  for (const enactment of after.history.legislativeEnactments ?? []) {
-    if (previous.has(enactment.id) || enactment.outcome !== "enacted") continue;
-    const proposal = after.history.taxProposals?.find(
-      (row) => row.measureId === enactment.measureId,
-    );
-    if (proposal && taxActivationReadiness(next, proposal.id).kind === "ready")
-      next = adoptEnactedTaxPolicy(next, proposal.id);
-  }
-  return next;
 }

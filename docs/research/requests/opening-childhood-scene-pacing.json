@@ -1,0 +1,36 @@
+{
+  "candidateAnswers": [
+    {
+      "label": "Spread by the life's own events",
+      "position": "Offer one opening scene at a time, and hold the next until something in the life makes it true: a school term starting, a sibling arriving, a move, a season. Between scenes, time passes in ordinary days and weeks, so ages 5 to 8 each get their own moments.",
+      "recommended": true
+    },
+    {
+      "label": "Spread on a fixed cadence",
+      "position": "Offer about one scene a month through the early years, whatever else is happening, with time-of-day windows still applied.",
+      "recommended": false
+    }
+  ],
+  "filedAt": "2026-09-23T11:55:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Childhood story (opening life scenes), with the Journal",
+  "notes": [
+    "The Journal and the Who you are history date each choice honestly from the day it was made. The problem is when the choices are offered, not how they are dated.",
+    "Codex playtests in Elko, Nevada and Lewiston, Maine (main 85d3e402) showed four formative childhood memories, all dated January 5, 2026, the life's first morning."
+  ],
+  "priority": "P2",
+  "question": "A new life that starts at 5 is offered several formative childhood scenes on its first morning (a spilled mug, a shared crayon, waving at a neighbor), and the player can answer them all that day. The Journal then shows ages 5 to 8 as one day. How should a childhood's scenes be paced so they unfold as a real early life does? How many meaningful moments does a child of 5 to 8 have in a year? What should decide when the next one comes: school terms, family events, seasons, or a steady cadence? And what should the game show between them?",
+  "questionId": "opening-childhood-scene-pacing",
+  "relatedQuestionIds": ["which-later-answers-an-early-choice-deserves"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Journal thread, for lamontae (owner)",
+  "sourcesChecked": [
+    {
+      "source": "src/presentation/life-scene-flow.ts and src/simulation/life-episodes.ts",
+      "whatItDidNotSettle": "Each choice records the day it was chosen; nothing spaces the opening scenes apart in time."
+    }
+  ],
+  "title": "How far apart a child's early scenes should come",
+  "usableAnswer": "A pacing rule for ages 5 to 8: how many scenes per year, what makes the next one due, and what the player sees in between, with the reasoning.",
+  "whyItMatters": "The owner asked for childhood events that unfold as a real life does. Today four formative moments can all land on one morning, which reads as a single day in the Journal."
+}

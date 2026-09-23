@@ -9,6 +9,8 @@ import {
   LOCAL_FIGURES_CARRIED_FORWARD_RULE,
   carriedLocalFigureLine,
   carriedLocalFigures,
+  periodInWords,
+  type CarriedLocalFigure,
 } from "./local-economy-carried";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
@@ -121,23 +123,27 @@ describe("a town's figures after the last real edition", () => {
       // The latest jobless figure reached the world in-game, so it moves by
       // what the world's rate did from that month on.
       const unemployment = byKey.unemployment!;
-      const base = macroConditionsAt(
-        world,
-        "national",
-        (context.observations.find(
-          (o) =>
-            o.referencePeriod === unemployment.realPeriod &&
-            o.sourceSeriesKey.endsWith("03"),
-        )!.vintage.knownAvailableOn ?? "") as IsoDate,
-      );
+      const arrived = (context.observations.find(
+        (o) =>
+          o.referencePeriod === unemployment.realPeriod &&
+          o.sourceSeriesKey.endsWith("03"),
+      )!.vintage.knownAvailableOn ?? "") as IsoDate;
+      // Measured in the same economy as `now`: the town's own where it has
+      // one, as the carried figure is.
+      const base =
+        macroConditionsAt(
+          world,
+          macroScopeForJurisdiction(homeOf(world)),
+          arrived,
+        ) ?? macroConditionsAt(world, "national", arrived);
       if (base)
         expect(unemployment.carriedValue).toBeCloseTo(
           unemployment.realValue + now.unemploymentPct - base.unemploymentPct,
           1,
         );
-      expect(carriedLocalFigureLine(unemployment)).toContain(
-        "now in this world, from",
-      );
+      const line = carriedLocalFigureLine(unemployment);
+      expect(line).toMatch(/(up from|down from|the same as) /);
+      expect(line).not.toMatch(/published|\(\d{4}-M\d{2}\)|\*/);
     },
     600_000,
   );
@@ -182,5 +188,26 @@ describe("a town's figures after the last real edition", () => {
       },
     };
     expect(carriedLocalFigures(withLayer, home, context)).toEqual(before);
+  });
+
+  it("words a figure's line with no source, code or footnote mark", () => {
+    expect(periodInWords("2026-M07")).toBe("July 2026");
+    expect(periodInWords("FY2025")).toBe("2025");
+    expect(periodInWords("2024")).toBe("2024");
+    expect(periodInWords("2024-Q3")).toBe("July to September 2024");
+    expect(
+      carriedLocalFigureLine({
+        key: "unemployment",
+        label: "Unemployment rate",
+        geographyLabel: "Ketchikan Gateway Borough, AK*",
+        unit: "percent",
+        realValue: 4.3,
+        realPeriod: "2026-M07",
+        carriedValue: 7,
+        rule: LOCAL_FIGURES_CARRIED_FORWARD_RULE,
+      } satisfies CarriedLocalFigure),
+    ).toBe(
+      "Unemployment rate, Ketchikan Gateway Borough, AK: 7.0%, up from 4.3% in July 2026.",
+    );
   });
 });

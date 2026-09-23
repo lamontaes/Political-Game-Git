@@ -14,6 +14,7 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
+import { TownBusinessesPanel } from "./TownBusinessesPanel";
 import {
   economicContextBindingForPlace,
   economicContextUnavailableReason,
@@ -439,6 +440,17 @@ export function PeopleWorkspace({
     () => filterDirectory(directory, category, state.peopleQuery),
     [directory, category, state.peopleQuery],
   );
+  const notYetMet = useMemo(
+    () =>
+      category === "all"
+        ? []
+        : filterDirectory(
+            { ...directory, people: directory.notYetMet },
+            category,
+            state.peopleQuery,
+          ),
+    [directory, category, state.peopleQuery],
+  );
   const [webExpanded, setWebExpanded] = useState(false);
   const peopleView = state.preferences.peopleView;
   const showWeb = peopleView === "web";
@@ -523,6 +535,9 @@ export function PeopleWorkspace({
             query={state.peopleQuery}
             expanded={webExpanded}
             onSelect={selectPerson}
+            onShowList={() =>
+              dispatch({ type: "set-people-view", view: "list" })
+            }
           />
           <button
             type="button"
@@ -587,6 +602,44 @@ export function PeopleWorkspace({
           })}
         </ul>
       )}
+
+      {category === "all" && directory.notYetMet.length > 0 ? (
+        <p className="game-note" data-testid="people-not-yet-met-note">
+          {directory.notYetMet.length === 1
+            ? "1 person you work or organize with is somebody you have not met yet."
+            : `${directory.notYetMet.length} people you work or organize with are somebody you have not met yet.`}{" "}
+          They are under Work and Politics.
+        </p>
+      ) : null}
+      {notYetMet.length > 0 ? (
+        <section
+          className="pg-people-not-yet-met"
+          aria-label="Not met yet"
+          data-testid="people-not-yet-met"
+        >
+          <h3>Not met yet</h3>
+          <ul className="pg-people-list" data-view="list">
+            {notYetMet.map((person) => (
+              <li key={person.personId}>
+                <button
+                  type="button"
+                  className="pg-person-row"
+                  data-testid={`people-unmet-${person.personId}`}
+                  onClick={() => selectPerson(person.personId)}
+                >
+                  <PersonPortrait
+                    world={world}
+                    personId={person.personId}
+                    size="small"
+                  />
+                  <strong>{person.name}</strong>
+                  {person.context ? <small>{person.context}</small> : null}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </>
   );
 }
@@ -1677,7 +1730,7 @@ export function PersonalWorkspace({
         <h3>The place you live</h3>
         <p className="game-note">
           {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
-          {world.currentDate}
+          {proseDate(world.currentDate)}
         </p>
         {/*
           The compact lines come from a generated file committed per place, and
@@ -1714,6 +1767,12 @@ export function PersonalWorkspace({
           <p className="game-note" data-testid="economic-context-unavailable">
             {economicContextUnavailableReason(economicPlace.key)}
           </p>
+        ) : null}
+        {economicPlace ? (
+          <TownBusinessesPanel
+            world={world}
+            jurisdictionId={economicPlace.context.jurisdiction.id}
+          />
         ) : null}
       </section>
     </>

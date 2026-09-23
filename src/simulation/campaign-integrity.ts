@@ -672,6 +672,9 @@ export function assertCampaignIntegrity(
   assertCampaignWeeklyPlanIntegrity(world, ids, campaignById, actionById);
   assertCampaignOpponentIntegrity(world, ids, campaignById);
 
+  // UNRESEARCHED_CAMPAIGN_FILING_RULE.version in campaign-compliance.ts; a
+  // placeholder statement is filed on paper, with no electronic transport.
+  const UNRESEARCHED_FILING_PACK_ID = "campaign-filing-unresearched-v1";
   const complianceById = new Map<EntityId, CampaignComplianceDocumentRecord>();
   for (const filingRecord of complianceDocuments) {
     assertIdentity(ids, world, filingRecord, "campaign-compliance-document");
@@ -680,7 +683,11 @@ export function assertCampaignIntegrity(
       !campaign ||
       campaign.sequence >= filingRecord.sequence ||
       filingRecord.committeeOrganizationId !== campaign.organizationId ||
-      filingRecord.rulePackId !== campaign.compliancePackId
+      (filingRecord.rulePackId !== campaign.compliancePackId &&
+        !(
+          campaign.compliancePackId === null &&
+          filingRecord.rulePackId === UNRESEARCHED_FILING_PACK_ID
+        ))
     ) {
       throw new Error(
         `Campaign compliance document linkage is invalid: ${filingRecord.id}`,
@@ -693,7 +700,10 @@ export function assertCampaignIntegrity(
           filingRecord.filedAt !== null)) ||
       (filingRecord.status === "filed" &&
         (filingRecord.visibility !== "public-record" ||
-          filingRecord.transport !== "KEFMS" ||
+          filingRecord.transport !==
+            (filingRecord.rulePackId === UNRESEARCHED_FILING_PACK_ID
+              ? null
+              : "KEFMS") ||
           filingRecord.filedAt === null))
     ) {
       throw new Error(

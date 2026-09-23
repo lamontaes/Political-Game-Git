@@ -268,6 +268,30 @@ export function createResourceFlow(
   world: World,
   input: CreateResourceFlowInput,
 ): World {
+  return commit(world, resourceFlowHistory(world, input));
+}
+
+/**
+ * The same writer for many flows at once, for seating a town's businesses.
+ * Each input is validated exactly as the single writer does, against the
+ * world as it stands after the ones before it. Integrity is asserted once
+ * over the result instead of once per flow.
+ */
+export function createResourceFlows(
+  world: World,
+  inputs: readonly CreateResourceFlowInput[],
+): World {
+  if (inputs.length === 0) return world;
+  let probe = world;
+  for (const input of inputs)
+    probe = { ...probe, history: resourceFlowHistory(probe, input) };
+  return commit(world, probe.history);
+}
+
+function resourceFlowHistory(
+  world: World,
+  input: CreateResourceFlowInput,
+): World["history"] {
   assertUniqueStableKey(
     world.history.resourceFlows,
     input.stableKey,
@@ -345,12 +369,12 @@ export function createResourceFlow(
     provenance: { ...input.provenance },
     supersedesTermsId: null,
   };
-  return commit(world, {
+  return {
     ...world.history,
     nextSequence: world.history.nextSequence + 2,
     resourceFlows: [...world.history.resourceFlows, flow],
     resourceFlowTerms: [...world.history.resourceFlowTerms, terms],
-  });
+  };
 }
 
 export function recordResourceFlowTerms(
@@ -411,6 +435,52 @@ export function recordResourceTransferOutcome(
   world: World,
   input: RecordResourceTransferOutcomeInput,
 ): World {
+  return appendOne(
+    world,
+    "resourceTransferOutcomes",
+    buildResourceTransferOutcome(world, input),
+  );
+}
+
+/**
+ * The same writer for many outcomes at once, for a settlement that pays a
+ * town's worth of monthly flows in one transition. Each input is validated
+ * exactly as the single writer does, against the world as it stands after
+ * the ones before it, so a later payment still sees an earlier one's money.
+ * Integrity is asserted once over the result instead of once per outcome.
+ */
+export function recordResourceTransferOutcomes(
+  world: World,
+  inputs: readonly RecordResourceTransferOutcomeInput[],
+): World {
+  if (inputs.length === 0) return world;
+  let probe = world;
+  for (const input of inputs) {
+    const record = buildResourceTransferOutcome(probe, input);
+    assertUniqueStableKey(
+      probe.history.resourceTransferOutcomes,
+      record.stableKey,
+      "resourceTransferOutcomes",
+    );
+    probe = {
+      ...probe,
+      history: {
+        ...probe.history,
+        nextSequence: probe.history.nextSequence + 1,
+        resourceTransferOutcomes: [
+          ...probe.history.resourceTransferOutcomes,
+          record,
+        ],
+      },
+    };
+  }
+  return commit(world, probe.history);
+}
+
+function buildResourceTransferOutcome(
+  world: World,
+  input: RecordResourceTransferOutcomeInput,
+): ResourceTransferOutcome {
   const flow = requireRecord(
     world.history.resourceFlows,
     input.resourceFlowId,
@@ -537,7 +607,7 @@ export function recordResourceTransferOutcome(
     transferredAmount: { ...input.transferredAmount },
     provenance: { ...input.provenance },
   };
-  return appendOne(world, "resourceTransferOutcomes", record);
+  return record;
 }
 
 export function createWorkCompensation(

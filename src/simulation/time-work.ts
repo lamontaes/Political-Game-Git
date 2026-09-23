@@ -2,10 +2,14 @@ import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
+import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
 import { applyConstitutionalReform } from "./living-world/constitutional-reform";
+import { applyFederalReform } from "./living-world/federal-reform";
+import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
+import { eventById } from "./event-index";
 import {
   addDays,
   addSimulationMinutes,
@@ -835,6 +839,78 @@ export function assignWorkItem(
   return next;
 }
 
+export interface LapseWorkItemInput {
+  readonly workItemId: EntityId;
+  readonly stableKey: string;
+  /** One sentence for the record: what went by without the work. */
+  readonly summary: string;
+}
+
+/**
+ * Closes active work nobody did, because the time it was for has gone.
+ *
+ * Recorded as canceled, with an event that says so, rather than completed:
+ * nothing claims the work happened or who might have done it instead. The
+ * work keeps whatever effort was already put in.
+ */
+export function lapseWorkItem(world: World, input: LapseWorkItemInput): World {
+  const item = world.history.workItems.find(
+    (candidate) => candidate.id === input.workItemId,
+  );
+  const previous = latestWorkStateUnchecked(world, input.workItemId);
+  if (!item || !previous || previous.status !== "active") {
+    throw new Error("Only active work can lapse.");
+  }
+  let next = recordWorldEvent(world, {
+    stableKey: `${input.stableKey}:event`,
+    type: "work.item-lapsed",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: item.jurisdictionId,
+    involvedEntityIds: [
+      item.id,
+      ...previous.assignedPersonIds,
+      ...(item.jurisdictionId ? [item.jurisdictionId] : []),
+    ],
+    participants: previous.assignedPersonIds.map((personId) => ({
+      personId,
+      role: "agency:responsible" as const,
+      detail: `Did not get to ${item.title}`,
+    })),
+    personFactConstraints: [],
+    visibility: item.access.kind === "office" ? "limited" : "private",
+    tags: ["work.lapsed"],
+    summary: input.summary,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const outcomeEvent = next.history.events.at(-1);
+  if (!outcomeEvent) throw new Error("Work lapse did not record its event.");
+  next = appendWorkState(next, {
+    id: createStableId("work-item-state", `${next.id}:${input.stableKey}`),
+    stableKey: input.stableKey,
+    sequence: next.history.nextSequence,
+    workItemId: item.id,
+    recordedAt: cloneMoment(next.currentMoment),
+    status: "cancelled",
+    assignedPersonIds: previous.assignedPersonIds,
+    playerRequirement: "none",
+    waitingOnPersonIds: [],
+    blocker: null,
+    completedEffortMinutes: previous.completedEffortMinutes,
+    scheduledActivityId: previous.scheduledActivityId,
+    outcomeEventId: outcomeEvent.id,
+    supersedesStateId: previous.id,
+  });
+  return next;
+}
+
 export function workPendingEntriesFor(
   world: World,
   controlledPersonId: EntityId,
@@ -969,7 +1045,11 @@ export function advanceWorldMinutes(
     if (!transitionHandlers.routine) {
       if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0)
         return world;
-      return advanceCanonicalMinutes(world, minutes, null, transitionHandlers);
+      return advanceStoppingAtNewCommitments(
+        world,
+        minutes,
+        transitionHandlers,
+      );
     }
     return resolveAdvanceWithRoutine(
       world,
@@ -1097,18 +1177,16 @@ function resolveAdvanceWithRoutine(
       const stop = scheduledActivityState(current, blockers[0]!).start;
       const minutes = simulationMinutesBetween(current.currentMoment, stop);
       if (minutes > 0)
-        current = advanceCanonicalMinutes(
+        current = advanceStoppingAtNewCommitments(
           current,
           minutes,
-          null,
           transitionHandlers,
         );
       return current;
     }
-    return advanceCanonicalMinutes(
+    return advanceStoppingAtNewCommitments(
       current,
       remaining,
-      null,
       transitionHandlers,
     );
   }
@@ -1209,6 +1287,82 @@ interface ExactTransition {
     | "activity-completion";
   readonly entityId: EntityId | null;
   readonly completedEffortMinutes: number | null;
+}
+
+/**
+ * A plain advance that does not run past something it wrote on the way.
+ *
+ * The stops are read before the advance, but the due items it settles on the
+ * way can put new activities on the controlled person's calendar: a party
+ * chapter posts its next open meeting four days ahead. An advance of four
+ * months used to run straight past every such meeting, and each was released
+ * at the end as having passed without an answer (a D.C. life lost four
+ * between February and June 2039). When that happens the advance is taken
+ * again from the same world, only as far as the earliest such start, where
+ * the ordinary stops apply. The world is pure, so the second advance writes
+ * the same history up to that point.
+ *
+ * A confirmed commitment written on the way is always a stop, since the next
+ * advance could not step over it either. A tentative hold is a stop only when
+ * the registry's stopAtNewTentativeHold says so: a four-year skip that
+ * stopped at every posted invitation, only for the caller to let it lapse,
+ * repeated the whole remaining skip once per invitation.
+ */
+function advanceStoppingAtNewCommitments(
+  world: World,
+  minutes: number,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  let span = minutes;
+  for (let attempt = 0; attempt < 64; attempt++) {
+    const advanced = advanceCanonicalMinutes(
+      world,
+      span,
+      null,
+      transitionHandlers,
+    );
+    if (world.control.kind !== "person") return advanced;
+    const personId = world.control.personId;
+    const written = advanced.history.scheduledActivities.slice(
+      world.history.scheduledActivities.length,
+    );
+    const byId = new Map(
+      advanced.history.scheduledActivities.map((entry) => [entry.id, entry]),
+    );
+    // A tentative hold is a stop only when the caller asks for it; a journey
+    // counts as the kind of hold it leads to.
+    const isStop = (activity: ScheduledActivityRecord): boolean => {
+      const holds =
+        activity.kind === "travel"
+          ? activity.sourceEntityIds.flatMap((id) => {
+              const source = byId.get(id);
+              return source ? [source] : [];
+            })
+          : [activity];
+      if (holds.length === 0) return true;
+      return holds.some(
+        (hold) =>
+          hold.kind !== "tentative" ||
+          (transitionHandlers.stopAtNewTentativeHold?.(hold) ?? false),
+      );
+    };
+    let earliest: SimulationMoment | null = null;
+    for (const activity of written) {
+      if (!activity.participantPersonIds.includes(personId)) continue;
+      if (!isStop(activity)) continue;
+      const state = latestActivityStateUnchecked(advanced, activity.id);
+      if (state?.status !== "scheduled") continue;
+      if (compareSimulationMoments(state.start, world.currentMoment) <= 0)
+        continue;
+      if (compareSimulationMoments(state.start, advanced.currentMoment) >= 0)
+        continue;
+      if (!earliest || compareSimulationMoments(state.start, earliest) < 0)
+        earliest = state.start;
+    }
+    if (!earliest) return advanced;
+    span = simulationMinutesBetween(world.currentMoment, earliest);
+  }
+  throw new Error("Advancing to a newly scheduled activity did not converge.");
 }
 
 function advanceCanonicalMinutes(
@@ -1672,11 +1826,20 @@ function setCurrentMoment(
     applyCrisisOfficeContinuity(
       applyCongressLawmaking(
         crossedFrom,
-        applyConstitutionalReform(
+        applyFederalReform(
           crossedFrom,
-          applyGovernorTurnover(
+          applyConstitutionalReform(
             crossedFrom,
-            applyCongressTurnover(crossedFrom, moved),
+            applyPresidentialTurnover(
+              crossedFrom,
+              applyGovernorTurnover(
+                crossedFrom,
+                applyCongressTurnover(
+                  crossedFrom,
+                  applyStateLegislatureTurnover(crossedFrom, moved),
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -1800,7 +1963,7 @@ function canonicalSourceAvailable(
   sequenceExclusive: number,
 ): boolean {
   if (world.people[id] || world.jurisdictions[id]) return true;
-  const event = world.history.events.find((record) => record.id === id);
+  const event = eventById(world, id);
   if (event)
     return event.sequence < sequenceExclusive && event.occurredAt <= at.date;
   if (lifeEntityExists(world, id)) {
@@ -2256,9 +2419,7 @@ function validateOutcomeEvent(
   at: SimulationMoment,
 ): void {
   if (eventId === null) return;
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (
     !event ||
     event.sequence >= stateSequence ||

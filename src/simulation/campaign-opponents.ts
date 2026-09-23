@@ -275,6 +275,9 @@ function lastOrganizationId(world: World): EntityId {
   return world.history.organizations.at(-1)!.id;
 }
 
+/** How a chamber seat's descriptive title begins (see candidacy-packs). */
+const SEAT_TITLE_PREFIX = "Seat in the ";
+
 /**
  * The rival's own campaign, written the first time they act: a committee, the
  * two aggregate counterparties the player's committee also has, an empty
@@ -304,7 +307,11 @@ function ensureOpponent(
       note: "An opponent's campaign committee, written the first week they campaigned.",
     },
     initialProfile: {
-      name: `${name} for ${contest.office.title}`,
+      // Named for the body, as the player's own committee is: "Sasha Chavez
+      // for the Texas House of Representatives", not "for Seat in the …".
+      name: contest.office.title.startsWith(SEAT_TITLE_PREFIX)
+        ? `${name} for the ${contest.office.title.slice(SEAT_TITLE_PREFIX.length)}`
+        : `${name} for ${contest.office.title}`,
       classification: "custom:political-campaign",
       locationJurisdictionId: contest.jurisdictionId,
     },

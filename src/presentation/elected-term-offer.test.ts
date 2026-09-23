@@ -1,3 +1,4 @@
+import { personPronouns } from "../simulation/person-identity";
 import { afterEach, describe, expect, it } from "vitest";
 import {
   adultLifeIn,
@@ -40,8 +41,11 @@ describe("a won executive term", () => {
     const status = stateExecutiveEntryStatus(decided, personId);
     expect(status.kind).toBe("qualified-awaiting-entry");
     if (status.kind !== "qualified-awaiting-entry") return;
+    const theirs = personPronouns(decided.people[personId]).possessivePronoun;
     expect(projectCampaign(decided, personId).afterword).toMatch(
-      /won(, [\d.]+% to [\d.]+%)?\. The term begins .+; until then the office is not theirs\./,
+      new RegExp(
+        `won(, [\\d.]+% to [\\d.]+%)?\\. The term begins .+; until then the office is not ${theirs}\\.`,
+      ),
     );
 
     const [offer] = projectWorkRole(decided, personId).awaitingAnswer;

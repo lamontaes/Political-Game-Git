@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { projectPersonDossier } from "../../src/presentation/person-dossier";
 import { projectPartyAndCommunityWork } from "../../src/presentation/campaign-life-surface";
 import { declineCalendarActivity } from "../../src/presentation/calendar-time-control";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
@@ -22,10 +23,12 @@ import { scheduledActivityState } from "../../src/simulation";
 import {
   CONTACT_CALLED_OFF_EVENT,
   CONTACT_CALLED_OFF_KIND,
+  CONTACT_COUNTERED_EVENT,
   CONTACT_LOCATION_KEY,
 } from "../../src/simulation/people-contact";
 import { introducedPeople } from "../../src/simulation/social-introductions";
-import { ageOnDate } from "../../src/simulation/dates";
+import { addDays, ageOnDate } from "../../src/simulation/dates";
+import { proseWeekdayDate } from "../../src/presentation/prose-dates";
 import type { EntityId, World } from "../../src/simulation";
 
 /**
@@ -124,7 +127,7 @@ describe("asking somebody out, and calling it off", () => {
         const given = world.people[otherId]!.givenName;
         expect(note).toMatch(
           new RegExp(
-            `^You asked ${given} out on .+\\. ${given} will answer by .+\\.$`,
+            `^You asked ${given} to go out on .+\\. ${given} will answer by .+\\.$`,
           ),
         );
         world = askOnADate(world, {
@@ -160,5 +163,85 @@ describe("asking somebody out, and calling it off", () => {
     // Time now passes the evening that was held.
     world = passOrdinaryDays(world, 5);
     expect(world.currentDate > heldOn).toBe(true);
+  }, 300_000);
+});
+
+describe("a person at home is not a stranger on the card", () => {
+  // Fairbanks: a sister at home read "You haven't spoken." Elko: a father at
+  // home read "You last spoke" seventeen months back.
+  it("says they live together, and invents no conversation", () => {
+    const { world, playerId } = openLife("3260600", "card:reno", 12);
+    const athome = projectContacts(world, playerId).contacts.filter(
+      (contact) => contact.livesWithYou,
+    );
+    expect(athome.length).toBeGreaterThan(0);
+    const before = world.history.relationshipInteractions.length;
+    for (const contact of athome) {
+      expect(
+        projectPersonDossier(world, playerId, contact.personId)!
+          .lastInteraction,
+      ).toMatch(/^You live together\./);
+    }
+    expect(world.history.relationshipInteractions.length).toBe(before);
+  }, 300_000);
+});
+
+describe("an answer of another day reaches the person who asked", () => {
+  /*
+   * Peoria (main 15dbdd4f): Nicole asked Samantha out five times in a year and
+   * never heard back. The answer was "not that day, but another", and only
+   * the refusal half of it was written: nothing showed, and no day came back.
+   */
+  it("shows the other day as their question to answer", () => {
+    const { world: opened, playerId } = openLife("1759000", "p:3", 18);
+    let world = opened;
+    const asked = projectContacts(world, playerId).contacts.filter(
+      (contact) =>
+        contact.actions.find((entry) => entry.kind === "ask-on-a-date")
+          ?.available,
+    );
+    for (const contact of asked) {
+      world = askOnADate(world, {
+        personId: playerId,
+        otherPersonId: contact.personId,
+        on: projectContacts(world, playerId).earliestMeetingOn,
+      });
+    }
+    world = passOrdinaryDays(world, 1);
+    const countered = world.history.events.filter(
+      (event) => event.type === CONTACT_COUNTERED_EVENT,
+    );
+    expect(countered.length).toBeGreaterThan(0);
+    for (const event of countered) {
+      const otherId = event.involvedEntityIds.find((id) => id !== playerId)!;
+      const row = projectContacts(world, playerId).contacts.find(
+        (contact) => contact.personId === otherId,
+      )!;
+      expect(
+        row.actions.find((entry) => entry.kind === "answer-proposal")
+          ?.available,
+      ).toBe(true);
+    }
+  }, 300_000);
+});
+
+describe("the note after asking names the evening, then the answer day", () => {
+  // Buffalo: "You asked Justin out on Thursday, January 31, 2041. Justin will
+  // answer by Wednesday, January 30, 2041." read as asking on Thursday.
+  it("puts the asked-for evening after the answer day, and says which is which", () => {
+    const { world, playerId } = openLife("3260600", "note:reno", 26);
+    const other = projectContacts(world, playerId).contacts.find(
+      (contact) => !contact.livesWithYou,
+    )!;
+    const on = addDays(world.currentDate, 10);
+    const note = askedNote(world, {
+      otherPersonId: other.personId,
+      on,
+      date: true,
+    });
+    const given = world.people[other.personId]!.givenName;
+    expect(note).toBe(
+      `You asked ${given} to go out on ${proseWeekdayDate(on)}. ${given} will answer by ${proseWeekdayDate(addDays(world.currentDate, 1))}.`,
+    );
   }, 300_000);
 });

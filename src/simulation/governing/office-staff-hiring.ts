@@ -284,9 +284,19 @@ export type StaffingResult =
  * applicants yet, writes applicants into the world with their working lives
  * already on record. Idempotent: asking again writes nothing.
  */
+/**
+ * People the officeholder has already met, by position class, who apply in
+ * place of generated applicants (the transition's staff interviews supply
+ * these). A class left out still gets generated applicants.
+ */
+export type OfficeStaffApplicants = Readonly<
+  Record<string, readonly EntityId[]>
+>;
+
 export function openOfficeStaffSearch(
   world: World,
   office: StaffableOffice,
+  options: { readonly applicants?: OfficeStaffApplicants } = {},
 ): StaffingResult {
   if (
     world.control.kind !== "person" ||
@@ -296,13 +306,26 @@ export function openOfficeStaffSearch(
       kind: "refused",
       reason: "Only the officeholder can hire for this office.",
     };
+  const supplied = options.applicants ?? {};
+  for (const [classKey, personIds] of Object.entries(supplied)) {
+    const refusal = suppliedApplicantRefusal(
+      world,
+      office,
+      classKey,
+      personIds,
+    );
+    if (refusal) return { kind: "refused", reason: refusal };
+  }
   let next = establishOfficeStaffPositions(world, office, office.table).world;
   let asked = 0;
   for (const opening of openOfficePositions(next, office.officeKey)) {
     if ((office.filledElsewhere ?? []).includes(opening.classKey)) continue;
     if (offeringEvent(next, office, opening.positionId)) continue;
     const key = offeringKey(next, office, opening.positionId);
-    const created = createCandidates(next, office, key, CANDIDATES_PER_OPENING);
+    const met = supplied[opening.classKey];
+    const created = met
+      ? { world: next, personIds: [...met] }
+      : createCandidates(next, office, key, CANDIDATES_PER_OPENING);
     next = recordWorldEvent(created.world, {
       stableKey: key,
       type: OFFICE_STAFF_CANDIDATES_OFFERED,
@@ -346,6 +369,36 @@ export function openOfficeStaffSearch(
         ? "Every open position already has applicants."
         : `Applicants are waiting for ${asked} open ${asked === 1 ? "position" : "positions"}.`,
   };
+}
+
+function suppliedApplicantRefusal(
+  world: World,
+  office: StaffableOffice,
+  classKey: string,
+  personIds: readonly EntityId[],
+): string | null {
+  if (
+    !office.table.positions.some((position) => position.classKey === classKey)
+  )
+    return `This office has no ${classKey} position.`;
+  if ((office.filledElsewhere ?? []).includes(classKey))
+    return `The ${classKey} position is not hired from this list.`;
+  if (personIds.length === 0) return "Nobody was named to apply.";
+  if (new Set(personIds).size !== personIds.length)
+    return "The same person was named twice.";
+  for (const personId of personIds) {
+    if (!world.people[personId]) return "One of those people does not exist.";
+    if (personId === office.holderPersonId)
+      return "The officeholder cannot apply to their own office.";
+    if (
+      world.history.personDeaths.some(
+        (death) =>
+          death.personId === personId && death.diedAt <= world.currentDate,
+      )
+    )
+      return "One of those people has died.";
+  }
+  return null;
 }
 
 /**
