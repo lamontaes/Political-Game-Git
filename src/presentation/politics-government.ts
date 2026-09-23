@@ -824,7 +824,7 @@ function houseNote(
     return seat ? [seatLabelFor(seat)] : [];
   });
   return candidates.length > 1
-    ? `Your home place is split between ${candidates.slice(0, -1).join(", ")} and ${candidates.at(-1)!} (Census place–district relationship), and the save does not record which one your home is in.`
+    ? `Your home place is split between ${candidates.slice(0, -1).join(", ")} and ${candidates.at(-1)!}, and the save does not record which one your home is in.`
     : `Your congressional district in ${state} is not recorded for your home.`;
 }
 
