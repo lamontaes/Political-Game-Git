@@ -23,6 +23,7 @@ import type {
   LegislativeProvisionBeneficiary,
   MetricScope,
 } from "./types";
+import { moneyText } from "./money-text";
 
 /**
  * Turning a chosen configuration into a bill.
@@ -207,7 +208,7 @@ export function draftingSupportsScenario(scenarioKey: string): boolean {
 function describeValue(value: ProgramParameterValue): string {
   switch (value.kind) {
     case "money":
-      return `${value.currency} ${value.minorUnits}`;
+      return moneyText(value);
     case "enumerated":
       return `'${value.value}'`;
     case "duration-years":
