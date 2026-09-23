@@ -27,6 +27,7 @@ import { projectMacroConditions } from "../../../src/presentation/macro-conditio
 import { crimeIncidents } from "../../../src/simulation/crime/producer";
 import { measurePosition } from "../../../src/simulation/legislation";
 import { electionContestResult } from "../../../src/simulation/election-contests";
+import { currentPresidentOf } from "../../../src/simulation/crisis/offices";
 import { projectWorld39Journal } from "../../../src/presentation/world39-journal";
 import { openingNeighborhoodWalkOffer } from "../../../src/presentation/life-scene-flow";
 import {
@@ -157,6 +158,8 @@ export interface DriftSnapshot {
   readonly inflationPct: number | null;
   /** Executive races decided since the game began: office, winner. */
   readonly executiveWinners: readonly string[];
+  /** Who holds the Presidency on this date, or null when none is seated. */
+  readonly president: string | null;
 }
 
 export interface GameResult {
@@ -1157,7 +1160,15 @@ export function driftSnapshot(
     unemploymentPct,
     inflationPct,
     executiveWinners,
+    president: presidentName(world),
   };
+}
+
+function presidentName(world: World): string | null {
+  const holder = currentPresidentOf(world);
+  if (!holder) return null;
+  const person = world.people[holder.personId];
+  return person ? `${person.givenName} ${person.familyName}` : holder.personId;
 }
 
 function addYears(date: string, years: number): string {
