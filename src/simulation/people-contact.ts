@@ -30,6 +30,12 @@ import {
   recordGoalStepTaken,
 } from "./people-goal-pursuit";
 import { recordWorldEvent } from "./world";
+import {
+  DATE_KIND,
+  DATE_OCCASION_TAG,
+  dateRefusal,
+  romanticConsiderations,
+} from "./couples";
 import type {
   DecisionConsideration,
   EntityId,
@@ -270,6 +276,8 @@ export interface ContactProposal {
   readonly on: IsoDate;
   readonly purpose: string;
   readonly answered: boolean;
+  /** Whether both of them were asked to treat it as a date. */
+  readonly date: boolean;
 }
 
 /** A proposal between these two that nobody has answered yet. */
@@ -327,6 +335,7 @@ export function contactProposals(
           on,
           purpose: event.summary,
           answered,
+          date: event.tags.includes(DATE_OCCASION_TAG),
         },
       ];
     });
@@ -341,6 +350,12 @@ export interface ProposeContactInput {
   readonly purpose: string;
   /** Skip the scheduled answer: the other person answers in the scene itself. */
   readonly answerInPerson?: boolean;
+  /**
+   * Asked as a date. The other person answers it as one (see
+   * `romanticConsiderations`), and the evening, once kept, is recorded as a
+   * date between them.
+   */
+  readonly date?: boolean;
 }
 
 /**
@@ -373,6 +388,10 @@ export function proposeContact(
   if (!input.purpose.trim()) throw new Error("A meeting needs a reason.");
   if (openProposal(world, input.fromPersonId, input.toPersonId)) {
     throw new Error("There is already an unanswered proposal between them.");
+  }
+  if (input.date) {
+    const refusal = dateRefusal(world, input.fromPersonId, input.toPersonId);
+    if (refusal) throw new Error(refusal);
   }
   const start = simulationMomentAtLocalTime({
     date: input.on,
@@ -407,7 +426,11 @@ export function proposeContact(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: [CONTACT_TAG, `contact.on:${input.on}`],
+    tags: [
+      CONTACT_TAG,
+      `contact.on:${input.on}`,
+      ...(input.date ? [DATE_OCCASION_TAG] : []),
+    ],
     summary: `${personName(asker)} asked ${personName(asked)} to meet on ${input.on}: ${input.purpose}`,
     context: {
       location: null,
@@ -457,6 +480,7 @@ export function proposeContact(
       on: input.on,
       purpose: input.purpose,
       answered: false,
+      date: !!input.date,
     },
   };
 }
@@ -711,6 +735,18 @@ export function npcContactAnswer(
       sourceRefs: [],
     });
   }
+  // A date is answered as one: who they are with, whether they want company,
+  // and how the two of them stand.
+  if (proposal.tags.includes(DATE_OCCASION_TAG)) {
+    considerations.push(
+      ...romanticConsiderations(
+        world,
+        `contact:${proposalEventId}:date`,
+        to,
+        from,
+      ),
+    );
+  }
   // The answerer's own temperament is established here, because they are the
   // one deciding and a decision may rest on who they are.
   //
@@ -812,6 +848,7 @@ export function counterWithNewDay(
     toPersonId: asker,
     on: input.on,
     purpose: proposal.context.motivation ?? proposal.summary,
+    date: proposal.tags.includes(DATE_OCCASION_TAG),
   }).world;
 }
 
@@ -1208,7 +1245,28 @@ export function recordContactMeetingKept(
   }
   const [first, second] = personIds as [EntityId, EntityId];
   const summary = `${personName(world.people[first]!)} and ${personName(world.people[second]!)} spent the evening together.`;
-  return recordRelationshipInteraction(world, {
+  const wasDate = world.history.events.some(
+    (event) =>
+      activity.sourceEntityIds.includes(event.id) &&
+      event.type === CONTACT_PROPOSED_EVENT &&
+      event.tags.includes(DATE_OCCASION_TAG),
+  );
+  const next = wasDate
+    ? recordRelationshipInteraction(world, {
+        stableKey: `contact-meeting:${activityId}:date`,
+        personIds: [first, second],
+        eventId: null,
+        occurredAt: world.currentDate,
+        kind: DATE_KIND,
+        // Marks the evening as a date; the time together below is what moves
+        // how they stand, as with any evening kept.
+        change: "maintained",
+        significance: "meaningful",
+        summary: `${personName(world.people[first]!)} and ${personName(world.people[second]!)} went out on a date.`,
+        tags: [CONTACT_TAG, DATE_OCCASION_TAG],
+      })
+    : world;
+  return recordRelationshipInteraction(next, {
     stableKey,
     personIds: [first, second],
     eventId: null,
