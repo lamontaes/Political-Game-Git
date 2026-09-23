@@ -798,13 +798,13 @@ export function fileCampaign(
       {
         personId: input.candidatePersonId,
         role: "agency:candidate",
-        detail: `Filed for a ${option.office.title}`,
+        detail: `Filed to run for ${option.office.title}`,
       },
     ],
     personFactConstraints: [],
     visibility: "public",
     tags: ["campaign.filing", "election.candidacy"],
-    summary: `${candidate.givenName} ${candidate.familyName} filed as a candidate for a ${option.office.title}.`,
+    summary: `${candidate.givenName} ${candidate.familyName} filed to run for ${option.office.title}.`,
     context: {
       location: {
         jurisdictionId: input.jurisdictionId,
@@ -1967,7 +1967,7 @@ export function campaignElectionTransitionHandler(
     world: closed,
     status: "resolved",
     reasonKey: null,
-    context: `The contest for a ${requireElectionContest(closed, campaign.contestId).office.title} was decided.`,
+    context: `The contest for ${requireElectionContest(closed, campaign.contestId).office.title} was decided.`,
     outcomeEventId: result.outcomeEventId,
   };
 }
