@@ -6294,9 +6294,9 @@
       "anchor": "projectCampaign-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} lost. That is a thing that happened to them, not the end of them — tomorrow is still there.",
+      "text": "{candidateName} lost.",
       "occurrence": 0,
-      "textRevision": "0486ea5ede7c"
+      "textRevision": "b1b5bf639f05"
     },
     {
       "anchor": "projectCampaign-0002",

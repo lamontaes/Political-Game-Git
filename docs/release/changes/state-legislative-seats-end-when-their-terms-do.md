@@ -24,3 +24,12 @@ record shows that race's date.
 
 An office you can run for now says "You can stand for this office." It no
 longer says you are eligible "under the represented rules."
+
+When the field for the nearest governor's race has already closed, the
+governor card now says so: "The field for the November 3, 2026 election has
+closed. The next is November 5, 2030." Before, it named only the later
+election and gave no reason for skipping the nearer one.
+
+A lost race now says only that the candidate lost, without the added line
+about it not being the end of them. The office offer names the office to be
+filled and no longer adds that nobody has asked you to stand.

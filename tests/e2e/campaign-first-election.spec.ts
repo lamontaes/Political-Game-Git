@@ -422,11 +422,11 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
     if (/lost\./i.test(afterword)) {
-      // Losing is a thing that happened, said in those words. The afterword
-      // is in Work, where the campaign is, not on the day.
+      // Losing is a thing that happened, said plainly. The afterword is in
+      // Work, where the campaign is, not on the day.
       await openCampaign(page);
-      await expect(page.getByTestId("campaign-afterword")).toContainText(
-        /not the end of them/i,
+      await expect(page.getByTestId("campaign-afterword")).toHaveText(
+        / lost\.$/,
       );
       // And it opens no office it did not earn.
       await expect(page.getByTestId("office-section")).toHaveCount(0);
