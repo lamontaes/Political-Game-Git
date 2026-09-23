@@ -216,7 +216,12 @@ export function periodInWords(period: string): string {
   return year ? year[1]! : period;
 }
 
-/** A place name without a provider's footnote mark ("AK*"). */
+/**
+ * A place name without the provider's footnote mark ("AK*"). In BEA's
+ * regional tables the asterisk points to CAINC1__Footnotes.html, whose notes
+ * record past county and census-area boundary changes; none describes the
+ * recent figure a player is shown, so the mark is dropped, not explained.
+ */
 function placeInWords(name: string): string {
   return name.replace(/\*+$/u, "").trim();
 }
