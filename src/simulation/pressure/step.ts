@@ -68,12 +68,31 @@ export function stepPressure(world: World): World {
   const periodEnd = world.currentDate;
   if (store.lastPeriodEnd && store.lastPeriodEnd >= periodEnd) return world;
   // The first period reaches back one review interval, to the opening day.
-  const periodStart: IsoDate = store.lastPeriodEnd
-    ? addDays(store.lastPeriodEnd, 1)
-    : addDays(periodEnd, -FIRST_PERIOD_DAYS);
+  // Later periods start on the day the last one ended, because the review
+  // runs at the start of its day and a disaster or tax recorded later that
+  // day would otherwise fall into a period already closed. A cause the last
+  // step already counted is skipped below.
+  const periodStart: IsoDate =
+    store.lastPeriodEnd ?? addDays(periodEnd, -FIRST_PERIOD_DAYS);
   const ordinal = store.quartersStepped + 1;
   const previous = latestReadings(world);
-  const causes = causesInPeriod(world, periodStart, periodEnd);
+  const counted = new Set(
+    [...previous.values()].flatMap((reading) =>
+      reading.contributions.map(
+        (entry) => `${entry.causeKey}:${entry.sourceId}`,
+      ),
+    ),
+  );
+  const causes = new Map(
+    [...causesInPeriod(world, periodStart, periodEnd)].map(
+      ([stateKey, contributions]) => [
+        stateKey,
+        contributions.filter(
+          (entry) => !counted.has(`${entry.causeKey}:${entry.sourceId}`),
+        ),
+      ],
+    ),
+  );
   const states = worldStates(world);
 
   const readings: PressureReading[] = [];

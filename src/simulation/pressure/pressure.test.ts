@@ -151,6 +151,33 @@ describe("the pressure layer", { timeout: LONG }, () => {
     expect(event.summary).not.toContain("The most went to");
   });
 
+  it("counts a disaster declared later on a review day, and only once", () => {
+    // The review steps at the start of its day; the flood comes after it.
+    const reviewed = stepPressure(opened.world);
+    expect(reviewed.pressure?.lastPeriodEnd).toBe(opened.world.currentDate);
+    const struck = declareHazardEpisode(reviewed, {
+      stableKey: "pressure-test-review-day-flood",
+      family: "flood",
+      magnitude: "major",
+      stateUsps: "AZ",
+      jurisdictionIds: [opened.home],
+      durationDays: 4,
+      basis: "Declared test episode; not a local hazard prediction.",
+      sourceReference: null,
+    });
+    const next = quarters(struck, 1);
+    expect(latestReadings(next).get("US-AZ")?.levels.leave).toBe(
+      BLANKET_HAZARD_PRESSURE.major,
+    );
+    // The following quarter's period starts on that day too, and skips it.
+    const later = quarters(next, 1);
+    const arizona = latestReadings(later).get("US-AZ")!;
+    expect(arizona.contributions).toEqual([]);
+    expect(arizona.levels.leave).toBeCloseTo(
+      BLANKET_HAZARD_PRESSURE.major * (1 - BLANKET_FADE_PER_QUARTER),
+    );
+  });
+
   it("the first quarterly review of a current opening takes the first reading, once", () => {
     expect(opened.world.pressure).toBeUndefined();
     const world = passOrdinaryDays(opened.world, 92);
