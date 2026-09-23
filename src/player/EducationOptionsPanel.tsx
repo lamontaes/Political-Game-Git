@@ -14,6 +14,7 @@ import {
   applyForEducation,
   canApplyFor,
   educationOptionReason,
+  GRADE_SCHOOL_REASON,
   pendingEducationOffers,
   respondToEducationOffer,
   studyDefinition,
@@ -21,6 +22,8 @@ import {
 } from "../education/study-provider";
 import { pathForRelationship } from "../simulation/life-paths2";
 import { employerName } from "../simulation/life-paths2-catalog";
+import { stillInGradeSchool } from "../simulation/school-stages";
+import { schoolingSentence } from "../presentation/day-overview";
 import {
   studyEnrollmentProgressLabel,
   studyProgramCostLabel,
@@ -91,6 +94,13 @@ export function EducationOptionsPanel({
     return { ...nearby, rows: nearby.rows.map((row) => row.institution) };
   }, [availableCatalog, query, kind, offset, wide, world]);
   const institution = availableCatalog.find((r) => r.id === selected);
+  // A child still in school is shown their school, not a college directory
+  // to apply from.
+  const gradeSchool =
+    world.control.kind === "person" &&
+    stillInGradeSchool(world, world.control.personId)
+      ? `${schoolingSentence(world, world.control.personId) ?? "You are still of school age."} ${GRADE_SCHOOL_REASON}`
+      : null;
   const [grace, setGrace] = useState<Record<string, string>>({});
   const act = (result: { ok: boolean; world: World; message: string }) => {
     setMessage(result.message);
@@ -131,181 +141,189 @@ export function EducationOptionsPanel({
             unavailable.
           </p>
         ))}
-      <p>
-        NCES school (2024–25) and college (2024–25 / 2025–26) directories and
-        reported offerings. A listing establishes neither attendance nor
-        admission. Study fees and schedules shown below are game-authored.
-      </p>
-      <label>
-        Search institutions{" "}
-        <input
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setOffset(0);
-          }}
-        />
-      </label>
-      <label>
-        Institution type{" "}
-        <GameSelect
-          value={kind}
-          onChange={(e) => {
-            setKind(e.target.value);
-            setOffset(0);
-          }}
-        >
-          <option value="">All institutions</option>
-          <option value="postsecondary">Colleges</option>
-          <option value="school">Public schools</option>
-          <option value="district">School districts</option>
-        </GameSelect>
-      </label>
-      <p>
-        {result.total.toLocaleString("en-US")} matching institutions
-        {!wide && !query.trim()
-          ? " in your home state or district"
-          : " across the directory"}
-        .
-      </p>
-      <button
-        type="button"
-        className="ui-action"
-        onClick={() => {
-          setWide(!wide);
-          setOffset(0);
-        }}
-      >
-        {wide ? "Start near home" : "Browse the full directory"}
-      </button>
-      <ul>
-        {result.rows.map((r) => (
-          <li key={r.id}>
-            <button type="button" onClick={() => setSelected(r.id)}>
-              {r.name} — {r.city}, {r.state}
-            </button>
-            <label>
-              <input
-                type="checkbox"
-                checked={compare.includes(r.id)}
-                onChange={(e) =>
-                  setCompare(
-                    e.target.checked
-                      ? [...compare, r.id]
-                      : compare.filter((id) => id !== r.id),
-                  )
-                }
-              />
-              Compare
-            </label>
-          </li>
-        ))}
-      </ul>
-      <button
-        type="button"
-        disabled={offset === 0}
-        onClick={() => setOffset(Math.max(0, offset - 30))}
-      >
-        Previous institutions
-      </button>
-      <button
-        type="button"
-        disabled={offset + 30 >= result.total}
-        onClick={() => setOffset(offset + 30)}
-      >
-        More institutions
-      </button>
-      {compare.length > 0 && (
-        <table>
-          <caption>Compare reported institution facts</caption>
-          <thead>
-            <tr>
-              <th>Institution</th>
-              <th>Reported status</th>
-              <th>Offered capabilities</th>
-            </tr>
-          </thead>
-          <tbody>
-            {availableCatalog
-              .filter((r) => compare.includes(r.id))
-              .map((r) => (
-                <tr key={r.id}>
-                  <td>{r.name}</td>
-                  <td>{r.statusLabel}</td>
-                  <td>
-                    {r.capabilities
-                      .filter((c) => c.state === "offered")
-                      .map((c) => c.label)
-                      .join(", ")}
-                  </td>
+      {/*
+        Where the directory came from, and for which years, lives with the
+        catalog's own records and the developer tools. It used to be printed
+        here, above the list, on the player's screen.
+      */}
+      {gradeSchool !== null ? (
+        <p data-testid="study-grade-school">{gradeSchool}</p>
+      ) : (
+        <>
+          <label>
+            Search institutions{" "}
+            <input
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setOffset(0);
+              }}
+            />
+          </label>
+          <label>
+            Institution type{" "}
+            <GameSelect
+              value={kind}
+              onChange={(e) => {
+                setKind(e.target.value);
+                setOffset(0);
+              }}
+            >
+              <option value="">All institutions</option>
+              <option value="postsecondary">Colleges</option>
+              <option value="school">Public schools</option>
+              <option value="district">School districts</option>
+            </GameSelect>
+          </label>
+          <p>
+            {result.total.toLocaleString("en-US")} matching institutions
+            {!wide && !query.trim()
+              ? " in your home state or district"
+              : " across the directory"}
+            .
+          </p>
+          <button
+            type="button"
+            className="ui-action"
+            onClick={() => {
+              setWide(!wide);
+              setOffset(0);
+            }}
+          >
+            {wide ? "Start near home" : "Browse the full directory"}
+          </button>
+          <ul>
+            {result.rows.map((r) => (
+              <li key={r.id}>
+                <button type="button" onClick={() => setSelected(r.id)}>
+                  {r.name} — {r.city}, {r.state}
+                </button>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={compare.includes(r.id)}
+                    onChange={(e) =>
+                      setCompare(
+                        e.target.checked
+                          ? [...compare, r.id]
+                          : compare.filter((id) => id !== r.id),
+                      )
+                    }
+                  />
+                  Compare
+                </label>
+              </li>
+            ))}
+          </ul>
+          <button
+            type="button"
+            disabled={offset === 0}
+            onClick={() => setOffset(Math.max(0, offset - 30))}
+          >
+            Previous institutions
+          </button>
+          <button
+            type="button"
+            disabled={offset + 30 >= result.total}
+            onClick={() => setOffset(offset + 30)}
+          >
+            More institutions
+          </button>
+          {compare.length > 0 && (
+            <table>
+              <caption>Compare reported institution facts</caption>
+              <thead>
+                <tr>
+                  <th>Institution</th>
+                  <th>Reported status</th>
+                  <th>Offered capabilities</th>
                 </tr>
-              ))}
-          </tbody>
-        </table>
-      )}
-      {institution && (
-        <section aria-label="Institution details">
-          <h4>{institution.name}</h4>
-          <p>{institution.statusLabel}</p>
-          {/*
+              </thead>
+              <tbody>
+                {availableCatalog
+                  .filter((r) => compare.includes(r.id))
+                  .map((r) => (
+                    <tr key={r.id}>
+                      <td>{r.name}</td>
+                      <td>{r.statusLabel}</td>
+                      <td>
+                        {r.capabilities
+                          .filter((c) => c.state === "offered")
+                          .map((c) => c.label)
+                          .join(", ")}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          )}
+          {institution && (
+            <section aria-label="Institution details">
+              <h4>{institution.name}</h4>
+              <p>{institution.statusLabel}</p>
+              {/*
             The record id, the release stage and the county GEOID belonged to
             whoever compiled the directory. What a prospective student needs to
             know is that the listing does not go as far as prices and entry
             requirements, which is said as a person would say it.
           */}
-          <p>
-            The directory doesn&apos;t list tuition or entry requirements.
-            You&apos;d have to ask them.
-          </p>
-          <ul>
-            {institution.capabilities
-              .filter((c) => c.state === "offered")
-              .map((c) => (
-                <li key={c.code}>
-                  {c.label}
-                  {c.kind === "noncredit" ? (
-                    <>
-                      <p>
-                        {educationOptionReason(world, institution, c) ??
-                          `Game-authored option: ${studyProgramCostLabel(studyDefinition(institution, c))} Completion records noncredit study, never a degree or license.`}
-                      </p>
-                      <button
-                        type="button"
-                        disabled={
-                          !!educationOptionReason(world, institution, c)
-                        }
-                        onClick={() =>
-                          act(applyForEducation(world, institution, c.code))
-                        }
-                      >
-                        Request {c.label.trim()} study offer
-                      </button>
-                    </>
-                  ) : canApplyFor(c) ? (
-                    <>
-                      <p>
-                        {educationOptionReason(world, institution, c) ??
-                          studyProgramCostLabel(studyPathFor(institution, c))}
-                      </p>
-                      <button
-                        type="button"
-                        disabled={
-                          !!educationOptionReason(world, institution, c)
-                        }
-                        onClick={() =>
-                          act(applyForEducation(world, institution, c.code))
-                        }
-                      >
-                        Apply for {c.label.trim()}
-                      </button>
-                    </>
-                  ) : (
-                    <p>Listed here, but not something you can apply for.</p>
-                  )}
-                </li>
-              ))}
-          </ul>
-        </section>
+              <p>
+                The directory doesn&apos;t list tuition or entry requirements.
+                You&apos;d have to ask them.
+              </p>
+              <ul>
+                {institution.capabilities
+                  .filter((c) => c.state === "offered")
+                  .map((c) => (
+                    <li key={c.code}>
+                      {c.label}
+                      {c.kind === "noncredit" ? (
+                        <>
+                          <p>
+                            {educationOptionReason(world, institution, c) ??
+                              `Game-authored option: ${studyProgramCostLabel(studyDefinition(institution, c))} Completion records noncredit study, never a degree or license.`}
+                          </p>
+                          <button
+                            type="button"
+                            disabled={
+                              !!educationOptionReason(world, institution, c)
+                            }
+                            onClick={() =>
+                              act(applyForEducation(world, institution, c.code))
+                            }
+                          >
+                            Request {c.label.trim()} study offer
+                          </button>
+                        </>
+                      ) : canApplyFor(c) ? (
+                        <>
+                          <p>
+                            {educationOptionReason(world, institution, c) ??
+                              studyProgramCostLabel(
+                                studyPathFor(institution, c),
+                              )}
+                          </p>
+                          <button
+                            type="button"
+                            disabled={
+                              !!educationOptionReason(world, institution, c)
+                            }
+                            onClick={() =>
+                              act(applyForEducation(world, institution, c.code))
+                            }
+                          >
+                            Apply for {c.label.trim()}
+                          </button>
+                        </>
+                      ) : (
+                        <p>Listed here, but not something you can apply for.</p>
+                      )}
+                    </li>
+                  ))}
+              </ul>
+            </section>
+          )}
+        </>
       )}
       {pendingEducationOffers(world).map((offer) => {
         const terms = parseEducationTerms(offer.description);
