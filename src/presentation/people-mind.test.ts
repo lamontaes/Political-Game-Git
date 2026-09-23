@@ -331,6 +331,24 @@ describe("PEOPLE P2 private aims", () => {
     }
   });
 
+  it("does not offer a child an adult relationship at all", () => {
+    // A twelve-year-old was shown the adult-relationship aim with a reason
+    // why there was nobody to have it with, rather than not being offered it.
+    const child = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "people-mind-minor",
+        startAge: 12,
+      }),
+    ).game!;
+    const { choices } = projectPersonalGoals(child.world, child.playerPersonId);
+    expect(choices.map((choice) => choice.family)).toEqual([
+      "seek-office",
+      "reconnect",
+      "civic-issue",
+    ]);
+  });
+
   it("setting an aim is private, lists real opportunities, and can be paused and dropped", () => {
     const eventsBefore = life.world.history.events.length;
     const knowledgeBefore = life.world.history.knowledge.length;
