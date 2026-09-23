@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { addDays, completedMonthsBetween, makeIsoDate } from "./dates";
+import {
+  addDays,
+  completedMonthsBetween,
+  makeIsoDate,
+  spokenDate,
+} from "./dates";
 import type { IsoDate } from "./types";
 
 describe("simulation dates", () => {
@@ -40,5 +45,11 @@ describe("simulation dates", () => {
     expect(() => makeIsoDate("2026-04-31")).toThrow();
     expect(() => addDays("2026-02-31" as IsoDate, 1)).toThrow();
     expect(() => addDays(makeIsoDate("2026-01-01"), 1.5)).toThrow();
+  });
+
+  it("says a stored date the way a reader does", () => {
+    expect(spokenDate(makeIsoDate("2028-01-16"))).toBe("January 16, 2028");
+    expect(spokenDate("2026-11-03")).toBe("November 3, 2026");
+    expect(spokenDate("not a date")).toBe("not a date");
   });
 });

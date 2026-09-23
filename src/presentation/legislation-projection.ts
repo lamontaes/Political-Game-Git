@@ -459,9 +459,16 @@ export function projectMeasureBriefing(
     whereItStands = `The ${chamber.name} passed the bill; it now goes to the ${target?.name ?? "other chamber"}.`;
   }
 
+  // The desk a bill goes to is the pack's executive: a governor, or for
+  // Congress the President.
+  const headline = (kind: LegislativeActionKind): string =>
+    kind === "presented-to-executive" &&
+    pack.executive.titleLabel !== "Governor"
+      ? `Sent to the ${pack.executive.titleLabel}`
+      : ACTION_HEADLINES[kind];
   const latest = actions.at(-1) ?? null;
   const whatJustHappened = latest
-    ? `${ACTION_HEADLINES[latest.kind]} on ${latest.occurredAt}. ${latest.rationale}`
+    ? `${headline(latest.kind)} on ${latest.occurredAt}. ${latest.rationale}`
     : null;
 
   const options = availableMeasureSteps(world, measureId).map((step) =>
@@ -472,7 +479,7 @@ export function projectMeasureBriefing(
     const vote = action.voteId ? votesById.get(action.voteId) : undefined;
     return {
       when: action.occurredAt,
-      headline: ACTION_HEADLINES[action.kind],
+      headline: headline(action.kind),
       detail: action.rationale,
       voteSummary: vote ? voteSentence(vote) : null,
     };

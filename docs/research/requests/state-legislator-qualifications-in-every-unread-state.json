@@ -24,6 +24,10 @@
     {
       "source": "Direct retrieval of legislature.maine.gov from this environment",
       "whatItDidNotSettle": "Refused by the network proxy (403), so Maine's text could not be read and entered here."
+    },
+    {
+      "source": "src/simulation/settled-qualifications.ts, this branch",
+      "whatItDidNotSettle": "The Maine House minimum age of 21 is applied from Me. Const. art. IV, pt. 1, sec. 4 as cited, but the text could not be retrieved from this environment (the state site returned 403). Please confirm it, and the Maine Senate's age, from the official text."
     }
   ],
   "title": "What it takes to serve in each state legislature, in every state the game has not read",

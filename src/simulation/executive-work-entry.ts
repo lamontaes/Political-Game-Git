@@ -27,10 +27,12 @@ import {
   EXECUTIVE_QUALIFICATION,
   EXECUTIVE_TERM_END,
   electedExecutiveOfficeForKey,
+  electedExecutiveOfficeJurisdiction,
   electedExecutiveTermForRelationship,
   recordedExecutiveQualification,
   resolveExecutiveOffice,
 } from "./executive-work-context";
+import { personName } from "./people";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { scheduleGoverningTransition } from "./governing/state-governing";
 import type {
@@ -308,7 +310,9 @@ function requireElectedExecutiveContest(world: World, contestId: EntityId) {
   if (!office) {
     throw new Error("That office is not an elected executive office.");
   }
-  const jurisdiction = stateJurisdictionForKey(office.jurisdictionKey);
+  const jurisdiction = electedExecutiveOfficeJurisdiction(
+    office.jurisdictionKey,
+  );
   if (!jurisdiction) {
     throw new Error(
       "This office has no supported governing jurisdiction in this World.",
@@ -476,6 +480,8 @@ export function recordElectedExecutiveQualification(
     );
   }
   if (recordedExecutiveQualification(world, relationship.id)) return world;
+  const winner = world.people[input.personId];
+  const who = winner ? personName(winner) : "The winner";
   return recordWorldEvent(world, {
     stableKey: `executive-qualification:${contest.id}:${input.personId}${input.stableKeySuffix ?? ""}`,
     type: EXECUTIVE_QUALIFICATION,
@@ -487,13 +493,13 @@ export function recordElectedExecutiveQualification(
       {
         personId: input.personId,
         role: "focus:officeholder",
-        detail: "Recorded qualification for dated executive term entry.",
+        detail: `Qualified to take office as ${office.title}.`,
       },
     ],
     personFactConstraints: [],
     visibility: "public",
     tags: [`office:${office.officeKey}`],
-    summary: "Recorded qualification for a dated executive term was entered.",
+    summary: `${who} qualified to take office as ${office.title}.`,
     context: {
       location: null,
       socialContext: input.qualificationNote,
