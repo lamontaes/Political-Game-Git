@@ -1,0 +1,34 @@
+{
+  "alreadySearched": [
+    "art/manifest/asset_manifest.json — all 126 assets read. No interface graphic of any kind, and no civic or organizational furniture.",
+    "art/requests/asset-requests.json — all 37 filed requests read; the seven interface requests cover the newspaper, the shell icons, the economic graph, the Guide popover, the Politics hub tab band, the chamber margin graph and the no-candidacy refusal. None covers a party chapter.",
+    "art/requests/incoming/ and art/requests/promotions/ — read by requestId; nothing for a party, a chapter or a local organization.",
+    "src/player/CampaignWorkspace.tsx and the Politics ▸ Parties surface — the chapter block is a heading, an organizer's name and a bare list of the five things a player can ask for."
+  ],
+  "consumerSite": {
+    "consumerId": "no-declared-consumer",
+    "playerVisibleUse": "The Party and community work block on the campaign surface, and the chapter listing on Politics ▸ Parties. It names the local chapter and its organizer and offers five things the player can ask to come to.",
+    "runtimeComponent": "src/player/CampaignWorkspace.tsx"
+  },
+  "filedAt": "2026-09-22T14:40:00.000Z",
+  "intakeVersion": "art-request-intake/v1",
+  "jurisdiction": {
+    "reason": "A chapter is the same object in every town the game has walked, from Galena, Illinois to Chicago, and the artwork carries no party mark, so nothing in it can be jurisdiction-specific.",
+    "scope": "jurisdiction-independent"
+  },
+  "missing": "The local party chapter is the most reliably populated thing in the whole political layer and has no artwork at all. Walked on 2026-09-22 in fifteen towns, from Chicago to Galena, Illinois — population three thousand — and every single one had two chapters with a named organizer and five activities each, including the three towns where there is nothing to run for. It renders as a heading and a bulleted list.",
+  "notes": [
+    "No party marks, emblems, colors or names of any kind. The parties here are real organizations; their branding is not ours to draw and the same artwork has to serve both of them and any third.",
+    "It must hold a variable number of activities — five today — and a chapter name that runs long: 'County of Jo Daviess Democrats' and 'Nashville-Davidson metropolitan government Democrats' are both real strings this surface has rendered.",
+    "The chapter is the same object in a town of three thousand and a city of two point seven million, so nothing in the treatment may imply a scale.",
+    "This is the block a player meets before they have any office, any party membership or any standing. The game says plainly that coming to any of it is not joining, endorsing or voting, and the artwork must not contradict that by looking like a membership card."
+  ],
+  "origin": "inspection",
+  "priority": "P2",
+  "requestId": "ui-local-party-chapter-card",
+  "requestedBy": "playtest thread",
+  "targetClass": "interface-graphic",
+  "title": "Card ground for a local party chapter and what it is doing this week",
+  "whyNeeded": "Party evolution is one of the systems lamontae has said must ship, and the chapter block is where an ordinary player meets it first — before any office, in every town in the country, including the ones where the game refuses them a ballot. It is currently the only thing on some of those screens that is not a refusal, and it looks like a list. Measured rather than assumed: fifteen towns walked on 2026-09-22, two chapters with named organizers and five activities in every single one.",
+  "promotedToRequestId": "ui-local-party-chapter-card"
+}

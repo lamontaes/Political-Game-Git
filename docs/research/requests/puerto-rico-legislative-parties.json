@@ -1,0 +1,28 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "puerto-rico-legislative-parties",
+  "title": "Which parties sit in Puerto Rico's Legislative Assembly, and how each chamber divides among them",
+  "question": "What political parties hold seats in the Puerto Rico House of Representatives and Senate today (for example the Partido Nuevo Progresista, the Partido Popular Democrático, the Partido Independentista Puertorriqueño, the Movimiento Victoria Ciudadana, Proyecto Dignidad), how many seats does each hold in each chamber, and how do those parties relate to the national Democratic and Republican parties, if at all?",
+  "whyItMatters": "Every seat in Puerto Rico's two chambers is now filled with a generated member when a life opens there, but the game only knows the national Democratic and Republican parties, so every Puerto Rico legislator is seated with no party. That is honest but wrong: the chambers are organized by Puerto Rico's own parties, and members' votes take a party cue from them. The owner wants Puerto Rico's own parties seated.",
+  "impact": "shapes-design",
+  "lane": "governing and legislative",
+  "usableAnswer": "One row per party per chamber: party name in its official Spanish form and common English form, abbreviation, seats held, as-of date. A note on each party's status question position (statehood, commonwealth, independence) and any formal or customary alignment with a national party. A citation per row.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/living-world/opening.ts on main at 616dcdb5",
+      "whatItDidNotSettle": "The living world creates only two national parties, keyed democratic and republican. No Puerto Rico party exists as an organization."
+    },
+    {
+      "source": "src/simulation/political-conditions and the us-pr legislature profile on main at 616dcdb5",
+      "whatItDidNotSettle": "Puerto Rico's rows carry no two-party share, so no party lean can be drawn for its members."
+    }
+  ],
+  "requestedBy": "modular legislation thread (technical team lead)",
+  "filedAt": "2026-09-22T22:25:00.000Z",
+  "priority": "P1",
+  "notes": [
+    "Only party names, seat shares and relationships are wanted; the game generates its own people.",
+    "Chamber sizes are already asked in state-legislature-chamber-sizes-and-quorum."
+  ],
+  "relatedQuestionIds": ["state-legislature-chamber-sizes-and-quorum"]
+}

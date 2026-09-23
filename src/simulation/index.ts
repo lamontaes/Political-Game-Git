@@ -250,6 +250,7 @@ export * from "./national-election-geography";
 
 export * from "./national-election-offices";
 
+export * from "./legislative-election-rules";
 export * from "./legislative-office-terms";
 export * from "./office-transition";
 export * from "./constitutional-process";

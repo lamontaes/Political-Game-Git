@@ -454,16 +454,6 @@ export interface EnsuredOpponents {
   readonly personIds: readonly EntityId[];
 }
 
-/**
- * Somebody to run against.
- *
- * A contest needs at least two people and a quiet life rarely contains a second
- * one already standing for the seat. So the opponent is materialized the way
- * every other background person in this world is: through the character-history
- * context-person writer, named from the versioned corpus by the world's own
- * seed, with a birth date and a residence and nothing else claimed about them.
- * They are a person in the world afterwards, not a slot in a campaign screen.
- */
 export function ensureCampaignOpponents(
   world: World,
   input: EnsureCampaignOpponentsInput,
