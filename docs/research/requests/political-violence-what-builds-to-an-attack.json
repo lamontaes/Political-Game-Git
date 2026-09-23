@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-09-23T02:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "crises and political violence",
+  "notes": [
+    "The owner's rule (2026-09-22): assassinations of prominent people, in office or not, must come from pressure that builds, never a scripted event or a fixed chance.",
+    "ChatGPT C09 (2026-09-22): keep the requirement of earlier canonical evidence of threat or intent; no timer; keep depiction abstract and non-operational.",
+    "The game now runs: anger over a line gives a chance of unrest; unrest in two recent quarters gives a chance of a threat against a prominent political person in the state; a threat from an earlier quarter, while anger holds, gives a chance of an attempt. Every line and slope is a placeholder in src/simulation/pressure/events.ts (BLANKET_POLITICAL_VIOLENCE) and src/simulation/pressure/anger.ts."
+  ],
+  "priority": "P1",
+  "question": "The game lets anger build in a state from failed disaster handling, rising unemployment and earlier attacks. Anger over a line can lead to unrest, lasting unrest to a threat against a prominent political person there, and a threat to an attempt while anger holds. It must never be scripted or a fixed chance. We need the historical shape, not methods. (1) For attacks on American political figures, in office or not, since 1960, how often did a period of public unrest or high public anger come before the attack, and how often did the attacker act for personal reasons unrelated to it? (2) How often do recorded threats against officials in the United States turn into an attempt, and over what span of time? What do Capitol Police and Marshals Service threat counts show about the base rate? (3) Which kinds of figures are targeted most: governors, members of Congress, local officials, party or movement leaders? (4) After an attack, how much and for how long do public anger and fear rise, and in what area? (5) What rise in unemployment, or what kind of failed government response, has measurably raised public anger or unrest, and by how much?",
+  "questionId": "political-violence-what-builds-to-an-attack",
+  "relatedQuestionIds": [
+    "unrest-what-builds-it-and-what-calms-it",
+    "civil-war-and-revolution-preconditions",
+    "state-to-state-moves-what-pushes-and-pulls",
+    "political-violence-what-to-ask-the-owner"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "crises and political violence thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/international.ts recordViolenceAttempt on main, September 23, 2026",
+      "whatItDidNotSettle": "It has injury and death shares (30 and 10 percent, marked provisional) but no rate at which attempts happen, and no caller."
+    },
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-22-stress-test-answers.json C09",
+      "whatItDidNotSettle": "It settles that violence is permitted and needs threat evidence, and says it is not a frequency mandate. It gives no rates."
+    }
+  ],
+  "title": "What builds up to an attack on a political figure, and how often a threat becomes one",
+  "usableAnswer": "Short answers to questions 1 to 5, each with a number and a source, or a plain statement that the evidence is weak. For (2) and (4), a rate per year or a duration in months. Nothing about methods.",
+  "whyItMatters": "Every line, slope and duration in the chain from anger to attack is a placeholder. Without a base rate the game could make attacks far too common or never happen at all."
+}

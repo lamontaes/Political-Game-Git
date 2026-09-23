@@ -2,6 +2,7 @@ import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { reconsiderAfterEvent } from "../simulation/living-world/political-reflection";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
+import { seatWinnersOwedTheirTerm } from "../simulation/office-entry-repair";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
@@ -204,10 +205,13 @@ export function ordinaryLifeAvailableFor(
 export function openOrdinaryLife(world: World, personId: EntityId): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
-  if (!ordinaryLifeAvailableFor(world, personId)) return world;
+  // A save a since-fixed defect kept out of a won office is seated when it
+  // opens, before anything else reads the week.
+  const seated = seatWinnersOwedTheirTerm(world, personId);
+  if (!ordinaryLifeAvailableFor(seated, personId)) return seated;
   return refreshLifeCircumstances(
     refreshLifeOpportunities(
-      openOrdinaryLifeRecords(world, personId),
+      openOrdinaryLifeRecords(seated, personId),
       personId,
     ),
     personId,

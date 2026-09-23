@@ -166,7 +166,14 @@ export const US_STATE_AND_LOCAL_POLICY_PACK: PolicyPack = {
       name: "Income tax",
       description:
         "Who pays tax on what they earn, at what rate, and with which deductions and credits.",
-      levels: ["state"],
+      // Cities decide it too: Ohio Revised Code 718.04 lets a municipal
+      // corporation levy an income tax, and Philadelphia levies one. That is
+      // topic grouping, not power. Whether THIS city may levy one is the
+      // fiscal-authority corpus's question (`src/fiscal-authority/query.ts`),
+      // which permits a municipal income tax nowhere until a first-party
+      // record says so. Counties are left out: nothing read so far
+      // establishes county authority.
+      levels: ["state", "municipality"],
     },
     {
       key: "fiscal.sales-tax",

@@ -22,6 +22,7 @@ import type {
 import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
+import type { PressureStore } from "./pressure/contract";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -3957,6 +3958,17 @@ export interface LegislativeMeasureRecord {
    * measure in every save written so far.
    */
   readonly propositionIds?: readonly EntityId[];
+  /**
+   * Which way the measure answers each question it is about: "yes" when
+   * enacting it does what the question proposes, "no" when it does the
+   * reverse. A question in `propositionIds` with no row here is a bill that
+   * does not say, and a vote on it is not a vote for or against anything
+   * (`issue-record.ts`). Optional for the same reason as `propositionIds`.
+   */
+  readonly propositionAnswers?: readonly {
+    readonly propositionId: EntityId;
+    readonly answer: "yes" | "no";
+  }[];
 }
 
 export type LegislativeActionKind =
@@ -4786,4 +4798,9 @@ export interface World {
    * written before it existed has no macro history and is never retrofitted.
    */
   readonly macroEconomy?: MacroEconomyStore;
+  /**
+   * The pressure layer (2026-09-22). Optional and additive: a world written
+   * before it existed has no readings and is never retrofitted.
+   */
+  readonly pressure?: PressureStore;
 }
