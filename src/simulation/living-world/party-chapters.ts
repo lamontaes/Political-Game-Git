@@ -19,6 +19,7 @@ import {
 import { organizationParticipationStateAt } from "../life-queries";
 import {
   homeLocalGovernmentUnits,
+  homeLocalPartyAreaName,
   localGovernmentRecordedName,
 } from "../nationwide-world/local-governments";
 import { drawCanonicalNamedIdentity, personName } from "../people";
@@ -91,6 +92,13 @@ function chapterName(area: string, partyKey: string, partyName: string) {
   return plural ? `${area} ${plural}` : `${area} chapter, ${partyName}`;
 }
 
+/**
+ * Chapters named for the place as its residents say it. Absent keeps the
+ * recorded form an old opening was built with.
+ */
+export const RESIDENT_CHAPTER_NAME_VERSION = "resident-names-v1";
+export type PartyChapterNameVersion = typeof RESIDENT_CHAPTER_NAME_VERSION;
+
 const CHAPTER_KEY_PREFIX = `${LIVING_WORLD_WRITER_VERSION}:chapter:home:`;
 
 export function chapterStableKey(party: MajorPartyKey): string {
@@ -119,6 +127,7 @@ export interface HomePartyChapter {
 export function ensureHomePartyChapters(
   world: World,
   playerPersonId: EntityId,
+  nameVersion?: PartyChapterNameVersion,
 ): World {
   const player = world.people[playerPersonId];
   if (!player) throw new Error("Home party chapters need an existing player.");
@@ -135,12 +144,18 @@ export function ensureHomePartyChapters(
   }).filter((unit) => unit.origin === "setting");
   if (parties.length === 0) return world;
 
+  // A current opening names the chapter for the place as a resident says it:
+  // "Baltimore County Democrats", never the listing's "County of Baltimore",
+  // never a town with its state attached, and a parish or borough even where
+  // it has no separate government. An opening that never declared that keeps
+  // the recorded form, so an old save rebuilds byte for byte.
   const county = homeLocalGovernmentUnits(world, playerPersonId).counties[0];
-  // The recorded form: chapter names are written into the world, and an old
-  // save's opening must rebuild byte for byte.
-  const area = county
-    ? localGovernmentRecordedName(county)
-    : (world.jurisdictions[player.homeJurisdictionId]?.name ?? null);
+  const area =
+    nameVersion === RESIDENT_CHAPTER_NAME_VERSION
+      ? homeLocalPartyAreaName(world, playerPersonId)
+      : county
+        ? localGovernmentRecordedName(county)
+        : (world.jurisdictions[player.homeJurisdictionId]?.name ?? null);
   if (!area) return world;
   const date = world.currentDate;
   const rng = new SeededRng(world.seed).fork(
