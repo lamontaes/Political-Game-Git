@@ -5,6 +5,7 @@ import {
   LEGISLATIVE_STARTING_PROCEDURES_VERSION,
 } from "./legislative-starting-procedures";
 import { legislatureForState } from "./legislature-game-profile";
+import { rulePackById } from "./legislature-rule-packs";
 import { stateJurisdictionForKey } from "./life-places";
 import { STATES, TERRITORY_USPS } from "./state-reference";
 
@@ -87,7 +88,7 @@ describe("saved legislative starting procedures", () => {
   it("snapshots full baseline packs without changing structural institutions", () => {
     const procedures = drawLegislativeStartingProcedures({ seed: "snapshot" });
     for (const key of allStateKeys) {
-      const baseline = legislatureForState(key)!;
+      const baseline = rulePackById(legislatureForState(key)!.packId);
       const saved = procedures[key]!.baselinePack;
       expect(saved).toEqual(baseline);
       expect(saved).not.toBe(baseline);

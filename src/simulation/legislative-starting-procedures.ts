@@ -1,5 +1,6 @@
 import { legislatureForState } from "./legislature-game-profile";
 import type { LegislativeRulePack } from "./legislature-rules";
+import { rulePackById } from "./legislature-rule-packs";
 import { canonicalStateJurisdictionId } from "./state-jurisdiction-id";
 import { SeededRng } from "./rng";
 import { STATES, TERRITORY_USPS } from "./state-reference";
@@ -147,7 +148,9 @@ export function drawLegislativeStartingProcedures(
     entries[jurisdictionKey] = {
       jurisdictionKey,
       jurisdictionId,
-      baselinePack: structuredClone(pack),
+      // The playable registry adds standing committee stand-ins where the
+      // researched pack has none. Save that executable baseline for replay.
+      baselinePack: structuredClone(rulePackById(pack.packId)),
       effectiveDateDays: effectiveDateDays(world.seed, jurisdictionKey),
       sessionCadence: cadence,
       sessionYearParity: sessionYearParity(
