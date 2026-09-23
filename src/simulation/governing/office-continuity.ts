@@ -400,7 +400,7 @@ function openSenateVacancy(
         officeKey: seat.seatKey,
         title,
         outcome: "vacant",
-        sentence: `The seat is vacant. The governor appoints a senator to serve until the regular election on ${regular} fills it for the next term.`,
+        sentence: `The seat is vacant. The governor appoints a senator to serve until the regular election on ${spokenDate(regular)} fills it for the next term.`,
       },
     };
   const dueKey = specialElectionKey(seat, vacancyDate);
@@ -422,7 +422,7 @@ function openSenateVacancy(
       officeKey: seat.seatKey,
       title,
       outcome: "special-election",
-      sentence: `The seat is vacant. The governor appoints a senator to serve until a special election on ${special}.`,
+      sentence: `The seat is vacant. The governor appoints a senator to serve until a special election on ${spokenDate(special)}.`,
     },
   };
 }
