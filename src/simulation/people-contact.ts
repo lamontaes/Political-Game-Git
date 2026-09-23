@@ -1,10 +1,7 @@
 import { homePartyChapters } from "./living-world/party-chapters";
 import { addDays } from "./dates";
 import { evaluateDecision } from "./decisions";
-import {
-  createFutureTransitionHandlerRegistry,
-  scheduleFutureDueItem,
-} from "./future-transitions";
+import { scheduleFutureDueItem } from "./future-transitions";
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
@@ -599,7 +596,15 @@ export function answerContact(
       start,
       end,
       participantPersonIds: [from, to],
-      responsiblePersonId: from,
+      // Whoever carries the meeting out. Between two other people that is the
+      // one who asked. When the played person is one of the two, it is theirs
+      // to attend whoever asked: an old contact who rang and was told yes used
+      // to hold the meeting as theirs alone, and Attend never offered it.
+      responsiblePersonId:
+        next.control.kind === "person" &&
+        (next.control.personId === from || next.control.personId === to)
+          ? next.control.personId
+          : from,
       location: {
         locationKey: CONTACT_LOCATION_KEY,
         label: "Arranged in person",
@@ -1132,7 +1137,12 @@ export function contactAnswerTransitionHandler(
   return done(`contact-${decided.answer}`, answered.world, answered.eventId);
 }
 
-export const PEOPLE_CONTACT_HANDLERS: FutureTransitionHandlerRegistry =
-  createFutureTransitionHandlerRegistry([
-    [CONTACT_ANSWER_TRANSITION_KEY, contactAnswerTransitionHandler],
-  ]);
+// Built without createFutureTransitionHandlerRegistry: this module sits in
+// an import cycle with future-transitions, and calling into it while this
+// module initializes crashed every tsx script (corpus:prose among them).
+export const PEOPLE_CONTACT_HANDLERS: FutureTransitionHandlerRegistry = {
+  get: (transitionKey) =>
+    transitionKey === CONTACT_ANSWER_TRANSITION_KEY
+      ? contactAnswerTransitionHandler
+      : undefined,
+};

@@ -47,6 +47,7 @@ import { resolveNationwideRuleCapability } from "./nationwide-world/rule-capabil
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { EntityId, Jurisdiction, World } from "./types";
 import { advanceWorld, assertWorldIntegrity, createWorld } from "./world";
+import { localInstrumentMayChange, outranks } from "./law-hierarchy";
 
 const AUTHORED = {
   method: "authored-fixture" as const,
@@ -538,6 +539,10 @@ describe("Which law governs when several are in force", () => {
     operativeAt: makeIsoDate(operativeAt),
     operativeBasis: "enacted-date" as const,
     instrument,
+    level:
+      instrument === "statute"
+        ? ("state-statute" as const)
+        : ("state-constitution" as const),
     measureId: createStableId(
       "constitutional-measure",
       `${instrument}:${value}`,
@@ -553,6 +558,22 @@ describe("Which law governs when several are in force", () => {
       ])?.value,
     ).toBe(5);
   });
+  it("lets a higher level of law govern over a later lower one", () => {
+    const federal = {
+      ...change("statute", "2026-01-01", 2),
+      level: "federal-statute" as const,
+    };
+    expect(
+      ruleChangeInForce([
+        federal,
+        change("constitutional-amendment", "2027-01-01", 4),
+      ])?.value,
+    ).toBe(2);
+    expect(outranks("state-constitution", "state-statute")).toBe(true);
+    expect(outranks("local-charter", "state-statute")).toBe(false);
+    expect(localInstrumentMayChange("OR", "body.seats").allowed).toBe(false);
+  });
+
   it("never lets a statute override the constitution, whenever it took effect", () => {
     expect(
       ruleChangeInForce([
@@ -719,6 +740,6 @@ describe("A California constitutional amendment changing a rule", () => {
         },
         ordinaryMeasureId: null,
       }),
-    ).toThrow(/federal and charter changes are not modelled/);
+    ).toThrow(/federal and charter changes are not modeled/);
   });
 });

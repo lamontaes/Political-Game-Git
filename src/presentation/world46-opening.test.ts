@@ -46,6 +46,10 @@ function legacySetup(placeKey: string, seed: string): NewGameSetup {
     .earlierLifeGenerationVersion;
   delete (legacy as { livingWorldMemberNameVersion?: unknown })
     .livingWorldMemberNameVersion;
+  delete (legacy as { childhoodGenerationVersion?: unknown })
+    .childhoodGenerationVersion;
+  delete (legacy as { partyChapterNameVersion?: unknown })
+    .partyChapterNameVersion;
   return {
     ...legacy,
     seed,
@@ -134,10 +138,19 @@ const sha256 = (text: string) =>
  * authored text now spells labor, defense and program the American way.
  * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
  * only the stripped catalog field moved.
+ *
+ * RE-ACCEPTED AGAIN the same day, for given names that follow the year a
+ * person was born (`given-name-v3`, which today's new game declares; the
+ * opening's members stay on their legacy draw here because this fixture
+ * deletes `livingWorldMemberNameVersion`). Measured the same way against
+ * `origin/main` after #457: same people and ids, identical leaf paths, 0
+ * identities changed. Kentucky: 3 given names and 9 summaries, each made
+ * identical by one renamed person's old given name, plus `snapshotId`.
+ * Peebles: 4 and 12, plus `snapshotId`. 0 unexplained.
  */
 const FED321F7_LEGACY = {
-  kentucky: "706f7d7781627c691f3016ab4bbeec5bec6f9e22ce1396b44a5ac1c952a6359d",
-  peebles: "48b86a048c3a3b1b4792c1d059c4c869e00bc48fdcdadbe10bb98a8aa695d9e8",
+  kentucky: "df117fc95d6d93f763e9e0a044f046ca29fa4929233f62a252fc17838129a296",
+  peebles: "f219ba89129d604c739d7f70bfb1e5cff469d24a402280faf1d36dddb992b52f",
 } as const;
 
 /**
@@ -149,8 +162,8 @@ const FED321F7_LEGACY = {
  * test above was reaching for and could not hold on its own.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "039d5fc55cc85c1f3a1a1487f101faa56d0158be229af007b0878edf2b431ec2",
-  peebles: "f50d53595074667a4183212edc0eeb00d4286079b1060635b884949cd737fdd8",
+  kentucky: "481fbb3d8461b313d10ee288f73c4aeee6b92e5baf0d574073c12a2020d06ebd",
+  peebles: "bb444b62a885f7dec65f15b01b283322f1d740fc74873e2b84ec26b4c39007d2",
 } as const;
 
 /**

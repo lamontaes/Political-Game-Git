@@ -33,5 +33,14 @@
   ],
   "title": "How constitutions and city charters get amended, in every place",
   "usableAnswer": "Part A: one row per jurisdiction per amendment route (56 jurisdictions), with each field listed in the question, a citation, and an evidence status. Part B: one row per state for the charter framework, plus one row per sample city (about 250), same fields. UNKNOWN where the text was not found, never a default.",
-  "whyItMatters": "Amending a constitution or charter is playable today only for the U.S. Constitution, California, and Carson City's charter (src/simulation/constitutional-process.ts, where every other state falls back to these). A player anywhere else who proposes an amendment gets another jurisdiction's procedure, which is borrowing a state's rules, which lamontae has ruled out. He asked on 2026-09-22 for this research to start now."
+  "whyItMatters": "Amending a constitution or charter is playable today only for the U.S. Constitution, California, and Carson City's charter (src/simulation/constitutional-process.ts, where every other state falls back to these). A player anywhere else who proposes an amendment gets another jurisdiction's procedure, which is borrowing a state's rules, which lamontae has ruled out. He asked on 2026-09-22 for this research to start now.",
+  "answer": {
+    "summary": "ChatGPT's one combined set covers all 50 states, D.C. and the five inhabited territories: each constitution's or charter's amendment and revision routes with who proposes, votes, signatures, ballot and effect where found, each state's city-charter framework, and 245 Census-based city samples in 49 states (Hawaii has no qualifying incorporated city). Every field is marked VERIFIED PRIMARY, SECONDARY or UNKNOWN. D.C., Puerto Rico and the Northern Mariana Islands have source-backed local routes; Guam and the U.S. Virgin Islands change through Congress amending their organic acts or a convention under Public Law 94-584; American Samoa's Article V route rests on secondary text. A state's general charter framework never supplies an individual city's procedure by itself. An unknown rule stays unavailable for that place until its own legal source is verified. For the player: a brief jurisdiction rule on the choice, with legal detail on request.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-23-amendments-and-owner-decisions-0109/ocd-nationwide-amendment-charter-intake-2026-09-22.md"
+    ],
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-23T00:47:00.000Z",
+    "stillOpen": "Many route fields and most city-specific charter fields are UNKNOWN; verify each before a playable action uses it. Indiana was not covered by the gap-fill pass. Mississippi's citizen-initiative route is uncertain after the 2021 court opinion. American Samoa needs an official current consolidated constitution; Guam and U.S. Virgin Islands timing needs the current Public Law 94-584 note. Massachusetts municipal charter terms are out of scope. Next: turn verified routes into jurisdiction fact packets and test a filing-to-ballot-to-effective-date playthrough."
+  }
 }

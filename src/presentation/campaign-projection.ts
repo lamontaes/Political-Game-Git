@@ -93,6 +93,65 @@ export interface CampaignSessionRecord {
   readonly blockedBy: readonly string[];
 }
 
+/**
+ * The campaign's sessions as a log a person can read.
+ *
+ * A Presque Isle race held about three hundred door-knocking sessions, and
+ * the log printed every one with the same sentence, above the result. Sessions
+ * with the same title and state are said once, with how many there were and
+ * when. A session still waiting on somebody else's commitment stays on its own
+ * line, because what it is waiting on is different each time.
+ */
+export interface CampaignSessionGroup {
+  readonly key: string;
+  readonly title: string;
+  readonly count: number;
+  readonly firstOn: string;
+  readonly lastOn: string;
+  readonly done: boolean;
+  /** The recorded sentence when every session in the group said the same. */
+  readonly outcome: string | null;
+  readonly blockedBy: readonly string[];
+}
+
+export function groupCampaignSessions(
+  sessions: readonly CampaignSessionRecord[],
+): readonly CampaignSessionGroup[] {
+  const groups = new Map<
+    string,
+    { rows: CampaignSessionRecord[]; blockedBy: readonly string[] }
+  >();
+  for (const session of sessions) {
+    const key =
+      session.blockedBy.length > 0
+        ? `waiting:${session.id}`
+        : `${session.done ? "done" : "planned"}:${session.title}`;
+    const group = groups.get(key);
+    if (group) group.rows.push(session);
+    else groups.set(key, { rows: [session], blockedBy: session.blockedBy });
+  }
+  return [...groups.entries()]
+    .map(([key, { rows, blockedBy }]) => {
+      const dates = rows.map((row) => row.on).sort();
+      const outcomes = new Set(rows.map((row) => row.outcome));
+      return {
+        key,
+        title: rows[0]!.title,
+        count: rows.length,
+        firstOn: dates[0]!,
+        lastOn: dates.at(-1)!,
+        done: rows[0]!.done,
+        outcome: outcomes.size === 1 ? rows[0]!.outcome : null,
+        blockedBy,
+      };
+    })
+    .sort(
+      (left, right) =>
+        left.lastOn.localeCompare(right.lastOn) ||
+        left.key.localeCompare(right.key),
+    );
+}
+
 /** The field memo, and nothing stronger than a field memo. */
 export interface CampaignReading {
   readonly percent: number;

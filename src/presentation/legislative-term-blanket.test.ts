@@ -8,8 +8,11 @@ import {
 } from "../../tests/fixtures/state-executive-entry";
 import {
   activeLegislativeTermEvidence,
+  addDays,
   bindRuleCapabilityResolver,
+  OFFICE_OATH_TAKEN,
   BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
+  legislativeBlueprint,
   legislativeTermDates,
   legislativeTermForRelationship,
   makeIsoDate,
@@ -18,7 +21,12 @@ import {
   workStatusAt,
 } from "../simulation";
 import { projectCampaign } from "./campaign-projection";
-import { projectOfficeTransition } from "./office-transition";
+import {
+  projectOfficeTransition,
+  projectSwearingIn,
+  takeOathForHeldOffice,
+} from "./office-transition";
+import { resolvePlayerCapabilities } from "./player-capabilities";
 
 afterEach(() => bindRuleCapabilityResolver(unadmittedRuleCapabilityResolver));
 
@@ -84,3 +92,61 @@ describe("a legislative term in a state with no sourced term rule", () => {
     expect(projectOfficeTransition(seated, personId)).toBeNull();
   }, 600_000);
 });
+
+describe.each(["ME", "GA"])(
+  "a legislative term in %s, a state the game generates rather than compiles",
+  (usps) => {
+    it("waits, shows the transition, and is seated with a working office", () => {
+      const { world, personId } = adultLifeIn(usps, `blanket-term-${usps}`);
+      const decided = runToElection(
+        fileForOffice(world, personId),
+        personId,
+        suppliedWin(personId),
+      );
+      expect(projectCampaign(decided, personId).phase).toBe("won");
+      const seat = workRelationshipHistoryForPerson(decided, personId).find(
+        (relationship) => relationship.kind === "employment:legislative-member",
+      )!;
+      expect(workStatusAt(decided, seat.id)?.status).toBe("expected");
+      const transition = projectOfficeTransition(decided, personId)!;
+      expect(transition.startsAt.endsWith("-01-01")).toBe(true);
+
+      const seated = passUntil(decided, transition.startsAt);
+      expect(workStatusAt(seated, seat.id)?.status).toBe("active");
+      expect(activeLegislativeTermEvidence(seated, seat.id)).not.toBeNull();
+      const capabilities = resolvePlayerCapabilities(seated);
+      expect(capabilities.office).toBe(true);
+      expect(capabilities.legislation).toBe(true);
+      // The Office screen's workspace is built from this; it threw for Maine.
+      expect(
+        legislativeBlueprint(capabilities.legislativeScenarioKey!).label,
+      ).toMatch(/Legislature|General Assembly/);
+
+      // Before the term there is nothing to swear into.
+      expect(projectSwearingIn(decided, personId)).toBeNull();
+      expect(() => takeOathForHeldOffice(decided, personId)).toThrow(
+        /no office to be sworn into/,
+      );
+      // From its first day the oath is waiting, and taking it is public.
+      const waiting = projectSwearingIn(seated, personId)!;
+      expect(waiting.swornInOn).toBeNull();
+      expect(waiting.officeTitle).toMatch(/^Member of the /);
+      const sworn = takeOathForHeldOffice(seated, personId);
+      const oath = sworn.history.events.filter(
+        (event) => event.type === OFFICE_OATH_TAKEN,
+      );
+      expect(oath).toHaveLength(1);
+      expect(oath[0]!.visibility).toBe("public");
+      expect(takeOathForHeldOffice(sworn, personId)).toBe(sworn);
+      expect(projectSwearingIn(sworn, personId)!.swornInOn).toBe(
+        seated.currentDate,
+      );
+      expect(
+        projectSwearingIn(
+          passUntil(sworn, addDays(sworn.currentDate, 1)),
+          personId,
+        ),
+      ).toBeNull();
+    }, 600_000);
+  },
+);

@@ -1,3 +1,4 @@
+import { RESIDENT_CHAPTER_NAME_VERSION } from "../simulation/living-world/party-chapters";
 import {
   canonicalPriorEncoding,
   createSetupPriorStore,
@@ -7,8 +8,10 @@ import {
   GENDER_IDENTITY_KEYS,
   PRONOUN_SET_KEYS,
   SETUP_BANK_VERSION,
+  COHORT_GIVEN_NAME_GENERATION_VERSION,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
+  CHILDHOOD_GENERATION_V2,
 } from "../simulation";
 import type {
   GenderIdentityKey,
@@ -219,6 +222,12 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.earlierLifeGenerationVersion === undefined
       ? {}
       : { earlierLifeGenerationVersion: setup.earlierLifeGenerationVersion }),
+    ...(setup.childhoodGenerationVersion === undefined
+      ? {}
+      : { childhoodGenerationVersion: setup.childhoodGenerationVersion }),
+    ...(setup.partyChapterNameVersion === undefined
+      ? {}
+      : { partyChapterNameVersion: setup.partyChapterNameVersion }),
     ...(setup.birthYear === undefined ? {} : { birthYear: setup.birthYear }),
     ...(setup.openingDataVersion === undefined
       ? {}
@@ -328,7 +337,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   const livingWorldMemberNameVersion = record.livingWorldMemberNameVersion;
   if (
     livingWorldMemberNameVersion !== undefined &&
-    livingWorldMemberNameVersion !== "identity-v1"
+    livingWorldMemberNameVersion !== "identity-v1" &&
+    livingWorldMemberNameVersion !== "cohort-v1"
   )
     return null;
   const birthMonth = record.birthMonth;
@@ -359,9 +369,20 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   if (
+    record.childhoodGenerationVersion !== undefined &&
+    record.childhoodGenerationVersion !== CHILDHOOD_GENERATION_V2
+  )
+    return null;
+  if (
+    record.partyChapterNameVersion !== undefined &&
+    record.partyChapterNameVersion !== RESIDENT_CHAPTER_NAME_VERSION
+  )
+    return null;
+  if (
     givenNameGenerationVersion !== undefined &&
     givenNameGenerationVersion !== LEGACY_GIVEN_NAME_GENERATION_VERSION &&
-    givenNameGenerationVersion !== DISTINCT_GIVEN_NAME_GENERATION_VERSION
+    givenNameGenerationVersion !== DISTINCT_GIVEN_NAME_GENERATION_VERSION &&
+    givenNameGenerationVersion !== COHORT_GIVEN_NAME_GENERATION_VERSION
   ) {
     return null;
   }
@@ -430,6 +451,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.earlierLifeGenerationVersion === undefined
       ? {}
       : { earlierLifeGenerationVersion: "context-v2" as const }),
+    ...(record.childhoodGenerationVersion === undefined
+      ? {}
+      : { childhoodGenerationVersion: CHILDHOOD_GENERATION_V2 }),
+    ...(record.partyChapterNameVersion === undefined
+      ? {}
+      : { partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION }),
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion: appearanceRecipeVersion as string }),

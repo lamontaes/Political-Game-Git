@@ -751,9 +751,16 @@ export function drawCanonicalName(
 
 export const LEGACY_GIVEN_NAME_GENERATION_VERSION = "given-name-v1";
 export const DISTINCT_GIVEN_NAME_GENERATION_VERSION = "given-name-v2";
+/**
+ * v2, and then a generated person's given name follows the year they were
+ * born (`given-name-cohorts.ts`). The draw itself is v2's; the cohort is
+ * applied once the birth date is known, by the routes that write the person.
+ */
+export const COHORT_GIVEN_NAME_GENERATION_VERSION = "given-name-v3";
 export type GivenNameGenerationVersion =
   | typeof LEGACY_GIVEN_NAME_GENERATION_VERSION
-  | typeof DISTINCT_GIVEN_NAME_GENERATION_VERSION;
+  | typeof DISTINCT_GIVEN_NAME_GENERATION_VERSION
+  | typeof COHORT_GIVEN_NAME_GENERATION_VERSION;
 
 /**
  * The same draw, for somebody whose gender the world has already generated.
