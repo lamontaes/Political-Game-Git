@@ -7,6 +7,7 @@ import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
 import { ageOnDate, completedMonthsBetween } from "./dates";
 import { enactedRuleChangeAt } from "./enacted-rule-changes";
 import { lifePlaceByJurisdictionId } from "./life-places";
+import { isTerritoryUsps } from "./state-reference";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import {
@@ -238,6 +239,14 @@ export interface CandidacyBlock {
 function noSourcedOfficeReason(authority: CandidacyAuthority): string {
   if (authority.stateJurisdictionKey === null) {
     return "The game has not read any elected office for this place, and it will not borrow another jurisdiction's rules to fill the gap.";
+  }
+  if (
+    authority.pack === null &&
+    isTerritoryUsps(authority.stateJurisdictionKey.slice(3))
+  ) {
+    // A territory's Governor stands apart from this list; its legislature and
+    // local offices are not on record until the territory research lands.
+    return "None of this territory's legislative or local offices is on record yet, so there is no seat to stand for here. Its Governor is below.";
   }
   if (authority.pack === null) {
     return "The game has not read this state's elected offices yet, so there is nothing to stand for here. It will not borrow another state's rules to fill the gap.";
