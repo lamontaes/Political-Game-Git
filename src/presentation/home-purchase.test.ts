@@ -158,4 +158,32 @@ describe("buying a home", () => {
       /^[A-Z][a-z]+'s mortgage payment was \$1,200\.00, and you could not pay any of it\.$/,
     );
   });
+
+  it("takes only what is left in the last month and then stops", () => {
+    const { world, personId } = lifeWithSavings(100_000_000);
+    const bought = buyHome(world, personId);
+    expect(bought.status).toBe("bought");
+    // $200,000 at $1,200 a month is 166 full payments and one of $800.
+    const later = letAdultTimePass(bought.world, 5_200);
+    assertWorldIntegrity(later);
+    const mortgage = later.history.resourceFlows.find(
+      (flow) => flow.basisKind === MORTGAGE_BASIS,
+    )!;
+    const payments = later.history.resourceTransferOutcomes.filter(
+      (outcome) => outcome.resourceFlowId === mortgage.id,
+    );
+    expect(payments).toHaveLength(167);
+    expect(payments.every((payment) => payment.status === "completed")).toBe(
+      true,
+    );
+    expect(payments.at(-1)!.transferredAmount.minorUnits).toBe(80_000);
+    expect(projectHomePurchase(later, personId)).toMatchObject({
+      kind: "owns",
+      mortgageLine: "The mortgage is paid off.",
+    });
+    const reloaded = deserializeWorld(serializeWorld(later));
+    expect(serializeWorld(refreshLifeOpportunities(reloaded, personId))).toBe(
+      serializeWorld(later),
+    );
+  });
 });

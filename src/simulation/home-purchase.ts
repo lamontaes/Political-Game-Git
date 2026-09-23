@@ -9,6 +9,7 @@ import {
   createResourceObligation,
   money,
   recordDwellingOccupancyState,
+  recordResourceFlowTerms,
   recordResourceTransferOutcome,
   startDwellingOccupancy,
 } from "./resources";
@@ -460,10 +461,27 @@ function settleMortgageMonth(
   dueOn: IsoDate,
   owed: MoneyAmount,
 ): World {
-  const scheduled = resourceFlowTermsAt(world, flow.id, {
+  let terms = resourceFlowTermsAt(world, flow.id, {
     asOfDate: dueOn,
     historySequenceExclusive: world.history.nextSequence,
-  })!.amount;
+  })!;
+  // The last payment is only what is left on the loan, recorded as the terms
+  // for that month so the payment reads as paid in full.
+  if (owed.minorUnits < terms.amount.minorUnits) {
+    world = recordResourceFlowTerms(world, {
+      stableKey: `${flow.stableKey}:terms:final:${dueOn}`,
+      resourceFlowId: flow.id,
+      effectiveAt: dueOn,
+      status: "active",
+      amount: owed,
+      cadenceKind: terms.cadenceKind,
+      reason: "The last payment is what is left on the loan.",
+      provenance: flow.provenance,
+      supersedesTermsId: terms.id,
+    });
+    terms = resourceFlowTermsAt(world, flow.id)!;
+  }
+  const scheduled = terms.amount;
   const owner = { kind: "person" as const, personId };
   const balanceOn = (asOfDate: IsoDate) =>
     resourcePositionAt(world, owner, scheduled.currency, {
@@ -475,8 +493,7 @@ function settleMortgageMonth(
     if (outcome.occurredAt > dueOn && outcome.occurredAt < world.currentDate)
       checkpoints.add(outcome.occurredAt);
   const available = Math.max(0, Math.min(...[...checkpoints].map(balanceOn)));
-  // The last payment is only what is left on the loan.
-  const due = Math.min(scheduled.minorUnits, owed.minorUnits);
+  const due = scheduled.minorUnits;
   const paid = Math.min(available, due);
   const status =
     paid === scheduled.minorUnits
@@ -493,10 +510,7 @@ function settleMortgageMonth(
     status,
     attemptedAmount: scheduled,
     transferredAmount: money(paid, scheduled.currency),
-    reasonKind:
-      status === "completed" || paid === due
-        ? null
-        : "capacity:insufficient-funds",
+    reasonKind: status === "completed" ? null : "capacity:insufficient-funds",
     note: `Mortgage for ${monthName(dueOn)}.`,
     provenance: flow.provenance,
   });

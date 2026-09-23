@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { EntityId, World } from "../simulation";
 import { buyHome } from "../simulation/home-purchase";
+import { refreshLifeOpportunities } from "../simulation/life-opportunities";
 import { projectHomePurchase } from "../presentation/home-purchase-view";
 
 /**
@@ -36,7 +37,12 @@ export function HomePurchasePanel({
             data-testid="buy-home"
             disabled={view.kind !== "can-buy"}
             onClick={() => {
-              const result = buyHome(world, personId);
+              // Settle anything already due first, so the down payment
+              // cannot take money this month's bills were owed.
+              const result = buyHome(
+                refreshLifeOpportunities(world, personId),
+                personId,
+              );
               if (result.status === "bought") {
                 setNotice("You bought a home.");
                 onWorldChange(result.world);
