@@ -1,3 +1,7 @@
+import {
+  RESIDENT_CHAPTER_NAME_VERSION,
+  type PartyChapterNameVersion,
+} from "../simulation/living-world/party-chapters";
 import { initializeJudicialOfficePractice } from "../simulation/judicial-office-start";
 import {
   initializeStateAgencyStart,
@@ -179,6 +183,11 @@ export interface NewGameSetup {
    * child who starts in school. New Game stamps the repair.
    */
   readonly childhoodGenerationVersion?: typeof CHILDHOOD_GENERATION_V2;
+  /**
+   * Absent keeps the home party chapters' recorded names ("County of Adams
+   * Democrats"). New Game names them as residents say the place.
+   */
+  readonly partyChapterNameVersion?: PartyChapterNameVersion;
   readonly questionnaireCopyVersion?: "playtest65-v2";
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
@@ -228,6 +237,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // A classmate born on the player's own birthday, in every save, was the
   // fixed offset this replaces.
   childhoodGenerationVersion: CHILDHOOD_GENERATION_V2,
+  partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
   // that the game should not invent a biography nobody chose. Measured cost of

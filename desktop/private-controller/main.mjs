@@ -79,6 +79,7 @@ import {
   cleanHubState,
   createGeneration,
   emptyHubState,
+  hubChromeHeight,
   hubViewLayout,
   playLabel,
   prunedQueue,
@@ -1057,8 +1058,19 @@ function contentForTab() {
 
 function layout() {
   if (!hub.window || hub.window.isDestroyed()) return;
-  const bounds = hubViewLayout(hub.window.getContentBounds(), CHROME_HEIGHT);
+  /*
+   * Playing full screen gives the game the whole screen: the hub's bar steps
+   * aside until the window leaves full screen (View > Toggle Full Screen, or
+   * the window's own control), so the life is not framed as a small window.
+   */
+  const chromeHeight = hubChromeHeight(
+    { fullScreen: hub.window.isFullScreen(), activeTab: hub.activeTab },
+    CHROME_HEIGHT,
+  );
+  const immersive = chromeHeight === 0;
+  const bounds = hubViewLayout(hub.window.getContentBounds(), chromeHeight);
   hub.chrome.setBounds(bounds.chrome);
+  hub.chrome.setVisible(!immersive);
   const visible = contentForTab();
   const all = [
     ...hub.views.values(),
@@ -1952,12 +1964,16 @@ function createWindow() {
   for (const view of hub.views.values()) win.contentView.addChildView(view);
   win.contentView.addChildView(hub.chrome);
   win.on("resize", layout);
+  win.on("enter-full-screen", layout);
+  win.on("leave-full-screen", layout);
   win.on("close", (event) => {
     if (hub.quitting) return;
     event.preventDefault();
     // Closing the window keeps the current life and drafts in memory.
     win.hide();
   });
+  // Open at the size of the screen rather than as a small window.
+  win.maximize();
   layout();
 }
 

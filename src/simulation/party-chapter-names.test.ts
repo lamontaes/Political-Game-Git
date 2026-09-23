@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import type { NewGameSetup } from "../presentation/new-game";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -93,6 +94,25 @@ describe("a place named the way the people who live there say it", () => {
     );
     expect(homePartyChapters(game.world).map((c) => c.name)).toContain(
       `${expected} Democrats`,
+    );
+  });
+
+  it("an old save that never declared the naming keeps its recorded names", () => {
+    const catonsville = lifePlaceSearch("Catonsville", 10, {
+      stateJurisdictionKey: "US-MD",
+      scope: "locality",
+    }).find((place) => /^Catonsville\b/.test(place.displayName))!;
+    const legacy: NewGameSetup = {
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "party-chapter-names-legacy",
+      placeKey: catonsville.key,
+      startAge: 29,
+    };
+    delete (legacy as { partyChapterNameVersion?: unknown })
+      .partyChapterNameVersion;
+    const game = generateOpeningLife(prepareOpeningLife(legacy)).game!;
+    expect(homePartyChapters(game.world).map((c) => c.name)).toContain(
+      "County of Baltimore Democrats",
     );
   });
 });

@@ -46,6 +46,10 @@ function legacySetup(placeKey: string, seed: string): NewGameSetup {
     .earlierLifeGenerationVersion;
   delete (legacy as { livingWorldMemberNameVersion?: unknown })
     .livingWorldMemberNameVersion;
+  delete (legacy as { childhoodGenerationVersion?: unknown })
+    .childhoodGenerationVersion;
+  delete (legacy as { partyChapterNameVersion?: unknown })
+    .partyChapterNameVersion;
   return {
     ...legacy,
     seed,
@@ -134,26 +138,10 @@ const sha256 = (text: string) =>
  * authored text now spells labor, defense and program the American way.
  * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
  * only the stripped catalog field moved.
- *
- * RE-ACCEPTED AGAIN the same day, for the childhood repair
- * (`childhoodGenerationVersion`), which today's new game declares: the
- * parent, classmate and teacher of the summarized past get birthdays of their
- * own instead of the player's day of the year. Measured the same way against
- * `origin/main` after #408: same people and ids, identical leaf paths. In each
- * opening exactly three `birthDate` values move, plus the two
- * `establishedFacts[].occurredAt` per person that are that same birth date,
- * plus `snapshotId`. Peebles also renames its two home party chapters from
- * "County of Adams Democrats" / "Republicans" to "Adams County ...", which is
- * the chapter-name fix; the shape strips organization profiles, so that one
- * moves only the whole hash. 0 other leaves differ.
- *
- * The two were measured on separate lines and combined at the merge: the
- * shape hash is the childhood repair's, the whole hash re-measured on the
- * merged tree.
  */
 const FED321F7_LEGACY = {
-  kentucky: "7bbc64caa4a7d4c01784b6834e94be07cacb67f2cc4fd31ae2ef46bd3d30d9e5",
-  peebles: "08ed3e7e0be7c30bd26a83c95ede01f4232b03591621752cbf5f7a799f84055f",
+  kentucky: "706f7d7781627c691f3016ab4bbeec5bec6f9e22ce1396b44a5ac1c952a6359d",
+  peebles: "48b86a048c3a3b1b4792c1d059c4c869e00bc48fdcdadbe10bb98a8aa695d9e8",
 } as const;
 
 /**
@@ -165,8 +153,8 @@ const FED321F7_LEGACY = {
  * test above was reaching for and could not hold on its own.
  */
 const LEGACY_OPENING_SHAPE = {
-  kentucky: "b27cece86898e85d1ff163522b852a2de94045868dbab2099202ea76386cada4",
-  peebles: "ff836724204c7f09a3958fb5a6678564abb30b413c2eb86b79a2242d26184d8d",
+  kentucky: "039d5fc55cc85c1f3a1a1487f101faa56d0158be229af007b0878edf2b431ec2",
+  peebles: "f50d53595074667a4183212edc0eeb00d4286079b1060635b884949cd737fdd8",
 } as const;
 
 /**

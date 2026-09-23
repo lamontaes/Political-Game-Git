@@ -20,8 +20,8 @@
 import {
   EXECUTIVE_AUTHORITY_RULE_PACKS,
   executiveRulePackForJurisdiction,
-} from "./executive-authority-rule-packs";
-import type { ExecutiveAuthorityRulePack } from "./executive-authority-rules";
+} from "../../src/simulation/executive-authority-rule-packs";
+import type { ExecutiveAuthorityRulePack } from "../../src/simulation/executive-authority-rules";
 
 /** What R3I did with one accepted R3H node. */
 export type R3hDisposition =
