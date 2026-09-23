@@ -323,7 +323,9 @@ describe("a commitment due now", () => {
   });
 
   it("gathers several missed commitments into one choice", () => {
-    let { world: booked, personId } = renoLife();
+    const life = renoLife();
+    const personId = life.personId;
+    let booked = life.world;
     const opened0 = booked.currentMoment.minuteOfDay;
     const ids: EntityId[] = [];
     for (const [index, key] of ["first", "second"].entries()) {
