@@ -648,7 +648,7 @@ async function prepareUpdate() {
           { outcome: "kept-local", track: id, revision: targetRevision },
         );
       if (existing.current.content)
-        return prepareRuntimeContentSuccessor({
+        return await prepareRuntimeContentSuccessor({
           branch,
           existing,
           id,
@@ -678,7 +678,7 @@ async function prepareUpdate() {
         `Pairing ${label} with runtime artwork ${runtimeContent.id.slice(0, 12)}.`,
         { phase: "verifying" },
       );
-      return prepareRuntimeContentSuccessor({
+      return await prepareRuntimeContentSuccessor({
         branch,
         existing,
         id,
@@ -700,7 +700,7 @@ async function prepareUpdate() {
   } catch (error) {
     if (cancelled)
       return fail(
-        "Update canceled. The current verified build is unchanged.",
+        "Update cancelled. The current verified build is unchanged.",
         "cancelled",
       );
     fail(
