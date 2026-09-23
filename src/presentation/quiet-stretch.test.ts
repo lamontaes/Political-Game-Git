@@ -10,6 +10,8 @@ import {
 } from "../simulation";
 import {
   chooseStoryOption,
+  chooseTodayCalendarOption,
+  todayCalendarOptions,
   letStoryTimePass,
   ordinaryStretchOptions,
   type StoryScene,
@@ -224,5 +226,29 @@ describe("an invitation earlier the same day", () => {
       ordinaryStretchOptions(freed, personId).map((option) => option.label),
     ).toContain("Attend: Posted public meeting");
     expect(scheduledActivityState(freed, meeting.id).status).toBe("scheduled");
+  });
+});
+
+describe("beside Let time pass", () => {
+  it("offers the meeting due today, which time will not step over", () => {
+    const { world: opened, personId } = renoLife();
+    const meeting = opened.history.scheduledActivities.find(
+      (activity) => activity.title === "Posted public meeting",
+    )!;
+    const morning = letStoryTimePass(opened, personId);
+    const options = todayCalendarOptions(morning, personId);
+    expect(options.map((option) => option.label)).toContain(
+      "Attend: Posted public meeting",
+    );
+    const went = chooseTodayCalendarOption(morning, {
+      personId,
+      optionKey: `go-to:${meeting.id}`,
+    });
+    expect(went && scheduledActivityState(went, meeting.id).status).toBe(
+      "completed",
+    );
+    expect(
+      chooseTodayCalendarOption(morning, { personId, optionKey: "let-it-run" }),
+    ).toBeNull();
   });
 });

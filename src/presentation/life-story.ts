@@ -552,12 +552,13 @@ const GO_TO_ACTIVITY_PREFIX = "go-to:";
 const TURN_DOWN_PREFIX = "turn-down:";
 
 /**
- * What a quiet adult stretch offers: whatever today's calendar holds that the
- * player can go to, and letting the weeks run on as far as the next thing on
- * it. A meeting the player was invited to is a real choice on the day it
- * happens, not something the clock decides by walking past it.
+ * What today's calendar asks of the player, as choices: attend each thing they
+ * can go to, and turn down an open invitation that blocks a later one. Offered
+ * beside every way of letting time pass, because time stops at a commitment
+ * due today and a button that stops without saying why looks like it did
+ * nothing (Detroit life, September 23, 2026).
  */
-export function ordinaryStretchOptions(
+export function todayCalendarOptions(
   world: World,
   personId: EntityId,
 ): readonly StoryOption[] {
@@ -574,6 +575,55 @@ export function ordinaryStretchOptions(
     label: `Turn down: ${activity.title}`,
     description: "Say you will not come, so the rest of today is free.",
   }));
+  return [...going, ...turningDown];
+}
+
+/**
+ * Plays one of `todayCalendarOptions`. Null when the key is not one of them;
+ * the unchanged world when the activity is no longer on offer.
+ */
+export function chooseTodayCalendarOption(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly optionKey: string;
+    readonly transitionHandlers?: FutureTransitionHandlerRegistry;
+  },
+): World | null {
+  if (input.optionKey.startsWith(GO_TO_ACTIVITY_PREFIX)) {
+    const wanted = input.optionKey.slice(GO_TO_ACTIVITY_PREFIX.length);
+    const activity = goableToday(world, input.personId).find(
+      (candidate) => candidate.id === wanted,
+    );
+    if (!activity) return world;
+    return performVenueActivity(
+      world,
+      input.personId,
+      activity.id,
+      input.transitionHandlers,
+    );
+  }
+  if (input.optionKey.startsWith(TURN_DOWN_PREFIX)) {
+    const wanted = input.optionKey.slice(TURN_DOWN_PREFIX.length);
+    const activity = blockingHoldsToday(world, input.personId).find(
+      (candidate) => candidate.id === wanted,
+    );
+    if (!activity) return world;
+    return declineVenueActivity(world, input.personId, activity.id);
+  }
+  return null;
+}
+
+/**
+ * What a quiet adult stretch offers: whatever today's calendar holds that the
+ * player can go to, and letting the weeks run on as far as the next thing on
+ * it. A meeting the player was invited to is a real choice on the day it
+ * happens, not something the clock decides by walking past it.
+ */
+export function ordinaryStretchOptions(
+  world: World,
+  personId: EntityId,
+): readonly StoryOption[] {
   const { cappedBy } = capQuietStretch(
     world,
     personId,
@@ -581,8 +631,7 @@ export function ordinaryStretchOptions(
     STORY_STRETCH_STOPS,
   );
   return [
-    ...going,
-    ...turningDown,
+    ...todayCalendarOptions(world, personId),
     {
       key: "let-it-run",
       label: "Let the weeks run on",
@@ -844,27 +893,8 @@ export function chooseStoryOption(
         transitionHandlers: lifeActivityHandlers(input.transitionHandlers),
       });
     case "ordinary-stretch": {
-      if (input.optionKey.startsWith(GO_TO_ACTIVITY_PREFIX)) {
-        const wanted = input.optionKey.slice(GO_TO_ACTIVITY_PREFIX.length);
-        const activity = goableToday(world, input.personId).find(
-          (candidate) => candidate.id === wanted,
-        );
-        if (!activity) return world;
-        return performVenueActivity(
-          world,
-          input.personId,
-          activity.id,
-          input.transitionHandlers,
-        );
-      }
-      if (input.optionKey.startsWith(TURN_DOWN_PREFIX)) {
-        const wanted = input.optionKey.slice(TURN_DOWN_PREFIX.length);
-        const activity = blockingHoldsToday(world, input.personId).find(
-          (candidate) => candidate.id === wanted,
-        );
-        if (!activity) return world;
-        return declineVenueActivity(world, input.personId, activity.id);
-      }
+      const today = chooseTodayCalendarOption(world, input);
+      if (today) return today;
       return letStoryTimePass(world, input.personId, input.advanceDays);
     }
   }

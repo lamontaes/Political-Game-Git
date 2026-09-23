@@ -145,6 +145,8 @@ import {
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
+  chooseTodayCalendarOption,
+  todayCalendarOptions,
   presentPeopleSentence,
   projectStoryMoment,
   type StoryMoment,
@@ -5610,6 +5612,13 @@ function StoryView({
     [session.world, session.personId],
   );
   const crisisStop = useCrisisStop(session.world);
+  const todayOptions = useMemo(
+    () =>
+      moment.formativeYears
+        ? []
+        : todayCalendarOptions(session.world, session.personId),
+    [session.world, session.personId, moment.formativeYears],
+  );
 
   return (
     <section className="game-story life-moment" data-testid="story-section">
@@ -5720,6 +5729,35 @@ function StoryView({
             <small>{option.description}</small>
           </button>
         ))}
+        {/*
+          What today's calendar holds, beside letting time pass. Time stops
+          at a commitment due today, so without these the button below
+          stopped and nothing on this screen said why or offered the meeting
+          (Detroit life, September 23, 2026). The quiet stretch carries the
+          same choices in its own options.
+        */}
+        {moment.scene.kind === "ordinary-stretch"
+          ? null
+          : todayOptions.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                className="ui-action ui-action--choice"
+                data-testid="story-today-calendar"
+                onClick={() => {
+                  const next = chooseTodayCalendarOption(session.world, {
+                    personId: session.personId,
+                    optionKey: option.key,
+                    transitionHandlers:
+                      createCampaignElectionTransitionRegistry(),
+                  });
+                  if (next) onWorldChange(next);
+                }}
+              >
+                {option.label}
+                <small>{option.description}</small>
+              </button>
+            ))}
         {moment.scene.kind === "ordinary-stretch" ? null : (
           <button
             type="button"

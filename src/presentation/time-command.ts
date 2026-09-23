@@ -330,6 +330,8 @@ export function describeTimeCommandPreview(
           ? `about ${Math.round(preview.days / 7)} weeks`
           : `about ${Math.round(preview.days / 30.4)} months`;
   return preview.cappedBy
-    ? `${span}, to ${date}, when ${preview.cappedBy.title.toLowerCase()} is due`
+    ? // The title as recorded: lowercasing it turned "Saturday afternoon at
+      // Ray Curtis's" into "saturday afternoon at ray curtis's".
+      `${span}, to ${date}: ${preview.cappedBy.title}`
     : `${span}, to ${date}`;
 }
