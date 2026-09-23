@@ -84,7 +84,7 @@ export const CRIME_CAUSE_SEAMS: readonly CrimeCauseSeam[] = [
     connects:
       "A named person turning to crime from money trouble, grievance or habit.",
     status: "not-built",
-    rule: "No named person commits a crime; see OFFENDERS_ARE_NOT_REPRESENTED.",
+    rule: "No named person commits a crime; see OFFENDERS_ARE_NOT_REPRESENTED. The lane that draws an offender refers them with referForProsecution, shaped by arrestReferral; the monthly crime pass cannot import the prosecution route without an import loop.",
     where: "src/simulation/crime/contract.ts",
   },
   {

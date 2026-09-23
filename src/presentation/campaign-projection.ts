@@ -1,5 +1,6 @@
 import { legislativeTermDates } from "../simulation/legislative-office-terms";
 import { proseDate } from "./prose-dates";
+import { jailTermOn } from "../simulation/justice/jail-terms";
 import {
   FILING_LEAD_DAYS,
   nextTownElection,
@@ -162,6 +163,8 @@ export interface CampaignReading {
   /** The sentence the candidate was actually told. */
   readonly summary: string;
   readonly on: string;
+  /** How far the count moved since the one before, when it moved. */
+  readonly change: string | null;
 }
 
 export interface CampaignTallyLine extends CandidateTally {
@@ -605,15 +608,18 @@ function offersFor(
   const daysLeft = daysUntilElection(world, campaign);
   const closed = daysLeft <= 0;
   const buy = advertisingBuyFor(treasury);
+  const jailed = jailTermOn(world, campaign.candidatePersonId);
   return (["fundraising", "outreach", "advertising"] as const).map((kind) => {
     const spend = kind === "advertising" ? buy : null;
-    const unavailable = closed
-      ? "Election day has arrived. There is nothing left to do but wait for the count."
-      : kind === "advertising" && treasury.minorUnits <= 0
-        ? "There is nothing in the account to spend."
-        : freeSlotToday(world, campaign.candidatePersonId, kind) === null
-          ? "The rest of today is already spoken for. Get on with the day and pick this up tomorrow."
-          : null;
+    const unavailable = jailed
+      ? `You are in jail until ${proseDate(jailed.until)}. Your name stays on the ballot, but you cannot campaign.`
+      : closed
+        ? "Election day has arrived. There is nothing left to do but wait for the count."
+        : kind === "advertising" && treasury.minorUnits <= 0
+          ? "There is nothing in the account to spend."
+          : freeSlotToday(world, campaign.candidatePersonId, kind) === null
+            ? "The rest of today is already spoken for. Get on with the day and pick this up tomorrow."
+            : null;
     return {
       kind,
       label:
@@ -688,12 +694,11 @@ function sessionsFor(
  * but has not recorded anybody reading is not something the player knows, and
  * the difference matters on the day somebody else reads it first.
  */
-function latestReading(
+function readingFrom(
   world: World,
   campaign: CampaignRecord,
-): CampaignReading | null {
-  const result = campaignResultsFor(world, campaign.id).at(-1);
-  if (!result) return null;
+  result: ReturnType<typeof campaignResultsFor>[number],
+): Omit<CampaignReading, "change"> | null {
   const knowledge = world.history.knowledge.find(
     (candidate) =>
       candidate.id === result.feedbackKnowledgeId &&
@@ -714,6 +719,31 @@ function latestReading(
         : null,
     summary: knowledge.believedSummary,
     on: result.completedAt,
+  };
+}
+
+function latestReading(
+  world: World,
+  campaign: CampaignRecord,
+): CampaignReading | null {
+  const readings = campaignResultsFor(world, campaign.id).flatMap((result) => {
+    const reading = readingFrom(world, campaign, result);
+    return reading ? [reading] : [];
+  });
+  const latest = readings.at(-1);
+  if (!latest) return null;
+  const previous = readings.at(-2);
+  // A count is an estimate, so a move between two of them is the estimate's
+  // move, not a measurement of what caused it. Said only when it moved.
+  const points = previous
+    ? Math.round((latest.percent - previous.percent) * 10) / 10
+    : 0;
+  return {
+    ...latest,
+    change:
+      previous && points !== 0
+        ? `${points > 0 ? "Up" : "Down"} ${Math.abs(points).toFixed(1)} points since the count on ${proseDate(previous.on)}.`
+        : null,
   };
 }
 

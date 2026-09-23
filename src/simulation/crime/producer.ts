@@ -3,10 +3,7 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { householdLocationAt, peopleInHouseholdAt } from "../life-queries";
 import { personName } from "../people";
-import {
-  referForProsecution,
-  type ProsecutionReferralInput,
-} from "../justice/prosecution";
+import type { ProsecutionReferralInput } from "../justice/prosecution";
 import { recordEventKnowledge } from "../records";
 import { SeededRng } from "../rng";
 import type {
@@ -43,8 +40,8 @@ import { crimeRateMultiplier } from "./causes";
  * themselves stays private: only the people it happened to know.
  *
  * The month after a report, police either make an arrest or do not. An arrest
- * is public, and it is handed to prosecution through `referForProsecution`,
- * which the justice route owns.
+ * is public. Its hand-off to prosecution is shaped by `arrestReferral` for the
+ * justice route's `referForProsecution`, once an arrest names an offender.
  *
  * Every rate is in `UNRESEARCHED_LOCAL_CRIME`. Nothing here reads a place's
  * real crime rate, police force or budget yet, and nothing here moves an
@@ -433,8 +430,13 @@ export function offenseOf(event: HistoricalEvent): CrimeOffense | null {
  * officeholder's case also uses. A referral names the person charged, and no
  * arrest names one yet (see `OFFENDERS_ARE_NOT_REPRESENTED`), so
  * `arrestReferral` returns null and nothing is referred until offenders exist.
+ *
+ * This pass is registered with the world clock, which loads before state
+ * governing; importing `referForProsecution` here closes an import loop
+ * through `governing/office-consequence` and breaks module start-up. The lane
+ * that draws offenders (`cause-offenders`) makes the referral with this shape.
  */
-function arrestReferral(
+export function arrestReferral(
   incident: HistoricalEvent,
   arrest: HistoricalEvent,
   offense: CrimeOffense,
@@ -510,8 +512,6 @@ function recordArrests(
         source: { kind: "direct" },
       });
     }
-    const referral = arrestReferral(incident, arrest, offense, null);
-    if (referral) next = referForProsecution(next, referral).world;
   }
   return next;
 }

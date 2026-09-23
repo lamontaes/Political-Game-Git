@@ -43,7 +43,7 @@ describe("the home panel on Money and property", () => {
         onWorldChange={() => {}}
       />,
     );
-    expect(html).toContain("A house costs $250,000.00.");
+    expect(html).toContain("A house costs $250,000.");
     expect(html).toContain(
       "The down payment is $50,000.00. You have $10,000.00.",
     );
@@ -62,7 +62,7 @@ describe("the home panel on Money and property", () => {
       />,
     );
     expect(html).toContain("Your household owns its home.");
-    expect(html).toContain("$200,000.00 is left on the mortgage.");
+    expect(html).toContain("$200,000 is left on the mortgage.");
     expect(html).not.toContain("Buy a home</button>");
   });
 });

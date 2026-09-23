@@ -21,6 +21,8 @@ import {
   sampleMonthlyCrime,
   UNRESEARCHED_LOCAL_CRIME,
 } from "./index";
+import { arrestReferral } from "./producer";
+import { referForProsecution } from "../justice/prosecution";
 
 const LONG = 900_000;
 
@@ -157,6 +159,37 @@ describe("ordinary local crime", () => {
     },
     LONG,
   );
+
+  it("an arrest with an offender is a referral the justice route accepts", () => {
+    const life = open("local-crime-referral");
+    const town = life.world.people[life.playerPersonId]!.homeJurisdictionId;
+    const incident = {
+      id: "event_incident",
+      stableKey: "crime:test",
+      jurisdictionId: town,
+    } as unknown as Parameters<typeof arrestReferral>[0];
+    const arrest = {
+      id: "event_arrest",
+      stableKey: "crime:test:arrest",
+    } as unknown as Parameters<typeof arrestReferral>[1];
+    expect(arrestReferral(incident, arrest, "robbery", null)).toBeNull();
+    const referral = arrestReferral(
+      incident,
+      arrest,
+      "robbery",
+      life.playerPersonId,
+    )!;
+    expect(referral.offenseKey).toBe("crime:robbery");
+    const referred = referForProsecution(life.world, referral);
+    expect(referred.referralId).toBeTruthy();
+    // The route names the offense rather than falling back to "a crime".
+    expect(
+      referred.world.history.events.some(
+        (event) =>
+          event.id === referred.referralId || event.summary.includes("robbery"),
+      ),
+    ).toBe(true);
+  });
 
   it(
     "the Around you feed shows only the player's own town's crime",
