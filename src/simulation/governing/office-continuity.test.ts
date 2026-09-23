@@ -36,7 +36,12 @@ import { advanceWorldMinutes } from "../time-work";
 import type { EntityId, World } from "../types";
 import { recordPersonDeath } from "../vitality";
 import { advanceWorld } from "../world";
+import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
+import { currentFederalTenure } from "../federal-tenures";
 import {
+  VICE_PRESIDENTIAL_VACANCY_PROFILE,
+  VICE_PRESIDENT_NOMINATED_EVENT,
+  VICE_PRESIDENT_NOMINATION,
   applyOfficeContinuityNotices,
   officeContinuityRulings,
   type OfficeContinuityNoticeInput,
@@ -172,7 +177,7 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(event.summary).toMatch(/not compiled/);
   }, 300_000);
 
-  it("the opening President's death is a truthful block; illness transfers nothing", () => {
+  it("the opening Vice President succeeds a President who dies; illness transfers nothing", () => {
     const world = openingWorld("k3-opening");
     const tenure = world.history.events.find(
       (e) =>
@@ -204,13 +209,112 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(officeContinuityRulings(next, "us-president")[0]!.outcome).toBe(
       "not-automatic",
     );
+    const vice = currentFederalTenure(next, "us-vice-president")!;
+    const termEnd = currentFederalTenure(next, "us-president")!.endExclusive;
     const dead = die(next, president, [office]);
     next = applyOfficeContinuityNotices(dead.world, [dead.notice]);
     expect(officeContinuityRulings(next, "us-president")[0]!.outcome).toBe(
-      "blocked",
+      "succeeded",
     );
-    expect(nationalOfficeHolder(next, "president")).toBeNull();
+    // The Vice President is President for the rest of the same term, every
+    // reader agrees, and the vice presidency is vacant with a nomination due.
+    expect(currentPresidentOf(next)!.personId).toBe(vice.personId);
+    expect(currentFederalTenure(next, "us-president")!.endExclusive).toBe(
+      termEnd,
+    );
+    expect(currentFederalTenure(next, "us-vice-president")).toBeNull();
+    expect(
+      publicOfficesHeldBy(next, vice.personId).map((ref) => ref.officeKey),
+    ).toEqual(["us-president"]);
+    expect(
+      next.history.futureDueItems.some(
+        (due) => due.transitionKey === VICE_PRESIDENT_NOMINATION,
+      ),
+    ).toBe(true);
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(currentPresidentOf(reopened)!.personId).toBe(vice.personId);
   }, 300_000);
+
+  it("a Vice President who dies is replaced by the President's confirmed nominee for the rest of the term", () => {
+    const world = openingWorld("k3-vice");
+    const vice = currentFederalTenure(world, "us-vice-president")!;
+    const president = currentPresidentOf(world)!;
+    const office = {
+      officeKey: "us-vice-president",
+      title: "Vice President of the United States",
+      organizationId: null,
+      termEvidenceId: vice.event.id,
+    };
+    // Detection: the opening Vice President's death raises a notice at all.
+    expect(
+      publicOfficesHeldBy(world, vice.personId).map((ref) => ref.officeKey),
+    ).toContain("us-vice-president");
+    const dead = die(world, vice.personId, [office]);
+    let next = applyOfficeContinuityNotices(dead.world, [dead.notice]);
+    expect(officeContinuityRulings(next, "us-vice-president")[0]!.outcome).toBe(
+      "vacant",
+    );
+    expect(currentFederalTenure(next, "us-vice-president")).toBeNull();
+
+    next = passOrdinaryDays(
+      next,
+      VICE_PRESIDENTIAL_VACANCY_PROFILE.daysFromVacancyToNomination,
+    );
+    const nomination = next.history.events.find(
+      (event) => event.type === VICE_PRESIDENT_NOMINATED_EVENT,
+    )!;
+    expect(nomination).toBeDefined();
+    const nomineeId = nomination.participants.find(
+      (p) => p.role === "focus:subject",
+    )!.personId;
+    // Anyone old enough, other than the President and the player's own
+    // character; not confined to any office or party.
+    expect(nomineeId).not.toBe(president.personId);
+    if (next.control.kind === "person")
+      expect(nomineeId).not.toBe(next.control.personId);
+    const nomineeBirthYear = Number(
+      next.people[nomineeId]!.birthDate.slice(0, 4),
+    );
+    expect(
+      Number(next.currentDate.slice(0, 4)) - nomineeBirthYear,
+    ).toBeGreaterThanOrEqual(35);
+    const heldSeat = [
+      ...projectCongress(next)!.house.seats,
+      ...projectCongress(next)!.senate.seats,
+    ].find(
+      (s) =>
+        s.occupant.kind === "member" &&
+        s.occupant.member.personId === nomineeId,
+    );
+    // Still vacant while Congress considers the nomination.
+    expect(currentFederalTenure(next, "us-vice-president")).toBeNull();
+
+    next = passOrdinaryDays(
+      next,
+      VICE_PRESIDENTIAL_VACANCY_PROFILE.daysFromNominationToConfirmation,
+    );
+    const confirmed = currentFederalTenure(next, "us-vice-president")!;
+    expect(confirmed.personId).toBe(nomineeId);
+    // The rest of the same term, not a new four years.
+    expect(confirmed.endExclusive).toBe(
+      currentFederalTenure(next, "us-president")!.endExclusive,
+    );
+    expect(
+      publicOfficesHeldBy(next, nomineeId).map((ref) => ref.officeKey),
+    ).toEqual(["us-vice-president"]);
+    // A nominee who sat in Congress has left the seat.
+    if (heldSeat) {
+      const left = [
+        ...projectCongress(next)!.house.seats,
+        ...projectCongress(next)!.senate.seats,
+      ].find((s) => s.seatKey === heldSeat.seatKey)!;
+      expect(left.occupant.kind).toBe("vacancy");
+    }
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(currentFederalTenure(reopened, "us-vice-president")!.personId).toBe(
+      nomineeId,
+    );
+  }, 600_000);
 });
 
 // --- Elected President and Vice President (supplied fictional results) ---
@@ -359,8 +463,15 @@ describe("GOVERNING K3: the Twenty-Fifth Amendment, § 1", () => {
     expect(nationalOfficeHolder(next, "vice-president")).toBeNull();
     const reopened = deserializeWorld(serializeWorld(next));
     expect(nationalOfficeHolder(reopened, "president")!.plan.personId).toBe(vp);
-    // A second death in the new presidency has no Vice President to succeed.
-    const second = die(at(next, "2029-07-01", 600), vp, [
+    // The vice presidency is vacant with the President's nomination due.
+    expect(
+      next.history.futureDueItems.some(
+        (due) => due.transitionKey === VICE_PRESIDENT_NOMINATION,
+      ),
+    ).toBe(true);
+    // A second death before anyone is nominated has no Vice President to
+    // succeed. (Jumping the clock past the nomination would skip it.)
+    const second = die(at(next, "2029-06-05", 600), vp, [
       {
         officeKey: "us-president",
         title: "President of the United States",
