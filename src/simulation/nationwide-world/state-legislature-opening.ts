@@ -824,3 +824,61 @@ export function endOpeningMemberForWinner(
   }
   return world;
 }
+
+export interface StateLegislativeSeatView {
+  readonly officeKey: string;
+  readonly ordinal: number;
+  readonly title: string;
+  /** The sitting member, or null when the seat has no living holder. */
+  readonly member: StateLegislatorView | null;
+  /** When the seat's last holder died, where that is the reason it is empty. */
+  readonly holderDiedOn: IsoDate | null;
+}
+
+/**
+ * Every seat an opening filled, whether or not it still has a holder. A seat
+ * whose member has died stays on the list as empty, so a chamber keeps its
+ * size on the screen rather than shrinking to its survivors.
+ */
+export function stateLegislativeSeats(
+  world: World,
+  packId: string,
+): readonly StateLegislativeSeatView[] {
+  const bodyId = createStableId(
+    "organization",
+    `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
+  );
+  // Keyed by seat, not by tenure: a seat the opening's member gave up to an
+  // election winner is held under the winner's own relationship.
+  const sitting = new Map(
+    stateLegislators(world, packId).map((member) => [
+      `${member.officeKey}:${member.ordinal}`,
+      member,
+    ]),
+  );
+  const prefix = `${V}:`;
+  const seats: StateLegislativeSeatView[] = [];
+  for (const work of world.history.workRelationships) {
+    if (work.organizationId !== bodyId) continue;
+    if (work.kind !== "employment:legislative-member") continue;
+    const match = work.stableKey.startsWith(prefix)
+      ? /^(.*):seat:(\d+):tenure$/.exec(work.stableKey.slice(prefix.length))
+      : null;
+    if (!match) continue;
+    const member = sitting.get(`${match[1]}:${match[2]}`) ?? null;
+    seats.push({
+      officeKey: match[1]!,
+      ordinal: Number(match[2]),
+      title: member?.title ?? workRoleAt(world, work.id)?.title ?? "",
+      member,
+      holderDiedOn: member
+        ? null
+        : (world.history.personDeaths.find(
+            (death) => death.personId === work.personId,
+          )?.diedAt ?? null),
+    });
+  }
+  return seats.sort(
+    (a, b) => a.officeKey.localeCompare(b.officeKey) || a.ordinal - b.ordinal,
+  );
+}
