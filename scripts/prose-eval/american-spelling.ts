@@ -553,7 +553,10 @@ export function britishSpellings(text: string): SpellingFinding[] {
     const before = masked[start - 1] ?? " ";
     const after = masked[end] ?? " ";
     if (/[0-9]/.test(before) || /[0-9]/.test(after)) continue;
-    const sentenceEnd = after === "." && /^(\s|$)/.test(masked[end + 1] ?? "");
+    // A period that ends a sentence, even inside a quoted string: `modelled."`.
+    const sentenceEnd =
+      after === "." &&
+      /^(\s|$|["'`)\]\u2019\u201d])/.test(masked[end + 1] ?? "");
     if (
       (JOINERS.has(before) && before !== "-") ||
       (JOINERS.has(after) && after !== "-" && !sentenceEnd)
