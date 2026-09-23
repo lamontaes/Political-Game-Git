@@ -1,5 +1,6 @@
 import {
   ARTICLE_V_STATE_KEYS,
+  constitutionalMemberBody,
   constitutionalPosition,
   constitutionalProposalRuleForWorld,
   proposeConstitutionalMeasure,
@@ -128,6 +129,14 @@ function measureKey(year: number): string {
   return `${FEDERAL_REFORM_VERSION}:US:${year}`;
 }
 
+/** The same calendar day `years` later; February 29 falls to February 28. */
+function yearsLater(date: IsoDate, years: number): IsoDate {
+  const year = Number(date.slice(0, 4)) + years;
+  const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  const monthDay = date.slice(5) === "02-29" && !leap ? "02-28" : date.slice(5);
+  return makeIsoDate(`${year}-${monthDay}`);
+}
+
 function reviewDateFor(year: number): IsoDate {
   return makeIsoDate(`${year}-${FEDERAL_REFORM_PROFILE.reviewMonthDay}`);
 }
@@ -170,7 +179,7 @@ export function applyFederalReform(before: IsoDate, world: World): World {
 /** The next presidential term, which a proposal this year is about. */
 function nextTermStart(world: World): IsoDate {
   const year = Number(world.currentDate.slice(0, 4));
-  const inauguration = Math.ceil((year + 1) / 4) * 4 + 1;
+  const inauguration = Math.ceil(year / 4) * 4 + 1;
   return makeIsoDate(`${inauguration}-01-20`);
 }
 
@@ -183,6 +192,17 @@ export function federalReformCause(world: World): FederalReformCause | null {
   const president = currentPresidentOf(world)?.personId ?? null;
   if (!president) return null;
   if (world.control.kind === "person" && world.control.personId === president)
+    return null;
+  // A player sitting in Congress casts their own vote; no proposal is drawn
+  // around them. (No federal seat is playable yet; this holds when one is.)
+  if (
+    world.control.kind === "person" &&
+    constitutionalMemberBody(
+      world,
+      world.control.personId,
+      NATIONAL_ELECTION_JURISDICTION.id,
+    ) !== null
+  )
     return null;
   const termStartsAt = nextTermStart(world);
   const { limit, countsFrom } = presidentialTermLimitAt(world, termStartsAt);
@@ -296,9 +316,9 @@ export function proposeAndVote(
     sponsoringAuthority: "The Congress of the United States",
     sponsorPersonId: null,
     ratificationMode: "state-legislatures",
-    deadlineAt: addDays(
+    deadlineAt: yearsLater(
       world.currentDate,
-      365 * FEDERAL_REFORM_PROFILE.ratificationYears,
+      FEDERAL_REFORM_PROFILE.ratificationYears,
     ),
     delayedOperativeAt: null,
     ruleDelta: {

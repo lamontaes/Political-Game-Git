@@ -150,10 +150,10 @@ describe("Congress and the states amending the U.S. Constitution on their own", 
       );
       expect(presidentialTermLimitAt(limited, nextTerm)).toMatchObject({
         limit: { maxLifetimeTerms: 1 },
-        designation: "Fixture Amendment",
+        designation: `the Constitution as amended in ${limited.currentDate.slice(0, 4)}`,
       });
       expect(presidentialTermBar(limited, president, nextTerm)).toMatch(
-        /one term Fixture Amendment allows/,
+        /one term the Constitution as amended in \d{4} allows/,
       );
       expect(federalReformCause(limited)).toMatchObject({
         direction: "extend",

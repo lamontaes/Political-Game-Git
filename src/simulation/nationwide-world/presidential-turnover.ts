@@ -138,11 +138,11 @@ export const PRESIDENTIAL_TURNOVER_PROFILE = {
 /** U.S. Const. art. II, § 1, cl. 5. */
 export const PRESIDENTIAL_MINIMUM_AGE = 35;
 /** U.S. Const. amend. XXII, § 1: elected no more than twice. */
-export const TWENTY_SECOND_AMENDMENT_LIMIT: TermLimitRule = {
+export const TWENTY_SECOND_AMENDMENT_LIMIT: TermLimitRule = Object.freeze({
   maxConsecutiveTerms: null,
   maxLifetimeTerms: 2,
   lookbackYears: null,
-};
+});
 
 /** The office key the rule layer and constitutional measures use for the presidency. */
 export const PRESIDENT_OFFICE_KEY = "us-president";
@@ -358,7 +358,7 @@ export function presidentialTermLimitAt(
     };
   return {
     limit: resolved.value as TermLimitRule | null,
-    designation: resolved.designation,
+    designation: `the Constitution as amended in ${resolved.effectiveAt.slice(0, 4)}`,
     countsFrom:
       resolved.applicability.countsPriorService === false
         ? resolved.effectiveAt
