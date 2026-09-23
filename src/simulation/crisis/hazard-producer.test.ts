@@ -102,6 +102,10 @@ describe("automatic hazard production", () => {
           ).toBe(true);
         }
       }
+      // Episodes arrive on their recorded day, not all on the first.
+      const days = sampled.map((record) => record.effectiveAt.slice(8, 10));
+      expect(sampled.length).toBeGreaterThan(2);
+      expect(days.some((day) => day !== "01")).toBe(true);
       // Replaying the same month on the same world gives the same sample.
       const month = makeIsoDate(
         addDays(life.world.currentDate, 40).slice(0, 8) + "01",
