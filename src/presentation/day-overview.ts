@@ -307,7 +307,11 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
         (entry) => entry.role.title,
       ),
       ...(townSeat
-        ? [`Member of the ${townSeat.bodyName}, ${townSeat.governmentName}`]
+        ? [
+            townSeat.office === "mayor"
+              ? `${townSeat.mayorTitle}, ${townSeat.governmentName}`
+              : `Member of the ${townSeat.bodyName}, ${townSeat.governmentName}`,
+          ]
         : []),
     ]),
   ];

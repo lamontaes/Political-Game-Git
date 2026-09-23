@@ -556,7 +556,7 @@ _Present: David Todd, your dad_
 
 
 
-David Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
+David Todd, your dad: David Todd asked you over on Saturday afternoon. Going is optional.
 
 - **Say you will come** ← chosen
 - Decline the invitation
@@ -606,22 +606,11 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 15 — 2026-05-10, age 35 (adult)
+#### Beat 15 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
 
 > A couple of months on, and you're 35 now.
 > Judith Lewis tried to reach you.
 > You and Edward Miles were in and out of each other's business more than once.
-
-David Todd, your dad: Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.
-
-- **Say you will come** ← chosen
-- Decline the invitation
-
-_Present: David Todd, your dad_
-
-#### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
-
-
 
 You're at home with fifteen minutes free.
 
@@ -631,7 +620,7 @@ You're at home with fifteen minutes free.
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 17 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/follow-through)
+#### Beat 16 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/follow-through)
 
 
 
@@ -642,7 +631,7 @@ You've been reading for the last fifteen minutes. You can read for five more, or
 
 _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-05-10._
 
-#### Beat 18 — 2026-05-10, age 35 (ordinary-stretch)
+#### Beat 17 — 2026-05-10, age 35 (ordinary-stretch)
 
 
 
@@ -650,7 +639,7 @@ _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requir
 
 - **Let the weeks run on** ← chosen
 
-#### Beat 19 — 2026-06-10, age 35 (episode, home.the-week-that-does-not-balance/it-was-taken-seriously)
+#### Beat 18 — 2026-06-10, age 35 (episode, home.the-week-that-does-not-balance/it-was-taken-seriously)
 
 > A month later.
 > Edward Miles tried to reach you.
@@ -663,6 +652,17 @@ Five months on, the parts you took are still yours, and nobody has had to mentio
 _Present: Gage Terrell, your housemate_
 
 _Grounded by: household-peer is Gage Terrell: Resident on the same household record, with no authority either way between them.; At the-first-time-it-is-said they chose take-it-on, on 2026-01-05.; 156 day(s) since the-first-time-it-is-said; needs 150._
+
+#### Beat 19 — 2026-06-10, age 35 (adult)
+
+
+
+David Todd, your dad: David Todd asked you over on Saturday afternoon. Going is optional.
+
+- **Say you will come** ← chosen
+- Decline the invitation
+
+_Present: David Todd, your dad_
 
 
 ---

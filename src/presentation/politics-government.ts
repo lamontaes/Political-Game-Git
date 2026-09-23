@@ -140,10 +140,14 @@ export interface GovernmentRecordLink {
   readonly measureId: EntityId;
 }
 
-/** People with an active seat on an unread town's governing body. */
+/**
+ * People holding an active office in an unread town's government: those with a
+ * seat on its governing body, and its mayor.
+ */
 function localGoverningBodyMembers(
   world: World,
   unit: GovernmentUnitIdentity,
+  roleKind: "leader:municipal-member" | "leader:municipal-mayor",
 ): readonly EntityId[] {
   const organization = world.history.organizations.find(
     (entry) => entry.stableKey === localGovernmentOrganizationKey(unit),
@@ -163,10 +167,7 @@ function localGoverningBodyMembers(
             world,
             participation.id,
           );
-          return (
-            state?.status === "active" &&
-            state.roleKind === "leader:municipal-member"
-          );
+          return state?.status === "active" && state.roleKind === roleKind;
         })
         .map((participation) => participation.personId),
     ),
@@ -381,19 +382,36 @@ function localBranches(
     ? []
     : (place.sourceGeoid ? governmentUnitsForPlace(place.sourceGeoid) : []).map(
         (unit) => {
-          // Whoever the save has seated on this town's governing body. The
-          // town's own government has not been read, but a member elected to
-          // it is a recorded fact and is named, not left off the list.
-          const members = localGoverningBodyMembers(world, unit);
+          // Whoever the save has seated on this town's governing body or as
+          // its mayor. The town's own government has not been read, but an
+          // officeholder elected to it is a recorded fact and is named, not
+          // left off the list.
+          const mayors = localGoverningBodyMembers(
+            world,
+            unit,
+            "leader:municipal-mayor",
+          );
+          const members = localGoverningBodyMembers(
+            world,
+            unit,
+            "leader:municipal-member",
+          );
+          const holders = [...new Set([...mayors, ...members])];
+          const offices = [
+            mayors.length ? "Mayor." : null,
+            members.length
+              ? `${members.length === 1 ? "Member" : "Members"} of the governing body.`
+              : null,
+          ].filter((part): part is string => part !== null);
           return {
             key: `unit:${unit.id}`,
             title: localGovernmentDisplayName(unit),
-            holderName: members.length
-              ? members.map((id) => personName(world.people[id]!)).join(", ")
+            holderName: holders.length
+              ? holders.map((id) => personName(world.people[id]!)).join(", ")
               : null,
-            holderPersonId: members.length === 1 ? members[0]! : null,
-            detail: members.length
-              ? `${members.length === 1 ? "Member" : "Members"} of the governing body. Other government details are limited.`
+            holderPersonId: holders.length === 1 ? holders[0]! : null,
+            detail: offices.length
+              ? `${offices.join(" ")} Other government details are limited.`
               : "Government details are limited.",
           };
         },
