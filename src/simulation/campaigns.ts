@@ -1,4 +1,5 @@
 import { createPressTransitionRegistry } from "./press/transitions";
+import { recordElectionSpeech } from "./campaign-speeches";
 import { campaignPollingQuality } from "./campaign-polling";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
@@ -1833,6 +1834,16 @@ function closeCampaignAfterElection(
     next = cancelScheduledActivity(next, action.scheduledActivityId);
   }
   const closedContest = requireElectionContest(next, campaign.contestId);
+  // Rivals give their election-night speeches now; the person the player
+  // controls gives theirs only by choosing to.
+  for (const candidatePersonId of closedContest.candidatePersonIds) {
+    if (
+      next.control.kind === "person" &&
+      next.control.personId === candidatePersonId
+    )
+      continue;
+    next = recordElectionSpeech(next, closedContest.id, candidatePersonId);
+  }
   if (stateExecutiveIdentityForOfficeKey(closedContest.office.officeKey)) {
     // A state executive office is not a legislative seat. The winner, whoever
     // it is, gets a dated term only through the admitted term facts and the

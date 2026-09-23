@@ -6,6 +6,7 @@ import { projectCampaignOffices } from "../presentation/campaign-office-discover
 import {
   campaignElectionDate,
   fileForOffice,
+  giveElectionSpeech,
   projectCampaign,
   spendAnAfternoon,
 } from "../presentation/campaign-projection";
@@ -708,6 +709,38 @@ export function CampaignWorkspace({
                   </li>
                 ))}
               </ul>
+              {view.speech ? (
+                view.speech.given ? (
+                  <p className="game-note" data-testid="campaign-speech-given">
+                    {view.speech.given}
+                  </p>
+                ) : (
+                  <button
+                    type="button"
+                    className="game-campaign-action"
+                    data-testid="campaign-speech"
+                    data-kind={view.speech.kind}
+                    onClick={() => {
+                      try {
+                        onWorldChange(giveElectionSpeech(world, personId));
+                        setProblem(null);
+                      } catch (error) {
+                        setProblem(
+                          error instanceof Error
+                            ? error.message
+                            : String(error),
+                        );
+                      }
+                    }}
+                  >
+                    <span className="game-campaign-action-label">
+                      {view.speech.kind === "victory"
+                        ? "Give your victory speech"
+                        : `Concede to ${view.speech.winnerName}`}
+                    </span>
+                  </button>
+                )
+              ) : null}
             </div>
           ) : null}
         </>

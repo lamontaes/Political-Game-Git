@@ -17,6 +17,9 @@ import {
   controlledCommitmentsBlockingActivityPerformance,
   daysUntilElection,
   electionContestResult,
+  electionSpeechGiven,
+  recordElectionSpeech,
+  type ElectionSpeechKind,
   ensureCampaignOpponents,
   fileCampaign,
   lifePlaceByJurisdictionId,
@@ -179,6 +182,15 @@ export interface CampaignView {
   readonly tallies: readonly CampaignTallyLine[];
   /** After the election: what happened, and that life carries on. */
   readonly afterword: string | null;
+  /**
+   * After the election: the speech this candidate may give (a victory speech
+   * or a concession to the winner), and what they said if they gave it.
+   */
+  readonly speech: {
+    readonly kind: ElectionSpeechKind;
+    readonly winnerName: string;
+    readonly given: string | null;
+  } | null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -398,6 +410,17 @@ export function projectCampaign(
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
     sessions: sessionsFor(world, campaign),
     reading: latestReading(world, campaign),
+    speech: result
+      ? {
+          kind:
+            result.winnerPersonId === personId
+              ? ("victory" as const)
+              : ("concession" as const),
+          winnerName: displayName(world, result.winnerPersonId),
+          given:
+            electionSpeechGiven(world, contest.id, personId)?.summary ?? null,
+        }
+      : null,
     tallies: (() => {
       const rows = result?.tallies ?? [];
       const printed = displayedSharePercents(rows.map((row) => row.voteShare));
@@ -509,6 +532,7 @@ function notYetFiled(
     reading: null,
     tallies: [] as readonly CampaignTallyLine[],
     afterword: null,
+    speech: null,
   };
   if (!eligible) {
     return {
@@ -838,4 +862,16 @@ export function candidateAge(world: World, personId: EntityId): number {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
   return ageOnDate(person.birthDate, world.currentDate);
+}
+
+/**
+ * The player's election-night speech, given by choice from the result screen:
+ * a victory speech for a winner, a concession to the winner for anyone else.
+ */
+export function giveElectionSpeech(world: World, personId: EntityId): World {
+  const campaign = campaignForCandidate(world, personId);
+  if (!campaign) throw new Error("There is no race to speak about.");
+  if (!electionContestResult(world, campaign.contestId))
+    throw new Error("The race has not been decided yet.");
+  return recordElectionSpeech(world, campaign.contestId, personId);
 }
