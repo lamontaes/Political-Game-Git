@@ -28,7 +28,10 @@ import { recordWorldEvent } from "./world";
 import { ensurePeopleTraits } from "./people-traits";
 import {
   hostDecidesToAsk,
+  initiatorFavour,
   initiatorOccasions,
+  type InitiatorFavour,
+  nextOccasionNoticeDate,
   type InitiatorOccasion,
 } from "./initiator-occasions";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
@@ -802,7 +805,12 @@ export function writeLegacyFamiliarRequest(
   world: World,
   personId: EntityId,
   kind: "favour-request" | "confidence-disclosed",
+  stableKey = `life-opportunity:${personId}:${world.currentDate}:${kind}`,
 ): World {
+  // Already written today, by play or an earlier call: the same request.
+  if (world.history.events.some((event) => event.stableKey === stableKey)) {
+    return world;
+  }
   const cutoff = currentLifeCutoff(world);
   const familiarId = askerChooser(world, personId)(
     world,
@@ -867,10 +875,7 @@ export function writeLegacyFamiliarRequest(
       }),
   });
   const candidate = candidates.find((entry) => entry.kind === kind)!;
-  return candidate.write(
-    world,
-    `life-opportunity:${personId}:${world.currentDate}:${kind}`,
-  );
+  return candidate.write(world, stableKey);
 }
 
 /**
@@ -956,10 +961,60 @@ function eligibleOpportunities(
   // Retired 2026-09-23 (dialogue review): the favor and the confidence were
   // one fixed story — proofreading a family picnic invitation, then backing
   // out of organizing it — handed to every friend in every life. Neither came
-  // from anything in the asker's own life. No new one is written; one already
-  // in a save still reads and resolves through its old records. A request
-  // that grows from the asker's circumstances replaces them the way
-  // `initiator-occasions.ts` replaced the reasonless Saturday invitation.
+  // from anything in the asker's own life. Neither is written any more; one
+  // already in a save still reads and resolves through its old records.
+  //
+  // The favor is asked for a reason on the asker's own record where one
+  // exists: a recent move, or being older and the only person in their
+  // household.
+  //
+  // PLACEHOLDER(retire-when: the people a life knows have recorded homes and
+  // circumstances — the town-population and people lanes): where nobody known
+  // has such a reason, the old picnic favor and confidence are still written,
+  // because in today's worlds most acquaintances have no home on record and an
+  // adult year without them is a year of errands and nothing else. Measured
+  // 2026-09-23: a 34-year-old in five places saw only the local meeting and
+  // the errands in sixteen three-week stretches without them.
+  const favour = askerWithFavour(world, personId, [
+    ...familiarPersonIds(world, personId, cutoff),
+  ]);
+  for (const kind of favour
+    ? (["confidence-disclosed"] as const)
+    : (["favour-request", "confidence-disclosed"] as const)) {
+    const legacyAsker = askerChooser(world, personId)(
+      world,
+      familiarPersonIds(world, personId, cutoff),
+    );
+    if (!legacyAsker) break;
+    push({
+      kind,
+      counterpartPersonId: legacyAsker,
+      write: (current, stableKey) =>
+        writeLegacyFamiliarRequest(current, personId, kind, stableKey),
+    });
+  }
+  if (favour) {
+    const asker = favour.askerPersonId;
+    push({
+      kind: "favour-request",
+      counterpartPersonId: asker,
+      write: (current, stableKey) =>
+        writeAsk(current, {
+          stableKey,
+          kind: "favour-request",
+          personId,
+          askerPersonId: asker,
+          jurisdictionId,
+          type: "life.favour-requested",
+          summary: favour.summary,
+          detail: `Asked for a hand (${favour.reason})`,
+          details: favour.details,
+          believed: favour.believed,
+          reasonRecordId: favour.sourceRecordId,
+          occasion: null,
+        }),
+    });
+  }
 
   const helped = favourActuallyPerformedFor(world, personId);
   if (helped) {
@@ -1083,6 +1138,46 @@ function eligibleOpportunities(
  * does not host every gathering. Nobody without a reason is considered, and
  * a reason alone is not an invitation: the host's own decision is read.
  */
+/**
+ * The first day before `until` on which somebody this person knows has a
+ * birthday gathering coming into its notice window, or null.
+ *
+ * Read by the quiet stretch so it stops where an ask could really happen.
+ */
+export function nextKnownOccasionNoticeDate(
+  world: World,
+  personId: EntityId,
+  until: IsoDate,
+): IsoDate | null {
+  let earliest: IsoDate | null = null;
+  for (const hostId of familiarPersonIds(
+    world,
+    personId,
+    currentLifeCutoff(world),
+  )) {
+    const opens = nextOccasionNoticeDate(world, hostId, earliest ?? until);
+    if (opens && (!earliest || opens < earliest)) earliest = opens;
+  }
+  return earliest;
+}
+
+function askerWithFavour(
+  world: World,
+  personId: EntityId,
+  pool: readonly EntityId[],
+): InitiatorFavour | null {
+  const choose = askerChooser(world, personId);
+  const remaining = [...new Set(pool)];
+  while (remaining.length > 0) {
+    const askerId = choose(world, remaining);
+    if (!askerId) return null;
+    remaining.splice(remaining.indexOf(askerId), 1);
+    const favour = initiatorFavour(world, askerId);
+    if (favour) return favour;
+  }
+  return null;
+}
+
 function hostWithOccasion(
   world: World,
   personId: EntityId,

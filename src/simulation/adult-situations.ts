@@ -2788,6 +2788,44 @@ export function bindRequestSituation(
             })),
     };
   const prose = `${who}: “${details.opening}”`;
+  // A favor asked for a reason on the asker's own record (`initiatorFavour`).
+  // The old proofreading favor below still reads for a save that holds one.
+  if (
+    situation.key === "adult.friend-favour" &&
+    !details.task.startsWith("proofread")
+  ) {
+    const hours =
+      details.minutes !== null && details.minutes >= 60
+        ? `about ${details.minutes / 60 === 1 ? "an hour" : `${details.minutes / 60} hours`}`
+        : `${details.minutes ?? "a few"} minutes`;
+    return {
+      ...situation,
+      prose: `${prose} It would take ${hours}; answering takes no time.`,
+      options: situation.options.map((option) => ({
+        ...option,
+        label:
+          option.key === "do-it"
+            ? "Say you will come"
+            : option.key === "conditions"
+              ? `Agree: ${details.condition}`
+              : "Tell them you cannot",
+        description:
+          option.key === "decline"
+            ? "Tell them you cannot help this time."
+            : "Agree now; the help itself is its own stretch of time.",
+        memory:
+          option.key === "decline"
+            ? `You told ${person.name} you could not help on Saturday morning.`
+            : `You agreed to ${details.task}${option.key === "conditions" ? `, with the condition: ${details.condition}` : ""}.`,
+        witnessed:
+          option.key === "decline"
+            ? "They said they could not help this time."
+            : `They agreed to ${details.task}.`,
+        relationalChange: option.key === "decline" ? "strained" : "maintained",
+        aftermath: option.key === "decline" ? "grievance" : "obligation",
+      })),
+    };
+  }
   if (situation.key === "adult.friend-favour")
     return {
       ...situation,

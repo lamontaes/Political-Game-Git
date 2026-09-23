@@ -5,8 +5,18 @@ import {
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
 import { addDays, ageOnDate } from "./dates";
-import { initiatorOccasions } from "./initiator-occasions";
-import { householdMembershipsAt } from "./life-queries";
+import {
+  initiatorFavour,
+  initiatorOccasions,
+  nextOccasionNoticeDate,
+  OCCASION_NOTICE_MAX_DAYS,
+  OLDER_ALONE_AGE,
+} from "./initiator-occasions";
+import {
+  currentLifeCutoff,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
+} from "./life-queries";
 import type { EntityId, IsoDate, World } from "./types";
 
 function start() {
@@ -92,5 +102,61 @@ describe("a reason to have people over, read from the host's own life", () => {
         [],
       );
     }
+  });
+
+  it("names the day a birthday notice opens, and it is the first day one is found", () => {
+    const { world, personId } = start();
+    for (const hostId of hostsWithHomes(world, personId)) {
+      const until = addDays(world.currentDate, 400);
+      const opens = nextOccasionNoticeDate(world, hostId, until);
+      expect(opens).not.toBeNull();
+      expect(opens! > world.currentDate).toBe(true);
+      const onThatDay = initiatorOccasions(on(world, opens!), hostId).filter(
+        (entry) => entry.reason === "birthday",
+      );
+      expect(onThatDay).toHaveLength(1);
+      expect(addDays(onThatDay[0]!.date, -OCCASION_NOTICE_MAX_DAYS)).toBe(
+        opens,
+      );
+      // And not before it: the day earlier is outside the window.
+      expect(
+        initiatorOccasions(on(world, addDays(opens!, -1)), hostId).filter(
+          (entry) => entry.reason === "birthday",
+        ),
+      ).toEqual([]);
+    }
+  });
+});
+
+describe("a favor asked for a reason on the asker's own record", () => {
+  it("comes only from somebody old enough who is alone in their household", () => {
+    const { world } = start();
+    const cutoff = currentLifeCutoff(world);
+    let checked = 0;
+    for (const id of world.personOrder) {
+      const favour = initiatorFavour(world, id);
+      const memberships = householdMembershipsAt(world, id, cutoff);
+      if (memberships.length === 0) {
+        expect(favour).toBeNull();
+        continue;
+      }
+      const alone =
+        peopleInHouseholdAt(
+          world,
+          memberships[0]!.membership.householdId,
+          cutoff,
+        ).length === 1;
+      const age = ageOnDate(world.people[id]!.birthDate, world.currentDate);
+      if (favour?.reason === "new-home") continue;
+      checked += 1;
+      if (alone && age >= OLDER_ALONE_AGE) {
+        expect(favour?.reason).toBe("lives-alone");
+        expect(favour!.summary).toContain(`${age} and living alone`);
+        expect(favour!.details.minutes).toBe(120);
+      } else {
+        expect(favour).toBeNull();
+      }
+    }
+    expect(checked).toBeGreaterThan(0);
   });
 });

@@ -12,6 +12,7 @@ import {
 import {
   advanceWorldMinutes,
   daysBetween,
+  nextKnownOccasionNoticeDate,
   simulationMinutesBetween,
   describePersonContext,
   introducePerson,
@@ -830,6 +831,14 @@ export function letStoryTimePass(
     const until = daysBetween(world.currentDate, election.electionDate) + 1;
     if (until >= 1 && until < days) days = until;
   }
+  // Nor through the days in which somebody the player knows would ask them
+  // over for a birthday: it ends the morning that notice opens.
+  const notice = nextKnownOccasionNoticeDate(
+    world,
+    personId,
+    addDays(world.currentDate, days - 1),
+  );
+  if (notice) days = Math.max(1, daysBetween(world.currentDate, notice));
   return letAdultTimePass(world, days, advanceDays);
 }
 

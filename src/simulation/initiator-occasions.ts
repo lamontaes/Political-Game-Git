@@ -151,6 +151,39 @@ function hostHome(
 }
 
 /**
+ * The first day after today, up to and including `until`, on which this host's
+ * birthday gathering comes into its notice window.
+ *
+ * A quiet stretch of several weeks otherwise walks straight past the few days
+ * in which somebody would actually ask, so the stretch stops here the way it
+ * stops for the player's own election. Pure date arithmetic on the host's
+ * recorded birth date; it says nothing about whether they will ask.
+ */
+export function nextOccasionNoticeDate(
+  world: World,
+  hostPersonId: EntityId,
+  until: IsoDate,
+): IsoDate | null {
+  const host = world.people[hostPersonId];
+  if (!host) return null;
+  const today = world.currentDate;
+  if (!hostHome(world, hostPersonId)) return null;
+  const upcoming = nextBirthday(host.birthDate, today);
+  for (const birthday of [
+    upcoming,
+    nextBirthday(host.birthDate, addDays(upcoming, 1)),
+  ]) {
+    const opens = addDays(
+      saturdayOnOrAfter(birthday),
+      -OCCASION_NOTICE_MAX_DAYS,
+    );
+    if (opens > until) return null;
+    if (opens > today) return opens;
+  }
+  return null;
+}
+
+/**
  * Every reason this host has, this week, to have people over.
  *
  * Pure: reads records and writes nothing. Ordered birthday, new home, new
@@ -332,4 +365,85 @@ export function hostDecidesToAsk(
     retention: "ephemeral",
   });
   return evaluation.selectedOptionKey === "ask" ? withTraits : null;
+}
+
+/**
+ * A favor that grows out of the asker's own circumstances.
+ *
+ * Two reasons, both read off records: somebody at least
+ * `OLDER_ALONE_AGE` who is the only person in their recorded household, and
+ * somebody who moved into a new home within `NEW_HOME_RECENT_DAYS`. The ask is
+ * an hour or two on a Saturday morning at that home; nothing more specific is
+ * claimed, because nothing more specific is on record.
+ */
+export interface InitiatorFavour {
+  readonly reason: "lives-alone" | "new-home";
+  readonly askerPersonId: EntityId;
+  /** The record the reason was read from (the person, or the new home). */
+  readonly sourceRecordId: EntityId;
+  readonly details: LifeRequestDetails;
+  readonly summary: string;
+  readonly believed: string;
+}
+
+/**
+ * PLACEHOLDER(research: what-ordinary-requests-come-from): an age past which
+ * living alone is read as a reason to ask for a hand, not a researched rate.
+ * Filed with ChatGPT on 2026-09-23.
+ */
+export const OLDER_ALONE_AGE = 70;
+
+/** Pure: reads records and writes nothing. */
+export function initiatorFavour(
+  world: World,
+  askerPersonId: EntityId,
+): InitiatorFavour | null {
+  const asker = world.people[askerPersonId];
+  if (!asker) return null;
+  const today = world.currentDate;
+  const age = ageOnDate(asker.birthDate, today);
+  if (age < 18) return null;
+  const household = hostHome(world, askerPersonId);
+  if (!household) return null;
+  const name = personName(asker);
+  const home = household.location;
+  const moved =
+    home.supersedesLocationId !== null &&
+    daysBetween(home.effectiveAt, today) >= 0 &&
+    daysBetween(home.effectiveAt, today) <= NEW_HOME_RECENT_DAYS;
+  if (moved) {
+    return {
+      reason: "new-home",
+      askerPersonId,
+      sourceRecordId: home.id,
+      details: {
+        version: 1,
+        task: `give ${name} an hour or two at the new place on Saturday morning`,
+        opening:
+          "I am still getting the new place in order. Could you give me an hour or two on Saturday morning?",
+        condition: "Saturday morning at the new place",
+        minutes: 120,
+      },
+      summary: `${name}, who moved on ${formatStatutoryDate(home.effectiveAt)}, asked for an hour or two of help at the new place on a Saturday morning.`,
+      believed: `${name} moved on ${formatStatutoryDate(home.effectiveAt)} and asked them for an hour or two of help there on a Saturday morning.`,
+    };
+  }
+  if (age >= OLDER_ALONE_AGE && household.size === 1) {
+    return {
+      reason: "lives-alone",
+      askerPersonId,
+      sourceRecordId: askerPersonId,
+      details: {
+        version: 1,
+        task: `give ${name} an hour or two around the house on Saturday morning`,
+        opening:
+          "There are a few things around the house I cannot manage on my own anymore. Could you come by for an hour or two on Saturday morning?",
+        condition: "An hour or two, Saturday morning",
+        minutes: 120,
+      },
+      summary: `${name}, ${age} and living alone, asked for an hour or two of help around the house on a Saturday morning.`,
+      believed: `${name}, who is ${age} and lives alone, asked them for an hour or two of help around the house on a Saturday morning.`,
+    };
+  }
+  return null;
 }
