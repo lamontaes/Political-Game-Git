@@ -156,7 +156,8 @@ export function measureStepOwner(
   // the clock. A sponsor can move the bill onto that calendar but cannot cast
   // the chamber's vote through a fixed authored scenario.
   const recordedMemberDecision =
-    legislativeProcedureForPack(world, measure.rulePackId) !== null;
+    legislativeProcedureForPack(world, measure.rulePackId) !== null ||
+    isCongressMeasure(measure);
   switch (position.phase) {
     case "awaiting-referral":
     case "awaiting-floor":

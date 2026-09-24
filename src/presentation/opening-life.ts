@@ -3,6 +3,9 @@ import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
+import { ensureMunicipalCouncilOpening } from "../simulation/municipal-council-opening";
+import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
@@ -167,12 +170,20 @@ function ensureHomeStateLegislature(
   if (worldOpeningVersionOf(world) !== CRUNCH46_WORLD_OPENING_VERSION) {
     return world;
   }
-  const stateUsps = homeStateUsps(world, playerPersonId);
-  if (!stateUsps) return world;
+  const homeId = world.people[playerPersonId]?.homeJurisdictionId;
+  const home = homeId ? lifePlaceByJurisdictionId(homeId) : null;
+  const municipal = home ? municipalGovernmentForLifePlace(home) : null;
+  const withCouncil = municipal
+    ? ensureMunicipalCouncilOpening(world, municipal.key)
+    : world;
+  const stateUsps = homeStateUsps(withCouncil, playerPersonId);
+  if (!stateUsps) return withCouncil;
   // The District's legislature is its Council, which is seated on its own.
   return stateUsps === "DC"
-    ? scheduleDcCouncilSitting(ensureDistrictOfColumbiaCouncilOpening(world))
-    : ensureStateLegislatureOpening(world, playerPersonId, stateUsps);
+    ? scheduleDcCouncilSitting(
+        ensureDistrictOfColumbiaCouncilOpening(withCouncil),
+      )
+    : ensureStateLegislatureOpening(withCouncil, playerPersonId, stateUsps);
 }
 
 /**

@@ -1,5 +1,6 @@
 import { displayMoney } from "./money-display";
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
   activeCampaignForCandidate,
@@ -79,6 +80,11 @@ function staffedCampaign(seed: string): {
     candidatePersonId: built.playerPersonId,
     jurisdictionId: person.homeJurisdictionId,
     officeKey: option.officeKey,
+    districtBinding: namedSeatForFixture(
+      opened,
+      built.playerPersonId,
+      option.officeKey,
+    ),
     electionDate: addDays(opened.currentDate, 28),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
@@ -119,7 +125,10 @@ describe("the first staff-strategy campaign interaction", () => {
     expect(first.attribution).toMatch(/without campaign staff/i);
     expect(first.knownSituation.join(" ")).toMatch(/committee currently has/i);
     expect(first.geographyChoices).toHaveLength(1);
-    expect(first.geographyChoices[0]!.explanation).toMatch(/no finer/i);
+    expect(first.geographyChoices[0]!.kind).toBe("district");
+    expect(first.geographyChoices[0]!.explanation).toMatch(
+      /does not infer precinct detail/i,
+    );
 
     let world = commitCampaignStrategy(
       life.world,

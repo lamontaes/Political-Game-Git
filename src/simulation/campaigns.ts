@@ -47,6 +47,7 @@ import {
 } from "./nationwide-world/local-governments";
 import { municipalGovernmentForUnit } from "./rule-capability-resolver";
 import { primaryReading } from "./municipal-government";
+import { MUNICIPAL_COUNCIL_OPENING_VERSION } from "./municipal-council-opening";
 import {
   installMunicipalGovernment,
   municipalOrganizationFor,
@@ -242,8 +243,8 @@ export interface FileCampaignInput {
    */
   readonly officeKey: string;
   /**
-   * Explicit Gazetteer district for this filing, when a sourced
-   * district-residence rule applies. Not inferred from state residence.
+   * Explicit Gazetteer district for a numbered chamber seat. It identifies
+   * the contested seat and is never inferred from state residence.
    */
   readonly districtBinding?: DistrictSeatBinding | null;
   readonly electionDate: string;
@@ -591,20 +592,16 @@ export function fileCampaign(
     );
   }
 
-  // A district seat is recorded against a Gazetteer identity, so a filing for
-  // one has to name which. This sits after the honesty gate on purpose: a
-  // world that cannot say which district somebody lives in has a better
-  // sentence for them than this one, and should get to say it first.
+  // A numbered chamber seat needs a Gazetteer identity at filing. This sits
+  // after eligibility so a sourced residence refusal can speak first when it
+  // applies. Even without that rule, an unbound contest cannot identify the
+  // generated seat the winner would replace.
   if (
     (input.districtBinding ?? null) === null &&
-    districtSeatMustBeNamed(
-      input.jurisdictionId,
-      input.officeKey,
-      inputWorld.currentDate,
-    )
+    districtSeatMustBeNamed(input.jurisdictionId, input.officeKey)
   ) {
     throw new Error(
-      "This seat is filled by district, and the filing named none. The sourced district-residence rule needs the seat's own Gazetteer identity before a contest can be recorded against it.",
+      "This seat is filled by district, and the filing named none. Name its recorded Gazetteer district before filing so the election and winner belong to one seat.",
     );
   }
   const option = eligibility.office;
@@ -1719,9 +1716,9 @@ function seatTheWinner(
  * seat limit; any other town gets the government the Census listing records,
  * placed once.
  *
- * No term, ward or seat number is written, because none has been read. When a
- * read body is already full the result still stands and nobody is seated over
- * the limit, since the record's seat count is a fact and this election is not.
+ * No term, ward or seat number is written, because none has been read. A full
+ * fictional opening council yields one generated seat to a newly elected
+ * member. An older or otherwise populated council is not silently displaced.
  *
  * A town has one mayor, so a new mayor's term begins the day the sitting
  * mayor's ends. A council member who wins the mayoralty keeps the council
@@ -1751,13 +1748,6 @@ function seatOnLocalGoverningBody(
       formedAt: next.currentDate,
     });
     organizationId = municipalOrganizationFor(next, compiled.key)?.id;
-    if (!mayor) {
-      const bodySize = primaryReading(compiled).bodySize;
-      const seated = municipalSeats(next, compiled.key).filter(
-        (seat) => seat.role === "member" || seat.role === "presiding-member",
-      ).length;
-      if (bodySize !== null && seated >= bodySize) return next;
-    }
     stableKey = municipalSeatKey(compiled.key, winnerPersonId);
   } else {
     next = ensureLocalGovernmentOrganization(next, unit);
@@ -1782,6 +1772,56 @@ function seatOnLocalGoverningBody(
     )
   )
     return next;
+  if (compiled && !mayor) {
+    const bodySize = primaryReading(compiled).bodySize;
+    const seated = municipalSeats(next, compiled.key).filter(
+      (seat) => seat.role === "member" || seat.role === "presiding-member",
+    );
+    if (bodySize !== null && seated.length >= bodySize) {
+      const opening = next.history.events.find(
+        (event) =>
+          event.stableKey ===
+          `${MUNICIPAL_COUNCIL_OPENING_VERSION}:${compiled.key}`,
+      );
+      // The at-large election has no recorded numbered seat. Its fictional
+      // opening roll yields the first still-seated generated member in the
+      // recorded opening order; this does not imply a sourced ward assignment.
+      const displacedPersonId = opening?.involvedEntityIds.find((personId) =>
+        seated.some((seat) => seat.personId === personId),
+      );
+      const displacedSeat = seated.find(
+        (seat) => seat.personId === displacedPersonId,
+      );
+      const participation = next.history.organizationParticipations.find(
+        (entry) => entry.id === displacedSeat?.participationId,
+      );
+      const state = participation
+        ? organizationParticipationStateAt(next, participation.id)
+        : undefined;
+      if (
+        !opening ||
+        !participation ||
+        participation.provenance.kind !== "simulated-event" ||
+        participation.provenance.eventId !== opening.id ||
+        !state ||
+        state.status !== "active"
+      )
+        return next;
+      next = recordOrganizationParticipationState(next, {
+        stableKey: `${participation.stableKey}:state:succeeded:${contest.id}`,
+        participationId: participation.id,
+        effectiveAt:
+          effectiveAt > participation.startedAt
+            ? effectiveAt
+            : participation.startedAt,
+        status: "ended",
+        roleKind: state.roleKind,
+        context: `Succeeded after the election of ${contest.electionDate}`,
+        provenance: { kind: "simulated-event", eventId: outcomeEventId },
+        supersedesStateId: state.id,
+      });
+    }
+  }
   if (mayor) {
     // The sitting mayor's term ends as the new one's begins.
     for (const participation of next.history.organizationParticipations) {
@@ -2030,7 +2070,7 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...PRESIDENTIAL_TURNOVER_HANDLERS,
         // Voters recalling a town official: petition, then recall election.
         ...RECALL_HANDLERS,
-        // A council act on the executive's desk, or returned to the council.
+        // Scheduled council readings and executive/return deadlines.
         ...COUNCIL_ACT_HANDLERS,
         // The Council of the District of Columbia sitting on its own.
         ...DC_COUNCIL_SITTING_HANDLERS,

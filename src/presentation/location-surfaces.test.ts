@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import { createNewGameWorld } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 import {
@@ -31,10 +32,11 @@ describe("storefront surfaces read actual available records", () => {
       priors: [],
     });
     const id = created.playerPersonId;
+    const opened = openOrdinaryLife(created.world, id);
     const filed = fileForOffice(
-      openOrdinaryLife(created.world, id),
+      opened,
       id,
-      null,
+      namedSeatForFixture(opened, id, "us-ky-general-assembly-v1:house"),
       "us-ky-general-assembly-v1:house",
     );
     expect(
