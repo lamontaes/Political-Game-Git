@@ -124,11 +124,11 @@ describe("the Study tab for a nineteen-year-old in Peoria", () => {
     expect(educationOptionReason(world, bradley!, bachelors)).toBeNull();
     const applied = applyForEducation(world, bradley!, "LEVEL5");
     expect(applied.ok).toBe(true);
-    expect(applied.message).toBe(
-      "Bradley University offered you a place. Review the terms before accepting.",
+    expect(applied.message).toMatch(
+      /^You applied to Bradley University\. You'll hear back by /,
     );
     expect(educationOptionReason(applied.world, bradley!, bachelors)).toMatch(
-      /already have an offer/,
+      /^You already applied to Bradley University\./,
     );
   });
 

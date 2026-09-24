@@ -667,6 +667,75 @@ export function completeStudyPeriod(
 
 export const EDUCATION_STUDY_PERIOD_DUE_KEY = periodDueKey;
 
+/**
+ * A college place accepted before its first term waits, at status
+ * `expected`, until the day classes start. That day is an ordinary future due
+ * item: it makes the place active and starts the period clock, so no study
+ * period runs and no tuition falls due before it.
+ */
+export const EDUCATION_STUDY_BEGINS_KEY = "education:study-begins" as const;
+
+export function scheduleStudyStart(
+  world: World,
+  enrollmentId: EntityId,
+): World {
+  const enrollment = world.history.educationEnrollments.find(
+    (e) => e.id === enrollmentId,
+  );
+  if (!enrollment) throw new Error("Missing enrollment");
+  return scheduleFutureDueItem(world, {
+    stableKey: `${prefix}study-begins:${enrollmentId}`,
+    dueAt: enrollment.startedAt,
+    transitionKey: EDUCATION_STUDY_BEGINS_KEY,
+    entityIds: [enrollmentId],
+    jurisdictionId: null,
+    provenance: authored,
+  });
+}
+
+export const educationStudyBeginsHandler: FutureTransitionHandler = (
+  world,
+  due: FutureDueItem,
+) => {
+  const resolved = (next: World, context: string) => ({
+    world: next,
+    status: "resolved" as const,
+    reasonKey: null,
+    context,
+    outcomeEventId: null,
+  });
+  const enrollment = world.history.educationEnrollments.find(
+    (e) => e.id === due.entityIds[0],
+  );
+  if (!enrollment)
+    throw new Error("A study start references a missing enrollment.");
+  const state = educationEnrollmentStateAt(world, enrollment.id);
+  if (state?.status !== "expected")
+    return resolved(world, "The place was no longer waiting to start.");
+  if (
+    world.history.personDeaths.some(
+      (death) =>
+        death.personId === enrollment.personId && death.diedAt <= due.dueAt,
+    )
+  )
+    return resolved(world, "They died before classes started.");
+  let next = recordEducationEnrollmentState(world, {
+    stableKey: `${enrollment.stableKey}:state:begins`,
+    enrollmentId: enrollment.id,
+    effectiveAt: due.dueAt,
+    status: "active",
+    contextKind: state.contextKind,
+    reason: null,
+    provenance: authored,
+    supersedesStateId: state.id,
+  });
+  next = event(next, "study-began", [enrollment.id], "Your classes started.");
+  const path = resolveStudyPath(next, enrollment.id);
+  if (path && studyUsesPeriodModel(path))
+    next = bootstrapStudyPeriodProgression(next, enrollment.id, path);
+  return resolved(next, "Classes started.");
+};
+
 export type StudyPathResolver = (
   world: World,
   enrollmentId: EntityId,
