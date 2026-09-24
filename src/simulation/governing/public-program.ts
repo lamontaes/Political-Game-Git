@@ -11,6 +11,8 @@ import {
 import { createWorkItem, workItemState } from "../time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordDailyGovernmentFiscalFlow } from "../government-fiscal-metrics";
+import { currentPresidentOf } from "../crisis/offices";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import {
   municipalGovernmentByKey,
   primaryReading,
@@ -85,6 +87,7 @@ export interface PublicProgramAlternative {
 
 export type PublicProgramOffice =
   | { readonly kind: "state-executive" }
+  | { readonly kind: "federal-executive" }
   | { readonly kind: "municipal"; readonly governmentKey: string };
 
 export type PublicProgramResult =
@@ -521,6 +524,36 @@ export function programAuthority(
   office: PublicProgramOffice,
   appropriation: PublicProgramAppropriationRecord,
 ): ProgramAuthority {
+  if (office.kind === "federal-executive") {
+    if (
+      appropriation.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id ||
+      appropriation.publicGovernmentIdentity?.kind === "local-government" ||
+      (appropriation.publicGovernmentIdentity !== undefined &&
+        appropriation.publicGovernmentIdentity.jurisdictionId !==
+          NATIONAL_ELECTION_JURISDICTION.id)
+    )
+      return {
+        status: "unavailable",
+        reason: "This appropriation does not belong to the federal government.",
+      };
+    const president = currentPresidentOf(world);
+    if (!president)
+      return {
+        status: "unavailable",
+        reason:
+          "The world has no sitting President to commit this appropriation.",
+      };
+    return president.personId === personId
+      ? {
+          status: "available",
+          basis: `${president.title}: executes federal appropriations the office receives (${PUBLIC_PROGRAM_VERSION} game profile).`,
+        }
+      : {
+          status: "unavailable",
+          reason:
+            "Only the sitting President commits this federal appropriation.",
+        };
+  }
   if (office.kind === "state-executive") {
     if (appropriation.publicGovernmentIdentity?.kind === "local-government")
       return {
