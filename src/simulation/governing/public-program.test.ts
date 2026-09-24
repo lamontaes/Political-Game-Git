@@ -288,6 +288,69 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     expect(programPosition(world, TRANSIT).unitsOperational).toBe(10);
   }, 120_000);
 
+  it("does not report maintenance delivered without a saved capacity outturn", () => {
+    const g = city("g3-no-capacity", 2_500_000_00);
+    const programKey = "unprofiled:maintenance";
+    let world = recordProgramAppropriation(g.world, {
+      edition: "unprofiled",
+      programKey,
+      jurisdictionId: g.jurisdictionId,
+      accountOrganizationId: g.account,
+      amount: money(100_000_00, "USD"),
+      availableFrom: g.world.currentDate,
+      availableThrough: addDays(g.world.currentDate, 364),
+      basis: FIXTURE,
+    }).world;
+    const appropriation = programAppropriations(world, programKey)[0]!;
+    const committed = commitPublicProgram(world, {
+      appropriationId: appropriation.id,
+      alternative: {
+        key: "unprofiled-repair",
+        title: "Unprofiled maintenance",
+        installments: [
+          {
+            afterDays: 0,
+            amount: money(100_000_00, "USD"),
+            purpose: "maintenance",
+          },
+        ],
+        deliveryLeadDays: 1,
+      },
+      personId: g.manager,
+      office: { kind: "municipal", governmentKey: g.governmentKey },
+      recipientOrganizationId: g.operator,
+    });
+    expect(committed.ok).toBe(true);
+    if (!committed.ok) throw new Error(committed.reason);
+    world = days(committed.world, 1);
+
+    expect(programPosition(world, programKey).posted).toEqual(
+      money(100_000_00, "USD"),
+    );
+    expect(
+      programInstallments(world, programKey).map((row) => row.status),
+    ).toEqual(["posted"]);
+    expect(programOutturns(world, programKey)).toHaveLength(0);
+    const due = world.history.futureDueItems.find(
+      (item) => item.transitionKey === "public-program:delivery",
+    )!;
+    expect(
+      world.history.futureDueItemStates.find(
+        (state) => state.dueItemId === due.id && state.status !== "scheduled",
+      ),
+    ).toMatchObject({
+      status: "blocked",
+      reasonKey: "public-program:capacity-unavailable",
+      outcomeEventId: null,
+      context: expect.stringContaining("no delivery record was written"),
+    });
+    expect(
+      world.history.events.some(
+        (event) => event.summary === "Maintenance delivered.",
+      ),
+    ).toBe(false);
+  }, 120_000);
+
   it("no action commits nothing and moves no money", () => {
     const g = city("g3-none", 2_500_000_00);
     const before = cash(g.world, g.account);

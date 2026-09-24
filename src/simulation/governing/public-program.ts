@@ -1297,12 +1297,22 @@ export function programDeliveryHandler(
   )
     return resolved(world, "Already delivered.", null);
   let next = recordCapacityOutturn(world, target.commitment, installment);
-  next = closeWorkIfDone(next, target.commitment);
-  return resolved(
+  const outturn = programOutturns(
     next,
-    "Maintenance delivered.",
-    publicProgramRecords(next).at(-1)!.eventId,
-  );
+    target.commitment.programKey,
+    publicGovernmentIdentityForRecord(target.commitment),
+  ).find((record) => record.installmentId === installment.id);
+  if (!outturn)
+    return {
+      world: next,
+      status: "blocked",
+      reasonKey: "public-program:capacity-unavailable",
+      context:
+        "The payment posted, but no matching service capacity profile exists; no delivery record was written.",
+      outcomeEventId: null,
+    };
+  next = closeWorkIfDone(next, target.commitment);
+  return resolved(next, "Maintenance delivered.", outturn.eventId);
 }
 
 export const PUBLIC_PROGRAM_HANDLERS = [
