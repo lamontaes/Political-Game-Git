@@ -5,6 +5,8 @@ import {
 } from "../simulation";
 import { congressSeatStatus } from "./congress-candidacy";
 import {
+  educationEnrollmentStateAt,
+  organizationProfileAt,
   workRelationshipHistoryForPerson,
   workRoleAt,
   workStatusAt,
@@ -404,6 +406,24 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
         (entry) => !entry.enrollment.programKind.startsWith("schooling:"),
       ).length
     : studying;
+  // A college place accepted ahead of its first term is not a program they
+  // are enrolled in yet; it is said as the day classes start.
+  const waitingPlaces = world.history.educationEnrollments
+    .filter(
+      (enrollment) =>
+        enrollment.personId === personId &&
+        !enrollment.programKind.startsWith("schooling:") &&
+        educationEnrollmentStateAt(world, enrollment.id)?.status === "expected",
+    )
+    .map((enrollment) => {
+      const name = organizationProfileAt(
+        world,
+        enrollment.organizationId,
+      )?.name;
+      return name
+        ? `Classes at ${name} start ${proseDate(enrollment.startedAt)}.`
+        : `Your classes start ${proseDate(enrollment.startedAt)}.`;
+    });
   const study = [
     school ?? "",
     otherStudy === 0
@@ -413,6 +433,7 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
         : otherStudy === 1
           ? "You are a student."
           : `You are enrolled in ${otherStudy} programs.`,
+    ...waitingPlaces,
   ]
     .filter((part) => part.length > 0)
     .join(" ");
