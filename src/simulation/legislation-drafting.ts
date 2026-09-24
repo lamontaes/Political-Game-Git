@@ -21,6 +21,7 @@ import type {
   EntityId,
   IsoDate,
   LegislativeProvisionBeneficiary,
+  LegislativeProvisionEffectIntent,
   MetricScope,
 } from "./types";
 import { moneyText } from "./money-text";
@@ -82,6 +83,7 @@ export interface CompileBillDraftInput {
 /** One numbered section of a compiled draft. */
 export interface CompiledClause {
   readonly fiscalPeriod?: "annual";
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
   readonly provisionKey: string;
   readonly sectionNumber: number;
   readonly dimension: ClauseDimension;
@@ -539,6 +541,9 @@ export function compileBillDraft(
           : rendering.text,
       ...(rendering.fiscalPeriod !== undefined
         ? { fiscalPeriod: rendering.fiscalPeriod }
+        : {}),
+      ...(rendering.operativeEffect !== undefined
+        ? { operativeEffect: rendering.operativeEffect }
         : {}),
       beneficiary: rendering.beneficiary,
       fiscalExposureLabel: rendering.fiscalExposureLabel,
