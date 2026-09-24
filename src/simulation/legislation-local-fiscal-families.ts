@@ -47,6 +47,19 @@ export const LOCAL_FIX_IT_FIRST_VARIANT: ProgramVariant = {
       effectParameterKey: "appropriation",
     }),
   ),
+  npcServiceProfile: {
+    profileId: "local-fix-it-first-capacity",
+    profileIdScope: "local-government",
+    serviceLabel: "modeled local road-maintenance service",
+    unitLabel: "road-maintenance unit",
+    unitsTotal: 1,
+    unitsOperational: 0,
+    monthlyOperatingNeedMinorUnits: 5_000_00,
+    restorationCostPerUnitMinorUnits: 100_000_00,
+    maintenanceLeadDays: 60,
+    basisNote:
+      "Fictional {governmentLevel} road-maintenance capacity for the exact admitted local game profile. The generic unit is not a named road or measured repair; its costs are authored assumptions, not a local budget or expenditure.",
+  },
   label: "Local maintenance before expansion",
   instrument: "appropriation",
   synopsis:

@@ -619,6 +619,21 @@ export interface NpcLawEligibility {
   readonly effectParameterKey: string;
 }
 
+/** Authored capacity assumptions for an eligible appropriation's later service. */
+export interface NpcLawServiceProfile {
+  readonly profileId: string;
+  /** A local profile keeps its existing unit-specific saved identity. */
+  readonly profileIdScope: "fixed" | "local-government";
+  readonly serviceLabel: string;
+  readonly unitLabel: string;
+  readonly unitsTotal: number;
+  readonly unitsOperational: number;
+  readonly monthlyOperatingNeedMinorUnits: number;
+  readonly restorationCostPerUnitMinorUnits: number | null;
+  readonly maintenanceLeadDays: number;
+  readonly basisNote: string;
+}
+
 export interface ProgramVariant {
   readonly variantKey: string;
   readonly label: string;
@@ -674,6 +689,8 @@ export interface ProgramVariant {
   readonly propositionKeys?: readonly string[];
   /** Exact policy directions this variant may file for an NPC. */
   readonly npcEligibility?: readonly NpcLawEligibility[];
+  /** Optional modeled service capacity; enactment alone delivers no units. */
+  readonly npcServiceProfile?: NpcLawServiceProfile;
 }
 
 export interface ProgramFamily {

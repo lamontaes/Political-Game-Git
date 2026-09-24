@@ -47,6 +47,19 @@ export const FEDERAL_PASSENGER_RAIL_VARIANT: ProgramVariant = {
       effectParameterKey: "appropriation",
     },
   ],
+  npcServiceProfile: {
+    profileId: "federal-passenger-rail-service:us",
+    profileIdScope: "fixed",
+    serviceLabel: "modeled passenger-rail service",
+    unitLabel: "rail service unit",
+    unitsTotal: 2,
+    unitsOperational: 1,
+    monthlyOperatingNeedMinorUnits: 5_000_000_00,
+    restorationCostPerUnitMinorUnits: 100_000_000_00,
+    maintenanceLeadDays: 90,
+    basisNote:
+      "Fictional federal passenger-rail service capacity for play. The generic unit is not a named route, train, completed project, or measured federal asset; costs are authored assumptions, not federal expenditures or estimates.",
+  },
   label: "Passenger-rail game-profile appropriation",
   instrument: "appropriation",
   synopsis:

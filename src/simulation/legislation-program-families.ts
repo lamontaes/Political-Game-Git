@@ -93,7 +93,7 @@ export interface NpcEligibleProgramConfiguration extends NpcLawEligibility {
 const NPC_ELIGIBLE_CONFIGURATIONS: readonly NpcEligibleProgramConfiguration[] =
   (() => {
     const rows: NpcEligibleProgramConfiguration[] = [];
-    const questionKeys = new Set<string>();
+    const declarationKeys = new Set<string>();
     for (const family of FAMILIES) {
       for (const variant of family.variants) {
         for (const eligibility of variant.npcEligibility ?? []) {
@@ -149,13 +149,13 @@ const NPC_ELIGIBLE_CONFIGURATIONS: readonly NpcEligibleProgramConfiguration[] =
               );
             }
           }
-          const questionKey = `${eligibility.governmentLevel}\u0000${eligibility.propositionKey}\u0000${eligibility.answer}`;
-          if (questionKeys.has(questionKey)) {
+          const declarationKey = `${family.familyKey}\u0000${variant.variantKey}\u0000${eligibility.governmentLevel}\u0000${eligibility.propositionKey}\u0000${eligibility.answer}`;
+          if (declarationKeys.has(declarationKey)) {
             throw new Error(
-              `Multiple NPC configurations answer ${eligibility.propositionKey} ${eligibility.answer} at ${eligibility.governmentLevel} level.`,
+              `${family.familyKey}/${variant.variantKey} declares the same NPC policy answer twice.`,
             );
           }
-          questionKeys.add(questionKey);
+          declarationKeys.add(declarationKey);
           rows.push({
             ...eligibility,
             familyKey: family.familyKey,
@@ -171,18 +171,17 @@ export function npcEligibleProgramConfigurations(): readonly NpcEligibleProgramC
   return NPC_ELIGIBLE_CONFIGURATIONS;
 }
 
-export function npcEligibleProgramConfigurationFor(
+/** All distinct configurations for one question, in bank declaration order. */
+export function npcEligibleProgramConfigurationsFor(
   propositionKey: string,
   answer: "yes" | "no",
   governmentLevel: NpcLawEligibility["governmentLevel"],
-): NpcEligibleProgramConfiguration | null {
-  return (
-    NPC_ELIGIBLE_CONFIGURATIONS.find(
-      (entry) =>
-        entry.propositionKey === propositionKey &&
-        entry.answer === answer &&
-        entry.governmentLevel === governmentLevel,
-    ) ?? null
+): readonly NpcEligibleProgramConfiguration[] {
+  return NPC_ELIGIBLE_CONFIGURATIONS.filter(
+    (entry) =>
+      entry.propositionKey === propositionKey &&
+      entry.answer === answer &&
+      entry.governmentLevel === governmentLevel,
   );
 }
 
