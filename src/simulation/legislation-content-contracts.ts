@@ -10,9 +10,11 @@
 
 import { spokenDate } from "./dates";
 import type {
+  CurrencyCode,
   IsoDate,
   LegislativeProvisionBeneficiary,
   LegislativeProvisionEffectIntent,
+  PublicGovernmentIdentity,
 } from "./types";
 
 export type { IsoDate };
@@ -393,11 +395,11 @@ export function legalInstrumentRules(): readonly LegalInstrumentRule[] {
  * fact rather than named in prose, and the compiler refuses when the instrument
  * requires one and none arrived.
  *
- * Two things can be an authority. A standing statute is authored background:
+ * Three things can be an authority. A standing statute is authored background:
  * the program this jurisdiction is fictionally assumed to already run. A
- * docket measure is a bill the player themselves filed earlier in this life,
- * which is what lets a second bill be *about* the first one rather than merely
- * next to it on a list.
+ * docket measure is a bill the player themselves filed earlier in this life.
+ * A game-profile authority is an explicitly labeled, versioned permission tied
+ * to one exact government identity and rule pack; it is not a real-world law.
  */
 export type PredicateAuthority =
   | {
@@ -409,7 +411,7 @@ export type PredicateAuthority =
       readonly authorizesSpending: boolean;
       /** The ceiling that authority set, where it set one. */
       readonly authorizedCeilingMinorUnits: number | null;
-      readonly currency: string;
+      readonly currency: CurrencyCode;
       readonly evidence: ProgramContentEvidence;
     }
   | {
@@ -419,12 +421,30 @@ export type PredicateAuthority =
       readonly programLabel: string;
       readonly authorizesSpending: boolean;
       readonly authorizedCeilingMinorUnits: number | null;
-      readonly currency: string;
+      readonly currency: CurrencyCode;
       /** The measure on this player's own docket. */
       readonly measureId: string;
       readonly docketKey: string;
       /** Pending references are conditional proposals, never existing law. */
       readonly legalStatus?: "proposed" | "enacted";
+    }
+  | {
+      readonly kind: "game-profile";
+      readonly authorityKey: string;
+      readonly authorityVersion: string;
+      readonly profileVersion: string;
+      readonly rulePackId: string;
+      readonly publicGovernmentIdentity: PublicGovernmentIdentity;
+      readonly permittedEffects: readonly (
+        "tax-policy" | "public-program-appropriation"
+      )[];
+      /** How player-facing text names this authored authority. */
+      readonly citationLabel: string;
+      readonly programLabel: string;
+      /** Null means the profile declares no separate ceiling. */
+      readonly authorizedCeilingMinorUnits: number | null;
+      readonly currency: string;
+      readonly basis: "game-profile";
     };
 
 /** A typed, adjustable value a family exposes to the player. */

@@ -1,5 +1,7 @@
 import { legislativePackForWorkKey } from "./legislative-institutions";
+import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
 import { addDays, makeIsoDate, yearOf } from "./dates";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   formatMinorUnits,
   legalInstrumentRule,
@@ -190,17 +192,8 @@ export class BillConfigurationError extends Error {
  * authority, and the honest answer for an unsupported one is a refusal rather
  * than Kentucky with the labels changed.
  */
-const SUPPORTED_SCENARIO_KEYS: readonly string[] = [
-  "kentucky",
-  "nebraska",
-  "alaska",
-];
-
 export function draftingSupportsScenario(scenarioKey: string): boolean {
-  return (
-    SUPPORTED_SCENARIO_KEYS.includes(scenarioKey) ||
-    legislativePackForWorkKey(scenarioKey) !== null
-  );
+  return legislativePackForWorkKey(scenarioKey) !== null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -384,6 +377,8 @@ function checkPredicateAuthority(
   variant: ProgramVariant,
   rule: LegalInstrumentRule,
   authority: PredicateAuthority | null,
+  jurisdictionId: EntityId,
+  rulePackId: string,
 ): PredicateAuthority | null {
   if (!rule.requiresPredicateAuthority) {
     if (authority !== null) {
@@ -398,7 +393,48 @@ function checkPredicateAuthority(
       `${rule.label} acts on something that already exists, and the ${variant.label} configuration was given no authority to act on.`,
     );
   }
-  if (rule.predicateMustAuthorizeSpending && !authority.authorizesSpending) {
+  if (authority.kind === "game-profile") {
+    const exactProfileIdentity =
+      authority.publicGovernmentIdentity.kind === "local-government"
+        ? authority.rulePackId ===
+          `${authority.publicGovernmentIdentity.governmentKey}:${authority.profileVersion}`
+        : authority.rulePackId !== US_CONGRESS_PACK_ID ||
+          authority.publicGovernmentIdentity.jurisdictionId ===
+            NATIONAL_ELECTION_JURISDICTION.id;
+    if (
+      authority.publicGovernmentIdentity.jurisdictionId !== jurisdictionId ||
+      authority.rulePackId !== rulePackId ||
+      !exactProfileIdentity ||
+      !authority.authorityKey.trim() ||
+      !authority.authorityVersion.trim() ||
+      !authority.profileVersion.trim() ||
+      authority.permittedEffects.length === 0 ||
+      new Set(authority.permittedEffects).size !==
+        authority.permittedEffects.length ||
+      !authority.citationLabel.trim() ||
+      !authority.programLabel.trim() ||
+      (authority.publicGovernmentIdentity.kind === "local-government" &&
+        !authority.publicGovernmentIdentity.governmentKey.trim()) ||
+      (authority.authorizedCeilingMinorUnits !== null &&
+        (!Number.isSafeInteger(authority.authorizedCeilingMinorUnits) ||
+          authority.authorizedCeilingMinorUnits < 0))
+    )
+      throw new BillConfigurationError(
+        "The game-profile authority must match this measure's exact government identity and rule pack.",
+      );
+    if (
+      rule.predicateMustAuthorizeSpending &&
+      !authority.permittedEffects.includes("public-program-appropriation")
+    )
+      throw new BillConfigurationError(
+        `${authority.citationLabel} authorizes no public-program appropriation.`,
+      );
+  }
+  if (
+    rule.predicateMustAuthorizeSpending &&
+    authority.kind !== "game-profile" &&
+    !authority.authorizesSpending
+  ) {
     throw new BillConfigurationError(
       `${authority.citationLabel} authorizes no spending, so there is nothing for the ${variant.label} configuration to appropriate against.`,
     );
@@ -425,6 +461,11 @@ function checkAppropriationCeiling(
   if (appropriated === null) return;
   const ceiling = authority.authorizedCeilingMinorUnits;
   if (ceiling === null) {
+    if (
+      authority.kind === "game-profile" &&
+      authority.permittedEffects.includes("public-program-appropriation")
+    )
+      return;
     throw new BillConfigurationError(
       `${authority.citationLabel} states no ceiling, so an appropriation cannot be measured against it.`,
     );
@@ -451,9 +492,15 @@ export function compileBillDraft(
 ): CompiledBillDraft {
   const { family, variant } = programVariant(input.familyKey, input.variantKey);
 
-  if (!draftingSupportsScenario(input.scenarioKey)) {
+  const legislativePack = legislativePackForWorkKey(input.scenarioKey);
+  if (!legislativePack) {
     throw new BillConfigurationError(
       `No drafting authority is supported for the '${input.scenarioKey}' legislature, so a bill cannot be written for it.`,
+    );
+  }
+  if (legislativePack.packId !== input.rulePackId) {
+    throw new BillConfigurationError(
+      `The '${input.scenarioKey}' legislature resolves to rule pack '${legislativePack.packId}', not '${input.rulePackId}'.`,
     );
   }
 
@@ -462,6 +509,8 @@ export function compileBillDraft(
     variant,
     rule,
     input.predicateAuthority ?? null,
+    input.jurisdictionId,
+    input.rulePackId,
   );
   checkInstrumentShape(family, variant, rule);
 
@@ -505,6 +554,17 @@ export function compileBillDraft(
     validateValue(spec, value);
     values[spec.key] = value;
   }
+
+  if (
+    authority?.kind === "game-profile" &&
+    Object.values(values).some(
+      (value) =>
+        value.kind === "money" && value.currency !== authority.currency,
+    )
+  )
+    throw new BillConfigurationError(
+      "The bill's monetary parameters must use the game-profile authority's currency.",
+    );
 
   const timing = resolveTiming(variant, values, input.filedOn);
   const resolved = resolveParameters(
