@@ -353,15 +353,29 @@ export async function openMoment(page: Page): Promise<void> {
    * nothing at all and let the caller fail one assertion later, which is a
    * bad way to learn that the room was simply still arriving.
    */
-  try {
-    await panel
-      .or(opener)
-      .first()
-      .waitFor({ state: "visible", timeout: 15_000 });
-  } catch {
-    // No moment offered here — under a conversation, say. The caller's own
-    // assertions still decide whether that was right.
-    return;
+  const day = page.getByTestId("shell-pass-day");
+  /*
+   * A quiet day has no moment of its own: the story screen no longer carries
+   * a time button, so a player presses Day in the shell until the life offers
+   * one. Only when Day is there to press; anywhere else (under a
+   * conversation, say) the caller's own assertions decide.
+   */
+  for (let days = 0; ; days += 1) {
+    try {
+      await panel
+        .or(opener)
+        .first()
+        .waitFor({ state: "visible", timeout: days === 0 ? 15_000 : 10_000 });
+      break;
+    } catch {
+      if (
+        days >= 14 ||
+        !(await day.isVisible()) ||
+        (await day.getAttribute("aria-disabled")) === "true"
+      )
+        return;
+      await day.click();
+    }
   }
   if ((await panel.count()) > 0) return;
   await opener.click();
