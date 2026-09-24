@@ -37,6 +37,19 @@ export interface WorldOpeningRecord extends ConditionRecordBase {
   readonly kind: "world-opening";
   readonly openingVersion: WorldOpeningVersion;
   readonly regime: StartingRegime;
+  /** Absent on saves opened before this fictional cash profile was introduced. */
+  readonly publicCashOpening?: PublicCashOpeningProfile;
+}
+
+/** A saved game assumption, never an estimate of an actual treasury. */
+export const PUBLIC_CASH_OPENING_PROFILE_VERSION =
+  "fictional-public-cash-opening/v1" as const;
+
+export interface PublicCashOpeningProfile {
+  readonly contractVersion: typeof PUBLIC_CASH_OPENING_PROFILE_VERSION;
+  readonly federalMinorUnits: number;
+  readonly stateByJurisdictionId: Readonly<Record<EntityId, number>>;
+  readonly localMinorUnits: number;
 }
 
 /** How this contest's starting affiliation was obtained. */

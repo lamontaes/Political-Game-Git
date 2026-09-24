@@ -11,6 +11,8 @@ import {
 import { createOrganization } from "./life";
 import { rulePackById } from "./legislature-rule-packs";
 import { stateJurisdictionForKey } from "./life-places";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+import { PUBLIC_CASH_OPENING_PROFILE_VERSION } from "./world-setup/types";
 import { stateFundedServiceGameProfileForJurisdictionKey } from "./state-funded-service-game-profiles";
 import {
   stateTaxServiceProfileByRef,
@@ -81,8 +83,8 @@ export function taxPowerEvidenceFor(
 }
 
 /** Establishes a sparse governmental identity in the existing organization store.
- * The zero opening is only a modeled receipts account, never current treasury
- * cash or Census revenue/expenditures. Existing organization money is retained.
+ * A current save may carry a fictional public-cash opening. This is never
+ * Census revenue/expenditure or a claim about an actual treasury.
  */
 export function ensureTaxPublicAccount(
   world: World,
@@ -94,7 +96,7 @@ export function ensureTaxPublicAccount(
   });
 }
 
-/** Creates a zero-balance account for one canonical local government. */
+/** Creates an account for one canonical local government. */
 export function ensureLocalPublicAccount(
   world: World,
   identity: Extract<PublicGovernmentIdentity, { kind: "local-government" }>,
@@ -103,8 +105,8 @@ export function ensureLocalPublicAccount(
 }
 
 /**
- * Creates an account identity only. This does not establish tax permission,
- * spending authority, or a factual treasury balance.
+ * Creates an account identity with the save's fictional opening cash, if one
+ * was recorded at Begin. This grants no tax or spending permission.
  */
 export function ensurePublicGovernmentAccount(
   world: World,
@@ -146,14 +148,32 @@ export function ensurePublicGovernmentAccount(
         row.openingBalance.currency === "USD",
     )
   ) {
+    const opening = world.history.worldConditions?.find(
+      (record) => record.kind === "world-opening",
+    );
+    const cashProfile =
+      opening?.kind === "world-opening" &&
+      opening.publicCashOpening?.contractVersion ===
+        PUBLIC_CASH_OPENING_PROFILE_VERSION
+        ? opening.publicCashOpening
+        : null;
+    const openingMinorUnits = cashProfile
+      ? identity.kind === "local-government"
+        ? cashProfile.localMinorUnits
+        : identity.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
+          ? cashProfile.federalMinorUnits
+          : (cashProfile.stateByJurisdictionId[identity.jurisdictionId] ?? 0)
+      : 0;
     next = createResourcePosition(next, {
       stableKey: `${key}:modeled-receipts:USD`,
       owner: { kind: "organization", organizationId: organization.id },
       openedAt: next.currentDate,
-      openingBalance: money(0, "USD"),
+      openingBalance: money(openingMinorUnits, "USD"),
       provenance: {
         kind: "authored",
-        note: "Known zero opening of the modeled receipts account. Historical/real treasury cash is unknown and is not initialized from observational statistics.",
+        note: cashProfile
+          ? `${PUBLIC_CASH_OPENING_PROFILE_VERSION}: fictional opening public cash for this saved world, not an observed treasury balance or tax receipt.`
+          : "Known zero opening of the modeled receipts account. Historical/real treasury cash is unknown and is not initialized from observational statistics.",
       },
     });
   }

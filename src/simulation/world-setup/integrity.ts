@@ -4,6 +4,7 @@ import { canonicalStateJurisdictionId } from "../state-jurisdiction-id";
 import { STATES, TERRITORY_USPS } from "../state-reference";
 import type { EntityId, EntityKind, World } from "../types";
 import type { PartyRecord, WorldConditionRecord } from "./types";
+import { PUBLIC_CASH_OPENING_PROFILE_VERSION } from "./types";
 import { assertStateTaxServiceStartingConditions } from "./state-tax-service-profiles";
 
 export const WORLD_CONDITION_ID_KIND = "world-condition" as const;
@@ -178,6 +179,23 @@ export function assertWorldSetupIntegrity(
       throw new Error(
         `World condition takes effect in the future: ${record.id}`,
       );
+    }
+    if (record.kind === "world-opening" && record.publicCashOpening) {
+      const profile = record.publicCashOpening;
+      const expectedStateIds = STATE_KEYS.map((key) =>
+        canonicalStateJurisdictionId(key),
+      ).sort();
+      if (
+        profile.contractVersion !== PUBLIC_CASH_OPENING_PROFILE_VERSION ||
+        Object.keys(profile.stateByJurisdictionId).sort().join("|") !==
+          expectedStateIds.join("|") ||
+        ![
+          profile.federalMinorUnits,
+          profile.localMinorUnits,
+          ...Object.values(profile.stateByJurisdictionId),
+        ].every((amount) => Number.isSafeInteger(amount) && amount > 0)
+      )
+        throw new Error("The saved fictional public cash opening is invalid.");
     }
     if (record.kind === "state-tax-service-starting-conditions")
       assertStateTaxServiceStartingConditions(record);
