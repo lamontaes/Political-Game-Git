@@ -86,8 +86,16 @@ export function programConfigurations(): readonly {
  * has authorized anything themselves, and they are read from the bank rather
  * than invented by whichever surface needed one.
  */
-export function standingAuthorities(): readonly PredicateAuthority[] {
-  return FAMILIES.flatMap((family) => family.standingAuthorities ?? []);
+export function standingAuthorities(): readonly Extract<
+  PredicateAuthority,
+  { kind: "standing-statute" }
+>[] {
+  return FAMILIES.flatMap((family) => family.standingAuthorities ?? []).filter(
+    (
+      authority,
+    ): authority is Extract<PredicateAuthority, { kind: "standing-statute" }> =>
+      authority.kind === "standing-statute",
+  );
 }
 
 export function standingAuthority(

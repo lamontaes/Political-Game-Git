@@ -40,10 +40,7 @@ import type { PredicateAuthority } from "../legislation-content-contracts";
  * labels at other levels do not make a component transferable.
  */
 export type AutomaticLawGovernmentLevel =
-  | "federal"
-  | "state"
-  | "county"
-  | "municipality";
+  "federal" | "state" | "county" | "municipality";
 
 export interface AutomaticLawPositionMapping {
   readonly propositionKey: string;
@@ -138,9 +135,7 @@ export function automaticLawMappingFor(
   return mappingFor(propositionKey, answer, governmentLevel);
 }
 
-function authorityAllowsAppropriation(
-  authority: PredicateAuthority,
-): boolean {
+function authorityAllowsAppropriation(authority: PredicateAuthority): boolean {
   if ("permittedEffects" in authority)
     return authority.permittedEffects.includes("public-program-appropriation");
   return "authorizesSpending" in authority && authority.authorizesSpending;
@@ -154,9 +149,7 @@ function authorityAllowsAppropriation(
  * measure. Funding caps and informative clauses do not count as an operative
  * public-program appropriation.
  */
-function hasRegisteredAppropriationClause(
-  draft: CompiledBillDraft,
-): boolean {
+function hasRegisteredAppropriationClause(draft: CompiledBillDraft): boolean {
   const appropriation = draft.parameterValues.appropriation;
   const amountClauses = draft.clauses.filter(
     (clause) => clause.provisionKey === "amount-provided",
@@ -198,9 +191,8 @@ export function compileAutomaticLawDraft(input: {
   readonly intakeKey: string;
   readonly context?: AutomaticLawCompileContext;
 }): CompiledBillDraft | null {
-  const proposition = input.world.policyCatalog.propositions[
-    input.propositionId
-  ];
+  const proposition =
+    input.world.policyCatalog.propositions[input.propositionId];
   if (!proposition) return null;
   const governmentLevel = input.context?.governmentLevel ?? "state";
   const mapping = mappingFor(
@@ -251,9 +243,10 @@ export function compileAutomaticLawDraft(input: {
     if (!pack) return null;
     rulePackId = pack.packId;
     scenarioKey = legislativeWorkKey(pack);
-    authority = mapping.authorityKind === "standing-statute" && mapping.authorityKey
-      ? standingAuthority(mapping.authorityKey)
-      : null;
+    authority =
+      mapping.authorityKind === "standing-statute" && mapping.authorityKey
+        ? standingAuthority(mapping.authorityKey)
+        : null;
   }
   if (!authority || !authorityAllowsAppropriation(authority)) return null;
   if (authority.kind !== mapping.authorityKind) return null;
@@ -295,13 +288,15 @@ export function compileAutomaticLawDraft(input: {
   // The values are a game-authored variation over the variant's declared
   // bounds, not an estimate of a real program's cost or a cash balance.
   const rng = new SeededRng(input.world.seed).fork(
-    `automatic-law-parameters:${input.intakeKey}:${pack.packId}:${proposition.stableKey}`,
+    `automatic-law-parameters:${input.intakeKey}:${rulePackId}:${proposition.stableKey}`,
   );
   const appropriationMultipliers = [0.5, 0.75, 1, 1.5, 2] as const;
-  const appropriationMinorUnits = Math.round(
-    (amountDefault.minorUnits * rng.fork("amount").pick(appropriationMultipliers)) /
-      100,
-  ) * 100;
+  const appropriationMinorUnits =
+    Math.round(
+      (amountDefault.minorUnits *
+        rng.fork("amount").pick(appropriationMultipliers)) /
+        100,
+    ) * 100;
   const parameterValues: Record<string, ProgramParameterValue> = {
     appropriation: {
       kind: "money",
@@ -316,7 +311,10 @@ export function compileAutomaticLawDraft(input: {
     (parameter) =>
       parameter.key === "service-window" && parameter.kind === "enumerated",
   );
-  if (serviceWindow?.kind === "enumerated" && serviceWindow.options.length > 0) {
+  if (
+    serviceWindow?.kind === "enumerated" &&
+    serviceWindow.options.length > 0
+  ) {
     parameterValues[serviceWindow.key] = {
       kind: "enumerated",
       value: rng
@@ -379,8 +377,8 @@ export function automaticDraftMatchesMeasure(
   if (!(issue?.levels?.includes(governmentLevel) ?? false)) return false;
   const registeredAuthority =
     mapping.authorityKind === "standing-statute" && mapping.authorityKey
-    ? standingAuthority(mapping.authorityKey)
-    : null;
+      ? standingAuthority(mapping.authorityKey)
+      : null;
   const predicateAuthority = draft.predicateAuthority;
   if (
     !predicateAuthority ||
@@ -393,14 +391,13 @@ export function automaticDraftMatchesMeasure(
         predicateAuthority.publicGovernmentIdentity.jurisdictionId !==
           measure.jurisdictionId ||
         !predicateAuthority.authorityKey.trim() ||
-        ((governmentLevel === "county" ||
-          governmentLevel === "municipality") &&
+        ((governmentLevel === "county" || governmentLevel === "municipality") &&
           predicateAuthority.publicGovernmentIdentity.kind !==
             "local-government") ||
         (governmentLevel === "federal" &&
           (predicateAuthority.publicGovernmentIdentity.kind !==
             "jurisdiction" ||
-            measure.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id))) ||
+            measure.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id)))) ||
     (mapping.authorityKey !== null &&
       predicateAuthority.authorityKey !== mapping.authorityKey) ||
     (mapping.authorityKind === "standing-statute" && !registeredAuthority)
@@ -412,7 +409,7 @@ export function automaticDraftMatchesMeasure(
       draft.predicateAuthority?.authorityKey === mapping.authorityKey) &&
     answers[0]!.propositionId === proposition.id &&
     draft.propositionKeys.includes(proposition.stableKey) &&
-    draft.familyVersion === family.version &&
+    draft.familyVersion === family.familyVersion &&
     mapping.familyKey === draft.familyKey &&
     mapping.variantKey === draft.variantKey
   );
@@ -436,12 +433,7 @@ export function recordCompiledDraftOnMeasure(
   if (!measure) throw new Error(`Measure not found: ${input.measureId}`);
   const governmentLevel = input.governmentLevel ?? "state";
   if (
-    !automaticDraftMatchesMeasure(
-      world,
-      measure,
-      input.draft,
-      governmentLevel,
-    )
+    !automaticDraftMatchesMeasure(world, measure, input.draft, governmentLevel)
   ) {
     throw new Error(
       `${measure.designation} does not match its compiled automatic draft.`,
@@ -479,10 +471,7 @@ export function recordCompiledDraftOnMeasure(
     next = recordFiledProvision(next, provisionInput);
     if (operativeEffect) {
       const filed = next.history.legislativeProvisions?.at(-1);
-      if (
-        !filed ||
-        filed.operativeEffect?.kind !== operativeEffect.kind
-      ) {
+      if (!filed || filed.operativeEffect?.kind !== operativeEffect.kind) {
         throw new Error(
           `The provision writer dropped the compiled ${operativeEffect.kind} intent for '${clause.provisionKey}'.`,
         );
@@ -571,21 +560,15 @@ export function introduceAutomaticLawMeasure(
   });
   const measure = next.history.legislativeMeasures?.at(-1);
   if (!measure)
-    throw new Error(`${input.designation} was not recorded after introduction.`);
-  if (
-    !automaticDraftMatchesMeasure(
-      next,
-      measure,
-      draft,
-      governmentLevel,
-    )
-  )
+    throw new Error(
+      `${input.designation} was not recorded after introduction.`,
+    );
+  if (!automaticDraftMatchesMeasure(next, measure, draft, governmentLevel))
     throw new Error(
       `${input.designation} does not match its compiled automatic draft.`,
     );
 
-  const provenanceNote =
-    `The seated sponsor's saved political-principle records ${input.principleRecordIds.join(", ")} produced a score of ${input.principleScore} toward ${input.answer} on ${proposition.stableKey}. The provisions were compiled from the exact registered ${governmentLevel} appropriation configuration.`;
+  const provenanceNote = `The seated sponsor's saved political-principle records ${input.principleRecordIds.join(", ")} produced a score of ${input.principleScore} toward ${input.answer} on ${proposition.stableKey}. The provisions were compiled from the exact registered ${governmentLevel} appropriation configuration.`;
   next = recordCompiledDraftOnMeasure(next, {
     measureId: measure.id,
     draft,

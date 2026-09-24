@@ -377,7 +377,9 @@ function operativeEffectOutcomes(
       record.kind === "appropriation" && record.sourceMeasureId === measureId,
   );
   const matchedAppropriationIds = new Set<EntityId>();
-  return provisions.flatMap((provision) => {
+  return provisions.flatMap<
+    EnactedLawEffects["operativeEffectOutcomes"][number]
+  >((provision) => {
     const effect = provision.operativeEffect;
     if (!effect) return [];
     if (effect.kind === "tax-policy") {
@@ -431,7 +433,9 @@ function operativeEffectOutcomes(
           provisionKey: provision.provisionKey,
           effectKind: effect.kind,
           status:
-            resolution.kind === "available" ? ("applied" as const) : ("refused" as const),
+            resolution.kind === "available"
+              ? ("applied" as const)
+              : ("refused" as const),
           refusalReason:
             resolution.kind === "available" ? null : resolution.reason,
         },

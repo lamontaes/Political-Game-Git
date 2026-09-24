@@ -73,8 +73,7 @@ export function legislativePackForWorkKey(
         (localFiscalGameAuthorityForRulePackId(institutionPackId)
           ? localOrdinanceGameRulePackById(institutionPackId)
           : null))
-      : null)
-  );
+      : null);
   return statePack;
 }
 

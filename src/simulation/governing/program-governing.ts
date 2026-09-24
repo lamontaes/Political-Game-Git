@@ -7,9 +7,7 @@ import { currentMeasureProvisions } from "../legislative-politics";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
-import {
-  localFiscalGameAuthorityForRulePackId,
-} from "../local-ordinance-game-profile";
+import { localFiscalGameAuthorityForRulePackId } from "../local-ordinance-game-profile";
 import { admitLocalFiscalMeasure } from "../local-fiscal-authority";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { createOrganization } from "../life";
@@ -421,13 +419,25 @@ function federalPassengerRailMeasureMatches(
   }
 }
 
-interface PublicProgramGovernmentScope {
-  readonly kind: "federal" | "state" | "local";
+interface PublicProgramGovernmentScopeBase {
   readonly identity: PublicGovernmentIdentity;
-  readonly stateUsps: string | null;
   readonly programKeySuffix: string;
-  readonly localGovernmentKey?: string;
 }
+
+type PublicProgramGovernmentScope =
+  | (PublicProgramGovernmentScopeBase & {
+      readonly kind: "federal";
+      readonly stateUsps: null;
+    })
+  | (PublicProgramGovernmentScopeBase & {
+      readonly kind: "state";
+      readonly stateUsps: string;
+    })
+  | (PublicProgramGovernmentScopeBase & {
+      readonly kind: "local";
+      readonly stateUsps: null;
+      readonly localGovernmentKey: string;
+    });
 
 function publicProgramGovernmentScope(
   world: World,
@@ -467,7 +477,10 @@ function publicProgramGovernmentScope(
   const localAuthority = localFiscalGameAuthorityForRulePackId(
     measure.rulePackId,
   );
-  if (!localAuthority || localAuthority.jurisdictionId !== measure.jurisdictionId)
+  if (
+    !localAuthority ||
+    localAuthority.jurisdictionId !== measure.jurisdictionId
+  )
     return null;
   const governmentKey = localAuthority.unit.id;
   const identity: PublicGovernmentIdentity = {

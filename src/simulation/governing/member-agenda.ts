@@ -68,7 +68,7 @@ const FILING_THRESHOLD = 3;
 /** Catalog questions with an exact, supported state-law configuration. */
 function stateQuestions(world: World): readonly EntityId[] {
   const catalog = world.policyCatalog;
-  const supportedKeys = new Set(
+  const supportedKeys = new Set<string>(
     AUTOMATIC_LAW_POSITION_MAPPINGS.filter(
       (mapping) => mapping.governmentLevel === "state",
     ).map((mapping) => mapping.propositionKey),
@@ -99,12 +99,7 @@ function pendingBillOn(
 }
 
 function agendaBatchKey(intakeKey: string): string {
-  return (
-    LEGISLATIVE_INTAKE_VERSION +
-    ":" +
-    intakeKey +
-    ":agenda"
-  );
+  return LEGISLATIVE_INTAKE_VERSION + ":" + intakeKey + ":agenda";
 }
 
 function alreadyFiledForIntake(world: World, batchKey: string): boolean {
@@ -148,19 +143,21 @@ export function fileMemberAgendaBills(
       .map((member) => member.personId)
       .filter((personId): personId is EntityId => personId !== null),
   );
-  const sponsors = seatedByChamber.flatMap(({ chamber, seated }) => {
-    if (!chamber.introductionAllowed) return [];
-    return (seated?.body.members ?? []).flatMap((member) => {
-      const personId = member.personId;
-      if (
-        personId === null ||
-        (world.control.kind === "person" &&
-          world.control.personId === personId)
-      )
-        return [];
-      return [{ personId, chamber }];
-    });
-  }).sort((left, right) => left.personId.localeCompare(right.personId));
+  const sponsors = seatedByChamber
+    .flatMap(({ chamber, seated }) => {
+      if (!chamber.introductionAllowed) return [];
+      return (seated?.body.members ?? []).flatMap((member) => {
+        const personId = member.personId;
+        if (
+          personId === null ||
+          (world.control.kind === "person" &&
+            world.control.personId === personId)
+        )
+          return [];
+        return [{ personId, chamber }];
+      });
+    })
+    .sort((left, right) => left.personId.localeCompare(right.personId));
   if (sponsors.length === 0) return world;
 
   // Every seated member may vote on a bill, not only the members of its
@@ -193,11 +190,7 @@ export function fileMemberAgendaBills(
         continue;
 
       const proposition = next.policyCatalog.propositions[propositionId]!;
-      const leaning = principledLeaning(
-        next,
-        sponsor.personId,
-        propositionId,
-      );
+      const leaning = principledLeaning(next, sponsor.personId, propositionId);
       if (Math.abs(leaning.score) < FILING_THRESHOLD) continue;
 
       const answer = leaning.score > 0 ? "yes" : "no";
@@ -242,16 +235,15 @@ export function fileMemberAgendaBills(
 
       // The first measure keeps the historical stable key. Additional bills
       // are scoped under the same intake key by proposition and sponsor.
-      const measureStableKey =
-        (next.history.legislativeMeasures ?? []).some(
-          (measure) => measure.stableKey === batchKey,
-        )
-          ? batchKey +
-            ":" +
-            encodeURIComponent(proposition.stableKey) +
-            ":" +
-            sponsor.personId
-          : batchKey;
+      const measureStableKey = (next.history.legislativeMeasures ?? []).some(
+        (measure) => measure.stableKey === batchKey,
+      )
+        ? batchKey +
+          ":" +
+          encodeURIComponent(proposition.stableKey) +
+          ":" +
+          sponsor.personId
+        : batchKey;
       const designation = nextMeasureDesignation(next, {
         jurisdictionId: input.jurisdictionId,
         originChamber: sponsor.chamber,
@@ -262,10 +254,7 @@ export function fileMemberAgendaBills(
         propositionId: candidate.propositionId,
         answer: candidate.answer,
         designation,
-        intakeKey:
-          batchKey +
-          ":" +
-          encodeURIComponent(proposition.stableKey),
+        intakeKey: batchKey + ":" + encodeURIComponent(proposition.stableKey),
       });
       if (!draft) {
         unavailablePropositions.add(candidate.propositionId);
@@ -285,10 +274,7 @@ export function fileMemberAgendaBills(
         stableKey: measureStableKey,
         propositionId: candidate.propositionId,
         answer: candidate.answer,
-        intakeKey:
-          batchKey +
-          ":" +
-          encodeURIComponent(proposition.stableKey),
+        intakeKey: batchKey + ":" + encodeURIComponent(proposition.stableKey),
         designation,
         sponsorPersonId: sponsor.personId,
         originChamberKey: sponsor.chamber.chamberKey,
@@ -312,9 +298,7 @@ export function fileMemberAgendaBill(
   world: World,
   input: { readonly jurisdictionId: EntityId; readonly intakeKey: string },
 ): World {
-  return scheduleLocalMemberAgendaIntakes(
-    fileMemberAgendaBills(world, input),
-  );
+  return scheduleLocalMemberAgendaIntakes(fileMemberAgendaBills(world, input));
 }
 
 function councilMembers(world: World, governmentKey: string) {
@@ -395,7 +379,9 @@ export function scheduleLocalMemberAgendaIntakes(world: World): World {
     if (!grant) continue;
     const dueAt = nextQuarterStart(next.currentDate as IsoDate);
     const stableKey = localIntakeStableKey(government.key, dueAt);
-    if (next.history.futureDueItems.some((item) => item.stableKey === stableKey))
+    if (
+      next.history.futureDueItems.some((item) => item.stableKey === stableKey)
+    )
       continue;
     next = scheduleFutureDueItem(next, {
       stableKey,
@@ -417,13 +403,13 @@ export function fileLocalMemberAgendaBill(
   world: World,
   input: { readonly governmentKey: string; readonly intakeKey: string },
 ): World {
-  const batchKey =
-    `${LOCAL_MEMBER_AGENDA_VERSION}:${encodeURIComponent(input.governmentKey)}:${input.intakeKey}`;
+  const batchKey = `${LOCAL_MEMBER_AGENDA_VERSION}:${encodeURIComponent(input.governmentKey)}:${input.intakeKey}`;
   if (alreadyFiledForIntake(world, batchKey)) return world;
 
   const members = councilMembers(world, input.governmentKey);
   if (members.length === 0) return world;
-  const playerId = world.control.kind === "person" ? world.control.personId : null;
+  const playerId =
+    world.control.kind === "person" ? world.control.personId : null;
   const sponsors = members.filter((member) => member.personId !== playerId);
   if (sponsors.length === 0) return world;
 
@@ -556,7 +542,8 @@ export function localMemberAgendaIntakeHandler(
     world: next,
     status: "resolved",
     reasonKey: null,
-    context: "The local council reached its quarterly game-profile agenda date.",
+    context:
+      "The local council reached its quarterly game-profile agenda date.",
     outcomeEventId: null,
   };
 }
