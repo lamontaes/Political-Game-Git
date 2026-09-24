@@ -4408,6 +4408,12 @@ export type LegislativeProvisionBeneficiary =
  * version it replaces, so the bill's text has a history for the same reason its
  * procedural position does, and nothing is quietly rewritten in place.
  */
+export type LegislativeProvisionEffectIntent =
+  /** This section is the exact levy clause of a linked TaxProposalRecord. */
+  | { readonly kind: "tax-policy" }
+  /** This section explicitly grants a public program its stated amount. */
+  | { readonly kind: "public-program-appropriation" };
+
 export interface LegislativeProvisionRecord {
   /** Explicit annual amount; omission preserves older whole-program records. */
   readonly fiscalPeriod?: "annual";
@@ -4432,6 +4438,12 @@ export interface LegislativeProvisionRecord {
   readonly fiscalExposureLabel: string | null;
   /** The same exposure as a checkable amount, so a ceiling can be tested. */
   readonly fiscalExposureMinorUnits: number | null;
+  /**
+   * Explicit executable intent from a typed clause template. Missing on old
+   * saves and on provisions with no registered consumer. A new revision must
+   * supply its own intent; omission clears an earlier revision's intent.
+   */
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
   readonly recordedAt: IsoDate;
   /** The earlier version this replaces; null for a section as filed. */
   readonly supersedesProvisionId: EntityId | null;

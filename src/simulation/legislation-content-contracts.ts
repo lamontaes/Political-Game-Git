@@ -9,7 +9,11 @@
  */
 
 import { spokenDate } from "./dates";
-import type { IsoDate, LegislativeProvisionBeneficiary } from "./types";
+import type {
+  IsoDate,
+  LegislativeProvisionBeneficiary,
+  LegislativeProvisionEffectIntent,
+} from "./types";
 
 export type { IsoDate };
 
@@ -510,6 +514,8 @@ export interface ClauseTemplate {
 export interface ClauseRendering {
   /** Omitted on legacy whole-program amounts. */
   readonly fiscalPeriod?: "annual";
+  /** Explicit simulation intent for this exact typed section, when supported. */
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
   readonly text: string;
   readonly beneficiary: LegislativeProvisionBeneficiary;
   /** Money this section exposes the state to. Null for a non-money clause. */

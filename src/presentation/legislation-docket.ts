@@ -983,6 +983,9 @@ export function fileDraft(
       ...(clause.fiscalPeriod !== undefined
         ? { fiscalPeriod: clause.fiscalPeriod }
         : {}),
+      ...(clause.operativeEffect !== undefined
+        ? { operativeEffect: clause.operativeEffect }
+        : {}),
       beneficiary: clause.beneficiary,
       applicationScope: {
         jurisdictionId: input.jurisdictionId,

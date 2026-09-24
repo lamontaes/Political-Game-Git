@@ -1596,6 +1596,9 @@ function attachAppropriationClauses(
       ...(clause.fiscalPeriod !== undefined
         ? { fiscalPeriod: clause.fiscalPeriod }
         : {}),
+      ...(clause.operativeEffect !== undefined
+        ? { operativeEffect: clause.operativeEffect }
+        : {}),
       beneficiary: clause.beneficiary,
       applicationScope: {
         jurisdictionId: measure.jurisdictionId,
