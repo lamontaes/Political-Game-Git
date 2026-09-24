@@ -88,6 +88,7 @@ import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { PublicServicePanel } from "./politics/PublicServicePanel";
 import { NewsDesk } from "./news/NewsDesk";
+import { recordSelectedPublicationRead } from "../simulation/publication-reading";
 import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
@@ -4776,6 +4777,14 @@ function renderWorkspace({
         "news-workspace",
         <NewsDesk
           world={session.world}
+          onSelectPublication={(publicationId) => {
+            if (readOnly || !session.personId) return;
+            const next = recordSelectedPublicationRead(session.world, {
+              personId: session.personId,
+              publicationId,
+            });
+            if (next !== session.world) onWorldChange(next);
+          }}
           context={
             view.section === "news-around"
               ? "around"

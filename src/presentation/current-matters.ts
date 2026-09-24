@@ -3,12 +3,12 @@ import { addDays } from "../simulation/dates";
 import { projectWorldRecap, type RecapEntry } from "./world-recap";
 
 /**
- * The public or known matter a person could bring up in conversation now.
+ * A matter this person actually knows well enough to bring up now.
  *
- * Read from the same records the recap uses, so what the player can raise is
- * exactly what they could have read in the news or actually learned — never a
- * private fact they were not told. "Current" is an authored presentation
- * window, not a claim about how long a matter stays relevant in the world.
+ * Read from the same records the recap uses, but a published headline alone
+ * does not teach every resident. A speaker must have learned the underlying
+ * event or been involved in it. "Current" is an authored presentation window,
+ * not a claim about how long a matter stays relevant in the world.
  */
 export const CURRENT_MATTER_WINDOW_DAYS = 30;
 
@@ -16,11 +16,21 @@ export function currentKnownMatter(
   world: World,
   playerPersonId: EntityId,
 ): RecapEntry | null {
-  const recent = projectWorldRecap(world, playerPersonId, 0, 1);
-  const entry = recent?.entries[0] ?? null;
-  if (!entry) return null;
+  const recent = projectWorldRecap(
+    world,
+    playerPersonId,
+    0,
+    world.history.nextSequence,
+  );
   const earliest = addDays(world.currentDate, -CURRENT_MATTER_WINDOW_DAYS);
-  return entry.at >= earliest ? entry : null;
+  return (
+    recent?.entries.find(
+      (candidate) =>
+        candidate.at >= earliest &&
+        matterAwareness(world, playerPersonId, candidate.eventId) !==
+          "uninformed",
+    ) ?? null
+  );
 }
 
 /** How a counterpart stands to a matter, from their records alone. */

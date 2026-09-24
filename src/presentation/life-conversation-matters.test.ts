@@ -8,6 +8,7 @@ import {
 } from "../simulation";
 import { activeOrdinaryGoal } from "../simulation/life-personality";
 import { publishPublicEvent } from "../simulation/public-information";
+import { recordSelectedPublicationRead } from "../simulation/publication-reading";
 import { matterAwareness } from "./current-matters";
 import {
   MATTER_CHOICE_PREFIX,
@@ -84,15 +85,9 @@ function publishedMatter(
     stableKey: "matter-report",
     sourceEventId: eventId,
   });
-  next = recordEventKnowledge(next, {
-    stableKey: "player-read-matter",
+  next = recordSelectedPublicationRead(next, {
     personId: playerPersonId,
-    eventId,
-    learnedAt: next.currentDate,
-    believedSummary: "The council met about the library hours.",
-    accuracy: "accurate",
-    confidence: "high",
-    source: { kind: "media", outlet: "Civic Record", reference: null },
+    publicationId: next.history.publications!.at(-1)!.id,
   });
   return { world: next, eventId };
 }

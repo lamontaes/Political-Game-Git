@@ -35,6 +35,7 @@ export function NewsDesk({
   onModeChange,
   onOutletChange,
   onOpenPerson,
+  onSelectPublication,
   around,
   directory,
   press,
@@ -47,6 +48,7 @@ export function NewsDesk({
   readonly onModeChange: (mode: NewsMode) => void;
   readonly onOutletChange: (outletKey: string) => void;
   readonly onOpenPerson: (personId: EntityId) => void;
+  readonly onSelectPublication: (publicationId: EntityId) => void;
   readonly around: ReactNode;
   readonly directory: ReactNode;
   readonly press: ReactNode;
@@ -177,7 +179,10 @@ export function NewsDesk({
                     )?.style ?? 0
                   }
                   onOpenPerson={onOpenPerson}
-                  onRead={() => setSelectedId(page.lead!.id)}
+                  onRead={() => {
+                    setSelectedId(page.lead!.id);
+                    onSelectPublication(page.lead!.id);
+                  }}
                 />
               ) : null}
               {page.stories.length > 0 ? (
@@ -193,7 +198,10 @@ export function NewsDesk({
                         )?.style ?? 0
                       }
                       onOpenPerson={onOpenPerson}
-                      onRead={() => setSelectedId(story.id)}
+                      onRead={() => {
+                        setSelectedId(story.id);
+                        onSelectPublication(story.id);
+                      }}
                     />
                   ))}
                 </div>

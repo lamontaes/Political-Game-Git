@@ -9,7 +9,8 @@ import {
   serializeWorld,
 } from "../index";
 import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
-import { publishPublicEvent } from "../public-information";
+import { correctPublication, publishPublicEvent } from "../public-information";
+import { recordSelectedPublicationRead } from "../publication-reading";
 import type { EntityId, World } from "../types";
 import { recordPersonDeath } from "../vitality";
 import { recordWorldEvent } from "../world";
@@ -143,6 +144,67 @@ function fixture(seed: string) {
 }
 
 describe("ordinary readership of a public officeholder death", () => {
+  it("an article selection persists the edition and its public death, while opening News does not", () => {
+    const { world, death, privateDeath, publication, deceasedId } = fixture(
+      "selected-death-read",
+    );
+    const reader = world.personOrder.find((id) => id !== deceasedId)!;
+    expect(currentKnownMatter(world, reader)).toBeNull();
+    const read = recordSelectedPublicationRead(world, {
+      personId: reader,
+      publicationId: publication.id,
+    });
+    expect(world.history.knowledge).toHaveLength(0);
+    expect(
+      read.history.knowledge.find(
+        (item) => item.personId === reader && item.eventId === death.id,
+      )?.source,
+    ).toMatchObject({ kind: "media", reference: publication.id });
+    expect(
+      read.history.knowledge.some((item) => item.eventId === privateDeath.id),
+    ).toBe(false);
+    expect(currentKnownMatter(read, reader)?.eventId).toBe(death.id);
+    expect(
+      recordSelectedPublicationRead(read, {
+        personId: reader,
+        publicationId: publication.id,
+      }),
+    ).toBe(read);
+    expect(deserializeWorld(serializeWorld(read)).history.knowledge).toEqual(
+      read.history.knowledge,
+    );
+  });
+
+  it("reading a correction records its edition without teaching the old death claim", () => {
+    const { world, death, publication, deceasedId } = fixture(
+      "corrected-death-read",
+    );
+    const reader = world.personOrder.find((id) => id !== deceasedId)!;
+    const corrected = correctPublication(world, {
+      stableKey: "corrected-death-read:correction",
+      correctsPublicationId: publication.id,
+      headline: "The earlier report was withdrawn",
+      body: "The paper has withdrawn its earlier report.",
+      correctionNote: "The original notice was withdrawn.",
+    });
+    const correction = corrected.history.publications!.at(-1)!;
+    const read = recordSelectedPublicationRead(corrected, {
+      personId: reader,
+      publicationId: publication.id,
+    });
+    expect(read.history.knowledge).toEqual([
+      expect.objectContaining({
+        eventId: publication.sourceEventId,
+        believedSummary: correction.headline,
+        accuracy: "unknown",
+        source: expect.objectContaining({ reference: correction.id }),
+      }),
+    ]);
+    expect(
+      read.history.knowledge.some((item) => item.eventId === death.id),
+    ).toBe(false);
+  });
+
   it("publication alone teaches no resident; an explicit read saves exact notice and source", () => {
     const { world, death, privateDeath, publication, deceasedId } =
       fixture("death-read");
@@ -205,6 +267,7 @@ describe("ordinary readership of a public officeholder death", () => {
     )!;
     expect(unexposed).toBeDefined();
     expect(currentKnownMatter(reached, exposed)?.eventId).toBe(death.id);
+    expect(currentKnownMatter(reached, unexposed)).toBeNull();
     expect(matterAwareness(reached, unexposed, death.id)).toBe("uninformed");
     expect(readers.length).toBeGreaterThan(0);
     expect(readers.length).toBeLessThan(eligible.length);
