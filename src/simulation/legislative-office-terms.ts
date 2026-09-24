@@ -16,7 +16,19 @@ import {
   scheduleFutureDueItem,
 } from "./future-transitions";
 import { recordWorkStatus } from "./life";
-import { endOpeningMemberForWinner } from "./nationwide-world/state-legislature-opening";
+import {
+  endOpeningMemberForWinner,
+  stateSeatsInDistrict,
+} from "./nationwide-world/state-legislature-opening";
+import {
+  districtResidenceIntervals,
+  isSupportedDistrictMembership,
+} from "./district-residence";
+import { districtIdentityCatalog } from "../districts/catalog";
+import {
+  gazetteerChamberForOfficeChamberKey,
+  resolveDistrictBinding,
+} from "../districts/query";
 import { workStatusAt, workRoleAt } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -25,6 +37,7 @@ import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  ElectionContestRecord,
   World,
 } from "./types";
 
@@ -43,6 +56,64 @@ export {
 
 export const LEGISLATIVE_TERM_ENTRY = "election:legislative-term-entry";
 export const LEGISLATIVE_TERM_EXPIRY = "election:legislative-term-expiry";
+
+/**
+ * A pre-named-seat contest can identify one old seat only from the winner's
+ * supported residence at its election date. A current home, desired seat, or
+ * state-only residence cannot reconstruct the missing ballot identity. Multi-
+ * member districts also remain unbound because a district alone names several
+ * physical seats in the opening.
+ */
+function legacyUnboundDistrictSeat(
+  world: World,
+  contest: ElectionContestRecord,
+  winnerPersonId: EntityId,
+  packId: string,
+): string | null {
+  if (contest.office.districtBinding || contest.office.seatKey) return null;
+  const pack = candidacyPackById(packId);
+  const stateUsps = /^US-([A-Z]{2})$/.exec(pack?.jurisdictionKey ?? "")?.[1];
+  const chamber = gazetteerChamberForOfficeChamberKey(
+    contest.office.officeKey.split(":").at(-1) ?? "",
+  );
+  if (
+    !stateUsps ||
+    !chamber ||
+    !pack?.offices.some(
+      (office) => office.officeKey === contest.office.officeKey,
+    ) ||
+    !contest.candidatePersonIds.includes(winnerPersonId)
+  )
+    return null;
+  const districts = new Set<string>();
+  const catalog = districtIdentityCatalog();
+  for (const interval of districtResidenceIntervals(world)) {
+    if (
+      interval.personId !== winnerPersonId ||
+      !isSupportedDistrictMembership(interval) ||
+      interval.startedOn > contest.electionDate ||
+      (interval.endedOn !== null && interval.endedOn <= contest.electionDate) ||
+      interval.binding.chamber !== chamber ||
+      interval.binding.stateUsps !== stateUsps
+    )
+      continue;
+    const resolved = resolveDistrictBinding(catalog, interval.binding, {
+      chamber,
+      stateUsps,
+    });
+    if (resolved.kind === "refused") continue;
+    districts.add(resolved.binding.recordId);
+  }
+  if (districts.size !== 1) return null;
+  const [districtRecordId] = districts;
+  return stateSeatsInDistrict(
+    packId,
+    contest.office.officeKey,
+    districtRecordId!,
+  ).length === 1
+    ? districtRecordId!
+    : null;
+}
 
 /** Date precision only. The bounded first-election calendar remains authored. */
 export function supportedLegislativeTermDates(
@@ -231,6 +302,12 @@ export function legislativeTermForRelationship(
     seatKey:
       contest.office.districtBinding?.recordId ??
       contest.office.seatKey ??
+      legacyUnboundDistrictSeat(
+        world,
+        contest,
+        relationship.personId,
+        pack.packId,
+      ) ??
       contest.id,
   };
 }
@@ -292,6 +369,9 @@ export function legacyLegislativeSeat(world: World, relationshipId: EntityId) {
       r.winnerPersonId === relationship.personId,
   );
   const contest = result && electionContestById(world, result.contestId);
+  const campaign = (world.history.campaigns ?? []).find(
+    (candidate) => candidate.contestId === contest?.id,
+  );
   const timing =
     contest &&
     legislativeTermDates(contest.office.officeKey, contest.electionDate);
@@ -316,6 +396,14 @@ export function legacyLegislativeSeat(world: World, relationshipId: EntityId) {
     seatKey:
       contest.office.districtBinding?.recordId ??
       contest.office.seatKey ??
+      (campaign
+        ? legacyUnboundDistrictSeat(
+            world,
+            contest,
+            relationship.personId,
+            campaign.candidacyPackId,
+          )
+        : null) ??
       contest.id,
   };
 }
@@ -361,6 +449,36 @@ export function migrateLegacyLegislativeSeats(world: World): World {
         supersedesStatusId: status.id,
       });
     }
+  }
+  // A dated winner may already have entered in a saved world before its
+  // unbound contest could be placed in the opening. End the still-active
+  // predecessor today, without rewriting the old election or backdating a
+  // status. The same winner's current seat projection uses this identity.
+  for (const relationship of world.history.workRelationships) {
+    if (
+      relationship.kind !== "employment:legislative-member" ||
+      !relationship.stableKey.endsWith(":seat") ||
+      workStatusAt(next, relationship.id)?.status !== "active"
+    )
+      continue;
+    const term = legislativeTermForRelationship(next, relationship.id);
+    if (
+      !term ||
+      term.seatKey === term.contest.id ||
+      next.currentDate < term.startsAt ||
+      next.currentDate >= term.endsAt ||
+      !isPersonAliveAt(next, relationship.personId, {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      })
+    )
+      continue;
+    next = endOpeningMemberForWinner(next, {
+      candidacyPackId: term.campaign.candidacyPackId,
+      winnerWorkRelationshipId: relationship.id,
+      effectiveAt: next.currentDate,
+      outcomeEventId: term.result.outcomeEventId,
+    });
   }
   return next;
 }
@@ -590,6 +708,19 @@ export function enterLegislativeTermLate(
 ): World {
   const term = legislativeTermForRelationship(world, relationshipId);
   const status = workStatusAt(world, relationshipId);
+  if (
+    term &&
+    status?.status === "active" &&
+    term.seatKey !== term.contest.id &&
+    world.currentDate >= term.startsAt &&
+    world.currentDate < term.endsAt
+  )
+    return endOpeningMemberForWinner(world, {
+      candidacyPackId: term.campaign.candidacyPackId,
+      winnerWorkRelationshipId: relationshipId,
+      effectiveAt: world.currentDate,
+      outcomeEventId: term.result.outcomeEventId,
+    });
   if (
     !term ||
     !status ||

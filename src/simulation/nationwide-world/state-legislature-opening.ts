@@ -925,7 +925,15 @@ export function campaignSeatHolders(
     .filter(
       (entry) =>
         (entry.status === "expected" || entry.status === "active") &&
-        entry.term?.contest.office.districtBinding &&
+        entry.term &&
+        // Named contests and uniquely reconciled older contests use the
+        // same seat identity. An unresolved term falls back to contest.id.
+        entry.term.seatKey !== entry.term.contest.id &&
+        stateSeatsInDistrict(
+          packId,
+          entry.term.contest.office.officeKey,
+          entry.term.seatKey,
+        ).length > 0 &&
         // A member who has died holds no seat, whatever their record says.
         !world.history.personDeaths.some(
           (death) => death.personId === entry.work.personId,
@@ -940,11 +948,7 @@ export function campaignSeatHolders(
   const holders: CampaignSeatHolder[] = [];
   for (const { work, status, term } of terms) {
     const officeKey = term!.contest.office.officeKey;
-    const seats = stateSeatsInDistrict(
-      packId,
-      officeKey,
-      term!.contest.office.districtBinding!.recordId,
-    );
+    const seats = stateSeatsInDistrict(packId, officeKey, term!.seatKey);
     const seat =
       seats.find(
         (s) => held.get(`${officeKey}|${s.ordinal}`) === work.personId,
@@ -999,8 +1003,16 @@ export function endOpeningMemberForWinner(
   );
   const status = work && workStatusAt(world, work.id);
   if (!work || status?.status !== "active") return world;
+  const replacementKey = `${V}:replaced-by:${input.winnerWorkRelationshipId}`;
+  // The original entry may already have ended an opening tenure. A saved
+  // stale successor in that seat needs its own append-only status identity.
+  const stableKey = world.history.workStatuses.some(
+    (record) => record.stableKey === replacementKey,
+  )
+    ? `${replacementKey}:tenure:${work.id}`
+    : replacementKey;
   return recordWorkStatus(world, {
-    stableKey: `${V}:replaced-by:${input.winnerWorkRelationshipId}`,
+    stableKey,
     workRelationshipId: work.id,
     effectiveAt: input.effectiveAt,
     status: "ended",
