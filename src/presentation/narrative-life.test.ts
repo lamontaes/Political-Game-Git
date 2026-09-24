@@ -229,14 +229,15 @@ describe("There is enough authored content to play with", () => {
         setup({ seed: `archived-routine-${age}`, startAge: age }),
       );
       const world = openOrdinaryLife(created.world, created.playerPersonId);
-      const oldBank = eligibleEpisodeBeats({
-        world,
-        personId: created.playerPersonId,
-        families: EPISODE_FAMILIES,
-      }).beats;
-      expect(oldBank.some((beat) => beat.episodeKey === `opening.${key}`)).toBe(
-        true,
-      );
+      // The life-clock change already keeps it out of the eligible bank, so
+      // the selection below can never rank it.
+      expect(
+        eligibleEpisodeBeats({
+          world,
+          personId: created.playerPersonId,
+          families: EPISODE_FAMILIES,
+        }).beats.some((beat) => beat.episodeKey === `opening.${key}`),
+      ).toBe(false);
       const offered = traceStorySelection(world, created.playerPersonId);
       expect(
         offered.ranked.some((entry) =>
