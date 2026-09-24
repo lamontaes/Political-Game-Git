@@ -1,8 +1,7 @@
 # Code can fit a top to a new body and clean art outlines by itself
 
-You agreed on September 24, 2026 that game code may draw fitted clothes and
-rotate limbs. The CTO should write that into the decision log for your
-approval before any code lands. A small
+You have set aside the older rules against code drawing fitted clothes and
+rotating limbs, so the engine work can start without waiting on them. A small
 test shows code can do two jobs now done by hand for each piece. It fitted one
 top onto two test bodies of different builds by measuring them itself. It
 removed the white speckle from the outlines of real hair and pants art. Art is
@@ -89,12 +88,13 @@ texture and hand detail. A front drawing cannot be turned into a profile.
 
 ## Who does what
 
-- **Owner:** approves source art and how the result looks, as before, and
-  approves the decision-log entry the CTO writes. That entry records your September 24, 2026 agreement. It relaxes
-  D-079, which says a garment is fitted only to the outline it was measured
-  on, and D-084, which says an arm hidden in the body is reported, not
-  estimated. The relaxation applies only to garments and limbs drawn by the
-  engine.
+- **Owner:** approves source art and how the result looks, as before. On
+  September 24, 2026 you set aside D-079, which fits a garment only to the
+  outline it was measured on, and D-084, which reports an arm hidden in the
+  body instead of estimating it. They were written for the earlier
+  hand-fitted approach. The CTO should note in the decision log that they no
+  longer apply to engine-drawn garments and limbs; that note does not hold up
+  the work.
 - **CTO and engineering:** build steps 1 to 3 on a branch, then test them on
   the current man and woman in Creator.
 - **Art:** deliver one current body with its arms as separate pieces, and
