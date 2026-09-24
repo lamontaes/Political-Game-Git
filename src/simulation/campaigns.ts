@@ -25,6 +25,7 @@ import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-
 import { RECALL_HANDLERS } from "./recall";
 import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
 import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
+import { LOCAL_MEMBER_AGENDA_HANDLERS } from "./governing/member-agenda";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -2101,6 +2102,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...COUNCIL_ACT_HANDLERS,
         // The Council of the District of Columbia sitting on its own.
         ...DC_COUNCIL_SITTING_HANDLERS,
+        // Admitted city and county councils use a separate quarterly game clock.
+        ...LOCAL_MEMBER_AGENDA_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.

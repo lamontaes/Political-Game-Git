@@ -66,7 +66,7 @@ export function legislativePackForWorkKey(
     : null;
   // A researched chamber whose committees are unread refers its bills to the
   // stand-in standing committee, as `rulePackById` does.
-  return (
+  const statePack =
     (compiled ? withCommitteeStandIns(compiled) : null) ??
     (institutionPackId
       ? (legislatureProfilePackById(institutionPackId) ??
@@ -75,6 +75,7 @@ export function legislativePackForWorkKey(
           : null))
       : null)
   );
+  return statePack;
 }
 
 export function legislativeInstitutionContext(

@@ -4,6 +4,7 @@ import {
   BillConfigurationError,
   compareDrafts,
   compileBillDraft,
+  draftingSupportsScenario,
   draftClauseDimensions,
   nonMoneyClauses,
   type CompiledBillDraft,
@@ -24,6 +25,8 @@ import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { chamberDesignationPrefix } from "./legislature-rules";
 import { createStableId } from "./ids";
 import { makeIsoDate } from "./dates";
+import { legislativePackForWorkKey } from "./legislative-institutions";
+import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
 
 /**
  * The content bank and its compiler, checked as content rather than as code.
@@ -55,7 +58,7 @@ function compile(
     parameterValues: overrides?.parameterValues,
     scenarioKey: overrides?.scenarioKey ?? "kentucky",
     jurisdictionId: (overrides?.jurisdictionId ?? KENTUCKY) as typeof KENTUCKY,
-    rulePackId: "us-ky-general-assembly",
+    rulePackId: "us-ky-general-assembly-v1",
     designation: "HB 900",
     filedOn: FILED_ON,
     ...(overrides?.predicateAuthority !== undefined
@@ -269,6 +272,42 @@ describe("the program bank offers genuinely different families", () => {
       (family) => family.intendedOutcome.baselineSeriesKey,
     );
     expect(new Set(seriesKeys).size).toBe(seriesKeys.length);
+  });
+});
+
+describe("drafting institution work keys", () => {
+  it("resolves only registered state, federal, and admitted local packs", () => {
+    const federalKey = `institution:${US_CONGRESS_PACK_ID}`;
+    const districtKey = "institution:us-dc-washington-council-v1";
+    const cityKey = "institution:us-va-charlottesville-council-v1";
+
+    expect(draftingSupportsScenario("kentucky")).toBe(true);
+    expect(legislativePackForWorkKey(federalKey)?.packId).toBe(
+      US_CONGRESS_PACK_ID,
+    );
+    expect(legislativePackForWorkKey(districtKey)?.packId).toBe(
+      "us-dc-washington-council-v1",
+    );
+    expect(legislativePackForWorkKey(cityKey)?.packId).toBe(
+      "us-va-charlottesville-council-v1",
+    );
+    expect(draftingSupportsScenario("institution:municipal:unregistered")).toBe(
+      false,
+    );
+  });
+
+  it("refuses a rule pack that does not match the selected work key", () => {
+    expect(() =>
+      compileBillDraft({
+        familyKey: "transit-access",
+        variantKey: "enrollment-fare-relief",
+        scenarioKey: "kentucky",
+        jurisdictionId: KENTUCKY,
+        rulePackId: US_CONGRESS_PACK_ID,
+        designation: "HB 900",
+        filedOn: FILED_ON,
+      }),
+    ).toThrow(/resolves to 'us-ky-general-assembly-v1'/);
   });
 });
 
@@ -702,14 +741,14 @@ describe("a draft is written for a named legislature, never a default one", () =
       variantKey: "unserved-buildout",
       scenarioKey: "nebraska",
       jurisdictionId: NEBRASKA,
-      rulePackId: "us-ne-legislature",
+      rulePackId: "us-ne-legislature-v1",
       designation: "LB 402",
       filedOn: FILED_ON,
     });
     expect(nebraska.jurisdictionId).toBe(NEBRASKA);
     expect(nebraska.jurisdictionId).not.toBe(KENTUCKY);
     expect(nebraska.scenarioKey).toBe("nebraska");
-    expect(nebraska.rulePackId).toBe("us-ne-legislature");
+    expect(nebraska.rulePackId).toBe("us-ne-legislature-v1");
     expect(nebraska.designation).toBe("LB 402");
     // Nothing about Kentucky leaked into a Nebraska bill's operative text.
     expect(nebraska.clauses.map((clause) => clause.text).join(" ")).not.toMatch(

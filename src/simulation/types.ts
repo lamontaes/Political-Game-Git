@@ -44,6 +44,15 @@ export type EntityId = string & { readonly [entityIdBrand]: true };
 export type IsoDate = string & { readonly [isoDateBrand]: true };
 export type CurrencyCode = string & { readonly [currencyCodeBrand]: true };
 
+/** Identity for a public account or program owner; this grants no authority. */
+export type PublicGovernmentIdentity =
+  | { readonly kind: "jurisdiction"; readonly jurisdictionId: EntityId }
+  | {
+      readonly kind: "local-government";
+      readonly jurisdictionId: EntityId;
+      readonly governmentKey: string;
+    };
+
 export interface SimulationMoment {
   readonly date: IsoDate;
   readonly minuteOfDay: number;
@@ -2551,9 +2560,9 @@ export interface LegislativeDraftLineageRecord {
    *
    * Optional, so every lineage written before instruments existed reads back
    * unchanged. `authorityKey` identifies a standing statute declared in the
-   * content bank; `authorityMeasureId` is present instead when the bill was
-   * written against another measure on the same docket, which is what lets a
-   * saved appropriation still say which of the player's own bills it funds.
+   * content bank or an explicitly versioned game-profile permission tied to
+   * this measure's exact government and rule pack. `authorityMeasureId` is
+   * present instead when the bill acts on another measure on the same docket.
    */
   readonly authorityKey?: string;
   readonly authorityMeasureId?: EntityId;

@@ -1,4 +1,6 @@
 import { TRANSIT_SERVICE_VARIANT } from "./legislation-transit-families";
+import { FEDERAL_PASSENGER_RAIL_VARIANT } from "./legislation-federal-rail-family";
+import { LOCAL_FIX_IT_FIRST_VARIANT } from "./legislation-local-fiscal-families";
 import {
   authored,
   IIJA_FISCAL_TREATMENT,
@@ -1434,7 +1436,12 @@ const SERVICE_CHARGES: ProgramFamily = {
 export const FISCAL_INSTRUMENT_FAMILIES: readonly ProgramFamily[] = [
   {
     ...APPROPRIATIONS,
-    variants: [...APPROPRIATIONS.variants, TRANSIT_SERVICE_VARIANT],
+    variants: [
+      ...APPROPRIATIONS.variants,
+      TRANSIT_SERVICE_VARIANT,
+      FEDERAL_PASSENGER_RAIL_VARIANT,
+      LOCAL_FIX_IT_FIRST_VARIANT,
+    ],
   },
   PROGRAM_SUNSET,
   SERVICE_CHARGES,
