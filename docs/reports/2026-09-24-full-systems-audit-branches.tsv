@@ -1,0 +1,166 @@
+branch	last_commit	commits_not_on_main	commits_behind_main	files_changed	changed_files_still_differing_from_main	src_files_still_differing	pull_requests	merges_cleanly_into_main	last_commit_subject
+codex/multistate-funded-service-current-main	2026-09-24	7	20	50	50	45	none	yes	Add game-profile legislative authority contract
+codex/client-update-retry-progress	2026-09-24	5	22	5	0	0	#551 closed/merged; 	yes	Merge remote-tracking branch 'origin/main' into codex/client-update-retry-progress
+claude/codex-legislative	2026-09-24	4	20	93	93	83	none	yes	Release declaration: A bill can be filed, voted on and enacted
+claude/codex-news	2026-09-24	4	20	12	12	11	none	yes	Release declaration: News you read can come up in conversation
+codex/art-director-sep22	2026-09-24	3	21	3	0	0	#477 closed/merged; #525 closed/merged; 	yes	Format the Art Desk notice test and declare the change
+claude/codex-bereavement	2026-09-24	3	20	3	3	2	none	yes	Release declaration: Condolences use only what was recorded
+claude/codex-parent-pay	2026-09-24	2	20	4	4	3	none	yes	Release declaration: A parent's pay arrives while a child plays
+claude/codex-succession	2026-09-24	2	20	20	20	19	none	yes	Release declaration: A governor who leaves office has a successor
+claude/job-start-is-a-calendar-stop	2026-09-24	1	20	3	3	2	none	no	Letting time pass stops on a new job's first day
+codex/routine-scene-interruptions	2026-09-24	1	1	0	0	0	#678 closed/merged; 	yes	Merge #679: a lost race says only that the candidate lost, and by how much
+codex/legislative-district-federal-municipal	2026-09-24	16	27	125	125	114	none	yes	Admit exact local fiscal game authority for council measures
+claude/project-thread-nrwxy9	2026-09-23	7	768	20	20	14	#571 open/unmerged; 	no	Merge origin/main; regenerate the prose inventory
+codex/dated-news-opening	2026-09-23	7	25	9	0	0	#613 closed/merged; 	yes	Merge remote-tracking branch 'origin/main' into codex/dated-news-opening
+claude/death-causes-1k19l4	2026-09-23	6	96	24	24	22	#639 open/unmerged; 	yes	Merge origin/main into death-causes
+claude/project-thread-0on7kt	2026-09-23	6	901	23	23	13	#420 closed/unmerged; #462 closed/merged; #499 closed/merged; #512 closed/merged; #513 closed/merged; #533 closed/merged; #564 open/unmerged; 	no	Take the lost cat, the school-blame stage and the unanswered childhood question out of play
+claude/project-thread-frb9h5	2026-09-23	6	777	26	22	17	#408 closed/merged; #457 closed/merged; #502 closed/merged; #524 closed/merged; #570 open/unmerged; 	no	Fix main's red lint and American English sweep: unused URL global; signaled, modeled
+codex/questionnaire-curated	2026-09-23	6	26	10	2	2	#609 closed/merged; 	yes	Merge remote-tracking branch 'origin/main' into codex/questionnaire-curated
+codex/instant-choice-labels	2026-09-23	5	23	4	2	2	#604 closed/merged; 	no	Merge remote-tracking branch 'origin/main' into codex/instant-choice-labels
+claude/college-waits-1k19l4	2026-09-23	5	141	14	14	10	#628 open/unmerged; 	yes	Merge origin/main into college-waits
+claude/project-thread-7aoelm	2026-09-23	5	1228	11	5	4	#489 closed/unmerged; 	no	Regenerate prose coverage counts for the new measure validation messages
+claude/project-thread-f602q8	2026-09-23	4	797	19	19	15	none	no	Merge main; regenerate prose coverage counts
+claude/project-thread-tknihr	2026-09-23	4	437	2	2	1	#579 open/unmerged; 	no	Merge origin/main; the Let time pass refusal sits above today's calendar choices
+claude/project-thread-2sq5w6-contests	2026-09-23	4	42	18	11	9	none	no	Date a chosen home district from the household records; refuse beside the button
+codex/formative-grounding	2026-09-23	4	24	3	2	2	#602 closed/merged; 	no	Merge remote-tracking branch 'origin/main' into codex/formative-grounding
+claude/project-thread-le1hw6	2026-09-23	40	388	5	5	0	#553 closed/merged; #584 open/unmerged; 	yes	Merge remote-tracking branch 'origin/main' into claude/project-thread-le1hw6
+claude/project-thread-j7kfwi	2026-09-23	3	865	14	14	11	#428 closed/merged; #446 closed/merged; #460 closed/merged; #470 closed/merged; #474 closed/merged; #476 closed/merged; #492 closed/merged; #500 closed/merged; #511 closed/merged; #523 closed/merged; #535 closed/merged; #547 closed/merged; #561 closed/merged; #577 closed/merged; #587 open/unmerged; 	no	Keep the desk render test inside the app project; regenerate prose counts
+claude/project-thread-xh4kyk	2026-09-23	3	754	10	10	8	#421 closed/merged; #437 closed/merged; #482 closed/merged; #521 closed/merged; #556 closed/merged; #576 open/unmerged; 	no	Merge remote-tracking branch 'origin/main' into claude/project-thread-xh4kyk
+codex/optional-life-activity	2026-09-23	3	684	8	8	7	#606 closed/unmerged; 	no	Declare the optional everyday activity change
+claude/project-thread-wnkzox	2026-09-23	2	912	5	5	3	#509 closed/merged; #537 closed/merged; #541 closed/merged; #589 open/unmerged; 	no	Declare the death-notice fix, and regenerate the prose coverage counts
+claude/project-thread-x0dn5m	2026-09-23	2	777	7	7	5	#539 closed/merged; #581 open/unmerged; 	yes	Merge origin/main
+claude/project-thread-615zo7	2026-09-23	2	27	9	0	0	#672 closed/merged; #675 closed/merged; #677 closed/merged; 	yes	Declare the Lie button change
+claude/project-thread-2sq5w6-recognition	2026-09-23	2	1389	11	6	5	none	no	Date a chosen home district from the household records; refuse beside the button
+claude/project-thread-1k19l4	2026-09-23	27	751	41	40	24	#405 closed/merged; #430 closed/merged; #475 closed/merged; #528 open/unmerged; 	no	Say only what the childhood change does
+claude/school-stages-1k19l4	2026-09-23	26	879	45	43	27	none	no	A child in school moves on to middle and high school
+claude/college-forward-1k19l4	2026-09-23	1	886	4	1	1	none	yes	A grown child can apply to college after the directory's year
+claude/project-thread-l04zry-format	2026-09-23	1	1155	2	2	0	none	yes	Format two town test files the mayor change left unformatted
+claude/project-thread-2sq5w6-fields	2026-09-23	11	806	74	48	34	none	no	Merge the Congress branch into fields; restore an import the merge dropped
+claude/project-thread-t24oub	2026-09-22	5	2399	2	2	0	#400 closed/unmerged; 	no	Merge main into the dual-systems count
+claude/playtest-party-screen-says-so	2026-09-22	4	2895	3	2	1	#307 closed/unmerged; 	no	Merge main (#312) into the parties screen branch
+codex/build-6146df3-source	2026-09-22	42	2903	223	46	23	none	no	Merge pull request #314 from lamontaes/claude/character-rendering-triage-19kvvz
+claude/project-thread-2sq5w6-refile	2026-09-22	3	1831	6	6	5	none	no	Leave re-filing after a race to the local-races lane
+claude/format-exclusions-for-build-branch	2026-09-22	33	2903	219	42	22	none	no	Carry the format exclusions this branch was missing
+claude/research-request-queue-hf3e0n	2026-09-22	2	2980	2	2	0	#286 closed/merged; 	no	Re-render the queue at the committed head
+claude/player-facing-text-336xxe	2026-09-22	24	2903	217	42	40	#291 closed/unmerged; 	no	Say what is in the way, not where the rule was read
+claude/campaign-model	2026-09-22	1	3007	4	4	2	#288 closed/unmerged; 	yes	Propose a causal campaign model, unmerged and behind its own review
+claude/project-thread-81ji44	2026-09-22	1	1720	4	2	0	#445 closed/unmerged; 	no	Research: four questions from the long playthrough
+claude/project-thread-4y594d	2026-09-22	10	3007	2	2	0	#293 closed/unmerged; 	yes	State the render convention in the source copy
+codex/playtest65-u	2026-09-21	21	2903	181	16	16	none	no	Remember an accepted rethink only for what it actually led to
+claude/prose-contextual-scenes	2026-09-19	1	3067	1	1	0	none	yes	PEOPLE: record the contextual-scenes pin as next-candidate cargo
+claude/creator-preview-clears-bar	2026-09-19	1	2984	1	1	1	none	yes	Take the pinned row out of the preview's scroll area
+claude/main-baseline-sharded	2026-09-18	3	3530	6	4	0	#272 closed/unmerged; 	no	Eight browser shards
+claude/crisis-people-proof	2026-09-17	6	3515	54	47	30	none	no	Proof: opened ordinary life before the controlled death; refresh onto PEOPLE 89d513d9 and CRISIS fa86b115
+claude/ui46-campaign-mount	2026-09-17	6	3489	172	132	74	none	no	Regenerate the prose inventory after CAMPAIGN 53091bfd
+claude/maps-political-geography	2026-09-17	2	3530	79	12	7	none	no	MAPS: interactive political geography under Politics → Government
+claude/crisis-governing-proof	2026-09-17	2	3457	40	23	15	none	no	Proof: CRISIS office-continuity notices reach GOVERNING on every date boundary
+cursor/alive43-art-desk-708a	2026-09-16	2	3573	2	2	0	#262 closed/unmerged; 	no	Reconcile the two new environment requests against preserved park evidence
+claude/alive43-l3-chapters	2026-09-15	7	3557	31	24	21	none	no	ALIVE43 L root adapter: reach party chapters from Politics and pins
+claude/alive43-l-on-w1	2026-09-15	5	3559	25	20	17	none	no	ALIVE43 L root adapter: show the world introduction to a new life
+claude/alive43-l-intro-recap-encounters	2026-09-15	3	3577	21	18	16	none	no	ALIVE43 L: label a raised matter apart from the subject switcher
+claude/alive43-w-world-parties	2026-09-15	2	3553	1	1	0	none	yes	Record the final full-suite classification for LAND
+cursor/delivery28-x-executive-repair-e989	2026-09-14	8	3650	20	18	10	#229 closed/unmerged; 	no	Regenerate the prose coverage inventory after structured press copy.
+cursor/staff-office-onboarding-28c4	2026-09-14	7	3626	38	30	12	#237 closed/unmerged; 	no	Merge origin/main into staff-office-onboarding.
+cursor/rest37-m-collective-appointment-e32d	2026-09-14	7	3626	20	18	5	#252 closed/unmerged; 	no	Refresh prose coverage for the municipal election refusals.
+fable/world39-editorial-delta	2026-09-14	6	3626	31	31	13	none	no	WORLD39 editorial delta: News and Journal speak about the place and the life
+cursor/ux39-creator-nav-calendar-a942	2026-09-14	5	3626	42	42	32	#254 closed/unmerged; 	no	Give the appearance step its own opaque creator panel.
+cursor/world39-news-journal-c615	2026-09-14	5	3626	29	29	12	#253 closed/unmerged; 	no	Inventory WORLD39 News and Journal reader prose in the corpus.
+cursor/rest37-m-municipal-route-1925	2026-09-14	4	3626	18	17	4	#250 closed/unmerged; 	no	Mint computed prose anchors for the manager appointment.
+cursor/rest37-x-executive-entry-0cde	2026-09-14	3	3626	14	13	12	#248 closed/unmerged; 	no	Declare the completed X dated-entry public increment
+cursor/steam-coming-soon-packet-2641	2026-09-14	2	3626	35	35	0	#251 closed/unmerged; 	yes	Finish STORE Coming Soon copy, titled capsules, and AI survey.
+codex/playtest34-life	2026-09-14	13	3633	50	26	20	#247 closed/unmerged; 	no	docs(life): bank assembled game and favor regression receipts
+cursor/playtest34-c-quiet-sketch-1498	2026-09-14	13	3626	32	32	24	#245 closed/unmerged; 	no	Gate Talk on openConversationWith, not opening-scene presence
+codex/rest37-n	2026-09-14	11	3626	67	51	26	#249 closed/unmerged; 	no	Complete REST37-N recovery and supported legislative term continuity
+cursor/p29-c-talk-focus-layout-a942	2026-09-13	6	3734	21	18	15	#231 closed/unmerged; 	no	Let the invoker focus helper finish after conversation unmount.
+codex/desktop-p29-safety-package	2026-09-13	3	3674	9	7	0	none	no	Keep native prepared blob requests within packaged smoke origin
+codex/d33-desktop-compatible-update	2026-09-13	2	3650	20	20	0	#242 closed/unmerged; 	no	Guard source-bound last-good activation rollback and owned cancellation
+codex/systems30-t-service	2026-09-13	1	3657	7	7	5	none	no	feat(transit): record staged authorized contract service and cancellation
+codex/a-playable29-c-receiver	2026-09-13	15	3658	33	29	15	#236 closed/unmerged; 	no	test: adapt archive declaration and explicit Node URL import
+cursor/weekend19-modular-people-bdc5	2026-09-12	6	4046	59	49	19	#206 closed/unmerged; 	no	WEEKEND19 B: fill the none-impact release declaration
+cursor/people-web17-cbae	2026-09-12	5	3994	19	17	10	#191 closed/unmerged; 	no	Refresh People web prose corpus artifacts
+cursor/weekend19-c-scene-presence-0de6	2026-09-12	5	3880	34	33	13	#202 closed/unmerged; 	no	Pin the quiet-stretch life so six recaps are not one unlucky year.
+claude/ui-composition-continuation-i99p41	2026-09-12	4	4109	4	4	0	#188 closed/unmerged; 	no	Format launcher documentation
+cursor/ordinary-work-routine-646a	2026-09-12	4	4106	22	19	10	#205 closed/unmerged; 	no	Keep multi-day ordinary skips on the date-level clock.
+claude/modular-gen14-wardrobe-requirements	2026-09-12	4	4046	43	35	12	#183 closed/unmerged; 	no	Version-safe coherent appearances for new lives
+cursor/weekend19-ui-land-8edd	2026-09-12	3	3883	18	18	5	#200 closed/unmerged; 	no	fix(ui): walk Continue through the household gate after reload
+codex/recovery25-news	2026-09-12	2	3862	24	14	8	#215 closed/unmerged; 	no	Declare News following release impact
+codex/recovery25-brand	2026-09-12	2	3856	48	48	0	none	no	Add ten-direction RECOVERY25 brand contact sheet
+cursor/creator-hometown-facts-7eb0	2026-09-12	28	4109	32	23	6	#192 closed/unmerged; 	no	Give the three cold-boot Playwright walk the time three hometown choices take.
+cursor/creator-place-summary-7eb0	2026-09-12	20	4109	22	21	6	#176 closed/unmerged; 	no	Give the three cold-boot Playwright walk the time three hometown choices take.
+cursor/education-weekend19-f-11ed	2026-09-12	1	3883	15	14	11	#204 closed/unmerged; 	no	WEEKEND19-F: period-based study progression and compact education UI
+cursor/creator-location-7eb0	2026-09-12	11	4109	18	18	5	#173 closed/unmerged; 	no	Give the three cold-boot Playwright walk the time three hometown choices take.
+codex/morning23-b	2026-09-12	10	4046	75	59	23	none	no	Prove distinct old appearance identities through the Personal route
+cursor/life-content13-d3f1	2026-09-11	8	4048	39	30	9	#165 closed/unmerged; 	no	Type the superseded work status in the supervisor-left control
+claude/pt3-prose-school-scene	2026-09-11	6	3896	30	29	10	#198 closed/unmerged; 	no	Read the corridor scene off the screen, and close one more appositive
+cursor/creator-place-demography-7eb0	2026-09-11	11	4190	25	23	8	#182 closed/unmerged; 	no	Search in-state hometowns by town name in the creator walk.
+codex/opening-life1	2026-09-11	10	4215	128	123	38	#150 closed/unmerged; 	no	Reconcile onto main 5d48005b using UI144's already-correct anchor union
+claude/desktop-client1-electron	2026-09-09	7	4336	18	14	0	#156 closed/unmerged; 	no	Name the built revision, not the synthetic merge SHA, in the checksum manifest
+codex/news-help2-n1-land	2026-09-09	1	4474	6	6	2	none	no	Regenerate N-1 donor corpus evidence
+codex/life-pay-return7	2026-09-09	1	4389	4	2	2	none	no	fix(life): track earned pay before spending on study
+claude/ui-prototype-01-build-iepvtr	2026-09-08	3	4527	62	62	12	#133 closed/unmerged; 	no	Give the pin rail a lane the workspace actually reserves
+codex/s5-d2-raster-decode	2026-09-08	1	4570	19	17	2	#130 closed/unmerged; 	no	Fix initial raster paint readiness through decoded tier state
+claude/legislative-rule-packs-wave-md-mo-nv-oh	2026-09-06	2	4703	10	8	6	#110 closed/unmerged; 	no	Compile Maryland, Missouri, Nevada and Ohio from their own constitutions
+triage-prs-98-100-101-3173115192154108533	2026-09-06	1	4733	0	0	0	#106 closed/unmerged; 	yes	Audit PRs #98, #100, #101 as stale-institutional-branch triage
+claude/overnight-narrative-audit-harness	2026-09-05	7	4778	22	22	3	#92 closed/unmerged; 	no	Add future-system content contracts (college, legislative, meeting-people)
+claude/new-session-o81wac	2026-09-05	1	4768	5	4	0	#93 closed/unmerged; 	no	docs: add root CLAUDE.md bridge and drop stale active handoff
+claude/municipal-governance-source-80fo19	2026-09-05	1	4755	8	8	5	#98 closed/unmerged; 	no	Add municipal-governance source domain with Kentucky pilot packs
+claude/judicial-office-selection-domain-haboml	2026-09-05	1	4745	8	8	5	#100 closed/unmerged; 	no	Model how judicial offices are constituted and filled, five ways
+claude/graphics-production-convergence	2026-09-03	8	4873	224	122	58	#80 closed/unmerged; 	no	Bring the browser proofs onto the geometry the scene now owns
+jules-7611472923501370191-6f1571b2	2026-09-03	4	4873	2	2	0	#76 closed/unmerged; 	yes	style(art): format scene consumer audit docs with prettier
+jules-task-1-adapter-contract-4910609626682375996	2026-09-03	1	4873	0	0	0	#75 closed/unmerged; 	yes	docs: return 38A_JULES_START_ANYWHERE_ADAPTER_CONTRACT
+claude/pennywise-political-adaptive-adult-hpzas9	2026-09-03	1	4857	33	31	25	#81 closed/unmerged; 	no	Notice what a player cares about, then put it in tension
+claude/asset-factory-scene-authoring-pipeline	2026-09-02	5	4873	119	70	43	#74 closed/unmerged; 	no	fix(ci): let the ownership boundary see the base it measures against
+claude/scene-person-presentation-foundation-r5aqaw	2026-09-02	3	4873	81	43	26	#63 closed/unmerged; 	no	Update the browser proofs the new contracts changed
+jules-16285362182329726769-335c716c	2026-09-02	2	4877	50	50	12	#50 closed/unmerged; 	no	feat(government-universe): authoritative U.S. government universe source compiler
+claude/political-game-packet-06-8nec2w	2026-09-02	2	4877	43	43	0	#59 closed/unmerged; 	yes	Format the packet-06 evidence README to the repo's Prettier style
+feat/legislative-corpus-convergence-6535685490914964281	2026-09-02	2	4877	36	36	11	#51 closed/unmerged; 	no	feat(legislative-corpus): reconstruct national state legislative source corpus
+feat/census-counties-corpus-16266584050237731158	2026-09-02	2	4873	6	6	0	#64 closed/unmerged; 	no	fix(counties): ensure compiled counties JSON passes prettier validation
+feat/packet-8-bls-laus-unemployment-4205215400396496363	2026-09-02	2	4873	21	21	7	#73 closed/unmerged; 	yes	style: format files with prettier for BLS LAUS local unemployment sidecar
+feat/census-political-districts-corpus-12995297226105601621	2026-09-02	2	4873	17	17	2	#67 closed/unmerged; 	no	Add official Census political districts geography corpus
+data/places-corpus-8139583137381051681-1716933473507468278	2026-09-02	1	4877	69	69	17	#58 closed/unmerged; 	no	fix(places): repair Census Gazetteer parser to strictly enforce 13 pipe-delimited fields
+jules-4382064995407287490-f23614b6	2026-09-02	1	4877	4	4	2	#54 closed/unmerged; 	no	feat(environment): implement source provenance foundation
+feat/govt-finance-employment-compiler-2529405358459074224	2026-09-02	1	4877	41	41	11	#56 closed/unmerged; 	no	feat: State & Local Government Finance & Employment Compiler
+feat/govt-finance-employment-compiler-12858527436512296367	2026-09-02	1	4877	41	41	11	#49 closed/unmerged; 	no	feat: State & Local Government Finance & Employment Compiler
+jules-7203116766480521692-6a19886b	2026-09-02	1	4877	36	36	11	#57 closed/unmerged; 	no	feat(legislative-corpus): reconstruct national state legislative source corpus
+feat/federal-legislative-source-convergence-10935712491444835894	2026-09-02	1	4877	33	33	9	#52 closed/unmerged; 	no	feat(federal-legislative): converge federal legislative source corpus
+acs-community-baselines-repair-8418532857446481688	2026-09-02	1	4877	21	21	8	#55 closed/unmerged; 	no	feat(community): ACS 5-Year demographic baselines
+clean-reconstruct-real-places-corpus-18310155812805986723	2026-09-02	1	4873	8	8	0	#61 closed/unmerged; 	no	feat(places): cleanly reconstruct national real-place identity corpus
+packet-5-state-office-qualifications-1698931409353824555	2026-09-02	1	4873	63	63	3	#72 closed/unmerged; 	no	feat: build official 50-state state-office qualifications corpus
+claude/political-game-packet-13-v32kod	2026-09-02	1	4873	184	184	76	#62 closed/unmerged; 	no	Converge the source substrate onto one current authority
+jules-packet24-fema-disasters-sidecar-5206530175674568766	2026-09-02	1	4873	15	15	2	#66 closed/unmerged; 	no	feat(fema): add official FEMA disaster declarations sidecar
+jules-packet-11-federal-courts-17039209585925622885	2026-09-02	1	4873	14	14	4	#70 closed/unmerged; 	no	feat(judiciary): add U.S. federal courts & judicial geography corpus
+jules-15379131903615759755-de659606	2026-09-02	1	4873	13	13	4	#69 closed/unmerged; 	no	feat(bea): implement BEA regional economy corpus sidecar
+packet-9-hud-housing-costs-11100219821954862044	2026-09-02	1	4873	12	12	2	#71 closed/unmerged; 	no	feat(hud): implement Official HUD Housing Costs Reference Corpus
+fec-candidate-committee-corpus-3675631687742168871	2026-09-02	1	4873	10	10	4	#68 closed/unmerged; 	no	feat(fec): add FEC candidate, committee, and linkage corpus sidecar
+jules-9719983768725229066-d2c9b4fe	2026-09-02	1	4873	10	10	4	#65 closed/unmerged; 	no	feat(acs_pums): implement true Census ACS PUMS acquisition and compiler substrate
+claude/real-modular-character-integration	2026-09-01	1	4877	109	85	9	#48 closed/unmerged; 	no	feat(art): real modular asset intake, ordinary office seam, seated-contact repair
+codex/first-session-foundation-recovery	2026-08-30	5	4881	62	61	27	#43 closed/unmerged; 	no	fix: preserve unknown life-start geography
+jules-7785690768425126201-45459a80	2026-08-30	3	4881	9	9	4	#35 closed/unmerged; 	no	Correct education corpus source semantics, geography, and browser boundary
+jules-833021817180219107-89979496	2026-08-30	3	4881	8	8	6	#36 closed/unmerged; 	no	Reclassify household calibration baseline tables as synthetic data with strict empirical provenance checks
+jules-8965177082119433666-20144e7b	2026-08-30	3	4881	5	5	5	#37 closed/unmerged; 	yes	fix(event_sources): relocate event source layer and remove unsourced rules
+source-provenance-foundation-10356201529358659144-4542988410178507111	2026-08-30	3	4881	4	4	2	#44 closed/unmerged; 	no	Restore tests/art-asset-factory.test.ts to PR base behavior
+jules-833021817180219107-89979496-1676803128226538551	2026-08-30	3	4881	16	16	9	#45 closed/unmerged; 	yes	fix: Truthfulness repair enforcing explicit null for unknown metrics
+data/places-corpus-8139583137381051681	2026-08-30	2	4881	7	7	0	#42 closed/unmerged; 	no	feat: Add isolated real-place identity corpus using 2025 Census Gazetteer
+jules-jurisdiction-profile-foundation-11250260829384046838	2026-08-30	1	4881	9	9	6	#41 closed/unmerged; 	no	Add national jurisdiction-profile schema, validator, and synthetic fixtures
+source-provenance-foundation-10356201529358659144	2026-08-30	1	4881	4	4	2	#39 closed/unmerged; 	no	Build isolated source-provenance validation foundation
+antigravity/national-occupation-career-corpus-12758226241697723722	2026-08-30	1	4881	19	19	8	#40 closed/unmerged; 	no	feat(occupation-corpus): implement national occupation / career source corpus
+jules-17447524454774165562-855ee0c7	2026-08-30	1	4881	12	12	10	#38 closed/unmerged; 	yes	feat(event-sources): add national crisis and external event routing foundation
+antigravity/political-geography-2026	2026-08-29	2	4881	51	51	8	#29 closed/unmerged; 	no	feat(geography): ingest authoritative Census TIGER/Line geometries and publish exhaustive provenance audit
+antigravity/us-government-universe	2026-08-29	2	4881	51	51	12	#31 closed/unmerged; 	no	fix(government-universe): correct 2022 Census baseline counts from authoritative Census organization tables
+antigravity/fec-campaign-finance-corpus	2026-08-29	2	4881	33	33	11	#23 closed/unmerged; 	no	fix(campaign-finance): enforce source vs synthetic calibration segregation, establish exact candidate counts, and add synthetic test fixtures
+antigravity/federal-legislative-corpus	2026-08-29	2	4881	32	32	9	#27 closed/unmerged; 	no	fix(federal-legislative): treat failed procedural motions as non-terminal action outcomes
+antigravity/housing-affordability-corpus	2026-08-29	2	4881	32	32	11	#24 closed/unmerged; 	no	fix(housing): rebuild FY23/FY24 FMR and Income Limits from authoritative published HUD USER source files
+antigravity/noaa-storm-events-corpus	2026-08-29	2	4881	31	31	11	#25 closed/unmerged; 	no	fix(storm-corpus): restore dev:identified script, preserve 1992/1993 NOAA collection boundary, and add regression proofs
+antigravity/national-names-v2-compiler	2026-08-29	1	4881	70	70	0	#32 closed/unmerged; 	no	feat(names): implement national names v2 deterministic compiler and dataset pack
+antigravity/election-administration-data	2026-08-29	1	4881	44	44	11	#26 closed/unmerged; 	no	feat(election-admin): implement election administration and participation source compiler
+antigravity/government-finance-employment-corpus	2026-08-29	1	4881	42	42	11	#33 closed/unmerged; 	no	feat: implement state and local government finance & employment source compiler
+antigravity/local-economy-labor-data	2026-08-29	1	4881	34	34	13	#28 closed/unmerged; 	no	feat(local-economy): implement local economy and labor-market source compiler, BEA/QCEW adapters, and calibration engine
+codex/lexington-mvp-slice-e-campaign-election	2026-08-29	1	4881	30	29	13	#34 closed/unmerged; 	no	feat: add playable Slice E campaign loop
+antigravity/acs-community-baselines	2026-08-29	1	4881	20	20	8	#30 closed/unmerged; 	no	feat(community): national community / demographic baseline compiler (ACS 5-Year)
+antigravity/national-legislative-source-corpus	2026-08-28	2	4881	37	37	11	#22 closed/unmerged; 	no	style(legislative-corpus): apply consistent prettier and eslint imports
+jules-report/pr13-convergence-preflight-3761931540857216473	2026-08-28	1	4894	1	1	0	#17 closed/unmerged; 	yes	[JULES-REPORT] PR13 convergence preflight
+codex/stage-6-5-visual-integration	2026-08-27	6	4901	54	41	10	#13 closed/unmerged; 	no	fix(stage-6-5): converge visual integration, decouple persona recipes, refine desk affordances, and capture native evidence
+draft-character-asset-architecture-13231716856999615970	2026-08-27	4	4930	46	43	20	#7 closed/unmerged; 	no	feat(character-assets): implement isolated character asset deterministic resolution
+repo-safety-9868664158950794112	2026-08-27	3	4939	67	42	15	#4 closed/unmerged; 	no	feat(repo-safety): add safety and reproducibility checks
+feature/environment-scene-spec-v2-12164851251524904142	2026-08-26	4	4939	26	4	2	#3 closed/unmerged; 	no	feat(environment): implement strict runtime checking, serialization round-trips, and generic referential integrity
+analysis-run-c-18108677848502541919	2026-08-26	1	4930	0	0	0	#8 closed/unmerged; 	yes	docs: run C analysis
