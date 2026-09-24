@@ -14,10 +14,11 @@ all work remains stopped.
 
 1. **Whether to resume by repairing the current art instead of generating new
    people.** That route has three parts:
-   - Art recuts five cutouts and paints the woman's top shoulders.
-   - The fitting team adds a light-background cleanup step and three intake
+   - Art recuts five cutouts, and the woman's top gets new shoulder paint
+     from whoever you pick in decision 2.
+   - The fitting team adds a light-background cleanup step and four intake
      fixes.
-   - The receiving team fixes four selection and loading problems.
+   - The receiving team fixes five selection and loading problems.
 2. **Who supplies the missing fabric on the woman's top.** Nothing is painted
    under the shoulders her long hair used to cover. The two choices are Art
    painting those shoulders on the current top, or a new top authored on her
@@ -29,7 +30,7 @@ all work remains stopped.
 ## The defects, and where the first wrong pixel enters
 
 Claims are measured, meaning pixels read from the images or code read at the
-cited line, unless marked "inferred". In the Repair column, "Art recut" means
+cited line, unless marked as inferred. In the Repair column, "Art recut" means
 Art redoes a cutout from the art it already has. "Fitting step" means a
 reusable preparation step. "New paint" means new source art.
 
@@ -46,8 +47,11 @@ reusable preparation step. "New paint" means new source art.
 | Dark band outside the man's sleeve, new  | Arm color outside the olive sleeve edge                                                      | Source cutout: a 3-pixel widening plus a color filter let shadowed skin into the top (inferred)                              | build_revisions.py:92-96                                                   | Art recut of the sleeve                                                                                                        |
 
 The jeans fill added 2,738 pixels to cover 1,787 uncovered pixels on the man,
-and 1,171 pixels to cover 935 on the woman, each within 3 pixels of the seam
-(denim-underpaint-receipt-v5.json). The top's shoulder defect passed its check
+and 1,171 pixels to cover 935 on the woman (denim-underpaint-receipt-v5.json).
+It adds more than it covers because the script deliberately extends each fill
+2 pixels past the gap as overlap (build_denim_underpaint.py:100). How many
+filled pixels became visible spikes was not counted; the spikes are what the
+render sheets show. The top's shoulder defect passed its check
 because the measurement looked only at rows 350 to 550 of a 1,536-row image,
 which leaves out the shoulders (woman-casual-top-measure-RESULT-v5.json:73).
 
@@ -62,9 +66,9 @@ overrides, sleeve occlusion, collar contact and the smooth warp bake. The v6,
 v7 and v8 registries were built by one-off scripts such as
 stage_prepared_identity.py, not by the fitter's intake route.
 
-Art does the five recuts. For the collar, sleeve and jeans, the fitter's
-existing mask and underlap tools can do the same work once the parts go
-through them. The one missing tool is a cleanup step for white and light
+Art does the five recuts. For the jeans, the fitter's existing underlap step
+could do the same work, because it copies paint only beneath a neighboring
+opaque part (`source_parts.py:31-41`; inferred that it suits these jeans). The one missing tool is a cleanup step for white and light
 backgrounds. The repository has one for green backgrounds
 (`edge-despill.ts`), and no file in the fitter calls it (measured by
 searching all 49 exported fitter files).
@@ -119,8 +123,8 @@ through the fitter's intake, measurement, registry and freeze steps. Then they
 go through Creator, room, People, Save, reopen and Continue.
 
 It passes when both bodies show clean edges at game scale on all seven skin
-tones and the hair tones. Switching bodies and an older-version control must
-also pass.
+tones and every hair color offered. Two more checks must pass: switching
+bodies, and a character saved before the change that still looks the same.
 
 Five pieces are missing today:
 
