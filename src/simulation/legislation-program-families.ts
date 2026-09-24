@@ -4,6 +4,7 @@ import { FISCAL_INSTRUMENT_FAMILIES } from "./legislation-fiscal-families";
 import { PUBLIC_ADMINISTRATION_FAMILIES } from "./legislation-administration-families";
 import { RESILIENCE_FAMILIES } from "./legislation-resilience-families";
 import type {
+  NpcLawEligibility,
   PredicateAuthority,
   ProgramFamily,
   ProgramVariant,
@@ -75,6 +76,113 @@ export function programConfigurations(): readonly {
       familyKey: family.familyKey,
       variantKey: variant.variantKey,
     })),
+  );
+}
+
+export interface NpcEligibleProgramConfiguration extends NpcLawEligibility {
+  readonly familyKey: string;
+  readonly variantKey: string;
+}
+
+/**
+ * Exact executable policy directions declared by the content bank. A variant
+ * may be about many questions without being able to answer any of them in a
+ * way the World can apply. The query deliberately reads only explicit NPC
+ * eligibility, never subjects or titles.
+ */
+const NPC_ELIGIBLE_CONFIGURATIONS: readonly NpcEligibleProgramConfiguration[] =
+  (() => {
+    const rows: NpcEligibleProgramConfiguration[] = [];
+    const questionKeys = new Set<string>();
+    for (const family of FAMILIES) {
+      for (const variant of family.variants) {
+        for (const eligibility of variant.npcEligibility ?? []) {
+          if (!variant.propositionKeys?.includes(eligibility.propositionKey)) {
+            throw new Error(
+              `${family.familyKey}/${variant.variantKey} declares NPC eligibility for an unrelated policy question.`,
+            );
+          }
+          if (
+            eligibility.authorityKind === "standing-statute" &&
+            eligibility.authorityKey === null
+          ) {
+            throw new Error(
+              `${family.familyKey}/${variant.variantKey} needs an exact standing authority key.`,
+            );
+          }
+          const effectClause = variant.clauses.find(
+            (clause) => clause.provisionKey === eligibility.effectProvisionKey,
+          );
+          if (
+            !effectClause ||
+            effectClause.parameterKey !== eligibility.effectParameterKey ||
+            !variant.parameters.some(
+              (parameter) => parameter.key === eligibility.effectParameterKey,
+            )
+          ) {
+            throw new Error(
+              `${family.familyKey}/${variant.variantKey} has no declared parameterized effect clause for NPC filing.`,
+            );
+          }
+          if (
+            eligibility.operativeEffectKind === "public-program-appropriation"
+          ) {
+            const moneyParameter = variant.parameters.find(
+              (parameter) =>
+                parameter.key === eligibility.effectParameterKey &&
+                parameter.kind === "money",
+            );
+            const defaultValue =
+              variant.defaults[eligibility.effectParameterKey];
+            if (
+              variant.instrument !== "appropriation" ||
+              !moneyParameter ||
+              moneyParameter.kind !== "money" ||
+              !defaultValue ||
+              defaultValue.kind !== "money" ||
+              defaultValue.minorUnits <= 0 ||
+              defaultValue.minorUnits < moneyParameter.minMinorUnits ||
+              defaultValue.minorUnits > moneyParameter.maxMinorUnits
+            ) {
+              throw new Error(
+                `${family.familyKey}/${variant.variantKey} has no bounded positive appropriation for NPC filing.`,
+              );
+            }
+          }
+          const questionKey = `${eligibility.governmentLevel}\u0000${eligibility.propositionKey}\u0000${eligibility.answer}`;
+          if (questionKeys.has(questionKey)) {
+            throw new Error(
+              `Multiple NPC configurations answer ${eligibility.propositionKey} ${eligibility.answer} at ${eligibility.governmentLevel} level.`,
+            );
+          }
+          questionKeys.add(questionKey);
+          rows.push({
+            ...eligibility,
+            familyKey: family.familyKey,
+            variantKey: variant.variantKey,
+          });
+        }
+      }
+    }
+    return rows;
+  })();
+
+export function npcEligibleProgramConfigurations(): readonly NpcEligibleProgramConfiguration[] {
+  return NPC_ELIGIBLE_CONFIGURATIONS;
+}
+
+export function npcEligibleProgramConfigurationFor(
+  propositionKey: string,
+  answer: "yes" | "no",
+  governmentLevel: NpcLawEligibility["governmentLevel"],
+): NpcEligibleProgramConfiguration | null {
+  return (
+    NPC_ELIGIBLE_CONFIGURATIONS.find(
+      (entry) =>
+        entry.propositionKey === propositionKey &&
+        entry.answer === answer &&
+        entry.governmentLevel === governmentLevel,
+    ) ?? null
   );
 }
 

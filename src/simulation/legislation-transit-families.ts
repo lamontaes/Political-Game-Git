@@ -186,6 +186,19 @@ export const TRANSIT_SERVICE_VARIANT: ProgramVariant = {
 export const STATE_TRANSIT_SERVICE_VARIANT: ProgramVariant = {
   ...TRANSIT_SERVICE_VARIANT,
   variantKey: STATE_TRANSIT_VARIANT_KEY,
+  npcEligibility: [
+    {
+      propositionKey:
+        "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+      answer: "yes",
+      governmentLevel: "state",
+      authorityKind: "game-profile",
+      authorityKey: null,
+      operativeEffectKind: "public-program-appropriation",
+      effectProvisionKey: "amount-provided",
+      effectParameterKey: "appropriation",
+    },
+  ],
   label: "State transit service by recorded effective date",
   synopsis:
     "Provides state transit spending authority from the effective date recorded for the enacted measure.",

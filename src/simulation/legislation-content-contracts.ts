@@ -435,10 +435,7 @@ export type PredicateAuthority =
       readonly rulePackId: string;
       /** The admitted government level this profile belongs to, when relevant. */
       readonly governmentLevel?:
-        | "federal"
-        | "state"
-        | "county"
-        | "municipality";
+        "federal" | "state" | "county" | "municipality";
       readonly publicGovernmentIdentity: PublicGovernmentIdentity;
       readonly permittedEffects: readonly (
         "tax-policy" | "public-program-appropriation"
@@ -604,6 +601,24 @@ export interface AmendmentInvitation {
 /* Families and variants                                                       */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * A bank-owned route from an actual policy answer to an executable bill.
+ * Aboutness in `propositionKeys` alone never establishes a bill's direction,
+ * jurisdiction, authority or effect. Only configurations with a registered
+ * clause consumer may declare this narrower NPC filing eligibility.
+ */
+export interface NpcLawEligibility {
+  readonly propositionKey: string;
+  readonly answer: "yes" | "no";
+  readonly governmentLevel: "federal" | "state" | "county" | "municipality";
+  readonly authorityKind: "standing-statute" | "game-profile";
+  /** Null requires the intake to supply its exact saved game-profile authority. */
+  readonly authorityKey: string | null;
+  readonly operativeEffectKind: LegislativeProvisionEffectIntent["kind"];
+  readonly effectProvisionKey: string;
+  readonly effectParameterKey: string;
+}
+
 export interface ProgramVariant {
   readonly variantKey: string;
   readonly label: string;
@@ -657,6 +672,8 @@ export interface ProgramVariant {
    * every character holding a view on something the bill does not decide.
    */
   readonly propositionKeys?: readonly string[];
+  /** Exact policy directions this variant may file for an NPC. */
+  readonly npcEligibility?: readonly NpcLawEligibility[];
 }
 
 export interface ProgramFamily {

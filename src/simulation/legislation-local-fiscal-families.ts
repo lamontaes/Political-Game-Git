@@ -35,6 +35,18 @@ function clause(
 export const LOCAL_FIX_IT_FIRST_VARIANT: ProgramVariant = {
   variantKey: "local-fix-it-first-v1",
   propositionKeys: [LOCAL_FIX_IT_FIRST_PROPOSITION_KEY],
+  npcEligibility: (["municipality", "county"] as const).map(
+    (governmentLevel) => ({
+      propositionKey: LOCAL_FIX_IT_FIRST_PROPOSITION_KEY,
+      answer: "yes",
+      governmentLevel,
+      authorityKind: "game-profile",
+      authorityKey: null,
+      operativeEffectKind: "public-program-appropriation",
+      effectProvisionKey: "amount-provided",
+      effectParameterKey: "appropriation",
+    }),
+  ),
   label: "Local maintenance before expansion",
   instrument: "appropriation",
   synopsis:
@@ -156,7 +168,9 @@ export const LOCAL_FIX_IT_FIRST_VARIANT: ProgramVariant = {
       render: (resolved) => {
         const duration = resolved.values["availability-term"];
         if (duration?.kind !== "duration-years" || duration.years === null)
-          throw new Error("The local maintenance availability term is missing.");
+          throw new Error(
+            "The local maintenance availability term is missing.",
+          );
         return clause(
           `The amount provided by this Act remains available for ${duration.years} years after its effective date; an unused balance creates no continuing cash claim.`,
         );

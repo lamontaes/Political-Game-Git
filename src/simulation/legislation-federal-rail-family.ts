@@ -35,6 +35,18 @@ function clause(
 export const FEDERAL_PASSENGER_RAIL_VARIANT: ProgramVariant = {
   variantKey: "federal-passenger-rail-v1",
   propositionKeys: [FEDERAL_PASSENGER_RAIL_PROPOSITION_KEY],
+  npcEligibility: [
+    {
+      propositionKey: FEDERAL_PASSENGER_RAIL_PROPOSITION_KEY,
+      answer: "yes",
+      governmentLevel: "federal",
+      authorityKind: "game-profile",
+      authorityKey: "game-profile:federal-passenger-rail/v1",
+      operativeEffectKind: "public-program-appropriation",
+      effectProvisionKey: "amount-provided",
+      effectParameterKey: "appropriation",
+    },
+  ],
   label: "Passenger-rail game-profile appropriation",
   instrument: "appropriation",
   synopsis:
@@ -108,7 +120,9 @@ export const FEDERAL_PASSENGER_RAIL_VARIANT: ProgramVariant = {
       render: (resolved) => {
         const authority = resolved.authority;
         if (!authority)
-          throw new Error("The federal rail game-profile authority is missing.");
+          throw new Error(
+            "The federal rail game-profile authority is missing.",
+          );
         return clause(
           `Under the federal game-profile authority, this appropriation is for ${authority.programLabel}. It cites no real statute and establishes no route or service entitlement.`,
         );
