@@ -20,7 +20,10 @@ import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { createOrganization } from "../life";
 import { stableHash } from "../ids";
 import { programFamilyTitle } from "./program-families";
-import { programVariant } from "../legislation-program-families";
+import {
+  programVariant,
+  type ProgramVariant,
+} from "../legislation-program-families";
 import {
   ensurePublicGovernmentAccount,
   publicTaxAccountForIdentity,
@@ -83,6 +86,35 @@ interface ProgramServiceCapacityProfile {
     readonly basis: PublicProgramBasis;
   };
 }
+
+interface NpcProgramServiceProfileMetadata {
+  readonly profileId: string;
+  readonly profileIdScope: "fixed" | "local-government";
+  readonly serviceLabel: string;
+  readonly unitLabel: string;
+  readonly unitsTotal: number;
+  readonly unitsOperational: number;
+  readonly monthlyOperatingNeedMinorUnits: number;
+  readonly restorationCostPerUnitMinorUnits: number | null;
+  readonly maintenanceLeadDays: number;
+  readonly basisNote: string;
+}
+
+interface NpcProgramEligibilityMetadata {
+  readonly propositionKey: string;
+  readonly answer: "yes" | "no";
+  readonly governmentLevel: "federal" | "state" | "county" | "municipality";
+  readonly authorityKind: "standing-statute" | "game-profile";
+  readonly authorityKey: string | null;
+  readonly operativeEffectKind: string;
+  readonly effectProvisionKey: string;
+  readonly effectParameterKey: string;
+}
+
+type ProgramVariantWithNpcEffects = ProgramVariant & {
+  readonly npcEligibility?: readonly NpcProgramEligibilityMetadata[];
+  readonly npcServiceProfile?: NpcProgramServiceProfileMetadata;
+};
 
 /** `family:state`, so one state's program is distinct from another's. */
 export function governingProgramKey(
@@ -210,12 +242,14 @@ export function appropriationFromEnactedMeasure(
   if (
     governmentScope.kind === "federal" &&
     (existingComponents.length > 0 ||
-      !federalPassengerRailMeasureMatches(
+      !programServiceCapacityProfileForEnactment({
         world,
         measure,
-        draftLineageForMeasure(world, measureId),
+        governmentScope,
+        lineage: draftLineageForMeasure(world, measureId),
         provisions,
-      ))
+        transitProfile: null,
+      }))
   )
     return world;
   const adoptedOn =
@@ -425,7 +459,7 @@ function programServiceCapacityProfileForEnactment(input: {
     ReturnType<typeof stateTaxServiceProfileForJurisdictionId>
   >;
 }): ProgramServiceCapacityProfile | null {
-  const { world, measure, governmentScope, lineage, provisions } = input;
+  const { measure, governmentScope, lineage } = input;
   if (
     input.transitProfile &&
     lineage?.familyKey === TRANSIT_FAMILY_KEY &&
@@ -467,61 +501,7 @@ function programServiceCapacityProfileForEnactment(input: {
     };
   }
 
-  if (
-    governmentScope.kind === "federal" &&
-    federalPassengerRailMeasureMatches(world, measure, lineage, provisions)
-  ) {
-    return authoredProgramServiceCapacityProfile({
-      profileId: "federal-passenger-rail-service:us",
-      profileScope: `${measure.jurisdictionId}:${measure.rulePackId}:${lineage!.authorityKey}`,
-      programKey: programKeyForGovernment(lineage!.familyKey, governmentScope),
-      jurisdictionId: measure.jurisdictionId,
-      serviceLabel: "modeled passenger-rail service",
-      unitLabel: "rail service unit",
-      unitsTotal: 2,
-      unitsOperational: 1,
-      monthlyOperatingNeedMinorUnits: 5_000_000_00,
-      restorationCostPerUnitMinorUnits: 100_000_000_00,
-      basisNote:
-        "Fictional federal passenger-rail service capacity for play. The generic unit is not a named route, train, completed project, or measured federal asset; costs are authored assumptions, not federal expenditures or estimates.",
-    });
-  }
-
-  if (
-    governmentScope.kind === "local" &&
-    lineage?.familyKey === "appropriations" &&
-    lineage.familyVersion === "v3" &&
-    lineage.variantKey === "local-fix-it-first-v1" &&
-    lineage.componentKey === undefined &&
-    lineage.authorityMeasureId === undefined
-  ) {
-    const localAuthority = localFiscalGameAuthorityForRulePackId(
-      measure.rulePackId,
-    );
-    if (
-      localAuthority?.unit.id === governmentScope.localGovernmentKey &&
-      localAuthority.jurisdictionId === measure.jurisdictionId &&
-      localAuthority.authority.authorityKey === lineage.authorityKey &&
-      localAuthority.authority.permittedEffects.includes(
-        "public-program-appropriation",
-      )
-    )
-      return authoredProgramServiceCapacityProfile({
-        profileId: `local-fix-it-first-capacity:${localAuthority.unit.id}`,
-        profileScope: `${localAuthority.authority.authorityKey}:${measure.rulePackId}:${measure.jurisdictionId}`,
-        programKey: programKeyForGovernment(lineage.familyKey, governmentScope),
-        jurisdictionId: measure.jurisdictionId,
-        serviceLabel: "modeled local road-maintenance service",
-        unitLabel: "road-maintenance unit",
-        unitsTotal: 1,
-        unitsOperational: 0,
-        monthlyOperatingNeedMinorUnits: 5_000_00,
-        restorationCostPerUnitMinorUnits: 100_000_00,
-        basisNote: `Fictional ${localAuthority.authority.level} road-maintenance capacity for the exact admitted local game profile. The generic unit is not a named road or measured repair; its costs are authored assumptions, not a local budget or expenditure.`,
-      });
-  }
-
-  return null;
+  return npcProgramServiceCapacityProfileForEnactment(input);
 }
 
 function authoredProgramServiceCapacityProfile(input: {
@@ -642,9 +622,9 @@ function ensureProgramCapacityFromProfile(
   }).world;
 }
 
-function federalPassengerRailMeasureMatches(
-  world: World,
-  measure: {
+function npcProgramServiceCapacityProfileForEnactment(input: {
+  readonly world: World;
+  readonly measure: {
     readonly jurisdictionId: EntityId;
     readonly rulePackId: string;
     readonly propositionIds?: readonly EntityId[];
@@ -652,57 +632,174 @@ function federalPassengerRailMeasureMatches(
       readonly propositionId: EntityId;
       readonly answer: "yes" | "no";
     }[];
-  },
-  lineage: ReturnType<typeof draftLineageForMeasure>,
-  provisions: ReturnType<typeof currentMeasureProvisions>,
-): boolean {
+  };
+  readonly governmentScope: PublicProgramGovernmentScope;
+  readonly lineage: ReturnType<typeof draftLineageForMeasure>;
+  readonly provisions: ReturnType<typeof currentMeasureProvisions>;
+  readonly transitProfile: ReturnType<typeof stateTransitProfileForLineage>;
+}): ProgramServiceCapacityProfile | null {
+  const { world, measure, governmentScope, lineage, provisions } = input;
   if (
-    measure.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id ||
-    measure.rulePackId !== US_CONGRESS_PACK_ID ||
-    lineage?.familyKey !== "appropriations" ||
-    lineage.familyVersion !== "v3" ||
-    lineage.variantKey !== "federal-passenger-rail-v1" ||
-    lineage.authorityKey !== "game-profile:federal-passenger-rail/v1" ||
-    lineage.authorityMeasureId !== undefined
+    !lineage ||
+    lineage.authorityMeasureId !== undefined ||
+    governmentScope.kind === "state"
   )
-    return false;
-  const proposition = Object.values(world.policyCatalog.propositions).find(
-    (candidate) =>
-      candidate.stableKey ===
-      "us-federal-positions:transport-water.expand-passenger-rail",
-  );
-  if (
-    !proposition ||
-    measure.propositionIds?.length !== 1 ||
-    measure.propositionIds[0] !== proposition.id ||
-    measure.propositionAnswers?.length !== 1 ||
-    measure.propositionAnswers[0]?.propositionId !== proposition.id ||
-    measure.propositionAnswers[0]?.answer !== "yes"
-  )
-    return false;
-  const intentClauses = provisions.filter(
-    (provision) => provision.operativeEffect !== undefined,
-  );
-  const amount = provisions.find(
-    (provision) => provision.provisionKey === "amount-provided",
-  );
+    return null;
+
+  let bankConfiguration: ReturnType<typeof programVariant>;
   try {
-    const { family, variant } = programVariant(
-      lineage.familyKey,
-      lineage.variantKey,
-    );
-    return (
-      family.familyVersion === lineage.familyVersion &&
-      variant.authorizesAppropriation &&
-      intentClauses.length === 1 &&
-      amount?.operativeEffect?.kind === "public-program-appropriation" &&
-      amount.fiscalExposureMinorUnits !== null &&
-      amount.fiscalExposureMinorUnits > 0 &&
-      amount.fiscalExposureLabel !== null
-    );
+    bankConfiguration = programVariant(lineage.familyKey, lineage.variantKey);
   } catch {
-    return false;
+    return null;
   }
+  const { family, variant: rawVariant } = bankConfiguration;
+  const variant = rawVariant as ProgramVariantWithNpcEffects;
+  if (
+    family.familyVersion !== lineage.familyVersion ||
+    !rawVariant.authorizesAppropriation
+  )
+    return null;
+
+  const propositionIds = measure.propositionIds ?? [];
+  const propositionAnswers = measure.propositionAnswers ?? [];
+  if (
+    propositionIds.length !== 1 ||
+    propositionAnswers.length !== 1 ||
+    propositionAnswers[0]?.propositionId !== propositionIds[0]
+  )
+    return null;
+  const proposition = world.policyCatalog.propositions[propositionIds[0]!];
+  if (!proposition) return null;
+
+  let governmentLevel: NpcProgramEligibilityMetadata["governmentLevel"];
+  let localAuthority: ReturnType<typeof localFiscalGameAuthorityForRulePackId> =
+    null;
+  if (governmentScope.kind === "local") {
+    localAuthority = localFiscalGameAuthorityForRulePackId(measure.rulePackId);
+    if (
+      !localAuthority ||
+      localAuthority.jurisdictionId !== measure.jurisdictionId ||
+      localAuthority.unit.id !== governmentScope.localGovernmentKey ||
+      !localAuthority.authority.permittedEffects.includes(
+        "public-program-appropriation",
+      )
+    )
+      return null;
+    governmentLevel = localAuthority.authority.level;
+  } else {
+    if (
+      measure.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id ||
+      measure.rulePackId !== US_CONGRESS_PACK_ID
+    )
+      return null;
+    governmentLevel = governmentScope.kind;
+  }
+
+  const eligibility = variant.npcEligibility?.find(
+    (entry) =>
+      entry.propositionKey === proposition.stableKey &&
+      entry.answer === propositionAnswers[0]!.answer &&
+      entry.governmentLevel === governmentLevel,
+  );
+  if (
+    !eligibility ||
+    eligibility.authorityKind !== "game-profile" ||
+    !lineage.authorityKey ||
+    (eligibility.authorityKey !== null &&
+      eligibility.authorityKey !== lineage.authorityKey)
+  )
+    return null;
+
+  if (eligibility.authorityKey === null) {
+    const authorityMatchesLocal =
+      governmentScope.kind === "local" &&
+      localAuthority?.authority.authorityKey === lineage.authorityKey;
+    if (!authorityMatchesLocal) return null;
+  }
+
+  const effectClause = variant.clauses.find(
+    (clause) => clause.provisionKey === eligibility.effectProvisionKey,
+  );
+  const effectParameter = variant.parameters.find(
+    (parameter) => parameter.key === eligibility.effectParameterKey,
+  );
+  const parameterValue = lineage.parameters.find(
+    (parameter) => parameter.parameterKey === eligibility.effectParameterKey,
+  );
+  const expectedProvisionKey = lineage.componentKey
+    ? `${lineage.componentKey}:${eligibility.effectProvisionKey}`
+    : eligibility.effectProvisionKey;
+  const operativeProvisions = provisions.filter(
+    (provision) =>
+      provision.operativeEffect !== undefined &&
+      (lineage.componentKey === undefined ||
+        provision.provisionKey.startsWith(`${lineage.componentKey}:`)),
+  );
+  const operativeProvision = operativeProvisions[0];
+  if (
+    eligibility.operativeEffectKind !== "public-program-appropriation" ||
+    effectClause?.parameterKey !== eligibility.effectParameterKey ||
+    effectParameter?.kind !== "money" ||
+    parameterValue?.kind !== "money" ||
+    operativeProvisions.length !== 1 ||
+    operativeProvision?.provisionKey !== expectedProvisionKey ||
+    operativeProvision.operativeEffect?.kind !==
+      eligibility.operativeEffectKind ||
+    operativeProvision.fiscalExposureMinorUnits === null ||
+    operativeProvision.fiscalExposureMinorUnits <= 0 ||
+    operativeProvision.fiscalExposureLabel === null
+  )
+    return null;
+
+  const authoredProfile = variant.npcServiceProfile;
+  if (!authoredProfile) return null;
+  const localProfile = governmentScope.kind === "local";
+  if (
+    (localProfile && authoredProfile.profileIdScope !== "local-government") ||
+    (!localProfile && authoredProfile.profileIdScope !== "fixed") ||
+    !authoredProfile.profileId.trim() ||
+    !authoredProfile.serviceLabel.trim() ||
+    !authoredProfile.unitLabel.trim() ||
+    !Number.isSafeInteger(authoredProfile.unitsTotal) ||
+    authoredProfile.unitsTotal < 1 ||
+    !Number.isSafeInteger(authoredProfile.unitsOperational) ||
+    authoredProfile.unitsOperational < 0 ||
+    authoredProfile.unitsOperational > authoredProfile.unitsTotal ||
+    !Number.isSafeInteger(authoredProfile.monthlyOperatingNeedMinorUnits) ||
+    authoredProfile.monthlyOperatingNeedMinorUnits <= 0 ||
+    (authoredProfile.restorationCostPerUnitMinorUnits !== null &&
+      (!Number.isSafeInteger(
+        authoredProfile.restorationCostPerUnitMinorUnits,
+      ) ||
+        authoredProfile.restorationCostPerUnitMinorUnits <= 0)) ||
+    !authoredProfile.basisNote.trim()
+  )
+    return null;
+
+  const profileId = localProfile
+    ? `${authoredProfile.profileId}:${governmentScope.localGovernmentKey}`
+    : authoredProfile.profileId;
+  const profileScope = localProfile
+    ? `${lineage.authorityKey}:${measure.rulePackId}:${measure.jurisdictionId}`
+    : `${measure.jurisdictionId}:${measure.rulePackId}:${lineage.authorityKey}`;
+  return authoredProgramServiceCapacityProfile({
+    profileId,
+    profileScope,
+    programKey: programKeyForGovernment(lineage.familyKey, governmentScope),
+    jurisdictionId: measure.jurisdictionId,
+    serviceLabel: authoredProfile.serviceLabel,
+    unitLabel: authoredProfile.unitLabel,
+    unitsTotal: authoredProfile.unitsTotal,
+    unitsOperational: authoredProfile.unitsOperational,
+    monthlyOperatingNeedMinorUnits:
+      authoredProfile.monthlyOperatingNeedMinorUnits,
+    restorationCostPerUnitMinorUnits:
+      authoredProfile.restorationCostPerUnitMinorUnits,
+    basisNote: authoredProfile.basisNote.replaceAll(
+      "{governmentLevel}",
+      governmentLevel,
+    ),
+  });
 }
 
 interface PublicProgramGovernmentScopeBase {
