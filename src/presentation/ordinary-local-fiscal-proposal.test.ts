@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { daysBetween } from "../simulation/dates";
+import { enactedLawEffects } from "../simulation/enacted-law-effects";
 import {
   governmentUnit,
   governmentUnitsForPlace,
@@ -30,8 +31,14 @@ import {
   createFormationContext,
   recordPrinciples,
 } from "../simulation/politics";
+import { publicGovernmentOrganizationKey } from "../simulation/public-government-identity";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
-import type { IsoDate, World } from "../simulation/types";
+import type {
+  IsoDate,
+  PublicGovernmentIdentity,
+  PublicProgramAppropriationRecord,
+  World,
+} from "../simulation/types";
 import { advanceWorld } from "../simulation/world";
 import {
   ensureWorldStartingConditions,
@@ -204,7 +211,8 @@ describe("ordinary opening city and county fiscal proposals", () => {
       world = advanceTo(world, nextReading.dueAt);
     }
 
-    for (const [index] of bodies.entries()) {
+    const enactedAppropriations: PublicProgramAppropriationRecord[] = [];
+    for (const [index, body] of bodies.entries()) {
       const measure = measures[index]!;
       const vote = (world.history.legislativeVotes ?? [])
         .filter(
@@ -225,6 +233,57 @@ describe("ordinary opening city and county fiscal proposals", () => {
       expect(position.outcome).toBe(
         vote?.outcome === "passed" ? "enacted" : "failed-on-floor",
       );
+      const appropriations = (world.history.publicProgramRecords ?? []).filter(
+        (record): record is PublicProgramAppropriationRecord =>
+          record.kind === "appropriation" &&
+          record.sourceMeasureId === measure.id,
+      );
+      if (position.outcome !== "enacted") {
+        expect(appropriations).toHaveLength(0);
+        continue;
+      }
+      expect(appropriations).toHaveLength(1);
+      const appropriation = appropriations[0]!;
+      const identity: PublicGovernmentIdentity = {
+        kind: "local-government",
+        governmentKey: body.governmentKey,
+        jurisdictionId: measure.jurisdictionId,
+      };
+      expect(appropriation).toMatchObject({
+        sourceMeasureId: measure.id,
+        jurisdictionId: measure.jurisdictionId,
+        publicGovernmentIdentity: identity,
+        basis: { kind: "game-profile" },
+      });
+      expect(appropriation.amount.minorUnits).toBeGreaterThan(0);
+      expect(appropriation.amount.currency).toBe("USD");
+      expect(appropriation.amount.minorUnits).toBe(
+        currentMeasureProvisions(world, measure.id).find(
+          (provision) => provision.provisionKey === "amount-provided",
+        )?.fiscalExposureMinorUnits,
+      );
+      expect(
+        world.history.organizations.find(
+          (organization) =>
+            organization.id === appropriation.accountOrganizationId,
+        )?.stableKey,
+      ).toBe(publicGovernmentOrganizationKey(identity));
+      const effects = enactedLawEffects(world, measure.id);
+      expect(effects?.operativeEffectOutcomes).toContainEqual(
+        expect.objectContaining({
+          provisionKey: "amount-provided",
+          effectKind: "public-program-appropriation",
+          status: "applied",
+        }),
+      );
+      expect(effects?.lines).toContainEqual(
+        expect.objectContaining({
+          kind: "appropriation",
+          programKey: appropriation.programKey,
+          amountMinorUnits: appropriation.amount.minorUnits,
+        }),
+      );
+      enactedAppropriations.push(appropriation);
     }
 
     const reopened = deserializeWorld(serializeWorld(world));
@@ -242,6 +301,15 @@ describe("ordinary opening city and county fiscal proposals", () => {
           (vote) => vote.measureId === measure.id,
         ),
       );
+      expect(enactedLawEffects(reopened, measure.id)).toEqual(
+        enactedLawEffects(world, measure.id),
+      );
     }
+    for (const appropriation of enactedAppropriations)
+      expect(
+        reopened.history.publicProgramRecords?.find(
+          (record) => record.id === appropriation.id,
+        ),
+      ).toEqual(appropriation);
   }, 900_000);
 });
