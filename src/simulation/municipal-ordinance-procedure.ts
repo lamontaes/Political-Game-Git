@@ -18,15 +18,16 @@
  * model, and reads the player's own saved ballot. A member cannot vote twice,
  * a non-member cannot vote, and a meeting short of quorum transacts nothing.
  *
- * Financial ordinances are not ordinary ordinances. `admitCouncilAction`
- * answers what an appropriation, tax or borrowing needs under Code of Virginia
- * § 15.2-1428 and City Code § 2-98, and this module's passage writer refuses
- * them: the funded-service chain belongs to its own owner.
+ * A disclosed game fiscal profile admits only a saved, exact local authority,
+ * proposition, lineage and current operative clause. Borrowing has no such
+ * profile. Sourced fiscal conditions still require their own adapter.
  */
 
 import { addDays } from "./dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
 import { scheduleFutureDueItem } from "./future-transitions";
+import { admitLocalFiscalMeasure } from "./local-fiscal-authority";
+import { currentMeasureProvisions } from "./legislative-politics";
 import { decideChamberVote } from "./governing/chamber-votes";
 import { memberBallotOn } from "./governing/member-ballots";
 import type { ChamberQuestion } from "./governing/member-ballots";
@@ -125,6 +126,16 @@ function councilMeasure(
     municipalMeasures(world, governmentKey).find(
       (measure) => measure.id === measureId,
     ) ?? null
+  );
+}
+
+/** A general-policy label cannot carry an unexamined fiscal effect clause. */
+function carriesFiscalClause(world: World, measureId: EntityId): boolean {
+  return currentMeasureProvisions(world, measureId).some(
+    (entry) =>
+      entry.provisionKey === "tax-levy" ||
+      entry.provisionKey === "amount-provided" ||
+      (entry as { readonly operativeEffect?: unknown }).operativeEffect != null,
   );
 }
 
@@ -383,6 +394,20 @@ export function placeMunicipalOrdinanceOnAgenda(
   if (!measure) {
     return refuse(world, "That ordinance is not before this council.");
   }
+  if (measure.subjectClass === "general-policy") {
+    if (carriesFiscalClause(world, measure.id))
+      return refuse(
+        world,
+        "A fiscal clause needs the local fiscal authority route.",
+      );
+  } else {
+    const fiscal = admitLocalFiscalMeasure(
+      world,
+      input.governmentKey,
+      measure.id,
+    );
+    if (!fiscal.ok) return refuse(world, fiscal.reason);
+  }
   const phase = measurePosition(world, measure.id).phase;
   if (phase === "on-floor") {
     return refuse(world, "This ordinance is already on the council's agenda.");
@@ -450,11 +475,19 @@ export function recordCouncilReadingVote(
   const measure = councilMeasure(world, input.governmentKey, input.measureId);
   if (!measure)
     return refuse(world, "That ordinance is not before this council.");
-  if (measure.subjectClass !== "general-policy") {
-    return refuse(
+  if (measure.subjectClass === "general-policy") {
+    if (carriesFiscalClause(world, measure.id))
+      return refuse(
+        world,
+        "A fiscal clause needs the local fiscal authority route.",
+      );
+  } else {
+    const fiscal = admitLocalFiscalMeasure(
       world,
-      "Appropriations, taxes and borrowing follow their own recorded-majority rule; this is not the general-ordinance route.",
+      input.governmentKey,
+      measure.id,
     );
+    if (!fiscal.ok) return refuse(world, fiscal.reason);
   }
   if (measurePosition(world, measure.id).phase !== "on-floor") {
     return refuse(

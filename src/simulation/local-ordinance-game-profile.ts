@@ -4,7 +4,12 @@
  * identity and footprint; every procedural field below belongs to the game.
  * A sourced municipal reading always takes precedence over this profile.
  */
-import { governmentUnit, governmentUnitsForPlace } from "./government-units";
+import {
+  countyGovernmentUnit,
+  governmentUnit,
+  governmentUnitJurisdictionId,
+  governmentUnitsForPlace,
+} from "./government-units";
 import type { GovernmentUnitIdentity } from "./government-units";
 import {
   knownRule,
@@ -18,8 +23,91 @@ import type {
   MunicipalGovernment,
   MunicipalReading,
 } from "./municipal-government";
+import type { EntityId } from "./types";
 
 export const LOCAL_ORDINANCE_GAME_PROFILE_VERSION = "local-ordinance-game/v1";
+export const LOCAL_FISCAL_GAME_AUTHORITY_VERSION =
+  "local-fiscal-authority/v1" as const;
+
+export type LocalFiscalEffectKind =
+  "tax-policy" | "public-program-appropriation";
+
+/** An approved game permission, not a sourced tax power or a cash balance. */
+export interface LocalFiscalGameAuthority {
+  readonly authorityKey: string;
+  readonly authorityVersion: typeof LOCAL_FISCAL_GAME_AUTHORITY_VERSION;
+  readonly profileVersion: typeof LOCAL_ORDINANCE_GAME_PROFILE_VERSION;
+  readonly rulePackId: string;
+  readonly governmentUnitId: string;
+  readonly level: "municipality" | "county";
+  readonly basis: "game-profile";
+  readonly permittedEffects: readonly LocalFiscalEffectKind[];
+}
+
+export interface LocalFiscalGameAuthorityScope {
+  readonly authority: LocalFiscalGameAuthority;
+  readonly unit: GovernmentUnitIdentity;
+  readonly jurisdictionId: EntityId;
+}
+
+/** Exact published unit and Gazetteer footprint; overlap alone is not identity. */
+function fiscalGameUnitMatched(unit: GovernmentUnitIdentity): boolean {
+  if (!unit.functionalActive) return false;
+  if (unit.unitType === "county")
+    return (
+      unit.countyGeoid !== null &&
+      countyGovernmentUnit(unit.countyGeoid)?.id === unit.id
+    );
+  if (unit.unitType !== "municipality" || unit.placeGeoid === null)
+    return false;
+  const matched = governmentUnitsForPlace(unit.placeGeoid).filter(
+    (candidate) =>
+      candidate.unitType === "municipality" && candidate.functionalActive,
+  );
+  return matched.length === 1 && matched[0]?.id === unit.id;
+}
+
+export function localFiscalGameAuthorityKey(
+  unit: GovernmentUnitIdentity,
+): string | null {
+  return fiscalGameUnitMatched(unit)
+    ? `${unit.id}:${LOCAL_FISCAL_GAME_AUTHORITY_VERSION}:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`
+    : null;
+}
+
+export function localFiscalGameAuthority(
+  unit: GovernmentUnitIdentity,
+): LocalFiscalGameAuthority | null {
+  const authorityKey = localFiscalGameAuthorityKey(unit);
+  if (!authorityKey || !localOrdinanceGameRulePack(unit)) return null;
+  if (unit.unitType !== "municipality" && unit.unitType !== "county")
+    return null;
+  return {
+    authorityKey,
+    authorityVersion: LOCAL_FISCAL_GAME_AUTHORITY_VERSION,
+    profileVersion: LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
+    rulePackId: `${unit.id}:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`,
+    governmentUnitId: unit.id,
+    level: unit.unitType,
+    basis: "game-profile",
+    permittedEffects: ["tax-policy", "public-program-appropriation"],
+  };
+}
+
+/** Reverse lookup for a saved rule pack; never parse geography from its label. */
+export function localFiscalGameAuthorityForRulePackId(
+  packId: string,
+): LocalFiscalGameAuthorityScope | null {
+  const suffix = `:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
+  if (!packId.startsWith("gus2025:") || !packId.endsWith(suffix)) return null;
+  const unit = governmentUnit(packId.slice(0, -suffix.length));
+  if (!unit) return null;
+  const authority = localFiscalGameAuthority(unit);
+  const jurisdictionId = governmentUnitJurisdictionId(unit);
+  return authority?.rulePackId === packId && jurisdictionId
+    ? { authority, unit, jurisdictionId }
+    : null;
+}
 
 const majority = {
   numerator: 1,
