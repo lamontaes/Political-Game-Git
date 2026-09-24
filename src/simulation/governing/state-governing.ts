@@ -5,6 +5,15 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { createWorkRelationship, recordWorkStatus } from "../life";
 import { activeWorkRelationshipsAt, workStatusAt } from "../life-queries";
+import { currentPresidentOf } from "../crisis/offices";
+import { currentFederalTenure } from "../federal-tenures";
+import { nationalOfficeHolder } from "../national-election-consumer";
+import {
+  municipalOrganizationFor,
+  municipalSeats,
+} from "../municipal-public-work";
+import { publicGovernmentIdentityForRecord } from "../public-government-identity";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
@@ -20,6 +29,7 @@ import type {
   FutureTransitionHandlerResult,
   HistoricalEvent,
   IsoDate,
+  PublicGovernmentIdentity,
   PublicProgramAppropriationRecord,
   World,
   WorkItemStateRecord,
@@ -110,6 +120,8 @@ export const GOVERNING_OUTCOME = "governing.outcome" as const;
 export const GOVERNING_TRANSITION = "governing:transition" as const;
 export const GOVERNING_DEADLINE = "governing:matter-deadline" as const;
 export const GOVERNING_NPC_DECISION = "governing:npc-decision" as const;
+export const GOVERNING_PROGRAM_AVAILABLE =
+  "governing:program-available" as const;
 export const GOVERNING_FOLLOW_UP = "governing:follow-up" as const;
 
 export type GoverningMatterFamily =
@@ -136,6 +148,8 @@ export interface GoverningOffice {
   readonly calendarBasis: "verified" | "game-profile" | "mixed";
   /** What to tell the holder about the rule dating this term. */
   readonly calendarNote: string | null;
+  /** Program-only federal/local desks keep their actual authority identity. */
+  readonly programOffice?: PublicProgramOffice;
 }
 
 function controlledPersonId(world: World): EntityId | null {
@@ -200,11 +214,103 @@ function governingOfficeByKey(
   world: World,
   officeKey: string,
 ): GoverningOffice | null {
-  return (
-    currentGoverningOffices(world).find(
-      (office) => office.officeKey === officeKey,
-    ) ?? null
+  const governor = currentGoverningOffices(world).find(
+    (office) => office.officeKey === officeKey,
   );
+  if (governor) return governor;
+  // A program desk is resolved from the same saved appropriation and current
+  // holder that opened it. It never joins the governor calendar or bill desk.
+  for (const record of world.history.publicProgramRecords ?? []) {
+    if (record.kind !== "appropriation") continue;
+    const office = programOfficeForAppropriation(world, record);
+    if (office?.officeKey === officeKey) return office;
+  }
+  return null;
+}
+
+function programOfficeForAppropriation(
+  world: World,
+  appropriation: PublicProgramAppropriationRecord,
+): GoverningOffice | null {
+  const identity = publicGovernmentIdentityForRecord(appropriation);
+  if (identity.kind === "local-government") {
+    const descriptor: PublicProgramOffice = {
+      kind: "municipal",
+      governmentKey: identity.governmentKey,
+    };
+    const organization = municipalOrganizationFor(
+      world,
+      identity.governmentKey,
+    );
+    if (!organization) return null;
+    const eligible = municipalSeats(world, identity.governmentKey).filter(
+      (seat) =>
+        (seat.role === "mayor" || seat.role === "professional-manager") &&
+        programAuthority(world, seat.personId, descriptor, appropriation)
+          .status === "available",
+    );
+    const holders = new Set(eligible.map((seat) => seat.personId));
+    if (holders.size !== 1) return null;
+    const seat = eligible[0]!;
+    return {
+      officeKey: `program-office:local:${encodeURIComponent(identity.governmentKey)}`,
+      stateUsps: "",
+      title: seat.role === "mayor" ? "Mayor" : "Manager",
+      jurisdictionId: appropriation.jurisdictionId,
+      organizationId: organization.id,
+      holderPersonId: seat.personId,
+      termId: seat.participationId,
+      termStartedAt: null,
+      termEndsAt: null,
+      controlledByPlayer: controlledPersonId(world) === seat.personId,
+      calendarBasis: "game-profile",
+      calendarNote: null,
+      programOffice: descriptor,
+    };
+  }
+  if (appropriation.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id) {
+    const president = currentPresidentOf(world);
+    const descriptor: PublicProgramOffice = { kind: "federal-executive" };
+    if (
+      !president ||
+      programAuthority(world, president.personId, descriptor, appropriation)
+        .status !== "available"
+    )
+      return null;
+    const termId =
+      nationalOfficeHolder(world, "president")?.plan.id ??
+      currentFederalTenure(world, "us-president")?.event.id ??
+      president.personId;
+    return {
+      officeKey: "program-office:us-president",
+      stateUsps: "",
+      title: president.title,
+      jurisdictionId: appropriation.jurisdictionId,
+      // The public account is the saved federal organization available to a
+      // program matter; the Presidency has no separate organization record.
+      organizationId: appropriation.accountOrganizationId,
+      holderPersonId: president.personId,
+      termId,
+      termStartedAt: null,
+      termEndsAt: null,
+      controlledByPlayer: controlledPersonId(world) === president.personId,
+      calendarBasis: "game-profile",
+      calendarNote: null,
+      programOffice: descriptor,
+    };
+  }
+  const office = currentGoverningOffices(world).find(
+    (candidate) => candidate.jurisdictionId === appropriation.jurisdictionId,
+  );
+  return office &&
+    programAuthority(
+      world,
+      office.holderPersonId,
+      { kind: "state-executive" },
+      appropriation,
+    ).status === "available"
+    ? office
+    : null;
 }
 
 /* ------------------------------------------------------------------ *
@@ -266,6 +372,8 @@ import {
 import {
   commitPublicProgram,
   forecastProgramAlternative,
+  programAuthority,
+  type PublicProgramOffice,
 } from "./public-program";
 import {
   establishOfficeStaffPositions,
@@ -452,23 +560,31 @@ function optionsFor(
           record.id === appropriationId && record.kind === "appropriation",
       );
       if (!appropriation) return [];
-      return programAlternativesFor(world, appropriation).map((alternative) => {
-        const forecast = forecastProgramAlternative(
-          world,
-          appropriation,
-          alternative,
-        );
-        return {
-          key: `program:${alternative.key}`,
-          label: alternative.title,
-          effect: forecast.lines[0] ?? "Nothing is committed.",
-          tradeoff:
-            forecast.lines.slice(1).join(" ") ||
-            "The rest of the appropriation stays uncommitted.",
-          personId: null,
-          assessment: null,
-        };
-      });
+      return programAlternativesFor(world, appropriation)
+        .filter((alternative) =>
+          alternative.installments.every(
+            (plan) =>
+              addDays(world.currentDate, plan.afterDays) <=
+              appropriation.availableThrough,
+          ),
+        )
+        .map((alternative) => {
+          const forecast = forecastProgramAlternative(
+            world,
+            appropriation,
+            alternative,
+          );
+          return {
+            key: `program:${alternative.key}`,
+            label: alternative.title,
+            effect: forecast.lines[0] ?? "Nothing is committed.",
+            tradeoff:
+              forecast.lines.slice(1).join(" ") ||
+              "The rest of the appropriation stays uncommitted.",
+            personId: null,
+            assessment: null,
+          };
+        });
     }
     case "bill":
       return [
@@ -1024,29 +1140,118 @@ export function openTransitionMatters(world: World, officeKey: string): World {
 export function openProgramMatters(
   world: World,
   office: GoverningOffice,
+  identity?: PublicGovernmentIdentity,
 ): World {
   let next = world;
   for (const appropriation of openAppropriationsFor(
     world,
     office.jurisdictionId,
+    identity,
   )) {
-    const instance = `appropriation:${appropriation.id}`;
-    if (
-      next.history.events.some(
-        (event) =>
-          event.type === GOVERNING_MATTER_OPENED &&
-          event.stableKey === matterStableKey(office, "program", instance),
-      )
-    )
-      continue;
-    next = openMatter(next, office, {
-      family: "program",
-      instance,
-      appropriationId: appropriation.id,
-      subjectKey: appropriation.programKey.split(":")[0] ?? null,
-    });
+    next = openProgramMatter(next, office, appropriation);
   }
   return next;
+}
+
+function openProgramMatter(
+  world: World,
+  office: GoverningOffice,
+  appropriation: PublicProgramAppropriationRecord,
+): World {
+  if (world.currentDate < appropriation.availableFrom)
+    return scheduleProgramAvailability(world, appropriation);
+  const authority = programAuthority(
+    world,
+    office.holderPersonId,
+    office.programOffice ?? { kind: "state-executive" },
+    appropriation,
+  );
+  if (authority.status !== "available") return world;
+  const instance = `appropriation:${appropriation.id}`;
+  if (
+    world.history.events.some(
+      (event) =>
+        event.type === GOVERNING_MATTER_OPENED &&
+        event.stableKey === matterStableKey(office, "program", instance),
+    )
+  )
+    return world;
+  return openMatter(world, office, {
+    family: "program",
+    instance,
+    appropriationId: appropriation.id,
+    subjectKey: appropriation.programKey.split(":")[0] ?? null,
+  });
+}
+
+function scheduleProgramAvailability(
+  world: World,
+  appropriation: PublicProgramAppropriationRecord,
+): World {
+  const stableKey = `${STATE_GOVERNING_VERSION}:program-available:${appropriation.id}`;
+  return world.history.futureDueItems.some((due) => due.stableKey === stableKey)
+    ? world
+    : scheduleFutureDueItem(world, {
+        stableKey,
+        dueAt: appropriation.availableFrom,
+        transitionKey: GOVERNING_PROGRAM_AVAILABLE,
+        entityIds: [appropriation.eventId],
+        jurisdictionId: appropriation.jurisdictionId,
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [appropriation.eventId],
+        },
+      });
+}
+
+/** Open adopted money for its current authorized holder on the normal clock. */
+export function openProgramMattersForAllOffices(
+  world: World,
+  onlyRecordIds?: ReadonlySet<EntityId>,
+): World {
+  let next = world;
+  for (const appropriation of world.history.publicProgramRecords ?? []) {
+    if (
+      appropriation.kind !== "appropriation" ||
+      (onlyRecordIds && !onlyRecordIds.has(appropriation.id))
+    )
+      continue;
+    const identity = publicGovernmentIdentityForRecord(appropriation);
+    if (
+      !openAppropriationsFor(
+        world,
+        appropriation.jurisdictionId,
+        identity,
+      ).some((record) => record.id === appropriation.id)
+    )
+      continue;
+    if (next.currentDate < appropriation.availableFrom) {
+      // The holder may change before money becomes available. Schedule the
+      // opening, then resolve the current authorized office on that date.
+      next = scheduleProgramAvailability(next, appropriation);
+      continue;
+    }
+    const office = programOfficeForAppropriation(next, appropriation);
+    if (!office) continue;
+    next = openProgramMatter(next, office, appropriation);
+  }
+  return next;
+}
+
+export function governingProgramAvailableHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const appropriation = (world.history.publicProgramRecords ?? []).find(
+    (record): record is PublicProgramAppropriationRecord =>
+      record.kind === "appropriation" && due.entityIds.includes(record.eventId),
+  );
+  if (!appropriation)
+    return resolved(world, "The appropriation for this date is unavailable.");
+  return resolved(
+    openProgramMattersForAllOffices(world, new Set([appropriation.id])),
+    "Available appropriations reached their current offices.",
+  );
 }
 
 export type GoverningDecisionMode = "player" | "delegated" | "officeholder";
@@ -1312,12 +1517,13 @@ function applyConsequence(
         world,
         appropriation.programKey,
         appropriation.jurisdictionId,
+        publicGovernmentIdentityForRecord(appropriation),
       );
       const committed = commitPublicProgram(operator.world, {
         appropriationId: appropriation.id,
         alternative,
         personId: office.holderPersonId,
-        office: { kind: "state-executive" },
+        office: office.programOffice ?? { kind: "state-executive" },
         recipientOrganizationId:
           alternative.installments.length > 0 ? operator.organizationId : null,
       });
@@ -1424,7 +1630,12 @@ function recordDecision(
     decision.id,
     option ? "completed" : "cancelled",
   );
-  return applyConsequence(next, office, matter, option, decision.id);
+  const outcome = applyConsequence(next, office, matter, option, decision.id);
+  // The commitment writer may refuse when authority, cash plans, or the
+  // availability window changed. A refused commitment is no decision.
+  return matter.family === "program" && option && outcome === next
+    ? world
+    : outcome;
 }
 
 export type GoverningActionResult =
@@ -1461,15 +1672,22 @@ export function decideGoverningMatter(
   const option = matter.options.find((o) => o.key === optionKey);
   if (!option)
     return { ok: false, world, reason: "That choice is not available." };
+  const decided = recordDecision(
+    world,
+    matter,
+    option,
+    "player",
+    matter.holderPersonId,
+  );
+  if (decided === world)
+    return {
+      ok: false,
+      world,
+      reason: "This funding choice cannot be committed on the current record.",
+    };
   return {
     ok: true,
-    world: recordDecision(
-      world,
-      matter,
-      option,
-      "player",
-      matter.holderPersonId,
-    ),
+    world: decided,
   };
 }
 
@@ -1493,15 +1711,22 @@ export function delegateGoverningMatter(
   const option = matter.options.find(
     (o) => o.key === recommendation.optionKey,
   )!;
+  const decided = recordDecision(
+    world,
+    matter,
+    option,
+    "delegated",
+    recommendation.byPersonId,
+  );
+  if (decided === world)
+    return {
+      ok: false,
+      world,
+      reason: "This funding choice cannot be committed on the current record.",
+    };
   return {
     ok: true,
-    world: recordDecision(
-      world,
-      matter,
-      option,
-      "delegated",
-      recommendation.byPersonId,
-    ),
+    world: decided,
   };
 }
 
@@ -1635,10 +1860,19 @@ export function governingNpcDecisionHandler(
       ? matter.options.find((o) => o.key === recommendation.optionKey)
       : undefined;
   const option = principled ?? recommended ?? rng.pick(matter.options);
-  return resolved(
-    recordDecision(next, matter, option, "officeholder", matter.holderPersonId),
-    "The officeholder decided.",
+  const decided = recordDecision(
+    next,
+    matter,
+    option,
+    "officeholder",
+    matter.holderPersonId,
   );
+  if (decided === next && matter.family === "program")
+    return resolved(
+      recordDecision(next, matter, null, "lapsed", matter.holderPersonId),
+      "The funding choice could not be committed.",
+    );
+  return resolved(decided, "The officeholder decided.");
 }
 
 export type ImplementationResult = "progress" | "problem" | "stalled";
@@ -2010,21 +2244,25 @@ const institutionStepWithProgramMatters = (() => {
   const step = createInstitutionStepHandler(executiveDesk);
   return (world: World, due: FutureDueItem): FutureTransitionHandlerResult => {
     const result = step(world, due);
-    // Reading every office on every legislative step would cost the clock a
-    // scan per state for nothing: almost no step enacts an appropriation.
-    // The cheap record check comes first, and the offices are read only for
-    // the jurisdictions that actually have money waiting.
-    const jurisdictions = new Set(
-      (result.world.history.publicProgramRecords ?? [])
+    // A legislative step opens only the new money it enacted. The explicit
+    // opener and dated availability dues handle money already on record.
+    const prior = new Set(
+      (world.history.publicProgramRecords ?? [])
         .filter((record) => record.kind === "appropriation")
-        .map((record) => record.jurisdictionId),
+        .map((record) => record.id),
     );
-    if (jurisdictions.size === 0) return result;
-    let next = result.world;
-    for (const office of currentGoverningOffices(next))
-      if (jurisdictions.has(office.jurisdictionId))
-        next = openProgramMatters(next, office);
-    return { ...result, world: next };
+    const added = new Set(
+      (result.world.history.publicProgramRecords ?? [])
+        .filter(
+          (record) => record.kind === "appropriation" && !prior.has(record.id),
+        )
+        .map((record) => record.id),
+    );
+    if (added.size === 0) return result;
+    return {
+      ...result,
+      world: openProgramMattersForAllOffices(result.world, added),
+    };
   };
 })();
 
@@ -2043,6 +2281,7 @@ export function stateGoverningHandlers() {
     [GOVERNING_TRANSITION, governingTransitionHandler],
     [GOVERNING_DEADLINE, governingDeadlineHandler],
     [GOVERNING_NPC_DECISION, governingNpcDecisionHandler],
+    [GOVERNING_PROGRAM_AVAILABLE, governingProgramAvailableHandler],
     [GOVERNING_FOLLOW_UP, governingFollowUpHandler],
   ] as const;
 }
