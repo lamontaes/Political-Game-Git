@@ -146,13 +146,16 @@ function assertCampaignRoots(
   // office has to be the one the contest is actually for. Without this a
   // campaign could cite Kentucky's pack and stand in a contest for something
   // nobody has rules for.
+  //
+  // The office's title is display text and is not compared: a pack may rename
+  // it (a town's "Member of the governing body" became "Council member"), and
+  // a campaign saved under the old title is still for the same office.
   const option = candidacyPackById(campaign.candidacyPackId)?.offices.find(
     (candidate) => candidate.officeKey === campaign.officeKey,
   );
   if (
     !option ||
     option.office.officeKey !== contest.office.officeKey ||
-    option.office.title !== contest.office.title ||
     option.office.seatKey !== contest.office.seatKey ||
     option.office.occupationClassification !==
       contest.office.occupationClassification
