@@ -2,6 +2,7 @@ import { INBOX_REQUEST_ID, type ArtbenchProjection } from "./artbench";
 import {
   artDeskCards,
   candidateDisplayName,
+  reviewDisposition,
   viewedCandidateView,
 } from "./art-desk-cards";
 
@@ -42,7 +43,8 @@ export function artDeskNotifications(
         (!message.payload.candidateId || candidate !== undefined) &&
         request !== undefined &&
         !request.qa &&
-        !candidate?.qa
+        !candidate?.qa &&
+        (!candidate || reviewDisposition(candidate) !== "archived")
       );
     })
     .sort((a, b) => b.seq - a.seq || a.eventId.localeCompare(b.eventId))
