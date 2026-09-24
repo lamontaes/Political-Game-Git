@@ -293,6 +293,9 @@ export function openNextLifeScene(
   const eligible = availableOpeningLifeScenes(world, personId).filter(
     ({ definition, beat }) =>
       definition.setting === setting &&
+      // An already-open scene in an old save can finish its follow-through.
+      (definition.recurrence !== "daily" ||
+        beat.stageKey === "follow-through") &&
       !world.history.events.some(
         (event) =>
           event.type === OPEN &&

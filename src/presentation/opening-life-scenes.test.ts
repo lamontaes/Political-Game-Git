@@ -35,70 +35,40 @@ function start(seed: string, startAge = 6) {
 }
 describe("OPENING-LIFE1 canonical scenes", () => {
   it.each([6, 24])(
-    "offers an everyday activity again on a later day at age %i",
+    "keeps routine activity out of the scene stream across days at age %i",
     (age) => {
       const game = start(`daily-${age}`, age);
       let world = game.world;
       const activity =
         age < 18 ? "young.home.choose-activity" : "adult.home.free-time";
-      for (let attempt = 0; attempt < 20; attempt++) {
-        const opened = openNextLifeScene(world, game.playerPersonId);
-        const scene = currentOpeningLifeScene(opened, game.playerPersonId);
-        if (!scene) break;
-        world = chooseOpeningLifeScene(
-          opened,
-          game.playerPersonId,
-          scene.eventId,
-          scene.definition.choices[0]!.key,
-        );
-      }
-      const first = world.history.events.find(
-        (event) =>
-          event.type === "life.scene.opened" &&
-          event.tags.includes(`family:${activity}`) &&
-          event.tags.includes("opening-stage:moment"),
-      )!;
-      expect(first).toBeDefined();
-      expect(
-        availableOpeningLifeScenes(world, game.playerPersonId).some(
-          (entry) => entry.definition.key === activity,
-        ),
-      ).toBe(false);
-      world = advanceWorldMinutes(
-        world,
-        1440 - world.currentMoment.minuteOfDay + 600,
-      );
-      world = deserializeWorld(serializeWorld(world));
-      expect(
-        availableOpeningLifeScenes(world, game.playerPersonId).some(
-          (entry) => entry.definition.key === activity,
-        ),
-      ).toBe(true);
-      for (let attempt = 0; attempt < 20; attempt++) {
-        world = openNextLifeScene(world, game.playerPersonId);
-        const scene = currentOpeningLifeScene(world, game.playerPersonId)!;
-        expect(scene).not.toBeNull();
-        world = chooseOpeningLifeScene(
-          world,
-          game.playerPersonId,
-          scene.eventId,
-          scene.definition.choices[0]!.key,
-        );
-        if (scene.definition.key === activity) {
-          expect(scene.eventId).not.toBe(first.id);
-          expect(
-            world.history.events.filter(
-              (event) =>
-                event.type === "life.scene.opened" &&
-                event.tags.includes(`family:${activity}`) &&
-                event.tags.includes("opening-stage:moment"),
-            ),
-          ).toHaveLength(2);
-          assertWorldIntegrity(world);
-          return;
+      for (let day = 0; day < 2; day++) {
+        for (let attempt = 0; attempt < 20; attempt++) {
+          const opened = openNextLifeScene(world, game.playerPersonId);
+          const scene = currentOpeningLifeScene(opened, game.playerPersonId);
+          if (!scene) break;
+          expect(scene.definition.key).not.toBe(activity);
+          world = chooseOpeningLifeScene(
+            opened,
+            game.playerPersonId,
+            scene.eventId,
+            scene.definition.choices[0]!.key,
+          );
         }
+        world = advanceWorldMinutes(
+          world,
+          1440 - world.currentMoment.minuteOfDay + 600,
+        );
+        world = deserializeWorld(serializeWorld(world));
       }
-      throw new Error("The later-day activity was never offered.");
+      expect(
+        world.history.events.filter(
+          (event) =>
+            event.type === "life.scene.opened" &&
+            event.tags.includes(`family:${activity}`) &&
+            event.tags.includes("opening-stage:moment"),
+        ),
+      ).toHaveLength(0);
+      assertWorldIntegrity(world);
     },
   );
   it("sustains distinct home moments, with zero-write reads and saved choices", () => {
@@ -107,7 +77,11 @@ describe("OPENING-LIFE1 canonical scenes", () => {
     const eligible = availableOpeningLifeScenes(
       world,
       game.playerPersonId,
-    ).filter((entry) => entry.definition.setting === "home");
+    ).filter(
+      (entry) =>
+        entry.definition.setting === "home" &&
+        entry.definition.recurrence !== "daily",
+    );
     const seen = new Set<string>();
     let resolved = 0;
     for (let i = 0; i < eligible.length * 2; i++) {

@@ -49,10 +49,7 @@ import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
-import {
-  describeTimeCommandPreview,
-  previewTimeCommand,
-} from "../presentation/time-command";
+import { previewTimeCommand } from "../presentation/time-command";
 import {
   createWorldChangeGuard,
   recordStaleWorldChange,
@@ -180,10 +177,7 @@ import {
 } from "../presentation/place-start-summary";
 import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
-import {
-  openOrdinaryLife,
-  passOrdinaryDays,
-} from "../presentation/ordinary-life";
+import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
   answerQuestionnaire,
   endQuestionnaireEarly,
@@ -5726,23 +5720,14 @@ function StoryView({
   readonly onWorldChange: (world: World) => void;
 }) {
   const [journalOpen, setJournalOpen] = useState(false);
-  const runner = useTimeCommand({
-    world: session.world,
-    personId: session.personId,
-    onWorldChange,
-  });
-  const quietPreview = useMemo(
-    () =>
-      previewTimeCommand(session.world, session.personId, {
-        kind: "quiet-stretch",
-      }),
-    [session.world, session.personId],
-  );
   const crisisStop = useCrisisStop(session.world);
   const todayOptions = useMemo(
     () => todayCalendarOptions(session.world, session.personId),
     [session.world, session.personId],
   );
+  const hasStoryChoices =
+    moment.scene.options.length > 0 ||
+    (moment.scene.kind !== "ordinary-stretch" && todayOptions.length > 0);
 
   return (
     <section className="game-story life-moment" data-testid="story-section">
@@ -5822,89 +5807,67 @@ function StoryView({
         </p>
       ) : null}
 
-      <h3 className="game-choices-heading" data-testid="story-choices-heading">
-        What do you do?
-      </h3>
-      <div className="game-choices life-choices" data-testid="story-options">
-        {moment.scene.options.map((option) => (
-          <button
-            key={option.key}
-            type="button"
-            className="ui-action ui-action--choice"
-            onClick={() =>
-              onWorldChange(
-                chooseStoryOption(session.world, {
-                  personId: session.personId,
-                  scene: moment.scene,
-                  optionKey: option.key,
-                  transitionHandlers:
-                    createCampaignElectionTransitionRegistry(),
-                  advanceDays: (world, days) =>
-                    passOrdinaryDays(
-                      world,
-                      days,
-                      createCampaignElectionTransitionRegistry(),
-                    ),
-                }),
-              )
-            }
+      {hasStoryChoices ? (
+        <>
+          <h3
+            className="game-choices-heading"
+            data-testid="story-choices-heading"
           >
-            {option.label}
-            {storyOptionNote(option) !== null ? (
-              <small>{storyOptionNote(option)}</small>
-            ) : null}
-          </button>
-        ))}
-        {/*
-          What today's calendar holds, beside letting time pass. Time stops
-          at a commitment due today, so without these the button below
-          stopped and nothing on this screen said why or offered the meeting
-          (Detroit life, September 23, 2026). The quiet stretch carries the
-          same choices in its own options.
-        */}
-        {moment.scene.kind === "ordinary-stretch"
-          ? null
-          : todayOptions.map((option) => (
+            What do you do?
+          </h3>
+          <div
+            className="game-choices life-choices"
+            data-testid="story-options"
+          >
+            {moment.scene.options.map((option) => (
               <button
                 key={option.key}
                 type="button"
                 className="ui-action ui-action--choice"
-                data-testid="story-today-calendar"
-                onClick={() => {
-                  const next = chooseTodayCalendarOption(session.world, {
-                    personId: session.personId,
-                    optionKey: option.key,
-                    transitionHandlers:
-                      createCampaignElectionTransitionRegistry(),
-                  });
-                  if (next) onWorldChange(next);
-                }}
+                onClick={() =>
+                  onWorldChange(
+                    chooseStoryOption(session.world, {
+                      personId: session.personId,
+                      scene: moment.scene,
+                      optionKey: option.key,
+                      transitionHandlers:
+                        createCampaignElectionTransitionRegistry(),
+                    }),
+                  )
+                }
               >
                 {option.label}
-                <small>{option.description}</small>
+                {storyOptionNote(option) !== null ? (
+                  <small>{storyOptionNote(option)}</small>
+                ) : null}
               </button>
             ))}
-        {moment.scene.kind === "ordinary-stretch" ? null : (
-          <button
-            type="button"
-            className="ui-action ui-action--choice ui-action--quiet"
-            data-testid="story-let-time-pass"
-            aria-disabled={runner.pending || undefined}
-            aria-busy={runner.pending}
-            onClick={() => {
-              crisisStop.watch();
-              runner.submit({ kind: "quiet-stretch" });
-            }}
-          >
-            {moment.formativeYears ? "Let the year run on" : "Let time pass"}
-            <small data-testid="story-let-time-pass-target">
-              {moment.formativeYears || !quietPreview
-                ? "Come back to it when something needs you."
-                : `${describeTimeCommandPreview(quietPreview)}. Stops early for anything that needs you.`}
-            </small>
-          </button>
-        )}
-      </div>
+            {/* Dated invitations remain reachable beside an active scene. */}
+            {moment.scene.kind === "ordinary-stretch"
+              ? null
+              : todayOptions.map((option) => (
+                  <button
+                    key={option.key}
+                    type="button"
+                    className="ui-action ui-action--choice"
+                    data-testid="story-today-calendar"
+                    onClick={() => {
+                      const next = chooseTodayCalendarOption(session.world, {
+                        personId: session.personId,
+                        optionKey: option.key,
+                        transitionHandlers:
+                          createCampaignElectionTransitionRegistry(),
+                      });
+                      if (next) onWorldChange(next);
+                    }}
+                  >
+                    {option.label}
+                    <small>{option.description}</small>
+                  </button>
+                ))}
+          </div>
+        </>
+      ) : null}
 
       {crisisStop.stop ? (
         <p className="game-note" role="status" data-testid="story-crisis-stop">
