@@ -3,7 +3,13 @@ import {
   draftScope,
   type CompiledBillDraft,
 } from "../legislation-drafting";
-import { introduceMeasure, measureById } from "../legislation";
+import { addDays } from "../dates";
+import {
+  introduceMeasure,
+  measureActions,
+  measureById,
+  measurePosition,
+} from "../legislation";
 import { recordFiledProvision } from "../legislative-politics";
 import { recordDraftLineage } from "../legislation-draft-lineage";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
@@ -18,9 +24,16 @@ import {
   legislativePackForWorkKey,
 } from "../legislative-institutions";
 import { legislativeWorkKey } from "../legislative-work-key";
+import {
+  stateJurisdictionForKey,
+  stateKeyForJurisdictionSlug,
+} from "../life-places";
+import { rulePackById } from "../legislature-rule-packs";
+import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import { SeededRng } from "../rng";
 import { FEDERAL_PASSENGER_RAIL_PROPOSITION_KEY } from "../legislation-federal-rail-family";
 import { LOCAL_FIX_IT_FIRST_PROPOSITION_KEY } from "../legislation-local-fiscal-families";
+import { TRANSIT_PROGRAM_KEY } from "../legislation-transit-families";
 import type {
   EntityId,
   IsoDate,
@@ -61,15 +74,110 @@ export interface AutomaticLawCompileContext {
   readonly predicateAuthority: PredicateAuthority;
 }
 
+/** The automatic state transit authority is an authored game profile. */
+export function stateTransitAutomaticLawContext(
+  world: World,
+  jurisdictionId: EntityId,
+): AutomaticLawCompileContext | null {
+  const savedJurisdiction = world.jurisdictions[jurisdictionId];
+  const jurisdictionKey = savedJurisdiction
+    ? stateKeyForJurisdictionSlug(savedJurisdiction.slug)
+    : null;
+  if (!jurisdictionKey?.startsWith("US-")) return null;
+  const usps = jurisdictionKey.slice(3) as (typeof US_STATE_USPS)[number];
+  if (
+    !US_STATE_USPS.includes(usps) ||
+    stateJurisdictionForKey(jurisdictionKey)?.id !== jurisdictionId
+  )
+    return null;
+
+  const pack = legislativePackForJurisdiction(jurisdictionId);
+  if (!pack) return null;
+  try {
+    if (rulePackById(pack.packId).jurisdictionKey !== jurisdictionKey)
+      return null;
+  } catch {
+    return null;
+  }
+
+  return {
+    governmentLevel: "state",
+    jurisdictionId,
+    rulePackId: pack.packId,
+    scenarioKey: legislativeWorkKey(pack),
+    predicateAuthority: {
+      kind: "game-profile",
+      // This is the transit family’s internal program identity. The profile
+      // below is tied to this saved state and pack, and makes no standing-law
+      // claim about that state's real programs.
+      authorityKey: TRANSIT_PROGRAM_KEY,
+      authorityVersion: "automatic-state-transit-authority/v1",
+      profileVersion: "state-transit-service-profile/v1",
+      rulePackId: pack.packId,
+      governmentLevel: "state",
+      publicGovernmentIdentity: { kind: "jurisdiction", jurisdictionId },
+      permittedEffects: ["public-program-appropriation"],
+      citationLabel: `${jurisdictionKey} transit game profile`,
+      programLabel: `${jurisdictionKey} transit service`,
+      authorizedCeilingMinorUnits: null,
+      currency: "USD",
+      basis: "game-profile",
+    },
+  };
+}
+
+export const AUTOMATIC_LAW_QUESTION_COOLDOWN_DAYS = 365;
+
+/**
+ * Prevents an automatic producer from repeatedly toggling the same supported
+ * question. Only explicitly answered measures in that producer's persisted
+ * key namespace count, and the window starts at a terminal legislative action.
+ */
+export function automaticLawQuestionOnCooldown(
+  world: World,
+  input: {
+    readonly jurisdictionId: EntityId;
+    readonly propositionId: EntityId;
+    readonly stableKeyPrefix: string;
+    readonly asOf?: IsoDate;
+    readonly cooldownDays?: number;
+  },
+): boolean {
+  if (!input.stableKeyPrefix) return false;
+  const cooldownDays =
+    input.cooldownDays ?? AUTOMATIC_LAW_QUESTION_COOLDOWN_DAYS;
+  if (!Number.isSafeInteger(cooldownDays) || cooldownDays < 0) {
+    throw new Error(
+      "The automatic-law cooldown must be a non-negative integer.",
+    );
+  }
+  const asOf = input.asOf ?? world.currentDate;
+  return (world.history.legislativeMeasures ?? []).some((measure) => {
+    if (
+      measure.origin !== "member-introduction" ||
+      measure.jurisdictionId !== input.jurisdictionId ||
+      !measure.stableKey.startsWith(input.stableKeyPrefix) ||
+      !(measure.propositionAnswers ?? []).some(
+        (row) => row.propositionId === input.propositionId,
+      )
+    )
+      return false;
+    if (!measurePosition(world, measure.id).terminal) return false;
+    const terminalAction = measureActions(world, measure.id).at(-1);
+    if (!terminalAction) return false;
+    return asOf < addDays(terminalAction.occurredAt, cooldownDays);
+  });
+}
+
 export const AUTOMATIC_LAW_POSITION_MAPPINGS = [
   {
     propositionKey:
       "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
     answer: "yes",
     familyKey: "appropriations",
-    variantKey: "transit-staged-service-v1",
-    authorityKey: "standing:rural-transit-assistance",
-    authorityKind: "standing-statute",
+    variantKey: "transit-staged-service-v2",
+    authorityKey: null,
+    authorityKind: "game-profile",
     governmentLevel: "state",
   },
   {

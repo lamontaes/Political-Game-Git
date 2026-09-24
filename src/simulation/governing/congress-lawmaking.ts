@@ -5,10 +5,7 @@ import {
 } from "../congress-rule-pack";
 import { currentPresidentOf } from "../crisis/offices";
 import { scheduleFutureDueItem } from "../future-transitions";
-import {
-  measurePosition,
-  measureVotes,
-} from "../legislation";
+import { measurePosition, measureVotes } from "../legislation";
 import { makeCurrencyCode } from "../resources";
 import { chamberByKey } from "../legislature-rules";
 import { publicPartyAffiliation } from "../living-world/congress";
@@ -51,6 +48,7 @@ import {
   principledLeaning,
 } from "./officeholder-principles";
 import {
+  automaticLawQuestionOnCooldown,
   automaticLawMappingFor,
   introduceAutomaticLawMeasure,
 } from "./automatic-legislation";
@@ -193,6 +191,7 @@ function memberBillChoice(
   questions: readonly FederalQuestion[],
   lawAnswers: Map<EntityId, "yes" | "no" | null>,
   pending: Map<EntityId, boolean>,
+  coolingDown: Map<EntityId, boolean>,
 ): {
   readonly question: FederalQuestion;
   readonly answer: "yes" | "no";
@@ -213,11 +212,7 @@ function memberBillChoice(
       subjectClassFor(question.issueKey) === "revenue"
     )
       continue;
-    const leaning = principledLeaning(
-      world,
-      personId,
-      question.propositionId,
-    );
+    const leaning = principledLeaning(world, personId, question.propositionId);
     if (Math.abs(leaning.score) < CONGRESS_LAWMAKING_PROFILE.filingThreshold)
       continue;
     if (best && Math.abs(leaning.score) <= best.weight) continue;
@@ -240,7 +235,8 @@ function memberBillChoice(
           ? "no"
           : null;
     if (!answer) continue;
-    const proposition = world.policyCatalog.propositions[question.propositionId];
+    const proposition =
+      world.policyCatalog.propositions[question.propositionId];
     if (
       !proposition ||
       !automaticLawMappingFor(proposition.stableKey, answer, "federal")
@@ -252,6 +248,16 @@ function memberBillChoice(
         pendingFederalBillOn(world, question.propositionId),
       );
     if (pending.get(question.propositionId)) continue;
+    if (!coolingDown.has(question.propositionId))
+      coolingDown.set(
+        question.propositionId,
+        automaticLawQuestionOnCooldown(world, {
+          jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+          propositionId: question.propositionId,
+          stableKeyPrefix: `${CONGRESS_LAWMAKING_VERSION}:`,
+        }),
+      );
+    if (coolingDown.get(question.propositionId)) continue;
     best = {
       question,
       answer,
@@ -310,6 +316,7 @@ export function fileCongressBill(
   );
   const lawAnswers = new Map<EntityId, "yes" | "no" | null>();
   const pending = new Map<EntityId, boolean>();
+  const coolingDown = new Map<EntityId, boolean>();
   let sponsor: SeatedMember | null = null;
   let choice: ReturnType<typeof memberBillChoice> = null;
   while (order.length > 0 && !choice) {
@@ -321,6 +328,7 @@ export function fileCongressBill(
       questions,
       lawAnswers,
       pending,
+      coolingDown,
     );
     if (choice) sponsor = candidate;
   }

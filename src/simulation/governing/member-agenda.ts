@@ -43,8 +43,10 @@ import {
 import {
   AUTOMATIC_LAW_POSITION_MAPPINGS,
   automaticLawMappingFor,
+  automaticLawQuestionOnCooldown,
   compileAutomaticLawDraft,
   introduceAutomaticLawMeasure,
+  stateTransitAutomaticLawContext,
   type AutomaticLawCompileContext,
 } from "./automatic-legislation";
 import {
@@ -133,6 +135,11 @@ export function fileMemberAgendaBills(
 
   const pack = legislativePackForJurisdiction(input.jurisdictionId);
   if (!pack) return world;
+  const stateContext = stateTransitAutomaticLawContext(
+    world,
+    input.jurisdictionId,
+  );
+  if (!stateContext || stateContext.rulePackId !== pack.packId) return world;
 
   const seatedByChamber = pack.chambers.map((chamber) => ({
     chamber,
@@ -173,6 +180,7 @@ export function fileMemberAgendaBills(
   // actually files, then the next sponsor sees that recorded measure.
   const lawAnswers = new Map<EntityId, "yes" | "no" | null>();
   const pending = new Map<EntityId, boolean>();
+  const coolingDown = new Map<EntityId, boolean>();
   const filedPropositions = new Set<EntityId>();
   const unavailablePropositions = new Set<EntityId>();
 
@@ -201,6 +209,18 @@ export function fileMemberAgendaBills(
       const answer = leaning.score > 0 ? "yes" : "no";
       const mapping = automaticLawMappingFor(proposition.stableKey, answer);
       if (!mapping || mapping.governmentLevel !== "state") continue;
+
+      if (!coolingDown.has(propositionId)) {
+        coolingDown.set(
+          propositionId,
+          automaticLawQuestionOnCooldown(next, {
+            jurisdictionId: input.jurisdictionId,
+            propositionId,
+            stableKeyPrefix: `${LEGISLATIVE_INTAKE_VERSION}:`,
+          }),
+        );
+      }
+      if (coolingDown.get(propositionId)) continue;
 
       if (!lawAnswers.has(propositionId)) {
         lawAnswers.set(
@@ -260,6 +280,7 @@ export function fileMemberAgendaBills(
         answer: candidate.answer,
         designation,
         intakeKey: batchKey + ":" + encodeURIComponent(proposition.stableKey),
+        context: stateContext,
       });
       if (!draft) {
         unavailablePropositions.add(candidate.propositionId);
@@ -276,6 +297,7 @@ export function fileMemberAgendaBills(
 
       const introduced = introduceAutomaticLawMeasure(next, {
         jurisdictionId: input.jurisdictionId,
+        context: stateContext,
         stableKey: measureStableKey,
         propositionId: candidate.propositionId,
         answer: candidate.answer,
@@ -495,6 +517,14 @@ export function fileLocalMemberAgendaBill(
       lawInForce(next, grant.jurisdictionId, proposition.id)?.answer ?? null;
     if (currentAnswer === answer) continue;
     if (pendingBillOn(next, grant.jurisdictionId, proposition.id)) continue;
+    if (
+      automaticLawQuestionOnCooldown(next, {
+        jurisdictionId: grant.jurisdictionId,
+        propositionId: proposition.id,
+        stableKeyPrefix: `${LOCAL_MEMBER_AGENDA_VERSION}:`,
+      })
+    )
+      continue;
 
     const pack = legislativePackForWorkKey(context.scenarioKey);
     const chamber = pack?.chambers.find(

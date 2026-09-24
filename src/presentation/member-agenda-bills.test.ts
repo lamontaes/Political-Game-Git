@@ -3,7 +3,13 @@ import { describe, expect, it } from "vitest";
 import { searchLifePlaces } from "../simulation";
 import { stateJurisdictionForKey } from "../simulation/life-places";
 import { measurePropositionAnswer } from "../simulation/issue-record";
+import { US_STATE_USPS } from "../simulation/nationwide-world/state-executive-candidacy-packs";
 import { fileMemberAgendaBill } from "../simulation/governing/member-agenda";
+import {
+  automaticLawMappingFor,
+  compileAutomaticLawDraft,
+  stateTransitAutomaticLawContext,
+} from "../simulation/governing/automatic-legislation";
 import { principledLeaning } from "../simulation/governing/officeholder-principles";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
 import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
@@ -97,13 +103,55 @@ describe("a member files a bill of their own", () => {
       (record) => record.measureId === bill.id,
     );
     expect(lineage?.familyKey).toBe("appropriations");
-    expect(lineage?.variantKey).toBe("transit-staged-service-v1");
-    expect(lineage?.provenanceNote).toContain(
-      leaning.recordIds.join(", "),
+    expect(lineage?.variantKey).toBe("transit-staged-service-v2");
+    expect(lineage?.provenanceNote).toContain(leaning.recordIds.join(", "));
+    expect(lineage?.provenanceNote).toContain(`score of ${leaning.score}`);
+  });
+
+  it("compiles the typed state transit bill for all 50 saved state profiles", () => {
+    const proposition = Object.values(world.policyCatalog.propositions).find(
+      (entry) =>
+        entry.stableKey ===
+        "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
     );
-    expect(lineage?.provenanceNote).toContain(
-      `score of ${leaning.score}`,
-    );
+    expect(proposition).toBeDefined();
+    expect(
+      automaticLawMappingFor(proposition!.stableKey, "yes", "state")
+        ?.variantKey,
+    ).toBe("transit-staged-service-v2");
+    expect(
+      automaticLawMappingFor(proposition!.stableKey, "no", "state"),
+    ).toBeNull();
+
+    const territoryIds = ["US-PR", "US-DC"]
+      .map((key) => stateJurisdictionForKey(key)?.id)
+      .filter((id): id is string => id !== undefined);
+    for (const jurisdictionId of territoryIds)
+      expect(stateTransitAutomaticLawContext(world, jurisdictionId)).toBeNull();
+
+    for (const usps of US_STATE_USPS) {
+      const jurisdictionId = stateJurisdictionForKey(`US-${usps}`)!.id;
+      const context = stateTransitAutomaticLawContext(world, jurisdictionId);
+      expect(context, `${usps} state profile`).not.toBeNull();
+      const draft = compileAutomaticLawDraft({
+        world,
+        jurisdictionId,
+        propositionId: proposition!.id,
+        answer: "yes",
+        designation: `${usps} State Transit Bill`,
+        intakeKey: `state-transit-profile-coverage:${usps}`,
+        context: context!,
+      });
+      expect(draft, `${usps} state draft`).not.toBeNull();
+      expect(draft!.variantKey).toBe("transit-staged-service-v2");
+      expect(draft!.jurisdictionId).toBe(jurisdictionId);
+      expect(draft!.rulePackId).toBe(context!.rulePackId);
+      expect(
+        draft!.clauses.find(
+          (clause) => clause.provisionKey === "amount-provided",
+        )?.operativeEffect,
+      ).toEqual({ kind: "public-program-appropriation" });
+    }
   });
 
   it("files once per bill day", () => {
