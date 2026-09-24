@@ -256,6 +256,7 @@ describe("ordinary federal officeholder program matter", () => {
     world = adopted.world;
     const account = publicTaxAccountForIdentity(world, identity);
     if (!account) throw new Error("Expected the federal public account.");
+    const openingCash = cash(world, account.organizationId);
     world = createOrganization(world, {
       stableKey: "federal-program-matter-npc:payer",
       formedAt: world.currentDate,
@@ -281,7 +282,7 @@ describe("ordinary federal officeholder program matter", () => {
       account.organizationId,
       300_000_00,
     );
-    expect(cash(world, account.organizationId)).toBe(300_000_00);
+    expect(cash(world, account.organizationId)).toBe(openingCash + 300_000_00);
 
     world = openProgramMattersForAllOffices(world);
     const matter = governingMatters(world).find(
@@ -324,7 +325,9 @@ describe("ordinary federal officeholder program matter", () => {
     const installments = programInstallments(saved, FEDERAL_PROGRAM, identity);
     expect(installments.length).toBeGreaterThan(0);
     expect(installments.every((row) => row.status === "posted")).toBe(true);
-    expect(cash(saved, account.organizationId)).toBeLessThan(300_000_00);
+    expect(cash(saved, account.organizationId)).toBeLessThan(
+      openingCash + 300_000_00,
+    );
     expect(
       cash(saved, commitment[0]!.recipientOrganizationId!),
     ).toBeGreaterThan(0);
