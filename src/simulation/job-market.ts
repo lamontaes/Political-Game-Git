@@ -1362,7 +1362,10 @@ export function settleJobPay(world: World, personId: EntityId): World {
 function settleWeeklyRecordedPay(
   world: World,
   personId: EntityId,
-  accepts: (flow: World["history"]["resourceFlows"][number], work: WorkRelationship) => boolean,
+  accepts: (
+    flow: World["history"]["resourceFlows"][number],
+    work: WorkRelationship,
+  ) => boolean,
   earliestDueExclusive?: IsoDate,
   isDueAllowed?: (dueOn: IsoDate) => boolean,
 ): World {
@@ -1385,7 +1388,9 @@ function settleWeeklyRecordedPay(
     }
     const firstNewWeek =
       earliestDueExclusive && earliestDueExclusive >= flow.startsAt
-        ? Math.floor(daysBetween(flow.startsAt, earliestDueExclusive) / WEEK_DAYS) + 1
+        ? Math.floor(
+            daysBetween(flow.startsAt, earliestDueExclusive) / WEEK_DAYS,
+          ) + 1
         : 1;
     const firstWeek = Math.max(paidWeeks + 1, firstNewWeek);
     for (
@@ -1442,17 +1447,10 @@ export function settleHouseholdAdultJobPay(
   );
   if (primary.length !== 1) return world;
   let next = world;
-  for (const adultId of peopleInHouseholdAt(
-    world,
-    primary[0]!.household.id,
-  )) {
+  for (const adultId of peopleInHouseholdAt(world, primary[0]!.household.id)) {
     if (adultId === childPersonId) continue;
     const adult = next.people[adultId];
-    if (
-      !adult ||
-      ageOnDate(adult.birthDate, next.currentDate) < 18
-    )
-      continue;
+    if (!adult || ageOnDate(adult.birthDate, next.currentDate) < 18) continue;
     const paid = settleWeeklyRecordedPay(
       next,
       adultId,

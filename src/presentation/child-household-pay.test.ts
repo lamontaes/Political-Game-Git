@@ -7,8 +7,15 @@ import {
   serializeWorld,
 } from "../simulation";
 import { addDays } from "../simulation/dates";
-import { createOrganization, createWorkRelationship, recordWorkStatus } from "../simulation/life";
-import { householdMembershipsAt, workStatusAt } from "../simulation/life-queries";
+import {
+  createOrganization,
+  createWorkRelationship,
+  recordWorkStatus,
+} from "../simulation/life";
+import {
+  householdMembershipsAt,
+  workStatusAt,
+} from "../simulation/life-queries";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { settleHouseholdAdultJobPay } from "../simulation/job-market";
 import {
@@ -23,7 +30,10 @@ import type { EntityId, World } from "../simulation/types";
 import { createExplicitGeographyLife } from "./new-game-geography";
 import { passOrdinaryDays } from "./ordinary-life";
 
-const TEST_PROVENANCE = { kind: "authored" as const, note: "child household pay test" };
+const TEST_PROVENANCE = {
+  kind: "authored" as const,
+  note: "child household pay test",
+};
 
 function childLife(placeKey: string, seed: string) {
   const life = createExplicitGeographyLife({
@@ -44,7 +54,12 @@ function childLife(placeKey: string, seed: string) {
     (row) => row.state.residenceRole === "primary",
   );
   if (!household) throw new Error("A child test needs a recorded household");
-  return { world: life.game.world, personId, adultId, householdId: household.household.id };
+  return {
+    world: life.game.world,
+    personId,
+    adultId,
+    householdId: household.household.id,
+  };
 }
 
 function giveRecordedJob(
@@ -109,8 +124,7 @@ function giveRecordedJob(
 
 function days(world: World, count: number): World {
   let next = world;
-  for (let day = 0; day < count; day += 1)
-    next = passOrdinaryDays(next, 1);
+  for (let day = 0; day < count; day += 1) next = passOrdinaryDays(next, 1);
   return next;
 }
 
@@ -130,14 +144,34 @@ describe("recorded adult work in a child household", () => {
       });
       const job = giveRecordedJob(world, child.adultId, weeklyMinor);
       world = days(job.world, 7);
-      expect(world.history.resourceTransferOutcomes.filter(
-        (row) => row.resourceFlowId === job.flowId,
-      )).toHaveLength(1);
-      expect(resourcePositionAt(world, { kind: "person", personId: child.adultId }, "USD")?.liquidBalance.minorUnits).toBe(weeklyMinor);
-      expect(resourcePositionAt(world, { kind: "household", householdId: child.householdId }, "USD")?.liquidBalance.minorUnits).toBe(0);
+      expect(
+        world.history.resourceTransferOutcomes.filter(
+          (row) => row.resourceFlowId === job.flowId,
+        ),
+      ).toHaveLength(1);
+      expect(
+        resourcePositionAt(
+          world,
+          { kind: "person", personId: child.adultId },
+          "USD",
+        )?.liquidBalance.minorUnits,
+      ).toBe(weeklyMinor);
+      expect(
+        resourcePositionAt(
+          world,
+          { kind: "household", householdId: child.householdId },
+          "USD",
+        )?.liquidBalance.minorUnits,
+      ).toBe(0);
       const reloaded = deserializeWorld(serializeWorld(world));
-      const repeated = settleHouseholdAdultJobPay(reloaded, child.personId, reloaded.currentDate);
-      expect(repeated.history.resourceTransferOutcomes).toEqual(reloaded.history.resourceTransferOutcomes);
+      const repeated = settleHouseholdAdultJobPay(
+        reloaded,
+        child.personId,
+        reloaded.currentDate,
+      );
+      expect(repeated.history.resourceTransferOutcomes).toEqual(
+        reloaded.history.resourceTransferOutcomes,
+      );
       assertWorldIntegrity(reloaded);
     }
   });
@@ -169,9 +203,11 @@ describe("recorded adult work in a child household", () => {
       supersedesTermsId: previousTerms.id,
     });
     world = days(world, 7);
-    expect(world.history.resourceTransferOutcomes.filter(
-      (row) => row.resourceFlowId === job.flowId,
-    ).map((row) => row.transferredAmount.minorUnits)).toEqual([80_000, 100_000]);
+    expect(
+      world.history.resourceTransferOutcomes
+        .filter((row) => row.resourceFlowId === job.flowId)
+        .map((row) => row.transferredAmount.minorUnits),
+    ).toEqual([80_000, 100_000]);
     const status = workStatusAt(world, job.workId)!;
     world = recordWorkStatus(world, {
       stableKey: "child-pay-change:job-ended",
@@ -183,10 +219,18 @@ describe("recorded adult work in a child household", () => {
       supersedesStatusId: status.id,
     });
     world = days(deserializeWorld(serializeWorld(world)), 7);
-    expect(world.history.resourceTransferOutcomes.filter(
-      (row) => row.resourceFlowId === job.flowId,
-    )).toHaveLength(2);
-    expect(resourcePositionAt(world, { kind: "household", householdId: child.householdId }, "USD")?.liquidBalance.minorUnits).toBe(0);
+    expect(
+      world.history.resourceTransferOutcomes.filter(
+        (row) => row.resourceFlowId === job.flowId,
+      ),
+    ).toHaveLength(2);
+    expect(
+      resourcePositionAt(
+        world,
+        { kind: "household", householdId: child.householdId },
+        "USD",
+      )?.liquidBalance.minorUnits,
+    ).toBe(0);
 
     world = createResourceFlow(world, {
       stableKey: "child-pay-change:household-contribution",
@@ -215,8 +259,20 @@ describe("recorded adult work in a child household", () => {
       note: null,
       provenance: TEST_PROVENANCE,
     });
-    expect(resourcePositionAt(world, { kind: "household", householdId: child.householdId }, "USD")?.liquidBalance.minorUnits).toBe(50_000);
-    expect(resourcePositionAt(world, { kind: "person", personId: child.adultId }, "USD")?.liquidBalance.minorUnits).toBe(130_000);
+    expect(
+      resourcePositionAt(
+        world,
+        { kind: "household", householdId: child.householdId },
+        "USD",
+      )?.liquidBalance.minorUnits,
+    ).toBe(50_000);
+    expect(
+      resourcePositionAt(
+        world,
+        { kind: "person", personId: child.adultId },
+        "USD",
+      )?.liquidBalance.minorUnits,
+    ).toBe(130_000);
     expect(world.currentDate).toBe(addDays(startedAt, 21));
     assertWorldIntegrity(deserializeWorld(serializeWorld(world)));
   });
@@ -231,7 +287,13 @@ describe("recorded adult work in a child household", () => {
     );
     expect(paid).toHaveLength(1);
     expect(paid[0]!.occurredAt).toBe(later.currentDate);
-    expect(resourcePositionAt(later, { kind: "person", personId: child.adultId }, "USD")?.liquidBalance.minorUnits).toBe(75_000);
+    expect(
+      resourcePositionAt(
+        later,
+        { kind: "person", personId: child.adultId },
+        "USD",
+      )?.liquidBalance.minorUnits,
+    ).toBe(75_000);
   });
 
   it("does not infer work, pay, or a child's knowledge from an unknown livelihood", () => {
@@ -240,11 +302,18 @@ describe("recorded adult work in a child household", () => {
       (row) => row.personId === child.personId,
     );
     const later = days(child.world, 7);
-    expect(later.history.resourceTransferOutcomes.filter((row) =>
-      row.resourceFlowId &&
-      later.history.resourceFlows.find((flow) => flow.id === row.resourceFlowId)?.basisReference.kind === "work",
-    )).toHaveLength(0);
-    expect(later.history.knowledge.filter((row) => row.personId === child.personId)).toEqual(priorKnowledge);
+    expect(
+      later.history.resourceTransferOutcomes.filter(
+        (row) =>
+          row.resourceFlowId &&
+          later.history.resourceFlows.find(
+            (flow) => flow.id === row.resourceFlowId,
+          )?.basisReference.kind === "work",
+      ),
+    ).toHaveLength(0);
+    expect(
+      later.history.knowledge.filter((row) => row.personId === child.personId),
+    ).toEqual(priorKnowledge);
   });
 
   it("does not tell the child about a recorded adult job loss it has not learned", () => {
@@ -264,11 +333,13 @@ describe("recorded adult work in a child household", () => {
       (row) => row.personId === child.personId,
     );
     const later = days(ended, 7);
-    expect(later.history.resourceTransferOutcomes.filter(
-      (row) => row.resourceFlowId === job.flowId,
-    )).toHaveLength(0);
-    expect(later.history.knowledge.filter(
-      (row) => row.personId === child.personId,
-    )).toEqual(priorChildKnowledge);
+    expect(
+      later.history.resourceTransferOutcomes.filter(
+        (row) => row.resourceFlowId === job.flowId,
+      ),
+    ).toHaveLength(0);
+    expect(
+      later.history.knowledge.filter((row) => row.personId === child.personId),
+    ).toEqual(priorChildKnowledge);
   });
 });
