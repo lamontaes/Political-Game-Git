@@ -1,5 +1,7 @@
 import {
   OPENING_LIFE_ADDITIONS,
+  OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS,
+  isArchivedRoutineOpeningSceneKey,
   openingLifeSceneAtStage,
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
@@ -362,14 +364,22 @@ function gatherCandidates(
     families: EPISODE_FAMILIES,
   });
   const episodes: Candidate[] = eligibility.beats
-    .filter((beat) => {
-      // Recurring leisure must not displace a situation in the life stream
-      // merely because the clock reached a new day.
-      const opening = OPENING_LIFE_ADDITIONS.find(
-        (entry) => `opening.${entry.key}` === beat.episodeKey,
-      );
-      return opening?.recurrence !== "daily";
-    })
+    .filter(
+      (beat) =>
+        // Recurring leisure must not displace a situation in the life stream
+        // merely because the clock reached a new day.
+        OPENING_LIFE_ADDITIONS.find(
+          (entry) => `opening.${entry.key}` === beat.episodeKey,
+        )?.recurrence !== "daily" &&
+        (beat.stageKey !== "moment" ||
+          !OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(
+            beat.episodeKey.replace(/^opening\./, ""),
+          )) &&
+        (!beat.episodeKey.startsWith("opening.") ||
+          !isArchivedRoutineOpeningSceneKey(
+            beat.episodeKey.slice("opening.".length),
+          )),
+    )
     .map((beat) => {
       const thread = threadForEpisodeBeat(threads, beat);
       return {
@@ -561,7 +571,10 @@ function chooseStoryScene(
   };
 }
 
-/** Internal quiet-stretch pacing for tests and legacy callers. */
+/**
+ * The retained internal quiet-stretch command stops for commitments, civic
+ * holds and the player's own election. No quiet-stretch button is offered.
+ */
 const STORY_STRETCH_STOPS = { socialHolds: false, dueItems: false } as const;
 
 /**
@@ -680,7 +693,7 @@ export function chooseTodayCalendarOption(
   return null;
 }
 
-/** Today's calendar actions remain in the story; Day and Week advance time. */
+/** Today's real calendar commitments remain available when no scene is open. */
 export function ordinaryStretchOptions(
   world: World,
   personId: EntityId,

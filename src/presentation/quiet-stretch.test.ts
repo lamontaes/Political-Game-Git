@@ -241,7 +241,7 @@ describe("an invitation earlier the same day", () => {
   });
 });
 
-describe("today's calendar choices in the story", () => {
+describe("beside the persistent Day and Week controls", () => {
   it("offers the meeting due today, which time will not step over", () => {
     const { world: opened, personId } = renoLife();
     const meeting = opened.history.scheduledActivities.find(

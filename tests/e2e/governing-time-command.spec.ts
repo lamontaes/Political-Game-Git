@@ -7,8 +7,7 @@ import {
 } from "./support/creator";
 
 /**
- * GOVERNING increment 1: the generic "Let time pass" control says where it
- * will stop before it runs, and one click moves the clock exactly once.
+ * The shell Week control discloses its destination before one clock command.
  */
 
 async function freshBrowser(page: Page) {
@@ -33,9 +32,9 @@ async function freshBrowser(page: Page) {
   await page.reload();
 }
 
-const MONTH_DATE = /to ([A-Z][a-z]+ \d{1,2}, \d{4})/;
+const TARGET_DATE = /Skip to [A-Z][a-z]+, ([A-Z][a-z]+ \d{1,2}, \d{4})/;
 
-test("the quiet stretch discloses its end date and lands there once", async ({
+test("the shell week discloses its target and lands there once", async ({
   page,
 }) => {
   test.setTimeout(240_000);
@@ -50,11 +49,13 @@ test("the quiet stretch discloses its end date and lands there once", async ({
   const story = page.getByTestId("story-section");
   await expect(story).toBeVisible();
   for (let step = 0; step < 3; step += 1) {
-    const target = page.getByTestId("story-let-time-pass-target");
-    await expect(target).toContainText(MONTH_DATE);
-    const disclosed = (await target.innerText()).match(MONTH_DATE)![1]!;
+    const target = page.locator("#pg-nav-week-target");
+    await expect(target).toContainText(TARGET_DATE);
+    const disclosed = ((await target.textContent()) ?? "").match(
+      TARGET_DATE,
+    )![1]!;
     const before = await story.getByTestId("moment-when").innerText();
-    await page.getByTestId("story-let-time-pass").click();
+    await page.getByTestId("shell-pass-week").click();
     // The clock's own idle signal, the way every other time proof waits. The
     // panel re-renders while the command is in flight, so "the text changed"
     // can be true of a frame the command has not finished writing.

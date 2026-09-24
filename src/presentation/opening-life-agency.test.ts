@@ -14,6 +14,10 @@ import {
 } from "../simulation/queries";
 import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
 import {
+  activeOrdinaryGoal,
+  chooseOrdinaryLifeGoal,
+} from "../simulation/life-personality";
+import {
   lifeOpportunitiesFor,
   refreshLifeOpportunities,
 } from "../simulation/life-opportunities";
@@ -21,9 +25,9 @@ import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { createOpeningLifeController } from "./opening-life";
 import { joinOrdinaryGroup } from "./ordinary-community";
 import {
-  chooseOpeningLifeScene,
   currentOpeningLifeScene,
   openNextLifeScene,
+  openOptionalLifeActivity,
   walkOpeningNeighborhood,
 } from "./life-scene-flow";
 import { projectLifeConversation } from "./life-conversation";
@@ -69,6 +73,25 @@ describe("ordinary-life agency and boundaries", () => {
       expect(
         latestPersonalValue(a.world, a.playerPersonId, id)?.orientation,
       ).toBe(latestPersonalValue(b.world, b.playerPersonId, id)?.orientation);
+  });
+  it("does not complete a goal through a retired quiet-time scene", () => {
+    const game = start(6);
+    const world = chooseOrdinaryLifeGoal(
+      game.world,
+      game.playerPersonId,
+      "learning",
+    );
+    expect(
+      openOptionalLifeActivity(
+        world,
+        game.playerPersonId,
+        "young.home.choose-activity",
+      ),
+    ).toBe(world);
+    expect(activeOrdinaryGoal(world, game.playerPersonId, "learning")).toBe(
+      true,
+    );
+    assertWorldIntegrity(world);
   });
   it("records accompanied travel and keeps childhood conversations age-appropriate", () => {
     const game = start(6);

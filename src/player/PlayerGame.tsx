@@ -65,7 +65,6 @@ import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 import { useCrisisStop } from "./use-crisis-stop";
 import {
   TimeCommandProvider,
-  useTimeCommand,
   useTimeCommandRunner,
 } from "./time-command-runner";
 import {
@@ -146,10 +145,10 @@ import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
   chooseTodayCalendarOption,
-  todayCalendarOptions,
   presentPeopleSentence,
   projectStoryMoment,
   storyOptionNote,
+  todayCalendarOptions,
   type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
@@ -3635,15 +3634,19 @@ function PlayingScreen({
                     and the first orientation are full surfaces of their own,
                     so the moment is not offered underneath them.
                   */
-                  pendingAvailable={!conversation && !showOrientation}
-                  pendingOpen={shell.momentOpen}
+                  pendingAvailable={
+                    !conversation &&
+                    !showOrientation &&
+                    projectedMoment.scene.kind !== "ordinary-stretch"
+                  }
+                  pendingOpen={
+                    shell.momentOpen &&
+                    projectedMoment.scene.kind !== "ordinary-stretch"
+                  }
                   pendingLife={
                     <StoryView
                       session={session}
-                      moment={projectStoryMoment(
-                        session.world,
-                        session.personId,
-                      )}
+                      moment={projectedMoment}
                       onWorldChange={onWorldChange}
                     />
                   }
@@ -4006,9 +4009,7 @@ function PlayingScreen({
                 }}
                 onSaveAndLeave={() => void saveAndReturnToTitle()}
                 onLeave={leaveNow}
-                {...(capabilities.formativeYears || readOnly
-                  ? {}
-                  : { onPassDays: passDays, passTargets })}
+                {...(readOnly ? {} : { onPassDays: passDays, passTargets })}
                 passing={timeRunner.pending}
               />
             ) : null}
@@ -5739,7 +5740,6 @@ function StoryView({
   readonly onWorldChange: (world: World) => void;
 }) {
   const [journalOpen, setJournalOpen] = useState(false);
-  const crisisStop = useCrisisStop(session.world);
   const todayOptions = useMemo(
     () => todayCalendarOptions(session.world, session.personId),
     [session.world, session.personId],
@@ -5886,15 +5886,6 @@ function StoryView({
                 ))}
           </div>
         </>
-      ) : null}
-
-      {crisisStop.stop ? (
-        <p className="game-note" role="status" data-testid="story-crisis-stop">
-          {crisisStop.stop.sentence}{" "}
-          {crisisStop.stop.target === "authority"
-            ? "It is waiting in your office."
-            : "It is waiting under Who you are."}
-        </p>
       ) : null}
 
       {moment.openThreads.length > 0 ? (
@@ -6187,13 +6178,6 @@ function TodayView({
           personId={session.personId}
           onWorldChange={onWorldChange}
         />
-        {embedded ? null : (
-          <PassDayControl
-            session={session}
-            onWorldChange={onWorldChange}
-            onOpenWork={() => onGoTo("work", "jobs")}
-          />
-        )}
       </section>
 
       <nav className="pg-today-links" aria-label="From today">
@@ -6228,100 +6212,6 @@ function TodayView({
         </button>
       </nav>
     </section>
-  );
-}
-
-/**
- * Moving on to tomorrow. The one control that waits, wherever it appears.
- *
- * It is on Today, and it is on Work, because the loop of a campaign or a job
- * is "act, then let the day end": sending somebody from the work they are
- * doing to another screen to end the day was the hunting the owner described.
- * It is the same canonical writer and the same words in both places.
- */
-function PassDayControl({
-  session,
-  onWorldChange,
-  onOpenWork,
-  withClock = false,
-}: {
-  readonly session: Session;
-  readonly onWorldChange: (world: World) => void;
-  readonly onOpenWork: () => void;
-  /** Say what time it is beside the control, where nothing else on the page does. */
-  readonly withClock?: boolean;
-}) {
-  const today = useMemo(
-    () => (withClock ? projectToday(session.world, session.personId) : null),
-    [withClock, session.world, session.personId],
-  );
-  const runner = useTimeCommand({
-    world: session.world,
-    personId: session.personId,
-    onWorldChange,
-  });
-  const [outcome, setOutcome] = useState<string | null>(null);
-  const target = useMemo(
-    () =>
-      previewTimeCommand(session.world, session.personId, {
-        kind: "days",
-        days: 1,
-      }),
-    [session.world, session.personId],
-  );
-  return (
-    <div className="game-choices pg-pass-day">
-      {today ? (
-        <p className="game-band" data-testid="day-date">
-          {today.dateLabel} · {today.timeLabel}
-        </p>
-      ) : null}
-      <button
-        type="button"
-        data-testid="pass-day"
-        aria-disabled={runner.pending || undefined}
-        aria-busy={runner.pending}
-        onClick={() =>
-          runner.submit({ kind: "days", days: 1 }, (report) => {
-            if (
-              report.status === "accepted" &&
-              report.reached &&
-              acceptedOfferStarts(session.world, session.personId).some(
-                (entry) => entry.startOn === report.reached?.date,
-              )
-            ) {
-              setOutcome(null);
-              onOpenWork();
-              return;
-            }
-            setOutcome(
-              report.stoppedEarly && report.target
-                ? `${stoppedEarlyLabel(report.target)} ${report.outcome}`
-                : report.outcome,
-            );
-          })
-        }
-      >
-        Get on with the day
-        <small>
-          {runner.pending
-            ? "Time is passing…"
-            : target
-              ? `${skipToLabel(target.target)}. Stops early for anything protected.`
-              : "Move to tomorrow."}
-        </small>
-      </button>
-      {outcome && !runner.pending ? (
-        <p
-          className="game-note"
-          role="status"
-          data-testid="pass-day-outcome"
-          style={{ whiteSpace: "pre-line" }}
-        >
-          {outcome}
-        </p>
-      ) : null}
-    </div>
   );
 }
 
