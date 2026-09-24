@@ -75,24 +75,28 @@ export const CONGRESS_LAWMAKING_VERSION = "congress-intake/v1";
 export const CONGRESS_INTAKE_TRANSITION = "congress:intake" as const;
 export const SPONSOR_MOTIVE_EVENT = "legislation.sponsor-motive" as const;
 
-const FEDERAL_PASSENGER_RAIL_AUTHORITY: PredicateAuthority = {
-  kind: "game-profile",
-  authorityKey: "game-profile:federal-passenger-rail/v1",
-  authorityVersion: "federal-passenger-rail-authority/v1",
-  profileVersion: "federal-passenger-rail/v1",
-  rulePackId: US_CONGRESS_PACK_ID,
-  governmentLevel: "federal",
-  publicGovernmentIdentity: {
-    kind: "jurisdiction",
-    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-  },
-  permittedEffects: ["public-program-appropriation"],
-  citationLabel: "Federal passenger-rail game profile",
-  programLabel: "passenger-rail expansion",
-  authorizedCeilingMinorUnits: null,
-  currency: makeCurrencyCode("USD"),
-  basis: "game-profile",
-};
+// This module is reached through the shared clock import graph. Resolve the
+// jurisdiction only when a bill is filed, after that graph has initialized.
+function federalPassengerRailAuthority(): PredicateAuthority {
+  return {
+    kind: "game-profile",
+    authorityKey: "game-profile:federal-passenger-rail/v1",
+    authorityVersion: "federal-passenger-rail-authority/v1",
+    profileVersion: "federal-passenger-rail/v1",
+    rulePackId: US_CONGRESS_PACK_ID,
+    governmentLevel: "federal",
+    publicGovernmentIdentity: {
+      kind: "jurisdiction",
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    },
+    permittedEffects: ["public-program-appropriation"],
+    citationLabel: "Federal passenger-rail game profile",
+    programLabel: "passenger-rail expansion",
+    authorizedCeilingMinorUnits: null,
+    currency: makeCurrencyCode("USD"),
+    basis: "game-profile",
+  };
+}
 
 /**
  * PLACEHOLDER, every number here, until research question
@@ -338,7 +342,7 @@ export function fileCongressBill(
       jurisdictionId,
       rulePackId: US_CONGRESS_PACK_ID,
       scenarioKey: `institution:${US_CONGRESS_PACK_ID}`,
-      predicateAuthority: FEDERAL_PASSENGER_RAIL_AUTHORITY,
+      predicateAuthority: federalPassengerRailAuthority(),
     },
     propositionId: question.propositionId,
     answer,
