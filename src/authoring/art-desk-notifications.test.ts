@@ -205,7 +205,13 @@ describe("Art Desk reply notifications", () => {
     });
     const after = projectArtbench({
       registryRequests: [requestOne],
-      events: [...ingested, ...notes, unrelated, requestOneNote, ...archiveTags],
+      events: [
+        ...ingested,
+        ...notes,
+        unrelated,
+        requestOneNote,
+        ...archiveTags,
+      ],
     });
     expect(artDeskNotifications(before)).toHaveLength(7);
     expect(artDeskNotifications(after).map((item) => item.eventId)).toEqual([
@@ -217,7 +223,8 @@ describe("Art Desk reply notifications", () => {
       expect(after.candidates[id].decisions).toHaveLength(0);
       expect(after.candidates[id].tags.reviewQueue).toContain(`${id}:archived`);
     }
-    expect(artDeskCards(after).some((card) => card.tabs.includes("archived")))
-      .toBe(true);
+    expect(
+      artDeskCards(after).some((card) => card.tabs.includes("archived")),
+    ).toBe(true);
   });
 });
