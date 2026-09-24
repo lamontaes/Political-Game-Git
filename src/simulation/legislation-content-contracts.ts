@@ -10,7 +10,6 @@
 
 import { spokenDate } from "./dates";
 import type {
-  CurrencyCode,
   IsoDate,
   LegislativeProvisionBeneficiary,
   LegislativeProvisionEffectIntent,
@@ -411,7 +410,7 @@ export type PredicateAuthority =
       readonly authorizesSpending: boolean;
       /** The ceiling that authority set, where it set one. */
       readonly authorizedCeilingMinorUnits: number | null;
-      readonly currency: CurrencyCode;
+      readonly currency: string;
       readonly evidence: ProgramContentEvidence;
     }
   | {
@@ -421,7 +420,7 @@ export type PredicateAuthority =
       readonly programLabel: string;
       readonly authorizesSpending: boolean;
       readonly authorizedCeilingMinorUnits: number | null;
-      readonly currency: CurrencyCode;
+      readonly currency: string;
       /** The measure on this player's own docket. */
       readonly measureId: string;
       readonly docketKey: string;
