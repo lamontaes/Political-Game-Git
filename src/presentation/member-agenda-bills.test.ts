@@ -73,8 +73,36 @@ describe("a member files a bill of their own", () => {
     // Nothing is law on the question yet, so only support files a bill.
     expect(answer).toBe("yes");
     expect(score).toBeGreaterThan(0);
-    expect(bill.shortTitle).toBe(
-      world.policyCatalog.propositions[propositionId]!.name,
+    expect(bill.shortTitle).toBe("Additional Service Hours");
+  });
+
+  it("records the compiled appropriation and its saved political cause", () => {
+    const bill = agendaBills(world)[0]!;
+    const leaning = principledLeaning(
+      world,
+      bill.sponsorPersonId!,
+      bill.propositionAnswers![0]!.propositionId,
+    );
+    const provision = (world.history.legislativeProvisions ?? []).find(
+      (record) =>
+        record.measureId === bill.id &&
+        record.provisionKey === "amount-provided",
+    );
+    expect(provision?.operativeEffect).toEqual({
+      kind: "public-program-appropriation",
+    });
+    expect(provision?.fiscalExposureMinorUnits).toBeGreaterThan(0);
+
+    const lineage = (world.history.legislativeDraftLineages ?? []).find(
+      (record) => record.measureId === bill.id,
+    );
+    expect(lineage?.familyKey).toBe("appropriations");
+    expect(lineage?.variantKey).toBe("transit-staged-service-v1");
+    expect(lineage?.provenanceNote).toContain(
+      leaning.recordIds.join(", "),
+    );
+    expect(lineage?.provenanceNote).toContain(
+      `score of ${leaning.score}`,
     );
   });
 
@@ -88,5 +116,15 @@ describe("a member files a bill of their own", () => {
       intakeKey,
     });
     expect(again).toBe(world);
+  });
+
+  it("does not repeat the same pending issue at the next intake", () => {
+    const before = world.history.legislativeMeasures?.length ?? 0;
+    const laterIntake = fileMemberAgendaBill(world, {
+      jurisdictionId: colorado,
+      intakeKey: "later-intake-same-saved-cause",
+    });
+    expect(laterIntake.history.legislativeMeasures).toHaveLength(before);
+    expect(agendaBills(laterIntake)).toHaveLength(agendaBills(world).length);
   });
 }, 900_000);

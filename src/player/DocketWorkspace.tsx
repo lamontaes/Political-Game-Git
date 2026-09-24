@@ -7,8 +7,12 @@ import {
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { RecordedSittingAdmission } from "./RecordedSittingAdmission";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
-import { regularSessionWindow } from "../presentation/legislative-session-window";
+import {
+  regularSessionActionRefusal,
+  regularSessionWindow,
+} from "../presentation/legislative-session-window";
 import { legislativeBlueprint } from "../simulation";
+import { legislativeRulePackForWorld } from "../simulation/legislative-procedure-world";
 import {
   currentCompositionDraft,
   previewBillComposition,
@@ -146,10 +150,11 @@ function DocketWorkspaceBody({
     setSelectedKey(null);
   }
 
-  const sessionWindow = regularSessionWindow(
-    legislativeBlueprint(scenarioKey).pack,
-    world.currentDate,
+  const sessionPack = legislativeRulePackForWorld(
+    world,
+    legislativeBlueprint(scenarioKey).pack.packId,
   );
+  const sessionWindow = regularSessionWindow(sessionPack, world.currentDate);
   return (
     <section className="docket" data-testid="docket">
       <h3 className="docket-heading">The bills this office is carrying</h3>
@@ -175,8 +180,12 @@ function DocketWorkspaceBody({
       {sessionWindow.kind === "past-outer-limit" ? (
         <p data-testid="docket-session-limit">
           This chamber's regular session ended {sessionWindow.deadline}. No
-          special session is on record, so there is no procedural work to do
-          here until one is called.
+          special session is on record.
+        </p>
+      ) : null}
+      {sessionWindow.kind === "outside-regular-session-year" ? (
+        <p data-testid="docket-session-limit">
+          {regularSessionActionRefusal(sessionPack, world.currentDate)}
         </p>
       ) : null}
 

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
   GAME_ADULT_CANDIDACY_AGE,
@@ -123,6 +124,11 @@ function fileKentuckyCampaign(
     candidatePersonId,
     jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
     officeKey: kentuckyOfficeKey(),
+    districtBinding: namedSeatForFixture(
+      base,
+      candidatePersonId,
+      kentuckyOfficeKey(),
+    ),
     electionDate: addDays(base.currentDate, 21),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
@@ -904,7 +910,7 @@ describe("support truth and what the campaign is told about it", () => {
     expect(disagreements).toBeGreaterThan(6);
   });
 
-  it("is the one metric a production world may establish for itself", () => {
+  it("is declared as a simulation-established production metric", () => {
     // The production catalog boundary names this key rather than importing it,
     // because importing back would close a cycle. This is the check that keeps
     // the two from drifting apart.

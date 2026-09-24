@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import { candidacyPackForJurisdiction } from "./candidacy";
 import { doorKnockingReturn } from "./campaign-recognition";
@@ -33,7 +34,7 @@ describe("what a door returns depends on who is knocking", () => {
     let world = fileForOffice(
       created.game.world,
       personId,
-      null,
+      namedSeatForFixture(created.game.world, personId, office.officeKey),
       office.officeKey,
     );
     const campaign = () =>

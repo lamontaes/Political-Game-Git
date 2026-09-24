@@ -1,6 +1,10 @@
 import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import { SeededRng } from "../rng";
+import {
+  drawLegislativeStartingProcedures,
+  LEGISLATIVE_STARTING_PROCEDURES_VERSION,
+} from "../legislative-starting-procedures";
 import type { World } from "../types";
 import { assertWorldIntegrity } from "../world";
 import {
@@ -13,8 +17,10 @@ import {
 } from "./deterministic-math";
 import { WORLD_CONDITION_ID_KIND, worldConditionRecords } from "./integrity";
 import { CRUNCH46_POLICY } from "./policy";
+import { drawStateTaxServiceStartingConditions } from "./state-tax-service-profiles";
 import type {
   MacroStartingConditionsRecord,
+  LegislativeStartingProceduresRecord,
   PoliticalStartingConditionsRecord,
   StartingRegime,
   WorldConditionRecord,
@@ -125,6 +131,18 @@ export function politicalStartingConditions(
   );
 }
 
+/** Null on saves created before the saved state procedure profile. */
+export function legislativeStartingProceduresCondition(
+  world: World,
+): LegislativeStartingProceduresRecord | null {
+  return (
+    worldConditionRecords(world).find(
+      (record): record is LegislativeStartingProceduresRecord =>
+        record.kind === "legislative-starting-procedures",
+    ) ?? null
+  );
+}
+
 /**
  * One seat's saved starting condition (its generated share and affiliation at
  * Begin), or null for a legacy save or an unknown seat. A reader only: later
@@ -226,6 +244,13 @@ export function ensureWorldStartingConditions(
       regime,
     },
     drawMacroStartingConditions(world, regime),
+    {
+      kind: "legislative-starting-procedures",
+      stableKey: `${KEY}:legislative-starting-procedures`,
+      contractVersion: LEGISLATIVE_STARTING_PROCEDURES_VERSION,
+      procedures: drawLegislativeStartingProcedures(world),
+    },
+    drawStateTaxServiceStartingConditions(world),
   ];
   if (options.political) drafts.push(options.political(world, regime));
   return appendWorldConditions(world, drafts);

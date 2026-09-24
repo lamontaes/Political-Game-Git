@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import {
   createDemoWorld,
   createWorld,
@@ -472,6 +473,7 @@ it("binds campaign compensation to its treasury and refuses absent campaign auth
     candidatePersonId: actor,
     jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
     officeKey: pack.offices[0]!.officeKey,
+    districtBinding: namedSeatForFixture(w, actor, pack.offices[0]!.officeKey),
     electionDate: addDays(w.currentDate, 21),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,

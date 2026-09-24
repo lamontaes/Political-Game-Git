@@ -481,10 +481,21 @@ export interface EnactmentRule {
   /** Whether becoming law and taking effect are separate dates here. */
   readonly effectiveDateDistinctFromEnactment: RuleValue<boolean>;
   readonly defaultEffectiveRule: RuleValue<string>;
+  /**
+   * A source-backed date operation the engine can actually execute. A known
+   * prose rule without this operation remains unresolved at runtime; parsing
+   * its words would silently drop exceptions and required events.
+   */
+  readonly defaultEffectiveSchedule?: RuleValue<{
+    readonly kind: "days-after-enactment";
+    readonly days: number;
+  }>;
   readonly source: RuleSourceRef;
 }
 
 export interface SessionRule {
+  /** A saved game's regular-session cadence; absent in legacy rule packs. */
+  readonly regularSessionYears?: KnownRuleValue<"annual" | "odd" | "even">;
   /** Outer regular-session boundary only; not proof of convening or bill expiration. */
   readonly regularSessionLatestAdjournment?: KnownRuleValue<{
     readonly oddYear: { readonly month: number; readonly day: number };
@@ -1150,7 +1161,45 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
     pack.enactment.defaultEffectiveRule,
     "default effective rule",
   );
+  const schedule = pack.enactment.defaultEffectiveSchedule;
+  if (schedule) {
+    assertRuleValue(schedule, "default effective schedule", (value) => {
+      if (
+        value.kind !== "days-after-enactment" ||
+        !Number.isSafeInteger(value.days) ||
+        value.days < 0
+      ) {
+        throw new Error(
+          "Default effective schedule must name a nonnegative number of days after enactment.",
+        );
+      }
+    });
+    if (schedule.kind === "known") {
+      const rule = pack.enactment.defaultEffectiveRule;
+      if (
+        rule.kind !== "known" ||
+        schedule.source.citation !== rule.source.citation
+      ) {
+        throw new Error(
+          "A computed effective date must cite the same known default rule.",
+        );
+      }
+    }
+  }
   assertRuleValue(pack.session.adjournmentRule, "adjournment rule");
+  if (pack.session.regularSessionYears) {
+    assertRuleValue(
+      pack.session.regularSessionYears,
+      "regular-session years",
+      (value) => {
+        if (value !== "annual" && value !== "odd" && value !== "even") {
+          throw new Error(
+            "Regular-session years must be annual, odd, or even.",
+          );
+        }
+      },
+    );
+  }
   assertRuleValue(
     pack.session.measuresDieAtAdjournment,
     "measure survival at adjournment",

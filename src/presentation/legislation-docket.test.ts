@@ -908,6 +908,24 @@ describe("a bill can be written against another bill", () => {
   });
 });
 
+describe("standing program authorities on the docket", () => {
+  it("names the program the game authority actually covers", () => {
+    const fixture = kentucky();
+    const authority = availableAuthorities(fixture.world, {
+      scenarioKey: fixture.scenarioKey,
+      playerPersonId: fixture.playerPersonId,
+    }).find(
+      (candidate) =>
+        candidate.kind === "standing-statute" &&
+        candidate.authorityKey === "standing:school-facilities",
+    );
+
+    expect(authority).toBeDefined();
+    expect(authority!.note).toContain(authority!.programLabel);
+    expect(authority!.note).not.toContain("in this content bank");
+  });
+});
+
 describe("the new content is not implicitly Kentucky", () => {
   it("files an instrument-diverse bill in a second supported legislature", () => {
     const fixture = nebraska();

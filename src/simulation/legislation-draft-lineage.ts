@@ -46,7 +46,7 @@ export interface RecordDraftLineageInput {
   readonly componentOperation?: LegislativeDraftLineageRecord["componentOperation"];
   readonly componentCrossReferences?: LegislativeDraftLineageRecord["componentCrossReferences"];
   readonly bundleSubjectRule?: "unrestricted" | "single-subject";
-  /** A standing authority's key, where the bill was written against one. */
+  /** A standing or exact versioned game-profile authority key. */
   readonly authorityKey?: string;
   /** A measure on the same docket, where the bill was written against one. */
   readonly authorityMeasureId?: EntityId;

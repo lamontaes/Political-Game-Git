@@ -22,6 +22,7 @@ import {
 import {
   CHIEF_EXECUTIVE_JURISDICTIONS,
   STATE_GOVERNMENT_STRUCTURE_SOURCE,
+  US_STATE_USPS,
   stateExecutiveIdentity,
 } from "./state-executive-candidacy-packs";
 import {
@@ -366,6 +367,23 @@ export function ensureStateExecutiveIncumbent(
       immediateReaction: null,
     },
   });
+}
+
+/**
+ * Give every state in a current world its own incumbent and jurisdiction.
+ * The existing single-state writer supplies the person, office and dated
+ * tenure; its stable keys make this safe for a saved world that already holds
+ * some of the fifty. A player's home state is established first by the
+ * opening route where the player lives in a state.
+ */
+export function ensureNationwideStateExecutives(
+  world: World,
+  subjectPersonId: EntityId,
+): World {
+  let next = world;
+  for (const stateUsps of US_STATE_USPS)
+    next = ensureStateExecutiveIncumbent(next, subjectPersonId, stateUsps);
+  return next;
 }
 
 export interface StateExecutiveHolderRecord {

@@ -20,6 +20,7 @@ import type {
   LegislativeExchangeCharacter,
   LegislativeNegotiationDisposition,
   LegislativeNegotiationRecord,
+  LegislativeProvisionEffectIntent,
   LegislativeProvisionBeneficiary,
   LegislativeProvisionRecord,
   LegislativeQuestionIdentity,
@@ -66,6 +67,7 @@ export interface RecordFiledProvisionInput {
   readonly fiscalExposureLabel?: string | null;
   readonly fiscalExposureMinorUnits?: number | null;
   readonly fiscalPeriod?: "annual";
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
 }
 
 export interface AdoptProvisionRevisionInput {
@@ -84,6 +86,8 @@ export interface AdoptProvisionRevisionInput {
   readonly fiscalExposureLabel?: string | null;
   readonly fiscalExposureMinorUnits?: number | null;
   readonly fiscalPeriod?: "annual";
+  /** Omit to clear any prior intent on the newly adopted revision. */
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
 }
 
 /** Records a section of a measure as filed, before anyone has amended it. */
@@ -1012,6 +1016,31 @@ function validateProvisionContent(
   if (exposure !== null && (!Number.isSafeInteger(exposure) || exposure < 0)) {
     throw new Error("Stated fiscal exposure must be a non-negative integer.");
   }
+  if (
+    input.operativeEffect?.kind === "tax-policy" &&
+    input.provisionKey !== "tax-levy"
+  ) {
+    throw new Error(
+      "A tax-policy effect must be attached to the tax-levy provision.",
+    );
+  }
+  if (
+    input.operativeEffect?.kind === "public-program-appropriation" &&
+    input.provisionKey !== "amount-provided" &&
+    !input.provisionKey.endsWith(":amount-provided")
+  ) {
+    throw new Error(
+      "A public-program appropriation effect must be attached to its amount-provided provision.",
+    );
+  }
+  if (
+    input.operativeEffect?.kind === "public-program-appropriation" &&
+    (exposure === null || exposure <= 0)
+  ) {
+    throw new Error(
+      "A public-program appropriation effect requires a positive stated amount.",
+    );
+  }
   if ((exposure === null) !== ((input.fiscalExposureLabel ?? null) === null)) {
     throw new Error(
       "A provision states its fiscal exposure both in words and as an amount, or not at all.",
@@ -1095,6 +1124,9 @@ function appendProvision(world: World, input: AppendProvisionInput): World {
     applicationScope: { ...input.applicationScope },
     fiscalExposureLabel: input.fiscalExposureLabel ?? null,
     fiscalExposureMinorUnits: exposure,
+    ...(input.operativeEffect
+      ? { operativeEffect: { ...input.operativeEffect } }
+      : {}),
     ...(input.fiscalPeriod !== undefined
       ? { fiscalPeriod: input.fiscalPeriod }
       : {}),

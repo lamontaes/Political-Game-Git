@@ -38,6 +38,9 @@ function clause(text: string, amount: number | null = null): ClauseRendering {
 }
 export const TRANSIT_SERVICE_VARIANT: ProgramVariant = {
   variantKey: TRANSIT_VARIANT_KEY,
+  propositionKeys: [
+    "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+  ],
   label: "Two periods of additional service",
   instrument: "appropriation",
   synopsis:
@@ -102,10 +105,16 @@ export const TRANSIT_SERVICE_VARIANT: ProgramVariant = {
         const v = r.values.appropriation;
         if (v?.kind !== "money")
           throw new Error("Missing transit appropriation amount.");
-        return clause(
+        const amountClause = clause(
           `There is appropriated ${r.money("appropriation")} from collected, unrestricted state public receipts for additional service under the program named in section 1. This Act creates no cash and dedicates no tax revenue.`,
           v.minorUnits,
         );
+        return v.minorUnits > 0
+          ? {
+              ...amountClause,
+              operativeEffect: { kind: "public-program-appropriation" },
+            }
+          : amountClause;
       },
     },
     {

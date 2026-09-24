@@ -1,6 +1,7 @@
-import { makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "./dates";
 import { eventById } from "./event-index";
 import { historyIndex } from "./history-index";
+import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import {
   assertOriginationPermitted,
   chamberByKey,
@@ -10,7 +11,7 @@ import {
   resolveRequiredVotes,
   type VoteDenominator,
 } from "./legislature-rules";
-import { rulePackById } from "./legislature-rule-packs";
+import { legislativeRulePackForWorld } from "./legislative-procedure-world";
 import {
   measureActions,
   measurePosition,
@@ -121,7 +122,7 @@ export function assertLegislationIntegrity(
         `Legislative measure references a missing jurisdiction: ${measure.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     chamberByKey(pack, measure.originChamberKey);
     // Where the measure claims to have begun must satisfy the jurisdiction's
     // own sourced origination rule, whoever wrote the record. This holds even
@@ -185,7 +186,7 @@ export function assertLegislationIntegrity(
         `Legislative vote references a missing measure: ${vote.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     makeIsoDate(vote.takenAt);
 
     if (vote.dispositions.length === 0) {
@@ -335,7 +336,7 @@ export function assertLegislationIntegrity(
         `Committee referral references a missing measure: ${referral.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     const chamber = chamberByKey(pack, referral.chamberKey);
     committeeByKey(chamber, referral.committeeKey);
     makeIsoDate(referral.referredAt);
@@ -381,7 +382,7 @@ export function assertLegislationIntegrity(
         `Amendment references a missing measure: ${amendment.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     const chamber = chamberByKey(pack, amendment.chamberKey);
     if (amendment.floorStageKey) {
       floorStageByKey(chamber, amendment.floorStageKey);
@@ -474,7 +475,7 @@ export function assertLegislationIntegrity(
         `Legislative action references a missing vote: ${action.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     if (action.chamberKey) chamberByKey(pack, action.chamberKey);
     makeIsoDate(action.occurredAt);
     actionsByMeasure.set(
@@ -499,6 +500,49 @@ export function assertLegislationIntegrity(
     makeIsoDate(enactment.resolvedAt);
     if (enactment.effectiveAt !== null) {
       makeIsoDate(enactment.effectiveAt);
+    }
+    const basis = enactment.effectiveDateBasis;
+    const profile = enactment.effectiveDateGameProfile;
+    if (
+      basis !== undefined &&
+      basis !== "source-default" &&
+      basis !== "game-default"
+    ) {
+      throw new Error(
+        `Enactment has an unknown effective-date basis: ${enactment.id}`,
+      );
+    }
+    if (profile) {
+      if (
+        basis !== "game-default" ||
+        typeof profile.version !== "string" ||
+        !profile.version.trim() ||
+        !Number.isSafeInteger(profile.days) ||
+        profile.days < 0 ||
+        enactment.effectiveAt !== addDays(enactment.resolvedAt, profile.days)
+      ) {
+        throw new Error(
+          `Enactment game effective date does not match its profile: ${enactment.id}`,
+        );
+      }
+    } else if (basis === "game-default") {
+      throw new Error(
+        `Enactment game effective date lacks its profile: ${enactment.id}`,
+      );
+    }
+    if (basis === "source-default") {
+      const resolved = resolveLegislativeEffectiveDate(
+        legislativeRulePackForWorld(world, measure.rulePackId),
+        enactment.resolvedAt,
+      );
+      if (
+        resolved.kind !== "source-default" ||
+        resolved.effectiveAt !== enactment.effectiveAt
+      ) {
+        throw new Error(
+          `Enactment source effective date does not match its rule: ${enactment.id}`,
+        );
+      }
     }
   }
 

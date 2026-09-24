@@ -430,7 +430,16 @@ export function proposeConstitutionalMeasure(
         "Carson charter change needs the Nevada legislative measure; council adoption does not amend it.",
       );
     const bill = requireMeasure(world, input.ordinaryMeasureId);
-    if (rulePackById(bill.rulePackId).jurisdictionKey !== "nevada")
+    const nevada = stateJurisdictionForKey("US-NV");
+    const billState = stateJurisdictionForKey(
+      rulePackById(bill.rulePackId).jurisdictionKey,
+    );
+    if (
+      !nevada ||
+      !billState ||
+      billState.id !== nevada.id ||
+      bill.jurisdictionId !== nevada.id
+    )
       throw Error("Charter change must use Nevada's legislature.");
     if (bill.sponsorPersonId !== input.sponsorPersonId)
       throw Error("Charter sponsor must match the Nevada measure.");
@@ -597,7 +606,8 @@ export function constitutionalPosition(
       const e = (world.history.legislativeEnactments ?? []).find(
         (e) => e.id === d.enactmentId,
       );
-      if (e) effectiveAt = e.effectiveAt;
+      if (e && e.effectiveDateBasis !== "game-default")
+        effectiveAt = e.effectiveAt;
     }
   }
   const operativeAt = effectiveAt
@@ -816,7 +826,10 @@ function assertDetail(
     if (p.phase !== "awaiting-nevada" || !m.ordinaryMeasureId)
       throw Error("This is not a Nevada charter enactment route.");
     const e = measureEnactment(world, m.ordinaryMeasureId);
-    if (e && e.effectiveAt === null)
+    if (
+      e &&
+      (e.effectiveAt === null || e.effectiveDateBasis === "game-default")
+    )
       throw Error(
         "The Nevada enactment needs its supported effective date; resolution time is not proof of the statutory passage date.",
       );

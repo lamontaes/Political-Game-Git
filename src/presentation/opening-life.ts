@@ -3,7 +3,15 @@ import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
+import {
+  ensureCountyCouncilOpening,
+  ensureMunicipalCouncilOpening,
+} from "../simulation/municipal-council-opening";
+import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
+import { scheduleLocalMemberAgendaIntakes } from "../simulation/governing/member-agenda";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
   canonicalJson,
@@ -167,12 +175,33 @@ function ensureHomeStateLegislature(
   if (worldOpeningVersionOf(world) !== CRUNCH46_WORLD_OPENING_VERSION) {
     return world;
   }
-  const stateUsps = homeStateUsps(world, playerPersonId);
-  if (!stateUsps) return world;
+  const homeId = world.people[playerPersonId]?.homeJurisdictionId;
+  const home = homeId ? lifePlaceByJurisdictionId(homeId) : null;
+  const municipal = home ? municipalGovernmentForLifePlace(home) : null;
+  const withCouncil = municipal
+    ? ensureMunicipalCouncilOpening(world, municipal.key)
+    : world;
+  const withCountyBoards = homeLocalGovernmentUnits(
+    withCouncil,
+    playerPersonId,
+  ).counties.reduce(
+    (next, county) => ensureCountyCouncilOpening(next, county.id),
+    withCouncil,
+  );
+  const stateUsps = homeStateUsps(withCountyBoards, playerPersonId);
+  if (!stateUsps) return withCountyBoards;
   // The District's legislature is its Council, which is seated on its own.
-  return stateUsps === "DC"
-    ? scheduleDcCouncilSitting(ensureDistrictOfColumbiaCouncilOpening(world))
-    : ensureStateLegislatureOpening(world, playerPersonId, stateUsps);
+  const opened =
+    stateUsps === "DC"
+      ? scheduleDcCouncilSitting(
+          ensureDistrictOfColumbiaCouncilOpening(withCountyBoards),
+        )
+      : ensureStateLegislatureOpening(
+          withCountyBoards,
+          playerPersonId,
+          stateUsps,
+        );
+  return scheduleLocalMemberAgendaIntakes(opened);
 }
 
 /**

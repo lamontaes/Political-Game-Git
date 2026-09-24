@@ -160,6 +160,33 @@ describe("SYSTEMS30-F sourced proposal to enacted policy to due collection", () 
     world = advanceWorld(world, 1, createCampaignElectionTransitionRegistry());
     expect(balances(world, fixture.personId)).toEqual([9900, 100]);
     expect(world.history.taxCollections).toHaveLength(1);
+    const collection = world.history.taxCollections![0]!;
+    const revenueMetricId = Object.values(world.metricCatalog.definitions).find(
+      (definition) => definition.stableKey === "government.revenue",
+    )!.id;
+    expect(
+      world.history.metricStates.filter(
+        (record) => record.metricId === revenueMetricId,
+      ),
+    ).toMatchObject([
+      {
+        scope: {
+          jurisdictionId:
+            fixture.world.history.taxProposals![0]!.jurisdictionId,
+          segmentKey: null,
+        },
+        referencePeriod: {
+          kind: "interval",
+          startsAt: collection.recordedAt,
+          endsAt: collection.recordedAt,
+        },
+        value: { kind: "money", money: money(100, "USD") },
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [collection.outcomeEventId],
+        },
+      },
+    ]);
     expect(
       readPublicTaxReceipts(
         world,
@@ -196,6 +223,13 @@ describe("SYSTEMS30-F sourced proposal to enacted policy to due collection", () 
         reason:
           opening === null ? "missing-payer-position" : "insufficient-funds",
       });
+      expect(
+        world.history.metricStates.filter(
+          (record) =>
+            world.metricCatalog.definitions[record.metricId]?.stableKey ===
+            "government.revenue",
+        ),
+      ).toEqual([]);
       expect(balances(world, fixture.personId)).toEqual([
         opening === null ? undefined : opening,
         0,
@@ -262,7 +296,9 @@ describe("SYSTEMS30-F sourced proposal to enacted policy to due collection", () 
           ...world.history,
           taxProposals: world.history.taxProposals!.map((row) => ({
             ...row,
-            power: { ...row.power, jurisdictionKey: "US-KY" },
+            power: row.power
+              ? { ...row.power, jurisdictionKey: "US-KY" }
+              : null,
           })),
         },
       },

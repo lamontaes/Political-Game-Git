@@ -1,4 +1,9 @@
-import type { EntityId, IsoDate } from "../types";
+import type { TaxTerms } from "../tax-types";
+import type { EntityId, IsoDate, PublicProgramBasis } from "../types";
+import type {
+  LegislativeStartingProcedures,
+  LEGISLATIVE_STARTING_PROCEDURES_VERSION,
+} from "../legislative-starting-procedures";
 import type { CensusRegion } from "./census-regions";
 
 /**
@@ -112,10 +117,72 @@ export interface MacroStartingConditionsRecord extends ConditionRecordBase {
   };
 }
 
+/** The complete, seed-bound state procedure snapshot written once at Begin. */
+export interface LegislativeStartingProceduresRecord extends ConditionRecordBase {
+  readonly kind: "legislative-starting-procedures";
+  readonly contractVersion: typeof LEGISLATIVE_STARTING_PROCEDURES_VERSION;
+  readonly procedures: LegislativeStartingProcedures;
+}
+
+/** Content version for one save's fictional state tax/service assumptions. */
+export const STATE_TAX_SERVICE_GAME_PROFILE_VERSION =
+  "state-tax-service-game-profile/v2" as const;
+export const STATE_TAX_SERVICE_STARTING_CONDITIONS_VERSION =
+  "crunch46-state-tax-service-start/v1" as const;
+
+export interface StateTaxServiceProfileRef {
+  readonly profileId: string;
+  readonly version: typeof STATE_TAX_SERVICE_GAME_PROFILE_VERSION;
+  /** Stable content identity; it is not a cryptographic signature. */
+  readonly digest: string;
+}
+
+/** One seed-generated state's fictional tax and service opening conditions. */
+export interface StateTaxServiceStartingProfile {
+  readonly profileId: string;
+  readonly version: typeof STATE_TAX_SERVICE_GAME_PROFILE_VERSION;
+  readonly digest: string;
+  readonly ref: StateTaxServiceProfileRef;
+  readonly jurisdictionKey: string;
+  /** Canonical state jurisdiction identity, including a placeholder identity. */
+  readonly jurisdictionId: EntityId;
+  readonly note: string;
+  readonly taxTerms: TaxTerms & { readonly effectiveDelayDays: number };
+  readonly appropriation: {
+    readonly basis: PublicProgramBasis;
+    readonly familyKey: "appropriations";
+    readonly variantKey: "single-programme";
+    readonly authorityKey: "standing:school-facilities";
+    readonly amountMinorUnits: number;
+    readonly availabilityDays: number;
+    readonly programKey: string;
+  };
+  readonly capacity: {
+    readonly basis: PublicProgramBasis;
+    readonly serviceLabel: string;
+    readonly unitLabel: string;
+    readonly unitsTotal: number;
+    readonly unitsOperational: number;
+    readonly monthlyOperatingNeedMinorUnits: number;
+    readonly completedPermille: null;
+    readonly restorationCostPerUnitMinorUnits: number;
+    readonly currency: "USD";
+  };
+}
+
+/** All fifty state profiles are appended once when a current World opens. */
+export interface StateTaxServiceStartingConditionsRecord extends ConditionRecordBase {
+  readonly kind: "state-tax-service-starting-conditions";
+  readonly contractVersion: typeof STATE_TAX_SERVICE_STARTING_CONDITIONS_VERSION;
+  readonly profiles: readonly StateTaxServiceStartingProfile[];
+}
+
 export type WorldConditionRecord =
   | WorldOpeningRecord
   | PoliticalStartingConditionsRecord
-  | MacroStartingConditionsRecord;
+  | MacroStartingConditionsRecord
+  | LegislativeStartingProceduresRecord
+  | StateTaxServiceStartingConditionsRecord;
 
 // ---------------------------------------------------------------------------
 // Political organizations

@@ -7,10 +7,18 @@ import {
   chamberByKey,
   electionContestById,
   electionContestResult,
+  congressSeatIdentityForOfficeKey,
+  LIVING_WORLD_KEYS,
+  LIVING_WORLD_WRITER_VERSION,
+  NATIONAL_ELECTION_JURISDICTION,
+  projectCongress,
   rulePackById,
+  SEAT_TENURE_EVENT,
   stateJurisdictionForKey,
 } from "../simulation";
 import type { ActiveWorkRelationship, EntityId, World } from "../simulation";
+import { US_CONGRESS_PACK_ID } from "../simulation/congress-rule-pack";
+import { CONGRESS_MEMBER_WORK_KIND } from "../simulation/living-world/congress-member-work";
 
 /**
  * Who actually holds a seat, established from the records that seated them.
@@ -19,11 +27,10 @@ import type { ActiveWorkRelationship, EntityId, World } from "../simulation";
  * an authority: any canonical writer can record that label without an election
  * behind it. Voting membership at the bargaining boundary is derived instead
  * from the accepted winner chain that `seatTheWinner` actually writes —
- * controlled person → active member work record → the campaign named by its
- * stable key → that campaign's recorded win → the contest result that names
- * this person the winner and carries the same outcome event the relationship's
- * provenance points at → the candidacy pack's governing state → the office's
- * own chamber. Every link is reconciled against the record as it exists; no
+ * controlled person → active member work record → recorded election win →
+ * current chamber membership. State seats also reconcile their dated term or
+ * legacy relationship provenance; Congress seats reconcile their own tenure
+ * event and current seat roll. Every link is read from the current record; no
  * link is inferred from a prefix, a display status, a residence, or an array
  * position.
  *
@@ -38,11 +45,11 @@ export interface ActiveMemberSeat {
   readonly relationshipId: EntityId;
   readonly relationshipStableKey: string;
   readonly organizationId: EntityId;
-  /** The state the seat governs. Never the member's residence. */
+  /** The state or federal jurisdiction the seat governs, never the residence. */
   readonly governingJurisdictionId: EntityId;
   readonly candidacyPackId: string;
   readonly legislativeRulePackId: string;
-  /** The pack's own key for the state, e.g. "kentucky". */
+  /** The pack's jurisdiction key, e.g. "US-KY" or "US". */
   readonly jurisdictionKey: string;
   /** The chamber the office record names. Never a first-array-entry guess. */
   readonly chamberKey: string;
@@ -75,7 +82,9 @@ const MEMBER_KIND = "employment:legislative-member";
 
 function reconciledMemberSeats(world: World, personId: EntityId) {
   const candidates = activeWorkRelationshipsAt(world, personId).filter(
-    (work) => work.relationship.kind === MEMBER_KIND,
+    (work) =>
+      work.relationship.kind === MEMBER_KIND ||
+      work.relationship.kind === CONGRESS_MEMBER_WORK_KIND,
   );
   const seats: ActiveMemberSeat[] = [];
   const reasons: string[] = [];
@@ -161,6 +170,8 @@ function reconcileSeat(
   candidate: ActiveWorkRelationship,
 ): MemberSeatResolution {
   const relationship = candidate.relationship;
+  if (relationship.kind === CONGRESS_MEMBER_WORK_KIND)
+    return reconcileCongressSeat(world, personId, candidate);
 
   const provenance = relationship.provenance;
   if (provenance.kind !== "simulated-event" || !provenance.eventId) {
@@ -260,6 +271,102 @@ function reconcileSeat(
       contestId: campaign.contestId,
       electionResultId: result.id,
       outcomeEventId: result.outcomeEventId,
+    },
+  };
+}
+
+/** Congress uses its own dated seat roll, rather than a state term entry. */
+function reconcileCongressSeat(
+  world: World,
+  personId: EntityId,
+  candidate: ActiveWorkRelationship,
+): MemberSeatResolution {
+  const relationship = candidate.relationship;
+  const provenance = relationship.provenance;
+  if (provenance.kind !== "simulated-event" || !provenance.eventId)
+    return unseated(
+      "The Congress work record carries no seat tenure behind it.",
+    );
+  const tenure = world.history.events.find(
+    (event) => event.id === provenance.eventId,
+  );
+  const seatTag = tenure?.tags.find((tag) => tag.startsWith("seat:"));
+  const identity = seatTag
+    ? congressSeatIdentityForOfficeKey(seatTag.slice("seat:".length))
+    : null;
+  if (
+    !tenure ||
+    tenure.type !== SEAT_TENURE_EVENT ||
+    !tenure.tags.includes(LIVING_WORLD_WRITER_VERSION) ||
+    !identity ||
+    !tenure.participants.some(
+      (participant) =>
+        participant.personId === personId &&
+        participant.role === "focus:subject",
+    ) ||
+    relationship.stableKey !==
+      `${LIVING_WORLD_KEYS.seat(identity.officeKey)}:member-work:${personId}:${relationship.startedAt}`
+  )
+    return unseated(
+      "The Congress work record does not match a recorded seat tenure.",
+    );
+  const congress = projectCongress(world);
+  const chamber =
+    identity.seat.chamberKey === "us-house"
+      ? congress?.house
+      : congress?.senate;
+  const current = chamber?.seats.find(
+    (seat) => seat.seatKey === identity.officeKey,
+  );
+  const state = stateJurisdictionForKey(identity.jurisdictionKey);
+  if (
+    !state ||
+    !current ||
+    current.occupant.kind !== "member" ||
+    current.occupant.member.personId !== personId ||
+    candidate.role.locationJurisdictionId !== state.id ||
+    relationship.organizationId !== chamber?.organizationId ||
+    !world.jurisdictions[NATIONAL_ELECTION_JURISDICTION.id]
+  )
+    return unseated(
+      "This character does not currently occupy the recorded Congress seat.",
+    );
+  const winning = (world.history.campaigns ?? [])
+    .filter((campaign) => campaign.candidatePersonId === personId)
+    .flatMap((campaign) => {
+      const contest = electionContestById(world, campaign.contestId);
+      const result = electionContestResult(world, campaign.contestId);
+      if (
+        contest?.office.officeKey !== identity.officeKey ||
+        result?.winnerPersonId !== personId
+      )
+        return [];
+      try {
+        return campaignState(world, campaign.id).status === "won"
+          ? [{ campaign, result }]
+          : [];
+      } catch {
+        return [];
+      }
+    })
+    .at(-1);
+  if (!winning)
+    return unseated("No recorded campaign win supports this Congress seat.");
+  return {
+    kind: "seated",
+    seat: {
+      relationshipId: relationship.id,
+      relationshipStableKey: relationship.stableKey,
+      organizationId: relationship.organizationId!,
+      governingJurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      candidacyPackId: winning.campaign.candidacyPackId,
+      legislativeRulePackId: US_CONGRESS_PACK_ID,
+      jurisdictionKey: "US",
+      chamberKey: identity.seat.chamberKey === "us-house" ? "house" : "senate",
+      campaignId: winning.campaign.id,
+      contestId: winning.campaign.contestId,
+      electionResultId: winning.result.id,
+      outcomeEventId: winning.result.outcomeEventId,
     },
   };
 }

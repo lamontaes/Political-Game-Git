@@ -11,6 +11,7 @@ import {
   campaigns,
 } from "./campaign-queries";
 import { createStableId } from "./ids";
+import { municipalSeatChoiceByKey } from "./municipal-seat-identity";
 import type {
   CampaignActionRecord,
   CampaignActionResultRecord,
@@ -149,11 +150,22 @@ function assertCampaignRoots(
   const option = candidacyPackById(campaign.candidacyPackId)?.offices.find(
     (candidate) => candidate.officeKey === campaign.officeKey,
   );
+  const namedMunicipalSeat = contest.office.seatKey
+    ? municipalSeatChoiceByKey(campaign.officeKey, contest.office.seatKey)
+    : null;
+  const officeIdentityMatches =
+    option &&
+    (option.office.title === contest.office.title &&
+    option.office.seatKey === contest.office.seatKey
+      ? true
+      : namedMunicipalSeat !== null &&
+        option.office.seatKey === null &&
+        contest.office.title ===
+          `${option.office.title}, ${namedMunicipalSeat.label}`);
   if (
     !option ||
     option.office.officeKey !== contest.office.officeKey ||
-    option.office.title !== contest.office.title ||
-    option.office.seatKey !== contest.office.seatKey ||
+    !officeIdentityMatches ||
     option.office.occupationClassification !==
       contest.office.occupationClassification
   ) {

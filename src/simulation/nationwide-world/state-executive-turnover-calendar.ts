@@ -3,11 +3,18 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { chiefExecutiveJurisdictionId } from "./government-jurisdiction";
 import type { IsoDate, World } from "../types";
 import { scheduleGoverningSeasons } from "../governing/governing-calendar";
-import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./state-executive-candidacy-packs";
 import {
+  CHIEF_EXECUTIVE_JURISDICTIONS,
+  US_STATE_USPS,
+} from "./state-executive-candidacy-packs";
+import {
+  ensureNationwideStateExecutives,
   ensureStateJurisdiction,
   stateExecutiveOffice,
 } from "./state-executives";
+import { worldOpeningVersionOf } from "../world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+import { scheduleNationwideStateLegislatureOpenings } from "./state-legislature-opening";
 import {
   nextRegularElectionInWorld,
   termDatesAfterElectionInWorld,
@@ -21,6 +28,7 @@ import type { StateExecutiveTermRuleInWorld } from "./executive-term-rules-in-wo
  */
 
 export const GOVERNOR_TURNOVER_VERSION = "governor-turnover/v1";
+const stateCodes = new Set<string>(US_STATE_USPS);
 
 /**
  * PROVISIONAL, and awaiting SOURCED RULES rather than anyone's sign-off.
@@ -124,7 +132,26 @@ export function scheduleNextFieldClose(
 export function applyGovernorTurnover(before: IsoDate, world: World): World {
   if (world.currentDate <= before) return world;
   let next = world;
-  for (const office of materializedOffices(world)) {
+  let offices = materializedOffices(next);
+  // A current-version save opened before nationwide seasons existed still
+  // holds only its home governor. Catch it up once on the clock, preserving
+  // its recorded people and terms; legacy replay descriptors stay unchanged.
+  if (
+    worldOpeningVersionOf(next) === CRUNCH46_WORLD_OPENING_VERSION &&
+    offices.filter((office) => stateCodes.has(office.stateUsps)).length < 50
+  ) {
+    const subjectPersonId =
+      next.control.kind === "person"
+        ? next.control.personId
+        : next.personOrder.find((id) => !!next.people[id]);
+    if (subjectPersonId && next.people[subjectPersonId]) {
+      next = ensureNationwideStateExecutives(next, subjectPersonId);
+      offices = materializedOffices(next);
+    }
+  }
+  if (worldOpeningVersionOf(next) === CRUNCH46_WORLD_OPENING_VERSION)
+    next = scheduleNationwideStateLegislatureOpenings(next);
+  for (const office of offices) {
     next = scheduleNextFieldClose(next, office.stateUsps, next.currentDate);
     next = scheduleGoverningSeasons(
       next,

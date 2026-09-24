@@ -11,6 +11,7 @@ import { candidacyPackById, stateCandidacyPack } from "../candidacy-packs";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
+import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
 import {
@@ -25,7 +26,14 @@ import {
 } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
-import type { EntityId, IsoDate, LifeRecordProvenance, World } from "../types";
+import type {
+  EntityId,
+  FutureDueItem,
+  FutureTransitionHandlerResult,
+  IsoDate,
+  LifeRecordProvenance,
+  World,
+} from "../types";
 import { recordWorldEvent } from "../world";
 import {
   createOrganizationParticipations,
@@ -44,6 +52,7 @@ import {
 } from "../life-queries";
 import { isPersonAliveAt } from "../vitality-integrity";
 import { politicalStartingConditions } from "../world-setup/conditions";
+import { US_STATE_USPS } from "./state-executive-candidacy-packs";
 import {
   clampShare,
   logistic,
@@ -88,12 +97,88 @@ import type { DistrictIdentity } from "../../districts/types";
  * share is centered on its own statewide Senate contests; one with neither
  * seats its members without a party rather than guessing one.
  *
- * Only a current opening calls this, for the player's home state, once.
+ * The player's home state is seated at Begin; the other states enter through
+ * the saved-world clock over subsequent days.
  */
 
 export const STATE_LEGISLATURE_OPENING_VERSION =
   "state-legislature-opening/v1" as const;
 const V = STATE_LEGISLATURE_OPENING_VERSION;
+export const STATE_LEGISLATURE_OPENING_TRANSITION =
+  "legislature:state-opening" as const;
+const NATIONWIDE_OPENING_CALENDAR = "state-legislature-opening-calendar/v1";
+
+/**
+ * The state governments exist in one World, but seating more than seven
+ * thousand members on one bill day would stall that day. Give two states per
+ * day a canonical, dated opening before the first regular bill season.
+ * Scheduling is idempotent and makes no claim about any state's convening day.
+ */
+export function scheduleNationwideStateLegislatureOpenings(
+  world: World,
+): World {
+  let next = world;
+  for (const [index, usps] of US_STATE_USPS.entries()) {
+    const stableKey = `${NATIONWIDE_OPENING_CALENDAR}:${usps}`;
+    if (next.history.futureDueItems.some((due) => due.stableKey === stableKey))
+      continue;
+    const jurisdiction = stateJurisdictionForKey(`US-${usps}`);
+    if (!jurisdiction) continue;
+    next = scheduleFutureDueItem(next, {
+      stableKey,
+      dueAt: addDays(world.currentDate, 1 + Math.floor(index / 2)),
+      transitionKey: STATE_LEGISLATURE_OPENING_TRANSITION,
+      entityIds: [jurisdiction.id],
+      jurisdictionId: jurisdiction.id,
+      provenance: {
+        kind: "authored",
+        note: `${NATIONWIDE_OPENING_CALENDAR}: spreading initial state roster construction across clock days; this is not a state's session rule.`,
+      },
+    });
+  }
+  return next;
+}
+
+/** Seat the people of one state's saved legislature when its opening is due. */
+export function stateLegislatureOpeningHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const usps = new RegExp(`^${NATIONWIDE_OPENING_CALENDAR}:([A-Z]{2})$`).exec(
+    due.stableKey,
+  )?.[1];
+  const subjectPersonId =
+    world.control.kind === "person"
+      ? world.control.personId
+      : world.personOrder.find((id) => !!world.people[id]);
+  if (!usps || !subjectPersonId || !world.people[subjectPersonId])
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "legislature:state-opening-unavailable",
+      context: "The state legislature lacks an opening subject.",
+      outcomeEventId: null,
+    };
+  const pack = stateCandidacyPack(`US-${usps}`);
+  const next = pack
+    ? ensureStateLegislatureOpening(world, subjectPersonId, usps)
+    : world;
+  return !pack || !stateLegislatureEstablished(next, pack.packId)
+    ? {
+        world,
+        status: "blocked",
+        reasonKey: "legislature:state-opening-unavailable",
+        context: `The legislature of ${usps} could not be seated from this world's saved conditions.`,
+        outcomeEventId: null,
+      }
+    : {
+        world: next,
+        status: "resolved",
+        reasonKey: null,
+        context: `The legislature of ${usps} is seated.`,
+        outcomeEventId: null,
+      };
+}
 
 export const STATE_LEGISLATURE_KEYS = {
   opening: (packId: string) => `${V}:${packId}:opening`,

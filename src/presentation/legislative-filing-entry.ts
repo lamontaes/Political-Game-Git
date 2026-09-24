@@ -1,4 +1,5 @@
 import { legislativeBlueprint, rulePackById } from "../simulation";
+import { legislativeRulePackForWorld } from "../simulation/legislative-procedure-world";
 import { legislativeWorkKey } from "../simulation/legislative-institutions";
 import type { EntityId, World } from "../simulation";
 import {
@@ -74,7 +75,7 @@ export function resolveLegislativeFilingEntry(
     };
   }
   const refusal = regularSessionActionRefusal(
-    blueprint.pack,
+    legislativeRulePackForWorld(world, blueprint.pack.packId),
     world.currentDate,
   );
   if (refusal) return { kind: "unavailable", reason: refusal };

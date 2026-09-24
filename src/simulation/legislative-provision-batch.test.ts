@@ -3,6 +3,7 @@ import {
   assertWorldIntegrity,
   bodyForChamber,
   currentMeasureProvisions,
+  createLegislativeScenario,
   deserializeWorld,
   dispositionsFromCounts,
   measureAmendments,
@@ -11,9 +12,11 @@ import {
   type EntityId,
   type World,
 } from "./index";
+import { applyLegislativeStep } from "../presentation/legislation-session";
 import {
   adoptProvisionRevision,
   adoptProvisionRevisions,
+  recordFiledProvision,
   type AdoptProvisionRevisionInput,
 } from "./legislative-politics";
 import { assertLegislativePoliticsIntegrity } from "./legislative-politics-integrity";
@@ -75,6 +78,90 @@ function expectAtomicRefusal(
 }
 
 describe("adopted amendment section packages", () => {
+  it("stores explicit operative intent per revision and clears it when omitted", () => {
+    const scenario = createLegislativeScenario("kentucky");
+    const measure = scenario.world.history.legislativeMeasures!.find(
+      (record) => record.id === scenario.measureId,
+    )!;
+    let world = recordFiledProvision(scenario.world, {
+      stableKey: "operative-effect-test:appropriation",
+      measureId: scenario.measureId,
+      provisionKey: "amount-provided",
+      sectionNumber: 1,
+      heading: "Amount appropriated",
+      text: "There is appropriated 100 USD for the modeled program.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "the modeled program",
+      },
+      applicationScope: {
+        jurisdictionId: measure.jurisdictionId,
+        segmentKey: null,
+      },
+      fiscalExposureLabel: "100 USD appropriated",
+      fiscalExposureMinorUnits: 10_000,
+      operativeEffect: { kind: "public-program-appropriation" },
+    });
+
+    for (const step of [
+      "request-referral",
+      "request-committee-hearing",
+      "move-committee-report",
+      "request-calendar-placement",
+    ] as const) {
+      world = applyLegislativeStep(scenario, world, step).world;
+    }
+    const body = bodyForChamber(scenario, "house");
+    world = offerFloorAmendment(world, {
+      stableKey: "operative-effect-test:amendment",
+      measureId: scenario.measureId,
+      description:
+        "Revise the amount clause and remove its unsupported intent.",
+      offeredByPersonId: scenario.playerPersonId,
+      offeredByLabel: "Test member",
+      dispositions: dispositionsFromCounts(body.members, {
+        yea: body.members.length,
+        nay: 0,
+      }),
+      electedMembers: body.members.length,
+      presentMembers: body.members.length,
+      provenance: {
+        method: "authored-fixture",
+        sourceEntityIds: [],
+        note: "Synthetic operative effect amendment test.",
+      },
+    });
+    const amendment = measureAmendments(world, scenario.measureId).at(-1)!;
+    const original = currentMeasureProvisions(world, scenario.measureId).find(
+      (provision) => provision.provisionKey === "amount-provided",
+    )!;
+    const revised = adoptProvisionRevision(world, {
+      stableKey: "operative-effect-test:revision",
+      measureId: scenario.measureId,
+      amendmentId: amendment.id,
+      supersedesProvisionId: original.id,
+      provisionKey: original.provisionKey,
+      sectionNumber: original.sectionNumber,
+      heading: original.heading,
+      text: "The amended text no longer authorizes an appropriation.",
+      beneficiary: original.beneficiary,
+      applicationScope: original.applicationScope,
+      fiscalExposureLabel: null,
+      fiscalExposureMinorUnits: null,
+    });
+
+    const history = revised.history.legislativeProvisions!;
+    expect(
+      history.find((row) => row.id === original.id)?.operativeEffect,
+    ).toEqual({ kind: "public-program-appropriation" });
+    expect(
+      currentMeasureProvisions(revised, scenario.measureId).find(
+        (row) => row.provisionKey === "amount-provided",
+      )?.operativeEffect,
+    ).toBeUndefined();
+    assertWorldIntegrity(revised);
+  });
+
   it("revises multiple sections under one vote, retains old versions, and round-trips", () => {
     const { world, fixture, amendment, current, inputs } = setup();
     const before = serializeWorld(world);

@@ -1,4 +1,5 @@
 import { regularSessionActionRefusal } from "./legislative-session-window";
+import { legislativeRulePackForWorld } from "../simulation/legislative-procedure-world";
 import {
   adoptProvisionRevision,
   bodyForChamber,
@@ -71,7 +72,7 @@ function resolveActionAuthority(
   }
 
   const sessionRefusal = regularSessionActionRefusal(
-    seat.scenario.pack,
+    legislativeRulePackForWorld(world, seat.scenario.pack.packId),
     world.currentDate,
   );
   if (sessionRefusal) refuse(sessionRefusal);

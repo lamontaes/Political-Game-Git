@@ -7,7 +7,9 @@ import { assertProductionCatalogBoundary } from "./production-catalog";
 import {
   createWorldMetricCatalog,
   createWorldMetricDefinition,
+  governmentFiscalMetricDefinitions,
 } from "./world-metrics";
+import { createProductionWorldMetricCatalog } from "./production-catalog";
 import {
   createCausalMechanismCatalog,
   createCausalMechanismDefinition,
@@ -25,7 +27,10 @@ it("admits exact contract definitions while rejecting altered or unrelated produ
   const exact = {
     ...world,
     metricCatalog: createWorldMetricCatalog({
-      definitions: [createWorldMetricDefinition(TRANSIT_METRIC_INPUT)],
+      definitions: [
+        ...governmentFiscalMetricDefinitions(),
+        createWorldMetricDefinition(TRANSIT_METRIC_INPUT),
+      ],
     }),
     causalMechanismCatalog: createCausalMechanismCatalog({
       definitions: [createCausalMechanismDefinition(TRANSIT_MECHANISM_INPUT)],
@@ -45,6 +50,27 @@ it("admits exact contract definitions while rejecting altered or unrelated produ
       }),
     }),
   ).toThrow(/world metric/);
+  expect(() =>
+    assertProductionCatalogBoundary({
+      ...exact,
+      metricCatalog: createWorldMetricCatalog({
+        definitions: [
+          createWorldMetricDefinition({
+            ...governmentFiscalMetricDefinitions()[0],
+            description: "An altered receipt definition.",
+          }),
+          governmentFiscalMetricDefinitions()[1],
+          createWorldMetricDefinition(TRANSIT_METRIC_INPUT),
+        ],
+      }),
+    }),
+  ).toThrow(/world metric/);
+  const productionMetrics = createProductionWorldMetricCatalog();
+  expect(
+    productionMetrics.definitionOrder.map(
+      (id) => productionMetrics.definitions[id]!.stableKey,
+    ),
+  ).toEqual(["government.revenue", "government.outlays"]);
   expect(() =>
     assertProductionCatalogBoundary({
       ...exact,

@@ -8,6 +8,7 @@ import {
 import {
   cancelScheduledActivity,
   createScheduledActivity,
+  scheduledConflictExists,
   scheduledActivityState,
 } from "../time-work";
 import { formatStatutoryDate } from "../legislation-content-contracts";
@@ -19,7 +20,11 @@ import {
 } from "../legislation-program-families";
 import { recordFiledProvision } from "../legislative-politics";
 import { legislativeWorkKey } from "../legislative-work-key";
-import { rulePackById } from "../legislature-rule-packs";
+import {
+  legislativeProcedureForPack,
+  legislativeRulePackForWorld,
+  regularSessionYearForWorld,
+} from "../legislative-procedure-world";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
 import {
   scheduleFutureDueItem,
@@ -146,15 +151,25 @@ export function measureStepOwner(
   sponsorChamberKey: string,
 ): MeasureStepOwner | null {
   const position = measurePosition(world, measureId);
+  const measure = requireMeasure(world, measureId);
+  // In a saved state profile, seated members decide collective questions on
+  // the clock. A sponsor can move the bill onto that calendar but cannot cast
+  // the chamber's vote through a fixed authored scenario.
+  const recordedMemberDecision =
+    legislativeProcedureForPack(world, measure.rulePackId) !== null ||
+    isCongressMeasure(measure);
   switch (position.phase) {
     case "awaiting-referral":
-    case "in-committee":
     case "awaiting-floor":
-    case "on-floor":
-    case "awaiting-concurrence":
       return position.chamberKey === sponsorChamberKey
         ? "sponsor-office"
         : "institution";
+    case "in-committee":
+    case "on-floor":
+    case "awaiting-concurrence":
+      return recordedMemberDecision || position.chamberKey !== sponsorChamberKey
+        ? "institution"
+        : "sponsor-office";
     case "awaiting-transmittal":
     case "awaiting-enrollment":
     case "awaiting-presentation":
@@ -163,7 +178,7 @@ export function measureStepOwner(
     case "awaiting-executive":
       return "executive";
     case "awaiting-override":
-      return "sponsor-office";
+      return recordedMemberDecision ? "institution" : "sponsor-office";
     default:
       return null;
   }
@@ -210,9 +225,25 @@ function sessionYear(world: World, measureId: EntityId): number {
   return Number((first?.occurredAt ?? world.currentDate).slice(0, 4));
 }
 
+function chamberSessionPhase(
+  phase: ReturnType<typeof measurePosition>["phase"],
+): boolean {
+  switch (phase) {
+    case "awaiting-referral":
+    case "in-committee":
+    case "awaiting-floor":
+    case "on-floor":
+    case "awaiting-transmittal":
+    case "awaiting-concurrence":
+      return true;
+    default:
+      return false;
+  }
+}
+
 /**
- * The sourced outer limit of the session the measure was introduced in, if
- * the pack states one. After it, nothing moves on this measure.
+ * The active outer limit of the current session for a carried bill, or the
+ * introducing session for a bill that cannot carry over.
  */
 export function measureSessionClosedOn(
   world: World,
@@ -221,7 +252,16 @@ export function measureSessionClosedOn(
 ): IsoDate | null {
   const limit = pack.session.regularSessionLatestAdjournment;
   if (!limit) return null;
-  const year = sessionYear(world, measure.id);
+  const starting = legislativeProcedureForPack(world, measure.rulePackId);
+  let year = starting?.measuresCarryOver
+    ? Number(world.currentDate.slice(0, 4))
+    : sessionYear(world, measure.id);
+  if (
+    starting?.measuresCarryOver &&
+    !regularSessionYearForWorld(world, measure.jurisdictionId, year)
+  ) {
+    year -= 1;
+  }
   const boundary = year % 2 ? limit.value.oddYear : limit.value.evenYear;
   return makeIsoDate(
     `${year}-${String(boundary.month).padStart(2, "0")}-${String(boundary.day).padStart(2, "0")}`,
@@ -232,6 +272,9 @@ export function measureSessionIsClosed(
   world: World,
   measureId: EntityId,
 ): { readonly closed: boolean; readonly closedOn: IsoDate | null } {
+  if (!chamberSessionPhase(measurePosition(world, measureId).phase)) {
+    return { closed: false, closedOn: null };
+  }
   const measure = requireMeasure(world, measureId);
   const pack = legislativeBlueprintForMeasure(world, measure).pack;
   const closedOn = measureSessionClosedOn(world, measure, pack);
@@ -264,13 +307,17 @@ export function legislativeBlueprintForMeasure(
   measure: LegislativeMeasureRecord,
 ): LegislativeBlueprint {
   if (isCongressMeasure(measure)) return congressBlueprint(world);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const eligible = legislativeScenarioKeysForPlace(measure.jurisdictionId);
   const authored = eligible.find(
     (key) => legislativeBlueprint(key).shortTitle === measure.shortTitle,
   );
-  if (authored) return legislativeBlueprint(authored);
+  if (authored) return { ...legislativeBlueprint(authored), pack };
   const key = scenarioKeyForMeasure(measure);
-  return legislativeBlueprint(key ?? `institution:${measure.rulePackId}`);
+  return {
+    ...legislativeBlueprint(key ?? `institution:${measure.rulePackId}`),
+    pack,
+  };
 }
 
 function bodiesForMeasure(
@@ -450,7 +497,10 @@ export function applyInstitutionStep(
   const pack = blueprint.pack;
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
-  const session = measureSessionIsClosed(world, measureId);
+  const position = measurePosition(world, measureId);
+  const session = chamberSessionPhase(position.phase)
+    ? measureSessionIsClosed(world, measureId)
+    : { closed: false, closedOn: null };
   // Where the rules say a pending bill dies when the session adjourns, one
   // still before the legislature dies; that is how most bills end.
   const dies = pack.session.measuresDieAtAdjournment;
@@ -474,7 +524,10 @@ export function applyInstitutionStep(
   if (session.closed)
     return {
       kind: "blocked",
-      reason: `The session ended on ${session.closedOn}; whether this bill carries over is not established, so nothing more happens to it.`,
+      reason: legislativeProcedureForPack(world, measure.rulePackId)
+        ?.measuresCarryOver
+        ? `The regular session ended on ${session.closedOn}; the bill remains pending for the next regular session.`
+        : `The session ended on ${session.closedOn}; whether this bill carries over is not established, so nothing more happens to it.`,
     };
   if (owner === "executive")
     return {
@@ -482,7 +535,6 @@ export function applyInstitutionStep(
       world: onExecutiveDesk(world, measure, blueprint),
     };
 
-  const position = measurePosition(world, measureId);
   const chamberKey = position.chamberKey ?? pack.chamberOrder[0]!;
   const chamber = chamberByKey(pack, chamberKey);
   const steps = availableMeasureSteps(world, measureId);
@@ -517,6 +569,12 @@ export function applyInstitutionStep(
     const hearingDate =
       pending?.dueAt ??
       addDays(world.currentDate, LEGISLATIVE_CADENCE_PROFILE.daysToHearing);
+    const closedOn = measureSessionClosedOn(world, measure, pack);
+    if (closedOn && hearingDate > closedOn) {
+      // A hearing cannot occur after adjournment. Let the next clock tick
+      // settle a dying bill or carry a pending one into the next session.
+      return { kind: "wait-until", date: addDays(closedOn, 1) };
+    }
     // The committee reports only after it has heard the bill: resume the day
     // after the hearing.
     return {
@@ -534,7 +592,7 @@ export function applyInstitutionStep(
   if (steps.includes("request-referral")) {
     // A Congress bill goes to the committee for its policy field; any other
     // bill to the chamber's first compiled committee.
-    const referredKey = congressReferralCommittee(measure, chamberKey);
+    const referredKey = congressReferralCommittee(world, measure, chamberKey);
     const committee =
       chamber.committees.find((entry) => entry.committeeKey === referredKey) ??
       chamber.committees[0];
@@ -866,6 +924,20 @@ function pendingInstitutionStep(
   );
 }
 
+/** A game-clock work day, not a claim about when a legislature convenes. */
+function nextRegularBillWorkDay(
+  world: World,
+  jurisdictionId: EntityId,
+): IsoDate {
+  const currentYear = Number(world.currentDate.slice(0, 4));
+  for (let year = currentYear; year <= currentYear + 4; year += 1) {
+    if (!regularSessionYearForWorld(world, jurisdictionId, year)) continue;
+    const day = makeIsoDate(`${year}-02-15`);
+    if (day > world.currentDate) return day;
+  }
+  throw new Error("No next regular bill work day was found.");
+}
+
 /**
  * Puts the institution's next step for a measure on the calendar, when the
  * next step is not the sponsor office's. Safe to call after any action.
@@ -877,6 +949,7 @@ export function scheduleInstitutionStep(
   excludeDueItemId: EntityId | null = null,
 ): World {
   const measure = requireMeasure(world, measureId);
+  if (measurePosition(world, measureId).outcome !== null) return world;
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return world;
   // Congress's bills move together at its sittings, not on dates of their own.
@@ -885,9 +958,14 @@ export function scheduleInstitutionStep(
       ? world
       : scheduleCongressSitting(world);
   if (pendingInstitutionStep(world, measureId, excludeDueItemId)) return world;
-  if (measureSessionIsClosed(world, measureId).closed) return world;
-  const dueAt =
-    on && on > world.currentDate
+  const sessionClosed =
+    chamberSessionPhase(measurePosition(world, measureId).phase) &&
+    measureSessionIsClosed(world, measureId).closed;
+  const starting = legislativeProcedureForPack(world, measure.rulePackId);
+  if (sessionClosed && !starting?.measuresCarryOver) return world;
+  const dueAt = sessionClosed
+    ? nextRegularBillWorkDay(world, measure.jurisdictionId)
+    : on && on > world.currentDate
       ? on
       : addDays(
           world.currentDate,
@@ -928,11 +1006,26 @@ export function createInstitutionStepHandler(
       !world.history.legislativeMeasures?.some((m) => m.id === measureId)
     )
       return done(world, "No measure stands behind this step.");
+    if (measurePosition(world, measureId).outcome !== null)
+      return done(world, "This measure already has a recorded outcome.");
     const result = applyInstitutionStep(world, measureId, onExecutiveDesk);
     switch (result.kind) {
       case "idle":
         return done(world, "Nothing for the institution to do.");
       case "blocked":
+        if (
+          legislativeProcedureForPack(
+            world,
+            requireMeasure(world, measureId).rulePackId,
+          )?.measuresCarryOver &&
+          chamberSessionPhase(measurePosition(world, measureId).phase) &&
+          measureSessionIsClosed(world, measureId).closed
+        ) {
+          return done(
+            scheduleInstitutionStep(world, measureId, undefined, due.id),
+            result.reason,
+          );
+        }
         return {
           world,
           status: "blocked",
@@ -981,13 +1074,14 @@ export interface ChamberQuestionForum {
 }
 
 /**
- * The question the institution will put on this measure at its next step, if
- * that step is a vote of seated members, as it stands on `onDate`.
+ * The question the seated chamber will put on this measure at its next step,
+ * whether the institution's clock or the sponsor's office moves that step,
+ * as it stands on `onDate`.
  *
  * Mirrors the step handler's choice of voters: the committee's own roster, the
  * chamber on a floor stage or a concurrence, and every chamber (or the joint
- * session) on a veto override. A step the sponsor's own office takes, or one
- * put to no seated members, has no question here.
+ * session) on a veto override. A step put to no seated members has no question
+ * here.
  */
 export function pendingChamberQuestions(
   world: World,
@@ -995,7 +1089,8 @@ export function pendingChamberQuestions(
   onDate: IsoDate = world.currentDate,
 ): readonly ChamberQuestionForum[] {
   const measure = requireMeasure(world, measureId);
-  if (effectiveOwner(world, measure) !== "institution") return [];
+  const owner = effectiveOwner(world, measure);
+  if (owner !== "institution" && owner !== "sponsor-office") return [];
   const blueprint = legislativeBlueprintForMeasure(world, measure);
   if (!isSeatedChamber(world, blueprint)) return [];
   const pack = blueprint.pack;
@@ -1010,9 +1105,19 @@ export function pendingChamberQuestions(
     (steps.includes("await-next-legislative-day") &&
       position.earliestNextFloorDate !== null &&
       position.earliestNextFloorDate <= onDate);
+  const hearingBeforeVote = world.history.futureDueItems.some(
+    (item) =>
+      item.transitionKey === COMMITTEE_HEARING_TRANSITION_KEY &&
+      item.entityIds.includes(measureId) &&
+      item.dueAt < onDate &&
+      futureDueItemStateAt(world, item.id, {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      })?.status === "scheduled",
+  );
   if (
     steps.includes("move-committee-report") &&
-    !steps.includes("request-committee-hearing") &&
+    (!steps.includes("request-committee-hearing") || hearingBeforeVote) &&
     body
   ) {
     const committee = chamber.committees.find(
@@ -1195,6 +1300,25 @@ export function castMemberBallot(
  * it no longer waits on the calendar. The roll call still records the player
  * absent unless they decided.
  */
+/** Releases outstanding ballot reminders when a measure receives a final outcome. */
+export function closeResolvedMemberVoteNotices(
+  world: World,
+  measureId: EntityId,
+): World {
+  const prefix = `${LEGISLATIVE_CLOCK_VERSION}:member-vote:`;
+  let next = world;
+  for (const activity of next.history.scheduledActivities) {
+    if (
+      !activity.stableKey.startsWith(prefix) ||
+      !activity.sourceEntityIds.includes(measureId) ||
+      scheduledActivityState(next, activity.id).status !== "scheduled"
+    )
+      continue;
+    next = cancelScheduledActivity(next, activity.id);
+  }
+  return next;
+}
+
 function closeLapsedVoteNotices(world: World, measureId: EntityId): World {
   const prefix = `${LEGISLATIVE_CLOCK_VERSION}:member-vote:`;
   let next = world;
@@ -1282,6 +1406,31 @@ function noticeMemberVote(
           ? addSimulationMinutes(next.currentMoment, MEMBER_VOTE_NOTICE_SOON)
           : null;
     if (!start) continue;
+    // More than one question can reach the same roll call. Keep each ballot
+    // decision visible as its own reminder, but give those reminders
+    // consecutive free hours instead of asking the player to hold overlapping
+    // calendar commitments. The member-vote panel still carries each ballot
+    // independently if a full day leaves no reminder slot.
+    let noticeStart = start;
+    while (noticeStart.date < voteOn) {
+      const noticeEnd = addSimulationMinutes(
+        noticeStart,
+        MEMBER_VOTE_NOTICE_MINUTES,
+      );
+      const endsBeforeVoteDay =
+        noticeEnd.date < voteOn ||
+        (noticeEnd.date === voteOn && noticeEnd.minuteOfDay === 0);
+      if (
+        endsBeforeVoteDay &&
+        !scheduledConflictExists(next, [personId], noticeStart, noticeEnd)
+      )
+        break;
+      noticeStart = addSimulationMinutes(
+        noticeStart,
+        MEMBER_VOTE_NOTICE_MINUTES,
+      );
+    }
+    if (noticeStart.date >= voteOn) continue;
     const measure = requireMeasure(next, measureId);
     const what =
       forum.question.purpose === "committee-report"
@@ -1296,8 +1445,8 @@ function noticeMemberVote(
       title: `Decide your vote on ${measure.designation}`,
       summary: `${forum.forumName} votes on ${what}, ${measure.shortTitle}, on ${formatStatutoryDate(voteOn)}.`,
       kind: "confirmed",
-      start,
-      end: addSimulationMinutes(start, MEMBER_VOTE_NOTICE_MINUTES),
+      start: noticeStart,
+      end: addSimulationMinutes(noticeStart, MEMBER_VOTE_NOTICE_MINUTES),
       participantPersonIds: [personId],
       responsiblePersonId: personId,
       location: {
@@ -1341,6 +1490,14 @@ export function fileLegislatureMeasure(
     readonly intakeKey: string;
   },
 ): World {
+  if (
+    !regularSessionYearForWorld(
+      world,
+      input.jurisdictionId,
+      Number(world.currentDate.slice(0, 4)),
+    )
+  )
+    return world;
   const authored = authoredMeasuresForJurisdiction(input.jurisdictionId);
   if (authored.length === 0 || !world.jurisdictions[input.jurisdictionId])
     return world;
@@ -1353,7 +1510,7 @@ export function fileLegislatureMeasure(
     return world;
   const rng = new SeededRng(world.seed).fork(stableKey);
   const blueprint = rng.pick(authored);
-  const pack = blueprint.pack;
+  const pack = legislativeRulePackForWorld(world, blueprint.pack.packId);
   const limit = pack.session.regularSessionLatestAdjournment;
   if (limit) {
     const year = Number(world.currentDate.slice(0, 4));
@@ -1457,7 +1614,9 @@ function attachAppropriationClauses(
       variantKey: "single-programme",
       parameterValues: programVariant("appropriations", "single-programme")
         .variant.defaults,
-      scenarioKey: legislativeWorkKey(rulePackById(measure.rulePackId)),
+      scenarioKey: legislativeWorkKey(
+        legislativeRulePackForWorld(world, measure.rulePackId),
+      ),
       jurisdictionId: measure.jurisdictionId,
       rulePackId: measure.rulePackId,
       designation: measure.designation,
@@ -1478,6 +1637,9 @@ function attachAppropriationClauses(
       text: clause.text,
       ...(clause.fiscalPeriod !== undefined
         ? { fiscalPeriod: clause.fiscalPeriod }
+        : {}),
+      ...(clause.operativeEffect !== undefined
+        ? { operativeEffect: clause.operativeEffect }
         : {}),
       beneficiary: clause.beneficiary,
       applicationScope: {

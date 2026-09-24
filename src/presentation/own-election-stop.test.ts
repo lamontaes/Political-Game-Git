@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import {
   adultLifeIn,
   passUntil,
@@ -22,7 +23,12 @@ describe("the clock stops for the player's own election", () => {
     const office = candidacyPackForJurisdiction(
       world.people[personId]!.homeJurisdictionId,
     )!.offices[0]!;
-    const filed = fileForOffice(world, personId, null, office.officeKey);
+    const filed = fileForOffice(
+      world,
+      personId,
+      namedSeatForFixture(world, personId, office.officeKey),
+      office.officeKey,
+    );
     const contest = filed.history.electionContests!.at(-1)!;
     // Get within a few days of it without skipping over it.
     const near = passUntil(filed, addDays(contest.electionDate, -3));

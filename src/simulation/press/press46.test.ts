@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../../tests/fixtures/campaign-fixture";
 import { recordPersonDeath } from "../vitality";
 
 import {
@@ -142,6 +143,11 @@ function pressFixture(seed: string, staffCount: number): PressFixture {
     candidatePersonId: playerId,
     jurisdictionId: KY,
     officeKey: candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey,
+    districtBinding: namedSeatForFixture(
+      base,
+      playerId,
+      candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey,
+    ),
     electionDate: addDays(base.currentDate, 200),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,

@@ -6,10 +6,10 @@ import {
 import { currentPresidentOf } from "../crisis/offices";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
-  introduceMeasure,
   measurePosition,
   measureVotes,
 } from "../legislation";
+import { makeCurrencyCode } from "../resources";
 import { chamberByKey } from "../legislature-rules";
 import { publicPartyAffiliation } from "../living-world/congress";
 import { livingWorldEstablished } from "../living-world/opening";
@@ -27,6 +27,7 @@ import type {
   LegislativeMeasureRecord,
   World,
 } from "../types";
+import type { PredicateAuthority } from "../legislation-content-contracts";
 import { recordWorldEvent } from "../world";
 import {
   CONGRESS_SITTING_TRANSITION,
@@ -49,6 +50,10 @@ import {
   ensureOfficeholderPrinciples,
   principledLeaning,
 } from "./officeholder-principles";
+import {
+  automaticLawMappingFor,
+  introduceAutomaticLawMeasure,
+} from "./automatic-legislation";
 
 /**
  * CONGRESS MAKES LAW — members of Congress file bills on the questions their
@@ -61,16 +66,37 @@ import {
  * does not: it files bills, it gathers cosponsors, and it decides what the
  * President does with a bill on the desk.
  *
- * A Congress bill answers one federal question in the policy catalog, yes
- * or no, and once enacted that answer is federal law (see law-in-force.ts),
- * which outranks a state's. What the answer changes in the world beyond the
- * law itself is not built yet; it is asked as
- * `what-each-level-of-government-may-legislate`.
+ * A Congress bill answers one federal question in the policy catalog. Only
+ * questions with a mapped operative configuration are filed; other catalog
+ * answers remain unsupported until their exact effects are implemented.
  */
 
 export const CONGRESS_LAWMAKING_VERSION = "congress-intake/v1";
 export const CONGRESS_INTAKE_TRANSITION = "congress:intake" as const;
 export const SPONSOR_MOTIVE_EVENT = "legislation.sponsor-motive" as const;
+
+// This module is reached through the shared clock import graph. Resolve the
+// jurisdiction only when a bill is filed, after that graph has initialized.
+function federalPassengerRailAuthority(): PredicateAuthority {
+  return {
+    kind: "game-profile",
+    authorityKey: "game-profile:federal-passenger-rail/v1",
+    authorityVersion: "federal-passenger-rail-authority/v1",
+    profileVersion: "federal-passenger-rail/v1",
+    rulePackId: US_CONGRESS_PACK_ID,
+    governmentLevel: "federal",
+    publicGovernmentIdentity: {
+      kind: "jurisdiction",
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    },
+    permittedEffects: ["public-program-appropriation"],
+    citationLabel: "Federal passenger-rail game profile",
+    programLabel: "passenger-rail expansion",
+    authorizedCeilingMinorUnits: null,
+    currency: makeCurrencyCode("USD"),
+    basis: "game-profile",
+  };
+}
 
 /**
  * PLACEHOLDER, every number here, until research question
@@ -108,7 +134,14 @@ function federalQuestions(world: World): readonly FederalQuestion[] {
   const catalog = world.policyCatalog;
   const questions: FederalQuestion[] = [];
   for (const propositionId of catalog.propositionOrder) {
-    const issue = catalog.issues[catalog.propositions[propositionId]!.issueId];
+    const proposition = catalog.propositions[propositionId];
+    if (
+      !proposition ||
+      (!automaticLawMappingFor(proposition.stableKey, "yes", "federal") &&
+        !automaticLawMappingFor(proposition.stableKey, "no", "federal"))
+    )
+      continue;
+    const issue = catalog.issues[proposition.issueId];
     if (
       !issue?.levels?.includes("federal") ||
       !issue.stableKey.startsWith(FEDERAL_ISSUE_PREFIX)
@@ -130,29 +163,6 @@ function subjectClassFor(
   return "general-policy";
 }
 
-const SMALL_WORDS = new Set([
-  "a",
-  "an",
-  "and",
-  "of",
-  "the",
-  "for",
-  "in",
-  "on",
-  "or",
-  "to",
-]);
-function titleCase(name: string): string {
-  return name
-    .split(" ")
-    .map((word, index) =>
-      index > 0 && SMALL_WORDS.has(word)
-        ? word
-        : `${word.charAt(0).toUpperCase()}${word.slice(1)}`,
-    )
-    .join(" ");
-}
-
 function controlledPersonId(world: World): EntityId | null {
   return world.control.kind === "person" ? world.control.personId : null;
 }
@@ -170,12 +180,11 @@ function pendingFederalBillOn(world: World, propositionId: EntityId): boolean {
 }
 
 /**
- * The bill a member's principles move them to file: the question they lean
- * on hardest, past the filing threshold, that this House may start a bill on,
- * where federal law does not already say what they want and no federal bill
- * on it is moving. Support files a bill to enact unless the law already says
- * yes; opposition files only a repeal of a law that says yes. Null when
- * nothing moves them.
+ * The bill a member's principles move them to file: the strongest eligible
+ * mapped question this House may start, past the filing threshold, where
+ * federal law does not already say what they want and no federal bill on it
+ * is moving. An unsupported answer is skipped rather than filed without an
+ * operative configuration. Null when nothing mapped moves them.
  */
 function memberBillChoice(
   world: World,
@@ -188,11 +197,15 @@ function memberBillChoice(
   readonly question: FederalQuestion;
   readonly answer: "yes" | "no";
   readonly weight: number;
+  readonly principleScore: number;
+  readonly principleRecordIds: readonly EntityId[];
 } | null {
   let best: {
     question: FederalQuestion;
     answer: "yes" | "no";
     weight: number;
+    principleScore: number;
+    principleRecordIds: readonly EntityId[];
   } | null = null;
   for (const question of questions) {
     if (
@@ -204,10 +217,10 @@ function memberBillChoice(
       world,
       personId,
       question.propositionId,
-    ).score;
-    if (Math.abs(leaning) < CONGRESS_LAWMAKING_PROFILE.filingThreshold)
+    );
+    if (Math.abs(leaning.score) < CONGRESS_LAWMAKING_PROFILE.filingThreshold)
       continue;
-    if (best && Math.abs(leaning) <= best.weight) continue;
+    if (best && Math.abs(leaning.score) <= best.weight) continue;
     if (!lawAnswers.has(question.propositionId))
       lawAnswers.set(
         question.propositionId,
@@ -219,7 +232,7 @@ function memberBillChoice(
       );
     const lawAnswer = lawAnswers.get(question.propositionId);
     const answer: "yes" | "no" | null =
-      leaning > 0
+      leaning.score > 0
         ? lawAnswer === "yes"
           ? null
           : "yes"
@@ -227,13 +240,25 @@ function memberBillChoice(
           ? "no"
           : null;
     if (!answer) continue;
+    const proposition = world.policyCatalog.propositions[question.propositionId];
+    if (
+      !proposition ||
+      !automaticLawMappingFor(proposition.stableKey, answer, "federal")
+    )
+      continue;
     if (!pending.has(question.propositionId))
       pending.set(
         question.propositionId,
         pendingFederalBillOn(world, question.propositionId),
       );
     if (pending.get(question.propositionId)) continue;
-    best = { question, answer, weight: Math.abs(leaning) };
+    best = {
+      question,
+      answer,
+      weight: Math.abs(leaning.score),
+      principleScore: leaning.score,
+      principleRecordIds: leaning.recordIds,
+    };
   }
   return best;
 }
@@ -306,32 +331,36 @@ export function fileCongressBill(
   const stableKey = `${CONGRESS_LAWMAKING_VERSION}:${question.issueKey}${intakeSuffix}`;
   next = ensureNationalElectionJurisdiction(next);
   const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
-  const year = world.currentDate.slice(0, 4);
   const designation = nextMeasureDesignation(next, {
     jurisdictionId,
     originChamber: chamber,
   });
-  next = introduceMeasure(next, {
-    stableKey,
+  const introduced = introduceAutomaticLawMeasure(next, {
     jurisdictionId,
-    rulePackId: US_CONGRESS_PACK_ID,
+    context: {
+      governmentLevel: "federal",
+      jurisdictionId,
+      rulePackId: US_CONGRESS_PACK_ID,
+      scenarioKey: `institution:${US_CONGRESS_PACK_ID}`,
+      predicateAuthority: federalPassengerRailAuthority(),
+    },
+    propositionId: question.propositionId,
+    answer,
+    intakeKey: stableKey,
+    stableKey,
     designation,
-    shortTitle:
-      answer === "yes"
-        ? `${titleCase(proposition.name)} Act of ${year}`
-        : `${titleCase(proposition.name)} Repeal Act of ${year}`,
-    summary:
-      answer === "yes"
-        ? `${proposition.question} This bill says yes.`
-        : `${proposition.question} This bill repeals the law that says yes.`,
-    origin: "member-introduction",
-    subjectClass: subjectClassFor(question.issueKey),
-    sponsorPersonId: sponsor.personId,
+    sponsorPersonId: sponsor.personId!,
     originChamberKey: input.chamberKey,
-    propositionIds: [question.propositionId],
-    propositionAnswers: [{ propositionId: question.propositionId, answer }],
+    principleRecordIds: choice.principleRecordIds,
+    principleScore: choice.principleScore,
   });
-  const measure = next.history.legislativeMeasures!.at(-1)!;
+  if (!introduced) return world;
+  next = introduced.world;
+  const measure = (next.history.legislativeMeasures ?? []).find(
+    (candidate) => candidate.id === introduced.measureId,
+  );
+  if (!measure)
+    throw new Error(`${designation} was not recorded after introduction.`);
   next = recordWorldEvent(next, {
     stableKey: `${stableKey}:motive`,
     type: SPONSOR_MOTIVE_EVENT,
