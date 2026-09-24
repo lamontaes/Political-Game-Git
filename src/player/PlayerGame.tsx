@@ -143,9 +143,11 @@ import {
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
+  chooseTodayCalendarOption,
   presentPeopleSentence,
   projectStoryMoment,
   storyOptionNote,
+  todayCalendarOptions,
   type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
@@ -5722,7 +5724,10 @@ function StoryView({
   readonly onWorldChange: (world: World) => void;
 }) {
   const [journalOpen, setJournalOpen] = useState(false);
-  const crisisStop = useCrisisStop(session.world);
+  const todayOptions = useMemo(
+    () => todayCalendarOptions(session.world, session.personId),
+    [session.world, session.personId],
+  );
 
   return (
     <section className="game-story life-moment" data-testid="story-section">
@@ -5802,58 +5807,69 @@ function StoryView({
         </p>
       ) : null}
 
-      {moment.scene.options.length > 0 ? (
-        <>
-          <h3
-            className="game-choices-heading"
-            data-testid="story-choices-heading"
-          >
-            What do you do?
-          </h3>
-          <div
-            className="game-choices life-choices"
-            data-testid="story-options"
-          >
-            {moment.scene.options.map((option) => (
-              <button
-                key={option.key}
-                type="button"
-                className="ui-action ui-action--choice"
-                onClick={() =>
-                  onWorldChange(
-                    chooseStoryOption(session.world, {
+      {moment.scene.options.length > 0 || todayOptions.length > 0 ? (
+        <h3
+          className="game-choices-heading"
+          data-testid="story-choices-heading"
+        >
+          What do you do?
+        </h3>
+      ) : null}
+      {moment.scene.options.length > 0 || todayOptions.length > 0 ? (
+        <div className="game-choices life-choices" data-testid="story-options">
+          {moment.scene.options.map((option) => (
+            <button
+              key={option.key}
+              type="button"
+              className="ui-action ui-action--choice"
+              onClick={() =>
+                onWorldChange(
+                  chooseStoryOption(session.world, {
+                    personId: session.personId,
+                    scene: moment.scene,
+                    optionKey: option.key,
+                    transitionHandlers:
+                      createCampaignElectionTransitionRegistry(),
+                    advanceDays: (world, days) =>
+                      passOrdinaryDays(
+                        world,
+                        days,
+                        createCampaignElectionTransitionRegistry(),
+                      ),
+                  }),
+                )
+              }
+            >
+              {option.label}
+              {storyOptionNote(option) !== null ? (
+                <small>{storyOptionNote(option)}</small>
+              ) : null}
+            </button>
+          ))}
+          {/* Today's actual calendar commitments remain playable here. */}
+          {moment.scene.kind === "ordinary-stretch"
+            ? null
+            : todayOptions.map((option) => (
+                <button
+                  key={option.key}
+                  type="button"
+                  className="ui-action ui-action--choice"
+                  data-testid="story-today-calendar"
+                  onClick={() => {
+                    const next = chooseTodayCalendarOption(session.world, {
                       personId: session.personId,
-                      scene: moment.scene,
                       optionKey: option.key,
                       transitionHandlers:
                         createCampaignElectionTransitionRegistry(),
-                      advanceDays: (world, days) =>
-                        passOrdinaryDays(
-                          world,
-                          days,
-                          createCampaignElectionTransitionRegistry(),
-                        ),
-                    }),
-                  )
-                }
-              >
-                {option.label}
-                {storyOptionNote(option) !== null ? (
-                  <small>{storyOptionNote(option)}</small>
-                ) : null}
-              </button>
-            ))}
-          </div>
-        </>
-      ) : null}
-
-      {crisisStop.stop ? (
-        <p className="game-note" role="status" data-testid="story-crisis-stop">
-          {crisisStop.stop.sentence}{" "}
-          {crisisStop.stop.target === "authority"
-            ? "It is waiting in your office."
-            : "It is waiting under Who you are."}
-        </p>
+                    });
+                    if (next) onWorldChange(next);
+                  }}
+                >
+                  {option.label}
+                  <small>{option.description}</small>
+                </button>
+              ))}
+        </div>
       ) : null}
 
       {moment.openThreads.length > 0 ? (

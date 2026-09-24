@@ -424,6 +424,15 @@ export async function passShellTime(
   await waitForClockIdle(page);
 }
 
+/** Walk a quiet adult interval until a choice returns, bounded at 126 days. */
+export async function advanceQuietStory(page: Page): Promise<void> {
+  const choices = page.getByTestId("story-options").getByRole("button");
+  for (let week = 0; week < 18; week += 1) {
+    await passShellTime(page, "week");
+    if ((await choices.count()) > 0) return;
+  }
+}
+
 /**
  * Political destinations that live inside the Politics hub.
  *

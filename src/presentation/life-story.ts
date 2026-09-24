@@ -1,6 +1,7 @@
 import {
   OPENING_LIFE_ADDITIONS,
   OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS,
+  isArchivedRoutineOpeningSceneKey,
   openingLifeSceneAtStage,
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
@@ -365,10 +366,14 @@ function gatherCandidates(
   const episodes: Candidate[] = eligibility.beats
     .filter(
       (beat) =>
-        beat.stageKey !== "moment" ||
-        !OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(
-          beat.episodeKey.replace(/^opening\./, ""),
-        ),
+        (beat.stageKey !== "moment" ||
+          !OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(
+            beat.episodeKey.replace(/^opening\./, ""),
+          )) &&
+        (!beat.episodeKey.startsWith("opening.") ||
+          !isArchivedRoutineOpeningSceneKey(
+            beat.episodeKey.slice("opening.".length),
+          )),
     )
     .map((beat) => {
       const thread = threadForEpisodeBeat(threads, beat);
@@ -686,7 +691,7 @@ export function chooseTodayCalendarOption(
   return null;
 }
 
-/** Calendar commitments remain available to the internal scene projection. */
+/** Today's real calendar commitments remain available when no scene is open. */
 export function ordinaryStretchOptions(
   world: World,
   personId: EntityId,
@@ -946,8 +951,7 @@ export function chooseStoryOption(
       });
     case "ordinary-stretch": {
       const today = chooseTodayCalendarOption(world, input);
-      if (today) return today;
-      return letStoryTimePass(world, input.personId, input.advanceDays);
+      return today ?? world;
     }
   }
 }

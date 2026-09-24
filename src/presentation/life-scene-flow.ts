@@ -41,6 +41,7 @@ import {
   OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS,
   openingLifeFamily,
   openingLifeSceneAtStage,
+  isArchivedRoutineOpeningSceneKey,
 } from "../simulation/opening-life-content";
 import {
   eligibleEpisodeBeats,
@@ -169,6 +170,7 @@ function eligibleOpeningLifeScenes(world: World, personId: EntityId) {
   }).beats;
   return [...OPENING_LIFE_ADDITIONS, ...runtimeLifeScenes(world)].flatMap(
     (definition) => {
+      if (isArchivedRoutineOpeningSceneKey(definition.key)) return [];
       const beat = beats.find(
         (beat) => beat.episodeKey === `opening.${definition.key}`,
       );
