@@ -1,4 +1,3 @@
-import { personPronouns } from "../simulation/person-identity";
 import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
 
@@ -361,14 +360,14 @@ describe("election day, and the morning after", () => {
     expect(view.offers).toEqual([]);
   });
 
-  it("lets a lost election be a thing that happened, not an ending", () => {
+  it("keeps a character playable after an election loss", () => {
     // Whichever way this seed falls, the morning after has to work.
     const played = playToTheEnd("election-after", 0);
     const view = projectCampaign(played.world, played.personId);
     expect(view.afterword).not.toBeNull();
     if (view.phase === "lost") {
-      const them = personPronouns(played.world.people[played.personId]).object;
-      expect(view.afterword).toContain(`not the end of ${them}`);
+      expect(view.afterword).toContain("lost");
+      expect(view.afterword).not.toContain("tomorrow is still there");
     }
 
     const nextWeek = passCampaignDays(played.world, played.personId, 7);
