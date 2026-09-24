@@ -592,7 +592,7 @@ export function applyInstitutionStep(
   if (steps.includes("request-referral")) {
     // A Congress bill goes to the committee for its policy field; any other
     // bill to the chamber's first compiled committee.
-    const referredKey = congressReferralCommittee(measure, chamberKey);
+    const referredKey = congressReferralCommittee(world, measure, chamberKey);
     const committee =
       chamber.committees.find((entry) => entry.committeeKey === referredKey) ??
       chamber.committees[0];

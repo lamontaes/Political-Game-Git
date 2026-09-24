@@ -4,10 +4,14 @@ import { advanceWorld, lifePlaceSearch } from "../simulation";
 import type { World } from "../simulation";
 import { makeIsoDate } from "../simulation/dates";
 import {
+  CONGRESS_COMMITTEE_BY_DOMAIN,
   US_CONGRESS_PACK_ID,
   US_CONGRESS_RULE_PACK,
 } from "../simulation/congress-rule-pack";
-import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
+import {
+  congressReferralCommittee,
+  seatedCongressChamber,
+} from "../simulation/governing/congress-chambers";
 import { CONGRESS_LAWMAKING_PROFILE } from "../simulation/governing/congress-lawmaking";
 import { principledLeaning } from "../simulation/governing/officeholder-principles";
 import {
@@ -93,6 +97,31 @@ describe("Congress makes law in an ordinary life", () => {
   for (const chamberKey of ["house", "senate"])
     for (const member of seatedCongressChamber(later, chamberKey)!.body.members)
       partyOf.set(member.personId!, member.partyKey ?? null);
+
+  it("refers a filed question by its catalog subject even if the bill key changes", () => {
+    const bill = bills.find((candidate) => {
+      return candidate.propositionIds?.some((propositionId) => {
+        const proposition = later.policyCatalog.propositions[propositionId];
+        const issue = proposition
+          ? later.policyCatalog.issues[proposition.issueId]
+          : null;
+        const domain = issue?.stableKey
+          .replace(/^us-federal:/, "")
+          .split(".")[0];
+        return !!domain && !!CONGRESS_COMMITTEE_BY_DOMAIN[domain];
+      });
+    });
+    expect(bill).toBeDefined();
+    if (!bill) return;
+    const proposition =
+      later.policyCatalog.propositions[bill.propositionIds![0]!]!;
+    const issue = later.policyCatalog.issues[proposition.issueId]!;
+    const domain = issue.stableKey.replace(/^us-federal:/, "").split(".")[0]!;
+    const renamed = { ...bill, stableKey: "member-agenda/v2:renamed-bill" };
+    expect(congressReferralCommittee(later, renamed, "house")).toBe(
+      CONGRESS_COMMITTEE_BY_DOMAIN[domain]!.house,
+    );
+  });
 
   it("files a bill in each House every month, each carried by a seated member", () => {
     expect(bills.length).toBeGreaterThanOrEqual(12);
