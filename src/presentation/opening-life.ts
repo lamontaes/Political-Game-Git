@@ -88,16 +88,21 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
   );
   // A legacy replay descriptor keeps its prior construction exactly: its
   // opening governor holds a recorded tenure, not GOVERNING's dated term.
-  const placed =
-    session.setup.openingDataVersion === "playtest65-v1"
-      ? establishOpeningLocation(economic, game.playerPersonId)
-      : economic;
+  // Both opening-data versions place the player and seat the vice president;
+  // only "playtest65-v1" also writes the two fixed, already-concluded local
+  // matters, which a replay descriptor recorded under it must keep rebuilding.
+  const openingData = session.setup.openingDataVersion;
+  const versionedOpening =
+    openingData === "playtest65-v1" || openingData === "playtest65-v2";
+  const placed = versionedOpening
+    ? establishOpeningLocation(economic, game.playerPersonId)
+    : economic;
   const staffed = establishOpeningOfficeholders(placed, game.playerPersonId, {
     datedTerms: session.setup.worldOpeningVersion !== undefined,
-    includeVicePresident: session.setup.openingDataVersion === "playtest65-v1",
+    includeVicePresident: versionedOpening,
   });
   const withPriorRecords =
-    session.setup.openingDataVersion === "playtest65-v1"
+    openingData === "playtest65-v1"
       ? ensureOpeningPriorLocalRecords(staffed, game.playerPersonId)
       : staffed;
   return {

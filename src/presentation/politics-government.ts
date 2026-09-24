@@ -824,7 +824,7 @@ function houseNote(
     return seat ? [seatLabelFor(seat)] : [];
   });
   return candidates.length > 1
-    ? `Your home place is split between ${candidates.slice(0, -1).join(", ")} and ${candidates.at(-1)!} (Census place–district relationship), and the save does not record which one your home is in.`
+    ? `Your home place is split between ${candidates.slice(0, -1).join(", ")} and ${candidates.at(-1)!}, and the save does not record which one your home is in.`
     : `Your congressional district in ${state} is not recorded for your home.`;
 }
 
@@ -940,15 +940,9 @@ function representedBy(
       note: `${title === "Resident Commissioner" ? "The Resident Commissioner" : "The Delegate"} speaks for all of ${nameInSentence(usps, state)} in the House and does not cast final votes there. No current record names who holds the seat.`,
     });
   } else {
-    // A member of the House is placed in the district of the seat they
-    // hold, which is recorded, when the home's own district is not.
-    const shownSeat =
-      houseSeat ??
-      houseSeats.find(
-        (seat) =>
-          seat.occupant.kind === "member" &&
-          seat.occupant.member.personId === personId,
-      );
+    // Holding a House seat does not establish which district contains home.
+    // A split place stays unresolved until a home district is recorded.
+    const shownSeat = houseSeat;
     rows.push({
       key: "us-house",
       office: "U.S. House",

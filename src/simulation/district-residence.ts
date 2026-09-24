@@ -13,15 +13,18 @@
 import { districtIdentityCatalog } from "../districts/catalog";
 import { placeRelationVintageFor } from "../districts/place-membership";
 import {
+  bindingFromIdentity,
   districtMembershipFromCanonicalHome,
+  districtsCrossingPlace,
   gazetteerChamberForOfficeChamberKey,
   resolveDistrictBinding,
 } from "../districts/query";
-import type { DistrictChamber } from "../districts/types";
+import type { DistrictChamber, DistrictIdentity } from "../districts/types";
 import type { ElectiveOfficeOption } from "./candidacy-packs";
 import { makeIsoDate } from "./dates";
 import { homeJurisdictionResidenceSince } from "./nationwide-world/residence-duration";
 import { createStableId } from "./ids";
+import { SeededRng } from "./rng";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { factsForPerson } from "./people";
 import type {
@@ -60,7 +63,18 @@ const MEMBERSHIP_PROVENANCE_METHODS =
     "authored",
     "simulated-event",
     "canonical-home-join",
+    "split-home-assignment",
   ]);
+
+/**
+ * Methods whose interval says WHICH district a home is in but whose own start
+ * is the day the record was written, not the day the life came to live there.
+ * Their start is read through the household records (`membershipStartedOn`).
+ */
+const HOME_PLACEMENT_METHODS = new Set<DistrictResidenceProvenanceMethod>([
+  "canonical-home-join",
+  "split-home-assignment",
+]);
 
 export interface EstablishDistrictResidenceInput {
   readonly personId: EntityId;
@@ -187,10 +201,11 @@ export function districtResidenceSince(
     .sort((left, right) => left.startedOn.localeCompare(right.startedOn));
   const earliest = covering[0];
   if (!earliest) return null;
-  // A seat bound to the district the world-creation join recorded is dated
-  // the same way the unbound question is, so the office list and the filing
-  // agree on how long a lifelong resident has lived there.
-  return earliest.provenance.method === "canonical-home-join"
+  // A seat bound to the district the world-creation join or a split-home
+  // placement recorded is dated the same way the unbound question is, so the
+  // office list and the filing agree on how long a lifelong resident has
+  // lived there.
+  return HOME_PLACEMENT_METHODS.has(earliest.provenance.method)
     ? membershipStartedOn(world, earliest, onDate)
     : earliest.startedOn;
 }
@@ -400,6 +415,17 @@ export function establishDistrictResidence(
     return { kind: "refused", reason: resolved.reason, world };
   }
   const binding = resolved.binding;
+  if (input.provenance.method === "split-home-assignment") {
+    const confirmed = confirmSplitHomeAssignment(
+      world,
+      input.personId,
+      binding,
+      input.provenance.sourceEventId,
+    );
+    if (confirmed.kind === "refused") {
+      return { kind: "refused", reason: confirmed.reason, world };
+    }
+  }
   if (input.provenance.method === "canonical-home-join") {
     const confirmed = confirmCanonicalHomeJoin(
       world,
@@ -648,7 +674,16 @@ export function syncDistrictMembershipFromCanonicalHome(
         interval.endedOn === null,
     );
     if (join.kind !== "known") {
-      if (open?.provenance.method === "canonical-home-join") {
+      const staleSplitPlacement =
+        open?.provenance.method === "split-home-assignment" &&
+        !splitHomeDistricts(next, personId, chamber).some(
+          (identity) => identity.recordId === open.binding.recordId,
+        );
+      if (
+        open &&
+        (open.provenance.method === "canonical-home-join" ||
+          staleSplitPlacement)
+      ) {
         next = {
           ...next,
           history: {
@@ -693,4 +728,156 @@ export function bindElectiveOfficeOption(
   expectedStateUsps: string | null,
 ): ReturnType<typeof bindOfficeToDistrict> {
   return bindOfficeToDistrict(option, binding, expectedStateUsps);
+}
+
+/**
+ * The districts of `chamber` that cross this person's recorded home place,
+ * when that place is split. Empty when the home is wholly inside one district,
+ * is not a Census place, or the chamber has no relationship file.
+ */
+export function splitHomeDistricts(
+  world: World,
+  personId: EntityId,
+  chamber: DistrictChamber,
+): readonly DistrictIdentity[] {
+  if (chamber === "congressional") return [];
+  return districtsCrossingPlace(
+    districtIdentityCatalog(),
+    canonicalHomePlaceGeoid(world, personId),
+    chamber,
+  );
+}
+
+function currentResidenceFactId(
+  world: World,
+  personId: EntityId,
+): EntityId | null {
+  const person = world.people[personId];
+  if (!person) return null;
+  return (
+    factsForPerson(person).find(
+      (fact) => fact.kind === "residence" && fact.endedAt === null,
+    )?.id ?? null
+  );
+}
+
+function confirmSplitHomeAssignment(
+  world: World,
+  personId: EntityId,
+  binding: DistrictSeatBinding,
+  sourceEventId: EntityId | null,
+):
+  | { readonly kind: "confirmed" }
+  | { readonly kind: "refused"; readonly reason: string } {
+  if (
+    sourceEventId === null ||
+    sourceEventId !== currentResidenceFactId(world, personId)
+  ) {
+    return {
+      kind: "refused",
+      reason:
+        "Placing a home in one district of a split town needs the current residence fact.",
+    };
+  }
+  const crossing = splitHomeDistricts(world, personId, binding.chamber);
+  if (!crossing.some((identity) => identity.recordId === binding.recordId)) {
+    return {
+      kind: "refused",
+      reason: "That district does not cross this character's town.",
+    };
+  }
+  return { kind: "confirmed" };
+}
+
+/**
+ * Place a split town's resident in one of the districts crossing their town,
+ * for each chamber where the world has no membership for them yet.
+ *
+ * GAME PROFILE placeholder: a split town's resident is assigned one
+ * overlapping district by seed until research says how.
+ *
+ * The published join says only that the town crosses several districts; it
+ * cannot say which one a given home is in, and without an answer a lifelong
+ * Anchorage resident could never stand for the legislature. The pick is drawn
+ * from the world seed among the districts that cross the town — never a
+ * district elsewhere in the state — and written through
+ * `establishDistrictResidence`, the one district-residence writer. The player
+ * can say their home is in a different one of those districts
+ * (`chooseSplitHomeDistrict`). A home the join already places, and a chamber
+ * that already has an open interval, are left as they are.
+ *
+ * Called only for an opening of the current version: a legacy replay
+ * descriptor rebuilds its exact bytes, and a save from before this existed is
+ * not backfilled on load.
+ */
+export function assignSplitHomeDistricts(
+  world: World,
+  personId: EntityId,
+): World {
+  const residenceId = currentResidenceFactId(world, personId);
+  const person = world.people[personId];
+  if (!person || residenceId === null) return world;
+  const residence = factsForPerson(person).find(
+    (fact) => fact.id === residenceId,
+  )!;
+  let next = world;
+  for (const chamber of HOME_JOIN_CHAMBERS) {
+    const crossing = splitHomeDistricts(next, personId, chamber);
+    if (crossing.length === 0) continue;
+    const open = districtResidenceIntervals(next).some(
+      (interval) =>
+        interval.personId === personId &&
+        interval.binding.chamber === chamber &&
+        interval.endedOn === null,
+    );
+    if (open) continue;
+    const pick = new SeededRng(
+      JSON.stringify(["split-home-district-v1", next.seed, personId, chamber]),
+    ).pick(crossing);
+    const recorded = establishDistrictResidence(next, {
+      personId,
+      binding: bindingFromIdentity(pick),
+      startedOn: residence.occurredAt,
+      provenance: {
+        method: "split-home-assignment",
+        sourceEventId: residence.id,
+        note: `Placed by seed among the ${crossing.length} districts crossing Census place ${canonicalHomePlaceGeoid(next, personId)} (${placeRelationVintageFor(chamber)}).`,
+      },
+    });
+    if (recorded.kind === "recorded") next = recorded.world;
+  }
+  return next;
+}
+
+/**
+ * The player says which of the districts crossing their split town their home
+ * is in. Written through `establishDistrictResidence` from today; the
+ * residence clock still reads the household records, so saying where in town
+ * you have always lived is not a move and does not restart the clock.
+ */
+export function chooseSplitHomeDistrict(
+  world: World,
+  personId: EntityId,
+  binding: DistrictSeatBinding,
+): DistrictResidenceWriteResult {
+  const residenceId = currentResidenceFactId(world, personId);
+  const open = districtResidenceIntervals(world).find(
+    (interval) =>
+      interval.personId === personId &&
+      interval.binding.chamber === binding.chamber &&
+      interval.endedOn === null,
+  );
+  if (open && open.binding.recordId === binding.recordId) {
+    return { kind: "recorded", world, interval: open };
+  }
+  return establishDistrictResidence(world, {
+    personId,
+    binding,
+    startedOn: world.currentDate,
+    provenance: {
+      method: "split-home-assignment",
+      sourceEventId: residenceId,
+      note: "Chosen by the player among the districts crossing their town.",
+    },
+  });
 }

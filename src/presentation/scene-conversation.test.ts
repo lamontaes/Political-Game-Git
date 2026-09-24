@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { serializeWorld } from "../simulation";
 import type { EntityId, World } from "../simulation";
+import { CLAIM_STANCE_TAG_PREFIX } from "../simulation/claim-stances";
 import { openNextLifeScene } from "./life-scene-flow";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
@@ -104,6 +105,60 @@ describe("PT3 — the scene conversation box reads the record back", () => {
     )!;
     expect(current.playerLine).toMatch(/^You brought up the week/);
     expect(current.playerLine).not.toMatch(/The player/);
+  });
+
+  it("uses the recorded action if an older claim tag has no spoken words", () => {
+    const { world, personId } = life({}, "pt3-blank-claim-words");
+    const view = projectPlayerConversation(
+      world,
+      personId,
+      "household-obligation",
+    )!;
+    const after = say(
+      world,
+      personId,
+      "household-obligation",
+      "raise-obligation",
+    );
+    const original = currentExchangeTurn(
+      conversationExchangeTurns(
+        after,
+        personId,
+        "household-obligation",
+        view.addressee as EntityId,
+      ),
+    )!;
+    const malformed: World = {
+      ...after,
+      history: {
+        ...after.history,
+        events: after.history.events.map((event) =>
+          event.id === original.eventId
+            ? {
+                ...event,
+                tags: [
+                  ...event.tags,
+                  `${CLAIM_STANCE_TAG_PREFIX}${JSON.stringify({
+                    version: 1,
+                    propositionKey: "old-save",
+                    statement: "   ",
+                    recipientPersonIds: [],
+                  })}`,
+                ],
+              }
+            : event,
+        ),
+      },
+    };
+    const projected = currentExchangeTurn(
+      conversationExchangeTurns(
+        malformed,
+        personId,
+        "household-obligation",
+        view.addressee as EntityId,
+      ),
+    )!;
+    expect(projected.playerLine).toBe(original.playerLine);
   });
 
   it("keeps the last turn when the player turns to somebody else, and says who heard it", () => {

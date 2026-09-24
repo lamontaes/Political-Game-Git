@@ -312,6 +312,20 @@ export function formativeEligibilityProvider(
       }
       const age = ageOnDate(person.birthDate, request.asOfDate as IsoDate);
 
+      // The household record establishes who lives together. It does not
+      // establish that anyone is ill, that a child knows about an illness, or
+      // that care is needed. These situations must wait for a recorded cause
+      // and an identified person before they can be offered in ordinary play.
+      if (
+        situationKey === "formative.illness-in-the-house" ||
+        situationKey === "formative.caring-for-someone"
+      ) {
+        return blocked(
+          "context:missing-incident",
+          "No identified household member and recorded care or illness need support this situation.",
+        );
+      }
+
       if (situationKey === "formative.teen-work-opportunity") {
         if (age < 14) {
           return blocked(
