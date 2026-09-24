@@ -6,6 +6,7 @@ import {
   currentLifeCutoff,
   householdLocationAt,
   householdMembershipsAt,
+  kinshipRelationshipsAt,
   organizationProfileAt,
   peopleInHouseholdAt,
 } from "./life-queries";
@@ -62,6 +63,40 @@ export interface InitiatorOccasion {
   readonly summary: string;
   /** What the recipient now believes, in the second person. */
   readonly believed: string;
+}
+
+/**
+ * An occasion belongs to its host, but spoken wording also depends on whom
+ * the host asked. The parent-child wording is owner-reviewed; other links keep
+ * their recorded v1 line until their own packets have been reviewed.
+ */
+export function occasionDetailsForRecipient(
+  world: World,
+  occasion: InitiatorOccasion,
+  recipientPersonId: EntityId,
+): LifeRequestDetails {
+  if (occasion.reason !== "birthday" || !world.people[recipientPersonId])
+    return occasion.details;
+  const parentChild = kinshipRelationshipsAt(world, recipientPersonId).some(
+    (relationship) =>
+      relationship.kind === "lineal:parent-child" &&
+      relationship.personIds.includes(occasion.hostPersonId),
+  );
+  if (!parentChild) return occasion.details;
+  const host = world.people[occasion.hostPersonId];
+  const recipient = world.people[recipientPersonId];
+  if (
+    !host ||
+    !recipient ||
+    host.birthDate >= recipient.birthDate ||
+    occasion.sourceRecordId !== host.id
+  )
+    return occasion.details;
+  const birthday = nextBirthday(host.birthDate, world.currentDate);
+  return {
+    ...occasion.details,
+    opening: `My birthday’s ${weekday(birthday)}. Do you want to come over Saturday?`,
+  };
 }
 
 /**
@@ -226,7 +261,7 @@ export function initiatorOccasions(
         minutes: 180,
       },
       summary: `${name}, who turns ${turning} on ${formatStatutoryDate(birthday)}, asked you over for the afternoon of ${formatStatutoryDate(birthdayGathering)}.`,
-      believed: `${name} turns ${turning} on ${formatStatutoryDate(birthday)} and asked you over on the afternoon of ${formatStatutoryDate(birthdayGathering)}. Going is optional.`,
+      believed: `${name} turns ${turning} on ${formatStatutoryDate(birthday)} and asked you over on the afternoon of ${formatStatutoryDate(birthdayGathering)}.`,
     });
   }
 
@@ -254,7 +289,7 @@ export function initiatorOccasions(
           minutes: 180,
         },
         summary: `${name}, who moved on ${formatStatutoryDate(home.effectiveAt)}, asked you over to see the new place on ${formatStatutoryDate(gathering)}.`,
-        believed: `${name} moved on ${formatStatutoryDate(home.effectiveAt)} and asked you over to see the place on the afternoon of ${formatStatutoryDate(gathering)}. Going is optional.`,
+        believed: `${name} moved on ${formatStatutoryDate(home.effectiveAt)} and asked you over to see the place on the afternoon of ${formatStatutoryDate(gathering)}.`,
       });
     }
   }
@@ -287,7 +322,7 @@ export function initiatorOccasions(
         minutes: 180,
       },
       summary: `${name}, who started at ${employer} on ${formatStatutoryDate(started)}, asked you over on ${formatStatutoryDate(gathering)}.`,
-      believed: `${name} started at ${employer} on ${formatStatutoryDate(started)} and asked you over on the afternoon of ${formatStatutoryDate(gathering)}. Going is optional.`,
+      believed: `${name} started at ${employer} on ${formatStatutoryDate(started)} and asked you over on the afternoon of ${formatStatutoryDate(gathering)}.`,
     });
     break;
   }

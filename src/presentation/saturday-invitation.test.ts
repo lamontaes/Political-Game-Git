@@ -40,15 +40,15 @@ function start(placeKey: string, seed: string) {
     game.playerPersonId,
   );
   // An invitation now needs a reason in the host's own life, so it arrives
-  // when one of the people this life knows has one: days pass until then.
+  // when one of the people this life knows has one: weeks pass until then.
   for (
-    let day = 0;
-    day < INVITATION_SEARCH_DAYS &&
+    let week = 0;
+    week < Math.ceil(INVITATION_SEARCH_DAYS / 7) &&
     socialInvitationsFor(world, game.playerPersonId).length === 0;
-    day += 1
+    week += 1
   ) {
     world = refreshLifeOpportunities(
-      passOrdinaryDays(world, 1),
+      passOrdinaryDays(world, 7),
       game.playerPersonId,
     );
   }
@@ -113,7 +113,7 @@ describe("a Saturday invitation, said yes to", () => {
       )!;
       expect(known.believedSummary).toMatch(
         new RegExp(
-          `^${asker} .+ on the afternoon of [A-Z][a-z]+ \\d{1,2}, \\d{4}\\. Going is optional\\.$`,
+          `^${asker} .+ on the afternoon of [A-Z][a-z]+ \\d{1,2}, \\d{4}\\.$`,
         ),
       );
 

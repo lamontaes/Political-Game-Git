@@ -6,6 +6,7 @@ import {
   expectNoDestination,
   goTo,
   openElsewhere,
+  passShellTime,
   shellIdentity,
   startLife,
 } from "./support/creator";
@@ -89,11 +90,9 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   await openCampaign(page);
   await fileCandidacy(page);
   await page.getByTestId("campaign-fundraising").click();
-  expect(
-    await campaignUntilDecided(page, (page) =>
-      page.getByTestId("pass-day").click(),
-    ),
-  ).toBe(true);
+  expect(await campaignUntilDecided(page, (page) => passShellTime(page))).toBe(
+    true,
+  );
   await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
 
   // The win opened the office; the corner cluster still says Lexington.
