@@ -148,12 +148,15 @@ describe("A real change still gets said", () => {
         expect(sentence!.length).toBeGreaterThan(10);
       }
       const option = moment.scene.options[0];
-      if (!option) break;
-      world = chooseStoryOption(world, {
-        personId,
-        scene: moment.scene,
-        optionKey: option.key,
-      });
+      // A quiet stretch has no choice of its own now; the shell's Day and
+      // Week controls move it, as the player would.
+      world = option
+        ? chooseStoryOption(world, {
+            personId,
+            scene: moment.scene,
+            optionKey: option.key,
+          })
+        : letStoryTimePass(world, personId);
     }
     expect(sawMovement).toBe(true);
   });
