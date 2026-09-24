@@ -189,6 +189,34 @@ function calibrate(game: NewGameSetup, index: number): NewGameSetup {
 /* -------------------------------------------------------------------------- */
 
 describe("There is enough authored content to play with", () => {
+  it.each([6, 24])(
+    "keeps daily activities out of the automatic story selection at age %i",
+    (startAge) => {
+      const life = createNewGameWorld(
+        setup({
+          startKind: "custom",
+          startAge,
+          depth: "play-formative-years",
+          seed: `optional-story-${startAge}`,
+        }),
+      );
+      const activity =
+        startAge < 18
+          ? "opening.young.home.choose-activity"
+          : "opening.adult.home.free-time";
+      const trace = traceStorySelection(life.world, life.playerPersonId);
+      expect(
+        trace.ranked.some((entry) => entry.candidate.key.includes(activity)),
+      ).toBe(false);
+      const moment = projectStoryMoment(life.world, life.playerPersonId);
+      expect(
+        moment.scene.kind === "episode" &&
+          moment.scene.beat.episodeKey === activity &&
+          moment.scene.beat.stageKey === "moment",
+      ).toBe(false);
+    },
+  );
+
   it("ships episode families that branch and families that end quietly", () => {
     const summary = episodeBankSummary();
     expect(summary.families).toBeGreaterThanOrEqual(9);

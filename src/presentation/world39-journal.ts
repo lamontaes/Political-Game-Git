@@ -16,6 +16,10 @@ import { INTRODUCTION_EVENT } from "../simulation/social-introductions";
 import { crimeJournalLine } from "../simulation/crime/journal";
 import { ownElectionResultSentence } from "./own-election";
 import { proseDate, proseMonthYear, proseYear } from "./prose-dates";
+import {
+  consequentialSocialEventIds,
+  isRoutineSocialOccasion,
+} from "./journal-significance";
 
 export interface World39BiographyEntry {
   readonly id: string;
@@ -68,6 +72,10 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
   if (!person) return { name: "", entries, chapters: [] };
   const frontier = { historySequenceExclusive: world.history.nextSequence };
   const ownName = personName(person);
+  const consequentialEvents = consequentialSocialEventIds(world);
+  const eventsById = new Map(
+    world.history.events.map((event) => [event.id, event]),
+  );
   entries.push({
     id: `birth:${person.id}`,
     at: person.birthDate,
@@ -236,6 +244,14 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     if (/^(setup|simulation|information|evidence|world)\./.test(event.type))
       continue;
     if (STANDING_STATE_EVENT_TYPES.has(event.type)) continue;
+    if (
+      isRoutineSocialOccasion(
+        consequentialEvents,
+        event.id,
+        event.type,
+      )
+    )
+      continue;
     // A crime says what happened to its victim; nobody else's Journal has it.
     const crimeLine = crimeJournalLine(event, personId);
     if (crimeLine === null) continue;
@@ -271,6 +287,16 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
       covered.has(memory.eventId)
     )
       continue;
+    const sourceEvent = eventsById.get(memory.eventId);
+    if (
+      sourceEvent &&
+      isRoutineSocialOccasion(
+        consequentialEvents,
+        sourceEvent.id,
+        sourceEvent.type,
+      )
+    )
+      continue;
     if (
       world.history.memories.some(
         (row) =>
@@ -298,9 +324,6 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
   // the opportunity producer writes about a standing offer (a proposed
   // evening, an invitation, a favor asked, a confidence shared) is the state
   // of an offer, which the record's open items carry, not a lived account.
-  const eventsById = new Map(
-    world.history.events.map((event) => [event.id, event]),
-  );
   const knowledge = world.history.knowledge.filter(
     (row) => row.personId === personId && row.learnedAt <= world.currentDate,
   );
@@ -310,6 +333,14 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     const source = eventsById.get(account.eventId);
     if (!source || source.occurredAt > world.currentDate) continue;
     if (isStandingOfferEvent(source.type)) continue;
+    if (
+      isRoutineSocialOccasion(
+        consequentialEvents,
+        source.id,
+        source.type,
+      )
+    )
+      continue;
     if (!account.believedSummary.trim()) continue;
     entries.push({
       id: `account:${account.id}`,

@@ -261,7 +261,7 @@ export function ShellNav({
   readonly onAskLeave?: () => void;
   readonly leaving?: boolean;
   readonly leaveProblem?: string | null;
-  /** Day and week through the canonical clock. Absent while growing up. */
+  /** Day and week through the canonical clock, including during childhood. */
   readonly onPassDays?: (days: 1 | 7) => void;
   /** Where each skip would land, said before it is pressed. */
   readonly passTargets?: { readonly day: string; readonly week: string };

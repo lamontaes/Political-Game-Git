@@ -139,7 +139,7 @@ describe("a quiet stretch stops for civic life", () => {
       (option) => option.key === `go-to:${meeting.id}`,
     );
     expect(attend?.label).toBe("Attend: Posted public meeting");
-    expect(scene.options.at(-1)?.key).toBe("let-it-run");
+    expect(scene.options.some((option) => option.key === "let-it-run")).toBe(false);
 
     const went = chooseStoryOption(next, {
       personId,

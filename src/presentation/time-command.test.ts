@@ -51,6 +51,31 @@ function request(
 const fixedClock = () => 0;
 
 describe("the canonical time command", () => {
+  it("advances a child's day and week through the same clock", () => {
+    const built = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "child-day-week-controls",
+      startAge: 6,
+      questionnaire: "skipped",
+    });
+    const personId = built.playerPersonId;
+    const world = openOrdinaryLife(built.world, personId);
+    const day = submitTimeCommand(
+      world,
+      request(world, personId, { kind: "days", days: 1 }),
+      fixedClock,
+    );
+    expect(day.receipt.status).toBe("accepted");
+    expect(day.world.currentDate > world.currentDate).toBe(true);
+    const week = submitTimeCommand(
+      day.world,
+      request(day.world, personId, { kind: "days", days: 7 }),
+      fixedClock,
+    );
+    expect(week.receipt.status).toBe("accepted");
+    expect(week.world.currentDate > day.world.currentDate).toBe(true);
+  });
+
   it("moves a single ordinary day to the next morning", () => {
     const { world, personId } = adultLife();
     const { world: next, receipt } = submitTimeCommand(

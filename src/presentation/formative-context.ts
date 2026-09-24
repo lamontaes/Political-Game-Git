@@ -7,6 +7,7 @@ import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
   drawCanonicalNameForGender,
+  householdMembershipsAt,
 } from "../simulation";
 import type {
   CharacterHistoryTransition,
@@ -360,9 +361,7 @@ export function formativeEligibilityProvider(
       }
 
       if (HOUSEHOLD_SITUATIONS.includes(situationKey)) {
-        const inHousehold = world.history.householdMemberships.some(
-          (membership) => membership.personId === person.id,
-        );
+        const inHousehold = householdMembershipsAt(world, person.id).length > 0;
         if (!inHousehold) {
           return blocked(
             "context:no-household",
@@ -402,6 +401,12 @@ export function formativeEligibilityProvider(
         }
       }
 
+      // These catalog scenes describe a specific change, request or conflict.
+      // Age, a household or an enrollment alone does not establish one.
+      const missingPremise = UNRECORDED_FORMATIVE_PREMISES[situationKey];
+      if (missingPremise)
+        return blocked("context:unrecorded-premise", missingPremise);
+
       // "Join the activity" and "Leave the activity" about an activity nobody
       // names, offered together to somebody who belongs to nothing (Ketchikan,
       // 2026-09-23). Nothing records a school club or team for a teenager, so
@@ -430,6 +435,18 @@ export function formativeEligibilityProvider(
 
 /** PLACEHOLDER, pacing only: how long a baby is still "a new child". */
 const NEW_CHILD_YEARS = 2;
+
+const UNRECORDED_FORMATIVE_PREMISES: Partial<Record<LifeSituationKey, string>> =
+  {
+    "formative.illness-in-the-house":
+      "A household record does not establish an illness or who knows about it.",
+    "formative.money-shortfall":
+      "No canceled household plan or explanation is recorded for this child.",
+    "formative.school-rule-input":
+      "Enrollment does not establish a proposed school rule or request for input.",
+    "formative.care-conflict":
+      "No overlapping care need and activity commitment is recorded.",
+  };
 
 const SCHOOL_SITUATIONS: readonly LifeSituationKey[] = [
   "formative.school-entry",

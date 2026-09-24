@@ -26,6 +26,8 @@ export interface LifeSceneDefinition {
   readonly choices: readonly LifeSceneChoice[];
   readonly source: string;
 }
+/** No fixed quiet-time scene is offered as an optional activity. */
+export const OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS: ReadonlySet<string> = new Set();
 const SOURCE =
   "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view";
 /** The reviewed packets, outputs and verdicts behind the PT3 first-session copy. */
@@ -34,8 +36,6 @@ const PT3_FIRST_SESSION_SOURCE = "prose-review/pt3-first-session";
 /** Only these choices actually perform a sustained activity. Conversational
  * choices inside a game/reading/meeting do not complete that whole activity. */
 const PERFORMED_OPENING_CHOICES: Readonly<Record<string, readonly string[]>> = {
-  "young.home.choose-activity": ["read", "rest", "draw", "add"],
-  "adult.home.free-time": ["read", "rest", "draw"],
   "adult.home.plan-week": ["read"],
   "early.family.packing-boxes": ["help-label"],
   "early.peer.sidewalk-game": ["give-in-play", "trial"],
@@ -49,9 +49,6 @@ export function openingChoiceMinutes(
   // ordinary-scenes-v1 reserves mod. and authors one explicit activity
   // duration for its choices. Preserve that frozen API/save contract.
   if (definition.key.startsWith("mod.")) return definition.minutes;
-  const isReadMore =
-    definition.key === "adult.home.free-time" && choice.key === "more";
-  if (isReadMore) return 5;
   return (
     choice.elapsedMinutes ??
     (PERFORMED_OPENING_CHOICES[definition.key]?.includes(choice.key)
@@ -72,9 +69,6 @@ function scene(
 ): LifeSceneDefinition {
   return {
     key,
-    ...(key === "young.home.choose-activity" || key === "adult.home.free-time"
-      ? { recurrence: "daily" as const }
-      : {}),
     ages,
     setting,
     cast,
@@ -460,32 +454,6 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
     ],
   ),
   scene(
-    "young.home.choose-activity",
-    [5, 17],
-    "home",
-    "alone",
-    "You're at home, and the next fifteen minutes are yours.",
-    [
-      {
-        key: "draw",
-        label: "Draw something",
-        aftermath: "You drew for the fifteen minutes.",
-      },
-      {
-        key: "read",
-        label: "Read a book",
-        aftermath: "You read for the fifteen minutes.",
-      },
-      {
-        key: "rest",
-        label: "Take a quiet break",
-        aftermath: "You sat quietly until the fifteen minutes were up.",
-      },
-    ],
-    15,
-    `${PT3_FIRST_SESSION_SOURCE}/young-free-time`,
-  ),
-  scene(
     "young.home.ask-about-childhood",
     [8, 17],
     "home",
@@ -511,32 +479,6 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
         approach: "direct",
       },
     ],
-  ),
-  scene(
-    "adult.home.free-time",
-    [18, 110],
-    "home",
-    "alone",
-    "You're at home with fifteen minutes free.",
-    [
-      {
-        key: "read",
-        label: "Read",
-        aftermath: "You spent the fifteen minutes reading.",
-      },
-      {
-        key: "rest",
-        label: "Rest",
-        aftermath: "You rested for the fifteen minutes.",
-      },
-      {
-        key: "draw",
-        label: "Sketch",
-        aftermath: "You spent the fifteen minutes sketching.",
-      },
-    ],
-    15,
-    `${PT3_FIRST_SESSION_SOURCE}/adult-free-time`,
   ),
   scene(
     "adult.home.shared-time",
@@ -568,9 +510,8 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
     `${PT3_FIRST_SESSION_SOURCE}/adult-shared-time`,
   ),
   // A decision with a recorded consequence, so an adult alone at home has
-  // something to decide besides how to spend fifteen minutes. Choosing records
-  // the plan through chooseOrdinaryLifeGoal; reading, resting or spending time
-  // with somebody later can keep it.
+  // something to decide. Choosing records the plan through
+  // chooseOrdinaryLifeGoal; later choices can keep it.
   scene(
     "adult.home.plan-week",
     [18, 110],
@@ -1023,22 +964,6 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
       },
     ],
   },
-  "young.home.choose-activity": {
-    afterChoice: "draw",
-    premise: "Your drawing is in front of you. Do you want to add anything?",
-    choices: [
-      {
-        key: "add",
-        label: "Add to the picture",
-        aftermath: "You added another detail to your drawing.",
-      },
-      {
-        key: "keep",
-        label: "Put your picture somewhere safe",
-        aftermath: "You put your drawing aside to keep it.",
-      },
-    ],
-  },
   "young.home.ask-about-childhood": {
     afterChoice: "ask",
     premise: "You’ve asked {person} what school was like for them.",
@@ -1053,23 +978,6 @@ export const OPENING_LIFE_FOLLOWUPS: Readonly<
         label: "Offer to talk about something else",
         aftermath:
           "You asked {person} whether they would rather talk about something else.",
-      },
-    ],
-  },
-  "adult.home.free-time": {
-    afterChoice: "read",
-    premise:
-      "You've been reading for the last fifteen minutes. You can read for five more, or stop here.",
-    choices: [
-      {
-        key: "more",
-        label: "Read five more minutes",
-        aftermath: "You read for another five minutes.",
-      },
-      {
-        key: "mark",
-        label: "Mark your place and stop",
-        aftermath: "You marked your place and put it aside.",
       },
     ],
   },
