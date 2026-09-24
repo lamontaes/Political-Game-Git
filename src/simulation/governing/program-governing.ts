@@ -18,6 +18,7 @@ import { localFiscalGameAuthorityForRulePackId } from "../local-ordinance-game-p
 import { admitLocalFiscalMeasure } from "../local-fiscal-authority";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { createOrganization } from "../life";
+import { stableHash } from "../ids";
 import { programFamilyTitle } from "./program-families";
 import { programVariant } from "../legislation-program-families";
 import {
@@ -36,6 +37,7 @@ import type {
   EntityId,
   IsoDate,
   PublicGovernmentIdentity,
+  PublicProgramBasis,
   PublicProgramAppropriationRecord,
   World,
 } from "../types";
@@ -61,6 +63,26 @@ import {
  */
 
 export const PROGRAM_GOVERNING_VERSION = "program-governing/v1";
+const PROGRAM_SERVICE_CAPACITY_PROFILE_VERSION = "program-service-capacity/v1";
+
+interface ProgramServiceCapacityProfile {
+  readonly ref: {
+    readonly profileId: string;
+    readonly version: string;
+    readonly digest: string;
+  };
+  readonly programKey: string;
+  readonly capacity: {
+    readonly serviceLabel: string;
+    readonly unitLabel: string;
+    readonly unitsTotal: number;
+    readonly unitsOperational: number;
+    readonly monthlyOperatingNeedMinorUnits: number;
+    readonly completedPermille: null;
+    readonly restorationCostPerUnitMinorUnits: number | null;
+    readonly basis: PublicProgramBasis;
+  };
+}
 
 /** `family:state`, so one state's program is distinct from another's. */
 export function governingProgramKey(
@@ -230,14 +252,24 @@ export function appropriationFromEnactedMeasure(
       if (!lineageAuthorizesAppropriation(lineage)) continue;
       const amount = amountProvision?.fiscalExposureMinorUnits;
       if (amount === null || amount === undefined || amount <= 0) continue;
+      const serviceProfile = programServiceCapacityProfileForEnactment({
+        world: next,
+        measure,
+        governmentScope,
+        lineage,
+        provisions,
+        transitProfile,
+      });
+      const programKey =
+        serviceProfile?.programKey ??
+        transitProfile?.programKey ??
+        programKeyForGovernment(lineage.familyKey, governmentScope);
       const written = recordAdoptedAppropriation(next, {
         familyKey: lineage.familyKey,
         ...(stateUsps ? { stateUsps } : {}),
         jurisdictionId: measure.jurisdictionId,
         publicGovernmentIdentity: governmentScope.identity,
-        programKey:
-          transitProfile?.programKey ??
-          programKeyForGovernment(lineage.familyKey, governmentScope),
+        programKey,
         amountMinorUnits: amount,
         adoptedOn: transitProfile ? enactment.effectiveAt! : adoptedOn,
         ...(transitProfile
@@ -245,11 +277,17 @@ export function appropriationFromEnactedMeasure(
           : {}),
         edition: `${editionBase}-${lineage.componentKey}`,
         basisNote: transitProfile
-          ? `${PROGRAM_GOVERNING_VERSION}: adopted by the '${lineage.componentKey}' part of ${measure.designation}, ${measure.shortTitle}. The amount is that part's own enacted clause. Profile ${transitProfile.ref.profileId} version ${transitProfile.ref.version} digest ${transitProfile.ref.digest} supplies the state transit program key and availability window; the saved enactment effective date starts availability. This is spending authority, not cash.`
+          ? `${PROGRAM_GOVERNING_VERSION}: adopted by the '${lineage.componentKey}' part of ${measure.designation}, ${measure.shortTitle}. The amount is that part's own enacted clause. Profile ${transitProfile.ref.profileId} version ${transitProfile.ref.version} digest ${transitProfile.ref.digest} supplies the state transit program key and availability window; the saved enactment effective date starts availability. ${serviceProfile ? serviceCapacityBasisNote(serviceProfile) : ""}This is spending authority, not cash.`
           : `${PROGRAM_GOVERNING_VERSION}: adopted by the '${lineage.componentKey}' part of ${measure.designation}, ${measure.shortTitle}. The amount is that part's own enacted clause.`,
         sourceMeasureId: measureId,
       });
       next = written?.world ?? next;
+      if (written && serviceProfile)
+        next = ensureProgramCapacityFromProfile(next, {
+          profile: serviceProfile,
+          identity: governmentScope.identity,
+          jurisdictionId: measure.jurisdictionId,
+        });
     }
     return next;
   }
@@ -294,14 +332,25 @@ export function appropriationFromEnactedMeasure(
     governingProgramKey(familyKey, stateUsps) ===
       gameProfile.appropriation.programKey,
   );
+  const serviceProfile = programServiceCapacityProfileForEnactment({
+    world,
+    measure,
+    governmentScope,
+    lineage,
+    provisions,
+    transitProfile,
+    ...(profileAuthorityMatches && gameProfile ? { gameProfile } : {}),
+  });
+  const programKey =
+    serviceProfile?.programKey ??
+    transitProfile?.programKey ??
+    programKeyForGovernment(familyKey, governmentScope);
   const written = recordAdoptedAppropriation(world, {
     familyKey,
     ...(stateUsps ? { stateUsps } : {}),
     jurisdictionId: measure.jurisdictionId,
     publicGovernmentIdentity: governmentScope.identity,
-    programKey:
-      transitProfile?.programKey ??
-      programKeyForGovernment(familyKey, governmentScope),
+    programKey,
     amountMinorUnits: amount,
     adoptedOn: transitProfile ? enactment.effectiveAt! : adoptedOn,
     ...(transitProfile
@@ -312,60 +361,19 @@ export function appropriationFromEnactedMeasure(
       : {}),
     edition: editionBase,
     basisNote: transitProfile
-      ? `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure. Profile ${transitProfile.ref.profileId} version ${transitProfile.ref.version} digest ${transitProfile.ref.digest} supplies the state transit program key and availability window; the saved enactment effective date starts availability. This is spending authority, not cash.`
-      : profileAuthorityMatches
-        ? `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure. Profile ${gameProfile!.ref.profileId} version ${gameProfile!.ref.version} digest ${gameProfile!.ref.digest} supplies the fictional service assumptions; this record is spending authority, not cash.`
+      ? `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure. Profile ${transitProfile.ref.profileId} version ${transitProfile.ref.version} digest ${transitProfile.ref.digest} supplies the state transit program key and availability window; the saved enactment effective date starts availability. ${serviceProfile ? serviceCapacityBasisNote(serviceProfile) : ""}This is spending authority, not cash.`
+      : serviceProfile
+        ? `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure. ${serviceCapacityBasisNote(serviceProfile)}This is spending authority, not cash.`
         : `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure.`,
     sourceMeasureId: measureId,
   });
   const next = written?.world ?? world;
-  if (!written || !profileAuthorityMatches || !gameProfile) return next;
-
-  const expectedCapacity = {
+  if (!written || !serviceProfile) return next;
+  return ensureProgramCapacityFromProfile(next, {
+    profile: serviceProfile,
+    identity: governmentScope.identity,
     jurisdictionId: measure.jurisdictionId,
-    programKey: gameProfile.appropriation.programKey,
-    serviceLabel: gameProfile.capacity.serviceLabel,
-    unitLabel: gameProfile.capacity.unitLabel,
-    unitsTotal: gameProfile.capacity.unitsTotal,
-    unitsOperational: gameProfile.capacity.unitsOperational,
-    monthlyOperatingNeed: money(
-      gameProfile.capacity.monthlyOperatingNeedMinorUnits,
-      gameProfile.capacity.currency,
-    ),
-    completedPermille: gameProfile.capacity.completedPermille,
-    restorationCostPerUnit: money(
-      gameProfile.capacity.restorationCostPerUnitMinorUnits,
-      gameProfile.capacity.currency,
-    ),
-    basis: gameProfile.capacity.basis,
-  };
-  const existingCapacity = programCapacity(
-    next,
-    gameProfile.appropriation.programKey,
-  );
-  if (existingCapacity) {
-    const actual = {
-      jurisdictionId: existingCapacity.jurisdictionId,
-      programKey: existingCapacity.programKey,
-      serviceLabel: existingCapacity.serviceLabel,
-      unitLabel: existingCapacity.unitLabel,
-      unitsTotal: existingCapacity.unitsTotal,
-      unitsOperational: existingCapacity.unitsOperational,
-      monthlyOperatingNeed: existingCapacity.monthlyOperatingNeed,
-      completedPermille: existingCapacity.completedPermille,
-      restorationCostPerUnit: existingCapacity.restorationCostPerUnit,
-      basis: existingCapacity.basis,
-    };
-    if (canonicalJson(actual) !== canonicalJson(expectedCapacity))
-      throw new Error(
-        "An existing state service capacity conflicts with the enacted game's exact profile.",
-      );
-    return next;
-  }
-  return declareProgramCapacity(next, {
-    ...expectedCapacity,
-    edition: `${gameProfile.ref.profileId}:${gameProfile.ref.digest}`,
-  }).world;
+  });
 }
 
 function lineageAuthorizesAppropriation(
@@ -401,6 +409,237 @@ function stateTransitProfileForLineage(
   )
     return null;
   return stateTransitServiceProfileForMeasure(world, measure);
+}
+
+function programServiceCapacityProfileForEnactment(input: {
+  readonly world: World;
+  readonly measure: {
+    readonly jurisdictionId: EntityId;
+    readonly rulePackId: string;
+  };
+  readonly governmentScope: PublicProgramGovernmentScope;
+  readonly lineage: ReturnType<typeof draftLineageForMeasure>;
+  readonly provisions: ReturnType<typeof currentMeasureProvisions>;
+  readonly transitProfile: ReturnType<typeof stateTransitProfileForLineage>;
+  readonly gameProfile?: NonNullable<
+    ReturnType<typeof stateTaxServiceProfileForJurisdictionId>
+  >;
+}): ProgramServiceCapacityProfile | null {
+  const { world, measure, governmentScope, lineage, provisions } = input;
+  if (
+    input.transitProfile &&
+    lineage?.familyKey === TRANSIT_FAMILY_KEY &&
+    lineage.familyVersion === TRANSIT_FAMILY_VERSION &&
+    lineage.variantKey === STATE_TRANSIT_VARIANT_KEY &&
+    lineage.authorityKey === TRANSIT_PROGRAM_KEY
+  ) {
+    return authoredProgramServiceCapacityProfile({
+      profileId: `${input.transitProfile.ref.profileId}:capacity`,
+      profileScope: `${input.transitProfile.ref.digest}:${measure.rulePackId}`,
+      programKey: input.transitProfile.programKey,
+      jurisdictionId: measure.jurisdictionId,
+      serviceLabel: "modeled state rural-transit service",
+      unitLabel: "transit service unit",
+      unitsTotal: 1,
+      unitsOperational: 0,
+      monthlyOperatingNeedMinorUnits: 1_000_00,
+      restorationCostPerUnitMinorUnits: 10_000_00,
+      basisNote: `${input.transitProfile.basis.note} The one generic service unit and its authored operating and restoration costs are assumptions for play, not a named route, vehicle, actual service measure, or resident outcome.`,
+    });
+  }
+
+  if (input.gameProfile && lineage && governmentScope.kind === "state") {
+    return {
+      ref: input.gameProfile.ref,
+      programKey: input.gameProfile.appropriation.programKey,
+      capacity: {
+        serviceLabel: input.gameProfile.capacity.serviceLabel,
+        unitLabel: input.gameProfile.capacity.unitLabel,
+        unitsTotal: input.gameProfile.capacity.unitsTotal,
+        unitsOperational: input.gameProfile.capacity.unitsOperational,
+        monthlyOperatingNeedMinorUnits:
+          input.gameProfile.capacity.monthlyOperatingNeedMinorUnits,
+        completedPermille: input.gameProfile.capacity.completedPermille,
+        restorationCostPerUnitMinorUnits:
+          input.gameProfile.capacity.restorationCostPerUnitMinorUnits,
+        basis: input.gameProfile.capacity.basis,
+      },
+    };
+  }
+
+  if (
+    governmentScope.kind === "federal" &&
+    federalPassengerRailMeasureMatches(world, measure, lineage, provisions)
+  ) {
+    return authoredProgramServiceCapacityProfile({
+      profileId: "federal-passenger-rail-service:us",
+      profileScope: `${measure.jurisdictionId}:${measure.rulePackId}:${lineage!.authorityKey}`,
+      programKey: programKeyForGovernment(lineage!.familyKey, governmentScope),
+      jurisdictionId: measure.jurisdictionId,
+      serviceLabel: "modeled passenger-rail service",
+      unitLabel: "rail service unit",
+      unitsTotal: 2,
+      unitsOperational: 1,
+      monthlyOperatingNeedMinorUnits: 5_000_000_00,
+      restorationCostPerUnitMinorUnits: 100_000_000_00,
+      basisNote:
+        "Fictional federal passenger-rail service capacity for play. The generic unit is not a named route, train, completed project, or measured federal asset; costs are authored assumptions, not federal expenditures or estimates.",
+    });
+  }
+
+  if (
+    governmentScope.kind === "local" &&
+    lineage?.familyKey === "appropriations" &&
+    lineage.familyVersion === "v3" &&
+    lineage.variantKey === "local-fix-it-first-v1" &&
+    lineage.componentKey === undefined &&
+    lineage.authorityMeasureId === undefined
+  ) {
+    const localAuthority = localFiscalGameAuthorityForRulePackId(
+      measure.rulePackId,
+    );
+    if (
+      localAuthority?.unit.id === governmentScope.localGovernmentKey &&
+      localAuthority.jurisdictionId === measure.jurisdictionId &&
+      localAuthority.authority.authorityKey === lineage.authorityKey &&
+      localAuthority.authority.permittedEffects.includes(
+        "public-program-appropriation",
+      )
+    )
+      return authoredProgramServiceCapacityProfile({
+        profileId: `local-fix-it-first-capacity:${localAuthority.unit.id}`,
+        profileScope: `${localAuthority.authority.authorityKey}:${measure.rulePackId}:${measure.jurisdictionId}`,
+        programKey: programKeyForGovernment(lineage.familyKey, governmentScope),
+        jurisdictionId: measure.jurisdictionId,
+        serviceLabel: "modeled local road-maintenance service",
+        unitLabel: "road-maintenance unit",
+        unitsTotal: 1,
+        unitsOperational: 0,
+        monthlyOperatingNeedMinorUnits: 5_000_00,
+        restorationCostPerUnitMinorUnits: 100_000_00,
+        basisNote: `Fictional ${localAuthority.authority.level} road-maintenance capacity for the exact admitted local game profile. The generic unit is not a named road or measured repair; its costs are authored assumptions, not a local budget or expenditure.`,
+      });
+  }
+
+  return null;
+}
+
+function authoredProgramServiceCapacityProfile(input: {
+  readonly profileId: string;
+  readonly profileScope: string;
+  readonly programKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly serviceLabel: string;
+  readonly unitLabel: string;
+  readonly unitsTotal: number;
+  readonly unitsOperational: number;
+  readonly monthlyOperatingNeedMinorUnits: number;
+  readonly restorationCostPerUnitMinorUnits: number | null;
+  readonly basisNote: string;
+}): ProgramServiceCapacityProfile {
+  const definition = {
+    profileId: input.profileId,
+    profileScope: input.profileScope,
+    programKey: input.programKey,
+    jurisdictionId: input.jurisdictionId,
+    serviceLabel: input.serviceLabel,
+    unitLabel: input.unitLabel,
+    unitsTotal: input.unitsTotal,
+    unitsOperational: input.unitsOperational,
+    monthlyOperatingNeedMinorUnits: input.monthlyOperatingNeedMinorUnits,
+    completedPermille: null,
+    restorationCostPerUnitMinorUnits: input.restorationCostPerUnitMinorUnits,
+    basisNote: input.basisNote,
+  } as const;
+  const digest = stableHash(
+    canonicalJson({
+      version: PROGRAM_SERVICE_CAPACITY_PROFILE_VERSION,
+      profile: definition,
+    }),
+  );
+  return {
+    ref: {
+      profileId: input.profileId,
+      version: PROGRAM_SERVICE_CAPACITY_PROFILE_VERSION,
+      digest,
+    },
+    programKey: input.programKey,
+    capacity: {
+      serviceLabel: input.serviceLabel,
+      unitLabel: input.unitLabel,
+      unitsTotal: input.unitsTotal,
+      unitsOperational: input.unitsOperational,
+      monthlyOperatingNeedMinorUnits: input.monthlyOperatingNeedMinorUnits,
+      completedPermille: null,
+      restorationCostPerUnitMinorUnits: input.restorationCostPerUnitMinorUnits,
+      basis: {
+        kind: "game-profile",
+        note: `${input.basisNote} Saved profile ${input.profileId} version ${PROGRAM_SERVICE_CAPACITY_PROFILE_VERSION} digest ${digest}.`,
+      },
+    },
+  };
+}
+
+function serviceCapacityBasisNote(
+  profile: ProgramServiceCapacityProfile,
+): string {
+  return `Service profile ${profile.ref.profileId} version ${profile.ref.version} digest ${profile.ref.digest} supplies the saved fictional capacity and cost assumptions. `;
+}
+
+function ensureProgramCapacityFromProfile(
+  world: World,
+  input: {
+    readonly profile: ProgramServiceCapacityProfile;
+    readonly identity: PublicGovernmentIdentity;
+    readonly jurisdictionId: EntityId;
+  },
+): World {
+  const { profile, identity, jurisdictionId } = input;
+  const expected = {
+    jurisdictionId,
+    programKey: profile.programKey,
+    serviceLabel: profile.capacity.serviceLabel,
+    unitLabel: profile.capacity.unitLabel,
+    unitsTotal: profile.capacity.unitsTotal,
+    unitsOperational: profile.capacity.unitsOperational,
+    monthlyOperatingNeed: money(
+      profile.capacity.monthlyOperatingNeedMinorUnits,
+      "USD",
+    ),
+    completedPermille: profile.capacity.completedPermille,
+    restorationCostPerUnit:
+      profile.capacity.restorationCostPerUnitMinorUnits === null
+        ? null
+        : money(profile.capacity.restorationCostPerUnitMinorUnits, "USD"),
+    basis: profile.capacity.basis,
+  };
+  const existing = programCapacity(world, profile.programKey, identity);
+  if (existing) {
+    const actual = {
+      jurisdictionId: existing.jurisdictionId,
+      programKey: existing.programKey,
+      serviceLabel: existing.serviceLabel,
+      unitLabel: existing.unitLabel,
+      unitsTotal: existing.unitsTotal,
+      unitsOperational: existing.unitsOperational,
+      monthlyOperatingNeed: existing.monthlyOperatingNeed,
+      completedPermille: existing.completedPermille,
+      restorationCostPerUnit: existing.restorationCostPerUnit,
+      basis: existing.basis,
+    };
+    if (canonicalJson(actual) !== canonicalJson(expected))
+      throw new Error(
+        "An existing public-program capacity conflicts with the enacted game's exact profile.",
+      );
+    return world;
+  }
+  return declareProgramCapacity(world, {
+    ...expected,
+    ...(identity.kind === "local-government"
+      ? { publicGovernmentIdentity: identity }
+      : {}),
+    edition: `${profile.ref.profileId}:${profile.ref.digest}`,
+  }).world;
 }
 
 function federalPassengerRailMeasureMatches(

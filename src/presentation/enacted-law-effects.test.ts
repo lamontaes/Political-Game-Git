@@ -23,8 +23,11 @@ import { projectMeasureBriefing } from "./legislation-projection";
 import { applyLegislativeStep } from "./legislation-session";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
 import { createScenarioWorld } from "../simulation/demo";
-import { addDays, makeIsoDate } from "../simulation/dates";
-import { programPosition } from "../simulation/governing/public-program";
+import { addDays } from "../simulation/dates";
+import {
+  programCapacity,
+  programPosition,
+} from "../simulation/governing/public-program";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
 import {
   installMunicipalGovernment,
@@ -308,6 +311,16 @@ describe("a law the player passes changes what it governs", () => {
         .map((record) => record.programKey)
         .sort(),
     ).toEqual(["appropriations:ne", "transit:ne"]);
+    expect(programCapacity(world, "transit:ne")).toMatchObject({
+      kind: "capacity",
+      programKey: "transit:ne",
+      serviceLabel: "modeled state rural-transit service",
+      unitLabel: "transit service unit",
+      unitsTotal: 1,
+      unitsOperational: 0,
+      restorationCostPerUnit: { minorUnits: 1_000_000, currency: "USD" },
+      basis: { kind: "game-profile" },
+    });
   });
 
   it("uses Nebraska's saved effective date and transit profile without creating cash", () => {
@@ -328,6 +341,16 @@ describe("a law the player passes changes what it governs", () => {
     expect(record.programKey).toBe("transit:ne");
     expect(record.availableFrom).toBe(enactment.effectiveAt);
     expect(record.availableThrough).toBe(addDays(enactment.effectiveAt!, 364));
+    expect(programCapacity(world, record.programKey)).toMatchObject({
+      serviceLabel: "modeled state rural-transit service",
+      unitsTotal: 1,
+      unitsOperational: 0,
+      restorationCostPerUnit: { minorUnits: 1_000_000, currency: "USD" },
+      basis: {
+        kind: "game-profile",
+        note: expect.stringContaining("state-transit-service:us-ne:capacity"),
+      },
+    });
     const position = programPosition(world, record.programKey, record.id);
     expect(position.appropriated.minorUnits).toBe(record.amount.minorUnits);
     expect(position.committed.minorUnits).toBe(0);
