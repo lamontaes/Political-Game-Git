@@ -366,6 +366,11 @@ function gatherCandidates(
   const episodes: Candidate[] = eligibility.beats
     .filter(
       (beat) =>
+        // Recurring leisure must not displace a situation in the life stream
+        // merely because the clock reached a new day.
+        OPENING_LIFE_ADDITIONS.find(
+          (entry) => `opening.${entry.key}` === beat.episodeKey,
+        )?.recurrence !== "daily" &&
         (beat.stageKey !== "moment" ||
           !OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(
             beat.episodeKey.replace(/^opening\./, ""),
@@ -591,10 +596,7 @@ const LET_GO_ALL_KEY = "let-go-all";
 
 /**
  * What today's calendar asks of the player, as choices: attend each thing they
- * can go to, and turn down an open invitation that blocks a later one. Offered
- * beside every way of letting time pass, because time stops at a commitment
- * due today and a button that stops without saying why looks like it did
- * nothing (Detroit life, September 23, 2026).
+ * can go to, and turn down an open invitation that blocks a later one.
  */
 export function todayCalendarOptions(
   world: World,
@@ -862,7 +864,6 @@ function stakesOfKey(key: SelectableSituationKey) {
 /* -------------------------------------------------------------------------- */
 
 export interface ChooseStoryOptionInput {
-  readonly advanceDays?: OrdinaryLifeDayAdvance;
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
   readonly personId: EntityId;
   readonly scene: StoryScene;
@@ -951,7 +952,8 @@ export function chooseStoryOption(
       });
     case "ordinary-stretch": {
       const today = chooseTodayCalendarOption(world, input);
-      return today ?? world;
+      if (today) return today;
+      return world;
     }
   }
 }

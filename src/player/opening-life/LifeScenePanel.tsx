@@ -178,10 +178,6 @@ export function LifeScenePanel({
           <p className="game-scene" data-testid="life-scene-prose">
             {scene.prose}
           </p>
-          <p className="game-note" data-testid="life-scene-minutes">
-            Talking and reading a line take no time. Activity durations are
-            shown on their choices.
-          </p>
           <div
             className="game-choices"
             role="group"

@@ -171,7 +171,11 @@ describe("OPENING-LIFE1 canonical scenes", () => {
     const eligible = availableOpeningLifeScenes(
       world,
       game.playerPersonId,
-    ).filter((entry) => entry.definition.setting === "home");
+    ).filter(
+      (entry) =>
+        entry.definition.setting === "home" &&
+        entry.definition.recurrence !== "daily",
+    );
     const seen = new Set<string>();
     let resolved = 0;
     for (let i = 0; i < eligible.length * 2; i++) {

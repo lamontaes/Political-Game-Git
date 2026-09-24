@@ -44,6 +44,28 @@ function render(variant?: "room" | "workspace") {
 }
 
 describe("LifeScenePanel variants", () => {
+  it("does not offer a routine leisure action in the opening panel", () => {
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startKind: "custom",
+      household: "shares-a-home",
+      startAge: 10,
+      seed: "optional-leisure-panel",
+    });
+    const html = renderToStaticMarkup(
+      <LifeScenePanel
+        world={game.world}
+        playerPersonId={game.playerPersonId}
+        onWorldChange={() => {}}
+        onTalkTo={() => {}}
+      />,
+    );
+    // The life clock (#680) took the next-scene control out of the room too.
+    expect(html).not.toContain('data-testid="life-next-scene"');
+    expect(html).not.toContain('data-testid="life-optional-activity"');
+    expect(html).not.toContain("Spend a little time on your own");
+  });
+
   it("does not offer a quiet activity or a next-scene control in the room", () => {
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,

@@ -142,6 +142,13 @@ describe("a quiet stretch stops for civic life", () => {
     expect(scene.options.some((option) => option.key === "let-it-run")).toBe(
       false,
     );
+    expect(
+      chooseStoryOption(next, {
+        personId,
+        scene,
+        optionKey: "let-it-run",
+      }),
+    ).toBe(next);
 
     const went = chooseStoryOption(next, {
       personId,

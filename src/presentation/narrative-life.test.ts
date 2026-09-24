@@ -98,6 +98,32 @@ interface PlayedLife {
   readonly beats: readonly PlayedBeat[];
 }
 
+it("keeps recurring leisure out of the automatic childhood moment stream", () => {
+  const game = createNewGameWorld(
+    setup({
+      placeKey: "alaska",
+      seed: "optional-childhood-leisure",
+      startAge: 10,
+    }),
+  );
+  let world = game.world;
+  for (let step = 0; step < 14; step += 1) {
+    const moment = projectStoryMoment(world, game.playerPersonId);
+    if (moment.scene.kind === "episode") {
+      expect(moment.scene.beat.episodeKey).not.toBe(
+        "opening.young.home.choose-activity",
+      );
+    }
+    if (moment.scene.kind === "ordinary-stretch") break;
+    world = chooseStoryOption(world, {
+      personId: game.playerPersonId,
+      scene: moment.scene,
+      optionKey: moment.scene.options[0]!.key,
+    });
+    world = letStoryTimePass(world, game.playerPersonId);
+  }
+});
+
 /**
  * Plays a life, choosing with the given function each time.
  *

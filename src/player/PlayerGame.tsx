@@ -50,6 +50,7 @@ import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
 import { previewTimeCommand } from "../presentation/time-command";
+import { acceptedOfferStarts } from "../presentation/offer-deadlines";
 import {
   createWorldChangeGuard,
   recordStaleWorldChange,
@@ -176,10 +177,7 @@ import {
 } from "../presentation/place-start-summary";
 import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
-import {
-  openOrdinaryLife,
-  passOrdinaryDays,
-} from "../presentation/ordinary-life";
+import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
   answerQuestionnaire,
   endQuestionnaireEarly,
@@ -2700,6 +2698,17 @@ function PlayingScreen({
     (days: 1 | 7) => {
       crisisStop.watch();
       submitTime({ kind: "days", days }, (report) => {
+        if (
+          report.status === "accepted" &&
+          report.reached &&
+          acceptedOfferStarts(session.world, session.personId).some(
+            (entry) => entry.startOn === report.reached?.date,
+          )
+        ) {
+          setPassOutcome(null);
+          dispatch({ type: "go-to-surface", surface: "work", section: "jobs" });
+          return;
+        }
         // The corner shows the new date; the notice is for what else happened.
         const news = routineOutcomeAfterClock(report.outcome);
         setPassOutcome(
@@ -2709,7 +2718,7 @@ function PlayingScreen({
         );
       });
     },
-    [crisisStop, submitTime],
+    [crisisStop, submitTime, session.world, session.personId, dispatch],
   );
   const passTargets = useMemo(() => {
     const day = previewTimeCommand(session.world, session.personId, {
@@ -4534,6 +4543,13 @@ function renderWorkspace({
           onOpen={openEntity}
           onTogglePin={togglePin}
           onWorldChange={onWorldChange}
+          onOpenWork={() =>
+            dispatch({
+              type: "go-to-surface",
+              surface: "work",
+              section: "jobs",
+            })
+          }
           interruptions={shell.preferences.interruptions}
           onInterruptionChange={(key, value) =>
             dispatch({ type: "set-interruption", key, value })
@@ -5728,6 +5744,9 @@ function StoryView({
     () => todayCalendarOptions(session.world, session.personId),
     [session.world, session.personId],
   );
+  const hasStoryChoices =
+    moment.scene.options.length > 0 ||
+    (moment.scene.kind !== "ordinary-stretch" && todayOptions.length > 0);
 
   return (
     <section className="game-story life-moment" data-testid="story-section">
@@ -5807,69 +5826,66 @@ function StoryView({
         </p>
       ) : null}
 
-      {moment.scene.options.length > 0 || todayOptions.length > 0 ? (
-        <h3
-          className="game-choices-heading"
-          data-testid="story-choices-heading"
-        >
-          What do you do?
-        </h3>
-      ) : null}
-      {moment.scene.options.length > 0 || todayOptions.length > 0 ? (
-        <div className="game-choices life-choices" data-testid="story-options">
-          {moment.scene.options.map((option) => (
-            <button
-              key={option.key}
-              type="button"
-              className="ui-action ui-action--choice"
-              onClick={() =>
-                onWorldChange(
-                  chooseStoryOption(session.world, {
-                    personId: session.personId,
-                    scene: moment.scene,
-                    optionKey: option.key,
-                    transitionHandlers:
-                      createCampaignElectionTransitionRegistry(),
-                    advanceDays: (world, days) =>
-                      passOrdinaryDays(
-                        world,
-                        days,
-                        createCampaignElectionTransitionRegistry(),
-                      ),
-                  }),
-                )
-              }
-            >
-              {option.label}
-              {storyOptionNote(option) !== null ? (
-                <small>{storyOptionNote(option)}</small>
-              ) : null}
-            </button>
-          ))}
-          {/* Today's actual calendar commitments remain playable here. */}
-          {moment.scene.kind === "ordinary-stretch"
-            ? null
-            : todayOptions.map((option) => (
-                <button
-                  key={option.key}
-                  type="button"
-                  className="ui-action ui-action--choice"
-                  data-testid="story-today-calendar"
-                  onClick={() => {
-                    const next = chooseTodayCalendarOption(session.world, {
+      {hasStoryChoices ? (
+        <>
+          <h3
+            className="game-choices-heading"
+            data-testid="story-choices-heading"
+          >
+            What do you do?
+          </h3>
+          <div
+            className="game-choices life-choices"
+            data-testid="story-options"
+          >
+            {moment.scene.options.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                className="ui-action ui-action--choice"
+                onClick={() =>
+                  onWorldChange(
+                    chooseStoryOption(session.world, {
                       personId: session.personId,
+                      scene: moment.scene,
                       optionKey: option.key,
                       transitionHandlers:
                         createCampaignElectionTransitionRegistry(),
-                    });
-                    if (next) onWorldChange(next);
-                  }}
-                >
-                  {option.label}
-                  <small>{option.description}</small>
-                </button>
-              ))}
-        </div>
+                    }),
+                  )
+                }
+              >
+                {option.label}
+                {storyOptionNote(option) !== null ? (
+                  <small>{storyOptionNote(option)}</small>
+                ) : null}
+              </button>
+            ))}
+            {/* Dated invitations remain reachable beside an active scene. */}
+            {moment.scene.kind === "ordinary-stretch"
+              ? null
+              : todayOptions.map((option) => (
+                  <button
+                    key={option.key}
+                    type="button"
+                    className="ui-action ui-action--choice"
+                    data-testid="story-today-calendar"
+                    onClick={() => {
+                      const next = chooseTodayCalendarOption(session.world, {
+                        personId: session.personId,
+                        optionKey: option.key,
+                        transitionHandlers:
+                          createCampaignElectionTransitionRegistry(),
+                      });
+                      if (next) onWorldChange(next);
+                    }}
+                  >
+                    {option.label}
+                    <small>{option.description}</small>
+                  </button>
+                ))}
+          </div>
+        </>
       ) : null}
 
       {moment.openThreads.length > 0 ? (
@@ -6034,7 +6050,7 @@ function TodayView({
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onGoTo: (
     surface: "work" | "calendar" | "places",
-    section?: "campaign",
+    section?: "campaign" | "jobs",
   ) => void;
   /** Inside the Calendar, which carries its own day controls and entries. */
   readonly embedded?: boolean;
