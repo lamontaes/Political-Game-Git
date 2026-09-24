@@ -1,7 +1,9 @@
 import type { EntityId, World } from "../simulation/types";
 
 /** The saved relationship change, rather than an invitation's existence, earns a chronicle line. */
-export function consequentialSocialEventIds(world: World): ReadonlySet<EntityId> {
+export function consequentialSocialEventIds(
+  world: World,
+): ReadonlySet<EntityId> {
   return new Set(
     world.history.relationshipInteractions.flatMap((interaction) =>
       interaction.eventId &&

@@ -1,7 +1,10 @@
 import type { ReactNode } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../presentation/new-game";
 import { previewTimeCommand } from "../presentation/time-command";
 import { skipToLabel } from "../presentation/time-target-label";
 

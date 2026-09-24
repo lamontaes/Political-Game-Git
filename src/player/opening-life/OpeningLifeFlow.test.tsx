@@ -1,6 +1,9 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../../presentation/new-game";
 import { OpeningLifeFlow } from "./OpeningLifeFlow";
 
 describe("ordinary life without a situation", () => {

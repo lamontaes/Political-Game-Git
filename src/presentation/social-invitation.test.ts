@@ -44,7 +44,8 @@ function start() {
   );
   for (
     let pass = 0;
-    pass < Math.ceil(400 / 7) && socialInvitationsFor(world, game.playerPersonId).length === 0;
+    pass < Math.ceil(400 / 7) &&
+    socialInvitationsFor(world, game.playerPersonId).length === 0;
     pass += 1
   ) {
     // A weekly pass lands inside the occasion's 2–12 day notice window while
@@ -114,7 +115,8 @@ describe("explicit personal invitation refusal", () => {
       ),
     ).not.toBe(true);
     const acceptedEvent = answered.history.events.find(
-      (event) => event.stableKey === `social-invitation:accept:${invitation.activityId}`,
+      (event) =>
+        event.stableKey === `social-invitation:accept:${invitation.activityId}`,
     )!;
     expect(
       projectWorld39Journal(answered, personId).entries.some(
@@ -130,19 +132,23 @@ describe("explicit personal invitation refusal", () => {
       ...world,
       history: {
         ...world.history,
-        scheduledActivities: world.history.scheduledActivities.map((activity) =>
-          activity.id === invitation.activityId
-            ? {
-                ...activity,
-                title: "Reception at City Hall",
-                location: { ...activity.location, label: "City Hall" },
-              }
-            : activity,
+        scheduledActivities: world.history.scheduledActivities.map(
+          (activity) =>
+            activity.id === invitation.activityId
+              ? {
+                  ...activity,
+                  title: "Reception at City Hall",
+                  location: { ...activity.location, label: "City Hall" },
+                }
+              : activity,
         ),
         knowledge: world.history.knowledge.map((record) =>
           record.eventId === invitation.invitationEventId &&
           record.personId === personId
-            ? { ...record, believedSummary: "Beth invited you to the reception." }
+            ? {
+                ...record,
+                believedSummary: "Beth invited you to the reception.",
+              }
             : record,
         ),
       },
@@ -203,7 +209,9 @@ describe("explicit personal invitation refusal", () => {
     ).not.toContain(invitation.activityId);
     expect(socialInvitationsFor(next, personId)).not.toContainEqual(invitation);
     const declinedEvent = next.history.events.find(
-      (event) => event.stableKey === `social-invitation:decline:${invitation.activityId}`,
+      (event) =>
+        event.stableKey ===
+        `social-invitation:decline:${invitation.activityId}`,
     )!;
     expect(
       projectWorld39Journal(next, personId).entries.some(

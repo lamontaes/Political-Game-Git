@@ -244,13 +244,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     if (/^(setup|simulation|information|evidence|world)\./.test(event.type))
       continue;
     if (STANDING_STATE_EVENT_TYPES.has(event.type)) continue;
-    if (
-      isRoutineSocialOccasion(
-        consequentialEvents,
-        event.id,
-        event.type,
-      )
-    )
+    if (isRoutineSocialOccasion(consequentialEvents, event.id, event.type))
       continue;
     // A crime says what happened to its victim; nobody else's Journal has it.
     const crimeLine = crimeJournalLine(event, personId);
@@ -333,13 +327,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     const source = eventsById.get(account.eventId);
     if (!source || source.occurredAt > world.currentDate) continue;
     if (isStandingOfferEvent(source.type)) continue;
-    if (
-      isRoutineSocialOccasion(
-        consequentialEvents,
-        source.id,
-        source.type,
-      )
-    )
+    if (isRoutineSocialOccasion(consequentialEvents, source.id, source.type))
       continue;
     if (!account.believedSummary.trim()) continue;
     entries.push({

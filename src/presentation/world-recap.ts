@@ -10,7 +10,10 @@ import {
   type World,
 } from "../simulation";
 import { ownElectionResultSentence } from "./own-election";
-import { invitationAtHostHome, socialInvitationsFor } from "./social-invitation";
+import {
+  invitationAtHostHome,
+  socialInvitationsFor,
+} from "./social-invitation";
 import { invitationNoticeLine } from "./social-invitation-language";
 import { isWorldMachineryEvent } from "./world39-news";
 

@@ -93,6 +93,7 @@ describe("OPENING-LIFE1 canonical scenes", () => {
       const game = start(`retired-quiet-time-${age}`, age);
       const activity =
         age < 18 ? "young.home.choose-activity" : "adult.home.free-time";
+      expect(isArchivedRoutineOpeningSceneKey(activity)).toBe(true);
       expect(
         availableOpeningLifeScenes(game.world, game.playerPersonId).some(
           (entry) => entry.definition.key === activity,
@@ -104,6 +105,64 @@ describe("OPENING-LIFE1 canonical scenes", () => {
       expect(
         openOptionalLifeActivity(game.world, game.playerPersonId, activity),
       ).toBe(game.world);
+    },
+  );
+
+  it.each([
+    [6, "young.home.choose-activity", "draw", "keep"],
+    [24, "adult.home.free-time", "read", "more"],
+  ] as const)(
+    "answers a previously open %s-year-old %s scene and its saved follow-through",
+    (age, key, firstChoice, followThroughChoice) => {
+      const game = start(`saved-routine-${age}`, age);
+      let world = deserializeWorld(
+        serializeWorld(
+          previouslyOpenedRoutineScene(
+            game.world,
+            game.playerPersonId,
+            key,
+            "moment",
+          ),
+        ),
+      );
+      const opened = currentOpeningLifeScene(world, game.playerPersonId)!;
+      expect(opened.definition.key).toBe(key);
+      expect(opened.prose).toBe(opened.definition.premise);
+      expect(openNextLifeScene(world, game.playerPersonId)).toBe(world);
+      world = chooseOpeningLifeScene(
+        world,
+        game.playerPersonId,
+        opened.eventId,
+        firstChoice,
+      );
+      expect(currentOpeningLifeScene(world, game.playerPersonId)).toBeNull();
+      expect(
+        availableOpeningLifeScenes(world, game.playerPersonId).some(
+          (entry) => entry.definition.key === key,
+        ),
+      ).toBe(false);
+
+      world = deserializeWorld(
+        serializeWorld(
+          previouslyOpenedRoutineScene(
+            world,
+            game.playerPersonId,
+            key,
+            "follow-through",
+          ),
+        ),
+      );
+      const continuation = currentOpeningLifeScene(world, game.playerPersonId)!;
+      expect(continuation.stageKey).toBe("follow-through");
+      expect(continuation.definition.key).toBe(key);
+      world = chooseOpeningLifeScene(
+        world,
+        game.playerPersonId,
+        continuation.eventId,
+        followThroughChoice,
+      );
+      expect(currentOpeningLifeScene(world, game.playerPersonId)).toBeNull();
+      assertWorldIntegrity(world);
     },
   );
   it("sustains distinct home moments, with zero-write reads and saved choices", () => {
