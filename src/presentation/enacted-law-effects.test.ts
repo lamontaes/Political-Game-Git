@@ -59,6 +59,7 @@ function enactFromDocket(
     readonly authorityKey?: string;
   },
   effectiveDelayDays?: number,
+  legacyNullEffectiveDate = false,
 ): { readonly world: World; readonly measureId: EntityId } {
   const scenario = createLegislativeScenario(scenarioKey);
   const filed = fileDraft(scenario.world, {
@@ -80,6 +81,35 @@ function enactFromDocket(
       (key) => key !== "offer-amendment",
     );
     if (!step) break;
+    if (step === "record-enactment" && legacyNullEffectiveDate) {
+      // Current state procedure supplies an effective date. Recreate an older
+      // saved enactment with that field missing before any effect is applied,
+      // so this test still checks that the effect gateway does not guess one.
+      const enacted = recordEnactment(world, {
+        stableKey: nextMeasureStableKey(
+          world,
+          measureId,
+          `measure:${measureId}:enactment`,
+        ),
+        measureId,
+      });
+      world = applyEnactedLawEffects(
+        {
+          ...enacted,
+          history: {
+            ...enacted.history,
+            legislativeEnactments: enacted.history.legislativeEnactments?.map(
+              (row) =>
+                row.measureId === measureId
+                  ? { ...row, effectiveAt: null }
+                  : row,
+            ),
+          },
+        },
+        measureId,
+      );
+      continue;
+    }
     if (step === "record-enactment" && effectiveDelayDays !== undefined) {
       world = publishLegislativeTransition(
         world,
@@ -316,11 +346,16 @@ describe("a law the player passes changes what it governs", () => {
   });
 
   it("does not invent a state transit start date when the enactment has none", () => {
-    const { world, measureId } = enactFromDocket("nebraska", {
-      familyKey: "appropriations",
-      variantKey: "transit-staged-service-v2",
-      authorityKey: "standing:rural-transit-assistance",
-    });
+    const { world, measureId } = enactFromDocket(
+      "nebraska",
+      {
+        familyKey: "appropriations",
+        variantKey: "transit-staged-service-v2",
+        authorityKey: "standing:rural-transit-assistance",
+      },
+      undefined,
+      true,
+    );
     expect(
       world.history.legislativeEnactments!.find(
         (row) => row.measureId === measureId,
