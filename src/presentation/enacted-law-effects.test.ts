@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { createLegislativeScenario, serializeWorld } from "../simulation";
+import {
+  createLegislativeScenario,
+  nextMeasureStableKey,
+  recordEnactment,
+  serializeWorld,
+} from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
   applyEnactedLawEffects,
@@ -18,7 +23,8 @@ import { projectMeasureBriefing } from "./legislation-projection";
 import { applyLegislativeStep } from "./legislation-session";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
 import { createScenarioWorld } from "../simulation/demo";
-import { makeIsoDate } from "../simulation/dates";
+import { addDays, makeIsoDate } from "../simulation/dates";
+import { programPosition } from "../simulation/governing/public-program";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
 import {
   installMunicipalGovernment,
@@ -52,6 +58,7 @@ function enactFromDocket(
     readonly variantKey: string;
     readonly authorityKey?: string;
   },
+  effectiveDelayDays?: number,
 ): { readonly world: World; readonly measureId: EntityId } {
   const scenario = createLegislativeScenario(scenarioKey);
   const filed = fileDraft(scenario.world, {
@@ -73,6 +80,21 @@ function enactFromDocket(
       (key) => key !== "offer-amendment",
     );
     if (!step) break;
+    if (step === "record-enactment" && effectiveDelayDays !== undefined) {
+      world = publishLegislativeTransition(
+        world,
+        recordEnactment(world, {
+          stableKey: nextMeasureStableKey(
+            world,
+            measureId,
+            `measure:${measureId}:enactment`,
+          ),
+          measureId,
+          effectiveAt: addDays(world.currentDate, effectiveDelayDays),
+        }),
+      );
+      continue;
+    }
     // The same boundary the game runs after every player legislative action.
     world = publishLegislativeTransition(
       world,
@@ -203,7 +225,7 @@ describe("a law the player passes changes what it governs", () => {
         {
           componentKey: "transit-money",
           familyKey: "appropriations",
-          variantKey: "transit-staged-service-v1",
+          variantKey: "transit-staged-service-v2",
           subject: "transit",
           authorityKey: "standing:rural-transit-assistance",
         },
@@ -227,6 +249,21 @@ describe("a law the player passes changes what it governs", () => {
         (key) => key !== "offer-amendment",
       );
       if (!step) break;
+      if (step === "record-enactment") {
+        world = publishLegislativeTransition(
+          world,
+          recordEnactment(world, {
+            stableKey: nextMeasureStableKey(
+              world,
+              measureId,
+              `measure:${measureId}:enactment`,
+            ),
+            measureId,
+            effectiveAt: addDays(world.currentDate, 13),
+          }),
+        );
+        continue;
+      }
       world = publishLegislativeTransition(
         world,
         applyLegislativeStep({ ...scenario, measureId }, world, step).world,
@@ -236,6 +273,60 @@ describe("a law the player passes changes what it governs", () => {
     // Only a single-family transit bill reads its own clause; a bundle's
     // parts each become their own spending authority.
     expect(appropriations(world, measureId)).toHaveLength(2);
+    expect(
+      appropriations(world, measureId)
+        .map((record) => record.programKey)
+        .sort(),
+    ).toEqual(["appropriations:ne", "transit:ne"]);
+  });
+
+  it("uses Nebraska's saved effective date and transit profile without creating cash", () => {
+    const { world, measureId } = enactFromDocket(
+      "nebraska",
+      {
+        familyKey: "appropriations",
+        variantKey: "transit-staged-service-v2",
+        authorityKey: "standing:rural-transit-assistance",
+      },
+      13,
+    );
+    const enactment = world.history.legislativeEnactments!.find(
+      (row) => row.measureId === measureId,
+    )!;
+    const record = appropriations(world, measureId)[0]!;
+    expect(enactment.effectiveAt).not.toBeNull();
+    expect(record.programKey).toBe("transit:ne");
+    expect(record.availableFrom).toBe(enactment.effectiveAt);
+    expect(record.availableThrough).toBe(addDays(enactment.effectiveAt!, 364));
+    const position = programPosition(world, record.programKey, record.id);
+    expect(position.appropriated.minorUnits).toBe(record.amount.minorUnits);
+    expect(position.committed.minorUnits).toBe(0);
+    expect(position.posted.minorUnits).toBe(0);
+    expect(
+      enactedLawEffects(world, measureId)?.lines.find(
+        (line) => line.kind === "appropriation",
+      ),
+    ).toMatchObject({
+      kind: "appropriation",
+      programKey: "transit:ne",
+      availableFrom: enactment.effectiveAt,
+      committedMinorUnits: 0,
+      paidMinorUnits: 0,
+    });
+  });
+
+  it("does not invent a state transit start date when the enactment has none", () => {
+    const { world, measureId } = enactFromDocket("nebraska", {
+      familyKey: "appropriations",
+      variantKey: "transit-staged-service-v2",
+      authorityKey: "standing:rural-transit-assistance",
+    });
+    expect(
+      world.history.legislativeEnactments!.find(
+        (row) => row.measureId === measureId,
+      )!.effectiveAt,
+    ).toBeNull();
+    expect(appropriations(world, measureId)).toHaveLength(0);
   });
 
   it("writes each effect once, however many routes apply it", () => {

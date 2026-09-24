@@ -7,6 +7,7 @@ import {
 export const TRANSIT_FAMILY_KEY = "appropriations";
 export const TRANSIT_FAMILY_VERSION = "v3";
 export const TRANSIT_VARIANT_KEY = "transit-staged-service-v1";
+export const STATE_TRANSIT_VARIANT_KEY = "transit-staged-service-v2";
 export const TRANSIT_PROGRAM_KEY = "standing:rural-transit-assistance";
 /** Prices and scope are authored contract terms, never empirical effectiveness. */
 export const TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR = 10_000;
@@ -175,4 +176,29 @@ export const TRANSIT_SERVICE_VARIANT: ProgramVariant = {
       "The report shall include the date of each completed service period.",
     evidence,
   },
+};
+
+/**
+ * The state-wide version follows each saved act's effective date. The Alaska
+ * v1 clause remains the pinned source-specific route; removing its Alaska
+ * guard would apply that explicit ninety-day clause to other states.
+ */
+export const STATE_TRANSIT_SERVICE_VARIANT: ProgramVariant = {
+  ...TRANSIT_SERVICE_VARIANT,
+  variantKey: STATE_TRANSIT_VARIANT_KEY,
+  label: "State transit service by recorded effective date",
+  synopsis:
+    "Provides state transit spending authority from the effective date recorded for the enacted measure.",
+  shortTitle: "State Transit Appropriation",
+  clauses: TRANSIT_SERVICE_VARIANT.clauses.map((item) =>
+    item.provisionKey === "transit-effective-date"
+      ? {
+          ...item,
+          render: () =>
+            clause(
+              "This appropriation is available from this Act's recorded effective date.",
+            ),
+        }
+      : item,
+  ),
 };

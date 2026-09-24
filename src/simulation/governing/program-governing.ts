@@ -6,6 +6,13 @@ import {
 import { currentMeasureProvisions } from "../legislative-politics";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
+import {
+  STATE_TRANSIT_VARIANT_KEY,
+  TRANSIT_FAMILY_KEY,
+  TRANSIT_FAMILY_VERSION,
+  TRANSIT_PROGRAM_KEY,
+} from "../legislation-transit-families";
+import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { localFiscalGameAuthorityForRulePackId } from "../local-ordinance-game-profile";
 import { admitLocalFiscalMeasure } from "../local-fiscal-authority";
@@ -163,9 +170,6 @@ export function appropriationFromEnactedMeasure(
   if (!governmentScope) return world;
   const stateUsps = governmentScope.stateUsps;
   const provisions = currentMeasureProvisions(world, measureId);
-  const hasExplicitEffectIntents = provisions.some(
-    (provision) => provision.operativeEffect !== undefined,
-  );
   if (governmentScope.kind === "local") {
     const admission = admitLocalFiscalMeasure(
       world,
@@ -212,14 +216,18 @@ export function appropriationFromEnactedMeasure(
         (provision) =>
           provision.provisionKey === `${lineage.componentKey}:amount-provided`,
       );
+      const transitProfile =
+        lineage.variantKey === STATE_TRANSIT_VARIANT_KEY
+          ? stateTransitProfileForLineage(world, measure, enactment, lineage)
+          : null;
+      if (lineage.variantKey === STATE_TRANSIT_VARIANT_KEY && !transitProfile)
+        continue;
       if (
-        hasExplicitEffectIntents &&
-        amountProvision?.operativeEffect?.kind !==
-          "public-program-appropriation"
+        amountProvision?.operativeEffect !== undefined &&
+        amountProvision.operativeEffect.kind !== "public-program-appropriation"
       )
         continue;
-      if (hasExplicitEffectIntents && !lineageAuthorizesAppropriation(lineage))
-        continue;
+      if (!lineageAuthorizesAppropriation(lineage)) continue;
       const amount = amountProvision?.fiscalExposureMinorUnits;
       if (amount === null || amount === undefined || amount <= 0) continue;
       const written = recordAdoptedAppropriation(next, {
@@ -227,11 +235,18 @@ export function appropriationFromEnactedMeasure(
         ...(stateUsps ? { stateUsps } : {}),
         jurisdictionId: measure.jurisdictionId,
         publicGovernmentIdentity: governmentScope.identity,
-        programKey: programKeyForGovernment(lineage.familyKey, governmentScope),
+        programKey:
+          transitProfile?.programKey ??
+          programKeyForGovernment(lineage.familyKey, governmentScope),
         amountMinorUnits: amount,
-        adoptedOn,
+        adoptedOn: transitProfile ? enactment.effectiveAt! : adoptedOn,
+        ...(transitProfile
+          ? { availableDays: transitProfile.availabilityDays }
+          : {}),
         edition: `${editionBase}-${lineage.componentKey}`,
-        basisNote: `${PROGRAM_GOVERNING_VERSION}: adopted by the '${lineage.componentKey}' part of ${measure.designation}, ${measure.shortTitle}. The amount is that part's own enacted clause.`,
+        basisNote: transitProfile
+          ? `${PROGRAM_GOVERNING_VERSION}: adopted by the '${lineage.componentKey}' part of ${measure.designation}, ${measure.shortTitle}. The amount is that part's own enacted clause. Profile ${transitProfile.ref.profileId} version ${transitProfile.ref.version} digest ${transitProfile.ref.digest} supplies the state transit program key and availability window; the saved enactment effective date starts availability. This is spending authority, not cash.`
+          : `${PROGRAM_GOVERNING_VERSION}: adopted by the '${lineage.componentKey}' part of ${measure.designation}, ${measure.shortTitle}. The amount is that part's own enacted clause.`,
         sourceMeasureId: measureId,
       });
       next = written?.world ?? next;
@@ -243,15 +258,22 @@ export function appropriationFromEnactedMeasure(
     (provision) => provision.provisionKey === "amount-provided",
   );
   if (
-    hasExplicitEffectIntents &&
-    amountProvision?.operativeEffect?.kind !== "public-program-appropriation"
+    amountProvision?.operativeEffect !== undefined &&
+    amountProvision.operativeEffect.kind !== "public-program-appropriation"
   )
     return world;
   const amount = amountProvision?.fiscalExposureMinorUnits;
   if (amount === null || amount === undefined || amount <= 0) return world;
   const lineage = draftLineageForMeasure(world, measureId);
+  const transitProfile =
+    lineage?.variantKey === STATE_TRANSIT_VARIANT_KEY
+      ? stateTransitProfileForLineage(world, measure, enactment, lineage)
+      : null;
+  if (lineage?.variantKey === STATE_TRANSIT_VARIANT_KEY && !transitProfile)
+    return world;
+  if (lineage && !lineageAuthorizesAppropriation(lineage)) return world;
   if (
-    hasExplicitEffectIntents &&
+    amountProvision?.operativeEffect !== undefined &&
     (!lineage || !lineageAuthorizesAppropriation(lineage))
   )
     return world;
@@ -277,16 +299,23 @@ export function appropriationFromEnactedMeasure(
     ...(stateUsps ? { stateUsps } : {}),
     jurisdictionId: measure.jurisdictionId,
     publicGovernmentIdentity: governmentScope.identity,
-    programKey: programKeyForGovernment(familyKey, governmentScope),
+    programKey:
+      transitProfile?.programKey ??
+      programKeyForGovernment(familyKey, governmentScope),
     amountMinorUnits: amount,
-    adoptedOn,
+    adoptedOn: transitProfile ? enactment.effectiveAt! : adoptedOn,
+    ...(transitProfile
+      ? { availableDays: transitProfile.availabilityDays }
+      : {}),
     ...(profileAuthorityMatches && gameProfile
       ? { availableDays: gameProfile.appropriation.availabilityDays }
       : {}),
     edition: editionBase,
-    basisNote: profileAuthorityMatches
-      ? `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure. Profile ${gameProfile!.ref.profileId} version ${gameProfile!.ref.version} digest ${gameProfile!.ref.digest} supplies the fictional service assumptions; this record is spending authority, not cash.`
-      : `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure.`,
+    basisNote: transitProfile
+      ? `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure. Profile ${transitProfile.ref.profileId} version ${transitProfile.ref.version} digest ${transitProfile.ref.digest} supplies the state transit program key and availability window; the saved enactment effective date starts availability. This is spending authority, not cash.`
+      : profileAuthorityMatches
+        ? `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure. Profile ${gameProfile!.ref.profileId} version ${gameProfile!.ref.version} digest ${gameProfile!.ref.digest} supplies the fictional service assumptions; this record is spending authority, not cash.`
+        : `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure.`,
     sourceMeasureId: measureId,
   });
   const next = written?.world ?? world;
@@ -354,6 +383,24 @@ function lineageAuthorizesAppropriation(
   } catch {
     return false;
   }
+}
+
+function stateTransitProfileForLineage(
+  world: World,
+  measure: { readonly jurisdictionId: EntityId; readonly rulePackId: string },
+  enactment: { readonly effectiveAt: IsoDate | null },
+  lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
+) {
+  if (
+    lineage.familyKey !== TRANSIT_FAMILY_KEY ||
+    lineage.familyVersion !== TRANSIT_FAMILY_VERSION ||
+    lineage.variantKey !== STATE_TRANSIT_VARIANT_KEY ||
+    lineage.authorityKey !== TRANSIT_PROGRAM_KEY ||
+    lineage.authorityMeasureId !== undefined ||
+    !enactment.effectiveAt
+  )
+    return null;
+  return stateTransitServiceProfileForMeasure(world, measure);
 }
 
 function federalPassengerRailMeasureMatches(
