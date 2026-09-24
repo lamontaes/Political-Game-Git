@@ -55,7 +55,10 @@ export function legislativeProcedureRefusal(
         ? [votePlanKeyForOverride("joint")]
         : procedure.pack.chamberOrder.map(votePlanKeyForOverride),
   };
-  if (questionKeys[step]?.some((key) => !procedure.votePlan[key])) {
+  if (
+    !procedure.memberDecisions &&
+    questionKeys[step]?.some((key) => !procedure.votePlan[key])
+  ) {
     return "The institution supports this question, but this bill has no supplied member decisions on it. No tally or predicted political outcome will be invented.";
   }
   return null;
