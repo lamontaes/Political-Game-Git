@@ -1,4 +1,8 @@
 import type { EntityId, IsoDate } from "../types";
+import type {
+  LegislativeStartingProcedures,
+  LEGISLATIVE_STARTING_PROCEDURES_VERSION,
+} from "../legislative-starting-procedures";
 import type { CensusRegion } from "./census-regions";
 
 /**
@@ -112,10 +116,18 @@ export interface MacroStartingConditionsRecord extends ConditionRecordBase {
   };
 }
 
+/** The complete, seed-bound state procedure snapshot written once at Begin. */
+export interface LegislativeStartingProceduresRecord extends ConditionRecordBase {
+  readonly kind: "legislative-starting-procedures";
+  readonly contractVersion: typeof LEGISLATIVE_STARTING_PROCEDURES_VERSION;
+  readonly procedures: LegislativeStartingProcedures;
+}
+
 export type WorldConditionRecord =
   | WorldOpeningRecord
   | PoliticalStartingConditionsRecord
-  | MacroStartingConditionsRecord;
+  | MacroStartingConditionsRecord
+  | LegislativeStartingProceduresRecord;
 
 // ---------------------------------------------------------------------------
 // Political organizations

@@ -1363,10 +1363,14 @@
   "scopeNote": "Rule admission only. An admitted field is a compiled, dated rule the resolver will apply; it is not proof that a player can reach the action, that an office or contest exists in a save, or that every clause of local law was read. Special districts and school districts are outside the general-purpose catalog.",
   "states": [
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-al-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1385,6 +1389,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-al-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 531,
@@ -1397,16 +1403,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "AL"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": "us-ak-legislature-v1:candidacy",
+      "defaultEffectiveDate": "source-computed",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": "bicameral",
+      "legislativeWorkKey": "alaska",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1429,6 +1441,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "researched",
+      "legislaturePack": "us-ak-legislature-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 164,
@@ -1462,16 +1476,22 @@
           "standForOfficeMissing": []
         }
       ],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 2,
       "state": "AK"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-az-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1490,6 +1510,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-az-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 106,
@@ -1502,16 +1524,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "AZ"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ar-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1530,6 +1558,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ar-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 575,
@@ -1542,16 +1572,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "AR"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ca-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1570,6 +1606,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ca-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 540,
@@ -1582,16 +1620,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "CA"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-co-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1610,6 +1654,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-co-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 335,
@@ -1622,16 +1668,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "CO"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ct-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1650,6 +1702,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ct-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 178,
@@ -1662,16 +1716,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "CT"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-de-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1690,6 +1750,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-de-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 60,
@@ -1702,16 +1764,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "DE"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-fl-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1730,6 +1798,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-fl-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 477,
@@ -1742,16 +1812,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "FL"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ga-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1770,6 +1846,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ga-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 689,
@@ -1782,16 +1860,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "GA"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-hi-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1810,6 +1894,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-hi-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 4,
@@ -1822,16 +1908,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "HI"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-id-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1850,6 +1942,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-id-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 243,
@@ -1862,16 +1956,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "ID"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": "us-il-general-assembly-v1:candidacy",
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": "bicameral",
+      "legislativeWorkKey": "institution:us-il-general-assembly-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1896,6 +1996,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "researched",
+      "legislaturePack": "us-il-general-assembly-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 2821,
@@ -1933,16 +2035,22 @@
           ]
         }
       ],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "IL"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-in-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -1961,6 +2069,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-in-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 1660,
@@ -1973,16 +2083,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "IN"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ia-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2001,6 +2117,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ia-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 1041,
@@ -2013,16 +2131,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "IA"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ks-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2041,6 +2165,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ks-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 1981,
@@ -2053,16 +2179,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "KS"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": "us-ky-general-assembly-v1:candidacy",
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 2,
       "isState": true,
       "legislativeStructure": "bicameral",
+      "legislativeWorkKey": "kentucky",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2085,6 +2217,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "researched",
+      "legislaturePack": "us-ky-general-assembly-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 530,
@@ -2118,16 +2252,22 @@
           ]
         }
       ],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "KY"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-la-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2146,6 +2286,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-la-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 364,
@@ -2158,16 +2300,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "LA"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-me-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2186,6 +2334,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-me-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 497,
@@ -2198,16 +2348,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "ME"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": "us-md-general-assembly-v1:candidacy",
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": "bicameral",
+      "legislativeWorkKey": "institution:us-md-general-assembly-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2232,6 +2388,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "researched",
+      "legislaturePack": "us-md-general-assembly-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 180,
@@ -2269,16 +2427,22 @@
           ]
         }
       ],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": true,
       "standForOfficeAdmitted": 0,
       "state": "MD"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ma-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2301,6 +2465,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ma-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 357,
@@ -2313,16 +2479,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "MA"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-mi-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2341,6 +2513,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-mi-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 1856,
@@ -2353,16 +2527,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "MI"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": "us-mn-legislature-v1:candidacy",
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": "bicameral",
+      "legislativeWorkKey": "institution:us-mn-legislature-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2387,6 +2567,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "researched",
+      "legislaturePack": "us-mn-legislature-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 2720,
@@ -2422,16 +2604,22 @@
           ]
         }
       ],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": true,
       "standForOfficeAdmitted": 1,
       "state": "MN"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ms-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2450,6 +2638,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ms-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 381,
@@ -2462,16 +2652,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "MS"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": "us-mo-general-assembly-v1:candidacy",
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": "bicameral",
+      "legislativeWorkKey": "institution:us-mo-general-assembly-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2498,6 +2694,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "researched",
+      "legislaturePack": "us-mo-general-assembly-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 1337,
@@ -2535,16 +2733,22 @@
           ]
         }
       ],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": true,
       "standForOfficeAdmitted": 0,
       "state": "MO"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-mt-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2563,6 +2767,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-mt-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 183,
@@ -2575,16 +2781,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "MT"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": "us-ne-legislature-v1:candidacy",
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": "unicameral",
+      "legislativeWorkKey": "nebraska",
       "legislatorQualifications": [
         {
           "chamberFamily": "unicameral",
@@ -2599,6 +2811,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "researched",
+      "legislaturePack": "us-ne-legislature-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 971,
@@ -2624,16 +2838,22 @@
           ]
         }
       ],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "NE"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": "us-nv-legislature-v1:candidacy",
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": "bicameral",
+      "legislativeWorkKey": "institution:us-nv-legislature-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2655,6 +2875,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "researched",
+      "legislaturePack": "us-nv-legislature-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 34,
@@ -2690,16 +2912,22 @@
           ]
         }
       ],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 1,
       "state": "NV"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-nh-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2718,6 +2946,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-nh-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 246,
@@ -2730,16 +2960,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "NH"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-nj-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2758,6 +2994,8 @@
           "standForOffice": "admitted"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-nj-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 585,
@@ -2770,16 +3008,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "NJ"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-nm-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2798,6 +3042,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-nm-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 138,
@@ -2810,16 +3056,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "NM"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ny-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2838,6 +3090,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ny-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 1581,
@@ -2850,16 +3104,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "NY"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-nc-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2878,6 +3138,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-nc-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 651,
@@ -2890,16 +3152,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "NC"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-nd-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2918,6 +3186,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-nd-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 1710,
@@ -2930,16 +3200,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "ND"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": "us-oh-general-assembly-v1:candidacy",
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": "bicameral",
+      "legislativeWorkKey": "institution:us-oh-general-assembly-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -2966,6 +3242,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "researched",
+      "legislaturePack": "us-oh-general-assembly-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 2321,
@@ -3003,16 +3281,22 @@
           ]
         }
       ],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": true,
       "standForOfficeAdmitted": 0,
       "state": "OH"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ok-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3031,6 +3315,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ok-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 672,
@@ -3043,16 +3329,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "OK"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-or-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3071,6 +3363,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-or-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 276,
@@ -3083,16 +3377,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "OR"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-pa-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3111,6 +3411,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-pa-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 2623,
@@ -3123,16 +3425,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "PA"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ri-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3151,6 +3459,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ri-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 39,
@@ -3163,16 +3473,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "RI"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-sc-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3191,6 +3507,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-sc-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 317,
@@ -3203,16 +3521,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "SC"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-sd-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3231,6 +3555,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-sd-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 1268,
@@ -3243,16 +3569,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "SD"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-tn-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3271,6 +3603,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-tn-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 437,
@@ -3283,16 +3617,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "TN"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-tx-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3311,6 +3651,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-tx-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 1480,
@@ -3323,16 +3665,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "TX"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-ut-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3351,6 +3699,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-ut-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 284,
@@ -3363,16 +3713,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "UT"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-vt-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3391,6 +3747,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-vt-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 288,
@@ -3403,16 +3761,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "VT"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-va-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3431,6 +3795,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-va-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 322,
         "identityOnly": 0,
@@ -3443,16 +3809,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "VA"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-wa-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3471,6 +3843,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-wa-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 321,
@@ -3483,16 +3857,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "WA"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-wv-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3511,6 +3891,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-wv-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 285,
@@ -3523,16 +3905,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "WV"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-wi-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3551,6 +3939,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-wi-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 1920,
@@ -3563,16 +3953,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "WI"
     },
     {
+      "billDraftSupported": true,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "game-default",
       "enterTermAdmitted": 0,
       "isState": true,
       "legislativeStructure": null,
+      "legislativeWorkKey": "institution:us-wy-legislature-profile-v1",
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3591,6 +3987,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": "game-profile",
+      "legislaturePack": "us-wy-legislature-profile-v1",
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 122,
@@ -3603,16 +4001,22 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "WY"
     },
     {
+      "billDraftSupported": false,
+      "billProcessPackAvailable": true,
       "candidacyPack": null,
+      "defaultEffectiveDate": "no-legislature-pack",
       "enterTermAdmitted": 0,
       "isState": false,
       "legislativeStructure": null,
+      "legislativeWorkKey": null,
       "legislatorQualifications": [
         {
           "chamberFamily": "lower",
@@ -3631,6 +4035,8 @@
           "standForOffice": "refused"
         }
       ],
+      "legislatureBasis": null,
+      "legislaturePack": null,
       "localGovernments": {
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 0,
@@ -3643,8 +4049,10 @@
       },
       "officeContestProducer": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "offices": [],
+      "ordinaryBillToEffect": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "ordinaryInitialization": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
       "saveContinuity": "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers",
+      "sourceEffectiveDateUncomputed": false,
       "standForOfficeAdmitted": 0,
       "state": "DC"
     }
@@ -3693,7 +4101,14 @@
     "states": 50,
     "statesWithAnyStandForOfficeAdmitted": 3,
     "statesWithAnyTermRuleAdmitted": 1,
-    "statesWithLegislativePack": 9,
+    "statesWithBillDraftSupport": 50,
+    "statesWithBillProcessPack": 50,
+    "statesWithCandidacyPack": 9,
+    "statesWithComputedSourceEffectiveDate": 1,
+    "statesWithGameProfileLegislature": 41,
+    "statesWithLegislativePack": 50,
+    "statesWithResearchedLegislature": 9,
+    "statesWithSourceEffectiveDateNeedingAdapter": 4,
     "unitsWithAdmittedLocalRoute": 4
   }
 }

@@ -8,6 +8,7 @@ import { activeWorkRelationshipsAt, workStatusAt } from "../life-queries";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
+import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
   committeeHearingTransitionHandler,
@@ -1859,6 +1860,14 @@ export function governingSeasonHandler(
   const [, officeKey, kind] = match;
   const office = governingOfficeByKey(world, officeKey!);
   let next = world;
+  const offCycleBill =
+    kind === "bill" &&
+    !!office &&
+    !regularSessionYearForWorld(
+      world,
+      office.jurisdictionId,
+      Number(due.dueAt.slice(0, 4)),
+    );
   if (office) {
     const rng = new SeededRng(`${due.stableKey}:subject`);
     const pool = PROGRAM_FAMILIES.map((family) => family.familyKey);
@@ -1877,7 +1886,7 @@ export function governingSeasonHandler(
         instance: due.dueAt,
         programKeys,
       });
-    } else {
+    } else if (!offCycleBill) {
       const intake = {
         jurisdictionId: office.jurisdictionId,
         intakeKey: `${office.officeKey}:${due.dueAt}`,
@@ -1907,7 +1916,12 @@ export function governingSeasonHandler(
     next = openProgramMatters(next, office);
     next = scheduleGoverningSeasons(next, officeKey!, office.jurisdictionId);
   }
-  return resolved(next, `The ${kind} season arrived.`);
+  return resolved(
+    next,
+    offCycleBill
+      ? "The off-cycle bill date was skipped."
+      : `The ${kind} season arrived.`,
+  );
 }
 
 /**

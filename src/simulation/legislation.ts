@@ -1,6 +1,11 @@
 import { addDays, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
+import {
+  resolveLegislativeEffectiveDate,
+  STATUTE_EFFECTIVE_DEFAULT_DAYS,
+  STATUTE_EFFECTIVE_GAME_DEFAULT_VERSION,
+} from "./legislative-effective-date";
 import { indexOverArrays } from "./history-index";
 import {
   assertOriginationPermitted,
@@ -18,7 +23,11 @@ import {
   type VoteDenominator,
   type VoteThresholdRule,
 } from "./legislature-rules";
-import { rulePackById } from "./legislature-rule-packs";
+import {
+  legislativeRulePackForWorld,
+  legislativeProcedureForPack,
+  regularSessionRefusalText,
+} from "./legislative-procedure-world";
 import { personName } from "./people";
 import { recordPropositionExposure } from "./politics";
 import type {
@@ -239,6 +248,22 @@ function illegal(reason: string): StepOutcome {
   return { ok: false, reason };
 }
 
+const REGULAR_SESSION_ACTIONS: ReadonlySet<LegislativeActionKind> = new Set([
+  "introduced",
+  "referred",
+  "committee-hearing-held",
+  "committee-reported",
+  "committee-not-reported",
+  "placed-on-calendar",
+  "amendment-adopted",
+  "amendment-rejected",
+  "floor-stage-passed",
+  "floor-stage-failed",
+  "transmitted",
+  "concurred",
+  "concurrence-failed",
+]);
+
 function requirePhase(
   state: ReplayState,
   kind: LegislativeActionKind,
@@ -263,6 +288,13 @@ function applyRecordedAction(
     return illegal(
       `'${action.kind}' was recorded after the measure had already finished as '${state.outcome}'`,
     );
+  }
+  if (
+    pack.session.regularSessionYears &&
+    REGULAR_SESSION_ACTIONS.has(action.kind)
+  ) {
+    const refusal = regularSessionRefusalText(pack, action.occurredAt);
+    if (refusal) return illegal(refusal);
   }
 
   const currentChamber = (): ChamberRule | null =>
@@ -638,7 +670,7 @@ export function replayMeasure(
   measureId: EntityId,
 ): MeasureReplay {
   const measure = requireMeasure(world, measureId);
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const state = initialState(measure);
   const violations: string[] = [];
 
@@ -683,7 +715,7 @@ export interface MeasureGate {
 
 export function measureGate(world: World, measureId: EntityId): MeasureGate {
   const measure = requireMeasure(world, measureId);
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const position = measurePosition(world, measureId);
   const chamber = position.chamberKey
     ? chamberByKey(pack, position.chamberKey)
@@ -868,8 +900,24 @@ export function availableMeasureSteps(
   measureId: EntityId,
 ): readonly MeasureStepKey[] {
   const measure = requireMeasure(world, measureId);
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const position = measurePosition(world, measureId);
+
+  if (
+    legislativeProcedureForPack(world, measure.rulePackId) &&
+    regularSessionRefusalText(pack, world.currentDate)
+  ) {
+    switch (position.phase) {
+      case "drafting":
+      case "awaiting-referral":
+      case "in-committee":
+      case "awaiting-floor":
+      case "on-floor":
+      case "awaiting-transmittal":
+      case "awaiting-concurrence":
+        return [];
+    }
+  }
 
   switch (position.phase) {
     case "drafting":
@@ -1153,6 +1201,14 @@ function appendAction(world: World, input: AppendActionInput): World {
   const measure = input.measure;
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   const occurredAt = input.occurredAt ?? world.currentDate;
+  if (
+    REGULAR_SESSION_ACTIONS.has(input.kind) &&
+    legislativeProcedureForPack(world, measure.rulePackId)
+  ) {
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+    const refusal = regularSessionRefusalText(pack, occurredAt);
+    if (refusal) throw new Error(refusal);
+  }
   const eventStableKey = `event:${input.stableKey}`;
 
   let next = recordWorldEvent(world, {
@@ -1419,7 +1475,11 @@ export function introduceMeasure(
       `Measure references a missing jurisdiction: ${input.jurisdictionId}`,
     );
   }
-  const pack = rulePackById(input.rulePackId);
+  const pack = legislativeRulePackForWorld(world, input.rulePackId);
+  if (legislativeProcedureForPack(world, input.rulePackId)) {
+    const refusal = regularSessionRefusalText(pack, world.currentDate);
+    if (refusal) throw new Error(refusal);
+  }
   const chamberKey =
     input.originChamberKey ?? defaultOriginChamber(pack).chamberKey;
   const chamber = chamberByKey(pack, chamberKey);
@@ -1601,7 +1661,7 @@ export function referMeasure(world: World, input: ReferMeasureInput): World {
     ["awaiting-referral"],
     "refer the measure",
   );
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const chamber = chamberByKey(
     pack,
     position.chamberKey ?? measure.originChamberKey,
@@ -1680,6 +1740,11 @@ export function scheduleCommitteeHearing(
   if (hearingDate <= world.currentDate) {
     throw new Error("A committee hearing must be scheduled for a future date.");
   }
+  if (legislativeProcedureForPack(world, measure.rulePackId)) {
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+    const refusal = regularSessionRefusalText(pack, hearingDate);
+    if (refusal) throw new Error(refusal);
+  }
   return scheduleFutureDueItem(world, {
     stableKey: input.stableKey,
     dueAt: hearingDate,
@@ -1712,7 +1777,19 @@ export function committeeHearingTransitionHandler(
       outcomeEventId: null,
     };
   }
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const refusal = legislativeProcedureForPack(world, measure.rulePackId)
+    ? regularSessionRefusalText(pack, dueItem.dueAt)
+    : null;
+  if (refusal) {
+    return {
+      world,
+      status: "cancelled",
+      reasonKey: "legislation:hearing-outside-regular-session",
+      context: refusal,
+      outcomeEventId: null,
+    };
+  }
   const chamber = chamberByKey(
     pack,
     position.chamberKey ?? measure.originChamberKey,
@@ -1776,7 +1853,7 @@ export function recordCommitteeDisposition(
     ["in-committee"],
     "report the measure out of committee",
   );
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const chamber = chamberByKey(
     pack,
     position.chamberKey ?? measure.originChamberKey,
@@ -1904,7 +1981,7 @@ export function placeMeasureOnCalendar(
   input: PlaceOnCalendarInput,
 ): World {
   const measure = requireMeasure(world, input.measureId);
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const before = measurePosition(world, input.measureId);
   const direct =
     before.phase === "awaiting-referral" &&
@@ -1966,7 +2043,7 @@ export function offerFloorAmendment(
     ["on-floor"],
     "amend the measure",
   );
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const chamber = chamberByKey(
     pack,
     position.chamberKey ?? measure.originChamberKey,
@@ -2074,7 +2151,7 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
     ["on-floor"],
     "take a floor vote",
   );
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const chamber = chamberByKey(
     pack,
     position.chamberKey ?? measure.originChamberKey,
@@ -2154,7 +2231,7 @@ export function transmitMeasure(
     ["awaiting-transmittal"],
     "transmit the measure",
   );
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   if (pack.interChamber.kind !== "second-chamber") {
     throw new Error(
       `${pack.displayName} has one chamber, so there is nowhere to transmit a measure.`,
@@ -2213,7 +2290,7 @@ export function recordConcurrenceVote(
     ["awaiting-concurrence"],
     "vote on the other chamber's changes",
   );
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   if (pack.interChamber.kind !== "second-chamber") {
     throw new Error(
       `${pack.displayName} has one chamber, so there is nothing to concur in.`,
@@ -2308,7 +2385,7 @@ export function presentMeasureToExecutive(
     ["awaiting-presentation"],
     "present the measure",
   );
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   if (
     !requireKnown(
       pack.executive.presentmentRequired,
@@ -2359,7 +2436,7 @@ export function recordExecutiveAction(
     input.stableKey,
     "Executive disposition",
   );
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const signed = input.action === "signed";
   const actor =
     input.actorPersonId !== undefined
@@ -2476,7 +2553,7 @@ export function recordExecutiveInaction(
     input.stableKey,
     "Executive disposition",
   );
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const disposition: ExecutiveDispositionRecord = {
     id: createStableId(
       "executive-disposition",
@@ -2542,7 +2619,8 @@ export function recordOverridePeriodExpired(
     chamberKey: null,
     committeeKey: null,
     floorStageKey: null,
-    actorLabel: rulePackById(measure.rulePackId).displayName,
+    actorLabel: legislativeRulePackForWorld(world, measure.rulePackId)
+      .displayName,
     rationale: input.rationale,
     summary: `The time to override the veto of ${measure.designation} ran out; the veto stands.`,
     eventType: "legislation.override-period-expired",
@@ -2561,7 +2639,7 @@ export function attemptVetoOverride(
     ["awaiting-override"],
     "attempt an override",
   );
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const override = pack.executive.override;
   if (override.kind === "not-applicable") {
     throw new Error(
@@ -2709,6 +2787,11 @@ export interface RecordEnactmentInput {
   readonly measureId: EntityId;
   readonly actDesignation?: string | null;
   readonly effectiveAt?: string | null;
+  /** An expressly fictional route date, held apart from sourced defaults. */
+  readonly effectiveDateGameProfile?: {
+    readonly version: string;
+    readonly days: number;
+  };
 }
 
 /** Closes out a measure that became law. */
@@ -2737,11 +2820,32 @@ export function recordEnactment(
     input.stableKey,
     "Enactment",
   );
-  const pack = rulePackById(measure.rulePackId);
-  const effectiveRule = pack.enactment.defaultEffectiveRule;
-  if (input.effectiveAt === undefined && effectiveRule.kind !== "known") {
-    // The rule pack does not resolve when acts take effect; the enactment is
-    // recorded without inventing an effective date.
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const defaultDate = resolveLegislativeEffectiveDate(pack, world.currentDate);
+  const starting = legislativeProcedureForPack(world, measure.rulePackId);
+  const profile =
+    input.effectiveDateGameProfile ??
+    (starting && input.effectiveAt == null
+      ? {
+          version: starting.procedureProvenance.version,
+          days: starting.effectiveDateDays,
+        }
+      : undefined);
+  if (profile) {
+    if (
+      !profile.version.trim() ||
+      !Number.isSafeInteger(profile.days) ||
+      profile.days < 0
+    ) {
+      throw new Error(
+        "An effective-date game profile needs a version and nonnegative whole days.",
+      );
+    }
+    if (input.effectiveAt != null) {
+      throw new Error(
+        "Give either an explicit effective date or a game profile, not both.",
+      );
+    }
   }
 
   const next = appendAction(world, {
@@ -2776,7 +2880,25 @@ export function recordEnactment(
     resolvedAt: next.currentDate,
     outcome: "enacted",
     actDesignation: input.actDesignation ?? null,
-    effectiveAt: input.effectiveAt ? makeIsoDate(input.effectiveAt) : null,
+    effectiveAt: profile
+      ? addDays(next.currentDate, profile.days)
+      : input.effectiveAt == null
+        ? defaultDate.effectiveAt
+        : makeIsoDate(input.effectiveAt),
+    ...(input.effectiveAt == null
+      ? {
+          effectiveDateBasis: profile ? "game-default" : defaultDate.kind,
+          ...(profile || defaultDate.kind === "game-default"
+            ? {
+                effectiveDateGameProfile: {
+                  version:
+                    profile?.version ?? STATUTE_EFFECTIVE_GAME_DEFAULT_VERSION,
+                  days: profile?.days ?? STATUTE_EFFECTIVE_DEFAULT_DAYS,
+                },
+              }
+            : {}),
+        }
+      : {}),
     outcomeEventId: event.id,
   };
 
@@ -2809,7 +2931,7 @@ export function recordAdjournmentDeath(
   if (position.terminal) {
     throw new Error("The measure is already finished.");
   }
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   // "We do not know" and "there is no such thing here" are both refusals.
   if (
     !requireKnown(
@@ -2954,7 +3076,10 @@ export function rulePackForMeasure(
   world: World,
   measureId: EntityId,
 ): LegislativeRulePack {
-  return rulePackById(requireMeasure(world, measureId).rulePackId);
+  return legislativeRulePackForWorld(
+    world,
+    requireMeasure(world, measureId).rulePackId,
+  );
 }
 
 export function chamberForPosition(

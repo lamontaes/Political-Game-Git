@@ -5,6 +5,7 @@ import {
   legislativeWorkKey,
 } from "../simulation/legislative-institutions";
 import { regularSessionActionRefusal } from "./legislative-session-window";
+import { legislativeRulePackForWorld } from "../simulation/legislative-procedure-world";
 import {
   chamberByKey,
   characterHistoryContextPersonId,
@@ -152,7 +153,7 @@ export function openLegislativeBargaining(
   }
   const blueprint = legislativeBlueprint(scenarioKey);
   const sessionRefusal = regularSessionActionRefusal(
-    blueprint.pack,
+    legislativeRulePackForWorld(world, blueprint.pack.packId),
     world.currentDate,
   );
   if (sessionRefusal) return { kind: "unavailable", reason: sessionRefusal };
