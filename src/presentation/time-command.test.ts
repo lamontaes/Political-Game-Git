@@ -7,8 +7,16 @@ import {
   serializeWorld,
 } from "../simulation";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  careerReplyBy,
+  respondCareerOffer,
+  seekCareerOffer,
+  startCareerWork,
+} from "../simulation/career-path7";
+import { CAREER_PROVIDERS } from "./career-path7-provider";
 import { QUIET_ADULT_STEPS } from "./life-story";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { createExplicitGeographyLife } from "./new-game-geography";
 import { openOrdinaryLife } from "./ordinary-life";
 import {
   describeTimeCommandPreview,
@@ -158,6 +166,46 @@ describe("the canonical time command", () => {
         (result) => result.contestId === campaign.contestId,
       ),
     ).toHaveLength(1);
+  });
+
+  it("stops on an accepted work start after reload and preserves an unanswered deadline", () => {
+    const built = createExplicitGeographyLife({
+      placeKey: "3825700",
+      seed: "time-command-career-start",
+      startAge: 24,
+    });
+    const personId = built.game.playerPersonId;
+    const world = openOrdinaryLife(built.game.world, personId);
+    const shop = CAREER_PROVIDERS.find(
+      (provider) => provider.pathId === "shop-assistant",
+    )!;
+    const sought = seekCareerOffer(world, shop);
+    expect(sought.ok).toBe(true);
+    const offer = sought.world.history.workRelationships.find(
+      (work) =>
+        work.personId === personId &&
+        work.stableKey.startsWith(`career-path7:${shop.id}:`),
+    )!;
+    const replyBy = careerReplyBy(sought.world, offer.id);
+    const unanswered = submitTimeCommand(
+      sought.world,
+      request(sought.world, personId, { kind: "days", days: 10 }),
+      fixedClock,
+    );
+    expect(unanswered.world.currentDate).toBe(replyBy);
+    expect(careerReplyBy(unanswered.world, offer.id)).toBe(replyBy);
+
+    const accepted = respondCareerOffer(sought.world, offer.id, shop, true);
+    expect(accepted.ok).toBe(true);
+    const reloaded = deserializeWorld(serializeWorld(accepted.world));
+    const reached = submitTimeCommand(
+      reloaded,
+      request(reloaded, personId, { kind: "quiet-stretch" }),
+      fixedClock,
+    );
+    expect(reached.world.currentDate).toBe(offer.startedAt);
+    expect(reached.receipt.outcome).not.toContain("under Work");
+    expect(startCareerWork(reached.world, offer.id, shop).ok).toBe(true);
   });
 
   it("waits until a recorded activity and refuses one already begun", () => {

@@ -50,6 +50,7 @@ import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
 import { previewTimeCommand } from "../presentation/time-command";
+import { acceptedOfferStarts } from "../presentation/offer-deadlines";
 import {
   createWorldChangeGuard,
   recordStaleWorldChange,
@@ -2698,6 +2699,17 @@ function PlayingScreen({
     (days: 1 | 7) => {
       crisisStop.watch();
       submitTime({ kind: "days", days }, (report) => {
+        if (
+          report.status === "accepted" &&
+          report.reached &&
+          acceptedOfferStarts(session.world, session.personId).some(
+            (entry) => entry.startOn === report.reached?.date,
+          )
+        ) {
+          setPassOutcome(null);
+          dispatch({ type: "go-to-surface", surface: "work", section: "jobs" });
+          return;
+        }
         // The corner shows the new date; the notice is for what else happened.
         const news = routineOutcomeAfterClock(report.outcome);
         setPassOutcome(
@@ -2707,7 +2719,7 @@ function PlayingScreen({
         );
       });
     },
-    [crisisStop, submitTime],
+    [crisisStop, submitTime, session.world, session.personId, dispatch],
   );
   const passTargets = useMemo(() => {
     const day = previewTimeCommand(session.world, session.personId, {
@@ -4530,6 +4542,13 @@ function renderWorkspace({
           onOpen={openEntity}
           onTogglePin={togglePin}
           onWorldChange={onWorldChange}
+          onOpenWork={() =>
+            dispatch({
+              type: "go-to-surface",
+              surface: "work",
+              section: "jobs",
+            })
+          }
           interruptions={shell.preferences.interruptions}
           onInterruptionChange={(key, value) =>
             dispatch({ type: "set-interruption", key, value })
@@ -6040,7 +6059,7 @@ function TodayView({
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onGoTo: (
     surface: "work" | "calendar" | "places",
-    section?: "campaign",
+    section?: "campaign" | "jobs",
   ) => void;
   /** Inside the Calendar, which carries its own day controls and entries. */
   readonly embedded?: boolean;
@@ -6169,7 +6188,11 @@ function TodayView({
           onWorldChange={onWorldChange}
         />
         {embedded ? null : (
-          <PassDayControl session={session} onWorldChange={onWorldChange} />
+          <PassDayControl
+            session={session}
+            onWorldChange={onWorldChange}
+            onOpenWork={() => onGoTo("work", "jobs")}
+          />
         )}
       </section>
 
@@ -6219,10 +6242,12 @@ function TodayView({
 function PassDayControl({
   session,
   onWorldChange,
+  onOpenWork,
   withClock = false,
 }: {
   readonly session: Session;
   readonly onWorldChange: (world: World) => void;
+  readonly onOpenWork: () => void;
   /** Say what time it is beside the control, where nothing else on the page does. */
   readonly withClock?: boolean;
 }) {
@@ -6257,13 +6282,24 @@ function PassDayControl({
         aria-disabled={runner.pending || undefined}
         aria-busy={runner.pending}
         onClick={() =>
-          runner.submit({ kind: "days", days: 1 }, (report) =>
+          runner.submit({ kind: "days", days: 1 }, (report) => {
+            if (
+              report.status === "accepted" &&
+              report.reached &&
+              acceptedOfferStarts(session.world, session.personId).some(
+                (entry) => entry.startOn === report.reached?.date,
+              )
+            ) {
+              setOutcome(null);
+              onOpenWork();
+              return;
+            }
             setOutcome(
               report.stoppedEarly && report.target
                 ? `${stoppedEarlyLabel(report.target)} ${report.outcome}`
                 : report.outcome,
-            ),
-          )
+            );
+          })
         }
       >
         Get on with the day

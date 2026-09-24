@@ -79,6 +79,7 @@ import {
   calendarCampaignLifeEntry,
 } from "../presentation/calendar-campaign-life";
 import { previewTimeCommand } from "../presentation/time-command";
+import { acceptedOfferStarts } from "../presentation/offer-deadlines";
 import { venueActivities } from "../presentation/venue-activity";
 import { proseDate, proseWeekdayDate } from "../presentation/prose-dates";
 import {
@@ -725,6 +726,7 @@ export function CalendarWorkspaceSurface({
   onOpen,
   onTogglePin,
   onWorldChange,
+  onOpenWork,
   interruptions = DEFAULT_INTERRUPTIONS,
   onInterruptionChange,
   today,
@@ -735,6 +737,7 @@ export function CalendarWorkspaceSurface({
   readonly onOpen: (ref: ShellRef) => void;
   readonly onTogglePin: (ref: ShellRef) => void;
   readonly onWorldChange: (world: World) => void;
+  readonly onOpenWork?: () => void;
   /** The persisted checklist; read by every advance made from here. */
   readonly interruptions?: InterruptionPreferences;
   readonly onInterruptionChange?: (
@@ -759,12 +762,24 @@ export function CalendarWorkspaceSurface({
     interruptions,
     onWorldChange,
   });
-  const report = (result: TimeCommandReport) =>
+  const report = (result: TimeCommandReport) => {
+    if (
+      result.status === "accepted" &&
+      result.reached &&
+      acceptedOfferStarts(world, personId).some(
+        (entry) => entry.startOn === result.reached?.date,
+      )
+    ) {
+      setOutcome(null);
+      onOpenWork?.();
+      return;
+    }
     setOutcome(
       result.stoppedEarly && result.target
         ? `${stoppedEarlyLabel(result.target)} ${result.outcome}`
         : result.outcome,
     );
+  };
   const dayTarget = previewTimeCommand(world, personId, {
     kind: "days",
     days: 1,
