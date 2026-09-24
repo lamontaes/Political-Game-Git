@@ -375,6 +375,13 @@ export function MunicipalWorkspace({
               data-testid="municipal-ordinances"
             >
               <h3>Council {governing.measureNoun}s</h3>
+              {governing.procedureBasis === "game-profile" ? (
+                <p data-testid="municipal-game-procedure-label">
+                  Ordinance procedure uses a fictional game rule profile. The
+                  government record and any retrieved local law remain separate
+                  from these play rules.
+                </p>
+              ) : null}
               {governing.ordinanceIntroduction.ok ? (
                 <form
                   onSubmit={(event) => {
@@ -1167,7 +1174,9 @@ export function MunicipalWorkspace({
                       ? "Retrieved law"
                       : reading.evidence === "reference-observation"
                         ? "Dated meeting reference — not operative law"
-                        : "Research report — not operative law"}{" "}
+                        : reading.evidence === "game-profile"
+                          ? "Game rule profile — fictional procedure"
+                          : "Research report — not operative law"}{" "}
                     {"· "}
                     {reading.asOf}
                   </summary>

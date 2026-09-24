@@ -1,24 +1,21 @@
 /**
  * What an ordinary life can actually do about its city government.
  *
- * The corpus says what a government is. This module is where a person meets it:
- * a resident who can go to a council meeting because the instrument says the
- * meetings are open, a member who can move an ordinance because the charter
- * gives the body that power, a manager who runs departments and cannot vote.
- * Every one of those is a standing somebody has, checked against the record,
- * and every refusal names the instrument that did not say what would have been
- * needed.
+ * The catalog says what a government is. This module is where a person meets it:
+ * a resident can attend a meeting where a source establishes public access,
+ * while a seated member can move an ordinance under a sourced or explicitly
+ * fictional game procedure. Each standing is checked against the selected
+ * government's record and every refusal identifies the missing authority.
  *
  * ## Nothing here is a second engine
  *
  * The government is an `Organization` with a versioned profile. A seat is an
  * `OrganizationParticipation`. A meeting is a `ScheduledActivity`. An ordinance
  * is a `LegislativeMeasureRecord` moving through the same functions a state
- * bill moves through, under a rule pack derived from the city's own charter.
+ * bill moves through, under either a sourced rule pack or a versioned game pack.
  * The only thing this file adds is the standing check and the writers that
- * assemble those canonical records for a municipal government — because who may
- * do what in a city is a fact about that city's law, and the law is in the
- * corpus rather than in the engine.
+ * assemble those canonical records for a municipal government. Sourced facts
+ * retain their evidence; game procedure remains labeled as a game rule.
  *
  * ## A visitor is not a member
  *
@@ -45,6 +42,7 @@ import {
   municipalVoteThresholdRule,
   primaryReading,
   municipalMeetingReading,
+  municipalProcedureReading,
   reportedReading,
 } from "./municipal-government";
 import type {
@@ -399,7 +397,9 @@ export function municipalActionAuthority(
         `${reading.displayName} is compiled from ${
           reading.evidence === "enacted-text"
             ? "enacted text this repository retrieved"
-            : "a research transcription of official municipal pages"
+            : reading.evidence === "game-profile"
+              ? "a disclosed local government game profile"
+              : "a research transcription of official municipal pages"
         }, and anybody may read what it says.`,
       );
 
@@ -492,12 +492,22 @@ export function municipalActionAuthority(
       }
       return grant(
         input.action,
-        reading.procedure.passageText ??
-          "The instruments read establish how this body adopts an ordinance.",
+        municipalProcedureReading(government).procedure.passageText ??
+          (rules.evidence === "game-profile"
+            ? "The saved game profile establishes how this body adopts an ordinance."
+            : "The instruments read establish how this body adopts an ordinance."),
       );
     }
 
     case "act-on-adopted-ordinance": {
+      const procedure = municipalRulePackFor(government);
+      if (procedure.ok && procedure.evidence === "game-profile") {
+        return refuse(
+          input.action,
+          "evidence",
+          "The game procedure has no executive presentment or veto.",
+        );
+      }
       const mayorTitle = reading.mayor?.title ?? "the mayor";
       const veto = reading.powers.find(
         (power) => power.power === "VETO" && power.heldByRole === "MAYOR",
@@ -570,6 +580,12 @@ function corpusProvenance(
   reading: MunicipalReading,
   recordDate: IsoDate,
 ): LifeRecordProvenance {
+  if (reading.evidence === "game-profile") {
+    return {
+      kind: "authored",
+      note: `${reading.basisType ?? "Local government game profile"} Identity ${reference} comes from the Census government-unit catalog; procedure is authored for this saved world.`,
+    };
+  }
   const asOf = reading.asOf as IsoDate;
   if (asOf <= recordDate) {
     return {
@@ -612,6 +628,7 @@ export function installMunicipalGovernment(
   const existing = municipalOrganizationFor(world, input.governmentKey);
   if (existing) return world;
   const reading = primaryReading(government);
+  const selectedProcedure = municipalRulePackFor(government);
   const withOrganization = createOrganization(world, {
     stableKey: municipalOrganizationKey(input.governmentKey),
     formedAt: input.formedAt,
@@ -649,11 +666,19 @@ export function installMunicipalGovernment(
     personFactConstraints: [],
     visibility: "public",
     tags: ["municipal", `government:${input.governmentKey}`],
-    summary: `${reading.displayName} is governed by ${reading.bodyName ?? "a body the record does not name"}, read from ${
+    summary: `${reading.displayName} is governed by ${reading.bodyName ?? "a body the record does not name"}, ${
       reading.evidence === "enacted-text"
-        ? "its own enacted law"
-        : "a research transcription of official municipal pages"
-    } as of ${reading.asOf}.`,
+        ? `read from its own enacted law as of ${reading.asOf}`
+        : reading.evidence === "game-profile"
+          ? "under a disclosed fictional game profile; the Census catalog identifies the unit but does not establish its procedure"
+          : `read from a research transcription of official municipal pages as of ${reading.asOf}`
+    }.${
+      selectedProcedure.ok &&
+      selectedProcedure.evidence === "game-profile" &&
+      reading.evidence !== "game-profile"
+        ? ` Its ordinance procedure uses the separate ${selectedProcedure.pack.packId} game profile.`
+        : ""
+    }`,
     context: {
       location: {
         jurisdictionId: input.jurisdictionId,
@@ -734,7 +759,7 @@ export function seatMunicipalMember(
       `Install ${input.governmentKey} before seating anybody in it.`,
     );
   }
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   if (
     (input.role === "member" || input.role === "presiding-member") &&
     reading.bodySize !== null
@@ -1748,7 +1773,10 @@ export function municipalMeetings(
 export function municipalMeasures(world: World, governmentKey: string) {
   const government = municipalGovernmentByKey(governmentKey);
   if (!government) return [];
-  const packId = municipalRulePackId(primaryReading(government));
+  const rules = municipalRulePackFor(government);
+  const packId = rules.ok
+    ? rules.pack.packId
+    : municipalRulePackId(primaryReading(government));
   return (world.history.legislativeMeasures ?? []).filter(
     (measure) => measure.rulePackId === packId,
   );

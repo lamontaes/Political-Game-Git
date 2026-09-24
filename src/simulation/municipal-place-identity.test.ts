@@ -51,11 +51,10 @@ describe("reviewed municipal place identities", () => {
       expect(series.venue).toBeNull();
     }
     const capability = municipalRulePackFor(government);
-    expect(capability.ok).toBe(false);
-    if (!capability.ok)
-      expect(
-        capability.missing.some((row) => row.field === "passage threshold"),
-      ).toBe(true);
+    expect(capability.ok).toBe(true);
+    if (!capability.ok) throw new Error(JSON.stringify(capability.missing));
+    expect(capability.evidence).toBe("game-profile");
+    expect(capability.pack.basis).toBe("game-profile");
   });
 
   it("dates Portland's admitted meeting rules to the charter commencement", () => {
@@ -81,7 +80,10 @@ describe("reviewed municipal place identities", () => {
     expect(reading.procedure.introductionSponsorship).toBeNull();
     expect(reading.procedure.passageText).toBeNull();
     expect(reading.procedure.effectivePublication).toBeNull();
-    expect(municipalRulePackFor(government).ok).toBe(false);
+    expect(municipalRulePackFor(government)).toMatchObject({
+      ok: true,
+      evidence: "game-profile",
+    });
   });
 
   it("preserves separately reviewed county-equivalent joins", () => {

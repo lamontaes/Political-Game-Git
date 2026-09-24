@@ -56,7 +56,7 @@ import {
   municipalRulePackFor,
   municipalRuleSourceRef,
   municipalVoteThresholdRule,
-  primaryReading,
+  municipalProcedureReading,
 } from "./municipal-government";
 import {
   municipalActionAuthority,
@@ -101,7 +101,7 @@ function refuse(world: World, reason: string): MunicipalOrdinanceResult {
 
 /** " (citation)" for one compiled fact, or nothing when none is recorded. */
 function citationFor(
-  reading: ReturnType<typeof primaryReading>,
+  reading: ReturnType<typeof municipalProcedureReading>,
   path: string,
 ): string {
   const citation = reading.facts.find((fact) => fact.path === path)
@@ -185,7 +185,7 @@ export function municipalOrdinanceStatus(
   const measure = councilMeasure(world, governmentKey, measureId);
   const government = municipalGovernmentByKey(governmentKey);
   if (!measure || !government) return null;
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   const pack = municipalRulePackFor(government);
   const interval = reading.procedure.introductionToPassage ?? null;
   const enactment = measureEnactment(world, measureId);
@@ -439,7 +439,7 @@ export function recordCouncilReadingVote(
 ): MunicipalOrdinanceResult {
   const government = municipalGovernmentByKey(input.governmentKey);
   if (!government) return refuse(world, "No municipal government is compiled.");
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   const pack = municipalRulePackFor(government);
   if (!pack.ok) {
     return refuse(
@@ -530,7 +530,7 @@ function checkCouncilVote(
   | { readonly ok: true; readonly present: number; readonly seats: number }
   | { readonly ok: false; readonly reason: string } {
   const government = municipalGovernmentByKey(governmentKey)!;
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   const seats = councilSeats(world, governmentKey);
   const seated = new Set(seats.map((seat) => seat.personId));
   const people = new Set<EntityId>();
@@ -589,7 +589,7 @@ function checkCouncilVote(
 /** The earliest date the measure's next reading may be taken, if a rule fixes one. */
 function earliestNextReading(
   world: World,
-  reading: ReturnType<typeof primaryReading>,
+  reading: ReturnType<typeof municipalProcedureReading>,
   measureId: EntityId,
 ): { readonly date: IsoDate; readonly description: string } | null {
   const between = reading.procedure.betweenReadings ?? null;
@@ -737,7 +737,7 @@ function executiveHolder(world: World, governmentKey: string): EntityId | null {
 
 function executiveWindow(governmentKey: string) {
   const government = municipalGovernmentByKey(governmentKey)!;
-  return primaryReading(government).procedure.mayoralActionWindow;
+  return municipalProcedureReading(government).procedure.mayoralActionWindow;
 }
 
 /** Enroll, present, or record as law, whichever the pack says comes next. */
@@ -747,7 +747,7 @@ function afterFinalPassage(
   measure: LegislativeMeasureRecord,
 ): World {
   const government = municipalGovernmentByKey(governmentKey)!;
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   let next = enrollMeasure(world, {
     stableKey: `${measure.stableKey}:enrolled`,
     measureId: measure.id,
@@ -805,7 +805,7 @@ function enactCouncilMeasure(
 ): World {
   const review = CONGRESSIONAL_REVIEW[governmentKey];
   const government = municipalGovernmentByKey(governmentKey)!;
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   const effectiveAt = review
     ? congressionalReviewEffectiveOn(
         world.currentDate,

@@ -56,12 +56,12 @@ describe("what a town needs before it plays", () => {
     expect(Object.keys(LEGISLATIVE_RULE_PACKS)).toHaveLength(9);
   });
 
-  it("knows who governs 19,480 places and how only two of them vote", () => {
+  it("knows who governs 19,480 places and which two have sourced executable packs", () => {
     const rows = JSON.parse(NATIONAL_PLACES_ROWS) as [string, string, string][];
     const governed = rows.filter(
       ([geoid]) => governmentUnitsForPlace(geoid).length > 0,
     );
-    // Identity is a solved problem; procedure is not.
+    // Identity and sourced executable procedure remain separate counts.
     expect(rows).toHaveLength(32350);
     expect(governed).toHaveLength(19480);
     expect(municipalGovernments()).toHaveLength(144);

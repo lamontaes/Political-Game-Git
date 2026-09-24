@@ -291,10 +291,10 @@ describe("explicit municipal passage interval bases", () => {
       const government = municipalGovernmentForLifePlace(
         requireLifePlace("5114968"),
       )!;
-      const reading = municipalGovernment.primaryReading(government);
+      const reading = municipalGovernment.municipalProcedureReading(government);
       // A bounded rule fixture exercises the existing writer; it does not admit Portland.
       const spy = vi
-        .spyOn(municipalGovernment, "primaryReading")
+        .spyOn(municipalGovernment, "municipalProcedureReading")
         .mockReturnValue({
           ...reading,
           procedure: {
