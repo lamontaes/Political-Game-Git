@@ -45,7 +45,6 @@ import {
   automaticLawQuestionOnCooldown,
   compileAutomaticLawDraft,
   introduceAutomaticLawMeasure,
-  stateTransitAutomaticLawContext,
   type AutomaticLawCompileContext,
 } from "./automatic-legislation";
 import {
@@ -385,7 +384,10 @@ function localAuthorityForCouncil(
   );
   const propositions = world.policyCatalog.propositionOrder
     .map((id) => world.policyCatalog.propositions[id])
-    .filter((entry) => entry && eligibleKeys.has(entry.stableKey));
+    .filter(
+      (entry): entry is NonNullable<typeof entry> =>
+        entry !== undefined && eligibleKeys.has(entry.stableKey),
+    );
   for (const proposition of propositions) {
     for (const member of councilMembers(world, governmentKey)) {
       const grant = localFiscalAuthorityFor(
@@ -512,7 +514,10 @@ export function fileLocalMemberAgendaBill(
   );
   const propositions = next.policyCatalog.propositionOrder
     .map((id) => next.policyCatalog.propositions[id])
-    .filter((entry) => entry && eligibleKeys.has(entry.stableKey));
+    .filter(
+      (entry): entry is NonNullable<typeof entry> =>
+        entry !== undefined && eligibleKeys.has(entry.stableKey),
+    );
   if (propositions.length === 0) return next;
 
   let filed = false;
