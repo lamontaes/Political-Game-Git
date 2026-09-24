@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import { personName } from "./people";
@@ -334,9 +335,7 @@ function appendPublication(
 }
 
 function sourceEventById(world: World, eventId: EntityId): HistoricalEvent {
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (!event) throw new Error(`No such publication source event: ${eventId}`);
   return event;
 }

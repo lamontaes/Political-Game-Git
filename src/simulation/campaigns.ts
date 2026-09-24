@@ -1,4 +1,5 @@
 import { jailTermOn } from "./justice/jail-terms";
+import { contestDistrictGeography } from "./campaign-geography";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
   migrationReviewHandler,
@@ -6,6 +7,7 @@ import {
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
 import { campaignPollingQuality } from "./campaign-polling";
+import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
   legislativeTermDates,
@@ -979,10 +981,7 @@ export function scheduleCampaignAction(
         throw new Error("The approved geography does not match this campaign.");
       }
     } else {
-      const binding = contest.office.districtBinding ?? null;
-      const expected = binding
-        ? `district:${binding.vintage}:${binding.chamber}:${binding.geoid}`
-        : null;
+      const expected = contestDistrictGeography(contest.office)?.key ?? null;
       if (strategy.geographyKey !== expected) {
         throw new Error("The approved district does not match this campaign.");
       }
@@ -1073,9 +1072,16 @@ function requestedGainBasisPoints(
     (candidate) => candidate.id === action.scheduledActivityId,
   );
   const workers = Math.max(1, activity?.participantPersonIds.length ?? 1);
+  // Who is knocking changes what a door returns: see `campaign-recognition.ts`.
   const base =
     action.kind === "outreach"
-      ? Math.floor((minutes * workers * 3) / 2)
+      ? Math.floor(
+          (minutes *
+            workers *
+            3 *
+            doorKnockingReturn(world, campaign, action.id).percent) /
+            200,
+        )
       : Math.floor((action.plannedSpend?.minorUnits ?? 0) / 500);
   const swing = new SeededRng(world.seed)
     .fork(`campaign-action-effect:${action.id}`)

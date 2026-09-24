@@ -117,11 +117,21 @@ describe("every adult story route carries the world's pending election", () => {
 
   it("a free canonical episode choice leaves it pending, then explicit time dispatches it", () => {
     const life = filedLife();
+    // The first offered beat used to be the neighborhood meeting, which costs
+    // nothing to decide. The dialogue review of 2026-09-23 withheld it (no
+    // building, notice or meeting is recorded), and the first offered beat is
+    // now fifteen minutes of free time, which is an activity that spends its
+    // own minutes. Planning the week is still a free choice, so it carries the
+    // claim.
     const beat = eligibleEpisodeBeats({
       world: life.world,
       personId: life.personId,
       families: EPISODE_FAMILIES,
-    }).beats[0]!;
+    }).beats.find(
+      (candidate) =>
+        candidate.episodeKey === "opening.adult.home.plan-week" &&
+        candidate.stageKey === "moment",
+    )!;
     expect(beat).toBeDefined();
     const next = chooseStoryOption(life.world, {
       personId: life.personId,
@@ -161,9 +171,11 @@ describe("a state office does not move its winner's home", () => {
     // no longer carry this seat. Advancing a whole day at a time drifts the
     // clock past the afternoon after four days, so each day opens through the
     // ordinary-day path instead. Six such days were the fewest that won until
-    // gains above half the field began to shrink toward the campaign ceiling;
-    // seven are the fewest now (six lose).
-    for (let day = 0; day < 7; day += 1) {
+    // gains above half the field began to shrink toward the campaign ceiling,
+    // and seven until an unknown candidate's first afternoons on the doors
+    // began to return less (`campaign-recognition.ts`); nine are the fewest now
+    // (eight lose).
+    for (let day = 0; day < 9; day += 1) {
       world = passOrdinaryDays(world, 1);
       const outreach = projectCampaign(world, life.personId).offers.find(
         (offer) => offer.kind === "outreach",

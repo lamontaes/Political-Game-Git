@@ -36,6 +36,7 @@ import {
   projectPlayerConversation,
 } from "./player-conversation";
 import { commitConversationTurn } from "./run-b-conversation";
+import { conversationExchangeTurns } from "./scene-conversation";
 
 /**
  * PROSE B for a public life: after an election, a staff member with a pending
@@ -286,11 +287,33 @@ describe("a reporter's question about an actual promise", () => {
   it("a denial is a claim the world contradicts, and the reporter calls back only after a source confirms", () => {
     const willing = sourceWho(["conflict", 2]);
     const denied = say(willing, player, "scene-reporter-question", "deny");
+    const denial = denied.history.events.findLast(
+      (event) => claimStanceOf(event)?.intent === "deceive",
+    )!;
+    const stance = claimStanceOf(denial)!;
+    const reporter = stance.recipientPersonIds[0]!;
+    expect(stance.statement).toMatch(/^No\./);
+    expect(
+      conversationExchangeTurns(
+        denied,
+        player,
+        "scene-reporter-question",
+        reporter,
+      ).at(-1)?.playerLine,
+    ).toBe(stance.statement);
     const claim = denied.history.claims.findLast(
       (entry) => entry.speakerPersonId === player,
     )!;
     expect(claim.relationshipToTruth).toBe("contradicts");
     let world = deserializeWorld(serializeWorld(denied));
+    expect(
+      conversationExchangeTurns(
+        world,
+        player,
+        "scene-reporter-question",
+        reporter,
+      ).at(-1)?.playerLine,
+    ).toBe(stance.statement);
     for (let day = 0; day < 10; day += 1) {
       world = passOrdinaryDays(world, 1, { stopForTentativeHolds: true });
     }

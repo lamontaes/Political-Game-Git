@@ -3,6 +3,7 @@ import {
   SCHOOL_STAGES_V2,
   type SchoolStageVersion,
 } from "../simulation/school-stages";
+import { CONGRESSIONAL_HOME_JOIN_V1 } from "../simulation/district-residence";
 import {
   RESIDENT_CHAPTER_NAME_VERSION,
   type PartyChapterNameVersion,
@@ -34,6 +35,7 @@ import type {
   PronounSetKey,
   SetupAnswerRecord,
   SetupQuestionnairePath,
+  QuestionnaireSelectionVersion,
   World,
 } from "../simulation";
 import {
@@ -41,6 +43,7 @@ import {
   FAMILY_BIRTHDAYS_V1,
   PARENT_PARTNERS_V1,
 } from "./production-world";
+import { assignSplitHomeDistricts } from "../simulation/district-residence";
 import {
   buildSeedFor,
   setupPriorStoreFor,
@@ -113,6 +116,12 @@ export type NewGameHousehold = "lives-alone" | "shares-a-home";
  */
 export type NewGameStartKind = "normal" | "custom";
 
+/**
+ * Opening-data construction a replay descriptor records. "playtest65-v1"
+ * stays for replays written under it; new games use "playtest65-v2".
+ */
+export type OpeningDataVersion = "playtest65-v1" | "playtest65-v2";
+
 export interface NewGameSetup {
   readonly startKind?: NewGameStartKind;
   readonly placeKey: string;
@@ -143,8 +152,12 @@ export interface NewGameSetup {
    */
   /** Explicit creator year; retained while month/day are unresolved. */
   readonly birthYear?: number;
-  /** Additive initialization policy; absent descriptors preserve older construction. */
-  readonly openingDataVersion?: "playtest65-v1";
+  /**
+   * Additive initialization policy; absent descriptors preserve older
+   * construction. "playtest65-v1" also writes two fixed, already-concluded
+   * local matters; "playtest65-v2" (new games) opens without them.
+   */
+  readonly openingDataVersion?: OpeningDataVersion;
   /** New descriptors opt in; absent preserves the original member-name draw. */
   readonly livingWorldMemberNameVersion?: "identity-v1" | "cohort-v1";
   readonly birthMonth?: number;
@@ -165,6 +178,8 @@ export interface NewGameSetup {
    * world it always built.
    */
   readonly questionnaire?: SetupQuestionnairePath;
+  /** Absent replays use the original fixed-opening sequence. */
+  readonly questionnaireSelectionVersion?: QuestionnaireSelectionVersion;
   /**
    * What they answered, in the order they were asked.
    *
@@ -218,6 +233,12 @@ export interface NewGameSetup {
    * a man or a woman on their own. New Game declares the repair.
    */
   readonly parentPartnerVersion?: typeof PARENT_PARTNERS_V1;
+  /**
+   * Absent keeps an old replay's home join to the state legislative chambers.
+   * New Game declares the join that also records the U.S. House district when
+   * the Census place file lists the home place with exactly one district.
+   */
+  readonly districtHomeJoinVersion?: typeof CONGRESSIONAL_HOME_JOIN_V1;
   readonly questionnaireCopyVersion?: "playtest65-v2";
   /** Explicit creation lineage, preserved in replays; absent keeps historical defaults. */
   readonly appearanceCatalogGeneration?: number;
@@ -272,6 +293,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   schoolStageVersion: SCHOOL_STAGES_V2,
   familyBirthdayVersion: FAMILY_BIRTHDAYS_V1,
   parentPartnerVersion: PARENT_PARTNERS_V1,
+  districtHomeJoinVersion: CONGRESSIONAL_HOME_JOIN_V1,
   // OFF, deliberately, and not removed. `context-v2` declines to write a
   // school or a job into a grown character's summarized past on the grounds
   // that the game should not invent a biography nobody chose. Measured cost of
@@ -287,8 +309,9 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   // that writes one until a properly sourced history replaces it. The version
   // and its tests stay so a replay written under it still rebuilds.
   questionnaireCopyVersion: "playtest65-v2",
+  questionnaireSelectionVersion: "curated-v1",
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
-  openingDataVersion: "playtest65-v1",
+  openingDataVersion: "playtest65-v2",
   livingWorldMemberNameVersion: "cohort-v1",
   questionnaire: "short",
   priors: [],
@@ -391,7 +414,10 @@ export function newGameSetupProblems(
   }
   const path = setup.questionnaire ?? "skipped";
   const answered = setup.priors?.length ?? 0;
-  if (answered > questionnaireLength(path)) {
+  if (
+    answered >
+    questionnaireLength(path, undefined, setup.questionnaireSelectionVersion)
+  ) {
     problems.push({
       field: "priors",
       message: "There are more answers here than that path ever asks for.",
@@ -513,6 +539,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.schoolStageVersion === undefined
       ? {}
       : { schoolStageVersion: setup.schoolStageVersion }),
+    ...(setup.districtHomeJoinVersion === undefined
+      ? {}
+      : { districtHomeJoinVersion: setup.districtHomeJoinVersion }),
     ...(setup.familyBirthdayVersion === undefined
       ? {}
       : { familyBirthdayVersion: setup.familyBirthdayVersion }),
@@ -523,13 +552,20 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
   });
+  // A town split across several districts gets its resident placed in one of
+  // them (GAME PROFILE placeholder, see `assignSplitHomeDistricts`). Current
+  // openings only: a legacy replay descriptor rebuilds the bytes it always did.
+  const placed =
+    setup.worldOpeningVersion === CRUNCH46_WORLD_OPENING_VERSION
+      ? assignSplitHomeDistricts(built.world, built.playerPersonId)
+      : built.world;
   const office =
     setup.startingLife === "judicial-office-practice"
-      ? initializeJudicialOfficePractice(built.world, {
+      ? initializeJudicialOfficePractice(placed, {
           mode: "custom",
           jurisdictionId: place.context.jurisdiction.id,
         })
-      : { ok: true as const, world: built.world };
+      : { ok: true as const, world: placed };
   if (!office.ok) throw new Error(office.reason);
   // The agency, its authored charter, positions and staff are written once at
   // Custom Begin by the personnel feature's own initializer, after any

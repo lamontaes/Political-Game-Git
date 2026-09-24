@@ -3,6 +3,7 @@ import {
   beginAfterCalibration,
   enterLife,
   openMoment,
+  passShellTime,
   saveLife,
   startLife,
 } from "./support/creator";
@@ -26,6 +27,16 @@ test("P2R1 retained adult choices activate by pointer and keyboard on the player
   await expect(page.getByTestId("play-screen")).toBeVisible();
   const records: { activation: string; prose: string; choice: string }[] = [];
   for (const activation of ["pointer", "keyboard"]) {
+    // A quiet stretch has no authored answer. Let the ordinary week run until
+    // the next scene before checking either activation path.
+    for (let week = 0; week < 26; week += 1) {
+      const choices = page.getByTestId("story-options").getByRole("button");
+      const count = await choices.count();
+      if ((await page.getByTestId("story-prose").count()) > 0 && count > 0)
+        break;
+      if (count > 0) await choices.first().click();
+      else await passShellTime(page, "week");
+    }
     const prose = await page.getByTestId("story-prose").innerText();
     const choices = page.getByTestId("story-options").getByRole("button");
     await expect(choices.first()).toBeVisible();
@@ -98,7 +109,9 @@ test("P2R1 preserves and reloads the old age-32 calibrated fixture when its next
       reachedQuiet = true;
       break;
     }
-    await page.getByTestId("story-options").getByRole("button").first().click();
+    const choices = page.getByTestId("story-options").getByRole("button");
+    if ((await choices.count()) > 0) await choices.first().click();
+    else await passShellTime(page, "week");
   }
   expect(reachedQuiet).toBe(true);
   await expect(page.getByTestId("story-prose")).toHaveCount(0);
@@ -116,7 +129,11 @@ test("P2R1 preserves and reloads the old age-32 calibrated fixture when its next
   await page.getByTestId("open-journal").click();
   expect(await page.getByTestId("journal").innerText()).toBe(journal);
   await page.getByTestId("open-journal").click();
-  const advance = page.getByTestId("story-options").getByRole("button").first();
+  const choices = page.getByTestId("story-options").getByRole("button");
+  const advance =
+    (await choices.count()) > 0
+      ? choices.first()
+      : page.getByTestId("shell-pass-week");
   await advance.focus();
   await expect(advance).toBeFocused();
   await page.keyboard.press("Enter");

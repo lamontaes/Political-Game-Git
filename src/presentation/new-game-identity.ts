@@ -4,6 +4,7 @@ import {
   SCHOOL_STAGES_V2,
 } from "../simulation/school-stages";
 import { FAMILY_BIRTHDAYS_V1, PARENT_PARTNERS_V1 } from "./production-world";
+import { CONGRESSIONAL_HOME_JOIN_V1 } from "../simulation/district-residence";
 import { RESIDENT_CHAPTER_NAME_VERSION } from "../simulation/living-world/party-chapters";
 import {
   canonicalPriorEncoding,
@@ -222,6 +223,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
+    ...(setup.questionnaireSelectionVersion === undefined
+      ? {}
+      : { questionnaireSelectionVersion: setup.questionnaireSelectionVersion }),
     ...(setup.questionnaireCopyVersion === undefined
       ? {}
       : { questionnaireCopyVersion: setup.questionnaireCopyVersion }),
@@ -240,6 +244,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.schoolStageVersion === undefined
       ? {}
       : { schoolStageVersion: setup.schoolStageVersion }),
+    ...(setup.districtHomeJoinVersion === undefined
+      ? {}
+      : { districtHomeJoinVersion: setup.districtHomeJoinVersion }),
     ...(setup.familyBirthdayVersion === undefined
       ? {}
       : { familyBirthdayVersion: setup.familyBirthdayVersion }),
@@ -349,7 +356,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   const openingDataVersion = record.openingDataVersion;
   if (
     openingDataVersion !== undefined &&
-    openingDataVersion !== "playtest65-v1"
+    openingDataVersion !== "playtest65-v1" &&
+    openingDataVersion !== "playtest65-v2"
   )
     return null;
   const livingWorldMemberNameVersion = record.livingWorldMemberNameVersion;
@@ -379,6 +387,11 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   if (
     record.questionnaireCopyVersion !== undefined &&
     record.questionnaireCopyVersion !== "playtest65-v2"
+  )
+    return null;
+  if (
+    record.questionnaireSelectionVersion !== undefined &&
+    record.questionnaireSelectionVersion !== "curated-v1"
   )
     return null;
   if (
@@ -415,6 +428,11 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   if (
     record.parentPartnerVersion !== undefined &&
     record.parentPartnerVersion !== PARENT_PARTNERS_V1
+  )
+    return null;
+  if (
+    record.districtHomeJoinVersion !== undefined &&
+    record.districtHomeJoinVersion !== CONGRESSIONAL_HOME_JOIN_V1
   )
     return null;
   if (
@@ -487,6 +505,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.questionnaireCopyVersion === undefined
       ? {}
       : { questionnaireCopyVersion: "playtest65-v2" as const }),
+    ...(record.questionnaireSelectionVersion === undefined
+      ? {}
+      : { questionnaireSelectionVersion: "curated-v1" as const }),
     ...(record.earlierLifeGenerationVersion === undefined
       ? {}
       : { earlierLifeGenerationVersion: "context-v2" as const }),
@@ -513,6 +534,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.parentPartnerVersion === undefined
       ? {}
       : { parentPartnerVersion: PARENT_PARTNERS_V1 }),
+    ...(record.districtHomeJoinVersion === undefined
+      ? {}
+      : { districtHomeJoinVersion: CONGRESSIONAL_HOME_JOIN_V1 }),
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion: appearanceRecipeVersion as string }),

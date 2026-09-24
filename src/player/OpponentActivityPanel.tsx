@@ -5,20 +5,23 @@ import { projectOpponentActivityPanel } from "../presentation/campaign-life-surf
 import type { EntityId, World } from "../simulation";
 
 /**
- * What the other campaigns have done in public, as far as this person has
- * heard. Only public steps the person actually learned of appear; a rival's
- * private plans and money never do.
+ * What the other campaigns in this race have done in public, as far as this
+ * person has heard. Only public steps the person actually learned of appear; a
+ * rival's private plans and money never do, and neither do rivals from the
+ * person's earlier races.
  */
 export function OpponentActivityPanel({
   world,
   personId,
+  campaignId,
 }: {
   readonly world: World;
   readonly personId: EntityId;
+  readonly campaignId: EntityId;
 }) {
   const rows = useMemo(
-    () => projectOpponentActivityPanel(world, personId),
-    [world, personId],
+    () => projectOpponentActivityPanel(world, personId, campaignId),
+    [world, personId, campaignId],
   );
   return (
     <section
@@ -31,7 +34,8 @@ export function OpponentActivityPanel({
       </h3>
       {rows.length === 0 ? (
         <p className="game-note" data-testid="opponent-activity-empty">
-          You have not heard of anything the other campaigns did in public yet.
+          You have not heard of anything the other campaigns in this race did in
+          public yet.
         </p>
       ) : (
         <ul className="game-campaign-opponent-list">

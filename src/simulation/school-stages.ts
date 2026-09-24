@@ -363,6 +363,24 @@ export function currentSchooling(
 }
 
 /**
+ * The name of the school this person attends today, for a scene set there.
+ *
+ * Null outside term-time enrollment, and for the placeholder an old replay
+ * gave a child who started in school ("Ely, Nevada public school"), which is
+ * not what anybody calls a school and reads worse in a sentence than
+ * "school" does.
+ */
+export function schoolNameToday(
+  world: World,
+  personId: EntityId,
+): string | null {
+  const schooling = currentSchooling(world, personId);
+  if (schooling?.status !== "active" || !schooling.schoolName) return null;
+  if (/ public school$/.test(schooling.schoolName)) return null;
+  return schooling.schoolName;
+}
+
+/**
  * Whether this person is still a school-age pupil rather than somebody who
  * could apply to college: at a school or waiting on one, or under sixteen
  * without a high-school diploma.

@@ -39,8 +39,12 @@ import {
 import {
   STATE_LEGISLATURE_KEYS,
   STATE_LEGISLATURE_OPENING_VERSION,
+  campaignSeatHolders,
+  seatTenureMatch,
   stateLegislativeSeats,
+  stateSeatsInDistrict,
 } from "./state-legislature-opening";
+import { electionContestResult } from "../election-contests";
 
 /**
  * STATE LEGISLATIVE CONTINUITY: the regular elections for the chambers an
@@ -67,8 +71,13 @@ import {
  * opening's own ages and leans wait on): how often an incumbent runs and
  * wins, the retirement age, and how often an open seat stays with its
  * party. They reuse Congress's game profile. Primaries, campaigns and vote
- * counts for these seats are NOT MODELED; a player's own campaign for a seat
- * is decided by the campaign system and is not affected by this.
+ * counts for these seats are NOT MODELED.
+ *
+ * A seat with a campaign on the ballot (the player's own, filed for their
+ * district) is left to that campaign: it is not drawn here, and when the term
+ * begins its winner holds the seat and the member they replace stops serving.
+ * A campaign's winner serves out their own term, and the seat is not drawn
+ * while it runs; when it ends, a member who did not file again leaves it.
  */
 
 export const STATE_LEGISLATURE_TURNOVER_VERSION =
@@ -165,17 +174,78 @@ function holdStateLegislativeElection(
     : null;
   if (!pack || !jurisdiction) return world;
   const profile = STATE_LEGISLATURE_TURNOVER_PROFILE;
+  // Each chamber's own term start: the sourced rule where there is one.
+  const termStartOf = (officeKey: string) =>
+    legislativeTermDates(officeKey, electionDay)?.startsAt ??
+    makeIsoDate(`${Number(electionDay.slice(0, 4)) + 1}-01-01`);
+  const holders = campaignSeatHolders(world, packId);
+  const heldThrough = (officeKey: string, ordinal: number) =>
+    holders
+      .filter((h) => h.officeKey === officeKey && h.ordinal === ordinal)
+      .reduce<IsoDate | null>(
+        (latest, h) =>
+          latest === null || h.endsAt > latest ? h.endsAt : latest,
+        null,
+      );
+  // The seat each campaign on this ballot is for: a member running again
+  // keeps their own seat; anyone else takes the district's first seat no
+  // other campaign is contesting or still holds.
+  const contested = new Map<string, EntityId>();
+  const contests = (world.history.electionContests ?? [])
+    .filter(
+      (contest) =>
+        contest.electionDate === electionDay &&
+        contest.office.districtBinding &&
+        pack.offices.some((o) => o.officeKey === contest.office.officeKey),
+    )
+    .sort((a, b) => a.sequence - b.sequence);
+  for (const contest of contests) {
+    const officeKey = contest.office.officeKey;
+    const open = stateSeatsInDistrict(
+      packId,
+      officeKey,
+      contest.office.districtBinding!.recordId,
+    ).filter((s) => !contested.has(`${officeKey}|${s.ordinal}`));
+    const seat =
+      open.find((s) =>
+        holders.some(
+          (h) =>
+            h.officeKey === officeKey &&
+            h.ordinal === s.ordinal &&
+            contest.candidatePersonIds.includes(h.personId),
+        ),
+      ) ??
+      open.find((s) => {
+        const through = heldThrough(officeKey, s.ordinal);
+        return through === null || through <= termStartOf(officeKey);
+      });
+    if (seat) contested.set(`${officeKey}|${seat.ordinal}`, contest.id);
+  }
+  const campaignSeats: string[] = [];
   const outcomes: SeatOutcome[] = [];
   const inputs: CharacterHistoryContextPersonInput[] = [];
   for (const seat of stateLegislativeSeats(world, packId)) {
+    const seatKey = `${seat.officeKey}|${seat.ordinal}`;
+    const contestId = contested.get(seatKey);
+    if (contestId) {
+      campaignSeats.push(
+        `campaign-seat:${seatKey}|${contestId}|${termStartOf(seat.officeKey)}`,
+      );
+      continue;
+    }
+    // A campaign's winner still serving their term is not on this ballot.
+    const through = heldThrough(seat.officeKey, seat.ordinal);
+    if (through !== null && through > termStartOf(seat.officeKey)) continue;
     const rng = new SeededRng(world.seed).fork(
       `${V}:${packId}:${seat.officeKey}:${seat.ordinal}:${electionDay}`,
     );
     const sitting = seat.member;
     const person = sitting ? world.people[sitting.personId] : undefined;
     const incumbentParty = sitting ? partyKeyOf(world, sitting.personId) : null;
+    // A campaign's winner who did not file again leaves the seat.
     const returns =
       sitting !== null &&
+      !sitting.byCampaign &&
       person !== undefined &&
       ageOn(person.birthDate, electionDay) < profile.retirementAge &&
       rng.integer(0, 1000) < profile.incumbentReturnPermille;
@@ -238,7 +308,7 @@ function holdStateLegislativeElection(
       successorKey,
     });
   }
-  if (outcomes.length === 0) return world;
+  if (outcomes.length === 0 && campaignSeats.length === 0) return world;
   let next =
     inputs.length > 0
       ? createCharacterHistoryContextPeople(world, inputs)
@@ -249,12 +319,11 @@ function holdStateLegislativeElection(
       characterHistoryContextPersonId(next, outcome.successorKey!),
   );
   const returning = outcomes.filter((o) => o.returningPersonId).length;
-  // Each chamber's own term start: the sourced rule where there is one.
-  const termStartOf = (officeKey: string) =>
-    legislativeTermDates(officeKey, electionDay)?.startsAt ??
-    makeIsoDate(`${Number(electionDay.slice(0, 4)) + 1}-01-01`);
   const termStarts = [
-    ...new Set(outcomes.map((outcome) => termStartOf(outcome.officeKey))),
+    ...new Set([
+      ...outcomes.map((outcome) => termStartOf(outcome.officeKey)),
+      ...campaignSeats.map((tag) => tag.split("|").at(-1)!),
+    ]),
   ];
   const bodyId = createStableId(
     "organization",
@@ -286,8 +355,9 @@ function holdStateLegislativeElection(
       STATE_LEGISLATURE_TURNOVER_PROFILE.id,
       `pack:${packId}`,
       ...termStarts.map((date) => `term-start:${date}`),
+      ...campaignSeats,
     ],
-    summary: `Voters chose all ${outcomes.length} members of the ${pack.displayName} in the ${electionDay.slice(0, 4)} general election: ${returning} return and ${outcomes.length - returning} seats get new members.`,
+    summary: `Voters chose ${outcomes.length + campaignSeats.length} members of the ${pack.displayName} in the ${electionDay.slice(0, 4)} general election: ${returning} return and ${outcomes.length - returning} seats get new members.${campaignSeats.length === 0 ? "" : campaignSeats.length === 1 ? " The race for one more seat is counted on its own." : ` The races for ${campaignSeats.length} more seats are counted on their own.`}`,
     context: {
       location: null,
       socialContext: null,
@@ -365,7 +435,8 @@ function seatStateLegislativeWinners(
           death.personId === leaving.personId &&
           death.diedAt <= addDays(termStart, -1),
       );
-    if (seat?.member && !leftBeforeTerm) {
+    // A campaign's winner leaves when their own term expires.
+    if (seat?.member && !seat.member.byCampaign && !leftBeforeTerm) {
       const status = workStatusAt(next, seat.member.workRelationshipId);
       if (status && status.status !== "ended")
         next = recordWorkStatus(next, {
@@ -426,10 +497,197 @@ function seatStateLegislativeWinners(
         provenance: { kind: "simulated-event", eventId: results.id },
       });
   }
+  // A campaign winner seated before this was kept (an older save) can share
+  // their seat with the member they replaced; that member stops serving now.
+  for (const holder of campaignSeatHolders(next, packId)) {
+    if (holder.status !== "active") continue;
+    for (const work of next.history.workRelationships) {
+      if (work.organizationId !== bodyId) continue;
+      const match = seatTenureMatch(work.stableKey);
+      if (
+        !match ||
+        match[1] !== holder.officeKey ||
+        Number(match[2]) !== holder.ordinal ||
+        work.personId === holder.personId ||
+        work.startedAt > holder.startsAt
+      )
+        continue;
+      const status = workStatusAt(next, work.id);
+      if (!status || status.status === "ended") continue;
+      if (
+        next.history.personDeaths.some(
+          (death) => death.personId === work.personId,
+        )
+      )
+        continue;
+      next = recordWorkStatus(next, {
+        stableKey: `${V}:${packId}:${work.id}:replaced-by-campaign-winner`,
+        workRelationshipId: work.id,
+        effectiveAt: addDays(termStart, -1),
+        status: "ended",
+        reason: "Someone else won the seat.",
+        supersedesStatusId: status.id,
+        provenance: { kind: "simulated-event", eventId: results.id },
+      });
+    }
+  }
+  // A seat a campaign decided: its winner holds it from the term start, and
+  // the member there before them stops serving the day before.
+  for (const tag of results.tags) {
+    if (!tag.startsWith("campaign-seat:")) continue;
+    const [officeKey, ordinalText, contestId, startsOn] = tag
+      .slice("campaign-seat:".length)
+      .split("|");
+    if (!officeKey || !ordinalText || !contestId || startsOn !== termStart)
+      continue;
+    const ordinal = Number(ordinalText);
+    const result = electionContestResult(next, contestId as EntityId);
+    // No winner on record: the sitting member stays.
+    if (!result) continue;
+    const winner = result.winnerPersonId;
+    const tenureKey = `${STATE_LEGISLATURE_KEYS.seat(officeKey, ordinal)}:tenure:${termStart}`;
+    for (const work of next.history.workRelationships) {
+      if (work.organizationId !== bodyId) continue;
+      const match = seatTenureMatch(work.stableKey);
+      if (!match || match[1] !== officeKey || Number(match[2]) !== ordinal)
+        continue;
+      if (work.personId === winner || work.startedAt >= termStart) continue;
+      if (
+        next.history.personDeaths.some(
+          (death) =>
+            death.personId === work.personId &&
+            death.diedAt <= addDays(termStart, -1),
+        )
+      )
+        continue;
+      const status = workStatusAt(next, work.id);
+      if (!status || status.status === "ended") continue;
+      next = recordWorkStatus(next, {
+        stableKey: `${tenureKey}:predecessor-ended`,
+        workRelationshipId: work.id,
+        effectiveAt: addDays(termStart, -1),
+        status: "ended",
+        reason: "Their term ended and someone else won the seat.",
+        supersedesStatusId: status.id,
+        provenance: { kind: "simulated-event", eventId: results.id },
+      });
+    }
+    // The campaign seats its own winner where the term's law is on record;
+    // elsewhere the winner takes the seat here.
+    const seatedByCampaign = next.history.workRelationships.some(
+      (work) =>
+        work.organizationId === bodyId &&
+        work.personId === winner &&
+        work.kind === "employment:legislative-member" &&
+        (work.startedAt === termStart ||
+          (seatTenureMatch(work.stableKey) !== null &&
+            workStatusAt(next, work.id)?.status === "active")),
+    );
+    if (
+      seatedByCampaign ||
+      next.history.workRelationships.some((w) => w.stableKey === tenureKey) ||
+      next.history.personDeaths.some((death) => death.personId === winner)
+    )
+      continue;
+    seats.push({
+      stableKey: tenureKey,
+      personId: winner,
+      organizationId: bodyId,
+      startedAt: termStart,
+      kind: "employment:legislative-member",
+      compensation: "paid",
+      authority: "shared",
+      dependency: "partly-dependent",
+      economicRisk: "organization-borne",
+      provenance: { kind: "simulated-event", eventId: results.id },
+      initialRole: {
+        title:
+          current.get(`${officeKey}|${ordinal}`)?.title ??
+          "Member of the Legislature",
+        occupationClassification: "service:elected-legislator",
+        locationJurisdictionId: jurisdiction.id,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 10, maximumHours: 45 },
+          attention: "high",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "mixed",
+          interruptibility: "limited",
+          locationJurisdictionId: jurisdiction.id,
+        },
+      },
+    });
+  }
   if (seats.length) next = createWorkRelationships(next, seats);
   if (affiliations.length)
     next = createOrganizationParticipations(next, affiliations);
   return next;
+}
+
+/**
+ * When an empty seat in this chamber is next filled: by a member already
+ * elected who has not yet taken office, or at the next regular election.
+ * Reads only; null where the pack is unknown.
+ */
+export function nextStateSeatFilling(
+  world: World,
+  packId: string,
+  officeKey: string,
+  ordinal: number,
+): {
+  readonly electedOn: IsoDate;
+  readonly takesOfficeOn: IsoDate | null;
+} | null {
+  const pack = candidacyPackById(packId);
+  if (!pack) return null;
+  const today = world.currentDate;
+  const rule = stateLegislativeElectionRule(
+    pack.jurisdictionKey.replace(/^US-/, ""),
+  );
+  for (
+    let year = Number(today.slice(0, 4)) - 1;
+    year < Number(today.slice(0, 4)) + 8;
+    year += 1
+  ) {
+    if (!isElectionYear(rule, year)) continue;
+    const electionDay = generalElectionDay(rule, year);
+    const termStart =
+      legislativeTermDates(officeKey, electionDay)?.startsAt ??
+      makeIsoDate(`${year + 1}-01-01`);
+    const results = world.history.events.find(
+      (event) => event.stableKey === resultsKey(packId, electionDay),
+    );
+    if (results && electionDay <= today && today < termStart) {
+      // Only a living winner who has not yet taken this seat fills it.
+      const alive = (personId: EntityId) =>
+        !world.history.personDeaths.some(
+          (death) => death.personId === personId,
+        );
+      const drawn = results.participants.some((participant) => {
+        const [key, seat, , kind] = (participant.detail ?? "").split("|");
+        return (
+          key === officeKey &&
+          Number(seat) === ordinal &&
+          kind === "new" &&
+          alive(participant.personId)
+        );
+      });
+      const campaign = results.tags.some((tag) => {
+        const [key, seat, contestId] = tag
+          .slice("campaign-seat:".length)
+          .split("|");
+        if (!tag.startsWith("campaign-seat:")) return false;
+        if (key !== officeKey || Number(seat) !== ordinal || !contestId)
+          return false;
+        const result = electionContestResult(world, contestId as EntityId);
+        return result !== null && alive(result.winnerPersonId);
+      });
+      if (drawn || campaign)
+        return { electedOn: electionDay, takesOfficeOn: termStart };
+    }
+    if (electionDay > today)
+      return { electedOn: electionDay, takesOfficeOn: null };
+  }
+  return null;
 }
 
 /**

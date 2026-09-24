@@ -9,9 +9,9 @@ import {
 
 /**
  * PROSE B through the ordinary game: an organizer's invitation arrives while
- * days pass, a housemate asks about the evening it books, the Lie is marked
- * before it is chosen, the answer survives save and reload, and talking never
- * moves the clock.
+ * days pass, a housemate asks about the evening it books, the player opens
+ * truthful or knowingly false replies, and the answer survives save and
+ * reload without talking moving the clock.
  *
  * The Lie marker itself is rendered by the UI lane (`lie-marker` test id);
  * this spec is meant to run on the composition that carries both.
@@ -88,11 +88,17 @@ test("an invitation, the evening it books, and a marked lie survive reload", asy
   await expect(page.getByTestId("conversation-beat")).toContainText(
     /evening|tonight/,
   );
+  const toggle = page.getByTestId("talk-lie-toggle");
+  await expect(toggle).toBeEnabled();
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await expect(page.getByTestId("intent-say-home")).toHaveCount(0);
+  await expect(page.getByTestId("intent-tell-plans")).toBeVisible();
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
   const lie = page.getByTestId("intent-say-home");
   await expect(lie.getByTestId("lie-marker")).toBeVisible();
-  await expect(
-    page.getByTestId("intent-tell-plans").getByTestId("lie-marker"),
-  ).toHaveCount(0);
+  await expect(lie).toContainText("I’ll be home");
+  await expect(page.getByTestId("intent-tell-plans")).toHaveCount(0);
   await expect(
     page.getByTestId("intent-ask-why").getByTestId("lie-marker"),
   ).toHaveCount(0);

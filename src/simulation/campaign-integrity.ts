@@ -1,4 +1,6 @@
+import { eventById } from "./event-index";
 import { assertCampaignLifeIntegrity } from "./campaign-life-integrity";
+import { contestDistrictGeography } from "./campaign-geography";
 import { assertCampaignOpponentIntegrity } from "./campaign-opponent-integrity";
 import { assertCampaignWeeklyPlanIntegrity } from "./campaign-weekly-plan-integrity";
 import { candidacyPackById } from "./candidacy-packs";
@@ -225,9 +227,7 @@ function assertCampaignRoots(
     throw new Error(`Campaign treasury is invalid: ${campaign.id}`);
   }
 
-  const filingEvent = world.history.events.find(
-    (event) => event.id === campaign.filingEventId,
-  );
+  const filingEvent = eventById(world, campaign.filingEventId);
   if (
     !filingEvent ||
     filingEvent.sequence >= campaign.sequence ||
@@ -403,10 +403,12 @@ function assertCampaignActions(
           return work ? [work.personId] : [];
         }),
       );
-      const districtBinding = contest?.office.districtBinding ?? null;
+      const district = contest
+        ? contestDistrictGeography(contest.office)
+        : null;
       const expectedGeographyKey =
-        strategy.geographyKind === "district" && districtBinding
-          ? `district:${districtBinding.vintage}:${districtBinding.chamber}:${districtBinding.geoid}`
+        strategy.geographyKind === "district" && district
+          ? district.key
           : `jurisdiction:${campaign.jurisdictionId}`;
       if (
         strategy.geographyKey !== expectedGeographyKey ||
@@ -470,15 +472,11 @@ function assertCampaignActionResults(
       );
     }
 
-    const outcomeEvent = world.history.events.find(
-      (event) => event.id === result.outcomeEventId,
-    );
+    const outcomeEvent = eventById(world, result.outcomeEventId);
     const observation = world.history.metricObservations.find(
       (item) => item.id === result.observationId,
     );
-    const feedbackEvent = world.history.events.find(
-      (event) => event.id === result.feedbackEventId,
-    );
+    const feedbackEvent = eventById(world, result.feedbackEventId);
     const knowledge = world.history.knowledge.find(
       (item) => item.id === result.feedbackKnowledgeId,
     );

@@ -38,8 +38,10 @@ import {
   OPENING_LIFE_SCENES,
   OPENING_LIFE_ADDITIONS,
   OPENING_LIFE_FAMILIES,
+  OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS,
   openingLifeFamily,
   openingLifeSceneAtStage,
+  isArchivedRoutineOpeningSceneKey,
 } from "../simulation/opening-life-content";
 import {
   eligibleEpisodeBeats,
@@ -156,8 +158,8 @@ function definitionAtStage(
   return atStage;
 }
 
-/** All eligible definitions are inspectable without creating a person or event. */
-export function availableOpeningLifeScenes(world: World, personId: EntityId) {
+/** Eligibility is a read. Optional activities use the same saved scene grammar. */
+function eligibleOpeningLifeScenes(world: World, personId: EntityId) {
   const person = world.people[personId];
   if (!person || !alive(world, personId)) return [];
   const age = ageOnDate(person.birthDate, world.currentDate);
@@ -168,6 +170,7 @@ export function availableOpeningLifeScenes(world: World, personId: EntityId) {
   }).beats;
   return [...OPENING_LIFE_ADDITIONS, ...runtimeLifeScenes(world)].flatMap(
     (definition) => {
+      if (isArchivedRoutineOpeningSceneKey(definition.key)) return [];
       const beat = beats.find(
         (beat) => beat.episodeKey === `opening.${definition.key}`,
       );
@@ -198,6 +201,39 @@ export function availableOpeningLifeScenes(world: World, personId: EntityId) {
             },
           ];
     },
+  );
+}
+
+/** Moments the life may present without the player starting an activity. */
+export function availableOpeningLifeScenes(world: World, personId: EntityId) {
+  return eligibleOpeningLifeScenes(world, personId).filter(
+    ({ definition, beat }) =>
+      beat.stageKey !== "moment" ||
+      !OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(definition.key),
+  );
+}
+
+/** Quiet activities the player may start from the room. */
+export function availableOptionalLifeActivities(
+  world: World,
+  personId: EntityId,
+) {
+  if (currentOpeningLifeScene(world, personId)) return [];
+  if ((openingLifeLocation(world, personId)?.setting ?? "home") !== "home")
+    return [];
+  return eligibleOpeningLifeScenes(world, personId).filter(
+    ({ definition, beat }) =>
+      beat.stageKey === "moment" &&
+      definition.setting === "home" &&
+      OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(definition.key) &&
+      !world.history.events.some(
+        (event) =>
+          event.type === OPEN &&
+          event.involvedEntityIds.includes(personId) &&
+          event.tags.includes(`family:${definition.key}`) &&
+          event.tags.includes("opening-stage:moment") &&
+          event.occurredAt === world.currentDate,
+      ),
   );
 }
 
@@ -263,6 +299,7 @@ export function openNextLifeScene(
   world: World,
   personId: EntityId,
   initialSetting?: LifeSceneSetting,
+  optionalActivityKey?: string,
 ): World {
   if (world.control.kind !== "person" || world.control.personId !== personId)
     throw new Error("Only the player can enter this scene.");
@@ -290,9 +327,17 @@ export function openNextLifeScene(
     throw new Error(
       "A new backdrop is not travel. A place transition is required.",
     );
-  const eligible = availableOpeningLifeScenes(world, personId).filter(
+  const candidates = optionalActivityKey
+    ? availableOptionalLifeActivities(world, personId).filter(
+        ({ definition }) => definition.key === optionalActivityKey,
+      )
+    : availableOpeningLifeScenes(world, personId);
+  const eligible = candidates.filter(
     ({ definition, beat }) =>
       definition.setting === setting &&
+      // An already-open scene in an old save can finish its follow-through.
+      (definition.recurrence !== "daily" ||
+        beat.stageKey === "follow-through") &&
       !world.history.events.some(
         (event) =>
           event.type === OPEN &&
@@ -402,6 +447,16 @@ export function openNextLifeScene(
       source: { kind: "direct" },
     });
   return next;
+}
+
+/** Starts a named activity; it never enters the automatic moment draw. */
+export function openOptionalLifeActivity(
+  world: World,
+  personId: EntityId,
+  activityKey: string,
+): World {
+  if (!OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(activityKey)) return world;
+  return openNextLifeScene(world, personId, undefined, activityKey);
 }
 
 export function chooseOpeningLifeScene(
@@ -550,16 +605,6 @@ function openingChoiceCompletes(
   stageKey: string,
   choiceKey: string,
 ): keyof typeof ORDINARY_LIFE_GOALS | null {
-  if (
-    (sceneKey === "young.home.choose-activity" ||
-      sceneKey === "adult.home.free-time") &&
-    stageKey === "moment"
-  )
-    return choiceKey === "read"
-      ? "learning"
-      : choiceKey === "rest"
-        ? "privacy"
-        : null;
   if (
     sceneKey === "adult.home.plan-week" &&
     stageKey === "follow-through" &&

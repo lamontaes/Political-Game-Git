@@ -1,6 +1,7 @@
 import { federalRulePackById } from "./congress-rule-pack";
 import { legislatureProfilePackById } from "./legislature-game-profile";
 import { municipalRulePackById } from "./municipal-rule-registry";
+import { withCommitteeStandIns } from "./standing-committee";
 import {
   fractionOf,
   knownRule,
@@ -2605,8 +2606,13 @@ export const LEGISLATIVE_RULE_PACKS: readonly LegislativeRulePack[] = [
  * with a plausible id resolves to nothing.
  */
 export function rulePackById(packId: string): LegislativeRulePack {
+  const researched = LEGISLATIVE_RULE_PACKS.find(
+    (candidate) => candidate.packId === packId,
+  );
   const pack =
-    LEGISLATIVE_RULE_PACKS.find((candidate) => candidate.packId === packId) ??
+    // The pack's own record stays what was read; the game stands in a
+    // committee where none was, so a bill there can be referred at all.
+    (researched && withCommitteeStandIns(researched)) ??
     // Congress, like a council, is moved by the same engine and is not a
     // state legislature.
     federalRulePackById(packId) ??

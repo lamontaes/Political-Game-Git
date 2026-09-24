@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import { personName } from "../people";
 import type { HistoricalEvent, IsoDate, World } from "../types";
 import type { MediaOutletRecord } from "./records";
@@ -311,9 +312,7 @@ function continuityTitles(
 ): readonly string[] {
   const source =
     event.type === "governing.office-continuity"
-      ? world.history.events.find(
-          (candidate) => candidate.id === tagValue(event, "crisis-origin:"),
-        )
+      ? eventById(world, tagValue(event, "crisis-origin:"))
       : event;
   const prefix = source ? CONTINUITY_PREFIXES[source.type] : undefined;
   if (!source || !prefix || !source.summary.startsWith(prefix)) return [];
@@ -351,9 +350,7 @@ function continuityOpening(
   // reader wants is the change's own, on the crisis notice it came from.
   const origin =
     event.type === "governing.office-continuity"
-      ? world.history.events.find(
-          (candidate) => candidate.id === tagValue(event, "crisis-origin:"),
-        )
+      ? eventById(world, tagValue(event, "crisis-origin:"))
       : event;
   const when = readableDate((origin ?? event).occurredAt, event.occurredAt);
   if (kind === "death") return `${who} died on ${when}.`;

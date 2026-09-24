@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import {
   activeWorkRelationshipsAt,
   currentLifeCutoff,
@@ -123,8 +124,7 @@ function outcomeFromEvent(
   eventId: EntityId,
   tags: readonly string[],
 ): OfficeConsequenceOutcome {
-  const note =
-    world.history.events.find((event) => event.id === eventId)?.summary ?? "";
+  const note = eventById(world, eventId)?.summary ?? "";
   const closed = tags.find((tag) => tag.startsWith("term-closed:"));
   if (!closed) return { changed: false, note };
   const [, workRelationshipId, termRecordId, effectiveAt] = closed.split(":");

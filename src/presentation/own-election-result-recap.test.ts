@@ -119,9 +119,9 @@ describe("the player's own election result", () => {
       false,
     );
 
-    expect(view.afterword).toMatch(
-      /lost, \d+(\.\d)?% to \d+(\.\d)?%\. That is a thing that happened to him, not the end of him/,
-    );
+    // The loss is stated without the stock consolation that used to follow.
+    expect(view.afterword).toMatch(/lost, \d+(\.\d)?% to \d+(\.\d)?%\.$/);
+    expect(view.afterword).not.toMatch(/not the end of/);
     expect(view.afterword).not.toMatch(/\bthem\b/);
   }, 600_000);
 

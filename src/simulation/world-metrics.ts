@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
@@ -1033,7 +1034,7 @@ function canonicalSourceAvailable(
       policyRecord.sequence < sequenceExclusive
     );
   }
-  const event = world.history.events.find((record) => record.id === id);
+  const event = eventById(world, id);
   if (event) {
     return event.recordedAt <= asOfDate && event.sequence < sequenceExclusive;
   }

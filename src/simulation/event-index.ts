@@ -25,10 +25,14 @@ export function eventIndexOf(
   return index;
 }
 
-/** The event with this id, or undefined. */
+/**
+ * The event with this id, or undefined. A missing id (null or undefined) finds
+ * nothing, as `events.find((event) => event.id === id)` would.
+ */
 export function eventById(
   world: World,
-  id: EntityId,
+  id: EntityId | string | null | undefined,
 ): HistoricalEvent | undefined {
-  return eventIndexOf(world.history.events).get(id);
+  if (id === null || id === undefined) return undefined;
+  return eventIndexOf(world.history.events).get(id as EntityId);
 }

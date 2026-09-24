@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { appendDecisionTraceRecord } from "./history";
 import { createStableId } from "./ids";
 import { legislationEntityExists } from "./legislation";
@@ -481,9 +482,7 @@ function snapshotSource(
       break;
     }
     case "historical-event": {
-      const record = world.history.events.find(
-        (item) => item.id === reference.eventId,
-      );
+      const record = eventById(world, reference.eventId);
       if (record)
         return {
           reference: { ...reference },
