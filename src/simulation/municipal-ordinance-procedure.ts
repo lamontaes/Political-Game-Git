@@ -1032,8 +1032,17 @@ function resolved(
 }
 
 function councilOfMeasure(measure: LegislativeMeasureRecord): string | null {
-  const match = /^municipal-measure:(.+?):/.exec(measure.stableKey);
-  return match ? match[1]! : null;
+  const municipal = /^municipal-measure:(.+?):/.exec(measure.stableKey);
+  if (municipal) return municipal[1]!;
+  const memberAgenda = /^local-member-agenda\/v1:([^:]+):/.exec(
+    measure.stableKey,
+  );
+  if (!memberAgenda) return null;
+  try {
+    return decodeURIComponent(memberAgenda[1]!);
+  } catch {
+    return null;
+  }
 }
 
 /** A scheduled ordinary council reading uses the seated roll and saved ballot. */
