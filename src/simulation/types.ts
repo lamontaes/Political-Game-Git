@@ -253,6 +253,7 @@ export interface PolicyDomainDefinition {
 export const POLICY_GOVERNMENT_LEVELS = [
   "federal",
   "state",
+  "territory",
   "county",
   "municipality",
   "school-district",
@@ -2564,10 +2565,11 @@ export interface LegislativeDraftLineageRecord {
    * one.
    *
    * Optional, so every lineage written before instruments existed reads back
-   * unchanged. `authorityKey` identifies a standing statute declared in the
-   * content bank; `authorityMeasureId` is present instead when the bill was
-   * written against another measure on the same docket, which is what lets a
-   * saved appropriation still say which of the player's own bills it funds.
+   * unchanged. `authorityKey` identifies either a content-bank standing
+   * authority or an explicitly versioned game-profile authority; in the latter
+   * case the measure's jurisdiction and rule-pack id bind it to one exact
+   * government. `authorityMeasureId` is present when the bill was written
+   * against another measure on the same docket.
    */
   readonly authorityKey?: string;
   readonly authorityMeasureId?: EntityId;
@@ -3626,6 +3628,10 @@ export interface PublicProgramCapacityOutturnRecord extends PublicProgramRecordB
   readonly unitsOperational: number;
   /** Units returned to service; null when no restoration cost was declared. */
   readonly restoredUnits: number | null;
+  /** Snapshots on newly written outturns; absent on older saves. */
+  readonly serviceLabel?: string;
+  readonly unitLabel?: string;
+  readonly placeLabel?: string;
 }
 
 export type PublicProgramRecord =

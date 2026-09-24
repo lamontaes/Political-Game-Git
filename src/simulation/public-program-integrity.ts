@@ -268,6 +268,16 @@ export function assertPublicProgramIntegrity(
           (record.restoredUnits !== null && !count(record.restoredUnits))
         )
           fail(record, "does not follow a posted installment once.");
+        const deliveryLabels = [
+          record.serviceLabel,
+          record.unitLabel,
+          record.placeLabel,
+        ];
+        if (
+          deliveryLabels.some((label) => label !== undefined) &&
+          deliveryLabels.some((label) => !label?.trim())
+        )
+          fail(record, "has incomplete delivered-service labels.");
         outturnFor.add(installment.id);
         break;
       }

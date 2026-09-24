@@ -11,6 +11,7 @@ import {
   availableMeasureSteps,
   measurePosition,
 } from "../simulation/legislation";
+import { currentMeasureProvisions } from "../simulation/legislative-politics";
 import { fileBundleDraft } from "./legislation-bundle-docket";
 import { fileDraft } from "./legislation-docket";
 import { projectMeasureBriefing } from "./legislation-projection";
@@ -258,6 +259,8 @@ describe("a law the player passes changes what it governs", () => {
     expect(measurePosition(world, measureId).outcome).toBe("enacted");
     expect(appropriations(world, measureId)).toHaveLength(0);
     const effects = enactedLawEffects(world, measureId)!;
+    expect(effects.hasTypedOperativeEffect).toBe(false);
+    expect(effects.operativeEffectOutcomes).toEqual([]);
     expect(effects.lines.length).toBeGreaterThan(0);
     // A reporting duty has no consumer, so every line is an honest gap with
     // the research question behind it, never an invented effect.
@@ -267,6 +270,70 @@ describe("a law the player passes changes what it governs", () => {
       expect(line.heading.length).toBeGreaterThan(0);
       expect(line.researchQuestionId).toBe("law-clause-effects-by-family");
     }
+  });
+
+  it("reports the exact missing-authority result for a typed but unapplied amount", () => {
+    const { world, measureId } = enactFromDocket("nebraska", {
+      familyKey: "appropriations",
+      variantKey: "single-programme",
+      authorityKey: "standing:school-facilities",
+    });
+    const amountProvision = currentMeasureProvisions(world, measureId).find(
+      (provision) => provision.provisionKey === "amount-provided",
+    )!;
+    const typedWorld: World = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeProvisions: world.history.legislativeProvisions!.map(
+          (provision) =>
+            provision.id === amountProvision.id
+              ? {
+                  ...provision,
+                  operativeEffect: {
+                    kind: "public-program-appropriation" as const,
+                  },
+                }
+              : provision,
+        ),
+      },
+    };
+    expect(enactedLawEffects(typedWorld, measureId)).toMatchObject({
+      hasTypedOperativeEffect: true,
+      operativeEffectOutcomes: [
+        {
+          effectKind: "public-program-appropriation",
+          status: "applied",
+          refusalReason: null,
+        },
+      ],
+    });
+    const withoutAuthority: World = {
+      ...typedWorld,
+      history: {
+        ...typedWorld.history,
+        publicProgramRecords: (
+          typedWorld.history.publicProgramRecords ?? []
+        ).filter(
+          (record) =>
+            !(
+              record.kind === "appropriation" &&
+              record.sourceMeasureId === measureId
+            ),
+        ),
+      },
+    };
+    expect(enactedLawEffects(withoutAuthority, measureId)).toMatchObject({
+      hasTypedOperativeEffect: true,
+      operativeEffectOutcomes: [
+        {
+          effectKind: "public-program-appropriation",
+          status: "refused",
+          refusalReason:
+            "No spending authority matching the typed amount and jurisdiction was recorded.",
+        },
+      ],
+    });
   });
 
   it("reads a law's effects without spending a day or writing a fact", () => {

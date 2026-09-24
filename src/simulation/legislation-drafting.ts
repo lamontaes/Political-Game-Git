@@ -578,6 +578,15 @@ export function compileBillDraft(
 
   const clauses: CompiledClause[] = variant.clauses.map((template, index) => {
     const rendering = template.render(resolved);
+    const profileEffect =
+      authority?.kind === "game-profile" &&
+      authority.permittedEffects.includes("public-program-appropriation") &&
+      (template.provisionKey === "amount-provided" ||
+        template.provisionKey.endsWith(":amount-provided")) &&
+      rendering.fiscalExposureMinorUnits !== null &&
+      rendering.fiscalExposureMinorUnits > 0
+        ? { kind: "public-program-appropriation" as const }
+        : undefined;
     if (
       rendering.fiscalExposureMinorUnits !== null &&
       template.dimension !== "revenue" &&
@@ -602,8 +611,8 @@ export function compileBillDraft(
       ...(rendering.fiscalPeriod !== undefined
         ? { fiscalPeriod: rendering.fiscalPeriod }
         : {}),
-      ...(rendering.operativeEffect !== undefined
-        ? { operativeEffect: rendering.operativeEffect }
+      ...((rendering.operativeEffect ?? profileEffect)
+        ? { operativeEffect: rendering.operativeEffect ?? profileEffect }
         : {}),
       beneficiary: rendering.beneficiary,
       fiscalExposureLabel: rendering.fiscalExposureLabel,

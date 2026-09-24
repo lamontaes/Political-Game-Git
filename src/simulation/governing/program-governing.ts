@@ -6,11 +6,18 @@ import {
 import { currentMeasureProvisions } from "../legislative-politics";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
+import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
+import {
+  localFiscalGameAuthorityForRulePackId,
+} from "../local-ordinance-game-profile";
+import { admitLocalFiscalMeasure } from "../local-fiscal-authority";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { createOrganization } from "../life";
 import { programFamilyTitle } from "./program-families";
+import { programVariant } from "../legislation-program-families";
 import {
-  ensureTaxPublicAccount,
-  publicTaxAccountForJurisdiction,
+  ensurePublicGovernmentAccount,
+  publicTaxAccountForIdentity,
 } from "../tax-policy";
 import { createResourcePosition, money } from "../resources";
 import { canonicalJson } from "../canonical-json";
@@ -60,8 +67,11 @@ export function governingProgramKey(
 
 export interface AdoptedAppropriationInput {
   readonly familyKey: string;
-  readonly stateUsps: string;
+  readonly stateUsps?: string;
   readonly jurisdictionId: EntityId;
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+  /** Required for a non-state identity; state keys retain their saved shape. */
+  readonly programKey?: string;
   readonly amountMinorUnits: number;
   readonly adoptedOn: IsoDate;
   /** Inclusive availability period; defaults to the existing 365-day route. */
@@ -87,10 +97,26 @@ export function recordAdoptedAppropriation(
       (!Number.isSafeInteger(input.availableDays) || input.availableDays < 1))
   )
     return null;
-  const programKey = governingProgramKey(input.familyKey, input.stateUsps);
+  const identity =
+    input.publicGovernmentIdentity ??
+    ({
+      kind: "jurisdiction",
+      jurisdictionId: input.jurisdictionId,
+    } as const);
+  const programKey =
+    input.programKey ??
+    (input.stateUsps
+      ? governingProgramKey(input.familyKey, input.stateUsps)
+      : null);
+  if (
+    identity.jurisdictionId !== input.jurisdictionId ||
+    !programKey ||
+    !/^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/.test(programKey)
+  )
+    return null;
   const edition = input.edition;
-  const next = ensureTaxPublicAccount(world, input.jurisdictionId);
-  const account = publicTaxAccountForJurisdiction(next, input.jurisdictionId);
+  const next = ensurePublicGovernmentAccount(world, identity);
+  const account = publicTaxAccountForIdentity(next, identity);
   if (!account) return null;
   const already = (next.history.publicProgramRecords ?? []).find(
     (record) =>
@@ -112,6 +138,9 @@ export function recordAdoptedAppropriation(
     ),
     basis: { kind: "game-profile", note: input.basisNote },
     sourceMeasureId: input.sourceMeasureId ?? null,
+    ...(identity.kind === "local-government"
+      ? { publicGovernmentIdentity: identity }
+      : {}),
   });
   return { world: written.world, appropriationId: written.id };
 }
@@ -132,12 +161,39 @@ export function appropriationFromEnactedMeasure(
     (row) => row.measureId === measureId && row.outcome === "enacted",
   );
   if (!measure || !enactment) return world;
-  const state = US_STATE_USPS.find(
-    (usps) =>
-      stateJurisdictionForKey(`US-${usps}`)?.id === measure.jurisdictionId,
-  );
-  if (!state) return world;
+  const governmentScope = publicProgramGovernmentScope(world, measure);
+  if (!governmentScope) return world;
+  const stateUsps = governmentScope.stateUsps;
   const provisions = currentMeasureProvisions(world, measureId);
+  const hasExplicitEffectIntents = provisions.some(
+    (provision) => provision.operativeEffect !== undefined,
+  );
+  if (governmentScope.kind === "local") {
+    const admission = admitLocalFiscalMeasure(
+      world,
+      governmentScope.localGovernmentKey,
+      measureId,
+    );
+    if (
+      !admission.ok ||
+      admission.effectKind !== "public-program-appropriation"
+    )
+      return world;
+  }
+  const existingComponents = draftLineageComponents(world, measureId).filter(
+    (lineage) => lineage.componentKey !== undefined,
+  );
+  if (
+    governmentScope.kind === "federal" &&
+    (existingComponents.length > 0 ||
+      !federalPassengerRailMeasureMatches(
+        world,
+        measure,
+        draftLineageForMeasure(world, measureId),
+        provisions,
+      ))
+  )
+    return world;
   const adoptedOn =
     enactment.effectiveAt && enactment.effectiveAt > world.currentDate
       ? enactment.effectiveAt
@@ -150,21 +206,30 @@ export function appropriationFromEnactedMeasure(
   // measure do not collapse into one record and neither is applied twice —
   // the edition is what `recordAdoptedAppropriation` already dedupes on, so a
   // measure enacted, saved and reloaded writes the same authority once.
-  const components = draftLineageComponents(world, measureId).filter(
-    (lineage) => lineage.componentKey !== undefined,
-  );
+  const components = existingComponents;
   if (components.length > 0) {
     let next = world;
     for (const lineage of components) {
-      const amount = provisions.find(
+      const amountProvision = provisions.find(
         (provision) =>
           provision.provisionKey === `${lineage.componentKey}:amount-provided`,
-      )?.fiscalExposureMinorUnits;
+      );
+      if (
+        hasExplicitEffectIntents &&
+        amountProvision?.operativeEffect?.kind !==
+          "public-program-appropriation"
+      )
+        continue;
+      if (hasExplicitEffectIntents && !lineageAuthorizesAppropriation(lineage))
+        continue;
+      const amount = amountProvision?.fiscalExposureMinorUnits;
       if (amount === null || amount === undefined || amount <= 0) continue;
       const written = recordAdoptedAppropriation(next, {
         familyKey: lineage.familyKey,
-        stateUsps: state,
+        ...(stateUsps ? { stateUsps } : {}),
         jurisdictionId: measure.jurisdictionId,
+        publicGovernmentIdentity: governmentScope.identity,
+        programKey: programKeyForGovernment(lineage.familyKey, governmentScope),
         amountMinorUnits: amount,
         adoptedOn,
         edition: `${editionBase}-${lineage.componentKey}`,
@@ -176,18 +241,29 @@ export function appropriationFromEnactedMeasure(
     return next;
   }
 
-  const amount = provisions.find(
+  const amountProvision = provisions.find(
     (provision) => provision.provisionKey === "amount-provided",
-  )?.fiscalExposureMinorUnits;
+  );
+  if (
+    hasExplicitEffectIntents &&
+    amountProvision?.operativeEffect?.kind !== "public-program-appropriation"
+  )
+    return world;
+  const amount = amountProvision?.fiscalExposureMinorUnits;
   if (amount === null || amount === undefined || amount <= 0) return world;
   const lineage = draftLineageForMeasure(world, measureId);
+  if (
+    hasExplicitEffectIntents &&
+    (!lineage || !lineageAuthorizesAppropriation(lineage))
+  )
+    return world;
   const familyKey = lineage?.familyKey ?? "appropriations";
-  const gameProfile = stateTaxServiceProfileForJurisdictionId(
-    world,
-    measure.jurisdictionId,
-  );
+  const gameProfile = stateUsps
+    ? stateTaxServiceProfileForJurisdictionId(world, measure.jurisdictionId)
+    : null;
   const profileAuthorityMatches = Boolean(
     gameProfile &&
+    stateUsps &&
     lineage &&
     lineage.componentKey === undefined &&
     lineage.familyKey === gameProfile.appropriation.familyKey &&
@@ -195,13 +271,15 @@ export function appropriationFromEnactedMeasure(
     lineage.authorityKey === gameProfile.appropriation.authorityKey &&
     amount === gameProfile.appropriation.amountMinorUnits &&
     familyKey === gameProfile.appropriation.familyKey &&
-    governingProgramKey(familyKey, state) ===
+    governingProgramKey(familyKey, stateUsps) ===
       gameProfile.appropriation.programKey,
   );
   const written = recordAdoptedAppropriation(world, {
     familyKey,
-    stateUsps: state,
+    ...(stateUsps ? { stateUsps } : {}),
     jurisdictionId: measure.jurisdictionId,
+    publicGovernmentIdentity: governmentScope.identity,
+    programKey: programKeyForGovernment(familyKey, governmentScope),
     amountMinorUnits: amount,
     adoptedOn,
     ...(profileAuthorityMatches && gameProfile
@@ -261,6 +339,163 @@ export function appropriationFromEnactedMeasure(
     ...expectedCapacity,
     edition: `${gameProfile.ref.profileId}:${gameProfile.ref.digest}`,
   }).world;
+}
+
+function lineageAuthorizesAppropriation(
+  lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
+): boolean {
+  try {
+    const { family, variant } = programVariant(
+      lineage.familyKey,
+      lineage.variantKey,
+    );
+    return (
+      family.familyVersion === lineage.familyVersion &&
+      variant.authorizesAppropriation
+    );
+  } catch {
+    return false;
+  }
+}
+
+function federalPassengerRailMeasureMatches(
+  world: World,
+  measure: {
+    readonly jurisdictionId: EntityId;
+    readonly rulePackId: string;
+    readonly propositionIds?: readonly EntityId[];
+    readonly propositionAnswers?: readonly {
+      readonly propositionId: EntityId;
+      readonly answer: "yes" | "no";
+    }[];
+  },
+  lineage: ReturnType<typeof draftLineageForMeasure>,
+  provisions: ReturnType<typeof currentMeasureProvisions>,
+): boolean {
+  if (
+    measure.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id ||
+    measure.rulePackId !== US_CONGRESS_PACK_ID ||
+    lineage?.familyKey !== "appropriations" ||
+    lineage.familyVersion !== "v3" ||
+    lineage.variantKey !== "federal-passenger-rail-v1" ||
+    lineage.authorityKey !== "game-profile:federal-passenger-rail/v1" ||
+    lineage.authorityMeasureId !== undefined
+  )
+    return false;
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (candidate) =>
+      candidate.stableKey ===
+      "us-federal-positions:transport-water.expand-passenger-rail",
+  );
+  if (
+    !proposition ||
+    measure.propositionIds?.length !== 1 ||
+    measure.propositionIds[0] !== proposition.id ||
+    measure.propositionAnswers?.length !== 1 ||
+    measure.propositionAnswers[0]?.propositionId !== proposition.id ||
+    measure.propositionAnswers[0]?.answer !== "yes"
+  )
+    return false;
+  const intentClauses = provisions.filter(
+    (provision) => provision.operativeEffect !== undefined,
+  );
+  const amount = provisions.find(
+    (provision) => provision.provisionKey === "amount-provided",
+  );
+  try {
+    const { family, variant } = programVariant(
+      lineage.familyKey,
+      lineage.variantKey,
+    );
+    return (
+      family.familyVersion === lineage.familyVersion &&
+      variant.authorizesAppropriation &&
+      intentClauses.length === 1 &&
+      amount?.operativeEffect?.kind === "public-program-appropriation" &&
+      amount.fiscalExposureMinorUnits !== null &&
+      amount.fiscalExposureMinorUnits > 0 &&
+      amount.fiscalExposureLabel !== null
+    );
+  } catch {
+    return false;
+  }
+}
+
+interface PublicProgramGovernmentScope {
+  readonly kind: "federal" | "state" | "local";
+  readonly identity: PublicGovernmentIdentity;
+  readonly stateUsps: string | null;
+  readonly programKeySuffix: string;
+  readonly localGovernmentKey?: string;
+}
+
+function publicProgramGovernmentScope(
+  world: World,
+  measure: {
+    readonly jurisdictionId: EntityId;
+    readonly rulePackId: string;
+  },
+): PublicProgramGovernmentScope | null {
+  if (measure.rulePackId === US_CONGRESS_PACK_ID)
+    return measure.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
+      ? {
+          kind: "federal",
+          identity: {
+            kind: "jurisdiction",
+            jurisdictionId: measure.jurisdictionId,
+          },
+          stateUsps: null,
+          programKeySuffix: "us",
+        }
+      : null;
+
+  const stateUsps = US_STATE_USPS.find(
+    (usps) =>
+      stateJurisdictionForKey(`US-${usps}`)?.id === measure.jurisdictionId,
+  );
+  if (stateUsps)
+    return {
+      kind: "state",
+      identity: {
+        kind: "jurisdiction",
+        jurisdictionId: measure.jurisdictionId,
+      },
+      stateUsps,
+      programKeySuffix: stateUsps.toLowerCase(),
+    };
+
+  const localAuthority = localFiscalGameAuthorityForRulePackId(
+    measure.rulePackId,
+  );
+  if (!localAuthority || localAuthority.jurisdictionId !== measure.jurisdictionId)
+    return null;
+  const governmentKey = localAuthority.unit.id;
+  const identity: PublicGovernmentIdentity = {
+    kind: "local-government",
+    jurisdictionId: measure.jurisdictionId,
+    governmentKey,
+  };
+  try {
+    assertPublicGovernmentIdentity(world, identity);
+  } catch {
+    return null;
+  }
+  return {
+    kind: "local",
+    identity,
+    stateUsps: null,
+    programKeySuffix: governmentKey.replace(":", "-"),
+    localGovernmentKey: governmentKey,
+  };
+}
+
+function programKeyForGovernment(
+  familyKey: string,
+  scope: PublicProgramGovernmentScope,
+): string {
+  return scope.stateUsps
+    ? governingProgramKey(familyKey, scope.stateUsps)
+    : `${familyKey}:${scope.programKeySuffix}`;
 }
 
 /** The organization the money is paid to when an office commits a program. */

@@ -1,5 +1,9 @@
 import { municipalGovernmentByKey } from "./municipal-government";
 import { lifePlaceByKey } from "./life-places";
+import {
+  governmentUnit,
+  governmentUnitJurisdictionId,
+} from "./government-units";
 import type { EntityId, PublicGovernmentIdentity, World } from "./types";
 
 export interface PublicGovernmentIdentityCarrier {
@@ -68,6 +72,14 @@ export function assertPublicGovernmentIdentity(
       "A public-government identity names a missing jurisdiction.",
     );
   if (identity.kind === "jurisdiction") return;
+
+  const unit = governmentUnit(identity.governmentKey);
+  if (
+    unit?.functionalActive &&
+    (unit.unitType === "municipality" || unit.unitType === "county") &&
+    governmentUnitJurisdictionId(unit) === identity.jurisdictionId
+  )
+    return;
 
   const government = municipalGovernmentByKey(identity.governmentKey);
   const place = government?.placeGeoid

@@ -37,6 +37,7 @@ import {
 } from "./future-transitions";
 import { publishPublicEvent } from "./public-information";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
+import { recordDailyGovernmentFiscalFlow } from "./government-fiscal-metrics";
 import type {
   EntityId,
   FutureDueItem,
@@ -274,6 +275,7 @@ export function attachTaxProposal(
     },
     fiscalExposureLabel: null,
     fiscalExposureMinorUnits: null,
+    operativeEffect: { kind: "tax-policy" },
   });
   const levy = currentMeasureProvisions(next, measure.id).find(
     (row) => row.provisionKey === "tax-levy",
@@ -734,7 +736,63 @@ export function taxCollectionTransition(
       stableKey: `${key}:publication`,
       sourceEventId: outcomeEventId,
     });
+  if (status === "collected")
+    next = recordTaxRevenueForDate(
+      next,
+      base.jurisdictionId,
+      collection.recordedAt,
+    );
   return collectionResult(next, collection);
+}
+
+function recordTaxRevenueForDate(
+  world: World,
+  jurisdictionId: EntityId,
+  occurredAt: IsoDate,
+): World {
+  const assessments = world.history.taxAssessments ?? [];
+  const policies = world.history.taxPolicies ?? [];
+  const proposals = world.history.taxProposals ?? [];
+  const bases = world.history.taxBases ?? [];
+  const amounts: TaxCollectionRecord["transferredAmount"][] = [];
+  const sourceEventIds: EntityId[] = [];
+  for (const collection of world.history.taxCollections ?? []) {
+    if (
+      collection.status !== "collected" ||
+      collection.recordedAt !== occurredAt
+    )
+      continue;
+    const assessment = assessments.find(
+      (row) => row.id === collection.assessmentId,
+    );
+    const policy = assessment
+      ? policies.find((row) => row.id === assessment.policyId)
+      : undefined;
+    const proposal = policy
+      ? proposals.find((row) => row.id === policy.proposalId)
+      : undefined;
+    const base = assessment
+      ? bases.find((row) => row.id === assessment.baseId)
+      : undefined;
+    if (
+      !assessment ||
+      !policy ||
+      !proposal ||
+      !base ||
+      proposal.jurisdictionId !== jurisdictionId ||
+      base.jurisdictionId !== jurisdictionId
+    )
+      continue;
+    amounts.push(collection.transferredAmount);
+    sourceEventIds.push(collection.outcomeEventId);
+  }
+  return recordDailyGovernmentFiscalFlow(world, {
+    metricStableKey: "government.revenue",
+    jurisdictionId,
+    occurredAt,
+    amounts,
+    sourceEventIds,
+  });
 }
 
 function collectionResult(

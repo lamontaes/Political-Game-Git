@@ -10,6 +10,7 @@ import {
 } from "../resources";
 import { createWorkItem, workItemState } from "../time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
+import { recordDailyGovernmentFiscalFlow } from "../government-fiscal-metrics";
 import {
   municipalGovernmentByKey,
   primaryReading,
@@ -1033,6 +1034,12 @@ export function settleProgramInstallment(
   const installment = publicProgramRecords(next).at(
     -1,
   ) as PublicProgramInstallmentRecord;
+  if (installment.status === "posted")
+    next = recordProgramOutlaysForDate(
+      next,
+      installment.jurisdictionId,
+      installment.recordedAt,
+    );
   if (
     !reason &&
     plan.purpose === "maintenance" &&
@@ -1051,6 +1058,44 @@ export function settleProgramInstallment(
   return { world: closeWorkIfDone(next, commitment), installment };
 }
 
+function recordProgramOutlaysForDate(
+  world: World,
+  jurisdictionId: EntityId,
+  occurredAt: IsoDate,
+): World {
+  const records = publicProgramRecords(world);
+  const amounts: MoneyAmount[] = [];
+  const sourceEventIds: EntityId[] = [];
+  for (const installment of records) {
+    if (
+      installment.kind !== "installment" ||
+      installment.status !== "posted" ||
+      installment.jurisdictionId !== jurisdictionId ||
+      installment.recordedAt !== occurredAt
+    )
+      continue;
+    const commitment = records.find(
+      (record) =>
+        record.kind === "commitment" && record.id === installment.commitmentId,
+    );
+    const plan =
+      commitment?.kind === "commitment"
+        ? commitment.installments[installment.installmentIndex]
+        : undefined;
+    if (!plan)
+      throw new Error("A posted program installment needs its committed plan.");
+    amounts.push(plan.amount);
+    sourceEventIds.push(installment.eventId);
+  }
+  return recordDailyGovernmentFiscalFlow(world, {
+    metricStableKey: "government.outlays",
+    jurisdictionId,
+    occurredAt,
+    amounts,
+    sourceEventIds,
+  });
+}
+
 function recordCapacityOutturn(
   world: World,
   commitment: PublicProgramCommitmentRecord,
@@ -1059,6 +1104,14 @@ function recordCapacityOutturn(
   const identity = publicGovernmentIdentityForRecord(commitment);
   const capacity = programCapacity(world, commitment.programKey, identity);
   if (!capacity) return world;
+  const placeLabel =
+    identity.kind === "local-government"
+      ? municipalGovernmentByKey(identity.governmentKey)?.displayName
+      : world.jurisdictions[commitment.jurisdictionId]?.name;
+  if (!placeLabel?.trim())
+    throw new Error(
+      "A delivered service needs its canonical government place label.",
+    );
   const before =
     programOutturns(world, commitment.programKey, identity).at(-1)
       ?.unitsOperational ?? capacity.unitsOperational;
@@ -1089,13 +1142,16 @@ function recordCapacityOutturn(
       programKey: commitment.programKey,
       summary:
         restored === null
-          ? `The maintenance work paid for is done. How many ${capacity.unitLabel} it returned is unknown; ${before} of ${capacity.unitsTotal} are counted in service.`
-          : `The maintenance work paid for is done: ${restored} ${capacity.unitLabel} returned, ${before + restored} of ${capacity.unitsTotal} now in service.`,
+          ? `Paid work for ${capacity.serviceLabel} in ${placeLabel} was delivered on ${world.currentDate}. How many ${capacity.unitLabel} it returned is unknown; ${before} of ${capacity.unitsTotal} are counted in service.`
+          : `Paid work for ${capacity.serviceLabel} in ${placeLabel} returned ${restored} ${capacity.unitLabel} to service on ${world.currentDate}; ${before + restored} of ${capacity.unitsTotal} are now in service.`,
     },
     {
       kind: "capacity-outturn",
       programKey: commitment.programKey,
       jurisdictionId: commitment.jurisdictionId,
+      serviceLabel: capacity.serviceLabel,
+      unitLabel: capacity.unitLabel,
+      placeLabel,
       ...(commitment.publicGovernmentIdentity
         ? { publicGovernmentIdentity: commitment.publicGovernmentIdentity }
         : {}),

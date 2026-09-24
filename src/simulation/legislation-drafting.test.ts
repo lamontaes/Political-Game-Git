@@ -428,6 +428,11 @@ describe("acting on something that already exists is refused when it does not", 
     const ordinary = compile("appropriations", "single-programme", overrides);
     expect(ordinary.authorizedCeilingMinorUnits).toBeNull();
     expect(ordinary.appropriatedMinorUnits).toBe(1_200_000_000);
+    expect(
+      ordinary.clauses.find(
+        (clause) => clause.provisionKey === "amount-provided",
+      )?.operativeEffect,
+    ).toEqual({ kind: "public-program-appropriation" });
 
     const variantMaximum = compile("appropriations", "single-programme", {
       ...overrides,

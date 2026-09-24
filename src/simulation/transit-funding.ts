@@ -177,6 +177,19 @@ export function resolveTransitFunding(
     return no((e as Error).message);
   }
   const provisions = currentMeasureProvisions(world, measureId);
+  const amountProvision = provisions.find(
+    (provision) => provision.provisionKey === "amount-provided",
+  );
+  const hasExplicitEffectIntents = provisions.some(
+    (provision) => provision.operativeEffect !== undefined,
+  );
+  if (
+    hasExplicitEffectIntents &&
+    amountProvision?.operativeEffect?.kind !== "public-program-appropriation"
+  )
+    return no(
+      "The current transit amount clause does not carry an explicit supported appropriation effect.",
+    );
   // Exact supported terms, no prose extraction or stale filed parameters. Changed terms require a new adapter.
   if (
     provisions.length !== draft.clauses.length ||
@@ -195,9 +208,7 @@ export function resolveTransitFunding(
     return no(
       "The adopted transit terms differ from the supported configuration; implementation is unavailable.",
     );
-  const amount = provisions.find(
-    (p) => p.provisionKey === "amount-provided",
-  )?.fiscalExposureMinorUnits;
+  const amount = amountProvision?.fiscalExposureMinorUnits;
   const servicePeriod = draft.parameterValues["service-window"];
   if (
     amount === null ||

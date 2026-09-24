@@ -186,6 +186,33 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
       1,
     );
     expect(programOutturns(reopened, TRANSIT, localIdentity)).toHaveLength(1);
+    const outlaysMetricId = Object.values(
+      reopened.metricCatalog.definitions,
+    ).find((definition) => definition.stableKey === "government.outlays")!.id;
+    const postedInstallment = programInstallments(
+      reopened,
+      TRANSIT,
+      localIdentity,
+    )[0]!;
+    expect(
+      reopened.history.metricStates.filter(
+        (record) => record.metricId === outlaysMetricId,
+      ),
+    ).toMatchObject([
+      {
+        scope: { jurisdictionId: g.jurisdictionId, segmentKey: null },
+        referencePeriod: {
+          kind: "interval",
+          startsAt: postedInstallment.recordedAt,
+          endsAt: postedInstallment.recordedAt,
+        },
+        value: { kind: "money", money: money(100_000_00, "USD") },
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [postedInstallment.eventId],
+        },
+      },
+    ]);
     expect(
       programPosition(reopened, TRANSIT, appropriation.id).unitsOperational,
     ).toBe(1);
@@ -306,6 +333,13 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     expect(settled[1]!.reason).toMatch(/not cash/);
     expect(cash(world, g.account)).toBe(50_000_00);
     expect(programPosition(world, TRANSIT).failedInstallments).toBe(2);
+    expect(
+      world.history.metricStates.filter(
+        (record) =>
+          world.metricCatalog.definitions[record.metricId]?.stableKey ===
+          "government.outlays",
+      ),
+    ).toHaveLength(1);
   }, 120_000);
 
   it("refuses the wrong office, an unaffordable draft and a lapsed appropriation", () => {

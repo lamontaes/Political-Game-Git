@@ -55,6 +55,9 @@ import {
   ensureStateExecutiveIncumbent,
 } from "../simulation/nationwide-world/state-executives";
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
+import { enactedLawEffects } from "../simulation/enacted-law-effects";
+import { lawEffectSentences } from "./law-effects-prose";
+import { proseDate } from "./prose-dates";
 import { ordinaryStateHouseFilingEntry } from "../../tests/fixtures/multistate-funded-service-entry";
 
 const USD = money(0, "USD").currency;
@@ -215,16 +218,27 @@ function enactThroughGenericClock(
             (entry.purpose === "floor-stage" ||
               entry.purpose === "veto-override"),
         )
-        .map(({ purpose, forum, floorStageKey, takenAt, tally, outcome, requiredVotes, thresholdLabel }) => ({
-          purpose,
-          forum,
-          floorStageKey,
-          takenAt,
-          tally,
-          outcome,
-          requiredVotes,
-          thresholdLabel,
-        })),
+        .map(
+          ({
+            purpose,
+            forum,
+            floorStageKey,
+            takenAt,
+            tally,
+            outcome,
+            requiredVotes,
+            thresholdLabel,
+          }) => ({
+            purpose,
+            forum,
+            floorStageKey,
+            takenAt,
+            tally,
+            outcome,
+            requiredVotes,
+            thresholdLabel,
+          }),
+        ),
       executiveDispositions: next.history.executiveDispositions?.filter(
         (entry) => entry.measureId === measureId,
       ),
@@ -860,6 +874,50 @@ describe("fictional state-funded school-facilities service route", () => {
           (row) => row.id === result.appropriation.bill.measureId,
         ),
       ).toBe(true);
+      const outturn = programOutturns(
+        result.world,
+        result.profile.appropriation.programKey,
+      )[0]!;
+      expect(outturn).toMatchObject({
+        serviceLabel: result.profile.capacity.serviceLabel,
+        unitLabel: result.profile.capacity.unitLabel,
+        placeLabel:
+          result.world.jurisdictions[result.fixture.governingJurisdictionId]!
+            .name,
+        restoredUnits: 1,
+      });
+      const effects = enactedLawEffects(
+        result.world,
+        result.appropriation.bill.measureId,
+      );
+      const appropriationEffect = effects?.lines.find(
+        (line) => line.kind === "appropriation",
+      );
+      expect(appropriationEffect?.kind).toBe("appropriation");
+      if (appropriationEffect?.kind !== "appropriation") return;
+      expect(appropriationEffect.deliveredServices).toEqual([
+        {
+          serviceLabel: result.profile.capacity.serviceLabel,
+          unitLabel: result.profile.capacity.unitLabel,
+          placeLabel:
+            result.world.jurisdictions[result.fixture.governingJurisdictionId]!
+              .name,
+          deliveredAt: outturn.recordedAt,
+          restoredUnits: 1,
+        },
+      ]);
+      const deliverySentence = lawEffectSentences(
+        result.world,
+        result.appropriation.bill.measureId,
+      ).find(
+        (sentence) =>
+          sentence.includes(result.profile.capacity.serviceLabel) &&
+          sentence.includes(outturn.unitLabel!),
+      );
+      expect(deliverySentence).toContain(result.profile.capacity.serviceLabel);
+      expect(deliverySentence).toContain(outturn.placeLabel!);
+      expect(deliverySentence).toContain(outturn.unitLabel!);
+      expect(deliverySentence).toContain(proseDate(outturn.recordedAt));
     },
     300_000,
   );
