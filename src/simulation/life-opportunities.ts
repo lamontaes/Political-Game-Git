@@ -32,6 +32,7 @@ import { recordWorldEvent } from "./world";
 import { ensurePeopleTraits } from "./people-traits";
 import {
   hostDecidesToAsk,
+  occasionDetailsForRecipient,
   initiatorFavour,
   initiatorOccasions,
   type InitiatorFavour,
@@ -985,7 +986,7 @@ function eligibleOpportunities(
           type: "life.social-occasion-invited",
           summary: occasion.summary,
           detail: `Asked them over (${occasion.reason})`,
-          details: occasion.details,
+          details: occasionDetailsForRecipient(current, occasion, personId),
           believed: occasion.believed,
           reasonRecordId: occasion.sourceRecordId,
           occasion: {

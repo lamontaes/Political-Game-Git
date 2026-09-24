@@ -264,7 +264,7 @@ function run(
         world,
         next,
         request.personId,
-        simulationMinutesBetween(world.currentMoment, preview.target),
+        simulationMinutesBetween(world.currentMoment, next.currentMoment),
       ),
     ].join(" "),
   };

@@ -4,6 +4,7 @@ import {
   expectNoDestination,
   goTo,
   openMoment,
+  passShellTime,
   startLife as walkCreator,
 } from "./support/creator";
 
@@ -81,16 +82,19 @@ async function optionLabels(page: Page): Promise<string[]> {
  */
 async function playToCorridor(
   page: Page,
-  limit = 40,
+  limit = 120,
 ): Promise<{ prose: string; options: string[] }> {
   for (let step = 0; step < limit; step += 1) {
-    await expect(page.getByTestId("story-prose")).toBeVisible();
-    const prose = await page.getByTestId("story-prose").innerText();
+    const prose =
+      (await page.getByTestId("story-prose").count()) > 0
+        ? await page.getByTestId("story-prose").innerText()
+        : "";
     if (/is broken at school/i.test(prose)) {
       return { prose, options: await optionLabels(page) };
     }
     const buttons = page.getByTestId("story-options").getByRole("button");
-    await buttons.first().click();
+    if ((await buttons.count()) > 0) await buttons.first().click();
+    else await passShellTime(page, "week");
   }
   throw new Error(`The corridor scene did not come up within ${limit} beats.`);
 }
@@ -98,29 +102,18 @@ async function playToCorridor(
 async function playToContinuation(
   page: Page,
   continuation: RegExp,
-  limit = 20,
+  limit = 120,
 ): Promise<{ prose: string; options: string[] }> {
-  let previousProse: string | null = null;
   for (let step = 0; step < limit; step += 1) {
-    await expect(page.getByTestId("story-prose")).toBeVisible();
-    const prose = await page.getByTestId("story-prose").innerText();
+    const prose =
+      (await page.getByTestId("story-prose").count()) > 0
+        ? await page.getByTestId("story-prose").innerText()
+        : "";
     if (continuation.test(prose))
       return { prose, options: await optionLabels(page) };
-    const quiet = page.getByTestId("story-let-time-pass");
-    if (previousProse !== prose && (await quiet.count()) > 0) {
-      // Use the player's normal formative-time control to cross the authored
-      // continuation gate. If the unanswered scene remains ranked first on
-      // the next draw, answer it then so selection can move on.
-      previousProse = prose;
-      await quiet.click();
-    } else {
-      previousProse = null;
-      await page
-        .getByTestId("story-options")
-        .getByRole("button")
-        .first()
-        .click();
-    }
+    const buttons = page.getByTestId("story-options").getByRole("button");
+    if ((await buttons.count()) > 0) await buttons.first().click();
+    else await passShellTime(page, "week");
   }
   throw new Error(
     `The school continuation did not appear within ${limit} beats.`,
@@ -128,6 +121,40 @@ async function playToContinuation(
 }
 
 test.describe("PT3 — the corridor scene on the screen", () => {
+  test("a ten-year-old can move time with the corner Week control", async ({
+    page,
+  }) => {
+    await freshBrowser(page, "recovery25-school-child-clock");
+    await walkCreator(page, {
+      place: "Lexington",
+      state: "Kentucky",
+      age: 10,
+      childhood: true,
+    });
+    await enterLife(page);
+    await openMoment(page);
+
+    await expect(page.getByTestId("shell-pass-day")).toBeVisible();
+    await expect(page.getByTestId("shell-pass-week")).toBeVisible();
+    await expect(page.getByTestId("story-let-time-pass")).toHaveCount(0);
+    const before = await page.getByTestId("moment-when").innerText();
+    const target =
+      (await page.locator("#pg-nav-week-target").textContent()) ?? "";
+    const disclosed = target.match(
+      /Skip to [A-Z][a-z]+, ([A-Z][a-z]+ \d{1,2}, \d{4})/,
+    )?.[1];
+    expect(disclosed).toBeDefined();
+
+    await passShellTime(page, "week");
+    const after = await page.getByTestId("moment-when").innerText();
+    const reached = Date.parse(after.split(" · ")[0]!);
+    expect(reached).toBeGreaterThan(Date.parse(before.split(" · ")[0]!));
+    // A protected calendar commitment may stop the week before its target.
+    expect(reached).toBeLessThanOrEqual(Date.parse(disclosed!));
+    await goTo(page, "nav-calendar");
+    await expect(page.getByTestId("calendar-today")).toBeVisible();
+  });
+
   for (const route of [
     {
       label: "child",
@@ -149,8 +176,8 @@ test.describe("PT3 — the corridor scene on the screen", () => {
     test(`${route.label} route names the incident and peer through reload and continuation`, async ({
       page,
     }) => {
-      // This walks up to forty beats, saves/reopens and reaches a later scene.
-      test.setTimeout(90000);
+      // A year-later continuation may require fifty-two Week presses.
+      test.setTimeout(240_000);
       await freshBrowser(page, route.seed);
       await walkCreator(page, {
         place: "Lexington",

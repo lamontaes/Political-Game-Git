@@ -70,6 +70,12 @@ export interface SeedFamily {
    * thing a player can actually do and a thing the game has an answer to.
    */
   readonly campaign?: "file-and-run" | "file-only" | null;
+  /**
+   * The date the candidacy is filed. The life beats stop once the clock
+   * reaches it, so a change to how the opening spends its time cannot move
+   * the contest to a different month of the cycle.
+   */
+  readonly fileOn?: string;
 }
 
 function setup(overrides: Partial<NewGameSetup>): NewGameSetup {
@@ -168,6 +174,9 @@ export const SEED_FAMILIES: readonly SeedFamily[] = [
     steps: 6,
     prefer: ["take-it-on"],
     campaign: "file-and-run",
+    // Filed on the date accepted main reached before the life clock (#606):
+    // with the daily quiet-time scenes gone, six beats walked on to June.
+    fileOn: "2026-03-24",
   },
   {
     key: "campaign-alternate",
@@ -243,6 +252,7 @@ export const SEED_FAMILIES: readonly SeedFamily[] = [
     steps: 6,
     prefer: ["take-it-on"],
     campaign: "file-only",
+    fileOn: "2026-03-24",
   },
 ];
 
@@ -257,7 +267,8 @@ export interface TranscriptBeat {
   readonly connective: readonly string[];
   readonly prose: string;
   readonly options: readonly { key: string; label: string }[];
-  readonly chosen: string;
+  /** Null for a quiet stretch, which the Day and Week controls move. */
+  readonly chosen: string | null;
   readonly people: readonly string[];
   readonly openThreads: readonly string[];
   /** Canonical grounding the beat itself carries, for interpreting the prose. */
@@ -555,13 +566,14 @@ export function runSeedTranscript(
   let personName = "";
 
   for (let ordinal = 0; ordinal < family.steps; ordinal += 1) {
+    if (family.fileOn !== undefined && world.currentDate >= family.fileOn)
+      break;
     const moment = projectStoryMoment(world, personId);
     personName = moment.personName;
     const wanted = choose(moment);
     const option =
       moment.scene.options.find((candidate) => candidate.key === wanted) ??
       moment.scene.options[0];
-    if (!option) break;
 
     const scene = moment.scene;
     beats.push({
@@ -578,7 +590,7 @@ export function runSeedTranscript(
         key: entry.key,
         label: entry.label,
       })),
-      chosen: option.key,
+      chosen: option?.key ?? null,
       people: scene.presentPeople.map((person) => person.introduction),
       openThreads: moment.openThreads.map((thread) => thread.sentence),
       causalInputs:
@@ -597,11 +609,15 @@ export function runSeedTranscript(
       ),
     );
 
-    world = chooseStoryOption(world, {
-      personId,
-      scene,
-      optionKey: option.key,
-    });
+    // A quiet stretch offers no choice of its own; the player moves it with
+    // the shell's Day and Week controls, which run the same story-time seam.
+    world = option
+      ? chooseStoryOption(world, {
+          personId,
+          scene,
+          optionKey: option.key,
+        })
+      : letStoryTimePass(world, personId);
   }
 
   let campaign: CampaignTranscript | null = null;
