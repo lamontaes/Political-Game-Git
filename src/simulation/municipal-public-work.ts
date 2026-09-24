@@ -33,9 +33,11 @@ import {
 } from "./life-queries";
 import { createOrganization, createOrganizationParticipation } from "./life";
 import { lifePlaceByKey } from "./life-places";
+import { governmentUnit } from "./government-units";
 import {
   lawReading,
   municipalGovernmentByKey,
+  municipalGovernmentForPlaceGeoid,
   municipalRulePackFor,
   municipalRulePackId,
   municipalRuleSourceRef,
@@ -106,9 +108,24 @@ export function municipalOrganizationFor(
   governmentKey: string,
 ): Organization | null {
   const stableKey = municipalOrganizationKey(governmentKey);
+  const installed = world.history.organizations.find(
+    (organization) => organization.stableKey === stableKey,
+  );
+  if (installed) return installed;
+  // Earlier saves recorded catalog-only municipalities under the local
+  // government key before their council gained an executable game profile.
+  // Reuse that identity rather than adding a second government beside it.
+  const unit = governmentUnit(governmentKey);
+  if (
+    unit?.unitType !== "municipality" ||
+    !unit.placeGeoid ||
+    municipalGovernmentForPlaceGeoid(unit.placeGeoid)?.key !== governmentKey
+  )
+    return null;
   return (
     world.history.organizations.find(
-      (organization) => organization.stableKey === stableKey,
+      (organization) =>
+        organization.stableKey === `local-government:${unit.id}`,
     ) ?? null
   );
 }
@@ -626,20 +643,23 @@ export function installMunicipalGovernment(
     );
   }
   const existing = municipalOrganizationFor(world, input.governmentKey);
-  if (existing) return world;
+  if (existing && municipalRecognitionEventId(world, input.governmentKey))
+    return world;
   const reading = primaryReading(government);
   const selectedProcedure = municipalRulePackFor(government);
-  const withOrganization = createOrganization(world, {
-    stableKey: municipalOrganizationKey(input.governmentKey),
-    formedAt: input.formedAt,
-    detailLevel: "detailed",
-    provenance: corpusProvenance(government.key, reading, input.formedAt),
-    initialProfile: {
-      name: reading.bodyName ?? reading.displayName,
-      classification: "service:municipal-government",
-      locationJurisdictionId: input.jurisdictionId,
-    },
-  });
+  const withOrganization = existing
+    ? world
+    : createOrganization(world, {
+        stableKey: municipalOrganizationKey(input.governmentKey),
+        formedAt: input.formedAt,
+        detailLevel: "detailed",
+        provenance: corpusProvenance(government.key, reading, input.formedAt),
+        initialProfile: {
+          name: reading.bodyName ?? reading.displayName,
+          classification: "service:municipal-government",
+          locationJurisdictionId: input.jurisdictionId,
+        },
+      });
   const organization = municipalOrganizationFor(
     withOrganization,
     input.governmentKey,
@@ -647,6 +667,9 @@ export function installMunicipalGovernment(
   if (!organization) {
     throw new Error("Failed to install the municipal government.");
   }
+  const jurisdictionId =
+    municipalGovernmentJurisdictionId(withOrganization, input.governmentKey) ??
+    input.jurisdictionId;
   // The recognition event is what everything municipal later cites as its
   // provenance. An organization is not an accepted provenance anchor for a
   // scheduled activity or a work item — an event is — so the government's
@@ -657,10 +680,10 @@ export function installMunicipalGovernment(
     type: "municipal.government-recognized",
     occurredAt: withOrganization.currentDate,
     recordedAt: withOrganization.currentDate,
-    jurisdictionId: input.jurisdictionId,
+    jurisdictionId,
     involvedEntityIds: [
       organization.id,
-      ...(input.jurisdictionId ? [input.jurisdictionId] : []),
+      ...(jurisdictionId ? [jurisdictionId] : []),
     ],
     participants: [],
     personFactConstraints: [],
@@ -681,7 +704,7 @@ export function installMunicipalGovernment(
     }`,
     context: {
       location: {
-        jurisdictionId: input.jurisdictionId,
+        jurisdictionId,
         label: reading.displayName,
         setting: null,
       },

@@ -44,8 +44,8 @@ import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-govern
 import {
   ensureLocalGovernmentOrganization,
   localGovernmentOrganizationKey,
+  municipalWorkspaceGovernmentForUnit,
 } from "./nationwide-world/local-governments";
-import { municipalGovernmentForUnit } from "./rule-capability-resolver";
 import { primaryReading } from "./municipal-government";
 import { MUNICIPAL_COUNCIL_OPENING_VERSION } from "./municipal-council-opening";
 import {
@@ -1749,7 +1749,7 @@ function seatOnLocalGoverningBody(
   const unit = office.unit;
   const mayor = office.seat === "chief-executive";
   const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
-  const compiled = municipalGovernmentForUnit(unit);
+  const compiled = municipalWorkspaceGovernmentForUnit(unit);
   const namedSeat = contest.office.seatKey
     ? municipalSeatChoiceByKey(office.officeKey, contest.office.seatKey)
     : null;

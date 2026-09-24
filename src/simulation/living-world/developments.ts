@@ -158,6 +158,7 @@ interface LocalContext {
 function localContext(
   world: World,
   playerPersonId: EntityId,
+  occurredAt: IsoDate,
 ): LocalContext | null {
   const person = world.people[playerPersonId];
   if (!person) return null;
@@ -167,9 +168,16 @@ function localContext(
   return {
     jurisdictionId: person.homeJurisdictionId,
     governmentName: government.name,
-    involved: government.organizationId
-      ? [government.organizationId]
-      : [person.homeJurisdictionId],
+    involved:
+      government.organizationId &&
+      lifeEntityAvailableAt(
+        world,
+        government.organizationId,
+        occurredAt,
+        world.history.nextSequence,
+      )
+        ? [government.organizationId]
+        : [person.homeJurisdictionId],
   };
 }
 
@@ -281,7 +289,7 @@ function startMatter(
   const subjects = [...Array(pool).keys()].filter((index) => index !== avoid);
   const subjectIndex = subjects[rng.integer(0, subjects.length)]!;
   if (family === "local-matter") {
-    const local = localContext(world, residentId);
+    const local = localContext(world, residentId, occurredAt);
     if (!local) return null;
     const written = writeStage(world, {
       family,
@@ -331,7 +339,7 @@ export function ensureOpeningPriorLocalRecords(
   world: World,
   personId: EntityId,
 ): World {
-  const local = localContext(world, personId);
+  const local = localContext(world, personId, world.currentDate);
   if (!local) return world;
   const prefix = "playtest65:prior-local";
   if (world.history.events.some((event) => event.stableKey.startsWith(prefix)))

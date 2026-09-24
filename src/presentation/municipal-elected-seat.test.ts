@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { campaignUntilDecided } from "../../tests/fixtures/campaign-fixture";
 import {
   addDays,
+  advanceWorld,
   campaignForCandidate,
   deserializeWorld,
   requireElectionContest,
@@ -10,7 +11,16 @@ import {
   serializeWorld,
 } from "../simulation";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
-import { municipalSeats } from "../simulation/municipal-public-work";
+import { resolveCampaignElectionFromRecordedInput } from "../simulation/campaigns";
+import { ELECTION_CONTEST_TRANSITION_KEY } from "../simulation/election-contests";
+import { createFutureTransitionHandlerRegistry } from "../simulation/future-transitions";
+import {
+  municipalOrganizationFor,
+  municipalOrganizationKey,
+  municipalSeats,
+} from "../simulation/municipal-public-work";
+import { governmentUnitsForPlace } from "../simulation/government-units";
+import { localGovernmentOrganizationKey } from "../simulation/nationwide-world/local-governments";
 import { municipalSeatChoices } from "../simulation/municipal-seat-identity";
 import { fileForOffice, projectCampaign } from "./campaign-projection";
 import { projectCampaignOffices } from "./campaign-office-discovery";
@@ -123,4 +133,80 @@ describe("an elected municipal council member", () => {
     },
     900_000,
   );
+
+  it("seats a catalog municipality winner on the existing council organization", () => {
+    const place = requireLifePlace("0162328");
+    const unit = governmentUnitsForPlace(place.sourceGeoid!).find(
+      (entry) => entry.unitType === "municipality" && entry.functionalActive,
+    )!;
+    const game = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "local-city-AL",
+        placeKey: place.key,
+        startAge: 34,
+        questionnaire: "skipped",
+      }),
+    ).game!;
+    const personId = game.playerPersonId;
+    const opening = openOrdinaryLife(game.world, personId);
+    const office = projectCampaignOffices(opening, personId).find(
+      (entry) => entry.officeKey.endsWith("-governing-body") && entry.eligible,
+    )!;
+    expect(office).toBeDefined();
+    const electionDate = addDays(opening.currentDate, 1);
+    const filed = fileForOffice(
+      opening,
+      personId,
+      null,
+      office.officeKey,
+      electionDate,
+    );
+    const campaign = campaignForCandidate(filed, personId)!;
+    const contest = requireElectionContest(filed, campaign.contestId);
+    const atElection = advanceWorld(
+      filed,
+      1,
+      createFutureTransitionHandlerRegistry([
+        [
+          ELECTION_CONTEST_TRANSITION_KEY,
+          (world) => ({
+            world,
+            status: "resolved" as const,
+            reasonKey: null,
+            context: "Awaiting the supplied test result",
+            outcomeEventId: null,
+          }),
+        ],
+      ]),
+    );
+    expect(contest.candidatePersonIds).toHaveLength(2);
+    const decided = resolveCampaignElectionFromRecordedInput(atElection, {
+      contestId: contest.id,
+      resolvedAt: electionDate,
+      winnerPersonId: personId,
+      tallies: contest.candidatePersonIds.map((candidatePersonId) => ({
+        candidatePersonId,
+        votes: candidatePersonId === personId ? 700 : 300,
+        voteShare: candidatePersonId === personId ? 0.7 : 0.3,
+      })),
+    });
+    const reopened = deserializeWorld(serializeWorld(decided));
+    expect(
+      municipalSeats(reopened, unit.id).some(
+        (seat) => seat.personId === personId,
+      ),
+    ).toBe(true);
+    expect(
+      reopened.history.organizations.filter(
+        (entry) => entry.stableKey === municipalOrganizationKey(unit.id),
+      ),
+    ).toHaveLength(1);
+    expect(
+      reopened.history.organizations.some(
+        (entry) => entry.stableKey === localGovernmentOrganizationKey(unit),
+      ),
+    ).toBe(false);
+    expect(municipalOrganizationFor(reopened, unit.id)).not.toBeNull();
+  });
 });
