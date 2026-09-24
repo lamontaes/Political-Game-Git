@@ -14,6 +14,10 @@ import {
 } from "../simulation/queries";
 import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
 import {
+  activeOrdinaryGoal,
+  chooseOrdinaryLifeGoal,
+} from "../simulation/life-personality";
+import {
   lifeOpportunitiesFor,
   refreshLifeOpportunities,
 } from "../simulation/life-opportunities";

@@ -60,7 +60,8 @@ describe("LifeScenePanel variants", () => {
         onTalkTo={() => {}}
       />,
     );
-    expect(html).toContain('data-testid="life-next-scene"');
+    // The life clock (#680) took the next-scene control out of the room too.
+    expect(html).not.toContain('data-testid="life-next-scene"');
     expect(html).not.toContain('data-testid="life-optional-activity"');
     expect(html).not.toContain("Spend a little time on your own");
   });
