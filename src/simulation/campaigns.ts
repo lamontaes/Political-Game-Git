@@ -25,7 +25,10 @@ import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-
 import { RECALL_HANDLERS } from "./recall";
 import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
 import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
-import { LOCAL_MEMBER_AGENDA_HANDLERS } from "./governing/member-agenda";
+import {
+  LOCAL_MEMBER_AGENDA_HANDLERS,
+  scheduleLocalMemberAgendaIntakes,
+} from "./governing/member-agenda";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -1888,6 +1891,7 @@ function seatOnLocalGoverningBody(
     context: namedSeat?.label ?? `Elected ${contest.electionDate}`,
     provenance: { kind: "simulated-event", eventId: outcomeEventId },
   });
+  next = scheduleLocalMemberAgendaIntakes(next);
   assertWorldIntegrity(next);
   return next;
 }

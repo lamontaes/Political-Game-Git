@@ -7,6 +7,7 @@ import { ensureMunicipalCouncilOpening } from "../simulation/municipal-council-o
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
+import { scheduleLocalMemberAgendaIntakes } from "../simulation/governing/member-agenda";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
   canonicalJson,
@@ -179,11 +180,13 @@ function ensureHomeStateLegislature(
   const stateUsps = homeStateUsps(withCouncil, playerPersonId);
   if (!stateUsps) return withCouncil;
   // The District's legislature is its Council, which is seated on its own.
-  return stateUsps === "DC"
-    ? scheduleDcCouncilSitting(
-        ensureDistrictOfColumbiaCouncilOpening(withCouncil),
-      )
-    : ensureStateLegislatureOpening(withCouncil, playerPersonId, stateUsps);
+  const opened =
+    stateUsps === "DC"
+      ? scheduleDcCouncilSitting(
+          ensureDistrictOfColumbiaCouncilOpening(withCouncil),
+        )
+      : ensureStateLegislatureOpening(withCouncil, playerPersonId, stateUsps);
+  return scheduleLocalMemberAgendaIntakes(opened);
 }
 
 /**
