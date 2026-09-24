@@ -379,9 +379,27 @@ export interface StateExecutiveHolderRecord {
   readonly startedAt: IsoDate | null;
   readonly endExclusive: IsoDate | null;
   readonly termFactsUnknown: readonly RuleFieldKey[];
+  readonly capacity: StateExecutiveCapacity;
   readonly origin: "fictional-initial-tenure" | "succession" | "elected-term";
   readonly identityProvenance: "fictional-simulation";
   readonly sources: readonly string[];
+}
+
+export type StateExecutiveCapacity = "acting" | "permanent" | "unknown";
+
+function capacityForTenure(
+  tags: readonly string[],
+): StateExecutiveCapacity {
+  const acting =
+    tags.includes("capacity:acting") ||
+    tags.includes("succession-disposition:acts");
+  const permanent =
+    tags.includes("capacity:permanent") ||
+    tags.includes("succession-disposition:succeeds");
+  if (acting && permanent) return "unknown";
+  if (acting) return "acting";
+  if (permanent) return "permanent";
+  return tags.includes("provenance:succession") ? "unknown" : "permanent";
 }
 
 /**
@@ -455,6 +473,7 @@ export function currentStateExecutiveHolders(
           startedAt: elected.startsAt,
           endExclusive: elected.endsAt,
           termFactsUnknown: [],
+          capacity: "permanent",
           origin: "elected-term",
           identityProvenance: "fictional-simulation",
           sources: office.sources,
@@ -516,9 +535,12 @@ export function currentStateExecutiveHolders(
       endExclusive,
       termFactsUnknown:
         unknownStart || unknownEnd ? STATE_EXECUTIVE_TERM_FIELDS : [],
+      capacity: capacityForTenure(tenure.tags),
       origin: tenure.tags.includes("provenance:succession")
         ? "succession"
-        : "fictional-initial-tenure",
+        : tenure.tags.includes("provenance:special-election")
+          ? "elected-term"
+          : "fictional-initial-tenure",
       identityProvenance: "fictional-simulation",
       sources: office.sources,
     });

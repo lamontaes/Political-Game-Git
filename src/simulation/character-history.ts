@@ -146,6 +146,18 @@ export interface CharacterHistoryContextPersonInput {
   readonly birthDate: IsoDate;
   readonly homeJurisdictionId: EntityId;
   readonly birthplaceJurisdictionId?: EntityId;
+  /** An explicitly authored first residence date; omitted context stays dated today. */
+  readonly residenceSince?: IsoDate;
+  /** Explicit fictional eligibility history; never inferred from birthplace. */
+  readonly citizenship?: {
+    readonly countryCode: "US";
+    readonly since: IsoDate;
+  };
+  /** Explicit state-scoped fictional voter qualification, when the scenario needs it. */
+  readonly qualifiedElector?: {
+    readonly jurisdictionId: EntityId;
+    readonly since: IsoDate;
+  };
   /**
    * Gender and pronouns for somebody the world is inventing.
    *
@@ -490,13 +502,46 @@ function buildCharacterHistoryContextPerson(
       "A context person requires an existing birthplace jurisdiction.",
     );
   }
+  const residenceSince = input.residenceSince
+    ? makeIsoDate(input.residenceSince)
+    : world.currentDate;
+  if (residenceSince < birthDate || residenceSince > world.currentDate) {
+    throw new Error(
+      "A context person's residence must begin between birth and the current date.",
+    );
+  }
+  const citizenshipSince = input.citizenship
+    ? makeIsoDate(input.citizenship.since)
+    : null;
+  if (
+    (citizenshipSince !== null &&
+      (citizenshipSince < birthDate || citizenshipSince > world.currentDate)) ||
+    (input.citizenship && input.citizenship.countryCode !== "US")
+  ) {
+    throw new Error(
+      "A context person's U.S. citizenship must be recorded between birth and the current date.",
+    );
+  }
+  const qualifiedElectorSince = input.qualifiedElector
+    ? makeIsoDate(input.qualifiedElector.since)
+    : null;
+  if (
+    input.qualifiedElector &&
+    (!world.jurisdictions[input.qualifiedElector.jurisdictionId] ||
+      qualifiedElectorSince! < birthDate ||
+      qualifiedElectorSince! > world.currentDate)
+  ) {
+    throw new Error(
+      "A context person's qualified-elector status requires an existing jurisdiction and a date between birth and the current date.",
+    );
+  }
   const id = characterHistoryContextPersonId(world, input.stableKey);
   if (world.people[id]) return null;
   const fullName = `${input.givenName} ${input.familyName}`;
   const provenance = {
     method: "manual" as const,
     sourceEventId: null,
-    note: "Character-history bounded context population.",
+    note: "Generated fictional person; recorded context history is simulated.",
   };
   const facts: readonly PersonFact[] = [
     {
@@ -521,12 +566,50 @@ function buildCharacterHistoryContextPerson(
       id: createStableId("fact", `${id}:residence:initial`),
       stableKey: "residence:initial",
       kind: "residence",
-      occurredAt: world.currentDate,
+      occurredAt: residenceSince,
       endedAt: null,
       jurisdictionId: input.homeJurisdictionId,
-      summary: `${fullName} resides in the recorded home jurisdiction.`,
+      summary:
+        residenceSince === birthDate
+          ? `${fullName} has lived in the recorded home jurisdiction since birth.`
+          : `${fullName} resides in the recorded home jurisdiction.`,
       provenance,
     },
+    ...(citizenshipSince === null
+      ? []
+      : [
+          {
+            id: createStableId("fact", `${id}:citizenship:US`),
+            stableKey: "citizenship:US",
+            kind: "citizenship" as const,
+            occurredAt: citizenshipSince,
+            endedAt: null,
+            jurisdictionId: null,
+            countryCode: "US" as const,
+            summary:
+              citizenshipSince === birthDate
+                ? `${fullName} was a United States citizen from birth.`
+                : `${fullName} became a United States citizen.`,
+            provenance,
+          },
+        ]),
+    ...(qualifiedElectorSince === null || !input.qualifiedElector
+      ? []
+      : [
+          {
+            id: createStableId(
+              "fact",
+              `${id}:qualified-elector:${input.qualifiedElector.jurisdictionId}`,
+            ),
+            stableKey: `qualified-elector:${input.qualifiedElector.jurisdictionId}`,
+            kind: "qualified-elector" as const,
+            occurredAt: qualifiedElectorSince,
+            endedAt: null,
+            jurisdictionId: input.qualifiedElector.jurisdictionId,
+            summary: `${fullName} qualified as an elector in ${world.jurisdictions[input.qualifiedElector.jurisdictionId]!.name}.`,
+            provenance,
+          },
+        ]),
   ];
   const person: Person = {
     id,

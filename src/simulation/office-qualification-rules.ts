@@ -46,7 +46,7 @@ import {
 } from "./office-qualifications.generated";
 import { knownRule, notApplicableRule, unknownRule } from "./legislature-rules";
 import type { RuleSourceRef, RuleValue } from "./legislature-rules";
-import type { IsoDate, Person } from "./types";
+import type { EntityId, IsoDate, Person } from "./types";
 
 /** The office families the qualification corpus covers. */
 export type QualificationOfficeFamily =
@@ -506,6 +506,8 @@ function residedLabel(months: number): string {
 export interface QualificationAssessmentInput {
   readonly person: Person;
   readonly stateJurisdictionKey: string | null;
+  /** Canonical state identity used to match state-scoped elector facts. */
+  readonly stateJurisdictionId?: EntityId | null;
   readonly officeFamily: QualificationOfficeFamily;
   /** Earliest active residence in this exact state, or null when unproved. */
   readonly stateResidenceSince: IsoDate | null;
@@ -527,6 +529,25 @@ export interface QualificationAssessmentInput {
    * limit unevaluated: missing history is never read as no history.
    */
   readonly priorTermsInOffice?: number | null;
+}
+
+function personFacts(person: Person) {
+  return [
+    ...person.establishedFacts,
+    ...(person.detailLevel === "materialized"
+      ? person.details.generatedFacts
+      : []),
+  ];
+}
+
+function factActiveOn(
+  fact: { readonly occurredAt: IsoDate; readonly endedAt: IsoDate | null },
+  onDate: IsoDate,
+): boolean {
+  return (
+    fact.occurredAt <= onDate &&
+    (fact.endedAt === null || fact.endedAt >= onDate)
+  );
 }
 
 /**
@@ -665,6 +686,84 @@ export function assessOfficeQualifications(
       continue;
     }
 
+    if (row.field === "US_CITIZENSHIP") {
+      const citizenship = personFacts(input.person)
+        .filter(
+          (fact) =>
+            fact.kind === "citizenship" &&
+            fact.countryCode === "US" &&
+            factActiveOn(fact, input.onDate),
+        )
+        .sort((left, right) =>
+          right.occurredAt.localeCompare(left.occurredAt),
+        )[0];
+      const required = durationMonths(row);
+      if (!citizenship || (row.value !== null && required === null)) {
+        assessments.push({
+          field: row.field,
+          verdict: "not-evaluated",
+          reason: `This office requires ${requirementPhrase(row)}, and nothing yet shows that you meet it.`,
+          source: row,
+        });
+        continue;
+      }
+      const heldMonths = completedMonthsBetween(
+        citizenship.occurredAt,
+        input.onDate,
+      );
+      assessments.push({
+        field: row.field,
+        verdict:
+          required === null || heldMonths >= required.months
+            ? "meets"
+            : "fails",
+        reason:
+          required === null || heldMonths >= required.months
+            ? `United States citizen${required ? ` for at least ${required.label}` : ""}.`
+            : `Not a United States citizen for long enough: this office requires ${required.label}, and the recorded citizenship began ${residedLabel(heldMonths)} ago.`,
+        source: row,
+      });
+      continue;
+    }
+
+    if (row.field === "ELECTOR_REQUIREMENT") {
+      const requiresElector = row.value === "true";
+      const doesNotRequireElector = row.value === "false";
+      if (doesNotRequireElector) {
+        assessments.push({
+          field: row.field,
+          verdict: "meets",
+          reason: `${qualificationStateLabel(row)} imposes no qualified-elector requirement for this office.`,
+          source: row,
+        });
+        continue;
+      }
+      const qualifiedElector = personFacts(input.person).some(
+        (fact) =>
+          fact.kind === "qualified-elector" &&
+          input.stateJurisdictionId !== undefined &&
+          input.stateJurisdictionId !== null &&
+          fact.jurisdictionId === input.stateJurisdictionId &&
+          factActiveOn(fact, input.onDate),
+      );
+      if (requiresElector && qualifiedElector) {
+        assessments.push({
+          field: row.field,
+          verdict: "meets",
+          reason: `Qualified elector in ${qualificationStateLabel(row)}.`,
+          source: row,
+        });
+      } else {
+        assessments.push({
+          field: row.field,
+          verdict: "not-evaluated",
+          reason: `This office requires ${requirementPhrase(row)}, and nothing yet shows that you meet it.`,
+          source: row,
+        });
+      }
+      continue;
+    }
+
     // A term limit bars only someone who has already served. The caller says
     // how many terms the World records for this exact office; zero means the
     // limit cannot apply. Anything else stays unevaluated below.
@@ -681,10 +780,10 @@ export function assessOfficeQualifications(
     /*
      * Everything else is read and reported, and deliberately not decided.
      *
-     * The world models no bar admission, no naturalization date and no voter
-     * registration, so a citizenship, elector or professional requirement has
-     * nothing to test against. Saying "meets" would hand out an eligibility the
-     * game never checked.
+     * The world models no bar admission or other professional qualification.
+     * Citizenship and elector status have dated fact paths above; absent facts
+     * still remain not evaluated rather than being inferred from birthplace,
+     * residence or age.
      */
     // Worded for the player: the requirement, and that nothing shows this
     // character meets it. Why nothing can (no such record is kept) stays in

@@ -75,6 +75,7 @@ import {
 } from "./dates";
 import {
   ELECTION_CONTEST_TRANSITION_KEY,
+  evaluateDeterministicContestOutcome,
   electionContestResult,
   electionContestStatus,
   electionContestTransitionHandler,
@@ -82,6 +83,10 @@ import {
   resolveElectionContest,
   scheduleElectionContest,
 } from "./election-contests";
+import {
+  eligibleGovernorSuccessionElectionCandidates,
+  isGovernorSuccessionSpecialElectionContest,
+} from "./nationwide-world/governor-succession";
 import {
   composeFutureTransitionHandlerRegistries,
   createFutureTransitionHandlerRegistry,
@@ -1964,6 +1969,63 @@ export function campaignElectionTransitionHandler(
   const national = linkedNationalUnitTransition(world, dueItem);
   if (national) return national;
   const contestId = dueItem.entityIds[0];
+  const contest = world.history.electionContests?.find(
+    (candidate) => candidate.id === contestId,
+  );
+  if (contest && isGovernorSuccessionSpecialElectionContest(contest)) {
+    const existing = electionContestResult(world, contest.id);
+    if (existing) return electionContestTransitionHandler(world, dueItem);
+    const eligibleCandidateIds = eligibleGovernorSuccessionElectionCandidates(
+      world,
+      contest,
+      dueItem.dueAt,
+    );
+    if (eligibleCandidateIds.length === 0) {
+      return {
+        world,
+        status: "cancelled",
+        reasonKey: "election:contest-cancelled",
+        context:
+          "No special-election candidate remained alive and eligible on election day.",
+        outcomeEventId: null,
+      };
+    }
+    const eligibleOutcome = evaluateDeterministicContestOutcome(world, {
+      ...contest,
+      candidatePersonIds: eligibleCandidateIds,
+    });
+    const eligibleTallies = new Map(
+      eligibleOutcome.tallies.map((tally) => [tally.candidatePersonId, tally]),
+    );
+    const tallies: CandidateTally[] = contest.candidatePersonIds.map(
+      (candidatePersonId) =>
+        eligibleTallies.get(candidatePersonId) ?? {
+          candidatePersonId,
+          votes: 0,
+          voteShare: 0,
+        },
+    );
+    const resolved = resolveElectionContest(world, {
+      stableKey: `${dueItem.stableKey}:result`,
+      contestId: contest.id,
+      resolvedAt: dueItem.dueAt,
+      winnerPersonId: eligibleOutcome.winnerPersonId,
+      tallies,
+      provenance: {
+        method: "simulated",
+        sourceEntityIds: [dueItem.id, contest.id, ...eligibleCandidateIds],
+        note: "Governor special-election outcome used candidates alive and eligible on the election date.",
+      },
+    });
+    const result = electionContestResult(resolved, contest.id)!;
+    return {
+      world: resolved,
+      status: "resolved",
+      reasonKey: null,
+      context: `The special election for ${contest.office.title} was decided from the candidates alive and eligible on election day.`,
+      outcomeEventId: result.outcomeEventId,
+    };
+  }
   const campaign = contestId ? campaignForContest(world, contestId) : null;
   if (!campaign || campaignState(world, campaign.id).status !== "active") {
     return electionContestTransitionHandler(world, dueItem);

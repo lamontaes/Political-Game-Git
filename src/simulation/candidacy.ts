@@ -624,6 +624,9 @@ export function candidacyEligibility(
       : assessOfficeQualifications({
           person,
           stateJurisdictionKey,
+          stateJurisdictionId: stateJurisdictionKey
+            ? (stateJurisdictionForKey(stateJurisdictionKey)?.id ?? null)
+            : null,
           officeFamily,
           stateResidenceSince: stateResidenceStart,
           districtResidenceSince: districtSince,

@@ -10,7 +10,10 @@ import {
   passOrdinaryDays,
 } from "../../presentation/ordinary-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import { electionContestResult } from "../election-contests";
+import { personName } from "../people";
 import {
+  addDays,
   daysBetween,
   makeIsoDate,
   simulationMomentAtLocalTime,
@@ -39,13 +42,30 @@ import {
   nationalRecords,
   registerNationalElection,
 } from "../national-elections";
-import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import {
+  currentStateExecutiveHolders,
+  ensureStateExecutiveIncumbent,
+  stateExecutiveOffice,
+  stateExecutiveTenureKeyPrefix,
+  STATE_EXECUTIVE_WRITER_VERSION,
+} from "../nationwide-world/state-executives";
+import {
+  isUsState,
+  US_STATE_USPS,
+  type UsStateUsps,
+} from "../nationwide-world/state-executive-candidacy-packs";
+import { executiveSuccessionProfileFor } from "../nationwide-world/executive-succession-profiles";
+import { candidacyEligibility } from "../candidacy";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { advanceWorldMinutes } from "../time-work";
 import type { EntityId, World } from "../types";
 import { recordPersonDeath } from "../vitality";
-import { advanceWorld } from "../world";
-import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
+import { advanceWorld, recordWorldEvent } from "../world";
+import {
+  currentGovernorOf,
+  currentPresidentOf,
+  publicOfficesHeldBy,
+} from "../crisis/offices";
 import { currentFederalTenure } from "../federal-tenures";
 import {
   CHIEF_JUSTICE_NOMINATED_EVENT,
@@ -286,6 +306,326 @@ describe("GOVERNING K3: an office after its holder dies", () => {
         (h) => h.officeKey === governor.officeKey,
       )!.personId,
     ).toBe(successor.personId);
+  }, 300_000);
+
+  it("keeps an explicitly acting governor's capacity through save and reopen", () => {
+    const world = openingWorld("k3-acting-governor-capacity");
+    const governor = currentStateExecutiveHolders(world)[0]!;
+    const office = stateExecutiveOffice(governor.stateUsps)!;
+    const member = projectCongress(world)!.house.seats.find(
+      (seat) => seat.occupant.kind === "member",
+    )!.occupant;
+    if (member.kind !== "member") throw new Error("fixture");
+    const acting = recordWorldEvent(world, {
+      stableKey: `${stateExecutiveTenureKeyPrefix(office)}test-acting-capacity`,
+      type: "world.office-tenure",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: office.jurisdictionId,
+      involvedEntityIds: [member.member.personId, governor.organizationId],
+      participants: [
+        {
+          personId: member.member.personId,
+          role: "focus:subject",
+          detail: office.displayName,
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        STATE_EXECUTIVE_WRITER_VERSION,
+        `office:${office.officeKey}`,
+        `state:${office.stateUsps}`,
+        "provenance:succession",
+        "capacity:acting",
+      ],
+      summary: "An explicit acting-capacity fixture.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+
+    expect(
+      currentStateExecutiveHolders(acting).find(
+        (holder) => holder.stateUsps === governor.stateUsps,
+      )?.capacity,
+    ).toBe("acting");
+    expect(currentGovernorOf(acting, governor.stateUsps)?.capacity).toBe(
+      "acting",
+    );
+
+    const reopened = deserializeWorld(serializeWorld(acting));
+    expect(
+      currentStateExecutiveHolders(reopened).find(
+        (holder) => holder.stateUsps === governor.stateUsps,
+      )?.capacity,
+    ).toBe("acting");
+    expect(currentGovernorOf(reopened, governor.stateUsps)?.capacity).toBe(
+      "acting",
+    );
+  });
+
+  it("seats eligible first-line successors across all fifty states and preserves them through Save and Continue", () => {
+    let world = openingWorld("k3-all-state-governor-succession");
+    const playerPersonId =
+      world.control.kind === "person"
+        ? world.control.personId
+        : world.personOrder[0]!;
+    for (const stateUsps of US_STATE_USPS)
+      world = ensureStateExecutiveIncumbent(world, playerPersonId, stateUsps);
+
+    const stateSet = new Set<string>(US_STATE_USPS);
+    const openingHolders = currentStateExecutiveHolders(world).filter(
+      (holder) => stateSet.has(holder.stateUsps),
+    );
+    expect(openingHolders.map((holder) => holder.stateUsps).sort()).toEqual(
+      [...US_STATE_USPS].sort(),
+    );
+
+    const notices: OfficeContinuityNoticeInput[] = [];
+    for (const holder of openingHolders) {
+      const died = die(world, holder.personId, [
+        {
+          officeKey: holder.officeKey,
+          title: holder.title,
+          organizationId: holder.organizationId,
+          termEvidenceId: holder.termId,
+        },
+      ]);
+      world = died.world;
+      notices.push(died.notice);
+    }
+    let continued = applyOfficeContinuityNotices(world, notices);
+    const successionEvents = continued.history.events.filter(
+      (event) =>
+        event.type === "world.office-tenure" &&
+        event.tags.includes("provenance:succession") &&
+        event.tags.some((tag) => tag.startsWith("state:")),
+    );
+    expect(successionEvents).toHaveLength(50);
+
+    const successorIds = new Map<string, EntityId>();
+    for (const event of successionEvents) {
+      const stateValue = event.tags
+        .find((tag) => tag.startsWith("state:"))
+        ?.slice("state:".length);
+      expect(stateValue).toBeTruthy();
+      if (!stateValue || !isUsState(stateValue)) {
+        throw new Error(
+          `Succession event has invalid state tag: ${stateValue}`,
+        );
+      }
+      const stateUsps: UsStateUsps = stateValue;
+      const office = stateExecutiveOffice(stateUsps)!;
+      const successorId = event.participants.find(
+        (participant) => participant.role === "focus:subject",
+      )!.personId;
+      const successor = continued.people[successorId]!;
+      const profile = executiveSuccessionProfileFor({
+        jurisdictionKey: `US-${stateUsps}`,
+        jurisdictionId: office.jurisdictionId,
+      })!;
+      expect(profile.permanentVacancy.status).toBe("verified");
+      if (profile.permanentVacancy.status !== "verified") continue;
+      const savedRule = continued.executiveSuccessionRules?.rules[stateUsps]!;
+      expect(event.tags).toContain(`succession-line:${savedRule.line}`);
+      expect(event.tags).toContain(`capacity:${savedRule.effect}`);
+      expect(event.tags).toContain(
+        `succession-line-effect-basis:${savedRule.lineEffectBasis}`,
+      );
+      expect(event.tags).toContain(
+        `succession-profile:${savedRule.gameProfileId}`,
+      );
+      expect(
+        successor.establishedFacts.find(
+          (fact) => fact.kind === "residence" && fact.endedAt === null,
+        )?.occurredAt,
+      ).toBe(successor.birthDate);
+      expect(
+        successor.establishedFacts.find(
+          (fact) => fact.kind === "citizenship" && fact.countryCode === "US",
+        ),
+      ).toMatchObject({ occurredAt: successor.birthDate, endedAt: null });
+      if (stateUsps === "OH") {
+        expect(
+          successor.establishedFacts.find(
+            (fact) => fact.kind === "qualified-elector",
+          ),
+        ).toMatchObject({
+          jurisdictionId: office.jurisdictionId,
+          occurredAt: addDays(continued.currentDate, -30),
+          endedAt: null,
+        });
+      }
+      expect(
+        candidacyEligibility(continued, {
+          personId: successorId,
+          jurisdictionId: office.jurisdictionId,
+          officeKey: office.officeKey,
+          alreadyACandidate: false,
+        }).eligible,
+      ).toBe(true);
+      if (stateUsps === "MO" || stateUsps === "OH") {
+        const requiredKind =
+          stateUsps === "MO" ? "citizenship" : "qualified-elector";
+        const missingFactPerson = {
+          ...successor,
+          establishedFacts: successor.establishedFacts.filter(
+            (fact) => fact.kind !== requiredKind,
+          ),
+        };
+        const missingFactWorld = {
+          ...continued,
+          people: {
+            ...continued.people,
+            [successorId]: missingFactPerson,
+          },
+        };
+        const missingFactEligibility = candidacyEligibility(missingFactWorld, {
+          personId: successorId,
+          jurisdictionId: office.jurisdictionId,
+          officeKey: office.officeKey,
+          alreadyACandidate: false,
+        });
+        expect(missingFactEligibility.eligible).toBe(false);
+        expect(missingFactEligibility.blocks).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ kind: "unproved-sourced-qualification" }),
+          ]),
+        );
+      }
+      successorIds.set(stateUsps, successorId);
+    }
+
+    const reopened = deserializeWorld(serializeWorld(continued));
+    for (const [stateUsps, personId] of successorIds) {
+      const savedSuccessor = reopened.people[personId]!;
+      expect(
+        currentStateExecutiveHolders(reopened).find(
+          (holder) => holder.stateUsps === stateUsps,
+        )?.personId,
+      ).toBe(personId);
+      expect(
+        savedSuccessor.establishedFacts.some(
+          (fact) => fact.kind === "citizenship" && fact.countryCode === "US",
+        ),
+      ).toBe(true);
+      if (stateUsps === "OH") {
+        expect(
+          savedSuccessor.establishedFacts.find(
+            (fact) => fact.kind === "qualified-elector",
+          )?.jurisdictionId,
+        ).toBe(stateExecutiveOffice("OH")!.jurisdictionId);
+      }
+    }
+    expect(applyOfficeContinuityNotices(reopened, notices)).toBe(reopened);
+
+    continued = passOrdinaryDays(reopened, 1, handlers());
+    expect(
+      continued.history.events.filter(
+        (event) =>
+          event.type === "world.office-tenure" &&
+          event.tags.includes("provenance:succession") &&
+          event.tags.some((tag) => tag.startsWith("state:")),
+      ),
+    ).toHaveLength(50);
+    for (const [stateUsps, personId] of successorIds) {
+      expect(
+        currentStateExecutiveHolders(continued).find(
+          (holder) => holder.stateUsps === stateUsps,
+        )?.personId,
+      ).toBe(personId);
+    }
+  }, 300_000);
+
+  it("records and resolves a dated special governor election from the saved succession profile", () => {
+    const opening = openingWorld("k3-governor-special-succession");
+    const playerPersonId =
+      opening.control.kind === "person"
+        ? opening.control.personId
+        : opening.personOrder[0]!;
+    let world = ensureStateExecutiveIncumbent(opening, playerPersonId, "AZ");
+    const savedRule = world.executiveSuccessionRules!.rules.AZ!;
+    world = {
+      ...world,
+      executiveSuccessionRules: {
+        ...world.executiveSuccessionRules!,
+        rules: {
+          ...world.executiveSuccessionRules!.rules,
+          AZ: { ...savedRule, handoffDelayDays: 60 },
+        },
+      },
+    };
+    const incumbent = currentStateExecutiveHolders(world).find(
+      (holder) => holder.stateUsps === "AZ",
+    )!;
+    const died = die(world, incumbent.personId, [
+      {
+        officeKey: incumbent.officeKey,
+        title: incumbent.title,
+        organizationId: incumbent.organizationId,
+        termEvidenceId: incumbent.termId,
+      },
+    ]);
+    let next = applyOfficeContinuityNotices(died.world, [died.notice]);
+    const contest = next.history.electionContests?.find((candidate) =>
+      candidate.stableKey.includes("special-election-contest"),
+    );
+    expect(contest).toBeDefined();
+    expect(
+      daysBetween(next.currentDate, contest!.electionDate),
+    ).toBeGreaterThan(0);
+    expect(
+      next.history.futureDueItems.some(
+        (due) =>
+          due.transitionKey ===
+            "governing:governor-succession-special-election" &&
+          due.dueAt === contest!.electionDate,
+      ),
+    ).toBe(true);
+    const interim = currentStateExecutiveHolders(next).find(
+      (holder) => holder.stateUsps === "AZ",
+    )!;
+    expect(interim.capacity).toBe("acting");
+    const deceasedCandidateId = contest!.candidatePersonIds.find(
+      (candidateId) => candidateId !== interim.personId,
+    );
+    expect(deceasedCandidateId).toBeDefined();
+    next = die(next, deceasedCandidateId!, []).world;
+    const elapsed = daysBetween(next.currentDate, contest!.electionDate);
+    next = passOrdinaryDays(next, elapsed, handlers());
+    const result = electionContestResult(next, contest!.id);
+    expect(result).not.toBeNull();
+    expect(result!.winnerPersonId).toBe(interim.personId);
+    expect(
+      result!.tallies.find(
+        (tally) => tally.candidatePersonId === deceasedCandidateId,
+      ),
+    ).toMatchObject({ votes: 0, voteShare: 0 });
+    const handoff = next.history.events.find(
+      (event) =>
+        event.type === "world.office-handoff" &&
+        event.tags.includes(`special-election:${contest!.id}`),
+    );
+    expect(handoff?.summary).toBe(
+      `Acting Governor ${interim.personName}'s service ended when Governor ${personName(next.people[result!.winnerPersonId]!)} took office.`,
+    );
+    const current = currentStateExecutiveHolders(next).find(
+      (holder) => holder.stateUsps === "AZ",
+    );
+    expect(current?.personId).toBe(result!.winnerPersonId);
+    expect(current?.capacity).toBe("permanent");
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(
+      currentStateExecutiveHolders(reopened).find(
+        (holder) => holder.stateUsps === "AZ",
+      )?.personId,
+    ).toBe(result!.winnerPersonId);
   }, 300_000);
 
   it("a Chief Justice who dies is replaced by the President's nominee once the Senate confirms", () => {

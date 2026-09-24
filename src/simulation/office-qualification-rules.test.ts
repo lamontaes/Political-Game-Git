@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { createScenarioWorld } from "./demo";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import { makeIsoDate } from "./dates";
+import { createStableId } from "./ids";
+import { stateJurisdictionForKey } from "./life-places";
 import {
   OFFICE_QUALIFICATIONS_META,
   QUALIFICATION_SOURCED_STATE_KEYS,
@@ -113,6 +115,151 @@ describe("production-compiled office qualification rules", () => {
       verdict: "fails",
       source: { citation: "Neb. Const. art. III, § 8" },
     });
+  });
+
+  it("checks dated citizenship and state-scoped elector facts without inferring either", () => {
+    const world = createScenarioWorld(
+      "qualification-status-facts",
+      LEXINGTON_DEMO_CONTEXT,
+      { peopleCount: 3 },
+    );
+    const basePerson = world.people[world.personOrder[0]!]!;
+    const onDate = makeIsoDate("2026-09-09");
+    const moId = stateJurisdictionForKey("US-MO")!.id;
+    const ohId = stateJurisdictionForKey("US-OH")!.id;
+    const citizenshipFact = (occurredAt: string, endedAt: string | null) => ({
+      id: createStableId("fact", `${basePerson.id}:citizenship:${occurredAt}`),
+      stableKey: `citizenship:${occurredAt}`,
+      kind: "citizenship" as const,
+      occurredAt: makeIsoDate(occurredAt),
+      endedAt: endedAt === null ? null : makeIsoDate(endedAt),
+      jurisdictionId: null,
+      countryCode: "US" as const,
+      summary: "A fictional, dated United States citizenship fact.",
+      provenance: {
+        method: "manual" as const,
+        sourceEventId: null,
+        note: "Fictional qualification fixture.",
+      },
+    });
+    const electorFact = (
+      jurisdictionId: typeof ohId,
+      occurredAt: string,
+      endedAt: string | null,
+    ) => ({
+      id: createStableId("fact", `${basePerson.id}:elector:${occurredAt}`),
+      stableKey: `qualified-elector:${occurredAt}`,
+      kind: "qualified-elector" as const,
+      occurredAt: makeIsoDate(occurredAt),
+      endedAt: endedAt === null ? null : makeIsoDate(endedAt),
+      jurisdictionId,
+      summary: "A fictional, dated state-qualified-elector fact.",
+      provenance: {
+        method: "manual" as const,
+        sourceEventId: null,
+        note: "Fictional qualification fixture.",
+      },
+    });
+    const assess = (
+      stateJurisdictionKey: string,
+      officeFamily: "GOVERNOR",
+      person: typeof basePerson,
+      stateJurisdictionId: typeof moId | typeof ohId,
+    ) =>
+      assessOfficeQualifications({
+        person,
+        stateJurisdictionKey,
+        stateJurisdictionId,
+        officeFamily,
+        stateResidenceSince: makeIsoDate("2000-01-01"),
+        districtResidenceSince: null,
+        onDate,
+      });
+
+    const citizenForSixteenYears = {
+      ...basePerson,
+      establishedFacts: [
+        ...basePerson.establishedFacts,
+        citizenshipFact("2010-01-01", null),
+      ],
+    };
+    expect(
+      assess("US-MO", "GOVERNOR", citizenForSixteenYears, moId).find(
+        (item) => item.field === "US_CITIZENSHIP",
+      )?.verdict,
+    ).toBe("meets");
+
+    const citizenForElevenYears = {
+      ...basePerson,
+      establishedFacts: [
+        ...basePerson.establishedFacts,
+        citizenshipFact("2015-01-01", null),
+      ],
+    };
+    expect(
+      assess("US-MO", "GOVERNOR", citizenForElevenYears, moId).find(
+        (item) => item.field === "US_CITIZENSHIP",
+      )?.verdict,
+    ).toBe("fails");
+    const expiredCitizenship = {
+      ...basePerson,
+      establishedFacts: [
+        ...basePerson.establishedFacts,
+        citizenshipFact("2010-01-01", "2020-01-01"),
+      ],
+    };
+    expect(
+      assess("US-MO", "GOVERNOR", expiredCitizenship, moId).find(
+        (item) => item.field === "US_CITIZENSHIP",
+      )?.verdict,
+    ).toBe("not-evaluated");
+    expect(
+      assess("US-MO", "GOVERNOR", basePerson, moId).find(
+        (item) => item.field === "US_CITIZENSHIP",
+      )?.verdict,
+    ).toBe("not-evaluated");
+
+    const ohioElector = {
+      ...basePerson,
+      establishedFacts: [
+        ...basePerson.establishedFacts,
+        electorFact(ohId, "2026-08-10", null),
+      ],
+    };
+    expect(
+      assess("US-OH", "GOVERNOR", ohioElector, ohId).find(
+        (item) => item.field === "ELECTOR_REQUIREMENT",
+      )?.verdict,
+    ).toBe("meets");
+    const otherStateElector = {
+      ...basePerson,
+      establishedFacts: [
+        ...basePerson.establishedFacts,
+        electorFact(moId, "2026-08-10", null),
+      ],
+    };
+    expect(
+      assess("US-OH", "GOVERNOR", otherStateElector, ohId).find(
+        (item) => item.field === "ELECTOR_REQUIREMENT",
+      )?.verdict,
+    ).toBe("not-evaluated");
+    const expiredElector = {
+      ...basePerson,
+      establishedFacts: [
+        ...basePerson.establishedFacts,
+        electorFact(ohId, "2026-08-10", "2026-09-08"),
+      ],
+    };
+    expect(
+      assess("US-OH", "GOVERNOR", expiredElector, ohId).find(
+        (item) => item.field === "ELECTOR_REQUIREMENT",
+      )?.verdict,
+    ).toBe("not-evaluated");
+    expect(
+      assess("US-OH", "GOVERNOR", basePerson, ohId).find(
+        (item) => item.field === "ELECTOR_REQUIREMENT",
+      )?.verdict,
+    ).toBe("not-evaluated");
   });
 
   it("bounds Ohio and Nevada rules by provision evidence, not transport dates", () => {

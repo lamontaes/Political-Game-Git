@@ -388,6 +388,8 @@ export type PersonFactKind =
   | "birth-date"
   | "birthplace"
   | "residence"
+  | "citizenship"
+  | "qualified-elector"
   | "family-relationship"
   | "education"
   | "occupation";
@@ -423,6 +425,21 @@ export interface BirthplaceFact extends PersonFactBase {
 
 export interface ResidenceFact extends PersonFactBase {
   readonly kind: "residence";
+  readonly jurisdictionId: EntityId;
+  readonly endedAt: IsoDate | null;
+}
+
+/** A dated citizenship interval; absence remains unknown, not noncitizen. */
+export interface CitizenshipFact extends PersonFactBase {
+  readonly kind: "citizenship";
+  readonly jurisdictionId: null;
+  readonly countryCode: "US";
+  readonly endedAt: IsoDate | null;
+}
+
+/** A dated, state-scoped qualified-elector status. */
+export interface QualifiedElectorFact extends PersonFactBase {
+  readonly kind: "qualified-elector";
   readonly jurisdictionId: EntityId;
   readonly endedAt: IsoDate | null;
 }
@@ -466,6 +483,8 @@ export type PersonFact =
   | BirthDateFact
   | BirthplaceFact
   | ResidenceFact
+  | CitizenshipFact
+  | QualifiedElectorFact
   | FamilyRelationshipFact
   | EducationFact
   | OccupationFact;
@@ -4796,6 +4815,45 @@ export interface SetupPriorStore {
   readonly answers: readonly SetupAnswerRecord[];
 }
 
+export type ExecutiveSuccessionLine =
+  "lieutenant-governor" | "senate-president" | "secretary-of-state";
+
+export type ExecutiveSuccessionEffect = "permanent" | "acting";
+
+export type ExecutiveSuccessionDuration =
+  "until-incumbent-returns" | "until-successor-takes-office" | "at-term-end";
+
+export interface ExecutiveSuccessionRuleSource {
+  readonly citation: string;
+  readonly url: string;
+  readonly pinpoint: string;
+  readonly effectiveAsOf: string;
+}
+
+/** The per-World opening rule, kept separate from legal research evidence. */
+export interface ExecutiveSuccessionWorldRule {
+  readonly stateUsps: string;
+  readonly line: ExecutiveSuccessionLine;
+  readonly lineOffice: string;
+  readonly effect: ExecutiveSuccessionEffect;
+  readonly duration: ExecutiveSuccessionDuration | null;
+  readonly handoff: "regular-election" | "special-election";
+  /** A simulated interval used only when a special-election handoff is chosen. */
+  readonly handoffDelayDays: number | null;
+  readonly lineEffectBasis: "source-backed" | "game-profile";
+  readonly durationBasis: "source-backed" | "game-profile";
+  readonly handoffBasis: "source-backed" | "game-profile";
+  readonly gameProfileId: string;
+  /** Legal research is retained as context, not promoted to active authority. */
+  readonly source: ExecutiveSuccessionRuleSource | null;
+}
+
+export interface ExecutiveSuccessionWorldRuleStore {
+  readonly version: "executive-succession-world-rules/v1";
+  readonly selectedAt: IsoDate;
+  readonly rules: Readonly<Record<string, ExecutiveSuccessionWorldRule>>;
+}
+
 export interface World {
   /** Immutable validated definitions accepted for this life; absent in legacy saves. */
   readonly contentPacks?: WorldContentPacks;
@@ -4831,6 +4889,8 @@ export interface World {
    * a convention.
    */
   readonly setupPriors?: SetupPriorStore;
+  /** Dated, serialized state executive succession choices; absent in legacy saves. */
+  readonly executiveSuccessionRules?: ExecutiveSuccessionWorldRuleStore;
   /**
    * CHANGE macro history (CRUNCH46 08). Optional and additive: a world
    * written before it existed has no macro history and is never retrofitted.

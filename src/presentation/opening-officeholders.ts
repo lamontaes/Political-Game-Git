@@ -223,7 +223,8 @@ export function currentPublicOfficeholders(
 function stateOfficeholders(world: World): readonly PublicOfficeholderRecord[] {
   return currentStateExecutiveHolders(world).map((holder) => ({
     officeKey: holder.officeKey,
-    title: holder.title,
+    title:
+      holder.capacity === "acting" ? `Acting ${holder.title}` : holder.title,
     personId: holder.personId,
     personName: holder.personName,
     termId: holder.termId,
@@ -233,6 +234,7 @@ function stateOfficeholders(world: World): readonly PublicOfficeholderRecord[] {
     termFactsUnknown: holder.termFactsUnknown,
     identityProvenance: holder.identityProvenance,
     sources: holder.sources,
+    ...(holder.capacity === "acting" ? { capacity: "acting" as const } : {}),
   }));
 }
 

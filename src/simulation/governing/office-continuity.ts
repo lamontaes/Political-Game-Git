@@ -48,7 +48,10 @@ import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
-import { seatGovernorSuccessor } from "../nationwide-world/governor-succession";
+import {
+  governorSuccessionKey,
+  seatGovernorSuccessor,
+} from "../nationwide-world/governor-succession";
 import {
   currentStateExecutiveHolders,
   stateExecutiveOffice,
@@ -161,6 +164,7 @@ export interface OfficeContinuityNoticeInput {
 
 export type OfficeContinuityOutcome =
   | "succeeded"
+  | "acting"
   | "vacant"
   | "special-election"
   | "blocked"
@@ -827,8 +831,6 @@ function rulingFor(
   if (seat) return vacateSeat(world, seat, MEMBER_DIED(notice.effectiveDate));
   const governorship = governorOffice(office.officeKey);
   if (governorship) {
-    // PLACEHOLDER (governor-succession.ts): the next officer in line serves
-    // the rest of the term.
     const seated = seatGovernorSuccessor(world, governorship, {
       vacancyDate: notice.effectiveDate,
       formerHolderId: notice.personId,
@@ -837,13 +839,24 @@ function rulingFor(
     const successor = seated.successorId
       ? seated.world.people[seated.successorId]
       : undefined;
-    return successor
+    const successionEvent = seated.successorId
+      ? seated.world.history.events.find(
+          (candidate) =>
+            candidate.stableKey ===
+            governorSuccessionKey(
+              governorship,
+              notice.effectiveDate,
+              notice.personId,
+            ),
+        )
+      : undefined;
+    return successor && successionEvent
       ? {
           world: seated.world,
           ruling: {
             ...base,
-            outcome: "succeeded",
-            sentence: `${personName(successor)} succeeded to the office of ${governorship.displayName} and serves the rest of the term.`,
+            outcome: seated.capacity === "acting" ? "acting" : "succeeded",
+            sentence: successionEvent.summary,
           },
         }
       : {
@@ -851,7 +864,8 @@ function rulingFor(
           ruling: {
             ...base,
             outcome: "blocked",
-            sentence: `${governorship.displayName} is vacant, and no record of the office exists to seat a successor in.`,
+            sentence:
+              "The office is vacant, and no successor has taken office.",
           },
         };
   }

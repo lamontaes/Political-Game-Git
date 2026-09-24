@@ -82,6 +82,32 @@ export const AMENDABLE_RULE_FIELDS = {
    */
   "executive.term.limit": { kind: "term-limit", family: "executive" },
   /**
+   * Which of the supported first-line office families takes a governor's
+   * place. This is read with the state's active succession profile; the
+   * profile still owns whether a particular line and disposition are known.
+   */
+  "executive.succession.line": {
+    kind: "choice",
+    options: ["lieutenant-governor", "senate-president", "secretary-of-state"],
+    family: "executive",
+  },
+  /** Whether a line-holder succeeds permanently or acts until the rule's end. */
+  "executive.succession.effect": {
+    kind: "choice",
+    options: ["permanent", "acting"],
+    family: "executive",
+  },
+  /** The active rule that ends an acting governor's service. */
+  "executive.succession.duration": {
+    kind: "choice",
+    options: [
+      "until-incumbent-returns",
+      "until-successor-takes-office",
+      "at-term-end",
+    ],
+    family: "executive",
+  },
+  /**
    * Whether and how a state lets its towns' voters recall an official, as a
    * `MunicipalRecallDoctrine`. The office key is the state's municipal law,
    * `us-xx-municipal-law`. Read by `recall.ts` through the municipal rule
@@ -166,6 +192,9 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
     "the years of district residence required to serve",
   "executive.term.years": "the length of the chief executive's term in years",
   "executive.term.limit": "the chief executive's term limit",
+  "executive.succession.line": "who takes office next",
+  "executive.succession.effect": "how the successor takes office",
+  "executive.succession.duration": "when the acting service ends",
   "municipal.recall.doctrine": "how towns' voters may recall an official",
 };
 
@@ -178,6 +207,14 @@ const CHOICE_WORDS: Readonly<Record<string, string>> = {
   "judicial-cause-removal-trial":
     "removal by a court for cause, with no recall vote",
   prohibited: "no recall of town officials",
+  "lieutenant-governor": "the lieutenant governor",
+  "senate-president": "the president of the state senate",
+  "secretary-of-state": "the secretary of state",
+  permanent: "takes office as governor",
+  acting: "acts as governor",
+  "until-incumbent-returns": "when the governor can return",
+  "until-successor-takes-office": "when a successor takes office",
+  "at-term-end": "at the end of the term",
 };
 
 /** Plain words for a changed value, for a player-facing sentence. */

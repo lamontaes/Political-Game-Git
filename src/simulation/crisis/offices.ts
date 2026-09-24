@@ -2,6 +2,7 @@ import { currentFederalTenure } from "../federal-tenures";
 import { projectCongress } from "../living-world/congress";
 import { nationalOfficeHolder } from "../national-election-consumer";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import type { StateExecutiveCapacity } from "../nationwide-world/state-executives";
 import type { EntityId, World } from "../types";
 import type { OfficeRef } from "./types";
 
@@ -70,7 +71,10 @@ export function publicOfficesHeldBy(
     if (holder.personId !== personId) continue;
     refs.push({
       officeKey: holder.officeKey,
-      title: holder.title,
+      title:
+        holder.capacity === "acting"
+          ? `Acting ${holder.title}`
+          : holder.title,
       organizationId: holder.organizationId,
       termEvidenceId: holder.termId,
     });
@@ -100,6 +104,7 @@ export interface OfficeHolder {
   readonly personId: EntityId;
   readonly officeKey: string;
   readonly title: string;
+  readonly capacity?: StateExecutiveCapacity;
 }
 
 /** The person currently holding a state's chief executive office, if any. */
@@ -115,6 +120,7 @@ export function currentGovernorOf(
         personId: holder.personId,
         officeKey: holder.officeKey,
         title: holder.title,
+        capacity: holder.capacity,
       }
     : null;
 }

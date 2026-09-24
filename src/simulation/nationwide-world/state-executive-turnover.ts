@@ -10,8 +10,8 @@ import {
 import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
-import { scheduleFutureDueItem } from "../future-transitions";
 import { recordWorldEvent } from "../world";
+import { scheduleFutureDueItem } from "../future-transitions";
 import type {
   EntityId,
   FutureDueItem,
@@ -34,6 +34,10 @@ import {
 } from "./state-executives";
 import { generalElectionDay } from "./state-executive-term-rules";
 import { planOrdinaryStateExecutiveTerm } from "./state-executive-terms";
+import {
+  GOVERNOR_SUCCESSION_SPECIAL_ELECTION,
+  governorSuccessionSpecialElectionHandler,
+} from "./governor-succession";
 
 import {
   GOVERNOR_FIELD_CLOSE,
@@ -400,13 +404,90 @@ export function governorTermPlanHandler(
       electionContestResult(world, candidate.id),
   );
   if (!contest) return done(world, "No decided contest to date.");
-  return done(
-    planOrdinaryStateExecutiveTerm(world, contest.id),
-    `The ${found.year} winner's term was dated.`,
+  const handoffDate = makeIsoDate(due.dueAt);
+  const beforeHandoff: World = {
+    ...world,
+    currentDate: addDays(handoffDate, -1),
+  };
+  const priorActing = currentStateExecutiveHolders(beforeHandoff).find(
+    (holder) =>
+      holder.stateUsps === found.office.stateUsps &&
+      holder.capacity === "acting",
   );
+  const actingTenure = priorActing
+    ? world.history.events.find((event) => event.id === priorActing.termId)
+    : undefined;
+  const actingDuration = actingTenure?.tags
+    .find((tag) => tag.startsWith("acting-duration:"))
+    ?.slice("acting-duration:".length);
+  let next = planOrdinaryStateExecutiveTerm(world, contest.id);
+  const elected = currentStateExecutiveHolders(next).find(
+    (holder) => holder.stateUsps === found.office.stateUsps,
+  );
+  if (
+    !priorActing ||
+    !elected ||
+    elected.origin !== "elected-term" ||
+    elected.personId === priorActing.personId ||
+    !["until-successor-takes-office", "at-term-end"].includes(
+      actingDuration ?? "",
+    )
+  )
+    return done(next, `The ${found.year} winner's term was dated.`);
+
+  const stableKey = `governor-succession-handoff/v1:${found.office.officeKey}:${priorActing.termId}:${elected.termId}`;
+  if (next.history.events.some((event) => event.stableKey === stableKey))
+    return done(next, `The ${found.year} winner's term was dated.`);
+  const handoff = recordWorldEvent(next, {
+    stableKey,
+    type: "world.office-handoff",
+    occurredAt: handoffDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: found.office.jurisdictionId,
+    involvedEntityIds: [
+      priorActing.personId,
+      elected.personId,
+      elected.organizationId,
+    ],
+    participants: [
+      {
+        personId: priorActing.personId,
+        role: "focus:subject",
+        detail: "Acting Governor",
+      },
+      { personId: elected.personId, role: "focus:other", detail: "Governor" },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      GOVERNOR_TURNOVER_PROFILE.id,
+      "provenance:governor-succession-handoff",
+      `office:${found.office.officeKey}`,
+      `state:${found.office.stateUsps}`,
+      `acting-tenure:${priorActing.termId}`,
+      `elected-term:${elected.termId}`,
+    ],
+    summary: `Acting Governor ${priorActing.personName}'s service ended when Governor ${elected.personName} took office.`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return {
+    ...done(handoff, `The ${found.year} winner's term was dated.`),
+    outcomeEventId: handoff.history.events.at(-1)?.id ?? null,
+  };
 }
 
 export const GOVERNOR_TURNOVER_HANDLERS = [
   [GOVERNOR_FIELD_CLOSE, governorFieldCloseHandler],
   [GOVERNOR_TERM_PLAN, governorTermPlanHandler],
+  [
+    GOVERNOR_SUCCESSION_SPECIAL_ELECTION,
+    governorSuccessionSpecialElectionHandler,
+  ],
 ] as const;

@@ -152,7 +152,8 @@ function officeFromHolder(
   return {
     officeKey: holder.officeKey,
     stateUsps: holder.stateUsps,
-    title: holder.title,
+    title:
+      holder.capacity === "acting" ? `Acting ${holder.title}` : holder.title,
     jurisdictionId,
     organizationId: holder.organizationId,
     holderPersonId: holder.personId,

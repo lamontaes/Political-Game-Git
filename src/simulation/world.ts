@@ -157,6 +157,10 @@ import {
 } from "./policy-semantics";
 import { normalizeSeed } from "./rng";
 import {
+  assertExecutiveSuccessionWorldRuleStore,
+  createExecutiveSuccessionWorldRuleStore,
+} from "./nationwide-world/executive-succession-world-rules";
+import {
   assertResourceHousingIntegrity,
   resourceHousingEntityAvailableAt,
   resourceHousingEntityExists,
@@ -254,6 +258,8 @@ const PERSON_FACT_KINDS: readonly PersonFactKind[] = [
   "birth-date",
   "birthplace",
   "residence",
+  "citizenship",
+  "qualified-elector",
   "family-relationship",
   "education",
   "occupation",
@@ -463,6 +469,10 @@ export function createWorld(input: CreateWorldInput): World {
       ? createProductionVitalityCatalog()
       : createSyntheticVitalityCatalog());
   const control = input.control ?? { kind: "observer" as const };
+  const executiveSuccessionRules = createExecutiveSuccessionWorldRuleStore(
+    seed,
+    currentDate,
+  );
 
   assertJsonSafe(input.jurisdictions, "jurisdictions");
   assertJsonSafe(input.people, "people");
@@ -473,6 +483,7 @@ export function createWorld(input: CreateWorldInput): World {
   assertJsonSafe(incidentCatalog, "incidentCatalog");
   assertJsonSafe(vitalityCatalog, "vitalityCatalog");
   assertJsonSafe(control, "control");
+  assertJsonSafe(executiveSuccessionRules, "executiveSuccessionRules");
   assertPolicyCatalogIntegrity(policyCatalog);
   assertMindCatalogIntegrity(mindCatalog);
   assertWorldMetricCatalogIntegrity(metricCatalog);
@@ -518,6 +529,7 @@ export function createWorld(input: CreateWorldInput): World {
     vitalityCatalog: cloneVitalityCatalog(vitalityCatalog),
     control: { ...control },
     history: createHistoryStore(),
+    executiveSuccessionRules,
     // Spread conditionally rather than written as `undefined`: a world with no
     // priors must serialize exactly as it did before this field existed, and
     // an explicit `undefined` key would be dropped by `JSON.stringify` but is
@@ -588,6 +600,8 @@ export function assertWorldIntegrity(world: World): void {
 
 function validateWorldIntegrity(world: World): void {
   assertJsonSafe(world, "world");
+  if (world.executiveSuccessionRules !== undefined)
+    assertExecutiveSuccessionWorldRuleStore(world.executiveSuccessionRules);
   if (world.contentPacks !== undefined)
     assertWorldContentPacks(world.contentPacks);
   if (
@@ -1524,6 +1538,27 @@ function validateInitialEntities(
             }
           }
           break;
+        case "citizenship":
+          if (fact.jurisdictionId !== null || fact.countryCode !== "US") {
+            throw new Error(`Person citizenship fact is invalid: ${fact.id}`);
+          }
+          validateEndedAt(fact.id, factDate, fact.endedAt, currentDate);
+          break;
+        case "qualified-elector": {
+          const electorJurisdictionId: unknown = (
+            fact as { readonly jurisdictionId: unknown }
+          ).jurisdictionId;
+          if (
+            typeof electorJurisdictionId !== "string" ||
+            electorJurisdictionId.length === 0
+          ) {
+            throw new Error(
+              `Qualified-elector fact has no jurisdiction: ${fact.id}`,
+            );
+          }
+          validateEndedAt(fact.id, factDate, fact.endedAt, currentDate);
+          break;
+        }
         case "family-relationship":
           validateEndedAt(fact.id, factDate, fact.endedAt, currentDate);
           if (!personIds.has(fact.relatedPersonId)) {
