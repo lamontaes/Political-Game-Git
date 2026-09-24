@@ -11,7 +11,7 @@ import {
   resolveRequiredVotes,
   type VoteDenominator,
 } from "./legislature-rules";
-import { rulePackById } from "./legislature-rule-packs";
+import { legislativeRulePackForWorld } from "./legislative-procedure-world";
 import {
   measureActions,
   measurePosition,
@@ -122,7 +122,7 @@ export function assertLegislationIntegrity(
         `Legislative measure references a missing jurisdiction: ${measure.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     chamberByKey(pack, measure.originChamberKey);
     // Where the measure claims to have begun must satisfy the jurisdiction's
     // own sourced origination rule, whoever wrote the record. This holds even
@@ -186,7 +186,7 @@ export function assertLegislationIntegrity(
         `Legislative vote references a missing measure: ${vote.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     makeIsoDate(vote.takenAt);
 
     if (vote.dispositions.length === 0) {
@@ -336,7 +336,7 @@ export function assertLegislationIntegrity(
         `Committee referral references a missing measure: ${referral.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     const chamber = chamberByKey(pack, referral.chamberKey);
     committeeByKey(chamber, referral.committeeKey);
     makeIsoDate(referral.referredAt);
@@ -382,7 +382,7 @@ export function assertLegislationIntegrity(
         `Amendment references a missing measure: ${amendment.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     const chamber = chamberByKey(pack, amendment.chamberKey);
     if (amendment.floorStageKey) {
       floorStageByKey(chamber, amendment.floorStageKey);
@@ -475,7 +475,7 @@ export function assertLegislationIntegrity(
         `Legislative action references a missing vote: ${action.id}`,
       );
     }
-    const pack = rulePackById(measure.rulePackId);
+    const pack = legislativeRulePackForWorld(world, measure.rulePackId);
     if (action.chamberKey) chamberByKey(pack, action.chamberKey);
     makeIsoDate(action.occurredAt);
     actionsByMeasure.set(
@@ -532,7 +532,7 @@ export function assertLegislationIntegrity(
     }
     if (basis === "source-default") {
       const resolved = resolveLegislativeEffectiveDate(
-        rulePackById(measure.rulePackId),
+        legislativeRulePackForWorld(world, measure.rulePackId),
         enactment.resolvedAt,
       );
       if (

@@ -24,11 +24,19 @@ import {
   type LegislativeProcedureContext,
 } from "../simulation/legislation-scenarios";
 import { rulePackById } from "../simulation/legislature-rule-packs";
+import {
+  legislativeProcedureForJurisdiction,
+  legislativeRulePackForWorld,
+  regularSessionDateStatus,
+  regularSessionYearForWorld,
+} from "../simulation/legislative-procedure-world";
 import { stateJurisdictionForKey } from "../simulation/life-places";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { STATES, isTerritoryUsps } from "../simulation/state-reference";
 import type { EntityId, World } from "../simulation/types";
 import { assertWorldIntegrity, createWorld } from "../simulation/world";
+import { ensureWorldStartingConditions } from "../simulation/world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
 import { applyLegislativeStep } from "./legislation-session";
 import {
   legislativeWorkAvailableIn,
@@ -52,26 +60,20 @@ interface FiledProcedure {
   readonly originalSeats: number;
 }
 
-function fileFixtureBill(stateUsps: string): FiledProcedure {
+function fileProcedureBill(
+  stateUsps: string,
+  base: World,
+  pack: ReturnType<typeof rulePackById>,
+): FiledProcedure {
   const jurisdictionKey = `US-${stateUsps}`;
   const identity = stateJurisdictionForKey(jurisdictionKey);
   if (!identity)
     throw new Error(`${stateUsps}: no state jurisdiction identity`);
-  const selected = legislatureForState(jurisdictionKey);
-  if (!selected) throw new Error(`${stateUsps}: no legislature profile`);
-  // Resolve the saved pack ID through the same registry that measure replay uses.
-  const pack = rulePackById(selected.packId);
   const chamberKey = pack.chamberOrder[0];
   if (!chamberKey) throw new Error(`${stateUsps}: no origin chamber`);
   const originalSeats = seatsForChamber(pack, chamberKey)?.seats;
   if (!originalSeats) throw new Error(`${stateUsps}: no seated origin chamber`);
 
-  const base = createWorld({
-    seed: `state-bill-process-matrix:${stateUsps}`,
-    currentDate: makeIsoDate("2026-01-05"),
-    jurisdictions: [identity],
-    people: [],
-  });
   const world = introduceMeasure(base, {
     stableKey: `matrix:${stateUsps}:bill`,
     jurisdictionId: identity.id,
@@ -133,6 +135,73 @@ function fileFixtureBill(stateUsps: string): FiledProcedure {
       governorRationale: "The fictional executive signed this fixture bill.",
     },
   };
+}
+
+function fileFixtureBill(stateUsps: string): FiledProcedure {
+  const jurisdictionKey = `US-${stateUsps}`;
+  const identity = stateJurisdictionForKey(jurisdictionKey);
+  if (!identity)
+    throw new Error(`${stateUsps}: no state jurisdiction identity`);
+  const selected = legislatureForState(jurisdictionKey);
+  if (!selected) throw new Error(`${stateUsps}: no legislature profile`);
+  // The legacy fixture deliberately has no saved starting procedure record.
+  const pack = rulePackById(selected.packId);
+  const base = createWorld({
+    seed: `state-bill-process-matrix:${stateUsps}`,
+    currentDate: makeIsoDate("2026-01-05"),
+    jurisdictions: [identity],
+    people: [],
+  });
+  return fileProcedureBill(stateUsps, base, pack);
+}
+
+const savedMatrixWorlds = new Map<number, World>();
+
+function savedMatrixWorld(year: number): World {
+  const existing = savedMatrixWorlds.get(year);
+  if (existing) return existing;
+  const jurisdictions = STATE_CODES.map((usps) => {
+    const identity = stateJurisdictionForKey(`US-${usps}`);
+    if (!identity) throw new Error(`${usps}: no state jurisdiction identity`);
+    return identity;
+  });
+  const world = ensureWorldStartingConditions(
+    createWorld({
+      seed: "state-bill-saved-process-matrix",
+      currentDate: makeIsoDate(`${year}-01-05`),
+      jurisdictions,
+      people: [],
+    }),
+    { openingVersion: CRUNCH46_WORLD_OPENING_VERSION },
+  );
+  savedMatrixWorlds.set(year, world);
+  return world;
+}
+
+function fileSavedFixtureBill(stateUsps: string): FiledProcedure {
+  const jurisdictionKey = `US-${stateUsps}`;
+  const identity = stateJurisdictionForKey(jurisdictionKey);
+  if (!identity)
+    throw new Error(`${stateUsps}: no state jurisdiction identity`);
+  const initial = savedMatrixWorld(2026);
+  const profile = legislativeProcedureForJurisdiction(initial, identity.id);
+  if (!profile) throw new Error(`${stateUsps}: no saved starting procedure`);
+  const year =
+    profile.sessionCadence === "biennial" && profile.sessionYearParity === "odd"
+      ? 2027
+      : 2026;
+  const base = savedMatrixWorld(year);
+  if (!regularSessionYearForWorld(base, identity.id, year)) {
+    throw new Error(`${stateUsps}: selected year is outside saved cadence`);
+  }
+  const pack = legislativeRulePackForWorld(base, profile.baselinePack.packId);
+  if (
+    regularSessionDateStatus(pack, base.currentDate).kind !==
+    "within-outer-limit"
+  ) {
+    throw new Error(`${stateUsps}: selected date is outside saved session`);
+  }
+  return fileProcedureBill(stateUsps, base, pack);
 }
 
 function enactFiledBill(
@@ -204,6 +273,45 @@ describe("one shared state bill procedure across the fifty states", () => {
       );
     },
   );
+
+  it.each(STATE_CODES)(
+    "%s: saved starting procedure files and enacts a direct bill",
+    (usps) => {
+      const filed = fileSavedFixtureBill(usps);
+      const enacted = enactFiledBill(filed);
+      const profile = legislativeProcedureForJurisdiction(
+        enacted,
+        stateJurisdictionForKey(`US-${usps}`)!.id,
+      );
+      if (!profile) throw new Error(`${usps}: saved procedure disappeared`);
+      const enactment = enacted.history.legislativeEnactments?.at(-1);
+      expect(measurePosition(enacted, filed.measureId).outcome).toBe("enacted");
+      expect(enactment).toMatchObject({
+        measureId: filed.measureId,
+        effectiveDateBasis: "game-default",
+        effectiveDateGameProfile: {
+          version: profile.procedureProvenance.version,
+          days: profile.effectiveDateDays,
+        },
+      });
+      expect(enactment?.effectiveAt).toBe(
+        addDays(enactment!.resolvedAt, profile.effectiveDateDays),
+      );
+    },
+  );
+
+  it("reloads a saved Kentucky direct enactment with its effective-date terms", () => {
+    const filed = fileSavedFixtureBill("KY");
+    const enacted = enactFiledBill(filed);
+    const loaded = deserializeWorld(serializeWorld(enacted));
+    expect(loaded.history.legislativeEnactments?.at(-1)).toEqual(
+      enacted.history.legislativeEnactments?.at(-1),
+    );
+    expect(
+      legislativeRulePackForWorld(loaded, filed.context.pack.packId),
+    ).toEqual(filed.context.pack);
+    expect(() => assertWorldIntegrity(loaded)).not.toThrow();
+  });
 
   it("measures amendment admission and adoption across the same fifty packs", () => {
     const admitted: string[] = [];

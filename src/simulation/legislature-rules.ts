@@ -494,6 +494,8 @@ export interface EnactmentRule {
 }
 
 export interface SessionRule {
+  /** A saved game's regular-session cadence; absent in legacy rule packs. */
+  readonly regularSessionYears?: KnownRuleValue<"annual" | "odd" | "even">;
   /** Outer regular-session boundary only; not proof of convening or bill expiration. */
   readonly regularSessionLatestAdjournment?: KnownRuleValue<{
     readonly oddYear: { readonly month: number; readonly day: number };
@@ -1185,6 +1187,19 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
     }
   }
   assertRuleValue(pack.session.adjournmentRule, "adjournment rule");
+  if (pack.session.regularSessionYears) {
+    assertRuleValue(
+      pack.session.regularSessionYears,
+      "regular-session years",
+      (value) => {
+        if (value !== "annual" && value !== "odd" && value !== "even") {
+          throw new Error(
+            "Regular-session years must be annual, odd, or even.",
+          );
+        }
+      },
+    );
+  }
   assertRuleValue(
     pack.session.measuresDieAtAdjournment,
     "measure survival at adjournment",

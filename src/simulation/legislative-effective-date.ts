@@ -29,7 +29,10 @@ export function resolveLegislativeEffectiveDate(
     switch (schedule.value.kind) {
       case "days-after-enactment":
         return {
-          kind: "source-default",
+          kind:
+            schedule.source.verification === "game-profile"
+              ? "game-default"
+              : "source-default",
           effectiveAt: addDays(enactedAt, schedule.value.days),
         };
     }

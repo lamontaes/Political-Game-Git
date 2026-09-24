@@ -28,11 +28,16 @@ import {
   legislativeScenarioKeysForPlace,
   makeIsoDate,
   measurePosition,
+  rulePackForMeasure,
   nextMeasureDesignation,
   personName,
   seatBodyForPack,
   SeededRng,
 } from "../simulation";
+import {
+  legislativeProcedureForPack,
+  legislativeRulePackForWorld,
+} from "../simulation/legislative-procedure-world";
 import type {
   EntityId,
   IsoDate,
@@ -263,6 +268,7 @@ export function openLegislativeWork(
   input: OpenLegislativeWorkInput,
 ): { readonly world: World; readonly assignment: LegislativeAssignment } {
   const blueprint = legislativeBlueprint(input.scenarioKey);
+  const activePack = legislativeRulePackForWorld(world, blueprint.pack.packId);
   const institutional = input.scenarioKey.startsWith("institution:");
   const membership = resolveActiveMemberSeat(world, input.playerPersonId, {
     governingJurisdictionId: input.jurisdictionId,
@@ -331,7 +337,7 @@ export function openLegislativeWork(
     latest !== undefined &&
     (measurePosition(world, latest.id).terminal ||
       measureSessionIsClosed(world, latest.id).closed) &&
-    regularSessionActionRefusal(blueprint.pack, world.currentDate) === null;
+    regularSessionActionRefusal(activePack, world.currentDate) === null;
   const measureStableKey =
     latest === undefined
       ? baseKey
@@ -399,7 +405,7 @@ export function openLegislativeWork(
   }
 
   const sessionRefusal = regularSessionActionRefusal(
-    blueprint.pack,
+    activePack,
     world.currentDate,
   );
   if (sessionRefusal) throw new RegularSessionUnavailableError(sessionRefusal);
@@ -627,6 +633,15 @@ export function applyLegislativeCommand(
   ) {
     throw new Error("That is not something this surface can do.");
   }
+  if (
+    command.step === "offer-amendment" &&
+    !assignment.procedure.recordedSittingEventId &&
+    legislativeProcedureForPack(world, assignment.procedure.pack.packId)
+  ) {
+    throw new RegularSessionUnavailableError(
+      "No recorded amendment vote is available for this bill.",
+    );
+  }
   if (command.kind === "await-institution") {
     if (!institutionOwnsStep(world, assignment, command.step))
       throw new RegularSessionUnavailableError(
@@ -639,10 +654,15 @@ export function applyLegislativeCommand(
     command.step !== "await-executive-decision"
   ) {
     const session = measureSessionIsClosed(world, assignment.measureId);
-    if (session.closed)
+    if (session.closed) {
+      const pack = rulePackForMeasure(world, assignment.measureId);
       throw new RegularSessionUnavailableError(
-        `The session ended on ${session.closedOn}. Whether this bill carries over is not established, so it does not move again; the office can file a new bill next session.`,
+        legislativeProcedureForPack(world, pack.packId)
+          ? (regularSessionActionRefusal(pack, world.currentDate) ??
+              `This bill's prior regular session ended on ${session.closedOn}.`)
+          : `The session ended on ${session.closedOn}. Whether this bill carries over is not established, so it does not move again; the office can file a new bill next session.`,
       );
+    }
   }
   if (
     command.kind === "take-step" &&
@@ -787,7 +807,11 @@ function assignmentFor(
   sponsorPersonId: EntityId,
   playerPersonId: EntityId,
 ): LegislativeAssignment {
-  const seated = seatedBodies(world, blueprint);
+  const activeBlueprint = {
+    ...blueprint,
+    pack: rulePackForMeasure(world, measureId),
+  };
+  const seated = seatedBodies(world, activeBlueprint);
   return {
     scenarioKey: blueprint.scenarioKey,
     label: blueprint.label,
@@ -795,13 +819,13 @@ function assignmentFor(
     measureId,
     sponsorPersonId,
     procedure: {
-      pack: blueprint.pack,
+      pack: activeBlueprint.pack,
       measureId,
       bodies:
         seated ??
         seatBodies(
           world,
-          blueprint,
+          activeBlueprint,
           sponsorPersonId,
           measureId,
           playerPersonId,
@@ -809,7 +833,8 @@ function assignmentFor(
       ...(seated ? { memberDecisions: { playerPersonId } } : {}),
       committeeMemberCount: blueprint.scenarioKey.startsWith("institution:")
         ? null
-        : (blueprint.pack.chambers[0]?.committees[0]?.appointedMembers ?? null),
+        : (activeBlueprint.pack.chambers[0]?.committees[0]?.appointedMembers ??
+          null),
       votePlan: blueprint.votePlan,
       governorAction: blueprint.governorAction,
       governorRationale: blueprint.governorRationale,
