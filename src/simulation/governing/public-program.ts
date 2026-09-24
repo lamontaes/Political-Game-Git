@@ -617,6 +617,29 @@ export function programAuthority(
     reading.form === "MAYOR_COUNCIL";
   const isManager = standing.roles.includes("professional-manager");
   const isMayor = standing.roles.includes("mayor");
+  const isCouncilMember = standing.roles.some(
+    (role) => role === "member" || role === "presiding-member",
+  );
+  // This fictional local profile seats its own manager. It does not assert a
+  // sourced charter rule for any real municipality or county.
+  if (reading.evidence === "game-profile") {
+    if (appropriation.publicGovernmentIdentity?.kind !== "local-government")
+      return {
+        status: "unavailable",
+        reason: "This appropriation is not scoped to a local government.",
+      };
+    if (isManager && !isCouncilMember)
+      return {
+        status: "available",
+        basis: `Manager: administers adopted appropriations for ${office.governmentKey} (${PUBLIC_PROGRAM_VERSION} fictional local game profile).`,
+      };
+    return {
+      status: "unavailable",
+      reason: isCouncilMember
+        ? "A council seat votes on the budget; committing adopted money belongs to the executive."
+        : "Only the seated professional manager commits this game-profile government's adopted appropriation.",
+    };
+  }
   const basis = (role: string, why: string) => ({
     status: "available" as const,
     basis: `${role}: ${why} (${PUBLIC_PROGRAM_VERSION} game profile over ${office.governmentKey}'s compiled record).`,
@@ -643,11 +666,7 @@ export function programAuthority(
       "Mayor",
       "the record shows a separately elected chief executive",
     );
-  if (
-    standing.roles.some(
-      (role) => role === "member" || role === "presiding-member",
-    )
-  )
+  if (isCouncilMember)
     return {
       status: "unavailable",
       reason:

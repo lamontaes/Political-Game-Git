@@ -30,6 +30,20 @@ function worldFor(seed: string) {
   return createScenarioWorld(seed, place.context, { peopleCount: 8 });
 }
 
+function openedSeats(world: ReturnType<typeof worldFor>) {
+  const seats = municipalSeats(world, unit.id);
+  const council = seats.filter(
+    (seat) => seat.role === "member" || seat.role === "presiding-member",
+  );
+  const managers = seats.filter((seat) => seat.role === "professional-manager");
+  expect(council).toHaveLength(5);
+  expect(managers).toHaveLength(1);
+  expect(council.some((seat) => seat.personId === managers[0]!.personId)).toBe(
+    false,
+  );
+  return { seats, council, manager: managers[0]! };
+}
+
 describe("matched catalog municipality organization identity", () => {
   it("opens one municipal organization and a council roster", () => {
     let world = worldFor("catalog-municipal-one-organization");
@@ -45,7 +59,13 @@ describe("matched catalog municipality organization identity", () => {
         (entry) => entry.stableKey === municipalOrganizationKey(unit.id),
       ),
     ).toHaveLength(1);
-    expect(municipalSeats(world, unit.id)).toHaveLength(5);
+    const opened = openedSeats(world);
+    let repeated = worldFor("catalog-municipal-one-organization");
+    repeated = ensureHomeLocalGovernments(repeated, repeated.personOrder[0]!);
+    repeated = ensureMunicipalCouncilOpening(repeated, unit.id);
+    expect(openedSeats(repeated).manager.personId).toBe(
+      opened.manager.personId,
+    );
     expect(
       homeLocalGovernmentStatus(world, world.personOrder[0]!).governments.find(
         (entry) => entry.unitId === unit.id,
@@ -68,9 +88,8 @@ describe("matched catalog municipality organization identity", () => {
         (entry) => entry.stableKey === municipalOrganizationKey(unit.id),
       ),
     ).toBe(false);
-    const seats = municipalSeats(world, unit.id);
-    expect(seats).toHaveLength(5);
-    const actor = seats[0]!.personId;
+    const { seats, council } = openedSeats(world);
+    const actor = council[0]!.personId;
     world = { ...world, control: { kind: "person", personId: actor } };
     const filing = introduceMunicipalOrdinance(world, {
       governmentKey: unit.id,
