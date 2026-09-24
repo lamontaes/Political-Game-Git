@@ -44,6 +44,20 @@ export type EntityId = string & { readonly [entityIdBrand]: true };
 export type IsoDate = string & { readonly [isoDateBrand]: true };
 export type CurrencyCode = string & { readonly [currencyCodeBrand]: true };
 
+/**
+ * Identity for a public account or program owner. Most existing records are
+ * scoped to a geographic jurisdiction. A local government's geography alone
+ * is not unique, so new local records also carry that government's canonical
+ * key. This identity records ownership; it grants no taxing or spending power.
+ */
+export type PublicGovernmentIdentity =
+  | { readonly kind: "jurisdiction"; readonly jurisdictionId: EntityId }
+  | {
+      readonly kind: "local-government";
+      readonly jurisdictionId: EntityId;
+      readonly governmentKey: string;
+    };
+
 export interface SimulationMoment {
   readonly date: IsoDate;
   readonly minuteOfDay: number;
@@ -3534,6 +3548,8 @@ interface PublicProgramRecordBase {
   /** `namespace:name`, e.g. `transit:bus-service`. */
   readonly programKey: string;
   readonly jurisdictionId: EntityId;
+  /** Missing in legacy saves; those records remain jurisdiction-scoped. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly recordedAt: IsoDate;
   /** The ordinary event written with this record. */
   readonly eventId: EntityId;

@@ -1,5 +1,11 @@
 import { createStableId } from "./ids";
 import { eventById } from "./event-index";
+import {
+  assertPublicGovernmentIdentity,
+  publicGovernmentIdentityForRecord,
+  publicGovernmentOrganizationKey,
+  samePublicGovernmentIdentity,
+} from "./public-government-identity";
 import type {
   EntityId,
   IsoDate,
@@ -80,6 +86,13 @@ export function assertPublicProgramIntegrity(
       fail(record, `does not reference an earlier ${kind} record.`);
     if (found!.programKey !== record.programKey)
       fail(record, "references another program.");
+    if (
+      !samePublicGovernmentIdentity(
+        publicGovernmentIdentityForRecord(found!),
+        publicGovernmentIdentityForRecord(record),
+      )
+    )
+      fail(record, "references another public-government identity.");
     return found as Extract<PublicProgramRecord, { kind: K }>;
   };
   for (const record of publicProgramRecords(world)) {
@@ -97,6 +110,19 @@ export function assertPublicProgramIntegrity(
       fail(record, "program key must be namespace:name.");
     if (!world.jurisdictions[record.jurisdictionId])
       fail(record, "names a missing jurisdiction.");
+    try {
+      assertPublicGovernmentIdentity(
+        world,
+        publicGovernmentIdentityForRecord(record),
+      );
+    } catch (error) {
+      fail(
+        record,
+        error instanceof Error
+          ? error.message
+          : "names an invalid public-government identity.",
+      );
+    }
     const event = eventById(world, record.eventId);
     if (
       !event ||
@@ -122,6 +148,27 @@ export function assertPublicProgramIntegrity(
           fail(record, "declares an impossible capacity.");
         break;
       case "appropriation":
+        const localIdentity =
+          record.publicGovernmentIdentity?.kind === "local-government"
+            ? record.publicGovernmentIdentity
+            : null;
+        if (
+          localIdentity &&
+          !world.history.organizations.some(
+            (organization) =>
+              organization.id === record.accountOrganizationId &&
+              organization.stableKey ===
+                publicGovernmentOrganizationKey(localIdentity) &&
+              world.history.organizationProfiles.some(
+                (profile) =>
+                  profile.organizationId === organization.id &&
+                  profile.effectiveAt <= record.recordedAt &&
+                  profile.classification === "sector:government" &&
+                  profile.locationJurisdictionId === record.jurisdictionId,
+              ),
+          )
+        )
+          fail(record, "does not use its canonical local public account.");
         if (
           !positive(record.amount.minorUnits) ||
           record.availableThrough < record.availableFrom ||

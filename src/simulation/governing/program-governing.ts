@@ -12,10 +12,18 @@ import {
   ensureTaxPublicAccount,
   publicTaxAccountForJurisdiction,
 } from "../tax-policy";
-import { money } from "../resources";
+import { createResourcePosition, money } from "../resources";
+import { canonicalJson } from "../canonical-json";
+import { stateTaxServiceProfileForJurisdictionId } from "../world-setup/state-tax-service-profiles";
+import {
+  assertPublicGovernmentIdentity,
+  publicGovernmentIdentityForRecord,
+  samePublicGovernmentIdentity,
+} from "../public-government-identity";
 import type {
   EntityId,
   IsoDate,
+  PublicGovernmentIdentity,
   PublicProgramAppropriationRecord,
   World,
 } from "../types";
@@ -24,6 +32,7 @@ import {
   programCapacity,
   programPosition,
   recordProgramAppropriation,
+  declareProgramCapacity,
   type PublicProgramAlternative,
 } from "./public-program";
 
@@ -55,6 +64,8 @@ export interface AdoptedAppropriationInput {
   readonly jurisdictionId: EntityId;
   readonly amountMinorUnits: number;
   readonly adoptedOn: IsoDate;
+  /** Inclusive availability period; defaults to the existing 365-day route. */
+  readonly availableDays?: number;
   readonly edition: string;
   readonly basisNote: string;
   readonly sourceMeasureId?: EntityId | null;
@@ -71,7 +82,9 @@ export function recordAdoptedAppropriation(
 ): { world: World; appropriationId: EntityId } | null {
   if (
     !Number.isSafeInteger(input.amountMinorUnits) ||
-    input.amountMinorUnits <= 0
+    input.amountMinorUnits <= 0 ||
+    (input.availableDays !== undefined &&
+      (!Number.isSafeInteger(input.availableDays) || input.availableDays < 1))
   )
     return null;
   const programKey = governingProgramKey(input.familyKey, input.stateUsps);
@@ -93,7 +106,10 @@ export function recordAdoptedAppropriation(
     accountOrganizationId: account.organizationId,
     amount: money(input.amountMinorUnits, "USD"),
     availableFrom: input.adoptedOn,
-    availableThrough: addDays(input.adoptedOn, 364),
+    availableThrough: addDays(
+      input.adoptedOn,
+      (input.availableDays ?? 365) - 1,
+    ),
     basis: { kind: "game-profile", note: input.basisNote },
     sourceMeasureId: input.sourceMeasureId ?? null,
   });
@@ -166,17 +182,85 @@ export function appropriationFromEnactedMeasure(
   if (amount === null || amount === undefined || amount <= 0) return world;
   const lineage = draftLineageForMeasure(world, measureId);
   const familyKey = lineage?.familyKey ?? "appropriations";
+  const gameProfile = stateTaxServiceProfileForJurisdictionId(
+    world,
+    measure.jurisdictionId,
+  );
+  const profileAuthorityMatches = Boolean(
+    gameProfile &&
+    lineage &&
+    lineage.componentKey === undefined &&
+    lineage.familyKey === gameProfile.appropriation.familyKey &&
+    lineage.variantKey === gameProfile.appropriation.variantKey &&
+    lineage.authorityKey === gameProfile.appropriation.authorityKey &&
+    amount === gameProfile.appropriation.amountMinorUnits &&
+    familyKey === gameProfile.appropriation.familyKey &&
+    governingProgramKey(familyKey, state) ===
+      gameProfile.appropriation.programKey,
+  );
   const written = recordAdoptedAppropriation(world, {
     familyKey,
     stateUsps: state,
     jurisdictionId: measure.jurisdictionId,
     amountMinorUnits: amount,
     adoptedOn,
+    ...(profileAuthorityMatches && gameProfile
+      ? { availableDays: gameProfile.appropriation.availabilityDays }
+      : {}),
     edition: editionBase,
-    basisNote: `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure.`,
+    basisNote: profileAuthorityMatches
+      ? `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure. Profile ${gameProfile!.ref.profileId} version ${gameProfile!.ref.version} digest ${gameProfile!.ref.digest} supplies the fictional service assumptions; this record is spending authority, not cash.`
+      : `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure.`,
     sourceMeasureId: measureId,
   });
-  return written?.world ?? world;
+  const next = written?.world ?? world;
+  if (!written || !profileAuthorityMatches || !gameProfile) return next;
+
+  const expectedCapacity = {
+    jurisdictionId: measure.jurisdictionId,
+    programKey: gameProfile.appropriation.programKey,
+    serviceLabel: gameProfile.capacity.serviceLabel,
+    unitLabel: gameProfile.capacity.unitLabel,
+    unitsTotal: gameProfile.capacity.unitsTotal,
+    unitsOperational: gameProfile.capacity.unitsOperational,
+    monthlyOperatingNeed: money(
+      gameProfile.capacity.monthlyOperatingNeedMinorUnits,
+      gameProfile.capacity.currency,
+    ),
+    completedPermille: gameProfile.capacity.completedPermille,
+    restorationCostPerUnit: money(
+      gameProfile.capacity.restorationCostPerUnitMinorUnits,
+      gameProfile.capacity.currency,
+    ),
+    basis: gameProfile.capacity.basis,
+  };
+  const existingCapacity = programCapacity(
+    next,
+    gameProfile.appropriation.programKey,
+  );
+  if (existingCapacity) {
+    const actual = {
+      jurisdictionId: existingCapacity.jurisdictionId,
+      programKey: existingCapacity.programKey,
+      serviceLabel: existingCapacity.serviceLabel,
+      unitLabel: existingCapacity.unitLabel,
+      unitsTotal: existingCapacity.unitsTotal,
+      unitsOperational: existingCapacity.unitsOperational,
+      monthlyOperatingNeed: existingCapacity.monthlyOperatingNeed,
+      completedPermille: existingCapacity.completedPermille,
+      restorationCostPerUnit: existingCapacity.restorationCostPerUnit,
+      basis: existingCapacity.basis,
+    };
+    if (canonicalJson(actual) !== canonicalJson(expectedCapacity))
+      throw new Error(
+        "An existing state service capacity conflicts with the enacted game's exact profile.",
+      );
+    return next;
+  }
+  return declareProgramCapacity(next, {
+    ...expectedCapacity,
+    edition: `${gameProfile.ref.profileId}:${gameProfile.ref.digest}`,
+  }).world;
 }
 
 /** The organization the money is paid to when an office commits a program. */
@@ -184,14 +268,30 @@ export function programOperatorOrganization(
   world: World,
   programKey: string,
   jurisdictionId: EntityId,
+  identity?: PublicGovernmentIdentity,
 ): { world: World; organizationId: EntityId } {
-  const stableKey = `${PROGRAM_GOVERNING_VERSION}:operator:${programKey}`;
+  if (identity && identity.jurisdictionId !== jurisdictionId)
+    throw new Error("A program operator must match the program jurisdiction.");
+  if (identity) assertPublicGovernmentIdentity(world, identity);
+  const operatorScope =
+    identity?.kind === "local-government"
+      ? `local:${encodeURIComponent(identity.governmentKey)}:`
+      : "";
+  const operatorKey = `operator:${operatorScope}${programKey}`;
+  const stableKey = `${PROGRAM_GOVERNING_VERSION}:${operatorKey}`;
   const existing = world.history.organizations.find(
     (row) => row.stableKey === stableKey,
   );
-  if (existing) return { world, organizationId: existing.id };
+  if (existing) {
+    const next = ensureProgramOperatorResourcePosition(
+      world,
+      operatorKey,
+      existing.id,
+    );
+    return { world: next, organizationId: existing.id };
+  }
   const title = programFamilyTitle(programKey.split(":")[0]!) ?? "public work";
-  const next = createOrganization(world, {
+  let next = createOrganization(world, {
     stableKey,
     formedAt: world.currentDate,
     provenance: {
@@ -199,15 +299,48 @@ export function programOperatorOrganization(
       note: `${PROGRAM_GOVERNING_VERSION}: fictional provider carrying out ${title.toLowerCase()} under this appropriation. It holds no seeded money.`,
     },
     initialProfile: {
-      name: `${title} provider`,
+      name:
+        identity?.kind === "local-government"
+          ? `${title} provider for ${identity.governmentKey}`
+          : `${title} provider`,
       classification: "sector:private",
       locationJurisdictionId: jurisdictionId,
     },
   });
+  const organizationId = next.history.organizations.at(-1)!.id;
+  next = ensureProgramOperatorResourcePosition(
+    next,
+    operatorKey,
+    organizationId,
+  );
   return {
     world: next,
-    organizationId: next.history.organizations.at(-1)!.id,
+    organizationId,
   };
+}
+
+function ensureProgramOperatorResourcePosition(
+  world: World,
+  operatorKey: string,
+  organizationId: EntityId,
+): World {
+  const hasUsdPosition = world.history.resourcePositions.some(
+    (record) =>
+      record.owner.kind === "organization" &&
+      record.owner.organizationId === organizationId &&
+      record.openingBalance.currency === "USD",
+  );
+  if (hasUsdPosition) return world;
+  return createResourcePosition(world, {
+    stableKey: `${PROGRAM_GOVERNING_VERSION}:${operatorKey}:cash:USD`,
+    owner: { kind: "organization", organizationId },
+    openedAt: world.currentDate,
+    openingBalance: money(0, "USD"),
+    provenance: {
+      kind: "authored",
+      note: `${PROGRAM_GOVERNING_VERSION}: opens a zero-balance USD receipt position for the modeled operator; no money is seeded.`,
+    },
+  });
 }
 
 const NO_ACTION: PublicProgramAlternative = {
@@ -231,6 +364,7 @@ export function programAlternativesFor(
     appropriation.programKey,
     appropriation.id,
   ).uncommitted.minorUnits;
+  const identity = publicGovernmentIdentityForRecord(appropriation);
   if (uncommitted <= 0) return [NO_ACTION];
   const alternatives: PublicProgramAlternative[] = [];
   const third = Math.floor(uncommitted / 3);
@@ -245,7 +379,7 @@ export function programAlternativesFor(
       })),
       deliveryLeadDays: null,
     });
-  const capacity = programCapacity(world, appropriation.programKey);
+  const capacity = programCapacity(world, appropriation.programKey, identity);
   if (capacity?.restorationCostPerUnit) {
     const idle = capacity.unitsTotal - capacity.unitsOperational;
     const affordable = Math.min(
@@ -287,11 +421,18 @@ export function programAlternativesFor(
 export function openAppropriationsFor(
   world: World,
   jurisdictionId: EntityId,
+  identity?: PublicGovernmentIdentity,
 ): readonly PublicProgramAppropriationRecord[] {
+  if (identity && identity.jurisdictionId !== jurisdictionId) return [];
   return (world.history.publicProgramRecords ?? []).filter(
     (record): record is PublicProgramAppropriationRecord =>
       record.kind === "appropriation" &&
       record.jurisdictionId === jurisdictionId &&
+      (!identity ||
+        samePublicGovernmentIdentity(
+          publicGovernmentIdentityForRecord(record),
+          identity,
+        )) &&
       record.availableThrough >= world.currentDate &&
       programPosition(world, record.programKey, record.id).uncommitted
         .minorUnits > 0,

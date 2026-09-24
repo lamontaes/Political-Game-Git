@@ -17,6 +17,12 @@ import {
   stateTaxServiceProfileForJurisdictionKey,
   stateTaxServiceStartingConditions,
 } from "./world-setup/state-tax-service-profiles";
+import {
+  assertPublicGovernmentIdentity,
+  publicGovernmentIdentityForRecord,
+  publicGovernmentOrganizationKey,
+  samePublicGovernmentIdentity,
+} from "./public-government-identity";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import {
   createResourceFlow,
@@ -36,6 +42,7 @@ import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  PublicGovernmentIdentity,
   World,
 } from "./types";
 import type {
@@ -54,6 +61,7 @@ export const TAX_MODEL_NOTE =
   "Authored game model: the declared taxable occurrence and allowance are assumptions. Tax settlement is compressed into one payer-to-public transfer on the declared due event; no merchant cash, real tax return, interest, penalty, behavioral response or observed forecast is inferred.";
 export const publicOrganizationKey = (jurisdictionId: EntityId) =>
   `public-government:${jurisdictionId}`;
+export const publicOrganizationKeyForIdentity = publicGovernmentOrganizationKey;
 
 export function taxPowerEvidenceFor(
   jurisdictionKey: string,
@@ -79,10 +87,31 @@ export function ensureTaxPublicAccount(
   world: World,
   jurisdictionId: EntityId,
 ): World {
-  const jurisdiction = world.jurisdictions[jurisdictionId];
-  if (!jurisdiction)
-    throw new Error("The public account requires an existing jurisdiction.");
-  const key = publicOrganizationKey(jurisdictionId);
+  return ensurePublicGovernmentAccount(world, {
+    kind: "jurisdiction",
+    jurisdictionId,
+  });
+}
+
+/** Creates a zero-balance account for one canonical local government. */
+export function ensureLocalPublicAccount(
+  world: World,
+  identity: Extract<PublicGovernmentIdentity, { kind: "local-government" }>,
+): World {
+  return ensurePublicGovernmentAccount(world, identity);
+}
+
+/**
+ * Creates an account identity only. This does not establish tax permission,
+ * spending authority, or a factual treasury balance.
+ */
+export function ensurePublicGovernmentAccount(
+  world: World,
+  identity: PublicGovernmentIdentity,
+): World {
+  assertPublicGovernmentIdentity(world, identity);
+  const jurisdiction = world.jurisdictions[identity.jurisdictionId]!;
+  const key = publicGovernmentOrganizationKey(identity);
   let next = world;
   let organization = next.history.organizations.find(
     (row) => row.stableKey === key,
@@ -96,9 +125,12 @@ export function ensureTaxPublicAccount(
         note: "Sparse public-government organization for modeled general receipts; no factual treasury cash is asserted.",
       },
       initialProfile: {
-        name: `${jurisdiction.name} public government`,
+        name:
+          identity.kind === "local-government"
+            ? `${identity.governmentKey} public government`
+            : `${jurisdiction.name} public government`,
         classification: "sector:government",
-        locationJurisdictionId: jurisdictionId,
+        locationJurisdictionId: identity.jurisdictionId,
       },
     });
     organization = next.history.organizations.find(
@@ -138,6 +170,7 @@ export function attachTaxProposal(
     sponsorPersonId: EntityId;
     power: TaxPowerEvidence | null;
     gameProfileRef?: TaxGameProfileRef | null;
+    publicGovernmentIdentity?: PublicGovernmentIdentity;
     terms: TaxTerms;
   },
 ): World {
@@ -183,6 +216,18 @@ export function attachTaxProposal(
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction)
     throw new Error("The tax proposal belongs to an unknown jurisdiction.");
+  const publicGovernmentIdentity = publicGovernmentIdentityForRecord({
+    jurisdictionId: measure.jurisdictionId,
+    publicGovernmentIdentity: input.publicGovernmentIdentity,
+  });
+  assertPublicGovernmentIdentity(world, publicGovernmentIdentity);
+  if (
+    publicGovernmentIdentity.kind === "local-government" &&
+    input.power?.governmentKey !== publicGovernmentIdentity.governmentKey
+  )
+    throw new Error(
+      "A local tax proposal requires source authority bound to this exact local government.",
+    );
   if (
     input.power &&
     jurisdiction.id !== stateJurisdictionForKey(input.power.jurisdictionKey)?.id
@@ -211,7 +256,7 @@ export function attachTaxProposal(
     )
   )
     throw new Error("Tax terms must be filed before legislative deliberation.");
-  let next = ensureTaxPublicAccount(world, measure.jurisdictionId);
+  let next = ensurePublicGovernmentAccount(world, publicGovernmentIdentity);
   next = recordFiledProvision(next, {
     stableKey: `${input.stableKey}:levy`,
     measureId: measure.id,
@@ -234,7 +279,9 @@ export function attachTaxProposal(
     (row) => row.provisionKey === "tax-levy",
   )!;
   const organization = next.history.organizations.find(
-    (row) => row.stableKey === publicOrganizationKey(measure.jurisdictionId),
+    (row) =>
+      row.stableKey ===
+      publicGovernmentOrganizationKey(publicGovernmentIdentity),
   )!;
   const proposal: TaxProposalRecord = {
     id: createStableId("tax-proposal", `${world.id}:${input.stableKey}`),
@@ -244,6 +291,9 @@ export function attachTaxProposal(
     measureId: measure.id,
     sponsorPersonId: input.sponsorPersonId,
     jurisdictionId: measure.jurisdictionId,
+    ...(publicGovernmentIdentity.kind === "local-government"
+      ? { publicGovernmentIdentity }
+      : {}),
     publicOrganizationId: organization.id,
     power: input.power ? structuredClone(input.power) : null,
     gameProfileRef: gameProfileRef ? structuredClone(gameProfileRef) : null,
@@ -669,6 +719,9 @@ export function taxCollectionTransition(
     sequence: next.history.nextSequence,
     recordedAt: world.currentDate,
     assessmentId: assessment.id,
+    ...(proposal.publicGovernmentIdentity
+      ? { publicGovernmentIdentity: proposal.publicGovernmentIdentity }
+      : {}),
     status,
     transferredAmount: transferred,
     resourceOutcomeId,
@@ -942,6 +995,9 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
     }
   }
   for (const proposal of world.history.taxProposals ?? []) {
+    const publicGovernmentIdentity =
+      publicGovernmentIdentityForRecord(proposal);
+    assertPublicGovernmentIdentity(world, publicGovernmentIdentity);
     assertTaxTerms(proposal.terms);
     const measure = world.history.legislativeMeasures?.find(
       (row) => row.id === proposal.measureId,
@@ -1023,7 +1079,8 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       !world.history.organizations.some(
         (row) =>
           row.id === proposal.publicOrganizationId &&
-          row.stableKey === publicOrganizationKey(proposal.jurisdictionId),
+          row.stableKey ===
+            publicGovernmentOrganizationKey(publicGovernmentIdentity),
       )
     )
       throw new Error(
@@ -1213,6 +1270,20 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       world,
       requirePolicy(world, assessment.policyId).proposalId,
     );
+    const proposalIdentity = publicGovernmentIdentityForRecord(proposal);
+    if (
+      collection.publicGovernmentIdentity &&
+      !samePublicGovernmentIdentity(
+        collection.publicGovernmentIdentity,
+        proposalIdentity,
+      )
+    )
+      throw new Error("Tax receipt changed its public-government identity.");
+    if (collection.publicGovernmentIdentity)
+      assertPublicGovernmentIdentity(
+        world,
+        collection.publicGovernmentIdentity,
+      );
     const outcome = world.history.resourceTransferOutcomes.find(
       (row) => row.id === collection.resourceOutcomeId,
     );
@@ -1337,8 +1408,23 @@ export function publicTaxAccountForJurisdiction(
   world: World,
   jurisdictionId: EntityId,
 ): { organizationId: EntityId } | null {
+  return publicTaxAccountForIdentity(world, {
+    kind: "jurisdiction",
+    jurisdictionId,
+  });
+}
+
+export function publicTaxAccountForIdentity(
+  world: World,
+  identity: PublicGovernmentIdentity,
+): { organizationId: EntityId } | null {
+  try {
+    assertPublicGovernmentIdentity(world, identity);
+  } catch {
+    return null;
+  }
   const organization = world.history.organizations.find(
-    (row) => row.stableKey === publicOrganizationKey(jurisdictionId),
+    (row) => row.stableKey === publicGovernmentOrganizationKey(identity),
   );
   if (!organization) return null;
   const profile = world.history.organizationProfiles
@@ -1349,7 +1435,7 @@ export function publicTaxAccountForJurisdiction(
     )
     .at(-1);
   return profile?.classification === "sector:government" &&
-    profile.locationJurisdictionId === jurisdictionId
+    profile.locationJurisdictionId === identity.jurisdictionId
     ? { organizationId: organization.id }
     : null;
 }

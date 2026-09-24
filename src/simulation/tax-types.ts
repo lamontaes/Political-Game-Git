@@ -2,6 +2,7 @@ import type {
   EntityId,
   IsoDate,
   MoneyAmount,
+  PublicGovernmentIdentity,
   ResourcePositionOwner,
 } from "./types";
 
@@ -10,6 +11,8 @@ export interface TaxPowerEvidence {
   readonly key: string;
   readonly jurisdictionKey: string;
   readonly level: "STATE" | "COUNTY" | "MUNICIPALITY";
+  /** Required before a local authority can bind a proposal to one government. */
+  readonly governmentKey?: string;
   readonly instrument: "selective-excise" | "sales" | "property";
   readonly asOf: IsoDate;
   readonly sourceArtifactId: string;
@@ -60,6 +63,8 @@ export interface TaxProposalRecord extends TaxHistoryRoot {
   readonly measureId: EntityId;
   readonly sponsorPersonId: EntityId;
   readonly jurisdictionId: EntityId;
+  /** Missing in legacy saves; those records remain jurisdiction-scoped. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly publicOrganizationId: EntityId;
   /** Exactly one of `power` (sourced authority) or `gameProfileRef` is set. */
   readonly power: TaxPowerEvidence | null;
@@ -99,6 +104,8 @@ export interface TaxAssessmentRecord extends TaxHistoryRoot {
 
 export interface TaxCollectionRecord extends TaxHistoryRoot {
   readonly assessmentId: EntityId;
+  /** Direct receipt scope; missing in legacy saves resolves through its proposal. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly status: "collected" | "zero" | "blocked";
   readonly transferredAmount: MoneyAmount;
   readonly resourceOutcomeId: EntityId | null;
