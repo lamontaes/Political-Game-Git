@@ -16,6 +16,25 @@ import { fileDraft } from "./legislation-docket";
 import { projectMeasureBriefing } from "./legislation-projection";
 import { applyLegislativeStep } from "./legislation-session";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
+import { createScenarioWorld } from "../simulation/demo";
+import { makeIsoDate } from "../simulation/dates";
+import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
+import {
+  installMunicipalGovernment,
+  introduceMunicipalOrdinance,
+  municipalSeats,
+  seatMunicipalMember,
+} from "../simulation/municipal-public-work";
+import {
+  passMunicipalOrdinance,
+  placeMunicipalOrdinanceOnAgenda,
+} from "../simulation/municipal-ordinance-procedure";
+import { requireLifePlace } from "../simulation/life-places";
+import { advanceWorld } from "../simulation/world";
+import type {
+  LegislativeVoteDisposition,
+  LegislativeVoteProvenance,
+} from "../simulation/types";
 
 /**
  * A law the player passes changes the records it governs, through the same
@@ -67,6 +86,76 @@ const appropriations = (world: World, measureId: EntityId) =>
     (row) => row.kind === "appropriation" && row.sourceMeasureId === measureId,
   );
 
+const MUNICIPAL_PROVENANCE: LegislativeVoteProvenance = {
+  method: "authored-fixture",
+  note: "Test roll call supplied by the test.",
+  sourceEntityIds: [],
+};
+
+function municipalRoll(
+  council: readonly EntityId[],
+  yeas: number,
+  nays: number,
+): readonly LegislativeVoteDisposition[] {
+  return council.map((personId, index) => ({
+    memberKey: `council:${index + 1}`,
+    personId,
+    disposition: index < yeas ? "yea" : index < yeas + nays ? "nay" : "absent",
+  }));
+}
+
+function enactCharlottesvilleOrdinance() {
+  const place = requireLifePlace("5114968");
+  const government = municipalGovernmentForLifePlace(place)!;
+  let world = createScenarioWorld(
+    "enacted-law-effects-local-level",
+    place.context,
+    { peopleCount: 12 },
+  );
+  const people = world.personOrder;
+  world = installMunicipalGovernment(world, {
+    governmentKey: government.key,
+    jurisdictionId: place.context.jurisdiction.id,
+    formedAt: world.currentDate,
+  });
+  for (let index = 0; index < 5; index += 1) {
+    world = seatMunicipalMember(world, {
+      governmentKey: government.key,
+      personId: people[index + 1]!,
+      startedAt: world.currentDate,
+      role: index === 0 ? "presiding-member" : "member",
+      seatLabel: index === 0 ? "Mayor" : `Seat ${index + 1}`,
+    });
+  }
+  const member = people[1]!;
+  world = { ...world, control: { kind: "person", personId: member } };
+  const filed = introduceMunicipalOrdinance(world, {
+    governmentKey: government.key,
+    designation: "Ord. 26-1",
+    shortTitle: "Sidewalk dining permits",
+    summary: "A general ordinance introduced by a councilor.",
+  });
+  if (!filed.ok) throw new Error(filed.reason);
+  const measure = filed.world.history.legislativeMeasures!.at(-1)!;
+  const agenda = placeMunicipalOrdinanceOnAgenda(filed.world, {
+    governmentKey: government.key,
+    measureId: measure.id,
+  });
+  if (!agenda.ok) throw new Error(agenda.reason);
+  const passed = passMunicipalOrdinance(advanceWorld(agenda.world, 4), {
+    governmentKey: government.key,
+    measureId: measure.id,
+    dispositions: municipalRoll(
+      municipalSeats(agenda.world, government.key).map((seat) => seat.personId),
+      3,
+      0,
+    ),
+    provenance: MUNICIPAL_PROVENANCE,
+  });
+  if (!passed.ok) throw new Error(passed.reason);
+  return { world: passed.world, measureId: measure.id };
+}
+
 describe("a law the player passes changes what it governs", () => {
   it("turns a passed Nebraska appropriation into money the state can spend", () => {
     const { world, measureId } = enactFromDocket("nebraska", {
@@ -93,6 +182,12 @@ describe("a law the player passes changes what it governs", () => {
     // than implying delivery.
     expect(money.committedMinorUnits).toBe(0);
     expect(money.paidMinorUnits).toBe(0);
+  });
+
+  it("classifies a passed Charlottesville council ordinance as local under its state jurisdiction", () => {
+    const { world, measureId } = enactCharlottesvilleOrdinance();
+    expect(measurePosition(world, measureId).outcome).toBe("enacted");
+    expect(enactedLawEffects(world, measureId)?.level).toBe("local");
   });
 
   it("funds every part of a multi-part bill, a transit part included", () => {

@@ -118,18 +118,18 @@ function enactThroughGenericClock(
         `No supported step at ${measurePosition(next, measureId).phase}.`,
       );
     try {
+      for (const forum of pendingChamberQuestions(next, measureId)) {
+        if (!forum.members.some((member) => member.personId === personId))
+          continue;
+        const decided = castMemberBallot(next, {
+          personId,
+          question: forum.question,
+          ballot: "yea",
+        });
+        if (decided !== next) ballots += 1;
+        next = decided;
+      }
       if (institutionOwnsStep(next, entry.assignment, step)) {
-        for (const forum of pendingChamberQuestions(next, measureId)) {
-          if (!forum.members.some((member) => member.personId === personId))
-            continue;
-          const decided = castMemberBallot(next, {
-            personId,
-            question: forum.question,
-            ballot: "yea",
-          });
-          if (decided !== next) ballots += 1;
-          next = decided;
-        }
         next = publishLegislativeTransition(
           next,
           applyLegislativeCommand(next, entry.assignment, {
@@ -139,7 +139,13 @@ function enactThroughGenericClock(
         );
         clockWaits += 1;
       } else if (step === "await-executive-decision") {
-        next = publishLegislativeTransition(next, passOrdinaryDays(next, 3));
+        next = publishLegislativeTransition(
+          next,
+          applyLegislativeCommand(next, entry.assignment, {
+            kind: "take-step",
+            step,
+          }).world,
+        );
       } else {
         next = publishLegislativeTransition(
           next,
@@ -177,7 +183,56 @@ function enactThroughGenericClock(
   }
   expect(clockWaits).toBeGreaterThan(0);
   expect(ballots).toBeGreaterThan(0);
-  expect(measurePosition(next, measureId).outcome).toBe("enacted");
+  expect(
+    measurePosition(next, measureId).outcome,
+    JSON.stringify({
+      currentDate: next.currentDate,
+      position: measurePosition(next, measureId),
+      measure: (() => {
+        const entry = next.history.legislativeMeasures?.find(
+          (row) => row.id === measureId,
+        );
+        return entry
+          ? {
+              title: entry.shortTitle,
+              jurisdictionId: entry.jurisdictionId,
+              introducedAt: entry.introducedAt,
+            }
+          : null;
+      })(),
+      actions: (next.history.legislativeActions ?? [])
+        .filter((entry) => entry.measureId === measureId)
+        .map(({ kind, occurredAt, chamberKey, rationale }) => ({
+          kind,
+          occurredAt,
+          chamberKey,
+          rationale,
+        })),
+      votes: (next.history.legislativeVotes ?? [])
+        .filter(
+          (entry) =>
+            entry.measureId === measureId &&
+            (entry.purpose === "floor-stage" ||
+              entry.purpose === "veto-override"),
+        )
+        .map(({ purpose, forum, floorStageKey, takenAt, tally, outcome, requiredVotes, thresholdLabel }) => ({
+          purpose,
+          forum,
+          floorStageKey,
+          takenAt,
+          tally,
+          outcome,
+          requiredVotes,
+          thresholdLabel,
+        })),
+      executiveDispositions: next.history.executiveDispositions?.filter(
+        (entry) => entry.measureId === measureId,
+      ),
+      enactment: next.history.legislativeEnactments?.find(
+        (entry) => entry.measureId === measureId,
+      ),
+    }),
+  ).toBe("enacted");
   const outstandingNotices = next.history.scheduledActivities.filter(
     (activity) =>
       activity.stableKey.startsWith("legislative-clock/v1:member-vote:") &&

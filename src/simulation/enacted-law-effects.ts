@@ -7,6 +7,7 @@ import {
 import { programFamilies } from "./legislation-program-families";
 import type { ClauseDimension } from "./legislation-content-contracts";
 import { currentMeasureProvisions } from "./legislative-politics";
+import { municipalRulePackById } from "./municipal-rule-registry";
 import { stateKeyForJurisdictionSlug } from "./life-places";
 import { adoptEnactedTaxPolicy } from "./tax-policy";
 import { taxActivationReadiness } from "./tax-policy-activation";
@@ -473,6 +474,7 @@ function levelOfGovernment(
   measure: { readonly jurisdictionId: EntityId; readonly rulePackId: string },
 ): LawLevelOfGovernment {
   if (measure.rulePackId === "us-congress-v1") return "federal";
+  if (municipalRulePackById(measure.rulePackId)) return "local";
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction) return "local";
   if (["us-federal", "united-states", "us"].includes(jurisdiction.slug))

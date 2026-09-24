@@ -3,7 +3,10 @@ import {
   resolveActiveMemberSeat,
 } from "./legislative-member-seat";
 import { resolvePlayerCapabilities } from "./player-capabilities";
-import { legislativeProcedureRefusal } from "./legislative-procedure-availability";
+import {
+  canonicalStateExecutiveWaitAvailable,
+  legislativeProcedureRefusal,
+} from "./legislative-procedure-availability";
 import {
   legislativePackForJurisdiction,
   legislativeWorkKey,
@@ -742,6 +745,12 @@ export function applyLegislativeCommand(
   );
   if (procedureRefusal)
     throw new RegularSessionUnavailableError(procedureRefusal);
+  if (
+    command.kind === "take-step" &&
+    command.step === "await-executive-decision" &&
+    canonicalStateExecutiveWaitAvailable(world, assignment.procedure)
+  )
+    return awaitInstitution(world, assignment);
   const regularSessionSteps: readonly MeasureStepKey[] = [
     "request-referral",
     "request-committee-hearing",
