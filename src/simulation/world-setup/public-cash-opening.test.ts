@@ -123,8 +123,10 @@ describe("fictional opening public cash", () => {
     const opening = records[openingIndex]!;
     if (opening.kind !== "world-opening" || !opening.publicCashOpening)
       throw new Error("Missing saved cash profile in test world.");
-    const { [canonicalStateJurisdictionId("US-KY")!]: _removed, ...remaining } =
-      opening.publicCashOpening.stateByJurisdictionId;
+    const remaining = {
+      ...opening.publicCashOpening.stateByJurisdictionId,
+    };
+    delete remaining[canonicalStateJurisdictionId("US-KY")!];
     records[openingIndex] = {
       ...opening,
       publicCashOpening: {

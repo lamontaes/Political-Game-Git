@@ -147,7 +147,7 @@ export function assertPublicProgramIntegrity(
         )
           fail(record, "declares an impossible capacity.");
         break;
-      case "appropriation":
+      case "appropriation": {
         const localIdentity =
           record.publicGovernmentIdentity?.kind === "local-government"
             ? record.publicGovernmentIdentity
@@ -185,6 +185,7 @@ export function assertPublicProgramIntegrity(
         )
           fail(record, "declares an impossible appropriation.");
         break;
+      }
       case "commitment": {
         const appropriation = earlier(
           record,

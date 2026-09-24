@@ -98,7 +98,8 @@ describe("local fiscal game authority", () => {
       originChamberKey: "council",
       sponsorPersonId,
     });
-    const measure = filed.history.legislativeMeasures?.at(-1)!;
+    const measure = filed.history.legislativeMeasures?.at(-1);
+    if (!measure) throw new Error("Expected the filed local measure.");
     expect(admitLocalFiscalMeasure(filed, city.id, measure.id).ok).toBe(false);
     const placed = placeMunicipalOrdinanceOnAgenda(filed, {
       governmentKey: city.id,
@@ -123,7 +124,8 @@ describe("local fiscal game authority", () => {
     });
     expect(filed.ok).toBe(true);
     if (!filed.ok) throw new Error(filed.reason);
-    const measure = filed.world.history.legislativeMeasures?.at(-1)!;
+    const measure = filed.world.history.legislativeMeasures?.at(-1);
+    if (!measure) throw new Error("Expected the filed local measure.");
     const withClause = recordFiledProvision(filed.world, {
       stableKey: `${measure.stableKey}:amount-provided`,
       measureId: measure.id,

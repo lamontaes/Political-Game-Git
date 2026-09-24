@@ -220,10 +220,6 @@ export function dollars(amount: MoneyAmount): string {
   });
 }
 
-function key(programKey: string, ...parts: readonly string[]): string {
-  return [PUBLIC_PROGRAM_VERSION, programKey, ...parts].join(":");
-}
-
 function scopedKey(
   programKey: string,
   identity: PublicGovernmentIdentity | undefined,
