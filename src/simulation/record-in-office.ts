@@ -1,5 +1,6 @@
 import { disasterHandlingWeight } from "./crisis/handling-reactions";
 import { governingOfficeForPerson } from "./governing/state-governing";
+import { judgeIssueRecord } from "./issue-record";
 import {
   macroConditionsAt,
   macroHistoryStart,
@@ -98,17 +99,26 @@ export function recordInOffice(
  * new contest: a public ethics finding still in voters' memory starts them
  * further back, and a sitting governor starts ahead or behind on what
  * happened to unemployment on their watch, and anyone remembered for how they
- * handled a disaster starts ahead or behind for it. All are UNRESEARCHED
- * blanket rules (`press/findings.ts`, above, `crisis/handling-reactions.ts`).
+ * handled a disaster starts ahead or behind for it. Where the contest's
+ * jurisdiction is given, its voters also weigh the candidate's votes and
+ * signatures question by question against their own views
+ * (`issue-record.ts`). All are UNRESEARCHED blanket rules
+ * (`press/findings.ts`, above, `crisis/handling-reactions.ts`,
+ * `issue-record.ts`).
  */
 export function startingSupportAdjustment(
   world: World,
   personId: EntityId,
   asOf: IsoDate,
+  contestJurisdictionId?: EntityId,
 ): number {
   const findings = rememberedAdverseFindingsAgainst(world, personId, asOf);
   return (
     (recordInOffice(world, personId, asOf)?.weight ?? 0) +
+    (contestJurisdictionId
+      ? (judgeIssueRecord(world, personId, contestJurisdictionId, asOf)
+          ?.weight ?? 0)
+      : 0) +
     disasterHandlingWeight(world, personId, asOf) -
     findings.length * UNRESEARCHED_FINDING_EFFECTS.laterContestWeightPenalty
   );

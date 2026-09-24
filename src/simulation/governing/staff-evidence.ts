@@ -401,7 +401,7 @@ export function staffAssessment(
     posts.length > 1
       ? `, after ${posts.length - 1} earlier post${posts.length > 2 ? "s" : ""} there`
       : ""
-  }${degrees.length > 0 ? ", with a completed degree on file" : ""}.`;
+  }${degrees.length > 0 ? ", with a completed degree" : ""}.`;
   const strength = budget
     ? "reads a budget quickly, and the record shows years of doing it"
     : legislative
@@ -428,4 +428,22 @@ export function staffAssessment(
       Math.min(4, 1 + Math.floor((publicYears + latest.years) / 6)),
     ),
   };
+}
+
+/**
+ * One reading of an assessment for a person weighing a hire. The background
+ * is already a full sentence; the strength and caution follow it as a second
+ * one, with the person named, rather than being spliced onto its period.
+ */
+export function staffAssessmentSummary(
+  name: string,
+  assessment: StaffAssessment,
+): string {
+  return assessment.evidence === "limited"
+    ? `${assessment.background} ${capitalize(assessment.strength)}, and ${assessment.caution}.`
+    : `${assessment.background} ${name} ${assessment.strength}, but ${assessment.caution}.`;
+}
+
+function capitalize(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }

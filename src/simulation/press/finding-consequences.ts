@@ -16,10 +16,7 @@ import {
 import { ensureTaxPublicAccount, publicOrganizationKey } from "../tax-policy";
 import type { EntityId, HistoricalEvent, MoneyAmount, World } from "../types";
 import { recordWorldEvent } from "../world";
-import {
-  referForProsecution,
-  UNRESEARCHED_PROSECUTION,
-} from "../justice/prosecution";
+import { referForProsecution, regulatorRefers } from "../justice/prosecution";
 import { generatedStateOversightBody } from "./generated-state-oversight";
 import {
   isAdversePublicStep,
@@ -94,9 +91,11 @@ export function applyFindingConsequences(
 }
 
 /**
- * A repeat finding that somebody took campaign money for themselves goes to
- * prosecutors (`justice/prosecution.ts`). When a regulator refers, and
- * everything after, is an UNRESEARCHED placeholder.
+ * A finding that somebody took campaign money for themselves may go to
+ * prosecutors (`justice/prosecution.ts`): a chance, likelier with each
+ * finding that stands against them. The payments are on the committee's own
+ * filed reports, so the evidence is documentary. When a regulator refers,
+ * and everything after, is an UNRESEARCHED placeholder.
  */
 function referralConsequence(
   world: World,
@@ -108,9 +107,10 @@ function referralConsequence(
   const matter = requirePressRecord(world, "matter", proceeding.matterId);
   if (matter.family !== "M1") return world;
   const standing = priorAdverseFindings(world, respondentId, step).length + 1;
-  if (standing < UNRESEARCHED_PROSECUTION.referAtFinding) return world;
+  const key = `${step.stableKey}:${respondentId}`;
+  if (!regulatorRefers(world, key, standing)) return world;
   return referForProsecution(world, {
-    stableKey: `${step.stableKey}:${respondentId}`,
+    stableKey: key,
     subjectPersonId: respondentId,
     jurisdictionId: matter.jurisdictionId,
     offenseKey: "campaign-funds-personal-use",
@@ -120,6 +120,7 @@ function referralConsequence(
       personId: null,
     },
     basisEventIds: [event.id],
+    evidence: "documentary",
     standingFindings: standing,
   }).world;
 }

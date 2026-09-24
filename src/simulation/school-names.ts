@@ -24,7 +24,9 @@
  * attribute of any generated character.
  */
 
+import { NAMES_STARTER_V1 } from "./names-data";
 import type { SeededRng } from "./rng";
+import PATTERNS from "./school-name-patterns.json" with { type: "json" };
 
 export type SchoolLevel = "elementary" | "middle" | "high";
 
@@ -153,9 +155,36 @@ export const SCHOOL_NAMES_V1: SchoolNameCorpus = {
   directions: ["North", "South", "East", "West", "Central"],
 };
 
+/**
+ * The same lists, drawn the way American schools are actually named: see
+ * `generateSchoolName`. A new game declares it; an old replay keeps v1.
+ */
+export const SCHOOL_NAMES_V2_VERSION = "school-names-v2";
+export const SCHOOL_NAMES_V2: SchoolNameCorpus = {
+  ...SCHOOL_NAMES_V1,
+  version: SCHOOL_NAMES_V2_VERSION,
+};
+
 const CORPORA: Record<string, SchoolNameCorpus> = {
   [SCHOOL_NAMES_V1.version]: SCHOOL_NAMES_V1,
+  [SCHOOL_NAMES_V2.version]: SCHOOL_NAMES_V2,
 };
+
+export type SchoolNameVersion =
+  typeof DEFAULT_SCHOOL_NAME_CORPUS_VERSION | typeof SCHOOL_NAMES_V2_VERSION;
+
+/** "US-ND" to "ND"; null for anything that is not a state key. */
+export function stateUsps(stateJurisdictionKey: string | null): string | null {
+  return stateJurisdictionKey?.startsWith("US-")
+    ? stateJurisdictionKey.slice(3)
+    : null;
+}
+
+/** Where the school is, for the measured draw. */
+export interface SchoolNamingPlace {
+  /** Two-letter postal code of the state, or null where none governs. */
+  readonly state: string | null;
+}
 
 export function getSchoolNameCorpus(
   version: string = DEFAULT_SCHOOL_NAME_CORPUS_VERSION,
@@ -234,10 +263,142 @@ export function generateSchoolName(
   level: SchoolLevel,
   stem: string,
   corpusVersion: string = DEFAULT_SCHOOL_NAME_CORPUS_VERSION,
+  place: SchoolNamingPlace = { state: null },
 ): string {
   const corpus = getSchoolNameCorpus(corpusVersion);
+  if (corpus.version === SCHOOL_NAMES_V2_VERSION) {
+    return measuredSchoolName(rng, level, stem, corpus, place);
+  }
   const pattern = rng.pick(weightedPatterns(level));
   return nameForPattern(pattern, rng, level, stem, corpus);
+}
+
+type MeasuredPattern =
+  "place" | "direction" | "figure" | "person" | "family" | "other";
+
+const MEASURED_PATTERNS: readonly MeasuredPattern[] = [
+  "place",
+  "direction",
+  "figure",
+  "person",
+  "family",
+  "other",
+];
+
+const MEASURED = PATTERNS as unknown as {
+  readonly regions: Readonly<Record<string, string>>;
+  readonly patterns: Readonly<
+    Record<string, Readonly<Record<MeasuredPattern, number>>>
+  >;
+  readonly figureRegions: Readonly<
+    Record<string, Readonly<Record<string, number>>>
+  >;
+  readonly towns: Readonly<Record<string, readonly [number, number, number]>>;
+};
+
+const LEVEL_INDEX: Record<SchoolLevel, 0 | 1 | 2> = {
+  elementary: 0,
+  middle: 1,
+  high: 2,
+};
+
+function weightedPick<T>(
+  rng: SeededRng,
+  entries: readonly (readonly [T, number])[],
+): T {
+  const total = entries.reduce((sum, [, weight]) => sum + weight, 0);
+  let point = rng.next() * total;
+  for (const [value, weight] of entries) {
+    point -= weight;
+    if (point < 0) return value;
+  }
+  return entries[entries.length - 1]![0];
+}
+
+/**
+ * How much each national figure weighs in the measured draw for this place:
+ * the number of schools carrying that name in the place's Census region, or in
+ * the country where the region is unknown, plus one (authored) so that no
+ * figure is ruled out.
+ */
+export function schoolFigureWeights(
+  corpus: SchoolNameCorpus,
+  place: SchoolNamingPlace,
+): readonly (readonly [string, number])[] {
+  const region =
+    place.state === null ? undefined : MEASURED.regions[place.state];
+  return corpus.figures.map((name) => {
+    const byRegion = MEASURED.figureRegions[name] ?? {};
+    const count =
+      region === undefined
+        ? Object.values(byRegion).reduce((sum, value) => sum + value, 0)
+        : (byRegion[region] ?? 0);
+    return [name, 1 + count] as const;
+  });
+}
+
+/**
+ * The measured draw (`school-names-v2`).
+ *
+ * The directory the game ships says how schools are named, though never which
+ * school existed when: `school-name-patterns.json`, measured by
+ * `scripts/source/school-name-patterns.ts`. A town's only high school carries
+ * the town's name about two times in three, in every region; a national figure
+ * names about one high school in five hundred there, and one in a hundred where
+ * a town has four or more. v1 drew a national figure for one high school in
+ * five whatever the town, which is how a North Dakota town of 2,500 got
+ * "Booker T. Washington High School".
+ *
+ * So the shape is drawn from the measured counts for this level and for how
+ * many schools of this level the town has (one when the directory lists at
+ * most one). A national figure is weighted by how many schools carry that name
+ * in this Census region, plus one so that no figure is ruled out entirely; the
+ * plus one is authored. A person or a family name is drawn from the game's own
+ * name corpus, so it is a generated local honoree, not a real one. Everything
+ * the classifier could not place, which includes landscape names, district and
+ * county names and brands, is drawn as landscape.
+ */
+function measuredSchoolName(
+  rng: SeededRng,
+  level: SchoolLevel,
+  stem: string,
+  corpus: SchoolNameCorpus,
+  place: SchoolNamingPlace,
+): string {
+  const suffix = LEVEL_SUFFIX[level];
+  const town =
+    place.state === null
+      ? undefined
+      : MEASURED.towns[`${place.state}:${stem.toUpperCase()}`];
+  const count = town?.[LEVEL_INDEX[level]] ?? 1;
+  const size = count <= 1 ? "1" : count <= 3 ? "2-3" : "4+";
+  const counts = MEASURED.patterns[`${level}:${size}`]!;
+  let pattern = weightedPick(
+    rng,
+    MEASURED_PATTERNS.map((key) => [key, counts[key]] as const),
+  );
+  // No town name means no town-shaped name, as in v1.
+  if (stem.length === 0 && (pattern === "place" || pattern === "direction")) {
+    pattern = "other";
+  }
+  switch (pattern) {
+    case "place":
+      return `${stem} ${suffix}`;
+    case "direction":
+      return stem.endsWith("County")
+        ? `${stem} ${suffix}`
+        : `${rng.pick(corpus.directions)} ${stem} ${suffix}`;
+    case "figure": {
+      const figure = weightedPick(rng, schoolFigureWeights(corpus, place));
+      return `${figure} ${suffix}`;
+    }
+    case "person":
+      return `${rng.pick(NAMES_STARTER_V1.givenNames)} ${rng.pick(NAMES_STARTER_V1.familyNames)} ${suffix}`;
+    case "family":
+      return `${rng.pick(NAMES_STARTER_V1.familyNames)} ${suffix}`;
+    case "other":
+      return `${rng.pick(corpus.features)} ${suffix}`;
+  }
 }
 
 /**
@@ -251,11 +412,18 @@ export function generateSchoolNames(
   rng: SeededRng,
   stem: string,
   corpusVersion: string = DEFAULT_SCHOOL_NAME_CORPUS_VERSION,
+  place: SchoolNamingPlace = { state: null },
 ): Readonly<Record<SchoolLevel, string>> {
   const drawn = new Map<SchoolLevel, string>();
   const taken = new Set<string>();
   for (const level of ["elementary", "middle", "high"] as const) {
-    let name = generateSchoolName(rng.fork(level), level, stem, corpusVersion);
+    let name = generateSchoolName(
+      rng.fork(level),
+      level,
+      stem,
+      corpusVersion,
+      place,
+    );
     // A bounded redraw: the pools are large, and a stem-only collision is the
     // one case a redraw cannot clear, so it stops rather than looping.
     for (let attempt = 1; attempt < 8 && taken.has(name); attempt += 1) {
@@ -264,6 +432,7 @@ export function generateSchoolNames(
         level,
         stem,
         corpusVersion,
+        place,
       );
     }
     taken.add(name);

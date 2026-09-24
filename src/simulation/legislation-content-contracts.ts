@@ -8,6 +8,7 @@
  * one registry the game reads.
  */
 
+import { spokenDate } from "./dates";
 import type { IsoDate, LegislativeProvisionBeneficiary } from "./types";
 
 export type { IsoDate };
@@ -759,24 +760,7 @@ export function formatMinorUnits(minorUnits: number, currency: string): string {
  * still the canonical IsoDate; only the rendering changes.
  */
 export function formatStatutoryDate(date: IsoDate): string {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const year = date.slice(0, 4);
-  const month = months[Number(date.slice(5, 7)) - 1] ?? date.slice(5, 7);
-  const day = Number(date.slice(8, 10));
-  return `${month} ${day}, ${year}`;
+  return spokenDate(date);
 }
 
 export function yearsPhrase(years: number): string {

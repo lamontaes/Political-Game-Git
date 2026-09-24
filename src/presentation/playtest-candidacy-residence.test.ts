@@ -3,8 +3,14 @@ import { describe, expect, it } from "vitest";
 import { candidacyEligibility, searchLifePlaces } from "../simulation";
 import { recordedDistrictResidenceSince } from "../simulation/district-residence";
 import { stateResidenceSince } from "../simulation/nationwide-world/residence-duration";
-import { createExplicitGeographyLife } from "./new-game-geography";
+import {
+  createExplicitGeographyLife,
+  explicitNewGameSetup,
+} from "./new-game-geography";
 import { letAdultTimePass } from "./adult-life";
+import { recordedDistrictForOffice } from "./district-selection";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 
 /**
  * Found by playing, not by reading: in Alaska, Nebraska, Ohio and the
@@ -16,19 +22,32 @@ import { letAdultTimePass } from "./adult-life";
  * Two separate causes sat behind that one sentence, and both are pinned here.
  */
 
-function lifeIn(placeKey: string, seed: string, months: number) {
-  const created = createExplicitGeographyLife({
+function lifeIn(
+  placeKey: string,
+  seed: string,
+  months: number,
+  opening: "current" | "older-save" = "current",
+) {
+  const input = {
     placeKey,
     seed,
     startAge: 40,
-    startKind: "normal",
-    depth: "begin-adult-life",
-  });
-  let world = created.game.world;
+    startKind: "normal" as const,
+    depth: "begin-adult-life" as const,
+  };
+  // An older save is the same life opened without the current opening
+  // version: nothing placed a split town's resident in a district for it.
+  const legacy = { ...explicitNewGameSetup(input) };
+  delete (legacy as { worldOpeningVersion?: unknown }).worldOpeningVersion;
+  const created =
+    opening === "current"
+      ? createExplicitGeographyLife(input).game
+      : createNewGameWorld(legacy);
+  let world = created.world;
   for (let step = 0; step < months; step += 1) {
     world = letAdultTimePass(world, 30);
   }
-  return { world, personId: created.game.playerPersonId };
+  return { world, personId: created.playerPersonId };
 }
 
 function eligibility(
@@ -68,13 +87,49 @@ describe("standing for a seat in the state you have always lived in", () => {
     expect(result.eligible).toBe(true);
   });
 
+  it("lets a lifelong resident file for their own district's seat", () => {
+    // Found by the simulated-lives loop in Waterbury, Nebraska: the office
+    // list said "you can stand", and filing with the recorded district bound
+    // refused with "lived here 1 month". The list dated the district from the
+    // household record; the bound seat dated it from the day the world was
+    // written. Both now read the same way.
+    const built = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "playtest-bound-waterbury",
+      startAge: 25,
+      placeKey: "3151630",
+      questionnaire: "skipped",
+    });
+    const personId = built.playerPersonId;
+    const world = passOrdinaryDays(openOrdinaryLife(built.world, personId), 49);
+    const officeKey = "us-ne-legislature-v1:legislature";
+    const recorded = recordedDistrictForOffice(world, personId, officeKey);
+    expect(recorded).not.toBeNull();
+    const result = candidacyEligibility(world, {
+      personId,
+      jurisdictionId: world.people[personId]!.homeJurisdictionId,
+      officeKey,
+      alreadyACandidate: false,
+      districtBinding: recorded!.binding,
+    });
+    expect(result.blocks.map((block) => block.reason)).toEqual([]);
+    expect(result.eligible).toBe(true);
+  });
+
   it("refuses a split city by naming the district as the thing it cannot say", () => {
     // Columbus is split across more than one district, so the whole-place join
-    // cannot say which one its resident lives in. Unknown stays unknown — and
-    // the refusal says which unknown it is. Telling a lifelong Columbus
-    // resident the game never recorded when they came to live there would be
-    // untrue: it recorded that, and only the district is missing.
-    const { world, personId } = lifeIn("3918000", "playtest-split", 18);
+    // cannot say which one its resident lives in. In an older save nothing has
+    // placed the resident in one, so unknown stays unknown — and the refusal
+    // says which unknown it is. Telling a lifelong Columbus resident the game
+    // never recorded when they came to live there would be untrue: it recorded
+    // that, and only the district is missing. (A current opening places them;
+    // see the next test.)
+    const { world, personId } = lifeIn(
+      "3918000",
+      "playtest-split",
+      18,
+      "older-save",
+    );
     const result = eligibility(
       world,
       personId,
@@ -136,10 +191,38 @@ describe("standing for a seat in the state you have always lived in", () => {
     expect(verdict.eligible).toBe(true);
   });
 
+  it("places a current opening's split-city resident in one of its districts", () => {
+    // GAME PROFILE placeholder (`assignSplitHomeDistricts`): the opening puts
+    // the Columbus resident in one district crossing Columbus, by seed, so the
+    // seat can be stood for; the join itself still claims nothing.
+    const { world, personId } = lifeIn("3918000", "playtest-split-placed", 0);
+    const verdict = eligibility(
+      world,
+      personId,
+      "us-oh-general-assembly-v1:house",
+    );
+    expect(verdict.blocks.map((block) => block.reason).join(" ")).not.toContain(
+      "more than one district",
+    );
+    expect(
+      recordedDistrictResidenceSince(
+        world,
+        personId,
+        "state-lower",
+        world.currentDate,
+      ),
+    ).toBe(stateResidenceSince(world, personId, "US-OH"));
+  });
+
   it("still refuses where the district genuinely cannot be established", () => {
-    // Nothing above was loosened. A town split across several districts still
-    // refuses, and still says the district is what it cannot establish.
-    const { world, personId } = lifeIn("3918000", "playtest-split-town", 0);
+    // Nothing above was loosened. An older save's split-town resident, never
+    // placed, still refuses, and never with the start-date sentence.
+    const { world, personId } = lifeIn(
+      "3918000",
+      "playtest-split-town",
+      0,
+      "older-save",
+    );
     const reasons = eligibility(
       world,
       personId,

@@ -2,6 +2,14 @@
   "admittedLocalRoutes": [
     {
       "actions": [
+        "introduce-ordinance"
+      ],
+      "name": "CITY OF WASHINGTON DC",
+      "state": "DC",
+      "unitId": "gus2025:124214"
+    },
+    {
+      "actions": [
         "introduce-ordinance",
         "pass-ordinance",
         "pass-appropriation"
@@ -2582,6 +2590,7 @@
           "chamberFamily": "unicameral",
           "citations": [
             "Lawmaking in Nebraska",
+            "Neb. Const. Art. III, Sec. 6",
             "Neb. Const. art. III, § 8"
           ],
           "missing": [
@@ -2608,7 +2617,7 @@
             "term.years"
           ],
           "officeKey": "us-ne-legislature-v1:legislature",
-          "seats": null,
+          "seats": 49,
           "standForOffice": "refused",
           "standForOfficeMissing": [
             "qualification.stateResidenceYears"
@@ -3626,7 +3635,7 @@
         "appropriationVoteRuleAdmitted": 0,
         "identityOnly": 0,
         "inheritedDefaultOnly": 0,
-        "introduceOrdinanceAdmitted": 0,
+        "introduceOrdinanceAdmitted": 1,
         "passAppropriationAdmitted": 0,
         "passOrdinanceAdmitted": 0,
         "units": 1,
@@ -3656,7 +3665,7 @@
         "appropriationVoteRuleAdmitted": 227,
         "identityOnly": 19259,
         "inheritedDefaultOnly": 225,
-        "introduceOrdinanceAdmitted": 3,
+        "introduceOrdinanceAdmitted": 4,
         "passAppropriationAdmitted": 2,
         "passOrdinanceAdmitted": 1,
         "units": 19489,
@@ -3678,13 +3687,13 @@
     "loadedRecordsMappedToCatalog": 65,
     "missingMandatoryLocalFields": {
       "body.seats": 38699,
-      "ordinance.introductionToPassage": 2,
-      "ordinance.passage": 2
+      "ordinance.introductionToPassage": 3,
+      "ordinance.passage": 1
     },
     "states": 50,
     "statesWithAnyStandForOfficeAdmitted": 3,
     "statesWithAnyTermRuleAdmitted": 1,
     "statesWithLegislativePack": 9,
-    "unitsWithAdmittedLocalRoute": 3
+    "unitsWithAdmittedLocalRoute": 4
   }
 }

@@ -1,5 +1,6 @@
+import { eventById } from "./event-index";
 import { homePartyChapters } from "./living-world/party-chapters";
-import { addDays } from "./dates";
+import { addDays, ageOnDate } from "./dates";
 import { evaluateDecision } from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
@@ -14,13 +15,14 @@ import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { traitRegistryFor } from "./trait-registry";
 import { registeredTraitConsiderations } from "./trait-readings";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
-import { recordEventKnowledge } from "./records";
+import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { assessRelationshipContinuity } from "./relationship-integration";
 import { simulationMomentAtLocalTime } from "./dates";
 import {
   cancelScheduledActivity,
   createScheduledActivity,
   scheduledActivityState,
+  scheduledConflictExists,
 } from "./time-work";
 import { isPersonAliveAt } from "./vitality-integrity";
 import {
@@ -28,7 +30,14 @@ import {
   goalConsiderations,
   recordGoalStepTaken,
 } from "./people-goal-pursuit";
+import { SeededRng } from "./rng";
 import { recordWorldEvent } from "./world";
+import {
+  DATE_KIND,
+  DATE_OCCASION_TAG,
+  dateRefusal,
+  romanticConsiderations,
+} from "./couples";
 import type {
   DecisionConsideration,
   EntityId,
@@ -38,6 +47,7 @@ import type {
   IsoDate,
   World,
   HistoricalEvent,
+  SimulationMoment,
 } from "./types";
 
 /**
@@ -64,6 +74,7 @@ import type {
 import {
   CONTACT_ACCEPTED_EVENT,
   CONTACT_ANSWER_TRANSITION_KEY,
+  CONTACT_CALLED_OFF_EVENT,
   CONTACT_COUNTERED_EVENT,
   CONTACT_DECLINED_EVENT,
   CONTACT_LOCATION_KEY,
@@ -74,6 +85,7 @@ import {
 export {
   CONTACT_ACCEPTED_EVENT,
   CONTACT_ANSWER_TRANSITION_KEY,
+  CONTACT_CALLED_OFF_EVENT,
   CONTACT_COUNTERED_EVENT,
   CONTACT_DECLINED_EVENT,
   CONTACT_LOCATION_KEY,
@@ -82,7 +94,8 @@ export {
 };
 
 /** How long an unanswered proposal waits before the other person answers. */
-const ANSWER_DELAY_DAYS = 1;
+export const CONTACT_ANSWER_DELAY_DAYS = 1;
+const ANSWER_DELAY_DAYS = CONTACT_ANSWER_DELAY_DAYS;
 /** The earliest a proposal may be for: nobody is asked for the same hour. */
 /** For a sentence the player actually reads, in both shapes it needs. */
 function daysNotice(count: number): string {
@@ -193,7 +206,13 @@ export function contactBases(
     const other = interaction.personIds.find((id) => id !== personId);
     if (other) add(other, "somebody you know");
   }
-  for (const chapter of homePartyChapters(world)) {
+  // A party chapter's organizer is somebody an adult can reach about party
+  // work. A child was offered a meeting with one (Juneau playtest,
+  // 2026-09-23); party and campaign activity is for adults.
+  const person = world.people[personId];
+  const adult =
+    !!person && ageOnDate(person.birthDate, world.currentDate) >= 18;
+  for (const chapter of adult ? homePartyChapters(world) : []) {
     if (chapter.organizerPersonId) {
       add(chapter.organizerPersonId, `public organizer of ${chapter.name}`);
     }
@@ -268,6 +287,8 @@ export interface ContactProposal {
   readonly on: IsoDate;
   readonly purpose: string;
   readonly answered: boolean;
+  /** Whether both of them were asked to treat it as a date. */
+  readonly date: boolean;
 }
 
 /** A proposal between these two that nobody has answered yet. */
@@ -325,6 +346,7 @@ export function contactProposals(
           on,
           purpose: event.summary,
           answered,
+          date: event.tags.includes(DATE_OCCASION_TAG),
         },
       ];
     });
@@ -339,6 +361,12 @@ export interface ProposeContactInput {
   readonly purpose: string;
   /** Skip the scheduled answer: the other person answers in the scene itself. */
   readonly answerInPerson?: boolean;
+  /**
+   * Asked as a date. The other person answers it as one (see
+   * `romanticConsiderations`), and the evening, once kept, is recorded as a
+   * date between them.
+   */
+  readonly date?: boolean;
 }
 
 /**
@@ -371,6 +399,10 @@ export function proposeContact(
   if (!input.purpose.trim()) throw new Error("A meeting needs a reason.");
   if (openProposal(world, input.fromPersonId, input.toPersonId)) {
     throw new Error("There is already an unanswered proposal between them.");
+  }
+  if (input.date) {
+    const refusal = dateRefusal(world, input.fromPersonId, input.toPersonId);
+    if (refusal) throw new Error(refusal);
   }
   const start = simulationMomentAtLocalTime({
     date: input.on,
@@ -405,7 +437,11 @@ export function proposeContact(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: [CONTACT_TAG, `contact.on:${input.on}`],
+    tags: [
+      CONTACT_TAG,
+      `contact.on:${input.on}`,
+      ...(input.date ? [DATE_OCCASION_TAG] : []),
+    ],
     summary: `${personName(asker)} asked ${personName(asked)} to meet on ${input.on}: ${input.purpose}`,
     context: {
       location: null,
@@ -455,6 +491,7 @@ export function proposeContact(
       on: input.on,
       purpose: input.purpose,
       answered: false,
+      date: !!input.date,
     },
   };
 }
@@ -490,9 +527,7 @@ export function answerContact(
   world: World,
   input: AnswerContactInput,
 ): { world: World; eventId: EntityId } {
-  const proposal = world.history.events.find(
-    (event) => event.id === input.proposalEventId,
-  );
+  const proposal = eventById(world, input.proposalEventId);
   if (!proposal || proposal.type !== CONTACT_PROPOSED_EVENT) {
     throw new Error("That is not a meeting proposal.");
   }
@@ -503,6 +538,12 @@ export function answerContact(
     (entry) => entry.role === "focus:asked-of",
   )!.personId;
   const meetingId = meetingFor(world, proposal.id);
+  // A date asked for before one of them was with somebody cannot now be
+  // agreed to (see `dateRefusal`); saying no, or another day, still can.
+  if (input.answer !== "decline" && proposal.tags.includes(DATE_OCCASION_TAG)) {
+    const refusal = dateRefusal(world, from, to);
+    if (refusal) throw new Error(refusal);
+  }
   const on = proposal.tags
     .find((tag) => tag.startsWith("contact.on:"))!
     .slice("contact.on:".length) as IsoDate;
@@ -576,21 +617,17 @@ export function answerContact(
     next = cancelScheduledActivity(next, meetingId);
   }
   if (input.answer === "accept") {
-    const start = simulationMomentAtLocalTime({
-      date: on,
-      minuteOfDay: MEETING_START_MINUTE,
-      timeZone: next.currentMoment.timeZone,
-      preferredUtcOffsetMinutes: next.currentMoment.utcOffsetMinutes,
-    });
-    const end = simulationMomentAtLocalTime({
-      date: on,
-      minuteOfDay: MEETING_START_MINUTE + MEETING_MINUTES,
-      timeZone: next.currentMoment.timeZone,
-      preferredUtcOffsetMinutes: next.currentMoment.utcOffsetMinutes,
-    });
+    const { start, end } = meetingWindow(next, on);
     next = createScheduledActivity(next, {
       stableKey: `contact:${proposal.id}:meeting`,
-      title: `Meeting with ${personName(asker)}`,
+      // Named for the other person as the played one sees it. It used to be
+      // the asker's name always, so a player who asked put "Meeting with"
+      // their own name on their calendar.
+      title: `Meeting with ${personName(
+        next.control.kind === "person" && next.control.personId === from
+          ? asked
+          : asker,
+      )}`,
       summary: proposal.context.motivation ?? proposal.summary,
       kind: "confirmed",
       start,
@@ -628,6 +665,24 @@ export function answerContact(
   return { world: next, eventId: answerEvent.id };
 }
 
+/** The evening a meeting on this day holds. */
+function meetingWindow(
+  world: World,
+  on: IsoDate,
+): { readonly start: SimulationMoment; readonly end: SimulationMoment } {
+  const at = (minuteOfDay: number) =>
+    simulationMomentAtLocalTime({
+      date: on,
+      minuteOfDay,
+      timeZone: world.currentMoment.timeZone,
+      preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+    });
+  return {
+    start: at(MEETING_START_MINUTE),
+    end: at(MEETING_START_MINUTE + MEETING_MINUTES),
+  };
+}
+
 /**
  * How an NPC answers, from their own side: what is already on that day, what
  * the two of them have between them, and who they are.
@@ -636,9 +691,7 @@ export function npcContactAnswer(
   world: World,
   proposalEventId: EntityId,
 ): { answer: ContactAnswer; counterOn: IsoDate | null; world: World } {
-  const proposal = world.history.events.find(
-    (event) => event.id === proposalEventId,
-  )!;
+  const proposal = eventById(world, proposalEventId)!;
   const from = proposal.participants.find(
     (entry) => entry.role === "agency:asked",
   )!.personId;
@@ -672,13 +725,16 @@ export function npcContactAnswer(
       sourceRefs: [{ kind: "relationship-interaction", interactionId }],
     });
   }
-  // Somebody already has that evening: the day is the problem, not the person.
-  const busy = world.history.scheduledActivities.some(
-    (activity) =>
-      activity.participantPersonIds.includes(to) &&
-      activity.kind === "confirmed" &&
-      scheduledActivityState(world, activity.id).status === "scheduled" &&
-      scheduledActivityState(world, activity.id).start.date === on,
+  // Somebody already has that evening: the day is the problem, not the
+  // person. Either of them: an asker who asked two people for the same
+  // evening and heard yes from the first cannot be met by the second, and
+  // agreeing anyway used to throw from inside passing time.
+  const evening = meetingWindow(world, on);
+  const busy = scheduledConflictExists(
+    world,
+    [from, to],
+    evening.start,
+    evening.end,
   );
   if (busy) {
     considerations.push({
@@ -691,6 +747,18 @@ export function npcContactAnswer(
       explanation: "They already have something that evening.",
       sourceRefs: [],
     });
+  }
+  // A date is answered as one: who they are with, whether they want company,
+  // and how the two of them stand.
+  if (proposal.tags.includes(DATE_OCCASION_TAG)) {
+    considerations.push(
+      ...romanticConsiderations(
+        world,
+        `contact:${proposalEventId}:date`,
+        to,
+        from,
+      ),
+    );
   }
   // The answerer's own temperament is established here, because they are the
   // one deciding and a decision may rest on who they are.
@@ -746,7 +814,10 @@ export function npcContactAnswer(
     randomness: "close-choices",
     retention: "ephemeral",
   });
-  const answer = (evaluation.selectedOptionKey ?? "decline") as ContactAnswer;
+  const chosen = (evaluation.selectedOptionKey ?? "decline") as ContactAnswer;
+  // Weighed, but not optional: an evening already taken cannot be agreed to.
+  const answer: ContactAnswer =
+    busy && chosen === "accept" ? "counter" : chosen;
   return {
     answer,
     counterOn: answer === "counter" ? addDays(on, 7) : null,
@@ -766,9 +837,7 @@ export function counterWithNewDay(
     readonly note?: string;
   },
 ): World {
-  const proposal = world.history.events.find(
-    (event) => event.id === input.proposalEventId,
-  );
+  const proposal = eventById(world, input.proposalEventId);
   if (!proposal || proposal.type !== CONTACT_PROPOSED_EVENT) {
     throw new Error("That is not a meeting proposal.");
   }
@@ -790,6 +859,12 @@ export function counterWithNewDay(
     toPersonId: asker,
     on: input.on,
     purpose: proposal.context.motivation ?? proposal.summary,
+    date: proposal.tags.includes(DATE_OCCASION_TAG),
+    // The person being played answers on their own screen; nobody answers
+    // for them.
+    answerInPerson:
+      answered.world.control.kind === "person" &&
+      answered.world.control.personId === asker,
   }).world;
 }
 
@@ -883,8 +958,59 @@ const REACH_OUT_PAIR_SPACING_DAYS = 240;
  * returned.
  */
 const REACH_OUT_UNANSWERED_LIMIT = 2;
-/** How far ahead somebody suggests meeting when they call. */
-const REACH_OUT_NOTICE_DAYS = 9;
+/**
+ * How far ahead somebody suggests meeting when they call, and how long they
+ * leave it before calling again, differ from one pair of people to another.
+ *
+ * They used to be one fixed number each for everybody. With every new life
+ * starting on the same day, unrelated lives received the same call and the
+ * same evening: one friend rang exactly every five months, and a fresh
+ * Maryland life met somebody on the very evening another life had (Time
+ * skips thread, 2026-09-23).
+ *
+ * PLACEHOLDER, NOT RESEARCH: the ranges are calibration until
+ * `how-often-people-and-groups-get-in-touch` (and the relationship answers) give
+ * real ones. What is not a placeholder is that the variation belongs to the
+ * two people, stays the same for them on every load, and is drawn from
+ * nothing else.
+ */
+const REACH_OUT_NOTICE_DAYS_MIN = 5;
+const REACH_OUT_NOTICE_DAYS_SPREAD = 10;
+const REACH_OUT_PAIR_SPACING_SPREAD = 0.5;
+/** On any day they could ring, the share of days they actually do. */
+const REACH_OUT_DAILY_SHARE = 0.25;
+
+/** A number in [0, 1) that belongs to this world and key and never changes. */
+function unitFor(world: World, key: string): number {
+  return new SeededRng(world.seed).fork(key).next();
+}
+
+function pairKey(a: EntityId, b: EntityId): string {
+  return [a, b].sort().join(":");
+}
+
+function reachOutNoticeDays(world: World, a: EntityId, b: EntityId): number {
+  return (
+    REACH_OUT_NOTICE_DAYS_MIN +
+    Math.floor(
+      unitFor(world, `reach-out-notice:${pairKey(a, b)}`) *
+        REACH_OUT_NOTICE_DAYS_SPREAD,
+    )
+  );
+}
+
+function reachOutPairSpacingDays(
+  world: World,
+  a: EntityId,
+  b: EntityId,
+): number {
+  const spread =
+    1 -
+    REACH_OUT_PAIR_SPACING_SPREAD / 2 +
+    unitFor(world, `reach-out-spacing:${pairKey(a, b)}`) *
+      REACH_OUT_PAIR_SPACING_SPREAD;
+  return Math.round(REACH_OUT_PAIR_SPACING_DAYS * spread);
+}
 
 /**
  * Somebody decides, on their own, to get back in touch (CRUNCH47 B1, P3).
@@ -920,7 +1046,11 @@ function askedRecently(
   const last = proposalsFrom(world, playerPersonId, otherPersonId).at(-1);
   return (
     !!last &&
-    last.occurredAt > addDays(world.currentDate, -REACH_OUT_PAIR_SPACING_DAYS)
+    last.occurredAt >
+      addDays(
+        world.currentDate,
+        -reachOutPairSpacingDays(world, playerPersonId, otherPersonId),
+      )
   );
 }
 
@@ -966,10 +1096,22 @@ export function produceReachingOut(
       event.involvedEntityIds.includes(playerPersonId),
   );
   if (recent) return world;
-  const on = addDays(world.currentDate, REACH_OUT_NOTICE_DAYS);
   for (const basis of contactBases(world, playerPersonId)) {
     if (basis.gap !== "long-gap" && basis.gap !== "reconnected") continue;
     if (!basis.lastContactOn) continue;
+    // Not the first day it becomes possible for everyone at once: each pair
+    // has its own days (see the placeholder above).
+    if (
+      unitFor(
+        world,
+        `reach-out-day:${pairKey(playerPersonId, basis.personId)}:${world.currentDate}`,
+      ) >= REACH_OUT_DAILY_SHARE
+    )
+      continue;
+    const on = addDays(
+      world.currentDate,
+      reachOutNoticeDays(world, playerPersonId, basis.personId),
+    );
     if (openProposal(world, playerPersonId, basis.personId)) continue;
     if (askedRecently(world, playerPersonId, basis.personId)) continue;
     if (stoppedAsking(world, playerPersonId, basis.personId)) continue;
@@ -1088,6 +1230,45 @@ export function produceReachingOut(
   return world;
 }
 
+/** A date that can no longer go ahead, closed without anyone's answer. */
+function withdrawDate(world: World, proposal: HistoricalEvent): World {
+  const from = proposal.participants.find(
+    (entry) => entry.role === "agency:asked",
+  )!.personId;
+  const to = proposal.participants.find(
+    (entry) => entry.role === "focus:asked-of",
+  )!.personId;
+  let next = recordWorldEvent(world, {
+    stableKey: `contact:${proposal.id}:withdrawn`,
+    type: CONTACT_DECLINED_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: proposal.jurisdictionId,
+    involvedEntityIds: [from, to],
+    participants: [
+      { personId: from, role: "agency:actor", detail: "Asked for the date" },
+      { personId: to, role: "focus:asked-of", detail: "Had been asked out" },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [CONTACT_TAG, `contact.proposal:${proposal.id}`, "contact.withdrawn"],
+    summary: `The date ${personName(world.people[from]!)} asked ${personName(world.people[to]!)} for did not go ahead.`,
+    context: {
+      location: null,
+      socialContext: "A date that could no longer happen.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const meeting = meetingFor(next, proposal.id);
+  if (meeting && scheduledActivityState(next, meeting).status === "scheduled") {
+    next = cancelScheduledActivity(next, meeting);
+  }
+  return next;
+}
+
 export function contactAnswerTransitionHandler(
   world: World,
   dueItem: FutureDueItem,
@@ -1112,9 +1293,7 @@ export function contactAnswerTransitionHandler(
     ),
   );
   if (!proposalId) return done("proposal-missing");
-  const proposal = world.history.events.find(
-    (event) => event.id === proposalId,
-  )!;
+  const proposal = eventById(world, proposalId)!;
   const to = proposal.participants.find(
     (entry) => entry.role === "focus:asked-of",
   )!.personId;
@@ -1128,7 +1307,39 @@ export function contactAnswerTransitionHandler(
   ) {
     return done("already-answered");
   }
+  /*
+   * A date asked for before either of them was with somebody, and still
+   * unanswered, does not go ahead now. It is withdrawn and recorded as such,
+   * not answered as if the other person had chosen (Massachusetts roll call,
+   * 2026-09-23: asks made while already in a couple).
+   */
+  if (
+    proposal.tags.includes(DATE_OCCASION_TAG) &&
+    dateRefusal(world, from, to)
+  ) {
+    return done("date-withdrawn", withdrawDate(world, proposal));
+  }
   const decided = npcContactAnswer(world, proposalId);
+  /*
+   * "Not that day, but this one" is an answer and a new request together.
+   * Answered here, it used to write only the answer, so the asker saw
+   * nothing: no reply on the row and no day offered back. A Peoria life asked
+   * the same person out five times in a year that way (playtest on main
+   * 15dbdd4f, 2026-09-23). It goes through the same writer a player's own
+   * counter-offer uses.
+   */
+  if (decided.answer === "counter" && decided.counterOn) {
+    const countered = counterWithNewDay(decided.world, {
+      proposalEventId: proposalId,
+      on: decided.counterOn,
+    });
+    const answerEvent = countered.history.events.find(
+      (event) =>
+        event.type === CONTACT_COUNTERED_EVENT &&
+        event.tags.includes(`contact.proposal:${proposalId}`),
+    );
+    return done("contact-counter", countered, answerEvent?.id ?? null);
+  }
   const answered = answerContact(decided.world, {
     proposalEventId: proposalId,
     answer: decided.answer,
@@ -1146,3 +1357,170 @@ export const PEOPLE_CONTACT_HANDLERS: FutureTransitionHandlerRegistry = {
       ? contactAnswerTransitionHandler
       : undefined,
 };
+
+/** The interaction a kept meeting between two people writes. */
+export const CONTACT_MEETING_KEPT_KIND = "experience:time-together";
+
+/**
+ * Two people who arranged to meet and then did have spent an evening
+ * together, and that is what builds warmth between them (DEPTH1
+ * `what-moves-a-relationship`: contact alone does not, time actually spent
+ * does). Written once per meeting, only after the calendar says it was kept.
+ * Any other activity, or one not completed, returns the same World.
+ *
+ * PLACEHOLDER, NOT RESEARCH: how much one evening together counts for is
+ * part of `relationship-absence-thresholds` and `what-moves-a-relationship`
+ * calibration. It is recorded as a minor strengthening until that lands.
+ */
+export function recordContactMeetingKept(
+  world: World,
+  activityId: EntityId,
+): World {
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === activityId,
+  );
+  if (!activity || activity.location.locationKey !== CONTACT_LOCATION_KEY) {
+    return world;
+  }
+  if (scheduledActivityState(world, activityId).status !== "completed") {
+    return world;
+  }
+  const personIds = [...new Set(activity.participantPersonIds)];
+  if (personIds.length !== 2) return world;
+  const stableKey = `contact-meeting:${activityId}:kept`;
+  if (
+    world.history.relationshipInteractions.some(
+      (interaction) => interaction.stableKey === stableKey,
+    )
+  ) {
+    return world;
+  }
+  const [first, second] = personIds as [EntityId, EntityId];
+  const summary = `${personName(world.people[first]!)} and ${personName(world.people[second]!)} spent the evening together.`;
+  const wasDate = world.history.events.some(
+    (event) =>
+      activity.sourceEntityIds.includes(event.id) &&
+      event.type === CONTACT_PROPOSED_EVENT &&
+      event.tags.includes(DATE_OCCASION_TAG),
+  );
+  const next = wasDate
+    ? recordRelationshipInteraction(world, {
+        stableKey: `contact-meeting:${activityId}:date`,
+        personIds: [first, second],
+        eventId: null,
+        occurredAt: world.currentDate,
+        kind: DATE_KIND,
+        // Marks the evening as a date; the time together below is what moves
+        // how they stand, as with any evening kept.
+        change: "maintained",
+        significance: "meaningful",
+        summary: `${personName(world.people[first]!)} and ${personName(world.people[second]!)} went out on a date.`,
+        tags: [CONTACT_TAG, DATE_OCCASION_TAG],
+      })
+    : world;
+  return recordRelationshipInteraction(next, {
+    stableKey,
+    personIds: [first, second],
+    eventId: null,
+    occurredAt: world.currentDate,
+    kind: CONTACT_MEETING_KEPT_KIND,
+    change: "strengthened",
+    significance: "minor",
+    summary,
+    tags: [CONTACT_TAG],
+  });
+}
+
+export const CONTACT_CALLED_OFF_KIND = "contact:called-off";
+
+/**
+ * A meeting two people agreed to, called off by one of them before it was
+ * kept. Before this, a confirmed meeting could only be attended: Decline was
+ * for optional holds, time stopped at the meeting, and a player who did not
+ * want to go was stuck on that day (New Jersey and New Hampshire playtests,
+ * 2026-09-23).
+ *
+ * The meeting is canceled on both calendars, the other person is told, and
+ * the call-off is kept in their history. It is recorded as maintained, so it
+ * moves nothing by itself. PLACEHOLDER, NOT RESEARCH: how much a canceled
+ * plan costs a relationship is part of `what-moves-a-relationship`; nothing
+ * is invented for it here.
+ */
+export function callOffContactMeeting(
+  world: World,
+  input: { readonly personId: EntityId; readonly activityId: EntityId },
+): World {
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === input.activityId,
+  );
+  if (
+    !activity ||
+    activity.location.locationKey !== CONTACT_LOCATION_KEY ||
+    !activity.participantPersonIds.includes(input.personId)
+  ) {
+    throw new Error("There is no meeting of yours to call off.");
+  }
+  if (scheduledActivityState(world, activity.id).status !== "scheduled") {
+    throw new Error("That meeting is no longer on the calendar.");
+  }
+  const otherId = activity.participantPersonIds.find(
+    (id) => id !== input.personId,
+  );
+  if (!otherId || !world.people[otherId]) {
+    throw new Error("There is no meeting of yours to call off.");
+  }
+  const person = world.people[input.personId]!;
+  const other = world.people[otherId]!;
+  const summary = `${personName(person)} called off meeting ${personName(other)}.`;
+  let next = cancelScheduledActivity(world, activity.id);
+  next = recordWorldEvent(next, {
+    stableKey: `contact-meeting:${activity.id}:called-off`,
+    type: CONTACT_CALLED_OFF_EVENT,
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: activity.location.jurisdictionId,
+    involvedEntityIds: [input.personId, otherId],
+    participants: [
+      { personId: input.personId, role: "agency:actor", detail: summary },
+      {
+        personId: otherId,
+        role: "focus:asked-of",
+        detail: "Had agreed to meet",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [CONTACT_TAG, `contact.meeting:${activity.id}`],
+    summary,
+    context: {
+      location: null,
+      socialContext: "A plan to meet, called off.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const event = next.history.events.at(-1)!;
+  next = recordEventKnowledge(next, {
+    stableKey: `contact-meeting:${activity.id}:called-off:told`,
+    personId: otherId,
+    eventId: event.id,
+    learnedAt: next.currentDate,
+    believedSummary: summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "told-by", sourcePersonId: input.personId, claimId: null },
+  });
+  return recordRelationshipInteraction(next, {
+    stableKey: `contact-meeting:${activity.id}:called-off`,
+    personIds: [input.personId, otherId],
+    eventId: event.id,
+    occurredAt: next.currentDate,
+    kind: CONTACT_CALLED_OFF_KIND,
+    change: "maintained",
+    significance: "minor",
+    summary,
+    tags: [CONTACT_TAG],
+  });
+}

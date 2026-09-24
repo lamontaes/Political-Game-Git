@@ -44,5 +44,18 @@
   ],
   "title": "Every town's population today",
   "usableAnswer": "A CSV of place GEOID (7 digits), name, state and the latest population estimate, with the vintage and the file's own URL named, as an upload to the Drive exchange. Places with no estimate are left out, not given zero.",
-  "whyItMatters": "The owner's rule that a large city elects its mayor turns on a city's size, and the owner wants starting figures to match today. No town in the game has a population."
+  "whyItMatters": "The owner's rule that a large city elects its mayor turns on a city's size, and the owner wants starting figures to match today. No town in the game has a population.",
+  "answer": {
+    "summary": "Census Vintage 2025 is the latest full vintage (estimates for July 1, 2025, released May 2026; the next comes May 2027), so it replaces the Vintage 2024 file the question expected. The 50-states-plus-D.C. CSV has 19,483 rows from sub-est2025.csv at summary level 162, GEOID built as the 2-digit state plus 5-digit place code with leading zeros kept, no duplicates and no blanks. One row, Urban Honolulu CDP (1571550), is a census-designated place, not an incorporated place, and is flagged; Hawaii has no Census-recognized incorporated places. Four rows are a real zero (Carbonate CO, South Park View KY, Corning MO, Mule Barn OK), which is different from a missing row. Puerto Rico has no Census-recognized incorporated places, so it has no row in that file; a second CSV gives all 78 municipios with 5-digit county/municipio FIPS codes (not 7-digit place GEOIDs). An independent review matched every row in both files against the official Census sources. Owner decision carried in the handoff: these modern numbers are references; apply realistic drift when a game starts, then let the simulation's own people and events move population, and never present the estimate as the fictional world's exact live count.",
+    "sources": [
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/DATA-Census-Vintage-2025-places-50-states-DC.csv",
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/DATA-Census-Vintage-2025-Puerto-Rico-municipios.csv",
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty - Census place and Puerto Rico municipio source note - 2026-09-22.md",
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/Our Civic Duty - Census data independent review - 2026-09-22.md",
+      "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/READ FIRST - Our Civic Duty research handoff - 2026-09-22 2230 ET.md"
+    ],
+    "answeredBy": "ChatGPT (research pass plus an independent Luna review)",
+    "answeredAt": "2026-09-23T02:11:30.000Z",
+    "stillOpen": "No game place has been matched to these rows yet. A game place with no matching row keeps population UNKNOWN and is recorded as not matched, never zero and never an earlier vintage. How much drift to apply at game start is not set. The four other territories are not covered."
+  }
 }

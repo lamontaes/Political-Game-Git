@@ -13,13 +13,39 @@ import {
   openingLaterStageKey,
   openingLifeFamily,
   openingLifeSceneAtStage,
+  type OpeningLifeLater,
 } from "../simulation/opening-life-content";
-import { PROPOSED_OPENING_LIFE_LATER as PROPOSED } from "./opening-life-later.fixture";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 
 const DAY = 24 * 60;
-// The mechanism is exercised against proposed entries; shipped play reads an
-// empty table until the research question is answered.
+// The mechanism is exercised against placeholder entries, one for each of the
+// first two choices of one school-age moment. They are not content: the owner
+// rejected every drafted later scene, and shipped play reads an empty table.
+const PLACEHOLDER_SCENE = OPENING_LIFE_ADDITIONS.find(
+  (scene) => scene.key.startsWith("early.school.") && scene.choices.length >= 2,
+)!;
+const PROPOSED: Readonly<Record<string, readonly OpeningLifeLater[]>> = {
+  [PLACEHOLDER_SCENE.key]: PLACEHOLDER_SCENE.choices
+    .slice(0, 2)
+    .map((choice, index) => ({
+      key: `placeholder-${index}`,
+      afterChoice: choice.key,
+      afterDays: 5 + index * 2,
+      premise: `Placeholder later stage ${index} with {person}.`,
+      choices: [
+        {
+          key: "first",
+          label: `Placeholder choice ${index}a`,
+          aftermath: "Placeholder.",
+        },
+        {
+          key: "second",
+          label: `Placeholder choice ${index}b`,
+          aftermath: "Placeholder.",
+        },
+      ],
+    })),
+};
 const FAMILIES = OPENING_LIFE_ADDITIONS.map((scene) =>
   openingLifeFamily(scene, undefined, PROPOSED),
 );
@@ -31,7 +57,7 @@ it("offers no later answer in shipped play until one is researched", () => {
       family.stages.filter((stage) => stage.key.startsWith("later.")),
       family.key,
     ).toEqual([]);
-  // The proposals would add stages, so the empty assertion above is not
+  // The placeholders would add stages, so the empty assertion above is not
   // vacuous.
   expect(
     FAMILIES.flatMap((family) => family.stages).filter((stage) =>

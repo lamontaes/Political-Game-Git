@@ -1,4 +1,9 @@
-import { dollars } from "../presentation/campaign-life-surface";
+import { InterruptionChecklist } from "./InterruptionChecklist";
+import {
+  dollars,
+  readableDatesIn,
+} from "../presentation/campaign-life-surface";
+import { projectBillPaper, type BillPaper } from "../presentation/bill-paper";
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
 import {
   clampWorkspace,
@@ -9,6 +14,7 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
+import { TownBusinessesPanel } from "./TownBusinessesPanel";
 import {
   economicContextBindingForPlace,
   economicContextUnavailableReason,
@@ -60,10 +66,7 @@ import {
   isPinned,
   type InterruptionPreferences,
 } from "../presentation/shell-navigation";
-import {
-  INTERRUPTION_CATEGORIES,
-  interruptionHandlers,
-} from "../presentation/interruption-policy";
+import { interruptionHandlers } from "../presentation/interruption-policy";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
 import {
@@ -77,7 +80,7 @@ import {
 } from "../presentation/calendar-campaign-life";
 import { previewTimeCommand } from "../presentation/time-command";
 import { venueActivities } from "../presentation/venue-activity";
-import { proseWeekdayDate } from "../presentation/prose-dates";
+import { proseDate, proseWeekdayDate } from "../presentation/prose-dates";
 import {
   PROTECTED_STOP_NOTE,
   describeInterval,
@@ -169,6 +172,7 @@ export function WorkspaceFrame({
   const [draft, setDraft] = useState<WorkspaceLayout | null>(null);
   const [liveLayout, setLiveLayout] = useState<WorkspaceLayout | null>(null);
   const [closing, setClosing] = useState(false);
+  const closeTimer = useRef<number | null>(null);
   const [viewport, setViewport] = useState(() => ({
     width: typeof window === "undefined" ? 1280 : window.innerWidth,
     height: typeof window === "undefined" ? 860 : window.innerHeight,
@@ -193,6 +197,22 @@ export function WorkspaceFrame({
   useEffect(() => {
     setDraft(null);
   }, [testid]);
+  /*
+   * A close waits out its fade before it takes the player back to the room.
+   * Opening something else during the fade, a pin pressed as the People
+   * workspace fades, reuses this frame for the new workspace, and the old
+   * timer then closed the page just opened (People web browser test on main
+   * 54bebe81, 2026-09-23). A new workspace cancels the close it replaced.
+   */
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current !== null) {
+        window.clearTimeout(closeTimer.current);
+        closeTimer.current = null;
+      }
+      setClosing(false);
+    };
+  }, [testid]);
   useEffect(() => {
     const resize = () =>
       setViewport({ width: window.innerWidth, height: window.innerHeight });
@@ -213,7 +233,10 @@ export function WorkspaceFrame({
       return;
     }
     setClosing(true);
-    window.setTimeout(onClose, WORKSPACE_CLOSE_MS);
+    closeTimer.current = window.setTimeout(() => {
+      closeTimer.current = null;
+      onClose();
+    }, WORKSPACE_CLOSE_MS);
   }
   function start(
     event: ReactPointerEvent<HTMLElement>,
@@ -437,6 +460,17 @@ export function PeopleWorkspace({
     () => filterDirectory(directory, category, state.peopleQuery),
     [directory, category, state.peopleQuery],
   );
+  const notYetMet = useMemo(
+    () =>
+      category === "all"
+        ? []
+        : filterDirectory(
+            { ...directory, people: directory.notYetMet },
+            category,
+            state.peopleQuery,
+          ),
+    [directory, category, state.peopleQuery],
+  );
   const [webExpanded, setWebExpanded] = useState(false);
   const peopleView = state.preferences.peopleView;
   const showWeb = peopleView === "web";
@@ -521,6 +555,9 @@ export function PeopleWorkspace({
             query={state.peopleQuery}
             expanded={webExpanded}
             onSelect={selectPerson}
+            onShowList={() =>
+              dispatch({ type: "set-people-view", view: "list" })
+            }
           />
           <button
             type="button"
@@ -567,6 +604,11 @@ export function PeopleWorkspace({
                   ) : person.context ? (
                     <small>{person.context}</small>
                   ) : null}
+                  {person.strain ? (
+                    <small data-testid={`people-strain-${person.personId}`}>
+                      {person.strain}
+                    </small>
+                  ) : null}
                 </button>
                 <PinToggle
                   className="ui-action ui-action--rail"
@@ -580,6 +622,44 @@ export function PeopleWorkspace({
           })}
         </ul>
       )}
+
+      {category === "all" && directory.notYetMet.length > 0 ? (
+        <p className="game-note" data-testid="people-not-yet-met-note">
+          {directory.notYetMet.length === 1
+            ? "1 person you work or organize with is somebody you have not met yet."
+            : `${directory.notYetMet.length} people you work or organize with are somebody you have not met yet.`}{" "}
+          They are under Work and Politics.
+        </p>
+      ) : null}
+      {notYetMet.length > 0 ? (
+        <section
+          className="pg-people-not-yet-met"
+          aria-label="Not met yet"
+          data-testid="people-not-yet-met"
+        >
+          <h3>Not met yet</h3>
+          <ul className="pg-people-list" data-view="list">
+            {notYetMet.map((person) => (
+              <li key={person.personId}>
+                <button
+                  type="button"
+                  className="pg-person-row"
+                  data-testid={`people-unmet-${person.personId}`}
+                  onClick={() => selectPerson(person.personId)}
+                >
+                  <PersonPortrait
+                    world={world}
+                    personId={person.personId}
+                    size="small"
+                  />
+                  <strong>{person.name}</strong>
+                  {person.context ? <small>{person.context}</small> : null}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </>
   );
 }
@@ -969,42 +1049,10 @@ export function CalendarWorkspaceSurface({
             time. A preference here never spends money, casts a vote or commits
             you to anything; it only decides where a skip pauses.
           </p>
-          <ul className="pg-interruption-list">
-            {INTERRUPTION_CATEGORIES.map((category) =>
-              category.key === "always" ? (
-                <li key={category.key} data-testid="interruption-always">
-                  <label className="pg-check pg-check--fixed">
-                    <input type="checkbox" checked disabled readOnly />
-                    <span>
-                      <strong>{category.label}</strong>
-                      <small>{category.detail}</small>
-                    </span>
-                  </label>
-                </li>
-              ) : (
-                <li key={category.key}>
-                  <label className="pg-check">
-                    <input
-                      type="checkbox"
-                      data-testid={`interruption-${category.key}`}
-                      checked={interruptions[category.key]}
-                      disabled={!onInterruptionChange}
-                      onChange={(event) =>
-                        onInterruptionChange?.(
-                          category.key as keyof InterruptionPreferences,
-                          event.target.checked,
-                        )
-                      }
-                    />
-                    <span>
-                      <strong>{category.label}</strong>
-                      <small>{category.detail}</small>
-                    </span>
-                  </label>
-                </li>
-              ),
-            )}
-          </ul>
+          <InterruptionChecklist
+            interruptions={interruptions}
+            onChange={onInterruptionChange}
+          />
         </div>
       ) : null}
     </>
@@ -1352,8 +1400,10 @@ export function MeasureSurface({
   }
 
   const yours = measure.sponsorPersonId === personId;
+  const paper = projectBillPaper(world, measureId);
   return (
     <div data-testid="measure-detail" data-measure-id={measureId}>
+      {paper ? <BillPaperView paper={paper} /> : null}
       <p className="pg-kicker" data-testid="measure-designation">
         {briefing.designation}
       </p>
@@ -1378,20 +1428,94 @@ export function MeasureSurface({
         </p>
       ) : null}
       <p data-testid="measure-standing">{briefing.whereItStands}</p>
+      {briefing.outcomeNote ? (
+        <p data-testid="measure-outcome">
+          {readableDatesIn(briefing.outcomeNote)}
+        </p>
+      ) : null}
       {briefing.votes.length > 0 ? (
         <section className="pg-personal-section">
           <h3>Votes</h3>
           <ul data-testid="measure-votes">
             {briefing.votes.map((vote) => (
-              <li key={`${vote.question}-${vote.when}`}>
-                {vote.when} · {vote.question} · {vote.result} ({vote.yea}–
-                {vote.nay})
+              <li key={`${vote.question}-${vote.when}-${vote.where}`}>
+                {proseDate(vote.when)} · {vote.where} · {vote.question} ·{" "}
+                {vote.result} ({vote.yea}–{vote.nay}; {vote.needed} of{" "}
+                {vote.outOf} needed)
+                {vote.yours ? (
+                  <>
+                    {" "}
+                    <span data-testid="measure-your-vote">{vote.yours}</span>
+                  </>
+                ) : null}
               </li>
             ))}
           </ul>
         </section>
       ) : null}
+      {briefing.history.length > 0 ? (
+        <section className="pg-personal-section">
+          <h3>How it got here</h3>
+          <ol data-testid="measure-history">
+            {briefing.history.map((line, index) => (
+              <li key={`${line.when}-${index}`}>
+                {proseDate(line.when)} · {line.headline}. {line.detail}
+                {line.voteSummary ? ` ${line.voteSummary}` : ""}
+              </li>
+            ))}
+          </ol>
+        </section>
+      ) : null}
     </div>
+  );
+}
+
+/**
+ * A Congress bill as Congress prints it, with its status stamped on top and
+ * what each House and the President did underneath.
+ */
+function BillPaperView({ paper }: { readonly paper: BillPaper }) {
+  return (
+    <article
+      className="measure-paper bill-paper"
+      data-testid="bill-paper"
+      data-enacted={paper.enacted ? "true" : "false"}
+    >
+      <p className="measure-paper-stamp" data-testid="bill-paper-stamp">
+        {paper.stamp}
+      </p>
+      <div className="bill-paper-masthead">
+        <p>
+          {paper.congressLine}
+          <br />
+          {paper.sessionLine}
+        </p>
+        <p className="bill-paper-designation">{paper.designation}</p>
+      </div>
+      <p className="bill-paper-chamber">{paper.chamberLine}</p>
+      <p className="bill-paper-introduction">{paper.introduction}</p>
+      <p className="bill-paper-kind">{paper.kindLabel}</p>
+      <p className="bill-paper-clause">{paper.enactingClause}</p>
+      {paper.sections.map((section) => (
+        <section
+          key={section.label}
+          className="measure-section"
+          data-missing={section.missing ? "true" : "false"}
+        >
+          <h3>
+            {section.label} {section.heading}
+          </h3>
+          <p>{section.text}</p>
+        </section>
+      ))}
+      {paper.record.length > 0 ? (
+        <ol className="bill-paper-record" data-testid="bill-paper-record">
+          {paper.record.map((line, index) => (
+            <li key={`${index}-${line}`}>{line}</li>
+          ))}
+        </ol>
+      ) : null}
+    </article>
   );
 }
 
@@ -1563,7 +1687,8 @@ export function PersonalWorkspace({
                 <h4>{chapter.heading}</h4>
                 {chapter.entries.map((entry) => (
                   <p key={entry.key}>
-                    <time>{entry.at}</time> · {entry.sentence}
+                    <time dateTime={entry.at}>{proseDate(entry.at)}</time> ·{" "}
+                    {entry.sentence}
                   </p>
                 ))}
               </section>
@@ -1631,7 +1756,7 @@ export function PersonalWorkspace({
         <h3>The place you live</h3>
         <p className="game-note">
           {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
-          {world.currentDate}
+          {proseDate(world.currentDate)}
         </p>
         {/*
           The compact lines come from a generated file committed per place, and
@@ -1668,6 +1793,12 @@ export function PersonalWorkspace({
           <p className="game-note" data-testid="economic-context-unavailable">
             {economicContextUnavailableReason(economicPlace.key)}
           </p>
+        ) : null}
+        {economicPlace ? (
+          <TownBusinessesPanel
+            world={world}
+            jurisdictionId={economicPlace.context.jurisdiction.id}
+          />
         ) : null}
       </section>
     </>

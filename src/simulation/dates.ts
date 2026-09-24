@@ -21,6 +21,32 @@ function utcDate(year: number, month: number, day: number): Date {
 const VALID_ISO_DATES_LIMIT = 100_000;
 const VALID_ISO_DATES = new Set<string>();
 
+const SPOKEN_MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+] as const;
+
+/**
+ * "January 16, 2028": a stored date as a sentence the player reads says it.
+ * The simulation writes some public summaries itself, and those must not
+ * print the record's own "2028-01-16".
+ */
+export function spokenDate(date: IsoDate | string): string {
+  const month = SPOKEN_MONTHS[Number(date.slice(5, 7)) - 1];
+  if (!/^\d{4}-\d{2}-\d{2}/.test(date) || !month) return date;
+  return `${month} ${Number(date.slice(8, 10))}, ${date.slice(0, 4)}`;
+}
+
 export function makeIsoDate(value: string): IsoDate {
   if (VALID_ISO_DATES.has(value)) return value as IsoDate;
   const date = validateIsoDate(value);

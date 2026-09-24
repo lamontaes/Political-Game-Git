@@ -3,6 +3,7 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { householdLocationAt, peopleInHouseholdAt } from "../life-queries";
 import { personName } from "../people";
+import type { ProsecutionReferralInput } from "../justice/prosecution";
 import { recordEventKnowledge } from "../records";
 import { SeededRng } from "../rng";
 import type {
@@ -23,9 +24,11 @@ import {
   REPORTED_OFFENSE_PHRASE,
   UNRESEARCHED_LOCAL_CRIME,
   UNRESEARCHED_TOWN_POLICE_LOG,
+  UNREPORTED_OFFENSE_RECORD,
   VICTIM_KNOWS,
   type CrimeOffense,
 } from "./contract";
+import { crimeRateMultiplier } from "./causes";
 
 /**
  * Ordinary local crime, as background life.
@@ -38,8 +41,8 @@ import {
  * themselves stays private: only the people it happened to know.
  *
  * The month after a report, police either make an arrest or do not. An arrest
- * is public, and it is handed to prosecution through `referForProsecution`,
- * which the justice route owns.
+ * is public. Its hand-off to prosecution is shaped by `arrestReferral` for the
+ * justice route's `referForProsecution`, once an arrest names an offender.
  *
  * Every rate is in `UNRESEARCHED_LOCAL_CRIME`. Nothing here reads a place's
  * real crime rate, police force or budget yet, and nothing here moves an
@@ -143,6 +146,7 @@ export function sampleMonthlyCrime(
     ageOnDate(world.people[personId]!.birthDate, monthStart) >=
     UNRESEARCHED_LOCAL_CRIME.minimumVictimAge;
   const sampled: SampledCrime[] = [];
+  const multiplier = causeMultipliers(world, monthStart);
   const draw = (
     offense: CrimeOffense,
     targetId: EntityId,
@@ -151,7 +155,8 @@ export function sampleMonthlyCrime(
   ) => {
     const rule = crimeRule(offense);
     const rng = stream(world, monthKeyOf(monthStart), offense, targetId);
-    if (rng.next() >= monthlyChance(rule.annualRate)) return;
+    const rate = rule.annualRate * multiplier(jurisdictionId, offense);
+    if (rng.next() >= monthlyChance(rate)) return;
     const day = rng.integer(1, days + 1);
     sampled.push({
       offense,
@@ -242,13 +247,20 @@ export function sampleTownPoliceLog(
 ): readonly LoggedTownCrime[] {
   const monthEnd = addDays(firstOfNextMonth(monthStart), -1);
   const days = Number(monthEnd.slice(8, 10));
-  const weights = UNRESEARCHED_LOCAL_CRIME.offenses.map((rule) => ({
+  const multiplier = causeMultipliers(world, monthStart);
+  const baseWeights = UNRESEARCHED_LOCAL_CRIME.offenses.map((rule) => ({
     offense: rule.offense,
     weight: rule.annualRate * rule.reportedShare,
   }));
-  const total = weights.reduce((sum, row) => sum + row.weight, 0);
+  const baseTotal = baseWeights.reduce((sum, row) => sum + row.weight, 0);
   const logged: LoggedTownCrime[] = [];
   for (const jurisdictionId of townsWithResidents(world)) {
+    // The causes move each offense; the log's size moves with their mix.
+    const weights = baseWeights.map((row) => ({
+      offense: row.offense,
+      weight: row.weight * multiplier(jurisdictionId, row.offense),
+    }));
+    const total = weights.reduce((sum, row) => sum + row.weight, 0);
     const rng = stream(
       world,
       "town-log",
@@ -257,7 +269,7 @@ export function sampleTownPoliceLog(
     );
     const count = poisson(
       rng.fork("count"),
-      UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth,
+      (UNRESEARCHED_TOWN_POLICE_LOG.reportedPerMonth * total) / baseTotal,
     );
     for (let index = 0; index < count; index += 1) {
       const draw = rng.fork(`report:${index}`);
@@ -308,6 +320,28 @@ function recordTownLogEntry(
   });
 }
 
+/** Cause multipliers for one month, read once per place and offense. */
+function causeMultipliers(
+  world: World,
+  monthStart: IsoDate,
+): (jurisdictionId: EntityId, offense: CrimeOffense) => number {
+  const cache = new Map<string, number>();
+  return (jurisdictionId, offense) => {
+    const key = `${jurisdictionId}|${offense}`;
+    let value = cache.get(key);
+    if (value === undefined) {
+      value = crimeRateMultiplier(
+        world,
+        jurisdictionId,
+        offense,
+        monthStart,
+      ).multiplier;
+      cache.set(key, value);
+    }
+    return value;
+  };
+}
+
 function incidentKey(monthStart: IsoDate, crime: SampledCrime): string {
   return `${CRIME_CONTRACT_VERSION}:${monthKeyOf(monthStart)}:${crime.offense}:${crime.targetId}`;
 }
@@ -347,7 +381,9 @@ function recordIncident(
     ],
     summary: crime.reported
       ? `Police in ${place} took a report of ${REPORTED_OFFENSE_PHRASE[crime.offense]}.`
-      : `${capitalized(REPORTED_OFFENSE_PHRASE[crime.offense])} in ${place} went unreported.`,
+      : UNREPORTED_OFFENSE_RECORD[crime.offense]
+          .replace("{names}", namesOf(world, crime.victimPersonIds))
+          .replace("{place}", place),
     context: EMPTY_CONTEXT,
   });
   const event = next.history.events.at(-1)!;
@@ -370,8 +406,13 @@ function recordIncident(
   return known;
 }
 
-function capitalized(text: string): string {
-  return text.charAt(0).toUpperCase() + text.slice(1);
+/** "Ana Ruiz", "Ana Ruiz and Ben Ruiz", "Ana Ruiz, Ben Ruiz, and Cy Ruiz". */
+function namesOf(world: World, personIds: readonly EntityId[]): string {
+  const names = [...personIds]
+    .sort()
+    .map((personId) => personName(world.people[personId]!));
+  if (names.length <= 2) return names.join(" and ");
+  return `${names.slice(0, -1).join(", ")}, and ${names.at(-1)}`;
 }
 
 /** Every recorded crime incident, reported or not, oldest first. */
@@ -393,37 +434,17 @@ export function offenseOf(event: HistoricalEvent): CrimeOffense | null {
 }
 
 /**
- * The justice hand-off, in the shape the justice route (`src/simulation/justice/`,
- * built by the corruption-consequences lane) will export, so an officeholder's
- * case and a street arrest go through one charge, trial and sentence.
- * PLACEHOLDER until that module merges: it records nothing.
+ * The justice hand-off: an arrest goes to the one prosecution route an
+ * officeholder's case also uses. A referral names the person charged, and no
+ * arrest names one yet (see `OFFENDERS_ARE_NOT_REPRESENTED`), so
+ * `arrestReferral` returns null and nothing is referred until offenders exist.
  *
- * A referral names the person charged. Today no arrest names one (see
- * `OFFENDERS_ARE_NOT_REPRESENTED`), so `arrestReferral` returns null and
- * nothing is referred; the call site is ready for the day offenders exist.
+ * This pass is registered with the world clock, which loads before state
+ * governing; importing `referForProsecution` here closes an import loop
+ * through `governing/office-consequence` and breaks module start-up. The lane
+ * that draws offenders (`cause-offenders`) makes the referral with this shape.
  */
-export interface ProsecutionReferralInput {
-  readonly stableKey: string;
-  readonly subjectPersonId: EntityId;
-  readonly jurisdictionId: EntityId;
-  readonly offenseKey: string;
-  readonly referredBy: {
-    readonly kind: "regulator" | "police" | "prosecutor-own-motion";
-    readonly label: string;
-    readonly personId: EntityId | null;
-  };
-  readonly basisEventIds: readonly EntityId[];
-}
-
-export function referForProsecution(
-  world: World,
-  input: ProsecutionReferralInput,
-): { readonly world: World; readonly referralId: EntityId | null } {
-  void input;
-  return { world, referralId: null };
-}
-
-function arrestReferral(
+export function arrestReferral(
   incident: HistoricalEvent,
   arrest: HistoricalEvent,
   offense: CrimeOffense,
@@ -441,6 +462,9 @@ function arrestReferral(
       personId: null,
     },
     basisEventIds: [incident.id, arrest.id],
+    // UNRESEARCHED: a police arrest rests on what the victim and witnesses say.
+    evidence: "testimony",
+    standingFindings: 0,
   };
 }
 
@@ -492,14 +516,12 @@ function recordArrests(
         personId: participant.personId,
         eventId: arrest.id,
         learnedAt: arrestDate,
-        believedSummary: "Police made an arrest in what happened to them.",
+        believedSummary: `Police made an arrest in what happened to ${personName(next.people[participant.personId]!)}.`,
         accuracy: "accurate",
         confidence: "high",
         source: { kind: "direct" },
       });
     }
-    const referral = arrestReferral(incident, arrest, offense, null);
-    if (referral) next = referForProsecution(next, referral).world;
   }
   return next;
 }

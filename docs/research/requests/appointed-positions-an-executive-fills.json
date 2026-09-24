@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-09-23T03:45:00.000Z",
+  "impact": "blocks-work",
+  "lane": "committees, staff and appointments",
+  "notes": [
+    "A city council can already appoint its city manager in compiled towns (src/simulation/municipal-public-work.ts); this does not re-ask that."
+  ],
+  "priority": "P1",
+  "question": "The executive-powers answer gave each state's general appointment and confirmation rule and named 'office-by-office appointment and removal' as its largest gap. This asks for that gap in a form a game can use. For each governor (50 states, D.C. mayor, Puerto Rico): (1) the principal offices the governor appoints on taking office (cabinet secretaries or agency heads, by name of department), which need confirmation and by which body, and which the governor can remove at will; (2) the boards and commissions a governor most commonly fills, with the number of seats and whether terms are fixed and staggered (so a new governor inherits sitting members); (3) whether the governor fills vacancies in other elected offices (U.S. Senate, state row offices, legislative seats) and courts, and by what process. For the President: the cabinet departments and the Senate-confirmed positions that matter most in a first term. For mayors and city councils: about five examples of what a mayor or council appoints (city manager, police chief, board members). Also: (4) how long filling a cabinet usually takes, and how often a nominee is rejected or withdrawn. Cite each rule or mark it UNKNOWN.",
+  "questionId": "appointed-positions-an-executive-fills",
+  "relatedQuestionIds": [
+    "executive-powers-in-every-jurisdiction",
+    "local-executive-and-council-rules",
+    "vice-presidential-vacancy-nomination-and-confirmation"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Committees, staff and appointments thread",
+  "sourcesChecked": [
+    {
+      "source": "The answer to executive-powers-in-every-jurisdiction",
+      "whatItDidNotSettle": "Gives a general appointment and confirmation rule per executive and says a specific vacancy clause does not establish broad appointment authority; names office-by-office appointment and removal as the largest remaining gap."
+    },
+    {
+      "source": "src/simulation/executive-authority-rule-packs.ts at main 64753b47",
+      "whatItDidNotSettle": "Six packs (federal, KY, NE, AK, MN, IL) record whether the executive appoints principal officers and whether confirmation is needed, with no list of the offices themselves."
+    }
+  ],
+  "title": "Which positions a new governor, mayor or president actually appoints, office by office",
+  "usableAnswer": "Per executive: a list of appointable offices with confirmation body and removal terms, the common boards with seat counts and term structure, and vacancy-filling powers, each cited or marked UNKNOWN. The pattern across states is enough where individual states were not read.",
+  "whyItMatters": "The owner asked for appointed positions (2026-09-22, 11:24 p.m. Eastern). A player governor today can appoint nobody. The game has read appointment rules for the President and five governors (KY, NE, AK, MN, IL), but those rules say only whether a general power exists, not which offices it covers, so nothing can be offered without inventing a list of departments."
+}

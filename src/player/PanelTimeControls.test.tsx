@@ -41,12 +41,15 @@ import {
  * are proved against the runner itself in time-command-runner.test.ts.
  */
 
-function adultLife(): { readonly world: World; readonly personId: EntityId } {
+function adultLife(placeKey = "lexington-fayette"): {
+  readonly world: World;
+  readonly personId: EntityId;
+} {
   const built = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     seed: "crunch47-panel-time-controls",
     startAge: 34,
-    placeKey: "lexington-fayette",
+    placeKey,
     gender: "male",
     pronouns: "he-him",
     questionnaire: "skipped",
@@ -231,5 +234,26 @@ describe("what a control says after the clock answers", () => {
     });
     expect(said.startsWith("Stopped before ")).toBe(true);
     expect(said).toContain("2 days passed (2880 minutes).");
+  });
+});
+
+describe("an offer from the older work list, under Jobs", () => {
+  // Folded away, it hid the only Begin button, and a Greenwich life sat on
+  // an accepted job that never started. Reno, not the Lexington fixture above.
+  const life = adultLife("3260600");
+  const sought = seekCareerOffer(life.world, CAREER_PROVIDERS[0]!);
+
+  it("stays unfolded while it waits to be answered or begun", () => {
+    expect(sought.ok).toBe(true);
+    const folded = withRunner(
+      stubRunner(false),
+      <LifePathsPanel world={life.world} onWorldChange={() => {}} />,
+    );
+    const open = withRunner(
+      stubRunner(false),
+      <LifePathsPanel world={sought.world} onWorldChange={() => {}} />,
+    );
+    expect(folded).toMatch(/<details><summary>Other work/);
+    expect(open).toMatch(/<details open=""><summary>Other work/);
   });
 });

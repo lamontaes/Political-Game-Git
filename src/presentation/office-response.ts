@@ -7,7 +7,10 @@ import {
   mattersForSubject,
   pressRecordsOfKind,
 } from "../simulation/press";
-import { recordOfficeConsequence } from "../simulation/governing/office-consequence";
+import {
+  OFFICE_EMPLOYMENT_KINDS,
+  recordOfficeConsequence,
+} from "../simulation/governing/office-consequence";
 import { recordWorldEvent } from "../simulation/world";
 import { proseDate } from "./prose-dates";
 
@@ -153,13 +156,6 @@ function statementFor(kind: OfficeAnswerKind, officeTitle: string): string {
  * from a title. Somebody who holds none has nothing to answer for here, and
  * that is the ordinary case.
  */
-const OFFICE_EMPLOYMENT_KINDS: readonly string[] = [
-  "employment:legislative-member",
-  "employment:executive-office",
-  "employment:state-agency-director",
-  "employment:judicial-office",
-];
-
 function heldOffice(
   world: World,
   personId: EntityId,

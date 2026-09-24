@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import { makeIsoDate } from "../dates";
 import { addAvailability, type AvailabilityEntry } from "../history-index";
 import { createStableId } from "../ids";
@@ -487,9 +488,7 @@ export function validatePressRecords(
         }
         for (const id of record.actorPersonIds) person(id, "occurrence actor");
         earlier(record.occurrenceEventId, seq, "occurrence event");
-        const event = world.history.events.find(
-          (candidate) => candidate.id === record.occurrenceEventId,
-        );
+        const event = eventById(world, record.occurrenceEventId);
         if (event?.visibility === "public") {
           throw new Error(
             `An underlying occurrence is not itself public: ${record.id}`,
@@ -502,7 +501,9 @@ export function validatePressRecords(
           earlier(id, seq, "occurrence evidence");
         }
         if (
-          (record.family === "M1" || record.family === "M7") &&
+          (record.family === "M1" ||
+            record.family === "M4" ||
+            record.family === "M7") &&
           record.resourceFlowIds.length === 0
         ) {
           throw new Error(
@@ -684,10 +685,7 @@ export function validatePressRecords(
 
 /** Sequence of a press record, for publication source-record checks. */
 export function pressRecordSequence(world: World, id: EntityId): number | null {
-  return (
-    pressHistoryRecords(world).find((record) => record.id === id)?.sequence ??
-    null
-  );
+  return pressEntry(world, id)?.sequence ?? null;
 }
 
 function member<T extends string>(

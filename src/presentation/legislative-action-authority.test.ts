@@ -5,7 +5,9 @@ import {
 import { describe, expect, it } from "vitest";
 
 import {
+  addDays,
   assertWorldIntegrity,
+  candidacyPackForJurisdiction,
   availableMeasureSteps,
   measurePosition,
   recordWorkRole,
@@ -18,7 +20,10 @@ import {
 } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
-import { projectCampaign } from "./campaign-projection";
+import {
+  fileForOffice as fileSelectedOffice,
+  projectCampaign,
+} from "./campaign-projection";
 import {
   campaignUntilDecided,
   fileForOffice,
@@ -88,6 +93,22 @@ function wonSeat(seed = "p85c-owner-0") {
     world: enterSupportedTerm(world, life.personId),
     personId: life.personId,
   };
+}
+
+/** Files for the pack's second chamber: a different office from `fileForOffice`'s. */
+function fileOtherChamber(world: World, personId: EntityId): World {
+  const offices =
+    candidacyPackForJurisdiction(world.people[personId]!.homeJurisdictionId)
+      ?.offices ?? [];
+  const other = offices.at(1);
+  expect(other).toBeDefined();
+  return fileSelectedOffice(
+    world,
+    personId,
+    null,
+    other!.officeKey,
+    addDays(world.currentDate, 28),
+  );
 }
 
 function openBill(world: World, personId: EntityId) {
@@ -391,11 +412,13 @@ describe("79R2 finding A — a retained chamber context cannot write after the b
     expect(entry.kind).toBe("available");
     if (entry.kind !== "available") return;
 
-    // A second supplied fixture result crosses its own term boundary.
-    // Unbound contests identify separate seats; no winning seed is assumed.
+    // A second supplied fixture result, for the other chamber, crosses its
+    // own term boundary. A member holds one seat per chamber, so a second win
+    // for the same office would continue the first seat; a win in the other
+    // chamber is a second office. No winning seed is assumed.
     const ambiguous = enterSupportedTerm(
       completeRecordedCampaignFixture(
-        fileForOffice(passOrdinaryDays(entry.world), won.personId),
+        fileOtherChamber(passOrdinaryDays(entry.world), won.personId),
         won.personId,
       ),
       won.personId,

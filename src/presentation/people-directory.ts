@@ -1,3 +1,4 @@
+import { recentStrain } from "./relationship-strain";
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
@@ -62,12 +63,31 @@ export interface DirectoryPerson {
   readonly context: string | null;
   /** The date of the last recorded thing between you, when there is one. */
   readonly lastAt: string | null;
+  /** When the last thing between you strained it, said plainly. */
+  readonly strain: string | null;
 }
 
 export interface PeopleDirectory {
   readonly people: readonly DirectoryPerson[];
   readonly counts: Readonly<Record<PersonCategory | "all", number>>;
+  /**
+   * People you work or organize alongside in a place too big to know
+   * everybody, whom this life has not met yet. They are somebody to meet,
+   * not somebody known, so they are in no count and not on the web.
+   */
+  readonly notYetMet: readonly DirectoryPerson[];
 }
+
+/**
+ * The most people a workplace or group can hold, besides you, before being in
+ * it stops meaning you know them all.
+ *
+ * PLACEHOLDER, NOT RESEARCH: filed as `how-many-colleagues-a-person-knows`.
+ * Below it, sharing a workplace is still enough to know somebody, as before.
+ * Above it — a legislative chamber, a large employer — a colleague is somebody
+ * you know once the two of you have something on the record.
+ */
+export const EVERYBODY_KNOWS_EVERYBODY_LIMIT = 20;
 
 function addCategory(
   into: Map<EntityId, Set<PersonCategory>>,
@@ -119,30 +139,62 @@ export function projectPeopleDirectory(
     ),
   );
 
+  /*
+   * Who shares each of the player's organizations, gathered first so the size
+   * of the place is known before anybody in it is counted as known.
+   */
+  const alongside = new Map<EntityId, Set<EntityId>>();
+  const share = (organizationId: EntityId, otherId: EntityId) => {
+    const found = alongside.get(organizationId) ?? new Set<EntityId>();
+    found.add(otherId);
+    alongside.set(organizationId, found);
+  };
+  const shared: {
+    otherId: EntityId;
+    organizationId: EntityId;
+    category: PersonCategory;
+  }[] = [];
   for (const [otherId, person] of Object.entries(world.people)) {
     if (otherId === playerId || !person) continue;
-    for (const entry of activeWorkRelationshipsAt(world, otherId as EntityId)) {
+    const id = otherId as EntityId;
+    for (const entry of activeWorkRelationshipsAt(world, id)) {
       const organizationId = entry.relationship.organizationId;
       if (organizationId === null) continue;
       if (workOrganizations.has(organizationId)) {
-        addCategory(categories, otherId as EntityId, "work");
-        const name = organizationProfileAt(world, organizationId)?.name;
-        if (name) contexts.set(otherId as EntityId, name);
+        share(organizationId, id);
+        shared.push({ otherId: id, organizationId, category: "work" });
       }
       if (civicOrganizations.has(organizationId)) {
-        addCategory(categories, otherId as EntityId, "politics");
+        share(organizationId, id);
+        shared.push({ otherId: id, organizationId, category: "politics" });
       }
     }
-    for (const participation of activeOrganizationParticipationsAt(
-      world,
-      otherId as EntityId,
-    )) {
+    for (const participation of activeOrganizationParticipationsAt(world, id)) {
       const organizationId = participation.participation.organizationId;
       if (!civicOrganizations.has(organizationId)) continue;
-      addCategory(categories, otherId as EntityId, "politics");
-      const name = organizationProfileAt(world, organizationId)?.name;
-      if (name && !contexts.has(otherId as EntityId)) {
-        contexts.set(otherId as EntityId, name);
+      share(organizationId, id);
+      shared.push({ otherId: id, organizationId, category: "politics" });
+    }
+  }
+
+  const met = (otherId: EntityId) =>
+    deriveRelationshipSummary(world, playerId, otherId).interactionCount > 0;
+  const unmet = new Map<EntityId, Set<PersonCategory>>();
+  const unmetContexts = new Map<EntityId, string>();
+  for (const { otherId, organizationId, category } of shared) {
+    const everybody =
+      (alongside.get(organizationId)?.size ?? 0) <=
+      EVERYBODY_KNOWS_EVERYBODY_LIMIT;
+    const name = organizationProfileAt(world, organizationId)?.name;
+    if (everybody || categories.has(otherId) || met(otherId)) {
+      addCategory(categories, otherId, category);
+      if (name && (category === "work" || !contexts.has(otherId))) {
+        contexts.set(otherId, name);
+      }
+    } else {
+      addCategory(unmet, otherId, category);
+      if (name && !unmetContexts.has(otherId)) {
+        unmetContexts.set(otherId, name);
       }
     }
   }
@@ -195,6 +247,7 @@ export function projectPeopleDirectory(
       categories: [...set].sort(),
       context: contexts.get(personId) ?? null,
       lastAt: summary.lastInteractionAt,
+      strain: recentStrain(world, playerId, personId),
     });
   }
   people.sort((left, right) => left.name.localeCompare(right.name));
@@ -210,7 +263,23 @@ export function projectPeopleDirectory(
     for (const category of person.categories) counts[category] += 1;
   }
 
-  return { people, counts };
+  const notYetMet: DirectoryPerson[] = [];
+  for (const [personId, set] of unmet) {
+    const person = world.people[personId];
+    if (!person || categories.has(personId)) continue;
+    notYetMet.push({
+      personId,
+      name: personName(person),
+      relationship: null,
+      categories: [...set].sort(),
+      context: unmetContexts.get(personId) ?? null,
+      lastAt: null,
+      strain: null,
+    });
+  }
+  notYetMet.sort((left, right) => left.name.localeCompare(right.name));
+
+  return { people, counts, notYetMet };
 }
 
 /** Filters the directory the way the screen's controls do, and nowhere else. */

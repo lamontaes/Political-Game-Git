@@ -21,6 +21,7 @@ import {
   constitutionalPosition,
   type ConstitutionalPosition,
 } from "../simulation/constitutional-process";
+import { reformMeasureCause } from "../simulation/living-world/constitutional-reform";
 import { explicitNewGameSetup } from "./new-game-geography";
 import type { NewGameSetup } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -130,6 +131,8 @@ export interface ObserverAmendmentRow {
   readonly text: string;
   readonly status: string;
   readonly at: IsoDate;
+  /** Why the world proposed it, when the world did; null for anyone else's. */
+  readonly cause: string | null;
 }
 
 export interface ObserverElectionRow {
@@ -257,6 +260,7 @@ export function projectObserverRecord(world: World): ObserverRecord {
         text: measure.text,
         status: AMENDMENT_PHASE[phase],
         at: last?.occurredAt ?? world.currentDate,
+        cause: reformMeasureCause(measure),
       };
     })
     .reverse();

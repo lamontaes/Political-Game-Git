@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import type { World } from "../simulation";
+import { migrationTown } from "../simulation/migration/review";
 import { observerAnchorPersonId } from "../simulation/people-continuation";
 import {
   createBrowserWorldRecord,
@@ -34,6 +35,13 @@ describe("a world watched from its start", () => {
     world = opened.world;
     anchor = opened.anchorPersonId;
   }, 60_000);
+
+  it("reviews the anchor's town for movers, as it would the player's", () => {
+    const home = world.people[anchor]!.homeJurisdictionId;
+    expect(home).toBeTruthy();
+    expect(world.jurisdictions[home!]?.kind).toBe("census-place");
+    expect(migrationTown(world)).toBe(home);
+  });
 
   it("opens with nobody played and says so in its history", () => {
     expect(world.control.kind).toBe("observer");

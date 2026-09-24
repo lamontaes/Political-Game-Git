@@ -31,6 +31,11 @@ import type {
   TaxAssessmentRecord,
   TaxCollectionRecord,
 } from "./tax-types";
+import type {
+  JobApplicationRecord,
+  JobApplicationStepRecord,
+  JobOpeningRecord,
+} from "./job-market-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
 declare const currencyCodeBrand: unique symbol;
@@ -61,6 +66,9 @@ export type EntityKind =
   | "tax-base"
   | "tax-assessment"
   | "tax-collection"
+  | "job-opening"
+  | "job-application"
+  | "job-application-step"
   | "appraisal"
   | "belief"
   | "causal-mechanism-definition"
@@ -2725,6 +2733,16 @@ export interface RoutineTimeHook {
 export interface FutureTransitionHandlerRegistry {
   get(transitionKey: FutureTransitionKey): FutureTransitionHandler | undefined;
   readonly routine?: RoutineTimeHook;
+  /**
+   * Whether an advance should also stop at a tentative hold, or its journey,
+   * that the advance itself put on the controlled person's calendar. A
+   * confirmed commitment written on the way is always a stop; a tentative one
+   * is not unless this says so, because a long skip that stopped at every
+   * posted invitation only to let it lapse would repeat itself once per hold.
+   */
+  readonly stopAtNewTentativeHold?: (
+    activity: ScheduledActivityRecord,
+  ) => boolean;
 }
 
 export interface MoneyAmount {
@@ -3178,8 +3196,19 @@ export interface DistrictSeatBinding {
   readonly stateUsps: string;
 }
 
+/**
+ * `split-home-assignment`: the home place crosses several districts of the
+ * chamber and the published join cannot say which one this home is in, so the
+ * game placed the home in one of those districts — by seed at the opening, or
+ * where the player later said it is. It is only ever one of the districts that
+ * actually cross the recorded home place. GAME PROFILE placeholder: see
+ * `assignSplitHomeDistricts`.
+ */
 export type DistrictResidenceProvenanceMethod =
-  "authored" | "simulated-event" | "canonical-home-join";
+  | "authored"
+  | "simulated-event"
+  | "canonical-home-join"
+  | "split-home-assignment";
 
 export interface DistrictResidenceProvenance {
   readonly method: DistrictResidenceProvenanceMethod;
@@ -3433,7 +3462,10 @@ export interface CampaignComplianceDocumentRecord {
   readonly committeeOrganizationId: EntityId;
   readonly rulePackId: string;
   readonly kind:
-    "statement-of-spending-intent" | "periodic-report" | "amendment";
+    | "statement-of-spending-intent"
+    | "statement-of-organization"
+    | "periodic-report"
+    | "amendment";
   readonly schedule:
     | "initial"
     | "60-day-preelection"
@@ -3754,6 +3786,10 @@ export interface HistoryStore {
   readonly taxBases?: readonly TaxBaseRecord[];
   readonly taxAssessments?: readonly TaxAssessmentRecord[];
   readonly taxCollections?: readonly TaxCollectionRecord[];
+  /** Optional: job openings and applications; see `job-market.ts`. */
+  readonly jobOpenings?: readonly JobOpeningRecord[];
+  readonly jobApplications?: readonly JobApplicationRecord[];
+  readonly jobApplicationSteps?: readonly JobApplicationStepRecord[];
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
   readonly organizationProfiles: readonly OrganizationProfileRecord[];
@@ -3958,6 +3994,17 @@ export interface LegislativeMeasureRecord {
    * measure in every save written so far.
    */
   readonly propositionIds?: readonly EntityId[];
+  /**
+   * Which way the measure answers each question it is about: "yes" when
+   * enacting it does what the question proposes, "no" when it does the
+   * reverse. A question in `propositionIds` with no row here is a bill that
+   * does not say, and a vote on it is not a vote for or against anything
+   * (`issue-record.ts`). Optional for the same reason as `propositionIds`.
+   */
+  readonly propositionAnswers?: readonly {
+    readonly propositionId: EntityId;
+    readonly answer: "yes" | "no";
+  }[];
 }
 
 export type LegislativeActionKind =
@@ -3978,9 +4025,11 @@ export type LegislativeActionKind =
   | "presented-to-executive"
   | "signed"
   | "vetoed"
+  | "became-law-without-signature"
   | "override-chamber-recorded"
   | "override-succeeded"
   | "override-failed"
+  | "override-period-expired"
   | "enacted"
   | "died-on-adjournment";
 

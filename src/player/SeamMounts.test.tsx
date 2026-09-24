@@ -14,6 +14,7 @@ import { projectRecallCards } from "../presentation/people-recall-cards";
 import { projectChildhoodMoment } from "../presentation/childhood";
 import { projectDisclosure } from "../presentation/press-disclosure";
 import { recalledRequests } from "../simulation/people-recall";
+import { writeLegacyFamiliarRequest } from "../simulation/life-opportunities";
 import type { EntityId, World } from "../simulation";
 import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
 import { availablePlayerConversations } from "../presentation/player-conversation";
@@ -316,16 +317,20 @@ describe("A conversation with somebody who is not in the room", () => {
 
 describe("What you remember", () => {
   it("shows a card with the day said the way a person says it", () => {
-    // An ordinary life opens with somebody having asked for something, so
-    // there is a real request to remember rather than a built one.
-    expect(
-      recalledRequests(adult.world, adult.personId).length,
-    ).toBeGreaterThan(0);
-    const cards = projectRecallCards(adult.world, adult.personId);
+    // A save from before 2026-09-23 opened with the picnic favor already
+    // asked; play now asks only for a reason on the asker's record, so this
+    // reads that save rather than building a request of its own.
+    const world = writeLegacyFamiliarRequest(
+      adult.world,
+      adult.personId,
+      "favour-request",
+    );
+    expect(recalledRequests(world, adult.personId).length).toBeGreaterThan(0);
+    const cards = projectRecallCards(world, adult.personId);
     expect(cards.length).toBeGreaterThan(0);
     const html = renderToStaticMarkup(
       <RecallCardsPanel
-        world={adult.world}
+        world={world}
         personId={adult.personId}
         onOpenEntity={() => {}}
       />,

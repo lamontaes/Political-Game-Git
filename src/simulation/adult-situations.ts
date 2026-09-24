@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { lifeRequestDetails } from "./life-request-details";
 import { describePersonContext } from "./person-context";
 import {
@@ -1649,7 +1650,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         key: "decline",
         label: "Tell them you cannot",
         description: "Not this one.",
-        memory: "You declined the favour.",
+        memory: "You declined the favor.",
         witnessed: "They said no.",
         stance: "engaged",
         relationalChange: "strained",
@@ -2473,8 +2474,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       {
         key: "name-the-difference",
         label: "Say this is a different thing",
-        description: "Help, and say plainly that it is not the same favour.",
-        memory: "You helped, and said plainly that it was not the same favour.",
+        description: "Help, and say plainly that it is not the same favor.",
+        memory: "You helped, and said plainly that it was not the same favor.",
         witnessed: "They helped, and said it was a different thing.",
         stance: "engaged",
         relationalChange: "maintained",
@@ -2727,9 +2728,7 @@ export function bindRequestSituation(
     context.personId,
     context.asOfDate,
   ).find((entry) => entry.kind === situation.opportunity);
-  const event = context.world.history.events.find(
-    (entry) => entry.id === request?.eventId,
-  );
+  const event = eventById(context.world, request?.eventId);
   if (!event) return situation;
   if (!request?.counterpartPersonId)
     return {
@@ -2788,6 +2787,44 @@ export function bindRequestSituation(
             })),
     };
   const prose = `${who}: “${details.opening}”`;
+  // A favor asked for a reason on the asker's own record (`initiatorFavour`).
+  // The old proofreading favor below still reads for a save that holds one.
+  if (
+    situation.key === "adult.friend-favour" &&
+    !details.task.startsWith("proofread")
+  ) {
+    const hours =
+      details.minutes !== null && details.minutes >= 60
+        ? `about ${details.minutes / 60 === 1 ? "an hour" : `${details.minutes / 60} hours`}`
+        : `${details.minutes ?? "a few"} minutes`;
+    return {
+      ...situation,
+      prose: `${prose} It would take ${hours}; answering takes no time.`,
+      options: situation.options.map((option) => ({
+        ...option,
+        label:
+          option.key === "do-it"
+            ? "Say you will come"
+            : option.key === "conditions"
+              ? `Agree: ${details.condition}`
+              : "Tell them you cannot",
+        description:
+          option.key === "decline"
+            ? "Tell them you cannot help this time."
+            : "Agree now; the help itself is its own stretch of time.",
+        memory:
+          option.key === "decline"
+            ? `You told ${person.name} you could not help on Saturday morning.`
+            : `You agreed to ${details.task}${option.key === "conditions" ? `, with the condition: ${details.condition}` : ""}.`,
+        witnessed:
+          option.key === "decline"
+            ? "They said they could not help this time."
+            : `They agreed to ${details.task}.`,
+        relationalChange: option.key === "decline" ? "strained" : "maintained",
+        aftermath: option.key === "decline" ? "grievance" : "obligation",
+      })),
+    };
+  }
   if (situation.key === "adult.friend-favour")
     return {
       ...situation,
@@ -2841,6 +2878,20 @@ export function bindRequestSituation(
             : option.key === "push-them"
               ? `They asked ${person.name} to tell the picnic guests.`
               : `They told ${person.name} they cannot help with the picnic.`,
+      })),
+    };
+  // An invitation with a reason in the host's own life (`initiator-occasions`).
+  // The host's words are the prose; the answer names the host and the task.
+  if (situation.key === "adult.weekend-invitation")
+    return {
+      ...situation,
+      prose,
+      options: situation.options.map((option) => ({
+        ...option,
+        memory:
+          option.key === "say-yes"
+            ? `You told ${person.name} you would ${details.task.replace(/^go to /, "come to ")}.`
+            : `You told ${person.name} you would not be coming on Saturday.`,
       })),
     };
   if (situation.key === "adult.household-quiet-evening")

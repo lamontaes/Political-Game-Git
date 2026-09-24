@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  homeCountyEquivalentTerm,
   homeLocalGovernmentUnits,
   localGovernmentDisplayName,
 } from "../simulation";
@@ -10,14 +11,17 @@ import {
 } from "../presentation/campaign-projection";
 import {
   fileForStateExecutiveOffice,
-  qualifyForStateExecutiveTerm,
   recoverOffCycleStateExecutiveTerm,
   stateExecutiveCandidacyForPerson,
   stateExecutiveEntryStatus,
   stateExecutiveOfficeCalendar,
+  stateExecutiveReelection,
 } from "../presentation/nationwide-candidacy";
 import type { StateExecutiveEntryStatus } from "../simulation";
+import { numberWord } from "../simulation/legislation-content-contracts";
 import { readableCampaignDate } from "./CampaignWorkspace";
+import { CongressCandidacySection } from "./CongressCandidacySection";
+import { ownElectionResultSentence } from "../presentation/own-election";
 
 /**
  * Feature-local Politics mount for NATIONWIDE's home-government and state
@@ -39,6 +43,8 @@ export function NationwideCandidacyWorkspace({
 }) {
   const [problem, setProblem] = useState<string | null>(null);
   const home = homeLocalGovernmentUnits(world, personId);
+  // Parishes in Louisiana, boroughs in Alaska, counties everywhere else.
+  const countyTerm = homeCountyEquivalentTerm(world, personId);
   const campaignPhase = projectCampaign(world, personId).phase;
   const candidacy = stateExecutiveCandidacyForPerson(
     world,
@@ -74,11 +80,13 @@ export function NationwideCandidacyWorkspace({
       setProblem(error instanceof Error ? error.message : String(error));
     }
   };
+  const reelection = stateExecutiveReelection(world, personId);
   const canStand =
     campaignPhase !== "active" &&
     (status.kind === "none" ||
       status.kind === "lost" ||
-      status.kind === "term-over-or-not-entered");
+      status.kind === "term-over-or-not-entered" ||
+      reelection?.canStand === true);
 
   return (
     <section className="game-campaign" data-testid="candidacy-section">
@@ -126,14 +134,16 @@ export function NationwideCandidacyWorkspace({
         ) : null}
         {home.placeScope === "state" || home.placeScope === null ? (
           <p className="game-note" data-testid="home-no-local">
-            This life is not set in a particular city or county, so no local
-            government is named.
+            This life is not set in a particular city or {countyTerm.singular},
+            so no local government is named.
           </p>
         ) : null}
-        <p className="game-note" data-testid="home-county-spread">
-          A place that lies across several counties keeps every one of them;
-          none is chosen for it.
-        </p>
+        {home.counties.length > 1 ? (
+          <p className="game-note" data-testid="home-county-spread">
+            This place lies in {numberWord(home.counties.length)}{" "}
+            {countyTerm.plural}, and each is listed above.
+          </p>
+        ) : null}
       </section>
 
       {candidacy ? (
@@ -144,13 +154,25 @@ export function NationwideCandidacyWorkspace({
           data-eligible={candidacy.eligible ? "true" : "false"}
         >
           <h3>{candidacy.identity.displayName}</h3>
-          <StatusLine status={status} />
+          <StatusLine
+            status={status}
+            result={
+              status.kind === "none" || status.kind === "pending-election"
+                ? null
+                : ownElectionResultSentence(world, status.contestId, personId)
+            }
+          />
+          {reelection?.reason ? (
+            <p className="game-note" data-testid="state-executive-term-limit">
+              {reelection.reason}
+            </p>
+          ) : null}
           {canStand ? (
             <>
               {candidacy.eligible ? (
                 <p>
-                  You may stand for {candidacy.identity.title} of your state
-                  today. Filing opens a campaign with nothing in it.
+                  You may stand for {candidacy.identity.displayName} today.
+                  Filing opens a campaign with nothing in it.
                 </p>
               ) : (
                 <BlockList blocks={candidacy.blocks} />
@@ -169,7 +191,9 @@ export function NationwideCandidacyWorkspace({
                 </span>
                 <span className="game-campaign-action-note">
                   {calendar
-                    ? `The next regular election is ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
+                    ? calendar.closedElection
+                      ? `The next regular election is ${readableCampaignDate(calendar.closedElection)}, and its candidate field has closed. A filing today stands in the one after, ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
+                      : `The next regular election is ${readableCampaignDate(calendar.nextElection)}. The winner takes office ${readableCampaignDate(calendar.termStartsAt)}.`
                     : null}
                 </span>
               </button>
@@ -215,22 +239,7 @@ export function NationwideCandidacyWorkspace({
             </button>
           ) : null}
           {status.kind === "awaiting-qualification" ? (
-            <>
-              <BlockList blocks={status.qualificationBlocks} />
-              <button
-                type="button"
-                className="game-campaign-action"
-                data-testid="qualify-state-executive"
-                disabled={status.qualificationBlocks.length > 0}
-                onClick={() =>
-                  act(() => qualifyForStateExecutiveTerm(world, personId))
-                }
-              >
-                <span className="game-campaign-action-label">
-                  Qualify for the term
-                </span>
-              </button>
-            </>
+            <BlockList blocks={status.qualificationBlocks} />
           ) : null}
           {problem ? (
             <p
@@ -244,10 +253,16 @@ export function NationwideCandidacyWorkspace({
         </section>
       ) : (
         <p className="game-note" data-testid="state-executive-unavailable">
-          This life is not set in one of the fifty states, so there is no state
-          executive office to stand for.
+          No chief executive office is on record for where this life is set, so
+          there is none to stand for.
         </p>
       )}
+      <CongressCandidacySection
+        world={world}
+        personId={personId}
+        campaignActive={campaignPhase === "active"}
+        onWorldChange={onWorldChange}
+      />
     </section>
   );
 }
@@ -266,8 +281,14 @@ function BlockList({ blocks }: { blocks: readonly CandidacyBlock[] }) {
   );
 }
 
-function StatusLine({ status }: { status: StateExecutiveEntryStatus }) {
-  const text = statusText(status);
+function StatusLine({
+  status,
+  result,
+}: {
+  status: StateExecutiveEntryStatus;
+  result: string | null;
+}) {
+  const text = statusText(status, result);
   return text ? (
     <p data-testid="state-executive-status" data-status={status.kind}>
       {text}
@@ -275,22 +296,33 @@ function StatusLine({ status }: { status: StateExecutiveEntryStatus }) {
   ) : null;
 }
 
-function statusText(status: StateExecutiveEntryStatus): string | null {
+/**
+ * `result` is the race's own outcome with its vote shares ("You won the race
+ * for Governor, 52.3% to 47.7%."), which replaces a bare "You won." where the
+ * contest has a recorded result.
+ */
+function statusText(
+  status: StateExecutiveEntryStatus,
+  result: string | null,
+): string | null {
+  const won = result ?? "You won.";
   switch (status.kind) {
     case "none":
       return null;
     case "pending-election":
       return "You are on the ballot. The campaign itself is run from your office and campaigns.";
     case "lost":
-      return "The last election for this office went to someone else.";
+      return (
+        result ?? "The last election for this office went to someone else."
+      );
     case "won-term-unavailable":
-      return `You won the election. ${status.reason}`;
+      return `${won} ${status.reason}`;
     case "won-off-cycle":
-      return `You won. ${status.reason}`;
+      return `${won} ${status.reason}`;
     case "awaiting-qualification":
-      return `You won. The term runs from ${readableCampaignDate(status.startsAt)} to ${readableCampaignDate(status.endsAt)}, and you must qualify before it begins.`;
+      return `${won} The term runs from ${readableCampaignDate(status.startsAt)} to ${readableCampaignDate(status.endsAt)}, but a requirement of the office is not met, and until it is you cannot take it up.`;
     case "qualified-awaiting-entry":
-      return `You have qualified. The term begins ${readableCampaignDate(status.startsAt)}.`;
+      return `You won. The term begins ${readableCampaignDate(status.startsAt)}, and you take the oath that day.`;
     case "in-office":
       return `You hold this office until ${readableCampaignDate(status.endsAt)}.`;
     case "term-over-or-not-entered":

@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { fileForOffice } from "../presentation/campaign-projection";
+import { proseDate } from "../presentation/prose-dates";
 import {
   bindingForDistrict,
   offeredDistricts,
   recordDesiredDistrict,
   recordedDistrictForOffice,
+  townDistrictsForOffice,
 } from "../presentation/district-selection";
 import type { DistrictSeatBinding, EntityId, World } from "../simulation";
 import { candidacyPackForJurisdiction } from "../simulation";
@@ -64,6 +66,13 @@ export function DistrictResidencePanel({
     () => recordedDistrictForOffice(world, personId, officeKey),
     [world, personId, officeKey],
   );
+  // A town that crosses several districts: choosing one of its own districts
+  // says which part of town the home is in, rather than only naming a seat.
+  const townDistricts = useMemo(
+    () => townDistrictsForOffice(world, personId, officeKey),
+    [world, personId, officeKey],
+  );
+  const splitTown = townDistricts.length > 0;
   const chosen = selected ?? recorded?.binding.recordId ?? null;
   const identity = districts.find((row) => row.recordId === chosen) ?? null;
 
@@ -120,11 +129,14 @@ export function DistrictResidencePanel({
           </GameSelect>
         </label>
       )}
-      <p>
-        Published Gazetteer identities only. Choosing a numbered district is not
-        proof that this character's home lies in it. An interior point is not a
-        boundary, and living in this state is not living in a numbered district.
-      </p>
+      {splitTown ? (
+        <p data-testid="district-residence-split-town">
+          Your town lies across several of these districts. Choosing one of your
+          town&apos;s districts says which part of town your home is in.
+        </p>
+      ) : (
+        <p>Choosing a district does not move you into it.</p>
+      )}
       {districts.length === 0 ? (
         <p data-testid="district-residence-empty">
           No supported district identities are published for the office offered
@@ -147,16 +159,28 @@ export function DistrictResidencePanel({
               ))}
             </GameSelect>
           </label>
-          {recorded ? (
+          {recorded && splitTown ? (
             <p data-testid="district-residence-recorded">
-              The world has recorded this character living in this chamber's
-              district since {recorded.startedOn}. Filing for any other district
-              on this list would be refused.
+              Your home is in{" "}
+              {districts.find(
+                (row) => row.recordId === recorded.binding.recordId,
+              )?.sourceName ?? "one of these districts"}
+              , and you have lived there since {recorded.startedOn}.
+            </p>
+          ) : recorded ? (
+            <p data-testid="district-residence-recorded">
+              You have lived in this chamber's district since{" "}
+              {proseDate(recorded.startedOn)}. Filing for any other district on
+              this list would be refused.
+            </p>
+          ) : splitTown ? (
+            <p data-testid="district-residence-unrecorded">
+              Choose the district your home is in, then press the button below.
             </p>
           ) : (
             <p data-testid="district-residence-unrecorded">
-              The world has not recorded which of these districts this character
-              lives in, so naming one here will not prove it.
+              Which of these districts you live in is not on record, so naming
+              one here will not prove it.
             </p>
           )}
           <button

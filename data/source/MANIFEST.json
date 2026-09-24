@@ -203,6 +203,29 @@
     {
       "artifacts": [
         {
+          "artifactId": "census-rel-2020-cd119-place20-national",
+          "sha256": "84b82f512a43b0593b2c25c703cd0dc4ff10982abd9142956d326376bd846367",
+          "sliceOfParent": null,
+          "storage": "committed"
+        }
+      ],
+      "asOf": "2025-01-03",
+      "boundedSampleReason": null,
+      "canonicalSha256": "f79df5c17e3a43fbbbacb8470036847a4c651a74eb415b342a14e61a85df17a5",
+      "compiler": {
+        "name": "cd-place-relations",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "f79df5c17e3a43fbbbacb8470036847a4c651a74eb415b342a14e61a85df17a5",
+      "corpusId": "cd-place-relations",
+      "domain": "cd-place-relations",
+      "isCompleteUniverse": true,
+      "recordCount": 32188,
+      "universeDescription": "Every 2020 Census place that the U.S. Census Bureau 119th Congressional District to 2020 Place national relationship file intersects with a congressional district, classified as whole-place membership (exactly one intersecting district) or a split, including delegate districts and excluding district remainders outside every place."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "cps-2024-vote04a",
           "sha256": "068e47d3c7fc970107bd5b4ceb68d557d2cba48158e521b50806f60227da5deb",
           "sliceOfParent": null,
@@ -844,16 +867,34 @@
           "sha256": "94bd904f583bc748165f5f28a00b73cf2c089e0621c61f3e7ce65002bd5634df",
           "sliceOfParent": null,
           "storage": "committed"
+        },
+        {
+          "artifactId": "dc-code-1-204-04",
+          "sha256": "3374f87ef76d93fcb1fb360519d79dc4dba823cdb47092a0068b6816954d2517",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "dc-code-1-204-12",
+          "sha256": "340363b65399c1f2ae5aadd3f20df87433d1c63ba15b228a35e59c657bae330a",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "dc-code-1-206-02",
+          "sha256": "e393d8d0372b2261a76f3d085d5a8b0ed8ff92190fe387c553b60db8a4cdb12a",
+          "sliceOfParent": null,
+          "storage": "committed"
         }
       ],
       "asOf": "2026-09-08",
       "boundedSampleReason": "Coverage is limited to reviewed, acquired and compiled enacted provisions for these named governments. Uncompiled fields remain unresolved; national research transcriptions remain separate and this is not nationwide coverage.",
-      "canonicalSha256": "034c648a8846406bffca13c52df1daf4e9238ce6f48d645fcafa22265c71b205",
+      "canonicalSha256": "d991c2349ec3b0ee9bc083d386f74aa077421bfb02bc88432ec5cd809f509342",
       "compiler": {
         "name": "municipal-governance",
         "version": "3.0.0"
       },
-      "corpusFileSha256": "034c648a8846406bffca13c52df1daf4e9238ce6f48d645fcafa22265c71b205",
+      "corpusFileSha256": "d991c2349ec3b0ee9bc083d386f74aa077421bfb02bc88432ec5cd809f509342",
       "corpusId": "municipal-governance",
       "domain": "municipal-governance",
       "isCompleteUniverse": false,

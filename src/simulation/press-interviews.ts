@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { activeWorkRelationshipsAt } from "./life-queries";
 import { personName } from "./people";
@@ -407,9 +408,7 @@ export function recordPressPreparation(
         "Press preparation may use only the assigned adviser's current knowledge.",
       );
     }
-    const event = world.history.events.find(
-      (candidate) => candidate.id === knowledge.eventId,
-    );
+    const event = eventById(world, knowledge.eventId);
     if (!event || event.occurredAt > world.currentDate) {
       throw new Error("Press preparation cannot use a future or missing fact.");
     }
@@ -929,7 +928,7 @@ function requirePressInterview(
   );
   if (!activity) throw new Error(`Missing press activity: ${activityId}`);
   const arrangement = activity.sourceEntityIds
-    .map((id) => world.history.events.find((event) => event.id === id))
+    .map((id) => eventById(world, id))
     .find((event) => event?.type === "press.interview-arranged");
   if (!arrangement || !arrangement.tags.includes(PRESS_TAG)) {
     throw new Error("Scheduled activity is not an arranged press interview.");
@@ -1044,9 +1043,7 @@ function assertReporterKnowsEvent(
   reporterPersonId: EntityId,
   eventId: EntityId,
 ): void {
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (!event || event.occurredAt > world.currentDate) {
     throw new Error(
       "A press question cannot rely on a future or missing event.",
@@ -1081,9 +1078,7 @@ function assertCanonicalPitch(
   const claim = world.history.claims.find(
     (candidate) => candidate.id === pitchClaimId,
   );
-  const event = claim
-    ? world.history.events.find((candidate) => candidate.id === claim.eventId)
-    : null;
+  const event = claim ? eventById(world, claim.eventId) : null;
   if (
     !claim ||
     !event ||

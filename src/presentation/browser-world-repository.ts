@@ -12,9 +12,13 @@ import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { factsForPerson, personName } from "../simulation/people";
 import {
   createWorldSnapshot,
-  deserializeWorld,
-  serializeWorld,
+  readWorldSnapshot,
+  serializeWorldAs,
+  serializeWorldSnapshot,
+  storedFormatVersion,
   worldContentId,
+  type WorldSnapshot,
+  type WorldSnapshotFormatVersion,
 } from "../simulation/serialization";
 import type {
   EntityId,
@@ -30,6 +34,7 @@ import {
   SLOT_MESSAGES,
   decideWrite,
   readSlotState,
+  UNGENERATIONED,
 } from "./browser-world-repository-protocol";
 import { createSaveId } from "./new-game-identity";
 
@@ -106,8 +111,22 @@ export const DEFAULT_DATABASE_NAME = "political-life-worlds";
  * version, opened by this module, and the upgrade is additive, so every world
  * written by version 1 is still exactly where it was and still readable.
  */
-const DATABASE_VERSION = 2;
+/**
+ * Version 3 adds a small summary beside every world record.
+ *
+ * Listing saves used to read every whole record, and a long life's record is
+ * tens of megabytes: the browser sometimes refused to read one, and the whole
+ * list failed with it. The summary is everything the list shows, kept in its
+ * own store and written in the same transaction as the record it describes, so
+ * the two cannot disagree. The upgrade is additive again: no world record is
+ * touched, and a record written before it is summarized the first time it is
+ * listed.
+ */
+const DATABASE_VERSION = 3;
 const STORE_NAME = "worlds";
+/** One small summary per world record, keyed by the same save id. */
+export const WORLD_SUMMARY_STORE_NAME = "world-summaries";
+const WORLD_SUMMARY_KIND = "political-life-browser-world-summary";
 /** Per-slot interface state: pins and preferences, keyed by save id. */
 export const INTERFACE_STORE_NAME = "interface";
 const WRITE_FAILED = "This game could not be saved just now.";
@@ -172,7 +191,9 @@ export type SaveDefect =
   | "unsupported-version"
   | "unreadable-world"
   | "altered-after-write"
-  | "summary-disagrees";
+  | "summary-disagrees"
+  /** The browser refused to read the record this time. Nothing is known to be wrong with it. */
+  | "could-not-open-now";
 
 export interface QuarantinedSave {
   /** Null when the record is damaged past the point of naming itself. */
@@ -184,6 +205,35 @@ export interface QuarantinedSave {
   readonly mightBeReadableLater: boolean;
   readonly savedAt: string | null;
 }
+
+/**
+ * What the save list needs to know about one world record, without the world.
+ *
+ * `generation` is the record's own, copied so a reader can tell which record a
+ * summary was taken from. A damaged record is summarized by its quarantine, so
+ * listing never has to read it again to say it is damaged.
+ */
+export type StoredWorldSummary =
+  | {
+      readonly kind: typeof WORLD_SUMMARY_KIND;
+      readonly saveId: EntityId;
+      readonly generation: number;
+      readonly state: "present";
+      readonly metadata: BrowserWorldSummary;
+    }
+  | {
+      readonly kind: typeof WORLD_SUMMARY_KIND;
+      readonly saveId: EntityId;
+      readonly generation: number;
+      readonly state: "deleted";
+    }
+  | {
+      readonly kind: typeof WORLD_SUMMARY_KIND;
+      readonly saveId: EntityId;
+      readonly generation: number;
+      readonly state: "damaged";
+      readonly quarantine: QuarantinedSave;
+    };
 
 export interface BrowserWorldListing {
   readonly saves: readonly BrowserWorldSummary[];
@@ -584,9 +634,7 @@ export class BrowserSaveStore {
         throw new Error("This save cannot be inspected safely.");
       if (read.record.saveId !== saveId)
         throw new Error("Save identity mismatch.");
-      return migrateUnpinnedAppearanceCatalog(
-        deserializeWorld(read.record.payload),
-      );
+      return migrateUnpinnedAppearanceCatalog(read.world);
     });
   }
 
@@ -631,7 +679,7 @@ export class BrowserSaveStore {
       if (record.saveId !== saveId) {
         throw new Error("This saved game does not match the one asked for.");
       }
-      const world = deserializeWorld(record.payload);
+      const world = read.world;
       // Opening a save is how a tab comes to hold the slot: what it has in
       // hand now *is* what is stored, so it may write over it. The payload was
       // not rewritten, so what is durable is what was read.
@@ -648,43 +696,67 @@ export class BrowserSaveStore {
       // generation where it is, so opening a save in a second tab does not
       // take the slot away from the tab that is playing it. And it is
       // conditional, so it cannot land on top of a newer save.
-      await this.#commit(saveId, (current) => {
-        const now = readSlotState(current);
-        if (now.kind !== "present" || now.generation !== record.generation) {
-          return { write: null, result: undefined };
-        }
-        return {
-          write: {
-            ...record,
-            metadata: { ...record.metadata, lastPlayedAt },
-          },
-          result: undefined,
-        };
-      });
+      try {
+        await this.#commit(saveId, (current) => {
+          const now = readSlotState(current);
+          if (now.kind !== "present" || now.generation !== record.generation) {
+            return { write: null, result: undefined };
+          }
+          return {
+            write: {
+              ...record,
+              metadata: { ...record.metadata, lastPlayedAt },
+            },
+            result: undefined,
+          };
+        });
+      } catch {
+        // The world is already read and whole. Writing the stamp rewrites the
+        // record, and a long life's record can be refused or run out of room;
+        // that must not turn a save that opened into one that "could not be
+        // opened". The stored record is unchanged, so the slot stays ours.
+      }
       return migrateUnpinnedAppearanceCatalog(world);
     });
   }
 
+  /**
+   * The saves on the shelf, read from their summaries.
+   *
+   * A world record is never read here once it has a summary. A long life's
+   * record is tens of megabytes, and reading every one of them to draw a list
+   * was how one save the browser would not read took the whole list down. A
+   * record written before summaries existed is read once, by itself, and its
+   * summary kept; only the summary store is written, never the record.
+   */
   list(): Promise<BrowserWorldListing> {
     return this.#enqueue(async () => {
       const saves: BrowserWorldSummary[] = [];
       const damaged: QuarantinedSave[] = [];
+      const shelf = await this.#readShelf();
+      const summaries = new Map<IDBValidKey, StoredWorldSummary>();
+      for (const value of shelf.summaries) {
+        const summary = readWorldSummary(value);
+        if (summary !== null) summaries.set(summary.saveId, summary);
+      }
       // Each record is judged on its own. One damaged save used to take the
       // whole list down with it, which told a player their storage was broken
       // when in fact every other game was fine.
-      for (const raw of await this.#getAll()) {
-        const read = readStoredRecord(raw);
-        if (read.kind === "healthy") {
-          saves.push(cloneSummary(read.record.metadata));
-        } else if (read.kind === "deleted") {
+      for (const key of shelf.keys) {
+        const summary =
+          summaries.get(key) ?? (await this.#summarizeUnsummarized(key));
+        if (summary === null) continue;
+        if (summary.state === "present") {
+          saves.push(cloneSummary(summary.metadata));
+        } else if (summary.state === "deleted") {
           // A tombstone is neither a save nor damage. Meeting one is also how
           // a tab that never asked for the deletion finds out about it, which
           // is worth taking: the next autosave is turned away without a round
           // trip, rather than being told a deleted slot is fine.
-          this.#deleted.add(read.saveId);
-          this.#forgetSlotState(read.saveId);
+          this.#deleted.add(summary.saveId);
+          this.#forgetSlotState(summary.saveId);
         } else {
-          damaged.push(read.quarantine);
+          damaged.push({ ...summary.quarantine });
         }
       }
       return {
@@ -694,6 +766,56 @@ export class BrowserSaveStore {
         ),
       };
     });
+  }
+
+  /**
+   * Summarizes a record kept before summaries existed, reading it alone.
+   *
+   * If the browser will not read it this time, the list says so and keeps it,
+   * and nothing is written: the next list tries again. If it reads, its
+   * summary is kept, but only where no summary has appeared meanwhile — a
+   * write from another tab carries its own, newer one.
+   */
+  async #summarizeUnsummarized(
+    key: IDBValidKey,
+  ): Promise<StoredWorldSummary | null> {
+    const saveId = String(key) as EntityId;
+    let raw: unknown;
+    try {
+      raw = await this.#get(key);
+    } catch {
+      return {
+        kind: WORLD_SUMMARY_KIND,
+        saveId,
+        generation: UNKNOWN_GENERATION,
+        state: "damaged",
+        quarantine: {
+          saveId,
+          defect: "could-not-open-now",
+          reason:
+            "One saved game could not be opened just now; it has been kept.",
+          mightBeReadableLater: true,
+          savedAt: null,
+        },
+      };
+    }
+    if (raw === undefined) return null;
+    const summary = summarizeStoredValue(key, raw);
+    try {
+      const database = await this.#database();
+      await backfillSummary(database, summary);
+    } catch {
+      // The list does not depend on keeping it; the next one tries again.
+    }
+    return summary;
+  }
+
+  async #readShelf(): Promise<{
+    readonly summaries: readonly unknown[];
+    readonly keys: readonly IDBValidKey[];
+  }> {
+    const database = await this.#database();
+    return readShelf(database);
   }
 
   async mostRecent(): Promise<BrowserWorldSummary | null> {
@@ -989,14 +1111,29 @@ export class BrowserSaveStore {
     return this.#databasePromise;
   }
 
-  async #get(saveId: EntityId): Promise<unknown | undefined> {
+  /**
+   * One record, read again if the browser refuses it.
+   *
+   * Chromium sometimes will not read a large value ("Failed to read large
+   * IndexedDB value") and reads the same value a moment later. A 40 MB Juneau
+   * life opened in three fresh browsers out of four; in the fourth it stayed
+   * "needs attention" because one refusal was taken as the answer. A read
+   * changes nothing, so asking again is safe; after the last try the refusal
+   * stands and the caller reports it.
+   */
+  async #get(saveId: IDBValidKey): Promise<unknown | undefined> {
     const database = await this.#database();
-    return runRequest(database, "readonly", (store) => store.get(saveId));
-  }
-
-  async #getAll(): Promise<readonly unknown[]> {
-    const database = await this.#database();
-    return runRequest(database, "readonly", (store) => store.getAll());
+    for (let attempt = 0; ; attempt += 1) {
+      try {
+        return await runRequest(database, "readonly", (store) =>
+          store.get(saveId),
+        );
+      } catch (error) {
+        const wait = READ_RETRY_DELAYS_MS[attempt];
+        if (wait === undefined) throw error;
+        await this.#delay(wait);
+      }
+    }
   }
 
   async #commit<T>(
@@ -1030,27 +1167,35 @@ interface PreparedRecord {
 }
 
 function prepareWorldRecord(world: World): PreparedRecord {
-  const player = controlledPlayer(world);
   // One snapshot, used for the summary, the payload and the content identity.
-  // `serializeWorld` is exactly `JSON.stringify(createWorldSnapshot(world))`.
+  // `serializeWorld` is exactly `serializeWorldSnapshot(createWorldSnapshot())`.
   const snapshot = createWorldSnapshot(world);
   return {
-    payload: JSON.stringify(snapshot),
+    payload: serializeWorldSnapshot(snapshot),
     contentId: snapshot.snapshotId,
-    fields: {
-      worldId: world.id,
-      snapshotId: snapshot.snapshotId,
-      snapshotFormatVersion: snapshot.formatVersion,
-      worldSchemaVersion: world.schemaVersion,
-      worldGeneratorVersion: world.generatorVersion,
-      playerPersonId: player.id,
-      playerName: personName(player),
-      playerAge: ageOnDate(player.birthDate, world.currentDate),
-      ...(watchedFromStart(world) ? { observing: true as const } : {}),
-      residence: currentResidence(world, player),
-      currentMoment: { ...world.currentMoment },
-      actionSequence: world.actionSequence,
-    },
+    fields: worldRecordFields(world, snapshot),
+  };
+}
+
+/** The summary fields a record of this world carries. */
+function worldRecordFields(
+  world: World,
+  snapshot: WorldSnapshot,
+): PreparedRecord["fields"] {
+  const player = controlledPlayer(world);
+  return {
+    worldId: world.id,
+    snapshotId: snapshot.snapshotId,
+    snapshotFormatVersion: storedFormatVersion(snapshot),
+    worldSchemaVersion: world.schemaVersion,
+    worldGeneratorVersion: world.generatorVersion,
+    playerPersonId: player.id,
+    playerName: personName(player),
+    playerAge: ageOnDate(player.birthDate, world.currentDate),
+    ...(watchedFromStart(world) ? { observing: true as const } : {}),
+    residence: currentResidence(world, player),
+    currentMoment: { ...world.currentMoment },
+    actionSequence: world.actionSequence,
   };
 }
 
@@ -1101,7 +1246,15 @@ export function createBrowserWorldRecord(
 }
 
 type ReadRecord =
-  | { readonly kind: "healthy"; readonly record: StoredBrowserWorldRecord }
+  | {
+      readonly kind: "healthy";
+      readonly record: StoredBrowserWorldRecord;
+      /**
+       * The world the check read to prove the record, so a caller opening the
+       * save uses it instead of reading 80 MB of text a second time.
+       */
+      readonly world: World;
+    }
   | { readonly kind: "deleted"; readonly saveId: EntityId }
   | { readonly kind: "damaged"; readonly quarantine: QuarantinedSave };
 
@@ -1178,8 +1331,9 @@ export function readStoredRecord(value: unknown): ReadRecord {
   }
 
   let world: World;
+  let formatVersion: WorldSnapshotFormatVersion;
   try {
-    world = deserializeWorld(value.payload);
+    ({ world, formatVersion } = readWorldSnapshot(value.payload));
   } catch {
     return damaged(
       saveId,
@@ -1189,7 +1343,10 @@ export function readStoredRecord(value: unknown): ReadRecord {
       savedAt,
     );
   }
-  if (value.payload !== serializeWorld(world)) {
+  // Compared in the format the record was written in: a save from before roll
+  // calls were packed is the same save, and is rewritten packed on its next
+  // write.
+  if (value.payload !== serializeWorldAs(world, formatVersion)) {
     return damaged(
       saveId,
       "altered-after-write",
@@ -1199,7 +1356,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
     );
   }
 
-  const migrated = migrateRecord(value, world);
+  const migrated = migrateRecord(value, world, formatVersion);
   if (migrated === null) {
     return damaged(
       saveId,
@@ -1209,7 +1366,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
       savedAt,
     );
   }
-  return { kind: "healthy", record: migrated };
+  return { kind: "healthy", record: migrated, world };
 }
 
 /**
@@ -1226,6 +1383,7 @@ export function readStoredRecord(value: unknown): ReadRecord {
 function migrateRecord(
   value: Record<string, unknown>,
   world: World,
+  formatVersion: WorldSnapshotFormatVersion,
 ): StoredBrowserWorldRecord | null {
   if (typeof value.saveId !== "string") return null;
   const saveId = value.saveId as EntityId;
@@ -1239,13 +1397,24 @@ function migrateRecord(
       ? value.generation
       : 0;
 
-  const expected = createBrowserWorldRecord(
-    world,
-    metadata.savedAt as string,
-    metadata.createdAt as string,
-    saveId,
-    generation,
-  ).metadata;
+  // The summary a record written now would carry, in the format this one was
+  // written in. Only the fields are built: the payload was just compared, and
+  // writing a big world out again only to read its summary cost seconds.
+  const snapshot = createWorldSnapshot(world);
+  const expected: BrowserWorldSummary = {
+    ...completeRecord(
+      {
+        payload: "",
+        contentId: snapshot.snapshotId,
+        fields: worldRecordFields(world, snapshot),
+      },
+      saveId,
+      metadata.savedAt as string,
+      metadata.createdAt as string,
+      generation,
+    ).metadata,
+    snapshotFormatVersion: formatVersion,
+  };
   const actual: BrowserWorldSummary = {
     ...(metadata as unknown as BrowserWorldSummary),
     saveId,
@@ -1265,6 +1434,104 @@ function migrateRecord(
     metadata: cloneSummary({ ...actual, lastPlayedAt: actual.lastPlayedAt }),
     payload: value.payload as string,
   };
+}
+
+/* -------------------------------------------------------------------------- */
+/* Summaries.                                                                  */
+/* -------------------------------------------------------------------------- */
+
+/** Pauses before each further read of a record the browser refused. */
+const READ_RETRY_DELAYS_MS: readonly number[] = [500, 2000];
+
+/** A summary built for one list only, never stored, carries no generation. */
+const UNKNOWN_GENERATION = -1;
+
+/**
+ * The summary of a value this store is about to write.
+ *
+ * Only records this module built reach here — a record completed from a
+ * prepared world, the same record with a new last-played stamp, or a
+ * tombstone — so the summary is the record's own metadata rather than a
+ * second reading of the world. Anything else is summarized the long way.
+ */
+function summaryOfWrite(key: IDBValidKey, value: unknown): StoredWorldSummary {
+  if (isRecord(value)) {
+    const saveId = String(key) as EntityId;
+    const generation =
+      typeof value.generation === "number" ? value.generation : UNGENERATIONED;
+    if (value.kind === BROWSER_WORLD_TOMBSTONE_KIND) {
+      return { kind: WORLD_SUMMARY_KIND, saveId, generation, state: "deleted" };
+    }
+    if (
+      value.kind === BROWSER_WORLD_RECORD_KIND &&
+      value.recordVersion === BROWSER_WORLD_RECORD_VERSION &&
+      isRecord(value.metadata)
+    ) {
+      return {
+        kind: WORLD_SUMMARY_KIND,
+        saveId,
+        generation,
+        state: "present",
+        metadata: cloneSummary(
+          value.metadata as unknown as BrowserWorldSummary,
+        ),
+      };
+    }
+  }
+  return summarizeStoredValue(key, value);
+}
+
+/**
+ * The summary of a stored value, judged exactly as loading judges it. Used
+ * for a record kept before summaries existed; a damaged record is summarized
+ * by its quarantine.
+ */
+function summarizeStoredValue(
+  key: IDBValidKey,
+  value: unknown,
+): StoredWorldSummary {
+  const saveId = String(key) as EntityId;
+  const state = readSlotState(value);
+  const generation =
+    state.kind === "absent" ? UNGENERATIONED : state.generation;
+  const read = readStoredRecord(value);
+  if (read.kind === "healthy") {
+    return {
+      kind: WORLD_SUMMARY_KIND,
+      saveId,
+      generation: read.record.generation,
+      state: "present",
+      metadata: cloneSummary(read.record.metadata),
+    };
+  }
+  if (read.kind === "deleted") {
+    return { kind: WORLD_SUMMARY_KIND, saveId, generation, state: "deleted" };
+  }
+  return {
+    kind: WORLD_SUMMARY_KIND,
+    saveId,
+    generation,
+    state: "damaged",
+    quarantine: read.quarantine,
+  };
+}
+
+/**
+ * A stored summary, or null when it is not one this build wrote — in which
+ * case the list reads the record itself, as it would with no summary at all.
+ */
+function readWorldSummary(value: unknown): StoredWorldSummary | null {
+  if (!isRecord(value) || value.kind !== WORLD_SUMMARY_KIND) return null;
+  if (typeof value.saveId !== "string") return null;
+  if (typeof value.generation !== "number") return null;
+  if (value.state === "present" && isRecord(value.metadata)) {
+    return value as unknown as StoredWorldSummary;
+  }
+  if (value.state === "deleted") return value as unknown as StoredWorldSummary;
+  if (value.state === "damaged" && isRecord(value.quarantine)) {
+    return value as unknown as StoredWorldSummary;
+  }
+  return null;
 }
 
 /** Kept for callers that want an exception rather than a quarantine record. */
@@ -1488,6 +1755,24 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 /**
+ * The saves were last kept by a newer copy of the game than the page open now.
+ *
+ * A database is opened at the version this build knows, and a browser refuses
+ * an older version than the one on disk. That happens when a tab or a cached
+ * page from before an update is still in use after the update ran once. The
+ * saves are untouched; reloading the page brings in the build that kept them.
+ */
+export class SavesKeptByNewerBuildError extends Error {
+  constructor(cause: unknown) {
+    super(
+      "Your saved lives were kept by a newer version of the game than this page.",
+      { cause },
+    );
+    this.name = "SavesKeptByNewerBuildError";
+  }
+}
+
+/**
  * Opens the game's own database, creating or upgrading its stores.
  *
  * Exported so the shell's interface store opens the same database at the same
@@ -1509,6 +1794,14 @@ export function openDatabase(
       if (!database.objectStoreNames.contains(INTERFACE_STORE_NAME)) {
         database.createObjectStore(INTERFACE_STORE_NAME, { keyPath: "saveId" });
       }
+      // Created empty. Filling it here would mean reading every world record
+      // inside the upgrade, and one the browser refused to read would abort
+      // the upgrade and lock the player out of every save.
+      if (!database.objectStoreNames.contains(WORLD_SUMMARY_STORE_NAME)) {
+        database.createObjectStore(WORLD_SUMMARY_STORE_NAME, {
+          keyPath: "saveId",
+        });
+      }
     };
     request.onsuccess = () => {
       const database = request.result;
@@ -1517,7 +1810,11 @@ export function openDatabase(
     };
     request.onerror = () =>
       reject(
-        new Error("Saved games could not be opened.", { cause: request.error }),
+        request.error?.name === "VersionError"
+          ? new SavesKeptByNewerBuildError(request.error)
+          : new Error("Saved games could not be opened.", {
+              cause: request.error,
+            }),
       );
     request.onblocked = () =>
       reject(
@@ -1572,6 +1869,86 @@ function runRequest<T>(
   });
 }
 
+/**
+ * Every summary, and the key of every world record, in one read-only
+ * transaction. Keys only: no world is read.
+ */
+function readShelf(database: IDBDatabase): Promise<{
+  readonly summaries: readonly unknown[];
+  readonly keys: readonly IDBValidKey[];
+}> {
+  return new Promise((resolve, reject) => {
+    let summaries: readonly unknown[] = [];
+    let keys: readonly IDBValidKey[] = [];
+    let settled = false;
+    const fail = (error: unknown) => {
+      if (settled) return;
+      settled = true;
+      reject(new Error("Saved games could not be listed.", { cause: error }));
+    };
+    let transaction: IDBTransaction;
+    try {
+      transaction = database.transaction(
+        [STORE_NAME, WORLD_SUMMARY_STORE_NAME],
+        "readonly",
+      );
+      const summaryRequest = transaction
+        .objectStore(WORLD_SUMMARY_STORE_NAME)
+        .getAll();
+      summaryRequest.onsuccess = () => {
+        summaries = summaryRequest.result as unknown[];
+      };
+      summaryRequest.onerror = () => fail(summaryRequest.error);
+      const keyRequest = transaction.objectStore(STORE_NAME).getAllKeys();
+      keyRequest.onsuccess = () => {
+        keys = keyRequest.result;
+      };
+      keyRequest.onerror = () => fail(keyRequest.error);
+    } catch (error) {
+      fail(error);
+      return;
+    }
+    transaction.oncomplete = () => {
+      if (settled) return;
+      settled = true;
+      resolve({ summaries, keys });
+    };
+    transaction.onerror = () => fail(transaction.error);
+    transaction.onabort = () => fail(transaction.error);
+  });
+}
+
+/**
+ * Keeps the summary of a record written before summaries existed.
+ *
+ * Only the summary store is opened, so the world record cannot be touched. It
+ * writes only where there is still no usable summary: any write to the record
+ * since it was read carried a summary of its own, and that one is newer.
+ */
+function backfillSummary(
+  database: IDBDatabase,
+  summary: StoredWorldSummary,
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    let transaction: IDBTransaction;
+    try {
+      transaction = database.transaction(WORLD_SUMMARY_STORE_NAME, "readwrite");
+      const store = transaction.objectStore(WORLD_SUMMARY_STORE_NAME);
+      const existing = store.get(summary.saveId);
+      existing.onsuccess = () => {
+        if (readWorldSummary(existing.result) !== null) return;
+        store.put(summary);
+      };
+    } catch (error) {
+      reject(error instanceof Error ? error : new Error(String(error)));
+      return;
+    }
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = () => reject(transaction.error);
+    transaction.onabort = () => reject(transaction.error);
+  });
+}
+
 interface CommitDecision<T> {
   readonly write: unknown | null;
   readonly result: T;
@@ -1590,6 +1967,10 @@ interface CommitDecision<T> {
  *
  * `decide` must be synchronous and must not await, because awaiting would let
  * the transaction finish and take the guarantee with it.
+ *
+ * The slot's summary is written in the same transaction as its record, so the
+ * save list can never describe a record that is not the one on disk: either
+ * both land or neither does.
  */
 function runCompareAndSwap<T>(
   database: IDBDatabase,
@@ -1597,7 +1978,10 @@ function runCompareAndSwap<T>(
   decide: (current: unknown) => CommitDecision<T>,
 ): Promise<T> {
   return new Promise((resolve, reject) => {
-    const transaction = database.transaction(STORE_NAME, "readwrite");
+    const transaction = database.transaction(
+      [STORE_NAME, WORLD_SUMMARY_STORE_NAME],
+      "readwrite",
+    );
     let result: T;
     let decided = false;
     let settled = false;
@@ -1608,9 +1992,11 @@ function runCompareAndSwap<T>(
     };
 
     let store: IDBObjectStore;
+    let summaries: IDBObjectStore;
     let read: IDBRequest<unknown>;
     try {
       store = transaction.objectStore(STORE_NAME);
+      summaries = transaction.objectStore(WORLD_SUMMARY_STORE_NAME);
       read = store.get(saveId);
     } catch (error) {
       fail(new Error("The saved game could not be read.", { cause: error }));
@@ -1633,10 +2019,23 @@ function runCompareAndSwap<T>(
       decided = true;
       if (decision.write === null) return;
       try {
+        const summary = summaryOfWrite(saveId, decision.write);
         const write = store.put(decision.write);
         write.onerror = () =>
           fail(new Error("Saving did not finish.", { cause: write.error }));
+        const summaryWrite = summaries.put(summary);
+        summaryWrite.onerror = () =>
+          fail(
+            new Error("Saving did not finish.", { cause: summaryWrite.error }),
+          );
       } catch (error) {
+        // A put that throws before it is queued leaves the other one queued.
+        // Abort, so a record never lands without its summary or the reverse.
+        try {
+          transaction.abort();
+        } catch {
+          // Already finished or aborting; nothing more to undo.
+        }
         fail(new Error("Saving did not finish.", { cause: error }));
       }
     };

@@ -5,7 +5,10 @@ import { MunicipalWorkspace } from "../../src/player/MunicipalWorkspace";
 import { createScenarioWorld } from "../../src/simulation/demo";
 import { requireLifePlace } from "../../src/simulation/life-places";
 import { serializeWorld, deserializeWorld } from "../../src/simulation";
-import { seatMunicipalMember } from "../../src/simulation/municipal-public-work";
+import {
+  installMunicipalGovernment,
+  seatMunicipalMember,
+} from "../../src/simulation/municipal-public-work";
 import {
   municipalWorkspaceFor,
   createAuthoredMunicipalPublicSession,
@@ -30,6 +33,21 @@ function initial() {
     ...generated,
     control: { kind: "person" as const, personId: generated.personOrder[0]! },
   };
+  if (new URLSearchParams(location.search).get("role") === "neighbor-member") {
+    const governmentKey = municipalWorkspaceFor(world)!.government.key;
+    world = installMunicipalGovernment(world, {
+      governmentKey,
+      jurisdictionId: place.context.jurisdiction.id,
+      formedAt: world.currentDate,
+    });
+    world = seatMunicipalMember(world, {
+      governmentKey,
+      personId: world.personOrder[1]!,
+      startedAt: world.currentDate,
+      role: "member",
+      seatLabel: "Authored verification seat",
+    });
+  }
   if (new URLSearchParams(location.search).get("role") === "member") {
     world = createAuthoredMunicipalPublicSession(world);
     world = seatMunicipalMember(world, {

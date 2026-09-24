@@ -53,6 +53,16 @@ describe("the Journal read as a chronicle", () => {
       ),
     ]);
     expect(lines.map((line) => line.lead)).toEqual([null, null]);
+    // A month with its year later in the sentence dates it as well.
+    expect(
+      chronicleLines([
+        entry(
+          "c",
+          "1998-05-03",
+          "You finished at North Albuquerque Middle School in May 1998.",
+        ),
+      ]).map((line) => line.lead),
+    ).toEqual([null]);
   });
 
   it("keeps every entry, once, in order", () => {
@@ -88,6 +98,9 @@ describe("the Journal read as a chronicle", () => {
       withChronicleLead("In March", "Ravi Alvarez asked you for money."),
     ).toBe("In March, Ravi Alvarez asked you for money.");
     expect(withChronicleLead(null, "You stayed.")).toBe("You stayed.");
+    expect(
+      withChronicleLead("In May", "At lunch you made room at the table."),
+    ).toBe("In May, at lunch you made room at the table.");
   });
 
   it("holds the same entries as each section, in a real life outside Kentucky", () => {

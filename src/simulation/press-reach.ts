@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -65,9 +66,7 @@ export function eventIsPitchablePressBasis(
   world: World,
   eventId: EntityId,
 ): boolean {
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (!event || event.occurredAt > world.currentDate) return false;
   return resolvePublicationSource(world, event) !== null;
 }

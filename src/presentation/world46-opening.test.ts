@@ -50,6 +50,13 @@ function legacySetup(placeKey: string, seed: string): NewGameSetup {
     .childhoodGenerationVersion;
   delete (legacy as { partyChapterNameVersion?: unknown })
     .partyChapterNameVersion;
+  delete (legacy as { schoolNameVersion?: unknown }).schoolNameVersion;
+  delete (legacy as { familyBirthdayVersion?: unknown }).familyBirthdayVersion;
+  delete (legacy as { parentPartnerVersion?: unknown }).parentPartnerVersion;
+  // A descriptor from before the congressional home join has no join version,
+  // and its replay records the state chambers only.
+  delete (legacy as { districtHomeJoinVersion?: unknown })
+    .districtHomeJoinVersion;
   return {
     ...legacy,
     seed,
@@ -158,10 +165,20 @@ const sha256 = (text: string) =>
  * AND AGAIN 2026-09-23, when the federal pack's text took American spellings
  * (programs, offenses, license). Only that authored text moved; the ids and
  * LEGACY_OPENING_SHAPE did not.
+ *
+ * RE-ACCEPTED 2026-09-23 because the income-tax question in the state and local
+ * policy pack can now be decided by a municipality as well as a state (Ohio
+ * Revised Code 718.04; Philadelphia's Wage and Earnings Tax).
+ * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
+ * only the stripped catalog field moved.
+ *
+ * AND AGAIN 2026-09-23 for the us-federal-positions pack: twenty authored
+ * federal positions appended to `world.policyCatalog` after every existing
+ * id. LEGACY_OPENING_SHAPE passed unchanged on the run that moved these.
  */
 const FED321F7_LEGACY = {
-  kentucky: "66909a6abc88327d922a16be12c1c44c7b2a23319cbd74170e18ad1ad6f9675b",
-  peebles: "507463587fdeb50c00a89f97e21a42cfd72790ff35712a84a01835431f6b8f5b",
+  kentucky: "bfa032b826daf686fed0390631e00bbe1f1217aa9022379bce515b9423c35081",
+  peebles: "7f1b23886e4c6fd7e09d636cd3823060fde74efc3f6e49703a35ef7860c76128",
 } as const;
 
 /**
