@@ -7,7 +7,11 @@ import {
 } from "../legislative-institutions";
 import { permittedOriginChambers } from "../legislature-rules";
 import { nextMeasureDesignation } from "../measure-numbering";
-import { municipalGovernmentsWithProcedure } from "../municipal-government";
+import {
+  municipalGovernmentByKey,
+  municipalGovernmentsWithProcedure,
+  municipalRulePackFor,
+} from "../municipal-government";
 import {
   municipalGovernmentJurisdictionId,
   municipalSeats,
@@ -20,6 +24,7 @@ import {
   localFiscalAuthorityFor,
   type LocalFiscalAuthorityGranted,
 } from "../local-fiscal-authority";
+import { localFiscalGameAuthorityForRulePackId } from "../local-ordinance-game-profile";
 import { LOCAL_FIX_IT_FIRST_PROPOSITION_KEY } from "../legislation-local-fiscal-families";
 import { localFiscalPredicateAuthority } from "../local-fiscal-predicate-authority";
 import type {
@@ -371,10 +376,55 @@ function localAuthorityForCouncil(
   return null;
 }
 
+/**
+ * Preserve sourced procedure candidates, then add only exact fiscal game
+ * profiles already installed in this saved world. Installed organizations
+ * bound the lookup to saved local governments instead of scanning the
+ * national unit catalog; the reverse profile lookup rejects townships.
+ */
+function localMemberAgendaGovernments(world: World) {
+  const governments = new Map(
+    municipalGovernmentsWithProcedure().map((government) => [
+      government.key,
+      government,
+    ]),
+  );
+  const organizationPrefixes = [
+    "municipal-government:",
+    "local-government:",
+  ] as const;
+  for (const organization of world.history.organizations) {
+    const organizationPrefix = organizationPrefixes.find((prefix) =>
+      organization.stableKey.startsWith(prefix),
+    );
+    if (!organizationPrefix) continue;
+    const governmentKey = organization.stableKey.slice(
+      organizationPrefix.length,
+    );
+    const government = municipalGovernmentByKey(governmentKey);
+    if (!government || government.key !== governmentKey) continue;
+    const rules = municipalRulePackFor(government);
+    if (!rules.ok || String(rules.evidence) !== "game-profile") continue;
+    const scope = localFiscalGameAuthorityForRulePackId(rules.pack.packId);
+    if (
+      !scope ||
+      scope.authority.rulePackId !== rules.pack.packId ||
+      scope.authority.governmentUnitId !== governmentKey ||
+      (scope.authority.level !== "municipality" &&
+        scope.authority.level !== "county") ||
+      scope.jurisdictionId !==
+        municipalGovernmentJurisdictionId(world, governmentKey)
+    )
+      continue;
+    governments.set(governmentKey, government);
+  }
+  return [...governments.values()];
+}
+
 /** Schedule each seated, admitted local council on a separate quarterly clock. */
 export function scheduleLocalMemberAgendaIntakes(world: World): World {
   let next = world;
-  for (const government of municipalGovernmentsWithProcedure()) {
+  for (const government of localMemberAgendaGovernments(next)) {
     const grant = localAuthorityForCouncil(next, government.key);
     if (!grant) continue;
     const dueAt = nextQuarterStart(next.currentDate as IsoDate);
@@ -518,7 +568,7 @@ export function localMemberAgendaIntakeHandler(
       outcomeEventId: null,
     };
   }
-  const government = municipalGovernmentsWithProcedure().find(
+  const government = localMemberAgendaGovernments(world).find(
     (entry) => entry.key === governmentKey,
   );
   const currentJurisdictionId = government
