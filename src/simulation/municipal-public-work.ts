@@ -33,7 +33,14 @@ import {
 } from "./life-queries";
 import { createOrganization, createOrganizationParticipation } from "./life";
 import { lifePlaceByKey } from "./life-places";
-import { governmentUnit } from "./government-units";
+import {
+  governmentUnit,
+  governmentUnitJurisdictionId,
+} from "./government-units";
+import {
+  LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
+  localFiscalGameAuthorityForRulePackId,
+} from "./local-ordinance-game-profile";
 import {
   lawReading,
   municipalGovernmentByKey,
@@ -112,10 +119,35 @@ export function municipalOrganizationFor(
     (organization) => organization.stableKey === stableKey,
   );
   if (installed) return installed;
+  const unit = governmentUnit(governmentKey);
+  if (unit?.unitType === "county") {
+    const packId = `${unit.id}:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
+    const scope = localFiscalGameAuthorityForRulePackId(packId);
+    const government = municipalGovernmentByKey(governmentKey);
+    const rules = government ? municipalRulePackFor(government) : null;
+    if (
+      !scope ||
+      scope.unit.id !== unit.id ||
+      scope.jurisdictionId !== governmentUnitJurisdictionId(unit) ||
+      !rules?.ok ||
+      rules.evidence !== "game-profile" ||
+      rules.pack.packId !== packId
+    )
+      return null;
+    const canonical = world.history.organizations.find(
+      (organization) =>
+        organization.stableKey === `local-government:${unit.id}`,
+    );
+    return canonical &&
+      world.jurisdictions[scope.jurisdictionId] &&
+      organizationProfileAt(world, canonical.id)?.locationJurisdictionId ===
+        scope.jurisdictionId
+      ? canonical
+      : null;
+  }
   // Earlier saves recorded catalog-only municipalities under the local
   // government key before their council gained an executable game profile.
   // Reuse that identity rather than adding a second government beside it.
-  const unit = governmentUnit(governmentKey);
   if (
     unit?.unitType !== "municipality" ||
     !unit.placeGeoid ||
@@ -643,6 +675,11 @@ export function installMunicipalGovernment(
     );
   }
   const existing = municipalOrganizationFor(world, input.governmentKey);
+  if (governmentUnit(input.governmentKey)?.unitType === "county" && !existing) {
+    throw new Error(
+      `Install the county's canonical local-government organization before opening ${input.governmentKey}.`,
+    );
+  }
   if (existing && municipalRecognitionEventId(world, input.governmentKey))
     return world;
   const reading = primaryReading(government);

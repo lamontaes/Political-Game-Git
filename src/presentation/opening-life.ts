@@ -3,9 +3,13 @@ import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
-import { ensureMunicipalCouncilOpening } from "../simulation/municipal-council-opening";
+import {
+  ensureCountyCouncilOpening,
+  ensureMunicipalCouncilOpening,
+} from "../simulation/municipal-council-opening";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { scheduleLocalMemberAgendaIntakes } from "../simulation/governing/member-agenda";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
@@ -177,15 +181,26 @@ function ensureHomeStateLegislature(
   const withCouncil = municipal
     ? ensureMunicipalCouncilOpening(world, municipal.key)
     : world;
-  const stateUsps = homeStateUsps(withCouncil, playerPersonId);
-  if (!stateUsps) return withCouncil;
+  const withCountyBoards = homeLocalGovernmentUnits(
+    withCouncil,
+    playerPersonId,
+  ).counties.reduce(
+    (next, county) => ensureCountyCouncilOpening(next, county.id),
+    withCouncil,
+  );
+  const stateUsps = homeStateUsps(withCountyBoards, playerPersonId);
+  if (!stateUsps) return withCountyBoards;
   // The District's legislature is its Council, which is seated on its own.
   const opened =
     stateUsps === "DC"
       ? scheduleDcCouncilSitting(
-          ensureDistrictOfColumbiaCouncilOpening(withCouncil),
+          ensureDistrictOfColumbiaCouncilOpening(withCountyBoards),
         )
-      : ensureStateLegislatureOpening(withCouncil, playerPersonId, stateUsps);
+      : ensureStateLegislatureOpening(
+          withCountyBoards,
+          playerPersonId,
+          stateUsps,
+        );
   return scheduleLocalMemberAgendaIntakes(opened);
 }
 
