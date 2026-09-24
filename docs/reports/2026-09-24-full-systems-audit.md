@@ -57,7 +57,7 @@ acts pick the question and the answer at random
 
 The step that turns an enacted bill into
 a change is a single shared gateway, and it works
-(`enacted-law-effects.ts:143-181`). It simply finds nothing to act on. The
+(`enacted-law-effects.ts:143-181`). It finds nothing to act on. The
 one exception is Alaska's "Village Transit Support" bill, which gets money
 clauses (`legislative-clock.ts:1423`).
 
@@ -98,10 +98,11 @@ Completed payments feed the economy model (`macro-economy/sources.ts:210`).
 
 None of it runs, because each government account opens at $0
 (`tax-policy.ts:109-120`). The only ordinary money coming in is tax on an
-activity the player declares by hand (`tax-work.ts:95`), plus press
-penalties. Only Alaska is given any tax power, in the game's hand-made
+activity the player declares by hand (`tax-work.ts:95`), plus fines from
+ethics findings. Only Alaska is given any tax power, in the game's hand-made
 tax-power file. Wages, rent, home purchases and errands are
-never taxed; no code records them as taxable. So each installment refuses
+never taxed; no code records them as taxable (inferred from finding no
+writer besides the hand declaration). So each installment refuses
 with "An appropriation is not cash" (`public-program.ts:839-840`). For the
 same reason, public spending never reaches the economy model (inferred from
 the empty accounts).
@@ -117,7 +118,7 @@ income. It now conflicts with main in three files.
 
 ### Most legislative winners never take their seat
 
-In the owner's earlier playtest, Curtis won a Kentucky House race with 65.5%
+In the playtest report you supplied, Curtis won a Kentucky House race with 65.5%
 of the vote. The generated District 98 member kept the seat, and Curtis cast
 none of 1,384 recorded votes. The cause is general.
 
@@ -144,33 +145,33 @@ saved records, it also repairs existing saves like Curtis's (inferred).
 Each row names a finished part and the one missing link. Size S is a few
 lines in one place, M a few files, L new modeling.
 
-| System      | Built part                                       | Where it stops                                                       | Evidence                            | Smallest join                                                            | Size |
-| ----------- | ------------------------------------------------ | -------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------ | ---- |
-| Law         | Clause compiler the player's drafting uses       | Automatic bills never call it                                        | member-agenda.ts:190                | Call it after each automatic filing, starting with state money questions | M    |
-| Law         | Nine written state bills                         | No yes or no answer, so they never count as law in force             | legislative-clock.ts:1420           | Add the answer at filing                                                 | S    |
-| Law         | Laws that change seats, terms and qualifications | The reader is live; the writer is called only by tests               | enacted-rule-changes.ts:405         | Let the docket file that clause                                          | S    |
-| Law         | Policy provisions in state constitutions         | Ignored when deciding what law is in force                           | policy-provisions.ts:85             | Read them above statute                                                  | S    |
-| Money       | Tax collection, accounts, programs, installments | No ordinary tax base                                                 | tax-policy.ts:374                   | Record settled wages as taxable; widen tax powers                        | M    |
-| Money       | Program installments                             | The account history calls them "unclassified" and hides the balance  | modeled-account-history.ts:170      | Classify them; show programs on Budget                                   | S    |
-| Services    | Public service panel                             | Service size is declared only in tests, so nothing is delivered      | public-program.ts:347               | Declare a baseline when money is adopted (decision 3)                    | S-M  |
-| Services    | Executive incident panel                         | Reads incident records play never writes                             | incident-response.ts:183            | List known disasters and crime reports                                   | M    |
-| Work        | Job market                                       | Closed under 18, though its minimum age is 16                        | life-opportunities.ts:521           | Run it from 16                                                           | S    |
-| Work        | Unemployment and price index                     | Never reach openings, wages or living costs                          | job-market.ts:679                   | Read them as the crime model does                                        | S    |
-| Basic needs | Sourced state housing costs                      | Used only by a test                                                  | regional-measures.ts:135            | Scale living costs by them                                               | S    |
-| Basic needs | Housing-conditions screen logic                  | Nothing calls it                                                     | housing-conditions.ts:60            | Show it with home purchase                                               | S    |
-| Elections   | Winner seating                                   | Winner dropped without a district                                    | state-legislature-opening.ts:844    | Use the recorded home district                                           | S    |
-| Elections   | Kentucky's seated chamber of 100                 | Bargaining seats numbered stand-ins instead                          | legislative-bargaining-world.ts:585 | Seat bargaining from the real chamber                                    | S-M  |
-| Elections   | Bargaining over drafted bills                    | Refused in 48 legislatures                                           | legislative-bargaining-world.ts:140 | Open it after the row above                                              | M    |
-| People      | Death notices and the grief scene                | Relatives never learn of a death                                     | people-bereavement.ts:90            | Send notices each day (#589 does this)                                   | S    |
-| People      | Birth and adoption on the clock                  | No screen proposes a plan                                            | people-family-plan.ts:179           | Add the action in Contacts (decision 5)                                  | S-M  |
-| People      | Belief formation                                 | Used only by the demo                                                | political-belief-formation.ts:80    | Schedule reflection; seed it from principles (#528 builds part)          | M    |
-| People      | Press stories                                    | Only the story's subjects, colleagues and party organizers read them | press/desk.ts:1192                  | Record ordinary readers                                                  | S    |
-| People      | Personality and goals                            | Ignored in household, school and neighborhood replies                | run-b-conversation.ts:1313          | Add them to that decision                                                | S-M  |
-| People      | Money-stress record                              | Called only by tests                                                 | resource-pressure.ts:38             | Record it when a bill goes unpaid                                        | M    |
-| Clock       | Stop at a job's reply or start date              | "Until event", legislative waits and the observer skip it            | time-command.ts:231                 | Use the same stop                                                        | S    |
-| Clock       | Pay, mortgage and living costs                   | Settle after the clock moves, in the screen, not on the clock        | life-opportunities.ts:515           | Settle them each day                                                     | S-M  |
-| Screens     | Campaign district                                | Saved, never shown                                                   | campaign-projection.ts:496          | Show it                                                                  | S    |
-| Screens     | D.C. representation                              | Shows a U.S. Senate row                                              | politics-government.ts:929          | Handle D.C. as the orientation screen does                               | S    |
+| System      | Built part                                       | Where it stops                                                                                 | Evidence                            | Smallest join                                                                                | Size |
+| ----------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------- | ---- |
+| Law         | Clause compiler the player's drafting uses       | Automatic bills never call it                                                                  | member-agenda.ts:190                | Call it after each automatic filing, starting with state money questions                     | M    |
+| Law         | Nine written state bills                         | No yes or no answer, so they never count as law in force                                       | legislative-clock.ts:1420           | Add the answer at filing                                                                     | S    |
+| Law         | Laws that change seats, terms and qualifications | The reader is live; the writer is called only by tests                                         | enacted-rule-changes.ts:405         | Let the docket file that clause                                                              | S    |
+| Law         | Policy provisions in state constitutions         | Ignored when deciding what law is in force                                                     | policy-provisions.ts:85             | Count them, ranked above ordinary laws                                                       | S    |
+| Money       | Tax collection, accounts, programs, installments | No ordinary tax base                                                                           | tax-policy.ts:374                   | Record settled wages as taxable; widen tax powers                                            | M    |
+| Money       | Program installments                             | The account history calls them "unclassified" and hides the balance                            | modeled-account-history.ts:170      | Classify them; show programs on Budget                                                       | S    |
+| Services    | Public service panel                             | Service size is declared only in tests, so nothing is delivered                                | public-program.ts:347               | Declare a baseline when money is adopted (decision 3)                                        | S-M  |
+| Services    | Executive incident panel                         | Reads incident records play never writes                                                       | incident-response.ts:183            | List known disasters and crime reports                                                       | M    |
+| Work        | Job market                                       | Closed under 18, though its minimum age is 16                                                  | life-opportunities.ts:521           | Run it from 16                                                                               | S    |
+| Work        | Unemployment and price index                     | Never reach openings, wages or living costs                                                    | job-market.ts:679                   | Read them as the crime model does                                                            | S    |
+| Basic needs | Sourced state housing costs                      | Used only by a test                                                                            | regional-measures.ts:135            | Scale living costs by them                                                                   | S    |
+| Basic needs | Housing-conditions screen logic                  | Nothing calls it                                                                               | housing-conditions.ts:60            | Show it with home purchase                                                                   | S    |
+| Elections   | Winner seating                                   | Winner dropped without a district                                                              | state-legislature-opening.ts:844    | Use the recorded home district                                                               | S    |
+| Elections   | Kentucky's seated chamber of 100                 | Bargaining seats numbered stand-ins instead                                                    | legislative-bargaining-world.ts:585 | Seat bargaining from the real chamber                                                        | S-M  |
+| Elections   | Bargaining over drafted bills                    | Refused in 48 of 51; only Kentucky, Nebraska and Alaska allow it                               | legislative-bargaining-world.ts:140 | Open it after the row above                                                                  | M    |
+| People      | Death notices and the grief scene                | Relatives never learn of a death                                                               | people-bereavement.ts:90            | Send notices each day (#589 does this)                                                       | S    |
+| People      | Birth and adoption on the clock                  | No screen proposes a plan                                                                      | people-family-plan.ts:179           | Add the action in Contacts (decision 5)                                                      | S-M  |
+| People      | Belief formation                                 | Used only by the demo                                                                          | political-belief-formation.ts:80    | Let people think over bills they meet, starting from principles they hold (#528 builds part) | M    |
+| People      | Press stories                                    | Only the story's subjects, colleagues and party organizers read them                           | press/desk.ts:1192                  | Record ordinary readers                                                                      | S    |
+| People      | Personality and goals                            | Ignored in household, school and neighborhood replies                                          | run-b-conversation.ts:1313          | Add them to that decision                                                                    | S-M  |
+| People      | Money-stress record                              | Called only by tests                                                                           | resource-pressure.ts:38             | Record it when a bill goes unpaid                                                            | M    |
+| Clock       | Stop at a job's reply or start date              | The calendar's "until" button, waits inside a legislative session, and watch-only mode skip it | time-command.ts:231                 | Use the same stop                                                                            | S    |
+| Clock       | Pay, mortgage and living costs                   | Settle after the clock moves, in the screen, not on the clock                                  | life-opportunities.ts:515           | Settle them each day                                                                         | S-M  |
+| Screens     | Campaign district                                | Saved, never shown                                                                             | campaign-projection.ts:496          | Show it                                                                                      | S    |
+| Screens     | D.C. representation                              | Shows a U.S. Senate row                                                                        | politics-government.ts:929          | Handle D.C. as the orientation screen does                                                   | S    |
 
 ## Your wheel, category by category
 
@@ -182,7 +183,7 @@ reach it. "Person" means a character can feel it.
 | Category                               | Model                                      | Clock               | Law                                              | Screen         | Person                    | Evidence                                   | Verdict                                        |
 | -------------------------------------- | ------------------------------------------ | ------------------- | ------------------------------------------------ | -------------- | ------------------------- | ------------------------------------------ | ---------------------------------------------- |
 | Health: Healthcare                     | No                                         | No                  | Named only                                       | No             | No                        | policy-pack-us-state-and-local.ts:78       | Needs a small model                            |
-| Health: Mortality & Longevity          | Yes                                        | Yes                 | No                                               | Yes            | Yes                       | crisis/mortality.ts                        | Works; injuries only, ordinary illness refused |
+| Health: Mortality & Longevity          | Yes                                        | Yes                 | No                                               | Yes            | Yes                       | crisis/mortality.ts:46                     | Works; injuries only, ordinary illness refused |
 | Governance                             | Yes                                        | Yes                 | Yes                                              | Yes            | Partly                    | enacted-law-effects.ts:143                 | Works, with the three breaks above             |
 | Economic Development                   | National figures and eight town businesses | Monthly             | Only through public payments, which never happen | Yes            | Wages                     | local-economy.ts:59                        | Joins above; no innovation model               |
 | Culture & Tourism: Global Influence    | International crises only                  | Yes                 | No                                               | Crisis notices | Injury                    | policy-pack-us-state-and-local.ts:129      | Culture and tourism need a model               |
@@ -208,33 +209,35 @@ that delivered nothing still writes "Maintenance delivered."
 
 Each job below has more than one live implementation.
 
-| Job                                | Copies                                                                                                                                          | Evidence                      | Which one play uses                                                                               |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------- |
-| When a law takes effect            | Four rules: a 90-day default, a separate 90 in taxes that stops the game on a mismatch, money on enactment day, and D.C.'s congressional review | program-governing.ts:125      | All four; they disagree (decision 1)                                                              |
-| Paying out public money            | Program installments; transit payments                                                                                                          | public-fiscal.ts:168          | Both, split so money is not counted twice                                                         |
-| Turning a law into a world change  | The enactment gateway; estimate-to-result; the transit funding reader                                                                           | policy-semantics.ts:564       | All three; only the first is general                                                              |
-| Choosing which bill a member files | Two near-identical copies for Congress and states; a coin flip for D.C.; a random member for written bills                                      | legislative-clock.ts:1383     | All four                                                                                          |
-| Economy model                      | National series; a second metric-based model                                                                                                    | economy.ts                    | National series; the second is used only by tests                                                 |
-| Public finances                    | Account ledger; revenue and spending figures                                                                                                    | world-metrics.ts:317          | Ledger; the Budget graphs read the unwritten figures                                              |
-| Rent                               | Flat $1,500 living cost; sourced rent on the Economy panel; sourced state housing costs                                                         | cost-of-living.ts:51          | Flat cost is charged, sourced rent is shown, and they disagree about inflation                    |
-| Pay at one employer                | $2,800 monthly staff pay; weekly job-market pay                                                                                                 | local-economy.ts:59           | Both                                                                                              |
-| Legislative seats                  | Generated members; numbered stand-in seats                                                                                                      | legislation-scenarios.ts:707  | Members for votes; stand-ins for bargaining, every time                                           |
-| Legislative election calendar      | Two calendars                                                                                                                                   | legislative-election-rules.ts | One; the other is used only by tests                                                              |
-| A person's view on a policy        | Principles, private beliefs, public positions, campaign promises, legislative promises                                                          | types.ts:3924                 | Votes read two; the Journal reads three that play never writes, so those Journal parts stay empty |
-| Personality                        | Three sets of traits in one record                                                                                                              | life-personality.ts:36        | Different decisions read different sets                                                           |
-| Incidents                          | Incident records; crime reports; disaster records                                                                                               | production-catalog.ts:127     | Play writes the last two; the executive panel reads the first                                     |
-| Repairing old saves                | A five-step import; the same five plus mortality on Day; one step on opening a browser save                                                     | ordinary-life.ts:427          | A browser save stays unrepaired until the first Day press                                         |
-| Moving time                        | The Day and Week command; ten screens that move the clock directly                                                                              | legislation-session.ts:204    | All; deadline stops apply only to the command                                                     |
-| Who represents you                 | The government screen; the orientation screen                                                                                                   | world-orientation.ts:303      | Both; only orientation handles D.C.                                                               |
-| Journal screen                     | Current Journal; an older Journal screen                                                                                                        | ShellWorkspaces.tsx:1869      | Current; the older one has no caller                                                              |
-| Tax powers                         | A hand-made Alaska-only file; the sourced state and local fiscal records                                                                        | tax-policy.ts:54              | The Alaska file                                                                                   |
+| Job                                | Copies                                                                                                                                          | Evidence                         | Which one play uses                                                                               |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------- |
+| When a law takes effect            | Four rules: a 90-day default, a separate 90 in taxes that stops the game on a mismatch, money on enactment day, and D.C.'s congressional review | program-governing.ts:125         | All four; they disagree (decision 1)                                                              |
+| Paying out public money            | Program installments; transit payments                                                                                                          | public-fiscal.ts:168             | Both, split so money is not counted twice                                                         |
+| Turning a law into a world change  | The enactment gateway; turning a bill's estimated benefit into a measured result; the transit funding reader                                    | policy-semantics.ts:564          | All three; only the first is general                                                              |
+| Choosing which bill a member files | Two near-identical copies for Congress and states; a coin flip for D.C.; a random member for written bills                                      | legislative-clock.ts:1383        | All four                                                                                          |
+| Economy model                      | National series; a second metric-based model                                                                                                    | economy.ts:57                    | National series; the second is used only by tests                                                 |
+| Public finances                    | Account ledger; revenue and spending figures                                                                                                    | world-metrics.ts:317             | Ledger; the Budget graphs read the unwritten figures                                              |
+| Rent                               | Flat $1,500 living cost; sourced rent on the Economy panel; sourced state housing costs                                                         | cost-of-living.ts:51             | Flat cost is charged, sourced rent is shown, and they disagree about inflation                    |
+| Pay at one employer                | $2,800 monthly staff pay; weekly job-market pay                                                                                                 | local-economy.ts:59              | Both                                                                                              |
+| Legislative seats                  | Generated members; numbered stand-in seats                                                                                                      | legislation-scenarios.ts:707     | Members for votes; stand-ins for bargaining, every time                                           |
+| Legislative election calendar      | Two calendars                                                                                                                                   | legislative-election-rules.ts:96 | One; the other is used only by tests                                                              |
+| A person's view on a policy        | Principles, private beliefs, public positions, campaign promises, legislative promises                                                          | types.ts:3924                    | Votes read two; the Journal reads three that play never writes, so those Journal parts stay empty |
+| Personality                        | Three sets of traits in one record                                                                                                              | life-personality.ts:36           | Different decisions read different sets                                                           |
+| Incidents                          | Incident records; crime reports; disaster records                                                                                               | production-catalog.ts:127        | Play writes the last two; the executive panel reads the first                                     |
+| Repairing old saves                | A five-step import; the same five plus mortality on Day; one step on opening a browser save                                                     | ordinary-life.ts:427             | A browser save stays unrepaired until the first Day press                                         |
+| Moving time                        | The Day and Week command; ten screens that move the clock directly                                                                              | legislation-session.ts:204       | All; deadline stops apply only to the command                                                     |
+| Who represents you                 | The government screen; the orientation screen                                                                                                   | world-orientation.ts:303         | Both; only orientation handles D.C.                                                               |
+| Journal screen                     | Current Journal; an older Journal screen                                                                                                        | ShellWorkspaces.tsx:1869         | Current; the older one has no caller                                                              |
+| Tax powers                         | A hand-made Alaska-only file; the sourced state and local fiscal records                                                                        | tax-policy.ts:54                 | The Alaska file                                                                                   |
 
 ## Dead code
 
 Of 1,267 non-test TypeScript files, the player app loads 982, developer
-pages load 5 more, and 280 are loaded by no page. Scripts load most of the 280. About 60 are game code no page loads, including the multi-part bill
-filing screens, political reflection, regional issues and a second save
-store. Five imported data sets have no consumer at all: household
+pages load 5 more, and 280 are loaded by no page. Of those 280, scripts
+import 126, and the source scripts load 96 more data-import modules from a
+directory listing. The remaining 58 are loaded by nothing; 6 of them hold
+only type definitions. The rest include the multi-part bill filing screens,
+political reflection, regional issues and a second save store. Five imported data sets have no consumer at all: household
 microdata, federal campaign finance, federal courts, disaster declarations
 and judicial office selection.
 
@@ -250,7 +253,7 @@ an unimported file of Congress procedure. Check string-keyed registries
 before deleting, because the search was by name.
 
 One end-to-end test imports files that no longer exist
-(`playable29-material.spec.ts`). The batch-play driver presses time skips of
+(`playable29-material.spec.ts:3`). The batch-play driver presses time skips of
 14, 30 and 90 days that no player control offers
 (`mass-play/driver.ts:750-765`). Its evidence comes from routes players
 cannot reach.
@@ -293,10 +296,10 @@ the defects that keep coming back, and code already handles several:
 
 | Recurring defect                                                            | Evidence                                     | Handled today by                                                                                                  |
 | --------------------------------------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Green fringe on cut-out edges                                               | edge-despill.ts                              | Code: a fixed edge cleanup, no redraw                                                                             |
+| Green fringe on cut-out edges                                               | edge-despill.ts:8                            | Code: a fixed edge cleanup, no redraw                                                                             |
 | Clothes the wrong width for the body; body outlines differ by 15% to 21%    | docs/systems/garment-morphology-fit.md       | Code: a simple fit works; a row-by-row fit is measured but cannot be drawn                                        |
 | Neck and collar seams                                                       | docs/plans/active/systemic-modular-repair.md | Offline code: masks give the neck to the body and the jaw to the head; a collar split separates collar from torso |
-| Anatomy drifting toward the generator's habits; feet and seats not touching | pose-control-plate.ts                        | Code: fixed pose guides go into generation, and contact points are measured                                       |
+| Anatomy drifting toward the generator's habits; feet and seats not touching | pose-control-plate.ts:9                      | Code: fixed pose guides go into generation, and contact points are measured                                       |
 | Sleeves and arms                                                            | docs/systems/arm-and-sleeve-measurement.md   | Measured only; an arm drawn into the torso cannot be separated                                                    |
 | Hair not turning with the face; textured hair; hands                        | docs/plans/active/systemic-modular-repair.md | Refused; the project rules say a flip or rotation is not a painted view                                           |
 
@@ -359,7 +362,8 @@ lane that owns each under the September 24, 2026 dispatch.
 6. Deaths reach relatives (#589); readers form views (#528, plus ordinary
    readers of the news).
 7. Show the campaign district and fix D.C.'s representation rows. S each.
-8. Stop every time path at job deadlines, and settle pay on the clock.
+8. Make every way of moving time stop at job deadlines, and settle pay
+   as each day passes.
 9. Combine the three law branches on one receiving branch before anyone
    verifies them.
 10. Delete the confirmed dead code in one separate change.
@@ -376,5 +380,5 @@ Import reach came from an esbuild graph of each page entry. Unused exports
 came from a whole-word name search, which can miss string-keyed use. The
 district count came from a script calling the game's own district rule for
 each jurisdiction. No tests, builds or browser sessions were run. Curtis's
-playtest numbers come from the owner's earlier report at `ac894486`; the
+playtest numbers come from the report you supplied, measured at `ac894486`; the
 code path behind them is unchanged since then.
