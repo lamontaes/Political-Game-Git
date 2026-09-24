@@ -65,6 +65,7 @@ import type {
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
 import { personPronouns } from "../simulation/person-identity";
+import { municipalSeatChoiceByKey } from "../simulation/municipal-seat-identity";
 
 /**
  * What a candidate can actually see.
@@ -263,6 +264,8 @@ export interface CampaignView {
   readonly placeName: string | null;
   /** The office on offer, or the one being stood for. */
   readonly officeTitle: string | null;
+  /** The chosen council seat carried by this campaign's saved contest. */
+  readonly seatTarget: string | null;
   /** How the game knows this office exists at all. */
   readonly officeAuthority: string | null;
   /** What the game admits it does not know about standing here. */
@@ -494,6 +497,12 @@ export function projectCampaign(
     candidateName,
     placeName,
     officeTitle: contest.office.title,
+    seatTarget: contest.office.seatKey
+      ? (municipalSeatChoiceByKey(
+          contest.office.officeKey,
+          contest.office.seatKey,
+        )?.label ?? null)
+      : null,
     officeAuthority: option ? officeAuthority(option) : null,
     openQuestions: option ? [...option.unresolvedGaps] : [],
     campaignId: campaign.id,
@@ -685,6 +694,7 @@ function notYetFiled(
     officeTitle:
       option?.office.title ??
       (options.map((item) => item.office.title).join(" or ") || null),
+    seatTarget: null,
     officeAuthority: option
       ? officeAuthority(option)
       : /* Offices with no known seat count now contribute nothing, so they are
@@ -966,6 +976,7 @@ export function fileForOffice(
    * office's own calendar. Play never passes it.
    */
   authoredElectionDate: IsoDate | null = null,
+  municipalSeatKey: string | null = null,
 ): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
@@ -992,6 +1003,7 @@ export function fileForOffice(
     jurisdictionId,
     officeKey: option.officeKey,
     districtBinding,
+    municipalSeatKey,
     electionDate,
     rivalPersonIds: opponents.personIds,
     existingContestId: null,

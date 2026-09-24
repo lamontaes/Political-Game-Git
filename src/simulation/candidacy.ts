@@ -29,6 +29,7 @@ import {
 } from "./nationwide-world/local-governing-body-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { governmentUnitsForPlace } from "./government-units";
+import { municipalSeatChoices } from "./municipal-seat-identity";
 import { stateResidenceSince } from "./nationwide-world/residence-duration";
 import { recordedTermsInOffice } from "./nationwide-world/prior-terms";
 import { checkExecutiveTermLimit } from "./nationwide-world/executive-term-limits";
@@ -231,6 +232,7 @@ export type CandidacyBlockKind =
   | "sourced-state-residence"
   | "unproved-district-residence"
   | "unusable-district-binding"
+  | "unusable-municipal-seat"
   | "office-does-not-exist"
   | "unproved-sourced-qualification"
   | "term-limit"
@@ -292,6 +294,8 @@ export interface CandidacyEligibilityInput {
    * from state residence or treated as proved home membership by itself.
    */
   readonly districtBinding?: DistrictSeatBinding | null;
+  /** Explicit municipal ward or at-large seat; no residence fact is inferred. */
+  readonly municipalSeatKey?: string | null;
 }
 
 /**
@@ -508,6 +512,28 @@ export function candidacyEligibility(
       boundOption = option;
     } else {
       boundOption = bound.option;
+    }
+  }
+  if (input.municipalSeatKey) {
+    const choice = municipalSeatChoices(
+      world,
+      input.personId,
+      input.officeKey,
+    ).find((seat) => seat.key === input.municipalSeatKey);
+    if (!choice || !choice.eligible) {
+      blocks.push({
+        kind: "unusable-municipal-seat",
+        reason: choice?.reason ?? "That council seat is not on this ballot.",
+      });
+    } else if (boundOption) {
+      boundOption = {
+        ...boundOption,
+        office: {
+          ...boundOption.office,
+          seatKey: choice.key,
+          title: `${boundOption.office.title}, ${choice.label}`,
+        },
+      };
     }
   }
   if (!option) {

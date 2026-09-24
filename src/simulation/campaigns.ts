@@ -49,6 +49,10 @@ import { municipalGovernmentForUnit } from "./rule-capability-resolver";
 import { primaryReading } from "./municipal-government";
 import { MUNICIPAL_COUNCIL_OPENING_VERSION } from "./municipal-council-opening";
 import {
+  municipalSeatChoiceByKey,
+  municipalSeatMustBeNamed,
+} from "./municipal-seat-identity";
+import {
   installMunicipalGovernment,
   municipalOrganizationFor,
   municipalSeatKey,
@@ -247,6 +251,8 @@ export interface FileCampaignInput {
    * the contested seat and is never inferred from state residence.
    */
   readonly districtBinding?: DistrictSeatBinding | null;
+  /** Chosen council seat identity, saved on the election contest. */
+  readonly municipalSeatKey?: string | null;
   readonly electionDate: string;
   readonly rivalPersonIds: readonly EntityId[];
   readonly existingContestId: EntityId | null;
@@ -585,6 +591,7 @@ export function fileCampaign(
     alreadyACandidate:
       activeCampaignForCandidate(inputWorld, input.candidatePersonId) !== null,
     districtBinding: input.districtBinding ?? null,
+    municipalSeatKey: input.municipalSeatKey ?? null,
   });
   if (!eligibility.eligible || !eligibility.office || !eligibility.pack) {
     throw new Error(
@@ -602,6 +609,11 @@ export function fileCampaign(
   ) {
     throw new Error(
       "This seat is filled by district, and the filing named none. Name its recorded Gazetteer district before filing so the election and winner belong to one seat.",
+    );
+  }
+  if (!input.municipalSeatKey && municipalSeatMustBeNamed(input.officeKey)) {
+    throw new Error(
+      "This council elects named seats. Choose a recorded at-large or ward seat before filing.",
     );
   }
   const option = eligibility.office;
@@ -1738,6 +1750,13 @@ function seatOnLocalGoverningBody(
   const mayor = office.seat === "chief-executive";
   const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
   const compiled = municipalGovernmentForUnit(unit);
+  const namedSeat = contest.office.seatKey
+    ? municipalSeatChoiceByKey(office.officeKey, contest.office.seatKey)
+    : null;
+  // An older unbound contest cannot silently take any D.C. ward or at-large
+  // place when its result arrives. Its win remains recorded without a seat.
+  if (!mayor && municipalSeatMustBeNamed(office.officeKey) && !namedSeat)
+    return world;
   let next = world;
   let organizationId: EntityId | undefined;
   let stableKey: string;
@@ -1777,6 +1796,13 @@ function seatOnLocalGoverningBody(
     const seated = municipalSeats(next, compiled.key).filter(
       (seat) => seat.role === "member" || seat.role === "presiding-member",
     );
+    if (
+      namedSeat &&
+      seated.filter((seat) => seat.seatLabel === namedSeat.label).length > 1
+    )
+      throw new Error(
+        "More than one sitting councilor holds the contested seat.",
+      );
     if (bodySize !== null && seated.length >= bodySize) {
       const opening = next.history.events.find(
         (event) =>
@@ -1786,12 +1812,11 @@ function seatOnLocalGoverningBody(
       // The at-large election has no recorded numbered seat. Its fictional
       // opening roll yields the first still-seated generated member in the
       // recorded opening order; this does not imply a sourced ward assignment.
-      const displacedPersonId = opening?.involvedEntityIds.find((personId) =>
-        seated.some((seat) => seat.personId === personId),
-      );
-      const displacedSeat = seated.find(
-        (seat) => seat.personId === displacedPersonId,
-      );
+      const displacedSeat = namedSeat
+        ? seated.find((seat) => seat.seatLabel === namedSeat.label)
+        : seated.find((seat) =>
+            opening?.involvedEntityIds.includes(seat.personId),
+          );
       const participation = next.history.organizationParticipations.find(
         (entry) => entry.id === displacedSeat?.participationId,
       );
@@ -1799,10 +1824,12 @@ function seatOnLocalGoverningBody(
         ? organizationParticipationStateAt(next, participation.id)
         : undefined;
       if (
-        !opening ||
+        (!namedSeat && !opening) ||
+        !displacedSeat ||
         !participation ||
-        participation.provenance.kind !== "simulated-event" ||
-        participation.provenance.eventId !== opening.id ||
+        (!namedSeat &&
+          (participation.provenance.kind !== "simulated-event" ||
+            participation.provenance.eventId !== opening?.id)) ||
         !state ||
         state.status !== "active"
       )
@@ -1857,7 +1884,7 @@ function seatOnLocalGoverningBody(
     startedAt: effectiveAt,
     kind: "leadership:municipal-office",
     roleKind,
-    context: `Elected ${contest.electionDate}`,
+    context: namedSeat?.label ?? `Elected ${contest.electionDate}`,
     provenance: { kind: "simulated-event", eventId: outcomeEventId },
   });
   assertWorldIntegrity(next);
