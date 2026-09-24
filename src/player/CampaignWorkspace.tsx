@@ -158,9 +158,8 @@ export function CampaignWorkspace({
     null,
   );
   const [selectedSpending, setSelectedSpending] = useState<string | null>(null);
-  // Which numbered seat the player has named. A seat whose rules ask where the
-  // candidate lives cannot be filed for from a state-wide choice alone, so the
-  // filing button waits for this rather than sending null and being refused.
+  // Which numbered seat the player has named. Its election needs the recorded
+  // Gazetteer identity even when its qualification has no residence rule.
   const [districtBinding, setDistrictBinding] =
     useState<DistrictSeatBinding | null>(null);
   const person = world.people[personId] ?? null;
@@ -170,7 +169,6 @@ export function CampaignWorkspace({
     districtSeatMustBeNamed(
       person.homeJurisdictionId,
       selectedOffice.officeKey,
-      world.currentDate,
     );
   // The office list is checked before a seat is named, so it can say
   // "eligible" for a seat the named district then refuses. Ask again with the

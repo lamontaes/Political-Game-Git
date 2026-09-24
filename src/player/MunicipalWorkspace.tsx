@@ -29,6 +29,7 @@ import {
   nextOrdinanceDesignation,
   placeProjectedOrdinanceOnAgenda,
   previewAuthoredCouncilBallots,
+  saveProjectedOrdinanceBallot,
   takeProjectedOrdinanceVote,
   takeProjectedOverrideVote,
   actOnProjectedCouncilMeasure,
@@ -419,20 +420,37 @@ export function MunicipalWorkspace({
               ) : (
                 <ul className="municipal-ordinance-list">
                   {governing.ordinances.map((ordinance) => {
-                    const ballot = ballots[ordinance.measureId] ?? "yea";
+                    const ordinary =
+                      governing.governmentKey !== "us-dc-washington";
+                    const ballot =
+                      ballots[ordinance.measureId] ??
+                      ordinance.savedBallot ??
+                      (ordinary ? null : "yea");
+                    const overrideBallot =
+                      ballots[ordinance.measureId] ?? "yea";
                     const preview =
-                      ordinance.phase === "on-floor" ||
-                      ordinance.phase === "awaiting-override"
+                      ordinance.phase === "on-floor" && ballot !== null
                         ? previewAuthoredCouncilBallots(
                             world,
                             governing.governmentKey,
                             ordinance.measureId,
                             ballot,
                           )
-                        : null;
+                        : ordinance.phase === "awaiting-override"
+                          ? previewAuthoredCouncilBallots(
+                              world,
+                              governing.governmentKey,
+                              ordinance.measureId,
+                              overrideBallot,
+                            )
+                          : null;
                     const tooEarly =
                       ordinance.earliestPassageOn !== null &&
                       world.currentDate < ordinance.earliestPassageOn;
+                    const readingPending =
+                      ordinary &&
+                      ordinance.scheduledReadingOn !== null &&
+                      world.currentDate < ordinance.scheduledReadingOn;
                     return (
                       <li
                         key={ordinance.measureId}
@@ -479,7 +497,15 @@ export function MunicipalWorkspace({
                                 {ordinance.earliestPassageOn}.
                               </p>
                             ) : null}
-                            {preview ? (
+                            {ordinary && ordinance.scheduledReadingOn ? (
+                              <p data-testid="municipal-reading-due">
+                                The council reading is scheduled for{" "}
+                                {proseDate(ordinance.scheduledReadingOn)}. The
+                                calendar will record the members' decisions
+                                then.
+                              </p>
+                            ) : null}
+                            {governing.ordinanceVote.ok ? (
                               <>
                                 <fieldset>
                                   <legend>Your vote</legend>
@@ -499,64 +525,93 @@ export function MunicipalWorkspace({
                                         name={`ballot-${ordinance.measureId}`}
                                         value={value}
                                         checked={ballot === value}
-                                        onChange={() =>
-                                          setBallots({
-                                            ...ballots,
+                                        onChange={() => {
+                                          setBallots((current) => ({
+                                            ...current,
                                             [ordinance.measureId]: value,
-                                          })
-                                        }
+                                          }));
+                                          if (ordinary)
+                                            act(
+                                              saveProjectedOrdinanceBallot(
+                                                world,
+                                                governing.governmentKey,
+                                                ordinance.measureId,
+                                                value,
+                                              ),
+                                            );
+                                        }}
                                       />
                                       {label}
                                     </label>
                                   ))}
                                 </fieldset>
-                                <details>
-                                  <summary>
-                                    Other councilors' ballots (game-authored)
-                                  </summary>
-                                  <p>{preview.note}</p>
-                                  <ul>
-                                    {preview.colleagues.map((colleague) => {
-                                      const person =
-                                        world.people[colleague.personId];
-                                      return (
-                                        <li key={colleague.personId}>
-                                          {person
-                                            ? `${person.givenName} ${person.familyName}`
-                                            : "A councilor"}
-                                          {colleague.seatLabel
-                                            ? ` (${colleague.seatLabel})`
-                                            : ""}
-                                          {": "}
-                                          {colleague.disposition === "yea"
-                                            ? "Yea"
-                                            : "Nay"}
-                                        </li>
-                                      );
-                                    })}
-                                  </ul>
-                                  <p>
-                                    If recorded now: {preview.yea} yea,{" "}
-                                    {preview.nay} nay
-                                    {preview.presentNotVoting
-                                      ? `, ${preview.presentNotVoting} present not voting`
-                                      : ""}
-                                    . {ordinance.passageRule}
+                                {ordinary && ordinance.savedBallot ? (
+                                  <p data-testid="municipal-saved-ballot">
+                                    Saved ballot:{" "}
+                                    {humanLabel(ordinance.savedBallot)}.
                                   </p>
-                                </details>
+                                ) : null}
+                                {ordinary && ballot === null ? (
+                                  <p>
+                                    Choose a ballot to record your decision. If
+                                    the reading arrives without one, the roll
+                                    call records you absent.
+                                  </p>
+                                ) : null}
+                                {preview ? (
+                                  <details>
+                                    <summary>
+                                      {preview.method === "authored-fixture"
+                                        ? "Other councilors' ballots (game-authored)"
+                                        : "How other councilors would answer now"}
+                                    </summary>
+                                    <p>{preview.note}</p>
+                                    <ul>
+                                      {preview.colleagues.map((colleague) => {
+                                        const person =
+                                          world.people[colleague.personId];
+                                        return (
+                                          <li key={colleague.personId}>
+                                            {person
+                                              ? `${person.givenName} ${person.familyName}`
+                                              : "A councilor"}
+                                            {colleague.seatLabel
+                                              ? ` (${colleague.seatLabel})`
+                                              : ""}
+                                            {": "}
+                                            {humanLabel(colleague.disposition)}
+                                          </li>
+                                        );
+                                      })}
+                                    </ul>
+                                    <p>
+                                      If recorded now: {preview.yea} yea,{" "}
+                                      {preview.nay} nay
+                                      {preview.presentNotVoting
+                                        ? `, ${preview.presentNotVoting} present not voting`
+                                        : ""}
+                                      . {ordinance.passageRule}
+                                    </p>
+                                  </details>
+                                ) : null}
                                 <button
                                   type="button"
-                                  disabled={tooEarly}
-                                  onClick={() =>
-                                    act(
-                                      takeProjectedOrdinanceVote(
-                                        world,
-                                        governing.governmentKey,
-                                        ordinance.measureId,
-                                        ballot,
-                                      ),
-                                    )
+                                  disabled={
+                                    tooEarly ||
+                                    readingPending ||
+                                    ballot === null
                                   }
+                                  onClick={() => {
+                                    if (ballot !== null)
+                                      act(
+                                        takeProjectedOrdinanceVote(
+                                          world,
+                                          governing.governmentKey,
+                                          ordinance.measureId,
+                                          ballot,
+                                        ),
+                                      );
+                                  }}
                                 >
                                   Record the council vote
                                 </button>
@@ -638,7 +693,7 @@ export function MunicipalWorkspace({
                                         type="radio"
                                         name={`override-${ordinance.measureId}`}
                                         value={value}
-                                        checked={ballot === value}
+                                        checked={overrideBallot === value}
                                         onChange={() =>
                                           setBallots({
                                             ...ballots,
@@ -663,7 +718,7 @@ export function MunicipalWorkspace({
                                         world,
                                         governing.governmentKey,
                                         ordinance.measureId,
-                                        ballot,
+                                        overrideBallot,
                                       ),
                                     )
                                   }

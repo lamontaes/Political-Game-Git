@@ -693,6 +693,8 @@ export interface SeatMunicipalMemberInput {
   readonly role: MunicipalRole;
   /** The seat in the body's own words — "Ward 3", "at large", "Mayor". */
   readonly seatLabel: string;
+  /** A fictional opening seat can cite its own recorded opening event. */
+  readonly provenance?: LifeRecordProvenance;
 }
 
 const ROLE_KIND_BY_ROLE: Readonly<Record<MunicipalRole, string>> = {
@@ -754,11 +756,9 @@ export function seatMunicipalMember(
     kind: "leadership:municipal-office",
     roleKind: ROLE_KIND_BY_ROLE[input.role] as never,
     context: input.seatLabel,
-    provenance: corpusProvenance(
-      `${government.key} seat`,
-      reading,
-      input.startedAt,
-    ),
+    provenance:
+      input.provenance ??
+      corpusProvenance(`${government.key} seat`, reading, input.startedAt),
   });
 }
 

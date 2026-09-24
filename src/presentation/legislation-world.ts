@@ -57,6 +57,10 @@ import {
   scheduleInstitutionStep,
 } from "../simulation/governing/legislative-clock";
 import { futureDueItemStateAt } from "../simulation/future-transitions";
+import {
+  CONGRESS_SITTING_TRANSITION,
+  isCongressMeasure,
+} from "../simulation/governing/congress-chambers";
 import { passOrdinaryDays } from "./ordinary-life";
 import { BARGAINING_BRIEF_SCENARIO_KEY } from "./legislative-bargaining-brief";
 import {
@@ -547,11 +551,18 @@ function awaitInstitution(
   assignment: LegislativeAssignment,
 ): LegislativeCommandResult {
   const scheduled = scheduleInstitutionStep(world, assignment.measureId);
+  const measure = scheduled.history.legislativeMeasures?.find(
+    (entry) => entry.id === assignment.measureId,
+  );
+  const congress = measure !== undefined && isCongressMeasure(measure);
   const pending = scheduled.history.futureDueItems
     .filter(
       (item) =>
-        item.transitionKey === LEGISLATIVE_INSTITUTION_STEP &&
-        item.entityIds.includes(assignment.measureId) &&
+        (congress
+          ? item.transitionKey === CONGRESS_SITTING_TRANSITION &&
+            item.jurisdictionId === measure?.jurisdictionId
+          : item.transitionKey === LEGISLATIVE_INSTITUTION_STEP &&
+            item.entityIds.includes(assignment.measureId)) &&
         futureDueItemStateAt(scheduled, item.id, {
           asOfDate: scheduled.currentDate,
           historySequenceExclusive: scheduled.history.nextSequence,

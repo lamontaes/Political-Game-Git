@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
   addDays,
@@ -36,7 +37,7 @@ describe("election-night speeches", () => {
     let world = fileForOffice(
       created.game.world,
       personId,
-      null,
+      namedSeatForFixture(created.game.world, personId, office.officeKey),
       office.officeKey,
       addDays(created.game.world.currentDate, 28),
     );

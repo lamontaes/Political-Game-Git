@@ -6,7 +6,10 @@ vi.setConfig({ testTimeout: 300_000 });
 
 import { letAdultTimePass } from "../presentation/adult-life";
 import { projectCampaignOffices } from "../presentation/campaign-office-discovery";
-import { fileForOffice } from "../presentation/campaign-projection";
+import {
+  fileForOffice,
+  projectCampaign,
+} from "../presentation/campaign-projection";
 import {
   bindingForDistrict,
   offeredDistricts,
@@ -16,7 +19,26 @@ import {
   createExplicitGeographyLife,
   requireLocalityInState,
 } from "../presentation/new-game-geography";
-import { districtSeatMustBeNamed } from "../simulation";
+import {
+  openOrdinaryLife,
+  passOrdinaryDays,
+} from "../presentation/ordinary-life";
+import {
+  ELECTION_CONTEST_TRANSITION_KEY,
+  campaignElectionTransitionHandler,
+  campaignForCandidate,
+  candidacyPackForJurisdiction,
+  createFutureTransitionHandlerRegistry,
+  districtSeatMustBeNamed,
+  electionContestResult,
+  requireElectionContest,
+  resolveCampaignElectionFromRecordedInput,
+  workRelationshipHistoryForPerson,
+} from "../simulation";
+import {
+  stateLegislators,
+  stateSeatsInDistrict,
+} from "../simulation/nationwide-world/state-legislature-opening";
 import type { EntityId, World } from "../simulation";
 import { DistrictResidencePanel } from "./DistrictResidencePanel";
 
@@ -57,6 +79,63 @@ function settledLife(stateKey: string, town: string, days: number): Life {
   };
 }
 
+/** A fictional supplied result tests seating; it is not an election forecast. */
+function passWinningElection(world: World, personId: EntityId): World {
+  const handlers = createFutureTransitionHandlerRegistry([
+    [
+      ELECTION_CONTEST_TRANSITION_KEY,
+      (atDate, due) => {
+        const contest = (atDate.history.electionContests ?? []).find((row) =>
+          due.entityIds.includes(row.id),
+        );
+        if (!contest || !contest.candidatePersonIds.includes(personId))
+          return campaignElectionTransitionHandler(atDate, due);
+        const resolved = resolveCampaignElectionFromRecordedInput(atDate, {
+          contestId: contest.id,
+          winnerPersonId: personId,
+          tallies: contest.candidatePersonIds.map((candidatePersonId) => ({
+            candidatePersonId,
+            votes: candidatePersonId === personId ? 2 : 1,
+            voteShare: candidatePersonId === personId ? 2 / 3 : 1 / 3,
+          })),
+          provenance: {
+            method: "authored",
+            sourceEntityIds: [],
+            note: "Supplied fictional result for a numbered-seat test.",
+          },
+        });
+        return {
+          world: resolved,
+          status: "resolved" as const,
+          reasonKey: null,
+          context: "Supplied numbered-seat result.",
+          outcomeEventId: electionContestResult(resolved, contest.id)!
+            .outcomeEventId,
+        };
+      },
+    ],
+  ]);
+  let next = world;
+  for (
+    let step = 0;
+    step < 60 && projectCampaign(next, personId).phase === "active";
+    step += 1
+  )
+    next = passOrdinaryDays(next, 30, { handlers });
+  return next;
+}
+
+function passToDate(world: World, date: string): World {
+  let next = world;
+  for (let step = 0; step < 200 && next.currentDate < date; step += 1) {
+    const days = Math.round(
+      (Date.parse(date) - Date.parse(next.currentDate)) / 86_400_000,
+    );
+    next = passOrdinaryDays(next, Math.max(1, Math.min(30, days)));
+  }
+  return next;
+}
+
 /**
  * The world as an older save holds it: the split-town placement closed on the
  * day it was written, so no interval covers today. Closing rather than
@@ -79,8 +158,63 @@ function withoutSplitPlacement(world: World): World {
 }
 
 const SITKA_HOUSE = "us-ak-legislature-v1:house";
+const KENTUCKY_HOUSE = "us-ky-general-assembly-v1:house";
 
 describe("a seat filled by district", () => {
+  it("requires Kentucky's numbered House seat at filing and seats its winner on that roll", () => {
+    const created = createExplicitGeographyLife({
+      placeKey: "lexington-fayette",
+      seed: "numbered-kentucky-seat",
+      startAge: 40,
+      startKind: "normal",
+      depth: "summarize-earlier-life",
+    });
+    const personId = created.game.playerPersonId;
+    const world = openOrdinaryLife(created.game.world, personId);
+    const recorded = recordedDistrictForOffice(world, personId, KENTUCKY_HOUSE);
+    expect(recorded).not.toBeNull();
+    expect(
+      districtSeatMustBeNamed(
+        world.people[personId]!.homeJurisdictionId,
+        KENTUCKY_HOUSE,
+      ),
+    ).toBe(true);
+    expect(() => fileForOffice(world, personId, null, KENTUCKY_HOUSE)).toThrow(
+      /filled by district/,
+    );
+    const filed = fileForOffice(
+      world,
+      personId,
+      recorded!.binding,
+      KENTUCKY_HOUSE,
+    );
+    const campaign = campaignForCandidate(filed, personId)!;
+    const contest = requireElectionContest(filed, campaign.contestId);
+    expect(contest.office.districtBinding).toStrictEqual(recorded!.binding);
+    const decided = passWinningElection(filed, personId);
+    const term = workRelationshipHistoryForPerson(decided, personId).find(
+      (relationship) => relationship.kind === "employment:legislative-member",
+    )!;
+    const seated = passToDate(decided, term.startedAt);
+    const pack = candidacyPackForJurisdiction(
+      world.people[personId]!.homeJurisdictionId,
+    )!;
+    const numberedSeats = stateSeatsInDistrict(
+      pack.packId,
+      KENTUCKY_HOUSE,
+      recorded!.binding.recordId,
+    );
+    expect(numberedSeats.length).toBeGreaterThan(0);
+    expect(
+      stateLegislators(seated, pack.packId).some(
+        (member) =>
+          member.personId === personId &&
+          member.officeKey === KENTUCKY_HOUSE &&
+          numberedSeats.some((seat) => seat.ordinal === member.ordinal),
+      ),
+    ).toBe(true);
+  });
+
   it("is offered, then refuses a filing that names no district", () => {
     const { world, personId } = settledLife("US-AK", "Sitka", 700);
     const office = projectCampaignOffices(world, personId).find(
@@ -91,7 +225,6 @@ describe("a seat filled by district", () => {
       districtSeatMustBeNamed(
         world.people[personId]!.homeJurisdictionId,
         SITKA_HOUSE,
-        world.currentDate,
       ),
     ).toBe(true);
     expect(() => fileForOffice(world, personId, null, SITKA_HOUSE)).toThrow(
