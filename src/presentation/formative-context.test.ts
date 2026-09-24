@@ -205,6 +205,20 @@ describe("Whether a scene can happen at all", () => {
       }
     }
   });
+
+  it("does not turn a shared home into an unrecorded illness or canceled plan", () => {
+    const { world, playerPersonId } = child(7);
+    for (const key of [
+      "formative.illness-in-the-house",
+      "formative.money-shortfall",
+      "formative.school-rule-input",
+      "formative.care-conflict",
+    ] as const) {
+      expect(formativeSituationAvailable(world, playerPersonId, key)).toBe(
+        false,
+      );
+    }
+  });
 });
 
 function days(from: string, to: string): number {

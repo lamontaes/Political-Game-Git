@@ -159,7 +159,7 @@ it("plays the lunchbox continuation through the saved normal scene consumer", ()
   throw new Error("Lunchbox moment was not reached.");
 });
 
-it("charges the story path its disclosed fifteen-minute moment and five-minute continuation", () => {
+it("keeps disclosed choice time for an archived story scene already in a save", () => {
   const game = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     startKind: "custom",

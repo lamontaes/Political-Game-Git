@@ -1,5 +1,7 @@
 import {
   OPENING_LIFE_ADDITIONS,
+  OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS,
+  isArchivedRoutineOpeningSceneKey,
   openingLifeSceneAtStage,
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
@@ -361,25 +363,37 @@ function gatherCandidates(
     personId,
     families: EPISODE_FAMILIES,
   });
-  const episodes: Candidate[] = eligibility.beats.map((beat) => {
-    const thread = threadForEpisodeBeat(threads, beat);
-    return {
-      beat,
-      thread,
-      candidate: {
-        key: `episode:${beat.instanceKey}/${beat.stageKey}` as const,
-        band: formativeYears
-          ? ("adolescence" as const)
-          : ("adulthood" as const),
-        stakes: beat.stakes,
-        tensions: beat.tensions,
-        relevance: episodeRelevance(beat, thread),
-        // A later stage exists only because an earlier one was played, which
-        // is exactly the claim the selector's continuity credit is for.
-        followsFromHistory: beat.continues,
-      },
-    };
-  });
+  const episodes: Candidate[] = eligibility.beats
+    .filter(
+      (beat) =>
+        (beat.stageKey !== "moment" ||
+          !OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(
+            beat.episodeKey.replace(/^opening\./, ""),
+          )) &&
+        (!beat.episodeKey.startsWith("opening.") ||
+          !isArchivedRoutineOpeningSceneKey(
+            beat.episodeKey.slice("opening.".length),
+          )),
+    )
+    .map((beat) => {
+      const thread = threadForEpisodeBeat(threads, beat);
+      return {
+        beat,
+        thread,
+        candidate: {
+          key: `episode:${beat.instanceKey}/${beat.stageKey}` as const,
+          band: formativeYears
+            ? ("adolescence" as const)
+            : ("adulthood" as const),
+          stakes: beat.stakes,
+          tensions: beat.tensions,
+          relevance: episodeRelevance(beat, thread),
+          // A later stage exists only because an earlier one was played, which
+          // is exactly the claim the selector's continuity credit is for.
+          followsFromHistory: beat.continues,
+        },
+      };
+    });
 
   // The banks stay in the ranking rather than being replaced. A composed
   // episode is a better answer when there is one; when there is not, the
@@ -545,17 +559,7 @@ function chooseStoryScene(
     kind: "ordinary-stretch",
     prose: "",
     options: formativeYears
-      ? [
-          // A child keeps commitments too: a fourteen-year-old in Wellsboro
-          // with a meeting due at six o'clock had no way to go and no way to
-          // let the year run on, and repeated the same moment 1,764 times.
-          ...todayCalendarOptions(world, personId),
-          {
-            key: "let-it-run",
-            label: "Let the year run on",
-            description: "Pick it up again when something needs you.",
-          },
-        ]
+      ? todayCalendarOptions(world, personId)
       : ordinaryStretchOptions(world, personId),
     withPeople: [],
     presentPeople: [],
@@ -563,9 +567,8 @@ function chooseStoryScene(
 }
 
 /**
- * "Let the weeks run on" stops for commitments, civic holds and the player's
- * own election, and lets an unanswered social invitation lapse as it always
- * has. Dated matters are left to the story (see `KnownCalendarOptions`).
+ * The retained internal quiet-stretch command stops for commitments, civic
+ * holds and the player's own election. No quiet-stretch button is offered.
  */
 const STORY_STRETCH_STOPS = { socialHolds: false, dueItems: false } as const;
 
@@ -688,32 +691,12 @@ export function chooseTodayCalendarOption(
   return null;
 }
 
-/**
- * What a quiet adult stretch offers: whatever today's calendar holds that the
- * player can go to, and letting the weeks run on as far as the next thing on
- * it. A meeting the player was invited to is a real choice on the day it
- * happens, not something the clock decides by walking past it.
- */
+/** Today's real calendar commitments remain available when no scene is open. */
 export function ordinaryStretchOptions(
   world: World,
   personId: EntityId,
 ): readonly StoryOption[] {
-  const { days, cappedBy } = capQuietStretch(
-    world,
-    personId,
-    quietStepDays(world.currentDate),
-    STORY_STRETCH_STOPS,
-  );
-  return [
-    ...todayCalendarOptions(world, personId),
-    {
-      key: "let-it-run",
-      label: "Let the weeks run on",
-      description: cappedBy
-        ? `Until the morning of ${longDate(addDays(world.currentDate, days))}: ${cappedBy.title}.`
-        : "Pick it up again when something needs you.",
-    },
-  ];
+  return todayCalendarOptions(world, personId);
 }
 
 /**
@@ -968,8 +951,7 @@ export function chooseStoryOption(
       });
     case "ordinary-stretch": {
       const today = chooseTodayCalendarOption(world, input);
-      if (today) return today;
-      return letStoryTimePass(world, input.personId, input.advanceDays);
+      return today ?? world;
     }
   }
 }

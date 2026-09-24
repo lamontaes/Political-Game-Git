@@ -133,6 +133,43 @@ established). Escalate to owner review for: new patterns, ambiguous condition
 matches, repeated systematic failure, evaluation samples, and any change to the
 prose contract itself.
 
+### Invitation review samples — 2026-09-23
+
+These are conditional editorial approvals, not stock incidents or proof that
+each route is implemented. An invitation requires a recorded host, recipient,
+occasion, asking, place and hours. A relationship or institutional voice must
+come from records; a shared workplace alone does not make two people friends.
+An invitation can be unread without adding an attendance warning or a new time
+control. Show the player's selected exact statement after an intent is chosen;
+do not invent the host's reply. The Journal is a selective life chronicle:
+ordinary birthday invitations and answers remain in history, messages and the
+Calendar but need not appear as milestones. A recorded meaningful change in
+the relationship can make an invitation worth chronicling.
+
+- **Parent, in the generated Beth Sandoval save.** Beth is the player's parent,
+  her recorded birthday falls Tuesday, and her recorded invitation is for
+  Saturday at her home, 3–6 p.m. Approved unread notice: “Beth invited you
+  over for Saturday.” Approved opening: “My birthday’s Tuesday. Do you want
+  to come over Saturday?” Approved intents: “Say you’ll come” / “Say you can’t
+  make it.” Approved exact replies: “Yes, I’ll come.” / “I can’t make it.”
+  The date and hours are shown before the answer; accepting puts them in
+  Calendar. The approval does not authorize calling a host the player's parent
+  from kinship alone when the host is the younger person.
+- **Longtime friend, proposed packet.** Mara and the player have kept in touch
+  for nine years. Her birthday and Saturday home gathering are recorded. The
+  owner approved the tone with a shorter ask: “I’m getting people together
+  Saturday for my birthday. Want to come over?” This wording is conditional
+  on actual continuing friendly contact, not merely a contact entry from years
+  ago. It is not yet an implemented or tested route.
+- **Legislative colleague, proposed packet.** Senator Ruiz and the player
+  currently serve together in the Senate, worked on two recorded bills, and
+  Ruiz has recorded inviting colleagues to her Saturday birthday gathering.
+  The owner accepted: “I’m having a few people from the Senate over Saturday
+  for my birthday. Would you like to join us?” “A few other senators” is also
+  acceptable when those invitees are actually recorded. This is not yet an
+  implemented or tested route, and a generic gathering of people cannot be
+  relabeled as a gathering of senators.
+
 ## Holdout hygiene — hard rule
 
 The blind-evaluation holdout fact packets (Drive:

@@ -16,6 +16,7 @@ import {
 } from "../simulation/opening-life-content";
 import {
   availableOpeningLifeScenes,
+  availableOptionalLifeActivities,
   chooseOpeningLifeScene,
   currentOpeningLifeScene,
   openingSceneChoiceEffects,
@@ -79,21 +80,22 @@ function openUntil(world: World, personId: EntityId, key: string): World {
 }
 
 describe("the first session reads differently in three different lives", () => {
-  it("offers an adult who lives alone quiet time and a decision, never a housemate", () => {
+  it("offers an adult alone a decision, with quiet time available by choice", () => {
     const life = start("pt3-alone", 22, "lives-alone");
     const offered = availableOpeningLifeScenes(life.world, life.personId).map(
       (entry) => entry.definition.key,
     );
-    expect([...offered].sort()).toEqual([
-      "adult.home.free-time",
-      "adult.home.plan-week",
-    ]);
+    expect([...offered].sort()).toEqual(["adult.home.plan-week"]);
+    expect(
+      availableOptionalLifeActivities(life.world, life.personId).map(
+        (entry) => entry.definition.key,
+      ),
+    ).not.toContain("adult.home.free-time");
     const opened = openNextLifeScene(life.world, life.personId);
     const scene = currentOpeningLifeScene(opened, life.personId)!;
-    expect([
-      "You're at home with fifteen minutes free.",
+    expect(scene.prose).toBe(
       "You're at home, thinking about what to make time for in the days ahead.",
-    ]).toContain(scene.prose);
+    );
     expect(scene.prose).not.toMatch(/a little free time|What would you like/);
   });
 
@@ -129,7 +131,12 @@ describe("the first session reads differently in three different lives", () => {
     expect(morning).not.toContain("early.home.closet-fear");
     expect(morning).not.toContain("early.home.food-refusal");
     expect(morning).not.toContain("adult.home.free-time");
-    expect(morning).toContain("young.home.choose-activity");
+    expect(morning).not.toContain("young.home.choose-activity");
+    expect(
+      availableOptionalLifeActivities(life.world, life.personId).map(
+        (entry) => entry.definition.key,
+      ),
+    ).not.toContain("young.home.choose-activity");
     const evening = advanceWorldMinutes(
       life.world,
       OPENING_SCENE_TIME_WINDOWS["early.home.closet-fear"]![0] -

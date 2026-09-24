@@ -1,5 +1,5 @@
 {
-  "digest": "d1eb320243a70048",
+  "digest": "b3f488c5bf6786aa",
   "totalRecords": 3273,
   "distinctTexts": 3054,
   "exactDuplicateGroups": 193,
@@ -48,7 +48,7 @@
     "prose:campaign:campaign-status:projectCampaign-0005#text": "5937580405bf",
     "prose:campaign:campaign-status:projectCampaign-0006#text": "fd6352a560d6",
     "prose:campaign:campaign-status:unavailable-0001#text": "7d8c776ef72b",
-    "prose:campaign:campaign-status:unavailable-0002#text": "5a0d555537c5",
+    "prose:campaign:campaign-status:unavailable-0002#text": "c99f687aad47",
     "prose:campaign:campaign-status:unavailable-0003#text": "1b5c8d4ed244",
     "prose:campaign:campaign-status:unavailable-0004#text": "a33c21fe36f6",
     "prose:conversation:commit-contract:COMMIT_CONTRACTS-0001#text": "769b0d8cad3b",

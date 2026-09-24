@@ -127,7 +127,8 @@ function play(
     const option =
       moment.scene.options.find((candidate) => candidate.key === wanted) ??
       moment.scene.options[0];
-    if (!option) break;
+    if (!option && moment.scene.kind !== "ordinary-stretch")
+      throw new Error("A playable scene has no response.");
     beats.push({
       index,
       date: world.currentDate,
@@ -138,22 +139,23 @@ function play(
       sceneKind: moment.scene.kind,
       connective: moment.connective.sentences,
       prose: moment.scene.prose,
-      optionKey: option.key,
-      optionLabel: option.label,
+      optionKey: option?.key ?? "",
+      optionLabel: option?.label ?? "",
       episodeKey:
         moment.scene.kind === "episode" ? moment.scene.beat.episodeKey : null,
       stageKey:
         moment.scene.kind === "episode" ? moment.scene.beat.stageKey : null,
       people: moment.scene.withPeople,
     });
-    world = chooseStoryOption(world, {
-      personId,
-      scene: moment.scene,
-      optionKey: option.key,
-    });
-    // This life-spanning walk chooses an explicit wait between moments.
-    // Reading/answering a beat does not silently own that stretch of time.
-    if (moment.scene.kind !== "ordinary-stretch")
+    if (option)
+      world = chooseStoryOption(world, {
+        personId,
+        scene: moment.scene,
+        optionKey: option.key,
+      });
+    // This diagnostic walk advances after a decision or an empty stretch.
+    // The player surface offers Day/Week controls for those intervals.
+    if (moment.scene.kind !== "ordinary-stretch" || !option)
       world = letStoryTimePass(world, personId);
   }
   return { world, personId, beats };
@@ -189,6 +191,61 @@ function calibrate(game: NewGameSetup, index: number): NewGameSetup {
 /* -------------------------------------------------------------------------- */
 
 describe("There is enough authored content to play with", () => {
+  it.each([6, 24])(
+    "keeps daily activities out of the automatic story selection at age %i",
+    (startAge) => {
+      const life = createNewGameWorld(
+        setup({
+          startKind: "custom",
+          startAge,
+          depth: "play-formative-years",
+          seed: `optional-story-${startAge}`,
+        }),
+      );
+      const activity =
+        startAge < 18
+          ? "opening.young.home.choose-activity"
+          : "opening.adult.home.free-time";
+      const trace = traceStorySelection(life.world, life.playerPersonId);
+      expect(
+        trace.ranked.some((entry) => entry.candidate.key.includes(activity)),
+      ).toBe(false);
+      const moment = projectStoryMoment(life.world, life.playerPersonId);
+      expect(
+        moment.scene.kind === "episode" &&
+          moment.scene.beat.episodeKey === activity &&
+          moment.scene.beat.stageKey === "moment",
+      ).toBe(false);
+    },
+  );
+
+  it.each([
+    [7, "young.home.choose-activity"],
+    [24, "adult.home.free-time"],
+  ] as const)(
+    "keeps the archived %s routine out of new story offers",
+    (age, key) => {
+      const created = createNewGameWorld(
+        setup({ seed: `archived-routine-${age}`, startAge: age }),
+      );
+      const world = openOrdinaryLife(created.world, created.playerPersonId);
+      const oldBank = eligibleEpisodeBeats({
+        world,
+        personId: created.playerPersonId,
+        families: EPISODE_FAMILIES,
+      }).beats;
+      expect(oldBank.some((beat) => beat.episodeKey === `opening.${key}`)).toBe(
+        true,
+      );
+      const offered = traceStorySelection(world, created.playerPersonId);
+      expect(
+        offered.ranked.some((entry) =>
+          entry.candidate.key.includes(`opening.${key}`),
+        ),
+      ).toBe(false);
+    },
+  );
+
   it("ships episode families that branch and families that end quietly", () => {
     const summary = episodeBankSummary();
     expect(summary.families).toBeGreaterThanOrEqual(9);

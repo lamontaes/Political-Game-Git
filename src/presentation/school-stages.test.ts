@@ -246,7 +246,7 @@ describe("a child moves on through school while the game is played", () => {
     );
     const birth = start.people[playerId]!.birthDate;
     let world = start;
-    // "Let the year run on" is the only way forward a child has.
+    // Advance across school-year boundaries without depending on a scene button.
     while (world.currentDate < `${Number(birth.slice(0, 4)) + 12}-12-31`)
       world = letTimePass(world, playerId);
     const rows = schooling(world, playerId);

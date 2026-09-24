@@ -13,6 +13,8 @@ import { personName } from "../simulation/people";
 import { recordRelationshipInteraction } from "../simulation/records";
 import { CHOSEN_TAG } from "../simulation/scheduled-activity-answer";
 import { recordWorldEvent } from "../simulation/world";
+import { SOCIAL_INVITATION_REPLIES } from "./social-invitation-language";
+import { recordSpokenExchange } from "./spoken-exchange";
 import type {
   EntityId,
   FutureTransitionHandlerRegistry,
@@ -80,12 +82,26 @@ export function socialInvitationsFor(world: World, personId: EntityId) {
         invitationEventId: invitation.eventId,
         counterpartPersonId: invitation.counterpartPersonId,
         title: activity.title,
+        locationLabel: activity.location.label,
         start: state.start,
         end: state.end,
         revision: state.id,
       },
     ];
   });
+}
+
+/** The approved "over" headline applies only to a recorded visit to the host's home. */
+export function invitationAtHostHome(
+  world: World,
+  invitation: ReturnType<typeof socialInvitationsFor>[number],
+): boolean {
+  const host = invitation.counterpartPersonId
+    ? world.people[invitation.counterpartPersonId]
+    : null;
+  return Boolean(
+    host && invitation.locationLabel === `${personName(host)}'s home`,
+  );
 }
 
 /** Explicit participant refusal; no attendance, time skip or organizer mutation. */
@@ -105,7 +121,7 @@ export function declineSocialInvitation(
   const activity = world.history.scheduledActivities.find(
     (entry) => entry.id === input.activityId,
   )!;
-  const next = recordWorldEvent(world, {
+  let next = recordWorldEvent(world, {
     stableKey: `social-invitation:decline:${input.activityId}`,
     type: "life.social-invitation-declined",
     occurredAt: world.currentDate,
@@ -135,17 +151,23 @@ export function declineSocialInvitation(
       `invitation:${invitation.invitationEventId}`,
       `activity:${activity.id}`,
     ],
-    summary:
-      "You declined the invitation and released its hold on your calendar.",
+    summary: SOCIAL_INVITATION_REPLIES.decline.statement,
     context: {
       location: null,
-      socialContext: "An optional invitation.",
+      socialContext: null,
       pressure: null,
-      choice: "Decline the invitation.",
+      choice: SOCIAL_INVITATION_REPLIES.decline.statement,
       motivation: null,
       immediateReaction: null,
     },
   });
+  next = recordInvitationReply(
+    next,
+    input.personId,
+    invitation.counterpartPersonId,
+    `social-invitation:decline:${input.activityId}`,
+    SOCIAL_INVITATION_REPLIES.decline.statement,
+  );
   return cancelScheduledActivity(next, activity.id);
 }
 
@@ -266,7 +288,7 @@ export function acceptSocialInvitation(
     (entry) => entry.id === input.activityId,
   )!;
   const asker = askerName(world, invitation);
-  const next = recordWorldEvent(world, {
+  let next = recordWorldEvent(world, {
     stableKey: `social-invitation:accept:${input.activityId}`,
     type: "life.social-invitation-accepted",
     occurredAt: world.currentDate,
@@ -299,14 +321,45 @@ export function acceptSocialInvitation(
       : "You said you would come.",
     context: {
       location: null,
-      socialContext: "An optional invitation.",
+      socialContext: null,
       pressure: null,
-      choice: "Accept the invitation.",
+      choice: SOCIAL_INVITATION_REPLIES.accept.statement,
       motivation: null,
       immediateReaction: null,
     },
   });
+  next = recordInvitationReply(
+    next,
+    input.personId,
+    invitation.counterpartPersonId,
+    `social-invitation:accept:${input.activityId}`,
+    SOCIAL_INVITATION_REPLIES.accept.statement,
+  );
   return confirmInvitation(next, input.personId, invitation);
+}
+
+/** The host was actually told the selected words; this is not an NPC reply. */
+function recordInvitationReply(
+  world: World,
+  playerPersonId: EntityId,
+  hostPersonId: EntityId | null,
+  eventKey: string,
+  statement: string,
+): World {
+  if (!hostPersonId || !world.people[hostPersonId]) return world;
+  const event = world.history.events.find(
+    (entry) => entry.stableKey === eventKey,
+  );
+  if (!event) throw new Error("The invitation answer was not recorded.");
+  return recordSpokenExchange(world, {
+    stableKey: eventKey,
+    eventId: event.id,
+    speakerPersonId: playerPersonId,
+    recipientPersonIds: [hostPersonId],
+    statement,
+    audience: "private",
+    relationshipToTruth: "unknown",
+  });
 }
 
 /**
