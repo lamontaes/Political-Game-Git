@@ -554,7 +554,7 @@ export function projectCampaign(
               executiveTermStart(world, personId, contest.id),
           )
         : state.status === "lost"
-          ? `${candidateName} lost${resultMargin(result, personId)}. That is a thing that happened to ${pronouns.object}, not the end of ${pronouns.object} — tomorrow is still there.`
+          ? `${candidateName} lost${resultMargin(result, personId)}.`
           : null,
   };
 }

@@ -6382,9 +6382,9 @@
       "anchor": "projectCampaign-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} lost{resultMargin(result,personId)}. That is a thing that happened to {pronouns.object}, not the end of {pronouns.object} — tomorrow is still there.",
+      "text": "{candidateName} lost{resultMargin(result,personId)}.",
       "occurrence": 0,
-      "textRevision": "7cd60596906c"
+      "textRevision": "a9b174625a87"
     },
     {
       "anchor": "projectCampaign-0002",
