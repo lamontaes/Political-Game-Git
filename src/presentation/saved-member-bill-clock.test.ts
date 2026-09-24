@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
+import {
+  runToElection,
+  suppliedWin,
+} from "../../tests/fixtures/state-executive-entry";
 import { districtIdentityCatalog } from "../districts/catalog";
 import { districtMembershipFromCanonicalHome } from "../districts/query";
 import {
@@ -22,6 +26,13 @@ import {
   pendingChamberQuestions,
 } from "../simulation/governing/legislative-clock";
 import { seatedChamberForPack } from "../simulation/governing/chamber-votes";
+import { memberBallotOn } from "../simulation/governing/member-ballots";
+import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
+import {
+  appendWorldConditions,
+  drawStartingRegime,
+} from "../simulation/world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../simulation/world-setup/political-start";
 import { legislativeStartingProcedures } from "../simulation/legislative-procedure-world";
 import { fileDraftFromOffice } from "./legislation-docket";
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
@@ -30,7 +41,7 @@ import {
   institutionOwnsStep,
   resolveLegislativeAssignmentForMeasure,
 } from "./legislation-world";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectCampaign } from "./campaign-projection";
@@ -223,4 +234,158 @@ describe("a saved member bill on the generic institutional clock", () => {
     ).toEqual(ownRollCalls);
     assertWorldIntegrity(reopened);
   }, 900_000);
+
+  it.each(["US-KY", "US-MN"] as const)(
+    "lets a %s sponsor vote before moving a question in their own seated chamber",
+    (stateKey) => {
+      const place = searchLifePlaces("", 200, {
+        stateJurisdictionKey: stateKey,
+        scope: "locality",
+      }).find(
+        (candidate) =>
+          candidate.sourceGeoid &&
+          districtMembershipFromCanonicalHome({
+            homeJurisdictionId: candidate.jurisdictionId,
+            catalog: districtIdentityCatalog(),
+            placeGeoid: candidate.sourceGeoid,
+            chamber: "state-lower",
+          }).kind === "known",
+      );
+      if (!place?.sourceGeoid)
+        throw new Error(`No ${stateKey} home with a known House district.`);
+      const membership = districtMembershipFromCanonicalHome({
+        homeJurisdictionId: place.jurisdictionId,
+        catalog: districtIdentityCatalog(),
+        placeGeoid: place.sourceGeoid,
+        chamber: "state-lower",
+      });
+      if (membership.kind !== "known")
+        throw new Error("Unknown home district.");
+      const base = createNewGameWorld({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: `sponsor-owned-ballot:${stateKey}`,
+        placeKey: place.key,
+        startAge: 40,
+        startingLife: "ordinary-life",
+        depth: "summarize-earlier-life",
+        questionnaire: "skipped",
+      });
+      // A save with a seated legislature but no newer procedure profile keeps
+      // the originating chamber's collective steps in the sponsor's office.
+      const conditioned = appendWorldConditions(base.world, [
+        generatePoliticalStartingConditions(
+          base.world,
+          drawStartingRegime(base.world),
+        ),
+      ]);
+      const opened = ensureStateLegislatureOpening(
+        conditioned,
+        base.playerPersonId,
+        stateKey.slice(3),
+      );
+      const filedCampaign = fileForOffice(
+        opened,
+        base.playerPersonId,
+        membership.binding,
+      );
+      const elected = runToElection(
+        filedCampaign,
+        base.playerPersonId,
+        suppliedWin(base.playerPersonId),
+      );
+      expect(projectCampaign(elected, base.playerPersonId).phase).toBe("won");
+      const worldAtTerm = enterSupportedTerm(elected, base.playerPersonId);
+      expect(legislativeStartingProcedures(worldAtTerm)).toBeNull();
+      const filing = resolveLegislativeFilingEntry(
+        worldAtTerm,
+        base.playerPersonId,
+      );
+      if (filing.kind !== "available") throw new Error(filing.reason);
+      const filed = fileDraftFromOffice(worldAtTerm, {
+        playerPersonId: base.playerPersonId,
+        scenarioKey: filing.scenarioKey,
+        jurisdictionId: filing.jurisdictionId,
+        memberSeatStableKey: filing.seat.relationshipStableKey,
+        familyKey: "broadband-access",
+        variantKey: "unserved-buildout",
+      });
+      const measureId = filed.bill.measureId;
+      let world = deserializeWorld(serializeWorld(filed.world));
+      let committeeRoster: readonly string[] | null = null;
+      let committeeVoteRoster: readonly string[] | null = null;
+      let ownFloorVote = false;
+
+      for (let turn = 0; turn < 20 && !ownFloorVote; turn += 1) {
+        const step = availableMeasureSteps(world, measureId).find(
+          (candidate) => candidate !== "offer-amendment",
+        );
+        if (!step)
+          throw new Error(
+            `No next step at ${measurePosition(world, measureId).phase}.`,
+          );
+        const resolved = resolveLegislativeAssignmentForMeasure(world, {
+          measureId,
+          playerPersonId: base.playerPersonId,
+          memberSeatStableKey: filing.seat.relationshipStableKey,
+        });
+        if (resolved.kind !== "available") throw new Error(resolved.reason);
+        expect(resolved.assignment.procedure.memberDecisions).toBeDefined();
+        expect(institutionOwnsStep(world, resolved.assignment, step)).toBe(
+          false,
+        );
+
+        const question = pendingChamberQuestions(world, measureId)[0];
+        if (step === "move-committee-report") {
+          expect(question?.question.purpose).toBe("committee-report");
+          committeeRoster = question!.members.map((member) => member.memberKey);
+        }
+        if (step === "move-floor-vote") {
+          expect(question?.question.purpose).toBe("floor-stage");
+          const ahead = memberVotesAhead(world, base.playerPersonId).find(
+            (entry) => entry.measure.id === measureId,
+          );
+          expect(ahead?.question).toEqual(question!.question);
+          expect(ahead?.voteOn).toBeNull();
+          world = castMemberBallot(world, {
+            personId: base.playerPersonId,
+            question: question!.question,
+            ballot: "yea",
+          });
+          world = deserializeWorld(serializeWorld(world));
+          expect(
+            memberBallotOn(world, base.playerPersonId, question!.question),
+          ).toBe("yea");
+        }
+
+        world = applyLegislativeCommand(world, resolved.assignment, {
+          kind: "take-step",
+          step,
+        }).world;
+        const vote = (world.history.legislativeVotes ?? []).find(
+          (entry) =>
+            entry.measureId === measureId &&
+            entry.purpose ===
+              (step === "move-committee-report"
+                ? "committee-report"
+                : "floor-stage"),
+        );
+        if (step === "move-committee-report")
+          committeeVoteRoster =
+            vote?.dispositions.map((entry) => entry.memberKey) ?? null;
+        if (step === "move-floor-vote") {
+          expect(
+            vote?.dispositions.find(
+              (entry) => entry.personId === base.playerPersonId,
+            ),
+          ).toMatchObject({ disposition: "yea", reason: "member:own-ballot" });
+          ownFloorVote = true;
+        }
+      }
+
+      expect(committeeVoteRoster).toEqual(committeeRoster);
+      expect(ownFloorVote).toBe(true);
+      assertWorldIntegrity(deserializeWorld(serializeWorld(world)));
+    },
+    900_000,
+  );
 });

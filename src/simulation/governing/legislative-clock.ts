@@ -1071,13 +1071,14 @@ export interface ChamberQuestionForum {
 }
 
 /**
- * The question the institution will put on this measure at its next step, if
- * that step is a vote of seated members, as it stands on `onDate`.
+ * The question the seated chamber will put on this measure at its next step,
+ * whether the institution's clock or the sponsor's office moves that step,
+ * as it stands on `onDate`.
  *
  * Mirrors the step handler's choice of voters: the committee's own roster, the
  * chamber on a floor stage or a concurrence, and every chamber (or the joint
- * session) on a veto override. A step the sponsor's own office takes, or one
- * put to no seated members, has no question here.
+ * session) on a veto override. A step put to no seated members has no question
+ * here.
  */
 export function pendingChamberQuestions(
   world: World,
@@ -1085,7 +1086,8 @@ export function pendingChamberQuestions(
   onDate: IsoDate = world.currentDate,
 ): readonly ChamberQuestionForum[] {
   const measure = requireMeasure(world, measureId);
-  if (effectiveOwner(world, measure) !== "institution") return [];
+  const owner = effectiveOwner(world, measure);
+  if (owner !== "institution" && owner !== "sponsor-office") return [];
   const blueprint = legislativeBlueprintForMeasure(world, measure);
   if (!isSeatedChamber(world, blueprint)) return [];
   const pack = blueprint.pack;
