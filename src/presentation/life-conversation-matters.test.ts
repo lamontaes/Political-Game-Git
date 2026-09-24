@@ -1,15 +1,17 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  deserializeWorld,
   recordEventKnowledge,
   recordWorldEvent,
+  serializeWorld,
   type EntityId,
   type World,
 } from "../simulation";
 import { activeOrdinaryGoal } from "../simulation/life-personality";
 import { publishPublicEvent } from "../simulation/public-information";
 import { recordSelectedPublicationRead } from "../simulation/publication-reading";
-import { matterAwareness } from "./current-matters";
+import { currentKnownMatter, matterAwareness } from "./current-matters";
 import {
   MATTER_CHOICE_PREFIX,
   commitLifeConversation,
@@ -108,6 +110,91 @@ function say(
 }
 
 describe("current matters in ordinary talk", () => {
+  it("saves the exact public death statement as a heard claim, not a known fact", () => {
+    const base = household("public-death-talk");
+    let world = recordWorldEvent(base.world, {
+      stableKey: "public-death-talk:governor",
+      type: "crisis.officeholder-died",
+      occurredAt: base.world.currentDate,
+      recordedAt: base.world.currentDate,
+      jurisdictionId: base.world.people[base.outsider]!.homeJurisdictionId,
+      involvedEntityIds: [base.outsider],
+      participants: [
+        {
+          personId: base.outsider,
+          role: "focus:officeholder",
+          detail: "Governor",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["crisis", "continuity:death"],
+      summary: "The governor died in office.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const death = world.history.events.at(-1)!;
+    world = recordEventKnowledge(world, {
+      stableKey: "public-death-talk:player-read",
+      personId: base.playerPersonId,
+      eventId: death.id,
+      learnedAt: world.currentDate,
+      believedSummary: death.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "media", outlet: "Civic Ledger", reference: null },
+    });
+    const view = projectLifeConversation(
+      world,
+      base.playerPersonId,
+      base.parentId,
+    )!;
+    const option = view.intents.find(
+      (intent) => intent.key === "matter:ask-death",
+    );
+    expect(option?.spokenWords).toBe(
+      `Did you hear Governor ${world.people[base.outsider]!.familyName} died?`,
+    );
+    const next = commitLifeConversation(world, {
+      playerPersonId: base.playerPersonId,
+      personId: base.parentId,
+      intent: "matter:ask-death",
+      revision: view.revision,
+    });
+    const turn = next.history.events.at(-1)!;
+    expect(turn.context.choice).toBe(option!.spokenWords);
+    expect(turn.summary).toContain(`${option!.spokenWords} `);
+    expect(turn.summary).not.toContain("?.");
+    expect(next.history.claims.at(-1)).toMatchObject({
+      eventId: death.id,
+      statement: option!.spokenWords,
+      relationshipToTruth: "unknown",
+    });
+    const heard = next.history.knowledge.find(
+      (knowledge) =>
+        knowledge.personId === base.parentId && knowledge.eventId === death.id,
+    );
+    expect(heard).toMatchObject({
+      accuracy: "unknown",
+      source: {
+        kind: "told-by",
+        sourcePersonId: base.playerPersonId,
+        claimId: next.history.claims.at(-1)!.id,
+      },
+    });
+    expect(matterAwareness(next, base.parentId, death.id)).toBe("informed");
+    expect(currentKnownMatter(next, base.parentId)?.eventId).not.toBe(death.id);
+    expect(deserializeWorld(serializeWorld(next)).history.claims).toEqual(
+      next.history.claims,
+    );
+  });
+
   it("offers no matter when the player has nothing public or known to raise", () => {
     const { world, playerPersonId, parentId } = household();
     const view = projectLifeConversation(world, playerPersonId, parentId)!;

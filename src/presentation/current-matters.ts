@@ -27,8 +27,18 @@ export function currentKnownMatter(
     recent?.entries.find(
       (candidate) =>
         candidate.at >= earliest &&
-        matterAwareness(world, playerPersonId, candidate.eventId) !==
-          "uninformed",
+        (world.history.events
+          .find((event) => event.id === candidate.eventId)
+          ?.participants.some((entry) => entry.personId === playerPersonId) ||
+          world.history.knowledge.some(
+            (record) =>
+              record.personId === playerPersonId &&
+              record.eventId === candidate.eventId &&
+              record.learnedAt <= world.currentDate &&
+              (record.accuracy === "accurate" ||
+                record.source.kind === "media" ||
+                record.source.kind === "public-record"),
+          )),
     ) ?? null
   );
 }

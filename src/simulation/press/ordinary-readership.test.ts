@@ -3,6 +3,7 @@ import {
   currentKnownMatter,
   matterAwareness,
 } from "../../presentation/current-matters";
+import { publicDeathSpeechOptions } from "../../presentation/life-matter-speech";
 import {
   createScenarioWorld,
   deserializeWorld,
@@ -150,6 +151,7 @@ describe("ordinary readership of a public officeholder death", () => {
     );
     const reader = world.personOrder.find((id) => id !== deceasedId)!;
     expect(currentKnownMatter(world, reader)).toBeNull();
+    expect(publicDeathSpeechOptions(world, reader, death.id)).toEqual([]);
     const read = recordSelectedPublicationRead(world, {
       personId: reader,
       publicationId: publication.id,
@@ -164,6 +166,17 @@ describe("ordinary readership of a public officeholder death", () => {
       read.history.knowledge.some((item) => item.eventId === privateDeath.id),
     ).toBe(false);
     expect(currentKnownMatter(read, reader)?.eventId).toBe(death.id);
+    const speech = publicDeathSpeechOptions(read, reader, death.id);
+    expect(speech.map((option) => option.key)).toEqual([
+      "matter:ask-death",
+      "matter:report-death",
+      "matter:read-death",
+    ]);
+    expect(speech[0]!.spokenWords).toMatch(/^Did you hear Governor .+ died\?$/);
+    expect(speech[1]!.spokenWords).toContain(publication.outletName);
+    expect(speech[2]!.spokenWords).toMatch(
+      /^I read that Governor .+ died on .+\.$/,
+    );
     expect(
       recordSelectedPublicationRead(read, {
         personId: reader,
@@ -203,6 +216,7 @@ describe("ordinary readership of a public officeholder death", () => {
     expect(
       read.history.knowledge.some((item) => item.eventId === death.id),
     ).toBe(false);
+    expect(publicDeathSpeechOptions(read, reader, death.id)).toEqual([]);
   });
 
   it("publication alone teaches no resident; an explicit read saves exact notice and source", () => {

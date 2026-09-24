@@ -701,6 +701,7 @@ const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgr
       return view.intents.map((intent) => ({
         key: intent.key,
         label: intent.label,
+        ...(intent.spokenWords ? { spokenWords: intent.spokenWords } : {}),
         description:
           intent.key in LIFE_TALK_INTENTS
             ? LIFE_TALK_INTENTS[intent.key as keyof typeof LIFE_TALK_INTENTS]
