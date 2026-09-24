@@ -116,11 +116,13 @@ describe("browser-loaded import graph", () => {
     ]);
   });
 
+  // Walks every module below world.ts, which grows with the game; like the
+  // spec walk below, it outlasts the default five seconds on a busy runner.
   it("imports no bare JSON module anywhere below world.ts", () => {
     const graph = importGraph([resolve("src/simulation/world.ts")]);
     expect(graph.size).toBeGreaterThan(20);
     expect(bareJsonImports(graph)).toEqual([]);
-  });
+  }, 30_000);
 
   it("imports no bare JSON module from any Playwright spec, its support or the config", () => {
     const graph = importGraph([
