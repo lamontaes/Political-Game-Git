@@ -3311,3 +3311,51 @@ write authority.
 **How it is held.** `tests/release/release-workflow.test.ts` pins the
 byte-identity condition, the one-commit re-application, the unforced push and
 the retry bound.
+
+## D-096 — Engine-drawn garment fit, edge cleanup and articulated limbs (owner review pending)
+
+- Date: 2026-09-24
+- Status: DEFERRED
+- Supersedes: none while deferred; proposed scoped amendment to D-079, D-080 and D-084
+
+**Question for owner approval.** May the character engine draw a measured,
+bounded garment fit at runtime, clean incidental light edge pixels during
+asset preparation, and rotate separately painted limb pieces from declared
+joint anchors? The owner has supported this direction in principle. This
+entry records the proposed boundary; it does not approve an engine change or
+release any art.
+
+**Proposed boundary.** Reuse the existing garment band measurements and pose
+skeleton. The renderer may draw a fit only when measured geometry, declared
+body/garment compatibility and bounded residuals support it; an unsupported
+pair still fails closed. Preparation may correct incidental light-edge color
+without changing alpha and must protect intentional light edges through an
+asset-specific exception or mask reviewed with Art. A pose may rotate an
+authored arm or leg part around its declared joint; it may not invent an
+occluded joint from a fused body raster or synthesize a side, back or
+three-quarter view from front art. Hair texture, hands and missing views remain
+painted source work. Candidate preparation, human pixel approval, runtime
+selection and installed Play verification remain separate gates.
+
+**Relationship to accepted decisions.** D-079 and D-080 currently refuse to
+render band fits and do not rotate garment geometry. D-084 reports upper arms
+fused into the existing body alpha as occluded. Those rules remain in force
+until this proposal is accepted and its exact engine-drawn route is specified.
+If accepted, amend only their application to measured runtime band drawing
+and newly authored separate limb parts; retain their refusal for unsupported
+fits, fused-alpha inference and old saved generations. Do not silently relabel
+historical candidates or change a frozen asset generation.
+
+**Evidence and remaining proof.** Claude's isolated `engine_proof.py` run
+against main `c59daf596` measured a test-shape top's edge gap falling from
+23 pixels to 6 and 9 pixels on lean and heavy shapes, and bright outline
+pixels falling from 5,039 to 0 on curls and 3,105 to 0 on candidate pants.
+Those numbers come from a prototype outside the game, reported in
+`docs/reports/2026-09-24-character-engine-proof.md` on draft PR #682. They
+do not prove painted garment fit, intentional-edge protection, pose rotation,
+or installed game appearance. Before pose work, Art and engineering must agree
+the source file layout, canvas, layer order, arm-part IDs and anchor schema
+for one current body with separate arms and torso underpaint. Acceptance then
+needs exact frozen source/derivative IDs, a held-out compatible top, visual
+inspection on current bodies, Creator to room to People to save/reopen/Continue,
+and an old-generation save control. The owner reviews the resulting pixels.
