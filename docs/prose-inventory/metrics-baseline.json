@@ -1,9 +1,9 @@
 {
-  "digest": "906bb40aa613f3bd",
-  "totalRecords": 3260,
-  "distinctTexts": 3041,
+  "digest": "be883f891426c333",
+  "totalRecords": 3261,
+  "distinctTexts": 3042,
   "exactDuplicateGroups": 193,
-  "normalizedDuplicateGroups": 204,
+  "normalizedDuplicateGroups": 205,
   "nearDuplicateClusters": 29,
   "warningsByFamily": {
     "and-it-scaffold": 40,
@@ -14,7 +14,7 @@
     "vague-referent": 189
   },
   "reachability": {
-    "CURRENTLY_UNREACHABLE": 406,
+    "CURRENTLY_UNREACHABLE": 407,
     "DEV_FIXTURE_ONLY": 110,
     "LEGACY_OR_WITHDRAWN": 90,
     "PLAYER_REACHABLE": 2143,
@@ -2508,6 +2508,7 @@
     "prose:life:opening-conversation-replies:replyFor-0064#text": "5fd92a187a73",
     "prose:life:opening-conversation-replies:replyFor-0065#text": "d2a4a851a2ac",
     "prose:life:opening-conversation-replies:replyFor-0066#text": "5fadd86fcab7",
+    "prose:life:opening-conversation-replies:replyFor-0067#text": "19331f697435",
     "prose:life:personal-aims:FAMILY_LABEL-0001#text": "185e7af0aa8e",
     "prose:life:personal-aims:FAMILY_LABEL-0002#text": "efa1d17c8843",
     "prose:life:personal-aims:FAMILY_LABEL-0003#text": "4abc374fb4d8",
@@ -5770,6 +5771,7 @@
     "prose:life:opening-conversation-replies:replyFor-0064#text": "cf05132f1067",
     "prose:life:opening-conversation-replies:replyFor-0065#text": "cf05132f1067",
     "prose:life:opening-conversation-replies:replyFor-0066#text": "cf05132f1067",
+    "prose:life:opening-conversation-replies:replyFor-0067#text": "cf05132f1067",
     "prose:life:personal-aims:FAMILY_LABEL-0001#text": "e1c104310c89",
     "prose:life:personal-aims:FAMILY_LABEL-0002#text": "e1c104310c89",
     "prose:life:personal-aims:FAMILY_LABEL-0003#text": "e1c104310c89",

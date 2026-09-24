@@ -7619,6 +7619,14 @@
       "textRevision": "5fadd86fcab7"
     },
     {
+      "anchor": "replyFor-0067",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "I remember you bringing up “{matterTurn.context.choice}”",
+      "occurrence": 0,
+      "textRevision": "19331f697435"
+    },
+    {
       "anchor": "reporterQuestion-0001",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "reporterQuestion",
