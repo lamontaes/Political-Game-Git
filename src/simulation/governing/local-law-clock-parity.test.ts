@@ -23,7 +23,11 @@ import {
 } from "../municipal-ordinance-procedure";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import type { EntityId, World } from "../types";
+import type {
+  EntityId,
+  PublicProgramAppropriationRecord,
+  World,
+} from "../types";
 import { advanceWorld } from "../world";
 import {
   LOCAL_MEMBER_AGENDA_HANDLERS,
@@ -167,7 +171,7 @@ function thirtyDayLawEvidence(
     effects: enactedLawEffects(world, measure.id),
     appropriations: (world.history.publicProgramRecords ?? [])
       .filter(
-        (entry) =>
+        (entry): entry is PublicProgramAppropriationRecord =>
           entry.kind === "appropriation" &&
           entry.sourceMeasureId === measure.id,
       )
