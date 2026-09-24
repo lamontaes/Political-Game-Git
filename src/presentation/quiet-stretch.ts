@@ -11,6 +11,13 @@ import {
   type ScheduledActivityRecord,
   type World,
 } from "../simulation";
+import {
+  applicationsFor,
+  employerDisplayName,
+  expectedStart,
+  jobOpening,
+  latestApplicationStep,
+} from "../simulation/job-market";
 import { isCivicHold } from "./civic-hold";
 import { nextOwnElection } from "./own-election";
 import { EARLIER_COMMITMENT_REFUSAL, venueActivities } from "./venue-activity";
@@ -94,6 +101,24 @@ export function nextKnownCalendarItem(
       (state.start.date === best.date && best.travel && !travel)
     )
       best = { title: activity.title, date: state.start.date, travel };
+  }
+  // An accepted job's first day. It is not a scheduled activity, so without
+  // this a long step walked past it and the employer withdrew the offer for
+  // a start the player was never given the chance to make.
+  for (const application of applicationsFor(world, personId)) {
+    const latest = latestApplicationStep(world, application.id);
+    if (latest?.kind !== "accepted" && latest?.kind !== "followed-up") continue;
+    const startAt = expectedStart(world, application.id);
+    if (!startAt || startAt <= world.currentDate) continue;
+    if (best && best.date <= startAt) continue;
+    const opening = jobOpening(world, application.openingId);
+    best = {
+      title: opening
+        ? `Start work at ${employerDisplayName(world, opening.organizationId)}`
+        : "Start work",
+      date: startAt,
+      travel: false,
+    };
   }
   if (options.dueItems === false)
     return best ? { title: best.title, date: best.date } : null;

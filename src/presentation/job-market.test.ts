@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  addDays,
   ageOnDate,
   assertWorldIntegrity,
   deserializeWorld,
@@ -26,6 +27,7 @@ import { createExplicitGeographyLife } from "./new-game-geography";
 import { openOrdinaryLife } from "./ordinary-life";
 import { letAdultTimePass } from "./adult-life";
 import { projectJobMarket } from "./job-listings-view";
+import { capQuietStretch } from "./quiet-stretch";
 
 /**
  * Jobs, played through the new-game route in several places, never Kentucky:
@@ -386,5 +388,49 @@ describe("jobs in a town", () => {
     }
     expect(lapsed).toBe(true);
     expect([...outcomes].sort()).toEqual(["followed-up", "withdrawn"]);
+  });
+});
+
+describe("An accepted job's first day stops a quiet stretch", () => {
+  it("ends a long quiet step on the morning work starts, in Ely, Nevada", () => {
+    for (let index = 1; index <= 12; index += 1) {
+      const start = begin(ELY, `jobs-start-stop-${index}`);
+      let world = untilListed(start.world, start.personId);
+      const opening = openJobListings(world, start.personId)[0];
+      if (!opening) continue;
+      world = applyForJob(world, start.personId, opening.id).world;
+      const application = applicationsFor(world, start.personId)[0]!;
+      world = passUntil(
+        world,
+        (w) => latestApplicationStep(w, application.id) !== null,
+      );
+      const offer = latestApplicationStep(world, application.id)!;
+      if (offer.kind !== "offered") continue;
+      world = answerJobOffer(world, application.id, true).world;
+      const startAt = offer.startAt!;
+      expect(startAt > world.currentDate).toBe(true);
+
+      const capped = capQuietStretch(world, start.personId, 120);
+      expect(capped.cappedBy?.date).toBe(startAt);
+      expect(capped.cappedBy?.title).toMatch(/^Start work at /);
+      expect(addDays(world.currentDate, capped.days)).toBe(startAt);
+
+      // The same stop holds after saving and reopening.
+      const reopened = deserializeWorld(serializeWorld(world));
+      expect(
+        capQuietStretch(reopened, start.personId, 120).cappedBy?.date,
+      ).toBe(startAt);
+
+      // Taking that step lands on the first day with the offer still standing,
+      // so the player can start work.
+      world = letAdultTimePass(world, capped.days);
+      expect(world.currentDate).toBe(startAt);
+      expect(latestApplicationStep(world, application.id)!.kind).toBe(
+        "accepted",
+      );
+      expect(startJob(world, application.id).ok).toBe(true);
+      return;
+    }
+    throw new Error("No Ely life reached an accepted offer.");
   });
 });
