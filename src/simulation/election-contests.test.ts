@@ -1379,7 +1379,7 @@ describe("Election Contest Substrate", () => {
   });
 
   describe("ELEC-004 & ELEC-005: Terminal Cancellation and Correct Semantic Reason Key", () => {
-    it("ELEC-004: cancelled contest cannot resolve and rejects corrupted persisted cancelled+resolved state", () => {
+    it("ELEC-004: canceled contest cannot resolve and rejects corrupted persisted canceled+resolved state", () => {
       const dbPath = `:memory:`;
       const repository = new SqliteWorldRepository(dbPath);
 
@@ -1411,7 +1411,7 @@ describe("Election Contest Substrate", () => {
         stableKey: "terminal-cancel:mayor:cancel",
         contestId: contest.id,
         effectiveAt: world.currentDate,
-        reason: "Election cancelled due to charter reform",
+        reason: "Election canceled due to charter reform",
       });
 
       expect(electionContestStatus(world, contest.id)).toBe("cancelled");
@@ -1426,13 +1426,13 @@ describe("Election Contest Substrate", () => {
 
       const preResolveAttempt = structuredClone(world);
 
-      // 3. Direct resolve on cancelled contest must throw
+      // 3. Direct resolve on canceled contest must throw
       expect(() =>
         resolveElectionContest(world, {
           contestId: contest.id,
           resolvedAt: electionDate,
         }),
-      ).toThrow(/Cannot resolve a cancelled election contest/i);
+      ).toThrow(/Cannot resolve a canceled election contest/i);
 
       // 4. Rejected call leaves World unchanged
       expect(world).toStrictEqual(preResolveAttempt);
@@ -1485,7 +1485,7 @@ describe("Election Contest Substrate", () => {
         ),
       ).toBe("resolved");
 
-      // Corrupt the resolved world to mark the due item state as cancelled
+      // Corrupt the resolved world to mark the due item state as canceled
       const corruptCancelledAndResolved: World = {
         ...resolvedWorld,
         history: {
@@ -1510,11 +1510,11 @@ describe("Election Contest Substrate", () => {
       };
 
       expect(() => assertWorldIntegrity(corruptCancelledAndResolved)).toThrow(
-        /Election contest result exists for cancelled contest/i,
+        /Election contest result exists for canceled contest/i,
       );
     });
 
-    it("ELEC-005: cancellation records semantic election:contest-cancelled reasonKey", () => {
+    it("ELEC-005: cancellation records semantic election:contest-canceled reasonKey", () => {
       let world = createDemoWorld("election-reason-key-seed");
       const jurisdictionId = getJurisdictionId(world);
       const candidate1 = getPersonId(world, 0);

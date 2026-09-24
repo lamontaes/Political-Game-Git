@@ -14,7 +14,7 @@ import {
  *
  * The infrastructure families all answer the question "what shall the state
  * do?" — and a bank that only answers that question produces one mechanism
- * wearing different subjects, because authorizing a programme is the only act
+ * wearing different subjects, because authorizing a program is the only act
  * it can perform. These three families answer different questions. An
  * appropriation asks what money is actually provided for something already
  * authorized. A sunset or repeal asks whether an authority should continue to
@@ -34,7 +34,7 @@ import {
 /* -------------------------------------------------------------------------- */
 
 /**
- * Authored background programmes.
+ * Authored background programs.
  *
  * They exist so an appropriation or a repeal is playable on a member's first
  * day rather than only after they have authorized something themselves. Each
@@ -97,7 +97,7 @@ const APPROPRIATION_SOURCE: ProgramContentEvidence = IIJA_FISCAL_TREATMENT;
  * Providing money for something that is already authorized.
  *
  * This family creates nothing. Every bill it writes names an authority that
- * already exists — a standing programme, or a measure this player authorized
+ * already exists — a standing program, or a measure this player authorized
  * earlier in this same life — and provides money against it. Two consequences
  * follow that no funding slider produces on its own: the bill cannot be written
  * at all when there is nothing to fund, and the amount is bounded by what that
@@ -1135,7 +1135,7 @@ const SERVICE_CHARGES: ProgramFamily = {
     statement: "What the charge actually collects, and from whom.",
     evidence: {
       kind: "forecast-claim",
-      note: "What a charge raises depends on how many people pay it, which is a behaviour rather than a rate.",
+      note: "What a charge raises depends on how many people pay it, which is a behavior rather than a rate.",
       unavailableReason:
         "Nothing in this world counts the transactions this charge would apply to, so receipts cannot be estimated.",
     },
@@ -1274,7 +1274,7 @@ const SERVICE_CHARGES: ProgramFamily = {
         sectionNumber: 4,
         heading: "Remission for owner-occupied repairs",
         beneficiaryLabel: "households repairing the house they live in",
-        placeLabel: "the older neighbourhoods where the roofs are going",
+        placeLabel: "the older neighborhoods where the roofs are going",
         statedGround:
           "A flat fee is the same number for a subdivision and for somebody replacing a roof they live under, and it is the second one who notices it.",
         segmentKey: "revenue.owner-occupied-remission",

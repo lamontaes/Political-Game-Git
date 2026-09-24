@@ -356,7 +356,7 @@ describe("origination survives the writer that first enforced it", () => {
  *
  * A pack that only ever ran through the writer proves nothing about a save. The
  * states added on 2026-09-06 each state their own origination rule, and each
- * has to survive replay and integrity on that rule and not on a neighbour's.
+ * has to survive replay and integrity on that rule and not on a neighbor's.
  */
 describe("the 2026-09-06 wave holds its own origination on replay", () => {
   it("lets a Nevada measure begin in either house, under Nevada's own words", () => {

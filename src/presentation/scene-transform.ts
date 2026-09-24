@@ -211,7 +211,7 @@ export interface SceneCoverTransform {
  *
  * So a backdrop covers. The scene's own `horizontalFocus` and `verticalFocus`
  * decide what survives the crop, which means the crop is still the scene
- * author's judgement about where the picture's subject is, expressed in the
+ * author's judgment about where the picture's subject is, expressed in the
  * same two numbers the gameplay camera reads. Nothing is composed against this
  * transform except a marker anchored in plate percentages, which crops with the
  * plate.

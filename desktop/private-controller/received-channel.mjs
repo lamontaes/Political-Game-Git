@@ -11,6 +11,8 @@ import {
   cpSync,
 } from "node:fs";
 import path from "node:path";
+import { withUpdateWorkspaceLease } from "./update-workspace.mjs";
+import { recordVersionOwnership } from "./update-retention.mjs";
 import { branchSlug, cleanHubState, withPending } from "./hub-model.mjs";
 import { buildPresentOnDisk } from "./private-update.mjs";
 import { assertProvenanceMatches } from "../../scripts/client-provenance.mjs";
@@ -28,6 +30,7 @@ export function stageReceivedCode({
   revision,
   version,
   content,
+  ownedUpdate = false,
 }) {
   const { treeSha256, provenance } = assertProvenanceMatches({
     clientDir,
@@ -83,6 +86,9 @@ export function stageReceivedCode({
       { flag: "wx" },
     );
     renameSync(temporary, final);
+    // Only the updater holds the lease through staging and state publication.
+    // Standalone receiver preparation may intentionally precede publication.
+    if (ownedUpdate) recordVersionOwnership(dataRoot, final);
   }
   return verifyReceivedBuild(build, dataRoot);
 }
@@ -188,7 +194,12 @@ export function reconcileReceivedChannel(dataRoot, track) {
   renameSync(temporary, statePath);
   return { outcome: "pending", revision: build.revision };
 }
-export function publishReceivedChannel({ dataRoot, track, build, base }) {
+export function publishReceivedChannel(options) {
+  return withUpdateWorkspaceLease(options.dataRoot, () =>
+    publishLeasedChannel(options),
+  );
+}
+function publishLeasedChannel({ dataRoot, track, build, base }) {
   verifyReceivedBuild(build, dataRoot);
   const file = channelPath(dataRoot, track);
   if (!file) throw new Error("Private receiving cannot publish main");

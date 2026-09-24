@@ -169,7 +169,7 @@ export function studyCollaborationEventId(
 }
 
 /**
- * The approach this person favours, from who they are.
+ * The approach this person favors, from who they are.
  *
  * Decided from the other person's own temperament and the collaboration they
  * already agreed to — never from what the player picked. Somebody who wants to

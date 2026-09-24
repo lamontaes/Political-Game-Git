@@ -2,9 +2,13 @@ import { useMemo, useState } from "react";
 
 import "./campaign-workspace.css";
 import { projectCampaignOffices } from "../presentation/campaign-office-discovery";
+import { displayMoney } from "../presentation/money-display";
 
 import {
+  campaignElectionDate,
   fileForOffice,
+  giveElectionSpeech,
+  groupCampaignSessions,
   projectCampaign,
   spendAnAfternoon,
 } from "../presentation/campaign-projection";
@@ -21,7 +25,7 @@ import type {
   MoneyAmount,
   World,
 } from "../simulation";
-import { districtSeatMustBeNamed } from "../simulation";
+import { candidacyEligibility, districtSeatMustBeNamed } from "../simulation";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { DistrictResidencePanel } from "./DistrictResidencePanel";
 import { CampaignWeekPanel } from "./CampaignWeekPanel";
@@ -32,6 +36,10 @@ import {
 } from "./campaign-planning-layout";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { OpponentActivityPanel } from "./OpponentActivityPanel";
+import { CampaignFilings } from "./CampaignFilings";
+import { CampaignOwnMoney } from "./CampaignOwnMoney";
+import { CampaignSpendingReports } from "./CampaignSpendingReports";
+import { MogulOffersPanel } from "./MogulOffersPanel";
 
 /**
  * Running for something.
@@ -61,9 +69,7 @@ export interface CampaignWorkspaceProps {
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
-function money(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
-}
+const money: (amount: MoneyAmount) => string = displayMoney;
 
 const MONTHS = [
   "January",
@@ -166,6 +172,23 @@ export function CampaignWorkspace({
       selectedOffice.officeKey,
       world.currentDate,
     );
+  // The office list is checked before a seat is named, so it can say
+  // "eligible" for a seat the named district then refuses. Ask again with the
+  // seat, and say why beside the button rather than only after a click.
+  const boundRefusal = useMemo(() => {
+    if (!person || !selectedOffice || !needsDistrict || !districtBinding)
+      return null;
+    const check = candidacyEligibility(world, {
+      personId,
+      jurisdictionId: person.homeJurisdictionId,
+      officeKey: selectedOffice.officeKey,
+      alreadyACandidate: false,
+      districtBinding,
+    });
+    return check.eligible
+      ? null
+      : check.blocks.map((block) => block.reason).join(" ");
+  }, [world, personId, person, selectedOffice, needsDistrict, districtBinding]);
 
   function run<T>(work: () => T, apply: (value: T) => void) {
     try {
@@ -185,7 +208,12 @@ export function CampaignWorkspace({
           needsDistrict ? districtBinding : null,
           selectedOfficeKey,
         ),
-      (next) => onWorldChange(next),
+      (next) => {
+        // The choice is spent on this filing. Picking an office again once the
+        // race is over is what offers the next filing.
+        setSelectedOfficeKey(null);
+        onWorldChange(next);
+      },
     );
   }
 
@@ -261,8 +289,14 @@ export function CampaignWorkspace({
     strategy?.priorityChoices.find(
       (choice) => choice.key === strategy.proposedPriorityKey,
     )?.label ?? null;
+  // With the office browser on screen and nothing chosen, each office already
+  // carries its own requirement beside its name. Joining every office's
+  // refusal into one unlabeled paragraph below it read as contradictory ages
+  // ("at least 24", "at least 30", "at least 21") with no office attached.
   const unavailable =
-    view.phase === "unavailable" && view.unavailableReason
+    view.phase === "unavailable" &&
+    view.unavailableReason &&
+    (offices.length === 0 || selectedOfficeKey !== null)
       ? splitEligibilityText(view.unavailableReason)
       : null;
   const authorityDetail = [
@@ -392,10 +426,11 @@ export function CampaignWorkspace({
             <details className="game-campaign-detail">
               <summary>About election dates here</summary>
               <p>
-                No national election calendar or inferred district membership is
-                supplied here. The existing campaign filing route uses its
-                28-day game scenario schedule, not a sourced real-world election
-                date.
+                A state legislative seat is elected at the state's next regular
+                legislative election under the game's calendar profile, not a
+                sourced per-state calendar; staggered senate seats and primaries
+                are not modeled. A town's own body still uses a 28-day authored
+                schedule.
               </p>
             </details>
           ) : null}
@@ -415,7 +450,7 @@ export function CampaignWorkspace({
         <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
             {selectedOffice
-              ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}. Nobody has asked ${view.candidateName} to stand for it. That is not usually how it starts.`
+              ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}.`
               : "Choose one of the offices above to see whether you can file for it."}
           </p>
           {needsDistrict && selectedOffice ? (
@@ -432,7 +467,9 @@ export function CampaignWorkspace({
             data-testid="file-candidacy"
             className="game-campaign-action"
             disabled={
-              !selectedOffice?.eligible || (needsDistrict && !districtBinding)
+              !selectedOffice?.eligible ||
+              (needsDistrict && !districtBinding) ||
+              boundRefusal !== null
             }
             onClick={file}
           >
@@ -448,9 +485,17 @@ export function CampaignWorkspace({
                 : "Put your name in"}
             </span>
             <span className="game-campaign-action-note">
+              {selectedOffice && person
+                ? `The election is ${readableCampaignDate(campaignElectionDate(world, person.homeJurisdictionId, selectedOffice.officeKey))}. `
+                : ""}
               The committee opens with nothing in it.
             </span>
           </button>
+          {boundRefusal ? (
+            <p className="game-note" data-testid="file-candidacy-refusal">
+              {boundRefusal}
+            </p>
+          ) : null}
           {DIAGNOSTICS && authorityDetail.length > 0 ? (
             <details className="game-campaign-gaps game-campaign-detail">
               <summary>What the game does not know about this</summary>
@@ -478,10 +523,35 @@ export function CampaignWorkspace({
           <p data-testid="campaign-treasury">
             The committee has {money(view.treasury)}.
           </p>
+          {view.phase === "active" ? (
+            <CampaignOwnMoney
+              world={world}
+              personId={personId}
+              onWorldChange={onWorldChange}
+            />
+          ) : null}
+          {view.phase === "active" && view.campaignId ? (
+            <CampaignFilings
+              world={world}
+              personId={personId}
+              campaignId={view.campaignId}
+              onWorldChange={onWorldChange}
+              readableDate={readableCampaignDate}
+            />
+          ) : null}
 
           {view.reading ? (
             <p className="game-campaign-memo" data-testid="campaign-memo">
+              <span data-testid="campaign-memo-dated">
+                {view.reading.dated}
+              </span>{" "}
               {view.reading.summary}
+              {view.reading.change ? (
+                <span data-testid="campaign-memo-change">
+                  {" "}
+                  {view.reading.change}
+                </span>
+              ) : null}
               {view.reading.marginPercent !== null ? (
                 <small>
                   Somebody&rsquo;s estimate from the calls they made. The margin
@@ -646,44 +716,10 @@ export function CampaignWorkspace({
             ) : null}
           </div>
 
-          {strategyReport ? (
-            <section
-              className="game-campaign-strategy-report"
-              data-testid="campaign-strategy-report"
-            >
-              <h3>What happened</h3>
-              <p>{strategyReport.attribution}</p>
-              <p>
-                The player chose {strategyReport.chosenPriorityLabel} for{" "}
-                {strategyReport.geographyLabel}, with a ceiling of{" "}
-                {money(strategyReport.approvedSpendCeiling)}.
-              </p>
-              <p>{strategyReport.outcome}</p>
-              {strategyReport.observedResult ? (
-                <p className="game-note">{strategyReport.observedResult}</p>
-              ) : null}
-            </section>
-          ) : null}
-
-          {view.phase === "active" ? (
-            <OpponentActivityPanel world={world} personId={personId} />
-          ) : null}
-
-          {view.sessions.length > 0 ? (
-            <ul className="game-campaign-log" data-testid="campaign-log">
-              {view.sessions.map((session) => (
-                <li key={session.id}>
-                  <strong>{session.title}</strong> ·{" "}
-                  {readableCampaignDate(session.on)}
-                  {session.outcome ? <span> — {session.outcome}</span> : null}
-                  {session.blockedBy.length > 0 ? (
-                    <span> — waiting on {session.blockedBy.join(", ")}.</span>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-          ) : null}
-
+          {/*
+            The result leads. It used to sit below the whole session log, and
+            a Presque Isle race put it under about three hundred lines.
+          */}
           {view.tallies.length > 0 ? (
             <div data-testid="campaign-result">
               <p className="game-scene" data-testid="campaign-afterword">
@@ -693,12 +729,91 @@ export function CampaignWorkspace({
                 {view.tallies.map((tally) => (
                   <li key={tally.candidatePersonId}>
                     {tally.candidateName}
-                    {tally.isThisCandidate ? " (them)" : ""} —{" "}
+                    {tally.isThisCandidate ? " (you)" : ""} —{" "}
                     {tally.displayedSharePercent}%
                   </li>
                 ))}
               </ul>
+              {view.speech ? (
+                view.speech.given ? (
+                  <p className="game-note" data-testid="campaign-speech-given">
+                    {view.speech.given}
+                  </p>
+                ) : (
+                  <button
+                    type="button"
+                    className="game-campaign-action"
+                    data-testid="campaign-speech"
+                    data-kind={view.speech.kind}
+                    onClick={() => {
+                      try {
+                        onWorldChange(giveElectionSpeech(world, personId));
+                        setProblem(null);
+                      } catch (error) {
+                        setProblem(
+                          error instanceof Error
+                            ? error.message
+                            : String(error),
+                        );
+                      }
+                    }}
+                  >
+                    <span className="game-campaign-action-label">
+                      {view.speech.kind === "victory"
+                        ? "Give your victory speech"
+                        : `Concede to ${view.speech.winnerName}`}
+                    </span>
+                  </button>
+                )
+              ) : null}
             </div>
+          ) : null}
+          {strategyReport ? (
+            <section
+              className="game-campaign-strategy-report"
+              data-testid="campaign-strategy-report"
+            >
+              <h3>What happened</h3>
+              <p>{strategyReport.attribution}</p>
+              <p>{strategyReport.choice}</p>
+              <p>{strategyReport.outcome}</p>
+              {strategyReport.observedResult ? (
+                <p className="game-note">{strategyReport.observedResult}</p>
+              ) : null}
+            </section>
+          ) : null}
+
+          {view.phase === "active" ? (
+            <OpponentActivityPanel
+              world={world}
+              personId={personId}
+              campaignId={view.campaignId}
+            />
+          ) : null}
+
+          <MogulOffersPanel
+            world={world}
+            personId={personId}
+            onWorldChange={onWorldChange}
+          />
+
+          <CampaignSpendingReports world={world} personId={personId} />
+
+          {view.sessions.length > 0 ? (
+            <ul className="game-campaign-log" data-testid="campaign-log">
+              {groupCampaignSessions(view.sessions).map((group) => (
+                <li key={group.key}>
+                  <strong>{group.title}</strong> ·{" "}
+                  {group.count === 1
+                    ? readableCampaignDate(group.firstOn)
+                    : `${group.count} sessions, ${readableCampaignDate(group.firstOn)} to ${readableCampaignDate(group.lastOn)}`}
+                  {group.outcome ? <span> — {group.outcome}</span> : null}
+                  {group.blockedBy.length > 0 ? (
+                    <span> — waiting on {group.blockedBy.join(", ")}.</span>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
           ) : null}
         </>
       ) : null}

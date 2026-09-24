@@ -258,7 +258,7 @@ test.describe("people, and who was chosen", () => {
     await page.locator('[data-testid^="people-person-"]').first().click();
 
     /* Ordinary knowledge carries no badge; anything marked says which kind of
-       claim it is, in words rather than only in colour. */
+       claim it is, in words rather than only in color. */
     const marks = await page
       .locator("#root .pg-fact-attribution")
       .allTextContents();
@@ -533,7 +533,7 @@ test.describe("the deliberate workspaces", () => {
     /*
      * UI9-11. Normal notes carry accepted releases only. A section the file
      * marks UNRELEASED, and a reserved CANDIDATE version, are both kept out of
-     * the player's list rather than labelled inside it — the previous form of
+     * the player's list rather than labeled inside it — the previous form of
      * this check went quiet whenever no tag was rendered, which after the
      * change would have been always.
      */

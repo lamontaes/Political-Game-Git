@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   applyCharacterHistoryPlan,
   generateQuickCharacterHistory,
@@ -41,7 +42,7 @@ import { recordWorldEvent } from "./world";
  * temperament, relationships, aims, office or money. A person who owned
  * property individually leaves it in a pending estate; household and joint
  * holdings keep their existing shares; campaign and public money was never
- * theirs to leave. Probate is not modelled and not claimed.
+ * theirs to leave. Probate is not modeled and not claimed.
  *
  * Retiring a character from play is not their death and does not end any job
  * or office they hold. They simply stop being played.
@@ -539,7 +540,7 @@ export function continueAsRelative(
         entry.personId === input.successorId && entry.eventId === eventId,
     );
     if (already) continue;
-    const event = next.history.events.find((entry) => entry.id === eventId)!;
+    const event = eventById(next, eventId)!;
     if (reason === "retirement" && eventId === end.eventId) continue;
     next = recordEventKnowledge(next, {
       stableKey: `${PEOPLE_CONTINUATION_VERSION}:told:${input.successorId}:${eventId}`,
@@ -603,8 +604,8 @@ export function continueAsRelative(
 
 /**
  * The oldest a new character can start at, and so the oldest age the summary
- * has ever been written for. Its generated parent is twenty-eight years older
- * and still alive; past this, that claim stops being plausible, so an older
+ * has ever been written for. Its generated parent is decades older and still
+ * alive; past this, that claim stops being plausible, so an older
  * successor keeps only what the world already records of them.
  */
 const SUMMARIZED_EARLIER_LIFE_MAXIMUM_AGE = 70;
@@ -882,4 +883,72 @@ function daysBetween(from: IsoDate, to: IsoDate): number {
     (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
       86_400_000,
   );
+}
+
+/* ------------------------------------------------------------------ *
+ * Observer Mode from the start (Constitution rule 30)
+ * ------------------------------------------------------------------ */
+
+export const OBSERVER_OPENED_EVENT = "game.observer-opened";
+const OBSERVER_ANCHOR_TAG_PREFIX = "observer-anchor:";
+
+/**
+ * Hands a freshly opened world to nobody.
+ *
+ * The opening generator builds a world around one resident, so the same
+ * systems produce the same town whether it is played or watched. Here nobody
+ * takes that resident: they live on as an ordinary person, and the world runs
+ * with no player in it. The resident is recorded as the anchor so a save can
+ * say where the world is watched from and reading surfaces have a place to
+ * stand. It is never treated as a played life: no handoff is written, so no
+ * continuation is offered for someone who was never played.
+ */
+export function observeFromOpening(
+  world: World,
+  anchorPersonId: EntityId,
+): World {
+  if (world.control.kind === "observer") return world;
+  const anchor = world.people[anchorPersonId];
+  if (!anchor) throw new Error("The world has no one to watch it from.");
+  if (controlHandoffs(world).length > 0 || observerAnchorPersonId(world)) {
+    throw new Error(
+      "Only a world nobody has played can be watched from its start.",
+    );
+  }
+  const next = recordWorldEvent(world, {
+    stableKey: `${PEOPLE_CONTINUATION_VERSION}:observer-opened:${anchorPersonId}`,
+    type: OBSERVER_OPENED_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: anchor.homeJurisdictionId,
+    involvedEntityIds: [anchorPersonId],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [`${OBSERVER_ANCHOR_TAG_PREFIX}${anchorPersonId}`],
+    summary: "The world began with nobody played in it.",
+    context: {
+      location: null,
+      socialContext: "A choice of how to play, not an event in the world.",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return { ...next, control: { kind: "observer" } };
+}
+
+/** The resident a world watched from its start is watched from, if any. */
+export function observerAnchorPersonId(world: World): EntityId | null {
+  for (const event of world.history.events) {
+    if (event.type !== OBSERVER_OPENED_EVENT) continue;
+    const tag = event.tags.find((entry) =>
+      entry.startsWith(OBSERVER_ANCHOR_TAG_PREFIX),
+    );
+    const id = tag?.slice(OBSERVER_ANCHOR_TAG_PREFIX.length) as
+      EntityId | undefined;
+    if (id && world.people[id]) return id;
+  }
+  return null;
 }

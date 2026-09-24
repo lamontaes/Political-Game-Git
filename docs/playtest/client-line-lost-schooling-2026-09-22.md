@@ -87,6 +87,6 @@ needs to say whether losing enrollments was intended before anything is refreshe
 
 A golden hash reports a change in _what the game does_ wearing the costume of a
 constant that needs refreshing. The cheapest way to tell the two apart is not a
-bisect but a diff of the two artefacts the hash summarises: it took two dumps
+bisect but a diff of the two artifacts the hash summarizes: it took two dumps
 and one diff to turn "the hash moved" into "the player lost their schooling".
 Same shape as the `nationwide-rule-coverage` Alaska row.

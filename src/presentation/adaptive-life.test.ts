@@ -11,6 +11,10 @@ import {
 } from "../simulation";
 import type { EntityId, LifeSituationKey, World } from "../simulation";
 import {
+  writeLegacyFamiliarRequest,
+  writeLegacyHouseholdEveningInvitation,
+} from "../simulation/life-opportunities";
+import {
   chooseAdultOption,
   letAdultTimePass,
   projectAdultLife,
@@ -88,6 +92,34 @@ function openLife(setup: NewGameSetup): {
     world: openOrdinaryLife(game.world, game.playerPersonId),
     personId: game.playerPersonId,
   };
+}
+
+/**
+ * A life opened before 2026-09-23, holding the picnic favor and confidence.
+ *
+ * Play stopped writing both that day: neither came from anything in the
+ * asker's own life, and this fixture's statewide world holds nobody with a
+ * reason to ask for anything instead. A save made before then still holds
+ * them, and these acceptance tests are about how a life adapts, calls back
+ * and mixes its stakes once there is something to answer, so they play that
+ * save rather than an empty year.
+ */
+function openLegacyLife(setup: NewGameSetup): {
+  world: World;
+  personId: EntityId;
+} {
+  const opened = openLife(setup);
+  let world = writeLegacyFamiliarRequest(
+    opened.world,
+    opened.personId,
+    "favour-request",
+  );
+  world = writeLegacyFamiliarRequest(
+    world,
+    opened.personId,
+    "confidence-disclosed",
+  );
+  return { world, personId: opened.personId };
 }
 
 /** Plays a life forward, always taking the option at `index`. */
@@ -407,8 +439,8 @@ describe("Acceptance 1 — the same life happens in the same order", () => {
     // different household as well. The claim here was only ever about what the
     // game puts in front of a life, so the world-identity assertion that used
     // to sit here has moved to the suite that owns it.
-    const one = openLife(calibrate(ADULT, 0));
-    const other = openLife(calibrate(ADULT, 3));
+    const one = openLegacyLife(calibrate(ADULT, 0));
+    const other = openLegacyLife(calibrate(ADULT, 3));
     const first = playAdultLife(one.world, one.personId, 10);
     const second = playAdultLife(other.world, other.personId, 10);
     expect(second.sequence).not.toEqual(first.sequence);
@@ -450,14 +482,18 @@ describe("Acceptance 1 — the same life happens in the same order", () => {
 describe("Acceptance 3 — a played life outruns the questionnaire", () => {
   it("moves an axis the setup leaned on, and keeps the setup answers on the record", () => {
     const setup = calibrate(ADULT, 0);
-    const { world, personId } = openLife(setup);
+    const { world, personId } = openLegacyLife(setup);
     const before = playerModelFor(world, personId);
     const beforeSetupEntries = before.trail.filter(
       (entry) => entry.strength === "setup",
     ).length;
     expect(beforeSetupEntries).toBeGreaterThan(0);
 
-    const played = playAdultLife(world, personId, 10, 1);
+    // Twelve beats, not ten. Since a life with something open can be offered
+    // one new request a day, the Saturday invitation comes round a
+    // beat earlier and ten beats land on a tie (14 against 14) where they used
+    // to clear it by one; the claim is about a played life, not a count.
+    const played = playAdultLife(world, personId, 12, 1);
     const after = playerModelFor(played.world, personId);
     const gameplayEntries = after.trail.filter(
       (entry) => entry.strength === "enacted",
@@ -518,7 +554,7 @@ describe("Acceptance 7 — a hard choice may leave nothing behind", () => {
 describe("Acceptance 12 — a callback is canonical, replayable and traceable", () => {
   it("schedules, comes due, and leaves a reason either way", () => {
     const setup = calibrate(ADULT, 0);
-    const { world, personId } = openLife(setup);
+    const { world, personId } = openLegacyLife(setup);
     const played = playAdultLife(world, personId, 16);
 
     const due = played.world.history.futureDueItems.filter((item) =>
@@ -571,7 +607,11 @@ describe("Acceptance 12 — a callback is canonical, replayable and traceable", 
     // E) the household is generated and may be solo, so this pins the custom
     // route that keeps the shared home the situation is written for.
     const setup = calibrate({ ...ADULT, startKind: "custom" }, 0);
-    const { world, personId } = openLife(setup);
+    const opened = openLife(setup);
+    const personId = opened.personId;
+    // Play stopped writing this invitation on 2026-09-22; a save made before
+    // then still answers one.
+    const world = writeLegacyHouseholdEveningInvitation(opened.world, personId);
     const alone = chooseAdultOption(world, {
       personId,
       situationKey: "adult.household-quiet-evening",
@@ -604,7 +644,7 @@ describe("Acceptance 13 — ordinary life is still there", () => {
 
   it("does not make every beat a hard one", () => {
     const setup = calibrate(ADULT, 0);
-    const { world, personId } = openLife(setup);
+    const { world, personId } = openLegacyLife(setup);
     let current = world;
     const tiers: string[] = [];
     for (let beat = 0; beat < 14; beat += 1) {

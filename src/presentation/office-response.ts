@@ -7,6 +7,10 @@ import {
   mattersForSubject,
   pressRecordsOfKind,
 } from "../simulation/press";
+import {
+  OFFICE_EMPLOYMENT_KINDS,
+  recordOfficeConsequence,
+} from "../simulation/governing/office-consequence";
 import { recordWorldEvent } from "../simulation/world";
 import { proseDate } from "./prose-dates";
 
@@ -152,13 +156,6 @@ function statementFor(kind: OfficeAnswerKind, officeTitle: string): string {
  * from a title. Somebody who holds none has nothing to answer for here, and
  * that is the ordinary case.
  */
-const OFFICE_EMPLOYMENT_KINDS: readonly string[] = [
-  "employment:legislative-member",
-  "employment:executive-office",
-  "employment:state-agency-director",
-  "employment:judicial-office",
-];
-
 function heldOffice(
   world: World,
   personId: EntityId,
@@ -334,4 +331,17 @@ export function matterSubjectCount(world: World, personId: EntityId): number {
   return pressRecordsOfKind(world, "matter").filter((matter) =>
     matter.subjectPersonIds.includes(personId),
   ).length;
+}
+
+/**
+ * What the press desk calls when the player picks an answer: the answer said
+ * through GOVERNING's real writer, and the sentence to print about what the
+ * office did with it.
+ */
+export function answerForOfficeOnDesk(
+  world: World,
+  input: AnswerForOfficeInput,
+): { readonly world: World; readonly line: string } {
+  const result = answerForOffice(world, input, recordOfficeConsequence);
+  return { world: result.world, line: officeOutcomeLine(result) };
 }

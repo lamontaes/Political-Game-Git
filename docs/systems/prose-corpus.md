@@ -98,7 +98,7 @@ tree, and asks of each whether the inventory has it. Verdicts are
 
 **100% coverage is not claimed.** Forcing debug strings, identifiers and
 fixtures into the inventory to reach a round number is the old failure wearing
-a new one. The honest output is the count still needing a person's judgement.
+a new one. The honest output is the count still needing a person's judgment.
 
 ## Hard errors and review warnings
 

@@ -3,7 +3,7 @@ CHARACTER: You are a child, with a current school enrollment. You are older than
 RELATIONSHIPS: none supplied for this scene.
 KNOWN WORLD FACTS:
 
-- The world holds an active education enrolment for you, without asserting it is the earlier enrollment.
+- The world holds an active education enrollment for you, without asserting it is the earlier enrollment.
 - At least 180 days has passed since the quiet-work rule and the child at the window.
 - In this new immediate scene, quiet work calls for staying at your table. No rule or enrollment continuity is asserted.
 - A child is at the window during this new quiet-work scene.

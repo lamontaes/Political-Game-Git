@@ -357,7 +357,7 @@ describe("release identity", () => {
     // carries a release date, even when it names a version and a date line.
     const [reserved] = parseSections(
       '## PRE-ALPHA 9.9.9 — "Proof" — CANDIDATE, NOT YET ACCEPTED\n' +
-        "\n_Released 1 January 2026._\n",
+        "\n_Released January 1, 2026._\n",
     );
     expect(reserved).toBeDefined();
     expect(reserved!.candidate).toBe(true);

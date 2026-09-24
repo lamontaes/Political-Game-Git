@@ -17,7 +17,7 @@ different answer can be given knowingly.
 | Blank           | Recommendation          | The constraint behind it                                                                                                                                                                                         |
 | --------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Journey key     | `campaign:to-the-doors` | Matches the naming of `ordinary-life:to-meeting-room`, the only other journey to a meeting place                                                                                                                 |
-| Journey minutes | 20                      | The party route's local journeys run 20–30; a canvass starts in the neighbourhood you live in                                                                                                                    |
+| Journey minutes | 20                      | The party route's local journeys run 20–30; a canvass starts in the neighborhood you live in                                                                                                                     |
 | Scene row       | **no room, and say so** | Canvassing is outdoors. Every released scene in the game is an interior and no environment family describes an outdoor space, which is the reason `campaign-doors` itself already gives. See the art note below. |
 
 **A fundraising call session — `campaign-call-desk`**
@@ -25,7 +25,7 @@ different answer can be given knowingly.
 | Blank           | Recommendation                       | The constraint behind it                                                                                                                              |
 | --------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Journey key     | `campaign:to-the-call-desk`          | Same naming                                                                                                                                           |
-| Journey minutes | 25                                   | Travelling to the campaign's own storefront, not a neighbour's street                                                                                 |
+| Journey minutes | 25                                   | Traveling to the campaign's own storefront, not a neighbor's street                                                                                   |
 | Scene row       | no room (journeys never resolve one) | `SCENE_VENUES` states a journey never resolves a room even when both endpoints have one. The desk itself already resolves to the campaign storefront. |
 
 **Signing off an advertising buy — `campaign-office`**
@@ -89,7 +89,7 @@ gap between them was the bug.
 ## The difference, at the type level
 
 `writeHold` in `src/simulation/campaign-life-activities.ts` books the party
-activity and then, **if the catalogue entry names a journey**, books the
+activity and then, **if the catalog entry names a journey**, books the
 journey alongside it:
 
 ```ts

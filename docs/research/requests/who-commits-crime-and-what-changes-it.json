@@ -1,0 +1,19 @@
+{
+  "filedAt": "2026-09-23T01:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Local crime",
+  "priority": "P2",
+  "question": "What moves a person toward committing an ordinary crime (assault, robbery, burglary, vandalism), in terms a life simulation can represent: money pressure, unemployment, age, prior offenses, substance use, grievance against a specific person, peers? What are the relative sizes of those effects in the criminology literature, and what share of offenses are committed by someone the victim knows? And what policy levers measurably change crime, reporting or arrest rates (police staffing and funding, sentencing, diversion, lighting and environmental design, social spending), by roughly how much?",
+  "questionId": "who-commits-crime-and-what-changes-it",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Local crime thread; lamontae asked on 2026-09-22 at 8:53 p.m. ET that every bill have an impact, and the owner's standing rule is that big events come from pressure, never a script",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crime/contract.ts OFFENDERS_ARE_NOT_REPRESENTED",
+      "whatItDidNotSettle": "The game never picks an offender, because choosing a named person to commit a crime would invent a motive. So an arrest names nobody and the prosecution hand-off carries no offender."
+    }
+  ],
+  "title": "Who commits ordinary crime, and which policies change it",
+  "usableAnswer": "Two tables with sources. The first lists risk factors for committing each offense, with relative effect sizes, plus the share of offenses committed by strangers, acquaintances and family. The second lists policy levers, each with a measured effect on offense rates, reporting or arrests, the time it takes to show, and how confident the literature is. Where evidence is weak or contested, say so.",
+  "whyItMatters": "Offenders can only come from pressures the world already tracks on real people (money, work, relationships), never from a die roll. A policing or public-safety bill should change crime by a researched amount. Until these answers land, crime has no author and no bill can change it."
+}

@@ -342,7 +342,7 @@ describe("pose control plates", () => {
     const plate = renderPoseControlPlate(family);
     // 18 landmark joints, drawn as filled circles.
     expect(plate.match(/<circle[^>]*fill="#ffffff"/g)?.length).toBe(18);
-    // Two contacts, drawn as open rings in the contact colour.
+    // Two contacts, drawn as open rings in the contact color.
     expect(plate.match(/stroke="#ff6a3d"/g)?.length).toBe(2);
     // The skull sits above y=0 because the body canvas is headless.
     expect(plate).toMatch(/<ellipse cx="540.00" cy="\d+\.\d+"/);

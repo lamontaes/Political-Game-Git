@@ -104,7 +104,7 @@ preserved. The identity and exact persisted-string regressions cover those
 specific contracts; they are not a whole-path byte-equality proof.
 
 **Analysis** — `legislation-analysis.ts`. What a bill commits is arithmetic on
-its current provisions and is always available; what a programme would achieve
+its current provisions and is always available; what a program would achieve
 is a forecast, and the module names the missing series rather than inventing a
 budget, an analyst or an impact.
 
@@ -131,7 +131,7 @@ absorption of the #133 prototype design.
 This is not a career, calendar, committee-assignment, election, agency,
 municipal or national expansion, and it does not claim to repair the separate
 March 31 / session-deadline observation, childhood, campaign dates, portraits
-or travel. Remaining authored behaviour is identified in the PR body rather
+or travel. Remaining authored behavior is identified in the PR body rather
 than relabelled autonomous.
 
 ---
@@ -215,7 +215,7 @@ at all.
   here rather than assumed, and changing it would be reopening accepted core
   semantics this feature has no authority to reopen. Reading — the hot path —
   is ~1.6ms for a thirty-one-bill docket.
-- **Autonomous vote behaviour.** Still authored outside the modelled members,
+- **Autonomous vote behaviour.** Still authored outside the modeled members,
   exactly as before this work. Nothing here makes the legislature dynamic.
 - **The shared shell.** The root navigation patch is still the same 36 additive
   lines in `PlayerGame.tsx` — one import, one handler, one mount — held for the

@@ -2,6 +2,10 @@ import { CAMPAIGN_WEEKLY_EVALUATION_KEY } from "./campaign-life-types";
 import { campaignWeeklyEvaluationHandler } from "./campaign-opponents";
 import { CAMPAIGN_LIFE_OUTREACH_KEY } from "./campaign-life-types";
 import { campaignLifeOutreachTransitionHandler } from "./campaign-life-activities";
+import {
+  CAMPAIGN_OPERATING_PAYMENT_KEY,
+  campaignOperatingPaymentHandler,
+} from "./campaign-operating-costs";
 import type { FutureTransitionHandler, FutureTransitionKey } from "./types";
 
 /**
@@ -18,4 +22,6 @@ export const CAMPAIGN_LIFE_HANDLERS: readonly (readonly [
   [CAMPAIGN_WEEKLY_EVALUATION_KEY, campaignWeeklyEvaluationHandler],
   // Lane A: chapter organizers offer party and campaign activities.
   [CAMPAIGN_LIFE_OUTREACH_KEY, campaignLifeOutreachTransitionHandler],
+  // A committee pays its ordinary bills on the days they fall due.
+  [CAMPAIGN_OPERATING_PAYMENT_KEY, campaignOperatingPaymentHandler],
 ];

@@ -23,6 +23,7 @@ import type {
   LegislativeProvisionBeneficiary,
   MetricScope,
 } from "./types";
+import { moneyText } from "./money-text";
 
 /**
  * Turning a chosen configuration into a bill.
@@ -115,9 +116,9 @@ export interface CompiledBillDraft {
   readonly summary: string;
   readonly subjectClass: "appropriation" | "general-policy";
   /**
-   * The catalogue questions this configuration is about, as qualified keys.
+   * The catalog questions this configuration is about, as qualified keys.
    * Keys, not ids: a draft is compiled without a world, and which of these a
-   * particular world's catalogue holds is decided where the bill is filed.
+   * particular world's catalog holds is decided where the bill is filed.
    */
   readonly propositionKeys: readonly string[];
   readonly scenarioKey: string;
@@ -207,7 +208,7 @@ export function draftingSupportsScenario(scenarioKey: string): boolean {
 function describeValue(value: ProgramParameterValue): string {
   switch (value.kind) {
     case "money":
-      return `${value.currency} ${value.minorUnits}`;
+      return moneyText(value);
     case "enumerated":
       return `'${value.value}'`;
     case "duration-years":
@@ -374,7 +375,7 @@ function checkInstrumentShape(
  * with a default; it is the sentence that makes the Act do anything, missing.
  * Equally, an authorization handed an authority is being asked to amend
  * something it does not amend, and that is refused rather than ignored, because
- * ignoring it would tell the caller their bill was about a programme when it
+ * ignoring it would tell the caller their bill was about a program when it
  * was not.
  */
 function checkPredicateAuthority(
@@ -407,7 +408,7 @@ function checkPredicateAuthority(
  * An appropriation may not exceed the ceiling the authority it names set.
  *
  * Checked against the authority's own recorded ceiling rather than against a
- * bound in the bank, because the limit is a fact about that programme, not a
+ * bound in the bank, because the limit is a fact about that program, not a
  * design choice about this bill — and it moves when the player appropriates
  * against a bigger bill of their own. Refused rather than clamped, on the same
  * ground as every other bound here.
@@ -626,13 +627,13 @@ export function compileBillDraft(
 }
 
 /**
- * When the programme runs.
+ * When the program runs.
  *
  * A configuration with no timing parameter starts when it is filed and does not
  * end — which is a real thing for a formula change and would be a lie for a
  * pilot, so the variants that are pilots declare a term. An end before a start
  * is refused here rather than rendered, because a sunset clause that closes the
- * programme before it opens is a contradiction the text cannot express
+ * program before it opens is a contradiction the text cannot express
  * honestly.
  */
 function resolveTiming(

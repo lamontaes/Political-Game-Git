@@ -39,11 +39,7 @@ export function validateDrawnAppearance(proof, saved, requireMaterial = false) {
       assert.equal(layer.drawnVisible, true, "prepared layer drew nothing");
     }
   } else {
-    assert.equal(
-      prepared.length,
-      0,
-      "unmarked saved appearance was recoloured",
-    );
+    assert.equal(prepared.length, 0, "unmarked saved appearance was recolored");
   }
   return proof;
 }

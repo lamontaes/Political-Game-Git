@@ -3,7 +3,7 @@
 Walked 2026-09-22 09:35Z on `main` at `0f1db2d`, in Chromium 141. One life,
 forty-four years old, made through the ordinary creator in Baltimore,
 Maryland. Filed for governor on day one, then let ten weeks run through the
-shell's week control, 5 January to 17 March 2026.
+shell's week control, January 5 to March 17, 2026.
 
 This is the first walk in this lane to let real time pass. Everything before
 it looked at a first day.
@@ -63,7 +63,7 @@ survive contact with a second week.
 
 ## The press grows, and staggers its coverage
 
-Day one had one outlet on the front page. By 16 March the dateline reads five:
+Day one had one outlet on the front page. By March 16 the dateline reads five:
 
 > BALTIMORE NEIGHBORHOOD NEWSLETTER · MARYLAND STATEHOUSE REVIEW · CIVIC
 > LEDGER · THE EVENING COMPASS · CIVIC ARC BROADCASTING
@@ -71,8 +71,8 @@ Day one had one outlet on the front page. By 16 March the dateline reads five:
 With named reporters — "Reported by Chloe Parsons for The Evening Compass",
 "Reported by Rachel Weber for Civic Arc Broadcasting" — and the same story
 carried on **different dates** by different outlets: the shipping recovery
-runs in Civic Ledger on 12 February and in The Evening Compass and Civic Arc
-on 17 February.
+runs in Civic Ledger on February 12 and in The Evening Compass and Civic Arc
+on February 17.
 
 That is worth saying because of what is on file elsewhere: three outlets
 printing the same sentence on the same day. Over ten weeks they do not. They

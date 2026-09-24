@@ -19,13 +19,12 @@ import {
   OFFICE_TRANSITION_SERVICE_ATTENDED,
   unadmittedRuleCapabilityResolver,
 } from "../simulation";
-import {
-  fileForStateExecutiveOffice,
-  qualifyForStateExecutiveTerm,
-} from "./nationwide-candidacy";
+import { fileForStateExecutiveOffice } from "./nationwide-candidacy";
 import {
   attendOfficeTransitionService,
   projectOfficeTransition,
+  projectSwearingIn,
+  takeOathForHeldOffice,
 } from "./office-transition";
 
 afterEach(() => bindRuleCapabilityResolver(unadmittedRuleCapabilityResolver));
@@ -100,7 +99,7 @@ describe("a Kentucky legislator-elect", () => {
     expect(view).not.toBeNull();
     expect(view!.startsAt.endsWith("-01-01")).toBe(true);
     expect(view!.electTitle).toBe(
-      "Member-elect of the House of Representatives",
+      "Member-elect of the Kentucky House of Representatives",
     );
     expect(view!.qualification).toBe("not-required");
     expect(view!.daysUntilStart).toBeGreaterThan(0);
@@ -166,7 +165,7 @@ describe("a Kentucky legislator-elect", () => {
 });
 
 describe("a governor-elect", () => {
-  it("carries the qualification step and the executive services until the term begins", () => {
+  it("is qualified without a step and carries the executive services until the term begins", () => {
     const { world, personId } = adultLifeIn("NV", "office-transition-NV");
     const decided = runToElection(
       fileForStateExecutiveOffice(world, personId),
@@ -175,16 +174,25 @@ describe("a governor-elect", () => {
     );
     const view = projectOfficeTransition(decided, personId)!;
     expect(view.electTitle).toBe("Governor-elect");
-    expect(view.qualification).toBe("needed");
+    expect(view.qualification).toBe("done");
     expect(view.services.map((s) => s.key)).toContain(
       "executive-transition-team",
     );
-    const qualified = qualifyForStateExecutiveTerm(decided, personId);
-    expect(projectOfficeTransition(qualified, personId)!.qualification).toBe(
-      "done",
-    );
-    expect(
-      projectOfficeTransition(passUntil(qualified, view.startsAt), personId),
-    ).toBeNull();
+    const inOffice = passUntil(decided, view.startsAt);
+    expect(projectOfficeTransition(inOffice, personId)).toBeNull();
+    // A governor is sworn in too, at an inauguration rather than in a chamber.
+    const swearingIn = projectSwearingIn(inOffice, personId)!;
+    expect(swearingIn.officeTitle).toBe("Governor");
+    expect(swearingIn.ceremony).toMatch(/inauguration/);
+    const sworn = projectSwearingIn(
+      takeOathForHeldOffice(inOffice, personId, {
+        swornOn: "bible",
+        form: "swear",
+      }),
+      personId,
+    )!;
+    expect(sworn.swornInOn).toBe(inOffice.currentDate);
+    expect(sworn.swornOn?.label).toBe("A Bible");
+    expect(sworn.form).toBe("swear");
   }, 240_000);
 });

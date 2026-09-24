@@ -1,0 +1,29 @@
+{
+  "intakeVersion": "art-request-intake/v1",
+  "requestId": "env-domestic-small-town-house-living-room",
+  "title": "A small-town house living room, for lives that do not start in a city",
+  "missing": "The only released home rooms are two city apartments, and the window of each looks out on brick apartment blocks. There is no home interior for a detached house in a small town or the country, so a life in a town of a few thousand opens in a city flat.",
+  "consumerSite": {
+    "consumerId": "ordinary-domestic-life",
+    "runtimeComponent": "src/presentation/life-scene.ts",
+    "playerVisibleUse": "The household room shown behind everyday life at home, which is most of play. Seen on a walk in Presque Isle, Maine (about 9,000 people): the home showed a city apartment with brick blocks outside the window."
+  },
+  "jurisdiction": {
+    "scope": "jurisdiction-independent",
+    "reason": "The gap is the kind of settlement, not a state: every life outside a large city gets a city apartment today. One ordinary small-town house interior serves towns across the country; regional look is carried by the opening plate, and a window view should show nothing region-specific (a yard, a street of houses, trees), so it does not claim a climate."
+  },
+  "whyNeeded": "Home is where ordinary life happens, so this is the room most small-town and rural players see most often. A city apartment in a town of 9,000 tells the player the game does not know where they live.",
+  "origin": "playtest",
+  "requestedBy": "art bench and regional scenes thread",
+  "filedAt": "2026-09-22T23:45:00.000Z",
+  "priority": "P1",
+  "targetClass": "environment-plate",
+  "environmentClass": "domestic-interior",
+  "notes": [
+    "Selection today: resolveLifeScene picks one of DOMESTIC_SCENE_IDS by hashing the household id, and both are apartments. Once this plate is released, the selector needs to prefer it for households in small places; that is a code change after the art exists, not a reason to hold the request.",
+    "First person, like every room: no people drawn in. Present household members are rendered separately.",
+    "The window should show a neighboring house, yard or trees in a season-neutral way, or be curtained, so one plate does not stand for July and January at once.",
+    "Not in scope: the housemate drawn as a dark placeholder shape in the same walk. That is the modular people figure, which has its own owner."
+  ],
+  "promotedToRequestId": "env-domestic-small-town-house-living-room"
+}

@@ -360,6 +360,20 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     provenance,
   },
 ];
+/**
+ * The employer's name as a player reads it.
+ *
+ * Each catalog name carries a "(fictional)" marker, and that full name is the
+ * organization's identity: it builds the stable key every save finds its
+ * employer by, so it cannot change. The marker is a note to authors, not part
+ * of anybody's name, and a Houma walk read it on every listing under Jobs.
+ */
+export function employerName(
+  path: Pick<LifePathDefinition, "organizationName">,
+): string {
+  return path.organizationName.replace(/\s*\(fictional\)$/, "");
+}
+
 export function lifePathDefinition(id: string): LifePathDefinition {
   const path = LIFE_PATHS2_CATALOG.find((p) => p.id === id);
   if (!path) throw new Error("This opportunity is not available.");

@@ -13,8 +13,10 @@ import type { EntityId, IsoDate, World } from "../simulation";
 import { claimStanceOf } from "../simulation/claim-stances";
 import { CHAPTER_JOINED_EVENT } from "../simulation/living-world/party-chapters";
 import { seekCivicPressContact } from "../simulation/press-reach";
+import { writeLegacyHouseholdEveningInvitation } from "../simulation/life-opportunities";
 import { sceneBindingsFor } from "../simulation/scene-bindings";
 import { letAdultTimePass } from "./adult-life";
+import { refreshContextualScenes } from "./contextual-scene-producers";
 import type { ContextualSceneSubject } from "./contextual-scenes";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -231,15 +233,30 @@ describe("a filing is news at home and to a reporter", () => {
 });
 
 describe("an evening in, promised, and a commitment the same evening", () => {
+  // Play no longer writes the evening invitation (the owner removed it on
+  // 2026-09-22). A save made before then still holds one, and the scenes that
+  // answer it still have to read it correctly.
   const life = adultLife("people-evening-3");
   const player = life.playerPersonId;
-  const offered = passUntilOpen(
-    life.world,
+  const offered = refreshContextualScenes(
+    writeLegacyHouseholdEveningInvitation(
+      letAdultTimePass(life.world, 1),
+      player,
+    ),
     player,
-    "scene-favor",
-    (world) => letAdultTimePass(world, 1),
-    20,
   );
+
+  it("play itself no longer writes the invitation", () => {
+    // This life reached the invitation within twenty days before it was
+    // removed, which is what this describe used to wait for.
+    let world = life.world;
+    for (let day = 0; day < 20; day += 1) world = letAdultTimePass(world, 1);
+    expect(
+      world.history.events.filter(
+        (event) => event.type === "life.household-evening-proposed",
+      ),
+    ).toEqual([]);
+  });
 
   it("the housemate's own invitation is a favor scene the same day", () => {
     expect(variantOf(offered, player, "favor")).toBe("household-evening");

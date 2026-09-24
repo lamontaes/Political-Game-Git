@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-23T00:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "Placeholder in src/simulation/crisis/handling-reactions.ts (UNRESEARCHED_DISASTER_HANDLING): 200 basis points lost for failed handling and 100 gained for sound handling in an open race; -40 or +20 on a later race's starting weight (850-1150 scale); remembered four years.",
+    "The standard is the game's own: a request is warranted for a major or worse event, or a moderate one that destroyed homes; a federal declaration for a major or worse event. Governors and Presidents the player does not control always meet it.",
+    "Family and party organizers of the played character read the public record and choose to criticize, defend or praise, which strains or maintains the relationship. Nobody asks the President yet."
+  ],
+  "priority": "P1",
+  "question": "When a governor handles a natural disaster well or badly (in the game: asking or not asking for a federal major-disaster declaration when damage warrants it), how much does it move their vote share in a race under way and in later races, how long is it remembered, and who reacts in public: their party, local officials, the press, and the President when asked about it (the owner's example: 'what do you think about what's happening in Nevada?')? Is there evidence that good handling earns less credit than bad handling costs?",
+  "questionId": "disaster-handling-reactions",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/disaster.ts (PROVISIONAL_DISASTER_POLICY)",
+      "whatItDidNotSettle": "Covers damage, request windows and repair capacity; nothing about electoral or social reaction."
+    }
+  ],
+  "title": "How voters, family, party and the President react to a governor's disaster handling",
+  "usableAnswer": "(1) Vote-share effect of good and of bad disaster handling, current race and later, with a memory length. (2) The typical public reactions and who makes them. (3) How often and in what form the President or national figures comment on a state's handling.",
+  "whyItMatters": "The owner asked on 2026-09-22 for responses to bad and good disaster handling from family, party, people who know the official and voters, and for the President to be asked. In a replay a governor let thirteen requests for federal help lapse and the only consequence was a line in the paper. The game now judges the decision against its own standard and moves support and relationships by placeholders."
+}

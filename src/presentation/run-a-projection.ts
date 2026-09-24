@@ -11,7 +11,7 @@ import type { RunAFixture, RunAScenePersonContext } from "./run-a-fixture";
  * What a person would call the place, on the dossier a player reads.
  *
  * This used to run every birthplace and residence through the Run-A fixture's
- * display-name helper, which recognised exactly one place by literal: a
+ * display-name helper, which recognized exactly one place by literal: a
  * character born in Lexington was shown "Lexington, Kentucky", and a character
  * born anywhere else was shown whatever filing name the jurisdiction record
  * happened to carry. One development run's convenience was deciding how the

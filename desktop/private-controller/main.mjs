@@ -1,6 +1,7 @@
 import { loadContentAsync, serveRuntimeContent } from "../runtime-content.mjs";
 import { watch as watchReceived } from "node:fs";
 import { channelPath, verifyReceivedBuildAsync } from "./received-channel.mjs";
+import { retireOwnedVersions } from "./update-retention.mjs";
 import {
   hasSavableLife,
   saveOpenLife,
@@ -79,6 +80,7 @@ import {
   cleanHubState,
   createGeneration,
   emptyHubState,
+  hubChromeHeight,
   hubViewLayout,
   playLabel,
   prunedQueue,
@@ -94,6 +96,7 @@ import {
   buildPresentOnDisk,
   buildRecord,
   repositoryIsExpected,
+  runtimeContentFor,
 } from "./private-update.mjs";
 import {
   SILENCE_NOTICE_MS,
@@ -468,6 +471,7 @@ function publicState() {
           phase: hub.phase[selected] ?? null,
           check: checks[selected] ?? null,
           build: selectedBuild,
+          pending: state?.tracks[selected]?.pending ?? null,
           building: hub.workerTrack === selected,
         });
         // A remote check says nothing about the disk: the pill is resolved
@@ -1005,7 +1009,7 @@ function artDeskView(url) {
       item.setSavePath(dest);
       item.once("done", (_event, state) => {
         logLine(`Art Desk download ${state}: ${dest}`);
-        // completed | cancelled | interrupted — cancel is not a failure.
+        // completed | canceled | interrupted — cancel is not a failure.
         hub.lastDownload = {
           state,
           name: path.basename(dest),
@@ -1057,8 +1061,19 @@ function contentForTab() {
 
 function layout() {
   if (!hub.window || hub.window.isDestroyed()) return;
-  const bounds = hubViewLayout(hub.window.getContentBounds(), CHROME_HEIGHT);
+  /*
+   * Playing full screen gives the game the whole screen: the hub's bar steps
+   * aside until the window leaves full screen (View > Toggle Full Screen, or
+   * the window's own control), so the life is not framed as a small window.
+   */
+  const chromeHeight = hubChromeHeight(
+    { fullScreen: hub.window.isFullScreen(), activeTab: hub.activeTab },
+    CHROME_HEIGHT,
+  );
+  const immersive = chromeHeight === 0;
+  const bounds = hubViewLayout(hub.window.getContentBounds(), chromeHeight);
   hub.chrome.setBounds(bounds.chrome);
+  hub.chrome.setVisible(!immersive);
   const visible = contentForTab();
   const all = [
     ...hub.views.values(),
@@ -1081,10 +1096,7 @@ function startWorker(track, retry = false, receivedFirst = false) {
   const state = readState();
   if (!state?.repositoryPath)
     return { ok: false, message: "Choose the project folder in Settings." };
-  const selectedBuild = state.tracks[track]?.current;
-  const usesRuntimeContent = Boolean(
-    selectedBuild?.preparedLocally === true && selectedBuild.content,
-  );
+  const usesRuntimeContent = Boolean(runtimeContentFor(state, track));
   const packPath =
     state.tracks[track]?.privatePackPath ?? state.privatePackPath;
   if (!packPath && !usesRuntimeContent)
@@ -1100,7 +1112,11 @@ function startWorker(track, retry = false, receivedFirst = false) {
     else hub.queue.push({ track, receivedFirst });
     return { ok: true, message: "Queued after the current build." };
   }
-  hub.phase[track] = { phase: "fetching", message: "Fetching…" };
+  hub.phase[track] = {
+    phase: "fetching",
+    message: "Fetching…",
+    checkStartedAt: new Date().toISOString(),
+  };
   const workerArguments = [
     workerPath,
     "--data-root",
@@ -1122,6 +1138,7 @@ function startWorker(track, retry = false, receivedFirst = false) {
     onSilent: () => {
       if (hub.worker !== child) return;
       hub.phase[track] = {
+        checkStartedAt: hub.phase[track]?.checkStartedAt,
         phase: hub.phase[track]?.phase ?? "fetching",
         message: silenceNotice({
           hasPlayableBuild: Boolean(readState()?.tracks[track]),
@@ -1159,6 +1176,7 @@ function startWorker(track, retry = false, receivedFirst = false) {
     if (pending) consume("\n");
     hub.worker = null;
     hub.workerTrack = null;
+    retireUnusedControllerVersions();
     if (code !== 0 && hub.phase[track]?.phase !== "failed")
       hub.phase[track] = {
         phase: "failed",
@@ -1196,6 +1214,7 @@ function onWorkerEvent(track, event) {
   } else if (event.kind === "progress") {
     logLine(event.message);
     hub.phase[track] = {
+      checkStartedAt: hub.phase[track]?.checkStartedAt,
       phase: event.phase ?? hub.phase[track]?.phase ?? "preparing",
       message: event.message,
     };
@@ -1247,11 +1266,11 @@ function onWorkerEvent(track, event) {
         noteCheck(
           track,
           activated === true
-            ? "ready"
+            ? "up-to-date"
             : activated === "retained"
               ? "waiting"
               : "failed",
-          event.message,
+          activated === true ? "Update installed." : event.message,
           event.revision,
         );
         afterComplete(track);
@@ -1319,6 +1338,8 @@ async function activateVerifiedPending(id) {
     )
       return "retained";
     atomicWrite(statePath, activatePending(state, id));
+    hub.phase[id] = { phase: "ready", message: "Update installed." };
+    noteCheck(id, "up-to-date", "Update installed.", pending.revision);
     return true;
   } catch (error) {
     logLine(`Waiting update was retained without activation: ${error.message}`);
@@ -1331,7 +1352,51 @@ async function activateVerifiedPending(id) {
   }
 }
 
+const applyingUpdates = new Set();
+function retireUnusedControllerVersions() {
+  try {
+    const result = retireOwnedVersions({
+      dataRoot,
+      activeRevisions: [...hub.play.values()].map((play) => play.revision),
+    });
+    if (result.removed.length)
+      logLine(
+        `Retired ${result.removed.length} superseded owned game payload(s).`,
+      );
+  } catch (error) {
+    logLine(`Version retention deferred: ${error.message}`);
+  }
+}
 async function applyPending(id) {
+  if (applyingUpdates.has(id))
+    return { ok: false, message: "The update is already being installed." };
+  applyingUpdates.add(id);
+  const started = Date.now();
+  try {
+    hub.phase[id] = { phase: "installing", message: "Verifying update…" };
+    broadcast();
+    const result = await installPending(id);
+    hub.phase[id] = {
+      phase: result.ok ? "ready" : "failed",
+      message: result.message,
+    };
+    return result;
+  } catch (error) {
+    logLine(`Update installation failed: ${error.message}`);
+    const message = "The update could not be installed. Try again.";
+    hub.phase[id] = { phase: "failed", message };
+    return { ok: false, message };
+  } finally {
+    applyingUpdates.delete(id);
+    retireUnusedControllerVersions();
+    logLine(
+      `Update installation attempt finished in ${Date.now() - started} ms.`,
+    );
+    broadcast();
+  }
+}
+
+async function installPending(id) {
   const state = readState();
   if (!state?.tracks[id]?.pending)
     return { ok: false, message: "Nothing is waiting." };
@@ -1351,6 +1416,11 @@ async function applyPending(id) {
         "The update could not be verified. Your current game is unchanged.",
     };
   }
+  hub.phase[id] = {
+    phase: "installing",
+    message: "Closing the game to install…",
+  };
+  broadcast();
   if (!(await closePlay(id)))
     return {
       ok: false,
@@ -1364,6 +1434,8 @@ async function applyPending(id) {
         "The update changed while opening. Your previous game was retained.",
     };
   }
+  hub.phase[id] = { phase: "installing", message: "Opening the updated game…" };
+  broadcast();
   const opened = await openPlay(id);
   layout();
   broadcast();
@@ -1800,7 +1872,7 @@ handle("hub:cancel-build", () => {
   hub.worker?.kill("SIGTERM");
   return {
     ok: true,
-    message: "Cancelling. The last verified build stays active.",
+    message: "Canceling. The last verified build stays active.",
   };
 });
 handle("hub:choose-repository", async () => {
@@ -1952,12 +2024,16 @@ function createWindow() {
   for (const view of hub.views.values()) win.contentView.addChildView(view);
   win.contentView.addChildView(hub.chrome);
   win.on("resize", layout);
+  win.on("enter-full-screen", layout);
+  win.on("leave-full-screen", layout);
   win.on("close", (event) => {
     if (hub.quitting) return;
     event.preventDefault();
     // Closing the window keeps the current life and drafts in memory.
     win.hide();
   });
+  // Open at the size of the screen rather than as a small window.
+  win.maximize();
   layout();
 }
 

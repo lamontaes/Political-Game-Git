@@ -37,8 +37,8 @@ carries a separate opaque run on that side: both edges of the arm are
 silhouette edges, and its width, its axis and its wrist can be read. Where the
 arm lies **against** the torso the row is one opaque run: the outer edge is a
 silhouette edge, and the inner edge of the arm is not in the alpha at all — it
-is a painted line and a shading change, which is colour, and this contract does
-not read colour.
+is a painted line and a shading change, which is color, and this contract does
+not read color.
 
 So the arm is measured in two parts. The **separated segment** is the largest
 connected component of opaque material lying outside the midline run on that
@@ -56,7 +56,7 @@ value is.
 | Status               | Meaning                                                                                                             |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `measured`           | Read from the silhouette: directly (`alpha-silhouette`) or by a stated rule quoted in the note (`silhouette-rule`). |
-| `partially-measured` | Locates a region rather than a joint — an elbow on the outer contour, not at the joint centre.                      |
+| `partially-measured` | Locates a region rather than a joint — an elbow on the outer contour, not at the joint center.                      |
 | `ambiguous`          | The silhouette was read and did not decide the question. No value is written.                                       |
 | `occluded`           | The edge is not in the alpha: the arm lies against the torso or is hidden. No value is written.                     |
 | `unavailable`        | A prerequisite is missing (no wrist, so no chord to read an elbow against). No value is written.                    |
@@ -91,7 +91,7 @@ the three upper-arm widths are occluded by construction: the segment that
 clears the torso is the forearm, and the upper arm is against the body.
 
 Segments carry a pixel vector, a length as a fraction of figure height and a
-signed angle from the torso axis (neck centre to mid-figure centre). The elbow
+signed angle from the torso axis (neck center to mid-figure center). The elbow
 bend is the interior angle at the elbow point and inherits the elbow's status.
 Layering — whether the arm passes in front of or behind the torso — is
 `unavailable` on every body: alpha carries no depth.
@@ -177,7 +177,7 @@ pairings, 62 of which are also same-pose — exactly two are ready:
 The other 60 same-pose pairings fail closed: 41 `sleeve-landmarks-incomplete`,
 19 `sleeve-arm-occluded`. A cross-pose pairing never reaches those gates — 178
 are refused `sleeve-pose-mismatch` first. An earlier version of this section
-said one pairing; it had enumerated only image-left arms. The gate's behaviour
+said one pairing; it had enumerated only image-left arms. The gate's behavior
 is unchanged, and so is the conclusion below: the second pairing spans two
 canvases, so it adds no cross-morphology width evidence.
 
@@ -221,7 +221,7 @@ evidence:
 
 - **The despilled Packet 76 bodies.** Main added a despilled copy of all eight
   Packet 71 bodies under `art/generated/candidates/ocd-p76/bodies-despilled/`.
-  The despill writes colour and never alpha, and that was verified rather than
+  The despill writes color and never alpha, and that was verified rather than
   assumed: all eight despilled rasters carry a byte-identical alpha channel,
   the same dimensions and the same opaque-pixel count as their Packet 71
   sources. This contract reads alpha, so the despilled copies are the same
@@ -266,7 +266,7 @@ and it is a separate authorization from this lane.
 - left and right are independent — a mirrored figure swaps its answers, and a
   gesturing pose measures one side and refuses the other;
 - an occluded arm carries no elbow, no wrist, no inner contour and no width;
-- what the silhouette does not decide is labelled `ambiguous` with no value;
+- what the silhouette does not decide is labeled `ambiguous` with no value;
 - every landmark with a value lies on the silhouette;
 - shoulder, elbow, wrist and extremity descend a hanging arm in that order;
 - widening the pixels widens the measurement, and the other side does not move;

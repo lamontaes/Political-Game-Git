@@ -2,7 +2,9 @@ import {
   CAMPAIGN_LIFE_CATALOG,
   CHAPTER_MEETING_ATTENDED_EVENT,
   campaignById,
+  campaignLifeRefusal,
   homePartyChapters,
+  oldEnoughForCampaignLife,
   personName,
   projectCampaignGuidance,
   projectCampaignLifeActivities,
@@ -23,6 +25,7 @@ import {
   type SimulationMoment,
   type World,
 } from "../simulation";
+import { moneyText } from "../simulation/money-text";
 import { formatMinute } from "./player-calendar";
 import { proseDate } from "./prose-dates";
 import { venueActivities } from "./venue-activity";
@@ -47,14 +50,7 @@ export function readableDatesIn(text: string): string {
 
 /** "$1,234.50" for dollars; other currencies keep their code. */
 export function dollars(amount: MoneyAmount): string {
-  const sign = amount.minorUnits < 0 ? "-" : "";
-  const value = (Math.abs(amount.minorUnits) / 100).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return amount.currency === "USD"
-    ? `${sign}$${value}`
-    : `${amount.currency} ${sign}${value}`;
+  return moneyText(amount);
 }
 
 /**
@@ -111,6 +107,22 @@ const STATE_LABELS: Readonly<
   completed: "Done.",
 };
 
+/**
+ * An offer nobody said yes to before it had to be answered: the organization
+ * needed to know by the time the person would have set out. Null for anything
+ * that was accepted, asked for, declined or done.
+ */
+export function lapsedAnswerSentence(
+  world: World,
+  view: CampaignLifeActivityView,
+): string | null {
+  if (view.state !== "expired" || view.answerBy === null) return null;
+  const name = organizationName(world, view.hostOrganizationId);
+  const organization = `${name.charAt(0).toUpperCase()}${name.slice(1)}`;
+  const deadline = readableMoment(view.answerBy);
+  return `${organization} needed an answer by ${deadline}; that has passed.`;
+}
+
 export interface PartyWorkRow {
   readonly lifeActivityId: EntityId;
   readonly form: CampaignLifeForm;
@@ -143,6 +155,11 @@ export interface PartyWorkRequestOption {
   readonly hostOrganizationId: EntityId;
   readonly hostName: string;
   readonly organizationName: string;
+  /**
+   * Why asking would be refused now (for example, no evening in the next two
+   * weeks free for both), in the writer's words; null when it can be asked.
+   */
+  readonly unavailableReason: string | null;
 }
 
 export interface PartyAndCommunityWorkView {
@@ -239,8 +256,10 @@ function outcomeLines(
 function actionsFor(
   view: CampaignLifeActivityView,
   awaitingRecord: boolean,
+  acceptRefusal: string | null,
 ): PartyWorkAction[] {
-  if (view.state === "offered") return ["accept", "decline"];
+  if (view.state === "offered")
+    return acceptRefusal === null ? ["accept", "decline"] : ["decline"];
   if (view.state === "accepted") {
     return view.presence === "remote"
       ? ["take-shift"]
@@ -312,6 +331,14 @@ export function projectPartyAndCommunityWork(
     );
     const hostName = nameOf(world, view.hostPersonId);
     const awaitingRecord = view.state === "completed" && view.outcome === null;
+    // A yes the writer would refuse is not offered; its reason is shown.
+    const acceptRefusal =
+      view.state === "offered"
+        ? campaignLifeRefusal(world, personId, {
+            kind: "accept",
+            lifeActivityId: view.lifeActivityId,
+          })
+        : null;
     return {
       lifeActivityId: view.lifeActivityId,
       form: view.form,
@@ -323,7 +350,7 @@ export function projectPartyAndCommunityWork(
       state: view.state,
       stateLabel: awaitingRecord
         ? "It has happened. What came of it is not recorded yet."
-        : STATE_LABELS[view.state],
+        : (lapsedAnswerSentence(world, view) ?? STATE_LABELS[view.state]),
       when: readableMoment(view.start),
       placeLabel: hold?.location.label ?? "",
       presence: view.presence,
@@ -331,10 +358,11 @@ export function projectPartyAndCommunityWork(
         view.journeyMinutes === null
           ? null
           : `A ${view.journeyMinutes}-minute local journey there is included when you go. ${view.travelCostDisclosure ?? ""}`.trim(),
-      actions: actionsFor(view, awaitingRecord),
+      actions: actionsFor(view, awaitingRecord, acceptRefusal),
       awaitingRecord,
-      attendNote:
-        view.state === "accepted" && view.presence === "in-person"
+      attendNote: acceptRefusal
+        ? acceptRefusal
+        : view.state === "accepted" && view.presence === "in-person"
           ? (venue.find(
               (entry) => entry.activity.id === view.scheduledActivityId,
             )?.refusal ?? null)
@@ -347,8 +375,12 @@ export function projectPartyAndCommunityWork(
     };
   });
 
+  // The writer refuses anyone under eighteen, so a younger player is offered
+  // nothing to ask for: a 16-year-old used to press it and get an error.
   const adult =
-    world.control.kind === "person" && world.control.personId === personId;
+    world.control.kind === "person" &&
+    world.control.personId === personId &&
+    oldEnoughForCampaignLife(world, personId);
   const openFor = (hostPersonId: EntityId, form: CampaignLifeForm) =>
     views.some(
       (view) =>
@@ -371,6 +403,11 @@ export function projectPartyAndCommunityWork(
           hostOrganizationId: chapter.organizationId,
           hostName: nameOf(world, hostId),
           organizationName: chapter.name,
+          unavailableReason: campaignLifeRefusal(world, personId, {
+            kind: "request",
+            form,
+            hostOrganizationId: chapter.organizationId,
+          }),
         });
       }
     }
@@ -387,6 +424,11 @@ export function projectPartyAndCommunityWork(
           hostOrganizationId: campaign.organizationId,
           hostName: nameOf(world, committeeHost),
           organizationName: organizationName(world, campaign.organizationId),
+          unavailableReason: campaignLifeRefusal(world, personId, {
+            kind: "request",
+            form,
+            hostOrganizationId: campaign.organizationId,
+          }),
         });
       }
     }
@@ -608,12 +650,23 @@ export interface OpponentActivityRow {
   readonly summary: string;
 }
 
-/** Public steps by the other campaigns that this person learned of, newest first. */
+/**
+ * Public steps by the other campaigns in this campaign's race that this person
+ * learned of, newest first. Rivals from the person's earlier races do not
+ * appear.
+ */
 export function projectOpponentActivityPanel(
   world: World,
   personId: EntityId,
+  campaignId: EntityId,
 ): readonly OpponentActivityRow[] {
-  return [...projectKnownOpponentActivity(world, personId)]
+  const campaign = campaignById(world, campaignId);
+  if (!campaign) return [];
+  return [
+    ...projectKnownOpponentActivity(world, personId, {
+      contestId: campaign.contestId,
+    }),
+  ]
     .reverse()
     .map((row) => ({
       eventId: row.eventId,

@@ -195,7 +195,7 @@ waistband against a shoulder row the garment does not reach drags the fit away
 from the rows that are covered.
 
 - **Affine** (`anchor-span-minimax-v1`): the geometric mean of the smallest and
-  largest required span ratio, which minimises the WORST proportional error
+  largest required span ratio, which minimizes the WORST proportional error
   rather than the average one. The worst row is the one a viewer sees.
 - **Bounded warp** (`anchor-span-piecewise-v1`): one control point per measured
   anchor row, placed where that row falls inside the component's canvas, with

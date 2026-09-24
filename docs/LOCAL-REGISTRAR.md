@@ -38,7 +38,7 @@ Drive is wrong.
 
 **Correction to an earlier version of this entry.** This was previously written
 up as the thing blocking the retired-cast deletion, on the reading that the
-player's own figure is drawn out of Visual4's catalogue. Measured at main
+player's own figure is drawn out of Visual4's catalog. Measured at main
 `7869561e`, that is not so: `PRODUCTION_CHARACTER_LIBRARY`
 (`src/presentation/visual-integration.ts:784`) is built from
 `art/manifest/asset_manifest.json`, whose 126 assets resolve to zero paths
@@ -457,7 +457,7 @@ git commit -m "regional-opening: receive the three remaining approved plates"
 ```
 
 **Verify:** the coverage gate exits 0 and reports five regions with a delivered
-plate. Do not re-encode, downscale or optimise these PNGs — approval is of
+plate. Do not re-encode, downscale or optimize these PNGs — approval is of
 those exact bytes and the gate re-hashes them.
 
 ---
@@ -504,12 +504,12 @@ per file — see L1 — so any trip that carries them is a trip to the Mac.
 
 ---
 
-## L11 — Three regional scene records the Art Bench catalogue cannot settle
+## L11 — Three regional scene records the Art Bench catalog cannot settle
 
-**Blocked:** three of the twenty-three regional scenes carry a catalogue defect
+**Blocked:** three of the twenty-three regional scenes carry a catalog defect
 recorded as a `sourceNote` in `art/regions/regional-scene-places.json`. None of
 them can be settled from a cloud thread, because each needs a look at the
-source bank behind the bench rather than at the catalogue row.
+source bank behind the bench rather than at the catalog row.
 
 - `appalachian-town-january` selects the same sha256 as
   `playtest65-region-pikeville-valley-street`. One of the two records is not

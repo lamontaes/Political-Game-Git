@@ -34,6 +34,7 @@ import {
 } from "./narrative-threads";
 import { personName } from "./people";
 import { SeededRng } from "./rng";
+import { schoolNameToday } from "./school-stages";
 import { describePersonContext, introducePerson } from "./person-context";
 import { personPronouns } from "./person-identity";
 import type {
@@ -521,8 +522,9 @@ export interface EpisodeStage {
   /** Every requirement must hold. An empty list means the stage may open. */
   readonly requires: readonly EpisodeRequirement[];
   /**
-   * Sentences, joined with a space. Slots: `{self}`, `{place}`, `{age}`, and
-   * `{role:<role-key>}` for a bound person's name.
+   * Sentences, joined with a space. Slots: `{self}`, `{place}`, `{age}`,
+   * `{school}` for the school attended today, and `{role:<role-key>}` for a
+   * bound person's name.
    */
   readonly lines: readonly string[];
   /** Preserve this proposed immediate scene in the ordinary resolution event. */
@@ -1673,7 +1675,7 @@ export function eligibleEpisodeBeats(
  * Age-bounded role requirements are satisfied by *a* binding that meets the
  * bound, and the copy has to be about that same person — the documented claim
  * of `role-age-at-least`, which the plain by-role lookup here quietly did not
- * honour. In a household holding both a teenager and a toddler, a stage that
+ * honor. In a household holding both a teenager and a toddler, a stage that
  * asked for a household peer over thirteen was satisfied by the teenager and
  * then narrated about whichever peer the bindings happened to list first. The
  * mirror kind makes the same gap worse, because a scene written for a small
@@ -1991,7 +1993,7 @@ function stageAnchor(
 /**
  * Slots that resolve against a bound person's pronouns.
  *
- * Deliberately no capitalised forms. A sentence that starts with a pronoun
+ * Deliberately no capitalized forms. A sentence that starts with a pronoun
  * would need one, and authored copy is expected to start with a name instead —
  * which reads better anyway, and keeps the substitution from having to know
  * about sentence position.
@@ -2121,6 +2123,13 @@ export function substituteSlots(text: string, context: SlotContext): string {
         context.person.homeJurisdictionId,
       );
       return place?.displayName ?? "town";
+    }
+    // The school the player attends today, by the name the school screen
+    // shows. A scene at school named nothing but "school" for years in a life
+    // whose record held the name (Ketchikan, 2026-09-23). A life with no named
+    // school open reads "school", which is what the copy said before.
+    if (slot === "school") {
+      return schoolNameToday(context.world, context.person.id) ?? "school";
     }
     if (slot === "detail") {
       const authored = context.details?.[String(detail)];

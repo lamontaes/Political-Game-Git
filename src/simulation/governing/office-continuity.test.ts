@@ -10,9 +10,18 @@ import {
   passOrdinaryDays,
 } from "../../presentation/ordinary-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { makeIsoDate, simulationMomentAtLocalTime } from "../dates";
+import {
+  daysBetween,
+  makeIsoDate,
+  simulationMomentAtLocalTime,
+} from "../dates";
 import { createDemoWorld } from "../demo";
 import { projectCongress } from "../living-world/congress";
+import {
+  CONGRESS_RESULTS_EVENT,
+  congressionalElectionDay,
+} from "../living-world/congress-turnover";
+import { SEAT_PARTY_TAG } from "../living-world/opening";
 import {
   nationalOfficeHolder,
   planNationalOfficeTerm,
@@ -36,7 +45,18 @@ import { advanceWorldMinutes } from "../time-work";
 import type { EntityId, World } from "../types";
 import { recordPersonDeath } from "../vitality";
 import { advanceWorld } from "../world";
+import { currentPresidentOf, publicOfficesHeldBy } from "../crisis/offices";
+import { currentFederalTenure } from "../federal-tenures";
 import {
+  CHIEF_JUSTICE_NOMINATED_EVENT,
+  CHIEF_JUSTICE_VACANCY_PROFILE,
+} from "./chief-justice-vacancy";
+import {
+  HOUSE_SPECIAL_ELECTION,
+  SENATE_VACANCY_PROFILE,
+  VICE_PRESIDENTIAL_VACANCY_PROFILE,
+  VICE_PRESIDENT_NOMINATED_EVENT,
+  VICE_PRESIDENT_NOMINATION,
   applyOfficeContinuityNotices,
   officeContinuityRulings,
   type OfficeContinuityNoticeInput,
@@ -113,6 +133,15 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(officeContinuityRulings(next, seat.seatKey)[0]!.outcome).toBe(
       "special-election",
     );
+    // Printed as news: the state by name and the date in words.
+    const ruling = officeContinuityRulings(next, seat.seatKey)[0]!;
+    const summary = next.history.events.find(
+      (event) => event.id === ruling.eventId,
+    )!.summary;
+    expect(summary).toMatch(
+      /The seat is vacant\. The governor of [A-Z][a-z]+( [A-Z][a-z]+)* calls a special election for [A-Z][a-z]+ \d{1,2}, \d{4}\./,
+    );
+    expect(summary).not.toMatch(/\d{4}-\d{2}-\d{2}|in this game/);
     next = passOrdinaryDays(next, 89);
     expect(
       projectCongress(next)!.house.seats.find(
@@ -130,7 +159,76 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(projectCongress(reopened)).toEqual(projectCongress(next));
   }, 300_000);
 
-  it("a Senate seat and a governorship stay unfilled and say which rule is missing", () => {
+  it("a dead senator's seat is filled by the governor's appointee, then by a special election", () => {
+    const world = openingWorld("k3-senate-appointment");
+    // A seat whose term runs past the next regular election, so the special
+    // election (not the regular one) fills it.
+    const congress = projectCongress(world)!;
+    const nextRegularYear = Number(world.currentDate.slice(0, 4)) + 2;
+    const seat = congress.senate.seats.find(
+      (s) =>
+        s.occupant.kind === "member" &&
+        (s.occupant.member.endExclusive ?? "") > `${nextRegularYear}-06-01`,
+    )!;
+    if (seat.occupant.kind !== "member") throw new Error("fixture");
+    const senator = seat.occupant.member;
+    const partyOf = (w: World, termId: EntityId) =>
+      w.history.events
+        .find((event) => event.id === termId)!
+        .tags.find((tag) => tag.startsWith(SEAT_PARTY_TAG));
+    const died = die(world, senator.personId, [
+      {
+        officeKey: seat.seatKey,
+        title: senator.title,
+        organizationId: null,
+        termEvidenceId: senator.termId,
+      },
+    ]);
+    let next = applyOfficeContinuityNotices(died.world, [died.notice]);
+    expect(applyOfficeContinuityNotices(next, [died.notice])).toBe(next);
+    const ruling = officeContinuityRulings(next, seat.seatKey)[0]!;
+    expect(ruling.outcome).toBe("special-election");
+    const view = () =>
+      projectCongress(next)!.senate.seats.find(
+        (s) => s.seatKey === seat.seatKey,
+      )!;
+    expect(view().occupant.kind).toBe("vacancy");
+
+    // PLACEHOLDER profile: the governor appoints, of the same party.
+    next = passOrdinaryDays(
+      next,
+      SENATE_VACANCY_PROFILE.daysFromVacancyToAppointment,
+    );
+    const appointed = view();
+    expect(appointed.occupant.kind).toBe("member");
+    if (appointed.occupant.kind !== "member") return;
+    const appointee = appointed.occupant.member;
+    expect(appointee.personId).not.toBe(senator.personId);
+    expect(partyOf(next, appointee.termId)).toBe(
+      partyOf(world, senator.termId),
+    );
+    // The appointee serves until the special election, if one is held.
+    const special = next.history.futureDueItems.find(
+      (due) =>
+        due.transitionKey === HOUSE_SPECIAL_ELECTION &&
+        due.stableKey.includes(`:special:${seat.seatKey}:`),
+    );
+    expect(Boolean(special)).toBe(ruling.outcome === "special-election");
+    if (special) {
+      next = passOrdinaryDays(
+        next,
+        daysBetween(next.currentDate, special.dueAt) + 1,
+      );
+      const elected = view();
+      expect(elected.occupant.kind).toBe("member");
+      if (elected.occupant.kind === "member")
+        expect(elected.occupant.member.personId).not.toBe(appointee.personId);
+    }
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(projectCongress(reopened)).toEqual(projectCongress(next));
+  }, 900_000);
+
+  it("a governor's successor serves out the term", () => {
     const world = openingWorld("k3-senate");
     const seat = projectCongress(world)!.senate.seats.find(
       (s) => s.occupant.kind === "member",
@@ -146,14 +244,6 @@ describe("GOVERNING K3: an office after its holder dies", () => {
       },
     ]);
     let next = applyOfficeContinuityNotices(died.world, [died.notice]);
-    expect(
-      projectCongress(next)!.senate.seats.find(
-        (s) => s.seatKey === seat.seatKey,
-      )!.occupant.kind,
-    ).toBe("vacancy");
-    expect(officeContinuityRulings(next, seat.seatKey)[0]!.outcome).toBe(
-      "blocked",
-    );
     const governor = currentStateExecutiveHolders(next).find(
       (h) => h.personId !== senator.personId,
     )!;
@@ -166,13 +256,88 @@ describe("GOVERNING K3: an office after its holder dies", () => {
       },
     ]);
     next = applyOfficeContinuityNotices(second.world, [second.notice]);
+    expect(applyOfficeContinuityNotices(next, [second.notice])).toBe(next);
     const ruling = officeContinuityRulings(next, governor.officeKey)[0]!;
-    expect(ruling.outcome).toBe("blocked");
-    const event = next.history.events.find((e) => e.id === ruling.eventId)!;
-    expect(event.summary).toMatch(/not compiled/);
+    expect(ruling.outcome).toBe("succeeded");
+    // PLACEHOLDER successor (governor-succession.ts): a new person holds the
+    // same office until the same term ends.
+    const successor = currentStateExecutiveHolders(next).find(
+      (h) => h.officeKey === governor.officeKey,
+    )!;
+    expect(successor.personId).not.toBe(governor.personId);
+    expect(successor.origin).toBe("succession");
+    expect(successor.startedAt).toBe(next.currentDate);
+    expect(successor.endExclusive).toBe(governor.endExclusive);
+    expect(
+      publicOfficesHeldBy(next, successor.personId).map((r) => r.officeKey),
+    ).toContain(governor.officeKey);
+    // Past the term's end, the successor no longer holds it.
+    if (governor.endExclusive) {
+      const after = at(next, governor.endExclusive);
+      expect(
+        currentStateExecutiveHolders(after).some(
+          (h) => h.personId === successor.personId,
+        ),
+      ).toBe(false);
+    }
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(
+      currentStateExecutiveHolders(reopened).find(
+        (h) => h.officeKey === governor.officeKey,
+      )!.personId,
+    ).toBe(successor.personId);
   }, 300_000);
 
-  it("the opening President's death is a truthful block; illness transfers nothing", () => {
+  it("a Chief Justice who dies is replaced by the President's nominee once the Senate confirms", () => {
+    const world = openingWorld("k3-chief-justice");
+    const chief = currentFederalTenure(world, "us-chief-justice")!;
+    const president = currentPresidentOf(world)!;
+    expect(
+      publicOfficesHeldBy(world, chief.personId).map((ref) => ref.officeKey),
+    ).toContain("us-chief-justice");
+    const dead = die(world, chief.personId, [
+      {
+        officeKey: "us-chief-justice",
+        title: "Chief Justice of the United States",
+        organizationId: null,
+        termEvidenceId: chief.event.id,
+      },
+    ]);
+    let next = applyOfficeContinuityNotices(dead.world, [dead.notice]);
+    expect(officeContinuityRulings(next, "us-chief-justice")[0]!.outcome).toBe(
+      "vacant",
+    );
+    expect(currentFederalTenure(next, "us-chief-justice")).toBeNull();
+    next = passOrdinaryDays(
+      next,
+      CHIEF_JUSTICE_VACANCY_PROFILE.daysFromVacancyToNomination,
+    );
+    const nomination = next.history.events.find(
+      (event) => event.type === CHIEF_JUSTICE_NOMINATED_EVENT,
+    )!;
+    expect(nomination).toBeDefined();
+    const nomineeId = nomination.participants.find(
+      (p) => p.role === "focus:subject",
+    )!.personId;
+    expect(nomineeId).not.toBe(president.personId);
+    if (next.control.kind === "person")
+      expect(nomineeId).not.toBe(next.control.personId);
+    expect(currentFederalTenure(next, "us-chief-justice")).toBeNull();
+    next = passOrdinaryDays(
+      next,
+      CHIEF_JUSTICE_VACANCY_PROFILE.daysFromNominationToConfirmation,
+    );
+    const confirmed = currentFederalTenure(next, "us-chief-justice")!;
+    expect(confirmed.personId).toBe(nomineeId);
+    // Good behavior: no fixed end.
+    expect(confirmed.endExclusive).toBeNull();
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(currentFederalTenure(reopened, "us-chief-justice")!.personId).toBe(
+      nomineeId,
+    );
+  }, 600_000);
+
+  it("the opening Vice President succeeds a President who dies; illness transfers nothing", () => {
     const world = openingWorld("k3-opening");
     const tenure = world.history.events.find(
       (e) =>
@@ -204,13 +369,154 @@ describe("GOVERNING K3: an office after its holder dies", () => {
     expect(officeContinuityRulings(next, "us-president")[0]!.outcome).toBe(
       "not-automatic",
     );
+    const vice = currentFederalTenure(next, "us-vice-president")!;
+    const termEnd = currentFederalTenure(next, "us-president")!.endExclusive;
     const dead = die(next, president, [office]);
     next = applyOfficeContinuityNotices(dead.world, [dead.notice]);
     expect(officeContinuityRulings(next, "us-president")[0]!.outcome).toBe(
-      "blocked",
+      "succeeded",
     );
-    expect(nationalOfficeHolder(next, "president")).toBeNull();
+    // The Vice President is President for the rest of the same term, every
+    // reader agrees, and the vice presidency is vacant with a nomination due.
+    expect(currentPresidentOf(next)!.personId).toBe(vice.personId);
+    expect(currentFederalTenure(next, "us-president")!.endExclusive).toBe(
+      termEnd,
+    );
+    expect(currentFederalTenure(next, "us-vice-president")).toBeNull();
+    expect(
+      publicOfficesHeldBy(next, vice.personId).map((ref) => ref.officeKey),
+    ).toEqual(["us-president"]);
+    expect(
+      next.history.futureDueItems.some(
+        (due) => due.transitionKey === VICE_PRESIDENT_NOMINATION,
+      ),
+    ).toBe(true);
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(currentPresidentOf(reopened)!.personId).toBe(vice.personId);
   }, 300_000);
+
+  it("a Vice President who dies is replaced by the President's confirmed nominee for the rest of the term", () => {
+    const world = openingWorld("k3-vice");
+    const vice = currentFederalTenure(world, "us-vice-president")!;
+    const president = currentPresidentOf(world)!;
+    const office = {
+      officeKey: "us-vice-president",
+      title: "Vice President of the United States",
+      organizationId: null,
+      termEvidenceId: vice.event.id,
+    };
+    // Detection: the opening Vice President's death raises a notice at all.
+    expect(
+      publicOfficesHeldBy(world, vice.personId).map((ref) => ref.officeKey),
+    ).toContain("us-vice-president");
+    const dead = die(world, vice.personId, [office]);
+    let next = applyOfficeContinuityNotices(dead.world, [dead.notice]);
+    expect(officeContinuityRulings(next, "us-vice-president")[0]!.outcome).toBe(
+      "vacant",
+    );
+    expect(currentFederalTenure(next, "us-vice-president")).toBeNull();
+
+    next = passOrdinaryDays(
+      next,
+      VICE_PRESIDENTIAL_VACANCY_PROFILE.daysFromVacancyToNomination,
+    );
+    const nomination = next.history.events.find(
+      (event) => event.type === VICE_PRESIDENT_NOMINATED_EVENT,
+    )!;
+    expect(nomination).toBeDefined();
+    const nomineeId = nomination.participants.find(
+      (p) => p.role === "focus:subject",
+    )!.personId;
+    // Anyone old enough, other than the President and the player's own
+    // character; not confined to any office or party.
+    expect(nomineeId).not.toBe(president.personId);
+    if (next.control.kind === "person")
+      expect(nomineeId).not.toBe(next.control.personId);
+    const nomineeBirthYear = Number(
+      next.people[nomineeId]!.birthDate.slice(0, 4),
+    );
+    expect(
+      Number(next.currentDate.slice(0, 4)) - nomineeBirthYear,
+    ).toBeGreaterThanOrEqual(35);
+    const heldSeat = [
+      ...projectCongress(next)!.house.seats,
+      ...projectCongress(next)!.senate.seats,
+    ].find(
+      (s) =>
+        s.occupant.kind === "member" &&
+        s.occupant.member.personId === nomineeId,
+    );
+    // Still vacant while Congress considers the nomination.
+    expect(currentFederalTenure(next, "us-vice-president")).toBeNull();
+
+    next = passOrdinaryDays(
+      next,
+      VICE_PRESIDENTIAL_VACANCY_PROFILE.daysFromNominationToConfirmation,
+    );
+    const confirmed = currentFederalTenure(next, "us-vice-president")!;
+    expect(confirmed.personId).toBe(nomineeId);
+    // The rest of the same term, not a new four years.
+    expect(confirmed.endExclusive).toBe(
+      currentFederalTenure(next, "us-president")!.endExclusive,
+    );
+    expect(
+      publicOfficesHeldBy(next, nomineeId).map((ref) => ref.officeKey),
+    ).toEqual(["us-vice-president"]);
+    // A nominee who sat in Congress has left the seat.
+    if (heldSeat) {
+      const left = [
+        ...projectCongress(next)!.house.seats,
+        ...projectCongress(next)!.senate.seats,
+      ].find((s) => s.seatKey === heldSeat.seatKey)!;
+      expect(left.occupant.kind).toBe("vacancy");
+    }
+    const reopened = deserializeWorld(serializeWorld(next));
+    expect(currentFederalTenure(reopened, "us-vice-president")!.personId).toBe(
+      nomineeId,
+    );
+  }, 600_000);
+
+  it("a seat whose member-elect dies before the term begins is filled too", () => {
+    const opened = openingWorld("k3-member-elect");
+    const year = Number(opened.currentDate.slice(0, 4));
+    const electionYear = year % 2 === 0 ? year : year + 1;
+    const electionDay = congressionalElectionDay(electionYear);
+    let next = passOrdinaryDays(
+      opened,
+      daysBetween(opened.currentDate, electionDay) + 1,
+    );
+    const results = next.history.events.find(
+      (event) => event.type === CONGRESS_RESULTS_EVENT,
+    )!;
+    // A newcomer, so the death touches no seat held today.
+    const winner = results.participants.find(
+      (p) =>
+        p.detail?.startsWith("us-house:") && p.detail.split("|")[3] === "new",
+    )!;
+    const seatKey = winner.detail!.split("|")[0]!;
+    next = recordPersonDeath(next, {
+      stableKey: "k3:member-elect-death",
+      personId: winner.personId,
+      diedAt: next.currentDate,
+      causeKey: "cause:external-fixture",
+      sourceEntityIds: [next.id],
+      summary: "A member-elect died.",
+      provenance: VITALITY,
+    });
+    const newStart = makeIsoDate(`${electionYear + 1}-01-03`);
+    next = passOrdinaryDays(next, daysBetween(next.currentDate, newStart) + 1);
+    const view = projectCongress(next)!.house.seats.find(
+      (s) => s.seatKey === seatKey,
+    )!;
+    expect(view.occupant.kind).toBe("vacancy");
+    expect(
+      next.history.futureDueItems.some(
+        (due) =>
+          due.transitionKey === HOUSE_SPECIAL_ELECTION &&
+          due.stableKey.includes(`:special:${seatKey}:${newStart}`),
+      ),
+    ).toBe(true);
+  }, 600_000);
 });
 
 // --- Elected President and Vice President (supplied fictional results) ---
@@ -359,8 +665,15 @@ describe("GOVERNING K3: the Twenty-Fifth Amendment, § 1", () => {
     expect(nationalOfficeHolder(next, "vice-president")).toBeNull();
     const reopened = deserializeWorld(serializeWorld(next));
     expect(nationalOfficeHolder(reopened, "president")!.plan.personId).toBe(vp);
-    // A second death in the new presidency has no Vice President to succeed.
-    const second = die(at(next, "2029-07-01", 600), vp, [
+    // The vice presidency is vacant with the President's nomination due.
+    expect(
+      next.history.futureDueItems.some(
+        (due) => due.transitionKey === VICE_PRESIDENT_NOMINATION,
+      ),
+    ).toBe(true);
+    // A second death before anyone is nominated has no Vice President to
+    // succeed. (Jumping the clock past the nomination would skip it.)
+    const second = die(at(next, "2029-06-05", 600), vp, [
       {
         officeKey: "us-president",
         title: "President of the United States",

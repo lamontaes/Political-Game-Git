@@ -7,7 +7,7 @@
  *
  * What a record here is, and is not. It is a statement that a named authority
  * imposes a named obligation, with the amount, the period and the actor the
- * authority itself states. It is not a judgement about anybody's conduct, not a
+ * authority itself states. It is not a judgment about anybody's conduct, not a
  * measure of how likely a campaign is to comply, and not a score. Nothing in
  * this domain infers motive or corruption, because the statute does not and
  * neither may a record that claims to carry it.
@@ -47,7 +47,7 @@ export type CampaignProvisionValidity =
  * The third is Nebraska's and is a third rule again, not a restatement of the
  * first at a different number. Nebraska sets no threshold: a committee with no
  * statement of organization and no treasurer may not accept a contribution or
- * make an expenditure at all. Modelling it as "Minnesota with a zero" would
+ * make an expenditure at all. Modeling it as "Minnesota with a zero" would
  * assert a threshold Nebraska does not have.
  */
 export type CampaignObligationKind =

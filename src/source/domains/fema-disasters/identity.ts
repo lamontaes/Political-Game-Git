@@ -56,7 +56,7 @@ export const FEMA_FRAUD_ORACLES: readonly FemaFraudOracle[] = [
 /**
  * The designated area #66 replaced with a tribe from another state.
  *
- * The Cherokee Nation is in Oklahoma. The federally recognised tribe designated
+ * The Cherokee Nation is in Oklahoma. The federally recognized tribe designated
  * under the North Carolina Helene declaration is the Eastern Band of Cherokee
  * Indians — and the same declaration separately designates a North Carolina
  * county called Cherokee, so an area-type rule that matches on the word alone

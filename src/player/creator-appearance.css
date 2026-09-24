@@ -408,3 +408,29 @@
   padding: 8px 12px;
   font-size: 13px;
 }
+
+/*
+ * No figure, no figure column.
+ *
+ * With nothing to draw (a build with no approved character art), the preview
+ * column still reserved at least 230px on the front door and the portrait in it
+ * is hidden, so on a 390px phone the only text on the step was squeezed into a
+ * 69px strip beside an empty box. The front door's two-column rule is more
+ * specific than the narrow-screen collapse above, so it never collapsed either.
+ */
+.kit41-creator-layout.kit41-creator-layout--no-figure,
+.title-tableau--art.front-door
+  .kit41-creator-layout.kit41-creator-layout--no-figure {
+  grid-template-columns: minmax(0, 1fr);
+}
+.kit41-creator-layout--no-figure > .kit41-creator-preview {
+  display: none;
+}
+/* The step's only sentence sits over the room, so it carries its own backing. */
+.kit41-creator [data-testid="creator-artwork-status"] {
+  display: inline-block;
+  max-width: 42rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(20, 32, 51, 0.88);
+  border-radius: 0.4rem;
+}

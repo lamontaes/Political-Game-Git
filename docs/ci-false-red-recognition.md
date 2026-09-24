@@ -1,17 +1,17 @@
-# Telling a cancelled run from a real failure
+# Telling a canceled run from a real failure
 
 Four times on the night of 2026-09-22, across at least three lanes, a green
 branch was reported red and a lane spent a round on it. Every one was the same
-thing, and it is recognisable in about ten seconds.
+thing, and it is recognizable in about ten seconds.
 
 ## What happens
 
 `validate` is only an aggregate job. It reads the other jobs' results and exits
 1 unless every one of them says `success`. When a push supersedes an in-flight
-run, the required jobs come back **cancelled**, so the gate fails with nothing
+run, the required jobs come back **canceled**, so the gate fails with nothing
 having been tested.
 
-The webhook delivers a conclusion, not a cause, so a cancelled supersede and a
+The webhook delivers a conclusion, not a cause, so a canceled supersede and a
 real failure look identical until the log is open.
 
 ## The two tells

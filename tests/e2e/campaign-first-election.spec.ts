@@ -25,7 +25,7 @@ import {
  * unit test, because they are claims about what a person sees:
  *
  * - a state the game has not read gets a legislature of its own, never a
- *   neighbour's, and keeps its life;
+ *   neighbor's, and keeps its life;
  * - the only support number on the screen is a memo with a margin on it;
  * - election day arrives because the player got on with their weeks;
  * - losing leaves the game running, with the same day screen it started with.
@@ -153,6 +153,12 @@ async function liveUntilDecided(page: Page, maxDays = 45) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
     await pressTime(page, "shell-pass-day");
   }
+  // A legislative seat is decided on the state's election day, which can be
+  // most of a year off; the rest of the wait goes a week at a time.
+  for (let week = 0; week < 110; week += 1) {
+    if (await page.getByTestId("campaign-result").isVisible()) return true;
+    await pressTime(page, "shell-pass-week");
+  }
   return page.getByTestId("campaign-result").isVisible();
 }
 
@@ -245,7 +251,7 @@ test.describe("A life can stand for something", () => {
    * every unread state a disclosed, generated legislature is what replaced
    * that refusal, so the negative control became a positive one. What it
    * still guards is the half that never changes: the seats on offer belong
-   * to the state the life is in, and borrowing a neighbour's is a failure.
+   * to the state the life is in, and borrowing a neighbor's is a failure.
    */
   test("gives a state the game has not read a legislature of its own, and leaves the life alone", async ({
     page,
@@ -306,17 +312,15 @@ test.describe("A life can stand for something", () => {
     // The committee is named after the body, not after the game's description
     // of the seat.
     await expect(page.getByTestId("campaign-band")).toContainText(
-      /for the House of Representatives/i,
+      /for the [A-Z][a-z]+( [A-Z][a-z]+)? House of Representatives/,
     );
-    await expect(page.getByTestId("campaign-treasury")).toContainText(
-      "USD 0.00",
-    );
+    await expect(page.getByTestId("campaign-treasury")).toContainText("$0.");
     await expect(page.getByTestId("campaign-no-memo")).toBeVisible();
 
     // An afternoon on the phones puts money in the committee's account.
     await page.getByTestId("campaign-fundraising").click();
     await expect(page.getByTestId("campaign-treasury")).not.toContainText(
-      "USD 0.00",
+      "$0.",
     );
 
     // An afternoon on the doors produces a memo, and the memo admits a margin.
@@ -374,8 +378,8 @@ test.describe("A life can stand for something", () => {
 
     const report = page.getByTestId("campaign-strategy-report");
     await expect(report).toBeVisible();
-    await expect(report).toContainText(/player chose/i);
-    await expect(report).toContainText(/with a ceiling of USD 0\.00/i);
+    await expect(report).toContainText(/You chose direct outreach/i);
+    await expect(report).toContainText(/with no money set aside/i);
     await expect(report).toContainText(/Kentucky/i);
     await expect(page.getByTestId("campaign-memo")).toBeVisible();
     expect(errors).toEqual([]);
@@ -417,12 +421,12 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
-    if (/lost\./i.test(afterword)) {
+    if (/\blost[,.]/i.test(afterword)) {
       // Losing is a thing that happened, said in those words. The afterword
       // is in Work, where the campaign is, not on the day.
       await openCampaign(page);
       await expect(page.getByTestId("campaign-afterword")).toContainText(
-        /not the end of them/i,
+        /not the end of (them|him|her)\b/i,
       );
       // And it opens no office it did not earn.
       await expect(page.getByTestId("office-section")).toHaveCount(0);

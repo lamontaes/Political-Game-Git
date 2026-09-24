@@ -155,7 +155,7 @@ export function GuideTerm(props: GuideTermProps) {
         onClick={(event) => {
           /*
            * Shift-click is the shortcut, not the only way. Everything it does
-           * is also a labelled control inside the popover and in the Guide, so
+           * is also a labeled control inside the popover and in the Guide, so
            * a keyboard or a touchscreen reaches it without a modifier key.
            */
           if (event.shiftKey) {

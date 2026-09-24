@@ -255,7 +255,7 @@ describe("candidate and unreleased sections", RELEASE_TEST_TIMEOUT, () => {
       expect(text.indexOf("## PRE-ALPHA 0.2.1")).toBeLessThan(
         text.indexOf("## PRE-ALPHA 0.2.0"),
       );
-      expect(text).toContain("_Released 8 September 2026._");
+      expect(text).toContain("_Released September 8, 2026._");
     } finally {
       fixture.dispose();
     }

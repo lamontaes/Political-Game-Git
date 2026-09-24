@@ -13,7 +13,7 @@ import {
  * The Packet 26 ownership boundary, as an executable check.
  *
  * This work stacks on PR #63 and is confined to graphics, art, scene-authoring,
- * tooling and data-contract surfaces. Several neighbouring systems are owned by
+ * tooling and data-contract surfaces. Several neighboring systems are owned by
  * other in-flight branches, and touching them here would create exactly the
  * overlap that makes a stack painful to land.
  *

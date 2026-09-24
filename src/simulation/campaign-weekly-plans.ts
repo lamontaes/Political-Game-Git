@@ -1,3 +1,5 @@
+import { jailTermOn } from "./justice/jail-terms";
+import { contestDistrictGeography } from "./campaign-geography";
 import {
   activeCampaignForCandidate,
   campaignActionById,
@@ -46,6 +48,7 @@ import type {
   World,
 } from "./types";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
+import { moneyText } from "./money-text";
 
 export type {
   CampaignAdChannel,
@@ -329,7 +332,7 @@ export interface CommitCampaignWeekInput {
 /* -------------------------------------------------------------------------- */
 
 function money(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+  return moneyText(amount);
 }
 
 function activeStaff(
@@ -360,14 +363,8 @@ function geographyChoices(
       kind: "jurisdiction",
     },
   ];
-  const binding = contest.office.districtBinding ?? null;
-  if (binding) {
-    choices.push({
-      key: `district:${binding.vintage}:${binding.chamber}:${binding.geoid}`,
-      label: `${binding.stateUsps} ${binding.chamber.replaceAll("-", " ")} district ${binding.geoid}`,
-      kind: "district",
-    });
-  }
+  const district = contestDistrictGeography(contest.office);
+  if (district) choices.push({ ...district, kind: "district" });
   return choices;
 }
 
@@ -978,6 +975,12 @@ export function commitCampaignWeek(
   if (electionContestStatus(world, campaign.contestId) !== "pending") {
     throw new Error("This contest has already been decided.");
   }
+  const jailed = jailTermOn(world, personId);
+  if (jailed) {
+    throw new Error(
+      `You are in jail until ${jailed.until} and cannot campaign.`,
+    );
+  }
   const context = weekContext(world, campaign);
   if (input.weekStart !== context.weekStart) {
     throw new Error(
@@ -1021,9 +1024,7 @@ export function commitCampaignWeek(
       throw new Error("That campaign geography is not available.");
     }
     if (!channel.geographyKinds.includes(place.kind)) {
-      throw new Error(
-        `${channel.label} cannot be bought for that geography in this game.`,
-      );
+      throw new Error(`${channel.label} cannot be bought for that place.`);
     }
     const amount = input.advertising.amount;
     if (
@@ -1097,9 +1098,11 @@ export function commitCampaignWeek(
     return refuse("insufficient-funds");
   }
 
-  const jurisdictionGeography = geography.find(
-    (choice) => choice.kind === "jurisdiction",
-  )!;
+  // Ordinary work happens in the place the office represents: the district
+  // for a district seat, the whole jurisdiction otherwise.
+  const representedGeography =
+    geography.find((choice) => choice.kind === "district") ??
+    geography.find((choice) => choice.kind === "jurisdiction")!;
   const zero: MoneyAmount = {
     minorUnits: 0,
     currency: campaign.treasuryCurrency,
@@ -1114,7 +1117,7 @@ export function commitCampaignWeek(
             label: advertising.geographyLabel,
             kind: advertising.geographyKind,
           }
-        : jurisdictionGeography;
+        : representedGeography;
     return {
       proposerPersonId: context.proposerPersonId,
       proposedActionKind: EMPHASIS_KIND[input.emphasis],
@@ -1266,7 +1269,7 @@ export function runCondensedCampaignWeek(
  *
  * A booked session is a confirmed commitment, so ordinary time stops at its
  * start rather than stepping over it. Not doing it is the player's choice to
- * make, and it is made explicitly: the hold is cancelled and a limited
+ * make, and it is made explicitly: the hold is canceled and a limited
  * campaign event records that the session was let go. Nothing is spent,
  * nobody's support moves and nobody is met. Works before the session, at its
  * start, or after its start has gone by.

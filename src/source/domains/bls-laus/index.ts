@@ -193,7 +193,7 @@ export function compileBlsLaus(
    * The corpus is as of its latest observation, not the end of that year.
    *
    * The file runs to a month partway through its final year, and rounding the
-   * as-of up to 31 December would claim coverage of months the Bureau has not
+   * as-of up to December 31 would claim coverage of months the Bureau has not
    * published.
    */
   const latest = records.reduce(

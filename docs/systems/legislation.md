@@ -44,7 +44,7 @@ Reading an unknown rule and reading a not-applicable rule raise different
 errors, and the player surface distinguishes them in plain language.
 
 These states **fail closed**. Only a rule that is `known` and permits something
-authorises an act; unknown, not-applicable and a known negative all refuse, at
+authorizes an act; unknown, not-applicable and a known negative all refuse, at
 the writer, in the steps offered to the player, and in integrity checking
 alike. This is visible in play: nothing read for the Alaska pack establishes
 the authority to amend on the floor, so the Alaska scenario is never offered an
@@ -102,7 +102,7 @@ three-fifths of forty-nine is thirty. Integrity recomputes every tally and
 required count from the record's own dispositions.
 
 How a member decides is out of scope here: scenarios author member decisions
-rather than modelling legislator behaviour, and no step applies an unexplained
+rather than modeling legislator behavior, and no step applies an unexplained
 modifier to a tally. The relationship, bargaining, and lobbying systems attach
 at that seam later.
 
@@ -112,7 +112,7 @@ A committee hearing is scheduled through the existing future-due substrate and
 fires on the ordinary time advance. There is no second legislative clock.
 
 A rule requiring a chamber's floor stages to fall on **separate legislative
-days** is behaviour, not decoration. The next stage cannot be reached before
+days** is behavior, not decoration. The next stage cannot be reached before
 its earliest eligible date, and waiting for that day is a step the player takes
 on the same clock as everything else. Nebraska's three stages therefore land on
 three different dates, and the vote record shows them.
@@ -136,8 +136,8 @@ Two chambers cannot send different texts to a governor. Where the second
 chamber adopts an amendment, the measure goes back to the chamber it started in
 for a recorded vote on accepting that change: Kentucky's rules send such a bill
 to the Rules Committee and then to the floor (House Rule 54, Senate Rule 54,
-House Rule 59). Agreement leads to enrolment; refusal ends the bill. A second
-chamber that passes the text unchanged goes straight to enrolment. Conference
+House Rule 59). Agreement leads to enrollment; refusal ends the bill. A second
+chamber that passes the text unchanged goes straight to enrollment. Conference
 between two chambers that will not agree remains unimplemented.
 
 ### Portability proved
@@ -163,13 +163,13 @@ Conference committees, calendars and deadlines as live constraints, automatic
 adjournment, executive inaction firing on its own, action deadlines on a
 disposition record, committee substitutes, procedural motions on the floor,
 line-item and amendatory vetoes, confirmations, interest-group lobbying, party
-caucus behaviour, public-opinion effects, appropriations and budgeting,
+caucus behavior, public-opinion effects, appropriations and budgeting,
 judicial review, and the other forty-seven states.
 
 Adopting an amendment does not yet produce a new version of the bill's text:
 the amendment is recorded, and the agreement it forces between chambers is
 real, but no provision is rewritten. Comparing two chambers' texts is therefore
-not modelled either, and the packs must not be treated as adapter-ready for an
+not modeled either, and the packs must not be treated as adapter-ready for an
 external bill corpus until it is.
 
 ## Stage 6.5 Run C working-document boundary

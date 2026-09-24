@@ -96,7 +96,7 @@ no generic sentence is emitted in its place.
   semantic keys; the subject cannot be named safely.
 - Work / school / civic / political threads whose organization has no recorded
   profile name (the old fallback titles "Work", "School", "Something in the
-  neighbourhood").
+  neighborhood").
 - Promise callback threads with no nameable counterpart (the old fallback
   title "Something decided earlier").
 - Money threads with a `custom:` basis.

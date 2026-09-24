@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-22T22:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "rule-changing laws (deconstructing systems)",
+  "notes": [
+    "The owner's rule: never invent depth. The engine now lets a state legislature propose, and its voters ratify, a change to the governor's term limit with no player involved. Every cause, rate and vote margin in that route is a marked placeholder in src/simulation/living-world/constitutional-reform.ts until this is answered.",
+    "Placeholders an answer replaces: (1) a legislature considers extending the limit only while the sitting governor is barred from another term; (2) it considers restoring a two-term limit only once a governor has served three or more terms; (3) either happens in about 3 percent of qualifying years; (4) each chamber's yes share is drawn between 45 and 80 percent; (5) voters' yes share is drawn between 30 and 60 percent for an extension and 50 and 80 percent for a limit; (6) the ballot is the first November general election at least 90 days after the second chamber votes.",
+    "How often amendments happen at all is asked separately in constitutional-amendment-frequency; procedures and thresholds in modern-state-constitutions-fully-mutable. This record asks what sets one off and how the votes divide."
+  ],
+  "priority": "P1",
+  "question": "What actually leads a state to propose changing its governor's term limit (extending, abolishing, imposing or restoring one), how do legislatures and voters divide on such measures, and when do they reach the ballot? Cover every state that has proposed one, plus D.C. and Puerto Rico.",
+  "questionId": "governor-term-limit-amendment-causes",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "rule-changing laws thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/constitutional-amendment-frequency.json",
+      "whatItDidNotSettle": "It asks how often amendments happen and on which subjects, not what triggers a term-limit change or how the votes split."
+    },
+    {
+      "source": "src/simulation/nationwide-world/state-executive-turnover-calendar.ts",
+      "whatItDidNotSettle": "It holds one universal two-term limit as a game profile, with no state's real limit and no route by which a limit changes."
+    }
+  ],
+  "title": "What makes a state change its governor's term limit, and how the votes go",
+  "usableAnswer": "A table of governor term-limit measures since 1945 (state, year, direction: extend/abolish/impose/restore, route: legislative referral/initiative/convention, legislative vote per chamber, statewide yes share, passed or failed), with a short account of the recorded circumstances each time (a popular governor nearing the limit, a long-serving governor, a reform movement, a scandal). Then the general pattern: which circumstances recur, whether a limit change ever applies to the sitting governor, and which election a referred measure goes on. Cite a source per row.",
+  "whyItMatters": "Without it the game decides for itself when and why a legislature tries to change a governor's term limit, which is the invented depth the owner has ruled out."
+}

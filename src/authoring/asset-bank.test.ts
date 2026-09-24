@@ -26,7 +26,7 @@ function codes(result: { findings: readonly { code: string }[] }): string[] {
 }
 
 describe("a blank entry answers nothing it has not been asked", () => {
-  it("starts every judgement unassessed and the disposition undecided", () => {
+  it("starts every judgment unassessed and the disposition undecided", () => {
     const blank = createAssetBankEntry({
       entryId: "cand-001",
       proposedFilename: "plate.png",
@@ -196,7 +196,7 @@ describe("import and export seam", () => {
     expect(serializeAssetBankManifest(a)).toBe(serializeAssetBankManifest(b));
   });
 
-  it("degrades an unrecognised judgement to unassessed instead of losing the batch", () => {
+  it("degrades an unrecognized judgment to unassessed instead of losing the batch", () => {
     const parsed = parseAssetBankManifest(
       JSON.stringify({
         batchId: "batch-9",
@@ -230,7 +230,7 @@ describe("import and export seam", () => {
     ).toThrow(AssetBankParseError);
   });
 
-  it("summarises a batch by disposition", () => {
+  it("summarizes a batch by disposition", () => {
     const manifest = createAssetBankManifest("batch-1", [
       entry({ entryId: "a", disposition: "reject" }),
       entry({ entryId: "b", disposition: "reference" }),

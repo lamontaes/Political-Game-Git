@@ -21,7 +21,7 @@ import { createCampaignElectionTransitionRegistry } from "../simulation/campaign
 /**
  * The Calendar's bridge to CAMPAIGN's party and campaign work.
  *
- * What these settle: a remote phone shift on the calendar is recognised and
+ * What these settle: a remote phone shift on the calendar is recognized and
  * needs this route, because the venue route cannot see it; reading it records
  * nothing; working it from the Calendar records the attendance exactly once,
  * and a second press does not record a second outcome.

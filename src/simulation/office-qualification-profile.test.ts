@@ -62,7 +62,7 @@ describe("the range is the corpus, not this file", () => {
 });
 
 describe("an unread state gets a plausible rule", () => {
-  it("offers a whole number inside the spread, never an arithmetic artefact", () => {
+  it("offers a whole number inside the spread, never an arithmetic artifact", () => {
     for (const state of UNREAD) {
       const standIn = standInQualification(
         state,
@@ -137,7 +137,7 @@ describe("an unread state gets a plausible rule", () => {
     }
   });
 
-  it("is always labelled as the game's own, never as a source", () => {
+  it("is always labeled as the game's own, never as a source", () => {
     expect(
       standInQualification("US-KY", "MINIMUM_AGE", "LOWER_CHAMBER")!.basis,
     ).toBe("game-profile");

@@ -22,7 +22,7 @@ A retains application integration; V's ep34 input is untouched.
   footwear). These carry the reference's facial planes, cloth folds and ink
   weight; they are what this family uses.
 - The 90 MB Drive import pack (`PEOPLE-owner-existing-reference-trial.zip`)
-  could not be materialised through the connector; its mapped sources are
+  could not be materialized through the connector; its mapped sources are
   the retained repository files above.
 
 ## What was built
@@ -34,7 +34,7 @@ heads, 8 shared hair pieces, per-family body, 2 tops as sleeves/torso/collar,
 consumer contract; independent head, hair, top and bottom swaps; five skin
 ramps, three hair/top/bottom ramps through the existing material path.
 
-## Actual tested behaviour (this branch, 2026-09-14)
+## Actual tested behavior (this branch, 2026-09-14)
 
 - `build.py --check`, `validate.mjs`, `validate.test.mjs` (4 tests),
   registration `--check`: pass.
@@ -73,7 +73,7 @@ save-format change. Integrate the frozen head B accepts, in the candidate
 preview only. Room scale of the candidate figure follows the existing body
 anchors and is not recalibrated here.
 
-**Remaining art dependency (narrow, no spend authorised):** none is required
+**Remaining art dependency (narrow, no spend authorized):** none is required
 for the standing-front six-body candidate. For seated and lectern poses the
 painted body sheets already contain the poses, but seated garment art does
 not exist; that is the one exact source-art request if seated people are
@@ -92,7 +92,7 @@ The bounded standing recovery is frozen for A's integration. Exact source:
 recovered in `/private/tmp/pg-style35-successor`, branch
 `codex/style35-recovered-standing`. See the authoring README's recovered
 checkpoint section for actual fresh checks and remaining source-art gaps.
-The preceding "Actual tested behaviour" section is the exhausted author's
+The preceding "Actual tested behavior" section is the exhausted author's
 historical report; native control acceptance belongs to A's combined journeys.
 No broader pose work was attempted during this recovery. The active art plan
 remains open for its explicitly absent pose/source and human visual acceptance

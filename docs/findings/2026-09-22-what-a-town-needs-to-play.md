@@ -111,7 +111,7 @@ as well as outside the legislature packs.
 There is an honest route to using this corpus, and it is the range: a
 51-jurisdiction synthesis is a legitimate description of the **national spread**
 even where it is not settled law about any one town. That uses it as the owner's
-rule intends — rules drawn nationally, never a neighbour's law borrowed — and
+rule intends — rules drawn nationally, never a neighbor's law borrowed — and
 respects the gate, because the range never claims to be what this town's
 statute says.
 
@@ -136,7 +136,7 @@ governorship. It works by:
   (the Census Individual State Descriptions, `:85-95`);
 - leaving every qualification, term and filing value `unknown` **on purpose**;
 - letting eligibility read the real rule at filing time, so admitting a state's
-  facts changes behaviour with no edit to the file.
+  facts changes behavior with no edit to the file.
 
 That is a blanket that real data replaces rather than fights, and it is the
 shape the municipal layer should take.

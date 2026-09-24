@@ -15,7 +15,7 @@ import {
  * maps L06 to education, D03 to health, D04 to environment, D05 to procurement,
  * and D06 to social services, agriculture and veterans. Those rows are domain
  * mappings, not evidence that any clause below is enacted law or that any
- * programme, recipient, award, staffing level or outcome exists in this world.
+ * program, recipient, award, staffing level or outcome exists in this world.
  *
  * Missing empirical series withhold estimates, not drafts. Every operative
  * choice is authored. These templates create proposed text through the existing
@@ -587,9 +587,9 @@ export const SERVICE_FAMILIES: readonly ProgramFamily[] = [
         safeguard:
           "An explanation or correction opportunity does not establish eligibility, guarantee an award or extend a deadline fixed by other law. The body shall protect personal application information.",
         amendment:
-          "The body shall provide an applicant with an acknowledgement of receipt stating whether further information is requested.",
+          "The body shall provide an applicant with an acknowledgment of receipt stating whether further information is requested.",
         amendmentGround:
-          "Acknowledgement would make submission distinguishable from approval and identify the next step.",
+          "Acknowledgment would make submission distinguishable from approval and identify the next step.",
         limit:
           "The draft asserts no applicant, denial, caseworker or existing assistance program in this world.",
       },

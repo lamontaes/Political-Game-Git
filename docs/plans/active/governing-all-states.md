@@ -14,7 +14,7 @@ ROLE). Branch `claude/governing-all-states`, base `fed321f7`. LAND integrates.
 2. **Campaign → office for all fifty governors** — per-state disposition
    registry; term rules (including weekday-relative starts) compiled into the
    rules resolver; an ordinary executive authority profile for states without
-   an accepted pack, labelled as a game profile; filing uses the office's own
+   an accepted pack, labeled as a game profile; filing uses the office's own
    cycle instead of a 28-day horizon; exact unsupported reasons.
 3. **Institutional continuity** — Congress and state membership across term
    boundaries; pending successor, vacancy with cause and no-current-record kept
@@ -26,7 +26,7 @@ ROLE). Branch `claude/governing-all-states`, base `fed321f7`. LAND integrates.
 ## Rules
 
 - Accepted facts, rejected matrices and authored game profiles stay separate.
-- Missing law stays UNKNOWN; a versioned game profile is labelled as such.
+- Missing law stays UNKNOWN; a versioned game profile is labeled as such.
 - Old recorded victories are not rewritten; any recovery is an explicit,
   versioned option.
 
@@ -35,7 +35,7 @@ ROLE). Branch `claude/governing-all-states`, base `fed321f7`. LAND integrates.
 Delivered on the branch: increments 1, 2 and 3 (the Congress and governor
 parts). Increment 4 (budget priorities and bills presented) is next.
 
-### Game profiles to confirm (proposed values, versioned, labelled in play)
+### Game profiles to confirm (proposed values, versioned, labeled in play)
 
 - `ocd-state-executive-game-profile/v1`: four-year governor terms, regular
   elections in the cycle containing 2026, general election on the Tuesday after
@@ -109,7 +109,7 @@ offices in those states still continue for non-player holders.
 ## CRUNCH46 section 07 — next increments (gap map read 2026-09-16)
 
 What exists: legislative record types and writers (refer, hearing, committee
-disposition, floor vote, transmit, concurrence, enrol, presentment, executive
+disposition, floor vote, transmit, concurrence, enroll, presentment, executive
 action, override, enactment, adjournment death), bill drafting with typed
 instruments, 79F bargaining (Kentucky HB 214 only), vote instructions, public
 payment writer (`settlePublicResourcePayment`), Alaska transit route.
@@ -159,7 +159,7 @@ Gaps to close, in order:
 - Open: items 5, 7 and 9, plus a player surface for program decisions.
 - Blocked by design, with the missing rule named in play:
   - Senate appointments, governors' successors and the 3 U.S.C. §19 line.
-  - The special-election interval is the labelled game profile
+  - The special-election interval is the labeled game profile
     `ocd-house-special-election-game-profile/v1`.
 
 ## Q47-006 — what the write path cost, and what was done (2026-09-17)
@@ -289,7 +289,7 @@ as a bug in the campaign path.
 ## Q47-006 — where the remaining cost actually is
 
 C's per-family profile (one 30-day click, player-path before-state, repaired
-tree) localised it. Per click: 1,924 family passes, 1,353 proofs reused, 22,499
+tree) localized it. Per click: 1,924 family passes, 1,353 proofs reused, 22,499
 records walked to append 68 — and events alone is 18,468 of that 22,499, 82% of
 all walking. Decision trace and publication are another 16% between them. Every
 other family reuses its memoized proof on 50 or 51 of its 52 passes and walks
@@ -419,7 +419,7 @@ legislature. What is Kentucky-only is bargaining over the AUTHORED SCENARIO
 bill, because an authored deliberation brief exists for exactly one of them.
 
 **So this is not primarily an engineering item, and treating it as one would
-produce the wrong work.** Generalising it means authoring a deliberation brief
+produce the wrong work.** Generalizing it means authoring a deliberation brief
 per legislature — filed sections, beneficiaries, fiscal exposure, the analyst
 and advocate and guardian positions. That is gameplay content authoring at
 49x, and it is the kind of content that must not be improvised: a brief is
@@ -433,7 +433,7 @@ and say that the institution's supported procedural actions remain available in
 the office. That refusal is accurate and leaves the player somewhere to go.
 
 **What is worth doing here, if anything, is the docket path.** It already
-generalises, which means the reachable improvement is making sure a player who
+generalizes, which means the reachable improvement is making sure a player who
 drafts their own bill in a non-Kentucky legislature actually finds that route,
 rather than authoring briefs. Not started, and not assumed to be needed —
 recorded so the next person does not read "bargaining beyond HB214" as an

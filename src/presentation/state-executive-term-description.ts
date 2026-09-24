@@ -45,7 +45,9 @@ function commencement(rule: TermCommencementRule): string {
     return "on January 1 after the election";
   if (rule.kind === "january-fixed-day-following-election")
     return `on January ${rule.day} after the election`;
-  const anchor = `the ${ORDINALS[rule.ordinal]} ${WEEKDAYS[rule.weekday]} of January`;
+  const month =
+    rule.kind === "december-weekday-of-election-year" ? "December" : "January";
+  const anchor = `the ${ORDINALS[rule.ordinal]} ${WEEKDAYS[rule.weekday]} of ${month}`;
   if (rule.offsetDays === 0) return `on ${anchor} after the election`;
   const later = (rule.weekday + rule.offsetDays) % 7;
   if (rule.offsetDays > 0 && rule.offsetDays < 7)

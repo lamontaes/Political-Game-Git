@@ -1,0 +1,20 @@
+{
+  "filedAt": "2026-09-22T23:00:00.000Z",
+  "impact": "background",
+  "lane": "invented-depth audit",
+  "notes": [],
+  "priority": "P2",
+  "question": "For the state ethics bodies the game already routes complaints to, how long does each step take in practice or by rule — intake, notice to the respondent, the respondent's answer, investigation, and a finding?",
+  "questionId": "ethics-procedure-step-durations",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "invented-depth audit lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/press/procedures.ts and claim-route.ts at main 9f42ba19",
+      "whatItDidNotSettle": "Durations are authored with no source."
+    }
+  ],
+  "title": "How long each step of a state ethics complaint actually takes",
+  "usableAnswer": "Per state body, statutory or rule deadlines where they exist, and typical durations where they do not; say which are legal deadlines and which are observed practice.",
+  "whyItMatters": "PR #428 (merged 2026-09-22) gave ethics findings consequences. src/simulation/press/procedures.ts:418, :430, :441, :454 apply one invented calendar of 14/21/45/60 days to all 24 researched state ethics bodies (basis: 'authored' in the data, no question id), and src/simulation/press/claim-route.ts:19-29 adds a 30-day fallback and a 140/126/105/60 remaining-days table. The routes themselves are sourced; only the timing is made up. ethics-procedure-unread-detail-wy-id-ut covers three states whose procedures could not be read, not the durations."
+}

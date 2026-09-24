@@ -1,5 +1,5 @@
 import { expect, type Page } from "@playwright/test";
-import { workOfferedOutreach } from "./campaign";
+import { campaignWeeklyUntilDecided, workOfferedOutreach } from "./campaign";
 import { enterLife, goTo } from "./creator";
 import {
   chooseStateLegislativeOffice,
@@ -46,6 +46,8 @@ export async function reachMemberOffice(
     await page.getByTestId("pass-day").click();
     await workOfferedOutreach(page);
   }
+  // The seat is decided on the state's election day, not after 48 days.
+  await campaignWeeklyUntilDecided(page);
   await expect(page.getByTestId("campaign-result")).toBeVisible();
   await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
   await goTo(page, "elsewhere-work");

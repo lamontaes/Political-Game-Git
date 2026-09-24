@@ -129,7 +129,7 @@ function toItem(situation: LifeSituationEntry): ContentItem {
  * single required `companion` role is a faithful reading of a named part that
  * has to be playing for the item to make sense. It stays GENERIC on purpose:
  * peer, teacher and household-adult are supplied by `companionRoleFor` in the
- * presentation layer, not by this bank, and specialising the role here would
+ * presentation layer, not by this bank, and specializing the role here would
  * put a claim into `lifeSituationCatalog`'s provenance that it never made.
  *
  * Where `needsCompanion` is false the source says only that no companion is

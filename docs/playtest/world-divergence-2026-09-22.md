@@ -62,7 +62,7 @@ the ones most likely to.
 Two things in that table are worth stopping on.
 
 **A third party founded itself.** No player did anything. An ordinary save
-produced a new party organisation with two people affiliated to it, through the
+produced a new party organization with two people affiliated to it, through the
 party-evolution machinery, inside two years. The vocabulary for this is
 complete — a party can be `founded`, `split-off`, `merged`, `renamed`,
 `dissolved`, or have its platform changed.
@@ -77,20 +77,20 @@ He said outright he did not know how it works. It works like this, and it is
 serious.
 
 **Natural hazards are sampled from real recorded weather.** A compiled
-NOAA/NCEI Storm Events catalogue drives a national stream. The count law is
-Poisson at that catalogue's own recorded monthly rate for the state; a state
+NOAA/NCEI Storm Events catalog drives a national stream. The count law is
+Poisson at that catalog's own recorded monthly rate for the state; a state
 rate is thinned to a county by the state's recorded median county footprint
 over its county count; and an episode's footprint is **resampled from an actual
 recorded episode of the same state, hazard family and month**. A Louisiana
 hurricane season is drawn from what Louisiana actually recorded. The module
-states its own limit: the catalogue counts _reported_ events, so a rate is a
+states its own limit: the catalog counts _reported_ events, so a rate is a
 recorded-report rate for 2000–2024 and not a claim about any future year.
 
-**Then a full chain runs.** Hazard → damage to the homes and organisations the
+**Then a full chain runs.** Hazard → damage to the homes and organizations the
 world actually represents → injuries and deaths among the residents of damaged
 and destroyed homes → local response → a governor's request inside a 30-day
 window (cited to 44 CFR 206.36(a)) → a federal decision that names actual
-programme kinds (public assistance, individual assistance, hazard mitigation by
+program kinds (public assistance, individual assistance, hazard mitigation by
 magnitude) → a finite repair queue that completes two effort units a week
 locally and six with federal assistance. A declaration never creates damage,
 approval never repairs instantly, and a denial never erases the event.
@@ -233,9 +233,9 @@ Arkansas, the president was assassinated while he was young, and that shaped his
 views in this particular way.
 
 The first clause is available. Every save generates real people with real
-birthplaces and birthdays — Fiona Terrell born 4 December 1985 in one save,
-Cameron Cruz born 18 September 1985 in another, with different families, jobs
-and neighbours.
+birthplaces and birthdays — Fiona Terrell born December 4, 1985 in one save,
+Cameron Cruz born September 18, 1985 in another, with different families, jobs
+and neighbors.
 
 The second clause cannot happen: no assassination can occur.
 
@@ -357,7 +357,7 @@ controls first, then explicit different seeds, and **vary the actual
 ### The five proposed before that answer arrived
 
 Kept because three of them are not in the six and are cheap to carry; the
-numbering above is what a report should be organised by.
+numbering above is what a report should be organized by.
 
 The audit lane proposed six; these are the ones theirs does not cover, so the
 two sets compose rather than compete.
@@ -415,7 +415,7 @@ and is there any wire from a policy to it. Searched at this head.
 | The pharmaceutical industry                              | **No.** One sentence in a setup questionnaire mentions pharmaceutical precursors; there is no industry, no supply, no producer behind it. | —                                                                                                                                   | —                                                                                                                                                                                                                                                                                                                            |
 | Executive orders                                         | **No.** No match anywhere in `src/`.                                                                                                      | —                                                                                                                                   | —                                                                                                                                                                                                                                                                                                                            |
 | Civil war                                                | **No.** No match anywhere in `src/`.                                                                                                      | —                                                                                                                                   | —                                                                                                                                                                                                                                                                                                                            |
-| Federal disaster programmes                              | **The names are inert; the declaration is not.** See the correction below this table.                                                     | The names reach the record; the declaration reaches the repair queue.                                                               | **Partly.** A federal declaration quadruples weekly repair capacity and tags the funding. The programme names do nothing.                                                                                                                                                                                                    |
+| Federal disaster programs                                | **The names are inert; the declaration is not.** See the correction below this table.                                                     | The names reach the record; the declaration reaches the repair queue.                                                               | **Partly.** A federal declaration quadruples weekly repair capacity and tags the funding. The program names do nothing.                                                                                                                                                                                                      |
 | Constitutional amendments                                | **Yes, and half-wired.**                                                                                                                  | **Proposing one is reachable** — `ConstitutionalWorkspace.tsx:69` calls `proposeConstitutionalMeasure`, and `PlayerGame` mounts it. | **No, and it cannot finish.** The four writers that resolve a proposal — `recordConstitutionalProposalVote`, `recordArticleVRatification`, `recordCaliforniaRatification`, `recordCarsonCharterEnactment` — have zero callers outside tests. A player can propose an amendment and nothing can ever vote on it or ratify it. |
 
 **On "disasters are hardcoded not to affect politics" — not quite, and the
@@ -440,8 +440,8 @@ every number in it is exact and declared.
 
 ### Correction, 16:10Z: federal disaster assistance is not inert
 
-~~Nothing else in the tree reads those names. A declaration names programmes
-and no programme does anything.~~
+~~Nothing else in the tree reads those names. A declaration names programs
+and no program does anything.~~
 
 [Edit: struck rather than deleted, because the overbroad version was reported.]
 ChatGPT pushed back on this in its 15:58Z batch and it is right. Checked in
@@ -452,13 +452,13 @@ declaration takes weekly repair from 2 units to 8 — a fourfold speedup — and
 tags every repair record `funding: "federal-assisted"` instead of `"local"`.**
 Homes in a declared disaster are genuinely repaired four times faster.
 
-What is true, and it is narrower: the **programme names** are inert. Public
+What is true, and it is narrower: the **program names** are inert. Public
 assistance, individual assistance and hazard mitigation are named per magnitude
 and nothing reads the names, and no amount of money is ever recorded. The
 declaration is a capacity switch, not a budget.
 
 This lane had the capacity figures in its own crisis summary and still drew the
-broad conclusion from the programme names, which is the error worth naming:
+broad conclusion from the program names, which is the error worth naming:
 **a part of a system being inert is not the system being inert.**
 
 ## A defect this run exposed, fixed

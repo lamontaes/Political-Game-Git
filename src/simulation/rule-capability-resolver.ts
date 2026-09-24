@@ -830,7 +830,7 @@ function enactedField(
     source: {
       citation:
         change.operativeBasis === "game-default"
-          ? `${change.designation}, enacted in this game; in force after the game's default of ${STATUTE_EFFECTIVE_DEFAULT_DAYS} days because this state's effective-date rule is not modelled`
+          ? `${change.designation}, enacted in this game; in force after the game's default of ${STATUTE_EFFECTIVE_DEFAULT_DAYS} days because this state's effective-date rule is not modeled`
           : `${change.designation}, enacted in this game`,
       url: null,
       artifactId: null,

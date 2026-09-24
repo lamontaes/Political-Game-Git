@@ -53,6 +53,8 @@ export const LEGACY_ADOPTED_PROVISION_SUFFIX = "section-4";
 export const REQUESTED_SEGMENT_KEY: MetricSegmentKey =
   "transit.ashland-boyd-local-match";
 
+// PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the three amounts below and the $8,000,000
+// in `fiscalNoteSummaryFor` are typed in, not sourced.
 export const PROGRAM_AMOUNT_MINOR_UNITS = 800_000_000;
 export const REQUESTED_AMOUNT_MINOR_UNITS = 140_000_000;
 export const CAPPED_AMOUNT_MINOR_UNITS = 60_000_000;
@@ -68,7 +70,7 @@ export const CAPPED_AMOUNT_MINOR_UNITS = 60_000_000;
  * `legislative-bargaining-place.test.ts` holds the labels to it — the record
  * has to exist, and it has to sit in the legislature this sitting belongs to.
  *
- * This grounds the claim; it does not yet generalise the sitting. The cast and
+ * This grounds the claim; it does not yet generalize the sitting. The cast and
  * the place are still written for one Kentucky measure, and widening that
  * means authoring a second sitting rather than deleting this one.
  */
@@ -494,7 +496,7 @@ export function playerHasReadFiscalNoteFor(
  * than over a transit local match with the labels changed.
  *
  * Nothing about the negotiation machinery changes. The facts contract was
- * already parameterised; only its producer was hard-wired to one programme.
+ * already parameterized; only its producer was hard-wired to one program.
  * The advocate still wants a narrower section, the guardian still counts what
  * the bill commits, and the amendment still has to be adopted by the chamber
  * before it touches the text.

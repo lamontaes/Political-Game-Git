@@ -6,7 +6,7 @@ no injected records, no developer menu. Code claims below are read at that same
 head.
 
 This is the follow-up the morning walk did not take. Memory has the empty
-policy catalogue down as the largest single gap in the project, on the strength
+policy catalog down as the largest single gap in the project, on the strength
 of a boundary assertion in the source. Nobody had looked at it from a chair in
 front of the game.
 
@@ -113,7 +113,7 @@ and only the statewide custom choice for Nebraska enabled it. So of
 fifty-one places a player might start, three offer this route, and only if
 they decline to name a town.
 
-## What the empty catalogue actually costs
+## What the empty catalog actually costs
 
 It is a built-but-unreachable finding rather than a broken one, and it is
 narrower than the sentence that has been carried between lanes.
@@ -124,10 +124,10 @@ Nebraska and written up in `drafting-table-2026-09-22.md`: a bill has more
 than forty templates across eighteen subject families to be about, and
 choosing one produces drafted statutory sections with editable parameters.
 The legislation layer is not filed under propositions and does not need them.
-What the empty catalogue locks is the conviction layer, below.
+What the empty catalog locks is the conviction layer, below.
 
 `assertProductionCatalogBoundary` in `src/simulation/production-catalog.ts`
-refuses to build a production world whose policy catalogue holds anything at
+refuses to build a production world whose policy catalog holds anything at
 all. Its own comment is honest about why:
 
 > Emptiness is the current honest state of each of these, so it is also the
@@ -154,7 +154,7 @@ content to have a view about, and there is no button that would record one.
 ## The journal is the one screen that would show it, and it says nothing
 
 `src/presentation/world39-journal.ts` is the only file in the presentation or
-player layers that reads the policy catalogue at all. It builds journal entries
+player layers that reads the policy catalog at all. It builds journal entries
 for beliefs, public positions and campaign commitments, and each loop does the
 same thing when the proposition is missing:
 
@@ -187,7 +187,7 @@ and then refuses four different ways without ever printing a zero:
 
 The last sentence is the whole design in one line. The starting conditions it
 does have — unemployment near 3.9%, prices rising about 0.8% a year — are
-labelled as starting conditions rather than released figures.
+labeled as starting conditions rather than released figures.
 
 The Government screen is the same shape: two named senators for Illinois, the
 city and county listed from the Census Bureau, districts reported as not
@@ -220,7 +220,7 @@ ships and works but its effect vocabulary is empty": the loader, the digest,
 the dependency ordering and the save round-trip are all real and all careful,
 and what they carry is scenes and durations.
 
-So filling the catalogue means changing `assertProductionCatalogBoundary` on
+So filling the catalog means changing `assertProductionCatalogBoundary` on
 purpose and saying where the content came from — which is exactly what its own
 comment asks for. There is no side door, and looking for one is now a settled
 question rather than an open one.
@@ -229,7 +229,7 @@ question rather than an open one.
 
 That walk said traits are "pack-driven", in a sentence that reads as though a
 mod could add one. The pack shape is real — `loadedTraitRegistry()` composes
-`peopleTraitPack()` and `legislatureTraitPack()`, and the simulation honours
+`peopleTraitPack()` and `legislatureTraitPack()`, and the simulation honors
 what they declare — but both are compiled into the build, `loadTraitPacks` is
 never called with anything else anywhere in the tree, and the runtime pack type
 above has no field for a trait. A trait added **to the build** works. A trait

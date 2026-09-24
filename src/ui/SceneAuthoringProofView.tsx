@@ -257,7 +257,7 @@ function TierReadout({
         <em>
           {" "}
           Above the supported fidelity envelope; browser upscale from the top
-          tier is documented behaviour here, not a defect.
+          tier is documented behavior here, not a defect.
         </em>
       ) : null}
     </span>
@@ -328,7 +328,7 @@ export function SceneAuthoringProofView() {
             Hover the plate to read a coordinate, click to capture it, and copy
             the block into a scene spec. Every captured value carries the
             certainty you chose: a coordinate read off a picture is an estimate,
-            and it stays labelled as one all the way into the spec.
+            and it stays labeled as one all the way into the spec.
           </p>
         </div>
         <label>

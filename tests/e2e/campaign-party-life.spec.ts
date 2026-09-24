@@ -151,7 +151,7 @@ test("party work, a week's plan and the other side's public activity", async ({
   const treasury =
     (await page.getByTestId("campaign-treasury").textContent()) ?? "";
   await expect(page.getByTestId("campaign-week-treasury")).toHaveText(
-    "Your committee has $0.00.",
+    "Your committee has $0.",
   );
 
   // An advertising-only week the committee cannot pay for.

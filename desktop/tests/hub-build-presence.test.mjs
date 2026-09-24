@@ -125,11 +125,11 @@ test("the worker asks the disk before calling a build up to date or waiting", ()
   const source = read("private-update-worker.mjs");
   assert.match(
     source,
-    /pendingMatches =[\s\S]*?buildPresentOnDisk\(existing\.pending\)\.ok/,
+    /existing\?\.pending\?\.revision === targetRevision[\s\S]*?buildPresentOnDisk\(existing\.pending\)\.ok/,
   );
   assert.match(
     source,
-    /assessment\.action === "none" &&\s*samePack &&\s*buildPresentOnDisk\(existing\?\.current\)\.ok/,
+    /assessment\.action === "none" &&\s*buildPresentOnDisk\(existing\?\.current\)\.ok/,
   );
   // The bare existence check it replaced is gone.
   assert.ok(!source.includes("existsSync(existing.pending.appPath)"));
@@ -149,16 +149,19 @@ test("a linear cloud successor reuses the verified runtime-content pair", () => 
 
 test("accepted main builds with runtime content once its code supports it", () => {
   const source = read("private-update-worker.mjs");
-  // Tried before the pinned pack, so a code change cannot strand main's art.
+  // Every compatible track shares the reusable route, including a new preview.
   assert.match(
     source,
-    /runtimeContentFor\(state, id\)[\s\S]*?supportsRuntimeContent\(repositoryPath, targetRevision\)[\s\S]*?prepareRuntimeContentSuccessor\([\s\S]*?if \(!requestedPack/,
+    /runtimeContentFor\(state, id\)[\s\S]*?supportsRuntimeContent\(repositoryPath, targetRevision\)[\s\S]*?prepareRuntimeContentSuccessor\(/,
   );
   assert.match(source, /"runtime-art-v1",\s*revision,/);
+  assert.ok(!source.includes("removeOwnedStaging"));
+  assert.ok(!source.includes('"worktree", "add"'));
+  assert.match(source, /older private-pack installer/);
   // Main has no received channel; it records a pending build directly.
   assert.match(
     source,
-    /if \(isMain\) \{[\s\S]*?withPending\(latest, id, branch, build\)[\s\S]*?\}\s*publishReceivedChannel\(\{/,
+    /if \(isMain \|\| !existing\?\.current\) \{[\s\S]*?withPending\(latest, id, branch, build\)[\s\S]*?\}\s*publishReceivedChannel\(\{/,
   );
   assert.match(source, /isMain\s*\? "accepted-main"/);
 });

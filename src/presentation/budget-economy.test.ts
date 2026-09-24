@@ -2,6 +2,7 @@ import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-te
 import { describe, expect, it } from "vitest";
 
 import {
+  addDays,
   createDemoWorld,
   deserializeWorld,
   money,
@@ -15,12 +16,9 @@ import {
 } from "../simulation";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
-import {
-  fileForOffice,
-  projectCampaign,
-  spendAnAfternoon,
-} from "./campaign-projection";
+import { campaignUntilDecided } from "../../tests/fixtures/campaign-fixture";
+import { openOrdinaryLife } from "./ordinary-life";
+import { fileForOffice, projectCampaign } from "./campaign-projection";
 import { buildProductionWorld } from "./production-world";
 import { projectBudgetEconomy } from "./budget-economy";
 
@@ -59,19 +57,18 @@ function seatedFiscalReader(): {
     built.playerPersonId,
     null,
     "us-ky-general-assembly-v1:house",
+    // A seated legislator is the subject here, not the calendar.
+    addDays(world.currentDate, 28),
   );
-  world = spendAnAfternoon(world, built.playerPersonId, "fundraising");
-  for (let index = 0; index < 3; index += 1) {
-    world = passOrdinaryDays(world);
-    world = spendAnAfternoon(world, built.playerPersonId, "outreach");
-  }
-  for (
-    let day = 0;
-    day < 60 && projectCampaign(world, built.playerPersonId).phase === "active";
-    day += 1
-  ) {
-    world = passOrdinaryDays(world);
-  }
+  /*
+   * Plays through the shared helper rather than the weaker hand-rolled
+   * sequence that used to live here: one fundraising afternoon, three outreach
+   * afternoons, then sixty idle days. That sequence won only against a single
+   * opponent. A contest now opens with two to four, so the idle days lost the
+   * race and this fixture stopped reaching a seated member at all. The
+   * assertion is unchanged; only the effort that reaches it is.
+   */
+  world = campaignUntilDecided(world, built.playerPersonId);
   if (projectCampaign(world, built.playerPersonId).phase !== "won") {
     throw new Error(
       "Budget proof seed did not produce the accepted seated route.",

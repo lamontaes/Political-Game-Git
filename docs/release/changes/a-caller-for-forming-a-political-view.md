@@ -4,7 +4,7 @@ impact: none
 ---
 
 The engine that weighs whether somebody comes to hold a political view has had
-one caller since Stage 4, the demo, so a world could load a full catalogue of
+one caller since Stage 4, the demo, so a world could load a full catalog of
 propositions and still hold nobody with an opinion about any of them. This adds
 the quarterly pass that would form one: it picks a proposition somebody has
 actually been exposed to since they last concluded anything about it, runs the

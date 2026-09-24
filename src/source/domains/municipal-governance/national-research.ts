@@ -150,7 +150,7 @@ export interface ResearchConsolidation {
 }
 
 /**
- * A crosswalk to a Census place, declared and labelled as identity only.
+ * A crosswalk to a Census place, declared and labeled as identity only.
  *
  * The research names cities; the game's place corpus names Census places. The
  * two are different registers and the join between them is an assertion this

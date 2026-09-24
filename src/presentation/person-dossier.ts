@@ -1,3 +1,8 @@
+import { recentStrain } from "./relationship-strain";
+import {
+  describeRelationshipStanding,
+  readRelationshipStanding,
+} from "../simulation/relationship-standing";
 import { proseDate } from "./prose-dates";
 import { organizationRefLabel } from "./organization-ref";
 import {
@@ -87,6 +92,16 @@ export interface PersonDossier {
   readonly rightNow: string | null;
   readonly details: readonly DossierFact[];
   readonly lastInteraction: string;
+  /**
+   * Where the two of them stand, in the player's own words.
+   *
+   * Null when the record holds nothing that bears on it, which is not the same
+   * as reading flat: a person the player has only ever passed in a corridor has
+   * nothing to say here and should say nothing rather than "acquainted".
+   */
+  readonly standing: string | null;
+  /** When the last thing between you strained it, said plainly. */
+  readonly strain: string | null;
   /** Canonical entities this dossier can route to. */
   readonly links: readonly ShellRef[];
 }
@@ -99,6 +114,17 @@ function describeInteraction(
   // The player's own card is not somebody the player has or has not spoken to.
   if (personId === playerId) return "This is you.";
   const summary = deriveRelationshipSummary(world, playerId, personId);
+  /*
+   * Living together is not a conversation on record, and none is invented
+   * for it. But a sister in the same home read "You haven't spoken," and a
+   * father "You last spoke" seventeen months back (Fairbanks and Elko
+   * playtests, 2026-09-23). The card says what the record does establish.
+   */
+  if (readRelationshipStanding(world, playerId, personId).absence.sharesHome) {
+    return summary.lastInteractionAt === world.currentDate
+      ? "You live together. You spoke today."
+      : "You live together.";
+  }
   if (summary.interactionCount === 0) {
     return "You haven't spoken.";
   }
@@ -116,8 +142,8 @@ function describeInteraction(
  * This is the half of the player-pure rule that adds rather than removes.
  * Holding public office is a public fact: a citizen knows who their governor is
  * without having been introduced to them, and a card that stayed blank until
- * the player had personally met an officeholder was modelling acquaintance
- * where it should have been modelling publicity.
+ * the player had personally met an officeholder was modeling acquaintance
+ * where it should have been modeling publicity.
  *
  * So the gate is the record's own `visibility`, not the player's social
  * distance. Only a publicly visible tenure event counts, only while it is
@@ -379,6 +405,14 @@ export function projectPersonDossier(
     rightNow: options.rightNow ?? null,
     details,
     lastInteraction: describeInteraction(world, playerId, personId),
+    strain: recentStrain(world, playerId, personId),
+    standing:
+      personId === playerId
+        ? null
+        : describeRelationshipStanding(
+            readRelationshipStanding(world, playerId, personId),
+            subject.givenName,
+          ),
     links: buildLinks(world, playerId, personId),
   };
 }

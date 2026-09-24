@@ -1,7 +1,7 @@
 # Municipal leaf #159: absorbed, blocked on a deliberate anchor disposition
 
 For F. This is the reproduction and the exact blocker, not a request to redo
-the leaf — the selection behaviour, the home-place repair and the directory
+the leaf — the selection behavior, the home-place repair and the directory
 projection all merged cleanly and all typecheck.
 
 **What happened.** PR #159 at `a2c5ddd4` was merged into

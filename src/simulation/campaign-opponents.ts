@@ -1,3 +1,5 @@
+import { eventById } from "./event-index";
+import { jailTermOn } from "./justice/jail-terms";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -19,6 +21,7 @@ import {
   campaignState,
   requireCampaign,
 } from "./campaign-queries";
+import { planCampaignOperatingWeek } from "./campaign-operating-costs";
 import { recordSupportShift } from "./campaign-support";
 import { addDays, makeIsoDate } from "./dates";
 import { evaluateDecision } from "./decisions";
@@ -273,6 +276,9 @@ function lastOrganizationId(world: World): EntityId {
   return world.history.organizations.at(-1)!.id;
 }
 
+/** How a chamber seat's descriptive title begins (see candidacy-packs). */
+const SEAT_TITLE_PREFIX = "Seat in the ";
+
 /**
  * The rival's own campaign, written the first time they act: a committee, the
  * two aggregate counterparties the player's committee also has, an empty
@@ -302,7 +308,11 @@ function ensureOpponent(
       note: "An opponent's campaign committee, written the first week they campaigned.",
     },
     initialProfile: {
-      name: `${name} for ${contest.office.title}`,
+      // Named for the body, as the player's own committee is: "Sasha Chavez
+      // for the Texas House of Representatives", not "for Seat in the …".
+      name: contest.office.title.startsWith(SEAT_TITLE_PREFIX)
+        ? `${name} for the ${contest.office.title.slice(SEAT_TITLE_PREFIX.length)}`
+        : `${name} for ${contest.office.title}`,
       classification: "custom:political-campaign",
       locationJurisdictionId: contest.jurisdictionId,
     },
@@ -1252,9 +1262,7 @@ function runOpponentStep(
   const kind: CampaignOpponentStepKind =
     written.note !== null ? "fundraising" : chosen;
   let next = written.world;
-  const event = next.history.events.find(
-    (candidate) => candidate.id === written.outcomeEventId,
-  )!;
+  const event = eventById(next, written.outcomeEventId)!;
   if (event.visibility === "public") {
     next = recordEventKnowledge(next, {
       stableKey: `${stepKey}:known-by:${campaign.candidatePersonId}`,
@@ -1362,6 +1370,9 @@ export function campaignWeeklyEvaluationHandler(
     .filter(
       (personId) => world.people[personId] && !isDeceased(world, personId),
     )
+    // Nobody campaigns from jail (UNRESEARCHED_JAIL_EFFECTS); they stay on
+    // the ballot and their support stands where it was.
+    .filter((personId) => !jailTermOn(world, personId, weekStart))
     .sort();
   for (const rivalId of rivals) {
     const ensured = ensureOpponent(next, campaign, contest, rivalId);
@@ -1399,6 +1410,8 @@ export function campaignWeeklyEvaluationHandler(
       ]);
     }
   }
+  // The week's bills for this committee and each one running against it.
+  next = planCampaignOperatingWeek(next, campaign, weekStart);
   return {
     world: next,
     status: "resolved",
@@ -1423,11 +1436,14 @@ export interface KnownOpponentActivity {
 /**
  * Opponent activity this person actually learned about, oldest first. Only
  * public steps with a knowledge record for the person appear; the rival's
- * private emphasis, treasury and limited steps never do. Pure.
+ * private emphasis, treasury and limited steps never do. With a `contestId`,
+ * only rivals in that race count: what an earlier race's opponent did is not
+ * news about the current one. Pure.
  */
 export function projectKnownOpponentActivity(
   world: World,
   personId: EntityId,
+  options: { readonly contestId?: EntityId } = {},
 ): readonly KnownOpponentActivity[] {
   const steps = campaignOpponentStepRecords(world);
   if (steps.length === 0) return [];
@@ -1453,8 +1469,10 @@ export function projectKnownOpponentActivity(
   const rows: { sequence: number; row: KnownOpponentActivity }[] = [];
   for (const step of steps) {
     const opponent = opponents.get(step.opponentId);
+    if (!opponent) continue;
+    if (options.contestId && opponent.contestId !== options.contestId) continue;
     const event = events.get(step.outcomeEventId);
-    if (!opponent || !event || event.visibility !== "public") continue;
+    if (!event || event.visibility !== "public") continue;
     const believedSummary = knowledgeByEvent.get(event.id);
     if (believedSummary === undefined) continue;
     rows.push({

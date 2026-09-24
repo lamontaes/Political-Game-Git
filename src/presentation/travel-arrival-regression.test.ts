@@ -91,7 +91,7 @@ describe("recorded arrival after travel", () => {
     expect(completedActivityHere(attended, personId)?.id).toBe(meeting.id);
   });
 
-  it("lets a saved completed journey enter its linked meeting without travelling twice", () => {
+  it("lets a saved completed journey enter its linked meeting without traveling twice", () => {
     const { world, playerPersonId: personId } = game();
     const morning = passOrdinaryDays(openOrdinaryLife(world, personId));
     const journey = morning.history.scheduledActivities.find(

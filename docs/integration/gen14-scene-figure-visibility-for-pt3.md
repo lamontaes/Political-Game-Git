@@ -20,7 +20,7 @@ head   : nothing
 ```
 
 The panel is `.life-shell .scene-backdrop-content`, fixed to the bottom and
-centred, and its children take pointer events. Whatever stands behind it is
+centered, and its children take pointer events. Whatever stands behind it is
 covered from roughly the chest down.
 
 Two consequences:
@@ -34,7 +34,7 @@ Two consequences:
   people look right.
 
 I have not proposed a fix because the layout is yours. Worth knowing: the
-figure is centred on its anchor, so anything that moves the panel off the
+figure is centered on its anchor, so anything that moves the panel off the
 figure's column, shortens it, or makes it dismissible would recover the body.
 
 ## 2. The figure is cropped at the head

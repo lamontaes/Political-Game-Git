@@ -256,7 +256,7 @@ const HEAD_ORIGIN = { x: 0.5, y: 0.95 } as const;
 interface HeadSpec {
   readonly family: string;
   readonly complexion: CharacterComplexion;
-  /** Horizontal radius, so head families differ in structure, not only colour. */
+  /** Horizontal radius, so head families differ in structure, not only color. */
   readonly rx: number;
   readonly ry: number;
 }

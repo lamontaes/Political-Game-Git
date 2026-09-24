@@ -42,7 +42,7 @@ describe("the release dates recorded for the locked economic editions", () => {
       "docProps/core.xml",
     ).toString("utf-8");
     const created = /<dcterms:created[^>]*>([^<]+)</.exec(core)?.[1] ?? "";
-    // HUD's own stamp is space-padded ("2024- 6-28"); normalise before comparing.
+    // HUD's own stamp is space-padded ("2024- 6-28"); normalize before comparing.
     const [year, month, day] = created
       .slice(0, 10)
       .split("-")

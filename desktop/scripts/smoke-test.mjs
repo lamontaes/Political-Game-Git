@@ -439,7 +439,7 @@ async function assertVisiblePerson(page, expected) {
   if (process.env.OCD_EXPECT_ART_PREVIEW === "1") {
     await page.getByTestId("art-preview-banner").waitFor({ timeout: 10000 });
     check(
-      "art-review: labelled candidate banner is on the installed play screen",
+      "art-review: labeled candidate banner is on the installed play screen",
       (await page.getByTestId("art-preview-banner").count()) === 1,
     );
   } else {
@@ -463,7 +463,7 @@ async function assertVisiblePerson(page, expected) {
       .waitFor({ state: "detached", timeout: 15000 });
   }
   // The control flips as soon as the slot exists; the visible Saved status is
-  // the later durability acknowledgement. Do not race app.close against the
+  // the later durability acknowledgment. Do not race app.close against the
   // repository write or Playwright may collide with the legitimate close guard.
   await page.getByText("Saved.", { exact: true }).waitFor({ timeout: 15000 });
   const records = await readSavedRecords(page, databaseName);

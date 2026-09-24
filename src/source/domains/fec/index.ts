@@ -9,7 +9,7 @@
  * not sample.
  *
  * Nothing in this corpus reaches gameplay. The FEC adapter is gated on Stage 7
- * authorisation and does not exist.
+ * authorization and does not exist.
  */
 
 import {

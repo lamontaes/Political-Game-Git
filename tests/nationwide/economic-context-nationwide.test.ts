@@ -109,7 +109,7 @@ describe("economic context reaches the whole country", () => {
     // HUD does not file every county separately — New England is published by
     // metropolitan area rather than by county, so a county-suffixed code finds
     // nothing there. The provider reports that product unavailable and the
-    // other two still answer, which is the fail-soft behaviour we want.
+    // other two still answer, which is the fail-soft behavior we want.
     expect(hudResolves).toBe(119);
   });
 

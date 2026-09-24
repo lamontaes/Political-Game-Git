@@ -17,6 +17,10 @@ import type {
 import { isPersonAliveAt, recordPersonDeath } from "../vitality";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordOfficialContinuity } from "./continuity";
+import {
+  federalDeclarationWarranted,
+  stateRequestWarranted,
+} from "./disaster-warrants";
 import { beginHealthEpisode } from "./health";
 import { closeHealthEpisodesForDeath } from "./health-queries";
 import { currentGovernorOf, currentPresidentOf } from "./offices";
@@ -109,13 +113,6 @@ export const PROVISIONAL_DISASTER_POLICY = Object.freeze({
     ],
   } satisfies Record<HazardMagnitude, readonly string[]>,
 });
-
-const MAGNITUDE_RANK: Record<HazardMagnitude, number> = {
-  minor: 0,
-  moderate: 1,
-  major: 2,
-  catastrophic: 3,
-};
 
 export interface DeclareHazardEpisodeInput {
   readonly stableKey: string;
@@ -536,6 +533,11 @@ function recordResponse(
     ],
     summary: input.summary,
   });
+  // What voters and the people around the decision-maker make of it is
+  // judged from this record by the weekly press sweep
+  // (`applyPendingDisasterHandlingReactions`), not here: calling it from
+  // this module put the whole relationship graph inside the transition
+  // registry's own import cycle.
   return appendCrisisRecord(event.world, {
     kind: "disaster-response",
     stableKey: key,
@@ -561,6 +563,34 @@ function requestDeadline(episode: HazardEpisodeRecord): IsoDate {
   return addDays(
     episode.effectiveAt,
     PROVISIONAL_DISASTER_POLICY.stateRequestWindowDays,
+  );
+}
+
+/**
+ * Whether a disaster left nothing a federal request could answer: no home or
+ * building damaged or destroyed, no one hurt, and below the game's own
+ * standard for asking. The played governor is not asked about one.
+ *
+ * UNRESEARCHED placeholder: whether a governor ever requests a declaration
+ * with nothing damaged is filed as `disaster-request-with-no-damage`.
+ */
+function nothingToRequest(world: World, episode: HazardEpisodeRecord): boolean {
+  const assessment = disasterAssessment(world, episode.id);
+  if (!assessment) return false;
+  if (
+    stateRequestWarranted(
+      episode.magnitude,
+      assessment.destroyed.household + assessment.destroyed.dwelling,
+    )
+  )
+    return false;
+  const sum = (counts: Readonly<Record<string, number>>) =>
+    Object.values(counts).reduce((total, count) => total + count, 0);
+  return (
+    sum(assessment.damaged) === 0 &&
+    sum(assessment.destroyed) === 0 &&
+    assessment.injuredPersonIds.length === 0 &&
+    assessment.deceasedPersonIds.length === 0
   );
 }
 
@@ -717,6 +747,19 @@ export const disasterStateReviewHandler: FutureTransitionHandler = (
     );
   const deadline = requestDeadline(episode);
   if (controlledBy(world, governor.personId)) {
+    if (nothingToRequest(world, episode))
+      return settled(
+        applyStateDecision(
+          world,
+          episode,
+          null,
+          "decline",
+          "institution",
+          "Nothing was damaged and no one was hurt, so no request was made.",
+        ),
+        "resolved",
+        "nothing-damaged",
+      );
     if (world.currentDate >= deadline)
       return settled(
         applyStateDecision(
@@ -745,9 +788,7 @@ export const disasterStateReviewHandler: FutureTransitionHandler = (
   const assessment = disasterAssessment(world, episode.id)!;
   const destroyedHomes =
     assessment.destroyed.household + assessment.destroyed.dwelling;
-  const request =
-    MAGNITUDE_RANK[episode.magnitude] >= MAGNITUDE_RANK.major ||
-    (episode.magnitude === "moderate" && destroyedHomes > 0);
+  const request = stateRequestWarranted(episode.magnitude, destroyedHomes);
   return settled(
     applyStateDecision(
       world,
@@ -801,7 +842,7 @@ export const disasterFederalReviewHandler: FutureTransitionHandler = (
       "resolved",
       "awaiting-player",
     );
-  const declare = MAGNITUDE_RANK[episode.magnitude] >= MAGNITUDE_RANK.major;
+  const declare = federalDeclarationWarranted(episode.magnitude);
   return settled(
     applyFederalDecision(
       world,
@@ -928,7 +969,8 @@ export function pendingDisasterDecisions(
     if (
       governor?.personId === personId &&
       !hasStage(world, record.id, ["state-request", "no-state-request"]) &&
-      world.currentDate <= requestDeadline(record)
+      world.currentDate <= requestDeadline(record) &&
+      !nothingToRequest(world, record)
     )
       return [
         {

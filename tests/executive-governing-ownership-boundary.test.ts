@@ -126,7 +126,9 @@ describe("92H current-mechanics wave ownership boundary", () => {
     expect(laterChanges).not.toBeNull();
     expect(laterChanges).toContain("package.json");
     expect(measuredChanges()).not.toContain("package.json");
-  });
+    // Diffs the whole tree since the recorded head through git: alone it takes
+    // well under the default, but beside a full parallel run it measured 9 s.
+  }, 60_000);
 
   it("would still reject a forbidden path inside the frozen range", () => {
     expect(ownershipViolations([...measuredChanges(), "package.json"])).toEqual(

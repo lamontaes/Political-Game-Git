@@ -10,7 +10,7 @@ import {
 import { money } from "../simulation/resources";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { resolveLegislativeFilingEntry } from "../presentation/legislative-filing-entry";
-import { taxActivationReadiness } from "../presentation/tax-policy-transition";
+import { taxActivationReadiness } from "../simulation/tax-policy-activation";
 import { resolveLegislativeAssignmentForMeasure } from "../presentation/legislation-world";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
 import {
@@ -35,7 +35,7 @@ export function exactDollarInput(value: string): number {
   return Number(result);
 }
 const display = (amount: number) =>
-  `${Math.floor(amount / 100)}.${String(amount % 100).padStart(2, "0")} USD`;
+  `$${Math.floor(amount / 100).toLocaleString("en-US")}.${String(amount % 100).padStart(2, "0")}`;
 
 /** Feature-local mount for A's ordinary Work surface. S's shared measure reader
  * receives onOpenMeasure; this component owns neither legislation nor storage.

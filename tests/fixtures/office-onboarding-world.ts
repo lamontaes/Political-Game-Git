@@ -42,26 +42,48 @@ export function newOnboardingLife(seed: string) {
   };
 }
 
+/**
+ * Spends an afternoon, skipping only a day that has no room left for one.
+ * Any other refusal is a defect and is allowed to throw.
+ */
+function trySession(
+  world: World,
+  personId: EntityId,
+  kind: "fundraising" | "outreach",
+): World {
+  try {
+    return spendAnAfternoon(world, personId, kind);
+  } catch (error) {
+    if (error instanceof Error && /already spoken for/.test(error.message)) {
+      return world;
+    }
+    throw error;
+  }
+}
+
 export function wonLegislativeSeat(seed: string) {
   for (let attempt = 0; attempt < 12; attempt += 1) {
     const life = newOnboardingLife(
       attempt === 0 ? seed : `${seed}:retry-${attempt}`,
     );
     let world = fileForOffice(life.world, life.personId);
-    world = spendAnAfternoon(world, life.personId, "fundraising");
-    for (let index = 0; index < 3; index += 1) {
-      world = advanceWorld(
-        world,
-        1,
-        createCampaignElectionTransitionRegistry(),
-      );
-      world = spendAnAfternoon(world, life.personId, "outreach");
-    }
+    /*
+     * Campaigns on every day that still has room for it, rather than three
+     * outreach afternoons followed by sixty idle days. That older sequence won
+     * only against a single opponent; a contest now opens with two to four, so
+     * every seed lost and this fixture threw "No seed produced a seated member"
+     * — the campaign stopped working, not the seeds. This is the same shape as
+     * `campaignUntilDecided`, kept here rather than delegated because this
+     * fixture advances the world through the campaign election registry, which
+     * that helper does not.
+     */
+    world = trySession(world, life.personId, "fundraising");
     for (
       let day = 0;
-      day < 60 && projectCampaign(world, life.personId).phase === "active";
+      day < 120 && projectCampaign(world, life.personId).phase === "active";
       day += 1
     ) {
+      if (day > 0) world = trySession(world, life.personId, "outreach");
       world = advanceWorld(
         world,
         1,

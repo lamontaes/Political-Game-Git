@@ -1,7 +1,7 @@
 // Deterministic grounding gate for civic-prose output.
 //
 // The reserve blind round showed that a generic "self-check" instruction does
-// not stop the writer inventing dates, delivery channels, group behaviour, or
+// not stop the writer inventing dates, delivery channels, group behavior, or
 // player gender. This module turns the failure classes the owner actually
 // found into mechanical checks that run with no model call, so a regression
 // fails in CI rather than in an owner review.
@@ -492,7 +492,7 @@ export function checkGrounding(
   // 6. Surface authority ---------------------------------------------------
   // A task note is a written record, not a played scene. Staged dialogue is
   // caught whether or not it is quoted. A quotation mark elsewhere in the
-  // packet is no licence to stage a scene here: the only quoted speech a note
+  // packet is no license to stage a scene here: the only quoted speech a note
   // may carry is a line the packet supplies verbatim, and even a supplied quote
   // may not be dressed with attribution ("Nasser tells you, leaning in").
   if (isNoteSurface(packet) && !isArtifactSurface(packet)) {

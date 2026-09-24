@@ -1,0 +1,30 @@
+{
+  "filedAt": "2026-09-23T01:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "migration and settlement",
+  "notes": [
+    "The owner's words, 2026-09-22: \"the displacement and stuff that obviously needs to be affected. If her when Hurricane Katrina happened, I'm sure people didn't come back.\""
+  ],
+  "priority": "P1",
+  "question": "When a disaster destroys or badly damages homes in an American town, what happens to the households who lived there? (1) What share leave the town for good, and does that share differ between a destroyed home and a damaged one, and between owners and renters? (2) What share leave for a while and come back, and how long are they gone? (3) How far do the ones who leave go: the same county, elsewhere in the state, another state? (4) Does having a job, children in school or family in town change whether a household leaves? (5) Worked cases with figures where they exist: Hurricane Katrina in New Orleans (2005), Hurricane Harvey in Houston (2017), Hurricane Maria in Puerto Rico (2017), the Camp Fire in Paradise, California (2018), and one inland river flood.",
+  "questionId": "disaster-displacement-and-return",
+  "relatedQuestionIds": [
+    "state-to-state-moves-what-pushes-and-pulls",
+    "migration-rates-and-reasons"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "migration and settlement thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/migration/review.ts BLANKET_DISPLACED_LEAVE_CHANCE on claude/project-thread-ltkqvu",
+      "whatItDidNotSettle": "A placeholder: 40 percent of households whose home was destroyed leave for good, 5 percent of those whose home was damaged. Nothing about return, distance, owners and renters, or jobs."
+    },
+    {
+      "source": "src/simulation/crisis/disaster.ts PROVISIONAL_DISASTER_POLICY",
+      "whatItDidNotSettle": "Says how many homes a disaster damages or destroys, not what their households do afterward."
+    }
+  ],
+  "title": "After a disaster wrecks their home, how many households leave for good, and how many come back",
+  "usableAnswer": "One table: for a destroyed home and a damaged home, the share of households that leave permanently, the share that leave and return with the typical months away, and where the permanent leavers go (same county, same state, other state), each with a source. Then one line each on owners versus renters and on jobs or school holding people, with an effect size or a plain statement that no defensible figure exists.",
+  "whyItMatters": "The game now moves some households out of town for good when a disaster wrecks their home, but the chance is a placeholder. Temporary displacement and return are not built at all: a household either leaves for good or stays in the damaged home. A household held by a job or school is never displaced today, because ending a job on a move is not built. The owner expects a Katrina-sized storm to empty part of a town permanently; without real figures the game either overdoes it or shows nothing."
+}

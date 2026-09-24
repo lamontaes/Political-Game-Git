@@ -427,7 +427,7 @@ export function validateCompatibilityTags(
   ) {
     error(
       "empty-reuse-regions-for-generic",
-      "Generic scenery must name the census-division classes it may reuse, or it will be hand-labelled as every state.",
+      "Generic scenery must name the census-division classes it may reuse, or it will be hand-labeled as every state.",
     );
   }
 

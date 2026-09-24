@@ -1,5 +1,15 @@
-import { legislativeTermDates } from "../simulation/legislative-office-terms";
+import {
+  legacyLegislativeSeat,
+  legislativeTermDates,
+  legislativeTermForRelationship,
+} from "../simulation/legislative-office-terms";
+import { workStatusAt } from "../simulation/life-queries";
 import { proseDate } from "./prose-dates";
+import { jailTermOn } from "../simulation/justice/jail-terms";
+import {
+  FILING_LEAD_DAYS,
+  nextTownElection,
+} from "../simulation/nationwide-world/town-election-calendar";
 
 import {
   activeCampaignForCandidate,
@@ -11,22 +21,32 @@ import {
   campaignResultsFor,
   campaignState,
   campaignTreasuryPosition,
+  campaignWeeklyPlanForAction,
   candidacyEligibility,
   electiveOfficesForJurisdiction,
   compareSimulationMoments,
   controlledCommitmentsBlockingActivityPerformance,
+  daysBetween,
   daysUntilElection,
   electionContestResult,
+  electionSpeechGiven,
+  electionSpeechOpen,
+  recordElectionSpeech,
+  type ElectionSpeechKind,
   ensureCampaignOpponents,
   fileCampaign,
   lifePlaceByJurisdictionId,
+  localGoverningBodyIdentityForOfficeKey,
   makeCurrencyCode,
+  makeIsoDate,
+  nextStateLegislativeElection,
   performCampaignAction,
   personName,
   requireElectionContest,
   scheduleCampaignAction,
   scheduledActivityState,
   simulationMomentAtLocalTime,
+  stateExecutiveEntryStatus,
 } from "../simulation";
 import type {
   CampaignActionKind,
@@ -35,11 +55,16 @@ import type {
   CampaignStatus,
   CandidateTally,
   DistrictSeatBinding,
+  ElectionContestRecord,
+  ElectionContestResultRecord,
   ElectiveOfficeOption,
   EntityId,
+  IsoDate,
   MoneyAmount,
   World,
 } from "../simulation";
+import { moneyText } from "../simulation/money-text";
+import { personPronouns } from "../simulation/person-identity";
 
 /**
  * What a candidate can actually see.
@@ -87,6 +112,65 @@ export interface CampaignSessionRecord {
   readonly blockedBy: readonly string[];
 }
 
+/**
+ * The campaign's sessions as a log a person can read.
+ *
+ * A Presque Isle race held about three hundred door-knocking sessions, and
+ * the log printed every one with the same sentence, above the result. Sessions
+ * with the same title and state are said once, with how many there were and
+ * when. A session still waiting on somebody else's commitment stays on its own
+ * line, because what it is waiting on is different each time.
+ */
+export interface CampaignSessionGroup {
+  readonly key: string;
+  readonly title: string;
+  readonly count: number;
+  readonly firstOn: string;
+  readonly lastOn: string;
+  readonly done: boolean;
+  /** The recorded sentence when every session in the group said the same. */
+  readonly outcome: string | null;
+  readonly blockedBy: readonly string[];
+}
+
+export function groupCampaignSessions(
+  sessions: readonly CampaignSessionRecord[],
+): readonly CampaignSessionGroup[] {
+  const groups = new Map<
+    string,
+    { rows: CampaignSessionRecord[]; blockedBy: readonly string[] }
+  >();
+  for (const session of sessions) {
+    const key =
+      session.blockedBy.length > 0
+        ? `waiting:${session.id}`
+        : `${session.done ? "done" : "planned"}:${session.title}`;
+    const group = groups.get(key);
+    if (group) group.rows.push(session);
+    else groups.set(key, { rows: [session], blockedBy: session.blockedBy });
+  }
+  return [...groups.entries()]
+    .map(([key, { rows, blockedBy }]) => {
+      const dates = rows.map((row) => row.on).sort();
+      const outcomes = new Set(rows.map((row) => row.outcome));
+      return {
+        key,
+        title: rows[0]!.title,
+        count: rows.length,
+        firstOn: dates[0]!,
+        lastOn: dates.at(-1)!,
+        done: rows[0]!.done,
+        outcome: outcomes.size === 1 ? rows[0]!.outcome : null,
+        blockedBy,
+      };
+    })
+    .sort(
+      (left, right) =>
+        left.lastOn.localeCompare(right.lastOn) ||
+        left.key.localeCompare(right.key),
+    );
+}
+
 /** The field memo, and nothing stronger than a field memo. */
 export interface CampaignReading {
   readonly percent: number;
@@ -94,6 +178,25 @@ export interface CampaignReading {
   /** The sentence the candidate was actually told. */
   readonly summary: string;
   readonly on: string;
+  /**
+   * When this count was taken, in words, and that nothing newer exists.
+   *
+   * A count is only taken when the campaign works, so the memo on the desk
+   * can be weeks old: Detroit's said the same thing for the last 52 days of
+   * the race. The date is the count's own, never today's.
+   */
+  readonly dated: string;
+  /**
+   * How far the count moved since the one before, when it moved.
+   *
+   * In whole points, the difference between the two numbers the memos print,
+   * dated with the earlier count's own day. "The one before" is the last count
+   * taken on an earlier day and outside this count's own weekly plan. A condensed week takes several counts at once and the player sees
+   * only the last; comparing it with a count from the same batch told a
+   * Seattle candidate "Up 8.1 points" on a memo that had fallen from about
+   * 47 to about 30 since the last one they had seen.
+   */
+  readonly change: string | null;
 }
 
 export interface CampaignTallyLine extends CandidateTally {
@@ -176,6 +279,15 @@ export interface CampaignView {
   readonly tallies: readonly CampaignTallyLine[];
   /** After the election: what happened, and that life carries on. */
   readonly afterword: string | null;
+  /**
+   * After the election: the speech this candidate may give (a victory speech
+   * or a concession to the winner), and what they said if they gave it.
+   */
+  readonly speech: {
+    readonly kind: ElectionSpeechKind;
+    readonly winnerName: string;
+    readonly given: string | null;
+  } | null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -344,7 +456,14 @@ export function projectCampaign(
   const placeName = place?.displayName ?? null;
   const existing = campaignForCandidate(world, personId);
 
-  if (!existing)
+  // A race that is over does not close the office list: once the player picks
+  // an office again, they are offered the filing for it, as before their
+  // first race. Until they do, the last race's result stays on the screen.
+  if (
+    !existing ||
+    (selectedOfficeKey !== null &&
+      campaignState(world, existing.id).status !== "active")
+  )
     return notYetFiled(
       world,
       personId,
@@ -366,6 +485,8 @@ export function projectCampaign(
       .filter((profile) => profile.organizationId === campaign.organizationId)
       .at(-1)?.name ?? null;
   const result = electionContestResult(world, campaign.contestId);
+  // The candidate's recorded pronouns; they/them only when the record is silent.
+  const pronouns = personPronouns(world.people[personId]);
 
   return {
     phase: state.status,
@@ -388,6 +509,22 @@ export function projectCampaign(
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
     sessions: sessionsFor(world, campaign),
     reading: latestReading(world, campaign),
+    // A speech already given stays on the record; one not given is offered
+    // only while it is still election night's to give.
+    speech:
+      result &&
+      (electionSpeechGiven(world, contest.id, personId) ||
+        electionSpeechOpen(world, contest.id, personId))
+        ? {
+            kind:
+              result.winnerPersonId === personId
+                ? ("victory" as const)
+                : ("concession" as const),
+            winnerName: displayName(world, result.winnerPersonId),
+            given:
+              electionSpeechGiven(world, contest.id, personId)?.summary ?? null,
+          }
+        : null,
     tallies: (() => {
       const rows = result?.tallies ?? [];
       const printed = displayedSharePercents(rows.map((row) => row.voteShare));
@@ -402,17 +539,91 @@ export function projectCampaign(
       state.status === "won"
         ? ((term) =>
             term
-              ? `${candidateName} won. The term begins ${proseDate(term.startsAt)}; until then the office is not theirs.`
-              : `${candidateName} won. The seat is theirs, and so is everything that came before it.`)(
-            legislativeTermDates(
-              contest.office.officeKey,
-              contest.electionDate,
-            ),
+              ? "alreadyHeld" in term && term.alreadyHeld
+                ? term.startsAt <= world.currentDate
+                  ? `${candidateName} won${resultMargin(result, personId)} and kept the seat. The new term began ${proseDate(term.startsAt)}.`
+                  : `${candidateName} won${resultMargin(result, personId)} and keeps the seat. The new term begins ${proseDate(term.startsAt)}.`
+                : // Once the term has begun, "until then" is over: the
+                  // office is theirs, and saying otherwise contradicts the
+                  // office page beside it (San Antonio, Texas House, 2026-09-23).
+                  term.startsAt <= world.currentDate
+                  ? `${candidateName} won${resultMargin(result, personId)}. The term began ${proseDate(term.startsAt)}.`
+                  : `${candidateName} won${resultMargin(result, personId)}. The term begins ${proseDate(term.startsAt)}; until then the office is not ${pronouns.possessivePronoun}.`
+              : `${candidateName} won${resultMargin(result, personId)}.`)(
+            wonSeatTerm(world, personId, contest, result) ??
+              executiveTermStart(world, personId, contest.id),
           )
         : state.status === "lost"
-          ? `${candidateName} lost. That is a thing that happened to them, not the end of them — tomorrow is still there.`
+          ? `${candidateName} lost${resultMargin(result, personId)}. That is a thing that happened to ${pronouns.object}, not the end of ${pronouns.object} — tomorrow is still there.`
           : null,
   };
+}
+
+/**
+ * ", 52.3% to 47.7%": this candidate's share against the best of the others,
+ * or nothing when there is no one else in the result.
+ */
+function resultMargin(
+  result: ReturnType<typeof electionContestResult>,
+  personId: EntityId,
+): string {
+  const rows = result?.tallies ?? [];
+  // The same rounding as the table under it, so the two never disagree.
+  const printed = displayedSharePercents(rows.map((row) => row.voteShare));
+  const own = rows.findIndex((row) => row.candidatePersonId === personId);
+  const other = rows
+    .map((row, index) => ({ row, index }))
+    .filter(({ row }) => row.candidatePersonId !== personId)
+    .sort((left, right) => right.row.voteShare - left.row.voteShare)[0];
+  if (own < 0 || !other) return "";
+  const ownShare = printed[own];
+  const otherShare = printed[other.index];
+  return `, ${ownShare}% to ${otherShare}%`;
+}
+
+/**
+ * When the won term begins, and whether the winner already sits in that seat.
+ * The start comes from the term the win recorded, and only from the office's
+ * rule when none was recorded. A member who won the seat they already hold
+ * keeps it; the new term follows on from the old one.
+ */
+function wonSeatTerm(
+  world: World,
+  personId: EntityId,
+  contest: ElectionContestRecord,
+  result: ElectionContestResultRecord | null | undefined,
+) {
+  const seats = world.history.workRelationships.filter(
+    (relationship) =>
+      relationship.personId === personId &&
+      relationship.kind === "employment:legislative-member",
+  );
+  const won = result
+    ? seats.find(
+        (relationship) =>
+          relationship.provenance.kind === "simulated-event" &&
+          relationship.provenance.eventId === result.outcomeEventId,
+      )
+    : undefined;
+  const startsAt =
+    (won && legislativeTermForRelationship(world, won.id)?.startsAt) ??
+    legislativeTermDates(contest.office.officeKey, contest.electionDate)
+      ?.startsAt;
+  if (!startsAt) return null;
+  const alreadyHeld = seats.some((relationship) => {
+    if (relationship.id === won?.id || relationship.startedAt >= startsAt)
+      return false;
+    const held =
+      legislativeTermForRelationship(world, relationship.id)?.contest ??
+      legacyLegislativeSeat(world, relationship.id)?.contest;
+    const status = workStatusAt(world, relationship.id);
+    return (
+      held?.office.officeKey === contest.office.officeKey &&
+      (status?.status === "active" ||
+        (status?.status === "ended" && status.effectiveAt >= startsAt))
+    );
+  });
+  return { startsAt, alreadyHeld };
 }
 
 /**
@@ -499,6 +710,7 @@ function notYetFiled(
     reading: null,
     tallies: [] as readonly CampaignTallyLine[],
     afterword: null,
+    speech: null,
   };
   if (!eligible) {
     return {
@@ -530,15 +742,18 @@ function offersFor(
   const daysLeft = daysUntilElection(world, campaign);
   const closed = daysLeft <= 0;
   const buy = advertisingBuyFor(treasury);
+  const jailed = jailTermOn(world, campaign.candidatePersonId);
   return (["fundraising", "outreach", "advertising"] as const).map((kind) => {
     const spend = kind === "advertising" ? buy : null;
-    const unavailable = closed
-      ? "Election day has arrived. There is nothing left to do but wait for the count."
-      : kind === "advertising" && treasury.minorUnits <= 0
-        ? "There is nothing in the account to spend."
-        : freeSlotToday(world, campaign.candidatePersonId, kind) === null
-          ? "The rest of today is already spoken for. Get on with the day and pick this up tomorrow."
-          : null;
+    const unavailable = jailed
+      ? `You are in jail until ${proseDate(jailed.until)}. Your name stays on the ballot, but you cannot campaign.`
+      : closed
+        ? "Election day has arrived. There is nothing left to do but wait for the count."
+        : kind === "advertising" && treasury.minorUnits <= 0
+          ? "There is nothing in the account to spend."
+          : freeSlotToday(world, campaign.candidatePersonId, kind) === null
+            ? "The rest of today is already spoken for. Get on with the day and pick this up tomorrow."
+            : null;
     return {
       kind,
       label:
@@ -558,7 +773,7 @@ function offersFor(
 }
 
 function money(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+  return moneyText(amount);
 }
 
 function sessionsFor(
@@ -613,12 +828,16 @@ function sessionsFor(
  * but has not recorded anybody reading is not something the player knows, and
  * the difference matters on the day somebody else reads it first.
  */
-function latestReading(
+interface RecordedReading extends Omit<CampaignReading, "change" | "dated"> {
+  /** The weekly plan that booked the session, or null for an afternoon. */
+  readonly planId: EntityId | null;
+}
+
+function readingFrom(
   world: World,
   campaign: CampaignRecord,
-): CampaignReading | null {
-  const result = campaignResultsFor(world, campaign.id).at(-1);
-  if (!result) return null;
+  result: ReturnType<typeof campaignResultsFor>[number],
+): RecordedReading | null {
   const knowledge = world.history.knowledge.find(
     (candidate) =>
       candidate.id === result.feedbackKnowledgeId &&
@@ -639,6 +858,58 @@ function latestReading(
         : null,
     summary: knowledge.believedSummary,
     on: result.completedAt,
+    planId:
+      campaignWeeklyPlanForAction(world, result.campaignActionId)?.id ?? null,
+  };
+}
+
+/** "Counted today", or the count's own date and how long ago that was. */
+function countDated(on: IsoDate, today: IsoDate): string {
+  const days = daysBetween(on, today);
+  if (days <= 0) return `Counted today, ${proseDate(on)}.`;
+  if (days === 1) return `Counted yesterday, ${proseDate(on)}.`;
+  return `Counted ${proseDate(on)}, ${days} days ago. Nobody has counted since.`;
+}
+
+function latestReading(
+  world: World,
+  campaign: CampaignRecord,
+): CampaignReading | null {
+  const readings = campaignResultsFor(world, campaign.id).flatMap((result) => {
+    const reading = readingFrom(world, campaign, result);
+    return reading ? [reading] : [];
+  });
+  const latest = readings.at(-1);
+  if (!latest) return null;
+  // The last count from before this one's batch, on an earlier day: a weekly
+  // plan's sessions, condensed or not, are one batch, and an afternoon is a
+  // batch of one. A Texas week's three counts on one day each said "since the
+  // count on" that same day.
+  const previous = readings
+    .slice(0, -1)
+    .filter(
+      (reading) =>
+        reading.on < latest.on &&
+        (latest.planId === null || reading.planId !== latest.planId),
+    )
+    .at(-1);
+  // A count is an estimate, so a move between two of them is the estimate's
+  // move, not a measurement of what caused it. Said only when it moved, and
+  // in the whole points the memos themselves print: Texas memos reading 63
+  // and then 60 had said "Down 2.2".
+  const points = previous
+    ? Math.round(latest.percent) - Math.round(previous.percent)
+    : 0;
+  return {
+    percent: latest.percent,
+    marginPercent: latest.marginPercent,
+    summary: latest.summary,
+    on: latest.on,
+    dated: countDated(makeIsoDate(latest.on), world.currentDate),
+    change:
+      previous && points !== 0
+        ? `${points > 0 ? "Up" : "Down"} ${Math.abs(points)} ${Math.abs(points) === 1 ? "point" : "points"} since the count on ${proseDate(previous.on)}.`
+        : null,
   };
 }
 
@@ -652,11 +923,49 @@ function latestReading(
  * The opponent is materialized first and separately, because they are a person
  * in this world afterwards rather than a fixture belonging to a screen.
  */
+/**
+ * The election a filing for this office stands in. A state legislative seat
+ * is elected at the state's next regular legislative election, on the state's
+ * own calendar. A town's own body is elected on the November general election
+ * day where the state's municipal election law puts it there, and otherwise
+ * on the short placeholder schedule until the town's calendar is read.
+ */
+export function campaignElectionDate(
+  world: World,
+  jurisdictionId: EntityId,
+  officeKey: string,
+) {
+  const stateKey =
+    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ?? null;
+  const town = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (town) {
+    // The state's municipal election law where it fixes the day; otherwise
+    // the marked placeholder in town-election-calendar.ts.
+    const placeGeoid = town.unit.placeGeoid;
+    return (
+      (placeGeoid
+        ? nextTownElection(town.unit.stateUsps, placeGeoid, world.currentDate)
+            ?.electionDate
+        : null) ?? addDays(world.currentDate, FILING_LEAD_DAYS)
+    );
+  }
+  if (!stateKey) return addDays(world.currentDate, 28);
+  return nextStateLegislativeElection(
+    stateKey.replace(/^US-/, ""),
+    world.currentDate,
+  ).electionDate;
+}
+
 export function fileForOffice(
   world: World,
   personId: EntityId,
   districtBinding: DistrictSeatBinding | null = null,
   officeKey: string | null = null,
+  /**
+   * Scenario fixtures only: an authored election date in place of the
+   * office's own calendar. Play never passes it.
+   */
+  authoredElectionDate: IsoDate | null = null,
 ): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
@@ -674,9 +983,9 @@ export function fileForOffice(
     count: 1,
     excludePersonIds: [personId],
   });
-  // Long enough to have to choose what to spend the weeks on, short enough
-  // that the election is a thing this life reaches rather than a horizon.
-  const electionDate = addDays(world.currentDate, 28);
+  const electionDate =
+    authoredElectionDate ??
+    campaignElectionDate(world, jurisdictionId, officeKey);
   return fileCampaign(opponents.world, {
     stableKey,
     candidatePersonId: personId,
@@ -687,8 +996,13 @@ export function fileForOffice(
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
     // What a committee is actually called: the candidate and the body they
-    // want a seat in, rather than the game's own description of the seat.
-    committeeName: `${person.familyName} for the ${option.chamberName}`,
+    // want a seat in, rather than the game's own description of the seat. A
+    // mayor sits in no body, so the committee is named for the office.
+    committeeName:
+      localGoverningBodyIdentityForOfficeKey(option.officeKey)?.seat ===
+      "chief-executive"
+        ? `${person.familyName} for ${option.office.title}`
+        : `${person.familyName} for the ${option.chamberName}`,
     donorPoolName: "People who might give",
     advertisingVendorName: "Whoever sells the advertising",
     staffPersonIds: [],
@@ -802,4 +1116,35 @@ export function candidateAge(world: World, personId: EntityId): number {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
   return ageOnDate(person.birthDate, world.currentDate);
+}
+
+/**
+ * The player's election-night speech, given by choice from the result screen:
+ * a victory speech for a winner, a concession to the winner for anyone else.
+ */
+export function giveElectionSpeech(world: World, personId: EntityId): World {
+  const campaign = campaignForCandidate(world, personId);
+  if (!campaign) throw new Error("There is no race to speak about.");
+  if (!electionContestResult(world, campaign.contestId))
+    throw new Error("The race has not been decided yet.");
+  if (
+    !electionSpeechGiven(world, campaign.contestId, personId) &&
+    !electionSpeechOpen(world, campaign.contestId, personId)
+  )
+    throw new Error(
+      "Election night is over; the moment for a speech has passed.",
+    );
+  return recordElectionSpeech(world, campaign.contestId, personId);
+}
+
+/** When a won state executive term begins, where the game has dated it. */
+function executiveTermStart(
+  world: World,
+  personId: EntityId,
+  contestId: EntityId,
+): { readonly startsAt: IsoDate } | null {
+  const status = stateExecutiveEntryStatus(world, personId);
+  return "startsAt" in status && status.contestId === contestId
+    ? { startsAt: status.startsAt }
+    : null;
 }

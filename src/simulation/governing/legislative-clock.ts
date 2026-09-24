@@ -1,4 +1,16 @@
-import { addDays, makeIsoDate } from "../dates";
+import {
+  addDays,
+  addSimulationMinutes,
+  compareSimulationMoments,
+  makeIsoDate,
+  simulationMomentAtLocalTime,
+} from "../dates";
+import {
+  cancelScheduledActivity,
+  createScheduledActivity,
+  scheduledActivityState,
+} from "../time-work";
+import { formatStatutoryDate } from "../legislation-content-contracts";
 import { compileBillDraft } from "../legislation-drafting";
 import { recordDraftLineage } from "../legislation-draft-lineage";
 import {
@@ -8,12 +20,13 @@ import {
 import { recordFiledProvision } from "../legislative-politics";
 import { legislativeWorkKey } from "../legislative-work-key";
 import { rulePackById } from "../legislature-rule-packs";
-import { appropriationFromEnactedMeasure } from "./program-governing";
+import { applyEnactedLawEffects } from "../enacted-law-effects";
 import {
   scheduleFutureDueItem,
   futureDueItemStateAt,
 } from "../future-transitions";
 import {
+  attemptVetoOverride,
   availableMeasureSteps,
   COMMITTEE_HEARING_TRANSITION_KEY,
   enrollMeasure,
@@ -25,6 +38,7 @@ import {
   placeMeasureOnCalendar,
   presentMeasureToExecutive,
   recordCommitteeDisposition,
+  recordAdjournmentDeath,
   recordConcurrenceVote,
   recordEnactment,
   recordExecutiveAction,
@@ -44,10 +58,27 @@ import {
   votePlanKeyForCommittee,
   votePlanKeyForConcurrence,
   votePlanKeyForFloor,
+  votePlanKeyForOverride,
   type LegislativeBlueprint,
   type SeatedBody,
 } from "../legislation-scenarios";
 import { committeeRoster } from "./committee-assignment";
+import {
+  chamberQuestionKey,
+  MEMBER_BALLOT_LOCATION_KEY,
+  memberBallotOn,
+  recordMemberBallot,
+  type ChamberQuestion,
+  type MemberBallot,
+} from "./member-ballots";
+import { decideChamberVote, seatedChamberForPack } from "./chamber-votes";
+import { ensureOfficeholderPrinciples } from "./officeholder-principles";
+import {
+  congressBlueprint,
+  congressReferralCommittee,
+  isCongressMeasure,
+  scheduleCongressSitting,
+} from "./congress-chambers";
 import {
   chamberByKey,
   defaultOriginChamber,
@@ -68,6 +99,8 @@ import type {
   FutureTransitionHandlerResult,
   IsoDate,
   LegislativeMeasureRecord,
+  LegislativeQuestionIdentity,
+  LegislativeVoteDisposition,
   World,
 } from "../types";
 
@@ -156,10 +189,14 @@ function effectiveOwner(
 ): MeasureStepOwner | null {
   const owner = measureStepOwner(world, measure.id, measure.originChamberKey);
   if (owner === "sponsor-office" && !playerOfficeHoldsMeasure(world, measure))
-    // A non-player sponsor's requests go through on the clock; a veto
-    // override is left to a later, decision-backed producer.
+    // A non-player sponsor's requests go through on the clock. A veto
+    // override is put to the members where the legislature is seated with
+    // real people, so the result is their decisions against the state's own
+    // override rule; with no seated members there is nobody to decide it.
     return measurePosition(world, measure.id).phase === "awaiting-override"
-      ? null
+      ? isSeatedChamber(world, legislativeBlueprintForMeasure(world, measure))
+        ? "institution"
+        : null
       : "institution";
   return owner;
 }
@@ -226,6 +263,7 @@ export function legislativeBlueprintForMeasure(
   world: World,
   measure: LegislativeMeasureRecord,
 ): LegislativeBlueprint {
+  if (isCongressMeasure(measure)) return congressBlueprint(world);
   const eligible = legislativeScenarioKeysForPlace(measure.jurisdictionId);
   const authored = eligible.find(
     (key) => legislativeBlueprint(key).shortTitle === measure.shortTitle,
@@ -240,6 +278,18 @@ function bodiesForMeasure(
   measure: LegislativeMeasureRecord,
   blueprint: LegislativeBlueprint,
 ): readonly SeatedBody[] {
+  // A legislature seated with real people is the chamber, whatever story the
+  // bill came from.
+  const seated = blueprint.pack.chambers.map((chamber) =>
+    seatedChamberForPack(
+      world,
+      blueprint.pack.packId,
+      chamber.chamberKey,
+      chamber.name,
+    ),
+  );
+  if (seated.every((chamber) => chamber !== null))
+    return seated.map((chamber) => chamber!.body);
   // An institutional legislature has no recorded roster; its votes stay
   // blocked rather than borrowing a story roster.
   if (blueprint.scenarioKey.startsWith("institution:")) return [];
@@ -275,6 +325,7 @@ export type InstitutionStepResult =
       readonly world?: World;
     }
   | { readonly kind: "blocked"; readonly reason: string }
+  | { readonly kind: "ended"; readonly world: World }
   | { readonly kind: "executive"; readonly world: World }
   | { readonly kind: "idle" };
 
@@ -294,9 +345,77 @@ function votes(
   return plan ? dispositionsFromCounts(members, plan) : null;
 }
 
-function provenance(note: string) {
+/**
+ * The members' own decisions where the chamber is seated with real people,
+ * and the authored counts otherwise. Nobody seated is voted for by a count.
+ */
+function decide(
+  world: World,
+  blueprint: LegislativeBlueprint,
+  members: SeatedBody["members"],
+  planKey: string,
+  question: Omit<
+    LegislativeQuestionIdentity,
+    "amendmentStableKey" | "provisionKey"
+  >,
+  stableKey: string,
+  contested?: boolean,
+) {
+  const seated = members.length > 0 && members.every((m) => m.personId);
+  if (!seated || !isSeatedChamber(world, blueprint)) {
+    const authored = votes(blueprint, members, planKey);
+    return authored
+      ? { dispositions: authored, method: "authored-fixture" as const }
+      : null;
+  }
   return {
-    method: "authored-fixture" as const,
+    dispositions: decideChamberVote(world, {
+      stableKey,
+      question: {
+        question: { ...question, amendmentStableKey: null, provisionKey: null },
+        questionLabel: planKey,
+      },
+      members,
+      // The player is never voted for: a player sitting in this chamber who
+      // has not decided their ballot is recorded absent, not decided for.
+      playerPersonId:
+        world.control.kind === "person" ? world.control.personId : null,
+      playerBallot:
+        world.control.kind === "person"
+          ? memberBallotOn(world, world.control.personId, question)
+          : null,
+      ...(contested === undefined ? {} : { contested }),
+    }),
+    method: "member-decisions" as const,
+  };
+}
+
+function isSeatedChamber(world: World, blueprint: LegislativeBlueprint) {
+  return blueprint.pack.chambers.every(
+    (chamber) =>
+      seatedChamberForPack(
+        world,
+        blueprint.pack.packId,
+        chamber.chamberKey,
+        chamber.name,
+      ) !== null,
+  );
+}
+
+/** Members who took part: everyone recorded, less those recorded absent. */
+function present(dispositions: readonly LegislativeVoteDisposition[]) {
+  return dispositions.filter(
+    (entry) =>
+      entry.disposition !== "absent" && entry.disposition !== "excused",
+  ).length;
+}
+
+function provenance(
+  note: string,
+  method: "authored-fixture" | "member-decisions" = "authored-fixture",
+) {
+  return {
+    method,
     note,
     sourceEntityIds: [],
   };
@@ -304,16 +423,54 @@ function provenance(note: string) {
 
 /** Applies the institution's next step to one measure, if it has one. */
 export function applyInstitutionStep(
-  world: World,
+  before: World,
   measureId: EntityId,
   onExecutiveDesk: ExecutiveDeskHandler,
 ): InstitutionStepResult {
-  const measure = requireMeasure(world, measureId);
+  const measure = requireMeasure(before, measureId);
+  // Every seated member who may vote on the bill holds principles of their
+  // own before any question is put, Congress's members included: without
+  // them a member had only a party cue, and every roll call was unanimous.
+  const world = closeLapsedVoteNotices(
+    ensureOfficeholderPrinciples(
+      before,
+      bodiesForMeasure(
+        before,
+        measure,
+        legislativeBlueprintForMeasure(before, measure),
+      ).flatMap((body) =>
+        body.members.flatMap((member) =>
+          member.personId ? [member.personId] : [],
+        ),
+      ),
+    ),
+    measureId,
+  );
   const blueprint = legislativeBlueprintForMeasure(world, measure);
   const pack = blueprint.pack;
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
   const session = measureSessionIsClosed(world, measureId);
+  // Where the rules say a pending bill dies when the session adjourns, one
+  // still before the legislature dies; that is how most bills end.
+  const dies = pack.session.measuresDieAtAdjournment;
+  if (
+    session.closed &&
+    owner !== "executive" &&
+    dies.kind === "known" &&
+    dies.value
+  )
+    return {
+      kind: "ended",
+      world: recordAdjournmentDeath(world, {
+        stableKey: nextMeasureStableKey(
+          world,
+          measureId,
+          `measure:${measureId}:died-on-adjournment`,
+        ),
+        measureId,
+      }),
+    };
   if (session.closed)
     return {
       kind: "blocked",
@@ -375,7 +532,12 @@ export function applyInstitutionStep(
     };
   }
   if (steps.includes("request-referral")) {
-    const committee = chamber.committees[0];
+    // A Congress bill goes to the committee for its policy field; any other
+    // bill to the chamber's first compiled committee.
+    const referredKey = congressReferralCommittee(measure, chamberKey);
+    const committee =
+      chamber.committees.find((entry) => entry.committeeKey === referredKey) ??
+      chamber.committees[0];
     if (!committee)
       return {
         kind: "blocked",
@@ -394,9 +556,11 @@ export function applyInstitutionStep(
     const committee = chamber.committees.find(
       (entry) => entry.committeeKey === position.committeeKey,
     );
+    const stableKey = key(`committee:${chamberKey}`);
     const decided =
       committee && body
-        ? votes(
+        ? decide(
+            world,
             blueprint,
             // The committee's own roster, not whoever happens to be listed
             // first in the chamber.
@@ -407,6 +571,13 @@ export function applyInstitutionStep(
               `${pack.packId}:${chamberKey}`,
             ),
             votePlanKeyForCommittee(committee.committeeKey),
+            {
+              measureId,
+              purpose: "committee-report",
+              forumKey: committee.committeeKey,
+              floorStageKey: null,
+            },
+            stableKey,
           )
         : null;
     if (!committee || !decided)
@@ -416,14 +587,15 @@ export function applyInstitutionStep(
       };
     return applied(
       recordCommitteeDisposition(world, {
-        stableKey: key(`committee:${chamberKey}`),
+        stableKey,
         measureId,
         recommendation: "favorable",
-        dispositions: decided,
+        dispositions: decided.dispositions,
         rationale:
           "The committee weighed the testimony it heard and voted on reporting the bill.",
         provenance: provenance(
           "Committee members' recorded decisions for this bill.",
+          decided.method,
         ),
       }),
       "move-committee-report",
@@ -439,11 +611,27 @@ export function applyInstitutionStep(
     );
   if (steps.includes("move-floor-vote")) {
     const stage = floorStageByKey(chamber, position.floorStageKey ?? "");
+    const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
     const decided = body
-      ? votes(
+      ? decide(
+          world,
           blueprint,
           body.members,
           votePlanKeyForFloor(chamberKey, stage.stageKey),
+          {
+            measureId,
+            purpose: "floor-stage",
+            forumKey: chamberKey,
+            floorStageKey: stage.stageKey,
+          },
+          stableKey,
+          // PLACEHOLDER until research question how-congress-moves-bills is
+          // answered: a Senate cloture vote divides by party, so a bill with
+          // backers from only one party needs sixty of that party to get past
+          // a filibuster.
+          isCongressMeasure(measure) && stage.stageKey === "cloture"
+            ? true
+            : undefined,
         )
       : null;
     if (!body || !decided)
@@ -453,19 +641,122 @@ export function applyInstitutionStep(
       };
     return applied(
       takeFloorVote(world, {
-        stableKey: key(`floor:${chamberKey}:${stage.stageKey}`),
+        stableKey,
         measureId,
-        dispositions: decided,
-        presentMembers: body.members.length,
+        dispositions: decided.dispositions,
+        presentMembers:
+          decided.method === "member-decisions"
+            ? present(decided.dispositions)
+            : body.members.length,
         electedMembers: body.members.length,
-        provenance: provenance("Members' recorded decisions on this question."),
+        provenance: provenance(
+          "Members' recorded decisions on this question.",
+          decided.method,
+        ),
       }),
       "move-floor-vote",
     );
   }
+  if (steps.includes("move-veto-override")) {
+    // Every returned bill is reconsidered: whether leadership would bring a
+    // given override up at all is not modeled, and the members' own votes
+    // against the state's threshold decide it (DEPTH2 A09: an override is
+    // member decisions checked against the correct voting rule, not a roll).
+    const override = pack.executive.override;
+    if (override.kind === "not-applicable" || bodies.length === 0)
+      return {
+        kind: "blocked",
+        reason: `The legislature has no seated members to reconsider the veto.`,
+      };
+    const stableKey = key("override");
+    const question = (forumKey: string) => ({
+      measureId,
+      purpose: "veto-override" as const,
+      forumKey,
+      floorStageKey: null,
+    });
+    const forums =
+      override.kind === "joint-session"
+        ? (() => {
+            const members = bodies.flatMap((entry) => entry.members);
+            const decided = decide(
+              world,
+              blueprint,
+              members,
+              votePlanKeyForOverride("joint"),
+              question("joint"),
+              `${stableKey}:joint`,
+            );
+            return decided
+              ? [
+                  {
+                    forumKey: "joint",
+                    dispositions: decided.dispositions,
+                    presentMembers: present(decided.dispositions),
+                    electedMembers: members.length,
+                  },
+                ]
+              : null;
+          })()
+        : pack.chamberOrder.map((forumKey) => {
+            const forumBody = bodies.find(
+              (entry) => entry.chamberKey === forumKey,
+            );
+            const decided = forumBody
+              ? decide(
+                  world,
+                  blueprint,
+                  forumBody.members,
+                  votePlanKeyForOverride(forumKey),
+                  question(forumKey),
+                  `${stableKey}:${forumKey}`,
+                )
+              : null;
+            return decided && forumBody
+              ? {
+                  forumKey,
+                  dispositions: decided.dispositions,
+                  presentMembers: present(decided.dispositions),
+                  electedMembers: forumBody.members.length,
+                }
+              : null;
+          });
+    if (!forums || forums.some((forum) => forum === null))
+      return {
+        kind: "blocked",
+        reason:
+          "The legislature has no recorded member decisions on the override.",
+      };
+    return applied(
+      attemptVetoOverride(world, {
+        stableKey,
+        measureId,
+        forums: forums.map((forum) => forum!),
+        rationale: "The legislature reconsidered the vetoed bill.",
+        provenance: provenance(
+          "Members' recorded decisions on overriding the veto.",
+          "member-decisions",
+        ),
+      }),
+      "move-veto-override",
+    );
+  }
   if (steps.includes("move-concurrence")) {
+    const stableKey = key(`concurrence:${chamberKey}`);
     const decided = body
-      ? votes(blueprint, body.members, votePlanKeyForConcurrence(chamberKey))
+      ? decide(
+          world,
+          blueprint,
+          body.members,
+          votePlanKeyForConcurrence(chamberKey),
+          {
+            measureId,
+            purpose: "concurrence",
+            forumKey: chamberKey,
+            floorStageKey: null,
+          },
+          stableKey,
+        )
       : null;
     if (!body || !decided)
       return {
@@ -474,13 +765,17 @@ export function applyInstitutionStep(
       };
     return applied(
       recordConcurrenceVote(world, {
-        stableKey: key(`concurrence:${chamberKey}`),
+        stableKey,
         measureId,
-        dispositions: decided,
-        presentMembers: body.members.length,
+        dispositions: decided.dispositions,
+        presentMembers:
+          decided.method === "member-decisions"
+            ? present(decided.dispositions)
+            : body.members.length,
         electedMembers: body.members.length,
         provenance: provenance(
           "Members' recorded decisions on accepting the other chamber's changes.",
+          decided.method,
         ),
       }),
       "move-concurrence",
@@ -506,10 +801,20 @@ export function applyInstitutionStep(
     );
   if (steps.includes("record-enactment"))
     return applied(
-      // Enactment is also where an appropriation becomes spending authority
-      // the executive can commit; a measure without an amount writes nothing.
-      appropriationFromEnactedMeasure(
-        recordEnactment(world, { stableKey: key("enactment"), measureId }),
+      // Enactment is also where the law changes what it governs: an
+      // appropriation becomes spending authority the executive can commit, a
+      // levy becomes a tax policy. A measure without either writes nothing.
+      applyEnactedLawEffects(
+        recordEnactment(world, {
+          stableKey: key("enactment"),
+          measureId,
+          // A federal law takes effect on the day it is enacted unless it
+          // says otherwise (the Congress pack's enactment rule), and no
+          // Congress bill here says otherwise.
+          ...(isCongressMeasure(measure)
+            ? { effectiveAt: world.currentDate }
+            : {}),
+        }),
         measureId,
       ),
       "record-enactment",
@@ -523,10 +828,12 @@ export function recordGovernorDecisionOnMeasure(
   measureId: EntityId,
   action: "signed" | "vetoed",
   rationale: string,
+  actorPersonId?: EntityId,
 ): World {
   if (measurePosition(world, measureId).phase !== "awaiting-executive")
     return world;
   return recordExecutiveAction(world, {
+    ...(actorPersonId !== undefined ? { actorPersonId } : {}),
     stableKey: nextMeasureStableKey(
       world,
       measureId,
@@ -572,6 +879,11 @@ export function scheduleInstitutionStep(
   const measure = requireMeasure(world, measureId);
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return world;
+  // Congress's bills move together at its sittings, not on dates of their own.
+  if (isCongressMeasure(measure))
+    return measureSessionIsClosed(world, measureId).closed
+      ? world
+      : scheduleCongressSitting(world);
   if (pendingInstitutionStep(world, measureId, excludeDueItemId)) return world;
   if (measureSessionIsClosed(world, measureId).closed) return world;
   const dueAt =
@@ -581,7 +893,7 @@ export function scheduleInstitutionStep(
           world.currentDate,
           LEGISLATIVE_CADENCE_PROFILE.daysBetweenSteps,
         );
-  return scheduleFutureDueItem(world, {
+  const scheduled = scheduleFutureDueItem(world, {
     stableKey: `${LEGISLATIVE_CLOCK_VERSION}:${measureId}:${world.history.nextSequence}`,
     dueAt,
     transitionKey: LEGISLATIVE_INSTITUTION_STEP,
@@ -592,6 +904,7 @@ export function scheduleInstitutionStep(
       note: `${LEGISLATIVE_CADENCE_PROFILE.id}: the institution takes its next step on this bill.`,
     },
   });
+  return noticeMemberVote(scheduled, measureId, dueAt);
 }
 
 /** Builds the due handler around the governing system's executive seam. */
@@ -637,8 +950,16 @@ export function createInstitutionStepHandler(
           ),
           "The chamber waits for its next scheduled business on this bill.",
         );
+      case "ended":
+        return done(result.world, "The bill died when the session adjourned.");
       case "executive":
-        return done(result.world, "The bill is on the executive's desk.");
+        // An executive who decides on the day puts the bill back in the
+        // institution's hands; this step is still the one running, so it is
+        // excluded or the next step would never be scheduled.
+        return done(
+          scheduleInstitutionStep(result.world, measureId, undefined, due.id),
+          "The bill is on the executive's desk.",
+        );
       case "applied":
         return done(
           scheduleInstitutionStep(result.world, measureId, undefined, due.id),
@@ -646,6 +967,350 @@ export function createInstitutionStepHandler(
         );
     }
   };
+}
+
+/* ------------------------------------------------------------------ *
+ * A seated player's own votes
+ * ------------------------------------------------------------------ */
+
+/** One body that will answer the measure's next question, and who sits in it. */
+export interface ChamberQuestionForum {
+  readonly question: ChamberQuestion;
+  readonly forumName: string;
+  readonly members: SeatedBody["members"];
+}
+
+/**
+ * The question the institution will put on this measure at its next step, if
+ * that step is a vote of seated members, as it stands on `onDate`.
+ *
+ * Mirrors the step handler's choice of voters: the committee's own roster, the
+ * chamber on a floor stage or a concurrence, and every chamber (or the joint
+ * session) on a veto override. A step the sponsor's own office takes, or one
+ * put to no seated members, has no question here.
+ */
+export function pendingChamberQuestions(
+  world: World,
+  measureId: EntityId,
+  onDate: IsoDate = world.currentDate,
+): readonly ChamberQuestionForum[] {
+  const measure = requireMeasure(world, measureId);
+  if (effectiveOwner(world, measure) !== "institution") return [];
+  const blueprint = legislativeBlueprintForMeasure(world, measure);
+  if (!isSeatedChamber(world, blueprint)) return [];
+  const pack = blueprint.pack;
+  const position = measurePosition(world, measureId);
+  const steps = availableMeasureSteps(world, measureId);
+  const bodies = bodiesForMeasure(world, measure, blueprint);
+  const chamberKey = position.chamberKey ?? pack.chamberOrder[0]!;
+  const chamber = chamberByKey(pack, chamberKey);
+  const body = bodies.find((entry) => entry.chamberKey === chamberKey);
+  const floorReady =
+    steps.includes("move-floor-vote") ||
+    (steps.includes("await-next-legislative-day") &&
+      position.earliestNextFloorDate !== null &&
+      position.earliestNextFloorDate <= onDate);
+  if (
+    steps.includes("move-committee-report") &&
+    !steps.includes("request-committee-hearing") &&
+    body
+  ) {
+    const committee = chamber.committees.find(
+      (entry) => entry.committeeKey === position.committeeKey,
+    );
+    return committee
+      ? [
+          {
+            question: {
+              measureId,
+              purpose: "committee-report",
+              forumKey: committee.committeeKey,
+              floorStageKey: null,
+            },
+            forumName: committee.name,
+            members: committeeRoster(
+              body,
+              chamber.committees,
+              committee.committeeKey,
+              `${pack.packId}:${chamberKey}`,
+            ),
+          },
+        ]
+      : [];
+  }
+  if (floorReady && body && position.floorStageKey)
+    return [
+      {
+        question: {
+          measureId,
+          purpose: "floor-stage",
+          forumKey: chamberKey,
+          floorStageKey: position.floorStageKey,
+        },
+        forumName: chamber.name,
+        members: body.members,
+      },
+    ];
+  if (steps.includes("move-concurrence") && body)
+    return [
+      {
+        question: {
+          measureId,
+          purpose: "concurrence",
+          forumKey: chamberKey,
+          floorStageKey: null,
+        },
+        forumName: chamber.name,
+        members: body.members,
+      },
+    ];
+  if (steps.includes("move-veto-override")) {
+    const override = pack.executive.override;
+    if (override.kind === "not-applicable") return [];
+    if (override.kind === "joint-session")
+      return [
+        {
+          question: {
+            measureId,
+            purpose: "veto-override",
+            forumKey: "joint",
+            floorStageKey: null,
+          },
+          forumName: "the joint session",
+          members: bodies.flatMap((entry) => entry.members),
+        },
+      ];
+    return pack.chamberOrder.flatMap((forumKey) => {
+      const forumBody = bodies.find((entry) => entry.chamberKey === forumKey);
+      return forumBody
+        ? [
+            {
+              question: {
+                measureId,
+                purpose: "veto-override" as const,
+                forumKey,
+                floorStageKey: null,
+              },
+              forumName: chamberByKey(pack, forumKey).name,
+              members: forumBody.members,
+            },
+          ]
+        : [];
+    });
+  }
+  return [];
+}
+
+/** A question the controlled member will vote on, and what they have decided. */
+export interface MemberVoteAhead extends ChamberQuestionForum {
+  readonly measure: LegislativeMeasureRecord;
+  /** The day the question is put, when the institution has scheduled it. */
+  readonly voteOn: IsoDate | null;
+  readonly ballot: MemberBallot | null;
+}
+
+/**
+ * Every question still to be put that the person sits on, soonest first. Read
+ * only: it spends no time and records nothing.
+ */
+export function memberVotesAhead(
+  world: World,
+  personId: EntityId,
+): readonly MemberVoteAhead[] {
+  const ahead: MemberVoteAhead[] = [];
+  for (const measure of world.history.legislativeMeasures ?? []) {
+    const voteOn = scheduledInstitutionStepDate(world, measure.id);
+    for (const forum of pendingChamberQuestions(
+      world,
+      measure.id,
+      voteOn ?? world.currentDate,
+    )) {
+      if (!forum.members.some((member) => member.personId === personId))
+        continue;
+      ahead.push({
+        ...forum,
+        measure,
+        voteOn,
+        ballot: memberBallotOn(world, personId, forum.question),
+      });
+    }
+  }
+  return ahead.sort((l, r) =>
+    (l.voteOn ?? "9999-12-31").localeCompare(r.voteOn ?? "9999-12-31"),
+  );
+}
+
+/**
+ * The controlled member decides their ballot on a question still to be put.
+ * Refused (World unchanged) unless the person is the one the player controls
+ * and sits on that question. Deciding again replaces the earlier ballot; the
+ * earlier one stays in the record.
+ */
+export function castMemberBallot(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly question: ChamberQuestion;
+    readonly ballot: MemberBallot;
+  },
+): World {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== input.personId
+  )
+    return world;
+  const key = chamberQuestionKey(input.question);
+  const facing = memberVotesAhead(world, input.personId).find(
+    (entry) => chamberQuestionKey(entry.question) === key,
+  );
+  if (!facing || facing.ballot === input.ballot) return world;
+  const label =
+    input.ballot === "yea"
+      ? "for"
+      : input.ballot === "nay"
+        ? "against"
+        : "present, not voting, on";
+  const next = recordMemberBallot(world, {
+    personId: input.personId,
+    jurisdictionId: facing.measure.jurisdictionId,
+    question: input.question,
+    ballot: input.ballot,
+    summary: `Decided to vote ${label} ${facing.measure.designation}, ${facing.measure.shortTitle}, in ${facing.forumName}.`,
+  });
+  // Decided: the reminder to decide no longer needs to stop the day.
+  const notice = next.history.scheduledActivities.find(
+    (activity) =>
+      activity.stableKey ===
+      memberVoteNoticeKey(input.question, input.personId),
+  );
+  return notice &&
+    scheduledActivityState(next, notice.id).status === "scheduled"
+    ? cancelScheduledActivity(next, notice.id)
+    : next;
+}
+
+/**
+ * A reminder to decide a vote that time passed without the player attending
+ * it (a campaign afternoon, a trip) is over once the reminder's hour is past;
+ * it no longer waits on the calendar. The roll call still records the player
+ * absent unless they decided.
+ */
+function closeLapsedVoteNotices(world: World, measureId: EntityId): World {
+  const prefix = `${LEGISLATIVE_CLOCK_VERSION}:member-vote:`;
+  let next = world;
+  for (const activity of world.history.scheduledActivities) {
+    if (
+      !activity.stableKey.startsWith(prefix) ||
+      !activity.sourceEntityIds.includes(measureId)
+    )
+      continue;
+    const state = scheduledActivityState(next, activity.id);
+    if (
+      state.status === "scheduled" &&
+      compareSimulationMoments(state.end, next.currentMoment) <= 0
+    )
+      next = cancelScheduledActivity(next, activity.id);
+  }
+  return next;
+}
+
+function memberVoteNoticeKey(
+  question: ChamberQuestion,
+  personId: EntityId,
+): string {
+  return `${LEGISLATIVE_CLOCK_VERSION}:member-vote:${chamberQuestionKey(question)}:${personId}`;
+}
+
+function scheduledInstitutionStepDate(
+  world: World,
+  measureId: EntityId,
+): IsoDate | null {
+  const item = world.history.futureDueItems.find(
+    (entry) =>
+      entry.transitionKey === LEGISLATIVE_INSTITUTION_STEP &&
+      entry.entityIds.includes(measureId) &&
+      futureDueItemStateAt(world, entry.id, {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      })?.status === "scheduled",
+  );
+  return item?.dueAt ?? null;
+}
+
+/** Late afternoon, the day before the roll call. */
+const MEMBER_VOTE_NOTICE_MINUTE = 16 * 60;
+const MEMBER_VOTE_NOTICE_MINUTES = 60;
+/** How soon a late notice comes, in minutes. */
+const MEMBER_VOTE_NOTICE_SOON = 30;
+
+/**
+ * A question the player sits on goes on their calendar the day before it is
+ * put, so time stops for it the way it stops for any confirmed commitment and
+ * the player can decide their ballot. Nothing is decided for them: without a
+ * ballot they are recorded absent, as before.
+ */
+function noticeMemberVote(
+  world: World,
+  measureId: EntityId,
+  voteOn: IsoDate,
+): World {
+  if (world.control.kind !== "person") return world;
+  const personId = world.control.personId;
+  let next = world;
+  for (const forum of pendingChamberQuestions(world, measureId, voteOn)) {
+    if (!forum.members.some((member) => member.personId === personId)) continue;
+    const stableKey = memberVoteNoticeKey(forum.question, personId);
+    if (
+      memberBallotOn(next, personId, forum.question) !== null ||
+      next.history.scheduledActivities.some(
+        (activity) => activity.stableKey === stableKey,
+      )
+    )
+      continue;
+    const dayBefore = simulationMomentAtLocalTime({
+      date: addDays(voteOn, -1),
+      minuteOfDay: MEMBER_VOTE_NOTICE_MINUTE,
+      timeZone: next.currentMoment.timeZone,
+      preferredUtcOffsetMinutes: next.currentMoment.utcOffsetMinutes,
+    });
+    // A question put tomorrow, set after late afternoon, is noticed as soon
+    // as it is set. One put today has already been reached by the clock.
+    const start =
+      compareSimulationMoments(dayBefore, next.currentMoment) > 0
+        ? dayBefore
+        : voteOn > next.currentDate
+          ? addSimulationMinutes(next.currentMoment, MEMBER_VOTE_NOTICE_SOON)
+          : null;
+    if (!start) continue;
+    const measure = requireMeasure(next, measureId);
+    const what =
+      forum.question.purpose === "committee-report"
+        ? `whether to report ${measure.designation} to the floor`
+        : forum.question.purpose === "concurrence"
+          ? `whether to accept the other chamber's changes to ${measure.designation}`
+          : forum.question.purpose === "veto-override"
+            ? `whether to override the veto of ${measure.designation}`
+            : `${measure.designation}`;
+    next = createScheduledActivity(next, {
+      stableKey,
+      title: `Decide your vote on ${measure.designation}`,
+      summary: `${forum.forumName} votes on ${what}, ${measure.shortTitle}, on ${formatStatutoryDate(voteOn)}.`,
+      kind: "confirmed",
+      start,
+      end: addSimulationMinutes(start, MEMBER_VOTE_NOTICE_MINUTES),
+      participantPersonIds: [personId],
+      responsiblePersonId: personId,
+      location: {
+        jurisdictionId: measure.jurisdictionId,
+        label: forum.forumName,
+        locationKey: MEMBER_BALLOT_LOCATION_KEY,
+      },
+      sourceEntityIds: [measureId],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [personId] },
+    });
+  }
+  return next;
 }
 
 /* ------------------------------------------------------------------ *
@@ -696,23 +1361,49 @@ export function fileLegislatureMeasure(
     const closes = `${year}-${String(boundary.month).padStart(2, "0")}-${String(boundary.day).padStart(2, "0")}`;
     if (world.currentDate > closes) return world;
   }
-  const sponsorKey = `${stableKey}:sponsor`;
-  const age = rng.integer(34, 70);
-  let next = createCharacterHistoryContextPeople(world, [
-    {
-      stableKey: sponsorKey,
-      ...drawCanonicalNamedIdentity(
-        rng.fork("name"),
-        generatePersonIdentity(rng.fork("identity")),
-      ),
-      birthDate: makeIsoDate(
-        `${Number(world.currentDate.slice(0, 4)) - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-      ),
-      homeJurisdictionId: input.jurisdictionId,
-    },
-  ]);
-  const sponsorPersonId = characterHistoryContextPersonId(next, sponsorKey);
   const originChamber = defaultOriginChamber(pack);
+  const originChamberKey = originChamber.chamberKey;
+  // Where the chamber is seated with real people, one of them carries the
+  // bill. Otherwise the legacy sponsor: a person made for the purpose.
+  const seated = seatedChamberForPack(
+    world,
+    pack.packId,
+    originChamberKey,
+    originChamber.name,
+  );
+  let next = world;
+  let sponsorPersonId: EntityId;
+  if (seated && seated.body.members.length > 0) {
+    // PLACEHOLDER until research question
+    // how-state-legislators-vote-without-a-stated-position says who sponsors
+    // and carries bills.
+    // Any member may file an ordinary bill. The money bill is the majority's:
+    // leadership carries the budget, so its sponsor sits in the largest
+    // caucus.
+    const members =
+      blueprint.subjectClass === "appropriation"
+        ? majorityCaucus(seated.body.members)
+        : seated.body.members;
+    sponsorPersonId =
+      members[rng.fork("seated-sponsor").integer(0, members.length)]!.personId!;
+  } else {
+    const sponsorKey = `${stableKey}:sponsor`;
+    const age = rng.integer(34, 70);
+    next = createCharacterHistoryContextPeople(world, [
+      {
+        stableKey: sponsorKey,
+        ...drawCanonicalNamedIdentity(
+          rng.fork("name"),
+          generatePersonIdentity(rng.fork("identity")),
+        ),
+        birthDate: makeIsoDate(
+          `${Number(world.currentDate.slice(0, 4)) - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
+        ),
+        homeJurisdictionId: input.jurisdictionId,
+      },
+    ]);
+    sponsorPersonId = characterHistoryContextPersonId(next, sponsorKey);
+  }
   next = introduceMeasure(next, {
     stableKey,
     jurisdictionId: input.jurisdictionId,
@@ -733,6 +1424,17 @@ export function fileLegislatureMeasure(
   if (blueprint.subjectClass === "appropriation")
     next = attachAppropriationClauses(next, measure, stableKey);
   return scheduleInstitutionStep(next, measure.id);
+}
+
+/** The members of the chamber's largest caucus, in seat order. */
+function majorityCaucus(members: SeatedBody["members"]): SeatedBody["members"] {
+  const sizes = new Map<string, number>();
+  for (const member of members)
+    sizes.set(member.caucusLabel, (sizes.get(member.caucusLabel) ?? 0) + 1);
+  const largest = [...sizes.entries()].sort(
+    (l, r) => r[1] - l[1] || l[0].localeCompare(r[0]),
+  )[0]![0];
+  return members.filter((member) => member.caucusLabel === largest);
 }
 
 /**

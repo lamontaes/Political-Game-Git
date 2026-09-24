@@ -62,7 +62,7 @@ rather than claimed.
 ## 0.1 Fifth human play — coherence repair
 
 The fifth play called the core direction a win and asked for coherence: prose,
-sequencing, viewport behaviour, People usability, and formative-life semantics.
+sequencing, viewport behavior, People usability, and formative-life semantics.
 Addressed on the same PR #91:
 
 - **Narrative voice (§5):** narration is second person. The connective opener is
@@ -170,7 +170,7 @@ Normal Start no longer carries the household, work, or depth choices. In
 - `resolvedHousehold` draws "who is at home" from `worldSeedFor` — the world's
   identity, not the calibration — so a normal life is sometimes an only child
   and sometimes has a sibling, decided by the seed, reproducibly. Custom Start
-  honours the explicit answer.
+  honors the explicit answer.
 - `resolvedDepth` derives play-vs-summarize from the starting age rather than a
   separate question.
 - The starting role is left as the setup carries it: the normal creator offers
@@ -229,7 +229,7 @@ smallest reviewed adapter is built:
   `tests/nationwide-places.test.ts` asserts the browser modules carry no source
   import.
 - **The consumer.** `life-places.ts` searches authored places plus the national
-  corpus, resolves a chosen place by key, and synthesises a minimal, sourced
+  corpus, resolves a chosen place by key, and synthesizes a minimal, sourced
   jurisdiction context so an arbitrary town is playable as an ordinary life.
 - **Missingness preserved.** A corpus town is granted no legislature — the
   accepted rule packs are state legislatures, and a town is not one — so office

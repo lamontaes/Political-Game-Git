@@ -30,6 +30,7 @@ import {
   contactProposals,
   produceReachingOut,
 } from "../simulation/people-contact";
+import { produceIntroduction } from "../simulation/social-introductions";
 import { requestBehindCallback } from "../simulation/people-recall";
 import {
   studyAnswered,
@@ -131,6 +132,9 @@ export function refreshContextualScenes(
     produceStudyPeer,
     produceStudyPlan,
     produceFavor,
+    // Somebody new may come into this life while time passes; they are then
+    // somebody the player can ask to meet, or who may ask.
+    produceIntroduction,
     // Last of the request scenes: while somebody is waiting on an answer about
     // meeting, that is the conversation this family is holding.
     produceMeetUp,
@@ -577,7 +581,7 @@ function produceMeetUp(world: World, personId: EntityId): World {
 }
 
 /**
- * Somebody on the same programme asks about working together (F47.1).
+ * Somebody on the same program asks about working together (F47.1).
  *
  * Bound only from records: the player's own active enrollment and another
  * person actually enrolled on it. No class, no group and no classmate is

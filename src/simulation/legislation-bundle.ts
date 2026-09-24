@@ -91,7 +91,7 @@ export interface MeasureComponentInput {
    * What this component does to the law it acts on.
    *
    * Omitted means `insert`, which is what every component did before this
-   * existed and what a component creating a new programme still does — so an
+   * existed and what a component creating a new program still does — so an
    * existing caller keeps its meaning exactly. A component that amends or
    * repeals says so, and names the provisions it acts on together with the
    * revision of each it was written against.
@@ -585,8 +585,8 @@ export function compileMeasureBundle(
     const clauses: CompiledClause[] = [];
     for (const clause of draft.clauses) {
       // A conflict is about a target, not about a shape. Two components may
-      // each create a programme and each carry a section called "purpose" —
-      // those are two purposes, of two different programmes, and namespacing
+      // each create a program and each carry a section called "purpose" —
+      // those are two purposes, of two different programs, and namespacing
       // is exactly what keeps them apart. What cannot stand is two components
       // writing the same provision of the same *existing* authority: one of
       // them would have to lose, and neither author wrote the result of that.

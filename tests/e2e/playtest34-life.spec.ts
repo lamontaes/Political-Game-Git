@@ -159,7 +159,7 @@ for (const width of [1440, 1200]) {
       reloaded.history.events.filter((e) => e.type === "life.favour-performed"),
     ).toHaveLength(1);
   });
-  test(`ordinary child talks to canonically labelled mom: lines/browsing zero ${width}`, async ({
+  test(`ordinary child talks to canonically labeled mom: lines/browsing zero ${width}`, async ({
     page,
   }, info) => {
     test.setTimeout(180000);

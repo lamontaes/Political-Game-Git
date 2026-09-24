@@ -1,7 +1,7 @@
 /**
  * The HUD housing domain's public API.
  *
- * The donor's data was a hand-authored seven-record file labelled as raw source
+ * The donor's data was a hand-authored seven-record file labeled as raw source
  * from huduser.gov, so nothing factual came from it. These are HUD's own FY2025
  * workbooks, and the two products stay separate rather than being folded into a
  * single record under a single vintage.
@@ -64,7 +64,7 @@ export const HUD_PARSER_VERSION = "1.0.0";
 export const FMR_VINTAGE = "FY2025";
 export const INCOME_LIMIT_VINTAGE = "FY2025";
 
-/** Federal fiscal year 2025 ends on 30 September 2025. */
+/** Federal fiscal year 2025 ends on September 30, 2025. */
 export const HUD_CORPUS_AS_OF = "2025-09-30";
 
 type HudRole = "fairMarketRents" | "incomeLimits";

@@ -13,7 +13,7 @@ from the game's own journal — the text a player actually reads.
 
 ## Part one: the life, as the game tells it
 
-**Nadia Luna was born on 28 February 1985, in Kentucky.**
+**Nadia Luna was born on February 28, 1985, in Kentucky.**
 
 > You were born on February 28, 1985.
 > You were born in Kentucky.
@@ -33,7 +33,7 @@ job ended the same day.
 **Then nothing, for twenty-three years.**
 
 Her twenties and her thirties are not in her journal. Not a job, not a move,
-not a friend, not a loss. The record resumes on 5 January 2026, the day the
+not a friend, not a loss. The record resumes on January 5, 2026, the day the
 player picks her up, with a single line:
 
 > You live in Kentucky.
@@ -42,18 +42,18 @@ She is forty.
 
 **What happens over the next ten years is that two people ask her to meetings.**
 
-On 14 January 2026, Astrid Hanson invites her to the Kentucky Republicans open
-meeting. Coming is optional. On 23 January, Zachary Randolph invites her to the
-Kentucky Democrats open meeting. Coming is optional. On 24 February, Zachary
-again. On 4 March, Astrid again.
+On January 14, 2026, Astrid Hanson invites her to the Kentucky Republicans open
+meeting. Coming is optional. On January 23, Zachary Randolph invites her to the
+Kentucky Democrats open meeting. Coming is optional. On February 24, Zachary
+again. On March 4, Astrid again.
 
-They alternate through 2026 and into 2027. Then, on **22 June 2027, Zachary
+They alternate through 2026 and into 2027. Then, on **June 22, 2027, Zachary
 Randolph invites her one last time and never writes again.** Nothing marks it.
 He simply stops.
 
 **Astrid Hanson keeps going for eight and a half more years.** September 2027.
 January 2028. March, April, May, June, August, September, October, December.
-Through 2029, 2030, 2031, 2032, 2033, 2034, and on to 4 December 2035, five
+Through 2029, 2030, 2031, 2032, 2033, 2034, and on to December 4, 2035, five
 weeks before the decade closes:
 
 > Astrid Hanson invited them to the Kentucky Republicans open meeting on

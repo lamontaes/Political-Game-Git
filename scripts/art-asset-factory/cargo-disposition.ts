@@ -56,7 +56,7 @@ export const CARGO_VERIFICATION_LEVELS = [
   "measured-in-repository",
   /**
    * The archive was opened and read where it lives, outside this repository:
-   * entries listed, licence document located and quoted, hash recorded.
+   * entries listed, license document located and quoted, hash recorded.
    *
    * Weaker than `measured-in-repository`, because nothing here can re-check it
    * from the tree, and it will never satisfy a `re-homed` claim. Much stronger
@@ -65,7 +65,7 @@ export const CARGO_VERIFICATION_LEVELS = [
    * measured-in-repository would claim bytes this repository does not hold.
    */
   "inspected-outside-repository",
-  /** Only catalogue metadata was available: name, size, type. */
+  /** Only catalog metadata was available: name, size, type. */
   "metadata-only",
   /** Nothing about the material was checked. */
   "not-verified",

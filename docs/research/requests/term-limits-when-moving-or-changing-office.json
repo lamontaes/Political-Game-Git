@@ -1,0 +1,22 @@
+{
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Running for office across America thread",
+  "lane": "campaigns",
+  "impact": "shapes-design",
+  "filedAt": "2026-09-23T00:25:00.000Z",
+  "questionId": "term-limits-when-moving-or-changing-office",
+  "priority": "P1",
+  "title": "What a term limit stops, and what it does not, when someone moves or runs for another office",
+  "question": "When an official is term-limited, which later candidacies does that limit block? Specifically: does a governor's term limit bar running for governor of another state after moving there; how long must someone live in a state before running for governor, U.S. Senate or U.S. House, and before running for the state legislature (by state); whether any state counts service in another office or state; the federal rule that states cannot impose term limits on members of Congress; and the ordinary career paths governors and legislators take after being term-limited (Senate, House, cabinet, lobbying), with how common each is.",
+  "whyItMatters": "The owner, 2026-09-22 at 8:20 p.m. ET: 'I'm wondering if you're term limited somewhere and you try to move somewhere else and represent, how does that work? ... Mitt Romney was governor and then senator.' In the game a governor's term limit counts only terms in that state's office, so it already does not block the Senate or another state's governorship. The player has no way to move to another state, though: only people the world moves on its own relocate.",
+  "usableAnswer": "Per state: residency duration required for governor, U.S. Senate (the Constitution asks only inhabitancy on election day), U.S. House and each legislative chamber. A yes or no on whether any state's term limit reaches past its own office. Then typical post-limit paths with rough shares, so non-player governors can follow them.",
+  "notes": [
+    "What the game does, read at the running-for-office branch: checkExecutiveTermLimit (src/simulation/nationwide-world/executive-term-limits.ts) counts dated terms in one office key, which is per state. Congress candidacy asks only that the person live in the state. relocateHousehold (src/simulation/migration/relocate.ts) moves households but has no player caller."
+  ],
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/changing-governor-term-limits.json",
+      "whatItDidNotSettle": "Covers how a state's own limit changes over time, not what it blocks elsewhere or residency before a new candidacy."
+    }
+  ]
+}

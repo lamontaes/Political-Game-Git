@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { SUPPORT_FLOOR_BASIS_POINTS } from "./campaign-support";
+import { addDays } from "./dates";
 import { createExplicitGeographyLife } from "../presentation/new-game-geography";
 import {
   fileForOffice,
@@ -36,6 +37,8 @@ describe("the result respects the floor the campaign respected", () => {
       created.game.playerPersonId,
       null,
       "us-ky-general-assembly-v1:house",
+      // The floor on election night is the subject, not the calendar.
+      addDays(created.game.world.currentDate, 28),
     );
     const personId = created.game.playerPersonId;
 

@@ -6,7 +6,7 @@
   "notes": [
     "Filed from the nationwide government lane because that lane measured the package, not because it owns the subject. If the intake or press lane would rather carry it, the record moves with no argument from here.",
     "The package was relayed as having gained 27 rows over 24 previously held. It gained 13 over 38, by its own increment record and its own receipt. That correction is written up separately and is noted here only so a reader of this record does not carry the wrong figure forward.",
-    "No candidate answers offered. This is a reading, not a judgement, and there is nothing here for the owner to decide."
+    "No candidate answers offered. This is a reading, not a judgment, and there is nothing here for the owner to decide."
   ],
   "priority": "P2",
   "question": "The state legislative ethics procedure package reached 51 jurisdictions with none unresearched, and carries three jurisdictions whose detail its own record says could not be read. Wyoming: the current Joint Rule 22-1 intake, screening and confidentiality text. Idaho: the current House rule and committee procedural detail, which could not be read from the official host. Utah: the consolidated JR6 text and the disposition of 2026 SJR016. For each, what does the current instrument actually say about who receives a complaint, who screens it, what is confidential and for how long, and what dispositions are available? Citations to the rule number and its current text.",
@@ -16,7 +16,7 @@
   "requestedBy": "nationwide government lane (technical team lead)",
   "sourcesChecked": [
     {
-      "source": "/mnt/project-files/research/ethics-routing-research.json, counted rather than summarised on 2026-09-22",
+      "source": "/mnt/project-files/research/ethics-routing-research.json, counted rather than summarized on 2026-09-22",
       "whatItDidNotSettle": "51 rows, 51 distinct jurisdiction keys, unresearchedJurisdictionKeys empty, latestIncrement.newCount 13 with priorRowsChanged 0. Its verificationOutstanding array names exactly these three jurisdictions and what could not be read for each. It states the gaps; it does not fill them."
     },
     {

@@ -66,7 +66,7 @@ runtime dependency. Nothing outside the two history files is read.
 two branches issuing one id wrote byte-identical additions and Git composed them
 silently. A record on its own line means they write differing text at the same
 position, which Git reports as a conflict. `.prettierignore` carries the file
-with that reason recorded, so a reflow cannot quietly restore the old behaviour.
+with that reason recorded, so a reflow cannot quietly restore the old behavior.
 
 **Checkpoint** gains `issuedIndexes` — the exact indexes issued per symbol, as
 compact ascending ranges (`"1-22,25"`), and its `digest` now covers the recorded
@@ -118,22 +118,22 @@ routes through, additionally refuses any write that drops an id the checkpoint
 attests, **rewrites an already-recorded binding**, or offers one id for two sites
 at once. A recorded issuance is immutable.
 
-**Path overrides.** Every coupled path is canonicalised (`realpath`, and for a
+**Path overrides.** Every coupled path is canonicalized (`realpath`, and for a
 target that does not exist yet, its directory plus the file name) before any
 decision is made about it. Aliases of canonical files are refused naming the
-alias and its target; two overrides that canonicalise to one file are refused.
+alias and its target; two overrides that canonicalize to one file are refused.
 The all-or-none rule and default-file immutability are unchanged, and a scratch
 bundle that merely _lives_ under a symlinked directory still works.
 
 ---
 
-## Preserved 128R2 behaviour
+## Preserved 128R2 behavior
 
 Re-run, not assumed: N1/N1b shortened-ledger refusal; duplicate and invalid
 live-ID rejection; missing-checkpoint refusal; conservative missing-ledger
 recovery from checkpoint evidence; the genuine forward absorption workflow;
 128R1's reservation-before-sidecar ordering; no-op, reword, context-revision and
-repeated-literal identity behaviour; the `corpus.test.ts` CI-visible integrity
+repeated-literal identity behavior; the `corpus.test.ts` CI-visible integrity
 gate. `scripts/agent-preflight.mjs` is byte-identical to `b13ba7c8`.
 
 `requireSidecar` now refuses a missing sidecar only when history has issued
@@ -150,7 +150,7 @@ never hand-edited and nothing was minted around a failure.
 ## Files
 
 - `scripts/prose-corpus/anchor-history.ts` — schema 2, `AnchorIssuance`,
-  `siteDigest`, `issuedIndexes` codec, `attestedIds`, canonicalised path
+  `siteDigest`, `issuedIndexes` codec, `attestedIds`, canonicalized path
   resolution, v1 loaders for migration, membership and binding rules
 - `scripts/prose-corpus/anchors.ts` — `siteOf`, `liveBindingsOf`, mint carries
   issuance provenance forward untouched

@@ -5,6 +5,9 @@ import {
   observedTraitLabels,
   personTraits,
 } from "../simulation/people-traits";
+import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
+import { readTrait } from "../simulation/trait-readings";
+import { traitRegistryFor } from "../simulation/trait-registry";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 
@@ -63,7 +66,20 @@ describe("only an observed temperament is shown", () => {
       const leaning = personTraits(written, id).filter(
         (trait) => trait.recordId !== null && trait.label !== null,
       );
-      expect(labels).toEqual(leaning.map((trait) => trait.label));
+      // The five, then any named quality from the personality catalog
+      // this person is known for, each read from its own record.
+      const qualities = [...traitRegistryFor(written).traits.values()]
+        .filter((trait) => trait.pack === PERSONALITY_PACK)
+        .flatMap((trait) => {
+          const reading = readTrait(written, id, trait);
+          return reading.state === "recorded" && reading.label !== null
+            ? [reading.label]
+            : [];
+        });
+      expect(labels).toEqual([
+        ...leaning.map((trait) => trait.label),
+        ...qualities,
+      ]);
     }
     expect(
       others.flatMap((id) => observedTraitLabels(written, id)).length,

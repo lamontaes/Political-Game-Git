@@ -10,4 +10,4 @@ Implementation complete. GitHub run 34011115793 at d79fd5b07da35ecdab6d73e207c33
 
 Local validation: agent preflight; Prettier YAML syntax/format check; git diff --check; validate:art, inventory:art and qa:art passed. No production, browser configuration, test or dependency changes. Exact-head CI is required after push; semantic/visual audit and owner visual acceptance remain gates even after green.
 
-LEARN: inspect job annotations before diagnosing cancelled browser runs; preserve available cancellation artifacts without promising cleanup after hard termination. The workflow comments encode this bounded rationale.
+LEARN: inspect job annotations before diagnosing canceled browser runs; preserve available cancellation artifacts without promising cleanup after hard termination. The workflow comments encode this bounded rationale.

@@ -224,13 +224,15 @@ describe("GOVERNING D1: an enacted appropriation becomes a program the office co
     expect(measurePosition(world, appropriationBill.id).phase).toBe("enacted");
 
     // Enactment wrote spending authority against the state's own account.
+    // Other appropriations may be law too: a governor the player did not
+    // control signs bills now, and the legislature can override a veto. The
+    // one that matters is the one this bill wrote.
     const appropriations = programAppropriations(
       world,
       appropriationKey(world),
-    );
+    ).filter((entry) => entry.sourceMeasureId === appropriationBill.id);
     expect(appropriations).toHaveLength(1);
     const appropriation = appropriations[0]!;
-    expect(appropriation.sourceMeasureId).toBe(appropriationBill.id);
     expect(appropriation.amount.minorUnits).toBe(amount);
 
     // The office is asked what to commit it to, before any money moves.
@@ -255,28 +257,37 @@ describe("GOVERNING D1: an enacted appropriation becomes a program the office co
       matter.id,
       "program:operate-three-months",
     ).world;
-    const commitments = programCommitments(world, appropriation.programKey);
+    const commitments = programCommitments(
+      world,
+      appropriation.programKey,
+    ).filter((entry) => entry.appropriationId === appropriation.id);
     expect(commitments).toHaveLength(1);
     expect(commitments[0]!.decidedByPersonId).toBe(personId);
     expect(commitments[0]!.authority).toMatch(/Governor/);
 
     world = passOrdinaryDays(world, 70);
-    const settled = programInstallments(world, appropriation.programKey);
+    const settled = programInstallments(world, appropriation.programKey).filter(
+      (row) => row.commitmentId === commitments[0]!.id,
+    );
     expect(settled.map((row) => row.status)).toEqual([
       "posted",
       "failed",
       "failed",
     ]);
     expect(settled[1]!.reason).toMatch(/not cash/);
-    const position = programPosition(world, appropriation.programKey);
+    const position = programPosition(
+      world,
+      appropriation.programKey,
+      appropriation.id,
+    );
     expect(position.posted.minorUnits).toBe(third);
     expect(position.failedInstallments).toBe(2);
     expect(cash(world, appropriation.accountOrganizationId)).toBe(0);
 
     const reopened = deserializeWorld(serializeWorld(world));
-    expect(programPosition(reopened, appropriation.programKey)).toEqual(
-      position,
-    );
+    expect(
+      programPosition(reopened, appropriation.programKey, appropriation.id),
+    ).toEqual(position);
   }, 900_000);
 });
 

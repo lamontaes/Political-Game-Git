@@ -1,0 +1,48 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "It needs a local price and wage model the simulation does not have: there is no rent, price level or inflation anywhere in src/simulation today, so this is new modeling, and DEPTH2 already warns that official reference data is not the simulation itself.",
+      "argumentFor": "A town's rent and income then keep moving after the last real edition, driven by what happens in that world (jobs, population, disasters, policy), and a player in 2031 is not reading 2025 rents as if they were current.",
+      "label": "Carry the figures forward with the world's own economy",
+      "position": "After the last real edition, each town's rent and income continue as simulated-world conditions, labeled as the world's own and never as an agency release, starting from the real figures.",
+      "recommended": true
+    },
+    {
+      "argumentAgainst": "A life lasting decades reads the same FY2025 rent and 2024 income for its whole length.",
+      "argumentFor": "Nothing invented: only real published editions are ever shown, each with its period.",
+      "label": "Show only real editions",
+      "position": "Keep today's behavior: the panel shows the latest real edition, dated by its period, and never changes after it.",
+      "recommended": false
+    }
+  ],
+  "filedAt": "2026-09-22T21:35:00.000Z",
+  "impact": "shapes-design",
+  "lane": "nationwide coverage",
+  "notes": [
+    "Measured on main 07e68281 with the shipped browser provider, in Boise City ID, Sioux Center IA and Truth or Consequences NM at 2026-01-05, 2026-02-05, 2026-02-19, 2026-09-03, 2027, 2029 and 2031. The two-bedroom Fair Market Rent is 1838, 900 and 933 dollars on every date through 2031. County per-capita income appears on 2026-02-05 (76,921, 69,887 and 52,569 dollars for 2024) and never changes after that. Unemployment appears all at once on 2026-09-03 (186 rows) and freezes.",
+    "The figures move only when a real edition is released, and the game ships one edition of each, so everything freezes by September 2026. Nothing in the game's own economy moves them: there is no rent, price level or inflation in src/simulation.",
+    "CORRECTION 2026-09-22 22:45Z, superseding the note above and the first answer's argumentAgainst: the simulation DOES have a monthly national economy with a price level, real output and an unemployment rate (world.macroEconomy, src/simulation/macro-economy/), started at the opening and stepped monthly. It has no local price level (local layers use the national one) and no rent or wages. A PLACEHOLDER carry-forward is now built on it and marked in code as a blanket rule until this is answered (src/presentation/local-economy-carried.ts): rent moves with the price level, income per person with prices times real output, the unemployment rate by the modeled change. Measured over four years from a Boise, Idaho opening: Boise rent 1,838 to 2,043 dollars, Truth or Consequences NM 933 to 1,037, Aroostook County ME income 58,192 to 68,871. The question stands: what should drive each figure locally, and how fast."
+  ],
+  "priority": "P1",
+  "question": "A town's rent, income and unemployment figures come only from real published editions, and the game ships one edition of each, so after September 2026 they never change: a life in 2031 still reads the FY2025 rent and 2024 income. The simulated world has no rent, price level or wages of its own to carry them forward. Should the figures continue past the last real edition as the simulated world's own conditions, and if so, what should drive them (local jobs and population, state and federal policy, disasters, national trends), and how fast?",
+  "questionId": "local-economic-figures-after-the-last-real-edition",
+  "relatedQuestionIds": [
+    "economic-figure-availability-date",
+    "economic-earlier-editions-and-new-england-rents"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "every-town-in-america thread (technical team lead)",
+  "sourcesChecked": [
+    {
+      "source": "createEconomicContextBrowserProvider queried for three towns across 2026-2031 on main 07e68281",
+      "whatItDidNotSettle": "Shows the figures freeze after the last edition. Does not say how they should move."
+    },
+    {
+      "source": "grep of src/simulation for rent, price level and inflation",
+      "whatItDidNotSettle": "Finds no simulated rent or price level to carry them forward."
+    }
+  ],
+  "title": "What a town's rent and income do after the last real edition",
+  "usableAnswer": "A rule for whether local rent, income and unemployment continue past the last shipped edition as simulated-world conditions, what drives each, a realistic pace of change for each (for example a yearly range), and how the screen labels them apart from real agency releases.",
+  "whyItMatters": "Every life longer than a year reads a frozen local economy. The owner asked whether rents and county income change as you would expect, and today they do not."
+}

@@ -2,9 +2,9 @@
  * LAUS corpus validation, including the rate/count reconciliation.
  *
  * The reconciliation is the interesting check and it is where the aggregate
- * type earns its keep. For an area and period, labour force should equal
+ * type earns its keep. For an area and period, labor force should equal
  * employment plus unemployment, and the unemployment rate should equal
- * unemployment over labour force. Both hold only within the Bureau's published
+ * unemployment over labor force. Both hold only within the Bureau's published
  * rounding, and neither can be evaluated at all when a component is missing.
  *
  * That last point is the whole reason `reconcile` refuses an INCOMPLETE
@@ -152,7 +152,7 @@ export function validateLausCorpus(
     const outcome = reconcile(laborForce.value.value, sum, COUNT_TOLERANCE);
     if (outcome.outcome === "DISAGREES") {
       disagreements.push(
-        `${key}: labour force ${laborForce.value.value} against employment plus unemployment ${sum.value} (difference ${outcome.difference})`,
+        `${key}: labor force ${laborForce.value.value} against employment plus unemployment ${sum.value} (difference ${outcome.difference})`,
       );
     } else {
       reconciled += 1;
@@ -167,7 +167,7 @@ export function validateLausCorpus(
         (unemployment.value.value / laborForce.value.value) * 100;
       if (Math.abs(computed - rate.value.value) > RATE_TOLERANCE) {
         disagreements.push(
-          `${key}: published rate ${rate.value.value} against unemployment over labour force ${computed.toFixed(3)}`,
+          `${key}: published rate ${rate.value.value} against unemployment over labor force ${computed.toFixed(3)}`,
         );
       }
     }

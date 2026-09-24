@@ -100,7 +100,9 @@ function watchForErrors(page: Page): string[] {
 async function readJournal(page: Page): Promise<string> {
   await goTo(page, "nav-journal-entry");
   await expect(page.getByTestId("journal")).toBeVisible();
-  const text = await page.getByTestId("journal-entries").innerText();
+  // The shell's Journal is the life biography (World39Journal), which has no
+  // journal-entries list; that list belongs to the older in-scene reader.
+  const text = await page.getByTestId("world39-biography").innerText();
   await page
     .getByTestId("journal")
     .getByRole("button", { name: "Close", exact: true })

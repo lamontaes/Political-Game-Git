@@ -2,7 +2,12 @@ import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
+import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
+import { applyCongressLawmaking } from "./governing/congress-lawmaking";
+import { applyConstitutionalReform } from "./living-world/constitutional-reform";
+import { applyFederalReform } from "./living-world/federal-reform";
+import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { assertAppearanceMaterial } from "./appearance-material";
 import { applyNationalTermTransitions } from "./national-election-consumer";
 import {
@@ -33,6 +38,10 @@ import {
   publicProgramRecords,
 } from "./public-program-integrity";
 import {
+  assertJobMarketIntegrity,
+  jobMarketHistoryRecords,
+} from "./job-market-integrity";
+import {
   assertTaxIntegrity,
   taxEntityExists,
   taxEntityAvailableAt,
@@ -47,6 +56,7 @@ import {
 } from "./dates";
 import { assertSetupPriorIntegrity, clonePriors } from "./setup-priors";
 import { assertMacroEconomyIntegrity } from "./macro-economy/store";
+import { assertPressureIntegrity } from "./pressure/integrity";
 import {
   assertCausalEffectIntegrity,
   assertCausalMechanismCatalogIntegrity,
@@ -223,6 +233,7 @@ import type {
   MindCatalog,
   Person,
   PersonFact,
+  PropositionExposureRecord,
   PersonFactKind,
   PolicyCatalog,
   SetupPriorStore,
@@ -527,8 +538,50 @@ export function createWorld(input: CreateWorldInput): World {
  */
 const VALIDATED_WORLDS = new WeakSet<World>();
 
+/*
+ * Inside one scheduled transition a handler may call dozens of writers, and
+ * each returns a new World that the next one validated again in full: a
+ * year's advance paid for a whole-world check per write, so its cost grew
+ * with the square of the world. Within `withWorldIntegrityDeferred` writers
+ * skip that check, and the caller validates the result once, in full, before
+ * anything is kept. A World that fails is still refused; it is refused at the
+ * end of the transition rather than at the write that made it.
+ *
+ * So a writer's own entry checks must not lean on the whole-world check: a
+ * handler that catches a writer's error to fall back must get that error
+ * from the writer itself, since the full check no longer runs mid-scope.
+ */
+let integrityDeferredDepth = 0;
+
+/** True inside a scope whose result will be validated whole before it is kept. */
+export function worldIntegrityDeferred(): boolean {
+  return integrityDeferredDepth > 0;
+}
+
+export function withWorldIntegrityDeferred<T>(run: () => T): T {
+  integrityDeferredDepth += 1;
+  try {
+    return run();
+  } finally {
+    integrityDeferredDepth -= 1;
+  }
+}
+
+/**
+ * Runs one whole advance of the clock — a press of a time control — with
+ * writers' checks deferred, then validates the World it produced once, in
+ * full. The advance either yields a valid World or throws; nothing between
+ * is ever returned to a caller.
+ */
+export function advanceWithWorldIntegrityAtEnd(run: () => World): World {
+  const result = withWorldIntegrityDeferred(run);
+  assertWorldIntegrity(result);
+  return result;
+}
+
 export function assertWorldIntegrity(world: World): void {
   if (VALIDATED_WORLDS.has(world)) return;
+  if (integrityDeferredDepth > 0) return;
   validateWorldIntegrity(world);
   VALIDATED_WORLDS.add(world);
 }
@@ -593,6 +646,7 @@ function validateWorldIntegrity(world: World): void {
   }
   validateHistoryIntegrity(world);
   if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
+  if (world.pressure !== undefined) assertPressureIntegrity(world);
 }
 
 export function recordWorldEvent(
@@ -1020,7 +1074,18 @@ export function advanceWorld(
   }
 
   assertWorldIntegrity(world);
+  // Every writer inside a day advance skips the whole-world check; the
+  // advanced World is checked once at the end, as a clock press is.
+  return advanceWithWorldIntegrityAtEnd(() =>
+    advanceWorldUnchecked(world, days, transitionHandlers),
+  );
+}
 
+function advanceWorldUnchecked(
+  world: World,
+  days: number,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
   const actionSequence = world.actionSequence;
   const nextDate = addDays(world.currentDate, days);
   const nextMoment = simulationMomentOnLocalDate(world.currentMoment, nextDate);
@@ -1039,11 +1104,26 @@ export function advanceWorld(
 
   const continued = applyCrisisRepairFunding(
     applyCrisisOfficeContinuity(
-      applyGovernorTurnover(
+      applyCongressLawmaking(
         world.currentDate,
-        applyCongressTurnover(
+        applyFederalReform(
           world.currentDate,
-          applyNationalTermTransitions(advanced),
+          applyConstitutionalReform(
+            world.currentDate,
+            applyPresidentialTurnover(
+              world.currentDate,
+              applyGovernorTurnover(
+                world.currentDate,
+                applyCongressTurnover(
+                  world.currentDate,
+                  applyStateLegislatureTurnover(
+                    world.currentDate,
+                    applyNationalTermTransitions(advanced),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     ),
@@ -1627,6 +1707,7 @@ function validateHistoryIntegrity(world: World): void {
   }
   const records = [
     ...taxHistoryRecords(world),
+    ...jobMarketHistoryRecords(world),
     ...lifeHistoryRecords(world),
     ...resourceHousingHistoryRecords(world),
     ...worldMetricHistoryRecords(world),
@@ -1785,6 +1866,7 @@ function validateHistoryIntegrity(world: World): void {
   assertLifeHistoryIntegrity(world, ids);
   assertResourceHousingIntegrity(world, ids);
   assertTaxIntegrity(world, ids);
+  assertJobMarketIntegrity(world, ids);
   assertPublicPaymentIntegrity(world);
   assertWorldMetricIntegrity(world, ids);
   assertCausalEffectIntegrity(world, ids);
@@ -2752,6 +2834,10 @@ function validatePoliticalHistory(
     world.history.subjectKnowledge.map((record) => [record.id, record]),
   );
 
+  const exposureById = new Map<EntityId, PropositionExposureRecord>();
+  for (const exposure of world.history.propositionExposures)
+    if (!exposureById.has(exposure.id)) exposureById.set(exposure.id, exposure);
+
   for (const belief of world.history.privateBeliefs) {
     assertHistoryIdentity(ids, world, belief, "belief");
     validatePoliticalRecordCore(
@@ -2782,9 +2868,7 @@ function validatePoliticalHistory(
       exposureIds,
     );
     for (const exposureId of belief.formation.propositionExposureIds) {
-      const exposure = world.history.propositionExposures.find(
-        (candidate) => candidate.id === exposureId,
-      );
+      const exposure = exposureById.get(exposureId);
       if (exposure?.propositionId !== belief.propositionId) {
         throw new Error(
           `Belief formation references an exposure to another proposition: ${exposureId}`,
@@ -3430,15 +3514,9 @@ function validatePoliticalSupersession<
   selectDate: (candidate: T) => IsoDate,
   label: string,
 ): void {
-  const previous = [...recordsById.values()]
-    .filter(
-      (candidate) =>
-        candidate.personId === record.personId &&
-        selectSubject(candidate) === selectSubject(record) &&
-        candidate.sequence < record.sequence,
-    )
-    .sort((left, right) => left.sequence - right.sequence)
-    .at(-1);
+  const previous = previousPoliticalRecords(recordsById, selectSubject).get(
+    record.id,
+  );
   const prior = priorId === null ? undefined : recordsById.get(priorId);
   if (
     (previous === undefined && priorId !== null) ||
@@ -3452,6 +3530,60 @@ function validatePoliticalSupersession<
   ) {
     throw new Error(`Invalid ${label} supersession reference: ${priorId}`);
   }
+}
+
+/**
+ * For each record, the latest earlier record by the same person about the
+ * same subject, computed in one pass per family. Asking this separately for
+ * every record scanned and sorted the whole family each time, so the check
+ * grew with the square of a long save's political history.
+ */
+const PREVIOUS_POLITICAL_RECORDS = new WeakMap<
+  ReadonlyMap<EntityId, unknown>,
+  Map<EntityId, unknown>
+>();
+
+function previousPoliticalRecords<
+  T extends {
+    readonly id: EntityId;
+    readonly personId: EntityId;
+    readonly sequence: number;
+  },
+>(
+  recordsById: ReadonlyMap<EntityId, T>,
+  selectSubject: (candidate: T) => EntityId,
+): ReadonlyMap<EntityId, T | undefined> {
+  const cached = PREVIOUS_POLITICAL_RECORDS.get(recordsById);
+  if (cached) return cached as Map<EntityId, T | undefined>;
+  const ordered = [...recordsById.values()].sort(
+    (left, right) => left.sequence - right.sequence,
+  );
+  const latest = new Map<string, T>();
+  const previous = new Map<EntityId, T | undefined>();
+  // Records sharing a sequence are not earlier than one another, so each
+  // group sees only what came before the group.
+  for (let start = 0; start < ordered.length;) {
+    let end = start;
+    while (
+      end < ordered.length &&
+      ordered[end]!.sequence === ordered[start]!.sequence
+    )
+      end += 1;
+    for (let index = start; index < end; index += 1) {
+      const record = ordered[index]!;
+      previous.set(
+        record.id,
+        latest.get(`${record.personId}\u0000${selectSubject(record)}`),
+      );
+    }
+    for (let index = start; index < end; index += 1) {
+      const record = ordered[index]!;
+      latest.set(`${record.personId}\u0000${selectSubject(record)}`, record);
+    }
+    start = end;
+  }
+  PREVIOUS_POLITICAL_RECORDS.set(recordsById, previous);
+  return previous;
 }
 
 function assertCanonicalEntityIds(

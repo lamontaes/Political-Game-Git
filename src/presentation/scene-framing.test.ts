@@ -26,7 +26,7 @@ describe("PT3 — framing around the people in the room", () => {
     ).toBe(180);
   });
 
-  it("keeps the panel centred while it covers nobody", () => {
+  it("keeps the panel centered while it covers nobody", () => {
     const beside = [{ left: 150, right: 350, top: 395, bottom: 790 }];
     expect(chooseContentDock(beside, VIEWPORT, PANEL, INSETS)).toEqual({
       dock: "center",

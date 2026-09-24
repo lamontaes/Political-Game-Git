@@ -24,14 +24,14 @@ import { hashArtFile } from "./content-hash";
  *   the whole arm on a seated pose with hands on the thighs — the row is one
  *   opaque run. The outer edge of that run is a silhouette edge; the inner
  *   edge of the arm is not in the alpha at all. It is painted as a line and
- *   a shading change, which is colour, and reading it would be a heuristic on
- *   colour that this file does not attempt. Those rows are reported FUSED and
+ *   a shading change, which is color, and reading it would be a heuristic on
+ *   color that this file does not attempt. Those rows are reported FUSED and
  *   every inner measurement over them is `occluded`, not estimated.
  *
  * So every landmark, width and segment carries a status and an evidence
  * class. `measured` is a reading of the silhouette. `partially-measured` is a
  * reading that locates a region rather than a joint — an elbow found as the
- * bow of the outer contour is on the skin, not at the joint centre.
+ * bow of the outer contour is on the skin, not at the joint center.
  * `ambiguous` means the silhouette was read and did not decide the question.
  * `occluded` means the silhouette does not contain the edge. `unavailable`
  * means a prerequisite was missing. Nothing is filled in from proportion.
@@ -223,7 +223,7 @@ export interface ArmFigureRows {
   readonly figureHeightPx: number;
   /** Midline column at the neck; the per-row midline is `midlineColumn`. */
   readonly centerX: number;
-  /** Neck centre to mid-figure centre, in pixels. */
+  /** Neck center to mid-figure center, in pixels. */
   readonly torsoAxis: { readonly from: ArmPoint; readonly to: ArmPoint };
 }
 
@@ -303,7 +303,7 @@ function extent(runs: readonly Run[]): Run | null {
  * the neck is the narrowest row in the band 6%–20% of figure height below the
  * crown, the shoulder row is the first row at or below the neck reaching 92%
  * of the widest painted width within 15% of figure height, and the midline is
- * the centre of the widest row. Restated here on run data rather than a
+ * the center of the widest row. Restated here on run data rather than a
  * pureimage bitmap; the rules are the same and are quoted in every note that
  * depends on them.
  */
@@ -318,8 +318,8 @@ export function measureFigureRows(raster: RasterRuns): ArmFigureRows | null {
   const band = (fraction: number): number =>
     Math.min(soleRow, headTopRow + Math.round(figureHeightPx * fraction));
 
-  // The neck is the narrowest painted row in its band. Its centre is the
-  // body's midline column: `measureBodyRig` takes the centre of the WIDEST
+  // The neck is the narrowest painted row in its band. Its center is the
+  // body's midline column: `measureBodyRig` takes the center of the WIDEST
   // row instead, which on a hanging-arm body is the same column and on a
   // gesturing body is pulled toward the raised arm — far enough, on a
   // synthetic test figure, to land inside one leg and turn the other leg
@@ -950,7 +950,7 @@ function measureSide(
     "silhouette-rule",
     shoulderPx,
     canvas,
-    "Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint centre; on a pose whose upper arm lifts above the shoulder line the row moves with it.",
+    "Outer silhouette edge at the shoulder row — the first row at or below the neck reaching 92% of the widest painted width within 15% of figure height, the rule the accepted body rig uses. A silhouette shoulder, not the joint center; on a pose whose upper arm lifts above the shoulder line the row moves with it.",
   );
 
   // The separated arm component, if the side has one.
@@ -1156,7 +1156,7 @@ function measureSide(
         "silhouette-rule",
         axisPoint(axis, wristT),
         canvas,
-        `Narrowest cross-section (${narrowest}px) in the far half of the separated segment that is followed by a widening of at least ${WRIST_WIDENING_MIN_RATIO}x (to ${widestBeyond[bestIndex]}px, the hand). The point is the axis centre of that cross-section.`,
+        `Narrowest cross-section (${narrowest}px) in the far half of the separated segment that is followed by a widening of at least ${WRIST_WIDENING_MIN_RATIO}x (to ${widestBeyond[bestIndex]}px, the hand). The point is the axis center of that cross-section.`,
       );
     } else if (narrowestAnyIndex < 0) {
       wrist = absent(
@@ -1214,7 +1214,7 @@ function measureSide(
         "silhouette-rule",
         { x: outerX(bestRow)!, y: bestRow },
         canvas,
-        `Point of greatest outward bow of the outer silhouette between the shoulder tip and the wrist row (${round2(bestDistance)}px, ${round4(bestDistance / chordLength)} of the chord). This is the elbow REGION on the outer contour, not the joint centre, which sits inside the fused upper arm; a reviewer should confirm it.`,
+        `Point of greatest outward bow of the outer silhouette between the shoulder tip and the wrist row (${round2(bestDistance)}px, ${round4(bestDistance / chordLength)} of the chord). This is the elbow REGION on the outer contour, not the joint center, which sits inside the fused upper arm; a reviewer should confirm it.`,
       );
     } else {
       elbow = absent(
@@ -1762,7 +1762,7 @@ const STATUS_COLOUR: Readonly<Record<ArmMeasurementStatus, string>> = {
 
 /**
  * An SVG a reviewer opens beside the raster: the raster itself, the torso
- * axis, each side's contours, and each landmark coloured by its status. It
+ * axis, each side's contours, and each landmark colored by its status. It
  * draws the report; it decides nothing, and it is not a compositor.
  */
 export function renderArmOverlaySvg(

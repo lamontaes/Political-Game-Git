@@ -10,7 +10,7 @@ KNOWN WORLD FACTS:
   CHARACTER KNOWLEDGE: that {role:colleague} works there and is looking at a chart. You do not know what the chart shows.
   ESTABLISHED TRAITS: none.
   EARLIER CHOICES: none.
-  UNKNOWN / DO NOT ASSUME: any weekday, calendar date, month or clock time; any name beyond the role slots named above; any sum of money, wage, price, rent or debt figure; the name of any employer, school, college, programme or organisation; whether the character attends a four-year college, lives on a campus, or lives away from family; any consequence that follows the choice. Also unknown: what kind of work the job is, what the chart shows, how long either of you has worked there, whether you are new, and whether {role:colleague} will want to explain it.
+  UNKNOWN / DO NOT ASSUME: any weekday, calendar date, month or clock time; any name beyond the role slots named above; any sum of money, wage, price, rent or debt figure; the name of any employer, school, college, program or organization; whether the character attends a four-year college, lives on a campus, or lives away from family; any consequence that follows the choice. Also unknown: what kind of work the job is, what the chart shows, how long either of you has worked there, whether you are new, and whether {role:colleague} will want to explain it.
   ALLOWED INTERPRETATION: the character may ask about the chart, leave it alone, or ask to look at it together.
   Additionally: do not describe the room, the food, or what {role:colleague} is feeling. Do not say that you are new.
   PURPOSE: A small, ordinary chance at work to ask a colleague something or to leave them to their break. The scene ends at the choice.

@@ -23,7 +23,7 @@ const setup: NewGameSetup = {
   household: "shares-a-home",
   seed: "kit41-continuity",
   givenName: "Maya",
-  familyName: "Grey",
+  familyName: "Gray",
   questionnaire: "skipped",
   appearanceRecipeVersion: "appearance-recipe-v2",
   appearanceCatalogGeneration: 10,

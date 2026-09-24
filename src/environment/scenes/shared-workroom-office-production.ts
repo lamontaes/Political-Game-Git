@@ -29,7 +29,7 @@ import type { EnvironmentSceneSpec } from "../environment-scene-spec";
  * measurements for that horizon puts it at y ~= 39.9% of plate height, which
  * agrees with where the ceiling grid and the floor tiles visibly converge. So:
  *
- *   one metre  ~=  0.585 * (floor_y_percent - 39.9)   % of plate height
+ *   one meter  ~=  0.585 * (floor_y_percent - 39.9)   % of plate height
  *
  * That single relation produces the floor calibration, the standard body width
  * and the cross-check on the one seat below. It is a visual estimate read off

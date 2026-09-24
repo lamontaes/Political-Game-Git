@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-23T01:50:00.000Z",
+  "impact": "shapes-design",
+  "lane": "campaign spending reports",
+  "notes": [
+    "Until 2026-09-23 a campaign committee in the game only ever paid for advertising (and, when someone took it, paid the candidate), so a Maine governor's campaign ended with $38,380.77 unspent.",
+    "The game now pays ordinary bills from every committee in the player's race on two to four days a week: office rent and utilities, signs and printing, postage, travel, events, phones and software, food, and bank fees. Each bill takes a share of the money the committee can spend (for example office 3 to 6 percent, printing 2 to 8 percent), never touching money set aside for an approved advertising buy. These shares and categories are marked placeholders in src/simulation/campaign-operating-costs.ts (UNRESEARCHED_OPERATING_COSTS) until this is answered.",
+    "The line-item rules and filing schedule are a separate request, campaign-expenditure-reports. This one asks what the money actually goes to and how much."
+  ],
+  "priority": "P1",
+  "question": "For real U.S. candidate committees, by race size (city council or county office, state legislature, statewide office such as governor, U.S. House, U.S. Senate): (1) what share of total spending typically goes to each major category (paid staff and consultants, advertising and media, direct mail and postage, printing and signs, digital, travel, events, office rent and utilities, fundraising costs, phones and software, food, bank and payment-processing fees, polling, legal and compliance), (2) typical total spending per race and how it rises toward election day, (3) how often a committee makes a disbursement (per week or per month) and how large a typical single payment is in each category, and (4) whether small races use volunteers where larger ones pay staff. Draw on FEC and state disclosure data or published analyses.",
+  "questionId": "campaign-operating-spending",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Campaign spending reports thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/campaign-expenditure-reports.json",
+      "whatItDidNotSettle": "Asks what a report line must carry and when it is filed, not how much goes to each kind of cost or how often bills are paid."
+    },
+    {
+      "source": "src/simulation/campaign-opponents.ts (FUNDRAISING_RANGE, MESSAGING_RANGE)",
+      "whatItDidNotSettle": "Game ranges for weekly fundraising and advertising only; nothing about other spending."
+    }
+  ],
+  "title": "What campaigns actually spend their money on, how much, and how often, by race size",
+  "usableAnswer": "A table per race size: category spending shares, typical total spending and its timing, disbursements per week or month, and typical single-payment size per category, each with a source. UNKNOWN where no source settles it.",
+  "whyItMatters": "A reader, reporter or rival can only spot an odd payment against a believable pattern of ordinary ones. Without real shares the ordinary bills are guesses, and the leftover money at the end of a race is meaningless."
+}

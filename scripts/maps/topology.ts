@@ -207,7 +207,7 @@ export function encodeLayer(
     for (const ring of feature.rings) ringKeys.set(ring, ring.map(keyOf));
   }
 
-  // 1. Junctions: a vertex whose neighbours differ between visits.
+  // 1. Junctions: a vertex whose neighbors differ between visits.
   const neighbourKey = new Map<string, string>();
   const junctions = new Set<string>();
   let sourcePointCount = 0;

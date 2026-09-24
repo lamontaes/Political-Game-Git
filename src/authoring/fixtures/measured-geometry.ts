@@ -69,7 +69,7 @@ export const PLACEHOLDER_HEARING_ROOM_A: MeasuredRoom = {
       derivedFrom: {
         scaleId: "placeholder-scale-a",
         measuredPixelSpan: 60,
-        note: "Centre aisle measured between seat block edges.",
+        note: "Center aisle measured between seat block edges.",
       },
     },
     {

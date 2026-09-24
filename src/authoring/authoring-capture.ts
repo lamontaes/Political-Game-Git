@@ -162,7 +162,7 @@ export interface CaptureExport {
   readonly sceneId: string;
   readonly capturedAt: string | null;
   /**
-   * Stated on the artefact itself, because this block is going to be pasted
+   * Stated on the artifact itself, because this block is going to be pasted
    * into a spec and read months later by someone who was not here.
    */
   readonly certaintyNote: string;
@@ -170,7 +170,7 @@ export interface CaptureExport {
 }
 
 export const CAPTURE_CERTAINTY_NOTE =
-  "Coordinates read off a picture in the authoring overlay. Anything marked ESTIMATED is an author's judgement about this plate, not a measurement of a real room; anything marked UNKNOWN or UNVERIFIED is recorded but not settled. Do not promote a certainty when pasting this into a scene spec.";
+  "Coordinates read off a picture in the authoring overlay. Anything marked ESTIMATED is an author's judgment about this plate, not a measurement of a real room; anything marked UNKNOWN or UNVERIFIED is recorded but not settled. Do not promote a certainty when pasting this into a scene spec.";
 
 /**
  * The pasteable block.

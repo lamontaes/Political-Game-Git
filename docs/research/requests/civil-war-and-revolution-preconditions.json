@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-23T00:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "migration and settlement",
+  "notes": [
+    "The owner's words, 2026-09-22: \"That goes for Civil Wars, economic downturns... I don't know if revolutions should be in the game... But it should be a cumulative effect of things in an amount of time that matters to the people in the country that can cause certain events and certain places.\" Asked whether revolutions should be possible at all, he answered \"yes\" at 7:10 p.m. Eastern."
+  ],
+  "priority": "P2",
+  "question": "The owner approved revolutions and civil wars in the game only as the result of extreme pressure held for years across many places, never as a fixed chance. (1) Across civil wars and revolutions in established states since about 1800, including the American Civil War, what conditions had built up beforehand and for how long? (2) Which measurable conditions most reliably came before them, according to the research literature on political instability (for example the work behind the Political Instability Task Force)? (3) How often did countries with similar conditions not break down, and what distinguished them? (4) Short of war, what forms did extreme pressure take: secession movements, general strikes, coups, mass protest?",
+  "questionId": "civil-war-and-revolution-preconditions",
+  "relatedQuestionIds": ["unrest-what-builds-it-and-what-calms-it"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "migration and settlement thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/ on main, September 22, 2026",
+      "whatItDidNotSettle": "No simulation code models civil war or revolution."
+    }
+  ],
+  "title": "What conditions came before civil wars and revolutions, and how rare they are",
+  "usableAnswer": "A short list of the measurable preconditions with how long they typically built, a rough statement of how often those conditions led to breakdown and how often they did not, and the forms short of war, each with a source.",
+  "whyItMatters": "The pressure layer on branch claude/project-thread-ltkqvu lists civil war and revolution as not built: they never happen. When built, they must follow from several pressures held very high for years, and the thresholds and durations need a real basis rather than an invented tiny chance."
+}

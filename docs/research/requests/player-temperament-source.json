@@ -29,7 +29,7 @@
     },
     {
       "source": "src/simulation/setup-questionnaire.ts, the existing setup path",
-      "whatItDidNotSettle": "It already carries dimensions, loadings and priors, so the wiring is available and this is not a question about feasibility. It does not establish that a setup answer and a fictional behaviour tendency are the same kind of thing, which is the actual question."
+      "whatItDidNotSettle": "It already carries dimensions, loadings and priors, so the wiring is available and this is not a question about feasibility. It does not establish that a setup answer and a fictional behavior tendency are the same kind of thing, which is the actual question."
     },
     {
       "source": "src/simulation/mind.ts, validateMindProvenance",

@@ -299,7 +299,7 @@ describe("unresolved fiscal facts carry no value", () => {
     ).toBeNull();
   });
 
-  it("refuses to synthesise a conflict it cannot represent", () => {
+  it("refuses to synthesize a conflict it cannot represent", () => {
     const conflicted = record(
       "VV:SCHOOL_DISTRICT:RULE:LOCAL_GO_BOND_VOTER_HURDLE",
     );

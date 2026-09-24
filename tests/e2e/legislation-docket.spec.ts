@@ -118,6 +118,7 @@ test.describe("the docket, from the ordinary route", () => {
 
     // Two genuinely different proposals, compared by reading them.
     await expect(options).toContainText("Program authorization");
+    // british-spelling-ok: proves the old British label is gone from the list.
     await expect(options).not.toContainText("Programme authorization");
     await expect(options).toContainText("Transit access");
     await expect(options).toContainText("Bridge and culvert maintenance");
@@ -174,7 +175,7 @@ test.describe("the docket, from the ordinary route", () => {
       "Bridge and culvert maintenance",
     );
     await expect(page.getByTestId("docket-filed-on")).not.toBeEmpty();
-    // A repair programme for standing structures bears on the catalogue's
+    // A repair program for standing structures bears on the catalog's
     // upkeep-before-new-construction question, and the docket says so.
     await expect(page.getByTestId("docket-questions")).toHaveText(
       "Should maintenance of existing infrastructure be funded before new construction?",
@@ -300,11 +301,10 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   await wonSeatWithWorkOpen(page);
   const office = page.getByTestId("docket-office-record");
   await office.locator("summary").click();
-  // The office record says this in the player's own words now; "No committee
-  // appointment record" was database wording, which the copy guard forbids.
-  await expect(office).toContainText(
-    "You have not been appointed to a committee",
-  );
+  // The office record says why there is no committee seat, in the player's
+  // own words: this chamber's other members are not in the game, so its
+  // committees have nobody on them.
+  await expect(office).toContainText("its committees have no members");
   await page.getByTestId("open-drafting-table").click();
   await page
     .getByTestId(

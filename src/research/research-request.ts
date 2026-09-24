@@ -109,7 +109,7 @@ export interface ResearchAnswer {
  * something rather than starting from a blank page.
  *
  * A candidate answer is NOT a recommendation unless it says so. Where the
- * question is a product judgement the asker has no standing to make, every
+ * question is a product judgment the asker has no standing to make, every
  * candidate is filed with `recommended: false` on purpose, and the validator
  * allows that: "here are two readings, you choose" is a legitimate brief.
  * What it does not allow is two candidates both claiming to be recommended.
@@ -835,7 +835,15 @@ export function renderOpenQuestions(
         lines.push("**Already checked.** Nothing yet.", "");
       }
       for (const note of record.notes ?? []) {
-        lines.push(`> ${note}`, "");
+        // Every line of a multi-line note stays inside the quote, or its
+        // later lines render as loose text under the question.
+        lines.push(
+          note
+            .split("\n")
+            .map((line) => (line.trim() === "" ? ">" : `> ${line}`))
+            .join("\n"),
+          "",
+        );
       }
       if ((record.relatedQuestionIds ?? []).length > 0) {
         lines.push(
@@ -860,7 +868,7 @@ export function renderOpenQuestions(
  * its source diverge inside an hour.
  */
 const FOR_THE_READER: readonly string[] = [
-  // Three dashes, not more: prettier normalises a longer rule and the rendered
+  // Three dashes, not more: prettier normalizes a longer rule and the rendered
   // document is format-checked like any other file in this repository.
   "---",
   "",
@@ -869,7 +877,7 @@ const FOR_THE_READER: readonly string[] = [
   "A question belongs here if no explicit research has been done on it. That is",
   "the owner's instruction and it is wider than the test this queue used to",
   "apply, which asked whether a question was bulky enough to be worth handing",
-  "over. So expect this document to grow, and expect more of it to be judgement",
+  "over. So expect this document to grow, and expect more of it to be judgment",
   "than citation: design questions belong here too, not only factual surveys.",
   "",
   'Two kinds of answer are worth as much as a filled-in table. "It depends, and',

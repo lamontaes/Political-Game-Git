@@ -77,7 +77,7 @@ function ask(): string {
   );
   lines.push("");
   lines.push(
-    '**An empty list is a real answer.** A region whose honest answer is "no county can be named without more work" should come back with empty lists, not with a guess. It costs nothing: a region nothing matches shows no picture, which is the current behaviour.',
+    '**An empty list is a real answer.** A region whose honest answer is "no county can be named without more work" should come back with empty lists, not with a guess. It costs nothing: a region nothing matches shows no picture, which is the current behavior.',
   );
   lines.push("");
   lines.push("## The rules the answer has to satisfy");
@@ -163,7 +163,7 @@ function ask(): string {
     lines.push("```");
     lines.push("");
     lines.push(
-      "Note what it did with the refinement: rather than naming Pima, Pinal and Maricopa as counties, it named places inside them, because the counties contain high country the scene does not describe. That judgement is the work being asked for.",
+      "Note what it did with the refinement: rather than naming Pima, Pinal and Maricopa as counties, it named places inside them, because the counties contain high country the scene does not describe. That judgment is the work being asked for.",
     );
     lines.push("");
   }

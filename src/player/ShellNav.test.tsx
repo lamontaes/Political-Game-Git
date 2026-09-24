@@ -53,7 +53,7 @@ function render(state: ShellState, portrait?: ReactNode) {
 }
 
 describe("ShellNav portrait hub", () => {
-  it("centres the closed cluster on the player's own portrait", () => {
+  it("centers the closed cluster on the player's own portrait", () => {
     const html = render(
       INITIAL_SHELL_STATE,
       <figure data-testid="person-portrait" />,
@@ -125,8 +125,8 @@ describe("fanLayout", () => {
     }
   });
 
-  it("keeps neighbours on a ring far enough apart that entries never touch", () => {
-    // An entry's width plus a visible margin between neighbours.
+  it("keeps neighbors on a ring far enough apart that entries never touch", () => {
+    // An entry's width plus a visible margin between neighbors.
     const entry = 3.9 * 16 + 4;
     const layout = fanLayout(18);
     for (const ring of FAN_RINGS.keys()) {
@@ -143,7 +143,38 @@ describe("fanLayout", () => {
 
   it("fits the tallest ring used by the full menu inside a 768-pixel window", () => {
     const top = Math.min(...fanLayout(10).map((at) => at.y));
-    // Portrait centre sits about 54px above the bottom edge; entries are 62px.
+    // Portrait center sits about 54px above the bottom edge; entries are 62px.
     expect(54 - top + 31).toBeLessThan(768);
+  });
+});
+
+describe("ShellNav interrupt checklist", () => {
+  it("offers what passing time stops for beside Day and Week, closed until asked", () => {
+    const html = renderToStaticMarkup(
+      <ShellNav
+        state={INITIAL_SHELL_STATE}
+        dispatch={() => {}}
+        playerName="Jordan Avery Price"
+        dateLabel="Tuesday, January 20, 2026"
+        placeName={null}
+        destinations={DESTINATIONS}
+        canSave
+        unsaved={false}
+        onSave={() => {}}
+        onLeave={() => {}}
+        onPassDays={() => {}}
+      />,
+    );
+    expect(html).toMatch(
+      /data-testid="shell-day-controls"[\s\S]*data-testid="shell-stops-toggle"/,
+    );
+    expect(html).toMatch(
+      /data-testid="shell-stops-toggle"[^>]*aria-expanded="false"|aria-expanded="false"[^>]*data-testid="shell-stops-toggle"/,
+    );
+    expect(html).not.toContain('data-testid="shell-stops"');
+  });
+
+  it("has no checklist control while growing up, when time cannot be passed", () => {
+    expect(render(INITIAL_SHELL_STATE)).not.toContain("shell-stops-toggle");
   });
 });

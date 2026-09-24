@@ -1,0 +1,41 @@
+# “Who are you?” — owner correction and engineering brief
+
+**Date:** September 22, 2026. **Status:** owner direction plus documented open boundaries, no code change or accepted new prose bank. **Recipients:** People and life / new-life creator, Pennywise owner, playtesting. The present 56-question report was read in full, along with the relevant September 20 owner chat and the Pennywise field guide.
+
+## Who and why
+
+The real player may opt into calibration before a new life. The playable person has a separate world identity, history, traits and views. **Pennywise is the game's separate model of how the player makes choices**; it uses setup evidence and then actions in play to choose among situations that are already valid in that world. Its aim is to bring forward decisions that matter and create genuine pressure based on prior choices. It must not generate a crisis to punish an answer or treat its private estimate as a fact about the playable person.
+
+This is the owner's correction to my earlier suggestion of making the screen primarily a post-generation character-temperament quiz. He says it is optional calibration that can also establish starting traits and views. His September 20 chat specifies policy and human stakes together, clear judicial or executive roles at differing levels where used, several genuinely different answers, a plain refusal/neither when it makes sense, and branches that follow up on the reason for an answer. The overall game systems can be deep while the questionnaire remains optional to the player.
+
+## Established form
+
+- **Two offered routes:** a short questionnaire and a “choose more” route from an authored **bank of about 50** questions, curated adaptively by the game. The owner described about ten possible opening situations and branching follow-ups, “like a Captain Underpants story.” In his September 20 discussion he also described roughly 10–12 questions on a path. The current code's 56 selectable items, exactly three fixed openers, five-question short path and 13–21-question longer path are implementation facts, **not settled replacements for the owner's design**. Confirm the exact count of questions shown in each route from prior design records before changing a numeric limit; a 50-question bank does not mean forcing every player through all 50.
+- **Content:** concrete personal and public tensions, not a morality exam or abstract personality survey. Use the chosen place when place matters; a public role must be named (“you serve on the town council,” “you are the inspector,” etc.) and must be a role that can make that choice in the situation. Different ages get age-appropriate situations. A short route should not systematically exclude all public-role questions.
+- **Truth boundary:** no prompt may claim the character has a partner, sibling, child, job, car, house or political office unless the world has already recorded it. A hypothetical role can be stated as hypothetical; it must not be silently added to biography. An answer cannot rewrite an event already recorded in the world. Old saves keep their recorded answers under the existing compatibility path.
+- **Branching:** follow-up questions should test *why* the answer was chosen, not assign a fixed identity or call the player inconsistent. If the player rejects both presented proposals, the next question can clarify whether the concern is location, cost, process, or another recorded consideration. An option that changes its mind can be meaningful; it need not be punished.
+- **Evidence effects:** setup answers may provide tentative Pennywise evidence; later enacted choices carry more weight than questionnaire answers. The character's starting traits and views may be proposed from answers, but should be explicit to the player and confirmable/changeable/skippable under the previously answered `player-temperament-source` record. Keep the player model and character state separately named and recorded. Do not infer a civic position from an unrelated private gesture without a clear question-specific reason.
+- **Ending:** show only the optional character starting profile that the player can confirm, change or skip. Do not expose Pennywise numerical axes, weights, confidence or predictions, and do not tell the player what hard event the game will offer next.
+
+## Current defect evidence, not a design decision
+
+The linked first-playtest report measured 56 selectable prompts (37 adult, 10 child, 9 teen) and 208 answers. Three opening questions per age are fixed. Its simulations measured age checks only for those first three: every sampled age-10 short run later reached an adult partner/job question. It reports that the existing answers update a hidden player estimate and two generated-family leans, **not character traits**. One long route can present two imagined partners, while a real playthrough gave an adult living alone a partner named Dana and a broken furnace. Only four questions put the respondent in a public decision and the five-question route does not reach any. The report also finds repeated answers with the same meaning and a “skip” instruction with no skip button. These defects call for a structural rebuild and ordinary-player retest; another wording pass over the same scripts is insufficient.
+
+## Provisional-world idea: open boundary
+
+The owner floated this possibility on September 22: generate a world provisionally and let answers further change its seed. This is **tentative**, not approval to change committed world history. Engineering should assess it against deterministic replay and immutable person identity. If an answer regenerates family, household or job facts after a question has named them, that question can become false retroactively. A safe design must keep every fact used in a question stable through final creation, or keep such questions explicitly hypothetical and biography-free. Present a concrete flow for owner review only if a world/seed change is needed; do not silently keep the current hidden parent-age and sibling-order shifts as an accepted requirement.
+
+## Acceptance evidence for the eventual implementation
+
+1. Test a child, teenager and adult in different places and households. No prompt asserts an unrecorded person, possession or authority; no adult job or partner question reaches a child.
+2. Start both modes and skip calibration. A short path can reach a clear public-role tension; the adaptive path branches after materially different answers and does not exhaust the full bank by rote.
+3. At least one “neither” answer leads to a distinct clarification rather than the next unrelated generic dilemma. Answer choices in each question do different things.
+4. Separate traces show what a setup answer did to Pennywise evidence, what it offered for the character to confirm, and what it did **not** write to biography. Pennywise remains hidden in normal play; later enacted behavior can change the estimate.
+5. A saved and reopened life retains the chosen character starting profile, the world facts and the later adaptive behavior. No question manufactures a punishing event. The actual player can see an ordinary life alongside difficult choices.
+
+## Evidence
+
+- First-playtest report with all 56 questions verbatim: [The “Who are you?” questions still open on Dana's furnace](https://docs.google.com/document/d/1FE_l6QOWc9FfqILYQgDt28XB6zEHCeQ6yrLbWz91Zno/edit).
+- Owner's September 20 chat is in `ChatGPT-Review modular generation!-20260921-0050.json`, user prompts at 6:00:55 and 6:22:23 p.m.; it says a 50-question pool, ten possible openers and branching, and critiques ten proposed questions. Those chat messages are owner direction; the assistant's candidate questions were drafts, not accepted as a bank.
+- `docs/60D-our-civic-duty-engine-and-systems-field-guide.md`, chapter 6, distinguishes Pennywise from the character and gives the current evidence/selection model. This is a description of its then-current system, not authorization for the defective first three questions to remain fixed.
+- September 22 owner correction in this CTO conversation: optional calibration, possible starting traits/world views, difficult decisions informed by prior ones without a punishment engine; a provisional world/seed idea was floated, not finalized.

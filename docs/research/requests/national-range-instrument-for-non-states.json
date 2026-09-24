@@ -20,11 +20,11 @@
   "lane": "nationwide coverage",
   "notes": [
     "Current state, measured rather than assumed, because the question reads differently depending on the answer. Neither jurisdiction is currently governed by the national range, because the national range is not built: it is the owner's stated policy and has no implementation. DC today refuses candidacy for both chambers on a missing minimum age; Puerto Rico is not in the coverage report at all. That makes this a decision taken before the wrong rules exist rather than a correction after, which is the cheap end of it. It also names the live risk: the one generated-rule instrument that does exist is gated on a fifty-key state list, so a range built on the same gate would silently leave both jurisdictions permanently refused, and nothing would report that as a gap.",
-    "Filed deliberately as a design question rather than an engineering one. Whether a territory should be simulated by interpolation from states is a judgement about what the game is meant to cover, not something that can be settled by reading our own code.",
+    "Filed deliberately as a design question rather than an engineering one. Whether a territory should be simulated by interpolation from states is a judgment about what the game is meant to cover, not something that can be settled by reading our own code.",
     "The engineering half is separable and is ours: the code seats 52 jurisdictions and every document says 51. That is a correction to make regardless of how this is answered, and it does not wait on this.",
     "How this was found is worth keeping. A lane's sweep walked a jurisdiction list somebody had typed from memory. The offered correction was to add DC by hand, which would have produced a list that looked complete and still had no Puerto Rico in it. Deriving the list from the code instead found the real count. The derived list was larger than the authored one, which is the second time tonight that has been true in this area.",
     "Real law always overrides a generated range, per the owner's standing rule, so a decision to read either jurisdiction's actual law is compatible with everything already built and needs no new mechanism.",
-    "Two candidate answers are offered below so there is something to react to. Neither is recommended. This is a product judgement about what the game claims to cover, and it is the owner's call, not ours."
+    "Two candidate answers are offered below so there is something to react to. Neither is recommended. This is a product judgment about what the game claims to cover, and it is the owner's call, not ours."
   ],
   "priority": "P1",
   "question": "The game generates rules for an unresearched jurisdiction by drawing from the range the read states span, which varies state to state and stays stable per state across saves. That instrument was derived from states. Two of the jurisdictions the game actually seats are not states: the District of Columbia, governed by a Mayor and a Council and sending a Delegate rather than members, and Puerto Rico, whose legislature does not resemble the state legislatures the range was read from and which sends a Resident Commissioner. So: should either of them be governed by the national range at all? If not, what instrument is right for each — a separately read set of real rules, a range drawn from a different comparison group, or an explicit refusal to generate until somebody reads their actual law? And if the range is kept for one of them, what should it be ranged over, given that the thing being interpolated is not the thing the endpoints were measured from?",
@@ -47,7 +47,7 @@
     },
     {
       "source": "src/presentation/world-orientation.ts, NON_STATE_NAMES and NON_VOTING_DISTRICT",
-      "whatItDidNotSettle": "Shows the presentation layer already knows DC and PR are not states and labels their House seats as Delegate and Resident Commissioner. Establishes that the distinction exists at the surface; does not establish that the rule generator honours it."
+      "whatItDidNotSettle": "Shows the presentation layer already knows DC and PR are not states and labels their House seats as Delegate and Resident Commissioner. Establishes that the distinction exists at the surface; does not establish that the rule generator honors it."
     },
     {
       "source": "docs/systems/nationwide-rule-coverage.json, read on claude/congress-factions-cg1u98 at 05dc90a0, plus a grep for the range instrument across src/ and docs/",
@@ -65,6 +65,6 @@
     ],
     "answeredBy": "ChatGPT",
     "answeredAt": "2026-09-22T17:39:00.000Z",
-    "stillOpen": "Status 'resolved-architecture-factual-rows-remain'; receiver: existing nationwide/government owner. Puerto Rico's factual office and qualification rows are still owed by puerto-rico-government-and-municipios.\n\nScope limits of the whole DEPTH1 batch, in its own words: evidenceStatus \"read-source-and-research-not-production-test\"; its 12 passing tests are \"research structure and isolated arithmetic only; NOT repository/game tests\"; it read source at main 4965f63c and the 16:34Z render (22 open), not the 15 questions filed since. Any number in it is \"labelled, adjustable private-playtest calibration\", not an empirical fact or an exact number chosen by lamontae. The Acceptance paragraph is a test somebody still has to write, not one that ran."
+    "stillOpen": "Status 'resolved-architecture-factual-rows-remain'; receiver: existing nationwide/government owner. Puerto Rico's factual office and qualification rows are still owed by puerto-rico-government-and-municipios.\n\nScope limits of the whole DEPTH1 batch, in its own words: evidenceStatus \"read-source-and-research-not-production-test\"; its 12 passing tests are \"research structure and isolated arithmetic only; NOT repository/game tests\"; it read source at main 4965f63c and the 16:34Z render (22 open), not the 15 questions filed since. Any number in it is \"labeled, adjustable private-playtest calibration\", not an empirical fact or an exact number chosen by lamontae. The Acceptance paragraph is a test somebody still has to write, not one that ran."
   }
 }

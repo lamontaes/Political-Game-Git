@@ -1,30 +1,7 @@
 /** Development-time authored-copy checks, not a simulation or grounding rule. */
-const queueIdiom = /\bqueue(d|ing|s)?\b/i;
+import { BRITISH_IDIOM, queueIdiom } from "./british-idiom.mjs";
 
-export const BRITISH_IDIOM: readonly { pattern: RegExp; instead: string }[] = [
-  { pattern: /\bprogrammes?\b/i, instead: "program(s)" },
-  { pattern: /£/, instead: "$" },
-  { pattern: /\bcouncillors?\b/i, instead: "council member(s)" },
-  { pattern: /\blorr(y|ies)\b/i, instead: "truck / trucks" },
-  { pattern: /\bwhilst\b/i, instead: "while" },
-  { pattern: /\bamongst\b/i, instead: "among" },
-  { pattern: /\bfortnights?\b/i, instead: "two weeks" },
-  { pattern: /\bcatchment\b/i, instead: "attendance zone" },
-  { pattern: /\bthe bins\b/i, instead: "the trash cans" },
-  { pattern: /\bcar parks?\b/i, instead: "parking lot(s)" },
-  { pattern: /\bpetrol\b/i, instead: "gas" },
-  { pattern: /\bpavements?\b/i, instead: "sidewalk(s)" },
-  { pattern: /\bmaths\b/i, instead: "math" },
-  { pattern: /\bchemist's\b/i, instead: "pharmacy" },
-  { pattern: /\bsolicitors?\b/i, instead: "lawyer(s)" },
-  {
-    pattern: /\bcentral ministry\b/i,
-    instead: "a named federal or state agency",
-  },
-  { pattern: /\bpostcodes?\b/i, instead: "ZIP code(s)" },
-  { pattern: /\bnappies\b/i, instead: "diapers" },
-  { pattern: queueIdiom, instead: "line / lined up" },
-];
+export { BRITISH_IDIOM };
 
 export type CopyField = {
   path: string;

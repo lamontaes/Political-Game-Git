@@ -22,7 +22,7 @@ import type { IsoDate } from "../types";
  * - What it does is calibrate the game's own disclosed profile, so New
  *   Hampshire and Vermont run two-year terms rather than inheriting a
  *   four-year default nobody read. The rule the game applies stays a
- *   game profile, labelled as one, and carries this row as its calibration.
+ *   game profile, labeled as one, and carries this row as its calibration.
  *
  * `officeKind` keeps the District of Columbia from being a fifty-first
  * governor: its chief executive is a mayor, under its own Code.

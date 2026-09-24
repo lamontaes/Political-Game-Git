@@ -81,7 +81,7 @@ export function programConfigurations(): readonly {
 /**
  * Every standing authority the bank declares, across all families.
  *
- * These are the programmes this state is fictionally assumed already to run.
+ * These are the programs this state is fictionally assumed already to run.
  * They are what makes an appropriation or a repeal playable before the player
  * has authorized anything themselves, and they are read from the bank rather
  * than invented by whichever surface needed one.

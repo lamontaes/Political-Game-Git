@@ -57,7 +57,7 @@ describe("Canonical JSON", () => {
     // Not finite, so not representable.
     expect(canonicalJson(Number.NaN)).toBe("null");
     expect(canonicalJson(Number.POSITIVE_INFINITY)).toBe("null");
-    // Honoured, so a Date is its ISO string in both.
+    // Honored, so a Date is its ISO string in both.
     const date = new Date("2026-05-01T10:00:00.000Z");
     expect(canonicalJson({ at: date })).toBe(JSON.stringify({ at: date }));
   });

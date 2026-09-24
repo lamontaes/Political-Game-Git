@@ -8,7 +8,7 @@ title: A commitment you have no way to carry out can now be given up
 Committing a campaign week booked sessions at places the life had no authored
 way of reaching. The calendar was right to refuse to carry them out, and time
 was right to refuse to step over a commitment that had been confirmed rather
-than pencilled in. Together those two correct rules left no legal move at all:
+than penciled in. Together those two correct rules left no legal move at all:
 the clock stopped on the morning the week was committed and never moved again,
 for the rest of that life.
 

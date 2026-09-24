@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-23T01:00:00.000Z",
+  "impact": "blocks-work",
+  "lane": "modular legislation",
+  "priority": "P0",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "modular legislation thread, from lamontae's message of 2026-09-22 8:53 p.m. Eastern",
+  "notes": [
+    "Answer as one set covering 56 places: the 50 states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, plus federal taxes.",
+    "Rules only, never observations. Mark anything not found as UNKNOWN rather than borrowing another place's rule."
+  ],
+  "readFirst": {
+    "saidAt": "2026-09-23T00:53:27.000Z",
+    "saidBy": "lamontae",
+    "words": "EVERY BILL NEEDS TO HAVE AN IMPACT. refer to chatgpt.same with 2. 3 obviously everyone should. 4 fix and refer"
+  },
+  "questionId": "where-each-place-stands-on-each-policy-question",
+  "title": "Where each state and territory stands today on each policy question the game asks",
+  "question": "For each of the 56 places and each policy question in the game's state-and-local catalog (127 issues, docs and src/simulation/policy-pack-us-state-and-local.ts) and federal catalog (src/simulation/policy-pack-us-federal.ts): what the law currently in force answers, yes, no, or partly, with the statute or constitutional provision and its effective date. Where a question is decided locally, say whether the state leaves it to local governments, preempts it, or has no rule. Mark anything not found as UNKNOWN; do not fill a gap from another place.",
+  "usableAnswer": "One row per place per question: current answer (yes, no, partly with what part), the provision and effective date, whether it is preempted or left local, and an evidence status.",
+  "whyItMatters": "A passed bill will now record where its state stands on the question it answers, so the next bill, the members and the voters can read the law in force. A game opens with no such record, so every place starts as UNKNOWN until this answer seeds it; without it the first bill on any question would pretend nothing was law before it.",
+  "relatedQuestionIds": [
+    "what-each-level-of-government-may-legislate",
+    "policy-issue-taxonomy-state-and-local"
+  ],
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/legislation.ts measurePropositions at main",
+      "whatItDidNotSettle": "A measure lists which questions it is about; nothing records which way any law in force answers them."
+    }
+  ]
+}

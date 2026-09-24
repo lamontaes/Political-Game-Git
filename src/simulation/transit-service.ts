@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   TRANSIT_METRIC_INPUT,
   TRANSIT_MECHANISM_INPUT,
@@ -640,7 +641,7 @@ export function deliverTransitStage(
     personId,
     eventId,
     learnedAt: next.currentDate,
-    believedSummary: next.history.events.find((e) => e.id === eventId)!.summary,
+    believedSummary: eventById(next, eventId)!.summary,
     accuracy: "accurate",
     confidence: "high",
     source: { kind: "direct" },
@@ -691,7 +692,7 @@ export function cancelTransitImplementation(
       effectiveAt: next.currentDate,
       reasonKey: "transit:sponsor-cancelled",
       context:
-        "Cancelled undelivered service only; prior payments and delivered hours stand.",
+        "Canceled undelivered service only; prior payments and delivered hours stand.",
     });
   next = recordWorldEvent(next, {
     stableKey: `${requestKey(measure.id)}:cancel`,
@@ -708,14 +709,14 @@ export function cancelTransitImplementation(
       {
         personId: input.personId,
         role: "agency:transit-cancellation",
-        detail: "Cancelled undelivered periods.",
+        detail: "Canceled undelivered periods.",
       },
     ],
     personFactConstraints: [],
     visibility: "private",
     tags: ["transit.cancellation"],
     summary:
-      "Undelivered transit service was cancelled. Prior completed payments and vehicle-service hours remain in history.",
+      "Undelivered transit service was canceled. Prior completed payments and vehicle-service hours remain in history.",
     context: {
       location: null,
       socialContext: "Transit cancellation",
@@ -792,7 +793,7 @@ export function publishTransitReport(
   world: World,
   input: { readonly eventId: EntityId; readonly personId: EntityId },
 ): World {
-  const event = world.history.events.find((e) => e.id === input.eventId);
+  const event = eventById(world, input.eventId);
   if (
     !event ||
     ![

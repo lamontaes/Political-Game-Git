@@ -144,6 +144,8 @@ export interface SceneAnswer {
   readonly label: string;
   readonly description: string;
   readonly truthIntent?: ChoiceTruthIntent;
+  /** Key of the truthful reply this deliberate lie can replace. */
+  readonly lieVariantOf?: string;
   /** A question that does not end the exchange. */
   readonly followUp?: boolean;
   /** The player's exact words. */
@@ -187,7 +189,7 @@ export interface SceneFamilyDefinition {
   settled(context: SceneContext, answer: string | null): string;
   /**
    * Whether an unanswered scene still describes the world. A scene whose
-   * event was cancelled, or whose request was answered elsewhere, is not
+   * event was canceled, or whose request was answered elsewhere, is not
    * offered.
    */
   relevant?(world: World, bound: BoundScene): boolean;
@@ -511,7 +513,9 @@ export function contextualSubjectPresentation(): ContextualSubjectPresentation {
         key: answer.key,
         label: answer.label,
         description: answer.description,
+        spokenWords: answer.statement,
         ...(answer.truthIntent ? { truthIntent: answer.truthIntent } : {}),
+        ...(answer.lieVariantOf ? { lieVariantOf: answer.lieVariantOf } : {}),
       }));
     },
     openingBeat(world, _room, _addressee, progress) {

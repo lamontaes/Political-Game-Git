@@ -40,7 +40,7 @@ uses the World's own `ageOnDate`.
 
 The body layer now renders 285px wide where it rendered 323px before. The fit
 was applying two independent scales, stretching every figure 13% wider than
-its own proportions — so every judgement about whether a body or a garment
+its own proportions — so every judgment about whether a body or a garment
 read correctly was being made through a squash. There is one scale now, taken
 from height, anchored on the contact point.
 

@@ -64,7 +64,7 @@ remain distinct from context binding and actual player reachability. Two compile
 jurisdiction-authority rows remain withheld pending authoritative adapters.
 
 LEARN: a compiled-bank binding proof is not a normal-play integration proof.
-The explicitly labelled review fixture and disabled normal-entry constant make
+The explicitly labeled review fixture and disabled normal-entry constant make
 that distinction durable; the handoff lists entry, producer and registration
 requirements instead of claiming an unavailable route is accepted.
 

@@ -2,6 +2,31 @@ import {
   generateContextualCharacterHistory,
   type EarlierLifeGenerationVersion,
 } from "../simulation/contextual-character-history";
+import {
+  CHILDHOOD_GENERATION_V2,
+  type ChildhoodGenerationVersion,
+} from "../simulation/character-history";
+import { COUPLE_KIND } from "../simulation/couples";
+import { recordPartnershipState } from "../simulation/life";
+import { partnershipStateHistory } from "../simulation/life-queries";
+import { residentNameForJurisdiction } from "../simulation/life-places";
+import { defaultPronounsForGender } from "../simulation/person-identity";
+import {
+  SCHOOL_STAGES_V1,
+  scheduleSchoolStageEnd,
+  type SchoolStageKey,
+  type SchoolStageVersion,
+  SCHOOL_STAGES_V2,
+  scheduleSchoolStageBegin,
+  schoolStageCalendarEnd,
+  schoolStageCalendarStart,
+  schoolStageToday,
+} from "../simulation/school-stages";
+import {
+  generateSchoolNames,
+  stateUsps,
+  type SchoolNameVersion,
+} from "../simulation/school-names";
 import { LEGACY_COHERENT_CATALOG_GENERATION } from "../simulation/person-appearance";
 import {
   guardianAgeBand,
@@ -20,7 +45,9 @@ import {
   drawCanonicalNameForGender,
   generatePersonIdentity,
   generateQuickCharacterHistory,
+  COHORT_GIVEN_NAME_GENERATION_VERSION,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
+  withBirthCohortGivenNames,
   personName,
   recordWorldEvent,
   recordPersonDeath,
@@ -30,6 +57,7 @@ import {
 import { establishLifePersonality } from "../simulation/life-personality";
 import type {
   CharacterHistoryTransition,
+  DistrictHomeJoinVersion,
   EntityId,
   GivenNameGenerationVersion,
   IsoDate,
@@ -128,7 +156,50 @@ export interface ProductionWorldInput {
   readonly givenNameGenerationVersion?: GivenNameGenerationVersion;
   /** Absent preserves the original school/work history in replay descriptors. */
   readonly earlierLifeGenerationVersion?: EarlierLifeGenerationVersion;
+  /** Absent keeps an old replay's childhood birth dates and school name. */
+  readonly childhoodGenerationVersion?: ChildhoodGenerationVersion;
+  /** Absent keeps an old replay's school names (the v1 draw). */
+  readonly schoolNameVersion?: SchoolNameVersion;
+  /** Absent keeps an old replay's child in the school they started at. */
+  readonly schoolStageVersion?: SchoolStageVersion;
+  /** Absent keeps an old replay's home join to the state chambers. */
+  readonly districtHomeJoinVersion?: DistrictHomeJoinVersion;
+  /** Absent keeps an old replay's family, every one born on the player's birthday. */
+  readonly familyBirthdayVersion?: FamilyBirthdayVersion;
+  /** Absent keeps an old replay's parents unlinked to each other. */
+  readonly parentPartnerVersion?: ParentPartnerVersion;
 }
+
+/**
+ * The family, housemates and classmates a start writes used to share the
+ * player's birthday: each was born a whole number of years before or after
+ * them, to the day. Under this version each has a birthday of their own, up
+ * to half a year either side, drawn apart from every other draw so the rest
+ * of the family comes out the same. A brother or sister only ever moves
+ * further from the player, never closer.
+ */
+export const FAMILY_BIRTHDAYS_V1 = "family-birthdays-v1" as const;
+export type FamilyBirthdayVersion = typeof FAMILY_BIRTHDAYS_V1;
+
+/**
+ * A child's two parents used to have nothing between them on the record, and
+ * each was drawn a man or a woman on their own, so half of all pairs came out
+ * two men or two women. Under this version:
+ *
+ * 1. Two parents raising the child together are a couple.
+ * 2. A parent who died before the life began was the living parent's partner
+ *    until then.
+ * 3. A parent who lives elsewhere is claimed to be nothing to the other: the
+ *    record does not know whether they ever were.
+ * 4. The second parent is drawn opposite the first, save a small share of
+ *    same-sex couples. Somebody drawn nonbinary keeps that draw.
+ *
+ * PLACEHOLDER, NOT RESEARCHED: the same-sex share, and that a parent who died
+ * had been the other's partner. Filed as `who-a-childs-parents-were-to-each-other`.
+ */
+export const PARENT_PARTNERS_V1 = "parent-partners-v1" as const;
+export type ParentPartnerVersion = typeof PARENT_PARTNERS_V1;
+const SAME_SEX_PARENT_SHARE = 0.01;
 
 export interface ProductionWorld {
   readonly world: World;
@@ -140,6 +211,16 @@ export interface ProductionWorld {
 export const DEPENDENT_AGE_CEILING = 18;
 /** The age the game assumes ordinary schooling has begun by. */
 const SCHOOL_ENTRY_AGE = 5;
+const STAGE_ENTRY_AGE: Record<SchoolStageKey, number> = {
+  elementary: SCHOOL_ENTRY_AGE,
+  middle: 11,
+  high: 14,
+};
+const STAGE_CONTEXT = {
+  elementary: "stage:primary",
+  middle: "stage:primary",
+  high: "stage:secondary",
+} as const;
 
 const PROVENANCE = {
   kind: "generated" as const,
@@ -227,6 +308,11 @@ export function buildProductionWorld(
     input.familyStructureSeed ?? input.seed,
     input.givenNameGenerationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
     input.earlierLifeGenerationVersion,
+    input.childhoodGenerationVersion,
+    input.schoolNameVersion,
+    input.schoolStageVersion,
+    input.familyBirthdayVersion,
+    input.parentPartnerVersion,
   );
   if (input.startingLife === "legislative-office") {
     world = employInLegislativeOffice(world, player.id, place);
@@ -246,7 +332,11 @@ export function buildProductionWorld(
     });
   }
   world = { ...world, control: { kind: "person", personId: player.id } };
-  world = syncDistrictMembershipFromCanonicalHome(world, player.id);
+  world = syncDistrictMembershipFromCanonicalHome(
+    world,
+    player.id,
+    input.districtHomeJoinVersion,
+  );
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
 }
@@ -324,9 +414,32 @@ function establishAgeEligibleState(
   familyStructureSeed: string,
   givenNameGenerationVersion: GivenNameGenerationVersion,
   earlierLifeGenerationVersion?: EarlierLifeGenerationVersion,
+  childhoodGenerationVersion?: ChildhoodGenerationVersion,
+  schoolNameVersion?: SchoolNameVersion,
+  schoolStageVersion?: SchoolStageVersion,
+  familyBirthdayVersion?: FamilyBirthdayVersion,
+  parentPartnerVersion?: ParentPartnerVersion,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
+  /**
+   * Born `years` before the player (after them, when negative), on a birthday
+   * of their own under the family-birthday version. `awayFrom` keeps a
+   * sibling on their side of the player, only ever further away.
+   */
+  const bornBefore = (
+    key: string,
+    years: number,
+    awayFrom = false,
+  ): IsoDate => {
+    const date = yearsBefore(player.birthDate, years);
+    if (familyBirthdayVersion !== FAMILY_BIRTHDAYS_V1) return date;
+    const drawn = new SeededRng(world.seed)
+      .fork(`${key}:birthday`)
+      .integer(-182, 183);
+    const shift = awayFrom ? (years > 0 ? -1 : 1) * Math.abs(drawn) : drawn;
+    return addDays(date, shift);
+  };
   const dependent = age < DEPENDENT_AGE_CEILING;
   const stableKey = "production:initial-life";
   const householdKey = `${stableKey}:household`;
@@ -374,7 +487,7 @@ function establishAgeEligibleState(
     // An adult gets their earlier life written down whichever depth was
     // chosen, because for an adult there is nothing left to play: the depth
     // option decides whether a *child* plays their formative years, and
-    // honouring it literally here left a thirty-six-year-old alone in an
+    // honoring it literally here left a thirty-six-year-old alone in an
     // otherwise empty world, with no history and nobody to talk to.
     //
     // The childhood comes first, so the household they live in today is the
@@ -389,6 +502,8 @@ function establishAgeEligibleState(
       jurisdictionId,
       givenNameGenerationVersion,
       earlierLifeGenerationVersion,
+      childhoodGenerationVersion,
+      schoolNameVersion,
     );
     transitions.push({
       kind: "household-membership",
@@ -423,7 +538,7 @@ function establishAgeEligibleState(
             stableKey: otherKey,
             ...otherName,
             identity: generatedIdentityFor(world.seed, otherKey),
-            birthDate: yearsBefore(player.birthDate, rng.integer(-6, 7)),
+            birthDate: bornBefore(otherKey, rng.integer(-6, 7)),
             homeJurisdictionId: jurisdictionId,
           },
         },
@@ -446,7 +561,12 @@ function establishAgeEligibleState(
       stableKey,
       mode: "quick-generated",
       personId: player.id,
-      transitions,
+      transitions: cohortNamed(
+        withEarlierLife,
+        player,
+        transitions,
+        givenNameGenerationVersion,
+      ),
     }).world;
     if (
       earlierLifeGenerationVersion !== "context-v2" ||
@@ -506,9 +626,43 @@ function establishAgeEligibleState(
   // as it has always been; a calibration that leaned toward keeping the ground
   // firm moves both ends later and one that leaned toward disruption moves them
   // earlier. The generator still draws. See `setup-generation-inputs.ts`.
+  const partnered =
+    parentPartnerVersion === PARENT_PARTNERS_V1 && familyShape !== "guardian";
+  /**
+   * A parent other than the guardian: drawn on their own key as before, then
+   * under the partner version set opposite the guardian, save the same-sex
+   * share. A nonbinary draw on either side is kept.
+   */
+  const parentIdentity = (key: string): PersonIdentity => {
+    const drawn = generatedIdentityFor(world.seed, key);
+    const first = generatedIdentityFor(world.seed, guardianKey).gender;
+    if (!partnered || drawn.gender === "nonbinary" || first === "nonbinary")
+      return drawn;
+    const sameSex =
+      new SeededRng(world.seed).fork(`${key}:same-sex`).next() <
+      SAME_SEX_PARENT_SHARE;
+    const gender = sameSex ? first : first === "female" ? "male" : "female";
+    return { gender, pronouns: defaultPronounsForGender(gender) };
+  };
+  /**
+   * The two parents as a couple. The record cannot say when they got
+   * together; the earliest date it can vouch for is the child's birth.
+   */
+  const parentsPartnership = (
+    otherId: EntityId,
+  ): CharacterHistoryTransition => ({
+    kind: "partnership",
+    input: {
+      stableKey: `${stableKey}:partnership:parents`,
+      personIds: [guardianId, otherId],
+      startedAt: player.birthDate,
+      kind: COUPLE_KIND,
+      provenance: PROVENANCE,
+    },
+  });
   const [guardianAgeFloor, guardianAgeCeiling] = guardianAgeBand(generation);
-  const guardianBirthDate = yearsBefore(
-    player.birthDate,
+  const guardianBirthDate = bornBefore(
+    guardianKey,
     rng.integer(guardianAgeFloor, guardianAgeCeiling),
   );
 
@@ -611,7 +765,7 @@ function establishAgeEligibleState(
     // the candidates sit on is tilted by the care lean; the pick is still the
     // generator's.
     const yearsApart = rng.pick([...siblingAgeGaps(generation)]);
-    const siblingBirthDate = yearsBefore(player.birthDate, yearsApart);
+    const siblingBirthDate = bornBefore(siblingKey, yearsApart, true);
     // A record cannot predate either person in it, so a sibling born after the
     // player establishes the kinship on the day the younger of them arrived.
     const siblingKinshipDate =
@@ -683,9 +837,10 @@ function establishAgeEligibleState(
     const otherKey = `${stableKey}:second-parent`;
     const otherId = characterHistoryContextPersonId(world, otherKey);
     const otherRng = new SeededRng(world.seed).fork(otherKey);
+    const secondParentIdentity = parentIdentity(otherKey);
     const secondParentName = drawCanonicalNameForGender(
       otherRng,
-      generatedIdentityFor(world.seed, otherKey).gender,
+      secondParentIdentity.gender,
       undefined,
       givenNameGenerationVersion,
       spokenFor,
@@ -697,8 +852,8 @@ function establishAgeEligibleState(
         input: {
           stableKey: otherKey,
           ...secondParentName,
-          identity: generatedIdentityFor(world.seed, otherKey),
-          birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
+          identity: secondParentIdentity,
+          birthDate: bornBefore(otherKey, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
         },
       },
@@ -738,6 +893,7 @@ function establishAgeEligibleState(
         },
       },
     );
+    if (partnered) transitions.push(parentsPartnership(otherId));
   }
 
   // Fictional starting circumstances are independent of identity and setup priors.
@@ -752,9 +908,10 @@ function establishAgeEligibleState(
   const otherParentId = characterHistoryContextPersonId(world, otherParentKey);
   if (otherParentState !== "unrecorded") {
     const otherRng = new SeededRng(world.seed).fork(otherParentKey);
+    const otherParentIdentity = parentIdentity(otherParentKey);
     const otherParentName = drawCanonicalNameForGender(
       otherRng,
-      generatedIdentityFor(world.seed, otherParentKey).gender,
+      otherParentIdentity.gender,
       undefined,
       givenNameGenerationVersion,
       spokenFor,
@@ -766,8 +923,8 @@ function establishAgeEligibleState(
         input: {
           stableKey: otherParentKey,
           ...otherParentName,
-          identity: generatedIdentityFor(world.seed, otherParentKey),
-          birthDate: yearsBefore(player.birthDate, otherRng.integer(24, 41)),
+          identity: otherParentIdentity,
+          birthDate: bornBefore(otherParentKey, otherRng.integer(24, 41)),
           homeJurisdictionId: jurisdictionId,
         },
       },
@@ -782,6 +939,8 @@ function establishAgeEligibleState(
         },
       },
     );
+    if (partnered && otherParentState === "deceased")
+      transitions.push(parentsPartnership(otherParentId));
   }
 
   // `context-v2` declines to assume a school in an ADULT's summarized past,
@@ -791,22 +950,65 @@ function establishAgeEligibleState(
   // biography. Gating this on the version left a ten-year-old with no
   // enrollment, so `in-school` did not hold, every early.school and early.peer
   // opening became ineligible, and the town had no school in it.
+  //
+  // Under the school-stage repair the child also moves on through school
+  // while the game is played: the schools of the stages still ahead are in
+  // town already, and the end of the stage the child is in now is scheduled
+  // once the plan is applied.
+  let advancing: { readonly stage: SchoolStageKey } | null = null;
+  let waiting = false;
   if (age >= SCHOOL_ENTRY_AGE) {
     const schoolKey = `${stableKey}:school`;
+    // Under v2 the stage, and every date, comes from the school calendar
+    // rather than from birthdays; past the end of high school it keeps the
+    // v1 reading, as a seventeen-year-old in school is not a claim to undo.
+    const today =
+      schoolStageVersion === SCHOOL_STAGES_V2 &&
+      childhoodGenerationVersion === CHILDHOOD_GENERATION_V2
+        ? schoolStageToday(world, player.id)
+        : "after";
+    const onCalendar = today !== "after";
+    const calendarStage = today === "before" ? "elementary" : today;
+    const schooling = childSchooling(
+      world,
+      place,
+      jurisdictionId,
+      calendarStage === "after" ? age : STAGE_ENTRY_AGE[calendarStage],
+      childhoodGenerationVersion,
+      schoolNameVersion,
+    );
     // The world does not know when the school was founded, and does not
     // pretend to: the earliest date it can honestly claim the school existed
-    // is the day this child started attending it.
-    const enrolledOn = dateAtAge(player.birthDate, SCHOOL_ENTRY_AGE);
+    // is the day this child started attending it. A child still waiting for
+    // the first day holds a place at a school that is there today.
+    const enrolledOn = onCalendar
+      ? schoolStageCalendarStart(world, player.id, schooling.current.key)
+      : dateAtAge(player.birthDate, schooling.current.entryAge);
+    waiting = enrolledOn > world.currentDate;
+    const contextKind = onCalendar
+      ? STAGE_CONTEXT[schooling.current.key]
+      : age >= 14
+        ? "stage:secondary"
+        : "stage:primary";
+    const expected = waiting ? { initialStatus: "expected" as const } : {};
     transitions.push(
+      ...earlierSchooling(
+        world,
+        player,
+        stableKey,
+        jurisdictionId,
+        schooling,
+        onCalendar,
+      ),
       {
         kind: "organization",
         input: {
           stableKey: schoolKey,
-          formedAt: enrolledOn,
+          formedAt: waiting ? world.currentDate : enrolledOn,
           provenance: PROVENANCE,
           initialProfile: {
-            name: `${place.displayName} public school`,
-            classification: "sector:education",
+            name: schooling.current.name,
+            classification: "service:school",
             locationJurisdictionId: jurisdictionId,
           },
         },
@@ -818,12 +1020,35 @@ function establishAgeEligibleState(
           personId: player.id,
           organizationId: organizationIdFor(world.id, schoolKey),
           startedAt: enrolledOn,
+          ...expected,
           programKind: "schooling:general",
-          contextKind: age >= 14 ? "stage:secondary" : "stage:primary",
+          contextKind,
           provenance: PROVENANCE,
         },
       },
     );
+
+    if (
+      (schoolStageVersion === SCHOOL_STAGES_V1 ||
+        schoolStageVersion === SCHOOL_STAGES_V2) &&
+      childhoodGenerationVersion === CHILDHOOD_GENERATION_V2
+    ) {
+      advancing = { stage: schooling.current.key };
+      for (const stage of schooling.later)
+        transitions.push({
+          kind: "organization",
+          input: {
+            stableKey: `${schoolKey}:${stage.key}`,
+            formedAt: world.currentDate,
+            provenance: PROVENANCE,
+            initialProfile: {
+              name: stage.name,
+              classification: "service:school",
+              locationJurisdictionId: jurisdictionId,
+            },
+          },
+        });
+    }
 
     // Two other children at the same school.
     //
@@ -850,7 +1075,7 @@ function establishAgeEligibleState(
             stableKey: classmateKey,
             ...classmateName,
             identity: generatedIdentityFor(world.seed, classmateKey),
-            birthDate: yearsBefore(player.birthDate, rng.integer(-1, 2)),
+            birthDate: bornBefore(classmateKey, rng.integer(-1, 2)),
             homeJurisdictionId: jurisdictionId,
           },
         },
@@ -861,8 +1086,9 @@ function establishAgeEligibleState(
             personId: characterHistoryContextPersonId(world, classmateKey),
             organizationId: organizationIdFor(world.id, schoolKey),
             startedAt: enrolledOn,
+            ...expected,
             programKind: "schooling:general",
-            contextKind: age >= 14 ? "stage:secondary" : "stage:primary",
+            contextKind,
             provenance: PROVENANCE,
           },
         },
@@ -870,17 +1096,59 @@ function establishAgeEligibleState(
     }
   }
 
-  const householdWorld = applyCharacterHistoryPlan(world, {
+  const planned = applyCharacterHistoryPlan(world, {
     stableKey,
     mode: "quick-generated",
     personId: player.id,
-    transitions,
+    transitions: cohortNamed(
+      world,
+      player,
+      transitions,
+      givenNameGenerationVersion,
+    ),
   }).world;
+  const householdWorld = !advancing
+    ? planned
+    : waiting
+      ? scheduleSchoolStageBegin(planned, {
+          schoolKey: `${stableKey}:school`,
+          personId: player.id,
+          stage: advancing.stage,
+          jurisdictionId,
+          dueAt: schoolStageCalendarStart(planned, player.id, advancing.stage),
+        })
+      : scheduleSchoolStageEnd(planned, {
+          schoolKey: `${stableKey}:school`,
+          personId: player.id,
+          stage: advancing.stage,
+          jurisdictionId,
+        });
+  const diedAt = addDays(world.currentDate, -1);
+  const partnership =
+    partnered && otherParentState === "deceased"
+      ? householdWorld.history.partnerships.find(
+          (row) => row.stableKey === `${stableKey}:partnership:parents`,
+        )
+      : undefined;
+  // The couple ended with the death, not before it.
+  const widowed = partnership
+    ? recordPartnershipState(householdWorld, {
+        stableKey: `${stableKey}:partnership:parents:ended`,
+        partnershipId: partnership.id,
+        effectiveAt: diedAt,
+        status: "ended",
+        provenance: PROVENANCE,
+        supersedesStateId: partnershipStateHistory(
+          householdWorld,
+          partnership.id,
+        ).at(-1)!.id,
+      })
+    : householdWorld;
   return otherParentState === "deceased"
-    ? recordPersonDeath(householdWorld, {
+    ? recordPersonDeath(widowed, {
         stableKey: `${otherParentKey}:death`,
         personId: otherParentId,
-        diedAt: addDays(world.currentDate, -1),
+        diedAt,
         causeKey: "cause:unknown",
         sourceEntityIds: [otherParentId],
         summary:
@@ -890,7 +1158,7 @@ function establishAgeEligibleState(
           note: "Fictional starting family history; no empirical mortality rate or inferred cause.",
         },
       })
-    : householdWorld;
+    : widowed;
 }
 
 const OFFICE_HOURS = {
@@ -974,21 +1242,33 @@ function summarizeEarlierLife(
   jurisdictionId: EntityId,
   givenNameGenerationVersion: GivenNameGenerationVersion,
   version?: EarlierLifeGenerationVersion,
+  childhoodGenerationVersion?: ChildhoodGenerationVersion,
+  schoolNameVersion?: SchoolNameVersion,
 ): World {
   const stableKey = "production:earlier-life";
   const generateHistory =
     version === "context-v2"
       ? generateContextualCharacterHistory
       : generateQuickCharacterHistory;
-  const next = applyCharacterHistoryPlan(
-    world,
-    generateHistory(world, {
-      stableKey,
-      personId: player.id,
-      jurisdictionId,
+  const plan = generateHistory(world, {
+    stableKey,
+    personId: player.id,
+    jurisdictionId,
+    givenNameGenerationVersion,
+    ...(childhoodGenerationVersion === undefined
+      ? {}
+      : { childhoodGenerationVersion }),
+    ...(schoolNameVersion === undefined ? {} : { schoolNameVersion }),
+  });
+  const next = applyCharacterHistoryPlan(world, {
+    ...plan,
+    transitions: cohortNamed(
+      world,
+      player,
+      plan.transitions,
       givenNameGenerationVersion,
-    }),
-  ).world;
+    ),
+  }).world;
   return applyCharacterHistoryPlan(next, {
     stableKey: `${stableKey}:left-home`,
     mode: "quick-generated",
@@ -1039,6 +1319,156 @@ function summarizeEarlierLife(
  * silently pointing at nothing.
  */
 /** The same calendar year arithmetic the character-history writer uses. */
+/**
+ * The schools a child who starts in school has attended, up to the one they
+ * attend now. The legacy school was the place with "public school" after it
+ * ("Ely, Nevada public school"), attended since five, which is not what anybody
+ * calls a school. Under the childhood repair each stage is a generated name,
+ * drawn through the same generator and stem the summarized adult history uses
+ * so a town's schools read alike, at the ages that history uses: elementary
+ * school from five, middle school from eleven, high school from fourteen. A
+ * seventeen-year-old has finished the first two and is in the third.
+ */
+interface ChildSchoolStage {
+  readonly key: SchoolStageKey;
+  readonly name: string;
+  readonly entryAge: number;
+}
+
+function childSchooling(
+  world: World,
+  place: LifePlace,
+  jurisdictionId: EntityId,
+  age: number,
+  version: ChildhoodGenerationVersion | undefined,
+  schoolNameVersion: SchoolNameVersion | undefined,
+): {
+  readonly current: ChildSchoolStage;
+  readonly finished: readonly ChildSchoolStage[];
+  /** The stages still ahead, whose schools a child moves on to in play. */
+  readonly later: readonly ChildSchoolStage[];
+} {
+  if (version !== CHILDHOOD_GENERATION_V2) {
+    return {
+      current: {
+        key: "elementary",
+        name: `${place.displayName} public school`,
+        entryAge: SCHOOL_ENTRY_AGE,
+      },
+      finished: [],
+      later: [],
+    };
+  }
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  const names = generateSchoolNames(
+    new SeededRng(world.seed).fork("production-world-v1:child-school"),
+    residentNameForJurisdiction(
+      jurisdiction?.name ?? place.displayName,
+      jurisdiction?.parentName ?? null,
+    ),
+    schoolNameVersion,
+    { state: stateUsps(place.stateJurisdictionKey) },
+  );
+  const stages: readonly ChildSchoolStage[] = [
+    { key: "elementary", name: names.elementary, entryAge: SCHOOL_ENTRY_AGE },
+    { key: "middle", name: names.middle, entryAge: 11 },
+    { key: "high", name: names.high, entryAge: 14 },
+  ];
+  const reached = stages.filter((stage) => age >= stage.entryAge);
+  return {
+    current: reached.at(-1)!,
+    finished: reached.slice(0, -1),
+    later: stages.filter((stage) => age < stage.entryAge),
+  };
+}
+
+/**
+ * The schools a child finished before the one they attend now: each one
+ * attended from its entry age and completed the day the next began.
+ */
+function earlierSchooling(
+  world: World,
+  player: Person,
+  stableKey: string,
+  jurisdictionId: EntityId,
+  schooling: ReturnType<typeof childSchooling>,
+  onCalendar: boolean,
+): CharacterHistoryTransition[] {
+  const next = [...schooling.finished.slice(1), schooling.current];
+  return schooling.finished.flatMap((stage, index) => {
+    const schoolKey = `${stableKey}:school:${stage.key}`;
+    const enrollmentKey = `${stableKey}:enrollment:${stage.key}`;
+    const startedAt = onCalendar
+      ? schoolStageCalendarStart(world, player.id, stage.key)
+      : dateAtAge(player.birthDate, stage.entryAge);
+    return [
+      {
+        kind: "organization",
+        input: {
+          stableKey: schoolKey,
+          formedAt: startedAt,
+          provenance: PROVENANCE,
+          initialProfile: {
+            name: stage.name,
+            classification: "service:school",
+            locationJurisdictionId: jurisdictionId,
+          },
+        },
+      },
+      {
+        kind: "education",
+        input: {
+          stableKey: enrollmentKey,
+          personId: player.id,
+          organizationId: organizationIdFor(world.id, schoolKey),
+          startedAt,
+          programKind:
+            stage.key === "elementary"
+              ? "schooling:elementary"
+              : "schooling:middle",
+          contextKind:
+            stage.key === "elementary" ? "stage:elementary" : "stage:school",
+          provenance: PROVENANCE,
+        },
+      },
+      {
+        kind: "education-state",
+        input: {
+          stableKey: `${enrollmentKey}:completed`,
+          enrollmentStableKey: enrollmentKey,
+          effectiveAt: onCalendar
+            ? schoolStageCalendarEnd(world, player.id, stage.key)
+            : dateAtAge(player.birthDate, next[index]!.entryAge),
+          status: "completed",
+          contextKind:
+            stage.key === "elementary" ? "stage:elementary" : "stage:school",
+          reason:
+            stage.key === "elementary"
+              ? "Completed elementary school."
+              : "Completed the middle-school program.",
+          provenance: PROVENANCE,
+        },
+      },
+    ] satisfies CharacterHistoryTransition[];
+  });
+}
+
+/**
+ * Under the birth-year repair, the people a plan invents take given names that
+ * follow the year each was born. Every other version passes the plan through
+ * untouched, so an older replay rebuilds the household it described.
+ */
+function cohortNamed(
+  world: World,
+  player: Person,
+  transitions: readonly CharacterHistoryTransition[],
+  version: GivenNameGenerationVersion,
+): readonly CharacterHistoryTransition[] {
+  return version === COHORT_GIVEN_NAME_GENERATION_VERSION
+    ? withBirthCohortGivenNames(world.seed, transitions, [player.givenName])
+    : transitions;
+}
+
 function yearsBefore(date: IsoDate, years: number): IsoDate {
   return `${(Number(date.slice(0, 4)) - years).toString().padStart(4, "0")}${date.slice(4)}` as IsoDate;
 }

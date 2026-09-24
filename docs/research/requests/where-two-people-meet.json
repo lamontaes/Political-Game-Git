@@ -1,0 +1,29 @@
+{
+  "filedAt": "2026-09-23T01:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "personality and relationships",
+  "notes": [
+    "Today an agreed meeting is recorded as 'Arranged in person' with no place. Attending it asks for no journey and plays no scene, which fixed the owner's stuck Attend button but leaves the meeting placeless.",
+    "The world already has real places: the two homes, workplaces, schools, and venues from place records. An answer should choose among what exists, not invent venues.",
+    "Who picks, and whether it depends on how well they know each other, how far apart they live, and what the meeting is for (catching up, a favor, a date, business), is the question."
+  ],
+  "priority": "P2",
+  "question": "When two people agree to meet, where do they meet, and how should that be chosen from the places the world actually holds: the relationship, the distance between them, what the meeting is for, and the time of day?",
+  "questionId": "where-two-people-meet",
+  "relatedQuestionIds": ["listener-response-to-being-told"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "lamontae's live playtest, 2026-09-22: a meeting he arranged had nowhere to be; handed on by the playtest findings lane; filed under his 22:38Z rule 'i dont want depth to be invented'",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/people-contact.ts, answerContact",
+      "whatItDidNotSettle": "Writes every agreed meeting at CONTACT_LOCATION_KEY, labeled 'Arranged in person', with the asked person's home jurisdiction and no place."
+    },
+    {
+      "source": "src/presentation/venue-activity.ts, the metWhereverTheyMeet rule",
+      "whatItDidNotSettle": "Lets such a meeting be attended with no journey. It deliberately chooses no place, pending this."
+    }
+  ],
+  "title": "Where two people meet when they agree to",
+  "usableAnswer": "Rules for choosing the meeting place from real place kinds (either home, a workplace, a public venue kind such as a cafe, park, bar or place of worship), what selects among them, and whether the choice is ever negotiated. Behavior rather than frequencies where possible; if frequencies matter, say which are calibration.",
+  "whyItMatters": "A meeting with no place has no travel and no scene, so the player agrees to meet somebody and nothing is drawn. Choosing the place by hand would be invented depth, which the owner has ruled out."
+}

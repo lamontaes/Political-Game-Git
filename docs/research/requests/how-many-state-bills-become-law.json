@@ -1,0 +1,32 @@
+{
+  "filedAt": "2026-09-23T04:50:00.000Z",
+  "impact": "blocks-work",
+  "lane": "modular legislation",
+  "priority": "P0",
+  "requestVersion": "research-request/v1",
+  "questionId": "how-many-state-bills-become-law",
+  "title": "How many bills a state legislature introduces and enacts in a session, and where the rest die",
+  "question": "For U.S. state legislatures, per regular session: (1) how many bills and resolutions are introduced, and what share are enacted, in each of the 50 states (and D.C. Council acts), for the most recent sessions you can cite; (2) of the bills that do not become law, where do they stop: never heard in committee, reported unfavorably or held, passed one chamber only, failed on the floor, vetoed and not overridden; (3) how those shares differ under unified versus divided government, and in part-time versus full-time legislatures; (4) what share of enacted bills carry an appropriation or a tax change, versus policy only; (5) how many bills a typical member sponsors per session, and how that differs for majority and minority members and for leadership. Cite each figure with its state and session.",
+  "usableAnswer": "A table by state and session: introduced, enacted, share enacted, with the stage-of-death breakdown where a source gives it, split by unified or divided government and by legislature type, and sponsorship counts per member. The game uses these only as calibration targets to check that its members' own decisions produce realistic outcomes in each state, never as a probability to roll.",
+  "whyItMatters": "lamontae, 2026-09-23 12:43 a.m. Eastern: 'The end goal is to have bills being passed in a range of rates that's realistic with real life that also fits the simulation.' Every state's legislature is now seated with members who decide their votes, governors decide their own bills, and vetoes are put to override votes. Measured over 36 months: Nebraska 8 of 9 authored bills became law, Alaska 9 of 9, and 41 other states filed none at all. There is no sourced target to say whether any of that is realistic.",
+  "notes": [
+    "Calibration targets only. Members, committees and governors decide for their own reasons; a rate is how the result is checked, not how it is produced."
+  ],
+  "relatedQuestionIds": [
+    "how-state-legislators-vote-without-a-stated-position",
+    "why-a-governor-signs-or-vetoes",
+    "legislative-step-pacing-and-veto-override",
+    "generated-legislature-session-frequency-and-carryover"
+  ],
+  "requestedBy": "modular legislation thread, from lamontae's proposal goal relayed 2026-09-23 12:43 a.m. Eastern",
+  "sourcesChecked": [
+    {
+      "source": "how-state-legislators-vote-without-a-stated-position (open)",
+      "whatItDidNotSettle": "It asks about passage by sponsor party, not the overall share of introduced bills enacted or where the rest die, state by state."
+    },
+    {
+      "source": "how-congress-moves-bills (open)",
+      "whatItDidNotSettle": "Congress only."
+    }
+  ]
+}

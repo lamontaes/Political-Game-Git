@@ -1,4 +1,10 @@
+import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
+import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
+import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
+import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
+import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
+import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
   canonicalJson,
   householdMembershipsAt,
@@ -18,6 +24,8 @@ import {
   worldOpeningVersionOf,
   CRUNCH46_WORLD_OPENING_VERSION,
 } from "../simulation";
+import { ensureMigrationSchedule } from "../simulation/migration";
+import { ensureCrimeProduction } from "../simulation/crime";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   ensureMacroEconomyStarted,
@@ -51,6 +59,20 @@ export function generateOpeningLife(
   session: OpeningLifeSession,
 ): OpeningLifeSession {
   if (session.game) return session;
+  // Every opening step is a write that would otherwise validate the whole
+  // World on its own. A state with a large legislature seats hundreds of
+  // members and their histories one write at a time, so the opening is built
+  // with those checks deferred and the World it hands over is validated once,
+  // in full, at the end.
+  let built: OpeningLifeSession | undefined;
+  advanceWithWorldIntegrityAtEnd(() => {
+    built = buildOpeningLife(session);
+    return built.game!.world;
+  });
+  return built!;
+}
+
+function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
   const game = createNewGameWorld(session.setup);
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
@@ -66,16 +88,21 @@ export function generateOpeningLife(
   );
   // A legacy replay descriptor keeps its prior construction exactly: its
   // opening governor holds a recorded tenure, not GOVERNING's dated term.
-  const placed =
-    session.setup.openingDataVersion === "playtest65-v1"
-      ? establishOpeningLocation(economic, game.playerPersonId)
-      : economic;
+  // Both opening-data versions place the player and seat the vice president;
+  // only "playtest65-v1" also writes the two fixed, already-concluded local
+  // matters, which a replay descriptor recorded under it must keep rebuilding.
+  const openingData = session.setup.openingDataVersion;
+  const versionedOpening =
+    openingData === "playtest65-v1" || openingData === "playtest65-v2";
+  const placed = versionedOpening
+    ? establishOpeningLocation(economic, game.playerPersonId)
+    : economic;
   const staffed = establishOpeningOfficeholders(placed, game.playerPersonId, {
     datedTerms: session.setup.worldOpeningVersion !== undefined,
-    includeVicePresident: session.setup.openingDataVersion === "playtest65-v1",
+    includeVicePresident: versionedOpening,
   });
   const withPriorRecords =
-    session.setup.openingDataVersion === "playtest65-v1"
+    openingData === "playtest65-v1"
       ? ensureOpeningPriorLocalRecords(staffed, game.playerPersonId)
       : staffed;
   return {
@@ -97,21 +124,27 @@ export function generateOpeningLife(
       // start it on their first ordinary-day pass, as before.
       world: openedWorld(
         ensureOpeningMortality(
-          ensureHazardProduction(
-            ensureLivingWorldDevelopments(
-              // Standing chapter committees exist only in current openings.
-              ensurePartyGoverningBodies(
-                ensureHomePartyChapters(
-                  ensureLivingWorldOpening(
-                    withPriorRecords,
+          ensureCrimeProduction(
+            ensureHazardProduction(
+              ensureLivingWorldDevelopments(
+                // Standing chapter committees exist only in current openings.
+                ensurePartyGoverningBodies(
+                  ensureHomePartyChapters(
+                    ensureHomeStateLegislature(
+                      ensureLivingWorldOpening(
+                        withPriorRecords,
+                        game.playerPersonId,
+                        session.setup.livingWorldMemberNameVersion,
+                      ),
+                      game.playerPersonId,
+                    ),
                     game.playerPersonId,
-                    session.setup.livingWorldMemberNameVersion,
+                    session.setup.partyChapterNameVersion,
                   ),
                   game.playerPersonId,
                 ),
                 game.playerPersonId,
               ),
-              game.playerPersonId,
             ),
           ),
           session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
@@ -123,13 +156,42 @@ export function generateOpeningLife(
 }
 
 /**
+ * The home state's legislature, seated with real members, for a current
+ * opening only: a legacy replay keeps exactly the world it always built.
+ * After the living world so the national parties its members join exist.
+ */
+function ensureHomeStateLegislature(
+  world: World,
+  playerPersonId: EntityId,
+): World {
+  if (worldOpeningVersionOf(world) !== CRUNCH46_WORLD_OPENING_VERSION) {
+    return world;
+  }
+  const stateUsps = homeStateUsps(world, playerPersonId);
+  if (!stateUsps) return world;
+  // The District's legislature is its Council, which is seated on its own.
+  return stateUsps === "DC"
+    ? scheduleDcCouncilSitting(ensureDistrictOfColumbiaCouncilOpening(world))
+    : ensureStateLegislatureOpening(world, playerPersonId, stateUsps);
+}
+
+/**
  * The press seed pack runs only for an opening of the current version; a
  * legacy replay descriptor keeps exactly the world it always built, which is
  * what WORLD's unchanged-hash control depends on.
  */
 function openedWorld(world: World, playerPersonId: EntityId): World {
+  // Migration is scheduled only for a current opening too, so a legacy replay
+  // keeps the world it always built (MIGRATION_SEAMS "old-saves").
+  // The town's residents are seated before migration is scheduled, so the
+  // first quarterly review already has neighbors who might leave.
   return pressOpeningApplies(world)
-    ? ensurePressOpening(world, playerPersonId)
+    ? ensureMigrationSchedule(
+        ensureTownResidents(
+          ensurePressOpening(world, playerPersonId),
+          playerPersonId,
+        ),
+      )
     : world;
 }
 

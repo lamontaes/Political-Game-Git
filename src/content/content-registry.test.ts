@@ -290,7 +290,7 @@ describe("searching and filtering", () => {
     expect(found.map((item) => item.itemKey).sort()).toStrictEqual(
       companionScenes.map((situation) => situation.key).sort(),
     );
-    // The specialised roles are not a filterable dimension of the index at all.
+    // The specialized roles are not a filterable dimension of the index at all.
     for (const role of ["peer", "teacher", "household-adult"]) {
       expect(queryContentItems(index.items, { roles: [role] })).toStrictEqual(
         [],

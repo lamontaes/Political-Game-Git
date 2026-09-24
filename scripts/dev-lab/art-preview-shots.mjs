@@ -6,7 +6,7 @@ import { chromium } from "@playwright/test";
 import { encodeReplayDescriptor } from "../../src/presentation/new-game-identity.ts";
 
 /**
- * Named screenshots of the development art preview, for owner judgement.
+ * Named screenshots of the development art preview, for owner judgment.
  *
  * The owner is being asked to decide whether banked candidate art is good
  * enough to promote. That decision cannot be made from a layer count or a test

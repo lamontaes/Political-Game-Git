@@ -3,7 +3,7 @@
 Measured 2026-09-22 against `origin/main` at `1c4992e8`. Audit lane: hardcoded
 content. This is a fourth species alongside the three already filed — hardcoded
 names and bills, systems gated shut, and decision thresholds that are bare
-constants. The species is: **a coordination artefact that became a product rule
+constants. The species is: **a coordination artifact that became a product rule
 by being written into a field something reads.**
 
 ## 1. Five person art requests are held by a lane letter that no longer exists
@@ -53,7 +53,7 @@ whether the owner still exists.
 holds map. That returns those requests to the Art Desk as ordinary open work.
 No player-facing change; the Art Desk is a private authoring surface. What
 changes for lamontae is that five person art requests he has not been shown
-since 15 September come back into view.
+since September 15 come back into view.
 
 Filed for ChatGPT as `planning-words-that-became-product-rules` (P1).
 
@@ -99,7 +99,7 @@ sentence explaining why a character cannot file for office and splits it in
 two: any sentence matching an ISO date or `/(observed|retrieved|source text|
 shapefile|pack)/i` is routed to a `provenance` list, everything else to
 `reasons`. The reasons print as the plain answer; the provenance list prints at
-`:394` inside a `<details>` element labelled **"Sources and detail"**.
+`:394` inside a `<details>` element labeled **"Sources and detail"**.
 
 That is a source-and-provenance disclosure on a player-facing screen — the
 campaign workspace, which every player who tries to run for office reaches. It
@@ -190,7 +190,7 @@ development.
 
 But the second line is a separate defect nobody has named, and it is the larger
 one. The tendency proposed is `tendencyOrder[0]` — **the first entry in the
-catalogue, every time**, whatever the two interactions were about. The evidence
+catalog, every time**, whatever the two interactions were about. The evidence
 decides whether a development is proposed and has no influence at all on which
 development it is. Fixing only the counter would leave a system that reads its
 evidence to decide _whether_ to act and then ignores it entirely in deciding
@@ -246,7 +246,7 @@ there.
 filter. Rows, occasions and people are three different things, and this one
 looked exactly like the first family and was the third.
 
-The neighbouring `disputed.length >= 3` at `:716` is not corrected — that one
+The neighboring `disputed.length >= 3` at `:716` is not corrected — that one
 does count decision records on a single question key, and reads "high"
 confidence off the count.
 

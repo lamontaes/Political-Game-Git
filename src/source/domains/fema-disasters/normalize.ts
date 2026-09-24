@@ -9,7 +9,7 @@
  *
  * The derivation has to survive a real collision. Declaration DR-4827-NC
  * designates both "Cherokee (County)", a North Carolina county, and the
- * "Eastern Band of Cherokee Indians", a federally recognised tribe. A rule that
+ * "Eastern Band of Cherokee Indians", a federally recognized tribe. A rule that
  * looks for tribal words first mislabels the county; a rule that trusts
  * `tribalRequest` misses the tribe, because that flag is false on this
  * declaration. So the parenthetical class the provider appends is read first,

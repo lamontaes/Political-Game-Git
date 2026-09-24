@@ -234,7 +234,7 @@ describe("resolveRegionalPlate", () => {
     });
   });
 
-  it("honours an explicit never-alongside where the landform cannot tell", () => {
+  it("honors an explicit never-alongside where the landform cannot tell", () => {
     const document = docOf(
       region("oak-prairie", { includeCounties: ["48097"] }, { context: ctx() }),
       region(

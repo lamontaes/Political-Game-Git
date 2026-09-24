@@ -67,7 +67,7 @@ history and survives save/reload; reads do not write.
 A pending docket measure may be referenced only conditionally: each linked
 section says it takes effect only if that measure has become law. Failed
 measures are refused at resolution and filing. No draft becomes existing
-statutory authority just by being filed. Standing programmes are explicitly
+statutory authority just by being filed. Standing programs are explicitly
 fictional content-bank assumptions. These are proposal links, not a new
 legal-order or enactment-effect engine.
 

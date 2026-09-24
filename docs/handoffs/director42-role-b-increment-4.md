@@ -58,7 +58,7 @@ from this commit.
 ## What remains, stated plainly
 
 Residual 3 is **not closed**. The cast and the place are still written for one
-Kentucky measure. Grounding the claim is not the same as generalising it, and
+Kentucky measure. Grounding the claim is not the same as generalizing it, and
 this increment does not pretend otherwise.
 
 Closing it needs two things this role does not hold:

@@ -1,0 +1,30 @@
+{
+  "filedAt": "2026-09-23T00:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "migration and settlement",
+  "notes": [
+    "The owner's words, 2026-09-22: \"lots of people are moving from California because of multiple things. Like ecological stuff and also taxes... and they're moving to Texas where there's no taxes... or if a state enacted a law, everybody hated it or loved it... Or maybe global warming pushes people away from the coasts.\""
+  ],
+  "priority": "P1",
+  "question": "The game now records, for each of the 50 states, the District of Columbia and Puerto Rico, a pressure to leave and a pull to arrive, and turns them into a yearly flow of people between states. We need the real pattern so the flows are not invented. (1) What share of each state's residents moves to another state in a typical recent year, and which states send and receive the most (for example California to Texas)? (2) How much do each of these move people, stated as an effect size where one exists: state income and overall tax burden, housing and living costs, jobs and wages, a major disaster (hurricane, flood, wildfire), a long climate trend such as heat or sea level, and a state law people strongly like or dislike? (3) How fast does the effect of a one-time shock such as a disaster fade: what share of the extra leaving is still happening a year and five years later? (4) Each state's starting tax level in a form a game can read: top income tax rate, sales tax rate, and overall state and local tax burden as a share of income, with the year.",
+  "questionId": "state-to-state-moves-what-pushes-and-pulls",
+  "relatedQuestionIds": [
+    "migration-rates-and-reasons",
+    "society-wide-waves-causes-pace-scale"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "migration and settlement thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/pressure/ on claude/project-thread-ltkqvu",
+      "whatItDidNotSettle": "Defines the readings and flows and marks every rate as a placeholder. Holds no real figures."
+    },
+    {
+      "source": "public/data/economic-context/v1 (price parities, rents, state unemployment)",
+      "whatItDidNotSettle": "Browser-fetched files the simulation cannot read synchronously; they give costs and unemployment but not how much either moves people."
+    }
+  ],
+  "title": "What moves Americans from one state to another, and by how much",
+  "usableAnswer": "A table of 52 rows giving each jurisdiction's yearly out-of-state move rate, its largest destinations, and its starting income tax, sales tax and overall burden, each with a source and year. Then one line per cause giving an effect size or a plain statement that no defensible figure exists, and one line on how fast a shock fades.",
+  "whyItMatters": "The pressure layer on branch claude/project-thread-ltkqvu reads two causes today: declared disasters and taxes the game itself enacts. Every number is a placeholder: 2 percent of a state's people move out a year, a major flood adds 0.1 to the pressure to leave, a one-point tax rise adds 0.05, and pressure loses 25 percent every three months. No state starts with any tax, cost or climate difference, so until this is answered every state looks alike at the start. The owner's picture of people leaving California for Texas over taxes, disasters and laws cannot appear without it."
+}

@@ -99,7 +99,7 @@ describe("The green-edge despill repairs the edge and nothing else", () => {
 
   it("classifies a run that moved the silhouette as unsalvageable", () => {
     // The classifier is not allowed to call something salvaged on the strength
-    // of the colour numbers alone.
+    // of the color numbers alone.
     const base = despillReport.entries[0]!.report;
     expect(
       classifyDespill({

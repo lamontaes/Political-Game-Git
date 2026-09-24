@@ -9,7 +9,7 @@
  *
  * The corpus deliberately does *not* assert a constitutional basis for each
  * court. "Article III court" and "Article I legislative court" are legal
- * characterisations that the sections establishing these courts do not state,
+ * characterizations that the sections establishing these courts do not state,
  * and this substrate records what its artifacts say. What it does record is
  * which title and section established the court, which is the fact a reader
  * needs in order to reach that conclusion themselves.
@@ -48,7 +48,7 @@ export interface FederalCourtRecord {
    *
    * Preserved exactly as the statute reads, including entries Congress has
    * never repealed — the Fifth Circuit's composition still names the District
-   * of the Canal Zone. Silently modernising the list would be this substrate
+   * of the Canal Zone. Silently modernizing the list would be this substrate
    * asserting a statutory amendment that has not happened.
    */
   readonly composition: readonly string[] | null;

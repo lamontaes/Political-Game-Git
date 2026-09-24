@@ -113,7 +113,7 @@ That is four of forty-two, which is still not all of them.
 
 ## The half of his rule that must survive the fix
 
-A drawn minimum age binding is the point. Borrowing a neighbouring state's
+A drawn minimum age binding is the point. Borrowing a neighboring state's
 rules never is. The 23 in Puerto Rico's pack is drawn from the national spread
 that MN, MO, NJ and NV happen to span; it is not Minnesota's law, and nothing
 in the fix may let a reader or the code confuse the two. The pack's note

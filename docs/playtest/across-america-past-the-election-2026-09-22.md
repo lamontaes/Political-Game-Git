@@ -38,7 +38,7 @@ town — and then carries lives past the result into what follows.
 
 9. **A won governorship seats you, if you press "Qualify for the term".**
    Walked later the same day on `4965f63c` in Reno and Springfield: qualify
-   in November and you are Governor on 4 January 2027. Skip it and the term
+   in November and you are Governor on January 4, 2027. Skip it and the term
    is lost for good. Outside Kentucky, Nebraska and Alaska no bill ever
    reaches the governor's desk. See section 10.
 
@@ -46,7 +46,7 @@ town — and then carries lives past the result into what follows.
 
 ## 1. What happens after you win depends on which state you are in
 
-> **Superseded as current behaviour, 2026-09-22 (transition services thread).**
+> **Superseded as current behavior, 2026-09-22 (transition services thread).**
 > What follows is history at the head it names. A legislative winner in a
 > state with no sourced term rule is no longer seated on election night: the
 > seat begins on January 1 after the election under a marked blanket rule
@@ -55,7 +55,7 @@ town — and then carries lives past the result into what follows.
 
 This is the finding with the most behind it, and it is two screens.
 
-Two lives, both at 81 percent, both deciding on **2 February 2026**, both a seat
+Two lives, both at 81 percent, both deciding on **February 2, 2026**, both a seat
 in their state's house of representatives, both after twenty-seven sessions
 knocking on doors.
 
@@ -160,10 +160,10 @@ there:
 > WRIGHT FOR THE HOUSE OF REPRESENTATIVES · DECIDED FEBRUARY 2, 2026
 > **Running against Aiko Knight.**
 
-That present tense is still on the screen on 27 April, twelve weeks after the
+That present tense is still on the screen on April 27, twelve weeks after the
 race ended. "Running against" a person nobody is running against any more.
 
-The front page, read on 27 April in Louisville after a contested state house
+The front page, read on April 27 in Louisville after a contested state house
 election the player had personally lost, across all four outlets:
 
 > CIVIC LEDGER — The governments in the fishing-rights talks announced an
@@ -178,7 +178,7 @@ election the player had personally lost, across all four outlets:
 Fishing rights, unemployment, shipping delays. **The player's own election is not
 news, in the state it was held in, in any outlet, at any point.** Two of those
 outlets print one sentence word for word on the same day, which is the
-already-recorded newspaper behaviour showing up again.
+already-recorded newspaper behavior showing up again.
 
 So the plain answer to "carry a life past a first election into the events that
 follow" is that outside Illinois there are none. The race ends, the screen
@@ -284,7 +284,7 @@ Anna Vincent, 40, Washington, District of Columbia. Her home screen reads:
 "City of Washington Dc" is not a thing anybody calls anything. The
 `residentPlaceName` repair that fixed "Nashville-Davidson metropolitan
 government (balance)" strips a trailing lowercase unit type; D.C.'s Census row
-survives it and comes out title-cased into a name no resident would recognise.
+survives it and comes out title-cased into a name no resident would recognize.
 
 Under Running for office she gets the unread-state sentence, word for word:
 
@@ -387,7 +387,7 @@ states:
 
 > You are on the ballot. The campaign itself is run from your office and campaigns.
 
-and then, the week after the 3 November election:
+and then, the week after the November 3 election:
 
 > You won. The term runs from January 4, 2027 to January 6, 2031, and you must
 > qualify before it begins.
@@ -397,18 +397,18 @@ Under that sentence is **one enabled button, "Qualify for the term"**
 job or an office right now. An offer of work as Governor is waiting for your
 answer." The answer to that offer is this button, on Campaigns. The offer line
 does not say so, and the Jobs screen has no Accept for Governor. Pressing it on
-Monday 9 November 2026 changed the status at once to:
+Monday November 9, 2026 changed the status at once to:
 
 > You have qualified. The term begins January 4, 2027.
 
-On **Monday 4 January 2027**, with nothing else pressed, the status read "You
+On **Monday January 4, 2027**, with nothing else pressed, the status read "You
 hold this office until January 6, 2031", and the Office tab opened a working
 governorship: "Your role: Governor", "Governor of Nevada — Your term runs until
 January 6, 2031. No chief of staff yet."
 
 **Emma Villanueva, Springfield, Illinois** (seed `gov-springfield-il`), did the
-same things and got the same result on the same dates: qualified on 9 November,
-Governor of Illinois on 4 January 2027. **So in Illinois a governorship seats
+same things and got the same result on the same dates: qualified on November 9,
+Governor of Illinois on January 4, 2027. **So in Illinois a governorship seats
 you the same way the legislature does, and Nevada now behaves like Illinois,
 not like Kentucky.** That was the question in the handoff, and the difference
 between the states is not in the governorship.
@@ -423,7 +423,7 @@ date passes without a qualification, and `stateExecutiveEntryStatus` documents
 that as intended.
 
 **On the first morning the office is empty. It stops being empty the
-next day.** On 4 January both offices read:
+next day.** On January 4 both offices read:
 
 > Needs you — Nothing is waiting on you right now.
 > What this office is answerable for — No program of this government has a
@@ -437,11 +437,11 @@ entry plus one day). The same route through the game's own clock
 (NV, IL and KY, each qualified and then carried forward, measured 18:15Z on
 `4965f63c`) gives:
 
-| Date           | Nevada and Illinois                                                                     | Kentucky                                                                                                                |
-| -------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| 5 January 2027 | "Choose a chief of staff", "Set the first priority"                                     | the same two                                                                                                            |
-| 15 February    | "No bill reached Governor of … this session: the game has not compiled …'s legislature" | no such note; a written measure is filed into the legislature instead, and none had reached the governor by 10 December |
-| 1 December     | "Set the budget request"                                                                | the same                                                                                                                |
+| Date            | Nevada and Illinois                                                                     | Kentucky                                                                                                                |
+| --------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| January 5, 2027 | "Choose a chief of staff", "Set the first priority"                                     | the same two                                                                                                            |
+| February 15     | "No bill reached Governor of … this session: the game has not compiled …'s legislature" | no such note; a written measure is filed into the legislature instead, and none had reached the governor by December 10 |
+| December 1      | "Set the budget request"                                                                | the same                                                                                                                |
 
 So the office has work from its second day. The difference between the
 states is the legislature's bills. The governor's bill season files a
@@ -458,12 +458,12 @@ governor that it has none.
 
 **The legislative seat, rechecked on `4965f63c`.** Paola Evans, Reno (seed
 `leg-reno-nv`), filed for the Assembly, did one session on the doors and pressed
-Day, 27 sessions in all. The election was decided on 2 February 2026; the
+Day, 27 sessions in all. The election was decided on February 2, 2026; the
 field memo put her "somewhere around 74 percent". On election day the Office tab
 already read "Paola works for the Nevada legislature, so what is in front of the
 chamber is in front of them too", with the voting-workflow and casework
 choices. **Same-day seating still holds on current main.** A second run of the
-same seed, pressing Week (four sessions), had no office on 23 February. This
+same seed, pressing Week (four sessions), had no office on February 23. This
 walk did not capture that race's result line. It fits the dose curve in
 section 2 but proves nothing about it.
 

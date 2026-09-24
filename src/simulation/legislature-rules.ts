@@ -3,9 +3,9 @@
  *
  * This module describes what a legislature's *formal rules* say. It contains no
  * jurisdiction-specific facts: those live in rule packs compiled from sourced
- * research. Nothing here models political behaviour — how a member is likely to
- * vote, who owes whom a favour, or what leadership prefers. Formal rule and
- * observed political behaviour stay separate concepts by construction.
+ * research. Nothing here models political behavior — how a member is likely to
+ * vote, who owes whom a favor, or what leadership prefers. Formal rule and
+ * observed political behavior stay separate concepts by construction.
  *
  * Three epistemic states are distinct everywhere and never collapse:
  * - `known`           the rule is resolved from an official source;
@@ -142,7 +142,7 @@ export function requireKnown<T>(value: RuleValue<T>, label: string): T {
 export type VoteDenominator =
   /**
    * Members actually elected and entitled to serve. This equals the chamber's
-   * authorised seats only when no seat is vacant; a vacancy lowers it.
+   * authorized seats only when no seat is vacant; a vacancy lowers it.
    */
   | "members-elected"
   /** Members actually present when the vote is taken. */
@@ -562,7 +562,7 @@ export interface LegislativeRulePack {
    * why forty-two states had no legislature at all rather than a provisional
    * one. Such a pack is playable and disclosed: its rules are drawn from the
    * spread the researched packs span, they are stable for that state forever,
-   * and they are labelled `game-profile` at every source ref so nothing can
+   * and they are labeled `game-profile` at every source ref so nothing can
    * quote one back as that state's law. Reading the state's own instruments
    * replaces the whole pack.
    */
@@ -851,13 +851,19 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
   if (pack.jurisdictionKey.trim().length === 0) {
     throw new Error(`Rule pack '${pack.packId}' must name a jurisdiction.`);
   }
+  // Congress is the one legislature above the states: its pack names the
+  // United States and encodes no state.
+  const federal =
+    pack.jurisdictionKey === "US" && /^us-congress-/.test(pack.packId);
   const packState = /^us-([a-z]{2})-/.exec(pack.packId)?.[1];
-  if (!packState) {
+  if (!federal && !packState) {
     throw new Error(
       `Rule pack '${pack.packId}' must encode a standardized two-letter state segment.`,
     );
   }
-  const encodedJurisdictionKey = `US-${packState.toUpperCase()}`;
+  const encodedJurisdictionKey = federal
+    ? "US"
+    : `US-${packState!.toUpperCase()}`;
   if (pack.jurisdictionKey !== encodedJurisdictionKey) {
     throw new Error(
       `Rule pack '${pack.packId}' encodes '${encodedJurisdictionKey}' but declares jurisdiction '${pack.jurisdictionKey}'.`,
@@ -918,11 +924,15 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
       );
     }
     if (formalSeats.kind === "known") {
-      const acceptable =
-        pack.basis === "game-profile" ? "game-profile" : "verified";
-      if (formalSeats.source.verification !== acceptable) {
+      // A generated pack may carry a settled, verified size in place of its
+      // draw; a researched pack may carry nothing but a verified one.
+      const acceptable: readonly string[] =
+        pack.basis === "game-profile"
+          ? ["game-profile", "verified"]
+          : ["verified"];
+      if (!acceptable.includes(formalSeats.source.verification)) {
         throw new Error(
-          `Known formal seat count for '${chamber.chamberKey}' must cite a ${acceptable} source.`,
+          `Known formal seat count for '${chamber.chamberKey}' must cite a ${acceptable.join(" or ")} source.`,
         );
       }
     }
@@ -1167,7 +1177,7 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
  * because nothing has been read; the moment something IS read for one of its
  * rules, the read value belongs there and the drawn one must give way. Real law
  * always overrides a generated value, and a check that refused a constitution
- * inside a generated pack would have made honouring that impossible. The pack
+ * inside a generated pack would have made honoring that impossible. The pack
  * still declares itself `game-profile`, because most of it still is, and each
  * rule's own source ref says which kind it is.
  *

@@ -15,8 +15,8 @@
  * all — Alaska and Hawaii have no Secretary of State, Maine and Oregon have no
  * Lieutenant Governor, Arizona's Lieutenant Governor exists on paper and is not
  * operative until January 2027. Nonexistence is not a value a field can hold;
- * modelling it as one would let a record claim an office's minimum age while
- * its neighbour claims the office does not exist.
+ * modeling it as one would let a record claim an office's minimum age while
+ * its neighbor claims the office does not exist.
  */
 
 import type { Evidence, Sourced } from "../../core/index";

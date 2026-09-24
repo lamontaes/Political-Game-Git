@@ -145,7 +145,7 @@ export function normalizeCircuits(
 /**
  * A division sentence, in each of the forms the statute actually uses.
  *
- * Georgia capitalises "Counties", Texas has a division comprising a single
+ * Georgia capitalizes "Counties", Texas has a division comprising a single
  * "county of", and one California division simply "comprises Orange County".
  * The membership list runs to the end of the sentence rather than to the first
  * full stop, because county names contain them: St. Francis, St. Joseph and

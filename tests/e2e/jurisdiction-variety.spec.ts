@@ -64,7 +64,7 @@ for (const jurisdiction of TEST_JURISDICTIONS) {
      * playable on the January 5, 2026 start date: four of these nine states
      * refuse an ordinary forty-year-old a candidacy, for three different
      * reasons, and Ohio's refusal is the only one a player could act on.
-     * Recording each state's own behaviour keeps those findings named and
+     * Recording each state's own behavior keeps those findings named and
      * visible, and keeps this file honest: a state that starts working fails
      * here and gets promoted, and a state that stops working fails too.
      * Relaxing the rules that produce these refusals to make the file green

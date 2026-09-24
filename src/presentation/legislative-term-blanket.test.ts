@@ -1,3 +1,4 @@
+import { personPronouns } from "../simulation/person-identity";
 import { afterEach, describe, expect, it } from "vitest";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
@@ -8,8 +9,12 @@ import {
 } from "../../tests/fixtures/state-executive-entry";
 import {
   activeLegislativeTermEvidence,
+  addDays,
   bindRuleCapabilityResolver,
+  OFFICE_OATH_TAKEN,
+  oathChoiceOf,
   BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
+  legislativeBlueprint,
   legislativeTermDates,
   legislativeTermForRelationship,
   makeIsoDate,
@@ -17,8 +22,15 @@ import {
   workRelationshipHistoryForPerson,
   workStatusAt,
 } from "../simulation";
+import type { OathForm, OathSwornOn } from "../simulation";
 import { projectCampaign } from "./campaign-projection";
-import { projectOfficeTransition } from "./office-transition";
+import {
+  projectOfficeTransition,
+  oathWordsForHeldOffice,
+  projectSwearingIn,
+  takeOathForHeldOffice,
+} from "./office-transition";
+import { resolvePlayerCapabilities } from "./player-capabilities";
 
 afterEach(() => bindRuleCapabilityResolver(unadmittedRuleCapabilityResolver));
 
@@ -71,8 +83,11 @@ describe("a legislative term in a state with no sourced term rule", () => {
       BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
     );
     expect(activeLegislativeTermEvidence(decided, seat.id)).toBeNull();
+    const theirs = personPronouns(decided.people[personId]).possessivePronoun;
     expect(projectCampaign(decided, personId).afterword).toMatch(
-      /The term begins January 1, \d{4}; until then the office is not theirs\./,
+      new RegExp(
+        `The term begins January 1, \\d{4}; until then the office is not ${theirs}\\.`,
+      ),
     );
     expect(projectOfficeTransition(decided, personId)?.startsAt).toBe(
       term.startsAt,
@@ -84,3 +99,90 @@ describe("a legislative term in a state with no sourced term rule", () => {
     expect(projectOfficeTransition(seated, personId)).toBeNull();
   }, 600_000);
 });
+
+describe.each(["ME", "GA", "MT", "IA", "TX", "MO"])(
+  "a legislative term in %s, a state the game generates rather than compiles",
+  (usps) => {
+    it("waits, shows the transition, and is seated with a working office", () => {
+      const { world, personId } = adultLifeIn(usps, `blanket-term-${usps}`);
+      const decided = runToElection(
+        fileForOffice(world, personId),
+        personId,
+        suppliedWin(personId),
+      );
+      expect(projectCampaign(decided, personId).phase).toBe("won");
+      const seat = workRelationshipHistoryForPerson(decided, personId).find(
+        (relationship) => relationship.kind === "employment:legislative-member",
+      )!;
+      expect(workStatusAt(decided, seat.id)?.status).toBe("expected");
+      const transition = projectOfficeTransition(decided, personId)!;
+      expect(transition.startsAt.endsWith("-01-01")).toBe(true);
+
+      const seated = passUntil(decided, transition.startsAt);
+      expect(workStatusAt(seated, seat.id)?.status).toBe("active");
+      expect(activeLegislativeTermEvidence(seated, seat.id)).not.toBeNull();
+      const capabilities = resolvePlayerCapabilities(seated);
+      expect(capabilities.office).toBe(true);
+      expect(capabilities.legislation).toBe(true);
+      // The Office screen's workspace is built from this; it threw for Maine.
+      expect(
+        legislativeBlueprint(capabilities.legislativeScenarioKey!).label,
+      ).toMatch(/Legislature|General Assembly/);
+
+      // Before the term there is nothing to swear into.
+      expect(projectSwearingIn(decided, personId)).toBeNull();
+      const choice: { swornOn: OathSwornOn; form: OathForm } = {
+        swornOn: "state-constitution",
+        form: "affirm",
+      };
+      expect(() => takeOathForHeldOffice(decided, personId, choice)).toThrow(
+        /no office to be sworn into/,
+      );
+      // From its first day the oath is waiting, and taking it is public.
+      const waiting = projectSwearingIn(seated, personId)!;
+      expect(waiting.swornInOn).toBeNull();
+      expect(waiting.officeTitle).toMatch(/^Member of the /);
+      const stateName = waiting.swornOnOptions.find(
+        (option) => option.key === "state-constitution",
+      )!.label;
+      expect(stateName).toMatch(/^A copy of the Constitution of [A-Z]/);
+
+      // The words come phrase by phrase, in the player's own name.
+      const words = oathWordsForHeldOffice(seated, personId, "affirm");
+      expect(words[0]).toBe(`I, ${waiting.personName},`);
+      expect(words.join(" ")).toContain(
+        "do solemnly affirm that I will support the Constitution of the United States",
+      );
+      expect(words.join(" ")).not.toContain("God");
+      expect(oathWordsForHeldOffice(seated, personId, "swear").at(-1)).toBe(
+        "So help me God.",
+      );
+
+      // A saved or modded caller can pass anything; the writer refuses it.
+      expect(() =>
+        takeOathForHeldOffice(seated, personId, {
+          swornOn: "a-horseshoe" as OathSwornOn,
+          form: "swear",
+        }),
+      ).toThrow(/Choose what to swear on/);
+      const sworn = takeOathForHeldOffice(seated, personId, choice);
+      const oath = sworn.history.events.filter(
+        (event) => event.type === OFFICE_OATH_TAKEN,
+      );
+      expect(oath).toHaveLength(1);
+      expect(oath[0]!.visibility).toBe("public");
+      expect(oathChoiceOf(oath[0]!)).toEqual(choice);
+      expect(takeOathForHeldOffice(sworn, personId, choice)).toBe(sworn);
+      const done = projectSwearingIn(sworn, personId)!;
+      expect(done.swornInOn).toBe(seated.currentDate);
+      expect(done.swornOn?.key).toBe("state-constitution");
+      expect(done.form).toBe("affirm");
+      expect(
+        projectSwearingIn(
+          passUntil(sworn, addDays(sworn.currentDate, 1)),
+          personId,
+        ),
+      ).toBeNull();
+    }, 600_000);
+  },
+);

@@ -10,7 +10,7 @@ import { createCrisisTransitionRegistry } from "./index";
  * the clock applies on every advance: any time path must be able to settle
  * them, whatever narrower registry its caller composed. The resolver falls
  * back to these handlers for `crisis:` keys only. Built lazily so module
- * initialisation order never matters.
+ * initialization order never matters.
  */
 let registry: FutureTransitionHandlerRegistry | null = null;
 

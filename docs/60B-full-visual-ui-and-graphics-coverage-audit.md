@@ -242,7 +242,7 @@ in the backlog (P2-04).
 **Only four places exist.** `lifePlaces()` returns Kentucky, Nebraska, Alaska,
 and Lexington/Lexington-Fayette. Three carry a legislative rule pack. The
 coverage record says why, in the player's own words, and that is the right
-behaviour — but it means a "choose where your life happens" screen is a list of
+behavior — but it means a "choose where your life happens" screen is a list of
 four radio buttons with no imagery of any kind.
 
 ---
@@ -319,7 +319,7 @@ None of that strength is visible: it is a text list.
 It currently contains a heading, an honesty note, and a Back button. There are
 no settings in it yet. This is correct — an options screen with fabricated
 toggles would be worse — but it should carry the settings that _do_ exist
-implicitly today (reduced motion is honoured in CSS; text size is not).
+implicitly today (reduced motion is honored in CSS; text size is not).
 See P1-07.
 
 ---
@@ -377,7 +377,7 @@ See P1-07.
 
 ---
 
-# PART 3 — TYPOGRAPHY, COLOUR, SPACING, MOTION
+# PART 3 — TYPOGRAPHY, COLOR, SPACING, MOTION
 
 ## 3.1 Stylesheets
 
@@ -424,7 +424,7 @@ including `9px` (three occurrences) and `0.34rem`. A `0.34rem` label is roughly
 production `.game-*` surfaces are better behaved (11 sizes), but there is no
 scale, no ramp, and no tokens. Category A.
 
-## 3.3 Colour
+## 3.3 Color
 
 **372 distinct hex literals. Zero design tokens in `styles.css`. Eight custom
 properties in `player.css`, all prefixed `--run-a-*`** — i.e. tokens exist for
@@ -441,7 +441,7 @@ Most-used literals: `#16233a` (22), `#b4b4a8` (19), `#5c6779` (15), `#47536a`
 (14), `#f8f7f3` (12). Near-duplicates abound: `#d3d3c8` and `#d3d2c8` differ by
 one unit in one channel and are used nine times between them.
 
-**Finding V-C1 [MAIN-PLAYABLE]:** the product has no colour system. This is the
+**Finding V-C1 [MAIN-PLAYABLE]:** the product has no color system. This is the
 highest-leverage non-art visual fix available: extracting ~20 semantic tokens
 (`--ink`, `--ink-muted`, `--ground`, `--ground-raised`, `--rule`, `--accent`,
 `--accent-ink`, `--danger`, `--focus`) would collapse 372 literals to a
@@ -458,8 +458,8 @@ consistent art direction. Category A. See P0-01.
   prefers-contrast .......... 0 blocks
 ```
 
-**Finding V-M1 [MAIN-PLAYABLE]:** `prefers-reduced-motion` is honoured, which is
-good. `prefers-color-scheme` is not honoured at all — the game is light-only,
+**Finding V-M1 [MAIN-PLAYABLE]:** `prefers-reduced-motion` is honored, which is
+good. `prefers-color-scheme` is not honored at all — the game is light-only,
 and forces `#e8ece8` regardless of system theme. For a game whose most-played
 screen is a long reading surface, a dark mode is a genuine comfort feature, not
 a nicety. Category A. See P1-01.
@@ -700,7 +700,7 @@ Its 13 declared consumers:
 **This audit's position on #86:** it is the correct next merge for the visual
 product, it is current with main, and it is the only branch that puts a picture
 behind the play surface. This document does **not** duplicate its work (Packet 60
-carve-out), and every capability above is labelled **[OPEN-PR #86]**, not
+carve-out), and every capability above is labeled **[OPEN-PR #86]**, not
 shipped.
 
 ---
@@ -739,7 +739,7 @@ means a distinct visual thing a finished version of this game needs.
 | T-03 | Actual webfont loading               | **[MISSING]** (Inter named, never loaded) | A        |
 | T-04 | Defined type scale                   | **[MISSING]** (69 ad-hoc sizes)           | A        |
 | T-05 | Measure/line-length control on prose | **[OPEN-PR #87]**                         | A        |
-| T-06 | Colour tokens                        | **[MISSING]** (372 literals, 8 tokens)    | A        |
+| T-06 | Color tokens                         | **[MISSING]** (372 literals, 8 tokens)    | A        |
 | T-07 | Dark mode                            | **[MISSING]**                             | A        |
 | T-08 | High-contrast mode                   | **[MISSING]**                             | A        |
 | T-09 | Reduced motion                       | **[MAIN-PLAYABLE]**                       | A        |
@@ -816,7 +816,7 @@ means a distinct visual thing a finished version of this game needs.
 | D-07 | District map                           | **[MISSING]**                                     | C        |
 | D-08 | Relationship graph                     | **[MISSING]**                                     | C        |
 | D-09 | Timeline of a life                     | **[OPEN-PR #87]** (journal chapters, text)        | C        |
-| D-10 | Player-model / Pennywise visualisation | **[MAIN-SUBSTRATE]** (`report:life` markdown)     | C        |
+| D-10 | Player-model / Pennywise visualization | **[MAIN-SUBSTRATE]** (`report:life` markdown)     | C        |
 | D-11 | Civic symbols / seals                  | **[BANKED]** (`src/authoring/civic-symbols.ts`)   | C        |
 
 ### 5.7 Dynamic surfaces
@@ -847,7 +847,7 @@ These need no picture. They need CSS and markup.
   S-15, S-16                 D-01..D-05
 ```
 
-The four highest-value: colour tokens (T-06), `:active` state (C-04), a live
+The four highest-value: color tokens (T-06), `:active` state (C-04), a live
 region on the narrative passage (V-A1), and a real type scale (T-04). None
 requires an artist. All four are hours, not weeks.
 
@@ -931,11 +931,11 @@ These stay data.
 
 ---
 
-# PART 7 — PRIORITISED BACKLOG
+# PART 7 — PRIORITIZED BACKLOG
 
 ## P0 — do these first (blocking the product's basic legibility)
 
-**P0-01 — Extract a colour token system.** _Category A. No art. ~4h._
+**P0-01 — Extract a color token system.** _Category A. No art. ~4h._
 Replace 372 hex literals with ~20 semantic custom properties in `styles.css`.
 Precondition for P1-01 (dark mode) and for any consistent art direction.
 Acceptance: no bare hex literal in `.game-*` rules; `npm run validate` green.
@@ -990,7 +990,7 @@ conversation. One room buys more coverage than any other single plate.
 **P2-03** Place imagery for the four starting places (S-04).
 **P2-04** Remove or replace the permanently-disabled `Quit` button.
 **P2-05** Relationship graph (D-08) — Category C, all the data exists.
-**P2-06** Player-model visualisation in-game (D-10) — the markdown report proves
+**P2-06** Player-model visualization in-game (D-10) — the markdown report proves
 the data is there; it just has no screen.
 **P2-07** Timeline view with chapter art (D-09).
 **P2-08** Committee room plate (E-08).

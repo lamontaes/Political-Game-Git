@@ -24,16 +24,16 @@ permissions:
 # NOT on main. Cancel-in-progress is deliberately false there, because main's
 # run is the base verdict every lane reads to tell a failure it inherited from
 # one it caused. That is not academic: three browser shards were failing on
-# main the night this was written, and if pushes to main had been cancelling
+# main the night this was written, and if pushes to main had been canceling
 # each other's runs, nobody could have established that.
 #
 # The key separates the push run from the pull_request run of the same ref.
-# Branch protection may read either, and cancelling one to save the other would
+# Branch protection may read either, and canceling one to save the other would
 # be guessing which.
 #
-# A cancelled required job reads as red to the aggregate `validate` job, which
+# A canceled required job reads as red to the aggregate `validate` job, which
 # exits 1 with nothing to aggregate. That only ever happens on a commit that is
-# no longer the branch's head, so it cannot block a merge — but a cancelled run
+# no longer the branch's head, so it cannot block a merge — but a canceled run
 # on an older commit is a superseded run, not a verdict.
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}

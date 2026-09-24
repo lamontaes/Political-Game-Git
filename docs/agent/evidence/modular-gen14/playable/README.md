@@ -62,9 +62,9 @@ play-e  Yasmin Lloyd       average-woman-a  5 layers
 Four distinct bodies, five distinct heads, five distinct tops across five
 lives — and on every one of them:
 
-- **pointer selection works at the figure's centre** (`elementFromPoint` returns
-  `PERSON` at both the centre and the upper body). This is PT3's repair landing:
-  on the earlier composition the centre returned `section.game-story`, so only
+- **pointer selection works at the figure's center** (`elementFromPoint` returns
+  `PERSON` at both the center and the upper body). This is PT3's repair landing:
+  on the earlier composition the center returned `section.game-story`, so only
   the part of the figure above the panel could be clicked.
 - **the person's record opens with a portrait**, and the portrait's layers are
   byte-identical to the room's layers — one identity across contexts, not two

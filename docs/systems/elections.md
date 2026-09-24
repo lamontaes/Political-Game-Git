@@ -169,7 +169,7 @@ one wins having done nothing and six win after three afternoons on the doors.
 - District geography, and therefore any contest for a numbered district.
 - When a term begins. No pack states one, so the seat is taken up on the day the
   result is recorded, and the gap is recorded rather than dressed up as a rule.
-- An electorate. Support is a bounded share rather than a modelled population,
+- An electorate. Support is a bounded share rather than a modeled population,
   and the supporter pool and the advertising vendor are aggregate counterparties
   rather than a donor database or a media market.
 - Endorsements, staff recruitment, forums, speeches, and media as systems. The

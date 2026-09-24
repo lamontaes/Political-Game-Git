@@ -34,7 +34,7 @@ describe("art preview gating", () => {
     ).toBe("production");
   });
 
-  it("turns the labelled internal-art-review package on without DEV", () => {
+  it("turns the labeled internal-art-review package on without DEV", () => {
     expect(
       artPreviewMode("", {
         development: false,

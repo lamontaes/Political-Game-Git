@@ -18,7 +18,9 @@ import {
 } from "../simulation/people-promise";
 import { TRAIT_SHAPES } from "../simulation/people-trait-definitions";
 import { sceneBindingsFor } from "../simulation/scene-bindings";
+import { writeLegacyFamiliarRequest } from "../simulation/life-opportunities";
 import { letAdultTimePass } from "./adult-life";
+import { refreshContextualScenes } from "./contextual-scene-producers";
 import type { ContextualSceneSubject } from "./contextual-scenes";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -77,7 +79,19 @@ const variantOf = (world: World, player: EntityId) =>
 function toRecalledRequest(seed: string, answer: "decline" | "agree") {
   const life = adultLife(seed);
   const player = life.playerPersonId;
-  let world = life.world;
+  // A save from before 2026-09-23, holding the picnic favor: play no longer
+  // asks one without a reason on the asker's record, and what this suite
+  // proves is how a favor that was asked is remembered, not who asks.
+  // Whatever the opening day already holds is bound first, as it was when
+  // that save was made, so the favor is the conversation in front of them.
+  let world = refreshContextualScenes(
+    writeLegacyFamiliarRequest(
+      refreshContextualScenes(life.world, player),
+      player,
+      "favour-request",
+    ),
+    player,
+  );
   for (let step = 0; step < 40; step += 1) {
     if (
       openView(world, player, "scene-favor") &&
@@ -221,7 +235,7 @@ describe("PEOPLE P4: a request raised again", () => {
     expect(variantOf(agreed.later, agreed.player)).toBe("recalled");
     const view = openView(agreed.later, agreed.player, "scene-favor")!;
     // Nobody is offered a lie about a promise they actually made; the guess
-    // stays, because remembering wrongly in your own favour is still possible.
+    // stays, because remembering wrongly in your own favor is still possible.
     expect(view.intents.map((intent) => intent.key)).toEqual([
       "said-yes",
       "think-so",

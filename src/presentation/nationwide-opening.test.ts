@@ -49,18 +49,26 @@ describe("NATIONWIDE opening state executive", () => {
   it("names exactly the fifty states, and gives the District its own office", () => {
     const corpusStates = lifePlaceStateIdentities()
       .map((state) => state.usps)
-      .filter((usps) => usps !== "DC" && usps !== "PR")
+      .filter((usps) => !["DC", "PR", "GU", "VI", "AS", "MP"].includes(usps))
       .sort();
     expect([...US_STATE_USPS].sort()).toEqual(corpusStates);
     // NATIONWIDE1 asks for the District separately from the states: it is not
     // in the fifty, and it is not empty either. Its chief executive is a
-    // Mayor, never a governor. Puerto Rico's own Governor is real and is not
-    // compiled yet, so nothing is offered for it — an absence, not a claim
-    // that the office does not exist.
+    // Mayor, never a governor. Each territory has its own Governor, named for
+    // the territory and never counted among the states.
     const district = stateExecutiveOffice("DC")!;
     expect(district.displayName).toBe("Mayor of the District of Columbia");
     expect(district.displayName).not.toContain("Governor");
-    expect(stateExecutiveOffice("PR")).toBeNull();
+    for (const [usps, name] of [
+      ["PR", "Governor of Puerto Rico"],
+      ["GU", "Governor of Guam"],
+      ["VI", "Governor of the U.S. Virgin Islands"],
+      ["AS", "Governor of American Samoa"],
+      ["MP", "Governor of the Northern Mariana Islands"],
+    ] as const) {
+      expect(stateExecutiveOffice(usps)!.displayName).toBe(name);
+      expect([...US_STATE_USPS]).not.toContain(usps);
+    }
   });
 
   it.each([...US_STATE_USPS])(
@@ -80,7 +88,7 @@ describe("NATIONWIDE opening state executive", () => {
       expect(world.people[holder!.personId]).toBeDefined();
       expect(holder!.personId).not.toBe(playerPersonId);
       // No admitted law in this composition: the term is dated by the office
-      // calendar (verified for Washington, the labelled game profile
+      // calendar (verified for Washington, the labeled game profile
       // elsewhere), never guessed per state.
       const window = regularTermWindowOn(
         stateExecutiveTermRule(usps)!,
@@ -126,12 +134,12 @@ describe("NATIONWIDE opening state executive", () => {
     },
   );
 
-  it("opens a District or Puerto Rico life without inventing a state governor", () => {
+  it("opens a District or territory life with its own chief executive, never a state's", () => {
     // The invariant is that no US-state governorship is manufactured for a
-    // jurisdiction that is not a state. Puerto Rico seating nothing is this
-    // branch not having compiled its real Governor, not a statement about
-    // Puerto Rico.
-    for (const usps of ["DC", "PR"]) {
+    // jurisdiction that is not a state. The District opens with its Mayor and
+    // a territory with its own Governor, a fictional holder on the game's
+    // profile until the territory's law is read.
+    for (const usps of ["DC", "PR", "GU"]) {
       const place = searchLifePlaces("", 1, {
         stateJurisdictionKey: `US-${usps}`,
         scope: "locality",
@@ -141,15 +149,18 @@ describe("NATIONWIDE opening state executive", () => {
       const officeKeys = currentPublicOfficeholders(world).map(
         (holder) => holder.officeKey,
       );
-      expect(officeKeys).not.toContain(`us-${usps.toLowerCase()}-governor`);
+      expect(
+        officeKeys.filter((key) => /^us-(?!pr|gu)[a-z]{2}-governor$/.test(key)),
+      ).toEqual([]);
       expect(officeKeys.slice(0, 3)).toEqual([
         "us-president",
         "us-chief-justice",
         "us-vice-president",
       ]);
-      // The District's own office opens with the life. Puerto Rico's is not
-      // compiled, so nothing opens with it yet.
-      expect(officeKeys.slice(3)).toEqual(usps === "DC" ? ["dc-mayor"] : []);
+      // The jurisdiction's own office opens with the life, and no other.
+      expect(officeKeys.slice(3)).toEqual([
+        usps === "DC" ? "dc-mayor" : `us-${usps.toLowerCase()}-governor`,
+      ]);
     }
   });
 

@@ -241,7 +241,7 @@ describe("the institutional work route", () => {
   /**
    * The nationwide route composed in #255 files its measure through the same
    * producer, from a seated member's own chamber. It carried `designation:
-   * "WORK 1"` — the HB 214 defect generalised, one fixed bill identity for
+   * "WORK 1"` — the HB 214 defect generalized, one fixed bill identity for
    * every registered legislature — which the `authoredDesignation` rename
    * caught the moment the two were composed.
    */

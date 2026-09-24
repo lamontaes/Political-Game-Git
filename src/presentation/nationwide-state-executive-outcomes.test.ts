@@ -54,8 +54,8 @@ import { passOrdinaryDays } from "./ordinary-life";
  * shared clock. Nothing is supplied; the win is earned, and it stops the
  * moment real work has earned it rather than after a fixed guess.
  */
-function wonKentuckyCampaign() {
-  const { world, personId } = adultLifeIn("KY", "nationwide-dated");
+function wonMinnesotaCampaign() {
+  const { world, personId } = adultLifeIn("MN", "nationwide-dated");
   let next = fileForStateExecutiveOffice(world, personId);
   const contest = next.history.electionContests!.at(-1)!;
   // Campaign in the run-up, not months out. A lead built early is not a lead
@@ -65,7 +65,7 @@ function wonKentuckyCampaign() {
   next = passUntil(next, addDays(contest.electionDate, -90));
   next = spendAnAfternoon(next, personId, "fundraising");
   // Work every remaining day rather than stopping the moment the projection
-  // turns favourable. Stopping early leaves a gap for support to move back —
+  // turns favorable. Stopping early leaves a gap for support to move back —
   // the first version of this stopped 45 days out with the projection saying
   // "winner" and lost the election, because the opponent kept running while
   // the player did not.
@@ -95,8 +95,8 @@ describe("GOVERNING state executive outcomes: won, lost, and a winner who dies",
     const decided = runToElection(filed, personId, suppliedWin(personId));
     expect(projectCampaign(decided, personId).phase).toBe("won");
     const planned = stateExecutiveEntryStatus(decided, personId);
-    expect(planned.kind).toBe("awaiting-qualification");
-    if (planned.kind !== "awaiting-qualification") return;
+    expect(planned.kind).toBe("qualified-awaiting-entry");
+    if (planned.kind !== "qualified-awaiting-entry") return;
 
     const qualified = qualifyForStateExecutiveTerm(decided, personId);
 
@@ -166,45 +166,39 @@ describe("GOVERNING state executive outcomes: won, lost, and a winner who dies",
 
 describe("NATIONWIDE ordinary state executive entry once term facts are admitted (test fixture, not law)", () => {
   it("won contest -> dated term -> qualification -> entry -> governed action -> reopen", () => {
+    // Minnesota: a 2026 governor's race, and executive powers compiled for the
+    // governed action below.
     bindRuleCapabilityResolver(FIXTURE_TERM_FACTS);
-    const { world, personId, rounds } = wonKentuckyCampaign();
+    const { world, personId, rounds } = wonMinnesotaCampaign();
     console.info(
       `[nationwide-entry dated route] won after ${rounds} rounds of campaign work`,
     );
     // Earned on the ordinary path, not supplied by a fixture handler.
     expect(projectCampaign(world, personId).phase).toBe("won");
-    const kentucky = stateExecutiveIdentity("KY")!;
+    const minnesota = stateExecutiveIdentity("MN")!;
 
+    // Meeting the office's requirements is checked for the winner, not
+    // pressed: the won term is already qualified, and nothing is on the
+    // player's desk until the start date.
     const planned = stateExecutiveEntryStatus(world, personId);
-    expect(planned.kind).toBe("awaiting-qualification");
-    if (planned.kind !== "awaiting-qualification") return;
+    expect(planned.kind).toBe("qualified-awaiting-entry");
+    if (planned.kind !== "qualified-awaiting-entry") return;
     // The admitted fixture's reference start follows the regular election.
     expect(planned.startsAt).toBe("2027-01-15");
     expect(planned.endsAt).toBe("2031-01-15");
-    expect(planned.qualificationBlocks).toEqual([]);
     expect(resolveExecutiveOffice(world)).toBeNull();
 
-    // Control: without recorded qualification the term is not entered.
-    const unqualified = passUntil(world, planned.startsAt);
-    expect(resolveExecutiveOffice(unqualified)).toBeNull();
-    expect(stateExecutiveEntryStatus(unqualified, personId).kind).toBe(
-      "term-over-or-not-entered",
-    );
-
     const qualified = qualifyForStateExecutiveTerm(world, personId);
-    expect(stateExecutiveEntryStatus(qualified, personId).kind).toBe(
-      "qualified-awaiting-entry",
-    );
-    expect(qualifyForStateExecutiveTerm(qualified, personId)).toBe(qualified);
+    expect(qualified).toBe(world);
 
     const entered = passUntil(qualified, planned.startsAt);
     expect(stateExecutiveEntryStatus(entered, personId).kind).toBe("in-office");
     const office = resolveExecutiveOffice(entered)!;
     expect(office.origin).toBe("elected-term");
-    expect(office.pack.office.officeKey).toBe(kentucky.officeKey);
+    expect(office.pack.office.officeKey).toBe(minnesota.officeKey);
     expect(office.relationship.startedAt).toBe(planned.startsAt);
     const holder = currentPublicOfficeholders(entered).find(
-      (record) => record.officeKey === kentucky.officeKey,
+      (record) => record.officeKey === minnesota.officeKey,
     )!;
     expect(holder.personId).toBe(personId);
     expect(holder.startedAt).toBe(planned.startsAt);
@@ -238,15 +232,16 @@ describe("NATIONWIDE ordinary state executive entry once term facts are admitted
         outcome.summary,
       ),
     ).toBe(governed);
-    // Control: the same public event gives a non-holder nothing.
+    // Control: the same public event gives a non-holder nothing. Before the
+    // start date the winner holds nothing yet.
     expect(
       receiveExecutiveWorkIfCurrentOffice(
-        unqualified,
+        world,
         outcome.id,
         "Transition briefing",
         outcome.summary,
       ),
-    ).toBe(unqualified);
+    ).toBe(world);
   }, 240_000);
 
   it("a lost contest never produces a term for the loser", () => {
@@ -254,7 +249,7 @@ describe("NATIONWIDE ordinary state executive entry once term facts are admitted
     // Losing needs no search: not campaigning is how a filing loses. One life,
     // one filing, no work, and the ordinary handler decides it.
     {
-      const { world, personId } = adultLifeIn("KY", "nationwide-lost");
+      const { world, personId } = adultLifeIn("PA", "nationwide-lost");
       const decided = runToElection(
         fileForStateExecutiveOffice(world, personId),
         personId,

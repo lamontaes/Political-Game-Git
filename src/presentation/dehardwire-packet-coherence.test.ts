@@ -139,7 +139,7 @@ describe("the sitting and the bill are the same bill", () => {
     );
 
     // 6. Beneficiary and place belong to the same authored measure as the
-    //    sections, so the ask in the room is about this bill's programme.
+    //    sections, so the ask in the room is about this bill's program.
     expect(facts.requestedBeneficiaryLabel).toBe(BENEFICIARY_LABEL);
     expect(facts.requestedPlaceLabel).toBe(PLACE_LABEL);
 

@@ -743,7 +743,7 @@ export class ArtbenchStore {
   /**
    * Check these candidates' bytes in the background, in the given order, one
    * per event-loop turn, so requests keep being answered meanwhile. A new
-   * call re-prioritises: its candidates go first (or last, with first: false).
+   * call re-prioritizes: its candidates go first (or last, with first: false).
    */
   queueBytesVerification(
     candidates: readonly ProjectedCandidate[],

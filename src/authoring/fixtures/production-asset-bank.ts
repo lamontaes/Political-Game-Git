@@ -16,7 +16,7 @@
  * The two mislabelled files are worth banking rather than deleting. They are
  * JPEG bitstreams inside files named `.png`, which is a specific and quiet kind
  * of wrong: every tool in the chain opens them, the container lies about the
- * codec, and a raster ladder built from one would carry JPEG artefacts under a
+ * codec, and a raster ladder built from one would carry JPEG artifacts under a
  * lossless label forever. Recording them as `reject` with the reason is how the
  * next person avoids re-deriving that discovery.
  */
@@ -34,7 +34,7 @@ import {
  * Only two questions were genuinely answered by it — whether there are people
  * painted into the picture, and whether any text in it is readable — because
  * those are the two a careful look settles. Everything else stays
- * `unassessed`, including the style judgement, because "does this belong to the
+ * `unassessed`, including the style judgment, because "does this belong to the
  * same art family as the rest of the library" is a comparison nobody has made
  * side by side.
  */
@@ -237,7 +237,7 @@ const ENTRIES: readonly AssetBankEntry[] = [
     assessedBy: "automated-measurement",
     assessedAt: "2026-09-02",
     notes: [
-      "A JPEG bitstream in a file named .png. Every tool in the chain opens it happily, which is exactly the problem: a ladder built from it would carry JPEG artefacts under a lossless label forever.",
+      "A JPEG bitstream in a file named .png. Every tool in the chain opens it happily, which is exactly the problem: a ladder built from it would carry JPEG artifacts under a lossless label forever.",
       "Rejected as it stands. Remuxing it into a real PNG and declaring it an `external-upscale-derivative` with nativeDetailWidth 1376 would make it admissible; nothing about that is automatic, and it has not been done.",
     ],
   },

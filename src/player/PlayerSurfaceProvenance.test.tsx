@@ -25,7 +25,7 @@ import { World39News } from "./World39News";
  * instead — the thing the player's browser actually receives.
  *
  * Markup proof, in the style of the other component tests here: pointer and
- * keyboard behaviour is a browser proof and is not claimed by this file.
+ * keyboard behavior is a browser proof and is not claimed by this file.
  */
 
 function openingLife(seed: string) {

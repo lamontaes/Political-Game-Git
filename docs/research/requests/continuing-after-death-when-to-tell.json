@@ -1,12 +1,13 @@
 {
   "answer": {
-    "answeredAt": "2026-09-22T05:35:39.000Z",
-    "answeredBy": "lamontae",
-    "finding": "Settled by the owner, and none of the three shapes is the answer. He decided that succession will be explained at the beginning, in a tutorial that does not exist yet: 'the death/succession thing will be explained in the beginning in a still to be made tutorial.' That removes the question from research — it is not a thing to go and find out, it is a decision he has made — and turns it into future work on a tutorial that has not been built. This record is withdrawn rather than answered by a researcher, and is kept so the same question is not filed again in six weeks. Nothing was built toward it.",
+    "finding": "Owner decision (2026-09-22): the successor is an existing person with their own work, contacts and history, chosen from a shortlist of people connected to the current life or by searching any eligible existing person in the world, with that person's work and relationships shown before choosing. They may know of or know the previous character but inherit none of that person's friendships, trust, spouse, job or social knowledge by default; the world and its history persist. Write relationships naturally ('Dean Campos, your housemate') and invent no spouse, job or scene the facts do not support. Earlier answer (2026-09-22T05:35:39.000Z), kept: Settled by the owner, and none of the three shapes is the answer. He decided that succession will be explained at the beginning, in a tutorial that does not exist yet: 'the death/succession thing will be explained in the beginning in a still to be made tutorial.' That removes the question from research — it is not a thing to go and find out, it is a decision he has made — and turns it into future work on a tutorial that has not been built. This record is withdrawn rather than answered by a researcher, and is kept so the same question is not filed again in six weeks. Nothing was built toward it.",
     "sources": [
+      "docs/research/chatgpt-answers/2026-09-22-nationwide-2315/OCD-PEOPLE-RELATIONSHIPS-SUCCESSOR--OWNER-DECISIONS--2026-09-22.md (Drive 1qKPrPPOXzdCV43duKTbj_dK-DEZV35nm, SHA-256 f917f9eba59ba745069ad3257547fee43153a81c80f4892838a63f58df8040eb)",
       "lamontae, in the project timeline, 2026-09-22T05:35:39Z: 'the death/succession thing will be explained in the beginning in a still to be made tutorial.'"
     ],
-    "stillOpen": "What the tutorial says, and when it gets built. That is work, not research, and belongs on a board rather than in this queue."
+    "answeredBy": "ChatGPT",
+    "answeredAt": "2026-09-22T23:15:00.000Z",
+    "stillOpen": "The browsing and filter screen, and which existing people are eligible, are not decided. Earlier: What the tutorial says, and when it gets built. That is work, not research, and belongs on a board rather than in this queue."
   },
   "filedAt": "2026-09-22T05:35:00.000Z",
   "impact": "shapes-design",
@@ -35,5 +36,5 @@
   ],
   "title": "When a player should learn that the game continues after they die",
   "usableAnswer": "Which of the three shapes, stated plainly. If shape two, what the line actually says, and whether it names the specific people who could carry on or only says that the game goes on. If shape three, what the ending screen should carry that it does not carry now.",
-  "whyItMatters": "A player can currently play an entire life believing it ends when they do, because nothing anywhere says otherwise until the moment it is already over. Multi-generation play is something the owner has called a core part of what needs to ship, and it is presently invisible for the whole of the only life most players will ever finish. The choice is not a detail of wording: shape one changes how a player treats their family from the first day, shape two changes it only once they have one, and shape three leaves the current behaviour and reads as the game forgetting to mention something. Guessing wrong means building the wrong relationship between the player and their own household, and nothing in the repository can catch that."
+  "whyItMatters": "A player can currently play an entire life believing it ends when they do, because nothing anywhere says otherwise until the moment it is already over. Multi-generation play is something the owner has called a core part of what needs to ship, and it is presently invisible for the whole of the only life most players will ever finish. The choice is not a detail of wording: shape one changes how a player treats their family from the first day, shape two changes it only once they have one, and shape three leaves the current behavior and reads as the game forgetting to mention something. Guessing wrong means building the wrong relationship between the player and their own household, and nothing in the repository can catch that."
 }

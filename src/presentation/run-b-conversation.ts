@@ -81,7 +81,7 @@ export type ConversationAudibility = (typeof RUN_B_AUDIBILITY_OPTIONS)[number];
  *
  * This was a closed union naming every intent in the game, which meant adding
  * a conversation about anything required editing the engine — and made a
- * subject's own vocabulary something the centre had to approve. An intent is
+ * subject's own vocabulary something the center had to approve. An intent is
  * now an ordinary key, and it is checked at the only point where checking
  * means anything: against the intents the subject in front of the player is
  * actually offering, every turn, before the turn is committed.
@@ -208,6 +208,10 @@ export interface ConversationIntentOption extends ChoiceTruthDeclaration {
   readonly key: ConversationIntent;
   readonly label: string;
   readonly description: string;
+  /** Exact words offered as this reply, when the subject supplies them. */
+  readonly spokenWords?: string;
+  /** The ordinary reply this knowingly false reply replaces in Lie mode. */
+  readonly lieVariantOf?: ConversationIntent;
 }
 
 export interface ConversationDialogueBeat {
@@ -801,8 +805,8 @@ export function commitConversationTurn(
       }
       // An opinion about this person, on this subject. Carrying the subject in
       // the key is what keeps a revision a revision: without it, what somebody
-      // made of a neighbour at a doorstep would silently replace what they
-      // made of the same neighbour about something else entirely.
+      // made of a neighbor at a doorstep would silently replace what they
+      // made of the same neighbor about something else entirely.
       const perceptionSubjectKey = conversationPerceptionSubjectKey(
         commit.subject,
         claimSpeakerPersonId,

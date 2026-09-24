@@ -5,6 +5,9 @@ export * from "./causal-effects";
 export * from "./candidacy-packs";
 export * from "./candidacy";
 export * from "./district-residence";
+export * from "./campaign-speeches";
+export * from "./migration";
+export * from "./pressure";
 export * from "./campaign-queries";
 export * from "./campaign-compliance";
 export * from "./campaign-compliance-rules";
@@ -65,10 +68,12 @@ export {
   campaignLifeOutreachTransitionHandler,
   ensureCampaignLifeOutreach,
   offerCampaignLifeActivity,
+  oldEnoughForCampaignLife,
   projectCampaignGuidance,
   projectCampaignLifeActivities,
   recordCampaignLifeAttendance,
   requestCampaignLifeActivity,
+  campaignLifeRefusal,
 } from "./campaign-life-activities";
 export type {
   CampaignGuidanceOffice,
@@ -248,11 +253,17 @@ export * from "./national-election-geography";
 
 export * from "./national-election-offices";
 
+export * from "./legislative-election-rules";
 export * from "./legislative-office-terms";
 export * from "./office-transition";
+export * from "./oath-of-office";
+export * from "./office-entry-repair";
+export * from "./late-term-entry-events";
 export * from "./constitutional-process";
 export type * from "./constitutional-types";
 export * from "./enacted-rule-changes";
+export * from "./policy-provisions";
+export * from "./law-hierarchy";
 export * from "./tax-policy";
 export type * from "./tax-types";
 
@@ -265,13 +276,19 @@ export * from "./nationwide-world/district-of-columbia";
 export * from "./nationwide-world/government-jurisdiction";
 export * from "./nationwide-world/rule-capability-port";
 export * from "./nationwide-world/state-executive-candidacy-packs";
+export * from "./nationwide-world/congress-candidacy-packs";
 export * from "./nationwide-world/local-governing-body-candidacy-packs";
 export * from "./nationwide-world/state-executives";
 export * from "./nationwide-world/state-executive-terms";
 export * from "./nationwide-world/state-executive-term-rules";
+export * from "./nationwide-world/executive-term-rules-in-world";
+export * from "./nationwide-world/executive-term-limits";
 export * from "./nationwide-world/state-executive-turnover";
 export * from "./nationwide-world/state-executive-turnover-calendar";
+export * from "./nationwide-world/state-legislative-election-calendar";
 export * from "./governing/state-governing";
+export * from "./governing/office-staff-hiring";
+export * from "./governing/office-staffing";
 export * from "./governing/state-disposition";
 export * from "./governing/governing-calendar";
 export * from "./nationwide-world/residence-duration";
@@ -279,3 +296,9 @@ export * from "./nationwide-world/prior-terms";
 export * from "./nationwide-world/local-governments";
 export * from "./living-world";
 export * from "./crisis";
+export * from "./nationwide-world/political-culture";
+export * from "./nationwide-world/chief-executive-election-cycles";
+export * from "./crisis/handling-reactions";
+export * from "./nationwide-world/presidential-turnover";
+export * from "./living-world/federal-reform";
+export * from "./federal-tenures";

@@ -1,3 +1,4 @@
+import { writeLegacyHouseholdEveningInvitation } from "../simulation/life-opportunities";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -181,7 +182,17 @@ describe("where a life actually is", () => {
   });
 
   it("does not equate a scheduled interval with attendance", () => {
-    const life = anOrdinaryLife("venue-invitation");
+    // The household's earlier commitment was the evening invitation. Play
+    // stopped writing it on 2026-09-22; a save made before then still holds
+    // one, and the refusal below still has to respect it.
+    const opened = anOrdinaryLife("venue-invitation");
+    const life = {
+      ...opened,
+      world: writeLegacyHouseholdEveningInvitation(
+        opened.world,
+        opened.personId,
+      ),
+    };
     const meeting = scheduledActivitiesVisibleTo(
       life.world,
       life.personId,
@@ -224,7 +235,7 @@ describe("where a life actually is", () => {
    * CHANGING A BACKDROP IS NOT TRAVEL. Somebody in transit is in neither end
    * of the journey, and the destination is not painted early.
    */
-  it("refuses to paint a destination while somebody is travelling to it", () => {
+  it("refuses to paint a destination while somebody is traveling to it", () => {
     const life = anOrdinaryLife("venue-travel");
     // A journey has to hang off the same canonical record the meeting does;
     // `createScheduledActivity` refuses one with no provenance, which is the
@@ -249,7 +260,7 @@ describe("where a life actually is", () => {
       participantPersonIds: [life.personId],
       responsiblePersonId: life.personId,
       // Deliberately the DESTINATION's own key: even naming a room that has a
-      // picture must not put a traveller inside it.
+      // picture must not put a traveler inside it.
       location: {
         locationKey: "ordinary-life:meeting-room",
         label: "On the way to the meeting room",

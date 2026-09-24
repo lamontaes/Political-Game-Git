@@ -3,7 +3,7 @@
  *
  * A brief is assembled from the request, the current style/template hashes,
  * measured plate facts, and the scene scaffold's honestly unresolved geometry.
- * It never fabricates a millimetre, treats a specified camera angle as a
+ * It never fabricates a millimeter, treats a specified camera angle as a
  * measured proof, or treats 600×1200 standing as a mandatory native generator
  * size — that size is a fitted derivative when a parent exists.
  */

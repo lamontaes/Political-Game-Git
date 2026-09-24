@@ -1,7 +1,9 @@
+import { localGoverningSeatFor } from "./local-governing-seat";
 import {
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
 } from "../simulation";
+import { congressSeatStatus } from "./congress-candidacy";
 import {
   workRelationshipHistoryForPerson,
   workRoleAt,
@@ -12,11 +14,16 @@ import { currentOpeningLifeScene } from "./life-scene-flow";
 import { formatMinute, projectPlayerCalendar } from "./player-calendar";
 import { projectOrdinaryDay } from "./ordinary-life";
 import { proseDate } from "./prose-dates";
+import { offerDeadlines } from "./offer-deadlines";
+import { careerReplyBy } from "../simulation/career-path7";
 import {
   electedExecutiveTermForRelationship,
   recordedExecutiveQualification,
 } from "../simulation/executive-work-context";
+import { legislativeTermForRelationship } from "../simulation/legislative-office-terms";
 import { completedActivityHere } from "./scene-venues";
+import { careerOfferAccepted } from "../simulation/career-path7";
+import { currentSchooling } from "../simulation/school-stages";
 
 /**
  * Today, as four answers rather than a stack of panels.
@@ -116,8 +123,14 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
       // "What is waiting on me?" is one of the four questions this surface
       // exists to answer, and an unanswered offer of work is exactly that.
       // A qualified term is waiting on the calendar, not on the player.
+      // An accepted offer is waiting on nothing until its start date comes;
+      // from then on it waits on the player beginning it.
       ...offersAwaitingAnswer(world, personId)
-        .filter((offer) => offer.answer !== "qualified")
+        .filter(
+          (offer) =>
+            offer.answer !== "qualified" &&
+            !(offer.answer === "accepted" && offer.startIsAhead),
+        )
         .map((offer) => ({
           key: `work-offer:${offer.relationshipId}`,
           // The start date is quoted only while it is still ahead. An offer
@@ -131,12 +144,27 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
           sentence:
             offer.answer === "qualify"
               ? electedTermSentence(offer)
-              : offer.startIsAhead
-                ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.`
-                : `${offer.roleTitle}: an offer of work is waiting for your answer.`,
+              : offer.answer === "accepted"
+                ? acceptedOfferSentence(offer)
+                : `${offer.startIsAhead ? `${offer.roleTitle}: an offer of work is waiting for your answer, to start on ${proseDate(offer.startsOn)}.` : `${offer.roleTitle}: an offer of work is waiting for your answer.`}${replyBySentence(world, offer.relationshipId)}`,
+        })),
+      // An offer from a town listing is answered on the Jobs list. It lapses
+      // at its reply date, so it is said here too, with that date: in Atlanta
+      // one lapsed having been shown nowhere but that list.
+      ...offerDeadlines(world, personId)
+        .filter((deadline) => deadline.key.startsWith("job-offer:"))
+        .map((deadline) => ({
+          key: deadline.key,
+          sentence: deadline.sentence,
         })),
     ],
   };
+}
+
+/** The last day to answer an older offer, said so the lapse is no surprise. */
+function replyBySentence(world: World, relationshipId: EntityId): string {
+  const replyBy = careerReplyBy(world, relationshipId);
+  return replyBy ? ` Answer by ${proseDate(replyBy)}, or it lapses.` : "";
 }
 
 /**
@@ -154,7 +182,7 @@ export interface WorkRole {
   readonly roles: readonly string[];
   /** How many programs of study are active. */
   readonly studying: number;
-  /** Offers made and not yet answered. Not roles, and never counted as ones. */
+  /** Offers made and not yet begun: unanswered, accepted, or a won term. Not roles, and never counted as ones. */
   readonly awaitingAnswer: readonly OfferAwaitingAnswer[];
   /** One sentence for the top of Work. */
   readonly sentence: string;
@@ -184,7 +212,7 @@ export interface OfferAwaitingAnswer {
   /**
    * Whether that date is still ahead of today.
    *
-   * The judgement lives here rather than in one sentence somewhere, so the
+   * The judgment lives here rather than in one sentence somewhere, so the
    * next thing that renders an offer inherits it instead of having to
    * rediscover that `startsOn` goes stale. See "Values whose meaning decays
    * with time" in `docs/systems/player-presentation.md`.
@@ -200,8 +228,12 @@ export interface OfferAwaitingAnswer {
    * Springfield governors walked on 4965f63c read "An offer of work as
    * Governor is waiting for your answer" on every screen, found no Accept for
    * it on Work, and the one that never pressed Qualify lost the term.
+   *
+   * An ordinary offer the character has accepted is "accepted": its status
+   * stays `expected` until they begin on the start date, and an Eastport walk
+   * read "waiting for your answer" about a shop job Fatima had already taken.
    */
-  readonly answer: "accept" | "qualify" | "qualified";
+  readonly answer: "accept" | "accepted" | "qualify" | "qualified";
 }
 
 export function offersAwaitingAnswer(
@@ -220,6 +252,11 @@ export function offersAwaitingAnswer(
       // A term whose start has passed unqualified is not entered late, so it
       // is no longer anything the player can answer.
       if (electedTerm && world.currentDate >= electedTerm.startsAt) return [];
+      // A won legislative seat is not an offer either: it waits for its term
+      // and is taken up on the first day, and "Before you take office" says
+      // so. Listing it here read "An offer of work as Seat in the House of
+      // Representatives is waiting for your answer" with nothing to answer.
+      if (legislativeTermForRelationship(world, relationship.id)) return [];
       return [
         {
           relationshipId: relationship.id,
@@ -227,7 +264,9 @@ export function offersAwaitingAnswer(
           startsOn: relationship.startedAt,
           startIsAhead: relationship.startedAt > world.currentDate,
           answer: !electedTerm
-            ? "accept"
+            ? careerOfferAccepted(world, relationship.id)
+              ? "accepted"
+              : "accept"
             : recordedExecutiveQualification(world, relationship.id)
               ? "qualified"
               : "qualify",
@@ -243,16 +282,28 @@ export function offersAwaitingAnswer(
  */
 export function electedTermSentence(offer: OfferAwaitingAnswer): string {
   return offer.answer === "qualified"
-    ? `You have qualified as ${offer.roleTitle}. The term begins ${proseDate(offer.startsOn)}.`
-    : `You won the race for ${offer.roleTitle}. Qualify for the term under Campaigns before it begins on ${proseDate(offer.startsOn)}.`;
+    ? `You won the race for ${offer.roleTitle}. The term begins ${proseDate(offer.startsOn)}, and you take the oath that day.`
+    : `You won the race for ${offer.roleTitle}, but a requirement of the office is not met, and until it is you cannot take it up. Campaigns says which.`;
+}
+
+/** An accepted offer: when it begins, or that it can be begun now. */
+export function acceptedOfferSentence(offer: OfferAwaitingAnswer): string {
+  return offer.startIsAhead
+    ? `You accepted work as ${offer.roleTitle}. It begins ${proseDate(offer.startsOn)}.`
+    : `You accepted work as ${offer.roleTitle}. You can begin it under Work.`;
 }
 
 function offerSentence(allOffers: readonly OfferAwaitingAnswer[]): string {
   const terms = allOffers
-    .filter((offer) => offer.answer !== "accept")
+    .filter(
+      (offer) => offer.answer === "qualify" || offer.answer === "qualified",
+    )
     .map(electedTermSentence);
+  const accepted = allOffers
+    .filter((offer) => offer.answer === "accepted")
+    .map(acceptedOfferSentence);
   const offers = allOffers.filter((offer) => offer.answer === "accept");
-  return [ordinaryOfferSentence(offers), ...terms]
+  return [ordinaryOfferSentence(offers), ...accepted, ...terms]
     .filter((part) => part.length > 0)
     .join(" ");
 }
@@ -267,21 +318,104 @@ function ordinaryOfferSentence(offers: readonly OfferAwaitingAnswer[]): string {
     .join("; ")}.`;
 }
 
+const GRADE_WORDS = [
+  "kindergarten",
+  "first grade",
+  "second grade",
+  "third grade",
+  "fourth grade",
+  "fifth grade",
+  "sixth grade",
+  "seventh grade",
+  "eighth grade",
+  "ninth grade",
+  "tenth grade",
+  "eleventh grade",
+  "twelfth grade",
+] as const;
+
+/**
+ * The school a child goes to and the grade they are in, or, over the summer,
+ * the school and grade they start in the fall. Null for a life with no
+ * schooling enrollment open; no grade is guessed where the calendar gives none.
+ */
+export function schoolingSentence(
+  world: World,
+  personId: EntityId,
+): string | null {
+  const schooling = currentSchooling(world, personId);
+  if (!schooling) return null;
+  const grade =
+    schooling.grade === null ? null : (GRADE_WORDS[schooling.grade] ?? null);
+  const at = schooling.schoolName ? ` at ${schooling.schoolName}` : "";
+  if (schooling.status === "expected") {
+    const startsAt = schooling.enrollment.startedAt;
+    const when =
+      startsAt <= world.currentDate
+        ? ""
+        : startsAt.slice(0, 4) === world.currentDate.slice(0, 4) &&
+            startsAt.slice(5) >= "08-01"
+          ? ` this fall, on ${proseDate(startsAt)}`
+          : ` on ${proseDate(startsAt)}`;
+    return `You start ${grade ?? "school"}${at}${when}.`;
+  }
+  if (grade) return `You're in ${grade}${at}.`;
+  return schooling.schoolName
+    ? `You go to ${schooling.schoolName}.`
+    : "You are a student.";
+}
+
 export function projectWorkRole(world: World, personId: EntityId): WorkRole {
+  // A seat in Congress is held through the Congress record, not a work
+  // relationship, so it is read from there and named alongside any job.
+  const congress = congressSeatStatus(world, personId);
+  // A town council seat is held through the town government's organization,
+  // not a work relationship, so it is added here by name. Leaving it out had a
+  // member who won in Ely, Minnesota read "You do not hold a job or an office"
+  // directly above the line saying which body they sat on.
+  const townSeat = localGoverningSeatFor(world, personId);
   const roles = [
-    ...new Set(
-      activeWorkRelationshipsAt(world, personId).map(
+    ...new Set([
+      ...activeWorkRelationshipsAt(world, personId).map(
         (entry) => entry.role.title,
       ),
-    ),
+      ...(congress.kind === "in-office" ? [congress.identity.displayName] : []),
+      ...(townSeat
+        ? [
+            townSeat.office === "mayor"
+              ? `${townSeat.mayorTitle}, ${townSeat.governmentName}`
+              : `Member of the ${townSeat.bodyName}, ${townSeat.governmentName}`,
+          ]
+        : []),
+    ]),
   ];
-  const studying = activeEducationEnrollmentsAt(world, personId).length;
-  const study =
-    studying === 0
+  const congressElect =
+    congress.kind === "won-awaiting-term"
+      ? `You won the race for ${congress.identity.displayName}. You take the seat on ${proseDate(congress.startsAt)}.`
+      : "";
+  const active = activeEducationEnrollmentsAt(world, personId);
+  const studying = active.length;
+  // A child's school is named, with the grade the school calendar gives it.
+  // "You are a student." was all an eleven-year-old in Peoria read about the
+  // school they go to every weekday, and over the summer not even that.
+  const school = schoolingSentence(world, personId);
+  const otherStudy = school
+    ? active.filter(
+        (entry) => !entry.enrollment.programKind.startsWith("schooling:"),
+      ).length
+    : studying;
+  const study = [
+    school ?? "",
+    otherStudy === 0
       ? ""
-      : studying === 1
-        ? "You are a student."
-        : `You are enrolled in ${studying} programs.`;
+      : school
+        ? `You are also enrolled in ${otherStudy === 1 ? "one other program" : `${otherStudy} other programs`}.`
+        : otherStudy === 1
+          ? "You are a student."
+          : `You are enrolled in ${otherStudy} programs.`,
+  ]
+    .filter((part) => part.length > 0)
+    .join(" ");
   // An unanswered offer is not a role and is never reported as one. It is
   // added to the same sentence because that sentence is the only thing this
   // character reads about their working life, and leaving it out is what made
@@ -293,6 +427,7 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
       ? "You do not hold a job or an office right now."
       : `${roles.length === 1 ? "Your role" : "Your roles"}: ${roles.join("; ")}.`,
     offer,
+    congressElect,
     study,
   ]
     .filter((part) => part.length > 0)

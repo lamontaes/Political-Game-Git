@@ -1,8 +1,16 @@
 # The one tracked prose artifact, and what it costs
 
+**Superseded 2026-09-23.** `coverage-counts.json` is no longer tracked either.
+It conflicted whenever two branches changed the totals, which on a main taking
+a merge every few minutes was every open pull request, and each conflict forced
+another full local run before anything could land. The owner's standing rule is
+not to commit generated files. With no committed copy there is nothing to go
+stale, so the tripwire below now asserts that no copy is tracked, and
+`npm run corpus:prose` measures the counts when it runs.
+
 **Applied 2026-09-22.** This was written as a proposal; the owner chose it and
 its recommendation — shrink what is tracked to the assertion surface — is now
-the repository's behaviour. `coverage-report.md` and `README.md` are ignored
+the repository's behavior. `coverage-report.md` and `README.md` are ignored
 alongside their four siblings, the tripwire reads the tracked
 `coverage-counts.json`, and the on-disk comparison defect described at the end
 is fixed. The analysis below is kept as written, as the reasoning behind the

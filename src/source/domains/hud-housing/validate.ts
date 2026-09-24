@@ -4,7 +4,7 @@
  * Two things are checked that a schema cannot see. First, that the two products
  * stayed separate: an area appearing once with both a rent and an income limit
  * would mean they had been merged. Second, that nothing in the corpus has grown
- * a field claiming somebody pays a rent or qualifies for a programme.
+ * a field claiming somebody pays a rent or qualifies for a program.
  */
 
 import type {

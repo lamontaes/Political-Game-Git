@@ -1,0 +1,32 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "how-congress-moves-bills",
+  "title": "How members of Congress file, cosponsor and vote on bills, and when a President vetoes",
+  "question": "For the U.S. Congress in recent Congresses (roughly the 110th onward): (1) how many bills and joint resolutions are introduced per Congress in each House, how many get a committee hearing or markup, how many pass each House, and how many are enacted; (2) what makes a member introduce a bill on a subject: committee assignments, the state or district's industries and needs, their own background, party leadership priorities; what share of a member's bills fall in a few recurring subjects; (3) cosponsorship: typical number of cosponsors, the share of bills with at least one cosponsor from the other party, and how cosponsorship relates to passage; (4) committee gatekeeping: the share of bills a committee never acts on, and how that differs by sponsor's party (majority versus minority); (5) floor voting: the share of House and Senate roll calls that are unanimous or near-unanimous, the party-unity rate, how often a member votes against a bill sponsored by the other party or by their own; (6) the Senate: what share of bills pass by unanimous consent without a cloture vote, how often cloture is sought on legislation, and how cloture votes divide by party; (7) the President: veto rates by whether the President's party controls each House, what share of vetoes are overridden, and whether a bill a President's own party mostly opposed tends to be vetoed.",
+  "whyItMatters": "Congress now files and passes bills in every save, member by member. Until this is answered the game uses a marked placeholder: one bill per House on the first of each month; each member has two federal issues drawn once for life and files only on those; every member of the sponsor's party who shares the issue cosponsors, and a member of the other party one time in ten; committees report every bill; an ordinary floor vote is yes unless a member has a reason to object; every Senate bill faces a cloture vote on which the parties divide, so a bill with backers from only one party dies unless that party holds sixty seats; the President signs a bill carrying a member of their own party, vetoes one their party mostly voted against, and signs the rest. In a first 200-day run every bill that passed did so unanimously, which is not how Congress votes. The owner ruled that behavior must not be invented. These numbers replace the placeholder.",
+  "impact": "shapes-design",
+  "lane": "governing and legislative",
+  "usableAnswer": "Rates or ranges with citations (Congress.gov, CRS reports, Voteview, the Senate's cloture statistics, the Senate's veto tables): bills introduced, reported, passed and enacted per Congress per House; the share of bills with a cross-party cosponsor and its passage rate against single-party bills; committee no-action rate by sponsor party; unanimous-vote share and party-unity rate; unanimous-consent passage share and cloture frequency in the Senate; veto and override rates by divided or unified government. Aggregates only; the game generates its own members.",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/governing/congress-lawmaking.ts and src/simulation/governing/legislative-clock.ts on branch claude/project-thread-szdhao",
+      "whatItDidNotSettle": "Every rate and rule in CONGRESS_LAWMAKING_PROFILE and the President's decision are the game's placeholders, not measured."
+    },
+    {
+      "source": "docs/research/requests/how-state-legislators-vote-without-a-stated-position.json",
+      "whatItDidNotSettle": "Asks the same about state legislatures. Congress is more polarized, has the filibuster and a far larger bill volume, so the state answer cannot be borrowed."
+    }
+  ],
+  "requestedBy": "Congress passes laws thread (technical team lead)",
+  "filedAt": "2026-09-23T02:00:00.000Z",
+  "priority": "P0",
+  "notes": [
+    "What each kind of federal law changes in the world, and how federal law outranks state law, is already asked in what-each-level-of-government-may-legislate and is not repeated here.",
+    "A partial answer on items 3, 5 and 6 would be enough to replace the placeholder that decides most outcomes."
+  ],
+  "relatedQuestionIds": [
+    "how-state-legislators-vote-without-a-stated-position",
+    "what-each-level-of-government-may-legislate",
+    "us-congress-rules-verification"
+  ]
+}

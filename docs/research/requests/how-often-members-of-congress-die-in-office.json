@@ -1,0 +1,19 @@
+{
+  "filedAt": "2026-09-23T00:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "How the world changes (world pace)",
+  "priority": "P1",
+  "question": "How often do sitting members of Congress, governors and other elected officials actually die in office, and why is it so much lower than the general population's death rate at the same ages? What mortality adjustment (income, education, health care access, the healthy-candidate effect) and what health-driven retirement or resignation behavior would make a simulated legislature lose members at the real rate?",
+  "questionId": "how-often-members-of-congress-die-in-office",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "How the world changes thread, on lamontae's 2026-09-23 00:20Z message ('there's way too many deaths going on') and two playtests that counted every death in a town as an officeholder's",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/mortality.ts with ssa-2023-period-life-table.json; an observed two-year Columbus run on main at b68ae992",
+      "whatItDidNotSettle": "Every represented person, members of Congress included, dies at the SSA 2023 general-population rate for their age and sex. In the run 19 of 535 members of Congress died in two years (about 1.8 percent a year); the historical in-office rate is far lower (on the order of a few members per two-year Congress). The table is right for the population and wrong for this selected group, and nothing in the repository says by how much or why."
+    }
+  ],
+  "title": "How often members of Congress and other officials die in office",
+  "usableAnswer": "The measured in-office death rate for members of Congress (and governors, state legislators if known) over recent decades with a source, the mortality ratio of that group to the general population at the same ages, and how often ill health ends a term by retirement or resignation instead of death. Give the adjustment as a ratio or table the game can apply to the SSA rate.",
+  "whyItMatters": "Every playtest now reports a stream of 'died while holding office' notices: about nine congressional deaths a year, several times the real rate, each one vacating a seat and generating special elections and news. The death records are correct for the rule the game uses; the rule applies general-population mortality to a group that is much healthier. Until this is answered the rate stays as it is."
+}

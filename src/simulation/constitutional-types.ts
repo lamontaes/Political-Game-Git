@@ -30,7 +30,19 @@ export type ConstitutionalRuleDelta =
       readonly value: RuleChangeValue;
       readonly applicability?: RuleChangeApplicability;
     }
+  | {
+      /**
+       * Writes a policy into, or takes it out of, a state's constitution: one
+       * proposition of the World's policy catalog. See `policy-provisions.ts`
+       * for what it does and does not change.
+       */
+      readonly kind: "policy-provision";
+      readonly propositionId: EntityId;
+      readonly stance: PolicyProvisionStance;
+    }
   | { readonly kind: "text-only"; readonly unsupportedEffect: string };
+/** Whether an amendment puts a policy into the constitution or takes it out. */
+export type PolicyProvisionStance = "adopt" | "repeal";
 /** A narrow measure identity extension; ordinary bill records cannot enter this process. */
 export interface ConstitutionalMeasureRecord extends Pick<
   LegislativeMeasureRecord,
@@ -44,7 +56,7 @@ export interface ConstitutionalMeasureRecord extends Pick<
   | "introducedAt"
 > {
   readonly processKind: ConstitutionalProcessKind;
-  readonly jurisdictionKey: "US" | "US-CA" | "us-nv-carson-city";
+  readonly jurisdictionKey: "US" | `US-${string}` | "us-nv-carson-city";
   readonly text: string;
   readonly textVersion: string;
   readonly sponsoringAuthority: string;
@@ -71,7 +83,8 @@ export type ConstitutionalActionDetail =
   | { readonly kind: "proposed" }
   | {
       readonly kind: "proposal-vote";
-      readonly bodyKey: "house" | "senate" | "assembly";
+      /** A chamber key of the proposing legislature. */
+      readonly bodyKey: string;
       readonly vote: ConstitutionalVoteRecord;
     }
   | {
@@ -107,7 +120,7 @@ export interface ConstitutionalRuleVersionRecord {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
-  readonly jurisdictionKey: "US" | "US-CA";
+  readonly jurisdictionKey: "US" | `US-${string}`;
   readonly measureId: EntityId;
   readonly effectiveAt: IsoDate;
   readonly operativeAt: IsoDate;

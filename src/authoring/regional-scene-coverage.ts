@@ -213,7 +213,7 @@ export interface RegionalSceneEntry {
    *
    * Prose on purpose. It is not selectors and it does not become selectors by
    * being read: turning "the lower, warmer parts of Pima, Pinal and Maricopa"
-   * into place GEOIDs is a judgement with sources behind it, and code that
+   * into place GEOIDs is a judgment with sources behind it, and code that
    * guessed at it would be inventing coverage. His own research file says the
    * same thing about itself — its status is
    * `research-input-not-runtime-admission` and it carries no IDs at all.

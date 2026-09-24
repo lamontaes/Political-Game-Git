@@ -275,7 +275,7 @@ describe("a room says only what this world knows", () => {
   /**
    * A world event nobody told this character about is in the world, and it is
    * not on any wall. The event is deliberately given a distinctive summary so
-   * a leak is a string match rather than a judgement call.
+   * a leak is a string match rather than a judgment call.
    */
   it("cannot leak a hidden canonical fact through a surface", () => {
     const opened = openWork("surface-secrecy");

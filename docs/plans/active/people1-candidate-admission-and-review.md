@@ -26,7 +26,7 @@ size a person is. Everything under it is the evidence for that one body: what it
 can wear, what it cannot and why, what was measured, what could not be, and where
 the reviewed pixels disagree with the label the file was carrying.
 
-The two neighbouring surfaces are unchanged and still one click away:
+The two neighboring surfaces are unchanged and still one click away:
 `?view=character-proof&set=real` (banked pg parts, whole people) and
 `?view=character-proof&set=dev` (procedural fixtures).
 
@@ -123,7 +123,7 @@ Left unresolved, on every record:
 - **`brow`** — hair attaches to it and these rasters have blank faces, so there
   is no brow line to measure. It is absent from the anchors, which is why
   `validateProductionBodyAnchors` correctly rejects all twelve for production.
-- **`root`** — the pelvis-hip-centre is an interior joint and is not observable
+- **`root`** — the pelvis-hip-center is an interior joint and is not observable
   in a silhouette. The emitted root is the _measured_ waistband row, a
   measurement-derived visual estimate, non-authoritative under D-068.
 - **complexion band** — an art-direction assignment, not a measurement.
@@ -252,7 +252,7 @@ the pelvis root. `measureBodyRig` emits `rig.waistRow` for it.
 | `wave_a_average_man_standing_neutral_front_a_v1` | **0.376**       | 0.566        | 0.579           |
 
 Every bottom in the bank hangs from this anchor, so on the pg surface that
-ships today trousers start at the ribcage and end mid-shin — the bare grey
+ships today trousers start at the ribcage and end mid-shin — the bare gray
 shins visible under every figure at `?view=character-proof&set=real`, and the
 "knee" skirt that reaches the upper thigh. The derived runtime bodies place
 `hips` on the measured hip line: the widest central run between the waist and
@@ -350,7 +350,7 @@ recorded with its reason. Nothing is flattened to raise a count.
 Named, not glossed:
 
 - The render plan still reports `head` in `MISSING` for a baked-head body; the
-  resolver and the review surface honour `baked_slots`, `buildCharacterRenderPlan`
+  resolver and the review surface honor `baked_slots`, `buildCharacterRenderPlan`
   does not yet.
 - Serialize/reload identity proof with a real wardrobe change is not written.
 - Scene placement against the office anchors and the production person/portrait

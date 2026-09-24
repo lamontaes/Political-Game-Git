@@ -5,6 +5,7 @@ import {
   createPolicyPropositionDefinition,
   createPoliticalPrincipleDefinition,
 } from "./policy";
+import { POLICY_GOVERNMENT_LEVELS } from "./types";
 import type {
   KnowledgeSubjectDefinition,
   KnowledgeSubjectScope,
@@ -31,7 +32,7 @@ import type {
  *
  * This is the schema and the loader for dropping it in. It is deliberately the
  * same shape as `trait-packs.ts`, because a modder who has written one should
- * recognise the other: rows referencing rows by stable key, every reference
+ * recognize the other: rows referencing rows by stable key, every reference
  * resolved once at load against declarations that exist, and a row that does
  * not resolve rejected by name with its reason rather than ignored at play
  * time, where a row matching nothing looks exactly like a row doing its job.
@@ -381,6 +382,23 @@ export function loadPolicyPacks(packs: readonly PolicyPack[]): PolicyRegistry {
       }
       seenIssues.add(row.key);
       const qualified = qualifiedPolicyKey(pack.pack, row.key);
+      // A level nobody defined routes the question nowhere, so it is dropped
+      // by name and the issue loads with the levels that do mean something.
+      // Keeping it would let a pack invent a level of government a consumer
+      // filtering by level has never heard of; refusing the whole issue would
+      // lose a real question over one bad word.
+      const levels: PolicyGovernmentLevel[] = [];
+      for (const level of row.levels ?? []) {
+        if (!(POLICY_GOVERNMENT_LEVELS as readonly string[]).includes(level)) {
+          rejections.push({
+            pack: pack.pack,
+            where: `issue "${row.key}" level "${level}"`,
+            reason: `is not a level of government (${POLICY_GOVERNMENT_LEVELS.join(", ")}), so it was left off`,
+          });
+          continue;
+        }
+        if (!levels.includes(level)) levels.push(level);
+      }
       issues.set(
         qualified,
         createPolicyIssueDefinition(
@@ -388,7 +406,7 @@ export function loadPolicyPacks(packs: readonly PolicyPack[]): PolicyRegistry {
           domain.id,
           row.name,
           row.description,
-          row.levels ?? [],
+          levels,
         ),
       );
       issuesByDomain.set(domainKey, (issuesByDomain.get(domainKey) ?? 0) + 1);

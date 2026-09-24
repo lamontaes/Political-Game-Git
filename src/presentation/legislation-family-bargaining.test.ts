@@ -8,9 +8,12 @@ import {
   serializeWorld,
 } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
-import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import { openOrdinaryLife } from "./ordinary-life";
+import { projectCampaign } from "./campaign-projection";
+import {
+  campaignUntilDecided,
+  fileForOffice,
+} from "../../tests/fixtures/campaign-fixture";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import { applyLegislativeStep } from "./legislation-session";
 import { openLegislativeBargaining } from "./legislative-bargaining-world";
@@ -37,7 +40,7 @@ import {
  * The accepted sitting could only ever be about a transit local match: the
  * amendment action reached past its own facts to module constants naming a
  * transit authority in Ashland. The politics were general; only the producer
- * was hard-wired. These tests hold the generalisation to its claim — that a
+ * was hard-wired. These tests hold the generalization to its claim — that a
  * broadband bill is bargained over broadband — through the ordinary player
  * route, with the accepted authority guards intact.
  */
@@ -54,18 +57,15 @@ function wonSeat() {
   });
   const personId = built.playerPersonId;
   let world = fileForOffice(openOrdinaryLife(built.world, personId), personId);
-  world = spendAnAfternoon(world, personId, "fundraising");
-  for (let index = 0; index < 3; index += 1) {
-    world = passOrdinaryDays(world);
-    world = spendAnAfternoon(world, personId, "outreach");
-  }
-  for (
-    let day = 0;
-    day < 60 && projectCampaign(world, personId).phase === "active";
-    day += 1
-  ) {
-    world = passOrdinaryDays(world);
-  }
+  /*
+   * Plays through the shared helper rather than the weaker hand-rolled
+   * sequence that used to live here: one fundraising afternoon, three outreach
+   * afternoons, then sixty idle days. That sequence won only against a single
+   * opponent. A contest now opens with two to four, so the idle days lost the
+   * race and this fixture stopped reaching a seated member at all. The
+   * assertion is unchanged; only the effort that reaches it is.
+   */
+  world = campaignUntilDecided(world, personId);
   expect(projectCampaign(world, personId).phase).toBe("won");
   return { world: enterSupportedTerm(world, personId), personId };
 }

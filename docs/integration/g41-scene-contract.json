@@ -282,7 +282,7 @@
         }
       ],
       "explicitUnknowns": [
-        "P29-G standing calibration is authored image-space visual-estimate, not surveyed dimensions or inferred body height in metres. Only canonical-03 standing is calibrated; no newly accepted seated family is asserted.",
+        "P29-G standing calibration is authored image-space visual-estimate, not surveyed dimensions or inferred body height in meters. Only canonical-03 standing is calibrated; no newly accepted seated family is asserted.",
         "Foreground floor anchor paints in front of the coffee table; lower-depth anchors use its authored silhouette, not its coarse rectangular debug bounds.",
         "Every anchor contact below is a visual estimate read off this plate at the point where the furniture visibly meets the floor. Seat planes are read from the visible cushion; no seat hidden behind another object is declared.",
         "The window slot carries only neutral art. Time of day and weather have no canonical owner in this world, so the slot marks where such a binder would attach and shows the painted daylight until one exists.",

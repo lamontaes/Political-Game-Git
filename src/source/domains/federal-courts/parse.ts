@@ -79,7 +79,7 @@ export function readSection(document: string, identifier: string): UslmSection {
   // numbered it, as a <paragraph> wrapping <num> and <content>. Both carry real
   // divisions — reading only <p> loses 25 of them — and a <paragraph> that
   // contains a <p> would otherwise be counted twice, so nested ones are skipped
-  // in favour of the <p> elements inside them.
+  // in favor of the <p> elements inside them.
   const collected: { at: number; className: string; text: string }[] = [];
   for (const match of markup.matchAll(/<p\b([^>]*)>([\s\S]*?)<\/p>/g)) {
     const attributes = match[1] ?? "";

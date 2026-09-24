@@ -183,7 +183,7 @@ represented as accepted main or opened as a PR.
   fetches and resolves an exact commit, builds in a controller-owned clean
   worktree, checks compiled provenance/profile/arm64 identity, runs the actual
   packaged-game smoke test, and only then atomically activates the version.
-  Offline, cancelled, failed, busy/running-game and non-descendant targets keep
+  Offline, canceled, failed, busy/running-game and non-descendant targets keep
   the prior verified build. The current game must close through its existing
   save guard before a pending update can activate.
 - The ordinary gameplay client remains free of repository credentials and

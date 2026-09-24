@@ -23,7 +23,7 @@ import { controlledLineage } from "../simulation/people-continuation";
  * back from storage when a slot is opened and written whenever they change;
  * pins whose target this world does not hold are dropped rather than left as
  * rows that cannot be opened; and Escape is bound once, at the document, so
- * every surface gets the same layering behaviour without binding its own.
+ * every surface gets the same layering behavior without binding its own.
  */
 export function useShell(
   world: World,

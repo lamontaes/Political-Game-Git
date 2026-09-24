@@ -138,7 +138,7 @@ export function focusInvokerOrFallback(
   return node;
 }
 
-/** Bottom-centre conversation, kept above the resting cluster. */
+/** Bottom-center conversation, kept above the resting cluster. */
 export function conversationInViewport(
   box: { readonly width: number; readonly height: number },
   viewport: ViewportSize,

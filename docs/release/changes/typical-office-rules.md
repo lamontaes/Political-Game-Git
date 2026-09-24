@@ -13,5 +13,5 @@ session and every save, so nothing shifts under a life already being played.
 
 Where a state's real law has been read, that is what applies. Everywhere else
 the game holds a rule of its own, drawn from the range real states actually
-set, so the figures stay recognisable rather than inventing something no
+set, so the figures stay recognizable rather than inventing something no
 legislature would write. Reading a state's real law replaces it.

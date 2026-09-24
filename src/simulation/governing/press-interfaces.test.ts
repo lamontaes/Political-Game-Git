@@ -59,7 +59,7 @@ function employ(
 }
 
 describe("GOVERNING for PRESS: outside-mandate public payments", () => {
-  it("moves real public cash once, privately labelled, and refuses without access or cash", () => {
+  it("moves real public cash once, privately labeled, and refuses without access or cash", () => {
     const g = city("press-misuse", 1_000_000_00);
     const staffer = g.world.personOrder[2]!;
     const outsider = g.world.personOrder[3]!;

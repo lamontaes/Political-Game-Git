@@ -5,9 +5,9 @@ section: Added
 title: The game ships sixty-six policy questions a person can take a side on
 ---
 
-Before, the catalogue knew what politics is about — thirteen domains and a
+Before, the catalog knew what politics is about — thirteen domains and a
 hundred and twenty-seven issues — and held no question anyone could be for or
-against. Every player-facing reader of that catalogue reads propositions, and
+against. Every player-facing reader of that catalog reads propositions, and
 the game shipped none, so those screens had nothing to show on an ordinary
 first day.
 

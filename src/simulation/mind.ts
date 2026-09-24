@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import {
   appendAppraisalRecord,
@@ -296,9 +297,7 @@ export function recordAppraisal(
   input: AppraisalRecordInput,
 ): World {
   requirePersonAt(world, input.personId, input.appraisedAt);
-  const event = world.history.events.find(
-    (record) => record.id === input.eventId,
-  );
+  const event = eventById(world, input.eventId);
   if (
     !event ||
     event.sequence >= world.history.nextSequence ||
@@ -636,9 +635,7 @@ export function validateMindSourceReferences(
         );
         break;
       case "historical-event": {
-        const event = world.history.events.find(
-          (record) => record.id === reference.eventId,
-        );
+        const event = eventById(world, reference.eventId);
         const hasAccess =
           !!event &&
           (event.involvedEntityIds.includes(personId) ||

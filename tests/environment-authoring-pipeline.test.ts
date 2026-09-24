@@ -115,7 +115,7 @@ describe("tier derivation over real pixels", () => {
   });
 
   it("produces byte-identical tiers when the same command is re-run", async () => {
-    // Same master, same metadata, same destination: the whole artefact must
+    // Same master, same metadata, same destination: the whole artifact must
     // reproduce, not merely the pixel content.
     const first = await derive("tiers-rerun");
     const second = await derive("tiers-rerun");
@@ -195,7 +195,7 @@ describe("intake reads declarations, not filenames", () => {
     return requestPath;
   }
 
-  it("catalogues a declared reference asset and measures it honestly", () => {
+  it("catalogs a declared reference asset and measures it honestly", () => {
     const requestPath = writeRequest("intake-reference", [
       {
         asset_id: "ref_plate",

@@ -1,0 +1,22 @@
+{
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Running for office across America thread",
+  "lane": "campaigns",
+  "impact": "shapes-design",
+  "filedAt": "2026-09-23T00:45:00.000Z",
+  "questionId": "how-voters-see-a-newcomer-candidate",
+  "priority": "P2",
+  "title": "Whether voters hold it against a candidate who is new to the state or district",
+  "question": "How much does being new to a state or district (the 'carpetbagger' charge) cost a candidate, and when? Specifically: measured effects on vote share of a candidate's length of residence, or of having served in office in another state; how that differs between statewide and district races; what offsets it (family roots, religion or community ties, as with Mitt Romney in Utah, money, celebrity); and whether a record in office elsewhere helps, hurts or does nothing with voters in the new state.",
+  "whyItMatters": "The owner, 2026-09-22 at 8:22 p.m. ET: 'Would people see them as a carpetbagger ... I would assume people do not care. I would assume things outside of the state do not affect people inside the state.' The game now has a place for this effect on what a candidate's campaigning returns, set to no effect, which is his guess.",
+  "usableAnswer": "Whether the effect exists and its rough size by office level, with the conditions that switch it on or off, so the game can apply it from recorded residence and ties rather than as a flat penalty.",
+  "notes": [
+    "What the game does, read at the running-for-office branch: src/simulation/campaign-recognition.ts has NEWCOMER_RETURN_PERCENT set to 100, meaning no effect. A person's residence history is recorded as residence facts with dates, which is what an answer would be read against."
+  ],
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/term-limits-when-moving-or-changing-office.json",
+      "whatItDidNotSettle": "Asks what the law allows after moving, not how voters react."
+    }
+  ]
+}

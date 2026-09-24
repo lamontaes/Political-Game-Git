@@ -283,7 +283,8 @@ export function SceneBackdrop({
         figures,
         covering.viewport,
         {
-          width: Math.min(736, covering.viewport.width - 40),
+          // The conversation box is 36rem wide at most (scene-conversation.css).
+          width: Math.min(576, covering.viewport.width - 40),
           height: panel.getBoundingClientRect().height,
         },
         { leftInset: DOCK_LEFT_INSET, rightInset: DOCK_RIGHT_INSET },

@@ -18,7 +18,7 @@
  *    files, not the pipeline.
  * 2. **No camera or safe area.** Nobody has decided what a cover-fit crop may
  *    lose from these rooms on a wide or a tall screen. That is an author's
- *    judgement about a picture, and it has not been made. It is also blocking:
+ *    judgment about a picture, and it has not been made. It is also blocking:
  *    a scene cannot register without it.
  * 3. **No seat boxes.** The inspection measured the seat PLANE of every chair,
  *    which can be read straight off a picture. The seat's width and the paint
@@ -68,7 +68,7 @@ const NO_PLATE_NOTE =
  * The title tableau, and the only scene in the library with a hero slot.
  *
  * Its podium is the clearest case in the project for a dynamic surface: the
- * placard is large, flat, dead centre of the composition, and the single most
+ * placard is large, flat, dead center of the composition, and the single most
  * jurisdiction-specific object in the room. Baking anything onto it would make
  * one plate serve one meeting.
  */

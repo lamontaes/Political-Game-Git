@@ -10,7 +10,7 @@ decided whether the guard shipped. The unit suite cannot see any of it.
 
 The stall reproduced first, so the walk is measuring the right thing:
 
-- 9:10 AM → **10:00 AM** on Monday 5 January after committing the week and
+- 9:10 AM → **10:00 AM** on Monday January 5 after committing the week and
   pressing the week control.
 - A second week press: still 10:00 AM. Nothing moved.
 
@@ -19,21 +19,21 @@ and pressing the week control after each:
 
 | Press | Gave up | Clock after                     |
 | ----- | ------- | ------------------------------- |
-| 1     | 1       | Monday 5 January, 2:00 PM       |
-| 2     | 1       | Monday 5 January, 6:00 PM       |
-| 3     | 1       | Tuesday 6 January, 10:00 AM     |
-| 4     | 1       | **Tuesday 13 January, 7:00 AM** |
-| 5     | 0       | Tuesday 20 January              |
-| 6     | 0       | Tuesday 27 January              |
-| 7     | 0       | Tuesday 3 February              |
-| 8     | 0       | Tuesday 10 February             |
+| 1     | 1       | Monday January 5, 2:00 PM       |
+| 2     | 1       | Monday January 5, 6:00 PM       |
+| 3     | 1       | Tuesday January 6, 10:00 AM     |
+| 4     | 1       | **Tuesday January 13, 7:00 AM** |
+| 5     | 0       | Tuesday January 20              |
+| 6     | 0       | Tuesday January 27              |
+| 7     | 0       | Tuesday February 3              |
+| 8     | 0       | Tuesday February 10             |
 
 Giving up itself never moved the clock, in any round.
 
 ## What that settles
 
 **The guard works rather than moving the wall.** After the fourth give-up the
-life is on a seven-day rhythm — 13, 20, 27 January, 3, 10 February — which is
+life is on a seven-day rhythm — 13, 20, January 27, 3, February 10 — which is
 an ordinary week and not a slower version of the trap.
 
 **The cost is a press, not a hunt.** Exactly one control was on the calendar
@@ -58,7 +58,7 @@ be performed and are never offered for give-up.
 That looked at first like the guard failing to cover this shape. It is not.
 With those three still on the calendar and no give-up control on any screen,
 the week control moves a full seven days, six presses running: 12, 19, 26
-January, 2, 9, 16 February. **A booking that refuses to be performed is not
+January, 2, 9, February 16. **A booking that refuses to be performed is not
 necessarily a booking that stops time**, and only the ones that stop time need
 a way out.
 

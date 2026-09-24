@@ -223,7 +223,11 @@ function createWindow() {
       preload: undefined,
     },
   });
-  win.once("ready-to-show", () => win.show());
+  // Open at the size of the screen rather than as a small window.
+  win.once("ready-to-show", () => {
+    win.maximize();
+    win.show();
+  });
   void win.loadURL(`${APP_ORIGIN}/index.html`);
   return win;
 }

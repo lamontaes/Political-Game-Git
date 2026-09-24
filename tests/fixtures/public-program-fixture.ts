@@ -106,7 +106,7 @@ export function city(seed: string, cash: number) {
   });
   world = ensureTaxPublicAccount(world, jurisdictionId);
   const account = publicTaxAccountForJurisdiction(world, jurisdictionId)!;
-  // Fixture receipts: a labelled payer with an authored balance pays the
+  // Fixture receipts: a labeled payer with an authored balance pays the
   // account once. The account itself never gets opening money.
   world = createOrganization(world, {
     stableKey: `${seed}:fixture-payer`,

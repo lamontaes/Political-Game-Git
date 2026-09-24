@@ -14,7 +14,7 @@ import type { EntityId, World } from "./types";
  * The deliberation trait, read at the surface a player actually meets.
  *
  * Its poles were inverted against every one of its nine consumers, so the
- * person the game labelled "Acts on impulse" was the one who insisted on an
+ * person the game labeled "Acts on impulse" was the one who insisted on an
  * answer before agreeing to anything. That is the same fault as Q47-004,
  * which was found and fixed for `reliability` and left standing here.
  *

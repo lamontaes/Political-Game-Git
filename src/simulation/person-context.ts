@@ -1,3 +1,7 @@
+import {
+  ageOfMajorityFor,
+  GROWN_UP_PRESENTATION_AGE_PLACEHOLDER,
+} from "./age-of-majority";
 import { ageOnDate } from "./dates";
 import {
   activeCareResponsibilitiesAt,
@@ -6,6 +10,8 @@ import {
   activeOrganizationParticipationsAt,
   activePartnershipsAt,
   activeWorkRelationshipsAt,
+  childAuthorityHistoryForChild,
+  childAuthorityStateHistory,
   currentLifeCutoff,
   didPeopleShareEducationOrganization,
   educationEnrollmentHistoryForPerson,
@@ -141,7 +147,7 @@ export function referToPerson(context: PersonContext): string {
 }
 
 /**
- * The relation on its own, capitalised for the start of a sentence.
+ * The relation on its own, capitalized for the start of a sentence.
  *
  * Returns the name when there is no relation, so a caller never has to
  * assemble a sentence around an empty string.
@@ -179,6 +185,7 @@ const RESOLVERS: readonly Resolver[] = [
   resolveSibling,
   resolvePartner,
   resolveOtherKin,
+  resolveRaisedBy,
   resolveHousehold,
   resolveMentorship,
   resolveSchool,
@@ -209,12 +216,32 @@ function siblingWord(person: Person, older: boolean | null): string {
   return `your ${older ? "older" : "younger"} ${noun}`;
 }
 
+/**
+ * Whether somebody is too old to be described as anybody's dependent, even
+ * while an authority over them is still open on the record.
+ *
+ * Presentation only. Where the person's state has a sourced age of majority
+ * that age is used; where it has none, the authority's end is unknown and the
+ * record stays open (see `coming-of-age.ts`), but a twenty-seven-year-old is
+ * still not introduced as having "your guardian". The fallback is
+ * PLACEHOLDER(research: age-of-majority-by-state), and it writes nothing.
+ */
+function grownForPresentation(world: World, personId: EntityId): boolean {
+  const person = world.people[personId];
+  if (!person) return false;
+  const age =
+    ageOfMajorityFor(world, personId)?.age ??
+    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER;
+  return ageOnDate(person.birthDate, world.currentDate) >= age;
+}
+
 function resolveGuardian(
   world: World,
   viewerId: EntityId,
   subjectId: EntityId,
 ): Resolved | null {
   const cutoff = currentLifeCutoff(world);
+  const grown = grownForPresentation(world, viewerId);
   for (const { authority } of activeChildAuthoritiesAt(
     world,
     viewerId,
@@ -230,7 +257,10 @@ function resolveGuardian(
     return {
       relationship: authority.kind.startsWith("parental:")
         ? parentWord(subject)
-        : "your guardian",
+        : // A grown player's guardian raised them; they are not a dependent.
+          grown
+          ? "the guardian who raised you"
+          : "your guardian",
       basis: `A ${authority.kind} authority record over the player, held by this person.`,
       anchors: [
         {
@@ -254,6 +284,7 @@ function resolveDependent(
   subjectId: EntityId,
 ): Resolved | null {
   const cutoff = currentLifeCutoff(world);
+  const grown = grownForPresentation(world, subjectId);
   for (const { authority } of activeChildAuthoritiesAt(
     world,
     subjectId,
@@ -268,7 +299,10 @@ function resolveDependent(
     return {
       relationship: authority.kind.startsWith("parental:")
         ? childWord(world.people[subjectId]!)
-        : "in your care",
+        : // Somebody grown is not in anybody's care for being young.
+          grown
+          ? "someone you raised"
+          : "in your care",
       basis: `A ${authority.kind} authority record over this person, held by the player.`,
       anchors: [
         {
@@ -445,6 +479,76 @@ function resolveOtherKin(
       basis: `A ${kinship.kind} kinship record, of a kind the game has no more specific word for.`,
       anchors: [kinshipAnchor(kinship)],
     };
+  }
+  return null;
+}
+
+/**
+ * Somebody who held authority over the other as a child, and no longer does.
+ *
+ * An authority ends where the child's state has a sourced age of majority
+ * (see `coming-of-age.ts`), but the person who raised them did not become a
+ * stranger. A parental authority is named as a parent, read off the authority
+ * record's own kind; a guardianship is named as that and nothing more,
+ * because a guardian with no kinship record is not anybody's mom. It comes
+ * after kinship, so a record that says more still says it. An authority still
+ * open over somebody grown is worded the same way by `resolveGuardian` and
+ * `resolveDependent`; see `grownForPresentation`.
+ */
+function resolveRaisedBy(
+  world: World,
+  viewerId: EntityId,
+  subjectId: EntityId,
+): Resolved | null {
+  const cutoff = currentLifeCutoff(world);
+  const pairs: readonly [EntityId, EntityId, boolean][] = [
+    [viewerId, subjectId, true],
+    [subjectId, viewerId, false],
+  ];
+  for (const [childId, holderId, viewerWasChild] of pairs) {
+    for (const authority of childAuthorityHistoryForChild(
+      world,
+      childId,
+      cutoff,
+    )) {
+      if (
+        authority.holder.kind !== "person" ||
+        authority.holder.personId !== holderId
+      )
+        continue;
+      const latest = childAuthorityStateHistory(world, authority.id, cutoff).at(
+        -1,
+      );
+      // An authority still open is named by resolveGuardian/resolveDependent.
+      if (latest?.status !== "ended") continue;
+      const parental = authority.kind.startsWith("parental:");
+      const subject = world.people[subjectId]!;
+      return {
+        relationship: viewerWasChild
+          ? parental
+            ? parentWord(subject)
+            : "the guardian who raised you"
+          : parental
+            ? childWord(subject)
+            : "someone you raised",
+        basis: `A ${authority.kind} authority record, since ended, ${
+          viewerWasChild
+            ? "over the player held by this person"
+            : "over this person held by the player"
+        }.`,
+        anchors: [
+          {
+            store: "childAuthorities",
+            recordId: authority.id,
+            stableKey: authority.stableKey,
+            at: authority.establishedAt,
+            sequence: authority.sequence,
+            role: "context",
+            note: `The authority record from when they were a child, ended ${latest.effectiveAt}.`,
+          },
+        ],
+      };
+    }
   }
   return null;
 }

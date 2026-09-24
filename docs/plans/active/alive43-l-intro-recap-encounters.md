@@ -48,7 +48,7 @@ prose union.
 - Handshakes: W acknowledged and published `alive43-world/v1`; its W1 files
   are not yet committed. The LAND handshake and the increment 1 handoff are
   Drive documents in the ALIVE43 folder (Codex LAND is not reachable by direct
-  message from this session). No LAND acknowledgement yet.
+  message from this session). No LAND acknowledgment yet.
 - Increment 1 (pushed): recap reader and HUD panel, shell record v4 interface
   progress, "Mention the news" in ordinary talk, and the orientation reader
   and panel against a field-for-field mirror of W's contract. The orientation

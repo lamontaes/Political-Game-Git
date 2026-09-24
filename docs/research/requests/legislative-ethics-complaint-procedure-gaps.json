@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-23T00:18:00.000Z",
+  "impact": "blocks-work",
+  "lane": "consequences for corruption and laws",
+  "priority": "P1",
+  "question": "Your 28-row ethics inventory named who hears complaints against legislators everywhere, but left the procedure UNKNOWN in these places: Arkansas, Delaware, Idaho, Louisiana, Massachusetts, Mississippi, New Hampshire, Oklahoma, South Dakota, the Tennessee Senate, the Puerto Rico House, and the current complaint procedures of the Michigan and Indiana chambers. It also said Montana, Vermont, and parts of Tennessee and Virginia need a current-rule refresh. For each of these, from the current chamber rules, statute or commission rules: who may file, the filing window, each stage and its deadline, the standard of proof, the findings available, and the vote needed for each sanction (reprimand, censure, expulsion). Cite each provision and keep UNKNOWN where the text is silent.",
+  "questionId": "legislative-ethics-complaint-procedure-gaps",
+  "relatedQuestionIds": [
+    "who-hears-ethics-complaints-against-legislators",
+    "ethics-procedure-step-durations"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "research intake thread, following lamontae's question of 2026-09-22 8:08 p.m. Eastern",
+  "sourcesChecked": [
+    {
+      "source": "ChatGPT's 28-jurisdiction ethics inventory (docs/research/chatgpt-answers/2026-09-22-nationwide-2340/Our-Civic-Duty--legislative-ethics-complaint-routes-remaining-28-jurisdictions--2026-09-22.md)",
+      "whatItDidNotSettle": "Names the bodies but lists these procedures as its highest-priority gaps."
+    }
+  ],
+  "title": "The legislative ethics complaint steps still missing in about a dozen places",
+  "usableAnswer": "One row per listed jurisdiction or chamber, with the fields named in the question, each cited and marked verified primary or UNKNOWN, in the same shape as the 28-row inventory.",
+  "whyItMatters": "An ethics complaint against a legislator in these places has no steps or deadlines in the game, and the rule is not to invent them, so the case cannot proceed there. lamontae asked on 2026-09-22 what the remaining unknowns were."
+}

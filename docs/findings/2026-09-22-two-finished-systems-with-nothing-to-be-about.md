@@ -9,7 +9,7 @@ nothing to operate on, and in both cases the missing thing is content, not
 code. They are separate discoveries that turned out to be the same defect.
 
 **The bill lifecycle has nothing to be about.** A new world ships with an
-empty policy catalogue — no domains, issues, propositions, subjects or
+empty policy catalog — no domains, issues, propositions, subjects or
 principles — enforced by `assertProductionCatalogBoundary`. The lifecycle
 itself is 2704 lines and finished. It can carry a bill from introduction to
 enactment and it has no bills to carry, because a bill has to be about

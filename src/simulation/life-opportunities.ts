@@ -10,7 +10,6 @@ import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
   currentLifeCutoff,
-  householdLocationAt,
   householdMembershipsAt,
   kinshipRelationshipsAt,
   peopleInHouseholdAt,
@@ -20,9 +19,25 @@ import { recordEventKnowledge } from "./records";
 import {
   createScheduledActivity,
   createWorkItem,
+  lapseWorkItem,
+  scheduledActivityState,
   workPendingEntriesFor,
 } from "./time-work";
+import { settleLivingCosts } from "./cost-of-living";
+import { settleOfficeSalaries } from "./office-salary";
+import { refreshLocalEconomy } from "./local-economy";
+import { advanceJobMarket } from "./job-market";
+import { settleMortgages } from "./home-purchase";
 import { recordWorldEvent } from "./world";
+import { ensurePeopleTraits } from "./people-traits";
+import {
+  hostDecidesToAsk,
+  initiatorFavour,
+  initiatorOccasions,
+  type InitiatorFavour,
+  nextOccasionNoticeDate,
+  type InitiatorOccasion,
+} from "./initiator-occasions";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
 
 /**
@@ -72,6 +87,7 @@ export const LIFE_OPPORTUNITY_KINDS = [
   "meeting-agenda-item",
   "candidacy-approach",
   "returning-favour",
+  "household-shortfall",
 ] as const;
 
 export type LifeOpportunityKind = (typeof LIFE_OPPORTUNITY_KINDS)[number];
@@ -88,15 +104,18 @@ export const LIFE_OPPORTUNITY_ANSWERING_KEY: Readonly<
   "meeting-agenda-item": "adult.local-issue-position",
   "candidacy-approach": "adult.candidacy-approach",
   "returning-favour": "adult.old-favour-returns",
+  // Written by the weekly living costs in `cost-of-living.ts`, not by the
+  // candidate writer below: the first week a life cannot cover.
+  "household-shortfall": "adult.household-money-shortfall",
 };
 
 /**
  * Whether a kind may be written again once its scene has been played.
  *
  * The two ordinary weeks of a life — an evening in, an invitation to something
- * on a Saturday — recur, because they do. The other six do not: a favour
+ * on a Saturday — recur, because they do. The other six do not: a favor
  * asked, a confidence given, an approach about standing for office, a read
- * agenda item and a favour coming back larger happen once in this bank, and a
+ * agenda item and a favor coming back larger happen once in this bank, and a
  * world that kept writing new ones would be manufacturing a queue of requests
  * nobody would ever be offered.
  *
@@ -115,9 +134,13 @@ export const LIFE_OPPORTUNITY_REPEATABLE: Readonly<
   "meeting-agenda-item": false,
   "candidacy-approach": false,
   "returning-favour": false,
+  "household-shortfall": false,
 };
 
 export const LIFE_OPPORTUNITY_TAG_PREFIX = "life.opportunity:";
+
+/** Names the record in the asker's own life that an ask came from. */
+export const LIFE_OPPORTUNITY_REASON_TAG_PREFIX = "life.opportunity.reason:";
 
 export function lifeOpportunityTag(kind: LifeOpportunityKind): string {
   return `${LIFE_OPPORTUNITY_TAG_PREFIX}${kind}`;
@@ -496,8 +519,48 @@ export function refreshLifeOpportunities(
   if (!person) return world;
   if (formativeIntervalAt(world, personId) !== null) return world;
 
-  let next = replenishHouseholdWeek(world, personId);
+  let next = refreshLocalEconomy(world, personId);
+  next = replenishHouseholdWeek(next, personId);
+  next = settleOfficeSalaries(next, personId);
+  next = advanceJobMarket(next, personId);
+  next = settleMortgages(next, personId);
+  next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
+  return next;
+}
+
+/**
+ * A week's groceries nobody bought lapse when the next week comes.
+ *
+ * Before this, an open week was never replaced: San Antonio's James carried
+ * "Still not done, 61 weeks on" for a year, and no new week was written behind
+ * it. The week is recorded as gone by, not as done, and nothing is said about
+ * how the household ate. A week the player has put on the calendar for a day
+ * still ahead stays, because they have a plan for it.
+ */
+function lapseLastHouseholdWeek(world: World, personId: EntityId): World {
+  let next = world;
+  for (const { item, state } of workPendingEntriesFor(world, personId)) {
+    if (
+      !item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY) ||
+      item.focus.kind !== "person" ||
+      item.focus.personId !== personId ||
+      state.status !== "active"
+    )
+      continue;
+    const openedOn = makeIsoDate(item.createdAt.date);
+    if (addDays(openedOn, HOUSEHOLD_WEEK_DAYS) > world.currentDate) continue;
+    if (state.scheduledActivityId !== null) {
+      const hold = scheduledActivityState(next, state.scheduledActivityId);
+      if (hold.status === "scheduled" && hold.start.date >= world.currentDate)
+        continue;
+    }
+    next = lapseWorkItem(next, {
+      workItemId: item.id,
+      stableKey: `${item.stableKey}:lapsed`,
+      summary: "The week went by without the grocery shopping.",
+    });
+  }
   return next;
 }
 
@@ -513,6 +576,7 @@ export function refreshLifeOpportunities(
  * is open at a time, and breadth comes from the opportunity kinds below.
  */
 function replenishHouseholdWeek(world: World, personId: EntityId): World {
+  world = lapseLastHouseholdWeek(world, personId);
   if (hasActiveHouseholdWeek(world, personId)) return world;
   const existing = world.history.workItems.filter((item) =>
     item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY),
@@ -580,15 +644,36 @@ interface OpportunityCandidate {
  * rather than to an inbox.
  */
 function writeNextOpportunity(world: World, personId: EntityId): World {
-  // Only a life with nothing in front of it gets given anything. This is the
-  // difference between replenishing and nagging: a player who has been asked
-  // three things and answered none of them is not short of things to do, and a
-  // world that wrote them a fourth every time a month went by would turn a
-  // quiet stretch into a stream of notifications and make silence impossible.
-  if (lifeOpportunitiesFor(world, personId).length > 0) return world;
+  // A life with nothing in front of it is filled up to the cap. A life that
+  // already has something open gets at most one new thing per transition.
+  //
+  // This used to be "only a life with nothing in front of it gets anything",
+  // and in the long playthrough that was the wall: one request that never
+  // expired held the life still, and Fatima Erickson in Eastport, Maine was
+  // offered the same five moments for three years. The cap still stops a
+  // quiet stretch from turning into an inbox; one a day stops it from
+  // arriving all at once.
+  //
+  // PLACEHOLDER(research: what-an-ordinary-adult-year-contains): how often an
+  // ordinary adult is asked something is unresearched. The cap and the
+  // one-a-day pace are pacing rules, not rates.
+  //
+  // "Per transition" is kept idempotent by the day: a life that already has
+  // something open gets nothing more on a day something was already written
+  // for it, so reopening a save, or a screen change, writes nothing new.
+  const open = lifeOpportunitiesFor(world, personId);
+  const writtenToday = `life-opportunity:${personId}:${world.currentDate}:`;
+  if (
+    open.length > 0 &&
+    world.history.events.some((event) =>
+      event.stableKey.startsWith(writtenToday),
+    )
+  )
+    return world;
+  const budget = open.length === 0 ? OPEN_LIFE_OPPORTUNITY_LIMIT : 1;
 
   let next = world;
-  for (let attempt = 0; attempt < OPEN_LIFE_OPPORTUNITY_LIMIT; attempt += 1) {
+  for (let attempt = 0; attempt < budget; attempt += 1) {
     const open = lifeOpportunitiesFor(next, personId);
     if (open.length >= OPEN_LIFE_OPPORTUNITY_LIMIT) return next;
 
@@ -632,10 +717,10 @@ function tryWrite(
 /**
  * Somebody this character actually helped, and how often.
  *
- * Read from `life.favour-performed`, which is written only when a favour was
+ * Read from `life.favour-performed`, which is written only when a favor was
  * agreed to, scheduled and carried out — not when it was asked, and not when
  * it was refused. That distinction is the whole reason
- * `adult.old-favour-returns` was withheld: an earlier favour-family choice may
+ * `adult.old-favor-returns` was withheld: an earlier favor-family choice may
  * have been a refusal, and a scene about somebody turning up on the strength
  * of help given cannot stand on a record that may say help was declined.
  *
@@ -675,6 +760,167 @@ function favourActuallyPerformedFor(
 }
 
 /**
+ * The evening "sit and talk" invitation, as a save written before 2026-09-22
+ * holds it. Play no longer writes one (the owner removed it: accepting led to
+ * no conversation, only a calendar hold). Kept so the records such a save
+ * carries, and the scenes that still answer them, can be reproduced exactly.
+ */
+function householdEveningCandidate(
+  world: World,
+  personId: EntityId,
+  householdCompanionId: EntityId,
+  jurisdictionId: EntityId | null,
+): OpportunityCandidate {
+  return {
+    kind: "household-evening",
+    counterpartPersonId: householdCompanionId,
+    write: (current, stableKey) =>
+      writeAsk(current, {
+        stableKey,
+        kind: "household-evening",
+        personId,
+        askerPersonId: householdCompanionId,
+        jurisdictionId,
+        type: "life.household-evening-proposed",
+        summary: `${personName(world.people[householdCompanionId]!)} said they would be home this evening and invited them to sit and talk.`,
+        detail: "Invited them to sit and talk this evening",
+        details: {
+          version: 1,
+          task: "sit and talk at home this evening",
+          opening:
+            "I will be home this evening. Would you like to sit and talk?",
+          condition: null,
+          minutes: 120,
+        },
+        believed:
+          "The evening is free at home and the other person will be in.",
+        // A particular evening, and it is tonight. Without the date this is
+        // not a free evening at all but a standing offer, and a standing
+        // offer would sit unanswered in the life forever while the world
+        // waited for it to be taken up.
+        occasion: {
+          title: "An evening in",
+          summary:
+            "The evening at home, with the person who lives here saying they would be in for it.",
+          date: world.currentDate,
+          startHour: 20,
+          endHour: 22,
+          label: "Home",
+        },
+      }),
+  };
+}
+
+/** Writes a pre-removal evening invitation the way play used to. */
+export function writeLegacyHouseholdEveningInvitation(
+  world: World,
+  personId: EntityId,
+): World {
+  const companionId = askerChooser(world, personId)(
+    world,
+    householdCompanionIds(world, personId, currentLifeCutoff(world)),
+  );
+  if (!companionId) return world;
+  const place = lifePlaceByJurisdictionId(
+    world.people[personId]!.homeJurisdictionId,
+  );
+  return householdEveningCandidate(
+    world,
+    personId,
+    companionId,
+    place?.context.jurisdiction.id ?? null,
+  ).write(
+    world,
+    `life-opportunity:${personId}:${world.currentDate}:household-evening`,
+  );
+}
+
+/**
+ * The picnic favor and confidence, as a save written before 2026-09-23 holds
+ * them. Play no longer writes either (dialogue review: one fixed story for
+ * every friend in every life). Kept, like the evening invitation above, so the
+ * records such a save carries and the scenes that still answer them can be
+ * reproduced exactly — and so the request, agreement, performance and
+ * follow-through machinery a grounded request will reuse stays proven.
+ */
+export function writeLegacyFamiliarRequest(
+  world: World,
+  personId: EntityId,
+  kind: "favour-request" | "confidence-disclosed",
+  stableKey = `life-opportunity:${personId}:${world.currentDate}:${kind}`,
+): World {
+  // Already written today, by play or an earlier call: the same request.
+  if (world.history.events.some((event) => event.stableKey === stableKey)) {
+    return world;
+  }
+  const cutoff = currentLifeCutoff(world);
+  const familiarId = askerChooser(world, personId)(
+    world,
+    familiarPersonIds(world, personId, cutoff),
+  );
+  if (!familiarId) return world;
+  const place = lifePlaceByJurisdictionId(
+    world.people[personId]!.homeJurisdictionId,
+  );
+  const jurisdictionId = place?.context.jurisdiction.id ?? null;
+  const candidates: OpportunityCandidate[] = [];
+  const push = (candidate: OpportunityCandidate) => candidates.push(candidate);
+
+  push({
+    kind: "favour-request",
+    counterpartPersonId: familiarId,
+    write: (current, stableKey) =>
+      writeAsk(current, {
+        stableKey,
+        kind: "favour-request",
+        personId,
+        askerPersonId: familiarId,
+        jurisdictionId,
+        type: "life.favour-requested",
+        summary: `${personName(world.people[familiarId]!)} asked for help proofreading a two-paragraph invitation to a family picnic.`,
+        detail: "Asked for help proofreading the picnic invitation",
+        details: {
+          version: 1,
+          task: "proofread the two-paragraph picnic invitation",
+          opening:
+            "Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.",
+          condition: "Wording only; I will not contact the guests",
+          minutes: 20,
+        },
+        believed: `${personName(world.people[familiarId]!)} asked them to proofread the picnic invitation, a 20-minute authored activity.`,
+        occasion: null,
+      }),
+  });
+  push({
+    kind: "confidence-disclosed",
+    counterpartPersonId: familiarId,
+    write: (current, stableKey) =>
+      writeAsk(current, {
+        stableKey,
+        kind: "confidence-disclosed",
+        personId,
+        askerPersonId: familiarId,
+        jurisdictionId,
+        type: "life.confidence-disclosed",
+        summary: `${personName(world.people[familiarId]!)} privately said they had agreed to organize a family picnic and were unsure how to tell the guests they could no longer do it.`,
+        detail: "Privately disclosed difficulty organizing the family picnic",
+        details: {
+          version: 1,
+          task: "tell the picnic guests they can no longer organize it",
+          opening:
+            "I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.",
+          condition: "Keep this conversation private",
+          minutes: null,
+        },
+        believed: `${personName(world.people[familiarId]!)} told them privately about needing to withdraw from organizing the family picnic.`,
+        occasion: null,
+      }),
+  });
+  const candidate = candidates.find((entry) => entry.kind === kind)!;
+  return candidate.write(world, stableKey);
+}
+
+/**
  * Which of the eight this world can support today.
  *
  * Every one of them needs a real person, a real record or both, and a kind
@@ -706,137 +952,85 @@ function eligibleOpportunities(
     candidates.push(candidate);
   };
 
-  const householdCompanionId = firstOf(
-    world,
-    householdCompanionIds(world, personId, cutoff),
-  );
-  const localId = firstOf(world, localNeighbourIds(world, personId, cutoff));
-  const familiarId = firstOf(world, familiarPersonIds(world, personId, cutoff));
+  const firstOf = askerChooser(world, personId);
   const colleagueId = firstOf(world, colleagueIds(world, personId, cutoff));
   const communityMemberId = firstOf(
     world,
     communityMemberIds(world, personId, cutoff),
   );
 
-  if (householdCompanionId) {
-    push({
-      kind: "household-evening",
-      counterpartPersonId: householdCompanionId,
-      write: (current, stableKey) =>
-        writeAsk(current, {
-          stableKey,
-          kind: "household-evening",
-          personId,
-          askerPersonId: householdCompanionId,
-          jurisdictionId,
-          type: "life.household-evening-proposed",
-          summary: `${personName(world.people[householdCompanionId]!)} said they would be home this evening and invited them to sit and talk.`,
-          detail: "Invited them to sit and talk this evening",
-          details: {
-            version: 1,
-            task: "sit and talk at home this evening",
-            opening:
-              "I will be home this evening. Would you like to sit and talk?",
-            condition: null,
-            minutes: 120,
-          },
-          believed:
-            "The evening is free at home and the other person will be in.",
-          // A particular evening, and it is tonight. Without the date this is
-          // not a free evening at all but a standing offer, and a standing
-          // offer would sit unanswered in the life forever while the world
-          // waited for it to be taken up.
-          occasion: {
-            title: "An evening in",
-            summary:
-              "The evening at home, with the person who lives here saying they would be in for it.",
-            date: world.currentDate,
-            startHour: 20,
-            endHour: 22,
-            label: "Home",
-          },
-        }),
-    });
-  }
+  // Removed by the owner, 2026-09-22: accepting the evening led to no
+  // conversation, only a calendar hold. No new invitation is written; one
+  // already in a save still reads and resolves through its old records.
 
-  if (localId) {
+  // An invitation starts with a reason in the host's own life — a birthday,
+  // a move, new work, read off their records — and with the host deciding to
+  // ask. The old Saturday afternoon "asked you over" with no reason at all is
+  // no longer written; one already in a save still reads and resolves.
+  const occasion = hostWithOccasion(world, personId, [
+    ...familiarPersonIds(world, personId, cutoff),
+  ]);
+  if (occasion) {
+    const host = occasion.hostPersonId;
     push({
       kind: "social-occasion",
-      counterpartPersonId: localId,
+      counterpartPersonId: host,
       write: (current, stableKey) =>
-        writeAsk(current, {
+        writeAsk(ensurePeopleTraits(current, [host]), {
           stableKey,
           kind: "social-occasion",
           personId,
-          askerPersonId: localId,
+          askerPersonId: host,
           jurisdictionId,
           type: "life.social-occasion-invited",
-          summary:
-            "Somebody from the same place asked whether they would come to something on Saturday. Nobody is needed there.",
-          detail: "Asked them to come",
-          believed:
-            "There is something on Saturday they were asked to, and nobody needs them there.",
+          summary: occasion.summary,
+          detail: `Asked them over (${occasion.reason})`,
+          details: occasion.details,
+          believed: occasion.believed,
+          reasonRecordId: occasion.sourceRecordId,
           occasion: {
-            title: "Something on Saturday",
-            summary:
-              "An occasion somebody local asked them to. Attendance was invited, not required.",
-            date: nextSaturday(world.currentDate),
+            title: `Saturday afternoon at ${occasion.homeLabel.replace(/ home$/, "")}`,
+            summary: occasion.summary,
+            date: occasion.date,
             startHour: 15,
             endHour: 18,
-            label: place?.displayName ?? "The neighbourhood",
+            label: occasion.homeLabel,
           },
         }),
     });
   }
 
-  if (familiarId) {
+  // Retired 2026-09-23 (dialogue review): the favor and the confidence were
+  // one fixed story — proofreading a family picnic invitation, then backing
+  // out of organizing it — handed to every friend in every life. Neither came
+  // from anything in the asker's own life. Neither is written any more; one
+  // already in a save still reads and resolves through its old records.
+  //
+  // The favor is asked only for a reason on the asker's own record: a recent
+  // move, or being older and the only person in their household. Where nobody
+  // known has such a reason, nothing is asked and the stretch stays quiet. The
+  // confidence has no grounded producer yet and is not written.
+  const favour = askerWithFavour(world, personId, [
+    ...familiarPersonIds(world, personId, cutoff),
+  ]);
+  if (favour) {
+    const asker = favour.askerPersonId;
     push({
       kind: "favour-request",
-      counterpartPersonId: familiarId,
+      counterpartPersonId: asker,
       write: (current, stableKey) =>
         writeAsk(current, {
           stableKey,
           kind: "favour-request",
           personId,
-          askerPersonId: familiarId,
+          askerPersonId: asker,
           jurisdictionId,
           type: "life.favour-requested",
-          summary: `${personName(world.people[familiarId]!)} asked for help proofreading a two-paragraph invitation to a family picnic.`,
-          detail: "Asked for help proofreading the picnic invitation",
-          details: {
-            version: 1,
-            task: "proofread the two-paragraph picnic invitation",
-            opening:
-              "Could you look over my invitation to the family picnic? Just two paragraphs. I want to make sure the wording is clear.",
-            condition: "Wording only; I will not contact the guests",
-            minutes: 20,
-          },
-          believed: `${personName(world.people[familiarId]!)} asked them to proofread the picnic invitation, a 20-minute authored activity.`,
-          occasion: null,
-        }),
-    });
-    push({
-      kind: "confidence-disclosed",
-      counterpartPersonId: familiarId,
-      write: (current, stableKey) =>
-        writeAsk(current, {
-          stableKey,
-          kind: "confidence-disclosed",
-          personId,
-          askerPersonId: familiarId,
-          jurisdictionId,
-          type: "life.confidence-disclosed",
-          summary: `${personName(world.people[familiarId]!)} privately said they had agreed to organize a family picnic and were unsure how to tell the guests they could no longer do it.`,
-          detail: "Privately disclosed difficulty organizing the family picnic",
-          details: {
-            version: 1,
-            task: "tell the picnic guests they can no longer organize it",
-            opening:
-              "I agreed to organize the family picnic, and now I need to back out. I have not told the guests. Please keep this between us for now.",
-            condition: "Keep this conversation private",
-            minutes: null,
-          },
-          believed: `${personName(world.people[familiarId]!)} told them privately about needing to withdraw from organizing the family picnic.`,
+          summary: favour.summary,
+          detail: `Asked for a hand (${favour.reason})`,
+          details: favour.details,
+          believed: favour.believed,
+          reasonRecordId: favour.sourceRecordId,
           occasion: null,
         }),
     });
@@ -957,6 +1151,72 @@ function eligibleOpportunities(
 }
 
 /**
+ * The first person this life knows who has a reason of their own to have
+ * people over this week, and who decides to ask.
+ *
+ * Longest-unasked first, the same order every other ask uses, so one friend
+ * does not host every gathering. Nobody without a reason is considered, and
+ * a reason alone is not an invitation: the host's own decision is read.
+ */
+/**
+ * The first day before `until` on which somebody this person knows has a
+ * birthday gathering coming into its notice window, or null.
+ *
+ * Read by the quiet stretch so it stops where an ask could really happen.
+ */
+export function nextKnownOccasionNoticeDate(
+  world: World,
+  personId: EntityId,
+  until: IsoDate,
+): IsoDate | null {
+  let earliest: IsoDate | null = null;
+  for (const hostId of familiarPersonIds(
+    world,
+    personId,
+    currentLifeCutoff(world),
+  )) {
+    const opens = nextOccasionNoticeDate(world, hostId, earliest ?? until);
+    if (opens && (!earliest || opens < earliest)) earliest = opens;
+  }
+  return earliest;
+}
+
+function askerWithFavour(
+  world: World,
+  personId: EntityId,
+  pool: readonly EntityId[],
+): InitiatorFavour | null {
+  const choose = askerChooser(world, personId);
+  const remaining = [...new Set(pool)];
+  while (remaining.length > 0) {
+    const askerId = choose(world, remaining);
+    if (!askerId) return null;
+    remaining.splice(remaining.indexOf(askerId), 1);
+    const favour = initiatorFavour(world, askerId);
+    if (favour) return favour;
+  }
+  return null;
+}
+
+function hostWithOccasion(
+  world: World,
+  personId: EntityId,
+  pool: readonly EntityId[],
+): InitiatorOccasion | null {
+  const choose = askerChooser(world, personId);
+  const remaining = [...new Set(pool)];
+  while (remaining.length > 0) {
+    const hostId = choose(world, remaining);
+    if (!hostId) return null;
+    remaining.splice(remaining.indexOf(hostId), 1);
+    for (const occasion of initiatorOccasions(world, hostId)) {
+      if (hostDecidesToAsk(world, hostId, personId, occasion)) return occasion;
+    }
+  }
+  return null;
+}
+
+/**
  * Which candidate this life gets, deterministically.
  *
  * Least recently offered first, so a life is not asked the same thing twice
@@ -1017,6 +1277,8 @@ interface AskInput {
   readonly detail: string;
   readonly believed: string;
   readonly details?: LifeRequestDetails;
+  /** The record in the asker's own life the ask came from, where there is one. */
+  readonly reasonRecordId?: EntityId;
   readonly occasion: {
     readonly title: string;
     readonly summary: string;
@@ -1067,6 +1329,9 @@ function writeAsk(world: World, input: AskInput): World {
     tags: [
       lifeOpportunityTag(input.kind),
       ...(input.details ? [lifeRequestDetailsTag(input.details)] : []),
+      ...(input.reasonRecordId
+        ? [`${LIFE_OPPORTUNITY_REASON_TAG_PREFIX}${input.reasonRecordId}`]
+        : []),
     ],
     summary: input.summary,
     context: {
@@ -1257,53 +1522,11 @@ function householdCompanionIds(
 }
 
 /**
- * Somebody outside the household whose household is recorded in the same place.
- *
- * A shared place, and only that. It is enough for an invitation, which claims
- * nothing more than that a local person asked — and it is deliberately not
- * enough for the favour below, which claims the player knows them.
- */
-function localNeighbourIds(
-  world: World,
-  personId: EntityId,
-  cutoff: HistoricalCutoff,
-): readonly EntityId[] {
-  const mine = new Set(
-    householdMembershipsAt(world, personId, cutoff).map(
-      (entry) => entry.membership.householdId,
-    ),
-  );
-  const myJurisdictions = new Set(
-    [...mine]
-      .map(
-        (householdId) =>
-          householdLocationAt(world, householdId, cutoff)?.jurisdictionId,
-      )
-      .filter((value): value is EntityId => value !== undefined),
-  );
-  return world.personOrder.filter((candidateId) => {
-    if (candidateId === personId) return false;
-    const theirs = householdMembershipsAt(world, candidateId, cutoff);
-    if (theirs.some((entry) => mine.has(entry.membership.householdId))) {
-      return false;
-    }
-    return theirs.some((entry) => {
-      const location = householdLocationAt(
-        world,
-        entry.membership.householdId,
-        cutoff,
-      );
-      return location ? myJurisdictions.has(location.jurisdictionId) : false;
-    });
-  });
-}
-
-/**
  * Somebody this life has actually had something to do with.
  *
  * A recorded interaction and nothing softer. It is what makes "somebody you
  * know" true rather than a friendship announced because two people were in the
- * same world, and it deliberately does not ask where they live: a favour and a
+ * same world, and it deliberately does not ask where they live: a favor and a
  * confidence travel, and a game that required a shared postcode for either
  * would be inventing a rule to make its own bookkeeping easier.
  */
@@ -1320,7 +1543,7 @@ function familiarPersonIds(
   );
   // Somebody there is still a route to, first.
   //
-  // A favour and a confidence are both things that can come back, and
+  // A favor and a confidence are both things that can come back, and
   // `life-callbacks.ts` will only bring one back where the world still has a
   // standing connection between the two people. Asking somebody the record has
   // long since lost track of produces a scene whose consequence is settled in
@@ -1363,10 +1586,12 @@ function colleagueIds(
   personId: EntityId,
   cutoff: HistoricalCutoff,
 ): readonly EntityId[] {
-  const employerIds = new Set(
-    activeWorkRelationshipsAt(world, personId, cutoff).map(
-      (entry) => entry.relationship.organizationId,
-    ),
+  // Work with no employer on record is nobody's workplace: two people who
+  // each have such work do not share one.
+  const employerIds = new Set<EntityId | null>(
+    activeWorkRelationshipsAt(world, personId, cutoff)
+      .map((entry) => entry.relationship.organizationId)
+      .filter((id): id is EntityId => id !== null),
   );
   if (employerIds.size === 0) return [];
   return world.personOrder.filter(
@@ -1399,11 +1624,47 @@ function communityMemberIds(
 }
 
 /** The world's own person order decides, so a replay reaches the same person. */
-function firstOf(world: World, pool: readonly EntityId[]): EntityId | null {
-  for (const candidate of world.personOrder) {
-    if (pool.includes(candidate)) return candidate;
-  }
-  return null;
+/**
+ * Who asks, out of everybody who could.
+ *
+ * It used to be whoever came first in the world's list, so one neighbor asked
+ * every Saturday for a whole life. Now it is whoever has gone longest without
+ * asking this person anything, and somebody who never has goes first; ties go
+ * to the world's order. That is read from the asks already written, so the same
+ * world always picks the same person and the next ask moves on.
+ *
+ * Nobody who has died asks anything. Every pool here is read from records that
+ * outlast a life — kinship, a household, old interactions — so this is the one
+ * place that sees them all and the one place that says so.
+ */
+export function askerChooser(world: World, personId: EntityId) {
+  const lastAsked = new Map<EntityId, number>();
+  world.history.events.forEach((event, index) => {
+    if (!event.involvedEntityIds.includes(personId)) return;
+    if (!event.tags.some((tag) => tag.startsWith(LIFE_OPPORTUNITY_TAG_PREFIX)))
+      return;
+    for (const participant of event.participants)
+      if (participant.role === "agency:asked")
+        lastAsked.set(participant.personId, index);
+  });
+  return (current: World, pool: readonly EntityId[]): EntityId | null => {
+    let chosen: EntityId | null = null;
+    let chosenAt = Infinity;
+    const dead = new Set(
+      current.history.personDeaths
+        .filter((death) => death.diedAt <= current.currentDate)
+        .map((death) => death.personId),
+    );
+    for (const candidate of current.personOrder) {
+      if (!pool.includes(candidate) || dead.has(candidate)) continue;
+      const at = lastAsked.get(candidate) ?? -1;
+      if (at < chosenAt) {
+        chosen = candidate;
+        chosenAt = at;
+      }
+    }
+    return chosen;
+  };
 }
 
 function ageOn(birthDate: IsoDate, on: IsoDate): number {
@@ -1415,12 +1676,6 @@ function ageOn(birthDate: IsoDate, on: IsoDate): number {
     age -= 1;
   }
   return age;
-}
-
-/** The next Saturday strictly after today, so an invitation is never for the past. */
-function nextSaturday(from: IsoDate): IsoDate {
-  const day = new Date(`${from}T00:00:00Z`).getUTCDay();
-  return addDays(from, (6 - day + 7) % 7 || 7);
 }
 
 function momentAt(

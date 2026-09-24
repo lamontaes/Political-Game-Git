@@ -68,7 +68,7 @@ research answer, because they are the whole point of the family:
 
 `household-paper-surface-contents` is filed and unanswered: whether a
 household's table should show _everything_ waiting, or only what physically
-arrived. An offer made in a shop and a favour asked in a kitchen are both
+arrived. An offer made in a shop and a favor asked in a kitchen are both
 waiting and neither is a piece of paper.
 
 Until that comes back, mount the whole list and say so in a comment. Do not

@@ -79,7 +79,7 @@ below.
 
 ## The editorial repair
 
-The 133 rows were read again, with their real neighbours. Two systematic
+The 133 rows were read again, with their real neighbors. Two systematic
 failures were measured, repaired, and then re-measured on the repair itself:
 
 | Measure, bounded P2 scope                                       | P2R1                   | P2R2                                         |

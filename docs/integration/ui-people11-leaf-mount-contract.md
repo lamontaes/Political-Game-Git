@@ -5,7 +5,7 @@ interface instead of guessing at one. This is UI (#144) telling the leaf owners
 what it will call and what it promises; it is not a design for their component.
 
 Branch `codex/ui-core-release-transfer`. These expectations are written against
-its current head and will be honoured as it advances.
+its current head and will be honored as it advances.
 
 ## Who owns what
 

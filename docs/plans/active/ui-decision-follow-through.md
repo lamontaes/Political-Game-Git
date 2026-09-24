@@ -11,7 +11,7 @@ Receiver: LAND (Codex) through Drive folder 1baN6DcYsLRKqOqceu3xuJ5FVZkZpZYLF.
   Local / State / Federal and Legislative / Executive / Judicial, from existing
   records only (municipal reading or Census units; state legislature rule pack
   and executive holder; Congress and federal holders). Defaults to the place the
-  character is now (`openingLifeLocation`), with home as an explicit, labelled
+  character is now (`openingLifeLocation`), with home as an explicit, labeled
   choice. A branch with no record says so; a missing holder is not a vacancy;
   a county government is listed, never forced into a branch.
 - `src/player/politics/*`: the tab strip over the existing political surfaces

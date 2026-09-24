@@ -40,7 +40,7 @@ nothing to do with any of them.
 matters.** Measured immediately afterwards on the same life: with those three
 bookings still sitting on the calendar and no give-up control anywhere, the
 week control moves the clock a full seven days, six presses in a row —
-12, 19, 26 January, 2, 9, 16 February. So the Denver life is **not**
+12, 19, January 26, 2, 9, February 16. So the Denver life is **not**
 deadlocked. The remaining bookings refuse to be performed and do not block the
 passage of time, which is a different thing from the four field shifts, and
 the guard holds here after three presses rather than Baltimore's four.

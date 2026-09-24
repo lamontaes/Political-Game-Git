@@ -4,7 +4,7 @@ import type { SeatedBody, SeatedMember } from "../legislation-scenarios";
 /**
  * Who sits on which committee. No acquired source establishes the roster of a
  * generated legislature's committees, so the assignment is an authored,
- * labelled gameplay profile. What it is NOT is the shortcut it replaces:
+ * labeled gameplay profile. What it is NOT is the shortcut it replaces:
  * `body.members.slice(0, size)` put the same handful of members on every
  * committee and could never seat a member who was not near the front of the
  * list — including the player, who is appended to a body they join.

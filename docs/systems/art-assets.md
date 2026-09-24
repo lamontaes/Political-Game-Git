@@ -297,7 +297,7 @@ stale.
 A scene surface slot names a closed `kind` and closed `allowed_content_classes`.
 A slot presenting anything that follows simulation state is dynamic and must
 clear a legibility floor of 5% of plate width by 5% of plate height — 5% of a
-1080-line viewport is 54 lines, about enough for a chart with two labelled axes
+1080-line viewport is 54 lines, about enough for a chart with two labeled axes
 — so a surface too small for a player to read a change on stays ambient
 decoration rather than being promoted to a screen. A surface lying nearly flat
 to the camera, like a desk document, is held to 3% of plate height instead,
@@ -364,5 +364,5 @@ correct what it claims; it never registers a candidate in `art/manifest/`, and
 the ordinary fit, anchor and human-acceptance gates are untouched by it. A
 candidate raster that meets a request's written criteria is not thereby
 accepted: an environment candidate still needs `npm run intake:environment` with
-declared lineage, a style judgement and human acceptance, and until it has them
+declared lineage, a style judgment and human acceptance, and until it has them
 the request stays open with that assessment named as its blocker.

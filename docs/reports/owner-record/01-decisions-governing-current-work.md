@@ -8,7 +8,7 @@ names the transcript and message index so it can be found in context.
 Sources: four ChatGPT exports (Merge 263, 2026-09-15; OCD Overnight,
 2026-09-15 to 09-17; Review modular generation, 2026-09-17 to 09-21; Become My
 CTO, 2026-09-21), the 63-page _Full-Game Audit — Review Edition 1_, the
-personality catalogue, the original product vision invariants, and the project
+personality catalog, the original product vision invariants, and the project
 chat through 2026-09-22 04:14 UTC.
 
 ---
@@ -153,8 +153,8 @@ UTC:**
 > "there should be NO references to sources in the game. just display the info.
 > this is player facing."
 
-Confirmed again at 04:13 UTC: quiet in play. A generated rule is not labelled
-on screen as generated, any more than a sourced one is labelled as sourced.
+Confirmed again at 04:13 UTC: quiet in play. A generated rule is not labeled
+on screen as generated, any more than a sourced one is labeled as sourced.
 
 ### A5 · Permanent removal covers what ships, and only what ships
 
@@ -203,7 +203,7 @@ chat."_
   or these transcripts. Ours to find. He does not repeat himself.
 - A **decision only he can make** — merge, approve art, spend money, delete.
   Straight to him, one line, recommendation marked.
-- A **judgement about how the world should feel** — how many traits, how common
+- A **judgment about how the world should feel** — how many traits, how common
   a disposition, how a system is balanced. Written as a research brief for
   **ChatGPT**, which comes back to him. Not to him from us.
 
@@ -633,7 +633,7 @@ and the clock contract (PLACE-001, TIME-001).
 - _The trait system is five compiled-in constants where he asked for a system._
   PEOPLE-001 lists the five. Project chat 2026-09-22 03:01: _"i want the trait
   system itself. not those 5 hardwired."_
-- _Leisure preference stands in for personality._ The catalogue's clearest
+- _Leisure preference stands in for personality._ The catalog's clearest
   finding: the three-way switch conflates what the activity is with who is
   present.
 - _The journal is a log where he asked for a chronicle._ overnight [20], quoted
@@ -653,7 +653,7 @@ produced the list before:
   [87] — vice president, protégé, child — does not.
 - **The in-game encyclopedia and inline civics helper**, overnight [95]. Not
   started.
-- **A stylised newspaper surface** for the news, overnight [20]. Not started.
+- **A stylized newspaper surface** for the news, overnight [20]. Not started.
 - **Fifty state-capital scenes**, overnight [9]. Not started.
 - **The Congress / total-government view**, overnight [20]. Not started.
 - **Derived facial expressions**, overnight [6]. Not started.
@@ -736,4 +736,4 @@ verification job, not a research question.
 - `05-overnight.md` — "OCD Overnight Report", 2026-09-15 to 09-17. 61 of 116.
 
 215 messages, every one complete, in order, with his spelling and dictation
-errors preserved. Nothing was summarised into those files.
+errors preserved. Nothing was summarized into those files.

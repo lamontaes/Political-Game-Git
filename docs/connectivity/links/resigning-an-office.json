@@ -1,0 +1,30 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "resigning-an-office",
+  "title": "Answering for your office, and resigning it",
+  "producer": {
+    "at": "src/simulation/governing/office-consequence.ts#recordOfficeConsequence",
+    "owner": "Consequences for corruption",
+    "writes": "A governing.office-consequence event that closes a term when the officeholder resigns.",
+    "runsInPlay": true,
+    "runsDetail": "The press desk offers the five answers (explain, stand by your account, cooperate, decline, resign) when a finding names the player: PressDeskPanel.tsx:403 calls answerForOfficeOnDesk, which writes through recordOfficeConsequence."
+  },
+  "readers": [
+    {
+      "at": "src/simulation/nationwide-world/state-executives.ts:398 (stateExecutiveVacatedOn)",
+      "owner": "Nationwide government",
+      "reads": "Honors a resignation when naming who holds a state office. The press desk now writes the event it filters on (#523), so a resigning state executive leaves the office."
+    }
+  ],
+  "missing": [
+    {
+      "reader": "A player facing a finding choosing how to answer, or resigning",
+      "readerOwner": "Consequences for corruption",
+      "state": "closed",
+      "detail": "Built by Consequences for corruption (#523). The press desk now carries the answer surface.",
+      "proofTest": "src/player/PressDeskPanel.office.test.ts"
+    }
+  ],
+  "measuredAt": "main at 21587d7c, measured 2026-09-23",
+  "recordedAt": "2026-09-23T03:05:00.000Z"
+}

@@ -15,6 +15,13 @@ import {
 } from "../simulation";
 import type { ChamberView, SeatView, World } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP, createNewGameWorld } from "./new-game";
+import { stateCandidacyPack } from "../simulation";
+import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
+import {
+  STATE_LEGISLATURE_OPENING_VERSION,
+  ensureStateLegislatureOpening,
+  stateLegislators,
+} from "../simulation/nationwide-world/state-legislature-opening";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { establishOpeningOfficeholders } from "./opening-officeholders";
 import { projectWorldOrientation } from "./living-world-orientation";
@@ -278,10 +285,25 @@ describe("ALIVE43 W1 opening world: Congress and parties", () => {
     );
     const added =
       serializeWorld(congressOnly).length - serializeWorld(staffed).length;
+    // The home state's legislature is seated per member on purpose, so it has
+    // its own budget below rather than being folded into "the rest".
+    const homeUsps = homeStateUsps(congressOnly, created.playerPersonId)!;
+    const withLegislature = ensureStateLegislatureOpening(
+      congressOnly,
+      created.playerPersonId,
+      homeUsps,
+    );
+    const legislature =
+      serializeWorld(withLegislature).length -
+      serializeWorld(congressOnly).length;
+    const legislatureSeats = stateLegislators(
+      withLegislature,
+      stateCandidacyPack(`US-${homeUsps}`)!.packId,
+    ).length;
     const wholeOpening =
       serializeWorld(a.world).length - serializeWorld(staffed).length;
     console.info(
-      `[alive43-w1] opening ${a.openingMs.toFixed(0)}ms / ${b.openingMs.toFixed(0)}ms; Congress snapshot adds ${added} bytes; the whole current opening adds ${wholeOpening} bytes`,
+      `[alive43-w1] opening ${a.openingMs.toFixed(0)}ms / ${b.openingMs.toFixed(0)}ms; Congress snapshot adds ${added} bytes; the home legislature adds ${legislature} bytes for ${legislatureSeats} seats; the whole current opening adds ${wholeOpening} bytes`,
     );
     // The budget only means something for a save that has the snapshot.
     expect(projectCongress(congressOnly)).not.toBeNull();
@@ -293,12 +315,28 @@ describe("ALIVE43 W1 opening world: Congress and parties", () => {
     // The rest of a current opening — party bodies and their committees, the
     // saved starting conditions, CHANGE's macro start and the hazard
     // schedule — is its own budget, stated rather than folded into the one
-    // above. Nothing here is per-seat.
-    expect(wholeOpening - added).toBeLessThan(750_000);
+    // above. Nothing here is per-seat except the home legislature, which has
+    // its own per-member budget: a person, a seat, and a party affiliation.
+    expect(legislatureSeats).toBeGreaterThan(0);
+    // About 4 KB a member: the person, the seat (relationship, status and
+    // role) and one party affiliation with its state.
+    expect(legislature / legislatureSeats).toBeLessThan(4_500);
+    expect(wholeOpening - added - legislature).toBeLessThan(750_000);
     // Seats stay roll tags: no per-member participations. The only
     // participations are the opening's handful of named people (executives,
     // chapter organizers and, in current openings, the WORLD46 standing
     // chapter committees: four members with a role and an affiliation each).
-    expect(a.world.history.organizationParticipations.length).toBeLessThan(40);
+    // The home state legislators' public party affiliations are counted
+    // apart: they are per member by design, one each.
+    const stateLegislatorAffiliations =
+      a.world.history.organizationParticipations.filter((participation) =>
+        participation.stableKey.startsWith(
+          `${STATE_LEGISLATURE_OPENING_VERSION}:`,
+        ),
+      ).length;
+    expect(
+      a.world.history.organizationParticipations.length -
+        stateLegislatorAffiliations,
+    ).toBeLessThan(40);
   });
 });

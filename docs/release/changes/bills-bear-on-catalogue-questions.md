@@ -12,7 +12,7 @@ files one ever said.
 Now the Transit Access Pilot a Kentucky staffer opens on, the bill the Kentucky
 legislature files on its own, and a player's own draft of fare relief for
 assistance enrollees all bear on "Should local transit be free to ride?", and
-a drafted bridge repair programme bears on funding upkeep before new
+a drafted bridge repair program bears on funding upkeep before new
 construction. The bill's page and the docket show the question under the
 sponsor.
 

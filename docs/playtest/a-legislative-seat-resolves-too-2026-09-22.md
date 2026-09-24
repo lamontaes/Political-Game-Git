@@ -15,7 +15,7 @@ Assembly enables filing, and filing opens a real race:
 >
 > Running against Malcolm Leonard.
 
-Twenty-five week presses later it has resolved, on **2 February 2026**:
+Twenty-five week presses later it has resolved, on **February 2, 2026**:
 
 > Gia Yang lost. That is a thing that happened to them, not the end of them —
 > tomorrow is still there.

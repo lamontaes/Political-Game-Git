@@ -72,7 +72,7 @@ export function validateFecCorpus(
         severity: "error",
         code: "fec/coverage",
         message:
-          "This corpus compiles every row of all three bulk files, so it must not be labelled a bounded sample.",
+          "This corpus compiles every row of all three bulk files, so it must not be labeled a bounded sample.",
       });
     }
   }

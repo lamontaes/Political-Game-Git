@@ -12,5 +12,5 @@ the band it belongs in. But the document now runs to three dozen questions,
 and the handful he measured in his own play and asked to have confirmed
 first were arriving a screen and a half down.
 
-No player-facing behaviour changes: this is the authoring queue, and nothing
+No player-facing behavior changes: this is the authoring queue, and nothing
 in a running game reads it.

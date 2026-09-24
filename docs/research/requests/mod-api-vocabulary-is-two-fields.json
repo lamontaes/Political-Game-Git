@@ -19,7 +19,7 @@
     "This is filed as a design question, not a bug report. The narrow API is coherent and well validated for what it claims to be; the question is what lamontae wants it to become, and his 'not a small whitelisted vocabulary' instruction cannot be satisfied by adding a few more fields to the same whitelist.",
     "The hard/soft refusal half may be answerable without him. It is a direct application of a rule he has already given, and the only real question is what the player is shown.",
     "Related but deliberately NOT asked here: a mod cannot add a trait for a second, independent reason in the trait registry itself. That is a separate record, so an answer to this one does not read as unblocking traits.",
-    "The audit line: everything downstream of an enacted law — the production catalogue boundary, the causal-effects engine, the economy derivations — belongs to the 'What passing a law actually does' lane and is deliberately absent from this record."
+    "The audit line: everything downstream of an enacted law — the production catalog boundary, the causal-effects engine, the economy derivations — belongs to the 'What passing a law actually does' lane and is deliberately absent from this record."
   ],
   "priority": "P0",
   "question": "A content pack may today declare exactly two kinds of thing: scenes and durations. What should the pack vocabulary be instead — which systems must a mod be able to add to for this to count as modder-friendly — and when a pack carries a field the engine does not know, should the engine skip that field with a stated reason and install the rest, or keep refusing the pack whole?",
@@ -33,7 +33,7 @@
     },
     {
       "source": "src/presentation/content-pack-import.ts, the only import path",
-      "whatItDidNotSettle": "It confirms there is no soft-fail layer anywhere above the validator: importContentPack calls parseRuntimeContentPack directly and lets the throw escape, so one unknown field loses the whole pack. It does not say what the fail-soft behaviour should be."
+      "whatItDidNotSettle": "It confirms there is no soft-fail layer anywhere above the validator: importContentPack calls parseRuntimeContentPack directly and lets the throw escape, so one unknown field loses the whole pack. It does not say what the fail-soft behavior should be."
     },
     {
       "source": "The API version string CONTENT_PACK_API = 'ordinary-scenes-v1'",

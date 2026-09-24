@@ -4,19 +4,35 @@ import {
   GAME_ADULT_CANDIDACY_AGE,
 } from "./candidacy-packs";
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
-import { ageOnDate } from "./dates";
-import { lifePlaceByJurisdictionId } from "./life-places";
+import {
+  assessSecondCommittee,
+  campaignStateJurisdictionKey,
+} from "./campaign-compliance-rules";
+import { activeCampaignForCandidate } from "./campaign-queries";
+import { ageOnDate, completedMonthsBetween } from "./dates";
+import { enactedRuleChangeAt } from "./enacted-rule-changes";
+import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+} from "./life-places";
+import { isTerritoryUsps } from "./state-reference";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import {
+  congressCandidacyPack,
+  congressSeatIdentityForOfficeKey,
+} from "./nationwide-world/congress-candidacy-packs";
+import {
+  localElectedOffices,
   localGoverningBodyCandidacyPack,
-  localGoverningBodyIdentity,
   localGoverningBodyIdentityForOfficeKey,
 } from "./nationwide-world/local-governing-body-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { governmentUnitsForPlace } from "./government-units";
 import { stateResidenceSince } from "./nationwide-world/residence-duration";
 import { recordedTermsInOffice } from "./nationwide-world/prior-terms";
+import { checkExecutiveTermLimit } from "./nationwide-world/executive-term-limits";
+import { nextFilableStateExecutiveTerm } from "./nationwide-world/state-executive-turnover-calendar";
 import {
   assessCandidateQualification,
   candidateQualificationRuleSet,
@@ -67,7 +83,8 @@ export function candidacyPackForJurisdiction(
 }
 
 /**
- * The governing bodies of the town governments this place has, as the Census
+ * The elected offices of the town governments this place has (the governing
+ * body, and the mayor where the town elects one directly), as the Census
  * Government Units listing joins them to it. A place with no government of its
  * own (a census-designated place) has none and is never given one.
  *
@@ -79,15 +96,15 @@ export function localGoverningBodiesForJurisdiction(
 ): readonly LocalGoverningBodyIdentity[] {
   const place = lifePlaceByJurisdictionId(jurisdictionId);
   if (!place || place.scope !== "locality" || !place.sourceGeoid) return [];
-  return governmentUnitsForPlace(place.sourceGeoid)
-    .map(localGoverningBodyIdentity)
-    .filter((identity) => identity !== null);
+  return governmentUnitsForPlace(place.sourceGeoid).flatMap(
+    localElectedOffices,
+  );
 }
 
 /**
  * Every office a person living here could stand for, in the order a ballot
  * reads upward: the state's offices the place reaches, then the town's own
- * governing body. The governorship is offered on its own screen, as before.
+ * governing body and, where the town elects one, its mayor. The governorship is offered on its own screen, as before.
  */
 export function electiveOfficesForJurisdiction(
   jurisdictionId: EntityId,
@@ -213,6 +230,7 @@ export type CandidacyBlockKind =
   | "unusable-district-binding"
   | "office-does-not-exist"
   | "unproved-sourced-qualification"
+  | "term-limit"
   | "lives-elsewhere"
   | "already-a-candidate";
 
@@ -233,6 +251,14 @@ export interface CandidacyBlock {
 function noSourcedOfficeReason(authority: CandidacyAuthority): string {
   if (authority.stateJurisdictionKey === null) {
     return "The game has not read any elected office for this place, and it will not borrow another jurisdiction's rules to fill the gap.";
+  }
+  if (
+    authority.pack === null &&
+    isTerritoryUsps(authority.stateJurisdictionKey.slice(3))
+  ) {
+    // A territory's Governor stands apart from this list; its legislature and
+    // local offices are not on record until the territory research lands.
+    return "None of this territory's legislative or local offices is on record yet, so there is no seat to stand for here. Its Governor is below.";
   }
   if (authority.pack === null) {
     return "The game has not read this state's elected offices yet, so there is nothing to stand for here. It will not borrow another state's rules to fill the gap.";
@@ -291,6 +317,9 @@ export function districtSeatMustBeNamed(
 ): boolean {
   const executive = stateExecutiveIdentityForOfficeKey(officeKey);
   if (executive) return false;
+  // A House seat is named by its own key, and the Constitution asks only
+  // that a Representative live in the state, so no district is inferred.
+  if (congressSeatIdentityForOfficeKey(officeKey)) return false;
   // A town's governing body has no districts the game has read.
   if (localGoverningBodyIdentityForOfficeKey(officeKey)) return false;
   const authority = candidacyAuthority(jurisdictionId);
@@ -320,6 +349,114 @@ export function districtSeatMustBeNamed(
   ).some((row) => row.field === "DISTRICT_RESIDENCE");
 }
 
+const ENACTED_QUALIFICATION_FIELDS = [
+  {
+    field: "qualification.minimumAge",
+    ruleSetField: "minimumAge",
+    assessmentField: "MINIMUM_AGE",
+  },
+  {
+    field: "qualification.stateResidenceYears",
+    ruleSetField: "stateResidenceYears",
+    assessmentField: "STATE_RESIDENCE",
+  },
+  {
+    field: "qualification.districtResidenceYears",
+    ruleSetField: "districtResidenceYears",
+    assessmentField: "DISTRICT_RESIDENCE",
+  },
+] as const;
+
+type EnactedQualificationField = (typeof ENACTED_QUALIFICATION_FIELDS)[number];
+
+interface EnactedQualification {
+  readonly field: EnactedQualificationField["field"];
+  readonly ruleSetField: EnactedQualificationField["ruleSetField"];
+  readonly assessmentField: EnactedQualificationField["assessmentField"];
+  readonly value: number;
+  readonly designation: string;
+}
+
+/** The qualification rules a law passed in this world has set for an office, in force today. */
+function enactedQualifications(
+  world: World,
+  stateJurisdictionKey: string | null,
+  officeKey: string | null,
+): readonly EnactedQualification[] {
+  if (!stateJurisdictionKey || !officeKey) return [];
+  return ENACTED_QUALIFICATION_FIELDS.flatMap((entry) => {
+    const change = enactedRuleChangeAt(world, {
+      stateUsps: stateJurisdictionKey.replace(/^US-/, ""),
+      officeKey,
+      field: entry.field,
+      onDate: world.currentDate,
+    });
+    return change && typeof change.value === "number"
+      ? [{ ...entry, value: change.value, designation: change.designation }]
+      : [];
+  });
+}
+
+function plural(count: number, unit: string): string {
+  return `${count} ${unit}${count === 1 ? "" : "s"}`;
+}
+
+function assessEnactedQualification(
+  change: EnactedQualification,
+  person: {
+    readonly age: number;
+    readonly since: IsoDate | null;
+    readonly districtIsUnknown: boolean;
+    readonly onDate: IsoDate;
+  },
+): QualificationAssessment {
+  const law = `under ${change.designation}, passed in this state,`;
+  if (change.field === "qualification.minimumAge") {
+    const meets = person.age >= change.value;
+    return {
+      field: change.assessmentField,
+      verdict: meets ? "meets" : "fails",
+      reason: meets
+        ? `Old enough: ${law} this office has a minimum age of ${change.value}.`
+        : `You must be at least ${change.value} to stand for this office, ${law.slice(0, -1)}.`,
+      source: null,
+    };
+  }
+  const place =
+    change.field === "qualification.stateResidenceYears"
+      ? "the state"
+      : "the district";
+  const required = plural(change.value, "year");
+  if (change.value === 0)
+    return {
+      field: change.assessmentField,
+      verdict: "meets",
+      reason: `No residence period: ${law} this office asks for none in ${place}.`,
+      source: null,
+    };
+  if (person.since === null)
+    return {
+      field: change.assessmentField,
+      verdict: "not-evaluated",
+      reason:
+        change.field === "qualification.districtResidenceYears" &&
+        person.districtIsUnknown
+          ? `This office requires ${required} of residence in the district, ${law.slice(0, -1)}. This character's town lies across more than one district, so the game cannot say which one they live in, and it will not pick one to answer for them.`
+          : `This office requires ${required} of residence in ${place}, ${law.slice(0, -1)}. The game has not recorded when this character came to live here, so it will not guess whether they qualify.`,
+      source: null,
+    };
+  const held = completedMonthsBetween(person.since, person.onDate);
+  const meets = held >= change.value * 12;
+  return {
+    field: change.assessmentField,
+    verdict: meets ? "meets" : "fails",
+    reason: meets
+      ? `Resident long enough: ${law} this office requires ${required} of residence in ${place}.`
+      : `Not resident long enough: ${law} this office requires ${required} of residence in ${place}, and this character has lived there ${plural(Math.floor(held / 12), "year")} and ${plural(held % 12, "month")}.`,
+    source: null,
+  };
+}
+
 export function candidacyEligibility(
   world: World,
   input: CandidacyEligibilityInput,
@@ -329,19 +466,29 @@ export function candidacyEligibility(
   // A state's executive office is the state's own, whatever legislature pack
   // governs the place: it is filed for statewide, against its own pack.
   const executive = stateExecutiveIdentityForOfficeKey(input.officeKey);
+  // A seat in Congress is filed for from the state, like the governorship:
+  // the Constitution asks that a member live in the state, not the district.
+  const congress = executive
+    ? null
+    : congressSeatIdentityForOfficeKey(input.officeKey);
   // A town's governing body is the town's own, whatever the state above it
   // has, and only somebody living in that town can stand for it.
-  const local = executive
-    ? null
-    : localGoverningBodyHere(input.jurisdictionId, input.officeKey);
+  const local =
+    executive || congress
+      ? null
+      : localGoverningBodyHere(input.jurisdictionId, input.officeKey);
   const pack = executive
     ? candidacyPackById(executive.candidacyPackId)
-    : local
-      ? localGoverningBodyCandidacyPack(local)
-      : authority.pack;
+    : congress
+      ? congressCandidacyPack(congress)
+      : local
+        ? localGoverningBodyCandidacyPack(local)
+        : authority.pack;
   const stateJurisdictionKey = executive
     ? executive.jurisdictionKey
-    : authority.stateJurisdictionKey;
+    : congress
+      ? congress.jurisdictionKey
+      : authority.stateJurisdictionKey;
   const option =
     pack?.offices.find(
       (candidate) => candidate.officeKey === input.officeKey,
@@ -383,7 +530,15 @@ export function candidacyEligibility(
     );
   }
   const age = ageOnDate(person.birthDate, world.currentDate);
-  const qualificationRules =
+  // A law passed in this world can change who may stand for this office. One
+  // in force replaces the compiled rule for its field outright, whichever
+  // source that rule came from, and is assessed below on its own.
+  const enacted = enactedQualifications(
+    world,
+    stateJurisdictionKey,
+    option?.officeKey ?? null,
+  );
+  const compiledRules =
     pack && option
       ? candidateQualificationRuleSet(
           pack.packId,
@@ -391,6 +546,21 @@ export function candidacyEligibility(
           world.currentDate,
         )
       : null;
+  const qualificationRules =
+    compiledRules === null
+      ? null
+      : {
+          ...compiledRules,
+          ...Object.fromEntries(
+            enacted.map((change) => [
+              change.ruleSetField,
+              {
+                state: "NOT_APPLICABLE",
+                reason: "Replaced by a law passed in this state.",
+              } as const,
+            ]),
+          ),
+        };
   // Continuous residence in this state, read from the recorded homes and
   // residence facts this life already carries; never backdated.
   const stateResidenceStart =
@@ -400,9 +570,11 @@ export function candidacyEligibility(
   const chamberKey = option?.officeKey.split(":").at(-1) ?? null;
   const officeFamily = executive
     ? "GOVERNOR"
-    : chamberKey === null
+    : congress
       ? null
-      : officeFamilyForChamberKey(chamberKey);
+      : chamberKey === null
+        ? null
+        : officeFamilyForChamberKey(chamberKey);
   const boundDistrict = boundOption?.office.districtBinding ?? null;
   // A district-residence rule is asked about before any seat is bound, which
   // is every time the player looks at whether they could stand at all. With no
@@ -413,7 +585,7 @@ export function candidacyEligibility(
   // Falling back to the person's own recorded district for this chamber asks
   // the same question of the same records; it does not relax the rule.
   const gazetteerChamber =
-    chamberKey === null
+    chamberKey === null || congress
       ? null
       : gazetteerChamberForOfficeChamberKey(chamberKey);
   const districtSince =
@@ -446,7 +618,7 @@ export function candidacyEligibility(
           ) === "split"
         ? ("district-unknown" as const)
         : ("unrecorded" as const);
-  const qualificationAssessments =
+  const compiledAssessments =
     qualificationRules !== null || officeFamily === null
       ? []
       : assessOfficeQualifications({
@@ -463,6 +635,38 @@ export function candidacyEligibility(
             ? recordedTermsInOffice(world, input.personId, option.officeKey)
             : null,
         });
+  const enactedAssessments = enacted.map((change) =>
+    assessEnactedQualification(change, {
+      age,
+      since:
+        change.field === "qualification.minimumAge"
+          ? null
+          : change.field === "qualification.stateResidenceYears"
+            ? stateResidenceStart
+            : districtSince,
+      districtIsUnknown: districtGap === "district-unknown",
+      onDate: world.currentDate,
+    }),
+  );
+  const qualificationAssessments: readonly QualificationAssessment[] = [
+    ...compiledAssessments.filter(
+      (assessment) =>
+        !enacted.some((change) => change.assessmentField === assessment.field),
+    ),
+    ...enactedAssessments,
+  ];
+  for (const assessment of enactedAssessments) {
+    if (assessment.verdict === "meets") continue;
+    blocks.push({
+      kind:
+        assessment.field === "MINIMUM_AGE"
+          ? "sourced-minimum-age"
+          : assessment.field === "STATE_RESIDENCE"
+            ? "sourced-state-residence"
+            : "unproved-district-residence",
+      reason: assessment.reason,
+    });
+  }
   if (qualificationRules) {
     const assessment = assessCandidateQualification(qualificationRules, {
       birthDate: person.birthDate,
@@ -485,6 +689,10 @@ export function candidacyEligibility(
   } else {
     for (const assessment of qualificationAssessments) {
       if (assessment.verdict === "meets") continue;
+      if (enactedAssessments.includes(assessment)) continue;
+      // A chief executive's term limit is decided below, against the term the
+      // filing would win and under this World's own law, which can change it.
+      if (executive && assessment.field === "TERM_LIMIT") continue;
       blocks.push({
         kind:
           // Only a failed existence reading says the office does not exist;
@@ -498,9 +706,17 @@ export function candidacyEligibility(
       });
     }
   }
-  const sourcedMinimumAge = qualificationAssessments.some(
-    (assessment) => assessment.field === "MINIMUM_AGE",
-  );
+  if (congress && age < congress.minimumAge) {
+    blocks.push({
+      kind: "sourced-minimum-age",
+      reason: `${congress.title === "U.S. Senator" ? "A Senator" : "A Representative"} must be at least ${congress.minimumAge} years old.`,
+    });
+  }
+  const sourcedMinimumAge =
+    congress !== null ||
+    qualificationAssessments.some(
+      (assessment) => assessment.field === "MINIMUM_AGE",
+    );
   // A drawn rule that is recorded and never enforced is not the middle of the
   // three states a rule can be in — it is the refusal wearing the generated
   // rule's label. The pack for an unread state already carries a minimum age
@@ -519,7 +735,7 @@ export function candidacyEligibility(
         // as a sourced one is: the player is not told that this office's rule
         // was drawn, and the provenance stays in the record where an auditor
         // looks for it.
-        reason: `This office asks for a candidate to be at least ${profileMinimumAge}.`,
+        reason: `You must be at least ${profileMinimumAge} to stand for this office.`,
       });
     }
   } else if (
@@ -527,27 +743,61 @@ export function candidacyEligibility(
     !sourcedMinimumAge &&
     age < GAME_ADULT_CANDIDACY_AGE
   ) {
+    // PLACEHOLDER RULE: no minimum age has been read for this office, so the
+    // game's own adult floor (GAME_ADULT_CANDIDACY_AGE) stands in for it. The
+    // real values are already requested under docs/research/requests/:
+    // governor-qualifications-in-every-state (and its primary-law
+    // verification), state-legislator-qualifications-in-every-unread-state
+    // and local-executive-and-council-rules.
+    // The player reads the requirement they are held to, worded exactly as a
+    // read or drawn rule is; where the number came from stays with the block's
+    // kind and this comment, not on the screen.
     blocks.push({
       kind: "below-game-adult-age",
-      reason: `The game has not read this state's minimum age for the office, so it holds to its own adult rule and will not put anyone under ${GAME_ADULT_CANDIDACY_AGE} on a ballot.`,
+      reason: `You must be at least ${GAME_ADULT_CANDIDACY_AGE} to stand for this office.`,
     });
+  }
+  // Every chief executive's office has a term limit in one of three states:
+  // read from the state, changed by a law passed in this World, or the game's
+  // disclosed draw for a state it has not read. It is measured against the
+  // term the filing would win, so a law already passed that takes effect by
+  // then is the law that decides.
+  if (executive) {
+    const term = nextFilableStateExecutiveTerm(world, executive.stateUsps);
+    const limit = term
+      ? checkExecutiveTermLimit(world, {
+          stateUsps: executive.stateUsps,
+          personId: input.personId,
+          termStartsAt: term.startsAt,
+        })
+      : null;
+    if (limit?.barredReason)
+      blocks.push({ kind: "term-limit", reason: limit.barredReason });
   }
   const livesElsewhere = executive
     ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
         ?.stateJurisdictionKey !== executive.jurisdictionKey ||
       input.jurisdictionId !== chiefExecutiveJurisdictionId(executive.stateUsps)
-    : person.homeJurisdictionId !== input.jurisdictionId;
+    : congress
+      ? lifePlaceByJurisdictionId(person.homeJurisdictionId)
+          ?.stateJurisdictionKey !== congress.jurisdictionKey ||
+        input.jurisdictionId !==
+          stateJurisdictionForKey(congress.jurisdictionKey)?.id
+      : person.homeJurisdictionId !== input.jurisdictionId;
   if (livesElsewhere) {
     blocks.push({
       kind: "lives-elsewhere",
-      reason:
-        "This character does not live in the place holding the election, and the game has no sourced residency rule that would let them stand there anyway.",
+      reason: congress
+        ? "A member of Congress must live in the state they represent, and this character lives somewhere else."
+        : "This character does not live in the place holding the election, and the game has no sourced residency rule that would let them stand there anyway.",
     });
   }
   if (input.alreadyACandidate) {
     blocks.push({
       kind: "already-a-candidate",
-      reason: "This character is already running for something.",
+      reason:
+        secondCommitteeRefusal(world, input) ??
+        "This character is already running for something.",
     });
   }
 
@@ -559,6 +809,25 @@ export function candidacyEligibility(
     qualificationAssessments,
     blocks: distinctBlocks(blocks),
   };
+}
+
+/**
+ * Where the state's law forbids a second committee for the office this
+ * character is already running for, the law's own sentence; otherwise null,
+ * and the game's rule against running twice at once speaks instead.
+ */
+function secondCommitteeRefusal(
+  world: World,
+  input: CandidacyEligibilityInput,
+): string | null {
+  const running = activeCampaignForCandidate(world, input.personId);
+  if (!running || running.officeKey !== input.officeKey) return null;
+  const ruling = assessSecondCommittee(world, {
+    personId: input.personId,
+    stateJurisdictionKey: campaignStateJurisdictionKey(running, world),
+    officeKey: input.officeKey,
+  });
+  return ruling.decision === "refused" ? ruling.reason : null;
 }
 
 /**

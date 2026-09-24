@@ -95,7 +95,7 @@ does not write.
    `SAFE_RENDER_WITH_OMISSION` naming it, or return `MISSING_CONTEXT`. Never
    keep an unsupported claim because the sentence is better with it.
 
-Two mechanisms enforce this outside the writer's own judgement:
+Two mechanisms enforce this outside the writer's own judgment:
 
 - `npm run prose:eval -- ground <packet> <output>` runs a deterministic check
   for the enumerated classes. No model call; it runs in CI. It is a floor, not

@@ -26,7 +26,7 @@ import {
  *
  * Opening-life already had a grounded talk producer in `life-conversation.ts`.
  * The shell's person action, though, only knew about the run-b subjects —
- * household errands, school projects, neighbourhood notices — and the
+ * household errands, school projects, neighborhood notices — and the
  * household one is correctly withheld from dependents. A child selecting their
  * guardian therefore hit "no conversation established" while the scene had the
  * guardian standing in it and `projectLifeConversation` ready to offer

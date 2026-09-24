@@ -8,40 +8,48 @@ import { advanceWorld } from "./world";
 import { personName } from "./people";
 import {
   eligibleEpisodeBeats,
-  episodeDetails,
   episodeRoleBindings,
-  playEpisodeOption,
   playedEpisodeStages,
   type EpisodeBeat,
+  type EpisodeExclusion,
 } from "./life-episodes";
 import { deserializeWorld, serializeWorld } from "./index";
 import type { EntityId, World } from "./index";
 
 /**
- * The corridor scene the third playtest met, and what it has to be instead.
+ * The corridor scene the third playtest met, and what it is now.
  *
  * What it said was "Something got broken in the corridor at your school and
  * your name is the one that came up", with "Say who did it" underneath and
- * nobody to name: no object, no accused, and a choice whose subject the player
- * could not identify. These check the repair through the actual composition —
- * a bound classmate, a named incident, and both of them holding through the
- * choice, the memory it writes, the continuation a year later and a reload.
+ * nobody to name. PT3 repaired the copy — a bound classmate, a named incident —
+ * and these tests used to prove that repaired scene through the choice, the
+ * memory, the continuation a year later and a reload.
+ *
+ * The dialogue review of 2026-09-23 withheld it. Choosing the scene was what
+ * created the incident: nothing in the simulation records a broken object, the
+ * damage or the blame before the scene is picked, so the selector was
+ * inventing the event it then described. Until a simulation record produces
+ * that incident, the stage carries a `withheld` requirement, and what these
+ * tests now hold is that ordinary play never offers it and says why, in the
+ * reason the bank carries. The repaired copy stays authored for the day a
+ * record grounds it, and its two continuations cannot open without it.
  */
 
 const SCHOOL = "school.the-thing-you-got-blamed-for";
+const HOME = "home.someone-is-not-all-right";
 
-const INCIDENTS = episodeFamily(SCHOOL)!.details!["incident"]!;
-
-/** The authored incident as it appears, wherever it falls in the sentence. */
-function mentionsIncident(text: string, incident: string): boolean {
-  return (
-    text.includes(incident) ||
-    text.includes(incident.charAt(0).toUpperCase() + incident.slice(1))
+/** The reason the bank gives for withholding a stage. */
+function withheldReason(familyKey: string, stageKey: string): string {
+  const stage = episodeFamily(familyKey)!.stages.find(
+    (candidate) => candidate.key === stageKey,
+  )!;
+  const requirement = stage.requires.find(
+    (candidate) => candidate.kind === "withheld",
   );
-}
-
-function incidentIn(text: string): string | undefined {
-  return INCIDENTS.find((incident) => mentionsIncident(text, incident));
+  if (!requirement || requirement.kind !== "withheld") {
+    throw new Error(`${familyKey}/${stageKey} is no longer withheld.`);
+  }
+  return requirement.reason;
 }
 
 function schoolLife(age: number, seed: string) {
@@ -62,95 +70,94 @@ function schoolLife(age: number, seed: string) {
   return { world: game.world, personId: game.playerPersonId };
 }
 
-function blamedBeat(
+function stageEligibility(
   world: World,
   personId: EntityId,
-  asOfDate?: string,
-): EpisodeBeat | undefined {
-  return eligibleEpisodeBeats({
+  familyKey: string,
+  stageKey: string,
+): {
+  readonly beat: EpisodeBeat | undefined;
+  readonly exclusion: EpisodeExclusion | undefined;
+} {
+  const eligibility = eligibleEpisodeBeats({
     world,
     personId,
     families: EPISODE_FAMILIES,
-    ...(asOfDate ? { asOfDate: asOfDate as never } : {}),
-  }).beats.find(
-    (beat) => beat.episodeKey === SCHOOL && beat.stageKey === "blamed",
+  });
+  return {
+    beat: eligibility.beats.find(
+      (beat) => beat.episodeKey === familyKey && beat.stageKey === stageKey,
+    ),
+    exclusion: eligibility.exclusions.find(
+      (entry) => entry.episodeKey === familyKey && entry.stageKey === stageKey,
+    ),
+  };
+}
+
+/** The stage is not offered, and the exclusion is the bank's own reason. */
+function expectWithheld(
+  world: World,
+  personId: EntityId,
+  familyKey: string,
+  stageKey: string,
+): void {
+  const { beat, exclusion } = stageEligibility(
+    world,
+    personId,
+    familyKey,
+    stageKey,
+  );
+  expect(beat, `${familyKey}/${stageKey} is offered`).toBeUndefined();
+  expect(exclusion, `${familyKey}/${stageKey} says nothing`).toBeDefined();
+  expect(exclusion!.requirement.kind).toBe("withheld");
+  expect(exclusion!.detail).toBe(withheldReason(familyKey, stageKey));
+}
+
+function schoolPeer(world: World, personId: EntityId) {
+  return episodeRoleBindings(world, personId).find(
+    (binding) => binding.role === "school-peer",
   );
 }
 
-describe("PT3 — the school corridor names what happened and who did it", () => {
+describe("PT3 — the school corridor is withheld until a record produces the incident", () => {
   for (const [age, seed] of [
     [10, "pt3-school-child"],
     [16, "pt3-school-teen"],
   ] as const) {
-    it(`gives a ${age}-year-old a specific incident and a named classmate`, () => {
+    it(`never offers a ${age}-year-old the corridor scene, and says why`, () => {
       const { world, personId } = schoolLife(age, seed);
-      const beat = blamedBeat(world, personId);
-      expect(
-        beat,
-        "the corridor scene is reachable in ordinary play",
-      ).toBeDefined();
-
-      const peer = beat!.bindings.find(
-        (binding) => binding.role === "school-peer",
-      );
-      expect(peer, "somebody from the same school is cast").toBeDefined();
-      expect(peer!.basis).toBe("Active enrollment in the same school.");
-
-      // What happened, and who did it, are both on the screen.
-      expect(
-        incidentIn(beat!.prose),
-        "the scene names what got broken",
-      ).toBeDefined();
-      expect(beat!.prose).toContain(peer!.personName);
-
-      // And what the playtest read is gone.
-      expect(beat!.prose).not.toContain("Something got broken");
-      expect(beat!.prose).not.toContain("four feet away");
-      expect(beat!.prose).not.toMatch(/The person who did/i);
-
-      // The option that names somebody names them.
-      const nameThem = beat!.options.find(
-        (option) => option.key === "name-them",
-      );
-      expect(nameThem!.label).toContain(peer!.personName);
-      expect(nameThem!.label).not.toBe("Say who did it");
-
-      // Sentences read as sentences: a slot that opens one is capitalized.
-      for (const sentence of beat!.prose.split(/(?<=[.!?])\s+/)) {
-        expect(sentence).toMatch(/^[A-Z"“]/);
-      }
-
-      // What was seen is separated from what the school was told.
-      expect(beat!.prose).toMatch(/standing next to it when it happened/i);
-      expect(beat!.prose).toMatch(/office/i);
+      expectWithheld(world, personId, SCHOOL, "blamed");
+      // Not for want of a cast: the school still holds a classmate the scene
+      // could have named. What is missing is the incident, not the person.
+      expect(schoolPeer(world, personId)).toBeDefined();
     });
   }
 
-  it("casts a different classmate in a different life, and keeps each incident stable", () => {
+  it("keeps the repaired copy authored for the day a record grounds it", () => {
+    const stage = episodeFamily(SCHOOL)!.stages.find(
+      (candidate) => candidate.key === "blamed",
+    )!;
+    const text = stage.lines.join(" ");
+    // What the playtest read stays gone from the authored scene.
+    expect(text).not.toContain("Something got broken");
+    expect(text).not.toContain("four feet away");
+    expect(text).not.toMatch(/The person who did/i);
+    expect(text).toContain("{detail:incident}");
+    const nameThem = stage.options.find(
+      (option) => option.key === "name-them",
+    )!;
+    expect(nameThem.label).toContain("{role:school-peer}");
+    expect(nameThem.label).not.toBe("Say who did it");
+  });
+
+  it("withholds it in a different life with a different classmate, for the same reason", () => {
     const first = schoolLife(14, "pt3-school-cast-a");
     const second = schoolLife(14, "pt3-school-cast-b");
-    const one = blamedBeat(first.world, first.personId)!;
-    const two = blamedBeat(second.world, second.personId)!;
-    expect(one.bindings[0]!.personName).not.toBe(two.bindings[0]!.personName);
-
-    // Re-reading the same life composes the same scene: the incident is drawn
-    // once per instance, not per redraw.
-    const again = blamedBeat(first.world, first.personId)!;
-    expect(again.prose).toBe(one.prose);
-    expect(again.instanceKey).toBe(one.instanceKey);
-    expect(
-      episodeDetails(
-        first.world,
-        one.instanceKey,
-        episodeFamily(SCHOOL)!.details,
-      ),
-    ).toEqual(
-      episodeDetails(
-        first.world,
-        one.instanceKey,
-        episodeFamily(SCHOOL)!.details,
-      ),
+    expect(schoolPeer(first.world, first.personId)!.personName).not.toBe(
+      schoolPeer(second.world, second.personId)!.personName,
     );
+    expectWithheld(first.world, first.personId, SCHOOL, "blamed");
+    expectWithheld(second.world, second.personId, SCHOOL, "blamed");
   });
 
   it("withholds the scene, with its reason, when the school holds nobody else", () => {
@@ -162,8 +169,10 @@ describe("PT3 — the school corridor names what happened and who did it", () =>
     );
     /*
      * The same life with nobody else enrolled anywhere. A constructed control,
-     * not a played world: what it proves is that the stage is withheld rather
-     * than composed around an invented culprit.
+     * not a played world. It used to show the stage refused for want of a
+     * classmate rather than composed around an invented culprit; the withheld
+     * requirement is checked first now, so the reason given is the missing
+     * incident, and no culprit is invented either way.
      */
     const alone: World = {
       ...world,
@@ -174,63 +183,23 @@ describe("PT3 — the school corridor names what happened and who did it", () =>
         ),
       },
     };
-    const eligibility = eligibleEpisodeBeats({
-      world: alone,
-      personId,
-      families: EPISODE_FAMILIES,
-    });
-    expect(eligibility.beats.some((beat) => beat.stageKey === "blamed")).toBe(
-      false,
-    );
-    expect(
-      eligibility.exclusions.some(
-        (entry) =>
-          entry.episodeKey === SCHOOL &&
-          entry.stageKey === "blamed" &&
-          entry.requirement.kind === "role" &&
-          entry.requirement.role === "school-peer",
-      ),
-    ).toBe(true);
+    expect(schoolPeer(alone, personId)).toBeUndefined();
+    expectWithheld(alone, personId, SCHOOL, "blamed");
   });
 
-  it("keeps the incident and the person through the choice, the memory and a reload", () => {
+  it("writes nothing when the scene is withheld, and a reload withholds it the same way", () => {
     const { world, personId } = schoolLife(15, "pt3-school-follow");
-    const beat = blamedBeat(world, personId)!;
-    const peer = beat.bindings[0]!;
-    const incident = incidentIn(beat.prose)!;
-
-    const played = playEpisodeOption(world, {
-      personId,
-      beat,
-      optionKey: "take-it",
-      families: EPISODE_FAMILIES,
-    });
-
-    // The memory the record keeps says the same thing the screen said.
-    const stages = playedEpisodeStages(played.world, personId).filter(
-      (entry) => entry.instanceKey === beat.instanceKey,
-    );
-    expect(stages).toHaveLength(1);
-    const event = played.world.history.events.find(
-      (candidate) => candidate.id === played.eventId,
-    )!;
-    expect(mentionsIncident(event.summary, incident)).toBe(true);
-    expect(event.summary).toContain(peer.personName);
-    expect(event.involvedEntityIds).toContain(peer.personId);
-
-    // And it survives a save and a reload unchanged.
-    const reloaded = deserializeWorld(serializeWorld(played.world));
-    const reloadedEvent = reloaded.history.events.find(
-      (candidate) => candidate.id === played.eventId,
-    )!;
-    expect(reloadedEvent.summary).toBe(event.summary);
+    const before = serializeWorld(world);
+    expectWithheld(world, personId, SCHOOL, "blamed");
+    // Reading eligibility created no incident, event or memory.
+    expect(serializeWorld(world)).toBe(before);
     expect(
-      episodeDetails(
-        reloaded,
-        beat.instanceKey,
-        episodeFamily(SCHOOL)!.details,
-      )["incident"],
-    ).toBe(incident);
+      playedEpisodeStages(world, personId).some(
+        (entry) => entry.episodeKey === SCHOOL && entry.stageKey === "blamed",
+      ),
+    ).toBe(false);
+    const reloaded = deserializeWorld(before);
+    expectWithheld(reloaded, personId, SCHOOL, "blamed");
   });
 
   it("names two people in the house two different names", () => {
@@ -256,101 +225,45 @@ describe("PT3 — the school corridor names what happened and who did it", () =>
     }
   });
 
-  it("hands the home scene's telling to the adult who is actually responsible", () => {
+  it("withholds the home scene in every one of those households, for the reason the bank gives", () => {
     /*
-     * The first ordinary life that reaches the home scene. Not every household
-     * does — the peer has to be old enough to be out — and a fixture that
-     * forced one would be proving something the player never meets.
+     * The adjacent home scene ("noticing") was withheld by the same review:
+     * nothing records the peer's late returns, curfews or whereabouts. It used
+     * to be proved here that the first ordinary life reaching it handed the
+     * telling to the responsible adult by name. No ordinary life reaches it
+     * now, in a household with a teenager or without one.
      */
-    let beat: EpisodeBeat | undefined;
-    let world: World | undefined;
-    for (let index = 0; index < 12 && beat === undefined; index += 1) {
+    for (let index = 0; index < 12; index += 1) {
       const life = schoolLife(14, `pt3-house-tell-${index}`);
-      beat = eligibleEpisodeBeats({
-        world: life.world,
-        personId: life.personId,
-        families: EPISODE_FAMILIES,
-      }).beats.find(
-        (candidate) =>
-          candidate.episodeKey === "home.someone-is-not-all-right" &&
-          candidate.stageKey === "noticing",
-      );
-      if (beat) world = life.world;
+      expectWithheld(life.world, life.personId, HOME, "noticing");
     }
-    expect(beat, "the home scene is reachable in ordinary play").toBeDefined();
-    expect(world).toBeDefined();
-    const guardian = beat!.bindings.find(
-      (binding) => binding.role === "guardian",
-    )!;
-    const peer = beat!.bindings.find(
-      (binding) => binding.role === "household-peer",
-    )!;
-    expect(guardian.personId).not.toBe(peer.personId);
-
-    const tell = beat!.options.find((option) => option.key === "tell-someone")!;
-    // The unbound "a grown-up at home" is gone, and the two of them are told
-    // apart in the line the player reads.
-    expect(tell.label).toBe(`Tell ${guardian.personName}`);
-    expect(tell.description).toContain(peer.personName);
-    expect(guardian.personName).not.toBe(peer.personName);
-    expect(beat!.prose).toContain(peer.personName);
   });
 
-  it("waits a real year before saying a year has passed", () => {
-    const { world, personId } = schoolLife(15, "pt3-school-year");
-    const beat = blamedBeat(world, personId)!;
-    const peer = beat.bindings[0]!;
-    const incident = incidentIn(beat.prose)!;
-    const after = playEpisodeOption(world, {
-      personId,
-      beat,
-      optionKey: "take-it",
-      families: EPISODE_FAMILIES,
-    }).world;
-
+  it("opens neither continuation a year on, because the corridor was never played", () => {
     /*
-     * The world actually moves: a stage that asks how long ago something
-     * happened has to be asked on a day that has arrived, not on a date the
-     * caller wishes were current.
+     * "it-stuck" and "it-came-out" turn on what the player chose in the
+     * corridor. With the corridor withheld there is no choice for them to
+     * turn on, however much real time passes.
      */
-    const stuckAt = (world: World) =>
-      eligibleEpisodeBeats({
-        world,
+    const { world, personId } = schoolLife(15, "pt3-school-year");
+    const later = advanceWorld(advanceWorld(world, 200), 166);
+    for (const [stageKey, option] of [
+      ["it-stuck", "take-it"],
+      ["it-came-out", "name-them"],
+    ] as const) {
+      const { beat, exclusion } = stageEligibility(
+        later,
         personId,
-        families: EPISODE_FAMILIES,
-      }).beats.find((candidate) => candidate.stageKey === "it-stuck");
-
-    const twoHundred = advanceWorld(after, 200);
-    // 200 days is not a year, and the continuation used to claim it was.
-    expect(stuckAt(twoHundred)).toBeUndefined();
-    const later = stuckAt(advanceWorld(twoHundred, 166));
-    expect(later, "a year later it is still on the record").toBeDefined();
-    expect(later!.prose).toMatch(/^A year on/);
-    expect(mentionsIncident(later!.prose, incident)).toBe(true);
-    expect(later!.instanceKey).toBe(beat.instanceKey);
-    expect(
-      later!.options.find((option) => option.key === "correct-it")!.description,
-    ).toContain(peer.personName);
-  });
-
-  it("carries the named incident into the tell-people continuation", () => {
-    const { world, personId } = schoolLife(10, "pt3-school-tell-people");
-    const beat = blamedBeat(world, personId)!;
-    const incident = incidentIn(beat.prose)!;
-    const after = playEpisodeOption(world, {
-      personId,
-      beat,
-      optionKey: "name-them",
-      families: EPISODE_FAMILIES,
-    }).world;
-    const later = eligibleEpisodeBeats({
-      world: advanceWorld(after, 200),
-      personId,
-      families: EPISODE_FAMILIES,
-    }).beats.find((candidate) => candidate.stageKey === "it-came-out");
-
-    expect(later, "the named-person continuation is reachable").toBeDefined();
-    expect(mentionsIncident(later!.prose, incident)).toBe(true);
-    expect(later!.prose).toContain(beat.bindings[0]!.personName);
+        SCHOOL,
+        stageKey,
+      );
+      expect(beat).toBeUndefined();
+      expect(exclusion!.requirement).toEqual({
+        kind: "after-choice",
+        stage: "blamed",
+        option,
+      });
+    }
+    expectWithheld(later, personId, SCHOOL, "blamed");
   });
 });

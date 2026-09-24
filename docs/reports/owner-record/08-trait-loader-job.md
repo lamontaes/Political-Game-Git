@@ -7,7 +7,7 @@ the job description.
 
 lamontae's standing requirement is that the game be modder-friendly like
 RimWorld and The Sims: content as data, discovered rather than compiled in. For
-traits that is not true today. The 121-trait personality catalogue
+traits that is not true today. The 121-trait personality catalog
 (`/mnt/project-files/research/personality/personality-catalogue.json`) is the
 first content that needs it, and it cannot land until this exists. It will not
 be the last.
@@ -56,7 +56,7 @@ legislatureTraitPack()], DECISIONS)`. Two packs, written into the code.
   nobody should invent the numbers to get ahead of it.
 - **Not new mechanics.** No weights, prevalence or change rates. The loader
   carries whatever a pack declares and validates it.
-- **Not an `src/` import of research data.** The catalogue stays research until
+- **Not an `src/` import of research data.** The catalog stays research until
   the design answer exists.
 
 ## Whose lane

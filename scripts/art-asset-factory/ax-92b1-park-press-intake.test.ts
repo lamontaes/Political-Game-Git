@@ -170,7 +170,7 @@ describe("AX-92B1 C. candidate registration is not release", () => {
     },
   );
 
-  it("leaves every bank judgement that needs a human unassessed", () => {
+  it("leaves every bank judgment that needs a human unassessed", () => {
     for (const bankPath of [BANK_PATH, OBSERVED_BANK_PATH]) {
       const bank = JSON.parse(read(bankPath)) as {
         readonly entries: readonly Record<string, unknown>[];

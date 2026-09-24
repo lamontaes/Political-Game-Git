@@ -3,7 +3,7 @@ CHARACTER: You are six or seven years old, in school.
 RELATIONSHIPS: none supplied for this scene.
 KNOWN WORLD FACTS:
 
-- The world holds an active education enrolment for you.
+- The world holds an active education enrollment for you.
 - You raced another child across the yard and lost.
 - Nobody was watching the start except the two of you.
   PLAYER KNOWLEDGE: what the character saw of the race.

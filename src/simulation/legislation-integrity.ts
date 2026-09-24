@@ -1,4 +1,6 @@
 import { makeIsoDate } from "./dates";
+import { eventById } from "./event-index";
+import { historyIndex } from "./history-index";
 import {
   assertOriginationPermitted,
   chamberByKey,
@@ -140,18 +142,14 @@ export function assertLegislationIntegrity(
       );
     }
     for (const alternativeId of measure.policyAlternativeIds) {
-      if (
-        !world.history.policyAlternatives.some(
-          (record) => record.id === alternativeId,
-        )
-      ) {
+      if (!policyAlternativeIds(world).has(alternativeId)) {
         throw new Error(
           `Legislative measure references a missing policy alternative: ${alternativeId}`,
         );
       }
     }
-    // A measure may say what question it is about, and the catalogue is what
-    // decides which questions exist. A link to one the catalogue does not hold
+    // A measure may say what question it is about, and the catalog is what
+    // decides which questions exist. A link to one the catalog does not hold
     // would make a save claim a bill is about something nothing defines.
     for (const propositionId of measure.propositionIds ?? []) {
       if (!world.policyCatalog.propositions[propositionId]) {
@@ -159,6 +157,20 @@ export function assertLegislationIntegrity(
           `Legislative measure references a missing policy proposition: ${propositionId}`,
         );
       }
+    }
+    // A direction is only meaningful for one of the bill's own questions.
+    const answered = new Set<EntityId>();
+    for (const row of measure.propositionAnswers ?? []) {
+      if (
+        !(measure.propositionIds ?? []).includes(row.propositionId) ||
+        answered.has(row.propositionId) ||
+        (row.answer !== "yes" && row.answer !== "no")
+      ) {
+        throw new Error(
+          `Legislative measure has an invalid answer for a policy proposition: ${row.propositionId}`,
+        );
+      }
+      answered.add(row.propositionId);
     }
   }
 
@@ -417,9 +429,7 @@ export function assertLegislationIntegrity(
         `Executive disposition is dated ${disposition.actedAt} but its action happened on ${paired.occurredAt}: ${disposition.id}`,
       );
     }
-    const pairedEvent = world.history.events.find(
-      (event) => event.id === paired.eventId,
-    );
+    const pairedEvent = eventById(world, paired.eventId);
     if (pairedEvent && pairedEvent.occurredAt !== disposition.actedAt) {
       throw new Error(
         `Executive disposition and its recorded event disagree about the date: ${disposition.id}`,
@@ -454,7 +464,7 @@ export function assertLegislationIntegrity(
         `Legislative action does not follow its measure: ${action.id}`,
       );
     }
-    if (!world.history.events.some((event) => event.id === action.eventId)) {
+    if (!eventById(world, action.eventId)) {
       throw new Error(
         `Legislative action references a missing event: ${action.id}`,
       );
@@ -481,11 +491,7 @@ export function assertLegislationIntegrity(
         `Enactment references a missing measure: ${enactment.id}`,
       );
     }
-    if (
-      !world.history.events.some(
-        (event) => event.id === enactment.outcomeEventId,
-      )
-    ) {
+    if (!eventById(world, enactment.outcomeEventId)) {
       throw new Error(
         `Enactment references a missing outcome event: ${enactment.id}`,
       );
@@ -526,4 +532,13 @@ export function assertLegislationIntegrity(
       throw new Error(replay.violations[0]!);
     }
   }
+}
+
+/** Policy alternative ids, built once per history instead of per measure. */
+function policyAlternativeIds(world: World): ReadonlySet<EntityId> {
+  return historyIndex(
+    world,
+    "legislation-integrity:policy-alternative-ids",
+    () => new Set(world.history.policyAlternatives.map((record) => record.id)),
+  );
 }

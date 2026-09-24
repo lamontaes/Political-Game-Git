@@ -221,7 +221,7 @@ export interface GeometryArchetype {
   readonly contributingRoomIds: readonly string[];
   /**
    * Proportion relationships the archetype asserts, as ratios rather than
-   * absolute sizes. Ratios are what survives generalisation.
+   * absolute sizes. Ratios are what survives generalization.
    */
   readonly proportions?: readonly ArchetypeProportion[];
   readonly note?: string;
@@ -296,7 +296,7 @@ function warn(
 /**
  * Validates one measured room.
  *
- * The load-bearing rule is the one about basis. A dimension may not be labelled
+ * The load-bearing rule is the one about basis. A dimension may not be labeled
  * `direct-published` while carrying the working of a scale derivation, and a
  * `scale-derived` dimension may not exist without a RESOLVED scale to have
  * derived it from. Together those two make "we measured it off the drawing and
@@ -539,7 +539,7 @@ export function validateGeometryArchetype(
       warn(
         "archetype-single-room",
         archetype.archetypeId,
-        `Archetype '${archetype.archetypeId}' is informed by a single room. An archetype generalises; one room generalises nothing, and a scene built from it edges toward being a replica of a real place.`,
+        `Archetype '${archetype.archetypeId}' is informed by a single room. An archetype generalizes; one room generalizes nothing, and a scene built from it edges toward being a replica of a real place.`,
       ),
     );
   }

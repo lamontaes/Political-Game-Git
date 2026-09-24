@@ -50,11 +50,31 @@ export function createPolicyIssueDefinition(
     domainId,
     name,
     description,
-    // Omitted rather than empty: an issue nobody routed must serialise as it
+    // Omitted rather than empty: an issue nobody routed must serialize as it
     // did before levels existed, so the accepted bytes of a world carrying
     // unrouted issues stay true and an older save stays readable.
     ...(levels.length > 0 ? { levels: [...levels] } : {}),
   };
+}
+
+/**
+ * The issues a catalog says are ordinarily decided at one level.
+ *
+ * An issue that names no level is left out, not included: nobody established
+ * where it is decided, and an unknown is not permission to raise it anywhere.
+ * Being listed here grants no office the power to decide it either; that is
+ * the jurisdiction's own capability record.
+ */
+export function policyIssuesDecidedAt(
+  catalog: PolicyCatalog,
+  level: PolicyGovernmentLevel,
+): readonly PolicyIssueDefinition[] {
+  return catalog.issueOrder
+    .map((id) => catalog.issues[id])
+    .filter(
+      (issue): issue is PolicyIssueDefinition =>
+        issue !== undefined && (issue.levels ?? []).includes(level),
+    );
 }
 
 export function createPolicyPropositionDefinition(
@@ -75,7 +95,7 @@ export function createPolicyPropositionDefinition(
     parameters: parameters.map((parameter) => ({ ...parameter })),
     tags: canonical(tags),
     // Omitted, not written empty: a proposition whose pack declares no
-    // principle has to serialise byte-for-byte as it did before the field
+    // principle has to serialize byte-for-byte as it did before the field
     // existed. See `PolicyPropositionDefinition.principles`.
     ...(principles.length > 0
       ? {

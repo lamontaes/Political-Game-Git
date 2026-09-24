@@ -33,7 +33,7 @@
     },
     {
       "source": "The owner's own ruling on content packs, 2026-09-22: 'ignore it and say so. that shouldnt hold the game back.'",
-      "whatItDidNotSettle": "Settles the case where the missing thing is a modder's work: load what is understood, skip the rest, and state what was skipped. It cannot be generalised as it stands, because the cost of being wrong about a modder's field is an afternoon, while the cost of being wrong about a state's eligibility rule is the game asserting something false about the real world."
+      "whatItDidNotSettle": "Settles the case where the missing thing is a modder's work: load what is understood, skip the rest, and state what was skipped. It cannot be generalized as it stands, because the cost of being wrong about a modder's field is an afternoon, while the cost of being wrong about a state's eligibility rule is the game asserting something false about the real world."
     },
     {
       "source": "src/simulation/candidate-qualification.ts and the four-state research typing it implements",

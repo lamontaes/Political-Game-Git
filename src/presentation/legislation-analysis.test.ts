@@ -20,8 +20,8 @@ import { billAnalysis, billEstimateAvailability } from "./legislation-analysis";
  * Four things a bill's numbers can be, and the game keeping them apart.
  *
  * What the text commits is arithmetic and is always available. What a
- * programme would achieve is a forecast, and in a world that has never
- * measured the thing the programme is about, the honest output is the name of
+ * program would achieve is a forecast, and in a world that has never
+ * measured the thing the program is about, the honest output is the name of
  * the missing series rather than a number. These tests hold that line from
  * both directions: the unavailable case says exactly what is absent, and the
  * available case only appears once a baseline genuinely exists.

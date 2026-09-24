@@ -5,7 +5,7 @@ impact: none
 
 Sixteen more open research questions now carry ChatGPT's DEPTH2 answers of
 2026-09-22, written back into their records. They cover the personality
-catalogue's poles, formative situations, relationships fading with absence,
+catalog's poles, formative situations, relationships fading with absence,
 the federal policy pack, who votes in a chamber, party agendas, what makes
 news, the gap between winning and taking a seat, balance parameters, executive
 terms, veto overrides, election night, New Hampshire's and Vermont's governor

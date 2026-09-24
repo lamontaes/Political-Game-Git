@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-22T23:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "invented-depth audit",
+  "notes": [],
+  "priority": "P1",
+  "question": "For children in the United States, what share live with one parent, two parents, or another guardian; how often is a missing parent deceased versus living elsewhere; what is the spread of parents' ages at a child's birth and of the gaps between siblings (including twins); and what share of young adults live in a shared home — and how do these vary by birth year and place?",
+  "questionId": "childhood-household-composition",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "invented-depth audit lane",
+  "sourcesChecked": [
+    {
+      "source": "The five source locations above at main 9f42ba19",
+      "whatItDidNotSettle": "Each is labeled authored with no source."
+    },
+    {
+      "source": "docs/research/requests/how-a-life-begins-and-grows-up.json",
+      "whatItDidNotSettle": "Covers the shape of a childhood, not these proportions or ages."
+    }
+  ],
+  "title": "What households American children actually grow up in, and how old their parents are",
+  "usableAnswer": "Shares and age spreads from Census/ACS (or the PUMS donor the game already has), by child's birth decade where it changes materially, and a note on whether the PUMS donor could be wired in directly instead of new constants.",
+  "whyItMatters": "Every generated childhood and every normal start draws the player's family from invented odds. At main 9f42ba19:\n\n1. src/presentation/production-world.ts:502-504 — family shape picked from [one-parent, two-parents, two-parents, guardian], so 25/50/25.\n2. src/presentation/production-world.ts:749 — a one-parent child's other parent is unrecorded, nonresident or dead, a third each, so about 8% of all starts have a dead parent.\n3. src/simulation/setup-generation-inputs.ts:156-184 — the guardian is 24-41 years older; siblings are only 2, 3 or 4 years apart, never twins.\n4. src/presentation/new-game.ts:356 — 62% of normal starts share a home, regardless of age or place.\n5. src/simulation/character-history.ts:2300, :2320 — a successor's summarized past gives them a parent exactly 28 years older and a teacher exactly 30 years older.\n\nThe comments say 'authored, not survey probabilities'. Census and ACS tables can answer most of this, and the game already holds an ACS PUMS household donor (src/source/domains/acs-pums/donor.ts) that nothing in play calls."
+}

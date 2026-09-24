@@ -1,4 +1,8 @@
 import {
+  SCHOOL_STAGE_TRANSITION_KEY,
+  schoolStageTransitionHandler,
+} from "./school-stages";
+import {
   acceptedEducationPath,
   legacyAcceptedEducationPath,
   recordAcceptedEducationTerms,
@@ -70,7 +74,12 @@ import {
 import { recordWorldEvent } from "./world";
 import { evaluateLifeEligibility } from "./life-eligibility";
 import { SeededRng } from "./rng";
-import { lifePathDefinition, LIFE_PATHS2_CATALOG } from "./life-paths2-catalog";
+import {
+  employerName,
+  lifePathDefinition,
+  LIFE_PATHS2_CATALOG,
+} from "./life-paths2-catalog";
+import { programsSatisfiedBy } from "./degree-levels";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type {
   EntityId,
@@ -160,7 +169,9 @@ export function hasLifePathCredential(
   return world.history.educationEnrollments.some(
     (e) =>
       e.personId === personId &&
-      e.programKind === program &&
+      programsSatisfiedBy(e.programKind).some(
+        (satisfied) => satisfied === program,
+      ) &&
       educationEnrollmentStateAt(world, e.id)?.status === "completed",
   );
 }
@@ -208,7 +219,7 @@ function ensureOrganization(
     formedAt: world.currentDate,
     provenance: authored,
     initialProfile: {
-      name: path.organizationName,
+      name: employerName(path),
       classification:
         path.kind === "study" ? "service:college" : "community:association",
       locationJurisdictionId: null,
@@ -275,10 +286,7 @@ export function enterLifePath(
     path.kind === "study" &&
     (!Number.isSafeInteger(graceDays) || graceDays < 0)
   )
-    return fail(
-      world,
-      "Grace must be a nonnegative whole number of simulated days.",
-    );
+    return fail(world, "Grace must be a whole number of days, zero or more.");
   const acceptedPath =
     path.kind === "study"
       ? { ...periodizedStudyPath(path), tuitionGraceDays: graceDays }
@@ -523,7 +531,7 @@ export function scheduleLifePathSession(
       responsiblePersonId: actor,
       location: {
         locationKey: `life-paths2:${path.id}`,
-        label: path.organizationName,
+        label: employerName(path),
         jurisdictionId: null,
       },
       sourceEntityIds: [id],
@@ -887,7 +895,7 @@ function createLifePathRoutineHook(): RoutineTimeHook {
           responsiblePersonId: actor,
           location: {
             locationKey: `life-paths2:${path.id}`,
-            label: path.organizationName,
+            label: employerName(path),
             jurisdictionId: null,
           },
           sourceEntityIds: [slot.relationshipId],
@@ -1058,6 +1066,8 @@ const LIFE_PATHS2_CORE_HANDLERS = createFutureTransitionHandlerRegistry(
 export const LIFE_PATHS2_HANDLERS = composeFutureTransitionHandlerRegistries(
   createFutureTransitionHandlerRegistry([
     [EDUCATION_STUDY_PERIOD_DUE_KEY, educationStudyPeriodDueHandler],
+    // A child moves on through school while the game is played.
+    [SCHOOL_STAGE_TRANSITION_KEY, schoolStageTransitionHandler],
   ]),
   LIFE_PATHS2_CORE_HANDLERS,
 );
@@ -1274,7 +1284,7 @@ export function recruitLifePathPerson(
         formedAt: world.currentDate,
         provenance: authored,
         initialProfile: {
-          name: "Personal work project (fictional)",
+          name: "Personal work project",
           classification: "community:personal-project",
           locationJurisdictionId: null,
         },
@@ -1597,6 +1607,7 @@ export function acceptLifePathCounteroffer(
     );
   const terms = resourceFlowTermsAt(world, flow.id)!;
   const amount = money(
+    // PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the 1.25 counteroffer is not sourced.
     Math.max(terms.amount.minorUnits, Math.ceil(path.sessionPayMinor * 1.25)),
     "USD",
   );

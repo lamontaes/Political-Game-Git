@@ -3,6 +3,7 @@ import {
   personName,
   householdMembershipsAt,
   lifePlaceStateIdentities,
+  recordedDistrictMembership,
 } from "../simulation";
 import {
   projectOrientationView,
@@ -166,16 +167,38 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
           actorFor(orientation.homeState.governor, "governor", "governor"),
         ].filter(valid)
       : [];
-  // One actual home-state House member and one Senator, never a fabricated
-  // 535-person hallway. This does not claim the House member is YOUR district.
+  // One home-state Senator, and the House member only for the district this
+  // life's home is recorded in (or a state's single at-large seat). A city the
+  // Census place file splits between districts names no House member: the
+  // first seat in the state is not the player's district. Never a fabricated
+  // 535-person hallway.
+  const homeUsps = orientation.homeState?.stateUsps;
+  const houseDistrict = recordedDistrictMembership(
+    world,
+    playerId,
+    "congressional",
+    world.currentDate,
+  )?.binding;
+  const homeSeat = (
+    chamber: NonNullable<typeof orientation.congress>["house"],
+    house: boolean,
+  ) => {
+    const seats = chamber.seats.filter((entry) => entry.stateUsps === homeUsps);
+    if (!house) return seats.find((entry) => entry.occupant.kind === "member");
+    if (houseDistrict)
+      return seats.find(
+        (entry) =>
+          entry.stateUsps === houseDistrict.stateUsps &&
+          entry.district === houseDistrict.geoid.slice(2),
+      );
+    return seats.length === 1 && seats[0]!.district === "00"
+      ? seats[0]
+      : undefined;
+  };
   const congressActors = orientation.congress
     ? [orientation.congress.house, orientation.congress.senate].flatMap(
-        (chamber) => {
-          const seat = chamber.seats.find(
-            (entry) =>
-              entry.stateUsps === orientation.homeState?.stateUsps &&
-              entry.occupant.kind === "member",
-          );
+        (chamber, index) => {
+          const seat = homeSeat(chamber, index === 0);
           return seat?.occupant.kind === "member"
             ? [
                 actorFor(

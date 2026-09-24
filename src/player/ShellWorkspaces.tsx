@@ -1,3 +1,9 @@
+import { InterruptionChecklist } from "./InterruptionChecklist";
+import {
+  dollars,
+  readableDatesIn,
+} from "../presentation/campaign-life-surface";
+import { projectBillPaper, type BillPaper } from "../presentation/bill-paper";
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
 import {
   clampWorkspace,
@@ -8,6 +14,7 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
+import { TownBusinessesPanel } from "./TownBusinessesPanel";
 import {
   economicContextBindingForPlace,
   economicContextUnavailableReason,
@@ -59,10 +66,7 @@ import {
   isPinned,
   type InterruptionPreferences,
 } from "../presentation/shell-navigation";
-import {
-  INTERRUPTION_CATEGORIES,
-  interruptionHandlers,
-} from "../presentation/interruption-policy";
+import { interruptionHandlers } from "../presentation/interruption-policy";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
 import {
@@ -76,7 +80,7 @@ import {
 } from "../presentation/calendar-campaign-life";
 import { previewTimeCommand } from "../presentation/time-command";
 import { venueActivities } from "../presentation/venue-activity";
-import { proseWeekdayDate } from "../presentation/prose-dates";
+import { proseDate, proseWeekdayDate } from "../presentation/prose-dates";
 import {
   PROTECTED_STOP_NOTE,
   describeInterval,
@@ -109,6 +113,38 @@ import {
  * still spends no time.
  */
 
+type ResizeEdge = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw";
+
+const RESIZE_EDGES: readonly ResizeEdge[] = [
+  "n",
+  "s",
+  "e",
+  "w",
+  "ne",
+  "nw",
+  "se",
+  "sw",
+];
+
+/** How long the closing fade runs; matches `pg-workspace-leave` in shell.css. */
+const WORKSPACE_CLOSE_MS = 160;
+
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+/**
+ * A workspace is moved by dragging its title bar and resized from any edge or
+ * corner; there are no layout buttons. A change lasts while the workspace is
+ * open. Keeping it is the player's choice ("Keep this size"); otherwise the
+ * workspace opens at its saved size, or the default, the next time.
+ * Double-clicking the title bar puts it back to the default and forgets any
+ * kept size.
+ */
 export function WorkspaceFrame({
   title,
   kicker,
@@ -132,13 +168,17 @@ export function WorkspaceFrame({
 }) {
   const frame = useRef<HTMLElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
+  // Where the player has put the frame since it opened, not yet kept.
+  const [draft, setDraft] = useState<WorkspaceLayout | null>(null);
   const [liveLayout, setLiveLayout] = useState<WorkspaceLayout | null>(null);
+  const [closing, setClosing] = useState(false);
+  const closeTimer = useRef<number | null>(null);
   const [viewport, setViewport] = useState(() => ({
     width: typeof window === "undefined" ? 1280 : window.innerWidth,
     height: typeof window === "undefined" ? 860 : window.innerHeight,
   }));
   const drag = useRef<{
-    mode: "move" | "resize";
+    mode: "move" | ResizeEdge;
     x: number;
     y: number;
     layout: WorkspaceLayout;
@@ -153,20 +193,54 @@ export function WorkspaceFrame({
       if (invoker?.isConnected) invoker.focus();
     };
   }, [testid]);
+  // Another workspace in the same frame starts from its own size.
+  useEffect(() => {
+    setDraft(null);
+  }, [testid]);
+  /*
+   * A close waits out its fade before it takes the player back to the room.
+   * Opening something else during the fade, a pin pressed as the People
+   * workspace fades, reuses this frame for the new workspace, and the old
+   * timer then closed the page just opened (People web browser test on main
+   * 54bebe81, 2026-09-23). A new workspace cancels the close it replaced.
+   */
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current !== null) {
+        window.clearTimeout(closeTimer.current);
+        closeTimer.current = null;
+      }
+      setClosing(false);
+    };
+  }, [testid]);
   useEffect(() => {
     const resize = () =>
       setViewport({ width: window.innerWidth, height: window.innerHeight });
     window.addEventListener("resize", resize);
     return () => window.removeEventListener("resize", resize);
   }, []);
+  const settled = draft ?? layout;
   const shown =
     liveLayout ??
-    (layout
-      ? clampWorkspace(layout, viewport.width, viewport.height)
+    (settled
+      ? clampWorkspace(settled, viewport.width, viewport.height)
       : defaultWorkspace(viewport.width, viewport.height));
+  const unsaved = draft !== null;
+  function close() {
+    if (closing) return;
+    if (prefersReducedMotion()) {
+      onClose();
+      return;
+    }
+    setClosing(true);
+    closeTimer.current = window.setTimeout(() => {
+      closeTimer.current = null;
+      onClose();
+    }, WORKSPACE_CLOSE_MS);
+  }
   function start(
     event: ReactPointerEvent<HTMLElement>,
-    mode: "move" | "resize",
+    mode: "move" | ResizeEdge,
   ) {
     if (!onLayoutChange || event.button !== 0) return;
     if (mode === "move" && (event.target as HTMLElement).closest("button"))
@@ -187,24 +261,34 @@ export function WorkspaceFrame({
     if (!current) return;
     const dx = event.clientX - current.x,
       dy = event.clientY - current.y;
-    setLiveLayout(
-      clampWorkspace(
-        {
-          ...current.layout,
-          ...(current.mode === "move"
-            ? { x: current.layout.x + dx, y: current.layout.y + dy }
-            : {
-                width: current.layout.width + dx,
-                height: current.layout.height + dy,
-              }),
-        },
-        viewport.width,
-        viewport.height,
-      ),
-    );
+    const from = current.layout;
+    let next: WorkspaceLayout;
+    if (current.mode === "move") {
+      next = { ...from, x: from.x + dx, y: from.y + dy };
+    } else {
+      const edge = current.mode;
+      // Dragging a left or top edge moves that edge, keeping the other fixed.
+      const width = edge.includes("e")
+        ? from.width + dx
+        : edge.includes("w")
+          ? from.width - dx
+          : from.width;
+      const height = edge.includes("s")
+        ? from.height + dy
+        : edge.includes("n")
+          ? from.height - dy
+          : from.height;
+      next = {
+        width,
+        height,
+        x: edge.includes("w") ? from.x + from.width - width : from.x,
+        y: edge.includes("n") ? from.y + from.height - height : from.y,
+      };
+    }
+    setLiveLayout(clampWorkspace(next, viewport.width, viewport.height));
   }
   function end() {
-    if (drag.current && liveLayout) onLayoutChange?.(liveLayout);
+    if (drag.current && liveLayout) setDraft(liveLayout);
     drag.current = null;
     setLiveLayout(null);
   }
@@ -212,6 +296,7 @@ export function WorkspaceFrame({
     <section
       ref={frame}
       className="pg-workspace civic-glass"
+      data-closing={closing || undefined}
       style={
         shown
           ? {
@@ -230,7 +315,7 @@ export function WorkspaceFrame({
         if (event.key === "Escape" && !event.defaultPrevented) {
           event.preventDefault();
           event.stopPropagation();
-          onClose();
+          close();
         }
       }}
     >
@@ -241,42 +326,30 @@ export function WorkspaceFrame({
         onPointerMove={move}
         onPointerUp={end}
         onPointerCancel={end}
+        onDoubleClick={(event) => {
+          if (!onLayoutChange) return;
+          if ((event.target as HTMLElement).closest("button")) return;
+          setDraft(null);
+          onLayoutChange(null);
+        }}
       >
         <div>
           {kicker ? <p className="pg-kicker">{kicker}</p> : null}
           <h2>{title}</h2>
         </div>
         <div className="pg-workspace-controls">
-          {onLayoutChange ? (
-            <>
-              <button
-                type="button"
-                className="ui-action ui-action--subtle"
-                onClick={() =>
-                  onLayoutChange(
-                    clampWorkspace(
-                      {
-                        x: 12,
-                        y: 12,
-                        width: viewport.width - 24,
-                        height: viewport.height - 110,
-                      },
-                      viewport.width,
-                      viewport.height,
-                    ),
-                  )
-                }
-              >
-                Maximize
-              </button>
-              <button
-                type="button"
-                className="ui-action ui-action--subtle"
-                onClick={() => onLayoutChange(null)}
-              >
-                Reset layout
-              </button>
-            </>
+          {onLayoutChange && unsaved ? (
+            <button
+              type="button"
+              className="pg-workspace-keep"
+              data-testid={`${testid}-keep-layout`}
+              onClick={() => {
+                if (draft) onLayoutChange(draft);
+                setDraft(null);
+              }}
+            >
+              Keep this size
+            </button>
           ) : null}
           {canGoBack ? (
             <button
@@ -294,19 +367,33 @@ export function WorkspaceFrame({
             aria-label="Close"
             ref={closeButton}
             data-testid={`${testid}-close`}
-            onClick={onClose}
+            onClick={close}
           >
             <span aria-hidden="true">✕</span>
           </button>
         </div>
       </header>
       <div className="pg-workspace-body">{children}</div>
+      {onLayoutChange
+        ? RESIZE_EDGES.map((edge) => (
+            <div
+              key={edge}
+              className="pg-window-edge"
+              data-edge={edge}
+              aria-hidden="true"
+              onPointerDown={(event) => start(event, edge)}
+              onPointerMove={move}
+              onPointerUp={end}
+              onPointerCancel={end}
+            />
+          ))
+        : null}
       {onLayoutChange ? (
         <button
           type="button"
           className="pg-window-resize"
           aria-label={`Resize ${title}; use arrow keys`}
-          onPointerDown={(event) => start(event, "resize")}
+          onPointerDown={(event) => start(event, "se")}
           onPointerMove={move}
           onPointerUp={end}
           onPointerCancel={end}
@@ -320,7 +407,7 @@ export function WorkspaceFrame({
             event.preventDefault();
             const rect = frame.current?.getBoundingClientRect();
             if (rect)
-              onLayoutChange(
+              setDraft(
                 clampWorkspace(
                   {
                     x: rect.x,
@@ -345,9 +432,7 @@ export function WorkspaceFrame({
                 ),
               );
           }}
-        >
-          ◢
-        </button>
+        />
       ) : null}
     </section>
   );
@@ -375,13 +460,24 @@ export function PeopleWorkspace({
     () => filterDirectory(directory, category, state.peopleQuery),
     [directory, category, state.peopleQuery],
   );
+  const notYetMet = useMemo(
+    () =>
+      category === "all"
+        ? []
+        : filterDirectory(
+            { ...directory, people: directory.notYetMet },
+            category,
+            state.peopleQuery,
+          ),
+    [directory, category, state.peopleQuery],
+  );
   const [webExpanded, setWebExpanded] = useState(false);
   const peopleView = state.preferences.peopleView;
   const showWeb = peopleView === "web";
   /*
    * Choosing somebody here opens the one person card the whole game uses,
    * beside this workspace, rather than a second card drawn inline. The web
-   * keeps the chosen person at its centre so the card and the drawing agree.
+   * keeps the chosen person at its center so the card and the drawing agree.
    */
   const focusId = state.quickDossierPersonId ?? personId;
   function selectPerson(id: EntityId) {
@@ -459,6 +555,9 @@ export function PeopleWorkspace({
             query={state.peopleQuery}
             expanded={webExpanded}
             onSelect={selectPerson}
+            onShowList={() =>
+              dispatch({ type: "set-people-view", view: "list" })
+            }
           />
           <button
             type="button"
@@ -505,6 +604,11 @@ export function PeopleWorkspace({
                   ) : person.context ? (
                     <small>{person.context}</small>
                   ) : null}
+                  {person.strain ? (
+                    <small data-testid={`people-strain-${person.personId}`}>
+                      {person.strain}
+                    </small>
+                  ) : null}
                 </button>
                 <PinToggle
                   className="ui-action ui-action--rail"
@@ -518,6 +622,44 @@ export function PeopleWorkspace({
           })}
         </ul>
       )}
+
+      {category === "all" && directory.notYetMet.length > 0 ? (
+        <p className="game-note" data-testid="people-not-yet-met-note">
+          {directory.notYetMet.length === 1
+            ? "1 person you work or organize with is somebody you have not met yet."
+            : `${directory.notYetMet.length} people you work or organize with are somebody you have not met yet.`}{" "}
+          They are under Work and Politics.
+        </p>
+      ) : null}
+      {notYetMet.length > 0 ? (
+        <section
+          className="pg-people-not-yet-met"
+          aria-label="Not met yet"
+          data-testid="people-not-yet-met"
+        >
+          <h3>Not met yet</h3>
+          <ul className="pg-people-list" data-view="list">
+            {notYetMet.map((person) => (
+              <li key={person.personId}>
+                <button
+                  type="button"
+                  className="pg-person-row"
+                  data-testid={`people-unmet-${person.personId}`}
+                  onClick={() => selectPerson(person.personId)}
+                >
+                  <PersonPortrait
+                    world={world}
+                    personId={person.personId}
+                    size="small"
+                  />
+                  <strong>{person.name}</strong>
+                  {person.context ? <small>{person.context}</small> : null}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </>
   );
 }
@@ -907,42 +1049,10 @@ export function CalendarWorkspaceSurface({
             time. A preference here never spends money, casts a vote or commits
             you to anything; it only decides where a skip pauses.
           </p>
-          <ul className="pg-interruption-list">
-            {INTERRUPTION_CATEGORIES.map((category) =>
-              category.key === "always" ? (
-                <li key={category.key} data-testid="interruption-always">
-                  <label className="pg-check pg-check--fixed">
-                    <input type="checkbox" checked disabled readOnly />
-                    <span>
-                      <strong>{category.label}</strong>
-                      <small>{category.detail}</small>
-                    </span>
-                  </label>
-                </li>
-              ) : (
-                <li key={category.key}>
-                  <label className="pg-check">
-                    <input
-                      type="checkbox"
-                      data-testid={`interruption-${category.key}`}
-                      checked={interruptions[category.key]}
-                      disabled={!onInterruptionChange}
-                      onChange={(event) =>
-                        onInterruptionChange?.(
-                          category.key as keyof InterruptionPreferences,
-                          event.target.checked,
-                        )
-                      }
-                    />
-                    <span>
-                      <strong>{category.label}</strong>
-                      <small>{category.detail}</small>
-                    </span>
-                  </label>
-                </li>
-              ),
-            )}
-          </ul>
+          <InterruptionChecklist
+            interruptions={interruptions}
+            onChange={onInterruptionChange}
+          />
         </div>
       ) : null}
     </>
@@ -1159,35 +1269,34 @@ function CalendarEventActions({
           Show earlier event
         </button>
       ) : null}
-      <button
-        type="button"
-        className="ui-action"
-        data-testid="calendar-simulate-event"
-        disabled={!simulation.authorized}
-        aria-disabled={busy}
-        aria-describedby={`calendar-simulate-reason-${selected.activityId}`}
-        onClick={() =>
-          runner.perform(
-            (current) =>
-              simulateAuthorizedCalendarActivity(
-                current,
-                personId,
-                selected.activityId,
-                interruptions,
-              ),
-            onReport,
-          )
-        }
-      >
-        Simulate authorized attendance
-        <small>{simulation.reason}</small>
-      </button>
-      <p
-        className="sr-only"
-        id={`calendar-simulate-reason-${selected.activityId}`}
-      >
-        {simulation.reason}
-      </p>
+      {/*
+        Offered only when the player's standing preferences allow it. Its
+        refusal reasons are rules talk ("Advance and Play stay distinct"), so
+        a button that cannot be used is not drawn at all (owner's playtest,
+        2026-09-22).
+      */}
+      {simulation.authorized ? (
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="calendar-simulate-event"
+          aria-disabled={busy}
+          onClick={() =>
+            runner.perform(
+              (current) =>
+                simulateAuthorizedCalendarActivity(
+                  current,
+                  personId,
+                  selected.activityId,
+                  interruptions,
+                ),
+              onReport,
+            )
+          }
+        >
+          Go, and skip ahead to afterward
+        </button>
+      ) : null}
       <button
         type="button"
         className="ui-action"
@@ -1242,9 +1351,11 @@ export function CommitmentSurface({
       <p data-testid="commitment-ownership">{entry.ownershipNote}</p>
       <p>{entry.summary}</p>
       <p className="game-note">Where: {entry.locationLabel}</p>
-      {entry.participantNames.length > 0 ? (
+      {/* The player is not "with" themself: only the others are named. */}
+      {entry.attendeeNames.filter((name) => name !== "You").length > 0 ? (
         <p className="game-note" data-testid="commitment-participants">
-          With {entry.participantNames.join(", ")}.
+          With {entry.attendeeNames.filter((name) => name !== "You").join(", ")}
+          .
         </p>
       ) : null}
     </div>
@@ -1289,8 +1400,10 @@ export function MeasureSurface({
   }
 
   const yours = measure.sponsorPersonId === personId;
+  const paper = projectBillPaper(world, measureId);
   return (
     <div data-testid="measure-detail" data-measure-id={measureId}>
+      {paper ? <BillPaperView paper={paper} /> : null}
       <p className="pg-kicker" data-testid="measure-designation">
         {briefing.designation}
       </p>
@@ -1315,31 +1428,101 @@ export function MeasureSurface({
         </p>
       ) : null}
       <p data-testid="measure-standing">{briefing.whereItStands}</p>
+      {briefing.outcomeNote ? (
+        <p data-testid="measure-outcome">
+          {readableDatesIn(briefing.outcomeNote)}
+        </p>
+      ) : null}
       {briefing.votes.length > 0 ? (
         <section className="pg-personal-section">
           <h3>Votes</h3>
           <ul data-testid="measure-votes">
             {briefing.votes.map((vote) => (
-              <li key={`${vote.question}-${vote.when}`}>
-                {vote.when} · {vote.question} · {vote.result} ({vote.yea}–
-                {vote.nay})
+              <li key={`${vote.question}-${vote.when}-${vote.where}`}>
+                {proseDate(vote.when)} · {vote.where} · {vote.question} ·{" "}
+                {vote.result} ({vote.yea}–{vote.nay}; {vote.needed} of{" "}
+                {vote.outOf} needed)
+                {vote.yours ? (
+                  <>
+                    {" "}
+                    <span data-testid="measure-your-vote">{vote.yours}</span>
+                  </>
+                ) : null}
               </li>
             ))}
           </ul>
+        </section>
+      ) : null}
+      {briefing.history.length > 0 ? (
+        <section className="pg-personal-section">
+          <h3>How it got here</h3>
+          <ol data-testid="measure-history">
+            {briefing.history.map((line, index) => (
+              <li key={`${line.when}-${index}`}>
+                {proseDate(line.when)} · {line.headline}. {line.detail}
+                {line.voteSummary ? ` ${line.voteSummary}` : ""}
+              </li>
+            ))}
+          </ol>
         </section>
       ) : null}
     </div>
   );
 }
 
+/**
+ * A Congress bill as Congress prints it, with its status stamped on top and
+ * what each House and the President did underneath.
+ */
+function BillPaperView({ paper }: { readonly paper: BillPaper }) {
+  return (
+    <article
+      className="measure-paper bill-paper"
+      data-testid="bill-paper"
+      data-enacted={paper.enacted ? "true" : "false"}
+    >
+      <p className="measure-paper-stamp" data-testid="bill-paper-stamp">
+        {paper.stamp}
+      </p>
+      <div className="bill-paper-masthead">
+        <p>
+          {paper.congressLine}
+          <br />
+          {paper.sessionLine}
+        </p>
+        <p className="bill-paper-designation">{paper.designation}</p>
+      </div>
+      <p className="bill-paper-chamber">{paper.chamberLine}</p>
+      <p className="bill-paper-introduction">{paper.introduction}</p>
+      <p className="bill-paper-kind">{paper.kindLabel}</p>
+      <p className="bill-paper-clause">{paper.enactingClause}</p>
+      {paper.sections.map((section) => (
+        <section
+          key={section.label}
+          className="measure-section"
+          data-missing={section.missing ? "true" : "false"}
+        >
+          <h3>
+            {section.label} {section.heading}
+          </h3>
+          <p>{section.text}</p>
+        </section>
+      ))}
+      {paper.record.length > 0 ? (
+        <ol className="bill-paper-record" data-testid="bill-paper-record">
+          {paper.record.map((line, index) => (
+            <li key={`${index}-${line}`}>{line}</li>
+          ))}
+        </ol>
+      ) : null}
+    </article>
+  );
+}
+
 /* ---------------------------------------------------------------- personal */
 
 function formatMoney(amount: MoneyAmount): string {
-  const whole = (amount.minorUnits / 100).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return `${whole} ${amount.currency}`;
+  return dollars(amount);
 }
 
 export function PersonalWorkspace({
@@ -1379,6 +1562,7 @@ export function PersonalWorkspace({
 
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
+  const economicJurisdictionId = homeId ?? undefined;
   const economicLines = economicPlace
     ? playerEconomicContextLines(economicPlace.key, world.currentDate)
     : [];
@@ -1406,7 +1590,7 @@ export function PersonalWorkspace({
    *
    * This record used to open on regional economic observations and a chart,
    * with the player's own name and age below them. The owner asked "Who am I?"
-   * and got labour statistics, which is the wrong answer to that question no
+   * and got labor statistics, which is the wrong answer to that question no
    * matter how good the statistics are. The context is kept — it is real,
    * sourced and worth reading — but it belongs after the person, framed as
    * being about the place rather than about them.
@@ -1503,7 +1687,8 @@ export function PersonalWorkspace({
                 <h4>{chapter.heading}</h4>
                 {chapter.entries.map((entry) => (
                   <p key={entry.key}>
-                    <time>{entry.at}</time> · {entry.sentence}
+                    <time dateTime={entry.at}>{proseDate(entry.at)}</time> ·{" "}
+                    {entry.sentence}
                   </p>
                 ))}
               </section>
@@ -1571,7 +1756,7 @@ export function PersonalWorkspace({
         <h3>The place you live</h3>
         <p className="game-note">
           {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
-          {world.currentDate}
+          {proseDate(world.currentDate)}
         </p>
         {/*
           The compact lines come from a generated file committed per place, and
@@ -1601,11 +1786,19 @@ export function PersonalWorkspace({
             binding={economicBinding}
             simulationDate={world.currentDate}
             diagnostics={DIAGNOSTICS}
+            world={world}
+            jurisdictionId={economicJurisdictionId}
           />
         ) : economicPlace ? (
           <p className="game-note" data-testid="economic-context-unavailable">
             {economicContextUnavailableReason(economicPlace.key)}
           </p>
+        ) : null}
+        {economicPlace ? (
+          <TownBusinessesPanel
+            world={world}
+            jurisdictionId={economicPlace.context.jurisdiction.id}
+          />
         ) : null}
       </section>
     </>

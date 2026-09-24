@@ -17,7 +17,7 @@ told this thread, of two questions it had put to him: _"This should be given to
 chat GPT... you should have gotten that from the main chat."_
 
 So before putting a question to him: search these files. If the answer is here,
-it is answered. If it is a judgement about how the simulated world should feel
+it is answered. If it is a judgment about how the simulated world should feel
 rather than a fact about our code or a decision only he can make, it goes to
 ChatGPT as a research brief and ChatGPT comes back to him.
 
@@ -25,7 +25,7 @@ ChatGPT as a research brief and ChatGPT comes back to him.
 
 Every message he authored across four ChatGPT exports, complete and in order,
 with his spelling, dictation errors and repetition preserved. 215 messages.
-Nothing was summarised, shortened or tidied.
+Nothing was summarized, shortened or tidied.
 
 | File              | Chat                      | Dates               | His messages |
 | ----------------- | ------------------------- | ------------------- | ------------ |

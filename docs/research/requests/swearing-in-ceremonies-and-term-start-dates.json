@@ -1,0 +1,33 @@
+{
+  "filedAt": "2026-09-23T00:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "transition services for winners",
+  "priority": "P1",
+  "question": "lamontae wants the swearing-in to be an event the player takes part in, not a status change. Answer as one set, covering Congress, all 50 states, D.C. and Puerto Rico. (1) Swearing-in, for each state legislature (each chamber), each governor, the U.S. House and the U.S. Senate: who administers the oath, where it happens, when it happens relative to the start of the term (the same day, at the chamber's first meeting, or a separate inauguration), the oath's text or its constitutional source, whether it is taken together or one at a time, and customary parts of the ceremony (families present, oath book, re-enactment for photographs, and so on). (2) What happens if a winner does not take the oath: is there a deadline, is the seat declared vacant, and can the oath be administered later or elsewhere? (3) For local offices, a few blanket patterns (city council, mayor, county board, school board), plus any notable unique ceremonies. (4) The date each legislative chamber's term actually begins, as a rule per state. This part of legislative-winner-between-election-and-seat is still open. Known examples the table must reproduce: Maine begins on the first Wednesday of December after the election, Nevada the day after the election, and Georgia in January. Mark every entry as sourced, synthesized or unknown.",
+  "questionId": "swearing-in-ceremonies-and-term-start-dates",
+  "readFirst": {
+    "saidAt": "2026-09-22T23:39:35.000Z",
+    "saidBy": "lamontae",
+    "words": "Okay, swearing in needs to be an event. Good one."
+  },
+  "relatedQuestionIds": [
+    "legislative-winner-between-election-and-seat",
+    "new-member-transition-and-orientation",
+    "governor-term-length-outside-washington"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "lamontae, 2026-09-22 at 7:39 p.m. Eastern; filed by the transition services thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests on main 1fb285b7",
+      "whatItDidNotSettle": "legislative-winner-between-election-and-seat asks the gap between election and seat. Its A08 answer settles the transition's shape but gives no per-state start dates. new-member-transition-and-orientation asks about orientation, not the oath. No record asks about the swearing-in ceremony."
+    },
+    {
+      "source": "src/simulation/office-transition.ts on branch claude/project-thread-xh4kyk",
+      "whatItDidNotSettle": "Every profile carries one blanket swearingIn description per level. Taking the oath records office.oath-taken, and nothing withholds the office if the oath is not taken."
+    }
+  ],
+  "title": "Swearing-in ceremonies, and when each legislative term actually begins",
+  "usableAnswer": "Table 1: one row per office (each state chamber, each governor, U.S. House and Senate), with columns for who administers, where, when relative to term start, together or individually, oath source, notable customs, and the consequence of not taking the oath. Table 2: the term start rule for each state chamber. Then a few local patterns. Every entry marked sourced, synthesized or unknown.",
+  "whyItMatters": "Swearing-in is now an action the player takes from the first day of a held term. Its description is one blanket line per level, so a Maine and a Georgia legislator read the same ceremony. The term itself begins on a blanket January 1 in every state without a sourced rule (BLANKET_LEGISLATIVE_TERM_RULE_VERSION in src/simulation/legislative-term-rules.ts), which the owner has already said is wrong for Maine (early December). The blanket is also known wrong for Nevada."
+}

@@ -184,7 +184,7 @@ describe("Legislative work happens in the player's own world", () => {
   });
 });
 
-describe("a bill says which catalogue question it bears on", () => {
+describe("a bill says which catalog question it bears on", () => {
   it("opens a Kentucky staffer's bill on the free-transit question, through a reload", () => {
     const { world, assignment } = open("bears-on-kentucky");
     const reloaded = deserializeWorld(serializeWorld(world));
@@ -222,9 +222,9 @@ describe("a bill says which catalogue question it bears on", () => {
     ).toEqual([]);
   });
 
-  it("files unlinked in a world whose catalogue does not hold the question", () => {
+  it("files unlinked in a world whose catalog does not hold the question", () => {
     const { world, playerPersonId, capabilities } = staffer("bears-on-older");
-    // A catalogue is fixed when its world is made, so a save from before the
+    // A catalog is fixed when its world is made, so a save from before the
     // positions shipped holds none of them. Emptied here, the rest intact.
     const positions = new Set(
       Object.values(world.policyCatalog.propositions)

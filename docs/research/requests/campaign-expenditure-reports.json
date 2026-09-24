@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-23T00:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "Today the only public campaign report in the game is one monthly line per committee: 'reported N payments totaling $X to the candidate' (src/simulation/press/matters.ts, produceCandidatePaymentReports, 30-day lag). It lists only payments to the candidate. No report says what the rest of the money went to.",
+    "The owner (2026-09-23, 8:10 p.m. ET) wants spending reports that need not be very detailed, but where someone actually reading them could spot something wrong or work out what the money was spent on. They feed how reporters, rivals and the regulator find siphoning. In one replay a Maine governor's campaign ended with $38,380.77 unspent and no record of where the rest went.",
+    "Until this is answered the game will file a generated monthly report listing every payment out of the committee with payee, purpose and running totals, marked as a placeholder schedule and placeholder categories."
+  ],
+  "priority": "P1",
+  "question": "For state and local candidate committees in each of the 50 states, D.C. and Puerto Rico, and for federal candidates under the FEC: (1) when are expenditure reports due (the filing schedule: monthly, quarterly, pre- and post-election, and any 24- or 48-hour reports), (2) what must each disbursement line carry (payee, address, date, amount, purpose, category codes, itemization threshold below which spending is lumped), (3) what spending categories or purpose descriptions are required or customary, and (4) what happens to leftover money when a campaign ends (permitted uses, refund, charity, party transfer, carrying to a later campaign), with the rule per jurisdiction.",
+  "questionId": "campaign-expenditure-reports",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-22-campaign-finance-regulators/CAMPAIGN-FINANCE-REGULATORS-52.md",
+      "whatItDidNotSettle": "Names the filing office and regulator per jurisdiction but not report schedules, line-item contents, itemization thresholds, categories or leftover-fund rules."
+    },
+    {
+      "source": "src/simulation/campaign-compliance.generated.ts (reportSchedules field)",
+      "whatItDidNotSettle": "Carries a reviewed schedule for one scenario only; not a nationwide table and not the content of a disbursement line."
+    }
+  ],
+  "title": "What a campaign's spending report contains, when it is filed, and what happens to leftover money",
+  "usableAnswer": "One row per jurisdiction (plus FEC): report schedule, required disbursement fields and itemization threshold, category or purpose conventions, and leftover-fund rule, each with an official source. UNKNOWN where no source settles it.",
+  "whyItMatters": "Siphoning is only catchable if the spending is on a report someone can read. Without real schedules and categories the game's report is a placeholder, and leftover money at the end of a race has no rule at all."
+}

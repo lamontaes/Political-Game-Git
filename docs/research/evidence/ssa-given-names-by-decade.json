@@ -1,7 +1,7 @@
 {
   "source": "U.S. Social Security Administration, Popular Names by Decade, https://www.ssa.gov/oact/babynames/decades/",
   "fetchedAt": "2026-09-22T16:56:20Z",
-  "fetchedBy": "research triage lane, bounded research authorised by lamontae 2026-09-22T16:47:59Z",
+  "fetchedBy": "research triage lane, bounded research authorized by lamontae 2026-09-22T16:47:59Z",
   "method": "WebFetch against the SSA decade pages; direct curl is blocked by this environment's network policy",
   "note": "Public-domain US government data. Rank and count are SSA's own figures, transcribed, not computed here.",
   "decades": {

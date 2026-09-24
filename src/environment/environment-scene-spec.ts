@@ -228,7 +228,7 @@ export interface SceneFloorContact {
 /**
  * Where a seated person meets the furniture. A seated person's feet are on the
  * FLOOR, not on the chair, so `floor_y_percent` is required alongside the seat
- * plane; modelling only the pelvis is precisely why hand-tuned seated sprites
+ * plane; modeling only the pelvis is precisely why hand-tuned seated sprites
  * float.
  */
 export interface SceneSeatContact {
@@ -335,7 +335,7 @@ export function isSceneSurfaceKind(value: string): value is SceneSurfaceKind {
  * contract is written. The graphics convergence found the two layers had grown
  * separate lists — `working-draft` here against `document-body` there, for the
  * same piece of paper — which is how a slot ends up legal in the spec and
- * unrecognised by the component binder that has to fill it.
+ * unrecognized by the component binder that has to fill it.
  */
 export type SemanticContentClass =
   | "jurisdiction-name"
@@ -384,7 +384,7 @@ export function isSemanticContentClass(
  * Non-semantic visual texture that MAY be baked into a plate.
  *
  * Every entry here is restrained on purpose. `paper-shapes` means blocks of
- * colour on a desk, not documents. `clock-face-block` means the shape of a
+ * color on a desk, not documents. `clock-face-block` means the shape of a
  * clock, not a time. `calendar-grid-block` means a grid on a wall, not dates.
  * The distinction is the whole contract: shape is decor, value is information.
  */
@@ -467,12 +467,12 @@ export const CIVIC_SYMBOL_POLICY = "canonical-source-only" as const;
  * Legibility floor for a dynamic surface, as a percentage of the plate.
  *
  * A surface only earns dynamic content when a player could actually read a
- * change on it. Below this floor it stays ambient decoration: a two-centimetre
+ * change on it. Below this floor it stays ambient decoration: a two-centimeter
  * framed picture on a far wall is not a screen, and promoting it to one costs
  * runtime work for a change nobody can see.
  *
  * The numbers are measured rather than chosen. Five percent of a 1080-line
- * viewport is 54 lines: about enough for a chart with two labelled axes, or
+ * viewport is 54 lines: about enough for a chart with two labeled axes, or
  * three rows of a docket. Five percent of plate width is the narrowest column
  * that holds a legible label beside a value. The generative failure this guards
  * against is specific and common — models paint two to five tiny frames on

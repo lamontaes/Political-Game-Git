@@ -6,6 +6,7 @@ import { fileURLToPath, URL } from "node:url";
 
 import {
   barPill,
+  activatePending,
   cleanChecks,
   cleanHubState,
   createGeneration,
@@ -44,6 +45,75 @@ const mainOnly = () => ({
       previous: null,
     },
   },
+});
+
+test("install then restart does not retain an instruction for a consumed update", () => {
+  const check = recordCheck({}, "main", {
+    outcome: "waiting",
+    at: "2026-09-23T01:37:49.314Z",
+    revision: SHA_B,
+    message: "Verified and waiting to be activated.",
+  }).main;
+  const waiting = withPending(mainOnly(), "main", "main", build(SHA_B));
+  assert.equal(
+    updateStatus({
+      check,
+      build: waiting.tracks.main.current,
+      pending: waiting.tracks.main.pending,
+      building: false,
+    }).text,
+    "Update ready — press Install update",
+  );
+  const restarted = cleanHubState(
+    JSON.parse(JSON.stringify(activatePending(waiting, "main"))),
+  );
+  assert.equal(restarted.tracks.main.pending, null);
+  assert.deepEqual(
+    updateStatus({
+      check,
+      build: restarted.tracks.main.current,
+      pending: restarted.tracks.main.pending,
+      building: false,
+    }),
+    { kind: "current", text: "Up to date", detail: "Update installed." },
+  );
+});
+
+test("a removed pending update cannot offer installation or claim the old build current", () => {
+  const status = updateStatus({
+    check: { outcome: "waiting", revision: SHA_B },
+    build: build(SHA_A),
+    pending: null,
+    building: false,
+  });
+  assert.equal(status.kind, "unchecked");
+  assert.doesNotMatch(status.text, /Install|Up to date/);
+});
+
+test("a real pending payload is installable even before a check is persisted", () => {
+  for (const check of [null, { outcome: "up-to-date", revision: SHA_A }]) {
+    assert.equal(
+      updateStatus({
+        check,
+        build: build(SHA_A),
+        pending: build(SHA_B),
+        building: false,
+      }).text,
+      "Update ready — press Install update",
+    );
+  }
+});
+
+test("installation progress replaces the install instruction while activation runs", () => {
+  const status = updateStatus({
+    check: { outcome: "waiting", revision: SHA_B },
+    build: build(SHA_A),
+    pending: build(SHA_B),
+    building: false,
+    phase: { phase: "installing", message: "Verifying update…" },
+  });
+  assert.equal(status.text, "Verifying update…");
+  assert.equal(status.kind, "preparing");
 });
 
 test("an unbuilt branch selection survives a read (the snap-back)", () => {
@@ -213,7 +283,7 @@ test("offline reads differently from a failed check and keeps its message", () =
   assert.equal(failed.detail, "Packaging failed.");
 });
 
-test("a build whose payload is gone is never labelled verified", () => {
+test("a build whose payload is gone is never labeled verified", () => {
   const present = playLabel({
     track: "main",
     build: build(SHA_A),
@@ -382,4 +452,37 @@ test("the private hub checks for updates only at start and on request", () => {
   // A verified runtime-content build does not need an obsolete private pack
   // merely to discover and compile a code-only successor.
   assert.match(source, /!packPath && !usesRuntimeContent/);
+});
+
+test("retry progress replaces an older failure while retaining it for a stopped check", () => {
+  for (const outcome of ["offline", "failed", "unsupported"]) {
+    const check = recordCheck({}, "main", {
+      outcome,
+      at: "2026-09-23T03:47:13.000Z",
+      message: "Previous attempt failed",
+    }).main;
+    for (const [phase, kind] of [
+      ["fetching", "checking"],
+      ["preparing", "preparing"],
+      ["verifying", "preparing"],
+    ]) {
+      const status = updateStatus({
+        check,
+        build: build(SHA_A),
+        building: true,
+        phase: { phase, checkStartedAt: "2026-09-23T03:47:37.000Z" },
+      });
+      assert.equal(status.kind, kind);
+      assert.equal(status.detail, undefined);
+    }
+    assert.equal(
+      updateStatus({
+        check,
+        build: build(SHA_A),
+        building: true,
+        phase: { phase: "failed" },
+      }).kind,
+      outcome,
+    );
+  }
 });

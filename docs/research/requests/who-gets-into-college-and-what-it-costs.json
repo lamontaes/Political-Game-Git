@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-22T23:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "ordinary adult life",
+  "notes": [
+    "The college directory already says which award levels each college confers and whether it reports open admission; this asks for everything the directory does not."
+  ],
+  "priority": "P1",
+  "question": "When an ordinary adult applies to a US college for an associate's, bachelor's or master's degree, what realistically decides whether they are admitted (open admission, high-school diploma or GED, test scores, grades, a bachelor's first), what does a year of tuition and fees cost at a community college, a public four-year college in state and a private college, and how many hours a week does full-time and part-time study take? How long does each degree really take for someone who works?",
+  "questionId": "who-gets-into-college-and-what-it-costs",
+  "relatedQuestionIds": ["what-a-person-spends-to-live"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "ordinary adult life thread",
+  "sourcesChecked": [
+    {
+      "source": "The shipped college directory (NCES IPEDS 2024-25 and 2025-26) as the game loads it",
+      "whatItDidNotSettle": "Names the award levels each college confers and whether it reports open admission. Says nothing about tuition, entry requirements or study hours."
+    },
+    {
+      "source": "The game's own authored degree paths in src/simulation/life-paths2-catalog.ts",
+      "whatItDidNotSettle": "Their lengths, weekly hours and tuition are game design with no source, and the real-college degree route now copies them as placeholders."
+    }
+  ],
+  "title": "Who gets into college, what a degree costs and how long it takes",
+  "usableAnswer": "For each of associate's, bachelor's and master's: the usual admission rule by college type (open admission, selective, graduate), annual tuition and fees bands for community, public in-state, public out-of-state and private colleges with a named public source that can be refreshed, typical weekly study hours full-time and part-time, and the usual time to finish for a working adult.",
+  "whyItMatters": "Until now no degree could be applied for, so a grown character could only take a noncredit course. The route is built, but every applicant is admitted and every degree costs the same everywhere until this is answered. A degree is the gate to law school and many offices, so these numbers decide who can climb."
+}

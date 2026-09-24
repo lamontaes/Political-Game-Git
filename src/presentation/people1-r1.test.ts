@@ -136,7 +136,7 @@ describe("PEOPLE1-R1 consumers", () => {
     ).toBe(true);
   });
 
-  it("honours baked heads in render plans and retains seated garment gaps", () => {
+  it("honors baked heads in render plans and retains seated garment gaps", () => {
     for (const record of WAVE_A_WARDROBE_RECORDS.filter(
       (r) => r.candidate_component?.kind === "body",
     )) {

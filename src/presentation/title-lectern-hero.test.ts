@@ -12,7 +12,7 @@ import { PRODUCTION_CHARACTER_LIBRARY } from "./visual-integration";
 /**
  * These tests cover the WIRING, which is the part that had no caller and no
  * coverage. Whether the composed portrait is the right likeness against the
- * private title41 plate is a judgement for the owner on a build that has the
+ * private title41 plate is a judgment for the owner on a build that has the
  * art; it is deliberately not asserted here, and cannot be, because a public
  * checkout carries none of that art.
  */
@@ -82,7 +82,7 @@ describe("title lectern hero wiring", () => {
 
   it("draws no hero in a checkout without the private lectern plate", () => {
     // A public checkout carries no title41 plate, so the resolver must stop
-    // before composing anything — today's behaviour, made explicit.
+    // before composing anything — today's behavior, made explicit.
     const compose = vi.fn().mockReturnValue(placedHero());
     expect(
       resolveTitleLecternHero(summary(), PRODUCTION_CHARACTER_LIBRARY, compose),

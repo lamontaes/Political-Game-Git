@@ -12,10 +12,10 @@ import {
  * The bank of acts about withstanding something.
  *
  * Three families whose eligibility operators are genuinely different from a
- * threshold. A recovery programme reaches a place because somebody declared it
+ * threshold. A recovery program reaches a place because somebody declared it
  * disaster-designated, which is a status conferred elsewhere rather than a
  * number this state measures. A resilience standard reaches a utility because
- * of what it operates, not what it earns. And an assistance fund modelled on
+ * of what it operates, not what it earns. And an assistance fund modeled on
  * the pilot's own never-adopted amendment reaches applicants by what they run,
  * with the source establishing precisely that proposed text and adopted text
  * are different records.
@@ -451,7 +451,7 @@ const DISASTER_RECOVERY: ProgramFamily = {
         beneficiaryLabel: "contractors and crews based in the designated place",
         placeLabel: "the county doing the rebuilding",
         statedGround:
-          "Suspend the advertising period and the contract goes to whoever was already mobilised, which is never anybody from the county that was hit.",
+          "Suspend the advertising period and the contract goes to whoever was already mobilized, which is never anybody from the county that was hit.",
         segmentKey: "recovery.local-contractor-preference",
         requestedMinorUnits: 0,
         cappedMinorUnits: 0,

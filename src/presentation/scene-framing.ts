@@ -4,9 +4,9 @@
  * Two defects the modular-people review measured in the room (MODULAR-GEN14,
  * handed to PT3 because `src/player` is PT3's):
  *
- * 1. The moment panel sat bottom-centre whatever the room held, so a person
+ * 1. The moment panel sat bottom-center whatever the room held, so a person
  *    standing mid-room was covered from the chest down. Hit-testing the figure
- *    at its own centre returned the panel, and a pointer could only choose the
+ *    at its own center returned the panel, and a pointer could only choose the
  *    person by the part of them that happened to be uncovered.
  * 2. A tall figure's crown ran off the top of the viewport. The covering
  *    camera pins the plate's top edge to the viewport's top edge whenever the
@@ -83,7 +83,7 @@ export interface ContentPlacement {
 /**
  * Where the foreground panel covers the fewest people.
  *
- * The centre is kept whenever it covers nobody — that is the layout the owner
+ * The center is kept whenever it covers nobody — that is the layout the owner
  * has been playing with. Otherwise the panel moves to a side with room beside
  * everybody who stands where the panel would be, narrowing to that room when
  * it has to but never below `minimumWidth`, right before left. Only when no
@@ -154,7 +154,7 @@ export function chooseContentDock(
  * How tall the conversation may be while staying in the lower scene safe area.
  *
  * Faces stay clear: the band from each figure's top down through the upper
- * third is treated as the head. The box sits bottom-centre in what remains.
+ * third is treated as the head. The box sits bottom-center in what remains.
  * Compact talk already fits this band at 1440×900 and 1200×720; this is a
  * ceiling, not a request to scroll.
  */

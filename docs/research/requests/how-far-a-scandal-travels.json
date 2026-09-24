@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-22T23:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "consequences for corruption and laws",
+  "notes": [
+    "src/simulation/press/desk.ts: national outlets cover only events tagged national or about federal offices; state outlets cover their state; local outlets cover their town and, since this change, matters about someone from their town.",
+    "Party, colleagues and close contacts already read a public finding and choose privately to support or distance themselves (src/simulation/press/responses.ts); no public statement is written."
+  ],
+  "priority": "P1",
+  "question": "When an ethics finding or scandal lands on a candidate or official, what decides whether it is covered only by the hometown and statehouse press, by neighboring markets, or nationally (the owner's examples: a stunning finding against a nationally prominent member like AOC goes national; an ordinary state figure stays local; a long-serving senator like Chuck Grassley may be barely covered)? And how do the person's party, allies and donors typically respond in public: silence, distancing statements, calls to step aside, withdrawn endorsements, primary challenges?",
+  "questionId": "how-far-a-scandal-travels",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Consequences for corruption and laws thread",
+  "sourcesChecked": [
+    {
+      "source": "chatgpt-stress-test-answers-2026-09-22, C04 (scandals)",
+      "whatItDidNotSettle": "Covers how a matter proceeds, not how far coverage travels or what public reactions follow."
+    }
+  ],
+  "title": "Which outlets cover a scandal, and how people around the candidate react in public",
+  "usableAnswer": "(1) The factors that move a scandal from local to state to national coverage (office level, prior national profile, how surprising the conduct is, dollar size), in an order or rough weight the game can apply. (2) The common public responses from party leaders, allies and donors, and what makes each likelier.",
+  "whyItMatters": "In a 2026-09-22 replay a finding was covered by one statehouse paper only; the hometown paper and national outlets were silent, and the party and allies said nothing in public (four close contacts privately distanced themselves). The hometown paper now covers a matter about a resident; national reach and public reactions are not decided because there is no researched basis."
+}

@@ -4,7 +4,7 @@ Measured on `origin/main` at `1c4992e8`, 2026-09-22. Three questions were
 filed into `docs/research/requests/` from this sweep and are named at the end.
 
 This covers the player-facing surfaces and the content and identity systems.
-Everything downstream of an enacted law — the production catalogue boundary,
+Everything downstream of an enacted law — the production catalog boundary,
 the causal-effects engine, the economy derivations, the forecast refusal — is
 the "What passing a law actually does" lane's, by an agreed split, and is
 deliberately absent here rather than missing.
@@ -90,21 +90,21 @@ confidence: disputed.length >= 3 ? "high" : "medium",
 ```
 
 Two allies decides whether leaving is a split or a founding. Three disputes
-decides whether the consideration a player reads is labelled "high" confidence.
+decides whether the consideration a player reads is labeled "high" confidence.
 That second line is lamontae's own example, in the code, deciding a word on
 screen. None of the six is reachable from a content pack.
 
 `LEGISLATIVE_CADENCE_PROFILE` in `src/simulation/governing/legislative-clock.ts`
-is labelled in the source as a "PROPOSED balance parameter, pending the
+is labeled in the source as a "PROPOSED balance parameter, pending the
 director's confirmation" and carries 3 days between institutional steps and 7
 days from referral to hearing. The comment records that an answer was wanted.
 Nothing records that one arrived, and it has been running as if confirmed.
 
 A count-comparison sweep across `src/simulation` and `src/presentation`
-separated structure from judgement, which is the useful half. Most numeric
+separated structure from judgment, which is the useful half. Most numeric
 comparisons are structural and belong in code: a decision needs at least 2
 options, a merger at least 2 organizations, a birth 1 or 2 parents. The ones
-that read as judgement are the party numbers above, plus
+that read as judgment are the party numbers above, plus
 `life-personality.ts:137` (at least 2 pieces of evidence), `life-episodes.ts:922`
 (at least 2 non-context anchors), `career-path7.ts:404` (at least 2 pieces of
 work history) and `life-paths2.ts:1643` (at least 10 shifts). Each decides
@@ -129,7 +129,7 @@ files, both passing `[]` explicitly. So every bill in every game carries an
 empty list of the policy alternatives it is supposed to be choosing between.
 
 This is a wiring gap, not a content gap, and it is the same shape as the
-policy catalogue finding: the vocabulary landed in #379, and the thing that
+policy catalog finding: the vocabulary landed in #379, and the thing that
 would connect a bill to it was never called. The lane's count was six; it is
 seven.
 
@@ -143,7 +143,7 @@ mechanism in the save, finds neither, and refuses with:
 > A spending scenario cannot be calculated with the information currently
 > available.
 
-Those two definitions are exactly what the production catalogue boundary
+Those two definitions are exactly what the production catalog boundary
 forbids a production save from carrying, so on any money bill in an ordinary
 game the button is offered and can never succeed. The sentence reads as "not
 right now", which a player will take as something they can change by waiting
@@ -152,7 +152,7 @@ reachable-and-empty-with-nothing-saying-why pattern, on a control rather than
 a screen.
 
 Deliberately not fixed here. The honest replacement sentence is a statement
-about the catalogue boundary, which the enacted-law lane owns and is writing
+about the catalog boundary, which the enacted-law lane owns and is writing
 up in #389, and two lanes should not author the same explanation. The
 player-facing half — the sentence, and whether the control should be offered
 at all — comes back here once their account lands.
@@ -297,7 +297,7 @@ reach something a player or the clock actually drives, and say where you
 stopped looking.
 
 **And a third correction, this one against the direction of the other two.**
-This document previously said the catalogue had stopped being a blocker,
+This document previously said the catalog had stopped being a blocker,
 because the boundary now refuses only what no loaded pack declares. The
 people-and-life lane challenged that and was right. The boundary is genuinely
 open, but `POLICY_PACKS` loads one pack; `propositions` is an **optional**
@@ -343,7 +343,7 @@ hospitals, public and behavioral health...") with issues including
 `health-human-services.medicaid` and `health-human-services.insurance-access`.
 So a player can file a bill about Medicaid, and nothing in the world
 represents healthcare for that bill to affect or be measured against. Naming a
-subject is not modelling it, and this is the clearest example in the codebase
+subject is not modeling it, and this is the clearest example in the codebase
 of the difference.
 
 The pattern across the three is worth stating: **a number on screen, a control
@@ -358,7 +358,7 @@ vocabulary that makes it look present.
 people-and-life lane's date-guard fix may be on a branch that has not merged.
 This records the threshold, not the state of that fix.
 
-The judgement list in section 3 came from a comparison sweep, not from reading
+The judgment list in section 3 came from a comparison sweep, not from reading
 every one of those call sites in full. Each named line was opened and read; the
 sweep's coverage of lines it did not match is unmeasured, so treat the list as
 a floor rather than a total.

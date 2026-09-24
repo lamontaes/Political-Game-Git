@@ -2,7 +2,7 @@
  * The release decision, as one pure function.
  *
  * Every safeguard the automation claims lives here rather than in the workflow,
- * so the tests exercise the behaviour a release actually has instead of the
+ * so the tests exercise the behavior a release actually has instead of the
  * text of a YAML file. The planner never reads the filesystem and never asks
  * the clock: the caller supplies the tree it is describing.
  */

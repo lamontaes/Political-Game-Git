@@ -72,13 +72,13 @@ describe("GOVERNING state executive journey, once per compiled mechanism", () =>
           asOfDate: decided.currentDate,
           historySequenceExclusive: decided.history.nextSequence,
         }),
-        `${usps} represents a rule shape but its winner did not survive to entry. That is legitimate world behaviour, not an entry defect — choose another seed or another state for this shape.`,
+        `${usps} represents a rule shape but its winner did not survive to entry. That is legitimate world behavior, not an entry defect — choose another seed or another state for this shape.`,
       ).toBe(true);
       // Never occupied on election night.
       expect(governingOfficeForPerson(decided, personId)).toBeNull();
       const planned = stateExecutiveEntryStatus(decided, personId);
-      expect(planned.kind).toBe("awaiting-qualification");
-      if (planned.kind !== "awaiting-qualification") return;
+      expect(planned.kind).toBe("qualified-awaiting-entry");
+      if (planned.kind !== "qualified-awaiting-entry") return;
       const expected = termDatesAfterElection(rule, contest.electionDate);
       expect(planned.startsAt).toBe(expected.startsAt);
       expect(planned.endsAt).toBe(expected.endsAt);

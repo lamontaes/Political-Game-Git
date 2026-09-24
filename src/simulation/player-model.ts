@@ -111,7 +111,7 @@ export const DIMENSION_POLES: Readonly<
     tension: "shared inherited norms against individual difference",
   },
   "institutional-trust": {
-    negative: "scepticism of officialdom",
+    negative: "skepticism of officialdom",
     positive: "confidence in professional process",
     tension: "public accountability against expert and procedural authority",
   },
@@ -193,7 +193,7 @@ export function isPlayerModelDimension(
  *
  * `enacted` is roughly five times `setup`, so two to three consequential
  * actions in the opposite direction move the estimate past neutral and out the
- * other side — which is exactly the override behaviour the settled semantics
+ * other side — which is exactly the override behavior the settled semantics
  * require, and it happens without deleting a single setup answer from the
  * audit trail.
  */
@@ -233,7 +233,7 @@ export interface HypothesisSupport {
  * A declaration that this choice left more than one explanation standing.
  *
  * Recorded rather than inferred, because whether two readings of a moment are
- * genuinely rival is an authoring judgement about the content, not something
+ * genuinely rival is an authoring judgment about the content, not something
  * a scorer can discover from numbers.
  */
 export interface AmbiguityDeclaration {

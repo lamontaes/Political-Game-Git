@@ -3,7 +3,7 @@
  *
  * 30C found that a third of #66's pinned records were fabricated: disaster
  * numbers belonging to other states were relabelled, a federal "Border
- * Emergency" that has never existed was invented, programme flags were flipped
+ * Emergency" that has never existed was invented, program flags were flipped
  * and incident types were rewritten. The corpus cannot simply be corrected by
  * hand, because hand-authoring is what produced it.
  *

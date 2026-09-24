@@ -108,7 +108,7 @@ export const AFTERMATH_FIRMNESS: Readonly<
 /**
  * How the registry's terminal states read as commitment standings.
  *
- * One mapping, in one place, so "cancelled because attention moved" and
+ * One mapping, in one place, so "canceled because attention moved" and
  * "withdrawn" cannot drift into meaning different things in different files.
  */
 export function standingFromDueItemState(
@@ -234,5 +234,5 @@ function conditionsFor(
  *
  * Nothing in this file is imported by the legislative modules, and nothing in
  * it imports them, so rebasing this branch onto #79 — or #79 onto this — moves
- * no behaviour either way.
+ * no behavior either way.
  */

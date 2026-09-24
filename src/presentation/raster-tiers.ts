@@ -286,7 +286,7 @@ export function selectRasterTier(
 
 /**
  * Whether a requirement is inside the declared fidelity envelope. Outside it,
- * browser upscale from the top tier is the documented behaviour rather than a
+ * browser upscale from the top tier is the documented behavior rather than a
  * defect.
  *
  * Pass `selection.requiredDeviceWidth`, or `paintedPlateCssWidth * dpr`. See

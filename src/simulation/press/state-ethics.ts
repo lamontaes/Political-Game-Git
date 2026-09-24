@@ -8,7 +8,7 @@ import { STATE_LEGISLATIVE_ETHICS_BODIES } from "./state-ethics-bodies";
  * a name written into the selector.
  *
  * `procedureForSubject` used to find the subject's state by scanning the
- * World for a jurisdiction literally named "Kentucky", and recognised a
+ * World for a jurisdiction literally named "Kentucky", and recognized a
  * legislative candidacy by a candidacy-pack prefix spelled out beside it. That
  * made the one researched state ethics commission the only one the selector
  * could ever reach: a second commission would have meant a second name

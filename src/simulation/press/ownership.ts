@@ -49,11 +49,13 @@ import {
  * Every outlet gets a founding owner drawn from the loaded ownership packs.
  * Each owner reviews its holdings on its own cadence and, at each review, may
  * take any of its practices: cut newsroom jobs across all its outlets, buy an
- * independent outlet, or a practice whose effect is not simulated yet, which
+ * independent outlet, order its outlets to run one another's stories (the
+ * news desk carries that out; see `sharingSiblings`), or a practice whose
+ * effect is not simulated yet, which
  * the blanket rule records against every outlet it holds without changing
  * anything else.
  *
- * NOT MODELLED YET, with the blanket rule standing in:
+ * NOT MODELED YET, with the blanket rule standing in:
  * - Why an owner decides. There is no media revenue, debt or audience model,
  *   so every decision is the pack's `likelihoodPerReview` draw.
  * - Whether a decision is news. Owner events use the `press.` prefix, which
@@ -61,6 +63,11 @@ import {
  *   of newsworthiness admits them.
  * - What a reporter does after losing the job. The job ends through the
  *   ordinary work writer; nothing yet looks for new work on their behalf.
+ * - Editors and staff resisting a directive. The owner decided (2026-09-22)
+ *   that they can, with consequences, and that the record should keep what
+ *   was ordered, what the outlet did and what readers saw. The forms of
+ *   resistance and what they cost are still unresearched, so for now every
+ *   directive is carried out as ordered.
  */
 
 export const MEDIA_OWNERSHIP_PACKS: readonly OwnershipPack[] = [
@@ -118,6 +125,37 @@ export function outletOwner(
     : null;
 }
 
+/**
+ * The other outlets that run this outlet's stories: those its current owner
+ * holds, once that owner has ordered its outlets to share. The order stands
+ * while the owner holds them; a new owner starts with no order of its own.
+ *
+ * NOT MODELED YET: editors and staff resisting the order (the owner decided
+ * they can, with consequences; how is unresearched), and which sibling picks
+ * a story up beyond whether it is relevant to that sibling's own audience.
+ * ChatGPT found no reuse rule, lag or share of output, so every relevant
+ * sibling runs every story the same day.
+ */
+export function sharingSiblings(
+  world: World,
+  outletId: EntityId,
+): readonly MediaOutletRecord[] {
+  const owner = outletOwner(world, outletId);
+  if (!owner) return [];
+  const ordered = ownerDirectives(world, owner.id).some(
+    (directive) =>
+      directive.effect === "share-content-across-outlets" &&
+      // An order recorded before sharing was simulated said it changed
+      // nothing, and an old save keeps that meaning.
+      directive.simulated &&
+      directive.decidedAt <= world.currentDate,
+  );
+  if (!ordered) return [];
+  return outletsHeldBy(world, owner.id).filter(
+    (outlet) => outlet.id !== outletId,
+  );
+}
+
 /** Every outlet the owner holds today. */
 export function outletsHeldBy(
   world: World,
@@ -159,13 +197,13 @@ export function ensureMediaOwnership(
   for (const outlet of mediaOutlets(world)) {
     if (currentOutletOwnership(next, outlet.id)) continue;
     const eligible = registry.owners.filter(
-      (row) => row.foundingWeight > 0 && ownerMayHold(row, outlet),
+      (row) => foundingWeightFor(row, outlet) > 0 && ownerMayHold(row, outlet),
     );
     if (eligible.length === 0) continue;
     const rng = new SeededRng(world.seed).fork(
       `press:ownership:founding:${outlet.stableKey}`,
     );
-    const row = weightedPick(rng, eligible);
+    const row = weightedPick(rng, eligible, outlet);
     const owned = ensureOwner(next, row, outlet);
     next = appendPressRecord(owned.world, "outlet-ownership", {
       stableKey: `${HOLDING_KEY}${outlet.id}:0`,
@@ -182,14 +220,25 @@ export function ensureMediaOwnership(
   return next;
 }
 
+function foundingWeightFor(
+  row: LoadedOwnershipOwner,
+  outlet: MediaOutletRecord,
+): number {
+  return row.foundingWeightByProduct?.[outlet.product] ?? row.foundingWeight;
+}
+
 function weightedPick(
   rng: SeededRng,
   rows: readonly LoadedOwnershipOwner[],
+  outlet: MediaOutletRecord,
 ): LoadedOwnershipOwner {
-  const total = rows.reduce((sum, row) => sum + row.foundingWeight, 0);
+  const total = rows.reduce(
+    (sum, row) => sum + foundingWeightFor(row, outlet),
+    0,
+  );
   let draw = rng.next() * total;
   for (const row of rows) {
-    draw -= row.foundingWeight;
+    draw -= foundingWeightFor(row, outlet);
     if (draw < 0) return row;
   }
   return rows.at(-1)!;
@@ -338,6 +387,9 @@ function carryOutPractice(
       return reduceNewsroomStaff(world, owner, practice, stableKey, held, rng);
     case "acquire-outlet":
       return acquireOutlet(world, owner, practice, stableKey, rng, registry);
+    case "share-content-across-outlets":
+      if (held.length === 0) return { world, eventId: null };
+      return recordDirective(world, owner, practice, stableKey, held, true);
   }
 }
 
@@ -393,6 +445,22 @@ function recordBlanketDirective(
   stableKey: string,
   held: readonly MediaOutletRecord[],
 ): { readonly world: World; readonly eventId: EntityId } {
+  return recordDirective(world, owner, practice, stableKey, held, false);
+}
+
+/**
+ * A standing order recorded against every outlet the owner holds. When
+ * `simulated`, something else reads it: a sharing order is read by the news
+ * desk each time one of the owner's outlets publishes (`sharingSiblings`).
+ */
+function recordDirective(
+  world: World,
+  owner: MediaOwnerRecord,
+  practice: OwnershipPracticeRow,
+  stableKey: string,
+  held: readonly MediaOutletRecord[],
+  simulated: boolean,
+): { readonly world: World; readonly eventId: EntityId } {
   const event = ownerEvent(world, {
     stableKey: `${stableKey}:event`,
     type: "press.owner.directive",
@@ -407,7 +475,7 @@ function recordBlanketDirective(
     ownerId: owner.id,
     practiceKey: practice.key,
     effect: practice.effect,
-    simulated: false,
+    simulated,
     outletIds: held.map((outlet) => outlet.id),
     decidedAt: world.currentDate,
     eventId: event.eventId,
@@ -624,7 +692,7 @@ export type OutletPurchaseTerms =
  * Whether this person can buy this outlet today, and for how much. Reads
  * only; the purchase itself is `purchaseOutlet`.
  *
- * NOT MODELLED YET, with the blanket rule standing in: an outlet's price is
+ * NOT MODELED YET, with the blanket rule standing in: an outlet's price is
  * the loaded pack's asking price for its size, not a valuation, and there is
  * no negotiation, financing or seller's refusal. Money is only what the
  * record holds: a person whose savings are not on record cannot buy, rather

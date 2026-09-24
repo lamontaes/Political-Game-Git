@@ -29,7 +29,7 @@ import type {
  * a fixed number sitting in a fixture.
  *
  * Seats without a simulated person keep their authored dispositions. A member
- * the game has never modelled does not acquire a mind because a neighbouring
+ * the game has never modeled does not acquire a mind because a neighboring
  * seat has one; extending this to a whole chamber is a separate piece of work
  * with its own content problem, and the seam is here rather than a guess.
  */
@@ -168,6 +168,18 @@ function weight(consideration: DecisionConsideration): number {
   ];
   const confidence = { low: 1, medium: 2, high: 3 }[consideration.confidence];
   return importance * confidence;
+}
+
+/**
+ * The reasons a member has on one question, as considerations for the shared
+ * evaluator. Exported so a whole chamber can be asked the same way one
+ * bargaining colleague is, without each caller rebuilding the reasons.
+ */
+export function memberVoteConsiderations(
+  world: World,
+  input: DeriveMemberDispositionInput,
+): readonly DecisionConsideration[] {
+  return memberConsiderations(world, input);
 }
 
 function memberConsiderations(
@@ -346,14 +358,20 @@ function memberConsiderations(
     });
   }
 
-  // Who the member has actually been working with on this.
-  const interaction = [...world.history.relationshipInteractions]
-    .reverse()
-    .find(
-      (record) =>
-        record.personIds.includes(input.personId) &&
-        record.change === "strengthened",
-    );
+  // Who the member has actually been working with on this: the person
+  // carrying the bill, not anyone at all. A strengthened relationship with a
+  // neighbor is no reason to vote for a stranger's bill.
+  const sponsorPersonId = requireMeasure(world, measureId).sponsorPersonId;
+  const interaction = sponsorPersonId
+    ? [...world.history.relationshipInteractions]
+        .reverse()
+        .find(
+          (record) =>
+            record.personIds.includes(input.personId) &&
+            record.personIds.includes(sponsorPersonId) &&
+            record.change === "strengthened",
+        )
+    : undefined;
   if (interaction) {
     considerations.push({
       stableKey: "member:working-relationship",

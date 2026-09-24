@@ -11,8 +11,8 @@ Retirement removes an anchor from that list, so the number returned to the pool
 and a later, unrelated site in the same symbol could be handed it. During the P1
 prose migration this actually happened — `threadMovementSentence-0002`/`-0003`
 were caught by hand, and one further reuse was caught later. The consequence is
-not cosmetic: an owner's recorded judgement on retired prose silently becomes
-judgement on prose nobody reviewed.
+not cosmetic: an owner's recorded judgment on retired prose silently becomes
+judgment on prose nobody reviewed.
 
 **Contract now enforced.** An anchor id is issued at most once in the sidecar's
 whole lineage. Retirement removes a binding from the live set and never returns
@@ -26,7 +26,7 @@ is untouched.
 
 - `mintAnchors(literals, existing, everIssued)` reserves the union of the live
   sidecar and the ledger. The third argument defaults to empty, which is exactly
-  the old behaviour; the CLI always passes the persisted ledger.
+  the old behavior; the CLI always passes the persisted ledger.
 - The ledger is seeded from the live sidecar on every run, so an empty or lagging
   ledger is safe and a branch's newly minted ids are absorbed the moment its
   sidecar arrives. Reconstruction never depends on git history, branch order, or

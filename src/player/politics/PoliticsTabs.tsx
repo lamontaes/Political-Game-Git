@@ -20,16 +20,16 @@ export interface PoliticsTabItem {
 }
 
 export const POLITICS_TABS: readonly PoliticsTabItem[] = [
+  {
+    tab: "government",
+    label: "Government",
+    testid: "politics-tab-government",
+  },
   { tab: "office", label: "Your office", testid: "politics-tab-office" },
   {
     tab: "campaigns",
     label: "Campaigns",
     testid: "politics-tab-campaigns",
-  },
-  {
-    tab: "government",
-    label: "Government",
-    testid: "politics-tab-government",
   },
   { tab: "parties", label: "Parties", testid: "politics-tab-parties" },
   {

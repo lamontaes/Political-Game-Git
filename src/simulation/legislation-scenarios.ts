@@ -38,6 +38,12 @@ export interface SeatedMember {
   readonly personId: EntityId | null;
   /** Descriptive grouping shown to the player; carries no mechanical weight. */
   readonly caucusLabel: string;
+  /**
+   * The national party the member holds, where the chamber was seated with
+   * it already read (Congress). Absent, a vote reads it from the member's
+   * party participation.
+   */
+  readonly partyKey?: string | null;
 }
 
 export interface SeatedBody {
@@ -78,7 +84,7 @@ export interface LegislativeScenario {
   readonly committeeMemberCount: number;
   /**
    * How the seated members decide each question. These are authored for the
-   * scenario, not produced by a model of legislator behaviour: this slice
+   * scenario, not produced by a model of legislator behavior: this slice
    * proves the institution resolves a question correctly and leaves how a
    * member makes up their mind to the character systems.
    */
@@ -109,6 +115,12 @@ export interface LegislativeProcedureContext {
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
   readonly governorAction: "signed" | "vetoed" | null;
   readonly governorRationale: string;
+  /**
+   * Present where the bodies are the state's seated legislators: each member
+   * then decides every question for their own reasons and the vote plan is
+   * not consulted. The player is never voted for.
+   */
+  readonly memberDecisions?: { readonly playerPersonId: EntityId | null };
 }
 
 export function votePlanKeyForCommittee(committeeKey: string): string {
@@ -332,7 +344,7 @@ interface ScenarioBlueprint {
   readonly governorAction: "signed" | "vetoed";
   readonly governorRationale: string;
   /**
-   * Qualified catalogue keys for the questions this bill is about. Omitted
+   * Qualified catalog keys for the questions this bill is about. Omitted
    * where no shipped question fits — see `ProgramVariant.propositionKeys`.
    */
   readonly propositionKeys?: readonly string[];
@@ -612,7 +624,7 @@ const BLUEPRINTS: readonly ScenarioBlueprint[] = [
     shortTitle: "Harbor Dredging Schedule",
     subjectClass: "general-policy",
     summary:
-      "Would require a published dredging schedule for state-maintained small-boat harbours before each season opens.",
+      "Would require a published dredging schedule for state-maintained small-boat harbors before each season opens.",
     nonpartisan: false,
     votePlan: {
       "committee:house-transportation": { yea: 5, nay: 2 },
@@ -663,7 +675,7 @@ export interface LegislativeBlueprint {
   readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
   readonly governorAction: "signed" | "vetoed" | null;
   readonly governorRationale: string;
-  /** Qualified catalogue keys for the questions this bill is about. */
+  /** Qualified catalog keys for the questions this bill is about. */
   readonly propositionKeys: readonly string[];
 }
 
@@ -797,6 +809,35 @@ export function createLegislativeScenario(
   };
 }
 
+/**
+ * The procedure a living institution's bills run under, carrying no authored
+ * bill at all: every measure it moves is filed by a member in play, so there
+ * is no designation, title or vote count to supply.
+ */
+export function procedureOnlyBlueprint(input: {
+  readonly scenarioKey: string;
+  readonly pack: LegislativeRulePack;
+  readonly context: DemoJurisdictionContext;
+  readonly governorRationale: string;
+}): LegislativeBlueprint {
+  return {
+    scenarioKey: input.scenarioKey,
+    label: input.pack.displayName,
+    measureNotice: AUTHORED_MEASURE_NOTICE,
+    context: input.context,
+    pack: input.pack,
+    authoredDesignation: null,
+    shortTitle: "",
+    summary: "",
+    subjectClass: "general-policy",
+    nonpartisan: false,
+    votePlan: {},
+    governorAction: null,
+    governorRationale: input.governorRationale,
+    propositionKeys: [],
+  };
+}
+
 /** Fictional opportunity content, composed against the selected institution.
  * No legal rule is borrowed from any fixture; decisions are expressly authored.
  * The existing bargaining adapter can replace modeled members' dispositions.
@@ -826,7 +867,7 @@ function institutionalWorkBlueprint(workKey: string): LegislativeBlueprint {
     governorAction: null,
     governorRationale:
       "No executive disposition supplied; signature, veto and inaction remain separate unresolved outcomes.",
-    // A placeholder proposal is about nothing the catalogue asks.
+    // A placeholder proposal is about nothing the catalog asks.
     propositionKeys: [],
   };
 }

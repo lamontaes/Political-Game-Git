@@ -18,7 +18,7 @@
     "scope": "specific",
     "stateCode": "NE"
   },
-  "missing": "No picture of the Nebraska State Capitol exists anywhere in the project. The asset manifest carries eleven environment plates and not one of them is a capitol: the civic exteriors it does hold are a campaign storefront, a park pavilion and a neighbourhood doorstep, and the only legislative art is an interior chamber floor with no state attached to it.",
+  "missing": "No picture of the Nebraska State Capitol exists anywhere in the project. The asset manifest carries eleven environment plates and not one of them is a capitol: the civic exteriors it does hold are a campaign storefront, a park pavilion and a neighborhood doorstep, and the only legislative art is an interior chamber floor with no state attached to it.",
   "notes": [
     "Reference strength: strong-source-family. The reference corpus already carries a strong source family for this building, so it can be drawn faithfully now.",
     "This capitol is recorded as visually unique rather than a jurisdiction variant, so it must not be drawn from a generic domed-statehouse template.",

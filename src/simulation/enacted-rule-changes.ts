@@ -15,7 +15,7 @@
  * - an ordinary statute, through a rule-change provision filed on the measure
  *   before it is enacted (`fileRuleChangeProvision`), operative from the
  *   enactment's effective date, or the blanket default where the state's
- *   effective-date rule is not modelled;
+ *   effective-date rule is not modeled;
  * - a constitutional amendment carrying a `rule-field` delta
  *   (`ConstitutionalRuleDelta`), operative from its ratified operative date.
  *
@@ -33,7 +33,9 @@ import { constitutionalPosition } from "./constitutional-process";
 import { addDays } from "./dates";
 import { createStableId } from "./ids";
 import { requireMeasure } from "./legislation";
+import { lawLevelRank, type LawLevel } from "./law-hierarchy";
 import { rulePackById } from "./legislature-rule-packs";
+import type { MunicipalRecallDoctrine } from "./municipal-election-rules";
 import type { EntityId, IsoDate, World } from "./types";
 
 /**
@@ -79,7 +81,29 @@ export const AMENDABLE_RULE_FIELDS = {
    * Read by the executive-term consumer, which owns what the limit means.
    */
   "executive.term.limit": { kind: "term-limit", family: "executive" },
+  /**
+   * Whether and how a state lets its towns' voters recall an official, as a
+   * `MunicipalRecallDoctrine`. The office key is the state's municipal law,
+   * `us-xx-municipal-law`. Read by `recall.ts` through the municipal rule
+   * resolver, which draws a petition window where the new law is silent.
+   */
+  "municipal.recall.doctrine": {
+    kind: "choice",
+    options: [
+      "two-question-standalone",
+      "simultaneous-incumbent-replacement",
+      "yes-no-retention",
+      "judicial-cause-removal-trial",
+      "prohibited",
+    ] satisfies readonly MunicipalRecallDoctrine[],
+    family: "municipal",
+  },
 } as const;
+
+/** The office key a state's law on its towns is recorded under. */
+export function municipalLawOfficeKey(stateUsps: string): string {
+  return `us-${stateUsps.toLowerCase()}-municipal-law`;
+}
 
 /** A term limit as a law states it; null in any part means the law is silent on it. */
 export interface TermLimitRule {
@@ -88,8 +112,11 @@ export interface TermLimitRule {
   readonly lookbackYears: number | null;
 }
 
-/** A whole number for most rules; a term limit or null ("no limit") for one. */
-export type RuleChangeValue = number | TermLimitRule | null;
+/**
+ * A whole number for most rules; a term limit or null ("no limit") for one;
+ * one of a fixed set of named choices for a choice rule.
+ */
+export type RuleChangeValue = number | TermLimitRule | string | null;
 
 /**
  * Whom a change reaches, as the law says. Null in either part means the law
@@ -108,7 +135,7 @@ export type AmendableRuleField = keyof typeof AMENDABLE_RULE_FIELDS;
  */
 export const NOT_YET_AMENDABLE_RULE_FIELDS: Readonly<Record<string, string>> = {
   "term.start":
-    "A term's commencement is a date rule with several shapes; enacting a new one is not modelled yet.",
+    "A term's commencement is a date rule with several shapes; enacting a new one is not modeled yet.",
   "term.expiry":
     "A term's end follows from its length and start; change the length instead.",
   "election.date":
@@ -116,7 +143,7 @@ export const NOT_YET_AMENDABLE_RULE_FIELDS: Readonly<Record<string, string>> = {
   "election.cycle":
     "The game has no compiled state election calendar to amend; elections run on the game's own calendar.",
   "institution.form":
-    "Changing the form of a legislature (for example to unicameral) is not modelled yet.",
+    "Changing the form of a legislature (for example to unicameral) is not modeled yet.",
   "ordinance.passage":
     "Local ordinance procedure is changed by charter, and charter changes are not routed here yet.",
   "ordinance.introductionToPassage":
@@ -139,12 +166,25 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
     "the years of district residence required to serve",
   "executive.term.years": "the length of the chief executive's term in years",
   "executive.term.limit": "the chief executive's term limit",
+  "municipal.recall.doctrine": "how towns' voters may recall an official",
+};
+
+const CHOICE_WORDS: Readonly<Record<string, string>> = {
+  "two-question-standalone":
+    "a recall vote with the replacement chosen on the same ballot",
+  "simultaneous-incumbent-replacement":
+    "a recall race in which the official runs against challengers",
+  "yes-no-retention": "a keep-or-remove recall vote",
+  "judicial-cause-removal-trial":
+    "removal by a court for cause, with no recall vote",
+  prohibited: "no recall of town officials",
 };
 
 /** Plain words for a changed value, for a player-facing sentence. */
 export function describeRuleChangeValue(value: RuleChangeValue): string {
   if (value === null) return "no limit";
   if (typeof value === "number") return String(value);
+  if (typeof value === "string") return CHOICE_WORDS[value] ?? value;
   const parts = [
     value.maxConsecutiveTerms === null
       ? null
@@ -166,7 +206,7 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
 
 /**
  * The blanket effective date for a statute whose state's effective-date rule is
- * not modelled: ninety days after the act is recorded. Ninety days is the most
+ * not modeled: ninety days after the act is recorded. Ninety days is the most
  * common default among the states the game has read (Alaska, Missouri, Ohio);
  * it is a game profile, not a claim about any other state's law.
  */
@@ -196,8 +236,9 @@ export interface RuleChangeProvisionRecord {
 
 /** An operative-dated change, derived from what was enacted. */
 export interface EnactedRuleChange {
+  /** The state's postal code, or `US` for a federal amendment. */
   readonly stateUsps: string;
-  /** `US-` plus the postal code, as jurisdictions are keyed elsewhere. */
+  /** `US-` plus the postal code, as jurisdictions are keyed elsewhere; `US` for a federal amendment. */
   readonly jurisdictionKey: string;
   readonly officeKey: string;
   readonly field: AmendableRuleField;
@@ -206,10 +247,12 @@ export interface EnactedRuleChange {
   readonly operativeAt: IsoDate;
   /**
    * `enacted-date` when the law's own record dates it; `game-default` when the
-   * state's effective-date rule is not modelled and the blanket rule applied.
+   * state's effective-date rule is not modeled and the blanket rule applied.
    */
   readonly operativeBasis: "enacted-date" | "game-default";
   readonly instrument: "statute" | "constitutional-amendment";
+  /** Where the law ranks; see `law-hierarchy.ts`. */
+  readonly level: LawLevel;
   readonly measureId: EntityId;
   readonly designation: string;
   /**
@@ -255,6 +298,13 @@ export function assertAmendableRuleValue(
         `${field} must be a whole number from ${spec.min} to ${spec.max}.`,
       );
     }
+  } else if (spec.kind === "choice") {
+    if (
+      typeof value !== "string" ||
+      !(spec.options as readonly string[]).includes(value)
+    ) {
+      throw new Error(`${field} must be one of: ${spec.options.join(", ")}.`);
+    }
   } else if (value !== null) {
     const keys =
       typeof value === "object" ? Object.keys(value).sort().join(",") : "";
@@ -291,7 +341,7 @@ export function assertAmendableRuleValue(
 
 /**
  * Whether an office key belongs to this state. A legislative rule names a
- * chamber of the state's own rule pack. NOT MODELLED: a registry of executive
+ * chamber of the state's own rule pack. NOT MODELED: a registry of executive
  * offices this module can check against without depending on the executive
  * consumer. Blanket rule meanwhile: an executive office key must carry the
  * state's own prefix (`us-nh-governor`, `dc-mayor`).
@@ -313,7 +363,7 @@ function officeBelongsToState(
       )
     );
   }
-  // NOT MODELLED: a registry of every state's offices (a state with no
+  // NOT MODELED: a registry of every state's offices (a state with no
   // compiled legislature has no chamber list to check). Blanket rule: the
   // key must carry the state's own prefix, so no law reaches another state.
   return (
@@ -328,7 +378,7 @@ function stateUspsForPack(rulePackId: string): string | null {
 
 /**
  * The first recorded vote of a whole chamber or joint session on a bill. A
- * committee vote does not close the text; a floor vote does. NOT MODELLED: a
+ * committee vote does not close the text; a floor vote does. NOT MODELED: a
  * rule-change clause offered as a floor amendment. Blanket rule meanwhile:
  * clauses are filed before the first floor vote or not at all.
  */
@@ -375,7 +425,7 @@ export function fileRuleChangeProvision(
     // Local governments change these rules by charter, which is not routed
     // here yet; say so instead of recording a clause that could never act.
     throw new Error(
-      "Only a state legislature's bill can change these rules yet; local charter changes are not modelled.",
+      "Only a state legislature's bill can change these rules yet; local charter changes are not modeled.",
     );
   }
   if (
@@ -444,7 +494,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       (row) => row.measureId === provision.measureId,
     );
     if (!enactment || enactment.outcome !== "enacted") continue;
-    // NOT MODELLED: a state's own default effective-date rule. The rule packs
+    // NOT MODELED: a state's own default effective-date rule. The rule packs
     // hold it as prose, nothing computes a date from it, and no caller in play
     // passes one, so every enactment carries a null effective date. A null
     // date is not "effective now". Blanket rule meanwhile: the change operates
@@ -462,6 +512,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
         addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
       operativeBasis: explicit ? "enacted-date" : "game-default",
       instrument: "statute",
+      level: "state-statute",
       measureId: provision.measureId,
       designation:
         enactment.actDesignation ??
@@ -472,13 +523,16 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
   for (const measure of world.history.constitutionalMeasures ?? []) {
     const delta = measure.ruleDelta;
     if (delta.kind !== "rule-field") continue;
-    const stateUsps = constitutionalStateUsps(measure.jurisdictionKey);
+    const federal = measure.jurisdictionKey === FEDERAL_JURISDICTION_KEY;
+    const stateUsps = federal
+      ? FEDERAL_JURISDICTION_KEY
+      : constitutionalStateUsps(measure.jurisdictionKey);
     if (!stateUsps) continue;
     const position = constitutionalPosition(world, measure.id);
     if (!position.operativeAt) continue;
     changes.push({
       stateUsps,
-      jurisdictionKey: `US-${stateUsps}`,
+      jurisdictionKey: federal ? FEDERAL_JURISDICTION_KEY : `US-${stateUsps}`,
       officeKey: delta.officeKey,
       field: delta.field,
       value: structuredClone(delta.value),
@@ -486,6 +540,7 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       operativeAt: position.operativeAt,
       operativeBasis: "enacted-date",
       instrument: "constitutional-amendment",
+      level: federal ? "federal-constitution" : "state-constitution",
       measureId: measure.id,
       designation: measure.designation,
       sequence: measure.sequence,
@@ -496,6 +551,15 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       a.operativeAt.localeCompare(b.operativeAt) || a.sequence - b.sequence,
   );
 }
+
+/**
+ * The key federal constitutional changes carry in place of a state's postal
+ * code, so one reader serves both: `ruleValueInWorld(world, { jurisdiction:
+ * "US", ... })`.
+ */
+export const FEDERAL_JURISDICTION_KEY = "US";
+/** National offices an Article V amendment can reach in the game. */
+export const FEDERAL_AMENDABLE_OFFICES: readonly string[] = ["us-president"];
 
 /** The state a constitutional process amends, when it amends a state's rules. */
 export function constitutionalStateUsps(
@@ -524,21 +588,25 @@ export function enactedRuleChangeAt(
       change.field === query.field &&
       change.operativeAt <= query.onDate,
   );
-  // A statute cannot override the state's constitution: once an amendment
-  // fixes a rule, only a later amendment changes it. NOT MODELLED: which
-  // constitutions delegate a rule to statute. Blanket rule meanwhile: an
-  // amendment always outranks a statute, whenever each took effect.
   return ruleChangeInForce(inForce);
 }
 
-/** Of changes already in force for one rule, in operative order, the one that governs. */
+/**
+ * Of changes already in force for one rule, in operative order, the one that
+ * governs: the highest level of law in force, and the latest law at that
+ * level. A statute cannot override its state's constitution, whenever each
+ * took effect. The blanket rules behind this (field preemption everywhere, no
+ * rule delegated to statute) are listed in `law-hierarchy.ts`.
+ */
 export function ruleChangeInForce(
   inForce: readonly EnactedRuleChange[],
 ): EnactedRuleChange | null {
-  const amendments = inForce.filter(
-    (change) => change.instrument === "constitutional-amendment",
+  if (inForce.length === 0) return null;
+  const top = Math.max(...inForce.map((change) => lawLevelRank(change.level)));
+  return (
+    inForce.filter((change) => lawLevelRank(change.level) === top).at(-1) ??
+    null
   );
-  return (amendments.length ? amendments : inForce).at(-1) ?? null;
 }
 
 /** A rule as this World's law has it, and where that value came from. */
@@ -552,6 +620,7 @@ export type RuleValueInWorld<T> =
       readonly effectiveAt: IsoDate;
       readonly operativeBasis: EnactedRuleChange["operativeBasis"];
       readonly instrument: EnactedRuleChange["instrument"];
+      readonly level: LawLevel;
       readonly applicability: RuleChangeApplicability;
     };
 
@@ -586,6 +655,7 @@ export function ruleValueInWorld<T>(
     effectiveAt: change.operativeAt,
     operativeBasis: change.operativeBasis,
     instrument: change.instrument,
+    level: change.level,
     applicability: { ...change.applicability },
   };
 }
@@ -659,10 +729,39 @@ export function assertConstitutionalRuleFieldDelta(
     readonly applicability?: RuleChangeApplicability;
   },
 ): void {
+  if (jurisdictionKey === FEDERAL_JURISDICTION_KEY) {
+    // An Article V amendment reaches the national offices only. NOT MODELED:
+    // any other federal rule (House size, Senate terms, qualifications).
+    if (
+      delta.field !== "executive.term.limit" ||
+      !FEDERAL_AMENDABLE_OFFICES.includes(delta.officeKey)
+    )
+      throw new Error(
+        "A federal amendment can change the President's term limit; no other federal rule is modeled yet.",
+      );
+    // The Twenty-Second Amendment counts terms over a lifetime, and that is
+    // the only count the presidency's reader keeps.
+    const limit = delta.value as TermLimitRule | null;
+    if (
+      limit !== null &&
+      typeof limit === "object" &&
+      (limit.maxConsecutiveTerms !== null || limit.lookbackYears !== null)
+    )
+      throw new Error(
+        "A presidential term limit is counted over a lifetime; consecutive and look-back limits are not modeled.",
+      );
+    assertAmendableRuleValue(
+      delta.field,
+      delta.value,
+      delta.officeKey,
+      delta.applicability,
+    );
+    return;
+  }
   const stateUsps = constitutionalStateUsps(jurisdictionKey);
   if (!stateUsps)
     throw new Error(
-      "Only a state constitution's amendment can change these rules yet; federal and charter changes are not modelled.",
+      "Only a state or federal constitutional amendment can change these rules yet; charter changes are not modeled.",
     );
   assertAmendableRuleValue(
     delta.field,

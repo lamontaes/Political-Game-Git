@@ -248,21 +248,25 @@ export function CampaignLifePanel({
       {organizations.length > 0 ? (
         <div className="game-campaign-life-requests">
           <h4>Ask for something</h4>
-          <p className="game-hint">
-            Asking puts it on the first evening in the next two weeks that you
-            and the host both have free. No time passes now.
-          </p>
+          {/*
+            One card per chapter, its name first and its organizer under it,
+            then what can be asked as a column of plain choices: read top to
+            bottom like a game menu rather than as a wrapped row of buttons
+            (owner's playtest, 2026-09-22).
+          */}
           {organizations.map(([organizationId, organization]) => (
             <div
               key={organizationId}
               role="group"
               aria-label={`Ask ${organization.name}`}
+              className="game-campaign-life-chapter"
               data-testid={`party-work-requests-${organizationId}`}
             >
-              <p>
-                {organization.name}, with {organization.hostName}
+              <p className="game-campaign-life-chapter-name">
+                <strong>{organization.name}</strong>
+                <small>Organizer: {organization.hostName}</small>
               </p>
-              <span className="game-campaign-life-actions">
+              <span className="game-campaign-life-actions game-campaign-life-actions--menu">
                 {view.requestable
                   .filter(
                     (option) => option.hostOrganizationId === organizationId,
@@ -273,6 +277,8 @@ export function CampaignLifePanel({
                       type="button"
                       className="ui-action"
                       data-testid={`party-work-request-${option.form}-${organizationId}`}
+                      disabled={option.unavailableReason !== null}
+                      title={option.unavailableReason ?? undefined}
                       onClick={() =>
                         apply(() =>
                           requestPartyWork(
@@ -286,6 +292,21 @@ export function CampaignLifePanel({
                     >
                       {option.title}
                     </button>
+                  ))}
+                {view.requestable
+                  .filter(
+                    (option) =>
+                      option.hostOrganizationId === organizationId &&
+                      option.unavailableReason !== null,
+                  )
+                  .map((option) => (
+                    <small
+                      key={`${option.form}-reason`}
+                      className="game-campaign-life-line"
+                      data-testid={`party-work-request-reason-${option.form}-${organizationId}`}
+                    >
+                      {option.title}: {option.unavailableReason}
+                    </small>
                   ))}
               </span>
             </div>

@@ -40,7 +40,7 @@ const PERIOD_STATE: Readonly<Record<string, string>> = {
   scheduled: "Scheduled. Payment and delivery are checked on the due date.",
   resolved: "Delivered and paid.",
   blocked: "Not delivered. Nothing was paid.",
-  cancelled: "Cancelled before delivery. Nothing was paid.",
+  cancelled: "Canceled before delivery. Nothing was paid.",
 };
 
 /** Feature-local Politics leaf. The canonical World remains owned by PlayerGame. */

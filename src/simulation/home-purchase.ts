@@ -1,0 +1,770 @@
+import { ageOnDate, makeIsoDate } from "./dates";
+import { moneyText } from "./money-text";
+import {
+  activeAuthoritiesHeldByPersonAt,
+  activePartnershipsAt,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
+} from "./life-queries";
+import { lifePlaceByJurisdictionId } from "./life-places";
+import {
+  createHousehold,
+  createOrganization,
+  recordHouseholdLocation,
+  recordHouseholdMembershipState,
+  startHouseholdMembership,
+} from "./life";
+import { GROWN_UP_PRESENTATION_AGE_PLACEHOLDER } from "./age-of-majority";
+import { personName } from "./people";
+import {
+  createDwelling,
+  createHousingTenure,
+  createResourceFlow,
+  createResourceObligation,
+  money,
+  recordDwellingOccupancyState,
+  recordResourceFlowTerms,
+  recordResourceTransferOutcome,
+  startDwellingOccupancy,
+} from "./resources";
+import {
+  activeDwellingOccupanciesAt,
+  activeHousingTenuresAt,
+  dwellingOccupancyStateHistory,
+  outstandingDebtAt,
+  resourceFlowTermsAt,
+  resourcePositionAt,
+  sameEndpoint,
+} from "./resource-queries";
+import { recordEventKnowledge } from "./records";
+import { recordWorldEvent } from "./world";
+import {
+  macroConditionsAt,
+  macroMonthHistory,
+  macroScopeForJurisdiction,
+} from "./macro-economy/readers";
+import type {
+  EntityId,
+  HousingTenure,
+  IsoDate,
+  MoneyAmount,
+  ResourceFlow,
+  World,
+} from "./types";
+
+/**
+ * Buying a home.
+ *
+ * Money had nothing to buy. The records for a home were already in the engine
+ * (a dwelling, who owns it, and a debt tied to that ownership) and nothing in
+ * play wrote them. This lets the person being played buy a home for their
+ * household with a down payment from their own money and a mortgage paid on
+ * the first of each month, through the same records pay and rent use.
+ *
+ * Owning replaces rent: from the purchase on, the monthly living costs drop
+ * the housing share and the mortgage is charged instead.
+ */
+
+/**
+ * PLACEHOLDER(research: what-it-takes-to-buy-a-home). Nobody has researched
+ * any of these numbers. One national price, down payment and monthly payment
+ * for every state and town, standing in until prices by state and town size,
+ * lending rules and interest are answered. Interest is not modeled: the
+ * payments below simply pay down the loan. Replace them; do not tune them.
+ */
+export const HOME_PURCHASE_PLACEHOLDER = {
+  priceMinor: 25_000_000,
+  downPaymentMinor: 5_000_000,
+  monthlyPaymentMinor: 120_000,
+  currency: "USD",
+  researchQuestionId: "what-it-takes-to-buy-a-home",
+} as const;
+
+export interface HomePurchaseTerms {
+  readonly priceMinor: number;
+  readonly downPaymentMinor: number;
+  readonly monthlyPaymentMinor: number;
+}
+
+function roundTo(minor: number, step: number): number {
+  return Math.max(step, Math.round(minor / step) * step);
+}
+
+/**
+ * The placeholder terms in today's prices.
+ *
+ * The placeholder is a price in the world's first month. Since then the world
+ * has its own price level, and rent on the same screen already moves with it,
+ * so a house that never moved read as a bargain within a few years: $250,000
+ * beside rent up half again in Bend. The terms move by the same price level
+ * the rent line uses, the town's own where it has one and the nation's before
+ * that. This makes the placeholder consistent with the world, not right: what
+ * a home costs in a given town is still the research question's to answer.
+ */
+export function homePurchaseTerms(
+  world: World,
+  jurisdictionId: EntityId | null,
+): HomePurchaseTerms {
+  const today = world.currentDate;
+  const now =
+    (jurisdictionId
+      ? macroConditionsAt(
+          world,
+          macroScopeForJurisdiction(jurisdictionId),
+          today,
+        )
+      : null) ?? macroConditionsAt(world, "national", today);
+  const first = macroMonthHistory(world, "national", today)[0] ?? null;
+  const factor =
+    now && first && first.priceIndex > 0
+      ? now.priceIndex / first.priceIndex
+      : 1;
+  return {
+    priceMinor: roundTo(HOME_PURCHASE_PLACEHOLDER.priceMinor * factor, 100_000),
+    downPaymentMinor: roundTo(
+      HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * factor,
+      100_000,
+    ),
+    monthlyPaymentMinor: roundTo(
+      HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * factor,
+      1_000,
+    ),
+  };
+}
+
+export const MORTGAGE_BASIS = "housing:mortgage" as const;
+/** The age of majority, below which a person cannot sign a deed or a loan.
+ * Eighteen in most states; the few exceptions are part of the same research
+ * question. */
+export const HOME_BUYING_AGE = 18;
+export const MISSED_MORTGAGE_TAG = "life.mortgage-missed";
+const CATCH_UP_LIMIT_MONTHS = 480;
+
+export type HomePurchaseResult =
+  | { readonly status: "bought"; readonly world: World }
+  | {
+      readonly status: "not-bought";
+      readonly world: World;
+      readonly reason: string;
+    };
+
+function dollars(minor: number): string {
+  return moneyText({ minorUnits: minor, currency: "USD" });
+}
+
+function primaryHouseholdId(world: World, personId: EntityId): EntityId | null {
+  const homes = householdMembershipsAt(world, personId).filter(
+    (entry) => entry.state.residenceRole === "primary",
+  );
+  return homes.length === 1 ? homes[0]!.household.id : null;
+}
+
+/**
+ * Whether buying a home means this person moves out of the home they grew up
+ * in, rather than buying it for everybody there.
+ *
+ * True for an adult whose household includes somebody who holds, or ever
+ * held, authority over them as a child: a parent or guardian. Buying used to
+ * buy for whatever household the buyer lived in, so a grown daughter still at
+ * home bought the house for her guardian too, and her profile went on listing
+ * "your guardian" in the house she owned.
+ */
+function movesOutToBuy(
+  world: World,
+  personId: EntityId,
+  householdId: EntityId,
+): boolean {
+  const person = world.people[personId];
+  if (!person) return false;
+  // PLACEHOLDER(research: age-of-majority-by-state). Leaving home to buy one
+  // reads the same threshold the labels do. It does not wait for the
+  // authority to end, and whether it has ended is not asked.
+  if (
+    ageOnDate(person.birthDate, world.currentDate) <
+    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER
+  )
+    return false;
+  const residents = new Set(peopleInHouseholdAt(world, householdId));
+  return world.history.childAuthorities.some(
+    (authority) =>
+      authority.childPersonId === personId &&
+      authority.holder.kind === "person" &&
+      authority.holder.personId !== personId &&
+      residents.has(authority.holder.personId),
+  );
+}
+
+/**
+ * Who goes with a buyer leaving home: the buyer, a partner they have on
+ * record, and children they are raising, each only if they live there now.
+ * Everybody else in the house stays where they are.
+ */
+function peopleMovingWith(
+  world: World,
+  personId: EntityId,
+  householdId: EntityId,
+): readonly EntityId[] {
+  const residents = new Set(peopleInHouseholdAt(world, householdId));
+  const moving: EntityId[] = [personId];
+  const add = (id: EntityId) => {
+    if (residents.has(id) && !moving.includes(id)) moving.push(id);
+  };
+  for (const partnership of activePartnershipsAt(world, personId))
+    for (const id of partnership.personIds) add(id);
+  for (const { authority } of activeAuthoritiesHeldByPersonAt(world, personId))
+    add(authority.childPersonId);
+  return moving;
+}
+
+/** The home this household owns today, if it owns one. */
+export function ownedHomeFor(
+  world: World,
+  householdId: EntityId,
+  asOfDate: IsoDate = world.currentDate,
+): HousingTenure | null {
+  return (
+    activeHousingTenuresAt(world, {
+      asOfDate,
+      historySequenceExclusive: world.history.nextSequence,
+    }).find(
+      (tenure) =>
+        tenure.holder.kind === "household" &&
+        tenure.holder.householdId === householdId &&
+        tenure.kind.startsWith("ownership:"),
+    ) ?? null
+  );
+}
+
+/** Whether the household the person lives in owns its home on a date. */
+export function personOwnsHome(
+  world: World,
+  personId: EntityId,
+  asOfDate: IsoDate = world.currentDate,
+): boolean {
+  const householdId = primaryHouseholdId(world, personId);
+  return (
+    householdId !== null && ownedHomeFor(world, householdId, asOfDate) !== null
+  );
+}
+
+/** The day the person's household came to own its home, or null. */
+export function homeOwnedSince(
+  world: World,
+  personId: EntityId,
+): IsoDate | null {
+  const householdId = primaryHouseholdId(world, personId);
+  return householdId === null
+    ? null
+    : (ownedHomeFor(world, householdId)?.startedAt ?? null);
+}
+
+/** Whether the game keeps this person's money. Unknown is not zero. */
+export function moneyIsTracked(world: World, personId: EntityId): boolean {
+  return balance(world, personId) !== null;
+}
+
+function balance(world: World, personId: EntityId): number | null {
+  const owner = { kind: "person" as const, personId };
+  const tracked = world.history.resourcePositions.some(
+    (position) =>
+      sameEndpoint(position.owner, owner) &&
+      position.openingBalance.currency === HOME_PURCHASE_PLACEHOLDER.currency,
+  );
+  if (!tracked) return null;
+  return (
+    resourcePositionAt(
+      world,
+      owner,
+      money(0, HOME_PURCHASE_PLACEHOLDER.currency).currency,
+    )?.liquidBalance.minorUnits ?? 0
+  );
+}
+
+/**
+ * Why this person cannot buy a home today, or null when they can. A read: it
+ * writes nothing, so a screen may ask it freely.
+ */
+export function homePurchaseReason(
+  world: World,
+  personId: EntityId,
+): string | null {
+  if (world.control.kind !== "person" || world.control.personId !== personId)
+    return "Only the person you are playing can buy a home.";
+  const person = world.people[personId];
+  if (!person) return "This person is not in the world.";
+  if (ageOnDate(person.birthDate, world.currentDate) < HOME_BUYING_AGE)
+    return `You have to be ${HOME_BUYING_AGE} to buy a home.`;
+  if (!lifePlaceByJurisdictionId(person.homeJurisdictionId))
+    return "The game does not know which town you live in.";
+  const householdId = primaryHouseholdId(world, personId);
+  if (!householdId) return "You need one home household to buy a home for.";
+  if (ownedHomeFor(world, householdId))
+    return "Your household already owns its home.";
+  const have = balance(world, personId);
+  if (have === null) return "The game is not tracking your money.";
+  const { downPaymentMinor } = homePurchaseTerms(
+    world,
+    person.homeJurisdictionId,
+  );
+  if (have < downPaymentMinor)
+    return `The down payment is ${dollars(downPaymentMinor)}. You have ${dollars(have)}.`;
+  return null;
+}
+
+function counterparty(
+  world: World,
+  stableKey: string,
+  name: string,
+  jurisdictionId: EntityId,
+): { world: World; organizationId: EntityId } {
+  const existing = world.history.organizations.find(
+    (organization) => organization.stableKey === stableKey,
+  );
+  if (existing) return { world, organizationId: existing.id };
+  const next = createOrganization(world, {
+    stableKey,
+    formedAt: world.currentDate,
+    detailLevel: "lightweight",
+    provenance: {
+      kind: "authored",
+      note: "An aggregate counterparty for home purchases. The game has no housing market and does not pretend to model one.",
+    },
+    initialProfile: {
+      name,
+      classification: "enterprise:housing-finance",
+      locationJurisdictionId: jurisdictionId,
+    },
+  });
+  return { world: next, organizationId: next.history.organizations.at(-1)!.id };
+}
+
+/**
+ * Buys a home for the player's household today, or says why not.
+ *
+ * Writes the dwelling, the household's ownership of it, the move in, the down
+ * payment and a mortgage owed monthly from the first of next month.
+ *
+ * A grown child still living with a parent or guardian does not buy the
+ * house for them: they found a household of their own and move into the new
+ * home, with a partner and their own children if those live with them, and
+ * the parent stays where they were. See `movesOutToBuy`.
+ */
+export function buyHome(world: World, personId: EntityId): HomePurchaseResult {
+  const reason = homePurchaseReason(world, personId);
+  if (reason) return { status: "not-bought", world, reason };
+  const person = world.people[personId]!;
+  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId)!;
+  const jurisdictionId = place.context.jurisdiction.id;
+  const householdId = primaryHouseholdId(world, personId)!;
+  const today = world.currentDate;
+  const key = `home-purchase:${householdId}:${today}`;
+  const currency = money(0, HOME_PURCHASE_PLACEHOLDER.currency).currency;
+  const terms = homePurchaseTerms(world, person.homeJurisdictionId);
+  const price = money(terms.priceMinor, currency);
+  const down = money(terms.downPaymentMinor, currency);
+  const principal = money(price.minorUnits - down.minorUnits, currency);
+  const monthly = money(terms.monthlyPaymentMinor, currency);
+  const provenanceNote = `Placeholder home purchase pending research question ${HOME_PURCHASE_PLACEHOLDER.researchQuestionId}.`;
+
+  const summary = `You bought a home in ${place.displayName} for ${dollars(price.minorUnits)}, putting ${dollars(down.minorUnits)} down. The mortgage is ${dollars(monthly.minorUnits)} a month.`;
+  let next = recordWorldEvent(world, {
+    stableKey: key,
+    type: "life.home-bought",
+    occurredAt: today,
+    recordedAt: today,
+    jurisdictionId,
+    involvedEntityIds: [personId],
+    participants: [
+      { personId, role: "focus:subject", detail: "Bought a home" },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["life.home-bought", "provenance:player-choice"],
+    summary,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: "buy-home",
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const eventId = next.history.events.at(-1)!.id;
+  next = recordEventKnowledge(next, {
+    stableKey: `${key}:knowledge`,
+    personId,
+    eventId,
+    learnedAt: today,
+    believedSummary: summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
+  const provenance = { kind: "simulated-event" as const, eventId };
+
+  // A household of their own, when the buyer is leaving the one that raised
+  // them. The old household keeps its home and everybody who stays in it.
+  let buyingHouseholdId = householdId;
+  if (movesOutToBuy(world, personId, householdId)) {
+    const householdKey = `${key}:household`;
+    next = createHousehold(next, {
+      stableKey: householdKey,
+      formedAt: today,
+      label: `${personName(person)}'s household`,
+      provenance,
+    });
+    buyingHouseholdId = next.history.households.at(-1)!.id;
+    next = recordHouseholdLocation(next, {
+      stableKey: `${householdKey}:location`,
+      householdId: buyingHouseholdId,
+      effectiveAt: today,
+      jurisdictionId,
+      label: place.displayName,
+      kind: "residence:home",
+      provenance,
+      supersedesLocationId: null,
+    });
+    for (const moverId of peopleMovingWith(world, personId, householdId)) {
+      const entry = householdMembershipsAt(next, moverId).find(
+        (candidate) => candidate.household.id === householdId,
+      )!;
+      next = recordHouseholdMembershipState(next, {
+        stableKey: `${key}:left-home:${entry.membership.id}`,
+        membershipId: entry.membership.id,
+        effectiveAt: today,
+        status: "ended",
+        residenceRole: entry.state.residenceRole,
+        kind: entry.state.kind,
+        provenance,
+        supersedesStateId: entry.state.id,
+      });
+      next = startHouseholdMembership(next, {
+        stableKey: `${householdKey}:member:${moverId}`,
+        personId: moverId,
+        householdId: buyingHouseholdId,
+        startedAt: today,
+        residenceRole: "primary",
+        // The buyer is nobody's child in their own home.
+        kind: moverId === personId ? "resident:member" : entry.state.kind,
+        provenance,
+      });
+    }
+  }
+
+  // Moving out of wherever the household was recorded living, if anywhere.
+  // A new household was not recorded living anywhere yet.
+  const cutoff = {
+    asOfDate: today,
+    historySequenceExclusive: next.history.nextSequence,
+  };
+  for (const occupancy of activeDwellingOccupanciesAt(next, cutoff)) {
+    if (
+      occupancy.occupant.kind !== "household" ||
+      occupancy.occupant.householdId !== buyingHouseholdId
+    )
+      continue;
+    const latest = dwellingOccupancyStateHistory(next, occupancy.id).at(-1)!;
+    if (latest.residenceRole !== "primary") continue;
+    next = recordDwellingOccupancyState(next, {
+      stableKey: `${key}:moved-out:${occupancy.id}`,
+      dwellingOccupancyId: occupancy.id,
+      effectiveAt: today,
+      status: "ended",
+      residenceRole: latest.residenceRole,
+      kind: latest.kind,
+      reason: "Moved into a home the household bought.",
+      provenance,
+      supersedesStateId: latest.id,
+    });
+  }
+
+  next = createDwelling(next, {
+    stableKey: `${key}:dwelling`,
+    establishedAt: today,
+    jurisdictionId,
+    locationLabel: `A house in ${place.displayName}`,
+    classification: "residential:house",
+    provenance: { kind: "authored", note: provenanceNote },
+  });
+  const dwellingId = next.history.dwellings.at(-1)!.id;
+  next = createHousingTenure(next, {
+    stableKey: `${key}:ownership`,
+    holder: { kind: "household", householdId: buyingHouseholdId },
+    dwellingId,
+    startedAt: today,
+    kind: "ownership:mortgaged",
+    context: null,
+    provenance,
+  });
+  const tenureId = next.history.housingTenures.at(-1)!.id;
+  next = startDwellingOccupancy(next, {
+    stableKey: `${key}:moved-in`,
+    occupant: { kind: "household", householdId: buyingHouseholdId },
+    dwellingId,
+    startedAt: today,
+    residenceRole: "primary",
+    kind: "residence:owned-home",
+    provenance,
+  });
+
+  const seller = counterparty(
+    next,
+    `home-seller:${jurisdictionId}`,
+    "Home seller",
+    jurisdictionId,
+  );
+  next = seller.world;
+  next = createResourceFlow(next, {
+    stableKey: `${key}:down-payment`,
+    source: { kind: "person", personId },
+    recipient: { kind: "organization", organizationId: seller.organizationId },
+    startsAt: today,
+    initialStatus: "active",
+    amount: down,
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:home-down-payment",
+    basisReference: { kind: "general" },
+    restrictionKind: null,
+    jurisdictionId,
+    provenance,
+  });
+  next = recordResourceTransferOutcome(next, {
+    stableKey: `${key}:down-payment:paid`,
+    resourceFlowId: next.history.resourceFlows.at(-1)!.id,
+    periodStartsAt: today,
+    periodEndsAt: today,
+    occurredAt: today,
+    status: "completed",
+    attemptedAmount: down,
+    transferredAmount: down,
+    reasonKind: null,
+    note: "Down payment on the house.",
+    provenance,
+  });
+
+  const lender = counterparty(
+    next,
+    `mortgage-lender:${jurisdictionId}`,
+    "Mortgage lender",
+    jurisdictionId,
+  );
+  next = lender.world;
+  next = createResourceFlow(next, {
+    stableKey: `${key}:mortgage`,
+    source: { kind: "person", personId },
+    recipient: { kind: "organization", organizationId: lender.organizationId },
+    startsAt: today,
+    amount: monthly,
+    cadenceKind: "schedule:monthly",
+    basisKind: MORTGAGE_BASIS,
+    basisReference: { kind: "general" },
+    restrictionKind: null,
+    jurisdictionId,
+    provenance: { kind: "authored", note: provenanceNote },
+  });
+  next = createResourceObligation(next, {
+    stableKey: `${key}:mortgage:debt`,
+    resourceFlowId: next.history.resourceFlows.at(-1)!.id,
+    establishedAt: today,
+    basisKind: MORTGAGE_BASIS,
+    principal,
+    careResponsibilityId: null,
+    housingTenureId: tenureId,
+    provenance,
+  });
+  return { status: "bought", world: next };
+}
+
+function firstOfNextMonth(date: IsoDate): IsoDate {
+  const [year, month] = date.split("-").map(Number) as [number, number];
+  return makeIsoDate(
+    month === 12
+      ? `${year + 1}-01-01`
+      : `${year}-${String(month + 1).padStart(2, "0")}-01`,
+  );
+}
+
+function monthName(date: IsoDate): string {
+  return new Date(`${date}T12:00:00Z`).toLocaleString("en-US", {
+    month: "long",
+    timeZone: "UTC",
+  });
+}
+
+function mortgagesOf(
+  world: World,
+  personId: EntityId,
+): readonly ResourceFlow[] {
+  return world.history.resourceFlows.filter(
+    (flow) =>
+      flow.basisKind === MORTGAGE_BASIS &&
+      flow.source.kind === "person" &&
+      flow.source.personId === personId,
+  );
+}
+
+/**
+ * Charges every mortgage payment that has come due, on the first of each
+ * month, until the loan is paid off. Idempotent in the same way as living
+ * costs: each month is keyed by its due day and resumes after the last one.
+ *
+ * A month that cannot be covered is recorded as short. What a lender then
+ * does (late fees, foreclosure) is a research question; nothing is invented
+ * for it here beyond noting the first missed payment in the life.
+ */
+export function settleMortgages(world: World, personId: EntityId): World {
+  if (world.control.kind !== "person" || world.control.personId !== personId)
+    return world;
+  let next = world;
+  for (const flow of mortgagesOf(world, personId)) {
+    const obligation = next.history.resourceObligations.find(
+      (record) => record.resourceFlowId === flow.id,
+    );
+    if (!obligation) continue;
+    let latest: IsoDate | null = null;
+    for (const outcome of next.history.resourceTransferOutcomes)
+      if (
+        outcome.resourceFlowId === flow.id &&
+        (latest === null || outcome.periodStartsAt > latest)
+      )
+        latest = outcome.periodStartsAt;
+    let dueOn = firstOfNextMonth(latest ?? flow.startsAt);
+    for (
+      let month = 0;
+      month < CATCH_UP_LIMIT_MONTHS && dueOn <= next.currentDate;
+      month += 1
+    ) {
+      const owed = outstandingDebtAt(next, obligation.id, {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      });
+      if (!owed || owed.minorUnits <= 0) break;
+      next = settleMortgageMonth(next, personId, flow, dueOn, owed);
+      dueOn = firstOfNextMonth(dueOn);
+    }
+  }
+  return next;
+}
+
+function settleMortgageMonth(
+  world: World,
+  personId: EntityId,
+  flow: ResourceFlow,
+  dueOn: IsoDate,
+  owed: MoneyAmount,
+): World {
+  let terms = resourceFlowTermsAt(world, flow.id, {
+    asOfDate: dueOn,
+    historySequenceExclusive: world.history.nextSequence,
+  })!;
+  // The last payment is only what is left on the loan, recorded as the terms
+  // for that month so the payment reads as paid in full.
+  if (owed.minorUnits < terms.amount.minorUnits) {
+    world = recordResourceFlowTerms(world, {
+      stableKey: `${flow.stableKey}:terms:final:${dueOn}`,
+      resourceFlowId: flow.id,
+      effectiveAt: dueOn,
+      status: "active",
+      amount: owed,
+      cadenceKind: terms.cadenceKind,
+      reason: "The last payment is what is left on the loan.",
+      provenance: flow.provenance,
+      supersedesTermsId: terms.id,
+    });
+    terms = resourceFlowTermsAt(world, flow.id)!;
+  }
+  const scheduled = terms.amount;
+  const owner = { kind: "person" as const, personId };
+  const balanceOn = (asOfDate: IsoDate) =>
+    resourcePositionAt(world, owner, scheduled.currency, {
+      asOfDate,
+      historySequenceExclusive: world.history.nextSequence,
+    })?.liquidBalance.minorUnits ?? 0;
+  const checkpoints = new Set<IsoDate>([dueOn, world.currentDate]);
+  for (const outcome of world.history.resourceTransferOutcomes)
+    if (outcome.occurredAt > dueOn && outcome.occurredAt < world.currentDate)
+      checkpoints.add(outcome.occurredAt);
+  const available = Math.max(0, Math.min(...[...checkpoints].map(balanceOn)));
+  const due = scheduled.minorUnits;
+  const paid = Math.min(available, due);
+  const status =
+    paid === scheduled.minorUnits
+      ? "completed"
+      : paid > 0
+        ? "partial"
+        : "missed";
+  const next = recordResourceTransferOutcome(world, {
+    stableKey: `${flow.stableKey}:${dueOn}`,
+    resourceFlowId: flow.id,
+    periodStartsAt: dueOn,
+    periodEndsAt: dueOn,
+    occurredAt: dueOn,
+    status,
+    attemptedAmount: scheduled,
+    transferredAmount: money(paid, scheduled.currency),
+    reasonKind: status === "completed" ? null : "capacity:insufficient-funds",
+    note: `Mortgage for ${monthName(dueOn)}.`,
+    provenance: flow.provenance,
+  });
+  return paid < due
+    ? recordFirstMissedPayment(next, personId, due, paid, dueOn)
+    : next;
+}
+
+function recordFirstMissedPayment(
+  world: World,
+  personId: EntityId,
+  owedMinor: number,
+  paidMinor: number,
+  dueOn: IsoDate,
+): World {
+  if (
+    world.history.events.some(
+      (event) =>
+        event.involvedEntityIds.includes(personId) &&
+        event.tags.includes(MISSED_MORTGAGE_TAG),
+    )
+  )
+    return world;
+  const person = world.people[personId]!;
+  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
+  const summary =
+    paidMinor > 0
+      ? `${monthName(dueOn)}'s mortgage payment was ${dollars(owedMinor)}, and you could pay ${dollars(paidMinor)} of it.`
+      : `${monthName(dueOn)}'s mortgage payment was ${dollars(owedMinor)}, and you could not pay any of it.`;
+  const stableKey = `mortgage-missed:${personId}:${dueOn}`;
+  const next = recordWorldEvent(world, {
+    stableKey,
+    type: "life.mortgage-missed",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: place?.context.jurisdiction.id ?? null,
+    involvedEntityIds: [personId],
+    participants: [
+      { personId, role: "focus:subject", detail: "Missed a mortgage payment" },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [MISSED_MORTGAGE_TAG],
+    summary,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return recordEventKnowledge(next, {
+    stableKey: `${stableKey}:knowledge`,
+    personId,
+    eventId: next.history.events.at(-1)!.id,
+    learnedAt: world.currentDate,
+    believedSummary: summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
+}

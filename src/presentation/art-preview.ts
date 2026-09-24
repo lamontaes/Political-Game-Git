@@ -26,7 +26,7 @@ import { ageOnDate, makeIsoDate } from "../simulation/dates";
  * complete, zero-fixture plan and a standing figure with real drawable layers.
  *
  * So the art exists and the shell cannot show it, because the shell is right to
- * refuse unreleased pixels. This module is the deliberate, labelled exception:
+ * refuse unreleased pixels. This module is the deliberate, labeled exception:
  * an explicitly opted-into development mode that composes the SAME people
  * through the SAME compositor against the review libraries instead, so the
  * owner can look at what the bank actually contains before anything is

@@ -1,7 +1,15 @@
+import { advanceApplications, settleJobPay } from "../simulation/job-market";
+import { settleCareerOffers } from "../simulation/career-path7";
+import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
+import { seatWinnersOwedTheirTerm } from "../simulation/office-entry-repair";
 import { refreshContextualScenes } from "./contextual-scene-producers";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
+import { migrateLegacyLegislativeSeats } from "../simulation/legislative-office-terms";
+import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
+import { catchUpLegacySchoolStages } from "../simulation/school-stages";
+import { catchUpComingOfAge } from "../simulation/coming-of-age";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   activeChildAuthoritiesAt,
@@ -31,7 +39,12 @@ import type {
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { shortPersonName } from "./conversation-subjects";
-import { lapseVenueActivity } from "./scheduled-activity-choice";
+import {
+  lapseVenueActivity,
+  releaseMissedHolds,
+} from "./scheduled-activity-choice";
+import { isCivicHold } from "./civic-hold";
+import { keepAcceptedSocialOccasion } from "./social-invitation";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 
 /**
@@ -88,9 +101,9 @@ function standingClause(days: number, waitingOnSomeoneElse: boolean): string {
 /**
  * What became of the calendar hold this is about, if it is about one.
  *
- * Read from the records rather than from the hold being cancelled. A first
+ * Read from the records rather than from the hold being canceled. A first
  * version asked the activity's state, which the standing-things tests caught
- * at once: a hold whose day simply passed is cancelled too, so an invitation
+ * at once: a hold whose day simply passed is canceled too, so an invitation
  * nobody ever answered read back as one the player had refused. Declining and
  * letting something lapse are different facts about a life, and only one of
  * them is a decision. A record too old to tell the two apart leaves the thing
@@ -127,7 +140,7 @@ export interface PendingThing {
    * How long it has been standing, in days.
    *
    * Carried on the record rather than worked out inside one sentence, so
-   * anything else that lists these inherits the judgement. The authored
+   * anything else that lists these inherits the judgment. The authored
    * summary is fixed text: on its own it read word for word the same on the
    * first day of a life and three months later, which is how a life that had
    * stopped going anywhere still looked exactly like a life on its first
@@ -201,10 +214,13 @@ export function ordinaryLifeAvailableFor(
 export function openOrdinaryLife(world: World, personId: EntityId): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
-  if (!ordinaryLifeAvailableFor(world, personId)) return world;
+  // A save a since-fixed defect kept out of a won office is seated when it
+  // opens, before anything else reads the week.
+  const seated = seatWinnersOwedTheirTerm(world, personId);
+  if (!ordinaryLifeAvailableFor(seated, personId)) return seated;
   return refreshLifeCircumstances(
     refreshLifeOpportunities(
-      openOrdinaryLifeRecords(world, personId),
+      openOrdinaryLifeRecords(seated, personId),
       personId,
     ),
     personId,
@@ -324,6 +340,15 @@ export interface PassOrdinaryDaysOptions {
    * hold is left standing; nothing is declined on the player's behalf.
    */
   readonly stopForTentativeHolds?: boolean;
+  /**
+   * Stop at a public, party or campaign hold that comes due, even when a
+   * social one would lapse. The story's quiet stretch caps itself at the civic
+   * holds already on the calendar, but a party chapter posts its next meeting
+   * a week or two ahead, so a four-month stretch used to let every meeting
+   * posted during it lapse unseen (a D.C. life, February to June 2039: four).
+   * Pressing again from the stop lets that one lapse, as before.
+   */
+  readonly stopForCivicHolds?: boolean;
 }
 
 export function passOrdinaryDays(
@@ -331,7 +356,20 @@ export function passOrdinaryDays(
   days = 1,
   supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry = {},
 ): World {
-  const advanced = advanceOrdinaryDays(world, days, supplied);
+  return advanceWithWorldIntegrityAtEnd(() =>
+    passOrdinaryDaysUnchecked(world, days, supplied),
+  );
+}
+
+function passOrdinaryDaysUnchecked(
+  world: World,
+  days: number,
+  supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry,
+): World {
+  // A birthday the stretch just crossed is answered in the same stretch, not
+  // the next time somebody passes a day.
+  const stepped = advanceOrdinaryDays(world, days, supplied);
+  const advanced = stepped === world ? stepped : catchUpComingOfAge(stepped);
   // A stretch that actually passed is a transition at which the world may bind
   // the situations it has made answerable (PROSE B). A refused advance writes
   // nothing.
@@ -342,7 +380,21 @@ export function passOrdinaryDays(
   ) {
     return advanced;
   }
-  return refreshContextualScenes(advanced, advanced.control.personId);
+  // A held job pays for each whole week that passed, at any age: a teenager's
+  // first job is paid here too, not only once adult life begins. An offer on
+  // the older work list lapses, or is followed up or withdrawn after a missed
+  // start, as days pass. So does the employer's side of a job application.
+  const personId = advanced.control.personId;
+  return refreshContextualScenes(
+    releaseMissedHolds(
+      settleCareerOffers(
+        settleJobPay(advanceApplications(advanced, personId), personId),
+        personId,
+      ),
+      personId,
+    ),
+    personId,
+  );
 }
 
 function advanceOrdinaryDays(
@@ -358,19 +410,39 @@ function advanceOrdinaryDays(
   // A day passed here is the same day as a day passed on the adult surface,
   // and a callback that comes due on it must be answered rather than stepped
   // over — time refuses to step over one it has no handler for, which is the
-  // behaviour that keeps a scheduled consequence from being lost. The campaign
+  // behavior that keeps a scheduled consequence from being lost. The campaign
   // registry composes the ordinary life handlers with the election handler, so
   // election day arrives without either the life or the contest being dropped.
   const ordinaryHandlers = createCampaignElectionTransitionRegistry();
-  const handlers = options.handlers
+  const composed = options.handlers
     ? composeFutureTransitionHandlerRegistries(
         options.handlers,
         ordinaryHandlers,
       )
     : ordinaryHandlers;
+  // Asked to stop at civic holds, the advance also stops at one it posts on
+  // the way, so the check below sees it come due instead of it being run past.
+  const handlers: FutureTransitionHandlerRegistry = options.stopForCivicHolds
+    ? composeFutureTransitionHandlerRegistries(composed, {
+        get: () => undefined,
+        stopAtNewTentativeHold: isCivicHold,
+      })
+    : composed;
   // CRUNCH46 CRISIS: every advancing World carries the mortality model; an
   // older save starts exposure at its next month boundary.
-  const migrated = ensureCrisisMortality(migrateLegacyStudyProgression(world));
+  // A child saved before school stages is caught up to the stage for their
+  // age; see catchUpLegacySchoolStages. A territory life saved before
+  // territories had a Governor has one seated; see catchUpTerritoryGovernor.
+  // Somebody grown is nobody's child to answer for; see catchUpComingOfAge.
+  const migrated = ensureCrisisMortality(
+    catchUpComingOfAge(
+      migrateLegacyLegislativeSeats(
+        catchUpTerritoryGovernor(
+          catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+        ),
+      ),
+    ),
+  );
   const wholeDays = Math.max(1, Math.trunc(days));
   const morning = simulationMomentAtLocalTime({
     date: addDays(migrated.currentDate, wholeDays),
@@ -385,6 +457,20 @@ function advanceOrdinaryDays(
     const stepped = advanceWorldMinutes(current, minutes, handlers);
     if (compareSimulationMoments(stepped.currentMoment, morning) >= 0)
       return stepped;
+
+    // A Saturday the player said yes to is kept, unless they asked to be
+    // stopped at such things and play them instead.
+    if (stepped.control.kind === "person" && !options.stopForTentativeHolds) {
+      const kept = keepAcceptedSocialOccasion(
+        stepped,
+        stepped.control.personId,
+        handlers,
+      );
+      if (kept !== stepped) {
+        current = kept;
+        continue;
+      }
+    }
 
     // Passing time is not a choice not to attend. It used to be recorded as
     // one: this wrote a refusal, with a fabricated "Decline <title>" against
@@ -414,6 +500,15 @@ function advanceOrdinaryDays(
     if (!optional || stepped.control.kind !== "person") return stepped;
     // The player asked to be stopped here. The hold stays; they decide.
     if (options.stopForTentativeHolds) return stepped;
+    // A civic hold stops the stretch too, unless the stretch began at it: then
+    // the player has seen it and chose to let time run on.
+    if (
+      options.stopForCivicHolds &&
+      isCivicHold(optional) &&
+      compareSimulationMoments(stepped.currentMoment, migrated.currentMoment) >
+        0
+    )
+      return stepped;
     const lapsed = lapseVenueActivity(
       stepped,
       stepped.control.personId,
@@ -468,7 +563,7 @@ function clockTime(minuteOfDay: number): string {
  * can say something meant for one of them; three cannot, not without leaving,
  * and the game does not record anybody leaving. So a third person in the
  * household makes a private word unavailable, and the reason names them rather
- * than greying out a control and saying nothing.
+ * than graying out a control and saying nothing.
  */
 export function householdConversationRoom(
   world: World,
@@ -527,10 +622,10 @@ export function householdConversationRoom(
 }
 
 /**
- * A neighbour, and a notice that concerns both of them.
+ * A neighbor, and a notice that concerns both of them.
  *
  * Grounded in two records and nothing else: the character lives somewhere, and
- * so does somebody who is not in their household. That is what a neighbour is
+ * so does somebody who is not in their household. That is what a neighbor is
  * — the game does not have a friendship score to consult and will not invent
  * one. Where the world has nobody in the same place outside the household,
  * there is no doorstep conversation, which is the truthful outcome.
@@ -558,7 +653,7 @@ export function neighborhoodConversationRoom(
     if (!candidate) return false;
     if (candidate.homeJurisdictionId !== person.homeJurisdictionId)
       return false;
-    // Somebody you live with is not a neighbour; that conversation is the one
+    // Somebody you live with is not a neighbor; that conversation is the one
     // at the kitchen table.
     return !householdMembershipsAt(world, candidateId, cutoff).some((entry) =>
       household.has(entry.membership.householdId),

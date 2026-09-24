@@ -17,6 +17,33 @@
   box-sizing: border-box;
 }
 
+/*
+ * No stock scrollbars anywhere in the game: a thin brass thumb on a clear
+ * track, drawn only as wide as it needs to be. Chromium reads the standard
+ * properties; the -webkit- rules cover engines that do not yet.
+ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(167, 136, 79, 0.55) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(167, 136, 79, 0.55);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(196, 162, 96, 0.8);
+}
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 body {
   margin: 0;
   min-width: 320px;

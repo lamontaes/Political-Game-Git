@@ -31,7 +31,7 @@ describe("inline term help", () => {
     expect(markup).toBe("quorum");
   });
 
-  it("is a labelled control where the shell does", () => {
+  it("is a labeled control where the shell does", () => {
     const markup = withHelp(
       HELP,
       <GuideTerm semanticKey="quorum">quorum</GuideTerm>,

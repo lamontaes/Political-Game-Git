@@ -21,7 +21,7 @@ import { venueActivities } from "./venue-activity";
  * The Calendar's ordinary Attend button goes through the venue route, which
  * resolves an entry by its scene venue. A remote activity — the phone shift
  * worked from home — has no scene venue to travel to, so the venue route does
- * not recognise it and the button could only answer that the event "could not
+ * not recognize it and the button could only answer that the event "could not
  * be played now". The activity was on the calendar, the player could see it,
  * and there was no way to work it from there.
  *
@@ -75,7 +75,7 @@ export function calendarCampaignLifeEntry(
   );
   if (!row) return null;
 
-  // The venue route recognises an entry only when its location is a scene
+  // The venue route recognizes an entry only when its location is a scene
   // venue. Where it does not, this is the only route the player has.
   const playableAsVenue = venueActivities(world, personId, handlers).some(
     (candidate) => candidate.activity.id === activityId,

@@ -41,7 +41,7 @@ function start(overrides: Partial<NewGameSetup> = {}) {
   const game = createNewGameWorld({
     // These fixtures pin the household on purpose — who is or is not at home is
     // the whole point of a conversation-reachability test — so they take the
-    // custom route that honours it. A normal start (Task E) generates it.
+    // custom route that honors it. A normal start (Task E) generates it.
     startKind: "custom",
     seed: "packet-70",
     placeKey: "kentucky",
@@ -185,7 +185,7 @@ describe("A player can say how loudly, and to whom", () => {
     expect(heardLoudly).toBeGreaterThan(heardQuietly);
   });
 
-  it("says why a private word is not possible, rather than greying out a control", () => {
+  it("says why a private word is not possible, rather than graying out a control", () => {
     const { world, personId } = startAtSchool();
     const view = projectPlayerConversation(
       world,
@@ -550,7 +550,10 @@ describe("What a childhood answer does to an adult life", () => {
     }).beats.find((beat) => beat.stageKey === "the-year-you-were-inseparable")!;
     expect(opening).toBeTruthy();
 
-    const adultStagesAfter = (childhoodChoice: string) => {
+    const family = EPISODE_FAMILIES.find(
+      (candidate) => candidate.key === "growing-up.a-friend-over-years",
+    )!;
+    const adultEligibilityAfter = (childhoodChoice: string) => {
       let later = playEpisodeOption(known, {
         beat: opening,
         optionKey: childhoodChoice,
@@ -563,21 +566,35 @@ describe("What a childhood answer does to an adult life", () => {
       return eligibleEpisodeBeats({
         world: later,
         personId,
-        families: EPISODE_FAMILIES,
-      })
-        .beats.filter(
-          (beat) => beat.episodeKey === "growing-up.a-friend-over-years",
-        )
-        .map((beat) => beat.stageKey);
+        families: [family],
+      });
     };
+    const adultStagesAfter = (childhoodChoice: string) =>
+      adultEligibilityAfter(childhoodChoice).beats.map((beat) => beat.stageKey);
+    const adultExclusionsAfter = (childhoodChoice: string) =>
+      adultEligibilityAfter(childhoodChoice).exclusions;
 
     const went = adultStagesAfter("go");
     const stayed = adultStagesAfter("stay");
 
     expect(went).toContain("still-there-later");
     expect(went).not.toContain("the-one-you-did-not-go-with");
-    expect(stayed).toContain("the-one-you-did-not-go-with");
     expect(stayed).not.toContain("still-there-later");
+    // The version for somebody who did not go is withheld since the dialogue
+    // review of 2026-09-23: the friend's return is implied by a timer, not
+    // recorded. So the answer still decides which adult scene exists — for a
+    // player who stayed, neither is offered — and the withheld one says why in
+    // the reason the bank carries.
+    expect(stayed).not.toContain("the-one-you-did-not-go-with");
+    const withheld = family.stages
+      .find((stage) => stage.key === "the-one-you-did-not-go-with")!
+      .requires.find((requirement) => requirement.kind === "withheld");
+    expect(withheld?.kind).toBe("withheld");
+    expect(
+      adultExclusionsAfter("stay").find(
+        (exclusion) => exclusion.stageKey === "the-one-you-did-not-go-with",
+      )?.detail,
+    ).toBe(withheld?.kind === "withheld" ? withheld.reason : undefined);
   });
 
   it("carries the childhood choice in the beat's own reasons", () => {

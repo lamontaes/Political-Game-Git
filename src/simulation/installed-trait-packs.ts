@@ -102,6 +102,13 @@ function traitShapeProblem(value: Row): string | null {
   ) {
     return `conferredBy must be "seeded", "conferred-only" or "player"`;
   }
+  if (
+    value.sides !== undefined &&
+    value.sides !== "one" &&
+    value.sides !== "two"
+  ) {
+    return `sides must be "one" or "two", or left out`;
+  }
   const scale = value.scale;
   if (!isRow(scale)) return "it needs a scale";
   if (!isKey(scale.balancedKey)) return "its scale needs a plain balancedKey";

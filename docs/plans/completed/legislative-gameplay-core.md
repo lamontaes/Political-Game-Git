@@ -48,6 +48,6 @@ encoded.
 
 Conference committees, concurrence after second-chamber amendment, calendars
 and deadlines as live constraints, line-item and amendatory vetoes,
-confirmations, interest-group lobbying, party caucus behaviour, public-opinion
+confirmations, interest-group lobbying, party caucus behavior, public-opinion
 effects, campaign consequences, appropriations and budgeting, judicial review,
 federal procedure, and the other forty-seven states.

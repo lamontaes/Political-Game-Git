@@ -100,7 +100,7 @@ Proven in a browser (`tests/e2e/conversation-controls.spec.ts`):
 - in a school corridor an ordinary word reaches more people than a quiet one,
   and the screen says who by name rather than by count;
 - private is unavailable in a corridor and the **room's own reason** is shown
-  ("Neil is right there in the corridor"), not a greyed-out control.
+  ("Neil is right there in the corridor"), not a grayed-out control.
 
 `quietAmbientHearingPersonIds` is empty in every production room, deliberately.
 The world records who is in a household or a class; it does not record who was

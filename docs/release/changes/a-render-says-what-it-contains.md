@@ -21,5 +21,5 @@ refusal makes it visible to whoever is about to publish.
 canonical ordering. The two disagree about a short array, so the filing tool
 was handing its user a branch that failed the format gate.
 
-No player-facing behaviour changes: this is the authoring queue, and nothing
+No player-facing behavior changes: this is the authoring queue, and nothing
 in a running game reads it.

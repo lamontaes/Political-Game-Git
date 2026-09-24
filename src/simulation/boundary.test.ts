@@ -52,7 +52,7 @@ function codeOnly(source: string): string {
       }
       index += 1;
       // A placeholder, so `"window"` cannot become an accidental identifier
-      // boundary and hide a neighbouring one.
+      // boundary and hide a neighboring one.
       output += " ";
       continue;
     }

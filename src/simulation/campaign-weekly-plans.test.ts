@@ -31,6 +31,7 @@ import type {
   EntityId,
   World,
 } from "./index";
+import { campaignOperatingSpending } from "./campaign-operating-costs";
 import { canonicalJson } from "./canonical-json";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
@@ -186,7 +187,7 @@ describe("weekly campaign plans", { timeout: 900_000 }, () => {
       "relationships",
     ]);
     expect(view.options.flatMap((option) => option.reasons).join(" ")).toMatch(
-      /committee has USD/,
+      /committee has \$\d/,
     );
     expect(view.reachNote).toMatch(/not modeled/);
     expect(
@@ -847,8 +848,16 @@ describe("weekly campaign plans", { timeout: 900_000 }, () => {
         event.participants.every((p) => p.role === "agency:candidate"),
       ),
     ).toBe(true);
-    // Nothing done means nothing spent, raised or moved.
-    expect(treasury(filed, world)).toBe(moneyBefore);
+    // Nothing done means nothing spent, raised or moved, beyond the ordinary
+    // bills the committee's earlier work ran up.
+    expect(
+      treasury(filed, world) +
+        campaignOperatingSpending(
+          world,
+          filed.campaign.organizationId,
+          filed.world.history.nextSequence,
+        ),
+    ).toBe(moneyBefore);
     // Support may still move because the other side campaigns on its own
     // (recorded opponent steps); none of it comes from the released sessions.
     const opponentStateIds = new Set(
@@ -938,7 +947,14 @@ describe("weekly campaign plans", { timeout: 900_000 }, () => {
     expect(releases).toHaveLength(first.scheduledActionIds.length);
     expect(releases[0]!.summary).toMatch(/week ended before it was done/);
     expect(releases[0]!.involvedEntityIds).toContain(first.id);
-    expect(treasury(filed, next)).toBe(moneyBefore);
+    expect(
+      treasury(filed, next) +
+        campaignOperatingSpending(
+          next,
+          filed.campaign.organizationId,
+          planned.history.nextSequence,
+        ),
+    ).toBe(moneyBefore);
     // The new week is fully doable.
     const done = runCondensedCampaignWeek(next, filed.personId, second.id);
     expect(

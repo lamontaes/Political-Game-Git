@@ -74,7 +74,7 @@ describe("making a journey on its own", () => {
       const entry = venueActivities(arrived, personId).find(
         (candidate) => candidate.activity.id === destination.id,
       )!;
-      // Specifically not the refusal the walk hit: having travelled there must
+      // Specifically not the refusal the walk hit: having traveled there must
       // never read as not knowing where the player is.
       expect(entry.refusal).toBeNull();
 

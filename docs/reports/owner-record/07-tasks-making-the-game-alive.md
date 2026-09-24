@@ -5,11 +5,11 @@ his instruction: _"take the liberty and distill these findings to tasks. start
 making the game alive. that was referenced in a doc i sent so look at that."_
 
 Ordered by **his own ranking**, overnight [81], not by convenience. Each task
-says what it is in a sentence a player would recognise, which lane takes it,
+says what it is in a sentence a player would recognize, which lane takes it,
 what it depends on, and whether it can start now. Where his words define the
 task they are quoted.
 
-Research is not in here. Under the rule he set on 2026-09-22, a judgement about
+Research is not in here. Under the rule he set on 2026-09-22, a judgment about
 how the world should feel goes to ChatGPT as a brief, not to a lane as a task.
 
 ---
@@ -92,7 +92,7 @@ below are what is left on top of it.
 
 ### A1 · A person can be changed by what happens to them, and resisting is itself a fact
 
-**Player-recognisable:** someone who has been a certain way for nine years is
+**Player-recognizable:** someone who has been a certain way for nine years is
 not moved by one afternoon, and the time you failed to move them is remembered.
 **Lane:** people-and-life. **Depends on:** the trait pack seam (built).
 **Status, measured 2026-09-22 on `origin/claude/people-and-life-4qpuwb`
@@ -112,7 +112,7 @@ _an event can fail, be declined, be corrected or matter very little_.
 
 ### A2 · Nobody's temperament has ever actually moved
 
-**Player-recognisable:** people are the same at sixty as at eighteen.
+**Player-recognizable:** people are the same at sixty as at eighteen.
 **Lane:** people-and-life. **Depends on:** A1 (built). **Start now:** yes —
 this is the live 1A gap.
 **Measured on `origin/claude/people-and-life-4qpuwb` `6f26b575`:**
@@ -127,7 +127,7 @@ consequences_.
 
 ### A3 · The player has a temperament other people can read
 
-**Player-recognisable:** other characters form a view of what you are like.
+**Player-recognizable:** other characters form a view of what you are like.
 **Lane:** people-and-life. **Depends on:** the pack seam. **Start now:** yes.
 **His words, 2026-09-22 03:36:** _"obviously you as a character need your own.
 it's how you are portayed to people."_
@@ -163,7 +163,7 @@ aliveness task; nobody should plan work from this item.
 
 ### A5 · Your life reads back as a story, not a log
 
-**Player-recognisable:** the journal says you ran for governor and what it cost
+**Player-recognizable:** the journal says you ran for governor and what it cost
 you, instead of listing every click.
 **Lane:** prose / UI. **Depends on:** nothing. **Start now:** yes.
 **His words, overnight [20]:** _"this is my journal. This doesn't really make
@@ -177,16 +177,16 @@ absent from its packet. This is selection and voice, not new facts.
 
 ### A6 · Leisure preference stops standing in for personality
 
-**Player-recognisable:** whether someone wants company is a different question
+**Player-recognizable:** whether someone wants company is a different question
 from what they want to do.
 **Lane:** people-and-life. **Depends on:** the pack seam. **Start now:** yes.
-**Source:** the personality catalogue's clearest concrete finding — the existing
+**Source:** the personality catalog's clearest concrete finding — the existing
 three-way switch conflates _what the activity is_ with _who is present_, and
 should stop carrying personality's weight now that traits are a real seam.
 
 ### A7 · Private aims actually lead somewhere
 
-**Player-recognisable:** deciding you want something changes what the world
+**Player-recognizable:** deciding you want something changes what the world
 offers you.
 **Lane:** people-and-life. **Depends on:** nothing. **Start now:** yes, as a
 check first.
@@ -200,7 +200,7 @@ because the player's role/relationship changed_.
 
 ### A8 · Connectors so personality can reach dialogue later
 
-**Player-recognisable:** nothing yet, deliberately.
+**Player-recognizable:** nothing yet, deliberately.
 **Lane:** people-and-life. **Depends on:** A1–A3. **Start now:** yes, as
 declaration only.
 **His words, 2026-09-22 03:37:** _"also build the 'blocks' to where personality
@@ -219,7 +219,7 @@ them yet. He said "nothing material now" and meant it.
 
 ### B1 · The country has people in its offices
 
-**Player-recognisable:** Congress is not empty.
+**Player-recognizable:** Congress is not empty.
 **Lane:** nationwide government. **Depends on:** nothing. **Start now:** yes.
 ChatGPT's finding, overnight [21]: _"House — All 435 seats have no recorded
 holder. Senate — 33 seats have no recorded holder, alongside a separately
@@ -230,17 +230,17 @@ without rewriting already-exposed facts_.
 
 ### B2 · An unresearched jurisdiction is playable
 
-**Player-recognisable:** a lifelong resident can stand for their own
+**Player-recognizable:** a lifelong resident can stand for their own
 legislature.
 **Lane:** nationwide government. **Depends on:** nothing. **Start now:** yes.
 Three states rather than two — sourced, generated from a realistic **national**
 range, genuinely unknown — with the middle one missing today. The legislation
-for that jurisdiction is drawn from the same range. Nothing is labelled on
+for that jurisdiction is drawn from the same range. Nothing is labeled on
 screen. Full chain and quotes in `01`, section A4.
 
 ### B3 · Being elected governor gives you something to do
 
-**Player-recognisable:** you win, you take office, the desk has work on it.
+**Player-recognizable:** you win, you take office, the desk has work on it.
 **Lane:** nationwide government. **Depends on:** B2. **Start now:** yes.
 **His words, overnight [20]:** _"So now it should have, like, some transition.
 You know, I give a victory speech and now I start the transition."_ and _"it's 2027. I don't have anything I can do as an executive. This is what I mean. This
@@ -254,7 +254,7 @@ what unblocks it at scale.
 
 ### B4 · Time does not lurch
 
-**Player-recognisable:** you advance a day and it is the next day.
+**Player-recognizable:** you advance a day and it is the next day.
 **Lane:** playtesting, then whoever owns the clock. **Depends on:** nothing.
 **Start now:** yes.
 `QUIET_ADULT_STEPS: readonly number[] = [31, 47, 78, 124]` at
@@ -266,7 +266,7 @@ skipped without saying so.
 
 ### B5 · The president does not live in your town
 
-**Player-recognisable:** the president lives in Washington.
+**Player-recognizable:** the president lives in Washington.
 **Lane:** nationwide government. **Depends on:** nothing.
 **His words, overnight [17]:** _"Owen Watson. He's a Democrat in office since
 2025, lives in Arlington, Washington. No, he doesn't. He lives in Washington,
@@ -277,7 +277,7 @@ organizations. Re-verify at the current head before fixing.
 
 ### B6 · You can see the shape of the government
 
-**Player-recognisable:** a screen that shows Congress, its coalitions, and your
+**Player-recognizable:** a screen that shows Congress, its coalitions, and your
 legislature.
 **Lane:** nationwide government + UI. **Depends on:** B1. **Start now:** yes.
 **His words, overnight [20]:** _"I should have a big thing of Congress and my
@@ -563,7 +563,7 @@ itself:
   remaining question is narrow and is not answered by walking lives: does any
   production scheduler now create a due item that outlives the call that
   scheduled it? If none does, this is latent and should be closed, not chased.
-- **P8, the behaviour it calls the one most responsible for "the game
+- **P8, the behavior it calls the one most responsible for "the game
   remembered that".** Callbacks that fire because preserved causal state says
   they should. It reported the ingredients present and never assembled. This is
   the same territory as A5 and A7 and should be checked alongside them.

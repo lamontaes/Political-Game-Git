@@ -479,7 +479,7 @@ function requirementPhrase(row: SourcedQualification): string {
         : `United States citizenship for ${term.label}`;
     }
     case "ELECTOR_REQUIREMENT":
-      return "that the candidate is a qualified elector";
+      return "a candidate who is a qualified elector";
     case "PROFESSIONAL_QUALIFICATION":
       return typeof row.value === "string"
         ? row.value.toLowerCase().replace(/_/g, " ")
@@ -621,7 +621,8 @@ export function assessOfficeQualifications(
         reason:
           age >= required
             ? `Old enough: this office has a minimum age of ${required}.`
-            : `Too young to stand: this office has a minimum age of ${required}, and this character is ${age}.`,
+            : // The same sentence every other minimum age uses on screen.
+              `You must be at least ${required} to stand for this office.`,
         source: row,
       });
       continue;
@@ -680,15 +681,18 @@ export function assessOfficeQualifications(
     /*
      * Everything else is read and reported, and deliberately not decided.
      *
-     * The world models no bar admission, no naturalisation date and no voter
+     * The world models no bar admission, no naturalization date and no voter
      * registration, so a citizenship, elector or professional requirement has
      * nothing to test against. Saying "meets" would hand out an eligibility the
      * game never checked.
      */
+    // Worded for the player: the requirement, and that nothing shows this
+    // character meets it. Why nothing can (no such record is kept) stays in
+    // the comment above and the "not-evaluated" verdict, not on the screen.
     assessments.push({
       field: row.field,
       verdict: "not-evaluated",
-      reason: `This office requires ${requirementPhrase(row)}. The game does not record that about a character, so it neither grants nor refuses on it.`,
+      reason: `This office requires ${requirementPhrase(row)}, and nothing yet shows that you meet it.`,
       source: row,
     });
   }

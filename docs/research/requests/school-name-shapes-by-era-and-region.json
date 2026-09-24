@@ -1,0 +1,39 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "A modern directory only shows which names survive today; schools renamed since, and the era a school was built in, are invisible to it.",
+      "argumentFor": "Already measured, needs no new research, and fixes the reported defect.",
+      "label": "Keep the measured draw",
+      "position": "Keep the shares measured from the 2025-26 directory for every era and region, with a national figure weighted by how many schools in the region carry the name today.",
+      "recommended": true
+    },
+    {
+      "argumentAgainst": "Needs a historical source per decade that the game does not hold.",
+      "argumentFor": "A 1960s childhood would meet the names schools had then, not the ones they carry now.",
+      "label": "Weight names by era too",
+      "position": "Vary both the shapes and the honorees by the decade a school opened, from a historical source.",
+      "recommended": false
+    }
+  ],
+  "filedAt": "2026-09-23T02:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Names that match the person",
+  "notes": [
+    "The directory names are never given to a generated school; only counts of name shapes, figure use by Census region, and schools per town are kept.",
+    "About a third of names in small towns and over two thirds in large ones fell outside every shape the heuristic can recognize (landscape, district or county names, brands, local honorees not in the name tables). The game draws all of those as landscape names."
+  ],
+  "priority": "P2",
+  "question": "Generated schools are now named by shapes measured from the 2025-26 school directory: for each level and for how many schools a town has, the share named for the town, a compass point, a national figure, a local person or a family name, with national figures weighted by how many schools in the Census region carry them. Two things the directory cannot say. First, how did those shares and the honorees differ in earlier decades, for a character whose schooling was in the 1960s or 1980s? Second, of the names the heuristic could not place, how many are landscape, how many are local people, and how many are district, county or other names?",
+  "questionId": "school-name-shapes-by-era-and-region",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Names that match the person thread",
+  "sourcesChecked": [
+    {
+      "source": "public/education, the CCD 2025-26 school file, measured by scripts/source/school-name-patterns.ts",
+      "whatItDidNotSettle": "One recent year only, so it cannot show how naming changed over time; its unclassified remainder is large and mixed."
+    }
+  ],
+  "title": "How school naming differed by era, and what the unclassified names are",
+  "usableAnswer": "Either a source giving school-name shapes or honorees by decade (even for a sample of states), or an estimate of the split of the unclassified remainder into landscape, local-person and district or county names, by town size.",
+  "whyItMatters": "A character's schooling decades ago is named with today's patterns, and the landscape stand-in covers names the game cannot yet generate, such as a school named for its district."
+}

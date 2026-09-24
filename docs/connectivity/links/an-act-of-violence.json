@@ -1,0 +1,42 @@
+{
+  "linkVersion": "producer-links/v1",
+  "linkId": "an-act-of-violence",
+  "title": "An act of political violence",
+  "producer": {
+    "at": "src/simulation/crisis/international.ts#recordViolenceAttempt",
+    "owner": "How the world changes",
+    "writes": "A public crisis.violence-attempt event, a violence-attempt record, and a death or an injury as a health episode.",
+    "runsInPlay": false,
+    "runsDetail": "No caller outside tests. Nothing in play, NPC or player, can attempt violence against anyone."
+  },
+  "readers": [
+    {
+      "at": "src/simulation/press/desk.ts:1260",
+      "owner": "How the world changes",
+      "reads": "Would be covered as a crisis story."
+    },
+    {
+      "at": "src/simulation/crisis/health.ts",
+      "owner": "People and life",
+      "reads": "Would raise the victim's mortality."
+    }
+  ],
+  "missing": [
+    {
+      "reader": "Someone, including the player, attempting or ordering violence",
+      "readerOwner": "How the world changes",
+      "state": "handed-off",
+      "detail": "The owner decided the player may initiate or order political violence, shown through existing scenes and text with the violence offscreen. No actor decides to.",
+      "researchQuestionId": "political-violence-what-to-ask-the-owner",
+      "handedOff": "2026-09-23, brief sent to How the world changes"
+    },
+    {
+      "reader": "Local crime of any kind",
+      "readerOwner": "Local crime",
+      "state": "open",
+      "detail": "There is no crime system. incident-response.ts is reached only by its fixture, and the incident catalog has no crime kind."
+    }
+  ],
+  "measuredAt": "main at 130dd113, measured 2026-09-23",
+  "recordedAt": "2026-09-23T02:00:00.000Z"
+}

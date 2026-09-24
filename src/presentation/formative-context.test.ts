@@ -21,13 +21,14 @@ import {
   projectFormativeYears,
 } from "./formative-play";
 import { createNewGameWorld } from "./new-game";
+import { sampledProofLocalityForState } from "./new-game-geography";
 
 /**
  * The growing-up years, held to the contracts they were written against.
  *
  * The audit reproduced an eight-year-old sharing a lunch table with a
  * twenty-eight-year-old and a pacing constant that ignored the accepted anchor
- * budget in favour of an invented arrival rate. Both were the same mistake:
+ * budget in favor of an invented arrival rate. Both were the same mistake:
  * treating a formative scene as content to be shown rather than as something
  * that either has its context or does not happen.
  */
@@ -109,7 +110,7 @@ describe("Who is actually in the scene", () => {
   });
 
   it("does not invent a school so a classroom scene can play", () => {
-    // Below school-entry age there is no enrolment, so no classmate and no
+    // Below school-entry age there is no enrollment, so no classmate and no
     // teacher — and the situations that need them are simply not offered.
     const { world, playerPersonId } = child(5);
     const enrolled = world.history.educationEnrollments.filter(
@@ -131,6 +132,28 @@ describe("Who is actually in the scene", () => {
 });
 
 describe("Whether a scene can happen at all", () => {
+  it("offers no unnamed activity to join or leave while none is recorded", () => {
+    const { world, playerPersonId } = child(15, "activity-choice");
+    expect(
+      formativeSituationAvailable(
+        world,
+        playerPersonId,
+        "formative.activity-choice",
+      ),
+    ).toBe(false);
+  });
+
+  it("offers nothing to organize while no school issue is recorded", () => {
+    const { world, playerPersonId } = child(15, "student-organizing");
+    expect(
+      formativeSituationAvailable(
+        world,
+        playerPersonId,
+        "formative.student-organizing",
+      ),
+    ).toBe(false);
+  });
+
   it("keeps a workplace scene away from a character with no job", () => {
     const { world, playerPersonId } = child(15);
     expect(
@@ -159,15 +182,28 @@ describe("Whether a scene can happen at all", () => {
     }
   });
 
-  it("allows a household scene to a character who has a household", () => {
-    const { world, playerPersonId } = child(7);
-    expect(
-      formativeSituationAvailable(
-        world,
-        playerPersonId,
-        "formative.illness-in-the-house",
-      ),
-    ).toBe(true);
+  it("does not invent an ill relative or care need from a shared home", () => {
+    for (const stateKey of ["US-ME", "US-NV"]) {
+      const placeKey = sampledProofLocalityForState(stateKey).key;
+      for (const [situation, startAge] of [
+        ["formative.illness-in-the-house", 7],
+        ["formative.caring-for-someone", 15],
+      ] as const) {
+        const { world, playerPersonId } = createNewGameWorld({
+          placeKey,
+          startAge,
+          depth: "play-formative-years",
+          startingLife: "ordinary-life",
+          household: "shares-a-home",
+          seed: `formative-unrecorded-illness-${placeKey}-${startAge}`,
+          givenName: null,
+          familyName: null,
+        });
+        expect(
+          formativeSituationAvailable(world, playerPersonId, situation),
+        ).toBe(false);
+      }
+    }
   });
 });
 
@@ -343,7 +379,7 @@ describe("A companion holds the part they are given", () => {
     );
     expect(mine.length).toBeGreaterThan(0);
     // Age made them plausible. The audit found nothing had made them true: a
-    // similarly aged stranger was returned as a classmate with no enrolment at
+    // similarly aged stranger was returned as a classmate with no enrollment at
     // this school, or at any school.
     const theirs = activeEducationEnrollmentsAt(after, resolved!.personId).map(
       (entry) => entry.enrollment.organizationId,

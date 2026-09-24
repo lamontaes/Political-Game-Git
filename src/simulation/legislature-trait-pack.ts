@@ -16,7 +16,7 @@ import type { TraitMovability, TraitPack, TraitScale } from "./trait-packs";
  * anything from this pack being loaded. Until a writer confers it, every
  * reading is `unrecorded` and every sitting decides exactly as it does today.
  * What ought to confer it — a member's own record of how they have negotiated
- * before — is modelling work with its own provenance question, and it is not
+ * before — is modeling work with its own provenance question, and it is not
  * smuggled in here.
  */
 
@@ -40,7 +40,7 @@ export const LEGISLATURE_TRAIT_SCALE: TraitScale = {
 };
 
 /**
- * How movable a bargaining manner is, which is this pack's judgement.
+ * How movable a bargaining manner is, which is this pack's judgment.
  *
  * Easier to move than an ordinary-life temperament and harder than a mood. A
  * member who has been burned once at a table changes how they answer, and how

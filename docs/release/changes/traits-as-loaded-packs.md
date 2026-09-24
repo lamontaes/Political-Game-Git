@@ -4,7 +4,7 @@ impact: none
 ---
 
 Internal groundwork. A trait becomes a validated row in a pack rather than a
-branch in decision code, and the content check that rejected any unrecognised
+branch in decision code, and the content check that rejected any unrecognized
 trait now asks whether a definition matches the pack that owns it. The packs
 themselves are still compiled into the build and there is no route for a mod
 to add one; that plumbing is named in

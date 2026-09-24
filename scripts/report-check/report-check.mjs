@@ -12,7 +12,7 @@
  * checkout before `npm ci` has happened. Node strips the types from the shared
  * word list on import.
  */
-import { BRITISH_IDIOM } from "../prose-eval/american-english.ts";
+import { BRITISH_IDIOM } from "../prose-eval/british-idiom.mjs";
 
 /** Spelling families the game-copy list does not carry. Word-bounded. */
 export const BRITISH_SPELLING = [

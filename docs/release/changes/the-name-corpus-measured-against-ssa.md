@@ -3,7 +3,7 @@ id: the-name-corpus-measured-against-ssa
 impact: none
 ---
 
-Bounded research, authorised by lamontae on 2026-09-22: the Top 100 male and
+Bounded research, authorized by lamontae on 2026-09-22: the Top 100 male and
 Top 100 female given names with SSA's own counts, for every decade from the
 1920s to the 2020s, are recorded at
 `docs/research/evidence/ssa-given-names-by-decade.json`. 2,200 rows, eleven

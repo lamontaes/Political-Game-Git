@@ -6,7 +6,7 @@ import { ReturnToTitleAction } from "./ReturnToTitleAction";
 const noop = () => undefined;
 
 describe("Return to title in Options", () => {
-  it("is a labelled button that warns before leaving an unsaved life", () => {
+  it("is a labeled button that warns before leaving an unsaved life", () => {
     const html = renderToStaticMarkup(
       <ReturnToTitleAction
         needsConfirmation

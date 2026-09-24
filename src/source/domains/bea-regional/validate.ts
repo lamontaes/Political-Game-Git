@@ -90,7 +90,7 @@ export function validateBeaCorpus(
         findings.push({
           severity: "error",
           code: "bea/statistic-is-not-judgement",
-          message: `Field "${field}" turns a published estimate into a judgement about a place. A price parity is a price level, not a ranking.`,
+          message: `Field "${field}" turns a published estimate into a judgment about a place. A price parity is a price level, not a ranking.`,
           recordId: record.recordId,
         });
       }

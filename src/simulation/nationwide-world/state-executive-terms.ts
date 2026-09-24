@@ -1,6 +1,6 @@
 import { candidacyEligibility } from "../candidacy";
 import type { CandidacyBlock } from "../candidacy";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate, spokenDate } from "../dates";
 import {
   electionContestById,
   electionContestResult,
@@ -15,6 +15,15 @@ import {
   recordElectedExecutiveQualification,
 } from "../executive-work-entry";
 import { chiefExecutiveJurisdiction } from "./government-jurisdiction";
+import { scheduleGoverningTransition } from "../governing/state-governing";
+import {
+  LATE_TERM_ENTRY,
+  lateTermEntryKey,
+  lateTermEntryRecorded,
+} from "../late-term-entry-events";
+import { recordWorkStatus } from "../life";
+import { workStatusAt } from "../life-queries";
+import { isPersonAliveAt } from "../vitality-integrity";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -23,6 +32,10 @@ import {
   unadmittedRuleFields,
 } from "./rule-capability-port";
 import type { RuleFieldKey } from "./rule-capability-port";
+import {
+  stateExecutiveTermRuleForElectionYear,
+  stateExecutiveTermRuleInWorld,
+} from "./executive-term-rules-in-world";
 import { stateExecutiveIdentityForOfficeKey } from "./state-executive-candidacy-packs";
 import type { StateExecutiveIdentity } from "./state-executive-candidacy-packs";
 import {
@@ -30,7 +43,6 @@ import {
   commencementInYear,
   generalElectionDay,
   isElectionYear,
-  stateExecutiveTermRule,
   termDatesAfterElection,
   termRuleBasis,
   type StateExecutiveTermRule,
@@ -72,12 +84,23 @@ function wholeYears(value: unknown): number | null {
  * disclosed game-profile calendar. Never the result date.
  */
 export function ordinaryStateExecutiveTermDates(
+  world: World,
   identity: StateExecutiveIdentity,
   electionDate: IsoDate,
 ): OrdinaryTermDates {
-  const admitted = admittedTermDates(identity, electionDate);
+  // A law passed in this World that changed the term outranks what the game
+  // read; with none, RULES-admitted law, then the office's own calendar.
+  const inWorld = stateExecutiveTermRuleForElectionYear(
+    world,
+    identity.stateUsps,
+    Number(electionDate.slice(0, 4)),
+  );
+  const admitted =
+    inWorld && inWorld.enactedChanges.length > 0
+      ? null
+      : admittedTermDates(identity, electionDate);
   if (admitted) return admitted;
-  const rule = stateExecutiveTermRule(identity.stateUsps);
+  const rule = inWorld;
   if (!rule) return { kind: "unknown", unknownFields: TERM_FIELDS };
   return {
     kind: "dated",
@@ -93,10 +116,15 @@ export function ordinaryStateExecutiveTermDates(
  * route always is; one recorded before this rule existed may not be.
  */
 export function isRegularStateExecutiveElection(
+  world: World,
   identity: StateExecutiveIdentity,
   electionDate: IsoDate,
 ): boolean {
-  const rule = stateExecutiveTermRule(identity.stateUsps);
+  const rule = stateExecutiveTermRuleForElectionYear(
+    world,
+    identity.stateUsps,
+    Number(electionDate.slice(0, 4)),
+  );
   if (!rule) return false;
   const year = Number(electionDate.slice(0, 4));
   return (
@@ -185,9 +213,13 @@ export function planOrdinaryStateExecutiveTerm(
   // A contest recorded off the office's regular calendar (an older save's
   // synthetic filing horizon) is not silently given a term under a rule it
   // was never run under. Its winner is offered an explicit recovery instead.
-  if (!isRegularStateExecutiveElection(identity, contest.electionDate))
+  if (!isRegularStateExecutiveElection(world, identity, contest.electionDate))
     return world;
-  const dates = ordinaryStateExecutiveTermDates(identity, contest.electionDate);
+  const dates = ordinaryStateExecutiveTermDates(
+    world,
+    identity,
+    contest.electionDate,
+  );
   if (dates.kind !== "dated") return world;
   const planned = planElectedExecutiveOfficeTerm(world, {
     contestId,
@@ -195,24 +227,22 @@ export function planOrdinaryStateExecutiveTerm(
     endsAt: dates.endsAt,
     termNote: termNote(identity, dates),
   });
-  // A winner the player does not control qualifies as an ordinary
-  // institutional routine when nothing the game admits stands in the way. The
-  // player's own qualification stays a choice they make.
+  // Every winner, the player included, qualifies as an ordinary routine when
+  // nothing the game admits stands in the way: meeting the office's
+  // requirements is checked, not pressed (lamontae, 2026-09-23: "there should
+  // be no qualify button"). The oath on the first day is the ceremony.
   const winner = result.winnerPersonId;
-  const controlled =
-    planned.control.kind === "person" && planned.control.personId === winner;
-  if (
-    controlled ||
-    routineQualificationBlocks(planned, winner, identity).length > 0
-  )
+  if (routineQualificationBlocks(planned, winner, identity).length > 0)
     return planned;
   return recordElectedExecutiveQualification(planned, {
     contestId,
     personId: winner,
-    qualificationNote:
-      "The winner qualified for the dated term in the ordinary course: every candidate qualification the game has admitted for this office was met. Unadmitted legal requirements remain unverified, not waived.",
+    qualificationNote: ROUTINE_QUALIFICATION_NOTE,
   });
 }
+
+const ROUTINE_QUALIFICATION_NOTE =
+  "The winner qualified for the dated term in the ordinary course: every candidate qualification the game has admitted for this office was met. Unadmitted legal requirements remain unverified, not waived.";
 
 export const OFF_CYCLE_RECOVERY_VERSION =
   "state-executive-off-cycle-recovery/v1";
@@ -257,7 +287,11 @@ export function recoverOffCycleStateExecutiveTerm(
   const identity = stateExecutiveIdentityForOfficeKey(
     contest.office.officeKey,
   )!;
-  const rule = stateExecutiveTermRule(identity.stateUsps)!;
+  const rule = stateExecutiveTermRuleInWorld(
+    world,
+    identity.stateUsps,
+    world.currentDate,
+  )!;
   const planned = planElectedExecutiveOfficeTerm(world, {
     contestId: contest.id,
     startsAt: status.recovery.startsAt,
@@ -427,17 +461,21 @@ export function stateExecutiveEntryStatus(
   const seat = executiveSeatFor(world, contest.id);
   const term = seat && electedExecutiveTermForRelationship(world, seat.id);
   if (!seat || !term) {
-    const rule = stateExecutiveTermRule(identity.stateUsps);
+    const rule = stateExecutiveTermRuleInWorld(
+      world,
+      identity.stateUsps,
+      world.currentDate,
+    );
     if (
       rule &&
-      !isRegularStateExecutiveElection(identity, contest.electionDate)
+      !isRegularStateExecutiveElection(world, identity, contest.electionDate)
     ) {
       const recovery = offCycleRecoveryDates(rule, world.currentDate);
       return {
         kind: "won-off-cycle",
         contestId: contest.id,
         electionDate: contest.electionDate,
-        reason: `This victory was recorded on ${contest.electionDate}, before the ${identity.displayName} followed a regular election calendar in this game. The result stands. You can take up a full term that begins on ${recovery.startsAt}.`,
+        reason: `This victory came on ${spokenDate(contest.electionDate)}, before the ${identity.displayName} was elected on a regular calendar. The result stands. You can take up a full term that begins on ${spokenDate(recovery.startsAt)}.`,
         recovery: {
           version: OFF_CYCLE_RECOVERY_VERSION,
           ...recovery,
@@ -446,13 +484,14 @@ export function stateExecutiveEntryStatus(
       };
     }
     const dates = ordinaryStateExecutiveTermDates(
+      world,
       identity,
       contest.electionDate,
     );
     return {
       kind: "won-term-unavailable",
       contestId: contest.id,
-      reason: `The result stands, but when a term of the ${identity.displayName} begins is not established in this game yet.`,
+      reason: `The result stands, but when a term of the ${identity.displayName} begins is not yet known.`,
       missing: dates.kind === "unknown" ? dates.unknownFields : ["term.start"],
     };
   }
@@ -500,5 +539,92 @@ export function qualifyForStateExecutiveTerm(
     personId,
     qualificationNote:
       "The winner qualified for the dated term: every candidate qualification the game has admitted for this office was met on this day. Unadmitted legal requirements remain unverified, not waived.",
+  });
+}
+
+/**
+ * Brings a won state executive term up to the rule that there is no Qualify
+ * step. A save planned before that rule holds a player's term with no recorded
+ * qualification: before the term begins it is qualified now, the way any
+ * winner is; after it has begun, a term lost only because the old step was
+ * never pressed is taken up from today. A requirement the game can test and
+ * that fails still refuses, and the World is returned unchanged.
+ */
+export function settleStateExecutiveQualification(
+  world: World,
+  personId: EntityId,
+): World {
+  const status = stateExecutiveEntryStatus(world, personId);
+  if (
+    status.kind !== "awaiting-qualification" &&
+    status.kind !== "term-over-or-not-entered"
+  )
+    return world;
+  const contest = electionContestById(world, status.contestId);
+  const identity =
+    contest && stateExecutiveIdentityForOfficeKey(contest.office.officeKey);
+  const seat = executiveSeatFor(world, status.contestId);
+  const term = seat && electedExecutiveTermForRelationship(world, seat.id);
+  if (!identity || !seat || !term) return world;
+  if (world.currentDate >= term.endsAt) return world;
+  if (routineQualificationBlocks(world, personId, identity).length > 0)
+    return world;
+  let next = recordElectedExecutiveQualification(world, {
+    contestId: status.contestId,
+    personId,
+    qualificationNote: ROUTINE_QUALIFICATION_NOTE,
+    stableKeySuffix: ":settled",
+  });
+  if (status.kind === "awaiting-qualification") return next;
+  const workStatus = workStatusAt(next, seat.id);
+  if (
+    workStatus?.status !== "expected" ||
+    lateTermEntryRecorded(next, seat.id) ||
+    !isPersonAliveAt(next, personId, {
+      asOfDate: next.currentDate,
+      historySequenceExclusive: next.history.nextSequence,
+    })
+  )
+    return next;
+  const key = lateTermEntryKey(seat.id);
+  next = recordWorkStatus(next, {
+    stableKey: `${key}:active`,
+    workRelationshipId: seat.id,
+    effectiveAt: next.currentDate,
+    status: "active",
+    reason:
+      "Late entry: the term's first day passed behind a qualification step the game no longer has.",
+    provenance: {
+      kind: "simulated-event",
+      eventId: term.result.outcomeEventId,
+    },
+    supersedesStatusId: workStatus.id,
+  });
+  next = scheduleGoverningTransition(next, {
+    relationshipId: seat.id,
+    entryDate: next.currentDate,
+    jurisdictionId: term.governing.id,
+  });
+  const summary = `Took up the office of ${identity.title} after the term began; its first-day entry had waited on a qualification step the game no longer has.`;
+  return recordWorldEvent(next, {
+    stableKey: key,
+    type: LATE_TERM_ENTRY,
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: term.governing.id,
+    involvedEntityIds: [personId, seat.id, status.contestId],
+    participants: [{ personId, role: "focus:officeholder", detail: summary }],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["late-term-entry", "executive"],
+    summary,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
   });
 }

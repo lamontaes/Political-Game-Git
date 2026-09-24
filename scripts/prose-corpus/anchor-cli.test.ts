@@ -32,7 +32,7 @@ import { issuedDigestV1 as v1Digest } from "./anchor-history";
  * override only relocates the files, every one of these runs goes through the
  * same validation the real command does.
  *
- * The reference behaviour these pin, reproduced at the production CLI before
+ * The reference behavior these pin, reproduced at the production CLI before
  * the repair: mint a synthetic id, retire it, then add unrelated text. With an
  * intact ledger the new text correctly took the next number. With the ledger
  * missing, with its `issued` absent, null or a bare string, or with only the
@@ -455,7 +455,7 @@ describe("bootstrap and recovery are explicit and bounded", () => {
     expect(existsSync(paths.ledger)).toBe(false);
   });
 
-  // 128R2 supersedes the 128R1 behaviour this replaces. Re-deriving a
+  // 128R2 supersedes the 128R1 behavior this replaces. Re-deriving a
   // checkpoint from a ledger with nothing attesting it was reproduced doing
   // real damage: delete the checkpoint, shorten the ledger by one retired id,
   // recover, and the RETURN_SUMMARY high-water fell from 23 to 22 — after
@@ -623,7 +623,7 @@ describe("`-- ledger` absorbs, and never re-bases trust downward", () => {
     const before = fingerprint(paths);
     const result = run("ledger", paths);
     expect(result.status).toBe(0);
-    expect(result.stdout).toMatch(/already synchronised, nothing written/);
+    expect(result.stdout).toMatch(/already synchronized, nothing written/);
     expect(fingerprint(paths)).toBe(before);
   });
 });
@@ -1152,7 +1152,7 @@ describe("a path override may not reach canonical authority by alias", () => {
     "accepts a bundle that merely LIVES under a symlinked directory",
     SLOW,
     () => {
-      // Canonicalisation must reject aliases of canonical files, not every path
+      // Canonicalization must reject aliases of canonical files, not every path
       // that happens to involve a link. A scratch bundle behind a linked parent is
       // still a scratch bundle.
       const paths = scratch();

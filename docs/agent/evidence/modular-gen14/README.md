@@ -144,7 +144,7 @@ and the review set is where the art is judged, until those two are addressed.
 
 The second control is the important one: production still refuses in exactly
 the room the preview draws in. No production gate was weakened to make this
-work — the preview is the labelled exception, and it is the only thing that
+work — the preview is the labeled exception, and it is the only thing that
 changed.
 
 ## Two findings that are not mine to fix
@@ -152,7 +152,7 @@ changed.
 Reported rather than patched, because `src/player/` is PT3's.
 
 1. **The moment panel covers the figure's centre.** Hit-testing the token at
-   its own centre returns `section.game-story`; the upper body returns the
+   its own center returns `section.game-story`; the upper body returns the
    person. Pointer selection therefore works only on the part of the figure
    that is not behind the panel, and this is at the default 1440×900.
 2. **The figure is cropped at the head** in the residence — the token carries
@@ -191,7 +191,7 @@ question this raises: a body family currently encodes its pose, so
 `…-skinny-woman-seated-…` and `…-skinny-woman-standing-…` are different
 identities rather than one person in two poses. Until that is decided, a seated
 anchor honestly refuses rather than substituting another person's body — which
-is the correct behaviour and is what happens today.
+is the correct behavior and is what happens today.
 
 **Blocking bottom variety:** bottoms fitted for the four non-`average-man`
 dressable bodies. One garment on four fifths of the cast is the most visible

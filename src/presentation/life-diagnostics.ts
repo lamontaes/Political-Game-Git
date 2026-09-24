@@ -345,7 +345,7 @@ export interface LifeShapeReport {
 }
 
 /**
- * A whole life summarised, for comparing two of them.
+ * A whole life summarized, for comparing two of them.
  *
  * The authority asks for a way to see that two lives differ for causal reasons
  * rather than in their names. This is the shape a comparison reads: what

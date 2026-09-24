@@ -68,7 +68,7 @@ export function validatePumsCorpus(
         findings.push({
           severity: "error",
           code: "pums/sample-is-not-behaviour",
-          message: `Field "${key}" derives behaviour from a survey sample. A weighted observation supports a population estimate, not a rule about how people act.`,
+          message: `Field "${key}" derives behavior from a survey sample. A weighted observation supports a population estimate, not a rule about how people act.`,
           recordId: record.serialNumber,
         });
       }

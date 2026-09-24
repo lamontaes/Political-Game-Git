@@ -109,7 +109,7 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
        * right, and 79.2% was where that mass had to start for the figure to
        * survive the camera at the narrowest supported aspect. Placing the
        * measured contact instead removes the compromise — the body now sits on
-       * the cushion centre and its right edge lands at 87.7%, comfortably inside
+       * the cushion center and its right edge lands at 87.7%, comfortably inside
        * the 91.4% guaranteed safe area. The anchor can go back to describing
        * where the furniture is.
        */
@@ -337,7 +337,7 @@ export const OFFICE_COUNCIL_STAFF_FIXTURE_SCENE: EnvironmentSceneSpec = {
     "Every anchor, contact, occluder region and surface slot in this scene is a visual estimate read off fixture art. None of it is plan-derived, and none of it should be copied into a production scene.",
     "The prompt30 plate's real detail is 1024x572. The 2048x1144 runtime file is a 2x resample of that same source and is registered as an upscale so the runtime reports its shortfall honestly.",
     "The guest chair's near arm has no authored alpha mask yet, so its occluder region is declared for footprint and debug purposes without a raster.",
-    "The corkboard pin above the desk was promoted by the geometry inspection and is declared ambient decor here instead: at 4.5% of plate width it is roughly 46 pixels across at 1080p, below the width a runtime component needs to be legible. This is a repository judgement about a number the inspection did not rule on, and it is reversible.",
+    "The corkboard pin above the desk was promoted by the geometry inspection and is declared ambient decor here instead: at 4.5% of plate width it is roughly 46 pixels across at 1080p, below the width a runtime component needs to be legible. This is a repository judgment about a number the inspection did not rule on, and it is reversible.",
     "The authored B01 guest raster carries 16% of plate height between its measured pelvis and its soles, while this scene puts 21% between the guest seat plane and the guest floor line. Placing the pelvis on the seat therefore leaves the guest's feet about 5% of plate height above the floor. The measurement and the scene are both recorded as found; the figure is not stretched to close the gap, and no seated body drawn for this room exists yet.",
   ],
 };

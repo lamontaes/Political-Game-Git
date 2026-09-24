@@ -40,7 +40,7 @@ generator and the browser runtime share one implementation.
 - `landmarks`: all eighteen of head, neck, chest, both shoulders, elbows,
   wrists, hands, hips, knees and ankles. `head` is the head ATTACHMENT
   landmark — the top of the neck, where a head component's origin lands — not
-  the centre of a skull, because that is the point the rig actually uses;
+  the center of a skull, because that is the point the rig actually uses;
 - `compatible_body_families`, and `garment_pose_family`, the token a garment
   must name to be worn in this pose. A standing jacket is never stretched onto
   a seated body;

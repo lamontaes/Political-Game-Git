@@ -22,7 +22,7 @@ import type { MediaOutletRecord } from "./records";
  *
  * - A numeral a newspaper would spell out is spelled out. Typography, not fact.
  * - "publicly" is dropped where the event's own visibility is already public,
- *   because the word is the record labelling itself and carries nothing a
+ *   because the word is the record labeling itself and carries nothing a
  *   reader does not get from reading it in a newspaper.
  * - A subject given as a count is replaced by the names the event holds, when
  *   it holds exactly that many. Two people become both names; more than two
@@ -31,7 +31,7 @@ import type { MediaOutletRecord } from "./records";
  *   and resources — all recorded properties of that outlet — so a community
  *   paper and a national broadcaster lead differently on the same story.
  *
- * What is deliberately absent: no adjective, no characterisation, no verb the
+ * What is deliberately absent: no adjective, no characterization, no verb the
  * record does not already use. Where the summary does not fit a shape this
  * file knows, it is repaired for register and returned unchanged otherwise.
  * A plain sentence is a worse headline than an authored one and a far better

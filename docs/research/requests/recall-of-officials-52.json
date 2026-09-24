@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-09-23T00:10:00.000Z",
+  "impact": "shapes-design",
+  "lane": "rule-changing laws (deconstructing systems)",
+  "notes": [
+    "The owner asked for recall to be added. The game will build one route: a petition circulates, signatures are counted against a threshold, and if it qualifies a recall election is held. Every per-jurisdiction value is a marked placeholder until this is answered.",
+    "Answer as one 52-jurisdiction set (50 states, D.C., Puerto Rico), per the owner's standing request. Municipal recall is already partly read (src/simulation/municipal-election-rule-packs.ts holds per-state municipal recall thresholds and doctrines), so for local officials only fill what that table lacks: counties and school boards, and the election timing and replacement method."
+  ],
+  "priority": "P1",
+  "question": "In each of the 50 states, D.C. and Puerto Rico, which officials can be recalled (governor, other statewide officers, legislators, judges, local officials), and by what procedure: who may start a petition, what grounds are required, the signature threshold and what it is a percentage of, the circulation window, how signatures are verified, when the recall election is held, whether the replacement is chosen on the same ballot, and any waiting period after taking office or after a failed recall?",
+  "questionId": "recall-of-officials-52",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "rule-changing laws thread",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation (search for recall)",
+      "whatItDidNotSettle": "No recall procedure, threshold or election exists anywhere in the engine."
+    },
+    {
+      "source": "docs/research/requests/approval-ratings-for-officeholders.json",
+      "whatItDidNotSettle": "It concerns approval, which may drive a recall, not the procedure itself."
+    },
+    {
+      "source": "src/simulation/municipal-election-rule-packs.ts",
+      "whatItDidNotSettle": "It holds municipal recall thresholds per state but nothing for state officers, legislators, judges, counties or school boards, and no election timing or replacement method."
+    }
+  ],
+  "title": "Recall of elected officials, jurisdiction by jurisdiction",
+  "usableAnswer": "A table with one row per jurisdiction and office class: recallable (yes/no), grounds required (none or a listed list), signature threshold and its base (for example 12 percent of the last vote for that office), circulation days, verification method, election timing (days after certification, or the next scheduled election), replacement method (same ballot, separate election, appointment, succession), waiting periods, and the constitutional or statutory citation. Then how often recalls of governors and legislators have qualified and succeeded since 1990, with counts per state.",
+  "whyItMatters": "Without it the game would invent who can be recalled and how hard it is, the invented depth the owner has ruled out."
+}

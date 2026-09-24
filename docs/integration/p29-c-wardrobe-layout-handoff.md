@@ -1,7 +1,7 @@
 # P29-C wardrobe presentation handoff (for B)
 
 B owns `PersonAppearanceControls` transaction/support logic and
-`WardrobeFigure` pose/resolver behaviour. C made **layout/label-only** edits
+`WardrobeFigure` pose/resolver behavior. C made **layout/label-only** edits
 in those files so the player can read choices and see the whole figure in the
 Personal panel. Do not treat this as a resolver or autosave change.
 

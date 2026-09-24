@@ -130,7 +130,7 @@ describe("the Guide's search", () => {
   });
 });
 
-describe("recognising a term inside a sentence", () => {
+describe("recognizing a term inside a sentence", () => {
   it("splits a term out of ordinary prose, keeping the text exact", () => {
     const segments = annotateGuideTerms("Filed, awaiting referral");
     expect(segments.map((s) => s.text).join("")).toBe(

@@ -227,7 +227,7 @@ export function legHalfWidth(morphology: FitMorphology, y: number): number {
   return morphology.knee + t * (morphology.ankle - morphology.knee);
 }
 
-/** Horizontal centre of the left and right leg at a row. */
+/** Horizontal center of the left and right leg at a row. */
 export function legCentres(
   morphology: FitMorphology,
   y: number,

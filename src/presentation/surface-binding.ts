@@ -118,7 +118,7 @@ function decorationFor(slot: SceneSurfaceSlot): string {
  *
  * The provider is asked for the slot's declared classes IN THE ORDER THE SCENE
  * DECLARED THEM, and the first owner with something wins. Order is the scene
- * author's judgement about what that surface is most for, and honouring it is
+ * author's judgment about what that surface is most for, and honoring it is
  * cheaper than inventing a priority rule here.
  */
 export function bindSceneSurfaces(
@@ -213,7 +213,7 @@ export function worldSurfacePayloads(world: World): SurfacePayloadProvider {
  *
  * It is the join of the two halves of the contract and it does nothing else.
  * The projection decided what the player-facing presentation may reveal and
- * how widely each fact has travelled; the slot declared how this physical
+ * how widely each fact has traveled; the slot declared how this physical
  * surface comes by information at all. A fact crosses only when both agree,
  * and a fact the surface cannot clear is WITHHELD rather than dropped, so the
  * refusal is visible to a reviewer instead of looking like an empty system.
@@ -238,8 +238,8 @@ export function dynamicSurfacePayloads(
     if (!accessClears(slot.information_access, fact.channel)) {
       return {
         withheld: slot.information_access
-          ? `it travelled no further than '${fact.channel}' and this surface is fed by '${slot.information_access}'`
-          : `it travelled no further than '${fact.channel}' and this surface declares no way of coming by anything`,
+          ? `it traveled no further than '${fact.channel}' and this surface is fed by '${slot.information_access}'`
+          : `it traveled no further than '${fact.channel}' and this surface declares no way of coming by anything`,
       };
     }
     return fact.text;

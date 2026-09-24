@@ -27,7 +27,7 @@ import { ASSET_TARGET_CLASSES } from "./asset-lineage";
  * WHAT LIVES ELSEWHERE, ON PURPOSE. The return path — what happens when a
  * candidate arrives — is already built: `asset-lineage.ts` measures a candidate
  * and issues a disposition, and `asset-bank.ts` records the verification with
- * its hash, container, dimensions, transparency, style-family judgement and
+ * its hash, container, dimensions, transparency, style-family judgment and
  * artifact flags. Adding a second verification record here would give the
  * project two answers to "was this accepted", so this module stops at the ask
  * and points at those for the answer.

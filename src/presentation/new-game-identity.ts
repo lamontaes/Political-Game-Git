@@ -1,3 +1,11 @@
+import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
+import {
+  SCHOOL_STAGES_V1,
+  SCHOOL_STAGES_V2,
+} from "../simulation/school-stages";
+import { FAMILY_BIRTHDAYS_V1, PARENT_PARTNERS_V1 } from "./production-world";
+import { CONGRESSIONAL_HOME_JOIN_V1 } from "../simulation/district-residence";
+import { RESIDENT_CHAPTER_NAME_VERSION } from "../simulation/living-world/party-chapters";
 import {
   canonicalPriorEncoding,
   createSetupPriorStore,
@@ -7,8 +15,10 @@ import {
   GENDER_IDENTITY_KEYS,
   PRONOUN_SET_KEYS,
   SETUP_BANK_VERSION,
+  COHORT_GIVEN_NAME_GENERATION_VERSION,
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
+  CHILDHOOD_GENERATION_V2,
 } from "../simulation";
 import type {
   GenderIdentityKey,
@@ -132,7 +142,7 @@ export function canonicalSetupEncoding(setup: NewGameSetup): string {
  * That second half is by construction rather than by luck. The seed used to be
  * a 64-bit FNV-1a digest of the setup and nothing else, so "different setups
  * get different worlds" rested on a hash never colliding — a claim that width
- * does not support. The digest is kept because it makes a seed recognisable at
+ * does not support. The digest is kept because it makes a seed recognizable at
  * a glance, but the canonical encoding travels with it, so two seeds are equal
  * only when the setups they came from were. The seed is internal and never
  * shown, so its length costs the player nothing.
@@ -213,12 +223,36 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
+    ...(setup.questionnaireSelectionVersion === undefined
+      ? {}
+      : { questionnaireSelectionVersion: setup.questionnaireSelectionVersion }),
     ...(setup.questionnaireCopyVersion === undefined
       ? {}
       : { questionnaireCopyVersion: setup.questionnaireCopyVersion }),
     ...(setup.earlierLifeGenerationVersion === undefined
       ? {}
       : { earlierLifeGenerationVersion: setup.earlierLifeGenerationVersion }),
+    ...(setup.childhoodGenerationVersion === undefined
+      ? {}
+      : { childhoodGenerationVersion: setup.childhoodGenerationVersion }),
+    ...(setup.partyChapterNameVersion === undefined
+      ? {}
+      : { partyChapterNameVersion: setup.partyChapterNameVersion }),
+    ...(setup.schoolNameVersion === undefined
+      ? {}
+      : { schoolNameVersion: setup.schoolNameVersion }),
+    ...(setup.schoolStageVersion === undefined
+      ? {}
+      : { schoolStageVersion: setup.schoolStageVersion }),
+    ...(setup.districtHomeJoinVersion === undefined
+      ? {}
+      : { districtHomeJoinVersion: setup.districtHomeJoinVersion }),
+    ...(setup.familyBirthdayVersion === undefined
+      ? {}
+      : { familyBirthdayVersion: setup.familyBirthdayVersion }),
+    ...(setup.parentPartnerVersion === undefined
+      ? {}
+      : { parentPartnerVersion: setup.parentPartnerVersion }),
     ...(setup.birthYear === undefined ? {} : { birthYear: setup.birthYear }),
     ...(setup.openingDataVersion === undefined
       ? {}
@@ -308,7 +342,7 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     }
   }
   // Absent means the ordinary route, which is what every descriptor written
-  // before the field existed meant. Anything else present but unrecognised is
+  // before the field existed meant. Anything else present but unrecognized is
   // a corrupt descriptor rather than a route to guess at.
   if (record.startKind !== undefined && record.startKind !== "custom") {
     return null;
@@ -322,13 +356,15 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   const openingDataVersion = record.openingDataVersion;
   if (
     openingDataVersion !== undefined &&
-    openingDataVersion !== "playtest65-v1"
+    openingDataVersion !== "playtest65-v1" &&
+    openingDataVersion !== "playtest65-v2"
   )
     return null;
   const livingWorldMemberNameVersion = record.livingWorldMemberNameVersion;
   if (
     livingWorldMemberNameVersion !== undefined &&
-    livingWorldMemberNameVersion !== "identity-v1"
+    livingWorldMemberNameVersion !== "identity-v1" &&
+    livingWorldMemberNameVersion !== "cohort-v1"
   )
     return null;
   const birthMonth = record.birthMonth;
@@ -354,14 +390,56 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   if (
+    record.questionnaireSelectionVersion !== undefined &&
+    record.questionnaireSelectionVersion !== "curated-v1"
+  )
+    return null;
+  if (
     record.earlierLifeGenerationVersion !== undefined &&
     record.earlierLifeGenerationVersion !== "context-v2"
   )
     return null;
   if (
+    record.childhoodGenerationVersion !== undefined &&
+    record.childhoodGenerationVersion !== CHILDHOOD_GENERATION_V2
+  )
+    return null;
+  if (
+    record.partyChapterNameVersion !== undefined &&
+    record.partyChapterNameVersion !== RESIDENT_CHAPTER_NAME_VERSION
+  )
+    return null;
+  if (
+    record.schoolNameVersion !== undefined &&
+    record.schoolNameVersion !== SCHOOL_NAMES_V2_VERSION
+  )
+    return null;
+  if (
+    record.schoolStageVersion !== undefined &&
+    record.schoolStageVersion !== SCHOOL_STAGES_V1 &&
+    record.schoolStageVersion !== SCHOOL_STAGES_V2
+  )
+    return null;
+  if (
+    record.familyBirthdayVersion !== undefined &&
+    record.familyBirthdayVersion !== FAMILY_BIRTHDAYS_V1
+  )
+    return null;
+  if (
+    record.parentPartnerVersion !== undefined &&
+    record.parentPartnerVersion !== PARENT_PARTNERS_V1
+  )
+    return null;
+  if (
+    record.districtHomeJoinVersion !== undefined &&
+    record.districtHomeJoinVersion !== CONGRESSIONAL_HOME_JOIN_V1
+  )
+    return null;
+  if (
     givenNameGenerationVersion !== undefined &&
     givenNameGenerationVersion !== LEGACY_GIVEN_NAME_GENERATION_VERSION &&
-    givenNameGenerationVersion !== DISTINCT_GIVEN_NAME_GENERATION_VERSION
+    givenNameGenerationVersion !== DISTINCT_GIVEN_NAME_GENERATION_VERSION &&
+    givenNameGenerationVersion !== COHORT_GIVEN_NAME_GENERATION_VERSION
   ) {
     return null;
   }
@@ -427,9 +505,38 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.questionnaireCopyVersion === undefined
       ? {}
       : { questionnaireCopyVersion: "playtest65-v2" as const }),
+    ...(record.questionnaireSelectionVersion === undefined
+      ? {}
+      : { questionnaireSelectionVersion: "curated-v1" as const }),
     ...(record.earlierLifeGenerationVersion === undefined
       ? {}
       : { earlierLifeGenerationVersion: "context-v2" as const }),
+    ...(record.childhoodGenerationVersion === undefined
+      ? {}
+      : { childhoodGenerationVersion: CHILDHOOD_GENERATION_V2 }),
+    ...(record.partyChapterNameVersion === undefined
+      ? {}
+      : { partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION }),
+    ...(record.schoolNameVersion === undefined
+      ? {}
+      : { schoolNameVersion: SCHOOL_NAMES_V2_VERSION }),
+    ...(record.schoolStageVersion === undefined
+      ? {}
+      : {
+          schoolStageVersion:
+            record.schoolStageVersion === SCHOOL_STAGES_V2
+              ? SCHOOL_STAGES_V2
+              : SCHOOL_STAGES_V1,
+        }),
+    ...(record.familyBirthdayVersion === undefined
+      ? {}
+      : { familyBirthdayVersion: FAMILY_BIRTHDAYS_V1 }),
+    ...(record.parentPartnerVersion === undefined
+      ? {}
+      : { parentPartnerVersion: PARENT_PARTNERS_V1 }),
+    ...(record.districtHomeJoinVersion === undefined
+      ? {}
+      : { districtHomeJoinVersion: CONGRESSIONAL_HOME_JOIN_V1 }),
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion: appearanceRecipeVersion as string }),

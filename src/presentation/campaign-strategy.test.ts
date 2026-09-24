@@ -1,3 +1,4 @@
+import { displayMoney } from "./money-display";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -132,9 +133,12 @@ describe("the first staff-strategy campaign interaction", () => {
     )!;
     expect(advertising.unavailable).toBeNull();
     expect(advertising.spendingChoices.length).toBeGreaterThan(1);
+    // Each ceiling is labeled with its own amount, in dollars.
     expect(
-      advertising.spendingChoices.every((choice) =>
-        choice.label.includes(choice.amount.currency),
+      advertising.spendingChoices.every(
+        (choice) =>
+          choice.label === displayMoney(choice.amount) &&
+          choice.label.startsWith("$"),
       ),
     ).toBe(true);
 
@@ -158,6 +162,11 @@ describe("the first staff-strategy campaign interaction", () => {
     expect(report.actualSpend).toEqual(selected.amount);
     expect(report.outcome).toContain(report.geographyLabel);
     expect(report.observedResult).not.toBeNull();
+    // Said to the player about their own plan, in dollars.
+    expect(report.choice).toMatch(
+      /^You chose advertising buy in .+, and approved spending up to \$[\d,]+(\.\d\d)?\.$/,
+    );
+    expect(report.choice).not.toMatch(/USD|player/);
 
     const reloaded = deserializeWorld(serializeWorld(world));
     expect(
@@ -179,6 +188,8 @@ describe("the first staff-strategy campaign interaction", () => {
     const report = projectLatestCampaignStrategyReport(world, life.personId)!;
     expect(report.agreement).toBe("changed-plan");
     expect(report.attribution).toMatch(/proposed the starting priority/i);
+    expect(report.choice).toMatch(/^You chose direct outreach in .+\.$/);
+    expect(report.choice).not.toMatch(/USD|player/);
   });
 
   it("refuses a stale proposal after the named staff member departs", () => {

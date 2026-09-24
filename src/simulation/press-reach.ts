@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -25,8 +26,7 @@ const AUTHORED = {
 
 const NEWSROOM_KEY_PREFIX = "press.civic-newsroom:";
 const REPORTER_KEY_PREFIX = "press.civic-reporter:";
-export const CIVIC_NEWSROOM_ORGANIZATION_NAME =
-  "Civic Desk Cooperative (fictional)";
+export const CIVIC_NEWSROOM_ORGANIZATION_NAME = "Civic Desk Cooperative";
 
 export interface PressReachGap {
   readonly code:
@@ -66,9 +66,7 @@ export function eventIsPitchablePressBasis(
   world: World,
   eventId: EntityId,
 ): boolean {
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   if (!event || event.occurredAt > world.currentDate) return false;
   return resolvePublicationSource(world, event) !== null;
 }

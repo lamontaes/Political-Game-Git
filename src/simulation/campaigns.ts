@@ -1,4 +1,13 @@
+import { jailTermOn } from "./justice/jail-terms";
+import { contestDistrictGeography } from "./campaign-geography";
+import {
+  MIGRATION_REVIEW_TRANSITION_KEY,
+  migrationReviewHandler,
+} from "./migration";
 import { createPressTransitionRegistry } from "./press/transitions";
+import { recordElectionSpeech } from "./campaign-speeches";
+import { campaignPollingQuality } from "./campaign-polling";
+import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
   legislativeTermDates,
@@ -6,10 +15,16 @@ import {
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
 } from "./legislative-office-terms";
-import { STATE_GOVERNING_HANDLERS } from "./governing/state-governing";
+import { stateGoverningHandlers } from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
+import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
+import { FEDERAL_REFORM_HANDLERS } from "./living-world/federal-reform";
+import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-turnover";
+import { RECALL_HANDLERS } from "./recall";
+import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
+import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -24,7 +39,8 @@ import { requireCandidacyPack } from "./candidacy-packs";
 import { candidacyEligibility, districtSeatMustBeNamed } from "./candidacy";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
-import type { GovernmentUnitIdentity } from "./government-units";
+import { congressSeatIdentityForOfficeKey } from "./nationwide-world/congress-candidacy-packs";
+import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import {
   ensureLocalGovernmentOrganization,
   localGovernmentOrganizationKey,
@@ -75,6 +91,7 @@ import {
   createOrganization,
   createOrganizationParticipation,
   createWorkRelationship,
+  recordOrganizationParticipationState,
   recordWorkStatus,
 } from "./life";
 import { LIFE_TRANSITION_HANDLERS } from "./life-callbacks";
@@ -100,7 +117,12 @@ import {
   PARTY_BODY_REVIEW_TRANSITION_KEY,
   partyBodyReviewTransitionHandler,
 } from "./living-world/party-evolution";
-import { workStatusAt, workStatusHistory } from "./life-queries";
+import {
+  activeOrganizationParticipationsAt,
+  organizationParticipationStateAt,
+  workStatusAt,
+  workStatusHistory,
+} from "./life-queries";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
@@ -164,6 +186,7 @@ import {
   quantityBasisPoints,
   recordSupportShift,
 } from "./campaign-support";
+import { moneyText } from "./money-text";
 
 /**
  * Standing for office.
@@ -196,7 +219,7 @@ export const CAMPAIGN_SUPPORT_METRIC_STABLE_KEY =
 /**
  * What the campaign's field memo claims about its own precision. Four points is
  * a claim, not a guarantee: the error below is drawn from a wider range and
- * sometimes lands outside it, which is what makes reading it a judgement.
+ * sometimes lands outside it, which is what makes reading it a judgment.
  */
 const OBSERVATION_MARGIN_BASIS_POINTS = 400;
 
@@ -371,7 +394,8 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
   // A first-time filer starts behind somebody who is already known. Nothing
   // here is a handicap the player can read; it is a starting position.
   // A candidate's past moves where they start: a remembered ethics finding,
-  // or a sitting governor's record on the economy (`record-in-office.ts`).
+  // a sitting governor's record on the economy, or how the voters here see
+  // their votes on the questions they hold views about (`record-in-office.ts`).
   const weights = campaign.candidateSupportScopes.map((scope) => ({
     id: scope.candidatePersonId,
     weight: Math.max(
@@ -383,6 +407,7 @@ function recordInitialSupport(world: World, campaign: CampaignRecord): World {
           world,
           scope.candidatePersonId,
           campaign.filedAt,
+          campaign.jurisdictionId,
         ),
     ),
   }));
@@ -444,16 +469,6 @@ export interface EnsuredOpponents {
   readonly personIds: readonly EntityId[];
 }
 
-/**
- * Somebody to run against.
- *
- * A contest needs at least two people and a quiet life rarely contains a second
- * one already standing for the seat. So the opponent is materialized the way
- * every other background person in this world is: through the character-history
- * context-person writer, named from the versioned corpus by the world's own
- * seed, with a birth date and a residence and nothing else claimed about them.
- * They are a person in the world afterwards, not a slot in a campaign screen.
- */
 export function ensureCampaignOpponents(
   world: World,
   input: EnsureCampaignOpponentsInput,
@@ -790,13 +805,13 @@ export function fileCampaign(
       {
         personId: input.candidatePersonId,
         role: "agency:candidate",
-        detail: `Filed for a ${option.office.title}`,
+        detail: `Filed to run for ${option.office.title}`,
       },
     ],
     personFactConstraints: [],
     visibility: "public",
     tags: ["campaign.filing", "election.candidacy"],
-    summary: `${candidate.givenName} ${candidate.familyName} filed as a candidate for a ${option.office.title}.`,
+    summary: `${candidate.givenName} ${candidate.familyName} filed to run for ${option.office.title}.`,
     context: {
       location: {
         jurisdictionId: input.jurisdictionId,
@@ -898,6 +913,16 @@ export function scheduleCampaignAction(
   if (campaignState(world, campaign.id).status !== "active") {
     throw new Error("A finished campaign cannot take on more work.");
   }
+  const jailed = jailTermOn(
+    world,
+    campaign.candidatePersonId,
+    input.plan.start.date,
+  );
+  if (jailed) {
+    throw new Error(
+      `The candidate is in jail until ${jailed.until} and cannot campaign.`,
+    );
+  }
   if (input.kind === "advertising") {
     if (!input.spend || input.spend.minorUnits <= 0) {
       throw new Error("An advertising buy has to commit some money.");
@@ -956,10 +981,7 @@ export function scheduleCampaignAction(
         throw new Error("The approved geography does not match this campaign.");
       }
     } else {
-      const binding = contest.office.districtBinding ?? null;
-      const expected = binding
-        ? `district:${binding.vintage}:${binding.chamber}:${binding.geoid}`
-        : null;
+      const expected = contestDistrictGeography(contest.office)?.key ?? null;
       if (strategy.geographyKey !== expected) {
         throw new Error("The approved district does not match this campaign.");
       }
@@ -1029,7 +1051,7 @@ export function scheduleCampaignAction(
  * A fundraising session moves nothing. An afternoon on the phones converts the
  * candidate's time into the committee's money, and money persuades nobody until
  * it is spent — which is what an advertising buy is for. Asking somebody who
- * already supports you for a cheque is not the same act as changing a mind, and
+ * already supports you for a check is not the same act as changing a mind, and
  * paying the campaign twice for one afternoon would make the phones strictly
  * better than the doors.
  */
@@ -1050,9 +1072,16 @@ function requestedGainBasisPoints(
     (candidate) => candidate.id === action.scheduledActivityId,
   );
   const workers = Math.max(1, activity?.participantPersonIds.length ?? 1);
+  // Who is knocking changes what a door returns: see `campaign-recognition.ts`.
   const base =
     action.kind === "outreach"
-      ? Math.floor((minutes * workers * 3) / 2)
+      ? Math.floor(
+          (minutes *
+            workers *
+            3 *
+            doorKnockingReturn(world, campaign, action.id).percent) /
+            200,
+        )
       : Math.floor((action.plannedSpend?.minorUnits ?? 0) / 500);
   const swing = new SeededRng(world.seed)
     .fork(`campaign-action-effect:${action.id}`)
@@ -1095,7 +1124,8 @@ function recordSupportAfterAction(
  * Three small independent draws rather than one wide one, so the error clusters
  * near the truth and occasionally does not. The memo states a four-point margin
  * and the error can exceed it, which is true of real polling and is the whole
- * reason the number is worth arguing about.
+ * reason the number is worth arguing about. How wide the draws are depends on
+ * who on the campaign does the reading (`campaign-polling.ts`).
  */
 function recordCampaignObservation(
   world: World,
@@ -1113,8 +1143,12 @@ function recordCampaignObservation(
   const rng = new SeededRng(world.seed).fork(
     `campaign-observation:${action.id}:${candidateStateId}`,
   );
+  // How far off the memo can be depends on who on the campaign reads it.
+  const spread = campaignPollingQuality(world, campaign).drawBasisPoints;
   const error =
-    rng.integer(-200, 201) + rng.integer(-200, 201) + rng.integer(-200, 201);
+    rng.integer(-spread, spread + 1) +
+    rng.integer(-spread, spread + 1) +
+    rng.integer(-spread, spread + 1);
   const observedBasisPoints = Math.max(
     0,
     Math.min(SUPPORT_DENOMINATOR, trueBasisPoints + error),
@@ -1177,7 +1211,7 @@ function actionCompletionEvent(world: World, activityId: EntityId): EntityId {
 }
 
 function moneyLabel(amount: MoneyAmount): string {
-  return `${amount.currency} ${(amount.minorUnits / 100).toFixed(2)}`;
+  return moneyText(amount);
 }
 
 function actionMoney(
@@ -1573,7 +1607,7 @@ function seatTheWinner(
       world,
       campaign,
       contest,
-      local.unit,
+      local,
       effectiveAt,
       outcomeEventId,
       winnerPersonId,
@@ -1675,27 +1709,37 @@ function seatTheWinner(
 }
 
 /**
- * A seat on a town's governing body, taken up in that town's own government.
+ * A seat on a town's governing body, or its mayoralty, taken up in that town's
+ * own government.
  *
- * Recorded the way every municipal seat in this game is recorded — a member's
- * participation in the town government's organization — so the city screens
- * that already read seats read this one. A town the game has read in depth
- * keeps its own compiled government and its own seat limit; any other town
- * gets the government the Census listing records, placed once.
+ * Recorded the way every municipal seat in this game is recorded — a
+ * participation in the town government's organization, as a member or as
+ * mayor — so the city screens that already read seats read this one. A town
+ * the game has read in depth keeps its own compiled government and its own
+ * seat limit; any other town gets the government the Census listing records,
+ * placed once.
  *
  * No term, ward or seat number is written, because none has been read. When a
  * read body is already full the result still stands and nobody is seated over
  * the limit, since the record's seat count is a fact and this election is not.
+ *
+ * A town has one mayor, so a new mayor's term begins the day the sitting
+ * mayor's ends. A council member who wins the mayoralty keeps the council
+ * seat: whether the town's law makes them give it up has not been read
+ * (PLACEHOLDER, see local-chief-executive-rules.ts).
  */
 function seatOnLocalGoverningBody(
   world: World,
   campaign: CampaignRecord,
   contest: ElectionContestRecord,
-  unit: GovernmentUnitIdentity,
+  office: LocalGoverningBodyIdentity,
   effectiveAt: string,
   outcomeEventId: EntityId,
   winnerPersonId: EntityId,
 ): World {
+  const unit = office.unit;
+  const mayor = office.seat === "chief-executive";
+  const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
   const compiled = municipalGovernmentForUnit(unit);
   let next = world;
   let organizationId: EntityId | undefined;
@@ -1707,11 +1751,13 @@ function seatOnLocalGoverningBody(
       formedAt: next.currentDate,
     });
     organizationId = municipalOrganizationFor(next, compiled.key)?.id;
-    const bodySize = primaryReading(compiled).bodySize;
-    const seated = municipalSeats(next, compiled.key).filter(
-      (seat) => seat.role === "member" || seat.role === "presiding-member",
-    ).length;
-    if (bodySize !== null && seated >= bodySize) return next;
+    if (!mayor) {
+      const bodySize = primaryReading(compiled).bodySize;
+      const seated = municipalSeats(next, compiled.key).filter(
+        (seat) => seat.role === "member" || seat.role === "presiding-member",
+      ).length;
+      if (bodySize !== null && seated >= bodySize) return next;
+    }
     stableKey = municipalSeatKey(compiled.key, winnerPersonId);
   } else {
     next = ensureLocalGovernmentOrganization(next, unit);
@@ -1721,17 +1767,56 @@ function seatOnLocalGoverningBody(
     )?.id;
     stableKey = `local-government-seat:${unit.id}:${winnerPersonId}`;
   }
+  if (mayor) stableKey = `${stableKey}:mayor`;
   if (!organizationId)
     throw new Error(
       `The town government ${unit.id} cannot be placed in this world, so nobody can be seated on it.`,
     );
+  // Re-elected: somebody who still holds this office keeps the seat they hold.
+  // Writing a second seat for the same person used to refuse the whole result.
+  if (
+    activeOrganizationParticipationsAt(next, winnerPersonId).some(
+      (active) =>
+        active.participation.organizationId === organizationId &&
+        active.state.roleKind === roleKind,
+    )
+  )
+    return next;
+  if (mayor) {
+    // The sitting mayor's term ends as the new one's begins.
+    for (const participation of next.history.organizationParticipations) {
+      if (participation.organizationId !== organizationId) continue;
+      const state = organizationParticipationStateAt(next, participation.id);
+      if (state?.status !== "active" || state.roleKind !== roleKind) continue;
+      next = recordOrganizationParticipationState(next, {
+        stableKey: `${participation.stableKey}:state:succeeded:${contest.id}`,
+        participationId: participation.id,
+        effectiveAt:
+          effectiveAt > participation.startedAt
+            ? effectiveAt
+            : participation.startedAt,
+        status: "ended",
+        roleKind: state.roleKind,
+        context: `Succeeded after the election of ${contest.electionDate}`,
+        provenance: { kind: "simulated-event", eventId: outcomeEventId },
+        supersedesStateId: state.id,
+      });
+    }
+  }
+  // Returning after time away: a new seat, so the earlier one stays as it was.
+  if (
+    next.history.organizationParticipations.some(
+      (participation) => participation.stableKey === stableKey,
+    )
+  )
+    stableKey = `${stableKey}:${contest.id}`;
   next = createOrganizationParticipation(next, {
     stableKey,
     personId: winnerPersonId,
     organizationId,
     startedAt: effectiveAt,
     kind: "leadership:municipal-office",
-    roleKind: "leader:municipal-member",
+    roleKind,
     context: `Elected ${contest.electionDate}`,
     provenance: { kind: "simulated-event", eventId: outcomeEventId },
   });
@@ -1806,11 +1891,25 @@ function closeCampaignAfterElection(
     next = cancelScheduledActivity(next, action.scheduledActivityId);
   }
   const closedContest = requireElectionContest(next, campaign.contestId);
+  // Rivals give their election-night speeches now; the person the player
+  // controls gives theirs only by choosing to.
+  for (const candidatePersonId of closedContest.candidatePersonIds) {
+    if (
+      next.control.kind === "person" &&
+      next.control.personId === candidatePersonId
+    )
+      continue;
+    next = recordElectionSpeech(next, closedContest.id, candidatePersonId);
+  }
   if (stateExecutiveIdentityForOfficeKey(closedContest.office.officeKey)) {
     // A state executive office is not a legislative seat. The winner, whoever
     // it is, gets a dated term only through the admitted term facts and the
     // elected executive term chain; nothing is occupied on election night.
     next = planOrdinaryStateExecutiveTerm(next, closedContest.id);
+  } else if (congressSeatIdentityForOfficeKey(closedContest.office.officeKey)) {
+    // A seat in Congress is filled by congressional turnover on 3 January,
+    // which reads this contest's result for the seat. Nothing is occupied on
+    // election night, and no separate job is created beside the membership.
   } else if (
     status === "won" ||
     supportedLegislativeTermDates(
@@ -1898,7 +1997,7 @@ export function campaignElectionTransitionHandler(
     world: closed,
     status: "resolved",
     reasonKey: null,
-    context: `The contest for a ${requireElectionContest(closed, campaign.contestId).office.title} was decided.`,
+    context: `The contest for ${requireElectionContest(closed, campaign.contestId).office.title} was decided.`,
     outcomeEventId: result.outcomeEventId,
   };
 }
@@ -1922,8 +2021,19 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.
-        ...STATE_GOVERNING_HANDLERS,
+        ...stateGoverningHandlers(),
         ...GOVERNOR_TURNOVER_HANDLERS,
+        // A legislature and voters changing the governor's term limit.
+        ...CONSTITUTIONAL_REFORM_HANDLERS,
+        // Congress and the states amending the U.S. Constitution.
+        ...FEDERAL_REFORM_HANDLERS,
+        ...PRESIDENTIAL_TURNOVER_HANDLERS,
+        // Voters recalling a town official: petition, then recall election.
+        ...RECALL_HANDLERS,
+        // A council act on the executive's desk, or returned to the council.
+        ...COUNCIL_ACT_HANDLERS,
+        // The Council of the District of Columbia sitting on its own.
+        ...DC_COUNCIL_SITTING_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
@@ -1939,6 +2049,8 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         [MACRO_MONTHLY_STEP_KEY, macroMonthlyStepHandler],
         // CRUNCH46 WORLD: party governing bodies meet and may change.
         [PARTY_BODY_REVIEW_TRANSITION_KEY, partyBodyReviewTransitionHandler],
+        // MIGRATION: households leave town, newcomers arrive, waves step.
+        [MIGRATION_REVIEW_TRANSITION_KEY, migrationReviewHandler],
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...CAMPAIGN_LIFE_HANDLERS,
       ]),

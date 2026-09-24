@@ -13,12 +13,12 @@ import {
  *
  * Three families, three instruments none of the infrastructure families can
  * express. A reporting duty changes what is known rather than what is spent. An
- * eligibility amendment changes who qualifies under a programme that already
+ * eligibility amendment changes who qualifies under a program that already
  * exists, and states no amount at all. A position authorization counts posts,
  * which is not a budget line divided by a salary.
  *
  * These are the acts a real legislature spends most of its floor time on, and a
- * bank that could only authorize programmes could not write one of them.
+ * bank that could only authorize programs could not write one of them.
  */
 
 /* -------------------------------------------------------------------------- */
@@ -76,15 +76,15 @@ const CIVIL_SERVICE_PRODUCT: ProgramContentEvidence = {
 };
 
 /* -------------------------------------------------------------------------- */
-/* The assistance programme these amendments act on                            */
+/* The assistance program these amendments act on                            */
 /* -------------------------------------------------------------------------- */
 
 /**
- * An authored standing assistance programme.
+ * An authored standing assistance program.
  *
  * It exists so that an eligibility amendment has something to amend on a
  * member's first day. It is fiction with a declared author: no real assistance
- * programme, statute, limit or caseload is described.
+ * program, statute, limit or caseload is described.
  */
 const HOUSEHOLD_ASSISTANCE_ACT: PredicateAuthority = {
   kind: "standing-statute",
@@ -133,7 +133,7 @@ const ASSISTANCE_ELIGIBILITY: ProgramFamily = {
       "How many households qualify after the change, and how many of them apply.",
     evidence: {
       kind: "forecast-claim",
-      note: "Widening eligibility changes who may apply. How many do is a behaviour, and how many are served depends on money this Act does not provide.",
+      note: "Widening eligibility changes who may apply. How many do is a behavior, and how many are served depends on money this Act does not provide.",
       unavailableReason:
         "Nothing in this world counts the households the program reaches, so the number who would newly qualify cannot be reported.",
     },

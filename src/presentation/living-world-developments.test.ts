@@ -42,13 +42,18 @@ describe("ALIVE43 W3 background developments", () => {
 
   it("opens with a modest recent public past, already published", () => {
     const matters = projectPublicMatters(life.world);
+    // The opening no longer adds the two fixed, already-concluded
+    // "playtest65:prior-local" matters; what remains is the living world's own.
     expect(matters.map((m) => m.family).sort()).toEqual([
       "international",
       "local-matter",
-      "local-matter",
-      "local-matter",
     ]);
-    expect(matters.filter((matter) => matter.concluded)).toHaveLength(2);
+    expect(
+      matters.some((matter) =>
+        matter.matterId.startsWith("playtest65:prior-local"),
+      ),
+    ).toBe(false);
+    expect(matters.filter((matter) => matter.concluded)).toHaveLength(0);
     const digest = projectPublicInformationDigest(life.world);
     for (const matter of matters)
       expect(
@@ -186,4 +191,38 @@ describe("ALIVE43 W3 background developments", () => {
       [],
     );
   }, 60_000);
+});
+
+describe("how a town's proposals end with nobody commenting", () => {
+  // Observer runs with nobody played saw 111 of 111 proposals withdrawn:
+  // adoption was not a possible ending at all. Cary, North Carolina.
+  it("some are adopted and some withdrawn, and none is revised without a comment", () => {
+    let world = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "town-proposals-end",
+        placeKey: "3710740",
+        startAge: 34,
+        questionnaire: "skipped" as const,
+      }),
+    ).game!.world;
+    const start = world.history.nextSequence;
+    world = passOrdinaryDays(world, 7 * 80);
+    const endings = world.history.events
+      .filter(
+        (event) =>
+          event.sequence >= start &&
+          event.type.startsWith("civic.local-matter-") &&
+          !event.type.endsWith("-posted") &&
+          !event.type.endsWith("-extended"),
+      )
+      .map((event) => event.type);
+    expect(endings).toContain("civic.local-matter-adopted");
+    expect(endings).toContain("civic.local-matter-withdrawn");
+    expect(endings).not.toContain("civic.local-matter-revised");
+    const adopted = world.history.events.find(
+      (event) => event.type === "civic.local-matter-adopted",
+    )!;
+    expect(adopted.summary).toMatch(/ adopted its proposal about /);
+  }, 600_000);
 });

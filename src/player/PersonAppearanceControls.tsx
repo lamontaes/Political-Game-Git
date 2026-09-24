@@ -2,6 +2,7 @@ import { SeededRng } from "../simulation/rng";
 import { KIT41_REGISTRY as kit } from "../presentation/private-candidate-manifests";
 import { AppearanceOutfitDialog } from "./AppearanceOutfitDialog";
 import { PreparedAppearanceControls } from "./PreparedAppearanceControls";
+import { PreparedArtworkPriority } from "./ModularCharacter";
 import {
   PREPARED_FAMILIES,
   selectPreparedBody,
@@ -11,7 +12,7 @@ import {
 import { optionAccessibleName } from "./controls/GameSelect";
 import { AppearanceChoice } from "./controls/AppearanceChoice";
 import "./PersonAppearanceControls.css";
-import { useMemo, useState, useRef, type ReactNode } from "react";
+import { Fragment, useMemo, useState, useRef, type ReactNode } from "react";
 import type { World, PersonAppearance } from "../simulation/types";
 import { resolveCharacterRecipe } from "../presentation/character-components";
 import {
@@ -40,6 +41,11 @@ export interface PersonAppearanceControlsProps extends PersonVisualSelectionCont
   readonly familyLabels?: Readonly<Record<string, string>>;
   readonly renderPreview?: (appearance: PersonAppearance) => ReactNode;
   readonly renderHairThumbnail?: (appearance: PersonAppearance) => ReactNode;
+  /**
+   * Draws nothing: prepares the artwork of the bodies one arrow press away, so
+   * the preview can change as soon as one is chosen.
+   */
+  readonly renderPreload?: (appearance: PersonAppearance) => ReactNode;
   readonly onWorldChange: (world: World) => void;
   /** Legacy callers retain this prop; new outfits commit atomically on World. */
   readonly onPreferenceChange: (preference: PersonWardrobePreference) => void;
@@ -345,6 +351,32 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
         (p) => p.logicalIdentity,
       )
     : false;
+  /** The appearance `choose` would commit for a prepared body, or null. */
+  function preparedBodyPreview(bodyFamily: string): PersonAppearance | null {
+    const next = selectPreparedBody(appearance, bodyFamily);
+    if (!next || (props.bodyAllowed && !props.bodyAllowed(bodyFamily)))
+      return null;
+    const request = {
+      appearance: next,
+      families: state!.families,
+      library,
+      poseFamily,
+    };
+    const exact = resolveCompleteOutfit(request);
+    const outfit = exact.ok ? exact : findCompleteOutfit(request);
+    if (!outfit.ok) return null;
+    try {
+      return (
+        commitCompleteOutfit(world, personId, next, {
+          library,
+          poseFamily,
+          families: outfit.families,
+        }).people[personId]?.appearance ?? null
+      );
+    } catch {
+      return null;
+    }
+  }
   function choose(patch: Partial<PersonVisualSelection>) {
     setPending(null);
     if (!state!.current) return;
@@ -553,8 +585,11 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                               : null,
                           };
                     return (
+                      // Keyed by position: a body change replaces every face
+                      // id, and a fresh card could only show a placeholder.
+                      // A kept card shows its last figure until the next loads.
                       <label
-                        key={chosen ?? "none"}
+                        key={index}
                         className="appearance-hair-choice"
                         title={reason}
                       >
@@ -579,10 +614,12 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                           className="appearance-hair-preview"
                           aria-hidden="true"
                         >
-                          {props.renderHairThumbnail?.({
-                            ...appearance,
-                            selection,
-                          })}
+                          <PreparedArtworkPriority.Provider value="low">
+                            {props.renderHairThumbnail?.({
+                              ...appearance,
+                              selection,
+                            })}
+                          </PreparedArtworkPriority.Provider>
                         </span>
                         <span className="appearance-hair-label">
                           {chosen === null ? "No hair" : label(chosen)}
@@ -621,6 +658,16 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
                 }))}
               />
               {randomize}
+              {kind === "bodyFamily" && props.renderPreload && !pending
+                ? neighbours(choices, current).map((body) => {
+                    const next = preparedBodyPreview(body);
+                    return next ? (
+                      <Fragment key={body}>
+                        {props.renderPreload!(next)}
+                      </Fragment>
+                    ) : null;
+                  })
+                : null}
               {choices.some((c) => c.reason) ? (
                 <small>
                   Unavailable choices have no complete matching outfit in this
@@ -869,4 +916,20 @@ export function PersonAppearanceControls(props: PersonAppearanceControlsProps) {
       <p role="status">{message}</p>
     </div>
   );
+}
+
+/** The available choices one step either side of the current one. */
+function neighbours(
+  choices: readonly { value: string | null; reason?: string }[],
+  current: string | null,
+): string[] {
+  const available = choices.flatMap((c) =>
+    c.value && !c.reason ? [c.value] : [],
+  );
+  const index = available.indexOf(current ?? "");
+  if (index < 0 || available.length < 2) return [];
+  const n = available.length;
+  return [
+    ...new Set([available[(index + 1) % n]!, available[(index - 1 + n) % n]!]),
+  ];
 }

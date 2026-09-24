@@ -1,5 +1,5 @@
 /**
- * Canonical JSON for authoring artefacts.
+ * Canonical JSON for authoring artifacts.
  *
  * Every report, scaffold and manifest this pipeline emits is compared against
  * its previous self — by a reviewer reading a diff, and by tests asserting that

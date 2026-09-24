@@ -40,7 +40,7 @@ never a plausible-sounding number written here.
 `furnitureCount`, `chairTableTopology`, `standingAnchors`, `seatedAnchors` and
 `occluderBounds` are `UNKNOWN` on **every** scene card. They are the fields this
 project cares most about and the ones a luminance measurement genuinely cannot
-see. Counting desks requires recognising desks. A tool that reported "20 desks"
+see. Counting desks requires recognizing desks. A tool that reported "20 desks"
 from variance blocks would be inventing precision, so it reports nothing and the
 prompt carries the count as an acceptance criterion instead.
 
@@ -96,7 +96,7 @@ finds flatness. It does not identify the object, and this document does not
 pretend it does.
 
 **`characterZones` are thirds of the floor region, offered as a starting frame.**
-Foreground/midground/background bands are arithmetic, labelled `WEAK`. Real
+Foreground/midground/background bands are arithmetic, labeled `WEAK`. Real
 anchors are authored against the plate by a human.
 
 ---
@@ -144,7 +144,7 @@ Three readings that matter for generation:
    an adult height.
 
 The anchor recommendations in the JSON (`crown`, `head`, `torso`, `hips`, `feet`
-as normalized pairs) are labelled **STARTING POINT ONLY**. D-068 requires a
+as normalized pairs) are labeled **STARTING POINT ONLY**. D-068 requires a
 production body's anchors to be measured from the raster that actually ships, by
 someone who can see where a waistband sits. `hips` in particular has been placed
 on the abdomen before, which hangs every trouser off the wrong line.
@@ -218,7 +218,7 @@ chop tool's), `interiorAlpha: 250`, `maxBoundaryDistance: 8`,
 For each pixel: skip if alpha ≥ 250 (provably interior); skip if not
 green-dominant; then reconstruct RGB from inverse-distance-weighted nearest
 _interior_ pixels, falling back to the arithmetic clamp `g' = min(g, (r+b)/2)`
-when no interior neighbour is in reach.
+when no interior neighbor is in reach.
 
 Two properties make it a repair rather than a retouch:
 
@@ -263,7 +263,7 @@ operation.
 The same test builds a synthetic green-garment torso (solid green at full alpha
 with a green matte edge), confirms the gate _does_ engage there, and confirms the
 interior digest still cannot move. And it rejects a classifier that would call a
-run salvaged on colour numbers alone while a digest had changed.
+run salvaged on color numbers alone while a digest had changed.
 
 Where the repair landed, by figure band, on `seated_conversational_left`:
 head 3,854 · torso 11,905 · hands and hips 4,261 · legs 7,198 · feet 4,341. It is
@@ -276,7 +276,7 @@ than concentrated anywhere a redraw would show.
 | -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `SALVAGEABLE BY DETERMINISTIC DESPILL` | Interior green-dominant count is below the material floor, soft-edge green clears to ≤ 0.5%, and both digests are unchanged.                                                              |
 | `RE-EXPORT PREFERRED`                  | The despill would have to move alpha or an interior pixel to succeed — meaning the matte is bonded into the subject, and the source file should be re-exported from whatever produced it. |
-| `REGENERATION REQUIRED`                | The defect is not the matte: wrong pose, wrong morphology, wrong viewpoint, anatomy that cannot be repaired by any colour operation.                                                      |
+| `REGENERATION REQUIRED`                | The defect is not the matte: wrong pose, wrong morphology, wrong viewpoint, anatomy that cannot be repaired by any color operation.                                                       |
 
 No resizing, generative fill, warping or redrawing is used at any tier. The
 despill is arithmetic on RGB inside a mask derived from alpha it never writes.
@@ -422,7 +422,7 @@ against geometry.** A component can declare compatibility with a body whose
 silhouette it misses by 29 px and nothing complains.
 
 That is not a defect to fix in this packet — it is a visual-generation run, and
-adding a geometry gate would change runtime behaviour the graphics work does not
+adding a geometry gate would change runtime behavior the graphics work does not
 own. It is recorded here because the next contract change should carry it: when
 per-family placement lands, the validator should compare each garment's painted
 span against the body's at the rows it covers, and fail a declared compatibility
@@ -437,7 +437,7 @@ that overhangs beyond a stated tolerance.
 Body geometry has two axes and only two: **build** (lean / ordinary / heavy) and
 **life stage** (child / adolescent / adult / older adult), crossed with a
 presentation lean (masculine / feminine). **Race and ethnicity are never a
-body-geometry category.** Complexion is a separate art property already modelled
+body-geometry category.** Complexion is a separate art property already modeled
 as `complexion` on bodies and heads, and head shape is its own family axis. A
 body family exists because of build and life stage; skin and features vary
 independently across it.
@@ -514,7 +514,7 @@ title treatment or mock that shows a product name shows _Our Civic Duty_.
 Buttons, menus, tabs, focus rings and icons stay CSS and SVG. Reasons, in order
 of weight:
 
-1. **Accessibility.** A raster button has no focus state, no forced-colours
+1. **Accessibility.** A raster button has no focus state, no forced-colors
    response, no text scaling, and no accessible name that follows the label.
 2. **Text.** Control labels change with life stage, pronouns and content. Baked
    text goes stale the first time a string changes, and the project already
@@ -526,7 +526,7 @@ The direction for the flat dark-green prototype controls is therefore a CSS
 direction, not an art request: replace the single flat fill with a surface that
 distinguishes rest, hover, active, focus-visible, disabled and selected states by
 more than one channel each (fill _and_ border, or fill _and_ elevation), so a
-state is legible without colour discrimination. Keep the civic palette; drop the
+state is legible without color discrimination. Keep the civic palette; drop the
 prototype's uniform slab.
 
 ### 7.3 Do not rebuild the #87 shell

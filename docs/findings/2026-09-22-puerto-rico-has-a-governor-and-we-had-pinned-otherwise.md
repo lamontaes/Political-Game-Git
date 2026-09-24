@@ -35,7 +35,7 @@ What changed is what they claim. The case is renamed to
 "has not compiled Puerto Rico's Governor, and invents nothing in its place",
 and each site now says the office is real and uncompiled rather than absent.
 
-Nothing about behaviour moved. Eighteen tests across the two chief-executive
+Nothing about behavior moved. Eighteen tests across the two chief-executive
 files pass unchanged.
 
 ## The other half, not fixed here

@@ -150,7 +150,7 @@ itself rather than downgrading quietly:
 - `CONFLICTING` needs claims from two distinct artifacts, because one artifact
   read two ways is a parser defect. One matrix is one artifact, so a conflicting
   row becomes `UNKNOWN` with a reason saying so, and the validator reports it.
-  Synthesising a second claim would manufacture the disagreement it claims to
+  Synthesizing a second claim would manufacture the disagreement it claims to
   record.
 
 A rule with no effective date cannot be `KNOWN`: a fiscal rule that cannot be

@@ -1,3 +1,4 @@
+import { writeLegacyHouseholdEveningInvitation } from "../simulation/life-opportunities";
 import { describe, expect, it } from "vitest";
 
 import { scheduledActivityState, serializeWorld } from "../simulation";
@@ -86,7 +87,11 @@ describe("interruption preferences", () => {
   });
 
   it("stops a day skip at a tentative hold when asked, leaving the hold and the World alone", () => {
-    const { world, personId } = ordinaryAdult("ui36-hold");
+    const opened = ordinaryAdult("ui36-hold");
+    const personId = opened.personId;
+    // The evening invitation was this life's tentative hold. Play stopped
+    // writing it on 2026-09-22; a save made before then still holds one.
+    const world = writeLegacyHouseholdEveningInvitation(opened.world, personId);
     const hold = world.history.scheduledActivities.find(
       (activity) =>
         activity.kind === "tentative" &&

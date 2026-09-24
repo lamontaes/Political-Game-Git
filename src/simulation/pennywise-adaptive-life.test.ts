@@ -334,7 +334,7 @@ describe("Acceptance 1 — the same world asks the same questions in the same or
     }
   });
 
-  it("penalises repeating the previous item's subject", () => {
+  it("penalizes repeating the previous item's subject", () => {
     // The settled 0.25 per shared dimension. Pinned because it is a contract
     // rather than a tuning knob.
     expect(ADJACENT_OVERLAP_PENALTY).toBe(0.25);
@@ -578,7 +578,7 @@ describe("Acceptance 4 — an option cannot preview its outcome", () => {
   it("puts no number on an option that describes what happens to anybody else", () => {
     // The magnitudes an option does carry are the adaptive layer's, and they
     // are about the player rather than about the world. Nothing else on an
-    // option is numeric, so there is nowhere for "+10 with the neighbours" to
+    // option is numeric, so there is nowhere for "+10 with the neighbors" to
     // live without a schema change that this test would fail.
     for (const situation of adultSituationBank()) {
       for (const option of situation.options) {
@@ -873,7 +873,18 @@ describe("Acceptance 10 — adult situations are keyed to opportunity, never to 
     );
     const populated = buildAdultLifeContext(world, personId);
     const available = availableAdultSituations(populated);
-    expect(available.length).toBeGreaterThan(4);
+    // Four, not five: the floor follows a deliberate content change. Since the
+    // dialogue review of 2026-09-23 play no longer writes a friend's picnic
+    // favor or confidence, or a Saturday invitation with no reason in the
+    // host's own life (`initiator-occasions.ts`), so this demo life, whose
+    // people have no birthday, move or new job this week, is offered the
+    // household week, the extra hours, the meeting item and a good day.
+    expect(available.map((situation) => situation.key).sort()).toEqual([
+      "adult.household-standing",
+      "adult.local-issue-position",
+      "adult.ordinary-good-day",
+      "adult.work-extra-hours",
+    ]);
 
     // The same bank against a context with nothing in it: only the situations
     // that need nothing survive, and they survive because they need nothing
@@ -901,7 +912,14 @@ describe("Acceptance 10 — adult situations are keyed to opportunity, never to 
       activeIncidentCount: 0,
     };
     const withNothing = availableAdultSituations(empty);
-    expect(withNothing.length).toBeGreaterThan(0);
+    // None, since 2026-09-23. What used to survive here was the Saturday
+    // invitation this demo life had been handed with no reason at all: the
+    // context above clears people and premises but keeps the requests
+    // actually made, and that one needed nobody in the record. Play no longer
+    // writes it (see the floor above), so a life stripped of its people, work
+    // and meeting is offered nothing, which is still less than a full one and
+    // still read from world state rather than from a die.
+    expect(withNothing.map((situation) => situation.key)).toEqual([]);
     expect(withNothing.length).toBeLessThan(available.length);
   });
 
@@ -930,7 +948,7 @@ describe("Acceptance 13 — an adult life is not one long dilemma", () => {
     expect(ordinary / tiers.length).toBeGreaterThan(0.2);
   });
 
-  it("penalises another hard moment after a hard run, and relieves a quiet one", () => {
+  it("penalizes another hard moment after a hard run, and relieves a quiet one", () => {
     const candidates: SituationCandidate[] = [
       {
         key: "adult.family-request" as LifeSituationKey,

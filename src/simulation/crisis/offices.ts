@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../dates";
+import { currentFederalTenure } from "../federal-tenures";
 import { projectCongress } from "../living-world/congress";
 import { nationalOfficeHolder } from "../national-election-consumer";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
@@ -11,57 +11,23 @@ import type { OfficeRef } from "./types";
  * continuity notice only: it grants nothing and never ends a term.
  */
 
-/** Opening federal tenures the World seats without an election record. */
-const OPENING_FEDERAL_TENURES = [
-  {
-    tag: "office:us-president",
-    key: "us-president",
-    title: "President of the United States",
-    years: 4,
-    monthDay: "01-20",
-  },
-  {
-    tag: "office:us-chief-justice",
-    key: "us-chief-justice",
-    title: "Chief Justice of the United States",
-    years: null,
-    monthDay: null,
-  },
+/** Federal offices the World seats by tenure record, not by election record. */
+const FEDERAL_TENURE_OFFICES = [
+  { key: "us-president", title: "President of the United States" },
+  { key: "us-vice-president", title: "Vice President of the United States" },
+  { key: "us-chief-justice", title: "Chief Justice of the United States" },
 ] as const;
 
 function openingFederalOffices(world: World, personId: EntityId): OfficeRef[] {
   const refs: OfficeRef[] = [];
-  for (const office of OPENING_FEDERAL_TENURES) {
-    const terms = world.history.events.filter(
-      (event) =>
-        event.type === "world.office-tenure" &&
-        event.tags.includes(office.tag) &&
-        event.occurredAt <= world.currentDate,
-    );
-    const latest = terms.at(-1);
-    if (!latest) continue;
-    const holder = latest.participants.find(
-      (participant) => participant.role === "focus:subject",
-    )?.personId;
-    if (holder !== personId) continue;
-    if (
-      world.history.personDeaths.some(
-        (death) =>
-          death.personId === personId && death.diedAt <= world.currentDate,
-      )
-    )
-      continue;
-    if (office.years !== null) {
-      const endExclusive = makeIsoDate(
-        `${Number(latest.occurredAt.slice(0, 4)) + office.years}-${office.monthDay}`,
-      );
-      if (world.currentDate >= endExclusive) continue;
-    }
+  for (const office of FEDERAL_TENURE_OFFICES) {
+    const tenure = currentFederalTenure(world, office.key);
+    if (tenure?.personId !== personId) continue;
     refs.push({
       officeKey: office.key,
       title: office.title,
       organizationId: null,
-      termEvidenceId: latest.id,
+      termEvidenceId: tenure.event.id,
     });
   }
   return refs;
@@ -92,9 +58,12 @@ export function publicOfficesHeldBy(
   );
   refs.push(...elected);
   const electedPresident = nationalOfficeHolder(world, "president") !== null;
+  const electedVice = nationalOfficeHolder(world, "vice-president") !== null;
   refs.push(
     ...openingFederalOffices(world, personId).filter(
-      (ref) => !(ref.officeKey === "us-president" && electedPresident),
+      (ref) =>
+        !(ref.officeKey === "us-president" && electedPresident) &&
+        !(ref.officeKey === "us-vice-president" && electedVice),
     ),
   );
   for (const holder of currentStateExecutiveHolders(world)) {
@@ -159,20 +128,12 @@ export function currentPresidentOf(world: World): OfficeHolder | null {
       officeKey: "us-president",
       title: "President of the United States",
     };
-  const latest = world.history.events
-    .filter(
-      (event) =>
-        event.type === "world.office-tenure" &&
-        event.tags.includes("office:us-president") &&
-        event.occurredAt <= world.currentDate,
-    )
-    .at(-1);
-  const personId = latest?.participants.find(
-    (participant) => participant.role === "focus:subject",
-  )?.personId;
-  if (!personId) return null;
-  const ref = openingFederalOffices(world, personId).find(
-    (office) => office.officeKey === "us-president",
-  );
-  return ref ? { personId, officeKey: ref.officeKey, title: ref.title } : null;
+  const tenure = currentFederalTenure(world, "us-president");
+  return tenure
+    ? {
+        personId: tenure.personId,
+        officeKey: "us-president",
+        title: "President of the United States",
+      }
+    : null;
 }

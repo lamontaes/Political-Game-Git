@@ -30,7 +30,7 @@ import {
  * owner mark on it — to the second. Editing past the eighth word left the ID
  * alone, so an approval kept applying to text nobody had read.
  *
- * Every test here drives the REAL extractor over a labelled synthetic fixture,
+ * Every test here drives the REAL extractor over a labeled synthetic fixture,
  * not a reimplementation of the key function. The fixture is test data and is
  * restored after each case; nothing here touches production prose.
  */

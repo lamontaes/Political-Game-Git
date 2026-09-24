@@ -1,5 +1,5 @@
 /**
- * Canonical JSON for source artefacts.
+ * Canonical JSON for source artifacts.
  *
  * Byte-identical in contract to `src/authoring/canonical-json.ts`, which is not
  * on accepted main yet (it arrived on the unaccepted #74 branch). 32A §4.3

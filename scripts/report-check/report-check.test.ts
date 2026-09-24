@@ -183,10 +183,19 @@ describe("where the check runs", () => {
   });
 
   const hook = (payload: object) =>
-    spawnSync(process.execPath, [join(ROOT, "scripts/report-check/hook.mjs")], {
-      input: JSON.stringify(payload),
-      encoding: "utf8",
-    });
+    // Without type stripping, as on the pinned Node 22.13: the hook must not
+    // import a `.ts` file, or it crashes with exit 1 and checks nothing.
+    spawnSync(
+      process.execPath,
+      [
+        "--no-experimental-strip-types",
+        join(ROOT, "scripts/report-check/hook.mjs"),
+      ],
+      {
+        input: JSON.stringify(payload),
+        encoding: "utf8",
+      },
+    );
 
   it("returns a failing report written for the owner to the session that wrote it", () => {
     const failing = join(ROOT, "docs/writing/the-next-generation-original.md");
@@ -298,6 +307,16 @@ const WRITTEN_BEFORE_THE_STANDARD = new Set([
   "docs/playtest/where-every-number-comes-from-2026-09-22.md",
   "docs/playtest/world-divergence-2026-09-22.md",
   "docs/reports/2026-09-22-transcripts-audit-and-personality-catalogue.md",
+  // Written on the playtest branch before the standard merged, and landed
+  // after it. Older by authorship, not newer reports exempted.
+  "docs/playtest/a-real-election-date-2026-09-22.md",
+  "docs/playtest/a-real-field-of-candidates-2026-09-22.md",
+  "docs/playtest/four-towns-one-year-2026-09-22.md",
+  "docs/playtest/how-big-is-the-game-2026-09-22.md",
+  "docs/playtest/lives-lived-2026-09-22.md",
+  "docs/playtest/pushing-the-creator-to-its-corners-2026-09-22.md",
+  "docs/playtest/the-check-that-never-runs-2026-09-22.md",
+  "docs/playtest/who-prints-the-news-2026-09-22.md",
 ]);
 
 describe("reports committed to the repository", () => {

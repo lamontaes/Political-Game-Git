@@ -22,6 +22,7 @@ import type {
 import type { RuleChangeProvisionRecord } from "./enacted-rule-changes";
 import type { PublicFundingMandate } from "./public-fiscal";
 import type { MacroEconomyStore } from "./macro-economy/types";
+import type { PressureStore } from "./pressure/contract";
 import type { PartyRecord, WorldConditionRecord } from "./world-setup/types";
 import type {
   TaxProposalRecord,
@@ -30,6 +31,11 @@ import type {
   TaxAssessmentRecord,
   TaxCollectionRecord,
 } from "./tax-types";
+import type {
+  JobApplicationRecord,
+  JobApplicationStepRecord,
+  JobOpeningRecord,
+} from "./job-market-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
 declare const currencyCodeBrand: unique symbol;
@@ -60,6 +66,9 @@ export type EntityKind =
   | "tax-base"
   | "tax-assessment"
   | "tax-collection"
+  | "job-opening"
+  | "job-application"
+  | "job-application-step"
   | "appraisal"
   | "belief"
   | "causal-mechanism-definition"
@@ -227,8 +236,15 @@ export interface PolicyDomainDefinition {
  * jurisdiction's own capability record decides that, and this list only says
  * which levels are worth asking.
  */
-export type PolicyGovernmentLevel =
-  "state" | "county" | "municipality" | "school-district";
+export const POLICY_GOVERNMENT_LEVELS = [
+  "federal",
+  "state",
+  "county",
+  "municipality",
+  "school-district",
+] as const;
+
+export type PolicyGovernmentLevel = (typeof POLICY_GOVERNMENT_LEVELS)[number];
 
 export interface PolicyIssueDefinition {
   readonly id: EntityId;
@@ -244,7 +260,7 @@ export interface PolicyIssueDefinition {
    * must treat its absence as "do not know" and say so, never as "anywhere".
    *
    * Optional, and omitted rather than written empty, so a world holding issues
-   * nobody routed serialises exactly as it did before this field existed and
+   * nobody routed serializes exactly as it did before this field existed and
    * a save written then stays readable.
    */
   readonly levels?: readonly PolicyGovernmentLevel[];
@@ -296,7 +312,7 @@ export interface PolicyPropositionDefinition {
    * decline, never as a settled zero.
    *
    * Optional, and omitted rather than written empty, so a world holding
-   * propositions nobody related to a principle serialises exactly as it did
+   * propositions nobody related to a principle serializes exactly as it did
    * before this field existed and a save written then stays readable. Same
    * rule, and the same reason, as `PolicyIssueDefinition.levels`.
    */
@@ -2506,7 +2522,7 @@ export type LegislativeDraftParameterRecord =
  * because nothing already in the store can express it. A measure records what a
  * bill is called and what it is about; provisions record its operative text and
  * every later version of that text. Neither records that the text was compiled
- * from a named programme family, at a named version of that family, from a
+ * from a named program family, at a named version of that family, from a
  * named set of parameter values — and without that, reopening a saved bill
  * cannot say which family it belongs to, which amendment its politics are
  * about, or whether a later edit to the content bank has moved underneath it.
@@ -2568,8 +2584,8 @@ export interface LegislativeDraftLineageRecord {
    * What this component did to existing law, where it did anything to it.
    *
    * Absent means an insertion, which is what a component creating a new
-   * programme does and what every component filed before amendments were
-   * modelled did — so an old save reads back unchanged. Present on a component
+   * program does and what every component filed before amendments were
+   * modeled did — so an old save reads back unchanged. Present on a component
    * that amended or repealed, with the provisions it acted on and the exact
    * revision of each it was written against, so the measure can still say what
    * text its author actually had in front of them.
@@ -2717,6 +2733,16 @@ export interface RoutineTimeHook {
 export interface FutureTransitionHandlerRegistry {
   get(transitionKey: FutureTransitionKey): FutureTransitionHandler | undefined;
   readonly routine?: RoutineTimeHook;
+  /**
+   * Whether an advance should also stop at a tentative hold, or its journey,
+   * that the advance itself put on the controlled person's calendar. A
+   * confirmed commitment written on the way is always a stop; a tentative one
+   * is not unless this says so, because a long skip that stopped at every
+   * posted invitation only to let it lapse would repeat itself once per hold.
+   */
+  readonly stopAtNewTentativeHold?: (
+    activity: ScheduledActivityRecord,
+  ) => boolean;
 }
 
 export interface MoneyAmount {
@@ -2735,7 +2761,7 @@ export type ResourceEndpoint =
  * An organization owns money in its own right rather than through whoever runs
  * it. A campaign treasury is the case that forced the distinction: the money is
  * the committee's, is reported as the committee's, and does not become the
- * candidate's personal balance because the candidate signs for it. Modelling it
+ * candidate's personal balance because the candidate signs for it. Modeling it
  * as a person's would have been a false statement about ownership, and a
  * separate campaign wallet would have been a second money system.
  */
@@ -3170,8 +3196,19 @@ export interface DistrictSeatBinding {
   readonly stateUsps: string;
 }
 
+/**
+ * `split-home-assignment`: the home place crosses several districts of the
+ * chamber and the published join cannot say which one this home is in, so the
+ * game placed the home in one of those districts — by seed at the opening, or
+ * where the player later said it is. It is only ever one of the districts that
+ * actually cross the recorded home place. GAME PROFILE placeholder: see
+ * `assignSplitHomeDistricts`.
+ */
 export type DistrictResidenceProvenanceMethod =
-  "authored" | "simulated-event" | "canonical-home-join";
+  | "authored"
+  | "simulated-event"
+  | "canonical-home-join"
+  | "split-home-assignment";
 
 export interface DistrictResidenceProvenance {
   readonly method: DistrictResidenceProvenanceMethod;
@@ -3425,7 +3462,10 @@ export interface CampaignComplianceDocumentRecord {
   readonly committeeOrganizationId: EntityId;
   readonly rulePackId: string;
   readonly kind:
-    "statement-of-spending-intent" | "periodic-report" | "amendment";
+    | "statement-of-spending-intent"
+    | "statement-of-organization"
+    | "periodic-report"
+    | "amendment";
   readonly schedule:
     | "initial"
     | "60-day-preelection"
@@ -3746,6 +3786,10 @@ export interface HistoryStore {
   readonly taxBases?: readonly TaxBaseRecord[];
   readonly taxAssessments?: readonly TaxAssessmentRecord[];
   readonly taxCollections?: readonly TaxCollectionRecord[];
+  /** Optional: job openings and applications; see `job-market.ts`. */
+  readonly jobOpenings?: readonly JobOpeningRecord[];
+  readonly jobApplications?: readonly JobApplicationRecord[];
+  readonly jobApplicationSteps?: readonly JobApplicationStepRecord[];
   readonly nextSequence: number;
   readonly organizations: readonly Organization[];
   readonly organizationProfiles: readonly OrganizationProfileRecord[];
@@ -3897,7 +3941,7 @@ export interface HistoryStore {
 // Legislation — canonical measures, procedural actions, and recorded votes
 // ---------------------------------------------------------------------------
 
-/** How a measure came to exist, for provenance rather than gameplay flavour. */
+/** How a measure came to exist, for provenance rather than gameplay flavor. */
 export type LegislativeMeasureOrigin =
   "member-introduction" | "committee-introduction" | "executive-request";
 
@@ -3935,7 +3979,7 @@ export interface LegislativeMeasureRecord {
    * Separate from `policyAlternativeIds` rather than reached through one,
    * because an alternative carries a quantitative operation — set a level, cap
    * it, raise it by a share — and most of what a legislature does is not a
-   * number. Who may do what, who must be told, what counts as an offence and
+   * number. Who may do what, who must be told, what counts as an offense and
    * who is eligible are all bills about a question that change no quantity, and
    * routing them through a quantitative alternative so the link exists would
    * pass every test while lying about the domain.
@@ -3950,6 +3994,17 @@ export interface LegislativeMeasureRecord {
    * measure in every save written so far.
    */
   readonly propositionIds?: readonly EntityId[];
+  /**
+   * Which way the measure answers each question it is about: "yes" when
+   * enacting it does what the question proposes, "no" when it does the
+   * reverse. A question in `propositionIds` with no row here is a bill that
+   * does not say, and a vote on it is not a vote for or against anything
+   * (`issue-record.ts`). Optional for the same reason as `propositionIds`.
+   */
+  readonly propositionAnswers?: readonly {
+    readonly propositionId: EntityId;
+    readonly answer: "yes" | "no";
+  }[];
 }
 
 export type LegislativeActionKind =
@@ -3970,9 +4025,11 @@ export type LegislativeActionKind =
   | "presented-to-executive"
   | "signed"
   | "vetoed"
+  | "became-law-without-signature"
   | "override-chamber-recorded"
   | "override-succeeded"
   | "override-failed"
+  | "override-period-expired"
   | "enacted"
   | "died-on-adjournment";
 
@@ -4100,6 +4157,12 @@ export interface LegislativeVoteDisposition {
   /** Canonical person when the member is simulated; null otherwise. */
   readonly personId: EntityId | null;
   readonly disposition: LegislativeMemberDisposition;
+  /**
+   * The member's own reason, as the key of the consideration that decided
+   * it, where the member decided for themselves. Omitted for an authored
+   * count, which has no reason to give, so older votes read as they did.
+   */
+  readonly reason?: string;
 }
 
 export interface LegislativeVoteTally {
@@ -4339,7 +4402,7 @@ export type LegislativeProvisionBeneficiary =
  * procedural position does, and nothing is quietly rewritten in place.
  */
 export interface LegislativeProvisionRecord {
-  /** Explicit annual amount; omission preserves older whole-programme records. */
+  /** Explicit annual amount; omission preserves older whole-program records. */
   readonly fiscalPeriod?: "annual";
   readonly id: EntityId;
   readonly stableKey: string;
@@ -4773,4 +4836,9 @@ export interface World {
    * written before it existed has no macro history and is never retrofitted.
    */
   readonly macroEconomy?: MacroEconomyStore;
+  /**
+   * The pressure layer (2026-09-22). Optional and additive: a world written
+   * before it existed has no readings and is never retrofitted.
+   */
+  readonly pressure?: PressureStore;
 }

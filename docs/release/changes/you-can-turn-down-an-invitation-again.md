@@ -16,5 +16,5 @@ still looking for a hold with nobody's name on it, so it found none and
 offered nothing: every invitation sat on the calendar until its day came and
 went.
 
-The refusal now recognises a hold in your own name, and still refuses one that
+The refusal now recognizes a hold in your own name, and still refuses one that
 somebody else owes the answer for.

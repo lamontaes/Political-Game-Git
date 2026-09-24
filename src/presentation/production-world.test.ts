@@ -351,7 +351,7 @@ describe("The production world is not a renamed fixture", () => {
     ).toBeGreaterThanOrEqual(24);
   });
 
-  it("does not enrol a child too young for school in one", () => {
+  it("does not enroll a child too young for school in one", () => {
     const young = start({ startAge: 5 });
     const older = start({ startAge: 12 });
     expect(older.world.history.educationEnrollments.length).toBeGreaterThan(0);
@@ -365,7 +365,7 @@ describe("The production world is not a renamed fixture", () => {
      * The regression this pins. `context-v2` declines to assume a school,
      * employer or credential in an ADULT's summarized past, which is the right
      * call and is decided on the adult path. The same condition was attached
-     * to the code that enrols a child, where nothing replaces it, so a
+     * to the code that enrolls a child, where nothing replaces it, so a
      * twelve-year-old had no enrollment: `in-school` stopped holding, every
      * early.school and early.peer opening went ineligible, and the child
      * attended nothing. A child at school today is present circumstance, not

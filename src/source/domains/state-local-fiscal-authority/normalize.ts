@@ -22,7 +22,7 @@
  * artifact read two ways is a parser defect rather than a conflict in the
  * world. One matrix is one artifact, so a row marked CONFLICTING becomes
  * UNKNOWN with a reason saying exactly that, and the validator reports it. The
- * alternative — synthesising a second claim so the state becomes expressible —
+ * alternative — synthesizing a second claim so the state becomes expressible —
  * would manufacture the disagreement it claims to record.
  */
 
@@ -385,7 +385,7 @@ function readSourced<T extends FiscalRuleValue>(
       );
     case "CONFLICTING":
       return unknown(
-        "The research records conflicting authorities, but CONFLICTING requires claims from two distinct artifacts and this matrix is one artifact. Carried unresolved rather than synthesised.",
+        "The research records conflicting authorities, but CONFLICTING requires claims from two distinct artifacts and this matrix is one artifact. Carried unresolved rather than synthesized.",
         [evidence],
       );
     case "UNKNOWN":

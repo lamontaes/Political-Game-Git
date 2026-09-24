@@ -36,7 +36,7 @@
     },
     {
       "source": "src/simulation/types.ts lines 276-288, PersonalityExpressionDefinition",
-      "whatItDidNotSettle": "Despite the name this describes how a personality tendency expresses itself in behaviour. It is not visual and carries nothing a renderer could use."
+      "whatItDidNotSettle": "Despite the name this describes how a personality tendency expresses itself in behavior. It is not visual and carries nothing a renderer could use."
     }
   ],
   "title": "Which expressions a generated face needs, and what in the record should drive them",

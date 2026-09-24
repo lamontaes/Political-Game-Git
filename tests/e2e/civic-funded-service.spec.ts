@@ -257,9 +257,9 @@ test("an Alaska member funds added transit service from a collected tax and sees
   for (let day = 0; day < 3; day++) await continueOnTransit(page, "day");
   await goTo(page, "nav-politics-tax", "politics");
   await expect(
-    proposal.getByText("collected: 101.00 USD transferred"),
+    proposal.getByText("collected: $101.00 transferred"),
   ).toHaveCount(2);
-  await expect(page.getByTestId("tax-public-cash")).toContainText("202.00 USD");
+  await expect(page.getByTestId("tax-public-cash")).toContainText("$202.00");
 
   // Transit: request, let both periods come due, then read what changed.
   await goTo(page, "nav-politics-transit", "politics");

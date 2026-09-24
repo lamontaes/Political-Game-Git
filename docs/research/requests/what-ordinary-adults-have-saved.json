@@ -1,0 +1,26 @@
+{
+  "filedAt": "2026-09-23T00:45:00.000Z",
+  "impact": "shapes-design",
+  "lane": "ordinary adult life",
+  "notes": [
+    "From the corrupt-governor playtest: the governor's own money at the start of play was $0, so every dollar she ever held was campaign money she took."
+  ],
+  "priority": "P1",
+  "question": "How much money does an ordinary American adult realistically have when the game starts them, by age band and by household situation (single, couple, with children), and by rough income level? Cover checking and savings balances, retirement accounts, home equity and common debts (credit cards, student loans, car loans), and how widely each varies.",
+  "questionId": "what-ordinary-adults-have-saved",
+  "relatedQuestionIds": [
+    "what-a-person-spends-to-live",
+    "what-it-takes-to-buy-a-home"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "ordinary adult life thread",
+  "sourcesChecked": [
+    {
+      "source": "The new-game start as built",
+      "whatItDidNotSettle": "A new adult starts with no recorded money at all; the game treats their finances as unknown until something is earned. There is no source for what they should start with."
+    }
+  ],
+  "title": "What ordinary adults have saved and owe, by age and household",
+  "usableAnswer": "Median and typical-range balances for liquid savings, retirement savings, home equity and each common debt, by age band (18-24, 25-34, 35-44, 45-54, 55-64, 65+) and household type, with a named public source and year for each so the game can refresh it.",
+  "whyItMatters": "Every adult starts with nothing, so rent, a down payment or a bribe all land on an empty account. A governor in a playtest began with $0 of her own. Starting money decides whether a character can take a pay cut to run for office, and how tempting corruption is."
+}

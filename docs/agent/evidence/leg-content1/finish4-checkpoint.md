@@ -23,7 +23,7 @@ The initial sandbox full run had five localhost EPERM failures. The permission-e
 
 ## Acceptance and remaining interfaces
 
-Automated technical checkpoint passed. Existing banked acceptance is preserved, but does not establish expanded human acceptance for this head. The full expanded N ledger remains unavailable; the accessible owner return is not that verdict. Exact original P12 owner replay remains a human gate, alongside the passing normal-route browser analogue and source regression.
+Automated technical checkpoint passed. Existing banked acceptance is preserved, but does not establish expanded human acceptance for this head. The full expanded N ledger remains unavailable; the accessible owner return is not that verdict. Exact original P12 owner replay remains a human gate, alongside the passing normal-route browser analog and source regression.
 
 Actual committee appointment/term records and staff-to-principal bindings are still missing. FISCAL's exact published authority adapter remains requested. An eventual procedural caller must provide the recorded vote-to-working-copy link; the UI does not manufacture adoption. These are explicit remaining dependencies, not a declaration that the original all-feasible-content assignment is complete.
 

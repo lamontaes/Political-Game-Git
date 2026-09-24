@@ -56,7 +56,7 @@ export function resolvePersonPortrait(
    * would silently lose a likeness that was drawn for them specifically.
    *
    * So the person's own v1 seed is tried as well. This restores exactly the
-   * prior behaviour for the characters these recipes were authored for and
+   * prior behavior for the characters these recipes were authored for and
    * changes nothing for anybody else: a seed is a hash of one person's id, so
    * no other person can collide into someone's authored face.
    */

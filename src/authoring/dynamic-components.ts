@@ -212,10 +212,10 @@ export const DYNAMIC_COMPONENT_FAMILIES: readonly DynamicComponentFamily[] = [
   {
     id: "LINE_SERIES",
     purpose:
-      "A continuous trend over time: unemployment, labour-force participation, general-fund revenue, case counts.",
+      "A continuous trend over time: unemployment, labor-force participation, general-fund revenue, case counts.",
     surfaceKinds: ["monitor-or-screen", "large-framed-chart"],
     expresses: ["briefing-slide", "headline"],
-    emptyState: "Axes and a zero line, labelled as not yet published.",
+    emptyState: "Axes and a zero line, labeled as not yet published.",
     emptyStateDecor: "clock-face-block",
     prohibitedInferences: [
       "Never join points across an interval nobody measured; a gap stays a gap.",
@@ -228,7 +228,7 @@ export const DYNAMIC_COMPONENT_FAMILIES: readonly DynamicComponentFamily[] = [
       "Discrete categories side by side: peer county rates, department allocations, district turnout.",
     surfaceKinds: ["monitor-or-screen", "desk-document", "large-framed-chart"],
     expresses: ["briefing-slide", "vote-tally"],
-    emptyState: "An empty grid frame, labelled as returning no comparison.",
+    emptyState: "An empty grid frame, labeled as returning no comparison.",
     emptyStateDecor: "paper-shapes",
     prohibitedInferences: [
       "Never rank categories the source did not rank.",
@@ -255,11 +255,11 @@ export const DYNAMIC_COMPONENT_FAMILIES: readonly DynamicComponentFamily[] = [
     surfaceKinds: ["large-wall-map", "monitor-or-screen", "large-framed-chart"],
     expresses: ["map-label", "election-result"],
     emptyState:
-      "Boundaries and terrain with no fill, labelled as awaiting release.",
+      "Boundaries and terrain with no fill, labeled as awaiting release.",
     emptyStateDecor: "wall-artwork",
     prohibitedInferences: [
       "Never shade a unit whose value is missing; leave it unfilled and say so.",
-      "Never choose a colour break that makes an unremarkable spread look extreme.",
+      "Never choose a color break that makes an unremarkable spread look extreme.",
     ],
   },
   {

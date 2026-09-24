@@ -46,7 +46,7 @@ export interface EducationExport {
 /**
  * Reads the capability dictionary out of the locked survey dictionaries.
  *
- * These are the human labels for award levels, noncredit programmes and offered
+ * These are the human labels for award levels, noncredit programs and offered
  * grades. They come from the locked zips rather than from a hand-maintained
  * table so that a changed source changes the output, which is exactly the
  * property the replay check needs in order to be able to fail.

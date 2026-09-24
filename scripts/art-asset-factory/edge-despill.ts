@@ -18,7 +18,7 @@ import { PNG } from "pngjs";
  *
  * The interior is not contaminated at all. Every green pixel is within a few
  * pixels of transparency — 8,036 at 1px, tapering to 609 at 8px. This is not a
- * figure drawn in the wrong colours; it is a matte artifact on the boundary,
+ * figure drawn in the wrong colors; it is a matte artifact on the boundary,
  * which is exactly the class of defect a deterministic despill exists for.
  *
  * ## The rules this works under
@@ -26,13 +26,13 @@ import { PNG } from "pngjs";
  * **Alpha is never written.** The silhouette, and therefore the morphology and
  * the pose, come out byte-identical. The report carries a sha256 of the alpha
  * channel before and after and the caller is expected to compare them; a run
- * that changed the silhouette is a failed run, not a judgement call.
+ * that changed the silhouette is a failed run, not a judgment call.
  *
  * **Interior pixels are never touched.** The cut is at alpha >= 250, where the
  * measurement says contamination is zero. So no skin, no face, no hand and no
  * garment interior can be altered by construction rather than by tuning.
  *
- * **Colour is reconstructed from the figure, not invented.** A treated pixel
+ * **Color is reconstructed from the figure, not invented.** A treated pixel
  * takes the inverse-distance weighted mean of the nearest interior pixels. That
  * is why a genuinely green sleeve survives: its interior is green, so the
  * reconstruction returns green and the operation is a no-op there. Nothing is
@@ -45,7 +45,7 @@ import { PNG } from "pngjs";
 
 export interface DespillOptions {
   /**
-   * How much greener than both neighbours a pixel must be to count.
+   * How much greener than both neighbors a pixel must be to count.
    *
    * 24 by default, which is not a new number: it is the threshold
    * `source-sheet-chop.ts` already uses to report green fringe, so the metric
@@ -65,9 +65,9 @@ export interface DespillOptions {
    * is measured per file, not chosen — see `materialGreenInteriorPixels`.
    */
   readonly maxBoundaryDistance: number;
-  /** How far to look for interior colour to reconstruct from. */
+  /** How far to look for interior color to reconstruct from. */
   readonly reconstructionRadius: number;
-  /** How many interior neighbours to average. */
+  /** How many interior neighbors to average. */
   readonly reconstructionSamples: number;
 }
 
@@ -345,8 +345,8 @@ export function despillGreenEdge(
         continue;
       }
 
-      // Nearest interior colour, inverse-distance weighted. Interior is proven
-      // clean, so this reconstructs the figure's own colour rather than
+      // Nearest interior color, inverse-distance weighted. Interior is proven
+      // clean, so this reconstructs the figure's own color rather than
       // inventing one.
       let weightSum = 0;
       let red = 0;
@@ -389,8 +389,8 @@ export function despillGreenEdge(
         pixelsReconstructed += 1;
       } else {
         // No interior within reach — a thin filament such as a stray hair or a
-        // finger gap. Clamp the green to its neighbours rather than guess a
-        // colour: it removes the cast and cannot introduce one.
+        // finger gap. Clamp the green to its neighbors rather than guess a
+        // color: it removes the cast and cannot introduce one.
         nextRed = original[offset]!;
         nextBlue = original[offset + 2]!;
         nextGreen = Math.min(

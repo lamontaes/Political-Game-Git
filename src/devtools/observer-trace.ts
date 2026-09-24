@@ -43,7 +43,7 @@ export const OBSERVER_TRACE_VERSION = "conversation-observer-trace-v1";
  * The scene context knows who was physically in the room before audibility
  * narrowed the exchange; the canonical event only records who took part. Both
  * are true, and a trace that wants to say "this person was there and did not
- * hear" needs the first — labelled as the first.
+ * hear" needs the first — labeled as the first.
  */
 export interface DeclaredPresence {
   readonly basis: string;

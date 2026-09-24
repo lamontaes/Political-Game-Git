@@ -20,7 +20,7 @@ import driveInventory from "./public-drive-inventory.generated.json";
  * and release status are READ from the manifests and the intake evidence, so
  * this file cannot claim a picture is released when the manifest says
  * otherwise. What is declared is the disposition sentence — why a source is
- * where it is — because that is a judgement and judgements should be signed
+ * where it is — because that is a judgment and judgments should be signed
  * rather than computed.
  *
  * WHAT IT MUST NEVER DO. It does not approve anything. Rights status stays
@@ -504,7 +504,7 @@ export const ENVIRONMENT_SOURCES: readonly EnvironmentSourceRecord[] = [
       "Any prop asset at all. Eight directories are declared and every one contains only a `.gitkeep`.",
     owedBy: "an art-pipeline owner",
     openRequestIds: [],
-    note: "AN EXACT AND UNCOMFORTABLE GAP. Every prop in every released room is BAKED into its plate. Nothing composites. That is why the civic-symbol slots on the lectern and the banner have canonical policies and no artwork to honour them: 18K names an official symbol library and this repository holds none of it.",
+    note: "AN EXACT AND UNCOMFORTABLE GAP. Every prop in every released room is BAKED into its plate. Nothing composites. That is why the civic-symbol slots on the lectern and the banner have canonical policies and no artwork to honor them: 18K names an official symbol library and this repository holds none of it.",
   },
 ];
 

@@ -155,6 +155,22 @@
       "textRevision": "b80ce067127c"
     },
     {
+      "anchor": "ACTION_HEADLINES-0020",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Approved without a signature",
+      "occurrence": 0,
+      "textRevision": "4f87cf4ceb17"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0021",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "The veto stood",
+      "occurrence": 0,
+      "textRevision": "6c83ed3827c1"
+    },
+    {
       "anchor": "ART_PREVIEW_LABEL-0001",
       "sourcePath": "src/presentation/art-preview.ts",
       "symbol": "ART_PREVIEW_LABEL",
@@ -190,9 +206,9 @@
       "anchor": "COMMIT_CONTRACTS-0004",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
-      "text": "A conversation between neighbours about a meeting that has been posted.",
+      "text": "A conversation between neighbors about a meeting that has been posted.",
       "occurrence": 0,
-      "textRevision": "83c32650972a"
+      "textRevision": "22cfcb91ef65"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0005",
@@ -990,9 +1006,9 @@
       "anchor": "COMMIT_CONTRACTS-0109",
       "sourcePath": "src/presentation/conversation-subjects.ts",
       "symbol": "COMMIT_CONTRACTS",
-      "text": "The player cancelled the activity agreed with {addresseeName}.",
+      "text": "The player canceled the activity agreed with {addresseeName}.",
       "occurrence": 0,
-      "textRevision": "47222358b928"
+      "textRevision": "e3cbfdf2103b"
     },
     {
       "anchor": "COMMIT_CONTRACTS-0110",
@@ -1217,6 +1233,14 @@
       "text": "Mention something in the news",
       "occurrence": 0,
       "textRevision": "8e5b25b72a53"
+    },
+    {
+      "anchor": "LIFE_TALK_INTENTS-0018",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Say it can wait",
+      "occurrence": 0,
+      "textRevision": "fa32565f4c95"
     },
     {
       "anchor": "MunicipalWorkspace-0001",
@@ -1779,6 +1803,94 @@
       "textRevision": "cace9870daf8"
     },
     {
+      "anchor": "MunicipalWorkspace-0084",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": " — {target.refusal}",
+      "occurrence": 0,
+      "textRevision": "364ede1aea28"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0085",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "A petition to recall {target.name} is now circulating.",
+      "occurrence": 0,
+      "textRevision": "6bd1015e2f7d"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0086",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No seated official here is known to you.",
+      "occurrence": 0,
+      "textRevision": "6f196db01f51"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0087",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Start a recall petition",
+      "occurrence": 0,
+      "textRevision": "8b83ccfb6f97"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0088",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Approved without {governing.executiveName}'s signature. ",
+      "occurrence": 0,
+      "textRevision": "da7c8ae7b075"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0089",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Reenacted over the return. ",
+      "occurrence": 0,
+      "textRevision": "8a9881eae087"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0090",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Signed by {governing.executiveName}. ",
+      "occurrence": 0,
+      "textRevision": "41e94ced3325"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0091",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "The council did not pass it.",
+      "occurrence": 0,
+      "textRevision": "85eb7238edb0"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0092",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "a date not read",
+      "occurrence": 0,
+      "textRevision": "b4e052d9c3f7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0093",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "a date not read",
+      "occurrence": 1,
+      "textRevision": "b4e052d9c3f7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0094",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "{governing.executiveName.charAt(0).toUpperCase()+governing.executiveName.slice(1)} returned it, and it was not reenacted.",
+      "occurrence": 0,
+      "textRevision": "a3018b3eac3a"
+    },
+    {
       "anchor": "OPTIONS-0001",
       "sourcePath": "src/presentation/office-response.ts",
       "symbol": "OPTIONS",
@@ -2054,9 +2166,9 @@
       "anchor": "RETURN_SUMMARY-0002",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The old favour got a mention.",
+      "text": "The old favor got a mention.",
       "occurrence": 0,
-      "textRevision": "12e4eea2c9d2"
+      "textRevision": "92146db4a61f"
     },
     {
       "anchor": "RETURN_SUMMARY-0003",
@@ -2070,17 +2182,17 @@
       "anchor": "RETURN_SUMMARY-0004",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The neighbourhood meeting came up again.",
+      "text": "The neighborhood meeting came up again.",
       "occurrence": 0,
-      "textRevision": "1e3c17a10a8f"
+      "textRevision": "4633abbba3f3"
     },
     {
       "anchor": "RETURN_SUMMARY-0005",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "The favour was put to you once more.",
+      "text": "The favor was put to you once more.",
       "occurrence": 0,
-      "textRevision": "aa9a72d6fd47"
+      "textRevision": "72b26ee15640"
     },
     {
       "anchor": "RETURN_SUMMARY-0006",
@@ -2182,9 +2294,9 @@
       "anchor": "RETURN_SUMMARY-0019",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",
-      "text": "Helping the neighbours came back to you.",
+      "text": "Helping the neighbors came back to you.",
       "occurrence": 0,
-      "textRevision": "e3df1ac49c68"
+      "textRevision": "9484488134b6"
     },
     {
       "anchor": "RETURN_SUMMARY-0020",
@@ -3875,6 +3987,22 @@
       "textRevision": "9ca23e47665b"
     },
     {
+      "anchor": "elapsedPhrase-0010",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "A year and a half on",
+      "occurrence": 0,
+      "textRevision": "5ddabad67856"
+    },
+    {
+      "anchor": "elapsedPhrase-0011",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "elapsedPhrase",
+      "text": "Most of a year later",
+      "occurrence": 0,
+      "textRevision": "ce7a93efa7eb"
+    },
+    {
       "anchor": "executiveSource-0001",
       "sourcePath": "src/simulation/municipal-government.ts",
       "symbol": "executiveSource",
@@ -4017,6 +4145,14 @@
       "text": "{person.familyName} for the {option.chamberName}",
       "occurrence": 0,
       "textRevision": "8e074194b004"
+    },
+    {
+      "anchor": "fileForOffice-0004",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "fileForOffice",
+      "text": "{person.familyName} for {option.office.title}",
+      "occurrence": 0,
+      "textRevision": "15d76fc67d7d"
     },
     {
       "anchor": "homeEvening-0001",
@@ -6246,25 +6382,49 @@
       "anchor": "projectCampaign-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} lost. That is a thing that happened to them, not the end of them — tomorrow is still there.",
+      "text": "{candidateName} lost{resultMargin(result,personId)}. That is a thing that happened to {pronouns.object}, not the end of {pronouns.object} — tomorrow is still there.",
       "occurrence": 0,
-      "textRevision": "0486ea5ede7c"
+      "textRevision": "7cd60596906c"
     },
     {
       "anchor": "projectCampaign-0002",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won. The seat is theirs, and so is everything that came before it.",
+      "text": "{candidateName} won{resultMargin(result,personId)}.",
       "occurrence": 0,
-      "textRevision": "9f38e3705693"
+      "textRevision": "fe5082dbd274"
     },
     {
       "anchor": "projectCampaign-0003",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
+      "text": "{candidateName} won{resultMargin(result,personId)}. The term begins {proseDate(term.startsAt)}; until then the office is not {pronouns.possessivePronoun}.",
       "occurrence": 0,
-      "textRevision": "17d4e131512b"
+      "textRevision": "e865b44e5412"
+    },
+    {
+      "anchor": "projectCampaign-0004",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won{resultMargin(result,personId)} and keeps the seat. The new term begins {proseDate(term.startsAt)}.",
+      "occurrence": 0,
+      "textRevision": "e1f6b7d4eb13"
+    },
+    {
+      "anchor": "projectCampaign-0005",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won{resultMargin(result,personId)} and kept the seat. The new term began {proseDate(term.startsAt)}.",
+      "occurrence": 0,
+      "textRevision": "5937580405bf"
+    },
+    {
+      "anchor": "projectCampaign-0006",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won{resultMargin(result,personId)}. The term began {proseDate(term.startsAt)}.",
+      "occurrence": 0,
+      "textRevision": "fd6352a560d6"
     },
     {
       "anchor": "projectDisclosure-0001",
@@ -6385,6 +6545,14 @@
       "text": "The bill was enacted; its effective date has not been recorded. Enactment alone does not implement an unmodeled policy effect.",
       "occurrence": 0,
       "textRevision": "7e9e5d00a119"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0012",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The bill is on the {pack.executive.titleLabel}'s desk.",
+      "occurrence": 0,
+      "textRevision": "1178fc68a26e"
     },
     {
       "anchor": "projectOfficeMatters-0001",
@@ -7531,6 +7699,30 @@
       "textRevision": "39de11314d2e"
     },
     {
+      "anchor": "replyFor-0064",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "All right. Another time, then.",
+      "occurrence": 0,
+      "textRevision": "5fd92a187a73"
+    },
+    {
+      "anchor": "replyFor-0065",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "All right. You can tell me whenever you like.",
+      "occurrence": 0,
+      "textRevision": "d2a4a851a2ac"
+    },
+    {
+      "anchor": "replyFor-0066",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "What were you going to say?",
+      "occurrence": 0,
+      "textRevision": "5fadd86fcab7"
+    },
+    {
       "anchor": "reporterQuestion-0001",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "reporterQuestion",
@@ -8425,6 +8617,14 @@
       "text": "There is nothing in the account to spend.",
       "occurrence": 0,
       "textRevision": "1b5c8d4ed244"
+    },
+    {
+      "anchor": "unavailable-0004",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "unavailable",
+      "text": "You are in jail until {proseDate(jailed.until)}. Your name stays on the ballot, but you cannot campaign.",
+      "occurrence": 0,
+      "textRevision": "a33c21fe36f6"
     },
     {
       "anchor": "unavailableReason-0001",

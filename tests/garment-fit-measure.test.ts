@@ -346,14 +346,14 @@ describe("placement, not just width", () => {
     expect(error.worstPx).toBeCloseTo(7, 0);
   });
 
-  it("symmetric overhang is caught even though the garment stays centred", async () => {
+  it("symmetric overhang is caught even though the garment stays centered", async () => {
     const file = path.join(tmp, "symmetric-over.png");
     await transformedTop(file, (row) => ({ lo: row.lo - 10, hi: row.hi + 10 }));
     const error = residualOnAverage(file);
     expect(error.worstPx).toBeCloseTo(10, 0);
   });
 
-  it("undercoverage is caught even though the garment stays centred", async () => {
+  it("undercoverage is caught even though the garment stays centered", async () => {
     const file = path.join(tmp, "under.png");
     await transformedTop(file, (row) => ({ lo: row.lo + 10, hi: row.hi - 10 }));
     const error = residualOnAverage(file);
@@ -361,7 +361,7 @@ describe("placement, not just width", () => {
     expect(error.undercoveragePx).toBeGreaterThan(0);
   });
 
-  it("a garment with deliberate ease is not penalised on a body it fits", () => {
+  it("a garment with deliberate ease is not penalized on a body it fits", () => {
     // The knit carries 6 px of ease per side over the average body. Measured
     // against its own ease, that is a zero; measured against the body's bare
     // edge it would never be, and that was the mistake the residual avoids.

@@ -202,7 +202,7 @@ function toCandidate(
 
 export interface EnvironmentIntakeResult {
   readonly report: EnvironmentIntakeReport;
-  /** A seeded asset bank, every judgement still unassessed. */
+  /** A seeded asset bank, every judgment still unassessed. */
   readonly assetBank: AssetBankManifest;
   /**
    * Files present in the candidate directory that no declaration mentions.
@@ -236,7 +236,7 @@ function listMediaFiles(directory: string): string[] {
  * Runs intake for one request file.
  *
  * `repositoryRoot` only shapes the paths written into the report, so the
- * artefact is portable between checkouts.
+ * artifact is portable between checkouts.
  */
 export function runEnvironmentIntake(
   requestPath: string,
@@ -290,7 +290,7 @@ export function runEnvironmentIntake(
         ...(record.familyId !== null ? { sceneFamilyId: record.familyId } : {}),
       }),
     ),
-    "Seeded by environment intake. Every judgement is unassessed until a reviewer or an external QA pass fills it in.",
+    "Seeded by environment intake. Every judgment is unassessed until a reviewer or an external QA pass fills it in.",
   );
 
   const undeclaredFiles = listMediaFiles(requestDirectory)

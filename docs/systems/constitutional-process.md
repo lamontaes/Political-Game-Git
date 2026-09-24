@@ -51,8 +51,10 @@ The proposal rule resolver selects only versions operative at the date and
 history frontier, so subsequent proposals use the changed fraction while older
 proposals retain their original denominator and threshold. This is a fictional
 modeled legal change, not a statement that current external law changed.
-`text-only` proposals may record ratification but explicitly lack a modeled
-consumer. No arbitrary clause parser claims otherwise.
+A `policy-provision` delta (a state amendment adopting or repealing one
+catalog proposition) is recorded and read by `policy-provisions.ts`; what it
+changes beyond the record is not modeled. `text-only` proposals may record
+ratification but explicitly lack a modeled consumer. No arbitrary clause parser claims otherwise.
 
 Proposal conventions, initiative qualification, state convention internal
 procedure, rescission/reconsideration and conflicting approved California

@@ -90,7 +90,7 @@ function compileAnywhere(
   });
 }
 
-describe("the programme bank offers genuinely different families", () => {
+describe("the program bank offers genuinely different families", () => {
   /**
    * No configuration count is asserted anywhere in this file.
    *
@@ -157,7 +157,7 @@ describe("the programme bank offers genuinely different families", () => {
     // shared: the purpose section, and the section naming what the Act acts
     // upon. Both are the same role in every family that has one, and their
     // texts are asserted to differ separately, below. Everything else is the
-    // programme's own mechanism and has to be its own.
+    // program's own mechanism and has to be its own.
     const operativeKeysByFamily = programFamilies().map(
       (family) =>
         new Set(
@@ -277,7 +277,7 @@ describe("the bank writes more than one kind of legal act", () => {
    * The failure this guards against is subtler than a rename and was the
    * actual state of the first tranche: eight configurations across four
    * subjects, every one of them the same kind of act. A bank that can only
-   * authorize programmes is a funding slider with several titles, whatever the
+   * authorize programs is a funding slider with several titles, whatever the
    * subjects are called.
    */
   it("puts at least one configuration behind every declared instrument", () => {

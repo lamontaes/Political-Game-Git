@@ -285,7 +285,7 @@ describe("Committee reports and refusals are different events", () => {
   });
 
   it("ends the bill where the motion to report never carried", () => {
-    // Failing to report is a different event from reporting unfavourably, and
+    // Failing to report is a different event from reporting unfavorably, and
     // it does not get filed as one.
     const world = report("favorable", fails);
     const position = measurePosition(world, scenario.measureId);

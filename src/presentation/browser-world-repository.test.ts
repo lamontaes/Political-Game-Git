@@ -13,11 +13,13 @@ import type { EntityId, World } from "../simulation";
 import {
   BROWSER_WORLD_RECORD_KIND,
   BrowserSaveStore,
+  SavesKeptByNewerBuildError,
   createBrowserWorldRecord,
   readStoredRecord,
   validateBrowserWorldRecord,
 } from "./browser-world-repository";
 import type { UnsavedSlot } from "./browser-world-repository";
+import { exportPortableSave, importPortableSave } from "./portable-save";
 import { guardUnsavedWork } from "./unsaved-work-guard";
 import type { UnloadTarget } from "./unsaved-work-guard";
 import { recordedConversationIntents } from "./conversation-continuity";
@@ -51,9 +53,16 @@ class FakeTransaction {
   onerror: (() => void) | null = null;
   onabort: (() => void) | null = null;
 
-  readonly #records: Map<string, unknown>;
+  readonly #storeFor: (name: string) => Map<string, unknown>;
   readonly #control: FakeStorageControl;
   readonly #queue: (() => void)[] = [];
+  /** What each written key held before this transaction, so abort can undo it. */
+  readonly #undo: {
+    records: Map<string, unknown>;
+    key: string;
+    had: boolean;
+    value: unknown;
+  }[] = [];
   #active = false;
   #running = false;
   #settling = false;
@@ -61,11 +70,11 @@ class FakeTransaction {
   #release: (() => void) | null = null;
 
   constructor(
-    records: Map<string, unknown>,
+    storeFor: (name: string) => Map<string, unknown>,
     control: FakeStorageControl,
     lock: FakeTransactionLock,
   ) {
-    this.#records = records;
+    this.#storeFor = storeFor;
     this.#control = control;
     lock.acquire((release) => {
       this.#release = release;
@@ -74,19 +83,22 @@ class FakeTransaction {
     });
   }
 
-  objectStore(): IDBObjectStore {
+  objectStore(name: string): IDBObjectStore {
+    const records = this.#storeFor(name);
     const store = {
       get: (key: IDBValidKey) =>
-        this.#request("get", () => {
-          const value = this.#records.get(String(key));
+        this.#request(name, "get", () => {
+          const value = records.get(String(key));
           return value === undefined ? undefined : structuredClone(value);
         }),
       getAll: () =>
-        this.#request("getAll", () =>
-          [...this.#records.values()].map((value) => structuredClone(value)),
+        this.#request(name, "getAll", () =>
+          [...records.values()].map((value) => structuredClone(value)),
         ),
+      getAllKeys: () =>
+        this.#request(name, "getAllKeys", () => [...records.keys()]),
       put: (value: unknown) =>
-        this.#request("put", () => {
+        this.#request(name, "put", () => {
           if (
             value === null ||
             typeof value !== "object" ||
@@ -95,19 +107,35 @@ class FakeTransaction {
           ) {
             throw new Error("Fake IndexedDB record is missing its key.");
           }
-          this.#records.set(value.saveId, structuredClone(value));
+          this.#undo.push({
+            records,
+            key: value.saveId,
+            had: records.has(value.saveId),
+            value: records.get(value.saveId),
+          });
+          records.set(value.saveId, structuredClone(value));
           return value.saveId;
         }),
       delete: (key: IDBValidKey) =>
-        this.#request("delete", () => {
-          this.#records.delete(String(key));
+        this.#request(name, "delete", () => {
+          this.#undo.push({
+            records,
+            key: String(key),
+            had: records.has(String(key)),
+            value: records.get(String(key)),
+          });
+          records.delete(String(key));
           return undefined;
         }),
     };
     return store as unknown as IDBObjectStore;
   }
 
-  #request<T>(operation: FakeOperation, run: () => T): IDBRequest<T> {
+  #request<T>(
+    storeName: string,
+    operation: FakeOperation,
+    run: () => T,
+  ): IDBRequest<T> {
     const request: {
       result: T;
       error: DOMException | null;
@@ -123,6 +151,7 @@ class FakeTransaction {
       const settle = () => {
         let failed = false;
         try {
+          this.#control.observe(storeName, operation);
           if (this.#control.shouldFail(operation)) {
             throw new Error("Fake IndexedDB was told to fail this write.");
           }
@@ -178,10 +207,20 @@ class FakeTransaction {
     });
   }
 
+  /** Called by code under test, the way it would call the browser's. */
+  abort(): void {
+    this.#abort();
+  }
+
   #abort(): void {
     if (this.#settled) return;
     this.#settled = true;
     this.#queue.length = 0;
+    // An aborted transaction leaves nothing behind, as in a browser.
+    for (const entry of this.#undo.reverse()) {
+      if (entry.had) entry.records.set(entry.key, entry.value);
+      else entry.records.delete(entry.key);
+    }
     this.onabort?.();
     this.#release?.();
   }
@@ -210,9 +249,19 @@ class FakeTransactionLock {
   }
 }
 
-type FakeOperation = "get" | "getAll" | "put" | "delete";
+type FakeOperation = "get" | "getAll" | "getAllKeys" | "put" | "delete";
 
 class FakeStorageControl {
+  /**
+   * Sees every request before it runs, by store; throwing from it fails the
+   * request the way the browser fails a read it will not perform.
+   */
+  observer: ((store: string, operation: FakeOperation) => void) | null = null;
+
+  observe(store: string, operation: FakeOperation): void {
+    this.observer?.(store, operation);
+  }
+
   #failures = new Map<FakeOperation, number>();
   #skips = new Map<FakeOperation, number>();
   #delays = new Map<FakeOperation, number>();
@@ -269,6 +318,7 @@ class FakeStorageControl {
 class FakeIndexedDbFactory {
   readonly records = new Map<string, unknown>();
   readonly interfaceRecords = new Map<string, unknown>();
+  readonly summaryRecords = new Map<string, unknown>();
   readonly control = new FakeStorageControl();
   readonly #lock = new FakeTransactionLock();
   readonly #created = new Set<string>();
@@ -281,8 +331,20 @@ class FakeIndexedDbFactory {
     this.records.set(saveId, structuredClone(value));
   }
 
+  /** A database as version 2 left it: the worlds and interface stores only. */
+  asVersionTwo(): this {
+    this.#created.add("worlds");
+    this.#created.add("interface");
+    return this;
+  }
+
+  hasStore(name: string): boolean {
+    return this.#created.has(name);
+  }
+
   #storeMap(name: string): Map<string, unknown> {
     if (name === "interface") return this.interfaceRecords;
+    if (name === "world-summaries") return this.summaryRecords;
     return this.records;
   }
 
@@ -298,12 +360,19 @@ class FakeIndexedDbFactory {
         created.add(name);
         return {} as IDBObjectStore;
       },
-      transaction: (name: string) =>
-        new FakeTransaction(
-          this.#storeMap(name),
+      transaction: (names: string | readonly string[]) => {
+        const scope = typeof names === "string" ? [names] : [...names];
+        return new FakeTransaction(
+          (name) => {
+            if (!scope.includes(name)) {
+              throw new Error(`${name} is outside this transaction.`);
+            }
+            return this.#storeMap(name);
+          },
           this.control,
           this.#lock,
-        ) as unknown as IDBTransaction,
+        ) as unknown as IDBTransaction;
+      },
       close: () => undefined,
     } as unknown as IDBDatabase;
     const request: {
@@ -322,7 +391,11 @@ class FakeIndexedDbFactory {
       onblocked: null,
     };
     queueMicrotask(() => {
-      if (!created.has("worlds") || !created.has("interface")) {
+      if (
+        !created.has("worlds") ||
+        !created.has("interface") ||
+        !created.has("world-summaries")
+      ) {
         request.onupgradeneeded?.();
       }
       request.onsuccess?.();
@@ -568,7 +641,7 @@ describe("One damaged save does not hide the healthy ones", () => {
   });
 });
 
-describe("Ordering, fencing and acknowledgement", () => {
+describe("Ordering, fencing and acknowledgment", () => {
   it("cannot bring a deleted save back from an autosave already in flight", async () => {
     const { store, factory } = storeWith();
     const world = playerWorld("resurrect");
@@ -724,7 +797,7 @@ describe("Autosave is answerable for the newest world, not the first one", () =>
     factory.control.failNext("put", 20);
     const result = await store.autosave(advanceDemoWorld(world, 4), saveId);
     expect(result.status).toBe("failed");
-    // The acknowledgement stays where it was, so nothing downstream believes
+    // The acknowledgment stays where it was, so nothing downstream believes
     // the newer world is durable.
     expect(store.durableContentId(saveId)).toBe(contentId(world));
   });
@@ -968,7 +1041,7 @@ describe("Durability is content identity and request order, not actionSequence",
   });
 
   // D. Exact duplicate.
-  it("recognises an exact duplicate as already durable without writing again", async () => {
+  it("recognizes an exact duplicate as already durable without writing again", async () => {
     const { store, factory } = autosaveStore();
     const world = playerWorld("duplicate");
     const saveId = store.newSaveId(world);
@@ -1069,7 +1142,7 @@ describe("A player's conversation survives leaving", () => {
       intent: "listen",
     }).world;
 
-    // The behaviour this test is guarding against: a real player turn that
+    // The behavior this test is guarding against: a real player turn that
     // leaves the action sequence exactly where it was.
     expect(spoken.actionSequence).toBe(opened.actionSequence);
     expect(contentId(spoken)).not.toBe(contentId(opened));
@@ -1444,7 +1517,9 @@ describe("A failed delete keeps what was already owed", () => {
     // because of it, and the rollback then found nothing to put back — so the
     // save survived, the newest world did not, and `flush` said settled.
     factory.control.delay("put", 2);
-    factory.control.failNext("put", 1, 1);
+    // Every write puts its record and then its summary, so the autosave's two
+    // puts go through and the tombstone's is the one that fails.
+    factory.control.failNext("put", 1, 2);
     const autosaving = store.autosave(changed, saveId);
     const removing = store.remove(saveId);
 
@@ -1866,4 +1941,376 @@ it("discards a failed autosave while its retry is waiting, without resurrecting 
   await Promise.all([pending, discarded]);
   expect(await store.load(saveId)).toEqual(world);
   expect(store.unsavedWork()).toEqual([]);
+});
+
+describe("The save list reads summaries, not worlds", () => {
+  /** Fails the test the moment anything reads a whole world record. */
+  function forbidWorldReads(factory: FakeIndexedDbFactory): string[] {
+    const seen: string[] = [];
+    factory.control.observer = (storeName, operation) => {
+      seen.push(`${storeName}:${operation}`);
+      if (
+        storeName === "worlds" &&
+        (operation === "get" || operation === "getAll")
+      ) {
+        throw new Error(`The list read a world record (${operation}).`);
+      }
+    };
+    return seen;
+  }
+
+  /** The summary on disk says exactly what the record beside it says. */
+  function expectInStep(factory: FakeIndexedDbFactory, saveId: string): void {
+    const record = factory.records.get(saveId) as Record<string, unknown>;
+    const summary = factory.summaryRecords.get(saveId) as Record<
+      string,
+      unknown
+    >;
+    expect(record).toBeDefined();
+    expect(summary).toBeDefined();
+    expect(summary.generation).toBe(record.generation);
+    if (record.kind === "political-life-browser-world-deleted") {
+      expect(summary.state).toBe("deleted");
+    } else {
+      expect(summary.state).toBe("present");
+      expect(summary.metadata).toEqual(record.metadata);
+    }
+  }
+
+  it("lists without reading any world once summaries exist", async () => {
+    const { store, factory, clock } = storeWith();
+    const first = playerWorld("summary-first");
+    const second = playerWorld("summary-second");
+    const firstId = store.newSaveId(first);
+    const secondId = store.newSaveId(second);
+    await store.save(first, firstId);
+    clock.set("2026-05-01T11:00:00.000Z");
+    await store.save(second, secondId);
+    clock.set("2026-05-01T12:00:00.000Z");
+    expect(
+      (await store.autosave(withRecordedEvent(first, "summary:a"), firstId))
+        .status,
+    ).toBe("saved");
+
+    const seen = forbidWorldReads(factory);
+    const listing = await store.list();
+    expect(listing.damaged).toEqual([]);
+    expect(listing.saves.map((save) => save.saveId)).toEqual([
+      firstId,
+      secondId,
+    ]);
+    expect(listing.saves[0]).toEqual(
+      (factory.records.get(firstId) as { metadata: unknown }).metadata,
+    );
+    expect(seen).toContain("worlds:getAllKeys");
+    expect(seen).toContain("world-summaries:getAll");
+  });
+
+  it("summarizes a version 2 database on first listing without touching a world record", async () => {
+    const factory = new FakeIndexedDbFactory().asVersionTwo();
+    const legacyWorld = playerWorld("pre-summary-v1");
+    const currentWorld = playerWorld("pre-summary-v3");
+    const v1 = createBrowserWorldRecord(
+      legacyWorld,
+      "2026-04-01T10:00:00.000Z",
+      "2026-04-01T10:00:00.000Z",
+      legacyWorld.id,
+    );
+    const v1Metadata: Record<string, unknown> = { ...v1.metadata };
+    delete v1Metadata.worldId;
+    factory.setRaw(legacyWorld.id, {
+      ...v1,
+      recordVersion: 1,
+      metadata: v1Metadata,
+    });
+    const v3 = createBrowserWorldRecord(
+      currentWorld,
+      "2026-04-02T10:00:00.000Z",
+      "2026-04-02T10:00:00.000Z",
+      "save_current" as EntityId,
+      4,
+    );
+    factory.setRaw("save_current", v3);
+    factory.setRaw("save_gone", {
+      kind: "political-life-browser-world-deleted",
+      recordVersion: 3,
+      saveId: "save_gone",
+      generation: 2,
+      deletedAt: "2026-04-03T10:00:00.000Z",
+    });
+    factory.setRaw("save_future", {
+      kind: BROWSER_WORLD_RECORD_KIND,
+      recordVersion: 99,
+      saveId: "save_future",
+      metadata: { savedAt: "2026-05-01T10:00:00.000Z" },
+      payload: "{}",
+    });
+    const before = new Map(
+      [...factory.records].map(([key, value]) => [key, JSON.stringify(value)]),
+    );
+
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      databaseName: "test-worlds",
+    });
+    const listing = await store.list();
+    expect(factory.hasStore("world-summaries")).toBe(true);
+    expect(listing.saves.map((save) => save.saveId).sort()).toEqual(
+      [legacyWorld.id, "save_current"].sort(),
+    );
+    expect(listing.damaged.map((entry) => entry.defect)).toEqual([
+      "unsupported-version",
+    ]);
+
+    // Every record is still exactly the bytes it was.
+    expect(
+      new Map(
+        [...factory.records].map(([key, value]) => [
+          key,
+          JSON.stringify(value),
+        ]),
+      ),
+    ).toEqual(before);
+    // And every one of them now has a summary, so the next list reads none.
+    expect([...factory.summaryRecords.keys()].sort()).toEqual(
+      [...before.keys()].sort(),
+    );
+    expect(
+      (factory.summaryRecords.get("save_current") as { generation: number })
+        .generation,
+    ).toBe(4);
+    forbidWorldReads(factory);
+    const again = await store.list();
+    expect(again).toEqual(listing);
+    expect(await store.load("save_gone" as EntityId)).toBeNull();
+  });
+
+  it("keeps an old save it could not read just now, and lists the rest", async () => {
+    const factory = new FakeIndexedDbFactory().asVersionTwo();
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      databaseName: "test-worlds",
+      delay: async () => {},
+    });
+    const healthy = playerWorld("kept-healthy");
+    const healthyId = store.newSaveId(healthy);
+    const large = playerWorld("kept-large");
+    factory.setRaw(
+      "save_large",
+      createBrowserWorldRecord(
+        large,
+        "2026-04-01T10:00:00.000Z",
+        "2026-04-01T10:00:00.000Z",
+        "save_large" as EntityId,
+        3,
+      ),
+    );
+    await store.save(healthy, healthyId);
+    const before = JSON.stringify(factory.records.get("save_large"));
+
+    // The browser refuses to read the large record, the way Chromium does.
+    factory.control.observer = (storeName, operation) => {
+      if (storeName === "worlds" && operation === "get") {
+        throw new Error("UnknownError: Failed to read large IndexedDB value");
+      }
+    };
+    const listing = await store.list();
+    expect(listing.saves.map((save) => save.saveId)).toEqual([healthyId]);
+    expect(listing.damaged).toEqual([
+      {
+        saveId: "save_large",
+        defect: "could-not-open-now",
+        reason:
+          "One saved game could not be opened just now; it has been kept.",
+        mightBeReadableLater: true,
+        savedAt: null,
+      },
+    ]);
+    // Nothing was decided about it, so nothing about it was kept either.
+    expect(factory.summaryRecords.has("save_large")).toBe(false);
+    expect(JSON.stringify(factory.records.get("save_large"))).toBe(before);
+
+    // When the browser reads it again, it is simply a save.
+    factory.control.observer = null;
+    const later = await store.list();
+    expect(later.damaged).toEqual([]);
+    expect(later.saves.map((save) => save.saveId).sort()).toEqual(
+      [healthyId, "save_large"].sort(),
+    );
+    expect(JSON.stringify(factory.records.get("save_large"))).toBe(before);
+  });
+
+  it("reads a refused old save again, and keeps its summary once it reads", async () => {
+    // A 40 MB Juneau life opened in three fresh browsers of four. In the
+    // fourth the browser refused the one read the list made, and the save
+    // stayed "needs attention" although it was healthy.
+    const factory = new FakeIndexedDbFactory().asVersionTwo();
+    const waits: number[] = [];
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      databaseName: "test-worlds",
+      delay: async (milliseconds) => {
+        waits.push(milliseconds);
+      },
+    });
+    const large = playerWorld("refused-once");
+    factory.setRaw(
+      "save_large",
+      createBrowserWorldRecord(
+        large,
+        "2026-04-01T10:00:00.000Z",
+        "2026-04-01T10:00:00.000Z",
+        "save_large" as EntityId,
+        3,
+      ),
+    );
+    const before = JSON.stringify(factory.records.get("save_large"));
+    let refusals = 1;
+    factory.control.observer = (storeName, operation) => {
+      if (storeName === "worlds" && operation === "get" && refusals > 0) {
+        refusals -= 1;
+        throw new Error("UnknownError: Failed to read large IndexedDB value");
+      }
+    };
+
+    const listing = await store.list();
+    expect(listing.damaged).toEqual([]);
+    expect(listing.saves.map((save) => save.saveId)).toEqual(["save_large"]);
+    expect(waits).toEqual([500]);
+    // Read once, summarized once: the next list never reads the record.
+    expect(factory.summaryRecords.has("save_large")).toBe(true);
+    expect(JSON.stringify(factory.records.get("save_large"))).toBe(before);
+  });
+
+  it("stops asking after three refusals of the same read", async () => {
+    const factory = new FakeIndexedDbFactory().asVersionTwo();
+    const waits: number[] = [];
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      databaseName: "test-worlds",
+      delay: async (milliseconds) => {
+        waits.push(milliseconds);
+      },
+    });
+    factory.setRaw(
+      "save_large",
+      createBrowserWorldRecord(
+        playerWorld("refused-always"),
+        "2026-04-01T10:00:00.000Z",
+        "2026-04-01T10:00:00.000Z",
+        "save_large" as EntityId,
+        3,
+      ),
+    );
+    let reads = 0;
+    factory.control.observer = (storeName, operation) => {
+      if (storeName === "worlds" && operation === "get") {
+        reads += 1;
+        throw new Error("UnknownError: Failed to read large IndexedDB value");
+      }
+    };
+    const listing = await store.list();
+    expect(listing.damaged.map((entry) => entry.defect)).toEqual([
+      "could-not-open-now",
+    ]);
+    expect(reads).toBe(3);
+    expect(waits).toEqual([500, 2000]);
+  });
+
+  it("keeps the summary in step through save, autosave, opening, delete and import", async () => {
+    const { store, factory, clock } = storeWith();
+    const world = playerWorld("in-step");
+    const saveId = store.newSaveId(world);
+    await store.save(world, saveId);
+    expectInStep(factory, saveId);
+
+    clock.set("2026-05-01T11:00:00.000Z");
+    const changed = withRecordedEvent(world, "in-step:one");
+    expect((await store.autosave(changed, saveId)).status).toBe("saved");
+    expectInStep(factory, saveId);
+    expect(
+      (factory.summaryRecords.get(saveId) as { generation: number }).generation,
+    ).toBe(2);
+
+    // Opening stamps the last-played time on both.
+    clock.set("2026-05-01T12:00:00.000Z");
+    await store.load(saveId);
+    expectInStep(factory, saveId);
+    expect(
+      (
+        factory.summaryRecords.get(saveId) as {
+          metadata: { lastPlayedAt: string };
+        }
+      ).metadata.lastPlayedAt,
+    ).toBe("2026-05-01T12:00:00.000Z");
+
+    const exported = await exportPortableSave(store, saveId);
+    if (exported.status !== "ok") throw new Error(exported.reason);
+    const imported = await importPortableSave(store, exported.bundle);
+    if (imported.status !== "imported") throw new Error(imported.reason);
+    expectInStep(factory, imported.saveId);
+
+    expect(await store.remove(saveId)).toBe(true);
+    expectInStep(factory, saveId);
+
+    forbidWorldReads(factory);
+    const listing = await store.list();
+    expect(listing.saves.map((save) => save.saveId)).toEqual([imported.saveId]);
+    expect(listing.damaged).toEqual([]);
+  });
+});
+
+it("a save whose summary cannot be written leaves both stores as they were", async () => {
+  const { store, factory } = storeWith();
+  const world = playerWorld("summary-put-fails");
+  const saveId = store.newSaveId(world);
+  await store.save(world, saveId);
+  const recordBefore = JSON.stringify(factory.records.get(saveId));
+  const summaryBefore = JSON.stringify(factory.summaryRecords.get(saveId));
+
+  factory.control.observer = (storeName, operation) => {
+    if (storeName === "world-summaries" && operation === "put") {
+      throw new Error("Fake IndexedDB refused the summary.");
+    }
+  };
+  const outcome = store.save(
+    withRecordedEvent(world, "summary-put-fails:one"),
+    saveId,
+  );
+  await expect(outcome).rejects.toThrow();
+  expect(JSON.stringify(factory.records.get(saveId))).toBe(recordBefore);
+  expect(JSON.stringify(factory.summaryRecords.get(saveId))).toBe(
+    summaryBefore,
+  );
+
+  factory.control.observer = null;
+  expect(await store.load(saveId)).toEqual(world);
+});
+
+describe("saves kept by a newer version of the game", () => {
+  it("says so rather than that the saves could not be opened", async () => {
+    // The browser refuses to open a database at an older version than the
+    // one on disk: a tab or cached page from before an update, after the
+    // update has run once. Nothing is wrong with the saves.
+    const factory = {
+      open: () => {
+        const request = {
+          error: new DOMException("newer on disk", "VersionError"),
+          onupgradeneeded: null,
+          onsuccess: null,
+          onerror: null as (() => void) | null,
+          onblocked: null,
+        };
+        queueMicrotask(() => request.onerror?.());
+        return request;
+      },
+    } as unknown as IDBFactory;
+    const store = new BrowserSaveStore({
+      indexedDB: factory,
+      databaseName: "newer-worlds",
+    });
+    await expect(store.list()).rejects.toBeInstanceOf(
+      SavesKeptByNewerBuildError,
+    );
+  });
 });

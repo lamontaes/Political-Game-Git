@@ -31,6 +31,7 @@ import {
   projectKnownOpponentActivity,
 } from "./campaign-opponents";
 import { CAMPAIGN_WEEKLY_EVALUATION_KEY } from "./campaign-life-types";
+import { campaignOperatingSpending } from "./campaign-operating-costs";
 import { canonicalSupportBasisPoints } from "./campaigns";
 import { canonicalJson } from "./canonical-json";
 import { cancelFutureDueItem } from "./future-transitions";
@@ -256,6 +257,11 @@ describe("CRUNCH46 opponent campaigns", () => {
         }
       }
       const opponent = campaignOpponentRecords(world)[0]!;
+      // The committee's ordinary bills come out of the same account.
+      balance -= campaignOperatingSpending(
+        world,
+        opponent.committeeOrganizationId,
+      );
       expect(
         resourcePositionAt(
           world,
@@ -343,7 +349,7 @@ describe("CRUNCH46 opponent campaigns", () => {
   );
 
   it("scores a field event like a player's canvass and strengthens only a repeat contact", () => {
-    // Pinned seed: this rival favours field work and holds several events.
+    // Pinned seed: this rival favors field work and holds several events.
     const filed = fileRace("opponents-money-b", { electionInDays: 60 });
     const world = advance(filed.world, 59);
     const opponent = campaignOpponentRecords(world)[0]!;

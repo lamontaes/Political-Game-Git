@@ -3,7 +3,7 @@ CHARACTER: You are six or seven years old, in school.
 RELATIONSHIPS: none supplied for this scene.
 KNOWN WORLD FACTS:
 
-- The world holds an active education enrolment for you.
+- The world holds an active education enrollment for you.
 - There is a rule in the room about staying at your table during quiet work.
 - Another child got up and went to the window while the adult was out of the room.
 - The adult has come back and has not noticed.

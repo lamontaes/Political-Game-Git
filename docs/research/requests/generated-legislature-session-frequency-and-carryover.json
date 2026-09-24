@@ -1,0 +1,26 @@
+{
+  "filedAt": "2026-09-22T23:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "invented-depth audit",
+  "notes": [
+    "Until answered the profile should state this rule as a game default, not as known law."
+  ],
+  "priority": "P1",
+  "question": "For each state whose legislature the game has not read, how many seats does each chamber have, does it meet annually or every other year, does a bill still pending at the end of a session carry over to the next session of the same legislature, and on what date does an ordinary statute take effect after enactment?",
+  "questionId": "generated-legislature-session-frequency-and-carryover",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "invented-depth audit lane",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/legislature-game-profile.ts at main 9f42ba19",
+      "whatItDidNotSettle": "Asserts the rule as known without a source."
+    },
+    {
+      "source": "docs/research/requests/legislative-step-pacing-and-veto-override.json (answered)",
+      "whatItDidNotSettle": "Covers step pacing and overrides, not session frequency or carryover."
+    }
+  ],
+  "title": "For every state the game has not read: how big each chamber is, whether it meets every year, whether bills carry over, and when a new law takes effect",
+  "usableAnswer": "A 52-jurisdiction table (states, D.C., Puerto Rico): seats per chamber; annual or biennial regular session; whether bills carry over between the sessions of one legislature; the default effective date of an ordinary statute; a source per row (NCSL's tables are the usual starting point).",
+  "whyItMatters": "PR #283 (merged 2026-09-22) gives every unresearched state a generated legislature. Its seat counts, veto windows and override fractions are drawn from the researched states, but src/simulation/legislature-game-profile.ts:310-312 and :490-494 state as known law (knownRule(true, ...)) that every legislature 'sits in a regular annual session' and that a pending measure 'does not carry over'. Several states meet biennially and many carry bills over within a two-year legislature, so this is a false legal fact printed with the confidence of a real one, not a placeholder.\n\nThe same generated profile also draws each unresearched state's house size and senate-to-house ratio from the researched states' spread (legislature-game-profile.ts:257-290, :636-652) although the real seat counts are published, and src/simulation/enacted-rule-changes.ts:173 (PR #418, merged today) makes every statute take effect 90 days after enactment in every state, generalized from Alaska, Missouri and Ohio."
+}

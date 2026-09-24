@@ -30,5 +30,5 @@ In `src/player/PlayerGame.tsx`:
 ## Out of this adapter
 
 - `SceneConversation` focus-on-open and document Escape when not browsing
-- `SceneBackdrop` bottom-centre conversation dock / safe max-height
+- `SceneBackdrop` bottom-center conversation dock / safe max-height
 - Wardrobe preview CSS and family labels (see `p29-c-wardrobe-layout-handoff.md`)

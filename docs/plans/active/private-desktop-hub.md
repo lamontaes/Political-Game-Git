@@ -27,7 +27,7 @@ window with enclosed tabs:
   hub-owned authoring worktree that is never reset.
 - **Agents** — `agents/broker.mjs`, a marked derivative of instavm/murmur
   (pinned `dcd793b4`, Apache-2.0) with project scoping, bearer capabilities,
-  Host/Origin defence, collision refusal, envelope/state ledger, idempotent
+  Host/Origin defense, collision refusal, envelope/state ledger, idempotent
   sends and hop caps; `agents/supervisor.mjs` event-driven delivery (one job
   per worker, two concurrent, ACK/status never infer, in-flight work held on
   restart); `agents/codex-app-server.mjs` for hub-managed Codex threads;
@@ -66,7 +66,7 @@ window with enclosed tabs:
   four clients plus the master-chat boundary; UI-started Codex worker
   (gpt-5.6-sol, low) answered this Claude session's request in-thread;
   owner→Claude message from the UI acknowledged with evidence; Stop All left a
-  later request queued (no inference) and the owner cancelled it; restart
+  later request queued (no inference) and the owner canceled it; restart
   kept history and did not revive the worker.
 - Installed from the delivered ZIP into /Applications and launched through
   Finder (parent launchd): first private main build passed the hub-owned

@@ -36,7 +36,7 @@ place of tax: `politicsIssueAccess` returns false and the screen renders
 `ISSUE_WITHHELD.tax` — "Tax work opens when you hold an office with power to
 propose taxes" — at `PlayerGame.tsx:4817`, with the transit equivalent at
 `:4767`. That is the opposite of a silent substitution; it is the screen saying
-what is not there and why, which is the behaviour the rule asks for.
+what is not there and why, which is the behavior the rule asks for.
 
 Two readings of that: either the walk was on a different build, or it saw
 something these three cases do not cover. Both are worth resolving before the
@@ -47,15 +47,15 @@ ever did.
 ## 3. The journal drops a belief instead of saying what it cannot show — CONFIRMED in this tree
 
 `src/presentation/world39-journal.ts` is the only presentation file that reads
-the policy catalogue, and at `:301` and `:338` it drops a recorded private
-belief or campaign commitment with a bare `continue` when the catalogue has no
+the policy catalog, and at `:301` and `:338` it drops a recorded private
+belief or campaign commitment with a bare `continue` when the catalog has no
 proposition for it. The record exists; the player's own view or promise was
 written; the journal renders nothing and says nothing.
 
 That is the one place in this build that breaks the standing rule — ignore it
 and say so, never silently. The fix is not to render the belief as if the
 subject were known, because it is not; it is to keep the entry and say the
-subject is missing. It is a behaviour change to a screen and needs its sentence
+subject is missing. It is a behavior change to a screen and needs its sentence
 chosen deliberately, so it is recorded here rather than guessed at.
 
 It is worth saying that the rest of this build does this better than almost

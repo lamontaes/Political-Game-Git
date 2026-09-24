@@ -10,7 +10,7 @@ KNOWN WORLD FACTS:
   CHARACTER KNOWLEDGE: the same.
   ESTABLISHED TRAITS: none.
   EARLIER CHOICES: none.
-  UNKNOWN / DO NOT ASSUME: any weekday, calendar date or clock time; the name of any book, subject, programme, employer or organisation; any sum of money; how the character feels; anything any other person is doing or thinking; any consequence that follows the choice beyond the choice itself. Also unknown: what you would learn, which people you mean, and whether you will follow through.
+  UNKNOWN / DO NOT ASSUME: any weekday, calendar date or clock time; the name of any book, subject, program, employer or organization; any sum of money; how the character feels; anything any other person is doing or thinking; any consequence that follows the choice beyond the choice itself. Also unknown: what you would learn, which people you mean, and whether you will follow through.
   ALLOWED INTERPRETATION: none beyond the facts above.
   Additionally: do not promise that the plan will be kept or that anything will happen because of it. Do not call it a goal, a resolution or a to-do list.
   PURPOSE: The player decides what matters to them for the next stretch of their life; the choice is recorded and can later be kept by what they actually do.

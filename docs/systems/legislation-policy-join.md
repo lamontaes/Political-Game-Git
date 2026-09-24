@@ -10,10 +10,10 @@ real chamber's recorded procedure, amend it, pass it, and have its fiscal effect
 applied once and only once. It is roughly 2,700 lines of working legislative
 machinery.
 
-It runs on nothing. A new world's policy catalogue is empty by design (see
+It runs on nothing. A new world's policy catalog is empty by design (see
 `policy-content-packs.md` for why that is deliberate and not an oversight), and
 until this change nothing in the engine could have connected a bill to a policy
-question even if the catalogue were full.
+question even if the catalog were full.
 
 That second half is the part that had not been noticed, and it is the more
 important half.
@@ -35,16 +35,16 @@ pass. `IntroduceMeasureInput` carried no field for it, `LegislativeMeasureRecord
 stored none, and the only policy-adjacent link on a measure was
 `policyAlternativeIds`, which is a different thing (below).
 
-So the gap was not "the catalogue is empty and the bills have nothing to point
-at". It was "the catalogue is empty **and** there is no pointer". Filling the
-catalogue on its own would have produced a world holding a list of political
+So the gap was not "the catalog is empty and the bills have nothing to point
+at". It was "the catalog is empty **and** there is no pointer". Filling the
+catalog on its own would have produced a world holding a list of political
 questions that no bill could ever be about, while every screen and every test
 went on passing.
 
 ## The trap this avoided
 
-The obvious reading of "the lifecycle is finished and the catalogue is empty" is
-that the catalogue is the whole job. It is not, and doing only that half would
+The obvious reading of "the lifecycle is finished and the catalog is empty" is
+that the catalog is the whole job. It is not, and doing only that half would
 have been worse than doing neither, because it would have _looked_ complete: a
 world with domains, issues and propositions in it, a legislature passing bills,
 and no connection between the two that anybody would notice until they asked a
@@ -58,7 +58,7 @@ one was the tempting shortcut. It is wrong, and the reason is worth keeping.
 A `PolicyAlternativeRecord` carries a quantitative operation: a named metric
 moved by an exact amount, over a scope and a period, against a frozen baseline.
 That is a real and useful thing, and most of what a legislature does is not it.
-Whether rural transit should be funded at all, whether a licence should exist,
+Whether rural transit should be funded at all, whether a license should exist,
 whether a duty should attach to an office — none of those is a number, and none
 of them can be expressed as one without inventing the number.
 
@@ -90,7 +90,7 @@ direction, magnitude, or effect.
 - `LegislativeMeasureRecord.propositionIds?: readonly EntityId[]`. Optional, so
   measures in saves written before it existed stay structurally readable and
   read as measures about no recorded question rather than as broken records.
-- `introduceMeasure` refuses a proposition id the world's catalogue does not
+- `introduceMeasure` refuses a proposition id the world's catalog does not
   hold, by name, before writing anything.
 - `assertLegislationIntegrity` refuses one that goes missing later, so a
   tampered or partially-restored save fails rather than loading.
@@ -98,13 +98,13 @@ direction, magnitude, or effect.
   resolve, skipping those that do not rather than throwing — a read-only query
   should not be what fails.
 
-Nothing on screen changes yet, because the catalogue is still empty. This is
-the join that a loaded catalogue will have something to attach to.
+Nothing on screen changes yet, because the catalog is still empty. This is
+the join that a loaded catalog will have something to attach to.
 
 ## What is still open
 
 - **Nothing passes it yet.** All six call sites above still introduce measures
-  with no proposition. Wiring them is real work and needs a catalogue with
+  with no proposition. Wiring them is real work and needs a catalog with
   content in it first, or the wiring has nothing to reference.
 - **Route 2, deliberately not started.** A proposition could also carry the
   measures that have addressed it, so a question could be asked "what has been

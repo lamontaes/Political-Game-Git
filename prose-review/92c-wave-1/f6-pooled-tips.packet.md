@@ -11,7 +11,7 @@ KNOWN WORLD FACTS:
   CHARACTER KNOWLEDGE: you saw the cash come out before the count. You do not know what it was for, and nothing establishes that.
   ESTABLISHED TRAITS: none.
   EARLIER CHOICES: none.
-  UNKNOWN / DO NOT ASSUME: any weekday, calendar date, month or clock time; any name beyond the role slots named above; any sum of money, wage, price, rent or debt figure; the name of any employer, school, college, programme or organisation; whether the character attends a four-year college, lives on a campus, or lives away from family; any consequence that follows the choice.
+  UNKNOWN / DO NOT ASSUME: any weekday, calendar date, month or clock time; any name beyond the role slots named above; any sum of money, wage, price, rent or debt figure; the name of any employer, school, college, program or organization; whether the character attends a four-year college, lives on a campus, or lives away from family; any consequence that follows the choice.
   ALLOWED INTERPRETATION: none beyond the facts above.
   Additionally: do not state an amount. Do not establish {role:colleague}'s motive, circumstances or intent. Do not establish what management would do.
   PURPOSE: Something you saw, that costs the people you work with, done by somebody with more standing than you. The scene ends before you act.

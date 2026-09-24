@@ -3,7 +3,7 @@ CHARACTER: You are seven years old, in school.
 RELATIONSHIPS: none supplied for this scene.
 KNOWN WORLD FACTS:
 
-- The world holds an active education enrolment for you.
+- The world holds an active education enrollment for you.
 - The class is being put into pairs for a piece of work.
 - You have been put with the child nobody else asked for.
   PLAYER KNOWLEDGE: what the character sees and hears in the room.

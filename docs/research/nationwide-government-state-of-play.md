@@ -152,7 +152,7 @@ The refusal runs one way only, and that asymmetry was corrected during this
 work. A generated pack carrying read law is the goal, not a blend to refuse: a
 game profile exists because nothing has been read, and the moment something IS
 read the read value belongs there. A check that refused a constitution inside a
-generated pack made "real law overrides the draw" impossible to honour.
+generated pack made "real law overrides the draw" impossible to honor.
 
 A generated pack is also kept out of `LEGISLATIVE_RULE_PACKS`, which still
 answers the research question and would otherwise list a generated legislature

@@ -2,21 +2,21 @@
  * EXTERNAL ASSET PACK INTAKE.
  *
  * Somebody downloads a free pack, and the question is whether the project can
- * use it. Two things decide that, and they are independent: what the licence
+ * use it. Two things decide that, and they are independent: what the license
  * permits, and whether the files are the kind of thing this renderer draws.
  *
  * The failure this contract exists to prevent is answering the second question
  * with enthusiasm and the first with a shrug. A CC0 pack of rigged 3D meshes is
  * perfectly licensed and completely unusable to a 2D compositor that has no
- * rigging step; a beautiful set of finished 2D plates with no licence file is
+ * rigging step; a beautiful set of finished 2D plates with no license file is
  * perfectly usable and legally unavailable. Both are common, and both look like
  * "assets we have" in a folder listing.
  *
  * So a pack gets ONE disposition, and it has to survive both questions:
  *
- * - `use-now`     — the licence is verified from a document in the archive AND
+ * - `use-now`     — the license is verified from a document in the archive AND
  *                   the pack contains finished art this renderer can draw.
- * - `archive`     — kept and catalogued; not usable as things stand. The
+ * - `archive`     — kept and cataloged; not usable as things stand. The
  *                   commonest reason is that turning it into art would need
  *                   rigging, posing or rendering that this project does not do.
  * - `reject`      — not admissible. Unverified rights are the usual cause, and
@@ -28,15 +28,15 @@
  */
 
 // ---------------------------------------------------------------------------
-// Licence
+// License
 // ---------------------------------------------------------------------------
 
 /**
- * How the licence claim was established.
+ * How the license claim was established.
  *
  * `archive-document` is the only answer that counts as verified: a file inside
  * the archive states the terms. A storefront page can change, a folder name is
- * not a grant, and "it was free" is not a licence.
+ * not a grant, and "it was free" is not a license.
  */
 export type LicenceEvidenceKind =
   "archive-document" | "distribution-page" | "creator-statement" | "none";
@@ -49,7 +49,7 @@ export const LICENCE_EVIDENCE_KINDS: readonly LicenceEvidenceKind[] = [
 ];
 
 export interface ExternalPackLicence {
-  /** SPDX identifier when the licence has one. Absent when rights are unknown. */
+  /** SPDX identifier when the license has one. Absent when rights are unknown. */
   readonly spdxId?: string;
   /** What the evidence actually says, quoted or closely paraphrased. */
   readonly statement: string;
@@ -62,7 +62,7 @@ export interface ExternalPackLicence {
 }
 
 /**
- * Whether the licence is established well enough to ship the bytes.
+ * Whether the license is established well enough to ship the bytes.
  *
  * Deliberately strict: only a document inside the archive counts. This mirrors
  * the repository rule that unknown rights stay unknown and are never inferred
@@ -85,7 +85,7 @@ export function licenceIsVerified(licence: ExternalPackLicence): boolean {
  *
  * `finished-2d-art` is the only category a 2D compositor can use directly. The
  * distinctions below it matter because they are the ones that get blurred:
- * a PBR base-colour map is a 2048x2048 PNG that looks like art in a file
+ * a PBR base-color map is a 2048x2048 PNG that looks like art in a file
  * listing and is an unwrapped UV atlas in fact, and a promotional render is a
  * picture of the asset rather than the asset.
  */
@@ -247,7 +247,7 @@ function finding(
  * Checks a pack record against the two questions it exists to answer.
  *
  * The interesting rules are the asymmetric ones. `use-now` has to earn both a
- * verified licence and at least one directly usable file; a refusal only has to
+ * verified license and at least one directly usable file; a refusal only has to
  * say why. That asymmetry is the point: the cost of wrongly archiving a good
  * pack is that someone re-reads the record later, and the cost of wrongly
  * using a bad one is shipping art the project has no right to.
@@ -345,7 +345,7 @@ export function validateExternalPackRecord(
           "use-now-without-verified-licence",
           "error",
           id,
-          "A pack may only be used now when a document inside the archive states the licence. Unknown rights stay unknown.",
+          "A pack may only be used now when a document inside the archive states the license. Unknown rights stay unknown.",
         ),
       );
     }
@@ -387,7 +387,7 @@ export function validateExternalPackRecord(
           "harvest-without-verified-licence",
           "error",
           id,
-          `'${asset.sourcePath}' was copied into the repository from a pack whose licence is not verified.`,
+          `'${asset.sourcePath}' was copied into the repository from a pack whose license is not verified.`,
         ),
       );
     }

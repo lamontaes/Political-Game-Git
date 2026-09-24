@@ -41,7 +41,7 @@ the normal route's rendered page contains no trace of it.
   use Move up / Move down; change size; unpin. The rail survives navigation and
   survives a reload.
 - Open the Calendar and see whose each entry is — the chamber's agenda is
-  labelled as the chamber's, not as an appointment.
+  labeled as the chamber's, not as an appointment.
 - Open Personal: name, age, household, education, work, and three kinds of money
   kept in three lines because the world keeps them in three positions.
 - Open the Journal and follow a person reference into their record and back.

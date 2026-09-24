@@ -129,7 +129,7 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   await expect(view).toBeVisible();
   await expect(view).toHaveAttribute("data-provision-count", "3");
 
-  // Talk to a modelled colleague; talking legislates nothing.
+  // Talk to a modeled colleague; talking legislates nothing.
   await talkToFirstColleague(page);
   const strip = page.getByTestId("conversation-strip");
   // The colleague talks about the bill this world filed, whose number came

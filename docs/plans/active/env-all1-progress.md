@@ -59,7 +59,7 @@ calibrated -> preview only, never ordinary play):
 A. environment-sources.ts + test - derived source-to-scene disposition ledger.
 B. Courtroom carried through: tiers -> family -> spec -> registry -> manifest.
 C. scene-venues.ts - canonical locationKey -> scene adapter; resolveLifeScene extension
-honouring access, travel (travel is NOT arrival), and no-time-advance-on-read.
+honoring access, travel (travel is NOT arrival), and no-time-advance-on-read.
 D. scene-consumers.ts refreshed against what is actually wired now.
 E. ?view=scene-gallery extended into the one navigable review.
 F. Integration patch note for UI-core only if a shared file genuinely needs it.

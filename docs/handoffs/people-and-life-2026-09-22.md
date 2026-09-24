@@ -37,7 +37,7 @@ The day you spend the most time on has no artwork whatsoever — all twenty-eigh
 player stylesheets were checked and not one references an image — and the three
 ways a thing on your calendar can end are drawn identically. A thing you turned
 down, a thing that expired without you ever being asked, and a thing still
-waiting are all the same grey dot. Both are now filed as art requests; the
+waiting are all the same gray dot. Both are now filed as art requests; the
 third request, for traits, is held because it would mean asking someone to draw
 for a half-built screen, and art commissioned that way constrains the screen
 instead of serving it.
@@ -66,7 +66,7 @@ waiting, and the player answers it the way they answer any other standing thing
 rather than as a refusal. Asks between two other people keep deciding
 themselves exactly as they do now. The cost is that a player who ignores their
 messages accumulates unanswered asks, which is either realistic or annoying
-depending on taste, and that is the judgement somebody has to make rather than
+depending on taste, and that is the judgment somebody has to make rather than
 me.
 
 It was left alone deliberately. It changes how the game behaves in a way a
@@ -155,7 +155,7 @@ missing is plumbing: a loader that builds a `TraitPack` from data on disk, a
 `traits` field on `RuntimeContentPack`, and a way for `loadedTraitRegistry` to
 take the installed packs instead of a literal.
 
-**This is the same shape as the policy catalogue**, and belongs beside it in
+**This is the same shape as the policy catalog**, and belongs beside it in
 any report: the writers exist, the route in does not. It is not a failure of
 this branch, it is the next piece of work, and it is plumbing rather than
 design.
@@ -435,7 +435,7 @@ waiting for now exists. Two requests are filed in
 - **`ui-standing-thing-state-marks`** — three marks for the three ways a
   standing thing ends. Section 1 made a lapse genuinely different from a
   refusal in the simulation, and the interface still draws both, and a thing
-  still waiting, with the same 4px grey dot at `src/player/player.css:4992`.
+  still waiting, with the same 4px gray dot at `src/player/player.css:4992`.
   A player who cannot tell them apart reads every expired hold as a decision
   they made.
 

@@ -6,7 +6,7 @@
  * that is the whole difficulty with it: a record describes a real respondent's
  * answers, and it supports population estimates for a public use microdata
  * area, but it supports no statement at all about any particular household in
- * the game world, and no behavioural rate, biography or household-formation
+ * the game world, and no behavioral rate, biography or household-formation
  * probability may be derived from it.
  *
  * Every variable is `Sourced<T>` because the dictionary says so. PUMS uses a

@@ -32,7 +32,7 @@ focusable in every browser, and a reason no one can hear is not a reason given.
 
 Only this: **when the answer is no, the reason is the sentence the player
 reads.** It is already player-facing prose — it was simply never displayed, so a
-refusal reached the player as a greyed-out button and nothing else.
+refusal reached the player as a grayed-out button and nothing else.
 
 So a reason should:
 

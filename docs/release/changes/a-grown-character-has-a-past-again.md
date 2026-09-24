@@ -20,5 +20,5 @@ came with it. The past it writes is a placeholder, not research, and it will be
 replaced by histories built from real schools — but a generated past is nearer
 to your life than none.
 
-Saves made under the previous behaviour are untouched and still rebuild exactly
+Saves made under the previous behavior are untouched and still rebuild exactly
 as they were.

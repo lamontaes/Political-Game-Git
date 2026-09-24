@@ -67,7 +67,7 @@ unusual garment semantics.
 three-quarter pairs); child and adolescent bodies; poses absent from source
 (lectern, seated-at-desk with forearms on a surface); garments outside the
 bounds; **any sleeve configuration whose upper arm or hand is fused in the
-source**, because no 2D transform synthesises an edge the source never drew.
+source**, because no 2D transform synthesizes an edge the source never drew.
 
 ## 4. Arm measurement result
 
@@ -83,7 +83,7 @@ torso — its wrist and width.
 
 **What cannot.** The inner edge of any fused row, which means every upper arm
 on every body measured; every arm of a seated pose with hands on the thighs;
-the elbow joint centre; layering (front of or behind the torso); a wrist on
+the elbow joint center; layering (front of or behind the torso); a wrist on
 an arm whose hand clenches or whose forearm rows rejoin the torso.
 
 **Representation.** `ArmMeasurementEntry` — asset, sha256, body family, pose
@@ -115,7 +115,7 @@ adding it to the manifest with a pose family; nothing in the tool is edited.
   sleeve; a sleeve varies along its own axis, not along canvas rows.
 - **Independent transforms / layers:** not decidable from this evidence. The
   evidence needed is a lean and a heavy body in the same pose with arms held
-  clear, or the interior arm line read from colour. Splitting tops into torso
+  clear, or the interior arm line read from color. Splitting tops into torso
   and two sleeves is NOT recommended on today's evidence: it would triple the
   top layer count and multiply per-pose art for a benefit that cannot yet be
   measured.
@@ -131,7 +131,7 @@ single canvas, so only it carries width evidence.
 
 ## 6. Economics
 
-Categories are labelled by the kind of evidence behind them.
+Categories are labeled by the kind of evidence behind them.
 
 | Category                                         | Reduction                                                          | Evidence class                                                                                                                             |
 | ------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -176,7 +176,7 @@ measurement overlays is a read-only step over what exists. A separate
    — the one generation that turns the sleeve question from occluded to
    measured, and the first real lean/average/heavy torso triple for PR #89's
    fixture claims.
-2. **Read the interior arm line** from the source colour as a labelled
+2. **Read the interior arm line** from the source color as a labeled
    `silhouette-rule` estimate, so seated and forward-carried arms gain an
    inner edge a human can confirm rather than none at all.
 3. **Overlay the fit and arm reports on the character proof route** —

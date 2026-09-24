@@ -31,6 +31,7 @@ import {
   pressRecordByKey,
   answerPressRequest,
   appendPressRecord,
+  activeAssignments,
   assignedReporter,
   canInstitutionAct,
   discloseToReporter,
@@ -594,6 +595,42 @@ describe("PRESS46 established finding, leak and ground rules", () => {
     expect(delegated).toHaveLength(1);
   });
 
+  it("prints dates in words and no game wording in any story", () => {
+    const stories = (concluded.history.publications ?? []).filter((p) =>
+      p.outletKey.startsWith("media:"),
+    );
+    expect(stories.length).toBeGreaterThan(0);
+    for (const story of stories)
+      expect(`${story.headline}\n${story.body}`).not.toMatch(
+        /\b\d{4}-\d{2}-\d{2}\b|in this game|the game has/,
+      );
+  });
+
+  it("asks the subject about one case once at a time, never twice in a day", () => {
+    const requests = concluded.history.events.filter(
+      (e) =>
+        e.type === "press.response-requested" &&
+        e.tags.includes(`press46.matter:${opened.matter.id}`),
+    );
+    expect(requests.length).toBeGreaterThan(0);
+    const perOutletDay = new Map<string, number>();
+    for (const request of requests) {
+      const outlet = request.tags.find((tag) =>
+        tag.startsWith("press.outlet:"),
+      );
+      const key = `${outlet}|${request.occurredAt}`;
+      perOutletDay.set(key, (perOutletDay.get(key) ?? 0) + 1);
+    }
+    expect([...perOutletDay.values()].every((count) => count === 1)).toBe(true);
+    // And no outlet works two stories on the case at once.
+    for (const outlet of mediaOutlets(concluded)) {
+      const open = activeAssignments(concluded, outlet.id).filter(
+        (lead) => lead.matterId === opened.matter.id,
+      );
+      expect(open.length).toBeLessThanOrEqual(1);
+    }
+  });
+
   it("makes the finding order the misused money repaid, and costs no decided race", () => {
     const proceeding = pressRecordsOfKind(concluded, "matter-proceeding").find(
       (p) => p.matterId === opened.matter.id,
@@ -621,10 +658,15 @@ describe("PRESS46 established finding, leak and ground rules", () => {
     const flow = concluded.history.resourceFlows.find(
       (row) => row.basisKind === "custom:ethics-restitution",
     )!;
-    expect(flow.recipient).toEqual({
-      kind: "organization",
-      organizationId: fixture.campaign.organizationId,
-    });
+    // Paid to the government, never back into the committee it came from.
+    expect(flow.recipient.kind).toBe("organization");
+    const recipient = concluded.history.organizations.find(
+      (row) =>
+        flow.recipient.kind === "organization" &&
+        row.id === flow.recipient.organizationId,
+    )!;
+    expect(recipient.id).not.toBe(fixture.campaign.organizationId);
+    expect(recipient.stableKey).toMatch(/^public-government:/);
     const outcome = concluded.history.resourceTransferOutcomes.find(
       (row) => row.resourceFlowId === flow.id,
     )!;

@@ -7,9 +7,9 @@
  *     session through the hub's MCP endpoint with its own token;
  *   - Claude asks Codex one short question; Codex's reply arrives and is
  *     acknowledged; the owner sends Claude a message from the UI and the
- *     ledger shows Claude's acknowledgement and evidence;
+ *     ledger shows Claude's acknowledgment and evidence;
  *   - Stop All stops hub-managed work only; a request sent afterwards stays
- *     queued (no inference) and is cancelled from the UI;
+ *     queued (no inference) and is canceled from the UI;
  *   - after a restart the managed worker is not revived.
  *
  * Usage:
@@ -307,10 +307,10 @@ let brokerUrl = null;
   );
   await lateRow.getByRole("button", { name: "Cancel" }).click();
   await waitFor(
-    async () => (await lateRow.innerText()).includes("cancelled · owner"),
-    "late request cancelled",
+    async () => (await lateRow.innerText()).includes("canceled · owner"),
+    "late request canceled",
   );
-  check("UI: owner cancelled the queued request", true, late.id);
+  check("UI: owner canceled the queued request", true, late.id);
   await claude.client.close();
   await quitHub(app);
 }
@@ -336,7 +336,7 @@ let brokerUrl = null;
   const history = await agents.locator("#envelopes").innerText();
   check(
     "restart: message history and states persisted",
-    history.includes(`nonce ${nonce}`) && history.includes("cancelled · owner"),
+    history.includes(`nonce ${nonce}`) && history.includes("canceled · owner"),
   );
   await quitHub(app);
 }

@@ -58,7 +58,7 @@ A request for a body carries a `figureContext` with a `postureClass` from the
 pose families' own vocabulary (`POSE_POSTURE_CLASSES`), so a body request speaks
 the same words as the poses it will fill. A non-standing posture must also name
 its `postureCues` — `bent-knees`, `thighs-forward`. This is the seated-chair
-case: a plate labelled `seated` that is really a short upright figure lands
+case: a plate labeled `seated` that is really a short upright figure lands
 every contact assertion (pelvis on the seat plane, soles on the floor) and
 still reads as standing behind the chair, so "seated" as a bare label is not
 enough. At promotion the cues become an acceptance criterion naming the wrong
@@ -202,13 +202,13 @@ ten states: Kentucky, Virginia, Tennessee, California, Minnesota, Texas, New
 York, North Dakota, Nebraska and New Mexico. No capitol picture exists
 anywhere in the project — all 126 records in `art/manifest/asset_manifest.json`
 were read, eleven of them environment plates, and the civic exteriors it holds
-are a campaign storefront, a park pavilion and a neighbourhood doorstep. The
+are a campaign storefront, a park pavilion and a neighborhood doorstep. The
 consumer is the `state` step of the world introduction, which is the one step
 of four with no artwork behind it.
 
 The records were generated from the corpus rather than typed. Priority follows
 `referencePack`: P1 for the six states with a strong source family, P2 for the
-four still pending — a sourcing reason, not a judgement about the state.
+four still pending — a sourcing reason, not a judgment about the state.
 `minimumWidth: 2208` and `alphaRequired: false` come from measuring the two
 regional plates that already ship into that same panel (2496x1664 and
 2208x1584, both 8-bit RGB), not from a guess.

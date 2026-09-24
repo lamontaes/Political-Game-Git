@@ -23,7 +23,8 @@ import {
   completedActivityHere,
   sceneVenueForLocationKey,
 } from "./scene-venues";
-import { venueActivities } from "./venue-activity";
+import { formatRoutineElapsedMinutes } from "./routine-outcome";
+import { venueActivities, venueTimingLabel } from "./venue-activity";
 import { ordinaryGroceryRoute } from "./ordinary-grocery-route";
 
 /** Pure read-model for the feature-local Places workspace. */
@@ -235,19 +236,11 @@ function projectVenueOffer(
   ].filter(Boolean);
   let durationLabel: string | null = null;
   if (refusal === null && elapsedMinutes !== null) {
-    try {
-      const activityState = scheduledActivityState(world, activity.id);
-      const activityMinutes =
-        activityState.status === "scheduled"
-          ? scheduledActivityPerformanceTiming(world, activity.id)
-              .activityMinutes
-          : null;
-      durationLabel = journey
-        ? `${elapsedMinutes} minutes total: ${journey.waitMinutes} waiting, ${journey.journeyMinutes} travelling, and ${activityMinutes} at the activity.`
-        : `${elapsedMinutes} minutes, including any wait before it begins.`;
-    } catch {
-      durationLabel = null;
-    }
+    const timing = venueTimingLabel(world, activity.id);
+    durationLabel =
+      journey && timing && !journey.alreadyCompleted
+        ? `${timing} The trip there takes ${formatRoutineElapsedMinutes(journey.journeyMinutes)} before it.`
+        : timing;
   }
   return {
     id: `venue-${activity.id}`,

@@ -19,7 +19,7 @@ import type {
  * reference observations shown elsewhere on the Budget page.
  *
  * Only transferred money counts. An assessed tax that has not been collected,
- * an appropriation, a forecast and a cancelled request create no transfer
+ * an appropriation, a forecast and a canceled request create no transfer
  * outcome and so never appear as money. A failed or refused transfer is listed
  * as an attempt that moved nothing. No account is a different fact from a
  * zero balance, and a balance is shown only when the recorded opening and
@@ -308,7 +308,7 @@ function accountGraph(
     ? {
         ...graph,
         description:
-          "Recorded cash transfers through this modeled public account; tax assessments, appropriations, and cancelled requests are excluded.",
+          "Recorded cash transfers through this modeled public account; tax assessments, appropriations, and canceled requests are excluded.",
         referenceLabel: `Account history from ${openedAt} through ${asOf}`,
         boundaries: [
           "Simulated account history only; government-wide totals and published reference series remain separate.",

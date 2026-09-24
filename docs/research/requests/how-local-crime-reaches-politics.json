@@ -1,0 +1,23 @@
+{
+  "filedAt": "2026-09-23T01:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "Local crime",
+  "priority": "P1",
+  "question": "How does local crime actually reach local politics in the United States? Specifically: how much do voters' views of an incumbent mayor, sheriff, county prosecutor or council member move with a rise or fall in reported crime, or after one high-profile local crime, and for how long? How often does crime become a campaign issue in municipal, sheriff and prosecutor races, and what does a challenger typically cite? Does being a victim of a crime yourself change how you vote or which issues you rank first, and how much? What do local governments typically do in response, and how quickly (police staffing, budget, ordinances)?",
+  "questionId": "how-local-crime-reaches-politics",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Local crime thread, following lamontae's 2026-09-22 8:53 p.m. ET message asking for local crime and that every bill have an impact",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crime/producer.ts localCrimeFigures",
+      "whatItDidNotSettle": "The game can count reported crime and arrests for any town over any window, but nothing reads those counts to move a race, a vote or a person's priorities, because nobody has said by how much."
+    },
+    {
+      "source": "src/simulation/crisis/handling-reactions.ts UNRESEARCHED_DISASTER_HANDLING",
+      "whatItDidNotSettle": "The parallel disaster rule is itself an unresearched blanket, so it cannot be borrowed as evidence for crime."
+    }
+  ],
+  "title": "How local crime moves voters, races and local government",
+  "usableAnswer": "A short answer for each of the four parts, with sources. First, the size and duration of the effect of crime trends and of single incidents on incumbent support, by office (mayor, sheriff, prosecutor, council), stated as a range. Second, how often crime is a leading campaign issue by office and place size. Third, the measured effect of personal victimization on political attitudes and turnout, if any. Fourth, the typical local government responses and their lag. Where the literature disagrees or is thin, say so.",
+  "whyItMatters": "Crime now happens in every town and reaches the local paper, but it changes nobody's politics. The owner's rule is that events must have consequences and that the depth must come from research, not invention. These answers decide what crime does to races, to the victims themselves and to local officeholders."
+}

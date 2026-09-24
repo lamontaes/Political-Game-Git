@@ -53,7 +53,7 @@ Recorded because reporting either as a defect would have been wrong.
 
 - `pin rail present: 0` — `ShellPinRail` returns `null` with no pins, and the
   probe measured before anything was pinned. An empty rail rendering nothing is
-  the intended behaviour.
+  the intended behavior.
 - `Back present: 0` — the control reads "← Back"; a `/^back/i` matcher cannot
   see it. The testid is `<workspace>-back`.
 

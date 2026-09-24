@@ -7,6 +7,7 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { recordContactMeetingKept } from "../simulation/people-contact";
 
 /**
  * What a completed calendar activity meant for the domain that booked it.
@@ -24,6 +25,8 @@ export function recordDomainAttendance(
   activityId: EntityId,
   attendance: CampaignLifeAttendance = "attended",
 ): World {
+  const kept = recordContactMeetingKept(world, activityId);
+  if (kept !== world) return kept;
   const record = campaignLifeActivityForScheduledActivity(world, activityId);
   if (!record) return world;
   if (

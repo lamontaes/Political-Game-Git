@@ -23,7 +23,10 @@ import {
   projectCampaign,
   spendAnAfternoon,
 } from "../../src/presentation/campaign-projection";
-import { fileForOffice } from "../fixtures/campaign-fixture";
+import {
+  campaignUntilDecided,
+  fileForOffice,
+} from "../fixtures/campaign-fixture";
 import { enterSupportedTerm } from "../fixtures/recorded-legislative-term";
 import { openFiscalAuthorityWork } from "../../src/presentation/fiscal-authority-work";
 import {
@@ -137,19 +140,17 @@ function wonKentuckySeat(): { world: World; personId: EntityId } {
     world: openOrdinaryLife(built.world, built.playerPersonId),
     personId: built.playerPersonId,
   };
+  // Plays through the shared helper the doc comment above already says this
+  // fixture wants, rather than the weaker hand-rolled sequence that used to
+  // live here: one fundraising afternoon, three outreach afternoons, then
+  // sixty idle days. That sequence won only against a single opponent. A
+  // contest now opens with two to four, so the idle days lost the race and
+  // this fixture reported "lost" — the campaign stopped working, not the
+  // cross-jurisdiction refusal this file exists to prove. The assertion is
+  // unchanged; only the effort that reaches it is, and it is now the same
+  // effort every other seated-member fixture uses.
   let world = fileForOffice(life.world, life.personId);
-  world = spendAnAfternoon(world, life.personId, "fundraising");
-  for (let index = 0; index < 3; index += 1) {
-    world = passOrdinaryDays(world);
-    world = spendAnAfternoon(world, life.personId, "outreach");
-  }
-  for (
-    let day = 0;
-    day < 60 && projectCampaign(world, life.personId).phase === "active";
-    day += 1
-  ) {
-    world = passOrdinaryDays(world);
-  }
+  world = campaignUntilDecided(world, life.personId);
   expect(projectCampaign(world, life.personId).phase).toBe("won");
   // A win records a dated term; the seat is active only once that term begins.
   world = enterSupportedTerm(world, life.personId);

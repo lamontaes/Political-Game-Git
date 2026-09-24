@@ -9,7 +9,7 @@ goal pursuit, long-life memory consolidation, the policy issue taxonomy, caucus
 and coalition formation, and facial expression derivation. Narrow the
 legislative ethics question to the 27 states nobody has answered.
 
-Two of the eight originally filed were withdrawn in favour of another lane's
+Two of the eight originally filed were withdrawn in favor of another lane's
 record on the same ground: the content pack effect vocabulary, which the
 hardcoded-content audit lane filed first from a measured pack round-trip, and
 the trait count, which the transcripts lane filed as person-starting-trait-count.

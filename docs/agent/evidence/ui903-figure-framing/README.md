@@ -119,7 +119,7 @@ coverage and the exact request.
 
 Seven of ten paintable rooms declare no standard body width. That is a missing
 measurement. Nothing in this report may be copied into a scene's floor
-calibration to fill it — the estimates here are labelled `visual-estimate`
+calibration to fill it — the estimates here are labeled `visual-estimate`
 precisely so they cannot be mistaken for one, and the fix for a missing
 measurement is to measure it.
 

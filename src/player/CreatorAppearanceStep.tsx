@@ -16,6 +16,8 @@ import { PersonAppearanceControls } from "./PersonAppearanceControls";
 import { wearableChoicesIn } from "./SavedAppearance";
 import { PersonPortrait } from "./PersonPortrait";
 import { WardrobeFigure } from "./WardrobeFigure";
+import { PreparedArtworkPreload } from "./ModularCharacter";
+import { resolvePersonPortrait } from "../presentation/person-visual";
 import "./creator-appearance.css";
 
 /** Reuses the personal wardrobe transaction on an isolated prospective record. */
@@ -60,7 +62,13 @@ export function CreatorAppearanceStep({
       data-testid="creator-stage-appearance"
     >
       {person && draft ? (
-        <div className="kit41-creator-layout">
+        <div
+          className={
+            libraries && ready
+              ? "kit41-creator-layout"
+              : "kit41-creator-layout kit41-creator-layout--no-figure"
+          }
+        >
           <div className="kit41-creator-preview">
             <PersonPortrait world={draft} personId={person.id} size="large" />
             {libraries && ready ? (
@@ -74,10 +82,12 @@ export function CreatorAppearanceStep({
           </div>
           <div>
             <h2>How you look</h2>
-            <p className="creator-preview-note">
-              Choose your appearance before beginning. These changes affect only
-              your preview.
-            </p>
+            {ready ? (
+              <p className="creator-preview-note">
+                Choose your appearance before beginning. These changes affect
+                only your preview.
+              </p>
+            ) : null}
             {bodyUnavailable ? (
               <p role="alert">
                 No compatible masculine body and outfit is available for this
@@ -114,6 +124,20 @@ export function CreatorAppearanceStep({
                       )
                     : undefined
                 }
+                renderPreload={
+                  libraries
+                    ? (appearance) => {
+                        // The preview and portrait draw this same plan.
+                        const visual = resolvePersonPortrait(
+                          { ...person, appearance },
+                          { libraries },
+                        );
+                        return visual.kind === "modular" ? (
+                          <PreparedArtworkPreload plans={[visual.plan]} />
+                        ) : null;
+                      }
+                    : undefined
+                }
                 renderHairThumbnail={
                   libraries
                     ? (appearance) => (
@@ -139,7 +163,7 @@ export function CreatorAppearanceStep({
                 {libraries?.unavailableReason ??
                   (refusal
                     ? "This age has no supported portrait artwork yet. Your character can still begin."
-                    : "No compatible artwork is available in this catalog.")}
+                    : "Choosing how you look is not available yet. Your character can still begin.")}
               </p>
             )}
           </div>

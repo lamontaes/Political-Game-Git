@@ -46,11 +46,16 @@ export function firstLocality(usps: string) {
 }
 
 export function adultLifeIn(usps: string, seed: string) {
+  return adultLifeAt(firstLocality(usps).key, seed);
+}
+
+/** A forty-year-old's ordinary life in one named place, by its place key. */
+export function adultLifeAt(placeKey: string, seed: string) {
   const game = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
       seed,
-      placeKey: firstLocality(usps).key,
+      placeKey,
       startAge: 40,
       questionnaire: "skipped",
     }),

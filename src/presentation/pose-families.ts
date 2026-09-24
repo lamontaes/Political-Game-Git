@@ -74,7 +74,7 @@ export const NEAR_TERM_POSE_FACINGS: readonly PoseFacing[] = [
  * The landmark set every pose family declares. These are the points needed for
  * compatibility reasoning, control-plate authoring and debug overlays. `head`
  * is the HEAD ATTACHMENT landmark — the top of the neck, where a head
- * component's origin lands — not the centre of a skull, because that is the
+ * component's origin lands — not the center of a skull, because that is the
  * point the rig actually uses.
  */
 export const POSE_LANDMARK_IDS = [

@@ -133,7 +133,7 @@ describe("a record that would send the researcher back is refused", () => {
   it("refuses an unreadable filing instant, an unknown impact and an unknown priority", () => {
     const found = codes([
       record({
-        filedAt: "22 September",
+        filedAt: "September 22",
         impact: "urgent" as never,
         priority: "P7" as never,
       }),
@@ -284,6 +284,14 @@ describe("the handed-over document", () => {
     expect(document).toContain("**A usable answer.**");
     expect(document).toContain("Census Government Units Survey 2025");
     expect(document).toContain("1 open · 0 answered");
+  });
+
+  it("keeps every line of a multi-line note inside its quote", () => {
+    const document = renderOpenQuestions(
+      [record({ notes: ["The list:\n1. first\n\nAfter the list."] })],
+      "2026-09-22T00:00:00.000Z",
+    );
+    expect(document).toContain("> The list:\n> 1. first\n>\n> After the list.");
   });
 
   it("carries the commit it was rendered from, for the copy that leaves the repo", () => {

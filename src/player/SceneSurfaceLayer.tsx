@@ -65,7 +65,7 @@ interface SurfaceType {
  * Both caps are here because the first visual review of this layer failed on
  * exactly the two things they prevent: a bill title set at heading size and
  * clipped mid-word, and a jurisdiction name large enough to cover the map it
- * was labelling. Green tests said nothing about either.
+ * was labeling. Green tests said nothing about either.
  */
 function typeSizeFor(
   rect: {

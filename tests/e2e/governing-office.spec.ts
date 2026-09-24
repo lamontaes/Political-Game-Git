@@ -134,13 +134,13 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
     status,
     "The life filed and campaigned every week the controls offered and still lost. That is a statement about the campaign model, not a seed to retry.",
   ).not.toHaveAttribute("data-status", "lost");
-  await expect(status).toHaveAttribute("data-status", "awaiting-qualification");
-  await expect(status).toContainText("January 4, 2027");
-  await page.getByTestId("qualify-state-executive").click();
+  // No Qualify step: the office's requirements are checked for the winner.
   await expect(status).toHaveAttribute(
     "data-status",
     "qualified-awaiting-entry",
   );
+  await expect(status).toContainText("January 4, 2027");
+  await expect(page.getByTestId("qualify-state-executive")).toHaveCount(0);
   await passWeeksUntil(
     page,
     async () => (await status.getAttribute("data-status")) === "in-office",
@@ -180,6 +180,25 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
   await expect(staffCard.getByTestId("governing-option")).toHaveCount(3);
   await staffCard.getByTestId("governing-option").first().click();
   await expect(briefing).toContainText("Chief of staff:");
+
+  // The office's other posts: look for staff, and hire a Legislative Director.
+  const hiring = page.getByTestId("office-staff-hiring");
+  await hiring.getByTestId("office-staff-look").click();
+  const director = hiring.getByTestId(
+    "office-staff-opening-office-legislative-director",
+  );
+  await expect(director.getByTestId("office-staff-hire")).toHaveCount(3);
+  await director.getByTestId("office-staff-hire").first().click();
+  await expect(hiring.getByTestId("office-staff-note")).toContainText(
+    "now works for you as Legislative Director",
+  );
+  await expect(
+    page.getByTestId("office-staff").getByTestId("office-staff-member"),
+  ).toContainText(["Legislative Director"]);
+  await hiring.scrollIntoViewIfNeeded();
+  await page.screenshot({
+    path: testInfo.outputPath("governing-office-staff-hired.png"),
+  });
 
   // Agenda: the chief of staff now recommends, and the player chooses.
   const agendaCard = briefing

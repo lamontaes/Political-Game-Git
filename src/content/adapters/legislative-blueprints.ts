@@ -66,7 +66,7 @@ function toItem(blueprint: LegislativeBlueprint): ContentItem {
       "A measure belongs to a legislature, not to a stage of anybody's life.",
     ),
     roles: undeclared(
-      "The blueprint declares no role. `sponsor` is introduced by the scenario builder at construction time — production files the measure under whoever really files it — so it is runtime behaviour rather than a declared part, and the executive who acts at presentment is the embedded rule pack's own office, reported as declared structure rather than a role this measure names.",
+      "The blueprint declares no role. `sponsor` is introduced by the scenario builder at construction time — production files the measure under whoever really files it — so it is runtime behavior rather than a declared part, and the executive who acts at presentment is the embedded rule pack's own office, reported as declared structure rather than a role this measure names.",
     ),
     prerequisites: undeclared(
       "The blueprint names no offering gate. Which rule pack the measure runs through and which jurisdiction it is filed in are intrinsic to the measure — they describe what it IS, not conditions that must independently become true before it is offered — and are reported as declared structure.",
@@ -111,7 +111,7 @@ function toItem(blueprint: LegislativeBlueprint): ContentItem {
  *
  * The vote plan is here rather than in `options` because it is not a choice
  * anybody is offered: it is how many seated members are authored to vote each
- * way on each question, which is the chamber's behaviour written down. The
+ * way on each question, which is the chamber's behavior written down. The
  * executive disposition is here rather than in `followUps` for the same kind of
  * reason — it is the outcome this measure is written to reach, not a link to
  * further content — and it keeps the authored rationale beside it.

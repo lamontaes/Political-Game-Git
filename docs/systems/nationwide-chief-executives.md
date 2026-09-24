@@ -14,10 +14,10 @@ A term date comes from exactly one of these. The player is never shown which —
 | ------------ | ---------------------------------------------------------------------- | ----------------------------------------------------- |
 | Admitted     | a value RULES admits through rules-capability/v1                       | `rule-capability-resolver.ts`                         |
 | Verified     | an instrument this repository read and hash-locked, with its own words | the `VERIFIED` map in `state-executive-term-rules.ts` |
-| Game profile | the game's own disclosed rule, versioned and labelled                  | `STATE_EXECUTIVE_GAME_PROFILE`                        |
+| Game profile | the game's own disclosed rule, versioned and labeled                   | `STATE_EXECUTIVE_GAME_PROFILE`                        |
 
 An admitted value beats a verified one; a verified one beats the profile. The
-profile is never a claim about law, and it is never copied from a neighbouring
+profile is never a claim about law, and it is never copied from a neighboring
 state.
 
 ## Calibration is evidence, not promotion

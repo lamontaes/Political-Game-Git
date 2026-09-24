@@ -410,7 +410,7 @@ describe("the office composition, now projected from the registry", () => {
     expect(OFFICE_VISUAL_SCENE.anchors["left-guest-chair"].yPercent).toBe(
       62.93,
     );
-    // Measured cushion centres. The desk chair's anchor used to sit at 79.2%,
+    // Measured cushion centers. The desk chair's anchor used to sit at 79.2%,
     // a staging offset that existed only because the body was placed by its hip
     // joint instead of its seat contact; placing the contact removed the need
     // for it, so the anchor can describe the furniture again.

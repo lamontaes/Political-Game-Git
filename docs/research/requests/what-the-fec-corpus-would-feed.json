@@ -9,7 +9,7 @@
     "Filed out of the Drive research audit rather than by an owning lane, because this corpus has no owning lane. The audit is at /mnt/project-files/research/DRIVE-RESEARCH-AUDIT-2026-09-22.md."
   ],
   "priority": "P2",
-  "question": "The FEC corpus holds every row of all three bulk files — 39,355 candidate, committee and linkage master records, 22 MB, as of 2024-12-31 — and its domain header states that nothing in it reaches gameplay because the adapter is gated on Stage 7 authorisation and does not exist. What should these records feed, and is Stage 7 still the correct owner for that, or is there a bounded consumer that does not need effective-law machinery?",
+  "question": "The FEC corpus holds every row of all three bulk files — 39,355 candidate, committee and linkage master records, 22 MB, as of 2024-12-31 — and its domain header states that nothing in it reaches gameplay because the adapter is gated on Stage 7 authorization and does not exist. What should these records feed, and is Stage 7 still the correct owner for that, or is there a bounded consumer that does not need effective-law machinery?",
   "questionId": "what-the-fec-corpus-would-feed",
   "requestVersion": "research-request/v1",
   "requestedBy": "drive research audit thread",
@@ -38,6 +38,6 @@
     ],
     "answeredBy": "ChatGPT",
     "answeredAt": "2026-09-22T18:27:00.000Z",
-    "stillOpen": "Disposition 'answered-bounded-consumer'. Remaining, in ChatGPT's words: Offline organization/linkage reference; owner verifies minimal derived consumer before removing unused runtime cargo. Not implemented or tested by this director batch; existing source owner receives and verifies.\n\nScope limits of the whole DEPTH2 batch, in its own words: \"These are 17 dispositions, not 17 completed implementations or 17 fully closed research questions.\" It read source at main 4965f63c and the 17:57Z render; \"no whole repository execution, game test, browser walk, merge or installed-client check was performed\". Its 31 passing checks are data-structure and date-order checks only (validation.json lists as not tested: the repository loader, a production world, browser, native client, new factual validation of every row, real human behaviour). Calibration it offers is labelled private-playtest calibration; exact factual dates remain evidence."
+    "stillOpen": "Disposition 'answered-bounded-consumer'. Remaining, in ChatGPT's words: Offline organization/linkage reference; owner verifies minimal derived consumer before removing unused runtime cargo. Not implemented or tested by this director batch; existing source owner receives and verifies.\n\nScope limits of the whole DEPTH2 batch, in its own words: \"These are 17 dispositions, not 17 completed implementations or 17 fully closed research questions.\" It read source at main 4965f63c and the 17:57Z render; \"no whole repository execution, game test, browser walk, merge or installed-client check was performed\". Its 31 passing checks are data-structure and date-order checks only (validation.json lists as not tested: the repository loader, a production world, browser, native client, new factual validation of every row, real human behavior). Calibration it offers is labeled private-playtest calibration; exact factual dates remain evidence."
   }
 }

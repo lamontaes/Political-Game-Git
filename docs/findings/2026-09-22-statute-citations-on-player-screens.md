@@ -129,7 +129,7 @@ slip past the first.
 
 The player-facing-text lane's wording for the two temporal sentences was kept
 over this lane's, on the merits rather than on precedence, and the reason
-generalises:
+generalizes:
 
 > "The game knows this office's minimum age rule, but that rule did not yet
 > apply this early, and it won't apply a rule to a time it can't place it in.
@@ -175,14 +175,14 @@ after either.
 
 ## Process findings from doing this work
 
-Three that generalise beyond this defect, recorded because the method was
+Three that generalize beyond this defect, recorded because the method was
 worth more than the sentences.
 
 ### A watch should be a notification, not an action
 
 A watch was set on this branch to merge it the moment #320 landed. That was
 correct when it was set. Then main was frozen, and "#320 is on main" stopped
-being a reason to merge, so the watch was cancelled rather than trusted to be
+being a reason to merge, so the watch was canceled rather than trusted to be
 remembered at five in the morning. Twenty minutes later #320 was excepted from
 the freeze and landed, and acting on that same trigger became correct again.
 
@@ -221,4 +221,4 @@ left to be contradicted by the check result.
 The same applied to the PR body, which still named the head the checks had
 been run at three heads earlier, and to the PR itself, which was still a
 draft — an unclickable item on a click list is the same as a missing one, and
-the person clicking would have found a greyed-out button with no explanation.
+the person clicking would have found a grayed-out button with no explanation.

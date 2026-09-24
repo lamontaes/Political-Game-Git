@@ -1,6 +1,6 @@
 {
   "asOf": "2026-09-09",
-  "canonicalSha256": "53d0983e46738d219ac442faa50d07764ef1fbe2999e38717d469206d47b7f0e",
+  "canonicalSha256": "59ae0d3d818de0f70a3fad05cff0cc75c55fe93a84b1e91443adc8144975dccd",
   "compiler": {
     "name": "state-campaign-compliance",
     "version": "2.0.0"

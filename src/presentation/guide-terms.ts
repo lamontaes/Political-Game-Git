@@ -557,10 +557,10 @@ export function searchGuideTerms(
     .map((row) => row.result);
 }
 
-/* ------------------------------------------------- recognising a term in prose */
+/* ------------------------------------------------- recognizing a term in prose */
 
 /**
- * Which terms may be recognised inside a sentence, and under which words.
+ * Which terms may be recognized inside a sentence, and under which words.
  *
  * A surface that renders one word can wrap it by key. Most of what a player
  * actually reads is a whole sentence assembled elsewhere — "Filed, awaiting
@@ -568,7 +568,7 @@ export function searchGuideTerms(
  * rewriting every producer to emit fragments would be a worse game for the
  * sake of a tooltip.
  *
- * So a term is recognised in prose only where an author has said it may be,
+ * So a term is recognized in prose only where an author has said it may be,
  * and only under the exact words listed here. Nothing is guessed from the
  * catalog: a term absent from this table is never annotated inside a sentence,
  * which is how "session" stays out of "a session of the court" and "reading"

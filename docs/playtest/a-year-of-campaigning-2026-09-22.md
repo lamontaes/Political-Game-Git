@@ -13,7 +13,7 @@ Walk one let time pass and never campaigned.
 Filing opens **"Rios for Governor of Arizona · 302 days to go"** against a
 named opponent, Shannon Austin. The countdown tracks the clock across
 forty-eight week presses — 295, 288, 260, 218, 176, 134, 92, 50, 8 — and on
-**3 November 2026** the band becomes "Decided November 3, 2026" and the screen
+**November 3, 2026** the band becomes "Decided November 3, 2026" and the screen
 says:
 
 > Jasmine Rios lost. That is a thing that happened to them, not the end of
@@ -32,7 +32,7 @@ correct.
 Walk two committed every week the planner offered one, and cleared each stuck
 session through the new give-up control.
 
-**Sixty presses got it to 11 April 2026 — 206 days still to go.** Walk one
+**Sixty presses got it to April 11, 2026 — 206 days still to go.** Walk one
 reached election day in forty-eight. The same controls, pressed the same
 number of times, take a campaigning life about a fifth as far.
 

@@ -1,5 +1,5 @@
 /** Verified bounded provisions from the already retrieved declared corpus.
- * Missing surrounding procedure remains UNKNOWN; no neighbouring pack is copied.
+ * Missing surrounding procedure remains UNKNOWN; no neighboring pack is copied.
  */
 import { packsForResearchCorpus } from "./national-packs";
 import type { Cell, MunicipalPackInput } from "./parse";

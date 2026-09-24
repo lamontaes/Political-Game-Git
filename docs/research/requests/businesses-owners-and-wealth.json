@@ -1,0 +1,30 @@
+{
+  "filedAt": "2026-09-23T01:40:00.000Z",
+  "impact": "shapes-design",
+  "lane": "ordinary adult life",
+  "notes": [
+    "The owner asked for a real spread of jobs and businesses: many small businesses and stores, very rich people with real revenue including newspaper owners, and the occasional prodigy who becomes a tech billionaire. Most jobs are background; only story-related ones are playable.",
+    "employers-and-job-listings asks how a player finds a job. This asks what the economy around them is made of.",
+    "Who owns local newspapers is not asked here: media-owners-coordinating-their-outlets already answers it (47 percent of newspapers independent, the top ten owners holding about 60 percent of dailies)."
+  ],
+  "priority": "P1",
+  "question": "What businesses does a typical American town contain, and who owns and works in them? By town size (under 2,500 people, 2,500 to 50,000, 50,000 to 250,000, over 250,000) and by state or region: how many business establishments per 1,000 residents, split by kind (retail stores, restaurants and bars, construction, repair, professional offices such as law and accounting, health care, manufacturing, farms, banks, local media); how many employ nobody but the owner, 1 to 9, 10 to 99, and 100 or more; typical annual revenue and owner income for each kind and size; and what share of working adults work in each. Separately: how wealth is distributed among adults (share with negative net worth, median, top 10 percent, top 1 percent, and the count of billionaires by state) and how the very rich usually made their money (inherited, a business, finance, technology, media).",
+  "questionId": "businesses-owners-and-wealth",
+  "relatedQuestionIds": [
+    "employers-and-job-listings",
+    "what-ordinary-adults-have-saved",
+    "what-a-person-spends-to-live",
+    "media-owners-coordinating-their-outlets"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "ordinary adult life thread",
+  "sourcesChecked": [
+    {
+      "source": "The world as built",
+      "whatItDidNotSettle": "Background people carry one of six text-only occupations at an employer that is only a phrase, such as 'a synthetic construction firm'. No private business has an owner, a balance or revenue, and nobody has a wealth level. Newspaper owners exist but earn nothing."
+    }
+  ],
+  "title": "What a town's businesses are, who owns them, and how wealth is spread",
+  "usableAnswer": "Tables with a named public source and year for each (for example Census County Business Patterns and Nonemployer Statistics, the Survey of Consumer Finances, and a billionaire list): establishments per 1,000 residents by kind and town size, the size split by employee count, revenue and owner income bands by kind and size, the employment share by kind, the wealth percentiles for adults, billionaire counts by state and the common origins of large fortunes.",
+  "whyItMatters": "The owner wants a world with stores, small businesses and rich people in it, where money has somewhere to come from. Every business the game seats will otherwise use one invented count, revenue and owner income for every town in the country."
+}

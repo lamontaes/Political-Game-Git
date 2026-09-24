@@ -5,7 +5,7 @@
  *
  *  1. a state's identity rests only on that state's instruments — the sampled
  *     states are geographically dispersed on purpose, because a template defect
- *     hides best among neighbours;
+ *     hides best among neighbors;
  *  2. identity coverage is not procedure coverage — forty-five states have a
  *     legislature here and no rule pack, and nothing in this domain may start
  *     claiming otherwise;
@@ -79,7 +79,7 @@ function byKey(
  *
  * The five accepted procedural states plus ten chosen to span the country —
  * west coast, southwest, gulf, northeast, mountain, plains and Pacific — so
- * that a defect which copies a neighbour's facts cannot pass by looking
+ * that a defect which copies a neighbor's facts cannot pass by looking
  * regionally plausible.
  */
 const SAMPLED = [

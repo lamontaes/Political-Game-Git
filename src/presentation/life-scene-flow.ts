@@ -15,13 +15,18 @@ import {
   householdMembershipsAt,
   peopleInHouseholdAt,
   kinshipRelationshipsAt,
+  recordRelationshipInteraction,
   recordWorldEvent,
   recordEventKnowledge,
   advanceWorldMinutes,
   stableHash,
   simulationMinutesBetween,
   personName,
+  addSimulationMinutes,
+  compareSimulationMoments,
+  scheduledActivityState,
 } from "../simulation";
+import { formatMinute } from "./player-calendar";
 import type {
   World,
   EntityId,
@@ -34,7 +39,7 @@ import {
   OPENING_LIFE_ADDITIONS,
   OPENING_LIFE_FAMILIES,
   openingLifeFamily,
-  OPENING_LIFE_FOLLOWUPS,
+  openingLifeSceneAtStage,
 } from "../simulation/opening-life-content";
 import {
   eligibleEpisodeBeats,
@@ -146,16 +151,9 @@ function definitionAtStage(
   definition: LifeSceneDefinition,
   stageKey: string,
 ): LifeSceneDefinition {
-  if (stageKey === "moment") return definition;
-  const followup = OPENING_LIFE_FOLLOWUPS[definition.key];
-  if (stageKey !== "follow-through" || !followup)
-    throw new Error("Unknown opening stage.");
-  return {
-    ...definition,
-    minutes: 5,
-    premise: followup.premise,
-    choices: followup.choices,
-  };
+  const atStage = openingLifeSceneAtStage(definition, stageKey);
+  if (!atStage) throw new Error("Unknown opening stage.");
+  return atStage;
 }
 
 /** All eligible definitions are inspectable without creating a person or event. */
@@ -457,7 +455,7 @@ export function chooseOpeningLifeScene(
       ? personName(world.people[scene.counterpartPersonId]!)
       : "",
   );
-  const next = recordWorldEvent(advanced, {
+  const answered = recordWorldEvent(advanced, {
     stableKey: `opening-life:scene-answer:${eventId}`,
     type: CLOSED,
     occurredAt: world.currentDate,
@@ -499,6 +497,24 @@ export function chooseOpeningLifeScene(
       immediateReaction: aftermath,
     },
   });
+  // A scene played with somebody is time the two of them spent together, and
+  // goes on their shared record the way a conversation does. This is contact
+  // only: it moves none of the five lines on its own, per the conduct rubric
+  // for `what-moves-a-relationship`. What a particular choice means to the
+  // other person is authored per choice and is not decided here.
+  const next = scene.counterpartPersonId
+    ? recordRelationshipInteraction(answered, {
+        stableKey: `opening-life:scene-contact:${eventId}`,
+        personIds: [personId, scene.counterpartPersonId],
+        eventId: answered.history.events.at(-1)!.id,
+        occurredAt: world.currentDate,
+        kind: "contact:shared-moment",
+        change: "maintained",
+        significance: "meaningful",
+        summary: aftermath,
+        tags: ["opening-life-v1", `family:${scene.definition.key}`],
+      })
+    : answered;
   // Deciding what to make time for records the plan itself, through the same
   // writer the personal-plans menu uses. The scene's own answer event is
   // already written, so the plan follows the choice rather than standing in
@@ -728,17 +744,54 @@ export function openingNeighborhoodWalkOffer(
     !resolved.ok && destination === "home"
       ? meetingHomeRoute(world, personId)
       : null;
+  const minutes =
+    returnRoute?.kind === "available"
+      ? returnRoute.route.duration.minutes
+      : OPENING_WALK_MINUTES;
   return {
     destination,
     label: destination === "home" ? "Walk home" : "Take a short walk nearby",
-    minutes:
-      returnRoute?.kind === "available"
-        ? returnRoute.route.duration.minutes
-        : OPENING_WALK_MINUTES,
+    minutes,
     unavailable:
-      resolved.ok || returnRoute?.kind === "available" ? null : resolved.reason,
+      resolved.ok || returnRoute?.kind === "available"
+        ? walkClash(world, personId, minutes)
+        : resolved.reason,
     fromLabel: openingWalkOrigin(world, personId)?.location.label ?? null,
   };
+}
+
+/**
+ * Why the walk cannot be taken now because something already on the calendar
+ * falls inside it, or null. The walk is itself a calendar entry, and the
+ * calendar refuses two things at once, so without this the offer read as
+ * available and pressing it answered "Nothing changed" (a phone shift from
+ * home booked for the minute a party meeting ended, Bisbee, Arizona).
+ */
+function walkClash(
+  world: World,
+  personId: EntityId,
+  minutes: number,
+): string | null {
+  const arrive = addSimulationMinutes(world.currentMoment, minutes);
+  const clash = world.history.scheduledActivities
+    .filter((activity) => activity.participantPersonIds.includes(personId))
+    .map((activity) => ({
+      activity,
+      state: scheduledActivityState(world, activity.id),
+    }))
+    .filter(
+      ({ state }) =>
+        state.status === "scheduled" &&
+        compareSimulationMoments(state.start, arrive) < 0 &&
+        compareSimulationMoments(world.currentMoment, state.end) < 0,
+    )
+    .sort((left, right) =>
+      compareSimulationMoments(left.state.start, right.state.start),
+    )[0];
+  if (!clash) return null;
+  return compareSimulationMoments(clash.state.start, world.currentMoment) <= 0
+    ? `“${clash.activity.title}” is on your calendar now, so you cannot set off yet.`
+    : `“${clash.activity.title}” starts at ${formatMinute(clash.state.start.minuteOfDay)}, before you could get there.`;
 }
 
 /** The authored short local walk. Not a measured distance or speed. */
