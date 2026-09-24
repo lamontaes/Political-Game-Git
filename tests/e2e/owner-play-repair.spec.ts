@@ -1,4 +1,4 @@
-import { fileCandidacy } from "./support/campaign";
+import { campaignWeeklyUntilDecided, fileCandidacy } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
 import {
@@ -70,6 +70,14 @@ async function freshBrowser(page: Page) {
     window.localStorage.clear();
   });
   await page.reload();
+}
+
+/** Read the visible time on Calendar, then return to the campaign. */
+async function campaignClock(page: Page): Promise<string> {
+  await openElsewhere(page, "day");
+  const clock = (await page.getByTestId("day-date").textContent()) ?? "";
+  await openElsewhere(page, "campaign");
+  return clock;
 }
 
 /** The painted room: its element identity and the transform it is cropped by. */
@@ -326,6 +334,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
   test("reaches fundraising, outreach and the election from that life", async ({
     page,
   }) => {
+    test.setTimeout(180_000);
     await freshBrowser(page);
     await startLife(page, {
       age: 34,
@@ -339,14 +348,15 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await fileCandidacy(page);
     await page.getByTestId("campaign-fundraising").click();
     await expect(page.getByTestId("campaign-treasury")).toBeVisible();
-    await page.getByTestId("pass-day").click();
+    await page.getByTestId("shell-pass-day").click();
     await page.getByTestId("campaign-outreach").click();
     await expect(page.getByTestId("campaign-memo")).toBeVisible();
 
     for (let day = 0; day < 45; day += 1) {
       if (await page.getByTestId("campaign-result").isVisible()) break;
-      await page.getByTestId("pass-day").click();
+      await page.getByTestId("shell-pass-day").click();
     }
+    expect(await campaignWeeklyUntilDecided(page)).toBe(true);
     await expect(page.getByTestId("campaign-result")).toBeVisible();
     // Whatever the result, the life goes on.
     await expect(page.getByTestId("play-screen")).toBeVisible();
@@ -380,14 +390,14 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
         }
       }
       if (!usable) break;
-      const before = (await page.getByTestId("day-date").textContent()) ?? "";
+      const before = await campaignClock(page);
       const action = page.getByTestId(`campaign-${usable}`);
       if (sessions % 2 === 0) await action.click();
       else {
         await action.focus();
         await page.keyboard.press("Enter");
       }
-      await expect(page.getByTestId("day-date")).not.toHaveText(before);
+      expect(await campaignClock(page)).not.toBe(before);
     }
     expect(sessions).toBeGreaterThan(0);
     expect(sessions).toBeLessThan(16);
@@ -396,15 +406,15 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
       await expect(action).toBeDisabled();
       await expect(action).toContainText(/today is already spoken for/i);
     }
-    await expect(page.getByTestId("pass-day")).toBeEnabled();
-    const exhausted = (await page.getByTestId("day-date").textContent()) ?? "";
+    await expect(page.getByTestId("shell-pass-day")).toBeEnabled();
+    const exhausted = await campaignClock(page);
     await saveLife(page);
     const spentWorld = await savedRecoveryWorld(page);
     await page.reload();
     await page.getByTestId("continue").click();
     await enterLife(page);
     await openElsewhere(page, "campaign");
-    await expect(page.getByTestId("day-date")).toHaveText(exhausted);
+    expect(await campaignClock(page)).toBe(exhausted);
     await expect(page.getByTestId("campaign-fundraising")).toBeDisabled();
 
     // Campaign time alone cannot become a conversation-time refusal.
@@ -416,12 +426,12 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
       await expect(refusal).not.toContainText(/spoken for|no time|too late/i);
 
     await openElsewhere(page, "campaign");
-    await page.getByTestId("pass-day").focus();
+    await page.getByTestId("shell-pass-day").focus();
     await page.keyboard.press("Space");
-    await expect(page.getByTestId("day-date")).not.toHaveText(exhausted);
+    expect(await campaignClock(page)).not.toBe(exhausted);
     await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
     await expect(page.getByTestId("campaign-outreach")).toBeEnabled();
-    const morning = (await page.getByTestId("day-date").textContent()) ?? "";
+    const morning = await campaignClock(page);
     await saveLife(page);
     const recoveredWorld = await savedRecoveryWorld(page);
     expect(recoveredWorld.id).toBe(spentWorld.id);
@@ -458,11 +468,11 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await page.getByTestId("continue").click();
     await enterLife(page);
     await openElsewhere(page, "campaign");
-    await expect(page.getByTestId("day-date")).toHaveText(morning);
+    expect(await campaignClock(page)).toBe(morning);
     await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
     await page.getByTestId("campaign-outreach").focus();
     await page.keyboard.press("Enter");
-    await expect(page.getByTestId("day-date")).not.toHaveText(morning);
+    expect(await campaignClock(page)).not.toBe(morning);
     await page.screenshot({
       path: test.info().outputPath("campaign-recovered.png"),
     });
@@ -471,7 +481,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
   test("lists a campaign opponent as relevant without silently pinning them", async ({
     page,
   }) => {
-    test.setTimeout(60_000);
+    test.setTimeout(180_000);
     await freshBrowser(page);
     await startLife(page, {
       age: 34,
@@ -491,8 +501,9 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
 
     for (let day = 0; day < 45; day += 1) {
       if (await page.getByTestId("campaign-result").isVisible()) break;
-      await page.getByTestId("pass-day").click();
+      await page.getByTestId("shell-pass-day").click();
     }
+    expect(await campaignWeeklyUntilDecided(page)).toBe(true);
     await expect(page.getByTestId("campaign-result")).toBeVisible();
 
     /*

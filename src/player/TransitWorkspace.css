@@ -61,9 +61,3 @@
   gap: 0.5rem;
   margin-block-start: 1.25rem;
 }
-
-.transit-workspace .transit-continue {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}

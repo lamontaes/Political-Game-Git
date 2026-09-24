@@ -10,6 +10,11 @@ import {
   type World,
 } from "../simulation";
 import { ownElectionResultSentence } from "./own-election";
+import {
+  invitationAtHostHome,
+  socialInvitationsFor,
+} from "./social-invitation";
+import { invitationNoticeLine } from "./social-invitation-language";
 import { isWorldMachineryEvent } from "./world39-news";
 
 /**
@@ -56,6 +61,8 @@ export interface RecapEntry {
    * happened while time passed, this is the one thing that happened to them.
    */
   readonly ownResult: boolean;
+  /** A received invitation that still awaits an answer. */
+  readonly directInvitation?: boolean;
 }
 
 const IMPORTANCE_RANK: Readonly<Record<DevelopmentImportance, number>> = {
@@ -66,6 +73,7 @@ const IMPORTANCE_RANK: Readonly<Record<DevelopmentImportance, number>> = {
 
 /** Above every matter's importance, so the player's own result leads. */
 const OWN_RESULT_RANK = 4;
+const DIRECT_INVITATION_RANK = 3.5;
 
 export interface WorldRecap {
   /** The frontier this recap was read from. */
@@ -162,9 +170,11 @@ export function projectWorldRecap(
   const rank = (entry: RecapEntry) =>
     entry.ownResult
       ? OWN_RESULT_RANK
-      : entry.importance
-        ? IMPORTANCE_RANK[entry.importance]
-        : 0;
+      : entry.directInvitation
+        ? DIRECT_INVITATION_RANK
+        : entry.importance
+          ? IMPORTANCE_RANK[entry.importance]
+          : 0;
   const ordered = [...grouped.values()].sort(
     (left, right) =>
       rank(right) - rank(left) ||
@@ -251,19 +261,32 @@ function learnedSince(
       continue;
     const event = events.get(record.eventId);
     if (!event || !isRecappable(event, playerPersonId, record)) continue;
+    const invitation =
+      event.type === "life.social-occasion-invited"
+        ? socialInvitationsFor(world, playerPersonId).find(
+            (item) => item.invitationEventId === event.id,
+          )
+        : null;
+    if (event.type === "life.social-occasion-invited" && !invitation) continue;
+    const hostId = invitation?.counterpartPersonId;
+    const host = hostId ? world.people[hostId] : null;
     entries.push({
       key: `known:${record.id}`,
       eventId: event.id,
       sequence: record.sequence,
       at: record.learnedAt,
-      headline: record.believedSummary,
-      attribution: attributionFor(world, record),
+      headline:
+        invitation && host && invitationAtHostHome(world, invitation)
+          ? invitationNoticeLine(host.givenName, invitation.start.date)
+          : record.believedSummary,
+      attribution: invitation ? null : attributionFor(world, record),
       inNews: false,
       people: participantsOf(world, event, playerPersonId),
       matterId: null,
       importance: null,
       updates: 1,
       ownResult: false,
+      directInvitation: Boolean(invitation),
     });
   }
   return entries;
@@ -331,6 +354,19 @@ function isRecappable(
   if (event.occurredAt > record.learnedAt) return false;
   if (isWorldMachineryEvent(event.type, event.tags)) return false;
   if (event.type === "life.conversation") return false;
+  if (event.type === "life.social-occasion-invited") {
+    const hostId = event.participants.find(
+      (entry) => entry.role === "agency:asked",
+    )?.personId;
+    return (
+      event.participants.some(
+        (entry) =>
+          entry.personId === playerPersonId && entry.role === "focus:asked-of",
+      ) &&
+      record.source.kind === "told-by" &&
+      record.source.sourcePersonId === hostId
+    );
+  }
   if (event.participants.some((entry) => entry.personId === playerPersonId))
     return false;
   if (event.visibility === "private" && record.source.kind === "direct")

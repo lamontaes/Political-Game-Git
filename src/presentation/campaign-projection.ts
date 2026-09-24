@@ -554,7 +554,7 @@ export function projectCampaign(
               executiveTermStart(world, personId, contest.id),
           )
         : state.status === "lost"
-          ? `${candidateName} lost${resultMargin(result, personId)}. That is a thing that happened to ${pronouns.object}, not the end of ${pronouns.object} — tomorrow is still there.`
+          ? `${candidateName} lost${resultMargin(result, personId)}.`
           : null,
   };
 }
@@ -752,7 +752,7 @@ function offersFor(
         : kind === "advertising" && treasury.minorUnits <= 0
           ? "There is nothing in the account to spend."
           : freeSlotToday(world, campaign.candidatePersonId, kind) === null
-            ? "The rest of today is already spoken for. Get on with the day and pick this up tomorrow."
+            ? "The rest of today is already spoken for."
             : null;
     return {
       kind,
@@ -1034,9 +1034,7 @@ export function spendAnAfternoon(
   }
   const slot = freeSlotToday(world, personId, kind);
   if (!slot) {
-    throw new Error(
-      "The rest of today is already spoken for. Get on with the day and pick this up tomorrow.",
-    );
+    throw new Error("The rest of today is already spoken for.");
   }
   const scheduled = scheduleCampaignAction(world, {
     campaignId: campaign.id,
@@ -1089,9 +1087,7 @@ export function spendPlannedCampaignAction(
   }
   const slot = freeSlotToday(world, personId, input.kind);
   if (!slot) {
-    throw new Error(
-      "The rest of today is already spoken for. Get on with the day and pick this up tomorrow.",
-    );
+    throw new Error("The rest of today is already spoken for.");
   }
   const scheduled = scheduleCampaignAction(world, {
     campaignId: campaign.id,

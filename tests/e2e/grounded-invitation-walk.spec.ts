@@ -3,10 +3,12 @@ import path from "node:path";
 
 import { expect, test } from "./fixtures";
 import {
+  advanceQuietStory,
   enterLife,
   fillCreator,
   goTo,
   openMoment,
+  passShellTime,
   saveLife,
   waitForClockIdle,
 } from "./support/creator";
@@ -101,6 +103,11 @@ for (const life of LIVES) {
         .getByTestId("story-options")
         .getByRole("button")
         .first();
+      if ((await option.count()) === 0) {
+        note("  (let ordinary weeks run from the shell clock)");
+        await advanceQuietStory(page);
+        continue;
+      }
       note(`  (answered: ${(await option.innerText()).split("\n")[0]})`);
       await option.click();
       await waitForClockIdle(page);
@@ -168,6 +175,11 @@ for (const life of LIVES) {
         .getByTestId("story-options")
         .getByRole("button")
         .first();
+      if ((await option.count()) === 0) {
+        note("  (let the day run from the shell clock)");
+        await passShellTime(page);
+        continue;
+      }
       note(`  (answered: ${(await option.innerText()).split("\n")[0]})`);
       await option.click();
       await waitForClockIdle(page);
