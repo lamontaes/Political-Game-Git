@@ -98,14 +98,17 @@ Completed payments feed the economy model (`macro-economy/sources.ts:210`).
 
 None of it runs, because each government account opens at $0
 (`tax-policy.ts:109-120`). The only ordinary money coming in is tax on an
-activity the player declares by hand (`tax-work.ts:95`), plus fines from
-ethics findings. Only Alaska is given any tax power, in the game's hand-made
-tax-power file. Wages, rent, home purchases and errands are
-never taxed; no code records them as taxable (inferred from finding no
-writer besides the hand declaration). So each installment refuses
-with "An appropriation is not cash" (`public-program.ts:839-840`). For the
-same reason, public spending never reaches the economy model (inferred from
-the empty accounts).
+activity the player declares by hand (`tax-work.ts:95`). The other inflow is
+a fine from an ethics finding, paid into the state's account
+(`finding-consequences.ts:328`).
+
+Only Alaska is given any tax power, in the game's hand-made tax-power file
+(`tax-policy.ts:54`). Wages, rent, home purchases and errands are never
+taxed; no code records them as taxable (inferred from finding no writer
+besides the hand declaration). So each installment refuses with "An
+appropriation is not cash" (`public-program.ts:839-840`). For the same
+reason, public spending never reaches the economy model (inferred from the
+empty accounts).
 
 The Budget screen never shows program records. Its revenue, spending and
 debt graphs read a second set of figures that nothing in ordinary play
