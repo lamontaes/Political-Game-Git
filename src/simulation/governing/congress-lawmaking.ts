@@ -1,12 +1,8 @@
 import { makeIsoDate } from "../dates";
-import {
-  US_CONGRESS_PACK_ID,
-  US_CONGRESS_RULE_PACK,
-} from "../congress-rule-pack";
+import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
 import { currentPresidentOf } from "../crisis/offices";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { measurePosition, measureVotes } from "../legislation";
-import { makeCurrencyCode } from "../resources";
 import { chamberByKey } from "../legislature-rules";
 import { publicPartyAffiliation } from "../living-world/congress";
 import { livingWorldEstablished } from "../living-world/opening";
@@ -24,7 +20,6 @@ import type {
   LegislativeMeasureRecord,
   World,
 } from "../types";
-import type { PredicateAuthority } from "../legislation-content-contracts";
 import { recordWorldEvent } from "../world";
 import {
   CONGRESS_SITTING_TRANSITION,
@@ -72,29 +67,6 @@ import {
 export const CONGRESS_LAWMAKING_VERSION = "congress-intake/v1";
 export const CONGRESS_INTAKE_TRANSITION = "congress:intake" as const;
 export const SPONSOR_MOTIVE_EVENT = "legislation.sponsor-motive" as const;
-
-// This module is reached through the shared clock import graph. Resolve the
-// jurisdiction only when a bill is filed, after that graph has initialized.
-function federalPassengerRailAuthority(): PredicateAuthority {
-  return {
-    kind: "game-profile",
-    authorityKey: "game-profile:federal-passenger-rail/v1",
-    authorityVersion: "federal-passenger-rail-authority/v1",
-    profileVersion: "federal-passenger-rail/v1",
-    rulePackId: US_CONGRESS_PACK_ID,
-    governmentLevel: "federal",
-    publicGovernmentIdentity: {
-      kind: "jurisdiction",
-      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-    },
-    permittedEffects: ["public-program-appropriation"],
-    citationLabel: "Federal passenger-rail game profile",
-    programLabel: "passenger-rail expansion",
-    authorizedCeilingMinorUnits: null,
-    currency: makeCurrencyCode("USD"),
-    basis: "game-profile",
-  };
-}
 
 /**
  * PLACEHOLDER, every number here, until research question
@@ -345,13 +317,7 @@ export function fileCongressBill(
   });
   const introduced = introduceAutomaticLawMeasure(next, {
     jurisdictionId,
-    context: {
-      governmentLevel: "federal",
-      jurisdictionId,
-      rulePackId: US_CONGRESS_PACK_ID,
-      scenarioKey: `institution:${US_CONGRESS_PACK_ID}`,
-      predicateAuthority: federalPassengerRailAuthority(),
-    },
+    governmentLevel: "federal",
     propositionId: question.propositionId,
     answer,
     intakeKey: stableKey,

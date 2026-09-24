@@ -15,8 +15,11 @@ import { recordDraftLineage } from "../legislation-draft-lineage";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import {
+  npcEligibleProgramConfigurations,
+  npcEligibleProgramConfigurationsFor,
   programVariant,
   standingAuthority,
+  type NpcEligibleProgramConfiguration,
   type ProgramParameterValue,
 } from "../legislation-program-families";
 import {
@@ -31,8 +34,6 @@ import {
 import { rulePackById } from "../legislature-rule-packs";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import { SeededRng } from "../rng";
-import { FEDERAL_PASSENGER_RAIL_PROPOSITION_KEY } from "../legislation-federal-rail-family";
-import { LOCAL_FIX_IT_FIRST_PROPOSITION_KEY } from "../legislation-local-fiscal-families";
 import { TRANSIT_PROGRAM_KEY } from "../legislation-transit-families";
 import type {
   EntityId,
@@ -55,16 +56,7 @@ import type { PredicateAuthority } from "../legislation-content-contracts";
 export type AutomaticLawGovernmentLevel =
   "federal" | "state" | "county" | "municipality";
 
-export interface AutomaticLawPositionMapping {
-  readonly propositionKey: string;
-  readonly answer: "yes" | "no";
-  readonly familyKey: string;
-  readonly variantKey: string;
-  /** Null means the level-specific intake must supply its exact authority. */
-  readonly authorityKey: string | null;
-  readonly authorityKind: "standing-statute" | "game-profile";
-  readonly governmentLevel: AutomaticLawGovernmentLevel;
-}
+export type AutomaticLawPositionMapping = NpcEligibleProgramConfiguration;
 
 export interface AutomaticLawCompileContext {
   readonly governmentLevel: AutomaticLawGovernmentLevel;
@@ -74,56 +66,107 @@ export interface AutomaticLawCompileContext {
   readonly predicateAuthority: PredicateAuthority;
 }
 
-/** The automatic state transit authority is an authored game profile. */
+/** Resolve a bank-declared game profile against a saved public jurisdiction. */
+function profileContextForMapping(
+  world: World,
+  jurisdictionId: EntityId,
+  mapping: AutomaticLawPositionMapping,
+): AutomaticLawCompileContext | null {
+  const { variant } = programVariant(mapping.familyKey, mapping.variantKey);
+  const service = variant.npcServiceProfile;
+  const amountDefault = variant.defaults[mapping.effectParameterKey];
+  if (
+    mapping.authorityKind === "game-profile" &&
+    service?.profileIdScope === "local-government"
+  )
+    return null;
+
+  const governmentLevel = mapping.governmentLevel;
+  let rulePackId: string;
+  let scenarioKey: string;
+  if (governmentLevel === "state") {
+    const savedJurisdiction = world.jurisdictions[jurisdictionId];
+    const jurisdictionKey = savedJurisdiction
+      ? stateKeyForJurisdictionSlug(savedJurisdiction.slug)
+      : null;
+    if (!jurisdictionKey?.startsWith("US-")) return null;
+    const usps = jurisdictionKey.slice(3) as (typeof US_STATE_USPS)[number];
+    if (
+      !US_STATE_USPS.includes(usps) ||
+      stateJurisdictionForKey(jurisdictionKey)?.id !== jurisdictionId
+    )
+      return null;
+    const pack = legislativePackForJurisdiction(jurisdictionId);
+    if (!pack) return null;
+    try {
+      if (rulePackById(pack.packId).jurisdictionKey !== jurisdictionKey)
+        return null;
+    } catch {
+      return null;
+    }
+    rulePackId = pack.packId;
+    scenarioKey = legislativeWorkKey(pack);
+  } else if (governmentLevel === "federal") {
+    if (jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id) return null;
+    const pack = legislativePackForWorkKey(
+      `institution:${US_CONGRESS_PACK_ID}`,
+    );
+    if (!pack || pack.packId !== US_CONGRESS_PACK_ID) return null;
+    rulePackId = pack.packId;
+    scenarioKey = `institution:${pack.packId}`;
+  } else {
+    return null;
+  }
+
+  const authority: PredicateAuthority | null =
+    mapping.authorityKind === "standing-statute"
+      ? mapping.authorityKey
+        ? standingAuthority(mapping.authorityKey)
+        : null
+      : amountDefault?.kind === "money"
+        ? {
+            kind: "game-profile",
+            authorityKey:
+              mapping.authorityKey ??
+              (governmentLevel === "state"
+                ? TRANSIT_PROGRAM_KEY
+                : `automatic:${mapping.familyKey}/${mapping.variantKey}:${jurisdictionId}`),
+            authorityVersion: `automatic-law-authority/${mapping.familyKey}/${mapping.variantKey}/v1`,
+            profileVersion:
+              service?.profileId ??
+              `automatic-law-profile/${mapping.familyKey}/${mapping.variantKey}/v1`,
+            rulePackId,
+            governmentLevel,
+            publicGovernmentIdentity: { kind: "jurisdiction", jurisdictionId },
+            permittedEffects: [mapping.operativeEffectKind],
+            citationLabel: `${world.jurisdictions[jurisdictionId]?.slug ?? jurisdictionId} ${service?.serviceLabel ?? variant.label} game profile`,
+            programLabel: service?.serviceLabel ?? variant.label,
+            authorizedCeilingMinorUnits: null,
+            currency: amountDefault.currency,
+            basis: "game-profile",
+          }
+        : null;
+  if (!authority) return null;
+  return {
+    governmentLevel,
+    jurisdictionId,
+    rulePackId,
+    scenarioKey,
+    predicateAuthority: authority,
+  };
+}
+
+/** Compatibility gate for state intake; authority is resolved per bank row. */
 export function stateTransitAutomaticLawContext(
   world: World,
   jurisdictionId: EntityId,
 ): AutomaticLawCompileContext | null {
-  const savedJurisdiction = world.jurisdictions[jurisdictionId];
-  const jurisdictionKey = savedJurisdiction
-    ? stateKeyForJurisdictionSlug(savedJurisdiction.slug)
+  const mapping = AUTOMATIC_LAW_POSITION_MAPPINGS.find(
+    (entry) => entry.governmentLevel === "state",
+  );
+  return mapping
+    ? profileContextForMapping(world, jurisdictionId, mapping)
     : null;
-  if (!jurisdictionKey?.startsWith("US-")) return null;
-  const usps = jurisdictionKey.slice(3) as (typeof US_STATE_USPS)[number];
-  if (
-    !US_STATE_USPS.includes(usps) ||
-    stateJurisdictionForKey(jurisdictionKey)?.id !== jurisdictionId
-  )
-    return null;
-
-  const pack = legislativePackForJurisdiction(jurisdictionId);
-  if (!pack) return null;
-  try {
-    if (rulePackById(pack.packId).jurisdictionKey !== jurisdictionKey)
-      return null;
-  } catch {
-    return null;
-  }
-
-  return {
-    governmentLevel: "state",
-    jurisdictionId,
-    rulePackId: pack.packId,
-    scenarioKey: legislativeWorkKey(pack),
-    predicateAuthority: {
-      kind: "game-profile",
-      // This is the transit family’s internal program identity. The profile
-      // below is tied to this saved state and pack, and makes no standing-law
-      // claim about that state's real programs.
-      authorityKey: TRANSIT_PROGRAM_KEY,
-      authorityVersion: "automatic-state-transit-authority/v1",
-      profileVersion: "state-transit-service-profile/v1",
-      rulePackId: pack.packId,
-      governmentLevel: "state",
-      publicGovernmentIdentity: { kind: "jurisdiction", jurisdictionId },
-      permittedEffects: ["public-program-appropriation"],
-      citationLabel: `${jurisdictionKey} transit game profile`,
-      programLabel: `${jurisdictionKey} transit service`,
-      authorizedCeilingMinorUnits: null,
-      currency: "USD",
-      basis: "game-profile",
-    },
-  };
 }
 
 export const AUTOMATIC_LAW_QUESTION_COOLDOWN_DAYS = 365;
@@ -169,70 +212,39 @@ export function automaticLawQuestionOnCooldown(
   });
 }
 
-export const AUTOMATIC_LAW_POSITION_MAPPINGS = [
-  {
-    propositionKey:
-      "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
-    answer: "yes",
-    familyKey: "appropriations",
-    variantKey: "transit-staged-service-v2",
-    authorityKey: null,
-    authorityKind: "game-profile",
-    governmentLevel: "state",
-  },
-  {
-    propositionKey: FEDERAL_PASSENGER_RAIL_PROPOSITION_KEY,
-    answer: "yes",
-    familyKey: "appropriations",
-    variantKey: "federal-passenger-rail-v1",
-    authorityKey: "game-profile:federal-passenger-rail/v1",
-    authorityKind: "game-profile",
-    governmentLevel: "federal",
-  },
-  {
-    propositionKey: LOCAL_FIX_IT_FIRST_PROPOSITION_KEY,
-    answer: "yes",
-    familyKey: "appropriations",
-    variantKey: "local-fix-it-first-v1",
-    authorityKey: null,
-    authorityKind: "game-profile",
-    governmentLevel: "municipality",
-  },
-  {
-    propositionKey: LOCAL_FIX_IT_FIRST_PROPOSITION_KEY,
-    answer: "yes",
-    familyKey: "appropriations",
-    variantKey: "local-fix-it-first-v1",
-    authorityKey: null,
-    authorityKind: "game-profile",
-    governmentLevel: "county",
-  },
-] as const satisfies readonly AutomaticLawPositionMapping[];
+export const AUTOMATIC_LAW_POSITION_MAPPINGS =
+  npcEligibleProgramConfigurations();
 
-const mappingsByQuestion = (() => {
-  const index = new Map<string, AutomaticLawPositionMapping>();
-  for (const mapping of AUTOMATIC_LAW_POSITION_MAPPINGS) {
-    const key = `${mapping.governmentLevel}\u0000${mapping.propositionKey}\u0000${mapping.answer}`;
-    if (index.has(key)) {
-      throw new Error(
-        `Automatic legislation maps '${mapping.propositionKey}' and '${mapping.answer}' more than once.`,
-      );
-    }
-    index.set(key, mapping);
-  }
-  return index;
-})();
+function mappingsFor(
+  propositionKey: string,
+  answer: "yes" | "no",
+  governmentLevel: AutomaticLawGovernmentLevel = "state",
+): readonly AutomaticLawPositionMapping[] {
+  return npcEligibleProgramConfigurationsFor(
+    propositionKey,
+    answer,
+    governmentLevel,
+  );
+}
 
 function mappingFor(
   propositionKey: string,
   answer: "yes" | "no",
   governmentLevel: AutomaticLawGovernmentLevel = "state",
 ): AutomaticLawPositionMapping | null {
-  return (
-    mappingsByQuestion.get(
-      `${governmentLevel}\u0000${propositionKey}\u0000${answer}`,
-    ) ?? null
-  );
+  return mappingsFor(propositionKey, answer, governmentLevel)[0] ?? null;
+}
+
+export function automaticLawPropositionKeysForLevel(
+  governmentLevel: AutomaticLawGovernmentLevel,
+): readonly string[] {
+  return [
+    ...new Set(
+      AUTOMATIC_LAW_POSITION_MAPPINGS.filter(
+        (mapping) => mapping.governmentLevel === governmentLevel,
+      ).map((mapping) => mapping.propositionKey),
+    ),
+  ];
 }
 
 export function automaticLawMappingFor(
@@ -249,6 +261,55 @@ function authorityAllowsAppropriation(authority: PredicateAuthority): boolean {
   return "authorizesSpending" in authority && authority.authorizesSpending;
 }
 
+function contextSupportsMapping(
+  context: AutomaticLawCompileContext,
+  jurisdictionId: EntityId,
+  mapping: AutomaticLawPositionMapping,
+): boolean {
+  const authority = context.predicateAuthority;
+  if (
+    context.jurisdictionId !== jurisdictionId ||
+    context.governmentLevel !== mapping.governmentLevel ||
+    authority.kind !== mapping.authorityKind ||
+    !authorityAllowsAppropriation(authority) ||
+    (mapping.authorityKey !== null &&
+      authority.authorityKey !== mapping.authorityKey)
+  )
+    return false;
+  if (authority.kind === "game-profile") {
+    if (
+      authority.governmentLevel !== mapping.governmentLevel ||
+      authority.publicGovernmentIdentity.jurisdictionId !== jurisdictionId ||
+      !authority.permittedEffects.includes(mapping.operativeEffectKind)
+    )
+      return false;
+    if (
+      (mapping.governmentLevel === "municipality" ||
+        mapping.governmentLevel === "county") &&
+      authority.publicGovernmentIdentity.kind !== "local-government"
+    )
+      return false;
+    if (
+      (mapping.governmentLevel === "state" ||
+        mapping.governmentLevel === "federal") &&
+      authority.publicGovernmentIdentity.kind !== "jurisdiction"
+    )
+      return false;
+  }
+  const pack =
+    mapping.governmentLevel === "state"
+      ? legislativePackForJurisdiction(jurisdictionId)
+      : legislativePackForWorkKey(context.scenarioKey);
+  if (!pack || pack.packId !== context.rulePackId) return false;
+  if (
+    mapping.governmentLevel === "federal" &&
+    (pack.packId !== US_CONGRESS_PACK_ID ||
+      jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id)
+  )
+    return false;
+  return true;
+}
+
 /**
  * The exact current consumer tuple for an automatic state appropriation.
  *
@@ -257,10 +318,21 @@ function authorityAllowsAppropriation(authority: PredicateAuthority): boolean {
  * measure. Funding caps and informative clauses do not count as an operative
  * public-program appropriation.
  */
-function hasRegisteredAppropriationClause(draft: CompiledBillDraft): boolean {
-  const appropriation = draft.parameterValues.appropriation;
+function hasRegisteredOperativeEffect(
+  draft: CompiledBillDraft,
+  mapping: AutomaticLawPositionMapping,
+): boolean {
+  // This consumer currently writes public-program appropriations only. Other
+  // declared effect kinds remain ineligible until their own World writer exists.
+  if (
+    mapping.operativeEffectKind !== "public-program-appropriation" ||
+    mapping.effectProvisionKey !== "amount-provided" ||
+    mapping.effectParameterKey !== "appropriation"
+  )
+    return false;
+  const appropriation = draft.parameterValues[mapping.effectParameterKey];
   const amountClauses = draft.clauses.filter(
-    (clause) => clause.provisionKey === "amount-provided",
+    (clause) => clause.provisionKey === mapping.effectProvisionKey,
   );
   const amountClause = amountClauses[0];
   const spendingTotal = draft.clauses
@@ -297,64 +369,69 @@ export function compileAutomaticLawDraft(input: {
   readonly answer: "yes" | "no";
   readonly designation: string;
   readonly intakeKey: string;
+  readonly governmentLevel?: AutomaticLawGovernmentLevel;
   readonly context?: AutomaticLawCompileContext;
 }): CompiledBillDraft | null {
   const proposition =
     input.world.policyCatalog.propositions[input.propositionId];
   if (!proposition) return null;
-  const governmentLevel = input.context?.governmentLevel ?? "state";
-  const mapping = mappingFor(
+  const governmentLevel =
+    input.context?.governmentLevel ?? input.governmentLevel ?? "state";
+  const candidates = mappingsFor(
     proposition.stableKey,
     input.answer,
     governmentLevel,
   );
-  if (!mapping) return null;
+  if (candidates.length === 0) return null;
+  const eligibleCandidates = candidates.filter((candidate) => {
+    const context =
+      input.context ??
+      profileContextForMapping(input.world, input.jurisdictionId, candidate);
+    return context
+      ? contextSupportsMapping(context, input.jurisdictionId, candidate)
+      : false;
+  });
+  if (eligibleCandidates.length === 0) return null;
+  const selectionRng = new SeededRng(input.world.seed).fork(
+    `automatic-law-configuration:${input.intakeKey}:${input.jurisdictionId}:${proposition.stableKey}:${input.answer}:${governmentLevel}`,
+  );
+  const mapping = selectionRng.pick(eligibleCandidates);
   const issue = input.world.policyCatalog.issues[proposition.issueId];
   if (!(issue?.levels?.includes(governmentLevel) ?? false)) return null;
 
-  let rulePackId: string;
-  let scenarioKey: string;
-  let authority: PredicateAuthority | null;
-  if (input.context) {
-    if (input.context.jurisdictionId !== input.jurisdictionId) return null;
-    rulePackId = input.context.rulePackId;
-    scenarioKey = input.context.scenarioKey;
-    authority = input.context.predicateAuthority;
-    if (!rulePackId || !scenarioKey) return null;
-    if (governmentLevel === "state") {
-      const pack = legislativePackForJurisdiction(input.jurisdictionId);
-      if (!pack || pack.packId !== rulePackId) return null;
-    } else if (governmentLevel === "federal") {
-      const pack = legislativePackForWorkKey(scenarioKey);
-      if (
-        !pack ||
-        pack.packId !== rulePackId ||
-        rulePackId !== US_CONGRESS_PACK_ID ||
-        input.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id
-      )
-        return null;
-    } else {
-      const pack = legislativePackForWorkKey(scenarioKey);
-      if (
-        !pack ||
-        pack.packId !== rulePackId ||
-        authority.kind !== "game-profile" ||
-        authority.publicGovernmentIdentity.kind !== "local-government" ||
-        authority.publicGovernmentIdentity.jurisdictionId !==
-          input.jurisdictionId
-      )
-        return null;
-    }
-  } else {
-    if (governmentLevel !== "state") return null;
+  const resolvedContext =
+    input.context ??
+    profileContextForMapping(input.world, input.jurisdictionId, mapping);
+  if (
+    !resolvedContext ||
+    resolvedContext.jurisdictionId !== input.jurisdictionId
+  )
+    return null;
+  const { rulePackId, scenarioKey } = resolvedContext;
+  const authority = resolvedContext.predicateAuthority;
+  if (!rulePackId || !scenarioKey) return null;
+  if (governmentLevel === "state") {
     const pack = legislativePackForJurisdiction(input.jurisdictionId);
-    if (!pack) return null;
-    rulePackId = pack.packId;
-    scenarioKey = legislativeWorkKey(pack);
-    authority =
-      mapping.authorityKind === "standing-statute" && mapping.authorityKey
-        ? standingAuthority(mapping.authorityKey)
-        : null;
+    if (!pack || pack.packId !== rulePackId) return null;
+  } else if (governmentLevel === "federal") {
+    const pack = legislativePackForWorkKey(scenarioKey);
+    if (
+      !pack ||
+      pack.packId !== rulePackId ||
+      rulePackId !== US_CONGRESS_PACK_ID ||
+      input.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id
+    )
+      return null;
+  } else {
+    const pack = legislativePackForWorkKey(scenarioKey);
+    if (
+      !pack ||
+      pack.packId !== rulePackId ||
+      authority.kind !== "game-profile" ||
+      authority.publicGovernmentIdentity.kind !== "local-government" ||
+      authority.publicGovernmentIdentity.jurisdictionId !== input.jurisdictionId
+    )
+      return null;
   }
   if (!authority || !authorityAllowsAppropriation(authority)) return null;
   if (authority.kind !== mapping.authorityKind) return null;
@@ -377,15 +454,16 @@ export function compileAutomaticLawDraft(input: {
     );
   }
 
-  const amountDefault = variant.defaults.appropriation;
+  const amountDefault = variant.defaults[mapping.effectParameterKey];
   if (!amountDefault || amountDefault.kind !== "money") {
     throw new Error(
-      `${mapping.familyKey}/${mapping.variantKey} has no authored appropriation default.`,
+      `${mapping.familyKey}/${mapping.variantKey} has no authored mapped money default.`,
     );
   }
   const amountSpec = variant.parameters.find(
     (parameter) =>
-      parameter.key === "appropriation" && parameter.kind === "money",
+      parameter.key === mapping.effectParameterKey &&
+      parameter.kind === "money",
   );
   if (!amountSpec || amountSpec.kind !== "money") {
     throw new Error(
@@ -406,7 +484,8 @@ export function compileAutomaticLawDraft(input: {
         100,
     ) * 100;
   const parameterValues: Record<string, ProgramParameterValue> = {
-    appropriation: {
+    ...variant.defaults,
+    [mapping.effectParameterKey]: {
       kind: "money",
       minorUnits: Math.max(
         amountSpec.minMinorUnits,
@@ -430,6 +509,19 @@ export function compileAutomaticLawDraft(input: {
         .pick(serviceWindow.options.map((option) => option.value)),
     };
   }
+  for (const parameter of variant.parameters) {
+    if (parameter.kind !== "enumerated" || parameter.key === serviceWindow?.key)
+      continue;
+    const defaultValue = variant.defaults[parameter.key];
+    if (defaultValue?.kind === "enumerated" && parameter.options.length > 0) {
+      parameterValues[parameter.key] = {
+        kind: "enumerated",
+        value: rng
+          .fork(`parameter:${parameter.key}`)
+          .pick(parameter.options.map((option) => option.value)),
+      };
+    }
+  }
   const draft = compileBillDraft({
     familyKey: mapping.familyKey,
     variantKey: mapping.variantKey,
@@ -441,7 +533,7 @@ export function compileAutomaticLawDraft(input: {
     filedOn: input.world.currentDate as IsoDate,
     predicateAuthority: authority,
   });
-  return hasRegisteredAppropriationClause(draft) ? draft : null;
+  return hasRegisteredOperativeEffect(draft, mapping) ? draft : null;
 }
 
 /**
@@ -479,7 +571,15 @@ export function automaticDraftMatchesMeasure(
   const proposition = world.policyCatalog.propositions[propositionIds[0]!];
   if (!proposition) return false;
   const answer = answers[0]!.answer;
-  const mapping = mappingFor(proposition.stableKey, answer, governmentLevel);
+  const mapping = mappingsFor(
+    proposition.stableKey,
+    answer,
+    governmentLevel,
+  ).find(
+    (candidate) =>
+      candidate.familyKey === draft.familyKey &&
+      candidate.variantKey === draft.variantKey,
+  );
   if (!mapping) return false;
   const issue = world.policyCatalog.issues[proposition.issueId];
   if (!(issue?.levels?.includes(governmentLevel) ?? false)) return false;
@@ -550,7 +650,23 @@ export function recordCompiledDraftOnMeasure(
   if (!input.provenanceNote.trim()) {
     throw new Error("An automatic draft lineage needs its recorded reason.");
   }
-  if (!hasRegisteredAppropriationClause(input.draft)) {
+  const propositionId = measure.propositionIds?.[0];
+  const proposition = propositionId
+    ? world.policyCatalog.propositions[propositionId]
+    : undefined;
+  const answer = measure.propositionAnswers?.[0]?.answer;
+  const effectMapping =
+    proposition && answer
+      ? mappingsFor(proposition.stableKey, answer, governmentLevel).find(
+          (mapping) =>
+            mapping.familyKey === input.draft.familyKey &&
+            mapping.variantKey === input.draft.variantKey,
+        )
+      : undefined;
+  if (
+    !effectMapping ||
+    !hasRegisteredOperativeEffect(input.draft, effectMapping)
+  ) {
     throw new Error(
       `${measure.designation} has no supported, positively funded effect clause.`,
     );
@@ -614,6 +730,7 @@ export function introduceAutomaticLawMeasure(
   world: World,
   input: {
     readonly jurisdictionId: EntityId;
+    readonly governmentLevel?: AutomaticLawGovernmentLevel;
     readonly context?: AutomaticLawCompileContext;
     readonly propositionId: EntityId;
     readonly answer: "yes" | "no";
@@ -632,7 +749,8 @@ export function introduceAutomaticLawMeasure(
 } | null {
   const proposition = world.policyCatalog.propositions[input.propositionId];
   if (!proposition) return null;
-  const governmentLevel = input.context?.governmentLevel ?? "state";
+  const governmentLevel =
+    input.context?.governmentLevel ?? input.governmentLevel ?? "state";
   const mapping = mappingFor(
     proposition.stableKey,
     input.answer,
@@ -646,6 +764,7 @@ export function introduceAutomaticLawMeasure(
     answer: input.answer,
     designation: input.designation,
     intakeKey: input.intakeKey,
+    governmentLevel,
     ...(input.context ? { context: input.context } : {}),
   });
   if (!draft) return null;

@@ -25,7 +25,6 @@ import {
   type LocalFiscalAuthorityGranted,
 } from "../local-fiscal-authority";
 import { localFiscalGameAuthorityForRulePackId } from "../local-ordinance-game-profile";
-import { LOCAL_FIX_IT_FIRST_PROPOSITION_KEY } from "../legislation-local-fiscal-families";
 import { localFiscalPredicateAuthority } from "../local-fiscal-predicate-authority";
 import type {
   EntityId,
@@ -135,12 +134,6 @@ export function fileMemberAgendaBills(
 
   const pack = legislativePackForJurisdiction(input.jurisdictionId);
   if (!pack) return world;
-  const stateContext = stateTransitAutomaticLawContext(
-    world,
-    input.jurisdictionId,
-  );
-  if (!stateContext || stateContext.rulePackId !== pack.packId) return world;
-
   const seatedByChamber = pack.chambers.map((chamber) => ({
     chamber,
     seated: seatedChamberForPack(
@@ -280,7 +273,7 @@ export function fileMemberAgendaBills(
         answer: candidate.answer,
         designation,
         intakeKey: batchKey + ":" + encodeURIComponent(proposition.stableKey),
-        context: stateContext,
+        governmentLevel: "state",
       });
       if (!draft) {
         unavailablePropositions.add(candidate.propositionId);
@@ -297,7 +290,7 @@ export function fileMemberAgendaBills(
 
       const introduced = introduceAutomaticLawMeasure(next, {
         jurisdictionId: input.jurisdictionId,
-        context: stateContext,
+        governmentLevel: "state",
         stableKey: measureStableKey,
         propositionId: candidate.propositionId,
         answer: candidate.answer,
@@ -383,17 +376,38 @@ function localAuthorityForCouncil(
   world: World,
   governmentKey: string,
 ): LocalFiscalAuthorityGranted | null {
-  const proposition = Object.values(world.policyCatalog.propositions).find(
-    (entry) => entry.stableKey === LOCAL_FIX_IT_FIRST_PROPOSITION_KEY,
+  const eligibleKeys = new Set(
+    AUTOMATIC_LAW_POSITION_MAPPINGS.filter(
+      (mapping) =>
+        mapping.governmentLevel === "municipality" ||
+        mapping.governmentLevel === "county",
+    ).map((mapping) => mapping.propositionKey),
   );
-  if (!proposition) return null;
-  for (const member of councilMembers(world, governmentKey)) {
-    const grant = localFiscalAuthorityFor(
-      withLocalSponsorControl(world, member.personId),
-      governmentKey,
-      proposition.stableKey,
-    );
-    if (grant.ok) return grant;
+  const propositions = world.policyCatalog.propositionOrder
+    .map((id) => world.policyCatalog.propositions[id])
+    .filter((entry) => entry && eligibleKeys.has(entry.stableKey));
+  for (const proposition of propositions) {
+    for (const member of councilMembers(world, governmentKey)) {
+      const grant = localFiscalAuthorityFor(
+        withLocalSponsorControl(world, member.personId),
+        governmentKey,
+        proposition.stableKey,
+      );
+      if (
+        grant.ok &&
+        (automaticLawMappingFor(
+          proposition.stableKey,
+          "yes",
+          grant.authority.level,
+        ) ||
+          automaticLawMappingFor(
+            proposition.stableKey,
+            "no",
+            grant.authority.level,
+          ))
+      )
+        return grant;
+    }
   }
   return null;
 }
@@ -489,97 +503,109 @@ export function fileLocalMemberAgendaBill(
     world,
     members.map((member) => member.personId),
   );
-  const proposition = Object.values(next.policyCatalog.propositions).find(
-    (entry) => entry.stableKey === LOCAL_FIX_IT_FIRST_PROPOSITION_KEY,
+  const eligibleKeys = new Set(
+    AUTOMATIC_LAW_POSITION_MAPPINGS.filter(
+      (mapping) =>
+        mapping.governmentLevel === "municipality" ||
+        mapping.governmentLevel === "county",
+    ).map((mapping) => mapping.propositionKey),
   );
-  if (!proposition) return next;
+  const propositions = next.policyCatalog.propositionOrder
+    .map((id) => next.policyCatalog.propositions[id])
+    .filter((entry) => entry && eligibleKeys.has(entry.stableKey));
+  if (propositions.length === 0) return next;
 
+  let filed = false;
   for (const sponsor of sponsors) {
-    const leaning = principledLeaning(next, sponsor.personId, proposition.id);
-    if (Math.abs(leaning.score) < FILING_THRESHOLD) continue;
-    const answer = leaning.score > 0 ? "yes" : "no";
-    const actorWorld = withLocalSponsorControl(next, sponsor.personId);
-    const grantResult = localFiscalAuthorityFor(
-      actorWorld,
-      input.governmentKey,
-      proposition.stableKey,
-    );
-    if (!grantResult.ok) continue;
-    const grant = grantResult;
-    const mapping = automaticLawMappingFor(
-      proposition.stableKey,
-      answer,
-      grant.authority.level,
-    );
-    if (!mapping) continue;
-    const context = localContext(grant);
-    const currentAnswer =
-      lawInForce(next, grant.jurisdictionId, proposition.id)?.answer ?? null;
-    if (currentAnswer === answer) continue;
-    if (pendingBillOn(next, grant.jurisdictionId, proposition.id)) continue;
-    if (
-      automaticLawQuestionOnCooldown(next, {
+    for (const proposition of propositions) {
+      const leaning = principledLeaning(next, sponsor.personId, proposition.id);
+      if (Math.abs(leaning.score) < FILING_THRESHOLD) continue;
+      const answer = leaning.score > 0 ? "yes" : "no";
+      const actorWorld = withLocalSponsorControl(next, sponsor.personId);
+      const grantResult = localFiscalAuthorityFor(
+        actorWorld,
+        input.governmentKey,
+        proposition.stableKey,
+      );
+      if (!grantResult.ok) continue;
+      const grant = grantResult;
+      const mapping = automaticLawMappingFor(
+        proposition.stableKey,
+        answer,
+        grant.authority.level,
+      );
+      if (!mapping) continue;
+      const context = localContext(grant);
+      const currentAnswer =
+        lawInForce(next, grant.jurisdictionId, proposition.id)?.answer ?? null;
+      if (currentAnswer === answer) continue;
+      if (pendingBillOn(next, grant.jurisdictionId, proposition.id)) continue;
+      if (
+        automaticLawQuestionOnCooldown(next, {
+          jurisdictionId: grant.jurisdictionId,
+          propositionId: proposition.id,
+          stableKeyPrefix: `${LOCAL_MEMBER_AGENDA_VERSION}:`,
+        })
+      )
+        continue;
+
+      const pack = legislativePackForWorkKey(context.scenarioKey);
+      const chamber = pack?.chambers.find(
+        (entry) => entry.chamberKey === "council" && entry.introductionAllowed,
+      );
+      if (!pack || !chamber || pack.packId !== grant.authority.rulePackId)
+        continue;
+      const designation = nextMeasureDesignation(next, {
+        jurisdictionId: grant.jurisdictionId,
+        originChamber: chamber,
+      });
+      const stableKey = `${batchKey}:${sponsor.personId}:${encodeURIComponent(proposition.stableKey)}`;
+      const draft = compileAutomaticLawDraft({
+        world: actorWorld,
         jurisdictionId: grant.jurisdictionId,
         propositionId: proposition.id,
-        stableKeyPrefix: `${LOCAL_MEMBER_AGENDA_VERSION}:`,
-      })
-    )
-      continue;
+        answer,
+        designation,
+        intakeKey: batchKey,
+        context,
+      });
+      if (!draft) continue;
+      const permitted = permittedOriginChambers(pack, draft.subjectClass);
+      if (
+        permitted.kind === "known" &&
+        !permitted.value.includes(chamber.chamberKey)
+      )
+        continue;
 
-    const pack = legislativePackForWorkKey(context.scenarioKey);
-    const chamber = pack?.chambers.find(
-      (entry) => entry.chamberKey === "council" && entry.introductionAllowed,
-    );
-    if (!pack || !chamber || pack.packId !== grant.authority.rulePackId)
-      continue;
-    const designation = nextMeasureDesignation(next, {
-      jurisdictionId: grant.jurisdictionId,
-      originChamber: chamber,
-    });
-    const stableKey = `${batchKey}:${sponsor.personId}`;
-    const draft = compileAutomaticLawDraft({
-      world: actorWorld,
-      jurisdictionId: grant.jurisdictionId,
-      propositionId: proposition.id,
-      answer,
-      designation,
-      intakeKey: batchKey,
-      context,
-    });
-    if (!draft) continue;
-    const permitted = permittedOriginChambers(pack, draft.subjectClass);
-    if (
-      permitted.kind === "known" &&
-      !permitted.value.includes(chamber.chamberKey)
-    )
-      continue;
-
-    const introduced = introduceAutomaticLawMeasure(actorWorld, {
-      jurisdictionId: grant.jurisdictionId,
-      context,
-      propositionId: proposition.id,
-      answer,
-      intakeKey: batchKey,
-      stableKey,
-      designation,
-      sponsorPersonId: sponsor.personId,
-      originChamberKey: chamber.chamberKey,
-      principleRecordIds: leaning.recordIds,
-      principleScore: leaning.score,
-    });
-    if (!introduced) continue;
-    const placed = placeMunicipalOrdinanceOnAgenda(introduced.world, {
-      governmentKey: input.governmentKey,
-      measureId: introduced.measureId,
-    });
-    if (!placed.ok) continue;
-    const scheduled = scheduleOrdinaryCouncilReading(
-      placed.world,
-      input.governmentKey,
-      introduced.measureId,
-    );
-    next = { ...scheduled, control: world.control };
-    break;
+      const introduced = introduceAutomaticLawMeasure(actorWorld, {
+        jurisdictionId: grant.jurisdictionId,
+        context,
+        propositionId: proposition.id,
+        answer,
+        intakeKey: batchKey,
+        stableKey,
+        designation,
+        sponsorPersonId: sponsor.personId,
+        originChamberKey: chamber.chamberKey,
+        principleRecordIds: leaning.recordIds,
+        principleScore: leaning.score,
+      });
+      if (!introduced) continue;
+      const placed = placeMunicipalOrdinanceOnAgenda(introduced.world, {
+        governmentKey: input.governmentKey,
+        measureId: introduced.measureId,
+      });
+      if (!placed.ok) continue;
+      const scheduled = scheduleOrdinaryCouncilReading(
+        placed.world,
+        input.governmentKey,
+        introduced.measureId,
+      );
+      next = { ...scheduled, control: world.control };
+      filed = true;
+      break;
+    }
+    if (filed) break;
   }
   return next;
 }
