@@ -70,7 +70,9 @@ describe("saved legislative starting procedures", () => {
       },
     };
     const restoredPriorSave = deserializeWorld(serializeWorld(priorSave));
-    expect(legislativeStartingProceduresCondition(restoredPriorSave)).toBeNull();
+    expect(
+      legislativeStartingProceduresCondition(restoredPriorSave),
+    ).toBeNull();
     expect(
       ensureWorldStartingConditions(restoredPriorSave, {
         openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
