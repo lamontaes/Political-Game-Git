@@ -1,41 +1,52 @@
 import { describe, expect, it } from "vitest";
 
-import { createNewGameWorld } from "./new-game";
+import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectNewsFrontPage } from "./news-front-page";
+import { passOrdinaryDays } from "./ordinary-life";
 import { projectPublicInformationPanel } from "./public-information-adapters";
 
 function newLife(seed: string) {
-  return createNewGameWorld({
-    placeKey: "kentucky",
-    startAge: 34,
-    depth: "summarize-earlier-life",
-    startingLife: "ordinary-life",
-    household: "shares-a-home",
-    seed,
-    givenName: null,
-    familyName: null,
-  }).world;
+  return generateOpeningLife(
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      placeKey: "lexington-fayette",
+      startAge: 34,
+      seed,
+    }),
+  ).game!.world;
 }
 
 describe("News front pages", () => {
-  it("prints only saved publications, national stories first, and nothing twice", () => {
-    const world = newLife("ui-follow-news");
+  it("prints saved publications by recency, regardless of scope, and nothing twice", () => {
+    const world = passOrdinaryDays(newLife("ui-follow-news"), 30);
     const before = JSON.stringify(world);
     const saved = projectPublicInformationPanel(world).items;
+    expect(saved.length).toBeGreaterThan(1);
     const page = projectNewsFrontPage(world, "front", null);
     expect(JSON.stringify(world)).toBe(before);
     const shown = [page.lead, ...page.stories].filter(
       (story): story is NonNullable<typeof story> => story !== null,
     );
+    expect(
+      shown.some(
+        (local) =>
+          !local.national &&
+          shown.some(
+            (national) =>
+              national.national && local.publishedAt > national.publishedAt,
+          ),
+      ),
+    ).toBe(true);
     expect(shown.map((story) => story.id).sort()).toEqual(
       saved.map((item) => item.publicationId).sort(),
     );
-    const firstLocal = shown.findIndex((story) => !story.national);
-    if (firstLocal >= 0) {
-      expect(shown.slice(firstLocal).every((story) => !story.national)).toBe(
-        true,
-      );
-    }
+    expect(shown.map((story) => story.publishedAt)).toEqual(
+      shown
+        .map((story) => story.publishedAt)
+        .sort()
+        .reverse(),
+    );
     for (const story of shown) {
       const record = saved.find((item) => item.publicationId === story.id)!;
       expect(story.headline).toBe(record.headline);

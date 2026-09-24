@@ -213,15 +213,16 @@ describe("an elected member waiting for a governor", () => {
     const enactment = world.history.legislativeEnactments?.find(
       (entry) => entry.measureId === measureId,
     );
-    if (!enactment?.effectiveAt)
-      throw new Error("The governor's signature has no effective date.");
-    expect(enactment.effectiveAt > enactment.resolvedAt).toBe(true);
+    if (!enactment) throw new Error("The signed measure has no enactment.");
     const operative = operativeDateForEnactment(enactment);
     if (!operative) throw new Error("Signed law has no operative date.");
-    expect(operative.date).toBe(enactment.effectiveAt);
-    expect(projectMeasureBriefing(world, measureId).outcomeNote).toContain(
-      enactment.effectiveAt,
-    );
+    expect(operative.date > enactment.resolvedAt).toBe(true);
+    if (enactment.effectiveAt) {
+      expect(operative.date).toBe(enactment.effectiveAt);
+      expect(projectMeasureBriefing(world, measureId).outcomeNote).toContain(
+        enactment.effectiveAt,
+      );
+    }
     const reopened = deserializeWorld(serializeWorld(world));
     expect(
       reopened.history.legislativeEnactments?.find(

@@ -44,7 +44,12 @@ export type EntityId = string & { readonly [entityIdBrand]: true };
 export type IsoDate = string & { readonly [isoDateBrand]: true };
 export type CurrencyCode = string & { readonly [currencyCodeBrand]: true };
 
-/** Identity for a public account or program owner; this grants no authority. */
+/**
+ * Identity for a public account or program owner. Most existing records are
+ * scoped to a geographic jurisdiction. A local government's geography alone
+ * is not unique, so new local records also carry that government's canonical
+ * key. This identity records ownership; it grants no taxing or spending power.
+ */
 export type PublicGovernmentIdentity =
   | { readonly kind: "jurisdiction"; readonly jurisdictionId: EntityId }
   | {
@@ -248,6 +253,7 @@ export interface PolicyDomainDefinition {
 export const POLICY_GOVERNMENT_LEVELS = [
   "federal",
   "state",
+  "territory",
   "county",
   "municipality",
   "school-district",
@@ -2559,10 +2565,11 @@ export interface LegislativeDraftLineageRecord {
    * one.
    *
    * Optional, so every lineage written before instruments existed reads back
-   * unchanged. `authorityKey` identifies a standing statute declared in the
-   * content bank or an explicitly versioned game-profile permission tied to
-   * this measure's exact government and rule pack. `authorityMeasureId` is
-   * present instead when the bill acts on another measure on the same docket.
+   * unchanged. `authorityKey` identifies either a content-bank standing
+   * authority or an explicitly versioned game-profile authority; in the latter
+   * case the measure's jurisdiction and rule-pack id bind it to one exact
+   * government. `authorityMeasureId` is present when the bill was written
+   * against another measure on the same docket.
    */
   readonly authorityKey?: string;
   readonly authorityMeasureId?: EntityId;
@@ -3554,6 +3561,8 @@ interface PublicProgramRecordBase {
   /** `namespace:name`, e.g. `transit:bus-service`. */
   readonly programKey: string;
   readonly jurisdictionId: EntityId;
+  /** Missing in legacy saves; those records remain jurisdiction-scoped. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly recordedAt: IsoDate;
   /** The ordinary event written with this record. */
   readonly eventId: EntityId;
@@ -3619,6 +3628,10 @@ export interface PublicProgramCapacityOutturnRecord extends PublicProgramRecordB
   readonly unitsOperational: number;
   /** Units returned to service; null when no restoration cost was declared. */
   readonly restoredUnits: number | null;
+  /** Snapshots on newly written outturns; absent on older saves. */
+  readonly serviceLabel?: string;
+  readonly unitLabel?: string;
+  readonly placeLabel?: string;
 }
 
 export type PublicProgramRecord =

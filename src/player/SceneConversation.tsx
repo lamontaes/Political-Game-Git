@@ -38,7 +38,11 @@ import type {
 import { PersonPortrait } from "./PersonPortrait";
 import { browsingSurfaceOpen, firstEnabledControl } from "./overlay-focus";
 import { useClampedConversation } from "./overlay-viewport";
-import { lieMarkerFor } from "../presentation/lie-marker";
+import {
+  hasLieReply,
+  lieMarkerFor,
+  repliesForLieMode,
+} from "../presentation/lie-marker";
 
 /**
  * The conversation, as one box in the room.
@@ -117,6 +121,8 @@ export function SceneConversation({
   const [historyPage, setHistoryPage] = useState<number | null>(null);
   const [clock, setClock] = useState<string | null>(null);
   const [trouble, setTrouble] = useState<string | null>(null);
+  const [lieMode, setLieMode] = useState(false);
+  useEffect(() => setLieMode(false), [subject, addressee]);
   /*
    * DIRECTOR42 ROLE D — saying goodbye ends the conversation.
    *
@@ -317,7 +323,11 @@ export function SceneConversation({
         ? playerPersonId
         : null
     : facing;
-  const speech = view.intents.filter((option) => option.key !== LISTEN_INTENT);
+  const offeredSpeech = view.intents.filter(
+    (option) => option.key !== LISTEN_INTENT,
+  );
+  const canLie = hasLieReply(offeredSpeech);
+  const speech = repliesForLieMode(offeredSpeech, lieMode);
   const listen = view.intents.find((option) => option.key === LISTEN_INTENT);
   /*
    * The person being spoken to hears it by definition; the line says who ELSE
@@ -351,6 +361,7 @@ export function SceneConversation({
       );
       setTrouble(null);
       setHistoryPage(null);
+      setLieMode(false);
       onWorldChange(result.world);
       if (intent === FAREWELL_INTENT) {
         setLeaving(true);
@@ -575,39 +586,56 @@ export function SceneConversation({
             <p className="pg-talk-note" data-testid="conversation-closed">
               That is settled for now.
             </p>
-          ) : leaving ? null : speech.length > 0 ? (
-            <div
-              className="pg-talk-choices"
-              role="group"
-              aria-label="What you say"
-              data-testid="conversation-intents"
-            >
-              {speech.map((option) => {
-                const lie = lieMarkerFor(option);
-                return (
-                  <button
-                    key={option.key}
-                    type="button"
-                    className="pg-talk-choice"
-                    data-testid={`intent-${option.key}`}
-                    title={
-                      lie
-                        ? lie.description
-                        : option.description !== option.label
-                          ? option.description
-                          : undefined
-                    }
-                    onClick={() => say(option.key)}
-                  >
-                    {lie ? (
-                      <span className="pg-talk-lie" data-testid="lie-marker">
-                        {lie.label}
-                      </span>
-                    ) : null}
-                    {option.label}
-                  </button>
-                );
-              })}
+          ) : leaving ? null : offeredSpeech.length > 0 ? (
+            <div className="pg-talk-replies">
+              <button
+                type="button"
+                className="pg-talk-lie-toggle"
+                data-testid="talk-lie-toggle"
+                aria-pressed={canLie && lieMode}
+                disabled={!canLie}
+                title={
+                  canLie
+                    ? "Show what you could say knowing it is false"
+                    : "There is nothing here you know to be false"
+                }
+                onClick={() => setLieMode((active) => !active)}
+              >
+                Lie
+              </button>
+              <div
+                className="pg-talk-choices"
+                role="group"
+                aria-label="What you say"
+                data-testid="conversation-intents"
+              >
+                {speech.map((option) => {
+                  const lie = lieMarkerFor(option);
+                  return (
+                    <button
+                      key={option.key}
+                      type="button"
+                      className="pg-talk-choice"
+                      data-testid={`intent-${option.key}`}
+                      title={
+                        lie
+                          ? lie.description
+                          : option.description !== option.label
+                            ? option.description
+                            : undefined
+                      }
+                      onClick={() => say(option.key)}
+                    >
+                      {lie ? (
+                        <span className="pg-talk-lie" data-testid="lie-marker">
+                          {lie.label}
+                        </span>
+                      ) : null}
+                      {option.spokenWords ?? option.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           ) : (
             <p className="pg-talk-note" data-testid="conversation-closed">

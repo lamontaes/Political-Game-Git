@@ -2,6 +2,7 @@ import type {
   EntityId,
   IsoDate,
   MoneyAmount,
+  PublicGovernmentIdentity,
   ResourcePositionOwner,
 } from "./types";
 
@@ -10,6 +11,8 @@ export interface TaxPowerEvidence {
   readonly key: string;
   readonly jurisdictionKey: string;
   readonly level: "STATE" | "COUNTY" | "MUNICIPALITY";
+  /** Required before a local authority can bind a proposal to one government. */
+  readonly governmentKey?: string;
   readonly instrument: "selective-excise" | "sales" | "property";
   readonly asOf: IsoDate;
   readonly sourceArtifactId: string;
@@ -17,6 +20,15 @@ export interface TaxPowerEvidence {
   readonly sourceUrl: string;
   readonly citations: readonly string[];
   readonly constraints: readonly string[];
+}
+
+/** Immutable identity for an explicitly fictional, versioned game profile.
+ * This is never substituted for sourced legal-power evidence.
+ */
+export interface TaxGameProfileRef {
+  readonly profileId: string;
+  readonly version: string;
+  readonly digest: string;
 }
 
 export interface TaxTerms {
@@ -29,10 +41,15 @@ export interface TaxTerms {
   readonly exemptBaseKeys: readonly string[];
   readonly allowanceMinorUnits: number;
   readonly currency: MoneyAmount["currency"];
+  /** Prospective enactment delay. Alaska source-backed terms omit this and
+   * retain the historical ninety-day default.
+   */
+  readonly effectiveDelayDays?: number;
   readonly collectionLagDays: number;
   readonly publicPurpose: string;
   readonly assumptionNote: string;
-  readonly legalBaselineAssumption: "carry-forward-acquired-baseline-in-game";
+  readonly legalBaselineAssumption:
+    "carry-forward-acquired-baseline-in-game" | "authored-state-game-profile";
 }
 
 interface TaxHistoryRoot {
@@ -46,8 +63,12 @@ export interface TaxProposalRecord extends TaxHistoryRoot {
   readonly measureId: EntityId;
   readonly sponsorPersonId: EntityId;
   readonly jurisdictionId: EntityId;
+  /** Missing in legacy saves; those records remain jurisdiction-scoped. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly publicOrganizationId: EntityId;
-  readonly power: TaxPowerEvidence;
+  /** Exactly one of `power` (sourced authority) or `gameProfileRef` is set. */
+  readonly power: TaxPowerEvidence | null;
+  readonly gameProfileRef?: TaxGameProfileRef | null;
   readonly terms: TaxTerms;
   readonly levyProvisionId: EntityId;
 }
@@ -83,6 +104,8 @@ export interface TaxAssessmentRecord extends TaxHistoryRoot {
 
 export interface TaxCollectionRecord extends TaxHistoryRoot {
   readonly assessmentId: EntityId;
+  /** Direct receipt scope; missing in legacy saves resolves through its proposal. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly status: "collected" | "zero" | "blocked";
   readonly transferredAmount: MoneyAmount;
   readonly resourceOutcomeId: EntityId | null;

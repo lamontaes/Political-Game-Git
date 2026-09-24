@@ -49,6 +49,7 @@ function compile(
     readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
     readonly scenarioKey?: string;
     readonly jurisdictionId?: string;
+    readonly rulePackId?: string;
     readonly predicateAuthority?: PredicateAuthority;
   },
 ): CompiledBillDraft {
@@ -58,7 +59,7 @@ function compile(
     parameterValues: overrides?.parameterValues,
     scenarioKey: overrides?.scenarioKey ?? "kentucky",
     jurisdictionId: (overrides?.jurisdictionId ?? KENTUCKY) as typeof KENTUCKY,
-    rulePackId: "us-ky-general-assembly-v1",
+    rulePackId: overrides?.rulePackId ?? "us-ky-general-assembly-v1",
     designation: "HB 900",
     filedOn: FILED_ON,
     ...(overrides?.predicateAuthority !== undefined
@@ -437,6 +438,90 @@ describe("acting on something that already exists is refused when it does not", 
       },
     });
     expect(draft.appropriatedMinorUnits).toBe(ceiling);
+  });
+
+  it("allows a versioned game profile without a separate ceiling, within the variant's typed bounds", () => {
+    const authority: PredicateAuthority = {
+      kind: "game-profile",
+      authorityKey: "game-profile:kentucky-spending/v1",
+      authorityVersion: "game-profile-authority/v1",
+      profileVersion: "kentucky-spending/v1",
+      rulePackId: "us-ky-general-assembly-v1",
+      publicGovernmentIdentity: {
+        kind: "jurisdiction",
+        jurisdictionId: KENTUCKY,
+      },
+      permittedEffects: ["public-program-appropriation"],
+      citationLabel: "Kentucky spending game profile",
+      programLabel: "Kentucky public program",
+      authorizedCeilingMinorUnits: null,
+      currency: "USD",
+      basis: "game-profile",
+    };
+    const overrides = {
+      jurisdictionId: KENTUCKY,
+      rulePackId: "us-ky-general-assembly-v1",
+      predicateAuthority: authority,
+    };
+
+    const ordinary = compile("appropriations", "single-programme", overrides);
+    expect(ordinary.authorizedCeilingMinorUnits).toBeNull();
+    expect(ordinary.appropriatedMinorUnits).toBe(1_200_000_000);
+    expect(
+      ordinary.clauses.find(
+        (clause) => clause.provisionKey === "amount-provided",
+      )?.operativeEffect,
+    ).toEqual({ kind: "public-program-appropriation" });
+
+    const variantMaximum = compile("appropriations", "single-programme", {
+      ...overrides,
+      parameterValues: {
+        appropriation: {
+          kind: "money",
+          minorUnits: 15_000_000_000,
+          currency: "USD",
+        },
+      },
+    });
+    expect(variantMaximum.appropriatedMinorUnits).toBe(15_000_000_000);
+    expect(() =>
+      compile("appropriations", "single-programme", {
+        ...overrides,
+        parameterValues: {
+          appropriation: {
+            kind: "money",
+            minorUnits: 15_000_000_001,
+            currency: "USD",
+          },
+        },
+      }),
+    ).toThrow(/must be between/);
+
+    expect(() =>
+      compile("appropriations", "single-programme", {
+        ...overrides,
+        rulePackId: "another-pack",
+      }),
+    ).toThrow(/resolves to/);
+    expect(() =>
+      compile("appropriations", "single-programme", {
+        jurisdictionId: "US-NY",
+        rulePackId: "us-ky-general-assembly-v1",
+        predicateAuthority: authority,
+      }),
+    ).toThrow(/exact government identity and rule pack/);
+  });
+
+  it("does not treat a null ceiling on a standing authority as permission", () => {
+    const unknownLimit = {
+      ...spendingAuthority,
+      authorizedCeilingMinorUnits: null,
+    } as PredicateAuthority;
+    expect(() =>
+      compile("appropriations", "single-programme", {
+        predicateAuthority: unknownLimit,
+      }),
+    ).toThrow(/states no ceiling/);
   });
 
   it("refuses to write an authorization against an authority", () => {

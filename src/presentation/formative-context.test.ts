@@ -21,6 +21,7 @@ import {
   projectFormativeYears,
 } from "./formative-play";
 import { createNewGameWorld } from "./new-game";
+import { sampledProofLocalityForState } from "./new-game-geography";
 
 /**
  * The growing-up years, held to the contracts they were written against.
@@ -181,15 +182,28 @@ describe("Whether a scene can happen at all", () => {
     }
   });
 
-  it("allows a household scene to a character who has a household", () => {
-    const { world, playerPersonId } = child(7);
-    expect(
-      formativeSituationAvailable(
-        world,
-        playerPersonId,
-        "formative.illness-in-the-house",
-      ),
-    ).toBe(true);
+  it("does not invent an ill relative or care need from a shared home", () => {
+    for (const stateKey of ["US-ME", "US-NV"]) {
+      const placeKey = sampledProofLocalityForState(stateKey).key;
+      for (const [situation, startAge] of [
+        ["formative.illness-in-the-house", 7],
+        ["formative.caring-for-someone", 15],
+      ] as const) {
+        const { world, playerPersonId } = createNewGameWorld({
+          placeKey,
+          startAge,
+          depth: "play-formative-years",
+          startingLife: "ordinary-life",
+          household: "shares-a-home",
+          seed: `formative-unrecorded-illness-${placeKey}-${startAge}`,
+          givenName: null,
+          familyName: null,
+        });
+        expect(
+          formativeSituationAvailable(world, playerPersonId, situation),
+        ).toBe(false);
+      }
+    }
   });
 });
 

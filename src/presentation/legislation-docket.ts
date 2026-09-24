@@ -590,7 +590,7 @@ export function availableAuthorities(
       authority.authorizedCeilingMinorUnits === null
         ? null
         : formatMinorUnits(authority.authorizedCeilingMinorUnits, "USD"),
-    note: "An explicitly fictional standing program in this content bank.",
+    note: `Named in-world program: ${authority.programLabel}. This is a fictional game profile, not a real-world fund.`,
   }));
 
   const fromDocket: DraftAuthorityOption[] = [];

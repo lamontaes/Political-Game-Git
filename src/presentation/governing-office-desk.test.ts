@@ -15,6 +15,7 @@ import {
   declareProgramCapacity,
   programAppropriations,
   programCommitments,
+  programOutturns,
   recordProgramAppropriation,
   settleProgramInstallment,
   type PublicProgramAlternative,
@@ -27,6 +28,7 @@ import {
   publicTaxAccountForJurisdiction,
 } from "../simulation/tax-policy";
 import { projectGoverningOfficeDesk } from "./governing-office-desk";
+import { proseDate } from "./prose-dates";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
@@ -270,8 +272,9 @@ describe("the desk once the office has decided and the work is done", () => {
     // The declared record still says 8; two buses have since come back.
     expect(program.objectiveLines[0]).toBe("10 of 10 buses are in service.");
     expect(program.outturnLines).toHaveLength(1);
-    expect(program.outturnLines[0]).toContain(
-      "2 returned to service, leaving 10 running",
+    const outturn = programOutturns(settled, "transit:state-bus")[0]!;
+    expect(program.outturnLines[0]).toBe(
+      `On ${proseDate(outturn.recordedAt)}, paid work for State bus service in ${outturn.placeLabel} returned 2 buses to service.`,
     );
     // The commitment is the decision, and it names who took it.
     const decision = program.commitments[0]!;

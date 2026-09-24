@@ -949,6 +949,7 @@ export function scheduleInstitutionStep(
   excludeDueItemId: EntityId | null = null,
 ): World {
   const measure = requireMeasure(world, measureId);
+  if (measurePosition(world, measureId).outcome !== null) return world;
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return world;
   // Congress's bills move together at its sittings, not on dates of their own.
@@ -1005,6 +1006,8 @@ export function createInstitutionStepHandler(
       !world.history.legislativeMeasures?.some((m) => m.id === measureId)
     )
       return done(world, "No measure stands behind this step.");
+    if (measurePosition(world, measureId).outcome !== null)
+      return done(world, "This measure already has a recorded outcome.");
     const result = applyInstitutionStep(world, measureId, onExecutiveDesk);
     switch (result.kind) {
       case "idle":
@@ -1297,6 +1300,25 @@ export function castMemberBallot(
  * it no longer waits on the calendar. The roll call still records the player
  * absent unless they decided.
  */
+/** Releases outstanding ballot reminders when a measure receives a final outcome. */
+export function closeResolvedMemberVoteNotices(
+  world: World,
+  measureId: EntityId,
+): World {
+  const prefix = `${LEGISLATIVE_CLOCK_VERSION}:member-vote:`;
+  let next = world;
+  for (const activity of next.history.scheduledActivities) {
+    if (
+      !activity.stableKey.startsWith(prefix) ||
+      !activity.sourceEntityIds.includes(measureId) ||
+      scheduledActivityState(next, activity.id).status !== "scheduled"
+    )
+      continue;
+    next = cancelScheduledActivity(next, activity.id);
+  }
+  return next;
+}
+
 function closeLapsedVoteNotices(world: World, measureId: EntityId): World {
   const prefix = `${LEGISLATIVE_CLOCK_VERSION}:member-vote:`;
   let next = world;
@@ -1384,11 +1406,31 @@ function noticeMemberVote(
           ? addSimulationMinutes(next.currentMoment, MEMBER_VOTE_NOTICE_SOON)
           : null;
     if (!start) continue;
-    const end = addSimulationMinutes(start, MEMBER_VOTE_NOTICE_MINUTES);
-    // A vote reminder must not stop unrelated scheduled life or throw while
-    // the institutional clock is advancing. The ballot remains available
-    // through memberVotesAhead even if this reminder slot is occupied.
-    if (scheduledConflictExists(next, [personId], start, end)) continue;
+    // More than one question can reach the same roll call. Keep each ballot
+    // decision visible as its own reminder, but give those reminders
+    // consecutive free hours instead of asking the player to hold overlapping
+    // calendar commitments. The member-vote panel still carries each ballot
+    // independently if a full day leaves no reminder slot.
+    let noticeStart = start;
+    while (noticeStart.date < voteOn) {
+      const noticeEnd = addSimulationMinutes(
+        noticeStart,
+        MEMBER_VOTE_NOTICE_MINUTES,
+      );
+      const endsBeforeVoteDay =
+        noticeEnd.date < voteOn ||
+        (noticeEnd.date === voteOn && noticeEnd.minuteOfDay === 0);
+      if (
+        endsBeforeVoteDay &&
+        !scheduledConflictExists(next, [personId], noticeStart, noticeEnd)
+      )
+        break;
+      noticeStart = addSimulationMinutes(
+        noticeStart,
+        MEMBER_VOTE_NOTICE_MINUTES,
+      );
+    }
+    if (noticeStart.date >= voteOn) continue;
     const measure = requireMeasure(next, measureId);
     const what =
       forum.question.purpose === "committee-report"
@@ -1403,8 +1445,8 @@ function noticeMemberVote(
       title: `Decide your vote on ${measure.designation}`,
       summary: `${forum.forumName} votes on ${what}, ${measure.shortTitle}, on ${formatStatutoryDate(voteOn)}.`,
       kind: "confirmed",
-      start,
-      end,
+      start: noticeStart,
+      end: addSimulationMinutes(noticeStart, MEMBER_VOTE_NOTICE_MINUTES),
       participantPersonIds: [personId],
       responsiblePersonId: personId,
       location: {

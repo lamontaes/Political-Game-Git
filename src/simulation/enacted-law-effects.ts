@@ -7,7 +7,9 @@ import {
 import { programFamilies } from "./legislation-program-families";
 import type { ClauseDimension } from "./legislation-content-contracts";
 import { currentMeasureProvisions } from "./legislative-politics";
+import { municipalRulePackById } from "./municipal-rule-registry";
 import { stateKeyForJurisdictionSlug } from "./life-places";
+import { isTerritoryUsps } from "./state-reference";
 import { adoptEnactedTaxPolicy } from "./tax-policy";
 import { taxActivationReadiness } from "./tax-policy-activation";
 import {
@@ -20,6 +22,7 @@ import type {
   EntityId,
   IsoDate,
   LegislativeProvisionRecord,
+  LegislativeProvisionEffectIntent,
   PublicProgramAppropriationRecord,
   World,
 } from "./types";
@@ -50,7 +53,16 @@ export const LAW_EFFECT_RESEARCH_QUESTIONS = {
   economicIncidence: "law-economic-incidence-by-provision",
 } as const;
 
-export type LawLevelOfGovernment = "federal" | "state" | "local";
+export type LawLevelOfGovernment = "federal" | "state" | "territory" | "local";
+
+/** A delivered program outturn with every field needed for grounded prose. */
+export interface DeliveredServiceFact {
+  readonly serviceLabel: string;
+  readonly unitLabel: string;
+  readonly placeLabel: string;
+  readonly deliveredAt: IsoDate;
+  readonly restoredUnits: number | null;
+}
 
 export type LawEffectLine =
   | {
@@ -77,6 +89,8 @@ export type LawEffectLine =
       readonly failedPayments: number;
       /** Units of service returned to use by work this money paid for. */
       readonly unitsRestored: number;
+      /** Exact delivery facts from new, labeled outturn records. */
+      readonly deliveredServices: readonly DeliveredServiceFact[];
     }
   | {
       /** The pinned transit program, which reads its own enacted clause. */
@@ -121,6 +135,15 @@ export interface EnactedLawEffects {
   readonly level: LawLevelOfGovernment;
   readonly enactedOn: IsoDate;
   readonly effectiveAt: IsoDate | null;
+  /** Typed clause intents and whether an admitted writer recorded their effect. */
+  readonly hasTypedOperativeEffect: boolean;
+  readonly operativeEffectOutcomes: readonly {
+    readonly provisionId: EntityId;
+    readonly provisionKey: string;
+    readonly effectKind: LegislativeProvisionEffectIntent["kind"];
+    readonly status: "applied" | "refused";
+    readonly refusalReason: string | null;
+  }[];
   readonly lines: readonly LawEffectLine[];
 }
 
@@ -266,9 +289,17 @@ export function enactedLawEffects(
       (row): row is PublicProgramAppropriationRecord =>
         row.kind === "appropriation" && row.sourceMeasureId === measureId,
     );
+    const hasExplicitEffectIntents = provisions.some(
+      (provision) => provision.operativeEffect !== undefined,
+    );
     if (appropriations.length > 0)
       for (const provision of provisions)
-        if (isMoneyClause(provision)) consumed.add(provision.id);
+        if (
+          isMoneyClause(provision) &&
+          (!hasExplicitEffectIntents ||
+            provision.operativeEffect?.kind === "public-program-appropriation")
+        )
+          consumed.add(provision.id);
     for (const appropriation of appropriations)
       lines.push(appropriationLine(world, appropriation));
   }
@@ -324,8 +355,118 @@ export function enactedLawEffects(
     level: levelOfGovernment(world, measure),
     enactedOn: enactment.resolvedAt,
     effectiveAt: enactment.effectiveAt,
+    hasTypedOperativeEffect: provisions.some(
+      (provision) => provision.operativeEffect !== undefined,
+    ),
+    operativeEffectOutcomes: operativeEffectOutcomes(
+      world,
+      measureId,
+      provisions,
+    ),
     lines,
   };
+}
+
+function operativeEffectOutcomes(
+  world: World,
+  measureId: EntityId,
+  provisions: readonly LegislativeProvisionRecord[],
+): EnactedLawEffects["operativeEffectOutcomes"] {
+  const appropriations = (world.history.publicProgramRecords ?? []).filter(
+    (record): record is PublicProgramAppropriationRecord =>
+      record.kind === "appropriation" && record.sourceMeasureId === measureId,
+  );
+  const matchedAppropriationIds = new Set<EntityId>();
+  return provisions.flatMap((provision) => {
+    const effect = provision.operativeEffect;
+    if (!effect) return [];
+    if (effect.kind === "tax-policy") {
+      const proposal = world.history.taxProposals?.find(
+        (row) =>
+          row.measureId === measureId && row.levyProvisionId === provision.id,
+      );
+      if (!proposal)
+        return [
+          {
+            provisionId: provision.id,
+            provisionKey: provision.provisionKey,
+            effectKind: effect.kind,
+            status: "refused" as const,
+            refusalReason:
+              "No tax proposal is linked to this typed tax provision.",
+          },
+        ];
+      if (
+        world.history.taxPolicies?.some((row) => row.proposalId === proposal.id)
+      )
+        return [
+          {
+            provisionId: provision.id,
+            provisionKey: provision.provisionKey,
+            effectKind: effect.kind,
+            status: "applied" as const,
+            refusalReason: null,
+          },
+        ];
+      const readiness = taxActivationReadiness(world, proposal.id);
+      return [
+        {
+          provisionId: provision.id,
+          provisionKey: provision.provisionKey,
+          effectKind: effect.kind,
+          status: "refused" as const,
+          refusalReason:
+            readiness.kind === "unavailable"
+              ? readiness.reason
+              : "No enacted tax-policy version is recorded.",
+        },
+      ];
+    }
+
+    if (isPinnedTransitMeasure(world, measureId)) {
+      const resolution = resolveTransitFunding(world, measureId);
+      return [
+        {
+          provisionId: provision.id,
+          provisionKey: provision.provisionKey,
+          effectKind: effect.kind,
+          status:
+            resolution.kind === "available" ? ("applied" as const) : ("refused" as const),
+          refusalReason:
+            resolution.kind === "available" ? null : resolution.reason,
+        },
+      ];
+    }
+
+    const appropriation = appropriations.find(
+      (record) =>
+        !matchedAppropriationIds.has(record.id) &&
+        record.jurisdictionId === provision.applicationScope.jurisdictionId &&
+        record.amount.minorUnits === provision.fiscalExposureMinorUnits,
+    );
+    if (appropriation) {
+      matchedAppropriationIds.add(appropriation.id);
+      return [
+        {
+          provisionId: provision.id,
+          provisionKey: provision.provisionKey,
+          effectKind: effect.kind,
+          status: "applied" as const,
+          refusalReason: null,
+        },
+      ];
+    }
+    return [
+      {
+        provisionId: provision.id,
+        provisionKey: provision.provisionKey,
+        effectKind: effect.kind,
+        status: "refused" as const,
+        refusalReason:
+          "No spending authority matching the typed amount and jurisdiction was recorded.",
+      },
+    ];
+  });
 }
 
 function isMoneyClause(provision: LegislativeProvisionRecord): boolean {
@@ -395,6 +536,7 @@ function appropriationLine(
   let paid = 0;
   let failed = 0;
   let restored = 0;
+  const deliveredServices: DeliveredServiceFact[] = [];
   const commitmentIds = new Set<EntityId>();
   for (const row of records) {
     if (row.kind !== "commitment" || row.appropriationId !== appropriation.id)
@@ -415,8 +557,24 @@ function appropriationLine(
         paid += plan?.amount.minorUnits ?? 0;
       }
     }
-    if (row.kind === "capacity-outturn" && commitmentIds.has(row.commitmentId))
+    if (
+      row.kind === "capacity-outturn" &&
+      commitmentIds.has(row.commitmentId)
+    ) {
       restored += row.restoredUnits ?? 0;
+      if (
+        row.serviceLabel?.trim() &&
+        row.unitLabel?.trim() &&
+        row.placeLabel?.trim()
+      )
+        deliveredServices.push({
+          serviceLabel: row.serviceLabel,
+          unitLabel: row.unitLabel,
+          placeLabel: row.placeLabel,
+          deliveredAt: row.recordedAt,
+          restoredUnits: row.restoredUnits,
+        });
+    }
   }
   const status =
     world.currentDate < appropriation.availableFrom
@@ -435,6 +593,7 @@ function appropriationLine(
     paidMinorUnits: paid,
     failedPayments: failed,
     unitsRestored: restored,
+    deliveredServices,
   };
 }
 
@@ -473,9 +632,12 @@ function levelOfGovernment(
   measure: { readonly jurisdictionId: EntityId; readonly rulePackId: string },
 ): LawLevelOfGovernment {
   if (measure.rulePackId === "us-congress-v1") return "federal";
+  if (municipalRulePackById(measure.rulePackId)) return "local";
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction) return "local";
   if (["us-federal", "united-states", "us"].includes(jurisdiction.slug))
     return "federal";
-  return stateKeyForJurisdictionSlug(jurisdiction.slug) ? "state" : "local";
+  const stateKey = stateKeyForJurisdictionSlug(jurisdiction.slug);
+  if (!stateKey) return "local";
+  return isTerritoryUsps(stateKey.slice(3)) ? "territory" : "state";
 }

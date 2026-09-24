@@ -4,6 +4,7 @@ import { canonicalStateJurisdictionId } from "../state-jurisdiction-id";
 import { STATES, TERRITORY_USPS } from "../state-reference";
 import type { EntityId, EntityKind, World } from "../types";
 import type { PartyRecord, WorldConditionRecord } from "./types";
+import { assertStateTaxServiceStartingConditions } from "./state-tax-service-profiles";
 
 export const WORLD_CONDITION_ID_KIND = "world-condition" as const;
 export const PARTY_RECORD_ID_KIND = "party-record" as const;
@@ -178,6 +179,8 @@ export function assertWorldSetupIntegrity(
         `World condition takes effect in the future: ${record.id}`,
       );
     }
+    if (record.kind === "state-tax-service-starting-conditions")
+      assertStateTaxServiceStartingConditions(record);
     if (record.kind === "political-starting-conditions") {
       finite(record.nationalSwingPp, "National swing");
       for (const seat of record.seats) {
