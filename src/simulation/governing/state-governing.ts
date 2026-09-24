@@ -39,6 +39,7 @@ import {
   stateExecutiveTermRuleNote,
 } from "../nationwide-world/state-executive-term-rules";
 import { governingJurisdictionIdFor } from "../nationwide-world/government-jurisdiction";
+import { stateExecutiveIdentityForOfficeKey } from "../nationwide-world/state-executive-candidacy-packs";
 import {
   LEGISLATIVE_INSTITUTION_STEP,
   authoredMeasuresForJurisdiction,
@@ -53,7 +54,11 @@ import {
   STATE_GOVERNING_CALENDAR,
   scheduleGoverningSeasons,
 } from "./governing-calendar";
-import { ensureStateLegislatureOpening } from "../nationwide-world/state-legislature-opening";
+import {
+  ensureStateLegislatureOpening,
+  STATE_LEGISLATURE_OPENING_TRANSITION,
+  stateLegislatureOpeningHandler,
+} from "../nationwide-world/state-legislature-opening";
 import { worldOpeningVersionOf } from "../world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { fileMemberAgendaBill } from "./member-agenda";
@@ -1859,63 +1864,81 @@ export function governingSeasonHandler(
   if (!match) return resolved(world, "Not a season item.");
   const [, officeKey, kind] = match;
   const office = governingOfficeByKey(world, officeKey!);
+  const identity = stateExecutiveIdentityForOfficeKey(officeKey!);
+  const stateUsps = office?.stateUsps ?? identity?.stateUsps ?? null;
+  const jurisdictionId =
+    office?.jurisdictionId ??
+    (stateUsps
+      ? governingJurisdictionIdFor({ kind: "state", stateUsps })
+      : null);
   let next = world;
   const offCycleBill =
     kind === "bill" &&
-    !!office &&
+    jurisdictionId !== null &&
     !regularSessionYearForWorld(
       world,
-      office.jurisdictionId,
+      jurisdictionId,
       Number(due.dueAt.slice(0, 4)),
     );
-  if (office) {
+  if (kind === "budget" && office) {
     const rng = new SeededRng(`${due.stableKey}:subject`);
     const pool = PROGRAM_FAMILIES.map((family) => family.familyKey);
-    if (kind === "budget") {
-      const priority = currentPriority(world, office);
-      const programKeys = [
-        ...(priority ? [priority] : []),
-        ...pickDistinct(
-          rng.fork("budget"),
-          pool.filter((key) => key !== priority),
-          priority ? 1 : 2,
-        ),
-      ];
-      next = openMatter(next, office, {
-        family: "budget",
-        instance: due.dueAt,
-        programKeys,
-      });
-    } else if (!offCycleBill) {
-      const intake = {
-        jurisdictionId: office.jurisdictionId,
-        intakeKey: `${office.officeKey}:${due.dueAt}`,
-      };
-      // Every state's legislature sits, not only the home state's: one not
-      // yet seated is seated on its first bill day, the same way the home
-      // state's is at the opening. A legacy replay keeps the world it built.
-      if (worldOpeningVersionOf(next) === CRUNCH46_WORLD_OPENING_VERSION)
-        next = ensureStateLegislatureOpening(
-          next,
-          office.holderPersonId,
-          office.stateUsps,
-        );
-      const filedBefore = next.history.legislativeMeasures?.length ?? 0;
-      // A legislature with written measures files a real bill; it reaches
-      // the governor through the legislative clock.
-      if (authoredMeasuresForJurisdiction(office.jurisdictionId).length)
-        next = fileLegislatureMeasure(next, intake);
-      // A seated member also files a bill of their own, on the question
-      // their principles press hardest.
-      next = fileMemberAgendaBill(next, intake);
-      // Where nobody filed anything, no bill is invented. The office's other
-      // work continues, and the gap is stated once a year.
-      if ((next.history.legislativeMeasures?.length ?? 0) === filedBefore)
-        next = recordMissingLegislatureNote(next, office, due.dueAt);
-    }
-    next = openProgramMatters(next, office);
-    next = scheduleGoverningSeasons(next, officeKey!, office.jurisdictionId);
+    const priority = currentPriority(world, office);
+    const programKeys = [
+      ...(priority ? [priority] : []),
+      ...pickDistinct(
+        rng.fork("budget"),
+        pool.filter((key) => key !== priority),
+        priority ? 1 : 2,
+      ),
+    ];
+    next = openMatter(next, office, {
+      family: "budget",
+      instance: due.dueAt,
+      programKeys,
+    });
+  } else if (
+    kind === "bill" &&
+    !offCycleBill &&
+    jurisdictionId !== null &&
+    stateUsps
+  ) {
+    const intake = {
+      jurisdictionId,
+      intakeKey: `${officeKey}:${due.dueAt}`,
+    };
+    // Legislative business belongs to the seated chamber even while its
+    // executive office is vacant. A current save can still need a roster
+    // on this date if it began after the paced opening calendar.
+    const subjectPersonId =
+      office?.holderPersonId ??
+      (next.control.kind === "person"
+        ? next.control.personId
+        : next.personOrder.find((id) => !!next.people[id]));
+    if (
+      worldOpeningVersionOf(next) === CRUNCH46_WORLD_OPENING_VERSION &&
+      subjectPersonId
+    )
+      next = ensureStateLegislatureOpening(next, subjectPersonId, stateUsps);
+    const filedBefore = next.history.legislativeMeasures?.length ?? 0;
+    // A legislature with written measures files a real bill; it reaches
+    // the governor through the legislative clock.
+    if (authoredMeasuresForJurisdiction(jurisdictionId).length)
+      next = fileLegislatureMeasure(next, intake);
+    // A seated member also files a bill of their own, on the question
+    // their principles press hardest.
+    next = fileMemberAgendaBill(next, intake);
+    // Where nobody filed anything, no bill is invented. The office's other
+    // work continues, and the gap is stated once a year.
+    if (
+      office &&
+      (next.history.legislativeMeasures?.length ?? 0) === filedBefore
+    )
+      next = recordMissingLegislatureNote(next, office, due.dueAt);
   }
+  if (office) next = openProgramMatters(next, office);
+  if (jurisdictionId)
+    next = scheduleGoverningSeasons(next, officeKey!, jurisdictionId);
   return resolved(
     next,
     offCycleBill
@@ -2012,6 +2035,7 @@ const institutionStepWithProgramMatters = (() => {
  */
 export function stateGoverningHandlers() {
   return [
+    [STATE_LEGISLATURE_OPENING_TRANSITION, stateLegislatureOpeningHandler],
     [LEGISLATIVE_INSTITUTION_STEP, institutionStepWithProgramMatters],
     ...CONGRESS_LAWMAKING_HANDLERS,
     [COMMITTEE_HEARING_TRANSITION_KEY, committeeHearingTransitionHandler],

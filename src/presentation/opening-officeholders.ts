@@ -11,6 +11,7 @@ import {
   recordWorldEvent,
   currentStateExecutiveHolders,
   ensureStateExecutiveIncumbent,
+  ensureNationwideStateExecutives,
   ensureHomeLocalGovernments,
   homeStateUsps,
   worldOpeningVersionOf,
@@ -176,15 +177,21 @@ export function establishOpeningOfficeholders(
       },
     });
   }
-  // The player's own state executive, through the one nationwide writer. Other
-  // states materialize only when a producer needs them, never on a read.
+  // The home executive goes first so existing home-office and public-life
+  // ordering stays stable. Current generated worlds then establish all fifty
+  // state governments through the same canonical writer; their
+  // legislative seasons can run in this one save, without a second world.
   const stateUsps = homeStateUsps(next, playerPersonId);
   const withState = stateUsps
     ? ensureStateExecutiveIncumbent(next, playerPersonId, stateUsps, options)
     : next;
+  const withNationwideStates =
+    worldOpeningVersionOf(withState) === CRUNCH46_WORLD_OPENING_VERSION
+      ? ensureNationwideStateExecutives(withState, playerPersonId)
+      : withState;
   // The actual local governments of the home place, once; never a fictional
   // city for a place that has no government of its own.
-  return ensureHomeLocalGovernments(withState, playerPersonId);
+  return ensureHomeLocalGovernments(withNationwideStates, playerPersonId);
 }
 
 export interface PublicOfficeholderRecord {
