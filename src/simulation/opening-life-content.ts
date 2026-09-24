@@ -26,10 +26,18 @@ export interface LifeSceneDefinition {
   readonly choices: readonly LifeSceneChoice[];
   readonly source: string;
 }
+/** No fixed quiet-time scene is offered as an optional activity. */
+export const OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS: ReadonlySet<string> =
+  new Set();
 const SOURCE =
   "https://drive.google.com/file/d/1NhCLh2tPzoWWaTr1vH41Mz1yj8gdMXWR/view";
 /** The reviewed packets, outputs and verdicts behind the PT3 first-session copy. */
 const PT3_FIRST_SESSION_SOURCE = "prose-review/pt3-first-session";
+
+/** Retained for previously opened saves, but no longer offered in ordinary play. */
+export function isArchivedRoutineOpeningSceneKey(key: string): boolean {
+  return key === "young.home.choose-activity" || key === "adult.home.free-time";
+}
 
 /** Only these choices actually perform a sustained activity. Conversational
  * choices inside a game/reading/meeting do not complete that whole activity. */
@@ -568,9 +576,8 @@ export const OPENING_LIFE_SCENES: readonly LifeSceneDefinition[] = [
     `${PT3_FIRST_SESSION_SOURCE}/adult-shared-time`,
   ),
   // A decision with a recorded consequence, so an adult alone at home has
-  // something to decide besides how to spend fifteen minutes. Choosing records
-  // the plan through chooseOrdinaryLifeGoal; reading, resting or spending time
-  // with somebody later can keep it.
+  // something to decide. Choosing records the plan through
+  // chooseOrdinaryLifeGoal; later choices can keep it.
   scene(
     "adult.home.plan-week",
     [18, 110],

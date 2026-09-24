@@ -8,7 +8,7 @@ import {
 } from "./support/creator";
 
 async function passDays(page: Page, days: number) {
-  const button = page.getByTestId("pass-day");
+  const button = page.getByTestId("shell-pass-day");
   for (let i = 0; i < days; i++) await button.click();
 }
 

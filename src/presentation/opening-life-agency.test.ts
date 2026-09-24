@@ -25,9 +25,9 @@ import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { createOpeningLifeController } from "./opening-life";
 import { joinOrdinaryGroup } from "./ordinary-community";
 import {
-  chooseOpeningLifeScene,
   currentOpeningLifeScene,
   openNextLifeScene,
+  openOptionalLifeActivity,
   walkOpeningNeighborhood,
 } from "./life-scene-flow";
 import { projectLifeConversation } from "./life-conversation";
@@ -74,41 +74,24 @@ describe("ordinary-life agency and boundaries", () => {
         latestPersonalValue(a.world, a.playerPersonId, id)?.orientation,
       ).toBe(latestPersonalValue(b.world, b.playerPersonId, id)?.orientation);
   });
-  it("completes a personal goal only after performing the activity", () => {
+  it("does not complete a goal through a retired quiet-time scene", () => {
     const game = start(6);
-    let world = chooseOrdinaryLifeGoal(
+    const world = chooseOrdinaryLifeGoal(
       game.world,
       game.playerPersonId,
       "learning",
     );
-    for (let n = 0; n < 12; n++) {
-      world = openNextLifeScene(world, game.playerPersonId);
-      const scene = currentOpeningLifeScene(world, game.playerPersonId);
-      if (!scene) break;
-      if (scene.definition.key === "young.home.choose-activity") {
-        expect(activeOrdinaryGoal(world, game.playerPersonId, "learning")).toBe(
-          true,
-        );
-        world = chooseOpeningLifeScene(
-          world,
-          game.playerPersonId,
-          scene.eventId,
-          "read",
-        );
-        expect(activeOrdinaryGoal(world, game.playerPersonId, "learning")).toBe(
-          false,
-        );
-        assertWorldIntegrity(world);
-        return;
-      }
-      world = chooseOpeningLifeScene(
+    expect(
+      openOptionalLifeActivity(
         world,
         game.playerPersonId,
-        scene.eventId,
-        scene.choices[0]!.key,
-      );
-    }
-    throw new Error("The available reading activity was not reachable.");
+        "young.home.choose-activity",
+      ),
+    ).toBe(world);
+    expect(activeOrdinaryGoal(world, game.playerPersonId, "learning")).toBe(
+      true,
+    );
+    assertWorldIntegrity(world);
   });
   it("records accompanied travel and keeps childhood conversations age-appropriate", () => {
     const game = start(6);

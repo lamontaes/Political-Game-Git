@@ -26,6 +26,7 @@ import { createExplicitGeographyLife } from "./new-game-geography";
 import { openOrdinaryLife } from "./ordinary-life";
 import { letAdultTimePass } from "./adult-life";
 import { projectJobMarket } from "./job-listings-view";
+import { submitTimeCommand } from "./time-command";
 
 /**
  * Jobs, played through the new-game route in several places, never Kentucky:
@@ -309,7 +310,29 @@ describe("jobs in a town", () => {
 
     const accepted = answerJobOffer(world, application.id, true);
     expect(accepted.ok).toBe(true);
-    world = passUntil(accepted.world, (w) => w.currentDate >= offer.startAt!);
+    world = deserializeWorld(serializeWorld(accepted.world));
+    let reachedStart = false;
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      const advanced = submitTimeCommand(
+        world,
+        {
+          requestId: `job-start-${attempt}`,
+          personId: start.personId,
+          sourceMoment: world.currentMoment,
+          command: { kind: "days", days: 30 },
+        },
+        () => 0,
+      );
+      if (advanced.world === world) break;
+      world = advanced.world;
+      if (world.currentDate === offer.startAt) {
+        reachedStart = true;
+        expect(advanced.receipt.stoppedEarly).toBe(true);
+        break;
+      }
+      if (world.currentDate > offer.startAt!) break;
+    }
+    expect(reachedStart).toBe(true);
     const started = startJob(world, application.id);
     expect(started.ok).toBe(true);
     world = started.world;
