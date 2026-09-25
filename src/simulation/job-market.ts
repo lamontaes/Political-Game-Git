@@ -7,6 +7,7 @@ import {
   householdMembershipsAt,
   kinshipRelationshipsAt,
   organizationProfileAt,
+  peopleInHouseholdAt,
   workStatusAt,
 } from "./life-queries";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
@@ -24,6 +25,7 @@ import {
   resolveWorkCompensationPeriod,
 } from "./resources";
 import { SeededRng } from "./rng";
+import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
 import type {
   JobApplicationRecord,
@@ -1350,11 +1352,31 @@ function isActiveOn(world: World, workId: EntityId, date: IsoDate): boolean {
  * nothing new.
  */
 export function settleJobPay(world: World, personId: EntityId): World {
-  let next = payFirstJob(retireSupersededFirstJob(world, personId), personId);
+  return settleWeeklyRecordedPay(
+    payFirstJob(retireSupersededFirstJob(world, personId), personId),
+    personId,
+    (flow, work) => flow.stableKey === payKey(work),
+  );
+}
+
+function settleWeeklyRecordedPay(
+  world: World,
+  personId: EntityId,
+  accepts: (
+    flow: World["history"]["resourceFlows"][number],
+    work: WorkRelationship,
+  ) => boolean,
+  earliestDueExclusive?: IsoDate,
+  isDueAllowed?: (dueOn: IsoDate) => boolean,
+): World {
+  let next = world;
   for (const work of next.history.workRelationships) {
     if (work.personId !== personId) continue;
     const flow = next.history.resourceFlows.find(
-      (row) => row.stableKey === payKey(work),
+      (row) =>
+        row.basisReference.kind === "work" &&
+        row.basisReference.workRelationshipId === work.id &&
+        accepts(row, work),
     );
     if (!flow) continue;
     let paidWeeks = 0;
@@ -1364,15 +1386,29 @@ export function settleJobPay(world: World, personId: EntityId): World {
         daysBetween(flow.startsAt, outcome.periodStartsAt) / WEEK_DAYS + 1;
       if (week > paidWeeks) paidWeeks = week;
     }
+    const firstNewWeek =
+      earliestDueExclusive && earliestDueExclusive >= flow.startsAt
+        ? Math.floor(
+            daysBetween(flow.startsAt, earliestDueExclusive) / WEEK_DAYS,
+          ) + 1
+        : 1;
+    const firstWeek = Math.max(paidWeeks + 1, firstNewWeek);
     for (
-      let week = paidWeeks + 1;
-      week <= paidWeeks + CATCH_UP_LIMIT_WEEKS;
+      let week = firstWeek;
+      week < firstWeek + CATCH_UP_LIMIT_WEEKS;
       week += 1
     ) {
       const periodStartsAt = addDays(flow.startsAt, (week - 1) * WEEK_DAYS);
       const dueOn = addDays(flow.startsAt, week * WEEK_DAYS);
       if (dueOn > next.currentDate) break;
+      if (isDueAllowed && !isDueAllowed(dueOn)) break;
       if (!isActiveOn(next, work.id, addDays(dueOn, -1))) break;
+      const terms = resourceFlowTermsAt(next, flow.id, {
+        asOfDate: periodStartsAt,
+        historySequenceExclusive: next.history.nextSequence,
+      });
+      if (terms?.status !== "active" || terms.cadenceKind !== "schedule:weekly")
+        break;
       next = resolveWorkCompensationPeriod(next, {
         stableKey: `${flow.stableKey}:${periodStartsAt}`,
         workRelationshipId: work.id,
@@ -1384,6 +1420,69 @@ export function settleJobPay(world: World, personId: EntityId): World {
         note: "Pay for the week.",
         provenance: flow.provenance,
       });
+    }
+  }
+  return next;
+}
+
+/**
+ * A child-controlled clock also advances work already held by adults in the
+ * child's recorded household. Only existing weekly compensation terms pay,
+ * and only for weeks that came due after this clock advance began. A preexisting
+ * job cannot mint years of wages when the child first passes a day. This does
+ * not give a parent a job, guess a salary, or pool the wages into the household.
+ * If the adult's personal money was not tracked before, its opening checkpoint
+ * carries only the outcomes already recorded for that adult.
+ */
+export function settleHouseholdAdultJobPay(
+  world: World,
+  childPersonId: EntityId,
+  earliestDueExclusive: IsoDate,
+): World {
+  const child = world.people[childPersonId];
+  if (!child || ageOnDate(child.birthDate, earliestDueExclusive) >= 18)
+    return world;
+  const primary = householdMembershipsAt(world, childPersonId).filter(
+    (entry) => entry.state.residenceRole === "primary",
+  );
+  if (primary.length !== 1) return world;
+  let next = world;
+  for (const adultId of peopleInHouseholdAt(world, primary[0]!.household.id)) {
+    if (adultId === childPersonId) continue;
+    const adult = next.people[adultId];
+    if (!adult || ageOnDate(adult.birthDate, next.currentDate) < 18) continue;
+    const paid = settleWeeklyRecordedPay(
+      next,
+      adultId,
+      (flow, work) =>
+        flow.basisKind === "compensation:work" &&
+        flow.recipient.kind === "person" &&
+        flow.recipient.personId === adultId &&
+        flow.source.kind === "organization" &&
+        flow.source.organizationId === work.organizationId,
+      earliestDueExclusive,
+      (dueOn) =>
+        ageOnDate(child.birthDate, dueOn) < 18 &&
+        isPersonAliveAt(next, adultId, {
+          ...currentLifeCutoff(next),
+          asOfDate: addDays(dueOn, -1),
+        }),
+    );
+    const newOutcomes = paid.history.resourceTransferOutcomes.slice(
+      next.history.resourceTransferOutcomes.length,
+    );
+    next = paid;
+    for (const outcome of newOutcomes) {
+      const flow = next.history.resourceFlows.find(
+        (entry) => entry.id === outcome.resourceFlowId,
+      );
+      if (flow?.recipient.kind === "person") {
+        next = ensureLifePathPersonalPosition(
+          next,
+          adultId,
+          outcome.transferredAmount.currency,
+        );
+      }
     }
   }
   return next;

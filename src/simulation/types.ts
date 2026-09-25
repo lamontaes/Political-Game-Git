@@ -30,6 +30,8 @@ import type {
   TaxBaseRecord,
   TaxAssessmentRecord,
   TaxCollectionRecord,
+  StatutoryTaxLiabilityRecord,
+  StatutoryTaxPaymentRecord,
 } from "./tax-types";
 import type {
   JobApplicationRecord,
@@ -80,6 +82,8 @@ export type EntityKind =
   | "tax-base"
   | "tax-assessment"
   | "tax-collection"
+  | "statutory-tax-liability"
+  | "statutory-tax-payment"
   | "job-opening"
   | "job-application"
   | "job-application-step"
@@ -3808,6 +3812,9 @@ export interface HistoryStore {
   readonly taxBases?: readonly TaxBaseRecord[];
   readonly taxAssessments?: readonly TaxAssessmentRecord[];
   readonly taxCollections?: readonly TaxCollectionRecord[];
+  /** Taxes that exist in law, assessed per occurrence; see `statutory-tax.ts`. */
+  readonly statutoryTaxLiabilities?: readonly StatutoryTaxLiabilityRecord[];
+  readonly statutoryTaxPayments?: readonly StatutoryTaxPaymentRecord[];
   /** Optional: job openings and applications; see `job-market.ts`. */
   readonly jobOpenings?: readonly JobOpeningRecord[];
   readonly jobApplications?: readonly JobApplicationRecord[];
@@ -4345,7 +4352,11 @@ export interface OfficeWorkflowPreferenceRecord {
   readonly sequence: number;
   readonly personId: EntityId;
   readonly officeRelationshipId: EntityId;
-  readonly votingMode: OfficeVotingWorkflowMode;
+  /**
+   * Null for an office that casts no votes, such as a governor's: its
+   * casework is still the officeholder's to arrange.
+   */
+  readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
   readonly recordedAt: IsoDate;
   readonly supersedesPreferenceId: EntityId | null;

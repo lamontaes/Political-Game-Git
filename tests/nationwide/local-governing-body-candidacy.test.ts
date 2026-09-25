@@ -368,5 +368,47 @@ describe("when a town's race is held", () => {
   });
 });
 
+describe("a council campaign saved before the body had its own name", () => {
+  it("still opens: the office's title is display text, not its identity", () => {
+    // Saves written before a town's body was named recorded every council
+    // contest's office as "Member of the governing body". The pack now says
+    // "Council member", and the load check once compared the two titles, so
+    // every such save refused to open (a San Antonio life, playtest 9/24).
+    const { world, personId } = adultLifeAt(BOISE, "council-title-rename");
+    const home = world.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    expect(body.officeTitle).not.toBe("Member of the governing body");
+    const filed = fileForOffice(
+      world,
+      personId,
+      null,
+      body.officeKey,
+      addDays(world.currentDate, 28),
+    );
+    const contests = filed.history.electionContests!;
+    const saved: World = {
+      ...filed,
+      history: {
+        ...filed.history,
+        electionContests: contests.map((contest, index) =>
+          index === contests.length - 1
+            ? {
+                ...contest,
+                office: {
+                  ...contest.office,
+                  title: "Member of the governing body",
+                },
+              }
+            : contest,
+        ),
+      },
+    };
+    const reloaded = deserializeWorld(serializeWorld(saved));
+    expect(projectCampaign(reloaded, personId, body.officeKey).phase).toBe(
+      projectCampaign(filed, personId, body.officeKey).phase,
+    );
+  }, 60_000);
+});
+
 // 19,480 municipalities join to a place; 18 of them are not functionally active.
 const OFFERED_TOWN_GOVERNMENTS = 19_462;

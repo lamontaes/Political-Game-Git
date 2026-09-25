@@ -1,3 +1,4 @@
+import { PLACE_NAMES_V1_VERSION } from "../simulation/names-data";
 import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
 import {
   SCHOOL_STAGES_V2,
@@ -218,6 +219,11 @@ export interface NewGameSetup {
    */
   readonly schoolNameVersion?: typeof SCHOOL_NAMES_V2_VERSION;
   /**
+   * Absent keeps the national name corpus everywhere. New Game names a life
+   * begun in Puerto Rico from the island's own names, with two surnames.
+   */
+  readonly placeNameVersion?: typeof PLACE_NAMES_V1_VERSION;
+  /**
    * Absent keeps an old replay's child at the school they started in; v1 moves
    * them on but dates the first school from the fifth birthday. New Game
    * declares v2, where every school date comes from the school calendar.
@@ -290,6 +296,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   childhoodGenerationVersion: CHILDHOOD_GENERATION_V2,
   partyChapterNameVersion: RESIDENT_CHAPTER_NAME_VERSION,
   schoolNameVersion: SCHOOL_NAMES_V2_VERSION,
+  placeNameVersion: PLACE_NAMES_V1_VERSION,
   schoolStageVersion: SCHOOL_STAGES_V2,
   familyBirthdayVersion: FAMILY_BIRTHDAYS_V1,
   parentPartnerVersion: PARENT_PARTNERS_V1,
@@ -536,6 +543,9 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.schoolNameVersion === undefined
       ? {}
       : { schoolNameVersion: setup.schoolNameVersion }),
+    ...(setup.placeNameVersion === undefined
+      ? {}
+      : { placeNameVersion: setup.placeNameVersion }),
     ...(setup.schoolStageVersion === undefined
       ? {}
       : { schoolStageVersion: setup.schoolStageVersion }),

@@ -51,6 +51,7 @@ function legacySetup(placeKey: string, seed: string): NewGameSetup {
   delete (legacy as { partyChapterNameVersion?: unknown })
     .partyChapterNameVersion;
   delete (legacy as { schoolNameVersion?: unknown }).schoolNameVersion;
+  delete (legacy as { placeNameVersion?: unknown }).placeNameVersion;
   delete (legacy as { familyBirthdayVersion?: unknown }).familyBirthdayVersion;
   delete (legacy as { parentPartnerVersion?: unknown }).parentPartnerVersion;
   // A descriptor from before the congressional home join has no join version,
