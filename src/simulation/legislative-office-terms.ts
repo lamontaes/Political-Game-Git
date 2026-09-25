@@ -38,6 +38,7 @@ import type {
   FutureTransitionHandlerResult,
   IsoDate,
   ElectionContestRecord,
+  WorkRelationship,
   World,
 } from "./types";
 
@@ -351,14 +352,22 @@ export function legacyLegislativeSeat(world: World, relationshipId: EntityId) {
   const relationship = world.history.workRelationships.find(
     (r) => r.id === relationshipId,
   );
+  return relationship
+    ? legacyLegislativeSeatForRelationship(world, relationship)
+    : null;
+}
+
+function legacyLegislativeSeatForRelationship(
+  world: World,
+  relationship: WorkRelationship,
+) {
   if (
-    !relationship ||
     relationship.kind !== "employment:legislative-member" ||
     relationship.provenance.kind !== "simulated-event" ||
     world.history.futureDueItems.some(
       (d) =>
         d.transitionKey === LEGISLATIVE_TERM_ENTRY &&
-        d.entityIds.includes(relationshipId),
+        d.entityIds.includes(relationship.id),
     )
   )
     return null;
@@ -375,7 +384,10 @@ export function legacyLegislativeSeat(world: World, relationshipId: EntityId) {
   const timing =
     contest &&
     legislativeTermDates(contest.office.officeKey, contest.electionDate);
-  const governingId = workRoleAt(world, relationshipId)?.locationJurisdictionId;
+  const governingId = workRoleAt(
+    world,
+    relationship.id,
+  )?.locationJurisdictionId;
   if (!result || !contest || !timing || !governingId) return null;
   const expiryStableKey = legacyExpiryStableKey(contest.id, timing.ruleVersion);
   return {
@@ -390,7 +402,7 @@ export function legacyLegislativeSeat(world: World, relationshipId: EntityId) {
         (d) =>
           d.stableKey === expiryStableKey &&
           d.transitionKey === LEGISLATIVE_TERM_EXPIRY &&
-          d.entityIds.includes(relationshipId),
+          d.entityIds.includes(relationship.id),
       ) ?? null,
     endsAt: timing.endsAt,
     seatKey:
@@ -419,7 +431,7 @@ export function migrateLegacyLegislativeSeats(world: World): World {
   let next = world;
   for (const relationship of world.history.workRelationships) {
     if (relationship.kind !== "employment:legislative-member") continue;
-    const seat = legacyLegislativeSeat(next, relationship.id);
+    const seat = legacyLegislativeSeatForRelationship(next, relationship);
     const status = seat && workStatusAt(next, relationship.id);
     if (!seat || seat.expiry || status?.status !== "active") continue;
     if (seat.endsAt > next.currentDate) {

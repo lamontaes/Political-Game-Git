@@ -623,6 +623,42 @@ export function appendPrincipleRecord(
   };
 }
 
+/** Append a checked chamber's principle draw without copying the full ledger per row. */
+export function appendPrincipleRecords(
+  history: HistoryStore,
+  worldId: EntityId,
+  inputs: readonly PrincipleRecordInput[],
+  validateInput: (
+    priorHistory: HistoryStore,
+    input: PrincipleRecordInput,
+  ) => void,
+): HistoryStore {
+  if (inputs.length === 0) return history;
+  const principles = [...history.principles];
+  const stableKeys = new Set(principles.map((record) => record.stableKey));
+  let nextSequence = history.nextSequence;
+  for (const input of inputs) {
+    validateInput({ ...history, principles, nextSequence }, input);
+    if (input.stableKey.trim().length === 0) {
+      throw new Error("principle record stable key must not be empty.");
+    }
+    if (stableKeys.has(input.stableKey)) {
+      throw new Error(
+        `principle record stable key already exists: ${input.stableKey}`,
+      );
+    }
+    stableKeys.add(input.stableKey);
+    principles.push({
+      ...input,
+      id: createStableId("principle", `${worldId}:${input.stableKey}`),
+      sequence: nextSequence,
+      formation: cloneFormation(input.formation),
+    });
+    nextSequence += 1;
+  }
+  return { ...history, nextSequence, principles };
+}
+
 export function appendSubjectKnowledgeRecord(
   history: HistoryStore,
   worldId: EntityId,

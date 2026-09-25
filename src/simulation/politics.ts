@@ -3,6 +3,7 @@ import { makeIsoDate } from "./dates";
 import {
   appendCampaignCommitmentRecord,
   appendPrincipleRecord,
+  appendPrincipleRecords,
   appendPrivateBeliefRecord,
   appendPropositionExposureRecord,
   appendPublicPositionRecord,
@@ -226,11 +227,13 @@ export function recordPrinciples(
   inputs: readonly PrincipleRecordInput[],
 ): World {
   if (inputs.length === 0) return world;
-  let history = world.history;
-  for (const input of inputs) {
-    checkPrincipleInput({ ...world, history }, input);
-    history = appendPrincipleRecord(history, world.id, input);
-  }
+  const history = appendPrincipleRecords(
+    world.history,
+    world.id,
+    inputs,
+    (priorHistory, input) =>
+      checkPrincipleInput({ ...world, history: priorHistory }, input),
+  );
   return validateNext(world, { ...world, history });
 }
 
