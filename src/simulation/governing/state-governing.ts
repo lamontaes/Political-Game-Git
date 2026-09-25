@@ -729,6 +729,13 @@ function matterFromEvent(
   const subjectKey = tagValue(event, "subject:");
   const measureId = tagValue(event, "measure:") as EntityId | null;
   const appropriationId = tagValue(event, "appropriation:") as EntityId | null;
+  // A commitment made through the public-program route already answers this
+  // appropriation's matter. Its own saved record is the decision evidence;
+  // the later NPC due item must not make another choice for the same money.
+  const programCommitted =
+    family === "program" &&
+    appropriationId !== null &&
+    hasProgramCommitment(world, appropriationId);
   const decision =
     world.history.events.find(
       (candidate) =>
@@ -763,12 +770,26 @@ function matterFromEvent(
     openedEvent: event,
     workItemId: workItem?.id ?? null,
     decision,
-    status: !decision
-      ? "open"
-      : decision.tags.includes("choice:lapsed")
-        ? "lapsed"
-        : "decided",
+    status:
+      !decision && !programCommitted
+        ? "open"
+        : decision?.tags.includes("choice:lapsed")
+          ? "lapsed"
+          : "decided",
   };
+}
+
+function hasProgramCommitment(
+  world: World,
+  appropriationId: EntityId,
+): boolean {
+  return (
+    world.history.publicProgramRecords?.some(
+      (record) =>
+        record.kind === "commitment" &&
+        record.appropriationId === appropriationId,
+    ) ?? false
+  );
 }
 
 export function governingMatters(
@@ -1176,6 +1197,7 @@ function openProgramMatter(
   office: GoverningOffice,
   appropriation: PublicProgramAppropriationRecord,
 ): World {
+  if (hasProgramCommitment(world, appropriation.id)) return world;
   if (world.currentDate < appropriation.availableFrom)
     return scheduleProgramAvailability(world, appropriation);
   const authority = programAuthority(
