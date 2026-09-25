@@ -789,6 +789,8 @@ describe("L staff-guided office onboarding", () => {
     expect(JSON.stringify(wrong)).not.toMatch(/incorrect/i);
   });
 
+  // Two full seat-winning careers are built here; the default five seconds is
+  // not enough on a busy runner or even alone in this container.
   it("keeps two lives isolated across save and reopen", () => {
     const first = wonLegislativeSeat("l-onboard-life-a");
     const second = wonLegislativeSeat("l-onboard-life-b");
@@ -844,5 +846,5 @@ describe("L staff-guided office onboarding", () => {
         measureId: firstOpened.assignment.measureId,
       }).kind,
     ).toBe("armed");
-  });
+  }, 30_000);
 });
