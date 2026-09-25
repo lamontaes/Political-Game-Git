@@ -291,6 +291,8 @@ export type CandidateStatus =
 
 export interface ProjectedDecision {
   readonly eventId: string;
+  /** The event's append order, which breaks ties between equal timestamps. */
+  readonly seq: number;
   readonly at: string;
   readonly actor: ArtbenchActor;
   readonly payload: ReviewDecidedPayload;
@@ -804,6 +806,7 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
         seenReviewIds.add(p.reviewId);
         candidate.decisions.push({
           eventId: event.eventId,
+          seq: event.seq,
           at: event.at,
           actor: event.actor,
           payload: p,
@@ -1061,10 +1064,10 @@ export function projectArtbench(inputs: ProjectionInputs): ArtbenchProjection {
     const members = [candidateId, ...(aliasIds.get(candidateId) ?? [])];
     const groupDecisions = members
       .flatMap((id) => candidates.get(id)?.decisions ?? [])
+      // Two decisions in the same millisecond keep the order they were made
+      // in. Event ids are random, so they cannot order a tie.
       .sort((a, b) =>
-        a.at === b.at
-          ? a.eventId.localeCompare(b.eventId)
-          : a.at.localeCompare(b.at),
+        a.at === b.at ? a.seq - b.seq : a.at.localeCompare(b.at),
       );
     const finals = new Set(
       members
