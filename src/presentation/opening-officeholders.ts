@@ -11,11 +11,13 @@ import {
   recordWorldEvent,
   currentStateExecutiveHolders,
   ensureStateExecutiveIncumbent,
+  ensureNationwideStateExecutives,
   ensureHomeLocalGovernments,
   homeStateUsps,
   worldOpeningVersionOf,
   CRUNCH46_WORLD_OPENING_VERSION,
   currentFederalTenure,
+  stateExecutiveOffice,
 } from "../simulation";
 import type {
   EntityId,
@@ -176,17 +178,21 @@ export function establishOpeningOfficeholders(
       },
     });
   }
-  // Opening records the federal officers and the executive for the player's
-  // own jurisdiction. Other states materialize their executives when their
-  // governing or election systems enter play; opening a life does not create
-  // a nationwide officeholder snapshot.
+  // Current generated worlds establish every state executive during opening,
+  // so nationwide bill seasons have their officeholders before the player
+  // starts the clock. The names and histories are fictional simulation facts.
+  // Older opening descriptors replay their prior, home-only roster.
   const stateUsps = homeStateUsps(next, playerPersonId);
   const withHomeState = stateUsps
     ? ensureStateExecutiveIncumbent(next, playerPersonId, stateUsps, options)
     : next;
+  const withNationwideStates =
+    worldOpeningVersionOf(withHomeState) === CRUNCH46_WORLD_OPENING_VERSION
+      ? ensureNationwideStateExecutives(withHomeState, playerPersonId)
+      : withHomeState;
   // The actual local governments of the home place, once; never a fictional
   // city for a place that has no government of its own.
-  return ensureHomeLocalGovernments(withHomeState, playerPersonId);
+  return ensureHomeLocalGovernments(withNationwideStates, playerPersonId);
 }
 
 export interface PublicOfficeholderRecord {
@@ -244,10 +250,17 @@ function stateOfficeholders(world: World): readonly PublicOfficeholderRecord[] {
  * record this returns can be dated.
  */
 export function openingOfficeholders(world: World) {
+  const homeState =
+    world.control.kind === "person"
+      ? homeStateUsps(world, world.control.personId)
+      : null;
+  const homeOfficeKey = homeState
+    ? (stateExecutiveOffice(homeState)?.officeKey ?? null)
+    : null;
   return [
     ...federalOfficeholders(world),
     ...stateOfficeholders(world).flatMap((holder) =>
-      holder.startedAt === null
+      holder.startedAt === null || holder.officeKey !== homeOfficeKey
         ? []
         : [
             {

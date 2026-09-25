@@ -72,7 +72,7 @@ describe("NATIONWIDE opening state executive", () => {
   });
 
   it.each([...US_STATE_USPS])(
-    "%s: an ordinary life opens with one fictional governor that never rerolls",
+    "%s: an ordinary life opens with a fictional governor in each state office",
     (usps) => {
       const place = firstLocality(usps);
       const { world, playerPersonId } = openIn(place.key, `nationwide-${usps}`);
@@ -111,13 +111,18 @@ describe("NATIONWIDE opening state executive", () => {
       expect(profile?.locationJurisdictionId).toBe(office.jurisdictionId);
       expect(world.jurisdictions[office.jurisdictionId]).toBeDefined();
 
-      // Only the home state materializes: no other governor enters this save.
-      const otherStates = currentPublicOfficeholders(world).filter(
-        (record) =>
-          record.officeKey !== office.officeKey &&
-          record.officeKey.endsWith("-governor"),
+      // All fifty state offices exist before play; the opening profile only
+      // shows the governor for the player's own state.
+      const stateHolders = currentPublicOfficeholders(world).filter((record) =>
+        record.officeKey.endsWith("-governor"),
       );
-      expect(otherStates).toEqual([]);
+      expect(stateHolders).toHaveLength(50);
+      expect(new Set(stateHolders.map((record) => record.officeKey)).size).toBe(
+        50,
+      );
+      expect(
+        stateHolders.some((record) => record.officeKey === office.officeKey),
+      ).toBe(true);
 
       // Repeat, reopen and navigation leave the same record.
       expect(establishOpeningOfficeholders(world, playerPersonId)).toBe(world);
@@ -134,11 +139,10 @@ describe("NATIONWIDE opening state executive", () => {
     },
   );
 
-  it("opens a District or territory life with its own chief executive, never a state's", () => {
-    // The invariant is that no US-state governorship is manufactured for a
-    // jurisdiction that is not a state. The District opens with its Mayor and
-    // a territory with its own Governor, a fictional holder on the game's
-    // profile until the territory's law is read.
+  it("keeps DC and territorial executive identities separate from state offices", () => {
+    // The fifty state governors are seeded for nationwide play. The District
+    // opens with its Mayor and a territory with its own Governor; neither is
+    // substituted for a state office or shown as one in the opening profile.
     for (const usps of ["DC", "PR", "GU"]) {
       const place = searchLifePlaces("", 1, {
         stateJurisdictionKey: `US-${usps}`,
@@ -146,25 +150,32 @@ describe("NATIONWIDE opening state executive", () => {
       })[0];
       if (!place) continue;
       const { world } = openIn(place.key, `nationwide-${usps}`);
-      const officeKeys = currentPublicOfficeholders(world).map(
+      const openingKeys = openingOfficeholders(world).map(
         (holder) => holder.officeKey,
       );
-      expect(
-        officeKeys.filter((key) => /^us-(?!pr|gu)[a-z]{2}-governor$/.test(key)),
-      ).toEqual([]);
-      expect(officeKeys.slice(0, 3)).toEqual([
+      const allOfficeKeys = currentPublicOfficeholders(world).map(
+        (holder) => holder.officeKey,
+      );
+      const stateOfficeKeys = allOfficeKeys.filter((key) =>
+        /^us-[a-z]{2}-governor$/.test(key),
+      );
+      const expectedStateOfficeKeys = US_STATE_USPS.map(
+        (stateUsps) => stateExecutiveOffice(stateUsps)!.officeKey,
+      ).sort();
+      expect(stateOfficeKeys.sort()).toEqual(expectedStateOfficeKeys);
+      const ownOfficeKey =
+        usps === "DC" ? "dc-mayor" : `us-${usps.toLowerCase()}-governor`;
+      expect(openingKeys).toEqual([
         "us-president",
         "us-chief-justice",
         "us-vice-president",
+        ownOfficeKey,
       ]);
-      // The jurisdiction's own office opens with the life, and no other.
-      expect(officeKeys.slice(3)).toEqual([
-        usps === "DC" ? "dc-mayor" : `us-${usps.toLowerCase()}-governor`,
-      ]);
+      expect(allOfficeKeys).toContain(ownOfficeKey);
     }
   });
 
-  it("measures the opening save cost of the state executive", () => {
+  it("measures the opening save cost of nationwide state executives", () => {
     const place = firstLocality("NV");
     const setup = {
       ...DEFAULT_NEW_GAME_SETUP,
@@ -180,10 +191,10 @@ describe("NATIONWIDE opening state executive", () => {
     const baseBytes = serializeWorld(base).length;
     const added = serializeWorld(opened).length - baseBytes;
     console.info(
-      `[nationwide-opening size] base ${baseBytes} bytes; federal + home-state executive add ${added} bytes`,
+      `[nationwide-opening size] base ${baseBytes} bytes; federal + fifty state executives add ${added} bytes`,
     );
-    // Two federal holders plus one home-state executive, not fifty states.
-    expect(added).toBeLessThan(40_000);
+    // The accepted one-time opening seed remains below one megabyte.
+    expect(added).toBeLessThan(1_000_000);
   });
 
   it("dates the term once RULES admits term facts, and the tenure ends on its date", () => {
