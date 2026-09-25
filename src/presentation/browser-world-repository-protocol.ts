@@ -43,9 +43,9 @@ export const BROWSER_WORLD_TOMBSTONE_KIND =
  * added the persisted generation and the tombstone, which is what makes a
  * slot mean the same thing in every tab.
  */
-export const BROWSER_WORLD_RECORD_VERSION = 3;
+export const BROWSER_WORLD_RECORD_VERSION = 4;
 /** Versions this build can read, after migration. */
-export const READABLE_RECORD_VERSIONS: readonly number[] = [1, 2, 3];
+export const READABLE_RECORD_VERSIONS: readonly number[] = [1, 2, 3, 4];
 
 /**
  * The generation a record written before generations existed is treated as.

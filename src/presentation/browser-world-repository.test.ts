@@ -15,6 +15,7 @@ import {
   BrowserSaveStore,
   SavesKeptByNewerBuildError,
   createBrowserWorldRecord,
+  prepareWorldRecord,
   readStoredRecord,
   validateBrowserWorldRecord,
 } from "./browser-world-repository";
@@ -925,7 +926,11 @@ describe("A delete that did not happen", () => {
  * as the persistence revision will call the new world already durable and
  * throw the player's action away.
  */
-function withRecordedEvent(world: World, key: string): World {
+function withRecordedEvent(
+  world: World,
+  key: string,
+  summary = `A canonical world change recorded as ${key}.`,
+): World {
   return recordWorldEvent(world, {
     stableKey: key,
     type: "simulation.persistence-revision-probe",
@@ -937,7 +942,7 @@ function withRecordedEvent(world: World, key: string): World {
     personFactConstraints: [],
     visibility: "public",
     tags: ["simulation.persistence"],
-    summary: `A canonical world change recorded as ${key}.`,
+    summary,
     context: {
       location: null,
       socialContext: "A canonical history write that does not advance time.",
@@ -952,6 +957,50 @@ function withRecordedEvent(world: World, key: string): World {
 function contentId(world: World): EntityId {
   return createWorldSnapshot(world).snapshotId;
 }
+
+describe("Large World storage", () => {
+  it("atomically replaces and removes chunks while loading the canonical save", async () => {
+    const { store, factory } = storeWith();
+    const first = playerWorld("large-chunked-world");
+    const saveId = store.newSaveId(first);
+    expect((await store.save(first, saveId)).status).toBe("saved");
+
+    const large = withRecordedEvent(
+      first,
+      "large-chunked-world:one",
+      "A".repeat(9 * 1024 * 1024),
+    );
+    store.registerPreparedWorld(large, prepareWorldRecord(large));
+    expect((await store.save(large, saveId)).status).toBe("saved");
+    const record = factory.records.get(saveId) as {
+      payload: string;
+      payloadChunks: { count: number };
+    };
+    expect(record.payload).not.toBe(serializeWorld(large));
+    expect(record.payloadChunks.count).toBeGreaterThan(1);
+    const firstChunkKeys = [...factory.records.keys()].filter(
+      (key) => key !== saveId,
+    );
+    expect(firstChunkKeys).toHaveLength(record.payloadChunks.count);
+    expect((await store.list()).saves.map((save) => save.saveId)).toEqual([
+      saveId,
+    ]);
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(large));
+    expect((await store.inspectRecord(saveId))?.payload).toBe(
+      serializeWorld(large),
+    );
+
+    const next = withRecordedEvent(large, "large-chunked-world:two");
+    expect((await store.save(next, saveId)).status).toBe("saved");
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(next));
+    for (const key of firstChunkKeys)
+      expect(factory.records.has(key)).toBe(false);
+
+    expect(await store.remove(saveId)).toBe(true);
+    expect(await store.load(saveId)).toBeNull();
+    expect([...factory.records.keys()]).toEqual([saveId]);
+  });
+});
 
 describe("Durability is content identity and request order, not actionSequence", () => {
   function autosaveStore(clockValue = "2026-05-01T10:00:00.000Z") {

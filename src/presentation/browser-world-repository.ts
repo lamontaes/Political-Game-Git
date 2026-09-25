@@ -122,8 +122,12 @@ export const DEFAULT_DATABASE_NAME = "political-life-worlds";
  * touched, and a record written before it is summarized the first time it is
  * listed.
  */
-const DATABASE_VERSION = 3;
+const DATABASE_VERSION = 4;
 const STORE_NAME = "worlds";
+/** Old worlds remain inline; large new snapshots use smaller atomic records. */
+const CHUNK_KEY_PREFIX = "\u0000ocd-world-chunk:v1:";
+const CHUNKED_PAYLOAD_MARKER = "\u0000ocd-chunked-payload:v1";
+const PAYLOAD_CHUNK_SIZE = 8 * 1024 * 1024;
 /** One small summary per world record, keyed by the same save id. */
 export const WORLD_SUMMARY_STORE_NAME = "world-summaries";
 const WORLD_SUMMARY_KIND = "political-life-browser-world-summary";
@@ -174,6 +178,12 @@ export interface StoredBrowserWorldRecord {
   readonly generation: number;
   readonly metadata: BrowserWorldSummary;
   readonly payload: string;
+  /** Present only in the on-disk form of a large snapshot. */
+  readonly payloadChunks?: {
+    readonly kind: "world-payload-chunks-v1";
+    readonly count: number;
+    readonly length: number;
+  };
 }
 
 /** The durable proof that a slot was deleted, kept at the slot's own key. */
@@ -378,6 +388,8 @@ export class BrowserSaveStore {
   #requestCounter = 0;
   /** Content identity is a hash of the whole world; compute it once per world. */
   readonly #contentIds = new WeakMap<World, EntityId>();
+  /** A watched World can arrive with its snapshot prepared in its own worker. */
+  readonly #preparedWorlds = new WeakMap<World, PreparedRecord>();
   #slotCounter = 0;
   readonly #attempts: number;
   readonly #delay: (milliseconds: number) => Promise<void>;
@@ -531,6 +543,29 @@ export class BrowserSaveStore {
     return identity;
   }
 
+  /**
+   * The observer worker prepared this exact checkpoint before posting it.
+   * The worker is same-origin game code, and its canonical World is rebuilt
+   * from the checkpoint in the UI. Binding the prepared bytes to that World
+   * avoids repeating full validation and JSON serialization on the UI thread.
+   */
+  registerPreparedWorld(world: World, prepared: PreparedRecord): void {
+    if (
+      prepared.fields.worldId !== world.id ||
+      prepared.fields.snapshotId !== prepared.contentId ||
+      prepared.fields.currentMoment.date !== world.currentMoment.date ||
+      prepared.fields.actionSequence !== world.actionSequence
+    ) {
+      throw new Error("The prepared save does not describe this world.");
+    }
+    this.#preparedWorlds.set(world, prepared);
+    this.#contentIds.set(world, prepared.contentId);
+  }
+
+  #prepare(world: World): PreparedRecord {
+    return this.#preparedWorlds.get(world) ?? prepareWorldRecord(world);
+  }
+
   save(world: World, saveId: EntityId): Promise<SaveOutcome> {
     return this.#enqueue(async () => {
       if (this.#deleted.has(saveId) || this.#removing.has(saveId)) {
@@ -540,7 +575,7 @@ export class BrowserSaveStore {
           reason: SLOT_MESSAGES.deleted,
         } as const;
       }
-      return this.#writeSlot(prepareWorldRecord(world), saveId);
+      return this.#writeSlot(this.#prepare(world), saveId);
     });
   }
 
@@ -704,7 +739,7 @@ export class BrowserSaveStore {
           }
           return {
             write: {
-              ...record,
+              ...(current as Record<string, unknown>),
               metadata: { ...record.metadata, lastPlayedAt },
             },
             result: undefined,
@@ -743,6 +778,7 @@ export class BrowserSaveStore {
       // whole list down with it, which told a player their storage was broken
       // when in fact every other game was fine.
       for (const key of shelf.keys) {
+        if (isChunkKey(key)) continue;
         const summary =
           summaries.get(key) ?? (await this.#summarizeUnsummarized(key));
         if (summary === null) continue;
@@ -1000,7 +1036,7 @@ export class BrowserSaveStore {
       const request = this.#pending.get(saveId)!;
       let prepared: PreparedRecord;
       try {
-        prepared = prepareWorldRecord(request.world);
+        prepared = this.#prepare(request.world);
       } catch (error: unknown) {
         this.#failures.set(saveId, messageOf(error));
         return;
@@ -1125,9 +1161,7 @@ export class BrowserSaveStore {
     const database = await this.#database();
     for (let attempt = 0; ; attempt += 1) {
       try {
-        return await runRequest(database, "readonly", (store) =>
-          store.get(saveId),
-        );
+        return await readChunkedValue(database, saveId);
       } catch (error) {
         const wait = READ_RETRY_DELAYS_MS[attempt];
         if (wait === undefined) throw error;
@@ -1157,7 +1191,7 @@ export class BrowserSaveStore {
  * every tab queues behind. What is left to do inside it is a string
  * comparison and, at most, a put.
  */
-interface PreparedRecord {
+export interface PreparedRecord {
   readonly payload: string;
   readonly contentId: EntityId;
   readonly fields: Omit<
@@ -1166,7 +1200,7 @@ interface PreparedRecord {
   >;
 }
 
-function prepareWorldRecord(world: World): PreparedRecord {
+export function prepareWorldRecord(world: World): PreparedRecord {
   // One snapshot, used for the summary, the payload and the content identity.
   // `serializeWorld` is exactly `serializeWorldSnapshot(createWorldSnapshot())`.
   const snapshot = createWorldSnapshot(world);
@@ -1754,6 +1788,147 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
+function chunkKey(saveId: string, generation: number, index: number): string {
+  return `${CHUNK_KEY_PREFIX}${saveId}:${generation}:${index}`;
+}
+
+function isChunkKey(key: IDBValidKey): boolean {
+  return typeof key === "string" && key.startsWith(CHUNK_KEY_PREFIX);
+}
+
+function chunkManifest(value: unknown): {
+  readonly saveId: string;
+  readonly generation: number;
+  readonly count: number;
+  readonly length: number;
+} | null {
+  if (
+    !isRecord(value) ||
+    value.kind !== BROWSER_WORLD_RECORD_KIND ||
+    value.payload !== CHUNKED_PAYLOAD_MARKER ||
+    typeof value.saveId !== "string" ||
+    typeof value.generation !== "number" ||
+    !Number.isSafeInteger(value.generation) ||
+    !isRecord(value.payloadChunks) ||
+    value.payloadChunks.kind !== "world-payload-chunks-v1" ||
+    typeof value.payloadChunks.count !== "number" ||
+    !Number.isSafeInteger(value.payloadChunks.count) ||
+    value.payloadChunks.count < 1 ||
+    value.payloadChunks.count > 100_000 ||
+    typeof value.payloadChunks.length !== "number" ||
+    !Number.isSafeInteger(value.payloadChunks.length) ||
+    value.payloadChunks.length < 1
+  ) {
+    return null;
+  }
+  return {
+    saveId: value.saveId,
+    generation: value.generation,
+    count: value.payloadChunks.count,
+    length: value.payloadChunks.length,
+  };
+}
+
+function chunkedWrite(value: unknown): {
+  readonly record: unknown;
+  readonly chunks: readonly {
+    readonly saveId: string;
+    readonly data: string;
+  }[];
+} {
+  if (
+    !isRecord(value) ||
+    value.kind !== BROWSER_WORLD_RECORD_KIND ||
+    typeof value.payload !== "string" ||
+    value.payload.length <= PAYLOAD_CHUNK_SIZE ||
+    chunkManifest(value) !== null
+  ) {
+    return { record: value, chunks: [] };
+  }
+  const payload = value.payload;
+  const generation = value.generation as number;
+  const saveId = value.saveId as string;
+  const count = Math.ceil(payload.length / PAYLOAD_CHUNK_SIZE);
+  const chunks = Array.from({ length: count }, (_, index) => ({
+    saveId: chunkKey(saveId, generation, index),
+    data: payload.slice(
+      index * PAYLOAD_CHUNK_SIZE,
+      (index + 1) * PAYLOAD_CHUNK_SIZE,
+    ),
+  }));
+  return {
+    record: {
+      ...value,
+      payload: CHUNKED_PAYLOAD_MARKER,
+      payloadChunks: {
+        kind: "world-payload-chunks-v1",
+        count,
+        length: payload.length,
+      },
+    },
+    chunks,
+  };
+}
+
+/** One readonly transaction sees a manifest and exactly its own chunks. */
+function readChunkedValue(
+  database: IDBDatabase,
+  saveId: IDBValidKey,
+): Promise<unknown | undefined> {
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(STORE_NAME, "readonly");
+    const store = transaction.objectStore(STORE_NAME);
+    let value: unknown;
+    let manifest: ReturnType<typeof chunkManifest> = null;
+    let parts: string[] | null = null;
+    let failed: Error | null = null;
+    const main = store.get(saveId);
+    main.onsuccess = () => {
+      value = main.result;
+      manifest = chunkManifest(value);
+      if (!manifest) return;
+      parts = new Array<string>(manifest.count);
+      for (let index = 0; index < manifest.count; index += 1) {
+        const part = store.get(
+          chunkKey(manifest.saveId, manifest.generation, index),
+        );
+        part.onsuccess = () => {
+          if (
+            !isRecord(part.result) ||
+            part.result.saveId !==
+              chunkKey(manifest!.saveId, manifest!.generation, index) ||
+            typeof part.result.data !== "string"
+          ) {
+            failed = new Error("A saved world is missing a history chunk.");
+            return;
+          }
+          parts![index] = part.result.data;
+        };
+        part.onerror = () => {
+          failed = new Error("A saved world chunk could not be read.", {
+            cause: part.error,
+          });
+        };
+      }
+    };
+    main.onerror = () =>
+      reject(
+        new Error("The saved game could not be read.", { cause: main.error }),
+      );
+    transaction.oncomplete = () => {
+      if (failed) return reject(failed);
+      if (!manifest || !parts) return resolve(value);
+      const payload = parts.join("");
+      if (payload.length !== manifest.length) {
+        return reject(new Error("A saved world chunk has the wrong length."));
+      }
+      resolve({ ...(value as Record<string, unknown>), payload });
+    };
+    transaction.onerror = () => reject(transaction.error);
+    transaction.onabort = () => reject(transaction.error);
+  });
+}
+
 /**
  * The saves were last kept by a newer copy of the game than the page open now.
  *
@@ -1821,50 +1996,6 @@ export function openDatabase(
         new Error(
           "Saved games are in use by another tab. Close it and try again.",
         ),
-      );
-  });
-}
-
-function runRequest<T>(
-  database: IDBDatabase,
-  mode: IDBTransactionMode,
-  operation: (store: IDBObjectStore) => IDBRequest<T>,
-): Promise<T> {
-  return new Promise((resolve, reject) => {
-    const transaction = database.transaction(STORE_NAME, mode);
-    let result: T;
-    let requestCompleted = false;
-    let transactionCompleted = false;
-    const finish = () => {
-      if (requestCompleted && transactionCompleted) resolve(result);
-    };
-    let request: IDBRequest<T>;
-    try {
-      request = operation(transaction.objectStore(STORE_NAME));
-    } catch (error) {
-      reject(new Error("The saved game could not be read.", { cause: error }));
-      return;
-    }
-    request.onsuccess = () => {
-      result = request.result;
-      requestCompleted = true;
-      finish();
-    };
-    request.onerror = () =>
-      reject(
-        new Error("The saved game could not be read.", {
-          cause: request.error,
-        }),
-      );
-    transaction.oncomplete = () => {
-      transactionCompleted = true;
-      finish();
-    };
-    transaction.onerror = () =>
-      reject(new Error("Saving did not finish.", { cause: transaction.error }));
-    transaction.onabort = () =>
-      reject(
-        new Error("Saving was interrupted.", { cause: transaction.error }),
       );
   });
 }
@@ -2020,9 +2151,38 @@ function runCompareAndSwap<T>(
       if (decision.write === null) return;
       try {
         const summary = summaryOfWrite(saveId, decision.write);
-        const write = store.put(decision.write);
+        const priorChunks = chunkManifest(read.result);
+        const split = chunkedWrite(decision.write);
+        const retainingPriorChunks =
+          priorChunks !== null &&
+          isRecord(split.record) &&
+          split.record.payload === CHUNKED_PAYLOAD_MARKER &&
+          split.record.generation === priorChunks.generation;
+        for (const chunk of split.chunks) {
+          const partWrite = store.put(chunk);
+          partWrite.onerror = () =>
+            fail(
+              new Error("Saving a world chunk did not finish.", {
+                cause: partWrite.error,
+              }),
+            );
+        }
+        const write = store.put(split.record);
         write.onerror = () =>
           fail(new Error("Saving did not finish.", { cause: write.error }));
+        if (priorChunks && !retainingPriorChunks) {
+          for (let index = 0; index < priorChunks.count; index += 1) {
+            const removed = store.delete(
+              chunkKey(priorChunks.saveId, priorChunks.generation, index),
+            );
+            removed.onerror = () =>
+              fail(
+                new Error("The old world chunks could not be replaced.", {
+                  cause: removed.error,
+                }),
+              );
+          }
+        }
         const summaryWrite = summaries.put(summary);
         summaryWrite.onerror = () =>
           fail(

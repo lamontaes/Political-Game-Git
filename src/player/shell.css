@@ -957,6 +957,13 @@
   pointer-events: none;
 }
 
+/* The observer clock owns the top edge; its recap follows underneath. */
+@media (min-width: 52rem) {
+  .life-shell[data-observing="true"] .life-hud {
+    top: 10rem;
+  }
+}
+
 .life-shell .life-hud-note {
   margin: 0 0 0.35rem;
   padding: 0.35rem 0.6rem;

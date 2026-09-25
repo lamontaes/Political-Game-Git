@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { serializeWorld, type World } from "../simulation";
+import { serializeWorld, worldContentId, type World } from "../simulation";
 import { migrationTown } from "../simulation/migration/review";
 import { observerAnchorPersonId } from "../simulation/people-continuation";
 import {
@@ -22,6 +22,10 @@ import {
   projectObserverPerson,
   projectObserverRecord,
 } from "./observer-world";
+import {
+  applyObserverHistoryCheckpoint,
+  observerHistoryCheckpoint,
+} from "./observer-history-checkpoint";
 
 /**
  * Observer Mode (Constitution rule 30): one press opens a world with nobody
@@ -88,6 +92,17 @@ describe("a world watched from its start", () => {
     expect(serializeWorld(batched)).toBe(serializeWorld(sequential));
     expect(() => advanceObservedWorldWeeks(world, 0)).toThrow(
       /positive whole weeks/,
+    );
+  }, 120_000);
+
+  it("rebuilds a quarterly World from appended history without losing older records", () => {
+    const advanced = advanceObservedWorldWeeks(world, 4);
+    const checkpoint = observerHistoryCheckpoint(world, advanced);
+    expect(checkpoint.kind).toBe("append");
+    const rebuilt = applyObserverHistoryCheckpoint(world, checkpoint);
+    expect(worldContentId(rebuilt)).toBe(worldContentId(advanced));
+    expect(() => applyObserverHistoryCheckpoint(advanced, checkpoint)).toThrow(
+      /does not follow/,
     );
   }, 120_000);
 
