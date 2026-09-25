@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 import {
+  executiveStaffOffice,
+  governingOfficeForPerson,
   recordOfficeWorkflowPreference,
   type EntityId,
   type OfficeCaseworkWorkflowMode,
@@ -14,6 +16,7 @@ import {
   type OfficeProgramAppropriation,
 } from "../presentation/governing-office-desk";
 import { GameSelect } from "./controls/GameSelect";
+import { OfficeStaffHiring } from "./OfficeStaffHiring";
 
 /**
  * The rest of the officeholder's desk, under Work > "Your office" beside the
@@ -37,12 +40,13 @@ export function GoverningOfficeDesk({
 }) {
   const [refusal, setRefusal] = useState<string | null>(null);
   const desk = projectGoverningOfficeDesk(world, personId);
-  if (!desk) return null;
+  const office = governingOfficeForPerson(world, personId);
+  if (!desk || !office) return null;
   const casework = desk.casework;
 
   const setCasework = (
     officeRelationshipId: EntityId,
-    votingMode: OfficeVotingWorkflowMode,
+    votingMode: OfficeVotingWorkflowMode | null,
     caseworkMode: OfficeCaseworkWorkflowMode,
   ) => {
     const result = recordOfficeWorkflowPreference(world, {
@@ -98,6 +102,14 @@ export function GoverningOfficeDesk({
         </ul>
       )}
 
+      {office.controlledByPlayer ? (
+        <OfficeStaffHiring
+          world={world}
+          office={executiveStaffOffice(office)}
+          onWorldChange={onWorldChange}
+        />
+      ) : null}
+
       <h4>Your measures</h4>
       {desk.measuresNote ? (
         <p className="game-note" data-testid="office-measures-none">
@@ -116,7 +128,7 @@ export function GoverningOfficeDesk({
       )}
 
       <h4>Casework</h4>
-      {casework && casework.votingMode ? (
+      {casework ? (
         <div className="office-desk-casework">
           {/*
             The trigger is a combobox button, which `for` cannot label, so the
@@ -135,7 +147,7 @@ export function GoverningOfficeDesk({
               const chosen = CASEWORK_CHOICES.find(
                 (choice) => choice.mode === event.target.value,
               );
-              if (chosen && casework.votingMode)
+              if (chosen)
                 setCasework(
                   casework.officeRelationshipId,
                   casework.votingMode,
@@ -143,6 +155,11 @@ export function GoverningOfficeDesk({
                 );
             }}
           >
+            {casework.mode === null ? (
+              <option value="" disabled>
+                Not chosen yet
+              </option>
+            ) : null}
             {CASEWORK_CHOICES.map((choice) => (
               <option key={choice.mode} value={choice.mode}>
                 {choice.label}

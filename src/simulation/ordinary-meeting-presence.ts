@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -71,9 +72,7 @@ export function recordOrdinaryMeetingPresence(
   const jurisdictionId = activity.location.jurisdictionId;
   if (!jurisdictionId || !completed.jurisdictions[jurisdictionId])
     return completed;
-  const outcome = completed.history.events.find(
-    (event) => event.id === state.outcomeEventId,
-  );
+  const outcome = eventById(completed, state.outcomeEventId);
   if (
     outcome?.type !== "schedule.activity-completed" ||
     !outcome.involvedEntityIds.includes(activityId) ||

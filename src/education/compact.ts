@@ -73,6 +73,7 @@ export function expandInstitution(
         code,
         raw,
         ...definition,
+        label: readableCapabilityLabel(definition.label),
         state:
           raw === "1" || raw === "Yes"
             ? "offered"
@@ -89,4 +90,22 @@ export function expandInstitution(
       return { artifactId, member, row, sha256 };
     }),
   };
+}
+
+/**
+ * The directory's own misspellings, corrected where a player reads them.
+ *
+ * The shipped catalog keeps its dictionary text as shipped, because its
+ * digest is the evidence. The label decoded from it is what the college page
+ * prints, and "Certifiicate of at least 1 year", as the shipped dictionary
+ * spells it, is a typo rather than a word.
+ */
+const SOURCE_LABEL_CORRECTIONS: ReadonlyArray<readonly [RegExp, string]> = [
+  [/\bCertifiicate\b/g, "Certificate"],
+];
+export function readableCapabilityLabel(label: string): string {
+  return SOURCE_LABEL_CORRECTIONS.reduce(
+    (text, [wrong, right]) => text.replace(wrong, right),
+    label,
+  );
 }

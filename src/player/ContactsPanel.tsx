@@ -2,7 +2,11 @@ import { useId, useMemo, useState } from "react";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   answerMeeting,
+  askOnADate,
+  askedNote,
+  askToBeTogether,
   askToMeet,
+  breakUp,
   goMeetSomebodyNew,
   meetingNewOptions,
   offerAnotherDay,
@@ -67,10 +71,10 @@ export function ContactsPanel({
   const [days, setDays] = useState<Readonly<Record<string, IsoDate>>>({});
   const dayFor = (key: string): IsoDate => days[key] ?? view.earliestMeetingOn;
 
-  function run(work: () => World) {
+  function run(work: () => World, said: string | null = null) {
     try {
       const next = work();
-      setNote(null);
+      setNote(said);
       if (next !== world) onWorldChange(next);
     } catch (error) {
       // The seam refuses in one player-readable sentence. That is the answer.
@@ -99,6 +103,16 @@ export function ContactsPanel({
       aria-label={focused ? "Getting in touch" : undefined}
     >
       {focused ? null : <h3 id={titleId}>Getting in touch</h3>}
+      {/* Said where it is seen: at the bottom of a long list it went unread. */}
+      {note ? (
+        <p
+          role="status"
+          className="pg-contact-note"
+          data-testid="contacts-note"
+        >
+          {note}
+        </p>
+      ) : null}
       {!contactEntry && view.contacts.length === 0 ? (
         <p data-testid="contacts-empty">
           There is nobody you have a way of reaching yet.
@@ -121,14 +135,50 @@ export function ContactsPanel({
                 }))
               }
               onAsk={(on) =>
-                run(() =>
-                  askToMeet(world, {
-                    personId,
+                run(
+                  () =>
+                    askToMeet(world, {
+                      personId,
+                      otherPersonId: contact.personId,
+                      on,
+                    }),
+                  askedNote(world, {
                     otherPersonId: contact.personId,
                     on,
+                    date: false,
                   }),
                 )
               }
+              onAskOut={(on) =>
+                run(
+                  () =>
+                    askOnADate(world, {
+                      personId,
+                      otherPersonId: contact.personId,
+                      on,
+                    }),
+                  askedNote(world, {
+                    otherPersonId: contact.personId,
+                    on,
+                    date: true,
+                  }),
+                )
+              }
+              onCouple={(kind) => {
+                try {
+                  const input = { personId, otherPersonId: contact.personId };
+                  const done =
+                    kind === "ask-to-be-a-couple"
+                      ? askToBeTogether(world, input)
+                      : breakUp(world, input);
+                  setNote(done.said);
+                  if (done.world !== world) onWorldChange(done.world);
+                } catch (error) {
+                  setNote(
+                    error instanceof Error ? error.message : String(error),
+                  );
+                }
+              }}
               onAnswer={(eventId, answer) =>
                 run(() =>
                   answerMeeting(world, {
@@ -178,15 +228,6 @@ export function ContactsPanel({
           </ul>
         </div>
       ) : null}
-      {note ? (
-        <p
-          role="status"
-          className="pg-contact-note"
-          data-testid="contacts-note"
-        >
-          {note}
-        </p>
-      ) : null}
     </section>
   );
 }
@@ -215,6 +256,8 @@ function ContactRow({
   offerOn,
   onDayChange,
   onAsk,
+  onAskOut,
+  onCouple,
   onAnswer,
   onOfferAnotherDay,
 }: {
@@ -226,6 +269,8 @@ function ContactRow({
   readonly offerOn: IsoDate;
   readonly onDayChange: (which: "ask" | "offer", on: IsoDate) => void;
   readonly onAsk: (on: IsoDate) => void;
+  readonly onAskOut: (on: IsoDate) => void;
+  readonly onCouple: (kind: "ask-to-be-a-couple" | "end-couple") => void;
   readonly onAnswer: (eventId: EntityId, answer: "accept" | "decline") => void;
   readonly onOfferAnotherDay: (eventId: EntityId, on: IsoDate) => void;
 }) {
@@ -233,6 +278,13 @@ function ContactRow({
   const tid = (base: string) =>
     focused ? base.replace(/^contact-/, "contact-focus-") : base;
   const ask = contact.actions.find((action) => action.kind === "ask-to-meet");
+  const askOut = contact.actions.find(
+    (action) => action.kind === "ask-on-a-date",
+  );
+  const couple = contact.actions.find(
+    (action) =>
+      action.kind === "ask-to-be-a-couple" || action.kind === "end-couple",
+  );
   const theyAsked =
     contact.outstanding?.direction === "they-asked"
       ? contact.outstanding
@@ -380,6 +432,16 @@ function ContactRow({
           >
             {ask.label}
           </button>
+          {askOut?.available ? (
+            <button
+              type="button"
+              className="ui-action"
+              data-testid={tid(`contact-ask-out-${contact.personId}`)}
+              onClick={() => onAskOut(askOn)}
+            >
+              {askOut.label}
+            </button>
+          ) : null}
         </div>
       ) : ask ? (
         <p
@@ -388,6 +450,31 @@ function ContactRow({
         >
           {ask.unavailableReason}
         </p>
+      ) : null}
+
+      {/* Becoming a couple is asked in person and answered at once. */}
+      {couple ? (
+        couple.available ? (
+          <div className="pg-contact-actions">
+            <button
+              type="button"
+              className="ui-action"
+              data-testid={tid(`contact-${couple.kind}-${contact.personId}`)}
+              onClick={() =>
+                onCouple(couple.kind as "ask-to-be-a-couple" | "end-couple")
+              }
+            >
+              {couple.label}
+            </button>
+          </div>
+        ) : (
+          <p
+            className="pg-contact-line"
+            data-testid={tid(`contact-couple-unavailable-${contact.personId}`)}
+          >
+            {couple.unavailableReason}
+          </p>
+        )
       ) : null}
     </li>
   );

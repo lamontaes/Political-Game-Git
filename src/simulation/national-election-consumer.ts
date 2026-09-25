@@ -22,6 +22,7 @@ import {
   requireNationalElection,
   nationalCountProposal,
   recordNationalCount,
+  constitutionalChoiceList,
   nationalOutcome,
   nationalPersonAlive,
 } from "./national-elections";
@@ -126,6 +127,16 @@ export function nationalCountTransitionHandler(
     world: recordNationalCount(world, {
       stableKey: `${due.stableKey}:count`,
       electionId,
+      presidentialChoicePersonIds: constitutionalChoiceList(
+        world,
+        electionId,
+        "president",
+      ),
+      vicePresidentialChoicePersonIds: constitutionalChoiceList(
+        world,
+        electionId,
+        "vice-president",
+      ),
       provenance: {
         method: "simulated",
         sourceEntityIds: [electionId],

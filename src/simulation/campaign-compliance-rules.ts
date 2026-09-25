@@ -37,7 +37,10 @@ import {
   resourceFlowsForEndpoint,
   resourceFlowTermsAt,
 } from "./resource-queries";
-import { lifePlaceByJurisdictionId } from "./life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
+} from "./life-places";
 import type { CampaignRecord, EntityId, World } from "./types";
 import type { IsoDate } from "./types";
 
@@ -143,14 +146,23 @@ function temporalApplicability(
   };
 }
 
-/** The state whose law governs a campaign, by the place it is being run in. */
+/**
+ * The state whose law governs a campaign, by the place it is being run in.
+ *
+ * A town or city answers through its life place. A statewide race is run in
+ * the state's own jurisdiction, which is not a life place, so with the world
+ * in hand the state's jurisdiction record answers instead.
+ */
 export function campaignStateJurisdictionKey(
   campaign: CampaignRecord,
+  world?: World,
 ): string | null {
-  return (
-    lifePlaceByJurisdictionId(campaign.jurisdictionId)?.stateJurisdictionKey ??
-    null
-  );
+  const place = lifePlaceByJurisdictionId(
+    campaign.jurisdictionId,
+  )?.stateJurisdictionKey;
+  if (place) return place;
+  const jurisdiction = world?.jurisdictions[campaign.jurisdictionId];
+  return jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null;
 }
 
 /**
@@ -237,7 +249,7 @@ export function assessContribution(
       "Campaign-finance compliance was asked about a campaign that is not in the world.",
     );
   }
-  const stateKey = campaignStateJurisdictionKey(campaign);
+  const stateKey = campaignStateJurisdictionKey(campaign, world);
   const obligations = campaignObligations(stateKey, world.currentDate);
   const organizedCommitteeRule = obligations.find(
     (row) => row.obligation === "organized-committee-with-treasurer-required",
@@ -404,7 +416,8 @@ export function assessSecondCommittee(
     (campaign) =>
       campaign.candidatePersonId === input.personId &&
       campaign.officeKey === input.officeKey &&
-      campaignStateJurisdictionKey(campaign) === input.stateJurisdictionKey,
+      campaignStateJurisdictionKey(campaign, world) ===
+        input.stateJurisdictionKey,
   );
   if (!existing) {
     return {

@@ -42,6 +42,8 @@ export interface TimeCommandReport {
   readonly outcome: string;
   /** The disclosed target, when the command could plan one. */
   readonly target: SimulationMoment | null;
+  /** The actual date reached, which can be earlier than the disclosed target. */
+  readonly reached?: SimulationMoment;
   readonly stoppedEarly: boolean;
 }
 
@@ -137,6 +139,7 @@ export function createTimeCommandCore(options: {
           status: result.receipt.status,
           outcome: result.receipt.outcome,
           target: result.receipt.requestedTarget,
+          reached: result.receipt.reached,
           stoppedEarly: result.receipt.stoppedEarly,
         };
       }, onReport);

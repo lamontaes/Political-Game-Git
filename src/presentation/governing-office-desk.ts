@@ -101,9 +101,9 @@ export interface OfficeCasework {
   readonly recordedLine: string | null;
   /**
    * The office's recorded voting workflow, carried through unchanged when
-   * casework alone is changed. One record holds both, so an office with no
-   * record at all cannot have its casework set from here without inventing a
-   * voting preference the player never chose.
+   * casework alone is changed. The desk is a governor's, and a governor casts
+   * no votes, so this is null unless a record already holds one; the desk
+   * never invents a voting preference the player did not choose.
    */
   readonly votingMode: OfficeVotingWorkflowMode | null;
 }
@@ -406,8 +406,6 @@ export function projectGoverningOfficeDesk(
     caseworkNote:
       relationshipId === null
         ? "This office has no recorded employment relationship, so how it handles casework cannot be recorded against it yet."
-        : preference === null
-          ? "Nothing is recorded about how this office handles casework. The office's workflow is set up when you take the office."
-          : null,
+        : null,
   };
 }

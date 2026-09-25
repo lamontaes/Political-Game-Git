@@ -331,6 +331,24 @@ describe("PEOPLE P2 private aims", () => {
     }
   });
 
+  it("does not offer a child an adult relationship at all", () => {
+    // A twelve-year-old was shown the adult-relationship aim with a reason
+    // why there was nobody to have it with, rather than not being offered it.
+    const child = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed: "people-mind-minor",
+        startAge: 12,
+      }),
+    ).game!;
+    const { choices } = projectPersonalGoals(child.world, child.playerPersonId);
+    expect(choices.map((choice) => choice.family)).toEqual([
+      "seek-office",
+      "reconnect",
+      "civic-issue",
+    ]);
+  });
+
   it("setting an aim is private, lists real opportunities, and can be paused and dropped", () => {
     const eventsBefore = life.world.history.events.length;
     const knowledgeBefore = life.world.history.knowledge.length;
@@ -457,8 +475,10 @@ describe("PEOPLE P2 aims tell the truth about what they offer", () => {
     }
   });
 
-  it("no two aim families are offered about the same person", () => {
-    for (const placeKey of ["kentucky", "state:US-OH", "nebraska", "alaska"]) {
+  // One opening per case: four in one test ran past the time limit.
+  it.each(["kentucky", "state:US-OH", "nebraska", "alaska"])(
+    "no two aim families are offered about the same person in %s",
+    (placeKey) => {
       const life = placeLife(placeKey, `aims-overlap-${placeKey}`);
       const { choices } = projectPersonalGoals(life.world, life.playerPersonId);
       const seen = new Map<string, string>();
@@ -473,8 +493,8 @@ describe("PEOPLE P2 aims tell the truth about what they offer", () => {
           seen.set(target.targetEntityId, choice.family);
         }
       }
-    }
-  });
+    },
+  );
 
   it("says contact has lapsed rather than claiming there is nobody", () => {
     // The seeded acquaintances are all out of touch on the first day, so the

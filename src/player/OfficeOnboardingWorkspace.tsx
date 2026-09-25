@@ -15,9 +15,11 @@ import {
   OFFICE_CASEWORK_CHOICES,
   OFFICE_INSTRUCTION_CHOICES,
   OFFICE_VOTING_CHOICES,
+  memberStaffOffice,
   officeOnboardingDraftResetKey,
   projectOfficeOnboarding,
 } from "../presentation/office-onboarding";
+import { OfficeStaffHiring } from "./OfficeStaffHiring";
 import "./office-onboarding.css";
 
 export interface OfficeOnboardingWorkspaceProps {
@@ -221,7 +223,8 @@ export function OfficeOnboardingWorkspace({
       {projection.preference ? (
         <p data-testid="office-preference-recorded">
           Recorded for this office:{" "}
-          {projection.preference.votingMode.replaceAll("-", " ")};{" "}
+          {/* A legislative seat's record always holds a voting workflow. */}
+          {(projection.preference.votingMode ?? "").replaceAll("-", " ")};{" "}
           {projection.preference.caseworkMode.replaceAll("-", " ")}. Recording
           this does not cast a vote or finish constituent work.
         </p>
@@ -325,6 +328,11 @@ export function OfficeOnboardingWorkspace({
           </ul>
         ) : null}
       </section>
+      <OfficeStaffHiring
+        world={world}
+        office={memberStaffOffice(world, seat, playerPersonId)}
+        onWorldChange={onWorldChange}
+      />
       {error ? (
         <p role="status" data-testid="office-onboarding-error">
           {error}

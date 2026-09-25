@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { activeLifePathWorkers } from "./life-paths2-workers";
 import { lateTermEntryRecorded } from "./late-term-entry-events";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -56,7 +57,7 @@ export function resolveExecutiveOffice(world: World) {
       )
         return [];
       const entryId = relationship.provenance.eventId;
-      const entry = world.history.events.find((e) => e.id === entryId);
+      const entry = eventById(world, entryId);
       if (!entry || !entry.involvedEntityIds.includes(personId)) return [];
       const origin = originForEntry(world, personId, entry);
       if (!origin) return [];
@@ -211,9 +212,7 @@ export function electedExecutiveTermForRelationship(
     entry?.entityIds.includes(record.id),
   );
   const result = contest ? electionContestResult(world, contest.id) : null;
-  const outcome =
-    result &&
-    world.history.events.find((event) => event.id === result.outcomeEventId);
+  const outcome = result && eventById(world, result.outcomeEventId);
   const office =
     contest && electedExecutiveOfficeForKey(contest.office.officeKey);
   const governing =

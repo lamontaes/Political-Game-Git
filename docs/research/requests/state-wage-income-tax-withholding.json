@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-23T03:20:00.000Z",
+  "impact": "blocks-work",
+  "lane": "taxes people and businesses pay",
+  "priority": "P1",
+  "question": "For each of the 40 states and D.C. whose individual income tax the 56-place research marks YES, and for Montana, whose 2026 status it marks UNKNOWN: (1) the 2026 employer withholding method or table for a resident employee with the state's default exemption or allowance certificate, for weekly and daily pay; (2) whether wages are taxed where the employee lives, where the work is done, or both, and any reciprocity agreements; (3) the annual return due date and the state's rule for an unpaid balance (penalty, interest, notices). Start with the flat-rate states (Arizona, Colorado, Georgia, Idaho, Illinois, Indiana, Iowa, Kentucky, Louisiana, Michigan, North Carolina, Pennsylvania, Utah), which need the least. Mark each figure with its source and tax year; say UNKNOWN where nothing is verified.",
+  "questionId": "state-wage-income-tax-withholding",
+  "relatedQuestionIds": ["who-pays-which-taxes-56-places"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "filed by the Taxes people and businesses pay thread, building on who-pays-which-taxes-56-places",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/RESEARCH-taxes-nationwide-56-jurisdictions-and-federal-2026-09-22.md",
+      "whatItDidNotSettle": "Gives rates and coverage as YES/NO/UNKNOWN; marks withholding method, cadence and payment timing UNKNOWN."
+    },
+    {
+      "source": "src/simulation/statutory-tax.ts and statutory-tax-rules.ts on branch claude/project-thread-nrwxy9",
+      "whatItDidNotSettle": "The paycheck assessment records this tax as UNKNOWN with no amount, because the 56-place research does not carry what is asked here."
+    }
+  ],
+  "title": "How much state income tax is withheld from a paycheck, in each state that has one",
+  "usableAnswer": "One row per place: withholding formula or table for weekly and daily pay, residence versus work-place rule, reciprocity partners, due date, and unpaid-balance penalty and interest, each cited.",
+  "whyItMatters": "A paycheck in any of these places records the state income tax as UNKNOWN today. The nine no-tax states already record a lawful $0 with the state's own statement behind it; this is what the other 41 places need to do the same with a real amount."
+}

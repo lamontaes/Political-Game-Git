@@ -213,6 +213,22 @@ it("preserves opening data and chosen birth year without changing legacy descrip
   expect(decodeReplayDescriptor(encodeReplayDescriptor(setup))).toMatchObject(
     setup,
   );
+  const current: NewGameSetup = {
+    ...setup,
+    openingDataVersion: "playtest65-v2",
+  };
+  expect(decodeReplayDescriptor(encodeReplayDescriptor(current))).toMatchObject(
+    current,
+  );
+  expect(worldSeedFor(current)).toBe(worldSeedFor(setup));
+  expect(
+    decodeReplayDescriptor(
+      encodeReplayDescriptor({
+        ...setup,
+        openingDataVersion: "playtest65-v3" as never,
+      }),
+    ),
+  ).toBeNull();
   const legacy = decodeReplayDescriptor(encodeReplayDescriptor(BASE));
   expect(legacy?.openingDataVersion).toBeUndefined();
   expect(legacy?.birthYear).toBeUndefined();

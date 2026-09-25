@@ -1,0 +1,20 @@
+{
+  "filedAt": "2026-09-23T09:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and life",
+  "notes": [],
+  "priority": "P2",
+  "question": "Among American children living with two parents, what share of the parent couples are same-sex, and how does that vary by the child's birth year and state? And among children with one resident parent whose other parent has died, or lives elsewhere, how often were the two parents married or living together before the death or the separation?",
+  "questionId": "who-a-childs-parents-were-to-each-other",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "people and life lane",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/requests/childhood-household-composition.json",
+      "whatItDidNotSettle": "Asks for household shapes and parents' ages, not the sex of the parent couple or what an absent parent was to the resident one."
+    }
+  ],
+  "title": "Who a child's two parents were to each other",
+  "usableAnswer": "A same-sex share of two-parent households with children (ACS or Census tables), by decade and state where it differs materially; and the shares of widowed, divorced or separated, and never-partnered among one-parent households, ideally split by whether the other parent is living.",
+  "whyItMatters": "Under parent-partners-v1 (src/presentation/production-world.ts), a new game draws the second parent opposite the first except for a placeholder 1% same-sex share, makes two resident parents a couple, and records a parent who died before the life began as the living parent's partner until the death. A parent living elsewhere is claimed to be nothing to the other. Each of those is authored, not measured."
+}

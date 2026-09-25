@@ -50,9 +50,11 @@ describe("a life is given something to do", () => {
     const open = lifeOpportunitiesFor(world, personId);
     expect(open.length).toBeGreaterThan(1);
     expect(open.length).toBeLessThanOrEqual(OPEN_LIFE_OPPORTUNITY_LIMIT);
+    // Four, not five, since 2026-09-23: the Saturday invitation now needs a
+    // reason in the host's own life, and on the first day nobody has one.
     expect(
       availableAdultSituations(buildAdultLifeContext(world, personId)).length,
-    ).toBeGreaterThan(4);
+    ).toBeGreaterThan(3);
   });
 
   it("writes the same world twice when it is called twice", () => {

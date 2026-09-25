@@ -188,7 +188,10 @@ export function stateExecutiveTermWindow(
   };
 }
 
-function tenureKeyPrefix(office: StateExecutiveOffice): string {
+/** Every tenure of one office, opening or successor, starts with this key. */
+export function stateExecutiveTenureKeyPrefix(
+  office: StateExecutiveOffice,
+): string {
   return `${STATE_EXECUTIVE_WRITER_VERSION}:${office.officeKey}:tenure:`;
 }
 
@@ -268,7 +271,7 @@ export function ensureStateExecutiveIncumbent(
   if (!world.people[subjectPersonId]) {
     throw new Error("A state executive needs an existing subject person.");
   }
-  const prefix = tenureKeyPrefix(office);
+  const prefix = stateExecutiveTenureKeyPrefix(office);
   if (world.history.events.some((event) => event.stableKey.startsWith(prefix)))
     return world;
 
@@ -376,7 +379,7 @@ export interface StateExecutiveHolderRecord {
   readonly startedAt: IsoDate | null;
   readonly endExclusive: IsoDate | null;
   readonly termFactsUnknown: readonly RuleFieldKey[];
-  readonly origin: "fictional-initial-tenure" | "elected-term";
+  readonly origin: "fictional-initial-tenure" | "succession" | "elected-term";
   readonly identityProvenance: "fictional-simulation";
   readonly sources: readonly string[];
 }
@@ -459,13 +462,25 @@ export function currentStateExecutiveHolders(
         continue;
       }
     }
-    const prefix = tenureKeyPrefix(office);
-    const tenure = world.history.events.find(
-      (event) =>
-        event.type === "world.office-tenure" &&
-        event.stableKey.startsWith(prefix) &&
-        event.recordedAt <= world.currentDate,
-    );
+    const prefix = stateExecutiveTenureKeyPrefix(office);
+    // The latest tenure wins: a successor seated on a governor's death
+    // outranks the tenure it followed.
+    let tenure: (typeof world.history.events)[number] | undefined;
+    for (const event of world.history.events) {
+      if (
+        event.type !== "world.office-tenure" ||
+        !event.stableKey.startsWith(prefix) ||
+        event.recordedAt > world.currentDate
+      )
+        continue;
+      if (
+        !tenure ||
+        event.occurredAt > tenure.occurredAt ||
+        (event.occurredAt === tenure.occurredAt &&
+          event.sequence > tenure.sequence)
+      )
+        tenure = event;
+    }
     if (!tenure) continue;
     const personId = tenure.participants.find(
       (participant) => participant.role === "focus:subject",
@@ -473,7 +488,11 @@ export function currentStateExecutiveHolders(
     const person = personId ? world.people[personId] : undefined;
     if (!person) continue;
     const unknownStart = tenure.tags.includes("term-start:unknown");
-    const endTag = tenure.tags.find((tag) => tag.startsWith("term-end:"));
+    // A successor's term whose end the game does not know.
+    const unknownEnd = tenure.tags.includes("term-end:unknown");
+    const endTag = unknownEnd
+      ? undefined
+      : tenure.tags.find((tag) => tag.startsWith("term-end:"));
     const endExclusive = endTag
       ? makeIsoDate(endTag.slice("term-end:".length))
       : null;
@@ -495,8 +514,11 @@ export function currentStateExecutiveHolders(
       organizationId: organization.id,
       startedAt: unknownStart ? null : tenure.occurredAt,
       endExclusive,
-      termFactsUnknown: unknownStart ? STATE_EXECUTIVE_TERM_FIELDS : [],
-      origin: "fictional-initial-tenure",
+      termFactsUnknown:
+        unknownStart || unknownEnd ? STATE_EXECUTIVE_TERM_FIELDS : [],
+      origin: tenure.tags.includes("provenance:succession")
+        ? "succession"
+        : "fictional-initial-tenure",
       identityProvenance: "fictional-simulation",
       sources: office.sources,
     });

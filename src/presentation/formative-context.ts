@@ -8,6 +8,7 @@ import {
   characterHistoryContextPersonId,
   drawCanonicalNameForGender,
   nameCorpusVersionForWorld,
+  householdMembershipsAt,
 } from "../simulation";
 import type {
   CharacterHistoryTransition,
@@ -317,6 +318,20 @@ export function formativeEligibilityProvider(
       }
       const age = ageOnDate(person.birthDate, request.asOfDate as IsoDate);
 
+      // The household record establishes who lives together. It does not
+      // establish that anyone is ill, that a child knows about an illness, or
+      // that care is needed. These situations must wait for a recorded cause
+      // and an identified person before they can be offered in ordinary play.
+      if (
+        situationKey === "formative.illness-in-the-house" ||
+        situationKey === "formative.caring-for-someone"
+      ) {
+        return blocked(
+          "context:missing-incident",
+          "No identified household member and recorded care or illness need support this situation.",
+        );
+      }
+
       if (situationKey === "formative.teen-work-opportunity") {
         if (age < 14) {
           return blocked(
@@ -351,9 +366,7 @@ export function formativeEligibilityProvider(
       }
 
       if (HOUSEHOLD_SITUATIONS.includes(situationKey)) {
-        const inHousehold = world.history.householdMemberships.some(
-          (membership) => membership.personId === person.id,
-        );
+        const inHousehold = householdMembershipsAt(world, person.id).length > 0;
         if (!inHousehold) {
           return blocked(
             "context:no-household",
@@ -362,10 +375,83 @@ export function formativeEligibilityProvider(
         }
       }
 
+      // "There is a new child in the house" is a birth, and a birth is a
+      // record: somebody in this child's household born in the last two
+      // years. Caribou, 2026-09-23, played it for a child with no new sibling.
+      if (situationKey === "formative.household-transition") {
+        const asOf = request.asOfDate as IsoDate;
+        const householdIds = new Set(
+          world.history.householdMemberships
+            .filter((membership) => membership.personId === person.id)
+            .map((membership) => membership.householdId),
+        );
+        const newChild = world.history.householdMemberships.some(
+          (membership) => {
+            if (!householdIds.has(membership.householdId)) return false;
+            const other = world.people[membership.personId];
+            return (
+              !!other &&
+              other.id !== person.id &&
+              other.birthDate > person.birthDate &&
+              other.birthDate <= asOf &&
+              other.birthDate > yearsBefore(asOf, NEW_CHILD_YEARS)
+            );
+          },
+        );
+        if (!newChild) {
+          return blocked(
+            "context:no-household",
+            "Nobody has been born into this household recently.",
+          );
+        }
+      }
+
+      // These catalog scenes describe a specific change, request or conflict.
+      // Age, a household or an enrollment alone does not establish one.
+      const missingPremise = UNRECORDED_FORMATIVE_PREMISES[situationKey];
+      if (missingPremise)
+        return blocked("context:unrecorded-premise", missingPremise);
+
+      // "Join the activity" and "Leave the activity" about an activity nobody
+      // names, offered together to somebody who belongs to nothing (Ketchikan,
+      // 2026-09-23). Nothing records a school club or team for a teenager, so
+      // there is no activity to name, join or leave, and the scene waits until
+      // one is recorded.
+      if (situationKey === "formative.activity-choice") {
+        return blocked(
+          "context:no-activity",
+          "No club, team or group is recorded for this character to join or leave.",
+        );
+      }
+      // "Help organize it", offered three times in Fairbanks (2026-09-23), about
+      // "something at school" that no record names: no school issue, protest
+      // or petition is written for students, so there is nothing to organize.
+      if (situationKey === "formative.student-organizing") {
+        return blocked(
+          "context:no-school-issue",
+          "No school issue is recorded for students to organize around.",
+        );
+      }
+
       return { status: "allowed", reasons: [] };
     },
   };
 }
+
+/** PLACEHOLDER, pacing only: how long a baby is still "a new child". */
+const NEW_CHILD_YEARS = 2;
+
+const UNRECORDED_FORMATIVE_PREMISES: Partial<Record<LifeSituationKey, string>> =
+  {
+    "formative.illness-in-the-house":
+      "A household record does not establish an illness or who knows about it.",
+    "formative.money-shortfall":
+      "No canceled household plan or explanation is recorded for this child.",
+    "formative.school-rule-input":
+      "Enrollment does not establish a proposed school rule or request for input.",
+    "formative.care-conflict":
+      "No overlapping care need and activity commitment is recorded.",
+  };
 
 const SCHOOL_SITUATIONS: readonly LifeSituationKey[] = [
   "formative.school-entry",

@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-09-23T05:10:00.000Z",
+  "impact": "blocks-work",
+  "lane": "modular legislation",
+  "priority": "P1",
+  "requestVersion": "research-request/v1",
+  "questionId": "how-officeholders-hold-political-principles",
+  "title": "How many political principles a sitting officeholder holds, which way, how firmly, and how that bears on the bills they file and vote on",
+  "question": "For U.S. state legislators and governors: (1) across broad political principles (for example limited government, individual liberty, equality, public order, market freedom, environmental protection), how widely do officeholders hold a settled view, versus none or a conflicted one; (2) how strongly those views track party, and how much they vary within a party caucus; (3) how often a member votes against their party on a bill because of a personal conviction, and on what kinds of bills; (4) what moves a member to sponsor a bill of their own, as opposed to one brought by leadership, the executive, an agency or an interest group, and what share of bills each accounts for; (5) how often a governor vetoes a bill because of their own view of the policy, as opposed to cost, drafting or legality. Cite each figure with its source.",
+  "usableAnswer": "Distributions the game can draw an officeholder's principles from (share holding each view, strength, within-party spread), the share of cross-party votes explained by conviction, and the share of sponsored bills that originate with the member. The game uses them to replace marked placeholders in member-agenda and officeholder-principles, never as a probability to roll for an outcome.",
+  "whyItMatters": "lamontae, 2026-09-23: people need intrinsic reasons for wanting laws, and bills should pass at realistic rates with bargaining, persuasion and loyalty. Sitting officeholders now hold principles of their own, file bills on the questions those principles press hardest, and vote and sign by them. How many principles they hold (three in ten endorsed, two in ten rejected), how firmly, and the weights that turn them into a filing or a vote are game-chosen placeholders.",
+  "notes": [
+    "The answered research where-a-persons-politics-comes-from names goals, values, knowledge and lived consequences as the primary inputs; generated officeholders do not yet have those, so the draw is independent of party, place and life until they do."
+  ],
+  "relatedQuestionIds": [
+    "how-many-state-bills-become-law",
+    "how-state-legislators-vote-without-a-stated-position",
+    "why-a-governor-signs-or-vetoes",
+    "political-culture-of-each-jurisdiction"
+  ],
+  "requestedBy": "modular legislation thread, with People and life's review, 2026-09-23",
+  "sourcesChecked": [
+    {
+      "source": "where-a-persons-politics-comes-from (answered)",
+      "whatItDidNotSettle": "It says where a person's views come from, not how many an officeholder holds or how they turn into sponsorship and votes."
+    }
+  ]
+}

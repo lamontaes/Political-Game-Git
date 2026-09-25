@@ -3,6 +3,7 @@ import type { EconomicGraphModel, FiscalGraphRecord } from "./economic-graphs";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { money } from "../simulation/resources";
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
+import { PAYROLL_WITHHOLDING_BASIS } from "../simulation/statutory-tax";
 import type {
   EntityId,
   IsoDate,
@@ -130,7 +131,8 @@ export function projectModeledAccountHistory(
       flow.jurisdictionId === jurisdictionId &&
       inbound &&
       !outbound &&
-      flow.basisKind === "custom:tax-collection"
+      (flow.basisKind === "custom:tax-collection" ||
+        flow.basisKind === PAYROLL_WITHHOLDING_BASIS)
         ? "tax-receipt"
         : flow.jurisdictionId === jurisdictionId &&
             outbound &&

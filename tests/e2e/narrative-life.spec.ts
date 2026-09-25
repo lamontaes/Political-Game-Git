@@ -5,6 +5,7 @@ import {
   enterLife,
   openCreator,
   openMoment,
+  passShellTime,
   startLife as walkCreator,
 } from "./support/creator";
 
@@ -115,7 +116,8 @@ async function takeBeat(page: Page, index = 0): Promise<Beat> {
   const beat = await readBeat(page);
   const buttons = page.getByTestId("story-options").getByRole("button");
   const count = await buttons.count();
-  await buttons.nth(Math.min(index, count - 1)).click();
+  if (count > 0) await buttons.nth(Math.min(index, count - 1)).click();
+  else await passShellTime(page, "week");
   return beat;
 }
 
@@ -408,21 +410,22 @@ test.describe("A life is told continuously", () => {
   test("keeps a quiet stretch honest: grounded sentences or silence", async ({
     page,
   }) => {
+    test.setTimeout(240_000);
     await freshBrowser(page);
     /*
      * A named life, because the assertion below is about a run of quiet steps
-     * and an unseeded one decides how many of them cross a birthday. Six steps
-     * that all land inside the same year produce six identical recaps, which is
-     * a true reading of that life and a failing test either way — the check is
-     * worth keeping, so the life it reads is pinned rather than drawn fresh on
-     * every run.
+     * and an unseeded one decides how many of them cross a birthday. Each
+     * sample now follows nine ordinary shell weeks, long enough for six
+     * samples to span a birthday without a separate story skip.
      */
     await page.goto("/?seed=narrative-life-quiet-stretch");
     await startLife(page, 44);
 
     const said: string[] = [];
     for (let step = 0; step < 6; step += 1) {
-      await page.getByTestId("story-let-time-pass").click();
+      for (let week = 0; week < 9; week += 1) {
+        await passShellTime(page, "week");
+      }
       const shown = (await page.getByTestId("story-passage").count()) > 0;
       const passage = shown
         ? await page.getByTestId("story-passage").innerText()

@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   assertWorldIntegrity,
   deserializeWorld,
+  recordRelationshipInteraction,
+  recordWorldEvent,
   serializeWorld,
 } from "../simulation";
 import type { EntityId } from "../simulation";
@@ -12,6 +14,11 @@ import {
 } from "../simulation/people-bereavement";
 import type { PersonDeathRecipientNotice } from "../simulation/people-bereavement";
 import { recordFamilyAddition } from "../simulation/people-family";
+import {
+  ensurePeopleTraits,
+  personTrait,
+  recordTraitChange,
+} from "../simulation/people-traits";
 import { sceneBindingsFor } from "../simulation/scene-bindings";
 import { recordPersonDeath } from "../simulation/vitality";
 import { letAdultTimePass } from "./adult-life";
@@ -153,7 +160,7 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
     expect(heard.believedSummary).toContain("illness");
   });
 
-  it("offers something to say, and nothing is required or measured", () => {
+  it("offers only answers grounded in the death and leaves an ignored talk available", () => {
     const offered = letAdultTimePass(told, 1);
     const bound = sceneBindingsFor(offered, player, "home-evening").find(
       (entry) => entry.binding.variant === "bereaved",
@@ -164,13 +171,18 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
       player,
       "scene-home-evening",
     )!;
+    expect(view.briefing).not.toContain(" — their ");
     expect(view.openingLine).toMatch(/keep thinking|doesn’t seem real/);
     expect(view.intents.map((intent) => intent.key)).toEqual([
-      "remember-them",
-      "offer-help",
       "nothing-to-say",
       "leave-it",
     ]);
+    expect(view.openingLine).toContain("keep thinking I should call");
+    expect(
+      view.intents.some((intent) =>
+        /remember|arrangement|help/i.test(intent.label),
+      ),
+    ).toBe(false);
     // Nothing marked as a lie, nothing that costs time, nothing compulsory.
     expect(view.intents.every((intent) => !intent.truthIntent)).toBe(true);
     const said = commitConversationTurn(offered, {
@@ -180,12 +192,15 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
       turnOrdinal: view.turnOrdinal,
       addressee: view.addressee,
       audibility: view.audibility,
-      intent: "remember-them",
+      intent: "nothing-to-say",
     }).world;
     expect(said.currentMoment).toEqual(offered.currentMoment);
-    const interaction = said.history.relationshipInteractions.at(-1)!;
-    expect(interaction.kind).toBe("support:grieved-together");
-    expect(interaction.change).toBe("strengthened");
+    expect(said.history.relationshipInteractions).toHaveLength(
+      offered.history.relationshipInteractions.length,
+    );
+    expect(said.history.events.at(-1)?.context.choice).not.toMatch(
+      /remembered together|arrangements/i,
+    );
     // Walking away from it leaves the world alone.
     const ignored = letAdultTimePass(offered, 3);
     expect(
@@ -195,6 +210,95 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
     ).toBe(true);
     expect(serializeWorld(deserializeWorld(serializeWorld(said)))).toBe(
       serializeWorld(said),
+    );
+  });
+
+  it("lets recorded closeness and sociability shape the reply and its effect", () => {
+    const offered = letAdultTimePass(told, 1);
+    const withHistory = recordRelationshipInteraction(offered, {
+      stableKey: "fixture:grief-relationship",
+      personIds: [player, other],
+      eventId: null,
+      occurredAt: offered.currentDate,
+      kind: "support:family-history",
+      change: "strengthened",
+      significance: "major",
+      summary: "They have supported one another before.",
+      tags: [],
+    });
+    const withTraits = ensurePeopleTraits(withHistory, [other]);
+    const withCause = recordWorldEvent(withTraits, {
+      stableKey: "fixture:grief-temperament-cause",
+      type: "life.test-experience",
+      occurredAt: withTraits.currentDate,
+      recordedAt: withTraits.currentDate,
+      jurisdictionId: withTraits.people[other]!.homeJurisdictionId,
+      involvedEntityIds: [other],
+      participants: [{ personId: other, role: "focus:subject", detail: null }],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: [],
+      summary:
+        "A recorded experience established how this person approaches others.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const causeEventId = withCause.history.events.at(-1)!.id;
+    const outgoing = recordTraitChange(withCause, {
+      personId: other,
+      trait: "sociability",
+      value: 2,
+      eventId: causeEventId,
+      reason: "Fixture: a recorded tendency to reach out.",
+    });
+    const reserved = recordTraitChange(withCause, {
+      personId: other,
+      trait: "sociability",
+      value: -2,
+      eventId: causeEventId,
+      reason: "Fixture: a recorded tendency to keep to oneself.",
+    });
+    expect(personTrait(outgoing, other, "sociability").recordId).not.toBeNull();
+    expect(personTrait(reserved, other, "sociability").recordId).not.toBeNull();
+    const say = (world: typeof offered) => {
+      const view = projectPlayerConversation(
+        world,
+        player,
+        "scene-home-evening",
+      )!;
+      return commitConversationTurn(world, {
+        session: view.session,
+        room: view.room,
+        progress: view.progress,
+        turnOrdinal: view.turnOrdinal,
+        addressee: view.addressee,
+        audibility: view.audibility,
+        intent: "nothing-to-say",
+      }).world;
+    };
+    const warmlyAnswered = say(outgoing);
+    const brieflyAnswered = say(reserved);
+    expect(
+      warmlyAnswered.history.events.at(-1)?.context.immediateReaction,
+    ).toContain("Nobody does");
+    expect(
+      brieflyAnswered.history.events.at(-1)?.context.immediateReaction,
+    ).toContain("You don’t have to");
+    expect(
+      warmlyAnswered.history.relationshipInteractions.at(-1),
+    ).toMatchObject({
+      kind: "support:honest-about-grief",
+      change: "strengthened",
+      significance: "minor",
+    });
+    expect(brieflyAnswered.history.relationshipInteractions).toHaveLength(
+      reserved.history.relationshipInteractions.length,
     );
   });
 

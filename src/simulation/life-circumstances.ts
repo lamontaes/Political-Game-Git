@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   addDays,
   ageOnDate,
@@ -300,6 +301,11 @@ function premiseStillHolds(
         counterpartId !== null &&
         sharesEmployer(world, personId, counterpartId, cutoff)
       );
+    // Coursework belongs to a course. Once this person has left it — the
+    // enrollment ended, withdrew, transferred or completed — "it is due" is no
+    // longer true and the circumstance stops holding one of the open slots.
+    case "shared-assignment":
+      return activeEducationEnrollmentsAt(world, personId, cutoff).length > 0;
     default:
       return true;
   }
@@ -1057,9 +1063,7 @@ function requesterOf(
   eventId: EntityId,
   personId: EntityId,
 ): EntityId | null {
-  const event = world.history.events.find(
-    (candidate) => candidate.id === eventId,
-  );
+  const event = eventById(world, eventId);
   return (
     event?.participants.find(
       (participant) =>
@@ -1109,9 +1113,7 @@ function agreedCoverageRequests(
     )
       continue;
     const agreement = agreements.find((entry) => {
-      const played = world.history.events.find(
-        (event) => event.id === entry.eventId,
-      );
+      const played = eventById(world, entry.eventId);
       return (
         entry.sequence > request.sequence &&
         played?.involvedEntityIds.includes(requesterPersonId) === true

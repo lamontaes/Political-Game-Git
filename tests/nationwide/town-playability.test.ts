@@ -32,7 +32,10 @@ describe("what a town needs before it plays", () => {
   it("offers a life anywhere and a legislature almost nowhere", () => {
     const coverage = lifePlaceCoverage();
     expect(coverage.supportsArbitrarySelection).toBe(true);
-    expect(coverage.placeCount).toBe(35582);
+    // 10 authored + 32,350 places + 3,222 counties + 44 placeholder towns on
+    // Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana
+    // Islands, which the Census Gazetteer does not cover.
+    expect(coverage.placeCount).toBe(35626);
     expect(coverage.provenance?.recordCount).toBe(32350);
     expect(coverage.countyProvenance?.recordCount).toBe(3222);
 
@@ -53,7 +56,7 @@ describe("what a town needs before it plays", () => {
     expect(Object.keys(LEGISLATIVE_RULE_PACKS)).toHaveLength(9);
   });
 
-  it("knows who governs 19,480 places and how none but one of them votes", () => {
+  it("knows who governs 19,480 places and how only two of them vote", () => {
     const rows = JSON.parse(NATIONAL_PLACES_ROWS) as [string, string, string][];
     const governed = rows.filter(
       ([geoid]) => governmentUnitsForPlace(geoid).length > 0,
@@ -63,7 +66,7 @@ describe("what a town needs before it plays", () => {
     expect(governed).toHaveLength(19480);
     expect(municipalGovernments()).toHaveLength(144);
     expect(municipalGovernmentsWithProcedure().map((unit) => unit.key)).toEqual(
-      ["us-va-charlottesville"],
+      ["us-dc-washington", "us-va-charlottesville"],
     );
   });
 

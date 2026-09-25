@@ -357,6 +357,19 @@ function MeasureView({
             {briefing.outcomeNote}
           </p>
         ) : null}
+        {briefing.whatItChanged.length > 0 ? (
+          <div
+            className="legislation-effects"
+            data-testid="legislation-effects"
+          >
+            <h3>What the law changed</h3>
+            <ul>
+              {briefing.whatItChanged.map((sentence, index) => (
+                <li key={`${index}:${sentence}`}>{sentence}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </section>
 
       {message ? (
