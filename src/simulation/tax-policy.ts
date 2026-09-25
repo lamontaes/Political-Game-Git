@@ -628,6 +628,9 @@ export function taxHistoryRecords(world: World) {
     ...(world.history.taxBases ?? []),
     ...(world.history.taxAssessments ?? []),
     ...(world.history.taxCollections ?? []),
+    // Statutory taxes keep their own writer; their ids share this namespace.
+    ...(world.history.statutoryTaxLiabilities ?? []),
+    ...(world.history.statutoryTaxPayments ?? []),
   ];
 }
 export function taxEntityAvailableAt(
