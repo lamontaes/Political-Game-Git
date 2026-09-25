@@ -148,9 +148,7 @@ describe("saved work-start Journal English", () => {
       "a store assistant",
     );
     expect(grammaticalWorkRolePhrase("Engineer")).toBe("an engineer");
-    expect(grammaticalWorkRolePhrase("Legislative staff")).toBe(
-      "a legislative staffer",
-    );
+    expect(grammaticalWorkRolePhrase("Legislative staff")).toBeNull();
     expect(grammaticalWorkRolePhrase("Customer support")).toBeNull();
     expect(grammaticalEmployerPhrase("Kentucky legislative office")).toBe(
       "the Kentucky legislative office",
