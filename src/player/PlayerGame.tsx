@@ -5599,10 +5599,9 @@ function renderWorkspace({
           : null;
       if (townSeat) {
         /*
-         * A seat on the town's own governing body. Where the game has read the
-         * town's government, its business is on the city's own screen; where
-         * it has not, the seat is real and the game says plainly what it does
-         * not yet know, rather than telling a winner they hold nothing.
+         * A seat on the town's own governing body. Sourced and disclosed game
+         * profiles both open the local screen; an otherwise unprofiled seat
+         * still reads as held instead of disappearing from the office panel.
          */
         sections.push({
           key: "office",

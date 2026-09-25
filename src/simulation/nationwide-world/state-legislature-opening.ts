@@ -684,17 +684,9 @@ export function stateLegislators(
   );
   const prefix = `${V}:`;
   const views: StateLegislatorView[] = [];
-  const affiliationsByStableKey = new Map<string, OrganizationParticipation>();
-  const firstPartyByPerson = new Map<EntityId, OrganizationParticipation>();
-  for (const participation of world.history.organizationParticipations) {
-    affiliationsByStableKey.set(participation.stableKey, participation);
-    if (
-      participation.kind === PARTY_AFFILIATION_KIND &&
-      !firstPartyByPerson.has(participation.personId)
-    ) {
-      firstPartyByPerson.set(participation.personId, participation);
-    }
-  }
+  const { affiliationsByStableKey, firstPartyByPerson } = affiliationIndexes(
+    world.history.organizationParticipations,
+  );
   for (const work of legislativeWorkForBody(world, bodyId)) {
     if (!world.people[work.personId]) continue;
     if (!isPersonAliveAt(world, work.personId, currentLifeCutoff(world)))
@@ -754,6 +746,40 @@ export function stateLegislators(
       view.byCampaign ||
       !campaignSeats.has(`${view.officeKey}|${view.ordinal}`),
   );
+}
+
+const AFFILIATION_INDEXES = new WeakMap<
+  readonly OrganizationParticipation[],
+  {
+    readonly affiliationsByStableKey: ReadonlyMap<
+      string,
+      OrganizationParticipation
+    >;
+    readonly firstPartyByPerson: ReadonlyMap<
+      EntityId,
+      OrganizationParticipation
+    >;
+  }
+>();
+
+function affiliationIndexes(
+  participations: readonly OrganizationParticipation[],
+) {
+  const cached = AFFILIATION_INDEXES.get(participations);
+  if (cached) return cached;
+  const affiliationsByStableKey = new Map<string, OrganizationParticipation>();
+  const firstPartyByPerson = new Map<EntityId, OrganizationParticipation>();
+  for (const participation of participations) {
+    affiliationsByStableKey.set(participation.stableKey, participation);
+    if (
+      participation.kind === PARTY_AFFILIATION_KIND &&
+      !firstPartyByPerson.has(participation.personId)
+    )
+      firstPartyByPerson.set(participation.personId, participation);
+  }
+  const indexes = { affiliationsByStableKey, firstPartyByPerson };
+  AFFILIATION_INDEXES.set(participations, indexes);
+  return indexes;
 }
 
 // The nationwide opening appends thousands of relationships, then reuses the

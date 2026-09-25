@@ -2809,6 +2809,23 @@ function validateHistoryIntegrity(world: World): void {
   validateMindHistoryIntegrity(world, ids);
 }
 
+// History arrays are replaced on write. A daily clock read of an unchanged
+// family can reuse its ID index and its supersession order.
+const POLITICAL_RECORDS_BY_ID = new WeakMap<
+  object,
+  ReadonlyMap<EntityId, { readonly id: EntityId }>
+>();
+
+function politicalRecordsById<T extends { readonly id: EntityId }>(
+  records: readonly T[],
+): ReadonlyMap<EntityId, T> {
+  const cached = POLITICAL_RECORDS_BY_ID.get(records);
+  if (cached) return cached as ReadonlyMap<EntityId, T>;
+  const indexed = new Map(records.map((record) => [record.id, record]));
+  POLITICAL_RECORDS_BY_ID.set(records, indexed);
+  return indexed;
+}
+
 function validatePoliticalHistory(
   world: World,
   ids: Set<EntityId>,
@@ -2820,20 +2837,14 @@ function validatePoliticalHistory(
   personIds: ReadonlySet<EntityId>,
   exposureIds: ReadonlySet<EntityId>,
 ): void {
-  const beliefsById = new Map(
-    world.history.privateBeliefs.map((record) => [record.id, record]),
+  const beliefsById = politicalRecordsById(world.history.privateBeliefs);
+  const positionsById = politicalRecordsById(world.history.publicPositions);
+  const commitmentsById = politicalRecordsById(
+    world.history.campaignCommitments,
   );
-  const positionsById = new Map(
-    world.history.publicPositions.map((record) => [record.id, record]),
-  );
-  const commitmentsById = new Map(
-    world.history.campaignCommitments.map((record) => [record.id, record]),
-  );
-  const principlesById = new Map(
-    world.history.principles.map((record) => [record.id, record]),
-  );
-  const subjectKnowledgeById = new Map(
-    world.history.subjectKnowledge.map((record) => [record.id, record]),
+  const principlesById = politicalRecordsById(world.history.principles);
+  const subjectKnowledgeById = politicalRecordsById(
+    world.history.subjectKnowledge,
   );
 
   const exposureById = new Map<EntityId, PropositionExposureRecord>();
@@ -3592,11 +3603,19 @@ function assertCanonicalEntityIds(
   ids: readonly EntityId[],
   label: string,
 ): void {
+  if (CANONICAL_ENTITY_ID_ARRAYS.has(ids)) return;
   const canonical = [...new Set(ids)].sort();
   if (JSON.stringify(ids) !== JSON.stringify(canonical)) {
     throw new Error(`${label} must contain sorted unique IDs.`);
   }
+  CANONICAL_ENTITY_ID_ARRAYS.add(ids);
 }
+
+// These arrays and records are immutable history payloads. Duplicate IDs are
+// still checked against the current world on every validation pass.
+const CANONICAL_ENTITY_ID_ARRAYS = new WeakSet<readonly EntityId[]>();
+
+const VERIFIED_HISTORY_IDENTITIES = new WeakMap<object, string>();
 
 function assertHistoryIdentity(
   ids: Set<EntityId>,
@@ -3616,10 +3635,13 @@ function assertHistoryIdentity(
     | "subject-knowledge",
 ): void {
   assertUniqueId(ids, record.id);
+  const identity = `${world.id}:${kind}`;
+  if (VERIFIED_HISTORY_IDENTITIES.get(record) === identity) return;
   assertNonEmptyString(record.stableKey, "History stable key");
   if (record.id !== createStableId(kind, `${world.id}:${record.stableKey}`)) {
     throw new Error(`${kind} ID does not match its stable key: ${record.id}`);
   }
+  VERIFIED_HISTORY_IDENTITIES.set(record, identity);
 }
 
 function assertUniqueStableKeys(

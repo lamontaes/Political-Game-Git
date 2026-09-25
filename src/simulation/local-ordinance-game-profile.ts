@@ -11,6 +11,7 @@ import {
   governmentUnitsForPlace,
 } from "./government-units";
 import type { GovernmentUnitIdentity } from "./government-units";
+import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 import {
   knownRule,
   majorityOf,
@@ -291,7 +292,18 @@ function body(unit: GovernmentUnitIdentity): { name: string; seats: number } {
     case "township":
       return { name: "Township board", seats: 3 };
     case "municipality":
-      return { name: "Municipal council", seats: 5 };
+      return {
+        name: unit.name.startsWith("CITY OF ")
+          ? "City Council"
+          : unit.name.startsWith("TOWN OF ")
+            ? "Town Council"
+            : unit.name.startsWith("VILLAGE OF ")
+              ? "Village Board"
+              : unit.name.startsWith("BOROUGH OF ")
+                ? "Borough Council"
+                : "Council",
+        seats: 5,
+      };
   }
 }
 
@@ -301,7 +313,7 @@ export function localGovernmentGameProfile(
   if (!unit.functionalActive) return null;
   const key = localGovernmentGameProfileKey(unit);
   const council = body(unit);
-  const name = `${unit.name} (${unit.unitType})`;
+  const name = governmentUnitDisplayName(unit);
   const profileNote = `${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}: fictional shared procedure for play; no local charter or ordinance rule is asserted.`;
   const reading: MunicipalReading = {
     key,

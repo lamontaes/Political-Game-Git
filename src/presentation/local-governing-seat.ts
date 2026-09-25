@@ -43,10 +43,7 @@ export interface LocalGoverningSeat {
   readonly since: IsoDate;
   /** The seat in the words it was recorded with, such as "Elected 2026-02-02". */
   readonly seatContext: string | null;
-  /**
-   * True when the game has read this town's own government in depth, so its
-   * council business opens under the city's own screen.
-   */
+  /** True when a sourced or disclosed game-profile municipal screen exists. */
   readonly hasCityScreen: boolean;
   /**
    * How many seats the body has and how long a term runs: the town's own rule
