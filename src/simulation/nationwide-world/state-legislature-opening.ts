@@ -32,6 +32,8 @@ import type {
   FutureTransitionHandlerResult,
   IsoDate,
   LifeRecordProvenance,
+  OrganizationParticipation,
+  WorkRelationship,
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
@@ -682,27 +684,31 @@ export function stateLegislators(
   );
   const prefix = `${V}:`;
   const views: StateLegislatorView[] = [];
-  for (const work of world.history.workRelationships) {
-    if (work.organizationId !== bodyId) continue;
-    if (work.kind !== "employment:legislative-member") continue;
+  const affiliationsByStableKey = new Map<string, OrganizationParticipation>();
+  const firstPartyByPerson = new Map<EntityId, OrganizationParticipation>();
+  for (const participation of world.history.organizationParticipations) {
+    affiliationsByStableKey.set(participation.stableKey, participation);
+    if (
+      participation.kind === PARTY_AFFILIATION_KIND &&
+      !firstPartyByPerson.has(participation.personId)
+    ) {
+      firstPartyByPerson.set(participation.personId, participation);
+    }
+  }
+  for (const work of legislativeWorkForBody(world, bodyId)) {
     if (!world.people[work.personId]) continue;
     if (!isPersonAliveAt(world, work.personId, currentLifeCutoff(world)))
       continue;
     if (workStatusAt(world, work.id)?.status !== "active") continue;
     const match = seatTenureMatch(work.stableKey);
     if (!match) continue;
+    const namedAffiliation = affiliationsByStableKey.get(
+      `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
+    );
     const affiliation =
-      world.history.organizationParticipations.find(
-        (participation) =>
-          participation.personId === work.personId &&
-          participation.stableKey ===
-            `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
-      ) ??
-      world.history.organizationParticipations.find(
-        (participation) =>
-          participation.personId === work.personId &&
-          participation.kind === PARTY_AFFILIATION_KIND,
-      );
+      (namedAffiliation?.personId === work.personId
+        ? namedAffiliation
+        : undefined) ?? firstPartyByPerson.get(work.personId);
     views.push({
       personId: work.personId,
       workRelationshipId: work.id,
@@ -748,6 +754,38 @@ export function stateLegislators(
       view.byCampaign ||
       !campaignSeats.has(`${view.officeKey}|${view.ordinal}`),
   );
+}
+
+// The nationwide opening appends thousands of relationships, then reuses the
+// immutable history array during ordinary bill steps. A chamber read should
+// visit its own seats rather than every other state's seats each time.
+const LEGISLATIVE_WORK_BY_BODY = new WeakMap<
+  readonly WorkRelationship[],
+  ReadonlyMap<EntityId, readonly WorkRelationship[]>
+>();
+
+function legislativeWorkForBody(
+  world: World,
+  bodyId: EntityId,
+): readonly WorkRelationship[] {
+  const records = world.history.workRelationships;
+  let indexed = LEGISLATIVE_WORK_BY_BODY.get(records);
+  if (!indexed) {
+    const byBody = new Map<EntityId, WorkRelationship[]>();
+    for (const work of records) {
+      if (
+        work.organizationId === null ||
+        work.kind !== "employment:legislative-member"
+      )
+        continue;
+      const body = byBody.get(work.organizationId);
+      if (body) body.push(work);
+      else byBody.set(work.organizationId, [work]);
+    }
+    indexed = byBody;
+    LEGISLATIVE_WORK_BY_BODY.set(records, indexed);
+  }
+  return indexed.get(bodyId) ?? [];
 }
 
 export interface StateLegislativeSeatView {

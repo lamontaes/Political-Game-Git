@@ -95,6 +95,8 @@ export function legislativeInstitutionContext(
       goalScope: "United States",
       householdLocationLabel: "Washington, D.C.",
     };
+  const cached = STATE_INSTITUTION_CONTEXTS.get(pack.jurisdictionKey);
+  if (cached) return cached;
   const jurisdiction = stateJurisdictionForKey(pack.jurisdictionKey);
   if (!jurisdiction)
     throw new Error(`No jurisdiction identity for '${pack.packId}'.`);
@@ -108,11 +110,18 @@ export function legislativeInstitutionContext(
     })[0] ??
     null;
   if (!place) throw new Error(`No clock/place context for '${pack.packId}'.`);
-  return {
+  const context = {
     jurisdiction,
     initialMoment: place.context.initialMoment,
     creationSummary: `Legislative work in ${jurisdiction.name}.`,
     goalScope: jurisdiction.name,
     householdLocationLabel: `${jurisdiction.name} home`,
   };
+  // Jurisdiction and place identities are static content. The clock can ask
+  // for this context many times during one bill; searching and sorting every
+  // locality each time adds no new information.
+  STATE_INSTITUTION_CONTEXTS.set(pack.jurisdictionKey, context);
+  return context;
 }
+
+const STATE_INSTITUTION_CONTEXTS = new Map<string, DemoJurisdictionContext>();

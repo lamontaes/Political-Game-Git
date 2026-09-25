@@ -715,16 +715,9 @@ function validateSupersession<
   selectSubjectId: (record: T) => EntityId,
   selectDate: (record: T) => string,
 ): void {
-  const prior =
-    priorId === null
-      ? undefined
-      : records.find((record) => record.id === priorId);
-  const current = records
-    .filter(
-      (record) =>
-        record.personId === personId && selectSubjectId(record) === subjectId,
-    )
-    .at(-1);
+  const index = politicalSupersessionIndex(records, label, selectSubjectId);
+  const prior = priorId === null ? undefined : index.byId.get(priorId);
+  const current = index.latestByPerson.get(personId)?.get(subjectId);
   if (
     (current === undefined && priorId !== null) ||
     (current !== undefined && priorId !== current.id) ||
@@ -736,6 +729,55 @@ function validateSupersession<
   ) {
     throw new Error(`Invalid ${label} supersession reference: ${priorId}`);
   }
+}
+
+interface PoliticalSupersessionIndex<T> {
+  length: number;
+  readonly byId: Map<EntityId, T>;
+  readonly latestByPerson: Map<EntityId, Map<EntityId, T>>;
+}
+
+// recordPrinciples validates a batch against one append-only array. Update
+// its index for new rows as they arrive; rebuilding the entire political
+// history for every principle made a national bill day grow quadratically.
+const POLITICAL_SUPERSESSION_INDEX = new WeakMap<
+  object,
+  Map<string, PoliticalSupersessionIndex<unknown>>
+>();
+
+function politicalSupersessionIndex<
+  T extends { readonly id: EntityId; readonly personId: EntityId },
+>(
+  records: readonly T[],
+  label: string,
+  subjectOf: (record: T) => EntityId,
+): PoliticalSupersessionIndex<T> {
+  let indexes = POLITICAL_SUPERSESSION_INDEX.get(records);
+  if (!indexes) {
+    indexes = new Map();
+    POLITICAL_SUPERSESSION_INDEX.set(records, indexes);
+  }
+  let index = indexes.get(label) as PoliticalSupersessionIndex<T> | undefined;
+  if (!index || index.length > records.length) {
+    index = {
+      length: 0,
+      byId: new Map(),
+      latestByPerson: new Map(),
+    };
+    indexes.set(label, index);
+  }
+  for (let offset = index.length; offset < records.length; offset += 1) {
+    const record = records[offset]!;
+    index.byId.set(record.id, record);
+    let bySubject = index.latestByPerson.get(record.personId);
+    if (!bySubject) {
+      bySubject = new Map();
+      index.latestByPerson.set(record.personId, bySubject);
+    }
+    bySubject.set(subjectOf(record), record);
+  }
+  index.length = records.length;
+  return index;
 }
 
 function requirePerson(world: World, personId: EntityId) {
