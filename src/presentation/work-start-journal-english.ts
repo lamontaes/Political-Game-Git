@@ -33,6 +33,18 @@ export const WORK_START_JOURNAL_BANK: AuthoredEnglishBank = {
       stages: ["active-year-established"],
       text: "That {{month}}, I started work at {{employer}} as {{role-phrase}}.",
     },
+    {
+      key: "staff-plain",
+      kind: "template",
+      stages: ["active-staff", "active-staff-year-established"],
+      text: "I started working in {{employer}}.",
+    },
+    {
+      key: "staff-that-month",
+      kind: "template",
+      stages: ["active-staff-year-established"],
+      text: "That {{month}}, I started working in {{employer}}.",
+    },
   ],
 };
 
@@ -87,8 +99,9 @@ export function buildSavedWorkStartJournalPacket(
     cutoff,
   );
   const role = workRoleAt(world, relationship.id, cutoff);
+  const isLegislativeStaff = role?.title.trim() === "Legislative staff";
   const rolePhrase = role ? grammaticalWorkRolePhrase(role.title) : null;
-  if (!employer?.name.trim() || !rolePhrase)
+  if (!employer?.name.trim() || !role || (!rolePhrase && !isLegislativeStaff))
     return refusal("The saved employer or grammatical role is unavailable.");
 
   const month = MONTH.format(new Date(`${status.effectiveAt}T00:00:00.000Z`));
@@ -99,9 +112,13 @@ export function buildSavedWorkStartJournalPacket(
       text: grammaticalEmployerPhrase(employer.name),
       sourceRecordIds: [employer.id],
     },
-    "role-phrase": { text: rolePhrase, sourceRecordIds: [role!.id] },
     month: { text: month, sourceRecordIds: [status.id] },
   };
+  if (rolePhrase)
+    facts["role-phrase"] = {
+      text: rolePhrase,
+      sourceRecordIds: [role.id],
+    };
 
   // Traits are saved cues available for later reviewed variants. Neither line
   // above uses them to infer a feeling, motive, or outcome.
@@ -123,13 +140,19 @@ export function buildSavedWorkStartJournalPacket(
       momentKey: status.id,
       worldSeed: world.seed,
       bankVersion: WORK_START_JOURNAL_BANK.version,
-      stage: yearEstablished ? "active-year-established" : "active",
-      sourceRecordIds: [status.id, relationship.id],
+      stage: isLegislativeStaff
+        ? yearEstablished
+          ? "active-staff-year-established"
+          : "active-staff"
+        : yearEstablished
+          ? "active-year-established"
+          : "active",
+      sourceRecordIds: [status.id, relationship.id, role.id],
       facts,
       viewer: { personId, traits },
       // Own employment and its dated status establish direct involvement;
       // merely sharing an employer would not grant another viewer knowledge.
-      knowledge: ["employer", "role-phrase", "month"].map((factKey) => ({
+      knowledge: Object.keys(facts).map((factKey) => ({
         personId,
         factKey,
         sourceRecordIds: [status.id],
@@ -145,7 +168,6 @@ export function buildSavedWorkStartJournalPacket(
  */
 export function grammaticalWorkRolePhrase(title: string): string | null {
   const trimmed = title.trim();
-  if (trimmed === "Legislative staff") return "a legislative staffer";
   if (/\b(?:staff|work|support)$/i.test(trimmed)) return null;
   if (!/^[A-Z][a-z]+(?:[ -][a-z][a-z-]*)*$/.test(trimmed)) return null;
   const role = trimmed[0]!.toLocaleLowerCase("en-US") + trimmed.slice(1);

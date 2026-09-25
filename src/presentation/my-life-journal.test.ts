@@ -103,10 +103,10 @@ describe("My life from recorded milestones", () => {
       section.entries.map((entry) => entry.text),
     );
     expect(lines).toContain(
-      "I started work at the Kentucky legislative office as a legislative staffer.",
+      "I started working in the Kentucky legislative office.",
     );
     expect(lines).toContain(
-      "I took office as a member of the Kentucky House of Representatives for District 98.",
+      "I began serving District 98 in the Kentucky House of Representatives.",
     );
     expect(lines.every((line) => !/^You\b/.test(line))).toBe(true);
     expect(

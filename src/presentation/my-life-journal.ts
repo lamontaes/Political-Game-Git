@@ -34,6 +34,12 @@ const MY_LIFE_BANK: AuthoredEnglishBank = {
       text: "I was born on {{date}}.",
     },
     {
+      key: "district-seat-start",
+      kind: "template",
+      stages: ["district-seat-start"],
+      text: "I began serving District {{district}} in the {{chamber}}.",
+    },
+    {
       key: "office-start",
       kind: "template",
       stages: ["office-start"],
@@ -107,14 +113,24 @@ export function projectMyLifeJournalView(
 
     let text: string | null = null;
     if (isPublicOffice(relationship.kind)) {
-      const phrase = publicOfficeRolePhrase(role.title);
-      if (!phrase) continue;
-      const rendered = renderGroundedEnglish(
-        packet(world, personId, start.id, "office-start", {
-          "office-role": { text: phrase, sourceRecordIds: [role.id] },
-        }),
-        MY_LIFE_BANK,
-      );
+      const districtSeat =
+        /^Member of the (.+), District ([A-Za-z0-9-]+)$/.exec(role.title);
+      const phrase = districtSeat ? null : publicOfficeRolePhrase(role.title);
+      if (!districtSeat && !phrase) continue;
+      const rendered = districtSeat
+        ? renderGroundedEnglish(
+            packet(world, personId, start.id, "district-seat-start", {
+              chamber: { text: districtSeat[1]!, sourceRecordIds: [role.id] },
+              district: { text: districtSeat[2]!, sourceRecordIds: [role.id] },
+            }),
+            MY_LIFE_BANK,
+          )
+        : renderGroundedEnglish(
+            packet(world, personId, start.id, "office-start", {
+              "office-role": { text: phrase!, sourceRecordIds: [role.id] },
+            }),
+            MY_LIFE_BANK,
+          );
       text = rendered.kind === "rendered" ? rendered.text : null;
     } else if (
       (relationship.compensation === "paid" ||
