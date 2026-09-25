@@ -1,3 +1,4 @@
+import { PLACE_NAMES_V1_VERSION } from "../simulation/names-data";
 import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
 import {
   SCHOOL_STAGES_V1,
@@ -241,6 +242,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.schoolNameVersion === undefined
       ? {}
       : { schoolNameVersion: setup.schoolNameVersion }),
+    ...(setup.placeNameVersion === undefined
+      ? {}
+      : { placeNameVersion: setup.placeNameVersion }),
     ...(setup.schoolStageVersion === undefined
       ? {}
       : { schoolStageVersion: setup.schoolStageVersion }),
@@ -415,6 +419,11 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   if (
+    record.placeNameVersion !== undefined &&
+    record.placeNameVersion !== PLACE_NAMES_V1_VERSION
+  )
+    return null;
+  if (
     record.schoolStageVersion !== undefined &&
     record.schoolStageVersion !== SCHOOL_STAGES_V1 &&
     record.schoolStageVersion !== SCHOOL_STAGES_V2
@@ -520,6 +529,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.schoolNameVersion === undefined
       ? {}
       : { schoolNameVersion: SCHOOL_NAMES_V2_VERSION }),
+    ...(record.placeNameVersion === undefined
+      ? {}
+      : { placeNameVersion: PLACE_NAMES_V1_VERSION }),
     ...(record.schoolStageVersion === undefined
       ? {}
       : {
