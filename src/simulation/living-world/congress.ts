@@ -169,23 +169,44 @@ function activeOrganization(
 }
 
 /** The person's in-term seat-roll record, if they hold a seat on `asOf`. */
+// History arrays are replaced on write, as in event-index.ts. One index serves
+// repeated party reads of the same saved world without changing as-of rules.
+const ROLL_EVENTS_BY_PERSON = new WeakMap<
+  readonly HistoricalEvent[],
+  Map<EntityId, HistoricalEvent[]>
+>();
+
+function rollEventsByPerson(
+  events: readonly HistoricalEvent[],
+): Map<EntityId, HistoricalEvent[]> {
+  let indexed = ROLL_EVENTS_BY_PERSON.get(events);
+  if (indexed) return indexed;
+  indexed = new Map();
+  for (const event of events) {
+    if (event.type !== SEAT_TENURE_EVENT) continue;
+    for (const participant of event.participants) {
+      if (participant.role !== "focus:subject") continue;
+      const records = indexed.get(participant.personId) ?? [];
+      records.push(event);
+      indexed.set(participant.personId, records);
+    }
+  }
+  ROLL_EVENTS_BY_PERSON.set(events, indexed);
+  return indexed;
+}
+
 function currentRollEvent(
   world: World,
   personId: EntityId,
   asOf: IsoDate,
 ): HistoricalEvent | null {
-  for (let index = world.history.events.length - 1; index >= 0; index -= 1) {
-    const event = world.history.events[index];
+  const records = rollEventsByPerson(world.history.events).get(personId) ?? [];
+  for (let index = records.length - 1; index >= 0; index -= 1) {
+    const event = records[index];
     if (
       event &&
-      event.type === SEAT_TENURE_EVENT &&
       event.recordedAt <= world.currentDate &&
       event.occurredAt <= asOf &&
-      event.participants.some(
-        (participant) =>
-          participant.personId === personId &&
-          participant.role === "focus:subject",
-      ) &&
       asOf < (tagValue(event, "term-end:") ?? "")
     ) {
       return event;
