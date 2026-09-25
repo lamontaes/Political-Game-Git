@@ -2939,8 +2939,17 @@ function PlayingScreen({
   );
 
   const renderSnapshots = useMemo(
-    () => savedRenderSnapshots(session.world, shell.personWardrobes),
-    [session.world, shell.personWardrobes],
+    () =>
+      savedRenderSnapshots(session.world, shell.personWardrobes, [
+        session.personId,
+        ...moment.scene.presentPeople.map((person) => person.personId),
+      ]),
+    [
+      session.world.people,
+      session.personId,
+      shell.personWardrobes,
+      moment.scene.presentPeople,
+    ],
   );
 
   const scenePeople = useMemo(
