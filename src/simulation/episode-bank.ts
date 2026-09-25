@@ -161,6 +161,11 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
     {
       key: "noticing",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Nothing records the peer's late returns, curfews or whereabouts (dialogue review, 2026-09-23).",
+        },
         needsHouseholdPeer,
         // The peer is the one who is out and about, so the peer — not only the
         // player — has to be old enough for that to be plausible.
@@ -353,6 +358,11 @@ const SOMEONE_AT_HOME: EpisodeFamily = {
     {
       key: "it-got-worse",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "The late-night call is implied by a timer, not recorded, and the branch ignores what the player actually chose (dialogue review, 2026-09-23).",
+        },
         needsHouseholdPeer,
         { kind: "after-stage", stage: "noticing" },
         { kind: "days-since-stage", stage: "noticing", days: 400 },
@@ -476,7 +486,14 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
     ...LIFE_CONTENT_92C_COMPANIONSHIP_STAGES,
     {
       key: "the-year-you-were-inseparable",
-      requires: [needsFamiliar, { kind: "age-below", age: 18 }],
+      requires: [
+        needsFamiliar,
+        { kind: "age-below", age: 18 },
+        // A child's friend is another child. "Familiar" binds anybody with a
+        // running thread, and in Seattle and Juneau (2026-09-23) that was the
+        // child's teacher, "in each other's houses" all year.
+        { kind: "role-age-below", role: "familiar", age: 18 },
+      ],
       lines: [
         "You and {role:familiar} have spent most of this year in each other's houses.",
         "This afternoon they want you to come somewhere you have already said you would not go.",
@@ -537,6 +554,11 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
           stage: "the-year-you-were-inseparable",
           days: 500,
         },
+        // Cast afresh from whoever the record knows, so without this a
+        // teacher could be the friend who drifted (Bend, 2026-09-23: a
+        // nine-year-old and their teacher "down to running into each other").
+        // A childhood friend is at most a year or two past eighteen by now.
+        { kind: "role-age-below", role: "familiar", age: 21 },
       ],
       lines: [
         "You and {role:familiar} are down to running into each other.",
@@ -570,7 +592,7 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
             nudge("achievement-ambition", 0.25),
           ],
           aftermath: null,
-          memory: "You and {role:familiar} stopped ringing each other.",
+          memory: "You and {role:familiar} stopped calling each other.",
         },
       ],
     },
@@ -658,6 +680,11 @@ const FRIEND_OVER_YEARS: EpisodeFamily = {
       // which is the thing they have actually been carrying.
       key: "the-one-you-did-not-go-with",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "The friend's return is implied by a timer, and the branch collapses different earlier choices (dialogue review, 2026-09-23).",
+        },
         needsFamiliar,
         { kind: "age-at-least", age: 21 },
         { kind: "after-stage", stage: "the-year-you-were-inseparable" },
@@ -785,6 +812,11 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
       recordSceneContext: true,
       sceneSetting: "school",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "No broken object, damage or blame is recorded before the scene is chosen (dialogue review, 2026-09-23).",
+        },
         { kind: "fact", fact: "school.enrolled" },
         { kind: "age-below", age: 18 },
         /*
@@ -795,7 +827,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
         { kind: "role", role: "school-peer" },
       ],
       lines: [
-        "{detail:incident} is broken at school, and the office has your name for it.",
+        "{detail:incident} is broken at {school}, and the office has your name for it.",
         "You were standing next to it when it happened, and so was {who:school-peer}.",
         "{they:school-peer} broke it. {they:school-peer} {has:school-peer} not said so, and nobody has asked you what you saw.",
       ],
@@ -866,7 +898,7 @@ const SCHOOL_TROUBLE: EpisodeFamily = {
         { kind: "role", role: "school-peer" },
       ],
       lines: [
-        "A year on, the school record still says you broke {detail:incident}, in a sentence somebody else wrote.",
+        "A year on, your record at {school} still says you broke {detail:incident}, in a sentence somebody else wrote.",
         "It comes up again in a meeting nobody who was in the corridor is at.",
       ],
       stakes: "notable",
@@ -976,6 +1008,11 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
     {
       key: "the-first-time-it-is-said",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "No record divides the household's chores or time, so nobody can be right that the week does not balance (dialogue review, 2026-09-23).",
+        },
         needsHouseholdPeer,
         answersForThemselves,
         { kind: "age-at-least", age: 18 },
@@ -1050,6 +1087,11 @@ const HOUSEHOLD_LOAD: EpisodeFamily = {
     {
       key: "it-was-taken-seriously",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Five months of chores are implied by a timer; no work was recorded (dialogue review, 2026-09-23).",
+        },
         needsHouseholdPeer,
         {
           kind: "after-choice",
@@ -1199,6 +1241,11 @@ const WORK_STANDING: EpisodeFamily = {
     {
       key: "the-rule-and-the-person",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "No workplace rule, case or affected person is recorded (dialogue review, 2026-09-23).",
+        },
         needsColleague,
         { kind: "fact", fact: "work.employed" },
         { kind: "age-at-least", age: 18 },
@@ -1331,6 +1378,11 @@ const WORK_STANDING: EpisodeFamily = {
       // and the stage under this one is what happens instead.
       key: "the-offer",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "The job offer is implied by a timer; no offer or employer is recorded (dialogue review, 2026-09-23).",
+        },
         { kind: "fact", fact: "work.employed" },
         { kind: "after-stage", stage: "the-rule-and-the-person" },
         {
@@ -1502,6 +1554,11 @@ const MONEY_OWED: EpisodeFamily = {
     {
       key: "the-first-letter",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "An open obligation is not a letter the player cannot pay; the missed-payment record is not read yet (dialogue review, 2026-09-23).",
+        },
         { kind: "fact", fact: "money.obligation" },
         { kind: "age-at-least", age: 18 },
       ],
@@ -1530,7 +1587,7 @@ const MONEY_OWED: EpisodeFamily = {
           ],
           aftermath: "obligation",
           memory:
-            "You rang the number on the letter and said what you could actually manage.",
+            "You called the number on the letter and said what you could actually manage.",
         },
         {
           key: "pay-part",
@@ -1560,6 +1617,11 @@ const MONEY_OWED: EpisodeFamily = {
     {
       key: "arrangement-held",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "Eight months of payments are implied by a timer; no payment plan was recorded (dialogue review, 2026-09-23).",
+        },
         { kind: "after-choice", stage: "the-first-letter", option: "call" },
         { kind: "days-since-stage", stage: "the-first-letter", days: 240 },
       ],
@@ -1760,7 +1822,7 @@ const CARING: EpisodeFamily = {
       ],
       lines: [
         "Some of it did get taken off you, and some of it came back within the month.",
-        "{role:relative} has started ringing you first regardless of whose week it is.",
+        "{role:relative} has started calling you first regardless of whose week it is.",
       ],
       stakes: "ordinary",
       tensions: [
@@ -1779,7 +1841,7 @@ const CARING: EpisodeFamily = {
           nudges: [nudge("care-obligation", 0.4), nudge("personal-ties", 0.3)],
           aftermath: null,
           memory:
-            "You went on answering whenever {role:relative} rang, whoever's week it was.",
+            "You went on answering whenever {role:relative} called, whoever's week it was.",
         },
         {
           key: "redirect",
@@ -1881,7 +1943,14 @@ const NEIGHBOURHOOD: EpisodeFamily = {
     ...LIFE_CONTENT_92C_CIVIC_STAGES,
     {
       key: "the-meeting",
-      requires: [{ kind: "age-at-least", age: 18 }],
+      requires: [
+        {
+          kind: "withheld",
+          reason:
+            "No building, notice or meeting is recorded; choosing the scene used to create the group it describes (dialogue review, 2026-09-23).",
+        },
+        { kind: "age-at-least", age: 18 },
+      ],
       lines: [
         "There is a notice on the door of the building at the end of the road about what is going to happen to it.",
         "The meeting is on Tuesday and nobody you know is going.",
@@ -2148,6 +2217,11 @@ const POLITICAL_APPROACH: EpisodeFamily = {
     {
       key: "the-approach",
       requires: [
+        {
+          kind: "withheld",
+          reason:
+            "No party, district history or approach by a party member is recorded (dialogue review, 2026-09-23).",
+        },
         needsCommunityMember,
         { kind: "fact", fact: "civic.participation" },
         { kind: "age-at-least", age: 21 },

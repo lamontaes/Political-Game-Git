@@ -6,6 +6,7 @@ import type {
   CampaignAdChannel,
   CampaignPlanEmphasis,
 } from "./campaign-life-types";
+import { contestDistrictGeography } from "./campaign-geography";
 import { campaignWeeklyPlanRecords } from "./campaign-queries";
 import { addDays } from "./dates";
 import type {
@@ -101,10 +102,14 @@ export function assertCampaignWeeklyPlanIntegrity(
     if (!campaign || campaign.sequence >= plan.sequence) {
       throw new Error(`Campaign weekly plan linkage is invalid: ${plan.id}`);
     }
-    const electionDate =
+    const contest =
       (world.history.electionContests ?? []).find(
-        (contest) => contest.id === campaign.contestId,
-      )?.electionDate ?? null;
+        (candidate) => candidate.id === campaign.contestId,
+      ) ?? null;
+    const electionDate = contest?.electionDate ?? null;
+    const districtKey = contest
+      ? (contestDistrictGeography(contest.office)?.key ?? null)
+      : null;
     if (
       electionDate === null ||
       // A committed week ends before election day; a refused one may have
@@ -232,11 +237,13 @@ export function assertCampaignWeeklyPlanIntegrity(
           `Campaign weekly plan session falls outside its week: ${plan.id}`,
         );
       }
-      const expectedGeographyKey =
+      // Ordinary work is placed in the district a district seat represents;
+      // weeks committed before that were placed in the whole jurisdiction.
+      const expectedGeographyKeys =
         action.kind === "advertising"
-          ? (plan.advertising?.geographyKey ?? null)
-          : `jurisdiction:${campaign.jurisdictionId}`;
-      if (action.strategy.geographyKey !== expectedGeographyKey) {
+          ? [plan.advertising?.geographyKey ?? null]
+          : [`jurisdiction:${campaign.jurisdictionId}`, districtKey];
+      if (!expectedGeographyKeys.includes(action.strategy.geographyKey)) {
         throw new Error(
           `Campaign weekly plan action linkage is invalid: ${plan.id}`,
         );

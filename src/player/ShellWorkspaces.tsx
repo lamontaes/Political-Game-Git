@@ -14,6 +14,7 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
+import { TownBusinessesPanel } from "./TownBusinessesPanel";
 import {
   economicContextBindingForPlace,
   economicContextUnavailableReason,
@@ -78,6 +79,7 @@ import {
   calendarCampaignLifeEntry,
 } from "../presentation/calendar-campaign-life";
 import { previewTimeCommand } from "../presentation/time-command";
+import { acceptedOfferStarts } from "../presentation/offer-deadlines";
 import { venueActivities } from "../presentation/venue-activity";
 import { proseDate, proseWeekdayDate } from "../presentation/prose-dates";
 import {
@@ -171,6 +173,7 @@ export function WorkspaceFrame({
   const [draft, setDraft] = useState<WorkspaceLayout | null>(null);
   const [liveLayout, setLiveLayout] = useState<WorkspaceLayout | null>(null);
   const [closing, setClosing] = useState(false);
+  const closeTimer = useRef<number | null>(null);
   const [viewport, setViewport] = useState(() => ({
     width: typeof window === "undefined" ? 1280 : window.innerWidth,
     height: typeof window === "undefined" ? 860 : window.innerHeight,
@@ -195,6 +198,22 @@ export function WorkspaceFrame({
   useEffect(() => {
     setDraft(null);
   }, [testid]);
+  /*
+   * A close waits out its fade before it takes the player back to the room.
+   * Opening something else during the fade, a pin pressed as the People
+   * workspace fades, reuses this frame for the new workspace, and the old
+   * timer then closed the page just opened (People web browser test on main
+   * 54bebe81, 2026-09-23). A new workspace cancels the close it replaced.
+   */
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current !== null) {
+        window.clearTimeout(closeTimer.current);
+        closeTimer.current = null;
+      }
+      setClosing(false);
+    };
+  }, [testid]);
   useEffect(() => {
     const resize = () =>
       setViewport({ width: window.innerWidth, height: window.innerHeight });
@@ -215,7 +234,10 @@ export function WorkspaceFrame({
       return;
     }
     setClosing(true);
-    window.setTimeout(onClose, WORKSPACE_CLOSE_MS);
+    closeTimer.current = window.setTimeout(() => {
+      closeTimer.current = null;
+      onClose();
+    }, WORKSPACE_CLOSE_MS);
   }
   function start(
     event: ReactPointerEvent<HTMLElement>,
@@ -439,6 +461,17 @@ export function PeopleWorkspace({
     () => filterDirectory(directory, category, state.peopleQuery),
     [directory, category, state.peopleQuery],
   );
+  const notYetMet = useMemo(
+    () =>
+      category === "all"
+        ? []
+        : filterDirectory(
+            { ...directory, people: directory.notYetMet },
+            category,
+            state.peopleQuery,
+          ),
+    [directory, category, state.peopleQuery],
+  );
   const [webExpanded, setWebExpanded] = useState(false);
   const peopleView = state.preferences.peopleView;
   const showWeb = peopleView === "web";
@@ -523,6 +556,9 @@ export function PeopleWorkspace({
             query={state.peopleQuery}
             expanded={webExpanded}
             onSelect={selectPerson}
+            onShowList={() =>
+              dispatch({ type: "set-people-view", view: "list" })
+            }
           />
           <button
             type="button"
@@ -587,6 +623,44 @@ export function PeopleWorkspace({
           })}
         </ul>
       )}
+
+      {category === "all" && directory.notYetMet.length > 0 ? (
+        <p className="game-note" data-testid="people-not-yet-met-note">
+          {directory.notYetMet.length === 1
+            ? "1 person you work or organize with is somebody you have not met yet."
+            : `${directory.notYetMet.length} people you work or organize with are somebody you have not met yet.`}{" "}
+          They are under Work and Politics.
+        </p>
+      ) : null}
+      {notYetMet.length > 0 ? (
+        <section
+          className="pg-people-not-yet-met"
+          aria-label="Not met yet"
+          data-testid="people-not-yet-met"
+        >
+          <h3>Not met yet</h3>
+          <ul className="pg-people-list" data-view="list">
+            {notYetMet.map((person) => (
+              <li key={person.personId}>
+                <button
+                  type="button"
+                  className="pg-person-row"
+                  data-testid={`people-unmet-${person.personId}`}
+                  onClick={() => selectPerson(person.personId)}
+                >
+                  <PersonPortrait
+                    world={world}
+                    personId={person.personId}
+                    size="small"
+                  />
+                  <strong>{person.name}</strong>
+                  {person.context ? <small>{person.context}</small> : null}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </>
   );
 }
@@ -652,6 +726,7 @@ export function CalendarWorkspaceSurface({
   onOpen,
   onTogglePin,
   onWorldChange,
+  onOpenWork,
   interruptions = DEFAULT_INTERRUPTIONS,
   onInterruptionChange,
   today,
@@ -662,6 +737,7 @@ export function CalendarWorkspaceSurface({
   readonly onOpen: (ref: ShellRef) => void;
   readonly onTogglePin: (ref: ShellRef) => void;
   readonly onWorldChange: (world: World) => void;
+  readonly onOpenWork?: () => void;
   /** The persisted checklist; read by every advance made from here. */
   readonly interruptions?: InterruptionPreferences;
   readonly onInterruptionChange?: (
@@ -686,12 +762,24 @@ export function CalendarWorkspaceSurface({
     interruptions,
     onWorldChange,
   });
-  const report = (result: TimeCommandReport) =>
+  const report = (result: TimeCommandReport) => {
+    if (
+      result.status === "accepted" &&
+      result.reached &&
+      acceptedOfferStarts(world, personId).some(
+        (entry) => entry.startOn === result.reached?.date,
+      )
+    ) {
+      setOutcome(null);
+      onOpenWork?.();
+      return;
+    }
     setOutcome(
       result.stoppedEarly && result.target
         ? `${stoppedEarlyLabel(result.target)} ${result.outcome}`
         : result.outcome,
     );
+  };
   const dayTarget = previewTimeCommand(world, personId, {
     kind: "days",
     days: 1,
@@ -1369,6 +1457,12 @@ export function MeasureSurface({
                 {proseDate(vote.when)} · {vote.where} · {vote.question} ·{" "}
                 {vote.result} ({vote.yea}–{vote.nay}; {vote.needed} of{" "}
                 {vote.outOf} needed)
+                {vote.yours ? (
+                  <>
+                    {" "}
+                    <span data-testid="measure-your-vote">{vote.yours}</span>
+                  </>
+                ) : null}
               </li>
             ))}
           </ul>
@@ -1677,7 +1771,7 @@ export function PersonalWorkspace({
         <h3>The place you live</h3>
         <p className="game-note">
           {economicPlace?.displayName ?? "Home place not recorded"} ·{" "}
-          {world.currentDate}
+          {proseDate(world.currentDate)}
         </p>
         {/*
           The compact lines come from a generated file committed per place, and
@@ -1714,6 +1808,12 @@ export function PersonalWorkspace({
           <p className="game-note" data-testid="economic-context-unavailable">
             {economicContextUnavailableReason(economicPlace.key)}
           </p>
+        ) : null}
+        {economicPlace ? (
+          <TownBusinessesPanel
+            world={world}
+            jurisdictionId={economicPlace.context.jurisdiction.id}
+          />
         ) : null}
       </section>
     </>

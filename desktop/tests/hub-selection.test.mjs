@@ -453,3 +453,36 @@ test("the private hub checks for updates only at start and on request", () => {
   // merely to discover and compile a code-only successor.
   assert.match(source, /!packPath && !usesRuntimeContent/);
 });
+
+test("retry progress replaces an older failure while retaining it for a stopped check", () => {
+  for (const outcome of ["offline", "failed", "unsupported"]) {
+    const check = recordCheck({}, "main", {
+      outcome,
+      at: "2026-09-23T03:47:13.000Z",
+      message: "Previous attempt failed",
+    }).main;
+    for (const [phase, kind] of [
+      ["fetching", "checking"],
+      ["preparing", "preparing"],
+      ["verifying", "preparing"],
+    ]) {
+      const status = updateStatus({
+        check,
+        build: build(SHA_A),
+        building: true,
+        phase: { phase, checkStartedAt: "2026-09-23T03:47:37.000Z" },
+      });
+      assert.equal(status.kind, kind);
+      assert.equal(status.detail, undefined);
+    }
+    assert.equal(
+      updateStatus({
+        check,
+        build: build(SHA_A),
+        building: true,
+        phase: { phase: "failed" },
+      }).kind,
+      outcome,
+    );
+  }
+});

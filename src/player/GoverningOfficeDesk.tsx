@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 import {
+  executiveStaffOffice,
+  governingOfficeForPerson,
   recordOfficeWorkflowPreference,
   type EntityId,
   type OfficeCaseworkWorkflowMode,
@@ -14,6 +16,7 @@ import {
   type OfficeProgramAppropriation,
 } from "../presentation/governing-office-desk";
 import { GameSelect } from "./controls/GameSelect";
+import { OfficeStaffHiring } from "./OfficeStaffHiring";
 
 /**
  * The rest of the officeholder's desk, under Work > "Your office" beside the
@@ -37,7 +40,8 @@ export function GoverningOfficeDesk({
 }) {
   const [refusal, setRefusal] = useState<string | null>(null);
   const desk = projectGoverningOfficeDesk(world, personId);
-  if (!desk) return null;
+  const office = governingOfficeForPerson(world, personId);
+  if (!desk || !office) return null;
   const casework = desk.casework;
 
   const setCasework = (
@@ -97,6 +101,14 @@ export function GoverningOfficeDesk({
           ))}
         </ul>
       )}
+
+      {office.controlledByPlayer ? (
+        <OfficeStaffHiring
+          world={world}
+          office={executiveStaffOffice(office)}
+          onWorldChange={onWorldChange}
+        />
+      ) : null}
 
       <h4>Your measures</h4>
       {desk.measuresNote ? (

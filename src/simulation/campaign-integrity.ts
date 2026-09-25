@@ -1,4 +1,6 @@
+import { eventById } from "./event-index";
 import { assertCampaignLifeIntegrity } from "./campaign-life-integrity";
+import { contestDistrictGeography } from "./campaign-geography";
 import { assertCampaignOpponentIntegrity } from "./campaign-opponent-integrity";
 import { assertCampaignWeeklyPlanIntegrity } from "./campaign-weekly-plan-integrity";
 import { candidacyPackById } from "./candidacy-packs";
@@ -144,13 +146,16 @@ function assertCampaignRoots(
   // office has to be the one the contest is actually for. Without this a
   // campaign could cite Kentucky's pack and stand in a contest for something
   // nobody has rules for.
+  //
+  // The office's title is display text and is not compared: a pack may rename
+  // it (a town's "Member of the governing body" became "Council member"), and
+  // a campaign saved under the old title is still for the same office.
   const option = candidacyPackById(campaign.candidacyPackId)?.offices.find(
     (candidate) => candidate.officeKey === campaign.officeKey,
   );
   if (
     !option ||
     option.office.officeKey !== contest.office.officeKey ||
-    option.office.title !== contest.office.title ||
     option.office.seatKey !== contest.office.seatKey ||
     option.office.occupationClassification !==
       contest.office.occupationClassification
@@ -225,9 +230,7 @@ function assertCampaignRoots(
     throw new Error(`Campaign treasury is invalid: ${campaign.id}`);
   }
 
-  const filingEvent = world.history.events.find(
-    (event) => event.id === campaign.filingEventId,
-  );
+  const filingEvent = eventById(world, campaign.filingEventId);
   if (
     !filingEvent ||
     filingEvent.sequence >= campaign.sequence ||
@@ -403,10 +406,12 @@ function assertCampaignActions(
           return work ? [work.personId] : [];
         }),
       );
-      const districtBinding = contest?.office.districtBinding ?? null;
+      const district = contest
+        ? contestDistrictGeography(contest.office)
+        : null;
       const expectedGeographyKey =
-        strategy.geographyKind === "district" && districtBinding
-          ? `district:${districtBinding.vintage}:${districtBinding.chamber}:${districtBinding.geoid}`
+        strategy.geographyKind === "district" && district
+          ? district.key
           : `jurisdiction:${campaign.jurisdictionId}`;
       if (
         strategy.geographyKey !== expectedGeographyKey ||
@@ -470,15 +475,11 @@ function assertCampaignActionResults(
       );
     }
 
-    const outcomeEvent = world.history.events.find(
-      (event) => event.id === result.outcomeEventId,
-    );
+    const outcomeEvent = eventById(world, result.outcomeEventId);
     const observation = world.history.metricObservations.find(
       (item) => item.id === result.observationId,
     );
-    const feedbackEvent = world.history.events.find(
-      (event) => event.id === result.feedbackEventId,
-    );
+    const feedbackEvent = eventById(world, result.feedbackEventId);
     const knowledge = world.history.knowledge.find(
       (item) => item.id === result.feedbackKnowledgeId,
     );
@@ -669,6 +670,9 @@ export function assertCampaignIntegrity(
   assertCampaignWeeklyPlanIntegrity(world, ids, campaignById, actionById);
   assertCampaignOpponentIntegrity(world, ids, campaignById);
 
+  // UNRESEARCHED_CAMPAIGN_FILING_RULE.version in campaign-compliance.ts; a
+  // placeholder statement is filed on paper, with no electronic transport.
+  const UNRESEARCHED_FILING_PACK_ID = "campaign-filing-unresearched-v1";
   const complianceById = new Map<EntityId, CampaignComplianceDocumentRecord>();
   for (const filingRecord of complianceDocuments) {
     assertIdentity(ids, world, filingRecord, "campaign-compliance-document");
@@ -677,7 +681,11 @@ export function assertCampaignIntegrity(
       !campaign ||
       campaign.sequence >= filingRecord.sequence ||
       filingRecord.committeeOrganizationId !== campaign.organizationId ||
-      filingRecord.rulePackId !== campaign.compliancePackId
+      (filingRecord.rulePackId !== campaign.compliancePackId &&
+        !(
+          campaign.compliancePackId === null &&
+          filingRecord.rulePackId === UNRESEARCHED_FILING_PACK_ID
+        ))
     ) {
       throw new Error(
         `Campaign compliance document linkage is invalid: ${filingRecord.id}`,
@@ -690,7 +698,10 @@ export function assertCampaignIntegrity(
           filingRecord.filedAt !== null)) ||
       (filingRecord.status === "filed" &&
         (filingRecord.visibility !== "public-record" ||
-          filingRecord.transport !== "KEFMS" ||
+          filingRecord.transport !==
+            (filingRecord.rulePackId === UNRESEARCHED_FILING_PACK_ID
+              ? null
+              : "KEFMS") ||
           filingRecord.filedAt === null))
     ) {
       throw new Error(

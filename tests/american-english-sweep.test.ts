@@ -185,6 +185,12 @@ describe("the sweep bites", () => {
       inject: (text) => `${text}\n// The town centre is quiet.\n`,
     },
     {
+      // A British word that ends a quoted sentence, right before the quote.
+      file: "src/simulation/legislature-rule-packs.ts",
+      inject: (text) =>
+        `${text}\nexport const probe = "Conference is not modelled.";\n`,
+    },
+    {
       file: "art/requests/asset-requests.json",
       inject: (text) => text.replace(/": "([^"]* [^"]*)"/, '": "$1 in grey"'),
     },

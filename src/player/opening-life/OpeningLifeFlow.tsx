@@ -34,7 +34,7 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
   const scene = currentOpeningLifeScene(props.world, props.playerPersonId);
 
   if (props.foreground) return <>{props.foreground}</>;
-  if (props.pendingOpen && props.pendingLife) {
+  if (props.pendingOpen && props.pendingAvailable && props.pendingLife) {
     return (
       <div
         className="pg-opening-pending"
@@ -86,7 +86,7 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
         <small>What is happening here, and what you can do</small>
       </button>
     ) : null;
-  if (!scene) return opener;
+  if (!scene) return <>{opener}</>;
   return (
     <>
       {opener}

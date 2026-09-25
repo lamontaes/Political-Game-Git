@@ -1,0 +1,53 @@
+{
+  "candidateAnswers": [
+    {
+      "argumentAgainst": "A town whose body is really a commission, a board of aldermen or a select board is shown with the wrong name until it is read.",
+      "argumentFor": "Already built and labeled as the game's placeholder; every town reads as a real kind of body instead of 'governing body'.",
+      "label": "Keep the placeholder by form of government",
+      "position": "An unread city has a City Council, a town a Town Council, a village a Village Board whose members are Trustees, a borough a Borough Council, and anything else a Council, as the Census listing's name gives the form.",
+      "recommended": false
+    },
+    {
+      "argumentAgainst": "Needs each town read, or a state rule for each class of town, which is slow across about 19,000 governments.",
+      "argumentFor": "Every town shows its own body's name and its members' title, as the owner wants the starting world to match today's country.",
+      "label": "Read each town's body name and member title",
+      "position": "Record each municipality's governing body name and the title its members hold, starting with the largest cities, and a state-law default for each class of town where the law fixes one.",
+      "recommended": true
+    }
+  ],
+  "filedAt": "2026-09-23T14:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "campaigns",
+  "notes": [
+    "The compiled municipal governments' readings give the body's name for about 90 cities (for example Anchorage Assembly, Seattle City Council, Board of Commissioners for Bowling Green). No reading records the title a member holds, so a member of a body the reading calls a council is shown as 'Council member' and otherwise as 'Member of the' body.",
+    "Every other town uses a GAME PROFILE placeholder by the form in its Census listing name, in src/simulation/nationwide-world/local-governing-body-names.ts: City Council / Council member, Town Council / Council member, Village Board / Trustee, Borough Council / Council member, otherwise Council / Council member.",
+    "Town-meeting readings name the meeting of the voters, not an elected body, so they are not used as the name of a seat; those towns fall back to the placeholder and the elected board (often a select board) is part of this question."
+  ],
+  "priority": "P2",
+  "question": "For each US municipality, what is its governing body called and what title does a member hold (for example Seattle City Council and councilmember, Anchorage Assembly and Assembly member, a village's Board of Trustees and trustee, a New England town's Select Board and select board member)? Where state law fixes the body and title for a class of town, what does it provide?",
+  "questionId": "municipal-governing-body-names-and-member-titles",
+  "relatedQuestionIds": [
+    "local-executive-and-council-rules",
+    "town-council-size-by-town-size",
+    "town-mayor-rules-by-town-size"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Running for office across America thread",
+  "sourcesChecked": [
+    {
+      "source": "data/source/municipal-governance/corpus.json and the compiled readings (MunicipalReading.bodyName)",
+      "whatItDidNotSettle": "Names the body for about 90 compiled cities only, and no member title for any; several give only the kind of body, such as 'Council'."
+    },
+    {
+      "source": "data/municipal-elections/92O-national-state-baseline.json",
+      "whatItDidNotSettle": "State municipal election timing and ballot structure; it names no body and no member title."
+    },
+    {
+      "source": "Census 2025 Government Units listing (src/simulation/government-units.ts)",
+      "whatItDidNotSettle": "Gives each municipality's legal name, such as 'City of Seattle' or 'Village of Ardentown', from which the placeholder reads the form; it says nothing about the body."
+    }
+  ],
+  "title": "What each town calls its governing body and its members",
+  "usableAnswer": "One line per municipality, starting with the 100 largest cities: the body's name, the member's title, and the charter or statute read. Then, per state and class of municipality, the default body name and member title general law provides, or 'each town chooses'. Anything unknown stays marked unknown.",
+  "whyItMatters": "A player running for their town's seat reads the body's name and the office title on the ballot and in their life record. Until it is read, a town shows the game's placeholder by form of government rather than its own body, such as the Anchorage Assembly or a New England select board."
+}

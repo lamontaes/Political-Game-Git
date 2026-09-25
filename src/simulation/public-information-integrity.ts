@@ -1,5 +1,6 @@
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
+import { indexOverArrays } from "./history-index";
 import { pressRecordSequence } from "./press/integrity";
 import {
   MEDIA_OUTLET_KEY_PREFIX,
@@ -75,9 +76,10 @@ export function resolvePublicationSource(
       candidate.startsWith(PRESS_STORY_LEAD_TAG),
     );
     const leadId = leadTag?.slice(PRESS_STORY_LEAD_TAG.length);
-    const lead = (world.history.pressRecords ?? []).find(
-      (candidate) => candidate.id === leadId,
-    );
+    const lead =
+      leadId === undefined
+        ? undefined
+        : sourceIndexes(world).pressById.get(leadId);
     if (
       lead?.kind !== "story-lead" ||
       lead.outletId !== reportingOutletId ||
@@ -88,19 +90,12 @@ export function resolvePublicationSource(
     return { kind: "press-story", sourceRecordIds: [lead.id] };
   }
 
-  const action = (world.history.legislativeActions ?? []).find(
-    (candidate) => candidate.eventId === event.id,
-  );
+  const indexes = sourceIndexes(world);
+  const action = indexes.actionByEventId.get(event.id);
   if (action) {
-    const measure = (world.history.legislativeMeasures ?? []).find(
-      (candidate) => candidate.id === action.measureId,
-    );
+    const measure = indexes.measureById.get(action.measureId);
     if (!measure) return null;
-    const vote = action.voteId
-      ? (world.history.legislativeVotes ?? []).find(
-          (candidate) => candidate.id === action.voteId,
-        )
-      : null;
+    const vote = action.voteId ? indexes.voteById.get(action.voteId) : null;
     if (action.voteId && !vote) return null;
     return {
       kind: vote ? "recorded-vote" : "legislative-development",
@@ -113,14 +108,10 @@ export function resolvePublicationSource(
   }
 
   if (event.type.startsWith("tax.")) {
-    const policy = (world.history.taxPolicies ?? []).find(
-      (row) => row.outcomeEventId === event.id,
-    );
+    const policy = indexes.taxPolicyByEventId.get(event.id);
     if (policy && event.type === "tax.policy-recorded")
       return { kind: "civic-event", sourceRecordIds: [policy.id] };
-    const receipt = (world.history.taxCollections ?? []).find(
-      (row) => row.outcomeEventId === event.id && row.status === "collected",
-    );
+    const receipt = indexes.collectedTaxByEventId.get(event.id);
     if (receipt && event.type === "tax.public-receipt")
       return { kind: "civic-event", sourceRecordIds: [receipt.id] };
     return null;
@@ -333,15 +324,71 @@ export function assertPublicInformationIntegrity(
 }
 
 function sourceRecordSequence(world: World, id: EntityId): number | null {
-  const record = [
-    ...(world.history.legislativeMeasures ?? []),
-    ...(world.history.legislativeActions ?? []),
-    ...(world.history.legislativeVotes ?? []),
-    ...(world.history.taxPolicies ?? []),
-    ...(world.history.taxCollections ?? []),
-  ].find((candidate) => candidate.id === id);
-  return record?.sequence ?? pressRecordSequence(world, id);
+  return (
+    sourceIndexes(world).sequenceById.get(id) ?? pressRecordSequence(world, id)
+  );
 }
+
+/**
+ * The lookups a publication's source resolves through, rebuilt only when
+ * one of those families changes. Every public event and every publication asked them, and each
+ * answer scanned its family from the first record, so checking a long save
+ * cost events times records. Each map keeps the first match, as `.find` did.
+ */
+function sourceIndexes(world: World) {
+  const history = world.history;
+  return indexOverArrays(
+    PUBLICATION_SOURCE_ANCHOR,
+    [
+      history.pressRecords,
+      history.legislativeMeasures,
+      history.legislativeActions,
+      history.legislativeVotes,
+      history.taxPolicies,
+      history.taxCollections,
+    ],
+    () => {
+      const first = <K, V>(rows: readonly V[], key: (row: V) => K | null) => {
+        const index = new Map<K, V>();
+        for (const row of rows) {
+          const k = key(row);
+          if (k !== null && !index.has(k)) index.set(k, row);
+        }
+        return index;
+      };
+      const sequenceById = new Map<EntityId, number>();
+      for (const rows of [
+        history.legislativeMeasures ?? [],
+        history.legislativeActions ?? [],
+        history.legislativeVotes ?? [],
+        history.taxPolicies ?? [],
+        history.taxCollections ?? [],
+      ] as readonly (readonly { id: EntityId; sequence: number }[])[])
+        for (const row of rows)
+          if (!sequenceById.has(row.id)) sequenceById.set(row.id, row.sequence);
+      return {
+        pressById: first(history.pressRecords ?? [], (row): string => row.id),
+        actionByEventId: first(
+          history.legislativeActions ?? [],
+          (row) => row.eventId,
+        ),
+        measureById: first(history.legislativeMeasures ?? [], (row) => row.id),
+        voteById: first(history.legislativeVotes ?? [], (row) => row.id),
+        taxPolicyByEventId: first(
+          history.taxPolicies ?? [],
+          (row) => row.outcomeEventId,
+        ),
+        collectedTaxByEventId: first(history.taxCollections ?? [], (row) =>
+          row.status === "collected" ? row.outcomeEventId : null,
+        ),
+        sequenceById,
+      };
+    },
+  );
+}
+
+/** Anchors the index above; its identity is all that matters. */
+const PUBLICATION_SOURCE_ANCHOR = {};
 
 function canonicalIds(ids: readonly EntityId[]): readonly EntityId[] {
   return [...new Set(ids)].sort((left, right) => left.localeCompare(right));

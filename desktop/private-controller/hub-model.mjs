@@ -421,7 +421,9 @@ export function updateStatus({
   // A recorded terminal failure outranks a worker that is still winding down:
   // an offline or refused check must not keep reading "Checking for updates…".
   const settledFailure =
-    check && ["offline", "failed", "unsupported"].includes(check.outcome);
+    check &&
+    ["offline", "failed", "unsupported"].includes(check.outcome) &&
+    !(Date.parse(phase?.checkStartedAt) > Date.parse(check.at));
   // A worker that already reported its outcome is finishing, not building.
   if (
     building &&
