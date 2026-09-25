@@ -306,11 +306,20 @@ export function buildAdultLifeContext(
       .map((entry) => entry.relationship.organizationId)
       .filter((id): id is EntityId => id !== null),
   );
+  // A shared employer can only come from a recorded relationship with that
+  // employer. Restrict the expensive active-work query to those people; the
+  // old scan queried every resident, even when this person had no employer.
+  const potentialColleagues = new Set(
+    world.history.workRelationships
+      .filter((relationship) => employerIds.has(relationship.organizationId))
+      .map((relationship) => relationship.personId),
+  );
   const colleagueIds = [
     ...new Set(
       world.personOrder.filter(
         (candidate) =>
           candidate !== personId &&
+          potentialColleagues.has(candidate) &&
           activeWorkRelationshipsAt(world, candidate, lifeCutoff).some(
             (entry) => employerIds.has(entry.relationship.organizationId),
           ),
@@ -326,11 +335,19 @@ export function buildAdultLifeContext(
   const participationOrganizationIds = new Set(
     participations.map((entry) => entry.participation.organizationId),
   );
+  const potentialCommunityMembers = new Set(
+    world.history.organizationParticipations
+      .filter((participation) =>
+        participationOrganizationIds.has(participation.organizationId),
+      )
+      .map((participation) => participation.personId),
+  );
   const communityMemberIds = [
     ...new Set(
       world.personOrder.filter(
         (candidate) =>
           candidate !== personId &&
+          potentialCommunityMembers.has(candidate) &&
           activeOrganizationParticipationsAt(world, candidate, lifeCutoff).some(
             (entry) =>
               participationOrganizationIds.has(

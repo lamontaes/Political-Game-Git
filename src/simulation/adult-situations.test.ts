@@ -49,6 +49,14 @@ function contextWithEverything(): AdultLifeContext {
 }
 
 describe("withholding is first-class, not deletion", () => {
+  it("still recognizes people who currently share recorded work", () => {
+    const world = createDemoWorld();
+    const first = world.personOrder[0]!;
+    const second = world.personOrder[1]!;
+    expect(buildAdultLifeContext(world, first).colleagueIds).toContain(second);
+    expect(buildAdultLifeContext(world, second).colleagueIds).toContain(first);
+  });
+
   it("keeps every withheld situation authored, with its own reason", () => {
     for (const key of WITHHELD_KEYS) {
       const situation = adultSituationBank().find(
