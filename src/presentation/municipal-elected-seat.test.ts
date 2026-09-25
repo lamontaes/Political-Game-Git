@@ -11,6 +11,7 @@ import {
   serializeWorld,
 } from "../simulation";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
+import { MUNICIPAL_COUNCIL_OPENING_VERSION } from "../simulation/municipal-council-opening";
 import { resolveCampaignElectionFromRecordedInput } from "../simulation/campaigns";
 import { ELECTION_CONTEST_TRANSITION_KEY } from "../simulation/election-contests";
 import { createFutureTransitionHandlerRegistry } from "../simulation/future-transitions";
@@ -95,6 +96,20 @@ describe("an elected municipal council member", () => {
       const openingSeatCount = municipalSeats(opening, government.key).filter(
         (seat) => seat.role === "member" || seat.role === "presiding-member",
       ).length;
+      const openingEvent = opening.history.events.find(
+        (event) =>
+          event.stableKey ===
+          `${MUNICIPAL_COUNCIL_OPENING_VERSION}:${government.key}`,
+      );
+      const openingMemberIds = new Set(
+        municipalSeats(opening, government.key)
+          .filter(
+            (seat) =>
+              (seat.role === "member" || seat.role === "presiding-member") &&
+              openingEvent?.involvedEntityIds.includes(seat.personId),
+          )
+          .map((seat) => seat.personId),
+      );
       const filed = fileForOffice(
         opening,
         personId,
@@ -117,11 +132,10 @@ describe("an elected municipal council member", () => {
         (seat) => seat.personId === personId,
       );
       expect(mine).toHaveLength(1);
-      expect(
-        municipalSeats(reopened, government.key).filter(
-          (seat) => seat.role === "member" || seat.role === "presiding-member",
-        ),
-      ).toHaveLength(openingSeatCount);
+      const currentMembers = municipalSeats(reopened, government.key).filter(
+        (seat) => seat.role === "member" || seat.role === "presiding-member",
+      );
+      expect(currentMembers).toHaveLength(openingSeatCount);
       if (target) {
         expect(mine[0]?.seatLabel).toBe(target.label);
         expect(
@@ -129,6 +143,14 @@ describe("an elected municipal council member", () => {
             (seat) => seat.personId === beforeTarget?.personId,
           ),
         ).toBe(false);
+      } else {
+        // At-large victory replaces an actual opening member. Capacity stays
+        // full, and no unrecorded vacancy is created to make room.
+        const remainingOpeningMembers = currentMembers.filter((seat) =>
+          openingMemberIds.has(seat.personId),
+        );
+        expect([...openingMemberIds]).toHaveLength(openingSeatCount);
+        expect(remainingOpeningMembers).toHaveLength(openingSeatCount - 1);
       }
     },
     900_000,
