@@ -19,6 +19,11 @@ import {
   type QuestionnaireRegister,
   type SetupAgencyKey,
 } from "./setup-questionnaire-bank";
+import {
+  CURATED_QUESTION_ITEMS,
+  CURATED_PRIMARY_ITEMS,
+  CURATED_FOLLOW_UP_ITEMS,
+} from "./setup-curated-question-bank";
 import { sha256Hex } from "./sha256";
 import { lifeVoiceBandForAge, type LifeVoiceBand } from "./voice-bands";
 import type { SetupAnswerRecord, SetupPriorStore } from "./types";
@@ -30,7 +35,8 @@ import type { SetupAnswerRecord, SetupPriorStore } from "./types";
  * closure and reproduced by the calibration research, and this is an
  * implementation of them rather than a redesign:
  *
- * - three fixed openers, in a fixed order, on every path;
+ * - older saves keep their three fixed openers; new starts choose from a
+ *   curated opening pool and branch when a recorded answer warrants it;
  * - after that, the item that would tell the game the most about what it knows
  *   least, penalised for repeating the previous item's subject;
  * - ties broken by a SHA-256 over the world seed, the person, the bank, the
@@ -52,14 +58,18 @@ import type { SetupAnswerRecord, SetupPriorStore } from "./types";
 
 export type QuestionnaireDepth = "skipped" | "short" | "deep";
 
+/** Missing means the original fixed-opener route, including in old saves. */
+export type QuestionnaireSelectionVersion = "curated-v1";
+
 /** The quick path. Long enough to be worth something, short enough to take. */
 export const SHORT_PATH_LENGTH = 5;
 
 /**
  * What the deep path is aiming at.
  *
- * The product target is thirty to fifty items. These are the bounds a run may
- * fall between; they are NOT its length. The deep path stops when it stops
+ * The original product target was thirty to fifty encountered items. Legacy
+ * saves retain that ceiling. The current route draws ten to twelve from the
+ * broader bank. The deep path stops when it stops
  * learning — see `INFORMATION_GAIN_FLOOR` — so two runs of it are different
  * lengths, which is the point. `setupContentShortfall()` still reports the
  * authored supply against the target so a thin bank shows up as a content gap
@@ -109,13 +119,18 @@ export const INFORMATION_GAIN_FLOOR = 0.9;
 export const SUFFICIENT_DIMENSION_WEIGHT = 1.2;
 
 /**
- * How many the deep path asks before the floor is allowed to end it.
+ * How many the original deep path asks before the floor is allowed to end it.
  *
  * Without a floor of its own, a decisive opening — three answers that all load
  * the same way — could satisfy the coverage terms early and end the
  * calibration in five questions, which reads as the game losing interest.
  */
 export const DEEP_PATH_MINIMUM = 12;
+
+/** The current player survey draws a short route from the larger authored bank. */
+export const CURATED_DEEP_PATH_MINIMUM = 10;
+export const CURATED_DEEP_PATH_MAXIMUM = 12;
+export const CURATED_LIVED_BEFORE_WIDENING = 3;
 
 /**
  * When the civic and policy registers open.
@@ -241,21 +256,18 @@ export function setupAgency(
  *
  * The two are reconciled by being honest about the addressee, which the screen
  * now says in as many words: these are put to the player, not to the character.
- * So:
- *
- *   - The three fixed OPENERS stay gated. They set the register a calibration
- *     starts in, each band has its own, and opening a ten-year-old's game on a
- *     grant application is the disconnection the first playtest reported.
- *   - Everything after them is open. The respondent is a person with views,
- *     not a character with standing, and withholding a question about a
- *     colleague's expenses from them because their character is ten was
- *     measuring the wrong thing in the other direction.
+ * Older saves retain that rule. The current route admits questions suited to
+ * the requested starting age, plus public-role questions that explicitly say
+ * they are hypothetical and address the human player. This keeps an adult job
+ * premise from being silently presented as a five-year-old's own history.
  */
 export function itemAdmissible(
   item: QuestionnaireItem,
   context: SetupLifeContext,
+  selectionVersion?: QuestionnaireSelectionVersion,
 ): boolean {
-  if (item.fixedOrdinal === null) return true;
+  if (selectionVersion !== "curated-v1" && item.fixedOrdinal === null)
+    return true;
   if (!item.eligibility.bands.includes(context.band)) return false;
   const agency = setupAgency(context);
   return item.eligibility.agency.every((key) => agency.has(key));
@@ -264,11 +276,16 @@ export function itemAdmissible(
 /** Everything this character could be asked, in bank order. */
 export function admissibleQuestionnaireBank(
   context: SetupLifeContext,
+  selectionVersion?: QuestionnaireSelectionVersion,
 ): readonly QuestionnaireItem[] {
-  return SETUP_QUESTIONNAIRE_BANK.filter(
+  const bank =
+    selectionVersion === "curated-v1"
+      ? [...SETUP_QUESTIONNAIRE_BANK, ...CURATED_PRIMARY_ITEMS]
+      : SETUP_QUESTIONNAIRE_BANK;
+  return bank.filter(
     (item) =>
       item.review.verdict === "non-transparent" &&
-      itemAdmissible(item, context),
+      itemAdmissible(item, context, selectionVersion),
   );
 }
 
@@ -305,6 +322,7 @@ export function questionnaireItem(key: string): QuestionnaireItem | null {
   }
   return (
     SETUP_QUESTIONNAIRE_BANK.find((item) => item.key === key) ??
+    CURATED_QUESTION_ITEMS.find((item) => item.key === key) ??
     ALL_AUTHORED_SETUP_ITEMS.find((item) => item.key === key) ??
     null
   );
@@ -328,10 +346,13 @@ export function questionnaireOption(
 export function questionnaireLength(
   depth: QuestionnaireDepth,
   context: SetupLifeContext = DEFAULT_SETUP_LIFE_CONTEXT,
+  selectionVersion?: QuestionnaireSelectionVersion,
 ): number {
   if (depth === "skipped") return 0;
-  const supply = admissibleQuestionnaireBank(context).length;
+  const supply = admissibleQuestionnaireBank(context, selectionVersion).length;
   if (depth === "short") return Math.min(SHORT_PATH_LENGTH, supply);
+  if (selectionVersion === "curated-v1")
+    return Math.min(CURATED_DEEP_PATH_MAXIMUM, supply);
   return Math.min(DEEP_PATH_TARGET_MAXIMUM, supply);
 }
 
@@ -348,11 +369,20 @@ export type QuestionnairePhase = "opening" | "widening" | "closing";
 export function questionnairePhase(
   depth: QuestionnaireDepth,
   answered: number,
+  selectionVersion?: QuestionnaireSelectionVersion,
 ): QuestionnairePhase {
   if (depth === "short") {
     return answered < Math.ceil(SHORT_PATH_LENGTH / 2) ? "opening" : "closing";
   }
-  if (answered < LIVED_REGISTERS_BEFORE_WIDENING) return "opening";
+  if (
+    answered <
+    (selectionVersion === "curated-v1"
+      ? CURATED_LIVED_BEFORE_WIDENING
+      : LIVED_REGISTERS_BEFORE_WIDENING)
+  )
+    return "opening";
+  if (selectionVersion === "curated-v1")
+    return answered < CURATED_DEEP_PATH_MINIMUM ? "widening" : "closing";
   if (answered < DEEP_PATH_MINIMUM) return "widening";
   return "closing";
 }
@@ -503,6 +533,8 @@ export interface QuestionnaireSelectionInput {
   /** Stable identity for the character being calibrated. */
   readonly personKey: string;
   readonly depth: QuestionnaireDepth;
+  /** New starts opt in; absent keeps the question order of earlier saves. */
+  readonly selectionVersion?: QuestionnaireSelectionVersion;
   /** Answers already given, in the order they were given. */
   readonly answers: readonly SetupAnswerRecord[];
   /**
@@ -556,7 +588,11 @@ export interface QuestionnaireStep {
    * with extra steps.
    */
   readonly reason:
-    "fixed-opener" | "coverage-need" | "disambiguation" | "remaining-supply";
+    | "fixed-opener"
+    | "curated-opening"
+    | "coverage-need"
+    | "disambiguation"
+    | "remaining-supply";
   readonly candidates: readonly QuestionnaireCandidateScore[];
 }
 
@@ -597,7 +633,11 @@ export function nextQuestionnaireStep(
   input: QuestionnaireSelectionInput,
 ): QuestionnaireStep | null {
   const life = input.life ?? DEFAULT_SETUP_LIFE_CONTEXT;
-  const totalPlanned = questionnaireLength(input.depth, life);
+  const totalPlanned = questionnaireLength(
+    input.depth,
+    life,
+    input.selectionVersion,
+  );
   const ordinal = input.answers.length + 1;
   if (ordinal > totalPlanned) return null;
 
@@ -610,10 +650,38 @@ export function nextQuestionnaireStep(
       return [original, `${original}.text39-v1`, `${original}.playtest65-v2`];
     }),
   );
-  const phase = questionnairePhase(input.depth, input.answers.length);
+  const phase = questionnairePhase(
+    input.depth,
+    input.answers.length,
+    input.selectionVersion,
+  );
+  const previous = input.answers.at(-1);
+  const followUp =
+    input.selectionVersion === "curated-v1"
+      ? CURATED_FOLLOW_UP_ITEMS.find(
+          (item) =>
+            item.followUpTo?.questionKey === previous?.questionKey &&
+            item.followUpTo?.choiceId === previous?.choiceId &&
+            !asked.has(item.key),
+        )
+      : undefined;
+  if (followUp) {
+    return {
+      ordinal,
+      item: followUp,
+      totalPlanned,
+      phase,
+      reason: "disambiguation",
+      candidates: [],
+    };
+  }
   const openingKeys = FIXED_OPENING_KEYS_BY_BAND[life.band];
   const fixedKey = openingKeys[ordinal - 1];
-  if (ordinal <= openingKeys.length && fixedKey !== undefined) {
+  if (
+    input.selectionVersion !== "curated-v1" &&
+    ordinal <= openingKeys.length &&
+    fixedKey !== undefined
+  ) {
     const item = questionnaireItem(fixedKey);
     if (item && !asked.has(fixedKey)) {
       return {
@@ -646,12 +714,15 @@ export function nextQuestionnaireStep(
     const item = questionnaireItem(answer.questionKey);
     return item !== null && LIVED_REGISTERS.has(item.register);
   }).length;
-  const admissible = admissibleQuestionnaireBank(life);
+  const admissible = admissibleQuestionnaireBank(life, input.selectionVersion);
   const livedRemaining = admissible.some(
     (item) => !asked.has(item.key) && LIVED_REGISTERS.has(item.register),
   );
   const stillOpening =
-    livedAsked < LIVED_REGISTERS_BEFORE_WIDENING && livedRemaining;
+    livedAsked <
+      (input.selectionVersion === "curated-v1"
+        ? CURATED_LIVED_BEFORE_WIDENING
+        : LIVED_REGISTERS_BEFORE_WIDENING) && livedRemaining;
 
   const candidates: QuestionnaireCandidateScore[] = [];
   for (const item of admissible) {
@@ -714,7 +785,11 @@ export function nextQuestionnaireStep(
   // tell the model much — which is what makes two deep runs different lengths,
   // and what stops the game asking a twenty-fourth question it already knows
   // the answer to. The short path is short by contract and does not consult it.
-  if (input.depth === "deep" && input.answers.length >= DEEP_PATH_MINIMUM) {
+  const minimum =
+    input.selectionVersion === "curated-v1"
+      ? CURATED_DEEP_PATH_MINIMUM
+      : DEEP_PATH_MINIMUM;
+  if (input.depth === "deep" && input.answers.length >= minimum) {
     const bestValue = candidates.reduce(
       (highest, candidate) =>
         Math.max(highest, candidate.components.informationValue),
@@ -723,7 +798,15 @@ export function nextQuestionnaireStep(
     if (bestValue < INFORMATION_GAIN_FLOOR) return null;
   }
 
-  const best = pickBest(candidates, (candidate) => candidate.components.total);
+  // A fresh calibration can begin in several ways. The first question is
+  // selected reproducibly from the strongest lived candidates, without a
+  // mandatory first/second/third script. Later questions use the adaptive rank.
+  const best =
+    input.selectionVersion === "curated-v1" && ordinal === 1
+      ? pickOpeningCandidate(candidates)
+      : input.selectionVersion === "curated-v1" && ordinal === 4
+        ? pickCivicCandidate(candidates)
+        : pickBest(candidates, (candidate) => candidate.components.total);
   // Whether the disambiguation term is what decided it, asked by removing the
   // term and seeing whether the winner changes. A magnitude comparison would
   // answer a different and less useful question: coverage need is numerically
@@ -735,11 +818,13 @@ export function nextQuestionnaireStep(
       candidate.components.total - candidate.components.disambiguation,
   );
   const reason: QuestionnaireStep["reason"] =
-    withoutDisambiguation.item.key !== best.item.key
-      ? "disambiguation"
-      : best.components.coverage > 0
-        ? "coverage-need"
-        : "remaining-supply";
+    input.selectionVersion === "curated-v1" && ordinal === 1
+      ? "curated-opening"
+      : withoutDisambiguation.item.key !== best.item.key
+        ? "disambiguation"
+        : best.components.coverage > 0
+          ? "coverage-need"
+          : "remaining-supply";
 
   return {
     ordinal,
@@ -817,9 +902,10 @@ export function questionnaireOutcome(
   const uncovered = PLAYER_MODEL_DIMENSIONS.filter(
     (dimension) => dimensionWeight(model, dimension) === 0,
   );
-  const remaining = SETUP_QUESTIONNAIRE_BANK.filter(
-    (item) => !asked.has(item.key),
-  );
+  const remaining = admissibleQuestionnaireBank(
+    input.life ?? DEFAULT_SETUP_LIFE_CONTEXT,
+    input.selectionVersion,
+  ).filter((item) => !asked.has(item.key));
   const bestRemainingValue = remaining.reduce((highest, item) => {
     const disambiguation =
       DISAMBIGUATION_WEIGHT *
@@ -838,7 +924,12 @@ export function questionnaireOutcome(
       ? "supply-exhausted"
       : input.depth === "short"
         ? "path-complete"
-        : input.answers.length >= questionnaireLength(input.depth)
+        : input.answers.length >=
+            questionnaireLength(
+              input.depth,
+              input.life ?? DEFAULT_SETUP_LIFE_CONTEXT,
+              input.selectionVersion,
+            )
           ? "ceiling-reached"
           : "information-gain-floor";
 
@@ -866,6 +957,48 @@ function pickBest(
       ? candidate
       : leader;
   });
+}
+
+function pickOpeningCandidate(
+  candidates: readonly QuestionnaireCandidateScore[],
+): QuestionnaireCandidateScore {
+  const lived = candidates.filter(
+    (candidate) =>
+      candidate.item.review.verdict === "non-transparent" &&
+      LIVED_REGISTERS.has(candidate.item.register),
+  );
+  return lived.length > 0
+    ? pickOpeningCandidateFrom(lived)
+    : pickBest(candidates, (candidate) => candidate.components.total);
+}
+
+function pickCivicCandidate(
+  candidates: readonly QuestionnaireCandidateScore[],
+): QuestionnaireCandidateScore {
+  const civic = candidates.filter(
+    (candidate) =>
+      candidate.item.review.verdict === "non-transparent" &&
+      (candidate.item.register === "civic-lived" ||
+        candidate.item.register === "policy-lived"),
+  );
+  return civic.length > 0
+    ? pickOpeningCandidateFrom(civic)
+    : pickBest(candidates, (candidate) => candidate.components.total);
+}
+
+function pickOpeningCandidateFrom(
+  candidates: readonly QuestionnaireCandidateScore[],
+): QuestionnaireCandidateScore {
+  const finalists = [...candidates]
+    .sort(
+      (a, b) =>
+        b.components.total - a.components.total ||
+        a.tieBreakDigest.localeCompare(b.tieBreakDigest),
+    )
+    .slice(0, 5);
+  return finalists.reduce((first, candidate) =>
+    candidate.tieBreakDigest < first.tieBreakDigest ? candidate : first,
+  );
 }
 
 /**
@@ -910,7 +1043,11 @@ export function projectQuestionnaireSequence(
 ): readonly string[] {
   const sequence: string[] = [];
   const answers: SetupAnswerRecord[] = [];
-  const total = questionnaireLength(input.depth);
+  const total = questionnaireLength(
+    input.depth,
+    input.life ?? DEFAULT_SETUP_LIFE_CONTEXT,
+    input.selectionVersion,
+  );
   for (let ordinal = 1; ordinal <= total; ordinal += 1) {
     const step = nextQuestionnaireStep({ ...input, answers });
     if (!step) break;

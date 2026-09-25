@@ -22,6 +22,7 @@ import { lawEffectSentences } from "./law-effects-prose";
 import type {
   EntityId,
   LegislativeActionKind,
+  LegislativeMemberDisposition,
   LegislativeVoteRecord,
   World,
 } from "../simulation/types";
@@ -65,6 +66,11 @@ export interface MeasureVoteSummary {
   readonly outOf: number;
   readonly rule: string;
   readonly result: string;
+  /**
+   * How the controlled person is recorded on this roll call, in words, when
+   * they are a named member of it; null when the roll does not name them.
+   */
+  readonly yours: string | null;
 }
 
 export interface MeasureBriefing {
@@ -278,6 +284,26 @@ function forumLabel(world: World, vote: LegislativeVoteRecord): string {
     return committeeByKey(chamber, vote.forum.committeeKey).name;
   }
   return chamber.name;
+}
+
+const YOUR_DISPOSITION: Readonly<Record<LegislativeMemberDisposition, string>> =
+  {
+    yea: "You voted Yes.",
+    nay: "You voted No.",
+    "present-not-voting": "You were present and did not vote.",
+    absent: "You were recorded absent.",
+    excused: "You were excused.",
+  };
+
+/** The controlled person's own line on a roll call, read from the roll. */
+function yourDisposition(
+  world: World,
+  vote: LegislativeVoteRecord,
+): string | null {
+  if (world.control.kind !== "person") return null;
+  const personId = world.control.personId;
+  const own = vote.dispositions.find((row) => row.personId === personId);
+  return own ? YOUR_DISPOSITION[own.disposition] : null;
 }
 
 function questionLabel(vote: LegislativeVoteRecord): string {
@@ -504,6 +530,7 @@ export function projectMeasureBriefing(
     outOf: vote.denominatorValue,
     rule: vote.thresholdLabel,
     result: vote.outcome === "passed" ? "Carried" : "Failed",
+    yours: yourDisposition(world, vote),
   }));
 
   let outcomeNote: string | null = null;

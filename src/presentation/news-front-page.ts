@@ -6,7 +6,7 @@ import { projectPublicInformationPanel } from "./public-information-adapters";
  * News as a reading experience (OCD-UI-005, UI DECISION FOLLOW-THROUGH).
  *
  * Two front pages over the same saved publications: a mixed front page that
- * leads with national stories, and one publication's own front page. Every
+ * leads with the latest stories, and one publication's own front page. Every
  * headline, date, place and name is the saved record's; nothing is added to
  * fill a column, and an empty paper says so. Choosing a front page or an
  * outlet is a reading preference and never touches the World.
@@ -96,15 +96,11 @@ export function projectNewsFrontPage(
         mastheads[0] ??
         null)
       : null;
-  const selected =
+  const selected = (
     mode === "publication"
-      ? stories
-          .filter((story) => story.outletKey === outlet?.outletKey)
-          .sort(byRecency)
-      : [
-          ...stories.filter((story) => story.national).sort(byRecency),
-          ...stories.filter((story) => !story.national).sort(byRecency),
-        ];
+      ? stories.filter((story) => story.outletKey === outlet?.outletKey)
+      : stories
+  ).sort(byRecency);
   const [lead = null, ...rest] = selected;
   return {
     mode,

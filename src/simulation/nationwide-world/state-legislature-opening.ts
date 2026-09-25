@@ -30,6 +30,7 @@ import { recordWorldEvent } from "../world";
 import {
   createOrganizationParticipations,
   createWorkRelationships,
+  recordWorkStatus,
 } from "../life";
 import type {
   CreateOrganizationParticipationInput,
@@ -878,4 +879,48 @@ export function campaignSeatHolders(
     });
   }
   return holders;
+}
+
+/**
+ * Ends the generated member (the opening's, or one a regular election seated)
+ * in the seat a campaign's winner takes, on the day the winner's term begins,
+ * so the seat has one holder from its first day. The seat is the one
+ * `campaignSeatHolders` places the winner in. Nothing changes where the
+ * chamber was never seated or the winner's record names no district seat.
+ * The regular election's own term start ends the same member when it runs
+ * first; each records the end only while the member still serves.
+ */
+export function endOpeningMemberForWinner(
+  world: World,
+  input: {
+    readonly candidacyPackId: string;
+    readonly winnerWorkRelationshipId: EntityId;
+    readonly effectiveAt: IsoDate;
+    readonly outcomeEventId: EntityId;
+  },
+): World {
+  if (!stateLegislatureEstablished(world, input.candidacyPackId)) return world;
+  const holder = campaignSeatHolders(world, input.candidacyPackId).find(
+    (candidate) =>
+      candidate.workRelationshipId === input.winnerWorkRelationshipId,
+  );
+  if (!holder) return world;
+  const tenureKey = `${STATE_LEGISLATURE_KEYS.seat(holder.officeKey, holder.ordinal)}:tenure`;
+  const work = world.history.workRelationships.find(
+    (candidate) =>
+      (candidate.stableKey === tenureKey ||
+        candidate.stableKey.startsWith(`${tenureKey}:`)) &&
+      workStatusAt(world, candidate.id)?.status === "active",
+  );
+  const status = work && workStatusAt(world, work.id);
+  if (!work || status?.status !== "active") return world;
+  return recordWorkStatus(world, {
+    stableKey: `${V}:replaced-by:${input.winnerWorkRelationshipId}`,
+    workRelationshipId: work.id,
+    effectiveAt: input.effectiveAt,
+    status: "ended",
+    reason: "The winner of this district's election took the seat.",
+    provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
+    supersedesStatusId: status.id,
+  });
 }

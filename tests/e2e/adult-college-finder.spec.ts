@@ -9,7 +9,7 @@ import { startLife, enterLife, goTo } from "./support/creator";
  * A playtest there read the Study tab as offering only the game's own college:
  * the real-college finder was on the page, but a long scroll below six program
  * cards. The finder now comes first, the page carries no provenance wording,
- * and a real college can be applied to — once.
+ * and a real college can be applied to — once — and answers after a wait.
  */
 test("a nineteen-year-old in Peoria finds and applies to a real college from the Study tab", async ({
   page,
@@ -55,12 +55,13 @@ test("a nineteen-year-old in Peoria finds and applies to a real college from the
   });
   await expect(apply).toBeEnabled();
   await apply.click();
-  await expect(
-    finder.getByRole("heading", { name: "Review your offer of a place" }),
-  ).toBeVisible();
+  // The college answers after a wait, not on the spot.
+  await expect(finder.getByTestId("study-application-waiting")).toContainText(
+    "You applied to Bradley University",
+  );
   // A second application for the same degree is not offered.
   await expect(apply).toBeDisabled();
   await expect(finder).toContainText(
-    "You already have an offer for this program.",
+    "You already applied to Bradley University.",
   );
 });

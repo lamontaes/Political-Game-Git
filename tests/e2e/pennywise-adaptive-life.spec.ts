@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "./fixtures";
 
 import {
+  advanceQuietStory,
   beginAfterCalibration,
   chooseCreatorLocation,
   completeCharacterStep,
@@ -12,6 +13,7 @@ import {
   openCreator,
   openElsewhere,
   openMoment,
+  passShellTime,
   startLife as walkCreator,
 } from "./support/creator";
 
@@ -143,7 +145,8 @@ async function takeOneBeat(page: Page, index = 0): Promise<string> {
       : "";
   const options = page.getByTestId("story-options").getByRole("button");
   const count = await options.count();
-  await options.nth(Math.min(index, count - 1)).click();
+  if (count > 0) await options.nth(Math.min(index, count - 1)).click();
+  else await advanceQuietStory(page);
   return prose;
 }
 
@@ -394,7 +397,7 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
 
     for (let beat = 0; beat < 4; beat += 1) await takeOneBeat(page, 0);
     const beforeJournal = await readJournal(page);
-    const beforeScene = await page.getByTestId("story-prose").innerText();
+    const beforeScene = await page.getByTestId("story-section").innerText();
 
     await keepAndWait(page);
     await page.reload();
@@ -408,10 +411,26 @@ test.describe("A life is kept, and comes back adapting the same way", () => {
     // matters, because the next situation is chosen from the calibration and
     // the history together.
     expect(await readJournal(page)).toBe(beforeJournal);
-    expect(await page.getByTestId("story-prose").innerText()).toBe(beforeScene);
+    expect(await page.getByTestId("story-section").innerText()).toBe(
+      beforeScene,
+    );
 
-    // And it keeps going from there rather than restarting.
-    await takeOneBeat(page, 0);
+    // And it keeps going from there rather than restarting. A quiet section
+    // may need weeks of ordinary time before there is another decision to
+    // record in the journal.
+    let answered = false;
+    for (let week = 0; week < 26; week += 1) {
+      const choices = page.getByTestId("story-options").getByRole("button");
+      const count = await choices.count();
+      if ((await page.getByTestId("story-prose").count()) > 0 && count > 0) {
+        await takeOneBeat(page, 0);
+        answered = true;
+        break;
+      }
+      if (count > 0) await choices.first().click();
+      else await passShellTime(page, "week");
+    }
+    expect(answered).toBe(true);
     const afterJournal = await readJournal(page);
     expect(afterJournal).not.toBe(beforeJournal);
   });

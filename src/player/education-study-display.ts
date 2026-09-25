@@ -35,6 +35,15 @@ export function studyEnrollmentProgressLabel(
   path: LifePathDefinition,
 ): string {
   const status = educationEnrollmentStateAt(world, enrollmentId)?.status;
+  // A place accepted ahead of its first term: nothing is in progress yet.
+  if (status === "expected") {
+    const startsAt = world.history.educationEnrollments.find(
+      (e) => e.id === enrollmentId,
+    )?.startedAt;
+    return startsAt
+      ? `Classes start ${proseDate(startsAt)}.`
+      : "Classes have not started.";
+  }
   const progress = studyProgressSummary(world, enrollmentId, path);
   if (progress.model === "periods") {
     const label =

@@ -383,8 +383,16 @@ describe("Standing decides what a life is offered", () => {
 
 describe("The five-question path is one life at the stage it is opening", () => {
   /** The screens a setup actually puts on the glass, in order. */
+  // These pin the fixed-opener route that lives started before the curated
+  // questionnaire keep: a setup without `questionnaireSelectionVersion`. New
+  // starts use "curated-v1", which setup-questionnaire-curated.test.ts covers.
   function shortScreens(startAge: number) {
-    let current = setup({ startAge, questionnaire: "short", priors: [] });
+    let current = setup({
+      startAge,
+      questionnaire: "short",
+      priors: [],
+      questionnaireSelectionVersion: undefined,
+    });
     const screens: NonNullable<ReturnType<typeof questionnaireScreenFor>>[] =
       [];
     for (let asked = 0; asked < 10; asked += 1) {

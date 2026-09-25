@@ -1,4 +1,8 @@
-import { advanceApplications, settleJobPay } from "../simulation/job-market";
+import {
+  advanceApplications,
+  settleHouseholdAdultJobPay,
+  settleJobPay,
+} from "../simulation/job-market";
 import { settleCareerOffers } from "../simulation/career-path7";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
@@ -393,7 +397,11 @@ function passOrdinaryDaysUnchecked(
   return refreshContextualScenes(
     releaseMissedHolds(
       settleCareerOffers(
-        settleJobPay(advanceApplications(advanced, personId), personId),
+        settleHouseholdAdultJobPay(
+          settleJobPay(advanceApplications(advanced, personId), personId),
+          personId,
+          world.currentDate,
+        ),
         personId,
       ),
       personId,

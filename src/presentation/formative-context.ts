@@ -7,6 +7,7 @@ import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
   drawCanonicalNameForGender,
+  householdMembershipsAt,
 } from "../simulation";
 import type {
   CharacterHistoryTransition,
@@ -312,6 +313,20 @@ export function formativeEligibilityProvider(
       }
       const age = ageOnDate(person.birthDate, request.asOfDate as IsoDate);
 
+      // The household record establishes who lives together. It does not
+      // establish that anyone is ill, that a child knows about an illness, or
+      // that care is needed. These situations must wait for a recorded cause
+      // and an identified person before they can be offered in ordinary play.
+      if (
+        situationKey === "formative.illness-in-the-house" ||
+        situationKey === "formative.caring-for-someone"
+      ) {
+        return blocked(
+          "context:missing-incident",
+          "No identified household member and recorded care or illness need support this situation.",
+        );
+      }
+
       if (situationKey === "formative.teen-work-opportunity") {
         if (age < 14) {
           return blocked(
@@ -346,9 +361,7 @@ export function formativeEligibilityProvider(
       }
 
       if (HOUSEHOLD_SITUATIONS.includes(situationKey)) {
-        const inHousehold = world.history.householdMemberships.some(
-          (membership) => membership.personId === person.id,
-        );
+        const inHousehold = householdMembershipsAt(world, person.id).length > 0;
         if (!inHousehold) {
           return blocked(
             "context:no-household",
@@ -388,6 +401,12 @@ export function formativeEligibilityProvider(
         }
       }
 
+      // These catalog scenes describe a specific change, request or conflict.
+      // Age, a household or an enrollment alone does not establish one.
+      const missingPremise = UNRECORDED_FORMATIVE_PREMISES[situationKey];
+      if (missingPremise)
+        return blocked("context:unrecorded-premise", missingPremise);
+
       // "Join the activity" and "Leave the activity" about an activity nobody
       // names, offered together to somebody who belongs to nothing (Ketchikan,
       // 2026-09-23). Nothing records a school club or team for a teenager, so
@@ -416,6 +435,18 @@ export function formativeEligibilityProvider(
 
 /** PLACEHOLDER, pacing only: how long a baby is still "a new child". */
 const NEW_CHILD_YEARS = 2;
+
+const UNRECORDED_FORMATIVE_PREMISES: Partial<Record<LifeSituationKey, string>> =
+  {
+    "formative.illness-in-the-house":
+      "A household record does not establish an illness or who knows about it.",
+    "formative.money-shortfall":
+      "No canceled household plan or explanation is recorded for this child.",
+    "formative.school-rule-input":
+      "Enrollment does not establish a proposed school rule or request for input.",
+    "formative.care-conflict":
+      "No overlapping care need and activity commitment is recorded.",
+  };
 
 const SCHOOL_SITUATIONS: readonly LifeSituationKey[] = [
   "formative.school-entry",

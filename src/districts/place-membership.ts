@@ -27,6 +27,7 @@ interface GeneratedMembership {
   readonly splitPlaceCount: number;
   readonly wholePlaceByKey: Readonly<Record<string, string>>;
   readonly splitPlaceChambers: Readonly<Record<string, readonly string[]>>;
+  readonly splitDistrictsByKey: Readonly<Record<string, readonly string[]>>;
   readonly congressional: {
     readonly relationVintage: string;
     readonly asOf: string;
@@ -77,9 +78,9 @@ export type PlaceDistrictJoin =
   | {
       readonly kind: "split";
       /**
-       * The districts the relationship file says the place intersects, for a
-       * congressional split. Absent for the state chambers, whose runtime
-       * catalog does not carry them; never the whole state's districts.
+       * The districts the relationship file says the place intersects, sorted;
+       * never the whole state's districts. Empty when a state chamber's
+       * catalog carries no list for the place.
        */
       readonly candidateDistrictGeoids?: readonly string[];
     }
@@ -108,6 +109,11 @@ export function placeDistrictJoin(
   const districtGeoid = catalog.wholePlaceByKey[key];
   if (districtGeoid) return { kind: "whole-place", districtGeoid };
   const splitChambers = catalog.splitPlaceChambers[placeGeoid];
-  if (splitChambers?.includes(chamber)) return { kind: "split" };
+  if (splitChambers?.includes(chamber)) {
+    return {
+      kind: "split",
+      candidateDistrictGeoids: [...(catalog.splitDistrictsByKey[key] ?? [])],
+    };
+  }
   return { kind: "unknown" };
 }

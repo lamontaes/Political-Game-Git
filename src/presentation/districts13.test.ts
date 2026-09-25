@@ -24,8 +24,10 @@ import {
   deserializeWorld,
   districtResidenceIntervals,
   districtResidenceSince,
+  recordedDistrictResidenceSince,
   establishDistrictResidence,
   serializeWorld,
+  splitHomeDistricts,
   type EntityId,
   type World,
 } from "../simulation";
@@ -274,22 +276,52 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
   }, 60_000);
 
   it("does not invent membership for a split city or a statewide Alaska home", () => {
-    const ky = createNewGameWorld({
+    const lexington = {
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "districts13-lexington-split",
       startAge: 34,
       placeKey: "lexington-fayette",
-      questionnaire: "skipped",
-    });
-    // Lexington-Fayette is split between state house districts, so no state
-    // chamber is recorded. The 119th CD–place file lists it only with
-    // Kentucky's 6th, so the U.S. House district is.
+      questionnaire: "skipped" as const,
+    };
+    // The join itself still claims nothing for a split city: Lexington-Fayette
+    // is split between state districts. The 119th CD–place file lists it only
+    // with Kentucky's 6th, so the U.S. House district is a canonical-home
+    // join. A current opening places the resident in one of the state
+    // districts crossing the city (GAME PROFILE placeholder,
+    // `assignSplitHomeDistricts`) and says so in the interval's own method.
+    const ky = createNewGameWorld(lexington);
+    const intervals = districtResidenceIntervals(ky.world);
+    const congressional = intervals.filter(
+      (interval) => interval.binding.chamber === "congressional",
+    );
     expect(
-      districtResidenceIntervals(ky.world).map((interval) => [
+      congressional.map((interval) => [
         interval.binding.recordId,
         interval.provenance.method,
       ]),
     ).toEqual([["congressional:2106", "canonical-home-join"]]);
+    const state = intervals.filter(
+      (interval) => interval.binding.chamber !== "congressional",
+    );
+    expect(state.length).toBeGreaterThan(0);
+    for (const interval of state) {
+      expect(interval.provenance.method).toBe("split-home-assignment");
+      expect(
+        splitHomeDistricts(
+          ky.world,
+          ky.playerPersonId,
+          interval.binding.chamber,
+        ).map((identity) => identity.recordId),
+      ).toContain(interval.binding.recordId);
+    }
+    // A legacy opening, which is what an older save holds, gets no placement.
+    const legacy = { ...lexington };
+    delete (legacy as { worldOpeningVersion?: unknown }).worldOpeningVersion;
+    expect(
+      districtResidenceIntervals(createNewGameWorld(legacy).world).filter(
+        (interval) => interval.provenance.method === "split-home-assignment",
+      ),
+    ).toEqual([]);
     const { world, personId } = alaskaLife("districts13-state-home");
     expect(districtResidenceIntervals(world)).toEqual([]);
     expect(
@@ -356,4 +388,29 @@ describe("DISTRICTS13 residence, filing, and fiscal consumer", () => {
       expect(seat.kind).toBe("unseated");
     }
   }, 180_000);
+
+  it("dates a chosen home district from when the life came to live there, not the game's first day", () => {
+    // Kotzebue playtest, 2026-09-22: a forty-year-old bound her own House
+    // district and was refused a one-year rule, residence "since" the day the
+    // game started. A bound seat on the home join reads the household records
+    // exactly as the unbound question does.
+    const { world, personId } = adakLife("districts13-bound-home");
+    const bound = recordDesiredDistrict(world, personId, akHouseThirtySeven());
+    const since = districtResidenceSince(
+      bound,
+      personId,
+      akHouseThirtySeven(),
+      bound.currentDate,
+    );
+    expect(since).not.toBeNull();
+    expect(since! < bound.currentDate).toBe(true);
+    expect(since).toBe(
+      recordedDistrictResidenceSince(
+        bound,
+        personId,
+        "state-lower",
+        bound.currentDate,
+      ),
+    );
+  });
 });

@@ -105,10 +105,15 @@ test("Today links into Work instead of carrying it, and reading them costs no ti
       .first(),
   ).toBeVisible();
 
-  // Getting on with the day is the one control that waits, and it does.
+  // The shell's Day control waits from any open workspace.
   await openShellMenu(page);
   await page.getByTestId("nav-politics").click();
-  const before = (await page.getByTestId("day-date").textContent()) ?? "";
-  await page.getByTestId("pass-day").click();
-  await expect(page.getByTestId("day-date")).not.toHaveText(before);
+  const before =
+    (await page.getByTestId("shell-nav-cluster").getAttribute("aria-label")) ??
+    "";
+  await page.getByTestId("shell-pass-day").click();
+  await expect(page.getByTestId("shell-nav-cluster")).not.toHaveAttribute(
+    "aria-label",
+    before,
+  );
 });

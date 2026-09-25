@@ -1,5 +1,8 @@
 import { addDays, ageOnDate, makeIsoDate } from "./dates";
-import { scheduleFutureDueItem } from "./future-transitions";
+import {
+  futureDueItemStateAt,
+  scheduleFutureDueItem,
+} from "./future-transitions";
 import {
   createEducationEnrollment,
   createOrganization,
@@ -360,6 +363,24 @@ export function currentSchooling(
 }
 
 /**
+ * The name of the school this person attends today, for a scene set there.
+ *
+ * Null outside term-time enrollment, and for the placeholder an old replay
+ * gave a child who started in school ("Ely, Nevada public school"), which is
+ * not what anybody calls a school and reads worse in a sentence than
+ * "school" does.
+ */
+export function schoolNameToday(
+  world: World,
+  personId: EntityId,
+): string | null {
+  const schooling = currentSchooling(world, personId);
+  if (schooling?.status !== "active" || !schooling.schoolName) return null;
+  if (/ public school$/.test(schooling.schoolName)) return null;
+  return schooling.schoolName;
+}
+
+/**
  * Whether this person is still a school-age pupil rather than somebody who
  * could apply to college: at a school or waiting on one, or under sixteen
  * without a high-school diploma.
@@ -369,12 +390,53 @@ export function stillInGradeSchool(world: World, personId: EntityId): boolean {
   const person = world.people[personId];
   if (!person) return false;
   if (ageOnDate(person.birthDate, world.currentDate) >= 16) return false;
-  return !world.history.educationEnrollments.some(
+  return !finishedHighSchool(world, personId);
+}
+
+/** Whether this person's record holds a finished high school. */
+export function finishedHighSchool(world: World, personId: EntityId): boolean {
+  return world.history.educationEnrollments.some(
     (enrollment) =>
       enrollment.personId === personId &&
       enrollment.programKind === PROGRAM.high &&
       educationEnrollmentStateAt(world, enrollment.id)?.status === "completed",
   );
+}
+
+/**
+ * Whether a pupil is in their last year of high school: from the day their
+ * twelfth-grade year starts until they leave school.
+ */
+export function inFinalHighSchoolYear(
+  world: World,
+  personId: EntityId,
+): boolean {
+  return (
+    stillInGradeSchool(world, personId) && schoolGradeOn(world, personId) === 12
+  );
+}
+
+/**
+ * The day a pupil's high school ends, or null for somebody no longer in
+ * grade school. The end already scheduled for them is used where there is
+ * one, so this agrees with the day they actually graduate.
+ */
+export function highSchoolEndsAt(
+  world: World,
+  personId: EntityId,
+): IsoDate | null {
+  if (!stillInGradeSchool(world, personId)) return null;
+  const scheduled = world.history.futureDueItems.find(
+    (item) =>
+      item.transitionKey === SCHOOL_STAGE_TRANSITION_KEY &&
+      item.entityIds[0] === personId &&
+      item.stableKey.endsWith(":stage:ends:high") &&
+      futureDueItemStateAt(world, item.id, {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      })?.status === "scheduled",
+  );
+  return scheduled?.dueAt ?? schoolStageEndsAt(world, personId, "high");
 }
 
 /** Everybody in the same class at the same school: started there together. */

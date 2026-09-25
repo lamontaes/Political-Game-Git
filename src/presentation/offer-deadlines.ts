@@ -1,13 +1,19 @@
 import type { EntityId, IsoDate, World } from "../simulation";
-import { careerReplyBy } from "../simulation/career-path7";
+import {
+  careerExpectedStart,
+  careerOfferAccepted,
+  careerReplyBy,
+} from "../simulation/career-path7";
 import {
   applicationsFor,
+  expectedStart,
   latestApplicationStep,
 } from "../simulation/job-market";
 import { addDays, daysBetween } from "../simulation/dates";
 import {
   workRelationshipHistoryForPerson,
   workRoleAt,
+  workStatusAt,
 } from "../simulation/life-queries";
 import { proseDate } from "./prose-dates";
 
@@ -60,6 +66,44 @@ export function offerDeadlines(
   return deadlines.sort((a, b) => a.replyBy.localeCompare(b.replyBy));
 }
 
+/** Accepted work that has not begun, including a revised start after a call. */
+export interface AcceptedOfferStart {
+  readonly key: string;
+  readonly startOn: IsoDate;
+}
+
+export function acceptedOfferStarts(
+  world: World,
+  personId: EntityId,
+): readonly AcceptedOfferStart[] {
+  const starts: AcceptedOfferStart[] = [];
+  for (const application of applicationsFor(world, personId)) {
+    const latest = latestApplicationStep(world, application.id);
+    if (latest?.kind !== "accepted" && latest?.kind !== "followed-up") continue;
+    const startOn = expectedStart(world, application.id);
+    if (!startOn) continue;
+    starts.push({
+      key: `job-start:${application.id}`,
+      startOn,
+    });
+  }
+  for (const relationship of workRelationshipHistoryForPerson(
+    world,
+    personId,
+  )) {
+    if (!relationship.stableKey.startsWith("career-path7:")) continue;
+    if (workStatusAt(world, relationship.id)?.status !== "expected") continue;
+    if (!careerOfferAccepted(world, relationship.id)) continue;
+    const startOn = careerExpectedStart(world, relationship.id);
+    if (!startOn) continue;
+    starts.push({
+      key: `career-start:${relationship.id}`,
+      startOn,
+    });
+  }
+  return starts.sort((a, b) => a.startOn.localeCompare(b.startOn));
+}
+
 /** Whether an application is still waiting on the employer's decision. */
 function decisionPending(world: World, personId: EntityId): boolean {
   return applicationsFor(world, personId).some(
@@ -68,11 +112,11 @@ function decisionPending(world: World, personId: EntityId): boolean {
 }
 
 /**
- * A skip stops on the last day to answer an offer. This is not a preference:
- * an offer with a reply date is a decision that needs the player. While an
- * application is still waiting on the employer, the skip moves three days at
- * a time, the shortest reply window, so an offer made during it is stopped
- * for too.
+ * A skip stops on the last day to answer an offer and the first morning
+ * accepted work can begin. Neither date can be passed without handing the
+ * decision back to the player. While an employer's answer is pending, or an
+ * accepted start has been missed, the skip moves three days at a time so a
+ * newly recorded offer or revised start cannot be crossed in the same jump.
  */
 export function advanceStoppingForOfferDeadlines(
   world: World,
@@ -86,8 +130,16 @@ export function advanceStoppingForOfferDeadlines(
     const due = offerDeadlines(current, personId).find(
       (deadline) => deadline.replyBy > current.currentDate,
     )?.replyBy;
+    const starts = acceptedOfferStarts(current, personId);
+    const start = starts.find(
+      (entry) => entry.startOn > current.currentDate,
+    )?.startOn;
     let stepTo = due && due < target ? due : target;
-    if (decisionPending(current, personId)) {
+    if (start && start < stepTo) stepTo = start;
+    if (
+      decisionPending(current, personId) ||
+      starts.some((entry) => entry.startOn <= current.currentDate)
+    ) {
       const chunk = addDays(current.currentDate, 3);
       if (chunk < stepTo) stepTo = chunk;
     }
@@ -96,6 +148,9 @@ export function advanceStoppingForOfferDeadlines(
     if (
       offerDeadlines(next, personId).some(
         (deadline) => deadline.replyBy === next.currentDate,
+      ) ||
+      acceptedOfferStarts(next, personId).some(
+        (entry) => entry.startOn === next.currentDate,
       )
     )
       return next;

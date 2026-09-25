@@ -139,7 +139,16 @@ describe("a quiet stretch stops for civic life", () => {
       (option) => option.key === `go-to:${meeting.id}`,
     );
     expect(attend?.label).toBe("Attend: Posted public meeting");
-    expect(scene.options.at(-1)?.key).toBe("let-it-run");
+    expect(scene.options.some((option) => option.key === "let-it-run")).toBe(
+      false,
+    );
+    expect(
+      chooseStoryOption(next, {
+        personId,
+        scene,
+        optionKey: "let-it-run",
+      }),
+    ).toBe(next);
 
     const went = chooseStoryOption(next, {
       personId,
@@ -232,7 +241,7 @@ describe("an invitation earlier the same day", () => {
   });
 });
 
-describe("beside Let time pass", () => {
+describe("beside the persistent Day and Week controls", () => {
   it("offers the meeting due today, which time will not step over", () => {
     const { world: opened, personId } = renoLife();
     const meeting = opened.history.scheduledActivities.find(
