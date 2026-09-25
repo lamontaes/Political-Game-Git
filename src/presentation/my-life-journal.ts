@@ -43,7 +43,25 @@ const MY_LIFE_BANK: AuthoredEnglishBank = {
       key: "office-start",
       kind: "template",
       stages: ["office-start"],
-      text: "I took office as {{office-role}}.",
+      text: "I began serving as {{office-role}}.",
+    },
+    {
+      key: "governor-began-serving",
+      kind: "template",
+      stages: ["governor-start"],
+      text: "I began serving as {{office-role}}.",
+    },
+    {
+      key: "governor-became",
+      kind: "template",
+      stages: ["governor-start"],
+      text: "I became {{office-role}}.",
+    },
+    {
+      key: "governor-term-began",
+      kind: "template",
+      stages: ["governor-start"],
+      text: "My term as {{office-role}} began.",
     },
   ],
 };
@@ -126,9 +144,17 @@ export function projectMyLifeJournalView(
             MY_LIFE_BANK,
           )
         : renderGroundedEnglish(
-            packet(world, personId, start.id, "office-start", {
-              "office-role": { text: phrase!, sourceRecordIds: [role.id] },
-            }),
+            packet(
+              world,
+              personId,
+              start.id,
+              /^Governor of [A-Za-z .'-]+$/.test(role.title)
+                ? "governor-start"
+                : "office-start",
+              {
+                "office-role": { text: phrase!, sourceRecordIds: [role.id] },
+              },
+            ),
             MY_LIFE_BANK,
           );
       text = rendered.kind === "rendered" ? rendered.text : null;
