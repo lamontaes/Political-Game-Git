@@ -1,5 +1,6 @@
 import { organizationParticipationStateAt } from "../life-queries";
 import { makeIsoDate } from "../dates";
+import { recordsByStringField } from "../history-index";
 import { personName } from "../people";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import {
@@ -83,9 +84,12 @@ function affiliationWithRoll(
   knownRoll: HistoricalEvent | null | undefined,
   asOf: IsoDate,
 ): EntityId | null {
-  const recorded = world.history.organizationParticipations.filter(
+  const recorded = recordsByStringField(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).filter(
     (participation) =>
-      participation.personId === personId &&
       participation.kind === PARTY_AFFILIATION_KIND &&
       participation.startedAt <= asOf,
   );
@@ -115,9 +119,12 @@ function caucusWithRoll(
   knownRoll: HistoricalEvent | null | undefined,
   asOf: IsoDate,
 ): EntityId | null {
-  const recorded = world.history.organizationParticipations.filter(
+  const recorded = recordsByStringField(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).filter(
     (participation) =>
-      participation.personId === personId &&
       participation.kind === CAUCUS_MEMBERSHIP_KIND &&
       participation.startedAt <= asOf,
   );
@@ -306,9 +313,11 @@ function occupantFor(
   )?.personId;
   const person = personId ? world.people[personId] : undefined;
   const death = person
-    ? world.history.personDeaths.find(
-        (record) => record.personId === person.id && record.diedAt <= asOf,
-      )
+    ? recordsByStringField(
+        world.history.personDeaths,
+        "personId",
+        person.id,
+      ).find((record) => record.diedAt <= asOf)
     : undefined;
   if (!person || death)
     return {

@@ -569,14 +569,21 @@ export function withWorldIntegrityDeferred<T>(run: () => T): T {
 }
 
 /**
- * Runs one whole advance of the clock — a press of a time control — with
- * writers' checks deferred, then validates the World it produced once, in
- * full. The advance either yields a valid World or throws; nothing between
- * is ever returned to a caller.
+ * Runs one whole advance of the clock with writers' checks deferred. The
+ * result is checked against its trusted input; a structural change falls back
+ * to a full check. Nothing between is returned to a caller.
  */
-export function advanceWithWorldIntegrityAtEnd(run: () => World): World {
+export function advanceWithWorldIntegrityAtEnd(
+  run: () => World,
+  previous?: World,
+): World {
+  if (previous) assertWorldIntegrity(previous);
   const result = withWorldIntegrityDeferred(run);
-  assertWorldIntegrity(result);
+  if (previous && previous !== result) {
+    assertWorldIntegrityFrom(previous, result);
+  } else {
+    assertWorldIntegrity(result);
+  }
   return result;
 }
 
@@ -587,9 +594,95 @@ export function assertWorldIntegrity(world: World): void {
   VALIDATED_WORLDS.add(world);
 }
 
-function validateWorldIntegrity(world: World): void {
+/** Recheck the entire World at a durability or explicit audit boundary. */
+export function assertWorldIntegrityFully(world: World): void {
+  if (integrityDeferredDepth > 0) {
+    throw new Error(
+      "A full World check cannot run inside a deferred transition.",
+    );
+  }
+  validateWorldIntegrity(world);
+  VALIDATED_WORLDS.add(world);
+}
+
+interface AppendOnlyHistoryDelta {
+  readonly previousSequence: number;
+  readonly appended: readonly { readonly sequence: number }[];
+}
+
+/**
+ * A clock result can reuse the proof of its validated input only when every
+ * old history record is still the exact same immutable object at the same
+ * position. Otherwise it takes the ordinary full validation path. This is a
+ * nonserialized proof local to one advance, never a new World or clock state.
+ */
+function appendOnlyHistoryDelta(
+  previous: World,
+  current: World,
+): AppendOnlyHistoryDelta | null {
+  if (
+    previous.id !== current.id ||
+    previous.currentDate > current.currentDate ||
+    previous.history.nextSequence > current.history.nextSequence
+  ) {
+    return null;
+  }
+  const prior = previous.history as unknown as Record<string, unknown>;
+  const next = current.history as unknown as Record<string, unknown>;
+  const appended: { readonly sequence: number }[] = [];
+  for (const key of new Set([...Object.keys(prior), ...Object.keys(next)])) {
+    if (key === "nextSequence") continue;
+    const oldRecords = prior[key];
+    const newRecords = next[key];
+    if (
+      (oldRecords !== undefined && !Array.isArray(oldRecords)) ||
+      (newRecords !== undefined && !Array.isArray(newRecords)) ||
+      (oldRecords !== undefined && newRecords === undefined)
+    ) {
+      return null;
+    }
+    const before = (oldRecords ?? []) as readonly unknown[];
+    const after = (newRecords ?? []) as readonly unknown[];
+    if (after.length < before.length) return null;
+    if (before !== after) {
+      for (let index = 0; index < before.length; index += 1) {
+        if (before[index] !== after[index]) return null;
+      }
+    }
+    for (let index = before.length; index < after.length; index += 1) {
+      const record = after[index];
+      if (
+        typeof record !== "object" ||
+        record === null ||
+        typeof (record as { sequence?: unknown }).sequence !== "number"
+      ) {
+        return null;
+      }
+      appended.push(record as { readonly sequence: number });
+    }
+  }
+  return { previousSequence: previous.history.nextSequence, appended };
+}
+
+function assertWorldIntegrityFrom(previous: World, world: World): void {
+  if (VALIDATED_WORLDS.has(world) || integrityDeferredDepth > 0) return;
+  const delta = VALIDATED_WORLDS.has(previous)
+    ? appendOnlyHistoryDelta(previous, world)
+    : null;
+  validateWorldIntegrity(world, delta, delta ? previous : undefined);
+  VALIDATED_WORLDS.add(world);
+}
+
+function validateWorldIntegrity(
+  world: World,
+  delta: AppendOnlyHistoryDelta | null = null,
+  previous?: World,
+): void {
   assertJsonSafe(world, "world");
-  if (world.contentPacks !== undefined)
+  if (
+    world.contentPacks !== undefined &&
+    (!previous || previous.contentPacks !== world.contentPacks)
+  )
     assertWorldContentPacks(world.contentPacks);
   if (
     world.schemaVersion !== 15 ||
@@ -604,7 +697,18 @@ function validateWorldIntegrity(world: World): void {
   }
   // A world that says it is somebody's game must not be carrying the engine's
   // validation substrate, whoever built it and however it was loaded.
-  if (lineage === "production") assertProductionCatalogBoundary(world);
+  if (
+    lineage === "production" &&
+    (!previous ||
+      previous.contentPacks !== world.contentPacks ||
+      previous.policyCatalog !== world.policyCatalog ||
+      previous.mindCatalog !== world.mindCatalog ||
+      previous.metricCatalog !== world.metricCatalog ||
+      previous.causalMechanismCatalog !== world.causalMechanismCatalog ||
+      previous.incidentCatalog !== world.incidentCatalog ||
+      previous.vitalityCatalog !== world.vitalityCatalog)
+  )
+    assertProductionCatalogBoundary(world);
   const startedAt = makeIsoDate(world.startedAt);
   const currentDate = makeIsoDate(world.currentDate);
   assertSimulationMoment(world.currentMoment);
@@ -622,30 +726,56 @@ function validateWorldIntegrity(world: World): void {
     );
   }
 
-  const jurisdictions = orderedRecords(
-    world.jurisdictions,
-    world.jurisdictionOrder,
-    "jurisdiction",
-  );
-  const people = orderedRecords(world.people, world.personOrder, "person");
-  assertPolicyCatalogIntegrity(world.policyCatalog);
-  assertMindCatalogIntegrity(world.mindCatalog);
-  assertWorldMetricCatalogIntegrity(world.metricCatalog);
-  assertCausalMechanismCatalogIntegrity(world.causalMechanismCatalog);
-  assertIncidentCatalogIntegrity(world.incidentCatalog);
-  assertVitalityCatalogIntegrity(world.vitalityCatalog);
-  validateInitialEntities(
-    world.id,
-    currentDate,
-    jurisdictions,
-    people,
-    world.policyCatalog,
-  );
-  validateControl(world.control, new Set(world.personOrder));
-  if (world.setupPriors !== undefined) {
+  const sameInitialEntities =
+    previous !== undefined &&
+    delta !== null &&
+    previous.jurisdictions === world.jurisdictions &&
+    previous.jurisdictionOrder === world.jurisdictionOrder &&
+    previous.people === world.people &&
+    previous.personOrder === world.personOrder &&
+    previous.policyCatalog === world.policyCatalog;
+  if (!sameInitialEntities) {
+    const jurisdictions = orderedRecords(
+      world.jurisdictions,
+      world.jurisdictionOrder,
+      "jurisdiction",
+    );
+    const people = orderedRecords(world.people, world.personOrder, "person");
+    assertPolicyCatalogIntegrity(world.policyCatalog);
+    validateInitialEntities(
+      world.id,
+      currentDate,
+      jurisdictions,
+      people,
+      world.policyCatalog,
+    );
+  }
+  if (!previous || previous.mindCatalog !== world.mindCatalog)
+    assertMindCatalogIntegrity(world.mindCatalog);
+  if (!previous || previous.metricCatalog !== world.metricCatalog)
+    assertWorldMetricCatalogIntegrity(world.metricCatalog);
+  if (
+    !previous ||
+    previous.causalMechanismCatalog !== world.causalMechanismCatalog
+  )
+    assertCausalMechanismCatalogIntegrity(world.causalMechanismCatalog);
+  if (!previous || previous.incidentCatalog !== world.incidentCatalog)
+    assertIncidentCatalogIntegrity(world.incidentCatalog);
+  if (!previous || previous.vitalityCatalog !== world.vitalityCatalog)
+    assertVitalityCatalogIntegrity(world.vitalityCatalog);
+  if (
+    !previous ||
+    previous.control !== world.control ||
+    previous.personOrder !== world.personOrder
+  )
+    validateControl(world.control, new Set(world.personOrder));
+  if (
+    world.setupPriors !== undefined &&
+    (!previous || previous.setupPriors !== world.setupPriors)
+  ) {
     assertSetupPriorIntegrity(world.setupPriors);
   }
-  validateHistoryIntegrity(world);
+  validateHistoryIntegrity(world, delta, previous);
   if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
   if (world.pressure !== undefined) assertPressureIntegrity(world);
 }
@@ -1077,8 +1207,9 @@ export function advanceWorld(
   assertWorldIntegrity(world);
   // Every writer inside a day advance skips the whole-world check; the
   // advanced World is checked once at the end, as a clock press is.
-  return advanceWithWorldIntegrityAtEnd(() =>
-    advanceWorldUnchecked(world, days, transitionHandlers),
+  return advanceWithWorldIntegrityAtEnd(
+    () => advanceWorldUnchecked(world, days, transitionHandlers),
+    world,
   );
 }
 
@@ -1699,85 +1830,145 @@ function orderedRecords<T extends { readonly id: EntityId }>(
   });
 }
 
-function validateHistoryIntegrity(world: World): void {
+const VALIDATED_LIFE_IDS = new WeakMap<World, readonly EntityId[]>();
+const VALIDATED_POLITICAL_IDS = new WeakMap<World, readonly EntityId[]>();
+
+const LIFE_HISTORY_FAMILIES = [
+  "organizations",
+  "organizationProfiles",
+  "educationEnrollments",
+  "educationEnrollmentStates",
+  "organizationParticipations",
+  "organizationParticipationStates",
+  "workRelationships",
+  "workStatuses",
+  "workRoles",
+  "households",
+  "householdLocations",
+  "householdMemberships",
+  "householdMembershipStates",
+  "kinshipRelationships",
+  "partnerships",
+  "partnershipStates",
+  "careResponsibilities",
+  "careResponsibilityStates",
+  "childAuthorities",
+  "childAuthorityStates",
+  "lifeCommitments",
+  "lifeLoadResolutions",
+] as const;
+
+function unchangedLifeHistory(previous: World, world: World): boolean {
+  return (
+    previous.people === world.people &&
+    previous.jurisdictions === world.jurisdictions &&
+    LIFE_HISTORY_FAMILIES.every(
+      (family) => previous.history[family] === world.history[family],
+    )
+  );
+}
+
+function unchangedPoliticalHistory(previous: World, world: World): boolean {
+  const old = previous.history;
+  const current = world.history;
+  return (
+    previous.people === world.people &&
+    previous.policyCatalog === world.policyCatalog &&
+    old.privateBeliefs === current.privateBeliefs &&
+    old.publicPositions === current.publicPositions &&
+    old.campaignCommitments === current.campaignCommitments &&
+    old.principles === current.principles &&
+    old.subjectKnowledge === current.subjectKnowledge
+  );
+}
+
+function validateHistoryIntegrity(
+  world: World,
+  delta: AppendOnlyHistoryDelta | null = null,
+  previous?: World,
+): void {
   const history = world.history;
   if (!Number.isSafeInteger(history.nextSequence) || history.nextSequence < 0) {
     throw new Error(
       "History next sequence must be a non-negative safe integer.",
     );
   }
-  const records = [
-    ...taxHistoryRecords(world),
-    ...jobMarketHistoryRecords(world),
-    ...lifeHistoryRecords(world),
-    ...resourceHousingHistoryRecords(world),
-    ...worldMetricHistoryRecords(world),
-    ...causalEffectHistoryRecords(world),
-    ...policyHistoryRecords(world),
-    ...incidentHistoryRecords(world),
-    ...vitalityHistoryRecords(world),
-    ...evidenceHistoryRecords(world),
-    ...timeWorkHistoryRecords(world),
-    ...electionContestHistoryRecords(world),
-    ...nationalHistoryRecords(world),
-    ...campaignHistoryRecords(world),
-    ...legislationHistoryRecords(world),
-    ...constitutionalHistoryRecords(world),
-    ...ruleChangeProvisionHistoryRecords(world),
-    ...legislativePoliticsHistoryRecords(world),
-    ...draftLineageHistoryRecords(world),
-    ...futureTransitionHistoryRecords(world),
-    ...publicInformationHistoryRecords(world),
-    ...pressHistoryRecords(world),
-    ...personnelHistoryRecords(world),
-    ...worldSetupHistoryRecords(world),
-    ...crisisRecords(world),
-    ...publicProgramRecords(world),
-    ...(history.districtResidenceIntervals ?? []),
-    ...(history.officeWorkflowPreferences ?? []),
-    ...(history.officeStaffPositions ?? []),
-    ...(history.officeStaffIncumbencies ?? []),
-    ...(history.officeVoteInstructions ?? []),
-    ...(history.officeBriefingInspections ?? []),
-    ...history.events,
-    ...history.memories,
-    ...history.knowledge,
-    ...history.claims,
-    ...history.relationshipInteractions,
-    ...history.propositionExposures,
-    ...history.privateBeliefs,
-    ...history.publicPositions,
-    ...history.campaignCommitments,
-    ...history.principles,
-    ...history.subjectKnowledge,
-    ...history.personalityTendencies,
-    ...history.personalValues,
-    ...history.goalStates,
-    ...history.appraisals,
-    ...history.perceptions,
-    ...history.temporaryStates,
-    ...history.decisionTraces,
-  ];
+  const records = delta
+    ? delta.appended
+    : [
+        ...taxHistoryRecords(world),
+        ...jobMarketHistoryRecords(world),
+        ...lifeHistoryRecords(world),
+        ...resourceHousingHistoryRecords(world),
+        ...worldMetricHistoryRecords(world),
+        ...causalEffectHistoryRecords(world),
+        ...policyHistoryRecords(world),
+        ...incidentHistoryRecords(world),
+        ...vitalityHistoryRecords(world),
+        ...evidenceHistoryRecords(world),
+        ...timeWorkHistoryRecords(world),
+        ...electionContestHistoryRecords(world),
+        ...nationalHistoryRecords(world),
+        ...campaignHistoryRecords(world),
+        ...legislationHistoryRecords(world),
+        ...constitutionalHistoryRecords(world),
+        ...ruleChangeProvisionHistoryRecords(world),
+        ...legislativePoliticsHistoryRecords(world),
+        ...draftLineageHistoryRecords(world),
+        ...futureTransitionHistoryRecords(world),
+        ...publicInformationHistoryRecords(world),
+        ...pressHistoryRecords(world),
+        ...personnelHistoryRecords(world),
+        ...worldSetupHistoryRecords(world),
+        ...crisisRecords(world),
+        ...publicProgramRecords(world),
+        ...(history.districtResidenceIntervals ?? []),
+        ...(history.officeWorkflowPreferences ?? []),
+        ...(history.officeStaffPositions ?? []),
+        ...(history.officeStaffIncumbencies ?? []),
+        ...(history.officeVoteInstructions ?? []),
+        ...(history.officeBriefingInspections ?? []),
+        ...history.events,
+        ...history.memories,
+        ...history.knowledge,
+        ...history.claims,
+        ...history.relationshipInteractions,
+        ...history.propositionExposures,
+        ...history.privateBeliefs,
+        ...history.publicPositions,
+        ...history.campaignCommitments,
+        ...history.principles,
+        ...history.subjectKnowledge,
+        ...history.personalityTendencies,
+        ...history.personalValues,
+        ...history.goalStates,
+        ...history.appraisals,
+        ...history.perceptions,
+        ...history.temporaryStates,
+        ...history.decisionTraces,
+      ];
   // Contiguity is "every sequence from 0 to n-1, exactly once", which a seen
   // list answers in one pass. Sorting every record on every write proved the
   // same thing at a cost that grew with the length of the life.
-  if (history.nextSequence !== records.length) {
+  const firstSequence = delta?.previousSequence ?? 0;
+  if (history.nextSequence !== firstSequence + records.length) {
     throw new Error("History sequence is not contiguous and append-oriented.");
   }
   const seen = new Uint8Array(records.length);
   for (const record of records) {
     const sequence = record.sequence;
+    const offset = sequence - firstSequence;
     if (
       !Number.isInteger(sequence) ||
-      sequence < 0 ||
-      sequence >= records.length ||
-      seen[sequence] === 1
+      offset < 0 ||
+      offset >= records.length ||
+      seen[offset] === 1
     ) {
       throw new Error(
         "History sequence is not contiguous and append-oriented.",
       );
     }
-    seen[sequence] = 1;
+    seen[offset] = 1;
   }
   assertSequenceOrdered(history.events, "event");
   assertSequenceOrdered(history.memories, "memory");
@@ -1864,7 +2055,21 @@ function validateHistoryIntegrity(world: World): void {
       ];
     }),
   ]);
-  assertLifeHistoryIntegrity(world, ids);
+  const priorLifeIds =
+    previous && delta && unchangedLifeHistory(previous, world)
+      ? VALIDATED_LIFE_IDS.get(previous)
+      : undefined;
+  if (priorLifeIds) {
+    for (const id of priorLifeIds) assertUniqueId(ids, id);
+    VALIDATED_LIFE_IDS.set(world, priorLifeIds);
+  } else {
+    const beforeLife = new Set(ids);
+    assertLifeHistoryIntegrity(world, ids);
+    VALIDATED_LIFE_IDS.set(
+      world,
+      [...ids].filter((id) => !beforeLife.has(id)),
+    );
+  }
   assertResourceHousingIntegrity(world, ids);
   assertTaxIntegrity(world, ids);
   assertStatutoryTaxIntegrity(world, ids);
@@ -2798,14 +3003,28 @@ function validateHistoryIntegrity(world: World): void {
     );
   }
 
-  validatePoliticalHistory(
-    world,
-    ids,
-    eventById,
-    factById,
-    personIds,
-    exposureIds,
-  );
+  const priorPoliticalIds =
+    previous && delta && unchangedPoliticalHistory(previous, world)
+      ? VALIDATED_POLITICAL_IDS.get(previous)
+      : undefined;
+  if (priorPoliticalIds) {
+    for (const id of priorPoliticalIds) assertUniqueId(ids, id);
+    VALIDATED_POLITICAL_IDS.set(world, priorPoliticalIds);
+  } else {
+    const beforePolitical = new Set(ids);
+    validatePoliticalHistory(
+      world,
+      ids,
+      eventById,
+      factById,
+      personIds,
+      exposureIds,
+    );
+    VALIDATED_POLITICAL_IDS.set(
+      world,
+      [...ids].filter((id) => !beforePolitical.has(id)),
+    );
+  }
   validateMindHistoryIntegrity(world, ids);
 }
 

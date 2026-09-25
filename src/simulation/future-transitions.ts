@@ -348,21 +348,49 @@ export function futureDueItemStateAt(
   );
 }
 
+const SCHEDULED_DUE_INDEX = new WeakMap<
+  readonly FutureDueItem[],
+  {
+    readonly states: readonly FutureDueItemStateRecord[];
+    readonly pending: readonly FutureDueItem[];
+  }
+>();
+
+function scheduledDueIndex(world: World): readonly FutureDueItem[] {
+  const items = world.history.futureDueItems;
+  const states = world.history.futureDueItemStates;
+  const cached = SCHEDULED_DUE_INDEX.get(items);
+  if (cached?.states === states) return cached.pending;
+  const latest = latestDueStateIndex(states);
+  const pending = items
+    .filter((item) => latest.get(item.id)?.status === "scheduled")
+    .sort(compareDueItems);
+  SCHEDULED_DUE_INDEX.set(items, { states, pending });
+  return pending;
+}
+
 export function scheduledFutureDueItemsThrough(
   world: World,
   fromInclusive: IsoDate,
   throughInclusive: IsoDate,
 ): readonly FutureDueItem[] {
-  return world.history.futureDueItems
-    .filter((item) => {
-      const state = latestDueItemStateAtCurrentFrontier(world, item.id);
-      return (
-        state?.status === "scheduled" &&
-        item.dueAt >= fromInclusive &&
-        item.dueAt <= throughInclusive
-      );
-    })
-    .sort(compareDueItems);
+  if (fromInclusive > throughInclusive) return [];
+  const pending = scheduledDueIndex(world);
+  let low = 0;
+  let high = pending.length;
+  while (low < high) {
+    const mid = (low + high) >>> 1;
+    if (pending[mid]!.dueAt < fromInclusive) low = mid + 1;
+    else high = mid;
+  }
+  const first = low;
+  high = pending.length;
+  while (low < high) {
+    const mid = (low + high) >>> 1;
+    if (pending[mid]!.dueAt <= throughInclusive) low = mid + 1;
+    else high = mid;
+  }
+  return pending.slice(first, low);
 }
 
 function handlerFor(

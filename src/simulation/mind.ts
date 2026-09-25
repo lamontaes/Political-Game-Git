@@ -17,6 +17,7 @@ import type {
   TemporaryStateRecordInput,
 } from "./history";
 import { createStableId } from "./ids";
+import { recordById } from "./history-index";
 import { lifeEntityExists } from "./life-integrity";
 import { resourceHousingEntityExists } from "./resource-integrity";
 import {
@@ -571,8 +572,9 @@ export function validateMindSourceReferences(
         break;
       case "personality-tendency":
         assertOwnedHistoryRecord(
-          world.history.personalityTendencies.find(
-            (record) => record.id === reference.tendencyRecordId,
+          recordById(
+            world.history.personalityTendencies,
+            reference.tendencyRecordId,
           ),
           personId,
           asOfDate,
@@ -584,9 +586,7 @@ export function validateMindSourceReferences(
         break;
       case "personal-value":
         assertOwnedHistoryRecord(
-          world.history.personalValues.find(
-            (record) => record.id === reference.valueRecordId,
-          ),
+          recordById(world.history.personalValues, reference.valueRecordId),
           personId,
           asOfDate,
           historySequenceExclusive,
@@ -597,9 +597,7 @@ export function validateMindSourceReferences(
         break;
       case "goal-state":
         assertOwnedHistoryRecord(
-          world.history.goalStates.find(
-            (record) => record.id === reference.goalStateId,
-          ),
+          recordById(world.history.goalStates, reference.goalStateId),
           personId,
           asOfDate,
           historySequenceExclusive,
@@ -610,9 +608,7 @@ export function validateMindSourceReferences(
         break;
       case "temporary-state":
         assertOwnedHistoryRecord(
-          world.history.temporaryStates.find(
-            (record) => record.id === reference.temporaryStateId,
-          ),
+          recordById(world.history.temporaryStates, reference.temporaryStateId),
           personId,
           asOfDate,
           historySequenceExclusive,
@@ -623,8 +619,9 @@ export function validateMindSourceReferences(
         break;
       case "life-load-resolution":
         assertOwnedHistoryRecord(
-          world.history.lifeLoadResolutions.find(
-            (record) => record.id === reference.lifeLoadResolutionId,
+          recordById(
+            world.history.lifeLoadResolutions,
+            reference.lifeLoadResolutionId,
           ),
           personId,
           asOfDate,
@@ -665,9 +662,7 @@ export function validateMindSourceReferences(
       }
       case "memory":
         assertOwnedHistoryRecord(
-          world.history.memories.find(
-            (record) => record.id === reference.memoryId,
-          ),
+          recordById(world.history.memories, reference.memoryId),
           personId,
           asOfDate,
           historySequenceExclusive,
@@ -678,9 +673,7 @@ export function validateMindSourceReferences(
         break;
       case "event-knowledge":
         assertOwnedHistoryRecord(
-          world.history.knowledge.find(
-            (record) => record.id === reference.knowledgeId,
-          ),
+          recordById(world.history.knowledge, reference.knowledgeId),
           personId,
           asOfDate,
           historySequenceExclusive,
@@ -690,9 +683,7 @@ export function validateMindSourceReferences(
         );
         break;
       case "claim": {
-        const claim = world.history.claims.find(
-          (record) => record.id === reference.claimId,
-        );
+        const claim = recordById(world.history.claims, reference.claimId);
         const heard = world.history.knowledge.some(
           (knowledge) =>
             ownKnowledge.has(knowledge.id) &&
@@ -711,8 +702,9 @@ export function validateMindSourceReferences(
         break;
       }
       case "relationship-interaction": {
-        const interaction = world.history.relationshipInteractions.find(
-          (record) => record.id === reference.interactionId,
+        const interaction = recordById(
+          world.history.relationshipInteractions,
+          reference.interactionId,
         );
         if (
           !interaction ||
@@ -728,9 +720,7 @@ export function validateMindSourceReferences(
       }
       case "proposition-exposure":
         assertOwnedHistoryRecord(
-          world.history.propositionExposures.find(
-            (record) => record.id === reference.exposureId,
-          ),
+          recordById(world.history.propositionExposures, reference.exposureId),
           personId,
           asOfDate,
           historySequenceExclusive,
@@ -741,9 +731,7 @@ export function validateMindSourceReferences(
         break;
       case "private-belief":
         assertOwnedHistoryRecord(
-          world.history.privateBeliefs.find(
-            (record) => record.id === reference.beliefId,
-          ),
+          recordById(world.history.privateBeliefs, reference.beliefId),
           personId,
           asOfDate,
           historySequenceExclusive,
@@ -754,9 +742,7 @@ export function validateMindSourceReferences(
         break;
       case "political-principle":
         assertOwnedHistoryRecord(
-          world.history.principles.find(
-            (record) => record.id === reference.principleRecordId,
-          ),
+          recordById(world.history.principles, reference.principleRecordId),
           personId,
           asOfDate,
           historySequenceExclusive,
@@ -767,8 +753,9 @@ export function validateMindSourceReferences(
         break;
       case "subject-knowledge":
         assertOwnedHistoryRecord(
-          world.history.subjectKnowledge.find(
-            (record) => record.id === reference.subjectKnowledgeId,
+          recordById(
+            world.history.subjectKnowledge,
+            reference.subjectKnowledgeId,
           ),
           personId,
           asOfDate,
@@ -780,9 +767,7 @@ export function validateMindSourceReferences(
         break;
       case "appraisal":
         assertOwnedHistoryRecord(
-          world.history.appraisals.find(
-            (record) => record.id === reference.appraisalId,
-          ),
+          recordById(world.history.appraisals, reference.appraisalId),
           personId,
           asOfDate,
           historySequenceExclusive,
@@ -793,9 +778,7 @@ export function validateMindSourceReferences(
         break;
       case "perception":
         assertOwnedHistoryRecord(
-          world.history.perceptions.find(
-            (record) => record.id === reference.perceptionId,
-          ),
+          recordById(world.history.perceptions, reference.perceptionId),
           personId,
           asOfDate,
           historySequenceExclusive,

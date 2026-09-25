@@ -2,7 +2,7 @@ import { canonicalJson } from "./canonical-json";
 import { createStableId } from "./ids";
 import { packRollCalls, unpackRollCalls } from "./roll-call-packing";
 import type { EntityId, IsoDate, World } from "./types";
-import { assertWorldIntegrity } from "./world";
+import { assertWorldIntegrity, assertWorldIntegrityFully } from "./world";
 
 /**
  * Format 15 changed how `snapshotId` is derived, not what a world is.
@@ -63,7 +63,7 @@ function snapshotIdOf(world: World): EntityId {
 }
 
 export function createWorldSnapshot(world: World): WorldSnapshot {
-  assertWorldIntegrity(world);
+  assertWorldIntegrityFully(world);
   return {
     format: "political-life-world",
     formatVersion:
