@@ -835,7 +835,9 @@ describe("shipped play never depends on generating prose", () => {
     };
     walk(join(REPO_ROOT, "src"));
     expect(offenders).toEqual([]);
-  });
+    // Reads every source file under src/: about 2.7 s alone, over the default
+    // five seconds on a busy runner.
+  }, 30_000);
 
   it("declares the prose pipeline as development-time only", () => {
     // The Skill says so in words; this pins that the shipped tree has no
