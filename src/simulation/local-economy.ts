@@ -23,6 +23,7 @@ import {
   type RecordResourceTransferOutcomeInput,
 } from "./resources";
 import { resourceFlowTermsAt, sameEndpoint } from "./resource-queries";
+import { nameCorpusVersionForWorld } from "./place-name-corpus";
 import { SeededRng } from "./rng";
 import type {
   EntityId,
@@ -298,6 +299,7 @@ export function seatLocalBusinesses(
     workers: { input: CharacterHistoryContextPersonInput; since: IsoDate }[];
   };
   const plans: Staffing[] = [];
+  const corpusVersion = nameCorpusVersionForWorld(world, jurisdictionId);
   const people: CharacterHistoryContextPersonInput[] = [];
   const taken = new Set<string>();
   for (const kind of missing) {
@@ -308,7 +310,7 @@ export function seatLocalBusinesses(
       let name = drawCanonicalNameForGender(
         personRng.fork("name"),
         identity.gender,
-        undefined,
+        corpusVersion,
         DISTINCT_GIVEN_NAME_GENERATION_VERSION,
       );
       // Two businesses named for the same family reads as a chain; redraw.
@@ -320,7 +322,7 @@ export function seatLocalBusinesses(
         name = drawCanonicalNameForGender(
           personRng.fork(`name:${attempt}`),
           identity.gender,
-          undefined,
+          corpusVersion,
           DISTINCT_GIVEN_NAME_GENERATION_VERSION,
         );
       if (role === "owner") taken.add(name.familyName);
