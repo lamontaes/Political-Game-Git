@@ -57,14 +57,16 @@ describe("LIFE normal earned-money account lifecycle", () => {
     expect(enteredWork.ok, enteredWork.message).toBe(true);
     w = enteredWork.world;
     const workId = w.history.workRelationships.at(-1)!.id;
-    for (let shiftNumber = 0; shiftNumber < 9; shiftNumber += 1) {
+    // Ten shifts: after withholding, nine no longer cover the certificate's tuition.
+    for (let shiftNumber = 0; shiftNumber < 10; shiftNumber += 1) {
       const shift = workSession(w, workId, shiftNumber + 1);
       const worked = performLifePathSession(shift.world, shift.id);
       expect(worked.ok).toBe(true);
       if (shiftNumber === 0) expect(balance(worked.world)).toBeUndefined();
       w = advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
     }
-    expect(balance(w)).toBe(64_800);
+    // Each $72.00 shift has $4.46 Social Security and $1.04 Medicare withheld.
+    expect(balance(w)).toBe(72_000 - 10 * 550);
     expect(w.history.resourcePositions.at(-1)!.openingBalance.minorUnits).toBe(
       0,
     );
@@ -76,7 +78,7 @@ describe("LIFE normal earned-money account lifecycle", () => {
     w = deserializeWorld(serializeWorld(w));
     w = enterLifePath(w, "college-office-certificate").world;
     const attended = advanceWorld(w, 161, LIFE_PATHS2_HANDLERS);
-    expect(balance(attended)).toBe(4_800);
+    expect(balance(attended)).toBe(6_500);
     expect(
       balance(
         advanceWorld(
@@ -85,7 +87,7 @@ describe("LIFE normal earned-money account lifecycle", () => {
           LIFE_PATHS2_HANDLERS,
         ),
       ),
-    ).toBe(4_800);
+    ).toBe(6_500);
   }, 30_000);
   it("blocks an unfunded period without inventing an account or tuition payment", () => {
     const entered = enterLifePath(normal(), "college-office-certificate").world;

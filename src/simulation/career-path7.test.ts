@@ -1,5 +1,5 @@
 import { addSimulationMinutes } from "./dates";
-import type { EntityId } from "./types";
+import type { EntityId, World } from "./types";
 import { describe, it, expect } from "vitest";
 import {
   createDemoWorld,
@@ -39,6 +39,14 @@ import {
 } from "./time-work";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { passOrdinaryDays } from "../presentation/ordinary-life";
+import { PAYROLL_WITHHOLDING_BASIS } from "./statutory-tax";
+/** Pay transfers only; each one is followed by the employer's tax withholding. */
+const pay = (w: World) =>
+  w.history.resourceTransferOutcomes.filter(
+    (o) =>
+      w.history.resourceFlows.find((f) => f.id === o.resourceFlowId)
+        ?.basisKind !== PAYROLL_WITHHOLDING_BASIS,
+  );
 const p = CAREER_PROVIDERS[0]!;
 function fixture() {
   const d = createDemoWorld("career-path7");
@@ -125,12 +133,10 @@ describe("CAREER-PATH7 source tasks through canonical LIFE work", () => {
     expect(scheduledActivityState(w, cancelled).status).toBe("cancelled");
     expect(scheduleCareerTask(w, id, p, p.tasks[0]!.id).world).toBe(w);
     w = advanceWorld(w, 2, LIFE_PATHS2_HANDLERS);
-    expect(w.history.resourceTransferOutcomes).toHaveLength(2);
-    expect(
-      w.history.resourceTransferOutcomes.every(
-        (o) => o.transferredAmount.minorUnits === 7200,
-      ),
-    ).toBe(true);
+    expect(pay(w)).toHaveLength(2);
+    expect(pay(w).every((o) => o.transferredAmount.minorUnits === 7200)).toBe(
+      true,
+    );
     expect(seekCareerOffer(w, p).ok).toBe(true);
   });
   it("switches jobs only after actually completing required training", () => {
@@ -237,10 +243,8 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
       w.history.events.some((e) => e.type === "career-path7.deliverable"),
     ).toBe(false);
     w = advanceWorld(w, 1, LIFE_PATHS2_HANDLERS);
-    expect(w.history.resourceTransferOutcomes).toHaveLength(1);
-    expect(
-      w.history.resourceTransferOutcomes[0]?.transferredAmount.minorUnits,
-    ).toBe(7200);
+    expect(pay(w)).toHaveLength(1);
+    expect(pay(w)[0]?.transferredAmount.minorUnits).toBe(7200);
   });
   it("completes the authored 09:00–13:00 shift once when skipping to 20:00", () => {
     const { w, id } = employed();
@@ -249,7 +253,7 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
     expect(sessions(skipped, id)).toHaveLength(1);
     expect(skipped.history.resourceTransferOutcomes).toHaveLength(0);
     const paid = advanceWorld(skipped, 1, LIFE_PATHS2_HANDLERS);
-    expect(paid.history.resourceTransferOutcomes).toHaveLength(1);
+    expect(pay(paid)).toHaveLength(1);
   });
   it("completes an authored 09:00–17:00 routine on one skip to 20:00", () => {
     const w = fixture();
@@ -451,7 +455,7 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
       LIFE_PATHS2_HANDLERS,
     );
     expect(sessions(long, longStart.id)).toHaveLength(3);
-    expect(long.history.resourceTransferOutcomes).toHaveLength(3);
+    expect(pay(long)).toHaveLength(3);
     let short = employed();
     for (let i = 0; i < 3; i++)
       short = {
@@ -459,7 +463,7 @@ describe("ordinary work without mandatory submissions and during fast-forward", 
         id: short.id,
       };
     expect(sessions(short.w, short.id)).toHaveLength(3);
-    expect(short.w.history.resourceTransferOutcomes).toHaveLength(3);
+    expect(pay(short.w)).toHaveLength(3);
     let mid = employed();
     mid = {
       w: advanceWorldMinutes(mid.w, 10 * 60, LIFE_PATHS2_HANDLERS),

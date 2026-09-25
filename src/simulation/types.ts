@@ -30,6 +30,8 @@ import type {
   TaxBaseRecord,
   TaxAssessmentRecord,
   TaxCollectionRecord,
+  StatutoryTaxLiabilityRecord,
+  StatutoryTaxPaymentRecord,
 } from "./tax-types";
 import type {
   JobApplicationRecord,
@@ -66,6 +68,8 @@ export type EntityKind =
   | "tax-base"
   | "tax-assessment"
   | "tax-collection"
+  | "statutory-tax-liability"
+  | "statutory-tax-payment"
   | "job-opening"
   | "job-application"
   | "job-application-step"
@@ -3786,6 +3790,9 @@ export interface HistoryStore {
   readonly taxBases?: readonly TaxBaseRecord[];
   readonly taxAssessments?: readonly TaxAssessmentRecord[];
   readonly taxCollections?: readonly TaxCollectionRecord[];
+  /** Taxes that exist in law, assessed per occurrence; see `statutory-tax.ts`. */
+  readonly statutoryTaxLiabilities?: readonly StatutoryTaxLiabilityRecord[];
+  readonly statutoryTaxPayments?: readonly StatutoryTaxPaymentRecord[];
   /** Optional: job openings and applications; see `job-market.ts`. */
   readonly jobOpenings?: readonly JobOpeningRecord[];
   readonly jobApplications?: readonly JobApplicationRecord[];
