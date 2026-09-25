@@ -1,8 +1,8 @@
 {
   "schema": 2,
   "note": "Independent checkpoint of computed-anchor-ledger.json: its size, a digest of the exact issued list including binding provenance, the highest index ever issued per symbol, and the exact set of indexes issued per symbol. Retained so that losing, truncating or re-binding the ledger is detectable rather than silent, and so allocation never drops below a mark already issued. Written by `npm run corpus:prose -- anchors`; never hand-edit.",
-  "count": 1174,
-  "digest": "b5f1c040673b63de",
+  "count": 1176,
+  "digest": "9317d7e681edd106",
   "highWater": {
     "ACTION_HEADLINES": 21,
     "ART_PREVIEW_LABEL": 1,
@@ -30,7 +30,7 @@
     "campaignReaction": 6,
     "commitConversationTurn": 10,
     "commitmentLabel": 3,
-    "composeConnectiveNarration": 8,
+    "composeConnectiveNarration": 10,
     "continuingRunBReferralBeat": 8,
     "createAuthoredMunicipalPublicSession": 1,
     "deadlinesFor": 2,
@@ -145,7 +145,7 @@
     "campaignReaction": "1-6",
     "commitConversationTurn": "1-10",
     "commitmentLabel": "1-3",
-    "composeConnectiveNarration": "1-8",
+    "composeConnectiveNarration": "1-10",
     "continuingRunBReferralBeat": "1-8",
     "createAuthoredMunicipalPublicSession": "1",
     "deadlinesFor": "1-2",
