@@ -95,7 +95,10 @@ export function buildSavedWorkStartJournalPacket(
   const yearEstablished =
     discourse.establishedYear === status.effectiveAt.slice(0, 4);
   const facts: Record<string, GroundedEnglishFact> = {
-    employer: { text: employer.name, sourceRecordIds: [employer.id] },
+    employer: {
+      text: grammaticalEmployerPhrase(employer.name),
+      sourceRecordIds: [employer.id],
+    },
     "role-phrase": { text: rolePhrase, sourceRecordIds: [role!.id] },
     month: { text: month, sourceRecordIds: [status.id] },
   };
@@ -142,6 +145,8 @@ export function buildSavedWorkStartJournalPacket(
  */
 export function grammaticalWorkRolePhrase(title: string): string | null {
   const trimmed = title.trim();
+  if (trimmed === "Legislative staff") return "a legislative staffer";
+  if (/\b(?:staff|work|support)$/i.test(trimmed)) return null;
   if (!/^[A-Z][a-z]+(?:[ -][a-z][a-z-]*)*$/.test(trimmed)) return null;
   const role = trimmed[0]!.toLocaleLowerCase("en-US") + trimmed.slice(1);
   const first = role.split(/[ -]/, 1)[0]!.toLocaleLowerCase("en-US");
@@ -150,6 +155,13 @@ export function grammaticalWorkRolePhrase(title: string): string | null {
   const article =
     silentH || (/^[aeiou]/.test(first) && !consonantSound) ? "an" : "a";
   return `${article} ${role}`;
+}
+
+/** Descriptive office names need an article; a named firm does not. */
+export function grammaticalEmployerPhrase(name: string): string {
+  const trimmed = name.trim();
+  if (/^[A-Z][a-z]+ legislative office$/.test(trimmed)) return `the ${trimmed}`;
+  return trimmed;
 }
 
 function refusal(reason: string): WorkStartJournalPacketResult {

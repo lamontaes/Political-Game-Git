@@ -6,6 +6,7 @@ import { renderGroundedEnglish } from "./grounded-english";
 import {
   WORK_START_JOURNAL_BANK,
   buildSavedWorkStartJournalPacket,
+  grammaticalEmployerPhrase,
   grammaticalWorkRolePhrase,
 } from "./work-start-journal-english";
 
@@ -147,6 +148,16 @@ describe("saved work-start Journal English", () => {
       "a store assistant",
     );
     expect(grammaticalWorkRolePhrase("Engineer")).toBe("an engineer");
+    expect(grammaticalWorkRolePhrase("Legislative staff")).toBe(
+      "a legislative staffer",
+    );
+    expect(grammaticalWorkRolePhrase("Customer support")).toBeNull();
+    expect(grammaticalEmployerPhrase("Kentucky legislative office")).toBe(
+      "the Kentucky legislative office",
+    );
+    expect(grammaticalEmployerPhrase("Riggs Law Office")).toBe(
+      "Riggs Law Office",
+    );
     expect(grammaticalWorkRolePhrase("Chief of Staff")).toBeNull();
     const { world, personId, status } = savedWorkStart(
       "grounded-english-proof-2026-09-24",
