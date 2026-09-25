@@ -109,6 +109,13 @@ export function evaluateOfficeVoteInstruction(
         "This office has no recorded voting workflow, so nothing executes automatically.",
     };
   }
+  if (preference.votingMode === null) {
+    return {
+      kind: "refused",
+      code: "no-preference",
+      reason: "This office casts no votes, so there is nothing to instruct.",
+    };
+  }
   if (preference.votingMode === "handle-individually") {
     return {
       kind: "refused",
