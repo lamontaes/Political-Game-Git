@@ -441,11 +441,17 @@ export function currentStateExecutiveHolders(
   world: World,
 ): readonly StateExecutiveHolderRecord[] {
   const records: StateExecutiveHolderRecord[] = [];
+  const organizationsByStableKey = new Map(
+    world.history.organizations.map((organization) => [
+      organization.stableKey,
+      organization,
+    ]),
+  );
   for (const stateUsps of CHIEF_EXECUTIVE_JURISDICTIONS) {
     const office = stateExecutiveOffice(stateUsps);
     if (!office) continue;
-    const organization = world.history.organizations.find(
-      (candidate) => candidate.stableKey === office.organizationStableKey,
+    const organization = organizationsByStableKey.get(
+      office.organizationStableKey,
     );
     if (!organization) continue;
     if (stateExecutiveVacatedOn(world, office.officeKey)) continue;
