@@ -248,8 +248,18 @@ export function projectJournalView(
   personId: EntityId,
   view: JournalView,
   year: string | null,
+  biography: ReturnType<typeof projectWorld39Journal> = projectWorld39Journal(
+    world,
+    personId,
+  ),
+  collapseRepetitions = true,
 ): JournalViewModel {
-  const biography = projectWorld39Journal(world, personId);
+  const prepare = (entries: readonly World39BiographyEntry[]) =>
+    withChronicle(
+      collapseRepetitions
+        ? collapseJournalRepeats(entries)
+        : { entries, repeats: [] },
+    );
   const years = [
     ...new Set(biography.chapters.map((chapter) => chapter.year)),
   ].sort();
@@ -268,7 +278,7 @@ export function projectJournalView(
               key: chapter.key,
               heading: chapter.heading,
               span: chapter.year,
-              ...withChronicle(collapseJournalRepeats(entries)),
+              ...prepare(entries),
             },
           ];
     });
@@ -298,7 +308,7 @@ export function projectJournalView(
       key,
       heading: group.heading,
       span: spanOf(group.entries),
-      ...withChronicle(collapseJournalRepeats(group.entries)),
+      ...prepare(group.entries),
     }));
   }
 

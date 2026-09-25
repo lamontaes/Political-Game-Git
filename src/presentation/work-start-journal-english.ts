@@ -112,6 +112,7 @@ export function buildSavedWorkStartJournalPacket(
       text: grammaticalEmployerPhrase(employer.name),
       sourceRecordIds: [employer.id],
     },
+    "role-phrase": { text: rolePhrase, sourceRecordIds: [role!.id] },
     month: { text: month, sourceRecordIds: [status.id] },
   };
   if (rolePhrase)
@@ -168,6 +169,7 @@ export function buildSavedWorkStartJournalPacket(
  */
 export function grammaticalWorkRolePhrase(title: string): string | null {
   const trimmed = title.trim();
+  if (trimmed === "Legislative staff") return "a legislative staffer";
   if (/\b(?:staff|work|support)$/i.test(trimmed)) return null;
   if (!/^[A-Z][a-z]+(?:[ -][a-z][a-z-]*)*$/.test(trimmed)) return null;
   const role = trimmed[0]!.toLocaleLowerCase("en-US") + trimmed.slice(1);

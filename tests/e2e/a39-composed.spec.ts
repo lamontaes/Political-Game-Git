@@ -77,7 +77,7 @@ test("A39 composed readers, municipal and constitutional routes preserve saved l
   await navigate(page, "nav-journal-entry");
   await expect(page.getByTestId("world39-journal")).toBeVisible();
   await expect(page.getByTestId("world39-biography")).toContainText(
-    "You were born on",
+    "I was born on",
   );
   text.journal = await page.getByTestId("world39-journal").innerText();
   await page
@@ -123,7 +123,7 @@ test("A39 composed readers, municipal and constitutional routes preserve saved l
   await page.getByRole("button", { name: /^Continue Avery Review/ }).click();
   await navigate(page, "nav-journal-entry");
   await expect(page.getByTestId("world39-biography")).toContainText(
-    "You were born on",
+    "I was born on",
   );
   expect(await savedWorld(page)).toBe(before);
   writeFileSync(

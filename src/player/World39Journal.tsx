@@ -6,11 +6,11 @@ import type {
   PrivateJournal,
 } from "../presentation/shell-navigation";
 import {
-  projectJournalView,
   withChronicleLead,
   type JournalChronicleLine,
 } from "../presentation/journal-views";
 import { projectLifeRecord } from "../presentation/life-record";
+import { projectMyLifeJournalView } from "../presentation/my-life-journal";
 import { projectWorld39Journal } from "../presentation/world39-journal";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
 import { world39Date } from "./World39News";
@@ -48,23 +48,32 @@ export function World39Journal({
   const year = savedYear === undefined ? localYear : savedYear;
   const chooseView = onViewChange ?? setLocalView;
   const chooseYear = onYearChange ?? setLocalYear;
-  const biography = projectWorld39Journal(world, personId);
-  const shown = projectJournalView(world, personId, view, year);
+  const shown = projectMyLifeJournalView(world, personId, view, year);
+  const dated = projectWorld39Journal(world, personId);
   const legacy = projectLifeRecord(world, personId);
-  const birthDate = world.people[personId]?.birthDate ?? world.currentDate;
+  const datedSourceIds = new Set(dated.entries.map((entry) => entry.sourceId));
+  const datedRecord = [
+    ...dated.entries.map((entry) => ({
+      key: `world39:${entry.id}`,
+      at: entry.at,
+      sentence: entry.text,
+    })),
+    ...legacy.chapters
+      .flatMap((chapter) => chapter.entries)
+      .filter(
+        (entry) =>
+          entry.anchors.length === 0 ||
+          !entry.anchors.every((anchor) => datedSourceIds.has(anchor.recordId)),
+      ),
+  ].sort((a, b) => a.at.localeCompare(b.at) || a.key.localeCompare(b.key));
   return (
     <section
       className="world39-reader"
       aria-label="Life journal"
       data-testid="world39-journal"
     >
-      <h3>Your life so far</h3>
-      <p>{biography.name}</p>
-      {!biography.entries.some((entry) => entry.at > birthDate) ? (
-        <p data-testid="world39-journal-sparse">
-          Nothing more has happened yet.
-        </p>
-      ) : null}
+      <h3>My life</h3>
+      <p>{shown.name}</p>
       <div className="world39-journal-controls" data-testid="journal-controls">
         <div role="group" aria-label="Journal view">
           {(
@@ -179,17 +188,15 @@ export function World39Journal({
         <summary>Record</summary>
         {record ?? (
           <ol>
-            {legacy.chapters
-              .flatMap((chapter) => chapter.entries)
-              .map((entry) => (
-                <li
-                  key={entry.key}
-                  id={`journal-entry-${encodeURIComponent(entry.key)}`}
-                >
-                  <time dateTime={entry.at}>{world39Date(entry.at)}</time>
-                  <p>{entry.sentence}</p>
-                </li>
-              ))}
+            {datedRecord.map((entry) => (
+              <li
+                key={entry.key}
+                id={`journal-entry-${encodeURIComponent(entry.key)}`}
+              >
+                <time dateTime={entry.at}>{world39Date(entry.at)}</time>
+                <p>{entry.sentence}</p>
+              </li>
+            ))}
           </ol>
         )}
       </details>
