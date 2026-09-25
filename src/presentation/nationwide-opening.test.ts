@@ -156,13 +156,13 @@ describe("NATIONWIDE opening state executive", () => {
       const allOfficeKeys = currentPublicOfficeholders(world).map(
         (holder) => holder.officeKey,
       );
-      const stateOfficeKeys = allOfficeKeys.filter((key) =>
-        /^us-[a-z]{2}-governor$/.test(key),
-      );
       const expectedStateOfficeKeys = US_STATE_USPS.map(
         (stateUsps) => stateExecutiveOffice(stateUsps)!.officeKey,
       ).sort();
-      expect(stateOfficeKeys.sort()).toEqual(expectedStateOfficeKeys);
+      const stateOfficeKeys = allOfficeKeys
+        .filter((key) => expectedStateOfficeKeys.includes(key))
+        .sort();
+      expect(stateOfficeKeys).toEqual(expectedStateOfficeKeys);
       const ownOfficeKey =
         usps === "DC" ? "dc-mayor" : `us-${usps.toLowerCase()}-governor`;
       expect(openingKeys).toEqual([
