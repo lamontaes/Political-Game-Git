@@ -174,22 +174,24 @@ function currentRollEvent(
   personId: EntityId,
   asOf: IsoDate,
 ): HistoricalEvent | null {
-  return (
-    [...world.history.events]
-      .reverse()
-      .find(
-        (event) =>
-          event.type === SEAT_TENURE_EVENT &&
-          event.recordedAt <= world.currentDate &&
-          event.occurredAt <= asOf &&
-          event.participants.some(
-            (participant) =>
-              participant.personId === personId &&
-              participant.role === "focus:subject",
-          ) &&
-          asOf < (tagValue(event, "term-end:") ?? ""),
-      ) ?? null
-  );
+  for (let index = world.history.events.length - 1; index >= 0; index -= 1) {
+    const event = world.history.events[index];
+    if (
+      event &&
+      event.type === SEAT_TENURE_EVENT &&
+      event.recordedAt <= world.currentDate &&
+      event.occurredAt <= asOf &&
+      event.participants.some(
+        (participant) =>
+          participant.personId === personId &&
+          participant.role === "focus:subject",
+      ) &&
+      asOf < (tagValue(event, "term-end:") ?? "")
+    ) {
+      return event;
+    }
+  }
+  return null;
 }
 
 /**
