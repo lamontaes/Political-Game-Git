@@ -691,7 +691,12 @@ export function PlayerGame() {
       }
       setSession((current) =>
         current?.world.id === worldToSave.id
-          ? { ...current, world: worldToSave, unsavedSeed: null, saveId }
+          ? {
+              ...current,
+              world: observerCheckpoint ?? current.world,
+              unsavedSeed: null,
+              saveId,
+            }
           : current,
       );
       setNotice(

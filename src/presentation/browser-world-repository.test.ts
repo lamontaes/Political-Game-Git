@@ -2072,13 +2072,16 @@ describe("The save list reads summaries, not worlds", () => {
       recordVersion: 1,
       metadata: v1Metadata,
     });
-    const v3 = createBrowserWorldRecord(
-      currentWorld,
-      "2026-04-02T10:00:00.000Z",
-      "2026-04-02T10:00:00.000Z",
-      "save_current" as EntityId,
-      4,
-    );
+    const v3 = {
+      ...createBrowserWorldRecord(
+        currentWorld,
+        "2026-04-02T10:00:00.000Z",
+        "2026-04-02T10:00:00.000Z",
+        "save_current" as EntityId,
+        4,
+      ),
+      recordVersion: 3,
+    };
     factory.setRaw("save_current", v3);
     factory.setRaw("save_gone", {
       kind: "political-life-browser-world-deleted",
@@ -2132,6 +2135,28 @@ describe("The save list reads summaries, not worlds", () => {
     const again = await store.list();
     expect(again).toEqual(listing);
     expect(await store.load("save_gone" as EntityId)).toBeNull();
+  });
+
+  it("loads a version 3 save record from an upgraded database", async () => {
+    const factory = new FakeIndexedDbFactory().asVersionTwo();
+    const world = playerWorld("legacy-record-v3");
+    const record = {
+      ...createBrowserWorldRecord(
+        world,
+        "2026-04-02T10:00:00.000Z",
+        "2026-04-02T10:00:00.000Z",
+        "legacy_record_v3" as EntityId,
+        4,
+      ),
+      recordVersion: 3,
+    };
+    factory.setRaw(record.saveId, record);
+
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      databaseName: "test-worlds",
+    });
+    expect(await store.load(record.saveId)).toEqual(world);
   });
 
   it("keeps an old save it could not read just now, and lists the rest", async () => {
