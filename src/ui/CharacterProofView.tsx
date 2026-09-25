@@ -34,6 +34,7 @@ import {
 } from "../presentation/visual-integration";
 import { PersonPortrait } from "../player/PersonPortrait";
 import { CandidateAdmissionReview } from "./CandidateAdmissionReview";
+import { ContourFitReview } from "./ContourFitReview";
 import { ModularCharacter } from "../player/ModularCharacter";
 import { useSceneTransform } from "../player/useSceneTransform";
 import type { EntityId, World } from "../simulation/types";
@@ -69,12 +70,19 @@ function waveAReviewRequested(): boolean {
   return new URLSearchParams(window.location.search).get("set") === "wave-a";
 }
 
+function contourFitReviewRequested(): boolean {
+  return (
+    new URLSearchParams(window.location.search).get("set") === "contour-fit"
+  );
+}
+
 const SET_LINKS = (
   <p>
     Sets:{" "}
     <a href="?view=character-proof&set=real">real production candidates</a> ·{" "}
     <a href="?view=character-proof&set=dev">DEV fixtures</a> ·{" "}
-    <a href="?view=character-proof&set=wave-a">Wave A candidate admission</a>
+    <a href="?view=character-proof&set=wave-a">Wave A candidate admission</a> ·{" "}
+    <a href="?view=character-proof&set=contour-fit">Contour fit engine</a>
   </p>
 );
 
@@ -323,6 +331,26 @@ function OfficePathTable() {
 }
 
 export function CharacterProofView() {
+  if (contourFitReviewRequested()) {
+    return (
+      <main
+        className="character-proof"
+        data-testid="character-proof"
+        data-proof-set="contour-fit"
+      >
+        <header className="character-proof-header">
+          <div>
+            <p className="character-proof-eyebrow">
+              Developer proof · Contour fit engine — NOT IN ANY CATALOG
+            </p>
+            <h1>Modular character runtime proof</h1>
+            {SET_LINKS}
+          </div>
+        </header>
+        <ContourFitReview />
+      </main>
+    );
+  }
   if (waveAReviewRequested()) {
     return (
       <main
