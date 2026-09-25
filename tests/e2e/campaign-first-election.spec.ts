@@ -104,10 +104,8 @@ async function openDay(page: Page) {
 /**
  * Opens Work, where running for office lives.
  *
- * PT3 moved the campaign out of the day: the day says what is happening and
- * offers the time, Work holds everything the character works at. The day's
- * one waiting control — getting on with the day — is on Work too, so a
- * campaign's act-then-sleep loop does not bounce between two screens.
+ * The campaign is in Politics, and the corner Day control remains available
+ * while its work is on screen.
  */
 async function openCampaign(page: Page) {
   await openElsewhere(page, "campaign");
@@ -131,8 +129,8 @@ function watchForErrors(page: Page): string[] {
 /**
  * Presses one of the game's time controls and lets it finish.
  *
- * Neither clock disables itself while a command runs any more — the control
- * keeps focus and marks itself busy instead — and the runner ignores a submit
+ * The corner control keeps focus and marks itself unavailable while a command
+ * runs, and the runner ignores a submit
  * while one is in flight, so one press can never move the clock twice. The
  * consequence for a test is that a press issued on top of a running command is
  * simply lost: a loop that fires as fast as it can counts days it never
@@ -140,10 +138,10 @@ function watchForErrors(page: Page): string[] {
  */
 async function pressTime(page: Page, testid: string) {
   const control = page.getByTestId(testid);
-  await expect(control).not.toHaveAttribute("aria-busy", "true");
+  await expect(control).not.toHaveAttribute("aria-disabled", "true");
   await waitForClockIdle(page);
   await control.click();
-  await expect(control).not.toHaveAttribute("aria-busy", "true");
+  await expect(control).not.toHaveAttribute("aria-disabled", "true");
   await waitForClockIdle(page);
 }
 
@@ -312,7 +310,7 @@ test.describe("A life can stand for something", () => {
     // The committee is named after the body, not after the game's description
     // of the seat.
     await expect(page.getByTestId("campaign-band")).toContainText(
-      /for the House of Representatives/i,
+      /for the [A-Z][a-z]+( [A-Z][a-z]+)? House of Representatives/,
     );
     await expect(page.getByTestId("campaign-treasury")).toContainText("$0.");
     await expect(page.getByTestId("campaign-no-memo")).toBeVisible();
@@ -399,7 +397,7 @@ test.describe("A life can stand for something", () => {
     await page.getByTestId("campaign-outreach").click();
     await expect(page.getByTestId("campaign-memo")).toBeVisible();
     // A second afternoon, a day later, because a day only holds so much.
-    await pressTime(page, "pass-day");
+    await pressTime(page, "shell-pass-day");
     await page.getByTestId("campaign-outreach").click();
 
     // Nobody presses "hold the election". The world reaches the date.
@@ -421,12 +419,12 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("day-date")).not.toHaveText(before);
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
-    if (/lost\./i.test(afterword)) {
+    if (/\blost[,.]/i.test(afterword)) {
       // Losing is a thing that happened, said in those words. The afterword
       // is in Work, where the campaign is, not on the day.
       await openCampaign(page);
       await expect(page.getByTestId("campaign-afterword")).toContainText(
-        /not the end of them/i,
+        /not the end of (them|him|her)\b/i,
       );
       // And it opens no office it did not earn.
       await expect(page.getByTestId("office-section")).toHaveCount(0);
@@ -493,10 +491,13 @@ test.describe("P85D integration through ordinary player controls", () => {
       await enterLife(page);
       await openCampaign(page);
       await fileCandidacy(page);
-      const before = (await page.getByTestId("day-date").textContent()) ?? "";
-      const passDay = page.getByTestId("pass-day");
+      const before =
+        (await page
+          .getByTestId("shell-nav-cluster")
+          .getAttribute("aria-label")) ?? "";
+      const passDay = page.getByTestId("shell-pass-day");
       await waitForClockIdle(page);
-      await expect(passDay).toHaveAttribute("aria-busy", "false");
+      await expect(passDay).not.toHaveAttribute("aria-disabled", "true");
       if (activation === "keyboard") {
         await passDay.focus();
         await page.keyboard.press("Enter");
@@ -505,11 +506,13 @@ test.describe("P85D integration through ordinary player controls", () => {
       }
       // The press has to land before the corner clock takes over the loop:
       // the runner ignores a second command while the first is in flight.
-      await expect(passDay).toHaveAttribute("aria-busy", "false");
       await waitForClockIdle(page);
+      await expect(page.getByTestId("shell-nav-cluster")).not.toHaveAttribute(
+        "aria-label",
+        before,
+      );
       expect(await liveUntilDecided(page)).toBe(true);
       await expect(page.getByTestId("campaign-result")).toBeVisible();
-      await expect(page.getByTestId("day-date")).not.toHaveText(before);
       expect(errors).toEqual([]);
     });
   }
@@ -532,7 +535,9 @@ test.describe("P85D integration through ordinary player controls", () => {
     await fileCandidacy(page);
     await page.getByTestId("campaign-fundraising").click();
     expect(
-      await campaignUntilDecided(page, (page) => pressTime(page, "pass-day")),
+      await campaignUntilDecided(page, (page) =>
+        pressTime(page, "shell-pass-day"),
+      ),
     ).toBe(true);
     await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
     // The office is its own Politics tab, apart from the campaign.

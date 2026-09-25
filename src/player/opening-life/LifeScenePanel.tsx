@@ -16,7 +16,6 @@ import {
   currentOpeningLifeScene,
   chooseOpeningLifeScene,
   openingNeighborhoodWalkOffer,
-  openNextLifeScene,
   walkOpeningNeighborhood,
 } from "../../presentation/life-scene-flow";
 import { formatMinute } from "../../presentation/player-calendar";
@@ -179,10 +178,6 @@ export function LifeScenePanel({
           <p className="game-scene" data-testid="life-scene-prose">
             {scene.prose}
           </p>
-          <p className="game-note" data-testid="life-scene-minutes">
-            Talking and reading a line take no time. Activity durations are
-            shown on their choices.
-          </p>
           <div
             className="game-choices"
             role="group"
@@ -255,30 +250,7 @@ export function LifeScenePanel({
             </nav>
           ) : null}
         </>
-      ) : (
-        <>
-          {/*
-            UI9-07. With no scene open, the one thing here that is not a way to
-            leave is looking for the next situation. It opens one when the life
-            has one waiting and otherwise says so, instead of falling through to
-            a different surface under the same words.
-          */}
-          <button
-            className="ui-action"
-            type="button"
-            data-testid="life-next-scene"
-            onClick={() => {
-              const next = openNextLifeScene(world, playerPersonId);
-              if (next === world) {
-                setOutcome(null);
-                setProblem("Nothing else is waiting here right now.");
-              } else onWorldChange(next);
-            }}
-          >
-            See what happens next
-          </button>
-        </>
-      )}
+      ) : null}
       {reflection?.target.kind === "personality" ? (
         <button
           className="ui-action"

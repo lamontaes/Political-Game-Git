@@ -114,7 +114,11 @@ describe("a town's governing body, across the country", () => {
     expect(offices.length).toBeGreaterThan(2);
     const body = offices.at(-2)!;
     expect(body.officeKey).toBe(bodies[0]!.officeKey);
-    expect(body.chamberName).toBe("City of Bowling Green governing body");
+    // The body the city's own government names, not a generic label.
+    expect(body.chamberName).toBe("Bowling Green Board of Commissioners");
+    expect(body.office.title).toBe(
+      "Member of the Bowling Green Board of Commissioners",
+    );
     expect(body.seats.kind).toBe("unknown");
     expect(body.qualification.minimumAge.kind).toBe("unknown");
     expect(body.qualification.termYears.kind).toBe("unknown");
@@ -146,7 +150,7 @@ describe("a town's governing body, across the country", () => {
       );
       // The body first, then the mayor where the town's voters elect one.
       expect(local[0]!.recordedBy.packName).toBe(government);
-      expect(local[0]!.office.title).toBe("Member of the governing body");
+      expect(local[0]!.office.title).toBe("Council member");
       expect(
         local
           .slice(1)
@@ -303,13 +307,13 @@ describe("standing again after a race is over", () => {
     // The seat reads as an office everywhere the life is described.
     const name = personName(world.people[personId]!);
     expect(projectWorkRole(world, personId).sentence).toBe(
-      "Your role: Member of the governing body, City of Ely.",
+      "Your role: Member of the City Council, City of Ely.",
     );
     const ely = projectGovernmentBrowser(world, personId).localGovernments.find(
       (entry) => entry.key === `unit:${body.unit.id}`,
     );
     expect(ely?.holderName).toBe(name);
-    expect(ely?.detail).toContain("Member of the governing body.");
+    expect(ely?.detail).toContain("Member of the Ely City Council.");
     // The county above it is named the way Minnesotans say it.
     expect(
       projectGovernmentBrowser(world, personId).alsoGoverning.map(
@@ -362,6 +366,48 @@ describe("when a town's race is held", () => {
       basis: "state-law-unverified",
     });
   });
+});
+
+describe("a council campaign saved before the body had its own name", () => {
+  it("still opens: the office's title is display text, not its identity", () => {
+    // Saves written before a town's body was named recorded every council
+    // contest's office as "Member of the governing body". The pack now says
+    // "Council member", and the load check once compared the two titles, so
+    // every such save refused to open (a San Antonio life, playtest 9/24).
+    const { world, personId } = adultLifeAt(BOISE, "council-title-rename");
+    const home = world.people[personId]!.homeJurisdictionId;
+    const body = localGoverningBodiesForJurisdiction(home)[0]!;
+    expect(body.officeTitle).not.toBe("Member of the governing body");
+    const filed = fileForOffice(
+      world,
+      personId,
+      null,
+      body.officeKey,
+      addDays(world.currentDate, 28),
+    );
+    const contests = filed.history.electionContests!;
+    const saved: World = {
+      ...filed,
+      history: {
+        ...filed.history,
+        electionContests: contests.map((contest, index) =>
+          index === contests.length - 1
+            ? {
+                ...contest,
+                office: {
+                  ...contest.office,
+                  title: "Member of the governing body",
+                },
+              }
+            : contest,
+        ),
+      },
+    };
+    const reloaded = deserializeWorld(serializeWorld(saved));
+    expect(projectCampaign(reloaded, personId, body.officeKey).phase).toBe(
+      projectCampaign(filed, personId, body.officeKey).phase,
+    );
+  }, 60_000);
 });
 
 // 19,480 municipalities join to a place; 18 of them are not functionally active.

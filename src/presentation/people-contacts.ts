@@ -1,7 +1,8 @@
-import { addDays, personName } from "../simulation";
+import { addDays, ageOnDate, personName } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   CONTACT_ACCEPTED_EVENT,
+  CONTACT_ANSWER_DELAY_DAYS,
   CONTACT_DECLINED_EVENT,
   CONTACT_MAXIMUM_NOTICE_DAYS,
   CONTACT_MINIMUM_NOTICE_DAYS,
@@ -35,7 +36,7 @@ import {
   endCouple,
   keptDates,
 } from "../simulation/couples";
-import { proseDate } from "./prose-dates";
+import { proseDate, proseWeekdayDate } from "./prose-dates";
 
 /**
  * Who the played person can reach, and what is outstanding between them
@@ -147,16 +148,27 @@ export function projectContacts(
       ),
       channels: basis.channels,
       actions: [
-        {
-          kind: "ask-to-meet",
-          label: `Ask ${basis.name} to meet`,
-          available: !outstanding,
-          unavailableReason:
-            waiting ??
-            (outstanding
-              ? `${basis.name} has asked you first; answer that.`
-              : null),
-        },
+        childAskingAnAdult(world, personId, basis.personId, {
+          family: basis.basis.includes("family"),
+          livesWithYou,
+        })
+          ? {
+              kind: "ask-to-meet",
+              label: `Ask ${basis.name} to meet`,
+              available: false,
+              unavailableReason:
+                "Seeing an adult outside your family is something your parent or guardian arranges.",
+            }
+          : {
+              kind: "ask-to-meet",
+              label: `Ask ${basis.name} to meet`,
+              available: !outstanding,
+              unavailableReason:
+                waiting ??
+                (outstanding
+                  ? `${basis.name} has asked you first; answer that.`
+                  : null),
+            },
         ...romanticActions(world, personId, basis.personId, basis.name, {
           outstanding: !!outstanding,
           waiting,
@@ -208,6 +220,28 @@ function outstandingWith(
     onSpoken: proseDate(found.on),
     purpose: found.purpose,
   };
+}
+
+/**
+ * A child arranging, on their own, to see an adult who is neither family nor
+ * somebody they live with. The game does not offer it: an 8-year-old was
+ * offered a meeting with a party organizer (Juneau playtest, 2026-09-23).
+ * Family, housemates and children their own age stay reachable.
+ */
+function childAskingAnAdult(
+  world: World,
+  personId: EntityId,
+  otherId: EntityId,
+  ties: { readonly family: boolean; readonly livesWithYou: boolean },
+): boolean {
+  if (ties.family || ties.livesWithYou) return false;
+  const person = world.people[personId];
+  const other = world.people[otherId];
+  if (!person || !other) return false;
+  return (
+    ageOnDate(person.birthDate, world.currentDate) < 18 &&
+    ageOnDate(other.birthDate, world.currentDate) >= 18
+  );
 }
 
 /**
@@ -412,12 +446,20 @@ function lastAnswerBetween(
   const name = other.givenName;
   const day = proseDate(proposal.on);
   const theyAnswered = proposal.fromPersonId === personId;
+  if (answer.tags.includes("contact.withdrawn")) {
+    return `The date on ${day} did not go ahead.`;
+  }
   if (answer.tags.includes("contact.lapsed")) {
     return theyAnswered
       ? `You asked to meet on ${day}, and ${name} never answered.`
       : `${name} asked to meet on ${day}, and the day passed without an answer.`;
   }
   if (answer.type === CONTACT_ACCEPTED_EVENT) {
+    if (proposal.date) {
+      return theyAnswered
+        ? `${name} said yes to going out on ${day}.`
+        : `You said yes to going out with ${name} on ${day}.`;
+    }
     return theyAnswered
       ? `${name} said yes to meeting on ${day}.`
       : `You said yes to meeting ${name} on ${day}.`;
@@ -503,4 +545,26 @@ export function goMeetSomebodyNew(
     ? `You met ${personName(next.people[met]!)}.`
     : "You met nobody new.";
   return { world: next, said };
+}
+
+/**
+ * What the player is told the moment they ask. The answer itself comes later,
+ * from the other person, so the sentence says when to look for it. Before
+ * this the screen said nothing at all, and four playtest lives read the
+ * silence as the button doing nothing (run 2, 2026-09-23).
+ */
+export function askedNote(
+  world: World,
+  input: {
+    readonly otherPersonId: EntityId;
+    readonly on: IsoDate;
+    readonly date: boolean;
+  },
+): string {
+  const given = world.people[input.otherPersonId]?.givenName ?? "They";
+  // The day named first is the evening asked for, not the day of asking:
+  // "asked Justin out on Thursday" read as the asking, and then an answer
+  // "by Wednesday" came before it (Buffalo playtest, 2026-09-23).
+  const what = input.date ? "to go out" : "to meet";
+  return `You asked ${given} ${what} on ${proseWeekdayDate(input.on)}. ${given} will answer by ${proseWeekdayDate(addDays(world.currentDate, CONTACT_ANSWER_DELAY_DAYS))}.`;
 }

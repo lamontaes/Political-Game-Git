@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import {
@@ -115,9 +116,7 @@ export function assertIncidentIntegrity(
     const root = world.history.causalProcesses.find(
       (record) => record.id === incident.rootCausalProcessId,
     );
-    const onsetEvent = world.history.events.find(
-      (record) => record.id === incident.onsetEventId,
-    );
+    const onsetEvent = eventById(world, incident.onsetEventId);
     if (
       !root ||
       root.sequence >= incident.sequence ||
@@ -188,9 +187,7 @@ export function assertIncidentIntegrity(
     const incident = incidents.get(state.incidentId);
     const prior = statesByIncident.get(state.incidentId) ?? [];
     const previous = prior.at(-1);
-    const event = world.history.events.find(
-      (record) => record.id === state.eventId,
-    );
+    const event = eventById(world, state.eventId);
     if (
       !incident ||
       incident.sequence >= state.sequence ||

@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { assertTaxDraftIdentityIntegrity } from "./legislation-tax-identity";
 import powerProjection from "../fiscal-authority/tax-powers.generated.json" with { type: "json" };
 import { canonicalJson } from "./canonical-json";
@@ -390,9 +391,7 @@ export function recordTaxBase(
     )
   )
     throw new Error("This occurrence already has a recorded tax base.");
-  const event = world.history.events.find(
-    (row) => row.id === input.sourceEventId,
-  );
+  const event = eventById(world, input.sourceEventId);
   if (
     !event ||
     event.occurredAt !== input.occurredAt ||
@@ -929,9 +928,7 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
             proposal.terms.seriesKey,
       )
       .at(-1);
-    const event = world.history.events.find(
-      (row) => row.id === policy.outcomeEventId,
-    );
+    const event = eventById(world, policy.outcomeEventId);
     if (
       enacted.has(proposal.id) ||
       proposal.sequence >= policy.sequence ||
@@ -961,9 +958,7 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
     money(0, base.amount.currency);
     assertText(base.assumptionNote, "Tax base assumption");
     validatePayer(world, base.payer);
-    const event = world.history.events.find(
-      (row) => row.id === base.sourceEventId,
-    );
+    const event = eventById(world, base.sourceEventId);
     if (
       !world.jurisdictions[base.jurisdictionId] ||
       base.recordedAt !== makeIsoDate(base.occurredAt) ||
@@ -1122,9 +1117,7 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
         : beforeFunds === null
           ? "missing-payer-position"
           : "insufficient-funds";
-    const event = world.history.events.find(
-      (row) => row.id === collection.outcomeEventId,
-    );
+    const event = eventById(world, collection.outcomeEventId);
     if (
       collection.status !== expectedStatus ||
       collection.reason !== expectedReason ||

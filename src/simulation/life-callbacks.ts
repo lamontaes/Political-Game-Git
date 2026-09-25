@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import {
   lifeRequestDetails,
@@ -366,7 +367,7 @@ export function lifeCallbackTransitionHandler(
   }
   const personId = dueItem.entityIds.find((id) => world.people[id]);
   const originId = dueItem.entityIds.find((id) => id !== personId);
-  const origin = world.history.events.find((event) => event.id === originId);
+  const origin = eventById(world, originId);
   if (!personId || !origin) {
     return {
       world,

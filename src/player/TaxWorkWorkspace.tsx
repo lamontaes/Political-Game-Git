@@ -10,7 +10,7 @@ import {
 import { money } from "../simulation/resources";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { resolveLegislativeFilingEntry } from "../presentation/legislative-filing-entry";
-import { taxActivationReadiness } from "../presentation/tax-policy-transition";
+import { taxActivationReadiness } from "../simulation/tax-policy-activation";
 import { resolveLegislativeAssignmentForMeasure } from "../presentation/legislation-world";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
 import {

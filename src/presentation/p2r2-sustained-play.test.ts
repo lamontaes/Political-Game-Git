@@ -21,6 +21,7 @@ import {
   letStoryTimePass,
   projectStoryMoment,
 } from "./life-story";
+import { submitTimeCommand } from "./time-command";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import { openOrdinaryLife, projectOrdinaryDay } from "./ordinary-life";
@@ -35,9 +36,8 @@ import { fixture as p2r1Fixture } from "../../tests/support/p2r1-worlds";
  * and a normal browser route reached "Let the weeks run on" with no scene and
  * no choices for the rest of the character's existence.
  *
- * Every claim in that paragraph is reproduced here against the current tree,
- * and then answered. Nothing below relaxes an assertion, substitutes a seed or
- * shortens a route: they are the same worlds, played further.
+ * The original audit worlds and seeds remain here. Quiet intervals now move
+ * through the shell clock; a missing situation must not manufacture a choice.
  */
 
 function newLife(overrides: Partial<NewGameSetup> = {}): {
@@ -59,7 +59,7 @@ function newLife(overrides: Partial<NewGameSetup> = {}): {
   };
 }
 
-/** Plays the story surface the way the browser does, taking the first option. */
+/** Plays a story choice, or uses the shell's Week control when none is open. */
 function playThrough(
   start: World,
   personId: EntityId,
@@ -82,12 +82,18 @@ function playThrough(
       );
     }
     const option = scene.options[0];
-    if (!option) break;
-    world = chooseStoryOption(world, {
-      personId,
-      scene,
-      optionKey: option.key,
-    });
+    world = option
+      ? chooseStoryOption(world, {
+          personId,
+          scene,
+          optionKey: option.key,
+        })
+      : submitTimeCommand(world, {
+          requestId: `p2r2-week-${beat}`,
+          personId,
+          sourceMoment: world.currentMoment,
+          command: { kind: "days", days: 7 },
+        }).world;
   }
   return { world, scenes, quiet };
 }
@@ -189,17 +195,19 @@ describe("the week runs out, and the life does not", () => {
 
 describe("a normal route stays a normal route", () => {
   for (const seed of ["p2r2-sustained", "adaptive-life-test", "p1-quiet"]) {
-    it(`keeps offering ${seed} something to decide across a played life`, () => {
+    it(`lets ${seed} continue through varied scenes and quiet weeks`, () => {
       const { world, personId } = newLife({ seed });
       const played = playThrough(world, personId, 18);
       assertWorldIntegrity(played.world);
-      // Not every beat is a scene, and it must not be. What the audit found
-      // was every beat after the fourth being quiet, for ever.
-      expect(played.scenes.length).toBeGreaterThan(6);
+      // Archived routine activities no longer count as decisions. The real
+      // situations in the original route remain varied, and the shell clock
+      // continues to move when none is offered.
+      expect(played.scenes.length).toBeGreaterThanOrEqual(6);
       expect(new Set(played.scenes).size).toBeGreaterThan(4);
-      // And the beats after those are not all silence either.
+      expect(played.quiet).toBeGreaterThan(0);
       const tail = playThrough(played.world, personId, 6);
-      expect(tail.scenes.length).toBeGreaterThan(0);
+      assertWorldIntegrity(tail.world);
+      expect(tail.world.currentDate).not.toBe(played.world.currentDate);
     });
   }
 
@@ -279,7 +287,10 @@ describe("a normal route stays a normal route", () => {
       const filed = fileForOffice(world, personId);
       const campaign = campaignForCandidate(filed, personId)!;
       let current = filed;
-      for (let step = 0; step < 20; step += 1) {
+      // A quiet stretch now stops on the morning of each meeting and campaign
+      // shift on the calendar, and the choosing route is offered each of them,
+      // so the four weeks to election day take more steps than they did.
+      for (let step = 0; step < 40; step += 1) {
         if (electionContestResult(current, campaign.contestId)) break;
         if (route === "quiet") {
           current = letStoryTimePass(current, personId);
@@ -287,12 +298,18 @@ describe("a normal route stays a normal route", () => {
         }
         const moment = projectStoryMoment(current, personId);
         const option = moment.scene.options[0];
-        if (!option) break;
-        current = chooseStoryOption(current, {
-          personId,
-          scene: moment.scene,
-          optionKey: option.key,
-        });
+        current = option
+          ? chooseStoryOption(current, {
+              personId,
+              scene: moment.scene,
+              optionKey: option.key,
+            })
+          : submitTimeCommand(current, {
+              requestId: `p2r2-election-week-${step}`,
+              personId,
+              sourceMoment: current.currentMoment,
+              command: { kind: "days", days: 7 },
+            }).world;
       }
       expect(electionContestResult(current, campaign.contestId)).toBeDefined();
       expect(

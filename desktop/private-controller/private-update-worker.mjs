@@ -132,7 +132,7 @@ if (!dataRoot || !path.isAbsolute(dataRoot)) {
 }
 
 async function run(command, commandArgs, options = {}) {
-  if (cancelled) throw new Error("Update cancelled.");
+  if (cancelled) throw new Error("Update canceled.");
   const started = Date.now();
   let buildStage = null;
   let stageStarted = started;
@@ -195,7 +195,7 @@ async function run(command, commandArgs, options = {}) {
         "log",
         `${options.label ?? command}: ${Date.now() - started} ms (${signal ?? `exit ${code}`}).`,
       );
-      if (cancelled) return reject(new Error("Update cancelled."));
+      if (cancelled) return reject(new Error("Update canceled."));
       if (code === 0) return resolve();
       reject(
         new Error(
@@ -230,7 +230,7 @@ async function capture(command, commandArgs, options = {}) {
     child.on("close", (code) => {
       activeChild = null;
       updateLease?.setChild(null);
-      if (cancelled) return reject(new Error("Update cancelled."));
+      if (cancelled) return reject(new Error("Update canceled."));
       if (code === 0) resolve();
       else reject(new Error(`${options.label ?? command} failed.`));
     });
@@ -648,7 +648,7 @@ async function prepareUpdate() {
           { outcome: "kept-local", track: id, revision: targetRevision },
         );
       if (existing.current.content)
-        return prepareRuntimeContentSuccessor({
+        return await prepareRuntimeContentSuccessor({
           branch,
           existing,
           id,
@@ -678,7 +678,7 @@ async function prepareUpdate() {
         `Pairing ${label} with runtime artwork ${runtimeContent.id.slice(0, 12)}.`,
         { phase: "verifying" },
       );
-      return prepareRuntimeContentSuccessor({
+      return await prepareRuntimeContentSuccessor({
         branch,
         existing,
         id,

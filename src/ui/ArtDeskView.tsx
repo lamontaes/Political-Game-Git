@@ -1859,7 +1859,7 @@ function RequestDetail({
             detail.state === "completed"
               ? `Saved ${detail.name} in Downloads › Our Civic Duty Art Desk.`
               : detail.state === "cancelled"
-                ? "Download cancelled."
+                ? "Download canceled."
                 : detail.state === "refused"
                   ? `The desktop app would not save ${detail.name}. Its download policy does not allow this file.`
                   : `Download failed for ${detail.name}.`,
@@ -1870,7 +1870,7 @@ function RequestDetail({
         detail.state === "completed"
           ? `Saved ${detail.name} in Downloads › Our Civic Duty Art Desk.`
           : detail.state === "cancelled"
-            ? "Download cancelled."
+            ? "Download canceled."
             : detail.state === "refused"
               ? `The desktop app would not save ${detail.name}. Its download policy does not allow this file.`
               : `Download failed for ${detail.name}.`,

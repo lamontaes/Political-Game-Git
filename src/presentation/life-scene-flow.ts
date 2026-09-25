@@ -22,7 +22,11 @@ import {
   stableHash,
   simulationMinutesBetween,
   personName,
+  addSimulationMinutes,
+  compareSimulationMoments,
+  scheduledActivityState,
 } from "../simulation";
+import { formatMinute } from "./player-calendar";
 import type {
   World,
   EntityId,
@@ -34,8 +38,10 @@ import {
   OPENING_LIFE_SCENES,
   OPENING_LIFE_ADDITIONS,
   OPENING_LIFE_FAMILIES,
+  OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS,
   openingLifeFamily,
   openingLifeSceneAtStage,
+  isArchivedRoutineOpeningSceneKey,
 } from "../simulation/opening-life-content";
 import {
   eligibleEpisodeBeats,
@@ -152,8 +158,8 @@ function definitionAtStage(
   return atStage;
 }
 
-/** All eligible definitions are inspectable without creating a person or event. */
-export function availableOpeningLifeScenes(world: World, personId: EntityId) {
+/** Eligibility is a read. Optional activities use the same saved scene grammar. */
+function eligibleOpeningLifeScenes(world: World, personId: EntityId) {
   const person = world.people[personId];
   if (!person || !alive(world, personId)) return [];
   const age = ageOnDate(person.birthDate, world.currentDate);
@@ -164,6 +170,7 @@ export function availableOpeningLifeScenes(world: World, personId: EntityId) {
   }).beats;
   return [...OPENING_LIFE_ADDITIONS, ...runtimeLifeScenes(world)].flatMap(
     (definition) => {
+      if (isArchivedRoutineOpeningSceneKey(definition.key)) return [];
       const beat = beats.find(
         (beat) => beat.episodeKey === `opening.${definition.key}`,
       );
@@ -194,6 +201,39 @@ export function availableOpeningLifeScenes(world: World, personId: EntityId) {
             },
           ];
     },
+  );
+}
+
+/** Moments the life may present without the player starting an activity. */
+export function availableOpeningLifeScenes(world: World, personId: EntityId) {
+  return eligibleOpeningLifeScenes(world, personId).filter(
+    ({ definition, beat }) =>
+      beat.stageKey !== "moment" ||
+      !OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(definition.key),
+  );
+}
+
+/** Quiet activities the player may start from the room. */
+export function availableOptionalLifeActivities(
+  world: World,
+  personId: EntityId,
+) {
+  if (currentOpeningLifeScene(world, personId)) return [];
+  if ((openingLifeLocation(world, personId)?.setting ?? "home") !== "home")
+    return [];
+  return eligibleOpeningLifeScenes(world, personId).filter(
+    ({ definition, beat }) =>
+      beat.stageKey === "moment" &&
+      definition.setting === "home" &&
+      OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(definition.key) &&
+      !world.history.events.some(
+        (event) =>
+          event.type === OPEN &&
+          event.involvedEntityIds.includes(personId) &&
+          event.tags.includes(`family:${definition.key}`) &&
+          event.tags.includes("opening-stage:moment") &&
+          event.occurredAt === world.currentDate,
+      ),
   );
 }
 
@@ -259,6 +299,7 @@ export function openNextLifeScene(
   world: World,
   personId: EntityId,
   initialSetting?: LifeSceneSetting,
+  optionalActivityKey?: string,
 ): World {
   if (world.control.kind !== "person" || world.control.personId !== personId)
     throw new Error("Only the player can enter this scene.");
@@ -286,9 +327,17 @@ export function openNextLifeScene(
     throw new Error(
       "A new backdrop is not travel. A place transition is required.",
     );
-  const eligible = availableOpeningLifeScenes(world, personId).filter(
+  const candidates = optionalActivityKey
+    ? availableOptionalLifeActivities(world, personId).filter(
+        ({ definition }) => definition.key === optionalActivityKey,
+      )
+    : availableOpeningLifeScenes(world, personId);
+  const eligible = candidates.filter(
     ({ definition, beat }) =>
       definition.setting === setting &&
+      // An already-open scene in an old save can finish its follow-through.
+      (definition.recurrence !== "daily" ||
+        beat.stageKey === "follow-through") &&
       !world.history.events.some(
         (event) =>
           event.type === OPEN &&
@@ -398,6 +447,16 @@ export function openNextLifeScene(
       source: { kind: "direct" },
     });
   return next;
+}
+
+/** Starts a named activity; it never enters the automatic moment draw. */
+export function openOptionalLifeActivity(
+  world: World,
+  personId: EntityId,
+  activityKey: string,
+): World {
+  if (!OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(activityKey)) return world;
+  return openNextLifeScene(world, personId, undefined, activityKey);
 }
 
 export function chooseOpeningLifeScene(
@@ -546,16 +605,6 @@ function openingChoiceCompletes(
   stageKey: string,
   choiceKey: string,
 ): keyof typeof ORDINARY_LIFE_GOALS | null {
-  if (
-    (sceneKey === "young.home.choose-activity" ||
-      sceneKey === "adult.home.free-time") &&
-    stageKey === "moment"
-  )
-    return choiceKey === "read"
-      ? "learning"
-      : choiceKey === "rest"
-        ? "privacy"
-        : null;
   if (
     sceneKey === "adult.home.plan-week" &&
     stageKey === "follow-through" &&
@@ -740,17 +789,54 @@ export function openingNeighborhoodWalkOffer(
     !resolved.ok && destination === "home"
       ? meetingHomeRoute(world, personId)
       : null;
+  const minutes =
+    returnRoute?.kind === "available"
+      ? returnRoute.route.duration.minutes
+      : OPENING_WALK_MINUTES;
   return {
     destination,
     label: destination === "home" ? "Walk home" : "Take a short walk nearby",
-    minutes:
-      returnRoute?.kind === "available"
-        ? returnRoute.route.duration.minutes
-        : OPENING_WALK_MINUTES,
+    minutes,
     unavailable:
-      resolved.ok || returnRoute?.kind === "available" ? null : resolved.reason,
+      resolved.ok || returnRoute?.kind === "available"
+        ? walkClash(world, personId, minutes)
+        : resolved.reason,
     fromLabel: openingWalkOrigin(world, personId)?.location.label ?? null,
   };
+}
+
+/**
+ * Why the walk cannot be taken now because something already on the calendar
+ * falls inside it, or null. The walk is itself a calendar entry, and the
+ * calendar refuses two things at once, so without this the offer read as
+ * available and pressing it answered "Nothing changed" (a phone shift from
+ * home booked for the minute a party meeting ended, Bisbee, Arizona).
+ */
+function walkClash(
+  world: World,
+  personId: EntityId,
+  minutes: number,
+): string | null {
+  const arrive = addSimulationMinutes(world.currentMoment, minutes);
+  const clash = world.history.scheduledActivities
+    .filter((activity) => activity.participantPersonIds.includes(personId))
+    .map((activity) => ({
+      activity,
+      state: scheduledActivityState(world, activity.id),
+    }))
+    .filter(
+      ({ state }) =>
+        state.status === "scheduled" &&
+        compareSimulationMoments(state.start, arrive) < 0 &&
+        compareSimulationMoments(world.currentMoment, state.end) < 0,
+    )
+    .sort((left, right) =>
+      compareSimulationMoments(left.state.start, right.state.start),
+    )[0];
+  if (!clash) return null;
+  return compareSimulationMoments(clash.state.start, world.currentMoment) <= 0
+    ? `“${clash.activity.title}” is on your calendar now, so you cannot set off yet.`
+    : `“${clash.activity.title}” starts at ${formatMinute(clash.state.start.minuteOfDay)}, before you could get there.`;
 }
 
 /** The authored short local walk. Not a measured distance or speed. */

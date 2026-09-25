@@ -49,10 +49,8 @@ import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
-import {
-  describeTimeCommandPreview,
-  previewTimeCommand,
-} from "../presentation/time-command";
+import { previewTimeCommand } from "../presentation/time-command";
+import { acceptedOfferStarts } from "../presentation/offer-deadlines";
 import {
   createWorldChangeGuard,
   recordStaleWorldChange,
@@ -67,7 +65,6 @@ import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 import { useCrisisStop } from "./use-crisis-stop";
 import {
   TimeCommandProvider,
-  useTimeCommand,
   useTimeCommandRunner,
 } from "./time-command-runner";
 import {
@@ -83,6 +80,7 @@ import {
 } from "../presentation/local-governing-seat";
 import { World39News } from "./World39News";
 import { World39Journal } from "./World39Journal";
+import { personPronouns } from "../simulation/person-identity";
 import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { PublicServicePanel } from "./politics/PublicServicePanel";
@@ -139,14 +137,18 @@ import {
 
 import {
   BrowserSaveStore,
+  SavesKeptByNewerBuildError,
   type BrowserWorldSummary,
   type QuarantinedSave,
 } from "../presentation/browser-world-repository";
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
+  chooseTodayCalendarOption,
   presentPeopleSentence,
   projectStoryMoment,
+  storyOptionNote,
+  todayCalendarOptions,
   type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
@@ -173,11 +175,9 @@ import {
   placeStartFacts,
   type PlaceStartFact,
 } from "../presentation/place-start-summary";
+import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
-import {
-  openOrdinaryLife,
-  passOrdinaryDays,
-} from "../presentation/ordinary-life";
+import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
   answerQuestionnaire,
   endQuestionnaireEarly,
@@ -214,6 +214,8 @@ import {
   TitleScreen,
   resolvedTitlePresentation,
   resolvedTitleLecternHero,
+  type SaveListingState,
+  reloadPage,
 } from "./TitleScreen";
 import {
   readReplaySeed,
@@ -247,8 +249,12 @@ import { TaxWorkWorkspace } from "./TaxWorkWorkspace";
 import { NationwideCandidacyWorkspace } from "./NationwideCandidacyWorkspace";
 import { projectTransitWork } from "../presentation/transit-work";
 import { DocketWorkspace } from "./DocketWorkspace";
+import { MemberVotesPanel } from "./MemberVotesPanel";
 import { OfficeOnboardingWorkspace } from "./OfficeOnboardingWorkspace";
 import { OfficeTransitionPanel } from "./OfficeTransitionPanel";
+import { congressSeatStatus } from "../presentation/congress-candidacy";
+import { congressStatusText } from "./CongressCandidacySection";
+import { congressCommitteeMembership } from "../presentation/legislative-office-context";
 import {
   projectOfficeTransition,
   projectSwearingIn,
@@ -262,7 +268,8 @@ import {
   selectedDocketKey,
   selectDocketBill,
 } from "../presentation/legislation-docket-selection";
-import { measureById } from "../simulation";
+import { homeStateUsps, measureById } from "../simulation";
+import { isTerritoryUsps } from "../simulation/state-reference";
 import { measureGate } from "../simulation/legislation";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { InvokerFocusReturn } from "./PersonSceneActionMenu";
@@ -492,17 +499,30 @@ export function PlayerGame() {
   const [notice, setNotice] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const [damaged, setDamaged] = useState<readonly QuarantinedSave[]>([]);
-  const [savesUnavailable, setSavesUnavailable] = useState(store === null);
+  const savesUnavailable = store === null;
+  const [saveListing, setSaveListing] = useState<SaveListingState>(
+    store === null ? "read" : "loading",
+  );
 
+  /*
+   * A failed read is not a browser that refuses storage. The store exists,
+   * so writing may still work and the saves may still be there; saying the
+   * browser "will not let the game store anything" told a player with a
+   * 40 MB life that it was gone. The screens say the list could not be read
+   * and offer to read it again, and until the first read finishes they say
+   * the lives are being opened rather than that there are none.
+   */
   const refreshSaves = useCallback(async () => {
     if (!store) return;
     try {
       const listing = await store.list();
       setSaves(listing.saves);
       setDamaged(listing.damaged);
-      setSavesUnavailable(false);
-    } catch {
-      setSavesUnavailable(true);
+      setSaveListing("read");
+    } catch (error) {
+      setSaveListing(
+        error instanceof SavesKeptByNewerBuildError ? "outdated" : "failed",
+      );
     }
   }, [store]);
 
@@ -706,7 +726,12 @@ export function PlayerGame() {
       startPlaying(world, personId, null, saveId);
       setNotice(null);
     } catch {
-      setProblem("That saved game could not be opened.");
+      // Said plainly that nothing was lost: a player who read only "could not
+      // be opened" about the one save of a sixteen-year life had no reason to
+      // believe it was still there.
+      setProblem(
+        "That saved game could not be opened just now. It has been kept, not deleted. Try again, or after the next update.",
+      );
     }
   }
 
@@ -834,6 +859,11 @@ export function PlayerGame() {
             saves={saves}
             damaged={damaged}
             savesUnavailable={savesUnavailable}
+            saveListing={saveListing}
+            onRetrySaves={() => {
+              setSaveListing("loading");
+              void refreshSaves();
+            }}
             problem={problem}
             onNewGame={() => {
               setProblem(null);
@@ -1004,6 +1034,11 @@ export function PlayerGame() {
         saves={saves}
         damaged={damaged}
         savesUnavailable={savesUnavailable}
+        saveListing={saveListing}
+        onRetrySaves={() => {
+          setSaveListing("loading");
+          void refreshSaves();
+        }}
         notice={notice}
         problem={problem}
         artProvenance={previewMode}
@@ -1801,6 +1836,15 @@ function SetupScreen({
                     {fact.text}
                   </p>
                 ))}
+              {placeRegionalFacts(place).map((fact) => (
+                <p
+                  key={fact.key}
+                  className="game-hint"
+                  data-testid={`place-regional-${fact.key}`}
+                >
+                  {fact.text}
+                </p>
+              ))}
               {populationFacts.map((fact) => (
                 <p
                   key={`${fact.kind}:${fact.text}:${fact.asOf}`}
@@ -2238,6 +2282,8 @@ function SavesScreen({
   saves,
   damaged,
   savesUnavailable,
+  saveListing,
+  onRetrySaves,
   notice,
   problem,
   artProvenance,
@@ -2250,6 +2296,8 @@ function SavesScreen({
   readonly saves: readonly BrowserWorldSummary[];
   readonly damaged: readonly QuarantinedSave[];
   readonly savesUnavailable: boolean;
+  readonly saveListing: SaveListingState;
+  readonly onRetrySaves: () => void;
   readonly notice: string | null;
   readonly problem: string | null;
   readonly artProvenance: "production" | "candidate-review";
@@ -2276,7 +2324,29 @@ function SavesScreen({
           {problem}
         </p>
       ) : null}
-      {saves.length === 0 && !savesUnavailable ? (
+      {saveListing === "loading" ? (
+        <p className="game-note" data-testid="saves-reading">
+          Opening your saved lives. A long life can take a moment.
+        </p>
+      ) : null}
+      {saveListing === "failed" ? (
+        <p className="game-problem" role="alert" data-testid="saves-unread">
+          Your saved lives could not be read just now. Nothing was deleted.{" "}
+          <button type="button" onClick={onRetrySaves}>
+            Try again
+          </button>
+        </p>
+      ) : null}
+      {saveListing === "outdated" ? (
+        <p className="game-problem" role="alert" data-testid="saves-outdated">
+          This page is an older copy of the game than the one that kept your
+          saved lives. Reload the page to open them. Nothing was deleted.{" "}
+          <button type="button" onClick={reloadPage}>
+            Reload
+          </button>
+        </p>
+      ) : null}
+      {saves.length === 0 && !savesUnavailable && saveListing === "read" ? (
         <p className="game-note" data-testid="saves-empty">
           No lives are saved in this browser yet. You can import a saved life
           below.
@@ -2352,13 +2422,21 @@ function SavesScreen({
                 data-testid="damaged-entry"
               >
                 <span>{entry.reason}</span>
-                {entry.mightBeReadableLater ? (
+                {entry.defect === "could-not-open-now" ? (
+                  <span className="game-note">
+                    The browser would not read it this time, so it cannot be
+                    removed now either. Try again later.
+                  </span>
+                ) : entry.mightBeReadableLater ? (
                   <span className="game-note">
                     A later version of the game may be able to open it, so it is
                     worth keeping for now.
                   </span>
                 ) : null}
-                {entry.saveId ? (
+                {entry.saveId && entry.defect !== "could-not-open-now" ? (
+                  // Not offered for a save the browser would not read just
+                  // now: removing it reads the whole record, and would fail
+                  // on exactly that save.
                   // The same two steps a healthy save gets. These are the ones
                   // the screen has just said may open in a later version and
                   // are worth keeping, so a single click was the weakest guard
@@ -2620,6 +2698,17 @@ function PlayingScreen({
     (days: 1 | 7) => {
       crisisStop.watch();
       submitTime({ kind: "days", days }, (report) => {
+        if (
+          report.status === "accepted" &&
+          report.reached &&
+          acceptedOfferStarts(session.world, session.personId).some(
+            (entry) => entry.startOn === report.reached?.date,
+          )
+        ) {
+          setPassOutcome(null);
+          dispatch({ type: "go-to-surface", surface: "work", section: "jobs" });
+          return;
+        }
         // The corner shows the new date; the notice is for what else happened.
         const news = routineOutcomeAfterClock(report.outcome);
         setPassOutcome(
@@ -2629,7 +2718,7 @@ function PlayingScreen({
         );
       });
     },
-    [crisisStop, submitTime],
+    [crisisStop, submitTime, session.world, session.personId, dispatch],
   );
   const passTargets = useMemo(() => {
     const day = previewTimeCommand(session.world, session.personId, {
@@ -3545,15 +3634,19 @@ function PlayingScreen({
                     and the first orientation are full surfaces of their own,
                     so the moment is not offered underneath them.
                   */
-                  pendingAvailable={!conversation && !showOrientation}
-                  pendingOpen={shell.momentOpen}
+                  pendingAvailable={
+                    !conversation &&
+                    !showOrientation &&
+                    projectedMoment.scene.kind !== "ordinary-stretch"
+                  }
+                  pendingOpen={
+                    shell.momentOpen &&
+                    projectedMoment.scene.kind !== "ordinary-stretch"
+                  }
                   pendingLife={
                     <StoryView
                       session={session}
-                      moment={projectStoryMoment(
-                        session.world,
-                        session.personId,
-                      )}
+                      moment={projectedMoment}
                       onWorldChange={onWorldChange}
                     />
                   }
@@ -3916,9 +4009,7 @@ function PlayingScreen({
                 }}
                 onSaveAndLeave={() => void saveAndReturnToTitle()}
                 onLeave={leaveNow}
-                {...(capabilities.formativeYears || readOnly
-                  ? {}
-                  : { onPassDays: passDays, passTargets })}
+                {...(readOnly ? {} : { onPassDays: passDays, passTargets })}
                 passing={timeRunner.pending}
               />
             ) : null}
@@ -4452,6 +4543,13 @@ function renderWorkspace({
           onOpen={openEntity}
           onTogglePin={togglePin}
           onWorldChange={onWorldChange}
+          onOpenWork={() =>
+            dispatch({
+              type: "go-to-surface",
+              surface: "work",
+              section: "jobs",
+            })
+          }
           interruptions={shell.preferences.interruptions}
           onInterruptionChange={(key, value) =>
             dispatch({ type: "set-interruption", key, value })
@@ -5115,7 +5213,8 @@ function renderWorkspace({
             <p>
               {capabilities.person.givenName} works for the{" "}
               {capabilities.workPlace?.displayName} legislature, so what is in
-              front of the chamber is in front of them too.
+              front of the chamber is in front of{" "}
+              {personPronouns(capabilities.person).object} too.
             </p>
             <OfficeOnboardingWorkspace
               world={session.world}
@@ -5166,6 +5265,11 @@ function renderWorkspace({
                 {floorNote}
               </p>
             ) : null}
+            <MemberVotesPanel
+              world={session.world}
+              personId={session.personId}
+              onWorldChange={onLegislativeChange}
+            />
             {capabilities.legislativeJurisdictionId ? (
               <DocketWorkspace
                 world={session.world}
@@ -5408,7 +5512,9 @@ function renderWorkspace({
       if (half === "campaign") {
         sections.push({
           key: "statewide",
-          title: "The state's top office",
+          title: isTerritoryUsps(homeStateUsps(session.world, session.personId))
+            ? "The territory's top office"
+            : "The state's top office",
           body: (
             <NationwideCandidacyWorkspace
               world={session.world}
@@ -5445,6 +5551,43 @@ function renderWorkspace({
               world={session.world}
               onWorldChange={onWorldChange}
             />
+          ),
+        });
+      }
+      const congressSeat =
+        officeHalf && !sections.some((section) => section.key === "office")
+          ? congressSeatStatus(session.world, session.personId)
+          : null;
+      if (congressSeat?.kind === "in-office") {
+        /*
+         * A seat in Congress, read from the same record the Congress overview
+         * and turnover use. The chamber's floor and committees are not yet
+         * something a member can take part in, and the card says so instead
+         * of offering work that does nothing.
+         */
+        sections.push({
+          key: "office",
+          title: "Your office",
+          body: (
+            <div data-testid="congress-seat-held">
+              <p>{congressStatusText(congressSeat)}</p>
+              <p data-testid="congress-committees">
+                {committeeText(
+                  congressCommitteeMembership(
+                    session.world,
+                    session.personId,
+                    congressSeat.identity.seat.chamberKey,
+                  ),
+                )}
+              </p>
+              <p className="game-note">
+                Your seat, its term and your record in it are real, and the seat
+                is decided again at its next election; file for it under
+                Campaigns to keep it. Floor votes, committee votes and a
+                member's office staff are not yet something you can take part
+                in.
+              </p>
+            </div>
           ),
         });
       }
@@ -5597,19 +5740,13 @@ function StoryView({
   readonly onWorldChange: (world: World) => void;
 }) {
   const [journalOpen, setJournalOpen] = useState(false);
-  const runner = useTimeCommand({
-    world: session.world,
-    personId: session.personId,
-    onWorldChange,
-  });
-  const quietPreview = useMemo(
-    () =>
-      previewTimeCommand(session.world, session.personId, {
-        kind: "quiet-stretch",
-      }),
+  const todayOptions = useMemo(
+    () => todayCalendarOptions(session.world, session.personId),
     [session.world, session.personId],
   );
-  const crisisStop = useCrisisStop(session.world);
+  const hasStoryChoices =
+    moment.scene.options.length > 0 ||
+    (moment.scene.kind !== "ordinary-stretch" && todayOptions.length > 0);
 
   return (
     <section className="game-story life-moment" data-testid="story-section">
@@ -5689,66 +5826,66 @@ function StoryView({
         </p>
       ) : null}
 
-      <h3 className="game-choices-heading" data-testid="story-choices-heading">
-        What do you do?
-      </h3>
-      <div className="game-choices life-choices" data-testid="story-options">
-        {moment.scene.options.map((option) => (
-          <button
-            key={option.key}
-            type="button"
-            className="ui-action ui-action--choice"
-            onClick={() =>
-              onWorldChange(
-                chooseStoryOption(session.world, {
-                  personId: session.personId,
-                  scene: moment.scene,
-                  optionKey: option.key,
-                  transitionHandlers:
-                    createCampaignElectionTransitionRegistry(),
-                  advanceDays: (world, days) =>
-                    passOrdinaryDays(
-                      world,
-                      days,
-                      createCampaignElectionTransitionRegistry(),
-                    ),
-                }),
-              )
-            }
+      {hasStoryChoices ? (
+        <>
+          <h3
+            className="game-choices-heading"
+            data-testid="story-choices-heading"
           >
-            {option.label}
-            <small>{option.description}</small>
-          </button>
-        ))}
-        {moment.scene.kind === "ordinary-stretch" ? null : (
-          <button
-            type="button"
-            className="ui-action ui-action--choice ui-action--quiet"
-            data-testid="story-let-time-pass"
-            aria-disabled={runner.pending || undefined}
-            aria-busy={runner.pending}
-            onClick={() => {
-              crisisStop.watch();
-              runner.submit({ kind: "quiet-stretch" });
-            }}
+            What do you do?
+          </h3>
+          <div
+            className="game-choices life-choices"
+            data-testid="story-options"
           >
-            {moment.formativeYears ? "Let the year run on" : "Let time pass"}
-            <small data-testid="story-let-time-pass-target">
-              {moment.formativeYears || !quietPreview
-                ? "Come back to it when something needs you."
-                : `${describeTimeCommandPreview(quietPreview)}. Stops early for anything that needs you.`}
-            </small>
-          </button>
-        )}
-      </div>
-
-      {crisisStop.stop ? (
-        <p className="game-note" role="status" data-testid="story-crisis-stop">
-          {crisisStop.stop.sentence}{" "}
-          {crisisStop.stop.target === "authority"
-            ? "It is waiting in your office."
-            : "It is waiting under Who you are."}
-        </p>
+            {moment.scene.options.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                className="ui-action ui-action--choice"
+                onClick={() =>
+                  onWorldChange(
+                    chooseStoryOption(session.world, {
+                      personId: session.personId,
+                      scene: moment.scene,
+                      optionKey: option.key,
+                      transitionHandlers:
+                        createCampaignElectionTransitionRegistry(),
+                    }),
+                  )
+                }
+              >
+                {option.label}
+                {storyOptionNote(option) !== null ? (
+                  <small>{storyOptionNote(option)}</small>
+                ) : null}
+              </button>
+            ))}
+            {/* Dated invitations remain reachable beside an active scene. */}
+            {moment.scene.kind === "ordinary-stretch"
+              ? null
+              : todayOptions.map((option) => (
+                  <button
+                    key={option.key}
+                    type="button"
+                    className="ui-action ui-action--choice"
+                    data-testid="story-today-calendar"
+                    onClick={() => {
+                      const next = chooseTodayCalendarOption(session.world, {
+                        personId: session.personId,
+                        optionKey: option.key,
+                        transitionHandlers:
+                          createCampaignElectionTransitionRegistry(),
+                      });
+                      if (next) onWorldChange(next);
+                    }}
+                  >
+                    {option.label}
+                    <small>{option.description}</small>
+                  </button>
+                ))}
+          </div>
+        </>
       ) : null}
 
       {moment.openThreads.length > 0 ? (
@@ -5913,7 +6050,7 @@ function TodayView({
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onGoTo: (
     surface: "work" | "calendar" | "places",
-    section?: "campaign",
+    section?: "campaign" | "jobs",
   ) => void;
   /** Inside the Calendar, which carries its own day controls and entries. */
   readonly embedded?: boolean;
@@ -6041,9 +6178,6 @@ function TodayView({
           personId={session.personId}
           onWorldChange={onWorldChange}
         />
-        {embedded ? null : (
-          <PassDayControl session={session} onWorldChange={onWorldChange} />
-        )}
       </section>
 
       <nav className="pg-today-links" aria-label="From today">
@@ -6078,87 +6212,6 @@ function TodayView({
         </button>
       </nav>
     </section>
-  );
-}
-
-/**
- * Moving on to tomorrow. The one control that waits, wherever it appears.
- *
- * It is on Today, and it is on Work, because the loop of a campaign or a job
- * is "act, then let the day end": sending somebody from the work they are
- * doing to another screen to end the day was the hunting the owner described.
- * It is the same canonical writer and the same words in both places.
- */
-function PassDayControl({
-  session,
-  onWorldChange,
-  withClock = false,
-}: {
-  readonly session: Session;
-  readonly onWorldChange: (world: World) => void;
-  /** Say what time it is beside the control, where nothing else on the page does. */
-  readonly withClock?: boolean;
-}) {
-  const today = useMemo(
-    () => (withClock ? projectToday(session.world, session.personId) : null),
-    [withClock, session.world, session.personId],
-  );
-  const runner = useTimeCommand({
-    world: session.world,
-    personId: session.personId,
-    onWorldChange,
-  });
-  const [outcome, setOutcome] = useState<string | null>(null);
-  const target = useMemo(
-    () =>
-      previewTimeCommand(session.world, session.personId, {
-        kind: "days",
-        days: 1,
-      }),
-    [session.world, session.personId],
-  );
-  return (
-    <div className="game-choices pg-pass-day">
-      {today ? (
-        <p className="game-band" data-testid="day-date">
-          {today.dateLabel} · {today.timeLabel}
-        </p>
-      ) : null}
-      <button
-        type="button"
-        data-testid="pass-day"
-        aria-disabled={runner.pending || undefined}
-        aria-busy={runner.pending}
-        onClick={() =>
-          runner.submit({ kind: "days", days: 1 }, (report) =>
-            setOutcome(
-              report.stoppedEarly && report.target
-                ? `${stoppedEarlyLabel(report.target)} ${report.outcome}`
-                : report.outcome,
-            ),
-          )
-        }
-      >
-        Get on with the day
-        <small>
-          {runner.pending
-            ? "Time is passing…"
-            : target
-              ? `${skipToLabel(target.target)}. Stops early for anything protected.`
-              : "Move to tomorrow."}
-        </small>
-      </button>
-      {outcome && !runner.pending ? (
-        <p
-          className="game-note"
-          role="status"
-          data-testid="pass-day-outcome"
-          style={{ whiteSpace: "pre-line" }}
-        >
-          {outcome}
-        </p>
-      ) : null}
-    </div>
   );
 }
 
@@ -6240,3 +6293,11 @@ function WorkLayout({
   );
 }
 import { NationalElectionResults } from "./NationalElectionResults";
+
+function committeeText(
+  membership: ReturnType<typeof congressCommitteeMembership>,
+): string {
+  return membership.kind === "committees"
+    ? membership.label
+    : membership.reason;
+}

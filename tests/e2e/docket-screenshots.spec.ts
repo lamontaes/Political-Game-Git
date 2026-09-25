@@ -39,7 +39,7 @@ async function freshBrowser(page: Page) {
 async function liveUntilDecided(page: Page, maxDays = 45) {
   for (let day = 0; day < maxDays; day += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
-    await page.getByTestId("pass-day").click();
+    await page.getByTestId("shell-pass-day").click();
   }
   return page.getByTestId("campaign-result").isVisible();
 }
@@ -64,7 +64,7 @@ test("captures the five-minute click path", async ({ page }) => {
   // still reaches one.
   for (let day = 0; day < 48; day += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) break;
-    await page.getByTestId("pass-day").click();
+    await page.getByTestId("shell-pass-day").click();
     await workOfferedOutreach(page);
   }
   expect(await liveUntilDecided(page)).toBe(true);

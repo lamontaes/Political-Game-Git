@@ -223,6 +223,11 @@ export interface QuestionnaireItem {
    * childhood.
    */
   readonly fixedOrdinal: number | null;
+  /** A follow-up belongs to one recorded answer, never to the general pool. */
+  readonly followUpTo?: {
+    readonly questionKey: string;
+    readonly choiceId: string;
+  };
   readonly prompt: string;
   readonly options: readonly QuestionnaireOption[];
   /** How much this item is worth, before the setup ceiling. On [0, 1]. */
