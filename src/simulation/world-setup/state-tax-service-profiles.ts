@@ -20,7 +20,7 @@ const WORLD_SETUP_PROFILE_STREAM = "world-setup:crunch46-v1";
 const STARTING_CONDITIONS_KEY =
   WORLD_SETUP_PROFILE_STREAM + ":state-tax-service-starting-conditions";
 const PROFILE_NOTICE =
-  "Fictional game-profile mechanics: each state's legislature holds ordinary tax authority by default, and its opening law taxes the wages the game pays at a seeded rate. The rate is calibrated against real states and then drifts; it is not current state law or source evidence.";
+  "Fictional game-profile mechanics: each government's legislature or council holds ordinary tax authority by default, and its opening law taxes the wages the game pays at a seeded rate. The rate is calibrated against the real jurisdiction and then drifts; it is not current law or source evidence.";
 
 /**
  * Calibration only (owner rule: real data calibrates, the game generates).
@@ -79,6 +79,10 @@ const WAGE_TAX_CALIBRATION_BASIS_POINTS: Readonly<Record<string, number>> = {
   "US-WI": 530,
   "US-WV": 480,
   "US-WY": 0,
+  // DC OTR's 2025 D-40 rate table retains 6.5% for $40k-$60k and is
+  // published for tax years beginning after 2021. This is calibration only.
+  // https://otr.cfo.dc.gov/page/dc-individual-and-fiduciary-income-tax-rates
+  "US-DC": 650,
 };
 
 /** The highest opening rate the drift can reach, in basis points. */
@@ -131,16 +135,16 @@ export function stateWageTaxTerms(
     // Withheld from each paycheck the day it is paid; this lag is the dated
     // route's settlement floor and is not used by withholding.
     collectionLagDays: 1,
-    publicPurpose: "general " + stateName + " state services",
+    publicPurpose: "general " + stateName + " public services",
     assumptionNote:
       "The wage base, rate and payroll withholding are fictional " +
       stateName +
-      " game-profile assumptions generated for this save; they are not state law or sourced tax authority.",
+      " game-profile assumptions generated for this save; they are not jurisdiction law or sourced tax authority.",
     legalBaselineAssumption: "authored-state-game-profile",
   };
 }
 
-const stateKeys = [...US_STATE_USPS]
+const stateKeys = [...US_STATE_USPS, "DC"]
   .sort()
   .map((stateUsps) => "US-" + stateUsps);
 
@@ -316,7 +320,7 @@ export function stateTaxServiceProfileByRef(
     : null;
 }
 
-/** Full-save integrity hook for the versioned, canonical fifty-state payload. */
+/** Full-save integrity hook for the canonical fifty states and District. */
 export function assertStateTaxServiceStartingConditions(
   record: StateTaxServiceStartingConditionsRecord,
 ): void {
@@ -326,7 +330,7 @@ export function assertStateTaxServiceStartingConditions(
     record.profiles.length !== stateKeys.length
   )
     throw new Error(
-      "State tax/service starting conditions must contain the current fifty-state contract.",
+      "State tax/service starting conditions have an invalid jurisdiction contract.",
     );
   for (let index = 0; index < stateKeys.length; index += 1) {
     const profile = record.profiles[index]!;
@@ -343,18 +347,19 @@ export function assertStateTaxServiceStartingConditions(
     const rateBasisPoints =
       (profile.taxTerms.rateNumerator * 10_000) /
       profile.taxTerms.rateDenominator;
-    if (
-      !Number.isSafeInteger(rateBasisPoints) ||
-      rateBasisPoints < 0 ||
-      rateBasisPoints > STATE_WAGE_TAX_OPENING_CEILING_BASIS_POINTS ||
-      canonicalJson(profile.taxTerms) !==
-        canonicalJson(
-          stateWageTaxTerms(
+    const expected =
+      Number.isSafeInteger(rateBasisPoints) &&
+      rateBasisPoints >= 0 &&
+      rateBasisPoints <= STATE_WAGE_TAX_OPENING_CEILING_BASIS_POINTS
+        ? stateWageTaxTerms(
             profile.jurisdictionKey,
             jurisdiction.name,
             rateBasisPoints,
-          ),
-        )
+          )
+        : null;
+    if (
+      !expected ||
+      canonicalJson(profile.taxTerms) !== canonicalJson(expected)
     )
       throw new Error(
         "State tax/service profile exceeds its authored rate calibration for " +

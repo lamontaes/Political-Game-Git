@@ -15,10 +15,7 @@ import {
 } from "../simulation/world-setup/state-tax-service-profiles";
 import { ensureWorldStartingConditions } from "../simulation/world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
-import {
-  RULES_CAPABILITY_VERSION,
-  resolveCapability,
-} from "../simulation/rule-capability-resolver";
+import { RULES_CAPABILITY_VERSION } from "../simulation/rule-capability-resolver";
 import {
   FUNDED_SERVICE_FIELDS,
   fundedServiceRefusal,
@@ -48,33 +45,20 @@ describe("funded civic service capability across the registry", () => {
     ).toContain(`${RULES_CAPABILITY_VERSION} institution.form`);
   });
 
-  it("does not treat a saved service profile as an admitted member-vote route", () => {
+  it("uses the ordinary member-ballot route in states with saved profiles", () => {
     for (const key of ["US-NV", "US-WY"]) {
-      const rules = resolveCapability({
-        scope: { kind: "state", stateUsps: key.slice(3) },
-        action: "inspect",
-        onDate: ON,
-      }).fields.find((entry) => entry.field === "institution.form")!;
       const capability = resolveStateFundedServiceCapability(
         key,
         ON,
         undefined,
         profileFor(key),
       );
-      expect(capability.missing.includes("legislative-procedure")).toBe(
-        rules.state !== "ADMITTED",
-      );
-      if (key === "US-NV") {
-        expect(capability.supported).toBe(false);
-        expect(capability.missing).toEqual(
-          expect.arrayContaining([
-            "appropriation-decision",
-            "revenue-decision",
-          ]),
-        );
-      } else {
-        expect(capability.supported).toBe(false);
-      }
+      expect(capability.supported).toBe(true);
+      expect(capability.missing).toEqual([]);
+      expect(
+        capability.readings.find((row) => row.field === "revenue-decision")
+          ?.basis,
+      ).toContain("Member ballots and the institutional clock");
     }
     const missingSavedProfile = resolveStateFundedServiceCapability(
       "US-KY",
@@ -84,7 +68,7 @@ describe("funded civic service capability across the registry", () => {
       expect.arrayContaining([
         "tax-power",
         "funding-effective-date",
-        "service-program",
+        "public-account",
       ]),
     );
     const nevada = resolveStateFundedServiceCapability(
@@ -97,13 +81,13 @@ describe("funded civic service capability across the registry", () => {
       nevada.readings.find((row) => row.field === "tax-power")?.basis,
     ).toContain("explicit fictional tax assumptions");
     const wyoming = resolveStateFundedServiceCapability("US-WY", ON);
-    expect(wyoming.missing).toContain("legislative-procedure");
+    expect(wyoming.missing).toContain("tax-power");
     expect(fundedServiceRefusal(wyoming)).toMatch(
-      /^Funded public service is not yet playable for Wyoming\. Missing: a compiled legislative institution;/,
+      /^Funded public service is not yet playable for Wyoming\. Missing:/,
     );
   });
 
-  it("covers all 50 states and every loaded local government, claiming none it cannot run", () => {
+  it("covers all 50 state routes and reports local government gaps", () => {
     const coverage = nationwideFundedServiceCoverage(ON);
     expect(coverage.states.map((row) => row.jurisdictionKey)).toEqual([
       ...ARTICLE_V_STATE_KEYS,
@@ -112,7 +96,7 @@ describe("funded civic service capability across the registry", () => {
       coverage.states
         .filter((row) => row.supported)
         .map((row) => row.jurisdictionKey),
-    ).toEqual(["US-AK"]);
+    ).toEqual([...ARTICLE_V_STATE_KEYS]);
     expect(coverage.local.governments).toBeGreaterThan(0);
     expect(coverage.local.supported).toBe(0);
   });
@@ -137,18 +121,18 @@ describe("funded civic service capability across the registry", () => {
         undefined,
         savedKentuckyProfile,
       ).supported,
-    ).toBe(false);
-    expect(transitOffice(kentucky.world, kentucky.personId)).toEqual({
-      kind: "unavailable",
-      reason: fundedServiceRefusal(
-        resolveStateFundedServiceCapability(
-          "US-KY",
-          kentucky.world.currentDate,
-          TRANSIT_PROGRAM_KEY,
-          savedKentuckyProfile,
-        ),
-      ),
-    });
+    ).toBe(true);
+    expect(
+      resolveStateFundedServiceCapability(
+        "US-KY",
+        kentucky.world.currentDate,
+        TRANSIT_PROGRAM_KEY,
+        savedKentuckyProfile,
+      ).supported,
+    ).toBe(true);
+    expect(transitOffice(kentucky.world, kentucky.personId).kind).toBe(
+      "available",
+    );
     const alaska = suppliedLegislativeSeat("US-AK", "house");
     expect(transitOffice(alaska.world, alaska.personId).kind).toBe("available");
   });

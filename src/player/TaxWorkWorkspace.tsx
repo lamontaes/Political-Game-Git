@@ -15,7 +15,6 @@ import {
 } from "../presentation/tax-work";
 import { proseDate } from "../presentation/prose-dates";
 import { LegislationWorkspace } from "./LegislationWorkspace";
-import { RecordedSittingAdmission } from "./RecordedSittingAdmission";
 import type { EntityId, World } from "../simulation";
 
 export function exactDollarInput(value: string): number {
@@ -154,9 +153,9 @@ export function TaxWorkWorkspace({
     >
       <h3>Tax work and receipts</h3>
       <p>
-        Your state taxes the wages it pays its residents. Employers withhold the
-        tax from each paycheck and it goes to the state's public account. A tax
-        bill changes the rate once it becomes law and takes effect.
+        Your jurisdiction taxes residents&rsquo; wages. Employers withhold the
+        tax from each paycheck and it goes to the public account. A tax bill
+        changes the rate once it becomes law and takes effect.
       </p>
       <div ref={feedbackRef} className="tax-work-feedback">
         {error ? <p role="alert">{error}</p> : null}
@@ -166,9 +165,8 @@ export function TaxWorkWorkspace({
         <details>
           <summary>Propose a new state tax rate on wages</summary>
           <p data-testid="tax-rate-in-force">
-            Employers in this state withhold{" "}
-            {taxRatePercentText(office.inForce)} of each resident's wages for
-            the state today.
+            Employers here withhold {taxRatePercentText(office.inForce)} of each
+            resident's wages for the state today.
           </p>
           <fieldset className="tax-work-step">
             <legend>The rate your bill would set</legend>
@@ -257,22 +255,6 @@ export function TaxWorkWorkspace({
             </div>
             {assignment ? (
               <div className="tax-work-procedure">
-                {assignment.kind === "available" &&
-                !assignment.assignment.procedure.recordedSittingEventId ? (
-                  <RecordedSittingAdmission
-                    world={world}
-                    measureId={proposal.measureId}
-                    playerPersonId={personId}
-                    name={`tax-recorded-ballot-${proposal.id}`}
-                    testIdPrefix="tax"
-                    onWorldChange={onLegislativeChange}
-                    onAdmitted={() => setError(null)}
-                    onError={(refusal) => {
-                      setError(refusal);
-                      setFeedbackSeq((count) => count + 1);
-                    }}
-                  />
-                ) : null}
                 {assignment.kind === "available" ? (
                   <LegislationWorkspace
                     world={world}

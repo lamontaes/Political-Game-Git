@@ -1,11 +1,7 @@
 import { resolveLegislativeFilingEntry } from "../presentation/legislative-filing-entry";
 import { resolveLegislativeAssignmentForMeasure } from "../presentation/legislation-world";
-import {
-  recordedSittingAvailable,
-  hasRecordedLegislativeSitting,
-} from "../presentation/legislative-authored-sitting";
+import { hasRecordedLegislativeSitting } from "../presentation/legislative-authored-sitting";
 import { LegislationWorkspace } from "./LegislationWorkspace";
-import { RecordedSittingAdmission } from "./RecordedSittingAdmission";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
 import {
   regularSessionActionRefusal,
@@ -743,26 +739,6 @@ function FiledBillPanel({
       ) : null}
 
       <section data-testid="docket-institutional-procedure">
-        {recordedSittingAvailable(world, {
-          measureId: bill.measureId,
-          playerPersonId,
-        }) &&
-        institutionalAssignment.kind === "available" &&
-        !institutionalAssignment.assignment.procedure.recordedSittingEventId ? (
-          <RecordedSittingAdmission
-            world={world}
-            measureId={bill.measureId}
-            playerPersonId={playerPersonId}
-            name={`recorded-ballot-${bill.docketKey}`}
-            testIdPrefix="docket"
-            onWorldChange={onWorldChange}
-            onAdmitted={() => {
-              setFollowingProcedure(true);
-              setEstimateError(null);
-            }}
-            onError={setEstimateError}
-          />
-        ) : null}
         <button
           type="button"
           className="ui-action"

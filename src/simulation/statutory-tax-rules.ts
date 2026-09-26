@@ -158,7 +158,7 @@ const NOT_IMPOSED: Readonly<Record<string, string>> = {
     "https://sao.wyo.gov/wp-content/uploads/2026/01/2025-ACFR-12.22.25.pdf",
 };
 
-const UNKNOWN_WAGE_TAX = new Set(["US-MT"]);
+const UNKNOWN_WAGE_TAX = new Set<string>();
 
 const TERRITORIES = new Set(["US-PR", "US-GU", "US-VI", "US-AS", "US-MP"]);
 
@@ -187,6 +187,10 @@ const IMPOSED = new Set([
   "US-MN",
   "US-MS",
   "US-MO",
+  // Montana DOR requires employers to withhold tax on wages paid for work in
+  // Montana (Form MW-4, employer instructions, 2025 edition).
+  // https://mtrevenue.gov/wp-content/uploads/dlm_uploads/2024/12/Montana_Employees_Withholding_Allowance_and_Exemption_Certificate_Form_MW-4.pdf
+  "US-MT",
   "US-NE",
   "US-NJ",
   "US-NM",

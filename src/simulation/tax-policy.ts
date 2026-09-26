@@ -3,6 +3,7 @@ import { assertTaxDraftIdentityIntegrity } from "./legislation-tax-identity";
 import powerProjection from "../fiscal-authority/tax-powers.generated.json" with { type: "json" };
 import { canonicalJson } from "./canonical-json";
 import { addDays, makeIsoDate } from "./dates";
+import { operativeDateForEnactment } from "./legislative-effective-date";
 import { createStableId } from "./ids";
 import {
   currentMeasureProvisions,
@@ -44,6 +45,7 @@ import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  LegislativeEnactmentRecord,
   PublicGovernmentIdentity,
   World,
 } from "./types";
@@ -349,7 +351,8 @@ export function stateWageTaxInForce(
     world,
     jurisdictionKey,
   );
-  if (!profile) return null;
+  if (!profile || profile.taxTerms.baseKey !== STATE_WAGE_TAX_BASE_KEY)
+    return null;
   const policy = effectiveTaxPolicy(
     world,
     profile.jurisdictionId,
@@ -391,23 +394,15 @@ export function taxLevyText(terms: TaxTerms): string {
  * law itself. Alaska retains its existing ninety-day source-backed date rule.
  */
 export function taxPolicyEffectiveDate(
-  enactment: {
-    readonly resolvedAt: IsoDate;
-    readonly effectiveAt: IsoDate | null;
-  },
+  enactment: LegislativeEnactmentRecord,
   terms: TaxTerms,
 ): IsoDate {
-  const profileDate = addDays(
-    enactment.resolvedAt,
-    terms.effectiveDelayDays ?? 90,
-  );
-  if (
-    terms.legalBaselineAssumption !== "authored-state-game-profile" ||
-    !enactment.effectiveAt ||
-    enactment.effectiveAt <= profileDate
-  )
-    return profileDate;
-  return enactment.effectiveAt;
+  const operative = operativeDateForEnactment(enactment);
+  const delay = terms.effectiveDelayDays;
+  if (!operative && delay === undefined)
+    throw new Error("The tax law has no resolved operative date.");
+  const floor = addDays(enactment.resolvedAt, delay ?? 0);
+  return operative && operative.date > floor ? operative.date : floor;
 }
 
 /** The existing enactment and its adopted text must precede any policy version.

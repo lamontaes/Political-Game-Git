@@ -20,8 +20,11 @@ import {
   jobOpening,
   latestApplicationStep,
   openJobListings,
+  settleJobPay,
   startJob,
 } from "../simulation/job-market";
+import { ensureWorldStartingConditions } from "../simulation/world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
 import { createExplicitGeographyLife } from "./new-game-geography";
 import { openOrdinaryLife } from "./ordinary-life";
 import { letAdultTimePass } from "./adult-life";
@@ -38,6 +41,7 @@ const ELY = "3223500";
 const HOUMA = "2236255";
 const RENO = "3260600";
 const SAN_JUAN = "7276770";
+const MINNEAPOLIS = "2743000";
 
 function begin(placeKey: string, seed: string) {
   const life = createExplicitGeographyLife({
@@ -246,112 +250,167 @@ describe("jobs in a town", () => {
     ).toMatch(/^They turned you down\./);
   });
 
-  it("hires through someone the player knows, and pays the job weekly once started", () => {
-    const start = begin(SAN_JUAN, "jobs-san-juan");
-    let world = start.world;
-    const home = world.people[start.personId]!.homeJurisdictionId;
-    // Puerto Rico has no Census government listing, so no public body is
-    // named; town businesses are the only employers here.
-    const localBusinessIds = new Set(
-      world.history.organizations
-        .filter((org) => org.stableKey.startsWith("local-business:"))
-        .map((org) => org.id),
-    );
-    expect(
-      openJobListings(
-        untilListed(world, start.personId, 2),
-        start.personId,
-      ).filter((opening) => !localBusinessIds.has(opening.organizationId)),
-    ).toEqual([]);
-    const relative = kinshipRelationshipsAt(world, start.personId)
-      .flatMap((kin) => kin.personIds)
-      .find(
-        (id) =>
-          id !== start.personId &&
-          ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 30,
-      )!;
-    world = seatShop(world, home, relative, "Colmado La Esquina");
-    const colmado = world.history.organizations.at(-1)!.id;
-    const colmadoListed = (w: World) =>
-      openJobListings(w, start.personId).some(
+  it.each([
+    [SAN_JUAN, "jobs-san-juan", false],
+    [MINNEAPOLIS, "jobs-san-juan", true],
+  ] as const)(
+    "hires through a known person in %s and taxes only actual weekly pay",
+    (placeKey, seed, modeledStateTax) => {
+      const start = begin(placeKey, seed);
+      let world = modeledStateTax
+        ? ensureWorldStartingConditions(start.world, {
+            openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+          })
+        : start.world;
+      const home = world.people[start.personId]!.homeJurisdictionId;
+      // Puerto Rico has no Census government listing, so no public body is
+      // named; town businesses are the only employers here.
+      const localBusinessIds = new Set(
+        world.history.organizations
+          .filter((org) => org.stableKey.startsWith("local-business:"))
+          .map((org) => org.id),
+      );
+      if (!modeledStateTax)
+        expect(
+          openJobListings(
+            untilListed(world, start.personId, 2),
+            start.personId,
+          ).filter((opening) => !localBusinessIds.has(opening.organizationId)),
+        ).toEqual([]);
+      const relative = kinshipRelationshipsAt(world, start.personId)
+        .flatMap((kin) => kin.personIds)
+        .find(
+          (id) =>
+            id !== start.personId &&
+            ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 30,
+        )!;
+      const shopName = modeledStateTax
+        ? "North Loop Market"
+        : "Colmado La Esquina";
+      world = seatShop(world, home, relative, shopName);
+      const colmado = world.history.organizations.at(-1)!.id;
+      const colmadoListed = (w: World) =>
+        openJobListings(w, start.personId).some(
+          (entry) => entry.organizationId === colmado,
+        );
+      world = passUntil(world, colmadoListed, 120);
+      const opening = openJobListings(world, start.personId).find(
         (entry) => entry.organizationId === colmado,
+      )!;
+      expect(introducersFor(world, start.personId, opening.id)).toEqual([
+        relative,
+      ]);
+      const listing = projectJobMarket(world, start.personId).listings.find(
+        (entry) => entry.openingId === opening.id,
+      )!;
+      expect(listing.employerLine).toMatch(new RegExp(`^${shopName}`));
+      expect(listing.introducers[0]!.label).toMatch(
+        /^Ask .+ to put in a word$/,
       );
-    world = passUntil(world, colmadoListed, 120);
-    const opening = openJobListings(world, start.personId).find(
-      (entry) => entry.organizationId === colmado,
-    )!;
-    expect(introducersFor(world, start.personId, opening.id)).toEqual([
-      relative,
-    ]);
-    const listing = projectJobMarket(world, start.personId).listings.find(
-      (entry) => entry.openingId === opening.id,
-    )!;
-    expect(listing.employerLine).toMatch(/^Colmado La Esquina/);
-    expect(listing.introducers[0]!.label).toMatch(/^Ask .+ to put in a word$/);
 
-    const applied = applyForJob(world, start.personId, opening.id, relative);
-    expect(applied.ok).toBe(true);
-    const application = applicationsFor(applied.world, start.personId)[0]!;
-    expect(application.route).toBe("introduced");
-    world = passUntil(
-      applied.world,
-      (w) => latestApplicationStep(w, application.id) !== null,
-    );
-    const offer = latestApplicationStep(world, application.id)!;
-    expect(offer.kind).toBe("offered");
-    const replyDays =
-      (Date.parse(offer.replyBy!) - Date.parse(offer.occurredAt)) / 86_400_000;
-    expect(replyDays).toBeGreaterThanOrEqual(JOB_TIMING.offerReplyDays.minimum);
-    expect(replyDays).toBeLessThanOrEqual(JOB_TIMING.offerReplyDays.maximum);
-
-    // Save and reopen with the offer outstanding: the deadline does not move.
-    world = deserializeWorld(serializeWorld(world));
-    expect(latestApplicationStep(world, application.id)).toEqual(offer);
-
-    const accepted = answerJobOffer(world, application.id, true);
-    expect(accepted.ok).toBe(true);
-    world = deserializeWorld(serializeWorld(accepted.world));
-    let reachedStart = false;
-    for (let attempt = 0; attempt < 20; attempt += 1) {
-      const advanced = submitTimeCommand(
-        world,
-        {
-          requestId: `job-start-${attempt}`,
-          personId: start.personId,
-          sourceMoment: world.currentMoment,
-          command: { kind: "days", days: 30 },
-        },
-        () => 0,
+      const applied = applyForJob(world, start.personId, opening.id, relative);
+      expect(applied.ok).toBe(true);
+      const application = applicationsFor(applied.world, start.personId)[0]!;
+      expect(application.route).toBe("introduced");
+      world = passUntil(
+        applied.world,
+        (w) => latestApplicationStep(w, application.id) !== null,
       );
-      if (advanced.world === world) break;
-      world = advanced.world;
-      if (world.currentDate === offer.startAt) {
-        reachedStart = true;
-        expect(advanced.receipt.stoppedEarly).toBe(true);
-        break;
+      const offer = latestApplicationStep(world, application.id)!;
+      expect(offer.kind).toBe("offered");
+      const replyDays =
+        (Date.parse(offer.replyBy!) - Date.parse(offer.occurredAt)) /
+        86_400_000;
+      expect(replyDays).toBeGreaterThanOrEqual(
+        JOB_TIMING.offerReplyDays.minimum,
+      );
+      expect(replyDays).toBeLessThanOrEqual(JOB_TIMING.offerReplyDays.maximum);
+
+      // Save and reopen with the offer outstanding: the deadline does not move.
+      world = deserializeWorld(serializeWorld(world));
+      expect(latestApplicationStep(world, application.id)).toEqual(offer);
+
+      const accepted = answerJobOffer(world, application.id, true);
+      expect(accepted.ok).toBe(true);
+      world = deserializeWorld(serializeWorld(accepted.world));
+      let reachedStart = false;
+      for (let attempt = 0; attempt < 20; attempt += 1) {
+        const advanced = submitTimeCommand(
+          world,
+          {
+            requestId: `job-start-${attempt}`,
+            personId: start.personId,
+            sourceMoment: world.currentMoment,
+            command: { kind: "days", days: 30 },
+          },
+          () => 0,
+        );
+        if (advanced.world === world) break;
+        world = advanced.world;
+        if (world.currentDate === offer.startAt) {
+          reachedStart = true;
+          expect(advanced.receipt.stoppedEarly).toBe(true);
+          break;
+        }
+        if (world.currentDate > offer.startAt!) break;
       }
-      if (world.currentDate > offer.startAt!) break;
-    }
-    expect(reachedStart).toBe(true);
-    const started = startJob(world, application.id);
-    expect(started.ok).toBe(true);
-    world = started.world;
-    const work = world.history.workRelationships.at(-1)!;
-    expect(work.kind).toBe(JOB_MARKET_WORK_KIND);
-    expect(projectJobMarket(world, start.personId).heldJobs).toHaveLength(1);
-    world = letAdultTimePass(world, 15);
-    const flow = world.history.resourceFlows.find(
-      (row) => row.stableKey === `job-pay:${work.id}`,
-    )!;
-    const paid = world.history.resourceTransferOutcomes.filter(
-      (row) => row.resourceFlowId === flow.id,
-    );
-    expect(paid.length).toBe(2);
-    expect(paid[0]!.transferredAmount.minorUnits).toBe(
-      opening.pay.amount.minorUnits * offer.agreedWeeklyHours!,
-    );
-    assertWorldIntegrity(world);
-  });
+      expect(reachedStart).toBe(true);
+      const started = startJob(world, application.id);
+      expect(started.ok).toBe(true);
+      world = started.world;
+      const work = world.history.workRelationships.at(-1)!;
+      expect(work.kind).toBe(JOB_MARKET_WORK_KIND);
+      expect(projectJobMarket(world, start.personId).heldJobs).toHaveLength(1);
+      world = letAdultTimePass(world, 15);
+      const flow = world.history.resourceFlows.find(
+        (row) => row.stableKey === `job-pay:${work.id}`,
+      )!;
+      const paid = world.history.resourceTransferOutcomes.filter(
+        (row) => row.resourceFlowId === flow.id,
+      );
+      expect(paid.length).toBe(2);
+      expect(paid[0]!.transferredAmount.minorUnits).toBe(
+        opening.pay.amount.minorUnits * offer.agreedWeeklyHours!,
+      );
+      for (const transfer of paid) {
+        const liabilities = (
+          world.history.statutoryTaxLiabilities ?? []
+        ).filter((row) => row.sourceOutcomeId === transfer.id);
+        expect(
+          liabilities.filter(
+            (row) => row.taxKey === "us-federal:social-security-employee",
+          ),
+        ).toHaveLength(1);
+        expect(
+          liabilities.filter(
+            (row) => row.taxKey === "us-federal:medicare-employee",
+          ),
+        ).toHaveLength(1);
+        const state = liabilities.find(
+          (row) => row.taxKey === "us-mn:wage-income-tax",
+        );
+        if (modeledStateTax) {
+          expect(state?.liability?.minorUnits).toBeGreaterThan(0);
+          expect(state?.gameLaw?.seriesKey).toBe("state-wage-income:mn");
+        } else expect(state).toBeUndefined();
+        const payments = (world.history.statutoryTaxPayments ?? []).filter(
+          (row) =>
+            liabilities.some((liability) => liability.id === row.liabilityId),
+        );
+        if (modeledStateTax) expect(payments.length).toBeGreaterThan(0);
+        else expect(payments).toHaveLength(0);
+      }
+      const reloaded = deserializeWorld(serializeWorld(world));
+      const settledAgain = settleJobPay(reloaded, start.personId);
+      expect(settledAgain.history.statutoryTaxLiabilities).toEqual(
+        reloaded.history.statutoryTaxLiabilities,
+      );
+      expect(settledAgain.history.statutoryTaxPayments).toEqual(
+        reloaded.history.statutoryTaxPayments,
+      );
+      assertWorldIntegrity(world);
+    },
+  );
 
   it("follows up or withdraws after a missed start, and lets an unanswered offer lapse", () => {
     const outcomes = new Set<string>();

@@ -28,6 +28,7 @@ import {
 } from "./life-places";
 import { organizationProfileAt } from "./life-queries";
 import {
+  ensureJurisdiction,
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "./national-election-geography";
@@ -230,7 +231,7 @@ function paycheckLiabilities(
   // A state taxes wages under its own law in the game: the rate it opened
   // with, or the rate its legislature last enacted. Every state reads the
   // same way (owner decision 2026-09-26); the sourced research below is used
-  // only where the game has no state law, such as D.C. and the territories.
+  // only where the game has no saved wage law, including the territories.
   const gameLaw = stateWageTaxInForce(world, stateKey, outcome.occurredAt);
   if (gameLaw) {
     const { terms } = gameLaw;
@@ -491,14 +492,19 @@ function withholdFor(
   if (total === 0) return world;
   const currency = outcome.transferredAmount.currency;
   const federal = authorityKey === "US";
+  const stateJurisdiction = federal
+    ? null
+    : stateJurisdictionForKey(authorityKey);
   const jurisdictionId = federal
     ? NATIONAL_ELECTION_JURISDICTION.id
-    : stateJurisdictionForKey(authorityKey)?.id;
+    : stateJurisdiction?.id;
   if (!jurisdictionId) return world;
-  let next = ensureTaxPublicAccount(
-    federal ? ensureNationalElectionJurisdiction(world) : world,
-    jurisdictionId,
-  );
+  // Fifty state identities are normally seated at Begin. DC's canonical
+  // jurisdiction can first be needed when its first paycheck is withheld.
+  const withJurisdiction = federal
+    ? ensureNationalElectionJurisdiction(world)
+    : ensureJurisdiction(world, stateJurisdiction!);
+  let next = ensureTaxPublicAccount(withJurisdiction, jurisdictionId);
   const account = next.history.organizations.find(
     (row) => row.stableKey === publicOrganizationKey(jurisdictionId),
   )!;
