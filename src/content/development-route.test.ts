@@ -15,6 +15,8 @@ import { describe, expect, it } from "vitest";
  */
 
 const APP = readFileSync("src/App.tsx", "utf8");
+/** The development route table, which App loads only in a development build. */
+const ROUTES = readFileSync("src/DevelopmentRoutes.tsx", "utf8");
 
 function sourceFilesUnder(directory: string): readonly string[] {
   const found: string[] = [];
@@ -31,11 +33,22 @@ function sourceFilesUnder(directory: string): readonly string[] {
 
 describe("the content browser is development-only", () => {
   it("is reached only through an explicit development view parameter", () => {
-    expect(APP).toContain(
+    expect(ROUTES).toContain(
       'if (view === "content") return <ContentBrowserView />;',
     );
+    expect(APP).not.toContain("ContentBrowserView");
     // Opening the game with no parameter is still the game.
     expect(APP).toContain("return <PlayerGame />;");
+  });
+
+  it("keeps every development screen out of the player build", () => {
+    // App names no development screen. It reaches the route table only
+    // through a dynamic import behind a build-time constant, which a player
+    // build folds to false, so the bundler drops the whole table.
+    expect(APP).not.toMatch(/from "\.\/ui\//);
+    expect(APP).not.toMatch(/import \{[^}]*\} from "\.\/DevelopmentRoutes"/);
+    expect(APP).toContain("import.meta.env.DEV");
+    expect(APP).toContain('lazy(() => import("./DevelopmentRoutes"))');
   });
 
   it("is not what an unrecognized or missing view falls back to", () => {
