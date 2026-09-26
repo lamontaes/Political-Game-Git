@@ -25,6 +25,9 @@ import {
   LIFE_TALK_INTENTS,
   projectLifeConversation,
 } from "./life-conversation";
+import { playerUtteranceOf } from "./conversation-utterance";
+import { REVIEWED_ORDINARY_TALK_TAG } from "./life-talk-english";
+import { GENERATED_LEGISLATIVE_DIALOGUE_TAG } from "./legislative-dialogue-motifs";
 import type {
   ConversationProgress,
   ConversationSubjectKey,
@@ -45,6 +48,7 @@ import {
   contextualSubjectPresentation,
   familyOfSubject,
   isContextualSceneProgress,
+  isContextualSceneSubject,
   sceneFamily,
   staticContract,
   type ContextualSceneProgress,
@@ -683,12 +687,12 @@ export function advanceNeighborhoodMeeting(
 const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgress> =
   {
     subject: "life-talk",
-    topicLabel: () => "A moment together",
+    topicLabel: () => "Talk",
     describeBriefing(world, room, progress) {
       void world;
       void room;
       void progress;
-      return "You are somewhere ordinary, with people you know, and a moment to speak if you want it.";
+      return "";
     },
     availableIntents(world, room, addressee) {
       if (addressee === "everyone") return [];
@@ -698,14 +702,19 @@ const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgr
         addressee as EntityId,
       );
       if (!view) return [];
-      return view.intents.map((intent) => ({
-        key: intent.key,
-        label: intent.label,
-        description:
-          intent.key in LIFE_TALK_INTENTS
-            ? LIFE_TALK_INTENTS[intent.key as keyof typeof LIFE_TALK_INTENTS]
-            : intent.label,
-      }));
+      // A subject label is not a spoken sentence. The live conversation may
+      // offer a move only after a reviewed, fact-backed utterance exists.
+      return view.intents
+        .filter((intent) => intent.spokenWords)
+        .map((intent) => ({
+          key: intent.key,
+          label: intent.label,
+          ...(intent.spokenWords ? { spokenWords: intent.spokenWords } : {}),
+          description:
+            intent.key in LIFE_TALK_INTENTS
+              ? LIFE_TALK_INTENTS[intent.key as keyof typeof LIFE_TALK_INTENTS]
+              : intent.label,
+        }));
     },
     openingBeat(world, room, addressee) {
       const personId =
@@ -717,14 +726,20 @@ const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgr
         room.playerPersonId,
         personId,
       );
-      const last = view?.transcript.at(-1);
+      const last = [...(view?.transcript ?? [])].reverse().find((turn) => {
+        const event = world.history.events.find(
+          (row) => row.id === turn.eventId,
+        );
+        return event
+          ? event.tags.includes(REVIEWED_ORDINARY_TALK_TAG) &&
+              playerUtteranceOf(event) !== null
+          : false;
+      });
       const speaker = world.people[personId]!;
       return {
         speakerPersonId: personId,
         speakerName: personName(speaker),
-        dialogue:
-          last?.reply ??
-          `${shortPersonName(world, personId)} is here with you.`,
+        dialogue: last?.reply ?? "",
       };
     },
   };
@@ -790,6 +805,7 @@ const measureBargainingSubject: ConversationSubjectPresentation<LegislativeBarga
       const change = response.relationshipConsequence;
       return {
         ...response,
+        extraTags: [GENERATED_LEGISLATIVE_DIALOGUE_TAG],
         progress: advanceBargainingProgress(input.progress, {
           speakerPersonId: response.speakerPersonId,
           intent,
@@ -1654,13 +1670,25 @@ const COMMIT_CONTRACTS: Readonly<
 export function conversationCommitContract(
   progress: ConversationProgress,
 ): ConversationCommitContract {
-  if (isContextualSceneProgress(progress)) {
-    return contextualSceneContract(progress.subject);
+  return conversationCommitContractForSubject(progress.subject);
+}
+
+/**
+ * The recorded vocabulary for a subject can be read without reconstructing
+ * its opening progress. Legislative and office conversations create that
+ * progress from a particular saved bill or case, but their event type and tag
+ * are stable for every turn and must remain readable after Save/Continue.
+ */
+export function conversationCommitContractForSubject(
+  subject: ConversationSubjectKey,
+): ConversationCommitContract {
+  if (isContextualSceneSubject(subject)) {
+    return contextualSceneContract(subject);
   }
-  const contract = COMMIT_CONTRACTS[progress.subject];
+  const contract = COMMIT_CONTRACTS[subject];
   if (!contract) {
     throw new Error(
-      `No canonical commit contract is defined for the ${progress.subject} conversation.`,
+      `No canonical commit contract is defined for the ${subject} conversation.`,
     );
   }
   return contract;

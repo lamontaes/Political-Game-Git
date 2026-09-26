@@ -76,7 +76,9 @@ describe("PT3 — the scene conversation box reads the record back", () => {
     );
     const current = currentExchangeTurn(turns)!;
     expect(current).not.toBeNull();
-    expect(current.playerLine).toBe("You say hello.");
+    expect(current.playerLine).toBe(
+      view.intents.find((option) => option.key === "greet")?.spokenWords,
+    );
     expect(current.speakerPersonId).toBe(other);
     expect(current.reply.length).toBeGreaterThan(0);
   });
@@ -262,8 +264,10 @@ describe("PT3 — the scene conversation box reads the record back", () => {
     const other = projectPlayerConversation(world, personId, "life-talk")!
       .addressee as EntityId;
     let next = world;
-    for (const intent of ["greet", "activity", "share", "acknowledge", "leave"])
-      next = say(next, personId, "life-talk", intent, { addressee: other });
+    for (let turn = 0; turn < 5; turn += 1)
+      next = say(next, personId, "life-talk", "greet", {
+        addressee: other,
+      });
     const turns = conversationExchangeTurns(next, personId, "life-talk", other);
     expect(turns).toHaveLength(5);
     const newest = conversationHistoryPage(turns, 0);

@@ -14,7 +14,7 @@ import { currentPublicOfficeholders } from "./opening-officeholders";
 import type { MunicipalOrientationHolder } from "./municipal-orientation-holder";
 import { projectOpeningWorldSnapshot } from "./opening-world-snapshot";
 import {
-  currentOpeningLifeScene,
+  currentPlayerOpeningLifeScene,
   openingLifeLocation,
 } from "./life-scene-flow";
 import {
@@ -245,7 +245,7 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
     publicTenure: null,
     presenceBasis: "known-household",
   }));
-  const current = currentOpeningLifeScene(world, playerId);
+  const current = currentPlayerOpeningLifeScene(world, playerId);
   const endpointActors: LivingSceneActor[] = (current?.presentPersonIds ?? [])
     .filter((id) => id !== playerId && world.people[id])
     .map((present) => ({

@@ -36,13 +36,14 @@ function adultLife(overrides: Partial<NewGameSetup> = {}, seed = "pt3-today") {
 }
 
 describe("PT3 — Today answers what is happening, next, waiting and time", () => {
-  it("names the scene waiting in the room as what is happening now", () => {
+  it("does not present an archived scene as today's narration", () => {
     const { world, personId } = adultLife();
     const scene = currentOpeningLifeScene(world, personId);
     expect(scene).not.toBeNull();
     const today = projectToday(world, personId);
-    expect(today.nowKind).toBe("scene");
-    expect(today.now).toBe(scene!.prose);
+    expect(today.nowKind).toBe("day");
+    expect(today.now).toBe("");
+    expect(today.now).not.toBe(scene!.prose);
   });
 
   it("is a pure read: projecting today changes nothing in the world", () => {

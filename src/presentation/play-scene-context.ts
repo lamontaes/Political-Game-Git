@@ -13,7 +13,7 @@ import {
 import type { LifeSceneSetting } from "../simulation/opening-life-content";
 import { resolveLifeScene } from "./life-scene";
 import {
-  currentOpeningLifeScene,
+  currentPlayerOpeningLifeScene,
   openingLifeLocation,
 } from "./life-scene-flow";
 import type { ScenePerson, StoryScene } from "./life-story";
@@ -84,7 +84,7 @@ export function resolveOpeningPlaySceneContext(
   scenes: SceneRegistry = SCENE_REGISTRY,
   library: RuntimeVisualLibrary = PRODUCTION_VISUAL_LIBRARY,
 ): PlaySceneContext {
-  const opening = currentOpeningLifeScene(world, personId);
+  const opening = currentPlayerOpeningLifeScene(world, personId);
   const location = openingLifeLocation(world, personId);
   const recordedSetting =
     opening?.definition.setting ?? location?.setting ?? "home";

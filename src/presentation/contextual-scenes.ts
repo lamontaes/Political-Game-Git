@@ -361,6 +361,8 @@ export function activeSceneBinding(
   playerPersonId: EntityId,
   family: SceneFamily,
 ): BoundScene | null {
+  const definition = SCENE_FAMILY_DEFINITIONS[family];
+  if (!definition) return null;
   const bound = sceneBindingsFor(world, playerPersonId, family);
   for (let index = bound.length - 1; index >= 0; index -= 1) {
     const entry = bound[index]!;
@@ -371,7 +373,7 @@ export function activeSceneBinding(
       continue;
     }
     if (entry.binding.expiresAt < world.currentDate) continue;
-    const relevant = sceneFamily(entry.binding.family).relevant;
+    const relevant = definition.relevant;
     if (relevant && !relevant(world, entry)) continue;
     return entry;
   }

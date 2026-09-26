@@ -9,7 +9,7 @@ import { currentLifeCutoff } from "../simulation/life-queries";
 import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { openConversationWith } from "./person-conversation-entry";
 import {
-  currentOpeningLifeScene,
+  currentPlayerOpeningLifeScene,
   openingLifeLocation,
   openingNeighborhoodWalkOffer,
   walkOpeningNeighborhood,
@@ -93,7 +93,7 @@ export function projectPersonContact(
   }
   const present =
     options.presentPersonIds ??
-    currentOpeningLifeScene(world, playerPersonId)?.presentPersonIds ??
+    currentPlayerOpeningLifeScene(world, playerPersonId)?.presentPersonIds ??
     [];
   const presentNow = present.includes(personId);
   const talkEntry = openConversationWith(world, playerPersonId, personId);

@@ -33,6 +33,7 @@ import type {
 } from "../simulation";
 import {
   legislativeMotifLine,
+  GENERATED_LEGISLATIVE_DIALOGUE_TAG,
   type LegislativeMotifFacts,
   type LegislativeMotifFamily,
   type LegislativeVoice,
@@ -52,6 +53,8 @@ import {
   latestInteractionBetween,
   priorWorkEvidence,
 } from "./prior-work-evidence";
+import { bargainingPlayerWords } from "./legislative-bargaining-english";
+import { draftLineageForMeasure } from "../simulation/legislation-draft-lineage";
 
 /**
  * Bargaining over a live measure, as one more subject on the accepted
@@ -280,7 +283,32 @@ export function availableBargainingIntents(
     label: "Listen",
     description: "Say nothing and let the room finish its thought.",
   });
-  return options;
+  const grounded = options.flatMap((option) => {
+    if (option.key === "listen") return [option];
+    const spoken = bargainingPlayerWords(
+      world,
+      room.playerPersonId,
+      addressee,
+      progress,
+      option.key as LegislativeBargainingIntent,
+    );
+    return spoken ? [{ ...option, spokenWords: spoken.text }] : [];
+  });
+  // The conversation UI places Listen in its own control. Keep the spoken
+  // choices to five, with the next live move becoming available as the
+  // exchange changes; the shared Lie toggle handles false alternatives.
+  const allSpeech = grounded.filter((option) => option.key !== "listen");
+  const privateOffer = allSpeech.find(
+    (option) => option.key === "offer-private-inducement",
+  );
+  const speech = privateOffer
+    ? [
+        ...allSpeech.filter((option) => option !== privateOffer).slice(0, 4),
+        privateOffer,
+      ]
+    : allSpeech.slice(0, 5);
+  const listen = grounded.find((option) => option.key === "listen");
+  return listen ? [...speech, listen] : speech;
 }
 
 // ---------------------------------------------------------------------------
@@ -307,6 +335,9 @@ export function bargainingOpeningBeat(
     audience: "limited",
     priorFamily: progress.lastFamilyByPerson[speakerPersonId] ?? null,
     variantSeed: `${facts.measureStableKey}:opening:${speakerPersonId}:${progress.phase}:${progress.playerOffer}`,
+    worldSeed: world.seed,
+    speakerPersonId,
+    sourceRecordIds: motifSourceRecordIds(world, progress, speakerPersonId),
     facts: motifFacts(world, progress, speakerPersonId),
   });
 }
@@ -895,6 +926,13 @@ function say(
       priorFamily:
         input.progress.lastFamilyByPerson[input.speakerPersonId] ?? null,
       variantSeed: input.turnKey,
+      worldSeed: world.seed,
+      speakerPersonId: input.speakerPersonId,
+      sourceRecordIds: motifSourceRecordIds(
+        world,
+        input.progress,
+        input.speakerPersonId,
+      ),
       facts: motifFacts(world, input.progress, input.speakerPersonId),
     }),
     perception: detail.perception,
@@ -916,6 +954,37 @@ function voiceFor(
   return "procedural-institutionalist";
 }
 
+function motifSourceRecordIds(
+  world: World,
+  progress: LegislativeBargainingProgress,
+  speakerPersonId: EntityId,
+): EntityId[] {
+  const facts = progress.subjectFacts;
+  const section = currentProvisionByKey(
+    world,
+    facts.measureId,
+    speakerPersonId === facts.advocatePersonId
+      ? facts.requestedProvisionKey
+      : facts.programProvisionKey,
+  );
+  const commitment = commitmentsHeldBy(world, speakerPersonId, facts.measureId)
+    .filter((row) =>
+      world.history.events.some(
+        (event) =>
+          event.id === row.eventId &&
+          event.tags.includes(GENERATED_LEGISLATIVE_DIALOGUE_TAG),
+      ),
+    )
+    .at(-1);
+  const lineage = draftLineageForMeasure(world, facts.measureId);
+  return [
+    facts.measureId,
+    ...(lineage ? [lineage.id] : []),
+    ...(section ? [section.id] : []),
+    ...(commitment ? [commitment.id] : []),
+  ];
+}
+
 function motifFacts(
   world: World,
   progress: LegislativeBargainingProgress,
@@ -928,7 +997,17 @@ function motifFacts(
     facts.measureId,
     facts.requestedProvisionKey,
   );
-  const held = commitmentsHeldBy(world, speakerPersonId, facts.measureId);
+  const held = commitmentsHeldBy(
+    world,
+    speakerPersonId,
+    facts.measureId,
+  ).filter((row) =>
+    world.history.events.some(
+      (event) =>
+        event.id === row.eventId &&
+        event.tags.includes(GENERATED_LEGISLATIVE_DIALOGUE_TAG),
+    ),
+  );
   return {
     speaker: shortName(world, speakerPersonId),
     listener: shortName(

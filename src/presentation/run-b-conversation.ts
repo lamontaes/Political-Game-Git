@@ -1,4 +1,5 @@
 import type { ChoiceTruthDeclaration } from "./lie-marker";
+import { playerUtteranceTag } from "./conversation-utterance";
 import { isContextualSceneProgress } from "./contextual-scenes";
 import {
   assertNpcAutonomousApplication,
@@ -525,14 +526,17 @@ export function commitConversationTurn(
       "Conversation turn ordinal must be a positive safe integer.",
     );
   }
-  const availableIntents = availableConversationIntents(
+  const availableOptions = availableConversationIntents(
     inputWorld,
     input.room,
     input.addressee,
     currentProgress,
     input.audibility,
-  ).map((option) => option.key);
-  if (!availableIntents.includes(input.intent)) {
+  );
+  const selectedOption = availableOptions.find(
+    (option) => option.key === input.intent,
+  );
+  if (!selectedOption) {
     throw new Error(
       `Conversation intent ${String(input.intent)} is unavailable for this addressee.`,
     );
@@ -617,6 +621,7 @@ export function commitConversationTurn(
   ]);
   const eventVisibility =
     input.audibility === "private" ? "private" : "limited";
+  const playerWords = selectedOption.spokenWords?.trim() || null;
 
   // What this turn writes is the subject's business, not the engine's. A
   // household deciding who does the shopping used to leave casework history.
@@ -683,6 +688,7 @@ export function commitConversationTurn(
     tags: [
       commit.contextTag,
       `conversation.intent.${input.intent}`,
+      ...(playerWords ? [playerUtteranceTag(playerWords)] : []),
       `conversation.audibility.${input.audibility}`,
       // How it came out. The record used to say what was said and never how it
       // landed, which meant a refusal and an agreement left identical history —
@@ -949,27 +955,11 @@ export function commitConversationTurn(
               dialogue: resolved.dialogue,
             }
           : null,
-      playerIntentLabel:
-        availableConversationIntents(
-          world,
-          input.room,
-          input.addressee,
-          currentProgress,
-          input.audibility,
-        ).find((option) => option.key === input.intent)?.label ?? input.intent,
+      playerIntentLabel: selectedOption.label,
       playerActionDescription:
         input.intent === "listen"
           ? "(You listen.)"
-          : `You · ${
-              availableConversationIntents(
-                world,
-                input.room,
-                input.addressee,
-                currentProgress,
-                input.audibility,
-              ).find((option) => option.key === input.intent)?.label ??
-              input.intent
-            }`,
+          : (playerWords ?? `You · ${selectedOption.label}`),
       roomNarration:
         resolved.speakerPersonId === null
           ? (resolved.roomNarration ??

@@ -2,6 +2,7 @@ import { lifeTalkUnavailableReason } from "./life-talk-conversation";
 import { completedActivityHere } from "./scene-venues";
 import {
   availablePlayerConversations,
+  reviewedPersonTalkSubject,
   type AvailableConversation,
 } from "./player-conversation";
 import type { ConversationSubjectKey } from "./run-b-conversation-progress";
@@ -60,11 +61,14 @@ export function openConversationWith(
     };
   }
 
-  const available = availablePlayerConversations(world, playerPersonId);
+  const available = availablePlayerConversations(world, playerPersonId).filter(
+    (entry) => reviewedPersonTalkSubject(entry.subject),
+  );
   if (available.length === 0) {
+    const specific = lifeTalkUnavailableReason(world, playerPersonId, personId);
     return {
       kind: "unavailable",
-      reason: "There is nothing to talk about right now.",
+      reason: specific ?? "There is nothing to talk about right now.",
     };
   }
 

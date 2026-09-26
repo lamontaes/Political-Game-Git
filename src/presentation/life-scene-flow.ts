@@ -294,6 +294,22 @@ export function currentOpeningLifeScene(world: World, personId: EntityId) {
   };
 }
 
+/** The player's scene only admits a separately reviewed English source.
+ * Older authored moments remain in saves for continuity, but their summaries
+ * and choices cannot reappear as fallback copy. No existing opening bank
+ * carries this admission tag. */
+export function currentPlayerOpeningLifeScene(
+  world: World,
+  personId: EntityId,
+): ReturnType<typeof currentOpeningLifeScene> {
+  const scene = currentOpeningLifeScene(world, personId);
+  if (!scene) return null;
+  const source = world.history.events.find(
+    (event) => event.id === scene.eventId,
+  );
+  return source?.tags.includes("english-bank:reviewed") ? scene : null;
+}
+
 /** Initial scene construction establishes presence. Later location changes belong to the place owner. */
 export function openNextLifeScene(
   world: World,

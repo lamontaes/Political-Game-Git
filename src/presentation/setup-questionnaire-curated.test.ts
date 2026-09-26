@@ -6,75 +6,35 @@ import {
 } from "./new-game-identity";
 import {
   answerQuestionnaire,
+  questionnaireContentNote,
   questionnairePathCeiling,
   questionnairePathNote,
   questionnaireScreenFor,
 } from "./setup-questionnaire-flow";
 
-describe("current questionnaire setup and replay", () => {
-  it("offers the five-question and ten-to-twelve-question routes", () => {
-    const setup = {
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed: "curated-setup-proof",
-      placeKey: "alaska",
-      startAge: 5,
-    };
-    expect(setup.questionnaireSelectionVersion).toBe("curated-v1");
-    expect(questionnairePathCeiling("short", setup)).toBe(5);
-    expect(questionnairePathCeiling("deep", setup)).toBeGreaterThanOrEqual(10);
-    expect(questionnairePathCeiling("deep", setup)).toBeLessThanOrEqual(12);
-    expect(questionnairePathNote("deep", setup)).toContain("10 to 12");
-  });
+describe("withdrawn setup questionnaire copy", () => {
+  const setup = {
+    ...DEFAULT_NEW_GAME_SETUP,
+    seed: "withdrawn-setup-copy",
+    startAge: 5,
+    questionnaire: "short" as const,
+  };
 
-  it("round trips the new selection rule without assigning it to old setups", () => {
-    const setup = {
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed: "curated-replay-proof",
-      placeKey: "maine",
-    };
-    expect(
-      decodeReplayDescriptor(encodeReplayDescriptor(setup))
-        ?.questionnaireSelectionVersion,
-    ).toBe("curated-v1");
-    const { questionnaireSelectionVersion, ...oldSetup } = setup;
-    expect(questionnaireSelectionVersion).toBe("curated-v1");
-    expect(
-      decodeReplayDescriptor(encodeReplayDescriptor(oldSetup))
-        ?.questionnaireSelectionVersion,
-    ).toBeUndefined();
-  });
-
-  it("assembles the five-year-old route through the mayor question", () => {
-    let setup = {
-      ...DEFAULT_NEW_GAME_SETUP,
-      seed: "alaska-real-screen",
-      placeKey: "alaska",
-      startAge: 5,
-      questionnaire: "short" as const,
-    };
-    const seen: string[] = [];
-    while (true) {
-      const screen = questionnaireScreenFor(setup);
-      if (!screen) break;
-      seen.push(screen.questionKey);
-      if (seen.length === 4) {
-        expect(screen.prompt).toContain(
-          "imagine yourself as mayor of a fictional American city",
-        );
-        expect(screen.options.map((option) => option.text)).toContain(
-          "Sign the 14-day agreement",
-        );
-      }
-      setup = answerQuestionnaire(
-        setup,
-        seen.length === 4 ? "sign-14-days" : (screen.options[0]?.key ?? null),
-      );
-      if (seen.length === 4) {
-        expect(questionnaireScreenFor(setup)?.prompt).toBe(
-          "If you would choose 14 days, what would matter most to you?",
-        );
-      }
+  it("offers no old question, path copy, or answer on either former route", () => {
+    for (const path of ["short", "deep"] as const) {
+      const selected = { ...setup, questionnaire: path };
+      expect(questionnairePathCeiling(path, selected)).toBe(0);
+      expect(questionnairePathNote(path, selected)).toBe("");
+      expect(questionnaireScreenFor(selected)).toBeNull();
+      expect(answerQuestionnaire(selected, "anything")).toEqual(selected);
     }
-    expect(seen).toHaveLength(5);
+    expect(questionnaireContentNote()).toBe("");
+  });
+
+  it("keeps existing replay descriptor fields without resurfacing their copy", () => {
+    const restored = decodeReplayDescriptor(encodeReplayDescriptor(setup));
+    expect(restored?.questionnaireSelectionVersion).toBe("curated-v1");
+    expect(restored?.questionnaire).toBe("short");
+    expect(questionnaireScreenFor(restored!)).toBeNull();
   });
 });

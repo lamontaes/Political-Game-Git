@@ -153,7 +153,7 @@ export function lifeTalkUnavailableReason(
         entry.authority.holder.personId === personId,
     );
     if (guardian) {
-      return `${name} is not in this scene with you right now.`;
+      return `${name} is not here.`;
     }
     return null;
   }
@@ -215,6 +215,9 @@ export function commitLifeTalkConversationTurn(
   const intentLabel =
     view.intents.find((option) => option.key === input.intent)?.label ??
     input.intent;
+  const spokenWords =
+    view.intents.find((option) => option.key === input.intent)?.spokenWords ??
+    null;
 
   return {
     world,
@@ -241,7 +244,7 @@ export function commitLifeTalkConversationTurn(
         dialogue: reply,
       },
       playerIntentLabel: intentLabel,
-      playerActionDescription: `You · ${intentLabel}`,
+      playerActionDescription: spokenWords ?? `You · ${intentLabel}`,
       roomNarration: null,
       hearingDescription: `${personName(world.people[addressee]!)} replied.`,
     },

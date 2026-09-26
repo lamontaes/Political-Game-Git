@@ -1,6 +1,6 @@
 import type { EntityId, World } from "../simulation";
 import {
-  currentOpeningLifeScene,
+  currentPlayerOpeningLifeScene,
   openingLifeLocation,
 } from "./life-scene-flow";
 import { resolveOpeningPlaySceneContext } from "./play-scene-context";
@@ -10,7 +10,7 @@ import { resolveOpeningPlaySceneContext } from "./play-scene-context";
  * not a fabricated scene event. Art coverage never grants or denies speech.
  */
 export function currentLifeTalkScene(world: World, personId: EntityId) {
-  const opening = currentOpeningLifeScene(world, personId);
+  const opening = currentPlayerOpeningLifeScene(world, personId);
   if (opening) return opening;
   const context = resolveOpeningPlaySceneContext(world, personId);
   if (context.purpose !== "home") return null;

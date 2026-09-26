@@ -9,22 +9,11 @@ import {
   conversationSubjectPresentation,
   supportsGroupAddress,
 } from "./conversation-subjects";
-import { schoolConversationRoom } from "./formative-play";
-import {
-  CONTEXTUAL_SCENE_SUBJECT,
-  placeholderSceneProgress,
-  sceneRoom,
-} from "./contextual-scenes";
-import type { SceneFamily } from "../simulation/scene-bindings";
 import {
   lifeTalkConversationRoom,
   lifeTalkSessionStart,
   lifeTalkTurnCount,
 } from "./life-talk-conversation";
-import {
-  householdConversationRoom,
-  neighborhoodConversationRoom,
-} from "./ordinary-life";
 import {
   RUN_B_AUDIBILITY_OPTIONS,
   availableConversationIntents,
@@ -40,12 +29,7 @@ import type {
   ConversationRoomContext,
   ConversationSessionDescriptor,
 } from "./run-b-conversation";
-import {
-  createHouseholdObligationProgress,
-  createLifeTalkProgress,
-  createNeighborhoodMeetingProgress,
-  createSchoolProjectProgress,
-} from "./run-b-conversation-progress";
+import { createLifeTalkProgress } from "./run-b-conversation-progress";
 import type {
   ConversationProgress,
   ConversationSubjectKey,
@@ -76,6 +60,14 @@ interface SubjectWiring {
   opening(): ConversationProgress;
 }
 
+/** Older subject writers are retained for history and migration, never as
+ * fallback words in the ordinary person Talk action. */
+export function reviewedPersonTalkSubject(
+  subject: ConversationSubjectKey,
+): boolean {
+  return subject === "life-talk";
+}
+
 /**
  * Every subject with a production room, and the record that opens it.
  *
@@ -85,34 +77,10 @@ interface SubjectWiring {
  * office is worse than an unreachable subject.
  */
 const WIRINGS: readonly SubjectWiring[] = [
-  // PROSE B: situations the world has made answerable, each bound to its own
-  // saved facts. First, so a specific situation is offered before small talk.
-  ...(Object.keys(CONTEXTUAL_SCENE_SUBJECT) as SceneFamily[]).map(
-    (family): SubjectWiring => ({
-      subject: CONTEXTUAL_SCENE_SUBJECT[family],
-      room: (world, personId) => sceneRoom(world, personId, family),
-      opening: () => placeholderSceneProgress(CONTEXTUAL_SCENE_SUBJECT[family]),
-    }),
-  ),
   {
     subject: "life-talk",
     room: lifeTalkConversationRoom,
     opening: createLifeTalkProgress,
-  },
-  {
-    subject: "household-obligation",
-    room: householdConversationRoom,
-    opening: createHouseholdObligationProgress,
-  },
-  {
-    subject: "neighborhood-meeting-notice",
-    room: neighborhoodConversationRoom,
-    opening: createNeighborhoodMeetingProgress,
-  },
-  {
-    subject: "school-project-share",
-    room: schoolConversationRoom,
-    opening: createSchoolProjectProgress,
   },
 ];
 

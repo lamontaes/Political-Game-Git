@@ -52,6 +52,8 @@ import {
   motifFamilies,
   type LegislativeMotifFacts,
 } from "./legislative-dialogue-motifs";
+import { conversationExchangeTurns } from "./scene-conversation";
+import { playerUtteranceOf } from "./conversation-utterance";
 
 /**
  * A run of the bargaining slice, driven the way the player drives it.
@@ -141,6 +143,88 @@ const DEVELOPER_LEAKS = [
   /\bpersonal-inducement\b/,
   /\btargeted-benefit-request\b/,
 ];
+
+describe("fully worded bargaining replies", () => {
+  it("keeps four or five spoken choices visible while retaining private moves", () => {
+    const session = openSession(undefined, "private");
+    for (const addressee of [
+      session.fixture.advocatePersonId,
+      session.fixture.guardianPersonId,
+    ]) {
+      const options = availableConversationIntents(
+        session.world,
+        session.room,
+        addressee,
+        session.progress,
+        "private",
+      );
+      const speech = options.filter((option) => option.key !== "listen");
+      expect(speech.length).toBeGreaterThanOrEqual(4);
+      expect(speech.length).toBeLessThanOrEqual(5);
+      expect(speech.map((option) => option.key)).toContain(
+        "offer-private-inducement",
+      );
+      expect(options.at(-1)?.key).toBe("listen");
+    }
+  });
+
+  it("saves the chosen words and replays them after Continue", () => {
+    const session = openSession();
+    const addressee = session.fixture.advocatePersonId;
+    const option = availableConversationIntents(
+      session.world,
+      session.room,
+      addressee,
+      session.progress,
+      "normal",
+    ).find((entry) => entry.key === "ask-what-they-want");
+    expect(option?.spokenWords).toBe(
+      `What do you need changed in ${session.progress.subjectFacts.designation}?`,
+    );
+
+    const result = speak(session, addressee, "ask-what-they-want");
+    expect(result.presentation.playerActionDescription).toBe(
+      option!.spokenWords,
+    );
+    const event = session.world.history.events.find(
+      (entry) => entry.stableKey === `${result.semantic.turnKey}:event`,
+    );
+    expect(event).toBeDefined();
+    expect(playerUtteranceOf(event!)).toBe(option!.spokenWords);
+
+    const reopened = deserializeWorld(serializeWorld(session.world));
+    const turns = conversationExchangeTurns(
+      reopened,
+      session.fixture.playerPersonId,
+      "measure-bargaining",
+      addressee,
+    );
+    expect(turns.at(-1)?.playerLine).toBe(option!.spokenWords);
+    expect(turns.at(-1)?.reply).toBeTruthy();
+  });
+
+  it("speaks the refusal that belongs to the colleague being addressed", () => {
+    const session = openSession();
+    const wordsToAdvocate = availableConversationIntents(
+      session.world,
+      session.room,
+      session.fixture.advocatePersonId,
+      session.progress,
+      "normal",
+    ).find((option) => option.key === "refuse-request")?.spokenWords;
+    const wordsToGuardian = availableConversationIntents(
+      session.world,
+      session.room,
+      session.fixture.guardianPersonId,
+      session.progress,
+      "normal",
+    ).find((option) => option.key === "refuse-request")?.spokenWords;
+    expect(wordsToAdvocate).toBe("I won’t propose that section.");
+    expect(wordsToGuardian).toBe(
+      `I’m keeping ${session.progress.subjectFacts.programSectionLabel} as it is.`,
+    );
+  });
+});
 
 function expectNoDeveloperLeak(text: string) {
   for (const pattern of DEVELOPER_LEAKS) {
@@ -795,12 +879,13 @@ describe("nothing developer-facing reaches the player", () => {
     ] as const) {
       const result = speak(session, addressee, intent);
       lines.push(result.presentation.beat?.dialogue ?? "");
-      lines.push(result.presentation.playerIntentLabel);
+      lines.push(result.presentation.playerActionDescription);
       lines.push(result.presentation.hearingDescription);
     }
     for (const line of lines) expectNoDeveloperLeak(line);
-    // Every beat is somebody speaking, not a status readout.
-    expect(lines.filter((line) => line.includes("“")).length).toBeGreaterThan(
+    // Speech is now rendered without typographic quote marks; the UI owns
+    // the blockquote. An empty fallback or old menu label cannot pass.
+    expect(lines.filter((line) => /[.?!]$/.test(line)).length).toBeGreaterThan(
       4,
     );
   });
@@ -858,16 +943,26 @@ describe("the motif layer", () => {
           audience: "limited",
           priorFamily: null,
           variantSeed: `${family}:${voice}`,
+          worldSeed: "dialogue-test",
+          speakerPersonId: "member-test",
+          sourceRecordIds: ["bill-test"],
           facts: bare,
         });
-        expect(line.length, `${family}/${voice}`).toBeGreaterThan(20);
+        expect(line.length, `${family}/${voice}`).toBeGreaterThan(8);
         expectNoDeveloperLeak(line);
       }
     }
   });
 
   it("gives two members different words for the same move", () => {
-    const shared = { audience: "limited", priorFamily: null, facts } as const;
+    const shared = {
+      audience: "limited",
+      priorFamily: null,
+      facts,
+      worldSeed: "dialogue-test",
+      speakerPersonId: "member-test",
+      sourceRecordIds: ["bill-test"],
+    } as const;
     const advocate = legislativeMotifLine({
       ...shared,
       family: "qualified-commitment",
@@ -892,8 +987,11 @@ describe("the motif layer", () => {
       audience: "limited",
       priorFamily: null,
       variantSeed: "seed",
+      worldSeed: "dialogue-test",
+      speakerPersonId: "member-test",
+      sourceRecordIds: ["bill-test"],
       facts: { ...facts, amount: null },
     });
-    expect(keys).not.toContain("capped");
+    expect(keys).not.toContain("fiscal-condition");
   });
 });

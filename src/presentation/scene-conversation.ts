@@ -1,8 +1,10 @@
 import { describePersonContext, personName } from "../simulation";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../simulation";
 import { claimStanceOf } from "../simulation/claim-stances";
+import { playerUtteranceOf } from "./conversation-utterance";
 import { recordedConversationTurns } from "./conversation-continuity";
-import { currentOpeningLifeScene } from "./life-scene-flow";
+import { currentLifeTalkScene } from "./life-talk-presence";
+import { REVIEWED_ORDINARY_TALK_TAG } from "./life-talk-english";
 import type { ConversationSubjectKey } from "./run-b-conversation-progress";
 
 /**
@@ -56,11 +58,15 @@ export function conversationExchangeTurns(
 ): readonly ConversationExchangeTurn[] {
   if (subject === "life-talk") {
     const sceneId =
-      currentOpeningLifeScene(world, playerPersonId)?.eventId ?? null;
+      currentLifeTalkScene(world, playerPersonId)?.eventId ?? null;
     return world.history.events
       .filter(
         (event) =>
           event.type === "life.conversation" &&
+          // Older saves keep their history, but a menu label or generated
+          // summary is never reconstructed as something the player said.
+          event.tags.includes(REVIEWED_ORDINARY_TALK_TAG) &&
+          playerUtteranceOf(event) !== null &&
           event.occurredAt <= world.currentDate &&
           hasRole(event, playerPersonId, "focus:subject") &&
           (counterpart(event) === addresseePersonId ||
@@ -79,9 +85,7 @@ export function conversationExchangeTurns(
             sceneId !== null &&
             event.occurredAt === world.currentDate &&
             event.tags.includes(`scene:${sceneId}`),
-          playerLine: event.context.choice
-            ? `You ${lowerFirst(event.context.choice)}.`
-            : null,
+          playerLine: playerUtteranceOf(event),
           speakerPersonId: speaker,
           speakerName: speaker ? nameOf(world, speaker) : null,
           reply: event.context.immediateReaction ?? "",
@@ -97,7 +101,8 @@ export function conversationExchangeTurns(
     (turn) => {
       const event = byId.get(turn.eventId);
       if (!event) return [];
-      const spokenStatement = claimStanceOf(event)?.statement;
+      const spokenStatement =
+        playerUtteranceOf(event) ?? claimStanceOf(event)?.statement;
       const speaker =
         event.participants.find((entry) => entry.role === "focus:respondent")
           ?.personId ?? null;
@@ -215,10 +220,6 @@ function counterpart(event: HistoricalEvent): EntityId | null {
 function nameOf(world: World, personId: EntityId): string {
   const person = world.people[personId];
   return person ? personName(person) : "Somebody";
-}
-
-function lowerFirst(text: string): string {
-  return text.charAt(0).toLowerCase() + text.slice(1);
 }
 
 /**

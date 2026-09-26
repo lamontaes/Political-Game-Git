@@ -47,7 +47,6 @@ import {
 } from "./SavedAppearance";
 import { createOpeningLifeController } from "../presentation/opening-life";
 import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
-import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
 import { previewTimeCommand } from "../presentation/time-command";
@@ -86,6 +85,8 @@ import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { PublicServicePanel } from "./politics/PublicServicePanel";
 import { NewsDesk } from "./news/NewsDesk";
+import { readNewsStory } from "../presentation/news-reading";
+import { firstUnintroducedFamilyMember } from "../presentation/family-first-encounter";
 import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
@@ -109,7 +110,6 @@ import {
 } from "../presentation/browser-shell-state";
 import { LifePathsPanel } from "./LifePathsPanel";
 /* PEOPLE/PRESS seam mounts (CRUNCH47 B1/B2). */
-import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
 import { ContactsPanel } from "./ContactsPanel";
 import { ContactDialog } from "./ContactDialog";
 import { PressSourceDesk } from "./PressSourceDesk";
@@ -143,16 +143,7 @@ import {
   type QuarantinedSave,
 } from "../presentation/browser-world-repository";
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
-import {
-  chooseStoryOption,
-  chooseTodayCalendarOption,
-  presentPeopleSentence,
-  projectStoryMoment,
-  storyOptionNote,
-  todayCalendarOptions,
-  type StoryMoment,
-} from "../presentation/life-story";
-import { projectLifeRecord } from "../presentation/life-record";
+import { projectPlayerStoryMoment } from "../presentation/life-story";
 import {
   DEFAULT_NEW_GAME_SETUP,
   LEGISLATIVE_OFFICE_MINIMUM_AGE,
@@ -179,20 +170,13 @@ import {
 import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
-import {
-  answerQuestionnaire,
-  endQuestionnaireEarly,
-  questionnaireContentNote,
-  questionnaireScreenFor,
-} from "../presentation/setup-questionnaire-flow";
+import { endQuestionnaireEarly } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
+import { calendarEntryFor } from "../presentation/player-calendar";
 import { projectHouseholdPapers } from "../presentation/household-papers";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
-import {
-  resolvePlaySceneContext,
-  resolveOpeningPlaySceneContext,
-} from "../presentation/play-scene-context";
+import { resolveOpeningPlaySceneContext } from "../presentation/play-scene-context";
 import { planLifeScenePeople } from "../presentation/life-scene-people";
 import {
   artPreviewBanner,
@@ -222,10 +206,7 @@ import {
   readReplaySeed,
   resolveSessionSeed,
 } from "../presentation/session-seed";
-import {
-  readReplaySetup,
-  replayDescriptorUrl,
-} from "../presentation/new-game-identity";
+import { readReplaySetup } from "../presentation/new-game-identity";
 import {
   defaultPronounsForGender,
   GENDER_IDENTITY_KEYS,
@@ -235,7 +216,7 @@ import {
   lifePlaces,
   personName,
 } from "../simulation";
-import type { EntityId, QuestionnairePhase, World } from "../simulation";
+import type { EntityId, World } from "../simulation";
 import {
   openLegislativeWork,
   type LegislativeAssignment,
@@ -276,6 +257,7 @@ import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { InvokerFocusReturn } from "./PersonSceneActionMenu";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import { openConversationWith } from "../presentation/person-conversation-entry";
+import { reviewedPersonTalkSubject } from "../presentation/player-conversation";
 import {
   labelForRef,
   projectPersonDossier,
@@ -388,17 +370,7 @@ type Screen =
   | {
       readonly kind: "setup";
       readonly draft?: NewGameSetup;
-      readonly questionnaireComplete?: boolean;
     }
-  /**
-   * The calibration, between choosing a life and starting one.
-   *
-   * It carries the setup rather than reading it back from the setup screen,
-   * because the answers are part of the setup by the time the world is built —
-   * and because a player who goes back and changes their age has not answered
-   * a different questionnaire.
-   */
-  | { readonly kind: "questionnaire"; readonly setup: NewGameSetup }
   | { readonly kind: "patch-notes" }
   | { readonly kind: "saves" }
   | { readonly kind: "options" }
@@ -811,9 +783,7 @@ export function PlayerGame() {
     if (screen.kind === "playing") return;
     const returnFromOpening = (event: Event) => {
       event.preventDefault();
-      const hasDraft = ["setup", "questionnaire", "transition"].includes(
-        screen.kind,
-      );
+      const hasDraft = ["setup", "transition"].includes(screen.kind);
       const leave =
         !hasDraft ||
         window.confirm(
@@ -971,57 +941,15 @@ export function PlayerGame() {
         {() => (
           <SetupScreen
             seed={sessionSeed.seed}
-            seedOrigin={sessionSeed.origin}
             previewMode={previewMode}
             initialSetup={screen.draft}
-            questionnaireComplete={screen.questionnaireComplete}
             onBack={() => setScreen({ kind: "title" })}
-            onBegin={(setup, appearance, questionsFinished) => {
+            onBegin={(setup, appearance) => {
               pendingAppearance.current = appearance;
               setProblem(null);
-              // The calibration runs before the world is built, because its
-              // answers are part of the setup the world is built from — not
-              // because the world reads them. It never does: they go into the
-              // world's non-diegetic corner and nowhere near a generator.
-              if (!questionsFinished && questionnaireScreenFor(setup)) {
-                setScreen({ kind: "questionnaire", setup });
-                return;
-              }
               beginLife(endQuestionnaireEarly(setup));
             }}
             problem={problem}
-          />
-        )}
-      </AmbientTableau>
-    );
-  }
-
-  if (screen.kind === "questionnaire") {
-    return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)} still>
-        {() => (
-          <QuestionnaireScreenView
-            setup={screen.setup}
-            onAnswer={(choiceId) => {
-              const next = answerQuestionnaire(screen.setup, choiceId);
-              if (questionnaireScreenFor(next)) {
-                setScreen({ kind: "questionnaire", setup: next });
-                return;
-              }
-              setScreen({
-                kind: "setup",
-                draft: next,
-                questionnaireComplete: true,
-              });
-            }}
-            onFinishEarly={() =>
-              setScreen({
-                kind: "setup",
-                draft: endQuestionnaireEarly(screen.setup),
-                questionnaireComplete: true,
-              })
-            }
-            onBack={() => setScreen({ kind: "setup", draft: screen.setup })}
           />
         )}
       </AmbientTableau>
@@ -1168,19 +1096,12 @@ export function PlayerGame() {
  * are the generator's to decide after Begin (Task E). Only a custom start
  * carries the extra "background" step where those are set by hand.
  */
-const NORMAL_CREATOR_STEPS = [
-  "route",
-  "character",
-  "place",
-  "whoAreYou",
-  "begin",
-] as const;
+const NORMAL_CREATOR_STEPS = ["route", "character", "place", "begin"] as const;
 const CUSTOM_CREATOR_STEPS = [
   "route",
   "character",
   "place",
   "background",
-  "whoAreYou",
   "begin",
 ] as const;
 
@@ -1189,30 +1110,22 @@ type CreatorStep =
 
 function SetupScreen({
   seed,
-  seedOrigin,
   previewMode,
   initialSetup,
-  questionnaireComplete = false,
   onBack,
   onBegin,
   problem,
 }: {
   readonly seed: string;
-  readonly seedOrigin: "fresh" | "replay";
   readonly previewMode: ArtPreviewMode;
   readonly initialSetup?: NewGameSetup;
-  readonly questionnaireComplete?: boolean;
   readonly onBack: () => void;
   readonly onBegin: (
     setup: NewGameSetup,
     appearance: CreatorAppearanceChoice | null,
-    questionsFinished?: boolean,
   ) => void;
   readonly problem: string | null;
 }) {
-  const [finishedQuestions, setFinishedQuestions] = useState(
-    questionnaireComplete,
-  );
   const coverage = lifePlaceCoverage();
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
@@ -1264,7 +1177,13 @@ function SetupScreen({
       // Existing drafts, replay descriptors and loaded Worlds retain their pins.
       initialSetup ??
       setupForArtPreview(
-        { ...DEFAULT_NEW_GAME_SETUP, seed, placeKey: "" },
+        {
+          ...DEFAULT_NEW_GAME_SETUP,
+          seed,
+          placeKey: "",
+          questionnaire: "skipped",
+          priors: [],
+        },
         previewMode,
       ),
   );
@@ -1307,10 +1226,7 @@ function SetupScreen({
     setCurrent((now) =>
       steps.indexOf(step) > steps.indexOf(now) ? step : now,
     );
-  const reopen = (step: CreatorStep) => {
-    if (step === "whoAreYou") setFinishedQuestions(false);
-    setCurrent(step);
-  };
+  const reopen = (step: CreatorStep) => setCurrent(step);
 
   const problems = newGameSetupProblems(committed);
   /*
@@ -1377,16 +1293,12 @@ function SetupScreen({
                 : "Everyday life",
         ].join(" · ")
       : "",
-    whoAreYou:
-      setup.questionnaire === "skipped"
-        ? "Discover through play"
-        : "Answering a few questions",
   };
   const onReady = currentIndex >= steps.indexOf("begin");
 
   return (
     <main
-      className={`game-title game-setup game-creator${onReady && (finishedQuestions || !questionnaireScreenFor(committed)) ? " game-creator--appearance" : ""}`}
+      className={`game-title game-setup game-creator${onReady ? " game-creator--appearance" : ""}`}
       data-testid="setup-screen"
     >
       {/*
@@ -1863,7 +1775,7 @@ function SetupScreen({
                   type="button"
                   className="game-creator-next"
                   data-testid="creator-continue-place"
-                  onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
+                  onClick={() => advanceTo(custom ? "background" : "begin")}
                 >
                   Next
                 </button>
@@ -2057,74 +1969,10 @@ function SetupScreen({
             type="button"
             className="game-creator-next"
             data-testid="creator-continue-background"
-            onClick={() => advanceTo("whoAreYou")}
+            onClick={() => advanceTo("begin")}
           >
             Next
           </button>
-        </section>
-      ) : null}
-
-      {isCurrent("whoAreYou") ? (
-        <section data-testid="creator-stage-whoareyou">
-          <h2>Who are you?</h2>
-          <p className="game-note" data-testid="whoareyou-note">
-            A few imagined situations. Choose what you would do, or skip. These
-            answers do not write your character’s biography.
-          </p>
-          <div className="game-choices" data-testid="whoareyou-choices">
-            <button
-              type="button"
-              data-testid="whoareyou-answer"
-              className={
-                setup.questionnaire === "short" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "short",
-                  priors: now.questionnaire === "short" ? now.priors : [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Answer a few questions
-            </button>
-            <button
-              type="button"
-              data-testid="whoareyou-deep"
-              className={
-                setup.questionnaire === "deep" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "deep",
-                  priors: now.questionnaire === "deep" ? now.priors : [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Answer more questions
-              <small>You can begin your life whenever you are ready.</small>
-            </button>
-            <button
-              type="button"
-              data-testid="whoareyou-play"
-              className={
-                setup.questionnaire === "skipped" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "skipped",
-                  priors: [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Discover through play
-            </button>
-          </div>
         </section>
       ) : null}
 
@@ -2139,140 +1987,16 @@ function SetupScreen({
         <button type="button" onClick={onBack}>
           Back
         </button>
-        {onReady && !finishedQuestions && questionnaireScreenFor(committed) ? (
-          <button
-            type="button"
-            data-testid="begin"
-            disabled={problems.length > 0}
-            onClick={() => onBegin(committed, null)}
-          >
-            Continue to questions
-          </button>
-        ) : null}
       </div>
 
-      {onReady &&
-      problems.length === 0 &&
-      (finishedQuestions || !questionnaireScreenFor(committed)) ? (
+      {onReady && problems.length === 0 ? (
         <CreatorAppearanceStep
           key={JSON.stringify(committed)}
           setup={committed}
           mode={previewMode}
-          onBegin={(appearance) => onBegin(committed, appearance, true)}
+          onBegin={(appearance) => onBegin(committed, appearance)}
         />
       ) : null}
-
-      {/*
-            Reproducibility, moved off the setup surface proper. A raw seed and
-            a replay address are development tools; they stay reachable behind a
-            collapsed Advanced disclosure rather than on the creator itself.
-          */}
-      <details className="game-dev" data-testid="setup-advanced">
-        <summary>Advanced &mdash; reproducing this world</summary>
-        <p>
-          This world is generated from{" "}
-          <code data-testid="setup-seed">{seed}</code>
-          {seedOrigin === "replay"
-            ? ", which was supplied to reproduce an earlier one."
-            : ", drawn fresh for this session."}{" "}
-          The address below carries the place, the age and any names you typed
-          as well, so it rebuilds the same world.
-        </p>
-        <p>
-          <code data-testid="setup-replay-link">
-            {replayDescriptorUrl("", "/", committed)}
-          </code>
-        </p>
-      </details>
-    </main>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-
-/**
- * The calibration.
- *
- * A situation and some ways of handling it. What is deliberately absent is
- * everything a quiz would have: no score, no summary at the end, and above all
- * no label. The game never tells a player what it has concluded about them,
- * because a game that does has stopped being able to be surprised by them.
- *
- * Two things left with this wave. The "1 of 26" progress line is gone, because
- * the deep path has no fixed length any more — it stops when it stops learning
- * — and a denominator promised one. What remains is a phase, which says that
- * this ends without saying when.
- *
- * And so has "I would rather not say". Declining twenty times in a row is a
- * worse experience than leaving, and the authority replaced it with the one
- * control that was always the honest exit: start the life now, keeping
- * whatever has been answered so far.
- */
-const PHASE_LINE: Readonly<Record<QuestionnairePhase, string>> = {
-  opening: "Somewhere to start",
-  widening: "A little wider",
-  closing: "Nearly there",
-};
-
-function QuestionnaireScreenView({
-  setup,
-  onAnswer,
-  onFinishEarly,
-  onBack,
-}: {
-  readonly setup: NewGameSetup;
-  readonly onAnswer: (choiceId: string | null) => void;
-  readonly onFinishEarly: () => void;
-  readonly onBack: () => void;
-}) {
-  const screen = questionnaireScreenFor(setup);
-  if (!screen) return null;
-  const note = questionnaireContentNote();
-  return (
-    <main
-      className="game-title game-setup game-creator"
-      data-testid="questionnaire-screen"
-    >
-      <h2>Who are you?</h2>
-      {/*
-            What these questions actually are, said once and plainly: they are
-            about the player, they orient what the game offers, and they decide
-            nothing about who the character becomes.
-          */}
-      <p className="game-note" data-testid="questionnaire-framing">
-        These are imagined situations. Choose what you would do, or skip. These
-        answers do not write your character’s biography.
-      </p>
-      <p className="game-band" data-testid="questionnaire-progress">
-        {PHASE_LINE[screen.phase]}
-      </p>
-      <p className="game-scene" data-testid="questionnaire-prompt">
-        {screen.prompt}
-      </p>
-      <div className="game-choices" data-testid="questionnaire-options">
-        {screen.options.map((option) => (
-          <button
-            key={option.key}
-            type="button"
-            onClick={() => onAnswer(option.key)}
-          >
-            {option.text}
-          </button>
-        ))}
-      </div>
-      <div className="game-setup-actions">
-        <button type="button" onClick={onBack}>
-          Back
-        </button>
-        <button
-          type="button"
-          data-testid="questionnaire-finish"
-          onClick={onFinishEarly}
-        >
-          Review appearance
-        </button>
-      </div>
-      {note ? <p className="game-note">{note}</p> : null}
     </main>
   );
 }
@@ -2609,7 +2333,11 @@ function PlayingScreen({
    * which references they have kept. It owns navigation and nothing else — the
    * gameplay writers below are still the only things that change the world.
    */
-  const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
+  const [shell, dispatch, shellReady] = useShell(
+    session.world,
+    session.saveId,
+    shellStore,
+  );
   /* What changed since the player last caught up; a read, never a writer. */
   const recap = useWorldRecap(session.world, session.personId, shell);
   /*
@@ -2737,7 +2465,7 @@ function PlayingScreen({
   }, [session.world, session.personId]);
 
   const projectedMoment = useMemo(
-    () => projectStoryMoment(session.world, session.personId),
+    () => projectPlayerStoryMoment(session.world, session.personId),
     [session.world, session.personId],
   );
 
@@ -2788,7 +2516,12 @@ function PlayingScreen({
         sceneId: resolved.sceneId,
         reason: resolved.reason,
         placeLabel: activity.location.label,
-        presentPeople: projectedMoment.scene.presentPeople.filter(
+        presentPeople: resolveOpeningPlaySceneContext(
+          session.world,
+          session.personId,
+          undefined,
+          sceneVisuals,
+        ).presentPeople.filter(
           (person) =>
             completedActivityHere(
               session.world,
@@ -2798,20 +2531,13 @@ function PlayingScreen({
         ),
       };
     }
-    return resolvePlaySceneContext(
+    return resolveOpeningPlaySceneContext(
       session.world,
       session.personId,
-      projectedMoment.scene,
       undefined,
       sceneVisuals,
     );
-  }, [
-    session.world,
-    session.personId,
-    projectedMoment,
-    continuingLifeShown,
-    sceneVisuals,
-  ]);
+  }, [session.world, session.personId, continuingLifeShown, sceneVisuals]);
 
   const sceneId = playScene.sceneId;
   const readableSurfaces = useMemo(() => {
@@ -2899,6 +2625,46 @@ function PlayingScreen({
   );
 
   const view = activeView(shell);
+  useEffect(() => {
+    if (
+      shellReady &&
+      shell.conversation &&
+      !reviewedPersonTalkSubject(shell.conversation.subject)
+    )
+      dispatch({ type: "end-conversation" });
+  }, [shellReady, shell.conversation, dispatch]);
+  useEffect(() => {
+    if (
+      !shellReady ||
+      readOnly ||
+      showOrientation ||
+      view.surface !== "scene" ||
+      shell.momentOpen ||
+      shell.conversation ||
+      shell.quickDossierPersonId !== null
+    )
+      return;
+    const personId = firstUnintroducedFamilyMember(
+      session.world,
+      session.personId,
+      moment.scene.presentPeople,
+      shell.progress.familyIntroducedPersonIds,
+    );
+    if (personId) dispatch({ type: "open-family-introduction", personId });
+  }, [
+    shellReady,
+    readOnly,
+    showOrientation,
+    view.surface,
+    shell.momentOpen,
+    shell.conversation,
+    shell.quickDossierPersonId,
+    shell.progress.familyIntroducedPersonIds,
+    session.world,
+    session.personId,
+    moment.scene.presentPeople,
+    dispatch,
+  ]);
   const openSurface = view.surface;
   const previousSurface = useRef(openSurface);
   const newsPersonReturn = useRef<string | null>(null);
@@ -3323,6 +3089,7 @@ function PlayingScreen({
         personId,
       );
       if (entry.kind === "unavailable") return;
+      if (subject && !reviewedPersonTalkSubject(subject)) return;
       setReturnFocusPrefer(invoker);
       dispatch({
         type: "set-conversation",
@@ -3484,7 +3251,6 @@ function PlayingScreen({
     openTheBill,
     goToTheFloor,
     goToTheFloorFor,
-    workHint,
     readOnly,
     retireFromPlay: readOnly ? null : (
       <RetireFromPlayAction
@@ -3645,13 +3411,6 @@ function PlayingScreen({
                     shell.momentOpen &&
                     projectedMoment.scene.kind !== "ordinary-stretch"
                   }
-                  pendingLife={
-                    <StoryView
-                      session={session}
-                      moment={projectedMoment}
-                      onWorldChange={onWorldChange}
-                    />
-                  }
                   onOpenPending={() => dispatch({ type: "open-moment" })}
                   onClosePending={() => dispatch({ type: "close-moment" })}
                   world={session.world}
@@ -3662,7 +3421,9 @@ function PlayingScreen({
                   returnFocusTo={returnFocusTo}
                   onFocusReturned={() => setReturnFocusTo(null)}
                   foreground={
-                    conversation && view.surface === "scene" ? (
+                    conversation &&
+                    reviewedPersonTalkSubject(conversation.subject) &&
+                    view.surface === "scene" ? (
                       <SceneConversation
                         key={conversation.subject}
                         world={session.world}
@@ -3702,9 +3463,27 @@ function PlayingScreen({
                         regionalPlate={orientation.regionalPlate}
                         mode="first"
                         onClose={() => dispatch({ type: "finish-orientation" })}
-                        onOpenPerson={(personId) =>
-                          dispatch({ type: "open-quick-dossier", personId })
-                        }
+                        onOpenPerson={(personId) => {
+                          const introduced = firstUnintroducedFamilyMember(
+                            session.world,
+                            session.personId,
+                            [
+                              {
+                                personId,
+                                relationship:
+                                  dossierFor(personId)?.relationship ?? null,
+                              },
+                            ],
+                            shell.progress.familyIntroducedPersonIds,
+                          );
+                          dispatch({
+                            type:
+                              introduced === personId
+                                ? "open-family-introduction"
+                                : "open-quick-dossier",
+                            personId,
+                          });
+                        }}
                       />
                     ) : null
                   }
@@ -3717,6 +3496,7 @@ function PlayingScreen({
                 world={session.world}
                 playerId={session.personId}
                 dossier={selectedDossier}
+                introduction={shell.quickDossierIsIntroduction}
                 anchor={
                   cardAnchor?.personId === selectedDossier.personId
                     ? cardAnchor.rect
@@ -4079,7 +3859,6 @@ function renderWorkspace({
   openTheBill,
   goToTheFloor,
   goToTheFloorFor,
-  workHint,
   readOnly,
   retireFromPlay,
   guideTermKey,
@@ -4107,7 +3886,6 @@ function renderWorkspace({
   readonly openTheBill: () => void;
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
-  readonly workHint: string;
   /** Nobody is played, or the played life ended: reading surfaces only. */
   readonly readOnly: boolean;
   /** Options' Retire from play, or null when there is nobody to retire. */
@@ -4560,7 +4338,6 @@ function renderWorkspace({
             <TodayView
               session={session}
               onWorldChange={onWorldChange}
-              workHint={workHint}
               embedded
               onOpenCommitment={(activityId) =>
                 openEntity({ kind: "commitment", id: activityId })
@@ -4693,28 +4470,6 @@ function renderWorkspace({
               />
             </>
           )}
-          <details data-testid="personal-life-choices">
-            <summary>Your day, choices and pending favors</summary>
-            {/*
-              Childhood is part of the day, not a place to go, so it mounts
-              inside this existing section rather than on a surface of its own.
-              It draws nothing outside the formative years; the producer gates
-              that, and no age logic is decided here.
-            */}
-            <ChildhoodMomentPanel
-              world={session.world}
-              personId={session.personId}
-              onWorldChange={onWorldChange}
-            />
-            <LifeScenePanel
-              world={session.world}
-              playerPersonId={session.personId}
-              onWorldChange={onWorldChange}
-              onTalkTo={(personId) => talkTo(personId)}
-              transitionHandlers={createCampaignElectionTransitionRegistry()}
-              variant="workspace"
-            />
-          </details>
         </>,
       );
 
@@ -4823,6 +4578,14 @@ function renderWorkspace({
             })
           }
           onOpenPerson={openPerson}
+          onReadStory={(publicationId) => {
+            const next = readNewsStory(
+              session.world,
+              session.personId,
+              publicationId,
+            );
+            if (next !== session.world) onWorldChange(next);
+          }}
           around={
             <>
               <WorldOrientationEntry
@@ -5714,294 +5477,6 @@ function renderWorkspace({
 /* -------------------------------------------------------------------------- */
 
 /**
- * One life, on one surface.
- *
- * This replaced two views that each drew their own card — the growing-up years
- * and the adult bank — and drew them side by side with nothing between. What a
- * player got was a prompt, a click, a jump in the date, and an unrelated
- * prompt. The connective narration above the scene is the repair: it says how
- * the life got from the last moment to this one, and it is composed from the
- * record rather than written for the occasion.
- *
- * The scene below it may be a composed episode beat, a formative situation or
- * an adult one. Which is not signaled: they are the same kind of thing to a
- * player, and labeling them would tell somebody which moments the game thinks
- * are important.
- *
- * What this life is carrying is shown as sentences about people and problems,
- * never as a list of threads. There is no count, no standing, no family name
- * and no machinery on this screen.
- */
-function StoryView({
-  session,
-  moment,
-  onWorldChange,
-}: {
-  readonly session: Session;
-  readonly moment: StoryMoment;
-  readonly onWorldChange: (world: World) => void;
-}) {
-  const [journalOpen, setJournalOpen] = useState(false);
-  const todayOptions = useMemo(
-    () => todayCalendarOptions(session.world, session.personId),
-    [session.world, session.personId],
-  );
-  const hasStoryChoices =
-    moment.scene.options.length > 0 ||
-    (moment.scene.kind !== "ordinary-stretch" && todayOptions.length > 0);
-
-  return (
-    <section className="game-story life-moment" data-testid="story-section">
-      {/*
-        Where and when, before anything happens in it.
-        The play surface used to open straight into narration, so the page had
-        no anchor: a reader met a paragraph about somebody, then a paragraph
-        about somebody else, with nothing saying whose life this was or what
-        year it had got to. This is semantic and textual only — the scene art
-        that will sit around it belongs to #86, and nothing here assumes a
-        layout it has not shipped.
-      */}
-      <header
-        className="game-scene-header life-moment-head"
-        data-testid="story-where"
-      >
-        {/*
-          The panel's own identity, under its own ids.
-
-          These were story-who and story-when, which the corner cluster has
-          carried since it became the shell's identity line (ShellNav.tsx).
-          While the moment lived under Personal the two were never on screen
-          together; in the room they are, and every proof asking for either id
-          then matched two elements. The cluster keeps the names it had — it is
-          the shell, and more specs mean it — and the panel takes its own.
-        */}
-        <h2 className="life-identity" data-testid="moment-who">
-          <span className="life-identity-name">{moment.personName}</span>
-          <span className="life-identity-age">{moment.age}</span>
-        </h2>
-        <p className="game-band" data-testid="moment-when">
-          {moment.dateLabel}
-          {moment.placeName ? ` · ${moment.placeName}` : ""}
-        </p>
-      </header>
-
-      {/*
-        What just happened here, inside the surface rather than in place of it.
-        This used to return early and replace the whole story section, so after
-        an activity the room's own narration and its choices were gone and
-        every spec waiting for story-section waited for something that could
-        not appear. The aftermath keeps its own id and sits above the moment.
-      */}
-      {completedActivityHere(session.world, session.personId) ? (
-        <div data-testid="activity-aftermath">
-          <VenueActivityPanel
-            world={session.world}
-            personId={session.personId}
-            onWorldChange={onWorldChange}
-          />
-        </div>
-      ) : null}
-
-      {moment.connective.sentences.length > 0 ? (
-        <p className="game-passage" data-testid="story-passage">
-          {moment.connective.sentences.join(" ")}
-        </p>
-      ) : null}
-
-      {moment.scene.prose.length > 0 ? (
-        <p className="game-scene" data-testid="story-prose">
-          {moment.scene.prose}
-        </p>
-      ) : null}
-
-      {/*
-        Who is here, and who they are to you.
-        This said "Maya Pittman is there." to a ten-year-old whose guardian
-        Maya was, leaving the player to guess a relationship off a shared
-        surname. The relation is read from canonical records — the authority
-        record, the kinship record, the school register — and when no record
-        establishes one, only the name is shown.
-      */}
-      {moment.scene.presentPeople.length > 0 ? (
-        <p className="game-note" data-testid="story-people">
-          {presentPeopleSentence(moment.scene.presentPeople)}
-        </p>
-      ) : null}
-
-      {hasStoryChoices ? (
-        <>
-          <h3
-            className="game-choices-heading"
-            data-testid="story-choices-heading"
-          >
-            What do you do?
-          </h3>
-          <div
-            className="game-choices life-choices"
-            data-testid="story-options"
-          >
-            {moment.scene.options.map((option) => (
-              <button
-                key={option.key}
-                type="button"
-                className="ui-action ui-action--choice"
-                onClick={() =>
-                  onWorldChange(
-                    chooseStoryOption(session.world, {
-                      personId: session.personId,
-                      scene: moment.scene,
-                      optionKey: option.key,
-                      transitionHandlers:
-                        createCampaignElectionTransitionRegistry(),
-                    }),
-                  )
-                }
-              >
-                {option.label}
-                {storyOptionNote(option) !== null ? (
-                  <small>{storyOptionNote(option)}</small>
-                ) : null}
-              </button>
-            ))}
-            {/* Dated invitations remain reachable beside an active scene. */}
-            {moment.scene.kind === "ordinary-stretch"
-              ? null
-              : todayOptions.map((option) => (
-                  <button
-                    key={option.key}
-                    type="button"
-                    className="ui-action ui-action--choice"
-                    data-testid="story-today-calendar"
-                    onClick={() => {
-                      const next = chooseTodayCalendarOption(session.world, {
-                        personId: session.personId,
-                        optionKey: option.key,
-                        transitionHandlers:
-                          createCampaignElectionTransitionRegistry(),
-                      });
-                      if (next) onWorldChange(next);
-                    }}
-                  >
-                    {option.label}
-                    <small>{option.description}</small>
-                  </button>
-                ))}
-          </div>
-        </>
-      ) : null}
-
-      {moment.openThreads.length > 0 ? (
-        <ul className="game-pending" data-testid="story-open">
-          {moment.openThreads.map((thread) => (
-            <li key={thread.threadKey}>{thread.sentence}</li>
-          ))}
-        </ul>
-      ) : null}
-
-      {/*
-        The record, behind a control rather than poured down the screen.
-        It used to be an always-visible "WHAT YOU REMEMBER" list that grew with
-        every beat until it was most of the page, which is a debug log with a
-        friendly heading. Nothing underneath changed; what changed is that a
-        player now opens it when they want it.
-      */}
-      <button
-        type="button"
-        className="game-journal-toggle"
-        data-testid="open-journal"
-        aria-expanded={journalOpen}
-        onClick={() => setJournalOpen((open) => !open)}
-      >
-        {journalOpen
-          ? "Close the journal"
-          : "Open the journal — everything that has happened"}
-      </button>
-      {journalOpen ? (
-        <JournalView session={session} onClose={() => setJournalOpen(false)} />
-      ) : null}
-    </section>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-
-/**
- * The journal.
- *
- * A deliberate screen rather than a wall of logs, in three parts: what has
- * happened, who is in this life, and what is still open. All three are read
- * from the same canonical records the play surface reads; nothing is stored
- * twice.
- */
-function JournalView({
-  session,
-  onClose,
-}: {
-  readonly session: Session;
-  readonly onClose: () => void;
-}) {
-  const chapters = useMemo(
-    () => projectLifeRecord(session.world, session.personId),
-    [session.world, session.personId],
-  );
-  return (
-    <div className="game-journal" data-testid="journal">
-      <h2>{chapters.personName}</h2>
-      <p className="game-note">{chapters.summary}</p>
-
-      <h3>What has happened</h3>
-      {chapters.chapters.length === 0 ? (
-        <p className="game-note" data-testid="journal-empty">
-          Nothing has been written down yet. It will fill up as the life goes
-          on.
-        </p>
-      ) : (
-        <ol data-testid="journal-entries">
-          {chapters.chapters.map((chapter) => (
-            <li key={chapter.key}>
-              <strong>{chapter.heading}</strong>
-              <ul>
-                {chapter.entries.map((entry) => (
-                  <li key={entry.key}>{entry.sentence}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
-      )}
-
-      {chapters.people.length > 0 ? (
-        <>
-          <h3>People</h3>
-          <ul data-testid="journal-people">
-            {chapters.people.map((person) => (
-              <li key={person.personId}>{person.sentence}</li>
-            ))}
-          </ul>
-        </>
-      ) : null}
-
-      {chapters.open.length > 0 ? (
-        <>
-          <h3>Still open</h3>
-          <ul data-testid="journal-open">
-            {chapters.open.map((entry) => (
-              <li key={entry.key}>{entry.sentence}</li>
-            ))}
-          </ul>
-        </>
-      ) : null}
-
-      <button type="button" onClick={onClose}>
-        Close
-      </button>
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-
-/**
  * Options.
  *
  * Present because the main menu names it and a menu entry that goes nowhere is
@@ -6039,7 +5514,6 @@ function OptionsScreen({ onBack }: { readonly onBack: () => void }) {
 function TodayView({
   session,
   onWorldChange,
-  workHint,
   onOpenCommitment,
   onOpenPerson,
   onGoTo,
@@ -6047,7 +5521,6 @@ function TodayView({
 }: {
   readonly session: Session;
   readonly onWorldChange: (world: World) => void;
-  readonly workHint: string;
   readonly onOpenCommitment: (activityId: EntityId) => void;
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onGoTo: (
@@ -6073,6 +5546,14 @@ function TodayView({
     () => projectHouseholdPapers(session.world, session.personId),
     [session.world, session.personId],
   );
+  const actionablePapers = papers.filter(
+    (paper) =>
+      paper.destination.kind !== "none" && paper.destination.kind !== "here",
+  );
+  const offers = useMemo(
+    () => projectWorkRole(session.world, session.personId).awaitingAnswer,
+    [session.world, session.personId],
+  );
 
   return (
     <section className="game-day pg-today" data-testid="ordinary-section">
@@ -6080,23 +5561,6 @@ function TodayView({
         {today.dateLabel} · {today.timeLabel}
         {today.placeName ? ` · ${today.placeName}` : ""}
       </p>
-
-      <section className="pg-today-block" aria-labelledby="pg-today-now">
-        <h3 id="pg-today-now">Now</h3>
-        <p
-          className="game-scene"
-          data-testid={
-            today.nowKind === "activity" ? "day-now-activity" : "day-opening"
-          }
-        >
-          {today.now}
-        </p>
-        {today.nowKind === "scene" ? (
-          <p className="game-note" data-testid="day-now-scene">
-            It is waiting in the room. Close this to go back to it.
-          </p>
-        ) : null}
-      </section>
 
       <section className="pg-today-block" aria-labelledby="pg-today-next">
         <h3 id="pg-today-next">Next</h3>
@@ -6109,38 +5573,46 @@ function TodayView({
             onClick={() => onOpenCommitment(today.next!.activityId)}
           >
             {today.next.when} · {today.next.title}
-            <small>{today.next.locationLabel} · Read it in the calendar</small>
+            <small>{today.next.locationLabel}</small>
           </button>
-        ) : (
-          <p className="game-note" data-testid="day-next-none">
-            Nothing else of yours is on the calendar.
-          </p>
-        )}
+        ) : null}
       </section>
 
-      {today.waiting.length > 0 ? (
+      {actionablePapers.length > 0 ? (
         <section className="pg-today-block" aria-labelledby="pg-today-waiting">
           <h3 id="pg-today-waiting">Waiting on you</h3>
           <ul className="game-pending" data-testid="day-pending">
-            {papers.map((paper) => {
+            {actionablePapers.map((paper) => {
               const destination = paper.destination;
               const route =
                 destination.kind === "commitment"
                   ? {
-                      hint: "Read it in the calendar",
+                      label:
+                        calendarEntryFor(
+                          session.world,
+                          session.personId,
+                          destination.activityId,
+                        )?.title ?? "Calendar",
                       go: () => onOpenCommitment(destination.activityId),
                     }
                   : destination.kind === "person"
                     ? {
-                        hint: "Open the person this is with",
+                        label: session.world.people[destination.personId]
+                          ? personName(
+                              session.world.people[destination.personId]!,
+                            )
+                          : "People",
                         go: () => onOpenPerson(destination.personId),
                       }
                     : destination.kind === "surface"
                       ? {
-                          hint:
-                            destination.section === "campaign"
-                              ? "Qualify for it under Campaigns"
-                              : "Answer it where work is",
+                          label:
+                            offers.find((offer) =>
+                              paper.key.endsWith(offer.relationshipId),
+                            )?.roleTitle ??
+                            (destination.section === "campaign"
+                              ? "Campaigns"
+                              : "Work"),
                           go: () =>
                             onGoTo(destination.surface, destination.section),
                         }
@@ -6154,18 +5626,9 @@ function TodayView({
                       data-testid={`day-pending-open-${paper.key}`}
                       onClick={route.go}
                     >
-                      {paper.sentence}
-                      <small>{route.hint}</small>
+                      {route.label}
                     </button>
-                  ) : (
-                    /*
-                      Answered here, with the time below, or carrying no route
-                      the record can support. Either way there is nowhere to
-                      send anybody, so it stays the sentence it already was
-                      rather than becoming a button that guesses.
-                    */
-                    paper.sentence
-                  )}
+                  ) : null}
                 </li>
               );
             })}
@@ -6190,7 +5653,6 @@ function TodayView({
           onClick={() => onGoTo("work")}
         >
           Your office and campaigns
-          <small>{workHint}</small>
         </button>
         {embedded ? null : (
           <button
@@ -6200,7 +5662,6 @@ function TodayView({
             onClick={() => onGoTo("calendar")}
           >
             Calendar
-            <small>Everything that is scheduled</small>
           </button>
         )}
         <button
@@ -6210,7 +5671,6 @@ function TodayView({
           onClick={() => onGoTo("places")}
         >
           Travel
-          <small>Where you can go from here</small>
         </button>
       </nav>
     </section>

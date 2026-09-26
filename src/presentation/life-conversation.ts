@@ -19,10 +19,23 @@ import {
 } from "./life-talk-topics";
 import { currentKnownMatter, matterAwareness } from "./current-matters";
 import {
+  playerUtteranceOf,
+  playerUtteranceTag,
+} from "./conversation-utterance";
+import {
+  REVIEWED_ORDINARY_TALK_TAG,
+  ordinaryGreetingReplyWords,
+  ordinaryGreetingWords,
+  publicDeathQuestionWords,
+  publicDeathStatementWords,
+  uninformedPublicDeathReplyWords,
+} from "./life-talk-english";
+import {
   ageOnDate,
   describePersonContext,
   personName,
   recordEventKnowledge,
+  recordClaim,
   recordRelationshipInteraction,
   recordWorldEvent,
   advanceWorldMinutes,
@@ -56,6 +69,7 @@ export const LIFE_TALK_INTENTS = {
   suggestQuiet: "Suggest sitting and talking together",
   share: "Ask if you can tell them something",
   matter: "Mention something in the news",
+  tellMatter: "Tell them what you read",
   remember: "Talk about an earlier conversation",
   acknowledge: "Let them know you heard",
   leave: "Say goodbye",
@@ -72,6 +86,13 @@ export const LIFE_TALK_INTENTS = {
  */
 export type LifeTalkIntent =
   keyof typeof LIFE_TALK_INTENTS | `${typeof TELL_PREFIX}${string}`;
+
+export interface LifeTalkOption {
+  readonly key: LifeTalkIntent;
+  readonly label: string;
+  /** Exact offered words, when a reviewed dialogue bank can render them. */
+  readonly spokenWords?: string;
+}
 
 function isTellIntent(
   intent: LifeTalkIntent,
@@ -156,18 +177,37 @@ export function projectLifeConversation(
   const previousIntent = previous?.tags
     .find((tag) => tag.startsWith("life.talk:"))
     ?.slice(10);
-  const intents: LifeTalkIntent[] = ["greet", "scene", "activity", "share"];
+  const scene = currentLifeTalkScene(world, playerPersonId)!;
+  const sceneEvent = world.history.events.find(
+    (event) => event.id === scene.eventId,
+  );
+  const specificScene = sceneEvent?.type === "life.scene.opened";
+  const tellable = tellableTopics(world, playerPersonId, personId);
+  // A quiet room and somebody's presence do not themselves supply a topic.
+  // Opening a conversation there offers a greeting; concrete scene events,
+  // known public matters and tellable personal records add their own moves.
+  const intents: LifeTalkIntent[] = ["greet"];
+  if (specificScene) intents.push("scene", "activity");
+  if (tellable.length > 0) intents.push("share");
   // A current public or known matter the player could actually raise; the
   // counterpart's answer depends on what their own records say they know.
   const matter = currentKnownMatter(world, playerPersonId);
   if (matter) intents.push("matter");
+  if (
+    matter &&
+    previous?.tags.includes("life.talk:matter") &&
+    previous.tags.includes("life.answer:matter-uninformed") &&
+    previous.tags.includes(`life.matter:${matter.eventId}`) &&
+    publicDeathStatementWords(world, playerPersonId, matter)
+  )
+    intents.push("tellMatter");
   // Having asked to tell them something and been told to go ahead, the
   // player can tell them something real from their own life, or say it can
   // wait. Nothing is offered that the world does not hold.
   const invited =
     previousIntent === "share" &&
     !previous?.tags.includes("life.answer:private");
-  const topics = invited ? tellableTopics(world, playerPersonId, personId) : [];
+  const topics = invited ? tellable : [];
   if (invited)
     intents.push(
       ...topics.map((topic) => topic.key as LifeTalkIntent),
@@ -181,7 +221,17 @@ export function projectLifeConversation(
     )
   )
     intents.push("explain");
-  if (history.length > 0) intents.push("remember", "acknowledge");
+  if (
+    history.some((event) =>
+      event.tags.some(
+        (tag) =>
+          tag.startsWith("life.matter:") ||
+          tag.startsWith(`life.talk:${TELL_PREFIX}`) ||
+          tag.startsWith("life.proposal."),
+      ),
+    )
+  )
+    intents.push("remember", "acknowledge");
   const adults = [playerPersonId, personId].every(
     (id) => ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
   );
@@ -208,7 +258,7 @@ export function projectLifeConversation(
     )
   )
     intents.push("date");
-  const currentSceneId = currentLifeTalkScene(world, playerPersonId)!.eventId;
+  const currentSceneId = scene.eventId;
   const proposal = currentTalkProposal(
     world,
     playerPersonId,
@@ -251,8 +301,35 @@ export function projectLifeConversation(
     revision: world.history.nextSequence,
     proposal,
     matter,
-    intents: intents.map((key) => ({
+    intents: intents.map((key): LifeTalkOption => ({
       key,
+      ...(key === "greet"
+        ? {
+            spokenWords:
+              ordinaryGreetingWords(
+                world,
+                playerPersonId,
+                personId,
+                scene.eventId,
+              ) ?? undefined,
+          }
+        : key === "matter" && matter
+          ? {
+              spokenWords:
+                parentOfYoungPlayer(world, playerPersonId, personId) &&
+                matterAwareness(world, personId, matter.eventId) ===
+                  "uninformed"
+                  ? (publicDeathQuestionWords(world, playerPersonId, matter) ??
+                    undefined)
+                  : undefined,
+            }
+          : key === "tellMatter" && matter
+            ? {
+                spokenWords:
+                  publicDeathStatementWords(world, playerPersonId, matter) ??
+                  undefined,
+              }
+            : {}),
       label:
         matter && key === "matter"
           ? `${MATTER_CHOICE_PREFIX}${matter.headline}`
@@ -270,8 +347,8 @@ export function projectLifeConversation(
     transcript: history.map((event) => ({
       eventId: event.id,
       date: event.occurredAt,
-      action: event.context.choice!,
-      reply: event.context.immediateReaction!,
+      action: playerUtteranceOf(event) ?? event.context.choice!,
+      reply: event.context.immediateReaction ?? "",
     })),
   };
 }
@@ -453,13 +530,16 @@ function replyFor(
     case "cancelProposal":
       return "All right. Let’s leave it.";
     case "greet":
-      if (parent && youngPlayer)
-        return history.length
-          ? "Hi, sweetheart. What is it?"
-          : "Hi, sweetheart.";
-      return history.length
-        ? "Hi again."
-        : `Hi, ${world.people[playerPersonId]!.givenName}.`;
+      return (
+        ordinaryGreetingReplyWords(
+          world,
+          playerPersonId,
+          personId,
+          currentLifeTalkScene(world, playerPersonId)?.eventId ??
+            world.currentDate,
+          history.length,
+        ) ?? ""
+      );
     case "activity":
       if (activeOrdinaryGoal(world, personId, "privacy"))
         return "I need some privacy right now. Let's leave activities for another time.";
@@ -511,13 +591,21 @@ function replyFor(
       const matter = currentKnownMatter(world, playerPersonId);
       if (!matter) return "What did you want to talk about?";
       const awareness = matterAwareness(world, personId, matter.eventId);
-      if (awareness === "uninformed") return "I hadn't heard about that.";
+      if (awareness === "uninformed")
+        return parent &&
+          youngPlayer &&
+          publicDeathQuestionWords(world, playerPersonId, matter)
+          ? (uninformedPublicDeathReplyWords(world, personId, matter) ?? "")
+          : "I hadn't heard about that.";
       if (activeOrdinaryGoal(world, personId, "privacy"))
         return "I'd rather not get into that right now.";
       return awareness === "involved"
         ? "I was involved in that."
         : "I heard about that.";
     }
+    case "tellMatter":
+      // Hearing the statement is recorded below. No reaction is invented.
+      return "";
     case "remember": {
       // A matter the two of you discussed is more memorable than small talk.
       const matterTurn = [...history]
@@ -702,6 +790,11 @@ export function commitLifeConversation(
     input.personId,
     input.intent,
   );
+  const spokenWords =
+    view.intents
+      .find((option) => option.key === input.intent)
+      ?.spokenWords?.trim() || null;
+  const playerSummary = spokenWords ?? `${intentLabel}.`;
   let next = recordWorldEvent(advanced, {
     stableKey,
     type: "life.conversation",
@@ -739,7 +832,10 @@ export function commitLifeConversation(
       `scene:${currentLifeTalkScene(world, input.playerPersonId)!.eventId}`,
       `moment:${JSON.stringify(advanced.currentMoment)}`,
       `life.answer:${answer}`,
-      ...(input.intent === "matter" && view.matter
+      ...(spokenWords
+        ? [playerUtteranceTag(spokenWords), REVIEWED_ORDINARY_TALK_TAG]
+        : []),
+      ...(["matter", "tellMatter"].includes(input.intent) && view.matter
         ? [`life.matter:${view.matter.eventId}`]
         : []),
       ...(terms
@@ -755,7 +851,7 @@ export function commitLifeConversation(
           ]
         : []),
     ],
-    summary: `${personName(world.people[input.playerPersonId]!)}: ${intentLabel}. ${personName(world.people[input.personId]!)}: ${reply}`,
+    summary: `${personName(world.people[input.playerPersonId]!)}: ${playerSummary}${reply ? ` ${personName(world.people[input.personId]!)}: ${reply}` : ""}`,
     context: {
       location: {
         jurisdictionId: world.people[input.playerPersonId]!.homeJurisdictionId,
@@ -766,10 +862,37 @@ export function commitLifeConversation(
       pressure: null,
       choice: view.intents.find((option) => option.key === input.intent)!.label,
       motivation: null,
-      immediateReaction: reply,
+      immediateReaction: reply || null,
     },
   });
   const event = next.history.events.at(-1)!;
+  if (input.intent === "tellMatter" && view.matter && spokenWords) {
+    next = recordClaim(next, {
+      stableKey: `${stableKey}:claim`,
+      speakerPersonId: input.playerPersonId,
+      eventId: view.matter.eventId,
+      madeAt: advanced.currentDate,
+      audience: "limited",
+      statement: spokenWords,
+      relationshipToTruth: "unknown",
+      provenance: { kind: "direct-record" },
+    });
+    const claim = next.history.claims.at(-1)!;
+    next = recordEventKnowledge(next, {
+      stableKey: `${stableKey}:told:${input.personId}`,
+      personId: input.personId,
+      eventId: view.matter.eventId,
+      learnedAt: advanced.currentDate,
+      believedSummary: spokenWords,
+      accuracy: "unknown",
+      confidence: "medium",
+      source: {
+        kind: "told-by",
+        sourcePersonId: input.playerPersonId,
+        claimId: claim.id,
+      },
+    });
+  }
   for (const personId of currentLifeTalkScene(world, input.playerPersonId)!
     .presentPersonIds)
     next = recordEventKnowledge(next, {

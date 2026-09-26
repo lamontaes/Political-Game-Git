@@ -12,7 +12,7 @@ import {
   workStatusAt,
 } from "../simulation/life-queries";
 import type { EntityId, World } from "../simulation";
-import { currentOpeningLifeScene } from "./life-scene-flow";
+import { currentPlayerOpeningLifeScene } from "./life-scene-flow";
 import { formatMinute, projectPlayerCalendar } from "./player-calendar";
 import { projectOrdinaryDay } from "./ordinary-life";
 import { proseDate } from "./prose-dates";
@@ -73,11 +73,13 @@ export interface TodayOverview {
 export function projectToday(world: World, personId: EntityId): TodayOverview {
   const day = projectOrdinaryDay(world, personId);
   const finished = completedActivityHere(world, personId);
-  const scene = finished ? null : currentOpeningLifeScene(world, personId);
+  const scene = finished
+    ? null
+    : currentPlayerOpeningLifeScene(world, personId);
   // What was finished there is said once, by the activity panel that did it.
   const now = finished
     ? `You are at ${finished.location.label}.`
-    : (scene?.prose ?? day.opening);
+    : (scene?.prose ?? "");
 
   const moment = world.currentMoment;
   const calendar = projectPlayerCalendar(world, personId);

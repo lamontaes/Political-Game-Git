@@ -63,10 +63,10 @@ test("News speaks about the place and the Journal tells the life through save (A
   await goTo(page, "nav-journal-entry");
   const journal = page.getByTestId("world39-journal");
   await expect(journal).toBeVisible();
-  await expect(journal).toContainText("Your life so far");
+  await expect(journal).toContainText("My life");
   const biography = page.getByTestId("world39-biography");
   await expect(biography).toContainText(
-    /You were born on [A-Z][a-z]+ \d{1,2}, \d{4}\./,
+    /I was born on [A-Z][a-z]+ \d{1,2}, \d{4}\./,
   );
   await expect(page.getByTestId("world39-chapter").first()).toBeVisible();
   const accountText = await biography.innerText();
@@ -84,7 +84,7 @@ test("News speaks about the place and the Journal tells the life through save (A
   );
   await goTo(page, "nav-journal-entry");
   await expect(page.getByTestId("world39-biography")).toContainText(
-    "You were born on",
+    "I was born on",
   );
 });
 
