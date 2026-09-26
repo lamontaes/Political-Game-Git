@@ -146,11 +146,7 @@
         "description": "Businesses dealing with New York consumers."
       }
     ],
-    "touches": [
-      "Attorney General",
-      "debt collectors",
-      "lenders"
-    ],
+    "touches": ["Attorney General", "debt collectors", "lenders"],
     "daily_life": "The state can stop business tricks that are unfair even if not strictly false.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -172,10 +168,7 @@
     "menu": "17",
     "menu_name": "Defense & Veterans",
     "sub_topic": "Veterans' housing",
-    "secondary_menus": [
-      "04",
-      "11"
-    ],
+    "secondary_menus": ["04", "11"],
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "expand",
@@ -201,10 +194,7 @@
         "description": "Signed with an agreed chapter amendment."
       }
     ],
-    "touches": [
-      "local assessors",
-      "school district levies"
-    ],
+    "touches": ["local assessors", "school district levies"],
     "daily_life": "In towns that opt in, a fully disabled veteran pays no property tax.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

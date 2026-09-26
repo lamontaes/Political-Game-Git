@@ -15,9 +15,7 @@
     "menu": "09",
     "menu_name": "Energy & Environment",
     "sub_topic": "Electricity and the grid",
-    "secondary_menus": [
-      "11"
-    ],
+    "secondary_menus": ["11"],
     "instrument": "agency/structure",
     "secondary_instruments": [],
     "operation": "create",
@@ -37,10 +35,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "Public Utilities Commission",
-      "Efficiency Maine"
-    ],
+    "touches": ["Public Utilities Commission", "Efficiency Maine"],
     "daily_life": "One department is accountable for energy costs and grid planning.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -62,9 +57,7 @@
     "menu": "02",
     "menu_name": "Healthcare",
     "sub_topic": "Medicines and medical products",
-    "secondary_menus": [
-      "08"
-    ],
+    "secondary_menus": ["08"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -79,10 +72,7 @@
         "description": "Bureau of Insurance oversight."
       }
     ],
-    "touches": [
-      "employer health plans",
-      "pharmacies"
-    ],
+    "touches": ["employer health plans", "pharmacies"],
     "daily_life": "Health plans stop paying hidden markups on prescriptions.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -104,9 +94,7 @@
     "menu": "14",
     "menu_name": "Agriculture & Food",
     "sub_topic": "Soil and agricultural water / pollution cleanup",
-    "secondary_menus": [
-      "09"
-    ],
+    "secondary_menus": ["09"],
     "instrument": "program creation",
     "secondary_instruments": [],
     "operation": "create",
@@ -127,10 +115,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "dairy and vegetable farms",
-      "sludge spreading history"
-    ],
+    "touches": ["dairy and vegetable farms", "sludge spreading history"],
     "daily_life": "A farm with contaminated fields gets help testing and staying in business.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

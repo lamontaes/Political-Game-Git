@@ -9,21 +9,15 @@
     "short_title": "FY2026-2027 operating budget (flat income tax)",
     "enacted_date": "2025-06-30",
     "enactment_path": "signed",
-    "effective_dates": [
-      "tax year 2026 for the flat rate"
-    ],
+    "effective_dates": ["tax year 2026 for the flat rate"],
     "official_text_url": "https://www.legislature.ohio.gov/legislation/136/hb96",
     "aggregator_url": null,
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Individual income tax / budgets",
-    "secondary_menus": [
-      "03"
-    ],
+    "secondary_menus": ["03"],
     "instrument": "tax",
-    "secondary_instruments": [
-      "appropriation"
-    ],
+    "secondary_instruments": ["appropriation"],
     "operation": "lower",
     "secondary_operations": [],
     "parts": [
@@ -77,10 +71,7 @@
         ]
       }
     ],
-    "touches": [
-      "school funding formula",
-      "local levies"
-    ],
+    "touches": ["school funding formula", "local levies"],
     "daily_life": "Most Ohio earners pay one flat state rate.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -96,17 +87,13 @@
     "short_title": "Advance Ohio Higher Education Act",
     "enacted_date": "2025-03-28",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-06-27"
-    ],
+    "effective_dates": ["2025-06-27"],
     "official_text_url": "https://www.legislature.ohio.gov/legislation/136/sb1",
     "aggregator_url": null,
     "menu": "03",
     "menu_name": "Education",
     "sub_topic": "Colleges and universities",
-    "secondary_menus": [
-      "07"
-    ],
+    "secondary_menus": ["07"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -132,10 +119,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "public universities",
-      "faculty unions"
-    ],
+    "touches": ["public universities", "faculty unions"],
     "daily_life": "Students must take a civics course; campus DEI offices close.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -151,9 +135,7 @@
     "short_title": "Energy law overhaul (ends coal plant subsidy charges)",
     "enacted_date": "2025-05-15",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-08-14"
-    ],
+    "effective_dates": ["2025-08-14"],
     "official_text_url": "https://www.legislature.ohio.gov/legislation/136/hb15",
     "aggregator_url": null,
     "menu": "09",
@@ -163,9 +145,7 @@
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "repeal",
-    "secondary_operations": [
-      "replace"
-    ],
+    "secondary_operations": ["replace"],
     "parts": [
       {
         "kind": "repeal",
@@ -180,10 +160,7 @@
         "description": "Changes electric-utility rules affecting large-load customers and behind-the-meter generation."
       }
     ],
-    "touches": [
-      "electric bills",
-      "PUCO"
-    ],
+    "touches": ["electric bills", "PUCO"],
     "daily_life": "Electric utility charges and rate procedures change under HB 15; an individual bill’s change depends on its utility and tariff.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

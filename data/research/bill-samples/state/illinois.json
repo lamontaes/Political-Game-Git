@@ -9,9 +9,7 @@
     "short_title": "Family Neonatal Intensive Care Leave Act",
     "enacted_date": "2025-08",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-06-01 (inferred)"
-    ],
+    "effective_dates": ["2026-06-01 (inferred)"],
     "official_text_url": "https://www.ilga.gov/Documents/legislation/publicacts/104/PDF/104-0259.pdf",
     "aggregator_url": null,
     "menu": "07",
@@ -56,10 +54,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "employers",
-      "FMLA"
-    ],
+    "touches": ["employers", "FMLA"],
     "daily_life": "A parent can miss work for a baby in intensive care without being fired.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -101,10 +96,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "federal OSHA",
-      "employers"
-    ],
+    "touches": ["federal OSHA", "employers"],
     "daily_life": "If Washington loosens a safety rule, Illinois workers keep the old protection.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -129,16 +121,11 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Taxes - new excise taxes / fuel",
-    "secondary_menus": [
-      "13",
-      "01"
-    ],
+    "secondary_menus": ["13", "01"],
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "create",
-    "secondary_operations": [
-      "lower"
-    ],
+    "secondary_operations": ["lower"],
     "parts": [
       {
         "kind": "rate",

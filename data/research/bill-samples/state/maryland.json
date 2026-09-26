@@ -22,9 +22,7 @@
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "raise",
-    "secondary_operations": [
-      "expand"
-    ],
+    "secondary_operations": ["expand"],
     "parts": [
       {
         "kind": "rate",
@@ -128,9 +126,7 @@
     "short_title": "Next Generation Energy Act",
     "enacted_date": "2025-05",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-06-01"
-    ],
+    "effective_dates": ["2025-06-01"],
     "official_text_url": "https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/sb0937?ys=2025RS",
     "aggregator_url": null,
     "menu": "09",
@@ -172,10 +168,7 @@
         ]
       }
     ],
-    "touches": [
-      "utility rates",
-      "PJM grid"
-    ],
+    "touches": ["utility rates", "PJM grid"],
     "daily_life": "Aims to keep the lights on and bills stable as demand grows.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -219,10 +212,7 @@
         ]
       }
     ],
-    "touches": [
-      "BRFA (HB 352)",
-      "all agencies"
-    ],
+    "touches": ["BRFA (HB 352)", "all agencies"],
     "daily_life": "Funds state services for the year.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

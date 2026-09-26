@@ -34,10 +34,7 @@
         "description": "Secretary of State issues ballot design guidance."
       }
     ],
-    "touches": [
-      "county clerks",
-      "party organizations"
-    ],
+    "touches": ["county clerks", "party organizations"],
     "daily_life": "Primary voters see candidates for each office grouped together.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -90,10 +87,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "school funding formula",
-      "district facilities"
-    ],
+    "touches": ["school funding formula", "district facilities"],
     "daily_life": "Every five-year-old can attend a full school day.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -131,10 +125,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "local newspapers",
-      "municipal clerks"
-    ],
+    "touches": ["local newspapers", "municipal clerks"],
     "daily_life": "Hearing and bid notices move from newspapers to websites.",
     "provision_of": null,
     "source_confidence": "official-text-checked",

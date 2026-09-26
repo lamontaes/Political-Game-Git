@@ -15,9 +15,7 @@
     "menu": "13",
     "menu_name": "Science, Technology & Communications",
     "sub_topic": "Data protection / online platforms",
-    "secondary_menus": [
-      "12"
-    ],
+    "secondary_menus": ["12"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -49,10 +47,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "social media platforms",
-      "age verification vendors"
-    ],
+    "touches": ["social media platforms", "age verification vendors"],
     "daily_life": "A teen needs a parent's approval to open an account.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -112,10 +107,7 @@
         ]
       }
     ],
-    "touches": [
-      "2024 ballot initiative",
-      "small employers"
-    ],
+    "touches": ["2024 ballot initiative", "small employers"],
     "daily_life": "Workers at a five-person shop do not earn paid sick days.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -164,10 +156,7 @@
         "description": "State general fund."
       }
     ],
-    "touches": [
-      "school districts",
-      "farm property owners"
-    ],
+    "touches": ["school districts", "farm property owners"],
     "daily_life": "A larger credit shows up on property tax statements.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

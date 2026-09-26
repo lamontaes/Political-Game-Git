@@ -15,13 +15,9 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Property taxes - levy limits",
-    "secondary_menus": [
-      "11"
-    ],
+    "secondary_menus": ["11"],
     "instrument": "tax",
-    "secondary_instruments": [
-      "preemption"
-    ],
+    "secondary_instruments": ["preemption"],
     "operation": "lower",
     "secondary_operations": [],
     "parts": [
@@ -91,10 +87,7 @@
         ]
       }
     ],
-    "touches": [
-      "Legacy Fund",
-      "local budgets"
-    ],
+    "touches": ["Legacy Fund", "local budgets"],
     "daily_life": "A homeowner gets $1,600 off the tax bill; cities cannot raise levies more than 3 percent.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -110,9 +103,7 @@
     "short_title": "Public charter school framework",
     "enacted_date": "2025-04",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-08-01"
-    ],
+    "effective_dates": ["2025-08-01"],
     "official_text_url": "https://ndlegis.gov/assembly/69-2025/regular/bill-overview/bo2241.html",
     "aggregator_url": null,
     "menu": "03",
@@ -155,10 +146,7 @@
         ]
       }
     ],
-    "touches": [
-      "school districts",
-      "state aid formula"
-    ],
+    "touches": ["school districts", "state aid formula"],
     "daily_life": "Parents may get a new public school option.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -174,9 +162,7 @@
     "short_title": "Phone-free school day",
     "enacted_date": "2025",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-08-01"
-    ],
+    "effective_dates": ["2025-08-01"],
     "official_text_url": "https://ndlegis.gov/assembly/69-2025/regular/bill-overview/bo1160.html",
     "aggregator_url": null,
     "menu": "03",
@@ -198,9 +184,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "school districts"
-    ],
+    "touches": ["school districts"],
     "daily_life": "No phones at lunch or between classes.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

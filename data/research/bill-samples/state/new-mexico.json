@@ -15,10 +15,7 @@
     "menu": "05",
     "menu_name": "Assistance & Social Insurance",
     "sub_topic": "Child-care assistance",
-    "secondary_menus": [
-      "04",
-      "03"
-    ],
+    "secondary_menus": ["04", "03"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "expand",
@@ -34,10 +31,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "child care assistance",
-      "pre-K"
-    ],
+    "touches": ["child care assistance", "pre-K"],
     "daily_life": "Steadier money for child care subsidies.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -59,9 +53,7 @@
     "menu": "06",
     "menu_name": "Housing & Land Use",
     "sub_topic": "Planning and zoning",
-    "secondary_menus": [
-      "05"
-    ],
+    "secondary_menus": ["05"],
     "instrument": "preemption",
     "secondary_instruments": [],
     "operation": "expand",
@@ -76,10 +68,7 @@
         "description": "State-licensed child care providers."
       }
     ],
-    "touches": [
-      "city zoning",
-      "HOAs"
-    ],
+    "touches": ["city zoning", "HOAs"],
     "daily_life": "A licensed daycare can open in a house without a special permit.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -101,9 +90,7 @@
     "menu": "07",
     "menu_name": "Labor & Employment",
     "sub_topic": "Hiring and employment protections",
-    "secondary_menus": [
-      "12"
-    ],
+    "secondary_menus": ["12"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -125,10 +112,7 @@
         ]
       }
     ],
-    "touches": [
-      "state hiring",
-      "child care licensing"
-    ],
+    "touches": ["state hiring", "child care licensing"],
     "daily_life": "Background checks for caregivers can weigh some misdemeanors.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

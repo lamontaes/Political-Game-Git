@@ -15,13 +15,9 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Property taxes - levy limits",
-    "secondary_menus": [
-      "11"
-    ],
+    "secondary_menus": ["11"],
     "instrument": "tax",
-    "secondary_instruments": [
-      "appropriation"
-    ],
+    "secondary_instruments": ["appropriation"],
     "operation": "raise",
     "secondary_operations": [],
     "parts": [
@@ -76,10 +72,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "Texas property tax limits",
-      "homelessness services"
-    ],
+    "touches": ["Texas property tax limits", "homelessness services"],
     "daily_life": "Austin homeowners avoid a 20 percent tax increase; park and homeless programs shrink.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

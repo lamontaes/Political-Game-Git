@@ -9,9 +9,7 @@
     "short_title": "Family Zoning Plan (citywide upzoning)",
     "enacted_date": "2025-12-12",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-12"
-    ],
+    "effective_dates": ["2026-01-12"],
     "official_text_url": "https://sfgov.legistar.com/gateway.aspx?m=l&id=42715",
     "aggregator_url": null,
     "menu": "06",
@@ -50,10 +48,7 @@
         ]
       }
     ],
-    "touches": [
-      "state housing element law",
-      "neighborhood groups"
-    ],
+    "touches": ["state housing element law", "neighborhood groups"],
     "daily_life": "A six-story apartment can be built on a commercial street that allowed two.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

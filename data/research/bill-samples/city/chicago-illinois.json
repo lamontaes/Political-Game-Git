@@ -17,13 +17,9 @@
     "sub_topic": "Taxes / fees and charges",
     "secondary_menus": [],
     "instrument": "tax",
-    "secondary_instruments": [
-      "fee"
-    ],
+    "secondary_instruments": ["fee"],
     "operation": "raise",
-    "secondary_operations": [
-      "create"
-    ],
+    "secondary_operations": ["create"],
     "parts": [
       {
         "kind": "rate",
@@ -84,10 +80,7 @@
         ]
       }
     ],
-    "touches": [
-      "$16.6 billion city budget",
-      "downtown employers"
-    ],
+    "touches": ["$16.6 billion city budget", "downtown employers"],
     "daily_life": "Bags and cloud software cost more in Chicago; no per-worker tax on employers.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

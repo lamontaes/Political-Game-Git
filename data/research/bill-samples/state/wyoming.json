@@ -46,11 +46,7 @@
         "description": "No sunset date."
       }
     ],
-    "touches": [
-      "counties",
-      "school districts",
-      "special districts"
-    ],
+    "touches": ["counties", "school districts", "special districts"],
     "daily_life": "A homeowner's tax bill drops by about a quarter.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -76,9 +72,7 @@
     "instrument": "program creation",
     "secondary_instruments": [],
     "operation": "expand",
-    "secondary_operations": [
-      "replace"
-    ],
+    "secondary_operations": ["replace"],
     "parts": [
       {
         "kind": "benefit",
@@ -127,10 +121,7 @@
         "description": "Renames and replaces an earlier income-limited ESA program."
       }
     ],
-    "touches": [
-      "private schools",
-      "state treasurer"
-    ],
+    "touches": ["private schools", "state treasurer"],
     "daily_life": "Any family can get $7,000 a year for private school or other education costs.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -168,10 +159,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "Game and Fish Commission",
-      "trappers"
-    ],
+    "touches": ["Game and Fish Commission", "trappers"],
     "daily_life": "Otter hunting or trapping may be allowed under commission rules.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

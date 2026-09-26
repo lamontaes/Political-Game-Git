@@ -9,18 +9,13 @@
     "short_title": "Synthetic food dyes banned in school meals",
     "enacted_date": "2025-03-21",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2027-07-01"
-    ],
+    "effective_dates": ["2027-07-01"],
     "official_text_url": "https://lis.virginia.gov/bill-details/20251/HB1910",
     "aggregator_url": null,
     "menu": "14",
     "menu_name": "Agriculture & Food",
     "sub_topic": "Food production and safety / school meals",
-    "secondary_menus": [
-      "03",
-      "02"
-    ],
+    "secondary_menus": ["03", "02"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -53,9 +48,7 @@
         ]
       }
     ],
-    "touches": [
-      "school food vendors"
-    ],
+    "touches": ["school food vendors"],
     "daily_life": "Brightly dyed snacks leave school vending machines.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -71,9 +64,7 @@
     "short_title": "Ban on personal use of campaign funds",
     "enacted_date": "2025-03",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-07-01"
-    ],
+    "effective_dates": ["2026-07-01"],
     "official_text_url": "https://lis.virginia.gov/bill-details/20251/HB2165",
     "aggregator_url": null,
     "menu": "11",
@@ -106,10 +97,7 @@
         ]
       }
     ],
-    "touches": [
-      "campaign committees",
-      "Department of Elections"
-    ],
+    "touches": ["campaign committees", "Department of Elections"],
     "daily_life": "Politicians cannot spend donors' money on personal bills.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -163,9 +151,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "all agencies"
-    ],
+    "touches": ["all agencies"],
     "daily_life": "Adjusts state spending halfway through the two-year budget.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

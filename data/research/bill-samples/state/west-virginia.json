@@ -15,13 +15,9 @@
     "menu": "08",
     "menu_name": "Business & Economic Development",
     "sub_topic": "Development incentives",
-    "secondary_menus": [
-      "09"
-    ],
+    "secondary_menus": ["09"],
     "instrument": "program creation",
-    "secondary_instruments": [
-      "preemption"
-    ],
+    "secondary_instruments": ["preemption"],
     "operation": "create",
     "secondary_operations": [],
     "parts": [
@@ -70,11 +66,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "counties",
-      "electric utilities",
-      "income tax rate"
-    ],
+    "touches": ["counties", "electric utilities", "income tax rate"],
     "daily_life": "A data center can locate in a county with fewer local permits; tax money flows back.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -99,9 +91,7 @@
     "menu": "14",
     "menu_name": "Agriculture & Food",
     "sub_topic": "Food production and safety",
-    "secondary_menus": [
-      "02"
-    ],
+    "secondary_menus": ["02"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -129,10 +119,7 @@
         "description": "State health department."
       }
     ],
-    "touches": [
-      "food manufacturers",
-      "school meal vendors"
-    ],
+    "touches": ["food manufacturers", "school meal vendors"],
     "daily_life": "Candy and cereal sold in the state change recipes.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -154,9 +141,7 @@
     "menu": "15",
     "menu_name": "Parks, Culture & Community Life",
     "sub_topic": "Arts and museums / tourism",
-    "secondary_menus": [
-      "11"
-    ],
+    "secondary_menus": ["11"],
     "instrument": "agency/structure",
     "secondary_instruments": [],
     "operation": "replace",
@@ -171,10 +156,7 @@
         "description": "Transfers staff, powers and funds."
       }
     ],
-    "touches": [
-      "state museums",
-      "tourism marketing"
-    ],
+    "touches": ["state museums", "tourism marketing"],
     "daily_life": "State museums are run by the tourism agency.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

@@ -9,9 +9,7 @@
     "short_title": "Laken Riley Act",
     "enacted_date": "2025-01-29",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-01-29 (on enactment)"
-    ],
+    "effective_dates": ["2025-01-29 (on enactment)"],
     "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/1?link-type=html",
     "aggregator_url": null,
     "menu": "16",
@@ -19,9 +17,7 @@
     "sub_topic": "Immigration proceedings / detention",
     "secondary_menus": [],
     "instrument": "mandate/regulation",
-    "secondary_instruments": [
-      "procedure/election rule"
-    ],
+    "secondary_instruments": ["procedure/election rule"],
     "operation": "restrict",
     "secondary_operations": [],
     "parts": [
@@ -66,10 +62,7 @@
     "short_title": "Full-Year Continuing Appropriations and Extensions Act, 2025",
     "enacted_date": "2025-03-15",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-03-15",
-      "funds available through 2025-09-30"
-    ],
+    "effective_dates": ["2025-03-15", "funds available through 2025-09-30"],
     "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/4?link-type=html",
     "aggregator_url": null,
     "menu": "04",
@@ -105,10 +98,7 @@
         "description": "Extends several expiring programs and authorities (extenders) to a new date."
       }
     ],
-    "touches": [
-      "every federal agency budget",
-      "shutdown risk"
-    ],
+    "touches": ["every federal agency budget", "shutdown risk"],
     "daily_life": "Keeps federal offices, parks and benefit processing open for the rest of the fiscal year.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -130,9 +120,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Taxes - information reporting",
-    "secondary_menus": [
-      "13"
-    ],
+    "secondary_menus": ["13"],
     "instrument": "other",
     "secondary_instruments": [],
     "operation": "repeal",
@@ -158,10 +146,7 @@
         ]
       }
     ],
-    "touches": [
-      "IRS information reporting",
-      "crypto platforms"
-    ],
+    "touches": ["IRS information reporting", "crypto platforms"],
     "daily_life": "Crypto users on decentralized platforms do not get new IRS forms from those platforms.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -183,9 +168,7 @@
     "menu": "08",
     "menu_name": "Business & Economic Development",
     "sub_topic": "Banking and credit",
-    "secondary_menus": [
-      "12"
-    ],
+    "secondary_menus": ["12"],
     "instrument": "other",
     "secondary_instruments": [],
     "operation": "repeal",
@@ -220,10 +203,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "bank fee income",
-      "consumer checking accounts"
-    ],
+    "touches": ["bank fee income", "consumer checking accounts"],
     "daily_life": "Large banks may keep charging their existing overdraft fees.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -248,15 +228,9 @@
     "menu": "13",
     "menu_name": "Science, Technology & Communications",
     "sub_topic": "Online platforms / AI-generated imagery",
-    "secondary_menus": [
-      "12",
-      "10"
-    ],
+    "secondary_menus": ["12", "10"],
     "instrument": "prohibition",
-    "secondary_instruments": [
-      "penalty",
-      "mandate/regulation"
-    ],
+    "secondary_instruments": ["penalty", "mandate/regulation"],
     "operation": "create",
     "secondary_operations": [],
     "parts": [
@@ -308,11 +282,7 @@
         "description": "Failure to comply with removal duties is treated as an unfair or deceptive practice enforced by the Federal Trade Commission."
       }
     ],
-    "touches": [
-      "social media platforms",
-      "FTC",
-      "federal criminal code"
-    ],
+    "touches": ["social media platforms", "FTC", "federal criminal code"],
     "daily_life": "A person can make a platform take down a fake explicit image of them within two days.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -373,17 +343,13 @@
     "short_title": "One Big Beautiful Bill Act - no tax on tips and overtime deductions",
     "enacted_date": "2025-07-04",
     "enactment_path": "signed",
-    "effective_dates": [
-      "tax years 2025 through 2028"
-    ],
+    "effective_dates": ["tax years 2025 through 2028"],
     "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/21?link-type=html",
     "aggregator_url": null,
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Individual income tax - deductions",
-    "secondary_menus": [
-      "07"
-    ],
+    "secondary_menus": ["07"],
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "lower",
@@ -449,11 +415,7 @@
         "description": "Employers must report tips and overtime separately on wage statements."
       }
     ],
-    "touches": [
-      "IRS",
-      "payroll systems",
-      "restaurant and hospitality workers"
-    ],
+    "touches": ["IRS", "payroll systems", "restaurant and hospitality workers"],
     "daily_life": "A server who earns $15,000 in tips can deduct it from federal taxable income through 2028.",
     "provision_of": "us-119-pl21 (reconciliation act)",
     "source_confidence": "official-text-checked",
@@ -477,9 +439,7 @@
     "menu": "02",
     "menu_name": "Healthcare",
     "sub_topic": "Public coverage programs - eligibility",
-    "secondary_menus": [
-      "05"
-    ],
+    "secondary_menus": ["05"],
     "instrument": "eligibility/benefit",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -520,11 +480,7 @@
         "description": "State Medicaid agencies verify compliance under federal HHS rules."
       }
     ],
-    "touches": [
-      "state Medicaid budgets",
-      "hospitals",
-      "SNAP work rules"
-    ],
+    "touches": ["state Medicaid budgets", "hospitals", "SNAP work rules"],
     "daily_life": "A 40-year-old on expansion Medicaid must document 80 hours of monthly activity or lose coverage.",
     "provision_of": "us-119-pl21 (reconciliation act)",
     "source_confidence": "official-text-checked",
@@ -548,13 +504,9 @@
     "menu": "05",
     "menu_name": "Assistance & Social Insurance",
     "sub_topic": "Food assistance - funding formula",
-    "secondary_menus": [
-      "04"
-    ],
+    "secondary_menus": ["04"],
     "instrument": "eligibility/benefit",
-    "secondary_instruments": [
-      "appropriation"
-    ],
+    "secondary_instruments": ["appropriation"],
     "operation": "restrict",
     "secondary_operations": [],
     "parts": [
@@ -628,13 +580,9 @@
     "menu": "10",
     "menu_name": "Justice & Public Safety",
     "sub_topic": "Criminal law and sentencing",
-    "secondary_menus": [
-      "02"
-    ],
+    "secondary_menus": ["02"],
     "instrument": "penalty",
-    "secondary_instruments": [
-      "prohibition"
-    ],
+    "secondary_instruments": ["prohibition"],
     "operation": "expand",
     "secondary_operations": [],
     "parts": [
@@ -668,11 +616,7 @@
         "description": "Replaces a temporary class-wide scheduling order with permanent law."
       }
     ],
-    "touches": [
-      "DEA scheduling",
-      "federal prosecutors",
-      "research labs"
-    ],
+    "touches": ["DEA scheduling", "federal prosecutors", "research labs"],
     "daily_life": "Trafficking look-alike fentanyl compounds carries the same mandatory prison terms as fentanyl.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -696,9 +640,7 @@
     "menu": "08",
     "menu_name": "Business & Economic Development",
     "sub_topic": "Banking and credit / payments",
-    "secondary_menus": [
-      "13"
-    ],
+    "secondary_menus": ["13"],
     "instrument": "license/permit",
     "secondary_instruments": [],
     "operation": "create",
@@ -746,11 +688,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "banks",
-      "crypto exchanges",
-      "Treasury market"
-    ],
+    "touches": ["banks", "crypto exchanges", "Treasury market"],
     "daily_life": "A dollar stablecoin in a phone wallet must be backed by real dollars or Treasuries held by a licensed issuer.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -772,10 +710,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Budgets and appropriations - rescission",
-    "secondary_menus": [
-      "18",
-      "15"
-    ],
+    "secondary_menus": ["18", "15"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "lower",
@@ -826,19 +761,13 @@
     "short_title": "Continuing Appropriations, Agriculture, Legislative Branch, Military Construction and Veterans Affairs, and Extensions Act, 2026",
     "enacted_date": "2025-11-12",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-11-12",
-      "stopgap through 2026-01-30 (inferred)"
-    ],
+    "effective_dates": ["2025-11-12", "stopgap through 2026-01-30 (inferred)"],
     "official_text_url": "https://www.govinfo.gov/link/plaw/119/public/37?link-type=html",
     "aggregator_url": null,
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Budgets and appropriations",
-    "secondary_menus": [
-      "14",
-      "17"
-    ],
+    "secondary_menus": ["14", "17"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "create",
@@ -870,11 +799,7 @@
         "description": "Extends expiring programs (extenders)."
       }
     ],
-    "touches": [
-      "SNAP benefit payments",
-      "federal workforce",
-      "shutdown"
-    ],
+    "touches": ["SNAP benefit payments", "federal workforce", "shutdown"],
     "daily_life": "Federal workers go back to work and get back pay; food assistance resumes on schedule.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -927,10 +852,7 @@
         "description": "Report to congressional judiciary committees listing what was withheld and why."
       }
     ],
-    "touches": [
-      "Department of Justice",
-      "FOIA practice"
-    ],
+    "touches": ["Department of Justice", "FOIA practice"],
     "daily_life": "The public can read case files that were previously withheld.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -982,10 +904,7 @@
         "description": "HHS and SAMHSA."
       }
     ],
-    "touches": [
-      "state opioid response grants",
-      "treatment providers"
-    ],
+    "touches": ["state opioid response grants", "treatment providers"],
     "daily_life": "Keeps federal money flowing to local addiction treatment and recovery programs.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -1009,9 +928,7 @@
     "sub_topic": "Defense authorization and oversight",
     "secondary_menus": [],
     "instrument": "program creation",
-    "secondary_instruments": [
-      "agency/structure"
-    ],
+    "secondary_instruments": ["agency/structure"],
     "operation": "expand",
     "secondary_operations": [],
     "parts": [
@@ -1066,9 +983,7 @@
     "menu": "14",
     "menu_name": "Agriculture & Food",
     "sub_topic": "Food production and safety / school meals",
-    "secondary_menus": [
-      "03"
-    ],
+    "secondary_menus": ["03"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "expand",
@@ -1117,12 +1032,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Budgets and appropriations",
-    "secondary_menus": [
-      "17",
-      "02",
-      "01",
-      "18"
-    ],
+    "secondary_menus": ["17", "02", "01", "18"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "create",
@@ -1153,10 +1063,7 @@
         "description": "Separate divisions extend expiring health programs (health care extenders) and other authorities."
       }
     ],
-    "touches": [
-      "nearly every federal agency",
-      "state grant allocations"
-    ],
+    "touches": ["nearly every federal agency", "state grant allocations"],
     "daily_life": "Sets this year's funding for schools grants, housing vouchers, highways and the military.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -1178,9 +1085,7 @@
     "menu": "13",
     "menu_name": "Science, Technology & Communications",
     "sub_topic": "Broadband and telecommunications",
-    "secondary_menus": [
-      "01"
-    ],
+    "secondary_menus": ["01"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -1206,10 +1111,7 @@
         "description": "Technology-neutral evaluation against established standards."
       }
     ],
-    "touches": [
-      "Universal Service Fund",
-      "rural broadband providers"
-    ],
+    "touches": ["Universal Service Fund", "rural broadband providers"],
     "daily_life": "Rural areas are less likely to be promised internet by a company that cannot build it.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -1231,10 +1133,7 @@
     "menu": "16",
     "menu_name": "Immigration & Citizenship",
     "sub_topic": "Border administration",
-    "secondary_menus": [
-      "04",
-      "10"
-    ],
+    "secondary_menus": ["04", "10"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "expand",
@@ -1294,10 +1193,7 @@
         "description": "Out of the general Treasury under a budget resolution's reconciliation instructions."
       }
     ],
-    "touches": [
-      "DHS staffing",
-      "annual homeland security appropriations"
-    ],
+    "touches": ["DHS staffing", "annual homeland security appropriations"],
     "daily_life": "Funds more federal agents and investigators without an annual vote.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -1319,18 +1215,11 @@
     "menu": "06",
     "menu_name": "Housing & Land Use",
     "sub_topic": "Affordable housing / homeownership / rental rules",
-    "secondary_menus": [
-      "08"
-    ],
+    "secondary_menus": ["08"],
     "instrument": "prohibition",
-    "secondary_instruments": [
-      "program creation",
-      "mandate/regulation"
-    ],
+    "secondary_instruments": ["program creation", "mandate/regulation"],
     "operation": "restrict",
-    "secondary_operations": [
-      "expand"
-    ],
+    "secondary_operations": ["expand"],
     "parts": [
       {
         "kind": "prohibition",
@@ -1439,9 +1328,7 @@
         "description": "Extends expiring authorities to the same date."
       }
     ],
-    "touches": [
-      "all federal agencies"
-    ],
+    "touches": ["all federal agencies"],
     "daily_life": "Avoids a shutdown on October 1.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -1463,17 +1350,11 @@
     "menu": "18",
     "menu_name": "Foreign Affairs & Trade",
     "sub_topic": "Sanctions and export controls / trade and customs",
-    "secondary_menus": [
-      "04"
-    ],
+    "secondary_menus": ["04"],
     "instrument": "prohibition",
-    "secondary_instruments": [
-      "tax"
-    ],
+    "secondary_instruments": ["tax"],
     "operation": "create",
-    "secondary_operations": [
-      "raise"
-    ],
+    "secondary_operations": ["raise"],
     "parts": [
       {
         "kind": "prohibition",
@@ -1532,11 +1413,7 @@
         "description": "Division B, unrelated: extends the educator expense deduction to early childhood educators."
       }
     ],
-    "touches": [
-      "Treasury OFAC",
-      "Customs",
-      "trade partners"
-    ],
+    "touches": ["Treasury OFAC", "Customs", "trade partners"],
     "daily_life": "Some imported goods get sharply more expensive; banks block certain transfers.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -1558,10 +1435,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Debt and borrowing / fiscal rules",
-    "secondary_menus": [
-      "05",
-      "09"
-    ],
+    "secondary_menus": ["05", "09"],
     "instrument": "procedure/election rule",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -1662,14 +1536,9 @@
     "menu": "18",
     "menu_name": "Foreign Affairs & Trade",
     "sub_topic": "Foreign aid / international security cooperation",
-    "secondary_menus": [
-      "13",
-      "17"
-    ],
+    "secondary_menus": ["13", "17"],
     "instrument": "appropriation",
-    "secondary_instruments": [
-      "prohibition"
-    ],
+    "secondary_instruments": ["prohibition"],
     "operation": "create",
     "secondary_operations": [],
     "parts": [
@@ -1706,11 +1575,7 @@
         "description": "Defines a 'foreign adversary controlled application', naming one company by name."
       }
     ],
-    "touches": [
-      "Pentagon stockpiles",
-      "app stores",
-      "social media users"
-    ],
+    "touches": ["Pentagon stockpiles", "app stores", "social media users"],
     "daily_life": "Raised the prospect that a popular video app would disappear from phones unless sold.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -1732,9 +1597,7 @@
     "menu": "01",
     "menu_name": "Infrastructure",
     "sub_topic": "Aviation",
-    "secondary_menus": [
-      "12"
-    ],
+    "secondary_menus": ["12"],
     "instrument": "program creation",
     "secondary_instruments": [],
     "operation": "expand",
@@ -1766,11 +1629,7 @@
         "description": "Airport Improvement Program grants to airports."
       }
     ],
-    "touches": [
-      "airports",
-      "airlines",
-      "passengers"
-    ],
+    "touches": ["airports", "airlines", "passengers"],
     "daily_life": "If a flight is cancelled, the refund arrives without a fight.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -1792,13 +1651,9 @@
     "menu": "09",
     "menu_name": "Energy & Environment",
     "sub_topic": "Electricity and the grid - nuclear licensing",
-    "secondary_menus": [
-      "10"
-    ],
+    "secondary_menus": ["10"],
     "instrument": "fee",
-    "secondary_instruments": [
-      "program creation"
-    ],
+    "secondary_instruments": ["program creation"],
     "operation": "lower",
     "secondary_operations": [],
     "parts": [
@@ -1829,10 +1684,7 @@
         "description": "NRC; FEMA / U.S. Fire Administration."
       }
     ],
-    "touches": [
-      "nuclear developers",
-      "local fire departments"
-    ],
+    "touches": ["nuclear developers", "local fire departments"],
     "daily_life": "Local fire departments keep competing for federal equipment and staffing grants.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -1854,10 +1706,7 @@
     "menu": "14",
     "menu_name": "Agriculture & Food",
     "sub_topic": "Farm support and insurance",
-    "secondary_menus": [
-      "10",
-      "04"
-    ],
+    "secondary_menus": ["10", "04"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "create",
@@ -1911,11 +1760,7 @@
         ]
       }
     ],
-    "touches": [
-      "USDA",
-      "FEMA",
-      "farm credit"
-    ],
+    "touches": ["USDA", "FEMA", "farm credit"],
     "daily_life": "Farmers get a per-acre payment; hurricane-hit towns get rebuilding money.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -1937,10 +1782,7 @@
     "menu": "17",
     "menu_name": "Defense & Veterans",
     "sub_topic": "Veterans' healthcare / caregiver support",
-    "secondary_menus": [
-      "02",
-      "05"
-    ],
+    "secondary_menus": ["02", "05"],
     "instrument": "eligibility/benefit",
     "secondary_instruments": [],
     "operation": "expand",
@@ -1972,10 +1814,7 @@
         "description": "Department of Veterans Affairs."
       }
     ],
-    "touches": [
-      "VA health budget",
-      "home health agencies"
-    ],
+    "touches": ["VA health budget", "home health agencies"],
     "daily_life": "An aging veteran can get more hours of care at home instead of moving to a nursing home.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -2017,11 +1856,7 @@
         "description": "Visitors to national parks, forests and other federal lands, including people with disabilities."
       }
     ],
-    "touches": [
-      "National Park Service",
-      "Forest Service",
-      "outfitters"
-    ],
+    "touches": ["National Park Service", "Forest Service", "outfitters"],
     "daily_life": "Easier to buy a park pass online and get a guide permit.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -2083,9 +1918,7 @@
     "short_title": "Social Security Fairness Act of 2023",
     "enacted_date": "2025-01-05",
     "enactment_path": "signed",
-    "effective_dates": [
-      "benefits payable for months after December 2023"
-    ],
+    "effective_dates": ["benefits payable for months after December 2023"],
     "official_text_url": "https://www.govinfo.gov/link/plaw/118/public/273?link-type=html",
     "aggregator_url": null,
     "menu": "05",

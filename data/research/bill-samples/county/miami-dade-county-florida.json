@@ -17,9 +17,7 @@
     "sub_topic": "Property taxes / budgets",
     "secondary_menus": [],
     "instrument": "tax",
-    "secondary_instruments": [
-      "appropriation"
-    ],
+    "secondary_instruments": ["appropriation"],
     "operation": "raise",
     "secondary_operations": [],
     "parts": [

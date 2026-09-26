@@ -117,10 +117,7 @@
         ]
       }
     ],
-    "touches": [
-      "city budget",
-      "commuters"
-    ],
+    "touches": ["city budget", "commuters"],
     "daily_life": "Philadelphia paychecks lose slightly less to the city wage tax each year.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

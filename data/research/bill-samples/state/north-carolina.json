@@ -17,9 +17,7 @@
     "sub_topic": "Courts / criminal law",
     "secondary_menus": [],
     "instrument": "procedure/election rule",
-    "secondary_instruments": [
-      "penalty"
-    ],
+    "secondary_instruments": ["penalty"],
     "operation": "restrict",
     "secondary_operations": [],
     "parts": [
@@ -57,11 +55,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "magistrates",
-      "jails",
-      "AOC"
-    ],
+    "touches": ["magistrates", "jails", "AOC"],
     "daily_life": "Someone arrested for a violent crime is less likely to go home without bond.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -83,9 +77,7 @@
     "menu": "11",
     "menu_name": "Government & Democracy",
     "sub_topic": "Agencies and public employment",
-    "secondary_menus": [
-      "07"
-    ],
+    "secondary_menus": ["07"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "expand",
@@ -104,9 +96,7 @@
         "description": "Office of State Human Resources."
       }
     ],
-    "touches": [
-      "state agencies"
-    ],
+    "touches": ["state agencies"],
     "daily_life": "A person without a degree can apply for more state jobs.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -144,10 +134,7 @@
         "description": "Medical and nursing licensing boards."
       }
     ],
-    "touches": [
-      "hospitals",
-      "licensing boards"
-    ],
+    "touches": ["hospitals", "licensing boards"],
     "daily_life": "More clinicians can get licensed to work in the state sooner.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

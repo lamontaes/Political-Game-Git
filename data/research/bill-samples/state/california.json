@@ -9,9 +9,7 @@
     "short_title": "Transit-oriented development zoning",
     "enacted_date": "2025-10-10",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-07-01 (inferred)"
-    ],
+    "effective_dates": ["2026-07-01 (inferred)"],
     "official_text_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB79",
     "aggregator_url": null,
     "menu": "06",
@@ -75,9 +73,7 @@
     "short_title": "Transparency in Frontier Artificial Intelligence Act",
     "enacted_date": "2025-09-29",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01"
-    ],
+    "effective_dates": ["2026-01-01"],
     "official_text_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB53",
     "aggregator_url": null,
     "menu": "13",
@@ -134,10 +130,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "AI companies",
-      "Office of Emergency Services"
-    ],
+    "touches": ["AI companies", "Office of Emergency Services"],
     "daily_life": "AI labs must tell the public how they test for dangerous capabilities.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -153,9 +146,7 @@
     "short_title": "Insulin cost-sharing cap",
     "enacted_date": "2025-10",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01"
-    ],
+    "effective_dates": ["2026-01-01"],
     "official_text_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB40",
     "aggregator_url": null,
     "menu": "02",
@@ -188,10 +179,7 @@
         "description": "State-regulated health plans and insurance policies."
       }
     ],
-    "touches": [
-      "health insurers",
-      "state-branded insulin program"
-    ],
+    "touches": ["health insurers", "state-branded insulin program"],
     "daily_life": "A diabetic pays no more than $35 a month for insulin.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -207,18 +195,13 @@
     "short_title": "No Secret Police Act (law enforcement face coverings)",
     "enacted_date": "2025-09-20",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01"
-    ],
+    "effective_dates": ["2026-01-01"],
     "official_text_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB627",
     "aggregator_url": null,
     "menu": "10",
     "menu_name": "Justice & Public Safety",
     "sub_topic": "Policing",
-    "secondary_menus": [
-      "16",
-      "12"
-    ],
+    "secondary_menus": ["16", "12"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "create",

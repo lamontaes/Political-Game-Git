@@ -18,9 +18,7 @@
     "menu": "07",
     "menu_name": "Labor & Employment",
     "sub_topic": "Wages and working hours",
-    "secondary_menus": [
-      "04"
-    ],
+    "secondary_menus": ["04"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "replace",
@@ -61,11 +59,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "Initiative 82",
-      "restaurants",
-      "congressional review"
-    ],
+    "touches": ["Initiative 82", "restaurants", "congressional review"],
     "daily_life": "A DC server's base wage stays lower and tips remain part of pay.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -81,9 +75,7 @@
     "short_title": "Fiscal Year 2026 Local Budget Act",
     "enacted_date": "2025-09-04",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-10-23"
-    ],
+    "effective_dates": ["2025-10-23"],
     "official_text_url": "https://code.dccouncil.gov/us/dc/council/laws/26-51",
     "aggregator_url": null,
     "menu": "04",

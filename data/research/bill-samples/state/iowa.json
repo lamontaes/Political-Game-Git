@@ -9,9 +9,7 @@
     "short_title": "Removal of gender identity from civil rights act",
     "enacted_date": "2025-02-28",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-07-01"
-    ],
+    "effective_dates": ["2025-07-01"],
     "official_text_url": "https://www.legis.iowa.gov/legislation/BillBook?ga=91&ba=SF%20418",
     "aggregator_url": null,
     "menu": "12",
@@ -68,9 +66,7 @@
     "menu": "07",
     "menu_name": "Labor & Employment",
     "sub_topic": "Unemployment insurance financing",
-    "secondary_menus": [
-      "05"
-    ],
+    "secondary_menus": ["05"],
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "lower",
@@ -114,10 +110,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "unemployment trust fund",
-      "employers"
-    ],
+    "touches": ["unemployment trust fund", "employers"],
     "daily_life": "Employers pay less payroll tax for unemployment insurance.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -133,17 +126,13 @@
     "short_title": "Paid parental leave for state employees",
     "enacted_date": "2025-06",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-07-01"
-    ],
+    "effective_dates": ["2025-07-01"],
     "official_text_url": "https://www.legis.iowa.gov/legislation/BillBook?ga=91&ba=HF%20889",
     "aggregator_url": null,
     "menu": "07",
     "menu_name": "Labor & Employment",
     "sub_topic": "Paid and unpaid leave / public employment",
-    "secondary_menus": [
-      "11"
-    ],
+    "secondary_menus": ["11"],
     "instrument": "eligibility/benefit",
     "secondary_instruments": [],
     "operation": "create",
@@ -179,9 +168,7 @@
         "description": "Department of Administrative Services."
       }
     ],
-    "touches": [
-      "state payroll"
-    ],
+    "touches": ["state payroll"],
     "daily_life": "A state worker who has a baby gets a month of paid leave.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

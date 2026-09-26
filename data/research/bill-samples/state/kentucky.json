@@ -9,9 +9,7 @@
     "short_title": "Individual income tax rate reduction",
     "enacted_date": "2025-02",
     "enactment_path": "signed",
-    "effective_dates": [
-      "tax years beginning on or after 2026-01-01"
-    ],
+    "effective_dates": ["tax years beginning on or after 2026-01-01"],
     "official_text_url": "https://apps.legislature.ky.gov/record/25rs/hb1.html",
     "aggregator_url": null,
     "menu": "04",
@@ -66,10 +64,7 @@
         ]
       }
     ],
-    "touches": [
-      "General Fund",
-      "Budget Reserve Trust Fund"
-    ],
+    "touches": ["General Fund", "Budget Reserve Trust Fund"],
     "daily_life": "Kentucky workers keep a little more of each paycheck starting in 2026.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -91,9 +86,7 @@
     "menu": "03",
     "menu_name": "Education",
     "sub_topic": "Colleges and universities",
-    "secondary_menus": [
-      "12"
-    ],
+    "secondary_menus": ["12"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -117,10 +110,7 @@
         "description": "Enacted over the governor's veto."
       }
     ],
-    "touches": [
-      "public universities",
-      "admissions offices"
-    ],
+    "touches": ["public universities", "admissions offices"],
     "daily_life": "Campus DEI offices close.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -162,9 +152,7 @@
         "description": "Enacted over the governor's veto; challenged in court by the governor."
       }
     ],
-    "touches": [
-      "every rule-writing agency"
-    ],
+    "touches": ["every rule-writing agency"],
     "daily_life": "A costly new state rule does not take effect unless lawmakers vote for it.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

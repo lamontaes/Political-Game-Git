@@ -9,9 +9,7 @@
     "short_title": "State Assault Weapons Ban Act (sales ban)",
     "enacted_date": "2025-06-26",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-07-01"
-    ],
+    "effective_dates": ["2026-07-01"],
     "official_text_url": "https://status.rilegislature.gov/",
     "aggregator_url": "https://legiscan.com/RI/bill/S0359/2025",
     "menu": "10",
@@ -43,10 +41,7 @@
         ]
       }
     ],
-    "touches": [
-      "gun dealers",
-      "state police"
-    ],
+    "touches": ["gun dealers", "state police"],
     "daily_life": "A gun store stops selling certain rifles.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -62,21 +57,15 @@
     "short_title": "FY2026 budget (non-owner-occupied high-value home tax)",
     "enacted_date": "2025-06",
     "enactment_path": "signed",
-    "effective_dates": [
-      "tax years beginning on or after 2026-07-01"
-    ],
+    "effective_dates": ["tax years beginning on or after 2026-07-01"],
     "official_text_url": "https://tax.ri.gov/tax-sections/sales-excise-taxes/non-owner-occupied-property-tax",
     "aggregator_url": "https://legiscan.com/RI/bill/H5076/2025",
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Property taxes",
-    "secondary_menus": [
-      "06"
-    ],
+    "secondary_menus": ["06"],
     "instrument": "tax",
-    "secondary_instruments": [
-      "appropriation"
-    ],
+    "secondary_instruments": ["appropriation"],
     "operation": "create",
     "secondary_operations": [],
     "parts": [
@@ -123,10 +112,7 @@
         ]
       }
     ],
-    "touches": [
-      "coastal second-home owners",
-      "affordable housing finance"
-    ],
+    "touches": ["coastal second-home owners", "affordable housing finance"],
     "daily_life": "An out-of-state owner of a $3 million beach house pays about $10,000 more a year.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

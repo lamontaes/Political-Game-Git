@@ -76,11 +76,7 @@
         "description": "Department of Commerce publishes the maximum increase each year."
       }
     ],
-    "touches": [
-      "landlords",
-      "tenants",
-      "housing construction"
-    ],
+    "touches": ["landlords", "tenants", "housing construction"],
     "daily_life": "A tenant's rent cannot jump more than 10 percent in a year.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -96,17 +92,13 @@
     "short_title": "Unemployment benefits for striking or locked-out workers",
     "enacted_date": "2025-05",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01"
-    ],
+    "effective_dates": ["2026-01-01"],
     "official_text_url": "https://app.leg.wa.gov/BillSummary/?BillNumber=5041&Year=2025",
     "aggregator_url": null,
     "menu": "07",
     "menu_name": "Labor & Employment",
     "sub_topic": "Unions and collective bargaining / unemployment benefits",
-    "secondary_menus": [
-      "05"
-    ],
+    "secondary_menus": ["05"],
     "instrument": "eligibility/benefit",
     "secondary_instruments": [],
     "operation": "expand",
@@ -139,10 +131,7 @@
         ]
       }
     ],
-    "touches": [
-      "unemployment trust fund",
-      "labor disputes"
-    ],
+    "touches": ["unemployment trust fund", "labor disputes"],
     "daily_life": "Striking workers get up to six weeks of benefits.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -158,10 +147,7 @@
     "short_title": "Sales tax extended to more services",
     "enacted_date": "2025-05-20",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-07-27",
-      "2025-10-01"
-    ],
+    "effective_dates": ["2025-07-27", "2025-10-01"],
     "official_text_url": "https://app.leg.wa.gov/billsummary?BillNumber=5814&Year=2025",
     "aggregator_url": null,
     "menu": "04",
@@ -182,10 +168,7 @@
         "description": "The listed service-tax sections take effect October 1, 2025; other sections follow the act’s general July 27 date."
       }
     ],
-    "touches": [
-      "businesses buying services",
-      "state general fund"
-    ],
+    "touches": ["businesses buying services", "state general fund"],
     "daily_life": "Specified business services become subject to retail sales tax starting October 1, 2025.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -201,17 +184,13 @@
     "short_title": "Property tax exemption threshold lowered for disabled veterans",
     "enacted_date": "2025-05-07",
     "enactment_path": "signed",
-    "effective_dates": [
-      "taxes levied in 2027"
-    ],
+    "effective_dates": ["taxes levied in 2027"],
     "official_text_url": "https://app.leg.wa.gov/billsummary?billnumber=1106&year=2025",
     "aggregator_url": null,
     "menu": "17",
     "menu_name": "Defense & Veterans",
     "sub_topic": "Veterans' housing / transition and survivor services",
-    "secondary_menus": [
-      "04"
-    ],
+    "secondary_menus": ["04"],
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "expand",
@@ -245,10 +224,7 @@
         ]
       }
     ],
-    "touches": [
-      "county assessors",
-      "local levies"
-    ],
+    "touches": ["county assessors", "local levies"],
     "daily_life": "A veteran rated 50 percent disabled can get a property tax break.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

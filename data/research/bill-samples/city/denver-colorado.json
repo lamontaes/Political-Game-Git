@@ -9,18 +9,13 @@
     "short_title": "Ban on retail sale of puppies, kittens and rabbits",
     "enacted_date": "2025-09-18",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-09-18 (immediately)"
-    ],
+    "effective_dates": ["2025-09-18 (immediately)"],
     "official_text_url": "https://denver.legistar.com/",
     "aggregator_url": null,
     "menu": "12",
     "menu_name": "Rights, Family & Consumer Protection",
     "sub_topic": "Consumer contracts and products",
-    "secondary_menus": [
-      "08",
-      "14"
-    ],
+    "secondary_menus": ["08", "14"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "create",
@@ -46,10 +41,7 @@
         ]
       }
     ],
-    "touches": [
-      "pet stores",
-      "animal shelters"
-    ],
+    "touches": ["pet stores", "animal shelters"],
     "daily_life": "You adopt a puppy from a shelter or a breeder, not a mall pet store.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -94,10 +86,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "fire department",
-      "architects"
-    ],
+    "touches": ["fire department", "architects"],
     "daily_life": "Small apartment buildings on narrow lots become possible.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -113,17 +102,13 @@
     "short_title": "Transportation and mobility bond question (Vibrant Denver)",
     "enacted_date": "2025-08",
     "enactment_path": "signed",
-    "effective_dates": [
-      "ballot 2025-11-04"
-    ],
+    "effective_dates": ["ballot 2025-11-04"],
     "official_text_url": "https://www.denvergov.org/files/assets/public/v/1/clerk-and-recorder/documents/elections/2025/measures/transportation-and-mobility-bond.pdf",
     "aggregator_url": null,
     "menu": "01",
     "menu_name": "Infrastructure",
     "sub_topic": "Roads & bridges / walking and cycling",
-    "secondary_menus": [
-      "04"
-    ],
+    "secondary_menus": ["04"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "create",
@@ -162,10 +147,7 @@
         "description": "Named projects such as street safety and multimodal improvements."
       }
     ],
-    "touches": [
-      "TABOR",
-      "city capital plan"
-    ],
+    "touches": ["TABOR", "city capital plan"],
     "daily_life": "Voters decide whether to borrow for sidewalks, bike lanes and street repairs.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -181,18 +163,13 @@
     "short_title": "City facilities bond question (arts, culture, libraries, public safety)",
     "enacted_date": "2025-08",
     "enactment_path": "signed",
-    "effective_dates": [
-      "ballot 2025-11-04"
-    ],
+    "effective_dates": ["ballot 2025-11-04"],
     "official_text_url": "https://www.denvergov.org/files/assets/public/v/1/clerk-and-recorder/documents/elections/2025/measures/city-facilities-bond.pdf",
     "aggregator_url": null,
     "menu": "15",
     "menu_name": "Parks, Culture & Community Life",
     "sub_topic": "Libraries / arts and museums / community facilities",
-    "secondary_menus": [
-      "04",
-      "10"
-    ],
+    "secondary_menus": ["04", "10"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "create",
@@ -231,10 +208,7 @@
         ]
       }
     ],
-    "touches": [
-      "TABOR",
-      "cultural institutions"
-    ],
+    "touches": ["TABOR", "cultural institutions"],
     "daily_life": "Branch libraries and museums get repair money if voters agree.",
     "provision_of": null,
     "source_confidence": "official-text-checked",

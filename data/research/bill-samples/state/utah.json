@@ -35,10 +35,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "teachers",
-      "police and fire unions"
-    ],
+    "touches": ["teachers", "police and fire unions"],
     "daily_life": "Public workers could no longer bargain collectively until the law was suspended and repealed.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -54,21 +51,15 @@
     "short_title": "Fluoride amendments (ban on community water fluoridation)",
     "enacted_date": "2025-03-27",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-05-07"
-    ],
+    "effective_dates": ["2025-05-07"],
     "official_text_url": "https://le.utah.gov/~2025/bills/static/HB0081.html",
     "aggregator_url": null,
     "menu": "02",
     "menu_name": "Healthcare",
     "sub_topic": "Public health",
-    "secondary_menus": [
-      "01"
-    ],
+    "secondary_menus": ["01"],
     "instrument": "prohibition",
-    "secondary_instruments": [
-      "preemption"
-    ],
+    "secondary_instruments": ["preemption"],
     "operation": "restrict",
     "secondary_operations": [],
     "parts": [
@@ -97,10 +88,7 @@
         ]
       }
     ],
-    "touches": [
-      "water utilities",
-      "dentists"
-    ],
+    "touches": ["water utilities", "dentists"],
     "daily_life": "Tap water no longer has fluoride added.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -156,9 +144,7 @@
         ]
       }
     ],
-    "touches": [
-      "education fund (income tax earmark)"
-    ],
+    "touches": ["education fund (income tax earmark)"],
     "daily_life": "A small cut in state income tax.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -183,9 +169,7 @@
     "menu": "13",
     "menu_name": "Science, Technology & Communications",
     "sub_topic": "Data protection / online platforms",
-    "secondary_menus": [
-      "12"
-    ],
+    "secondary_menus": ["12"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "create",
@@ -216,10 +200,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "Apple and Google app stores",
-      "app developers"
-    ],
+    "touches": ["Apple and Google app stores", "app developers"],
     "daily_life": "A 13-year-old needs a parent's approval to download an app.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

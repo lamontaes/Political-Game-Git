@@ -15,9 +15,7 @@
     "menu": "06",
     "menu_name": "Housing & Land Use",
     "sub_topic": "Affordable housing / redevelopment",
-    "secondary_menus": [
-      "04"
-    ],
+    "secondary_menus": ["04"],
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "lower",
@@ -76,10 +74,7 @@
         "description": "Council overrode the County Executive's veto."
       }
     ],
-    "touches": [
-      "office landlords",
-      "county tax base"
-    ],
+    "touches": ["office landlords", "county tax base"],
     "daily_life": "An empty office tower can become apartments with a long tax break.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

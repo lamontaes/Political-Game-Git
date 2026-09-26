@@ -15,18 +15,11 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Budgets / income and sales taxes",
-    "secondary_menus": [
-      "03",
-      "05"
-    ],
+    "secondary_menus": ["03", "05"],
     "instrument": "appropriation",
-    "secondary_instruments": [
-      "tax"
-    ],
+    "secondary_instruments": ["tax"],
     "operation": "create",
-    "secondary_operations": [
-      "lower"
-    ],
+    "secondary_operations": ["lower"],
     "parts": [
       {
         "kind": "amount",
@@ -93,11 +86,7 @@
         ]
       }
     ],
-    "touches": [
-      "school districts",
-      "University of Wisconsin",
-      "utilities"
-    ],
+    "touches": ["school districts", "University of Wisconsin", "utilities"],
     "daily_life": "Retirees and middle earners pay less income tax; home heating bills drop the sales tax.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -119,9 +108,7 @@
     "menu": "10",
     "menu_name": "Justice & Public Safety",
     "sub_topic": "Criminal law and sentencing",
-    "secondary_menus": [
-      "13"
-    ],
+    "secondary_menus": ["13"],
     "instrument": "penalty",
     "secondary_instruments": [],
     "operation": "create",
@@ -137,10 +124,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "prosecutors",
-      "online platforms"
-    ],
+    "touches": ["prosecutors", "online platforms"],
     "daily_life": "Online blackmail of teens with images becomes a specific felony.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -162,9 +146,7 @@
     "menu": "01",
     "menu_name": "Infrastructure",
     "sub_topic": "Roads & bridges - crossings and road safety",
-    "secondary_menus": [
-      "10"
-    ],
+    "secondary_menus": ["10"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "expand",
@@ -180,10 +162,7 @@
         "description": "Traffic forfeiture for violations."
       }
     ],
-    "touches": [
-      "state patrol",
-      "tow operators"
-    ],
+    "touches": ["state patrol", "tow operators"],
     "daily_life": "Drivers must change lanes for any vehicle stopped with flashers on.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

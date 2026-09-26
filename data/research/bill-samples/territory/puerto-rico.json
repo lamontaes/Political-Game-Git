@@ -15,9 +15,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Sales and consumption taxes",
-    "secondary_menus": [
-      "02"
-    ],
+    "secondary_menus": ["02"],
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "repeal",
@@ -36,10 +34,7 @@
         "description": "Departamento de Hacienda."
       }
     ],
-    "touches": [
-      "pharmacies",
-      "municipal IVU collections"
-    ],
+    "touches": ["pharmacies", "municipal IVU collections"],
     "daily_life": "Prescriptions no longer carry the island sales tax.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -61,9 +56,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Fees and charges / tax administration",
-    "secondary_menus": [
-      "11"
-    ],
+    "secondary_menus": ["11"],
     "instrument": "procedure/election rule",
     "secondary_instruments": [],
     "operation": "replace",
@@ -79,10 +72,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "78 municipalities",
-      "merchants"
-    ],
+    "touches": ["78 municipalities", "merchants"],
     "daily_life": "A shop owner files one sales tax return instead of two.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

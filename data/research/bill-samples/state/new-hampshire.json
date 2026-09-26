@@ -15,10 +15,7 @@
     "menu": "05",
     "menu_name": "Assistance & Social Insurance",
     "sub_topic": "Public coverage / cost sharing",
-    "secondary_menus": [
-      "02",
-      "04"
-    ],
+    "secondary_menus": ["02", "04"],
     "instrument": "eligibility/benefit",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -50,10 +47,7 @@
         "description": "Implements the two-year budget's fee, fund and revenue changes."
       }
     ],
-    "touches": [
-      "NH Medicaid",
-      "state budget HB 1"
-    ],
+    "touches": ["NH Medicaid", "state budget HB 1"],
     "daily_life": "Some Medicaid families start paying a monthly premium.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -75,9 +69,7 @@
     "menu": "07",
     "menu_name": "Labor & Employment",
     "sub_topic": "Pensions",
-    "secondary_menus": [
-      "10"
-    ],
+    "secondary_menus": ["10"],
     "instrument": "eligibility/benefit",
     "secondary_instruments": [],
     "operation": "expand",
@@ -133,9 +125,7 @@
     "menu": "14",
     "menu_name": "Agriculture & Food",
     "sub_topic": "Food production and safety",
-    "secondary_menus": [
-      "08"
-    ],
+    "secondary_menus": ["08"],
     "instrument": "license/permit",
     "secondary_instruments": [],
     "operation": "expand",
@@ -150,10 +140,7 @@
         "description": "Homestead license rules loosened."
       }
     ],
-    "touches": [
-      "home bakers",
-      "state food safety inspectors"
-    ],
+    "touches": ["home bakers", "state food safety inspectors"],
     "daily_life": "A home baker can use a commercial oven and still sell under the home license.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

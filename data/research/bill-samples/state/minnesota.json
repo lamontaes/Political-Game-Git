@@ -9,17 +9,13 @@
     "short_title": "MinnesotaCare eligibility for undocumented adults removed",
     "enacted_date": "2025-06-14",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01"
-    ],
+    "effective_dates": ["2026-01-01"],
     "official_text_url": "https://www.revisor.mn.gov/laws/2025/1/Session+Law/Chapter/2/",
     "aggregator_url": null,
     "menu": "02",
     "menu_name": "Healthcare",
     "sub_topic": "Public coverage programs",
-    "secondary_menus": [
-      "16"
-    ],
+    "secondary_menus": ["16"],
     "instrument": "eligibility/benefit",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -41,10 +37,7 @@
         ]
       }
     ],
-    "touches": [
-      "MinnesotaCare budget",
-      "community clinics"
-    ],
+    "touches": ["MinnesotaCare budget", "community clinics"],
     "daily_life": "An undocumented adult loses state health coverage at year end.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -82,10 +75,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "state parks",
-      "water quality programs"
-    ],
+    "touches": ["state parks", "water quality programs"],
     "daily_life": "Keeps state parks and water monitoring funded.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -107,9 +97,7 @@
     "menu": "08",
     "menu_name": "Business & Economic Development",
     "sub_topic": "Insurance markets",
-    "secondary_menus": [
-      "02"
-    ],
+    "secondary_menus": ["02"],
     "instrument": "program creation",
     "secondary_instruments": [],
     "operation": "expand",

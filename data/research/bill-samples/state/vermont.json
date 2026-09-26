@@ -15,9 +15,7 @@
     "menu": "03",
     "menu_name": "Education",
     "sub_topic": "School funding / governance",
-    "secondary_menus": [
-      "04"
-    ],
+    "secondary_menus": ["04"],
     "instrument": "agency/structure",
     "secondary_instruments": [],
     "operation": "replace",
@@ -55,10 +53,7 @@
         "description": "Multi-year transition with elections for new boards."
       }
     ],
-    "touches": [
-      "property tax rates",
-      "school boards"
-    ],
+    "touches": ["property tax rates", "school boards"],
     "daily_life": "Your town's school may join a larger district and taxes follow a new formula.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -91,9 +86,7 @@
         "description": "Appropriates money for state government in FY2026."
       }
     ],
-    "touches": [
-      "all agencies"
-    ],
+    "touches": ["all agencies"],
     "daily_life": "Funds state services for the year.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

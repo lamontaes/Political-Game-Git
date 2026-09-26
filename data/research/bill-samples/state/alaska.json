@@ -17,9 +17,7 @@
     "sub_topic": "School funding",
     "secondary_menus": [],
     "instrument": "appropriation",
-    "secondary_instruments": [
-      "mandate/regulation"
-    ],
+    "secondary_instruments": ["mandate/regulation"],
     "operation": "raise",
     "secondary_operations": [],
     "parts": [
@@ -69,10 +67,7 @@
         ]
       }
     ],
-    "touches": [
-      "school district budgets",
-      "state operating budget"
-    ],
+    "touches": ["school district budgets", "state operating budget"],
     "daily_life": "Districts can keep teachers and small rural schools they were about to cut.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -94,9 +89,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Budgets and appropriations",
-    "secondary_menus": [
-      "05"
-    ],
+    "secondary_menus": ["05"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "create",
@@ -119,10 +112,7 @@
         "description": "Enacted budget reflects gubernatorial line-item veto authority."
       }
     ],
-    "touches": [
-      "Permanent Fund",
-      "every state agency"
-    ],
+    "touches": ["Permanent Fund", "every state agency"],
     "daily_life": "Funds state services and the dividend fund; the enacted appropriation alone does not state each resident’s check amount.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -181,10 +171,7 @@
         "description": "Updates the crime of unlawful interference with voting."
       }
     ],
-    "touches": [
-      "Division of Elections",
-      "Alaska Public Offices Commission"
-    ],
+    "touches": ["Division of Elections", "Alaska Public Offices Commission"],
     "daily_life": "Election results come out faster; 16-year-olds can sign up early.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

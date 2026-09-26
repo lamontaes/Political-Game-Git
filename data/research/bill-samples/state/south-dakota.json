@@ -15,10 +15,7 @@
     "menu": "09",
     "menu_name": "Energy & Environment",
     "sub_topic": "Fuels and extraction / land",
-    "secondary_menus": [
-      "14",
-      "12"
-    ],
+    "secondary_menus": ["14", "12"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -33,10 +30,7 @@
         "description": "Landowners along proposed carbon capture pipeline routes."
       }
     ],
-    "touches": [
-      "ethanol plants",
-      "Public Utilities Commission"
-    ],
+    "touches": ["ethanol plants", "Public Utilities Commission"],
     "daily_life": "A farmer cannot be forced to host a CO2 pipeline.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -58,9 +52,7 @@
     "menu": "16",
     "menu_name": "Immigration & Citizenship",
     "sub_topic": "Border administration / local cooperation",
-    "secondary_menus": [
-      "11"
-    ],
+    "secondary_menus": ["11"],
     "instrument": "preemption",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -75,10 +67,7 @@
         "description": "An officer may not be disciplined for refusing to comply with a prohibited policy."
       }
     ],
-    "touches": [
-      "cities and counties",
-      "sheriffs"
-    ],
+    "touches": ["cities and counties", "sheriffs"],
     "daily_life": "A city cannot forbid its officers from sharing immigration-status information with federal officials.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -94,17 +83,13 @@
     "short_title": "Housing infrastructure fund loan for schools near military bases",
     "enacted_date": "2025",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-07-01"
-    ],
+    "effective_dates": ["2025-07-01"],
     "official_text_url": "https://sdlegislature.gov/Session/Bills/2025",
     "aggregator_url": "https://legiscan.com/SD/bill/SB6/2025",
     "menu": "03",
     "menu_name": "Education",
     "sub_topic": "School facilities",
-    "secondary_menus": [
-      "17"
-    ],
+    "secondary_menus": ["17"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "create",
@@ -120,10 +105,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "Ellsworth AFB area",
-      "housing infrastructure fund"
-    ],
+    "touches": ["Ellsworth AFB area", "housing infrastructure fund"],
     "daily_life": "A district near a base can build classrooms for incoming military families.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

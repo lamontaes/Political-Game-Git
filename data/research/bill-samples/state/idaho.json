@@ -9,9 +9,7 @@
     "short_title": "Income tax rate reduction",
     "enacted_date": "2025-03-05",
     "enactment_path": "signed",
-    "effective_dates": [
-      "tax year 2025 (retroactive to January 1)"
-    ],
+    "effective_dates": ["tax year 2025 (retroactive to January 1)"],
     "official_text_url": "https://legislature.idaho.gov/sessioninfo/2025/legislation/H0040/",
     "aggregator_url": null,
     "menu": "04",
@@ -55,9 +53,7 @@
         "description": "Retroactive to the start of the tax year."
       }
     ],
-    "touches": [
-      "state general fund"
-    ],
+    "touches": ["state general fund"],
     "daily_life": "A typical family pays a bit less state income tax.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -73,21 +69,15 @@
     "short_title": "Parental choice refundable tax credit",
     "enacted_date": "2025-02-28",
     "enactment_path": "signed",
-    "effective_dates": [
-      "retroactive to 2025-01-01"
-    ],
+    "effective_dates": ["retroactive to 2025-01-01"],
     "official_text_url": "https://legislature.idaho.gov/sessioninfo/2025/legislation/H0093/",
     "aggregator_url": null,
     "menu": "03",
     "menu_name": "Education",
     "sub_topic": "K-12 schools / school choice",
-    "secondary_menus": [
-      "04"
-    ],
+    "secondary_menus": ["04"],
     "instrument": "tax",
-    "secondary_instruments": [
-      "program creation"
-    ],
+    "secondary_instruments": ["program creation"],
     "operation": "create",
     "secondary_operations": [],
     "parts": [
@@ -169,10 +159,7 @@
         "description": "Directs a transition toward comprehensive Medicaid managed care; the agency’s September 2026 plan targets January 1, 2030."
       }
     ],
-    "touches": [
-      "Idaho Medicaid",
-      "hospitals"
-    ],
+    "touches": ["Idaho Medicaid", "hospitals"],
     "daily_life": "Medicaid delivery is planned to shift to managed care; current work rules arise from later federal requirements and need separate sourcing.",
     "provision_of": null,
     "source_confidence": "inferred-details",
@@ -196,10 +183,7 @@
     "menu": "05",
     "menu_name": "Assistance & Social Insurance",
     "sub_topic": "Food assistance",
-    "secondary_menus": [
-      "14",
-      "02"
-    ],
+    "secondary_menus": ["14", "02"],
     "instrument": "eligibility/benefit",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -232,10 +216,7 @@
         ]
       }
     ],
-    "touches": [
-      "USDA Food and Nutrition Service",
-      "grocery retailers"
-    ],
+    "touches": ["USDA Food and Nutrition Service", "grocery retailers"],
     "daily_life": "SNAP cards stop working for soda and candy at the register.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

@@ -9,9 +9,7 @@
     "short_title": "Phase-out of gas-powered leaf blowers",
     "enacted_date": "2025-05-17",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-11-17"
-    ],
+    "effective_dates": ["2026-11-17"],
     "official_text_url": "https://www.alexandriava.gov/environmental-quality/leaf-blower-ordinance",
     "aggregator_url": null,
     "menu": "09",
@@ -44,9 +42,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "landscaping companies"
-    ],
+    "touches": ["landscaping companies"],
     "daily_life": "Quieter Saturday mornings; landscapers switch to battery blowers.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

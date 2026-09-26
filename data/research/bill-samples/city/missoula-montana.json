@@ -9,9 +9,7 @@
     "short_title": "Unified Development Code (Title 22) replacing Title 20",
     "enacted_date": "2026-02-02",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-03-04"
-    ],
+    "effective_dates": ["2026-03-04"],
     "official_text_url": "https://www.ci.missoula.mt.us/",
     "aggregator_url": null,
     "menu": "06",
@@ -39,9 +37,7 @@
         ]
       }
     ],
-    "touches": [
-      "state zoning law"
-    ],
+    "touches": ["state zoning law"],
     "daily_life": "Every zoning rule in the city is rewritten.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -57,17 +53,13 @@
     "short_title": "Short-term rental registration fees",
     "enacted_date": "2025-12",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01 to 2026-12-31"
-    ],
+    "effective_dates": ["2026-01-01 to 2026-12-31"],
     "official_text_url": "https://www.ci.missoula.mt.us/",
     "aggregator_url": null,
     "menu": "08",
     "menu_name": "Business & Economic Development",
     "sub_topic": "Business formation and licensing",
-    "secondary_menus": [
-      "06"
-    ],
+    "secondary_menus": ["06"],
     "instrument": "fee",
     "secondary_instruments": [],
     "operation": "raise",
@@ -107,9 +99,7 @@
         ]
       }
     ],
-    "touches": [
-      "short-term rental hosts"
-    ],
+    "touches": ["short-term rental hosts"],
     "daily_life": "Listing a home on a rental app costs $660 to register.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

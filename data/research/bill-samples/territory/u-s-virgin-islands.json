@@ -15,9 +15,7 @@
     "menu": "05",
     "menu_name": "Assistance & Social Insurance",
     "sub_topic": "Food assistance",
-    "secondary_menus": [
-      "04"
-    ],
+    "secondary_menus": ["04"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "create",
@@ -58,10 +56,7 @@
         "description": "Federal appropriations lapse."
       }
     ],
-    "touches": [
-      "federal shutdown",
-      "Budget Stabilization Fund"
-    ],
+    "touches": ["federal shutdown", "Budget Stabilization Fund"],
     "daily_life": "Families get half their food benefit by check when federal SNAP stops.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -105,10 +100,7 @@
         "description": "Taxpayers and businesses still recovering from hurricanes Irma and Maria and a later tropical storm."
       }
     ],
-    "touches": [
-      "Bureau of Internal Revenue",
-      "Tax Assessor"
-    ],
+    "touches": ["Bureau of Internal Revenue", "Tax Assessor"],
     "daily_life": "A business can pay back taxes without penalties for three months.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

@@ -41,10 +41,7 @@
         "description": "Enacted over the governor's veto."
       }
     ],
-    "touches": [
-      "Guam Memorial Hospital",
-      "government of Guam agencies"
-    ],
+    "touches": ["Guam Memorial Hospital", "government of Guam agencies"],
     "daily_life": "Funds the island's schools, hospital and public safety for the year.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -82,10 +79,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "federal SNAP rules",
-      "participating restaurants"
-    ],
+    "touches": ["federal SNAP rules", "participating restaurants"],
     "daily_life": "A homeless person can use food benefits for a hot meal.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

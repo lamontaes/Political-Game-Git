@@ -15,10 +15,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Budgets and appropriations",
-    "secondary_menus": [
-      "02",
-      "10"
-    ],
+    "secondary_menus": ["02", "10"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "create",
@@ -51,10 +48,7 @@
         "description": "Sales tax collections above forecast."
       }
     ],
-    "touches": [
-      "county hospital system",
-      "jail and courts"
-    ],
+    "touches": ["county hospital system", "jail and courts"],
     "daily_life": "County services continue without a new tax.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

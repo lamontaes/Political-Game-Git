@@ -42,10 +42,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "Montana state zoning law",
-      "developers"
-    ],
+    "touches": ["Montana state zoning law", "developers"],
     "daily_life": "Rules for what can be built on every lot in town change at once.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -98,10 +95,7 @@
         "description": "Amends parking standards for these projects."
       }
     ],
-    "touches": [
-      "developers",
-      "community housing plan"
-    ],
+    "touches": ["developers", "community housing plan"],
     "daily_life": "Builders are rewarded rather than required to include cheaper homes.",
     "provision_of": null,
     "source_confidence": "official-text-checked",

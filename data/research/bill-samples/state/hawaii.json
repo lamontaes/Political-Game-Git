@@ -9,18 +9,13 @@
     "short_title": "Climate impact fee ('Green Fee') via transient accommodations tax",
     "enacted_date": "2025-05-27",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01"
-    ],
+    "effective_dates": ["2026-01-01"],
     "official_text_url": "https://www.capitol.hawaii.gov/session/measure_indiv.aspx?billtype=SB&billnumber=1396&year=2025",
     "aggregator_url": null,
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Excise and activity taxes - tourism and lodging",
-    "secondary_menus": [
-      "09",
-      "15"
-    ],
+    "secondary_menus": ["09", "15"],
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "raise",
@@ -69,11 +64,7 @@
         ]
       }
     ],
-    "touches": [
-      "hotels",
-      "cruise lines",
-      "state resilience programs"
-    ],
+    "touches": ["hotels", "cruise lines", "state resilience programs"],
     "daily_life": "A visitor's hotel bill rises by about three-quarters of a percent.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -95,9 +86,7 @@
     "menu": "08",
     "menu_name": "Business & Economic Development",
     "sub_topic": "Insurance markets",
-    "secondary_menus": [
-      "06"
-    ],
+    "secondary_menus": ["06"],
     "instrument": "program creation",
     "secondary_instruments": [],
     "operation": "expand",
@@ -116,10 +105,7 @@
         "description": "Insurance Commissioner must study long-term market stabilization."
       }
     ],
-    "touches": [
-      "condominium associations",
-      "insurers"
-    ],
+    "touches": ["condominium associations", "insurers"],
     "daily_life": "Condo owners have a better chance of keeping building insurance.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -163,9 +149,7 @@
         "description": "Department of Labor and Industrial Relations."
       }
     ],
-    "touches": [
-      "minimum wage schedule to 18 USD by 2028 set by earlier law"
-    ],
+    "touches": ["minimum wage schedule to 18 USD by 2028 set by earlier law"],
     "daily_life": "Employers who shortchange workers face at least a $500 penalty.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

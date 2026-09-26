@@ -55,10 +55,7 @@
         "description": "Department of Education."
       }
     ],
-    "touches": [
-      "private schools",
-      "public school funding"
-    ],
+    "touches": ["private schools", "public school funding"],
     "daily_life": "A family can use state money for private school tuition.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -74,11 +71,7 @@
     "short_title": "Immigration enforcement office and penalties",
     "enacted_date": "2025-02-12",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-02-12",
-      "2025-07-01",
-      "2026-01-01"
-    ],
+    "effective_dates": ["2025-02-12", "2025-07-01", "2026-01-01"],
     "official_text_url": "https://wapp.capitol.tn.gov/apps/BillInfo/Default?BillNumber=SB6002",
     "aggregator_url": null,
     "menu": "16",
@@ -86,9 +79,7 @@
     "sub_topic": "Border administration / state cooperation",
     "secondary_menus": [],
     "instrument": "agency/structure",
-    "secondary_instruments": [
-      "penalty"
-    ],
+    "secondary_instruments": ["penalty"],
     "operation": "create",
     "secondary_operations": [],
     "parts": [
@@ -112,10 +103,7 @@
         ]
       }
     ],
-    "touches": [
-      "local governments",
-      "federal ICE"
-    ],
+    "touches": ["local governments", "federal ICE"],
     "daily_life": "The state creates an immigration-enforcement office and grants for local cooperation; penalties apply to officials convicted under the law.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -131,9 +119,7 @@
     "short_title": "Cell phone restrictions during instruction",
     "enacted_date": "2025-04",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-07-01"
-    ],
+    "effective_dates": ["2025-07-01"],
     "official_text_url": "https://wapp.capitol.tn.gov/apps/BillInfo/Default.aspx?BillNumber=HB0932&GA=114",
     "aggregator_url": null,
     "menu": "03",
@@ -158,10 +144,7 @@
         "description": "Learning activities, disability plans and emergencies."
       }
     ],
-    "touches": [
-      "school districts",
-      "charter schools"
-    ],
+    "touches": ["school districts", "charter schools"],
     "daily_life": "Phones stay put away during class.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

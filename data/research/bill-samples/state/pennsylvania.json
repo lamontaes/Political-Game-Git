@@ -15,9 +15,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Budgets and appropriations",
-    "secondary_menus": [
-      "03"
-    ],
+    "secondary_menus": ["03"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "create",
@@ -94,10 +92,7 @@
         ]
       }
     ],
-    "touches": [
-      "school districts",
-      "county human services during impasse"
-    ],
+    "touches": ["school districts", "county human services during impasse"],
     "daily_life": "Ends months of delayed state payments to schools and counties.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -119,9 +114,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Individual income tax - credits",
-    "secondary_menus": [
-      "05"
-    ],
+    "secondary_menus": ["05"],
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "create",
@@ -159,10 +152,7 @@
         ]
       }
     ],
-    "touches": [
-      "federal EITC",
-      "Department of Revenue"
-    ],
+    "touches": ["federal EITC", "Department of Revenue"],
     "daily_life": "A low-wage worker gets up to $805 extra at tax time.",
     "provision_of": "pa-2025-sb160-general-appropriation (budget package)",
     "source_confidence": "official-status-checked",

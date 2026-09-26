@@ -34,10 +34,7 @@
         "description": "Governor returned specified line items and wording for legislative reconsideration."
       }
     ],
-    "touches": [
-      "local aid (Chapter 70 schools)",
-      "MBTA"
-    ],
+    "touches": ["local aid (Chapter 70 schools)", "MBTA"],
     "daily_life": "Sets school aid and transit funding for the year.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -61,9 +58,7 @@
     "sub_topic": "Roads & bridges - local road aid",
     "secondary_menus": [],
     "instrument": "appropriation",
-    "secondary_instruments": [
-      "other"
-    ],
+    "secondary_instruments": ["other"],
     "operation": "create",
     "secondary_operations": [],
     "parts": [
@@ -77,9 +72,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "every city and town public works department"
-    ],
+    "touches": ["every city and town public works department"],
     "daily_life": "Your town repaves more streets this year.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -101,9 +94,7 @@
     "menu": "02",
     "menu_name": "Healthcare",
     "sub_topic": "Reproductive health",
-    "secondary_menus": [
-      "12"
-    ],
+    "secondary_menus": ["12"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "expand",
@@ -123,10 +114,7 @@
         "description": "Patients and providers of reproductive and gender-affirming care."
       }
     ],
-    "touches": [
-      "courts",
-      "licensing boards"
-    ],
+    "touches": ["courts", "licensing boards"],
     "daily_life": "Clinicians who provide legal care in the state are shielded from other states' subpoenas.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

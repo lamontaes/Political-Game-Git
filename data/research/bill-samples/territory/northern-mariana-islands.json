@@ -67,9 +67,7 @@
     "menu": "02",
     "menu_name": "Healthcare",
     "sub_topic": "Public health",
-    "secondary_menus": [
-      "12"
-    ],
+    "secondary_menus": ["12"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "create",
@@ -85,10 +83,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "importers",
-      "retailers"
-    ],
+    "touches": ["importers", "retailers"],
     "daily_life": "Betel nut packages carry a cancer warning.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -114,9 +109,7 @@
     "instrument": "fee",
     "secondary_instruments": [],
     "operation": "replace",
-    "secondary_operations": [
-      "repeal"
-    ],
+    "secondary_operations": ["repeal"],
     "parts": [
       {
         "kind": "fee",
@@ -127,9 +120,7 @@
         "description": "Removes daily late-penalty fees."
       }
     ],
-    "touches": [
-      "Department of Commerce"
-    ],
+    "touches": ["Department of Commerce"],
     "daily_life": "A small company is not charged a penalty every day it files late.",
     "provision_of": null,
     "source_confidence": "official-text-checked",

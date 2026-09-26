@@ -19,10 +19,7 @@
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "replace",
-    "secondary_operations": [
-      "lower",
-      "raise"
-    ],
+    "secondary_operations": ["lower", "raise"],
     "parts": [
       {
         "kind": "rate",
@@ -48,10 +45,7 @@
         "description": "Changes in 2025 and 2026 tax years (companion SB 542)."
       }
     ],
-    "touches": [
-      "county assessors",
-      "short-term rental owners"
-    ],
+    "touches": ["county assessors", "short-term rental owners"],
     "daily_life": "A full-time resident's tax falls while an out-of-state second home's rises.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -95,10 +89,7 @@
         ]
       }
     ],
-    "touches": [
-      "Montana Medicaid budget",
-      "rural hospitals"
-    ],
+    "touches": ["Montana Medicaid budget", "rural hospitals"],
     "daily_life": "75,000 adults keep health coverage without a new vote every few years.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -142,9 +133,7 @@
         ]
       }
     ],
-    "touches": [
-      "all state agencies"
-    ],
+    "touches": ["all state agencies"],
     "daily_life": "Funds state services for two years because the legislature meets only in odd years.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

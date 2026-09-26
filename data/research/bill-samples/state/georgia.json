@@ -15,10 +15,7 @@
     "menu": "10",
     "menu_name": "Justice & Public Safety",
     "sub_topic": "Courts and legal aid",
-    "secondary_menus": [
-      "08",
-      "12"
-    ],
+    "secondary_menus": ["08", "12"],
     "instrument": "procedure/election rule",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -46,11 +43,7 @@
         "description": "Bars double recovery of attorney fees."
       }
     ],
-    "touches": [
-      "insurers",
-      "trial lawyers",
-      "businesses"
-    ],
+    "touches": ["insurers", "trial lawyers", "businesses"],
     "daily_life": "Harder to win large verdicts against a store after a crime in its parking lot.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -66,9 +59,7 @@
     "short_title": "Income tax rate acceleration",
     "enacted_date": "2025-04-15",
     "enactment_path": "signed",
-    "effective_dates": [
-      "tax year 2025"
-    ],
+    "effective_dates": ["tax year 2025"],
     "official_text_url": "https://www.legis.ga.gov/",
     "aggregator_url": "https://legiscan.com/GA/bill/HB111/2025",
     "menu": "04",
@@ -112,10 +103,7 @@
         "description": "Future cuts depend on revenue and reserve conditions."
       }
     ],
-    "touches": [
-      "state revenue",
-      "withholding tables"
-    ],
+    "touches": ["state revenue", "withholding tables"],
     "daily_life": "A worker's state paycheck withholding drops slightly.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -139,9 +127,7 @@
     "sub_topic": "Taxes / reserves",
     "secondary_menus": [],
     "instrument": "tax",
-    "secondary_instruments": [
-      "appropriation"
-    ],
+    "secondary_instruments": ["appropriation"],
     "operation": "lower",
     "secondary_operations": [],
     "parts": [
@@ -183,10 +169,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "Department of Revenue",
-      "state surplus"
-    ],
+    "touches": ["Department of Revenue", "state surplus"],
     "daily_life": "A married couple gets a $500 check from the state.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

@@ -55,10 +55,7 @@
         ]
       }
     ],
-    "touches": [
-      "state agencies",
-      "school funding"
-    ],
+    "touches": ["state agencies", "school funding"],
     "daily_life": "Funds state services and school aid for the year.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -80,9 +77,7 @@
     "menu": "02",
     "menu_name": "Healthcare",
     "sub_topic": "Long-term care / patient rights",
-    "secondary_menus": [
-      "12"
-    ],
+    "secondary_menus": ["12"],
     "instrument": "program creation",
     "secondary_instruments": [],
     "operation": "create",
@@ -114,10 +109,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "hospitals",
-      "hospice providers"
-    ],
+    "touches": ["hospitals", "hospice providers"],
     "daily_life": "A dying patient may request medication to end life under set safeguards.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -139,9 +131,7 @@
     "menu": "10",
     "menu_name": "Justice & Public Safety",
     "sub_topic": "Criminal law and sentencing",
-    "secondary_menus": [
-      "16"
-    ],
+    "secondary_menus": ["16"],
     "instrument": "penalty",
     "secondary_instruments": [],
     "operation": "expand",
@@ -157,10 +147,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "immigrant communities",
-      "local police"
-    ],
+    "touches": ["immigrant communities", "local police"],
     "daily_life": "Someone posing as an immigration agent to scare people can be charged under state law.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

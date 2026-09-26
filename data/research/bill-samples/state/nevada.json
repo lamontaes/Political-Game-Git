@@ -17,9 +17,7 @@
     "sub_topic": "Affordable and public housing",
     "secondary_menus": [],
     "instrument": "program creation",
-    "secondary_instruments": [
-      "appropriation"
-    ],
+    "secondary_instruments": ["appropriation"],
     "operation": "create",
     "secondary_operations": [],
     "parts": [
@@ -62,10 +60,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "developers",
-      "local housing authorities"
-    ],
+    "touches": ["developers", "local housing authorities"],
     "daily_life": "More homes for teachers and nurses who earn too much for subsidized housing.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -109,9 +104,7 @@
         "description": "Private, state-regulated insurance plans."
       }
     ],
-    "touches": [
-      "insurers"
-    ],
+    "touches": ["insurers"],
     "daily_life": "Insulin costs a covered patient no more than $35 a month.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -159,9 +152,7 @@
         "description": "Removes discretionary approval for qualifying projects."
       }
     ],
-    "touches": [
-      "city and county planning departments"
-    ],
+    "touches": ["city and county planning departments"],
     "daily_life": "An empty strip mall can become apartments without a rezoning hearing.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

@@ -9,17 +9,13 @@
     "short_title": "Unemployment benefits for striking workers",
     "enacted_date": "2025-06-24",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01"
-    ],
+    "effective_dates": ["2026-01-01"],
     "official_text_url": "https://olis.oregonlegislature.gov/liz/2025R1/Measures/Overview/SB916",
     "aggregator_url": null,
     "menu": "07",
     "menu_name": "Labor & Employment",
     "sub_topic": "Unions and collective bargaining / unemployment benefits",
-    "secondary_menus": [
-      "05"
-    ],
+    "secondary_menus": ["05"],
     "instrument": "eligibility/benefit",
     "secondary_instruments": [],
     "operation": "expand",
@@ -52,10 +48,7 @@
         ]
       }
     ],
-    "touches": [
-      "unemployment trust fund",
-      "employers and unions"
-    ],
+    "touches": ["unemployment trust fund", "employers and unions"],
     "daily_life": "A striking nurse can draw unemployment checks for up to ten weeks.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -77,9 +70,7 @@
     "menu": "02",
     "menu_name": "Healthcare",
     "sub_topic": "Hospitals and clinics",
-    "secondary_menus": [
-      "08"
-    ],
+    "secondary_menus": ["08"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -94,10 +85,7 @@
         "description": "Voids specified noncompetition, nondisclosure and nondisparagement agreements involving medical professionals, subject to statutory exceptions."
       }
     ],
-    "touches": [
-      "private equity",
-      "physician groups"
-    ],
+    "touches": ["private equity", "physician groups"],
     "daily_life": "Medical professionals receive limits on outside control of practices and certain restrictive agreements.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -122,13 +110,9 @@
     "menu": "01",
     "menu_name": "Infrastructure",
     "sub_topic": "Roads & bridges - funding",
-    "secondary_menus": [
-      "04"
-    ],
+    "secondary_menus": ["04"],
     "instrument": "tax",
-    "secondary_instruments": [
-      "fee"
-    ],
+    "secondary_instruments": ["fee"],
     "operation": "raise",
     "secondary_operations": [],
     "parts": [
@@ -194,11 +178,7 @@
         "description": "Citizens petitioned to refer the law to voters, delaying parts of it."
       }
     ],
-    "touches": [
-      "ODOT",
-      "county road departments",
-      "EV owners"
-    ],
+    "touches": ["ODOT", "county road departments", "EV owners"],
     "daily_life": "Filling the tank and renewing registration cost more.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

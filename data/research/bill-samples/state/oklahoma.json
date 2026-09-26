@@ -60,9 +60,7 @@
         ]
       }
     ],
-    "touches": [
-      "state revenue"
-    ],
+    "touches": ["state revenue"],
     "daily_life": "Every income bracket pays a quarter-point less.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -78,9 +76,7 @@
     "short_title": "Aggravated DUI expansion and mandatory jail",
     "enacted_date": "2025-05",
     "enactment_path": "veto overridden",
-    "effective_dates": [
-      "2025-11-01"
-    ],
+    "effective_dates": ["2025-11-01"],
     "official_text_url": "http://www.oklegislature.gov/BillInfo.aspx?Bill=SB54&Session=2500",
     "aggregator_url": null,
     "menu": "10",
@@ -123,10 +119,7 @@
         "description": "Enacted over the governor's veto."
       }
     ],
-    "touches": [
-      "county jails",
-      "courts"
-    ],
+    "touches": ["county jails", "courts"],
     "daily_life": "A first aggravated DUI means at least ten days behind bars.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -142,9 +135,7 @@
     "short_title": "Criminal justice fee reductions and waivers",
     "enacted_date": "2025-05-28",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-11-01"
-    ],
+    "effective_dates": ["2025-11-01"],
     "official_text_url": "http://www.oklegislature.gov/BillInfo.aspx?Bill=HB1460&Session=2500",
     "aggregator_url": null,
     "menu": "10",
@@ -154,9 +145,7 @@
     "instrument": "fee",
     "secondary_instruments": [],
     "operation": "repeal",
-    "secondary_operations": [
-      "lower"
-    ],
+    "secondary_operations": ["lower"],
     "parts": [
       {
         "kind": "repeal",
@@ -167,10 +156,7 @@
         "description": "Strengthens the court fee waiver process for people who cannot pay."
       }
     ],
-    "touches": [
-      "court clerks",
-      "court funding"
-    ],
+    "touches": ["court clerks", "court funding"],
     "daily_life": "A person leaving jail owes fewer court fees.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

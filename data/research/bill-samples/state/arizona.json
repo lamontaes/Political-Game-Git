@@ -15,10 +15,7 @@
     "menu": "14",
     "menu_name": "Agriculture & Food",
     "sub_topic": "Food production and safety / school meals",
-    "secondary_menus": [
-      "03",
-      "02"
-    ],
+    "secondary_menus": ["03", "02"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -44,10 +41,7 @@
         ]
       }
     ],
-    "touches": [
-      "school food vendors",
-      "federal school meal program"
-    ],
+    "touches": ["school food vendors", "federal school meal program"],
     "daily_life": "Some snacks disappear from school cafeterias.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -92,10 +86,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "county attorneys",
-      "prisons"
-    ],
+    "touches": ["county attorneys", "prisons"],
     "daily_life": "Drug couriers caught with large fentanyl loads face longer prison terms.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -143,10 +134,7 @@
         "description": "Specified active military personnel aged 18 to 20 may possess or use products if military rules allow it and they hold valid military identification."
       }
     ],
-    "touches": [
-      "retailers",
-      "state tobacco enforcement"
-    ],
+    "touches": ["retailers", "state tobacco enforcement"],
     "daily_life": "State law bars furnishing tobacco or vapor products to people under 21, with a narrow military possession exception.",
     "provision_of": null,
     "source_confidence": "official-text-checked",

@@ -38,10 +38,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "university building maintenance",
-      "county treasurers"
-    ],
+    "touches": ["university building maintenance", "county treasurers"],
     "daily_life": "Every property tax bill in the state shrinks slightly.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -63,10 +60,7 @@
     "menu": "17",
     "menu_name": "Defense & Veterans",
     "sub_topic": "Bases and facilities / land",
-    "secondary_menus": [
-      "18",
-      "08"
-    ],
+    "secondary_menus": ["18", "08"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "create",
@@ -93,10 +87,7 @@
         "description": "Defines 'foreign principal' and 'country of concern' by reference to federal lists."
       }
     ],
-    "touches": [
-      "county registers of deeds",
-      "real estate sales"
-    ],
+    "touches": ["county registers of deeds", "real estate sales"],
     "daily_life": "Some buyers must certify they are not tied to certain foreign governments.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -112,17 +103,13 @@
     "short_title": "Legislative approval before expanding public assistance by waiver",
     "enacted_date": "2025-04-10",
     "enactment_path": "veto overridden",
-    "effective_dates": [
-      "2025-07-01"
-    ],
+    "effective_dates": ["2025-07-01"],
     "official_text_url": "https://www.kslegislature.gov/li/b2025_26/measures/hb2240/",
     "aggregator_url": null,
     "menu": "05",
     "menu_name": "Assistance & Social Insurance",
     "sub_topic": "Assistance program administration",
-    "secondary_menus": [
-      "11"
-    ],
+    "secondary_menus": ["11"],
     "instrument": "procedure/election rule",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -141,10 +128,7 @@
         "description": "Enacted over the governor's veto."
       }
     ],
-    "touches": [
-      "Department for Children and Families",
-      "Medicaid agency"
-    ],
+    "touches": ["Department for Children and Families", "Medicaid agency"],
     "daily_life": "Eligibility for aid cannot be widened by the governor alone.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

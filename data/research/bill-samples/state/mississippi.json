@@ -22,10 +22,7 @@
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "lower",
-    "secondary_operations": [
-      "raise",
-      "repeal"
-    ],
+    "secondary_operations": ["raise", "repeal"],
     "parts": [
       {
         "kind": "phase-in",
@@ -91,11 +88,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "state general fund",
-      "road funding",
-      "PERS"
-    ],
+    "touches": ["state general fund", "road funding", "PERS"],
     "daily_life": "Groceries cost less tax now; gas costs more; income tax fades out over years.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -185,9 +178,7 @@
         "description": "State employees."
       }
     ],
-    "touches": [
-      "state payroll"
-    ],
+    "touches": ["state payroll"],
     "daily_life": "A new mother working for the state gets six paid weeks.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

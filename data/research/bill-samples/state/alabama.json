@@ -46,10 +46,7 @@
         ]
       }
     ],
-    "touches": [
-      "local school boards",
-      "state board of education"
-    ],
+    "touches": ["local school boards", "state board of education"],
     "daily_life": "Students hand in or silence phones for the school day.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -73,9 +70,7 @@
     "sub_topic": "Firearms and weapons rules",
     "secondary_menus": [],
     "instrument": "prohibition",
-    "secondary_instruments": [
-      "penalty"
-    ],
+    "secondary_instruments": ["penalty"],
     "operation": "create",
     "secondary_operations": [],
     "parts": [
@@ -97,10 +92,7 @@
         "description": "Lets state and local prosecutors charge conduct that was previously only a federal crime."
       }
     ],
-    "touches": [
-      "local police",
-      "district attorneys"
-    ],
+    "touches": ["local police", "district attorneys"],
     "daily_life": "State police can arrest for a pistol auto-sear without waiting on federal agents.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -122,9 +114,7 @@
     "menu": "02",
     "menu_name": "Healthcare",
     "sub_topic": "Medicines and medical products",
-    "secondary_menus": [
-      "08"
-    ],
+    "secondary_menus": ["08"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -156,10 +146,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "independent pharmacies",
-      "employer health plans"
-    ],
+    "touches": ["independent pharmacies", "employer health plans"],
     "daily_life": "Helps a small-town pharmacy afford to stay open.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

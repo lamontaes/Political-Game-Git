@@ -9,9 +9,7 @@
     "short_title": "Education savings account program (Texas Education Freedom Accounts)",
     "enacted_date": "2025-05-03",
     "enactment_path": "signed",
-    "effective_dates": [
-      "accounts start 2026-27 school year"
-    ],
+    "effective_dates": ["accounts start 2026-27 school year"],
     "official_text_url": "https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&Bill=SB2",
     "aggregator_url": null,
     "menu": "03",
@@ -66,10 +64,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "private schools",
-      "public school enrollment"
-    ],
+    "touches": ["private schools", "public school enrollment"],
     "daily_life": "A family can get about $10,900 a year toward private school.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -93,9 +88,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Property taxes",
-    "secondary_menus": [
-      "08"
-    ],
+    "secondary_menus": ["08"],
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "lower",
@@ -119,10 +112,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "local taxing units",
-      "small businesses"
-    ],
+    "touches": ["local taxing units", "small businesses"],
     "daily_life": "A small shop owes no property tax on its equipment.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -138,17 +128,13 @@
     "short_title": "Restrictions on property purchases by certain foreign entities",
     "enacted_date": "2025-06-20",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-09-01"
-    ],
+    "effective_dates": ["2025-09-01"],
     "official_text_url": "https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&Bill=SB17",
     "aggregator_url": null,
     "menu": "18",
     "menu_name": "Foreign Affairs & Trade",
     "sub_topic": "International security cooperation / land",
-    "secondary_menus": [
-      "08"
-    ],
+    "secondary_menus": ["08"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "create",
@@ -168,10 +154,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "real estate transactions",
-      "farmland"
-    ],
+    "touches": ["real estate transactions", "farmland"],
     "daily_life": "Some foreign-linked buyers are barred from buying Texas land.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -187,19 +170,13 @@
     "short_title": "Sheriffs required to enter federal immigration (287(g)) agreements",
     "enacted_date": "2025-06",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01",
-      "compliance deadline 2026-12-01"
-    ],
+    "effective_dates": ["2026-01-01", "compliance deadline 2026-12-01"],
     "official_text_url": "https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&Bill=SB8",
     "aggregator_url": null,
     "menu": "16",
     "menu_name": "Immigration & Citizenship",
     "sub_topic": "Border administration / state-federal cooperation",
-    "secondary_menus": [
-      "10",
-      "11"
-    ],
+    "secondary_menus": ["10", "11"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "create",
@@ -242,11 +219,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "county jails",
-      "federal ICE",
-      "county budgets"
-    ],
+    "touches": ["county jails", "federal ICE", "county budgets"],
     "daily_life": "Local jail deputies screen arrestees for immigration status on ICE's behalf.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -262,9 +235,7 @@
     "short_title": "Texas Responsible Artificial Intelligence Governance Act",
     "enacted_date": "2025-06-22",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01"
-    ],
+    "effective_dates": ["2026-01-01"],
     "official_text_url": "https://capitol.texas.gov/tlodocs/89R/billtext/pdf/HB00149F.pdf",
     "aggregator_url": null,
     "menu": "13",
@@ -307,10 +278,7 @@
         ]
       }
     ],
-    "touches": [
-      "AI developers",
-      "state agencies"
-    ],
+    "touches": ["AI developers", "state agencies"],
     "daily_life": "Companies cannot use AI deliberately to manipulate or discriminate against Texans.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

@@ -9,9 +9,7 @@
     "short_title": "South Carolina Energy Security Act",
     "enacted_date": "2025-05-12",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-05-12"
-    ],
+    "effective_dates": ["2025-05-12"],
     "official_text_url": "https://www.scstatehouse.gov/sess126_2025-2026/bills/3309.htm",
     "aggregator_url": null,
     "menu": "09",
@@ -47,10 +45,7 @@
         "description": "Authorizes a Santee Cooper and Dominion joint venture to convert a retired coal plant to natural gas."
       }
     ],
-    "touches": [
-      "Santee Cooper",
-      "Public Service Commission"
-    ],
+    "touches": ["Santee Cooper", "Public Service Commission"],
     "daily_life": "New power plants get permits faster.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -72,9 +67,7 @@
     "menu": "08",
     "menu_name": "Business & Economic Development",
     "sub_topic": "Insurance markets",
-    "secondary_menus": [
-      "10"
-    ],
+    "secondary_menus": ["10"],
     "instrument": "mandate/regulation",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -95,10 +88,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "bars and restaurants",
-      "insurers"
-    ],
+    "touches": ["bars and restaurants", "insurers"],
     "daily_life": "A bar's insurance may become cheaper and easier to find.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -114,9 +104,7 @@
     "short_title": "Appropriations Act, 2025-2026",
     "enacted_date": "2025-06-03",
     "enactment_path": "signed with line-item vetoes",
-    "effective_dates": [
-      "2025-06-04"
-    ],
+    "effective_dates": ["2025-06-04"],
     "official_text_url": "https://www.scstatehouse.gov/sess126_2025-2026/bills/4025.htm",
     "aggregator_url": null,
     "menu": "04",
@@ -142,10 +130,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "all state agencies",
-      "school funding"
-    ],
+    "touches": ["all state agencies", "school funding"],
     "daily_life": "Sets the state's spending for the fiscal year.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

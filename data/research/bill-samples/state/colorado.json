@@ -9,9 +9,7 @@
     "short_title": "Semiautomatic firearms with detachable magazines - permit to purchase",
     "enacted_date": "2025-04-10",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-08-01 (inferred)"
-    ],
+    "effective_dates": ["2026-08-01 (inferred)"],
     "official_text_url": "https://leg.colorado.gov/bills/sb25-003",
     "aggregator_url": null,
     "menu": "10",
@@ -48,11 +46,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "gun dealers",
-      "sheriffs",
-      "hunter education system"
-    ],
+    "touches": ["gun dealers", "sheriffs", "hunter education system"],
     "daily_life": "Buying certain rifles now requires a class and a permit card first.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -68,9 +62,7 @@
     "short_title": "Protections against deceptive pricing (junk fees)",
     "enacted_date": "2025",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01 (inferred)"
-    ],
+    "effective_dates": ["2026-01-01 (inferred)"],
     "official_text_url": "https://leg.colorado.gov/bills/hb25-1090",
     "aggregator_url": null,
     "menu": "12",
@@ -95,11 +87,7 @@
         "description": "Violations are deceptive trade practices under the consumer protection act."
       }
     ],
-    "touches": [
-      "hotels",
-      "ticket sellers",
-      "landlords"
-    ],
+    "touches": ["hotels", "ticket sellers", "landlords"],
     "daily_life": "The price on the website is the price you pay.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -115,17 +103,13 @@
     "short_title": "Paid family leave extension for NICU parents",
     "enacted_date": "2025",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01"
-    ],
+    "effective_dates": ["2026-01-01"],
     "official_text_url": "https://leg.colorado.gov/bills/sb25-144",
     "aggregator_url": null,
     "menu": "07",
     "menu_name": "Labor & Employment",
     "sub_topic": "Paid and unpaid leave",
-    "secondary_menus": [
-      "05"
-    ],
+    "secondary_menus": ["05"],
     "instrument": "eligibility/benefit",
     "secondary_instruments": [],
     "operation": "expand",
@@ -151,10 +135,7 @@
         "description": "Colorado Department of Labor and Employment, FAMLI Division."
       }
     ],
-    "touches": [
-      "FAMLI premium rate",
-      "employers"
-    ],
+    "touches": ["FAMLI premium rate", "employers"],
     "daily_life": "A parent can stay with a baby in the NICU without losing pay.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -203,10 +184,7 @@
         "description": "Only outcome of a special session called for fiscal and AI concerns; substantive changes left for later."
       }
     ],
-    "touches": [
-      "SB24-205 (Colorado AI Act)",
-      "employers using AI in hiring"
-    ],
+    "touches": ["SB24-205 (Colorado AI Act)", "employers using AI in hiring"],
     "daily_life": "AI hiring and lending rules start five months later than planned.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

@@ -9,22 +9,15 @@
     "short_title": "Agriculture omnibus (includes water additive ban)",
     "enacted_date": "2025-05-20",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-07-01"
-    ],
+    "effective_dates": ["2025-07-01"],
     "official_text_url": "https://www.flsenate.gov/Session/Bill/2025/700",
     "aggregator_url": null,
     "menu": "14",
     "menu_name": "Agriculture & Food",
     "sub_topic": "Crops and livestock / food safety",
-    "secondary_menus": [
-      "09",
-      "02"
-    ],
+    "secondary_menus": ["09", "02"],
     "instrument": "prohibition",
-    "secondary_instruments": [
-      "preemption"
-    ],
+    "secondary_instruments": ["preemption"],
     "operation": "restrict",
     "secondary_operations": [],
     "parts": [
@@ -53,11 +46,7 @@
         ]
       }
     ],
-    "touches": [
-      "municipal water utilities",
-      "dentists",
-      "farm programs"
-    ],
+    "touches": ["municipal water utilities", "dentists", "farm programs"],
     "daily_life": "Tap water stops having fluoride added.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -81,9 +70,7 @@
     "sub_topic": "Elections and representation",
     "secondary_menus": [],
     "instrument": "procedure/election rule",
-    "secondary_instruments": [
-      "penalty"
-    ],
+    "secondary_instruments": ["penalty"],
     "operation": "restrict",
     "secondary_operations": [],
     "parts": [
@@ -115,10 +102,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "ballot measure campaigns",
-      "county elections supervisors"
-    ],
+    "touches": ["ballot measure campaigns", "county elections supervisors"],
     "daily_life": "Getting a citizen proposal on the ballot becomes harder and costlier.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -134,9 +118,7 @@
     "short_title": "2025 tax package (ends business rent tax)",
     "enacted_date": "2025-07-03",
     "enactment_path": "signed with line-item vetoes",
-    "effective_dates": [
-      "2025-10-01 (business rent tax repeal)"
-    ],
+    "effective_dates": ["2025-10-01 (business rent tax repeal)"],
     "official_text_url": "https://www.flsenate.gov/Session/Bill/2025/7031",
     "aggregator_url": null,
     "menu": "04",
@@ -146,9 +128,7 @@
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "repeal",
-    "secondary_operations": [
-      "lower"
-    ],
+    "secondary_operations": ["lower"],
     "parts": [
       {
         "kind": "repeal",
@@ -171,11 +151,7 @@
         ]
       }
     ],
-    "touches": [
-      "commercial landlords",
-      "small businesses",
-      "general revenue"
-    ],
+    "touches": ["commercial landlords", "small businesses", "general revenue"],
     "daily_life": "A store's monthly rent bill loses its sales tax line.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -197,10 +173,7 @@
     "menu": "16",
     "menu_name": "Immigration & Citizenship",
     "sub_topic": "Border administration / state-federal cooperation",
-    "secondary_menus": [
-      "10",
-      "03"
-    ],
+    "secondary_menus": ["10", "03"],
     "instrument": "agency/structure",
     "secondary_instruments": [
       "appropriation",
@@ -238,11 +211,7 @@
         "description": "New and enhanced criminal penalties tied to immigration status (reported)."
       }
     ],
-    "touches": [
-      "sheriffs",
-      "universities",
-      "federal 287(g)"
-    ],
+    "touches": ["sheriffs", "universities", "federal 287(g)"],
     "daily_life": "Local police get state bonuses to help federal immigration agents; some students pay out-of-state tuition.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -258,17 +227,13 @@
     "short_title": "State Park Preservation Act",
     "enacted_date": "2025-05-23",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2025-07-01"
-    ],
+    "effective_dates": ["2025-07-01"],
     "official_text_url": "https://www.flsenate.gov/Session/Bill/2025/209",
     "aggregator_url": null,
     "menu": "15",
     "menu_name": "Parks, Culture & Community Life",
     "sub_topic": "Parks and recreation",
-    "secondary_menus": [
-      "09"
-    ],
+    "secondary_menus": ["09"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -303,10 +268,7 @@
         ]
       }
     ],
-    "touches": [
-      "Department of Environmental Protection",
-      "concessionaires"
-    ],
+    "touches": ["Department of Environmental Protection", "concessionaires"],
     "daily_life": "No hotel or golf course will be built in your favorite state park.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

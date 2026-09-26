@@ -9,17 +9,13 @@
     "short_title": "Property tax relief and local finance overhaul",
     "enacted_date": "2025-04-15",
     "enactment_path": "signed",
-    "effective_dates": [
-      "credits start with taxes payable in 2026"
-    ],
+    "effective_dates": ["credits start with taxes payable in 2026"],
     "official_text_url": "https://iga.in.gov/legislative/2025/bills/senate/1",
     "aggregator_url": null,
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Property taxes",
-    "secondary_menus": [
-      "11"
-    ],
+    "secondary_menus": ["11"],
     "instrument": "tax",
     "secondary_instruments": [],
     "operation": "lower",
@@ -78,10 +74,7 @@
         ]
       }
     ],
-    "touches": [
-      "city, county and school budgets",
-      "local income taxes"
-    ],
+    "touches": ["city, county and school budgets", "local income taxes"],
     "daily_life": "A homeowner sees up to $300 less on the property tax bill; towns get less revenue.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
@@ -122,10 +115,7 @@
         "description": "Requires more frequent eligibility checks through agency data sharing."
       }
     ],
-    "touches": [
-      "Healthy Indiana Plan",
-      "hospitals"
-    ],
+    "touches": ["Healthy Indiana Plan", "hospitals"],
     "daily_life": "Eligibility checks increase; a HIP cap or work rule depends on federal approval and implementation.",
     "provision_of": null,
     "source_confidence": "official-status-checked",
@@ -147,9 +137,7 @@
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
     "sub_topic": "Budgets and appropriations",
-    "secondary_menus": [
-      "03"
-    ],
+    "secondary_menus": ["03"],
     "instrument": "appropriation",
     "secondary_instruments": [],
     "operation": "create",
@@ -164,11 +152,7 @@
         "description": "Requires Budget Committee review for specified expenditures in the enacted budget."
       }
     ],
-    "touches": [
-      "schools",
-      "universities",
-      "agencies"
-    ],
+    "touches": ["schools", "universities", "agencies"],
     "daily_life": "Sets per-student school funding for two years.",
     "provision_of": null,
     "source_confidence": "official-text-checked",
@@ -190,9 +174,7 @@
     "menu": "01",
     "menu_name": "Infrastructure",
     "sub_topic": "Roads & bridges - tolls and user charges",
-    "secondary_menus": [
-      "04"
-    ],
+    "secondary_menus": ["04"],
     "instrument": "fee",
     "secondary_instruments": [],
     "operation": "expand",
@@ -229,10 +211,7 @@
         ]
       }
     ],
-    "touches": [
-      "Federal Highway Administration",
-      "trucking industry"
-    ],
+    "touches": ["Federal Highway Administration", "trucking industry"],
     "daily_life": "Driving I-70 across Indiana may soon cost a toll.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",

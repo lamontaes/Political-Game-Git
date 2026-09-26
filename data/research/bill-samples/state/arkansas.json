@@ -9,17 +9,13 @@
     "short_title": "Ban on PBM ownership of pharmacies",
     "enacted_date": "2025-04",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01 (inferred)"
-    ],
+    "effective_dates": ["2026-01-01 (inferred)"],
     "official_text_url": "https://arkleg.state.ar.us/Bills/Detail?id=HB1150&ddBienniumSession=2025%2F2025R",
     "aggregator_url": null,
     "menu": "02",
     "menu_name": "Healthcare",
     "sub_topic": "Medicines and medical products",
-    "secondary_menus": [
-      "08"
-    ],
+    "secondary_menus": ["08"],
     "instrument": "prohibition",
     "secondary_instruments": [],
     "operation": "restrict",
@@ -63,9 +59,7 @@
     "short_title": "Repeal of the state sales tax on groceries",
     "enacted_date": "2025-04-22",
     "enactment_path": "signed",
-    "effective_dates": [
-      "2026-01-01"
-    ],
+    "effective_dates": ["2026-01-01"],
     "official_text_url": "https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=1008.pdf&ddBienniumSession=2025%2F2025R",
     "aggregator_url": null,
     "menu": "04",
@@ -134,9 +128,7 @@
     "menu": "02",
     "menu_name": "Healthcare",
     "sub_topic": "Reproductive health / public coverage",
-    "secondary_menus": [
-      "05"
-    ],
+    "secondary_menus": ["05"],
     "instrument": "eligibility/benefit",
     "secondary_instruments": [],
     "operation": "expand",
@@ -156,10 +148,7 @@
         "inferred": true
       }
     ],
-    "touches": [
-      "Arkansas Medicaid",
-      "rural clinics"
-    ],
+    "touches": ["Arkansas Medicaid", "rural clinics"],
     "daily_life": "A pregnant woman can see a doctor right away while her Medicaid paperwork is processed.",
     "provision_of": null,
     "source_confidence": "official-status-checked",

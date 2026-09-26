@@ -65,10 +65,7 @@
         "description": "Industry petition for a referendum suspended enforcement pending a vote."
       }
     ],
-    "touches": [
-      "tourism industry",
-      "2028 Olympics"
-    ],
+    "touches": ["tourism industry", "2028 Olympics"],
     "daily_life": "A hotel housekeeper's wage would reach $30 an hour by 2028.",
     "provision_of": null,
     "source_confidence": "secondary-confirmed",
