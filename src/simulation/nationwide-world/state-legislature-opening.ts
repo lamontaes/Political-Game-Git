@@ -761,35 +761,7 @@ export function stateLegislators(
     "organization",
     `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
   );
-  const prefix = `${V}:`;
-  const views: StateLegislatorView[] = [];
-  const { affiliationsByStableKey, firstPartyByPerson } = affiliationIndexes(
-    world.history.organizationParticipations,
-  );
-  for (const work of legislativeWorkForBody(world, bodyId)) {
-    if (!world.people[work.personId]) continue;
-    if (!isPersonAliveAt(world, work.personId, currentLifeCutoff(world)))
-      continue;
-    if (workStatusAt(world, work.id)?.status !== "active") continue;
-    const match = seatTenureMatch(work.stableKey);
-    if (!match) continue;
-    const namedAffiliation = affiliationsByStableKey.get(
-      `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
-    );
-    const affiliation =
-      (namedAffiliation?.personId === work.personId
-        ? namedAffiliation
-        : undefined) ?? firstPartyByPerson.get(work.personId);
-    views.push({
-      personId: work.personId,
-      workRelationshipId: work.id,
-      officeKey: match[1]!,
-      ordinal: Number(match[2]),
-      title: workRoleAt(world, work.id)?.title ?? "",
-      party: nationalPartyKey(world, affiliation?.organizationId),
-      byCampaign: false,
-    });
-  }
+  const views: StateLegislatorView[] = [...openingSeatViews(world, bodyId)];
   // A campaign's winner sits in their district's seat. The seat's earlier
   // holder left when the term began, so the two are never both listed.
   for (const holder of campaignSeatHolders(world, packId)) {
@@ -825,6 +797,76 @@ export function stateLegislators(
       view.byCampaign ||
       !campaignSeats.has(`${view.officeKey}|${view.ordinal}`),
   );
+}
+
+/*
+ * The opening's seat holders change only when a member's job, role, party,
+ * life or the date changes, while a bill day reads every chamber many times
+ * between those changes. So the list is kept per legislature for as long as
+ * the records it reads are the same arrays (the same pattern as
+ * `indexOverArrays`), and read again the moment any of them is replaced.
+ */
+const OPENING_SEAT_VIEWS = new Map<
+  EntityId,
+  {
+    readonly sources: readonly unknown[];
+    readonly views: readonly StateLegislatorView[];
+  }
+>();
+
+function openingSeatViews(
+  world: World,
+  bodyId: EntityId,
+): readonly StateLegislatorView[] {
+  const history = world.history;
+  const sources: readonly unknown[] = [
+    world.id,
+    world.currentDate,
+    world.people,
+    history.workRelationships,
+    history.workStatuses,
+    history.workRoles,
+    history.organizationParticipations,
+    history.personDeaths,
+  ];
+  const cached = OPENING_SEAT_VIEWS.get(bodyId);
+  if (
+    cached &&
+    cached.sources.length === sources.length &&
+    cached.sources.every((source, index) => source === sources[index])
+  )
+    return cached.views;
+  const prefix = `${V}:`;
+  const views: StateLegislatorView[] = [];
+  const { affiliationsByStableKey, firstPartyByPerson } = affiliationIndexes(
+    world.history.organizationParticipations,
+  );
+  for (const work of legislativeWorkForBody(world, bodyId)) {
+    if (!world.people[work.personId]) continue;
+    if (!isPersonAliveAt(world, work.personId, currentLifeCutoff(world)))
+      continue;
+    if (workStatusAt(world, work.id)?.status !== "active") continue;
+    const match = seatTenureMatch(work.stableKey);
+    if (!match) continue;
+    const namedAffiliation = affiliationsByStableKey.get(
+      `${prefix}${match[1]}:seat:${match[2]}:member:affiliation`,
+    );
+    const affiliation =
+      (namedAffiliation?.personId === work.personId
+        ? namedAffiliation
+        : undefined) ?? firstPartyByPerson.get(work.personId);
+    views.push({
+      personId: work.personId,
+      workRelationshipId: work.id,
+      officeKey: match[1]!,
+      ordinal: Number(match[2]),
+      title: workRoleAt(world, work.id)?.title ?? "",
+      party: nationalPartyKey(world, affiliation?.organizationId),
+      byCampaign: false,
+    });
+  }
+  OPENING_SEAT_VIEWS.set(bodyId, { sources, views });
+  return views;
 }
 
 const AFFILIATION_INDEXES = new WeakMap<
@@ -1053,13 +1095,8 @@ export function campaignSeatHolders(
     "organization",
     `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
   );
-  const terms = world.history.workRelationships
-    .filter(
-      (work) =>
-        work.organizationId === bodyId &&
-        work.kind === "employment:legislative-member" &&
-        !seatTenureMatch(work.stableKey),
-    )
+  const terms = legislativeWorkForBody(world, bodyId)
+    .filter((work) => !seatTenureMatch(work.stableKey))
     .map((work) => ({
       work,
       status: workStatusAt(world, work.id)?.status,
