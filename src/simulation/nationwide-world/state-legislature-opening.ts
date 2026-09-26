@@ -779,7 +779,11 @@ export function stateLegislators(
     "organization",
     `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
   );
-  const views: StateLegislatorView[] = [...openingSeatViews(world, bodyId)];
+  const opening = openingSeatViews(world, bodyId);
+  // Most legislatures have no campaign-seated member yet; their list is the
+  // opening's, unchanged.
+  if (!opening.hasCampaignTerms) return opening.views;
+  const views: StateLegislatorView[] = [...opening.views];
   // A campaign's winner sits in their district's seat. The seat's earlier
   // holder left when the term began, so the two are never both listed.
   for (const holder of campaignSeatHolders(world, packId)) {
@@ -826,16 +830,16 @@ export function stateLegislators(
  */
 const OPENING_SEAT_VIEWS = new Map<
   EntityId,
-  {
-    readonly sources: readonly unknown[];
-    readonly views: readonly StateLegislatorView[];
-  }
+  OpeningSeatViews & { readonly sources: readonly unknown[] }
 >();
 
-function openingSeatViews(
-  world: World,
-  bodyId: EntityId,
-): readonly StateLegislatorView[] {
+interface OpeningSeatViews {
+  readonly views: readonly StateLegislatorView[];
+  /** Whether any member of this body was seated by a campaign. */
+  readonly hasCampaignTerms: boolean;
+}
+
+function openingSeatViews(world: World, bodyId: EntityId): OpeningSeatViews {
   const history = world.history;
   const sources: readonly unknown[] = [
     world.id,
@@ -853,7 +857,7 @@ function openingSeatViews(
     cached.sources.length === sources.length &&
     cached.sources.every((source, index) => source === sources[index])
   )
-    return cached.views;
+    return cached;
   const prefix = `${V}:`;
   const views: StateLegislatorView[] = [];
   const { affiliationsByStableKey, firstPartyByPerson } = affiliationIndexes(
@@ -883,8 +887,12 @@ function openingSeatViews(
       byCampaign: false,
     });
   }
-  OPENING_SEAT_VIEWS.set(bodyId, { sources, views });
-  return views;
+  const hasCampaignTerms = legislativeWorkForBody(world, bodyId).some(
+    (work) => !seatTenureMatch(work.stableKey),
+  );
+  const built = { sources, views, hasCampaignTerms };
+  OPENING_SEAT_VIEWS.set(bodyId, built);
+  return built;
 }
 
 const AFFILIATION_INDEXES = new WeakMap<
