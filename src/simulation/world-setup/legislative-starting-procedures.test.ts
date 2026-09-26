@@ -10,10 +10,7 @@ import {
   ensureWorldStartingConditions,
   legislativeStartingProceduresCondition,
 } from "./conditions";
-import {
-  CRUNCH46_WORLD_OPENING_VERSION,
-  LEGACY_WORLD_OPENING_VERSION,
-} from "./types";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "./types";
 
 const newWorld = () =>
   createNewGameWorld({
@@ -47,38 +44,11 @@ describe("saved legislative starting procedures", () => {
     ).toBe(reloaded);
   });
 
-  it("does not retrofit a legacy opening and rejects incomplete coverage", () => {
-    const legacy = newWorld();
-    expect(
-      ensureWorldStartingConditions(legacy, {
-        openingVersion: LEGACY_WORLD_OPENING_VERSION,
-      }),
-    ).toBe(legacy);
-    expect(legislativeStartingProceduresCondition(legacy)).toBeNull();
-
+  // Legacy-opening and prior-save retrofit checks removed. owner decision 2026-09-26: old saves need not be compatible yet.
+  it("rejects incomplete coverage in a new opening", () => {
     const current = ensureWorldStartingConditions(newWorld(), {
       openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
     });
-    const priorSave = {
-      ...current,
-      history: {
-        ...current.history,
-        nextSequence: current.history.nextSequence - 1,
-        worldConditions: current.history.worldConditions!.filter(
-          (record) => record.kind !== "legislative-starting-procedures",
-        ),
-      },
-    };
-    const restoredPriorSave = deserializeWorld(serializeWorld(priorSave));
-    expect(
-      legislativeStartingProceduresCondition(restoredPriorSave),
-    ).toBeNull();
-    expect(
-      ensureWorldStartingConditions(restoredPriorSave, {
-        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
-      }),
-    ).toBe(restoredPriorSave);
-
     const conditions = [...current.history.worldConditions!];
     const index = conditions.findIndex(
       (record) => record.kind === "legislative-starting-procedures",

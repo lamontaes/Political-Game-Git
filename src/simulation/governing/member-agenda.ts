@@ -70,20 +70,39 @@ const LOCAL_AGENDA_DEFAULT_QUARTERS = 1;
 /** PLACEHOLDER: the least summed weight that moves a member to file a bill. */
 const FILING_THRESHOLD = 3;
 
-/** Catalog questions with an exact, supported state-law configuration. */
+/** Every catalog question a state law may answer, in catalog order. */
 function stateQuestions(world: World): readonly EntityId[] {
   const catalog = world.policyCatalog;
-  const supportedKeys = new Set<string>(
+  return catalog.propositionOrder.filter((propositionId) => {
+    const proposition = catalog.propositions[propositionId];
+    if (!proposition) return false;
+    const issue = catalog.issues[proposition.issueId];
+    return issue?.levels?.includes("state") ?? false;
+  });
+}
+
+/** Questions a state bill answers through a registered World effect writer. */
+function stateEffectQuestionKeys(): ReadonlySet<string> {
+  return new Set<string>(
     AUTOMATIC_LAW_POSITION_MAPPINGS.filter(
       (mapping) => mapping.governmentLevel === "state",
     ).map((mapping) => mapping.propositionKey),
   );
-  return catalog.propositionOrder.filter((propositionId) => {
-    const proposition = catalog.propositions[propositionId];
-    if (!proposition || !supportedKeys.has(proposition.stableKey)) return false;
-    const issue = catalog.issues[proposition.issueId];
-    return issue?.levels?.includes("state") ?? false;
-  });
+}
+
+/**
+ * The direction a position bill may take so that enacting it changes the
+ * recorded law in force: support enacts where the law does not already say
+ * yes; opposition repeals only a law that says yes. Opposing something that is
+ * not law files nothing, because enacting "no" over no law changes nothing a
+ * reader of the law record could see.
+ */
+function positionBillAnswer(
+  score: number,
+  lawAnswer: "yes" | "no" | null,
+): "yes" | "no" | null {
+  if (score > 0) return lawAnswer === "yes" ? null : "yes";
+  return lawAnswer === "yes" ? "no" : null;
 }
 
 /** A bill still moving in this jurisdiction that answers the question. */
