@@ -404,9 +404,14 @@ export function workRelationshipHistoryForPerson(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly WorkRelationship[] {
   validatePersonCutoff(world, personId, cutoff);
-  return world.history.workRelationships.filter(
+  // Grouped by person once per array, in array order: the whole-array filter
+  // this replaces ran once per person when a search looked at everybody.
+  return recordsByStringField(
+    world.history.workRelationships,
+    "personId",
+    personId,
+  ).filter(
     (relationship) =>
-      relationship.personId === personId &&
       available(
         relationship.sequence,
         relationship.startedAt < relationship.recordedAt
