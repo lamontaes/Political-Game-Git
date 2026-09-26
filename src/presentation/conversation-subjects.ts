@@ -536,7 +536,11 @@ export function advanceSchoolProject(
   intent: ConversationIntent,
   outcome: ConversationOutcome,
 ): SchoolProjectConversationProgress {
-  if (intent === "ask-to-split" && outcome === "boundary-held") {
+  // Refused, or not decided yet: the split is still an open question.
+  if (
+    intent === "ask-to-split" &&
+    (outcome === "boundary-held" || outcome === "undecided")
+  ) {
     return { ...progress, phase: "raised", latestProposition: null };
   }
   switch (intent) {
@@ -651,6 +655,13 @@ export function advanceNeighborhoodMeeting(
       latestProposition: "ask-them-to-go",
       silenceSettled: true,
     };
+  }
+  // Handed back, or not decided yet: nobody has said who is going.
+  if (
+    intent === "ask-them-to-go" &&
+    (outcome === "proposal-countered" || outcome === "undecided")
+  ) {
+    return { ...progress, phase: "raised", latestProposition: null };
   }
   switch (intent) {
     case "mention-meeting":
@@ -1471,6 +1482,16 @@ const COMMIT_CONTRACTS: Readonly<
               `${playerName} took the part nobody had started, and ${otherName} let them.`,
           };
         case "ask-to-split":
+          if (outcome === "undecided") {
+            // An open question moves nothing between them.
+            return {
+              kind: "contact:left-open",
+              change: "maintained",
+              significance: "minor",
+              summary: ({ playerName, otherName }) =>
+                `${playerName} asked for an even split, and ${otherName} did not say yet.`,
+            };
+          }
           return outcome === "boundary-held"
             ? {
                 kind: "conflict:pressed-for-answer",
@@ -1508,7 +1529,9 @@ const COMMIT_CONTRACTS: Readonly<
         case "ask-to-split":
           return outcome === "boundary-held"
             ? `${speakerName} would not agree a split.`
-            : `${speakerName} agreed which half was whose.`;
+            : outcome === "undecided"
+              ? `${speakerName} did not say yet.`
+              : `${speakerName} agreed which half was whose.`;
         default:
           return null;
       }
@@ -1560,6 +1583,24 @@ const COMMIT_CONTRACTS: Readonly<
               `${playerName} told ${otherName} they would be at the meeting.`,
           };
         case "ask-them-to-go":
+          if (outcome === "proposal-countered") {
+            return {
+              kind: "contact:neighborly",
+              change: "maintained",
+              significance: "minor",
+              summary: ({ playerName, otherName }) =>
+                `${playerName} asked ${otherName} to go to the meeting, and ${otherName} suggested ${playerName} go instead.`,
+            };
+          }
+          if (outcome === "undecided") {
+            return {
+              kind: "contact:left-open",
+              change: "maintained",
+              significance: "minor",
+              summary: ({ playerName, otherName }) =>
+                `${playerName} asked ${otherName} to go to the meeting, and ${otherName} had not decided.`,
+            };
+          }
           return outcome === "boundary-held"
             ? {
                 kind: "conflict:pressed-for-answer",
@@ -1600,7 +1641,11 @@ const COMMIT_CONTRACTS: Readonly<
         case "ask-them-to-go":
           return outcome === "boundary-held"
             ? `${speakerName} would not give the evening.`
-            : `${speakerName} said they would go.`;
+            : outcome === "proposal-countered"
+              ? `${speakerName} suggested you go yourself.`
+              : outcome === "undecided"
+                ? `${speakerName} had not decided.`
+                : `${speakerName} said they would go.`;
         default:
           return null;
       }

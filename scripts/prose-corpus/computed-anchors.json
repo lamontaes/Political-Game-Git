@@ -1059,6 +1059,54 @@
       "textRevision": "30075e37c876"
     },
     {
+      "anchor": "COMMIT_CONTRACTS-0116",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} asked for an even split, and {otherName} did not say yet.",
+      "occurrence": 0,
+      "textRevision": "06ba57fd81c9"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0117",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} asked {otherName} to go to the meeting, and {otherName} had not decided.",
+      "occurrence": 0,
+      "textRevision": "63b9764fd18a"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0118",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{playerName} asked {otherName} to go to the meeting, and {otherName} suggested {playerName} go instead.",
+      "occurrence": 0,
+      "textRevision": "656c34f38f75"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0119",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} did not say yet.",
+      "occurrence": 0,
+      "textRevision": "5f553521616e"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0120",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} had not decided.",
+      "occurrence": 0,
+      "textRevision": "bc920d0eafef"
+    },
+    {
+      "anchor": "COMMIT_CONTRACTS-0121",
+      "sourcePath": "src/presentation/conversation-subjects.ts",
+      "symbol": "COMMIT_CONTRACTS",
+      "text": "{speakerName} suggested you go yourself.",
+      "occurrence": 0,
+      "textRevision": "7fb93f50bf03"
+    },
+    {
       "anchor": "FAMILY_LABEL-0001",
       "sourcePath": "src/presentation/people-goals.ts",
       "symbol": "FAMILY_LABEL",
