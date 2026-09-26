@@ -26,7 +26,7 @@ import {
 import { settleLivingCosts } from "./cost-of-living";
 import { settleOfficeSalaries } from "./office-salary";
 import { refreshLocalEconomy } from "./local-economy";
-import { advanceJobMarket } from "./job-market";
+import { advanceJobMarket, MINIMUM_APPLICANT_AGE } from "./job-market";
 import { settleMortgages } from "./home-purchase";
 import { recordWorldEvent } from "./world";
 import { ensurePeopleTraits } from "./people-traits";
@@ -518,7 +518,15 @@ export function refreshLifeOpportunities(
 ): World {
   const person = world.people[personId];
   if (!person) return world;
-  if (formativeIntervalAt(world, personId) !== null) return world;
+  if (formativeIntervalAt(world, personId) !== null) {
+    // Growing up owes nothing here but one thing: from sixteen the town's
+    // part-time listings are open, so the town's employers and its job market
+    // run for a teenager too.
+    return ageOnDate(person.birthDate, world.currentDate) >=
+      MINIMUM_APPLICANT_AGE
+      ? advanceJobMarket(refreshLocalEconomy(world, personId), personId)
+      : world;
+  }
 
   let next = refreshLocalEconomy(world, personId);
   next = replenishHouseholdWeek(next, personId);
