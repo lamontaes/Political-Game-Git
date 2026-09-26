@@ -14,209 +14,153 @@ quietly passing.
 **Intent.** Early childhood: the 92C age-five-to-seven kernels and their household and school context.
 
 Seed `corpus-early-childhood`, start age 6, Gabriela Lawrence.
-14 beats, 57 realized lines, 41 linked back to a template.
+14 beats, 56 realized lines, 0 linked back to a template.
 
-**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.community.sidewalk-curb, episode:opening.early.home.broken-mug, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.toy-damage-accidental, persistent-instance-continuation, person-introduction, scene:episode, thread-recap
+**Actually demonstrated:** age-band:adolescence, age-band:childhood, connective-narration, scene:ordinary-stretch
 
 
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 6 (episode, opening.early.peer.toy-damage-accidental/moment)
+#### Beat 0 — 2026-01-05, age 6 (ordinary-stretch)
 
 > You're 6, and you live in Lexington, Kentucky.
 > You live with Austin Lawrence and Victoria Lawrence.
 > You're enrolled at Greenwood Elementary School.
 
-While you play together, a wheel snaps off Michael Villegas's toy truck in your hands.
 
-- **Show them the wheel** ← chosen
-- Try putting it back
-- Put the truck aside
 
-_Present: Michael Villegas, your classmate_
 
-_Grounded by: Age 6; needs at least 6.; Age 6; needs to be under 8.; school-peer is Michael Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
-#### Beat 1 — 2026-01-05, age 6 (episode, opening.early.peer.toy-damage-accidental/follow-through)
+#### Beat 1 — 2027-03-02, age 8 (ordinary-stretch)
 
+> You're 8, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Greenwood Elementary School.
 
 
-You showed Michael Villegas the broken wheel and apologized. The toy is still broken.
 
-- **Ask if they want help fixing it** ← chosen
-- Give back the truck and wheel
 
-_Present: Michael Villegas, your classmate_
 
-_Grounded by: Age 6; needs at least 6.; Age 6; needs to be under 8.; school-peer is Michael Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose show, on 2026-01-05._
+#### Beat 2 — 2027-11-18, age 8 (ordinary-stretch)
 
-#### Beat 2 — 2026-01-05, age 6 (episode, companionship.the-friend-you-named/best-friend-pact)
+> You're 8, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Greenwood Elementary School.
 
 
 
-Michael Villegas says the two of you are best friends, and it should be just the two of you. There's a third child who has been playing with you both.
 
-- **Say yes** ← chosen
-- Ask about the third child
-- Don't answer either way
 
-_Present: Michael Villegas, your classmate_
+#### Beat 3 — 2028-08-05, age 9 (ordinary-stretch)
 
-_Grounded by: familiar is Michael Villegas: 4 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; familiar is Michael Villegas, 7, old enough (needs 5).; familiar is Michael Villegas, 7, young enough (under 9).; answers-for-themselves does not hold, as required.; Age 6; needs at least 6.; Age 6; needs to be under 8._
+> You're 9, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Greenwood Elementary School.
 
-#### Beat 3 — 2026-01-05, age 6 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
 
 
 
-You and Michael Villegas have spent most of this year in each other's houses. This afternoon they want you to come somewhere you have already said you would not go.
 
-- **Go with them** ← chosen
-- Stay where you said you'd be
-- Ask them to come with you instead
+#### Beat 4 — 2029-04-23, age 10 (ordinary-stretch)
 
-_Present: Michael Villegas, your classmate_
+> You're 10, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Greenwood Elementary School.
 
-_Grounded by: familiar is Michael Villegas: 6 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; Age 6; needs to be under 18.; familiar is Michael Villegas, 7, young enough (under 18)._
 
-#### Beat 4 — 2026-01-05, age 6 (episode, home.someone-is-not-all-right/parent-exhaustion)
 
 
 
-Austin Lawrence is at the table with their head down. They haven't seen you yet, and you can tell they're not all right.
+#### Beat 5 — 2030-01-09, age 10 (ordinary-stretch)
 
-- **Sit down next to them** ← chosen
-- Ask what's wrong
-- Go do something else
+> You're 10, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Greenwood Elementary School.
 
-_Present: Austin Lawrence, your dad_
 
-_Grounded by: household.shared: Somebody else is on the household record.; guardian is Austin Lawrence: A parental:primary authority record over the player.; answers-for-themselves does not hold, as required.; Age 6; needs at least 6.; Age 6; needs to be under 8._
 
-#### Beat 5 — 2026-01-05, age 6 (episode, home.someone-is-not-all-right/chore-resistance)
 
 
+#### Beat 6 — 2030-09-27, age 11 (ordinary-stretch)
 
-The blocks are out on the floor and you're not done with them. Austin Lawrence has told you to put them away before dinner.
+> You're 11, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Glenwood Middle School.
 
-- **Keep playing** ← chosen
-- Put them away
-- Ask to finish first
 
-_Present: Austin Lawrence, your dad_
 
-_Grounded by: household.shared: Somebody else is on the household record.; guardian is Austin Lawrence: A parental:primary authority record over the player.; answers-for-themselves does not hold, as required.; Age 6; needs at least 5.; Age 6; needs to be under 7._
 
-#### Beat 6 — 2026-01-05, age 6 (episode, home.someone-is-not-all-right/sibling-toy-snatch)
 
+#### Beat 7 — 2031-06-15, age 12 (ordinary-stretch)
 
+> You're 12, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Glenwood Middle School.
 
-Victoria Lawrence has just pulled what you were playing with right out of your hands. It's yours, and no adult is in the room.
 
-- **Take it back** ← chosen
-- Let it go
-- Go get somebody
 
-_Present: Victoria Lawrence, your younger sister_
 
-_Grounded by: household.shared: Somebody else is on the household record.; household-peer is Victoria Lawrence, 3, young enough (under 5).; answers-for-themselves does not hold, as required.; Age 6; needs at least 5.; Age 6; needs to be under 8._
 
-#### Beat 7 — 2026-01-05, age 6 (episode, opening.early.community.lost-pet-flyer/moment)
+#### Beat 8 — 2032-03-02, age 13 (ordinary-stretch)
 
+> You're 13, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Glenwood Middle School.
 
 
-Walking with Austin Lawrence, you spot a white cat with an orange ear under a bush. It looks like the cat on a lost-pet flyer nearby.
 
-- Point out the cat
-- Stop and watch
-- **Ask if it might be the missing cat** ← chosen
 
-_Present: Austin Lawrence, your dad_
 
-_Grounded by: Age 6; needs at least 6.; Age 6; needs to be under 8.; guardian is Austin Lawrence: A parental:primary authority record over the player._
+#### Beat 9 — 2032-07-20, age 13 (ordinary-stretch)
 
-#### Beat 8 — 2026-01-05, age 6 (episode, opening.early.community.curious-neighbor/moment)
+> You're 13, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Glenwood Middle School.
 
 
 
-A neighbor working in the front yard leans on the fence and asks what grade you are in and what your name is. Austin Lawrence is beside you.
 
-- **Give your first name and grade** ← chosen
-- Wave and stay quiet
-- Let the adult answer
 
-_Present: Austin Lawrence, your dad_
+#### Beat 10 — 2032-07-21, age 13 (ordinary-stretch)
 
-_Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; guardian is Austin Lawrence: A parental:primary authority record over the player._
+> You're 13, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Glenwood Middle School.
 
-#### Beat 9 — 2026-01-05, age 6 (episode, opening.early.community.curious-neighbor/follow-through)
 
 
 
-The neighbor asks whether you like your teacher this year.
 
-- **Say you like your teacher** ← chosen
-- Say not really
-- Shrug
+#### Beat 11 — 2032-12-08, age 13 (ordinary-stretch)
 
-_Present: Austin Lawrence, your dad_
+> You're 13, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Glenwood Middle School.
 
-_Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; guardian is Austin Lawrence: A parental:primary authority record over the player.; At moment they chose answer-politely, on 2026-01-05._
 
-#### Beat 10 — 2026-01-05, age 6 (episode, opening.early.home.broken-mug/moment)
 
 
 
-Your sleeve catches a mug. It falls and breaks. Austin Lawrence asks what happened.
+#### Beat 12 — 2033-04-27, age 14 (ordinary-stretch)
 
-- Say you knocked it over
-- **Ask for help with the pieces** ← chosen
-- Say nothing
+> You're 14, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Glenwood Middle School.
 
-_Present: Austin Lawrence, your dad_
 
-_Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; Requires a recorded current household.; guardian is Austin Lawrence: A parental:primary authority record over the player._
 
-#### Beat 11 — 2026-01-05, age 6 (episode, opening.early.community.sidewalk-curb/moment)
 
 
+#### Beat 13 — 2033-04-28, age 14 (ordinary-stretch)
 
-You run ahead toward a street corner. Austin Lawrence calls for you to stop at the curb and wait.
+> You're 14, and you live in Lexington, Kentucky.
+> You live with Austin Lawrence and Victoria Lawrence.
+> You're enrolled at Glenwood Middle School.
 
-- **Stop and wait** ← chosen
-- Look around the corner
-- Walk back beside them
 
-_Present: Austin Lawrence, your dad_
 
-_Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 7.; guardian is Austin Lawrence: A parental:primary authority record over the player._
 
-#### Beat 12 — 2026-01-05, age 6 (episode, opening.early.community.sidewalk-curb/follow-through)
-
-
-
-You stopped at the curb and Austin Lawrence caught up. You are still on the sidewalk.
-
-- **Walk beside them** ← chosen
-- Ask to hold hands
-
-_Present: Austin Lawrence, your dad_
-
-_Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 7.; guardian is Austin Lawrence: A parental:primary authority record over the player.; At moment they chose wait, on 2026-01-05._
-
-#### Beat 13 — 2026-01-05, age 6 (episode, opening.early.peer.dropped-treat/moment)
-
-
-
-During the school break, Michael Villegas drops a snack into a puddle and starts crying. You still have your own snack.
-
-- **Offer some of your snack** ← chosen
-- Stay and comfort them
-- Move away quietly
-
-_Present: Michael Villegas, your classmate_
-
-_Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; school-peer is Michael Villegas: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
 
 ---
@@ -226,160 +170,169 @@ _Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; school-peer
 **Intent.** Adolescence: school, household load and the first work-standing situations.
 
 Seed `corpus-adolescence`, start age 15, Dawn Merritt.
-16 beats, 42 realized lines, 22 linked back to a template.
+16 beats, 64 realized lines, 0 linked back to a template.
 
-**Actually demonstrated:** age-band:adolescence, connective-narration, episode:opening.young.home.ask-about-childhood, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adolescence, age-band:adult, connective-narration, scene:ordinary-stretch, thread-recap
 
 
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 15 (episode, opening.young.home.ask-about-childhood/moment)
+#### Beat 0 — 2026-01-05, age 15 (ordinary-stretch)
 
 > You're 15, and you live in Lexington, Kentucky.
 > You live with Sabrina Merritt and Angela Merritt.
 > You're enrolled at Lexington High School.
 
-You and Angela Merritt have time for a conversation.
 
-- **Ask what school was like** ← chosen
-- Let them choose a topic
-- Talk about your day
 
-_Present: Angela Merritt, your guardian_
 
-_Grounded by: Age 15; needs at least 8.; Age 15; needs to be under 18.; Requires a recorded current household.; guardian is Angela Merritt: A guardianship:ordinary authority record over the player._
 
-#### Beat 1 — 2026-01-05, age 15 (episode, opening.young.home.ask-about-childhood/follow-through)
+#### Beat 1 — 2026-01-28, age 15 (ordinary-stretch)
 
+> You're 15, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
 
-You’ve asked Angela Merritt what school was like for them.
 
-- **Wait for their answer** ← chosen
-- Offer to talk about something else
 
-_Present: Angela Merritt, your guardian_
 
-_Grounded by: Age 15; needs at least 8.; Age 15; needs to be under 18.; Requires a recorded current household.; guardian is Angela Merritt: A guardianship:ordinary authority record over the player.; At moment they chose ask, on 2026-01-05._
+#### Beat 2 — 2026-01-29, age 15 (ordinary-stretch)
 
-#### Beat 2 — 2026-01-05, age 15 (formative)
+> You're 15, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
 
 
-Something local needs hands on a Saturday, and someone has asked whether you are one of them.
 
-- **Volunteer** ← chosen
-- Observe first
-- Get other people to go
 
-#### Beat 3 — 2026-01-05, age 15 (formative)
+#### Beat 3 — 2026-06-18, age 15 (ordinary-stretch)
 
+> You're 15, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
 
-The school year at Lexington High School is running out, and people keep asking what comes after it.
 
-- **Take a concrete step** ← chosen
-- Keep your options open
-- Ask somebody who has done it
 
-#### Beat 4 — 2026-01-05, age 15 (formative)
 
+#### Beat 4 — 2026-11-05, age 16 (ordinary-stretch)
 
+> You're 16, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
-Someone you respect says something you think is wrong, and says it as though it settles the matter.
 
-- **Say you disagree** ← chosen
-- Let it pass
 
-_Present: Maria Nielsen_
 
-#### Beat 5 — 2026-01-05, age 15 (formative)
 
+#### Beat 5 — 2026-11-06, age 16 (ordinary-stretch)
 
+> You're 16, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
-There is a job going. The hours are real, and the law has something to say about which of them you are allowed to work.
 
-- **Accept the opportunity** ← chosen
-- Decline for now
 
-#### Beat 6 — 2026-01-05, age 15 (formative)
 
 
+#### Beat 6 — 2027-03-26, age 16 (ordinary-stretch)
 
-There is a rule at work that nobody follows, and today somebody older is telling you to follow it in front of a customer.
+> You're 16, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
-- **Follow the rule** ← chosen
-- Say nobody does that
-- Do it, then say something after
 
-#### Beat 7 — 2026-01-05, age 15 (ordinary-stretch)
 
 
 
+#### Beat 7 — 2027-08-13, age 16 (ordinary-stretch)
 
+> You're 16, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
 
 
-#### Beat 8 — 2026-01-28, age 15 (ordinary-stretch)
 
 
+#### Beat 8 — 2027-08-14, age 16 (ordinary-stretch)
 
+> You're 16, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
 
 
 
-#### Beat 9 — 2026-01-29, age 15 (ordinary-stretch)
 
+#### Beat 9 — 2028-01-01, age 17 (ordinary-stretch)
 
+> You're 17, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
 
 
 
 
-#### Beat 10 — 2026-06-18, age 15 (ordinary-stretch)
+#### Beat 10 — 2028-05-20, age 17 (ordinary-stretch)
 
+> You're 17, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
 
 
 
 
+#### Beat 11 — 2028-05-21, age 17 (ordinary-stretch)
 
-#### Beat 11 — 2026-11-05, age 16 (ordinary-stretch)
+> You're 17, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
-> Most of a year later, and you're 16 now.
 
 
 
 
+#### Beat 12 — 2028-10-08, age 18 (ordinary-stretch)
 
-#### Beat 12 — 2026-11-06, age 16 (ordinary-stretch)
+> You're 18, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
-> Most of a year later, and you're 16 now.
 
 
 
 
+#### Beat 13 — 2028-11-24, age 18 (ordinary-stretch)
 
-#### Beat 13 — 2027-03-26, age 16 (ordinary-stretch)
+> You're 18, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
-> A year on, and you're 16 now.
 
 
 
 
+#### Beat 14 — 2029-02-10, age 18 (ordinary-stretch)
 
-#### Beat 14 — 2027-08-13, age 16 (ordinary-stretch)
+> You're 18, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
-> A year and a half on, and you're 16 now.
 
 
 
 
+#### Beat 15 — 2029-04-29, age 18 (ordinary-stretch)
 
-#### Beat 15 — 2027-08-14, age 16 (ordinary-stretch)
-
-> A year and a half on, and you're 16 now.
+> You're 18, and you live in Lexington, Kentucky.
+> You live with Sabrina Merritt and Angela Merritt.
+> You're enrolled at Lexington High School.
 
 
 
@@ -393,211 +346,209 @@ There is a rule at work that nobody follows, and today somebody older is telling
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 69 realized lines, 14 linked back to a template.
+20 beats, 80 realized lines, 0 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, connective-narration, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, connective-narration, scene:ordinary-stretch, thread-recap
 
 
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 34 (episode, opening.adult.home.shared-time/moment)
+#### Beat 0 — 2026-01-05, age 34 (ordinary-stretch)
 
 > You're 34, and you live in Kentucky.
 > You live with Gage Terrell.
 > You belong to Community Service Club.
 
-You're home, and so is Gage Terrell, your housemate.
 
-- **Ask about their day** ← chosen
-- Let them pick the topic
-- Ask for some quiet
 
-_Present: Gage Terrell, your housemate_
 
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Gage Terrell: Resident on the same household record._
 
-#### Beat 1 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
+#### Beat 1 — 2026-03-24, age 34 (ordinary-stretch)
 
+> You're 34, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
 
-You're at home, thinking about what to make time for in the days ahead.
 
-- **Make time to learn something** ← chosen
-- Make time for people you know
-- Make some time for yourself
 
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 2 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/follow-through)
+#### Beat 2 — 2026-05-10, age 35 (ordinary-stretch)
 
+> You're 35, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
 
-You've just made a plan to learn something, and there are five minutes open right now.
 
-- **Start by reading now** ← chosen
-- Leave it for another time
 
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
 
-#### Beat 3 — 2026-01-05, age 34 (ordinary-stretch)
+#### Beat 3 — 2026-06-10, age 35 (ordinary-stretch)
 
+> You're 35, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
 
 
 
 
+#### Beat 4 — 2026-08-17, age 35 (ordinary-stretch)
 
-#### Beat 4 — 2026-03-24, age 34 (adult)
+> You're 35, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
 
 
-David Todd, your dad: “There are a few things around the house I cannot manage on my own anymore. Could you come by for an hour or two on Saturday morning?” It would take about 2 hours; answering takes no time.
 
-- **Say you will come** ← chosen
-- Agree: An hour or two, Saturday morning
-- Tell them you cannot
 
-_Present: David Todd, your dad_
+#### Beat 5 — 2026-09-17, age 35 (ordinary-stretch)
 
-#### Beat 5 — 2026-03-24, age 34 (ordinary-stretch)
+> You're 35, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
 
 
 
 
+#### Beat 6 — 2027-01-19, age 35 (ordinary-stretch)
 
+> You're 35, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 6 — 2026-05-10, age 35 (ordinary-stretch)
 
-> A couple of months on, and you're 35 now.
-> Judith Lewis tried to reach you.
 
 
 
+#### Beat 7 — 2027-04-07, age 35 (ordinary-stretch)
 
+> You're 35, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 7 — 2026-06-10, age 35 (ordinary-stretch)
 
-> A couple of months on, and you're 35 now.
-> Judith Lewis tried to reach you.
 
 
 
+#### Beat 8 — 2027-06-24, age 36 (ordinary-stretch)
 
+> You're 36, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 8 — 2026-08-17, age 35 (adult)
 
-> Half a year on, and you're 35 now.
-> What you said you'd do about David Todd came up.
-> Judith Lewis tried to reach you.
 
-David Todd, your dad: “My birthday’s Thursday. Do you want to come over Saturday?”
 
-- **Say you will come** ← chosen
-- Decline the invitation
 
-_Present: David Todd, your dad_
+#### Beat 9 — 2027-08-16, age 36 (ordinary-stretch)
 
-#### Beat 9 — 2026-08-17, age 35 (ordinary-stretch)
+> You're 36, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
 
 
 
 
+#### Beat 10 — 2027-09-16, age 36 (ordinary-stretch)
 
+> You're 36, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 10 — 2026-08-29, age 35 (ordinary-stretch)
 
 
 
 
+#### Beat 11 — 2028-01-18, age 36 (ordinary-stretch)
 
-- **Attend: Saturday afternoon at David Todd's** ← chosen
+> You're 36, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 11 — 2026-08-29, age 35 (ordinary-stretch)
 
-> A couple of weeks on.
-> You and David Todd were in and out of each other's business more than once.
 
 
 
+#### Beat 12 — 2028-04-05, age 36 (ordinary-stretch)
 
+> You're 36, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 12 — 2026-10-15, age 35 (ordinary-stretch)
 
-> A couple of months on.
-> You and David Todd were in and out of each other's business more than once.
 
 
 
+#### Beat 13 — 2028-05-22, age 37 (ordinary-stretch)
 
+> You're 37, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 13 — 2027-02-16, age 35 (ordinary-stretch)
 
-> Half a year on.
-> Judith Lewis tried to reach you.
-> You and David Todd were in and out of each other's business more than once.
 
 
 
+#### Beat 14 — 2028-08-21, age 37 (ordinary-stretch)
 
+> You're 37, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 14 — 2027-05-05, age 36 (ordinary-stretch)
 
-> Most of a year later, and you're 36 now.
-> Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
 
 
 
+#### Beat 15 — 2028-12-23, age 37 (ordinary-stretch)
 
+> You're 37, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 15 — 2027-08-16, age 36 (ordinary-stretch)
 
-> A year on, and you're 36 now.
-> Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
 
 
 
+#### Beat 16 — 2029-01-23, age 37 (ordinary-stretch)
 
+> You're 37, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 16 — 2027-09-16, age 36 (ordinary-stretch)
 
-> A year on, and you're 36 now.
-> Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
 
 
 
+#### Beat 17 — 2029-03-11, age 37 (ordinary-stretch)
 
+> You're 37, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 17 — 2028-01-18, age 36 (ordinary-stretch)
 
-> A year and a half on, and you're 36 now.
-> Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
 
 
 
+#### Beat 18 — 2029-05-28, age 38 (ordinary-stretch)
 
+> You're 38, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
-#### Beat 18 — 2028-04-05, age 36 (ordinary-stretch)
 
-> A year and a half on, and you're 36 now.
-> Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
 
 
 
+#### Beat 19 — 2029-08-14, age 38 (ordinary-stretch)
 
-
-#### Beat 19 — 2028-05-22, age 37 (ordinary-stretch)
-
-> The better part of two years later, and you're 37 now.
-> Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
+> You're 38, and you live in Kentucky.
+> You live with Gage Terrell.
+> You belong to Community Service Club.
 
 
 
@@ -611,521 +562,397 @@ _Present: David Todd, your dad_
 **Intent.** Persistent cast across years: a family that binds one canonical person and returns to them in later beats. This lane does NOT claim the 92C childhood-pact callback specifically — that claim is only made when the pact stage and a later stage of the same instance are both actually played, which `demonstrated` reports separately.
 
 Seed `corpus-long-tail`, start age 7, Peter Fleming.
-40 beats, 144 realized lines, 106 linked back to a template.
+40 beats, 148 realized lines, 0 linked back to a template.
 
-**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.roughhouse-line, episode:opening.early.peer.secret-whisper, episode:opening.early.peer.sidewalk-game, episode:opening.early.peer.toy-damage-accidental, episode:opening.early.school.crayon-sharing, episode:opening.early.school.lunchbox-swap, episode:opening.early.school.playground-turn, episode:opening.early.school.spilled-paint, episode:opening.young.home.ask-about-childhood, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adolescence, age-band:adult, age-band:childhood, connective-narration, scene:ordinary-stretch, thread-recap
 
 
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 7 (episode, opening.early.peer.dropped-treat/moment)
+#### Beat 0 — 2026-01-05, age 7 (ordinary-stretch)
 
 > You're 7, and you live in Lexington, Kentucky.
 > You live with Zoe Fleming and Tracy Fleming.
 > You're enrolled at Magnolia Elementary School.
 
-During the school break, Vanessa Hunter drops a snack into a puddle and starts crying. You still have your own snack.
 
-- **Offer some of your snack** ← chosen
-- Stay and comfort them
-- Move away quietly
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
-#### Beat 1 — 2026-01-05, age 7 (episode, companionship.the-friend-you-named/best-friend-pact)
+#### Beat 1 — 2026-09-10, age 8 (ordinary-stretch)
 
+> You're 8, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Magnolia Elementary School.
 
 
-Vanessa Hunter says the two of you are best friends, and it should be just the two of you. There's a third child who has been playing with you both.
 
-- **Say yes** ← chosen
-- Ask about the third child
-- Don't answer either way
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: familiar is Vanessa Hunter: 2 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; familiar is Vanessa Hunter, 8, old enough (needs 5).; familiar is Vanessa Hunter, 8, young enough (under 9).; answers-for-themselves does not hold, as required.; Age 7; needs at least 6.; Age 7; needs to be under 8._
+#### Beat 2 — 2027-04-26, age 8 (ordinary-stretch)
 
-#### Beat 2 — 2026-01-05, age 7 (episode, growing-up.a-friend-over-years/the-year-you-were-inseparable)
+> You're 8, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Magnolia Elementary School.
 
 
 
-You and Vanessa Hunter have spent most of this year in each other's houses. This afternoon they want you to come somewhere you have already said you would not go.
 
-- **Go with them** ← chosen
-- Stay where you said you'd be
-- Ask them to come with you instead
 
-_Present: Vanessa Hunter, your classmate_
+#### Beat 3 — 2027-04-27, age 8 (ordinary-stretch)
 
-_Grounded by: familiar is Vanessa Hunter: 4 record(s) name the two of them, none of them family or household; the most recent is 2026-01-05.; Age 7; needs to be under 18.; familiar is Vanessa Hunter, 8, young enough (under 18)._
+> You're 8, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Magnolia Elementary School.
 
-#### Beat 3 — 2026-01-05, age 7 (episode, home.someone-is-not-all-right/parent-exhaustion)
 
 
 
-Tracy Fleming is at the table with their head down. They haven't seen you yet, and you can tell they're not all right.
 
-- **Sit down next to them** ← chosen
-- Ask what's wrong
-- Go do something else
+#### Beat 4 — 2027-12-11, age 9 (ordinary-stretch)
 
-_Present: Tracy Fleming, your mom_
+> You're 9, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Magnolia Elementary School.
 
-_Grounded by: household.shared: Somebody else is on the household record.; guardian is Tracy Fleming: A parental:primary authority record over the player.; answers-for-themselves does not hold, as required.; Age 7; needs at least 6.; Age 7; needs to be under 8._
 
-#### Beat 4 — 2026-01-05, age 7 (episode, home.someone-is-not-all-right/sibling-toy-snatch)
 
 
 
-Zoe Fleming has just pulled what you were playing with right out of your hands. It's yours, and no adult is in the room.
+#### Beat 5 — 2028-07-26, age 9 (ordinary-stretch)
 
-- **Take it back** ← chosen
-- Let it go
-- Go get somebody
+> You're 9, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Magnolia Elementary School.
 
-_Present: Zoe Fleming, your younger sister_
 
-_Grounded by: household.shared: Somebody else is on the household record.; household-peer is Zoe Fleming, 2, young enough (under 5).; answers-for-themselves does not hold, as required.; Age 7; needs at least 5.; Age 7; needs to be under 8._
 
-#### Beat 5 — 2026-01-05, age 7 (episode, opening.early.community.curious-neighbor/moment)
 
 
+#### Beat 6 — 2029-03-11, age 10 (ordinary-stretch)
 
-A neighbor working in the front yard leans on the fence and asks what grade you are in and what your name is. Tracy Fleming is beside you.
+> You're 10, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Magnolia Elementary School.
 
-- **Give your first name and grade** ← chosen
-- Wave and stay quiet
-- Let the adult answer
 
-_Present: Tracy Fleming, your mom_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; guardian is Tracy Fleming: A parental:primary authority record over the player._
 
-#### Beat 6 — 2026-01-05, age 7 (episode, opening.early.community.curious-neighbor/follow-through)
 
+#### Beat 7 — 2029-10-25, age 11 (ordinary-stretch)
 
+> You're 11, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Magnolia Elementary School.
 
-The neighbor asks whether you like your teacher this year.
 
-- **Say you like your teacher** ← chosen
-- Say not really
-- Shrug
 
-_Present: Tracy Fleming, your mom_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; guardian is Tracy Fleming: A parental:primary authority record over the player.; At moment they chose answer-politely, on 2026-01-05._
 
-#### Beat 7 — 2026-01-05, age 7 (episode, opening.early.home.broken-mug/moment)
+#### Beat 8 — 2029-10-26, age 11 (ordinary-stretch)
 
+> You're 11, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Magnolia Elementary School.
 
 
-Your sleeve catches a mug. It falls and breaks. Tracy Fleming asks what happened.
 
-- **Say you knocked it over** ← chosen
-- Ask for help with the pieces
-- Say nothing
 
-_Present: Tracy Fleming, your mom_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Tracy Fleming: A parental:primary authority record over the player._
+#### Beat 9 — 2030-06-11, age 11 (ordinary-stretch)
 
-#### Beat 8 — 2026-01-05, age 7 (episode, opening.early.home.broken-mug/follow-through)
+> You're 11, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
 
 
-You told Tracy Fleming how the mug broke. Pieces are still on the floor.
 
-- **Step away from the pieces** ← chosen
-- Point out the broken pieces
 
-_Present: Tracy Fleming, your mom_
+#### Beat 10 — 2031-01-25, age 12 (ordinary-stretch)
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; Requires a recorded current household.; guardian is Tracy Fleming: A parental:primary authority record over the player.; At moment they chose tell, on 2026-01-05._
+> You're 12, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Cedar Grove Middle School.
 
-#### Beat 9 — 2026-01-05, age 7 (episode, opening.early.community.lost-pet-flyer/moment)
 
 
 
-Walking with Tracy Fleming, you spot a white cat with an orange ear under a bush. It looks like the cat on a lost-pet flyer nearby.
 
-- **Point out the cat** ← chosen
-- Stop and watch
-- Ask if it might be the missing cat
+#### Beat 11 — 2031-09-10, age 13 (ordinary-stretch)
 
-_Present: Tracy Fleming, your mom_
+> You're 13, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Cedar Grove Middle School.
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; guardian is Tracy Fleming: A parental:primary authority record over the player._
 
-#### Beat 10 — 2026-01-05, age 7 (episode, opening.early.community.lost-pet-flyer/follow-through)
 
 
 
-You and Tracy Fleming can compare the cat with the picture on the flyer.
+#### Beat 12 — 2032-02-23, age 13 (ordinary-stretch)
 
-- **Watch from here** ← chosen
-- Ask if the cat matches the picture
+> You're 13, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Cedar Grove Middle School.
 
-_Present: Tracy Fleming, your mom_
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; guardian is Tracy Fleming: A parental:primary authority record over the player.; At moment they chose show, on 2026-01-05._
 
-#### Beat 11 — 2026-01-05, age 7 (episode, school.the-thing-you-got-blamed-for/partner-pairing)
 
 
+#### Beat 13 — 2032-02-24, age 13 (ordinary-stretch)
 
-The class is being put into pairs for a piece of work, and you've been put with the kid nobody else asked for. You can tell the other kids noticed who you got.
+> You're 13, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Cedar Grove Middle School.
 
-- **Start the work** ← chosen
-- Look around the room
-- Ask for a different partner
 
-_Grounded by: school.enrolled: An active education enrollment.; answers-for-themselves does not hold, as required.; Age 7; needs at least 7.; Age 7; needs to be under 8._
 
-#### Beat 12 — 2026-01-05, age 7 (episode, school.the-thing-you-got-blamed-for/tattle-boundary)
 
 
+#### Beat 14 — 2032-08-07, age 13 (ordinary-stretch)
 
-During quiet work you're supposed to stay at your table, and while the adult was out of the room another kid got up and went to the window. The adult is back.
+> You're 13, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Cedar Grove Middle School.
 
-- **Tell the adult** ← chosen
-- Keep working
-- Ask about the rule
 
-_Grounded by: school.enrolled: An active education enrollment.; answers-for-themselves does not hold, as required.; Age 7; needs at least 6.; Age 7; needs to be under 8._
 
-#### Beat 13 — 2026-01-05, age 7 (episode, school.the-thing-you-got-blamed-for/recess-race)
 
 
+#### Beat 15 — 2032-08-08, age 13 (ordinary-stretch)
 
-You lose the race across the yard. Nobody was watching the start except the two of you, and you know it was fair.
+> You're 13, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Cedar Grove Middle School.
 
-- **Say they cheated** ← chosen
-- Ask to race again
-- Say nothing about it
 
-_Grounded by: school.enrolled: An active education enrollment.; answers-for-themselves does not hold, as required.; Age 7; needs at least 6.; Age 7; needs to be under 8._
 
-#### Beat 14 — 2026-01-05, age 7 (episode, opening.early.peer.roughhouse-line/moment)
 
 
+#### Beat 16 — 2033-01-20, age 14 (ordinary-stretch)
 
-Vanessa Hunter knocks you over during tag. You sit up on the grass.
+> You're 14, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Cedar Grove Middle School.
 
-- **Say, “Don’t push me”** ← chosen
-- Stop playing for now
-- Get up and keep playing
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
-#### Beat 15 — 2026-01-05, age 7 (episode, opening.early.peer.roughhouse-line/follow-through)
 
+#### Beat 17 — 2033-01-21, age 14 (ordinary-stretch)
 
+> You're 14, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Cedar Grove Middle School.
 
-You’ve told Vanessa Hunter not to push you. Do you want to keep playing?
 
-- **Play again, but say no pushing** ← chosen
-- Stop playing tag
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose state-boundary, on 2026-01-05._
 
-#### Beat 16 — 2026-01-05, age 7 (episode, opening.early.peer.sidewalk-game/moment)
+#### Beat 18 — 2033-07-05, age 14 (ordinary-stretch)
 
+> You're 14, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
 
-You and Vanessa Hunter have drawn a chalk game in the schoolyard. Vanessa Hunter wants to add a rule that changes how you play.
 
-- **Suggest trying the rule for one round** ← chosen
-- Ask to keep the rules you agreed
-- Try their rule
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
+#### Beat 19 — 2033-07-06, age 14 (ordinary-stretch)
 
-#### Beat 17 — 2026-01-05, age 7 (episode, opening.early.peer.sidewalk-game/follow-through)
+> You're 14, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
 
 
-You suggested trying the new rule for one round. Do you want to try it?
 
-- **Try one round** ← chosen
-- Ask to use the original rules
 
-_Present: Vanessa Hunter, your classmate_
+#### Beat 20 — 2033-12-18, age 15 (ordinary-stretch)
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose compromise-rule, on 2026-01-05._
+> You're 15, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Woodland High School.
 
-#### Beat 18 — 2026-01-05, age 7 (episode, opening.early.peer.toy-damage-accidental/moment)
 
 
 
-While you play together, a wheel snaps off Vanessa Hunter's toy truck in your hands.
 
-- **Show them the wheel** ← chosen
-- Try putting it back
-- Put the truck aside
+#### Beat 21 — 2033-12-19, age 15 (ordinary-stretch)
 
-_Present: Vanessa Hunter, your classmate_
+> You're 15, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Woodland High School.
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
-#### Beat 19 — 2026-01-05, age 7 (episode, opening.early.peer.toy-damage-accidental/follow-through)
 
 
 
-You showed Vanessa Hunter the broken wheel and apologized. The toy is still broken.
+#### Beat 22 — 2034-06-03, age 15 (ordinary-stretch)
 
-- **Ask if they want help fixing it** ← chosen
-- Give back the truck and wheel
+> You're 15, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Woodland High School.
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose show, on 2026-01-05._
 
-#### Beat 20 — 2026-01-05, age 7 (episode, opening.early.school.playground-turn/moment)
 
 
+#### Beat 23 — 2034-11-16, age 16 (ordinary-stretch)
 
-Vanessa Hunter is on a swing. You're waiting for a turn.
+> You're 16, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Woodland High School.
 
-- **Ask for a turn** ← chosen
-- Wait beside the swing
-- Choose another game
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
-#### Beat 21 — 2026-01-05, age 7 (episode, opening.early.school.playground-turn/follow-through)
 
+#### Beat 24 — 2035-05-01, age 16 (ordinary-stretch)
 
+> You're 16, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Woodland High School.
 
-Vanessa Hunter is still on the swing after you asked for a turn.
 
-- **Wait for a turn** ← chosen
-- Go and play somewhere else
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose ask-turn, on 2026-01-05._
 
-#### Beat 22 — 2026-01-05, age 7 (episode, opening.early.school.crayon-sharing/moment)
+#### Beat 25 — 2035-10-14, age 17 (ordinary-stretch)
 
+> You're 17, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Woodland High School.
 
 
-You're drawing with the blue crayon. Vanessa Hunter asks for it to draw water.
 
-- **Hand over the crayon** ← chosen
-- Ask to finish coloring first
-- Keep using it
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
+#### Beat 26 — 2036-03-28, age 17 (ordinary-stretch)
 
-#### Beat 23 — 2026-01-05, age 7 (episode, opening.early.school.crayon-sharing/follow-through)
+> You're 17, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Woodland High School.
 
 
 
-You handed the blue crayon to Vanessa Hunter and chose another color. Your drawing is still in front of you.
 
-- **Keep drawing** ← chosen
-- Ask for the blue crayon when they finish
 
-_Present: Vanessa Hunter, your classmate_
+#### Beat 27 — 2036-09-10, age 18 (ordinary-stretch)
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose hand-over, on 2026-01-05._
+> You're 18, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Woodland High School.
 
-#### Beat 24 — 2026-01-05, age 7 (episode, opening.early.peer.secret-whisper/moment)
 
 
 
-During story time, Vanessa Hunter whispers an embarrassing story about another child. You don't know whether it happened.
 
-- **Say it sounds unkind** ← chosen
-- Keep it to yourself
-- Ask how they know
+#### Beat 28 — 2037-01-12, age 18 (ordinary-stretch)
 
-_Present: Vanessa Hunter, your classmate_
+> You're 18, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Woodland High School.
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
-#### Beat 25 — 2026-01-05, age 7 (episode, opening.early.school.lunchbox-swap/moment)
 
 
 
-At lunch, Vanessa Hunter offers to swap snacks. The lunch monitor has just said to keep your own food.
+#### Beat 29 — 2037-03-31, age 18 (ordinary-stretch)
 
-- **Make the swap quietly** ← chosen
-- Say trading isn't allowed
-- Keep the snack you brought
+> You're 18, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Woodland High School.
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
-#### Beat 26 — 2026-01-05, age 7 (episode, opening.early.school.lunchbox-swap/follow-through)
 
 
+#### Beat 30 — 2037-05-17, age 18 (ordinary-stretch)
 
-You traded snacks with Vanessa Hunter despite the lunch rule. The exchanged snack is still in front of you.
+> You're 18, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
+> You're enrolled at Woodland High School.
 
-- **Offer to undo the snack trade** ← chosen
-- Keep the exchanged snack
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose make-secret-swap, on 2026-01-05._
 
-#### Beat 27 — 2026-01-05, age 7 (episode, opening.early.school.spilled-paint/moment)
 
+#### Beat 31 — 2037-09-18, age 19 (ordinary-stretch)
 
+> You're 19, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
-Your elbow knocks a cup of paint water across Vanessa Hunter's drawing.
 
-- **Apologize and help blot it** ← chosen
-- Explain it was an accident
-- Stand still
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment._
 
-#### Beat 28 — 2026-01-05, age 7 (episode, opening.early.school.spilled-paint/follow-through)
+#### Beat 32 — 2037-10-19, age 19 (ordinary-stretch)
 
+> You're 19, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
 
-The drawing is still wet after you blot it.
 
-- **Offer a fresh sheet of paper** ← chosen
-- Ask what you can do to help
 
-_Present: Vanessa Hunter, your classmate_
 
-_Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose apologize, on 2026-01-05._
+#### Beat 33 — 2038-02-20, age 19 (ordinary-stretch)
 
-#### Beat 29 — 2026-01-05, age 7 (formative)
+> You're 19, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
 
 
-The first morning at Magnolia Elementary School: a room of children you do not know, a coat hook with your name on it, and an adult who claps twice when it is time to listen.
 
-- **Join in** ← chosen
-- Hang back and watch
 
-#### Beat 30 — 2026-01-05, age 7 (formative)
+#### Beat 34 — 2038-06-24, age 19 (ordinary-stretch)
 
+> You're 19, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
 
-Something that mattered is in pieces on the floor. An adult is in the doorway asking what happened.
 
-- **Say what happened** ← chosen
-- Say nothing
 
-_Present: Tracy Fleming, your mom_
 
-#### Beat 31 — 2026-01-05, age 7 (formative)
+#### Beat 35 — 2038-10-26, age 20 (ordinary-stretch)
 
+> You're 20, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
 
-A little money of your own, in a pocket, and nobody telling you what it is for.
 
-- **Spend it** ← chosen
-- Put it away
-- Share it
 
-#### Beat 32 — 2026-01-05, age 7 (ordinary-stretch)
 
+#### Beat 36 — 2038-11-26, age 20 (ordinary-stretch)
 
+> You're 20, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
 
 
 
 
-#### Beat 33 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-was-still-there)
+#### Beat 37 — 2039-03-30, age 20 (ordinary-stretch)
 
-> Most of a year later, and you're 8 now.
+> You're 20, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
-It's quiet work, and a kid is at the window again. You remember what you did the first time.
 
-- **Go to the window** ← chosen
-- Stay at your table
 
-_Grounded by: Stage tattle-boundary was played on 2026-01-05.; 248 day(s) since tattle-boundary; needs 180.; school.enrolled: An active education enrollment.; answers-for-themselves does not hold, as required.; Age 8; needs to be under 9._
 
-#### Beat 34 — 2026-09-10, age 8 (episode, opening.young.home.ask-about-childhood/moment)
 
+#### Beat 38 — 2039-06-16, age 20 (ordinary-stretch)
 
+> You're 20, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
-You and Tracy Fleming have time for a conversation.
 
-- **Ask what school was like** ← chosen
-- Let them choose a topic
-- Talk about your day
 
-_Present: Tracy Fleming, your mom_
 
-_Grounded by: Age 8; needs at least 8.; Age 8; needs to be under 18.; Requires a recorded current household.; guardian is Tracy Fleming: A parental:primary authority record over the player._
 
-#### Beat 35 — 2026-09-10, age 8 (episode, opening.young.home.ask-about-childhood/follow-through)
+#### Beat 39 — 2039-10-18, age 21 (ordinary-stretch)
 
-
-
-You’ve asked Tracy Fleming what school was like for them.
-
-- **Wait for their answer** ← chosen
-- Offer to talk about something else
-
-_Present: Tracy Fleming, your mom_
-
-_Grounded by: Age 8; needs at least 8.; Age 8; needs to be under 18.; Requires a recorded current household.; guardian is Tracy Fleming: A parental:primary authority record over the player.; At moment they chose ask, on 2026-09-10._
-
-#### Beat 36 — 2026-09-10, age 8 (formative)
-
-
-
-Something got said that should not have been, and now the two of you are being careful with each other.
-
-- **Try to repair it** ← chosen
-- Step back
-- Get somebody else involved
-
-_Present: Vanessa Hunter, your classmate_
-
-#### Beat 37 — 2026-09-10, age 8 (formative)
-
-
-
-Lunch at Magnolia Elementary School. The table is full except for one gap, and someone is standing at the end of it holding a tray.
-
-- **Make room** ← chosen
-- Look away
-- Go and sit somewhere else with them
-
-_Present: Vanessa Hunter, your classmate_
-
-#### Beat 38 — 2026-09-10, age 8 (formative)
-
-
-
-A teacher at Magnolia Elementary School keeps you back for a minute after the others go, and offers to help with the thing you keep getting wrong.
-
-- **Accept guidance** ← chosen
-- Handle it alone
-
-_Present: Felix Price_
-
-#### Beat 39 — 2026-09-10, age 8 (ordinary-stretch)
-
-
+> You're 21, and you live in Lexington, Kentucky.
+> You live with Zoe Fleming and Tracy Fleming.
 
 
 
@@ -1139,9 +966,9 @@ _Present: Felix Price_
 **Intent.** The PR #85 spine: filing a candidacy, running the campaign, and whatever the contest resolves to.
 
 Seed `p85c-owner-clock`, start age 34, Luke Vance.
-4 beats, 15 realized lines, 10 linked back to a template.
+1 beats, 4 realized lines, 0 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, legislative-measure-briefing, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
@@ -1164,48 +991,11 @@ Seed `p85c-owner-clock`, start age 34, Luke Vance.
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 34 (episode, opening.adult.home.shared-time/moment)
+#### Beat 0 — 2026-01-05, age 34 (ordinary-stretch)
 
 > You're 34, and you live in Lexington, Kentucky.
 > You live with Mark Mullins.
 > You belong to Community Service Club.
-
-You're home, and so is Mark Mullins, your housemate.
-
-- **Ask about their day** ← chosen
-- Let them pick the topic
-- Ask for some quiet
-
-_Present: Mark Mullins, your housemate_
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Mark Mullins: Resident on the same household record._
-
-#### Beat 1 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
-
-
-
-You're at home, thinking about what to make time for in the days ahead.
-
-- **Make time to learn something** ← chosen
-- Make time for people you know
-- Make some time for yourself
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 2 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/follow-through)
-
-
-
-You've just made a plan to learn something, and there are five minutes open right now.
-
-- **Start by reading now** ← chosen
-- Leave it for another time
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
-
-#### Beat 3 — 2026-01-05, age 34 (ordinary-stretch)
-
-
 
 
 
@@ -1219,9 +1009,9 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 **Intent.** A second candidacy on a different seed, so a contest outcome is not read from one run.
 
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
-6 beats, 20 realized lines, 9 linked back to a template.
+6 beats, 18 realized lines, 0 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, episode:opening.adult.home.plan-week, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
@@ -1235,63 +1025,55 @@ _No legislative surface: the capability layer did not open one for this run._
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 41 (episode, opening.adult.home.plan-week/moment)
+#### Beat 0 — 2026-01-05, age 41 (ordinary-stretch)
 
 > You're 41, and you live in Lexington, Kentucky.
 > You belong to Community Service Club.
 
-You're at home, thinking about what to make time for in the days ahead.
-
-- **Make time to learn something** ← chosen
-- Make time for people you know
-- Make some time for yourself
-
-_Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 1 — 2026-01-05, age 41 (episode, opening.adult.home.plan-week/follow-through)
 
 
 
-You've just made a plan to learn something, and there are five minutes open right now.
 
-- **Start by reading now** ← chosen
-- Leave it for another time
+#### Beat 1 — 2026-02-09, age 41 (ordinary-stretch)
 
-_Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
-
-#### Beat 2 — 2026-01-05, age 41 (ordinary-stretch)
+> You're 41, and you live in Lexington, Kentucky.
+> You belong to Community Service Club.
 
 
 
 
 
+#### Beat 2 — 2026-03-28, age 42 (ordinary-stretch)
 
-
-#### Beat 3 — 2026-02-09, age 41 (adult)
-
-> A month later.
-> Christopher Marshall tried to reach you.
-
-John Tillman, your dad: “There are a few things around the house I cannot manage on my own anymore. Could you come by for an hour or two on Saturday morning?” It would take about 2 hours; answering takes no time.
-
-- **Say you will come** ← chosen
-- Agree: An hour or two, Saturday morning
-- Tell them you cannot
-
-_Present: John Tillman, your dad_
-
-#### Beat 4 — 2026-02-09, age 41 (ordinary-stretch)
+> You're 42, and you live in Lexington, Kentucky.
+> You belong to Community Service Club.
 
 
 
 
 
+#### Beat 3 — 2026-05-14, age 42 (ordinary-stretch)
+
+> You're 42, and you live in Lexington, Kentucky.
+> You belong to Community Service Club.
 
 
-#### Beat 5 — 2026-03-28, age 42 (ordinary-stretch)
 
-> A couple of months on, and you're 42 now.
-> Christopher Marshall tried to reach you.
+
+
+#### Beat 4 — 2026-06-14, age 42 (ordinary-stretch)
+
+> You're 42, and you live in Lexington, Kentucky.
+> You belong to Community Service Club.
+
+
+
+
+
+#### Beat 5 — 2026-10-16, age 42 (ordinary-stretch)
+
+> You're 42, and you live in Lexington, Kentucky.
+> You belong to Community Service Club.
 
 
 
@@ -1305,9 +1087,9 @@ _Present: John Tillman, your dad_
 **Intent.** A filed candidacy that is never worked: the same control seed and the same life as `campaign-and-office`, with the campaign left alone. It is here so the matrix demonstrates a defeat for a reason it can name.
 
 Seed `p85c-owner-clock`, start age 34, Luke Vance.
-4 beats, 15 realized lines, 10 linked back to a template.
+1 beats, 4 realized lines, 0 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, candidacy-filed, connective-narration, election-lost, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, candidacy-filed, connective-narration, election-lost, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
@@ -1321,43 +1103,8 @@ _No legislative surface: the capability layer did not open one for this run._
 
 ### Beats
 
-#### Beat 0 — 2026-01-05, age 34 (episode, opening.adult.home.shared-time/moment)
+#### Beat 0 — 2026-01-05, age 34 (ordinary-stretch)
 
 > You're 34, and you live in Lexington, Kentucky.
 > You live with Mark Mullins.
 > You belong to Community Service Club.
-
-You're home, and so is Mark Mullins, your housemate.
-
-- **Ask about their day** ← chosen
-- Let them pick the topic
-- Ask for some quiet
-
-_Present: Mark Mullins, your housemate_
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Mark Mullins: Resident on the same household record._
-
-#### Beat 1 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
-
-
-
-You're at home, thinking about what to make time for in the days ahead.
-
-- **Make time to learn something** ← chosen
-- Make time for people you know
-- Make some time for yourself
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 2 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/follow-through)
-
-
-
-You've just made a plan to learn something, and there are five minutes open right now.
-
-- **Start by reading now** ← chosen
-- Leave it for another time
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
-
-#### Beat 3 — 2026-01-05, age 34 (ordinary-stretch)

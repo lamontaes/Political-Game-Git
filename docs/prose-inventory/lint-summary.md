@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 384 review warnings.**
+**0 hard errors. 76 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,19 +13,17 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 189 |
-| label-restated-in-description | 120 |
-| and-it-scaffold | 40 |
-| rather-than-scaffold | 24 |
+| vague-referent | 47 |
+| and-it-scaffold | 13 |
 | third-person-player | 10 |
-| anonymous-actor | 1 |
+| rather-than-scaffold | 6 |
 
 ## Repetition
 
-- 3260 templates, 3041 distinct texts.
-- 193 exact duplicate groups.
-- 204 normalized duplicate groups.
-- 29 near-duplicate clusters (Jaccard ≥ 0.72).
+- 1700 templates, 1631 distinct texts.
+- 60 exact duplicate groups.
+- 67 normalized duplicate groups.
+- 18 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -34,50 +32,50 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 
 | N-gram | Count | Banks |
 | --- | --- | --- |
-| `you told you` | 25 | 2 |
-| `in front of` | 24 | 7 |
 | `no instrument read` | 22 | 1 |
 | `the player asked` | 21 | 2 |
-| `there is a` | 20 | 4 |
-| `out of the` | 19 | 5 |
-| `it is not` | 18 | 4 |
-| `asked you to` | 17 | 6 |
-| `you want to` | 16 | 4 |
-| `at the end` | 15 | 4 |
-| `at the end of` | 15 | 4 |
-| `the end of` | 15 | 4 |
-| `a long time` | 14 | 4 |
 | `instrument read establishes` | 14 | 2 |
-| `the two of` | 14 | 4 |
 | `existing saves are` | 13 | 1 |
 | `existing saves are unchanged` | 13 | 1 |
-| `has asked you` | 13 | 5 |
 | `saves are unchanged` | 13 | 1 |
-| `and it is` | 12 | 5 |
-| `is on the` | 12 | 6 |
 | `no instrument read establishes` | 12 | 1 |
 | `proof of income` | 12 | 2 |
 | `the bill is` | 12 | 2 |
-| `the two of you` | 12 | 4 |
+| `of income form` | 11 | 2 |
+| `proof of income form` | 11 | 2 |
+| `at the end` | 10 | 2 |
+| `at the end of` | 10 | 2 |
+| `is not a` | 10 | 4 |
+| `is on the` | 10 | 5 |
+| `on your street` | 10 | 1 |
+| `the end of` | 10 | 2 |
+| `the player told` | 10 | 1 |
+| `a saved life` | 9 | 1 |
+| `could not be` | 9 | 1 |
+| `that file is` | 9 | 1 |
+| `the proof of` | 9 | 2 |
+| `the proof of income` | 9 | 2 |
+| `the proof of income form` | 9 | 2 |
+| `a long time` | 8 | 1 |
 
 ### Most repeated sentence openings
 
 | Opening | Count |
 | --- | --- |
-| `you told you` | 24 |
 | `no instrument read` | 21 |
 | `the player asked` | 21 |
-| `there is a` | 12 |
 | `the bill is` | 11 |
-| `say you will` | 10 |
 | `the player told` | 10 |
-| `you asked to` | 10 |
-| `you said you` | 10 |
-| `ask for a` | 9 |
 | `that file is` | 9 |
-| `you put the` | 9 |
-| `stay out of` | 8 |
-| `you asked for` | 8 |
-| `you told the` | 8 |
+| `the bill has` | 6 |
+| `what you said` | 6 |
+| `the player offered` | 5 |
+| `ask ms ruiz` | 4 |
+| `ask to check` | 4 |
+| `can hear you` | 4 |
+| `say you will` | 4 |
+| `stay out of` | 4 |
+| `the player left` | 4 |
+| `the player said` | 4 |
 
 Every finding with its exact semantic ID is in `lint-findings.json`.

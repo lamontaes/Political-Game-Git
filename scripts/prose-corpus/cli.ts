@@ -347,7 +347,7 @@ Each seed records what it is **meant** to expose and what it **actually**
 exposed, so a seed that stops demonstrating its surface is visible rather than
 quietly passing.
 
-${sections.join("\n\n---\n\n")}
+${sections.join("\n\n---\n\n").trimEnd()}
 `;
 }
 

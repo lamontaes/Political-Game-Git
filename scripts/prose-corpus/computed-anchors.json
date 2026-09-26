@@ -7131,22 +7131,6 @@
       "textRevision": "662ab7b0f797"
     },
     {
-      "anchor": "replyFor-0003",
-      "sourcePath": "src/presentation/life-conversation.ts",
-      "symbol": "replyFor",
-      "text": "Hi again.",
-      "occurrence": 0,
-      "textRevision": "af7afdb158c8"
-    },
-    {
-      "anchor": "replyFor-0004",
-      "sourcePath": "src/presentation/life-conversation.ts",
-      "symbol": "replyFor",
-      "text": "Hi, {world.people[playerPersonId]!.givenName}.",
-      "occurrence": 0,
-      "textRevision": "6d9e2e63a598"
-    },
-    {
       "anchor": "replyFor-0005",
       "sourcePath": "src/presentation/life-conversation.ts",
       "symbol": "replyFor",
@@ -7353,22 +7337,6 @@
       "text": "Do you like your teacher?",
       "occurrence": 0,
       "textRevision": "f57d9f3f56ba"
-    },
-    {
-      "anchor": "replyFor-0035",
-      "sourcePath": "src/presentation/life-conversation.ts",
-      "symbol": "replyFor",
-      "text": "Hi, sweetheart.",
-      "occurrence": 0,
-      "textRevision": "5b6e6a054682"
-    },
-    {
-      "anchor": "replyFor-0036",
-      "sourcePath": "src/presentation/life-conversation.ts",
-      "symbol": "replyFor",
-      "text": "Hi, sweetheart. What is it?",
-      "occurrence": 0,
-      "textRevision": "7eed784ca288"
     },
     {
       "anchor": "replyFor-0037",
@@ -7609,14 +7577,6 @@
       "text": "What were you going to say?",
       "occurrence": 0,
       "textRevision": "5fadd86fcab7"
-    },
-    {
-      "anchor": "replyFor-0067",
-      "sourcePath": "src/presentation/life-conversation.ts",
-      "symbol": "replyFor",
-      "text": "No. What happened?",
-      "occurrence": 0,
-      "textRevision": "d749a69f646d"
     },
     {
       "anchor": "reporterQuestion-0001",
