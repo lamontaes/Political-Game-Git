@@ -1309,7 +1309,7 @@ function appendAction(world: World, input: AppendActionInput): World {
     amendmentId: amendmentRecord?.id ?? null,
   };
 
-  return {
+  const written = {
     ...next,
     history: {
       ...next.history,
@@ -1317,6 +1317,11 @@ function appendAction(world: World, input: AppendActionInput): World {
       legislativeActions: [...(next.history.legislativeActions ?? []), action],
     },
   };
+  const priorFamilies = stableKeyFamilies(world);
+  stableKeyFamilies(written).forEach((records, index) =>
+    transferLegislativeStableKeyIndex(priorFamilies[index]!, records),
+  );
+  return written;
 }
 
 function assertPhase(
@@ -1401,10 +1406,31 @@ export function nextMeasureStableKey(
 }
 
 type StableKeyRecord = { readonly stableKey: string };
-const SORTED_STABLE_KEYS = new WeakMap<
-  readonly StableKeyRecord[],
-  readonly string[]
->();
+const SORTED_STABLE_KEYS = new WeakMap<readonly StableKeyRecord[], string[]>();
+
+/** Only append writers may call this with their own copied prefix. Moving the
+ * disposable cache keeps old Worlds independent: a later read rebuilds theirs. */
+export function transferLegislativeStableKeyIndex(
+  previous: readonly StableKeyRecord[],
+  next: readonly StableKeyRecord[],
+): void {
+  if (previous === next || SORTED_STABLE_KEYS.has(next)) return;
+  const keys = SORTED_STABLE_KEYS.get(previous);
+  if (!keys) return;
+  SORTED_STABLE_KEYS.delete(previous);
+  for (let index = previous.length; index < next.length; index += 1) {
+    const key = next[index]!.stableKey;
+    let low = 0;
+    let high = keys.length;
+    while (low < high) {
+      const middle = (low + high) >>> 1;
+      if (keys[middle]! < key) low = middle + 1;
+      else high = middle;
+    }
+    keys.splice(low, 0, key);
+  }
+  SORTED_STABLE_KEYS.set(next, keys);
+}
 
 function stableKeyFamilies(
   world: World,

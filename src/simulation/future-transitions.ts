@@ -47,6 +47,7 @@ import {
 import {
   legislationEntityAvailableAt,
   legislationEntityExists,
+  transferLegislativeStableKeyIndex,
 } from "./legislation";
 import {
   electionContestEntityAvailableAt,
@@ -1074,6 +1075,10 @@ function bySequence<T extends { readonly sequence: number }>(
 }
 
 function commit(world: World, history: World["history"]): World {
+  transferLegislativeStableKeyIndex(
+    world.history.futureDueItems,
+    history.futureDueItems,
+  );
   // These two writers only append. Move disposable indexes to the new arrays;
   // do not leave a mutable index attached to an older immutable snapshot.
   for (const family of ["futureDueItems", "futureDueItemStates"] as const) {

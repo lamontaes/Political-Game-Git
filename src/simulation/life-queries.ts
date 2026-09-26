@@ -410,15 +410,38 @@ export function workRelationshipHistoryForPerson(
     world.history.workRelationships,
     "personId",
     personId,
-  ).filter(
-    (relationship) =>
-      available(
-        relationship.sequence,
-        relationship.startedAt < relationship.recordedAt
-          ? relationship.startedAt
-          : relationship.recordedAt,
-        cutoff,
-      ),
+  ).filter((relationship) =>
+    available(
+      relationship.sequence,
+      relationship.startedAt < relationship.recordedAt
+        ? relationship.startedAt
+        : relationship.recordedAt,
+      cutoff,
+    ),
+  );
+}
+
+/** Existing employment candidates at an organization, with the same historical
+ * availability rules as the person lookup. Status and role remain separate. */
+export function workRelationshipHistoryForOrganization(
+  world: World,
+  organizationId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly WorkRelationship[] {
+  validateCutoff(world, cutoff);
+  return recordsForId(
+    world.history.workRelationships,
+    organizationId,
+    (record) => record.organizationId,
+    workByOrganization,
+  ).filter((record) =>
+    available(
+      record.sequence,
+      record.startedAt < record.recordedAt
+        ? record.startedAt
+        : record.recordedAt,
+      cutoff,
+    ),
   );
 }
 
@@ -1077,6 +1100,10 @@ const participationsByPerson = new WeakMap<
   readonly OrganizationParticipation[],
   ReadonlyMap<EntityId, readonly OrganizationParticipation[]>
 >();
+const workByOrganization = new WeakMap<
+  readonly WorkRelationship[],
+  ReadonlyMap<EntityId, readonly WorkRelationship[]>
+>();
 const participationStatesByParticipation = new WeakMap<
   readonly OrganizationParticipationStateRecord[],
   ReadonlyMap<EntityId, readonly OrganizationParticipationStateRecord[]>
@@ -1085,7 +1112,7 @@ const participationStatesByParticipation = new WeakMap<
 function recordsForId<T>(
   records: readonly T[],
   id: EntityId,
-  idOf: (record: T) => EntityId,
+  idOf: (record: T) => EntityId | null,
   cache: WeakMap<readonly T[], ReadonlyMap<EntityId, readonly T[]>>,
 ): readonly T[] {
   let grouped = cache.get(records);
@@ -1093,6 +1120,7 @@ function recordsForId<T>(
     const built = new Map<EntityId, T[]>();
     for (const record of records) {
       const key = idOf(record);
+      if (key === null) continue;
       const list = built.get(key);
       if (list) list.push(record);
       else built.set(key, [record]);

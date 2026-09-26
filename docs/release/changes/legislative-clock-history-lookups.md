@@ -10,3 +10,9 @@ prefix in the saved history. Unchanged legislative record families retain their
 existing lookup indexes. Due-item and political writers transfer disposable
 indexes along their own append operations while keeping older World snapshots
 independent. The clock still records every action and applies the same deadlines.
+
+Workplace news and life encounters now find candidates through the existing
+employment and organization records before checking current participation.
+Legislative clock passes reuse their unchanged chamber roster and skip building
+vote questions when no motion is pending. These reads preserve historical
+cutoffs, saved outcomes and older snapshots.

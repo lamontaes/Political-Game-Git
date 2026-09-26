@@ -475,17 +475,15 @@ export function applyInstitutionStep(
   onExecutiveDesk: ExecutiveDeskHandler,
 ): InstitutionStepResult {
   const measure = requireMeasure(before, measureId);
+  const blueprint = legislativeBlueprintForMeasure(before, measure);
+  const bodies = bodiesForMeasure(before, measure, blueprint);
   // Every seated member who may vote on the bill holds principles of their
   // own before any question is put, Congress's members included: without
   // them a member had only a party cue, and every roll call was unanimous.
   const world = closeLapsedVoteNotices(
     ensureOfficeholderPrinciples(
       before,
-      bodiesForMeasure(
-        before,
-        measure,
-        legislativeBlueprintForMeasure(before, measure),
-      ).flatMap((body) =>
+      bodies.flatMap((body) =>
         body.members.flatMap((member) =>
           member.personId ? [member.personId] : [],
         ),
@@ -493,7 +491,8 @@ export function applyInstitutionStep(
     ),
     measureId,
   );
-  const blueprint = legislativeBlueprintForMeasure(world, measure);
+  // Drawing principles and closing notices change neither the rule pack nor
+  // the seated roster. Reuse the roster already read for this same step.
   const pack = blueprint.pack;
   const owner = effectiveOwner(world, measure);
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
@@ -540,7 +539,6 @@ export function applyInstitutionStep(
   const steps = availableMeasureSteps(world, measureId);
   const key = (prefix: string) =>
     nextMeasureStableKey(world, measureId, `measure:${measureId}:${prefix}`);
-  const bodies = bodiesForMeasure(world, measure, blueprint);
   const body = bodies.find((entry) => entry.chamberKey === chamberKey);
   const applied = (
     next: World,
@@ -1096,15 +1094,22 @@ export function pendingChamberQuestions(
   const pack = blueprint.pack;
   const position = measurePosition(world, measureId);
   const steps = availableMeasureSteps(world, measureId);
-  const bodies = bodiesForMeasure(world, measure, blueprint);
   const chamberKey = position.chamberKey ?? pack.chamberOrder[0]!;
   const chamber = chamberByKey(pack, chamberKey);
-  const body = bodies.find((entry) => entry.chamberKey === chamberKey);
   const floorReady =
     steps.includes("move-floor-vote") ||
     (steps.includes("await-next-legislative-day") &&
       position.earliestNextFloorDate !== null &&
       position.earliestNextFloorDate <= onDate);
+  if (
+    !floorReady &&
+    !steps.includes("move-committee-report") &&
+    !steps.includes("move-concurrence") &&
+    !steps.includes("move-veto-override")
+  )
+    return [];
+  const bodies = bodiesForMeasure(world, measure, blueprint);
+  const body = bodies.find((entry) => entry.chamberKey === chamberKey);
   const hearingBeforeVote = world.history.futureDueItems.some(
     (item) =>
       item.transitionKey === COMMITTEE_HEARING_TRANSITION_KEY &&
