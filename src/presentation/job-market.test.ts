@@ -26,6 +26,7 @@ import { createExplicitGeographyLife } from "./new-game-geography";
 import { openOrdinaryLife } from "./ordinary-life";
 import { letAdultTimePass } from "./adult-life";
 import { projectJobMarket } from "./job-listings-view";
+import { submitTimeCommand } from "./time-command";
 
 /**
  * Jobs, played through the new-game route in several places, never Kentucky:
@@ -250,9 +251,17 @@ describe("jobs in a town", () => {
     let world = start.world;
     const home = world.people[start.personId]!.homeJurisdictionId;
     // Puerto Rico has no Census government listing, so no public body is
-    // named; a town business is the employer here.
+    // named; town businesses are the only employers here.
+    const localBusinessIds = new Set(
+      world.history.organizations
+        .filter((org) => org.stableKey.startsWith("local-business:"))
+        .map((org) => org.id),
+    );
     expect(
-      openJobListings(untilListed(world, start.personId, 2), start.personId),
+      openJobListings(
+        untilListed(world, start.personId, 2),
+        start.personId,
+      ).filter((opening) => !localBusinessIds.has(opening.organizationId)),
     ).toEqual([]);
     const relative = kinshipRelationshipsAt(world, start.personId)
       .flatMap((kin) => kin.personIds)
@@ -262,12 +271,21 @@ describe("jobs in a town", () => {
           ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 30,
       )!;
     world = seatShop(world, home, relative, "Colmado La Esquina");
-    world = untilListed(world, start.personId);
-    const opening = openJobListings(world, start.personId)[0]!;
+    const colmado = world.history.organizations.at(-1)!.id;
+    const colmadoListed = (w: World) =>
+      openJobListings(w, start.personId).some(
+        (entry) => entry.organizationId === colmado,
+      );
+    world = passUntil(world, colmadoListed, 120);
+    const opening = openJobListings(world, start.personId).find(
+      (entry) => entry.organizationId === colmado,
+    )!;
     expect(introducersFor(world, start.personId, opening.id)).toEqual([
       relative,
     ]);
-    const listing = projectJobMarket(world, start.personId).listings[0]!;
+    const listing = projectJobMarket(world, start.personId).listings.find(
+      (entry) => entry.openingId === opening.id,
+    )!;
     expect(listing.employerLine).toMatch(/^Colmado La Esquina/);
     expect(listing.introducers[0]!.label).toMatch(/^Ask .+ to put in a word$/);
 
@@ -292,7 +310,29 @@ describe("jobs in a town", () => {
 
     const accepted = answerJobOffer(world, application.id, true);
     expect(accepted.ok).toBe(true);
-    world = passUntil(accepted.world, (w) => w.currentDate >= offer.startAt!);
+    world = deserializeWorld(serializeWorld(accepted.world));
+    let reachedStart = false;
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      const advanced = submitTimeCommand(
+        world,
+        {
+          requestId: `job-start-${attempt}`,
+          personId: start.personId,
+          sourceMoment: world.currentMoment,
+          command: { kind: "days", days: 30 },
+        },
+        () => 0,
+      );
+      if (advanced.world === world) break;
+      world = advanced.world;
+      if (world.currentDate === offer.startAt) {
+        reachedStart = true;
+        expect(advanced.receipt.stoppedEarly).toBe(true);
+        break;
+      }
+      if (world.currentDate > offer.startAt!) break;
+    }
+    expect(reachedStart).toBe(true);
     const started = startJob(world, application.id);
     expect(started.ok).toBe(true);
     world = started.world;

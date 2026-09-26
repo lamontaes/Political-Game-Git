@@ -37,6 +37,8 @@ import {
   resolveFormativeCompanion,
 } from "./formative-context";
 import type { ConversationRoomContext } from "./run-b-conversation";
+import { payFirstJob } from "../simulation/job-market";
+import { schoolNameToday } from "../simulation/school-stages";
 
 /**
  * The growing-up years, played.
@@ -221,7 +223,7 @@ function nextScene(
     bandLabel: BAND_LABELS[situation.band],
     placeName,
     situationKey: situation.key,
-    prose: situation.prose,
+    prose: atSchool(world, personId, situation.key) ?? situation.prose,
     options: situation.options.map((option) => ({
       key: option.key,
       label: option.label,
@@ -230,6 +232,41 @@ function nextScene(
     withPersonId: companion?.id ?? null,
     withPersonName: companion ? personName(companion) : null,
   };
+}
+
+/**
+ * The school scenes, told at the school the child attends.
+ *
+ * A Ketchikan teenager played from 15 to 17 without her high school's name
+ * once appearing, though her record and the school screen both held it
+ * (2026-09-23). These are the moments that happen inside a school, reworded
+ * to say which one, by the name the school screen reads. The recorded choice
+ * keeps the situation's own wording; only what the player is shown changes.
+ */
+const SCHOOL_SCENE_PROSE: Partial<
+  Record<LifeSituationKey, (school: string) => string>
+> = {
+  "formative.school-entry": (school) =>
+    `The first morning at ${school}: a room of children you do not know, a coat hook with your name on it, and an adult who claps twice when it is time to listen.`,
+  "formative.lunch-table": (school) =>
+    `Lunch at ${school}. The table is full except for one gap, and someone is standing at the end of it holding a tray.`,
+  "formative.teacher-mentor": (school) =>
+    `A teacher at ${school} keeps you back for a minute after the others go, and offers to help with the thing you keep getting wrong.`,
+  "formative.future-preparation": (school) =>
+    `The school year at ${school} is running out, and people keep asking what comes after it.`,
+  "formative.school-rule-input": (school) =>
+    `${school} is changing a rule, and for once it is asking the people the rule is about.`,
+};
+
+function atSchool(
+  world: World,
+  personId: EntityId,
+  key: LifeSituationKey,
+): string | null {
+  const tell = SCHOOL_SCENE_PROSE[key];
+  if (!tell) return null;
+  const school = schoolNameToday(world, personId);
+  return school ? tell(school) : null;
 }
 
 export interface ChooseFormativeOptionInput {
@@ -306,7 +343,10 @@ export function chooseFormativeOption(
   if (result.status === "blocked") {
     return result.world;
   }
-  return result.world;
+  // The job is paid, so it is paid from the day it is taken.
+  return takingTheJob
+    ? payFirstJob(result.world, input.personId)
+    : result.world;
 }
 
 /**

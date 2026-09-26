@@ -22,6 +22,7 @@ import { lawEffectSentences } from "./law-effects-prose";
 import type {
   EntityId,
   LegislativeActionKind,
+  LegislativeMemberDisposition,
   LegislativeVoteRecord,
   World,
 } from "../simulation/types";
@@ -65,6 +66,11 @@ export interface MeasureVoteSummary {
   readonly outOf: number;
   readonly rule: string;
   readonly result: string;
+  /**
+   * How the controlled person is recorded on this roll call, in words, when
+   * they are a named member of it; null when the roll does not name them.
+   */
+  readonly yours: string | null;
 }
 
 export interface MeasureBriefing {
@@ -149,9 +155,11 @@ const ACTION_HEADLINES: Readonly<Record<LegislativeActionKind, string>> = {
   "presented-to-executive": "Sent to the governor",
   signed: "Signed",
   vetoed: "Vetoed",
+  "became-law-without-signature": "Approved without a signature",
   "override-chamber-recorded": "Chamber voted on the override",
   "override-succeeded": "Veto overridden",
   "override-failed": "Override failed",
+  "override-period-expired": "The veto stood",
   enacted: "Became law",
   "died-on-adjournment": "Died when the session ended",
 };
@@ -276,6 +284,26 @@ function forumLabel(world: World, vote: LegislativeVoteRecord): string {
     return committeeByKey(chamber, vote.forum.committeeKey).name;
   }
   return chamber.name;
+}
+
+const YOUR_DISPOSITION: Readonly<Record<LegislativeMemberDisposition, string>> =
+  {
+    yea: "You voted Yes.",
+    nay: "You voted No.",
+    "present-not-voting": "You were present and did not vote.",
+    absent: "You were recorded absent.",
+    excused: "You were excused.",
+  };
+
+/** The controlled person's own line on a roll call, read from the roll. */
+function yourDisposition(
+  world: World,
+  vote: LegislativeVoteRecord,
+): string | null {
+  if (world.control.kind !== "person") return null;
+  const personId = world.control.personId;
+  const own = vote.dispositions.find((row) => row.personId === personId);
+  return own ? YOUR_DISPOSITION[own.disposition] : null;
 }
 
 function questionLabel(vote: LegislativeVoteRecord): string {
@@ -449,6 +477,11 @@ export function projectMeasureBriefing(
     whereItStands = `The bill is on the floor of the ${chamber.name} at ${stage.label}.`;
   } else if (position.phase === "awaiting-referral" && chamber) {
     whereItStands = `The bill has been filed in the ${chamber.name} and is waiting to be sent to a committee.`;
+  } else if (
+    position.phase === "awaiting-executive" &&
+    pack.executive.titleLabel !== "Governor"
+  ) {
+    whereItStands = `The bill is on the ${pack.executive.titleLabel}'s desk.`;
   } else if (position.phase === "awaiting-transmittal" && chamber) {
     const onward = nextChamberKey(
       pack,
@@ -497,6 +530,7 @@ export function projectMeasureBriefing(
     outOf: vote.denominatorValue,
     rule: vote.thresholdLabel,
     result: vote.outcome === "passed" ? "Carried" : "Failed",
+    yours: yourDisposition(world, vote),
   }));
 
   let outcomeNote: string | null = null;

@@ -222,7 +222,7 @@ export function periodInWords(period: string): string {
  * record past county and census-area boundary changes; none describes the
  * recent figure a player is shown, so the mark is dropped, not explained.
  */
-function placeInWords(name: string): string {
+export function placeInWords(name: string): string {
   return name.replace(/\*+$/u, "").trim();
 }
 

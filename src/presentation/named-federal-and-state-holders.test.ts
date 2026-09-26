@@ -3,7 +3,7 @@ import {
   adultLifeIn,
   passUntil,
 } from "../../tests/fixtures/state-executive-entry";
-import { personName } from "../simulation";
+import { personName, recordPersonDeath } from "../simulation";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
 import { currentPublicOfficeholders } from "./opening-officeholders";
@@ -90,5 +90,37 @@ describe("the people who govern a home are named", () => {
       expect(row.holders).toHaveLength(district + 11);
       expect(row.note).toMatch(/^11 of them are elected at large/);
     }
+  }, 900_000);
+
+  it("keeps a dead member's seat on the chamber roster as vacant, so the chamber keeps its size", () => {
+    const { world, personId } = adultLifeIn("NV", "vacant-state-seat");
+    const packId = stateCandidacyPack("US-NV")!.packId;
+    const members = stateLegislators(world, packId);
+    const roster = (state: typeof world) =>
+      projectGovernmentBrowser(state, personId, { scope: "state" })
+        .branches.find((branch) => branch.branch === "legislative")!
+        .entries.flatMap((entry) => entry.roster ?? []);
+    const before = roster(world);
+    expect(before).toHaveLength(members.length);
+    const gone = members[0]!;
+    const after = recordPersonDeath(world, {
+      stableKey: `test-death:${gone.personId}`,
+      personId: gone.personId,
+      diedAt: world.currentDate,
+      causeKey: "cause:people-fixture",
+      sourceEntityIds: [world.id],
+      summary: "Died; the cause is not recorded.",
+      provenance: { kind: "authored", note: "Vacant-seat fixture." },
+    });
+    const rows = roster(after);
+    expect(rows).toHaveLength(before.length);
+    const seat = rows.find((row) => row.seatLabel === gone.title)!;
+    expect(seat.status).toBe("vacancy");
+    expect(seat.holderPersonId).toBeNull();
+    expect(seat.note).toMatch(/^Vacant since .*, when the member died\./);
+    expect(seat.note).toMatch(
+      /The seat is filled at the regular election on November \d+, 20\d\d\.$/,
+    );
+    expect(stateLegislators(after, packId)).toHaveLength(members.length - 1);
   }, 900_000);
 });

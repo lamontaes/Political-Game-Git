@@ -483,9 +483,7 @@ export function assertVitalityIntegrity(
     assertIdentity(ids, world, death, "person-death");
     assertUniqueKey(deathKeys, death.stableKey, "person death");
     const person = world.people[death.personId];
-    const event = world.history.events.find(
-      (candidate) => candidate.id === death.eventId,
-    );
+    const event = eventById(world, death.eventId);
     if (!person || deathsByPerson.has(death.personId)) {
       throw new Error(`Missing person or duplicate death: ${death.personId}`);
     }
@@ -582,9 +580,7 @@ export function assertVitalityIntegrity(
     assertIdentity(ids, world, capacity, "person-functional-capacity");
     assertUniqueKey(capacityKeys, capacity.stableKey, "functional capacity");
     const person = world.people[capacity.personId];
-    const event = world.history.events.find(
-      (candidate) => candidate.id === capacity.eventId,
-    );
+    const event = eventById(world, capacity.eventId);
     const prior = priorCapacityByPerson.get(capacity.personId);
     makeIsoDate(capacity.effectiveAt);
     makeIsoDate(capacity.recordedAt);

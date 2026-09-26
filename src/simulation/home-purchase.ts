@@ -1,8 +1,21 @@
 import { ageOnDate, makeIsoDate } from "./dates";
 import { moneyText } from "./money-text";
-import { householdMembershipsAt } from "./life-queries";
+import {
+  activeAuthoritiesHeldByPersonAt,
+  activePartnershipsAt,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
+} from "./life-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
-import { createOrganization } from "./life";
+import {
+  createHousehold,
+  createOrganization,
+  recordHouseholdLocation,
+  recordHouseholdMembershipState,
+  startHouseholdMembership,
+} from "./life";
+import { GROWN_UP_PRESENTATION_AGE_PLACEHOLDER } from "./age-of-majority";
+import { personName } from "./people";
 import {
   createDwelling,
   createHousingTenure,
@@ -25,6 +38,11 @@ import {
 } from "./resource-queries";
 import { recordEventKnowledge } from "./records";
 import { recordWorldEvent } from "./world";
+import {
+  macroConditionsAt,
+  macroMonthHistory,
+  macroScopeForJurisdiction,
+} from "./macro-economy/readers";
 import type {
   EntityId,
   HousingTenure,
@@ -62,6 +80,58 @@ export const HOME_PURCHASE_PLACEHOLDER = {
   researchQuestionId: "what-it-takes-to-buy-a-home",
 } as const;
 
+export interface HomePurchaseTerms {
+  readonly priceMinor: number;
+  readonly downPaymentMinor: number;
+  readonly monthlyPaymentMinor: number;
+}
+
+function roundTo(minor: number, step: number): number {
+  return Math.max(step, Math.round(minor / step) * step);
+}
+
+/**
+ * The placeholder terms in today's prices.
+ *
+ * The placeholder is a price in the world's first month. Since then the world
+ * has its own price level, and rent on the same screen already moves with it,
+ * so a house that never moved read as a bargain within a few years: $250,000
+ * beside rent up half again in Bend. The terms move by the same price level
+ * the rent line uses, the town's own where it has one and the nation's before
+ * that. This makes the placeholder consistent with the world, not right: what
+ * a home costs in a given town is still the research question's to answer.
+ */
+export function homePurchaseTerms(
+  world: World,
+  jurisdictionId: EntityId | null,
+): HomePurchaseTerms {
+  const today = world.currentDate;
+  const now =
+    (jurisdictionId
+      ? macroConditionsAt(
+          world,
+          macroScopeForJurisdiction(jurisdictionId),
+          today,
+        )
+      : null) ?? macroConditionsAt(world, "national", today);
+  const first = macroMonthHistory(world, "national", today)[0] ?? null;
+  const factor =
+    now && first && first.priceIndex > 0
+      ? now.priceIndex / first.priceIndex
+      : 1;
+  return {
+    priceMinor: roundTo(HOME_PURCHASE_PLACEHOLDER.priceMinor * factor, 100_000),
+    downPaymentMinor: roundTo(
+      HOME_PURCHASE_PLACEHOLDER.downPaymentMinor * factor,
+      100_000,
+    ),
+    monthlyPaymentMinor: roundTo(
+      HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor * factor,
+      1_000,
+    ),
+  };
+}
+
 export const MORTGAGE_BASIS = "housing:mortgage" as const;
 /** The age of majority, below which a person cannot sign a deed or a loan.
  * Eighteen in most states; the few exceptions are part of the same research
@@ -87,6 +157,63 @@ function primaryHouseholdId(world: World, personId: EntityId): EntityId | null {
     (entry) => entry.state.residenceRole === "primary",
   );
   return homes.length === 1 ? homes[0]!.household.id : null;
+}
+
+/**
+ * Whether buying a home means this person moves out of the home they grew up
+ * in, rather than buying it for everybody there.
+ *
+ * True for an adult whose household includes somebody who holds, or ever
+ * held, authority over them as a child: a parent or guardian. Buying used to
+ * buy for whatever household the buyer lived in, so a grown daughter still at
+ * home bought the house for her guardian too, and her profile went on listing
+ * "your guardian" in the house she owned.
+ */
+function movesOutToBuy(
+  world: World,
+  personId: EntityId,
+  householdId: EntityId,
+): boolean {
+  const person = world.people[personId];
+  if (!person) return false;
+  // PLACEHOLDER(research: age-of-majority-by-state). Leaving home to buy one
+  // reads the same threshold the labels do. It does not wait for the
+  // authority to end, and whether it has ended is not asked.
+  if (
+    ageOnDate(person.birthDate, world.currentDate) <
+    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER
+  )
+    return false;
+  const residents = new Set(peopleInHouseholdAt(world, householdId));
+  return world.history.childAuthorities.some(
+    (authority) =>
+      authority.childPersonId === personId &&
+      authority.holder.kind === "person" &&
+      authority.holder.personId !== personId &&
+      residents.has(authority.holder.personId),
+  );
+}
+
+/**
+ * Who goes with a buyer leaving home: the buyer, a partner they have on
+ * record, and children they are raising, each only if they live there now.
+ * Everybody else in the house stays where they are.
+ */
+function peopleMovingWith(
+  world: World,
+  personId: EntityId,
+  householdId: EntityId,
+): readonly EntityId[] {
+  const residents = new Set(peopleInHouseholdAt(world, householdId));
+  const moving: EntityId[] = [personId];
+  const add = (id: EntityId) => {
+    if (residents.has(id) && !moving.includes(id)) moving.push(id);
+  };
+  for (const partnership of activePartnershipsAt(world, personId))
+    for (const id of partnership.personIds) add(id);
+  for (const { authority } of activeAuthoritiesHeldByPersonAt(world, personId))
+    add(authority.childPersonId);
+  return moving;
 }
 
 /** The home this household owns today, if it owns one. */
@@ -175,8 +302,12 @@ export function homePurchaseReason(
     return "Your household already owns its home.";
   const have = balance(world, personId);
   if (have === null) return "The game is not tracking your money.";
-  if (have < HOME_PURCHASE_PLACEHOLDER.downPaymentMinor)
-    return `The down payment is ${dollars(HOME_PURCHASE_PLACEHOLDER.downPaymentMinor)}. You have ${dollars(have)}.`;
+  const { downPaymentMinor } = homePurchaseTerms(
+    world,
+    person.homeJurisdictionId,
+  );
+  if (have < downPaymentMinor)
+    return `The down payment is ${dollars(downPaymentMinor)}. You have ${dollars(have)}.`;
   return null;
 }
 
@@ -212,6 +343,11 @@ function counterparty(
  *
  * Writes the dwelling, the household's ownership of it, the move in, the down
  * payment and a mortgage owed monthly from the first of next month.
+ *
+ * A grown child still living with a parent or guardian does not buy the
+ * house for them: they found a household of their own and move into the new
+ * home, with a partner and their own children if those live with them, and
+ * the parent stays where they were. See `movesOutToBuy`.
  */
 export function buyHome(world: World, personId: EntityId): HomePurchaseResult {
   const reason = homePurchaseReason(world, personId);
@@ -223,13 +359,11 @@ export function buyHome(world: World, personId: EntityId): HomePurchaseResult {
   const today = world.currentDate;
   const key = `home-purchase:${householdId}:${today}`;
   const currency = money(0, HOME_PURCHASE_PLACEHOLDER.currency).currency;
-  const price = money(HOME_PURCHASE_PLACEHOLDER.priceMinor, currency);
-  const down = money(HOME_PURCHASE_PLACEHOLDER.downPaymentMinor, currency);
+  const terms = homePurchaseTerms(world, person.homeJurisdictionId);
+  const price = money(terms.priceMinor, currency);
+  const down = money(terms.downPaymentMinor, currency);
   const principal = money(price.minorUnits - down.minorUnits, currency);
-  const monthly = money(
-    HOME_PURCHASE_PLACEHOLDER.monthlyPaymentMinor,
-    currency,
-  );
+  const monthly = money(terms.monthlyPaymentMinor, currency);
   const provenanceNote = `Placeholder home purchase pending research question ${HOME_PURCHASE_PLACEHOLDER.researchQuestionId}.`;
 
   const summary = `You bought a home in ${place.displayName} for ${dollars(price.minorUnits)}, putting ${dollars(down.minorUnits)} down. The mortgage is ${dollars(monthly.minorUnits)} a month.`;
@@ -269,7 +403,57 @@ export function buyHome(world: World, personId: EntityId): HomePurchaseResult {
   });
   const provenance = { kind: "simulated-event" as const, eventId };
 
+  // A household of their own, when the buyer is leaving the one that raised
+  // them. The old household keeps its home and everybody who stays in it.
+  let buyingHouseholdId = householdId;
+  if (movesOutToBuy(world, personId, householdId)) {
+    const householdKey = `${key}:household`;
+    next = createHousehold(next, {
+      stableKey: householdKey,
+      formedAt: today,
+      label: `${personName(person)}'s household`,
+      provenance,
+    });
+    buyingHouseholdId = next.history.households.at(-1)!.id;
+    next = recordHouseholdLocation(next, {
+      stableKey: `${householdKey}:location`,
+      householdId: buyingHouseholdId,
+      effectiveAt: today,
+      jurisdictionId,
+      label: place.displayName,
+      kind: "residence:home",
+      provenance,
+      supersedesLocationId: null,
+    });
+    for (const moverId of peopleMovingWith(world, personId, householdId)) {
+      const entry = householdMembershipsAt(next, moverId).find(
+        (candidate) => candidate.household.id === householdId,
+      )!;
+      next = recordHouseholdMembershipState(next, {
+        stableKey: `${key}:left-home:${entry.membership.id}`,
+        membershipId: entry.membership.id,
+        effectiveAt: today,
+        status: "ended",
+        residenceRole: entry.state.residenceRole,
+        kind: entry.state.kind,
+        provenance,
+        supersedesStateId: entry.state.id,
+      });
+      next = startHouseholdMembership(next, {
+        stableKey: `${householdKey}:member:${moverId}`,
+        personId: moverId,
+        householdId: buyingHouseholdId,
+        startedAt: today,
+        residenceRole: "primary",
+        // The buyer is nobody's child in their own home.
+        kind: moverId === personId ? "resident:member" : entry.state.kind,
+        provenance,
+      });
+    }
+  }
+
   // Moving out of wherever the household was recorded living, if anywhere.
+  // A new household was not recorded living anywhere yet.
   const cutoff = {
     asOfDate: today,
     historySequenceExclusive: next.history.nextSequence,
@@ -277,7 +461,7 @@ export function buyHome(world: World, personId: EntityId): HomePurchaseResult {
   for (const occupancy of activeDwellingOccupanciesAt(next, cutoff)) {
     if (
       occupancy.occupant.kind !== "household" ||
-      occupancy.occupant.householdId !== householdId
+      occupancy.occupant.householdId !== buyingHouseholdId
     )
       continue;
     const latest = dwellingOccupancyStateHistory(next, occupancy.id).at(-1)!;
@@ -306,7 +490,7 @@ export function buyHome(world: World, personId: EntityId): HomePurchaseResult {
   const dwellingId = next.history.dwellings.at(-1)!.id;
   next = createHousingTenure(next, {
     stableKey: `${key}:ownership`,
-    holder: { kind: "household", householdId },
+    holder: { kind: "household", householdId: buyingHouseholdId },
     dwellingId,
     startedAt: today,
     kind: "ownership:mortgaged",
@@ -316,7 +500,7 @@ export function buyHome(world: World, personId: EntityId): HomePurchaseResult {
   const tenureId = next.history.housingTenures.at(-1)!.id;
   next = startDwellingOccupancy(next, {
     stableKey: `${key}:moved-in`,
-    occupant: { kind: "household", householdId },
+    occupant: { kind: "household", householdId: buyingHouseholdId },
     dwellingId,
     startedAt: today,
     residenceRole: "primary",

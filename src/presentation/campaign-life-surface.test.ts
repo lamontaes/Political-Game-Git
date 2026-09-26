@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
+  campaignForCandidate,
   commitCampaignWeek,
   homePartyChapters,
   projectCampaignWeek,
@@ -206,12 +207,16 @@ describe(
 
     it("opponent rows appear only once the player has heard of them", () => {
       let world: World = fileForOffice(life.world, player);
-      expect(projectOpponentActivityPanel(world, player)).toEqual([]);
+      const campaignId = campaignForCandidate(world, player)!.id;
+      expect(projectOpponentActivityPanel(world, player, campaignId)).toEqual(
+        [],
+      );
       for (let day = 0; day < 15; day += 1) {
         world = passOrdinaryDays(world, 1);
-        if (projectOpponentActivityPanel(world, player).length > 0) break;
+        if (projectOpponentActivityPanel(world, player, campaignId).length > 0)
+          break;
       }
-      const rows = projectOpponentActivityPanel(world, player);
+      const rows = projectOpponentActivityPanel(world, player, campaignId);
       expect(rows.length).toBeGreaterThan(0);
       for (const row of rows) {
         expect(row.opponentName.length).toBeGreaterThan(0);

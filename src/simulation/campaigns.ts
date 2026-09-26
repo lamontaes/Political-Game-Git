@@ -1,4 +1,5 @@
 import { jailTermOn } from "./justice/jail-terms";
+import { contestDistrictGeography } from "./campaign-geography";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
   migrationReviewHandler,
@@ -6,6 +7,7 @@ import {
 import { createPressTransitionRegistry } from "./press/transitions";
 import { recordElectionSpeech } from "./campaign-speeches";
 import { campaignPollingQuality } from "./campaign-polling";
+import { doorKnockingReturn } from "./campaign-recognition";
 import { startingSupportAdjustment } from "./record-in-office";
 import {
   legislativeTermDates,
@@ -13,7 +15,7 @@ import {
   scheduleLegislativeTerm,
   createLegislativeTermTransitionRegistry,
 } from "./legislative-office-terms";
-import { STATE_GOVERNING_HANDLERS } from "./governing/state-governing";
+import { stateGoverningHandlers } from "./governing/state-governing";
 import { PUBLIC_PROGRAM_HANDLERS } from "./governing/public-program";
 import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
@@ -21,6 +23,8 @@ import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-re
 import { FEDERAL_REFORM_HANDLERS } from "./living-world/federal-reform";
 import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-turnover";
 import { RECALL_HANDLERS } from "./recall";
+import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
+import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
 import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
@@ -977,10 +981,7 @@ export function scheduleCampaignAction(
         throw new Error("The approved geography does not match this campaign.");
       }
     } else {
-      const binding = contest.office.districtBinding ?? null;
-      const expected = binding
-        ? `district:${binding.vintage}:${binding.chamber}:${binding.geoid}`
-        : null;
+      const expected = contestDistrictGeography(contest.office)?.key ?? null;
       if (strategy.geographyKey !== expected) {
         throw new Error("The approved district does not match this campaign.");
       }
@@ -1071,9 +1072,16 @@ function requestedGainBasisPoints(
     (candidate) => candidate.id === action.scheduledActivityId,
   );
   const workers = Math.max(1, activity?.participantPersonIds.length ?? 1);
+  // Who is knocking changes what a door returns: see `campaign-recognition.ts`.
   const base =
     action.kind === "outreach"
-      ? Math.floor((minutes * workers * 3) / 2)
+      ? Math.floor(
+          (minutes *
+            workers *
+            3 *
+            doorKnockingReturn(world, campaign, action.id).percent) /
+            200,
+        )
       : Math.floor((action.plannedSpend?.minorUnits ?? 0) / 500);
   const swing = new SeededRng(world.seed)
     .fork(`campaign-action-effect:${action.id}`)
@@ -2013,7 +2021,7 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
       createFutureTransitionHandlerRegistry([
         [ELECTION_CONTEST_TRANSITION_KEY, campaignElectionTransitionHandler],
         // GOVERNING: state office matters, their deadlines and reports.
-        ...STATE_GOVERNING_HANDLERS,
+        ...stateGoverningHandlers(),
         ...GOVERNOR_TURNOVER_HANDLERS,
         // A legislature and voters changing the governor's term limit.
         ...CONSTITUTIONAL_REFORM_HANDLERS,
@@ -2022,6 +2030,10 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...PRESIDENTIAL_TURNOVER_HANDLERS,
         // Voters recalling a town official: petition, then recall election.
         ...RECALL_HANDLERS,
+        // A council act on the executive's desk, or returned to the council.
+        ...COUNCIL_ACT_HANDLERS,
+        // The Council of the District of Columbia sitting on its own.
+        ...DC_COUNCIL_SITTING_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.

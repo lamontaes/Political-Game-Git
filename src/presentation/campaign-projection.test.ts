@@ -255,8 +255,13 @@ describe("what the game will and will not offer", () => {
     });
     const view = projectCampaign(built.world, built.playerPersonId);
     expect(view.phase).toBe("unavailable");
-    expect(view.unavailableReason).toMatch(/its own adult rule/i);
+    // The requirement a player is held to, worded as any other requirement;
+    // that it is the game's placeholder floor stays on the block's kind.
+    expect(view.unavailableReason).toMatch(
+      /You must be at least 21 to stand for this office\./,
+    );
     expect(view.unavailableReason).not.toMatch(/law says/i);
+    expect(view.unavailableReason).not.toMatch(/has not read|the game/i);
   });
 });
 
@@ -355,13 +360,14 @@ describe("election day, and the morning after", () => {
     expect(view.offers).toEqual([]);
   });
 
-  it("lets a lost election be a thing that happened, not an ending", () => {
+  it("keeps a character playable after an election loss", () => {
     // Whichever way this seed falls, the morning after has to work.
     const played = playToTheEnd("election-after", 0);
     const view = projectCampaign(played.world, played.personId);
     expect(view.afterword).not.toBeNull();
     if (view.phase === "lost") {
-      expect(view.afterword).toMatch(/not the end of them/i);
+      expect(view.afterword).toContain("lost");
+      expect(view.afterword).not.toContain("tomorrow is still there");
     }
 
     const nextWeek = passCampaignDays(played.world, played.personId, 7);

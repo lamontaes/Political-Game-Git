@@ -5,6 +5,7 @@ import {
 } from "./legislature-game-profile";
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import type { LegislativeRulePack } from "./legislature-rules";
+import { withCommitteeStandIns } from "./standing-committee";
 import {
   lifePlaceByJurisdictionId,
   searchLifePlaces,
@@ -30,7 +31,7 @@ export function legislativePackForJurisdiction(
     (pack) =>
       stateJurisdictionForKey(pack.jurisdictionKey)?.id === jurisdictionId,
   );
-  if (compiled) return compiled;
+  if (compiled) return withCommitteeStandIns(compiled);
   const stateKey = Object.keys(STATES)
     .map((usps) => `US-${usps}`)
     .find((key) => stateJurisdictionForKey(key)?.id === jurisdictionId);
@@ -40,12 +41,14 @@ export function legislativePackForJurisdiction(
 export function legislativePackForWorkKey(
   key: string,
 ): LegislativeRulePack | null {
+  const compiled = LEGISLATIVE_RULE_PACKS.find(
+    (pack) =>
+      legislativeWorkKey(pack) === key || `institution:${pack.packId}` === key,
+  );
+  // A researched chamber whose committees are unread refers its bills to the
+  // stand-in standing committee, as `rulePackById` does.
   return (
-    LEGISLATIVE_RULE_PACKS.find(
-      (pack) =>
-        legislativeWorkKey(pack) === key ||
-        `institution:${pack.packId}` === key,
-    ) ??
+    (compiled ? withCommitteeStandIns(compiled) : null) ??
     (key.startsWith("institution:")
       ? legislatureProfilePackById(key.slice("institution:".length))
       : null)

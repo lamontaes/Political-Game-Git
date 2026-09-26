@@ -1,4 +1,5 @@
 import { expect, type Page } from "../fixtures";
+import { passShellTime, waitForClockIdle } from "./creator";
 import { chooseStateLegislativeOffice } from "./jurisdictions";
 
 /**
@@ -47,6 +48,7 @@ export async function campaignUntilDecided(
     if (await page.getByTestId("campaign-result").isVisible()) return true;
     await workOfferedOutreach(page);
     await passDay(page);
+    await waitForClockIdle(page);
   }
   return campaignWeeklyUntilDecided(page);
 }
@@ -61,7 +63,7 @@ export async function campaignWeeklyUntilDecided(page: Page, maxWeeks = 110) {
   for (let week = 0; week < maxWeeks; week += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
     await workOfferedOutreach(page);
-    await page.getByTestId("shell-pass-week").click();
+    await passShellTime(page, "week");
     await expect(page.getByTestId("shell-pass-week")).not.toHaveAttribute(
       "aria-disabled",
       "true",
@@ -71,18 +73,15 @@ export async function campaignWeeklyUntilDecided(page: Page, maxWeeks = 110) {
 }
 
 /**
- * Takes the outreach offer if the day still has room for it. The day control
- * reports aria-busy while a time command settles, and the offer can flip to
- * disabled as the new day renders; checking before the clock is idle raced
- * that flip and click() then waited on a disabled control until the test
- * timed out.
+ * Takes the outreach offer if the day still has room for it. The offer can
+ * flip to disabled as the new day renders; wait for the shell clock first.
  */
 export async function workOfferedOutreach(page: Page) {
-  // The shell's own day control when the Today page is not on screen (a
-  // Politics window covers it), the Today page's otherwise.
-  await expect(
-    page.getByTestId("shell-pass-day").or(page.getByTestId("pass-day")).first(),
-  ).not.toHaveAttribute("aria-busy", "true");
+  await waitForClockIdle(page);
+  await expect(page.getByTestId("shell-pass-day")).not.toHaveAttribute(
+    "aria-disabled",
+    "true",
+  );
   const outreach = page.getByTestId("campaign-outreach");
   // isEnabled() waits for the control to exist; on a day the campaign offers
   // nothing there is none, and that is a day to pass, not a wait.

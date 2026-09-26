@@ -17,6 +17,8 @@
  * ideology, or appearance) are inferred or derived from name strings.
  */
 
+import PLACE_NAME_CORPORA from "./place-name-corpora.json" with { type: "json" };
+
 export interface NameCorpusProvenance {
   readonly source: string;
   readonly license: string;
@@ -28,6 +30,19 @@ export interface NameCorpus {
   readonly provenance: NameCorpusProvenance;
   readonly givenNames: readonly string[];
   readonly familyNames: readonly string[];
+  /**
+   * A place's own given names by sex. Absent, a stated gender draws from the
+   * national generation pools.
+   */
+  readonly givenNamesBySex?: {
+    readonly male: readonly string[];
+    readonly female: readonly string[];
+  };
+  /**
+   * How many surnames a person is written with. Two where a place writes the
+   * father's first surname and then the mother's.
+   */
+  readonly surnamesCarried?: 1 | 2;
 }
 
 export const DEFAULT_CORPUS_VERSION = "names-v1";
@@ -1136,10 +1151,133 @@ export const DEMO_NAMES_V4: NameCorpus = {
   ],
 };
 
+/** Each name as many times as it was counted, so a pick is a weighted draw. */
+function repeatedByCount(
+  rows: readonly (readonly [string, number])[],
+): readonly string[] {
+  return rows.flatMap(([name, count]) =>
+    Array.from({ length: count }, () => name),
+  );
+}
+
+const PR_MEASURED = PLACE_NAME_CORPORA.places.PR as unknown as {
+  readonly given: {
+    readonly male: readonly (readonly [string, number])[];
+    readonly female: readonly (readonly [string, number])[];
+  };
+  readonly surnames: readonly (readonly [string, number])[];
+};
+
+/**
+ * Puerto Rico's names, measured from the people the island's public schools
+ * are named for (`scripts/source/place-name-corpora.ts`). The SSA and Census
+ * tables behind the national corpus do not cover the island's births, which is
+ * how a life begun in Mayagüez was named Douglas Pope. A person here is
+ * written the island's way, with the father's first surname and then the
+ * mother's. The given names are those of honorees born mostly before 1950;
+ * `puerto-rico-and-territory-names` asks for the names by birth year.
+ */
+export const PUERTO_RICO_NAMES_V1: NameCorpus = {
+  version: "names-pr-v1",
+  provenance: {
+    source:
+      "NCES Common Core of Data public school directory, 2025-26: the given names and surnames of the people Puerto Rico's schools are named for",
+    license: "Public Domain (U.S. Government Work, 17 U.S.C. § 105)",
+    notes:
+      "Each honoree counted once; a name is kept where at least two honorees carried it, weighted by how many did. No honoree's full name is kept.",
+  },
+  givenNames: [
+    ...repeatedByCount(PR_MEASURED.given.male),
+    ...repeatedByCount(PR_MEASURED.given.female),
+  ],
+  familyNames: repeatedByCount(PR_MEASURED.surnames),
+  givenNamesBySex: {
+    male: repeatedByCount(PR_MEASURED.given.male),
+    female: repeatedByCount(PR_MEASURED.given.female),
+  },
+  surnamesCarried: 2,
+};
+
 const CORPORA_BY_VERSION: Readonly<Record<string, NameCorpus>> = {
   [NAMES_STARTER_V1.version]: NAMES_STARTER_V1,
   [DEMO_NAMES_V4.version]: DEMO_NAMES_V4,
+  [PUERTO_RICO_NAMES_V1.version]: PUERTO_RICO_NAMES_V1,
 };
+
+/**
+ * The given names a person of a stated gender can be drawn from, in this
+ * corpus. A corpus without its own names by sex uses the national pools.
+ */
+export function givenNamePoolForCorpus(
+  corpus: NameCorpus,
+  gender: "male" | "female" | "nonbinary",
+): readonly string[] {
+  const own = corpus.givenNamesBySex;
+  if (own === undefined) return givenNamePoolForStatedGender(gender);
+  return gender === "nonbinary" ? [...own.male, ...own.female] : own[gender];
+}
+
+/**
+ * The name corpus for a life in this state or territory, under the place-name
+ * version. Only Puerto Rico has a measured corpus; everywhere else, and every
+ * life written before the version existed, keeps the default.
+ */
+export const PLACE_NAMES_V1_VERSION = "place-names-v1";
+export type PlaceNameVersion = typeof PLACE_NAMES_V1_VERSION;
+
+/**
+ * The two surnames of a name written the island's way ("Rivera de Jesús"),
+ * with a particle kept on the surname it belongs to. Null for anything that is
+ * not exactly two, which includes every single-surname name.
+ */
+export function surnamePair(
+  familyName: string,
+): readonly [string, string] | null {
+  const words = familyName.trim().split(/\s+/).filter(Boolean);
+  const units: string[] = [];
+  for (let index = 0; index < words.length; index += 1) {
+    const word = words[index]!;
+    if (/^(de|del)$/i.test(word) && index + 1 < words.length) {
+      const next = words[index + 1]!;
+      const takesArticle =
+        /^(la|las|los)$/i.test(next) && index + 2 < words.length;
+      units.push(
+        takesArticle
+          ? `${word} ${next} ${words[index + 2]!}`
+          : `${word} ${next}`,
+      );
+      index += takesArticle ? 2 : 1;
+      continue;
+    }
+    units.push(word);
+  }
+  return units.length === 2 ? [units[0]!, units[1]!] : null;
+}
+
+/**
+ * A parent's family name where a child carries one surname from each parent:
+ * the surname this parent passed on, then their own second. Null where either
+ * name is not a pair, and the caller keeps what it did before.
+ */
+export function familyNameFromParent(
+  childFamilyName: string,
+  passes: 0 | 1,
+  ownFamilyName: string,
+): string | null {
+  const child = surnamePair(childFamilyName);
+  const own = surnamePair(ownFamilyName);
+  if (child === null || own === null) return null;
+  return `${child[passes]} ${own[1]}`;
+}
+
+export function nameCorpusVersionForPlace(
+  stateUsps: string | null,
+  version: PlaceNameVersion | undefined,
+): string {
+  return version === PLACE_NAMES_V1_VERSION && stateUsps === "PR"
+    ? PUERTO_RICO_NAMES_V1.version
+    : DEFAULT_CORPUS_VERSION;
+}
 
 /**
  * Explicit generation pools, used ONLY as a constraint when a player has

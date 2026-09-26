@@ -1,6 +1,12 @@
 import type { ReactNode } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../presentation/new-game";
+import { previewTimeCommand } from "../presentation/time-command";
+import { skipToLabel } from "../presentation/time-target-label";
 
 import {
   INITIAL_SHELL_STATE,
@@ -174,7 +180,45 @@ describe("ShellNav interrupt checklist", () => {
     expect(html).not.toContain('data-testid="shell-stops"');
   });
 
-  it("has no checklist control while growing up, when time cannot be passed", () => {
-    expect(render(INITIAL_SHELL_STATE)).not.toContain("shell-stops-toggle");
+  it("keeps both shell clock controls available in a child's life", () => {
+    const child = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "child-shell-day-week",
+      startKind: "custom",
+      startAge: 8,
+    });
+    const day = previewTimeCommand(child.world, child.playerPersonId, {
+      kind: "days",
+      days: 1,
+    });
+    const week = previewTimeCommand(child.world, child.playerPersonId, {
+      kind: "days",
+      days: 7,
+    });
+    expect(day).not.toBeNull();
+    expect(week).not.toBeNull();
+    const html = renderToStaticMarkup(
+      <ShellNav
+        state={INITIAL_SHELL_STATE}
+        dispatch={() => {}}
+        playerName={child.world.people[child.playerPersonId]!.givenName}
+        dateLabel={child.world.currentDate}
+        placeName={null}
+        destinations={DESTINATIONS}
+        canSave
+        unsaved={false}
+        onSave={() => {}}
+        onLeave={() => {}}
+        onPassDays={() => {}}
+        passTargets={{
+          day: skipToLabel(day!.target),
+          week: skipToLabel(week!.target),
+        }}
+      />,
+    );
+    expect(html).toContain('data-testid="shell-pass-day"');
+    expect(html).toContain('data-testid="shell-pass-week"');
+    expect(html).toContain(skipToLabel(day!.target));
+    expect(html).toContain(skipToLabel(week!.target));
   });
 });

@@ -1,3 +1,4 @@
+import { eventById } from "../event-index";
 import { SOURCE_CONFIRMED_EVENT } from "../claim-contradictions";
 import {
   CLAIM_CONTRADICTION_EVENT,
@@ -50,9 +51,7 @@ export function produceCaughtLyingLeads(world: World): World {
     const evidenceId = found.tags
       .find((tag) => tag.startsWith(CLAIM_EVIDENCE_TAG_PREFIX))
       ?.slice(CLAIM_EVIDENCE_TAG_PREFIX.length);
-    const confirmed = next.history.events.find(
-      (event) => event.id === evidenceId,
-    );
+    const confirmed = eventById(next, evidenceId);
     if (confirmed && confirmed.type !== SOURCE_CONFIRMED_EVENT) {
       next = leadFromPublishedFinding(next, {
         stableKey,

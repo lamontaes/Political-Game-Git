@@ -30,6 +30,8 @@ import type {
   TaxBaseRecord,
   TaxAssessmentRecord,
   TaxCollectionRecord,
+  StatutoryTaxLiabilityRecord,
+  StatutoryTaxPaymentRecord,
 } from "./tax-types";
 import type {
   JobApplicationRecord,
@@ -66,6 +68,8 @@ export type EntityKind =
   | "tax-base"
   | "tax-assessment"
   | "tax-collection"
+  | "statutory-tax-liability"
+  | "statutory-tax-payment"
   | "job-opening"
   | "job-application"
   | "job-application-step"
@@ -2733,6 +2737,16 @@ export interface RoutineTimeHook {
 export interface FutureTransitionHandlerRegistry {
   get(transitionKey: FutureTransitionKey): FutureTransitionHandler | undefined;
   readonly routine?: RoutineTimeHook;
+  /**
+   * Whether an advance should also stop at a tentative hold, or its journey,
+   * that the advance itself put on the controlled person's calendar. A
+   * confirmed commitment written on the way is always a stop; a tentative one
+   * is not unless this says so, because a long skip that stopped at every
+   * posted invitation only to let it lapse would repeat itself once per hold.
+   */
+  readonly stopAtNewTentativeHold?: (
+    activity: ScheduledActivityRecord,
+  ) => boolean;
 }
 
 export interface MoneyAmount {
@@ -3186,8 +3200,19 @@ export interface DistrictSeatBinding {
   readonly stateUsps: string;
 }
 
+/**
+ * `split-home-assignment`: the home place crosses several districts of the
+ * chamber and the published join cannot say which one this home is in, so the
+ * game placed the home in one of those districts — by seed at the opening, or
+ * where the player later said it is. It is only ever one of the districts that
+ * actually cross the recorded home place. GAME PROFILE placeholder: see
+ * `assignSplitHomeDistricts`.
+ */
 export type DistrictResidenceProvenanceMethod =
-  "authored" | "simulated-event" | "canonical-home-join";
+  | "authored"
+  | "simulated-event"
+  | "canonical-home-join"
+  | "split-home-assignment";
 
 export interface DistrictResidenceProvenance {
   readonly method: DistrictResidenceProvenanceMethod;
@@ -3441,7 +3466,10 @@ export interface CampaignComplianceDocumentRecord {
   readonly committeeOrganizationId: EntityId;
   readonly rulePackId: string;
   readonly kind:
-    "statement-of-spending-intent" | "periodic-report" | "amendment";
+    | "statement-of-spending-intent"
+    | "statement-of-organization"
+    | "periodic-report"
+    | "amendment";
   readonly schedule:
     | "initial"
     | "60-day-preelection"
@@ -3762,6 +3790,9 @@ export interface HistoryStore {
   readonly taxBases?: readonly TaxBaseRecord[];
   readonly taxAssessments?: readonly TaxAssessmentRecord[];
   readonly taxCollections?: readonly TaxCollectionRecord[];
+  /** Taxes that exist in law, assessed per occurrence; see `statutory-tax.ts`. */
+  readonly statutoryTaxLiabilities?: readonly StatutoryTaxLiabilityRecord[];
+  readonly statutoryTaxPayments?: readonly StatutoryTaxPaymentRecord[];
   /** Optional: job openings and applications; see `job-market.ts`. */
   readonly jobOpenings?: readonly JobOpeningRecord[];
   readonly jobApplications?: readonly JobApplicationRecord[];
@@ -4001,9 +4032,11 @@ export type LegislativeActionKind =
   | "presented-to-executive"
   | "signed"
   | "vetoed"
+  | "became-law-without-signature"
   | "override-chamber-recorded"
   | "override-succeeded"
   | "override-failed"
+  | "override-period-expired"
   | "enacted"
   | "died-on-adjournment";
 
@@ -4290,7 +4323,11 @@ export interface OfficeWorkflowPreferenceRecord {
   readonly sequence: number;
   readonly personId: EntityId;
   readonly officeRelationshipId: EntityId;
-  readonly votingMode: OfficeVotingWorkflowMode;
+  /**
+   * Null for an office that casts no votes, such as a governor's: its
+   * casework is still the officeholder's to arrange.
+   */
+  readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
   readonly recordedAt: IsoDate;
   readonly supersedesPreferenceId: EntityId | null;

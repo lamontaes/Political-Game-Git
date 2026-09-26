@@ -1,3 +1,4 @@
+import { eventById } from "./event-index";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
@@ -9,6 +10,7 @@ import {
   yearOf,
 } from "./dates";
 import { PUBLIC_MEETING_KEY } from "./life-opportunities";
+import { nameCorpusVersionForWorld } from "./place-name-corpus";
 import {
   drawCanonicalNameForGender,
   personName,
@@ -70,9 +72,7 @@ export function recordOrdinaryMeetingPresence(
   const jurisdictionId = activity.location.jurisdictionId;
   if (!jurisdictionId || !completed.jurisdictions[jurisdictionId])
     return completed;
-  const outcome = completed.history.events.find(
-    (event) => event.id === state.outcomeEventId,
-  );
+  const outcome = eventById(completed, state.outcomeEventId);
   if (
     outcome?.type !== "schedule.activity-completed" ||
     !outcome.involvedEntityIds.includes(activityId) ||
@@ -275,7 +275,7 @@ function writePresence(
       ...drawCanonicalNameForGender(
         rng,
         identity.gender,
-        undefined,
+        nameCorpusVersionForWorld(completed, jurisdictionId),
         DISTINCT_GIVEN_NAME_GENERATION_VERSION,
       ),
       identity,

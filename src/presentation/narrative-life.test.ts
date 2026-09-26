@@ -98,6 +98,32 @@ interface PlayedLife {
   readonly beats: readonly PlayedBeat[];
 }
 
+it("keeps recurring leisure out of the automatic childhood moment stream", () => {
+  const game = createNewGameWorld(
+    setup({
+      placeKey: "alaska",
+      seed: "optional-childhood-leisure",
+      startAge: 10,
+    }),
+  );
+  let world = game.world;
+  for (let step = 0; step < 14; step += 1) {
+    const moment = projectStoryMoment(world, game.playerPersonId);
+    if (moment.scene.kind === "episode") {
+      expect(moment.scene.beat.episodeKey).not.toBe(
+        "opening.young.home.choose-activity",
+      );
+    }
+    if (moment.scene.kind === "ordinary-stretch") break;
+    world = chooseStoryOption(world, {
+      personId: game.playerPersonId,
+      scene: moment.scene,
+      optionKey: moment.scene.options[0]!.key,
+    });
+    world = letStoryTimePass(world, game.playerPersonId);
+  }
+});
+
 /**
  * Plays a life, choosing with the given function each time.
  *
@@ -127,7 +153,8 @@ function play(
     const option =
       moment.scene.options.find((candidate) => candidate.key === wanted) ??
       moment.scene.options[0];
-    if (!option) break;
+    if (!option && moment.scene.kind !== "ordinary-stretch")
+      throw new Error("A playable scene has no response.");
     beats.push({
       index,
       date: world.currentDate,
@@ -138,22 +165,23 @@ function play(
       sceneKind: moment.scene.kind,
       connective: moment.connective.sentences,
       prose: moment.scene.prose,
-      optionKey: option.key,
-      optionLabel: option.label,
+      optionKey: option?.key ?? "",
+      optionLabel: option?.label ?? "",
       episodeKey:
         moment.scene.kind === "episode" ? moment.scene.beat.episodeKey : null,
       stageKey:
         moment.scene.kind === "episode" ? moment.scene.beat.stageKey : null,
       people: moment.scene.withPeople,
     });
-    world = chooseStoryOption(world, {
-      personId,
-      scene: moment.scene,
-      optionKey: option.key,
-    });
-    // This life-spanning walk chooses an explicit wait between moments.
-    // Reading/answering a beat does not silently own that stretch of time.
-    if (moment.scene.kind !== "ordinary-stretch")
+    if (option)
+      world = chooseStoryOption(world, {
+        personId,
+        scene: moment.scene,
+        optionKey: option.key,
+      });
+    // This diagnostic walk advances after a decision or an empty stretch.
+    // The player surface offers Day/Week controls for those intervals.
+    if (moment.scene.kind !== "ordinary-stretch" || !option)
       world = letStoryTimePass(world, personId);
   }
   return { world, personId, beats };
@@ -189,6 +217,61 @@ function calibrate(game: NewGameSetup, index: number): NewGameSetup {
 /* -------------------------------------------------------------------------- */
 
 describe("There is enough authored content to play with", () => {
+  it.each([6, 24])(
+    "keeps daily activities out of the automatic story selection at age %i",
+    (startAge) => {
+      const life = createNewGameWorld(
+        setup({
+          startKind: "custom",
+          startAge,
+          depth: "play-formative-years",
+          seed: `optional-story-${startAge}`,
+        }),
+      );
+      const activity =
+        startAge < 18
+          ? "opening.young.home.choose-activity"
+          : "opening.adult.home.free-time";
+      const trace = traceStorySelection(life.world, life.playerPersonId);
+      expect(
+        trace.ranked.some((entry) => entry.candidate.key.includes(activity)),
+      ).toBe(false);
+      const moment = projectStoryMoment(life.world, life.playerPersonId);
+      expect(
+        moment.scene.kind === "episode" &&
+          moment.scene.beat.episodeKey === activity &&
+          moment.scene.beat.stageKey === "moment",
+      ).toBe(false);
+    },
+  );
+
+  it.each([
+    [7, "young.home.choose-activity"],
+    [24, "adult.home.free-time"],
+  ] as const)(
+    "keeps the archived %s routine out of new story offers",
+    (age, key) => {
+      const created = createNewGameWorld(
+        setup({ seed: `archived-routine-${age}`, startAge: age }),
+      );
+      const world = openOrdinaryLife(created.world, created.playerPersonId);
+      const oldBank = eligibleEpisodeBeats({
+        world,
+        personId: created.playerPersonId,
+        families: EPISODE_FAMILIES,
+      }).beats;
+      expect(oldBank.some((beat) => beat.episodeKey === `opening.${key}`)).toBe(
+        true,
+      );
+      const offered = traceStorySelection(world, created.playerPersonId);
+      expect(
+        offered.ranked.some((entry) =>
+          entry.candidate.key.includes(`opening.${key}`),
+        ),
+      ).toBe(false);
+    },
+  );
+
   it("ships episode families that branch and families that end quietly", () => {
     const summary = episodeBankSummary();
     expect(summary.families).toBeGreaterThanOrEqual(9);
@@ -244,6 +327,8 @@ describe("There is enough authored content to play with", () => {
               "self",
               "age",
               "place",
+              // The school attended today, by the school screen's name.
+              "school",
               "role",
               // PT3: which of this family's own authored alternatives the
               // instance drew — what got broken, rather than "something".
@@ -317,6 +402,18 @@ describe("There is enough authored content to play with", () => {
 /* Path 1 — a formative thread returns, and its later beat depends on a choice */
 /* -------------------------------------------------------------------------- */
 
+/*
+ * This path used to run on "someone at home is not all right": noticing an
+ * older sibling coming in late, then asking them about it months later. The
+ * dialogue review of 2026-09-23 withheld that opening, because nothing records
+ * the sibling's late returns, so no ordinary childhood reaches it. The same
+ * mechanic — a later beat with the same person that exists only because of
+ * one earlier answer — is held on the childhood conversation that still plays:
+ * asking a guardian what school was like for them, which alone opens the beat
+ * where the player waits for the answer.
+ */
+const ASKED_EPISODE = "opening.young.home.ask-about-childhood";
+
 describe("Play-proof 1 — a childhood thread returns and turns on an earlier choice", () => {
   const asked = play(
     setup({
@@ -330,25 +427,17 @@ describe("Play-proof 1 — a childhood thread returns and turns on an earlier ch
 
   it("returns to the same episode, later, with the same person", () => {
     const opening = asked.beats.find(
-      (beat) =>
-        beat.episodeKey === "home.someone-is-not-all-right" &&
-        beat.stageKey === "noticing",
+      (beat) => beat.episodeKey === ASKED_EPISODE && beat.stageKey === "moment",
     );
     const later = asked.beats.find(
       (beat) =>
-        beat.episodeKey === "home.someone-is-not-all-right" &&
-        beat.stageKey === "asked-directly",
+        beat.episodeKey === ASKED_EPISODE && beat.stageKey === "follow-through",
     );
     expect(opening, "the opening beat never came up").toBeDefined();
     expect(later, "the follow-up beat never came up").toBeDefined();
     /*
-     * The same person, months later, on the same thread.
-     *
-     * The opening now also names the adult the player could tell — the option
-     * used to say "a grown-up at home" and name nobody — so its cast is the
-     * larger one. The follow-up is still about the person it was about: every
-     * one of its people was in the room at the opening, and there is somebody
-     * in it.
+     * The same person, later, on the same thread: every one of the follow-up's
+     * people was in the room at the opening, and there is somebody in it.
      */
     expect(later!.people.length).toBeGreaterThan(0);
     for (const person of later!.people) {
@@ -360,9 +449,8 @@ describe("Play-proof 1 — a childhood thread returns and turns on an earlier ch
 
   it("does not offer that follow-up when the earlier choice was different", () => {
     // Same seed, same person, same world. One thing differs: at the opening
-    // beat this player told somebody rather than asking. The follow-up depends
-    // on having asked, so it is never eligible — and the alternative
-    // continuation, which depends on having told, is.
+    // beat this player let the guardian choose the topic rather than asking.
+    // The follow-up depends on having asked, so it is never eligible.
     const told = play(
       setup({
         startAge: 10,
@@ -370,18 +458,22 @@ describe("Play-proof 1 — a childhood thread returns and turns on an earlier ch
         seed: "proof-1-asked",
       }),
       14,
-      prefer("tell-someone", "go", "name-them"),
+      prefer("listen", "go", "name-them"),
     );
     expect(
-      told.beats.some((beat) => beat.stageKey === "asked-directly"),
+      told.beats.some(
+        (beat) =>
+          beat.episodeKey === ASKED_EPISODE &&
+          beat.stageKey === "follow-through",
+      ),
       "the follow-up appeared without the choice it depends on",
     ).toBe(false);
 
     const stages = playedEpisodeStages(told.world, told.personId).filter(
-      (entry) => entry.episodeKey === "home.someone-is-not-all-right",
+      (entry) => entry.episodeKey === ASKED_EPISODE,
     );
-    expect(stages.map((entry) => entry.stageKey)).toContain("noticing");
-    expect(stages[0]!.optionKey).toBe("tell-someone");
+    expect(stages.map((entry) => entry.stageKey)).toContain("moment");
+    expect(stages[0]!.optionKey).toBe("listen");
   });
 
   it("shows the exact records that made the later beat eligible", () => {
@@ -399,7 +491,11 @@ describe("Play-proof 1 — a childhood thread returns and turns on an earlier ch
     );
     expect(
       withRecords.length +
-        asked.beats.filter((beat) => beat.stageKey === "asked-directly").length,
+        asked.beats.filter(
+          (beat) =>
+            beat.episodeKey === ASKED_EPISODE &&
+            beat.stageKey === "follow-through",
+        ).length,
     ).toBeGreaterThan(0);
 
     for (const beat of continuing) {
@@ -632,16 +728,37 @@ describe("Play-proof 4 — a civic thread coexists with a personal one", () => {
     ).toBeGreaterThan(0);
   });
 
-  it("lets the civic thread come back later while it is still live", () => {
-    const civic = episodeInstances(life.world, life.personId).filter(
-      (instance) =>
-        instance.episodeKey === "civic.the-thing-nobody-else-turned-up-for",
-    );
-    expect(civic.length).toBeGreaterThan(0);
+  it("does not open the civic episode, because the meeting it starts from is withheld", () => {
+    /*
+     * This used to prove the civic episode came back for a second stage. The
+     * dialogue review of 2026-09-23 withheld its opening, "the-meeting":
+     * choosing the scene used to create the group it describes, and no
+     * building, notice or meeting is recorded. Every later stage turns on an
+     * answer given there, so no ordinary life opens the episode at all, and
+     * the exclusion says why in the bank's own words. The civic thread above
+     * is carried by the life's own civic records, not by this episode.
+     */
+    const civicKey = "civic.the-thing-nobody-else-turned-up-for";
     expect(
-      civic.some((instance) => instance.stageKeys.length > 1),
-      "the civic episode never returned",
-    ).toBe(true);
+      episodeInstances(life.world, life.personId).filter(
+        (instance) => instance.episodeKey === civicKey,
+      ),
+    ).toHaveLength(0);
+    const withheld = EPISODE_FAMILIES.find((family) => family.key === civicKey)!
+      .stages.find((stage) => stage.key === "the-meeting")!
+      .requires.find((requirement) => requirement.kind === "withheld");
+    expect(withheld?.kind).toBe("withheld");
+    const exclusion = eligibleEpisodeBeats({
+      world: life.world,
+      personId: life.personId,
+      families: EPISODE_FAMILIES,
+    }).exclusions.find(
+      (entry) =>
+        entry.episodeKey === civicKey && entry.stageKey === "the-meeting",
+    );
+    expect(exclusion?.detail).toBe(
+      withheld?.kind === "withheld" ? withheld.reason : undefined,
+    );
   });
 
   it("mixes composed beats with the authored banks rather than one or the other", () => {
@@ -657,8 +774,20 @@ describe("Play-proof 4 — a civic thread coexists with a personal one", () => {
 
 describe("Play-proof 5 — a hard choice may leave nothing behind, and still counts", () => {
   it("schedules nothing for an option that leaves nothing, and still learns from it", () => {
+    // A six-year-old on the custom route, which keeps the shared home. This
+    // used to be a thirty-five-year-old, whose demanding beat was the
+    // neighborhood meeting; the dialogue review of 2026-09-23 withheld it, and
+    // an ordinary adult life now meets no other demanding episode in this many
+    // beats. A child's first demanding beat — a guardian at the table with
+    // their head down — has an option that leaves nothing behind, which is
+    // what this claim needs.
     const created = createNewGameWorld(
-      setup({ seed: "proof-5", startAge: 35 }),
+      setup({
+        startKind: "custom",
+        seed: "proof-5",
+        startAge: 6,
+        depth: "play-formative-years",
+      }),
     );
     let world = created.world;
     const personId = created.playerPersonId;
@@ -730,28 +859,26 @@ describe("Play-proof 5 — a hard choice may leave nothing behind, and still cou
 
 describe("Play-proof 6 — an unremarkable earlier choice decides a later one", () => {
   it("opens a continuation that the quiet option, and only that option, unlocks", () => {
-    // "Say nothing and keep track" is the least dramatic thing on offer at the
-    // opening beat: no confrontation, no disclosure, nothing said. It is also
-    // the only option that leads to `kept-quiet-and-it-continued`, so a player
-    // who took it meets a beat a player who acted never sees — and nothing in
-    // the presentation of the first beat said so.
+    // "Ask for some quiet" is the least dramatic thing on offer when the
+    // player and a housemate are home together: no question, no topic, nothing
+    // said about anything. It is also the only option that leads to the
+    // follow-through, where the player says whether they want to be alone or
+    // to talk later — so a player who took it meets a beat a player who asked
+    // about the housemate's day never sees, and nothing in the first beat said
+    // so.
+    //
+    // This used to be the quiet "watch" at the childhood "coming in late"
+    // beat, which the dialogue review of 2026-09-23 withheld (nothing records
+    // the sibling's late returns). Custom keeps the housemate this beat needs.
+    const SHARED_TIME = "opening.adult.home.shared-time";
     const quiet = play(
-      setup({
-        // Custom keeps the older sibling this chain needs: on the custom route
-        // seed "proof-6" puts a fourteen-year-old at home, old enough for the
-        // "coming in late" beat to be about them. A normal start (Task E)
-        // generates the household, and the beat is now gated on a peer old
-        // enough to be out on their own — see `role-age-at-least`.
-        startKind: "custom",
-        startAge: 10,
-        depth: "play-formative-years",
-        seed: "proof-6",
-      }),
+      setup({ startKind: "custom", startAge: 34, seed: "proof-6" }),
       16,
-      prefer("watch", "keep-watching", "go", "take-it"),
+      prefer("quiet", "alone"),
     );
     const followed = quiet.beats.find(
-      (beat) => beat.stageKey === "kept-quiet-and-it-continued",
+      (beat) =>
+        beat.episodeKey === SHARED_TIME && beat.stageKey === "follow-through",
     );
     expect(
       followed,
@@ -761,23 +888,23 @@ describe("Play-proof 6 — an unremarkable earlier choice decides a later one", 
     ).toBeDefined();
 
     const loud = play(
-      setup({
-        // Custom keeps the older sibling this chain needs: on the custom route
-        // seed "proof-6" puts a fourteen-year-old at home, old enough for the
-        // "coming in late" beat to be about them. A normal start (Task E)
-        // generates the household, and the beat is now gated on a peer old
-        // enough to be out on their own — see `role-age-at-least`.
-        startKind: "custom",
-        startAge: 10,
-        depth: "play-formative-years",
-        seed: "proof-6",
-      }),
+      setup({ startKind: "custom", startAge: 34, seed: "proof-6" }),
       16,
-      prefer("cover", "go", "take-it"),
+      prefer("ask"),
     );
+    // The same beat did come up for this player, and they asked instead.
     expect(
       loud.beats.some(
-        (beat) => beat.stageKey === "kept-quiet-and-it-continued",
+        (beat) =>
+          beat.episodeKey === SHARED_TIME &&
+          beat.stageKey === "moment" &&
+          beat.optionKey === "ask",
+      ),
+    ).toBe(true);
+    expect(
+      loud.beats.some(
+        (beat) =>
+          beat.episodeKey === SHARED_TIME && beat.stageKey === "follow-through",
       ),
     ).toBe(false);
   });

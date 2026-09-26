@@ -1,0 +1,27 @@
+{
+  "filedAt": "2026-09-23T11:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "ordinary adult life",
+  "notes": [
+    "A playtest in Bend, Oregon: Emerson, just out of high school, accepted a place at Oregon State. The first $5,000 tuition bill came due on August 31, 2039 and the only way to pay was personal cash, so if still unfunded their study would pause at the disclosed deadline, September 30. The empty account after five years of weekend work is a separate pay bug (#624).",
+    "Whether a student is admitted, and what tuition costs, is asked in who-gets-into-college-and-what-it-costs. This question is only about how the bill gets paid."
+  ],
+  "priority": "P1",
+  "question": "How do US undergraduate and graduate students actually pay tuition and living costs? What shares are covered by grants (Pell and state grants), institutional aid, federal student loans, private loans, family contributions and the student's own work? What are the federal Direct Loan limits by year of study and dependency status, their interest and repayment start (grace period), and who is eligible for a Pell Grant? How does this differ between community colleges, public four-year and private colleges?",
+  "questionId": "how-students-pay-for-college",
+  "relatedQuestionIds": [
+    "who-gets-into-college-and-what-it-costs",
+    "when-college-applications-are-decided-and-terms-begin"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "ordinary adult life thread",
+  "sourcesChecked": [
+    {
+      "source": "The game's accepted study terms (src/education/study-provider.ts, funding \"available-personal-cash\")",
+      "whatItDidNotSettle": "The only funding the game models is the student's own cash. It has no grant, loan or family contribution."
+    }
+  ],
+  "title": "How students pay for college",
+  "usableAnswer": "By college type: the typical split of a year's cost among grants, loans, family and the student's own earnings, with a named refreshable source (for example NCES NPSAS or College Board Trends in Student Aid). Federal Direct Loan annual and aggregate limits by year and dependency, the interest rate rule and the repayment grace period. Pell Grant eligibility in plain terms and the maximum award for a recent year.",
+  "whyItMatters": "Every accepted study place is funded only from the student's own cash (the \"available-personal-cash\" funding on accepted terms in src/education/study-provider.ts). A student who cannot pay the first bill has their study paused. Nothing in the game can lend, grant or have a family help, so college is closed to anyone without savings, which is most new high school graduates."
+}

@@ -52,7 +52,7 @@ test("ordinary Day and Work expose private personnel preparation", async ({
   await expect(panel).toBeVisible();
   const options = panel.getByRole("combobox", { name: "Your employment" });
   await chooseOption(options, {
-    label: "Shop assistant — Neighborhood Supply Cooperative (fictional)",
+    label: "Shop assistant — Neighborhood Supply Cooperative",
   });
   await panel
     .getByRole("textbox", { name: "Questions to prepare" })

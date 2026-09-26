@@ -7,8 +7,16 @@ import {
   serializeWorld,
 } from "../simulation";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  careerReplyBy,
+  respondCareerOffer,
+  seekCareerOffer,
+  startCareerWork,
+} from "../simulation/career-path7";
+import { CAREER_PROVIDERS } from "./career-path7-provider";
 import { QUIET_ADULT_STEPS } from "./life-story";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import { createExplicitGeographyLife } from "./new-game-geography";
 import { openOrdinaryLife } from "./ordinary-life";
 import {
   describeTimeCommandPreview,
@@ -51,6 +59,31 @@ function request(
 const fixedClock = () => 0;
 
 describe("the canonical time command", () => {
+  it("advances a child's day and week through the same clock", () => {
+    const built = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "child-day-week-controls",
+      startAge: 6,
+      questionnaire: "skipped",
+    });
+    const personId = built.playerPersonId;
+    const world = openOrdinaryLife(built.world, personId);
+    const day = submitTimeCommand(
+      world,
+      request(world, personId, { kind: "days", days: 1 }),
+      fixedClock,
+    );
+    expect(day.receipt.status).toBe("accepted");
+    expect(day.world.currentDate > world.currentDate).toBe(true);
+    const week = submitTimeCommand(
+      day.world,
+      request(day.world, personId, { kind: "days", days: 7 }),
+      fixedClock,
+    );
+    expect(week.receipt.status).toBe("accepted");
+    expect(week.world.currentDate > day.world.currentDate).toBe(true);
+  });
+
   it("moves a single ordinary day to the next morning", () => {
     const { world, personId } = adultLife();
     const { world: next, receipt } = submitTimeCommand(
@@ -158,6 +191,46 @@ describe("the canonical time command", () => {
         (result) => result.contestId === campaign.contestId,
       ),
     ).toHaveLength(1);
+  });
+
+  it("stops on an accepted work start after reload and preserves an unanswered deadline", () => {
+    const built = createExplicitGeographyLife({
+      placeKey: "3825700",
+      seed: "time-command-career-start",
+      startAge: 24,
+    });
+    const personId = built.game.playerPersonId;
+    const world = openOrdinaryLife(built.game.world, personId);
+    const shop = CAREER_PROVIDERS.find(
+      (provider) => provider.pathId === "shop-assistant",
+    )!;
+    const sought = seekCareerOffer(world, shop);
+    expect(sought.ok).toBe(true);
+    const offer = sought.world.history.workRelationships.find(
+      (work) =>
+        work.personId === personId &&
+        work.stableKey.startsWith(`career-path7:${shop.id}:`),
+    )!;
+    const replyBy = careerReplyBy(sought.world, offer.id);
+    const unanswered = submitTimeCommand(
+      sought.world,
+      request(sought.world, personId, { kind: "days", days: 10 }),
+      fixedClock,
+    );
+    expect(unanswered.world.currentDate).toBe(replyBy);
+    expect(careerReplyBy(unanswered.world, offer.id)).toBe(replyBy);
+
+    const accepted = respondCareerOffer(sought.world, offer.id, shop, true);
+    expect(accepted.ok).toBe(true);
+    const reloaded = deserializeWorld(serializeWorld(accepted.world));
+    const reached = submitTimeCommand(
+      reloaded,
+      request(reloaded, personId, { kind: "quiet-stretch" }),
+      fixedClock,
+    );
+    expect(reached.world.currentDate).toBe(offer.startedAt);
+    expect(reached.receipt.outcome).not.toContain("under Work");
+    expect(startCareerWork(reached.world, offer.id, shop).ok).toBe(true);
   });
 
   it("waits until a recorded activity and refuses one already begun", () => {

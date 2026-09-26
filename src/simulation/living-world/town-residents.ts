@@ -52,7 +52,9 @@ import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { placePopulation } from "../nationwide-world/place-population";
 import { recordRelationshipInteraction } from "../records";
+import { DEFAULT_CORPUS_VERSION } from "../names-data";
 import { drawCanonicalNamedIdentity } from "../people";
+import { nameCorpusVersionForWorld } from "../place-name-corpus";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type {
@@ -346,12 +348,14 @@ function namedMembers(
 ): readonly CharacterHistoryContextPersonInput[] {
   const rng = householdRng(world, town, skeleton.index);
   let familyName: string | null = null;
+  const corpusVersion = nameCorpusVersionForWorld(world, town);
   return skeleton.members.map((member, n) => {
     const personRng = rng.fork(`person:${n}`);
     const stableKey = townResidentKey(town, skeleton.index, n);
     const named = drawCanonicalNamedIdentity(
       personRng.fork("name"),
       generatePersonIdentity(personRng.fork("identity")),
+      { corpusVersion },
     );
     // Skeleton ages are ages on the day the world began, so a household
     // written years into a save has the same birthdays as one written on day
@@ -369,12 +373,17 @@ function namedMembers(
     if (familyName === null) familyName = surname;
     return {
       stableKey,
-      givenName: birthCohortGivenName(world.seed, stableKey, {
-        givenName: named.givenName,
-        familyName: surname,
-        birthDate,
-        gender: named.identity.gender,
-      }),
+      // The birth-year cohorts are national; a place with its own names keeps
+      // the name it drew.
+      givenName:
+        corpusVersion === DEFAULT_CORPUS_VERSION
+          ? birthCohortGivenName(world.seed, stableKey, {
+              givenName: named.givenName,
+              familyName: surname,
+              birthDate,
+              gender: named.identity.gender,
+            })
+          : named.givenName,
       familyName: surname,
       identity: named.identity,
       birthDate,

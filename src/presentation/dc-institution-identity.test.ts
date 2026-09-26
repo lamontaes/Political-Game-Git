@@ -37,7 +37,7 @@ describe("D.C. institution identity without invented authority", () => {
       structuralPosition: "SEPARATE_CHIEF_EXECUTIVE",
     });
     expect(reading.manager).toBeNull();
-    expect(municipalRulePackFor(government).ok).toBe(false);
+    expect(municipalRulePackFor(government).ok).toBe(true);
     expect(candidacyAuthority(place.context.jurisdiction.id).pack).toBeNull();
   });
 

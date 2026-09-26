@@ -1,0 +1,24 @@
+{
+  "filedAt": "2026-09-23T03:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "taxes people and businesses pay",
+  "priority": "P2",
+  "question": "(1) State and local government employees, including elected officials: when their wages are covered by Social Security (Section 218 agreements, mandatory Medicare for those hired after March 31, 1986) and how coverage varies by state. (2) Members of Congress and federal employees. (3) Household employers paying a sitter, cleaner or caregiver: the 2026 threshold above which Social Security and Medicare apply, and who withholds. (4) The five inhabited territories (Puerto Rico, Guam, U.S. Virgin Islands, American Samoa, Northern Mariana Islands): whether Social Security and Medicare apply to local wages, per IRS Publication 570 and Publication 80. (5) How the Social Security wage base is set each year after 2026. Mark each with its source.",
+  "questionId": "employment-tax-coverage-exceptions",
+  "relatedQuestionIds": ["who-pays-which-taxes-56-places"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "filed by the Taxes people and businesses pay thread, building on who-pays-which-taxes-56-places",
+  "sourcesChecked": [
+    {
+      "source": "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/RESEARCH-taxes-nationwide-56-jurisdictions-and-federal-2026-09-22.md",
+      "whatItDidNotSettle": "Gives rates and coverage as YES/NO/UNKNOWN; marks withholding method, cadence and payment timing UNKNOWN."
+    },
+    {
+      "source": "src/simulation/statutory-tax.ts and statutory-tax-rules.ts on branch claude/project-thread-nrwxy9",
+      "whatItDidNotSettle": "The paycheck assessment records this tax as UNKNOWN with no amount, because the 56-place research does not carry what is asked here."
+    }
+  ],
+  "title": "Who is outside ordinary Social Security and Medicare withholding",
+  "usableAnswer": "A short rule for each of the five cases with its citation, and the wage-base indexing formula.",
+  "whyItMatters": "An elected official's salary, pay from a household and pay in any territory all record Social Security and Medicare as UNKNOWN today, because the research says coverage needs review. Without the indexing rule the game carries the 2026 wage base forward unchanged."
+}

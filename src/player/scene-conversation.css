@@ -246,6 +246,33 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
   color: #ffd9a8;
 }
 
+.pg-talk-replies {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: start;
+}
+
+.pg-talk .pg-talk-lie-toggle {
+  min-height: 1.7rem;
+  padding: 0.18rem 0.5rem;
+  border: 1px solid #d9826b;
+  border-radius: 0.4rem;
+  color: #f2b3a2;
+  background: rgb(24 37 58 / 92%);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.pg-talk .pg-talk-lie-toggle[aria-pressed="true"] {
+  background: #743a34;
+  color: #fff3ed;
+}
+
+.pg-talk .pg-talk-lie-toggle:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
 .pg-talk-choices {
   display: flex;
   flex-wrap: wrap;

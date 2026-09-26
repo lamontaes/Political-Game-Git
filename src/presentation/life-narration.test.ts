@@ -1,6 +1,17 @@
 import { describe, expect, it } from "vitest";
 
-import { narrativeThreads, serializeWorld } from "../simulation";
+import {
+  addDays,
+  narrativeThreads,
+  personName,
+  recordWorldEvent,
+  serializeWorld,
+} from "../simulation";
+import {
+  CONTACT_DECLINED_EVENT,
+  CONTACT_PROPOSED_EVENT,
+} from "../simulation/people-contact";
+import { SCENE_BINDING_EVENT } from "../simulation/scene-bindings";
 import type { EntityId, World } from "../simulation";
 import {
   composeConnectiveNarration,
@@ -137,12 +148,15 @@ describe("A real change still gets said", () => {
         expect(sentence!.length).toBeGreaterThan(10);
       }
       const option = moment.scene.options[0];
-      if (!option) break;
-      world = chooseStoryOption(world, {
-        personId,
-        scene: moment.scene,
-        optionKey: option.key,
-      });
+      // A quiet stretch has no choice of its own now; the shell's Day and
+      // Week controls move it, as the player would.
+      world = option
+        ? chooseStoryOption(world, {
+            personId,
+            scene: moment.scene,
+            optionKey: option.key,
+          })
+        : letStoryTimePass(world, personId);
     }
     expect(sawMovement).toBe(true);
   });
@@ -265,5 +279,128 @@ describe("the elapsed opener says the gap a person would say", () => {
     [1100, "3 years later"],
   ])("%i days reads %s", (days, phrase) => {
     expect(elapsedPhrase(days)).toBe(phrase);
+  });
+});
+
+describe("an ask nobody answered is not time spent together", () => {
+  function unansweredAsk(asks: number) {
+    const created = createNewGameWorld(
+      setup({ placeKey: "nebraska", seed: "p1-unanswered-ask" }),
+    );
+    let world = created.world;
+    const playerId = created.playerPersonId;
+    const askerId = Object.keys(world.people).find(
+      (id) => id !== playerId,
+    ) as EntityId;
+    const until = world.currentDate;
+    const since = addDays(until, -200);
+    const jurisdictionId = world.history.events[0]!.jurisdictionId;
+    for (let index = 0; index < asks; index += 1) {
+      const askedOn = addDays(since, 10 + index * 40);
+      const proposal = [
+        { personId: askerId, role: "agency:asked", detail: null },
+        { personId: playerId, role: "focus:asked-of", detail: null },
+      ];
+      world = recordWorldEvent(world, {
+        stableKey: `test:ask:${index}`,
+        type: CONTACT_PROPOSED_EVENT,
+        occurredAt: askedOn,
+        recordedAt: askedOn,
+        jurisdictionId: jurisdictionId,
+        involvedEntityIds: [askerId, playerId],
+        participants: proposal,
+        personFactConstraints: [],
+        visibility: "private",
+        tags: ["contact.v1"],
+        summary: "They asked to meet.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const proposalId = world.history.events.at(-1)!.id;
+      // The scene the ask was offered in: bookkeeping beside the ask.
+      world = recordWorldEvent(world, {
+        stableKey: `test:ask:${index}:scene`,
+        type: SCENE_BINDING_EVENT,
+        occurredAt: askedOn,
+        recordedAt: askedOn,
+        jurisdictionId: jurisdictionId,
+        involvedEntityIds: [playerId, askerId],
+        participants: [
+          { personId: playerId, role: "other:scene-subject", detail: null },
+          { personId: askerId, role: "other:scene-speaker", detail: null },
+        ],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: [],
+        summary: "They asked to meet.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const lapsedOn = addDays(askedOn, 14);
+      world = recordWorldEvent(world, {
+        stableKey: `test:ask:${index}:lapsed`,
+        type: CONTACT_DECLINED_EVENT,
+        occurredAt: lapsedOn,
+        recordedAt: lapsedOn,
+        jurisdictionId: jurisdictionId,
+        involvedEntityIds: [askerId, playerId],
+        participants: [
+          {
+            personId: playerId,
+            role: "agency:actor",
+            detail: "Never answered",
+          },
+          { personId: askerId, role: "focus:asked-of", detail: null },
+        ],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: [
+          "contact.v1",
+          `contact.proposal:${proposalId}`,
+          "contact.lapsed",
+        ],
+        summary: "The day passed without an answer.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    }
+    const narration = composeConnectiveNarration({
+      world,
+      personId: playerId,
+      since,
+      until,
+    });
+    const name = personName(world.people[askerId]!);
+    return narration.sentences.filter((sentence) => sentence.includes(name));
+  }
+
+  it("says one unanswered ask as one try, not a busy stretch", () => {
+    const lines = unansweredAsk(1);
+    expect(lines).toHaveLength(1);
+    expect(lines[0]).toMatch(/tried to reach you\.$/);
+  });
+
+  it("says two unanswered asks as more than one try", () => {
+    const lines = unansweredAsk(2);
+    expect(lines).toHaveLength(1);
+    expect(lines[0]).toMatch(/tried to reach you more than once\.$/);
   });
 });

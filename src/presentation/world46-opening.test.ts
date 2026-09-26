@@ -51,7 +51,13 @@ function legacySetup(placeKey: string, seed: string): NewGameSetup {
   delete (legacy as { partyChapterNameVersion?: unknown })
     .partyChapterNameVersion;
   delete (legacy as { schoolNameVersion?: unknown }).schoolNameVersion;
+  delete (legacy as { placeNameVersion?: unknown }).placeNameVersion;
   delete (legacy as { familyBirthdayVersion?: unknown }).familyBirthdayVersion;
+  delete (legacy as { parentPartnerVersion?: unknown }).parentPartnerVersion;
+  // A descriptor from before the congressional home join has no join version,
+  // and its replay records the state chambers only.
+  delete (legacy as { districtHomeJoinVersion?: unknown })
+    .districtHomeJoinVersion;
   return {
     ...legacy,
     seed,
@@ -166,10 +172,14 @@ const sha256 = (text: string) =>
  * Revised Code 718.04; Philadelphia's Wage and Earnings Tax).
  * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
  * only the stripped catalog field moved.
+ *
+ * AND AGAIN 2026-09-23 for the us-federal-positions pack: twenty authored
+ * federal positions appended to `world.policyCatalog` after every existing
+ * id. LEGACY_OPENING_SHAPE passed unchanged on the run that moved these.
  */
 const FED321F7_LEGACY = {
-  kentucky: "da1cecb376ea36cf3bc9b9e73816889a57a1148ef05806f79eb4ef6e3e46e4c7",
-  peebles: "86e7aa487478e44f87e40afc68300bc7c74b9180f1e3aacd3f3bb31e5a58444a",
+  kentucky: "bfa032b826daf686fed0390631e00bbe1f1217aa9022379bce515b9423c35081",
+  peebles: "7f1b23886e4c6fd7e09d636cd3823060fde74efc3f6e49703a35ef7860c76128",
 } as const;
 
 /**

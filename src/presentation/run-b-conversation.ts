@@ -208,6 +208,10 @@ export interface ConversationIntentOption extends ChoiceTruthDeclaration {
   readonly key: ConversationIntent;
   readonly label: string;
   readonly description: string;
+  /** Exact words offered as this reply, when the subject supplies them. */
+  readonly spokenWords?: string;
+  /** The ordinary reply this knowingly false reply replaces in Lie mode. */
+  readonly lieVariantOf?: ConversationIntent;
 }
 
 export interface ConversationDialogueBeat {

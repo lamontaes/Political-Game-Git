@@ -1,5 +1,7 @@
 import {
   OPENING_LIFE_ADDITIONS,
+  OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS,
+  isArchivedRoutineOpeningSceneKey,
   openingLifeSceneAtStage,
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
@@ -9,8 +11,13 @@ import {
   blockingHoldsToday,
   capQuietStretch,
   goableToday,
+  lettableGo,
 } from "./quiet-stretch";
-import { declineVenueActivity } from "./scheduled-activity-choice";
+import {
+  abandonUnperformableCommitment,
+  declineVenueActivity,
+} from "./scheduled-activity-choice";
+import { passOrdinaryDays } from "./ordinary-life";
 import { performVenueActivity } from "./venue-activity";
 import {
   lifeActivityHandlers,
@@ -105,6 +112,20 @@ export interface StoryOption {
   readonly key: string;
   readonly label: string;
   readonly description: string;
+}
+
+/**
+ * The small line printed under a story choice, or null when there is none.
+ *
+ * An instant choice carries no time label. Current content gives it its own
+ * label as the description, and older content said "No time passes"; neither
+ * is repeated under the button. A real duration or note still shows.
+ */
+export function storyOptionNote(option: StoryOption): string | null {
+  const note = option.description.trim();
+  if (note === "" || note === option.label.trim()) return null;
+  if (note === "No time passes") return null;
+  return note;
 }
 
 /**
@@ -342,25 +363,42 @@ function gatherCandidates(
     personId,
     families: EPISODE_FAMILIES,
   });
-  const episodes: Candidate[] = eligibility.beats.map((beat) => {
-    const thread = threadForEpisodeBeat(threads, beat);
-    return {
-      beat,
-      thread,
-      candidate: {
-        key: `episode:${beat.instanceKey}/${beat.stageKey}` as const,
-        band: formativeYears
-          ? ("adolescence" as const)
-          : ("adulthood" as const),
-        stakes: beat.stakes,
-        tensions: beat.tensions,
-        relevance: episodeRelevance(beat, thread),
-        // A later stage exists only because an earlier one was played, which
-        // is exactly the claim the selector's continuity credit is for.
-        followsFromHistory: beat.continues,
-      },
-    };
-  });
+  const episodes: Candidate[] = eligibility.beats
+    .filter(
+      (beat) =>
+        // Recurring leisure must not displace a situation in the life stream
+        // merely because the clock reached a new day.
+        OPENING_LIFE_ADDITIONS.find(
+          (entry) => `opening.${entry.key}` === beat.episodeKey,
+        )?.recurrence !== "daily" &&
+        (beat.stageKey !== "moment" ||
+          !OPTIONAL_OPENING_LIFE_ACTIVITY_KEYS.has(
+            beat.episodeKey.replace(/^opening\./, ""),
+          )) &&
+        (!beat.episodeKey.startsWith("opening.") ||
+          !isArchivedRoutineOpeningSceneKey(
+            beat.episodeKey.slice("opening.".length),
+          )),
+    )
+    .map((beat) => {
+      const thread = threadForEpisodeBeat(threads, beat);
+      return {
+        beat,
+        thread,
+        candidate: {
+          key: `episode:${beat.instanceKey}/${beat.stageKey}` as const,
+          band: formativeYears
+            ? ("adolescence" as const)
+            : ("adulthood" as const),
+          stakes: beat.stakes,
+          tensions: beat.tensions,
+          relevance: episodeRelevance(beat, thread),
+          // A later stage exists only because an earlier one was played, which
+          // is exactly the claim the selector's continuity credit is for.
+          followsFromHistory: beat.continues,
+        },
+      };
+    });
 
   // The banks stay in the ranking rather than being replaced. A composed
   // episode is a better answer when there is one; when there is not, the
@@ -526,13 +564,7 @@ function chooseStoryScene(
     kind: "ordinary-stretch",
     prose: "",
     options: formativeYears
-      ? [
-          {
-            key: "let-it-run",
-            label: "Let the year run on",
-            description: "Pick it up again when something needs you.",
-          },
-        ]
+      ? todayCalendarOptions(world, personId)
       : ordinaryStretchOptions(world, personId),
     withPeople: [],
     presentPeople: [],
@@ -540,24 +572,31 @@ function chooseStoryScene(
 }
 
 /**
- * "Let the weeks run on" stops for commitments, civic holds and the player's
- * own election, and lets an unanswered social invitation lapse as it always
- * has. Dated matters are left to the story (see `KnownCalendarOptions`).
+ * The retained internal quiet-stretch command stops for commitments, civic
+ * holds and the player's own election. No quiet-stretch button is offered.
  */
 const STORY_STRETCH_STOPS = { socialHolds: false, dueItems: false } as const;
+
+/**
+ * Days pass for the story's own buttons stopping at a civic hold posted
+ * during the stretch, not only at ones already on the calendar when it began.
+ */
+const STORY_DAY_ADVANCE: OrdinaryLifeDayAdvance = (world, days) =>
+  passOrdinaryDays(world, days, { stopForCivicHolds: true });
 
 /** The option key that goes to something on today's calendar. */
 const GO_TO_ACTIVITY_PREFIX = "go-to:";
 
 /** The option key that turns down a hold blocking something later today. */
 const TURN_DOWN_PREFIX = "turn-down:";
+/** The option key that gives up a commitment nobody can keep now. */
+const LET_GO_PREFIX = "let-go:";
+/** The option key that gives up every such commitment at once. */
+const LET_GO_ALL_KEY = "let-go-all";
 
 /**
  * What today's calendar asks of the player, as choices: attend each thing they
- * can go to, and turn down an open invitation that blocks a later one. Offered
- * beside every way of letting time pass, because time stops at a commitment
- * due today and a button that stops without saying why looks like it did
- * nothing (Detroit life, September 23, 2026).
+ * can go to, and turn down an open invitation that blocks a later one.
  */
 export function todayCalendarOptions(
   world: World,
@@ -576,7 +615,31 @@ export function todayCalendarOptions(
     label: `Turn down: ${activity.title}`,
     description: "Say you will not come, so the rest of today is free.",
   }));
-  return [...going, ...turningDown];
+  const missed = lettableGo(world, personId);
+  // A Delaware save carried seven missed meetings from older builds; seven
+  // buttons on every moment would bury the story, so more than one is one.
+  const lettingGo =
+    missed.length > 1
+      ? [
+          {
+            key: LET_GO_ALL_KEY,
+            label: `Let go of ${missed.length} commitments that can no longer be kept`,
+            description: missed
+              .map((activity) => {
+                const start = scheduledActivityState(world, activity.id).start;
+                return `${activity.title}, ${longDate(start.date)}`;
+              })
+              .join("; ")
+              .concat("."),
+          },
+        ]
+      : missed.map((activity) => ({
+          key: `${LET_GO_PREFIX}${activity.id}`,
+          label: `Let it go: ${activity.title}`,
+          description:
+            "It can no longer be kept as planned, so take it off the calendar.",
+        }));
+  return [...going, ...turningDown, ...lettingGo];
 }
 
 /**
@@ -612,35 +675,30 @@ export function chooseTodayCalendarOption(
     if (!activity) return world;
     return declineVenueActivity(world, input.personId, activity.id);
   }
+  if (input.optionKey === LET_GO_ALL_KEY) {
+    return lettableGo(world, input.personId).reduce(
+      (next, activity) =>
+        abandonUnperformableCommitment(next, input.personId, activity.id),
+      world,
+    );
+  }
+  if (input.optionKey.startsWith(LET_GO_PREFIX)) {
+    const wanted = input.optionKey.slice(LET_GO_PREFIX.length);
+    const activity = lettableGo(world, input.personId).find(
+      (candidate) => candidate.id === wanted,
+    );
+    if (!activity) return world;
+    return abandonUnperformableCommitment(world, input.personId, activity.id);
+  }
   return null;
 }
 
-/**
- * What a quiet adult stretch offers: whatever today's calendar holds that the
- * player can go to, and letting the weeks run on as far as the next thing on
- * it. A meeting the player was invited to is a real choice on the day it
- * happens, not something the clock decides by walking past it.
- */
+/** Today's real calendar commitments remain available when no scene is open. */
 export function ordinaryStretchOptions(
   world: World,
   personId: EntityId,
 ): readonly StoryOption[] {
-  const { days, cappedBy } = capQuietStretch(
-    world,
-    personId,
-    quietStepDays(world.currentDate),
-    STORY_STRETCH_STOPS,
-  );
-  return [
-    ...todayCalendarOptions(world, personId),
-    {
-      key: "let-it-run",
-      label: "Let the weeks run on",
-      description: cappedBy
-        ? `Until the morning of ${longDate(addDays(world.currentDate, days))}: ${cappedBy.title}.`
-        : "Pick it up again when something needs you.",
-    },
-  ];
+  return todayCalendarOptions(world, personId);
 }
 
 /**
@@ -806,7 +864,6 @@ function stakesOfKey(key: SelectableSituationKey) {
 /* -------------------------------------------------------------------------- */
 
 export interface ChooseStoryOptionInput {
-  readonly advanceDays?: OrdinaryLifeDayAdvance;
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
   readonly personId: EntityId;
   readonly scene: StoryScene;
@@ -896,7 +953,7 @@ export function chooseStoryOption(
     case "ordinary-stretch": {
       const today = chooseTodayCalendarOption(world, input);
       if (today) return today;
-      return letStoryTimePass(world, input.personId, input.advanceDays);
+      return world;
     }
   }
 }
@@ -933,7 +990,7 @@ export function quietStepDays(from: IsoDate): number {
 export function letStoryTimePass(
   world: World,
   personId: EntityId,
-  advanceDays?: OrdinaryLifeDayAdvance,
+  advanceDays: OrdinaryLifeDayAdvance = STORY_DAY_ADVANCE,
 ): World {
   if (formativeIntervalAt(world, personId) !== null) {
     return letTimePass(world, personId, advanceDays);

@@ -51,7 +51,7 @@ function request(id: string): AssetRequest {
   };
 }
 
-function setup() {
+function setup(now?: () => string) {
   const workspace = mkdtempSync(join(tmpdir(), "artbench-dup-ws-"));
   mkdirSync(join(workspace, "art/requests"), { recursive: true });
   writeFileSync(
@@ -71,6 +71,7 @@ function setup() {
       workspace,
       driveRoot: drive,
       ownerId: OWNER.id,
+      now,
     });
   return { workspace, drive, open };
 }
@@ -281,8 +282,8 @@ function legacyIngest(
 }
 
 describe("legacy duplicates from random ids", () => {
-  function legacyStore(bytes: Buffer) {
-    const { open } = setup();
+  function legacyStore(bytes: Buffer, now?: () => string) {
+    const { open } = setup(now);
     const root = mkdtempSync(join(tmpdir(), "artbench-dup-legacy-"));
     mkdirSync(join(root, "bytes"), { recursive: true });
     writeFileSync(join(root, "bytes", `${hashBytes(bytes)}.png`), bytes);
@@ -426,5 +427,23 @@ describe("legacy duplicates from random ids", () => {
       "approve",
     ]);
     expect(projection.candidates["cand-legacy-hub"]!.decisions).toHaveLength(1);
+  });
+
+  it("keeps two decisions made in the same millisecond in the order they were made", () => {
+    // Event ids are random, so a tie broken by id comes out either way; eight
+    // stores make that near certain to show if the order is not append order.
+    for (let run = 0; run < 8; run += 1) {
+      const { store } = legacyStore(
+        tinyPng(6, 6),
+        () => "2026-09-16T19:00:00.000Z",
+      );
+      decide(store, "cand-legacy-hub", "reject");
+      decide(store, "cand-legacy-standalone", "approve");
+      const canonical = store.projection().candidates["cand-legacy-hub"]!;
+      expect(canonical.groupDecisions.map((d) => d.payload.decision)).toEqual([
+        "reject",
+        "approve",
+      ]);
+    }
   });
 });

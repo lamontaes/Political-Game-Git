@@ -155,6 +155,22 @@
       "textRevision": "b80ce067127c"
     },
     {
+      "anchor": "ACTION_HEADLINES-0020",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "Approved without a signature",
+      "occurrence": 0,
+      "textRevision": "4f87cf4ceb17"
+    },
+    {
+      "anchor": "ACTION_HEADLINES-0021",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "ACTION_HEADLINES",
+      "text": "The veto stood",
+      "occurrence": 0,
+      "textRevision": "6c83ed3827c1"
+    },
+    {
       "anchor": "ART_PREVIEW_LABEL-0001",
       "sourcePath": "src/presentation/art-preview.ts",
       "symbol": "ART_PREVIEW_LABEL",
@@ -1819,6 +1835,62 @@
       "textRevision": "8b83ccfb6f97"
     },
     {
+      "anchor": "MunicipalWorkspace-0088",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Approved without {governing.executiveName}'s signature. ",
+      "occurrence": 0,
+      "textRevision": "da7c8ae7b075"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0089",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Reenacted over the return. ",
+      "occurrence": 0,
+      "textRevision": "8a9881eae087"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0090",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Signed by {governing.executiveName}. ",
+      "occurrence": 0,
+      "textRevision": "41e94ced3325"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0091",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "The council did not pass it.",
+      "occurrence": 0,
+      "textRevision": "85eb7238edb0"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0092",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "a date not read",
+      "occurrence": 0,
+      "textRevision": "b4e052d9c3f7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0093",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "a date not read",
+      "occurrence": 1,
+      "textRevision": "b4e052d9c3f7"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0094",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "{governing.executiveName.charAt(0).toUpperCase()+governing.executiveName.slice(1)} returned it, and it was not reenacted.",
+      "occurrence": 0,
+      "textRevision": "a3018b3eac3a"
+    },
+    {
       "anchor": "OPTIONS-0001",
       "sourcePath": "src/presentation/office-response.ts",
       "symbol": "OPTIONS",
@@ -2899,14 +2971,6 @@
       "textRevision": "02dbcbcf9da1"
     },
     {
-      "anchor": "bereavedAnswers-0003",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "I keep coming back to the small things about {given}.",
-      "occurrence": 0,
-      "textRevision": "8ed0602a1eb2"
-    },
-    {
       "anchor": "bereavedAnswers-0004",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "bereavedAnswers",
@@ -2931,52 +2995,12 @@
       "textRevision": "771b86b9b019"
     },
     {
-      "anchor": "bereavedAnswers-0007",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "Offer to take something on",
-      "occurrence": 0,
-      "textRevision": "94caf7dbf882"
-    },
-    {
-      "anchor": "bereavedAnswers-0008",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "Remember them out loud.",
-      "occurrence": 0,
-      "textRevision": "50930ad4df82"
-    },
-    {
-      "anchor": "bereavedAnswers-0009",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "Say something about {given}",
-      "occurrence": 0,
-      "textRevision": "3fb2732efb74"
-    },
-    {
       "anchor": "bereavedAnswers-0010",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "bereavedAnswers",
       "text": "Say you don’t know what to say",
       "occurrence": 0,
       "textRevision": "9428367bbcfa"
-    },
-    {
-      "anchor": "bereavedAnswers-0011",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "Tell me what needs doing. I can take some of it.",
-      "occurrence": 0,
-      "textRevision": "6438f49ccbb7"
-    },
-    {
-      "anchor": "bereavedAnswers-0012",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "The player and {context.name} remembered {given} together.",
-      "occurrence": 0,
-      "textRevision": "7dd270b3fa0c"
     },
     {
       "anchor": "bereavedAnswers-0013",
@@ -2987,44 +3011,12 @@
       "textRevision": "17f2cf49fc2a"
     },
     {
-      "anchor": "bereavedAnswers-0014",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "The player offered {context.name} to take on some of the arrangements for {given}.",
-      "occurrence": 0,
-      "textRevision": "b4f497a63095"
-    },
-    {
       "anchor": "bereavedAnswers-0015",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "bereavedAnswers",
       "text": "The player told {context.name} they had no words for it yet.",
       "occurrence": 0,
       "textRevision": "bf11aeb4035b"
-    },
-    {
-      "anchor": "bereavedAnswers-0016",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "There are arrangements, and you can carry some of them.",
-      "occurrence": 0,
-      "textRevision": "de19303333b0"
-    },
-    {
-      "anchor": "bereavedAnswers-0017",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "{playerName} and {otherName} talked about {given}.",
-      "occurrence": 0,
-      "textRevision": "bc61f8924310"
-    },
-    {
-      "anchor": "bereavedAnswers-0018",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "{playerName} offered to carry some of what {otherName} was left with.",
-      "occurrence": 0,
-      "textRevision": "c76a2a293496"
     },
     {
       "anchor": "bereavedAnswers-0019",
@@ -3051,44 +3043,20 @@
       "textRevision": "248c4c6cd4e7"
     },
     {
-      "anchor": "bereavedAnswers-0022",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "“So do I. That’s the part that gets me,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "a035e921e758"
-    },
-    {
-      "anchor": "bereavedAnswers-0023",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "“Tell me one. I’d like to hear it,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "d64d1c10f431"
-    },
-    {
-      "anchor": "bereavedAnswers-0024",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "“Thank you. I didn’t want to ask,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "4344ab1c815b"
-    },
-    {
-      "anchor": "bereavedAnswers-0025",
-      "sourcePath": "src/presentation/contextual-scene-families.ts",
-      "symbol": "bereavedAnswers",
-      "text": "“That would help. I’ll write you a list,” {name} says.",
-      "occurrence": 0,
-      "textRevision": "e576d3f45977"
-    },
-    {
       "anchor": "bereavedAnswers-0026",
       "sourcePath": "src/presentation/contextual-scene-families.ts",
       "symbol": "bereavedAnswers",
       "text": "“You don’t have to,” {name} says.",
       "occurrence": 0,
       "textRevision": "b8679caf695d"
+    },
+    {
+      "anchor": "bereavedAnswers-0027",
+      "sourcePath": "src/presentation/contextual-scene-families.ts",
+      "symbol": "bereavedAnswers",
+      "text": "{playerName} and {otherName} talked about {context.fact(\"deceasedGiven\")}.",
+      "occurrence": 0,
+      "textRevision": "07bff1e55592"
     },
     {
       "anchor": "buildFloorStages-0001",
@@ -6310,9 +6278,9 @@
       "anchor": "projectCampaign-0001",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} lost{resultMargin(result,personId)}. That is a thing that happened to them, not the end of them — tomorrow is still there.",
+      "text": "{candidateName} lost{resultMargin(result,personId)}.",
       "occurrence": 0,
-      "textRevision": "3d0e0d36028a"
+      "textRevision": "a9b174625a87"
     },
     {
       "anchor": "projectCampaign-0002",
@@ -6326,9 +6294,33 @@
       "anchor": "projectCampaign-0003",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "projectCampaign",
-      "text": "{candidateName} won{resultMargin(result,personId)}. The term begins {proseDate(term.startsAt)}; until then the office is not theirs.",
+      "text": "{candidateName} won{resultMargin(result,personId)}. The term begins {proseDate(term.startsAt)}; until then the office is not {pronouns.possessivePronoun}.",
       "occurrence": 0,
-      "textRevision": "82d601f954f4"
+      "textRevision": "e865b44e5412"
+    },
+    {
+      "anchor": "projectCampaign-0004",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won{resultMargin(result,personId)} and keeps the seat. The new term begins {proseDate(term.startsAt)}.",
+      "occurrence": 0,
+      "textRevision": "e1f6b7d4eb13"
+    },
+    {
+      "anchor": "projectCampaign-0005",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won{resultMargin(result,personId)} and kept the seat. The new term began {proseDate(term.startsAt)}.",
+      "occurrence": 0,
+      "textRevision": "5937580405bf"
+    },
+    {
+      "anchor": "projectCampaign-0006",
+      "sourcePath": "src/presentation/campaign-projection.ts",
+      "symbol": "projectCampaign",
+      "text": "{candidateName} won{resultMargin(result,personId)}. The term began {proseDate(term.startsAt)}.",
+      "occurrence": 0,
+      "textRevision": "fd6352a560d6"
     },
     {
       "anchor": "projectDisclosure-0001",
@@ -6449,6 +6441,14 @@
       "text": "The bill was enacted; its effective date has not been recorded. Enactment alone does not implement an unmodeled policy effect.",
       "occurrence": 0,
       "textRevision": "7e9e5d00a119"
+    },
+    {
+      "anchor": "projectMeasureBriefing-0012",
+      "sourcePath": "src/presentation/legislation-projection.ts",
+      "symbol": "projectMeasureBriefing",
+      "text": "The bill is on the {pack.executive.titleLabel}'s desk.",
+      "occurrence": 0,
+      "textRevision": "1178fc68a26e"
     },
     {
       "anchor": "projectOfficeMatters-0001",
@@ -8502,9 +8502,9 @@
       "anchor": "unavailable-0002",
       "sourcePath": "src/presentation/campaign-projection.ts",
       "symbol": "unavailable",
-      "text": "The rest of today is already spoken for. Get on with the day and pick this up tomorrow.",
+      "text": "The rest of today is already spoken for.",
       "occurrence": 0,
-      "textRevision": "5a0d555537c5"
+      "textRevision": "c99f687aad47"
     },
     {
       "anchor": "unavailable-0003",

@@ -1,6 +1,6 @@
 import { expect, type Page } from "@playwright/test";
 import { campaignWeeklyUntilDecided, workOfferedOutreach } from "./campaign";
-import { enterLife, goTo } from "./creator";
+import { enterLife, goTo, passShellTime } from "./creator";
 import {
   chooseStateLegislativeOffice,
   type ChamberChoice,
@@ -43,7 +43,7 @@ export async function reachMemberOffice(
   // failure rather than a premise to re-tune.
   for (let day = 0; day < 48; day += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) break;
-    await page.getByTestId("pass-day").click();
+    await passShellTime(page);
     await workOfferedOutreach(page);
   }
   // The seat is decided on the state's election day, not after 48 days.

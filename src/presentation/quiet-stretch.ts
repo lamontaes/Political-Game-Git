@@ -1,15 +1,17 @@
 import {
-  CAMPAIGN_LIFE_CATALOG,
+  addDays,
   compareSimulationMoments,
   currentLifeCutoff,
   daysBetween,
   futureDueItemStateAt,
+  nextKnownOccasionNoticeDate,
   scheduledActivityState,
   type EntityId,
   type IsoDate,
   type ScheduledActivityRecord,
   type World,
 } from "../simulation";
+import { isCivicHold } from "./civic-hold";
 import { nextOwnElection } from "./own-election";
 import { EARLIER_COMMITMENT_REFUSAL, venueActivities } from "./venue-activity";
 
@@ -31,29 +33,7 @@ export interface KnownCalendarItem {
   readonly date: IsoDate;
 }
 
-/**
- * Where civic life happens on the calendar: the community room that posted
- * public meetings, party chapter meetings and in-person campaign shifts share,
- * and the phone shift worked from home. Read from the campaign activity
- * catalog so a new form of civic activity brings its own location with it.
- */
-const CIVIC_LOCATION_KEYS: ReadonlySet<string> = new Set(
-  Object.values(CAMPAIGN_LIFE_CATALOG).map((entry) => entry.locationKey),
-);
-
-/**
- * A tentative hold for a public, party or campaign occasion, as against a
- * social one. An unanswered social invitation may lapse during a quiet
- * stretch, which the interruption checklist lets the player change; a civic
- * one is always a stop, because walking past it is the political game
- * deciding for the player.
- */
-export function isCivicHold(activity: ScheduledActivityRecord): boolean {
-  return (
-    activity.kind === "tentative" &&
-    CIVIC_LOCATION_KEYS.has(activity.location.locationKey)
-  );
-}
+export { isCivicHold } from "./civic-hold";
 
 export interface KnownCalendarOptions {
   /**
@@ -165,6 +145,21 @@ export function capQuietStretch(
       };
     }
   }
+  // Nor through the days in which somebody the player knows would ask them
+  // over for a birthday: it ends the morning that notice opens, so the ask is
+  // made while there is still time to answer it.
+  const notice = nextKnownOccasionNoticeDate(
+    world,
+    personId,
+    addDays(world.currentDate, days - 1),
+  );
+  if (notice) {
+    const until = daysBetween(world.currentDate, notice);
+    if (until >= 1 && until < days) {
+      days = until;
+      cappedBy = null;
+    }
+  }
   return { days, cappedBy };
 }
 
@@ -229,6 +224,32 @@ export function blockingHoldsToday(
           scheduledActivityState(world, entry.activity.id).start,
           latest,
         ) < 0,
+    )
+    .map((entry) => entry.activity);
+}
+
+/**
+ * Commitments due now or already past that the game has no way to let the
+ * player keep, which they may therefore give up: one whose start has gone by,
+ * or one due now with no route to it.
+ * Offered wherever the player can act, because time will not step over a
+ * confirmed commitment and a life holding one has no other move.
+ */
+export function lettableGo(
+  world: World,
+  personId: EntityId,
+): readonly ScheduledActivityRecord[] {
+  // Only what is due now or already past. A later commitment the player
+  // cannot reach from here may be reachable by then, and giving it up is the
+  // Places screen's decision, not something every moment should push.
+  return venueActivities(world, personId)
+    .filter(
+      (entry) =>
+        entry.abandonable &&
+        compareSimulationMoments(
+          scheduledActivityState(world, entry.activity.id).start,
+          world.currentMoment,
+        ) <= 0,
     )
     .map((entry) => entry.activity);
 }

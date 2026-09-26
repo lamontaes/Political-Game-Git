@@ -418,12 +418,11 @@ export function workStatusHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly WorkStatusRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.workStatuses
-    .filter(
-      (record) =>
-        record.workRelationshipId === workRelationshipId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsForWorkRelationship(
+    world.history.workStatuses,
+    workRelationshipId,
+  )
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
@@ -433,12 +432,8 @@ export function workRoleHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly WorkRoleRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.workRoles
-    .filter(
-      (record) =>
-        record.workRelationshipId === workRelationshipId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsForWorkRelationship(world.history.workRoles, workRelationshipId)
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
@@ -1051,6 +1046,33 @@ function validateCutoff(world: World, cutoff: HistoricalCutoff): void {
   ) {
     throw new Error("Historical cutoff sequence is outside world history.");
   }
+}
+
+/**
+ * Status and role rows grouped by their work relationship. History arrays are
+ * replaced, never mutated, on each write, so the grouping is cached per array
+ * and a lookup reads one relationship's rows instead of the whole history.
+ */
+const recordsByWorkRelationship = new WeakMap<
+  readonly { readonly workRelationshipId: EntityId }[],
+  ReadonlyMap<EntityId, readonly unknown[]>
+>();
+
+function recordsForWorkRelationship<
+  T extends { readonly workRelationshipId: EntityId },
+>(records: readonly T[], workRelationshipId: EntityId): readonly T[] {
+  let grouped = recordsByWorkRelationship.get(records);
+  if (!grouped) {
+    const built = new Map<EntityId, T[]>();
+    for (const record of records) {
+      const list = built.get(record.workRelationshipId);
+      if (list) list.push(record);
+      else built.set(record.workRelationshipId, [record]);
+    }
+    grouped = built;
+    recordsByWorkRelationship.set(records, grouped);
+  }
+  return (grouped.get(workRelationshipId) ?? []) as readonly T[];
 }
 
 function available(

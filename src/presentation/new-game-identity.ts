@@ -1,6 +1,11 @@
+import { PLACE_NAMES_V1_VERSION } from "../simulation/names-data";
 import { SCHOOL_NAMES_V2_VERSION } from "../simulation/school-names";
-import { SCHOOL_STAGES_V1 } from "../simulation/school-stages";
-import { FAMILY_BIRTHDAYS_V1 } from "./production-world";
+import {
+  SCHOOL_STAGES_V1,
+  SCHOOL_STAGES_V2,
+} from "../simulation/school-stages";
+import { FAMILY_BIRTHDAYS_V1, PARENT_PARTNERS_V1 } from "./production-world";
+import { CONGRESSIONAL_HOME_JOIN_V1 } from "../simulation/district-residence";
 import { RESIDENT_CHAPTER_NAME_VERSION } from "../simulation/living-world/party-chapters";
 import {
   canonicalPriorEncoding,
@@ -219,6 +224,9 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
   const givenNameGenerationVersion = setup.givenNameGenerationVersion;
   const appearanceCatalogGeneration = setup.appearanceCatalogGeneration;
   const extras = {
+    ...(setup.questionnaireSelectionVersion === undefined
+      ? {}
+      : { questionnaireSelectionVersion: setup.questionnaireSelectionVersion }),
     ...(setup.questionnaireCopyVersion === undefined
       ? {}
       : { questionnaireCopyVersion: setup.questionnaireCopyVersion }),
@@ -234,12 +242,21 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.schoolNameVersion === undefined
       ? {}
       : { schoolNameVersion: setup.schoolNameVersion }),
+    ...(setup.placeNameVersion === undefined
+      ? {}
+      : { placeNameVersion: setup.placeNameVersion }),
     ...(setup.schoolStageVersion === undefined
       ? {}
       : { schoolStageVersion: setup.schoolStageVersion }),
+    ...(setup.districtHomeJoinVersion === undefined
+      ? {}
+      : { districtHomeJoinVersion: setup.districtHomeJoinVersion }),
     ...(setup.familyBirthdayVersion === undefined
       ? {}
       : { familyBirthdayVersion: setup.familyBirthdayVersion }),
+    ...(setup.parentPartnerVersion === undefined
+      ? {}
+      : { parentPartnerVersion: setup.parentPartnerVersion }),
     ...(setup.birthYear === undefined ? {} : { birthYear: setup.birthYear }),
     ...(setup.openingDataVersion === undefined
       ? {}
@@ -343,7 +360,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   const openingDataVersion = record.openingDataVersion;
   if (
     openingDataVersion !== undefined &&
-    openingDataVersion !== "playtest65-v1"
+    openingDataVersion !== "playtest65-v1" &&
+    openingDataVersion !== "playtest65-v2"
   )
     return null;
   const livingWorldMemberNameVersion = record.livingWorldMemberNameVersion;
@@ -376,6 +394,11 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   if (
+    record.questionnaireSelectionVersion !== undefined &&
+    record.questionnaireSelectionVersion !== "curated-v1"
+  )
+    return null;
+  if (
     record.earlierLifeGenerationVersion !== undefined &&
     record.earlierLifeGenerationVersion !== "context-v2"
   )
@@ -396,13 +419,29 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   )
     return null;
   if (
+    record.placeNameVersion !== undefined &&
+    record.placeNameVersion !== PLACE_NAMES_V1_VERSION
+  )
+    return null;
+  if (
     record.schoolStageVersion !== undefined &&
-    record.schoolStageVersion !== SCHOOL_STAGES_V1
+    record.schoolStageVersion !== SCHOOL_STAGES_V1 &&
+    record.schoolStageVersion !== SCHOOL_STAGES_V2
   )
     return null;
   if (
     record.familyBirthdayVersion !== undefined &&
     record.familyBirthdayVersion !== FAMILY_BIRTHDAYS_V1
+  )
+    return null;
+  if (
+    record.parentPartnerVersion !== undefined &&
+    record.parentPartnerVersion !== PARENT_PARTNERS_V1
+  )
+    return null;
+  if (
+    record.districtHomeJoinVersion !== undefined &&
+    record.districtHomeJoinVersion !== CONGRESSIONAL_HOME_JOIN_V1
   )
     return null;
   if (
@@ -475,6 +514,9 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.questionnaireCopyVersion === undefined
       ? {}
       : { questionnaireCopyVersion: "playtest65-v2" as const }),
+    ...(record.questionnaireSelectionVersion === undefined
+      ? {}
+      : { questionnaireSelectionVersion: "curated-v1" as const }),
     ...(record.earlierLifeGenerationVersion === undefined
       ? {}
       : { earlierLifeGenerationVersion: "context-v2" as const }),
@@ -487,12 +529,26 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
     ...(record.schoolNameVersion === undefined
       ? {}
       : { schoolNameVersion: SCHOOL_NAMES_V2_VERSION }),
+    ...(record.placeNameVersion === undefined
+      ? {}
+      : { placeNameVersion: PLACE_NAMES_V1_VERSION }),
     ...(record.schoolStageVersion === undefined
       ? {}
-      : { schoolStageVersion: SCHOOL_STAGES_V1 }),
+      : {
+          schoolStageVersion:
+            record.schoolStageVersion === SCHOOL_STAGES_V2
+              ? SCHOOL_STAGES_V2
+              : SCHOOL_STAGES_V1,
+        }),
     ...(record.familyBirthdayVersion === undefined
       ? {}
       : { familyBirthdayVersion: FAMILY_BIRTHDAYS_V1 }),
+    ...(record.parentPartnerVersion === undefined
+      ? {}
+      : { parentPartnerVersion: PARENT_PARTNERS_V1 }),
+    ...(record.districtHomeJoinVersion === undefined
+      ? {}
+      : { districtHomeJoinVersion: CONGRESSIONAL_HOME_JOIN_V1 }),
     ...(appearanceRecipeVersion === undefined
       ? {}
       : { appearanceRecipeVersion: appearanceRecipeVersion as string }),

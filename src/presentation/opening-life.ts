@@ -2,6 +2,8 @@ import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
+import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
+import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
   canonicalJson,
@@ -86,16 +88,21 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
   );
   // A legacy replay descriptor keeps its prior construction exactly: its
   // opening governor holds a recorded tenure, not GOVERNING's dated term.
-  const placed =
-    session.setup.openingDataVersion === "playtest65-v1"
-      ? establishOpeningLocation(economic, game.playerPersonId)
-      : economic;
+  // Both opening-data versions place the player and seat the vice president;
+  // only "playtest65-v1" also writes the two fixed, already-concluded local
+  // matters, which a replay descriptor recorded under it must keep rebuilding.
+  const openingData = session.setup.openingDataVersion;
+  const versionedOpening =
+    openingData === "playtest65-v1" || openingData === "playtest65-v2";
+  const placed = versionedOpening
+    ? establishOpeningLocation(economic, game.playerPersonId)
+    : economic;
   const staffed = establishOpeningOfficeholders(placed, game.playerPersonId, {
     datedTerms: session.setup.worldOpeningVersion !== undefined,
-    includeVicePresident: session.setup.openingDataVersion === "playtest65-v1",
+    includeVicePresident: versionedOpening,
   });
   const withPriorRecords =
-    session.setup.openingDataVersion === "playtest65-v1"
+    openingData === "playtest65-v1"
       ? ensureOpeningPriorLocalRecords(staffed, game.playerPersonId)
       : staffed;
   return {
@@ -161,9 +168,11 @@ function ensureHomeStateLegislature(
     return world;
   }
   const stateUsps = homeStateUsps(world, playerPersonId);
-  return stateUsps
-    ? ensureStateLegislatureOpening(world, playerPersonId, stateUsps)
-    : world;
+  if (!stateUsps) return world;
+  // The District's legislature is its Council, which is seated on its own.
+  return stateUsps === "DC"
+    ? scheduleDcCouncilSitting(ensureDistrictOfColumbiaCouncilOpening(world))
+    : ensureStateLegislatureOpening(world, playerPersonId, stateUsps);
 }
 
 /**
