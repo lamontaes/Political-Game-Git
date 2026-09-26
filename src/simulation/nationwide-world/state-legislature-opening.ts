@@ -389,13 +389,31 @@ function bindDistricts(
   );
 }
 
+/*
+ * Where each legislature's opening event was last found. History only grows,
+ * so the same event at the same position answers "established" at once; any
+ * other World looks again.
+ */
+const OPENING_EVENT_AT = new Map<
+  string,
+  { readonly index: number; readonly event: unknown }
+>();
+
 export function stateLegislatureEstablished(
   world: World,
   packId: string,
 ): boolean {
-  return world.history.events.some(
-    (event) => event.stableKey === STATE_LEGISLATURE_KEYS.opening(packId),
-  );
+  const events = world.history.events;
+  const stableKey = STATE_LEGISLATURE_KEYS.opening(packId);
+  const known = OPENING_EVENT_AT.get(`${world.id}|${stableKey}`);
+  if (known && events[known.index] === known.event) return true;
+  const index = events.findIndex((event) => event.stableKey === stableKey);
+  if (index < 0) return false;
+  OPENING_EVENT_AT.set(`${world.id}|${stableKey}`, {
+    index,
+    event: events[index],
+  });
+  return true;
 }
 
 /** A seat's public title: its chamber and, where known, its district. */
