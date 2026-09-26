@@ -522,6 +522,22 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     expect(outturn).toHaveLength(1);
     expect(outturn[0]!.restoredUnits).toBeNull();
     expect(programPosition(world, PARKS).unitsOperational).toBe(31);
+    // Nothing counted came back into service, so nothing says it was
+    // delivered: not the due's recorded context and not any event.
+    const deliveryDue = world.history.futureDueItems.find(
+      (item) => item.transitionKey === "public-program:delivery",
+    )!;
+    const deliveryState = world.history.futureDueItemStates.find(
+      (state) =>
+        state.dueItemId === deliveryDue.id && state.status !== "scheduled",
+    )!;
+    expect(deliveryState.status).toBe("resolved");
+    expect(deliveryState.context).toBe(
+      "The payment posted; no service unit was restored yet.",
+    );
+    expect(
+      world.history.events.filter((event) => /deliver/i.test(event.summary)),
+    ).toEqual([]);
     // The transit appropriation is untouched.
     expect(programPosition(world, TRANSIT).committed.minorUnits).toBe(0);
   }, 120_000);

@@ -19,6 +19,7 @@ import {
 } from "../simulation/legislature-rules";
 import { personName } from "../simulation/people";
 import { lawEffectSentences } from "./law-effects-prose";
+import { proseDate } from "./prose-dates";
 import type {
   EntityId,
   LegislativeActionKind,
@@ -538,7 +539,7 @@ export function projectMeasureBriefing(
     // `whereItStands` already reads "The bill is law." for the enacted phase,
     // so only add a note when the effective date says something it does not.
     outcomeNote = enactment?.effectiveAt
-      ? `The bill is law and takes effect on ${enactment.effectiveAt}.`
+      ? `The bill is law and takes effect on ${proseDate(enactment.effectiveAt)}.`
       : "The bill was enacted; its effective date has not been recorded. Enactment alone does not implement an unmodeled policy effect.";
   } else if (position.outcome === "failed-in-committee") {
     outcomeNote =

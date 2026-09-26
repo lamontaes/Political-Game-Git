@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  governmentMayEnactVariant,
   programConfigurations,
   programFamilies,
 } from "../simulation/legislation-program-families";
@@ -15,12 +16,18 @@ describe("legislation content navigation", () => {
     const options = availableDraftOptions("kentucky");
     const catalog = legislationContentCatalog(options);
     const entries = catalog.flatMap((subject) => subject.entries);
-    const bankKeys = programConfigurations().map(
-      ({ familyKey, variantKey }) => `${familyKey}/${variantKey}`,
-    );
+    // Kentucky is offered every variant a state may enact: the whole bank of
+    // 46 less Congress's rail money and a council's repair fund.
+    const bankKeys = programConfigurations()
+      .filter(
+        ({ familyKey, variantKey }) =>
+          governmentMayEnactVariant("state", familyKey, variantKey).ok,
+      )
+      .map(({ familyKey, variantKey }) => `${familyKey}/${variantKey}`);
 
     expect(programFamilies()).toHaveLength(20);
-    expect(options).toHaveLength(46);
+    expect(programConfigurations()).toHaveLength(46);
+    expect(options).toHaveLength(44);
     expect(
       entries
         .map(({ option }) => `${option.familyKey}/${option.variantKey}`)
@@ -61,7 +68,9 @@ describe("legislation content navigation", () => {
     expect(link?.primaryLocation.subjectKey).toBe("infrastructure");
     expect(broadband?.entries).toEqual([]);
 
-    const rail = catalog
+    const rail = legislationContentCatalog(
+      availableDraftOptions("institution:us-congress-v1"),
+    )
       .find((subject) => subject.key === "infrastructure")
       ?.entries.find(
         ({ option }) => option.variantKey === "federal-passenger-rail-v1",

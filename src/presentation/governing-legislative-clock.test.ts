@@ -24,6 +24,14 @@ import type {
   World,
 } from "../simulation";
 import { LEGISLATIVE_INTAKE_VERSION } from "../simulation/governing/legislative-clock";
+import {
+  GOVERNING_NPC_DECISION,
+  governingNpcDecisionHandler,
+} from "../simulation/governing/state-governing";
+import {
+  ensureOfficeholderPrinciples,
+  principledLeaning,
+} from "../simulation/governing/officeholder-principles";
 import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
 import { stateJurisdictionForKey } from "../simulation/life-places";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
@@ -322,6 +330,67 @@ describe("GOVERNING 5: a real bill reaches the governor's desk", () => {
       governingMatters(world, washingtonOffice!.officeKey).find(
         (matter) => matter.family === "bill" && matter.measureId === bill!.id,
       );
+    for (let step = 0; step < 48 && !billMatter(); step += 1)
+      world = passOrdinaryDays(world, 3);
+
+    // The governor's own principles decide the veto, never chance. Put the
+    // same open bill to the governor three ways: answering a question the
+    // way their principles lean, the other way, and on a question their
+    // principles do not bear on.
+    const open = billMatter();
+    if (open?.status === "open") {
+      const governorId = open.holderPersonId;
+      const due = world.history.futureDueItems.find(
+        (item) =>
+          item.transitionKey === GOVERNING_NPC_DECISION &&
+          item.entityIds.includes(open.id),
+      )!;
+      expect(due).toBeDefined();
+      const primed = ensureOfficeholderPrinciples(world, [governorId]);
+      const leanings = primed.policyCatalog.propositionOrder.map((id) => ({
+        id,
+        score: principledLeaning(primed, governorId, id).score,
+      }));
+      const strongest = [...leanings].sort(
+        (a, b) => Math.abs(b.score) - Math.abs(a.score),
+      )[0]!;
+      const indifferent = leanings.find((row) => row.score === 0);
+      expect(Math.abs(strongest.score)).toBeGreaterThan(0);
+      const decideWith = (
+        propositionId: EntityId,
+        answer: "yes" | "no",
+      ): readonly string[] => {
+        const asked: World = {
+          ...primed,
+          history: {
+            ...primed.history,
+            legislativeMeasures: primed.history.legislativeMeasures!.map(
+              (measure) =>
+                measure.id === bill!.id
+                  ? {
+                      ...measure,
+                      propositionIds: [propositionId],
+                      propositionAnswers: [{ propositionId, answer }],
+                    }
+                  : measure,
+            ),
+          },
+        };
+        const decided = governingNpcDecisionHandler(asked, due).world;
+        return (
+          governingMatters(decided, washingtonOffice!.officeKey).find(
+            (matter) => matter.id === open.id,
+          )?.decision?.tags ?? []
+        );
+      };
+      const favored = strongest.score > 0 ? "yes" : "no";
+      const opposed = strongest.score > 0 ? "no" : "yes";
+      expect(decideWith(strongest.id, favored)).toContain("choice:bill:sign");
+      expect(decideWith(strongest.id, opposed)).toContain("choice:bill:return");
+      if (indifferent)
+        expect(decideWith(indifferent.id, "yes")).toContain("choice:bill:sign");
+    }
+
     for (
       let step = 0;
       step < 48 && billMatter()?.status !== "decided";

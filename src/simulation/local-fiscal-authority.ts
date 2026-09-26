@@ -6,12 +6,12 @@
 import { draftLineageComponents } from "./legislation-draft-lineage";
 import { currentMeasureProvisions } from "./legislative-politics";
 import {
-  localFiscalGameAuthorityForRulePackId,
   type LocalFiscalEffectKind,
   type LocalFiscalGameAuthority,
 } from "./local-ordinance-game-profile";
 import { organizationProfileAt } from "./life-queries";
 import {
+  localFiscalAuthorityScopeForRulePackId,
   municipalGovernmentByKey,
   municipalRulePackFor,
 } from "./municipal-government";
@@ -137,12 +137,13 @@ export function localFiscalAuthorityFor(
   const government = municipalGovernmentByKey(governmentKey);
   if (!government)
     return refused("No local government is compiled under this key.");
+  // Ordinary authority by default: a council playing under its own recorded
+  // charter, or the D.C. Council, holds it as a game-profile council does,
+  // unless its record withholds the power.
   const rules = municipalRulePackFor(government);
-  if (!rules.ok || rules.evidence !== "game-profile")
-    return refused(
-      "This government has no admitted local fiscal game procedure.",
-    );
-  const scope = localFiscalGameAuthorityForRulePackId(rules.pack.packId);
+  if (!rules.ok)
+    return refused("This government has no playable council procedure.");
+  const scope = localFiscalAuthorityScopeForRulePackId(rules.pack.packId);
   if (!scope)
     return refused(
       "The rule pack has no matched city or county fiscal game authority.",

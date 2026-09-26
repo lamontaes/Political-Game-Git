@@ -9,6 +9,7 @@ import {
 } from "../simulation";
 import { compileBillDraft } from "../simulation/legislation-drafting";
 import {
+  governmentMayEnactVariant,
   legalInstrumentRule,
   legalInstrumentRules,
   programConfigurations,
@@ -88,7 +89,12 @@ describe("AMERICAN-ENGLISH1 legislative output", () => {
   });
 
   it("compiles every current configuration with American authored copy", () => {
-    for (const configuration of programConfigurations()) {
+    // Every variant Kentucky may enact; the federal and council-only ones are
+    // still checked as authored copy through programFamilies() above.
+    for (const configuration of programConfigurations().filter(
+      (row) =>
+        governmentMayEnactVariant("state", row.familyKey, row.variantKey).ok,
+    )) {
       const { variant } = programVariant(
         configuration.familyKey,
         configuration.variantKey,

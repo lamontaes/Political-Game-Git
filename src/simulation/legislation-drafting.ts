@@ -1,11 +1,25 @@
-import { legislativePackForWorkKey } from "./legislative-institutions";
+import {
+  legislativePackForJurisdiction,
+  legislativePackForWorkKey,
+} from "./legislative-institutions";
+import { governmentUnit } from "./government-units";
+import { stateJurisdictionForKey } from "./life-places";
+import {
+  localFiscalAuthorityScopeForRulePackId,
+  municipalAuthorityNarrowing,
+  municipalGovernmentForRulePackId,
+} from "./municipal-government";
+import type { LegislativeRulePack } from "./legislature-rules";
 import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
 import { addDays, makeIsoDate, yearOf } from "./dates";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   formatMinorUnits,
+  governmentMayEnactVariant,
   legalInstrumentRule,
   programVariant,
+  type EnactingGovernment,
+  type LocalAuthorityNarrowing,
   type AmendmentInvitation,
   type ClauseDimension,
   type LegalInstrument,
@@ -397,7 +411,12 @@ function checkPredicateAuthority(
     const exactProfileIdentity =
       authority.publicGovernmentIdentity.kind === "local-government"
         ? authority.rulePackId ===
-          `${authority.publicGovernmentIdentity.governmentKey}:${authority.profileVersion}`
+            `${authority.publicGovernmentIdentity.governmentKey}:${authority.profileVersion}` ||
+          // A council under its own recorded charter holds ordinary
+          // authority too; its grant names its own pack.
+          localFiscalAuthorityScopeForRulePackId(authority.rulePackId)
+            ?.jurisdictionId ===
+            authority.publicGovernmentIdentity.jurisdictionId
         : authority.rulePackId !== US_CONGRESS_PACK_ID ||
           authority.publicGovernmentIdentity.jurisdictionId ===
             NATIONAL_ELECTION_JURISDICTION.id;
@@ -487,6 +506,63 @@ function checkAppropriationCeiling(
 /* Compilation                                                                 */
 /* -------------------------------------------------------------------------- */
 
+const TERRITORY_KEYS = new Set(["US-PR", "US-GU", "US-VI", "US-AS", "US-MP"]);
+
+/**
+ * The kind of government whose legislature plays under this pack, with any
+ * recorded limit on a local government's ordinary authority. Null where the
+ * pack is not one the game can place.
+ */
+export function enactingGovernmentForPack(pack: LegislativeRulePack): {
+  readonly government: EnactingGovernment;
+  readonly narrowing: readonly LocalAuthorityNarrowing[];
+} | null {
+  if (pack.packId === US_CONGRESS_PACK_ID)
+    return { government: "federal", narrowing: [] };
+  const state = stateJurisdictionForKey(pack.jurisdictionKey);
+  if (state && legislativePackForJurisdiction(state.id)?.packId === pack.packId)
+    return {
+      government: TERRITORY_KEYS.has(pack.jurisdictionKey)
+        ? "territory"
+        : "state",
+      narrowing: [],
+    };
+  const local = municipalGovernmentForRulePackId(pack.packId);
+  if (!local) return null;
+  const unit = local.key.startsWith("gus2025:")
+    ? governmentUnit(local.key)
+    : null;
+  return {
+    government:
+      pack.jurisdictionKey === "US-DC"
+        ? "district-of-columbia"
+        : unit?.unitType === "county"
+          ? "county"
+          : "municipality",
+    narrowing: municipalAuthorityNarrowing(local),
+  };
+}
+
+/** The one authority rule applied to a drafting context's legislature. */
+export function packMayEnactVariant(
+  pack: LegislativeRulePack,
+  familyKey: string,
+  variantKey: string,
+): { readonly ok: true } | { readonly ok: false; readonly reason: string } {
+  const placed = enactingGovernmentForPack(pack);
+  if (!placed)
+    return {
+      ok: false,
+      reason: `${pack.displayName} is not a legislature the game can place.`,
+    };
+  return governmentMayEnactVariant(
+    placed.government,
+    familyKey,
+    variantKey,
+    placed.narrowing,
+  );
+}
+
 export function compileBillDraft(
   input: CompileBillDraftInput,
 ): CompiledBillDraft {
@@ -503,6 +579,15 @@ export function compileBillDraft(
       `The '${input.scenarioKey}' drafting context resolves to '${workPack.packId}', not '${input.rulePackId}'.`,
     );
   }
+
+  // Every filing path passes through here, so this is where the one
+  // authority rule refuses an act the legislature cannot pass.
+  const enactable = packMayEnactVariant(
+    workPack,
+    input.familyKey,
+    input.variantKey,
+  );
+  if (!enactable.ok) throw new BillConfigurationError(enactable.reason);
 
   const rule = legalInstrumentRule(variant.instrument);
   const authority = checkPredicateAuthority(

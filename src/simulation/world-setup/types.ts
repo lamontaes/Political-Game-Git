@@ -139,7 +139,7 @@ export interface LegislativeStartingProceduresRecord extends ConditionRecordBase
 
 /** Content version for one save's fictional state tax/service assumptions. */
 export const STATE_TAX_SERVICE_GAME_PROFILE_VERSION =
-  "state-tax-service-game-profile/v2" as const;
+  "state-tax-service-game-profile/v3" as const;
 export const STATE_TAX_SERVICE_STARTING_CONDITIONS_VERSION =
   "crunch46-state-tax-service-start/v1" as const;
 

@@ -8,10 +8,9 @@ import {
 } from "./legislation-draft-lineage";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { assertTaxTerms, taxLevyText, taxPowerEvidenceFor } from "./tax-policy";
-import { stateFundedServiceGameProfileForJurisdictionKey } from "./state-funded-service-game-profiles";
 import {
   stateTaxServiceProfileForJurisdictionKey,
-  stateTaxServiceStartingConditions,
+  taxTermsMatchStateWageLaw,
 } from "./world-setup/state-tax-service-profiles";
 import type { TaxProposalRecord } from "./tax-types";
 import type { EntityId, World } from "./types";
@@ -151,12 +150,7 @@ export function readFiledTaxContentIdentity(
     ).jurisdictionKey;
     const profile = proposal.power
       ? null
-      : (stateTaxServiceProfileForJurisdictionKey(world, packJurisdictionKey) ??
-        (stateTaxServiceStartingConditions(world)
-          ? null
-          : stateFundedServiceGameProfileForJurisdictionKey(
-              packJurisdictionKey,
-            )));
+      : stateTaxServiceProfileForJurisdictionKey(world, packJurisdictionKey);
     if (
       (proposal.power !== null &&
         (packJurisdictionKey !== proposal.power.jurisdictionKey ||
@@ -166,7 +160,7 @@ export function readFiledTaxContentIdentity(
         (!profile ||
           canonicalJson(profile.ref) !==
             canonicalJson(proposal.gameProfileRef ?? null) ||
-          canonicalJson(profile.taxTerms) !== canonicalJson(proposal.terms) ||
+          !taxTermsMatchStateWageLaw(profile, proposal.terms) ||
           ("jurisdictionId" in profile &&
             profile.jurisdictionId !== proposal.jurisdictionId) ||
           stateJurisdictionForKey(packJurisdictionKey)?.id !==
@@ -192,15 +186,10 @@ export function readFiledTaxContentIdentity(
     : null;
   const profile = proposal.power
     ? null
-    : (stateTaxServiceProfileForJurisdictionKey(
+    : stateTaxServiceProfileForJurisdictionKey(
         world,
         rulePackById(measure.rulePackId).jurisdictionKey,
-      ) ??
-      (stateTaxServiceStartingConditions(world)
-        ? null
-        : stateFundedServiceGameProfileForJurisdictionKey(
-            rulePackById(measure.rulePackId).jurisdictionKey,
-          )));
+      );
   const provisions = currentMeasureProvisions(world, measureId);
   if (
     (proposal.power !== null &&
@@ -209,7 +198,7 @@ export function readFiledTaxContentIdentity(
       (!profile ||
         canonicalJson(profile.ref) !==
           canonicalJson(proposal.gameProfileRef ?? null) ||
-        canonicalJson(profile.taxTerms) !== canonicalJson(proposal.terms))) ||
+        !taxTermsMatchStateWageLaw(profile, proposal.terms))) ||
     measure.jurisdictionId !== proposal.jurisdictionId ||
     measure.sponsorPersonId !== proposal.sponsorPersonId ||
     provisions.length !== 1 ||

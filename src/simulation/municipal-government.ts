@@ -30,10 +30,22 @@
  */
 
 import { municipalProcedurePlaceholder } from "./municipal-procedure-placeholders";
-import { governmentUnit, governmentUnitsForPlace } from "./government-units";
+import type {
+  LegalInstrument,
+  LocalAuthorityNarrowing,
+} from "./legislation-program-families";
+import {
+  governmentUnit,
+  governmentUnitJurisdictionId,
+  governmentUnitsForPlace,
+} from "./government-units";
 import type { GovernmentUnitIdentity } from "./government-units";
 import {
+  LOCAL_FISCAL_GAME_AUTHORITY_VERSION,
   LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
+  localFiscalGameAuthorityForRulePackId,
+  type LocalFiscalEffectKind,
+  type LocalFiscalGameAuthorityScope,
   localGovernmentGameProfileByKey,
   localGovernmentGameProfileForPlace,
   localGovernmentGameProfile,
@@ -1138,4 +1150,105 @@ export function municipalRulePackById(
   return (
     municipalCouncilRulePacks().find((pack) => pack.packId === packId) ?? null
   );
+}
+
+/** The government whose council plays under this pack id, sourced or game. */
+export function municipalGovernmentForRulePackId(
+  packId: string,
+): MunicipalGovernment | null {
+  const gameSuffix = `:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
+  if (packId.endsWith(gameSuffix))
+    return municipalGovernmentByKey(packId.slice(0, -gameSuffix.length));
+  for (const government of municipalGovernments()) {
+    const result = municipalRulePackFor(government);
+    if (result.ok && result.pack.packId === packId) return government;
+  }
+  return null;
+}
+
+/** Recorded power names that withhold a kind of act, by instrument. */
+const WITHHELD_POWER_INSTRUMENTS: Readonly<
+  Record<string, readonly LegalInstrument[]>
+> = {
+  TAX_LEVY: ["revenue-measure"],
+  TAXATION: ["revenue-measure"],
+  APPROPRIATION: [
+    "appropriation",
+    "programme-authorization",
+    "position-authorization",
+  ],
+  APPROPRIATIONS: [
+    "appropriation",
+    "programme-authorization",
+    "position-authorization",
+  ],
+};
+
+/**
+ * What a local government's own recorded instruments withhold from its
+ * ordinary authority. Only a power the record says is NOT held narrows it;
+ * a game-profile reading records nothing, so it narrows nothing.
+ */
+export function municipalAuthorityNarrowing(
+  government: MunicipalGovernment,
+): readonly LocalAuthorityNarrowing[] {
+  const narrowing: LocalAuthorityNarrowing[] = [];
+  for (const reading of government.readings) {
+    if (reading.evidence === "game-profile") continue;
+    for (const power of reading.powers) {
+      const withheld = WITHHELD_POWER_INSTRUMENTS[power.power];
+      if (!withheld || power.held !== false) continue;
+      narrowing.push({
+        withheld,
+        reason: `${reading.displayName}'s recorded rules withhold this power from its council.`,
+      });
+    }
+  }
+  return narrowing;
+}
+
+/**
+ * The fiscal authority a local council holds under its rule pack.
+ *
+ * A game-profile council holds the profile's grant. A council whose rules
+ * come from its own recorded charter, the D.C. Council included, holds the
+ * same ordinary authority (owner decision 2026-09-24/26: cities and counties
+ * may tax, spend and make ordinary local rules by default), less any power
+ * its record says is withheld. Identity still has to be exact: the council
+ * must bind to one active catalog unit.
+ */
+export function localFiscalAuthorityScopeForRulePackId(
+  packId: string,
+): LocalFiscalGameAuthorityScope | null {
+  const game = localFiscalGameAuthorityForRulePackId(packId);
+  if (game) return game;
+  const government = municipalGovernmentForRulePackId(packId);
+  if (!government) return null;
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok || rules.evidence === "game-profile") return null;
+  const unit = catalogUnitFor(government);
+  if (!unit || (unit.unitType !== "municipality" && unit.unitType !== "county"))
+    return null;
+  const withheld = new Set(
+    municipalAuthorityNarrowing(government).flatMap((row) => row.withheld),
+  );
+  const permittedEffects: LocalFiscalEffectKind[] = [];
+  if (!withheld.has("revenue-measure")) permittedEffects.push("tax-policy");
+  if (!withheld.has("appropriation"))
+    permittedEffects.push("public-program-appropriation");
+  if (permittedEffects.length === 0) return null;
+  return {
+    authority: {
+      authorityKey: `${unit.id}:${LOCAL_FISCAL_GAME_AUTHORITY_VERSION}:ordinary:${packId}`,
+      authorityVersion: LOCAL_FISCAL_GAME_AUTHORITY_VERSION,
+      profileVersion: LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
+      rulePackId: packId,
+      governmentUnitId: unit.id,
+      level: unit.unitType,
+      basis: "game-profile",
+      permittedEffects,
+    },
+    unit,
+    jurisdictionId: governmentUnitJurisdictionId(unit),
+  };
 }

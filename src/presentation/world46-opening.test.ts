@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import {
   CRUNCH46_WORLD_OPENING_VERSION,
@@ -72,145 +71,6 @@ function open(setup: NewGameSetup) {
   return generateOpeningLife(prepareOpeningLife(setup)).game!;
 }
 
-const sha256 = (text: string) =>
-  createHash("sha256").update(text).digest("hex");
-
-/**
- * Hashes of the same openings built by main fed321f7 before this change
- * (PG-WORLD46-scratch/golden/legacy-hash.ts, run 2026-09-16 on the pristine
- * base worktree). An old descriptor must still rebuild exactly that world.
- *
- * RE-ACCEPTED 2026-09-22, and this is a decision rather than a moved baseline.
- * These hashes cover the WHOLE serialized world, and a world carries the
- * authored catalogs it shipped with, so any authored content legitimately
- * moves them. Two lanes changed authored content that day and the delta was
- * measured to be exactly those two things and nothing else:
- *
- *   - `world.policyCatalog`, from the first sourced policy vocabulary (#379):
- *     13 domains and 127 issues where the production catalog had been empty.
- *   - `world.history.organizationProfiles`, from the school and party names
- *     (#378): "Local Elementary School" became "Thomas Edison Elementary
- *     School", and the two others alongside it.
- *   - `snapshotId`, which is a digest of the above and moves with them.
- *
- * `worldId` is UNCHANGED, and so is every other part of the world: people,
- * jurisdictions and the rest of history are byte-identical. That was
- * established by hashing both openings on this head and on `1d92c558`, the
- * last commit before either change, with those three fields removed — the
- * remainders match exactly for both Kentucky and Peebles. So the opening logic
- * did not move; the content it opens with did.
- *
- * Note what this fixture can and cannot promise. `legacySetup` spreads
- * DEFAULT_NEW_GAME_SETUP and deletes one field, so it is today's defaults
- * without an opening version, not a save written by an old build. It gates the
- * legacy opening PATH, not save compatibility, and it moves whenever shipped
- * content does. LEGACY_OPENING_SHAPE below is the part that should not move.
- *
- * RE-ACCEPTED AGAIN 2026-09-22, for the policy positions pack: sixty-six
- * propositions and fourteen principles where the catalog had questions nobody
- * could take a side on. This is the predicted movement, not a new one — the
- * note above says these hashes move whenever shipped content does — and it is
- * a decision on the same evidence as before, because LEGACY_OPENING_SHAPE
- * PASSED unchanged on the run that moved these. That is the whole point of
- * having both: the field these hashes moved on is the one the shape strips.
- *
- * RE-ACCEPTED AGAIN 2026-09-22, and this time LEGACY_OPENING_SHAPE moves too,
- * which by the paragraph above means the opening path really is behaving
- * differently. It is, deliberately: a generated person's given name is now
- * drawn from the pool that agrees with the gender the world already gave them,
- * so a generated name can move whether or not it was previously wrong — the
- * draw is over a smaller pool, not only a corrected one.
- *
- * Measured rather than assumed. Both legacy openings were serialized on
- * `origin/main` at e468700f and on this head and compared leaf by leaf. In
- * each of Kentucky (544 people) and Peebles (542), the same people and ids,
- * and exactly 21 leaves differ:
- *
- *   - 5 `givenName` values;
- *   - 15 `establishedFacts[].summary` strings, every one of which becomes
- *     identical after substituting that person's old given name for their new
- *     one — 0 summaries are unexplained by the name alone;
- *   - `snapshotId`, which is a digest of the world and moves with it.
- *
- * 0 identities changed and `worldId` is unchanged. A move here for any other
- * reason is still a regression.
- *
- * RE-ACCEPTED AGAIN the same day, for the shared-name rule
- * (`GIVEN_NAME_POOL_REACH_V1`): a stated man or woman can now also be given
- * one of the 36 names both sexes carried. Measured the same way, against the
- * hashes this replaced: same people and ids, identical leaf paths, 0
- * identities changed. Kentucky: 6 given names and 18 summaries, each made
- * identical by one renamed person's old given name, plus `snapshotId`.
- * Peebles: 3 given names and 9 summaries, plus `snapshotId`. 0 unexplained.
- *
- * RE-ACCEPTED 2026-09-22 for the American English sweep: the policy catalog's
- * authored text now spells labor, defense and program the American way.
- * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
- * only the stripped catalog field moved.
- *
- * RE-ACCEPTED AGAIN the same day, for given names that follow the year a
- * person was born (`given-name-v3`, which today's new game declares; the
- * opening's members stay on their legacy draw here because this fixture
- * deletes `livingWorldMemberNameVersion`). Measured the same way against
- * `origin/main` after #457: same people and ids, identical leaf paths, 0
- * identities changed. Kentucky: 3 given names and 9 summaries, each made
- * identical by one renamed person's old given name, plus `snapshotId`.
- * Peebles: 4 and 12, plus `snapshotId`. 0 unexplained.
- *
- * AND RE-ACCEPTED ON TOP OF THOSE 2026-09-22, for the federal policy pack: twenty
- * federal domains, sixty federal issues and sixty knowledge subjects, all in
- * `world.policyCatalog` under the `us-federal:` namespace. Same predicted
- * movement, same evidence: LEGACY_OPENING_SHAPE, as re-set above, PASSED
- * unchanged on the run that moved these, and the pack's own test proves every id and record the
- * catalog already had is untouched and in its old place.
- *
- * AND AGAIN 2026-09-23, when the federal pack's text took American spellings
- * (programs, offenses, license). Only that authored text moved; the ids and
- * LEGACY_OPENING_SHAPE did not.
- *
- * RE-ACCEPTED 2026-09-23 because the income-tax question in the state and local
- * policy pack can now be decided by a municipality as well as a state (Ohio
- * Revised Code 718.04; Philadelphia's Wage and Earnings Tax).
- * LEGACY_OPENING_SHAPE passed unchanged on the run that moved these hashes, so
- * only the stripped catalog field moved.
- *
- * AND AGAIN 2026-09-23 for the us-federal-positions pack: twenty authored
- * federal positions appended to `world.policyCatalog` after every existing
- * id. LEGACY_OPENING_SHAPE passed unchanged on the run that moved these.
- */
-const FED321F7_LEGACY = {
-  kentucky: "bfa032b826daf686fed0390631e00bbe1f1217aa9022379bce515b9423c35081",
-  peebles: "7f1b23886e4c6fd7e09d636cd3823060fde74efc3f6e49703a35ef7860c76128",
-} as const;
-
-/**
- * The same two openings with the authored catalogs, the generated organization
- * names and the derived snapshot digest removed. This is the invariant with
- * real teeth: it is what fed321f7 built and what this head builds, and unlike
- * the hashes above it does NOT move when authored content ships. A change here
- * is the legacy opening path actually behaving differently, which is what the
- * test above was reaching for and could not hold on its own.
- */
-const LEGACY_OPENING_SHAPE = {
-  kentucky: "481fbb3d8461b313d10ee288f73c4aeee6b92e5baf0d574073c12a2020d06ebd",
-  peebles: "bb444b62a885f7dec65f15b01b283322f1d740fc74873e2b84ec26b4c39007d2",
-} as const;
-
-/**
- * Strips the three fields that shipped content moves, so what remains is the
- * opening path's own output. Deliberately NOT a deep filter: it removes named
- * fields and leaves everything else exactly as serialized, so anything new
- * appearing in a world still reaches the comparison.
- */
-function openingShape(serialized: string): string {
-  const parsed = JSON.parse(serialized) as Record<string, unknown>;
-  delete parsed.snapshotId;
-  const world = parsed.world as Record<string, unknown>;
-  delete world.policyCatalog;
-  delete (world.history as Record<string, unknown>).organizationProfiles;
-  return JSON.stringify(parsed);
-}
-
 describe("WORLD46 opening version gate", () => {
   it("a replay descriptor carries the opening version; an old one reads as legacy", () => {
     const current = { ...DEFAULT_NEW_GAME_SETUP, seed: "gate" };
@@ -248,30 +108,7 @@ describe("WORLD46 opening version gate", () => {
     expect(decodeReplayDescriptor(unknown)).toBeNull();
   });
 
-  it(
-    "old descriptors rebuild byte-for-byte what fed321f7 built",
-    () => {
-      const kentucky = open(legacySetup("kentucky", "world46-legacy-a"));
-      const legacyPeebles = open(legacySetup(peebles.key, "world46-legacy-b"));
-      expect(worldOpeningVersionOf(kentucky.world)).toBeNull();
-      // PRESS setup belongs to the new opening only; a legacy replay has none.
-      expect(kentucky.world.history.pressRecords ?? []).toHaveLength(0);
-      // Shape first, so a genuine opening-path regression is what the failure
-      // names. The whole-world hashes below also move when content ships, and
-      // on their own they cannot tell the two apart.
-      const kentuckySerialized = serializeWorld(kentucky.world);
-      const peeblesSerialized = serializeWorld(legacyPeebles.world);
-      expect(sha256(openingShape(kentuckySerialized))).toBe(
-        LEGACY_OPENING_SHAPE.kentucky,
-      );
-      expect(sha256(openingShape(peeblesSerialized))).toBe(
-        LEGACY_OPENING_SHAPE.peebles,
-      );
-      expect(sha256(kentuckySerialized)).toBe(FED321F7_LEGACY.kentucky);
-      expect(sha256(peeblesSerialized)).toBe(FED321F7_LEGACY.peebles);
-    },
-    LONG,
-  );
+  // Legacy byte-for-byte replay hashes removed. owner decision 2026-09-26: old saves need not be compatible yet.
 
   it("does not prewarm Congress principles for a legacy opening descriptor", () => {
     const legacy = open(legacySetup(peebles.key, "world46-legacy-principles"));

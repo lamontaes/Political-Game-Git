@@ -1188,10 +1188,13 @@ function recordCapacityOutturn(
       participant: null,
       visibility: "public",
       programKey: commitment.programKey,
+      // Only a counted change in service is called a delivery. A payment
+      // that restored nothing, or whose effect has no counted unit cost, is
+      // recorded as exactly that.
       summary:
-        restored === null
-          ? `Paid work for ${capacity.serviceLabel} in ${placeLabel} was delivered on ${world.currentDate}. How many ${capacity.unitLabel} it returned is unknown; ${before} of ${capacity.unitsTotal} are counted in service.`
-          : `Paid work for ${capacity.serviceLabel} in ${placeLabel} returned ${restored} ${capacity.unitLabel} to service on ${world.currentDate}; ${before + restored} of ${capacity.unitsTotal} are now in service.`,
+        restored !== null && restored > 0
+          ? `Paid work for ${capacity.serviceLabel} in ${placeLabel} returned ${restored} ${capacity.unitLabel} to service on ${world.currentDate}; ${before + restored} of ${capacity.unitsTotal} are now in service.`
+          : `A payment for ${capacity.serviceLabel} in ${placeLabel} posted, and no ${capacity.unitLabel} ${restored === null ? "can yet be counted as" : "has been"} returned to service; ${before} of ${capacity.unitsTotal} are in service.`,
     },
     {
       kind: "capacity-outturn",
@@ -1360,7 +1363,13 @@ export function programDeliveryHandler(
       outcomeEventId: null,
     };
   next = closeWorkIfDone(next, target.commitment);
-  return resolved(next, "Maintenance delivered.", outturn.eventId);
+  return resolved(
+    next,
+    outturn.restoredUnits !== null && outturn.restoredUnits > 0
+      ? "Maintenance delivered."
+      : "The payment posted; no service unit was restored yet.",
+    outturn.eventId,
+  );
 }
 
 export const PUBLIC_PROGRAM_HANDLERS = [
