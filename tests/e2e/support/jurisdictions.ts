@@ -107,24 +107,12 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     chamberKeys: ["legislature"],
     municipal: false,
     candidacy: {
-      kind: "no-seats",
+      kind: "stands",
       /*
-       * Nebraska still refuses. What changed is the reason, not the answer.
-       *
-       * This used to be the refusal for a date the evidence could not place:
-       * Nebraska's rows were a bare September 2026 observation, so a January
-       * 2026 life fell before the reading. b55c0564 dated each provision from
-       * the amendment history printed on its own locked page, so the rules
-       * now apply on an ordinary start, and the next true refusal reaches the
-       * screen: the seat asks for a year in the district, and Omaha lies
-       * across more than one district. Bisected in the browser: this case
-       * passes on main at 4965f63c and fails on this branch merged with it.
-       *
-       * Only the rule and its length, as for Columbus and Anchorage. The
-       * clause explaining why the year cannot be counted has already been
-       * rewritten once elsewhere with the verdict unmoved.
+       * Promoted on 2026-09-26. It refused for the one-year district-residence
+       * rule until #662 counted a life's whole residence in its own district
+       * and 10e167ca4 let a split town's resident run; the seat is offered now.
        */
-      because: ["This office requires 1 year of residence"],
     },
     note: "The one unicameral state legislature. A route that assumes a lower and an upper chamber cannot run here at all.",
   },
@@ -148,34 +136,12 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     chamberKeys: ["house", "senate"],
     municipal: true,
     candidacy: {
-      kind: "no-seats",
+      kind: "stands",
       /*
-       * Alaska still refuses. What changed is the reason, not the answer.
-       *
-       * Measured in the browser on this head: the refusal a player reads is
-       * now the district-residence one — the rule asks for a year and the
-       * world holds no proved start date for the interval, so the question
-       * cannot be answered either way. It used to be the observation-date
-       * refusal about minimum age. Why it moved is not established here and
-       * this comment does not guess: the office-qualification corpus carries
-       * no Alaska rows at all (69 rows, MA MN MO NE NJ NV OH), so Alaska's
-       * requirements come from its legislature pack rather than from the
-       * sourced-row path, and the two paths refuse for different reasons.
-       *
-       * The flip to "stands" that was expected here does not happen. An
-       * ordinary browser start records no proved residence interval, and this
-       * branch's candidacy work is reached through lives that do. Nebraska and
-       * Minnesota do not flip either, though their rows are now dated
-       * intervals rather than bare observations: each refuses for its own
-       * reason, recorded on its own row.
+       * Promoted on 2026-09-26. It refused for the one-year district-residence
+       * rule until #662 counted a life's whole residence in its own district
+       * and 10e167ca4 let a split town's resident run; the seat is offered now.
        */
-      /*
-       * Only the rule and its length. The clause explaining why the year
-       * cannot be counted has been rewritten once already — from "the world
-       * has no proved start date for that residence interval" to the
-       * split-district explanation — with the verdict unmoved both times.
-       */
-      because: ["The district-residence rule requires 1 year"],
     },
     note: "A unified municipality, and a state with boroughs rather than counties.",
   },
@@ -213,15 +179,12 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     chamberKeys: ["house", "senate"],
     municipal: true,
     candidacy: {
-      kind: "no-seats",
+      kind: "stands",
       /*
-       * The requirement, not the reason it cannot be answered. Ohio comes
-       * through the sourced-row path and Anchorage through the legislature
-       * pack, and the two produce different sentences for the same underlying
-       * refusal; the branch that makes a split town say so changes this one's
-       * second half and not its first.
+       * Promoted on 2026-09-26. It refused for the one-year district-residence
+       * rule until #662 counted a life's whole residence in its own district
+       * and 10e167ca4 let a split town's resident run; the seat is offered now.
        */
-      because: ["This office requires 1 year of residence"],
     },
     note: "An ordinary city inside an ordinary county, which is what most of the country looks like.",
   },

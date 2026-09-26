@@ -93,7 +93,9 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
   expect(await campaignUntilDecided(page, (page) => passShellTime(page))).toBe(
     true,
   );
-  await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
+  await expect(page.getByTestId("campaign-afterword")).toContainText(
+    /\bwon[,.]/,
+  );
 
   // The win opened the office; the corner cluster still says Lexington.
   expect(await shellIdentity(page)).toContain("Lexington");

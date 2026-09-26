@@ -106,7 +106,7 @@ for (const town of TOWNS) {
     // This walk's seed wins on election day. If it stops winning, the seed or
     // the campaign odds changed, and this test should be re-seeded rather
     // than loosened into accepting either outcome.
-    expect(result).toMatch(/ won\./);
+    expect(result).toMatch(/ won[,.]/);
 
     await openElsewhere(page, "work");
     const seat = page.getByTestId("town-seat");
@@ -168,7 +168,7 @@ test("Presque Isle, Maine: the town's mayor is a race a life can run and win", a
     await page.getByTestId("campaign-result").innerText()
   ).replace(/\s+/g, " ");
   console.log(`\n==== Presque Isle mayor result ====\n${result}\n`);
-  expect(result).toMatch(/ won\./);
+  expect(result).toMatch(/ won[,.]/);
 
   await openElsewhere(page, "work");
   const seat = page.getByTestId("town-seat");

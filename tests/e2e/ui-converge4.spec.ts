@@ -13,11 +13,13 @@ import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import { proseDate } from "../../src/presentation/prose-dates";
 import { replayDescriptorUrl } from "../../src/presentation/new-game-identity";
 import { expect, test } from "./fixtures";
-import { goTo, startLife } from "./support/creator";
+import { enterLife, goTo, startLife } from "./support/creator";
 
 /** Only visible opening controls; no fixture World or hidden state injection. */
 async function enterOpening(page: Page) {
-  await expect(page.getByTestId("play-screen")).toBeVisible();
+  // The world orientation ("The White House", 1 of 5) opens first; skip it
+  // the way a player does before reaching the household.
+  await enterLife(page);
   const introduction = page.getByTestId("opening-life-panel");
   if (await introduction.isVisible()) {
     await introduction
@@ -396,7 +398,10 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
       await unavailable.press("Enter");
       await expect(unavailable.locator("..")).toHaveAttribute("open", "");
     } else {
-      await expect(panel).toHaveCount(0);
+      // The economic data now covers every state (economic-context-nationwide),
+      // so the panel appears here too, for this place.
+      await expect(panel).toBeVisible();
+      await expect(panel).toContainText(place.split(",")[0]!);
     }
     await save(page);
     expect(await savedWorld(page)).toEqual(initial);
@@ -405,7 +410,10 @@ for (const place of ["Lexington, Kentucky", "Carson City, Nevada"]) {
     if (place === "Lexington, Kentucky") {
       await expect(panel).toContainText(proseDate(initial.currentDate));
     } else {
-      await expect(panel).toHaveCount(0);
+      // The economic data now covers every state (economic-context-nationwide),
+      // so the panel appears here too, for this place.
+      await expect(panel).toBeVisible();
+      await expect(panel).toContainText(place.split(",")[0]!);
     }
     await save(page);
     expect(await savedWorld(page)).toEqual(initial);

@@ -169,6 +169,8 @@ test.describe("people, and who was chosen", () => {
 
     async function open(person: { id: string; name: string }) {
       await page.getByTestId(`people-person-${person.id}`).click();
+      // A row opens the person's card first; More details is the full record.
+      await page.getByTestId("quick-dossier-full").click();
       const dossier = page.getByTestId("full-dossier");
       await expect(dossier).toBeVisible();
       /* Name, record and interaction target all follow the selection. */
@@ -256,6 +258,7 @@ test.describe("people, and who was chosen", () => {
     await beginOrdinaryLife(page);
     await goTo(page, "elsewhere-people");
     await page.locator('[data-testid^="people-person-"]').first().click();
+    await page.getByTestId("quick-dossier-full").click();
 
     /* Ordinary knowledge carries no badge; anything marked says which kind of
        claim it is, in words rather than only in color. */
@@ -591,6 +594,7 @@ test.describe("the click, back and escape contract", () => {
     await pinFromTheRoom(page, people[0]!);
     await goTo(page, "elsewhere-people");
     await page.locator('[data-testid^="people-person-"]').first().click();
+    await page.getByTestId("quick-dossier-full").click();
     await expect(page.getByTestId("full-dossier")).toBeVisible();
 
     await page.getByTestId(`pin-manage-person:${people[0]}`).click();

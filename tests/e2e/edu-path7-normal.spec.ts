@@ -5,6 +5,8 @@ import {
   enterLife,
   openElsewhere,
   saveLife,
+  browseStudy,
+  openFolded,
 } from "./support/creator";
 
 async function passDays(page: Page, days: number) {
@@ -28,6 +30,7 @@ test("normal dated education offer, period progression, interruption and repeate
   });
   await enterLife(page);
   await openElsewhere(page, "jobs");
+  await browseStudy(page);
   const education = page.getByRole("region", {
     name: "Real education options",
     exact: true,
@@ -100,6 +103,7 @@ test("normal invitation pointer refusal preserves time and survives saving", asy
   await saveLife(page);
   const before = await readSavedLegislativeWorld(page);
   await openElsewhere(page, "jobs");
+  await openFolded(page, "Other paths and invitations");
   const invitations = page.getByRole("region", {
     name: "Invitations",
     exact: true,

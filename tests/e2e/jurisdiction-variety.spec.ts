@@ -126,13 +126,14 @@ for (const jurisdiction of TEST_JURISDICTIONS) {
     await expect(lower).toBeChecked();
 
     if (jurisdiction.candidacy.kind === "cannot-file") {
+      // Since c64c255cd the button stays, disabled, with the refusal beside it.
       await expect(
         page.getByTestId("file-candidacy"),
         `${jurisdiction.name} can file now; record it as "stands"`,
-      ).toHaveCount(0);
+      ).toBeDisabled();
       for (const fragment of jurisdiction.candidacy.because) {
         await expect(
-          browser,
+          page.getByTestId("campaign-section"),
           `${jurisdiction.name}'s refusal no longer says "${fragment}"`,
         ).toContainText(fragment);
       }

@@ -1,4 +1,5 @@
 import { test, expect, type Page } from "./fixtures";
+import { browseStudy } from "./support/creator";
 
 async function continueDays(page: Page, days: number) {
   const button = page.getByRole("button", {
@@ -31,6 +32,7 @@ test("EDU real institution search, explicit offer, period study, interruption an
   page,
 }) => {
   await page.goto("/edu-path7-proof.html");
+  await browseStudy(page);
   await page
     .getByRole("textbox", { name: "Search institutions" })
     .fill("Bluegrass");
