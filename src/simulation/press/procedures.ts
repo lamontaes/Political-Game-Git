@@ -387,10 +387,11 @@ const SIMULATED: ProcedureDefinition = {
  * findings, publicity and sanctions are not the same event.
  *
  * So every interval below is `authored` and none is `rule`: the body is real
- * and named, the calendar is the game's. The last step stops at findings and
- * says the sanction is decided elsewhere, because for most of these states it
- * is — the chamber, not the commission, does the punishing — and nothing in
- * the research establishes how.
+ * and named, the calendar is the game's. The last step stops at findings; the
+ * sanction that follows (a reprimand, a censure for a repeat finding, a fine
+ * for money misused) is the shared game-profile set applied in
+ * `finding-consequences.ts`, because nothing in the research establishes what
+ * these bodies, or the chambers behind them, may impose.
  *
  * Borrowing Kentucky's ten-day service and twenty-day answer period for the
  * other twenty-three would have read as researched law and been false.
@@ -471,7 +472,7 @@ function stateLegislativeEthicsDefinition(
             ? {
                 step: "findings-issued",
                 summary: (c) =>
-                  `The ${c.institution} completed its inquiry into ${c.respondents} and issued its findings. Whether anyone is disciplined is decided separately, and this game does not model that step.`,
+                  `The ${c.institution} completed its inquiry into ${c.respondents} and issued its findings against them.`,
                 publicStep: true,
                 outcome: "finding",
                 closes: true,
@@ -918,7 +919,13 @@ export function advanceProceeding(
       linkedAt: next.currentDate,
     }).world;
   }
-  next = applyFindingConsequences(next, proceeding, appended.record, event);
+  next = applyFindingConsequences(
+    next,
+    proceeding,
+    appended.record,
+    event,
+    definition.institution,
+  );
   if (nextDueAt) {
     next = scheduleFutureDueItem(next, {
       stableKey: `press46:proceeding:${proceeding.id}:${steps.length + 1}`,

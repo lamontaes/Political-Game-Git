@@ -62,6 +62,31 @@ const SOURCES = {
   senateEthics: "https://www.ethics.senate.gov/public/index.cfm/about",
 } as const;
 
+/**
+ * GAME PROFILE, not any state's law: what a state legislative ethics body may
+ * impose after a finding, where research has not said. The 2026-09-22 ethics
+ * routing research named each body and its proceeding but not its sanction
+ * powers, which left only Kentucky able to punish anyone. Every state body
+ * now holds the same three: a reprimand, a censure and a civil fine. A
+ * researched sanction set replaces this one for its state; expulsion and
+ * removal stay with the chamber and are never granted here.
+ */
+export const ETHICS_SANCTION_GAME_PROFILE = {
+  version: "ethics-sanction-game-profile-v1",
+  provenance: "game-profile",
+  actions: ["reprimand", "censure", "civil-penalty"],
+} as const satisfies {
+  readonly version: string;
+  readonly provenance: string;
+  readonly actions: readonly InstitutionAction[];
+};
+
+function gameProfileSanction(action: InstitutionAction): boolean {
+  return (ETHICS_SANCTION_GAME_PROFILE.actions as readonly string[]).includes(
+    action,
+  );
+}
+
 const PROCEDURE: readonly InstitutionAction[] = [
   "receive-complaint",
   "open-inquiry",
@@ -137,6 +162,12 @@ export function canInstitutionAct(
         SOURCES.klec,
         "Kentucky Legislative Ethics Commission procedure.",
       );
+    if (gameProfileSanction(action))
+      return answer(
+        "available",
+        [],
+        `Game profile ${ETHICS_SANCTION_GAME_PROFILE.version}; not researched Kentucky law.`,
+      );
     return unknown(
       "Other Kentucky Legislative Ethics Commission sanctions are not compiled.",
     );
@@ -148,13 +179,19 @@ export function canInstitutionAct(
   if (stateEthicsBody) {
     // The 2026-09-22 ethics routing research established who hears a complaint
     // and under what instrument. It did not establish what any of these bodies
-    // may do to anyone, so every sanction stays uncompiled rather than being
-    // borrowed from Kentucky.
+    // may do to anyone, so the sanctions are the shared game profile rather
+    // than anything borrowed from Kentucky.
     if (PROCEDURE.includes(action))
       return answer(
         "available",
         stateEthicsBody.sourceRefs,
         `${stateEthicsBody.intakeBody}: ${stateEthicsBody.proceedingTerm}.`,
+      );
+    if (gameProfileSanction(action))
+      return answer(
+        "available",
+        [],
+        `Game profile ${ETHICS_SANCTION_GAME_PROFILE.version}; not the state's researched law.`,
       );
     return unknown(
       `What the ${stateEthicsBody.intakeBody} may impose is not compiled.`,

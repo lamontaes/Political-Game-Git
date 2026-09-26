@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import { createScenarioWorld } from "../index";
 import { KENTUCKY_CONTEXT, NEBRASKA_CONTEXT } from "../legislation-scenarios";
-import { canInstitutionAct } from "../governing/institution-authority";
+import {
+  canInstitutionAct,
+  ETHICS_SANCTION_GAME_PROFILE,
+} from "../governing/institution-authority";
 import { LEGISLATIVE_RULE_PACKS } from "../legislature-rule-packs";
 import { procedureForSubject } from "./matters";
 import { procedureDefinition } from "./procedures";
@@ -141,28 +144,40 @@ describe("state legislative ethics routing", () => {
     }
   });
 
-  it("compiles procedure for a researched body and nothing beyond it", () => {
+  it("gives every state ethics body its procedure and the game-profile sanctions, and nothing beyond them", () => {
     const world = createScenarioWorld(
       "press-state-ethics-ne",
       NEBRASKA_CONTEXT,
     );
     const subject = someone(world);
-    const body = STATE_LEGISLATIVE_ETHICS_BODIES.find(
-      (candidate) => candidate.stateJurisdictionKey === "US-NE",
-    )!;
-    const ask = (action: Parameters<typeof canInstitutionAct>[1]["action"]) =>
-      canInstitutionAct(world, {
-        institution: ethicsInstitutionKey(body),
-        action,
-        subjectPersonId: subject,
-        onDate: world.currentDate,
-      }).status;
-    // The research read who hears a complaint. It did not read what any of
-    // these bodies may impose, so a sanction stays uncompiled rather than
-    // borrowing Kentucky's reprimand power.
-    expect(ask("receive-complaint")).toBe("available");
-    expect(ask("issue-finding")).toBe("available");
-    expect(ask("reprimand")).toBe("unknown");
-    expect(ask("expel")).toBe("unknown");
+    const institutions = [
+      "state-legislative-ethics:ky" as const,
+      ...STATE_LEGISLATIVE_ETHICS_BODIES.map(ethicsInstitutionKey),
+    ];
+    expect(institutions).toHaveLength(
+      STATE_LEGISLATIVE_ETHICS_BODIES.length + 1,
+    );
+    for (const institution of institutions) {
+      const ask = (action: Parameters<typeof canInstitutionAct>[1]["action"]) =>
+        canInstitutionAct(world, {
+          institution,
+          action,
+          subjectPersonId: subject,
+          onDate: world.currentDate,
+        });
+      // The research read who hears a complaint. It did not read what any of
+      // these bodies may impose (Kentucky's reprimand aside), so the
+      // sanctions are the shared, labeled game profile (audit G6), not
+      // Kentucky's powers; expulsion and removal stay with the chamber.
+      expect(ask("receive-complaint").status).toBe("available");
+      expect(ask("issue-finding").status).toBe("available");
+      for (const sanction of ETHICS_SANCTION_GAME_PROFILE.actions)
+        expect(ask(sanction).status).toBe("available");
+      expect(ask("censure").note).toContain(
+        ETHICS_SANCTION_GAME_PROFILE.version,
+      );
+      expect(ask("expel").status).toBe("unknown");
+      expect(ask("remove-from-office").status).toBe("unknown");
+    }
   });
 });
