@@ -49,7 +49,9 @@ export async function reachMemberOffice(
   // The seat is decided on the state's election day, not after 48 days.
   await campaignWeeklyUntilDecided(page);
   await expect(page.getByTestId("campaign-result")).toBeVisible();
-  await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
+  await expect(page.getByTestId("campaign-afterword")).toContainText(
+    /\bwon[,.]/,
+  );
   await goTo(page, "elsewhere-work");
   // The election result is not office authority: the recorded winner enters
   // the supported term on its start date, so the ordinary shell clock moves

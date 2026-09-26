@@ -49,6 +49,7 @@ test("Politics workspace fills a 390x844 phone frame", async ({
   await openShellMenu(page);
   await page.getByTestId("nav-politics").click();
   await page.getByTestId("politics-tab-government").click();
+  await page.getByTestId("politics-sub-overview").click();
   await expect(page.getByTestId("government-browser")).toBeVisible();
 
   const frame = page.locator(".pg-workspace").first();

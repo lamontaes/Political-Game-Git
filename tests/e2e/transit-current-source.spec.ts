@@ -1,5 +1,6 @@
 import { expect, test } from "./fixtures";
 import { shotPath } from "./support/shot-path";
+import { waitForClockIdle } from "./support/creator";
 
 /** Component entry only; primary PlayerGame mount remains A-owned.
  * Explicit supplied-seat boundary. Transit and recorded legislative controls
@@ -181,12 +182,12 @@ test("current-source transit component enacts two choices and preserves unpaid c
       exact: true,
     });
     await expect(transit).toContainText("takes effect on");
-    const continueDay = transit.getByRole("button", {
-      name: "Continue one day",
-      exact: true,
-    });
+    // Since e79d4ec33 time moves only from the shell's Day control; the
+    // Transit panel no longer carries a pass-day button of its own.
+    const continueDay = page.getByTestId("shell-pass-day");
     for (let day = 0; day < 90; day++) {
       // A running time command marks the control busy; one press per day.
+      await waitForClockIdle(page);
       await expect(continueDay).toBeEnabled();
       if (index) {
         await continueDay.focus();

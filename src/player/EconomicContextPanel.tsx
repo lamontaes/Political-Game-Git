@@ -328,6 +328,10 @@ export function EconomicGraph({
   const minimum = Math.min(...values, 0);
   const maximum = Math.max(...values, 0);
   const range = maximum - minimum || 1;
+  // A provider's series name ("2-bedroom Fair Market Rent") is the ingestion
+  // record. Ordinary play calls a one-series graph by its own title.
+  const seriesName = (series: (typeof graph.series)[number]): string =>
+    diagnostics || graph.series.length !== 1 ? series.label : graph.title;
 
   return (
     <figure className="economic-graph" data-graph-kind={graph.kind}>
@@ -409,7 +413,7 @@ export function EconomicGraph({
           <span key={series.seriesKey} data-record-class={series.recordClass}>
             {diagnostics
               ? `${recordClassLabel(series.recordClass)} · ${series.label}`
-              : series.label}
+              : seriesName(series)}
           </span>
         ))}
       </div>
@@ -430,7 +434,7 @@ export function EconomicGraph({
               {graph.series.flatMap((series) =>
                 series.points.map((point) => (
                   <tr key={point.pointKey}>
-                    <th scope="row">{series.label}</th>
+                    <th scope="row">{seriesName(series)}</th>
                     <td>
                       {diagnostics ? point.period : periodInWords(point.period)}
                     </td>

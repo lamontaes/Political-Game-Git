@@ -124,8 +124,13 @@ test.describe("A ten-year-old is asked a ten-year-old's questions", () => {
     await expect(page.getByTestId("questionnaire-screen")).toBeVisible();
 
     await expect(page.getByTestId("questionnaire-framing")).toBeVisible();
+    // The framing says the questions are imagined situations for the player
+    // and write nothing into the character's biography (#609).
     await expect(page.getByTestId("questionnaire-framing")).toContainText(
-      /about you, not your character/i,
+      /imagined situations/i,
+    );
+    await expect(page.getByTestId("questionnaire-framing")).toContainText(
+      /do not write your character.s biography/i,
     );
 
     const prompts: string[] = [];
@@ -138,17 +143,10 @@ test.describe("A ten-year-old is asked a ten-year-old's questions", () => {
         .click();
     }
 
-    // The three openers are one life at that age, with the same people in
-    // them — which is a cast the questions themselves establish rather than a
-    // cast a player is expected to already know.
-    const opening = prompts.slice(0, 3).join("\n");
-    for (const line of prompts.slice(0, 3)) {
-      expect(line).not.toMatch(ADULT_AGENCY);
-    }
-    const recurring = ["Dee", "Bea", "Theo", "Kenny", "Ms. Ruiz"].filter(
-      (name) => opening.includes(name),
-    );
-    expect(recurring.length).toBeGreaterThanOrEqual(2);
+    // The opening belongs to the character's own register. Since #609 it is
+    // chosen from the strongest questions for the age rather than a fixed
+    // three-scene script, so only the first question is held to it.
+    expect(prompts[0]).not.toMatch(ADULT_AGENCY);
 
     // And the calibration does not stay in a ten-year-old's house. Five
     // questions drawn from ten childhood items was the shortage the second
@@ -165,8 +163,12 @@ test.describe("A ten-year-old is asked a ten-year-old's questions", () => {
       age: 34,
       calibration: "short",
     });
-    await expect(page.getByTestId("questionnaire-prompt")).toContainText(
-      /kitchen table/i,
+    // Since #609 the opening is chosen from the strongest adult questions, not
+    // one fixed scene; what must hold is that it is not the child bank's.
+    const prompt = page.getByTestId("questionnaire-prompt");
+    await expect(prompt).not.toBeEmpty();
+    await expect(prompt).not.toContainText(
+      /\b(?:Dee|Bea|Theo|Kenny|Ms\. Ruiz)\b/,
     );
   });
 });
@@ -219,7 +221,7 @@ test.describe("The page says whose life this is", () => {
       // A name and a relation, from the record — never a bare name the player
       // has to work out from a shared surname.
       expect(said).toMatch(
-        /, (your (mom|dad|parent|older|younger)|who (you live with|is in your class))/,
+        /, (your (mom|dad|parent|guardian|grand(?:mother|father|parent)|aunt|uncle|older|younger)|who (you live with|is in your class))/,
       );
       expect(said).not.toMatch(MACHINERY);
     }
@@ -259,9 +261,9 @@ test.describe("The page says whose life this is", () => {
     await expectNoDestination(page, "keep-world");
     await page.reload();
     await page.getByTestId("continue").click();
-    // A loaded save has been introduced already, so it opens on the room's
-    // scene; the continuing life, where the name is read, is one step in.
-    await expect(page.getByTestId("opening-life-scene")).toBeVisible();
+    // A loaded save has been introduced already, so it opens straight on the
+    // room, where the moment that names the character is one step in.
+    await expect(page.getByTestId("play-screen")).toBeVisible();
     await enterLife(page);
     await openMoment(page);
     await expect(who).toHaveText(named);

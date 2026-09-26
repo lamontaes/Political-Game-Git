@@ -246,7 +246,8 @@ test("Return to title from Options and from the desktop hub request", async ({
 
   expect(await request()).toBe(true);
   await expect(page.getByTestId("leave-confirm")).toBeVisible();
-  // A second request while the question is open is ignored.
+  // A second request while the question is open is claimed but starts
+  // nothing new, so the hub does not fall back to its own quit (b8e45b834).
   expect(
     await page.evaluate(() => {
       const event = new CustomEvent("ocd:request-return-to-title", {
@@ -255,7 +256,7 @@ test("Return to title from Options and from the desktop hub request", async ({
       window.dispatchEvent(event);
       return event.defaultPrevented;
     }),
-  ).toBe(false);
+  ).toBe(true);
   await page.getByTestId("leave-cancel").click();
   expect(await outcome()).toBe("cancelled");
   await expect(page.getByTestId("play-screen")).toBeVisible();

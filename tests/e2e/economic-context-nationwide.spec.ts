@@ -62,14 +62,16 @@ for (const { town, state, rents } of TOWNS) {
      * A life opens on January 5, 2026. The only locked edition published by
      * then is HUD's FY2025 Fair Market Rents (August 14, 2024), so that is
      * what shows; county income (February 5) and price levels (February 19)
-     * are held back, however old the years they describe.
+     * are held back, however old the years they describe. Since ed8eb76f9 the
+     * page shows the figure without its source product or intake date.
      */
     if (rents) {
-      expect(panelText).toContain("Two-bedroom Fair Market Rent");
-      expect(panelText).toContain("2024-08-14");
+      expect(panelText).toContain("Two-bedroom rent");
+      expect(panelText).not.toContain("Fair Market Rent");
+      expect(panelText).not.toContain("2024-08-14");
     } else {
       expect(panelText).toMatch(
-        /recorded for this place, and the game cannot establish/,
+        /recorded for this place, and none is known to have come out by this date/,
       );
     }
     expect(panelText).not.toContain("personal income");

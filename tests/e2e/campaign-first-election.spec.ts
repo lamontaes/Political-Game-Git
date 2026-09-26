@@ -406,7 +406,7 @@ test.describe("A life can stand for something", () => {
     const result = page.getByTestId("campaign-result");
     await expect(result).toBeVisible();
     await expect(page.getByTestId("campaign-afterword")).toContainText(
-      /won\.|lost\./i,
+      /\b(?:won|lost)[,.]/i,
     );
     // There is nothing left to spend an afternoon on, and the buttons say so.
     await expect(page.getByTestId("campaign-offers")).toHaveCount(0);
@@ -539,7 +539,9 @@ test.describe("P85D integration through ordinary player controls", () => {
         pressTime(page, "shell-pass-day"),
       ),
     ).toBe(true);
-    await expect(page.getByTestId("campaign-afterword")).toContainText("won.");
+    await expect(page.getByTestId("campaign-afterword")).toContainText(
+      /\bwon[,.]/,
+    );
     // The office is its own Politics tab, apart from the campaign.
     await openElsewhere(page, "work");
     await expect(page.getByTestId("office-section")).toHaveCount(0);

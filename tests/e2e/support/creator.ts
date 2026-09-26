@@ -216,8 +216,15 @@ export async function chooseStartAge(page: Page, age: number): Promise<void> {
     page.getByTestId("start-birth-year"),
     String(2026 - age - (notYet ? 1 : 0)),
   );
+  /*
+   * With month and day chosen the creator states the exact age ("You begin
+   * at age 30, on …"). With either still blank it states the range that year
+   * allows ("Age 29–30 on …"), and Next fills the rest.
+   */
   await expect(page.getByTestId("creator-derived-age")).toContainText(
-    `age ${age},`,
+    month > 0 && day > 0
+      ? `age ${age},`
+      : new RegExp(`^Age (?:${age - 1}–)?${age} on `),
   );
 }
 
@@ -459,7 +466,12 @@ export async function advanceQuietStory(page: Page): Promise<void> {
 const POLITICS_HUB: Readonly<Record<string, readonly string[]>> = {
   "elsewhere-work": ["politics-tab-office"],
   "elsewhere-campaign": ["politics-tab-campaigns"],
-  "nav-politics-government": ["politics-tab-government"],
+  // Politics opens Government at the map (owner, 2026-09-22); "Who governs"
+  // is the Government tab's overview section.
+  "nav-politics-government": [
+    "politics-tab-government",
+    "politics-sub-overview",
+  ],
   "nav-municipal": ["politics-tab-government", "politics-sub-records"],
   "nav-parties": ["politics-tab-parties"],
   "nav-politics-budget": ["politics-tab-issues", "politics-sub-budget"],

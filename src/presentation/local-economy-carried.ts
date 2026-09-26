@@ -223,7 +223,15 @@ export function periodInWords(period: string): string {
  * recent figure a player is shown, so the mark is dropped, not explained.
  */
 export function placeInWords(name: string): string {
-  return name.replace(/\*+$/u, "").trim();
+  // Agencies name their areas "Boise City, ID HUD Metro FMR Area" or
+  // "Lexington-Fayette, KY MSA"; the player reads the place, not the agency's
+  // area vocabulary.
+  return name
+    .replace(/\*+$/u, "")
+    .replace(/\s+HUD (?:Metro|Nonmetro) FMR Area$/u, "")
+    .replace(/\s+\((?:Metropolitan|Micropolitan) Statistical Area\)$/u, "")
+    .replace(/\s+(?:MSA|μSA)$/u, "")
+    .trim();
 }
 
 /**

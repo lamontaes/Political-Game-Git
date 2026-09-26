@@ -164,7 +164,7 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   await ordinance
     .getByRole("button", { name: "Put on the council agenda" })
     .press("Space");
-  await expect(ordinance).toContainText("On the council agenda for passage.");
+  await expect(ordinance).toContainText("On the council agenda.");
   await expect(ordinance).toContainText("City Code § 2-97");
   const record_ = ordinance.getByRole("button", {
     name: "Record the council vote",

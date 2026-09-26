@@ -137,6 +137,10 @@ describe("EconomicContextView as ordinary play renders it", () => {
     expect(text).not.toMatch(
       /\b\d{4}-\d{2}-\d{2}\b|\b\d{4}-M\d{2}\b|\bFY\d{4}\b/,
     );
+    // Nor a provider's own names for its series and areas.
+    expect(text).not.toMatch(
+      /Fair Market Rent|FMR Area|\bHUD\b|Statistical Area|\bMSA\b|RPPs/,
+    );
   });
 });
 

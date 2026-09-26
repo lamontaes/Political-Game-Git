@@ -99,9 +99,12 @@ test("A39 composed readers, municipal and constitutional routes preserve saved l
     .getByTestId("municipal-governing")
     .locator("summary")
     .press("Enter");
+  // The manager-election rule is read from Va. Code § 15.2-1420, but player
+  // screens carry no statute citations, so the rule itself is what shows.
   await expect(page.getByTestId("municipal-governing")).toContainText(
-    /(?:Virginia|Va\.) Code § 15\.2-1420\b/,
+    "Majority of members voting on the question",
   );
+  await expect(page.getByTestId("municipal-governing")).not.toContainText("§");
   await navigate(page, "nav-politics-budget", "politics");
   await page
     .getByRole("button", {

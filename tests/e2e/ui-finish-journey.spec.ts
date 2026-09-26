@@ -2,6 +2,7 @@ import { expect, test, type Page } from "./fixtures";
 import { chooseOption, optionValues } from "./support/controls";
 
 import {
+  enterLife,
   fillCreator,
   goTo,
   openCreator,
@@ -110,7 +111,7 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   await page.getByTestId("state-search").fill(NEVADA.state);
   await page.getByTestId("state-NV").click();
   const status = page.getByTestId("place-page-status");
-  await expect(status).toContainText(/places in this state/);
+  await expect(status).toContainText(/places the game lists in this state/);
   const firstPageTown = await page
     .getByTestId("place-choices")
     .getByRole("button")
@@ -150,7 +151,7 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   await expect(page.getByTestId("begin")).toBeEnabled();
   await shot(page, "03-appearance");
   await page.getByTestId("begin").click();
-  await expect(page.getByTestId("play-screen")).toBeVisible();
+  await enterLife(page);
   await shot(page, "04-room");
   const openingDate = await shellDate(page);
 
@@ -304,7 +305,7 @@ test("group 2c: browsing is free, save and reopen keep the day, the clock moves"
   const errors = watchPageErrors(page);
   await freshBrowser(page);
   await startLife(page, { ...NEVADA, calibration: "skipped" });
-  await expect(page.getByTestId("play-screen")).toBeVisible();
+  await enterLife(page);
   const day = await shellDate(page);
 
   await goTo(page, "elsewhere-people");

@@ -2,6 +2,7 @@ import { expect, test, type Page } from "./fixtures";
 import { chooseOption } from "./support/controls";
 import {
   chooseCreatorLocation,
+  enterLife,
   goTo,
   openCreator,
   chooseStartAge,
@@ -38,7 +39,7 @@ test("UI36 non-Kentucky journey: quiet room, one card, conversation, News and re
   );
   await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
-  await expect(page.getByTestId("play-screen")).toBeVisible();
+  await enterLife(page);
   await expect(page.getByTestId("scene-backdrop-plate")).toBeVisible();
   await page
     .getByTestId("scene-backdrop-plate")

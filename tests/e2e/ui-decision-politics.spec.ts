@@ -91,6 +91,7 @@ for (const size of SIZES) {
     await openShellMenu(page);
     await page.getByTestId("nav-politics").click();
     await page.getByTestId("politics-tab-government").click();
+    await page.getByTestId("politics-sub-overview").click();
     const browser = page.getByTestId("government-browser");
     await expect(browser).toBeVisible();
     await expect(page.getByTestId("politics-tabs")).toBeVisible();
