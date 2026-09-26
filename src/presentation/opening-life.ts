@@ -16,6 +16,8 @@ import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
 import { scheduleLocalMemberAgendaIntakes } from "../simulation/governing/member-agenda";
+import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
+import { ensureOfficeholderPrinciples } from "../simulation/governing/officeholder-principles";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
   canonicalJson,
@@ -80,6 +82,39 @@ export interface OpeningLifeGenerationOptions {
   readonly yieldControl?: () => Promise<void>;
 }
 
+interface OpeningCongressPrinciplesChunk {
+  readonly world: World;
+  readonly completedPeople: number;
+  readonly totalPeople: number;
+}
+
+/** Draw the already-seated Congress's before-play principles during Begin. */
+function* prepareOpeningCongressPrinciplesChunks(
+  world: World,
+  chunkSize = 64,
+): Generator<OpeningCongressPrinciplesChunk, World, void> {
+  const personIds = ["house", "senate"].flatMap(
+    (chamberKey) =>
+      seatedCongressChamber(world, chamberKey)?.body.members.flatMap(
+        (member) => (member.personId ? [member.personId] : []),
+      ) ?? [],
+  );
+  const members = [...new Set(personIds)];
+  let next = world;
+  for (let offset = 0; offset < members.length; offset += chunkSize) {
+    next = ensureOfficeholderPrinciples(
+      next,
+      members.slice(offset, offset + chunkSize),
+    );
+    yield {
+      world: next,
+      completedPeople: Math.min(offset + chunkSize, members.length),
+      totalPeople: members.length,
+    };
+  }
+  return next;
+}
+
 /** Call once when the fade completes; duplicate activation returns the same save. */
 export function generateOpeningLife(
   session: OpeningLifeSession,
@@ -141,6 +176,24 @@ export async function generateOpeningLifeWithProgress(
         label: "Preparing state legislatures",
         completed: step!.value.completedStates,
         total: step!.value.totalStates,
+      });
+      await (options.yieldControl ?? yieldOpeningPreparationToHost)();
+    }
+
+    const principles = prepareOpeningCongressPrinciplesChunks(world);
+    while (true) {
+      throwIfOpeningAborted(options.signal);
+      let step:
+        IteratorResult<OpeningCongressPrinciplesChunk, World> | undefined;
+      world = advanceWithWorldIntegrityAtEnd(() => {
+        step = principles.next();
+        return step.done ? world : step.value.world;
+      }, world);
+      if (step!.done) break;
+      options.onProgress?.({
+        label: "Preparing Congress principles",
+        completed: step!.value.completedPeople,
+        total: step!.value.totalPeople,
       });
       await (options.yieldControl ?? yieldOpeningPreparationToHost)();
     }
@@ -256,6 +309,14 @@ function buildOpeningLife(
         label: "Preparing state legislatures",
         completed: chunk.completedStates,
         total: chunk.totalStates,
+      });
+    }
+    for (const chunk of prepareOpeningCongressPrinciplesChunks(world)) {
+      world = chunk.world;
+      onProgress?.({
+        label: "Preparing Congress principles",
+        completed: chunk.completedPeople,
+        total: chunk.totalPeople,
       });
     }
   }
