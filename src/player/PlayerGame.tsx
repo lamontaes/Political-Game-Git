@@ -172,6 +172,7 @@ import { openOrdinaryLife } from "../presentation/ordinary-life";
 import { endQuestionnaireEarly } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
+import { calendarEntryFor } from "../presentation/player-calendar";
 import { projectHouseholdPapers } from "../presentation/household-papers";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import { resolveOpeningPlaySceneContext } from "../presentation/play-scene-context";
@@ -3248,7 +3249,6 @@ function PlayingScreen({
     openTheBill,
     goToTheFloor,
     goToTheFloorFor,
-    workHint,
     readOnly,
     retireFromPlay: readOnly ? null : (
       <RetireFromPlayAction
@@ -3857,7 +3857,6 @@ function renderWorkspace({
   openTheBill,
   goToTheFloor,
   goToTheFloorFor,
-  workHint,
   readOnly,
   retireFromPlay,
   guideTermKey,
@@ -3885,7 +3884,6 @@ function renderWorkspace({
   readonly openTheBill: () => void;
   readonly goToTheFloor: () => void;
   readonly goToTheFloorFor: (bill: DocketBill) => void;
-  readonly workHint: string;
   /** Nobody is played, or the played life ended: reading surfaces only. */
   readonly readOnly: boolean;
   /** Options' Retire from play, or null when there is nobody to retire. */
@@ -4338,7 +4336,6 @@ function renderWorkspace({
             <TodayView
               session={session}
               onWorldChange={onWorldChange}
-              workHint={workHint}
               embedded
               onOpenCommitment={(activityId) =>
                 openEntity({ kind: "commitment", id: activityId })
@@ -5515,7 +5512,6 @@ function OptionsScreen({ onBack }: { readonly onBack: () => void }) {
 function TodayView({
   session,
   onWorldChange,
-  workHint,
   onOpenCommitment,
   onOpenPerson,
   onGoTo,
@@ -5523,7 +5519,6 @@ function TodayView({
 }: {
   readonly session: Session;
   readonly onWorldChange: (world: World) => void;
-  readonly workHint: string;
   readonly onOpenCommitment: (activityId: EntityId) => void;
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onGoTo: (
@@ -5549,6 +5544,14 @@ function TodayView({
     () => projectHouseholdPapers(session.world, session.personId),
     [session.world, session.personId],
   );
+  const actionablePapers = papers.filter(
+    (paper) =>
+      paper.destination.kind !== "none" && paper.destination.kind !== "here",
+  );
+  const offers = useMemo(
+    () => projectWorkRole(session.world, session.personId).awaitingAnswer,
+    [session.world, session.personId],
+  );
 
   return (
     <section className="game-day pg-today" data-testid="ordinary-section">
@@ -5556,25 +5559,6 @@ function TodayView({
         {today.dateLabel} · {today.timeLabel}
         {today.placeName ? ` · ${today.placeName}` : ""}
       </p>
-
-      {today.now ? (
-        <section className="pg-today-block" aria-labelledby="pg-today-now">
-          <h3 id="pg-today-now">Now</h3>
-          <p
-            className="game-scene"
-            data-testid={
-              today.nowKind === "activity" ? "day-now-activity" : "day-opening"
-            }
-          >
-            {today.now}
-          </p>
-          {today.nowKind === "scene" ? (
-            <p className="game-note" data-testid="day-now-scene">
-              It is waiting in the room. Close this to go back to it.
-            </p>
-          ) : null}
-        </section>
-      ) : null}
 
       <section className="pg-today-block" aria-labelledby="pg-today-next">
         <h3 id="pg-today-next">Next</h3>
@@ -5587,38 +5571,46 @@ function TodayView({
             onClick={() => onOpenCommitment(today.next!.activityId)}
           >
             {today.next.when} · {today.next.title}
-            <small>{today.next.locationLabel} · Read it in the calendar</small>
+            <small>{today.next.locationLabel}</small>
           </button>
-        ) : (
-          <p className="game-note" data-testid="day-next-none">
-            Nothing else of yours is on the calendar.
-          </p>
-        )}
+        ) : null}
       </section>
 
-      {today.waiting.length > 0 ? (
+      {actionablePapers.length > 0 ? (
         <section className="pg-today-block" aria-labelledby="pg-today-waiting">
           <h3 id="pg-today-waiting">Waiting on you</h3>
           <ul className="game-pending" data-testid="day-pending">
-            {papers.map((paper) => {
+            {actionablePapers.map((paper) => {
               const destination = paper.destination;
               const route =
                 destination.kind === "commitment"
                   ? {
-                      hint: "Read it in the calendar",
+                      label:
+                        calendarEntryFor(
+                          session.world,
+                          session.personId,
+                          destination.activityId,
+                        )?.title ?? "Calendar",
                       go: () => onOpenCommitment(destination.activityId),
                     }
                   : destination.kind === "person"
                     ? {
-                        hint: "Open the person this is with",
+                        label: session.world.people[destination.personId]
+                          ? personName(
+                              session.world.people[destination.personId]!,
+                            )
+                          : "People",
                         go: () => onOpenPerson(destination.personId),
                       }
                     : destination.kind === "surface"
                       ? {
-                          hint:
-                            destination.section === "campaign"
-                              ? "Qualify for it under Campaigns"
-                              : "Answer it where work is",
+                          label:
+                            offers.find((offer) =>
+                              paper.key.endsWith(offer.relationshipId),
+                            )?.roleTitle ??
+                            (destination.section === "campaign"
+                              ? "Campaigns"
+                              : "Work"),
                           go: () =>
                             onGoTo(destination.surface, destination.section),
                         }
@@ -5632,18 +5624,9 @@ function TodayView({
                       data-testid={`day-pending-open-${paper.key}`}
                       onClick={route.go}
                     >
-                      {paper.sentence}
-                      <small>{route.hint}</small>
+                      {route.label}
                     </button>
-                  ) : (
-                    /*
-                      Answered here, with the time below, or carrying no route
-                      the record can support. Either way there is nowhere to
-                      send anybody, so it stays the sentence it already was
-                      rather than becoming a button that guesses.
-                    */
-                    paper.sentence
-                  )}
+                  ) : null}
                 </li>
               );
             })}
@@ -5668,7 +5651,6 @@ function TodayView({
           onClick={() => onGoTo("work")}
         >
           Your office and campaigns
-          <small>{workHint}</small>
         </button>
         {embedded ? null : (
           <button
@@ -5678,7 +5660,6 @@ function TodayView({
             onClick={() => onGoTo("calendar")}
           >
             Calendar
-            <small>Everything that is scheduled</small>
           </button>
         )}
         <button
@@ -5688,7 +5669,6 @@ function TodayView({
           onClick={() => onGoTo("places")}
         >
           Travel
-          <small>Where you can go from here</small>
         </button>
       </nav>
     </section>

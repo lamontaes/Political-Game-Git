@@ -4,10 +4,7 @@ import type {
   JournalView,
   PrivateJournal,
 } from "../presentation/shell-navigation";
-import {
-  withChronicleLead,
-  type JournalChronicleLine,
-} from "../presentation/journal-views";
+import { type JournalChronicleLine } from "../presentation/journal-views";
 import { projectLifeRecord } from "../presentation/life-record";
 import { projectMyLifeJournalView } from "../presentation/my-life-journal";
 import { PrivateJournalEditor } from "./PrivateJournalEditor";
@@ -146,14 +143,7 @@ export function World39Journal({
                     data-at={line.entry.at}
                   >
                     {index > 0 ? " " : ""}
-                    {line.entry.kind === "account" ? (
-                      <>
-                        <span className="world39-meta">As you heard it: </span>
-                        {line.entry.text}
-                      </>
-                    ) : (
-                      withChronicleLead(line.lead, line.entry.text)
-                    )}
+                    {line.entry.text}
                   </span>
                 ))}
               </p>

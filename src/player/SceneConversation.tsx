@@ -654,7 +654,6 @@ export function SceneConversation({
               </button>
             ) : null}
           </div>
-
         </>
       ) : (
         <div className="pg-talk-history" data-testid="talk-history">

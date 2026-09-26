@@ -67,14 +67,13 @@ describe("the regional plate on the locality step", () => {
     expect(markup).toContain('data-matched-by="state"');
   });
 
-  it("describes the picture as an illustration of the area, not this address", () => {
+  it("labels the picture without inventing a scene description", () => {
     const markup = render(PLATE);
-    expect(markup).toContain("Illustration, not this address");
-    expect(markup).toContain("alt=");
-    expect(markup).toContain("sonoran desert");
+    expect(markup).toContain('alt="Regional illustration"');
+    expect(markup).not.toContain("Illustration, not this address");
   });
 
-  it("captions a street as a street, not as countryside", () => {
+  it("does not revive the old regional caption for a different plate", () => {
     const markup = render({
       kind: "plate",
       plate: {
@@ -84,9 +83,9 @@ describe("the regional plate on the locality step", () => {
         sceneKind: "street",
       },
     });
-    expect(markup).toContain("A street of the kind common near here.");
+    expect(markup).not.toContain("A street of the kind common near here.");
     expect(markup).not.toContain("Typical countryside");
-    expect(markup).toContain("Illustration, not this address");
+    expect(markup).toContain('alt="Regional illustration"');
   });
 
   it("renders the step with no image when no region covers the place", () => {
@@ -116,9 +115,9 @@ describe("the regional plate on the locality step", () => {
       const markup = render(miss);
       expect(markup).not.toContain("orientation-region-plate");
       expect(markup).not.toContain("<img");
-      // The step itself still works: the place's own facts are unaffected.
+      // A missing illustration does not import the old narrative summary.
       expect(markup).toContain("Tucson");
-      expect(markup).toContain("Regina Romero is Mayor.");
+      expect(markup).not.toContain("Regina Romero is Mayor.");
     }
   });
 });

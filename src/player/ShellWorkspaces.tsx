@@ -692,9 +692,7 @@ function CalendarEntryRow({
         </span>
         <span className="pg-calendar-copy">
           <strong>{entry.title}</strong>
-          <small>
-            {calendarKindLabel(entry.kind)} · {entry.ownershipNote}
-          </small>
+          <small>{calendarKindLabel(entry.kind)}</small>
         </span>
       </button>
       <button
@@ -843,11 +841,7 @@ export function CalendarWorkspaceSurface({
                     className="pg-calendar-selection"
                     data-testid="calendar-selection"
                   >
-                    <CalendarEntryDetail
-                      entry={entry}
-                      world={world}
-                      personId={personId}
-                    />
+                    <CalendarEntryDetail entry={entry} />
                     {horizon !== "history" ? (
                       <CalendarEventActions
                         selected={entry}
@@ -1003,11 +997,6 @@ export function CalendarWorkspaceSurface({
               {outcome}
             </p>
           ) : null}
-          {calendar.note ? (
-            <p className="game-note" data-testid="calendar-note">
-              {calendar.note}
-            </p>
-          ) : null}
           <div data-testid="calendar-upcoming">
             <h3 className="pg-calendar-heading">
               {selectedDate
@@ -1069,27 +1058,8 @@ export function CalendarWorkspaceSurface({
 }
 
 /** What a selected entry is, read-only, before anything can be done to it. */
-function CalendarEntryDetail({
-  entry,
-  world,
-  personId,
-}: {
-  readonly entry: CalendarEntry;
-  readonly world: World;
-  readonly personId: EntityId;
-}) {
+function CalendarEntryDetail({ entry }: { readonly entry: CalendarEntry }) {
   const sameDay = entry.start.date === entry.end.date;
-  /*
-   * What a party or campaign activity came to, once it has been worked. This
-   * only projects — reading a result never records one. An activity whose hold
-   * has passed with nothing recorded shows no outcome here, because there is
-   * none yet; Attend is what records it.
-   */
-  const campaignLife = calendarCampaignLifeEntry(
-    world,
-    personId,
-    entry.activityId,
-  );
   return (
     <dl
       className="pg-calendar-detail"
@@ -1099,20 +1069,15 @@ function CalendarEntryDetail({
       <dt>What</dt>
       <dd>
         {entry.title} · {entry.kindLabel}
-        {entry.summary ? <span> {entry.summary}</span> : null}
       </dd>
-      <dt>On the record</dt>
-      <dd data-testid="calendar-event-arrangement">
-        {entry.arrangementNote ??
-          "The record does not say who arranged it or how it reached you."}{" "}
-        {entry.ownershipNote}
-      </dd>
-      <dt>Who is going</dt>
-      <dd data-testid="calendar-event-attendees">
-        {entry.attendeeNames.length > 0
-          ? entry.attendeeNames.join(", ")
-          : "No attendees are on record."}
-      </dd>
+      {entry.attendeeNames.length > 0 ? (
+        <>
+          <dt>Who is going</dt>
+          <dd data-testid="calendar-event-attendees">
+            {entry.attendeeNames.join(", ")}
+          </dd>
+        </>
+      ) : null}
       <dt>Where</dt>
       <dd>{entry.locationLabel}</dd>
       <dt>When</dt>
@@ -1122,14 +1087,6 @@ function CalendarEntryDetail({
         {sameDay ? "" : `${proseWeekdayDate(entry.end.date)}, `}
         {formatMinute(entry.end.minuteOfDay)}
       </dd>
-      {campaignLife && campaignLife.outcomeLines.length > 0 ? (
-        <>
-          <dt>How it went</dt>
-          <dd data-testid="calendar-event-outcome">
-            {campaignLife.outcomeLines.join(" ")}
-          </dd>
-        </>
-      ) : null}
     </dl>
   );
 }
@@ -1351,14 +1308,9 @@ export function CommitmentSurface({
         {formatMinute(entry.start.minuteOfDay)} –{" "}
         {formatMinute(entry.end.minuteOfDay)}
       </p>
-      {entry.arrangementNote ? (
-        <p data-testid="commitment-arrangement">{entry.arrangementNote}</p>
-      ) : null}
       <p className="pg-kicker" data-testid="commitment-kind">
         {entry.kindLabel}
       </p>
-      <p data-testid="commitment-ownership">{entry.ownershipNote}</p>
-      <p>{entry.summary}</p>
       <p className="game-note">Where: {entry.locationLabel}</p>
       {/* The player is not "with" themself: only the others are named. */}
       {entry.attendeeNames.filter((name) => name !== "You").length > 0 ? (
