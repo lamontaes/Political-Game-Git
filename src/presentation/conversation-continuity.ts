@@ -7,11 +7,10 @@ import {
   sceneTurnTag,
 } from "./contextual-scenes";
 import {
-  contextualSceneContract,
   advanceHouseholdObligation,
   advanceNeighborhoodMeeting,
   advanceSchoolProject,
-  conversationCommitContract,
+  conversationCommitContractForSubject,
 } from "./conversation-subjects";
 import {
   createHouseholdObligationProgress,
@@ -47,11 +46,7 @@ import type { ConversationOutcome } from "./conversation-consequences";
 
 /** The fixed vocabulary a subject's turns are recorded in. */
 function subjectContract(subject: ConversationSubjectKey) {
-  if (isContextualSceneSubject(subject)) {
-    return contextualSceneContract(subject);
-  }
-  const opening = openingProgress(subject);
-  return opening ? conversationCommitContract(opening) : null;
+  return conversationCommitContractForSubject(subject);
 }
 
 /**

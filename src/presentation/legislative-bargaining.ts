@@ -52,6 +52,7 @@ import {
   latestInteractionBetween,
   priorWorkEvidence,
 } from "./prior-work-evidence";
+import { bargainingPlayerWords } from "./legislative-bargaining-english";
 
 /**
  * Bargaining over a live measure, as one more subject on the accepted
@@ -280,7 +281,17 @@ export function availableBargainingIntents(
     label: "Listen",
     description: "Say nothing and let the room finish its thought.",
   });
-  return options;
+  return options.flatMap((option) => {
+    if (option.key === "listen") return [option];
+    const spoken = bargainingPlayerWords(
+      world,
+      room.playerPersonId,
+      addressee,
+      progress,
+      option.key as LegislativeBargainingIntent,
+    );
+    return spoken ? [{ ...option, spokenWords: spoken.text }] : [];
+  });
 }
 
 // ---------------------------------------------------------------------------

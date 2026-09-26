@@ -1,6 +1,7 @@
 import { describePersonContext, personName } from "../simulation";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../simulation";
 import { claimStanceOf } from "../simulation/claim-stances";
+import { playerUtteranceOf } from "./conversation-utterance";
 import { recordedConversationTurns } from "./conversation-continuity";
 import { currentOpeningLifeScene } from "./life-scene-flow";
 import type { ConversationSubjectKey } from "./run-b-conversation-progress";
@@ -97,7 +98,8 @@ export function conversationExchangeTurns(
     (turn) => {
       const event = byId.get(turn.eventId);
       if (!event) return [];
-      const spokenStatement = claimStanceOf(event)?.statement;
+      const spokenStatement =
+        playerUtteranceOf(event) ?? claimStanceOf(event)?.statement;
       const speaker =
         event.participants.find((entry) => entry.role === "focus:respondent")
           ?.personId ?? null;
