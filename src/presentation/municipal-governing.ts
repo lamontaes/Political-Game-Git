@@ -46,6 +46,10 @@ export type OwnOrdinanceBallot = "yea" | "nay" | "present-not-voting";
 export const AUTHORED_COUNCIL_BALLOT_NOTE =
   "Your ballot is yours. The other councilors' ballots are game-authored stand-ins: the game does not yet model how a councilor decides, so these are not any real council member's position.";
 
+/** What the player reads beside the other councilors' ballots. */
+export const COUNCIL_BALLOT_PLAYER_NOTE =
+  "Your ballot is yours to cast. Here is how the other councilors will vote.";
+
 /**
  * Feature-local ordinary municipal route for A / FABLE-UI.
  *
@@ -195,8 +199,6 @@ export function ensureAuthoredPublicMeeting(
     participantPersonIds: [personId],
     responsiblePersonId: personId,
     jurisdictionId: resolvedJurisdiction,
-    occurrenceNote:
-      "Game session: timing and duration are authored for this world. No real published meeting notice or agenda is asserted. This helper is not ordinary municipal meeting discovery.",
   });
   const meeting = municipalMeetings(next, governmentKey).at(-1);
   if (!meeting)
@@ -395,7 +397,7 @@ export function previewAuthoredCouncilBallots(
     presentNotVoting: dispositions.filter(
       (entry) => entry.disposition === "present-not-voting",
     ).length,
-    note: AUTHORED_COUNCIL_BALLOT_NOTE,
+    note: COUNCIL_BALLOT_PLAYER_NOTE,
   };
 }
 

@@ -345,9 +345,7 @@ describe("normal saved home context", () => {
       );
       const meetings = municipalMeetings(initialized, view.government.key);
       expect(meetings).toHaveLength(1);
-      expect(meetings[0]!.summary).toContain(
-        "timing and duration are authored",
-      );
+      expect(meetings[0]!.summary).not.toMatch(/authored|asserted|snapshot/i);
       expect(createAuthoredMunicipalPublicSession(initialized)).toBe(
         initialized,
       );

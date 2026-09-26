@@ -276,7 +276,7 @@ test("an Alaska member funds added transit service from a collected tax and sees
     "2 vehicle-service hours of added weekday contract service delivered, paid with $200.00 from the public account.",
   );
   await expect(outcome).toContainText("Public account cash now: $2.00.");
-  await expect(outcome).toContainText("Not modeled: ridership, travel times");
+  await expect(outcome).not.toContainText("Not modeled");
   await expect(transit(page).getByText("Delivered and paid.")).toHaveCount(2);
   await expect(
     transit(page).getByText("Delivered: 1 vehicle-service hour."),

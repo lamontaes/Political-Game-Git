@@ -343,7 +343,7 @@ describe(
         journeyMinutes: 20,
         family: "volunteer-shift",
       });
-      expect(view.travelCostDisclosure).toMatch(/not represented/);
+      expect(view.travelCostDisclosure).toMatch(/no fare is charged/);
       // Projection is pure.
       const before = serializeWorld(offered);
       projectCampaignLifeActivities(offered, life.personId);

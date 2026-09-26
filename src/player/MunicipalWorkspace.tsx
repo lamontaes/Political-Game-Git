@@ -347,7 +347,7 @@ export function MunicipalWorkspace({
               )}
               <p>
                 {governing.appointment.ok
-                  ? "Your council seat is recorded. Electing a manager also requires the council's recorded votes; this screen cannot supply other members' decisions."
+                  ? "Your council seat is recorded. Electing a manager takes a vote of the full council."
                   : governing.appointment.reason}
               </p>
               {managerRule ? (
@@ -357,10 +357,7 @@ export function MunicipalWorkspace({
                     {managerRule.label}, with the body's{" "}
                     <GuideTerm semanticKey="quorum">quorum</GuideTerm> required.
                   </p>
-                  <p>
-                    Recording a new council election through ordinary play still
-                    needs its member-decision producer.
-                  </p>
+                  <p>No manager election has been called.</p>
                 </details>
               ) : null}
             </section>
@@ -511,9 +508,7 @@ export function MunicipalWorkspace({
                                   ))}
                                 </fieldset>
                                 <details>
-                                  <summary>
-                                    Other councilors' ballots (game-authored)
-                                  </summary>
+                                  <summary>Other councilors' ballots</summary>
                                   <p>{preview.note}</p>
                                   <ul>
                                     {preview.colleagues.map((colleague) => {
@@ -652,8 +647,7 @@ export function MunicipalWorkspace({
                                 </fieldset>
                                 <p>
                                   If recorded now: {preview.yea} yea,{" "}
-                                  {preview.nay} nay. Other councilors' ballots
-                                  are game-authored.
+                                  {preview.nay} nay.
                                 </p>
                                 <button
                                   type="button"
@@ -823,7 +817,7 @@ export function MunicipalWorkspace({
                 <div className="municipal-authored-session">
                   <p>
                     {
-                      "Put a public session on the calendar: a game-authored 90-minute session starting in an hour, or tomorrow if this series already met today. Closed and executive sessions are not offered."
+                      "Put a public session on the calendar: a 90-minute session starting in an hour, or tomorrow if this body already met today. Closed and executive sessions are not offered."
                     }
                   </p>
                   <label>
@@ -891,7 +885,7 @@ export function MunicipalWorkspace({
                   </p>
                   <p>
                     {
-                      "Agenda: no published agenda has been attached to this session. Recorded measures appear below."
+                      "No agenda has been posted for this session yet. The measures before this body appear below."
                     }
                   </p>
                   <button
@@ -1028,7 +1022,7 @@ export function MunicipalWorkspace({
             ) : (
               attendanceHistory.map((event) => (
                 <p key={event.id}>
-                  {event.occurredAt}
+                  {proseDate(event.occurredAt)}
                   {": "}
                   {event.summary}
                 </p>

@@ -1323,14 +1323,6 @@
       "textRevision": "c6dfbba9bb4d"
     },
     {
-      "anchor": "MunicipalWorkspace-0012",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Agenda: no published agenda has been attached to this session. Recorded measures appear below.",
-      "occurrence": 0,
-      "textRevision": "73f77b4156a7"
-    },
-    {
       "anchor": "MunicipalWorkspace-0013",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -1739,22 +1731,6 @@
       "textRevision": "097b8558b91e"
     },
     {
-      "anchor": "MunicipalWorkspace-0076",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Put a public session on the calendar: a game-authored 90-minute session starting in an hour, or tomorrow if this series already met today. Closed and executive sessions are not offered.",
-      "occurrence": 0,
-      "textRevision": "c0be6b526b22"
-    },
-    {
-      "anchor": "MunicipalWorkspace-0077",
-      "sourcePath": "src/player/MunicipalWorkspace.tsx",
-      "symbol": "MunicipalWorkspace",
-      "text": "Your council seat is recorded. Electing a manager also requires the council's recorded votes; this screen cannot supply other members' decisions.",
-      "occurrence": 0,
-      "textRevision": "3f3fc41ff402"
-    },
-    {
       "anchor": "MunicipalWorkspace-0078",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -1889,6 +1865,30 @@
       "text": "{governing.executiveName.charAt(0).toUpperCase()+governing.executiveName.slice(1)} returned it, and it was not reenacted.",
       "occurrence": 0,
       "textRevision": "a3018b3eac3a"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0095",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "No agenda has been posted for this session yet. The measures before this body appear below.",
+      "occurrence": 0,
+      "textRevision": "e8f7bb9493c3"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0096",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Put a public session on the calendar: a 90-minute session starting in an hour, or tomorrow if this body already met today. Closed and executive sessions are not offered.",
+      "occurrence": 0,
+      "textRevision": "b8832ddc8ea4"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0097",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Your council seat is recorded. Electing a manager takes a vote of the full council.",
+      "occurrence": 0,
+      "textRevision": "83c65c7f75e9"
     },
     {
       "anchor": "OPTIONS-0001",
@@ -3553,14 +3553,6 @@
       "text": "“{shortPersonName(world,conversationRole(room,\"referral-verifier\"))} is checking the third county referral,” {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} says. “Once he tells us whether the proof-of-income form was missing there too, I can answer on the staff checklist.”",
       "occurrence": 0,
       "textRevision": "7a6ba17a857e"
-    },
-    {
-      "anchor": "createAuthoredMunicipalPublicSession-0001",
-      "sourcePath": "src/presentation/municipal-workspace.ts",
-      "symbol": "createAuthoredMunicipalPublicSession",
-      "text": "Game session: timing and duration are authored for this world. No real published meeting notice or agenda is asserted.",
-      "occurrence": 0,
-      "textRevision": "8a48bf44f074"
     },
     {
       "anchor": "deadlinesFor-0001",
@@ -6187,14 +6179,6 @@
       "textRevision": "ad2b924f29eb"
     },
     {
-      "anchor": "planned-0001",
-      "sourcePath": "src/simulation/municipal-public-work.ts",
-      "symbol": "planned",
-      "text": "Game-authored work duration: review the recorded meeting references and measure history. This does not create a published agenda or exercise legislative authority.",
-      "occurrence": 0,
-      "textRevision": "0af53b1a424b"
-    },
-    {
       "anchor": "planned-0002",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "planned",
@@ -6203,12 +6187,20 @@
       "textRevision": "fc006c281ff9"
     },
     {
-      "anchor": "planned-0003",
+      "anchor": "planned-0004",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "planned",
-      "text": "Private meeting preparation; no chamber presence is asserted",
+      "text": "Preparing on your own",
       "occurrence": 0,
-      "textRevision": "e15f56fe4037"
+      "textRevision": "8713e2016e1e"
+    },
+    {
+      "anchor": "planned-0005",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "planned",
+      "text": "Time set aside to read the council's measures and history before the meeting.",
+      "occurrence": 0,
+      "textRevision": "e1a10eee2cb9"
     },
     {
       "anchor": "prepareMunicipalMeetingNotes-0001",
@@ -7827,52 +7819,60 @@
       "textRevision": "2f9355f12ad6"
     },
     {
-      "anchor": "scheduleMunicipalMeeting-0001",
+      "anchor": "scheduleMunicipalMeeting-0007",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "scheduleMunicipalMeeting",
-      "text": " Reference: {reading.evidence}, snapshot {reading.asOf}. {series.publicAttendance?.note??\"Publicaccesswasnotestablished.\"}",
+      "text": " Residents may speak during public comment.",
       "occurrence": 0,
-      "textRevision": "faf948e4098b"
+      "textRevision": "28c87388829c"
     },
     {
-      "anchor": "scheduleMunicipalMeeting-0002",
+      "anchor": "scheduleMunicipalMeeting-0008",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "scheduleMunicipalMeeting",
-      "text": "Game-authored occurrence; no real meeting notice or published agenda is asserted. ",
+      "text": " The public may attend.",
       "occurrence": 0,
-      "textRevision": "af67248adca0"
+      "textRevision": "698ae0658bc4"
     },
     {
-      "anchor": "scheduleMunicipalMeeting-0003",
+      "anchor": "scheduleMunicipalMeeting-0009",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "scheduleMunicipalMeeting",
-      "text": "Game-authored session: {series.bodyName??reading.displayName}: {humanSeries(series.kind)}",
+      "text": " Whether the public may attend has not been announced.",
       "occurrence": 0,
-      "textRevision": "9ea515bdf27d"
+      "textRevision": "de2591434f71"
     },
     {
-      "anchor": "scheduleMunicipalMeeting-0004",
+      "anchor": "scheduleMunicipalMeeting-0010",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "scheduleMunicipalMeeting",
-      "text": "{humanSeries(series.kind)} of {series.bodyName??reading.displayName}, at {venue}.{!series.venue&&reportedVenue?\"Venueisfromtheseparatelyattributedresearchreport.\":\"\"}",
+      "text": "{humanSeries(series.kind)} of {series.bodyName??reading.displayName}, at {venue}.",
       "occurrence": 0,
-      "textRevision": "6e31509be985"
+      "textRevision": "f122c11460cb"
     },
     {
-      "anchor": "scheduleMunicipalMeeting-0005",
+      "anchor": "scheduleMunicipalMeeting-0011",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "scheduleMunicipalMeeting",
-      "text": "{humanSeries(series.kind)} of {series.bodyName??reading.displayName}. Nothing read names where it sits, so no room is asserted.",
+      "text": "{humanSeries(series.kind)} of {series.bodyName??reading.displayName}. The meeting room has not been announced.",
       "occurrence": 0,
-      "textRevision": "ee0576be98f9"
+      "textRevision": "78d95db36973"
     },
     {
-      "anchor": "scheduleMunicipalMeeting-0006",
+      "anchor": "scheduleMunicipalMeeting-0012",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "scheduleMunicipalMeeting",
-      "text": "{reading.displayName} — meeting place not established",
+      "text": "{reading.displayName} — meeting place to be announced",
       "occurrence": 0,
-      "textRevision": "3d58c1849ec5"
+      "textRevision": "3f7208f645e6"
+    },
+    {
+      "anchor": "scheduleMunicipalMeeting-0013",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "scheduleMunicipalMeeting",
+      "text": "{series.bodyName??reading.displayName}: {humanSeries(series.kind)}",
+      "occurrence": 0,
+      "textRevision": "c5166b7cc19f"
     },
     {
       "anchor": "seatMunicipalMember-0001",

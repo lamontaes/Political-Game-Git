@@ -658,7 +658,7 @@ function writeHold(
   next = createScheduledActivity(next, {
     stableKey: `${args.keyBase}:journey:${args.kind}`,
     title: `Journey to the ${entry.locationLabel.toLowerCase()}`,
-    summary: `A game-authored ${entry.journeyMinutes}-minute local journey included in Attend. ${CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE}`,
+    summary: `A ${entry.journeyMinutes}-minute local trip, part of attending. ${CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE}`,
     kind: "travel",
     start: addSimulationMinutes(args.start, -entry.journeyMinutes),
     end: args.start,

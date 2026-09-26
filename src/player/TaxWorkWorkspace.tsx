@@ -187,10 +187,10 @@ export function TaxWorkWorkspace({
     >
       <h3>Tax work and receipts</h3>
       <p>
-        These are authored game taxes. Rates, bases, allowances and settlement
-        timing are declared assumptions. A declared base creates no income or
-        purchase money. Collection uses existing personal funds and the general
-        public account; campaign funds are separate.
+        Each tax sets its own rate, base, allowances and settlement timing.
+        Setting a base does not create income or purchase money. Collection
+        draws on personal funds and the general public account; campaign funds
+        are kept separate.
       </p>
       <div ref={feedbackRef} className="tax-work-feedback">
         {error ? <p role="alert">{error}</p> : null}
@@ -202,7 +202,7 @@ export function TaxWorkWorkspace({
          * for, then the terms (with a preview), then the commitment to file.
          */
         <details>
-          <summary>Prepare an authored tax proposal</summary>
+          <summary>Prepare a tax proposal</summary>
           <p>
             Your current office can propose a change to this state's taxing
             power.

@@ -826,14 +826,18 @@ export function scheduleMunicipalMeeting(
       input.seriesKey,
       input.start.date,
     ),
-    title: `Game-authored session: ${series.bodyName ?? reading.displayName}: ${humanSeries(series.kind)}`,
+    title: `${series.bodyName ?? reading.displayName}: ${humanSeries(series.kind)}`,
     summary:
-      "Game-authored occurrence; no real meeting notice or published agenda is asserted. " +
-      (input.occurrenceNote ? `${input.occurrenceNote} ` : "") +
       (venue
-        ? `${humanSeries(series.kind)} of ${series.bodyName ?? reading.displayName}, at ${venue}.${!series.venue && reportedVenue ? " Venue is from the separately attributed research report." : ""}`
-        : `${humanSeries(series.kind)} of ${series.bodyName ?? reading.displayName}. Nothing read names where it sits, so no room is asserted.`) +
-      ` Reference: ${reading.evidence}, snapshot ${reading.asOf}. ${series.publicAttendance?.note ?? "Public access was not established."}`,
+        ? `${humanSeries(series.kind)} of ${series.bodyName ?? reading.displayName}, at ${venue}.`
+        : `${humanSeries(series.kind)} of ${series.bodyName ?? reading.displayName}. The meeting room has not been announced.`) +
+      (input.occurrenceNote ? ` ${input.occurrenceNote}` : "") +
+      (open
+        ? " The public may attend."
+        : " Whether the public may attend has not been announced.") +
+      (series.publicAttendance?.publicCommentOffered === true
+        ? " Residents may speak during public comment."
+        : ""),
     kind: "confirmed",
     start: input.start,
     end: input.end,
@@ -841,7 +845,7 @@ export function scheduleMunicipalMeeting(
     responsiblePersonId: input.responsiblePersonId,
     location: {
       locationKey: `municipal:${input.governmentKey}:${input.seriesKey}`,
-      label: venue ?? `${reading.displayName} — meeting place not established`,
+      label: venue ?? `${reading.displayName} — meeting place to be announced`,
       jurisdictionId: input.jurisdictionId,
     },
     sourceEntityIds: [anchor],
@@ -1217,7 +1221,7 @@ export function performMunicipalMeetingNotes(
       stableKey,
       title: `Prepare meeting notes: ${meeting.title}`,
       summary:
-        "Game-authored work duration: review the recorded meeting references and measure history. This does not create a published agenda or exercise legislative authority.",
+        "Time set aside to read the council's measures and history before the meeting.",
       kind: "confirmed",
       start: world.currentMoment,
       end: addSimulationMinutes(world.currentMoment, minutes),
@@ -1226,7 +1230,7 @@ export function performMunicipalMeetingNotes(
       location: {
         jurisdictionId: item.jurisdictionId,
         locationKey: `municipal-notes:${governmentKey}:${personId}`,
-        label: "Private meeting preparation; no chamber presence is asserted",
+        label: "Preparing on your own",
       },
       sourceEntityIds: [item.id, meeting.id],
       flexibility: { kind: "fixed" },

@@ -16,7 +16,7 @@ describe("municipal authored prose classification", () => {
       "Add public session to this world",
       "Attend public meeting",
       "Prepare meeting notes",
-      "Agenda: no published agenda has been attached to this session. Recorded measures appear below.",
+      "No agenda has been posted for this session yet. The measures before this body appear below.",
       "These observations do not establish current cash, staffing, or legal powers.",
       "No finance observation is available for this exact government ID in the accepted corpus. Missing data is not zero.",
       "No employment observation is available for this exact government ID in the accepted corpus.",
@@ -24,7 +24,7 @@ describe("municipal authored prose classification", () => {
       expect(texts).toContain(expected);
     expect(texts).toContainEqual(
       expect.stringContaining(
-        "Put a public session on the calendar: a game-authored 90-minute session",
+        "Put a public session on the calendar: a 90-minute session",
       ),
     );
     expect(texts).toContain("A current role in this government is required.");

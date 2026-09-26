@@ -80,7 +80,7 @@ export function ConstitutionalWorkspace({
               : "state-amendment",
         designation: `Proposed constitutional measure ${measures.length + 1}`,
         shortTitle: "Proposal procedure",
-        text: `Authored game proposal: For subsequent constitutional proposals, the required fraction of ${threshold.countedAgainst === "members-present" ? "members present, with a quorum" : "each house's membership"} shall be ${fraction.replaceAll("-", " ")}. Other ratification requirements remain unchanged.`,
+        text: `For subsequent constitutional proposals, the required fraction of ${threshold.countedAgainst === "members-present" ? "members present, with a quorum" : "each house's membership"} shall be ${fraction.replaceAll("-", " ")}. Other ratification requirements remain unchanged.`,
         textVersion: "v1",
         sponsoringAuthority:
           key === "US" ? "Congress" : "California Legislature",
@@ -248,11 +248,11 @@ export function ConstitutionalWorkspace({
           )}
           <p>
             {measure.ruleDelta.kind === "proposal-threshold"
-              ? `Modeled rule: later proposal threshold ${measure.ruleDelta.numerator}/${measure.ruleDelta.denominatorParts}, applied from the recorded operative date.`
+              ? `Rule change: later proposal threshold ${measure.ruleDelta.numerator}/${measure.ruleDelta.denominatorParts}, applied from the recorded operative date.`
               : measure.ruleDelta.kind === "rule-field"
-                ? `Modeled rule: ${amendableRuleFieldLabel(measure.ruleDelta.field)} becomes ${describeRuleChangeValue(measure.ruleDelta.value)}, applied from the recorded operative date.`
+                ? `Rule change: ${amendableRuleFieldLabel(measure.ruleDelta.field)} becomes ${describeRuleChangeValue(measure.ruleDelta.value)}, applied from the recorded operative date.`
                 : measure.ruleDelta.kind === "policy-provision"
-                  ? `Recorded policy: ${describePolicyProvision(world, measure.ruleDelta)}. What that changes beyond the record is not modeled yet.`
+                  ? `Policy: ${describePolicyProvision(world, measure.ruleDelta)}.`
                   : `Text recorded; effect unavailable: ${measure.ruleDelta.unsupportedEffect}`}
           </p>
           <p>
