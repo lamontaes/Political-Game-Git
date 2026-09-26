@@ -1,6 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { ordinaryAlaskaHouseMember } from "../../tests/fixtures/civic-funded-service-entry";
-import { ordinaryStateHouseFilingEntry } from "../../tests/fixtures/multistate-funded-service-entry";
+import { seatedChamberMember } from "../../tests/fixtures/seated-chamber-member";
 
 import {
   addDays,
@@ -16,6 +15,16 @@ import {
   seatedChamberForPack,
 } from "../simulation/governing/chamber-votes";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
+import {
+  castMemberBallot,
+  memberVotesAhead,
+} from "../simulation/governing/legislative-clock";
+import { createOrganizationParticipation } from "../simulation/life";
+import {
+  LIVING_WORLD_KEYS,
+  PARTY_AFFILIATION_KIND,
+  livingWorldOrganizationId,
+} from "../simulation/living-world/opening";
 import { legislativeRulePackForWorld } from "../simulation/legislative-procedure-world";
 import {
   applyLegislativeCommand,
@@ -41,13 +50,10 @@ import { projectMeasureBriefing } from "./legislation-projection";
  * it is not proof of an unsupplied election outcome.
  */
 
-function memberBill(placeKey: string) {
-  const elected =
-    placeKey === "alaska"
-      ? ordinaryAlaskaHouseMember()
-      : ordinaryStateHouseFilingEntry(placeKey === "nebraska" ? "NE" : "KY", {
-          headlessElection: true,
-        });
+function memberBill(
+  placeKey: string,
+  elected: ReturnType<typeof seatedChamberMember>,
+) {
   let world = elected.world;
   const personId = elected.personId;
   const pack = legislativeBlueprint(placeKey).pack;
@@ -91,6 +97,20 @@ function advance(
 ): World {
   let next = world;
   for (let i = 0; i < 40 && !until(next); i++) {
+    // The fictional controlled member explicitly chooses on their own bill.
+    // The clock cannot decide or dismiss the player's ballot for them.
+    for (const vote of memberVotesAhead(
+      next,
+      assignment.playerPersonId!,
+    ).filter(
+      (entry) =>
+        entry.measure.id === assignment.measureId && entry.ballot === null,
+    ))
+      next = castMemberBallot(next, {
+        personId: assignment.playerPersonId!,
+        question: vote.question,
+        ballot: "yea",
+      });
     const briefing = projectMeasureBriefing(next, assignment.measureId);
     if (briefing.finished) break;
     const option = briefing.options.find(
@@ -98,12 +118,14 @@ function advance(
     );
     if (!option) break;
     const step: MeasureStepKey = option.actionKey;
-    next = applyLegislativeCommand(next, assignment, {
-      kind: institutionOwnsStep(next, assignment, step)
-        ? "await-institution"
-        : "take-step",
+    const owned = institutionOwnsStep(next, assignment, step);
+    const result = applyLegislativeCommand(next, assignment, {
+      kind: owned ? "await-institution" : "take-step",
       step,
-    }).world;
+    });
+    if (owned && result.world === next)
+      throw new Error(`The institution made no clock progress on ${step}.`);
+    next = result.world;
   }
   return next;
 }
@@ -122,8 +144,14 @@ describe.each(["nebraska", "alaska", "kentucky"])(
     let pack: LegislativeAssignment["procedure"]["pack"];
     let members: ReturnType<typeof stateLegislators>;
     let floor: World;
+    let elected: ReturnType<typeof seatedChamberMember>;
     beforeAll(() => {
-      ({ world, assignment } = memberBill(place));
+      elected = seatedChamberMember(
+        place === "nebraska" ? "NE" : place === "alaska" ? "AK" : "KY",
+      );
+    });
+    beforeAll(() => {
+      ({ world, assignment } = memberBill(place, elected));
       pack = assignment.procedure.pack;
       members = stateLegislators(world, `${pack.packId}:candidacy`);
       floor = advance(world, assignment, (w) =>
@@ -171,7 +199,7 @@ describe.each(["nebraska", "alaska", "kentucky"])(
           expect(entry.personId).not.toBeNull();
           expect(entry.reason).toMatch(/^member:/);
           if (entry.personId === assignment.sponsorPersonId)
-            expect(entry.reason).toBe("member:own-bill");
+            expect(entry.reason).toBe("member:own-ballot");
         }
       }
       if (onFloor) {
@@ -203,8 +231,31 @@ describe("a seated chamber deciding one question", () => {
   let assignment: LegislativeAssignment;
   let chamber: NonNullable<ReturnType<typeof seatedChamberForPack>>;
   let question: Parameters<typeof decideChamberVote>[1]["question"];
+  let elected: ReturnType<typeof seatedChamberMember>;
   beforeAll(() => {
-    ({ world, assignment } = memberBill("alaska"));
+    elected = seatedChamberMember("AK");
+  });
+  beforeAll(() => {
+    ({ world, assignment } = memberBill("alaska", elected));
+    // This isolated party-cue question explicitly gives its fictional sponsor
+    // a public affiliation; a generated resident does not acquire one merely
+    // by winning a seat or filing a bill.
+    world = createOrganizationParticipation(world, {
+      stableKey: "seated-chamber-vote:fictional-sponsor-affiliation",
+      personId: assignment.sponsorPersonId,
+      organizationId: livingWorldOrganizationId(
+        world,
+        LIVING_WORLD_KEYS.nationalParty("democratic"),
+      ),
+      startedAt: world.currentDate,
+      kind: PARTY_AFFILIATION_KIND,
+      roleKind: "member:public-affiliation",
+      context: "Explicit fictional party-cue fixture affiliation.",
+      provenance: {
+        kind: "authored",
+        note: "Unit fixture choice, not a generated political affiliation.",
+      },
+    });
     const pack = assignment.procedure.pack;
     const chamberKey = pack.chamberOrder[0]!;
     chamber = seatedChamberForPack(world, pack.packId, chamberKey, "House")!;
