@@ -268,6 +268,12 @@ export interface InterfaceProgress {
   /** The world introduction was finished or skipped for this life. */
   readonly orientationSeen: boolean;
   /**
+   * People whose first family card the player has seen. Null on lives saved
+   * before this UI feature, so an existing life is never interrupted by an
+   * introduction to a parent the player has known for years.
+   */
+  readonly familyIntroducedPersonIds: readonly EntityId[] | null;
+  /**
    * History sequence the player has caught up to. Null until this life is
    * first read, when it is set to the world's current sequence, so an old life
    * never opens with its whole past presented as news.
@@ -277,12 +283,14 @@ export interface InterfaceProgress {
 
 export const INITIAL_INTERFACE_PROGRESS: InterfaceProgress = {
   orientationSeen: false,
+  familyIntroducedPersonIds: [],
   recapFrontier: null,
 };
 
 /** A record written before progress existed belongs to a life already under way. */
 export const LEGACY_INTERFACE_PROGRESS: InterfaceProgress = {
   orientationSeen: true,
+  familyIntroducedPersonIds: null,
   recapFrontier: null,
 };
 
@@ -323,6 +331,8 @@ export interface ShellState {
    * People web, a list row or a pin — replaces whoever was there before.
    */
   readonly quickDossierPersonId: EntityId | null;
+  /** This opening is the once-only family introduction, not an ordinary read. */
+  readonly quickDossierIsIntroduction: boolean;
   /** The "save before quitting?" question, while it is being asked. */
   readonly confirmingLeave: boolean;
   /**
@@ -366,6 +376,7 @@ export const INITIAL_SHELL_STATE: ShellState = {
   conversation: null,
   navigation: "closed",
   quickDossierPersonId: null,
+  quickDossierIsIntroduction: false,
   confirmingLeave: false,
   momentOpen: false,
   pins: [],
@@ -509,6 +520,8 @@ export type ShellAction =
     }
   /** The world introduction was finished or skipped. */
   | { readonly type: "finish-orientation" }
+  /** Opens a once-only family card without creating a World encounter. */
+  | { readonly type: "open-family-introduction"; readonly personId: EntityId }
   /** Sets the recap frontier for a life read for the first time. */
   | { readonly type: "start-recap-frontier"; readonly sequence: number }
   /** The player dismissed a recap that covered records through this sequence. */
@@ -547,6 +560,7 @@ function settled(state: ShellState): ShellState {
     ...state,
     navigation: "closed",
     quickDossierPersonId: null,
+    quickDossierIsIntroduction: false,
     confirmingLeave: false,
     activePinMenuKey: null,
   };
@@ -769,10 +783,32 @@ export function shellReducer(
         activePinMenuKey: null,
         confirmingLeave: false,
         quickDossierPersonId: action.personId,
+        quickDossierIsIntroduction: false,
       };
 
+    case "open-family-introduction": {
+      const seen = state.progress.familyIntroducedPersonIds;
+      if (seen === null || seen.includes(action.personId)) return state;
+      return {
+        ...state,
+        navigation: "closed",
+        activePinMenuKey: null,
+        confirmingLeave: false,
+        quickDossierPersonId: action.personId,
+        quickDossierIsIntroduction: true,
+        progress: {
+          ...state.progress,
+          familyIntroducedPersonIds: [...seen, action.personId],
+        },
+      };
+    }
+
     case "close-quick-dossier":
-      return { ...state, quickDossierPersonId: null };
+      return {
+        ...state,
+        quickDossierPersonId: null,
+        quickDossierIsIntroduction: false,
+      };
 
     /* One thing over the room at a time: the moment closes the person card. */
     case "open-moment":
@@ -781,6 +817,7 @@ export function shellReducer(
         momentOpen: true,
         navigation: "closed",
         quickDossierPersonId: null,
+        quickDossierIsIntroduction: false,
         activePinMenuKey: null,
       };
 
@@ -1079,7 +1116,11 @@ export function shellReducer(
         return { ...state, activePinMenuKey: null };
       }
       if (state.quickDossierPersonId) {
-        return { ...state, quickDossierPersonId: null };
+        return {
+          ...state,
+          quickDossierPersonId: null,
+          quickDossierIsIntroduction: false,
+        };
       }
       if (state.navigation !== "closed") {
         return { ...state, navigation: "closed" };

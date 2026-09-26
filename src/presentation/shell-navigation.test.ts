@@ -427,6 +427,26 @@ describe("UI9 destinations", () => {
 });
 
 describe("interface progress", () => {
+  it("opens a recorded family member's portrait card once and keeps that choice after closing", () => {
+    const opened = run([{ type: "open-family-introduction", personId: ALICE }]);
+    expect(opened.quickDossierPersonId).toBe(ALICE);
+    expect(opened.quickDossierIsIntroduction).toBe(true);
+    expect(opened.progress.familyIntroducedPersonIds).toEqual([ALICE]);
+    const closed = shellReducer(opened, { type: "close-quick-dossier" });
+    expect(closed.quickDossierPersonId).toBeNull();
+    expect(closed.progress.familyIntroducedPersonIds).toEqual([ALICE]);
+    expect(
+      shellReducer(closed, {
+        type: "open-family-introduction",
+        personId: ALICE,
+      }),
+    ).toBe(closed);
+    const ordinary = shellReducer(closed, {
+      type: "open-quick-dossier",
+      personId: ALICE,
+    });
+    expect(ordinary.quickDossierIsIntroduction).toBe(false);
+  });
   it("starts a fresh life unseen, with no frontier", () => {
     expect(INITIAL_SHELL_STATE.progress).toEqual(INITIAL_INTERFACE_PROGRESS);
     expect(INITIAL_SHELL_STATE.progress.orientationSeen).toBe(false);

@@ -46,7 +46,7 @@ export function useShell(
    * persistence it means.
    */
   store: BrowserShellStateStore,
-): readonly [ShellState, (action: ShellAction) => void] {
+): readonly [ShellState, (action: ShellAction) => void, boolean] {
   const [state, dispatch] = useReducer(shellReducer, INITIAL_SHELL_STATE);
   /*
    * The RECORD this session has finished reading — the slot AND the database.
@@ -166,5 +166,9 @@ export function useShell(
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  return [state, dispatch] as const;
+  return [
+    state,
+    dispatch,
+    recordKey === null || loadedRecord === recordKey,
+  ] as const;
 }

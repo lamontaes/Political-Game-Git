@@ -28,6 +28,7 @@ export function QuickDossier({
   onFullRecord,
   presentPersonIds,
   talkUnavailable,
+  introduction = false,
   anchor = null,
 }: {
   readonly world: World;
@@ -46,6 +47,7 @@ export function QuickDossier({
   readonly onFullRecord?: () => void;
   readonly presentPersonIds?: readonly EntityId[];
   readonly talkUnavailable?: string | null;
+  readonly introduction?: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
   useReturnFocusToOpener();
@@ -57,6 +59,7 @@ export function QuickDossier({
       pinned={pinned}
       expanded={expanded}
       mode="overlay"
+      firstIntroduction={introduction}
       anchor={anchor}
       onClose={onClose}
       onExpand={() => setExpanded(true)}

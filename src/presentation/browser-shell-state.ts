@@ -267,11 +267,18 @@ export function readStoredShellState(value: unknown): StoredShellState | null {
 function readProgress(value: unknown): InterfaceProgress {
   if (!isRecord(value)) return LEGACY_INTERFACE_PROGRESS;
   const frontier = value.recapFrontier;
+  const introduced = value.familyIntroducedPersonIds;
   return {
     orientationSeen:
       typeof value.orientationSeen === "boolean"
         ? value.orientationSeen
         : LEGACY_INTERFACE_PROGRESS.orientationSeen,
+    familyIntroducedPersonIds:
+      Array.isArray(introduced) &&
+      introduced.length <= 512 &&
+      introduced.every((id) => typeof id === "string" && id.length > 0)
+        ? [...new Set(introduced as EntityId[])]
+        : null,
     recapFrontier:
       typeof frontier === "number" &&
       Number.isSafeInteger(frontier) &&
