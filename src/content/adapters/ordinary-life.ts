@@ -15,8 +15,7 @@ const SOURCE_MODULE = "src/presentation/ordinary-life.ts";
 /**
  * The week a character who does not work in a legislature actually has.
  *
- * Two items, deliberately unglamorous — and the bank that holds them declares
- * three things about each: a key, a title and a summary. That is the whole of
+ * The public meeting item declares three things: a key, a title and a summary. That is the whole of
  * `OrdinaryLifeWorkItemDefinition`, and it is the whole of what this adapter
  * may report as declared.
  *
@@ -28,10 +27,9 @@ const SOURCE_MODULE = "src/presentation/ordinary-life.ts";
  * at the moment it creates the work item, from a world, for a person. None of
  * it is declared by the bank.
  *
- * The index used to report all of it as though the bank had said it, and to
- * report a household-obligation conversation as a follow-up of both items —
- * a link that appears nowhere in this module at all, and that was simply false
- * of the public meeting. This is the same rule the formative situations are
+ * The index used to report all of it as though the bank had said it, including
+ * a conversation follow-up absent from the public meeting. This is the same
+ * rule the formative situations are
  * held to: a procedural gate is named where it lives and reported undeclared
  * here, rather than restated as a declarative fact the source never wrote down.
  */
@@ -39,8 +37,7 @@ export function ordinaryLifeBank(): ContentBank {
   return {
     id: BANK_ID,
     title: "Ordinary life",
-    description:
-      "The two things an ordinary week puts in front of somebody: a household week that has to be covered, and a public meeting they can go to or skip.",
+    description: "A posted public meeting the player can go to or skip.",
     domain: "life",
     authority: "authored",
     status: "production",
@@ -79,7 +76,7 @@ function toItem(definition: OrdinaryLifeWorkItemDefinition): ContentItem {
       "The week is opened as a work item; what can be done about it comes from the ordinary work-item and conversation surfaces rather than from this bank.",
     ),
     followUps: undeclared(
-      "The authored item names nothing that follows it. The module contains no link from either work item to a conversation subject or to any other content, so there is none to report.",
+      "The authored item names nothing that follows it. The module contains no link from this work item to a conversation subject or to any other content, so there is none to report.",
     ),
     attributes: declared([
       {

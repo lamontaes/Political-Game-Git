@@ -8,7 +8,7 @@ import {
 import { adultSituationBank } from "./adult-situations";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import {
-  HOUSEHOLD_ERRANDS_KEY,
+  PUBLIC_MEETING_KEY,
   LIFE_OPPORTUNITY_ANSWERING_KEY,
   LIFE_OPPORTUNITY_KINDS,
   LIFE_OPPORTUNITY_REPEATABLE,
@@ -45,16 +45,15 @@ function opened(): { world: World; personId: EntityId } {
 }
 
 describe("a life is given something to do", () => {
-  it("leaves an opened adult life with more than one thing in front of them", () => {
+  it("leaves an opened adult life with a grounded opportunity", () => {
     const { world, personId } = opened();
     const open = lifeOpportunitiesFor(world, personId);
-    expect(open.length).toBeGreaterThan(1);
+    expect(open.length).toBeGreaterThan(0);
     expect(open.length).toBeLessThanOrEqual(OPEN_LIFE_OPPORTUNITY_LIMIT);
-    // Four, not five, since 2026-09-23: the Saturday invitation now needs a
-    // reason in the host's own life, and on the first day nobody has one.
+    // The situation list stays populated without chore or favor requests.
     expect(
       availableAdultSituations(buildAdultLifeContext(world, personId)).length,
-    ).toBeGreaterThan(3);
+    ).toBeGreaterThan(0);
   });
 
   it("writes the same world twice when it is called twice", () => {
@@ -76,16 +75,16 @@ describe("a life is given something to do", () => {
     );
   });
 
-  it("opens the ordinary week once, however often it is asked", () => {
+  it("opens the public meeting once, however often it is asked", () => {
     const { world, personId } = opened();
     const again = openOrdinaryLifeRecords(world, personId);
     expect(
       again.history.workItems.filter((item) =>
-        item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY),
+        item.stableKey.startsWith(PUBLIC_MEETING_KEY),
       ),
     ).toHaveLength(
       world.history.workItems.filter((item) =>
-        item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY),
+        item.stableKey.startsWith(PUBLIC_MEETING_KEY),
       ).length,
     );
   });

@@ -747,39 +747,6 @@ export function performLifePathSession(
   next = applyLifePathSessionCompletion(next, activityId);
   return done(next, "The session is complete.");
 }
-export function performLifePathWork(
-  world: World,
-  id: EntityId,
-  handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
-): LifePathResult {
-  const path = pathForRelationship(world, id);
-  if (
-    !path ||
-    path.kind !== "work" ||
-    relationshipActor(world, id) !== controlled(world) ||
-    !relationshipActive(world, id)
-  )
-    return fail(world, "This work is not active for you.");
-  let next = world;
-  const scheduled = next.history.scheduledActivities.find(
-    (a) =>
-      a.sourceEntityIds.includes(id) &&
-      scheduledActivityState(next, a.id).status === "scheduled",
-  );
-  if (!scheduled) {
-    const prepared = scheduleLifePathSession(next, id);
-    if (!prepared.ok) return prepared;
-    next = prepared.world;
-  }
-  const activity = next.history.scheduledActivities.find(
-    (a) =>
-      a.sourceEntityIds.includes(id) &&
-      scheduledActivityState(next, a.id).status === "scheduled",
-  );
-  if (!activity) return fail(next, "This session is no longer available.");
-  return performLifePathSession(next, activity.id, handlers);
-}
-
 function personalWorkWindow(
   world: World,
   id: EntityId,

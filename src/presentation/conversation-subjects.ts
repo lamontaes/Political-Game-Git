@@ -6,7 +6,6 @@ import type {
   World,
 } from "../simulation";
 import {
-  isHouseholdObligationConversationProgress,
   isRunBReferralConversationProgress,
   isRunCLegislativeConversationProgress,
 } from "./run-b-conversation-progress";
@@ -28,7 +27,6 @@ import {
 import type {
   ConversationProgress,
   ConversationSubjectKey,
-  HouseholdObligationConversationProgress,
   LifeTalkConversationProgress,
   NeighborhoodMeetingConversationProgress,
   SchoolProjectConversationProgress,
@@ -346,111 +344,10 @@ const legislativeDraftSubject: ConversationSubjectPresentation<RunCLegislativeCo
   };
 
 /* -------------------------------------------------------------------------- */
-/* The household week. No office, no casework, no bill.                        */
-/* -------------------------------------------------------------------------- */
-
-const householdObligationSubject: ConversationSubjectPresentation<HouseholdObligationConversationProgress> =
-  {
-    subject: "household-obligation",
-    topicLabel: () => "This week’s errands",
-    describeBriefing(_world, _room, progress) {
-      return progress.subjectFacts.obligation;
-    },
-    availableIntents(_world, room, addressee, progress) {
-      // Any of the people who actually live here, not merely whichever one the
-      // world listed first. A household of three used to have two people in it
-      // the player could look at and not speak to.
-      if (
-        addressee !== "everyone" &&
-        !room.eligibleAddresseePersonIds.includes(addressee)
-      ) {
-        return [];
-      }
-      if (progress.phase === "settled") return [];
-      if (progress.phase === "opening") {
-        return [
-          {
-            key: "raise-obligation",
-            label: "Talk about the errands",
-            description: "Ask who can do what.",
-          },
-          {
-            key: "listen",
-            label: "Let them speak first",
-            description: "Let the other person go first.",
-          },
-        ];
-      }
-      return [
-        {
-          key: "offer-to-cover",
-          label: "Offer to handle the errands",
-          description: "Offer to take on the tasks on the list.",
-        },
-        {
-          key: "ask-to-share",
-          label: "Suggest splitting it",
-          description: "Ask to share the tasks on the list.",
-        },
-        {
-          key: "ask-for-time",
-          label: "Ask them to take it",
-          description: "Ask whether they can handle the errands.",
-        },
-      ];
-    },
-    openingBeat(world, room, addressee, progress) {
-      const speaker = speakerFor(world, room, addressee);
-      const dialogue =
-        progress.phase === "settled"
-          ? settledHouseholdLine(
-              progress,
-              world.people[speaker.personId]!.givenName,
-            )
-          : progress.phase === "raised"
-            ? `“What can you take on?” ${world.people[speaker.personId]!.givenName} asks.`
-            : fillName(
-                selectAuthoredVariant(
-                  world,
-                  `household-opening:${speaker.personId}`,
-                  [
-                    "“Have you looked at what needs doing this week?” {name} asks.",
-                    "“Can we sort out this week’s errands?” {name} asks.",
-                  ],
-                ),
-                world.people[speaker.personId]!.givenName,
-              );
-      return {
-        speakerPersonId: speaker.personId,
-        speakerName: speaker.name,
-        dialogue,
-      };
-    },
-  };
-
 function fillName(line: string, name: string): string {
   return line.replace("{name}", name);
 }
 
-function settledHouseholdLine(
-  progress: HouseholdObligationConversationProgress,
-  speakerName: string,
-): string {
-  switch (progress.cover) {
-    case "shared":
-      return `“Half each, then,” ${speakerName} says. “That I can do.”`;
-    case "taken-by-player":
-      return `“All right. It is yours this week,” ${speakerName} says.`;
-    case "taken-by-other":
-      return `“I will get it,” ${speakerName} says. “Not every week, though.”`;
-    default:
-      return `“We left it where it was,” ${speakerName} says.`;
-  }
-}
-
-/* -------------------------------------------------------------------------- */
-
-/* -------------------------------------------------------------------------- */
 /* Two students and one piece of unstarted work.                               */
 /* -------------------------------------------------------------------------- */
 
@@ -861,7 +758,6 @@ const SUBJECTS = {
   "transit-access-pilot-provision": legislativeDraftSubject,
   "measure-bargaining": measureBargainingSubject,
   "life-talk": lifeTalkSubject,
-  "household-obligation": householdObligationSubject,
   "school-project-share": schoolProjectSubject,
   "neighborhood-meeting-notice": neighborhoodMeetingSubject,
 } as const;
@@ -923,7 +819,6 @@ function contextualPresentation(
  * many people the room actually has, and both have to agree.
  */
 const GROUP_ADDRESS_SUBJECTS: ReadonlySet<string> = new Set([
-  "household-obligation",
   "shared-intake-checklist",
 ]);
 
@@ -931,59 +826,7 @@ export function supportsGroupAddress(subject: ConversationSubjectKey): boolean {
   return GROUP_ADDRESS_SUBJECTS.has(subject);
 }
 
-/**
- * Moves the household subject along. Bounded, like the other families: it
- * records who said they would carry the week, and stops.
- */
-export function advanceHouseholdObligation(
-  progress: HouseholdObligationConversationProgress,
-  intent: ConversationIntent,
-  outcome: ConversationOutcome,
-): HouseholdObligationConversationProgress {
-  // Being refused is not a settlement. Asking somebody to take the week and
-  // being told no leaves the week exactly where it was, and the conversation
-  // open — which is what the player can see, and what the record should say.
-  if (intent === "ask-for-time" && outcome === "boundary-held") {
-    return { ...progress, phase: "raised", latestProposition: null };
-  }
-  switch (intent) {
-    case "raise-obligation":
-      return { ...progress, phase: "raised", latestProposition: null };
-    case "offer-to-cover":
-      return {
-        ...progress,
-        phase: "settled",
-        cover: "taken-by-player",
-        latestProposition: "take-it-yourself",
-        silenceSettled: true,
-      };
-    case "ask-to-share":
-      return {
-        ...progress,
-        phase: "settled",
-        cover: "shared",
-        latestProposition: "share-the-week",
-        silenceSettled: true,
-      };
-    case "ask-for-time":
-      return {
-        ...progress,
-        phase: "settled",
-        cover: "taken-by-other",
-        latestProposition: "ask-them-to-take-it",
-        silenceSettled: true,
-      };
-    case "listen":
-      return { ...progress, phase: "raised", silenceSettled: false };
-    default:
-      throw new Error(
-        "That is not something this conversation is about right now.",
-      );
-  }
-}
-
 export {
-  isHouseholdObligationConversationProgress,
   isRunBReferralConversationProgress,
   isRunCLegislativeConversationProgress,
 };
@@ -1306,134 +1149,6 @@ const COMMIT_CONTRACTS: Readonly<
         `The player offered ${addresseeName} a personal benefit, and it was refused.`,
       listen: () => "The player listened for the next relevant contribution.",
     }),
-  },
-  "household-obligation": {
-    subject: "household-obligation",
-    eventType: "conversation.household-turn",
-    contextTag: "conversation.household",
-    subjectTag: "conversation.subject.household-obligation",
-    setting: "Home",
-    socialContext: "A conversation at home about who carries the week.",
-    interactionTags: [
-      "conversation.household",
-      "relationship.shared-household",
-    ],
-    interactionKind: (consequence) =>
-      consequence === "strengthened"
-        ? "support:shared-load"
-        : "conflict:household-friction",
-    motivation:
-      "Settle who carries the week, so it does not end up carried by whoever notices last.",
-    pressure: (intent) =>
-      intent === "raise-obligation"
-        ? "The week starts whether or not anybody has said who is doing it."
-        : null,
-    choice: choiceWriter("household obligation", {
-      "raise-obligation": ({ addresseeName }) =>
-        `The player brought up the week's errands with ${addresseeName}.`,
-      "offer-to-cover": () =>
-        "The player offered to cover the week themselves.",
-      "ask-to-share": ({ addresseeName }) =>
-        `The player asked to split the week with ${addresseeName}.`,
-      "ask-for-time": ({ addresseeName }) =>
-        `The player asked ${addresseeName} to take the week this time.`,
-      listen: () =>
-        "The player left the question of who carries the week unanswered.",
-    }),
-    relationship: (intent, outcome) => {
-      switch (intent) {
-        case "raise-obligation":
-          // Saying a thing out loud is not yet a kindness or an injury. It is
-          // the two of them still being on speaking terms about it.
-          return {
-            kind: "support:shared-load",
-            change: "maintained",
-            significance: "minor",
-            summary: ({ playerName, otherName }) =>
-              `${playerName} asked ${otherName} how to divide the errands.`,
-          };
-        case "offer-to-cover":
-          return {
-            kind: "support:shared-load",
-            change: "strengthened",
-            significance: "meaningful",
-            summary: ({ playerName, otherName }) =>
-              `${playerName} offered to handle the errands, and ${otherName} accepted.`,
-          };
-        case "ask-to-share":
-          return {
-            kind: "support:shared-load",
-            change: "strengthened",
-            significance: "minor",
-            summary: ({ playerName, otherName }) =>
-              `${playerName} and ${otherName} agreed to share the errands.`,
-          };
-        case "ask-for-time":
-          // The one that turns on the answer. Being taken on is a small
-          // friction; being refused is the argument neither of them wanted.
-          return outcome === "boundary-held"
-            ? {
-                kind: "conflict:household-friction",
-                change: "strained",
-                significance: "meaningful",
-                summary: ({ playerName, otherName }) =>
-                  `${playerName} asked ${otherName} to take the week, and was told no.`,
-              }
-            : {
-                kind: "conflict:household-friction",
-                change: "strained",
-                significance: "minor",
-                summary: ({ playerName, otherName }) =>
-                  `${playerName} put the week onto ${otherName}, who took it and said it was not every week.`,
-              };
-        default:
-          return null;
-      }
-    },
-    commitment: (intent, outcome) => {
-      if (intent === "offer-to-cover") {
-        return {
-          holder: "player",
-          kind: "personal:household-errands",
-          label: "the week's errands at home",
-          weeklyHours: [1, 3],
-        };
-      }
-      if (intent === "ask-for-time" && outcome !== "boundary-held") {
-        // Theirs, not the player's. The player asked; the other person is the
-        // one now carrying it.
-        return {
-          holder: "counterpart",
-          kind: "personal:household-errands",
-          label: "the week's errands at home",
-          weeklyHours: [1, 3],
-        };
-      }
-      return null;
-    },
-    aftermath: (intent, outcome) =>
-      // Handing your week to somebody else is the kind of thing that gets
-      // remembered. Taking theirs is finished when you have done it — which is
-      // why the more generous-looking option is the one that schedules nothing.
-      intent === "ask-for-time" && outcome !== "boundary-held"
-        ? "obligation"
-        : null,
-    landed: (intent, outcome, { speakerName }) => {
-      switch (intent) {
-        case "raise-obligation":
-          return `${speakerName} was willing to discuss the errands.`;
-        case "offer-to-cover":
-          return `${speakerName} let them take it.`;
-        case "ask-to-share":
-          return `${speakerName} agreed to share the errands.`;
-        case "ask-for-time":
-          return outcome === "boundary-held"
-            ? `${speakerName} said no.`
-            : `${speakerName} took it on.`;
-        default:
-          return null;
-      }
-    },
   },
   "school-project-share": {
     subject: "school-project-share",

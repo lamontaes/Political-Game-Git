@@ -61,7 +61,6 @@ import { composeFutureTransitionHandlerRegistries } from "../simulation/future-t
  * with a few things in it, not a dashboard of cards.
  */
 
-export const HOUSEHOLD_ERRANDS_KEY = "ordinary-life:household-errands";
 export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
 
 /**
@@ -87,12 +86,11 @@ function daysBetween(from: string, to: string): number {
  *
  * Nothing is added in the first week, because a thing written on Monday and
  * still open on Wednesday is not a fact about the character's life. After that
- * it is: the same errands and the same posted meeting read identically on the
+ * it is: the same posted meeting reads identically on the
  * fifth of January and the thirtieth of March, and a player who had let three
  * months go by was shown a first morning. The count is derived from the
  * record's own creation day, so it can only say what actually happened, and no
- * claim is made about why — whether an errand nobody does should eventually
- * lapse is a question about the world, not about this sentence.
+ * claim is made about why an unanswered item stayed open.
  */
 function standingClause(days: number, waitingOnSomeoneElse: boolean): string {
   if (days < 7) return "";
@@ -204,17 +202,12 @@ export function ordinaryLifeAvailableFor(
 /**
  * Opens an ordinary life, and keeps it open.
  *
- * Two jobs now, where there used to be one. The first is unchanged: the
- * household week and the posted meeting are written once, for somebody the
- * formative interval has finished with, and never for a five-year-old.
+ * The posted meeting is written once for somebody the formative interval has
+ * finished with, and never for a five-year-old.
  *
  * The second is the repair this wave exists for. Opening an ordinary life is a
- * legitimate transition, so it is also a moment at which the world may write
- * whatever this life has come to be owed next — another week's errands once the
- * last week's are done, or one new opportunity from the bounded set in
- * `life-opportunities.ts`. Before this, a life had exactly two work items in it
- * for the rest of its existence, and the reachable scenes disappeared with the
- * first of them.
+ * legitimate transition, so the world may write a new grounded opportunity
+ * from the bounded set in `life-opportunities.ts`.
  */
 export function openOrdinaryLife(world: World, personId: EntityId): World {
   const person = world.people[personId];
@@ -584,12 +577,8 @@ export function householdConversationRoom(
 ): ConversationRoomContext | null {
   const person = world.people[personId];
   if (!person) return null;
-  // This is an adult household negotiation — who carries the week's errands —
-  // and it must not be handed to a dependent child. The fifth human play was a
-  // ten-year-old asked to settle the household logistics with a parent. A
-  // character somebody else still holds authority over does not have this
-  // conversation; refusing is more honest than casting a child as the manager
-  // of the house.
+  // This adult room supports home conversations about recorded life events.
+  // A dependent child is not routed through the adult scene family.
   if (activeChildAuthoritiesAt(world, personId).length > 0) return null;
   // People the character actually lives with, not merely other people in the
   // world. A forty-one-year-old was holding a conversation "at home" with the

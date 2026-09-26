@@ -9,7 +9,6 @@ import {
   ageOnDate,
   campaignForCandidate,
   campaignState,
-  compareSimulationMoments,
   personName,
   scheduledActivityState,
 } from "../simulation";
@@ -22,8 +21,6 @@ import type {
 } from "../simulation";
 import { commitmentPromisee } from "../simulation/claim-contradictions";
 import { evaluateDecision } from "../simulation/decisions";
-import { lifeRequestDetails } from "../simulation/life-request-details";
-import { LIFE_CALLBACK_EVENT } from "../simulation/life-callbacks";
 import {
   applyDeathNotices,
   offerBereavementScene,
@@ -35,7 +32,6 @@ import {
   produceReachingOut,
 } from "../simulation/people-contact";
 import { produceIntroduction } from "../simulation/social-introductions";
-import { requestBehindCallback } from "../simulation/people-recall";
 import {
   studyAnswered,
   studyCollaborators,
@@ -49,10 +45,6 @@ import {
   studyPlanResting,
   studyPlanSettled,
 } from "../simulation/people-study-plan";
-import {
-  LIFE_OPPORTUNITY_TAG_PREFIX,
-  lifeOpportunitiesFor,
-} from "../simulation/life-opportunities";
 import {
   activePartnershipsAt,
   activeWorkRelationshipsAt,
@@ -72,14 +64,10 @@ import { describePersonContext } from "../simulation/person-context";
 import { currentJournalists } from "../simulation/press-reach";
 import { recordClaim, recordEventKnowledge } from "../simulation/records";
 import {
-  SCENE_BINDING_REF_TAG_PREFIX,
   recordSceneBinding,
   sceneAlreadyBound,
-  sceneBindingsFor,
-  type SceneBinding,
 } from "../simulation/scene-bindings";
 import { recordWorldEvent } from "../simulation/world";
-import { adultSituationOpen } from "./adult-life";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { listOfficeStaff } from "./office-onboarding";
 import { householdConversationRoom } from "./ordinary-life";
@@ -100,10 +88,6 @@ import { formatMinute } from "./player-calendar";
  * is saved before any of its text can be shown.
  */
 
-const HOME_EVENING_LOOKAHEAD_DAYS = 3;
-const HOME_EVENING_EARLIEST_MINUTE = 17 * 60;
-/** Pacing, not a quota: an evening question at most this often. */
-const HOME_EVENING_SPACING_DAYS = 10;
 const CAMPAIGN_REACTION_WINDOW_DAYS = 7;
 const REPORTER_PROMISE_WINDOW_DAYS = 30;
 const STAFF_MEASURE_WINDOW_DAYS = 60;
@@ -143,11 +127,8 @@ export function refreshContextualScenes(
   }
   const producers: readonly Producer[] = [
     offerBereavementScene,
-    produceHomeEvening,
-    produceRecalledRequest,
     produceStudyPeer,
     produceStudyPlan,
-    produceFavor,
     // Somebody new may come into this life while time passes; they are then
     // somebody the player can ask to meet, or who may ask.
     produceIntroduction,
@@ -207,256 +188,6 @@ function partnerAmong(
   return null;
 }
 
-/* 1. An evening already spoken for ----------------------------------------- */
-
-function produceHomeEvening(world: World, personId: EntityId): World {
-  const home = adultHousemates(world, personId);
-  if (!home) return world;
-  const promised = producePromisedEvening(world, personId, home);
-  if (promised !== world) return promised;
-  // A death in the family is what the room is about this week. Nobody asks
-  // about the calendar over the top of it.
-  const grieving = sceneBindingsFor(world, personId, "home-evening").some(
-    (entry) =>
-      entry.binding.variant === "bereaved" &&
-      entry.binding.expiresAt > world.currentDate,
-  );
-  if (grieving) return world;
-  // Only an evening question that was actually talked through spaces the
-  // next one; one that lapsed unanswered leaves nothing to space from.
-  const recent = sceneBindingsFor(world, personId, "home-evening").some(
-    (entry) =>
-      entry.binding.variant !== "claim-came-back" &&
-      addDays(entry.boundAt, HOME_EVENING_SPACING_DAYS) > world.currentDate &&
-      world.history.events.some((event) =>
-        event.tags.includes(`${SCENE_BINDING_REF_TAG_PREFIX}${entry.eventId}`),
-      ),
-  );
-  if (recent) return world;
-  const partner = partnerAmong(world, personId, home.ids);
-  const speakerId = partner ?? home.ids[0]!;
-  const horizon = addDays(world.currentDate, HOME_EVENING_LOOKAHEAD_DAYS);
-  const candidates = world.history.scheduledActivities
-    .filter(
-      (activity) =>
-        (activity.kind === "confirmed" || activity.kind === "tentative") &&
-        activity.participantPersonIds.includes(personId) &&
-        !activity.participantPersonIds.includes(speakerId) &&
-        !isRequestOccasion(world, activity.sourceEntityIds),
-    )
-    .map((activity) => ({
-      activity,
-      state: scheduledActivityState(world, activity.id),
-    }))
-    .filter(
-      ({ state }) =>
-        state.status === "scheduled" &&
-        state.start.date >= world.currentDate &&
-        state.start.date <= horizon &&
-        state.start.minuteOfDay >= HOME_EVENING_EARLIEST_MINUTE &&
-        compareSimulationMoments(state.start, world.currentMoment) > 0,
-    )
-    .sort((left, right) =>
-      compareSimulationMoments(left.state.start, right.state.start),
-    );
-  const chosen = candidates.find(
-    ({ activity }) =>
-      !sceneAlreadyBound(
-        world,
-        personId,
-        "home-evening",
-        activity.kind === "confirmed" ? "committed-evening" : "open-evening",
-        activity.id,
-      ),
-  );
-  if (!chosen) return world;
-  const { activity, state } = chosen;
-  const invitation = sourceInvitation(world, activity.sourceEntityIds);
-  const organizerId = invitation?.participants.find(
-    (entry) => entry.role === "agency:asked",
-  )?.personId;
-  const facts: Record<string, string> = {
-    activityTitle: activity.title,
-    startTime: formatMinute(state.start.minuteOfDay),
-  };
-  if (partner) facts.partner = "yes";
-  if (invitation) facts.openToGuests = "yes";
-  if (organizerId && world.people[organizerId]) {
-    facts.organizer = personName(world.people[organizerId]!);
-  }
-  const binding: SceneBinding = {
-    version: 1,
-    family: "home-evening",
-    variant:
-      activity.kind === "confirmed" ? "committed-evening" : "open-evening",
-    playerPersonId: personId,
-    speakerPersonId: speakerId,
-    relationship: relationshipLabel(world, personId, speakerId),
-    place: "Home",
-    jurisdictionId: home.jurisdictionId,
-    request: `Whether the player will be home the evening of ${state.start.date}.`,
-    sourceEntityIds: [activity.id, ...(invitation ? [invitation.id] : [])],
-    facts,
-    knownRecordIds: [],
-    target: activity.title,
-    date: state.start.date,
-    expiresAt: state.start.date,
-  };
-  return recordSceneBinding(
-    world,
-    binding,
-    `${personName(world.people[speakerId]!)} is wondering about ${state.start.date}.`,
-  );
-}
-
-/**
- * An occasion somebody asked the player to — an evening in, a Saturday
- * invitation — is the request's own calendar entry, not a plan to ask about.
- */
-function isRequestOccasion(
-  world: World,
-  sourceIds: readonly EntityId[],
-): boolean {
-  return world.history.events.some(
-    (event) =>
-      sourceIds.includes(event.id) &&
-      event.tags.some((tag) => tag.startsWith(LIFE_OPPORTUNITY_TAG_PREFIX)),
-  );
-}
-
-const QUIET_EVENING_KEY = "adult.household-quiet-evening";
-/** How close another plan may end to the promised evening and still clash. */
-const EVENING_CLASH_MINUTES = 60;
-
-/**
- * "You said you'd be home tonight." Bound only when the record holds both
- * halves: the player agreed today to spend the evening with a housemate, and
- * another plan of the player's the same evening runs into it.
- */
-function producePromisedEvening(
-  world: World,
-  personId: EntityId,
-  home: {
-    readonly jurisdictionId: EntityId;
-    readonly ids: readonly EntityId[];
-  },
-): World {
-  const promise = world.history.events
-    .filter(
-      (event) =>
-        event.occurredAt === world.currentDate &&
-        event.tags.includes(QUIET_EVENING_KEY) &&
-        event.tags.includes("choice.spend-it-together") &&
-        event.participants.some(
-          (entry) =>
-            entry.personId === personId && entry.role === "agency:actor",
-        ),
-    )
-    .at(-1);
-  if (!promise) return world;
-  const speakerId = promise.participants.find(
-    (entry) => entry.role === "presence:participant",
-  )?.personId;
-  if (!speakerId || !home.ids.includes(speakerId)) return world;
-  const occasion = world.history.scheduledActivities
-    .filter(
-      (activity) =>
-        activity.participantPersonIds.includes(personId) &&
-        isRequestOccasion(world, activity.sourceEntityIds),
-    )
-    .map((activity) => ({
-      activity,
-      state: scheduledActivityState(world, activity.id),
-    }))
-    .find(
-      ({ state }) =>
-        state.status === "scheduled" && state.start.date === world.currentDate,
-    );
-  if (!occasion) return world;
-  const clash = world.history.scheduledActivities
-    .filter(
-      (activity) =>
-        (activity.kind === "confirmed" || activity.kind === "tentative") &&
-        activity.id !== occasion.activity.id &&
-        activity.participantPersonIds.includes(personId) &&
-        !activity.participantPersonIds.includes(speakerId) &&
-        !isRequestOccasion(world, activity.sourceEntityIds),
-    )
-    .map((activity) => ({
-      activity,
-      state: scheduledActivityState(world, activity.id),
-    }))
-    .find(
-      ({ state }) =>
-        state.status === "scheduled" &&
-        state.start.date === world.currentDate &&
-        compareSimulationMoments(state.start, world.currentMoment) >= 0 &&
-        state.start.minuteOfDay < occasion.state.end.minuteOfDay &&
-        state.end.minuteOfDay + EVENING_CLASH_MINUTES >
-          occasion.state.start.minuteOfDay,
-    );
-  if (!clash) return world;
-  if (
-    sceneAlreadyBound(
-      world,
-      personId,
-      "home-evening",
-      "promised-evening",
-      clash.activity.id,
-    )
-  ) {
-    return world;
-  }
-  const { activity, state } = clash;
-  const invitation = sourceInvitation(world, activity.sourceEntityIds);
-  const organizerId = invitation?.participants.find(
-    (entry) => entry.role === "agency:asked",
-  )?.personId;
-  const created = world.history.scheduledActivityStates.find(
-    (record) => record.activityId === activity.id,
-  );
-  const facts: Record<string, string> = {
-    activityTitle: activity.title,
-    activityKind: activity.kind,
-    startTime: formatMinute(state.start.minuteOfDay),
-    endTime: formatMinute(state.end.minuteOfDay),
-    promisedTime: formatMinute(occasion.state.start.minuteOfDay),
-  };
-  if (created && created.sequence < promise.sequence) {
-    facts.committedFirst = "yes";
-  }
-  if (invitation) facts.openToGuests = "yes";
-  if (organizerId && world.people[organizerId]) {
-    facts.organizer = personName(world.people[organizerId]!);
-  }
-  if (partnerAmong(world, personId, [speakerId])) facts.partner = "yes";
-  return recordSceneBinding(
-    world,
-    {
-      version: 1,
-      family: "home-evening",
-      variant: "promised-evening",
-      playerPersonId: personId,
-      speakerPersonId: speakerId,
-      relationship: relationshipLabel(world, personId, speakerId),
-      place: "Home",
-      jurisdictionId: home.jurisdictionId,
-      request: `Whether the player is still going to the ${activity.title} after agreeing to spend the evening at home.`,
-      sourceEntityIds: [
-        activity.id,
-        promise.id,
-        ...(invitation ? [invitation.id] : []),
-      ],
-      facts,
-      knownRecordIds: [promise.id],
-      target: activity.title,
-      date: state.start.date,
-      expiresAt: state.start.date,
-    },
-    `${personName(world.people[speakerId]!)} is asking about tonight.`,
-  );
-}
-
 /** The chapter invitation behind a meeting, when that is what it is. */
 function sourceInvitation(
   world: World,
@@ -471,75 +202,6 @@ function sourceInvitation(
 }
 
 /* 2. A request somebody actually made -------------------------------------- */
-
-const FAVOR_KINDS = {
-  "favour-request": { situation: "adult.friend-favour", place: "By phone" },
-  "extra-hours-request": {
-    situation: "adult.work-extra-hours",
-    place: "At work",
-  },
-  "household-evening": { situation: QUIET_EVENING_KEY, place: "Home" },
-} as const;
-
-/** Days after the asker raises it again that the scene stays answerable. */
-const RECALL_WINDOW_DAYS = 3;
-
-/**
- * "You said you'd look at that." The request comes back because the person who
- * made it chose to raise it, which the callback handler has already decided and
- * written. Nothing here reopens an issue on its own.
- */
-function produceRecalledRequest(world: World, personId: EntityId): World {
-  const from = addDays(world.currentDate, -RECALL_WINDOW_DAYS);
-  for (const callback of world.history.events) {
-    if (
-      callback.type !== LIFE_CALLBACK_EVENT ||
-      callback.occurredAt < from ||
-      !callback.involvedEntityIds.includes(personId)
-    ) {
-      continue;
-    }
-    if (sceneAlreadyBound(world, personId, "favor", "recalled", callback.id)) {
-      continue;
-    }
-    const entry = requestBehindCallback(world, personId, callback);
-    if (!entry || entry.status === "cancelled") continue;
-    const speaker = world.people[entry.counterpartPersonId];
-    if (!speaker) continue;
-    const facts: Record<string, string> = {
-      task: entry.task,
-      speakerGiven: speaker.givenName,
-      askedOn: entry.askedOn,
-      status: entry.status,
-      requestEventId: entry.requestEventId,
-    };
-    if (entry.answeredOn) facts.answeredOn = entry.answeredOn;
-    if (entry.conditions) facts.condition = entry.conditions;
-    return recordSceneBinding(
-      world,
-      {
-        version: 1,
-        family: "favor",
-        variant: "recalled",
-        playerPersonId: personId,
-        speakerPersonId: speaker.id,
-        relationship: relationshipLabel(world, personId, speaker.id),
-        place: "By phone",
-        jurisdictionId:
-          callback.jurisdictionId ?? world.people[personId]!.homeJurisdictionId,
-        request: `What became of ${entry.task}.`,
-        sourceEntityIds: [callback.id, entry.requestEventId],
-        facts,
-        knownRecordIds: [entry.requestEventId],
-        target: entry.task,
-        date: entry.askedOn,
-        expiresAt: addDays(callback.occurredAt, 14),
-      },
-      `${personName(speaker)} raised the earlier request again.`,
-    );
-  }
-  return world;
-}
 
 /**
  * An old friend who got back in touch, and the answer the player owes them.
@@ -738,65 +400,6 @@ function produceStudyPlan(world: World, personId: EntityId): World {
         expiresAt: addDays(world.currentDate, 30),
       },
       `${personName(peer)} wants to ${theirs.label}.`,
-    );
-  }
-  return world;
-}
-
-function produceFavor(world: World, personId: EntityId): World {
-  for (const opportunity of lifeOpportunitiesFor(world, personId)) {
-    const kind = opportunity.kind as keyof typeof FAVOR_KINDS;
-    const shape = FAVOR_KINDS[kind];
-    if (!shape || !opportunity.counterpartPersonId) continue;
-    if (
-      sceneAlreadyBound(world, personId, "favor", kind, opportunity.eventId)
-    ) {
-      continue;
-    }
-    if (!adultSituationOpen(world, personId, shape.situation)) continue;
-    const event = world.history.events.find(
-      (entry) => entry.id === opportunity.eventId,
-    );
-    const details = event ? lifeRequestDetails(event) : null;
-    const speaker = world.people[opportunity.counterpartPersonId];
-    if (!event || !details || !speaker) continue;
-    const facts: Record<string, string> = {
-      task: details.task,
-      opening: details.opening,
-      speakerGiven: speaker.givenName,
-    };
-    if (details.condition) facts.condition = details.condition;
-    if (details.minutes) facts.minutes = String(details.minutes);
-    if (kind === "household-evening") {
-      const occasion = world.history.scheduledActivities.find((activity) =>
-        activity.sourceEntityIds.includes(event.id),
-      );
-      if (!occasion) continue;
-      facts.startTime = formatMinute(
-        scheduledActivityState(world, occasion.id).start.minuteOfDay,
-      );
-    }
-    return recordSceneBinding(
-      world,
-      {
-        version: 1,
-        family: "favor",
-        variant: kind,
-        playerPersonId: personId,
-        speakerPersonId: speaker.id,
-        relationship: relationshipLabel(world, personId, speaker.id),
-        place: shape.place,
-        jurisdictionId:
-          event.jurisdictionId ?? world.people[personId]!.homeJurisdictionId,
-        request: details.task,
-        sourceEntityIds: [event.id],
-        facts,
-        knownRecordIds: [event.id],
-        target: details.task,
-        date: null,
-        expiresAt: addDays(world.currentDate, 21),
-      },
-      `${personName(speaker)} has a request.`,
     );
   }
   return world;

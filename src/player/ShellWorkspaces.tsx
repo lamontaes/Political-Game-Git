@@ -67,6 +67,7 @@ import {
   type InterruptionPreferences,
 } from "../presentation/shell-navigation";
 import { interruptionHandlers } from "../presentation/interruption-policy";
+import { pathForRelationship } from "../simulation/life-paths2";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
 import {
@@ -1164,6 +1165,19 @@ function CalendarEventActions({
   readonly interruptions: InterruptionPreferences;
   readonly onOpenBlockingActivity: (id: EntityId) => void;
 }) {
+  const personalWorkSession = world.history.scheduledActivities.some(
+    (activity) =>
+      activity.id === selected.activityId &&
+      activity.sourceEntityIds.some((id) => {
+        const path = pathForRelationship(world, id);
+        return path?.kind === "work" && path.scope === "personal";
+      }),
+  );
+  if (personalWorkSession) {
+    return (
+      <p>Work continues as time passes. Earned pay follows the work record.</p>
+    );
+  }
   const simulation = authorizeCalendarSimulation(
     world,
     personId,

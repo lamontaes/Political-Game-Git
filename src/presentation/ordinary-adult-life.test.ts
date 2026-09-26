@@ -6,7 +6,6 @@ import {
   buildAdultLifeContext,
   deserializeWorld,
   serializeWorld,
-  simulationMinutesBetween,
   refreshLifeOpportunities,
 } from "../simulation";
 import {
@@ -19,7 +18,6 @@ import { createResourcePosition, money } from "../simulation/resources";
 import { createOrganization, createWorkRelationship } from "../simulation/life";
 import { OFFICE_SALARY_PLACEHOLDER } from "../simulation/office-salary";
 import type { EntityId, World } from "../simulation";
-import { householdErrandsFor } from "../simulation/life-opportunities";
 import { chooseAdultOption, letAdultTimePass } from "./adult-life";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
@@ -48,61 +46,6 @@ function newLife(seed = "ordinary-adult-life"): {
     personId: created.playerPersonId,
   };
 }
-
-describe("getting things done does the errands", () => {
-  it("spends the errand's time and closes the list", () => {
-    const { world, personId } = newLife();
-    const item = householdErrandsFor(world, personId);
-    expect(item).not.toBeNull();
-    const done = chooseAdultOption(world, {
-      personId,
-      situationKey: "adult.ordinary-good-day",
-      optionKey: "get-things-done",
-    });
-    assertWorldIntegrity(done);
-    expect(householdErrandsFor(done, personId)).toBeNull();
-    expect(buildAdultLifeContext(done, personId).hasHouseholdWorkItem).toBe(
-      false,
-    );
-    expect(
-      simulationMinutesBetween(world.currentMoment, done.currentMoment),
-    ).toBe(item!.effort!.kind === "authored-duration" ? 150 : 0);
-    expect(
-      done.history.events.some(
-        (event) => event.type === "life.household-errands-done",
-      ),
-    ).toBe(true);
-    // A save holds the finished week.
-    const reloaded = deserializeWorld(serializeWorld(done));
-    expect(householdErrandsFor(reloaded, personId)).toBeNull();
-  });
-
-  it("leaves the list open when the player only decides to leave it", () => {
-    const { world, personId } = newLife();
-    const rested = chooseAdultOption(world, {
-      personId,
-      situationKey: "adult.ordinary-good-day",
-      optionKey: "do-nothing",
-    });
-    expect(householdErrandsFor(rested, personId)).not.toBeNull();
-    expect(rested.currentMoment).toEqual(world.currentMoment);
-  });
-
-  it("brings a new week's list only after a week has gone by", () => {
-    const { world, personId } = newLife();
-    const done = chooseAdultOption(world, {
-      personId,
-      situationKey: "adult.ordinary-good-day",
-      optionKey: "get-things-done",
-    });
-    const later = letAdultTimePass(done, 8);
-    const next = householdErrandsFor(later, personId);
-    expect(next).not.toBeNull();
-    expect(next!.stableKey).not.toBe(
-      householdErrandsFor(world, personId)!.stableKey,
-    );
-  });
-});
 
 describe("living costs are charged on the first of each month", () => {
   const positionOf = (world: World, personId: EntityId) =>

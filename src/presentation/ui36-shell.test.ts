@@ -1,8 +1,5 @@
-import { writeLegacyHouseholdEveningInvitation } from "../simulation/life-opportunities";
 import { describe, expect, it } from "vitest";
 
-import { scheduledActivityState, serializeWorld } from "../simulation";
-import { simulateCalendarDays } from "./calendar-time-control";
 import { interruptionHandlers } from "./interruption-policy";
 import {
   openNextLifeScene,
@@ -82,46 +79,6 @@ describe("interruption preferences", () => {
       expect(gated).toBe(base);
     }
     expect(strict.get).toBeTypeOf("function");
-  });
-
-  it("stops a day skip at a tentative hold when asked, leaving the hold and the World alone", () => {
-    const opened = ordinaryAdult("ui36-hold");
-    const personId = opened.personId;
-    // The evening invitation was this life's tentative hold. Play stopped
-    // writing it on 2026-09-22; a save made before then still holds one.
-    const world = writeLegacyHouseholdEveningInvitation(opened.world, personId);
-    const hold = world.history.scheduledActivities.find(
-      (activity) =>
-        activity.kind === "tentative" &&
-        activity.participantPersonIds.includes(personId) &&
-        scheduledActivityState(world, activity.id).start.date ===
-          world.currentDate,
-    );
-    expect(hold).toBeDefined();
-    const stopping = simulateCalendarDays(world, personId, 1, {
-      stopForTentativeHolds: true,
-    });
-    const lapsing = simulateCalendarDays(world, personId, 1, {
-      stopForTentativeHolds: false,
-    });
-    /* Asked to stop: time halts at the hold and the hold is still scheduled. */
-    expect(scheduledActivityState(stopping.world, hold!.id).status).toBe(
-      "scheduled",
-    );
-    expect(stopping.reached).toEqual(
-      scheduledActivityState(world, hold!.id).start,
-    );
-    expect(stopping.outcome).toContain(`Stopped for ${hold!.title}`);
-    /* Not asked: the hold lapses and the morning is reached. */
-    expect(lapsing.reached.date > world.currentDate).toBe(true);
-    expect(lapsing.reached.minuteOfDay).toBe(7 * 60);
-    expect(lapsing.outcome).not.toMatch(/Stopped|pending commitment/);
-    expect(scheduledActivityState(lapsing.world, hold!.id).status).toBe(
-      "cancelled",
-    );
-    expect(serializeWorld(stopping.world)).not.toBe(
-      serializeWorld(lapsing.world),
-    );
   });
 });
 

@@ -25,7 +25,6 @@ import {
 } from "./scene-venues";
 import { formatRoutineElapsedMinutes } from "./routine-outcome";
 import { venueActivities, venueTimingLabel } from "./venue-activity";
-import { ordinaryGroceryRoute } from "./ordinary-grocery-route";
 
 /** Pure read-model for the feature-local Places workspace. */
 export type PlacesActionKind = "inspect" | "travel" | "return-home" | "attend";
@@ -48,7 +47,6 @@ export interface PlacesOfferView {
   readonly unavailable: string | null;
   readonly companionLabel: string | null;
   readonly walkDestination?: "home" | "neighborhood";
-  readonly groceryDestination?: "grocery" | "home";
   readonly activityId?: EntityId;
   readonly declineActivityId?: EntityId;
   readonly governmentKey?: string;
@@ -86,28 +84,6 @@ export function projectPlacesWorkspace(
   const offers: PlacesOfferView[] = [];
   for (const destination of ["neighborhood", "home"] as const) {
     offers.push(projectWalkOffer(world, personId, destination));
-  }
-  for (const destination of ["grocery", "home"] as const) {
-    const offer = ordinaryGroceryRoute(world, personId, destination);
-    if (offer.kind !== "available") continue;
-    if (destination === "home") {
-      const index = offers.findIndex((entry) => entry.id === "walk-home");
-      if (index >= 0) offers.splice(index, 1);
-    }
-    offers.push({
-      id: `grocery-${destination}`,
-      kind: destination === "home" ? "return-home" : "travel",
-      title: offer.route.destination.label,
-      detail:
-        destination === "grocery"
-          ? "Walk to the store. Visiting does not buy anything or finish your household errands."
-          : "Walk home along the recorded outward route.",
-      minutes: offer.route.duration.minutes,
-      durationLabel: `${offer.route.duration.minutes} minutes`,
-      unavailable: null,
-      companionLabel: null,
-      groceryDestination: destination,
-    });
   }
 
   const venueEntries = venueActivities(world, personId);

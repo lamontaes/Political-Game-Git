@@ -139,8 +139,8 @@ function play(
   const created = createNewGameWorld(game);
   const personId = created.playerPersonId;
   // The life a player actually gets. `PlayerGame` opens the ordinary week the
-  // moment a new game starts, and a world without it has no household week, no
-  // posted meeting and none of the opportunities those two make possible — so
+  // moment a new game starts, and a world without it has no posted meeting
+  // or the opportunity its agenda makes possible — so
   // playing the bare constructor was playing a life the product never hands
   // anybody. P2R2 restored the offering; this restores the fixture to the
   // route, and it is what lets the original `shape-c` control below diverge
@@ -1288,7 +1288,7 @@ describe("A beat can be explained without guessing", () => {
   it("separates composed connective text from the authored scene", () => {
     const life = play(
       setup({ seed: "trace-proof", startAge: 34 }),
-      6,
+      0,
       prefer("go"),
     );
     const trace = narrativeBeatTrace(life.world, life.personId);

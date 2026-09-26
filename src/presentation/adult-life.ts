@@ -282,7 +282,6 @@ function eligibleCandidates(
  * the selector's continuity credit.
  */
 const FOLLOWS_FROM_HISTORY: ReadonlySet<LifeSituationKey> = new Set([
-  "adult.old-favour-returns",
   "adult.promise-comes-due",
   "adult.community-building",
   "adult.petition-ask",
@@ -333,10 +332,7 @@ function adultMoments(
       (memory) =>
         memory.personId === personId &&
         memory.relevanceTags.some(
-          (tag) =>
-            tag.startsWith("adult.") ||
-            tag === "life.callback" ||
-            tag === "life.favour-performed",
+          (tag) => tag.startsWith("adult.") || tag === "life.callback",
         ),
     )
     .map((memory) => ({
@@ -354,7 +350,7 @@ export interface ChooseAdultOptionInput {
   readonly personId: EntityId;
   readonly situationKey: LifeSituationKey;
   readonly optionKey: string;
-  /** Carried into any work the choice itself performs, such as the errands. */
+  /** Transition handlers supplied by an existing caller. */
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
@@ -477,8 +473,8 @@ export function adultSituationOpen(
  * Nothing is invented to fill the gap, and that has not changed. What has
  * changed is that a quiet stretch is also a legitimate transition, so when the
  * caller says whose stretch it is, the world may write down what has come to be
- * true for them by the end of it — another week's errands, or one request that
- * somebody made. Without this a player who chose to wait was choosing to end
+ * true for them by the end of it, including a grounded new opportunity.
+ * Without this a player who chose to wait was choosing to end
  * their own game, which is what the audit reproduced.
  */
 export function letAdultTimePass(
@@ -496,10 +492,7 @@ export function letAdultTimePass(
     refreshLifeOpportunities(advanced, personId),
     personId,
   );
-  // A request written just now (an evening in, tonight) is answerable now, so
-  // the situations it opens are bound in the same stretch rather than a day
-  // after the evening it was about (PEOPLE P1). The stretch must really have
-  // passed, as in passOrdinaryDays.
+  // A new request is answerable in this stretch, so its scene is bound now.
   return refreshed === advanced || advanced === world
     ? refreshed
     : refreshContextualScenes(refreshed, personId);

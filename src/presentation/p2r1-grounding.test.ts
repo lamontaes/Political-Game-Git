@@ -5,7 +5,6 @@ import {
   buildAdultLifeContext,
 } from "../simulation/adult-situations";
 import {
-  advanceWorldMinutes,
   assertWorldIntegrity,
   serializeWorld,
   deserializeWorld,
@@ -20,7 +19,6 @@ import { chooseAdultOption } from "./adult-life";
 describe("P2R1 canonical pre-offer counterexamples", () => {
   for (const [key, build] of [
     ["adult.housing-cost-change", housingFixture],
-    ["adult.work-extra-hours", fixture],
     ["adult.care-request", fixture],
     ["adult.volunteer-ask", fixture],
     ["adult.incident-aftermath", incidentFixture],
@@ -58,28 +56,6 @@ describe("P2R1 canonical pre-offer counterexamples", () => {
       expect(deserializeWorld(before)).toEqual(world);
     });
   }
-  it("does not borrow another person’s private errands as the player’s premise", () => {
-    const { world, personId } = fixture();
-    const other = world.personOrder[0]!;
-    expect(other).not.toBe(personId);
-    expect(buildAdultLifeContext(world, other).hasHouseholdWorkItem).toBe(
-      false,
-    );
-  });
-  it("does not offer unfinished-errands scenes after the task is ready for review", () => {
-    const { world, personId } = fixture();
-    const completed = advanceWorldMinutes(world, 151);
-    assertWorldIntegrity(completed);
-    expect(completed.history.workItems).toEqual(world.history.workItems);
-    expect(
-      buildAdultLifeContext(completed, personId).hasHouseholdWorkItem,
-    ).toBe(false);
-    const offered = availableAdultSituations(
-      buildAdultLifeContext(completed, personId),
-    );
-    expect(offered.map((s) => s.key)).not.toContain("adult.household-standing");
-    expect(offered.map((s) => s.key)).not.toContain("adult.ordinary-good-day");
-  });
   it("every withheld option rejects direct invocation without changing history", () => {
     const { world, personId } = fixture();
     const before = serializeWorld(world);
@@ -95,21 +71,5 @@ describe("P2R1 canonical pre-offer counterexamples", () => {
         expect(serializeWorld(world)).toBe(before);
       }
     }
-  });
-  it("household-standing: one unfinished errands item establishes no repeated burden", () => {
-    const { world, personId } = fixture();
-    assertWorldIntegrity(world);
-    const context = buildAdultLifeContext(world, personId);
-    expect(context.householdCompanionIds.length).toBeGreaterThan(0);
-    expect(context.hasHouseholdWorkItem).toBe(true);
-    const scene = availableAdultSituations(context).find(
-      (s) => s.key === "adult.household-standing",
-    )!;
-    expect(scene).toBeDefined();
-    expect(scene.prose).not.toMatch(/three weeks|nobody.*mention/);
-    for (const option of scene.options)
-      expect(option.memory).not.toMatch(
-        /three weeks|again yourself|turned it into an arrangement/,
-      );
   });
 });

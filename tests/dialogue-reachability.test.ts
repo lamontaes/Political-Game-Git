@@ -5,11 +5,10 @@ import {
   projectPlayerConversation,
 } from "../src/presentation/player-conversation";
 import { commitConversationTurn } from "../src/presentation/run-b-conversation";
-import type {
-  ConversationAudibility,
-  ConversationRoomContext,
-} from "../src/presentation/run-b-conversation";
+import type { ConversationAudibility } from "../src/presentation/run-b-conversation";
 import { createNewGameWorld } from "../src/presentation/new-game";
+import { openNextLifeScene } from "../src/presentation/life-scene-flow";
+import { openOrdinaryLife } from "../src/presentation/ordinary-life";
 import type { NewGameSetup } from "../src/presentation/new-game";
 import { projectLifeRecord } from "../src/presentation/life-record";
 import {
@@ -66,10 +65,7 @@ function startAtSchool() {
 function say(
   world: World,
   personId: EntityId,
-  subject:
-    | "household-obligation"
-    | "school-project-share"
-    | "neighborhood-meeting-notice",
+  subject: "school-project-share" | "neighborhood-meeting-notice",
   choice: {
     readonly intent?: string;
     readonly audibility?: ConversationAudibility;
@@ -101,10 +97,7 @@ function say(
 function talkUntilSettled(
   world: World,
   personId: EntityId,
-  subject:
-    | "household-obligation"
-    | "school-project-share"
-    | "neighborhood-meeting-notice",
+  subject: "school-project-share" | "neighborhood-meeting-notice",
   preferred: readonly string[] = [],
 ) {
   let current = world;
@@ -130,20 +123,21 @@ function talkUntilSettled(
 describe("A player can say how loudly, and to whom", () => {
   it("offers all three volumes where the room allows them", () => {
     const { world, personId } = start();
-    const view = projectPlayerConversation(
-      world,
+    const scene = openNextLifeScene(
+      openOrdinaryLife(world, personId),
       personId,
-      "household-obligation",
-    )!;
+    );
+    const view = projectPlayerConversation(scene, personId, "life-talk")!;
     expect(view.audibilities.map((choice) => choice.key)).toEqual([
       "normal",
       "quiet",
       "private",
     ]);
-    // A house with one other person in it can hold a private word.
+    // The entered scene has one other person present, so a private word is
+    // available there as well as normal and quiet speech.
     expect(
       view.audibilities.every((choice) => choice.available),
-      "a two-person household should allow all three",
+      "a two-person scene should allow all three",
     ).toBe(true);
     // And the labels are sentences a person would say rather than the engine's
     // bare keys. "Say it quietly" is fine; "quiet" on its own is the key.
@@ -231,30 +225,18 @@ describe("A player can say how loudly, and to whom", () => {
   });
 
   it("offers group address only where the subject and the room both support it", () => {
-    // Group address is a property of the subject AND of how many people are in
-    // the room. The household subject supports it; production world generation
-    // currently puts one other person in a household, so the option is
-    // correctly withheld rather than offered as a group of one. That gating is
-    // the known upstream world-generation gap, not a missing control: the room
-    // below is the same shape with a second companion, and the option appears.
-    const { world, personId } = start();
+    // The school corridor has multiple people, but this subject is addressed
+    // to one classmate. A crowd alone does not authorize group address.
+    const { world, personId } = startAtSchool();
     const view = projectPlayerConversation(
       world,
       personId,
-      "household-obligation",
+      "school-project-share",
     )!;
+    expect(view.room.eligibleAddresseePersonIds.length).toBeGreaterThan(1);
     expect(view.addressees.some((choice) => choice.key === "everyone")).toBe(
       false,
     );
-
-    const roomWithTwo: ConversationRoomContext = {
-      ...view.room,
-      eligibleAddresseePersonIds: [
-        ...view.room.eligibleAddresseePersonIds,
-        personId,
-      ].slice(0, 2),
-    };
-    expect(roomWithTwo.eligibleAddresseePersonIds.length).toBe(2);
   });
 });
 
@@ -286,8 +268,7 @@ describe("More than one conversation is reachable in ordinary play", () => {
     const subjects = availablePlayerConversations(world, personId).map(
       (entry) => entry.subject,
     );
-    // Nobody at home means no kitchen conversation. This is the truthful
-    // outcome and the reason the surface is world-driven rather than a list.
+    // The retired household subject is absent even where someone lives there.
     expect(subjects).not.toContain("household-obligation");
   });
 });
@@ -297,18 +278,19 @@ describe("More than one conversation is reachable in ordinary play", () => {
 /* -------------------------------------------------------------------------- */
 
 describe("NPCs answer from what the world records about them", () => {
-  it("has at least three ways of saying each thing at home", async () => {
+  it("has at least three ways of saying each thing at the doorstep", async () => {
     const module = await import("../src/presentation/run-b-conversation");
     void module;
     const source = await import("node:fs/promises").then((fs) =>
       fs.readFile("src/presentation/run-b-conversation.ts", "utf8"),
     );
     for (const bank of [
-      "HOUSEHOLD_RAISE",
-      "HOUSEHOLD_OFFER",
-      "HOUSEHOLD_SHARE",
-      "HOUSEHOLD_ASK_TAKEN",
-      "HOUSEHOLD_ASK_REFUSED",
+      "NEIGHBORHOOD_MENTION",
+      "NEIGHBORHOOD_SAY_GOING",
+      "NEIGHBORHOOD_WILL_GO",
+      "NEIGHBORHOOD_WILL_NOT_GO",
+      "NEIGHBORHOOD_YOU_GO",
+      "NEIGHBORHOOD_UNDECIDED",
     ]) {
       const start = source.indexOf(`const ${bank}: TonedBank`);
       expect(start, `${bank} is missing`).toBeGreaterThan(-1);
@@ -326,40 +308,14 @@ describe("NPCs answer from what the world records about them", () => {
 
   it("says the same thing the same way twice in the same world", () => {
     const { world, personId } = start();
-    const first = say(world, personId, "household-obligation", {
-      intent: "raise-obligation",
+    const first = say(world, personId, "neighborhood-meeting-notice", {
+      intent: "mention-meeting",
     });
-    const second = say(world, personId, "household-obligation", {
-      intent: "raise-obligation",
+    const second = say(world, personId, "neighborhood-meeting-notice", {
+      intent: "mention-meeting",
     });
     expect(first.presentation.beat?.dialogue).toBe(
       second.presentation.beat?.dialogue,
-    );
-  });
-
-  it("lets somebody actually decide, and writes down how they decided", () => {
-    const { world, personId } = start();
-    const raised = say(world, personId, "household-obligation", {
-      intent: "raise-obligation",
-    }).world;
-    const asked = say(raised, personId, "household-obligation", {
-      intent: "ask-for-time",
-    });
-
-    expect(asked.semantic.durableDecisionRecorded).toBe(true);
-    const trace = asked.world.history.decisionTraces.at(-1)!;
-    expect(trace.context.decisionType).toBe(
-      "conversation.household-week-response",
-    );
-    // The reasoning cites records rather than asserting a mood.
-    expect(trace.context.considerations.length).toBeGreaterThan(0);
-    expect(
-      ["take-the-week", "decline-the-week"],
-      "the answer is one of the two things they could have said",
-    ).toContain(trace.selectedOptionKey);
-    // And nothing in it came from how the player has been profiled.
-    expect(JSON.stringify(trace)).not.toMatch(
-      /pennywise|salience|cross-pressure|player-model|econ-distribution/i,
     );
   });
 
@@ -385,144 +341,13 @@ describe("NPCs answer from what the world records about them", () => {
       { intent: "ask-them-to-go" },
     );
     expect(streetTurn.semantic.durableDecisionRecorded).toBe(true);
-  });
-});
-
-/* -------------------------------------------------------------------------- */
-/* C. Consequences                                                             */
-/* -------------------------------------------------------------------------- */
-
-describe("A conversation changes something", () => {
-  it("writes relationship interactions that are not all the same weight", () => {
-    const { world, personId } = start();
-    const raised = say(world, personId, "household-obligation", {
-      intent: "raise-obligation",
-    });
-    const offered = say(raised.world, personId, "household-obligation", {
-      intent: "offer-to-cover",
-    });
-
-    const first = raised.world.history.relationshipInteractions.at(-1)!;
-    const second = offered.world.history.relationshipInteractions.at(-1)!;
-
-    expect(first.change).toBe("maintained");
-    expect(first.significance).toBe("minor");
-    expect(second.change).toBe("strengthened");
-    expect(second.significance).toBe("meaningful");
-    // Which is the point: it used to be "meaningful" for everything that wrote
-    // one at all, and nothing at all for thirteen of the fifteen intents.
-    expect(first.significance).not.toBe(second.significance);
-    for (const interaction of [first, second]) {
-      expect(interaction.eventId).toBeTruthy();
-      expect(JSON.stringify(interaction)).not.toMatch(/points|score|meter/i);
+    for (const turn of [schoolTurn, streetTurn]) {
+      const trace = turn.world.history.decisionTraces.at(-1)!;
+      expect(trace.context.considerations.length).toBeGreaterThan(0);
+      expect(JSON.stringify(trace)).not.toMatch(
+        /pennywise|salience|cross-pressure|player-model|econ-distribution/i,
+      );
     }
-  });
-
-  it("records a promise as a commitment with hours, pointing at the turn that made it", () => {
-    const { world, personId } = start();
-    const raised = say(world, personId, "household-obligation", {
-      intent: "raise-obligation",
-    }).world;
-    const offered = say(raised, personId, "household-obligation", {
-      intent: "offer-to-cover",
-    });
-
-    expect(offered.semantic.commitmentId).toBeTruthy();
-    const commitment = offered.world.history.lifeCommitments.at(-1)!;
-    expect(commitment.personId).toBe(personId);
-    expect(commitment.timeDemand.expectedWeekly.maximumHours).toBeGreaterThan(
-      0,
-    );
-    // Answerable: the commitment names the conversation event that created it.
-    expect(commitment.provenance.kind).toBe("simulated-event");
-    const originId =
-      commitment.provenance.kind === "simulated-event"
-        ? commitment.provenance.eventId
-        : null;
-    expect(
-      offered.world.history.events.some((event) => event.id === originId),
-    ).toBe(true);
-  });
-
-  it("lets one promise come back, and leaves an equally big one alone", () => {
-    const { world, personId } = start();
-
-    // Asking somebody else to carry the week schedules something.
-    const raised = say(world, personId, "household-obligation", {
-      intent: "raise-obligation",
-    }).world;
-    const asked = say(raised, personId, "household-obligation", {
-      intent: "ask-for-time",
-    });
-    const decided = asked.world.history.decisionTraces.at(-1)!;
-    if (decided.selectedOptionKey === "take-the-week") {
-      expect(asked.semantic.aftermathScheduled).toBe(true);
-      const due = asked.world.history.futureDueItems.at(-1)!;
-      expect(due.transitionKey).toBe("life:callback");
-      // It names the conversation event it came from.
-      expect(
-        asked.world.history.events.some((event) =>
-          due.entityIds.includes(event.id),
-        ),
-      ).toBe(true);
-
-      // And it resolves through ordinary time advancement.
-      const later = advanceWorld(asked.world, 200, LIFE_TRANSITION_HANDLERS);
-      const state = later.history.futureDueItemStates.at(-1)!;
-      expect(["resolved", "cancelled", "blocked"]).toContain(state.status);
-      expect(state.reasonKey).toBeTruthy();
-    }
-
-    // Taking the week off somebody else is at least as big a moment and
-    // schedules nothing. That asymmetry is deliberate: a game where every
-    // generous choice comes back has promised a payoff for each of them.
-    const offered = say(raised, personId, "household-obligation", {
-      intent: "offer-to-cover",
-    });
-    expect(offered.semantic.commitmentId).toBeTruthy();
-    expect(offered.semantic.aftermathScheduled).toBe(false);
-  });
-});
-
-/* -------------------------------------------------------------------------- */
-/* D. What people think, revised rather than piled up                          */
-/* -------------------------------------------------------------------------- */
-
-describe("An opinion can be revised", () => {
-  it("supersedes the earlier perception without deleting it", () => {
-    const { world, personId } = start();
-    const first = say(world, personId, "household-obligation", {
-      intent: "raise-obligation",
-    });
-    const second = say(first.world, personId, "household-obligation", {
-      intent: "ask-to-share",
-    });
-
-    expect(second.semantic.supersededPerceptionIds.length).toBeGreaterThan(0);
-    const superseded = second.semantic.supersededPerceptionIds[0]!;
-    // The old one is still there, and the new one names it.
-    expect(
-      second.world.history.perceptions.some(
-        (record) => record.id === superseded,
-      ),
-    ).toBe(true);
-    expect(
-      second.world.history.perceptions.some(
-        (record) => record.supersedesPerceptionId === superseded,
-      ),
-    ).toBe(true);
-  });
-
-  it("does not let an opinion about one subject overwrite one about another", () => {
-    const { world, personId } = start();
-    const home = say(world, personId, "household-obligation", {
-      intent: "raise-obligation",
-    }).world;
-    const street = say(home, personId, "neighborhood-meeting-notice", {
-      intent: "mention-meeting",
-    });
-    // Different subject, so nothing is revised even if the room overlaps.
-    expect(street.semantic.supersededPerceptionIds).toEqual([]);
   });
 });
 
@@ -639,7 +464,11 @@ describe("What a childhood answer does to an adult life", () => {
 describe("What the record reads like afterwards", () => {
   it("shows a multi-turn conversation as one thing, on the session the turns carry", () => {
     const { world, personId } = start();
-    const talked = talkUntilSettled(world, personId, "household-obligation");
+    const talked = talkUntilSettled(
+      world,
+      personId,
+      "neighborhood-meeting-notice",
+    );
     const record = projectLifeRecord(talked, personId);
     const entries = record.chapters
       .flatMap((chapter) => chapter.entries)
@@ -656,7 +485,11 @@ describe("What the record reads like afterwards", () => {
 
   it("says what has gone quiet without using the word for it", () => {
     const { world, personId } = start();
-    const talked = talkUntilSettled(world, personId, "household-obligation");
+    const talked = talkUntilSettled(
+      world,
+      personId,
+      "neighborhood-meeting-notice",
+    );
     const record = projectLifeRecord(talked, personId);
     for (const open of record.open) {
       expect(open.sentence).not.toMatch(
@@ -689,8 +522,6 @@ describe("What the record reads like afterwards", () => {
       situation.options.map((option) => `${situation.key}/${option.key}`),
     );
     for (const key of [
-      "adult.work-extra-hours/decline",
-      "adult.friend-favour/decline",
       "adult.petition-ask/refuse",
       "adult.candidacy-approach/say-no",
       "adult.promise-comes-due/drop-it",
