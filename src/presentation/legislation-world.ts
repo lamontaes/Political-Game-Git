@@ -36,6 +36,8 @@ import {
   personName,
   seatBodyForPack,
   SeededRng,
+  simulationMinutesBetween,
+  simulationMomentAtLocalTime,
 } from "../simulation";
 import {
   legislativeProcedureForPack,
@@ -64,7 +66,8 @@ import {
   CONGRESS_SITTING_TRANSITION,
   isCongressMeasure,
 } from "../simulation/governing/congress-chambers";
-import { passOrdinaryDays } from "./ordinary-life";
+import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
+import { describeRoutineOutcome } from "./routine-outcome";
 import { BARGAINING_BRIEF_SCENARIO_KEY } from "./legislative-bargaining-brief";
 import {
   readRecordedLegislativeSitting,
@@ -585,6 +588,21 @@ function awaitInstitution(
     ),
   );
   const next = passOrdinaryDays(scheduled, days);
+  // Use the same target and outcome reader as Day/Week. A protected personal
+  // commitment may stop this wait early, including without advancing at all.
+  const target = simulationMomentAtLocalTime({
+    date: addDays(scheduled.currentDate, days),
+    minuteOfDay: ORDINARY_DAY_START_MINUTE,
+    timeZone: scheduled.currentMoment.timeZone,
+    preferredUtcOffsetMinutes: scheduled.currentMoment.utcOffsetMinutes,
+  });
+  const requestedMinutes = simulationMinutesBetween(
+    scheduled.currentMoment,
+    target,
+  );
+  const interrupted =
+    simulationMinutesBetween(scheduled.currentMoment, next.currentMoment) <
+    requestedMinutes;
   const after = measurePosition(next, assignment.measureId);
   const moved =
     after.phase !== before.phase ||
@@ -593,9 +611,16 @@ function awaitInstitution(
     after.hearingHeld !== before.hearingHeld;
   return {
     world: next,
-    message: moved
-      ? "Time passed while the institution acted on the bill."
-      : "Time passed. The institution has not acted on the bill yet.",
+    message:
+      interrupted && next.control.kind === "person"
+        ? `${describeRoutineOutcome(scheduled, next, next.control.personId, requestedMinutes)}\n${
+            moved
+              ? "The institution acted on the bill."
+              : "The institution has not acted on the bill yet."
+          }`
+        : moved
+          ? "Time passed while the institution acted on the bill."
+          : "Time passed. The institution has not acted on the bill yet.",
   };
 }
 const RECORDED_CHAMBER_STEPS: readonly MeasureStepKey[] = [
