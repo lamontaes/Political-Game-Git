@@ -15,6 +15,7 @@ import {
   BrowserSaveStore,
   SavesKeptByNewerBuildError,
   createBrowserWorldRecord,
+  prepareWorldRecord,
   readStoredRecord,
   validateBrowserWorldRecord,
 } from "./browser-world-repository";
@@ -750,6 +751,38 @@ describe("Autosave is answerable for the newest world, not the first one", () =>
     return { factory, store };
   }
 
+  it("keeps the slot pending during background preparation and saves the newest world", async () => {
+    const factory = new FakeIndexedDbFactory();
+    const base = playerWorld("background-preparation");
+    const preparing = advanceDemoWorld(base, 1);
+    const newest = advanceDemoWorld(base, 2);
+    let releasePreparation: (() => void) | undefined;
+    const gate = new Promise<void>((resolve) => {
+      releasePreparation = resolve;
+    });
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      databaseName: "background-preparation",
+      prepareAutosave: async (world) => {
+        if (world === preparing) await gate;
+        return prepareWorldRecord(world);
+      },
+    });
+    const saveId = store.newSaveId(base);
+    await store.save(base, saveId);
+
+    const first = store.autosave(preparing, saveId);
+    expect(store.unsavedWork()).toEqual([
+      expect.objectContaining({ saveId, kind: "pending" }),
+    ]);
+    const second = store.autosave(newest, saveId);
+    releasePreparation?.();
+    expect(
+      (await Promise.all([first, second])).map((result) => result.status),
+    ).toEqual(["saved", "saved"]);
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(newest));
+  });
+
   it("writes the newest revision when a later one arrives mid-write", async () => {
     const { store, factory } = autosaveStore();
     const world = playerWorld("coalesce");
@@ -925,7 +958,11 @@ describe("A delete that did not happen", () => {
  * as the persistence revision will call the new world already durable and
  * throw the player's action away.
  */
-function withRecordedEvent(world: World, key: string): World {
+function withRecordedEvent(
+  world: World,
+  key: string,
+  summary = `A canonical world change recorded as ${key}.`,
+): World {
   return recordWorldEvent(world, {
     stableKey: key,
     type: "simulation.persistence-revision-probe",
@@ -937,7 +974,7 @@ function withRecordedEvent(world: World, key: string): World {
     personFactConstraints: [],
     visibility: "public",
     tags: ["simulation.persistence"],
-    summary: `A canonical world change recorded as ${key}.`,
+    summary,
     context: {
       location: null,
       socialContext: "A canonical history write that does not advance time.",
@@ -952,6 +989,50 @@ function withRecordedEvent(world: World, key: string): World {
 function contentId(world: World): EntityId {
   return createWorldSnapshot(world).snapshotId;
 }
+
+describe("Large World storage", () => {
+  it("atomically replaces and removes chunks while loading the canonical save", async () => {
+    const { store, factory } = storeWith();
+    const first = playerWorld("large-chunked-world");
+    const saveId = store.newSaveId(first);
+    expect((await store.save(first, saveId)).status).toBe("saved");
+
+    const large = withRecordedEvent(
+      first,
+      "large-chunked-world:one",
+      "A".repeat(9 * 1024 * 1024),
+    );
+    store.registerPreparedWorld(large, prepareWorldRecord(large));
+    expect((await store.save(large, saveId)).status).toBe("saved");
+    const record = factory.records.get(saveId) as {
+      payload: string;
+      payloadChunks: { count: number };
+    };
+    expect(record.payload).not.toBe(serializeWorld(large));
+    expect(record.payloadChunks.count).toBeGreaterThan(1);
+    const firstChunkKeys = [...factory.records.keys()].filter(
+      (key) => key !== saveId,
+    );
+    expect(firstChunkKeys).toHaveLength(record.payloadChunks.count);
+    expect((await store.list()).saves.map((save) => save.saveId)).toEqual([
+      saveId,
+    ]);
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(large));
+    expect((await store.inspectRecord(saveId))?.payload).toBe(
+      serializeWorld(large),
+    );
+
+    const next = withRecordedEvent(large, "large-chunked-world:two");
+    expect((await store.save(next, saveId)).status).toBe("saved");
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(next));
+    for (const key of firstChunkKeys)
+      expect(factory.records.has(key)).toBe(false);
+
+    expect(await store.remove(saveId)).toBe(true);
+    expect(await store.load(saveId)).toBeNull();
+    expect([...factory.records.keys()]).toEqual([saveId]);
+  });
+});
 
 describe("Durability is content identity and request order, not actionSequence", () => {
   function autosaveStore(clockValue = "2026-05-01T10:00:00.000Z") {
@@ -2023,13 +2104,16 @@ describe("The save list reads summaries, not worlds", () => {
       recordVersion: 1,
       metadata: v1Metadata,
     });
-    const v3 = createBrowserWorldRecord(
-      currentWorld,
-      "2026-04-02T10:00:00.000Z",
-      "2026-04-02T10:00:00.000Z",
-      "save_current" as EntityId,
-      4,
-    );
+    const v3 = {
+      ...createBrowserWorldRecord(
+        currentWorld,
+        "2026-04-02T10:00:00.000Z",
+        "2026-04-02T10:00:00.000Z",
+        "save_current" as EntityId,
+        4,
+      ),
+      recordVersion: 3,
+    };
     factory.setRaw("save_current", v3);
     factory.setRaw("save_gone", {
       kind: "political-life-browser-world-deleted",
@@ -2083,6 +2167,28 @@ describe("The save list reads summaries, not worlds", () => {
     const again = await store.list();
     expect(again).toEqual(listing);
     expect(await store.load("save_gone" as EntityId)).toBeNull();
+  });
+
+  it("loads a version 3 save record from an upgraded database", async () => {
+    const factory = new FakeIndexedDbFactory().asVersionTwo();
+    const world = playerWorld("legacy-record-v3");
+    const record = {
+      ...createBrowserWorldRecord(
+        world,
+        "2026-04-02T10:00:00.000Z",
+        "2026-04-02T10:00:00.000Z",
+        "legacy_record_v3" as EntityId,
+        4,
+      ),
+      recordVersion: 3,
+    };
+    factory.setRaw(record.saveId, record);
+
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      databaseName: "test-worlds",
+    });
+    expect(await store.load(record.saveId)).toEqual(world);
   });
 
   it("keeps an old save it could not read just now, and lists the rest", async () => {

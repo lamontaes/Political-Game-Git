@@ -9,7 +9,12 @@
  */
 
 import { spokenDate } from "./dates";
-import type { IsoDate, LegislativeProvisionBeneficiary } from "./types";
+import type {
+  IsoDate,
+  LegislativeProvisionBeneficiary,
+  LegislativeProvisionEffectIntent,
+  PublicGovernmentIdentity,
+} from "./types";
 
 export type { IsoDate };
 
@@ -389,11 +394,11 @@ export function legalInstrumentRules(): readonly LegalInstrumentRule[] {
  * fact rather than named in prose, and the compiler refuses when the instrument
  * requires one and none arrived.
  *
- * Two things can be an authority. A standing statute is authored background:
+ * Three things can be an authority. A standing statute is authored background:
  * the program this jurisdiction is fictionally assumed to already run. A
- * docket measure is a bill the player themselves filed earlier in this life,
- * which is what lets a second bill be *about* the first one rather than merely
- * next to it on a list.
+ * docket measure is a bill the player themselves filed earlier in this life.
+ * A game-profile authority is an explicitly labeled, versioned permission tied
+ * to one exact government identity and rule pack; it is not a real-world law.
  */
 export type PredicateAuthority =
   | {
@@ -421,6 +426,27 @@ export type PredicateAuthority =
       readonly docketKey: string;
       /** Pending references are conditional proposals, never existing law. */
       readonly legalStatus?: "proposed" | "enacted";
+    }
+  | {
+      readonly kind: "game-profile";
+      readonly authorityKey: string;
+      readonly authorityVersion: string;
+      readonly profileVersion: string;
+      readonly rulePackId: string;
+      /** The admitted government level this profile belongs to, when relevant. */
+      readonly governmentLevel?:
+        "federal" | "state" | "county" | "municipality";
+      readonly publicGovernmentIdentity: PublicGovernmentIdentity;
+      readonly permittedEffects: readonly (
+        "tax-policy" | "public-program-appropriation"
+      )[];
+      /** How player-facing text names this authored authority. */
+      readonly citationLabel: string;
+      readonly programLabel: string;
+      /** Null means the profile declares no separate ceiling. */
+      readonly authorizedCeilingMinorUnits: number | null;
+      readonly currency: string;
+      readonly basis: "game-profile";
     };
 
 /** A typed, adjustable value a family exposes to the player. */
@@ -510,6 +536,8 @@ export interface ClauseTemplate {
 export interface ClauseRendering {
   /** Omitted on legacy whole-program amounts. */
   readonly fiscalPeriod?: "annual";
+  /** Explicit simulation intent for this exact typed section, when supported. */
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
   readonly text: string;
   readonly beneficiary: LegislativeProvisionBeneficiary;
   /** Money this section exposes the state to. Null for a non-money clause. */
@@ -573,6 +601,39 @@ export interface AmendmentInvitation {
 /* Families and variants                                                       */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * A bank-owned route from an actual policy answer to an executable bill.
+ * Aboutness in `propositionKeys` alone never establishes a bill's direction,
+ * jurisdiction, authority or effect. Only configurations with a registered
+ * clause consumer may declare this narrower NPC filing eligibility.
+ */
+export interface NpcLawEligibility {
+  readonly propositionKey: string;
+  readonly answer: "yes" | "no";
+  readonly governmentLevel: "federal" | "state" | "county" | "municipality";
+  readonly authorityKind: "standing-statute" | "game-profile";
+  /** Null requires the intake to supply its exact saved game-profile authority. */
+  readonly authorityKey: string | null;
+  readonly operativeEffectKind: LegislativeProvisionEffectIntent["kind"];
+  readonly effectProvisionKey: string;
+  readonly effectParameterKey: string;
+}
+
+/** Authored capacity assumptions for an eligible appropriation's later service. */
+export interface NpcLawServiceProfile {
+  readonly profileId: string;
+  /** A local profile keeps its existing unit-specific saved identity. */
+  readonly profileIdScope: "fixed" | "local-government";
+  readonly serviceLabel: string;
+  readonly unitLabel: string;
+  readonly unitsTotal: number;
+  readonly unitsOperational: number;
+  readonly monthlyOperatingNeedMinorUnits: number;
+  readonly restorationCostPerUnitMinorUnits: number | null;
+  readonly maintenanceLeadDays: number;
+  readonly basisNote: string;
+}
+
 export interface ProgramVariant {
   readonly variantKey: string;
   readonly label: string;
@@ -626,6 +687,10 @@ export interface ProgramVariant {
    * every character holding a view on something the bill does not decide.
    */
   readonly propositionKeys?: readonly string[];
+  /** Exact policy directions this variant may file for an NPC. */
+  readonly npcEligibility?: readonly NpcLawEligibility[];
+  /** Optional modeled service capacity; enactment alone delivers no units. */
+  readonly npcServiceProfile?: NpcLawServiceProfile;
 }
 
 export interface ProgramFamily {

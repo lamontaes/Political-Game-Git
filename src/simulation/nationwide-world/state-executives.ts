@@ -22,6 +22,7 @@ import {
 import {
   CHIEF_EXECUTIVE_JURISDICTIONS,
   STATE_GOVERNMENT_STRUCTURE_SOURCE,
+  US_STATE_USPS,
   stateExecutiveIdentity,
 } from "./state-executive-candidacy-packs";
 import {
@@ -368,6 +369,23 @@ export function ensureStateExecutiveIncumbent(
   });
 }
 
+/**
+ * Give every state in a current world its own incumbent and jurisdiction.
+ * The existing single-state writer supplies the person, office and dated
+ * tenure; its stable keys make this safe for a saved world that already holds
+ * some of the fifty. A player's home state is established first by the
+ * opening route where the player lives in a state.
+ */
+export function ensureNationwideStateExecutives(
+  world: World,
+  subjectPersonId: EntityId,
+): World {
+  let next = world;
+  for (const stateUsps of US_STATE_USPS)
+    next = ensureStateExecutiveIncumbent(next, subjectPersonId, stateUsps);
+  return next;
+}
+
 export interface StateExecutiveHolderRecord {
   readonly officeKey: string;
   readonly title: string;
@@ -423,20 +441,85 @@ export function currentStateExecutiveHolders(
   world: World,
 ): readonly StateExecutiveHolderRecord[] {
   const records: StateExecutiveHolderRecord[] = [];
+  const vacatedOfficeKeys = new Set<string>();
+  const latestTenuresByPrefix = new Map<
+    string,
+    (typeof world.history.events)[number]
+  >();
+  for (const event of world.history.events) {
+    if (event.type === OFFICE_CONSEQUENCE_EVENT_TYPE) {
+      const closed = event.tags.find((tag) =>
+        tag.startsWith(OFFICE_TERM_CLOSED_TAG),
+      );
+      const effectiveAt = closed?.split(":").at(-1);
+      if (effectiveAt && effectiveAt <= world.currentDate) {
+        for (const tag of event.tags) {
+          if (tag.startsWith("office:"))
+            vacatedOfficeKeys.add(tag.slice("office:".length));
+        }
+      }
+      continue;
+    }
+    if (
+      event.type !== "world.office-tenure" ||
+      event.recordedAt > world.currentDate ||
+      !event.stableKey.startsWith(`${STATE_EXECUTIVE_WRITER_VERSION}:`)
+    )
+      continue;
+    const marker = ":tenure:";
+    const markerAt = event.stableKey.indexOf(marker);
+    if (markerAt < 0) continue;
+    const prefix = event.stableKey.slice(0, markerAt + marker.length);
+    const previous = latestTenuresByPrefix.get(prefix);
+    if (
+      !previous ||
+      event.occurredAt > previous.occurredAt ||
+      (event.occurredAt === previous.occurredAt &&
+        event.sequence > previous.sequence)
+    )
+      latestTenuresByPrefix.set(prefix, event);
+  }
+  const executiveRelationshipsByOrganization = new Map<
+    EntityId,
+    (typeof world.history.workRelationships)[number][]
+  >();
+  for (const relationship of world.history.workRelationships) {
+    if (
+      relationship.kind !== "employment:executive-office" ||
+      !relationship.organizationId
+    )
+      continue;
+    const relationships =
+      executiveRelationshipsByOrganization.get(relationship.organizationId) ??
+      [];
+    relationships.push(relationship);
+    executiveRelationshipsByOrganization.set(
+      relationship.organizationId,
+      relationships,
+    );
+  }
+  const deceasedPersonIds = new Set(
+    world.history.personDeaths
+      .filter((death) => death.diedAt <= world.currentDate)
+      .map((death) => death.personId),
+  );
+  const organizationsByStableKey = new Map(
+    world.history.organizations.map((organization) => [
+      organization.stableKey,
+      organization,
+    ]),
+  );
   for (const stateUsps of CHIEF_EXECUTIVE_JURISDICTIONS) {
     const office = stateExecutiveOffice(stateUsps);
     if (!office) continue;
-    const organization = world.history.organizations.find(
-      (candidate) => candidate.stableKey === office.organizationStableKey,
+    const organization = organizationsByStableKey.get(
+      office.organizationStableKey,
     );
     if (!organization) continue;
-    if (stateExecutiveVacatedOn(world, office.officeKey)) continue;
-    const elected = world.history.workRelationships
-      .filter(
-        (relationship) =>
-          relationship.organizationId === organization.id &&
-          relationship.kind === "employment:executive-office",
-      )
+    if (vacatedOfficeKeys.has(office.officeKey)) continue;
+    const elected = (
+      executiveRelationshipsByOrganization.get(organization.id) ?? []
+    )
       .map((relationship) =>
         activeElectedExecutiveTermEvidence(world, relationship.id),
       )
@@ -465,22 +548,7 @@ export function currentStateExecutiveHolders(
     const prefix = stateExecutiveTenureKeyPrefix(office);
     // The latest tenure wins: a successor seated on a governor's death
     // outranks the tenure it followed.
-    let tenure: (typeof world.history.events)[number] | undefined;
-    for (const event of world.history.events) {
-      if (
-        event.type !== "world.office-tenure" ||
-        !event.stableKey.startsWith(prefix) ||
-        event.recordedAt > world.currentDate
-      )
-        continue;
-      if (
-        !tenure ||
-        event.occurredAt > tenure.occurredAt ||
-        (event.occurredAt === tenure.occurredAt &&
-          event.sequence > tenure.sequence)
-      )
-        tenure = event;
-    }
+    const tenure = latestTenuresByPrefix.get(prefix);
     if (!tenure) continue;
     const personId = tenure.participants.find(
       (participant) => participant.role === "focus:subject",
@@ -497,13 +565,7 @@ export function currentStateExecutiveHolders(
       ? makeIsoDate(endTag.slice("term-end:".length))
       : null;
     if (endExclusive !== null && world.currentDate >= endExclusive) continue;
-    if (
-      world.history.personDeaths.some(
-        (death) =>
-          death.personId === person.id && death.diedAt <= world.currentDate,
-      )
-    )
-      continue;
+    if (deceasedPersonIds.has(person.id)) continue;
     records.push({
       officeKey: office.officeKey,
       title: office.displayName,

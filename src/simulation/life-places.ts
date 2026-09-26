@@ -327,6 +327,8 @@ let parsedRows: readonly NationwideRow[] | null = null;
 let rowsByGeoid: ReadonlyMap<string, NationwideRow> | null = null;
 let countyRows: readonly NationwideRow[] | null = null;
 let countyPlaces: ReadonlyMap<string, LifePlace> | null = null;
+let countyPlacesByJurisdictionId: ReadonlyMap<EntityId, LifePlace> | null =
+  null;
 
 const CENSUS_UNIT_TYPES =
   /\s+(?:city|town|village|borough|municipality|metro government|metropolitan government|consolidated government|unified government|urban county government)$/;
@@ -424,6 +426,18 @@ function nationwideCounties(): ReadonlyMap<string, LifePlace> {
     }),
   );
   return countyPlaces;
+}
+
+function nationwideCountyByJurisdictionId(
+  jurisdictionId: EntityId,
+): LifePlace | null {
+  countyPlacesByJurisdictionId ??= new Map(
+    [...nationwideCounties().values()].map((place) => [
+      place.context.jurisdiction.id,
+      place,
+    ]),
+  );
+  return countyPlacesByJurisdictionId.get(jurisdictionId) ?? null;
 }
 
 /** The corpus rows, parsed from the generated string exactly once. */
@@ -625,12 +639,26 @@ function synthesizeTerritoryPlace(row: TerritoryPlaceRow): LifePlace {
 }
 
 let territoryPlaces: ReadonlyMap<string, LifePlace> | null = null;
+let territoryPlacesByJurisdictionId: ReadonlyMap<EntityId, LifePlace> | null =
+  null;
 
 function territoryPlaceIndex(): ReadonlyMap<string, LifePlace> {
   territoryPlaces ??= new Map(
     TERRITORY_PLACE_ROWS.map((row) => [row[0], synthesizeTerritoryPlace(row)]),
   );
   return territoryPlaces;
+}
+
+function territoryPlaceByJurisdictionId(
+  jurisdictionId: EntityId,
+): LifePlace | null {
+  territoryPlacesByJurisdictionId ??= new Map(
+    [...territoryPlaceIndex().values()].map((place) => [
+      place.context.jurisdiction.id,
+      place,
+    ]),
+  );
+  return territoryPlacesByJurisdictionId.get(jurisdictionId) ?? null;
 }
 
 function territoryRowMatches(
@@ -882,13 +910,9 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
       (place) => place.context.jurisdiction.id === jurisdictionId,
     );
     if (authored) return authored;
-    const county = [...nationwideCounties().values()].find(
-      (place) => place.context.jurisdiction.id === jurisdictionId,
-    );
+    const county = nationwideCountyByJurisdictionId(jurisdictionId);
     if (county) return county;
-    const territory = [...territoryPlaceIndex().values()].find(
-      (place) => place.context.jurisdiction.id === jurisdictionId,
-    );
+    const territory = territoryPlaceByJurisdictionId(jurisdictionId);
     if (territory) return territory;
     // A life started anywhere in the corpus has to be able to find its own
     // place again. Without this, every one of the nationwide places resolved to

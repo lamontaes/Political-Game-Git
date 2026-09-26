@@ -1,6 +1,7 @@
 import { eventById } from "./event-index";
 import { appendDecisionTraceRecord } from "./history";
 import { createStableId } from "./ids";
+import { recordById } from "./history-index";
 import { legislationEntityExists } from "./legislation";
 import { legislativePoliticsEntityExists } from "./legislative-politics";
 import { lifeEntityExists } from "./life-integrity";
@@ -422,8 +423,9 @@ function snapshotSource(
       };
     }
     case "personality-tendency": {
-      const record = world.history.personalityTendencies.find(
-        (item) => item.id === reference.tendencyRecordId,
+      const record = recordById(
+        world.history.personalityTendencies,
+        reference.tendencyRecordId,
       );
       if (record)
         return {
@@ -434,8 +436,9 @@ function snapshotSource(
       break;
     }
     case "personal-value": {
-      const record = world.history.personalValues.find(
-        (item) => item.id === reference.valueRecordId,
+      const record = recordById(
+        world.history.personalValues,
+        reference.valueRecordId,
       );
       if (record)
         return {
@@ -446,8 +449,9 @@ function snapshotSource(
       break;
     }
     case "goal-state": {
-      const record = world.history.goalStates.find(
-        (item) => item.id === reference.goalStateId,
+      const record = recordById(
+        world.history.goalStates,
+        reference.goalStateId,
       );
       if (record)
         return {
@@ -458,8 +462,9 @@ function snapshotSource(
       break;
     }
     case "temporary-state": {
-      const record = world.history.temporaryStates.find(
-        (item) => item.id === reference.temporaryStateId,
+      const record = recordById(
+        world.history.temporaryStates,
+        reference.temporaryStateId,
       );
       if (record)
         return {
@@ -470,8 +475,9 @@ function snapshotSource(
       break;
     }
     case "life-load-resolution": {
-      const record = world.history.lifeLoadResolutions.find(
-        (item) => item.id === reference.lifeLoadResolutionId,
+      const record = recordById(
+        world.history.lifeLoadResolutions,
+        reference.lifeLoadResolutionId,
       );
       if (record)
         return {
@@ -492,9 +498,7 @@ function snapshotSource(
       break;
     }
     case "memory": {
-      const record = world.history.memories.find(
-        (item) => item.id === reference.memoryId,
-      );
+      const record = recordById(world.history.memories, reference.memoryId);
       if (record)
         return {
           reference: { ...reference },
@@ -504,9 +508,7 @@ function snapshotSource(
       break;
     }
     case "event-knowledge": {
-      const record = world.history.knowledge.find(
-        (item) => item.id === reference.knowledgeId,
-      );
+      const record = recordById(world.history.knowledge, reference.knowledgeId);
       if (record)
         return {
           reference: { ...reference },
@@ -516,9 +518,7 @@ function snapshotSource(
       break;
     }
     case "claim": {
-      const record = world.history.claims.find(
-        (item) => item.id === reference.claimId,
-      );
+      const record = recordById(world.history.claims, reference.claimId);
       if (record)
         return {
           reference: { ...reference },
@@ -528,8 +528,9 @@ function snapshotSource(
       break;
     }
     case "relationship-interaction": {
-      const record = world.history.relationshipInteractions.find(
-        (item) => item.id === reference.interactionId,
+      const record = recordById(
+        world.history.relationshipInteractions,
+        reference.interactionId,
       );
       if (record)
         return {
@@ -540,8 +541,9 @@ function snapshotSource(
       break;
     }
     case "proposition-exposure": {
-      const record = world.history.propositionExposures.find(
-        (item) => item.id === reference.exposureId,
+      const record = recordById(
+        world.history.propositionExposures,
+        reference.exposureId,
       );
       if (record)
         return {
@@ -552,8 +554,9 @@ function snapshotSource(
       break;
     }
     case "private-belief": {
-      const record = world.history.privateBeliefs.find(
-        (item) => item.id === reference.beliefId,
+      const record = recordById(
+        world.history.privateBeliefs,
+        reference.beliefId,
       );
       if (record)
         return {
@@ -564,8 +567,9 @@ function snapshotSource(
       break;
     }
     case "political-principle": {
-      const record = world.history.principles.find(
-        (item) => item.id === reference.principleRecordId,
+      const record = recordById(
+        world.history.principles,
+        reference.principleRecordId,
       );
       if (record)
         return {
@@ -576,8 +580,9 @@ function snapshotSource(
       break;
     }
     case "subject-knowledge": {
-      const record = world.history.subjectKnowledge.find(
-        (item) => item.id === reference.subjectKnowledgeId,
+      const record = recordById(
+        world.history.subjectKnowledge,
+        reference.subjectKnowledgeId,
       );
       if (record)
         return {
@@ -588,8 +593,9 @@ function snapshotSource(
       break;
     }
     case "appraisal": {
-      const record = world.history.appraisals.find(
-        (item) => item.id === reference.appraisalId,
+      const record = recordById(
+        world.history.appraisals,
+        reference.appraisalId,
       );
       if (record)
         return {
@@ -600,8 +606,9 @@ function snapshotSource(
       break;
     }
     case "perception": {
-      const record = world.history.perceptions.find(
-        (item) => item.id === reference.perceptionId,
+      const record = recordById(
+        world.history.perceptions,
+        reference.perceptionId,
       );
       if (record)
         return {
@@ -612,8 +619,9 @@ function snapshotSource(
       break;
     }
     case "decision-trace": {
-      const record = world.history.decisionTraces.find(
-        (item) => item.id === reference.decisionTraceId,
+      const record = recordById(
+        world.history.decisionTraces,
+        reference.decisionTraceId,
       );
       if (record)
         return {

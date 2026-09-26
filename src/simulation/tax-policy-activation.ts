@@ -1,6 +1,5 @@
-import { addDays } from "./dates";
 import { currentMeasureProvisions } from "./legislative-politics";
-import { taxLevyText } from "./tax-policy";
+import { taxLevyText, taxPolicyEffectiveDate } from "./tax-policy";
 import type { World, EntityId } from "./types";
 
 export function taxActivationReadiness(
@@ -37,12 +36,16 @@ export function taxActivationReadiness(
       reason:
         "Enacted text changed; supported typed tax effects have not been authored for the revision.",
     };
-  const effectiveAt = addDays(enactment.resolvedAt, 90);
-  if (enactment.effectiveAt !== null && enactment.effectiveAt !== effectiveAt)
+  const effectiveAt = taxPolicyEffectiveDate(enactment, proposal.terms);
+  if (
+    proposal.terms.legalBaselineAssumption !== "authored-state-game-profile" &&
+    enactment.effectiveAt !== null &&
+    enactment.effectiveAt !== effectiveAt
+  )
     return {
       kind: "unavailable",
       reason:
-        "This route supports only the filed ninety-day default effective date.",
+        "The enacted date does not match this filed tax provision's effective-date delay.",
     };
   if (effectiveAt < world.currentDate)
     return {

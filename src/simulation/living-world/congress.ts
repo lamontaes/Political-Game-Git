@@ -1,5 +1,6 @@
 import { organizationParticipationStateAt } from "../life-queries";
 import { makeIsoDate } from "../dates";
+import { recordsByStringField } from "../history-index";
 import { personName } from "../people";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import {
@@ -83,9 +84,12 @@ function affiliationWithRoll(
   knownRoll: HistoricalEvent | null | undefined,
   asOf: IsoDate,
 ): EntityId | null {
-  const recorded = world.history.organizationParticipations.filter(
+  const recorded = recordsByStringField(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).filter(
     (participation) =>
-      participation.personId === personId &&
       participation.kind === PARTY_AFFILIATION_KIND &&
       participation.startedAt <= asOf,
   );
@@ -115,9 +119,12 @@ function caucusWithRoll(
   knownRoll: HistoricalEvent | null | undefined,
   asOf: IsoDate,
 ): EntityId | null {
-  const recorded = world.history.organizationParticipations.filter(
+  const recorded = recordsByStringField(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).filter(
     (participation) =>
-      participation.personId === personId &&
       participation.kind === CAUCUS_MEMBERSHIP_KIND &&
       participation.startedAt <= asOf,
   );
@@ -162,27 +169,50 @@ function activeOrganization(
 }
 
 /** The person's in-term seat-roll record, if they hold a seat on `asOf`. */
+// History arrays are replaced on write, as in event-index.ts. One index serves
+// repeated party reads of the same saved world without changing as-of rules.
+const ROLL_EVENTS_BY_PERSON = new WeakMap<
+  readonly HistoricalEvent[],
+  Map<EntityId, HistoricalEvent[]>
+>();
+
+function rollEventsByPerson(
+  events: readonly HistoricalEvent[],
+): Map<EntityId, HistoricalEvent[]> {
+  let indexed = ROLL_EVENTS_BY_PERSON.get(events);
+  if (indexed) return indexed;
+  indexed = new Map();
+  for (const event of events) {
+    if (event.type !== SEAT_TENURE_EVENT) continue;
+    for (const participant of event.participants) {
+      if (participant.role !== "focus:subject") continue;
+      const records = indexed.get(participant.personId) ?? [];
+      records.push(event);
+      indexed.set(participant.personId, records);
+    }
+  }
+  ROLL_EVENTS_BY_PERSON.set(events, indexed);
+  return indexed;
+}
+
 function currentRollEvent(
   world: World,
   personId: EntityId,
   asOf: IsoDate,
 ): HistoricalEvent | null {
-  return (
-    [...world.history.events]
-      .reverse()
-      .find(
-        (event) =>
-          event.type === SEAT_TENURE_EVENT &&
-          event.recordedAt <= world.currentDate &&
-          event.occurredAt <= asOf &&
-          event.participants.some(
-            (participant) =>
-              participant.personId === personId &&
-              participant.role === "focus:subject",
-          ) &&
-          asOf < (tagValue(event, "term-end:") ?? ""),
-      ) ?? null
-  );
+  const records = rollEventsByPerson(world.history.events).get(personId) ?? [];
+  for (let index = records.length - 1; index >= 0; index -= 1) {
+    const event = records[index];
+    if (
+      event &&
+      event.recordedAt <= world.currentDate &&
+      event.occurredAt <= asOf &&
+      asOf < (tagValue(event, "term-end:") ?? "")
+    ) {
+      return event;
+    }
+  }
+  return null;
 }
 
 /**
@@ -306,9 +336,11 @@ function occupantFor(
   )?.personId;
   const person = personId ? world.people[personId] : undefined;
   const death = person
-    ? world.history.personDeaths.find(
-        (record) => record.personId === person.id && record.diedAt <= asOf,
-      )
+    ? recordsByStringField(
+        world.history.personDeaths,
+        "personId",
+        person.id,
+      ).find((record) => record.diedAt <= asOf)
     : undefined;
   if (!person || death)
     return {

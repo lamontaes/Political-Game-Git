@@ -3,6 +3,7 @@ import { expect, test, type Page } from "./fixtures";
 
 import { enterLife, openElsewhere, startLife } from "./support/creator";
 import { shotPath } from "./support/shot-path";
+import { selectDraftOption } from "./support/docket-navigation";
 
 /**
  * Owner-facing capture of the docket click path.
@@ -85,18 +86,14 @@ test("captures the five-minute click path", async ({ page }) => {
   });
 
   // 3. A bill that authorizes nothing at all.
-  await page
-    .getByTestId("drafting-option-water-service-lines-inventory-and-plan")
-    .click();
+  await selectDraftOption(page, "water-service-lines", "inventory-and-plan");
   await page.screenshot({
     path: shotPath("03-unfunded-mandate.png"),
     fullPage: true,
   });
 
   // 4. A different family, and the clause comparison before anything moves.
-  await page
-    .getByTestId("drafting-option-bridge-maintenance-worst-first-condition")
-    .click();
+  await selectDraftOption(page, "bridge-maintenance", "worst-first-condition");
   await page.screenshot({
     path: shotPath("04-compare-as-offered.png"),
     fullPage: true,
@@ -123,12 +120,12 @@ test("captures the five-minute click path", async ({ page }) => {
   });
 
   // 7. Three bills on one docket.
-  for (const configuration of [
-    "drafting-option-transit-access-enrollment-fare-relief",
-    "drafting-option-broadband-access-adoption-support",
-  ]) {
+  for (const [familyKey, variantKey] of [
+    ["transit-access", "enrollment-fare-relief"],
+    ["broadband-access", "adoption-support"],
+  ] as const) {
     await page.getByTestId("open-drafting-table").click();
-    await page.getByTestId(configuration).click();
+    await selectDraftOption(page, familyKey, variantKey);
     await page.getByTestId("file-the-draft").click();
     await expect(page.getByTestId("docket-bill")).toBeVisible();
   }

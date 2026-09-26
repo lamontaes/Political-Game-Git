@@ -2,7 +2,7 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../../src/presentation/new-game";
-import { fileForOffice } from "./campaign-fixture";
+import { fileForOffice, namedSeatForFixture } from "./campaign-fixture";
 import {
   addDays,
   advanceWorld,
@@ -57,6 +57,11 @@ export function recordedTermFixture(
           jurisdictionId:
             built.world.people[built.playerPersonId]!.homeJurisdictionId,
           officeKey: "us-ky-general-assembly-v1:house",
+          districtBinding: namedSeatForFixture(
+            built.world,
+            built.playerPersonId,
+            "us-ky-general-assembly-v1:house",
+          ),
           electionDate: addDays(built.world.currentDate, 28),
           rivalPersonIds: [qualifiedRivalId!],
           existingContestId: null,

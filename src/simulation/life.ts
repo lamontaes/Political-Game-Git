@@ -617,11 +617,96 @@ export function createOrganizationParticipations(
   inputs: readonly CreateOrganizationParticipationInput[],
 ): World {
   if (inputs.length === 0) return world;
-  let probe = world;
+  const existingKeys = new Set(
+    world.history.organizationParticipations.map((record) => record.stableKey),
+  );
+  const participations: OrganizationParticipation[] = [];
+  const states: OrganizationParticipationStateRecord[] = [];
+  let nextSequence = world.history.nextSequence;
   for (const input of inputs) {
-    probe = appendOrganizationParticipation(probe, input);
+    assertNonEmpty(input.stableKey, "organization participation stable key");
+    if (existingKeys.has(input.stableKey)) {
+      throw new Error(
+        `organization participation stable key already exists: ${input.stableKey}`,
+      );
+    }
+    const person = requirePerson(world, input.personId);
+    const organization = requireRecord(
+      world.history.organizations,
+      input.organizationId,
+      "participation organization",
+    );
+    const recordedAt = makeIsoDate(world.currentDate);
+    const startedAt = makeIsoDate(input.startedAt);
+    const initialStatus = input.initialStatus ?? "active";
+    if (startedAt < person.birthDate) {
+      throw new Error("Organization participation cannot predate the person.");
+    }
+    if (organization.formedAt > startedAt) {
+      throw new Error(
+        "Organization participation cannot predate its organization.",
+      );
+    }
+    if (initialStatus === "active" && startedAt > recordedAt) {
+      throw new Error("Active participation cannot start in the future.");
+    }
+    if (initialStatus === "expected" && startedAt <= recordedAt) {
+      throw new Error("Expected participation must have a future start date.");
+    }
+    assertOpenTaxonomyKey(
+      input.kind,
+      ORGANIZATION_PARTICIPATION_NAMESPACES,
+      "Organization participation kind",
+    );
+    validateParticipationState(input.roleKind, input.context);
+    validateLifeProvenance(world, input.provenance, recordedAt);
+    const participation: OrganizationParticipation = {
+      id: createStableId(
+        "organization-participation",
+        `${world.id}:${input.stableKey}`,
+      ),
+      stableKey: input.stableKey,
+      sequence: nextSequence,
+      personId: input.personId,
+      organizationId: input.organizationId,
+      recordedAt,
+      startedAt,
+      kind: input.kind,
+      provenance: cloneLifeProvenance(input.provenance),
+    };
+    const stateKey = `${input.stableKey}:state:initial`;
+    const state: OrganizationParticipationStateRecord = {
+      id: createStableId(
+        "organization-participation-state",
+        `${world.id}:${stateKey}`,
+      ),
+      stableKey: stateKey,
+      sequence: nextSequence + 1,
+      participationId: participation.id,
+      effectiveAt: initialStatus === "expected" ? recordedAt : startedAt,
+      status: initialStatus,
+      roleKind: input.roleKind,
+      context: input.context,
+      provenance: cloneLifeProvenance(input.provenance),
+      supersedesStateId: null,
+    };
+    participations.push(participation);
+    states.push(state);
+    existingKeys.add(input.stableKey);
+    nextSequence += 2;
   }
-  return commit(world, probe.history);
+  return commit(world, {
+    ...world.history,
+    nextSequence,
+    organizationParticipations: [
+      ...world.history.organizationParticipations,
+      ...participations,
+    ],
+    organizationParticipationStates: [
+      ...world.history.organizationParticipationStates,
+      ...states,
+    ],
+  });
 }
 
 function appendOrganizationParticipation(
@@ -891,9 +976,107 @@ export function createWorkRelationships(
   inputs: readonly CreateWorkRelationshipInput[],
 ): World {
   if (inputs.length === 0) return world;
-  let probe = world;
-  for (const input of inputs) probe = appendWorkRelationship(probe, input);
-  return commit(world, probe.history);
+  const existingKeys = new Set(
+    world.history.workRelationships.map((record) => record.stableKey),
+  );
+  const relationships: WorkRelationship[] = [];
+  const statuses: WorkStatusRecord[] = [];
+  const roles: WorkRoleRecord[] = [];
+  let nextSequence = world.history.nextSequence;
+  for (const input of inputs) {
+    assertNonEmpty(input.stableKey, "work relationship stable key");
+    if (existingKeys.has(input.stableKey)) {
+      throw new Error(
+        `work relationship stable key already exists: ${input.stableKey}`,
+      );
+    }
+    const person = requirePerson(world, input.personId);
+    const recordedAt = makeIsoDate(world.currentDate);
+    const startedAt = makeIsoDate(input.startedAt);
+    const initialStatus = input.initialStatus ?? "active";
+    if (startedAt < person.birthDate) {
+      throw new Error("A work relationship cannot predate the person.");
+    }
+    if (initialStatus === "active" && startedAt > recordedAt) {
+      throw new Error("Active work cannot start in the future.");
+    }
+    if (initialStatus === "expected" && startedAt <= recordedAt) {
+      throw new Error("Expected work must have a future start date.");
+    }
+    if (input.organizationId !== null) {
+      const organization = requireRecord(
+        world.history.organizations,
+        input.organizationId,
+        "organization",
+      );
+      if (organization.formedAt > recordedAt) {
+        throw new Error(
+          "A work relationship cannot be recorded before its organization exists.",
+        );
+      }
+    }
+    assertOpenTaxonomyKey(
+      input.kind,
+      WORK_RELATIONSHIP_NAMESPACES,
+      "Work relationship kind",
+    );
+    validateWorkDimensions(input);
+    validateRole(world, input.initialRole);
+    validateLifeProvenance(world, input.provenance, recordedAt);
+    const relationship: WorkRelationship = {
+      id: createStableId("work-relationship", `${world.id}:${input.stableKey}`),
+      stableKey: input.stableKey,
+      sequence: nextSequence,
+      personId: person.id,
+      organizationId: input.organizationId,
+      recordedAt,
+      startedAt,
+      kind: input.kind,
+      compensation: input.compensation,
+      authority: input.authority,
+      dependency: input.dependency,
+      economicRisk: input.economicRisk,
+      provenance: cloneLifeProvenance(input.provenance),
+    };
+    const statusKey = `${input.stableKey}:status:initial`;
+    const status: WorkStatusRecord = {
+      id: createStableId("work-status", `${world.id}:${statusKey}`),
+      stableKey: statusKey,
+      sequence: nextSequence + 1,
+      workRelationshipId: relationship.id,
+      effectiveAt: initialStatus === "expected" ? recordedAt : startedAt,
+      status: initialStatus,
+      reason: null,
+      provenance: cloneLifeProvenance(input.provenance),
+      supersedesStatusId: null,
+    };
+    const roleKey = `${input.stableKey}:role:initial`;
+    const role: WorkRoleRecord = {
+      id: createStableId("work-role", `${world.id}:${roleKey}`),
+      stableKey: roleKey,
+      sequence: nextSequence + 2,
+      workRelationshipId: relationship.id,
+      effectiveAt: initialStatus === "expected" ? recordedAt : startedAt,
+      title: input.initialRole.title,
+      occupationClassification: input.initialRole.occupationClassification,
+      locationJurisdictionId: input.initialRole.locationJurisdictionId,
+      timeDemand: cloneTimeDemand(input.initialRole.timeDemand),
+      provenance: cloneLifeProvenance(input.provenance),
+      supersedesRoleId: null,
+    };
+    relationships.push(relationship);
+    statuses.push(status);
+    roles.push(role);
+    existingKeys.add(input.stableKey);
+    nextSequence += 3;
+  }
+  return commit(world, {
+    ...world.history,
+    nextSequence,
+    workRelationships: [...world.history.workRelationships, ...relationships],
+    workStatuses: [...world.history.workStatuses, ...statuses],
+    workRoles: [...world.history.workRoles, ...roles],
+  });
 }
 
 function appendWorkRelationship(

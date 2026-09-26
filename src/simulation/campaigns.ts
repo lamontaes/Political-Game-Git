@@ -26,6 +26,10 @@ import { RECALL_HANDLERS } from "./recall";
 import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
 import { DC_COUNCIL_SITTING_HANDLERS } from "./dc-council-sittings";
 import {
+  LOCAL_MEMBER_AGENDA_HANDLERS,
+  scheduleLocalMemberAgendaIntakes,
+} from "./governing/member-agenda";
+import {
   createNationalElectionTransitionRegistry,
   linkedNationalUnitTransition,
 } from "./national-election-consumer";
@@ -44,9 +48,14 @@ import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-govern
 import {
   ensureLocalGovernmentOrganization,
   localGovernmentOrganizationKey,
+  municipalWorkspaceGovernmentForUnit,
 } from "./nationwide-world/local-governments";
-import { municipalGovernmentForUnit } from "./rule-capability-resolver";
 import { primaryReading } from "./municipal-government";
+import { MUNICIPAL_COUNCIL_OPENING_VERSION } from "./municipal-council-opening";
+import {
+  municipalSeatChoiceByKey,
+  municipalSeatMustBeNamed,
+} from "./municipal-seat-identity";
 import {
   installMunicipalGovernment,
   municipalOrganizationFor,
@@ -242,10 +251,12 @@ export interface FileCampaignInput {
    */
   readonly officeKey: string;
   /**
-   * Explicit Gazetteer district for this filing, when a sourced
-   * district-residence rule applies. Not inferred from state residence.
+   * Explicit Gazetteer district for a numbered chamber seat. It identifies
+   * the contested seat and is never inferred from state residence.
    */
   readonly districtBinding?: DistrictSeatBinding | null;
+  /** Chosen council seat identity, saved on the election contest. */
+  readonly municipalSeatKey?: string | null;
   readonly electionDate: string;
   readonly rivalPersonIds: readonly EntityId[];
   readonly existingContestId: EntityId | null;
@@ -584,6 +595,7 @@ export function fileCampaign(
     alreadyACandidate:
       activeCampaignForCandidate(inputWorld, input.candidatePersonId) !== null,
     districtBinding: input.districtBinding ?? null,
+    municipalSeatKey: input.municipalSeatKey ?? null,
   });
   if (!eligibility.eligible || !eligibility.office || !eligibility.pack) {
     throw new Error(
@@ -591,20 +603,21 @@ export function fileCampaign(
     );
   }
 
-  // A district seat is recorded against a Gazetteer identity, so a filing for
-  // one has to name which. This sits after the honesty gate on purpose: a
-  // world that cannot say which district somebody lives in has a better
-  // sentence for them than this one, and should get to say it first.
+  // A numbered chamber seat needs a Gazetteer identity at filing. This sits
+  // after eligibility so a sourced residence refusal can speak first when it
+  // applies. Even without that rule, an unbound contest cannot identify the
+  // generated seat the winner would replace.
   if (
     (input.districtBinding ?? null) === null &&
-    districtSeatMustBeNamed(
-      input.jurisdictionId,
-      input.officeKey,
-      inputWorld.currentDate,
-    )
+    districtSeatMustBeNamed(input.jurisdictionId, input.officeKey)
   ) {
     throw new Error(
-      "This seat is filled by district, and the filing named none. The sourced district-residence rule needs the seat's own Gazetteer identity before a contest can be recorded against it.",
+      "This seat is filled by district, and the filing named none. Name its recorded Gazetteer district before filing so the election and winner belong to one seat.",
+    );
+  }
+  if (!input.municipalSeatKey && municipalSeatMustBeNamed(input.officeKey)) {
+    throw new Error(
+      "This council elects named seats. Choose a recorded at-large or ward seat before filing.",
     );
   }
   const option = eligibility.office;
@@ -1719,9 +1732,9 @@ function seatTheWinner(
  * seat limit; any other town gets the government the Census listing records,
  * placed once.
  *
- * No term, ward or seat number is written, because none has been read. When a
- * read body is already full the result still stands and nobody is seated over
- * the limit, since the record's seat count is a fact and this election is not.
+ * No term, ward or seat number is written, because none has been read. A full
+ * fictional opening council yields one generated seat to a newly elected
+ * member. An older or otherwise populated council is not silently displaced.
  *
  * A town has one mayor, so a new mayor's term begins the day the sitting
  * mayor's ends. A council member who wins the mayoralty keeps the council
@@ -1740,7 +1753,14 @@ function seatOnLocalGoverningBody(
   const unit = office.unit;
   const mayor = office.seat === "chief-executive";
   const roleKind = mayor ? "leader:municipal-mayor" : "leader:municipal-member";
-  const compiled = municipalGovernmentForUnit(unit);
+  const compiled = municipalWorkspaceGovernmentForUnit(unit);
+  const namedSeat = contest.office.seatKey
+    ? municipalSeatChoiceByKey(office.officeKey, contest.office.seatKey)
+    : null;
+  // An older unbound contest cannot silently take any D.C. ward or at-large
+  // place when its result arrives. Its win remains recorded without a seat.
+  if (!mayor && municipalSeatMustBeNamed(office.officeKey) && !namedSeat)
+    return world;
   let next = world;
   let organizationId: EntityId | undefined;
   let stableKey: string;
@@ -1751,13 +1771,6 @@ function seatOnLocalGoverningBody(
       formedAt: next.currentDate,
     });
     organizationId = municipalOrganizationFor(next, compiled.key)?.id;
-    if (!mayor) {
-      const bodySize = primaryReading(compiled).bodySize;
-      const seated = municipalSeats(next, compiled.key).filter(
-        (seat) => seat.role === "member" || seat.role === "presiding-member",
-      ).length;
-      if (bodySize !== null && seated >= bodySize) return next;
-    }
     stableKey = municipalSeatKey(compiled.key, winnerPersonId);
   } else {
     next = ensureLocalGovernmentOrganization(next, unit);
@@ -1782,6 +1795,64 @@ function seatOnLocalGoverningBody(
     )
   )
     return next;
+  if (compiled && !mayor) {
+    const bodySize = primaryReading(compiled).bodySize;
+    const seated = municipalSeats(next, compiled.key).filter(
+      (seat) => seat.role === "member" || seat.role === "presiding-member",
+    );
+    if (
+      namedSeat &&
+      seated.filter((seat) => seat.seatLabel === namedSeat.label).length > 1
+    )
+      throw new Error(
+        "More than one sitting councilor holds the contested seat.",
+      );
+    if (bodySize !== null && seated.length >= bodySize) {
+      const opening = next.history.events.find(
+        (event) =>
+          event.stableKey ===
+          `${MUNICIPAL_COUNCIL_OPENING_VERSION}:${compiled.key}`,
+      );
+      // The at-large election has no recorded numbered seat. Its fictional
+      // opening roll yields the first still-seated generated member in the
+      // recorded opening order; this does not imply a sourced ward assignment.
+      const displacedSeat = namedSeat
+        ? seated.find((seat) => seat.seatLabel === namedSeat.label)
+        : seated.find((seat) =>
+            opening?.involvedEntityIds.includes(seat.personId),
+          );
+      const participation = next.history.organizationParticipations.find(
+        (entry) => entry.id === displacedSeat?.participationId,
+      );
+      const state = participation
+        ? organizationParticipationStateAt(next, participation.id)
+        : undefined;
+      if (
+        (!namedSeat && !opening) ||
+        !displacedSeat ||
+        !participation ||
+        (!namedSeat &&
+          (participation.provenance.kind !== "simulated-event" ||
+            participation.provenance.eventId !== opening?.id)) ||
+        !state ||
+        state.status !== "active"
+      )
+        return next;
+      next = recordOrganizationParticipationState(next, {
+        stableKey: `${participation.stableKey}:state:succeeded:${contest.id}`,
+        participationId: participation.id,
+        effectiveAt:
+          effectiveAt > participation.startedAt
+            ? effectiveAt
+            : participation.startedAt,
+        status: "ended",
+        roleKind: state.roleKind,
+        context: `Succeeded after the election of ${contest.electionDate}`,
+        provenance: { kind: "simulated-event", eventId: outcomeEventId },
+        supersedesStateId: state.id,
+      });
+    }
+  }
   if (mayor) {
     // The sitting mayor's term ends as the new one's begins.
     for (const participation of next.history.organizationParticipations) {
@@ -1817,9 +1888,10 @@ function seatOnLocalGoverningBody(
     startedAt: effectiveAt,
     kind: "leadership:municipal-office",
     roleKind,
-    context: `Elected ${contest.electionDate}`,
+    context: namedSeat?.label ?? `Elected ${contest.electionDate}`,
     provenance: { kind: "simulated-event", eventId: outcomeEventId },
   });
+  next = scheduleLocalMemberAgendaIntakes(next);
   assertWorldIntegrity(next);
   return next;
 }
@@ -2030,10 +2102,12 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...PRESIDENTIAL_TURNOVER_HANDLERS,
         // Voters recalling a town official: petition, then recall election.
         ...RECALL_HANDLERS,
-        // A council act on the executive's desk, or returned to the council.
+        // Scheduled council readings and executive/return deadlines.
         ...COUNCIL_ACT_HANDLERS,
         // The Council of the District of Columbia sitting on its own.
         ...DC_COUNCIL_SITTING_HANDLERS,
+        // Admitted city and county councils use a separate quarterly game clock.
+        ...LOCAL_MEMBER_AGENDA_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.

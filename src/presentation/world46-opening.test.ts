@@ -24,6 +24,7 @@ import {
 import { WASHINGTON_PLACE_KEY } from "./opening-federal-geography";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { currentPublicOfficeholders } from "./opening-officeholders";
+import { OFFICEHOLDER_PRINCIPLES_VERSION } from "../simulation/governing/officeholder-principles";
 
 const LONG = 600_000;
 
@@ -271,6 +272,16 @@ describe("WORLD46 opening version gate", () => {
     },
     LONG,
   );
+
+  it("does not prewarm Congress principles for a legacy opening descriptor", () => {
+    const legacy = open(legacySetup(peebles.key, "world46-legacy-principles"));
+    expect(worldOpeningVersionOf(legacy.world)).toBeNull();
+    expect(
+      legacy.world.history.principles.some((row) =>
+        row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
+      ),
+    ).toBe(false);
+  });
 });
 
 describe("WORLD46 current opening: Peebles and a contrasting home", () => {

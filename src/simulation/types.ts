@@ -46,6 +46,20 @@ export type EntityId = string & { readonly [entityIdBrand]: true };
 export type IsoDate = string & { readonly [isoDateBrand]: true };
 export type CurrencyCode = string & { readonly [currencyCodeBrand]: true };
 
+/**
+ * Identity for a public account or program owner. Most existing records are
+ * scoped to a geographic jurisdiction. A local government's geography alone
+ * is not unique, so new local records also carry that government's canonical
+ * key. This identity records ownership; it grants no taxing or spending power.
+ */
+export type PublicGovernmentIdentity =
+  | { readonly kind: "jurisdiction"; readonly jurisdictionId: EntityId }
+  | {
+      readonly kind: "local-government";
+      readonly jurisdictionId: EntityId;
+      readonly governmentKey: string;
+    };
+
 export interface SimulationMoment {
   readonly date: IsoDate;
   readonly minuteOfDay: number;
@@ -243,6 +257,7 @@ export interface PolicyDomainDefinition {
 export const POLICY_GOVERNMENT_LEVELS = [
   "federal",
   "state",
+  "territory",
   "county",
   "municipality",
   "school-district",
@@ -2554,10 +2569,11 @@ export interface LegislativeDraftLineageRecord {
    * one.
    *
    * Optional, so every lineage written before instruments existed reads back
-   * unchanged. `authorityKey` identifies a standing statute declared in the
-   * content bank; `authorityMeasureId` is present instead when the bill was
-   * written against another measure on the same docket, which is what lets a
-   * saved appropriation still say which of the player's own bills it funds.
+   * unchanged. `authorityKey` identifies either a content-bank standing
+   * authority or an explicitly versioned game-profile authority; in the latter
+   * case the measure's jurisdiction and rule-pack id bind it to one exact
+   * government. `authorityMeasureId` is present when the bill was written
+   * against another measure on the same docket.
    */
   readonly authorityKey?: string;
   readonly authorityMeasureId?: EntityId;
@@ -3549,6 +3565,8 @@ interface PublicProgramRecordBase {
   /** `namespace:name`, e.g. `transit:bus-service`. */
   readonly programKey: string;
   readonly jurisdictionId: EntityId;
+  /** Missing in legacy saves; those records remain jurisdiction-scoped. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly recordedAt: IsoDate;
   /** The ordinary event written with this record. */
   readonly eventId: EntityId;
@@ -3614,6 +3632,10 @@ export interface PublicProgramCapacityOutturnRecord extends PublicProgramRecordB
   readonly unitsOperational: number;
   /** Units returned to service; null when no restoration cost was declared. */
   readonly restoredUnits: number | null;
+  /** Snapshots on newly written outturns; absent on older saves. */
+  readonly serviceLabel?: string;
+  readonly unitLabel?: string;
+  readonly placeLabel?: string;
 }
 
 export type PublicProgramRecord =
@@ -4248,10 +4270,17 @@ export interface LegislativeEnactmentRecord {
   /** Chapter or act designation when the measure became law. */
   readonly actDesignation: string | null;
   /**
-   * When the act takes effect. Null means the rule pack did not resolve a
-   * default effective-date rule, which is not the same as taking effect now.
+   * When the act takes effect. New enactments record a concrete date; older
+   * saves may carry null and retain their original game-interval reading.
    */
   readonly effectiveAt: IsoDate | null;
+  /** New records distinguish source dates from game defaults. */
+  readonly effectiveDateBasis?: "source-default" | "game-default";
+  /** A new game's fallback stays fixed when future profiles change. */
+  readonly effectiveDateGameProfile?: {
+    readonly version: string;
+    readonly days: number;
+  };
   readonly outcomeEventId: EntityId;
 }
 
@@ -4412,6 +4441,12 @@ export type LegislativeProvisionBeneficiary =
  * version it replaces, so the bill's text has a history for the same reason its
  * procedural position does, and nothing is quietly rewritten in place.
  */
+export type LegislativeProvisionEffectIntent =
+  /** This section is the exact levy clause of a linked TaxProposalRecord. */
+  | { readonly kind: "tax-policy" }
+  /** This section explicitly grants a public program its stated amount. */
+  | { readonly kind: "public-program-appropriation" };
+
 export interface LegislativeProvisionRecord {
   /** Explicit annual amount; omission preserves older whole-program records. */
   readonly fiscalPeriod?: "annual";
@@ -4436,6 +4471,12 @@ export interface LegislativeProvisionRecord {
   readonly fiscalExposureLabel: string | null;
   /** The same exposure as a checkable amount, so a ceiling can be tested. */
   readonly fiscalExposureMinorUnits: number | null;
+  /**
+   * Explicit executable intent from a typed clause template. Missing on old
+   * saves and on provisions with no registered consumer. A new revision must
+   * supply its own intent; omission clears an earlier revision's intent.
+   */
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
   readonly recordedAt: IsoDate;
   /** The earlier version this replaces; null for a section as filed. */
   readonly supersedesProvisionId: EntityId | null;

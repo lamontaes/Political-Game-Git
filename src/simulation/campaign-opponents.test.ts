@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
   GAME_ADULT_CANDIDACY_AGE,
@@ -125,6 +126,11 @@ function fileRace(
     candidatePersonId,
     jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
     officeKey: candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey,
+    districtBinding: namedSeatForFixture(
+      world,
+      candidatePersonId,
+      candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey,
+    ),
     electionDate: addDays(world.currentDate, options.electionInDays ?? 28),
     rivalPersonIds: [rivalPersonId],
     existingContestId: null,

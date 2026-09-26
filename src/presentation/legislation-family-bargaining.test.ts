@@ -266,7 +266,7 @@ describe("every configuration produces a sitting about itself", () => {
       variantKey,
       scenarioKey: "kentucky",
       jurisdictionId: "jurisdiction_test" as never,
-      rulePackId: "us-ky-general-assembly",
+      rulePackId: "us-ky-general-assembly-v1",
       designation: "HB 401",
       filedOn: "2026-01-14" as never,
       ...(authority ? { predicateAuthority: authority } : {}),
@@ -322,7 +322,7 @@ describe("every configuration produces a sitting about itself", () => {
       variantKey: "inventory-and-plan",
       scenarioKey: "kentucky",
       jurisdictionId: "jurisdiction_test" as never,
-      rulePackId: "us-ky-general-assembly",
+      rulePackId: "us-ky-general-assembly-v1",
       designation: "HB 401",
       filedOn: "2026-01-14" as never,
     });

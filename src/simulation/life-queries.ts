@@ -1,4 +1,5 @@
 import { makeIsoDate } from "./dates";
+import { recordById, recordsByStringField } from "./history-index";
 import { factsForPerson } from "./people";
 import type {
   ChildAuthority,
@@ -262,16 +263,19 @@ export function organizationParticipationHistoryForPerson(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly OrganizationParticipation[] {
   validatePersonCutoff(world, personId, cutoff);
-  return world.history.organizationParticipations.filter(
-    (participation) =>
-      participation.personId === personId &&
-      available(
-        participation.sequence,
-        participation.startedAt < participation.recordedAt
-          ? participation.startedAt
-          : participation.recordedAt,
-        cutoff,
-      ),
+  return recordsForId(
+    world.history.organizationParticipations,
+    personId,
+    (participation) => participation.personId,
+    participationsByPerson,
+  ).filter((participation) =>
+    available(
+      participation.sequence,
+      participation.startedAt < participation.recordedAt
+        ? participation.startedAt
+        : participation.recordedAt,
+      cutoff,
+    ),
   );
 }
 
@@ -281,12 +285,13 @@ export function organizationParticipationStateHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly OrganizationParticipationStateRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.organizationParticipationStates
-    .filter(
-      (record) =>
-        record.participationId === participationId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsForId(
+    world.history.organizationParticipationStates,
+    participationId,
+    (record) => record.participationId,
+    participationStatesByParticipation,
+  )
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
@@ -501,12 +506,12 @@ export function householdLocationHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly HouseholdLocationRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.householdLocations
-    .filter(
-      (record) =>
-        record.householdId === householdId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsByStringField(
+    world.history.householdLocations,
+    "householdId",
+    householdId,
+  )
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
@@ -524,12 +529,12 @@ export function householdMembershipStateHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly HouseholdMembershipStateRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.householdMembershipStates
-    .filter(
-      (record) =>
-        record.membershipId === membershipId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsByStringField(
+    world.history.householdMembershipStates,
+    "membershipId",
+    membershipId,
+  )
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
@@ -547,16 +552,18 @@ export function householdMembershipsAt(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly ActiveHouseholdMembership[] {
   validatePersonCutoff(world, personId, cutoff);
-  return world.history.householdMemberships.flatMap((membership) => {
-    if (
-      membership.personId !== personId ||
-      !available(membership.sequence, membership.startedAt, cutoff)
-    ) {
+  return recordsByStringField(
+    world.history.householdMemberships,
+    "personId",
+    personId,
+  ).flatMap((membership) => {
+    if (!available(membership.sequence, membership.startedAt, cutoff)) {
       return [];
     }
     const state = householdMembershipStateAt(world, membership.id, cutoff);
-    const household = world.history.households.find(
-      (candidate) => candidate.id === membership.householdId,
+    const household = recordById(
+      world.history.households,
+      membership.householdId,
     );
     if (!state || state.status !== "resident" || !household) return [];
     return [
@@ -576,10 +583,13 @@ export function peopleInHouseholdAt(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly EntityId[] {
   validateCutoff(world, cutoff);
-  return world.history.householdMemberships
+  return recordsByStringField(
+    world.history.householdMemberships,
+    "householdId",
+    householdId,
+  )
     .filter(
       (membership) =>
-        membership.householdId === householdId &&
         available(membership.sequence, membership.startedAt, cutoff) &&
         householdMembershipStateAt(world, membership.id, cutoff)?.status ===
           "resident",
@@ -1057,6 +1067,36 @@ const recordsByWorkRelationship = new WeakMap<
   readonly { readonly workRelationshipId: EntityId }[],
   ReadonlyMap<EntityId, readonly unknown[]>
 >();
+
+const participationsByPerson = new WeakMap<
+  readonly OrganizationParticipation[],
+  ReadonlyMap<EntityId, readonly OrganizationParticipation[]>
+>();
+const participationStatesByParticipation = new WeakMap<
+  readonly OrganizationParticipationStateRecord[],
+  ReadonlyMap<EntityId, readonly OrganizationParticipationStateRecord[]>
+>();
+
+function recordsForId<T>(
+  records: readonly T[],
+  id: EntityId,
+  idOf: (record: T) => EntityId,
+  cache: WeakMap<readonly T[], ReadonlyMap<EntityId, readonly T[]>>,
+): readonly T[] {
+  let grouped = cache.get(records);
+  if (!grouped) {
+    const built = new Map<EntityId, T[]>();
+    for (const record of records) {
+      const key = idOf(record);
+      const list = built.get(key);
+      if (list) list.push(record);
+      else built.set(key, [record]);
+    }
+    grouped = built;
+    cache.set(records, grouped);
+  }
+  return grouped.get(id) ?? [];
+}
 
 function recordsForWorkRelationship<
   T extends { readonly workRelationshipId: EntityId },

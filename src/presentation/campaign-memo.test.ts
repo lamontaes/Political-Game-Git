@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
   candidacyPackForJurisdiction,
@@ -35,7 +36,12 @@ function filedLife(seed: string, placeKey: string) {
   )!.offices[0]!;
   // Filed on the office's own calendar, as play files.
   return {
-    world: fileForOffice(world, personId, null, office.officeKey),
+    world: fileForOffice(
+      world,
+      personId,
+      namedSeatForFixture(world, personId, office.officeKey),
+      office.officeKey,
+    ),
     personId,
   };
 }

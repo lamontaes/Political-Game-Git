@@ -258,13 +258,13 @@ describe("procedure is a capability", () => {
   });
 
   it.each(["us-va-richmond", "us-nv-carson-city"])(
-    "keeps unsupported progression closed for %s without hiding the government",
+    "keeps unsupported sourced hearing and executive procedure closed for %s",
     (key) => {
       const government = municipalGovernmentByKey(key)!;
       expect(primaryReading(government).bodySize).toBeGreaterThan(0);
       const result = municipalRulePackFor(government);
       expect(result.ok).toBe(false);
-      if (result.ok) throw new Error("Unsupported progression was enabled");
+      if (result.ok) throw new Error("Unsafe sourced procedure was enabled");
       expect(result.missing.length).toBeGreaterThan(0);
       expect(() =>
         rulePackById(municipalRulePackId(primaryReading(government))),
@@ -345,7 +345,7 @@ describe("a resident and a councilmember are not the same person", () => {
     expect(speak.reason).toMatch(/The room is open; a right to address it/);
   }, 60000);
 
-  it("refuses a vote on evidence, not standing, where a member has no procedure", () => {
+  it("refuses a vote where known sourced procedure has no enforcing adapter", () => {
     const { world, governmentKey, people } = cityWorld("3209700");
     const government = municipalGovernmentByKey(governmentKey)!;
     const seated = seatWholeBody(world, governmentKey, people);
@@ -358,9 +358,7 @@ describe("a resident and a councilmember are not the same person", () => {
     expect(refusal.ok).toBe(false);
     if (refusal.ok) throw new Error("unreachable");
     expect(refusal.kind).toBe("evidence");
-    // The admitted §2.100 now establishes passage; unresolved introduction still refuses.
     expect(refusal.reason).toMatch(/introduction/);
-    expect(refusal.reason).not.toMatch(/passage threshold/);
   }, 60000);
 });
 

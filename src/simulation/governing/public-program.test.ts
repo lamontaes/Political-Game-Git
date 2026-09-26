@@ -5,15 +5,18 @@ import { money } from "../resources";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { advanceWorld } from "../world";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import { programOperatorOrganization } from "./program-governing";
 import type { World } from "../types";
 import {
   commitPublicProgram,
   declareProgramCapacity,
   forecastProgramAlternative,
+  programCapacity,
   programAppropriations,
   programInstallments,
   programOutturns,
   programPosition,
+  programAuthority,
   recordProgramAppropriation,
   type PublicProgramAlternative,
 } from "./public-program";
@@ -28,6 +31,12 @@ import {
   city,
   pay,
 } from "../../../tests/fixtures/public-program-fixture";
+import {
+  ensureLocalPublicAccount,
+  publicTaxAccountForIdentity,
+  publicTaxAccountForJurisdiction,
+} from "../tax-policy";
+import type { PublicGovernmentIdentity } from "../types";
 
 function days(world: World, count: number): World {
   return advanceWorld(world, count, createCampaignElectionTransitionRegistry());
@@ -50,6 +59,166 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
       expect(forecast.lines.join(" ")).toMatch(/not forecast/);
     expect(a.lines.join(" ")).not.toMatch(/improve/i);
   });
+
+  it("keeps local receipts, appropriations, payments, and capacity outturns separate from the state account at the same geography", () => {
+    const g = city("g3-local-identity", 2_500_000_00);
+    const localIdentity: PublicGovernmentIdentity = {
+      kind: "local-government",
+      jurisdictionId: g.jurisdictionId,
+      governmentKey: g.governmentKey,
+    };
+    let world = ensureLocalPublicAccount(g.world, localIdentity);
+    const stateAccount = publicTaxAccountForJurisdiction(
+      world,
+      g.jurisdictionId,
+    )!;
+    const localAccount = publicTaxAccountForIdentity(world, localIdentity)!;
+    expect(localAccount.organizationId).not.toBe(stateAccount.organizationId);
+    expect(
+      world.history.organizations.find(
+        (organization) => organization.id === localAccount.organizationId,
+      )?.stableKey,
+    ).toBe(`public-government:local:${encodeURIComponent(g.governmentKey)}`);
+
+    world = pay(
+      world,
+      "g3-local-identity:fixture-receipt",
+      g.payer,
+      localAccount.organizationId,
+      100_000_00,
+    );
+    world = declareProgramCapacity(world, {
+      edition: "local",
+      programKey: TRANSIT,
+      jurisdictionId: g.jurisdictionId,
+      publicGovernmentIdentity: localIdentity,
+      serviceLabel: "Neighborhood bus service",
+      unitLabel: "buses",
+      unitsTotal: 1,
+      unitsOperational: 0,
+      monthlyOperatingNeed: money(10_000_00, "USD"),
+      completedPermille: null,
+      restorationCostPerUnit: money(100_000_00, "USD"),
+      basis: FIXTURE,
+    }).world;
+    const adopted = recordProgramAppropriation(world, {
+      edition: "local-fixture",
+      programKey: TRANSIT,
+      jurisdictionId: g.jurisdictionId,
+      publicGovernmentIdentity: localIdentity,
+      accountOrganizationId: localAccount.organizationId,
+      amount: money(100_000_00, "USD"),
+      availableFrom: world.currentDate,
+      availableThrough: addDays(world.currentDate, 30),
+      basis: FIXTURE,
+    });
+    world = adopted.world;
+    const appropriation = programAppropriations(
+      world,
+      TRANSIT,
+      localIdentity,
+    ).find((record) => record.id === adopted.id)!;
+    expect(
+      programCapacity(world, TRANSIT, localIdentity)?.unitsOperational,
+    ).toBe(0);
+    expect(
+      programCapacity(world, TRANSIT, {
+        kind: "jurisdiction",
+        jurisdictionId: g.jurisdictionId,
+      })?.unitsOperational,
+    ).toBe(8);
+    expect(
+      programAuthority(
+        world,
+        g.manager,
+        { kind: "municipal", governmentKey: "us-nv-reno" },
+        appropriation,
+      ),
+    ).toMatchObject({ status: "unavailable" });
+    expect(
+      programAuthority(
+        world,
+        g.manager,
+        { kind: "municipal", governmentKey: g.governmentKey },
+        appropriation,
+      ).status,
+    ).toBe("available");
+
+    const operator = programOperatorOrganization(
+      world,
+      TRANSIT,
+      g.jurisdictionId,
+      localIdentity,
+    );
+    world = operator.world;
+    const committed = commitPublicProgram(world, {
+      appropriationId: appropriation.id,
+      alternative: {
+        key: "repair-neighborhood-bus",
+        title: "Repair the neighborhood bus",
+        installments: [
+          {
+            afterDays: 0,
+            amount: money(100_000_00, "USD"),
+            purpose: "maintenance",
+          },
+        ],
+        deliveryLeadDays: 1,
+      },
+      personId: g.manager,
+      office: { kind: "municipal", governmentKey: g.governmentKey },
+      recipientOrganizationId: operator.organizationId,
+    });
+    expect(committed.ok).toBe(true);
+    if (!committed.ok) throw new Error(committed.reason);
+    world = days(committed.world, 1);
+    const reopened = deserializeWorld(serializeWorld(world));
+    expect(
+      programPosition(reopened, TRANSIT, undefined, localIdentity),
+    ).toMatchObject({ unitsOperational: 1, posted: money(100_000_00, "USD") });
+    expect(
+      programPosition(reopened, TRANSIT, undefined, {
+        kind: "jurisdiction",
+        jurisdictionId: g.jurisdictionId,
+      }).unitsOperational,
+    ).toBe(8);
+    expect(programInstallments(reopened, TRANSIT, localIdentity)).toHaveLength(
+      1,
+    );
+    expect(programOutturns(reopened, TRANSIT, localIdentity)).toHaveLength(1);
+    const outlaysMetricId = Object.values(
+      reopened.metricCatalog.definitions,
+    ).find((definition) => definition.stableKey === "government.outlays")!.id;
+    const postedInstallment = programInstallments(
+      reopened,
+      TRANSIT,
+      localIdentity,
+    )[0]!;
+    expect(
+      reopened.history.metricStates.filter(
+        (record) => record.metricId === outlaysMetricId,
+      ),
+    ).toMatchObject([
+      {
+        scope: { jurisdictionId: g.jurisdictionId, segmentKey: null },
+        referencePeriod: {
+          kind: "interval",
+          startsAt: postedInstallment.recordedAt,
+          endsAt: postedInstallment.recordedAt,
+        },
+        value: { kind: "money", money: money(100_000_00, "USD") },
+        provenance: {
+          kind: "simulated",
+          sourceEntityIds: [postedInstallment.eventId],
+        },
+      },
+    ]);
+    expect(
+      programPosition(reopened, TRANSIT, appropriation.id).unitsOperational,
+    ).toBe(1);
+    expect(cash(reopened, localAccount.organizationId)).toBe(0);
+    expect(cash(reopened, stateAccount.organizationId)).toBe(2_500_000_00);
+  }, 120_000);
 
   it("draft A posts each monthly payment when due and leaves the service's share unforecast", () => {
     const g = city("g3-a", 2_500_000_00);
@@ -119,6 +288,69 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     expect(programPosition(world, TRANSIT).unitsOperational).toBe(10);
   }, 120_000);
 
+  it("does not report maintenance delivered without a saved capacity outturn", () => {
+    const g = city("g3-no-capacity", 2_500_000_00);
+    const programKey = "unprofiled:maintenance";
+    let world = recordProgramAppropriation(g.world, {
+      edition: "unprofiled",
+      programKey,
+      jurisdictionId: g.jurisdictionId,
+      accountOrganizationId: g.account,
+      amount: money(100_000_00, "USD"),
+      availableFrom: g.world.currentDate,
+      availableThrough: addDays(g.world.currentDate, 364),
+      basis: FIXTURE,
+    }).world;
+    const appropriation = programAppropriations(world, programKey)[0]!;
+    const committed = commitPublicProgram(world, {
+      appropriationId: appropriation.id,
+      alternative: {
+        key: "unprofiled-repair",
+        title: "Unprofiled maintenance",
+        installments: [
+          {
+            afterDays: 0,
+            amount: money(100_000_00, "USD"),
+            purpose: "maintenance",
+          },
+        ],
+        deliveryLeadDays: 1,
+      },
+      personId: g.manager,
+      office: { kind: "municipal", governmentKey: g.governmentKey },
+      recipientOrganizationId: g.operator,
+    });
+    expect(committed.ok).toBe(true);
+    if (!committed.ok) throw new Error(committed.reason);
+    world = days(committed.world, 1);
+
+    expect(programPosition(world, programKey).posted).toEqual(
+      money(100_000_00, "USD"),
+    );
+    expect(
+      programInstallments(world, programKey).map((row) => row.status),
+    ).toEqual(["posted"]);
+    expect(programOutturns(world, programKey)).toHaveLength(0);
+    const due = world.history.futureDueItems.find(
+      (item) => item.transitionKey === "public-program:delivery",
+    )!;
+    expect(
+      world.history.futureDueItemStates.find(
+        (state) => state.dueItemId === due.id && state.status !== "scheduled",
+      ),
+    ).toMatchObject({
+      status: "blocked",
+      reasonKey: "public-program:capacity-unavailable",
+      outcomeEventId: null,
+      context: expect.stringContaining("no delivery record was written"),
+    });
+    expect(
+      world.history.events.some(
+        (event) => event.summary === "Maintenance delivered.",
+      ),
+    ).toBe(false);
+  }, 120_000);
+
   it("no action commits nothing and moves no money", () => {
     const g = city("g3-none", 2_500_000_00);
     const before = cash(g.world, g.account);
@@ -164,6 +396,13 @@ describe("GOVERNING 6: public programs keep appropriation, commitment, cash and 
     expect(settled[1]!.reason).toMatch(/not cash/);
     expect(cash(world, g.account)).toBe(50_000_00);
     expect(programPosition(world, TRANSIT).failedInstallments).toBe(2);
+    expect(
+      world.history.metricStates.filter(
+        (record) =>
+          world.metricCatalog.definitions[record.metricId]?.stableKey ===
+          "government.outlays",
+      ),
+    ).toHaveLength(1);
   }, 120_000);
 
   it("refuses the wrong office, an unaffordable draft and a lapsed appropriation", () => {

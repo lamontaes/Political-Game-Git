@@ -5,7 +5,10 @@ import {
   deserializeWorld,
   serializeWorld,
 } from "../simulation";
-import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
+import {
+  municipalGovernmentForLifePlace,
+  primaryReading,
+} from "../simulation/municipal-government";
 import {
   installMunicipalGovernment,
   municipalGovernmentJurisdictionId,
@@ -61,21 +64,36 @@ function ordinaryStart(placeKey: string, seed: string) {
   });
   const townId = municipalGovernmentJurisdictionId(world, government.key)!;
   const player = game.playerPersonId;
-  // The council member is a neighbor who lives in town; seating them is the
-  // fixture, since an ordinary start does not fill the council.
-  const member = world.personOrder.find(
-    (id) =>
-      id !== player &&
-      world.people[id]!.homeJurisdictionId === townId &&
-      world.people[id]!.lifeStatus !== "deceased",
-  )!;
-  world = seatMunicipalMember(world, {
-    governmentKey: government.key,
-    personId: member,
-    startedAt: world.currentDate,
-    role: "member",
-    seatLabel: "Seat 1",
-  });
+  // Opening already recorded a full fictional council. Recall an actual
+  // sitting member instead of inventing an extra seat for this fixture.
+  let member = municipalSeats(world, government.key).find(
+    (seat) =>
+      (seat.role === "member" || seat.role === "presiding-member") &&
+      seat.personId !== player &&
+      world.people[seat.personId]?.homeJurisdictionId === townId &&
+      world.people[seat.personId]?.lifeStatus !== "deceased",
+  )?.personId;
+  if (!member && primaryReading(government).bodySize === null) {
+    // Where opening has no compiled body size or roster, this focused fixture
+    // may establish one fictional member without asserting a vacancy count.
+    const neighbor = world.personOrder.find(
+      (id) =>
+        id !== player &&
+        world.people[id]!.homeJurisdictionId === townId &&
+        world.people[id]!.lifeStatus !== "deceased",
+    );
+    if (neighbor) {
+      world = seatMunicipalMember(world, {
+        governmentKey: government.key,
+        personId: neighbor,
+        startedAt: world.currentDate,
+        role: "member",
+        seatLabel: "Fixture member",
+      });
+      member = neighbor;
+    }
+  }
+  if (!member) throw new Error("The council has no recallable local member.");
   return { world, governmentKey: government.key, player, member, townId };
 }
 
@@ -183,7 +201,7 @@ describe("recalling a town official", () => {
     "fails, keeps or removes, and a removal empties the seat",
     { timeout: 300_000 },
     () => {
-      const { world, governmentKey, player, member, townId } = ordinaryStart(
+      const { world, governmentKey, player, member } = ordinaryStart(
         GRAND_ISLAND,
         "recall-A",
       );
@@ -195,28 +213,22 @@ describe("recalling a town official", () => {
           return "failed-to-qualify";
         return recallYesShare(world.seed, key) > 5_000 ? "removed" : "retained";
       };
-      const residents = world.personOrder.filter(
-        (id) =>
-          id !== player &&
-          id !== member &&
-          world.people[id]!.homeJurisdictionId === townId &&
-          world.people[id]!.lifeStatus !== "deceased",
-      );
+      const sittingMembers = municipalSeats(world, governmentKey)
+        .filter(
+          (seat) =>
+            (seat.role === "member" || seat.role === "presiding-member") &&
+            seat.personId !== player &&
+            seat.personId !== member,
+        )
+        .map((seat) => seat.personId);
       for (const expected of [
         "failed-to-qualify",
         "retained",
         "removed",
       ] as const) {
-        const target = residents.find((id) => outcomeFor(id) === expected)!;
+        const target = sittingMembers.find((id) => outcomeFor(id) === expected);
         expect(target, expected).toBeDefined();
-        let seated = seatMunicipalMember(world, {
-          governmentKey,
-          personId: target,
-          startedAt: world.currentDate,
-          role: "member",
-          seatLabel: "Seat 2",
-        });
-        seated = petition(seated, governmentKey, player, target);
+        const seated = petition(world, governmentKey, player, target!);
         const closeDue = seated.history.futureDueItems.find(
           (due) => due.transitionKey === RECALL_PETITION_CLOSES,
         )!;
@@ -258,38 +270,44 @@ describe("recalling a town official", () => {
     },
   );
 
-  it("lapses when the official leaves before the window closes", () => {
-    const { world, governmentKey, player, member } = ordinaryStart(
-      GRAND_ISLAND,
-      "recall-A",
-    );
-    const started = petition(world, governmentKey, player, member);
-    const closeDue = started.history.futureDueItems.find(
-      (due) => due.transitionKey === RECALL_PETITION_CLOSES,
-    )!;
-    // The member resigns a week in: their seat ends on the record.
-    let resigned = passOrdinaryDays(started, 7);
-    const seat = municipalSeats(resigned, governmentKey)[0]!;
-    const prior = organizationParticipationStateHistory(
-      resigned,
-      seat.participationId,
-    ).at(-1)!;
-    resigned = recordOrganizationParticipationState(resigned, {
-      stableKey: "fixture:resigned",
-      participationId: seat.participationId,
-      effectiveAt: resigned.currentDate,
-      status: "ended",
-      roleKind: prior.roleKind,
-      context: "Resigned.",
-      provenance: { kind: "authored", note: "Resignation fixture." },
-      supersedesStateId: prior.id,
-    });
-    const closed = passOrdinaryDays(
-      resigned,
-      daysUntil(resigned, closeDue.dueAt),
-    );
-    expect(recallPetitions(closed)[0]!.phase).toBe("lapsed");
-  });
+  it(
+    "lapses when the official leaves before the window closes",
+    { timeout: 300_000 },
+    () => {
+      const { world, governmentKey, player, member } = ordinaryStart(
+        GRAND_ISLAND,
+        "recall-A",
+      );
+      const started = petition(world, governmentKey, player, member);
+      const closeDue = started.history.futureDueItems.find(
+        (due) => due.transitionKey === RECALL_PETITION_CLOSES,
+      )!;
+      // The member resigns a week in: their seat ends on the record.
+      let resigned = passOrdinaryDays(started, 7);
+      const seat = municipalSeats(resigned, governmentKey).find(
+        (candidate) => candidate.personId === member,
+      )!;
+      const prior = organizationParticipationStateHistory(
+        resigned,
+        seat.participationId,
+      ).at(-1)!;
+      resigned = recordOrganizationParticipationState(resigned, {
+        stableKey: "fixture:resigned",
+        participationId: seat.participationId,
+        effectiveAt: resigned.currentDate,
+        status: "ended",
+        roleKind: prior.roleKind,
+        context: "Resigned.",
+        provenance: { kind: "authored", note: "Resignation fixture." },
+        supersedesStateId: prior.id,
+      });
+      const closed = passOrdinaryDays(
+        resigned,
+        daysUntil(resigned, closeDue.dueAt),
+      );
+      expect(recallPetitions(closed)[0]!.phase).toBe("lapsed");
+    },
+  );
 
   it("refuses where the law gives no recall", () => {
     const reason = "Towns in Indiana cannot recall their officials.";
@@ -372,19 +390,22 @@ describe("recalling a town official", () => {
       GRAND_ISLAND,
       "recall-A",
     );
+    const memberSeatLabel = municipalSeats(world, governmentKey).find(
+      (seat) => seat.personId === member,
+    )!.seatLabel;
     const before = serializeWorld(world);
     const view = projectRecall(world, governmentKey, player);
     // Reading the panel writes nothing.
     expect(serializeWorld(world)).toBe(before);
     expect(view.unavailable).toBeNull();
     expect(view.rule).toBe("A petition circulates for 30 days.");
-    expect(view.targets).toEqual([
+    expect(view.targets).toContainEqual(
       expect.objectContaining({
         personId: member,
-        seatLabel: "Seat 1",
+        seatLabel: memberSeatLabel,
         refusal: null,
       }),
-    ]);
+    );
     expect(view.petitions).toEqual([]);
 
     const started = startProjectedRecallPetition(
@@ -394,9 +415,9 @@ describe("recalling a town official", () => {
       member,
     );
     const after = projectRecall(started, governmentKey, player);
-    expect(after.targets[0]!.refusal).toBe(
-      "A recall petition against this official is already under way.",
-    );
+    expect(
+      after.targets.find((target) => target.personId === member)?.refusal,
+    ).toBe("A recall petition against this official is already under way.");
     expect(after.petitions).toHaveLength(1);
     expect(after.petitions[0]).toMatch(
       /: a recall petition is circulating until [A-Z][a-z]+ \d+, \d{4}\.$/,

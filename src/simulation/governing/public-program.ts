@@ -10,6 +10,9 @@ import {
 } from "../resources";
 import { createWorkItem, workItemState } from "../time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
+import { recordDailyGovernmentFiscalFlow } from "../government-fiscal-metrics";
+import { currentPresidentOf } from "../crisis/offices";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import {
   municipalGovernmentByKey,
   primaryReading,
@@ -19,6 +22,12 @@ import {
   municipalStanding,
 } from "../municipal-public-work";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import {
+  assertPublicGovernmentIdentity,
+  publicGovernmentIdentityForRecord,
+  publicGovernmentOrganizationKey,
+  samePublicGovernmentIdentity,
+} from "../public-government-identity";
 import {
   PUBLIC_PROGRAM_EVENT_PREFIX,
   publicProgramRecordId,
@@ -38,6 +47,7 @@ import type {
   PublicProgramInstallmentRecord,
   PublicProgramPurpose,
   PublicProgramRecord,
+  PublicGovernmentIdentity,
   World,
   WorkItemStateRecord,
 } from "../types";
@@ -77,6 +87,7 @@ export interface PublicProgramAlternative {
 
 export type PublicProgramOffice =
   | { readonly kind: "state-executive" }
+  | { readonly kind: "federal-executive" }
   | { readonly kind: "municipal"; readonly governmentKey: string };
 
 export type PublicProgramResult =
@@ -126,6 +137,7 @@ function writeEvent(
     readonly participant: EntityId | null;
     readonly visibility: "public" | "private";
     readonly programKey: string;
+    readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
     readonly summary: string;
   },
 ): World {
@@ -153,7 +165,15 @@ function writeEvent(
       : [],
     personFactConstraints: [],
     visibility: input.visibility,
-    tags: ["fiscal", `program:${input.programKey}`],
+    tags: [
+      "fiscal",
+      `program:${input.programKey}`,
+      ...(input.publicGovernmentIdentity?.kind === "local-government"
+        ? [
+            `government:${encodeURIComponent(input.publicGovernmentIdentity.governmentKey)}`,
+          ]
+        : []),
+    ],
     summary: input.summary,
     context: {
       location: null,
@@ -172,13 +192,24 @@ function writeRecord(
   event: Parameters<typeof writeEvent>[1],
   record: NewRecord,
 ): { world: World; id: EntityId } {
-  const withEvent = writeEvent(world, event);
-  return append(
-    withEvent,
-    stableKey,
-    withEvent.history.events.at(-1)!.id,
-    record,
-  );
+  const carrier = record as NewRecord & {
+    readonly jurisdictionId: EntityId;
+    readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+  };
+  const identity = publicGovernmentIdentityForRecord(carrier);
+  assertPublicGovernmentIdentity(world, identity);
+  const withEvent = writeEvent(world, {
+    ...event,
+    ...(identity.kind === "local-government"
+      ? { publicGovernmentIdentity: identity }
+      : {}),
+  });
+  return append(withEvent, stableKey, withEvent.history.events.at(-1)!.id, {
+    ...record,
+    ...(identity.kind === "local-government"
+      ? { publicGovernmentIdentity: identity }
+      : {}),
+  });
 }
 
 export function dollars(amount: MoneyAmount): string {
@@ -189,8 +220,19 @@ export function dollars(amount: MoneyAmount): string {
   });
 }
 
-function key(programKey: string, ...parts: readonly string[]): string {
-  return [PUBLIC_PROGRAM_VERSION, programKey, ...parts].join(":");
+function scopedKey(
+  programKey: string,
+  identity: PublicGovernmentIdentity | undefined,
+  ...parts: readonly string[]
+): string {
+  return [
+    PUBLIC_PROGRAM_VERSION,
+    ...(identity?.kind === "local-government"
+      ? [`local:${encodeURIComponent(identity.governmentKey)}`]
+      : []),
+    programKey,
+    ...parts,
+  ].join(":");
 }
 
 // ---------------------------------------------------------------------------
@@ -201,46 +243,58 @@ function ofKind<K extends PublicProgramRecord["kind"]>(
   world: World,
   programKey: string,
   kind: K,
+  identity?: PublicGovernmentIdentity,
 ): readonly Extract<PublicProgramRecord, { kind: K }>[] {
   return publicProgramRecords(world).filter(
     (record): record is Extract<PublicProgramRecord, { kind: K }> =>
-      record.kind === kind && record.programKey === programKey,
+      record.kind === kind &&
+      record.programKey === programKey &&
+      (!identity ||
+        samePublicGovernmentIdentity(
+          publicGovernmentIdentityForRecord(record),
+          identity,
+        )),
   );
 }
 
 export function programCapacity(
   world: World,
   programKey: string,
+  identity?: PublicGovernmentIdentity,
 ): PublicProgramCapacityRecord | null {
-  return ofKind(world, programKey, "capacity").at(-1) ?? null;
+  return ofKind(world, programKey, "capacity", identity).at(-1) ?? null;
 }
 
 export function programAppropriations(
   world: World,
   programKey: string,
+  identity?: PublicGovernmentIdentity,
 ): readonly PublicProgramAppropriationRecord[] {
-  return ofKind(world, programKey, "appropriation");
+  return ofKind(world, programKey, "appropriation", identity);
 }
 
 export function programCommitments(
   world: World,
   programKey: string,
+  identity?: PublicGovernmentIdentity,
 ): readonly PublicProgramCommitmentRecord[] {
-  return ofKind(world, programKey, "commitment");
+  return ofKind(world, programKey, "commitment", identity);
 }
 
 export function programInstallments(
   world: World,
   programKey: string,
+  identity?: PublicGovernmentIdentity,
 ): readonly PublicProgramInstallmentRecord[] {
-  return ofKind(world, programKey, "installment");
+  return ofKind(world, programKey, "installment", identity);
 }
 
 export function programOutturns(
   world: World,
   programKey: string,
+  identity?: PublicGovernmentIdentity,
 ): readonly PublicProgramCapacityOutturnRecord[] {
-  return ofKind(world, programKey, "capacity-outturn");
+  return ofKind(world, programKey, "capacity-outturn", identity);
 }
 
 /** Every program this World has declared, for readers such as CHANGE. */
@@ -288,8 +342,20 @@ export function programPosition(
   world: World,
   programKey: string,
   appropriationId?: EntityId,
+  identity?: PublicGovernmentIdentity,
 ): PublicProgramPosition {
-  const appropriations = programAppropriations(world, programKey).filter(
+  const selectedAppropriation = appropriationId
+    ? publicProgramRecords(world).find(
+        (record) =>
+          record.kind === "appropriation" && record.id === appropriationId,
+      )
+    : undefined;
+  const scope =
+    identity ??
+    (selectedAppropriation?.kind === "appropriation"
+      ? publicGovernmentIdentityForRecord(selectedAppropriation)
+      : undefined);
+  const appropriations = programAppropriations(world, programKey, scope).filter(
     (record) => !appropriationId || record.id === appropriationId,
   );
   const appropriated = appropriations.reduce(
@@ -300,11 +366,11 @@ export function programPosition(
     (total, record) => total + committedAgainst(world, record.id),
     0,
   );
-  const commitments = programCommitments(world, programKey).filter((record) =>
-    appropriations.some((a) => a.id === record.appropriationId),
+  const commitments = programCommitments(world, programKey, scope).filter(
+    (record) => appropriations.some((a) => a.id === record.appropriationId),
   );
-  const installments = programInstallments(world, programKey).filter((record) =>
-    commitments.some((c) => c.id === record.commitmentId),
+  const installments = programInstallments(world, programKey, scope).filter(
+    (record) => commitments.some((c) => c.id === record.commitmentId),
   );
   let posted = 0;
   let operating = 0;
@@ -319,8 +385,8 @@ export function programPosition(
     (total, record) => total + record.installments.length,
     0,
   );
-  const capacity = programCapacity(world, programKey);
-  const latestOutturn = programOutturns(world, programKey).at(-1);
+  const capacity = programCapacity(world, programKey, scope);
+  const latestOutturn = programOutturns(world, programKey, scope).at(-1);
   return {
     programKey,
     appropriated: money(appropriated, "USD"),
@@ -353,9 +419,19 @@ export function declareProgramCapacity(
 ): { world: World; id: EntityId } {
   return writeRecord(
     world,
-    key(input.programKey, "capacity", input.edition),
+    scopedKey(
+      input.programKey,
+      input.publicGovernmentIdentity,
+      "capacity",
+      input.edition,
+    ),
     {
-      stableKey: key(input.programKey, "capacity", input.edition),
+      stableKey: scopedKey(
+        input.programKey,
+        input.publicGovernmentIdentity,
+        "capacity",
+        input.edition,
+      ),
       kind: "capacity",
       jurisdictionId: input.jurisdictionId,
       involved: [input.jurisdictionId],
@@ -388,10 +464,29 @@ export function recordProgramAppropriation(
     readonly availableThrough: IsoDate;
     readonly basis: PublicProgramBasis;
     readonly sourceMeasureId?: EntityId | null;
+    readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
     readonly edition: string;
   },
 ): { world: World; id: EntityId } {
-  const stableKey = key(input.programKey, "appropriation", input.edition);
+  const identity = publicGovernmentIdentityForRecord(input);
+  assertPublicGovernmentIdentity(world, identity);
+  if (
+    identity.kind === "local-government" &&
+    !world.history.organizations.some(
+      (organization) =>
+        organization.id === input.accountOrganizationId &&
+        organization.stableKey === publicGovernmentOrganizationKey(identity),
+    )
+  )
+    throw new Error(
+      "A local appropriation must use that government's canonical public account.",
+    );
+  const stableKey = scopedKey(
+    input.programKey,
+    identity,
+    "appropriation",
+    input.edition,
+  );
   return writeRecord(
     world,
     stableKey,
@@ -425,7 +520,42 @@ export function programAuthority(
   office: PublicProgramOffice,
   appropriation: PublicProgramAppropriationRecord,
 ): ProgramAuthority {
+  if (office.kind === "federal-executive") {
+    if (
+      appropriation.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id ||
+      appropriation.publicGovernmentIdentity?.kind === "local-government" ||
+      (appropriation.publicGovernmentIdentity !== undefined &&
+        appropriation.publicGovernmentIdentity.jurisdictionId !==
+          NATIONAL_ELECTION_JURISDICTION.id)
+    )
+      return {
+        status: "unavailable",
+        reason: "This appropriation does not belong to the federal government.",
+      };
+    const president = currentPresidentOf(world);
+    if (!president)
+      return {
+        status: "unavailable",
+        reason:
+          "The world has no sitting President to commit this appropriation.",
+      };
+    return president.personId === personId
+      ? {
+          status: "available",
+          basis: `${president.title}: executes federal appropriations the office receives (${PUBLIC_PROGRAM_VERSION} game profile).`,
+        }
+      : {
+          status: "unavailable",
+          reason:
+            "Only the sitting President commits this federal appropriation.",
+        };
+  }
   if (office.kind === "state-executive") {
+    if (appropriation.publicGovernmentIdentity?.kind === "local-government")
+      return {
+        status: "unavailable",
+        reason: "This appropriation belongs to a specific local government.",
+      };
     const holder = currentStateExecutiveHolders(world).find(
       (record) =>
         stateJurisdictionForKey(`US-${record.stateUsps}`)?.id ===
@@ -446,6 +576,15 @@ export function programAuthority(
           reason: `Only the sitting ${holder.title} commits this appropriation.`,
         };
   }
+  if (
+    appropriation.publicGovernmentIdentity?.kind === "local-government" &&
+    appropriation.publicGovernmentIdentity.governmentKey !==
+      office.governmentKey
+  )
+    return {
+      status: "unavailable",
+      reason: "This appropriation belongs to another local government.",
+    };
   const jurisdictionId = municipalGovernmentJurisdictionId(
     world,
     office.governmentKey,
@@ -478,6 +617,29 @@ export function programAuthority(
     reading.form === "MAYOR_COUNCIL";
   const isManager = standing.roles.includes("professional-manager");
   const isMayor = standing.roles.includes("mayor");
+  const isCouncilMember = standing.roles.some(
+    (role) => role === "member" || role === "presiding-member",
+  );
+  // This fictional local profile seats its own manager. It does not assert a
+  // sourced charter rule for any real municipality or county.
+  if (reading.evidence === "game-profile") {
+    if (appropriation.publicGovernmentIdentity?.kind !== "local-government")
+      return {
+        status: "unavailable",
+        reason: "This appropriation is not scoped to a local government.",
+      };
+    if (isManager && !isCouncilMember)
+      return {
+        status: "available",
+        basis: `Manager: administers adopted appropriations for ${office.governmentKey} (${PUBLIC_PROGRAM_VERSION} fictional local game profile).`,
+      };
+    return {
+      status: "unavailable",
+      reason: isCouncilMember
+        ? "A council seat votes on the budget; committing adopted money belongs to the executive."
+        : "Only the seated professional manager commits this game-profile government's adopted appropriation.",
+    };
+  }
   const basis = (role: string, why: string) => ({
     status: "available" as const,
     basis: `${role}: ${why} (${PUBLIC_PROGRAM_VERSION} game profile over ${office.governmentKey}'s compiled record).`,
@@ -504,11 +666,7 @@ export function programAuthority(
       "Mayor",
       "the record shows a separately elected chief executive",
     );
-  if (
-    standing.roles.some(
-      (role) => role === "member" || role === "presiding-member",
-    )
-  )
+  if (isCouncilMember)
     return {
       status: "unavailable",
       reason:
@@ -548,7 +706,8 @@ export function forecastProgramAlternative(
   appropriation: PublicProgramAppropriationRecord,
   alternative: PublicProgramAlternative,
 ): PublicProgramForecast {
-  const capacity = programCapacity(world, appropriation.programKey);
+  const identity = publicGovernmentIdentityForRecord(appropriation);
+  const capacity = programCapacity(world, appropriation.programKey, identity);
   const total = alternative.installments.reduce(
     (sum, plan) => sum + plan.amount.minorUnits,
     0,
@@ -651,8 +810,9 @@ function commitmentKey(
   appropriation: PublicProgramAppropriationRecord,
   alternativeKey: string,
 ): string {
-  return key(
+  return scopedKey(
     appropriation.programKey,
+    publicGovernmentIdentityForRecord(appropriation),
     "commitment",
     appropriation.id,
     alternativeKey,
@@ -691,6 +851,7 @@ export function commitPublicProgram(
     appropriation,
   );
   if (authority.status !== "available") return refuse(authority.reason);
+  const identity = publicGovernmentIdentityForRecord(appropriation);
   if (
     world.currentDate < appropriation.availableFrom ||
     world.currentDate > appropriation.availableThrough
@@ -746,6 +907,9 @@ export function commitPublicProgram(
       kind: "commitment",
       programKey: appropriation.programKey,
       jurisdictionId: appropriation.jurisdictionId,
+      ...(identity.kind === "local-government"
+        ? { publicGovernmentIdentity: identity }
+        : {}),
       appropriationId: appropriation.id,
       alternativeKey: input.alternative.key,
       alternativeTitle: input.alternative.title,
@@ -904,6 +1068,9 @@ export function settleProgramInstallment(
       kind: "installment",
       programKey: commitment.programKey,
       jurisdictionId: commitment.jurisdictionId,
+      ...(commitment.publicGovernmentIdentity
+        ? { publicGovernmentIdentity: commitment.publicGovernmentIdentity }
+        : {}),
       commitmentId: commitment.id,
       installmentIndex: index,
       status: reason ? "failed" : "posted",
@@ -915,6 +1082,12 @@ export function settleProgramInstallment(
   const installment = publicProgramRecords(next).at(
     -1,
   ) as PublicProgramInstallmentRecord;
+  if (installment.status === "posted")
+    next = recordProgramOutlaysForDate(
+      next,
+      installment.jurisdictionId,
+      installment.recordedAt,
+    );
   if (
     !reason &&
     plan.purpose === "maintenance" &&
@@ -933,16 +1106,63 @@ export function settleProgramInstallment(
   return { world: closeWorkIfDone(next, commitment), installment };
 }
 
+function recordProgramOutlaysForDate(
+  world: World,
+  jurisdictionId: EntityId,
+  occurredAt: IsoDate,
+): World {
+  const records = publicProgramRecords(world);
+  const amounts: MoneyAmount[] = [];
+  const sourceEventIds: EntityId[] = [];
+  for (const installment of records) {
+    if (
+      installment.kind !== "installment" ||
+      installment.status !== "posted" ||
+      installment.jurisdictionId !== jurisdictionId ||
+      installment.recordedAt !== occurredAt
+    )
+      continue;
+    const commitment = records.find(
+      (record) =>
+        record.kind === "commitment" && record.id === installment.commitmentId,
+    );
+    const plan =
+      commitment?.kind === "commitment"
+        ? commitment.installments[installment.installmentIndex]
+        : undefined;
+    if (!plan)
+      throw new Error("A posted program installment needs its committed plan.");
+    amounts.push(plan.amount);
+    sourceEventIds.push(installment.eventId);
+  }
+  return recordDailyGovernmentFiscalFlow(world, {
+    metricStableKey: "government.outlays",
+    jurisdictionId,
+    occurredAt,
+    amounts,
+    sourceEventIds,
+  });
+}
+
 function recordCapacityOutturn(
   world: World,
   commitment: PublicProgramCommitmentRecord,
   installment: PublicProgramInstallmentRecord,
 ): World {
-  const capacity = programCapacity(world, commitment.programKey);
+  const identity = publicGovernmentIdentityForRecord(commitment);
+  const capacity = programCapacity(world, commitment.programKey, identity);
   if (!capacity) return world;
+  const placeLabel =
+    identity.kind === "local-government"
+      ? municipalGovernmentByKey(identity.governmentKey)?.displayName
+      : world.jurisdictions[commitment.jurisdictionId]?.name;
+  if (!placeLabel?.trim())
+    throw new Error(
+      "A delivered service needs its canonical government place label.",
+    );
   const before =
-    programOutturns(world, commitment.programKey).at(-1)?.unitsOperational ??
-    capacity.unitsOperational;
+    programOutturns(world, commitment.programKey, identity).at(-1)
+      ?.unitsOperational ?? capacity.unitsOperational;
   const plan = commitment.installments[installment.installmentIndex]!;
   const restored = capacity.restorationCostPerUnit
     ? Math.min(
@@ -970,13 +1190,19 @@ function recordCapacityOutturn(
       programKey: commitment.programKey,
       summary:
         restored === null
-          ? `The maintenance work paid for is done. How many ${capacity.unitLabel} it returned is unknown; ${before} of ${capacity.unitsTotal} are counted in service.`
-          : `The maintenance work paid for is done: ${restored} ${capacity.unitLabel} returned, ${before + restored} of ${capacity.unitsTotal} now in service.`,
+          ? `Paid work for ${capacity.serviceLabel} in ${placeLabel} was delivered on ${world.currentDate}. How many ${capacity.unitLabel} it returned is unknown; ${before} of ${capacity.unitsTotal} are counted in service.`
+          : `Paid work for ${capacity.serviceLabel} in ${placeLabel} returned ${restored} ${capacity.unitLabel} to service on ${world.currentDate}; ${before + restored} of ${capacity.unitsTotal} are now in service.`,
     },
     {
       kind: "capacity-outturn",
       programKey: commitment.programKey,
       jurisdictionId: commitment.jurisdictionId,
+      serviceLabel: capacity.serviceLabel,
+      unitLabel: capacity.unitLabel,
+      placeLabel,
+      ...(commitment.publicGovernmentIdentity
+        ? { publicGovernmentIdentity: commitment.publicGovernmentIdentity }
+        : {}),
       commitmentId: commitment.id,
       installmentId: installment.id,
       unitsOperational: before + (restored ?? 0),
@@ -1102,6 +1328,7 @@ export function programDeliveryHandler(
   const installment = programInstallments(
     world,
     target.commitment.programKey,
+    publicGovernmentIdentityForRecord(target.commitment),
   ).find(
     (r) =>
       r.commitmentId === target.commitment.id &&
@@ -1110,18 +1337,30 @@ export function programDeliveryHandler(
   if (!installment || installment.status !== "posted")
     return resolved(world, "Nothing was paid, so nothing is delivered.", null);
   if (
-    programOutturns(world, target.commitment.programKey).some(
-      (r) => r.installmentId === installment.id,
-    )
+    programOutturns(
+      world,
+      target.commitment.programKey,
+      publicGovernmentIdentityForRecord(target.commitment),
+    ).some((r) => r.installmentId === installment.id)
   )
     return resolved(world, "Already delivered.", null);
   let next = recordCapacityOutturn(world, target.commitment, installment);
-  next = closeWorkIfDone(next, target.commitment);
-  return resolved(
+  const outturn = programOutturns(
     next,
-    "Maintenance delivered.",
-    publicProgramRecords(next).at(-1)!.eventId,
-  );
+    target.commitment.programKey,
+    publicGovernmentIdentityForRecord(target.commitment),
+  ).find((record) => record.installmentId === installment.id);
+  if (!outturn)
+    return {
+      world: next,
+      status: "blocked",
+      reasonKey: "public-program:capacity-unavailable",
+      context:
+        "The payment posted, but no matching service capacity profile exists; no delivery record was written.",
+      outcomeEventId: null,
+    };
+  next = closeWorkIfDone(next, target.commitment);
+  return resolved(next, "Maintenance delivered.", outturn.eventId);
 }
 
 export const PUBLIC_PROGRAM_HANDLERS = [

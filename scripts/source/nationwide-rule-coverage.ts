@@ -25,11 +25,19 @@ import { dirname, resolve } from "node:path";
 import { toCanonicalJson } from "../../src/source/core/index";
 import { candidacyPacks } from "../../src/simulation/candidacy-packs";
 import { makeIsoDate } from "../../src/simulation/dates";
+import { draftingSupportsScenario } from "../../src/simulation/legislation-drafting";
+import { legislatureForState } from "../../src/simulation/legislature-game-profile";
+import { legislativePackForWorkKey } from "../../src/simulation/legislative-institutions";
+import { legislativeWorkKey } from "../../src/simulation/legislative-work-key";
 import {
   GOVERNMENT_UNITS_META,
   allGovernmentUnits,
 } from "../../src/simulation/government-units";
 import { municipalGovernments } from "../../src/simulation/municipal-government";
+import {
+  STATES as STATE_REFERENCE,
+  TERRITORY_USPS,
+} from "../../src/simulation/state-reference";
 import {
   municipalGovernmentForUnit,
   resolveCapability,
@@ -45,58 +53,9 @@ export const NATIONWIDE_COVERAGE_JSON_PATH =
 export const NATIONWIDE_COVERAGE_MARKDOWN_PATH =
   "docs/systems/nationwide-rule-coverage.md";
 
-const STATES: readonly string[] = [
-  "AL",
-  "AK",
-  "AZ",
-  "AR",
-  "CA",
-  "CO",
-  "CT",
-  "DE",
-  "FL",
-  "GA",
-  "HI",
-  "ID",
-  "IL",
-  "IN",
-  "IA",
-  "KS",
-  "KY",
-  "LA",
-  "ME",
-  "MD",
-  "MA",
-  "MI",
-  "MN",
-  "MS",
-  "MO",
-  "MT",
-  "NE",
-  "NV",
-  "NH",
-  "NJ",
-  "NM",
-  "NY",
-  "NC",
-  "ND",
-  "OH",
-  "OK",
-  "OR",
-  "PA",
-  "RI",
-  "SC",
-  "SD",
-  "TN",
-  "TX",
-  "UT",
-  "VT",
-  "VA",
-  "WA",
-  "WV",
-  "WI",
-  "WY",
-];
+const STATES: readonly string[] = Object.keys(STATE_REFERENCE).filter(
+  (usps) => usps !== "DC" && !TERRITORY_USPS.has(usps),
+);
 
 const NOT_MEASURED =
   "not measured by RULES; owned by the NATIONWIDE WORLD/ELECTION producers";
@@ -218,6 +177,10 @@ export function buildNationwideRuleCoverage() {
   }
 
   const states = [...STATES, "DC"].map((usps) => {
+    const legislature =
+      usps === "DC" ? null : legislatureForState(`US-${usps}`);
+    const workKey = legislature ? legislativeWorkKey(legislature) : null;
+    const workPack = workKey ? legislativePackForWorkKey(workKey) : null;
     const pack =
       packs.find((candidate) => candidate.jurisdictionKey === `US-${usps}`) ??
       null;
@@ -287,6 +250,21 @@ export function buildNationwideRuleCoverage() {
       state: usps,
       isState: usps !== "DC",
       legislativeStructure: form?.state === "ADMITTED" ? form.value : null,
+      legislaturePack: legislature?.packId ?? null,
+      legislatureBasis: legislature?.basis ?? null,
+      legislativeWorkKey: workKey,
+      billProcessPackAvailable: workPack?.packId === legislature?.packId,
+      billDraftSupported: workKey ? draftingSupportsScenario(workKey) : false,
+      defaultEffectiveDate:
+        legislature?.enactment.defaultEffectiveSchedule?.kind === "known"
+          ? "source-computed"
+          : legislature
+            ? "game-default"
+            : "no-legislature-pack",
+      sourceEffectiveDateUncomputed: Boolean(
+        legislature?.enactment.defaultEffectiveRule.kind === "known" &&
+        legislature.enactment.defaultEffectiveSchedule?.kind !== "known",
+      ),
       candidacyPack: pack?.packId ?? null,
       legislatorQualifications,
       offices,
@@ -297,6 +275,7 @@ export function buildNationwideRuleCoverage() {
         .length,
       localGovernments: local.get(usps) ?? emptyCounts(),
       ordinaryInitialization: NOT_MEASURED,
+      ordinaryBillToEffect: NOT_MEASURED,
       officeContestProducer: NOT_MEASURED,
       saveContinuity: NOT_MEASURED,
     };
@@ -325,7 +304,28 @@ export function buildNationwideRuleCoverage() {
   const totals = {
     states: states.filter((row) => row.isState).length,
     statesWithLegislativePack: states.filter(
+      (row) => row.isState && row.legislaturePack !== null,
+    ).length,
+    statesWithResearchedLegislature: states.filter(
+      (row) => row.isState && row.legislatureBasis === "researched",
+    ).length,
+    statesWithGameProfileLegislature: states.filter(
+      (row) => row.isState && row.legislatureBasis === "game-profile",
+    ).length,
+    statesWithCandidacyPack: states.filter(
       (row) => row.isState && row.candidacyPack !== null,
+    ).length,
+    statesWithBillProcessPack: states.filter(
+      (row) => row.isState && row.billProcessPackAvailable,
+    ).length,
+    statesWithBillDraftSupport: states.filter(
+      (row) => row.isState && row.billDraftSupported,
+    ).length,
+    statesWithComputedSourceEffectiveDate: states.filter(
+      (row) => row.isState && row.defaultEffectiveDate === "source-computed",
+    ).length,
+    statesWithSourceEffectiveDateNeedingAdapter: states.filter(
+      (row) => row.isState && row.sourceEffectiveDateUncomputed,
     ).length,
     statesWithAnyStandForOfficeAdmitted: states.filter(
       (row) => row.isState && row.standForOfficeAdmitted > 0,
@@ -378,7 +378,16 @@ export function renderNationwideRuleCoverageMarkdown(
   lines.push("## Totals");
   lines.push("");
   lines.push(
-    `- States: ${t.states}; with a compiled legislative pack: ${t.statesWithLegislativePack}.`,
+    `- States: ${t.states}; with a legislature rule pack: ${t.statesWithLegislativePack} (${t.statesWithResearchedLegislature} researched, ${t.statesWithGameProfileLegislature} versioned game profiles).`,
+  );
+  lines.push(
+    `- States with a separately compiled candidacy pack: ${t.statesWithCandidacyPack}.`,
+  );
+  lines.push(
+    `- States whose legislature resolves through the shared bill-process work key: ${t.statesWithBillProcessPack}; whose work key the draft compiler accepts: ${t.statesWithBillDraftSupport}. These are component admissions, not a measured ordinary bill-to-effect route.`,
+  );
+  lines.push(
+    `- Default effective date: ${t.statesWithComputedSourceEffectiveDate} state source rule computed; ${t.states - t.statesWithComputedSourceEffectiveDate} states use the versioned game interval. ${t.statesWithSourceEffectiveDateNeedingAdapter} of those also have known source text that is not computed by this route.`,
   );
   lines.push(
     `- States where standing for at least one legislative seat is admitted: ${t.statesWithAnyStandForOfficeAdmitted}.`,
@@ -423,10 +432,10 @@ export function renderNationwideRuleCoverageMarkdown(
   );
   lines.push("");
   lines.push(
-    "| State | Legislature | Legislator qualifications | Seats with candidacy admitted | Seats with term rule | Local units | Enacted instrument | Pass ordinance | Appropriation rule | Missing for candidacy |",
+    "| State | Legislature | Legislature pack basis | Effective date | Legislator qualifications | Seats with candidacy admitted | Seats with term rule | Local units | Enacted instrument | Pass ordinance | Appropriation rule | Missing for candidacy |",
   );
   lines.push(
-    "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
+    "| --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |",
   );
   for (const row of report.states) {
     const missing =
@@ -440,7 +449,7 @@ export function renderNationwideRuleCoverageMarkdown(
       .map((probe) => `${probe.chamberFamily}: ${probe.standForOffice}`)
       .join("; ");
     lines.push(
-      `| ${row.state} | ${row.legislativeStructure ?? "not compiled"} | ${qualifications} | ${row.standForOfficeAdmitted}/${row.offices.length} | ${row.enterTermAdmitted}/${row.offices.length} | ${row.localGovernments.units} | ${row.localGovernments.withCompiledEnactedInstrument} | ${row.localGovernments.passOrdinanceAdmitted} | ${row.localGovernments.appropriationVoteRuleAdmitted} | ${missing} |`,
+      `| ${row.state} | ${row.legislativeStructure ?? "not compiled"} | ${row.legislatureBasis ?? "none"} | ${row.defaultEffectiveDate} | ${qualifications} | ${row.standForOfficeAdmitted}/${row.offices.length} | ${row.enterTermAdmitted}/${row.offices.length} | ${row.localGovernments.units} | ${row.localGovernments.withCompiledEnactedInstrument} | ${row.localGovernments.passOrdinanceAdmitted} | ${row.localGovernments.appropriationVoteRuleAdmitted} | ${missing} |`,
     );
   }
   lines.push("");

@@ -7,6 +7,15 @@ export {
   worldOpeningRecord,
   worldOpeningVersionOf,
 } from "./conditions";
+export {
+  assertStateTaxServiceStartingConditions,
+  drawStateTaxServiceStartingConditions,
+  stateKeysForTaxServiceProfiles,
+  stateTaxServiceProfileByRef,
+  stateTaxServiceProfileForJurisdictionId,
+  stateTaxServiceProfileForJurisdictionKey,
+  stateTaxServiceStartingConditions,
+} from "./state-tax-service-profiles";
 export type { WorldStartingConditionsOptions } from "./conditions";
 export { CRUNCH46_POLICY } from "./policy";
 export { censusRegionOf, CENSUS_REGIONS_SOURCE } from "./census-regions";
