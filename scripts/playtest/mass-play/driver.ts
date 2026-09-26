@@ -23,6 +23,12 @@ import {
   projectStoryMoment,
 } from "../../../src/presentation/life-story";
 import { projectToday } from "../../../src/presentation/day-overview";
+import { projectMacroConditions } from "../../../src/presentation/macro-conditions";
+import { crimeIncidents } from "../../../src/simulation/crime/producer";
+import { measurePosition } from "../../../src/simulation/legislation";
+import { electionContestResult } from "../../../src/simulation/election-contests";
+import { currentPresidentOf } from "../../../src/simulation/crisis/offices";
+import { composeFutureTransitionHandlerRegistries } from "../../../src/simulation/future-transitions";
 import { projectWorld39Journal } from "../../../src/presentation/world39-journal";
 import { openingNeighborhoodWalkOffer } from "../../../src/presentation/life-scene-flow";
 import {
@@ -139,6 +145,26 @@ export interface SceneTrace {
   readonly after: string;
 }
 
+/** How the country around the life stood at one moment. */
+export interface DriftSnapshot {
+  readonly date: string;
+  readonly people: number;
+  readonly deaths: number;
+  readonly measures: number;
+  readonly enacted: number;
+  readonly vetoed: number;
+  readonly contestsDecided: number;
+  readonly crimeIncidents: number;
+  readonly unemploymentPct: number | null;
+  readonly inflationPct: number | null;
+  /** Executive races decided since the game began: office, winner. */
+  readonly executiveWinners: readonly string[];
+  /** Who holds the Presidency on this date, or null when none is seated. */
+  readonly president: string | null;
+  /** The player's school record: start date, program and school name. */
+  readonly schooling: readonly string[];
+}
+
 export interface GameResult {
   readonly spec: GameSpec;
   readonly startDate: string | null;
@@ -153,6 +179,10 @@ export interface GameResult {
   readonly personId?: string;
   readonly mainCommit?: string;
   readonly scenes?: readonly SceneTrace[];
+  readonly drift?: {
+    readonly start: DriftSnapshot | null;
+    readonly end: DriftSnapshot | null;
+  };
   readonly ms: number;
   readonly findings: readonly Finding[];
 }
@@ -330,6 +360,16 @@ export function playGame(spec: GameSpec): GameResult {
   }
 
   const endBy = addYears(world.currentDate, spec.years);
+  let driftStart: DriftSnapshot | null = null;
+  try {
+    driftStart = driftSnapshot(world, personId, world.currentDate);
+  } catch (error) {
+    note({
+      kind: "crash",
+      signature: `drift snapshot: ${signatureOf(error)}`,
+      detail: String((error as Error)?.stack ?? error).slice(0, 1500),
+    });
+  }
   let lastDate = world.currentDate;
   let sameDateCommands = 0;
   const recent: string[] = [];
@@ -452,12 +492,22 @@ export function playGame(spec: GameSpec): GameResult {
                 after.prose === scene.prose &&
                 after.options.map((o) => o.key).join() ===
                   options.map((o) => o.key).join()
-              )
+              ) {
                 note({
                   kind: "stuck-scene",
                   signature: `choosing "${option.label}" left the same ${scene.kind} scene and clock`,
                   detail: `${scene.prose.slice(0, 300)} | options: ${options.map((o) => o.label).join(" / ")}`,
                 });
+                if (process.env.MASS_PLAY_DUMP)
+                  writeFileSync(
+                    `${process.env.MASS_PLAY_DUMP}/${spec.id}-stuck-scene.json`,
+                    JSON.stringify({
+                      personId,
+                      optionKey: option.key,
+                      save: serializeWorld(world),
+                    }),
+                  );
+              }
             }
             return next;
           },
@@ -713,7 +763,17 @@ export function playGame(spec: GameSpec): GameResult {
             offered: true,
             weight: w(0.8, { terrible: 0.1, idle: 0.05 }),
             run: (world) =>
-              performCareerWork(world, r.id, p, LIFE_PATHS2_HANDLERS).world,
+              // The shell's Life paths panel composes the ordinary-day
+              // registry on top of the life-path handlers.
+              performCareerWork(
+                world,
+                r.id,
+                p,
+                composeFutureTransitionHandlerRegistries(
+                  LIFE_PATHS2_HANDLERS,
+                  handlers,
+                ),
+              ).world,
           });
           list.push({
             name: "work:resign",
@@ -807,10 +867,6 @@ export function playGame(spec: GameSpec): GameResult {
     steps += 1;
 
     // The life may have ended: the continuation screen.
-    if (shellReadOnly(world) || !world.people[personId]) {
-      ended = "read-only";
-      break;
-    }
     let continuation: ReturnType<typeof projectLifeContinuation> = null;
     try {
       continuation = projectLifeContinuation(world, personId);
@@ -867,6 +923,11 @@ export function playGame(spec: GameSpec): GameResult {
       }
       continue;
     }
+    // Read-only with no continuation offered: nothing left to press.
+    if (shellReadOnly(world) || !world.people[personId]) {
+      ended = "read-only";
+      break;
+    }
 
     // Press a few buttons.
     const presses =
@@ -903,12 +964,23 @@ export function playGame(spec: GameSpec): GameResult {
           error instanceof TypeError ||
           error instanceof RangeError ||
           /Cannot read|is not a function|undefined/.test(error.message);
-        if (choice.offered || internal)
+        if (choice.offered || internal) {
           note({
             kind: internal ? "crash" : "offered-action-threw",
             signature: `${choice.name}: ${signatureOf(error)}`,
             detail: stack.slice(0, 1500),
           });
+          // The world before the refused action, to replay the refusal.
+          if (process.env.MASS_PLAY_DUMP)
+            writeFileSync(
+              `${process.env.MASS_PLAY_DUMP}/${spec.id}-refused.json`,
+              JSON.stringify({
+                personId,
+                action: choice.name,
+                save: serializeWorld(world),
+              }),
+            );
+        }
       }
       if (world.currentDate < before)
         note({
@@ -1009,6 +1081,21 @@ export function playGame(spec: GameSpec): GameResult {
     if (steps % 40 === 0) roundTrip(world);
   }
   roundTrip(world);
+  if (process.env.MASS_PLAY_DUMP_END)
+    writeFileSync(
+      `${process.env.MASS_PLAY_DUMP_END}/${spec.id}-end.json`,
+      JSON.stringify({ personId, save: serializeWorld(world) }),
+    );
+  let driftEnd: DriftSnapshot | null = null;
+  try {
+    driftEnd = driftSnapshot(world, personId, startDate ?? world.currentDate);
+  } catch (error) {
+    note({
+      kind: "crash",
+      signature: `drift snapshot: ${signatureOf(error)}`,
+      detail: String((error as Error)?.stack ?? error).slice(0, 1500),
+    });
+  }
   let campaignPhase = "unknown";
   try {
     campaignPhase = projectCampaign(world, personId).phase;
@@ -1022,6 +1109,7 @@ export function playGame(spec: GameSpec): GameResult {
     personId,
     mainCommit: process.env.MASS_PLAY_MAIN ?? undefined,
     scenes,
+    drift: { start: driftStart, end: driftEnd },
     endDate: world.currentDate,
     steps,
     actions,
@@ -1031,6 +1119,96 @@ export function playGame(spec: GameSpec): GameResult {
     ms: performance.now() - started,
     findings,
   };
+}
+
+export function driftSnapshot(
+  world: World,
+  personId: EntityId,
+  since: string,
+): DriftSnapshot {
+  const measures = world.history.legislativeMeasures ?? [];
+  let enacted = 0;
+  let vetoed = 0;
+  for (const measure of measures) {
+    try {
+      const position = measurePosition(world, measure.id);
+      if (position.phase === "enacted") enacted += 1;
+    } catch {
+      // A measure the replay cannot read is counted but not classified.
+    }
+  }
+  // A veto is an action, not a resting phase: an overridden veto ends
+  // "enacted" and a sustained one "failed".
+  vetoed = (world.history.legislativeActions ?? []).filter(
+    (action) => action.kind === "vetoed",
+  ).length;
+  const contests = world.history.electionContests ?? [];
+  const decided = contests.filter(
+    (c) =>
+      c.electionDate <= world.currentDate && electionContestResult(world, c.id),
+  );
+  const executiveWinners = decided
+    .filter(
+      (c) =>
+        c.electionDate >= since &&
+        /governor|mayor|president|executive/i.test(c.office.officeKey),
+    )
+    .map((c) => {
+      const winner = electionContestResult(world, c.id)?.winnerPersonId;
+      const person = winner ? world.people[winner] : undefined;
+      return `${c.electionDate} ${c.office.officeKey}: ${person ? `${person.givenName} ${person.familyName}` : "unknown"}`;
+    })
+    .slice(0, 12);
+  let unemploymentPct: number | null = null;
+  let inflationPct: number | null = null;
+  try {
+    const macro = projectMacroConditions(
+      world,
+      world.people[personId]!.homeJurisdictionId,
+    );
+    for (const card of macro.cards) {
+      if (/unemploy/i.test(card.title)) unemploymentPct = card.value;
+      if (/inflation|price/i.test(card.title) && inflationPct === null)
+        inflationPct = card.value;
+    }
+    if (unemploymentPct === null)
+      unemploymentPct = macro.startingConditions?.unemploymentPct ?? null;
+    if (inflationPct === null)
+      inflationPct = macro.startingConditions?.inflation12mPct ?? null;
+  } catch {
+    // Left null: the economy screen could not be read here.
+  }
+  return {
+    date: world.currentDate,
+    people: Object.keys(world.people).length,
+    deaths: world.history.personDeaths.length,
+    measures: measures.length,
+    enacted,
+    vetoed,
+    contestsDecided: decided.length,
+    crimeIncidents: crimeIncidents(world).length,
+    unemploymentPct,
+    inflationPct,
+    executiveWinners,
+    president: presidentName(world),
+    schooling: world.history.educationEnrollments
+      .filter((e) => e.personId === personId)
+      .map((e) => {
+        const profile = world.history.organizationProfiles
+          .filter((o) => o.organizationId === e.organizationId)
+          .at(-1);
+        return `${e.startedAt} ${e.programKind} ${profile?.name ?? "unknown school"}`;
+      })
+      .sort()
+      .slice(-8),
+  };
+}
+
+function presidentName(world: World): string | null {
+  const holder = currentPresidentOf(world);
+  if (!holder) return null;
+  const person = world.people[holder.personId];
+  return person ? `${person.givenName} ${person.familyName}` : holder.personId;
 }
 
 function addYears(date: string, years: number): string {
