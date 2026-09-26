@@ -41,14 +41,9 @@ async function freshBrowser(page: Page) {
   });
 }
 
-async function liveUntilDecided(page: Page, maxDays = 45) {
-  for (let day = 0; day < maxDays; day += 1) {
-    if (await page.getByTestId("campaign-result").isVisible()) return true;
-    await page.getByTestId("shell-pass-day").click();
-  }
-  // Legislative seats are decided on the state's real election day (owner,
-  // 2026-09-22), which can be most of a year off; wait the rest a week at a
-  // time, as campaign-first-election does.
+async function liveUntilDecided(page: Page) {
+  // The campaign setup has already worked through 48 Days. The state's
+  // election day is still months away, so continue by Week.
   for (let week = 0; week < 110; week += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
     await passShellTime(page, "week");
