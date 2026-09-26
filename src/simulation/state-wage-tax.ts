@@ -33,6 +33,8 @@ export function introduceStateWageTaxBill(
   );
   if (!profile)
     throw new Error("This legislature has no state tax law in this save.");
+  if (profile.taxTerms.baseKey !== "tax-base:wages")
+    throw new Error("This older save has no wage-tax law to amend.");
   if (!taxTermsMatchStateWageLaw(profile, input.terms))
     throw new Error(
       "A state tax bill sets the rate of the state's own wage tax; its other terms are the state's law.",

@@ -14,6 +14,7 @@ import {
 import {
   TRANSIT_FAMILY_KEY,
   TRANSIT_PROGRAM_KEY,
+  STATE_TRANSIT_VARIANT_KEY,
   TRANSIT_VARIANT_KEY,
 } from "../simulation/legislation-transit-families";
 import { resolveTransitFunding } from "../simulation/transit-funding";
@@ -74,7 +75,7 @@ export function fileTransitAppropriation(
     scenarioKey: entry.scenarioKey,
     jurisdictionId: entry.seat.governingJurisdictionId,
     familyKey: TRANSIT_FAMILY_KEY,
-    variantKey: TRANSIT_VARIANT_KEY,
+    variantKey: STATE_TRANSIT_VARIANT_KEY,
     authorityKey: TRANSIT_PROGRAM_KEY,
     parameterValues: {
       appropriation: {
@@ -120,7 +121,8 @@ export function projectTransitWork(world: World, personId: EntityId) {
         .filter(
           (l) =>
             l.familyKey === TRANSIT_FAMILY_KEY &&
-            l.variantKey === TRANSIT_VARIANT_KEY,
+            (l.variantKey === TRANSIT_VARIANT_KEY ||
+              l.variantKey === STATE_TRANSIT_VARIANT_KEY),
         )
         .map((l) => {
           const m = world.history.legislativeMeasures!.find(
@@ -138,7 +140,8 @@ export function projectTransitWork(world: World, personId: EntityId) {
     .filter(
       (b) =>
         b.familyKey === TRANSIT_FAMILY_KEY &&
-        b.variantKey === TRANSIT_VARIANT_KEY &&
+        (b.variantKey === TRANSIT_VARIANT_KEY ||
+          b.variantKey === STATE_TRANSIT_VARIANT_KEY) &&
         b.sponsorPersonId === personId,
     );
   return {

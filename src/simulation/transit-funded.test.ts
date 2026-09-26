@@ -2,9 +2,9 @@ import { expect, it } from "vitest";
 import {
   enactedTaxFixture,
   TEST_TAX_TERMS,
+  recordTestTaxOccurrence,
 } from "../../tests/fixtures/tax-policy-fixture";
 import { transitAppropriationFixture } from "../../tests/fixtures/transit-service-fixture";
-import { declarePersonalTaxOccurrence } from "../presentation/tax-work";
 import { advanceWorld, assertWorldIntegrity } from "./world";
 import { addDays, daysBetween, simulationMomentAtLocalTime } from "./dates";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
@@ -50,7 +50,7 @@ function fixture(opening = 10_000, baseAmount = 200_100) {
       money(0, "USD").currency,
     )!.liquidBalance.minorUnits,
   ).toBe(0);
-  world = declarePersonalTaxOccurrence(world, {
+  world = recordTestTaxOccurrence(world, {
     personId: f.personId,
     stableKey: "transit-proof:occurrence",
     proposalId: tax.proposalId,

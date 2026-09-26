@@ -9,60 +9,60 @@ collected public cash, paid delivery) is resolved per state on
 rules-capability/v1; live tax and service assumptions come from
 the current save. Nationwide inventory uses a deterministic test profile set.
 
-States with the full route: 4 of 50 (Alaska, Kentucky, Minnesota, Nevada).
+States with the full route: 50 of 50 (Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware, Florida, Georgia, Hawaii, Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana, Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana, Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina, North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina, South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia, Wisconsin, Wyoming).
 
-| State          | Route    | Missing                                                         |
-| -------------- | -------- | --------------------------------------------------------------- |
-| Alabama        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Alaska         | playable | none                                                            |
-| Arizona        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Arkansas       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| California     | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Colorado       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Connecticut    | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Delaware       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Florida        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Georgia        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Hawaii         | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Idaho          | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Illinois       | not yet  | appropriation-decision, revenue-decision                        |
-| Indiana        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Iowa           | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Kansas         | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Kentucky       | playable | none                                                            |
-| Louisiana      | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Maine          | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Maryland       | not yet  | appropriation-decision, revenue-decision                        |
-| Massachusetts  | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Michigan       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Minnesota      | playable | none                                                            |
-| Mississippi    | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Missouri       | not yet  | appropriation-decision, revenue-decision                        |
-| Montana        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Nebraska       | not yet  | appropriation-decision, revenue-decision                        |
-| Nevada         | playable | none                                                            |
-| New Hampshire  | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| New Jersey     | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| New Mexico     | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| New York       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| North Carolina | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| North Dakota   | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Ohio           | not yet  | appropriation-decision, revenue-decision                        |
-| Oklahoma       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Oregon         | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Pennsylvania   | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Rhode Island   | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| South Carolina | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| South Dakota   | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Tennessee      | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Texas          | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Utah           | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Vermont        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Virginia       | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Washington     | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| West Virginia  | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Wisconsin      | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
-| Wyoming        | not yet  | legislative-procedure, appropriation-decision, revenue-decision |
+| State          | Route    | Missing |
+| -------------- | -------- | ------- |
+| Alabama        | playable | none    |
+| Alaska         | playable | none    |
+| Arizona        | playable | none    |
+| Arkansas       | playable | none    |
+| California     | playable | none    |
+| Colorado       | playable | none    |
+| Connecticut    | playable | none    |
+| Delaware       | playable | none    |
+| Florida        | playable | none    |
+| Georgia        | playable | none    |
+| Hawaii         | playable | none    |
+| Idaho          | playable | none    |
+| Illinois       | playable | none    |
+| Indiana        | playable | none    |
+| Iowa           | playable | none    |
+| Kansas         | playable | none    |
+| Kentucky       | playable | none    |
+| Louisiana      | playable | none    |
+| Maine          | playable | none    |
+| Maryland       | playable | none    |
+| Massachusetts  | playable | none    |
+| Michigan       | playable | none    |
+| Minnesota      | playable | none    |
+| Mississippi    | playable | none    |
+| Missouri       | playable | none    |
+| Montana        | playable | none    |
+| Nebraska       | playable | none    |
+| Nevada         | playable | none    |
+| New Hampshire  | playable | none    |
+| New Jersey     | playable | none    |
+| New Mexico     | playable | none    |
+| New York       | playable | none    |
+| North Carolina | playable | none    |
+| North Dakota   | playable | none    |
+| Ohio           | playable | none    |
+| Oklahoma       | playable | none    |
+| Oregon         | playable | none    |
+| Pennsylvania   | playable | none    |
+| Rhode Island   | playable | none    |
+| South Carolina | playable | none    |
+| South Dakota   | playable | none    |
+| Tennessee      | playable | none    |
+| Texas          | playable | none    |
+| Utah           | playable | none    |
+| Vermont        | playable | none    |
+| Virginia       | playable | none    |
+| Washington     | playable | none    |
+| West Virginia  | playable | none    |
+| Wisconsin      | playable | none    |
+| Wyoming        | playable | none    |
 
 ## Local governments
 
