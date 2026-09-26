@@ -11,6 +11,7 @@ import {
 import {
   availablePlayerConversations,
   projectPlayerConversation,
+  reviewedPersonTalkSubject,
 } from "../presentation/player-conversation";
 import { formatMinute } from "../presentation/player-calendar";
 import { proseDate } from "../presentation/prose-dates";
@@ -22,7 +23,6 @@ import {
 } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
 import {
-  addresseeHeardTurn,
   conversationExchangeTurns,
   conversationHistoryPage,
   conversationRelationship,
@@ -240,6 +240,7 @@ export function SceneConversation({
         ? []
         : availablePlayerConversations(world, playerPersonId).filter(
             (entry) =>
+              reviewedPersonTalkSubject(entry.subject) &&
               entry.subject !== subject &&
               !entry.settled &&
               entry.room.eligibleAddresseePersonIds.includes(facing),
@@ -268,9 +269,6 @@ export function SceneConversation({
         ref={boxRef}
         onKeyDown={onKeyDown}
       >
-        <p className="pg-talk-line" data-testid="conversation-closed">
-          This conversation is over — there is nobody here to carry it on with.
-        </p>
         <div className="pg-talk-foot">
           <button
             type="button"
@@ -324,19 +322,13 @@ export function SceneConversation({
         : null
     : facing;
   const offeredSpeech = view.intents.filter(
-    (option) => option.key !== LISTEN_INTENT,
+    (option) => option.key !== LISTEN_INTENT && option.spokenWords,
   );
   const canLie = hasLieReply(offeredSpeech);
   const speech = repliesForLieMode(offeredSpeech, lieMode);
-  const listen = view.intents.find((option) => option.key === LISTEN_INTENT);
-  /*
-   * The person being spoken to hears it by definition; the line says who ELSE
-   * does, which is the thing a volume choice changes.
-   */
-  const bystanders = view.listenerNames.filter((listener) => listener !== name);
-  const privateReason = view.audibilities.find(
-    (choice) => !choice.available && choice.unavailableReason,
-  )?.unavailableReason;
+  const listen = view.intents.find(
+    (option) => option.key === LISTEN_INTENT && option.spokenWords,
+  );
 
   function say(intent: string) {
     const before = world.currentMoment;
@@ -484,12 +476,6 @@ export function SceneConversation({
                   data-selected={choice.key === view.audibility}
                   data-testid={`audibility-${choice.key}`}
                   disabled={!choice.available}
-                  title={choice.unavailableReason ?? choice.description}
-                  aria-describedby={
-                    !choice.available && choice.unavailableReason
-                      ? "pg-talk-private-reason"
-                      : undefined
-                  }
                   onClick={() => setAudibility(choice.key)}
                 >
                   {choice.label}
@@ -558,9 +544,6 @@ export function SceneConversation({
             ) : view.openingLine ? (
               <p className="pg-talk-line">{view.openingLine}</p>
             ) : null}
-            {current && facing !== null ? (
-              <HeardNote turn={current} facing={facing} facingName={name} />
-            ) : null}
             {clock ? (
               <p
                 className="pg-talk-clock"
@@ -569,11 +552,7 @@ export function SceneConversation({
               >
                 {clock}
               </p>
-            ) : (
-              <p className="sr-only" role="status" data-testid="talk-clock">
-                No time passed.
-              </p>
-            )}
+            ) : null}
           </div>
 
           {trouble ? (
@@ -582,11 +561,7 @@ export function SceneConversation({
             </p>
           ) : null}
 
-          {view.settled ? (
-            <p className="pg-talk-note" data-testid="conversation-closed">
-              That is settled for now.
-            </p>
-          ) : leaving ? null : offeredSpeech.length > 0 ? (
+          {view.settled || leaving ? null : offeredSpeech.length > 0 ? (
             <div className="pg-talk-replies">
               <button
                 type="button"
@@ -617,13 +592,7 @@ export function SceneConversation({
                       type="button"
                       className="pg-talk-choice"
                       data-testid={`intent-${option.key}`}
-                      title={
-                        lie
-                          ? lie.description
-                          : option.description !== option.label
-                            ? option.description
-                            : undefined
-                      }
+                      title={lie?.description}
                       onClick={() => say(option.key)}
                     >
                       {lie ? (
@@ -631,17 +600,13 @@ export function SceneConversation({
                           {lie.label}
                         </span>
                       ) : null}
-                      {option.spokenWords ?? option.label}
+                      {option.spokenWords}
                     </button>
                   );
                 })}
               </div>
             </div>
-          ) : (
-            <p className="pg-talk-note" data-testid="conversation-closed">
-              There is nothing more to say about it right now.
-            </p>
-          )}
+          ) : null}
 
           <div className="pg-talk-foot">
             {/*
@@ -655,10 +620,9 @@ export function SceneConversation({
                 type="button"
                 className="pg-talk-chip pg-talk-listen"
                 data-testid="talk-listen"
-                title={listen.description}
                 onClick={() => say(LISTEN_INTENT)}
               >
-                {listen.label}
+                {listen.spokenWords}
               </button>
             ) : null}
             {otherTopics.map((entry) => (
@@ -691,33 +655,6 @@ export function SceneConversation({
             ) : null}
           </div>
 
-          {/*
-            Who else hears it, and why a volume is closed — one quiet line, so
-            the box keeps its height. What a choice costs in time is said on
-            the choice ("Spend half an hour together"), not as a rule here.
-          */}
-          {!view.settled ? (
-            <p className="pg-talk-hearing">
-              <span data-testid="conversation-hearing">
-                {bystanders.length > 0
-                  ? `${bystanders.join(" and ")} ${
-                      bystanders.length === 1 ? "hears" : "hear"
-                    } this too.`
-                  : "Nobody else hears this."}
-              </span>
-              {privateReason ? (
-                <>
-                  {" "}
-                  <span
-                    id="pg-talk-private-reason"
-                    data-testid="audibility-unavailable"
-                  >
-                    {privateReason}
-                  </span>
-                </>
-              ) : null}
-            </p>
-          ) : null}
         </>
       ) : (
         <div className="pg-talk-history" data-testid="talk-history">
@@ -811,33 +748,6 @@ function ExchangeTurn({
 }
 
 /**
- * What the person now being faced knows of the last thing said.
- *
- * Only shown when it is somebody other than the one who answered: turning to
- * a second person carries the conversation on, and whether they were there to
- * hear it is the record's answer, not an assumption.
- */
-function HeardNote({
-  turn,
-  facing,
-  facingName,
-}: {
-  readonly turn: ConversationExchangeTurn;
-  readonly facing: EntityId;
-  readonly facingName: string;
-}) {
-  const heard = addresseeHeardTurn(turn, facing);
-  if (heard === "answered") return null;
-  return (
-    <p className="pg-talk-note" data-testid="talk-heard">
-      {heard === "heard"
-        ? `${facingName} was there and heard that.`
-        : `${facingName} did not hear that.`}
-    </p>
-  );
-}
-
-/**
  * The conversations this life can start right now, as starting points.
  *
  * Which ones appear is the world's answer, exactly as before: a character with
@@ -870,7 +780,9 @@ export function ConversationStarters({
   const available = useMemo(
     () =>
       availablePlayerConversations(world, personId).filter(
-        (entry) => entry.room.eligibleAddresseePersonIds.length > 0,
+        (entry) =>
+          reviewedPersonTalkSubject(entry.subject) &&
+          entry.room.eligibleAddresseePersonIds.length > 0,
       ),
     [world, personId],
   );

@@ -23,6 +23,8 @@ import {
   playerUtteranceTag,
 } from "./conversation-utterance";
 import {
+  REVIEWED_ORDINARY_TALK_TAG,
+  ordinaryGreetingReplyWords,
   ordinaryGreetingWords,
   publicDeathQuestionWords,
   publicDeathStatementWords,
@@ -314,8 +316,12 @@ export function projectLifeConversation(
         : key === "matter" && matter
           ? {
               spokenWords:
-                publicDeathQuestionWords(world, playerPersonId, matter) ??
-                undefined,
+                parentOfYoungPlayer(world, playerPersonId, personId) &&
+                matterAwareness(world, personId, matter.eventId) ===
+                  "uninformed"
+                  ? (publicDeathQuestionWords(world, playerPersonId, matter) ??
+                    undefined)
+                  : undefined,
             }
           : key === "tellMatter" && matter
             ? {
@@ -524,13 +530,16 @@ function replyFor(
     case "cancelProposal":
       return "All right. Let’s leave it.";
     case "greet":
-      if (parent && youngPlayer)
-        return history.length
-          ? "Hi, sweetheart. What is it?"
-          : "Hi, sweetheart.";
-      return history.length
-        ? "Hi again."
-        : `Hi, ${world.people[playerPersonId]!.givenName}.`;
+      return (
+        ordinaryGreetingReplyWords(
+          world,
+          playerPersonId,
+          personId,
+          currentLifeTalkScene(world, playerPersonId)?.eventId ??
+            world.currentDate,
+          history.length,
+        ) ?? ""
+      );
     case "activity":
       if (activeOrdinaryGoal(world, personId, "privacy"))
         return "I need some privacy right now. Let's leave activities for another time.";
@@ -586,8 +595,7 @@ function replyFor(
         return parent &&
           youngPlayer &&
           publicDeathQuestionWords(world, playerPersonId, matter)
-          ? (uninformedPublicDeathReplyWords(world, personId, matter) ??
-              "No. What happened?")
+          ? (uninformedPublicDeathReplyWords(world, personId, matter) ?? "")
           : "I hadn't heard about that.";
       if (activeOrdinaryGoal(world, personId, "privacy"))
         return "I'd rather not get into that right now.";
@@ -824,7 +832,9 @@ export function commitLifeConversation(
       `scene:${currentLifeTalkScene(world, input.playerPersonId)!.eventId}`,
       `moment:${JSON.stringify(advanced.currentMoment)}`,
       `life.answer:${answer}`,
-      ...(spokenWords ? [playerUtteranceTag(spokenWords)] : []),
+      ...(spokenWords
+        ? [playerUtteranceTag(spokenWords), REVIEWED_ORDINARY_TALK_TAG]
+        : []),
       ...(["matter", "tellMatter"].includes(input.intent) && view.matter
         ? [`life.matter:${view.matter.eventId}`]
         : []),

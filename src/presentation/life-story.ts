@@ -291,6 +291,48 @@ export function projectStoryMoment(
   };
 }
 
+/**
+ * Player cutover: the old formative, adult and episode banks are archival
+ * inputs, not substitute copy when no fact-backed English scene is ready.
+ * Keep the typed empty projection so the room can render people and the
+ * calendar, while it offers no authored moment or old connective narration.
+ */
+export function projectPlayerStoryMoment(
+  world: World,
+  personId: EntityId,
+): StoryMoment {
+  const person = world.people[personId];
+  if (!person) throw new Error("This character is not in the world.");
+  const age = ageOnDate(person.birthDate, world.currentDate);
+  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
+  return {
+    personName: personName(person),
+    age,
+    dateLabel: longDate(world.currentDate),
+    placeName: place?.displayName ?? null,
+    connective: {
+      sentences: [],
+      sources: [],
+      from: world.currentDate,
+      to: world.currentDate,
+      days: 0,
+      fromAge: age,
+      toAge: age,
+      opening: false,
+    },
+    scene: {
+      kind: "ordinary-stretch",
+      prose: "",
+      options: [],
+      withPeople: [],
+      presentPeople: [],
+    },
+    openThreads: [],
+    people: [],
+    formativeYears: formativeIntervalAt(world, personId) !== null,
+  };
+}
+
 /* -------------------------------------------------------------------------- */
 /* Choosing what comes next                                                    */
 /* -------------------------------------------------------------------------- */

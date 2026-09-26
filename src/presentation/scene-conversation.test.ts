@@ -264,8 +264,10 @@ describe("PT3 — the scene conversation box reads the record back", () => {
     const other = projectPlayerConversation(world, personId, "life-talk")!
       .addressee as EntityId;
     let next = world;
-    for (const intent of ["greet", "activity", "share", "acknowledge", "leave"])
-      next = say(next, personId, "life-talk", intent, { addressee: other });
+    for (let turn = 0; turn < 5; turn += 1)
+      next = say(next, personId, "life-talk", "greet", {
+        addressee: other,
+      });
     const turns = conversationExchangeTurns(next, personId, "life-talk", other);
     expect(turns).toHaveLength(5);
     const newest = conversationHistoryPage(turns, 0);

@@ -25,6 +25,9 @@ import {
   LIFE_TALK_INTENTS,
   projectLifeConversation,
 } from "./life-conversation";
+import { playerUtteranceOf } from "./conversation-utterance";
+import { REVIEWED_ORDINARY_TALK_TAG } from "./life-talk-english";
+import { GENERATED_LEGISLATIVE_DIALOGUE_TAG } from "./legislative-dialogue-motifs";
 import type {
   ConversationProgress,
   ConversationSubjectKey,
@@ -699,15 +702,19 @@ const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgr
         addressee as EntityId,
       );
       if (!view) return [];
-      return view.intents.map((intent) => ({
-        key: intent.key,
-        label: intent.label,
-        ...(intent.spokenWords ? { spokenWords: intent.spokenWords } : {}),
-        description:
-          intent.key in LIFE_TALK_INTENTS
-            ? LIFE_TALK_INTENTS[intent.key as keyof typeof LIFE_TALK_INTENTS]
-            : intent.label,
-      }));
+      // A subject label is not a spoken sentence. The live conversation may
+      // offer a move only after a reviewed, fact-backed utterance exists.
+      return view.intents
+        .filter((intent) => intent.spokenWords)
+        .map((intent) => ({
+          key: intent.key,
+          label: intent.label,
+          ...(intent.spokenWords ? { spokenWords: intent.spokenWords } : {}),
+          description:
+            intent.key in LIFE_TALK_INTENTS
+              ? LIFE_TALK_INTENTS[intent.key as keyof typeof LIFE_TALK_INTENTS]
+              : intent.label,
+        }));
     },
     openingBeat(world, room, addressee) {
       const personId =
@@ -719,7 +726,15 @@ const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgr
         room.playerPersonId,
         personId,
       );
-      const last = view?.transcript.at(-1);
+      const last = [...(view?.transcript ?? [])].reverse().find((turn) => {
+        const event = world.history.events.find(
+          (row) => row.id === turn.eventId,
+        );
+        return event
+          ? event.tags.includes(REVIEWED_ORDINARY_TALK_TAG) &&
+              playerUtteranceOf(event) !== null
+          : false;
+      });
       const speaker = world.people[personId]!;
       return {
         speakerPersonId: personId,
@@ -790,6 +805,7 @@ const measureBargainingSubject: ConversationSubjectPresentation<LegislativeBarga
       const change = response.relationshipConsequence;
       return {
         ...response,
+        extraTags: [GENERATED_LEGISLATIVE_DIALOGUE_TAG],
         progress: advanceBargainingProgress(input.progress, {
           speakerPersonId: response.speakerPersonId,
           intent,

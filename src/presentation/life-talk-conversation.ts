@@ -153,7 +153,7 @@ export function lifeTalkUnavailableReason(
         entry.authority.holder.personId === personId,
     );
     if (guardian) {
-      return `${name} is not in this scene with you right now.`;
+      return `${name} is not here.`;
     }
     return null;
   }

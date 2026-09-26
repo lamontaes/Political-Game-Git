@@ -4,7 +4,7 @@ import type {
   World,
   FutureTransitionHandlerRegistry,
 } from "../../simulation";
-import { currentOpeningLifeScene } from "../../presentation/life-scene-flow";
+import { currentPlayerOpeningLifeScene } from "../../presentation/life-scene-flow";
 import { LifeScenePanel } from "./LifeScenePanel";
 
 /** Typed root integration seam. The caller keeps its navigation, save store and scene. */
@@ -31,7 +31,10 @@ export interface OpeningLifeFlowProps {
  * Household/world facts live on Personal, on demand.
  */
 export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
-  const scene = currentOpeningLifeScene(props.world, props.playerPersonId);
+  const scene = currentPlayerOpeningLifeScene(
+    props.world,
+    props.playerPersonId,
+  );
 
   if (props.foreground) return <>{props.foreground}</>;
   if (props.pendingOpen && props.pendingAvailable && props.pendingLife) {

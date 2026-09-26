@@ -17,7 +17,10 @@ import { recalledRequests } from "../simulation/people-recall";
 import { writeLegacyFamiliarRequest } from "../simulation/life-opportunities";
 import type { EntityId, World } from "../simulation";
 import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
-import { availablePlayerConversations } from "../presentation/player-conversation";
+import {
+  availablePlayerConversations,
+  reviewedPersonTalkSubject,
+} from "../presentation/player-conversation";
 import { ContactDialog } from "./ContactDialog";
 import { ContactsPanel } from "./ContactsPanel";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
@@ -250,7 +253,11 @@ describe("Conversations in People", () => {
     const available = availablePlayerConversations(
       adult.world,
       adult.personId,
-    ).filter((entry) => entry.room.eligibleAddresseePersonIds.length > 0);
+    ).filter(
+      (entry) =>
+        reviewedPersonTalkSubject(entry.subject) &&
+        entry.room.eligibleAddresseePersonIds.length > 0,
+    );
     expect(available.length).toBeGreaterThan(0);
     // Nobody in the room: nothing is offered under "here".
     const alone = starters([]);

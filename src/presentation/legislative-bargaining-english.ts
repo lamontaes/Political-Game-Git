@@ -9,6 +9,7 @@ import {
 } from "./grounded-english";
 import type { LegislativeBargainingProgress } from "./run-b-conversation-progress";
 import type { LegislativeBargainingIntent } from "./legislative-bargaining";
+import { GENERATED_LEGISLATIVE_DIALOGUE_TAG } from "./legislative-dialogue-motifs";
 
 /**
  * Fully worded player replies to a live measure. The banks refer to roles in
@@ -123,7 +124,15 @@ export function bargainingPlayerWords(
       ? fact(subject.programSectionLabel, [programProvision.id])
       : undefined,
   };
-  const latest = commitmentsHeldBy(world, addresseePersonId, measure.id).at(-1);
+  const latest = commitmentsHeldBy(world, addresseePersonId, measure.id)
+    .filter((row) =>
+      world.history.events.some(
+        (event) =>
+          event.id === row.eventId &&
+          event.tags.includes(GENERATED_LEGISLATIVE_DIALOGUE_TAG),
+      ),
+    )
+    .at(-1);
   if (latest?.statement.trim()) {
     const savedWords = latest.statement.trim();
     facts["prior-words"] = fact(

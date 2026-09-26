@@ -28,14 +28,13 @@ describe("the live My life Journal", () => {
         onOpenPerson={() => undefined}
       />,
     );
-    const main = html.split('<details class="world39-notes"')[0]!;
-    expect(main).toContain("<h3>My life</h3>");
-    expect(main).toContain(
+    expect(html).toContain("<h3>My life</h3>");
+    expect(html).toContain(
       "I started work at Neighborhood Market as a store assistant.",
     );
-    expect(main).not.toMatch(/\bYou (?:began|were born)\b/);
-    expect(html).toContain("<summary>Record</summary>");
-    expect(html).toContain(
+    expect(html).not.toMatch(/\bYou (?:began|were born)\b/);
+    expect(html).not.toContain('<details class="world39-record"');
+    expect(html).not.toContain(
       "You began working as Store assistant at Neighborhood Market.",
     );
   });

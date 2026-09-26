@@ -121,6 +121,7 @@ export function SavedPersonFigure({
   } catch (error) {
     reason = error instanceof Error ? error.message : String(error);
   }
+  if (!content) return null;
   return (
     <figure
       className={className}
@@ -135,7 +136,7 @@ export function SavedPersonFigure({
         isolation: "isolate",
       }}
     >
-      {content ?? <p>Full-body artwork unavailable.</p>}
+      {content}
     </figure>
   );
 }

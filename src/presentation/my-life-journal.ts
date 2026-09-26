@@ -206,7 +206,7 @@ export function projectMyLifeJournalView(
       a.sequence - b.sequence ||
       a.id.localeCompare(b.id),
   );
-  return projectJournalView(
+  const projected = projectJournalView(
     world,
     personId,
     view,
@@ -218,6 +218,15 @@ export function projectMyLifeJournalView(
     },
     false,
   );
+  // The older phase headings address the player in a different voice. The
+  // first-person chronicle keeps its groupings but uses only their saved span.
+  return {
+    ...projected,
+    sections: projected.sections.map((section) => ({
+      ...section,
+      heading: section.span ?? "",
+    })),
+  };
 }
 
 function packet(

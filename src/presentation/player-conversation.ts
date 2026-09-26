@@ -76,6 +76,14 @@ interface SubjectWiring {
   opening(): ConversationProgress;
 }
 
+/** Older subject writers are retained for history and migration, never as
+ * fallback words in the ordinary person Talk action. */
+export function reviewedPersonTalkSubject(
+  subject: ConversationSubjectKey,
+): boolean {
+  return subject === "life-talk";
+}
+
 /**
  * Every subject with a production room, and the record that opens it.
  *

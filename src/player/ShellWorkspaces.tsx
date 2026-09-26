@@ -23,11 +23,7 @@ import { DIAGNOSTICS } from "./diagnostics-profile";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
-import { PrivateJournalEditor } from "./PrivateJournalEditor";
-import type {
-  PrivateJournal,
-  ShellSection,
-} from "../presentation/shell-navigation";
+import type { ShellSection } from "../presentation/shell-navigation";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
@@ -46,9 +42,7 @@ import {
   type CalendarEntry,
   type CalendarHorizon,
 } from "../presentation/player-calendar";
-import { projectLifeRecord } from "../presentation/life-record";
 import { projectMeasureBriefing } from "../presentation/legislation-projection";
-import { projectOpeningLife } from "../presentation/opening-life";
 import { projectPersonalRecord } from "../presentation/personal-record";
 import {
   CANONICAL_VERSION,
@@ -1556,21 +1550,6 @@ export function PersonalWorkspace({
     () => projectPersonalRecord(world, personId),
     [world, personId],
   );
-  const intro = useMemo(
-    () => projectOpeningLife(world, personId),
-    [world, personId],
-  );
-  const history = useMemo(
-    () => projectLifeRecord(world, personId),
-    [world, personId],
-  );
-  const goals = world.history.goalStates.filter(
-    (goal) =>
-      goal.personId === personId &&
-      !world.history.goalStates.some(
-        (newer) => newer.supersedesGoalStateId === goal.id,
-      ),
-  );
   if (!record) {
     return <p className="game-note">This world has no record of you.</p>;
   }
@@ -1620,23 +1599,6 @@ export function PersonalWorkspace({
         </p>
       </header>
 
-      <details className="pg-personal-section" data-testid="life-introduction">
-        <summary>Household and world notes</summary>
-        <p>{intro.context}</p>
-        {intro.household.sentences.map((text) => (
-          <p key={text}>{text}</p>
-        ))}
-        {intro.household.grounding.length > 0 ? (
-          <div data-testid="life-grounding">
-            {intro.household.grounding.map((fact) => (
-              <p key={fact.basis} data-grounding={fact.kind}>
-                {fact.text}
-              </p>
-            ))}
-          </div>
-        ) : null}
-      </details>
-
       <section className="pg-personal-section">
         <h3>Appearance</h3>
         <button
@@ -1670,57 +1632,6 @@ export function PersonalWorkspace({
           </ul>
         </section>
       ) : null}
-
-      {record.education.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Education</h3>
-          <ul data-testid="personal-education">
-            {record.education.map((line) => (
-              <li key={line.key}>{line.text}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {record.work.length > 0 ? (
-        <section className="pg-personal-section">
-          <h3>Work</h3>
-          <ul data-testid="personal-work">
-            {record.work.map((line) => (
-              <li key={line.key}>{line.text}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      <section className="pg-personal-section" aria-label="Your history">
-        <h3>History</h3>
-        <div className="pg-personal-chronology">
-          {history.chapters.length ? (
-            history.chapters.map((chapter) => (
-              <section key={chapter.key}>
-                <h4>{chapter.heading}</h4>
-                {chapter.entries.map((entry) => (
-                  <p key={entry.key}>
-                    <time dateTime={entry.at}>{proseDate(entry.at)}</time> ·{" "}
-                    {entry.sentence}
-                  </p>
-                ))}
-              </section>
-            ))
-          ) : (
-            <p>No remembered milestones are recorded yet.</p>
-          )}
-        </div>
-      </section>
-      <section className="pg-personal-section" aria-label="Your goals">
-        <h3>Goals</h3>
-        {goals.length ? (
-          goals.map((goal) => <p key={goal.id}>{goal.objective}</p>)
-        ) : (
-          <p>No personal goals are recorded yet.</p>
-        )}
-      </section>
 
       {/*
         Three kinds of money, kept apart because the world keeps them apart.
@@ -1860,108 +1771,6 @@ export function WorkWorkspace({
         </section>
       )}
       {children}
-    </>
-  );
-}
-
-/* ----------------------------------------------------------------- journal */
-
-export function JournalWorkspace({
-  journal,
-  onJournalChange,
-  world,
-  personId,
-  onOpenPerson,
-}: {
-  readonly journal: PrivateJournal;
-  readonly onJournalChange: (journal: PrivateJournal) => void;
-  readonly world: World;
-  readonly personId: EntityId;
-  readonly onOpenPerson: (id: EntityId) => void;
-}) {
-  const record = useMemo(
-    () => projectLifeRecord(world, personId),
-    [world, personId],
-  );
-
-  return (
-    <>
-      <PrivateJournalEditor
-        journal={journal}
-        onChange={onJournalChange}
-        people={record.people}
-        events={record.chapters.flatMap((chapter) => chapter.entries)}
-        onOpenPerson={onOpenPerson}
-      />
-      <p className="game-note">{record.summary}</p>
-
-      <h3>What has happened</h3>
-      {record.chapters.length === 0 ? (
-        <p className="game-note" data-testid="journal-empty">
-          Nothing has been written down yet. It will fill up as the life goes
-          on.
-        </p>
-      ) : (
-        <ol data-testid="journal-entries">
-          {record.chapters.map((chapter) => (
-            <li key={chapter.key}>
-              <strong>{chapter.heading}</strong>
-              <ul>
-                {chapter.entries.map((entry) => (
-                  <li
-                    key={entry.key}
-                    id={`journal-entry-${encodeURIComponent(entry.key)}`}
-                  >
-                    {entry.sentence}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ol>
-      )}
-
-      {/*
-        People are linked by the id the record already carries. No name is
-        parsed out of a sentence to find a link: a reference exists because the
-        record established it, or it does not exist at all.
-      */}
-      {record.people.length > 0 ? (
-        <>
-          <h3>People</h3>
-          <ul data-testid="journal-people">
-            {record.people.map((person) => (
-              <li key={person.personId}>
-                <button
-                  type="button"
-                  className="pg-inline-link"
-                  data-testid={`journal-person-${person.personId}`}
-                  onClick={() => onOpenPerson(person.personId)}
-                >
-                  {person.name}
-                </button>
-                <span> {person.sentence.slice(person.name.length)}</span>
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : null}
-
-      {record.open.length > 0 ? (
-        <>
-          <h3>Still open</h3>
-          <ul data-testid="journal-open">
-            {record.open.map((entry) => (
-              <li
-                key={entry.key}
-                id={`journal-entry-${encodeURIComponent(entry.key)}`}
-              >
-                {entry.sentence}
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : null}
     </>
   );
 }

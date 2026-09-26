@@ -222,7 +222,7 @@ export function ConversationStrip({
     state.addressee,
     progress,
     state.audibility,
-  );
+  ).filter((intent) => intent.spokenWords);
 
   return (
     <aside
@@ -331,7 +331,7 @@ export function ConversationStrip({
             type="button"
             onClick={() => onCommit(intent.key)}
           >
-            <span>{intent.label}</span>
+            <span>{intent.spokenWords}</span>
           </button>
         ))}
       </div>

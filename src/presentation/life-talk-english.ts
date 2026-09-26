@@ -1,4 +1,5 @@
 import {
+  ageOnDate,
   describePersonContext,
   type EntityId,
   type World,
@@ -10,6 +11,9 @@ import {
 } from "./grounded-english";
 import type { RecapEntry } from "./world-recap";
 
+/** Marks saved turns whose displayed words came from this reviewed bank. */
+export const REVIEWED_ORDINARY_TALK_TAG = "english-bank:ordinary-talk-v1";
+
 /** A spoken greeting for a person who is present in the current scene. */
 const GREETING: AuthoredEnglishBank = {
   key: "ordinary-talk:greeting",
@@ -20,6 +24,74 @@ const GREETING: AuthoredEnglishBank = {
     { key: "hey", kind: "template", text: "Hey, {{address}}." },
   ],
 };
+
+const UNNAMED_GREETING: AuthoredEnglishBank = {
+  key: "ordinary-talk:unnamed-greeting",
+  version: "1",
+  surface: "dialogue",
+  variants: [
+    { key: "hello", kind: "template", text: "Hello." },
+    { key: "hi", kind: "template", text: "Hi." },
+  ],
+};
+
+const YOUNG_FAMILY_GREETING_REPLY: AuthoredEnglishBank = {
+  key: "ordinary-talk:young-family-greeting-reply",
+  version: "1",
+  surface: "dialogue",
+  variants: [
+    {
+      key: "first",
+      kind: "template",
+      stages: ["first"],
+      text: "Hi, sweetheart.",
+    },
+    {
+      key: "again",
+      kind: "template",
+      stages: ["again"],
+      text: "Hi, sweetheart. Is there something you need?",
+    },
+  ],
+};
+
+const KNOWN_PERSON_GREETING_REPLY: AuthoredEnglishBank = {
+  key: "ordinary-talk:known-person-greeting-reply",
+  version: "1",
+  surface: "dialogue",
+  variants: [{ key: "hi", kind: "template", text: "Hi, {{player-name}}." }],
+};
+
+const UNNAMED_GREETING_REPLY: AuthoredEnglishBank = {
+  key: "ordinary-talk:unnamed-greeting-reply",
+  version: "1",
+  surface: "dialogue",
+  variants: [{ key: "hi", kind: "template", text: "Hi." }],
+};
+
+function relationshipRecordIds(
+  world: World,
+  playerPersonId: EntityId,
+  personId: EntityId,
+): EntityId[] {
+  return [
+    ...world.history.kinshipRelationships
+      .filter(
+        (row) =>
+          row.personIds.includes(playerPersonId) &&
+          row.personIds.includes(personId),
+      )
+      .map((row) => row.id),
+    ...world.history.childAuthorities
+      .filter(
+        (row) =>
+          row.childPersonId === playerPersonId &&
+          row.holder.kind === "person" &&
+          row.holder.personId === personId,
+      )
+      .map((row) => row.id),
+  ];
+}
 
 const PUBLIC_DEATH_QUESTION: AuthoredEnglishBank = {
   key: "ordinary-talk:public-death-question",
@@ -81,42 +153,25 @@ export function ordinaryGreetingWords(
   const person = world.people[personId];
   const player = world.people[playerPersonId];
   if (!person || !player) return null;
-  const relation = describePersonContext(
-    world,
-    playerPersonId,
-    personId,
-  )?.relationship;
+  const context = describePersonContext(world, playerPersonId, personId);
+  const relation = context?.relationship;
+  const relationshipIds = [
+    ...relationshipRecordIds(world, playerPersonId, personId),
+    ...(context?.anchors.map((anchor) => anchor.recordId) ?? []),
+  ];
   const address =
     relation === "your mom"
       ? "Mom"
       : relation === "your dad"
         ? "Dad"
-        : person.givenName;
-  const relationshipRecordIds = [
-    ...world.history.kinshipRelationships
-      .filter(
-        (row) =>
-          row.personIds.includes(playerPersonId) &&
-          row.personIds.includes(personId),
-      )
-      .map((row) => row.id),
-    ...world.history.childAuthorities
-      .filter(
-        (row) =>
-          row.childPersonId === playerPersonId &&
-          row.holder.kind === "person" &&
-          row.holder.personId === personId,
-      )
-      .map((row) => row.id),
-  ];
-  if (
-    (address === "Mom" || address === "Dad") &&
-    relationshipRecordIds.length === 0
-  )
+        : relation && relationshipIds.length > 0
+          ? person.givenName
+          : null;
+  if ((address === "Mom" || address === "Dad") && relationshipIds.length === 0)
     return null;
   const sourceRecordIds = [
     person.id,
-    ...relationshipRecordIds,
+    ...relationshipIds,
     ...world.history.events
       .filter((event) => event.id === sceneId)
       .map((event) => event.id),
@@ -125,16 +180,72 @@ export function ordinaryGreetingWords(
     surface: "dialogue",
     momentKey: `${sceneId}:${playerPersonId}:${personId}:greet:${world.history.nextSequence}`,
     worldSeed: world.seed,
-    bankVersion: GREETING.version,
+    bankVersion: address ? GREETING.version : UNNAMED_GREETING.version,
     stage: "greeting",
     sourceRecordIds,
-    facts: { address: { text: address, sourceRecordIds } },
+    facts: address ? { address: { text: address, sourceRecordIds } } : {},
     speaker: { personId: playerPersonId, traits: {} },
-    knowledge: [
-      { personId: playerPersonId, factKey: "address", sourceRecordIds },
-    ],
+    knowledge: address
+      ? [{ personId: playerPersonId, factKey: "address", sourceRecordIds }]
+      : [],
   };
-  const rendered = renderGroundedEnglish(packet, GREETING);
+  const rendered = renderGroundedEnglish(
+    packet,
+    address ? GREETING : UNNAMED_GREETING,
+  );
+  return rendered.kind === "rendered" ? rendered.text : null;
+}
+
+/** A reply is generated from the listener's recorded relationship, not a
+ * fixed fallback inside the conversation state machine. */
+export function ordinaryGreetingReplyWords(
+  world: World,
+  playerPersonId: EntityId,
+  personId: EntityId,
+  sceneId: string,
+  previousTurns: number,
+): string | null {
+  const person = world.people[personId];
+  const player = world.people[playerPersonId];
+  if (!person || !player) return null;
+  const context = describePersonContext(world, playerPersonId, personId);
+  const relation = context?.relationship;
+  const relationshipIds = [
+    ...relationshipRecordIds(world, playerPersonId, personId),
+    ...(context?.anchors.map((anchor) => anchor.recordId) ?? []),
+  ];
+  const youngFamily =
+    ["your mom", "your dad", "your parent", "your guardian"].includes(
+      relation ?? "",
+    ) &&
+    relationshipIds.length > 0 &&
+    // A family form of address is supported by an actual authority or
+    // kinship record; age is a known fact of this player.
+    ageOnDate(player.birthDate, world.currentDate) < 13;
+  const bank = youngFamily
+    ? YOUNG_FAMILY_GREETING_REPLY
+    : relation && relationshipIds.length > 0
+      ? KNOWN_PERSON_GREETING_REPLY
+      : UNNAMED_GREETING_REPLY;
+  const sourceRecordIds = [person.id, player.id, ...relationshipIds];
+  const packet: GroundedEnglishPacket = {
+    surface: "dialogue",
+    momentKey: `${sceneId}:${playerPersonId}:${personId}:reply:${world.history.nextSequence}`,
+    worldSeed: world.seed,
+    bankVersion: bank.version,
+    stage: previousTurns === 0 ? "first" : "again",
+    sourceRecordIds,
+    facts:
+      relation && relationshipIds.length > 0
+        ? { "player-name": { text: player.givenName, sourceRecordIds } }
+        : {},
+    speaker: { personId, traits: {} },
+    knowledge:
+      relation && relationshipIds.length > 0
+        ? [{ personId, factKey: "player-name", sourceRecordIds }]
+        : [],
+  };
+  const rendered = renderGroundedEnglish(packet, bank);
   return rendered.kind === "rendered" ? rendered.text : null;
 }
 

@@ -290,17 +290,8 @@ export async function fillCreator(
     await page.getByTestId("creator-continue-background").click();
   }
 
-  await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
-  const calibration = life.calibration ?? "skipped";
-  await page
-    .getByTestId(
-      calibration === "skipped"
-        ? "whoareyou-play"
-        : calibration === "deep"
-          ? "whoareyou-deep"
-          : "whoareyou-answer",
-    )
-    .click();
+  // The old introductory questionnaire was removed from normal creation.
+  // The selected age, home and background now lead straight to Begin.
   await expect(page.getByTestId("begin")).toBeEnabled();
 }
 

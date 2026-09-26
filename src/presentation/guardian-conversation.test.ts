@@ -9,7 +9,10 @@ import {
 } from "./player-conversation";
 import { commitConversationTurn } from "./run-b-conversation";
 import { openNextLifeScene, currentOpeningLifeScene } from "./life-scene-flow";
-import { projectLifeConversation } from "./life-conversation";
+import {
+  commitLifeConversation,
+  projectLifeConversation,
+} from "./life-conversation";
 import { conversationExchangeTurns } from "./scene-conversation";
 import { playerUtteranceOf } from "./conversation-utterance";
 import { tellableTopics } from "./life-talk-topics";
@@ -98,7 +101,7 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
         (participant) => participant.role === "coordination:counterpart",
       )?.personId,
     ).toBe(id);
-    expect(event.context.immediateReaction).toBeTruthy();
+    expect(event.context.immediateReaction).toMatch(/^Hi, sweetheart\./);
     expect(playerUtteranceOf(event)).toBe(greeting.spokenWords);
     expect(
       conversationExchangeTurns(
@@ -133,6 +136,21 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
         tellableTopics(game.world, game.playerPersonId, id).length,
       ).toBeGreaterThan(0);
     expect(view.intents[0]!.spokenWords).toMatch(/^(Hi|Hey), .+\.$/);
+    const playerView = projectPlayerConversation(
+      game.world,
+      game.playerPersonId,
+      "life-talk",
+      { addressee: id },
+    )!;
+    expect(
+      playerView.intents.every((option) => Boolean(option.spokenWords)),
+    ).toBe(true);
+    expect(playerView.intents.map((option) => option.key)).not.toContain(
+      "share",
+    );
+    expect(playerView.intents.map((option) => option.key)).not.toContain(
+      "date",
+    );
     expect(
       projectLifeConversation(
         deserializeWorld(serializeWorld(game.world)),
@@ -153,6 +171,27 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
     expect(serializeWorld(world)).toBe(before);
   });
 
+  it("keeps old menu-label talk in the save without displaying it as speech", () => {
+    const { world, playerPersonId } = childInScene("guardian12-old-turn");
+    const id = guardianId(world, playerPersonId)!;
+    const view = projectLifeConversation(world, playerPersonId, id)!;
+    const oldWorld = commitLifeConversation(world, {
+      playerPersonId,
+      personId: id,
+      intent: "leave",
+      revision: view.revision,
+    });
+    const restored = deserializeWorld(serializeWorld(oldWorld));
+    expect(
+      conversationExchangeTurns(restored, playerPersonId, "life-talk", id),
+    ).toEqual([]);
+    expect(
+      projectPlayerConversation(restored, playerPersonId, "life-talk", {
+        addressee: id,
+      })?.openingLine,
+    ).toBe("");
+  });
+
   it("preserves cast and outcomes across save and reload", () => {
     const { world, playerPersonId } = childInScene("guardian12-save");
     const id = guardianId(world, playerPersonId)!;
@@ -166,7 +205,7 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
       turnOrdinal: view.turnOrdinal,
       addressee: id!,
       audibility: "normal",
-      intent: "share",
+      intent: "greet",
     }).world;
     const saved = serializeWorld(after);
     const restored = deserializeWorld(saved);
@@ -230,7 +269,7 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
       projectPlayerConversation(world, game.playerPersonId, "life-talk", {
         addressee: other,
       })!.intents.some((option) => option.key === "date"),
-    ).toBe(true);
+    ).toBe(false);
   });
 
   it("regresses the original household-member gate failure at age 10", () => {

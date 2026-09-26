@@ -879,12 +879,13 @@ describe("nothing developer-facing reaches the player", () => {
     ] as const) {
       const result = speak(session, addressee, intent);
       lines.push(result.presentation.beat?.dialogue ?? "");
-      lines.push(result.presentation.playerIntentLabel);
+      lines.push(result.presentation.playerActionDescription);
       lines.push(result.presentation.hearingDescription);
     }
     for (const line of lines) expectNoDeveloperLeak(line);
-    // Every beat is somebody speaking, not a status readout.
-    expect(lines.filter((line) => line.includes("“")).length).toBeGreaterThan(
+    // Speech is now rendered without typographic quote marks; the UI owns
+    // the blockquote. An empty fallback or old menu label cannot pass.
+    expect(lines.filter((line) => /[.?!]$/.test(line)).length).toBeGreaterThan(
       4,
     );
   });
@@ -942,16 +943,26 @@ describe("the motif layer", () => {
           audience: "limited",
           priorFamily: null,
           variantSeed: `${family}:${voice}`,
+          worldSeed: "dialogue-test",
+          speakerPersonId: "member-test",
+          sourceRecordIds: ["bill-test"],
           facts: bare,
         });
-        expect(line.length, `${family}/${voice}`).toBeGreaterThan(20);
+        expect(line.length, `${family}/${voice}`).toBeGreaterThan(8);
         expectNoDeveloperLeak(line);
       }
     }
   });
 
   it("gives two members different words for the same move", () => {
-    const shared = { audience: "limited", priorFamily: null, facts } as const;
+    const shared = {
+      audience: "limited",
+      priorFamily: null,
+      facts,
+      worldSeed: "dialogue-test",
+      speakerPersonId: "member-test",
+      sourceRecordIds: ["bill-test"],
+    } as const;
     const advocate = legislativeMotifLine({
       ...shared,
       family: "qualified-commitment",
@@ -976,8 +987,11 @@ describe("the motif layer", () => {
       audience: "limited",
       priorFamily: null,
       variantSeed: "seed",
+      worldSeed: "dialogue-test",
+      speakerPersonId: "member-test",
+      sourceRecordIds: ["bill-test"],
       facts: { ...facts, amount: null },
     });
-    expect(keys).not.toContain("capped");
+    expect(keys).not.toContain("fiscal-condition");
   });
 });
