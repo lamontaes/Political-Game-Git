@@ -263,6 +263,11 @@ export interface CampaignView {
   readonly placeName: string | null;
   /** The office on offer, or the one being stood for. */
   readonly officeTitle: string | null;
+  /**
+   * The district the filed campaign runs in, in words ("District 98 of the
+   * Kentucky House of Representatives"), when the seat is a district seat.
+   */
+  readonly districtName: string | null;
   /** How the game knows this office exists at all. */
   readonly officeAuthority: string | null;
   /** What the game admits it does not know about standing here. */
@@ -291,6 +296,25 @@ export interface CampaignView {
 }
 
 /* -------------------------------------------------------------------------- */
+
+/**
+ * The district a campaign runs in, as a player says it. The district number
+ * is the code after the state's two-digit prefix in the bound district's
+ * GEOID, without leading zeros; a lettered code (a few states name districts)
+ * is kept as it stands.
+ */
+export function campaignDistrictName(
+  binding: DistrictSeatBinding | null,
+  chamberName: string | null,
+): string | null {
+  if (!binding) return null;
+  const code = binding.geoid.slice(2).trim();
+  if (!code) return null;
+  const number = /^\d+$/.test(code) ? String(Number(code)) : code;
+  return chamberName
+    ? `District ${number} of the ${chamberName}`
+    : `District ${number}`;
+}
 
 function displayName(world: World, personId: EntityId): string {
   const person = world.people[personId];
@@ -494,6 +518,10 @@ export function projectCampaign(
     candidateName,
     placeName,
     officeTitle: contest.office.title,
+    districtName: campaignDistrictName(
+      contest.office.districtBinding ?? null,
+      option?.chamberName ?? null,
+    ),
     officeAuthority: option ? officeAuthority(option) : null,
     openQuestions: option ? [...option.unresolvedGaps] : [],
     campaignId: campaign.id,
@@ -685,6 +713,7 @@ function notYetFiled(
     officeTitle:
       option?.office.title ??
       (options.map((item) => item.office.title).join(" or ") || null),
+    districtName: null,
     officeAuthority: option
       ? officeAuthority(option)
       : /* Offices with no known seat count now contribute nothing, so they are
