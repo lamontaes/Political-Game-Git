@@ -114,6 +114,7 @@ export function PersonCard({
   pinned,
   expanded,
   mode,
+  firstIntroduction = false,
   presentPersonIds,
   onClose,
   onExpand,
@@ -134,6 +135,7 @@ export function PersonCard({
   readonly pinned: boolean;
   readonly expanded: boolean;
   readonly mode: "overlay" | "workspace";
+  readonly firstIntroduction?: boolean;
   /** The clicked scene person, when the card was opened from the room. */
   readonly anchor?: PersonCardAnchor | null;
   /** Who the room says is here. Presence is the room's answer, not a pin's. */
@@ -209,7 +211,12 @@ export function PersonCard({
   const presentNow = presentPersonIds
     ? presentPersonIds.includes(dossier.personId)
     : dossier.presentNow;
-  const facts = expanded ? dossier.details : dossier.details.slice(0, 3);
+  const visibleDetails = firstIntroduction
+    ? dossier.details.filter(
+        (fact) => fact.key !== "household" && !fact.key.startsWith("kin-"),
+      )
+    : dossier.details;
+  const facts = expanded ? visibleDetails : visibleDetails.slice(0, 3);
   const testId =
     mode === "overlay" && !expanded ? "quick-dossier" : "full-dossier";
   const role =
@@ -249,6 +256,7 @@ export function PersonCard({
       data-testid={testId}
       data-person-id={dossier.personId}
       data-expanded={expanded ? "true" : "false"}
+      data-first-introduction={firstIntroduction ? "true" : "false"}
       data-placement={placement ? `anchored-${placement.side}` : "side"}
       style={
         placement
@@ -307,7 +315,7 @@ export function PersonCard({
               <p className="pg-right-now" data-testid="person-card-deceased">
                 No longer living.
               </p>
-            ) : isYou ? null : presentNow ? (
+            ) : isYou || firstIntroduction ? null : presentNow ? (
               <p className="pg-right-now" data-testid="person-card-present">
                 Here in the room with you.
               </p>
@@ -354,14 +362,18 @@ export function PersonCard({
         ) : null}
         <div className="pg-person-card-reading">
           <section className="pg-dossier-section" aria-label="What you know">
-            <p
-              className="pg-person-card-read"
-              data-testid={
-                expanded ? "dossier-last-interaction" : "quick-last-interaction"
-              }
-            >
-              {dossier.lastInteraction}
-            </p>
+            {!firstIntroduction ? (
+              <p
+                className="pg-person-card-read"
+                data-testid={
+                  expanded
+                    ? "dossier-last-interaction"
+                    : "quick-last-interaction"
+                }
+              >
+                {dossier.lastInteraction}
+              </p>
+            ) : null}
             {dossier.strain === null ? null : (
               <p
                 className="pg-person-card-read"
@@ -386,7 +398,7 @@ export function PersonCard({
               facts={facts}
               testId={expanded ? "dossier-facts" : "quick-facts"}
             />
-            {facts.length === 0 ? (
+            {facts.length === 0 && !firstIntroduction ? (
               <p
                 className="pg-person-card-note"
                 data-testid={

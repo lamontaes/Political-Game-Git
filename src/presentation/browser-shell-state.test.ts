@@ -443,6 +443,22 @@ describe("portable transfer uses the shell's v3 codec", () => {
 });
 
 describe("the shell's own store", () => {
+  it("keeps a child's first family introduction dismissed across Save and Continue", async () => {
+    const { store, database } = storeWith();
+    await store.write(SLOT, {
+      ...EMPTY_SHELL_STATE,
+      progress: {
+        orientationSeen: true,
+        recapFrontier: 4,
+        familyIntroducedPersonIds: [ALICE.id],
+      },
+    });
+    const reopened = await new BrowserShellStateStore({
+      indexedDB: database.asFactory(),
+      databaseName: store.databaseName,
+    }).read(SLOT);
+    expect(reopened?.progress?.familyIntroducedPersonIds).toEqual([ALICE.id]);
+  });
   it("keeps pins and preferences in the game's database, not a second one", async () => {
     const { store, database } = storeWith();
     await store.write(SLOT, {
@@ -668,6 +684,29 @@ describe("the shell's own store", () => {
 });
 
 describe("what the reader will accept", () => {
+  it("keeps first family cards per save and leaves older lives uninterrupted", () => {
+    const current = readStoredShellState({
+      version: 4,
+      pins: [],
+      preferences: {},
+      progress: {
+        orientationSeen: true,
+        recapFrontier: 3,
+        familyIntroducedPersonIds: ["person-a", "person-a", "person-b"],
+      },
+    });
+    expect(current?.progress?.familyIntroducedPersonIds).toEqual([
+      "person-a",
+      "person-b",
+    ]);
+    const older = readStoredShellState({
+      version: 4,
+      pins: [],
+      preferences: {},
+      progress: { orientationSeen: true, recapFrontier: 3 },
+    });
+    expect(older?.progress?.familyIntroducedPersonIds).toBeNull();
+  });
   it("refuses a record from a version it does not know", () => {
     expect(
       readStoredShellState({ version: 99, pins: [], preferences: {} }),

@@ -86,6 +86,7 @@ import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { PublicServicePanel } from "./politics/PublicServicePanel";
 import { NewsDesk } from "./news/NewsDesk";
 import { readNewsStory } from "../presentation/news-reading";
+import { firstUnintroducedFamilyMember } from "../presentation/family-first-encounter";
 import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
@@ -2607,7 +2608,11 @@ function PlayingScreen({
    * which references they have kept. It owns navigation and nothing else — the
    * gameplay writers below are still the only things that change the world.
    */
-  const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
+  const [shell, dispatch, shellReady] = useShell(
+    session.world,
+    session.saveId,
+    shellStore,
+  );
   /* What changed since the player last caught up; a read, never a writer. */
   const recap = useWorldRecap(session.world, session.personId, shell);
   /*
@@ -2897,6 +2902,38 @@ function PlayingScreen({
   );
 
   const view = activeView(shell);
+  useEffect(() => {
+    if (
+      !shellReady ||
+      readOnly ||
+      showOrientation ||
+      view.surface !== "scene" ||
+      shell.momentOpen ||
+      shell.conversation ||
+      shell.quickDossierPersonId !== null
+    )
+      return;
+    const personId = firstUnintroducedFamilyMember(
+      session.world,
+      session.personId,
+      moment.scene.presentPeople,
+      shell.progress.familyIntroducedPersonIds,
+    );
+    if (personId) dispatch({ type: "open-family-introduction", personId });
+  }, [
+    shellReady,
+    readOnly,
+    showOrientation,
+    view.surface,
+    shell.momentOpen,
+    shell.conversation,
+    shell.quickDossierPersonId,
+    shell.progress.familyIntroducedPersonIds,
+    session.world,
+    session.personId,
+    moment.scene.presentPeople,
+    dispatch,
+  ]);
   const openSurface = view.surface;
   const previousSurface = useRef(openSurface);
   const newsPersonReturn = useRef<string | null>(null);
@@ -3700,9 +3737,27 @@ function PlayingScreen({
                         regionalPlate={orientation.regionalPlate}
                         mode="first"
                         onClose={() => dispatch({ type: "finish-orientation" })}
-                        onOpenPerson={(personId) =>
-                          dispatch({ type: "open-quick-dossier", personId })
-                        }
+                        onOpenPerson={(personId) => {
+                          const introduced = firstUnintroducedFamilyMember(
+                            session.world,
+                            session.personId,
+                            [
+                              {
+                                personId,
+                                relationship:
+                                  dossierFor(personId)?.relationship ?? null,
+                              },
+                            ],
+                            shell.progress.familyIntroducedPersonIds,
+                          );
+                          dispatch({
+                            type:
+                              introduced === personId
+                                ? "open-family-introduction"
+                                : "open-quick-dossier",
+                            personId,
+                          });
+                        }}
                       />
                     ) : null
                   }
@@ -3715,6 +3770,7 @@ function PlayingScreen({
                 world={session.world}
                 playerId={session.personId}
                 dossier={selectedDossier}
+                introduction={shell.quickDossierIsIntroduction}
                 anchor={
                   cardAnchor?.personId === selectedDossier.personId
                     ? cardAnchor.rect
