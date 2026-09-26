@@ -427,27 +427,35 @@ test("a checked newer source is not advertised as an installed update", () => {
   assert.equal(checks.preview.lastSuccessRevision, SHA_B);
 });
 
-test("the private hub checks for updates only at start and on request", () => {
+test("the private hub checks while open and only installs at the idle title", () => {
   const source = readFileSync(
     fileURLToPath(new URL("../private-controller/main.mjs", import.meta.url)),
     "utf8",
   );
-  // No interval timer and no check on window focus: each check can compile a
-  // whole build, which stalls the game.
-  assert.ok(!source.includes("AUTO_UPDATE_INTERVAL_MS"));
-  assert.ok(!source.includes("scheduleAutomaticUpdateCheck"));
-  assert.ok(!source.includes("reconcileOnForeground"));
-  assert.ok(!source.includes('win.on("focus"'));
-  // Startup still checks main and the selection; the button still checks.
+  // A hidden hub remains open, so it must keep checking. An active worker or
+  // pending update cannot be queued repeatedly by the timer.
+  assert.match(source, /setInterval\(\s*checkUpdatesAutomatically,/);
+  assert.match(source, /if \(hub\.quitting \|\| hub\.worker\) return;/);
+  assert.match(source, /!state\.tracks\[MAIN_TRACK\]\?\.pending/);
+  // Startup and the button also check the selected version.
+  assert.match(source, /checkUpdatesAutomatically\(true\)/);
   assert.match(source, /startWorker\(MAIN_TRACK, false, true\);/);
   assert.match(
     source,
     /handle\("hub:check-updates", \(\) => \{[\s\S]*?startWorker\(/,
   );
-  // A verified update never replaces an open game on its own.
-  assert.ok(!source.includes("activateAtIdleTitle"));
-  assert.ok(!source.includes("game:title-ready"));
-  // Full content verification runs for startup, manual and receiver checks.
+  // The existing game attests its title screen; an open life keeps playing.
+  assert.match(source, /ipcMain\.on\("game:title-ready"/);
+  assert.match(source, /if \(!\(await isIdleTitle\(contents\)\)\) return;/);
+  assert.match(
+    source,
+    /if \(event\.outcome === "pending"\) void installIfIdleTitle\(track\)/,
+  );
+  // Full content verification still guards installation.
+  assert.match(
+    source,
+    /await verifyReceivedBuildAsync\(pending, dataRoot, verifyContent\)/,
+  );
   assert.match(source, /receivedFirst \? \["--received-first"\] : \[\]/);
   // A verified runtime-content build does not need an obsolete private pack
   // merely to discover and compile a code-only successor.

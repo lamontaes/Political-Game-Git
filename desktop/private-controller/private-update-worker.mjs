@@ -23,7 +23,7 @@ import {
   validBranchName,
   withPending,
 } from "./hub-model.mjs";
-import { loadContent } from "../runtime-content.mjs";
+import { loadContentManifest } from "../runtime-content.mjs";
 import {
   leaseUpdateWorkspace,
   prepareUpdateWorkspace,
@@ -319,8 +319,11 @@ async function prepareRuntimeContentSuccessor({
   targetRevision,
   content = existing?.current?.content,
 }) {
-  // Refuses a snapshot whose blobs are missing or altered before any build.
-  loadContent(content);
+  // Check the content-addressed manifest before compiling. The staged build
+  // verifies every blob before publication, and the hub verifies it again
+  // before activation; hashing the same 1 GB snapshot here delayed discovery
+  // of a new source revision without strengthening either boundary.
+  loadContentManifest(content);
   if (
     existing?.pending?.revision === targetRevision &&
     existing.pending.content?.id === content.id &&
