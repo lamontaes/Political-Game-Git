@@ -3491,6 +3491,22 @@
       "textRevision": "846a2dc72c8a"
     },
     {
+      "anchor": "composeConnectiveNarration-0009",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "composeConnectiveNarration",
+      "text": "Family notice of a death.",
+      "occurrence": 0,
+      "textRevision": "72ec2375683e"
+    },
+    {
+      "anchor": "composeConnectiveNarration-0010",
+      "sourcePath": "src/presentation/life-narration.ts",
+      "symbol": "composeConnectiveNarration",
+      "text": "The family notice of a death this character was told of in the interval.",
+      "occurrence": 0,
+      "textRevision": "c84938cd2707"
+    },
+    {
       "anchor": "continuingRunBReferralBeat-0001",
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "symbol": "continuingRunBReferralBeat",
@@ -6337,14 +6353,6 @@
       "text": "You stopped playing {name} on {proseDate(ended.on)}. {person.givenName} goes on living.",
       "occurrence": 0,
       "textRevision": "7cb73db860df"
-    },
-    {
-      "anchor": "projectLifeContinuation-0002",
-      "sourcePath": "src/presentation/people-continuation.ts",
-      "symbol": "projectLifeContinuation",
-      "text": "{name} died on {proseDate(ended.on)}.",
-      "occurrence": 0,
-      "textRevision": "b40b770a012f"
     },
     {
       "anchor": "projectLifeContinuation-0003",
