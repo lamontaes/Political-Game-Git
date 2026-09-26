@@ -132,7 +132,7 @@ await returnToTitle(page);
 
 const interfaceSeed = await page.evaluate(async (databaseName) => {
   const db = await new Promise((resolve, reject) => {
-    const request = indexedDB.open(databaseName, 2);
+    const request = indexedDB.open(databaseName);
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(request.error);
   });
@@ -302,7 +302,7 @@ check(
 
 const interfaceAfter = await page.evaluate(async (databaseName) => {
   const db = await new Promise((resolve, reject) => {
-    const request = indexedDB.open(databaseName, 2);
+    const request = indexedDB.open(databaseName);
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(request.error);
   });
@@ -378,7 +378,7 @@ for (let index = 0; index < 2; index += 1) {
 }
 const reopened = await page.evaluate(async (databaseName) => {
   const db = await new Promise((resolve, reject) => {
-    const request = indexedDB.open(databaseName, 2);
+    const request = indexedDB.open(databaseName);
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(request.error);
   });

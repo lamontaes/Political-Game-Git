@@ -5,7 +5,7 @@ import { isDeepStrictEqual } from "node:util";
 export async function readSavedRecords(page, databaseName) {
   return page.evaluate(async (name) => {
     const db = await new Promise((resolve, reject) => {
-      const request = indexedDB.open(name, 2);
+      const request = indexedDB.open(name);
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
