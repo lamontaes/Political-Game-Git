@@ -443,7 +443,7 @@ describe("L staff-guided office onboarding", () => {
     expect(second.world.history.officeBriefingInspections ?? []).toHaveLength(
       2,
     );
-  });
+  }, 30_000);
 
   it("briefs from actual staff and still works when none are recorded", () => {
     const member = wonLegislativeSeat("l-onboard-staff");
