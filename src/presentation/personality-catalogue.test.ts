@@ -13,6 +13,7 @@ import {
   recordPersonalityTendency,
 } from "../simulation/mind";
 import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
+import { RETIRED_QUALITIES } from "../../scripts/traits/personality-catalogue";
 import { CATALOGUE_SCALES } from "../simulation/personality-catalogue.generated";
 import {
   encodeRegisteredTrait,
@@ -68,7 +69,7 @@ const age = (world: World, id: EntityId) =>
   Number(world.people[id]!.birthDate.slice(0, 4));
 
 describe("the personality catalog", () => {
-  it("loads every scale the research sent, less the four the five already mean", () => {
+  it("loads the approved 92 notable qualities", () => {
     const registry = traitRegistryFor(
       openAt("0200065", "catalogue-load").world,
     );
@@ -77,7 +78,13 @@ describe("the personality catalog", () => {
     );
     const expected = received.scales
       .map((scale) => scale.key)
-      .filter((key) => !BOUND_TO_THE_FIVE.includes(key));
+      .filter(
+        (key) =>
+          !BOUND_TO_THE_FIVE.includes(key) &&
+          !RETIRED_QUALITIES.includes(
+            key as (typeof RETIRED_QUALITIES)[number],
+          ),
+      );
     expect(loaded.map((trait) => trait.key)).toEqual(expected);
     expect(
       registry.report.rejections.filter(
