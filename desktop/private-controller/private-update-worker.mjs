@@ -536,7 +536,71 @@ async function prepareUpdate() {
 
   try {
     const repositoryPath = await verifyRepository(requestedRepository);
-    emit("progress", `Fetching ${label} from GitHub…`, { phase: "fetching" });
+    emit("progress", `Checking ${label} on GitHub…`, { phase: "fetching" });
+    let remoteRevision;
+    try {
+      // An unchanged game needs only the remote ref, not a fetch and a scan
+      // of the local repository. Git still authenticates with the configured
+      // origin, and changed refs take the existing verified build route.
+      const remoteHead = await capture(
+        "/usr/bin/git",
+        [
+          "ls-remote",
+          "--exit-code",
+          "--refs",
+          "origin",
+          `refs/heads/${branch}`,
+        ],
+        { cwd: repositoryPath, label: `Checking ${label}`, echoErrors: true },
+      );
+      const parts = remoteHead.split(/\s+/);
+      if (
+        parts.length !== 2 ||
+        !/^[0-9a-f]{40}$/.test(parts[0]) ||
+        parts[1] !== `refs/heads/${branch}`
+      )
+        throw new Error("GitHub returned an invalid branch revision.");
+      remoteRevision = parts[0];
+    } catch (error) {
+      return fail(
+        `Offline or unavailable: ${error.message} The last verified build is still ready to play.`,
+        "offline",
+      );
+    }
+    const currentBuild = initialState.tracks[id]?.current;
+    if (
+      currentBuild?.revision === remoteRevision &&
+      buildPresentOnDisk(currentBuild).ok
+    ) {
+      writeState(statePath, { ...initialState, repositoryPath });
+      emit("resolved", `${label} is ${remoteRevision.slice(0, 12)}.`, {
+        track: id,
+        revision: remoteRevision,
+      });
+      return emit("complete", `This is already the current ${label} build.`, {
+        outcome: "up-to-date",
+        track: id,
+        revision: remoteRevision,
+      });
+    }
+    const pendingBuild = initialState.tracks[id]?.pending;
+    if (
+      pendingBuild?.revision === remoteRevision &&
+      buildPresentOnDisk(pendingBuild).ok
+    ) {
+      emit("resolved", `${label} is ${remoteRevision.slice(0, 12)}.`, {
+        track: id,
+        revision: remoteRevision,
+      });
+      return emit(
+        "complete",
+        `The ${label} build ${remoteRevision.slice(0, 12)} is already waiting to be activated.`,
+        { outcome: "pending", track: id, revision: remoteRevision },
+      );
+    }
+    emit("progress", `Fetching changed ${label} source…`, {
+      phase: "fetching",
+    });
     try {
       // Argument array, explicit refspec: a branch label never reaches a shell.
       await run(

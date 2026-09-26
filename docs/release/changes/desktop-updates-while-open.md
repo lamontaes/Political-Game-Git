@@ -8,6 +8,8 @@ title: Keep the private game current while its hub stays open
 The private hub now checks the selected game and main for new builds while it
 remains open. When a verified update is ready, it installs automatically only
 at the game's own title screen; an open life keeps its existing build.
+An unchanged GitHub revision returns after a remote-head check, without
+fetching or rebuilding the same game again.
 
 Preparing a code update no longer verifies the same artwork snapshot twice
 before publication. The full artwork check still runs before the new build is
