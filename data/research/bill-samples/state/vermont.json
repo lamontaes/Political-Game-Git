@@ -72,7 +72,7 @@
     "bill_number": "H.493",
     "law_citation": "Act 27 of 2025",
     "short_title": "FY2026 appropriations ('Big Bill')",
-    "enacted_date": "2025-05",
+    "enacted_date": "2025-05-21",
     "enactment_path": "signed",
     "effective_dates": [],
     "official_text_url": "https://legislature.vermont.gov/bill/status/2026/H.493",
@@ -88,12 +88,7 @@
     "parts": [
       {
         "kind": "amount",
-        "description": "Annual appropriations for state government."
-      },
-      {
-        "kind": "reporting",
-        "description": "Includes many agency reporting requirements (inferred).",
-        "inferred": true
+        "description": "Appropriates money for state government in FY2026."
       }
     ],
     "touches": [
@@ -101,7 +96,7 @@
     ],
     "daily_life": "Funds state services for the year.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-status-checked",
+    "notes": "Vermont Legislature bill status confirms H.493 became Act 27 after governor approval May 21, 2025. The broad reporting claim was removed because it was not tied to an enacted section."
   }
 ]

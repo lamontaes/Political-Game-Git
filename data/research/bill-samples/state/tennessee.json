@@ -69,13 +69,17 @@
     "jurisdiction": "Tennessee",
     "level": "state",
     "session": "114th General Assembly, 1st Extraordinary Session (Jan 2025)",
-    "bill_number": "SB 6002 / HB 6002",
-    "law_citation": null,
+    "bill_number": "SB 6002 / HB 6001",
+    "law_citation": "Public Chapter 1 of 2025",
     "short_title": "Immigration enforcement office and penalties",
     "enacted_date": "2025-02-12",
     "enactment_path": "signed",
-    "effective_dates": [],
-    "official_text_url": "https://wapp.capitol.tn.gov/apps/BillInfo/Default.aspx?BillNumber=SB6002&GA=114",
+    "effective_dates": [
+      "2025-02-12",
+      "2025-07-01",
+      "2026-01-01"
+    ],
+    "official_text_url": "https://wapp.capitol.tn.gov/apps/BillInfo/Default?BillNumber=SB6002",
     "aggregator_url": null,
     "menu": "16",
     "menu_name": "Immigration & Citizenship",
@@ -90,22 +94,20 @@
     "parts": [
       {
         "kind": "administering-agency",
-        "description": "Creates a state office to coordinate with federal immigration enforcement (inferred name).",
-        "inferred": true
+        "description": "Creates the Centralized Immigration Enforcement Division within the Department of Safety."
       },
       {
         "kind": "penalty",
-        "description": "Crime for local officials who vote for sanctuary policies (inferred).",
-        "inferred": true
+        "description": "Creates criminal penalties for officials who adopt prohibited sanctuary policies, with removal upon conviction."
       },
       {
         "kind": "amount",
-        "description": "State appropriation for enforcement preparation.",
+        "description": "Fiscal summary projects $5 million for the Immigration Enforcement Fund in FY2025-26; the timing of grant expenditures is uncertain.",
         "numbers": [
           {
             "value": 5000000,
-            "unit": "USD",
-            "text": "5000000 USD"
+            "unit": "USD fiscal revenue estimate",
+            "text": "5000000 USD fiscal revenue estimate"
           }
         ]
       }
@@ -114,10 +116,10 @@
       "local governments",
       "federal ICE"
     ],
-    "daily_life": "State agencies actively help federal immigration agents.",
+    "daily_life": "The state creates an immigration-enforcement office and grants for local cooperation; penalties apply to officials convicted under the law.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-status-checked",
+    "notes": "Official Tennessee bill page identifies companion HB 6001 (not HB 6002), February 12 signing, Public Chapter 1, three effective dates and a $5 million fiscal estimate; the estimate is not a verified paid outlay."
   },
   {
     "id": "tn-2025-hb932-phones",

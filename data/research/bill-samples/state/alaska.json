@@ -84,9 +84,9 @@
     "level": "state",
     "session": "34th Legislature, 2025",
     "bill_number": "HB 53",
-    "law_citation": null,
+    "law_citation": "Chapter 10, SLA 2025",
     "short_title": "FY2026 operating budget",
-    "enacted_date": "2025-06",
+    "enacted_date": "2025-06-12",
     "enactment_path": "signed",
     "effective_dates": [],
     "official_text_url": "https://www.akleg.gov/basis/Bill/Detail/34?Root=HB%2053",
@@ -104,30 +104,29 @@
     "parts": [
       {
         "kind": "amount",
-        "description": "Appropriates the state's annual operating spending by agency."
+        "description": "Appropriates operating and loan-program expenses by agency and for specified programs."
       },
       {
         "kind": "benefit",
-        "description": "Sets the Permanent Fund Dividend amount paid to each resident.",
-        "inferred": true
+        "description": "Appropriates money to the Permanent Fund Dividend Fund; individual payment is determined through the dividend process."
       },
       {
         "kind": "funding-source",
-        "description": "Draws on Permanent Fund earnings and oil revenue."
+        "description": "Uses specified state funds, including Permanent Fund earnings, for listed appropriations."
       },
       {
         "kind": "waiver",
-        "description": "Governor holds line-item veto power over individual appropriations."
+        "description": "Enacted budget reflects gubernatorial line-item veto authority."
       }
     ],
     "touches": [
       "Permanent Fund",
       "every state agency"
     ],
-    "daily_life": "Sets the size of every Alaskan's annual dividend check.",
+    "daily_life": "Funds state services and the dividend fund; the enacted appropriation alone does not state each resident’s check amount.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-status-checked",
+    "notes": "Official HB 53 page lists Chapter 10 SLA 2025 on June 12, 2025. Dividend-fund appropriation appears in legislative budget records; the final individual dividend amount was not checked against enacted text."
   },
   {
     "id": "ak-2026-sb64-elections",

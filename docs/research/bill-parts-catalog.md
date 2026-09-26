@@ -1,54 +1,69 @@
 # Real bills use 61 kinds of parts, and five kinds of law have no bill variant in the game
 
-222 enacted measures (laws, ordinances or parts of one law) were broken into parts: 61 kinds in all. The eight most used kinds appear in 25 to 41 measures each. The game's bill bank has 43 variants on main and 46 on a draft branch. Five kinds of real law have no variant in either: bans and penalties, tax changes beyond one flat rate, state overrides of local government, price caps and wage floors on private parties, and narrowing who qualifies. They appear in 90 of the 222 measures. The game records a passed law only as enacted, yet 5 sampled laws were later halted or suspended. The Claude CTO's bill-parts lane owns these gaps; no owner decision is needed.
+The enacted-law sample retains 220 measures after two unsupported entries were excluded. They use 61 kinds of parts. Five recurring forms of law have no matching bill variant in the measured game snapshots: bans and penalties, tax changes beyond one flat rate, state overrides of local government, price caps and wage floors on private parties, and narrower eligibility. The game records a passed law as enacted, yet 5 sampled laws were later halted or suspended. The bill-parts lane owns these gaps.
 
 ## What the sample is
 
 - A measure is one enacted law or ordinance, or one separable provision of a large law. Pub. L. 119-21 is split into 3 measures and Pennsylvania's 2025 budget package into 2.
-- 222 measures: 32 federal, 158 state, 2 District of Columbia, 9 territory, 16 city and 5 county.
+- 220 measures retained as enacted: 32 federal, 158 state, 2 District of Columbia, 9 territory, 15 city and 4 county. Two donor records were excluded after source review: Cascade, Montana, posted a short-term-rental ordinance draft with blank reading dates; Lorain County, Ohio, referred a sales-tax question that voters rejected. Neither may be treated as an enacted tax or ordinance. [Cascade draft](https://cascademontana.com/ordinance-2026-02-regulated-short-term-rentals/) · [Lorain official result](https://www.voteloraincountyohio.gov/_files/ugd/2568d0_c23af398b0ef4e36b45d1458d875dbe8.pdf).
 - All 50 states are covered. 38 states have 3 records, 7 have 4, 2 have 5, and 3 have 2 (Pennsylvania, Rhode Island and Vermont).
-- Every one of the 18 subject menus appears. Every operation appears at least 13 times: create 64, restrict 49, expand 43, lower 21, replace 19, raise 13, repeal 13.
+- Every one of the 18 subject menus appears. Every operation appears at least 13 times: create 62, restrict 49, expand 43, lower 21, replace 19, raise 13, repeal 13.
 - Each record lists its parts, the numbers in each part with units, who it touches, and one line on daily life.
-- 181 of the 753 parts are marked "inferred": they came from memory or a secondary summary, not the official text.
-- Each record states its sourcing. 43 were read in the official text. 106 had their bill page, act number or signing found on an official site. 53 rest on news or official press releases. 20 are marked "inferred-details"; their numbers need checking before use.
+- 153 of the 742 parts are marked "inferred": they came from memory or a secondary summary, not the official text.
+- Each record states its sourcing. 51 were checked against official text. 115 had their bill page, act number, agency account or signing checked on an official site. 53 rest on news or official press releases. One remains "inferred-details" because Idaho H345 enacted text was inaccessible through the source route; it must not supply a game value until that text is read.
 
 147 of the 158 state measures were enacted in 2025 regular sessions, 9 in 2025 special sessions, and 2 in 2026. 2025 is the latest session with a confirmed law for every state. Montana, Nevada, North Dakota and Texas held no regular session in 2026. Federal laws run from June 3, 2023 to September 18, 2026.
 
+## Official wording patterns for the accepted Proposal V1 flow
+
+The owner accepted Proposal V1's drafting flow and policy wheel. These are research mappings for its menu drill-downs and for later English-engine bill text, not a new compiler or a claim that the current UI already offers them. Each choice should retain its named actor, jurisdiction, condition, date and downstream record; a stated legislative purpose is not a measured outcome.
+
+| Recurrent legal move | Official examples | Parts to expose in a proposal | Wording pattern for later rendering |
+|---|---|---|---|
+| Define a covered person or activity, then change a rule | [Arizona SB 1247](https://www.azleg.gov/legtext/57leg/1r/laws/0228.htm) sets the under-21 tobacco rule and a military possession exception; [Michigan PA 2](https://www.legislature.mi.gov/documents/2025-2026/publicact/pdf/2025-PA-0002.pdf) defines a small employer and different annual sick-time limits. | `definition` or `threshold` → `prohibition` or `benefit` → `exemption` → `penalty` where the law actually has one. | State who is covered, what conduct or benefit changes, and the exception in a separate clause. Do not turn Arizona's state alignment into a new federal preemption claim. |
+| Levy on a specified base and direct receipts | [Michigan PA 23](https://zeus-milenia.legislature.mi.gov/documents/2025-2026/publicact/pdf/2025-PA-0023.pdf) taxes specified wholesale marijuana transfers at 24%; [Washington chapter 422](https://app.leg.wa.gov/billsummary?BillNumber=5814&Year=2025) changes which services count as retail sales. | `tax-base` → `rate` → `earmark` or `revenue-distribution` → `effective-date`. | Name the taxable transaction before its rate, then the destination of collected money. A projected yield is not the enacted amount. |
+| Appropriate for a fiscal period and a named government purpose | [Massachusetts chapter 9](https://malegislature.gov/Laws/SessionLaws/Acts/2025/Chapter9), [Maryland chapter 602](https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/hb0350?ys=2025RS) and [D.C. Law 26-51](https://code.dccouncil.gov/us/dc/council/laws/26-51) allocate funds by agency or line item. | `amount` → `funding-source` → `availability-period` → agency or program recipient. | Say what is appropriated, from which fund, for whom and through which fiscal year. Keep enactment separate from later spending. |
+| Make authority conditional rather than automatic | [Missouri SB 4](https://www.senate.mo.gov/BillTracking/Bills/BillInformation?billid=66&year=2025) lets eligible utilities request a future rate test year subject to commission review; [Indiana SEA 2](https://www.indianasenaterepublicans.com/gov-braun-signs-garten-s-medicaid-reform-bill) directs the state to seek federal approval for a possible HIP cap and work rule. | `eligibility` or `trigger` → `waiver` or `oversight-body` → `duty` → `effective-date`. | Use a conditional formulation until the commission or federal government acts. A bill directing an application does not create an active cap or requirement. |
+| Bind conduct and state the remedy | [South Dakota chapter 100](https://mylrc.sdlegislature.gov/api/Documents/SessionLaw/279909.pdf?Year=2025) voids specified policies restricting immigration-status communication and protects an officer who refuses them; [Oregon chapter 295](https://olis.oregonlegislature.gov/liz/2025R1/Measures/Overview/SB951) limits management-company control and voids specified restrictive agreements. | `covered-population` → `prohibition` → `exemption` → `enforcement` or `private-right-of-action` where sourced. | Specify the prohibited act and whose action is void or enforceable. Do not turn a narrow remedy into a general promise about every person affected. |
+| Give different sections their actual start dates | [Tennessee Public Chapter 1](https://wapp.capitol.tn.gov/apps/BillInfo/Default?BillNumber=SB6002) lists three effective dates; [Washington chapter 422](https://app.leg.wa.gov/RCW/default.aspx?cite=82.04&full=true) starts its covered service-tax sections October 1, 2025, after the act's general date. | `effective-date` or `phase-in` attached to each operative section, not one undifferentiated bill date. | State enactment and each section's operative date separately. Save and display later collections, payments or enforcement only when their own date and conditions are met. |
+
+The excluded [Cascade draft](https://cascademontana.com/ordinance-2026-02-regulated-short-term-rentals/) and defeated [Lorain tax question](https://www.voteloraincountyohio.gov/_files/ugd/2568d0_c23af398b0ef4e36b45d1458d875dbe8.pdf) are useful status examples for the drafting flow: posted text, referral, voter approval and enacted law are different records. They supply no enacted tax or rental rule.
+
 ## 1. The parts
 
-"Measures" counts how many of the 222 use the part at least once. Values are measured from the sample unless marked inferred.
+"Measures" counts how many of the 220 use the part at least once. Values are measured from the sample unless marked inferred.
 
 | Part | Measures | What it is | Values in the sample | Two examples |
 |---|---|---|---|---|
-| amount | 41 | Money appropriated, raised or estimated | $700 per student to $111 billion | Alaska HB 57 school funding; Cook County 2026 budget |
-| prohibition | 38 | Something may no longer be done | Bans on 7 school food additives; on home purchases by investors holding 350 or more homes; on foreign-linked land buys within 100 miles of a base | Take It Down Act; Denver pet store sales ban |
+| amount | 40 | Money appropriated, raised or estimated | $700 per student to $111 billion | Alaska HB 57 school funding; Cook County 2026 budget |
+| prohibition | 40 | Something may no longer be done | Bans on 7 school food additives; on home purchases by investors holding 350 or more homes; on foreign-linked land buys within 100 miles of a base | Take It Down Act; Denver pet store sales ban |
 | duty | 37 | Something a named party must do | 48-hour removal deadline; 17.5% of units at 60% of area median income | New York City delivery pay; Laken Riley Act |
 | effective-date | 34 | When the rule starts | 0 to 832 days after signing | Utah HB 81 fluoride; San Francisco zoning plan |
 | covered-population | 32 | Who or what the rule reaches | 60 hotel rooms; $500 million revenue (inferred); $10 billion assets (inferred) | Los Angeles hotel wage; GENIUS Act |
-| rate | 31 | A tax rate, wage rate or price | 0.125% to 500%; 0.4171 to 7.2517 mills; 18.4 to 46 cents per gallon | Hawaii lodging tax 9.25% to 10%; Chicago cloud tax 11% to 15% |
-| exemption | 28 | Who is left out | $80,000 to $2 million value floors; 25% to 100% of value; 20 years | Indiana business equipment exemption; Montgomery County tax break |
+| rate | 29 | A tax rate, wage rate or price | 0.125% to 500%; 0.4171 to 7.2517 mills; 18.4 to 46 cents per gallon | Hawaii lodging tax 9.25% to 10%; Chicago cloud tax 11% to 15% |
+| exemption | 29 | Who is left out | $80,000 to $2 million value floors; 25% to 100% of value; 20 years | Indiana business equipment exemption; Montgomery County tax break |
 | administering-agency | 25 | Which office runs it | No numbers | Colorado paid leave division; Virgin Islands SNAP checks |
-| benefit | 24 | What a person gets | $2,000 homeschool account to $10 billion farm aid (inferred); 1 to 12 weeks of leave | Colorado NICU leave; Wyoming $7,000 scholarship |
+| benefit | 22 | What a person gets | $2,000 homeschool account to $10 billion farm aid (inferred); 1 to 12 weeks of leave | Colorado NICU leave; Wyoming $7,000 scholarship |
 | repeal | 23 | An old rule is removed | 1.5 mills; a $100,000 exclusion; a 75-mile toll ban | Social Security Fairness Act; Kansas state mill levy |
 | enforcement | 22 | Who can punish a breach and how | No numbers | Take It Down Act (FTC); Alexandria leaf blower fines |
 | eligibility | 20 | The test to qualify | 150% to 250% of the poverty line; 40% disability rating; age 16 | Wyoming pre-K; Washington veterans at 40% disability |
 | phase-in | 17 | A change arrives in steps | 18 months to 14 years; wage steps of $2.50 a year | Los Angeles $22.50 to $30; Philadelphia business tax to 2039 |
 | penalty | 17 | The punishment | 10 to 30 days minimum jail; 2 to 3 years maximum prison; $500 minimum fine | Oklahoma DUI; HALT Fentanyl Act |
 | standard | 16 | A measurable rule to meet | A 90-foot height limit; 5-story single-stair buildings; 1-to-1 stablecoin reserves | Denver single-stair buildings; GENIUS Act reserves |
-| funding-source | 16 | Where the money comes from | $409 million to $1 billion | North Dakota Legacy Fund; Virgin Islands rainy-day fund |
+| funding-source | 15 | Where the money comes from | $409 million to $1 billion | North Dakota Legacy Fund; Virgin Islands rainy-day fund |
 | cap | 16 | An upper limit | $35 a month insulin; 5% to 10% yearly rent increases; 6 to 10 weeks of benefits | California insulin; Washington rent stabilization |
 | sunset | 14 | A built-in end date | 4 to 20 years | Kansas City 20-year sales tax; tips deduction ends after 2028 |
 | transition | 14 | How old rules hand over to new | A 273-day transition period (Northern Mariana Islands) | Northern Mariana Islands budget re-enacted; Colorado AI Act delay |
-| preemption | 13 | A higher government overrides a lower one | No numbers | California transit housing; Utah fluoride ban |
+| preemption | 12 | A higher government overrides a lower one | No numbers | California transit housing; Utah fluoride ban |
 | trigger | 13 | A condition that switches a change on | 0.25-point rate steps; a $4.62 gas price | Oklahoma "path to zero" tax; Georgia rate cuts |
 | oversight-body | 13 | A board or legislature gains control | No numbers | Missouri St. Louis police board; Kentucky REINS Act |
 | waiver | 13 | Permission to skip a rule; also used here for line-item vetoes | 90-day amnesty; 67 line-item vetoes | Idaho SNAP waiver; ROAD to Housing homelessness waiver |
 | definition | 12 | A term the rule turns on | 350 homes; 183 days; 30% of area median income | ROAD to Housing Act; Alabama conversion devices |
 | threshold | 11 | A number that decides coverage | $150,000 income; 11 or 16 employees; 200 grams | Tips deduction phase-down; Illinois NICU leave |
-| availability-period | 10 | How long money may be spent | End dates from March 14, 2025 to September 30, 2029 | Secure America Act; stopgap budgets |
+| availability-period | 11 | How long money may be spent | End dates from March 14, 2025 to September 30, 2029 | Secure America Act; stopgap budgets |
 | deadline | 10 | Time allowed to comply | 10 days to 1 year; fixed dates up to 2030 | Take It Down Act; Texas sheriffs by December 1, 2026 |
-| reporting | 10 | What must be reported, to whom | 72 hours; 15 days | New York RAISE Act; NDAA reports |
-| earmark | 9 | Revenue tied to one use | $100 million to $420 million a year | Hawaii green fee; Michigan cannabis tax for roads |
+| reporting | 8 | What must be reported, to whom | 72 hours; 15 days | New York RAISE Act; NDAA reports |
+| earmark | 7 | Revenue tied to one use | $3 million set aside in FY2025-26; $100 million a year projected | Hawaii green fee; Michigan cannabis tax for roads |
 | tax-base | 8 | What a tax applies to | A 3% tax on data and IT services | Washington services sales tax; Chicago social media tax |
 | fee | 8 | A charge for a service or permit | $0.15 to $660 | Missoula short-term rental; Chicago bag fee |
 | veto-override | 8 | Law enacted over an executive's veto | 46 to 14 in Alaska's joint session | Alaska school funding; New York City delivery pay |
@@ -57,12 +72,12 @@
 | credit | 8 | A tax credit | $300 to $7,500 per person; 10% of the federal credit | Idaho education credit; Pennsylvania working families credit |
 | delegation | 7 | Power handed to an agency or official | No numbers | Indiana tolling authority; Illinois revenue omnibus |
 | grant-program | 7 | Money awarded to others by application | $80,000 to $140,000 per county | Texas sheriff grants; SUPPORT Act |
-| voter-approval | 6 | Voters must approve | Austin's rejected $0.574017 per $100 rate | Austin Proposition Q; Denver bonds |
-| license | 5 | Permission needed to act | No numbers | Colorado firearm permit; Cascade short-term rentals |
+| voter-approval | 5 | Voters must approve | Austin's rejected $0.574017 per $100 rate | Austin Proposition Q; Denver bonds |
+| license | 4 | Permission needed to act | No numbers | Colorado firearm permit; North Carolina health workforce licensing |
 | bond | 5 | Borrowing authorized | $50 million to $906 million | Connecticut energy bonds; Denver transportation bond |
 | local-option | 5 | A lower government may choose | A 3.3% local income tax cap | Maryland county tax option; New York veterans exemption |
 | revenue-distribution | 5 | A formula for sharing money | Shares of 5% to 50% | Oregon transportation; West Virginia data center taxes |
-| rescission | 4 | Money already given is taken back | $95 million | Rescissions Act of 2025; Austin cuts |
+| rescission | 3 | Money already given is taken back | $95 million | Rescissions Act of 2025; Austin cuts |
 | indexation | 4 | A number follows inflation | 3.2% a year | New York City delivery pay; Illinois fuel tax pause |
 | work-requirement | 4 | Work or activity hours to keep a benefit | 80 hours a month | Medicaid community engagement; Idaho Medicaid |
 | rulemaking | 4 | An agency must write rules | 180 days to start | Rural Broadband Protection Act; Arkansas grocery tax |
@@ -73,7 +88,7 @@
 | exclusion | 3 | Something not counted | $24,000 of retirement income | Wisconsin budget; Whole Milk Act |
 | rebate | 3 | One-time money back | $250 to $500 | Georgia rebate; Montana $400 rebate |
 | loan | 3 | State money lent, not granted | No numbers | Hawaii insurance; South Dakota school loan |
-| notice | 2 | Advance warning required | 90 days before a rent increase | Washington rent law; Cascade ordinance readings |
+| notice | 1 | Advance warning required | 90 days before a rent increase | Washington rent law |
 | private-right-of-action | 2 | People or states may sue | No numbers | Laken Riley Act; Utah app store law |
 | grandfather | 2 | Existing holders are protected | No numbers | Rhode Island weapons ban; ROAD to Housing Act |
 | study | 2 | A study before action | No numbers | WRDA 2024; Hawaii insurance |
@@ -251,7 +266,7 @@ Gap: no state measure on foreign aid, trade or sanctions.
 
 **D.C. and territories (11 measures).** D.C. put a tipped wage change inside its budget support act. Congress reviews D.C. laws before they take effect (inferred). Guam enacted its budget over the governor's veto. The Northern Mariana Islands repealed and re-enacted its budget three months into the fiscal year. The Virgin Islands paid half of each household's November SNAP benefit from its own rainy-day fund when federal funding lapsed.
 
-**Cities and counties (21 measures).** Their main instruments: tax 7, mandate 6, appropriation 3, prohibition 2, and one each of program, license and fee. They set property tax rates, held bond and tax elections, set wage floors for some industries, licensed and zoned, and banned specific products. Limits seen in the sample:
+**Cities and counties (19 measures).** Their main instruments: tax 6, mandate 6, appropriation 3, prohibition 2, and one each of program and fee. They set property tax rates, held bond and tax elections, set wage floors for some industries, licensed and zoned, and banned specific products. Limits seen in the sample:
 
 - Colorado cities need voter approval to borrow; Denver's bond ordinances cite the state constitution.
 - Austin had to stay under the state voter-approval tax rate once voters rejected a higher one.
@@ -275,7 +290,7 @@ Local powers in general, such as creating felonies, were not surveyed. Any wider
 
 ## 5. The game's bank against real patterns
 
-**Size, measured.** Main (commit 1a3cefc41) registers 20 families and 43 variants. The count comes from calling the registry's configuration list (`src/simulation/legislation-program-families.ts:69`). 42 of the 43 are declared in the family files. The 43rd, a transit variant, is appended to the appropriations family (`src/simulation/legislation-fiscal-families.ts:1437`).
+**Size, measured.** Main commit `3e52ccc10` retains the registry implementation measured at `1a3cefc41`: 20 families and 43 variants. The earlier count came from calling the configuration list. Forty-two variants are declared in family files; the 43rd is a transit variant appended to the appropriations family (`src/simulation/legislation-fiscal-families.ts:1437`). The command at the end verifies that the family files did not change between those heads.
 
 Draft pull request #685's branch, codex/world-outcomes-proof-integration (commit 12948fae5), registers 20 families and 46 variants. Its 3 added variants are all appropriations: passenger rail, a local fix-it-first variant and a state transit variant. That branch registers them at `legislation-fiscal-families.ts:1440`.
 
@@ -294,13 +309,13 @@ Taxes have a separate route outside the bank. A tax proposal attached to a bill 
 - `broadband-access` family: buildout to unserved areas (`src/simulation/legislation-infrastructure-families.ts:776`). This matches the vetting and service standards in the Rural Broadband Protection Act.
 - `disaster-recovery` family: grants and waivers (`src/simulation/legislation-resilience-families.ts:97`). These match the American Relief Act.
 
-One mismatch runs the other way. The `agency-reporting` family writes bills that only require reports (`legislation-administration-families.ts:680`). In the sample, reporting appears in 10 measures, always inside a larger bill; no sampled measure is reporting-only.
+One mismatch runs the other way. The `agency-reporting` family writes bills that only require reports (`legislation-administration-families.ts:680`). In the sample, reporting appears in 8 measures, always inside a larger bill; no sampled measure is reporting-only.
 
-**Five kinds of real law with no variant, confirmed in code and ranked by count.** Each measure is counted once, so together they appear in 90 of the 222 measures.
+**Five kinds of real law with no variant, confirmed in code and ranked by count.** Counts below use the corrected 220-measure sample. Overlaps mean their counts should not be added.
 
-1. **Bans and penalties: 51 measures.** 40 ban something, 17 set a penalty, and 6 do both. Measured: no instrument or clause kind is a ban or a penalty (`legislation-content-contracts.ts:163`). The 9 regulatory variants impose plans, inventories, notices, service duties, a hiring standard or a waiver; none bans an act. Recipe: definition, prohibition, exemption, penalty, enforcement, grandfather clause.
-2. **Tax changes beyond one flat rate: 18 of the 42 tax measures.** These use credits, deductions, exclusions, rebates, phase-ins or revenue triggers. Measured: the tax route has one rate, one base, exempt bases and an allowance, and no field for any of these (`tax-types.ts:22`). The other 24 tax measures were not checked field by field. Recipe: rate, credit or deduction, phase-in, trigger, effective date.
-3. **State override of local government, or local options: 18 measures.** 14 override a lower government: 12 state, 1 federal and 1 city measure. 11 of the 12 state measures limit local governments; Arizona's tobacco law instead matches a federal age limit. 5 give local governments a choice; 1 measure does both. Measured: no instrument limits or empowers a local government (`legislation-content-contracts.ts:163`). A search of the family files for "local government" finds them only as grant recipients, local-match payers, reporters and employers; the reporting variant's local-government option is one example (`legislation-administration-families.ts:739`). Recipe: preemption, local option, levy cap, deadline for local ordinances.
+1. **Bans and penalties: 53 measures.** 40 include a prohibition, 17 set a penalty, and 4 do both. Measured: no instrument or clause kind is a ban or a penalty (`legislation-content-contracts.ts:163`). The 9 regulatory variants impose plans, inventories, notices, service duties, a hiring standard or a waiver; none bans an act. Recipe: definition, prohibition, exemption, penalty, enforcement, grandfather clause.
+2. **Tax changes beyond one flat rate: 18 of the 41 tax measures.** These use credits, deductions, exclusions, rebates, phase-ins or revenue triggers. Measured: the tax route has one rate, one base, exempt bases and an allowance, and no field for any of these (`tax-types.ts:22`). The other 23 tax measures were not checked field by field. Recipe: rate, credit or deduction, phase-in, trigger, effective date.
+3. **State override of local government, or local options: 17 measures.** 13 override a lower government: 11 state, 1 federal and 1 city measure. Five give local governments a choice; one measure does both. Arizona’s tobacco law was removed from this category because it changes state enforcement rather than preempting a lower government. Measured: no instrument limits or empowers a local government (`legislation-content-contracts.ts:163`). A search of the family files for "local government" finds them only as grant recipients, local-match payers, reporters and employers; the reporting variant's local-government option is one example (`legislation-administration-families.ts:739`). Recipe: preemption, local option, levy cap, deadline for local ordinances.
 4. **Price caps and wage floors on private parties: 7 measures.** 3 are price caps (California and Nevada insulin, Washington rent). 4 are wage floors (Michigan, Los Angeles, New York City delivery workers, D.C. tipped wage). Measured by reading all 9 regulatory variants: they reach water systems, utilities, critical-infrastructure operators and public bodies, never landlords, employers, insurers or retailers. The water service line variant is one example (`legislation-infrastructure-families.ts:1163`). Recipe: covered population with a size threshold, cap or floor, indexation, phase-in, notice, enforcement.
 5. **Narrowing who qualifies: 6 measures.** They add work hours, add premiums or remove a group (federal Medicaid and SNAP work rules, Idaho, Indiana, Minnesota, New Hampshire). Measured: two of the three eligibility variants widen eligibility (`legislation-administration-families.ts:143`). The third ties the threshold to a published figure and can disqualify households when that figure moves (`legislation-administration-families.ts:554`). No variant removes a group or adds a work requirement or premium. Recipe: covered population, work requirement or premium, exemption, effective date, administering agency.
 
@@ -312,7 +327,7 @@ A sixth confirmed gap is smaller: leave mandates on private employers, 3 measure
 - Creating, merging or taking over agencies: 7 measures.
 - Bond questions put to voters: 5 measures.
 - License and permit systems: 5 measures.
-- Continuing resolutions and rescissions: 4 continuing resolutions and 4 measures with a rescission.
+- Continuing resolutions and rescissions: 4 continuing resolutions and 3 measures with a rescission.
 - Laws that only change a date: 1 measure.
 
 How bills pass was not checked. The game already records a veto that is sustained (`types.ts:4233`); veto overrides and referendum petitions were not traced.
@@ -323,8 +338,10 @@ The Claude CTO's bill-parts lane owns three follow-ups, as its next assignment a
 
 - Scope bill families for the five gaps above, in that order.
 - Add a law status for "halted" or "suspended" beside "enacted", so a law can pass and still be stopped by a court or a petition.
-- Check the 20 measures marked "inferred-details" against official text before any of their numbers feeds a game value.
+- Obtain enacted text for Idaho H345 and clear the remaining "inferred-details" record before any of its unverified details feeds a game value. The other 19 records were checked or excluded using the official sources named in their records.
 
 The catalog changes nothing in the game. Real data calibrates the game only; the game generates its own laws.
 
 Method. Research ran September 26, 2026. Sources were official legislature, Congress and city sites, GovInfo for federal text, and news or press releases where official pages refused automated reading. LegiScan, Congress.gov, and the New York, Hawaii and Colorado legislature pages refused it. No accounts or API keys were used. American Samoa is missing: no 2025 or 2026 law could be confirmed. Records and sources are in `data/research/bill-samples/`, one file per jurisdiction.
+
+The code comparison uses named main `3e52ccc10`. The command `git diff --name-only 1a3cefc41a09bbcdc4b9c41684ddc54df9dc3e32..origin/main -- src/simulation/legislation-*-families.ts src/simulation/legislation-content-contracts.ts src/simulation/tax-types.ts` returned no changed files. The command `git show origin/main:<path>` was used to inspect cited lines. The 20-family, 43-variant count itself was not rerun on this research branch; it is carried from the donor's executed registry command at the unchanged code head.

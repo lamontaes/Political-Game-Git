@@ -107,12 +107,12 @@
     "level": "state",
     "session": "57th Legislature, 1st Regular Session (2025)",
     "bill_number": "SB 1247",
-    "law_citation": null,
+    "law_citation": "Chapter 228, Laws 2025",
     "short_title": "Tobacco and vape purchase age raised to 21",
-    "enacted_date": "2025",
+    "enacted_date": "2025-06-27",
     "enactment_path": "signed",
     "effective_dates": [],
-    "official_text_url": "https://apps.azleg.gov/BillStatus/BillOverview",
+    "official_text_url": "https://www.azleg.gov/legtext/57leg/1r/laws/0228.htm",
     "aggregator_url": "https://legiscan.com/AZ/bill/SB1247/2025",
     "menu": "02",
     "menu_name": "Healthcare",
@@ -125,37 +125,31 @@
     "parts": [
       {
         "kind": "threshold",
-        "description": "Minimum age to buy tobacco and vaping products.",
+        "description": "State tobacco and vapor-product prohibitions apply to people under 21.",
         "numbers": [
           {
-            "value": 18,
-            "unit": "years old age",
-            "text": "18 years old age"
-          },
-          {
             "value": 21,
-            "unit": "years new age",
-            "text": "21 years new age"
+            "unit": "years of age",
+            "text": "21 years of age"
           }
         ]
       },
       {
         "kind": "penalty",
-        "description": "Retailer penalties for sales to underage buyers.",
-        "inferred": true
+        "description": "Knowing sale or furnishing to a person under 21 is a petty offense."
       },
       {
-        "kind": "preemption",
-        "description": "Aligns state law with the federal age of 21."
+        "kind": "exemption",
+        "description": "Specified active military personnel aged 18 to 20 may possess or use products if military rules allow it and they hold valid military identification."
       }
     ],
     "touches": [
       "retailers",
       "state tobacco enforcement"
     ],
-    "daily_life": "A 19-year-old can no longer buy vapes at the corner store.",
+    "daily_life": "State law bars furnishing tobacco or vapor products to people under 21, with a narrow military possession exception.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": "Bill number from a secondary summary; confirm on azleg.gov."
+    "source_confidence": "official-text-checked",
+    "notes": "Arizona Chapter 228 text confirms bill number, penalties, exceptions and June 27 approval. Prior 18-to-21 consumer claim overstated the change because federal tobacco sale age was already 21."
   }
 ]

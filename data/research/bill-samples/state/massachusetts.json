@@ -4,13 +4,13 @@
     "jurisdiction": "Massachusetts",
     "level": "state",
     "session": "194th General Court (2025)",
-    "bill_number": "H 4000 (inferred)",
-    "law_citation": "Chapter 9 of the Acts of 2025 (inferred)",
+    "bill_number": "H.4240",
+    "law_citation": "Chapter 9 of the Acts of 2025",
     "short_title": "FY2026 general appropriations act",
     "enacted_date": "2025-07-04",
     "enactment_path": "signed",
     "effective_dates": [],
-    "official_text_url": "https://malegislature.gov/Laws/SessionLaws/Acts/2025",
+    "official_text_url": "https://malegislature.gov/Laws/SessionLaws/Acts/2025/Chapter9",
     "aggregator_url": null,
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
@@ -23,23 +23,15 @@
     "parts": [
       {
         "kind": "amount",
-        "description": "Annual operating budget by line item.",
-        "numbers": [
-          {
-            "value": 61000000000,
-            "unit": "USD approx (inferred)",
-            "text": "61000000000 USD approx (inferred)"
-          }
-        ],
-        "inferred": true
+        "description": "Appropriates FY2026 operating funds by department and line item."
       },
       {
-        "kind": "earmark",
-        "description": "Surtax (millionaires tax) revenue dedicated to education and transportation."
+        "kind": "availability-period",
+        "description": "Provides for the fiscal year ending June 30, 2026."
       },
       {
         "kind": "waiver",
-        "description": "Governor line-item vetoes; legislature may override."
+        "description": "Governor returned specified line items and wording for legislative reconsideration."
       }
     ],
     "touches": [
@@ -48,8 +40,8 @@
     ],
     "daily_life": "Sets school aid and transit funding for the year.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-text-checked",
+    "notes": "Official Chapter 9 identifies original legislation H.4240, not H.4000. Governor message H.4250 documents the July 4, 2025 signing and returned items: https://malegislature.gov/Bills/194/H4250 . The previously inferred $61 billion figure was removed."
   },
   {
     "id": "ma-2025-ch17-municipal-roads",

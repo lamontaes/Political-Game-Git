@@ -85,8 +85,11 @@
     "short_title": "Earned sick time act amendments",
     "enacted_date": "2025-02-21",
     "enactment_path": "signed",
-    "effective_dates": [],
-    "official_text_url": "https://legislature.mi.gov/Bills/Bill?ObjectName=2025-HB-4002",
+    "effective_dates": [
+      "2025-02-21",
+      "2025-10-01"
+    ],
+    "official_text_url": "https://www.legislature.mi.gov/documents/2025-2026/publicact/pdf/2025-PA-0002.pdf",
     "aggregator_url": null,
     "menu": "07",
     "menu_name": "Labor & Employment",
@@ -99,55 +102,59 @@
     "parts": [
       {
         "kind": "threshold",
-        "description": "Small employers get a lower requirement and a delayed start.",
+        "description": "Defines a small business generally by 10 or fewer workers, with a 20-workweek lookback rule.",
         "numbers": [
           {
             "value": 10,
-            "unit": "or fewer employees (inferred)",
-            "text": "10 or fewer employees (inferred)"
+            "unit": "workers",
+            "text": "10 workers"
           }
-        ],
-        "inferred": true
+        ]
       },
       {
         "kind": "benefit",
-        "description": "Accrual of paid sick time per hours worked with an annual cap.",
+        "description": "Small-business employees may use up to 40 hours and other employees up to 72 hours of paid earned sick time per year unless the employer allows more.",
         "numbers": [
           {
+            "value": 40,
+            "unit": "hours small-business use cap",
+            "text": "40 hours small-business use cap"
+          },
+          {
             "value": 72,
-            "unit": "hours annual cap (inferred)",
-            "text": "72 hours annual cap (inferred)"
+            "unit": "hours other-employer use cap",
+            "text": "72 hours other-employer use cap"
           }
-        ],
-        "inferred": true
+        ]
       },
       {
         "kind": "phase-in",
-        "description": "Later effective date for small businesses.",
-        "inferred": true
+        "description": "Small businesses have a transition period through September 30, 2025."
       }
     ],
     "touches": [
       "payroll systems",
       "small businesses"
     ],
-    "daily_life": "Workers earn paid sick days, on a slower track at very small businesses.",
+    "daily_life": "Workers accrue paid sick time; small-business employees have a lower annual use limit and later compliance date.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-text-checked",
+    "notes": "Public Act 2 of 2025 text confirms the 10-worker definition, 40/72-hour use limits and February 21 effective date. The transition period requires separate application; do not treat every worker as immediately eligible for 72 hours."
   },
   {
-    "id": "mi-2025-marijuana-wholesale-tax",
+    "id": "mi-2025-hb4951-marijuana-wholesale-tax",
     "jurisdiction": "Michigan",
     "level": "state",
     "session": "103rd Legislature (2025)",
-    "bill_number": "HB 4180 (inferred)",
-    "law_citation": null,
+    "bill_number": "HB 4951",
+    "law_citation": "Public Act 23 of 2025",
     "short_title": "Marijuana wholesale tax for road funding",
-    "enacted_date": "2025-10",
+    "enacted_date": "2025-10-07",
     "enactment_path": "signed",
-    "effective_dates": [],
-    "official_text_url": "https://legislature.mi.gov/",
+    "effective_dates": [
+      "2026-01-01"
+    ],
+    "official_text_url": "https://zeus-milenia.legislature.mi.gov/documents/2025-2026/publicact/pdf/2025-PA-0023.pdf",
     "aggregator_url": null,
     "menu": "01",
     "menu_name": "Infrastructure",
@@ -162,7 +169,7 @@
     "parts": [
       {
         "kind": "rate",
-        "description": "New wholesale excise tax on marijuana.",
+        "description": "Imposes a 24% excise tax on specified wholesale marijuana transfers beginning January 1, 2026.",
         "numbers": [
           {
             "value": 24,
@@ -173,29 +180,14 @@
       },
       {
         "kind": "earmark",
-        "description": "Revenue directed to a fund for local roads.",
+        "description": "Allocates $3 million in FY2025-26 to the Comprehensive Road Funding Fund and the balance to the Neighborhood Roads Fund.",
         "numbers": [
           {
-            "value": 420000000,
-            "unit": "USD per year projected",
-            "text": "420000000 USD per year projected"
+            "value": 3000000,
+            "unit": "USD FY2025-26",
+            "text": "3000000 USD FY2025-26"
           }
         ]
-      },
-      {
-        "kind": "amount",
-        "description": "Part of a package targeting about $1.8 billion a year more for roads.",
-        "numbers": [
-          {
-            "value": 1800000000,
-            "unit": "USD per year target",
-            "text": "1800000000 USD per year target"
-          }
-        ]
-      },
-      {
-        "kind": "funding-source",
-        "description": "Also redirects existing fuel sales tax revenue to roads."
       }
     ],
     "touches": [
@@ -203,9 +195,9 @@
       "cannabis retailers",
       "school aid fund"
     ],
-    "daily_life": "Cannabis costs more; local roads get more repair money.",
+    "daily_life": "Specified marijuana wholesale transfers incur a 24% tax; the law directs most receipts to neighborhood roads.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-text-checked",
+    "notes": "Public Act 23 is HB 4951, not HB 4180. The removed $420 million projection, $1.8 billion package target and fuel-tax redirection are not terms of this act. Later road revenue depends on actual collections."
   }
 ]

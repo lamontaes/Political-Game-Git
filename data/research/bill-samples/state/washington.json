@@ -156,12 +156,13 @@
     "bill_number": "SB 5814",
     "law_citation": "Chapter 422, Laws of 2025",
     "short_title": "Sales tax extended to more services",
-    "enacted_date": "2025-05",
+    "enacted_date": "2025-05-20",
     "enactment_path": "signed",
     "effective_dates": [
-      "2025-07-27 (general effective date; some sections 2025-10-01, inferred)"
+      "2025-07-27",
+      "2025-10-01"
     ],
-    "official_text_url": "https://app.leg.wa.gov/billsummary?billnumber=5814&year=2025",
+    "official_text_url": "https://app.leg.wa.gov/billsummary?BillNumber=5814&Year=2025",
     "aggregator_url": null,
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
@@ -174,23 +175,21 @@
     "parts": [
       {
         "kind": "tax-base",
-        "description": "Retail sales tax applies to additional services such as advertising, IT and temporary staffing (inferred list).",
-        "inferred": true
+        "description": "Extends retail-sales treatment to specified services including information technology, advertising and temporary staffing."
       },
       {
         "kind": "effective-date",
-        "description": "Starts in the fall after enactment (inferred).",
-        "inferred": true
+        "description": "The listed service-tax sections take effect October 1, 2025; other sections follow the act’s general July 27 date."
       }
     ],
     "touches": [
       "businesses buying services",
       "state general fund"
     ],
-    "daily_life": "Businesses pay sales tax on services that used to be exempt.",
+    "daily_life": "Specified business services become subject to retail sales tax starting October 1, 2025.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-text-checked",
+    "notes": "Official bill history gives Chapter 422 and May 20 signature. RCW 82.04.050 note states the service provisions take effect October 1, 2025: https://app.leg.wa.gov/RCW/default.aspx?cite=82.04&full=true ."
   },
   {
     "id": "wa-2025-hb1106-veteran-property-tax",

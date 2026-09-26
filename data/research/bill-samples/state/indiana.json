@@ -95,7 +95,7 @@
     "bill_number": "SB 2 (SEA 2)",
     "law_citation": null,
     "short_title": "Medicaid cost containment and eligibility checks",
-    "enacted_date": "2025-05",
+    "enacted_date": "2025",
     "enactment_path": "signed",
     "effective_dates": [],
     "official_text_url": "https://iga.in.gov/legislative/2025/bills/senate/2",
@@ -111,31 +111,25 @@
     "parts": [
       {
         "kind": "cap",
-        "description": "Enrollment cap on the state's expansion program (HIP) (inferred).",
-        "inferred": true
+        "description": "Directs the state to seek federal approval for a future HIP enrollment cap if costs exceed funding; no cap is presumed in force."
       },
       {
         "kind": "work-requirement",
-        "description": "Seek federal approval for work requirements.",
-        "inferred": true
+        "description": "Directs the state to seek federal approval for a 20-hour weekly work or volunteer requirement with exemptions."
       },
       {
         "kind": "duty",
-        "description": "More frequent eligibility verification."
-      },
-      {
-        "kind": "reporting",
-        "description": "Reports to the budget committee on spending."
+        "description": "Requires more frequent eligibility checks through agency data sharing."
       }
     ],
     "touches": [
       "Healthy Indiana Plan",
       "hospitals"
     ],
-    "daily_life": "Medicaid members face more paperwork to stay enrolled.",
+    "daily_life": "Eligibility checks increase; a HIP cap or work rule depends on federal approval and implementation.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-status-checked",
+    "notes": "Indiana Senate sponsor’s official summary confirms conditional cap, work waiver and data sharing: https://www.indianasenaterepublicans.com/gov-braun-signs-garten-s-medicaid-reform-bill . Final enrolled text was not independently checked; do not treat conditional rules as active."
   },
   {
     "id": "in-2025-hea1001-budget",
@@ -145,10 +139,10 @@
     "bill_number": "HB 1001 (HEA 1001)",
     "law_citation": null,
     "short_title": "2025-2027 biennial budget",
-    "enacted_date": "2025-05",
+    "enacted_date": "2025",
     "enactment_path": "signed",
     "effective_dates": [],
-    "official_text_url": "https://iga.in.gov/legislative/2025/bills/house/1001",
+    "official_text_url": "https://www.in.gov/sba/files/HB1001_CCR_v4.pdf",
     "aggregator_url": null,
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
@@ -163,16 +157,11 @@
     "parts": [
       {
         "kind": "amount",
-        "description": "Two-year state spending plan including school funding formula."
+        "description": "Provides fiscal-year 2026 and 2027 appropriations across state agencies, including school funding."
       },
       {
         "kind": "reporting",
-        "description": "State Budget Committee review of certain expenditures."
-      },
-      {
-        "kind": "rescission",
-        "description": "Agency spending reductions to close a revenue gap (inferred).",
-        "inferred": true
+        "description": "Requires Budget Committee review for specified expenditures in the enacted budget."
       }
     ],
     "touches": [
@@ -182,8 +171,8 @@
     ],
     "daily_life": "Sets per-student school funding for two years.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-text-checked",
+    "notes": "Indiana State Budget Agency hosts the HEA 1001 conference report and as-passed biennial budget. The prior generic rescission claim was not tied to an enacted section and has been removed."
   },
   {
     "id": "in-2025-hea1461-tolling",

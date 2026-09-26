@@ -96,10 +96,13 @@
     "bill_number": "SB 4",
     "law_citation": null,
     "short_title": "Utility regulation (future test year, infrastructure charges)",
-    "enacted_date": "2025-04-09",
+    "enacted_date": "2025",
     "enactment_path": "signed",
-    "effective_dates": [],
-    "official_text_url": "https://www.senate.mo.gov/",
+    "effective_dates": [
+      "2025-08-28",
+      "2026-07-01"
+    ],
+    "official_text_url": "https://www.senate.mo.gov/BillTracking/Bills/BillInformation?billid=66&year=2025",
     "aggregator_url": "https://legiscan.com/MO/bill/SB4/2025",
     "menu": "09",
     "menu_name": "Energy & Environment",
@@ -112,28 +115,25 @@
     "parts": [
       {
         "kind": "rate",
-        "description": "Lets utilities set rates using a future test year rather than past costs (inferred).",
-        "inferred": true
+        "description": "Allows eligible utilities to request a future test year for rate proceedings beginning July 1, 2026."
       },
       {
         "kind": "surcharge",
-        "description": "Allows charges for construction work in progress on new gas plants (inferred).",
-        "inferred": true
+        "description": "Permits the Public Service Commission to include limited gas-plant construction work in progress in rate base, subject to refund and sunset conditions."
       },
       {
-        "kind": "benefit",
-        "description": "Consumer protections on disconnection (inferred).",
-        "inferred": true
+        "kind": "prohibition",
+        "description": "Extends hot- and cold-weather conditions in which residential utility disconnection for nonpayment is barred."
       }
     ],
     "touches": [
       "Public Service Commission",
       "electric and gas bills"
     ],
-    "daily_life": "Utilities can start recovering the cost of new plants before they run.",
+    "daily_life": "Some utility rate cases may use future costs; residential customers gain specified weather-related shutoff protections.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-status-checked",
+    "notes": "Official Missouri Senate page confirms signature, August 28, 2025 general effective date and these three provisions. The former April 9 enactment date was unsupported."
   },
   {
     "id": "mo-2025-hb495-st-louis-police",

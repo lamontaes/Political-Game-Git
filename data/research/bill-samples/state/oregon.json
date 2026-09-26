@@ -87,23 +87,21 @@
     "parts": [
       {
         "kind": "prohibition",
-        "description": "A management services organization and its shareholders, directors or employees may not control or own a controlling stake in the medical practice they manage (official summary; details inferred).",
-        "inferred": true
+        "description": "Restricts management-service organizations and their people from owning or controlling a contracted professional medical entity."
       },
       {
         "kind": "prohibition",
-        "description": "Limits noncompete and non-disparagement clauses for clinicians (inferred).",
-        "inferred": true
+        "description": "Voids specified noncompetition, nondisclosure and nondisparagement agreements involving medical professionals, subject to statutory exceptions."
       }
     ],
     "touches": [
       "private equity",
       "physician groups"
     ],
-    "daily_life": "Your doctor, not an investor, controls your treatment decisions.",
+    "daily_life": "Medical professionals receive limits on outside control of practices and certain restrictive agreements.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-status-checked",
+    "notes": "Official Oregon SB 951 enrolled summary identifies Chapter 295 and both provisions. The prior claim about a particular patient’s treatment decision exceeded what the source proves."
   },
   {
     "id": "or-2025-hb3991-transportation",

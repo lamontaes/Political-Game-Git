@@ -72,17 +72,19 @@
     "notes": "Budget Support Act as a policy vehicle; DC laws also need a congressional review period."
   },
   {
-    "id": "dc-2025-fy26-budget-request-act",
+    "id": "dc-2025-fy26-local-budget-act",
     "jurisdiction": "District of Columbia",
     "level": "dc",
     "session": "Council Period 26",
-    "bill_number": "B26-0264 (inferred)",
-    "law_citation": null,
+    "bill_number": "B26-0260",
+    "law_citation": "D.C. Law 26-51",
     "short_title": "Fiscal Year 2026 Local Budget Act",
-    "enacted_date": "2025-07",
+    "enacted_date": "2025-09-04",
     "enactment_path": "signed",
-    "effective_dates": [],
-    "official_text_url": "https://lims.dccouncil.gov/",
+    "effective_dates": [
+      "2025-10-23"
+    ],
+    "official_text_url": "https://code.dccouncil.gov/us/dc/council/laws/26-51",
     "aggregator_url": null,
     "menu": "04",
     "menu_name": "Taxes & Public Finance",
@@ -95,20 +97,20 @@
     "parts": [
       {
         "kind": "amount",
-        "description": "Local-funds budget adopted by the Council."
+        "description": "Adopts agency appropriations for the fiscal year ending September 30, 2026."
       },
       {
         "kind": "oversight-body",
-        "description": "DC's budget is also enacted by Congress in federal appropriations (inferred).",
-        "inferred": true
+        "description": "Act 26-147 was transmitted to Congress for Home Rule Act review; federal payments in the budget depend on separate congressional appropriation."
       }
     ],
     "touches": [
-      "federal appropriations (Financial Services bill)"
+      "District agencies",
+      "Congressional review and separate federal payments"
     ],
-    "daily_life": "Funds DC schools, police and services; Congress must also approve it.",
+    "daily_life": "Council budget authority funds District services; specified federal payments depend on separate congressional appropriation.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-text-checked",
+    "notes": "D.C. Law Library identifies Bill 26-260, Act 26-147 and October 23, 2025 effective date. B26-0264 is a different FY2025 revised budget bill; July 2025 was Council consideration, not this law’s effective date."
   }
 ]

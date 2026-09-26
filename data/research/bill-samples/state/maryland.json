@@ -189,7 +189,7 @@
     "bill_number": "HB 350",
     "law_citation": "Chapter 602, 2025",
     "short_title": "FY2026 budget bill",
-    "enacted_date": "2025-04",
+    "enacted_date": "2025-05-20",
     "enactment_path": "signed with line-item vetoes",
     "effective_dates": [],
     "official_text_url": "https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/hb0350?ys=2025RS",
@@ -205,17 +205,16 @@
     "parts": [
       {
         "kind": "amount",
-        "description": "Annual operating budget; the legislature can cut but not add to the governor's budget.",
-        "inferred": true
+        "description": "Appropriates the FY2026 state budget, subject to the Governor’s recorded line-item veto."
       },
       {
         "kind": "availability-period",
-        "description": "Fiscal year starting July 1.",
+        "description": "Fiscal year ends June 30, 2026.",
         "numbers": [
           {
-            "value": 2025,
-            "unit": "-07-01 date",
-            "text": "2025-07-01 date"
+            "value": 2026,
+            "unit": "fiscal-year end",
+            "text": "2026 fiscal-year end"
           }
         ]
       }
@@ -226,7 +225,7 @@
     ],
     "daily_life": "Funds state services for the year.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-status-checked",
+    "notes": "Maryland General Assembly status records approval as Chapter 602 on May 20, 2025, with line-item vetoes. Prior date 2025-04 described passage rather than final approval."
   }
 ]

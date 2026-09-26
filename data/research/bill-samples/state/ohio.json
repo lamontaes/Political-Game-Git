@@ -149,7 +149,7 @@
     "bill_number": "HB 15",
     "law_citation": null,
     "short_title": "Energy law overhaul (ends coal plant subsidy charges)",
-    "enacted_date": "2025-05",
+    "enacted_date": "2025-05-15",
     "enactment_path": "signed",
     "effective_dates": [
       "2025-08-14"
@@ -169,27 +169,24 @@
     "parts": [
       {
         "kind": "repeal",
-        "description": "Ends ratepayer charges supporting two older coal plants (OVEC) (inferred).",
-        "inferred": true
+        "description": "Repeals provisions of HB 6 supporting Ohio Valley Electric Corporation costs."
       },
       {
         "kind": "repeal",
-        "description": "Ends electric security plans in favor of rate cases (inferred).",
-        "inferred": true
+        "description": "Eliminates the electric-security-plan option for the standard service offer in favor of a market-rate offer."
       },
       {
         "kind": "duty",
-        "description": "Allows behind-the-meter generation for large customers (inferred).",
-        "inferred": true
+        "description": "Changes electric-utility rules affecting large-load customers and behind-the-meter generation."
       }
     ],
     "touches": [
       "electric bills",
       "PUCO"
     ],
-    "daily_life": "A monthly coal-plant surcharge drops off electric bills.",
+    "daily_life": "Electric utility charges and rate procedures change under HB 15; an individual bill’s change depends on its utility and tariff.",
     "provision_of": null,
-    "source_confidence": "inferred-details",
-    "notes": null
+    "source_confidence": "official-status-checked",
+    "notes": "Ohio Legislature status records May 15 signing. Legislative Service Commission analysis identifies the HB 6/OVEC repeal and market-rate-offer change. The earlier promise that every coal surcharge drops immediately was too broad."
   }
 ]

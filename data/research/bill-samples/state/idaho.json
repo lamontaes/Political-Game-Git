@@ -143,7 +143,7 @@
     "bill_number": "H 345",
     "law_citation": "Chapter 118, Session Laws 2025",
     "short_title": "Medicaid managed care and work requirements",
-    "enacted_date": "2025-03",
+    "enacted_date": "2025-03-19",
     "enactment_path": "signed",
     "effective_dates": [
       "2025-03-19 (emergency clause)",
@@ -162,28 +162,21 @@
     "parts": [
       {
         "kind": "work-requirement",
-        "description": "Directs the state to seek federal approval for work requirements on expansion adults.",
-        "inferred": true
+        "description": "State Medicaid reform contemplates work/community-engagement requirements; the exact waiver and start under H345 remain to be checked."
       },
       {
         "kind": "duty",
-        "description": "Moves Medicaid toward managed care contracts.",
-        "inferred": true
-      },
-      {
-        "kind": "rate",
-        "description": "Limits on provider payment increases (inferred).",
-        "inferred": true
+        "description": "Directs a transition toward comprehensive Medicaid managed care; the agency’s September 2026 plan targets January 1, 2030."
       }
     ],
     "touches": [
       "Idaho Medicaid",
       "hospitals"
     ],
-    "daily_life": "Adults on Medicaid may need to report work hours.",
+    "daily_life": "Medicaid delivery is planned to shift to managed care; current work rules arise from later federal requirements and need separate sourcing.",
     "provision_of": null,
     "source_confidence": "inferred-details",
-    "notes": null
+    "notes": "Governor confirms H345 signed March 19, 2025: https://gov.idaho.gov/pressrelease/gov-little-signs-the-medicaid-reform-and-cost-containment-act/ . Idaho DHW confirms managed-care transition delayed to 2030: https://healthandwelfare.idaho.gov/managedcare . Official bill text was blocked; the provider-rate claim is unverified and must not supply a game value."
   },
   {
     "id": "id-2025-h109-snap-soda",
