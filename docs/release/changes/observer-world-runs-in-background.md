@@ -13,3 +13,6 @@ does not reject a whole game for exceeding its single-record size limit.
 
 Closing the tab while unsaved weeks remain now warns the player. The observer
 clock and the recap also stay apart on a desktop-sized screen.
+
+Saves now use a newer browser storage format. Once this build opens your saves,
+an older build of the game can no longer open them.
