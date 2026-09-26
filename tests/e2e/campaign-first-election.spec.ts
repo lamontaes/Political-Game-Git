@@ -415,12 +415,9 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("play-screen")).toBeVisible();
 
     if (/\blost[,.]/i.test(afterword)) {
-      // Losing is a thing that happened, said in those words. The afterword
-      // is in Work, where the campaign is, not on the day.
+      // The recorded loss stays in Campaigns after another Day.
       await openCampaign(page);
-      await expect(page.getByTestId("campaign-afterword")).toContainText(
-        /not the end of (them|him|her)\b/i,
-      );
+      await expect(page.getByTestId("campaign-afterword")).toHaveText(afterword);
       // And it opens no office it did not earn.
       await expect(page.getByTestId("office-section")).toHaveCount(0);
     } else {
