@@ -146,10 +146,18 @@ export function validateChangedHistory(
   previous: World,
   world: World,
   families: readonly ChangedHistoryFamily[],
-  /** Ids of entities the result added outside history (new places). */
+  /** Ids of entities the result added outside history (places, people). */
   addedEntityIds: readonly string[] = [],
+  /** Ids a changed person carries: kept from before, or new to the World. */
+  keptOrNewIds: readonly string[] = [],
 ): boolean {
-  const passed = checkChangedHistory(previous, world, families, addedEntityIds);
+  const passed = checkChangedHistory(
+    previous,
+    world,
+    families,
+    addedEntityIds,
+    keptOrNewIds,
+  );
   if (passed) changedHistoryCheckCounts.passed += 1;
   else changedHistoryCheckCounts.fellBack += 1;
   return passed;
@@ -160,6 +168,7 @@ function checkChangedHistory(
   world: World,
   families: readonly ChangedHistoryFamily[],
   addedEntityIds: readonly string[],
+  keptOrNewIds: readonly string[],
 ): boolean {
   const index = INDEX.get(previous) ?? {
     ids: idsOf(previous),
@@ -175,6 +184,11 @@ function checkChangedHistory(
   const newKeys = new Map<string, Set<string>>();
   for (const id of addedEntityIds) {
     if (index.ids.has(id) || newIds.has(id)) return false;
+    newIds.add(id);
+  }
+  for (const id of keptOrNewIds) {
+    if (index.ids.has(id)) continue;
+    if (newIds.has(id)) return false;
     newIds.add(id);
   }
   for (const { key, before, after } of families) {

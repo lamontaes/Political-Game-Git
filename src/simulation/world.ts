@@ -767,19 +767,23 @@ function validateWorldIntegrity(
     previous.people === world.people &&
     previous.personOrder === world.personOrder &&
     previous.policyCatalog === world.policyCatalog;
-  // A Day that only registered a new place (a state or county a writer
-  // needed) checks the new places, not every person again.
-  const addedJurisdictions =
+  // A result that only added places, or added or changed a few people (a
+  // birth, a move), checks those places and people, not every person again.
+  const entityChange =
     !sameInitialEntities && worldIntegrityCheckMode() === "changed"
-      ? jurisdictionsOnlyAdded(previous, world, delta)
+      ? changedInitialEntities(previous, world, delta)
       : null;
-  if (addedJurisdictions) {
+  if (entityChange) {
     validateInitialEntities(
       world.id,
       currentDate,
-      addedJurisdictions,
-      [],
+      entityChange.jurisdictions,
+      entityChange.people,
       world.policyCatalog,
+      {
+        jurisdictionIds: new Set(world.jurisdictionOrder),
+        personIds: new Set(world.personOrder),
+      },
     );
   } else if (!sameInitialEntities) {
     const jurisdictions = orderedRecords(
@@ -830,14 +834,15 @@ function validateWorldIntegrity(
   if (worldIntegrityCheckMode() === "changed") {
     if (previous === undefined) changedHistoryCheckCounts.fullNoPrevious += 1;
     else if (delta === null) changedHistoryCheckCounts.fullNotAppend += 1;
-    else if (!sameInitialEntities && !addedJurisdictions)
+    else if (!sameInitialEntities && !entityChange)
       changedHistoryCheckCounts.fullEntitiesChanged += 1;
     else
       checkedChanges = validateChangedHistory(
         previous,
         world,
         delta.changed,
-        (addedJurisdictions ?? []).map((jurisdiction) => jurisdiction.id),
+        entityChange?.newIds ?? [],
+        entityChange?.keptOrNewIds ?? [],
       );
   }
   if (!checkedChanges) validateHistoryIntegrity(world, delta, previous);
@@ -845,44 +850,94 @@ function validateWorldIntegrity(
   if (world.pressure !== undefined) assertPressureIntegrity(world);
 }
 
+interface InitialEntityChange {
+  readonly jurisdictions: readonly Jurisdiction[];
+  readonly people: readonly Person[];
+  /** Ids that must be new to the World: added places and people. */
+  readonly newIds: readonly EntityId[];
+  /** Fact ids of changed people: kept from before, or new. */
+  readonly keptOrNewIds: readonly EntityId[];
+}
+
 /**
- * The places a result added, when adding places is the only change to its
- * people, places and policy catalog; otherwise null.
+ * The places and people a result added or replaced, when that (and nothing
+ * else about its places, people and policy catalog) is what changed; null
+ * when the change is anything else. Old entries stay in their order.
  */
-function jurisdictionsOnlyAdded(
+function changedInitialEntities(
   previous: World | undefined,
   world: World,
   delta: AppendOnlyHistoryDelta | null,
-): readonly Jurisdiction[] | null {
+): InitialEntityChange | null {
   if (
     previous === undefined ||
     delta === null ||
-    previous.people !== world.people ||
-    previous.personOrder !== world.personOrder ||
-    previous.policyCatalog !== world.policyCatalog ||
-    world.jurisdictionOrder.length <= previous.jurisdictionOrder.length
+    previous.policyCatalog !== world.policyCatalog
   )
     return null;
-  const before = previous.jurisdictionOrder;
-  for (let index = 0; index < before.length; index += 1) {
-    const id = before[index]!;
-    if (
-      world.jurisdictionOrder[index] !== id ||
-      world.jurisdictions[id] !== previous.jurisdictions[id]
-    )
-      return null;
-  }
+  const jurisdictions: Jurisdiction[] = [];
+  const newIds: EntityId[] = [];
+  if (previous.jurisdictions !== world.jurisdictions) {
+    const added = appendedRecords(
+      previous.jurisdictions,
+      previous.jurisdictionOrder,
+      world.jurisdictions,
+      world.jurisdictionOrder,
+    );
+    if (!added || added.changed.length > 0) return null;
+    jurisdictions.push(...added.appended);
+    newIds.push(...added.appended.map((jurisdiction) => jurisdiction.id));
+  } else if (previous.jurisdictionOrder !== world.jurisdictionOrder)
+    return null;
+  const people: Person[] = [];
+  const keptOrNewIds: EntityId[] = [];
+  if (previous.people !== world.people) {
+    const changed = appendedRecords(
+      previous.people,
+      previous.personOrder,
+      world.people,
+      world.personOrder,
+    );
+    if (!changed) return null;
+    people.push(...changed.appended, ...changed.changed);
+    newIds.push(...changed.appended.map((person) => person.id));
+    for (const person of people) {
+      for (const fact of person.establishedFacts) keptOrNewIds.push(fact.id);
+      if (person.detailLevel === "materialized")
+        for (const fact of person.details.generatedFacts)
+          keptOrNewIds.push(fact.id);
+    }
+  } else if (previous.personOrder !== world.personOrder) return null;
+  return { jurisdictions, people, newIds, keptOrNewIds };
+}
+
+/** Records appended after, and records replaced within, an ordered map. */
+function appendedRecords<T extends { readonly id: EntityId }>(
+  before: Readonly<Record<string, T>>,
+  beforeOrder: readonly EntityId[],
+  after: Readonly<Record<string, T>>,
+  afterOrder: readonly EntityId[],
+): { readonly appended: readonly T[]; readonly changed: readonly T[] } | null {
   if (
-    Object.keys(world.jurisdictions).length !== world.jurisdictionOrder.length
+    afterOrder.length < beforeOrder.length ||
+    Object.keys(after).length !== afterOrder.length
   )
     return null;
-  const added: Jurisdiction[] = [];
-  for (const id of world.jurisdictionOrder.slice(before.length)) {
-    const jurisdiction = world.jurisdictions[id];
-    if (!jurisdiction || jurisdiction.id !== id) return null;
-    added.push(jurisdiction);
+  const changed: T[] = [];
+  for (let index = 0; index < beforeOrder.length; index += 1) {
+    const id = beforeOrder[index]!;
+    if (afterOrder[index] !== id) return null;
+    const record = after[id];
+    if (!record || record.id !== id) return null;
+    if (record !== before[id]) changed.push(record);
   }
-  return added;
+  const appended: T[] = [];
+  for (const id of afterOrder.slice(beforeOrder.length)) {
+    const record = after[id];
+    if (!record || record.id !== id || before[id] !== undefined) return null;
+    appended.push(record);
+  }
+  return { appended, changed };
 }
 
 export function recordWorldEvent(
@@ -1558,12 +1613,18 @@ function validateInitialEntities(
   jurisdictions: readonly Jurisdiction[],
   people: readonly Person[],
   policyCatalog: PolicyCatalog,
+  /** Every place and person in the World, when only some are passed. */
+  known?: {
+    readonly jurisdictionIds: ReadonlySet<EntityId>;
+    readonly personIds: ReadonlySet<EntityId>;
+  },
 ): void {
   const entityIds = new Set<EntityId>([worldId]);
-  const jurisdictionIds = new Set(
-    jurisdictions.map((jurisdiction) => jurisdiction.id),
-  );
-  const personIds = new Set(people.map((person) => person.id));
+  const jurisdictionIds =
+    known?.jurisdictionIds ??
+    new Set(jurisdictions.map((jurisdiction) => jurisdiction.id));
+  const personIds =
+    known?.personIds ?? new Set(people.map((person) => person.id));
 
   for (const jurisdiction of jurisdictions) {
     assertUniqueId(entityIds, jurisdiction.id);
