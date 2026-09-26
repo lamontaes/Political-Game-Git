@@ -1064,11 +1064,21 @@ export function fileDraft(
   return { world: next, bill, draft };
 }
 
-/** Player-facing filing gate; trusted content fixtures retain the lower-level writer. */
-export function fileDraftFromOffice(
+/**
+ * The player-facing office check every docket filing passes: the player is
+ * the current character, holds an active office in this legislature, and the
+ * legislature and jurisdiction are the ones that office files in. Throws a
+ * refusal naming the reason; returns nothing when the filing may proceed.
+ */
+export function assertOfficeForFiling(
   world: World,
-  input: FileDraftInput,
-): FileDraftResult {
+  input: {
+    readonly scenarioKey: string;
+    readonly playerPersonId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly memberSeatStableKey?: string;
+  },
+): void {
   if (
     world.control.kind !== "person" ||
     world.control.personId !== input.playerPersonId ||
@@ -1104,6 +1114,14 @@ export function fileDraftFromOffice(
       "This character has no active office for filing in this legislature.",
     );
   }
+}
+
+/** Player-facing filing gate; trusted content fixtures retain the lower-level writer. */
+export function fileDraftFromOffice(
+  world: World,
+  input: FileDraftInput,
+): FileDraftResult {
+  assertOfficeForFiling(world, input);
   return fileDraft(world, input);
 }
 
