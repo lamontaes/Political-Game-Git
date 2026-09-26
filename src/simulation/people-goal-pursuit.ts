@@ -202,3 +202,125 @@ export function recordGoalStepTaken(
     supersedesGoalStateId: goal.id,
   });
 }
+
+/** The provenance note prefix a recorded blocker is filed under. */
+const BLOCKER_NOTE_PREFIX = "goal-blocker:";
+/** The provenance note prefix a set-aside or finished goal is filed under. */
+const SETTLED_NOTE_PREFIX = "goal-settled:";
+
+/**
+ * The blocker a goal state records, if it records one.
+ *
+ * A blocker is not a separate store: it is a goal state that stays active and
+ * says in its outcome why no step could be taken, filed with a note naming
+ * the blocker's key. Reading it back is how a later review knows the blocker
+ * is not news and writes nothing.
+ */
+export function goalBlockerOf(record: GoalStateRecord): string | null {
+  const note = record.provenance.note;
+  if (record.status !== "active" || !note?.startsWith(BLOCKER_NOTE_PREFIX)) {
+    return null;
+  }
+  return note.slice(BLOCKER_NOTE_PREFIX.length).split(" ")[0] ?? null;
+}
+
+/** The record a later state of this goal must supersede. */
+function latestGoalState(
+  world: World,
+  goal: GoalStateRecord,
+): GoalStateRecord | null {
+  return (
+    world.history.goalStates
+      .filter((record) => record.goalId === goal.goalId)
+      .at(-1) ?? null
+  );
+}
+
+/**
+ * Record that a goal is blocked, and why, in plain words.
+ *
+ * Writes nothing when the goal's latest state already records this same
+ * blocker: being blocked for the same reason next week is not a new fact.
+ */
+export function recordGoalBlocked(
+  world: World,
+  input: {
+    readonly goal: GoalStateRecord;
+    readonly blockerKey: string;
+    readonly reason: string;
+  },
+): World {
+  const latest = latestGoalState(world, input.goal);
+  if (!latest || latest.status !== "active") return world;
+  if (goalBlockerOf(latest) === input.blockerKey) return world;
+  return recordGoalState(world, {
+    stableKey: `goal-blocked:${latest.id}:${input.blockerKey}`,
+    personId: latest.personId,
+    goalKey: latest.goalKey,
+    createdAt: latest.createdAt,
+    recordedAt: world.currentDate,
+    objective: latest.objective,
+    domain: latest.domain,
+    scope: latest.scope,
+    priority: latest.priority,
+    status: "active",
+    targetEntityId: latest.targetEntityId,
+    deadline: latest.deadline,
+    outcome: `Blocked: ${input.reason}`,
+    provenance: createMindProvenance("reflection", {
+      note: `${BLOCKER_NOTE_PREFIX}${input.blockerKey} ${input.reason}`,
+      sourceRefs: [{ kind: "goal-state", goalStateId: latest.id }],
+    }),
+    replacesGoalId: null,
+    supersedesGoalStateId: latest.id,
+  });
+}
+
+/**
+ * Close a goal: finished, set aside, or given up for another.
+ *
+ * The goal's history stays; this appends its last state with the reason in
+ * the person's terms. A step toward it that actually happened can be cited,
+ * and a goal given up for another names nothing here — the replacement links
+ * back to it when it is recorded.
+ */
+export function settleGoal(
+  world: World,
+  input: {
+    readonly goal: GoalStateRecord;
+    readonly status: "completed" | "abandoned" | "superseded" | "failed";
+    readonly reasonKey: string;
+    readonly reason: string;
+    readonly eventId?: EntityId | null;
+  },
+): World {
+  const latest = latestGoalState(world, input.goal);
+  if (!latest || latest.status !== "active") return world;
+  const sourceRefs: MindSourceReference[] = [
+    { kind: "goal-state", goalStateId: latest.id },
+  ];
+  if (input.eventId) {
+    sourceRefs.push({ kind: "historical-event", eventId: input.eventId });
+  }
+  return recordGoalState(world, {
+    stableKey: `goal-settled:${latest.id}:${input.status}`,
+    personId: latest.personId,
+    goalKey: latest.goalKey,
+    createdAt: latest.createdAt,
+    recordedAt: world.currentDate,
+    objective: latest.objective,
+    domain: latest.domain,
+    scope: latest.scope,
+    priority: latest.priority,
+    status: input.status,
+    targetEntityId: latest.targetEntityId,
+    deadline: latest.deadline,
+    outcome: input.reason,
+    provenance: createMindProvenance("reflection", {
+      note: `${SETTLED_NOTE_PREFIX}${input.reasonKey} ${input.reason}`,
+      sourceRefs,
+    }),
+    replacesGoalId: null,
+    supersedesGoalStateId: latest.id,
+  });
+}
