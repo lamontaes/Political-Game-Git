@@ -1,6 +1,11 @@
 import { addDays } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
-import { stableHash } from "./ids";
+import { decideChamberVote } from "./governing/chamber-votes";
+import { lawInForce } from "./governing/law-in-force";
+import {
+  ensureOfficeholderPrinciples,
+  principledLeaning,
+} from "./governing/officeholder-principles";
 import {
   introduceMeasure,
   measurePosition,
@@ -25,7 +30,6 @@ import { SeededRng } from "./rng";
 import type {
   EntityId,
   FutureTransitionHandlerResult,
-  LegislativeVoteDisposition,
   PolicyPropositionDefinition,
   World,
 } from "./types";
@@ -41,9 +45,14 @@ import type {
  * `dc-council-rules-of-organization-and-procedure`:
  * - The Council sits every 14 days and one member introduces one act at
  *   each sitting. Neither is the Council's schedule or volume.
- * - A member's ballot is a game-authored stand-in drawn from a stable hash of
- *   the world, the act and the member, so it is the same at both readings.
- *   It is disclosed on the vote, as the player's town-council route does.
+ * - The sponsor is the member whose own principles press hardest on a
+ *   question the District's law does not already settle their way, as a state
+ *   member's agenda bill is (governing/member-agenda.ts). A sitting where no
+ *   member leans hard enough on anything open files nothing. FILING_THRESHOLD
+ *   is member-agenda's placeholder, repeated here.
+ * - Each member decides their ballot through the shared chamber-vote route
+ *   (governing/chamber-votes.ts): their principles, their own bill, and the
+ *   sponsor's party. No ballot is drawn by chance.
  * - An act answers one question from the world's policy catalog that is
  *   decided at the state or municipal level; what the act does beyond being
  *   recorded is not modeled.
@@ -58,19 +67,8 @@ export const DC_COUNCIL_SITTING_PROFILE = {
   introductionsPerSitting: 1,
 } as const;
 
-export const DC_COUNCIL_AUTHORED_BALLOT_NOTE = `${DC_COUNCIL_SITTING_PROFILE.id}: each member's ballot is a game-authored stand-in, not any real Council member's position; how a member decides is not modeled yet.`;
-
-/** A seated member's authored ballot on one act, the same at every reading. */
-export function dcCouncilAuthoredBallot(
-  world: World,
-  measureStableKey: string,
-  personId: EntityId,
-): "yea" | "nay" {
-  const digest = stableHash(
-    `${world.id}:${measureStableKey}:authored-ballot:${personId}`,
-  );
-  return Number.parseInt(digest.slice(-1), 16) % 2 === 0 ? "yea" : "nay";
-}
+/** PLACEHOLDER: the least summed weight that moves a member to file an act. */
+const FILING_THRESHOLD = 3;
 
 function councilMembers(world: World) {
   return municipalSeats(world, DC_GOVERNMENT_KEY).filter(
@@ -146,20 +144,81 @@ function introduceOne(world: World, index: number): World {
   if (!jurisdictionId) return world;
   const player =
     world.control.kind === "person" ? world.control.personId : null;
-  const sponsors = councilMembers(world).filter(
-    (seat) => seat.personId !== player,
-  );
+  const members = councilMembers(world);
+  const sponsors = members.filter((seat) => seat.personId !== player);
   const questions = districtQuestions(world);
   if (sponsors.length === 0 || questions.length === 0) return world;
-  const rng = new SeededRng(world.seed).fork(
-    `${DC_COUNCIL_SITTINGS_VERSION}:${world.currentDate}:${index}`,
+  // Every member who will vote on the act holds principles.
+  const next = ensureOfficeholderPrinciples(
+    world,
+    members.map((seat) => seat.personId),
   );
-  const sponsor = sponsors[rng.integer(0, sponsors.length)]!;
-  const question = questions[rng.integer(0, questions.length)]!;
-  const answer: "yes" | "no" = rng.integer(0, 2) === 0 ? "yes" : "no";
-  const designation = nextDcCouncilDesignation(world);
-  const year = world.currentDate.slice(0, 4);
-  return introduceMeasure(world, {
+  const rng = new SeededRng(next.seed).fork(
+    `${DC_COUNCIL_SITTINGS_VERSION}:${next.currentDate}:${index}`,
+  );
+  // Who speaks first at a sitting is not modeled; a seeded order stands in.
+  const order = [...sponsors];
+  for (let i = order.length - 1; i > 0; i -= 1) {
+    const j = rng.fork(`order:${i}`).integer(0, i + 1);
+    [order[i], order[j]] = [order[j]!, order[i]!];
+  }
+  const pending = new Set(
+    municipalMeasures(next, DC_GOVERNMENT_KEY)
+      .filter((measure) => !measurePosition(next, measure.id).terminal)
+      .flatMap((measure) =>
+        (measure.propositionAnswers ?? []).map((row) => row.propositionId),
+      ),
+  );
+  const lawAnswers = new Map<EntityId, "yes" | "no" | null>();
+  let choice: {
+    readonly sponsorPersonId: EntityId;
+    readonly question: PolicyPropositionDefinition;
+    readonly answer: "yes" | "no";
+  } | null = null;
+  for (const seat of order) {
+    let best: {
+      question: PolicyPropositionDefinition;
+      answer: "yes" | "no";
+      weight: number;
+    } | null = null;
+    for (const question of questions) {
+      if (pending.has(question.id)) continue;
+      const leaning = principledLeaning(next, seat.personId, question.id).score;
+      if (Math.abs(leaning) < FILING_THRESHOLD) continue;
+      if (!lawAnswers.has(question.id))
+        lawAnswers.set(
+          question.id,
+          lawInForce(next, jurisdictionId, question.id)?.answer ?? null,
+        );
+      const lawAnswer = lawAnswers.get(question.id);
+      // Support files an act unless the law already says yes; opposition
+      // files only a repeal of a law that says yes.
+      const answer: "yes" | "no" | null =
+        leaning > 0
+          ? lawAnswer === "yes"
+            ? null
+            : "yes"
+          : lawAnswer === "yes"
+            ? "no"
+            : null;
+      if (!answer) continue;
+      if (!best || Math.abs(leaning) > best.weight)
+        best = { question, answer, weight: Math.abs(leaning) };
+    }
+    if (best) {
+      choice = {
+        sponsorPersonId: seat.personId,
+        question: best.question,
+        answer: best.answer,
+      };
+      break;
+    }
+  }
+  if (!choice) return next;
+  const { question, answer } = choice;
+  const designation = nextDcCouncilDesignation(next);
+  const year = next.currentDate.slice(0, 4);
+  return introduceMeasure(next, {
     stableKey: municipalMeasureKey(DC_GOVERNMENT_KEY, designation),
     jurisdictionId,
     rulePackId: rules.pack.packId,
@@ -169,7 +228,7 @@ function introduceOne(world: World, index: number): World {
     origin: "member-introduction",
     subjectClass: "general-policy",
     originChamberKey: "council",
-    sponsorPersonId: sponsor.personId,
+    sponsorPersonId: choice.sponsorPersonId,
     propositionIds: [question.id],
     propositionAnswers: [{ propositionId: question.id, answer }],
   });
@@ -207,24 +266,38 @@ function moveActs(world: World): World {
       continue;
     }
     if (phase !== "on-floor") continue;
-    const members = councilMembers(next);
-    const dispositions: LegislativeVoteDisposition[] = members.map(
-      (seat, index) => ({
-        memberKey: `council:${index + 1}`,
-        personId: seat.personId,
-        disposition:
-          seat.personId === player
-            ? "absent"
-            : dcCouncilAuthoredBallot(next, measure.stableKey, seat.personId),
-      }),
-    );
+    const members = councilMembers(next).map((seat, index) => ({
+      memberKey: `council:${index + 1}`,
+      name: seat.seatLabel ?? `Seat ${index + 1}`,
+      personId: seat.personId,
+      caucusLabel: "",
+    }));
+    const stageKey = measurePosition(next, measure.id).floorStageKey;
+    const dispositions = decideChamberVote(next, {
+      stableKey: `${measure.stableKey}:${stageKey ?? "passage"}:ballots`,
+      question: {
+        question: {
+          measureId: measure.id,
+          purpose: "floor-stage",
+          forumKey: "council",
+          floorStageKey: stageKey ?? null,
+          amendmentStableKey: null,
+          provisionKey: null,
+        },
+        questionLabel: measure.shortTitle,
+      },
+      members,
+      // The player is never voted for: a councilmember who has not cast
+      // their own ballot is recorded absent.
+      playerPersonId: player,
+    });
     const result = recordCouncilReadingVote(next, {
       governmentKey: DC_GOVERNMENT_KEY,
       measureId: measure.id,
       dispositions,
       provenance: {
-        method: "authored-fixture",
-        note: DC_COUNCIL_AUTHORED_BALLOT_NOTE,
+        method: "member-decisions",
+        note: `${DC_COUNCIL_SITTINGS_VERSION}: each member decided their own ballot from their principles, their own bill and the sponsor's party.`,
         sourceEntityIds: [measure.id],
       },
     });

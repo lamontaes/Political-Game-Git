@@ -14,6 +14,7 @@ import {
 } from "../presentation/municipal-governing";
 import { addDays, makeIsoDate } from "./dates";
 import { dcCouncilActTitle } from "./dc-council-sittings";
+import { principledLeaning } from "./governing/officeholder-principles";
 import { lifePlaceSearch } from "./life-places";
 import { recordOrganizationParticipationState } from "./life";
 import { organizationParticipationStateAt } from "./life-queries";
@@ -21,6 +22,7 @@ import {
   measureActions,
   measureEnactment,
   measurePosition,
+  measureVotes,
   recordExecutiveAction,
   replayMeasure,
 } from "./legislation";
@@ -242,6 +244,25 @@ describe("a life that starts in Washington, D.C.", () => {
           actAmendsCriminalCode(world, measure) ? 60 : 30,
         ),
       );
+    }
+    // Every sponsor files the way their own principles lean, and every
+    // member's ballot is their own decision, never a draw.
+    for (const measure of measures) {
+      const row = measure.propositionAnswers![0]!;
+      const leaning = principledLeaning(
+        world,
+        measure.sponsorPersonId!,
+        row.propositionId,
+      ).score;
+      expect(row.answer === "yes" ? leaning > 0 : leaning < 0).toBe(true);
+      for (const vote of measureVotes(world, measure.id)) {
+        expect(vote.provenance.method).toBe("member-decisions");
+        for (const entry of vote.dispositions) {
+          if (entry.personId === measure.sponsorPersonId)
+            expect(entry.disposition).toBe("yea");
+          expect(entry.reason).toMatch(/^member:/);
+        }
+      }
     }
     // A save keeps the Council's pending work.
     const reloaded = deserializeWorld(serializeWorld(world));
