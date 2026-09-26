@@ -67,12 +67,10 @@ export function TransitWorkspace({
   return (
     <section className="transit-workspace">
       <p className="game-note">
-        A service appropriation is a proposed fictional law for an explicitly
-        authored standing program. It supplies spending authority after
-        enactment and its effective date; payments require collected public
-        cash. The authored contract price is $100 per additional vehicle-service
-        hour. Reports describe contract service, without inferring ridership or
-        effectiveness.
+        A service appropriation is a proposed law for a standing transit
+        program. Once enacted and in effect, it allows spending; payments come
+        from collected public cash. The contract price is $100 per additional
+        vehicle-service hour. Reports describe the contracted service.
       </p>
       {view.office.kind === "unavailable" ? (
         <p role="status">{view.office.reason}</p>
@@ -287,10 +285,6 @@ export function TransitWorkspace({
                       ? "no recorded balance"
                       : usd(publicCashMinorUnits)}
                     .
-                  </p>
-                  <p>
-                    Not modeled: ridership, travel times, access or public
-                    approval. This record does not claim them.
                   </p>
                 </section>
               )}

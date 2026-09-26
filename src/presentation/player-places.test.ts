@@ -146,10 +146,8 @@ describe("player-places projection", () => {
       (offer) => offer.activityId === fixture.dLite.meetingActivityId,
     )!;
     expect(meeting.unavailable).toBeNull();
-    expect(meeting.detail).toMatch(
-      /Attend includes the disclosed 20-minute journey/,
-    );
-    expect(meeting.detail).toMatch(/cost is not represented/i);
+    expect(meeting.detail).toMatch(/Attending includes the 20-minute journey/);
+    expect(meeting.detail).toMatch(/no fare is charged/i);
     expect(meeting.durationLabel).toMatch(
       /^Starts .+ and takes .+\. The trip there takes 20 minutes before it\.$/,
     );

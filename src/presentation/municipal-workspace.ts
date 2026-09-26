@@ -192,8 +192,6 @@ export function createAuthoredMunicipalPublicSession(
       next,
       view.government.key,
     ),
-    occurrenceNote:
-      "Game session: timing and duration are authored for this world. No real published meeting notice or agenda is asserted.",
   });
   return next;
 }

@@ -14,6 +14,8 @@ import {
   sameEndpoint,
 } from "./resource-queries";
 import { homeOwnedSince, personOwnsHome } from "./home-purchase";
+import { regionalMeasureSeries } from "./regional-issues/regional-measures";
+import { SeededRng } from "./rng";
 import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, ResourceFlow, World } from "./types";
 
@@ -57,6 +59,99 @@ export const LIVING_COSTS_PLACEHOLDER = {
   researchQuestionId: "what-a-person-spends-to-live",
 } as const;
 
+/**
+ * GAME PROFILE: what the month costs in a particular place.
+ *
+ * The flat figure above is the national anchor. The rent inside it moves with
+ * the place's state: that state's published housing price level against the
+ * nation (its latest level, used as calibration, not as something anyone in
+ * the world knows on a date) sets where the rent share sits, and a draw seeded
+ * by the world and the town moves it up to five percent either way, so the
+ * figure is the game's own and not a copy of the statistic. Where a state has
+ * no price level, its two-bedroom rent benchmark against the nation stands in;
+ * where it has neither, the national anchor applies. Food and bills stay at the
+ * national figure. The relative level is held between the bounds below so a
+ * missing or odd series cannot produce a month nobody could live on.
+ */
+export const LIVING_COSTS_PLACE_PROFILE = {
+  spread: 0.05,
+  roundToMinor: 500,
+  minimumRelative: 0.4,
+  maximumRelative: 2,
+} as const;
+
+/** A state's housing cost against the nation, as calibration: 1 when unknown. */
+export function stateHousingRelative(
+  stateJurisdictionKey: string | null,
+): number {
+  if (!stateJurisdictionKey) return 1;
+  const series = regionalMeasureSeries(stateJurisdictionKey);
+  const price = series?.housingPriceIndex.at(-1);
+  const rent = series?.twoBedroomFairMarketRent.at(-1);
+  const relative = price?.national
+    ? price.value / price.national
+    : rent?.national
+      ? rent.value / rent.national
+      : 1;
+  return Math.min(
+    LIVING_COSTS_PLACE_PROFILE.maximumRelative,
+    Math.max(LIVING_COSTS_PLACE_PROFILE.minimumRelative, relative),
+  );
+}
+
+/** A state's two-bedroom rent benchmark, latest level, in cents; null if none. */
+export function stateTwoBedroomRentMinor(
+  stateJurisdictionKey: string | null,
+): number | null {
+  if (!stateJurisdictionKey) return null;
+  const rent =
+    regionalMeasureSeries(stateJurisdictionKey)?.twoBedroomFairMarketRent.at(
+      -1,
+    );
+  return rent ? Math.round(rent.value * 100) : null;
+}
+
+export interface PlaceLivingCosts {
+  /** One adult's month renting here: rent share plus food and bills. */
+  readonly monthlyPerAdultMinor: number;
+  /** The rent inside that month, which an owner pays as a mortgage instead. */
+  readonly housingShareMinor: number;
+}
+
+/** What one adult's month costs in this town, in this world. Deterministic. */
+export function livingCostsForPlace(
+  world: World,
+  jurisdictionId: EntityId,
+): PlaceLivingCosts {
+  const place = lifePlaceByJurisdictionId(jurisdictionId);
+  const relative = stateHousingRelative(place?.stateJurisdictionKey ?? null);
+  const rng = new SeededRng(`${world.seed}:living-costs:${jurisdictionId}`);
+  const draw = 1 + (rng.next() * 2 - 1) * LIVING_COSTS_PLACE_PROFILE.spread;
+  const step = LIVING_COSTS_PLACE_PROFILE.roundToMinor;
+  // One adult's share of the rent never comes to more than a whole two-bedroom
+  // rents for across the state, which the economic panel shows beside it.
+  const benchmark = stateTwoBedroomRentMinor(
+    place?.stateJurisdictionKey ?? null,
+  );
+  const drawn = Math.max(
+    step,
+    Math.round(
+      (LIVING_COSTS_PLACEHOLDER.housingShareMinor * relative * draw) / step,
+    ) * step,
+  );
+  const housingShareMinor =
+    benchmark === null
+      ? drawn
+      : Math.min(drawn, Math.floor(benchmark / step) * step);
+  return {
+    monthlyPerAdultMinor:
+      housingShareMinor +
+      LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
+      LIVING_COSTS_PLACEHOLDER.housingShareMinor,
+    housingShareMinor,
+  };
+}
+
 export const LIVING_COSTS_BASIS = "custom:living-costs" as const;
 export const HOUSEHOLD_SHORTFALL_TAG = "life.opportunity:household-shortfall";
 const SHORTFALL_ANSWER = "adult.household-money-shortfall";
@@ -86,16 +181,25 @@ function primaryHouseholdId(world: World, personId: EntityId): EntityId | null {
   return homes.length === 1 ? homes[0]!.household.id : null;
 }
 
-/** What a month costs this person on a date: less the rent once they own. */
-function monthlyCostMinor(
+/**
+ * What a month costs this person on a date, where they live: less the rent
+ * once they own.
+ */
+export function monthlyLivingCostMinor(
   world: World,
   personId: EntityId,
-  asOfDate: IsoDate,
+  asOfDate: IsoDate = world.currentDate,
 ): number {
+  const person = world.people[personId];
+  const costs = person
+    ? livingCostsForPlace(world, person.homeJurisdictionId)
+    : {
+        monthlyPerAdultMinor: LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor,
+        housingShareMinor: LIVING_COSTS_PLACEHOLDER.housingShareMinor,
+      };
   return personOwnsHome(world, personId, asOfDate)
-    ? LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
-        LIVING_COSTS_PLACEHOLDER.housingShareMinor
-    : LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;
+    ? costs.monthlyPerAdultMinor - costs.housingShareMinor
+    : costs.monthlyPerAdultMinor;
 }
 
 function dollars(minor: number): string {
@@ -136,7 +240,7 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
   if (!householdId) return world;
 
   const monthly = money(
-    monthlyCostMinor(world, personId, world.currentDate),
+    monthlyLivingCostMinor(world, personId, world.currentDate),
     currency,
   );
   let next = world;
@@ -159,7 +263,7 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
       jurisdictionId: place?.context.jurisdiction.id ?? null,
       provenance: {
         kind: "authored",
-        note: `Placeholder living costs pending research question ${LIVING_COSTS_PLACEHOLDER.researchQuestionId}.`,
+        note: `Game profile: living costs scaled from the national placeholder by the state's housing level (LIVING_COSTS_PLACE_PROFILE), pending research question ${LIVING_COSTS_PLACEHOLDER.researchQuestionId}.`,
       },
     });
     return next;
@@ -173,10 +277,15 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
     terms.amount.minorUnits !== monthly.minorUnits
   ) {
     // Dated from the purchase, so months after it are charged without rent
-    // even when this is the first settlement since.
+    // even when this is the first settlement since. Any other change (a move,
+    // or an older save's flat figure meeting its place) starts today.
     const since = homeOwnedSince(next, personId);
-    const effectiveAt =
-      since !== null && since >= terms.effectiveAt ? since : next.currentDate;
+    const bought = since !== null && since >= terms.effectiveAt;
+    const effectiveAt = bought ? since : next.currentDate;
+    const sold =
+      !bought &&
+      !personOwnsHome(next, personId, next.currentDate) &&
+      personOwnsHome(next, personId, terms.effectiveAt);
     next = recordResourceFlowTerms(next, {
       stableKey: `${flow.stableKey}:terms:${effectiveAt}`,
       resourceFlowId: flow.id,
@@ -184,10 +293,11 @@ export function settleLivingCosts(world: World, personId: EntityId): World {
       status: "active",
       amount: monthly,
       cadenceKind: terms.cadenceKind,
-      reason:
-        monthly.minorUnits < terms.amount.minorUnits
-          ? "The household owns its home now, so rent is no longer part of the month."
-          : "The household no longer owns its home, so rent is part of the month again.",
+      reason: bought
+        ? "The household owns its home now, so rent is no longer part of the month."
+        : sold
+          ? "The household no longer owns its home, so rent is part of the month again."
+          : "The month now costs what living costs where the household lives.",
       provenance: flow.provenance,
       supersedesTermsId: terms.id,
     });
@@ -242,8 +352,7 @@ function settleMonth(
     asOfDate: dueOn,
     historySequenceExclusive: world.history.nextSequence,
   })!.amount;
-  const renting =
-    monthly.minorUnits >= LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor;
+  const renting = !personOwnsHome(world, personId, dueOn);
   // The lowest balance from the day the month fell due to today. A long quiet
   // stretch is settled late, and a charge backdated to its due day must not
   // take money that something dated after it (tuition, say) already spent.

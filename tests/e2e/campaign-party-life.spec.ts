@@ -86,7 +86,7 @@ test("party work, a week's plan and the other side's public activity", async ({
   const row = partyWork.locator('li[data-state="accepted"]').first();
   await expect(row).toBeVisible();
   await expect(row).toContainText("20-minute local journey");
-  await expect(row).toContainText("no fare will be charged");
+  await expect(row).toContainText("no fare is charged");
   await expect(row).toContainText(/[A-Z][a-z]+ \d{1,2}, \d{4}, 6:30 PM/);
   await page.screenshot({ path: `${SHOTS}/01-party-work-requested.png` });
 

@@ -97,7 +97,10 @@ describe("ordinary play cannot reach the development route", () => {
   });
 
   it("is reachable only from the App route table, behind an explicit query parameter", async () => {
-    const app = await readFile(join(sourceRoot, "App.tsx"), "utf8");
+    const app = await readFile(
+      join(sourceRoot, "DevelopmentRoutes.tsx"),
+      "utf8",
+    );
     expect(app).toContain('view === "causal-trace"');
     // The route table is the only place that names it, and it only answers to
     // a `view` the player never sets.

@@ -89,7 +89,7 @@ describe("feature-local municipal governing adapter", () => {
     expect(municipalMeetings(prepared.world, government.key)).toHaveLength(1);
     expect(
       municipalMeetings(prepared.world, government.key)[0]!.summary,
-    ).toMatch(/authored/);
+    ).not.toMatch(/authored|asserted|snapshot/i);
     const attended = route.attendPublicMeeting(
       prepared.world,
       government.key,

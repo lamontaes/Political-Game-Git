@@ -129,4 +129,4 @@ export function campaignLifeCatalogEntry(
 
 /** Disclosed with every in-person form's journey; no fare model exists. */
 export const CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE =
-  "Travel cost is not represented for this game-authored local route; no fare will be charged.";
+  "It is a short local trip; no fare is charged.";

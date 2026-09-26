@@ -110,7 +110,7 @@ function councilRoll(
 }
 
 describe("the municipal corpus reaches the game", () => {
-  it("retains fixed authored provenance even when a caller supplies its own note", () => {
+  it("titles and describes a scheduled meeting in plain words, keeping a caller's note", () => {
     const input = cityWorld("3209700");
     const next = scheduleMunicipalMeeting(input.world, {
       governmentKey: input.governmentKey,
@@ -123,10 +123,11 @@ describe("the municipal corpus reaches the game", () => {
       occurrenceNote: "Caller-supplied context.",
     });
     const meeting = municipalMeetings(next, input.governmentKey)[0]!;
-    expect(meeting.title).toMatch(/^Game-authored session:/);
-    expect(meeting.summary).toContain(
-      "Game-authored occurrence; no real meeting notice or published agenda is asserted.",
+    expect(meeting.title).not.toMatch(/authored|snapshot|reference/i);
+    expect(meeting.summary).not.toMatch(
+      /game-authored|snapshot|Reference:|asserted|research report/i,
     );
+    expect(meeting.summary).toMatch(/public may attend/);
     expect(meeting.summary).toContain("Caller-supplied context.");
     expect(input.world.history.scheduledActivities).toHaveLength(0);
   });
@@ -381,7 +382,9 @@ describe("a public meeting is a real appointment", () => {
     const meetings = municipalMeetings(scheduled, governmentKey);
     expect(meetings).toHaveLength(1);
     expect(meetings[0]!.access.kind).toBe("office");
-    expect(meetings[0]!.summary).toMatch(/Nothing read names where it sits/);
+    expect(meetings[0]!.summary).toMatch(
+      /The meeting room has not been announced/,
+    );
   }, 60000);
 
   it("closes a sitting the record says is closed", () => {

@@ -171,10 +171,10 @@ test("a seated Charlottesville councilor passes an ordinance by keyboard and it 
   });
   await expect(record_).toBeDisabled();
   await expect(ordinance).toContainText("Not before");
-  await ordinance
-    .getByText("Other councilors' ballots (game-authored)")
-    .click();
-  await expect(ordinance).toContainText("game-authored stand-ins");
+  await ordinance.getByText("Other councilors' ballots").click();
+  await expect(ordinance).toContainText(
+    "Here is how the other councilors will vote.",
+  );
   await page.screenshot({
     path: info.outputPath("ordinance-too-early.png"),
     fullPage: false,

@@ -146,6 +146,31 @@ export const FEDERAL_MINIMUM_HOURLY_MINOR = 725;
 export const MINIMUM_APPLICANT_AGE = 16;
 
 /**
+ * The age from which an employer takes an applicant for full-time or salaried
+ * work. Below it, from sixteen, only ordinary part-time hourly work is open:
+ * the shape of a teenager's first job.
+ */
+export const FULL_TIME_APPLICANT_AGE = 18;
+
+/**
+ * Whether an opening is work a sixteen- or seventeen-year-old may take:
+ * hourly or per-shift pay, and fewer weekly hours than the market's own
+ * full-time line. Salaried and full-time work waits for eighteen.
+ */
+export function openingSuitsYoungApplicant(opening: JobOpeningRecord): boolean {
+  return (
+    opening.pay.basis !== "annual-salary" &&
+    opening.weeklyHours.minimumHours < JOB_MARKET_PLACEHOLDER.fullTimeHours
+  );
+}
+
+/** Whether a person of this age may apply for this opening. */
+function openingOpenToAge(opening: JobOpeningRecord, age: number): boolean {
+  if (age < MINIMUM_APPLICANT_AGE) return false;
+  return age >= FULL_TIME_APPLICANT_AGE || openingSuitsYoungApplicant(opening);
+}
+
+/**
  * PLACEHOLDER(research: teen-first-jobs). What a teenager's first job pays by
  * the hour, until ChatGPT says what first jobs pay by state: the federal
  * minimum, not this employer's pay.
@@ -542,11 +567,15 @@ export function openJobListings(
   world: World,
   personId: EntityId,
 ): readonly JobOpeningRecord[] {
+  const person = world.people[personId];
+  if (!person) return [];
+  const age = ageOnDate(person.birthDate, world.currentDate);
   const area = jobSearchArea(world, personId);
   return (world.history.jobOpenings ?? [])
     .filter(
       (opening) =>
         area.has(opening.jurisdictionId) &&
+        openingOpenToAge(opening, age) &&
         openingTakesApplications(world, opening),
     )
     .reverse();
@@ -734,6 +763,13 @@ export function applicationBlocked(
   const opening = jobOpening(world, openingId);
   if (!opening || !openingTakesApplications(world, opening))
     return "This opening is no longer taking applications.";
+  if (
+    !openingOpenToAge(
+      opening,
+      ageOnDate(world.people[personId]!.birthDate, world.currentDate),
+    )
+  )
+    return `This employer hires for full-time or salaried work from age ${FULL_TIME_APPLICANT_AGE}.`;
   if (
     applicationsFor(world, personId).some(
       (application) => application.openingId === openingId,

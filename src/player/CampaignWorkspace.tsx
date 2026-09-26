@@ -517,6 +517,11 @@ export function CampaignWorkspace({
               ? ` · ${view.daysLeft} ${view.daysLeft === 1 ? "day" : "days"} to go`
               : ` · decided ${readableCampaignDate(view.electionDate ?? "")}`}
           </p>
+          {view.districtName ? (
+            <p data-testid="campaign-district">
+              The seat is {view.districtName}.
+            </p>
+          ) : null}
           <p data-testid="campaign-opponents">
             Running against {view.opponentNames.join(", ")}.
           </p>

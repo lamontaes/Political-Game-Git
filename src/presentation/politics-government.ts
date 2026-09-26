@@ -926,7 +926,21 @@ function representedBy(
     : houseSeats.length === 1 && houseSeats[0]!.district === "00"
       ? houseSeats[0]
       : undefined;
-  if (isTerritoryUsps(usps)) {
+  if (usps === "DC") {
+    // The District is not a state: it elects one Delegate to the House, who
+    // does not cast final votes there, and has no seat in the Senate. This is
+    // how the orientation screen describes it too.
+    const delegateSeat = houseSeats.find(
+      (seat) => seat.district === "98" || seat.district === "00",
+    );
+    rows.push({
+      key: "us-house",
+      office: "Delegate to the U.S. House",
+      district: "District of Columbia",
+      holders: delegateSeat ? [seatHolder(delegateSeat)] : [],
+      note: `The Delegate speaks for the District of Columbia in the House and does not cast final votes there. The District has no seat in the U.S. Senate.${delegateSeat ? "" : " No current record names who holds the seat."}`,
+    });
+  } else if (isTerritoryUsps(usps)) {
     // A territory sends one nonvoting member to the House, elected
     // territory-wide, and has no seat in the Senate. The 435 seats the game
     // seats are the states' alone, so this member is not among them yet.

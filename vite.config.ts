@@ -52,7 +52,15 @@ export default defineConfig({
   },
   build: {
     outDir: "dist/client",
-    rolldownOptions: { input: { app: "index.html", review: "review.html" } },
+    // The review hub (review.html) is a development entry. The Vite dev
+    // server serves it as-is; a player build leaves it out so no developer
+    // page ships with the game. An internal review build keeps it.
+    rolldownOptions: {
+      input:
+        process.env.VITE_OCD_BUILD_PROFILE === "internal-art-review"
+          ? { app: "index.html", review: "review.html" }
+          : { app: "index.html" },
+    },
   },
   test: {
     // Hosted shards deal the path-sorted suite out one file per shard so

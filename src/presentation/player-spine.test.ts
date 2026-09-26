@@ -508,8 +508,11 @@ describe("Where the fixtures live now", () => {
     expect(source).not.toContain("run-d-lite-state");
     const app = readFileSync("src/App.tsx", "utf8");
     expect(app).toContain("<PlayerGame />");
-    // The fixture stays reachable, but only by asking for it.
-    expect(app).toContain('view === "office-fixture"');
+    // The fixture stays reachable, but only by asking for it, and only in a
+    // development build: the route table App loads behind that gate.
+    expect(app).not.toContain("PlayerOffice");
+    const routes = readFileSync("src/DevelopmentRoutes.tsx", "utf8");
+    expect(routes).toContain('view === "office-fixture"');
   });
 
   it("still builds the Run-A and Run-D fixtures deterministically for tests", () => {

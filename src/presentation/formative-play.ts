@@ -2,6 +2,7 @@ import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
+import { refreshLifeOpportunities } from "../simulation/life-opportunities";
 import {
   activeEducationEnrollmentsAt,
   adaptiveSelectionSeed,
@@ -472,7 +473,15 @@ function advanceToNextMoment(
     }
     return reached;
   });
-  return refreshLifeCircumstances(advanced, personId);
+  // From sixteen, what the job market owes a teenager (listings, answers, a
+  // held job's pay) arrives on this clock too; younger, this writes nothing.
+  // A step that lands on the eighteenth birthday leaves adult life to the
+  // adult clock, as before.
+  const owed =
+    formativeIntervalAt(advanced, personId) !== null
+      ? refreshLifeOpportunities(advanced, personId)
+      : advanced;
+  return refreshLifeCircumstances(owed, personId);
 }
 
 function daysBetween(from: string, to: string): number {

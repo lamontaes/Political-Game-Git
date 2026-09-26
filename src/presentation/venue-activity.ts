@@ -67,23 +67,20 @@ const ATTEND_JOURNEYS = [
     journeyLocationKey: "ordinary-life:to-meeting-room",
     destinationLocationKey: "ordinary-life:meeting-room",
     destinationSetting: "community room",
-    costDisclosure:
-      "Travel cost is not represented for this game-authored local route; no fare will be charged.",
+    costDisclosure: "It is a short local trip; no fare is charged.",
   },
   {
     journeyLocationKey: "office-to-east-end",
     destinationLocationKey: "east-end-community-room",
     destinationSetting: "community room",
-    costDisclosure:
-      "Travel cost is not represented for this authored route; no fare will be charged.",
+    costDisclosure: "It is a short local trip; no fare is charged.",
   },
   {
     // An invitation the player accepted: the asker's home, a short trip away.
     journeyLocationKey: SOCIAL_OCCASION_JOURNEY_KEY,
     destinationLocationKey: SOCIAL_OCCASION_LOCATION_KEY,
     destinationSetting: "home",
-    costDisclosure:
-      "Travel cost is not represented for this short local trip; no fare will be charged.",
+    costDisclosure: "It is a short local trip; no fare is charged.",
   },
 ] as const;
 
