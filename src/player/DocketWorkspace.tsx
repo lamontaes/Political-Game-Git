@@ -52,6 +52,14 @@ import {
   type DraftAuthorityOption,
 } from "../presentation/legislation-docket";
 import {
+  LEGISLATION_CONTENT_GROUPS,
+  legislationContentCatalog,
+  type LegislationContentEntry,
+  type LegislationContentLink,
+  type LegislationContentSubject,
+  type LegislationContentTopicSegment,
+} from "../presentation/legislation-content-catalog";
+import {
   selectDocketBill,
   selectedDocketKey,
 } from "../presentation/legislation-docket-selection";
@@ -965,6 +973,58 @@ function BillCompositionEditor({
 /* The drafting table                                                          */
 /* -------------------------------------------------------------------------- */
 
+interface DraftingTopicNode {
+  readonly segment: LegislationContentTopicSegment | null;
+  readonly children: Map<string, DraftingTopicNode>;
+  readonly entries: LegislationContentEntry[];
+  readonly links: LegislationContentLink[];
+}
+
+function createDraftingTopicNode(
+  segment: LegislationContentTopicSegment | null = null,
+): DraftingTopicNode {
+  return { segment, children: new Map(), entries: [], links: [] };
+}
+
+function nodeAtPath(
+  root: DraftingTopicNode,
+  path: readonly LegislationContentTopicSegment[],
+): DraftingTopicNode | null {
+  let current = root;
+  for (const segment of path) {
+    const child = current.children.get(segment.key);
+    if (!child) return null;
+    current = child;
+  }
+  return current;
+}
+
+function buildDraftingTopicTree(
+  subject: LegislationContentSubject,
+): DraftingTopicNode {
+  const root = createDraftingTopicNode();
+  const ensurePath = (path: readonly LegislationContentTopicSegment[]) => {
+    let current = root;
+    for (const segment of path) {
+      let child = current.children.get(segment.key);
+      if (!child) {
+        child = createDraftingTopicNode(segment);
+        current.children.set(segment.key, child);
+      }
+      current = child;
+    }
+    return current;
+  };
+
+  for (const entry of subject.entries) {
+    ensurePath(entry.primaryTopicPath).entries.push(entry);
+  }
+  for (const link of subject.links) {
+    ensurePath(link.topicPath).links.push(link);
+  }
+  return root;
+}
+
 function DraftingTable({
   scenarioKey,
   jurisdictionId,
@@ -990,19 +1050,161 @@ function DraftingTable({
     () => availableDraftOptions(scenarioKey),
     [scenarioKey],
   );
+  const catalog = useMemo(() => legislationContentCatalog(options), [options]);
+  const catalogEntries = useMemo(
+    () =>
+      catalog.flatMap((subject) =>
+        subject.entries.map((entry) => ({ subject, entry })),
+      ),
+    [catalog],
+  );
+  const sharedGroupEntries = useMemo(
+    () =>
+      LEGISLATION_CONTENT_GROUPS.map((group) => ({
+        group,
+        entries: catalogEntries.filter(({ entry }) =>
+          entry.sharedGroups.some((candidate) => candidate.key === group.key),
+        ),
+      })).filter(({ entries }) => entries.length > 0),
+    [catalogEntries],
+  );
   const authorities = useMemo(
     () => availableAuthorities(world, { scenarioKey, playerPersonId }),
     [world, scenarioKey, playerPersonId],
   );
   const [chosen, setChosen] = useState<string | null>(null);
+  const [browseMode, setBrowseMode] = useState<"subject" | "group">("subject");
+  const [subjectKey, setSubjectKey] = useState<string | null>(null);
+  const [topicKeys, setTopicKeys] = useState<readonly string[]>([]);
+  const [sharedGroupKey, setSharedGroupKey] = useState<string | null>(null);
   const [authorityKey, setAuthorityKey] = useState<string | null>(null);
   const [values, setValues] = useState<
     Readonly<Record<string, ProgramParameterValue>>
   >({});
 
-  const option = options.find(
-    (entry) => `${entry.familyKey}/${entry.variantKey}` === chosen,
+  const selectedContent = catalogEntries.find(
+    ({ entry }) =>
+      `${entry.option.familyKey}/${entry.option.variantKey}` === chosen,
   );
+  const option = selectedContent?.entry.option;
+  const activeSubject =
+    catalog.find((subject) => subject.key === subjectKey) ?? catalog[0] ?? null;
+  const activeTopicPath: readonly LegislationContentTopicSegment[] =
+    activeSubject === null
+      ? []
+      : (activeSubject.entries
+          .find((entry) =>
+            entry.primaryTopicPath
+              .slice(0, topicKeys.length)
+              .every((segment, index) => segment.key === topicKeys[index]),
+          )
+          ?.primaryTopicPath.slice(0, topicKeys.length) ??
+        activeSubject.links
+          .find((link) =>
+            link.topicPath
+              .slice(0, topicKeys.length)
+              .every((segment, index) => segment.key === topicKeys[index]),
+          )
+          ?.topicPath.slice(0, topicKeys.length) ??
+        []);
+  const topicTree = useMemo(
+    () => (activeSubject ? buildDraftingTopicTree(activeSubject) : null),
+    [activeSubject],
+  );
+  const activeTopicNode =
+    topicTree === null ? null : nodeAtPath(topicTree, activeTopicPath);
+  const activeSharedGroup =
+    sharedGroupEntries.find(({ group }) => group.key === sharedGroupKey) ??
+    sharedGroupEntries[0] ??
+    null;
+
+  function selectOption(key: string) {
+    setChosen(key);
+    setValues({});
+    setAuthorityKey(null);
+  }
+
+  function toggleOption(key: string) {
+    setChosen((current) => (key === current ? null : key));
+    setValues({});
+    setAuthorityKey(null);
+  }
+
+  function openCrossLink(link: LegislationContentLink, destinationKey: string) {
+    const destination = catalog.find(
+      (subject) => subject.key === destinationKey,
+    );
+    if (!destination) return;
+    setBrowseMode("subject");
+    setSubjectKey(destination.key);
+    setTopicKeys(link.topicPath.map((segment) => segment.key));
+    const key = `${link.familyKey}/${link.variantKey}`;
+    selectOption(key);
+  }
+
+  function openPrimaryLocation(
+    primarySubject: LegislationContentSubject,
+    entry: LegislationContentEntry,
+  ) {
+    setBrowseMode("subject");
+    setSubjectKey(primarySubject.key);
+    setTopicKeys(entry.primaryTopicPath.map((segment) => segment.key));
+  }
+
+  function renderDraftOption(entry: LegislationContentEntry) {
+    const draftOption = entry.option;
+    const key = `${draftOption.familyKey}/${draftOption.variantKey}`;
+    return (
+      <li key={key}>
+        <button
+          type="button"
+          className={
+            key === chosen
+              ? "drafting-option drafting-option-chosen"
+              : "drafting-option"
+          }
+          data-testid={`drafting-option-${draftOption.familyKey}-${draftOption.variantKey}`}
+          aria-pressed={key === chosen}
+          onClick={() => toggleOption(key)}
+        >
+          <span className="drafting-option-family">
+            {draftOption.familyTitle}
+          </span>
+          <span className="drafting-option-variant">
+            {draftOption.variantLabel}
+          </span>
+          <span className="drafting-option-instrument">
+            {draftOption.instrumentLabel}
+          </span>
+          <span className="drafting-option-synopsis">
+            {draftOption.synopsis}
+          </span>
+        </button>
+      </li>
+    );
+  }
+
+  function renderContentLink(link: LegislationContentLink, subjectKey: string) {
+    const key = `${link.familyKey}/${link.variantKey}`;
+    return (
+      <li key={`${subjectKey}/${key}`}>
+        <button
+          type="button"
+          className="drafting-content-link"
+          data-testid={`drafting-content-link-${subjectKey}-${link.familyKey}-${link.variantKey}`}
+          onClick={() => selectOption(key)}
+        >
+          <span>{link.label}</span>
+          <span className="drafting-content-link-location">
+            Primary topic: {link.primaryLocation.subjectLabel}
+            {link.primaryLocation.topicPath.length > 0
+              ? ` › ${link.primaryLocation.topicPath.map((segment) => segment.label).join(" › ")}`
+              : ""}
+          </span>
+        </button>
+      </li>
+    );
+  }
 
   // Which authorities this kind of act can actually be written against. An
   // appropriation needs one that spends; a repeal or an eligibility amendment
@@ -1090,44 +1292,280 @@ function DraftingTable({
   return (
     <section className="drafting" data-testid="drafting-table">
       <h4 className="docket-subheading">What could this bill be about?</h4>
-      <ul className="drafting-options" data-testid="drafting-options">
-        {options.map((entry) => {
-          const key = `${entry.familyKey}/${entry.variantKey}`;
-          return (
-            <li key={key}>
+      {catalog.length === 0 ? (
+        <p className="drafting-empty" data-testid="drafting-no-options">
+          No draft options are available for this office right now.
+        </p>
+      ) : (
+        <div className="drafting-browser" data-testid="drafting-browser">
+          <div
+            className="drafting-browser-modes"
+            role="group"
+            aria-label="Browse bill topics"
+          >
+            <button
+              type="button"
+              className={
+                browseMode === "subject"
+                  ? "drafting-browser-mode drafting-browser-mode-current"
+                  : "drafting-browser-mode"
+              }
+              data-testid="drafting-browse-subjects"
+              aria-pressed={browseMode === "subject"}
+              onClick={() => setBrowseMode("subject")}
+            >
+              By subject
+            </button>
+            {sharedGroupEntries.length > 0 ? (
               <button
                 type="button"
                 className={
-                  key === chosen
-                    ? "drafting-option drafting-option-chosen"
-                    : "drafting-option"
+                  browseMode === "group"
+                    ? "drafting-browser-mode drafting-browser-mode-current"
+                    : "drafting-browser-mode"
                 }
-                data-testid={`drafting-option-${entry.familyKey}-${entry.variantKey}`}
-                onClick={() => {
-                  setChosen(key === chosen ? null : key);
-                  setValues({});
-                  setAuthorityKey(null);
-                }}
+                data-testid="drafting-browse-shared-groups"
+                aria-pressed={browseMode === "group"}
+                onClick={() => setBrowseMode("group")}
               >
-                <span className="drafting-option-family">
-                  {entry.familyTitle}
-                </span>
-                <span className="drafting-option-variant">
-                  {entry.variantLabel}
-                </span>
-                <span className="drafting-option-instrument">
-                  {entry.instrumentLabel}
-                </span>
-                <span className="drafting-option-synopsis">
-                  {entry.synopsis}
-                </span>
+                Common policy groups
               </button>
-            </li>
-          );
-        })}
-      </ul>
+            ) : null}
+          </div>
 
-      {option && asOffered ? (
+          {browseMode === "subject" ? (
+            <div className="drafting-subject-browser">
+              <div
+                className="drafting-subject-list"
+                role="group"
+                aria-label="Legislation subjects"
+                data-testid="drafting-subjects"
+              >
+                {catalog.map((subject) => (
+                  <button
+                    type="button"
+                    key={subject.key}
+                    className={
+                      subject.key === activeSubject?.key
+                        ? "drafting-subject drafting-subject-current"
+                        : "drafting-subject"
+                    }
+                    data-testid={`drafting-subject-${subject.key}`}
+                    aria-pressed={subject.key === activeSubject?.key}
+                    onClick={() => {
+                      setSubjectKey(subject.key);
+                      setTopicKeys([]);
+                    }}
+                  >
+                    {subject.label}
+                  </button>
+                ))}
+              </div>
+
+              {activeSubject && activeTopicNode ? (
+                <>
+                  <nav
+                    className="drafting-topic-breadcrumbs"
+                    aria-label={`Topics in ${activeSubject.label}`}
+                  >
+                    <button
+                      type="button"
+                      data-testid="drafting-topic-home"
+                      onClick={() => setTopicKeys([])}
+                    >
+                      {activeSubject.label}
+                    </button>
+                    {activeTopicPath.map((segment, index) => {
+                      const path = activeTopicPath
+                        .slice(0, index + 1)
+                        .map((part) => part.key);
+                      return index === activeTopicPath.length - 1 ? (
+                        <span key={segment.key} aria-current="page">
+                          {segment.label}
+                        </span>
+                      ) : (
+                        <button
+                          type="button"
+                          key={segment.key}
+                          data-testid={`drafting-topic-crumb-${activeSubject.key}-${path.join("-")}`}
+                          onClick={() => setTopicKeys(path)}
+                        >
+                          {segment.label}
+                        </button>
+                      );
+                    })}
+                  </nav>
+
+                  {activeTopicNode.children.size > 0 ? (
+                    <div
+                      className="drafting-topic-list"
+                      role="group"
+                      aria-label={`Topics under ${activeTopicNode.segment?.label ?? activeSubject.label}`}
+                      data-testid="drafting-topics"
+                    >
+                      {[...activeTopicNode.children.values()].map((child) => {
+                        const segment = child.segment;
+                        if (!segment) return null;
+                        const path = [...topicKeys, segment.key];
+                        return (
+                          <button
+                            type="button"
+                            key={segment.key}
+                            className="drafting-topic"
+                            data-testid={`drafting-topic-${activeSubject.key}-${path.join("-")}`}
+                            onClick={() => setTopicKeys(path)}
+                          >
+                            {segment.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ) : null}
+
+                  {activeTopicNode.entries.length > 0 ? (
+                    <ul
+                      className="drafting-options"
+                      data-testid="drafting-options"
+                    >
+                      {activeTopicNode.entries.map(renderDraftOption)}
+                    </ul>
+                  ) : null}
+
+                  {activeTopicNode.links.length > 0 ? (
+                    <div className="drafting-topic-links">
+                      <h5 className="docket-subheading">Cross-listed topics</h5>
+                      <ul data-testid="drafting-topic-links">
+                        {activeTopicNode.links.map((link) =>
+                          renderContentLink(link, activeSubject.key),
+                        )}
+                      </ul>
+                    </div>
+                  ) : null}
+                </>
+              ) : null}
+            </div>
+          ) : activeSharedGroup ? (
+            <div className="drafting-shared-browser">
+              <div
+                className="drafting-shared-group-list"
+                role="group"
+                aria-label="Common policy groups"
+                data-testid="drafting-shared-groups"
+              >
+                {sharedGroupEntries.map(({ group }) => (
+                  <button
+                    type="button"
+                    key={group.key}
+                    className={
+                      group.key === activeSharedGroup.group.key
+                        ? "drafting-shared-group drafting-shared-group-current"
+                        : "drafting-shared-group"
+                    }
+                    data-testid={`drafting-group-${group.key}`}
+                    aria-pressed={group.key === activeSharedGroup.group.key}
+                    onClick={() => setSharedGroupKey(group.key)}
+                  >
+                    {group.label}
+                  </button>
+                ))}
+              </div>
+              <h5 className="docket-subheading">
+                {activeSharedGroup.group.label}
+              </h5>
+              <ul className="drafting-options" data-testid="drafting-options">
+                {activeSharedGroup.entries.map(({ entry }) =>
+                  renderDraftOption(entry),
+                )}
+              </ul>
+            </div>
+          ) : null}
+        </div>
+      )}
+
+      {selectedContent ? (
+        <div
+          className="drafting-selection-context"
+          data-testid="drafting-selection-context"
+        >
+          <p data-testid="drafting-primary-location">
+            Primary topic: {selectedContent.subject.label}
+            {selectedContent.entry.primaryTopicPath.length > 0
+              ? ` › ${selectedContent.entry.primaryTopicPath.map((segment) => segment.label).join(" › ")}`
+              : ""}
+          </p>
+          <button
+            type="button"
+            className="drafting-location-link"
+            data-testid="drafting-open-primary-location"
+            onClick={() =>
+              openPrimaryLocation(
+                selectedContent.subject,
+                selectedContent.entry,
+              )
+            }
+          >
+            Open primary topic
+          </button>
+          {selectedContent.entry.crossLinks.length > 0 ? (
+            <div className="drafting-selected-crosslinks">
+              <span>Also under:</span>
+              {selectedContent.entry.crossLinks.map((link) => {
+                return (
+                  <button
+                    type="button"
+                    key={`${link.subjectKey}/${link.topicPath.map((segment) => segment.key).join("/")}`}
+                    data-testid={`drafting-crosslink-${link.subjectKey}-${selectedContent.entry.option.familyKey}-${selectedContent.entry.option.variantKey}`}
+                    onClick={() =>
+                      openCrossLink(
+                        {
+                          familyKey: selectedContent.entry.option.familyKey,
+                          variantKey: selectedContent.entry.option.variantKey,
+                          label: selectedContent.entry.option.variantLabel,
+                          primaryLocation: {
+                            subjectKey: selectedContent.subject.key,
+                            subjectLabel: selectedContent.subject.label,
+                            topicPath: selectedContent.entry.primaryTopicPath,
+                          },
+                          topicPath: link.topicPath,
+                        },
+                        link.subjectKey,
+                      )
+                    }
+                  >
+                    {link.subjectLabel}
+                    {link.topicPath.length > 0
+                      ? ` › ${link.topicPath.map((segment) => segment.label).join(" › ")}`
+                      : ""}
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
+          {selectedContent.entry.sharedGroups.length > 0 ? (
+            <div
+              className="drafting-selected-groups"
+              data-testid="drafting-selected-groups"
+            >
+              <span>Common policy groups:</span>
+              {selectedContent.entry.sharedGroups.map((group) => (
+                <button
+                  type="button"
+                  key={group.key}
+                  data-testid={`drafting-selected-group-${group.key}`}
+                  onClick={() => {
+                    setSharedGroupKey(group.key);
+                    setBrowseMode("group");
+                  }}
+                >
+                  {group.label}
+                </button>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+
+      {option ? (
         <div className="drafting-detail">
           <p className="drafting-mechanism" data-testid="drafting-mechanism">
             {option.mechanism}
@@ -1152,40 +1590,44 @@ function DraftingTable({
                     : "It has to name something that already exists."}
                 </p>
               ) : (
-                <ul className="drafting-authority-list">
-                  {eligibleAuthorities.map((candidate) => (
-                    <li key={candidate.authorityKey}>
-                      <button
-                        type="button"
-                        className={
-                          candidate.authorityKey === authorityKey
-                            ? "drafting-authority-option drafting-authority-chosen"
-                            : "drafting-authority-option"
-                        }
-                        data-testid={`drafting-authority-${candidate.authorityKey}`}
-                        onClick={() =>
-                          setAuthorityKey(
+                <>
+                  <p>Choose the existing authority this bill would act on.</p>
+                  <ul className="drafting-authority-list">
+                    {eligibleAuthorities.map((candidate) => (
+                      <li key={candidate.authorityKey}>
+                        <button
+                          type="button"
+                          className={
                             candidate.authorityKey === authorityKey
-                              ? null
-                              : candidate.authorityKey,
-                          )
-                        }
-                      >
-                        <span className="drafting-authority-citation">
-                          {candidate.citationLabel}
-                        </span>
-                        <span className="drafting-authority-note">
-                          {candidate.note}
-                        </span>
-                        <span className="drafting-authority-ceiling">
-                          {candidate.authorizedCeilingLabel === null
-                            ? "It states no amount."
-                            : `It authorizes ${candidate.authorizedCeilingLabel}.`}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                              ? "drafting-authority-option drafting-authority-chosen"
+                              : "drafting-authority-option"
+                          }
+                          data-testid={`drafting-authority-${candidate.authorityKey}`}
+                          aria-pressed={candidate.authorityKey === authorityKey}
+                          onClick={() =>
+                            setAuthorityKey(
+                              candidate.authorityKey === authorityKey
+                                ? null
+                                : candidate.authorityKey,
+                            )
+                          }
+                        >
+                          <span className="drafting-authority-citation">
+                            {candidate.citationLabel}
+                          </span>
+                          <span className="drafting-authority-note">
+                            {candidate.note}
+                          </span>
+                          <span className="drafting-authority-ceiling">
+                            {candidate.authorizedCeilingLabel === null
+                              ? "It states no amount."
+                              : `It authorizes ${candidate.authorizedCeilingLabel}.`}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </>
               )}
             </div>
           ) : null}
@@ -1208,13 +1650,15 @@ function DraftingTable({
             ))}
           </div>
 
-          {asChosen && "refused" in asChosen ? (
+          {asChosen &&
+          "refused" in asChosen &&
+          (!option.requiresAuthority || authorityKey !== null) ? (
             <p className="docket-error" data-testid="drafting-refused">
               {asChosen.refused}
             </p>
           ) : null}
 
-          {asChosen && "draft" in asChosen ? (
+          {asOffered && asChosen && "draft" in asChosen ? (
             <>
               <h5 className="docket-subheading">
                 As offered, and as you would file it
