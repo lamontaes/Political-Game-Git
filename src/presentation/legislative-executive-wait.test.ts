@@ -33,6 +33,7 @@ import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { projectCampaign } from "./campaign-projection";
+import { proseDate } from "./prose-dates";
 
 describe("an elected member waiting for a governor", () => {
   it("offers the real desk, records its decision, and carries a signed law to effect", () => {
@@ -219,9 +220,12 @@ describe("an elected member waiting for a governor", () => {
     expect(operative.date > enactment.resolvedAt).toBe(true);
     if (enactment.effectiveAt) {
       expect(operative.date).toBe(enactment.effectiveAt);
-      expect(projectMeasureBriefing(world, measureId).outcomeNote).toContain(
-        enactment.effectiveAt,
+      // Said in words, never as an ISO date.
+      const note = projectMeasureBriefing(world, measureId).outcomeNote;
+      expect(note).toBe(
+        `The bill is law and takes effect on ${proseDate(enactment.effectiveAt)}.`,
       );
+      expect(note).not.toMatch(/\d{4}-\d{2}-\d{2}/);
     }
     const reopened = deserializeWorld(serializeWorld(world));
     expect(

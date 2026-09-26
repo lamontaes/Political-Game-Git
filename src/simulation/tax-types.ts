@@ -139,6 +139,17 @@ export interface StatutoryTaxLiabilityRecord extends TaxHistoryRoot {
   readonly dueAt: IsoDate | null;
   readonly sourceUrl: string | null;
   readonly researchQuestionId: string | null;
+  /**
+   * For a tax the game's own law imposes (a state's wage tax): the rate in
+   * force when the pay moved, and the enacted policy that set it, or null
+   * while the state's opening law still governs.
+   */
+  readonly gameLaw?: {
+    readonly seriesKey: string;
+    readonly policyId: EntityId | null;
+    readonly rateNumerator: number;
+    readonly rateDenominator: number;
+  };
 }
 
 /** Money that actually moved against one liability. */

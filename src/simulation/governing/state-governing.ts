@@ -1893,13 +1893,22 @@ export function governingNpcDecisionHandler(
           (bearing.optionKey === "vote-yea" ? "bill:sign" : "bill:return"),
       );
   }
+  // A veto is a governor's own act: an NPC governor returns a bill only when
+  // their recorded principles bear against it. A bill their principles do not
+  // bear on (or bear on only slightly) is signed; staff advice and chance do
+  // not veto a bill on the governor's behalf.
+  const unopposedBill =
+    measure && !principled
+      ? matter.options.find((o) => o.key === "bill:sign")
+      : undefined;
   const recommendation = staffRecommendation(next, matter);
   const rng = new SeededRng(`${matter.stableKey}:npc-choice`);
   const recommended =
     recommendation && rng.integer(0, 4) > 0
       ? matter.options.find((o) => o.key === recommendation.optionKey)
       : undefined;
-  const option = principled ?? recommended ?? rng.pick(matter.options);
+  const option =
+    principled ?? unopposedBill ?? recommended ?? rng.pick(matter.options);
   const decided = recordDecision(
     next,
     matter,
