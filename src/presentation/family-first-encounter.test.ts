@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createNewGameWorld, type NewGameSetup } from "./new-game";
 import { buildLifeIntroduction } from "./life-introduction";
 import { firstUnintroducedFamilyMember } from "./family-first-encounter";
+import { resolveOpeningPlaySceneContext } from "./play-scene-context";
 
 function life(age: number) {
   const setup: NewGameSetup = {
@@ -29,10 +30,10 @@ describe("first family introduction", () => {
       ),
     );
     expect(parent).toBeDefined();
-    const present = family.map((person) => ({
-      personId: person.personId,
-      relationship: person.relationship,
-    }));
+    const present = resolveOpeningPlaySceneContext(
+      world,
+      playerPersonId,
+    ).presentPeople;
     const first = firstUnintroducedFamilyMember(
       world,
       playerPersonId,
