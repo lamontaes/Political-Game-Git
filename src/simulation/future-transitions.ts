@@ -1,4 +1,5 @@
 import { crisisAmbientHandler } from "./crisis/ambient";
+import { worldIntegrityCheckMode } from "./world-integrity-changed";
 import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
 import { eventById } from "./event-index";
 import {
@@ -537,7 +538,11 @@ export function resolveFutureDueItemsThrough(
       }),
     };
     if (deepTransitionInputGuard) freezeDeeply(atDueDate);
-    const shallowInput = shallowWorldShape(atDueDate);
+    // A guard against a handler editing its input in place. It counts the
+    // keys of every top-level record (thousands of people), twice per due
+    // item, so play leaves it to the test suite and the deep guard there.
+    const guardShape = worldIntegrityCheckMode() === "full";
+    const shallowInput = guardShape ? shallowWorldShape(atDueDate) : "";
     const dueItemsBefore = atDueDate.history.futureDueItems;
     const dueStatesBefore = atDueDate.history.futureDueItemStates;
     // The handler's writers skip their per-write whole-world check; what it
@@ -553,7 +558,7 @@ export function resolveFutureDueItemsThrough(
       }
       throw error;
     }
-    if (shallowWorldShape(atDueDate) !== shallowInput) {
+    if (guardShape && shallowWorldShape(atDueDate) !== shallowInput) {
       throw new Error("Future-transition handler mutated its input world.");
     }
     if (
