@@ -1,34 +1,71 @@
-import { useCallback, useEffect, useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 const FADE_MS = 350;
 
-/** Presentation time only. The caller owns generation and the canonical clock. */
+export interface LifeStartProgress {
+  readonly label: string;
+  readonly completed: number;
+  readonly total: number;
+}
+
+/** The caller owns generation and the canonical clock; this shows its progress. */
 export function LifeStartTransition({
-  onComplete,
+  onPrepare,
 }: {
-  readonly onComplete: () => void;
+  readonly onPrepare: (
+    report: (progress: LifeStartProgress) => void,
+    signal: AbortSignal,
+  ) => Promise<void>;
 }) {
-  const finished = useRef(false);
-  const finish = useCallback(() => {
-    if (finished.current) return;
-    finished.current = true;
-    onComplete();
-  }, [onComplete]);
+  const prepare = useRef(onPrepare);
+  const [progress, setProgress] = useState<LifeStartProgress>({
+    label: "Preparing your world",
+    completed: 0,
+    total: 0,
+  });
   useEffect(() => {
+    const controller = new AbortController();
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const timer = window.setTimeout(finish, reduced ? 0 : FADE_MS);
-    return () => window.clearTimeout(timer);
-  }, [finish]);
+    const timer = window.setTimeout(
+      () => {
+        // Let the approved menu scene and initial status paint before beginning
+        // synchronous world generation. Preparation then reports real work.
+        window.requestAnimationFrame(() => {
+          if (controller.signal.aborted) return;
+          void prepare.current((next) => {
+            if (!controller.signal.aborted) setProgress(next);
+          }, controller.signal);
+        });
+      },
+      reduced ? 0 : FADE_MS,
+    );
+    return () => {
+      controller.abort();
+      window.clearTimeout(timer);
+    };
+  }, []);
+  const percent =
+    progress.total > 0
+      ? Math.round((100 * progress.completed) / progress.total)
+      : null;
   return (
     <div
       className="pg-life-transition"
       data-testid="life-start-transition"
       style={{ "--pg-start-fade": `${FADE_MS}ms` } as CSSProperties}
-      onAnimationEnd={finish}
     >
-      <p role="status">Starting your life…</p>
+      <div className="pg-life-transition-progress" role="status">
+        <p>{progress.label}</p>
+        <progress
+          aria-label="World preparation"
+          {...(percent === null
+            ? {}
+            : { value: progress.completed, max: progress.total })}
+        />
+        {percent !== null && <span>{percent}%</span>}
+      </div>
     </div>
   );
 }

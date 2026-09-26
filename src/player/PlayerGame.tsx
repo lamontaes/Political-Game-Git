@@ -101,6 +101,7 @@ import { applyExecutivePlayTransition } from "../presentation/executive-entry";
 import { PublicInformationPanel } from "./PublicInformationPanel";
 import { projectPublicInformationPanel } from "../presentation/public-information-adapters";
 import { LifeStartTransition } from "./LifeStartTransition";
+import { createBackgroundSavePreparer } from "./background-save-preparation";
 import { VenueActivityPanel } from "./VenueActivityPanel";
 import { completedActivityHere } from "../presentation/scene-venues";
 import {
@@ -408,7 +409,6 @@ type Screen =
   | {
       readonly kind: "transition";
       readonly setup: NewGameSetup;
-      readonly controller: ReturnType<typeof createOpeningLifeController>;
     }
   | { readonly kind: "playing" };
 
@@ -460,6 +460,7 @@ export function PlayerGame() {
       // the ordinary save otherwise.
       return new BrowserSaveStore({
         databaseName: previewDatabaseName(previewMode),
+        prepareAutosave: createBackgroundSavePreparer(),
       });
     } catch {
       return null;
@@ -942,18 +943,24 @@ export function PlayerGame() {
     setScreen({
       kind: "transition",
       setup,
-      controller: createOpeningLifeController(setup),
     });
   }
 
   if (screen.kind === "transition") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)} still>
+      <AmbientTableau
+        resolved={resolvedTitlePresentation(saves)}
+        hero={resolvedTitleLecternHero(saves)}
+      >
         {() => (
           <LifeStartTransition
-            onComplete={() => {
+            onPrepare={async (report, signal) => {
               try {
-                const game = screen.controller.finishTransition().game!;
+                report({ label: "Creating your life", completed: 0, total: 0 });
+                const game = createOpeningLifeController(
+                  screen.setup,
+                ).finishTransition().game!;
+                if (signal.aborted) return;
                 startPlaying(
                   prepareCandidateOpeningWorld(
                     game.world,
@@ -965,6 +972,7 @@ export function PlayerGame() {
                   null,
                 );
               } catch (error) {
+                if (signal.aborted) return;
                 setProblem(
                   error instanceof Error
                     ? error.message

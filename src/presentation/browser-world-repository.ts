@@ -16,7 +16,6 @@ import {
   serializeWorldAs,
   serializeWorldSnapshot,
   storedFormatVersion,
-  worldContentId,
   type WorldSnapshot,
   type WorldSnapshotFormatVersion,
 } from "../simulation/serialization";
@@ -306,6 +305,8 @@ export interface BrowserWorldRepositoryOptions {
   readonly autosaveAttempts?: number;
   /** Injectable so tests do not sit through the backoff. */
   readonly delay?: (milliseconds: number) => Promise<void>;
+  /** Prepare autosaves away from the UI thread when a worker is available. */
+  readonly prepareAutosave?: (world: World) => Promise<PreparedRecord>;
 }
 
 /**
@@ -317,7 +318,6 @@ export interface BrowserWorldRepositoryOptions {
  */
 interface PendingWrite {
   readonly world: World;
-  readonly content: EntityId;
   readonly ordinal: number;
 }
 
@@ -386,13 +386,14 @@ export class BrowserSaveStore {
   readonly #durableRequest = new Map<string, number>();
   /** Monotonic, store-owned, and the only source of persistence order. */
   #requestCounter = 0;
-  /** Content identity is a hash of the whole world; compute it once per world. */
-  readonly #contentIds = new WeakMap<World, EntityId>();
   /** A watched World can arrive with its snapshot prepared in its own worker. */
   readonly #preparedWorlds = new WeakMap<World, PreparedRecord>();
   #slotCounter = 0;
   readonly #attempts: number;
   readonly #delay: (milliseconds: number) => Promise<void>;
+  readonly #prepareAutosave: (
+    world: World,
+  ) => PreparedRecord | Promise<PreparedRecord>;
 
   /**
    * The newest world each slot owes to storage, and one drain per slot working
@@ -423,6 +424,8 @@ export class BrowserSaveStore {
       options.delay ??
       ((milliseconds) =>
         new Promise((resolve) => setTimeout(resolve, milliseconds)));
+    this.#prepareAutosave =
+      options.prepareAutosave ?? ((world) => this.#prepare(world));
   }
 
   /** The IndexedDB this store was bound to — the same one portable transfer uses. */
@@ -534,15 +537,6 @@ export class BrowserSaveStore {
     await this.#tail.catch(() => undefined);
   }
 
-  /** One hash of one world, kept so the drain does not recompute it. */
-  #contentId(world: World): EntityId {
-    const cached = this.#contentIds.get(world);
-    if (cached !== undefined) return cached;
-    const identity = worldContentId(world);
-    this.#contentIds.set(world, identity);
-    return identity;
-  }
-
   /**
    * The observer worker prepared this exact checkpoint before posting it.
    * The worker is same-origin game code, and its canonical World is rebuilt
@@ -559,7 +553,6 @@ export class BrowserSaveStore {
       throw new Error("The prepared save does not describe this world.");
     }
     this.#preparedWorlds.set(world, prepared);
-    this.#contentIds.set(world, prepared.contentId);
   }
 
   #prepare(world: World): PreparedRecord {
@@ -719,7 +712,10 @@ export class BrowserSaveStore {
       // hand now *is* what is stored, so it may write over it. The payload was
       // not rewritten, so what is durable is what was read.
       this.#observed.set(saveId, record.generation);
-      this.#durableContent.set(saveId, this.#contentId(world));
+      // readStoredRecord already checked this world against the stored
+      // snapshot and its canonical summary. Rehashing it here adds a third
+      // full-world pass to Continue without strengthening that check.
+      this.#durableContent.set(saveId, record.metadata.snapshotId);
       this.#conflicts.delete(saveId);
 
       const lastPlayedAt = latestTimestamp(
@@ -947,32 +943,24 @@ export class BrowserSaveStore {
         reason: SLOT_MESSAGES.deleted,
       } as const);
     }
-    const content = this.#contentId(world);
     this.#requestCounter += 1;
     const ordinal = this.#requestCounter;
-    this.#pending.set(saveId, { world, content, ordinal });
+    this.#pending.set(saveId, { world, ordinal });
     this.#failures.delete(saveId);
     const drained = this.#ensureDrain(saveId);
-    return drained.then(() => this.#resultFor(saveId, ordinal, content));
+    return drained.then(() => this.#resultFor(saveId, ordinal));
   }
 
-  #resultFor(
-    saveId: EntityId,
-    ordinal: number,
-    content: EntityId,
-  ): AutosaveResult {
+  #resultFor(saveId: EntityId, ordinal: number): AutosaveResult {
     if (this.#deleted.has(saveId)) {
       return {
         status: "discarded",
         reason: SLOT_MESSAGES.deleted,
       } as const;
     }
-    // Two ways this request is honored: its own world is on disk, or a
-    // request made after it has landed and superseded it. Both mean the
-    // player has lost nothing; neither is a statement about actionSequence.
-    if (this.#durableContent.get(saveId) === content) {
-      return { status: "saved" } as const;
-    }
+    // Preparation may be asynchronous, so the request has no content hash
+    // when it enters the queue. A durable request at or beyond this ordinal
+    // proves that this world or its newer replacement reached storage.
     if ((this.#durableRequest.get(saveId) ?? -1) >= ordinal) {
       return { status: "saved" } as const;
     }
@@ -1036,8 +1024,16 @@ export class BrowserSaveStore {
       const request = this.#pending.get(saveId)!;
       let prepared: PreparedRecord;
       try {
-        prepared = this.#prepare(request.world);
+        const preparation =
+          this.#preparedWorlds.get(request.world) ??
+          this.#prepareAutosave(request.world);
+        prepared =
+          preparation instanceof Promise ? await preparation : preparation;
+        if (!stillCurrent()) return;
+        if (this.#pending.get(saveId) !== request) continue;
+        this.registerPreparedWorld(request.world, prepared);
       } catch (error: unknown) {
+        if (this.#pending.get(saveId) !== request) continue;
         this.#failures.set(saveId, messageOf(error));
         return;
       }

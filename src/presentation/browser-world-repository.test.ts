@@ -751,6 +751,38 @@ describe("Autosave is answerable for the newest world, not the first one", () =>
     return { factory, store };
   }
 
+  it("keeps the slot pending during background preparation and saves the newest world", async () => {
+    const factory = new FakeIndexedDbFactory();
+    const base = playerWorld("background-preparation");
+    const preparing = advanceDemoWorld(base, 1);
+    const newest = advanceDemoWorld(base, 2);
+    let releasePreparation: (() => void) | undefined;
+    const gate = new Promise<void>((resolve) => {
+      releasePreparation = resolve;
+    });
+    const store = new BrowserSaveStore({
+      indexedDB: factory.asFactory(),
+      databaseName: "background-preparation",
+      prepareAutosave: async (world) => {
+        if (world === preparing) await gate;
+        return prepareWorldRecord(world);
+      },
+    });
+    const saveId = store.newSaveId(base);
+    await store.save(base, saveId);
+
+    const first = store.autosave(preparing, saveId);
+    expect(store.unsavedWork()).toEqual([
+      expect.objectContaining({ saveId, kind: "pending" }),
+    ]);
+    const second = store.autosave(newest, saveId);
+    releasePreparation?.();
+    expect(
+      (await Promise.all([first, second])).map((result) => result.status),
+    ).toEqual(["saved", "saved"]);
+    expect(contentId((await store.load(saveId))!)).toBe(contentId(newest));
+  });
+
   it("writes the newest revision when a later one arrives mid-write", async () => {
     const { store, factory } = autosaveStore();
     const world = playerWorld("coalesce");
