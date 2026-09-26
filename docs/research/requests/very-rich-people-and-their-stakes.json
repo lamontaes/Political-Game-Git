@@ -1,0 +1,18 @@
+{
+  "filedAt": "2026-09-23T05:05:00.000Z",
+  "impact": "shapes-design",
+  "lane": "moguls and their offers",
+  "notes": [
+    "Built 2026-09-23 in src/simulation/very-rich.ts. A current game seats the very rich of the player's state on the first weekly pass, and again in any state the player moves to. Each gets money of their own (a record that simply exists; nobody opens an account), a company they own, and the policy questions that company's line of business would want settled one way.",
+    "Every value is UNRESEARCHED_VERY_RICH and UNRESEARCHED_LINES_OF_BUSINESS: three people in every state regardless of size, fortunes drawn between $1 billion and $20 billion, ages 45 to 85, and five lines of business (finance, energy, technology, real estate, retail) with two catalog stakes each. Each is a placeholder until answered."
+  ],
+  "priority": "P2",
+  "question": "How many people in each U.S. state hold fortunes large enough to matter in state politics (roughly $1 billion and up, and separately $100 million and up), how is that wealth distributed by state, what lines of business it comes from, how old its holders are, and which state policy questions each line of business typically lobbies or gives money over, and in which direction?",
+  "questionId": "very-rich-people-and-their-stakes",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Moguls and their offers thread, 2026-09-23",
+  "sourcesChecked": [],
+  "title": "The very rich in each state, and what they want from state government",
+  "usableAnswer": "A per-state count (or a rule from population and economy) of billionaires and of people above $100 million, a fortune distribution to draw from, an age range, the common lines of business with their state shares, and for each line of business the state policy questions it most often seeks and the side it takes, keyed where possible to the game's policy catalog.",
+  "whyItMatters": "The owner asked for very rich, powerful people who make offers to politicians. The game now seats three per state with invented fortunes and stakes so the offers happen in play; a researched table replaces those placeholders."
+}
