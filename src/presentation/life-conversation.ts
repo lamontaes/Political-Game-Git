@@ -176,11 +176,17 @@ export function projectLifeConversation(
     .find((tag) => tag.startsWith("life.talk:"))
     ?.slice(10);
   const scene = currentLifeTalkScene(world, playerPersonId)!;
+  const sceneEvent = world.history.events.find(
+    (event) => event.id === scene.eventId,
+  );
+  const specificScene = sceneEvent?.type === "life.scene.opened";
   const tellable = tellableTopics(world, playerPersonId, personId);
-  // The English engine words these moves; it does not decide which exist.
-  // Which moves a quiet room offers stays as it was until Lamontae decides
-  // otherwise (English engine brief, Replies, September 26, 2026).
-  const intents: LifeTalkIntent[] = ["greet", "scene", "activity", "share"];
+  // A quiet room and somebody's presence do not themselves supply a topic.
+  // Opening a conversation there offers a greeting; concrete scene events,
+  // known public matters and tellable personal records add their own moves.
+  const intents: LifeTalkIntent[] = ["greet"];
+  if (specificScene) intents.push("scene", "activity");
+  if (tellable.length > 0) intents.push("share");
   // A current public or known matter the player could actually raise; the
   // counterpart's answer depends on what their own records say they know.
   const matter = currentKnownMatter(world, playerPersonId);
@@ -213,7 +219,17 @@ export function projectLifeConversation(
     )
   )
     intents.push("explain");
-  if (history.length > 0) intents.push("remember", "acknowledge");
+  if (
+    history.some((event) =>
+      event.tags.some(
+        (tag) =>
+          tag.startsWith("life.matter:") ||
+          tag.startsWith(`life.talk:${TELL_PREFIX}`) ||
+          tag.startsWith("life.proposal."),
+      ),
+    )
+  )
+    intents.push("remember", "acknowledge");
   const adults = [playerPersonId, personId].every(
     (id) => ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
   );

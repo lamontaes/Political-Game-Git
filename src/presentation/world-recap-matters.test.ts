@@ -49,9 +49,11 @@ describe("recap over W3's public matters", () => {
   it("does not present the matters a new life opens with as changes since it began", () => {
     const frontier = life.world.history.nextSequence;
     expect(projectWorldRecap(life.world, player, frontier)).toBeNull();
-    // They are already public, so they can still be mentioned in talk.
+    // They are public, but a new character has not read them yet. Lamontae,
+    // September 26, 2026: a matter can be raised in talk only once the
+    // character read it in the News or took part in it.
     expect(projectPublicMatters(life.world).length).toBeGreaterThan(0);
-    expect(currentKnownMatter(life.world, player)).not.toBeNull();
+    expect(currentKnownMatter(life.world, player)).toBeNull();
   });
 
   it(

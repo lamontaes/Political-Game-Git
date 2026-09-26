@@ -64,6 +64,13 @@ describe("opening a news story", () => {
   it("records a read without passing time or treating the report as verified", () => {
     const fixture = publishedMeeting();
     const story = projectNewsFrontPage(fixture.world, "front", null).lead!;
+    expect(
+      projectLifeConversation(
+        fixture.world,
+        fixture.playerPersonId,
+        fixture.guardianPersonId,
+      )!.matter,
+    ).toBeNull();
     const read = readNewsStory(fixture.world, fixture.playerPersonId, story.id);
     expect(read.currentMoment).toEqual(fixture.world.currentMoment);
     expect(read.history.knowledge.at(-1)).toMatchObject({

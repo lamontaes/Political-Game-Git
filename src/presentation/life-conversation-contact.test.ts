@@ -42,7 +42,12 @@ const setup = {
 } as const;
 
 function opening(seed: string = setup.seed) {
-  const { world, playerPersonId } = createNewGameWorld({ ...setup, seed });
+  const created = createNewGameWorld({ ...setup, seed });
+  const { playerPersonId } = created;
+  // Talking about what is going on, or suggesting something to do, needs a
+  // recorded scene rather than a quiet room (Lamontae, September 26, 2026),
+  // so these conversations happen in the next scene the life opens.
+  const world = openNextLifeScene(created.world, playerPersonId);
   const scene = resolveOpeningPlaySceneContext(world, playerPersonId);
   const parent =
     scene.presentPeople.find((person) =>

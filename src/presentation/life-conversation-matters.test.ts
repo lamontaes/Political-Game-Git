@@ -124,6 +124,86 @@ describe("current matters in ordinary talk", () => {
     expect(view.intents.map((intent) => intent.key)).not.toContain("matter");
   });
 
+  it("does not turn an unread publication into the player's knowledge", () => {
+    const base = household("matter-unread-publication");
+    let world = recordWorldEvent(base.world, {
+      stableKey: "unread-council-meeting",
+      type: "community.meeting",
+      occurredAt: base.world.currentDate,
+      recordedAt: base.world.currentDate,
+      jurisdictionId: base.world.people[base.outsider]!.homeJurisdictionId,
+      involvedEntityIds: [base.outsider],
+      participants: [
+        { personId: base.outsider, role: "agency:actor", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [],
+      summary: "The council met about library hours.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    world = publishPublicEvent(world, {
+      stableKey: "unread-council-publication",
+      sourceEventId: world.history.events.at(-1)!.id,
+    });
+    expect(
+      projectLifeConversation(
+        world,
+        base.playerPersonId,
+        base.parentId,
+      )!.intents.map((option) => option.key),
+    ).not.toContain("matter");
+  });
+
+  it("keeps a read matter available when a newer unread story appears", () => {
+    const base = household("matter-read-before-unread");
+    const known = publishedMatter(
+      base.world,
+      base.playerPersonId,
+      base.outsider,
+    );
+    let world = recordWorldEvent(known.world, {
+      stableKey: "later-unread-council-meeting",
+      type: "community.meeting",
+      occurredAt: known.world.currentDate,
+      recordedAt: known.world.currentDate,
+      jurisdictionId: known.world.people[base.outsider]!.homeJurisdictionId,
+      involvedEntityIds: [base.outsider],
+      participants: [
+        { personId: base.outsider, role: "agency:actor", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [],
+      summary: "The council met about park hours.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    world = publishPublicEvent(world, {
+      stableKey: "later-unread-council-publication",
+      sourceEventId: world.history.events.at(-1)!.id,
+    });
+    const view = projectLifeConversation(
+      world,
+      base.playerPersonId,
+      base.parentId,
+    )!;
+    expect(view.matter?.eventId).toBe(known.eventId);
+  });
+
   it("asks about a known governor death using a saved title and preserves the selected words", () => {
     const base = household("matter-governor-death");
     const governor = base.world.people[base.outsider]!;
