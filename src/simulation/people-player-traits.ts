@@ -98,22 +98,84 @@ export function recordPlayerTraitChoice(
 
 /**
  * A formative choice says something about temperament only where its own
- * meaning does. These keys come from the authored option, never its position
- * among the options the player happened to see.
+ * meaning does. A key includes its situation so a similarly named option in
+ * another situation cannot silently inherit the same interpretation. It never
+ * depends on the option's position among the choices the player saw.
  */
 const FORMATIVE_CHOICE_TRAITS: Readonly<
   Record<string, { readonly trait: PeopleTrait; readonly value: TraitValue }>
 > = {
-  "say-what-happened": { trait: "conflict", value: 1 },
-  "stay-quiet": { trait: "conflict", value: -1 },
-  "join-in": { trait: "sociability", value: 1 },
-  share: { trait: "sociability", value: 1 },
-  "settle-in": { trait: "sociability", value: 1 },
-  "hang-back": { trait: "sociability", value: -1 },
-  "keep-your-corner": { trait: "sociability", value: -1 },
-  spend: { trait: "risk", value: 1 },
-  "put-it-away": { trait: "risk", value: -1 },
-  "make-yourself-useful": { trait: "reliability", value: 1 },
+  "formative.school-entry:join-in": { trait: "sociability", value: 1 },
+  "formative.school-entry:hang-back": { trait: "sociability", value: -1 },
+  "formative.small-money:spend": { trait: "deliberation", value: 1 },
+  "formative.small-money:put-it-away": { trait: "deliberation", value: -1 },
+  "formative.lunch-table:make-room": { trait: "sociability", value: 1 },
+  "formative.lunch-table:look-away": { trait: "sociability", value: -1 },
+  "formative.lunch-table:go-with-them": { trait: "sociability", value: 1 },
+  "formative.friend-conflict:repair": { trait: "conflict", value: -1 },
+  "formative.friend-conflict:ask-someone": { trait: "deliberation", value: -1 },
+  "formative.school-rule-input:speak-up": { trait: "conflict", value: 1 },
+  "formative.school-rule-input:write-it-down": {
+    trait: "deliberation",
+    value: -1,
+  },
+  "formative.care-conflict:keep-the-commitment": {
+    trait: "reliability",
+    value: 1,
+  },
+  "formative.care-conflict:do-both-badly": {
+    trait: "reliability",
+    value: -1,
+  },
+  "formative.money-shortfall:ask-what-happened": {
+    trait: "deliberation",
+    value: -1,
+  },
+  "formative.civic-volunteering:observe": {
+    trait: "deliberation",
+    value: -1,
+  },
+  "formative.civic-volunteering:send-others": {
+    trait: "sociability",
+    value: 1,
+  },
+  "formative.student-organizing:help-organize": {
+    trait: "conflict",
+    value: 1,
+  },
+  "formative.belief-challenge:say-you-disagree": {
+    trait: "conflict",
+    value: 1,
+  },
+  "formative.belief-challenge:let-it-pass": {
+    trait: "conflict",
+    value: -1,
+  },
+  "formative.future-preparation:prepare": { trait: "risk", value: 1 },
+  "formative.future-preparation:keep-options-open": {
+    trait: "deliberation",
+    value: -1,
+  },
+  "formative.future-preparation:ask-someone-who-knows": {
+    trait: "deliberation",
+    value: -1,
+  },
+  "formative.caring-for-someone:take-it-on": {
+    trait: "reliability",
+    value: 1,
+  },
+  "formative.caring-for-someone:hold-the-line": {
+    trait: "deliberation",
+    value: -1,
+  },
+  "formative.workplace-rule:say-nobody-does": {
+    trait: "conflict",
+    value: 1,
+  },
+  "formative.workplace-rule:say-it-after": {
+    trait: "deliberation",
+    value: -1,
+  },
 };
 
 /** Records a played formative choice only after its canonical event exists. */
@@ -127,7 +189,8 @@ export function recordFormativePlayerTraitChoice(
     readonly choiceLabel: string;
   },
 ): World {
-  const trait = FORMATIVE_CHOICE_TRAITS[input.optionKey];
+  const trait =
+    FORMATIVE_CHOICE_TRAITS[`${input.situationKey}:${input.optionKey}`];
   if (
     !trait ||
     after.control.kind !== "person" ||
@@ -138,8 +201,13 @@ export function recordFormativePlayerTraitChoice(
     .slice(before.history.events.length)
     .find(
       (event) =>
-        event.involvedEntityIds.includes(input.personId) &&
-        event.tags.includes(input.situationKey),
+        event.participants.some(
+          (participant) =>
+            participant.personId === input.personId &&
+            participant.role === "agency:actor",
+        ) &&
+        event.tags.includes(input.situationKey) &&
+        event.tags.includes(`choice.${input.optionKey}`),
     );
   if (!choiceEvent) return after;
   return recordPlayerTraitChoice(after, {

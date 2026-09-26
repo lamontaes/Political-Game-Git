@@ -13,6 +13,7 @@ import {
   relationWord,
 } from "../simulation/people-bereavement";
 import type { PersonDeathRecipientNotice } from "../simulation/people-bereavement";
+import { crisisPersonDeathRecipientNotices } from "../simulation/crisis/notices";
 import { recordFamilyAddition } from "../simulation/people-family";
 import {
   ensurePeopleTraits,
@@ -139,13 +140,31 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
   });
 
   it("tells current-life relatives when an ordinary day passes", () => {
+    const recipients = crisisPersonDeathRecipientNotices(dead, {
+      diedOnOrAfter: dead.startedAt,
+    }).filter((entry) => entry.deathRecordId === death.id);
+    const outside = dead.personOrder.find(
+      (id) =>
+        id !== sibling &&
+        !recipients.some((entry) => entry.recipientPersonId === id),
+    );
+    expect(outside).toBeDefined();
     const afterDay = letAdultTimePass(dead, 1);
     const learned = afterDay.history.events.filter(
       (event) =>
         event.type === BEREAVEMENT_NOTICE_EVENT &&
         event.involvedEntityIds.includes(sibling),
     );
-    expect(learned).toHaveLength(2);
+    expect(learned).toHaveLength(recipients.length);
+    expect(
+      new Set(
+        learned.map(
+          (event) =>
+            event.participants.find((entry) => entry.role === "focus:told")!
+              .personId,
+        ),
+      ).size,
+    ).toBe(recipients.length);
     expect(
       afterDay.history.knowledge.some(
         (entry) => entry.personId === player && entry.eventId === death.eventId,
@@ -159,7 +178,7 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
     expect(
       afterDay.history.knowledge.some(
         (entry) =>
-          entry.personId === stranger && entry.eventId === death.eventId,
+          entry.personId === outside && entry.eventId === death.eventId,
       ),
     ).toBe(false);
     const anotherDay = letAdultTimePass(afterDay, 1);
@@ -169,7 +188,7 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
           event.type === BEREAVEMENT_NOTICE_EVENT &&
           event.involvedEntityIds.includes(sibling),
       ),
-    ).toHaveLength(2);
+    ).toHaveLength(recipients.length);
     assertWorldIntegrity(anotherDay);
   });
 
