@@ -27,7 +27,10 @@ export function InterruptionChecklist({
     <ul className="pg-interruption-list">
       {INTERRUPTION_CATEGORIES.map((category) =>
         category.key === "always" ? (
-          <li key={category.label} data-testid={`${testIdPrefix}-always`}>
+          <li
+            key={category.label}
+            data-testid={`${testIdPrefix}-${category.fixedId ?? "always"}`}
+          >
             <label className="pg-check pg-check--fixed">
               <input type="checkbox" checked disabled readOnly />
               <span>
