@@ -9,6 +9,7 @@ import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import { seatWinnersOwedTheirTerm } from "../simulation/office-entry-repair";
 import { refreshContextualScenes } from "./contextual-scene-producers";
+import { ensurePeopleGoalReview } from "../simulation/people-goal-review";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
 import { migrateLegacyLegislativeSeats } from "../simulation/legislative-office-terms";
 import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
@@ -442,11 +443,15 @@ function advanceOrdinaryDays(
   // age; see catchUpLegacySchoolStages. A territory life saved before
   // territories had a Governor has one seated; see catchUpTerritoryGovernor.
   // Somebody grown is nobody's child to answer for; see catchUpComingOfAge.
-  const migrated = ensureCrisisMortality(
-    catchUpComingOfAge(
-      migrateLegacyLegislativeSeats(
-        catchUpTerritoryGovernor(
-          catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+  // The week's look at the area's private goals is a due item on the same
+  // clock; a save from before it existed gets its first one here.
+  const migrated = ensurePeopleGoalReview(
+    ensureCrisisMortality(
+      catchUpComingOfAge(
+        migrateLegacyLegislativeSeats(
+          catchUpTerritoryGovernor(
+            catchUpLegacySchoolStages(migrateLegacyStudyProgression(world)),
+          ),
         ),
       ),
     ),

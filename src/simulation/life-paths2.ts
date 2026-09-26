@@ -1,3 +1,4 @@
+import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { assessPaycheckTaxes } from "./statutory-tax";
 import {
   SCHOOL_STAGE_TRANSITION_KEY,
@@ -1330,7 +1331,7 @@ export function recruitLifePathPerson(
     (g) => g.status === "active" && g.goalKey === "life-paths2:decline-work",
   );
   const seeking = [...latestGoals.values()].some(
-    (g) => g.status === "active" && g.goalKey === "life-paths2:seek-work",
+    (g) => g.status === "active" && isLivelihoodGoalKey(g.goalKey),
   );
   const busy = activeWorkRelationshipsAt(world, personId).some(
     (w) => w.role.timeDemand.scheduleRigidity === "rigid",
