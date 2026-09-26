@@ -22,6 +22,10 @@ import {
  * confirmed commitment, a journey, a decision that needs the player — stays a
  * stop whatever the checklist says, because those are not preferences.
  *
+ * The player's own election is a fixed row too: every skip stops the morning
+ * after it (`nextOwnElection`, read by the time command and the quiet
+ * stretch), so the result is met rather than stepped over.
+ *
  * Two categories have a real consumer today:
  *
  * - Work shifts. The routine hook lets an ordinary personal work window run on
@@ -38,6 +42,8 @@ export interface InterruptionCategory {
   readonly key: keyof InterruptionPreferences | "always";
   readonly label: string;
   readonly detail: string;
+  /** Names a fixed row apart from the other fixed rows. */
+  readonly fixedId?: string;
 }
 
 /** What the on-demand checklist offers, in the order it is read. */
@@ -46,6 +52,13 @@ export const INTERRUPTION_CATEGORIES: readonly InterruptionCategory[] = [
     key: "always",
     label: "Confirmed commitments, journeys and decisions that need you",
     detail: "A skip always stops for these. Not a preference.",
+  },
+  {
+    key: "always",
+    fixedId: "own-election",
+    label: "Your own election day",
+    detail:
+      "A skip always stops the morning after an election you are running in, and says how it came out.",
   },
   {
     key: "stopForWorkShifts",
