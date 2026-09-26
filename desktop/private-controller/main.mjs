@@ -7,9 +7,10 @@ import {
   saveOpenLife,
   prepareQuit,
   hasUnsavedEdits,
+  isIdleTitle,
   suspendInteraction,
 } from "./game-session.mjs";
-/* global AbortSignal, Response, URL, fetch, process, setTimeout, clearTimeout */
+/* global AbortSignal, Response, URL, fetch, process, setTimeout, clearTimeout, setInterval, clearInterval */
 /**
  * Our Civic Duty Private — the owner's private development hub.
  *
@@ -1280,6 +1281,7 @@ function onWorkerEvent(track, event) {
     }
     noteCheck(track, outcome, event.message, event.revision);
     afterComplete(track);
+    if (event.outcome === "pending") void installIfIdleTitle(track);
   }
   broadcast();
 }
@@ -1394,6 +1396,16 @@ async function applyPending(id) {
     );
     broadcast();
   }
+}
+
+/** Install automatically only after the game's own title-screen attestation. */
+async function installIfIdleTitle(id) {
+  const pending = readState()?.tracks[id]?.pending;
+  const contents = hub.play.get(id)?.view.webContents;
+  if (!pending || !contents || applyingUpdates.has(id)) return;
+  if (!(await isIdleTitle(contents))) return;
+  if (readState()?.tracks[id]?.pending?.revision !== pending.revision) return;
+  await applyPending(id);
 }
 
 async function installPending(id) {
@@ -1775,6 +1787,17 @@ ipcMain.handle("game:request-quit", (event) => {
   }
   return requestQuit();
 });
+ipcMain.on("game:title-ready", (event) => {
+  if (
+    event.senderFrame !== event.sender.mainFrame ||
+    !event.senderFrame?.url?.startsWith(`${APP_ORIGIN}/`)
+  )
+    return;
+  const open = [...hub.play.entries()].find(
+    ([, { view }]) => view.webContents === event.sender,
+  );
+  if (open) void installIfIdleTitle(open[0]);
+});
 
 const TABS = new Set(["play", "artdesk", "agents", "settings"]);
 const trackArg = (id) =>
@@ -2002,9 +2025,24 @@ handle("hub:reveal-token", (file) => {
 
 /* -------------------------------------------------------------- lifecycle */
 
-// Updates are checked like a normal game's: once when the hub opens and when
-// the owner presses Check for updates. There is no timer and no check on
-// focus — each check can compile a whole build, which stalls the game.
+// The window can be hidden for days while the hub process stays alive. A
+// background check discovers a changed Git revision without interrupting Play;
+// the existing worker prepares it at low priority, and only an idle title may
+// install it without a click.
+const AUTO_UPDATE_INTERVAL_MS = 5 * 60 * 1000;
+let lastAutomaticCheckAt = 0;
+function checkUpdatesAutomatically(force = false) {
+  if (hub.quitting || hub.worker) return;
+  const now = Date.now();
+  if (!force && now - lastAutomaticCheckAt < AUTO_UPDATE_INTERVAL_MS) return;
+  const state = readState();
+  if (!state) return;
+  lastAutomaticCheckAt = now;
+  if (!state.tracks[MAIN_TRACK]?.pending) startWorker(MAIN_TRACK, false, true);
+  const selected = state.selectedTrack;
+  if (selected !== MAIN_TRACK && !state.tracks[selected]?.pending)
+    startWorker(selected, false, true);
+}
 
 function createWindow() {
   const win = new BaseWindow({
@@ -2201,6 +2239,8 @@ if (!app.requestSingleInstanceLock()) {
       if (hub.window.isMinimized()) hub.window.restore();
       hub.window.focus();
     }
+    if (process.env.OCD_HUB_SKIP_STARTUP_CHECK !== "1")
+      checkUpdatesAutomatically();
   });
 
   app.whenReady().then(async () => {
@@ -2288,12 +2328,16 @@ if (!app.requestSingleInstanceLock()) {
         if (!result.ok) logLine(`Art Desk: ${result.message}`);
         broadcast();
       });
-    // Fresh-main check at every start; unchanged inputs finish quickly
-    // without rebuilding.
+    // The initial check and subsequent checks share one worker/queue. Closing
+    // the window only hides it, so the timer continues while the hub is alive.
     if (process.env.OCD_HUB_SKIP_STARTUP_CHECK !== "1") {
-      const selected = readState().selectedTrack;
-      startWorker(MAIN_TRACK, false, true);
-      if (selected !== MAIN_TRACK) startWorker(selected, false, true);
+      checkUpdatesAutomatically(true);
+      const updateTimer = setInterval(
+        checkUpdatesAutomatically,
+        AUTO_UPDATE_INTERVAL_MS,
+      );
+      updateTimer.unref();
+      app.once("will-quit", () => clearInterval(updateTimer));
     }
     broadcast();
   });
@@ -2303,6 +2347,8 @@ if (!app.requestSingleInstanceLock()) {
       hub.window.show();
       hub.window.focus();
     }
+    if (process.env.OCD_HUB_SKIP_STARTUP_CHECK !== "1")
+      checkUpdatesAutomatically();
   });
   app.on("window-all-closed", () => {
     if (!hub.quitting) void requestQuit();
