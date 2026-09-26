@@ -205,8 +205,9 @@ const summary = {
     worstMs: Math.round(Math.max(...cpuTimes)),
   },
   changedCheck: checkCounts,
-  slowDays: times
-    .filter((t) => t.ms > 1000)
-    .map((t) => `${t.date}:${Math.round(t.ms)}`),
+  worstDays: [...times]
+    .sort((a, b) => b.ms - a.ms)
+    .slice(0, 12)
+    .map((t) => `${t.date}:${Math.round(t.ms)}/${Math.round(t.cpuMs)}`),
 };
 console.log(JSON.stringify(summary));

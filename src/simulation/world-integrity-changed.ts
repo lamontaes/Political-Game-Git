@@ -130,15 +130,26 @@ export interface ChangedHistoryFamily {
 }
 
 /** How often the changed-only check vouched for a result, for timing tools. */
-export const changedHistoryCheckCounts = { passed: 0, fellBack: 0 };
+export const changedHistoryCheckCounts = {
+  passed: 0,
+  fellBack: 0,
+  /** Full walks taken in play: no checked World to compare with. */
+  fullNoPrevious: 0,
+  /** Full walks taken in play: history was not a plain append. */
+  fullNotAppend: 0,
+  /** Full walks taken in play: people, places or the policy catalog changed. */
+  fullEntitiesChanged: 0,
+};
 
 /** Checks the appended records only. False means "run the full check". */
 export function validateChangedHistory(
   previous: World,
   world: World,
   families: readonly ChangedHistoryFamily[],
+  /** Ids of entities the result added outside history (new places). */
+  addedEntityIds: readonly string[] = [],
 ): boolean {
-  const passed = checkChangedHistory(previous, world, families);
+  const passed = checkChangedHistory(previous, world, families, addedEntityIds);
   if (passed) changedHistoryCheckCounts.passed += 1;
   else changedHistoryCheckCounts.fellBack += 1;
   return passed;
@@ -148,6 +159,7 @@ function checkChangedHistory(
   previous: World,
   world: World,
   families: readonly ChangedHistoryFamily[],
+  addedEntityIds: readonly string[],
 ): boolean {
   const index = INDEX.get(previous) ?? {
     ids: idsOf(previous),
@@ -161,6 +173,10 @@ function checkChangedHistory(
   let appended = 0;
   const newIds = new Set<string>();
   const newKeys = new Map<string, Set<string>>();
+  for (const id of addedEntityIds) {
+    if (index.ids.has(id) || newIds.has(id)) return false;
+    newIds.add(id);
+  }
   for (const { key, before, after } of families) {
     let lastSequence =
       before.length > 0

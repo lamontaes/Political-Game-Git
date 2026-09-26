@@ -2,6 +2,7 @@ import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
 import {
+  changedHistoryCheckCounts,
   validateChangedHistory,
   worldIntegrityCheckMode,
 } from "./world-integrity-changed";
@@ -592,11 +593,34 @@ export function advanceWithWorldIntegrityAtEnd(
   return result;
 }
 
+/*
+ * The newest World that passed a check. During play the next World to be
+ * checked is almost always its descendant (a Day, a scene answer, a writer's
+ * result), so it is checked against this one: only what changed since, with
+ * the full check whenever the change is not a plain append.
+ */
+let lastValidatedWorld: World | null = null;
+
+function markValidated(world: World): void {
+  VALIDATED_WORLDS.add(world);
+  lastValidatedWorld = world;
+}
+
 export function assertWorldIntegrity(world: World): void {
   if (VALIDATED_WORLDS.has(world)) return;
   if (integrityDeferredDepth > 0) return;
+  const last = lastValidatedWorld;
+  if (
+    worldIntegrityCheckMode() === "changed" &&
+    last !== null &&
+    last !== world &&
+    last.id === world.id
+  ) {
+    assertWorldIntegrityFrom(last, world);
+    return;
+  }
   validateWorldIntegrity(world);
-  VALIDATED_WORLDS.add(world);
+  markValidated(world);
 }
 
 /** Recheck the entire World at a durability or explicit audit boundary. */
@@ -607,7 +631,7 @@ export function assertWorldIntegrityFully(world: World): void {
     );
   }
   validateWorldIntegrity(world);
-  VALIDATED_WORLDS.add(world);
+  markValidated(world);
 }
 
 interface AppendOnlyHistoryDelta {
@@ -679,7 +703,7 @@ function assertWorldIntegrityFrom(previous: World, world: World): void {
     ? appendOnlyHistoryDelta(previous, world)
     : null;
   validateWorldIntegrity(world, delta, delta ? previous : undefined);
-  VALIDATED_WORLDS.add(world);
+  markValidated(world);
 }
 
 function validateWorldIntegrity(
@@ -743,7 +767,21 @@ function validateWorldIntegrity(
     previous.people === world.people &&
     previous.personOrder === world.personOrder &&
     previous.policyCatalog === world.policyCatalog;
-  if (!sameInitialEntities) {
+  // A Day that only registered a new place (a state or county a writer
+  // needed) checks the new places, not every person again.
+  const addedJurisdictions =
+    !sameInitialEntities && worldIntegrityCheckMode() === "changed"
+      ? jurisdictionsOnlyAdded(previous, world, delta)
+      : null;
+  if (addedJurisdictions) {
+    validateInitialEntities(
+      world.id,
+      currentDate,
+      addedJurisdictions,
+      [],
+      world.policyCatalog,
+    );
+  } else if (!sameInitialEntities) {
     const jurisdictions = orderedRecords(
       world.jurisdictions,
       world.jurisdictionOrder,
@@ -788,16 +826,63 @@ function validateWorldIntegrity(
   // same objects checks only its new history records (see
   // world-integrity-changed.ts); anything that check cannot vouch for, and
   // every load, save and test, takes the full walk.
-  if (!(
-    sameInitialEntities &&
-    previous !== undefined &&
-    delta !== null &&
-    worldIntegrityCheckMode() === "changed" &&
-    validateChangedHistory(previous, world, delta.changed)
-  ))
-    validateHistoryIntegrity(world, delta, previous);
+  let checkedChanges = false;
+  if (worldIntegrityCheckMode() === "changed") {
+    if (previous === undefined) changedHistoryCheckCounts.fullNoPrevious += 1;
+    else if (delta === null) changedHistoryCheckCounts.fullNotAppend += 1;
+    else if (!sameInitialEntities && !addedJurisdictions)
+      changedHistoryCheckCounts.fullEntitiesChanged += 1;
+    else
+      checkedChanges = validateChangedHistory(
+        previous,
+        world,
+        delta.changed,
+        (addedJurisdictions ?? []).map((jurisdiction) => jurisdiction.id),
+      );
+  }
+  if (!checkedChanges) validateHistoryIntegrity(world, delta, previous);
   if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
   if (world.pressure !== undefined) assertPressureIntegrity(world);
+}
+
+/**
+ * The places a result added, when adding places is the only change to its
+ * people, places and policy catalog; otherwise null.
+ */
+function jurisdictionsOnlyAdded(
+  previous: World | undefined,
+  world: World,
+  delta: AppendOnlyHistoryDelta | null,
+): readonly Jurisdiction[] | null {
+  if (
+    previous === undefined ||
+    delta === null ||
+    previous.people !== world.people ||
+    previous.personOrder !== world.personOrder ||
+    previous.policyCatalog !== world.policyCatalog ||
+    world.jurisdictionOrder.length <= previous.jurisdictionOrder.length
+  )
+    return null;
+  const before = previous.jurisdictionOrder;
+  for (let index = 0; index < before.length; index += 1) {
+    const id = before[index]!;
+    if (
+      world.jurisdictionOrder[index] !== id ||
+      world.jurisdictions[id] !== previous.jurisdictions[id]
+    )
+      return null;
+  }
+  if (
+    Object.keys(world.jurisdictions).length !== world.jurisdictionOrder.length
+  )
+    return null;
+  const added: Jurisdiction[] = [];
+  for (const id of world.jurisdictionOrder.slice(before.length)) {
+    const jurisdiction = world.jurisdictions[id];
+    if (!jurisdiction || jurisdiction.id !== id) return null;
+    added.push(jurisdiction);
+  }
+  return added;
 }
 
 export function recordWorldEvent(
