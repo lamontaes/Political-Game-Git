@@ -72,12 +72,12 @@ import type { DistrictIdentity } from "../../districts/types";
  * A state legislature with a real person in every seat.
  *
  * Until this, a state chamber started empty. Congress got 535 generated
- * members at the opening; the state house under the player's feet got none,
- * and every floor vote there was a head count written in advance and handed
- * out to "Member for District N". A seat got a person only when somebody won
- * a campaign for it. This fills the home state's chambers once, at the
- * opening, with people who have a seat, a district where one can be named, a
- * and a party, all through the same records a campaign winner gets:
+ * members at the opening; state chambers did not, and every floor vote there
+ * was a head count written in advance and handed out to "Member for District
+ * N". A seat got a person only when somebody won a campaign for it. Current
+ * new-game preparation fills all 50 states at the opening; older saves keep
+ * the dated calendar fallback. Members use the same records a campaign
+ * winner gets:
  * the seat is a `employment:legislative-member` work relationship in the body
  * `legislature:<candidacy pack>`, exactly the body `seatTheWinner` reuses, so
  * a player who later wins a seat joins the same chamber as these members.
@@ -99,8 +99,8 @@ import type { DistrictIdentity } from "../../districts/types";
  * share is centered on its own statewide Senate contests; one with neither
  * seats its members without a party rather than guessing one.
  *
- * The player's home state is seated at Begin; the other states enter through
- * the saved-world clock over subsequent days.
+ * The player's home state remains first in the opening history; other states
+ * follow in the deterministic jurisdiction order.
  */
 
 export const STATE_LEGISLATURE_OPENING_VERSION =
@@ -111,14 +111,25 @@ export const STATE_LEGISLATURE_OPENING_TRANSITION =
 const NATIONWIDE_OPENING_CALENDAR = "state-legislature-opening-calendar/v1";
 
 /**
- * The state governments exist in one World, but seating more than seven
- * thousand members on one bill day would stall that day. Give two states per
- * day a canonical, dated opening before the first regular bill season.
- * Scheduling is idempotent and makes no claim about any state's convening day.
+ * Older saves still use two due states per day until their initial rosters
+ * exist. Current new games seat all states during opening preparation, so no
+ * later clock work is scheduled for them. This makes no claim about a state's
+ * convening day.
  */
 export function scheduleNationwideStateLegislatureOpenings(
   world: World,
 ): World {
+  // New-game preparation has already seated every state roster at the
+  // opening date. The old calendar is still needed by saves that predate that
+  // preparation, but must not put completed new-game work back on the clock.
+  if (
+    US_STATE_USPS.every((usps) => {
+      const pack = stateCandidacyPack(`US-${usps}`);
+      return !!pack && stateLegislatureEstablished(world, pack.packId);
+    })
+  ) {
+    return world;
+  }
   let next = world;
   for (const [index, usps] of US_STATE_USPS.entries()) {
     const stableKey = `${NATIONWIDE_OPENING_CALENDAR}:${usps}`;
@@ -137,6 +148,74 @@ export function scheduleNationwideStateLegislatureOpenings(
         note: `${NATIONWIDE_OPENING_CALENDAR}: spreading initial state roster construction across clock days; this is not a state's session rule.`,
       },
     });
+  }
+  return next;
+}
+
+export interface NationwideStateLegislatureOpeningChunk {
+  readonly world: World;
+  readonly completedStates: number;
+  readonly totalStates: number;
+  readonly firstStateUsps: string;
+  readonly lastStateUsps: string;
+  readonly done: boolean;
+}
+
+/**
+ * Prepare state rosters in deterministic, resumable chunks. A caller can
+ * yield between iterator steps to report real progress while each chunk
+ * remains an ordinary immutable World transition. The home state is first so
+ * the existing opening-history order is retained.
+ */
+export function* prepareNationwideStateLegislatureOpeningChunks(
+  world: World,
+  subjectPersonId: EntityId,
+  options: {
+    readonly preferredFirstStateUsps?: string | null;
+    readonly statesPerChunk?: number;
+  } = {},
+): Generator<NationwideStateLegislatureOpeningChunk, World, void> {
+  if (!world.people[subjectPersonId]) {
+    throw new Error("Nationwide state openings need an existing subject.");
+  }
+  const requestedSize = options.statesPerChunk ?? 2;
+  if (!Number.isInteger(requestedSize) || requestedSize < 1) {
+    throw new RangeError("statesPerChunk must be a positive integer.");
+  }
+  const preferred = options.preferredFirstStateUsps;
+  const stateCodes: readonly string[] = US_STATE_USPS;
+  const usps =
+    preferred && stateCodes.includes(preferred)
+      ? [preferred, ...US_STATE_USPS.filter((code) => code !== preferred)]
+      : [...US_STATE_USPS];
+  const openingDate = world.currentDate;
+  let next = world;
+
+  for (let start = 0; start < usps.length; start += requestedSize) {
+    const chunkStates = usps.slice(start, start + requestedSize);
+    for (const code of chunkStates) {
+      const pack = stateCandidacyPack(`US-${code}`);
+      if (!pack) {
+        throw new Error(`Missing state legislature pack for ${code}.`);
+      }
+      next = ensureStateLegislatureOpening(next, subjectPersonId, code);
+      if (!stateLegislatureEstablished(next, pack.packId)) {
+        throw new Error(`Could not prepare the state legislature for ${code}.`);
+      }
+      if (next.currentDate !== openingDate) {
+        throw new Error(
+          "State legislature preparation advanced the game date.",
+        );
+      }
+    }
+    yield {
+      world: next,
+      completedStates: Math.min(start + chunkStates.length, usps.length),
+      totalStates: usps.length,
+      firstStateUsps: chunkStates[0]!,
+      lastStateUsps: chunkStates.at(-1)!,
+      done: start + chunkStates.length >= usps.length,
+    };
   }
   return next;
 }
