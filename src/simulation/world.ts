@@ -1,6 +1,11 @@
 import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { assertWorldContentPacks } from "./runtime-content-packs";
+import {
+  validateChangedHistory,
+  worldIntegrityCheckMode,
+} from "./world-integrity-changed";
+import type { ChangedHistoryFamily } from "./world-integrity-changed";
 import { applyCongressTurnover } from "./living-world/congress-turnover";
 import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
 import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
@@ -608,6 +613,8 @@ export function assertWorldIntegrityFully(world: World): void {
 interface AppendOnlyHistoryDelta {
   readonly previousSequence: number;
   readonly appended: readonly { readonly sequence: number }[];
+  /** The history families that gained records, old and new arrays. */
+  readonly changed: readonly ChangedHistoryFamily[];
 }
 
 /**
@@ -630,6 +637,7 @@ function appendOnlyHistoryDelta(
   const prior = previous.history as unknown as Record<string, unknown>;
   const next = current.history as unknown as Record<string, unknown>;
   const appended: { readonly sequence: number }[] = [];
+  const changed: ChangedHistoryFamily[] = [];
   for (const key of new Set([...Object.keys(prior), ...Object.keys(next)])) {
     if (key === "nextSequence") continue;
     const oldRecords = prior[key];
@@ -660,8 +668,9 @@ function appendOnlyHistoryDelta(
       }
       appended.push(record as { readonly sequence: number });
     }
+    if (after.length > before.length) changed.push({ key, before, after });
   }
-  return { previousSequence: previous.history.nextSequence, appended };
+  return { previousSequence: previous.history.nextSequence, appended, changed };
 }
 
 function assertWorldIntegrityFrom(previous: World, world: World): void {
@@ -775,7 +784,18 @@ function validateWorldIntegrity(
   ) {
     assertSetupPriorIntegrity(world.setupPriors);
   }
-  validateHistoryIntegrity(world, delta, previous);
+  // During play a clock result whose people, places and catalogs are the
+  // same objects checks only its new history records (see
+  // world-integrity-changed.ts); anything that check cannot vouch for, and
+  // every load, save and test, takes the full walk.
+  if (!(
+    sameInitialEntities &&
+    previous !== undefined &&
+    delta !== null &&
+    worldIntegrityCheckMode() === "changed" &&
+    validateChangedHistory(previous, world, delta.changed)
+  ))
+    validateHistoryIntegrity(world, delta, previous);
   if (world.macroEconomy !== undefined) assertMacroEconomyIntegrity(world);
   if (world.pressure !== undefined) assertPressureIntegrity(world);
 }
