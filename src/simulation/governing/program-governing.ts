@@ -14,7 +14,10 @@ import {
 } from "../legislation-transit-families";
 import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
-import { localFiscalGameAuthorityForRulePackId } from "../local-ordinance-game-profile";
+import { packMayEnactVariant } from "../legislation-drafting";
+import { rulePackById } from "../legislature-rule-packs";
+import type { LegislativeRulePack } from "../legislature-rules";
+import { localFiscalAuthorityScopeForRulePackId } from "../municipal-government";
 import { admitLocalFiscalMeasure } from "../local-fiscal-authority";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { createOrganization } from "../life";
@@ -284,6 +287,7 @@ export function appropriationFromEnactedMeasure(
       )
         continue;
       if (!lineageAuthorizesAppropriation(lineage)) continue;
+      if (!measureMayEnact(measure.rulePackId, lineage)) continue;
       const amount = amountProvision?.fiscalExposureMinorUnits;
       if (amount === null || amount === undefined || amount <= 0) continue;
       const serviceProfile = programServiceCapacityProfileForEnactment({
@@ -344,6 +348,7 @@ export function appropriationFromEnactedMeasure(
   if (lineage?.variantKey === STATE_TRANSIT_VARIANT_KEY && !transitProfile)
     return world;
   if (lineage && !lineageAuthorizesAppropriation(lineage)) return world;
+  if (lineage && !measureMayEnact(measure.rulePackId, lineage)) return world;
   if (
     amountProvision?.operativeEffect !== undefined &&
     (!lineage || !lineageAuthorizesAppropriation(lineage))
@@ -408,6 +413,24 @@ export function appropriationFromEnactedMeasure(
     identity: governmentScope.identity,
     jurisdictionId: measure.jurisdictionId,
   });
+}
+
+/**
+ * The one authority rule, applied where money is written: a variant the
+ * enacting legislature could not pass writes no spending authority, whatever
+ * route filed it.
+ */
+function measureMayEnact(
+  rulePackId: string,
+  lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
+): boolean {
+  let pack: LegislativeRulePack;
+  try {
+    pack = rulePackById(rulePackId);
+  } catch {
+    return false;
+  }
+  return packMayEnactVariant(pack, lineage.familyKey, lineage.variantKey).ok;
 }
 
 function lineageAuthorizesAppropriation(
@@ -672,10 +695,11 @@ function npcProgramServiceCapacityProfileForEnactment(input: {
   if (!proposition) return null;
 
   let governmentLevel: NpcProgramEligibilityMetadata["governmentLevel"];
-  let localAuthority: ReturnType<typeof localFiscalGameAuthorityForRulePackId> =
-    null;
+  let localAuthority: ReturnType<
+    typeof localFiscalAuthorityScopeForRulePackId
+  > = null;
   if (governmentScope.kind === "local") {
-    localAuthority = localFiscalGameAuthorityForRulePackId(measure.rulePackId);
+    localAuthority = localFiscalAuthorityScopeForRulePackId(measure.rulePackId);
     if (
       !localAuthority ||
       localAuthority.jurisdictionId !== measure.jurisdictionId ||
@@ -857,7 +881,7 @@ function publicProgramGovernmentScope(
       programKeySuffix: stateUsps.toLowerCase(),
     };
 
-  const localAuthority = localFiscalGameAuthorityForRulePackId(
+  const localAuthority = localFiscalAuthorityScopeForRulePackId(
     measure.rulePackId,
   );
   if (

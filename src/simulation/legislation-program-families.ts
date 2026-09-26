@@ -4,6 +4,7 @@ import { FISCAL_INSTRUMENT_FAMILIES } from "./legislation-fiscal-families";
 import { PUBLIC_ADMINISTRATION_FAMILIES } from "./legislation-administration-families";
 import { RESILIENCE_FAMILIES } from "./legislation-resilience-families";
 import type {
+  LegalInstrument,
   NpcLawEligibility,
   PredicateAuthority,
   ProgramFamily,
@@ -213,4 +214,105 @@ export function standingAuthority(
       (authority) => authority.authorityKey === authorityKey,
     ) ?? null
   );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Who may enact what                                                          */
+/* -------------------------------------------------------------------------- */
+
+/** The kind of government a bill is filed in. */
+export type EnactingGovernment =
+  | "federal"
+  | "state"
+  | "territory"
+  | "district-of-columbia"
+  | "county"
+  | "municipality";
+
+/**
+ * A recorded limit on a local government's ordinary authority: its own
+ * charter, or a state law, withholding a kind of act. Only a recorded limit
+ * narrows; silence leaves the ordinary authority in place.
+ */
+export interface LocalAuthorityNarrowing {
+  readonly withheld: readonly LegalInstrument[];
+  readonly reason: string;
+}
+
+export type VariantAuthorityResult =
+  { readonly ok: true } | { readonly ok: false; readonly reason: string };
+
+type DeclaredLevel = NpcLawEligibility["governmentLevel"];
+
+/**
+ * The levels a variant is written for, where the bank says. A variant with an
+ * NPC eligibility row names its level exactly; a variant about a federal
+ * policy question is a federal act. Every other variant is an ordinary act
+ * any legislature may pass.
+ */
+function declaredLevels(variant: ProgramVariant): ReadonlySet<DeclaredLevel> {
+  const levels = new Set<DeclaredLevel>(
+    (variant.npcEligibility ?? []).map((row) => row.governmentLevel),
+  );
+  if (
+    (variant.propositionKeys ?? []).some((key) =>
+      key.startsWith("us-federal-positions:"),
+    )
+  )
+    levels.add("federal");
+  return levels;
+}
+
+/** Which declared levels a government stands in for. D.C. is both. */
+const GOVERNMENT_LEVELS: Readonly<
+  Record<EnactingGovernment, readonly DeclaredLevel[]>
+> = {
+  federal: ["federal"],
+  state: ["state"],
+  territory: ["state"],
+  "district-of-columbia": ["state", "municipality"],
+  county: ["county"],
+  municipality: ["municipality"],
+};
+
+/**
+ * The one authority rule: may this government enact this variant?
+ *
+ * Pure. Federal, state, territorial and D.C. legislatures may pass any
+ * ordinary act and any variant written for their level. Cities and counties
+ * hold ordinary authority by default (owner decision 2026-09-24/26): taxes,
+ * spending and ordinary local rules, which is every instrument this bank
+ * carries. A recorded charter or state law can narrow that, and only a
+ * recorded one. The bank carries no constitutional amendment, so no local
+ * government can reach one through it. A variant written for another level
+ * (Congress's passenger rail money, a state's transit program, a council's
+ * repair fund) belongs to that level only.
+ */
+export function governmentMayEnactVariant(
+  government: EnactingGovernment,
+  familyKey: string,
+  variantKey: string,
+  narrowing: readonly LocalAuthorityNarrowing[] = [],
+): VariantAuthorityResult {
+  const { variant } = programVariant(familyKey, variantKey);
+  const levels = declaredLevels(variant);
+  if (
+    levels.size > 0 &&
+    !GOVERNMENT_LEVELS[government].some((level) => levels.has(level))
+  )
+    return {
+      ok: false,
+      reason: `The ${variant.label} configuration is written for ${[...levels].join(" or ")} government.`,
+    };
+  const local =
+    government === "county" ||
+    government === "municipality" ||
+    government === "district-of-columbia";
+  if (local) {
+    const limit = narrowing.find((entry) =>
+      entry.withheld.includes(variant.instrument),
+    );
+    if (limit) return { ok: false, reason: limit.reason };
+  }
+  return { ok: true };
 }

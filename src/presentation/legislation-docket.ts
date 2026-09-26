@@ -29,8 +29,10 @@ import {
   compileBillDraft,
   BillConfigurationError,
   draftingSupportsScenario,
+  packMayEnactVariant,
   type CompiledBillDraft,
 } from "../simulation/legislation-drafting";
+import { legislativePackForWorkKey } from "../simulation/legislative-institutions";
 import { formatMinorUnits } from "../simulation/legislation-program-families";
 import {
   draftLineageForMeasure,
@@ -777,7 +779,19 @@ export function availableDraftOptions(
   scenarioKey: string,
 ): readonly DraftOption[] {
   if (!draftingSupportsScenario(scenarioKey)) return [];
-  return programConfigurations().map((configuration) => {
+  const pack = legislativePackForWorkKey(scenarioKey);
+  // Filtered by authority, never by effect: a variant this legislature may
+  // pass is offered even where its effect is not modeled yet.
+  const enactable = programConfigurations().filter(
+    (configuration) =>
+      pack !== null &&
+      packMayEnactVariant(
+        pack,
+        configuration.familyKey,
+        configuration.variantKey,
+      ).ok,
+  );
+  return enactable.map((configuration) => {
     const { family, variant } = programVariant(
       configuration.familyKey,
       configuration.variantKey,

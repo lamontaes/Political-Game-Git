@@ -19,6 +19,10 @@ import {
 } from "./local-ordinance-game-profile";
 import { withCommitteeStandIns } from "./standing-committee";
 import {
+  localFiscalAuthorityScopeForRulePackId,
+  municipalRulePackById,
+} from "./municipal-government";
+import {
   lifePlaceByJurisdictionId,
   searchLifePlaces,
   stateJurisdictionForKey,
@@ -72,7 +76,9 @@ export function legislativePackForWorkKey(
       ? (legislatureProfilePackById(institutionPackId) ??
         (localFiscalGameAuthorityForRulePackId(institutionPackId)
           ? localOrdinanceGameRulePackById(institutionPackId)
-          : null))
+          : localFiscalAuthorityScopeForRulePackId(institutionPackId)
+            ? municipalRulePackById(institutionPackId)
+            : null))
       : null);
   return statePack;
 }
