@@ -9,6 +9,7 @@ import {
 } from "../simulation";
 import { compileBillDraft } from "../simulation/legislation-drafting";
 import {
+  governmentMayEnactVariant,
   legalInstrumentRule,
   legalInstrumentRules,
   programConfigurations,
@@ -88,7 +89,12 @@ describe("AMERICAN-ENGLISH1 legislative output", () => {
   });
 
   it("compiles every current configuration with American authored copy", () => {
-    for (const configuration of programConfigurations()) {
+    // Every variant Kentucky may enact; the federal and council-only ones are
+    // still checked as authored copy through programFamilies() above.
+    for (const configuration of programConfigurations().filter(
+      (row) =>
+        governmentMayEnactVariant("state", row.familyKey, row.variantKey).ok,
+    )) {
       const { variant } = programVariant(
         configuration.familyKey,
         configuration.variantKey,
@@ -103,7 +109,7 @@ describe("AMERICAN-ENGLISH1 legislative output", () => {
         ...configuration,
         scenarioKey: "kentucky",
         jurisdictionId: createStableId("jurisdiction", "us-ky"),
-        rulePackId: "us-ky-general-assembly",
+        rulePackId: "us-ky-general-assembly-v1",
         designation: "HB 900",
         filedOn: makeIsoDate("2026-01-14"),
         ...(authority ? { predicateAuthority: authority } : {}),
@@ -121,7 +127,7 @@ describe("AMERICAN-ENGLISH1 legislative output", () => {
       variantKey: "single-programme",
       scenarioKey: "kentucky",
       jurisdictionId: createStableId("jurisdiction", "us-ky"),
-      rulePackId: "us-ky-general-assembly",
+      rulePackId: "us-ky-general-assembly-v1",
       designation: "HB 900",
       filedOn: makeIsoDate("2026-01-14"),
       predicateAuthority: { ...base, citationLabel },

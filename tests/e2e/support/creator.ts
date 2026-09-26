@@ -100,19 +100,31 @@ export async function beginAfterCalibration(page: Page): Promise<void> {
  * than a failed assertion, which is why it reads like a hang.
  *
  * "Return without saving" is what a walk that quits and starts another life
- * means. A walk that wants the save keeps it before quitting; returning
- * without saving then leaves that kept save, and any autosave already in
- * flight, exactly as they are.
+ * means. It can discard a newer autosave still in flight. A walk that needs
+ * its latest action to survive must use saveAndLeaveGame.
  */
 export async function leaveGame(page: Page): Promise<void> {
-  await goTo(page, "leave-game");
+  // The radial entry animates from the portrait. Keyboard activation avoids
+  // depending on its pointer position while it moves.
+  await (await revealShellDestination(page, "leave-game")).press("Enter");
   const withoutSaving = page.getByTestId("leave-without-saving");
   const shown = await withoutSaving
     .waitFor({ state: "visible", timeout: 2000 })
     .then(() => true)
     .catch(() => false);
   if (shown) await withoutSaving.click();
-  await expect(page.getByTestId("title-screen")).toBeVisible();
+  await expect(page.getByTestId("title-screen")).toBeVisible({
+    timeout: 15_000,
+  });
+}
+
+/** Keeps the latest action, then returns through the player's confirmation. */
+export async function saveAndLeaveGame(page: Page): Promise<void> {
+  await (await revealShellDestination(page, "leave-game")).press("Enter");
+  await page.getByTestId("leave-save-first").click();
+  await expect(page.getByTestId("title-screen")).toBeVisible({
+    timeout: 60_000,
+  });
 }
 
 /** Opens the creator and stops at the first stage. */
@@ -316,7 +328,17 @@ export async function startLife(page: Page, life: CreatorLife): Promise<void> {
  * way a player would, so they start from the same room they always did.
  */
 export async function enterLife(page: Page): Promise<void> {
-  await expect(page.getByTestId("play-screen")).toBeVisible();
+  const play = page.getByTestId("play-screen");
+  const loading = page.getByTestId("life-start-transition");
+  await expect(loading.or(play).first()).toBeVisible({ timeout: 15_000 });
+  if (await loading.isVisible()) {
+    await expect(loading.getByRole("progressbar")).toBeVisible();
+    // The player approved a visible preparation period for a new world.
+    // Wait for that work to complete, while still failing if it stalls.
+    await expect(play).toBeVisible({ timeout: 120_000 });
+  } else {
+    await expect(play).toBeVisible();
+  }
   const intro = page.getByTestId("world-orientation");
   const shown = await intro
     .waitFor({ state: "visible", timeout: 2000 })

@@ -11,6 +11,7 @@ import {
   type LifePlace,
 } from "../simulation/life-places";
 import { observeFromOpening } from "../simulation/people-continuation";
+import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { activeWorkRelationshipsAt } from "../simulation/life-queries";
 import {
   organizationNameAt,
@@ -110,6 +111,32 @@ export function advanceObservedWorld(world: World, days: number): World {
     throw new Error("Only a world nobody is playing can be left to run.");
   }
   return passOrdinaryDays(world, days);
+}
+
+/**
+ * Run exact weekly clock actions as one atomic observed batch. Each week keeps
+ * its own action sequence and seeded outcomes; the accumulated World is
+ * validated once before the watcher receives it. This is the headless long-run
+ * path as well as the Run control's bounded batch.
+ */
+export function advanceObservedWorldWeeks(world: World, weeks: number): World {
+  if (world.control.kind !== "observer") {
+    throw new Error("Only a world nobody is playing can be left to run.");
+  }
+  if (!Number.isSafeInteger(weeks) || weeks <= 0) {
+    throw new Error("An observed batch requires positive whole weeks.");
+  }
+  return advanceWithWorldIntegrityAtEnd(() => {
+    let current = world;
+    for (let index = 0; index < weeks; index += 1) {
+      const next = advanceObservedWorld(current, 7);
+      if (next.currentDate === current.currentDate) {
+        throw new Error("The watched world stopped before the batch ended.");
+      }
+      current = next;
+    }
+    return current;
+  }, world);
 }
 
 /* ------------------------------------------------------------------ *

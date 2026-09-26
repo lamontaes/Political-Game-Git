@@ -1042,6 +1042,10 @@ export const ALASKA_RULE_PACK: LegislativeRulePack = {
       "An act takes effect ninety days after enactment, unless two-thirds of the membership of each house set another date.",
       AK_ART2_SEC18,
     ),
+    defaultEffectiveSchedule: knownRule(
+      { kind: "days-after-enactment", days: 90 },
+      AK_ART2_SEC18,
+    ),
     source: AK_ART2_SEC18,
   },
   session: {

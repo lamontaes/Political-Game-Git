@@ -1,5 +1,6 @@
 import {
   enactedLawEffects,
+  type DeliveredServiceFact,
   type LawEffectLine,
 } from "../simulation/enacted-law-effects";
 import {
@@ -70,15 +71,14 @@ function sentenceFor(line: LawEffectLine): string {
         line.failedPayments > 0
           ? ` ${line.failedPayments} ${line.failedPayments === 1 ? "payment" : "payments"} failed.`
           : "";
-      const restored =
-        line.unitsRestored > 0
-          ? ` The work it paid for has returned ${line.unitsRestored} ${line.unitsRestored === 1 ? "unit" : "units"} to service.`
-          : "";
+      const delivered = line.deliveredServices
+        .map(deliveredServiceSentence)
+        .join(" ");
       const window =
         line.status === "expired"
           ? `The ${amount} it provided${program} could be spent until ${proseDate(line.availableThrough)}.`
           : `It made ${amount} available to spend${program} through ${proseDate(line.availableThrough)}.`;
-      return `${window} ${spent}${failed}${restored}`;
+      return `${window} ${spent}${failed}${delivered ? ` ${delivered}` : ""}`;
     }
     case "transit":
       return line.status === "available"
@@ -99,4 +99,35 @@ function sentenceFor(line: LawEffectLine): string {
     case "no-operative-text":
       return "This law has no operative text, so it changes nothing in the world.";
   }
+}
+
+export function deliveredServiceSentence(
+  delivery: DeliveredServiceFact,
+): string {
+  const date = proseDate(delivery.deliveredAt);
+  if (delivery.restoredUnits === null)
+    return `On ${date}, paid work for ${delivery.serviceLabel} in ${delivery.placeLabel} was delivered; the number of ${pluralUnitLabel(delivery.unitLabel)} returned to service is not established.`;
+  if (delivery.restoredUnits === 0)
+    return `On ${date}, paid work for ${delivery.serviceLabel} in ${delivery.placeLabel} was delivered, but no ${pluralUnitLabel(delivery.unitLabel)} were returned to service.`;
+  return `On ${date}, paid work for ${delivery.serviceLabel} in ${delivery.placeLabel} returned ${countedUnitLabel(delivery.unitLabel, delivery.restoredUnits)} to service.`;
+}
+
+function countedUnitLabel(label: string, count: number): string {
+  return `${count} ${count === 1 ? singularUnitLabel(label) : pluralUnitLabel(label)}`;
+}
+
+function pluralUnitLabel(label: string): string {
+  if (/buses$/i.test(label) || /miles$/i.test(label)) return label;
+  if (/bus$/i.test(label)) return `${label}es`;
+  if (/unit$/i.test(label)) return `${label}s`;
+  if (/[^aeiou]y$/i.test(label)) return `${label.slice(0, -1)}ies`;
+  return label.endsWith("s") ? label : `${label}s`;
+}
+
+function singularUnitLabel(label: string): string {
+  if (/buses$/i.test(label)) return label.slice(0, -2);
+  if (/miles$/i.test(label)) return label.slice(0, -1);
+  if (/units$/i.test(label)) return label.slice(0, -1);
+  if (/ies$/i.test(label)) return `${label.slice(0, -3)}y`;
+  return label.endsWith("s") ? label.slice(0, -1) : label;
 }

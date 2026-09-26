@@ -22,6 +22,8 @@ import {
   PLACE_COUNTY_RELATIONS_META,
   PLACE_COUNTY_RELATIONS_ROWS,
 } from "./place-county-relations.generated";
+import { createStableId } from "./ids";
+import type { EntityId } from "./types";
 
 export { GOVERNMENT_UNITS_META, PLACE_COUNTY_RELATIONS_META };
 
@@ -43,6 +45,23 @@ export interface GovernmentUnitIdentity {
   readonly publisherPlaceCode: string | null;
   readonly functionalActive: boolean;
   readonly asOf: typeof GOVERNMENT_UNITS_META.asOf;
+}
+
+/** The canonical jurisdiction ID of a catalog local-government unit. */
+export function governmentUnitJurisdictionId(
+  unit: Pick<
+    GovernmentUnitIdentity,
+    "id" | "unitType" | "countyGeoid" | "placeGeoid"
+  >,
+): EntityId {
+  if (unit.unitType === "county" && unit.countyGeoid !== null)
+    return createStableId(
+      "jurisdiction",
+      `national-county:${unit.countyGeoid}`,
+    );
+  if (unit.unitType === "municipality" && unit.placeGeoid !== null)
+    return createStableId("jurisdiction", `national-place:${unit.placeGeoid}`);
+  return createStableId("jurisdiction", `government-unit:${unit.id}`);
 }
 
 type Row = [

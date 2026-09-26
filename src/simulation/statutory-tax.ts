@@ -16,15 +16,19 @@
  *    than stored, so it cannot drift from the records it summarizes and stays
  *    owed for as long as the save does.
  *
- * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
+ * A state's wage tax is the one exception to "research only": every state
+ * carries its own game law (`stateWageTaxInForce` in `tax-policy.ts`), and a
+ * paycheck is withheld under it and paid into that state's account.
  */
 import { createStableId } from "./ids";
 import {
   lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
   stateKeyForJurisdiction,
 } from "./life-places";
 import { organizationProfileAt } from "./life-queries";
 import {
+  ensureJurisdiction,
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "./national-election-geography";
@@ -43,7 +47,11 @@ import {
   placeWageIncomeTax,
   type FederalEmploymentRule,
 } from "./statutory-tax-rules";
-import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
+import {
+  ensureTaxPublicAccount,
+  publicOrganizationKey,
+  stateWageTaxInForce,
+} from "./tax-policy";
 import type { StatutoryTaxLiabilityRecord } from "./tax-types";
 import type {
   EntityId,
@@ -219,6 +227,63 @@ function paycheckLiabilities(
   // Where the person lives. A job with no recorded work place is taken to be
   // where its worker lives; a rule for tax owed to another state on wages
   // earned there would need that work place, and none is applied.
+  //
+  // A state taxes wages under its own law in the game: the rate it opened
+  // with, or the rate its legislature last enacted. Every state reads the
+  // same way (owner decision 2026-09-26); the sourced research below is used
+  // only where the game has no saved wage law, including the territories.
+  const gameLaw = stateWageTaxInForce(world, stateKey, outcome.occurredAt);
+  if (gameLaw) {
+    const { terms } = gameLaw;
+    const liability = exactShare(
+      wages.minorUnits,
+      terms.rateNumerator,
+      terms.rateDenominator,
+    );
+    const taxKey = `${stateKey.toLowerCase()}:wage-income-tax`;
+    rows.push({
+      ...base,
+      stableKey: key(taxKey),
+      taxKey,
+      authorityKey: stateKey,
+      payer: employee,
+      taxableAmount: money(wages.minorUnits, wages.currency),
+      liability: money(liability, wages.currency),
+      status: terms.rateNumerator === 0 ? "not-imposed" : "assessed",
+      collection: liability > 0 ? "withheld-from-pay" : "none",
+      dueAt: liability > 0 ? outcome.occurredAt : null,
+      sourceUrl: null,
+      researchQuestionId: null,
+      gameLaw: {
+        seriesKey: terms.seriesKey,
+        policyId: gameLaw.policyId,
+        rateNumerator: terms.rateNumerator,
+        rateDenominator: terms.rateDenominator,
+      },
+    });
+    rows.push(
+      unknown(
+        `${stateKey.toLowerCase()}:local-wage-taxes`,
+        `${stateKey}:local`,
+        employee,
+        "rule-unknown",
+        "local-income-tax-authority-56-places",
+        null,
+      ),
+    );
+    for (const rule of PLACE_EMPLOYER_PAYROLL_RULES[stateKey] ?? [])
+      rows.push(
+        unknown(
+          rule.taxKey,
+          stateKey,
+          employer,
+          rule.status,
+          rule.researchQuestionId,
+          rule.sourceUrl,
+        ),
+      );
+    return rows;
+  }
   const place = placeWageIncomeTax(stateKey);
   const placeTaxKey = `${stateKey.toLowerCase()}:wage-income-tax`;
   if (place.status === "not-imposed")
@@ -363,6 +428,17 @@ export function taxableWages(
   return taxable;
 }
 
+/** An exact share of an amount, half-up to the cent. */
+export function exactShare(
+  amountMinor: number,
+  numerator: number,
+  denominator: number,
+): number {
+  const scaled = BigInt(amountMinor) * BigInt(numerator);
+  const d = BigInt(denominator);
+  return Number((scaled * 2n + d) / (d * 2n));
+}
+
 /** Half-up to the cent, in exact integer arithmetic. */
 export function taxAt(taxableMinor: number, rateBasisPoints: number): number {
   const numerator = BigInt(taxableMinor) * BigInt(rateBasisPoints);
@@ -387,26 +463,58 @@ function withhold(
       row.liability !== null &&
       row.liability.minorUnits > 0,
   );
+  // Each government's share goes to its own account: the federal layer to the
+  // national account, a state's wage tax to that state's account.
+  const authorities = [...new Set(withheld.map((row) => row.authorityKey))];
+  let next = world;
+  for (const authorityKey of authorities)
+    next = withholdFor(
+      next,
+      personId,
+      outcome,
+      authorityKey,
+      withheld.filter((row) => row.authorityKey === authorityKey),
+    );
+  return next;
+}
+
+function withholdFor(
+  world: World,
+  personId: EntityId,
+  outcome: ResourceTransferOutcome,
+  authorityKey: string,
+  withheld: readonly StatutoryTaxLiabilityRecord[],
+): World {
   const total = withheld.reduce(
     (sum, row) => sum + row.liability!.minorUnits,
     0,
   );
   if (total === 0) return world;
   const currency = outcome.transferredAmount.currency;
-  let next = ensureTaxPublicAccount(
-    ensureNationalElectionJurisdiction(world),
-    NATIONAL_ELECTION_JURISDICTION.id,
-  );
+  const federal = authorityKey === "US";
+  const stateJurisdiction = federal
+    ? null
+    : stateJurisdictionForKey(authorityKey);
+  const jurisdictionId = federal
+    ? NATIONAL_ELECTION_JURISDICTION.id
+    : stateJurisdiction?.id;
+  if (!jurisdictionId) return world;
+  // Fifty state identities are normally seated at Begin. DC's canonical
+  // jurisdiction can first be needed when its first paycheck is withheld.
+  const withJurisdiction = federal
+    ? ensureNationalElectionJurisdiction(world)
+    : ensureJurisdiction(world, stateJurisdiction!);
+  let next = ensureTaxPublicAccount(withJurisdiction, jurisdictionId);
   const account = next.history.organizations.find(
-    (row) =>
-      row.stableKey ===
-      publicOrganizationKey(NATIONAL_ELECTION_JURISDICTION.id),
+    (row) => row.stableKey === publicOrganizationKey(jurisdictionId),
   )!;
   const payer: ResourcePositionOwner = { kind: "person", personId };
   const available =
     resourcePositionAt(next, payer, currency)?.liquidBalance.minorUnits ?? 0;
   const moved = Math.max(0, Math.min(total, available));
-  const flowKey = `statutory-tax:withholding:${outcome.id}`;
+  const flowKey = federal
+    ? `statutory-tax:withholding:${outcome.id}`
+    : `statutory-tax:withholding:${outcome.id}:${authorityKey.toLowerCase()}`;
   next = createResourceFlow(next, {
     stableKey: flowKey,
     source: payer,
@@ -417,7 +525,7 @@ function withhold(
     basisKind: PAYROLL_WITHHOLDING_BASIS,
     basisReference: { kind: "general" },
     restrictionKind: "purpose:public-general-receipts",
-    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    jurisdictionId,
     provenance: {
       kind: "generated",
       generatorKey: "statutory-tax:payroll-withholding",
@@ -434,7 +542,9 @@ function withhold(
     transferredAmount: money(moved, currency),
     status: moved === total ? "completed" : moved === 0 ? "blocked" : "partial",
     reasonKind: moved === total ? null : "capacity:insufficient-funds",
-    note: "Withheld from pay for Social Security and Medicare.",
+    note: federal
+      ? "Withheld from pay for Social Security and Medicare."
+      : "Withheld from pay for the state's tax on wages.",
     provenance: {
       kind: "generated",
       generatorKey: "statutory-tax:payroll-withholding",
@@ -561,7 +671,20 @@ export function assertStatutoryTaxIntegrity(
     if (!priced && row.collection !== "none")
       throw new Error("An unknown tax cannot be collected.");
     const rule = rules.get(row.taxKey);
-    if (row.status === "assessed") {
+    if (row.gameLaw) {
+      if (
+        !priced ||
+        row.taxableAmount!.minorUnits !== row.wages.minorUnits ||
+        row.liability!.minorUnits !==
+          exactShare(
+            row.taxableAmount!.minorUnits,
+            row.gameLaw.rateNumerator,
+            row.gameLaw.rateDenominator,
+          ) ||
+        (row.status === "not-imposed") !== (row.gameLaw.rateNumerator === 0)
+      )
+        throw new Error("A state wage tax does not match its law.");
+    } else if (row.status === "assessed") {
       if (
         !rule ||
         row.taxableAmount!.minorUnits > row.wages.minorUnits ||

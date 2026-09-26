@@ -14,6 +14,7 @@ import {
 import {
   TRANSIT_FAMILY_KEY,
   TRANSIT_PROGRAM_KEY,
+  STATE_TRANSIT_VARIANT_KEY,
   TRANSIT_VARIANT_KEY,
 } from "../simulation/legislation-transit-families";
 import { resolveTransitFunding } from "../simulation/transit-funding";
@@ -27,6 +28,7 @@ import {
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { money } from "../simulation/resources";
+import { stateTaxServiceProfileForJurisdictionKey } from "../simulation/world-setup/state-tax-service-profiles";
 import type { EntityId, World } from "../simulation/types";
 
 export function transitOffice(world: World, personId: EntityId) {
@@ -46,6 +48,8 @@ export function transitOffice(world: World, personId: EntityId) {
   const capability = resolveStateFundedServiceCapability(
     seat.seat.jurisdictionKey,
     world.currentDate,
+    TRANSIT_PROGRAM_KEY,
+    stateTaxServiceProfileForJurisdictionKey(world, seat.seat.jurisdictionKey),
   );
   if (!capability.supported)
     return {
@@ -71,7 +75,7 @@ export function fileTransitAppropriation(
     scenarioKey: entry.scenarioKey,
     jurisdictionId: entry.seat.governingJurisdictionId,
     familyKey: TRANSIT_FAMILY_KEY,
-    variantKey: TRANSIT_VARIANT_KEY,
+    variantKey: STATE_TRANSIT_VARIANT_KEY,
     authorityKey: TRANSIT_PROGRAM_KEY,
     parameterValues: {
       appropriation: {
@@ -117,7 +121,8 @@ export function projectTransitWork(world: World, personId: EntityId) {
         .filter(
           (l) =>
             l.familyKey === TRANSIT_FAMILY_KEY &&
-            l.variantKey === TRANSIT_VARIANT_KEY,
+            (l.variantKey === TRANSIT_VARIANT_KEY ||
+              l.variantKey === STATE_TRANSIT_VARIANT_KEY),
         )
         .map((l) => {
           const m = world.history.legislativeMeasures!.find(
@@ -135,7 +140,8 @@ export function projectTransitWork(world: World, personId: EntityId) {
     .filter(
       (b) =>
         b.familyKey === TRANSIT_FAMILY_KEY &&
-        b.variantKey === TRANSIT_VARIANT_KEY &&
+        (b.variantKey === TRANSIT_VARIANT_KEY ||
+          b.variantKey === STATE_TRANSIT_VARIANT_KEY) &&
         b.sponsorPersonId === personId,
     );
   return {

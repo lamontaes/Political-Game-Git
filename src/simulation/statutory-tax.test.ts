@@ -4,7 +4,9 @@ import {
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
 import type { NewGameSetup } from "../presentation/new-game";
-import { advanceWorld } from "./world";
+import { passOrdinaryDays } from "../presentation/ordinary-life";
+import { ensureWorldStartingConditions } from "./world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "./world-setup/types";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { resourcePositionAt } from "./resource-queries";
 import { money } from "./resources";
@@ -12,7 +14,6 @@ import {
   enterLifePath,
   performLifePathSession,
   scheduleLifePathSession,
-  LIFE_PATHS2_HANDLERS,
 } from "./life-paths2";
 import {
   residenceStateKey,
@@ -40,7 +41,12 @@ function newLife(placeKey: string, seed: string) {
     priors: [],
     seed,
   } as NewGameSetup);
-  return { world: created.world, personId: created.playerPersonId };
+  return {
+    world: ensureWorldStartingConditions(created.world, {
+      openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+    }),
+    personId: created.playerPersonId,
+  };
 }
 
 const cash = (world: World, personId: EntityId) =>
@@ -60,7 +66,7 @@ function workOneShift(world: World): World {
   const activityId = scheduled.world.history.scheduledActivities.at(-1)!.id;
   const worked = performLifePathSession(scheduled.world, activityId);
   expect(worked.ok, worked.message).toBe(true);
-  return advanceWorld(worked.world, 1, LIFE_PATHS2_HANDLERS);
+  return passOrdinaryDays(worked.world, 1);
 }
 
 describe("a paycheck in Ely, Nevada", () => {
@@ -99,11 +105,11 @@ describe("a paycheck in Ely, Nevada", () => {
       104,
     );
 
-    // A lawful zero is a recorded $0, with its source.
+    // The saved Nevada game law opened at zero for this seed.
     const nevada = byKey["us-nv:wage-income-tax"]!;
     expect(nevada.status).toBe("not-imposed");
     expect(nevada.liability?.minorUnits).toBe(0);
-    expect(nevada.sourceUrl).toContain("tax.nv.gov");
+    expect(nevada.gameLaw?.rateNumerator).toBe(0);
 
     // What the research cannot price is UNKNOWN, never zero.
     for (const taxKey of [
@@ -144,25 +150,39 @@ describe("a paycheck in Ely, Nevada", () => {
     expect(reloaded.history.statutoryTaxPayments).toEqual(
       paid.history.statutoryTaxPayments,
     );
-    const later = advanceWorld(reloaded, 7, LIFE_PATHS2_HANDLERS);
-    expect(later.history.statutoryTaxLiabilities).toHaveLength(rows.length);
-    expect(cash(later, start.personId)).toBeLessThanOrEqual(7_200 - 550);
+    const later = passOrdinaryDays(reloaded, 7);
+    expect(
+      later.history.statutoryTaxLiabilities?.filter(
+        (row) => row.sourceOutcomeId === pay.id,
+      ),
+    ).toEqual(rows);
+    expect(later.history.statutoryTaxLiabilities!.length).toBeGreaterThan(
+      rows.length,
+    );
+    expect(
+      later.history.statutoryTaxPayments?.filter((row) =>
+        mine.some((balance) => balance.liability.id === row.liabilityId),
+      ),
+    ).toEqual(
+      paid.history.statutoryTaxPayments?.filter((row) =>
+        mine.some((balance) => balance.liability.id === row.liabilityId),
+      ),
+    );
   });
 });
 
 describe("a paycheck in Minneapolis", () => {
-  it("records Minnesota's tax as existing but not yet priced", () => {
+  it("withholds the saved Minnesota wage tax from real shift pay", () => {
     const start = newLife(MINNEAPOLIS, "statutory-tax-minneapolis");
     expect(residenceStateKey(start.world, start.personId)).toBe("US-MN");
     const paid = workOneShift(start.world);
     const minnesota = paid.history.statutoryTaxLiabilities!.find(
       (row) => row.taxKey === "us-mn:wage-income-tax",
     )!;
-    expect(minnesota.status).toBe("rule-unknown");
-    expect(minnesota.liability).toBeNull();
-    expect(minnesota.researchQuestionId).toBe(
-      "state-wage-income-tax-withholding",
-    );
+    expect(minnesota.status).toBe("assessed");
+    expect(minnesota.liability?.minorUnits).toBeGreaterThan(0);
+    expect(minnesota.collection).toBe("withheld-from-pay");
+    expect(minnesota.gameLaw?.seriesKey).toBe("state-wage-income:mn");
     expect(
       paid.history.statutoryTaxLiabilities!.some(
         (row) => row.taxKey === "us-nv:modified-business-tax",
@@ -199,7 +219,7 @@ describe("the arithmetic", () => {
       if (place.status === "not-imposed")
         expect(place.sourceUrl, key).toBeTruthy();
     }
-    expect(placeWageIncomeTax("US-MT").status).toBe("unknown");
+    expect(placeWageIncomeTax("US-MT").status).toBe("imposed");
     expect(placeWageIncomeTax("US-XX").status).toBe("unknown");
   });
 });

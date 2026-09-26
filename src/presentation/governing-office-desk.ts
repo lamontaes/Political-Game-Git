@@ -24,6 +24,7 @@ import {
   publicProgramKeys,
   type ProgramAuthority,
 } from "../simulation/governing/public-program";
+import { deliveredServiceSentence } from "./law-effects-prose";
 import { proseDate } from "./prose-dates";
 
 /**
@@ -327,10 +328,20 @@ function programView(
       programKey,
       new Set(appropriations.map((record) => record.id)),
     ),
-    outturnLines: programOutturns(world, programKey).map((record) =>
-      record.restoredUnits === null
-        ? `${proseDate(record.recordedAt)}: work was delivered, and how many units it returned to service is not established.`
-        : `${proseDate(record.recordedAt)}: ${record.restoredUnits} returned to service, leaving ${record.unitsOperational} running.`,
+    outturnLines: programOutturns(world, programKey).flatMap((record) =>
+      record.serviceLabel?.trim() &&
+      record.unitLabel?.trim() &&
+      record.placeLabel?.trim()
+        ? [
+            deliveredServiceSentence({
+              serviceLabel: record.serviceLabel,
+              unitLabel: record.unitLabel,
+              placeLabel: record.placeLabel,
+              deliveredAt: record.recordedAt,
+              restoredUnits: record.restoredUnits,
+            }),
+          ]
+        : [],
     ),
   };
 }

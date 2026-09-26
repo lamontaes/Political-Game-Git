@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   enactedTaxFixture,
   TEST_TAX_TERMS,
+  recordTestTaxOccurrence,
 } from "../../tests/fixtures/tax-policy-fixture";
 import {
   introduceMeasure,
@@ -21,7 +22,6 @@ import {
   createTaxTransitionHandlerRegistry,
   publicTaxAccountForJurisdiction,
 } from "./tax-policy";
-import { declarePersonalTaxOccurrence } from "../presentation/tax-work";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import {
   administrativeMandateText,
@@ -154,7 +154,7 @@ describe("shared public cash settlement for T", () => {
   });
   it("spends actual collected public cash once and reloads with reconciled funding/debit identity", () => {
     const fixture = fundedFixture();
-    let world = declarePersonalTaxOccurrence(fixture.world, {
+    let world = recordTestTaxOccurrence(fixture.world, {
       personId: fixture.personId,
       stableKey: "public-payment-test:tax-base",
       proposalId: fixture.proposalId,

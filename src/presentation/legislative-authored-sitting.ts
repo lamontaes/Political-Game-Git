@@ -49,8 +49,7 @@ const ALASKA_REVENUE_SITTING_CONTENT: {
     "Recorded fictional sitting's executive signature. This authored response does not describe an actual official or assess the player's tax.",
 };
 
-type RecordedSittingProfile =
-  typeof ALASKA_RECORDED_SITTING | typeof ALASKA_REVENUE_RECORDED_SITTING;
+type RecordedSittingProfile = string;
 
 export interface RecordedSittingInput {
   readonly measureId: EntityId;
@@ -96,6 +95,9 @@ function supportedMeasure(world: World, input: RecordedSittingInput) {
     seat.seat.legislativeRulePackId !== measure.rulePackId
   )
     return null;
+  // Recorded sittings are Alaska's authored story content. Every other state
+  // moves its bills on the ordinary legislative clock; no state has its own
+  // hand-authored sitting (owner decision 2026-09-26: one tax route).
   const source = legislativeBlueprint("alaska");
   if (source.pack.packId !== measure.rulePackId) return null;
   const lineage = draftLineageForMeasure(world, measure.id);
@@ -104,6 +106,7 @@ function supportedMeasure(world: World, input: RecordedSittingInput) {
     readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
     readonly governorAction: "signed" | "vetoed" | null;
     readonly governorRationale: string;
+    readonly notice?: string;
   };
   let identityInput: Record<string, unknown>;
   if (
@@ -201,7 +204,7 @@ export function prepareRecordedLegislativeSitting(
   const supported = supportedMeasure(world, input);
   if (!supported)
     throw new Error(
-      "No recorded fictional sitting supports this member's filed appropriation.",
+      "No recorded fictional sitting supports this member's filed measure.",
     );
   if (!["yea", "nay", "present-not-voting"].includes(input.playerBallot))
     throw new Error(
@@ -218,8 +221,9 @@ export function prepareRecordedLegislativeSitting(
     return world;
   }
   let next = world;
+  const contextNamespace = "legislative-work:alaska";
   const colleagues = ["advocate", "guardian", "analyst"].map((role) => {
-    const stableKey = `legislative-work:alaska:${role}`;
+    const stableKey = `${contextNamespace}:${role}`;
     next = ensureContextPerson(next, {
       stableKey,
       playerPersonId: input.playerPersonId,
@@ -247,11 +251,13 @@ export function prepareRecordedLegislativeSitting(
     personFactConstraints: [],
     visibility: "public",
     tags: ["legislation", "legislation.authored-sitting", supported.profile],
-    summary: revenue ? REVENUE_SITTING_NOTICE : RECORDED_SITTING_NOTICE,
+    summary:
+      supported.content.notice ??
+      (revenue ? REVENUE_SITTING_NOTICE : RECORDED_SITTING_NOTICE),
     context: {
       location: {
         jurisdictionId: supported.measure.jurisdictionId,
-        label: "Recorded fictional Alaska legislative sitting",
+        label: `Recorded fictional ${supported.source.context.jurisdiction.name} legislative sitting`,
         setting: null,
       },
       socialContext: revenue
@@ -279,8 +285,9 @@ export function readRecordedLegislativeSitting(
       entry.context.choice === supported.profile,
   );
   if (!event) return null;
+  const contextNamespace = "legislative-work:alaska";
   const expectedColleagues = ["advocate", "guardian", "analyst"].map((role) =>
-    characterHistoryContextPersonId(world, `legislative-work:alaska:${role}`),
+    characterHistoryContextPersonId(world, `${contextNamespace}:${role}`),
   );
   if (
     !event.involvedEntityIds.includes(input.measureId) ||
@@ -298,19 +305,27 @@ export function readRecordedLegislativeSitting(
     (personId) => world.people[personId],
   );
   if (colleagues.some((person) => !person)) return null;
-  const bodies = supported.source.pack.chambers.map((chamber) =>
-    seatBodyForPack(
+  const bodies = supported.source.pack.chambers.map((chamber) => {
+    const panelSize = authoredScenarioSeatCount(
+      supported.source.pack,
+      chamber.chamberKey,
+    );
+    if (!panelSize)
+      throw new Error(
+        `No authored panel size supports ${chamber.chamberKey} in ${supported.profile}.`,
+      );
+    return seatBodyForPack(
       chamber.chamberKey,
       chamber.name,
-      authoredScenarioSeatCount(supported.source.pack, chamber.chamberKey),
+      panelSize,
       chamber.chamberKey === supported.seat.chamberKey
         ? [world.people[input.playerPersonId]!, ...colleagues.slice(0, 2)].map(
             (person) => ({ personId: person!.id, name: personName(person!) }),
           )
         : [],
       false,
-    ),
-  );
+    );
+  });
   return {
     pack: supported.source.pack,
     measureId: input.measureId,

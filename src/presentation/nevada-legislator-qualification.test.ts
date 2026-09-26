@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import {
   campaignForCandidate,
   candidacyEligibility,
@@ -103,7 +104,12 @@ describe("Nevada legislator qualifications through ordinary discovery and filing
     });
     expect(eligibility.blocks).toEqual([]);
 
-    const filed = fileForOffice(world, personId, null, ASSEMBLY);
+    const filed = fileForOffice(
+      world,
+      personId,
+      namedSeatForFixture(world, personId, ASSEMBLY),
+      ASSEMBLY,
+    );
     expect(campaignForCandidate(filed, personId)?.officeKey).toBe(ASSEMBLY);
     const reloaded = deserializeWorld(serializeWorld(filed));
     expect(campaignForCandidate(reloaded, personId)?.officeKey).toBe(ASSEMBLY);

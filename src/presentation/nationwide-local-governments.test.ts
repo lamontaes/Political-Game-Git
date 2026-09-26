@@ -19,6 +19,7 @@ import {
 } from "../simulation/government-units";
 import { NATIONAL_PLACES_ROWS } from "../simulation/national-places.generated";
 import { municipalGovernmentForUnit } from "../simulation/rule-capability-resolver";
+import { municipalOrganizationFor } from "../simulation/municipal-public-work";
 import { municipalWorkspaceFor } from "./municipal-workspace";
 import { DEFAULT_NEW_GAME_SETUP, createNewGameWorld } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -156,12 +157,12 @@ describe("NATIONWIDE local governments at the opening", () => {
             (g) => g.unitId === compiled.id,
           )!;
           expect(city.compiledGovernmentKey).not.toBeNull();
-          // A compiled government is installed by the municipal workspace under
-          // its own key, so `ensureHomeLocalGovernments` deliberately records
-          // no second organization for it and this row carries no id. What the
-          // life must have instead is the workspace itself: that is the route
-          // by which a person living here reaches their own city government.
-          expect(city.organizationId).toBeNull();
+          // Its status points to the municipal organization's own identity;
+          // the local-government writer does not duplicate it.
+          expect(city.organizationId).toBe(
+            municipalOrganizationFor(world, city.compiledGovernmentKey!)?.id ??
+              null,
+          );
           const workspace = municipalWorkspaceFor(world);
           expect(workspace, city.compiledGovernmentKey!).not.toBeNull();
           expect(workspace!.government.key).toBe(city.compiledGovernmentKey);
@@ -221,7 +222,8 @@ describe("NATIONWIDE local governments at the opening", () => {
       expect(profile?.locationJurisdictionId).toBe(
         world.people[playerPersonId]!.homeJurisdictionId,
       );
-      // No members are invented where RULES has not admitted the body.
+      // RULES still reports its sourced seat count as unknown; the disclosed
+      // game profile can seat the world's fictional council separately.
       expect(city.membershipMissing).toContain("body.seats");
       if (status.units.countyStatus === "established") {
         for (const county of status.governments.filter(
@@ -320,7 +322,10 @@ describe("NATIONWIDE local governments at the opening", () => {
     for (const government of status.governments.filter(
       (g) => g.compiledGovernmentKey !== null,
     ))
-      expect(government.organizationId).toBeNull();
+      expect(government.organizationId).toBe(
+        municipalOrganizationFor(world, government.compiledGovernmentKey!)
+          ?.id ?? null,
+      );
   });
 
   it("measures the save cost of the home local governments", () => {

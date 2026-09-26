@@ -14,8 +14,8 @@
  *
  * - an ordinary statute, through a rule-change provision filed on the measure
  *   before it is enacted (`fileRuleChangeProvision`), operative from the
- *   enactment's effective date, or the blanket default where the state's
- *   effective-date rule is not modeled;
+ *   enactment's effective date, or the recorded game interval where the route
+ *   did not supply one;
  * - a constitutional amendment carrying a `rule-field` delta
  *   (`ConstitutionalRuleDelta`), operative from its ratified operative date.
  *
@@ -30,7 +30,8 @@
  */
 
 import { constitutionalPosition } from "./constitutional-process";
-import { addDays } from "./dates";
+import { operativeDateForEnactment } from "./legislative-effective-date";
+export { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "./legislative-effective-date";
 import { createStableId } from "./ids";
 import { requireMeasure } from "./legislation";
 import { lawLevelRank, type LawLevel } from "./law-hierarchy";
@@ -204,14 +205,6 @@ export function amendableRuleFieldLabel(field: AmendableRuleField): string {
   return AMENDABLE_RULE_FIELD_LABELS[field];
 }
 
-/**
- * The blanket effective date for a statute whose state's effective-date rule is
- * not modeled: ninety days after the act is recorded. Ninety days is the most
- * common default among the states the game has read (Alaska, Missouri, Ohio);
- * it is a game profile, not a claim about any other state's law.
- */
-export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
-
 export function isAmendableRuleField(
   field: string,
 ): field is AmendableRuleField {
@@ -250,6 +243,10 @@ export interface EnactedRuleChange {
    * state's effective-date rule is not modeled and the blanket rule applied.
    */
   readonly operativeBasis: "enacted-date" | "game-default";
+  readonly effectiveDateGameProfile?: {
+    readonly version: string;
+    readonly days: number;
+  };
   readonly instrument: "statute" | "constitutional-amendment";
   /** Where the law ranks; see `law-hierarchy.ts`. */
   readonly level: LawLevel;
@@ -494,12 +491,10 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       (row) => row.measureId === provision.measureId,
     );
     if (!enactment || enactment.outcome !== "enacted") continue;
-    // NOT MODELED: a state's own default effective-date rule. The rule packs
-    // hold it as prose, nothing computes a date from it, and no caller in play
-    // passes one, so every enactment carries a null effective date. A null
-    // date is not "effective now". Blanket rule meanwhile: the change operates
-    // STATUTE_EFFECTIVE_DEFAULT_DAYS after the act was recorded, and says so.
-    const explicit = enactment.effectiveAt;
+    // Every enactment reads its recorded date or declared game interval. Old
+    // saves without a profile retain the original ninety-day fallback.
+    const operative = operativeDateForEnactment(enactment);
+    if (!operative) continue;
     changes.push({
       stateUsps: provision.stateUsps,
       jurisdictionKey: `US-${provision.stateUsps}`,
@@ -507,10 +502,11 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       field: provision.field,
       value: structuredClone(provision.value),
       applicability: { ...(provision.applicability ?? SILENT) },
-      operativeAt:
-        explicit ??
-        addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
-      operativeBasis: explicit ? "enacted-date" : "game-default",
+      operativeAt: operative.date,
+      operativeBasis: operative.basis,
+      ...(enactment.effectiveDateGameProfile
+        ? { effectiveDateGameProfile: enactment.effectiveDateGameProfile }
+        : {}),
       instrument: "statute",
       level: "state-statute",
       measureId: provision.measureId,

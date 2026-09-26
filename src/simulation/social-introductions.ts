@@ -1,4 +1,5 @@
 import { ageOnDate, daysBetween } from "./dates";
+import { countyGeoidsForPlace } from "./government-units";
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
@@ -146,6 +147,117 @@ function closeCircle(world: World, personId: EntityId): readonly EntityId[] {
 }
 
 /**
+ * Who counts as near enough to be introduced (owner, 2026-09-26): people who
+ * live in this person's own city or county, and the important people
+ * everywhere — governors, state legislators, members of Congress, and state
+ * and federal executives. Everybody else who lives somewhere else is not
+ * somebody this person meets.
+ */
+const IMPORTANT_WORK_KINDS: ReadonlySet<string> = new Set([
+  "employment:legislative-member",
+  "employment:executive-office",
+  "employment:executive-officeholder",
+  "employment:vice-presidential-officeholder",
+  "employment:state-agency-director",
+]);
+
+function geoidOfJurisdiction(
+  world: World,
+  jurisdictionId: EntityId,
+): { readonly kind: "place" | "county"; readonly geoid: string } | null {
+  const slug = world.jurisdictions[jurisdictionId]?.slug ?? "";
+  const match = /^us-(place|county)-(\d+)$/.exec(slug);
+  return match
+    ? { kind: match[1] as "place" | "county", geoid: match[2]! }
+    : null;
+}
+
+function nearnessFor(
+  world: World,
+  personId: EntityId,
+  cutoff: ReturnType<typeof currentLifeCutoff>,
+): (otherId: EntityId) => boolean {
+  const homeId = world.people[personId]!.homeJurisdictionId;
+  const home = geoidOfJurisdiction(world, homeId);
+  const homeCounties = new Set(
+    home?.kind === "county"
+      ? [home.geoid]
+      : home
+        ? countyGeoidsForPlace(home.geoid)
+        : [],
+  );
+  const nearPlaces = new Map<EntityId, boolean>([[homeId, true]]);
+  const nearPlace = (jurisdictionId: EntityId): boolean => {
+    let answer = nearPlaces.get(jurisdictionId);
+    if (answer === undefined) {
+      const place = geoidOfJurisdiction(world, jurisdictionId);
+      answer =
+        !!place &&
+        (place.kind === "county"
+          ? homeCounties.has(place.geoid)
+          : countyGeoidsForPlace(place.geoid).some((county) =>
+              homeCounties.has(county),
+            ));
+      nearPlaces.set(jurisdictionId, answer);
+    }
+    return answer;
+  };
+  return (otherId) => {
+    const other = world.people[otherId];
+    if (!other) return false;
+    if (nearPlace(other.homeJurisdictionId)) return true;
+    return activeWorkRelationshipsAt(world, otherId, cutoff).some((entry) =>
+      IMPORTANT_WORK_KINDS.has(entry.relationship.kind),
+    );
+  };
+}
+
+/**
+ * Everybody with any record at one of these organizations, in the World's
+ * person order: the only people who could share one of them now.
+ */
+const PEOPLE_BY_ORGANIZATION = new WeakMap<
+  object,
+  ReadonlyMap<EntityId | null, readonly EntityId[]>
+>();
+const PERSON_POSITION = new WeakMap<object, ReadonlyMap<EntityId, number>>();
+
+function peopleRecordedAt(
+  world: World,
+  records: readonly {
+    readonly personId: EntityId;
+    readonly organizationId: EntityId | null;
+  }[],
+  organizations: ReadonlySet<EntityId | null>,
+): readonly EntityId[] {
+  let byOrganization = PEOPLE_BY_ORGANIZATION.get(records);
+  if (!byOrganization) {
+    // A job with no employer on record is keyed as null, as the per-person
+    // comparison this replaces matched it.
+    const built = new Map<EntityId | null, EntityId[]>();
+    for (const record of records) {
+      const list = built.get(record.organizationId);
+      if (list) list.push(record.personId);
+      else built.set(record.organizationId, [record.personId]);
+    }
+    byOrganization = built;
+    PEOPLE_BY_ORGANIZATION.set(records, byOrganization);
+  }
+  let position = PERSON_POSITION.get(world.personOrder);
+  if (!position) {
+    position = new Map(world.personOrder.map((id, index) => [id, index]));
+    PERSON_POSITION.set(world.personOrder, position);
+  }
+  const people = new Set<EntityId>();
+  for (const organizationId of organizations) {
+    for (const id of byOrganization.get(organizationId) ?? []) people.add(id);
+  }
+  return [...people]
+    .filter((id) => position.has(id))
+    .sort((left, right) => position.get(left)! - position.get(right)!);
+}
+
+/**
  * Everybody this person could be introduced to now, by setting.
  *
  * Read only. A person may appear under more than one setting; each is a real
@@ -162,9 +274,11 @@ export function introductionCandidates(
   const adult = isAdult(world, personId);
   const candidates: IntroductionCandidate[] = [];
   const seen = new Set<string>();
+  const near = nearnessFor(world, personId, cutoff);
   const add = (candidate: IntroductionCandidate) => {
     if (known.has(candidate.personId) || !alive(world, candidate.personId))
       return;
+    if (!near(candidate.personId)) return;
     const key = `${candidate.setting}:${candidate.personId}`;
     if (seen.has(key)) return;
     seen.add(key);
@@ -178,7 +292,13 @@ export function introductionCandidates(
     ),
   );
   if (employers.size > 0) {
-    for (const otherId of world.personOrder) {
+    // Only people with a record at one of these employers can share one, so
+    // the search starts from the employer rather than from everybody.
+    for (const otherId of peopleRecordedAt(
+      world,
+      world.history.workRelationships,
+      employers,
+    )) {
       if (otherId === personId) continue;
       const shared = activeWorkRelationshipsAt(world, otherId, cutoff).find(
         (entry) => employers.has(entry.relationship.organizationId),
@@ -208,7 +328,11 @@ export function introductionCandidates(
     ),
   );
   if (groups.size > 0) {
-    for (const otherId of world.personOrder) {
+    for (const otherId of peopleRecordedAt(
+      world,
+      world.history.organizationParticipations,
+      groups,
+    )) {
       if (otherId === personId || !sameAgeBand(otherId)) continue;
       const shared = activeOrganizationParticipationsAt(
         world,

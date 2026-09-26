@@ -1,9 +1,23 @@
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
-import { ensureStateLegislatureOpening } from "../simulation/nationwide-world/state-legislature-opening";
+import {
+  ensureStateLegislatureOpening,
+  prepareNationwideStateLegislatureOpeningChunks,
+} from "../simulation/nationwide-world/state-legislature-opening";
+import type { NationwideStateLegislatureOpeningChunk } from "../simulation/nationwide-world/state-legislature-opening";
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
+import {
+  ensureCountyCouncilOpening,
+  ensureMunicipalCouncilOpening,
+} from "../simulation/municipal-council-opening";
+import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
+import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
+import { scheduleLocalMemberAgendaIntakes } from "../simulation/governing/member-agenda";
+import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
+import { ensureOfficeholderPrinciples } from "../simulation/governing/officeholder-principles";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
   canonicalJson,
@@ -54,9 +68,57 @@ export function prepareOpeningLife(setup: NewGameSetup): OpeningLifeSession {
   return { version: "opening-life-v1", setup, phase: "transition", game: null };
 }
 
+export interface OpeningLifeGenerationProgress {
+  readonly label: string;
+  readonly completed: number;
+  readonly total: number;
+}
+
+export interface OpeningLifeGenerationOptions {
+  readonly signal?: AbortSignal;
+  readonly statesPerChunk?: number;
+  readonly onProgress?: (progress: OpeningLifeGenerationProgress) => void;
+  /** Lets the host paint between immutable preparation chunks. */
+  readonly yieldControl?: () => Promise<void>;
+}
+
+interface OpeningCongressPrinciplesChunk {
+  readonly world: World;
+  readonly completedPeople: number;
+  readonly totalPeople: number;
+}
+
+/** Draw the already-seated Congress's before-play principles during Begin. */
+function* prepareOpeningCongressPrinciplesChunks(
+  world: World,
+  chunkSize = 64,
+): Generator<OpeningCongressPrinciplesChunk, World, void> {
+  const personIds = ["house", "senate"].flatMap(
+    (chamberKey) =>
+      seatedCongressChamber(world, chamberKey)?.body.members.flatMap(
+        (member) => (member.personId ? [member.personId] : []),
+      ) ?? [],
+  );
+  const members = [...new Set(personIds)];
+  let next = world;
+  for (let offset = 0; offset < members.length; offset += chunkSize) {
+    next = ensureOfficeholderPrinciples(
+      next,
+      members.slice(offset, offset + chunkSize),
+    );
+    yield {
+      world: next,
+      completedPeople: Math.min(offset + chunkSize, members.length),
+      totalPeople: members.length,
+    };
+  }
+  return next;
+}
+
 /** Call once when the fade completes; duplicate activation returns the same save. */
 export function generateOpeningLife(
   session: OpeningLifeSession,
+  onProgress?: (progress: OpeningLifeGenerationProgress) => void,
 ): OpeningLifeSession {
   if (session.game) return session;
   // Every opening step is a write that would otherwise validate the whole
@@ -66,13 +128,95 @@ export function generateOpeningLife(
   // in full, at the end.
   let built: OpeningLifeSession | undefined;
   advanceWithWorldIntegrityAtEnd(() => {
-    built = buildOpeningLife(session);
+    built = buildOpeningLife(session, onProgress);
     return built.game!.world;
   });
   return built!;
 }
 
-function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
+/**
+ * Asynchronous new-game path for a loading screen. Each state chunk is a
+ * separate immutable World transition; progress is reported before yielding
+ * control so the host can paint and can abort before play begins.
+ */
+export async function generateOpeningLifeWithProgress(
+  session: OpeningLifeSession,
+  options: OpeningLifeGenerationOptions = {},
+): Promise<OpeningLifeSession> {
+  if (session.game) return session;
+  throwIfOpeningAborted(options.signal);
+  let start: OpeningLifeBuildStart | undefined;
+  advanceWithWorldIntegrityAtEnd(() => {
+    start = beginOpeningLife(session);
+    return start.world;
+  });
+  const beginning = start!;
+  let world = beginning.world;
+
+  if (beginning.prewarmNationwide) {
+    const chunks = prepareNationwideStateLegislatureOpeningChunks(
+      world,
+      beginning.game.playerPersonId,
+      {
+        preferredFirstStateUsps: beginning.homeStateUsps,
+        statesPerChunk: options.statesPerChunk,
+      },
+    );
+    while (true) {
+      throwIfOpeningAborted(options.signal);
+      let step:
+        | IteratorResult<NationwideStateLegislatureOpeningChunk, World>
+        | undefined;
+      world = advanceWithWorldIntegrityAtEnd(() => {
+        step = chunks.next();
+        return step.done ? world : step.value.world;
+      }, world);
+      if (step!.done) break;
+      options.onProgress?.({
+        label: "Preparing state legislatures",
+        completed: step!.value.completedStates,
+        total: step!.value.totalStates,
+      });
+      await (options.yieldControl ?? yieldOpeningPreparationToHost)();
+    }
+
+    const principles = prepareOpeningCongressPrinciplesChunks(world);
+    while (true) {
+      throwIfOpeningAborted(options.signal);
+      let step:
+        IteratorResult<OpeningCongressPrinciplesChunk, World> | undefined;
+      world = advanceWithWorldIntegrityAtEnd(() => {
+        step = principles.next();
+        return step.done ? world : step.value.world;
+      }, world);
+      if (step!.done) break;
+      options.onProgress?.({
+        label: "Preparing Congress principles",
+        completed: step!.value.completedPeople,
+        total: step!.value.totalPeople,
+      });
+      await (options.yieldControl ?? yieldOpeningPreparationToHost)();
+    }
+  }
+
+  throwIfOpeningAborted(options.signal);
+  let completed: OpeningLifeSession | undefined;
+  advanceWithWorldIntegrityAtEnd(() => {
+    completed = completeOpeningLife(beginning, world);
+    return completed.game!.world;
+  }, world);
+  return completed!;
+}
+
+interface OpeningLifeBuildStart {
+  readonly session: OpeningLifeSession;
+  readonly game: NewGame;
+  readonly world: World;
+  readonly prewarmNationwide: boolean;
+  readonly homeStateUsps: string | null;
+}
+
+function beginOpeningLife(session: OpeningLifeSession): OpeningLifeBuildStart {
   const game = createNewGameWorld(session.setup);
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
@@ -105,6 +249,107 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
     openingData === "playtest65-v1"
       ? ensureOpeningPriorLocalRecords(staffed, game.playerPersonId)
       : staffed;
+  const living = ensureLivingWorldOpening(
+    withPriorRecords,
+    game.playerPersonId,
+    session.setup.livingWorldMemberNameVersion,
+  );
+  const prewarmNationwide =
+    worldOpeningVersionOf(living) === CRUNCH46_WORLD_OPENING_VERSION;
+  if (!prewarmNationwide) {
+    return {
+      session,
+      game,
+      world: living,
+      prewarmNationwide: false,
+      homeStateUsps: null,
+    };
+  }
+
+  const withLocalGovernment = ensureHomeLocalGovernment(
+    living,
+    game.playerPersonId,
+  );
+  const homeUsps = homeStateUsps(withLocalGovernment, game.playerPersonId);
+  const withHomeLegislature =
+    homeUsps === "DC"
+      ? scheduleDcCouncilSitting(
+          ensureDistrictOfColumbiaCouncilOpening(withLocalGovernment),
+        )
+      : homeUsps
+        ? ensureStateLegislatureOpening(
+            withLocalGovernment,
+            game.playerPersonId,
+            homeUsps,
+          )
+        : withLocalGovernment;
+  return {
+    session,
+    game,
+    world: withHomeLegislature,
+    prewarmNationwide: true,
+    homeStateUsps: homeUsps,
+  };
+}
+
+function buildOpeningLife(
+  session: OpeningLifeSession,
+  onProgress?: (progress: OpeningLifeGenerationProgress) => void,
+): OpeningLifeSession {
+  const start = beginOpeningLife(session);
+  let world = start.world;
+  if (start.prewarmNationwide) {
+    for (const chunk of prepareNationwideStateLegislatureOpeningChunks(
+      world,
+      start.game.playerPersonId,
+      { preferredFirstStateUsps: start.homeStateUsps },
+    )) {
+      world = chunk.world;
+      onProgress?.({
+        label: "Preparing state legislatures",
+        completed: chunk.completedStates,
+        total: chunk.totalStates,
+      });
+    }
+    for (const chunk of prepareOpeningCongressPrinciplesChunks(world)) {
+      world = chunk.world;
+      onProgress?.({
+        label: "Preparing Congress principles",
+        completed: chunk.completedPeople,
+        total: chunk.totalPeople,
+      });
+    }
+  }
+  return completeOpeningLife(start, world);
+}
+
+function completeOpeningLife(
+  start: OpeningLifeBuildStart,
+  preparedWorld: World,
+): OpeningLifeSession {
+  const { session, game, prewarmNationwide } = start;
+  const withLocalIntakes = prewarmNationwide
+    ? scheduleLocalMemberAgendaIntakes(preparedWorld)
+    : preparedWorld;
+  const withParties = ensurePartyGoverningBodies(
+    ensureHomePartyChapters(
+      withLocalIntakes,
+      game.playerPersonId,
+      session.setup.partyChapterNameVersion,
+    ),
+    game.playerPersonId,
+  );
+  const withDevelopment = ensureLivingWorldDevelopments(
+    withParties,
+    game.playerPersonId,
+  );
+  const withHazards = ensureHazardProduction(withDevelopment);
+  const withCrime = ensureCrimeProduction(withHazards);
+  const withMortality = ensureOpeningMortality(
+    withCrime,
+    session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
+  );
+  const world = openedWorld(withMortality, game.playerPersonId);
   return {
     ...session,
     phase: "world",
@@ -122,35 +367,7 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
       // not die. Starting it here costs the clock's hot path nothing, and the
       // version gate keeps a legacy replay byte-identical: those saves still
       // start it on their first ordinary-day pass, as before.
-      world: openedWorld(
-        ensureOpeningMortality(
-          ensureCrimeProduction(
-            ensureHazardProduction(
-              ensureLivingWorldDevelopments(
-                // Standing chapter committees exist only in current openings.
-                ensurePartyGoverningBodies(
-                  ensureHomePartyChapters(
-                    ensureHomeStateLegislature(
-                      ensureLivingWorldOpening(
-                        withPriorRecords,
-                        game.playerPersonId,
-                        session.setup.livingWorldMemberNameVersion,
-                      ),
-                      game.playerPersonId,
-                    ),
-                    game.playerPersonId,
-                    session.setup.partyChapterNameVersion,
-                  ),
-                  game.playerPersonId,
-                ),
-                game.playerPersonId,
-              ),
-            ),
-          ),
-          session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
-        ),
-        game.playerPersonId,
-      ),
+      world,
     },
   };
 }
@@ -160,19 +377,35 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
  * opening only: a legacy replay keeps exactly the world it always built.
  * After the living world so the national parties its members join exist.
  */
-function ensureHomeStateLegislature(
+function ensureHomeLocalGovernment(
   world: World,
   playerPersonId: EntityId,
 ): World {
-  if (worldOpeningVersionOf(world) !== CRUNCH46_WORLD_OPENING_VERSION) {
-    return world;
-  }
-  const stateUsps = homeStateUsps(world, playerPersonId);
-  if (!stateUsps) return world;
-  // The District's legislature is its Council, which is seated on its own.
-  return stateUsps === "DC"
-    ? scheduleDcCouncilSitting(ensureDistrictOfColumbiaCouncilOpening(world))
-    : ensureStateLegislatureOpening(world, playerPersonId, stateUsps);
+  const homeId = world.people[playerPersonId]?.homeJurisdictionId;
+  const home = homeId ? lifePlaceByJurisdictionId(homeId) : null;
+  const municipal = home ? municipalGovernmentForLifePlace(home) : null;
+  const withCouncil = municipal
+    ? ensureMunicipalCouncilOpening(world, municipal.key)
+    : world;
+  const withCountyBoards = homeLocalGovernmentUnits(
+    withCouncil,
+    playerPersonId,
+  ).counties.reduce(
+    (next, county) => ensureCountyCouncilOpening(next, county.id),
+    withCouncil,
+  );
+  return withCountyBoards;
+}
+
+function throwIfOpeningAborted(signal?: AbortSignal): void {
+  if (!signal?.aborted) return;
+  const error = new Error("Opening preparation was aborted.");
+  error.name = "AbortError";
+  throw error;
+}
+
+function yieldOpeningPreparationToHost(): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, 0));
 }
 
 /**
@@ -260,11 +493,32 @@ export function sameOpeningSetup(
 /** Keep one controller per Begin activation; duplicate transition callbacks share it. */
 export function createOpeningLifeController(setup: NewGameSetup) {
   let current = prepareOpeningLife(setup);
+  let progressiveGeneration: Promise<OpeningLifeSession> | null = null;
   return {
     read: (): OpeningLifeSession => current,
     finishTransition: (): OpeningLifeSession => {
       current = generateOpeningLife(current);
       return current;
+    },
+    finishTransitionWithProgress: (
+      options: OpeningLifeGenerationOptions = {},
+    ): Promise<OpeningLifeSession> => {
+      if (current.game) return Promise.resolve(current);
+      if (!progressiveGeneration) {
+        const preparing = current;
+        progressiveGeneration = generateOpeningLifeWithProgress(
+          preparing,
+          options,
+        )
+          .then((next) => {
+            if (current === preparing) current = next;
+            return current;
+          })
+          .finally(() => {
+            progressiveGeneration = null;
+          });
+      }
+      return progressiveGeneration;
     },
     navigate: (action: "next" | "back" | "skip"): OpeningLifeSession => {
       current = moveOpeningLife(current, action);

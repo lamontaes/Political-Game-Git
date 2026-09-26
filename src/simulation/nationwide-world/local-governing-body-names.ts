@@ -134,7 +134,7 @@ export function localGoverningBodyName(
       memberTitle: /\bcouncil$/i.test(read)
         ? "Council member"
         : `Member of the ${bodyName}`,
-      basis: "read",
+      basis: reading?.evidence === "game-profile" ? "game-profile" : "read",
     };
   }
   const profile =

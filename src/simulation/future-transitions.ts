@@ -1,4 +1,6 @@
+import { recordById, recordsByStringField } from "./history-index";
 import { crisisAmbientHandler } from "./crisis/ambient";
+import { worldIntegrityCheckMode } from "./world-integrity-changed";
 import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
 import { eventById } from "./event-index";
 import {
@@ -45,6 +47,7 @@ import {
 import {
   legislationEntityAvailableAt,
   legislationEntityExists,
+  transferLegislativeStableKeyIndex,
 } from "./legislation";
 import {
   electionContestEntityAvailableAt,
@@ -336,7 +339,11 @@ export function futureDueItemStateAt(
 ): FutureDueItemStateRecord | null {
   validateCutoff(world, cutoff);
   return (
-    world.history.futureDueItemStates
+    recordsByStringField(
+      world.history.futureDueItemStates,
+      "dueItemId",
+      dueItemId,
+    )
       .filter(
         (record) =>
           record.dueItemId === dueItemId &&
@@ -348,21 +355,49 @@ export function futureDueItemStateAt(
   );
 }
 
+const SCHEDULED_DUE_INDEX = new WeakMap<
+  readonly FutureDueItem[],
+  {
+    readonly states: readonly FutureDueItemStateRecord[];
+    readonly pending: readonly FutureDueItem[];
+  }
+>();
+
+function scheduledDueIndex(world: World): readonly FutureDueItem[] {
+  const items = world.history.futureDueItems;
+  const states = world.history.futureDueItemStates;
+  const cached = SCHEDULED_DUE_INDEX.get(items);
+  if (cached?.states === states) return cached.pending;
+  const latest = latestDueStateIndex(states);
+  const pending = items
+    .filter((item) => latest.get(item.id)?.status === "scheduled")
+    .sort(compareDueItems);
+  SCHEDULED_DUE_INDEX.set(items, { states, pending });
+  return pending;
+}
+
 export function scheduledFutureDueItemsThrough(
   world: World,
   fromInclusive: IsoDate,
   throughInclusive: IsoDate,
 ): readonly FutureDueItem[] {
-  return world.history.futureDueItems
-    .filter((item) => {
-      const state = latestDueItemStateAtCurrentFrontier(world, item.id);
-      return (
-        state?.status === "scheduled" &&
-        item.dueAt >= fromInclusive &&
-        item.dueAt <= throughInclusive
-      );
-    })
-    .sort(compareDueItems);
+  if (fromInclusive > throughInclusive) return [];
+  const pending = scheduledDueIndex(world);
+  let low = 0;
+  let high = pending.length;
+  while (low < high) {
+    const mid = (low + high) >>> 1;
+    if (pending[mid]!.dueAt < fromInclusive) low = mid + 1;
+    else high = mid;
+  }
+  const first = low;
+  high = pending.length;
+  while (low < high) {
+    const mid = (low + high) >>> 1;
+    if (pending[mid]!.dueAt <= throughInclusive) low = mid + 1;
+    else high = mid;
+  }
+  return pending.slice(first, low);
 }
 
 function handlerFor(
@@ -509,7 +544,14 @@ export function resolveFutureDueItemsThrough(
       }),
     };
     if (deepTransitionInputGuard) freezeDeeply(atDueDate);
-    const shallowInput = shallowWorldShape(atDueDate);
+    // A guard against a handler editing its input in place. It counts the
+    // keys of every top-level record (thousands of people), twice per due
+    // item, so play leaves it to the test suite and the deep guard there.
+    // A deeply frozen input already rejects every mutation. Recounting its
+    // thousands of people and history keys adds no protection in that mode.
+    const guardShape =
+      !deepTransitionInputGuard && worldIntegrityCheckMode() === "full";
+    const shallowInput = guardShape ? shallowWorldShape(atDueDate) : "";
     const dueItemsBefore = atDueDate.history.futureDueItems;
     const dueStatesBefore = atDueDate.history.futureDueItemStates;
     // The handler's writers skip their per-write whole-world check; what it
@@ -525,7 +567,7 @@ export function resolveFutureDueItemsThrough(
       }
       throw error;
     }
-    if (shallowWorldShape(atDueDate) !== shallowInput) {
+    if (guardShape && shallowWorldShape(atDueDate) !== shallowInput) {
       throw new Error("Future-transition handler mutated its input world.");
     }
     if (
@@ -547,8 +589,9 @@ export function resolveFutureDueItemsThrough(
       after: readonly T[],
       before: readonly T[],
     ): boolean =>
-      after.length >= before.length &&
-      before.every((record, index) => after[index] === record);
+      after === before ||
+      (after.length >= before.length &&
+        before.every((record, index) => after[index] === record));
     if (
       !prefixUnchanged(resultDueItems, dueItemsBefore) ||
       !prefixUnchanged(resultDueStates, dueStatesBefore)
@@ -631,12 +674,10 @@ export function futureTransitionEntityAvailableAt(
   asOfDate: string,
   sequenceExclusive: number,
 ): boolean {
-  const item = world.history.futureDueItems.find((record) => record.id === id);
+  const item = recordById(world.history.futureDueItems, id);
   if (item)
     return item.scheduledAt <= asOfDate && item.sequence < sequenceExclusive;
-  const state = world.history.futureDueItemStates.find(
-    (record) => record.id === id,
-  );
+  const state = recordById(world.history.futureDueItemStates, id);
   return !!(
     state &&
     state.effectiveAt <= asOfDate &&
@@ -1038,6 +1079,37 @@ function bySequence<T extends { readonly sequence: number }>(
 }
 
 function commit(world: World, history: World["history"]): World {
+  transferLegislativeStableKeyIndex(
+    world.history.futureDueItems,
+    history.futureDueItems,
+  );
+  // These two writers only append. Move disposable indexes to the new arrays;
+  // do not leave a mutable index attached to an older immutable snapshot.
+  for (const family of ["futureDueItems", "futureDueItemStates"] as const) {
+    const prior = world.history[family];
+    const records = history[family];
+    if (prior === records) continue;
+    const ids = ID_INDEX.get(prior);
+    if (ids) {
+      ID_INDEX.delete(prior);
+      for (let offset = prior.length; offset < records.length; offset += 1)
+        ids.add(records[offset]!.id);
+      ID_INDEX.set(records, ids);
+    }
+  }
+  const priorStates = world.history.futureDueItemStates;
+  const states = history.futureDueItemStates;
+  const latest = LATEST_DUE_STATE.get(priorStates);
+  if (latest && priorStates !== states) {
+    LATEST_DUE_STATE.delete(priorStates);
+    for (let offset = priorStates.length; offset < states.length; offset += 1) {
+      const row = states[offset]!;
+      const prior = latest.get(row.dueItemId);
+      if (!prior || row.sequence > prior.sequence)
+        latest.set(row.dueItemId, row);
+    }
+    LATEST_DUE_STATE.set(states, latest);
+  }
   const next = { ...world, history };
   assertWorldIntegrity(next);
   return next;

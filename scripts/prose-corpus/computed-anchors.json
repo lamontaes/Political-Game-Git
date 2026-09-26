@@ -1891,6 +1891,30 @@
       "textRevision": "a3018b3eac3a"
     },
     {
+      "anchor": "MunicipalWorkspace-0095",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Game rule profile — fictional procedure",
+      "occurrence": 0,
+      "textRevision": "4abe3fa94b4a"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0096",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "How other councilors would answer now",
+      "occurrence": 0,
+      "textRevision": "b461f6374856"
+    },
+    {
+      "anchor": "MunicipalWorkspace-0097",
+      "sourcePath": "src/player/MunicipalWorkspace.tsx",
+      "symbol": "MunicipalWorkspace",
+      "text": "Other councilors' ballots (game-authored)",
+      "occurrence": 0,
+      "textRevision": "33c4562377cc"
+    },
+    {
       "anchor": "OPTIONS-0001",
       "sourcePath": "src/presentation/office-response.ts",
       "symbol": "OPTIONS",
@@ -4214,9 +4238,9 @@
       "anchor": "installMunicipalGovernment-0001",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "installMunicipalGovernment",
-      "text": "{reading.displayName} is governed by {reading.bodyName??\"abodytherecorddoesnotname\"}, read from {reading.evidence===\"enacted-text\"?\"itsownenactedlaw\":\"aresearchtranscriptionofofficialmunicipalpages\"} as of {reading.asOf}.",
+      "text": "{reading.displayName} is governed by {reading.bodyName??\"abodytherecorddoesnotname\"}, {reading.evidence===\"enacted-text\"?`readfromitsownenactedlawasof${reading.asOf}`:reading.evidence===\"game-profile\"?\"underadisclosedfictionalgameprofile;theCensuscatalogidentifiestheunitbutdoesnotestablishitsprocedure\":`readfromaresearchtranscriptionofofficialmunicipalpagesasof${reading.asOf}`}.{selectedProcedure.ok&&selectedProcedure.evidence===\"game-profile\"&&reading.evidence!==\"game-profile\"?`Itsordinanceprocedureusestheseparate${selectedProcedure.pack.packId}gameprofile.`:\"\"}",
       "occurrence": 0,
-      "textRevision": "0e4735766c81"
+      "textRevision": "623094977917"
     },
     {
       "anchor": "lifeCallbackTransitionHandler-0001",
@@ -4686,9 +4710,9 @@
       "anchor": "municipalActionAuthority-0017",
       "sourcePath": "src/simulation/municipal-public-work.ts",
       "symbol": "municipalActionAuthority",
-      "text": "{reading.displayName} is compiled from {reading.evidence===\"enacted-text\"?\"enactedtextthisrepositoryretrieved\":\"aresearchtranscriptionofofficialmunicipalpages\"}, and anybody may read what it says.",
+      "text": "{reading.displayName} is compiled from {reading.evidence===\"enacted-text\"?\"enactedtextthisrepositoryretrieved\":reading.evidence===\"game-profile\"?\"adisclosedlocalgovernmentgameprofile\":\"aresearchtranscriptionofofficialmunicipalpages\"}, and anybody may read what it says.",
       "occurrence": 0,
-      "textRevision": "670ac0e1e6c9"
+      "textRevision": "91cd3fd14120"
     },
     {
       "anchor": "municipalActionAuthority-0018",
@@ -4697,6 +4721,22 @@
       "text": "{series.bodyName??reading.displayName} does not take public comment at this sitting: {series.publicAttendance?.note??\"theinstrumentreadsaysso.\"}",
       "occurrence": 0,
       "textRevision": "24b2ec68f5c4"
+    },
+    {
+      "anchor": "municipalActionAuthority-0019",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "The game procedure has no executive presentment or veto.",
+      "occurrence": 0,
+      "textRevision": "bd0a06fdada3"
+    },
+    {
+      "anchor": "municipalActionAuthority-0020",
+      "sourcePath": "src/simulation/municipal-public-work.ts",
+      "symbol": "municipalActionAuthority",
+      "text": "The saved game profile establishes how this body adopts an ordinance.",
+      "occurrence": 0,
+      "textRevision": "da962a7d90a6"
     },
     {
       "anchor": "municipalRulePackFor-0001",
@@ -4763,6 +4803,22 @@
       "textRevision": "575fe8d96c5c"
     },
     {
+      "anchor": "municipalRulePackFor-0009",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRulePackFor",
+      "text": "The sourced reading for {government.key} remains separate; {LOCAL_ORDINANCE_GAME_PROFILE_VERSION} supplies the playable ordinance procedure.",
+      "occurrence": 0,
+      "textRevision": "dcc6c27414b0"
+    },
+    {
+      "anchor": "municipalRulePackFor-0010",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRulePackFor",
+      "text": "This game profile has no active general-purpose government unit.",
+      "occurrence": 0,
+      "textRevision": "0b65ac3cb182"
+    },
+    {
       "anchor": "municipalRuleSourceRef-0001",
       "sourcePath": "src/simulation/municipal-government.ts",
       "symbol": "municipalRuleSourceRef",
@@ -4785,6 +4841,22 @@
       "text": "Dated meeting reference; not operative legal authority.",
       "occurrence": 0,
       "textRevision": "70ce4bbe0b04"
+    },
+    {
+      "anchor": "municipalRuleSourceRef-0004",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRuleSourceRef",
+      "text": "Our Civic Duty local ordinance game profile",
+      "occurrence": 0,
+      "textRevision": "20d334cc72e4"
+    },
+    {
+      "anchor": "municipalRuleSourceRef-0005",
+      "sourcePath": "src/simulation/municipal-government.ts",
+      "symbol": "municipalRuleSourceRef",
+      "text": "{citation} is a fictional game rule, not a claim about {reading.displayName}'s law.",
+      "occurrence": 0,
+      "textRevision": "1d12b466a393"
     },
     {
       "anchor": "objectiveFor-0001",

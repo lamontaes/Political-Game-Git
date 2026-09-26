@@ -124,6 +124,31 @@ export function assertLegislativePoliticsIntegrity(
         `Legislative provision states an impossible exposure: ${provision.id}`,
       );
     }
+    if (provision.operativeEffect !== undefined) {
+      switch (provision.operativeEffect.kind) {
+        case "tax-policy":
+          if (provision.provisionKey !== "tax-levy")
+            throw new Error(
+              `A tax-policy effect is attached to a non-levy provision: ${provision.id}`,
+            );
+          break;
+        case "public-program-appropriation":
+          if (
+            (provision.provisionKey !== "amount-provided" &&
+              !provision.provisionKey.endsWith(":amount-provided")) ||
+            provision.fiscalExposureMinorUnits === null ||
+            provision.fiscalExposureMinorUnits <= 0
+          )
+            throw new Error(
+              `A public-program appropriation effect needs a positive amount-provided clause: ${provision.id}`,
+            );
+          break;
+        default:
+          throw new Error(
+            `Legislative provision has an unsupported operative effect: ${provision.id}`,
+          );
+      }
+    }
     if (
       provision.beneficiary.kind === "particularized" &&
       (!provision.beneficiary.beneficiaryLabel.trim() ||

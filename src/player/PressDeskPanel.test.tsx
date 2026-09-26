@@ -29,6 +29,10 @@ import {
   type World,
 } from "../simulation";
 import { KENTUCKY_CONTEXT } from "../simulation/legislation-scenarios";
+import {
+  bindingForDistrict,
+  offeredDistricts,
+} from "../presentation/district-selection";
 import { PressDeskPanel } from "./PressDeskPanel";
 
 const KY = KENTUCKY_CONTEXT.jurisdiction.id;
@@ -70,6 +74,14 @@ function campaignFixture(seed: string): CampaignFixture {
     jurisdictionId: KY,
     officeKey: candidacyPackById("us-ky-general-assembly-v1:candidacy")!
       .offices[0]!.officeKey,
+    districtBinding: bindingForDistrict(
+      offeredDistricts(
+        base,
+        KY,
+        candidacyPackById("us-ky-general-assembly-v1:candidacy")!.offices[0]!
+          .officeKey,
+      )[0]!,
+    ),
     electionDate: addDays(base.currentDate, 200),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,

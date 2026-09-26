@@ -29,6 +29,7 @@ import {
 } from "./nationwide-world/local-governing-body-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { governmentUnitsForPlace } from "./government-units";
+import { municipalSeatChoices } from "./municipal-seat-identity";
 import { stateResidenceSince } from "./nationwide-world/residence-duration";
 import { recordedTermsInOffice } from "./nationwide-world/prior-terms";
 import { checkExecutiveTermLimit } from "./nationwide-world/executive-term-limits";
@@ -40,7 +41,6 @@ import {
 import {
   assessOfficeQualifications,
   officeFamilyForChamberKey,
-  officeQualifications,
 } from "./office-qualification-rules";
 import type { QualificationAssessment } from "./office-qualification-rules";
 import type { DistrictSeatBinding, EntityId, IsoDate, World } from "./types";
@@ -50,7 +50,11 @@ import {
   districtResidenceSince,
   recordedDistrictResidenceSince,
 } from "./district-residence";
-import { gazetteerChamberForOfficeChamberKey } from "../districts/query";
+import { districtIdentityCatalog } from "../districts/catalog";
+import {
+  gazetteerChamberForOfficeChamberKey,
+  listDistrictIdentities,
+} from "../districts/query";
 
 /**
  * Whether a particular character may stand, and where.
@@ -228,6 +232,7 @@ export type CandidacyBlockKind =
   | "sourced-state-residence"
   | "unproved-district-residence"
   | "unusable-district-binding"
+  | "unusable-municipal-seat"
   | "office-does-not-exist"
   | "unproved-sourced-qualification"
   | "term-limit"
@@ -285,11 +290,12 @@ export interface CandidacyEligibilityInput {
   /** True when this person already holds an unfinished campaign. */
   readonly alreadyACandidate: boolean;
   /**
-   * Explicit Gazetteer district identity for this filing. Required where a
-   * sourced district-residence rule exists. Never inferred from state
-   * residence, and never treated as proved home membership by itself.
+   * Explicit Gazetteer district identity for a numbered seat. Never inferred
+   * from state residence or treated as proved home membership by itself.
    */
   readonly districtBinding?: DistrictSeatBinding | null;
+  /** Explicit municipal ward or at-large seat; no residence fact is inferred. */
+  readonly municipalSeatKey?: string | null;
 }
 
 /**
@@ -303,50 +309,46 @@ export interface CandidacyEligibilityInput {
  * Whether this office's seats are identified by district, so a filing has to
  * name one.
  *
- * Eligibility reads the district a person already lives in, which answers
- * "could they stand at all". It does not answer "which seat", and a contest is
- * recorded against a Gazetteer identity, so filing still needs the binding
- * spelled out. Before this existed, an unbound filing was refused only as a
- * side effect of the district being unreadable — which was also why the
- * campaign screen refused everybody in these states.
+ * Eligibility answers whether this person can stand. A numbered chamber seat
+ * also needs a Gazetteer identity at filing so the contest and eventual winner
+ * identify one actual seat. A district-residence rule is a separate question:
+ * its absence does not turn a numbered election into an at-large election.
  */
 export function districtSeatMustBeNamed(
   jurisdictionId: EntityId,
   officeKey: string,
-  onDate: IsoDate,
 ): boolean {
   const executive = stateExecutiveIdentityForOfficeKey(officeKey);
   if (executive) return false;
-  // A House seat is named by its own key, and the Constitution asks only
-  // that a Representative live in the state, so no district is inferred.
+  // A congressional House seat is already named by its own office/seat key;
+  // its separate filing route need not claim the candidate lives in it.
   if (congressSeatIdentityForOfficeKey(officeKey)) return false;
   // A town's governing body has no districts the game has read.
   if (localGoverningBodyIdentityForOfficeKey(officeKey)) return false;
   const authority = candidacyAuthority(jurisdictionId);
-  // Two rule sources carry a district requirement and either one makes the
-  // seat district-identified: the pack's own sourced rule set, and the
-  // per-state qualification rows.
   const pack = authority.pack;
-  if (pack) {
-    const rules = candidateQualificationRuleSet(pack.packId, officeKey, onDate);
-    const district = rules?.districtResidenceYears;
-    if (
-      district &&
-      district.state !== "NOT_APPLICABLE" &&
-      district.state !== "NO_REQUIREMENT_FOUND"
-    ) {
-      return true;
-    }
-  }
+  if (!pack?.offices.some((office) => office.officeKey === officeKey))
+    return false;
   const chamberKey = officeKey.split(":").at(-1) ?? null;
-  const officeFamily =
-    chamberKey === null ? null : officeFamilyForChamberKey(chamberKey);
-  if (officeFamily === null) return false;
-  return officeQualifications(
-    authority.stateJurisdictionKey,
-    officeFamily,
-    onDate,
-  ).some((row) => row.field === "DISTRICT_RESIDENCE");
+  const chamber =
+    chamberKey === null
+      ? null
+      : gazetteerChamberForOfficeChamberKey(chamberKey);
+  if (
+    chamber === null ||
+    authority.stateJurisdictionKey === null ||
+    isTerritoryUsps(authority.stateJurisdictionKey.replace(/^US-/, ""))
+  )
+    return false;
+  // A state chamber with published numbered districts needs one named at
+  // filing. An office with no such seat catalog remains on its existing
+  // at-large route; local offices are handled above.
+  return (
+    listDistrictIdentities(districtIdentityCatalog(), {
+      stateUsps: authority.stateJurisdictionKey.replace(/^US-/, ""),
+      chamber,
+    }).length > 0
+  );
 }
 
 const ENACTED_QUALIFICATION_FIELDS = [
@@ -510,6 +512,28 @@ export function candidacyEligibility(
       boundOption = option;
     } else {
       boundOption = bound.option;
+    }
+  }
+  if (input.municipalSeatKey) {
+    const choice = municipalSeatChoices(
+      world,
+      input.personId,
+      input.officeKey,
+    ).find((seat) => seat.key === input.municipalSeatKey);
+    if (!choice || !choice.eligible) {
+      blocks.push({
+        kind: "unusable-municipal-seat",
+        reason: choice?.reason ?? "That council seat is not on this ballot.",
+      });
+    } else if (boundOption) {
+      boundOption = {
+        ...boundOption,
+        office: {
+          ...boundOption.office,
+          seatKey: choice.key,
+          title: `${boundOption.office.title}, ${choice.label}`,
+        },
+      };
     }
   }
   if (!option) {

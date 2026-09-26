@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   enactedTaxFixture,
   TEST_TAX_TERMS,
+  recordTestTaxOccurrence,
 } from "../../tests/fixtures/tax-policy-fixture";
 import { createLegislativeScenario } from "../simulation/legislation-scenarios";
 import { createTaxTransitionHandlerRegistry } from "../simulation/tax-policy";
@@ -14,7 +15,6 @@ import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { advanceWorld } from "../simulation/world";
 import { daysBetween } from "../simulation/dates";
-import { declarePersonalTaxOccurrence } from "./tax-work";
 import { projectBudgetEconomy } from "./budget-economy";
 import { projectModeledAccountHistory } from "./modeled-account-history";
 import type { World } from "../simulation/types";
@@ -31,7 +31,7 @@ function collectedTax(opening: number | null, baseAmount = 202_100) {
     ),
     createTaxTransitionHandlerRegistry(),
   );
-  world = declarePersonalTaxOccurrence(world, {
+  world = recordTestTaxOccurrence(world, {
     personId: fixture.personId,
     stableKey: "account-history:occurrence",
     proposalId: fixture.proposalId,

@@ -1,13 +1,13 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { EntityId, World } from "../simulation";
 import {
-  advanceObservedWorld,
   OBSERVER_STEPS,
   observerPeople,
   projectObserverPerson,
   projectObserverRecord,
 } from "../presentation/observer-world";
 import { proseDate } from "../presentation/prose-dates";
+import type { ObserverRunController } from "./observer-run-controller";
 
 /**
  * Observer Mode's two pieces of furniture: the clock, and the whole record.
@@ -17,61 +17,33 @@ import { proseDate } from "../presentation/prose-dates";
  * can be left to go on for years with nobody stepping in.
  */
 export function ObserverClock({
-  world,
-  onAdvance,
+  runner,
   onOpenRecord,
 }: {
-  readonly world: World;
-  /** Commits the advanced World against the one it was computed from. */
-  readonly onAdvance: (next: World, base: World) => void;
+  readonly runner: ObserverRunController;
   readonly onOpenRecord: () => void;
 }) {
-  const [running, setRunning] = useState(false);
-  const [problem, setProblem] = useState<string | null>(null);
-  const latest = useRef(world);
-  latest.current = world;
-
-  const step = (days: number): boolean => {
-    const base = latest.current;
-    try {
-      const next = advanceObservedWorld(base, days);
-      if (next.currentDate === base.currentDate) {
-        setProblem("The world could not move on from here.");
-        return false;
-      }
-      onAdvance(next, base);
-      setProblem(null);
-      return true;
-    } catch (error) {
-      setProblem(
-        error instanceof Error ? error.message : "Time could not pass.",
-      );
-      return false;
-    }
-  };
-
-  // One week per tick, after each commit renders, so the screen keeps up and
-  // Pause always lands between two weeks rather than inside one.
-  useEffect(() => {
-    if (!running) return;
-    const timer = window.setTimeout(() => {
-      if (!step(7)) setRunning(false);
-    }, 60);
-    return () => window.clearTimeout(timer);
-    // `world` changing is what schedules the next week.
-  }, [running, world]);
+  const view = useSyncExternalStore(
+    runner.subscribe,
+    runner.getSnapshot,
+    runner.getSnapshot,
+  );
 
   return (
     <div className="pg-observer-clock" data-testid="observer-clock">
-      <span data-testid="observer-date">{proseDate(world.currentDate)}</span>
+      <span data-testid="observer-date">{proseDate(view.date)}</span>
       <button
         type="button"
         className="ui-action"
         data-testid="observer-run"
-        aria-pressed={running}
-        onClick={() => setRunning((value) => !value)}
+        aria-pressed={view.running}
+        disabled={view.busy}
+        onClick={() => {
+          if (view.running) void runner.pause().catch(() => undefined);
+          else runner.start();
+        }}
       >
-        {running ? "Pause" : "Run"}
+        {view.running ? "Pause" : view.busy ? "Pausing…" : "Run"}
       </button>
       {OBSERVER_STEPS.map((entry) => (
         <button
@@ -79,8 +51,8 @@ export function ObserverClock({
           type="button"
           className="ui-action ui-action--subtle"
           data-testid={`observer-step-${entry.key}`}
-          disabled={running}
-          onClick={() => step(entry.days)}
+          disabled={view.running || view.busy}
+          onClick={() => void runner.step(entry.days).catch(() => undefined)}
         >
           {entry.label}
         </button>
@@ -89,13 +61,19 @@ export function ObserverClock({
         type="button"
         className="ui-action ui-action--subtle"
         data-testid="open-world-record"
-        onClick={onOpenRecord}
+        disabled={view.busy}
+        onClick={() => {
+          void runner
+            .pause()
+            .then(onOpenRecord)
+            .catch(() => undefined);
+        }}
       >
         World record
       </button>
-      {problem ? (
+      {view.problem ? (
         <span className="pg-observer-problem" role="alert">
-          {problem}
+          {view.problem}
         </span>
       ) : null}
     </div>

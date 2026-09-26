@@ -2,9 +2,9 @@ import { expect, it } from "vitest";
 import {
   enactedTaxFixture,
   TEST_TAX_TERMS,
+  recordTestTaxOccurrence,
 } from "../../tests/fixtures/tax-policy-fixture";
 import { transitAppropriationFixture } from "../../tests/fixtures/transit-service-fixture";
-import { declarePersonalTaxOccurrence } from "./tax-work";
 import { projectTransitCashSnapshot } from "./transit-cash-snapshot";
 import { advanceWorld, assertWorldIntegrity } from "../simulation/world";
 import { daysBetween } from "../simulation/dates";
@@ -30,7 +30,7 @@ function cashFixture(opening = 10_000, baseAmount = 200_100) {
     daysBetween(contract.world.currentDate, contract.availableAt),
     createCampaignElectionTransitionRegistry(),
   );
-  const declared = declarePersonalTaxOccurrence(unfunded, {
+  const declared = recordTestTaxOccurrence(unfunded, {
     personId: contract.personId,
     stableKey: "transit-cash-snapshot:occurrence",
     proposalId: tax.proposalId,

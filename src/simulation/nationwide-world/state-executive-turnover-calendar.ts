@@ -3,7 +3,10 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { chiefExecutiveJurisdictionId } from "./government-jurisdiction";
 import type { IsoDate, World } from "../types";
 import { scheduleGoverningSeasons } from "../governing/governing-calendar";
-import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./state-executive-candidacy-packs";
+import {
+  CHIEF_EXECUTIVE_JURISDICTIONS,
+  US_STATE_USPS,
+} from "./state-executive-candidacy-packs";
 import {
   ensureStateJurisdiction,
   stateExecutiveOffice,
@@ -124,7 +127,12 @@ export function scheduleNextFieldClose(
 export function applyGovernorTurnover(before: IsoDate, world: World): World {
   if (world.currentDate <= before) return world;
   let next = world;
-  for (const office of materializedOffices(world)) {
+  // Every governor and every state legislature is seated when a new game
+  // opens (opening-life.ts), so the clock no longer asks on each move whether
+  // all 50 exist. Saves from before that preparation are not supported
+  // (owner, 2026-09-26: old saves need not stay compatible yet).
+  const offices = materializedOffices(next);
+  for (const office of offices) {
     next = scheduleNextFieldClose(next, office.stateUsps, next.currentDate);
     next = scheduleGoverningSeasons(
       next,
