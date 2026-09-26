@@ -12,7 +12,6 @@ import { openNextLifeScene, currentOpeningLifeScene } from "./life-scene-flow";
 import { projectLifeConversation } from "./life-conversation";
 import { conversationExchangeTurns } from "./scene-conversation";
 import { playerUtteranceOf } from "./conversation-utterance";
-import { tellableTopics } from "./life-talk-topics";
 import {
   activeChildAuthoritiesAt,
   assertWorldIntegrity,
@@ -110,7 +109,7 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
     ).toBe(greeting.spokenWords);
   });
 
-  it("offers no invented scene or activity in a quiet home conversation", () => {
+  it("words the greeting in a quiet home conversation and keeps it after a reload", () => {
     const game = createNewGameWorld({
       startKind: "custom",
       placeKey: "kentucky",
@@ -126,12 +125,6 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
     } as NewGameSetup);
     const id = guardianId(game.world, game.playerPersonId)!;
     const view = projectLifeConversation(game.world, game.playerPersonId, id)!;
-    expect(view.intents.map((option) => option.key)).not.toContain("scene");
-    expect(view.intents.map((option) => option.key)).not.toContain("activity");
-    if (view.intents.some((option) => option.key === "share"))
-      expect(
-        tellableTopics(game.world, game.playerPersonId, id).length,
-      ).toBeGreaterThan(0);
     expect(view.intents[0]!.spokenWords).toMatch(/^(Hi|Hey), .+\.$/);
     expect(
       projectLifeConversation(

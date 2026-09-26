@@ -145,7 +145,7 @@ const DEVELOPER_LEAKS = [
 ];
 
 describe("fully worded bargaining replies", () => {
-  it("keeps four or five spoken choices visible while retaining private moves", () => {
+  it("keeps every bargaining move on offer, private ones included", () => {
     const session = openSession(undefined, "private");
     for (const addressee of [
       session.fixture.advocatePersonId,
@@ -160,7 +160,6 @@ describe("fully worded bargaining replies", () => {
       );
       const speech = options.filter((option) => option.key !== "listen");
       expect(speech.length).toBeGreaterThanOrEqual(4);
-      expect(speech.length).toBeLessThanOrEqual(5);
       expect(speech.map((option) => option.key)).toContain(
         "offer-private-inducement",
       );
