@@ -151,7 +151,7 @@ export function ObserverRecordWorkspace({
           <p>
             Born {proseDate(file.born)}
             {file.died
-              ? `, died ${proseDate(file.died)} at ${file.age}`
+              ? `, died ${file.diedHow ? `${file.diedHow} on ` : ""}${proseDate(file.died)} at ${file.age}`
               : `, ${file.age} years old`}
             {file.home ? `. Lives in ${file.home}` : ""}.
           </p>

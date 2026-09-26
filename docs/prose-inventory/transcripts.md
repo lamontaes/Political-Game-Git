@@ -536,8 +536,8 @@ _Present: David Todd, your dad_
 #### Beat 13 — 2027-02-16, age 35 (ordinary-stretch)
 
 > Half a year on.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
 > Judith Lewis tried to reach you.
-> You and David Todd were in and out of each other's business more than once.
 
 
 
@@ -546,8 +546,8 @@ _Present: David Todd, your dad_
 #### Beat 14 — 2027-05-05, age 36 (ordinary-stretch)
 
 > Most of a year later, and you're 36 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
 > Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
 
 
 
@@ -556,8 +556,8 @@ _Present: David Todd, your dad_
 #### Beat 15 — 2027-08-16, age 36 (ordinary-stretch)
 
 > A year on, and you're 36 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
 > Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
 
 
 
@@ -566,8 +566,8 @@ _Present: David Todd, your dad_
 #### Beat 16 — 2027-09-16, age 36 (ordinary-stretch)
 
 > A year on, and you're 36 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
 > Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
 
 
 
@@ -576,8 +576,8 @@ _Present: David Todd, your dad_
 #### Beat 17 — 2028-01-18, age 36 (ordinary-stretch)
 
 > A year and a half on, and you're 36 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
 > Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
 
 
 
@@ -586,8 +586,8 @@ _Present: David Todd, your dad_
 #### Beat 18 — 2028-04-05, age 36 (ordinary-stretch)
 
 > A year and a half on, and you're 36 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
 > Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
 
 
 
@@ -596,8 +596,8 @@ _Present: David Todd, your dad_
 #### Beat 19 — 2028-05-22, age 37 (ordinary-stretch)
 
 > The better part of two years later, and you're 37 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
 > Judith Lewis tried to reach you.
-> What you said you'd do about David Todd came up.
 
 
 

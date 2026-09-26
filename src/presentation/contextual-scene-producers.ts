@@ -21,11 +21,7 @@ import type {
 } from "../simulation";
 import { commitmentPromisee } from "../simulation/claim-contradictions";
 import { evaluateDecision } from "../simulation/decisions";
-import {
-  applyDeathNotices,
-  offerBereavementScene,
-} from "../simulation/people-bereavement";
-import { crisisPersonDeathRecipientNotices } from "../simulation/crisis/notices";
+import { offerBereavementScene } from "../simulation/people-bereavement";
 import {
   contactBases,
   contactProposals,
@@ -98,15 +94,10 @@ export function refreshContextualScenes(
   world: World,
   personId: EntityId,
 ): World {
-  // The saved family learns of deaths during this life before any optional
-  // scene is considered. This also reaches child relatives and leaves deaths
-  // from generated prehistory outside the player's present life.
-  const noticed = applyDeathNotices(
-    world,
-    crisisPersonDeathRecipientNotices(world, {
-      diedOnOrAfter: world.startedAt,
-    }).filter((notice) => notice.diedAt <= world.currentDate),
-  );
+  // The family already learned of any death on the day it was written
+  // (`tellOfDeath`, called by each death writer), so nothing here re-reads
+  // the deaths of this life.
+  const noticed = world;
   if (
     noticed.control.kind !== "person" ||
     noticed.control.personId !== personId

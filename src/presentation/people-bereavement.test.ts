@@ -11,6 +11,7 @@ import {
   BEREAVEMENT_NOTICE_EVENT,
   applyDeathNotices,
   relationWord,
+  tellOfDeath,
 } from "../simulation/people-bereavement";
 import type { PersonDeathRecipientNotice } from "../simulation/people-bereavement";
 import { crisisPersonDeathRecipientNotices } from "../simulation/crisis/notices";
@@ -139,9 +140,12 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
     );
   });
 
-  it("tells current-life relatives when an ordinary day passes", () => {
+  it("tells current-life relatives the day the death is written, and a Day does not tell them again", () => {
+    // Each death writer calls tellOfDeath when it records a death during play
+    // (crisis/mortality.ts, disaster.ts, international.ts). This fixture
+    // records the death directly, so it makes the same call.
     const recipients = crisisPersonDeathRecipientNotices(dead, {
-      diedOnOrAfter: dead.startedAt,
+      afterSequence: death.sequence - 1,
     }).filter((entry) => entry.deathRecordId === death.id);
     const outside = dead.personOrder.find(
       (id) =>
@@ -153,7 +157,7 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
     // so the count below is not the reader agreeing with itself about nobody.
     const named = recipients.map((entry) => entry.recipientPersonId);
     expect(named).toEqual(expect.arrayContaining([player, other]));
-    const afterDay = letAdultTimePass(dead, 1);
+    const afterDay = letAdultTimePass(tellOfDeath(dead, death.id), 1);
     const learned = afterDay.history.events.filter(
       (event) =>
         event.type === BEREAVEMENT_NOTICE_EVENT &&
