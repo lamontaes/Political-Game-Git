@@ -1,11 +1,11 @@
 import type { Locator, Page } from "@playwright/test";
-import { chooseOption } from "./support/controls";
 import { expect, test } from "./fixtures";
 import {
   isPoliticsHubDestination,
   openPoliticsHub,
   openShellMenu,
   saveLife,
+  openFolded,
 } from "./support/creator";
 import { readSavedLegislativeWorld } from "./support/legislative-entry";
 import { shotPath } from "./support/shot-path";
@@ -128,10 +128,10 @@ test("an Alaska member funds added transit service from a collected tax and sees
 
   // Personal: ordinary shop work is the member's only recorded money.
   await goTo(page, "nav-jobs", "personal");
+  // The authored work is folded under "Other work", and picks by its own row.
+  await openFolded(page, "Other work");
   const careers = page.getByRole("region", { name: "Career opportunities" });
-  await chooseOption(careers.getByRole("combobox"), {
-    label: "Shop assistant",
-  });
+  await careers.getByRole("button", { name: /^Shop assistant/ }).click();
   await careers.getByRole("button", { name: "Seek an offer" }).click();
   await careers.getByRole("button", { name: "Accept offer" }).click();
   await expect(careers).toContainText("Accepted. Begin work on or after");

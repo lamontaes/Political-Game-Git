@@ -520,7 +520,9 @@ test.describe("P85D integration through ordinary player controls", () => {
   test("a Lexington winner can activate Kentucky Work before and after reload", async ({
     page,
   }) => {
-    test.setTimeout(90_000);
+    // The seat is decided on Kentucky's real election day, most of a year of
+    // weeks from a January start.
+    test.setTimeout(480_000);
     const errors = watchForErrors(page);
     await freshBrowser(page);
     await page.goto("/?seed=p85c-owner-0");

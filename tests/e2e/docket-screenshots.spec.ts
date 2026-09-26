@@ -1,7 +1,12 @@
 import { fileCandidacy, workOfferedOutreach } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, openElsewhere, startLife } from "./support/creator";
+import {
+  enterLife,
+  openElsewhere,
+  passShellTime,
+  startLife,
+} from "./support/creator";
 import { shotPath } from "./support/shot-path";
 
 /**
@@ -41,10 +46,19 @@ async function liveUntilDecided(page: Page, maxDays = 45) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
     await page.getByTestId("shell-pass-day").click();
   }
+  // Legislative seats are decided on the state's real election day (owner,
+  // 2026-09-22), which can be most of a year off; wait the rest a week at a
+  // time, as campaign-first-election does.
+  for (let week = 0; week < 110; week += 1) {
+    if (await page.getByTestId("campaign-result").isVisible()) return true;
+    await passShellTime(page, "week");
+  }
   return page.getByTestId("campaign-result").isVisible();
 }
 
 test("captures the five-minute click path", async ({ page }) => {
+  // The wait for a real election day is most of a year of weeks.
+  test.setTimeout(480_000);
   await freshBrowser(page);
   await page.goto("/?seed=p85c-owner-0");
   await startLife(page, {

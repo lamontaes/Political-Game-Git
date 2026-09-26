@@ -1,4 +1,4 @@
-import { expect, type Page } from "@playwright/test";
+import { expect, type Locator, type Page } from "@playwright/test";
 import { chooseOption } from "./controls";
 
 import { resolveExplicitCreatorHometown } from "../../../src/presentation/new-game-geography";
@@ -692,3 +692,30 @@ export async function chooseStateThenTown(
 
 /** Compatibility name used by the completed L route. */
 export const KENTUCKY_REGRESSION_HOMETOWN = KENTUCKY_LEXINGTON_REGRESSION;
+
+/**
+ * The Jobs screen shows Work or Study, one at a time, behind "Browse
+ * opportunities". Study (the real-college finder and programs) is one press.
+ */
+export async function browseStudy(scope: Page | Locator): Promise<void> {
+  const study = scope
+    .getByRole("group", { name: "Browse opportunities" })
+    .getByRole("button", { name: "Study", exact: true })
+    .first();
+  await study.click();
+  await expect(study).toHaveAttribute("aria-pressed", "true");
+}
+
+/**
+ * Opens a folded section ("Other work", "Other paths and invitations") the
+ * way a player does, and leaves an already open one alone.
+ */
+export async function openFolded(
+  scope: Page | Locator,
+  summary: string,
+): Promise<void> {
+  const label = scope.locator("summary", { hasText: summary }).first();
+  const details = label.locator("xpath=..");
+  if ((await details.getAttribute("open")) === null) await label.click();
+  await expect(details).toHaveAttribute("open", "");
+}

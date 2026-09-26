@@ -89,7 +89,9 @@ async function playToCorridor(
       (await page.getByTestId("story-prose").count()) > 0
         ? await page.getByTestId("story-prose").innerText()
         : "";
-    if (/is broken at school/i.test(prose)) {
+    // Since 9804f3625 the scene names the child's own school ("is broken at
+    // Lexington Middle School"); an old replay still reads "at school".
+    if (/is broken at (?:school|[A-Z][^,.]*)[,.]/.test(prose)) {
       return { prose, options: await optionLabels(page) };
     }
     const buttons = page.getByTestId("story-options").getByRole("button");

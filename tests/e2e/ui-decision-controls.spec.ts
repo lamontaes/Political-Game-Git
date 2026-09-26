@@ -277,7 +277,8 @@ test("Return to title from Options and from the desktop hub request", async ({
   await expect(page.getByTestId("title-tableau")).toBeVisible();
   await expect(page.getByTestId("play-screen")).toHaveCount(0);
 
-  // On the title screen the request is not acknowledged.
+  // On the title screen the request is answered too (b8e45b834): it is
+  // already where the hub asked to go, and it reports "title".
   expect(
     await page.evaluate(() => {
       const event = new CustomEvent("ocd:request-return-to-title", {
@@ -286,7 +287,7 @@ test("Return to title from Options and from the desktop hub request", async ({
       window.dispatchEvent(event);
       return event.defaultPrevented;
     }),
-  ).toBe(false);
+  ).toBe(true);
 });
 
 test("closing a person card returns focus to the row that opened it", async ({
