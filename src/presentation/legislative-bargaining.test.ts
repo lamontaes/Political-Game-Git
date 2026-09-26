@@ -145,6 +145,29 @@ const DEVELOPER_LEAKS = [
 ];
 
 describe("fully worded bargaining replies", () => {
+  it("keeps four or five spoken choices visible while retaining private moves", () => {
+    const session = openSession(undefined, "private");
+    for (const addressee of [
+      session.fixture.advocatePersonId,
+      session.fixture.guardianPersonId,
+    ]) {
+      const options = availableConversationIntents(
+        session.world,
+        session.room,
+        addressee,
+        session.progress,
+        "private",
+      );
+      const speech = options.filter((option) => option.key !== "listen");
+      expect(speech.length).toBeGreaterThanOrEqual(4);
+      expect(speech.length).toBeLessThanOrEqual(5);
+      expect(speech.map((option) => option.key)).toContain(
+        "offer-private-inducement",
+      );
+      expect(options.at(-1)?.key).toBe("listen");
+    }
+  });
+
   it("saves the chosen words and replays them after Continue", () => {
     const session = openSession();
     const addressee = session.fixture.advocatePersonId;

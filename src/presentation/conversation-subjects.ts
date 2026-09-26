@@ -684,12 +684,12 @@ export function advanceNeighborhoodMeeting(
 const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgress> =
   {
     subject: "life-talk",
-    topicLabel: () => "A moment together",
+    topicLabel: () => "Talk",
     describeBriefing(world, room, progress) {
       void world;
       void room;
       void progress;
-      return "You are somewhere ordinary, with people you know, and a moment to speak if you want it.";
+      return "";
     },
     availableIntents(world, room, addressee) {
       if (addressee === "everyone") return [];
@@ -702,6 +702,7 @@ const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgr
       return view.intents.map((intent) => ({
         key: intent.key,
         label: intent.label,
+        ...(intent.spokenWords ? { spokenWords: intent.spokenWords } : {}),
         description:
           intent.key in LIFE_TALK_INTENTS
             ? LIFE_TALK_INTENTS[intent.key as keyof typeof LIFE_TALK_INTENTS]
@@ -723,9 +724,7 @@ const lifeTalkSubject: ConversationSubjectPresentation<LifeTalkConversationProgr
       return {
         speakerPersonId: personId,
         speakerName: personName(speaker),
-        dialogue:
-          last?.reply ??
-          `${shortPersonName(world, personId)} is here with you.`,
+        dialogue: last?.reply ?? "",
       };
     },
   };

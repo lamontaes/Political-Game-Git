@@ -281,7 +281,7 @@ export function availableBargainingIntents(
     label: "Listen",
     description: "Say nothing and let the room finish its thought.",
   });
-  return options.flatMap((option) => {
+  const grounded = options.flatMap((option) => {
     if (option.key === "listen") return [option];
     const spoken = bargainingPlayerWords(
       world,
@@ -292,6 +292,21 @@ export function availableBargainingIntents(
     );
     return spoken ? [{ ...option, spokenWords: spoken.text }] : [];
   });
+  // The conversation UI places Listen in its own control. Keep the spoken
+  // choices to five, with the next live move becoming available as the
+  // exchange changes; the shared Lie toggle handles false alternatives.
+  const allSpeech = grounded.filter((option) => option.key !== "listen");
+  const privateOffer = allSpeech.find(
+    (option) => option.key === "offer-private-inducement",
+  );
+  const speech = privateOffer
+    ? [
+        ...allSpeech.filter((option) => option !== privateOffer).slice(0, 4),
+        privateOffer,
+      ]
+    : allSpeech.slice(0, 5);
+  const listen = grounded.find((option) => option.key === "listen");
+  return listen ? [...speech, listen] : speech;
 }
 
 // ---------------------------------------------------------------------------

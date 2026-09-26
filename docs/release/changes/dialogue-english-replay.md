@@ -2,9 +2,12 @@
 id: dialogue-english-replay
 impact: minor
 section: Improved
-title: Your words stay in legislative conversations
+title: Spoken replies stay in conversations
 ---
 
 When bargaining over a bill, choose fully worded replies that use its current
-designation and proposed section. After Save and Continue, the conversation
-shows the words you chose.
+designation and proposed section. Ordinary talk can now open with a spoken
+greeting and can ask about a known governor death by the title recorded in
+the save, then tell someone who has not heard. Opening News records that you
+read the story, so the topic can come up later. After Save and Continue,
+these conversations show the words you chose.

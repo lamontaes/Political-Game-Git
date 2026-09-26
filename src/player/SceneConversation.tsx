@@ -555,9 +555,9 @@ export function SceneConversation({
           >
             {current ? (
               <ExchangeTurn turn={current} />
-            ) : (
+            ) : view.openingLine ? (
               <p className="pg-talk-line">{view.openingLine}</p>
-            )}
+            ) : null}
             {current && facing !== null ? (
               <HeardNote turn={current} facing={facing} facingName={name} />
             ) : null}
