@@ -26,9 +26,12 @@ import {
   runToElection,
   suppliedWin,
 } from "./state-executive-entry";
-import { moveToTermDate } from "./recorded-legislative-term";
+import {
+  completeRecordedCampaignFixture,
+  moveToTermDate,
+} from "./recorded-legislative-term";
 
-export type FundedServiceEntryState = "KY" | "MN" | "NV";
+export type FundedServiceEntryState = "KY" | "MN" | "NV" | "NE";
 
 export interface OrdinaryStateHouseEntryFixture {
   readonly world: World;
@@ -50,8 +53,11 @@ export interface OrdinaryStateHouseEntryFixture {
  */
 export function ordinaryStateHouseFilingEntry(
   stateUsps: FundedServiceEntryState,
+  options: { readonly headlessElection?: boolean } = {},
 ): OrdinaryStateHouseEntryFixture {
   const stateJurisdictionKey = `US-${stateUsps}`;
+  // Nebraska's single chamber uses the Census state-upper district catalog.
+  const districtChamber = stateUsps === "NE" ? "state-upper" : "state-lower";
   const place = searchLifePlaces("", 500, {
     stateJurisdictionKey,
     scope: "locality",
@@ -62,24 +68,24 @@ export function ordinaryStateHouseFilingEntry(
         homeJurisdictionId: candidate.context.jurisdiction.id,
         catalog: districtIdentityCatalog(),
         placeGeoid: candidate.sourceGeoid,
-        chamber: "state-lower",
+        chamber: districtChamber,
       }).kind === "known"
     );
   });
   if (!place?.sourceGeoid)
     throw new Error(
-      `${stateJurisdictionKey}: no locality with a known state-lower whole-place district join was found.`,
+      `${stateJurisdictionKey}: no locality with a known ${districtChamber} whole-place district join was found.`,
     );
 
   const membership = districtMembershipFromCanonicalHome({
     homeJurisdictionId: place.context.jurisdiction.id,
     catalog: districtIdentityCatalog(),
     placeGeoid: place.sourceGeoid,
-    chamber: "state-lower",
+    chamber: districtChamber,
   });
   if (membership.kind !== "known")
     throw new Error(
-      `${stateJurisdictionKey}: the selected locality's state-lower district membership ceased to be known.`,
+      `${stateJurisdictionKey}: the selected locality's ${districtChamber} district membership ceased to be known.`,
     );
 
   const { world: opening, personId } = adultLifeAt(
@@ -95,11 +101,13 @@ export function ordinaryStateHouseFilingEntry(
   const pack = candidacyPackForJurisdiction(homeJurisdictionId);
   const office = pack?.offices.find((candidate) => {
     const chamber = candidate.officeKey.split(":").at(-1);
-    return chamber === "house" || chamber === "assembly";
+    return stateUsps === "NE"
+      ? chamber === "legislature"
+      : chamber === "house" || chamber === "assembly";
   });
   if (!pack || !office)
     throw new Error(
-      `${stateJurisdictionKey}: no lower-chamber candidacy office is present in the resident's accepted pack.`,
+      `${stateJurisdictionKey}: no ${stateUsps === "NE" ? "unicameral" : "lower-chamber"} candidacy office is present in the resident's accepted pack.`,
     );
 
   const eligibility = candidacyEligibility(opening, {
@@ -111,7 +119,7 @@ export function ordinaryStateHouseFilingEntry(
   });
   if (!eligibility.eligible)
     throw new Error(
-      `${stateJurisdictionKey}: ordinary generated resident was refused lower-chamber filing: ${eligibility.blocks
+      `${stateJurisdictionKey}: ordinary generated resident was refused legislative filing: ${eligibility.blocks
         .map((block) => `${block.kind}: ${block.reason}`)
         .join("; ")}`,
     );
@@ -131,7 +139,12 @@ export function ordinaryStateHouseFilingEntry(
     throw new Error(
       `${stateJurisdictionKey}: ordinary campaign was not recorded.`,
     );
-  const decided = runToElection(filed, personId, suppliedWin(personId));
+  // Chamber-vote unit fixtures need the canonical result and term without
+  // advancing unrelated ordinary-life systems through the supplied campaign.
+  // Funded-service journeys keep their ordinary clock by default.
+  const decided = options.headlessElection
+    ? completeRecordedCampaignFixture(filed, personId)
+    : runToElection(filed, personId, suppliedWin(personId));
   if (projectCampaign(decided, personId).phase !== "won")
     throw new Error(
       `${stateJurisdictionKey}: supplied fictional campaign result did not record the resident's win.`,
