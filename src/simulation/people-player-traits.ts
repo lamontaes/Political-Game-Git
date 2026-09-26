@@ -135,10 +135,6 @@ const FORMATIVE_CHOICE_TRAITS: Readonly<
     trait: "deliberation",
     value: -1,
   },
-  "formative.civic-volunteering:send-others": {
-    trait: "sociability",
-    value: 1,
-  },
   "formative.student-organizing:help-organize": {
     trait: "conflict",
     value: 1,
@@ -151,11 +147,10 @@ const FORMATIVE_CHOICE_TRAITS: Readonly<
     trait: "conflict",
     value: -1,
   },
-  "formative.future-preparation:prepare": { trait: "risk", value: 1 },
-  "formative.future-preparation:keep-options-open": {
-    trait: "deliberation",
-    value: -1,
-  },
+  // Read the same way as the choice evidence in life-choice-evidence.ts:
+  // preparing leans toward security, keeping options open toward risk.
+  "formative.future-preparation:prepare": { trait: "risk", value: -1 },
+  "formative.future-preparation:keep-options-open": { trait: "risk", value: 1 },
   "formative.future-preparation:ask-someone-who-knows": {
     trait: "deliberation",
     value: -1,

@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { createStableId } from "./ids";
 import { addDays } from "./dates";
 import { personName } from "./people";
 import { recordEventKnowledge } from "./records";
@@ -74,10 +75,16 @@ export function bereavementNoticeApplied(
   world: World,
   effectKey: string,
 ): boolean {
-  return world.history.events.some(
-    (event) =>
-      event.type === BEREAVEMENT_NOTICE_EVENT &&
-      event.tags.includes(`bereavement.effect:${effectKey}`),
+  // The notice event's id follows from its stable key, so this is one lookup
+  // in the shared event index rather than a walk through every event.
+  const event = eventById(
+    world,
+    createStableId("event", `${world.id}:bereavement:${effectKey}`),
+  );
+  return (
+    event !== undefined &&
+    event.type === BEREAVEMENT_NOTICE_EVENT &&
+    event.tags.includes(`bereavement.effect:${effectKey}`)
   );
 }
 

@@ -4,7 +4,14 @@ import {
   kinshipRelationshipsAt,
   peopleInHouseholdAt,
 } from "../life-queries";
-import type { EntityId, EventVisibility, IsoDate, World } from "../types";
+import type {
+  EntityId,
+  EventVisibility,
+  HouseholdMembership,
+  IsoDate,
+  KinshipRelationship,
+  World,
+} from "../types";
 import { MORTALITY_CAUSE_KEY } from "./mortality";
 import {
   PROVISIONAL_DISASTER_POLICY,
@@ -154,6 +161,31 @@ export interface PersonDeathRecipientNotice {
 }
 
 /**
+ * Everybody a kinship or household-membership list names, once per list.
+ *
+ * History arrays are replaced rather than edited, so a set keyed by the array
+ * itself is exact: an unchanged list reuses it and a new list builds a new one
+ * (the same rule as `event-index.ts`).
+ */
+const PEOPLE_NAMED_IN = new WeakMap<readonly object[], ReadonlySet<EntityId>>();
+
+function peopleNamedIn(
+  records: readonly KinshipRelationship[] | readonly HouseholdMembership[],
+): ReadonlySet<EntityId> {
+  let named = PEOPLE_NAMED_IN.get(records);
+  if (!named) {
+    const ids = new Set<EntityId>();
+    for (const record of records) {
+      if ("personIds" in record) for (const id of record.personIds) ids.add(id);
+      else ids.add(record.personId);
+    }
+    named = ids;
+    PEOPLE_NAMED_IN.set(records, named);
+  }
+  return named;
+}
+
+/**
  * Every living recipient of every death after `afterSequence`: household
  * members and recorded kin as CRISIS sees them, each once, with the strongest
  * relation it can name.
@@ -166,8 +198,16 @@ export function crisisPersonDeathRecipientNotices(
   } = {},
 ): readonly PersonDeathRecipientNotice[] {
   const notices: PersonDeathRecipientNotice[] = [];
+  const withKin = peopleNamedIn(world.history.kinshipRelationships);
+  const withHousehold = peopleNamedIn(world.history.householdMemberships);
   for (const death of crisisPersonDeathNotices(world, options)) {
     if (options.diedOnOrAfter && death.diedAt < options.diedOnOrAfter) continue;
+    // Somebody named in no kinship and no household record has nobody this
+    // reader can tell. Most people who die in a town are in neither, and the
+    // family refresh asks again every Day, so they are passed over here before
+    // the dated queries below walk both whole lists for each of them.
+    if (!withKin.has(death.personId) && !withHousehold.has(death.personId))
+      continue;
     const cutoff = {
       asOfDate: death.diedAt,
       historySequenceExclusive: world.history.nextSequence,

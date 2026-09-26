@@ -149,6 +149,10 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
         !recipients.some((entry) => entry.recipientPersonId === id),
     );
     expect(outside).toBeDefined();
+    // The two relatives the fixture recorded are among those the reader names,
+    // so the count below is not the reader agreeing with itself about nobody.
+    const named = recipients.map((entry) => entry.recipientPersonId);
+    expect(named).toEqual(expect.arrayContaining([player, other]));
     const afterDay = letAdultTimePass(dead, 1);
     const learned = afterDay.history.events.filter(
       (event) =>
