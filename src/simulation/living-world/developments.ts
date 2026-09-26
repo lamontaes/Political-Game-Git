@@ -88,19 +88,45 @@ const INTERNATIONAL_STAGES: Readonly<Record<string, StageDefinition>> = {
 };
 
 /**
- * Authored, deliberately generic subjects for this fictional setting. They
- * name no real site, figure, price or foreign government, and assert no
- * authority beyond a local government posting a proposal for comment.
+ * What a local proposal is about: an issue from the World's own policy
+ * catalog that a county or municipal government decides, named as the
+ * catalog names it ("zoning", "transit", "libraries"). The subject records
+ * the issue id, so a proposal names the same issue at every stage. Posting a
+ * proposal for comment asserts no authority beyond that; what the proposal
+ * would do is not modeled.
  */
-const LOCAL_SUBJECTS = [
-  "operating hours at a public facility",
-  "the repair schedule for several local roads",
-  "the rules for reserving a public park shelter",
-  "the location of a recycling drop-off site",
-] as const;
+function localIssueIds(world: World): readonly EntityId[] {
+  const catalog = world.policyCatalog;
+  const ids: EntityId[] = [];
+  for (const propositionId of catalog.propositionOrder) {
+    const issueId = catalog.propositions[propositionId]?.issueId;
+    const levels = issueId ? (catalog.issues[issueId]?.levels ?? []) : [];
+    if (
+      issueId &&
+      !ids.includes(issueId) &&
+      (levels.includes("municipality") || levels.includes("county"))
+    )
+      ids.push(issueId);
+  }
+  return ids;
+}
 
+function localSubjectText(world: World, issueId: string | null): string {
+  const name = issueId ? world.policyCatalog.issues[issueId]?.name : undefined;
+  return name ? name.toLowerCase() : "a local matter";
+}
+
+/**
+ * Authored, deliberately generic international subjects for this fictional
+ * setting. They name no real site, figure, price or foreign government. The
+ * subject index is recorded on every stage; `dispute` is what a crisis over
+ * it would be about (`pressure/events.ts`), and the macro economy binds its
+ * own shocks by index (`macro-economy/sources.ts`), where only the trade
+ * route (0) is an economic disruption.
+ */
 const INTERNATIONAL_SUBJECTS = [
   {
+    dispute: "shipping on an international trade route",
     reported:
       "Shipping delays were reported along a busy international trade route.",
     persisted:
@@ -109,6 +135,7 @@ const INTERNATIONAL_SUBJECTS = [
       "Shipping along the international trade route returned closer to its usual pace.",
   },
   {
+    dispute: "fishing rights in shared waters",
     reported:
       "Several governments opened talks over fishing rights in shared waters.",
     persisted:
@@ -116,7 +143,55 @@ const INTERNATIONAL_SUBJECTS = [
     eased:
       "The governments in the fishing-rights talks announced an interim arrangement.",
   },
+  {
+    dispute: "water drawn from a shared river",
+    reported:
+      "Governments along a shared river disputed how much water each may draw from it.",
+    persisted: "The dispute over water from the shared river continued.",
+    eased:
+      "The governments along the shared river agreed on interim water allotments.",
+  },
+  {
+    dispute: "military flights near a foreign government's airspace",
+    reported:
+      "A foreign government protested American military flights near its airspace.",
+    persisted:
+      "The foreign government kept up its protest over military flights near its airspace.",
+    eased:
+      "The dispute over military flights near the foreign airspace quieted after talks.",
+  },
+  {
+    dispute: "a contested border",
+    reported:
+      "Two neighboring governments accused each other of moving markers along their shared border.",
+    persisted:
+      "The two governments' dispute over their border markers continued.",
+    eased: "The two governments agreed to survey their shared border together.",
+  },
+  {
+    dispute: "American citizens detained abroad",
+    reported:
+      "A foreign government detained several American citizens and gave no public reason.",
+    persisted: "The American citizens detained abroad remained in custody.",
+    eased: "The American citizens detained abroad were released.",
+  },
+  {
+    dispute: "the expulsion of American diplomats",
+    reported: "A foreign government expelled several American diplomats.",
+    persisted:
+      "Relations stayed strained after the expulsion of American diplomats.",
+    eased:
+      "The foreign government allowed the expelled American diplomats to return.",
+  },
 ] as const;
+
+/** What a crisis over an international development would be about. */
+export function internationalDevelopmentDispute(
+  subject: string | null,
+): string | null {
+  if (subject === null || !/^\d+$/.test(subject)) return null;
+  return INTERNATIONAL_SUBJECTS[Number(subject)]?.dispute ?? null;
+}
 
 function matterKey(family: DevelopmentFamily, ordinal = 1): string {
   return `${LIVING_WORLD_WRITER_VERSION}:development:${family}:${ordinal}`;
@@ -184,7 +259,8 @@ function writeStage(
     readonly jurisdictionId: EntityId | null;
     readonly involved: readonly EntityId[];
     readonly summary: string;
-    readonly subjectIndex: number;
+    /** An international subject's index, or a local proposal's issue id. */
+    readonly subject: string;
     readonly publishedAt?: IsoDate;
   },
 ): { world: World; eventId: EntityId } {
@@ -205,7 +281,7 @@ function writeStage(
       `${MATTER_TAG}${input.matterId}`,
       `${STAGE_TAG}${input.stage}`,
       `importance:${input.definition.importance}`,
-      `subject:${input.subjectIndex}`,
+      `subject:${input.subject}`,
     ],
     summary: input.summary,
     context: {
@@ -257,10 +333,10 @@ function previousSubject(
   world: World,
   family: DevelopmentFamily,
   ordinal: number,
-): number | null {
+): string | null {
   if (ordinal <= 1) return null;
   const earlier = matterEvents(world, matterKey(family, ordinal - 1))[0];
-  return earlier ? Number(tagValue(earlier, "subject:") ?? -1) : null;
+  return earlier ? tagValue(earlier, "subject:") : null;
 }
 
 /** Opens one matter, never repeating the subject of the one before it. */
@@ -273,13 +349,14 @@ function startMatter(
 ): World | null {
   const matterId = matterKey(family, ordinal);
   const rng = new SeededRng(world.seed).fork(`${matterId}:start`);
-  const pool =
+  const pool: readonly string[] =
     family === "local-matter"
-      ? LOCAL_SUBJECTS.length
-      : INTERNATIONAL_SUBJECTS.length;
+      ? localIssueIds(world)
+      : [...INTERNATIONAL_SUBJECTS.keys()].map(String);
   const avoid = previousSubject(world, family, ordinal);
-  const subjects = [...Array(pool).keys()].filter((index) => index !== avoid);
-  const subjectIndex = subjects[rng.integer(0, subjects.length)]!;
+  const subjects = pool.filter((subject) => subject !== avoid);
+  if (subjects.length === 0) return null;
+  const subject = subjects[rng.integer(0, subjects.length)]!;
   if (family === "local-matter") {
     const local = localContext(world, residentId);
     if (!local) return null;
@@ -291,8 +368,8 @@ function startMatter(
       occurredAt,
       jurisdictionId: local.jurisdictionId,
       involved: local.involved,
-      summary: `${local.governmentName} posted a proposal about ${LOCAL_SUBJECTS[subjectIndex]} and opened a public comment period.`,
-      subjectIndex,
+      summary: `${local.governmentName} posted a proposal about ${localSubjectText(world, subject)} and opened a public comment period.`,
+      subject,
     });
     return scheduleStep(
       written.world,
@@ -311,8 +388,8 @@ function startMatter(
     occurredAt,
     jurisdictionId: null,
     involved: [],
-    summary: INTERNATIONAL_SUBJECTS[subjectIndex]!.reported,
-    subjectIndex,
+    summary: INTERNATIONAL_SUBJECTS[Number(subject)]!.reported,
+    subject,
   });
   return scheduleStep(
     written.world,
@@ -337,9 +414,16 @@ export function ensureOpeningPriorLocalRecords(
   if (world.history.events.some((event) => event.stableKey.startsWith(prefix)))
     return world;
   let next = world;
+  const rng = new SeededRng(world.seed).fork(`${prefix}:subjects`);
+  const issues = [...localIssueIds(world)];
+  for (let i = issues.length - 1; i > 0; i -= 1) {
+    const j = rng.fork(`order:${i}`).integer(0, i + 1);
+    [issues[i], issues[j]] = [issues[j]!, issues[i]!];
+  }
   // Authored archive dates, not a probability or a rule for future government action.
   for (const [index, daysAgo] of [300, 160].entries()) {
-    const subjectIndex = index;
+    const subject = issues[index];
+    if (subject === undefined) continue;
     const matterId = `${prefix}:${index + 1}`;
     const postedAt = addDays(world.currentDate, -daysAgo);
     const closedAt = addDays(postedAt, 30);
@@ -367,7 +451,7 @@ export function ensureOpeningPriorLocalRecords(
       matterId,
       jurisdictionId: local.jurisdictionId,
       involved: local.involved,
-      subjectIndex,
+      subject,
     };
     next = writeStage(next, {
       ...shared,
@@ -375,7 +459,7 @@ export function ensureOpeningPriorLocalRecords(
       definition: LOCAL_STAGES["proposal-posted"]!,
       occurredAt: postedAt,
       publishedAt: postedAt,
-      summary: `${local.governmentName} posted a proposal about ${LOCAL_SUBJECTS[subjectIndex]} and opened a public comment period.`,
+      summary: `${local.governmentName} posted a proposal about ${localSubjectText(world, subject)} and opened a public comment period.`,
     }).world;
     next = writeStage(next, {
       ...shared,
@@ -383,7 +467,7 @@ export function ensureOpeningPriorLocalRecords(
       definition: LOCAL_STAGES["revised-proposal-posted"]!,
       occurredAt: closedAt,
       publishedAt: closedAt,
-      summary: `${local.governmentName} posted a revised proposal about ${LOCAL_SUBJECTS[subjectIndex]} after the public comment period.`,
+      summary: `${local.governmentName} posted a revised proposal about ${localSubjectText(world, subject)} after the public comment period.`,
     }).world;
   }
   return next;
@@ -564,7 +648,7 @@ export function developmentStepTransitionHandler(
   if (!current || current.nextAfterDays === null)
     return done("matter-concluded");
   const rng = new SeededRng(world.seed).fork(dueItem.stableKey);
-  const subjectIndex = Number(tagValue(latest, "subject:") ?? 0);
+  const subjectTag = tagValue(latest, "subject:");
 
   const latestStage = tagValue(latest, STAGE_TAG)!;
   let stage: string | null;
@@ -577,7 +661,7 @@ export function developmentStepTransitionHandler(
       ? homeLocalGovernmentStatus(world, residentId).governments[0]?.name
       : undefined;
     if (!poster) return done("actor-absent");
-    const subject = LOCAL_SUBJECTS[subjectIndex] ?? LOCAL_SUBJECTS[0];
+    const subject = localSubjectText(world, subjectTag);
     // A proposal can end adopted as well as withdrawn. Before, adoption was
     // no stage at all, so every proposal nobody commented on was eventually
     // withdrawn: 111 of 111 in two long runs with nobody played.
@@ -615,7 +699,8 @@ export function developmentStepTransitionHandler(
     const chosen = options[rng.integer(0, options.length)]!;
     stage = chosen === "quiet" ? null : chosen;
     const subject =
-      INTERNATIONAL_SUBJECTS[subjectIndex] ?? INTERNATIONAL_SUBJECTS[0];
+      INTERNATIONAL_SUBJECTS[Number(subjectTag ?? 0)] ??
+      INTERNATIONAL_SUBJECTS[0];
     summary = stage ? subject[stage as "persisted" | "eased"] : "";
   }
 
@@ -633,7 +718,7 @@ export function developmentStepTransitionHandler(
       jurisdictionId: latest.jurisdictionId,
       involved: latest.involvedEntityIds.filter((id) => id !== world.id),
       summary,
-      subjectIndex,
+      subject: subjectTag ?? "0",
     });
     next = written.world;
     outcomeEventId = written.eventId;
