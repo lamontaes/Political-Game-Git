@@ -1,0 +1,58 @@
+{
+  "sourceUrl": "https://www.bls.gov/ces/publications/length-pay-period.htm",
+  "title": "Length of pay periods in the Current Employment Statistics survey",
+  "referenceMonth": "2023-02",
+  "lastModifiedOnPage": "2023-08-04",
+  "capture": "Published HTML table text transcribed from the BLS page on 2026-09-26; this is a table capture, not publisher-distributed HTML or workbook bytes.",
+  "captureMethod": "Codex in-app browser DOM inspection of the three listed table IDs and their visible row and cell text.",
+  "validationLimit": "Offline replay checks this capture; direct nonbrowser HTML requests returned HTTP 403, so a reviewer must compare it with the live BLS page for independent source verification.",
+  "scope": "Weighted percentage of U.S. private establishments using each pay period; government and public/private education hours-and-earnings data are out of scope; point-in-time, not a time series.",
+  "tables": [
+    {
+      "tableId": "BLStable_LOPP_Table1-0",
+      "caption": "Table 1. Frequency of pay period in the CES survey, February 2023",
+      "dimension": "overall",
+      "columns": ["Length of pay period", "Percentage"],
+      "rows": [
+        ["Weekly", "27.0"],
+        ["Biweekly", "43.0"],
+        ["Semimonthly", "19.8"],
+        ["Monthly", "10.3"]
+      ]
+    },
+    {
+      "tableId": "BLStable_LOPP_Table1",
+      "caption": "Table 2. Frequency of pay periods by size class in the CES survey, February 2023",
+      "dimension": "establishment-size",
+      "columns": ["Weekly", "Biweekly", "Semimonthly", "Monthly"],
+      "rows": [
+        ["1–9", "24.1%", "39.0%", "22.5%", "14.5%"],
+        ["10–19", "34.0", "46.5", "15.9", "3.7"],
+        ["20–49", "32.8", "51.1", "14.7", "1.4"],
+        ["50–99", "31.6", "54.0", "13.4", "1.0"],
+        ["100–249", "27.3", "59.4", "12.5", "0.7"],
+        ["250–499", "24.7", "63.4", "11.4", "0.5"],
+        ["500–999", "25.4", "63.8", "10.1", "0.7"],
+        ["1,000+", "26.3", "66.6", "5.6", "1.5"]
+      ]
+    },
+    {
+      "tableId": "BLStable_2019_8_28_18_6",
+      "caption": "Table 3. Frequency of pay period by industry, February 2023",
+      "dimension": "industry",
+      "columns": ["Weekly", "Biweekly", "Semimonthly", "Monthly"],
+      "rows": [
+        ["Mining and logging", "34.4%", "46.0%", "10.1%", "9.4%"],
+        ["Construction", "65.4", "22.3", "6.5", "5.9"],
+        ["Manufacturing", "43.4", "46.6", "8.6", "1.5"],
+        ["Trade, transportation, and utilities", "30.5", "44.1", "16.0", "9.5"],
+        ["Information", "4.4", "47.2", "37.5", "10.9"],
+        ["Financial activities", "14.0", "37.4", "30.2", "18.4"],
+        ["Professional and business services", "16.0", "42.2", "29.4", "12.4"],
+        ["Education and health services", "9.9", "63.6", "18.4", "8.1"],
+        ["Leisure and hospitality", "25.6", "54.9", "14.1", "5.5"],
+        ["Other services", "35.4", "36.3", "18.4", "10.0"]
+      ]
+    }
+  ]
+}
