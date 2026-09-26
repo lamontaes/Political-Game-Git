@@ -14,7 +14,6 @@ declare is reported as undeclared rather than filled in from a guess.
 | --- | --- | --- | --- | --- |
 | `campaign/campaign-status` | 29 | 0 | 0 | candidacy |
 | `conversation/commit-contract` | 110 | 0 | 0 | — |
-| `conversation/contextual-scene` | 244 | 0 | 0 | — |
 | `conversation/conversation-subject` | 62 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |
 | `governing/municipal-attendance-and-work` | 40 | 0 | 0 | activity-evidence, work-standing |
@@ -36,7 +35,6 @@ declare is reported as undeclared rather than filled in from a guess.
 | `narration/connective` | 45 | 0 | 0 | elapsed-time |
 | `narration/thread-recap` | 36 | 0 | 0 | — |
 | `ordinary/work-item` | 4 | 0 | 4 | — |
-| `setup/questionnaire` | 618 | 0 | 0 | — |
 | `shell/art-preview` | 2 | 0 | 0 | — |
 | `shell/save-transfer` | 35 | 0 | 0 | — |
 

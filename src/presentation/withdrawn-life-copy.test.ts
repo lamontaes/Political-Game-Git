@@ -10,6 +10,10 @@ import {
   openNextLifeScene,
 } from "./life-scene-flow";
 import { projectPlayerStoryMoment } from "./life-story";
+import {
+  availablePlayerConversations,
+  reviewedPersonTalkSubject,
+} from "./player-conversation";
 
 describe("withdrawn fixed life copy", () => {
   for (const age of [5, 24]) {
@@ -30,9 +34,14 @@ describe("withdrawn fixed life copy", () => {
       ).toEqual([]);
       expect(openNextLifeScene(world, playerPersonId)).toBe(world);
       expect(currentPlayerOpeningLifeScene(world, playerPersonId)).toBeNull();
-      expect(projectPlayerStoryMoment(world, playerPersonId).scene).toMatchObject(
-        { kind: "ordinary-stretch", prose: "", options: [] },
-      );
+      expect(
+        projectPlayerStoryMoment(world, playerPersonId).scene,
+      ).toMatchObject({ kind: "ordinary-stretch", prose: "", options: [] });
+      expect(
+        availablePlayerConversations(world, playerPersonId).every((entry) =>
+          reviewedPersonTalkSubject(entry.subject),
+        ),
+      ).toBe(true);
 
       const loaded = deserializeWorld(serializeWorld(world));
       expect(currentPlayerOpeningLifeScene(loaded, playerPersonId)).toBeNull();

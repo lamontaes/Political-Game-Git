@@ -1,9 +1,7 @@
 import { playtest65QuestionnaireItem } from "../simulation/setup-playtest65-copy";
-import { TEXT39_UI_COPY } from "./text39-ui-copy";
 import {
   nextQuestionnaireStep,
   questionnaireLength,
-  setupContentShortfall,
   setupLifeContext,
   stableHash,
 } from "../simulation";
@@ -92,27 +90,14 @@ export function lifeContextFor(setup: NewGameSetup): SetupLifeContext {
 }
 
 /** How a path should be described before a player picks it. */
-export function questionnairePathNote(
+export const questionnairePathNote: (
   path: SetupQuestionnairePath,
   setup?: NewGameSetup,
-): string {
-  switch (path) {
-    case "short":
-      return `Up to ${questionnairePathCeiling("short", setup)} imagined situations. You can start playing sooner.`;
-    case "deep":
-      return setup?.questionnaireSelectionVersion === "curated-v1"
-        ? "About 10 to 12 imagined situations. You can start playing at any time."
-        : TEXT39_UI_COPY.questionnaireNote;
-    case "skipped":
-      return "Start playing without answering setup questions.";
-  }
-}
+) => string = () => "";
 
 /** What the bank is currently short of, for anyone who asks. */
 export function questionnaireContentNote(): string {
-  const shortfall = setupContentShortfall();
-  if (shortfall.shortOfMinimumBy === 0) return "";
-  return `The longer calibration currently has ${shortfall.authoredItems} authored questions against a design target of ${shortfall.deepTargetMinimum} to ${shortfall.deepTargetMaximum}.`;
+  return "";
 }
 
 function personKeyFor(setup: NewGameSetup): string {
