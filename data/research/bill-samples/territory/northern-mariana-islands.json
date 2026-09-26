@@ -1,0 +1,138 @@
+[
+  {
+    "id": "mp-2025-pl24-20-budget-reenacted",
+    "jurisdiction": "Northern Mariana Islands",
+    "level": "territory",
+    "session": "24th Commonwealth Legislature",
+    "bill_number": "HB 24-80, HS1",
+    "law_citation": "Public Law 24-20",
+    "short_title": "FY2026 budget repealed and re-enacted",
+    "enacted_date": "2025-12-23",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://cnmileg.net/law.asp?law_type=1",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Repeals the September budget law (Public Law 24-14) and re-enacts a revised version."
+      },
+      {
+        "kind": "amount",
+        "description": "Identifies general revenues and appropriates them to agencies; sets budget authority for public corporations."
+      },
+      {
+        "kind": "transition",
+        "description": "A follow-up law (PL 24-21) added a transition period of up to 273 days for a legislative finance office.",
+        "numbers": [
+          {
+            "value": 273,
+            "unit": "days",
+            "text": "273 days"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "PL 24-14",
+      "PL 24-21",
+      "government health insurance payments (PL 24-19)"
+    ],
+    "daily_life": "Agencies operate under a rewritten budget mid-year.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "mp-2025-pl24-02-betel-nut-labels",
+    "jurisdiction": "Northern Mariana Islands",
+    "level": "territory",
+    "session": "24th Commonwealth Legislature",
+    "bill_number": "HB 24-20",
+    "law_citation": "Public Law 24-02",
+    "short_title": "Warning labels on betel nut products",
+    "enacted_date": "2025-06-05",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://cnmileg.net/law.asp?law_type=1",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Public health",
+    "secondary_menus": [
+      "12"
+    ],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "disclosure",
+        "description": "Conspicuous health warning labels on all betel nut products and containers imported or sold."
+      },
+      {
+        "kind": "enforcement",
+        "description": "Commerce or health agency enforcement (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "importers",
+      "retailers"
+    ],
+    "daily_life": "Betel nut packages carry a cancer warning.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "mp-2026-pl24-27-corporate-fees",
+    "jurisdiction": "Northern Mariana Islands",
+    "level": "territory",
+    "session": "24th Commonwealth Legislature",
+    "bill_number": "HB 24-13, HD1",
+    "law_citation": "Public Law 24-27",
+    "short_title": "Registrar of Corporations fee structure and daily penalties removed",
+    "enacted_date": "2026-03-18",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://cnmileg.net/law.asp?law_type=1",
+    "aggregator_url": null,
+    "menu": "08",
+    "menu_name": "Business & Economic Development",
+    "sub_topic": "Business formation and licensing",
+    "secondary_menus": [],
+    "instrument": "fee",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [
+      "repeal"
+    ],
+    "parts": [
+      {
+        "kind": "fee",
+        "description": "Revises the fee schedule of the Office of the Registrar of Corporations."
+      },
+      {
+        "kind": "repeal",
+        "description": "Removes daily late-penalty fees."
+      }
+    ],
+    "touches": [
+      "Department of Commerce"
+    ],
+    "daily_life": "A small company is not charged a penalty every day it files late.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  }
+]

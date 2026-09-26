@@ -1,0 +1,117 @@
+[
+  {
+    "id": "vi-2025-act9047-snap-bridge",
+    "jurisdiction": "U.S. Virgin Islands",
+    "level": "territory",
+    "session": "36th Legislature",
+    "bill_number": "Bill No. 36-0202",
+    "law_citation": "Act No. 9047",
+    "short_title": "Emergency funding for November SNAP benefits during federal shutdown",
+    "enacted_date": "2025-10-31",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.vi.gov/governor-bryan-signs-act-no-9047-to-protect-november-snap-benefits-for-virgin-islanders-amid-federal-shutdown/",
+    "aggregator_url": null,
+    "menu": "05",
+    "menu_name": "Assistance & Social Insurance",
+    "sub_topic": "Food assistance",
+    "secondary_menus": [
+      "04"
+    ],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Emergency territorial funds.",
+        "numbers": [
+          {
+            "value": 2770000,
+            "unit": "USD",
+            "text": "2770000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "benefit",
+        "description": "Each SNAP household receives a check equal to half its November allotment.",
+        "numbers": [
+          {
+            "value": 50,
+            "unit": "percent of monthly allotment",
+            "text": "50 percent of monthly allotment"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "Budget Stabilization Fund (rainy-day fund)."
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Department of Finance and Department of Human Services."
+      },
+      {
+        "kind": "trigger",
+        "description": "Federal appropriations lapse."
+      }
+    ],
+    "touches": [
+      "federal shutdown",
+      "Budget Stabilization Fund"
+    ],
+    "daily_life": "Families get half their food benefit by check when federal SNAP stops.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "vi-2025-bill36-0083-tax-amnesty",
+    "jurisdiction": "U.S. Virgin Islands",
+    "level": "territory",
+    "session": "36th Legislature",
+    "bill_number": "Bill No. 36-0083",
+    "law_citation": null,
+    "short_title": "Tax amnesty for hurricane-affected taxpayers",
+    "enacted_date": "2025-11",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.vi.gov/governor-bryan-acts-on-bills-passed-by-the-36th-legislature-in-its-october-30-2025-session/",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Taxes - administration",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "waiver",
+        "description": "Waives penalties on overdue property, income and gross receipts taxes if paid in the window.",
+        "numbers": [
+          {
+            "value": 90,
+            "unit": "days",
+            "text": "90 days"
+          }
+        ]
+      },
+      {
+        "kind": "covered-population",
+        "description": "Taxpayers and businesses still recovering from hurricanes Irma and Maria and a later tropical storm."
+      }
+    ],
+    "touches": [
+      "Bureau of Internal Revenue",
+      "Tax Assessor"
+    ],
+    "daily_life": "A business can pay back taxes without penalties for three months.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

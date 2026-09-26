@@ -1,0 +1,174 @@
+[
+  {
+    "id": "hi-2025-sb1396-green-fee",
+    "jurisdiction": "Hawaii",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 1396",
+    "law_citation": "Act 96, SLH 2025",
+    "short_title": "Climate impact fee ('Green Fee') via transient accommodations tax",
+    "enacted_date": "2025-05-27",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2026-01-01"
+    ],
+    "official_text_url": "https://www.capitol.hawaii.gov/session/measure_indiv.aspx?billtype=SB&billnumber=1396&year=2025",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Excise and activity taxes - tourism and lodging",
+    "secondary_menus": [
+      "09",
+      "15"
+    ],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "raise",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Raises the transient accommodations tax on hotel and vacation rentals.",
+        "numbers": [
+          {
+            "value": 9.25,
+            "unit": "percent old",
+            "text": "9.25 percent old"
+          },
+          {
+            "value": 10,
+            "unit": "percent new",
+            "text": "10 percent new"
+          }
+        ]
+      },
+      {
+        "kind": "tax-base",
+        "description": "Extends the tax to cruise ship stays in port."
+      },
+      {
+        "kind": "earmark",
+        "description": "Revenue directed to land and ocean protection, climate resilience and sustainable tourism.",
+        "numbers": [
+          {
+            "value": 100000000,
+            "unit": "USD per year projected",
+            "text": "100000000 USD per year projected"
+          }
+        ]
+      },
+      {
+        "kind": "effective-date",
+        "description": "Starts January 1.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-01-01 date",
+            "text": "2026-01-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "hotels",
+      "cruise lines",
+      "state resilience programs"
+    ],
+    "daily_life": "A visitor's hotel bill rises by about three-quarters of a percent.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "hi-2025-sb1044-property-insurance",
+    "jurisdiction": "Hawaii",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 1044",
+    "law_citation": "Act 296, SLH 2025",
+    "short_title": "Property insurance market stabilization",
+    "enacted_date": "2025-07-07",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.capitol.hawaii.gov/session/measure_indiv.aspx?billtype=SB&billnumber=1044&year=2025",
+    "aggregator_url": null,
+    "menu": "08",
+    "menu_name": "Business & Economic Development",
+    "sub_topic": "Insurance markets",
+    "secondary_menus": [
+      "06"
+    ],
+    "instrument": "program creation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "oversight-body",
+        "description": "Expands the powers of the Hawaii Property Insurance Association to offer more coverage."
+      },
+      {
+        "kind": "loan",
+        "description": "Creates a condominium loan program to help buildings make repairs and stay insurable."
+      },
+      {
+        "kind": "study",
+        "description": "Insurance Commissioner must study long-term market stabilization."
+      }
+    ],
+    "touches": [
+      "condominium associations",
+      "insurers"
+    ],
+    "daily_life": "Condo owners have a better chance of keeping building insurance.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "hi-2025-act115-wage-penalty",
+    "jurisdiction": "Hawaii",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "see Act 115",
+    "law_citation": "Act 115, SLH 2025",
+    "short_title": "Minimum civil penalty for wage and hour violations",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.capitol.hawaii.gov/",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Wages and working hours",
+    "secondary_menus": [],
+    "instrument": "penalty",
+    "secondary_instruments": [],
+    "operation": "raise",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "penalty",
+        "description": "Sets a floor on civil penalties for wage law violations.",
+        "numbers": [
+          {
+            "value": 500,
+            "unit": "USD minimum penalty",
+            "text": "500 USD minimum penalty"
+          }
+        ]
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Department of Labor and Industrial Relations."
+      }
+    ],
+    "touches": [
+      "minimum wage schedule to 18 USD by 2028 set by earlier law"
+    ],
+    "daily_life": "Employers who shortchange workers face at least a $500 penalty.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

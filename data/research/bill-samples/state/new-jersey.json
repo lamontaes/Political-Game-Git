@@ -1,0 +1,143 @@
+[
+  {
+    "id": "nj-2025-c32-office-block-ballots",
+    "jurisdiction": "New Jersey",
+    "level": "state",
+    "session": "2024-2025 Session",
+    "bill_number": "A5116",
+    "law_citation": "P.L.2025, c.32",
+    "short_title": "Office-block primary ballot design (ends county line)",
+    "enacted_date": "2025-03-06",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://pub.njleg.gov/Bills/2024/PL25/32_.HTM",
+    "aggregator_url": null,
+    "menu": "11",
+    "menu_name": "Government & Democracy",
+    "sub_topic": "Elections and representation",
+    "secondary_menus": [],
+    "instrument": "procedure/election rule",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "standard",
+        "description": "Primary ballots must group candidates by office, not by party-endorsed columns."
+      },
+      {
+        "kind": "repeal",
+        "description": "Ends the 'county line' ballot design."
+      },
+      {
+        "kind": "rulemaking",
+        "description": "Secretary of State issues ballot design guidance."
+      }
+    ],
+    "touches": [
+      "county clerks",
+      "party organizations"
+    ],
+    "daily_life": "Primary voters see candidates for each office grouped together.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "nj-2025-c100-universal-prek-k",
+    "jurisdiction": "New Jersey",
+    "level": "state",
+    "session": "2024-2025 Session",
+    "bill_number": "S3910",
+    "law_citation": "P.L.2025, c.100",
+    "short_title": "New Jersey Universal Preschool and Kindergarten Act",
+    "enacted_date": "2025-07",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://pub.njleg.gov/Bills/2024/PL25/100_.PDF",
+    "aggregator_url": null,
+    "menu": "03",
+    "menu_name": "Education",
+    "sub_topic": "Early childhood and preschool",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "All school districts must offer full-day kindergarten."
+      },
+      {
+        "kind": "deadline",
+        "description": "Full-day kindergarten deadline.",
+        "numbers": [
+          {
+            "value": 2030,
+            "unit": "year",
+            "text": "2030 year"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "Codifies the state preschool funding formula."
+      },
+      {
+        "kind": "phase-in",
+        "description": "Phased rollout for districts (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "school funding formula",
+      "district facilities"
+    ],
+    "daily_life": "Every five-year-old can attend a full school day.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "nj-2025-c72-public-notices",
+    "jurisdiction": "New Jersey",
+    "level": "state",
+    "session": "2024-2025 Session",
+    "bill_number": "S4654",
+    "law_citation": "P.L.2025, c.72",
+    "short_title": "Online publication of legal notices",
+    "enacted_date": "2025-06-30",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://pub.njleg.gov/Bills/2024/PL25/72_.PDF",
+    "aggregator_url": null,
+    "menu": "11",
+    "menu_name": "Government & Democracy",
+    "sub_topic": "Public records and meetings",
+    "secondary_menus": [],
+    "instrument": "procedure/election rule",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Ends the requirement that government legal notices appear in print newspapers."
+      },
+      {
+        "kind": "duty",
+        "description": "Notices published on official websites or approved digital outlets instead (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "local newspapers",
+      "municipal clerks"
+    ],
+    "daily_life": "Hearing and bid notices move from newspapers to websites.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  }
+]

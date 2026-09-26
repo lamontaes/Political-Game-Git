@@ -1,0 +1,153 @@
+[
+  {
+    "id": "ks-2025-sb35-state-mill-levy",
+    "jurisdiction": "Kansas",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 35",
+    "law_citation": null,
+    "short_title": "End of the statewide building-fund mill levy",
+    "enacted_date": "2025-04",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.kslegislature.gov/li/b2025_26/measures/sb35/",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Property taxes",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Discontinues the statewide property tax levy for the educational building fund and state institutions building fund.",
+        "numbers": [
+          {
+            "value": 1.5,
+            "unit": "mills",
+            "text": "1.5 mills"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "The building funds are replaced from other state revenue (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "university building maintenance",
+      "county treasurers"
+    ],
+    "daily_life": "Every property tax bill in the state shrinks slightly.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ks-2025-sb9-foreign-land",
+    "jurisdiction": "Kansas",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "H Sub for SB 9",
+    "law_citation": null,
+    "short_title": "Foreign adversary property purchases near military installations",
+    "enacted_date": "2025-04",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.kslegislature.gov/li/b2025_26/measures/sb9/",
+    "aggregator_url": null,
+    "menu": "17",
+    "menu_name": "Defense & Veterans",
+    "sub_topic": "Bases and facilities / land",
+    "secondary_menus": [
+      "18",
+      "08"
+    ],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Foreign principals from countries of concern may not acquire property near military installations.",
+        "numbers": [
+          {
+            "value": 100,
+            "unit": "miles",
+            "text": "100 miles"
+          }
+        ]
+      },
+      {
+        "kind": "enforcement",
+        "description": "Attorney General may investigate and force divestiture (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "definition",
+        "description": "Defines 'foreign principal' and 'country of concern' by reference to federal lists."
+      }
+    ],
+    "touches": [
+      "county registers of deeds",
+      "real estate sales"
+    ],
+    "daily_life": "Some buyers must certify they are not tied to certain foreign governments.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ks-2025-hb2240-waiver-approval",
+    "jurisdiction": "Kansas",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "Senate Sub for HB 2240",
+    "law_citation": null,
+    "short_title": "Legislative approval before expanding public assistance by waiver",
+    "enacted_date": "2025-04-10",
+    "enactment_path": "veto overridden",
+    "effective_dates": [
+      "2025-07-01"
+    ],
+    "official_text_url": "https://www.kslegislature.gov/li/b2025_26/measures/hb2240/",
+    "aggregator_url": null,
+    "menu": "05",
+    "menu_name": "Assistance & Social Insurance",
+    "sub_topic": "Assistance program administration",
+    "secondary_menus": [
+      "11"
+    ],
+    "instrument": "procedure/election rule",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "State agencies may not seek federal waivers that expand public assistance eligibility without legislative approval."
+      },
+      {
+        "kind": "oversight-body",
+        "description": "The legislature, not the executive, controls eligibility expansions."
+      },
+      {
+        "kind": "veto-override",
+        "description": "Enacted over the governor's veto."
+      }
+    ],
+    "touches": [
+      "Department for Children and Families",
+      "Medicaid agency"
+    ],
+    "daily_life": "Eligibility for aid cannot be widened by the governor alone.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

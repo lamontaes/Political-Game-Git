@@ -1,0 +1,42 @@
+[
+  {
+    "id": "cascade-mt-2026-ord2026-02-str",
+    "jurisdiction": "Cascade, Montana",
+    "level": "city",
+    "session": "2026",
+    "bill_number": "Ordinance 2026-02",
+    "law_citation": null,
+    "short_title": "Regulated short-term rentals (small town)",
+    "enacted_date": "2026",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://cascademontana.com/ordinance-2026-02-regulated-short-term-rentals/",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Rental rules",
+    "secondary_menus": [],
+    "instrument": "license/permit",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "license",
+        "description": "Short-term rentals must be registered or permitted (details inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "notice",
+        "description": "Two readings with public comment before adoption."
+      }
+    ],
+    "touches": [
+      "small-town housing supply"
+    ],
+    "daily_life": "A homeowner in a town of a few hundred must register before renting to tourists.",
+    "provision_of": null,
+    "source_confidence": "inferred-details",
+    "notes": null
+  }
+]

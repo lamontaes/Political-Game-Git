@@ -1,0 +1,129 @@
+[
+  {
+    "id": "philadelphia-2025-bill250199-tax-schedule",
+    "jurisdiction": "Philadelphia, Pennsylvania",
+    "level": "city",
+    "session": "FY2026 budget",
+    "bill_number": "Bill No. 250199",
+    "law_citation": null,
+    "short_title": "Wage tax and business income and receipts tax reduction schedule",
+    "enacted_date": "2025-06-13",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://phila.legistar.com/",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Taxes - local income and business taxes",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Resident wage tax.",
+        "numbers": [
+          {
+            "value": 3.75,
+            "unit": "percent old",
+            "text": "3.75 percent old"
+          },
+          {
+            "value": 3.74,
+            "unit": "percent next year",
+            "text": "3.74 percent next year"
+          },
+          {
+            "value": 3.7,
+            "unit": "percent by 2029",
+            "text": "3.7 percent by 2029"
+          }
+        ]
+      },
+      {
+        "kind": "rate",
+        "description": "Non-resident wage tax.",
+        "numbers": [
+          {
+            "value": 3.44,
+            "unit": "percent old",
+            "text": "3.44 percent old"
+          },
+          {
+            "value": 3.43,
+            "unit": "percent next year",
+            "text": "3.43 percent next year"
+          },
+          {
+            "value": 3.39,
+            "unit": "percent by 2029",
+            "text": "3.39 percent by 2029"
+          }
+        ]
+      },
+      {
+        "kind": "phase-in",
+        "description": "Gross receipts portion of the business tax phased out.",
+        "numbers": [
+          {
+            "value": 0.1415,
+            "unit": "percent old",
+            "text": "0.1415 percent old"
+          },
+          {
+            "value": 0.141,
+            "unit": "percent next",
+            "text": "0.141 percent next"
+          },
+          {
+            "value": 2039,
+            "unit": "elimination",
+            "text": "2039 elimination"
+          }
+        ]
+      },
+      {
+        "kind": "rate",
+        "description": "Net income portion of the business tax cut.",
+        "numbers": [
+          {
+            "value": 5.81,
+            "unit": "percent old",
+            "text": "5.81 percent old"
+          },
+          {
+            "value": 5.71,
+            "unit": "percent next",
+            "text": "5.71 percent next"
+          },
+          {
+            "value": 2.8,
+            "unit": "percent by 2039",
+            "text": "2.8 percent by 2039"
+          }
+        ]
+      },
+      {
+        "kind": "repeal",
+        "description": "Ends the exclusion for the first $100,000 of receipts.",
+        "numbers": [
+          {
+            "value": 100000,
+            "unit": "USD",
+            "text": "100000 USD"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "city budget",
+      "commuters"
+    ],
+    "daily_life": "Philadelphia paychecks lose slightly less to the city wage tax each year.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id": "miami-dade-2025-fy26-millage",
+    "jurisdiction": "Miami-Dade County, Florida",
+    "level": "county",
+    "session": "FY2025-26",
+    "bill_number": "Millage and budget ordinances (September 2025)",
+    "law_citation": null,
+    "short_title": "FY2025-26 budget and countywide millage",
+    "enacted_date": "2025-09-18",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.miamidade.gov/global/management/budget/home.page",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Property taxes / budgets",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [
+      "appropriation"
+    ],
+    "operation": "raise",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Countywide operating millage.",
+        "numbers": [
+          {
+            "value": 4.574,
+            "unit": "mills",
+            "text": "4.574 mills"
+          }
+        ]
+      },
+      {
+        "kind": "rate",
+        "description": "Countywide debt service millage.",
+        "numbers": [
+          {
+            "value": 0.4171,
+            "unit": "mills",
+            "text": "0.4171 mills"
+          }
+        ]
+      },
+      {
+        "kind": "threshold",
+        "description": "Rate exceeds the state 'rollback rate' that would raise the same revenue as last year.",
+        "numbers": [
+          {
+            "value": 7.57,
+            "unit": "percent above rollback",
+            "text": "7.57 percent above rollback"
+          }
+        ]
+      },
+      {
+        "kind": "rate",
+        "description": "Total rate across three county taxing jurisdictions.",
+        "numbers": [
+          {
+            "value": 7.2517,
+            "unit": "mills",
+            "text": "7.2517 mills"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "Jackson Health System",
+      "county employees' cost-of-living raise"
+    ],
+    "daily_life": "A $400,000 home pays roughly $1,800 in countywide operating taxes before exemptions.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

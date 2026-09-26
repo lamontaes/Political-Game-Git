@@ -1,0 +1,258 @@
+[
+  {
+    "id": "wa-2025-hb1217-rent-stabilization",
+    "jurisdiction": "Washington",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 1217",
+    "law_citation": "Chapter 209, Laws of 2025",
+    "short_title": "Residential rent stabilization",
+    "enacted_date": "2025-05-07",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://app.leg.wa.gov/billsummary?billnumber=1217&year=2025",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Rental rules",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "cap",
+        "description": "Annual rent increases for existing tenants capped at the lower of two measures.",
+        "numbers": [
+          {
+            "value": 7,
+            "unit": "percent plus inflation",
+            "text": "7 percent plus inflation"
+          },
+          {
+            "value": 10,
+            "unit": "percent hard cap",
+            "text": "10 percent hard cap"
+          }
+        ]
+      },
+      {
+        "kind": "cap",
+        "description": "Tighter cap for manufactured home lots.",
+        "numbers": [
+          {
+            "value": 5,
+            "unit": "percent",
+            "text": "5 percent"
+          }
+        ]
+      },
+      {
+        "kind": "notice",
+        "description": "Landlords must give advance notice of increases.",
+        "numbers": [
+          {
+            "value": 90,
+            "unit": "days",
+            "text": "90 days"
+          }
+        ]
+      },
+      {
+        "kind": "exemption",
+        "description": "New construction exempt for a period; new tenants can be charged any rent (vacancy decontrol).",
+        "numbers": [
+          {
+            "value": 12,
+            "unit": "years new construction (inferred)",
+            "text": "12 years new construction (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Department of Commerce publishes the maximum increase each year."
+      }
+    ],
+    "touches": [
+      "landlords",
+      "tenants",
+      "housing construction"
+    ],
+    "daily_life": "A tenant's rent cannot jump more than 10 percent in a year.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "wa-2025-sb5041-striker-ui",
+    "jurisdiction": "Washington",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 5041",
+    "law_citation": null,
+    "short_title": "Unemployment benefits for striking or locked-out workers",
+    "enacted_date": "2025-05",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2026-01-01"
+    ],
+    "official_text_url": "https://app.leg.wa.gov/BillSummary/?BillNumber=5041&Year=2025",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Unions and collective bargaining / unemployment benefits",
+    "secondary_menus": [
+      "05"
+    ],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "eligibility",
+        "description": "Workers on strike or locked out may receive unemployment benefits."
+      },
+      {
+        "kind": "cap",
+        "description": "Benefits capped in weeks.",
+        "numbers": [
+          {
+            "value": 6,
+            "unit": "weeks",
+            "text": "6 weeks"
+          }
+        ]
+      },
+      {
+        "kind": "effective-date",
+        "description": "Starts January 1.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-01-01 date",
+            "text": "2026-01-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "unemployment trust fund",
+      "labor disputes"
+    ],
+    "daily_life": "Striking workers get up to six weeks of benefits.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "wa-2025-sb5814-services-sales-tax",
+    "jurisdiction": "Washington",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 5814",
+    "law_citation": "Chapter 422, Laws of 2025",
+    "short_title": "Sales tax extended to more services",
+    "enacted_date": "2025-05",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-07-27 (general effective date; some sections 2025-10-01, inferred)"
+    ],
+    "official_text_url": "https://app.leg.wa.gov/billsummary?billnumber=5814&year=2025",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Sales and consumption taxes",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "tax-base",
+        "description": "Retail sales tax applies to additional services such as advertising, IT and temporary staffing (inferred list).",
+        "inferred": true
+      },
+      {
+        "kind": "effective-date",
+        "description": "Starts in the fall after enactment (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "businesses buying services",
+      "state general fund"
+    ],
+    "daily_life": "Businesses pay sales tax on services that used to be exempt.",
+    "provision_of": null,
+    "source_confidence": "inferred-details",
+    "notes": null
+  },
+  {
+    "id": "wa-2025-hb1106-veteran-property-tax",
+    "jurisdiction": "Washington",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 1106",
+    "law_citation": null,
+    "short_title": "Property tax exemption threshold lowered for disabled veterans",
+    "enacted_date": "2025-05-07",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "taxes levied in 2027"
+    ],
+    "official_text_url": "https://app.leg.wa.gov/billsummary?billnumber=1106&year=2025",
+    "aggregator_url": null,
+    "menu": "17",
+    "menu_name": "Defense & Veterans",
+    "sub_topic": "Veterans' housing / transition and survivor services",
+    "secondary_menus": [
+      "04"
+    ],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "eligibility",
+        "description": "Veterans qualify for the senior and disabled property tax exemption at a lower disability rating.",
+        "numbers": [
+          {
+            "value": 80,
+            "unit": "percent old rating",
+            "text": "80 percent old rating"
+          },
+          {
+            "value": 40,
+            "unit": "percent new rating",
+            "text": "40 percent new rating"
+          }
+        ]
+      },
+      {
+        "kind": "effective-date",
+        "description": "Applies to taxes levied in 2027.",
+        "numbers": [
+          {
+            "value": 2027,
+            "unit": "tax year",
+            "text": "2027 tax year"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "county assessors",
+      "local levies"
+    ],
+    "daily_life": "A veteran rated 50 percent disabled can get a property tax break.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

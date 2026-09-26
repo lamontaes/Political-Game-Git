@@ -1,0 +1,195 @@
+[
+  {
+    "id": "ga-2025-sb68-tort-reform",
+    "jurisdiction": "Georgia",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 68",
+    "law_citation": null,
+    "short_title": "Civil litigation (tort) reform",
+    "enacted_date": "2025-04-21",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.legis.ga.gov/",
+    "aggregator_url": "https://legiscan.com/GA/bill/SB68/2025",
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Courts and legal aid",
+    "secondary_menus": [
+      "08",
+      "12"
+    ],
+    "instrument": "procedure/election rule",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "standard",
+        "description": "Raises the bar for suing property owners over crimes committed by third parties on their property."
+      },
+      {
+        "kind": "definition",
+        "description": "Allows separate trial phases for fault and damages (bifurcation)."
+      },
+      {
+        "kind": "exclusion",
+        "description": "Limits how medical bills are presented as evidence (phantom damages).",
+        "inferred": true
+      },
+      {
+        "kind": "standard",
+        "description": "Jury may consider whether a plaintiff wore a seatbelt."
+      },
+      {
+        "kind": "prohibition",
+        "description": "Bars double recovery of attorney fees."
+      }
+    ],
+    "touches": [
+      "insurers",
+      "trial lawyers",
+      "businesses"
+    ],
+    "daily_life": "Harder to win large verdicts against a store after a crime in its parking lot.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "ga-2025-hb111-income-tax-cut",
+    "jurisdiction": "Georgia",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 111",
+    "law_citation": null,
+    "short_title": "Income tax rate acceleration",
+    "enacted_date": "2025-04-15",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "tax year 2025"
+    ],
+    "official_text_url": "https://www.legis.ga.gov/",
+    "aggregator_url": "https://legiscan.com/GA/bill/HB111/2025",
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Individual income tax",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Flat income tax rate reduced.",
+        "numbers": [
+          {
+            "value": 5.39,
+            "unit": "percent old",
+            "text": "5.39 percent old"
+          },
+          {
+            "value": 5.19,
+            "unit": "percent new",
+            "text": "5.19 percent new"
+          }
+        ]
+      },
+      {
+        "kind": "phase-in",
+        "description": "Further annual cuts toward a target rate subject to revenue conditions.",
+        "numbers": [
+          {
+            "value": 4.99,
+            "unit": "percent target",
+            "text": "4.99 percent target"
+          }
+        ]
+      },
+      {
+        "kind": "trigger",
+        "description": "Future cuts depend on revenue and reserve conditions."
+      }
+    ],
+    "touches": [
+      "state revenue",
+      "withholding tables"
+    ],
+    "daily_life": "A worker's state paycheck withholding drops slightly.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "ga-2025-hb112-one-time-rebate",
+    "jurisdiction": "Georgia",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 112",
+    "law_citation": null,
+    "short_title": "One-time income tax rebate",
+    "enacted_date": "2025-04-15",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.legis.ga.gov/",
+    "aggregator_url": "https://legiscan.com/GA/bill/HB112/2025",
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Taxes / reserves",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [
+      "appropriation"
+    ],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rebate",
+        "description": "One-time rebate by filing status.",
+        "numbers": [
+          {
+            "value": 250,
+            "unit": "USD single",
+            "text": "250 USD single"
+          },
+          {
+            "value": 375,
+            "unit": "USD head of household",
+            "text": "375 USD head of household"
+          },
+          {
+            "value": 500,
+            "unit": "USD married joint",
+            "text": "500 USD married joint"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "Paid from surplus reserves.",
+        "numbers": [
+          {
+            "value": 1000000000,
+            "unit": "USD approx total",
+            "text": "1000000000 USD approx total"
+          }
+        ]
+      },
+      {
+        "kind": "eligibility",
+        "description": "Must have filed returns for the two prior tax years (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "Department of Revenue",
+      "state surplus"
+    ],
+    "daily_life": "A married couple gets a $500 check from the state.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

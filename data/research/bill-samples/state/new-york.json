@@ -1,0 +1,213 @@
+[
+  {
+    "id": "ny-2025-s6953b-raise-act",
+    "jurisdiction": "New York",
+    "level": "state",
+    "session": "2025-2026 Legislative Session",
+    "bill_number": "S6953B / A6453B",
+    "law_citation": null,
+    "short_title": "Responsible AI Safety and Education (RAISE) Act",
+    "enacted_date": "2025-12-19",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.nysenate.gov/legislation/bills/2025/S6953/amendment/B",
+    "aggregator_url": null,
+    "menu": "13",
+    "menu_name": "Science, Technology & Communications",
+    "sub_topic": "Artificial intelligence and automated systems",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "covered-population",
+        "description": "Large developers of frontier AI models."
+      },
+      {
+        "kind": "disclosure",
+        "description": "Must write and publish safety and security protocols."
+      },
+      {
+        "kind": "reporting",
+        "description": "Report safety incidents to the state.",
+        "numbers": [
+          {
+            "value": 72,
+            "unit": "hours",
+            "text": "72 hours"
+          }
+        ]
+      },
+      {
+        "kind": "enforcement",
+        "description": "Attorney General enforcement with civil penalties (amounts inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "transition",
+        "description": "Signed with agreed 'chapter amendments' to be passed in the next session (a New York pattern)."
+      }
+    ],
+    "touches": [
+      "AI companies",
+      "Department of Financial Services (per governor's release)"
+    ],
+    "daily_life": "AI labs must disclose safety practices and report serious incidents within three days.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "ny-2025-s4070-trapped-at-work",
+    "jurisdiction": "New York",
+    "level": "state",
+    "session": "2025-2026 Legislative Session",
+    "bill_number": "S4070",
+    "law_citation": null,
+    "short_title": "Trapped at Work Act (training repayment agreements)",
+    "enacted_date": "2025-12",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.nysenate.gov/legislation/bills/2025/S4070",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Hiring and employment protections",
+    "secondary_menus": [],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Employers may not require workers to repay training costs if they leave the job ('stay-or-pay' contracts)."
+      },
+      {
+        "kind": "effective-date",
+        "description": "Takes effect immediately.",
+        "numbers": [
+          {
+            "value": 0,
+            "unit": "days delay",
+            "text": "0 days delay"
+          }
+        ]
+      },
+      {
+        "kind": "enforcement",
+        "description": "Labor Law article with civil remedies (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "employers with training programs",
+      "chapter amendment pending"
+    ],
+    "daily_life": "Quitting a job no longer means owing the boss thousands for training.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "ny-2025-s8416-fair-business-practices",
+    "jurisdiction": "New York",
+    "level": "state",
+    "session": "2025-2026 Legislative Session",
+    "bill_number": "S8416",
+    "law_citation": "Chapter 708 of 2025",
+    "short_title": "FAIR Business Practices Act",
+    "enacted_date": "2025-12-19",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.nysenate.gov/legislation/bills/2025/S8416",
+    "aggregator_url": null,
+    "menu": "12",
+    "menu_name": "Rights, Family & Consumer Protection",
+    "sub_topic": "Fraud and unfair practices",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "definition",
+        "description": "Adds 'unfair' and 'abusive' practices to the deceptive practices law, defined consistently with federal law."
+      },
+      {
+        "kind": "enforcement",
+        "description": "Only the Attorney General may bring unfair or abusive practice claims."
+      },
+      {
+        "kind": "covered-population",
+        "description": "Businesses dealing with New York consumers."
+      }
+    ],
+    "touches": [
+      "Attorney General",
+      "debt collectors",
+      "lenders"
+    ],
+    "daily_life": "The state can stop business tricks that are unfair even if not strictly false.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "ny-2025-s1183-veteran-exemption-local-option",
+    "jurisdiction": "New York",
+    "level": "state",
+    "session": "2025-2026 Legislative Session",
+    "bill_number": "S1183",
+    "law_citation": null,
+    "short_title": "Full property tax exemption option for 100 percent disabled veterans",
+    "enacted_date": "2025-12",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.nysenate.gov/legislation/bills/2025/S1183",
+    "aggregator_url": null,
+    "menu": "17",
+    "menu_name": "Defense & Veterans",
+    "sub_topic": "Veterans' housing",
+    "secondary_menus": [
+      "04",
+      "11"
+    ],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "local-option",
+        "description": "Counties, cities, towns, villages and school districts may grant a full exemption."
+      },
+      {
+        "kind": "eligibility",
+        "description": "Veterans with a total service-connected disability.",
+        "numbers": [
+          {
+            "value": 100,
+            "unit": "percent disability rating",
+            "text": "100 percent disability rating"
+          }
+        ]
+      },
+      {
+        "kind": "transition",
+        "description": "Signed with an agreed chapter amendment."
+      }
+    ],
+    "touches": [
+      "local assessors",
+      "school district levies"
+    ],
+    "daily_life": "In towns that opt in, a fully disabled veteran pays no property tax.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

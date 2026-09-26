@@ -1,0 +1,154 @@
+[
+  {
+    "id": "sc-2025-h3309-energy-security",
+    "jurisdiction": "South Carolina",
+    "level": "state",
+    "session": "126th General Assembly (2025)",
+    "bill_number": "H 3309",
+    "law_citation": "Act 41 of 2025",
+    "short_title": "South Carolina Energy Security Act",
+    "enacted_date": "2025-05-12",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-05-12"
+    ],
+    "official_text_url": "https://www.scstatehouse.gov/sess126_2025-2026/bills/3309.htm",
+    "aggregator_url": null,
+    "menu": "09",
+    "menu_name": "Energy & Environment",
+    "sub_topic": "Electricity and the grid",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "deadline",
+        "description": "Agencies must decide on energy project applications within six months.",
+        "numbers": [
+          {
+            "value": 6,
+            "unit": "months",
+            "text": "6 months"
+          }
+        ]
+      },
+      {
+        "kind": "oversight-body",
+        "description": "Nuclear Advisory Council to write a statewide nuclear strategy."
+      },
+      {
+        "kind": "grant-program",
+        "description": "Authorizes a small modular reactor pilot if the council endorses it."
+      },
+      {
+        "kind": "delegation",
+        "description": "Authorizes a Santee Cooper and Dominion joint venture to convert a retired coal plant to natural gas."
+      }
+    ],
+    "touches": [
+      "Santee Cooper",
+      "Public Service Commission"
+    ],
+    "daily_life": "New power plants get permits faster.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "sc-2025-h3430-tort-liquor-liability",
+    "jurisdiction": "South Carolina",
+    "level": "state",
+    "session": "126th General Assembly (2025)",
+    "bill_number": "H 3430",
+    "law_citation": "Act 42 of 2025",
+    "short_title": "Tort reform and liquor liability",
+    "enacted_date": "2025-05-12",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.scstatehouse.gov/sess126_2025-2026/bills/3430.htm",
+    "aggregator_url": null,
+    "menu": "08",
+    "menu_name": "Business & Economic Development",
+    "sub_topic": "Insurance markets",
+    "secondary_menus": [
+      "10"
+    ],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "standard",
+        "description": "Changes joint and several liability so defendants pay closer to their share of fault."
+      },
+      {
+        "kind": "duty",
+        "description": "Alcohol-serving businesses must meet safety training and insurance requirements.",
+        "inferred": true
+      },
+      {
+        "kind": "cap",
+        "description": "Lower required liquor liability insurance amounts in some cases (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "bars and restaurants",
+      "insurers"
+    ],
+    "daily_life": "A bar's insurance may become cheaper and easier to find.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "sc-2025-h4025-appropriations",
+    "jurisdiction": "South Carolina",
+    "level": "state",
+    "session": "126th General Assembly (2025)",
+    "bill_number": "H 4025",
+    "law_citation": "Act 69 of 2025",
+    "short_title": "Appropriations Act, 2025-2026",
+    "enacted_date": "2025-06-03",
+    "enactment_path": "signed with line-item vetoes",
+    "effective_dates": [
+      "2025-06-04"
+    ],
+    "official_text_url": "https://www.scstatehouse.gov/sess126_2025-2026/bills/4025.htm",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Annual general appropriations for state government."
+      },
+      {
+        "kind": "waiver",
+        "description": "Governor vetoed certain line items; the legislature then acted on the vetoes."
+      },
+      {
+        "kind": "delegation",
+        "description": "Temporary provisos in the budget act carry policy for one year (South Carolina practice, inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "all state agencies",
+      "school funding"
+    ],
+    "daily_life": "Sets the state's spending for the fiscal year.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]
