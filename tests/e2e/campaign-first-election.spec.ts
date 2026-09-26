@@ -146,13 +146,9 @@ async function pressTime(page: Page, testid: string) {
 }
 
 /** Gets on with the week until the election has been decided, or gives up. */
-async function liveUntilDecided(page: Page, maxDays = 45) {
-  for (let day = 0; day < maxDays; day += 1) {
-    if (await page.getByTestId("campaign-result").isVisible()) return true;
-    await pressTime(page, "shell-pass-day");
-  }
-  // A legislative seat is decided on the state's election day, which can be
-  // most of a year off; the rest of the wait goes a week at a time.
+async function liveUntilDecided(page: Page) {
+  // The caller has already proved the Day control. A legislative seat is
+  // decided on the state's election day, so use Week for the long interval.
   for (let week = 0; week < 110; week += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) return true;
     await pressTime(page, "shell-pass-week");
@@ -386,8 +382,7 @@ test.describe("A life can stand for something", () => {
   test("reaches election day by living the weeks, and carries on afterwards", async ({
     page,
   }) => {
-    // Living to election day is 27 shell days plus the creator: about 25 s on
-    // a quiet host, so the default budget is decided by runner load.
+    // The Day action and subsequent Week presses reach the real election day.
     test.setTimeout(90_000);
     const errors = watchForErrors(page);
     await freshBrowser(page);
@@ -477,7 +472,7 @@ test.describe("P85D integration through ordinary player controls", () => {
     test(`resolves election day through the ${activation} Work day control`, async ({
       page,
     }) => {
-      // Same 27-day path as above; the budget follows the sibling winner case.
+      // Same Day-then-Week route as the sibling case.
       test.setTimeout(90_000);
       const errors = watchForErrors(page);
       await freshBrowser(page);
