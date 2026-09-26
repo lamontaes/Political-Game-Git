@@ -11,6 +11,7 @@ import {
   stateTransitAutomaticLawContext,
 } from "../simulation/governing/automatic-legislation";
 import { principledLeaning } from "../simulation/governing/officeholder-principles";
+import { lawInForce } from "../simulation/governing/law-in-force";
 import { stateLegislators } from "../simulation/nationwide-world/state-legislature-opening";
 import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
 import type { World } from "../simulation";
@@ -48,9 +49,17 @@ describe("a member files a bill of their own", () => {
     (w.history.legislativeMeasures ?? []).filter(
       (measure) =>
         measure.jurisdictionId === colorado &&
-        measure.stableKey.endsWith(":agenda"),
+        measure.stableKey.startsWith("legislative-intake/v1:") &&
+        measure.stableKey.includes(":agenda"),
     );
-  for (let day = 0; day < 120 && agendaBills(world).length === 0; day += 1)
+  // A member's money bill: the one carrying a compiled draft lineage.
+  const moneyBills = (w: World) =>
+    agendaBills(w).filter((measure) =>
+      (w.history.legislativeDraftLineages ?? []).some(
+        (lineage) => lineage.measureId === measure.id,
+      ),
+    );
+  for (let day = 0; day < 120 && moneyBills(world).length === 0; day += 1)
     world = passOrdinaryDays(world, 1);
 
   it("files a bill on the bill day, carried by a seated member", () => {
@@ -66,7 +75,7 @@ describe("a member files a bill of their own", () => {
   });
 
   it("answers the question the way the sponsor's principles lean", () => {
-    const bill = agendaBills(world)[0]!;
+    const bill = moneyBills(world)[0]!;
     expect(bill.propositionAnswers).toHaveLength(1);
     const { propositionId } = bill.propositionAnswers![0]!;
     const answer = measurePropositionAnswer(bill, propositionId);
@@ -79,11 +88,11 @@ describe("a member files a bill of their own", () => {
     // Nothing is law on the question yet, so only support files a bill.
     expect(answer).toBe("yes");
     expect(score).toBeGreaterThan(0);
-    expect(bill.shortTitle).toBe("Additional Service Hours");
+    expect(bill.shortTitle).toBe("State Transit Appropriation");
   });
 
   it("records the compiled appropriation and its saved political cause", () => {
-    const bill = agendaBills(world)[0]!;
+    const bill = moneyBills(world)[0]!;
     const leaning = principledLeaning(
       world,
       bill.sponsorPersonId!,
@@ -155,7 +164,9 @@ describe("a member files a bill of their own", () => {
   });
 
   it("files once per bill day", () => {
-    const bill = agendaBills(world)[0]!;
+    const bill = agendaBills(world).find((measure) =>
+      measure.stableKey.endsWith(":agenda"),
+    )!;
     const intakeKey = bill.stableKey
       .replace(/^legislative-intake\/v1:/, "")
       .replace(/:agenda$/, "");
@@ -168,11 +179,46 @@ describe("a member files a bill of their own", () => {
 
   it("does not repeat the same pending issue at the next intake", () => {
     const before = world.history.legislativeMeasures?.length ?? 0;
+    const pendingQuestions = new Set(
+      agendaBills(world).flatMap((bill) =>
+        (bill.propositionAnswers ?? []).map((row) => row.propositionId),
+      ),
+    );
     const laterIntake = fileMemberAgendaBill(world, {
       jurisdictionId: colorado,
       intakeKey: "later-intake-same-saved-cause",
     });
-    expect(laterIntake.history.legislativeMeasures).toHaveLength(before);
-    expect(agendaBills(laterIntake)).toHaveLength(agendaBills(world).length);
+    const added = (laterIntake.history.legislativeMeasures ?? []).slice(before);
+    for (const bill of added)
+      for (const row of bill.propositionAnswers ?? [])
+        expect(pendingQuestions.has(row.propositionId)).toBe(false);
+  });
+
+  it("files a position or repeal bill only where it changes the law in force", () => {
+    const before = world.history.legislativeMeasures?.length ?? 0;
+    const laterIntake = fileMemberAgendaBill(world, {
+      jurisdictionId: colorado,
+      intakeKey: "later-intake-position-bill",
+    });
+    const added = (laterIntake.history.legislativeMeasures ?? []).slice(before);
+    const positionBills = added.filter(
+      (bill) =>
+        !(laterIntake.history.legislativeDraftLineages ?? []).some(
+          (lineage) => lineage.measureId === bill.id,
+        ),
+    );
+    expect(positionBills.length).toBeGreaterThan(0);
+    for (const bill of positionBills) {
+      const { propositionId, answer } = bill.propositionAnswers![0]!;
+      const law = lawInForce(world, colorado, propositionId)?.answer ?? null;
+      // Enacting it must move the recorded answer.
+      expect(law).not.toBe(answer);
+      if (answer === "no") expect(law).toBe("yes");
+      // A question with a registered money writer is never a position bill.
+      const stableKey =
+        world.policyCatalog.propositions[propositionId]!.stableKey;
+      expect(automaticLawMappingFor(stableKey, "yes", "state")).toBeNull();
+      expect(automaticLawMappingFor(stableKey, "no", "state")).toBeNull();
+    }
   });
 }, 900_000);

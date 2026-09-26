@@ -1,12 +1,18 @@
 import { makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { measurePosition } from "../legislation";
+import { introduceMeasure, measurePosition } from "../legislation";
 import {
   legislativePackForJurisdiction,
   legislativePackForWorkKey,
 } from "../legislative-institutions";
 import { permittedOriginChambers } from "../legislature-rules";
 import { nextMeasureDesignation } from "../measure-numbering";
+import {
+  legislativeProcedureForPack,
+  legislativeRulePackForWorld,
+  regularSessionRefusalText,
+} from "../legislative-procedure-world";
+import { SeededRng } from "../rng";
 import {
   municipalGovernmentByKey,
   municipalGovernmentsWithProcedure,
@@ -152,6 +158,15 @@ export function fileMemberAgendaBills(
 
   const pack = legislativePackForJurisdiction(input.jurisdictionId);
   if (!pack) return world;
+  // A member files only while the legislature can take a bill.
+  if (
+    legislativeProcedureForPack(world, pack.packId) &&
+    regularSessionRefusalText(
+      legislativeRulePackForWorld(world, pack.packId),
+      world.currentDate,
+    )
+  )
+    return world;
   const seatedByChamber = pack.chambers.map((chamber) => ({
     chamber,
     seated: seatedChamberForPack(
@@ -189,14 +204,62 @@ export function fileMemberAgendaBills(
 
   // Read once per question. The law and docket are unchanged until a sponsor
   // actually files, then the next sponsor sees that recorded measure.
+  const effectKeys = stateEffectQuestionKeys();
   const lawAnswers = new Map<EntityId, "yes" | "no" | null>();
   const pending = new Map<EntityId, boolean>();
   const coolingDown = new Map<EntityId, boolean>();
   const filedPropositions = new Set<EntityId>();
   const unavailablePropositions = new Set<EntityId>();
+  const filedSponsors = new Set<EntityId>();
 
-  // Stable sponsor order means an unchanged chamber and unchanged saved
-  // principles do not randomly reverse the same mapped question next intake.
+  const lawAnswerFor = (propositionId: EntityId) => {
+    if (!lawAnswers.has(propositionId)) {
+      lawAnswers.set(
+        propositionId,
+        lawInForce(next, input.jurisdictionId, propositionId)?.answer ?? null,
+      );
+    }
+    return lawAnswers.get(propositionId)!;
+  };
+  // A question is open when no bill on it is moving and it is outside the
+  // cooldown that stops one question being toggled every intake.
+  const questionOpen = (propositionId: EntityId) => {
+    if (
+      filedPropositions.has(propositionId) ||
+      unavailablePropositions.has(propositionId)
+    )
+      return false;
+    if (!coolingDown.has(propositionId)) {
+      coolingDown.set(
+        propositionId,
+        automaticLawQuestionOnCooldown(next, {
+          jurisdictionId: input.jurisdictionId,
+          propositionId,
+          stableKeyPrefix: `${LEGISLATIVE_INTAKE_VERSION}:`,
+        }),
+      );
+    }
+    if (coolingDown.get(propositionId)) return false;
+    if (!pending.has(propositionId)) {
+      pending.set(
+        propositionId,
+        pendingBillOn(next, input.jurisdictionId, propositionId),
+      );
+    }
+    return !pending.get(propositionId);
+  };
+  // The first measure keeps the historical stable key. Additional bills are
+  // scoped under the same intake key by proposition and sponsor.
+  const measureStableKeyFor = (propositionKey: string, sponsorId: EntityId) =>
+    (next.history.legislativeMeasures ?? []).some(
+      (measure) => measure.stableKey === batchKey,
+    )
+      ? batchKey + ":" + encodeURIComponent(propositionKey) + ":" + sponsorId
+      : batchKey;
+
+  // Pass one: bills that move public money through a registered effect
+  // writer. Stable sponsor order means an unchanged chamber and unchanged
+  // saved principles do not randomly reverse the same question next intake.
   for (const sponsor of sponsors) {
     const candidates: {
       propositionId: EntityId;
@@ -207,49 +270,16 @@ export function fileMemberAgendaBills(
     }[] = [];
 
     for (const propositionId of questions) {
-      if (
-        filedPropositions.has(propositionId) ||
-        unavailablePropositions.has(propositionId)
-      )
-        continue;
-
       const proposition = next.policyCatalog.propositions[propositionId]!;
+      if (!effectKeys.has(proposition.stableKey)) continue;
+      if (!questionOpen(propositionId)) continue;
       const leaning = principledLeaning(next, sponsor.personId, propositionId);
       if (Math.abs(leaning.score) < FILING_THRESHOLD) continue;
 
       const answer = leaning.score > 0 ? "yes" : "no";
       const mapping = automaticLawMappingFor(proposition.stableKey, answer);
       if (!mapping || mapping.governmentLevel !== "state") continue;
-
-      if (!coolingDown.has(propositionId)) {
-        coolingDown.set(
-          propositionId,
-          automaticLawQuestionOnCooldown(next, {
-            jurisdictionId: input.jurisdictionId,
-            propositionId,
-            stableKeyPrefix: `${LEGISLATIVE_INTAKE_VERSION}:`,
-          }),
-        );
-      }
-      if (coolingDown.get(propositionId)) continue;
-
-      if (!lawAnswers.has(propositionId)) {
-        lawAnswers.set(
-          propositionId,
-          lawInForce(next, input.jurisdictionId, propositionId)?.answer ?? null,
-        );
-      }
-      const lawAnswer = lawAnswers.get(propositionId);
-      const alreadyInForce = lawAnswer === answer;
-      if (alreadyInForce) continue;
-
-      if (!pending.has(propositionId)) {
-        pending.set(
-          propositionId,
-          pendingBillOn(next, input.jurisdictionId, propositionId),
-        );
-      }
-      if (pending.get(propositionId)) continue;
+      if (lawAnswerFor(propositionId) === answer) continue;
       candidates.push({
         propositionId,
         answer,
@@ -261,25 +291,13 @@ export function fileMemberAgendaBills(
 
     candidates.sort((left, right) => right.weight - left.weight);
     for (const candidate of candidates) {
+      if (!questionOpen(candidate.propositionId)) continue;
       const proposition =
         next.policyCatalog.propositions[candidate.propositionId]!;
-      const mapping = automaticLawMappingFor(
+      const measureStableKey = measureStableKeyFor(
         proposition.stableKey,
-        candidate.answer,
+        sponsor.personId,
       );
-      if (!mapping || mapping.governmentLevel !== "state") continue;
-
-      // The first measure keeps the historical stable key. Additional bills
-      // are scoped under the same intake key by proposition and sponsor.
-      const measureStableKey = (next.history.legislativeMeasures ?? []).some(
-        (measure) => measure.stableKey === batchKey,
-      )
-        ? batchKey +
-          ":" +
-          encodeURIComponent(proposition.stableKey) +
-          ":" +
-          sponsor.personId
-        : batchKey;
       const designation = nextMeasureDesignation(next, {
         jurisdictionId: input.jurisdictionId,
         originChamber: sponsor.chamber,
@@ -300,9 +318,8 @@ export function fileMemberAgendaBills(
 
       const permitted = permittedOriginChambers(pack, draft.subjectClass);
       if (
-        !sponsor.chamber.introductionAllowed ||
-        (permitted.kind === "known" &&
-          !permitted.value.includes(sponsor.chamber.chamberKey))
+        permitted.kind === "known" &&
+        !permitted.value.includes(sponsor.chamber.chamberKey)
       )
         continue;
 
@@ -325,8 +342,86 @@ export function fileMemberAgendaBills(
       }
       next = scheduleInstitutionStep(introduced.world, introduced.measureId);
       filedPropositions.add(candidate.propositionId);
+      filedSponsors.add(sponsor.personId);
       break;
     }
+  }
+
+  // Pass two: position and repeal bills. A question with a registered effect
+  // writer at this level is answered only by that writer, so a bill never
+  // claims a direction on a program it cannot move. Every other question may
+  // be answered by a position bill, and only in a direction that changes the
+  // recorded law in force (`positionBillAnswer`): that record is what later
+  // members, Congress's own agenda and each voter's issue record read, so the
+  // enacted bill changes the world even where no money moves.
+  //
+  // One position bill per intake, the rate this agenda filed at before the
+  // money bills existed, in a seeded member order so the same member does not
+  // speak first every session.
+  const rng = new SeededRng(next.seed).fork(batchKey);
+  const order = sponsors.filter(
+    (sponsor) => !filedSponsors.has(sponsor.personId),
+  );
+  for (let i = order.length - 1; i > 0; i -= 1) {
+    const j = rng.fork(`order:${i}`).integer(0, i + 1);
+    [order[i], order[j]] = [order[j]!, order[i]!];
+  }
+  for (const sponsor of order) {
+    let best: {
+      propositionId: EntityId;
+      answer: "yes" | "no";
+      weight: number;
+    } | null = null;
+    for (const propositionId of questions) {
+      const proposition = next.policyCatalog.propositions[propositionId]!;
+      if (effectKeys.has(proposition.stableKey)) continue;
+      const score = principledLeaning(
+        next,
+        sponsor.personId,
+        propositionId,
+      ).score;
+      if (Math.abs(score) < FILING_THRESHOLD) continue;
+      if (best && Math.abs(score) <= best.weight) continue;
+      const answer = positionBillAnswer(score, lawAnswerFor(propositionId));
+      if (!answer || !questionOpen(propositionId)) continue;
+      best = { propositionId, answer, weight: Math.abs(score) };
+    }
+    if (!best) continue;
+    const permitted = permittedOriginChambers(pack, "general-policy");
+    if (
+      permitted.kind === "known" &&
+      !permitted.value.includes(sponsor.chamber.chamberKey)
+    )
+      continue;
+    const proposition = next.policyCatalog.propositions[best.propositionId]!;
+    next = introduceMeasure(next, {
+      stableKey: measureStableKeyFor(proposition.stableKey, sponsor.personId),
+      jurisdictionId: input.jurisdictionId,
+      rulePackId: pack.packId,
+      designation: nextMeasureDesignation(next, {
+        jurisdictionId: input.jurisdictionId,
+        originChamber: sponsor.chamber,
+      }),
+      shortTitle:
+        best.answer === "yes"
+          ? proposition.name
+          : `Repeal: ${proposition.name}`,
+      summary:
+        best.answer === "yes"
+          ? `${proposition.question} This bill says yes.`
+          : `${proposition.question} This bill repeals the law that says yes.`,
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      sponsorPersonId: sponsor.personId,
+      originChamberKey: sponsor.chamber.chamberKey,
+      propositionIds: [best.propositionId],
+      propositionAnswers: [
+        { propositionId: best.propositionId, answer: best.answer },
+      ],
+    });
+    const measure = next.history.legislativeMeasures!.at(-1)!;
+    next = scheduleInstitutionStep(next, measure.id);
+    break;
   }
   return next;
 }
