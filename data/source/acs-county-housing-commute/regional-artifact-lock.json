@@ -1,0 +1,37 @@
+{
+  "artifacts": [
+    {
+      "length": 5622840,
+      "localPath": "data/source/acs-county-housing-commute/raw/ACS20245YR_Table_Shells.txt",
+      "mediaType": "text/plain; delimiter=pipe",
+      "sha256": "5b46f4af873744a415c4974204010db976e2a61ff916674732f81c496a6b517d",
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/documentation/ACS20245YR_Table_Shells.txt",
+      "vintage": "2020-2024 ACS 5-year"
+    },
+    {
+      "length": 18496426,
+      "localPath": "data/source/acs-county-housing-commute/raw/acsdt5y2024-b25077.dat",
+      "mediaType": "text/plain; delimiter=pipe",
+      "sha256": "89eb2153764a2330b23959d8bbc29b3a8f3016f087b990f2a8ea0d5096d9a816",
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25077.dat",
+      "vintage": "2020-2024 ACS 5-year"
+    },
+    {
+      "length": 17272062,
+      "localPath": "data/source/acs-county-housing-commute/raw/acsdt5y2024-b25064.dat",
+      "mediaType": "text/plain; delimiter=pipe",
+      "sha256": "b36e6dc1fcef36b8b307d31b37517b64c80d8b9c70d48c9b1894242860f42eb0",
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25064.dat",
+      "vintage": "2020-2024 ACS 5-year"
+    },
+    {
+      "length": 64154309,
+      "localPath": "data/source/acs-county-housing-commute/raw/acsdt5y2024-b08303.dat",
+      "mediaType": "text/plain; delimiter=pipe",
+      "sha256": "1b9b9243afe6656fa8d760830b0b760e7de759752b49510175fd1853e1c016de",
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b08303.dat",
+      "vintage": "2020-2024 ACS 5-year"
+    }
+  ],
+  "asOf": "2026-09-26"
+}
