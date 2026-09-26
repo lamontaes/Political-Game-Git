@@ -1,6 +1,9 @@
+import { deathCausePhrase } from "./crisis/death-causes";
+import { crisisPersonDeathRecipientNotices } from "./crisis/death-notices";
 import { eventById } from "./event-index";
-import { addDays } from "./dates";
+import { addDays, spokenDate } from "./dates";
 import { personName } from "./people";
+import { describePersonContext } from "./person-context";
 import { recordEventKnowledge } from "./records";
 import { recordSceneBinding } from "./scene-bindings";
 import { currentLifeCutoff } from "./life-queries";
@@ -137,7 +140,10 @@ export function applyDeathNotices(
       summary: `${personName(recipient)} learned that ${name} had died.`,
       context: {
         location: null,
-        socialContext: `A death in the family, heard by their ${relation}.`,
+        socialContext:
+          relation === "someone in the household"
+            ? "A death in the household, heard by someone who lived there."
+            : `A death in the family, heard by their ${relation}.`,
         pressure: null,
         choice: null,
         motivation: null,
@@ -151,15 +157,62 @@ export function applyDeathNotices(
       personId: notice.recipientPersonId,
       eventId: notice.deathEventId,
       learnedAt: next.currentDate,
-      believedSummary: notice.disclosable
-        ? death.summary
-        : `${name} died on ${notice.diedAt}.`,
+      believedSummary: deathNoticeSentence(next, notice, death.summary),
       accuracy: "accurate",
       confidence: "high",
       source: { kind: "public-record", reference: "Family notice" },
     });
   }
   return next;
+}
+
+/**
+ * What a recipient is told, as they would hear it: "Your sister, Lily Norris,
+ * died after a serious illness on March 3, 2052." The relation is the one the
+ * record establishes from the recipient's side, and none is claimed without
+ * it. The cause is said only when a disclosure reached this recipient; a
+ * disclosed cause with no plain wording keeps the death's own summary.
+ */
+export function deathNoticeSentence(
+  world: World,
+  notice: PersonDeathRecipientNotice,
+  deathSummary: string,
+): string {
+  const deceased = world.people[notice.personId];
+  const name = deceased ? personName(deceased) : "Someone";
+  const relation = describePersonContext(
+    world,
+    notice.recipientPersonId,
+    notice.personId,
+    notice.diedAt,
+  )?.relationship;
+  const who = relation
+    ? `${relation.charAt(0).toUpperCase()}${relation.slice(1)}, ${name},`
+    : name;
+  const date = spokenDate(notice.diedAt);
+  if (!notice.disclosable) return `${who} died on ${date}.`;
+  const phrase = deathCausePhrase(notice.causeKey);
+  return phrase ? `${who} died ${phrase} on ${date}.` : deathSummary;
+}
+
+/**
+ * Tells the people the record says would know that this death happened, on
+ * the day it is written. Called by the writers that record a death during
+ * play, so a death reaches the family when it happens and never later, and a
+ * death already in a save before this existed is never announced after the
+ * fact.
+ */
+export function tellOfDeath(world: World, deathRecordId: EntityId): World {
+  const death = world.history.personDeaths.find(
+    (record) => record.id === deathRecordId,
+  );
+  if (!death) return world;
+  return applyDeathNotices(
+    world,
+    crisisPersonDeathRecipientNotices(world, {
+      afterSequence: death.sequence - 1,
+    }).filter((notice) => notice.deathRecordId === deathRecordId),
+  );
 }
 
 /** Days a bereavement scene stays offered before it is simply not raised. */

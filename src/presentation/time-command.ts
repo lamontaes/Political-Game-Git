@@ -27,6 +27,7 @@ import {
   advanceStoppingForPressRequests,
   interruptionHandlers,
 } from "./interruption-policy";
+import { deathNewsBetween } from "./death-news";
 import { nextOwnElection, ownElectionResultsBetween } from "./own-election";
 import { letStoryTimePass, quietStepDays } from "./life-story";
 import {
@@ -255,6 +256,12 @@ function run(
     reached: next.currentMoment,
     outcome: [
       ...ownElectionResultsBetween(world, next, request.personId),
+      ...deathNewsBetween(
+        next,
+        request.personId,
+        world.currentDate,
+        next.currentDate,
+      ).map((news) => news.sentence),
       ...offerDeadlines(next, request.personId)
         .filter((deadline) => deadline.replyBy === next.currentDate)
         .map(

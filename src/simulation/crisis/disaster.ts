@@ -1,4 +1,5 @@
 import { addDays, daysBetween } from "../dates";
+import { tellOfDeath } from "../people-bereavement";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   householdLocationAt,
@@ -405,6 +406,7 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
         const death = next.history.personDeaths.at(-1)!;
         next = closeHealthEpisodesForDeath(next, personId, death.id);
         next = recordOfficialContinuity(before, next, personId, "death");
+        next = tellOfDeath(next, death.id);
         deceased.push(personId);
         continue;
       }

@@ -1,5 +1,9 @@
-import { isoDateFromParts, makeIsoDate } from "../dates";
-import { scheduleFutureDueItem } from "../future-transitions";
+import { addDays, isoDateFromParts, makeIsoDate } from "../dates";
+import {
+  scheduleFutureDueItem,
+  scheduledFutureDueItemsThrough,
+} from "../future-transitions";
+import { tellOfDeath } from "../people-bereavement";
 import { SeededRng } from "../rng";
 import type {
   EntityId,
@@ -23,6 +27,14 @@ import {
   type MortalityCalibrationCategory,
 } from "./mortality-table";
 import { recordOfficialContinuity } from "./continuity";
+import {
+  FATAL_ILLNESS_LEAD_DAYS,
+  FATAL_ILLNESS_ONSET_KEY,
+  deathCauseSummary,
+  drawDeathCause,
+  fatalIllnessOnsetStableKey,
+  hazardDeathCause,
+} from "./death-causes";
 import { closeHealthEpisodesForDeath } from "./health-queries";
 import { appendCrisisRecord, crisisRecordId, crisisRecords } from "./records";
 import {
@@ -39,13 +51,15 @@ import {
  * domain-separated fork keyed only by world seed and person, never from UI or
  * shared RNG state. The window finds the exact day, if any, on which that
  * person's accumulated hazard reaches the threshold and schedules a death on
- * that day. Office, party and fame change nothing. Cause is unresolved: a
- * life table is not a diagnosis.
+ * that day. Office, party and fame change nothing. A life table is not a
+ * diagnosis: the death carries only a broad seeded cause group
+ * (./death-causes.ts), and an illness with a course is recorded ahead of the
+ * death it leads to without moving that death's day.
  */
 
 export const MORTALITY_WINDOW_KEY = "crisis:mortality-window" as const;
 export const MORTALITY_DEATH_KEY = "crisis:mortality-death" as const;
-export const MORTALITY_CAUSE_KEY = "crisis-mortality:all-cause-unresolved";
+export { MORTALITY_CAUSE_KEY } from "./death-causes";
 
 const THRESHOLD_VERSION = "crisis-mortality-threshold-v1";
 
@@ -291,9 +305,15 @@ export function scheduleMortalityWithin(
   from: IsoDate,
   windowEnd: IsoDate,
   cause: { readonly sourceEntityId: EntityId },
+  crossing?: IsoDate | null,
 ): World {
   if (!alive(world, personId, world.currentDate)) return world;
-  const day = mortalityCrossingDay(world, personId, from, windowEnd);
+  const day =
+    crossing === undefined
+      ? mortalityCrossingDay(world, personId, from, windowEnd)
+      : crossing !== null && crossing < windowEnd
+        ? crossing
+        : null;
   if (day === null) return world;
   if (day <= world.currentDate)
     return recordMortalityDeath(
@@ -321,19 +341,28 @@ function recordMortalityDeath(
   diedAt: IsoDate,
   sourceEntityId: EntityId,
 ): World {
+  const cause = hazardDeathCause(world, personId, diedAt);
+  const sources = [
+    ...new Set(
+      cause.episodeId ? [sourceEntityId, cause.episodeId] : [sourceEntityId],
+    ),
+  ].sort();
   const withDeath = recordPersonDeath(world, {
     stableKey: deathStableKey(personId, diedAt),
     personId,
     diedAt,
-    causeKey: MORTALITY_CAUSE_KEY,
-    sourceEntityIds: [sourceEntityId],
-    summary:
-      "Died. The cause is not represented; ordinary all-cause mortality applied.",
-    provenance: { kind: "simulated", sourceEntityIds: [sourceEntityId] },
+    causeKey: cause.causeKey,
+    sourceEntityIds: sources,
+    summary: deathCauseSummary(cause.causeKey),
+    provenance: { kind: "simulated", sourceEntityIds: sources },
   });
   const death = withDeath.history.personDeaths.at(-1)!;
   const closed = closeHealthEpisodesForDeath(withDeath, personId, death.id);
-  return recordOfficialContinuity(world, closed, personId, "death");
+  // The family learns of it the day it happens.
+  return tellOfDeath(
+    recordOfficialContinuity(world, closed, personId, "death"),
+    death.id,
+  );
 }
 
 export const mortalityWindowHandler: FutureTransitionHandler = (
@@ -360,11 +389,23 @@ export const mortalityWindowHandler: FutureTransitionHandler = (
     dueItemId: item.id,
   });
   const windowId = crisisRecordId(next, windowStableKey(start));
+  // One look past the window, far enough to see a death whose illness should
+  // begin inside it. The first crossing in the longer span is the same day as
+  // the first crossing in the window whenever it falls inside the window.
+  const horizon = addDays(end, FATAL_ILLNESS_LEAD_DAYS.max);
   for (const personId of next.personOrder) {
     if (!alive(next, personId, start)) continue;
-    next = scheduleMortalityWithin(next, personId, start, end, {
-      sourceEntityId: windowId,
-    });
+    const crossing = mortalityCrossingDay(next, personId, start, horizon);
+    next = scheduleMortalityWithin(
+      next,
+      personId,
+      start,
+      end,
+      { sourceEntityId: windowId },
+      crossing,
+    );
+    if (crossing !== null)
+      next = scheduleFatalIllnessOnset(next, personId, crossing, end, windowId);
   }
   next = scheduleFutureDueItem(next, {
     stableKey: `${windowStableKey(end)}:due`,
@@ -418,6 +459,72 @@ export const mortalityDeathHandler: FutureTransitionHandler = (
     outcomeEventId: death.eventId,
   };
 };
+
+/**
+ * When the death on `diesOn` is an illness with a course, puts the day the
+ * illness is first recorded on the clock, if that day falls in this window.
+ * Only the onset is scheduled here; the death keeps its own due item and its
+ * own day. Nothing is scheduled when no day before the death is left.
+ */
+function scheduleFatalIllnessOnset(
+  world: World,
+  personId: EntityId,
+  diesOn: IsoDate,
+  windowEnd: IsoDate,
+  windowId: EntityId,
+): World {
+  const draw = drawDeathCause(world, personId, diesOn);
+  if (draw.group !== "illness-with-course") return world;
+  const earliest = addDays(world.currentDate, 1);
+  const planned = addDays(diesOn, -draw.leadDays);
+  const onset = planned < earliest ? earliest : planned;
+  if (onset >= diesOn || onset >= windowEnd) return world;
+  const stableKey = fatalIllnessOnsetStableKey(personId, diesOn);
+  if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
+    return world;
+  return scheduleFutureDueItem(world, {
+    stableKey,
+    dueAt: onset,
+    transitionKey: FATAL_ILLNESS_ONSET_KEY,
+    entityIds: [personId],
+    jurisdictionId: world.people[personId]!.homeJurisdictionId,
+    provenance: { kind: "simulated", sourceEntityIds: [windowId] },
+  });
+}
+
+/**
+ * The next day on which a death of this person could be written by K1: a
+ * window opening (which may find a death that day) or their scheduled death.
+ * A multi-week advance steps to it so a played life ends on its own day.
+ */
+export function nextMortalityFrontier(
+  world: World,
+  personId: EntityId,
+  throughInclusive: IsoDate,
+): IsoDate | null {
+  const from = addDays(world.currentDate, 1);
+  if (throughInclusive < from) return null;
+  let next: IsoDate | null = null;
+  for (const item of scheduledFutureDueItemsThrough(
+    world,
+    from,
+    throughInclusive,
+  )) {
+    const relevant =
+      item.transitionKey === MORTALITY_WINDOW_KEY ||
+      (item.transitionKey === MORTALITY_DEATH_KEY &&
+        item.entityIds.includes(personId));
+    if (relevant && (next === null || item.dueAt < next)) next = item.dueAt;
+  }
+  return next;
+}
+
+/** Whether K1 has a window on the clock for this World. */
+export function crisisMortalityRunning(world: World): boolean {
+  return world.history.futureDueItems.some(
+    (item) => item.transitionKey === MORTALITY_WINDOW_KEY,
+  );
+}
 
 export function crisisMortalityWindowAt(
   world: World,

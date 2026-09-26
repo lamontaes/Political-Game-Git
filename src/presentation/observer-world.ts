@@ -17,6 +17,7 @@ import {
   publicPartyAffiliation,
 } from "../simulation/living-world";
 import { SeededRng } from "../simulation/rng";
+import { deathCausePhrase } from "../simulation/crisis/death-causes";
 import {
   constitutionalPosition,
   type ConstitutionalPosition,
@@ -372,6 +373,11 @@ export interface ObserverPersonFile {
   readonly born: IsoDate;
   readonly age: number;
   readonly died: IsoDate | null;
+  /**
+   * How the death is said from its recorded cause ("in an accident"), or null
+   * when the record carries no cause this can name, so it reads plainly "died".
+   */
+  readonly diedHow: string | null;
   readonly home: string;
   readonly work: readonly string[];
   readonly party: string | null;
@@ -430,6 +436,7 @@ export function projectObserverPerson(
     born: person.birthDate,
     age: ageOnDate(person.birthDate, death?.diedAt ?? world.currentDate),
     died: death?.diedAt ?? null,
+    diedHow: death ? deathCausePhrase(death.causeKey) : null,
     home: placeName(world, person.homeJurisdictionId),
     work,
     party: partyId ? organizationNameAt(world, partyId) : null,

@@ -1,5 +1,6 @@
 import { dateAtAge, makeIsoDate, yearOf } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
+import { deathCauseSummary, hazardDeathCause } from "./crisis/death-causes";
 import { createStableId } from "./ids";
 import { assertExactQuantity } from "./quantity";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
@@ -432,16 +433,22 @@ export const mortalityTransitionHandler: FutureTransitionHandler = (
   let deathEventId: EntityId | null = null;
   let deathRecordId: EntityId | null = null;
   if (rng.died) {
+    // Whether the person dies is the draw above and nothing else. What the
+    // death was comes from its own seeded fork, shared with the K1 model.
+    const cause = hazardDeathCause(working, plan.personId, plan.dueAt);
+    const sources = [
+      ...new Set(cause.episodeId ? [plan.id, cause.episodeId] : [plan.id]),
+    ].sort();
     working = appendPersonDeath(
       working,
       {
         stableKey: `${plan.stableKey}:death`,
         personId: plan.personId,
         diedAt: plan.dueAt,
-        causeKey: MORTALITY_TRANSITION_KEY,
-        sourceEntityIds: [plan.id],
-        summary: "The person died at the annual mortality-check frontier.",
-        provenance: { kind: "simulated", sourceEntityIds: [plan.id] },
+        causeKey: cause.causeKey,
+        sourceEntityIds: sources,
+        summary: deathCauseSummary(cause.causeKey),
+        provenance: { kind: "simulated", sourceEntityIds: sources },
       },
       false,
     );

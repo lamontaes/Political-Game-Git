@@ -1,0 +1,31 @@
+{
+  "filedAt": "2026-09-23T12:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "death causes (playtest fix: a death has a cause)",
+  "notes": [
+    "Whether a person dies, and on which day, is not in question: that stays the life table's. Only the split of those deaths into the three groups and the lead-up for group (a) are asked for.",
+    "A share assigned to suicide, overdose or homicide would come out of the injury or sudden groups today; say which, so the placeholders can be adjusted without double counting."
+  ],
+  "priority": "P2",
+  "question": "For United States deaths, by age band (under 1, 1-14, 15-34, 35-54, 55-74, 75 and over, or the nearest bands the source publishes), what share of all deaths falls into each of three broad groups: (a) an illness the person and family knew about before the death (a course of weeks, months or longer), (b) a sudden illness with death the same day or within about a day (for example sudden cardiac death or a stroke), and (c) unintentional injury (accidents)? For group (a), what is the typical interval from diagnosis or first serious illness to death, as a median and a spread, overall and by age band if available? Separately: how should suicide, drug overdose and homicide be represented, what are their shares by the same age bands, and what handling or content guidance applies before a game records them as a cause of a character's death?",
+  "questionId": "causes-of-death-by-age",
+  "requestVersion": "research-request/v1",
+  "requestedBy": "death-causes thread (claude/death-causes-1k19l4), from the George Norris playtest in Frostburg, Maryland",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/crisis/mortality-table.ts and the SSA 2023 period life table it carries",
+      "whatItDidNotSettle": "It gives all-cause probability of death by age and sex. It has no cause of death at all, so it cannot say what share of deaths at any age are sudden, preceded by a known illness, or injuries."
+    },
+    {
+      "source": "src/simulation/crisis/health.ts (K2 health episodes)",
+      "whatItDidNotSettle": "It states that no researched condition pack is installed, so episodes are labeled simulation episodes with no disease name and no prognosis. It has no data on how long a fatal illness lasts."
+    },
+    {
+      "source": "docs/research/requests on main b01af95c2",
+      "whatItDidNotSettle": "No open or answered question covers cause of death, the interval from diagnosis to death, or how to treat suicide, overdose or homicide."
+    }
+  ],
+  "title": "U.S. causes of death by age: sudden, after a known illness, or injury; and how to treat suicide, overdose and homicide",
+  "usableAnswer": "One table by age band with three shares that sum to 100 for the deaths the game models (known illness, sudden illness, unintentional injury), each marked measured, synthesized or assumed, with the source table (CDC WONDER underlying cause of death or NCHS leading causes; for example the 113-cause list grouped into the three buckets with the grouping stated). One row per age band, or one overall figure, for the interval from diagnosis to death in group (a) as a median and an interquartile range. A separate short section for suicide, overdose and homicide: shares by the same bands and plain guidance on whether and how a game should record them. Say where no evidence exists rather than filling it.",
+  "whyItMatters": "Every hazard death in play now carries one of three broad causes, and a death from an illness with a course is preceded by a recorded illness the family is told about. All the numbers behind that are invented placeholders: the age-banded shares at src/simulation/crisis/death-causes.ts:76 (DEATH_CAUSE_BANDS), the 30-to-300-day lead from first illness to death at src/simulation/crisis/death-causes.ts:90 (FATAL_ILLNESS_LEAD_DAYS), the point in that lead when the prognosis turns limited at src/simulation/crisis/death-causes.ts:96 (FATAL_ILLNESS_PROGNOSIS_AT), and the authored origin note on the illness episode at src/simulation/crisis/fatal-illness.ts:151. Suicide, overdose and homicide are deliberately absent until this is answered. The playtest that prompted it: George Norris, 31, died in Frostburg, Maryland on August 25, 2052 with no cause and no warning."
+}
