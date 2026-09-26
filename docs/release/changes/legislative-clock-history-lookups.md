@@ -21,3 +21,7 @@ Scheduled transitions avoid recounting input shapes when the same inputs have
 already been deeply frozen, and reuse unchanged schedule arrays during history
 checks. Executive staff reads narrow existing employment by office before
 checking status and role, preserving the same staff ordering.
+
+Local council reads reuse the same history indexes for organization identity,
+participations and seat status. Resignations still remove members immediately,
+and reading a later roster does not change an earlier saved snapshot.

@@ -26,6 +26,7 @@
  */
 
 import { createStableId } from "./ids";
+import { recordsByStringField } from "./history-index";
 import type { FutureTransitionHandlerRegistry } from "./types";
 import {
   activeOrganizationParticipationsAt,
@@ -115,9 +116,11 @@ export function municipalOrganizationFor(
   governmentKey: string,
 ): Organization | null {
   const stableKey = municipalOrganizationKey(governmentKey);
-  const installed = world.history.organizations.find(
-    (organization) => organization.stableKey === stableKey,
-  );
+  const installed = recordsByStringField(
+    world.history.organizations,
+    "stableKey",
+    stableKey,
+  )[0];
   if (installed) return installed;
   const unit = governmentUnit(governmentKey);
   if (unit?.unitType === "county") {
@@ -134,10 +137,11 @@ export function municipalOrganizationFor(
       rules.pack.packId !== packId
     )
       return null;
-    const canonical = world.history.organizations.find(
-      (organization) =>
-        organization.stableKey === `local-government:${unit.id}`,
-    );
+    const canonical = recordsByStringField(
+      world.history.organizations,
+      "stableKey",
+      `local-government:${unit.id}`,
+    )[0];
     return canonical &&
       world.jurisdictions[scope.jurisdictionId] &&
       organizationProfileAt(world, canonical.id)?.locationJurisdictionId ===
@@ -155,10 +159,11 @@ export function municipalOrganizationFor(
   )
     return null;
   return (
-    world.history.organizations.find(
-      (organization) =>
-        organization.stableKey === `local-government:${unit.id}`,
-    ) ?? null
+    recordsByStringField(
+      world.history.organizations,
+      "stableKey",
+      `local-government:${unit.id}`,
+    )[0] ?? null
   );
 }
 
@@ -266,10 +271,13 @@ function activeParticipations(
 }
 
 function latestParticipationState(world: World, participationId: EntityId) {
-  return world.history.organizationParticipationStates
+  return recordsByStringField(
+    world.history.organizationParticipationStates,
+    "participationId",
+    participationId,
+  )
     .filter(
       (state) =>
-        state.participationId === participationId &&
         state.effectiveAt <= world.currentDate &&
         state.sequence < world.history.nextSequence,
     )
@@ -1789,8 +1797,11 @@ export function municipalSeats(
   const organization = municipalOrganizationFor(world, governmentKey);
   if (!organization) return [];
   const seats: MunicipalSeat[] = [];
-  for (const participation of world.history.organizationParticipations) {
-    if (participation.organizationId !== organization.id) continue;
+  for (const participation of recordsByStringField(
+    world.history.organizationParticipations,
+    "organizationId",
+    organization.id,
+  )) {
     if (
       participation.startedAt > world.currentDate ||
       participation.recordedAt > world.currentDate
