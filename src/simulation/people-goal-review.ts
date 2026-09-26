@@ -50,6 +50,7 @@ import {
   recordGoalStepTaken,
   settleGoal,
 } from "./people-goal-pursuit";
+import { ensureOwnTies } from "./people-own-ties";
 import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
 import { recordEventKnowledge } from "./records";
 import { recordRelationshipMoment } from "./relationship-integration";
@@ -275,6 +276,13 @@ export function reviewPeopleGoals(world: World): GoalReviewResult {
         next = establishLifePersonality(next, personId);
       } catch {
         // Somebody who cannot hold the records yet is left as they are.
+      }
+      // And, once, a few people of their own to keep up with besides the
+      // played person.
+      try {
+        next = ensureOwnTies(next, personId, anchorId);
+      } catch {
+        // Somebody whose town cannot be read keeps the ties they had.
       }
     }
   }
