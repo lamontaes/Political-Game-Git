@@ -1,3 +1,4 @@
+import { recordById, recordsByStringField } from "./history-index";
 import { crisisAmbientHandler } from "./crisis/ambient";
 import { worldIntegrityCheckMode } from "./world-integrity-changed";
 import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
@@ -337,7 +338,11 @@ export function futureDueItemStateAt(
 ): FutureDueItemStateRecord | null {
   validateCutoff(world, cutoff);
   return (
-    world.history.futureDueItemStates
+    recordsByStringField(
+      world.history.futureDueItemStates,
+      "dueItemId",
+      dueItemId,
+    )
       .filter(
         (record) =>
           record.dueItemId === dueItemId &&
@@ -664,12 +669,10 @@ export function futureTransitionEntityAvailableAt(
   asOfDate: string,
   sequenceExclusive: number,
 ): boolean {
-  const item = world.history.futureDueItems.find((record) => record.id === id);
+  const item = recordById(world.history.futureDueItems, id);
   if (item)
     return item.scheduledAt <= asOfDate && item.sequence < sequenceExclusive;
-  const state = world.history.futureDueItemStates.find(
-    (record) => record.id === id,
-  );
+  const state = recordById(world.history.futureDueItemStates, id);
   return !!(
     state &&
     state.effectiveAt <= asOfDate &&
@@ -1071,6 +1074,33 @@ function bySequence<T extends { readonly sequence: number }>(
 }
 
 function commit(world: World, history: World["history"]): World {
+  // These two writers only append. Move disposable indexes to the new arrays;
+  // do not leave a mutable index attached to an older immutable snapshot.
+  for (const family of ["futureDueItems", "futureDueItemStates"] as const) {
+    const prior = world.history[family];
+    const records = history[family];
+    if (prior === records) continue;
+    const ids = ID_INDEX.get(prior);
+    if (ids) {
+      ID_INDEX.delete(prior);
+      for (let offset = prior.length; offset < records.length; offset += 1)
+        ids.add(records[offset]!.id);
+      ID_INDEX.set(records, ids);
+    }
+  }
+  const priorStates = world.history.futureDueItemStates;
+  const states = history.futureDueItemStates;
+  const latest = LATEST_DUE_STATE.get(priorStates);
+  if (latest && priorStates !== states) {
+    LATEST_DUE_STATE.delete(priorStates);
+    for (let offset = priorStates.length; offset < states.length; offset += 1) {
+      const row = states[offset]!;
+      const prior = latest.get(row.dueItemId);
+      if (!prior || row.sequence > prior.sequence)
+        latest.set(row.dueItemId, row);
+    }
+    LATEST_DUE_STATE.set(states, latest);
+  }
   const next = { ...world, history };
   assertWorldIntegrity(next);
   return next;

@@ -231,8 +231,10 @@ export function recordPrinciples(
     world.history,
     world.id,
     inputs,
-    (priorHistory, input) =>
-      checkPrincipleInput({ ...world, history: priorHistory }, input),
+    (priorHistory, input) => {
+      transferPoliticalIndex(world.history.principles, priorHistory.principles);
+      checkPrincipleInput({ ...world, history: priorHistory }, input);
+    },
   );
   return validateNext(world, { ...world, history });
 }
@@ -745,6 +747,17 @@ const POLITICAL_SUPERSESSION_INDEX = new WeakMap<
   Map<string, PoliticalSupersessionIndex<unknown>>
 >();
 
+/** Move a disposable index along a writer's known append, never share mutable
+ * maps between immutable Worlds. An older snapshot rebuilds its own index if
+ * read again. This is called only after our own append writers copy the prefix. */
+function transferPoliticalIndex(previous: object, next: object): void {
+  if (previous === next || POLITICAL_SUPERSESSION_INDEX.has(next)) return;
+  const index = POLITICAL_SUPERSESSION_INDEX.get(previous);
+  if (!index) return;
+  POLITICAL_SUPERSESSION_INDEX.delete(previous);
+  POLITICAL_SUPERSESSION_INDEX.set(next, index);
+}
+
 function politicalSupersessionIndex<
   T extends { readonly id: EntityId; readonly personId: EntityId },
 >(
@@ -832,7 +845,16 @@ function runtimeKind(value: never): string {
   return String((value as { readonly kind?: unknown }).kind);
 }
 
-function validateNext(_previous: World, next: World): World {
+function validateNext(previous: World, next: World): World {
+  transferPoliticalIndex(previous.history.principles, next.history.principles);
+  transferPoliticalIndex(
+    previous.history.publicPositions,
+    next.history.publicPositions,
+  );
+  transferPoliticalIndex(
+    previous.history.campaignCommitments,
+    next.history.campaignCommitments,
+  );
   assertWorldIntegrity(next);
   return next;
 }
