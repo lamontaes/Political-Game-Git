@@ -32,6 +32,50 @@ import {
 } from "./opening-officeholders";
 
 const setup = { ...DEFAULT_NEW_GAME_SETUP, seed: "opening-proof" };
+
+function assertOpeningLifecycleAtAge(startAge: number) {
+  const prepared = prepareOpeningLife({ ...setup, startAge });
+  expect(prepared.game).toBeNull();
+  const generated = generateOpeningLife(prepared);
+  const { world, playerPersonId } = generated.game!;
+  assertWorldIntegrity(world);
+  const before = serializeWorld(world);
+  expect(generateOpeningLife(generated)).toBe(generated);
+  expect(establishOpeningOfficeholders(world, playerPersonId)).toBe(world);
+  const view = projectOpeningLife(world, playerPersonId);
+  expect(view.age).toBe(startAge);
+  expect(view.name).toBeTruthy();
+  // The identity line says the date the American way, never as ISO.
+  expect(view.date).toBe(proseDate(world.currentDate));
+  expect(view.date).toMatch(/^[A-Z][a-z]+ \d{1,2}, \d{4}$/);
+  // President, Vice President, Chief Justice, and the home state's governor,
+  // whose opening term is now dated by the office calendar.
+  expect(view.officeholders).toHaveLength(4);
+  expect(
+    new Set(view.officeholders.map((holder) => holder.personId)).size,
+  ).toBe(4);
+  for (const holder of view.officeholders) {
+    expect(world.people[holder.personId]).toBeDefined();
+    expect(
+      world.history.events.find((event) => event.id === holder.termId)
+        ?.involvedEntityIds,
+    ).toContain(holder.organizationId);
+  }
+  const skipped = moveOpeningLife(generated, "skip");
+  expect(skipped.phase).toBe("play");
+  const back = moveOpeningLife(skipped, "back");
+  expect(back.phase).toBe("household");
+  expect(back.game!.world).toBe(world);
+  expect(serializeWorld(world)).toBe(before);
+  const restored = restoreOpeningLife(back, deserializeWorld(before));
+  expect(projectOpeningLife(restored.game!.world, playerPersonId)).toEqual(
+    view,
+  );
+  expect(openingOfficeholders(restored.game!.world)).toEqual(
+    view.officeholders,
+  );
+}
+
 describe("OPENING-LIFE1 opening lifecycle", () => {
   it("prepares Congress principles in Begin and adds none at the first monthly intake", async () => {
     const columbus = searchLifePlaces("Columbus", 20, {
@@ -99,49 +143,17 @@ describe("OPENING-LIFE1 opening lifecycle", () => {
     expect(versionedRowsForCongress(handled.world)).toEqual(before);
   }, 60_000);
 
-  it.each([5, 7, 12, 17, 18, 34, 70])(
+  it(
+    "keeps generation and read paths separate at age 12",
+    () => assertOpeningLifecycleAtAge(12),
+    10_000,
+  );
+
+  // These six synchronous new-game builds measured 5–9s after nationwide
+  // opening preparation; keep the extra budget local to those age cases.
+  it.each([5, 7, 17, 18, 34, 70])(
     "keeps generation and read paths separate at age %i",
-    (startAge) => {
-      const prepared = prepareOpeningLife({ ...setup, startAge });
-      expect(prepared.game).toBeNull();
-      const generated = generateOpeningLife(prepared);
-      const { world, playerPersonId } = generated.game!;
-      assertWorldIntegrity(world);
-      const before = serializeWorld(world);
-      expect(generateOpeningLife(generated)).toBe(generated);
-      expect(establishOpeningOfficeholders(world, playerPersonId)).toBe(world);
-      const view = projectOpeningLife(world, playerPersonId);
-      expect(view.age).toBe(startAge);
-      expect(view.name).toBeTruthy();
-      // The identity line says the date the American way, never as ISO.
-      expect(view.date).toBe(proseDate(world.currentDate));
-      expect(view.date).toMatch(/^[A-Z][a-z]+ \d{1,2}, \d{4}$/);
-      // President, Vice President, Chief Justice, and the home state's governor, whose opening
-      // term is now dated by the office calendar.
-      expect(view.officeholders).toHaveLength(4);
-      expect(
-        new Set(view.officeholders.map((holder) => holder.personId)).size,
-      ).toBe(4);
-      for (const holder of view.officeholders) {
-        expect(world.people[holder.personId]).toBeDefined();
-        expect(
-          world.history.events.find((event) => event.id === holder.termId)
-            ?.involvedEntityIds,
-        ).toContain(holder.organizationId);
-      }
-      const skipped = moveOpeningLife(generated, "skip");
-      expect(skipped.phase).toBe("play");
-      const back = moveOpeningLife(skipped, "back");
-      expect(back.phase).toBe("household");
-      expect(back.game!.world).toBe(world);
-      expect(serializeWorld(world)).toBe(before);
-      const restored = restoreOpeningLife(back, deserializeWorld(before));
-      expect(projectOpeningLife(restored.game!.world, playerPersonId)).toEqual(
-        view,
-      );
-      expect(openingOfficeholders(restored.game!.world)).toEqual(
-        view.officeholders,
-      );
-    },
+    (startAge) => assertOpeningLifecycleAtAge(startAge),
+    15_000,
   );
 });
