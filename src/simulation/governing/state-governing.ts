@@ -4,7 +4,12 @@ import { addDays, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { createWorkRelationship, recordWorkStatus } from "../life";
-import { currentLifeCutoff, workRoleAt, workStatusAt } from "../life-queries";
+import {
+  currentLifeCutoff,
+  workRelationshipHistoryForOrganization,
+  workRoleAt,
+  workStatusAt,
+} from "../life-queries";
 import { currentPresidentOf } from "../crisis/offices";
 import { currentFederalTenure } from "../federal-tenures";
 import { nationalOfficeHolder } from "../national-election-consumer";
@@ -334,23 +339,30 @@ function chiefOfStaffWork(
   organizationId: EntityId,
 ): readonly { readonly personId: EntityId; readonly workId: EntityId }[] {
   const cutoff = currentLifeCutoff(world);
-  const personOrder = new Map(
-    world.personOrder.map((personId, index) => [personId, index]),
+  const active = workRelationshipHistoryForOrganization(
+    world,
+    organizationId,
+    cutoff,
+  ).filter(
+    (relationship) =>
+      relationship.organizationId === organizationId &&
+      relationship.kind === "employment:executive-staff" &&
+      relationship.sequence < cutoff.historySequenceExclusive &&
+      (relationship.startedAt < relationship.recordedAt
+        ? relationship.startedAt
+        : relationship.recordedAt) <= cutoff.asOfDate &&
+      relationship.startedAt <= cutoff.asOfDate &&
+      workStatusAt(world, relationship.id, cutoff)?.status === "active" &&
+      workRoleAt(world, relationship.id, cutoff)?.occupationClassification ===
+        CHIEF_OF_STAFF_CLASSIFICATION,
   );
-  return world.history.workRelationships
-    .filter(
-      (relationship) =>
-        relationship.organizationId === organizationId &&
-        relationship.kind === "employment:executive-staff" &&
-        relationship.sequence < cutoff.historySequenceExclusive &&
-        (relationship.startedAt < relationship.recordedAt
-          ? relationship.startedAt
-          : relationship.recordedAt) <= cutoff.asOfDate &&
-        relationship.startedAt <= cutoff.asOfDate &&
-        workStatusAt(world, relationship.id, cutoff)?.status === "active" &&
-        workRoleAt(world, relationship.id, cutoff)?.occupationClassification ===
-          CHIEF_OF_STAFF_CLASSIFICATION,
-    )
+  // Most offices have no hired chief. Only build a person-order lookup when
+  // there are actually two or more active jobs to order.
+  const personOrder =
+    active.length > 1
+      ? new Map(world.personOrder.map((personId, index) => [personId, index]))
+      : new Map<EntityId, number>();
+  return active
     .sort(
       (left, right) =>
         (personOrder.get(left.personId) ?? Infinity) -

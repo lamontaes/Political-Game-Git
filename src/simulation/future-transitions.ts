@@ -547,7 +547,10 @@ export function resolveFutureDueItemsThrough(
     // A guard against a handler editing its input in place. It counts the
     // keys of every top-level record (thousands of people), twice per due
     // item, so play leaves it to the test suite and the deep guard there.
-    const guardShape = worldIntegrityCheckMode() === "full";
+    // A deeply frozen input already rejects every mutation. Recounting its
+    // thousands of people and history keys adds no protection in that mode.
+    const guardShape =
+      !deepTransitionInputGuard && worldIntegrityCheckMode() === "full";
     const shallowInput = guardShape ? shallowWorldShape(atDueDate) : "";
     const dueItemsBefore = atDueDate.history.futureDueItems;
     const dueStatesBefore = atDueDate.history.futureDueItemStates;
@@ -586,8 +589,9 @@ export function resolveFutureDueItemsThrough(
       after: readonly T[],
       before: readonly T[],
     ): boolean =>
-      after.length >= before.length &&
-      before.every((record, index) => after[index] === record);
+      after === before ||
+      (after.length >= before.length &&
+        before.every((record, index) => after[index] === record));
     if (
       !prefixUnchanged(resultDueItems, dueItemsBefore) ||
       !prefixUnchanged(resultDueStates, dueStatesBefore)
