@@ -957,9 +957,14 @@ export function PlayerGame() {
             onPrepare={async (report, signal) => {
               try {
                 report({ label: "Creating your life", completed: 0, total: 0 });
-                const game = createOpeningLifeController(
-                  screen.setup,
-                ).finishTransition().game!;
+                const game = (
+                  await createOpeningLifeController(
+                    screen.setup,
+                  ).finishTransitionWithProgress({
+                    signal,
+                    onProgress: report,
+                  })
+                ).game!;
                 if (signal.aborted) return;
                 startPlaying(
                   prepareCandidateOpeningWorld(
