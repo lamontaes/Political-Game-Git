@@ -8,13 +8,9 @@ import {
   US_STATE_USPS,
 } from "./state-executive-candidacy-packs";
 import {
-  ensureNationwideStateExecutives,
   ensureStateJurisdiction,
   stateExecutiveOffice,
 } from "./state-executives";
-import { worldOpeningVersionOf } from "../world-setup/conditions";
-import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
-import { scheduleNationwideStateLegislatureOpenings } from "./state-legislature-opening";
 import {
   nextRegularElectionInWorld,
   termDatesAfterElectionInWorld,
@@ -28,7 +24,6 @@ import type { StateExecutiveTermRuleInWorld } from "./executive-term-rules-in-wo
  */
 
 export const GOVERNOR_TURNOVER_VERSION = "governor-turnover/v1";
-const stateCodes = new Set<string>(US_STATE_USPS);
 
 /**
  * PROVISIONAL, and awaiting SOURCED RULES rather than anyone's sign-off.
@@ -132,25 +127,11 @@ export function scheduleNextFieldClose(
 export function applyGovernorTurnover(before: IsoDate, world: World): World {
   if (world.currentDate <= before) return world;
   let next = world;
-  let offices = materializedOffices(next);
-  // A current-version save opened before nationwide seasons existed still
-  // holds only its home governor. Catch it up once on the clock, preserving
-  // its recorded people and terms; legacy replay descriptors stay unchanged.
-  if (
-    worldOpeningVersionOf(next) === CRUNCH46_WORLD_OPENING_VERSION &&
-    offices.filter((office) => stateCodes.has(office.stateUsps)).length < 50
-  ) {
-    const subjectPersonId =
-      next.control.kind === "person"
-        ? next.control.personId
-        : next.personOrder.find((id) => !!next.people[id]);
-    if (subjectPersonId && next.people[subjectPersonId]) {
-      next = ensureNationwideStateExecutives(next, subjectPersonId);
-      offices = materializedOffices(next);
-    }
-  }
-  if (worldOpeningVersionOf(next) === CRUNCH46_WORLD_OPENING_VERSION)
-    next = scheduleNationwideStateLegislatureOpenings(next);
+  // Every governor and every state legislature is seated when a new game
+  // opens (opening-life.ts), so the clock no longer asks on each move whether
+  // all 50 exist. Saves from before that preparation are not supported
+  // (owner, 2026-09-26: old saves need not stay compatible yet).
+  const offices = materializedOffices(next);
   for (const office of offices) {
     next = scheduleNextFieldClose(next, office.stateUsps, next.currentDate);
     next = scheduleGoverningSeasons(
