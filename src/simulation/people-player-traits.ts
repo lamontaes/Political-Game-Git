@@ -97,6 +97,60 @@ export function recordPlayerTraitChoice(
 }
 
 /**
+ * A formative choice says something about temperament only where its own
+ * meaning does. These keys come from the authored option, never its position
+ * among the options the player happened to see.
+ */
+const FORMATIVE_CHOICE_TRAITS: Readonly<
+  Record<string, { readonly trait: PeopleTrait; readonly value: TraitValue }>
+> = {
+  "say-what-happened": { trait: "conflict", value: 1 },
+  "stay-quiet": { trait: "conflict", value: -1 },
+  "join-in": { trait: "sociability", value: 1 },
+  share: { trait: "sociability", value: 1 },
+  "settle-in": { trait: "sociability", value: 1 },
+  "hang-back": { trait: "sociability", value: -1 },
+  "keep-your-corner": { trait: "sociability", value: -1 },
+  spend: { trait: "risk", value: 1 },
+  "put-it-away": { trait: "risk", value: -1 },
+  "make-yourself-useful": { trait: "reliability", value: 1 },
+};
+
+/** Records a played formative choice only after its canonical event exists. */
+export function recordFormativePlayerTraitChoice(
+  before: World,
+  after: World,
+  input: {
+    readonly personId: EntityId;
+    readonly situationKey: string;
+    readonly optionKey: string;
+    readonly choiceLabel: string;
+  },
+): World {
+  const trait = FORMATIVE_CHOICE_TRAITS[input.optionKey];
+  if (
+    !trait ||
+    after.control.kind !== "person" ||
+    after.control.personId !== input.personId
+  )
+    return after;
+  const choiceEvent = after.history.events
+    .slice(before.history.events.length)
+    .find(
+      (event) =>
+        event.involvedEntityIds.includes(input.personId) &&
+        event.tags.includes(input.situationKey),
+    );
+  if (!choiceEvent) return after;
+  return recordPlayerTraitChoice(after, {
+    personId: input.personId,
+    ...trait,
+    choice: input.choiceLabel,
+    stableKey: choiceEvent.id,
+  });
+}
+
+/**
  * What the played character has said about themselves, and what they have not.
  *
  * `said` is the traits they have chosen; `unsaid` is the rest. The second is

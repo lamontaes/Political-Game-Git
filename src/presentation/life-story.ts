@@ -6,6 +6,7 @@ import {
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
 import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
+import { recordFormativePlayerTraitChoice } from "../simulation/people-player-traits";
 import { formatMinute } from "./player-calendar";
 import {
   blockingHoldsToday,
@@ -936,13 +937,26 @@ export function chooseStoryOption(
           )
         : played.world;
     }
-    case "formative":
-      return chooseFormativeOption(world, {
+    case "formative": {
+      const chosen = chooseFormativeOption(world, {
         personId: input.personId,
         situationKey: scene.situationKey,
         optionKey: input.optionKey,
         withPersonId: scene.withPersonId,
       });
+      if (
+        formativeIntervalAt(world, input.personId)?.agency === "caregiver-led"
+      )
+        return chosen;
+      return recordFormativePlayerTraitChoice(world, chosen, {
+        personId: input.personId,
+        situationKey: scene.situationKey,
+        optionKey: input.optionKey,
+        choiceLabel:
+          scene.options.find((option) => option.key === input.optionKey)
+            ?.label ?? input.optionKey,
+      });
+    }
     case "adult":
       return chooseAdultOption(world, {
         personId: input.personId,

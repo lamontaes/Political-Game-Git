@@ -64,11 +64,10 @@ function childAtHome(seed: string) {
 }
 
 describe("interruption preferences", () => {
-  it("only ever makes a skip stop more often, never less", () => {
+  it("leaves routine work automatic when only tentative holds are requested", () => {
     const relaxed = interruptionHandlers(DEFAULT_INTERRUPTIONS);
     const strict = interruptionHandlers({
-      stopForWorkShifts: true,
-      stopForTentativeHolds: false,
+      stopForTentativeHolds: true,
     });
     const { world } = ordinaryAdult("ui36-policy");
     for (const activity of world.history.scheduledActivities) {
@@ -80,8 +79,7 @@ describe("interruption preferences", () => {
         world,
         activity.id,
       );
-      expect(gated).toBe(false);
-      if (!base) expect(gated).toBe(false);
+      expect(gated).toBe(base);
     }
     expect(strict.get).toBeTypeOf("function");
   });
@@ -101,11 +99,9 @@ describe("interruption preferences", () => {
     );
     expect(hold).toBeDefined();
     const stopping = simulateCalendarDays(world, personId, 1, {
-      stopForWorkShifts: false,
       stopForTentativeHolds: true,
     });
     const lapsing = simulateCalendarDays(world, personId, 1, {
-      stopForWorkShifts: false,
       stopForTentativeHolds: false,
     });
     /* Asked to stop: time halts at the hold and the hold is still scheduled. */

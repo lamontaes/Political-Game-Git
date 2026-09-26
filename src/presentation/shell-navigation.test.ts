@@ -151,15 +151,14 @@ describe("the shell's navigation", () => {
   it("keeps interruption choices as preferences with a single writer", () => {
     const state = shellReducer(INITIAL_SHELL_STATE, {
       type: "set-interruption",
-      key: "stopForWorkShifts",
+      key: "stopForTentativeHolds",
       value: true,
     });
-    expect(state.preferences.interruptions.stopForWorkShifts).toBe(true);
-    expect(state.preferences.interruptions.stopForTentativeHolds).toBe(false);
+    expect(state.preferences.interruptions.stopForTentativeHolds).toBe(true);
     expect(
       shellReducer(state, {
         type: "set-interruption",
-        key: "stopForWorkShifts",
+        key: "stopForTentativeHolds",
         value: true,
       }),
     ).toBe(state);

@@ -464,7 +464,6 @@ describe("the shell's own store", () => {
       defaultPinSize: "tiny",
       followedNewsOutletKeys: [],
       interruptions: {
-        stopForWorkShifts: false,
         stopForTentativeHolds: false,
       },
       // Reader layouts added later load with their defaults from older records.

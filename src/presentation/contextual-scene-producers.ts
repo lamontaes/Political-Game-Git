@@ -24,7 +24,11 @@ import { commitmentPromisee } from "../simulation/claim-contradictions";
 import { evaluateDecision } from "../simulation/decisions";
 import { lifeRequestDetails } from "../simulation/life-request-details";
 import { LIFE_CALLBACK_EVENT } from "../simulation/life-callbacks";
-import { offerBereavementScene } from "../simulation/people-bereavement";
+import {
+  applyDeathNotices,
+  offerBereavementScene,
+} from "../simulation/people-bereavement";
+import { crisisPersonDeathRecipientNotices } from "../simulation/crisis/notices";
 import {
   contactBases,
   contactProposals,
@@ -110,20 +114,32 @@ export function refreshContextualScenes(
   world: World,
   personId: EntityId,
 ): World {
-  if (world.control.kind !== "person" || world.control.personId !== personId) {
-    return world;
+  // The saved family learns of deaths during this life before any optional
+  // scene is considered. This also reaches child relatives and leaves deaths
+  // from generated prehistory outside the player's present life.
+  const noticed = applyDeathNotices(
+    world,
+    crisisPersonDeathRecipientNotices(world, {
+      diedOnOrAfter: world.startedAt,
+    }).filter((notice) => notice.diedAt <= world.currentDate),
+  );
+  if (
+    noticed.control.kind !== "person" ||
+    noticed.control.personId !== personId
+  ) {
+    return noticed;
   }
-  const person = world.people[personId];
-  if (!person || ageOnDate(person.birthDate, world.currentDate) < 18) {
-    return world;
+  const person = noticed.people[personId];
+  if (!person || ageOnDate(person.birthDate, noticed.currentDate) < 18) {
+    return noticed;
   }
   if (
-    world.history.personDeaths.some(
+    noticed.history.personDeaths.some(
       (death) =>
-        death.personId === personId && death.diedAt <= world.currentDate,
+        death.personId === personId && death.diedAt <= noticed.currentDate,
     )
   ) {
-    return world;
+    return noticed;
   }
   const producers: readonly Producer[] = [
     offerBereavementScene,
@@ -143,7 +159,7 @@ export function refreshContextualScenes(
     produceStaffFollowup,
     produceReporterQuestion,
   ];
-  let next = world;
+  let next = noticed;
   for (const produce of producers) {
     try {
       next = produce(next, personId);

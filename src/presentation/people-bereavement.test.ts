@@ -138,6 +138,69 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
     );
   });
 
+  it("tells current-life relatives when an ordinary day passes", () => {
+    const afterDay = letAdultTimePass(dead, 1);
+    const learned = afterDay.history.events.filter(
+      (event) =>
+        event.type === BEREAVEMENT_NOTICE_EVENT &&
+        event.involvedEntityIds.includes(sibling),
+    );
+    expect(learned).toHaveLength(2);
+    expect(
+      afterDay.history.knowledge.some(
+        (entry) => entry.personId === player && entry.eventId === death.eventId,
+      ),
+    ).toBe(true);
+    expect(
+      afterDay.history.knowledge.some(
+        (entry) => entry.personId === other && entry.eventId === death.eventId,
+      ),
+    ).toBe(true);
+    expect(
+      afterDay.history.knowledge.some(
+        (entry) =>
+          entry.personId === stranger && entry.eventId === death.eventId,
+      ),
+    ).toBe(false);
+    const anotherDay = letAdultTimePass(afterDay, 1);
+    expect(
+      anotherDay.history.events.filter(
+        (event) =>
+          event.type === BEREAVEMENT_NOTICE_EVENT &&
+          event.involvedEntityIds.includes(sibling),
+      ),
+    ).toHaveLength(2);
+    assertWorldIntegrity(anotherDay);
+  });
+
+  it("does not bring a generated prelife death into this life's notices", () => {
+    const beforeStart = recordPersonDeath(second.world, {
+      stableKey: "fixture:grief-prelife-death",
+      personId: sibling,
+      diedAt: yearsBefore(second.world.startedAt, 1) as never,
+      causeKey: "cause:people-fixture",
+      sourceEntityIds: [second.world.id],
+      summary: "Died before this life began.",
+      provenance: { kind: "authored", note: "PEOPLE prelife death fixture." },
+    });
+    const prelifeDeath = beforeStart.history.personDeaths.find(
+      (entry) => entry.personId === sibling,
+    )!;
+    const afterDay = letAdultTimePass(beforeStart, 1);
+    expect(
+      afterDay.history.events.some(
+        (event) =>
+          event.type === BEREAVEMENT_NOTICE_EVENT &&
+          event.involvedEntityIds.includes(sibling),
+      ),
+    ).toBe(false);
+    expect(
+      afterDay.history.knowledge.some(
+        (entry) => entry.eventId === prelifeDeath.eventId,
+      ),
+    ).toBe(false);
+  });
+
   it("keeps a private cause private, and says so where it was disclosed", () => {
     const believed = told.history.knowledge.find(
       (entry) => entry.personId === other && entry.eventId === death.eventId,

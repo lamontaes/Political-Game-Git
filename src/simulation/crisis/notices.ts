@@ -160,10 +160,14 @@ export interface PersonDeathRecipientNotice {
  */
 export function crisisPersonDeathRecipientNotices(
   world: World,
-  options: { readonly afterSequence?: number } = {},
+  options: {
+    readonly afterSequence?: number;
+    readonly diedOnOrAfter?: IsoDate;
+  } = {},
 ): readonly PersonDeathRecipientNotice[] {
   const notices: PersonDeathRecipientNotice[] = [];
   for (const death of crisisPersonDeathNotices(world, options)) {
+    if (options.diedOnOrAfter && death.diedAt < options.diedOnOrAfter) continue;
     const cutoff = {
       asOfDate: death.diedAt,
       historySequenceExclusive: world.history.nextSequence,

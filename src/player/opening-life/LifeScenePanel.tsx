@@ -1,4 +1,3 @@
-import { LifeFavorPanel } from "../LifeFavorPanel";
 import { openingChoiceMinutes } from "../../simulation/opening-life-content";
 import { projectOpeningLife } from "../../presentation/opening-life";
 import {
@@ -166,12 +165,6 @@ export function LifeScenePanel({
           {outcome}
         </p>
       ) : null}
-      <LifeFavorPanel
-        world={world}
-        personId={playerPersonId}
-        onWorldChange={onWorldChange}
-        transitionHandlers={transitionHandlers}
-      />
       {aftermath ? <p data-testid="life-scene-aftermath">{aftermath}</p> : null}
       {scene ? (
         <>

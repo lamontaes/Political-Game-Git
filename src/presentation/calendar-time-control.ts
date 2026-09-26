@@ -183,9 +183,8 @@ export function authorizeCalendarSimulation(
   if (!handlers.routine?.isAutoResolvableActivity(world, activityId)) {
     return {
       authorized: false,
-      reason: interruptions.stopForWorkShifts
-        ? "Your interruption preferences ask to stop for work shifts, so attendance is not simulated. Play it, or change the preference."
-        : "Standing preferences did not authorize simulated attendance. Advance and Play stay distinct.",
+      reason:
+        "This activity does not run on its own. Advance and Play stay distinct.",
     };
   }
   return {
