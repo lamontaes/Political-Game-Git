@@ -27,6 +27,7 @@ import {
 } from "../simulation/legislation-program-families";
 import { compileBillDraft } from "../simulation/legislation-drafting";
 import { bargainingSubjectFactsForDraft } from "./legislative-bargaining-brief";
+import { availableConversationIntents } from "./run-b-conversation";
 import {
   legislativeBlueprint,
   seatBodyForPack,
@@ -150,6 +151,23 @@ describe("a sitting is about the bill that is actually on the floor", () => {
     // Nothing transit remains anywhere in what the sitting is about.
     const everything = JSON.stringify(facts);
     expect(everything).not.toMatch(/Ashland|transit|local match/i);
+
+    const replies = availableConversationIntents(
+      entry.world,
+      entry.seat.roomContext,
+      entry.seat.advocatePersonId,
+      entry.seat.progress,
+      "normal",
+    );
+    expect(
+      replies.find((reply) => reply.key === "ask-what-they-want")?.spokenWords,
+    ).toBe(`What do you need changed in ${staged.bill.designation}?`);
+    const proposal = replies.find(
+      (reply) => reply.key === "offer-targeted-provision",
+    )?.spokenWords;
+    expect(proposal).toContain(facts.requestedBeneficiaryLabel);
+    expect(proposal).toContain(facts.requestedAmountLabel);
+    expect(proposal).not.toMatch(/HB 214|Ashland|transit/i);
   });
 
   it("refuses a docket key that is not on this character's docket", () => {

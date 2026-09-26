@@ -45,6 +45,7 @@ import {
   contextualSubjectPresentation,
   familyOfSubject,
   isContextualSceneProgress,
+  isContextualSceneSubject,
   sceneFamily,
   staticContract,
   type ContextualSceneProgress,
@@ -1654,13 +1655,25 @@ const COMMIT_CONTRACTS: Readonly<
 export function conversationCommitContract(
   progress: ConversationProgress,
 ): ConversationCommitContract {
-  if (isContextualSceneProgress(progress)) {
-    return contextualSceneContract(progress.subject);
+  return conversationCommitContractForSubject(progress.subject);
+}
+
+/**
+ * The recorded vocabulary for a subject can be read without reconstructing
+ * its opening progress. Legislative and office conversations create that
+ * progress from a particular saved bill or case, but their event type and tag
+ * are stable for every turn and must remain readable after Save/Continue.
+ */
+export function conversationCommitContractForSubject(
+  subject: ConversationSubjectKey,
+): ConversationCommitContract {
+  if (isContextualSceneSubject(subject)) {
+    return contextualSceneContract(subject);
   }
-  const contract = COMMIT_CONTRACTS[progress.subject];
+  const contract = COMMIT_CONTRACTS[subject];
   if (!contract) {
     throw new Error(
-      `No canonical commit contract is defined for the ${progress.subject} conversation.`,
+      `No canonical commit contract is defined for the ${subject} conversation.`,
     );
   }
   return contract;

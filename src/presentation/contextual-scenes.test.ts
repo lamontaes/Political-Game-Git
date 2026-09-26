@@ -29,6 +29,7 @@ import {
   projectPlayerConversation,
 } from "./player-conversation";
 import { commitConversationTurn } from "./run-b-conversation";
+import { conversationExchangeTurns } from "./scene-conversation";
 
 /**
  * PROSE B in an ordinary life: an organizer's invitation, the evening it
@@ -152,6 +153,21 @@ describe("PROSE B contextual scenes in ordinary play", () => {
     expect(after.intents.map((intent) => intent.key)).not.toContain(
       "ask-what-happens",
     );
+  });
+
+  it("replays the selected question's exact words after a save and reload", () => {
+    const selected = route.invite.intents.find(
+      (intent) => intent.key === "ask-what-happens",
+    );
+    expect(selected?.spokenWords).toBeTruthy();
+    const reopened = deserializeWorld(serializeWorld(route.asked));
+    const turns = conversationExchangeTurns(
+      reopened,
+      player,
+      "scene-party-invite",
+      route.invite.addressee,
+    );
+    expect(turns.at(-1)?.playerLine).toBe(selected!.spokenWords);
   });
 
   it("saying yes goes through the chapter's own acceptance, and the exchange stays settled", () => {
