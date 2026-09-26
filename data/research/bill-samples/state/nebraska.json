@@ -1,0 +1,176 @@
+[
+  {
+    "id": "ne-2025-lb383-social-media",
+    "jurisdiction": "Nebraska",
+    "level": "state",
+    "session": "109th Legislature, 1st Session (2025)",
+    "bill_number": "LB 383",
+    "law_citation": null,
+    "short_title": "Parental Rights in Social Media Act",
+    "enacted_date": "2025-05",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://nebraskalegislature.gov/bills/",
+    "aggregator_url": "https://legiscan.com/NE/bill/LB383/2025",
+    "menu": "13",
+    "menu_name": "Science, Technology & Communications",
+    "sub_topic": "Data protection / online platforms",
+    "secondary_menus": [
+      "12"
+    ],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "Social media companies must verify age and get parental consent for minors' accounts."
+      },
+      {
+        "kind": "covered-population",
+        "description": "Users under 18.",
+        "numbers": [
+          {
+            "value": 18,
+            "unit": "years",
+            "text": "18 years"
+          }
+        ]
+      },
+      {
+        "kind": "enforcement",
+        "description": "Attorney General enforcement and private action (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "effective-date",
+        "description": "Delayed start (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "social media platforms",
+      "age verification vendors"
+    ],
+    "daily_life": "A teen needs a parent's approval to open an account.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "ne-2025-lb415-sick-leave",
+    "jurisdiction": "Nebraska",
+    "level": "state",
+    "session": "109th Legislature, 1st Session (2025)",
+    "bill_number": "LB 415",
+    "law_citation": null,
+    "short_title": "Paid sick leave law narrowed (small employer exemption)",
+    "enacted_date": "2025-06-04",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://nebraskalegislature.gov/FloorDocs/109/PDF/Slip/LB415.pdf",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Paid and unpaid leave",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "threshold",
+        "description": "Voter-approved paid sick time applies only to employers with 11 or more employees.",
+        "numbers": [
+          {
+            "value": 11,
+            "unit": "employees",
+            "text": "11 employees"
+          }
+        ]
+      },
+      {
+        "kind": "exemption",
+        "description": "Exempts some workers (for example certain seasonal or young workers) (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "enforcement",
+        "description": "Administrative penalties replace some enforcement paths."
+      },
+      {
+        "kind": "transition",
+        "description": "Amends a law passed by ballot initiative before it took effect.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-10-01 date initiative start",
+            "text": "2025-10-01 date initiative start"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "2024 ballot initiative",
+      "small employers"
+    ],
+    "daily_life": "Workers at a five-person shop do not earn paid sick days.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ne-2025-lb261-property-tax-relief",
+    "jurisdiction": "Nebraska",
+    "level": "state",
+    "session": "109th Legislature, 1st Session (2025)",
+    "bill_number": "LB 261",
+    "law_citation": null,
+    "short_title": "Property tax credit relief increase",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://nebraskalegislature.gov/bills/",
+    "aggregator_url": "https://legiscan.com/NE/bill/LB261/2025",
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Property taxes",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "credit",
+        "description": "Increases state-funded property tax relief.",
+        "numbers": [
+          {
+            "value": 105000000,
+            "unit": "USD in 2026",
+            "text": "105000000 USD in 2026"
+          },
+          {
+            "value": 170000000,
+            "unit": "USD in 2027",
+            "text": "170000000 USD in 2027"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "State general fund."
+      }
+    ],
+    "touches": [
+      "school districts",
+      "farm property owners"
+    ],
+    "daily_life": "A larger credit shows up on property tax statements.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

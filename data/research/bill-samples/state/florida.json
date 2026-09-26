@@ -1,0 +1,315 @@
+[
+  {
+    "id": "fl-2025-sb700-agriculture-fluoride",
+    "jurisdiction": "Florida",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 700",
+    "law_citation": "Chapter 2025-22, Laws of Florida",
+    "short_title": "Agriculture omnibus (includes water additive ban)",
+    "enacted_date": "2025-05-20",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-07-01"
+    ],
+    "official_text_url": "https://www.flsenate.gov/Session/Bill/2025/700",
+    "aggregator_url": null,
+    "menu": "14",
+    "menu_name": "Agriculture & Food",
+    "sub_topic": "Crops and livestock / food safety",
+    "secondary_menus": [
+      "09",
+      "02"
+    ],
+    "instrument": "prohibition",
+    "secondary_instruments": [
+      "preemption"
+    ],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Bars adding certain additives, understood to include fluoride, to public water systems.",
+        "inferred": true
+      },
+      {
+        "kind": "preemption",
+        "description": "Removes the choice from local water utilities statewide."
+      },
+      {
+        "kind": "duty",
+        "description": "Many agricultural policy updates (farm programs, food labeling, pest control)."
+      },
+      {
+        "kind": "effective-date",
+        "description": "Default July 1 effective date.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-07-01 date",
+            "text": "2025-07-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "municipal water utilities",
+      "dentists",
+      "farm programs"
+    ],
+    "daily_life": "Tap water stops having fluoride added.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "fl-2025-hb1205-initiative-petitions",
+    "jurisdiction": "Florida",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 1205",
+    "law_citation": "Chapter 2025-21, Laws of Florida",
+    "short_title": "Citizen initiative petition restrictions",
+    "enacted_date": "2025-05-05",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.flsenate.gov/Session/Bill/2025/1205",
+    "aggregator_url": null,
+    "menu": "11",
+    "menu_name": "Government & Democracy",
+    "sub_topic": "Elections and representation",
+    "secondary_menus": [],
+    "instrument": "procedure/election rule",
+    "secondary_instruments": [
+      "penalty"
+    ],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "Petition circulators must register and meet residency and citizenship requirements.",
+        "inferred": true
+      },
+      {
+        "kind": "deadline",
+        "description": "Signed petitions must be turned in within a shorter window.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "days (inferred)",
+            "text": "10 days (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "penalty",
+        "description": "Larger fines on sponsors for late or invalid petitions; felony for certain petition fraud.",
+        "inferred": true
+      },
+      {
+        "kind": "disclosure",
+        "description": "Signers must provide identifying information such as a license number.",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "ballot measure campaigns",
+      "county elections supervisors"
+    ],
+    "daily_life": "Getting a citizen proposal on the ballot becomes harder and costlier.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "fl-2025-hb7031-tax-package",
+    "jurisdiction": "Florida",
+    "level": "state",
+    "session": "2025 Regular Session (extended)",
+    "bill_number": "HB 7031",
+    "law_citation": "Chapter 2025-208, Laws of Florida",
+    "short_title": "2025 tax package (ends business rent tax)",
+    "enacted_date": "2025-07-03",
+    "enactment_path": "signed with line-item vetoes",
+    "effective_dates": [
+      "2025-10-01 (business rent tax repeal)"
+    ],
+    "official_text_url": "https://www.flsenate.gov/Session/Bill/2025/7031",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Sales and consumption taxes",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": [
+      "lower"
+    ],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Repeals the state sales tax on commercial rent (business rent tax)."
+      },
+      {
+        "kind": "exemption",
+        "description": "Permanent sales tax holidays for hurricane supplies and hunting and fishing gear (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "effective-date",
+        "description": "Rent tax ends October 1.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-10-01 date",
+            "text": "2025-10-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "commercial landlords",
+      "small businesses",
+      "general revenue"
+    ],
+    "daily_life": "A store's monthly rent bill loses its sales tax line.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "fl-2025-sb2c-immigration-board",
+    "jurisdiction": "Florida",
+    "level": "state",
+    "session": "2025 Special Session C",
+    "bill_number": "SB 2-C",
+    "law_citation": null,
+    "short_title": "State Board of Immigration Enforcement and local enforcement grants",
+    "enacted_date": "2025-02-13",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.flsenate.gov/Session/Bill/2025C/2",
+    "aggregator_url": null,
+    "menu": "16",
+    "menu_name": "Immigration & Citizenship",
+    "sub_topic": "Border administration / state-federal cooperation",
+    "secondary_menus": [
+      "10",
+      "03"
+    ],
+    "instrument": "agency/structure",
+    "secondary_instruments": [
+      "appropriation",
+      "penalty",
+      "eligibility/benefit"
+    ],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "oversight-body",
+        "description": "Creates a State Board of Immigration Enforcement."
+      },
+      {
+        "kind": "grant-program",
+        "description": "Local Law Enforcement Immigration Grant Program, including officer bonuses for cooperating with federal enforcement."
+      },
+      {
+        "kind": "amount",
+        "description": "Appropriation for immigration-related hiring and training.",
+        "numbers": [
+          {
+            "value": 298000000,
+            "unit": "USD",
+            "text": "298000000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "eligibility",
+        "description": "Ends in-state college tuition for undocumented students (reported)."
+      },
+      {
+        "kind": "penalty",
+        "description": "New and enhanced criminal penalties tied to immigration status (reported)."
+      }
+    ],
+    "touches": [
+      "sheriffs",
+      "universities",
+      "federal 287(g)"
+    ],
+    "daily_life": "Local police get state bonuses to help federal immigration agents; some students pay out-of-state tuition.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": "Special session law."
+  },
+  {
+    "id": "fl-2025-hb209-state-park-preservation",
+    "jurisdiction": "Florida",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 209",
+    "law_citation": "Chapter 2025-76, Laws of Florida",
+    "short_title": "State Park Preservation Act",
+    "enacted_date": "2025-05-23",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-07-01"
+    ],
+    "official_text_url": "https://www.flsenate.gov/Session/Bill/2025/209",
+    "aggregator_url": null,
+    "menu": "15",
+    "menu_name": "Parks, Culture & Community Life",
+    "sub_topic": "Parks and recreation",
+    "secondary_menus": [
+      "09"
+    ],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "The state parks division may not allow certain uses or construction in state parks, including lodging establishments inside park boundaries."
+      },
+      {
+        "kind": "standard",
+        "description": "Limits on new campsites and cabins to those meeting set conservation requirements."
+      },
+      {
+        "kind": "duty",
+        "description": "Revises the parks division's duties to emphasize conservation (per title)."
+      },
+      {
+        "kind": "trigger",
+        "description": "Followed public backlash to a 2024 plan to build golf courses and hotels in parks (context, inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "effective-date",
+        "description": "Standard July 1 start.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-07-01 date",
+            "text": "2025-07-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "Department of Environmental Protection",
+      "concessionaires"
+    ],
+    "daily_life": "No hotel or golf course will be built in your favorite state park.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

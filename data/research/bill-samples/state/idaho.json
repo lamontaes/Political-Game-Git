@@ -1,0 +1,251 @@
+[
+  {
+    "id": "id-2025-h40-income-tax",
+    "jurisdiction": "Idaho",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "H 40",
+    "law_citation": null,
+    "short_title": "Income tax rate reduction",
+    "enacted_date": "2025-03-05",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "tax year 2025 (retroactive to January 1)"
+    ],
+    "official_text_url": "https://legislature.idaho.gov/sessioninfo/2025/legislation/H0040/",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Individual and corporate income tax",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Flat individual and corporate income tax rate cut.",
+        "numbers": [
+          {
+            "value": 5.695,
+            "unit": "percent old",
+            "text": "5.695 percent old"
+          },
+          {
+            "value": 5.3,
+            "unit": "percent new",
+            "text": "5.3 percent new"
+          }
+        ]
+      },
+      {
+        "kind": "amount",
+        "description": "Annual revenue reduction.",
+        "numbers": [
+          {
+            "value": 253000000,
+            "unit": "USD per year",
+            "text": "253000000 USD per year"
+          }
+        ]
+      },
+      {
+        "kind": "effective-date",
+        "description": "Retroactive to the start of the tax year."
+      }
+    ],
+    "touches": [
+      "state general fund"
+    ],
+    "daily_life": "A typical family pays a bit less state income tax.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "id-2025-h93-education-tax-credit",
+    "jurisdiction": "Idaho",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "H 93",
+    "law_citation": "Chapter 9, Session Laws 2025",
+    "short_title": "Parental choice refundable tax credit",
+    "enacted_date": "2025-02-28",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "retroactive to 2025-01-01"
+    ],
+    "official_text_url": "https://legislature.idaho.gov/sessioninfo/2025/legislation/H0093/",
+    "aggregator_url": null,
+    "menu": "03",
+    "menu_name": "Education",
+    "sub_topic": "K-12 schools / school choice",
+    "secondary_menus": [
+      "04"
+    ],
+    "instrument": "tax",
+    "secondary_instruments": [
+      "program creation"
+    ],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "credit",
+        "description": "Refundable credit for private school tuition and other education costs.",
+        "numbers": [
+          {
+            "value": 5000,
+            "unit": "USD per student",
+            "text": "5000 USD per student"
+          },
+          {
+            "value": 7500,
+            "unit": "USD per student with disabilities",
+            "text": "7500 USD per student with disabilities"
+          }
+        ]
+      },
+      {
+        "kind": "authorization-ceiling",
+        "description": "Program capped at a set annual total.",
+        "numbers": [
+          {
+            "value": 50000000,
+            "unit": "USD first-year cap (inferred)",
+            "text": "50000000 USD first-year cap (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "eligibility",
+        "description": "Priority by income when demand exceeds the cap.",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "private schools",
+      "state tax commission",
+      "public school enrollment"
+    ],
+    "daily_life": "A family can get up to $5,000 back for private school tuition.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "id-2025-h345-medicaid-reform",
+    "jurisdiction": "Idaho",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "H 345",
+    "law_citation": "Chapter 118, Session Laws 2025",
+    "short_title": "Medicaid managed care and work requirements",
+    "enacted_date": "2025-03",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-03-19 (emergency clause)",
+      "2025-07-01 (some sections)"
+    ],
+    "official_text_url": "https://legislature.idaho.gov/sessioninfo/2025/legislation/H0345/",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Public coverage programs",
+    "secondary_menus": [],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "work-requirement",
+        "description": "Directs the state to seek federal approval for work requirements on expansion adults.",
+        "inferred": true
+      },
+      {
+        "kind": "duty",
+        "description": "Moves Medicaid toward managed care contracts.",
+        "inferred": true
+      },
+      {
+        "kind": "rate",
+        "description": "Limits on provider payment increases (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "Idaho Medicaid",
+      "hospitals"
+    ],
+    "daily_life": "Adults on Medicaid may need to report work hours.",
+    "provision_of": null,
+    "source_confidence": "inferred-details",
+    "notes": null
+  },
+  {
+    "id": "id-2025-h109-snap-soda",
+    "jurisdiction": "Idaho",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "H 109",
+    "law_citation": null,
+    "short_title": "SNAP waiver to exclude soda and candy",
+    "enacted_date": "2025-04-15",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "implementation 2026-01 after federal waiver approval (2025-06-10)"
+    ],
+    "official_text_url": "https://legislature.idaho.gov/sessioninfo/2025/legislation/H0109/",
+    "aggregator_url": null,
+    "menu": "05",
+    "menu_name": "Assistance & Social Insurance",
+    "sub_topic": "Food assistance",
+    "secondary_menus": [
+      "14",
+      "02"
+    ],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "State health department must ask USDA for a waiver removing candy and soda from SNAP-eligible foods."
+      },
+      {
+        "kind": "waiver",
+        "description": "Requires federal approval before taking effect; approved in June 2025.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-06-10 date approval",
+            "text": "2025-06-10 date approval"
+          }
+        ]
+      },
+      {
+        "kind": "phase-in",
+        "description": "Retailer education before enforcement starts.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-01 month start",
+            "text": "2026-01 month start"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "USDA Food and Nutrition Service",
+      "grocery retailers"
+    ],
+    "daily_life": "SNAP cards stop working for soda and candy at the register.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

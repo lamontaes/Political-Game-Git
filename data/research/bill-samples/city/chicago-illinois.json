@@ -1,0 +1,96 @@
+[
+  {
+    "id": "chicago-2025-fy26-revenue-ordinance",
+    "jurisdiction": "Chicago, Illinois",
+    "level": "city",
+    "session": "2025",
+    "bill_number": "2026 revenue ordinance (council alternative)",
+    "law_citation": null,
+    "short_title": "2026 budget revenue package",
+    "enacted_date": "2025-12-20",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://chicityclerkelms.chicago.gov/",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Taxes / fees and charges",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [
+      "fee"
+    ],
+    "operation": "raise",
+    "secondary_operations": [
+      "create"
+    ],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Personal property lease transaction tax on cloud computing raised.",
+        "numbers": [
+          {
+            "value": 11,
+            "unit": "percent old",
+            "text": "11 percent old"
+          },
+          {
+            "value": 15,
+            "unit": "percent new",
+            "text": "15 percent new"
+          }
+        ]
+      },
+      {
+        "kind": "fee",
+        "description": "Checkout bag tax raised.",
+        "numbers": [
+          {
+            "value": 0.15,
+            "unit": "USD per bag",
+            "text": "0.15 USD per bag"
+          }
+        ]
+      },
+      {
+        "kind": "tax-base",
+        "description": "New tax on social media platforms and on vacant buildings (details inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "rate",
+        "description": "Higher rates on video gaming, sports betting, ride-hail and other activities."
+      },
+      {
+        "kind": "amount",
+        "description": "Total new tax revenue.",
+        "numbers": [
+          {
+            "value": 535000000,
+            "unit": "USD",
+            "text": "535000000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "repeal",
+        "description": "Council rejected the mayor's per-employee head tax.",
+        "numbers": [
+          {
+            "value": 21,
+            "unit": "USD per employee per month (rejected)",
+            "text": "21 USD per employee per month (rejected)"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "$16.6 billion city budget",
+      "downtown employers"
+    ],
+    "daily_life": "Bags and cloud software cost more in Chicago; no per-worker tax on employers.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

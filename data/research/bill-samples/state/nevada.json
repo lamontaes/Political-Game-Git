@@ -1,0 +1,170 @@
+[
+  {
+    "id": "nv-2025-ab540-attainable-housing",
+    "jurisdiction": "Nevada",
+    "level": "state",
+    "session": "83rd Session (2025)",
+    "bill_number": "AB 540",
+    "law_citation": null,
+    "short_title": "Attainable housing funding",
+    "enacted_date": "2025-06",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.leg.state.nv.us/App/NELIS/REL/83rd2025/",
+    "aggregator_url": "https://legiscan.com/NV/bill/AB540/2025",
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Affordable and public housing",
+    "secondary_menus": [],
+    "instrument": "program creation",
+    "secondary_instruments": [
+      "appropriation"
+    ],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "State funds for housing priced above traditional affordable housing.",
+        "numbers": [
+          {
+            "value": 130000000,
+            "unit": "USD approx",
+            "text": "130000000 USD approx"
+          }
+        ]
+      },
+      {
+        "kind": "bond",
+        "description": "Bond authority for housing.",
+        "numbers": [
+          {
+            "value": 50000000,
+            "unit": "USD",
+            "text": "50000000 USD"
+          }
+        ]
+      },
+      {
+        "kind": "definition",
+        "description": "Creates a new income tier ('attainable') and a deep-affordability tier.",
+        "numbers": [
+          {
+            "value": 30,
+            "unit": "percent AMI tier-one limit",
+            "text": "30 percent AMI tier-one limit"
+          }
+        ]
+      },
+      {
+        "kind": "administering-agency",
+        "description": "State housing division (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "developers",
+      "local housing authorities"
+    ],
+    "daily_life": "More homes for teachers and nurses who earn too much for subsidized housing.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "nv-2025-ab555-insulin",
+    "jurisdiction": "Nevada",
+    "level": "state",
+    "session": "83rd Session (2025)",
+    "bill_number": "AB 555",
+    "law_citation": null,
+    "short_title": "Insulin out-of-pocket cap",
+    "enacted_date": "2025-06",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.leg.state.nv.us/App/NELIS/REL/83rd2025/",
+    "aggregator_url": "https://legiscan.com/NV/bill/AB555/2025",
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Private insurance rules",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "cap",
+        "description": "Cap on insured patients' insulin costs.",
+        "numbers": [
+          {
+            "value": 35,
+            "unit": "USD per 30-day supply",
+            "text": "35 USD per 30-day supply"
+          }
+        ]
+      },
+      {
+        "kind": "covered-population",
+        "description": "Private, state-regulated insurance plans."
+      }
+    ],
+    "touches": [
+      "insurers"
+    ],
+    "daily_life": "Insulin costs a covered patient no more than $35 a month.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "nv-2025-ab241-by-right-housing",
+    "jurisdiction": "Nevada",
+    "level": "state",
+    "session": "83rd Session (2025)",
+    "bill_number": "AB 241",
+    "law_citation": null,
+    "short_title": "By-right multifamily housing on commercial land",
+    "enacted_date": "2025-06",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.leg.state.nv.us/App/NELIS/REL/83rd2025/",
+    "aggregator_url": "https://legiscan.com/NV/bill/AB241/2025",
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Planning and zoning",
+    "secondary_menus": [],
+    "instrument": "preemption",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "Each local governing body must adopt an ordinance allowing multifamily or mixed-use housing by right on commercially zoned land."
+      },
+      {
+        "kind": "deadline",
+        "description": "Local ordinances due by a set date.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-03-01 date",
+            "text": "2026-03-01 date"
+          }
+        ]
+      },
+      {
+        "kind": "preemption",
+        "description": "Removes discretionary approval for qualifying projects."
+      }
+    ],
+    "touches": [
+      "city and county planning departments"
+    ],
+    "daily_life": "An empty strip mall can become apartments without a rezoning hearing.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

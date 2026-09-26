@@ -1,0 +1,252 @@
+[
+  {
+    "id": "in-2025-sea1-property-tax",
+    "jurisdiction": "Indiana",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 1 (SEA 1)",
+    "law_citation": null,
+    "short_title": "Property tax relief and local finance overhaul",
+    "enacted_date": "2025-04-15",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "credits start with taxes payable in 2026"
+    ],
+    "official_text_url": "https://iga.in.gov/legislative/2025/bills/senate/1",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Property taxes",
+    "secondary_menus": [
+      "11"
+    ],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "credit",
+        "description": "Homeowner credit equal to a share of the tax bill, capped.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "percent of bill",
+            "text": "10 percent of bill"
+          },
+          {
+            "value": 300,
+            "unit": "USD max",
+            "text": "300 USD max"
+          }
+        ]
+      },
+      {
+        "kind": "credit",
+        "description": "Extra credits for older homeowners and disabled veterans."
+      },
+      {
+        "kind": "exemption",
+        "description": "Business personal property exemption threshold raised; eventually most small businesses exempt.",
+        "numbers": [
+          {
+            "value": 80000,
+            "unit": "USD old threshold",
+            "text": "80000 USD old threshold"
+          },
+          {
+            "value": 2000000,
+            "unit": "USD new threshold",
+            "text": "2000000 USD new threshold"
+          }
+        ]
+      },
+      {
+        "kind": "local-option",
+        "description": "Changes local income tax options and limits local levy growth (inferred details).",
+        "inferred": true
+      },
+      {
+        "kind": "amount",
+        "description": "Estimated relief over three years.",
+        "numbers": [
+          {
+            "value": 1300000000,
+            "unit": "USD",
+            "text": "1300000000 USD"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "city, county and school budgets",
+      "local income taxes"
+    ],
+    "daily_life": "A homeowner sees up to $300 less on the property tax bill; towns get less revenue.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "in-2025-sea2-medicaid",
+    "jurisdiction": "Indiana",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 2 (SEA 2)",
+    "law_citation": null,
+    "short_title": "Medicaid cost containment and eligibility checks",
+    "enacted_date": "2025-05",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://iga.in.gov/legislative/2025/bills/senate/2",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Public coverage programs",
+    "secondary_menus": [],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "cap",
+        "description": "Enrollment cap on the state's expansion program (HIP) (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "work-requirement",
+        "description": "Seek federal approval for work requirements.",
+        "inferred": true
+      },
+      {
+        "kind": "duty",
+        "description": "More frequent eligibility verification."
+      },
+      {
+        "kind": "reporting",
+        "description": "Reports to the budget committee on spending."
+      }
+    ],
+    "touches": [
+      "Healthy Indiana Plan",
+      "hospitals"
+    ],
+    "daily_life": "Medicaid members face more paperwork to stay enrolled.",
+    "provision_of": null,
+    "source_confidence": "inferred-details",
+    "notes": null
+  },
+  {
+    "id": "in-2025-hea1001-budget",
+    "jurisdiction": "Indiana",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 1001 (HEA 1001)",
+    "law_citation": null,
+    "short_title": "2025-2027 biennial budget",
+    "enacted_date": "2025-05",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://iga.in.gov/legislative/2025/bills/house/1001",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [
+      "03"
+    ],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Two-year state spending plan including school funding formula."
+      },
+      {
+        "kind": "reporting",
+        "description": "State Budget Committee review of certain expenditures."
+      },
+      {
+        "kind": "rescission",
+        "description": "Agency spending reductions to close a revenue gap (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "schools",
+      "universities",
+      "agencies"
+    ],
+    "daily_life": "Sets per-student school funding for two years.",
+    "provision_of": null,
+    "source_confidence": "inferred-details",
+    "notes": null
+  },
+  {
+    "id": "in-2025-hea1461-tolling",
+    "jurisdiction": "Indiana",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 1461 (HEA 1461)",
+    "law_citation": null,
+    "short_title": "Authority to toll interstate highways",
+    "enacted_date": "2025-05-05",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://iga.in.gov/legislative/2025/bills/house/1461",
+    "aggregator_url": null,
+    "menu": "01",
+    "menu_name": "Infrastructure",
+    "sub_topic": "Roads & bridges - tolls and user charges",
+    "secondary_menus": [
+      "04"
+    ],
+    "instrument": "fee",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Removes the ban on new tolling near existing toll roads.",
+        "numbers": [
+          {
+            "value": 75,
+            "unit": "miles old restriction",
+            "text": "75 miles old restriction"
+          }
+        ]
+      },
+      {
+        "kind": "delegation",
+        "description": "INDOT may seek a federal waiver to toll any interstate."
+      },
+      {
+        "kind": "waiver",
+        "description": "Requires Federal Highway Administration approval."
+      },
+      {
+        "kind": "amount",
+        "description": "Study estimate of potential toll revenue.",
+        "numbers": [
+          {
+            "value": 38000000000,
+            "unit": "USD through 2050 (estimate)",
+            "text": "38000000000 USD through 2050 (estimate)"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "Federal Highway Administration",
+      "trucking industry"
+    ],
+    "daily_life": "Driving I-70 across Indiana may soon cost a toll.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

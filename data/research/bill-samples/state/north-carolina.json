@@ -1,0 +1,156 @@
+[
+  {
+    "id": "nc-2025-h307-irynas-law",
+    "jurisdiction": "North Carolina",
+    "level": "state",
+    "session": "2025-2026 Session",
+    "bill_number": "HB 307",
+    "law_citation": "S.L. 2025-93",
+    "short_title": "Iryna's Law (pretrial release and criminal procedure)",
+    "enacted_date": "2025-10-03",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.ncleg.gov/EnactedLegislation/SessionLaws/PDF/2025-2026/SL2025-93.pdf",
+    "aggregator_url": null,
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Courts / criminal law",
+    "secondary_menus": [],
+    "instrument": "procedure/election rule",
+    "secondary_instruments": [
+      "penalty"
+    ],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Ends release on a written promise to appear for many violent or repeat defendants."
+      },
+      {
+        "kind": "standard",
+        "description": "Judges and magistrates must consider full criminal history before setting release."
+      },
+      {
+        "kind": "threshold",
+        "description": "Three or more convictions in ten years requires secured bond or electronic monitoring.",
+        "numbers": [
+          {
+            "value": 3,
+            "unit": "convictions",
+            "text": "3 convictions"
+          },
+          {
+            "value": 10,
+            "unit": "years",
+            "text": "10 years"
+          }
+        ]
+      },
+      {
+        "kind": "oversight-body",
+        "description": "Magistrate conduct rules and suspension powers expanded to the Chief Justice."
+      },
+      {
+        "kind": "penalty",
+        "description": "Speeds death penalty appeals and adds execution methods (reported).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "magistrates",
+      "jails",
+      "AOC"
+    ],
+    "daily_life": "Someone arrested for a violent crime is less likely to go home without bond.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "nc-2025-s124-state-hiring",
+    "jurisdiction": "North Carolina",
+    "level": "state",
+    "session": "2025-2026 Session",
+    "bill_number": "SB 124",
+    "law_citation": "S.L. 2025-34",
+    "short_title": "State Hiring Accessibility and Modernization",
+    "enacted_date": "2025-07-01",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.ncleg.gov/BillLookUp/2025/S124",
+    "aggregator_url": null,
+    "menu": "11",
+    "menu_name": "Government & Democracy",
+    "sub_topic": "Agencies and public employment",
+    "secondary_menus": [
+      "07"
+    ],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "eligibility",
+        "description": "Fewer state jobs require a college degree; experience can substitute."
+      },
+      {
+        "kind": "duty",
+        "description": "Agencies must accept a resume or online profile for all applications."
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Office of State Human Resources."
+      }
+    ],
+    "touches": [
+      "state agencies"
+    ],
+    "daily_life": "A person without a degree can apply for more state jobs.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "nc-2025-h67-healthcare-workforce",
+    "jurisdiction": "North Carolina",
+    "level": "state",
+    "session": "2025-2026 Session",
+    "bill_number": "HB 67",
+    "law_citation": "S.L. 2025-37",
+    "short_title": "Healthcare workforce reforms (licensing)",
+    "enacted_date": "2025-07-01",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.ncleg.gov/BillLookUp/2025/H67",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Healthcare workforce",
+    "secondary_menus": [],
+    "instrument": "license/permit",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "license",
+        "description": "New licensing pathways for internationally trained physicians and interstate compacts (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Medical and nursing licensing boards."
+      }
+    ],
+    "touches": [
+      "hospitals",
+      "licensing boards"
+    ],
+    "daily_life": "More clinicians can get licensed to work in the state sooner.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "kansas-city-2025-ord240695-public-safety-sales-tax",
+    "jurisdiction": "Kansas City, Missouri",
+    "level": "city",
+    "session": "2024-2025",
+    "bill_number": "Ordinance No. 240695",
+    "law_citation": null,
+    "short_title": "Renewal of quarter-cent public safety sales tax (ballot referral)",
+    "enacted_date": "2024",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "ballot 2025-04-08"
+    ],
+    "official_text_url": "https://www.kcmo.gov/Home/Components/News/News/2294",
+    "aggregator_url": null,
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Policing / prisons",
+    "secondary_menus": [
+      "04"
+    ],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Local sales tax for public safety.",
+        "numbers": [
+          {
+            "value": 0.25,
+            "unit": "percent",
+            "text": "0.25 percent"
+          }
+        ]
+      },
+      {
+        "kind": "sunset",
+        "description": "Renewal term.",
+        "numbers": [
+          {
+            "value": 20,
+            "unit": "years",
+            "text": "20 years"
+          }
+        ]
+      },
+      {
+        "kind": "voter-approval",
+        "description": "Placed on the ballot for voter approval.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-04-08 date",
+            "text": "2025-04-08 date"
+          }
+        ]
+      },
+      {
+        "kind": "earmark",
+        "description": "Revenue for a new detention center and police and EMS construction and operations."
+      }
+    ],
+    "touches": [
+      "state enabling law for local sales taxes"
+    ],
+    "daily_life": "Shoppers pay a quarter-cent more to fund a new jail and police buildings.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": "Election outcome not confirmed in this research."
+  }
+]

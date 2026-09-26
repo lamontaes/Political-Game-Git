@@ -1,0 +1,211 @@
+[
+  {
+    "id": "mi-2025-sb8-minimum-wage",
+    "jurisdiction": "Michigan",
+    "level": "state",
+    "session": "103rd Legislature (2025)",
+    "bill_number": "SB 8",
+    "law_citation": "Public Act 1 of 2025",
+    "short_title": "Minimum wage and tipped wage schedule",
+    "enacted_date": "2025-02-21",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legislature.mi.gov/Bills/Bill?ObjectName=2025-SB-0008",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Wages and working hours",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "raise",
+    "secondary_operations": [
+      "replace"
+    ],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Minimum wage steps up to a target.",
+        "numbers": [
+          {
+            "value": 12.48,
+            "unit": "USD per hour 2025",
+            "text": "12.48 USD per hour 2025"
+          },
+          {
+            "value": 15,
+            "unit": "USD per hour by 2027 (inferred)",
+            "text": "15 USD per hour by 2027 (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "phase-in",
+        "description": "Tipped wage rises gradually as a share of the minimum wage instead of being eliminated.",
+        "numbers": [
+          {
+            "value": 38,
+            "unit": "percent old share",
+            "text": "38 percent old share"
+          },
+          {
+            "value": 50,
+            "unit": "percent by 2031",
+            "text": "50 percent by 2031"
+          }
+        ]
+      },
+      {
+        "kind": "indexation",
+        "description": "Inflation indexing after the schedule ends (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "transition",
+        "description": "Replaces the schedule that a court ruling would have imposed."
+      }
+    ],
+    "touches": [
+      "restaurants",
+      "retail employers"
+    ],
+    "daily_life": "A tipped server keeps a lower base wage plus tips; everyone else's minimum rises.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "mi-2025-hb4002-earned-sick-time",
+    "jurisdiction": "Michigan",
+    "level": "state",
+    "session": "103rd Legislature (2025)",
+    "bill_number": "HB 4002",
+    "law_citation": "Public Act 2 of 2025",
+    "short_title": "Earned sick time act amendments",
+    "enacted_date": "2025-02-21",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legislature.mi.gov/Bills/Bill?ObjectName=2025-HB-4002",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Paid and unpaid leave",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "threshold",
+        "description": "Small employers get a lower requirement and a delayed start.",
+        "numbers": [
+          {
+            "value": 10,
+            "unit": "or fewer employees (inferred)",
+            "text": "10 or fewer employees (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "benefit",
+        "description": "Accrual of paid sick time per hours worked with an annual cap.",
+        "numbers": [
+          {
+            "value": 72,
+            "unit": "hours annual cap (inferred)",
+            "text": "72 hours annual cap (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "phase-in",
+        "description": "Later effective date for small businesses.",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "payroll systems",
+      "small businesses"
+    ],
+    "daily_life": "Workers earn paid sick days, on a slower track at very small businesses.",
+    "provision_of": null,
+    "source_confidence": "inferred-details",
+    "notes": null
+  },
+  {
+    "id": "mi-2025-marijuana-wholesale-tax",
+    "jurisdiction": "Michigan",
+    "level": "state",
+    "session": "103rd Legislature (2025)",
+    "bill_number": "HB 4180 (inferred)",
+    "law_citation": null,
+    "short_title": "Marijuana wholesale tax for road funding",
+    "enacted_date": "2025-10",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legislature.mi.gov/",
+    "aggregator_url": null,
+    "menu": "01",
+    "menu_name": "Infrastructure",
+    "sub_topic": "Roads & bridges - funding",
+    "secondary_menus": [
+      "04"
+    ],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "New wholesale excise tax on marijuana.",
+        "numbers": [
+          {
+            "value": 24,
+            "unit": "percent",
+            "text": "24 percent"
+          }
+        ]
+      },
+      {
+        "kind": "earmark",
+        "description": "Revenue directed to a fund for local roads.",
+        "numbers": [
+          {
+            "value": 420000000,
+            "unit": "USD per year projected",
+            "text": "420000000 USD per year projected"
+          }
+        ]
+      },
+      {
+        "kind": "amount",
+        "description": "Part of a package targeting about $1.8 billion a year more for roads.",
+        "numbers": [
+          {
+            "value": 1800000000,
+            "unit": "USD per year target",
+            "text": "1800000000 USD per year target"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "Also redirects existing fuel sales tax revenue to roads."
+      }
+    ],
+    "touches": [
+      "road agencies",
+      "cannabis retailers",
+      "school aid fund"
+    ],
+    "daily_life": "Cannabis costs more; local roads get more repair money.",
+    "provision_of": null,
+    "source_confidence": "inferred-details",
+    "notes": null
+  }
+]

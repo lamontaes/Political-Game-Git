@@ -1,0 +1,77 @@
+[
+  {
+    "id": "los-angeles-2025-ord188610-olympic-wage",
+    "jurisdiction": "Los Angeles, California",
+    "level": "city",
+    "session": "2025",
+    "bill_number": "Ordinance No. 188610",
+    "law_citation": null,
+    "short_title": "Hotel and airport worker minimum wage ('Olympic wage')",
+    "enacted_date": "2025-05-23",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-07-01 first step (suspended by referendum petition)"
+    ],
+    "official_text_url": "https://clerk.lacity.org/",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Wages and working hours",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "raise",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "covered-population",
+        "description": "Hotels with more than 60 rooms and airport concession employers.",
+        "numbers": [
+          {
+            "value": 60,
+            "unit": "rooms",
+            "text": "60 rooms"
+          }
+        ]
+      },
+      {
+        "kind": "phase-in",
+        "description": "Stepped minimum wage.",
+        "numbers": [
+          {
+            "value": 22.5,
+            "unit": "USD per hour 2025",
+            "text": "22.50 USD per hour 2025"
+          },
+          {
+            "value": 25,
+            "unit": "USD per hour 2026",
+            "text": "25 USD per hour 2026"
+          },
+          {
+            "value": 27.5,
+            "unit": "USD per hour 2027",
+            "text": "27.50 USD per hour 2027"
+          },
+          {
+            "value": 30,
+            "unit": "USD per hour 2028",
+            "text": "30 USD per hour 2028"
+          }
+        ]
+      },
+      {
+        "kind": "referendum",
+        "description": "Industry petition for a referendum suspended enforcement pending a vote."
+      }
+    ],
+    "touches": [
+      "tourism industry",
+      "2028 Olympics"
+    ],
+    "daily_life": "A hotel housekeeper's wage would reach $30 an hour by 2028.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

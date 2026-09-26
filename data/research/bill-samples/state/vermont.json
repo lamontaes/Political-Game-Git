@@ -1,0 +1,107 @@
+[
+  {
+    "id": "vt-2025-h454-act73-education",
+    "jurisdiction": "Vermont",
+    "level": "state",
+    "session": "2025-2026 Biennium",
+    "bill_number": "H.454",
+    "law_citation": "Act 73 of 2025",
+    "short_title": "Education governance, quality and finance transformation",
+    "enacted_date": "2025-07-01",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legislature.vermont.gov/bill/status/2026/H.454",
+    "aggregator_url": null,
+    "menu": "03",
+    "menu_name": "Education",
+    "sub_topic": "School funding / governance",
+    "secondary_menus": [
+      "04"
+    ],
+    "instrument": "agency/structure",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "transition",
+        "description": "Consolidates school districts into larger districts.",
+        "numbers": [
+          {
+            "value": 2028,
+            "unit": "-07-01 date new districts",
+            "text": "2028-07-01 date new districts"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "Replaces the spending-based system with a statewide foundation formula.",
+        "numbers": [
+          {
+            "value": null,
+            "unit": null,
+            "text": "fiscal year 2029 start"
+          }
+        ]
+      },
+      {
+        "kind": "oversight-body",
+        "description": "Task forces and commissions draw the new district maps (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "phase-in",
+        "description": "Multi-year transition with elections for new boards."
+      }
+    ],
+    "touches": [
+      "property tax rates",
+      "school boards"
+    ],
+    "daily_life": "Your town's school may join a larger district and taxes follow a new formula.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "vt-2025-h493-big-bill",
+    "jurisdiction": "Vermont",
+    "level": "state",
+    "session": "2025-2026 Biennium",
+    "bill_number": "H.493",
+    "law_citation": "Act 27 of 2025",
+    "short_title": "FY2026 appropriations ('Big Bill')",
+    "enacted_date": "2025-05",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legislature.vermont.gov/bill/status/2026/H.493",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Annual appropriations for state government."
+      },
+      {
+        "kind": "reporting",
+        "description": "Includes many agency reporting requirements (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "all agencies"
+    ],
+    "daily_life": "Funds state services for the year.",
+    "provision_of": null,
+    "source_confidence": "inferred-details",
+    "notes": null
+  }
+]

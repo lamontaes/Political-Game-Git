@@ -1,0 +1,209 @@
+[
+  {
+    "id": "nd-2025-hb1176-property-tax",
+    "jurisdiction": "North Dakota",
+    "level": "state",
+    "session": "69th Legislative Assembly (2025)",
+    "bill_number": "HB 1176",
+    "law_citation": null,
+    "short_title": "Property tax relief and local levy growth cap",
+    "enacted_date": "2025-05",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://ndlegis.gov/assembly/69-2025/regular/bill-overview/bo1176.html",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Property taxes - levy limits",
+    "secondary_menus": [
+      "11"
+    ],
+    "instrument": "tax",
+    "secondary_instruments": [
+      "preemption"
+    ],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "credit",
+        "description": "Primary residence property tax credit more than tripled.",
+        "numbers": [
+          {
+            "value": 500,
+            "unit": "USD old",
+            "text": "500 USD old"
+          },
+          {
+            "value": 1600,
+            "unit": "USD new per year",
+            "text": "1600 USD new per year"
+          }
+        ]
+      },
+      {
+        "kind": "funding-source",
+        "description": "Paid from Legacy Fund earnings.",
+        "numbers": [
+          {
+            "value": 409000000,
+            "unit": "USD per biennium",
+            "text": "409000000 USD per biennium"
+          }
+        ]
+      },
+      {
+        "kind": "cap",
+        "description": "Local property tax budget growth capped (cities, counties, schools, park districts).",
+        "numbers": [
+          {
+            "value": 3,
+            "unit": "percent per year",
+            "text": "3 percent per year"
+          }
+        ]
+      },
+      {
+        "kind": "eligibility",
+        "description": "Senior homestead credit income limits raised.",
+        "numbers": [
+          {
+            "value": 10000,
+            "unit": "USD higher limit",
+            "text": "10000 USD higher limit"
+          }
+        ]
+      },
+      {
+        "kind": "credit",
+        "description": "Renter's refund raised.",
+        "numbers": [
+          {
+            "value": 400,
+            "unit": "USD old",
+            "text": "400 USD old"
+          },
+          {
+            "value": 600,
+            "unit": "USD new",
+            "text": "600 USD new"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "Legacy Fund",
+      "local budgets"
+    ],
+    "daily_life": "A homeowner gets $1,600 off the tax bill; cities cannot raise levies more than 3 percent.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "nd-2025-sb2241-charter-schools",
+    "jurisdiction": "North Dakota",
+    "level": "state",
+    "session": "69th Legislative Assembly (2025)",
+    "bill_number": "SB 2241",
+    "law_citation": null,
+    "short_title": "Public charter school framework",
+    "enacted_date": "2025-04",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-08-01"
+    ],
+    "official_text_url": "https://ndlegis.gov/assembly/69-2025/regular/bill-overview/bo2241.html",
+    "aggregator_url": null,
+    "menu": "03",
+    "menu_name": "Education",
+    "sub_topic": "K-12 schools",
+    "secondary_menus": [],
+    "instrument": "program creation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "oversight-body",
+        "description": "Charters operate under performance agreements with the state superintendent."
+      },
+      {
+        "kind": "standard",
+        "description": "Must meet state academic and graduation requirements; open to all students."
+      },
+      {
+        "kind": "cap",
+        "description": "No limit on the number of charter schools.",
+        "numbers": [
+          {
+            "value": 0,
+            "unit": "cap (none)",
+            "text": "0 cap (none)"
+          }
+        ]
+      },
+      {
+        "kind": "effective-date",
+        "description": "State default effective date.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-08-01 date",
+            "text": "2025-08-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "school districts",
+      "state aid formula"
+    ],
+    "daily_life": "Parents may get a new public school option.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "nd-2025-hb1160-phone-free-schools",
+    "jurisdiction": "North Dakota",
+    "level": "state",
+    "session": "69th Legislative Assembly (2025)",
+    "bill_number": "HB 1160",
+    "law_citation": null,
+    "short_title": "Phone-free school day",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-08-01"
+    ],
+    "official_text_url": "https://ndlegis.gov/assembly/69-2025/regular/bill-overview/bo1160.html",
+    "aggregator_url": null,
+    "menu": "03",
+    "menu_name": "Education",
+    "sub_topic": "K-12 schools",
+    "secondary_menus": [],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Student personal devices stowed and inaccessible from start of day until dismissal ('bell to bell')."
+      },
+      {
+        "kind": "exemption",
+        "description": "Medical and disability exceptions (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "school districts"
+    ],
+    "daily_life": "No phones at lunch or between classes.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

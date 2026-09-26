@@ -1,0 +1,55 @@
+[
+  {
+    "id": "alexandria-va-2025-leaf-blowers",
+    "jurisdiction": "Alexandria, Virginia",
+    "level": "city",
+    "session": "2025",
+    "bill_number": "Leaf blower ordinance (adopted 2025-05-17)",
+    "law_citation": null,
+    "short_title": "Phase-out of gas-powered leaf blowers",
+    "enacted_date": "2025-05-17",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2026-11-17"
+    ],
+    "official_text_url": "https://www.alexandriava.gov/environmental-quality/leaf-blower-ordinance",
+    "aggregator_url": null,
+    "menu": "09",
+    "menu_name": "Energy & Environment",
+    "sub_topic": "Air and emissions / noise",
+    "secondary_menus": [],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Use of gas-powered leaf blowers barred in the city."
+      },
+      {
+        "kind": "phase-in",
+        "description": "Eighteen-month phase-out before the ban applies.",
+        "numbers": [
+          {
+            "value": 18,
+            "unit": "months",
+            "text": "18 months"
+          }
+        ]
+      },
+      {
+        "kind": "enforcement",
+        "description": "Fines for violations (amount inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "landscaping companies"
+    ],
+    "daily_life": "Quieter Saturday mornings; landscapers switch to battery blowers.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

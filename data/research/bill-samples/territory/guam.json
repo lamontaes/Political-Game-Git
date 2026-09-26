@@ -1,0 +1,94 @@
+[
+  {
+    "id": "gu-2025-pl38-60-general-appropriations",
+    "jurisdiction": "Guam",
+    "level": "territory",
+    "session": "38th Guam Legislature",
+    "bill_number": "Bill No. 44-38 (COR)",
+    "law_citation": "Public Law 38-60",
+    "short_title": "General Appropriations Act of 2026",
+    "enacted_date": "2025-09-29",
+    "enactment_path": "veto overridden",
+    "effective_dates": [],
+    "official_text_url": "https://guamlegislature.gov/public-laws/",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Appropriations for all branches of government for the fiscal year."
+      },
+      {
+        "kind": "availability-period",
+        "description": "Fiscal year ending September 30.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-09-30 date",
+            "text": "2026-09-30 date"
+          }
+        ]
+      },
+      {
+        "kind": "veto-override",
+        "description": "Enacted over the governor's veto."
+      }
+    ],
+    "touches": [
+      "Guam Memorial Hospital",
+      "government of Guam agencies"
+    ],
+    "daily_life": "Funds the island's schools, hospital and public safety for the year.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "gu-2025-pl38-23-restaurant-meals",
+    "jurisdiction": "Guam",
+    "level": "territory",
+    "session": "38th Guam Legislature",
+    "bill_number": "Bill No. 78-38",
+    "law_citation": "Public Law 38-23",
+    "short_title": "Meals for At-Risk Households Act of 2025 (SNAP Restaurant Meals Program)",
+    "enacted_date": "2025-06-17",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://guamlegislature.gov/public-laws/",
+    "aggregator_url": null,
+    "menu": "05",
+    "menu_name": "Assistance & Social Insurance",
+    "sub_topic": "Food assistance",
+    "secondary_menus": [],
+    "instrument": "program creation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "eligibility",
+        "description": "SNAP recipients who are elderly, disabled or homeless may buy prepared restaurant meals (federal program option)."
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Department of Public Health and Social Services (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "federal SNAP rules",
+      "participating restaurants"
+    ],
+    "daily_life": "A homeless person can use food benefits for a hot meal.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

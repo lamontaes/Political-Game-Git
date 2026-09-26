@@ -1,0 +1,232 @@
+[
+  {
+    "id": "md-2025-hb352-brfa",
+    "jurisdiction": "Maryland",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 352",
+    "law_citation": "Chapter 604, 2025",
+    "short_title": "Budget Reconciliation and Financing Act of 2025",
+    "enacted_date": "2025-05-20",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-07-01 (most)",
+      "tax year 2025 for income tax changes"
+    ],
+    "official_text_url": "https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/hb0352?ys=2025RS",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Taxes - multiple",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "raise",
+    "secondary_operations": [
+      "expand"
+    ],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Two new top income tax brackets.",
+        "numbers": [
+          {
+            "value": 6.25,
+            "unit": "percent new bracket",
+            "text": "6.25 percent new bracket"
+          },
+          {
+            "value": 6.5,
+            "unit": "percent top rate over 1000000 USD income",
+            "text": "6.5 percent top rate over 1000000 USD income"
+          }
+        ]
+      },
+      {
+        "kind": "surcharge",
+        "description": "Capital gains surtax for high earners.",
+        "numbers": [
+          {
+            "value": 2,
+            "unit": "percent",
+            "text": "2 percent"
+          },
+          {
+            "value": 350000,
+            "unit": "USD federal AGI threshold",
+            "text": "350000 USD federal AGI threshold"
+          }
+        ]
+      },
+      {
+        "kind": "tax-base",
+        "description": "New sales tax on data and IT services.",
+        "numbers": [
+          {
+            "value": 3,
+            "unit": "percent",
+            "text": "3 percent"
+          }
+        ]
+      },
+      {
+        "kind": "rate",
+        "description": "Cannabis sales tax increased.",
+        "numbers": [
+          {
+            "value": 9,
+            "unit": "percent old",
+            "text": "9 percent old"
+          },
+          {
+            "value": 12,
+            "unit": "percent new",
+            "text": "12 percent new"
+          }
+        ]
+      },
+      {
+        "kind": "local-option",
+        "description": "Counties may raise local income tax rates to a higher cap.",
+        "numbers": [
+          {
+            "value": 3.3,
+            "unit": "percent local cap",
+            "text": "3.3 percent local cap"
+          }
+        ]
+      },
+      {
+        "kind": "trigger",
+        "description": "Closes a projected budget shortfall.",
+        "numbers": [
+          {
+            "value": 3300000000,
+            "unit": "USD deficit",
+            "text": "3300000000 USD deficit"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "county income tax piggyback",
+      "software vendors",
+      "cannabis retailers"
+    ],
+    "daily_life": "High earners and tech-service buyers pay more; counties gain a new tax option.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "md-2025-sb937-next-generation-energy",
+    "jurisdiction": "Maryland",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 937 / HB 1035",
+    "law_citation": "Chapter 625, 2025",
+    "short_title": "Next Generation Energy Act",
+    "enacted_date": "2025-05",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-06-01"
+    ],
+    "official_text_url": "https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/sb0937?ys=2025RS",
+    "aggregator_url": null,
+    "menu": "09",
+    "menu_name": "Energy & Environment",
+    "sub_topic": "Electricity and the grid",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "loan",
+        "description": "Housing department may issue loans, not only grants, to cut direct emissions from multifamily buildings."
+      },
+      {
+        "kind": "duty",
+        "description": "Energy Administration must pursue agreements with neighboring states and federal agencies toward new nuclear generation."
+      },
+      {
+        "kind": "rate",
+        "description": "Changes to utility rate regulation, cost recovery and the renewable portfolio standard (title scope; details inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "benefit",
+        "description": "Energy assistance provisions (title scope; details inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "effective-date",
+        "description": "Takes effect June 1.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-06-01 date",
+            "text": "2025-06-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "utility rates",
+      "PJM grid"
+    ],
+    "daily_life": "Aims to keep the lights on and bills stable as demand grows.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "md-2025-hb350-budget-bill",
+    "jurisdiction": "Maryland",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 350",
+    "law_citation": "Chapter 602, 2025",
+    "short_title": "FY2026 budget bill",
+    "enacted_date": "2025-04",
+    "enactment_path": "signed with line-item vetoes",
+    "effective_dates": [],
+    "official_text_url": "https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/hb0350?ys=2025RS",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Annual operating budget; the legislature can cut but not add to the governor's budget.",
+        "inferred": true
+      },
+      {
+        "kind": "availability-period",
+        "description": "Fiscal year starting July 1.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-07-01 date",
+            "text": "2025-07-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": [
+      "BRFA (HB 352)",
+      "all agencies"
+    ],
+    "daily_life": "Funds state services for the year.",
+    "provision_of": null,
+    "source_confidence": "inferred-details",
+    "notes": null
+  }
+]
