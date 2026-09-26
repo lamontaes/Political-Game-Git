@@ -13,7 +13,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | Family | Templates | Withheld | Undeclared grounding | Canonical concerns |
 | --- | --- | --- | --- | --- |
 | `campaign/campaign-status` | 29 | 0 | 0 | candidacy |
-| `conversation/commit-contract` | 110 | 0 | 0 | — |
+| `conversation/commit-contract` | 116 | 0 | 0 | — |
 | `conversation/contextual-scene` | 244 | 0 | 0 | — |
 | `conversation/conversation-subject` | 64 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |

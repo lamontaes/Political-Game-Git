@@ -47,6 +47,13 @@ import type {
 import type { ConversationCommitContract } from "./conversation-subjects";
 import { commitLifeTalkConversationTurn } from "./life-talk-conversation";
 import {
+  evaluateReplyMeaning,
+  standingTone,
+  type ReplyMeanings,
+  type ReplyPlayerLean,
+  type ReplyTraitLean,
+} from "./reply-meaning";
+import {
   canListenToRunBConversation,
   createRunBConversationProgress,
   isHouseholdObligationConversationProgress,
@@ -1288,7 +1295,20 @@ function speakTone(
   readonly perception: string;
   readonly tone: ResponseTone;
 } {
-  const tone = responseTone(standing);
+  return speakInTone(world, context, responseTone(standing), bank);
+}
+
+/** A wording variant in a tone already chosen; the meaning is the bank's. */
+function speakInTone(
+  world: World,
+  context: string,
+  tone: ResponseTone,
+  bank: TonedBank,
+): {
+  readonly line: string;
+  readonly perception: string;
+  readonly tone: ResponseTone;
+} {
   const chosen = bank[tone];
   return {
     tone,
@@ -1813,6 +1833,98 @@ const SCHOOL_SPLIT_REFUSED: TonedBank = {
   },
 };
 
+const SCHOOL_SPLIT_UNDECIDED: TonedBank = {
+  warm: {
+    lines: [
+      "“Let me look at what’s left first, and I’ll tell you tomorrow,” {name} says.",
+      "“Maybe. Can I see how much is left before I say?” {name} says.",
+      "“I want to check my week before I agree to half,” {name} says.",
+    ],
+    perception: "{full} did not say yet whether they would take half.",
+  },
+  even: {
+    lines: [
+      "“I don’t know yet. Let me see what’s left,” {name} says.",
+      "“I can’t say yet,” {name} says.",
+      "“Ask me again once I’ve seen the rest of it,” {name} says.",
+    ],
+    perception: "{full} did not say yet whether they would take half.",
+  },
+  worn: {
+    lines: [
+      "“I’m not agreeing to anything until I see it,” {name} says.",
+      "“I’ll decide once I know what half means,” {name} says.",
+      "“Not yet. Show me what’s left first,” {name} says.",
+    ],
+    perception: "{full} did not say yet whether they would take half.",
+  },
+};
+
+/**
+ * What an answer to "split it with me" can mean. There is no counter here:
+ * the only other arrangement the project records is the player taking it all,
+ * and that is the player's to offer, not the other person's to hand back.
+ */
+const SCHOOL_SPLIT_MEANINGS: ReplyMeanings = {
+  agree: {
+    key: "split-the-work",
+    description: "Take half of the unstarted work.",
+  },
+  decline: {
+    key: "decline-the-split",
+    description: "Say there is no room for half of it.",
+  },
+  undecided: {
+    key: "not-sure-yet",
+    description: "Say they need to see what is left before they agree.",
+  },
+};
+
+/** Temperament bears on these meanings by what they are, not their order. */
+const SCHOOL_SPLIT_TRAIT_LEANS: readonly ReplyTraitLean[] = [
+  {
+    meaning: "agree",
+    trait: "conflict",
+    pole: "low",
+    explanation: "They would rather settle it than argue about it.",
+  },
+  {
+    meaning: "decline",
+    trait: "conflict",
+    pole: "high",
+    explanation: "They say no when they mean no.",
+  },
+  {
+    meaning: "undecided",
+    trait: "deliberation",
+    pole: "low",
+    explanation: "They think a choice through before they make it.",
+  },
+  {
+    meaning: "agree",
+    trait: "deliberation",
+    pole: "high",
+    explanation: "They answer on the spot.",
+  },
+];
+
+const SCHOOL_SPLIT_PLAYER_LEANS: readonly ReplyPlayerLean[] = [
+  {
+    meaning: "agree",
+    trait: "reliability",
+    pole: "high",
+    explanation:
+      "The person asking comes across as somebody who does their half.",
+  },
+  {
+    meaning: "undecided",
+    trait: "reliability",
+    pole: "low",
+    explanation:
+      "The person asking comes across as somebody who lets things slip.",
+  },
+];
+
 function resolveSchoolProjectResponse(
   world: World,
   input: {
@@ -1837,9 +1949,11 @@ function resolveSchoolProjectResponse(
     "conversation.subject.school-project",
   );
   const context = `school:${input.intent}:${input.speakerPersonId}`;
+  // The tone comes from the speaker's own side of the relationship.
+  const tone = standingTone(world, input.speakerPersonId, input.playerPersonId);
 
   const say = (bank: TonedBank, outcome: ConversationOutcome, next = world) => {
-    const spoken = speakTone(next, context, standing, bank);
+    const spoken = speakInTone(next, context, tone, bank);
     return {
       world: next,
       outcome,
@@ -1857,7 +1971,7 @@ function resolveSchoolProjectResponse(
       return say(SCHOOL_OFFER, "reassured");
     case "ask-to-split": {
       assertNpcAutonomousApplication(world, input.speakerPersonId);
-      const evaluation = evaluateSubjectResponseDecision(world, {
+      const decided = evaluateReplyMeaning(world, {
         turnKey: input.turnKey,
         actorPersonId: input.speakerPersonId,
         playerPersonId: input.playerPersonId,
@@ -1865,23 +1979,22 @@ function resolveSchoolProjectResponse(
         subjectKind: "context:school-conversation",
         subjectKey: "ask-to-split:who-does-which-half",
         standing,
-        accept: {
-          key: "split-the-work",
-          description: "Take half of the unstarted work.",
-        },
-        refuse: {
-          key: "decline-the-split",
-          description: "Say there is no room for half of it.",
-        },
+        meanings: SCHOOL_SPLIT_MEANINGS,
+        traitLeans: SCHOOL_SPLIT_TRAIT_LEANS,
+        playerLeans: SCHOOL_SPLIT_PLAYER_LEANS,
       });
-      const traced = recordDurableDecisionTrace(world, evaluation);
-      const agreed = evaluation.selectedOptionKey === "split-the-work";
+      const traced = recordDurableDecisionTrace(
+        decided.world,
+        decided.evaluation,
+      );
+      const [bank, outcome] =
+        decided.meaning === "agree"
+          ? ([SCHOOL_SPLIT_AGREED, "continued"] as const)
+          : decided.meaning === "undecided"
+            ? ([SCHOOL_SPLIT_UNDECIDED, "undecided"] as const)
+            : ([SCHOOL_SPLIT_REFUSED, "boundary-held"] as const);
       return {
-        ...say(
-          agreed ? SCHOOL_SPLIT_AGREED : SCHOOL_SPLIT_REFUSED,
-          agreed ? "continued" : "boundary-held",
-          traced,
-        ),
+        ...say(bank, outcome, traced),
         durableDecisionRecorded: true,
       };
     }
@@ -2003,6 +2116,126 @@ const NEIGHBORHOOD_WILL_NOT_GO: TonedBank = {
   },
 };
 
+const NEIGHBORHOOD_YOU_GO: TonedBank = {
+  warm: {
+    lines: [
+      "“You’d be better at it than me. Why don’t you go and tell me how it went?” {name} says.",
+      "“I think you should go. I’ll want to hear about it,” {name} says.",
+      "“You go, and let me know what they decide,” {name} says.",
+    ],
+    perception: "{full} suggested you go to the meeting yourself.",
+  },
+  even: {
+    lines: [
+      "“Why don’t you go instead?” {name} says.",
+      "“You go. You can tell me what happened,” {name} says.",
+      "“It sounds like it’s more your thing. You go,” {name} says.",
+    ],
+    perception: "{full} suggested you go to the meeting yourself.",
+  },
+  worn: {
+    lines: [
+      "“If it matters to you, you go,” {name} says.",
+      "“You’re the one who wants somebody there. You go,” {name} says.",
+      "“Go yourself,” {name} says.",
+    ],
+    perception: "{full} suggested you go to the meeting yourself.",
+  },
+};
+
+const NEIGHBORHOOD_UNDECIDED: TonedBank = {
+  warm: {
+    lines: [
+      "“Maybe. Let me see what that evening looks like,” {name} says.",
+      "“I might. I’ll let you know,” {name} says.",
+      "“I haven’t decided. Can I tell you later this week?” {name} says.",
+    ],
+    perception: "{full} had not decided whether to go to the meeting.",
+  },
+  even: {
+    lines: [
+      "“I don’t know yet,” {name} says.",
+      "“Maybe. I haven’t decided,” {name} says.",
+      "“I’ll see how the week goes,” {name} says.",
+    ],
+    perception: "{full} had not decided whether to go to the meeting.",
+  },
+  worn: {
+    lines: [
+      "“I’ll decide that myself,” {name} says.",
+      "“I haven’t made up my mind,” {name} says.",
+      "“We’ll see,” {name} says.",
+    ],
+    perception: "{full} had not decided whether to go to the meeting.",
+  },
+};
+
+/**
+ * What an answer to "will you go to the meeting" can mean. The counter hands
+ * the evening back: the player can say they will go, which is a real option
+ * on the same doorstep; the neighbor promises nothing by suggesting it.
+ */
+const NEIGHBORHOOD_MEETING_MEANINGS: ReplyMeanings = {
+  agree: {
+    key: "attend-the-meeting",
+    description: "Give the evening and go to the meeting.",
+  },
+  decline: {
+    key: "decline-the-meeting",
+    description: "Keep the evening and say so.",
+  },
+  counter: {
+    key: "suggest-you-go",
+    description: "Suggest the person asking go themselves.",
+  },
+  undecided: {
+    key: "not-sure-yet",
+    description: "Say they have not decided about the evening.",
+  },
+};
+
+const NEIGHBORHOOD_MEETING_TRAIT_LEANS: readonly ReplyTraitLean[] = [
+  {
+    meaning: "agree",
+    trait: "sociability",
+    pole: "high",
+    explanation: "They like an evening among neighbors.",
+  },
+  {
+    meaning: "decline",
+    trait: "sociability",
+    pole: "low",
+    explanation: "They would rather not sit through a room of people.",
+  },
+  {
+    meaning: "counter",
+    trait: "conflict",
+    pole: "low",
+    explanation: "They would rather find a way round it than refuse.",
+  },
+  {
+    meaning: "decline",
+    trait: "conflict",
+    pole: "high",
+    explanation: "They say no when they mean no.",
+  },
+  {
+    meaning: "undecided",
+    trait: "deliberation",
+    pole: "low",
+    explanation: "They think a choice through before they make it.",
+  },
+];
+
+const NEIGHBORHOOD_MEETING_PLAYER_LEANS: readonly ReplyPlayerLean[] = [
+  {
+    meaning: "counter",
+    trait: "sociability",
+    pole: "high",
+    explanation: "The person asking comes across as the one who enjoys a room.",
+  },
+];
+
 function resolveNeighborhoodMeetingResponse(
   world: World,
   input: {
@@ -2027,9 +2260,11 @@ function resolveNeighborhoodMeetingResponse(
     "conversation.subject.neighborhood-meeting",
   );
   const context = `neighborhood:${input.intent}:${input.speakerPersonId}`;
+  // The tone comes from the speaker's own side of the relationship.
+  const tone = standingTone(world, input.speakerPersonId, input.playerPersonId);
 
   const say = (bank: TonedBank, outcome: ConversationOutcome, next = world) => {
-    const spoken = speakTone(next, context, standing, bank);
+    const spoken = speakInTone(next, context, tone, bank);
     return {
       world: next,
       outcome,
@@ -2047,7 +2282,7 @@ function resolveNeighborhoodMeetingResponse(
       return say(NEIGHBORHOOD_SAY_GOING, "reassured");
     case "ask-them-to-go": {
       assertNpcAutonomousApplication(world, input.speakerPersonId);
-      const evaluation = evaluateSubjectResponseDecision(world, {
+      const decided = evaluateReplyMeaning(world, {
         turnKey: input.turnKey,
         actorPersonId: input.speakerPersonId,
         playerPersonId: input.playerPersonId,
@@ -2055,23 +2290,24 @@ function resolveNeighborhoodMeetingResponse(
         subjectKind: "context:neighborhood-conversation",
         subjectKey: "ask-them-to-go:who-gives-the-evening",
         standing,
-        accept: {
-          key: "attend-the-meeting",
-          description: "Give the evening and go to the meeting.",
-        },
-        refuse: {
-          key: "decline-the-meeting",
-          description: "Keep the evening and say so.",
-        },
+        meanings: NEIGHBORHOOD_MEETING_MEANINGS,
+        traitLeans: NEIGHBORHOOD_MEETING_TRAIT_LEANS,
+        playerLeans: NEIGHBORHOOD_MEETING_PLAYER_LEANS,
       });
-      const traced = recordDurableDecisionTrace(world, evaluation);
-      const going = evaluation.selectedOptionKey === "attend-the-meeting";
+      const traced = recordDurableDecisionTrace(
+        decided.world,
+        decided.evaluation,
+      );
+      const [bank, outcome] =
+        decided.meaning === "agree"
+          ? ([NEIGHBORHOOD_WILL_GO, "continued"] as const)
+          : decided.meaning === "counter"
+            ? ([NEIGHBORHOOD_YOU_GO, "proposal-countered"] as const)
+            : decided.meaning === "undecided"
+              ? ([NEIGHBORHOOD_UNDECIDED, "undecided"] as const)
+              : ([NEIGHBORHOOD_WILL_NOT_GO, "boundary-held"] as const);
       return {
-        ...say(
-          going ? NEIGHBORHOOD_WILL_GO : NEIGHBORHOOD_WILL_NOT_GO,
-          going ? "continued" : "boundary-held",
-          traced,
-        ),
+        ...say(bank, outcome, traced),
         durableDecisionRecorded: true,
       };
     }
