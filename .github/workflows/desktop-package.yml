@@ -65,6 +65,9 @@ jobs:
 
       - name: Build the game
         env:
+          # macOS Node defaults to a 2 GiB heap; current TypeScript checking
+          # exhausts it before the client can be packaged.
+          NODE_OPTIONS: --max-old-space-size=4096
           PG_ARTIFACTS_DIR: ${{ runner.temp }}/pg-artifacts
           VITE_OCD_BUILD_PROFILE: ${{ matrix.profile }}
         run: npm run build

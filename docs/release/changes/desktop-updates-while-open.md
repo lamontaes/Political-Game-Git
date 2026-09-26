@@ -16,3 +16,7 @@ before publication. The full artwork check still runs before the new build is
 offered, and the hub checks it again before switching. The hub also shows the
 short build revision beside the release number, so a code update is visible
 even when the release number remains the same.
+
+Desktop release checks now inspect the saved database at its current schema
+version instead of attempting to reopen it as an older version. The package
+build gives the TypeScript check a 4 GiB heap on hosted runners.
