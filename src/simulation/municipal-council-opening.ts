@@ -1,6 +1,7 @@
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
+  withBirthCohortGivenNamesForPeople,
 } from "./character-history";
 import type { CharacterHistoryContextPersonInput } from "./character-history";
 import { makeIsoDate } from "./dates";
@@ -176,7 +177,10 @@ export function ensureMunicipalCouncilOpening(
   }
   next = createCharacterHistoryContextPeople(
     next,
-    manager ? [...members, manager] : members,
+    withBirthCohortGivenNamesForPeople(
+      next.seed,
+      manager ? [...members, manager] : members,
+    ),
   );
   const seatedIds: EntityId[] = members.map((_, index) =>
     characterHistoryContextPersonId(next, memberKey(governmentKey, index + 1)),

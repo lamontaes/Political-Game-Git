@@ -1,6 +1,7 @@
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
+  withBirthCohortGivenNamesForPeople,
 } from "../character-history";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
 import { makeIsoDate } from "../dates";
@@ -110,7 +111,10 @@ export function ensureDistrictOfColumbiaCouncilOpening(world: World): World {
       homeJurisdictionId: jurisdictionId,
     });
   });
-  next = createCharacterHistoryContextPeople(next, people);
+  next = createCharacterHistoryContextPeople(
+    next,
+    withBirthCohortGivenNamesForPeople(next.seed, people),
+  );
   const seatedIds: EntityId[] = [];
   seated.forEach((seat, index) => {
     const personId = characterHistoryContextPersonId(
