@@ -260,4 +260,36 @@ describe("grounded English realization", () => {
       renderGroundedEnglish({ ...packet, bankVersion: "old" }, bank),
     ).toMatchObject({ kind: "missing-context" });
   });
+
+  it("uses reviewed relative frequency without changing a saved moment's words", () => {
+    const { packet } = savedWorkStart();
+    const bank: AuthoredEnglishBank = {
+      ...JOURNAL_BANK,
+      variants: [
+        { key: "usual", kind: "template", text: "First.", weight: 3 },
+        { key: "rare", kind: "template", text: "Second.", weight: 1 },
+      ],
+    };
+    const results = Array.from({ length: 64 }, (_, index) =>
+      renderGroundedEnglish({ ...packet, momentKey: `voice-${index}` }, bank),
+    );
+    expect(
+      results.filter(
+        (result) => result.kind === "rendered" && result.variantKey === "usual",
+      ).length,
+    ).toBeGreaterThan(
+      results.filter(
+        (result) => result.kind === "rendered" && result.variantKey === "rare",
+      ).length,
+    );
+    expect(results[0]).toEqual(
+      renderGroundedEnglish({ ...packet, momentKey: "voice-0" }, bank),
+    );
+    expect(
+      renderGroundedEnglish(packet, {
+        ...bank,
+        variants: [{ ...bank.variants[0]!, weight: 0 }],
+      }),
+    ).toMatchObject({ kind: "missing-context" });
+  });
 });

@@ -1243,6 +1243,14 @@
       "textRevision": "fa32565f4c95"
     },
     {
+      "anchor": "LIFE_TALK_INTENTS-0019",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "LIFE_TALK_INTENTS",
+      "text": "Tell them what you read",
+      "occurrence": 0,
+      "textRevision": "eb6adea62441"
+    },
+    {
       "anchor": "MunicipalWorkspace-0001",
       "sourcePath": "src/player/MunicipalWorkspace.tsx",
       "symbol": "MunicipalWorkspace",
@@ -3390,9 +3398,9 @@
       "anchor": "commitConversationTurn-0009",
       "sourcePath": "src/presentation/run-b-conversation.ts",
       "symbol": "commitConversationTurn",
-      "text": "You · {availableConversationIntents(world,input.room,input.addressee,currentProgress,input.audibility,).find((option)=>option.key===input.intent)?.label??input.intent}",
+      "text": "You · {selectedOption.label}",
       "occurrence": 0,
-      "textRevision": "2f5819f365ed"
+      "textRevision": "caca1a204fe8"
     },
     {
       "anchor": "commitConversationTurn-0010",
@@ -3617,14 +3625,6 @@
       "text": "{progress.subjectFacts.work} is still not started, and it is due {progress.subjectFacts.deadline}. Nobody has said whose half is whose.",
       "occurrence": 0,
       "textRevision": "88c5f0b5664c"
-    },
-    {
-      "anchor": "describeBriefing-0008",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "describeBriefing",
-      "text": "You are somewhere ordinary, with people you know, and a moment to speak if you want it.",
-      "occurrence": 0,
-      "textRevision": "79c08f9fdb64"
     },
     {
       "anchor": "describeConversationHearing-0001",
@@ -4969,14 +4969,6 @@
       "text": "“The prepared {progress.subjectFacts.preparedAmount} language is still on the page for comparison,” {shortPersonName(world,conversationRole(room,\"briefing-lead\"))} says. “Neither version is enacted or implemented.”",
       "occurrence": 0,
       "textRevision": "ea84f75b8ae1"
-    },
-    {
-      "anchor": "openingBeat-0013",
-      "sourcePath": "src/presentation/conversation-subjects.ts",
-      "symbol": "openingBeat",
-      "text": "{shortPersonName(world,personId)} is here with you.",
-      "occurrence": 0,
-      "textRevision": "17a822545b36"
     },
     {
       "anchor": "openingBeat-0014",
@@ -7617,6 +7609,14 @@
       "text": "What were you going to say?",
       "occurrence": 0,
       "textRevision": "5fadd86fcab7"
+    },
+    {
+      "anchor": "replyFor-0067",
+      "sourcePath": "src/presentation/life-conversation.ts",
+      "symbol": "replyFor",
+      "text": "No. What happened?",
+      "occurrence": 0,
+      "textRevision": "d749a69f646d"
     },
     {
       "anchor": "reporterQuestion-0001",

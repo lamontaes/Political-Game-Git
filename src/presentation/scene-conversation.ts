@@ -80,9 +80,11 @@ export function conversationExchangeTurns(
             sceneId !== null &&
             event.occurredAt === world.currentDate &&
             event.tags.includes(`scene:${sceneId}`),
-          playerLine: event.context.choice
-            ? `You ${lowerFirst(event.context.choice)}.`
-            : null,
+          playerLine:
+            playerUtteranceOf(event) ??
+            (event.context.choice
+              ? `You ${lowerFirst(event.context.choice)}.`
+              : null),
           speakerPersonId: speaker,
           speakerName: speaker ? nameOf(world, speaker) : null,
           reply: event.context.immediateReaction ?? "",

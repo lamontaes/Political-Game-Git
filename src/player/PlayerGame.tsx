@@ -85,6 +85,7 @@ import { PlacesWorkspace } from "./PlacesWorkspace";
 import { GovernmentBrowser } from "./politics/GovernmentBrowser";
 import { PublicServicePanel } from "./politics/PublicServicePanel";
 import { NewsDesk } from "./news/NewsDesk";
+import { readNewsStory } from "../presentation/news-reading";
 import "./controls/controls.css";
 import { PinToggle } from "./controls/PinToggle";
 import { PoliticsTabs, type PoliticsTab } from "./politics/PoliticsTabs";
@@ -145,7 +146,6 @@ import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
 import {
   chooseStoryOption,
   chooseTodayCalendarOption,
-  presentPeopleSentence,
   projectStoryMoment,
   storyOptionNote,
   todayCalendarOptions,
@@ -4821,6 +4821,14 @@ function renderWorkspace({
             })
           }
           onOpenPerson={openPerson}
+          onReadStory={(publicationId) => {
+            const next = readNewsStory(
+              session.world,
+              session.personId,
+              publicationId,
+            );
+            if (next !== session.world) onWorldChange(next);
+          }}
           around={
             <>
               <WorldOrientationEntry
@@ -5809,20 +5817,6 @@ function StoryView({
       {moment.scene.prose.length > 0 ? (
         <p className="game-scene" data-testid="story-prose">
           {moment.scene.prose}
-        </p>
-      ) : null}
-
-      {/*
-        Who is here, and who they are to you.
-        This said "Maya Pittman is there." to a ten-year-old whose guardian
-        Maya was, leaving the player to guess a relationship off a shared
-        surname. The relation is read from canonical records — the authority
-        record, the kinship record, the school register — and when no record
-        establishes one, only the name is shown.
-      */}
-      {moment.scene.presentPeople.length > 0 ? (
-        <p className="game-note" data-testid="story-people">
-          {presentPeopleSentence(moment.scene.presentPeople)}
         </p>
       ) : null}
 

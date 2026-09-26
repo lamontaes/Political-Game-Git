@@ -15,7 +15,7 @@ declare is reported as undeclared rather than filled in from a guess.
 | `campaign/campaign-status` | 29 | 0 | 0 | candidacy |
 | `conversation/commit-contract` | 110 | 0 | 0 | — |
 | `conversation/contextual-scene` | 244 | 0 | 0 | — |
-| `conversation/conversation-subject` | 64 | 0 | 0 | — |
+| `conversation/conversation-subject` | 62 | 0 | 0 | — |
 | `conversation/conversation-turn` | 24 | 0 | 0 | — |
 | `governing/municipal-attendance-and-work` | 40 | 0 | 0 | activity-evidence, work-standing |
 | `governing/municipal-authority-refusals` | 19 | 0 | 0 | — |
@@ -31,8 +31,8 @@ declare is reported as undeclared rather than filled in from a guess.
 | `life/introduction` | 12 | 0 | 0 | — |
 | `life/life-continuation` | 12 | 0 | 0 | — |
 | `life/office-answer` | 17 | 0 | 0 | candidacy |
-| `life/opening-conversation-intents` | 17 | 0 | 0 | — |
-| `life/opening-conversation-replies` | 62 | 0 | 0 | — |
+| `life/opening-conversation-intents` | 18 | 0 | 0 | — |
+| `life/opening-conversation-replies` | 63 | 0 | 0 | — |
 | `life/personal-aims` | 19 | 0 | 0 | — |
 | `life/press-disclosure` | 5 | 0 | 0 | — |
 | `life/recall-cards` | 10 | 0 | 0 | — |

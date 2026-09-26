@@ -10,6 +10,9 @@ import {
 import { commitConversationTurn } from "./run-b-conversation";
 import { openNextLifeScene, currentOpeningLifeScene } from "./life-scene-flow";
 import { projectLifeConversation } from "./life-conversation";
+import { conversationExchangeTurns } from "./scene-conversation";
+import { playerUtteranceOf } from "./conversation-utterance";
+import { tellableTopics } from "./life-talk-topics";
 import {
   activeChildAuthoritiesAt,
   assertWorldIntegrity,
@@ -72,7 +75,11 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
       addressee: id!,
     })!;
     expect(view.addressee).toBe(id);
+    expect(view.topicLabel).toBe("Talk");
+    expect(view.openingLine).toBe("");
     expect(view.intents.some((option) => option.key === "greet")).toBe(true);
+    const greeting = view.intents.find((option) => option.key === "greet")!;
+    expect(greeting.spokenWords).toMatch(/^(Hi|Hey), .+\.$/);
 
     const result = commitConversationTurn(world, {
       session: view.session,
@@ -92,6 +99,47 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
       )?.personId,
     ).toBe(id);
     expect(event.context.immediateReaction).toBeTruthy();
+    expect(playerUtteranceOf(event)).toBe(greeting.spokenWords);
+    expect(
+      conversationExchangeTurns(
+        deserializeWorld(serializeWorld(result.world)),
+        playerPersonId,
+        "life-talk",
+        id!,
+      ).at(-1)?.playerLine,
+    ).toBe(greeting.spokenWords);
+  });
+
+  it("offers no invented scene or activity in a quiet home conversation", () => {
+    const game = createNewGameWorld({
+      startKind: "custom",
+      placeKey: "kentucky",
+      startAge: 10,
+      depth: "play-formative-years",
+      startingLife: "ordinary-life",
+      household: "shares-a-home",
+      seed: "guardian12-quiet-greeting",
+      givenName: null,
+      familyName: null,
+      questionnaire: "skipped",
+      priors: [],
+    } as NewGameSetup);
+    const id = guardianId(game.world, game.playerPersonId)!;
+    const view = projectLifeConversation(game.world, game.playerPersonId, id)!;
+    expect(view.intents.map((option) => option.key)).not.toContain("scene");
+    expect(view.intents.map((option) => option.key)).not.toContain("activity");
+    if (view.intents.some((option) => option.key === "share"))
+      expect(
+        tellableTopics(game.world, game.playerPersonId, id).length,
+      ).toBeGreaterThan(0);
+    expect(view.intents[0]!.spokenWords).toMatch(/^(Hi|Hey), .+\.$/);
+    expect(
+      projectLifeConversation(
+        deserializeWorld(serializeWorld(game.world)),
+        game.playerPersonId,
+        id,
+      )!.intents[0]!.spokenWords,
+    ).toBe(view.intents[0]!.spokenWords);
   });
 
   it("does not double-commit on read-only projection", () => {

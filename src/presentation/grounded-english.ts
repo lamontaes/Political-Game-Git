@@ -58,6 +58,8 @@ export interface EnglishTraitRequirement {
 
 interface EnglishVariantBase {
   readonly key: string;
+  /** Relative frequency among eligible variants; omitted means one share. */
+  readonly weight?: number;
   readonly stages?: readonly string[];
   /** Include facts implied by the sentence even when no value is interpolated. */
   readonly requiresFacts?: readonly string[];
@@ -137,8 +139,15 @@ export function renderGroundedEnglish(
   const hash = stableHash(
     `${packet.worldSeed}:${packet.momentKey}:${bank.key}:${bank.version}`,
   );
-  const index = Number(BigInt(`0x${hash}`) % BigInt(usable.length));
-  const { variant, factKeys } = usable[index]!;
+  const totalWeight = usable.reduce(
+    (total, row) => total + (row.variant.weight ?? 1),
+    0,
+  );
+  let draw = Number(BigInt(`0x${hash}`) % BigInt(totalWeight));
+  const { variant, factKeys } = usable.find((row) => {
+    draw -= row.variant.weight ?? 1;
+    return draw < 0;
+  })!;
   const text =
     variant.kind === "verbatim"
       ? packet.facts[variant.factKey]!.text
@@ -198,6 +207,23 @@ function packetProblems(
     bank.variants.length
   )
     problems.push("Authored variant keys are not unique.");
+  if (
+    bank.variants.some(
+      (variant) =>
+        variant.weight !== undefined &&
+        (!Number.isSafeInteger(variant.weight) || variant.weight < 1),
+    )
+  )
+    problems.push("Variant weights must be positive safe integers.");
+  if (
+    !Number.isSafeInteger(
+      bank.variants.reduce(
+        (total, variant) => total + (variant.weight ?? 1),
+        0,
+      ),
+    )
+  )
+    problems.push("Combined variant weight exceeds the safe integer range.");
   return problems;
 }
 
