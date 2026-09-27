@@ -584,7 +584,7 @@ describe(
       expect(view.runningNow).toBe(false);
     });
 
-    it("a fundraiser needs a running campaign and moves only real money", () => {
+    it("a fundraiser needs a running campaign and no gift without donor funds", () => {
       const life = adultLife("life-mo", "state:US-MO");
       expect(() =>
         offer(
@@ -602,6 +602,9 @@ describe(
       )!;
       const treasuryBefore = campaignTreasuryPosition(running.world, campaign)!
         .liquidBalance.minorUnits;
+      const flowCount = running.world.history.resourceFlows.length;
+      const transferCount =
+        running.world.history.resourceTransferOutcomes.length;
       const raised = attend(
         offer(
           running,
@@ -614,23 +617,30 @@ describe(
         life.personId,
       );
       const outcome = campaignLifeOutcomeRecords(raised).at(-1)!;
-      expect(outcome.raisedAmount!.minorUnits).toBeGreaterThanOrEqual(25_000);
-      expect(outcome.raisedAmount!.minorUnits).toBeLessThanOrEqual(150_000);
-      const flow = raised.history.resourceFlows.find(
-        (f) => f.id === outcome.resourceFlowId,
-      )!;
-      expect(flow).toMatchObject({
-        source: { kind: "person", personId: outcome.contactPersonIds[0] },
-        recipient: {
-          kind: "organization",
-          organizationId: campaign.organizationId,
-        },
-        basisKind: "custom:campaign-contribution",
-        restrictionKind: "purpose:campaign",
-      });
+      expect(outcome.contactPersonIds).toHaveLength(1);
+      expect(outcome.raisedAmount).toBeNull();
+      expect(outcome.resourceFlowId).toBeNull();
+      expect(
+        resourcePositionAt(
+          raised,
+          { kind: "person", personId: outcome.contactPersonIds[0]! },
+          campaign.treasuryCurrency,
+        ),
+      ).toBeUndefined();
+      expect(raised.history.resourceFlows).toHaveLength(flowCount);
+      expect(raised.history.resourceTransferOutcomes).toHaveLength(
+        transferCount,
+      );
       expect(
         campaignTreasuryPosition(raised, campaign)!.liquidBalance.minorUnits,
-      ).toBe(treasuryBefore + outcome.raisedAmount!.minorUnits);
+      ).toBe(treasuryBefore);
+      const event = raised.history.events.find(
+        (item) => item.id === outcome.outcomeEventId,
+      )!;
+      expect(event.tags).toContain("compliance:not-attempted");
+      expect(event.summary).toMatch(
+        /available money for .* is not established/,
+      );
       // Nobody's tracked money went negative.
       for (const position of raised.history.resourcePositions) {
         const snapshot = resourcePositionAt(
@@ -675,7 +685,7 @@ describe(
       expect(event.summary).toMatch(/itemization threshold is UNKNOWN/);
     });
 
-    it("a covered Kentucky fundraiser, hosted by campaign staff, stays within the itemization threshold", () => {
+    it("a covered Kentucky fundraiser keeps the named donor but needs recorded funds", () => {
       const staffed = staffedKentuckyCampaign("life-ky-covered", 247);
       const { campaign } = staffed;
       const running = staffed.life;
@@ -697,6 +707,8 @@ describe(
       });
       const treasuryBefore = campaignTreasuryPosition(covered, campaign)!
         .liquidBalance.minorUnits;
+      const flowCount = covered.history.resourceFlows.length;
+      const transferCount = covered.history.resourceTransferOutcomes.length;
       const first = attend(
         offer(
           running,
@@ -709,24 +721,25 @@ describe(
         running.personId,
       );
       const outcome = campaignLifeOutcomeRecords(first).at(-1)!;
-      // KRS 121.180(3)(a)2.: over $200 needs address, employer and
-      // occupation, which this World does not record for the donor.
-      expect(outcome.raisedAmount).toEqual({
-        minorUnits: 20_000,
-        currency: campaign.treasuryCurrency,
-      });
+      expect(outcome.contactPersonIds).toHaveLength(1);
+      expect(outcome.raisedAmount).toBeNull();
+      expect(outcome.resourceFlowId).toBeNull();
+      expect(first.history.resourceFlows).toHaveLength(flowCount);
+      expect(first.history.resourceTransferOutcomes).toHaveLength(
+        transferCount,
+      );
       expect(
         campaignTreasuryPosition(first, campaign)!.liquidBalance.minorUnits,
-      ).toBe(treasuryBefore + 20_000);
+      ).toBe(treasuryBefore);
       const event = first.history.events.find(
         (e) => e.id === outcome.outcomeEventId,
       )!;
-      expect(event.tags).toContain("compliance:allowed");
-      expect(event.summary).toMatch(/kept to \$200\.00/);
-      expect(event.summary).toMatch(/address, employer or occupation/);
-      expect(event.summary).toMatch(/KRS 121\.180/);
+      expect(event.tags).toContain("compliance:not-attempted");
+      expect(event.summary).toMatch(
+        /available money for .* is not established/,
+      );
 
-      // The same persistent donor has nothing more that can be recorded.
+      // A second meeting keeps the same person and still cannot debit them.
       const second = attend(
         offer(
           running,
@@ -748,9 +761,10 @@ describe(
       const refused = second.history.events.find(
         (e) => e.id === again.outcomeEventId,
       )!;
-      expect(refused.tags).toContain("compliance:refused");
-      expect(refused.summary).toMatch(/already given \$200\.00/);
-      expect(refused.summary).toMatch(/address, employer or occupation/);
+      expect(refused.tags).toContain("compliance:not-attempted");
+      expect(refused.summary).toMatch(
+        /available money for .* is not established/,
+      );
     });
 
     it("refuses early or foreign attendance, and a declined offer cannot be accepted", () => {
