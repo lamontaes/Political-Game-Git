@@ -57,6 +57,7 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "judicial-philosophy"
   | "judicial-professional-qualification"
   | "judicial-retention-contest"
   | "judicial-retention-result"
