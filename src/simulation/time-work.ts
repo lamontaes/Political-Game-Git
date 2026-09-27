@@ -1127,6 +1127,87 @@ export function advanceWorldMinutes(
   });
 }
 
+/** Spend real time while joining one already-started commitment. The caller
+ * establishes the travel route; this only exempts that destination from its
+ * own blocker and refuses every other controlled commitment. */
+export function advanceWhileJoiningScheduledActivity(
+  world: World,
+  activityId: EntityId,
+  minutes: number,
+  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+): World {
+  assertWorldIntegrity(world);
+  const activity = world.history.scheduledActivities.find(
+    (item) => item.id === activityId,
+  );
+  const state = activity ? scheduledActivityState(world, activityId) : null;
+  if (
+    !activity ||
+    !state ||
+    state.status !== "scheduled" ||
+    world.control.kind !== "person" ||
+    activity.responsiblePersonId !== world.control.personId ||
+    !Number.isSafeInteger(minutes) ||
+    minutes <= 0 ||
+    compareSimulationMoments(world.currentMoment, state.start) < 0
+  )
+    return world;
+  const controlledPersonId = world.control.personId;
+  const target = addSimulationMinutes(world.currentMoment, minutes);
+  if (
+    compareSimulationMoments(target, state.end) >= 0 ||
+    controlledCommitmentIdsBefore(world, target, activityId).length > 0
+  )
+    return world;
+  const advanced = advanceCanonicalMinutes(
+    world,
+    minutes,
+    null,
+    transitionHandlers,
+  );
+  const newActivities = advanced.history.scheduledActivities.slice(
+    world.history.scheduledActivities.length,
+  );
+  if (
+    newActivities.some(
+      (item) =>
+        item.id !== activityId &&
+        item.participantPersonIds.includes(controlledPersonId) &&
+        scheduledActivityState(advanced, item.id).status === "scheduled" &&
+        compareSimulationMoments(
+          scheduledActivityState(advanced, item.id).start,
+          target,
+        ) < 0,
+    )
+  )
+    return world;
+  return advanced;
+}
+
+/** Complete only the remaining interval after an explicit late entry. */
+export function performRemainingScheduledActivity(
+  world: World,
+  activityId: EntityId,
+  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+): World {
+  assertWorldIntegrity(world);
+  const activity = world.history.scheduledActivities.find(
+    (item) => item.id === activityId,
+  );
+  const state = activity ? scheduledActivityState(world, activityId) : null;
+  if (
+    !activity ||
+    !state ||
+    state.status !== "scheduled" ||
+    world.control.kind !== "person" ||
+    activity.responsiblePersonId !== world.control.personId ||
+    compareSimulationMoments(world.currentMoment, state.start) <= 0 ||
+    compareSimulationMoments(world.currentMoment, state.end) >= 0
+  )
+    return world;
+  return concludeScheduledActivity(world, activityId, transitionHandlers);
+}
+
 function nonRoutineBlockingIds(
   world: World,
   target: SimulationMoment,

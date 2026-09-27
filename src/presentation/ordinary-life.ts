@@ -28,6 +28,7 @@ import {
   householdMembershipsAt,
   addDays,
   advanceWorldMinutes,
+  cancelScheduledActivity,
   compareSimulationMoments,
   createCampaignElectionTransitionRegistry,
   ageOnDate,
@@ -574,6 +575,39 @@ function advanceOrdinaryDays(
       );
     });
     if (!optional || stepped.control.kind !== "person") return stepped;
+    // Stop at the posted meeting, not its scene-free departure. Cancel the
+    // unused journey and let the clock reach the meeting's actual start.
+    if (
+      options.stopForCivicHolds &&
+      optional.stableKey === `${PUBLIC_MEETING_KEY}:activity`
+    ) {
+      const journey = stepped.history.scheduledActivities.find(
+        (activity) =>
+          activity.kind === "travel" &&
+          activity.sourceEntityIds.includes(optional.id) &&
+          scheduledActivityState(stepped, activity.id).status === "scheduled" &&
+          compareSimulationMoments(
+            scheduledActivityState(stepped, activity.id).start,
+            stepped.currentMoment,
+          ) === 0,
+      );
+      if (journey) {
+        const meetingStart = scheduledActivityState(stepped, optional.id).start;
+        const withoutTrip = cancelScheduledActivity(stepped, journey.id);
+        const minutes = simulationMinutesBetween(
+          withoutTrip.currentMoment,
+          meetingStart,
+        );
+        if (minutes > 0) {
+          const atMeeting = advanceWorldMinutes(withoutTrip, minutes, handlers);
+          if (
+            compareSimulationMoments(atMeeting.currentMoment, meetingStart) ===
+            0
+          )
+            return atMeeting;
+        }
+      }
+    }
     // The player asked to be stopped here. The hold stays; they decide.
     if (options.stopForTentativeHolds) return stepped;
     // A civic hold stops the stretch too, unless the stretch began at it: then

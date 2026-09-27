@@ -18,6 +18,7 @@ import { useTimeCommand, type TimeCommandReport } from "./time-command-runner";
 import { previewTimeCommand } from "../presentation/time-command";
 import { skipToLabel } from "../presentation/time-target-label";
 import { declineVenueActivity } from "../presentation/venue-activity";
+import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
 
 /** Entity references UI-core passes through `openEntity` / `togglePin`. */
 export type PlacesEntityRef =
@@ -39,7 +40,11 @@ export interface PlacesWorkspaceProps {
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
-function actionLabel(offer: PlacesOfferView): string {
+function actionLabel(
+  offer: PlacesOfferView,
+  world: World,
+  personId: EntityId,
+): string {
   switch (offer.kind) {
     case "inspect":
       return "Inspect";
@@ -47,8 +52,14 @@ function actionLabel(offer: PlacesOfferView): string {
       return "Return home";
     case "travel":
       return "Travel";
-    case "attend":
-      return "Attend";
+    case "attend": {
+      const scene = projectOrdinaryMeetingScene(world, personId);
+      return offer.activityId &&
+        scene?.phase === "active" &&
+        scene.activityId === offer.activityId
+        ? "Stay through meeting"
+        : "Attend";
+    }
   }
 }
 
@@ -274,11 +285,11 @@ export function PlacesWorkspace({
                     disabled={offer.unavailable !== null}
                     aria-disabled={runner.pending || undefined}
                     aria-busy={runner.pending}
-                    aria-label={`${actionLabel(offer)}: ${offer.title}`}
+                    aria-label={`${actionLabel(offer, world, personId)}: ${offer.title}`}
                     data-testid={`places-offer-${offer.id}-action`}
                     onClick={() => runOffer(offer)}
                   >
-                    {actionLabel(offer)}
+                    {actionLabel(offer, world, personId)}
                     {(() => {
                       const command = offer.walkDestination
                         ? {

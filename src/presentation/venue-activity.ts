@@ -1,4 +1,7 @@
-import { recordOrdinaryMeetingPresence } from "../simulation/ordinary-meeting-presence";
+import {
+  ordinaryMeetingEntry,
+  recordOrdinaryMeetingPresence,
+} from "../simulation/ordinary-meeting-presence";
 import {
   CAMPAIGN_LIFE_CATALOG,
   campaignActionForActivity,
@@ -10,6 +13,7 @@ import {
   performCampaignAction,
   performCampaignWeekSession,
   performScheduledActivity,
+  performRemainingScheduledActivity,
   recordWorldEvent,
   scheduledActivitiesVisibleTo,
   scheduledActivityPerformanceTiming,
@@ -23,6 +27,7 @@ import {
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
 import { MEMBER_BALLOT_LOCATION_KEY } from "../simulation/governing/member-ballots";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { recordDomainAttendance } from "./activity-attendance";
 import {
   openingLifeLocation,
@@ -286,6 +291,33 @@ export function venueActivities(
         activity.kind === "travel"
           ? null
           : disclosedJourneyFor(world, personId, activity);
+      const state = scheduledActivityState(world, activity.id);
+      const priorJourney =
+        activity.stableKey === `${PUBLIC_MEETING_KEY}:activity`
+          ? world.history.scheduledActivities.find(
+              (item) =>
+                item.kind === "travel" &&
+                item.location.locationKey === "ordinary-life:to-meeting-room" &&
+                item.sourceEntityIds.includes(activity.id) &&
+                item.responsiblePersonId === personId &&
+                scheduledActivityState(world, item.id).status === "cancelled",
+            )
+          : null;
+      const origin = openingLifeLocation(world, personId);
+      const lateMeetingDeparture =
+        priorJourney &&
+        origin?.setting === "home" &&
+        origin.jurisdictionId === activity.location.jurisdictionId &&
+        compareSimulationMoments(world.currentMoment, state.start) >= 0 &&
+        compareSimulationMoments(world.currentMoment, state.end) < 0 &&
+        compareSimulationMoments(
+          scheduledActivityState(world, priorJourney.id).end,
+          state.start,
+        ) === 0 &&
+        simulationMinutesBetween(
+          scheduledActivityState(world, priorJourney.id).start,
+          scheduledActivityState(world, priorJourney.id).end,
+        ) < simulationMinutesBetween(world.currentMoment, state.end);
       if (
         world.control.kind !== "person" ||
         world.control.personId !== personId ||
@@ -297,18 +329,38 @@ export function venueActivities(
             : "This activity is not yours to carry out.";
       } else {
         try {
-          elapsedMinutes = scheduledActivityPerformanceTiming(
-            world,
-            activity.id,
-          ).totalElapsedMinutes;
-          const blockers = controlledCommitmentsBlockingActivityPerformance(
-            world,
-            activity.id,
-          ).filter(
-            (id) =>
-              id !== journey?.activity.id &&
-              !transitionHandlers.routine?.isAutoResolvableActivity(world, id),
-          );
+          const lateMeeting =
+            activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+            compareSimulationMoments(
+              world.currentMoment,
+              scheduledActivityState(world, activity.id).start,
+            ) > 0 &&
+            ordinaryMeetingEntry(world, personId, activity.id) !== null;
+          elapsedMinutes = lateMeeting
+            ? simulationMinutesBetween(
+                world.currentMoment,
+                scheduledActivityState(world, activity.id).end,
+              )
+            : lateMeetingDeparture
+              ? simulationMinutesBetween(
+                  scheduledActivityState(world, priorJourney.id).start,
+                  scheduledActivityState(world, priorJourney.id).end,
+                )
+              : scheduledActivityPerformanceTiming(world, activity.id)
+                  .totalElapsedMinutes;
+          const blockers = lateMeeting
+            ? []
+            : controlledCommitmentsBlockingActivityPerformance(
+                world,
+                activity.id,
+              ).filter(
+                (id) =>
+                  id !== journey?.activity.id &&
+                  !transitionHandlers.routine?.isAutoResolvableActivity(
+                    world,
+                    id,
+                  ),
+              );
           if (blockers.length) refusal = EARLIER_COMMITMENT_REFUSAL;
           /*
            * A meeting two people arranged between themselves is held wherever
@@ -365,6 +417,7 @@ export function venueActivities(
             activity.kind !== "travel" &&
             !journey &&
             !metWhereverTheyMeet &&
+            !lateMeetingDeparture &&
             // Going to an invitation nobody has answered yet is the yes, and
             // saying yes books the trip there; see `performVenueActivityOnce`.
             openInvitationFor(world, personId, activity.id) === null &&
@@ -480,6 +533,34 @@ export function venueTimingLabel(
   world: World,
   activityId: EntityId,
 ): string | null {
+  const activity = world.history.scheduledActivities.find(
+    (item) => item.id === activityId,
+  );
+  if (
+    activity?.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+    activity.responsiblePersonId
+  ) {
+    const offer = venueActivities(world, activity.responsiblePersonId).find(
+      (item) => item.activity.id === activityId,
+    );
+    if (
+      offer &&
+      !offer.refusal &&
+      offer.elapsedMinutes !== null &&
+      compareSimulationMoments(
+        world.currentMoment,
+        scheduledActivityState(world, activityId).start,
+      ) >= 0
+    ) {
+      return ordinaryMeetingEntry(
+        world,
+        activity.responsiblePersonId,
+        activityId,
+      )
+        ? `Takes ${formatRoutineElapsedMinutes(offer.elapsedMinutes)} to stay through the meeting.`
+        : `Travel takes ${formatRoutineElapsedMinutes(offer.elapsedMinutes)}; the meeting will already be underway.`;
+    }
+  }
   try {
     const timing = scheduledActivityPerformanceTiming(world, activityId);
     const start = scheduledActivityState(world, activityId).start;
@@ -591,6 +672,27 @@ function performVenueActivityOnce(
     return world;
   const journey = entry.journey;
   if (!journey) {
+    const lateMeeting =
+      entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+      ordinaryMeetingEntry(world, personId, activityId) !== null &&
+      compareSimulationMoments(
+        world.currentMoment,
+        scheduledActivityState(world, activityId).start,
+      ) > 0;
+    if (lateMeeting) {
+      const performed = performRemainingScheduledActivity(
+        world,
+        activityId,
+        transitionHandlers,
+      );
+      if (performed === world) return world;
+      return recordOrdinaryMeetingPresence(
+        world,
+        performed,
+        personId,
+        activityId,
+      );
+    }
     // Calendar can play the travel leg separately from Attend. Only the same
     // explicit route adapter and linked destination may establish arrival —
     // read from the travel side by `arrivedDestinationFor`, below, which is

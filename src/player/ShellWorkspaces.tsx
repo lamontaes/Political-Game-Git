@@ -82,6 +82,7 @@ import {
 import { previewTimeCommand } from "../presentation/time-command";
 import { acceptedOfferStarts } from "../presentation/offer-deadlines";
 import { venueActivities } from "../presentation/venue-activity";
+import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
 import { proseDate, proseWeekdayDate } from "../presentation/prose-dates";
 import {
   PROTECTED_STOP_NOTE,
@@ -1145,6 +1146,10 @@ function CalendarEventActions({
     kind: "attend-activity",
     activityId: selected.activityId,
   });
+  const meetingScene = projectOrdinaryMeetingScene(world, personId);
+  const stayingAtMeeting =
+    meetingScene?.phase === "active" &&
+    meetingScene.activityId === selected.activityId;
   return (
     <div
       className="game-choices pg-calendar-actions"
@@ -1208,7 +1213,7 @@ function CalendarEventActions({
               )
         }
       >
-        Attend
+        {stayingAtMeeting ? "Stay through meeting" : "Attend"}
         {attendance
           ? ` · Until ${attendance.target.date === world.currentDate ? "" : `${proseWeekdayDate(attendance.target.date)}, `}${formatMinute(attendance.target.minuteOfDay)}`
           : ""}
