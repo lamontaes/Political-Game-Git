@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { modelCampaignFieldReach } from "./campaign-contact-calibration";
 import { wasRefused } from "./scheduled-activity-answer";
 import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
@@ -1006,7 +1007,8 @@ export function requestCampaignLifeActivity(
 }
 
 /** Finds the host and the first shared free evening; throws one sentence. */
-function planCampaignLifeRequest(
+/** Read-only preview of the same host and free calendar slot the request writer uses. */
+export function planCampaignLifeRequest(
   world: World,
   personId: EntityId,
   input: RequestCampaignLifeActivityInput,
@@ -1943,6 +1945,9 @@ export function recordCampaignLifeAttendance(
     attendance,
     outcomeEventId: outcomeEvent.id,
     contactPersonIds,
+    fieldReach: openCampaign
+      ? modelCampaignFieldReach(record.form, minutes)
+      : null,
     relationshipInteractionIds,
     resourceFlowId,
     raisedAmount,

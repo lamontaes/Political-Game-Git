@@ -4,7 +4,11 @@ import {
   type NativeSaveRequest,
   type NativeSessionQuery,
 } from "./native-session-bridge";
-import { CreatorAppearanceStep } from "./CreatorAppearanceStep";
+
+import { SetupScreen } from "./SetupScreen";
+import { QuestionnaireScreenView } from "./QuestionnaireScreenView";
+import { SavesScreen } from "./SavesScreen";
+import { OptionsScreen } from "./OptionsScreen";
 import { LifeContinuationPanel } from "./LifeContinuationPanel";
 import { RetireFromPlayAction } from "./RetireFromPlayAction";
 import { PersonalGoalsPanel } from "./PersonalGoalsPanel";
@@ -28,17 +32,7 @@ import { projectLocationSurfaces } from "../presentation/location-surfaces";
 import { locationReviewVisuals } from "../presentation/location-art-review";
 import { PressWorkspace } from "./PressWorkspace";
 import { ContentPackWorkspace } from "./ContentPackWorkspace";
-import { resolveCreatorBirthday } from "../presentation/creator-full-birthday";
-import { CreatorBirthdayFields } from "./CreatorBirthdayFields";
-import { projectHometownPage } from "../presentation/creator-hometown-page";
-import { previewCreatorNames } from "../presentation/creator-name-preview";
-import { stateUsps } from "../simulation/school-names";
-import {
-  creatorBirthDate,
-  creatorCharacterHint,
-  creatorCharacterMissing,
-  statedCreatorGender,
-} from "../presentation/creator-character";
+
 import {
   SavedAppearanceProvider,
   SavedRenderSnapshotsProvider,
@@ -50,7 +44,10 @@ import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
-import { previewTimeCommand } from "../presentation/time-command";
+import {
+  describeTimeCommandPreview,
+  previewTimeCommand,
+} from "../presentation/time-command";
 import { acceptedOfferStarts } from "../presentation/offer-deadlines";
 import {
   createWorldChangeGuard,
@@ -65,6 +62,7 @@ import { authorityDecisions } from "../presentation/crisis-shell";
 import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 import { useCrisisStop } from "./use-crisis-stop";
 import {
+  describeTimeCommandReport,
   TimeCommandProvider,
   useTimeCommandRunner,
 } from "./time-command-runner";
@@ -122,6 +120,7 @@ import { GoverningBriefing } from "./GoverningBriefing";
 import { GoverningOfficeDesk } from "./GoverningOfficeDesk";
 import { governingOfficeForPerson } from "../simulation/governing/state-governing";
 import { CampaignLifePanel } from "./CampaignLifePanel";
+import { CandidateGuidancePanel } from "./CandidateGuidancePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
@@ -153,40 +152,17 @@ import {
   type StoryMoment,
 } from "../presentation/life-story";
 import { projectLifeRecord } from "../presentation/life-record";
-import {
-  DEFAULT_NEW_GAME_SETUP,
-  LEGISLATIVE_OFFICE_MINIMUM_AGE,
-  MAXIMUM_START_AGE,
-  MINIMUM_START_AGE,
-  newGameSetupProblems,
-  type NewGameSetup,
-} from "../presentation/new-game";
-import {
-  clearCreatorState,
-  creatorLocationFromPlaceKey,
-  creatorLocationIsReady,
-  creatorPlaceListOpen,
-  selectCreatorPlace,
-  selectCreatorState,
-  selectedCreatorPlace,
-  withCreatorLocation,
-  type CreatorLocationDraft,
-} from "../presentation/creator-location";
-import {
-  placeStartFacts,
-  type PlaceStartFact,
-} from "../presentation/place-start-summary";
-import { placeRegionalFacts } from "../presentation/place-regional-facts";
-import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
+import { type NewGameSetup } from "../presentation/new-game";
+
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import {
   answerQuestionnaire,
   endQuestionnaireEarly,
-  questionnaireContentNote,
   questionnaireScreenFor,
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
+import { projectDayRhythm } from "../presentation/day-rhythm";
 import { projectHouseholdPapers } from "../presentation/household-papers";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import {
@@ -201,13 +177,13 @@ import {
   artPreviewMode,
   previewDatabaseName,
   prepareCandidateOpeningWorld,
-  setupForArtPreview,
-  type ArtPreviewMode,
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
+import { backdropForLocation } from "../presentation/place-backdrops";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
 import { PUBLIC_MEETING_ROOM_SCENE_ID } from "../presentation/scene-registry";
 import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
@@ -216,26 +192,14 @@ import {
   resolvedTitlePresentation,
   resolvedTitleLecternHero,
   type SaveListingState,
-  reloadPage,
 } from "./TitleScreen";
 import {
   readReplaySeed,
   resolveSessionSeed,
 } from "../presentation/session-seed";
-import {
-  readReplaySetup,
-  replayDescriptorUrl,
-} from "../presentation/new-game-identity";
-import {
-  defaultPronounsForGender,
-  GENDER_IDENTITY_KEYS,
-  GENDER_IDENTITY_LABELS,
-  lifePlaceCoverage,
-  lifePlaceStateIdentities,
-  lifePlaces,
-  personName,
-} from "../simulation";
-import type { EntityId, QuestionnairePhase, World } from "../simulation";
+import { readReplaySetup } from "../presentation/new-game-identity";
+import { personName } from "../simulation";
+import type { EntityId, World } from "../simulation";
 import {
   openLegislativeWork,
   type LegislativeAssignment,
@@ -294,14 +258,11 @@ import {
 } from "../presentation/shell-navigation";
 import type { PoliticalMapFocus } from "../maps/PoliticalMap";
 import { useShell } from "./useShell";
-import {
-  stateAgencyStartAvailableFor,
-  STATE_AGENCY_START_MINIMUM_AGE,
-} from "../simulation/civil-personnel-start";
+
 import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
 import { WorldRecapPanel } from "./WorldRecapPanel";
-import { useWorldRecap } from "./useWorldRecap";
+import { MorningThoughtPanel } from "./MorningThoughtPanel";
 import { WorldOrientationPanel } from "./WorldOrientationPanel";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
 import { useWorldOrientation } from "./useWorldOrientation";
@@ -348,10 +309,7 @@ import {
   observerSetup,
   openObserverWorld,
 } from "../presentation/observer-world";
-import {
-  SaveImportControl,
-  SaveTransferControls,
-} from "./SaveTransferControls";
+
 import { PoliticsWorkspace } from "./ConstitutionalWorkspace";
 
 /* The map carries its geometry; it loads only when a player opens it. */
@@ -1134,1361 +1092,7 @@ export function PlayerGame() {
 
 /* -------------------------------------------------------------------------- */
 
-/**
- * The character creator, as one screen that unfolds.
- *
- * WHAT THE SECOND PLAYTEST REJECTED, AND WHAT REPLACED IT.
- *
- * New Game used to leave the title's room and land on a blank page carrying
- * seven headed sections at once, with the four supported places laid out as
- * cards that read as the game's four recommended starts. The human called it a
- * form, and it was.
- *
- * What is here instead is one continuous screen standing in the same drifting
- * room the title stands in, revealing the next thing to decide after the last
- * one is decided. Nothing was removed: every choice the old screen took is
- * still taken, in the same order, writing the same setup. What changed is that
- * a player meets them one at a time and never sees a wall.
- *
- * The place list starts empty on purpose. Four places is what the accepted
- * data honestly reaches today, and showing them unprompted made a limitation
- * look like a recommendation. Searching is the interaction the national
- * corpus will keep, so this is the seam that adapter lands on rather than a
- * screen it will have to replace.
- */
-
-/**
- * The order a life is decided in. Each step opens when the last one closes,
- * and once a step is closed it collapses to a one-line summary the player can
- * reopen — so the active step is the only full-height thing on screen and the
- * creator never grows into a scrolling form.
- *
- * A normal start does not compose a background: who is at home, whether the
- * character already works somewhere, and how much of the early life is played
- * are the generator's to decide after Begin (Task E). Only a custom start
- * carries the extra "background" step where those are set by hand.
- */
-const NORMAL_CREATOR_STEPS = [
-  "route",
-  "character",
-  "place",
-  "whoAreYou",
-  "begin",
-] as const;
-const CUSTOM_CREATOR_STEPS = [
-  "route",
-  "character",
-  "place",
-  "background",
-  "whoAreYou",
-  "begin",
-] as const;
-
-type CreatorStep =
-  (typeof NORMAL_CREATOR_STEPS)[number] | (typeof CUSTOM_CREATOR_STEPS)[number];
-
-function SetupScreen({
-  seed,
-  seedOrigin,
-  previewMode,
-  initialSetup,
-  questionnaireComplete = false,
-  onBack,
-  onBegin,
-  problem,
-}: {
-  readonly seed: string;
-  readonly seedOrigin: "fresh" | "replay";
-  readonly previewMode: ArtPreviewMode;
-  readonly initialSetup?: NewGameSetup;
-  readonly questionnaireComplete?: boolean;
-  readonly onBack: () => void;
-  readonly onBegin: (
-    setup: NewGameSetup,
-    appearance: CreatorAppearanceChoice | null,
-    questionsFinished?: boolean,
-  ) => void;
-  readonly problem: string | null;
-}) {
-  const [finishedQuestions, setFinishedQuestions] = useState(
-    questionnaireComplete,
-  );
-  const coverage = lifePlaceCoverage();
-  const [stateQuery, setStateQuery] = useState("");
-  const [placeQuery, setPlaceQuery] = useState("");
-  const [replacingPlace, setReplacingPlace] = useState(false);
-  const [populationFacts, setPopulationFacts] = useState<
-    readonly PlaceStartFact[]
-  >([]);
-  /*
-   * An edit of an already-chosen setup reopens with that setup's place; a
-   * fresh start opens with none (PT3-CREATOR B).
-   */
-  const [location, setLocation] = useState<CreatorLocationDraft>(() =>
-    creatorLocationFromPlaceKey(initialSetup?.placeKey),
-  );
-  const matchingStates = useMemo(() => {
-    const needle = stateQuery.trim().toLowerCase();
-    const identities = lifePlaceStateIdentities();
-    if (needle.length === 0) return identities;
-    return identities.filter(
-      (state) =>
-        state.name.toLowerCase().includes(needle) ||
-        state.usps.toLowerCase() === needle,
-    );
-  }, [stateQuery]);
-  // One searchable, alphabetized scroll surface; no manual next-page action.
-  const placePage = useMemo(() => {
-    if (!location.stateJurisdictionKey) return null;
-    return projectHometownPage(
-      placeQuery,
-      0,
-      {
-        stateJurisdictionKey: location.stateJurisdictionKey,
-        scope: "locality",
-      },
-      Number.MAX_SAFE_INTEGER,
-    );
-  }, [location.stateJurisdictionKey, placeQuery]);
-  const matchingPlaces = placePage?.places ?? [];
-  const [nameDraws, setNameDraws] = useState(0);
-  const statewidePlace =
-    lifePlaces().find(
-      (candidate) =>
-        candidate.scope === "state" &&
-        candidate.stateJurisdictionKey === location.stateJurisdictionKey,
-    ) ?? null;
-  const [setup, setSetup] = useState<NewGameSetup>(
-    () =>
-      // Only a newly allocated creator draft enters the candidate generation.
-      // Existing drafts, replay descriptors and loaded Worlds retain their pins.
-      initialSetup ??
-      setupForArtPreview(
-        { ...DEFAULT_NEW_GAME_SETUP, seed, placeKey: "" },
-        previewMode,
-      ),
-  );
-  /**
-   * What the age field currently shows, which is not always a number.
-   *
-   * `Number(event.target.value)` reads an empty field as 0 and wrote it
-   * straight into the setup, so clearing the box to retype an age snapped it to
-   * 0 and every following keystroke appended to that: the owner's "0-2-5". A
-   * number input has intermediate states that are not numbers — empty while
-   * retyping, "-" before a digit — and the setup only ever wants a real age.
-   *
-   * So the field owns its own text and the setup keeps the last age that
-   * actually parsed. Nothing downstream sees a partial edit; the childhood,
-   * office-eligibility and range checks keep reading a real number throughout.
-   * A fresh creator starts unanswered. Blur only puts the committed age back
-   * after the player has entered something; an untouched field stays empty.
-   */
-  const [ageChosen, setAgeChosen] = useState(initialSetup !== undefined);
-  const custom = setup.startKind === "custom";
-  const committed = withCreatorLocation(setup, location);
-  const steps: readonly CreatorStep[] = custom
-    ? CUSTOM_CREATOR_STEPS
-    : NORMAL_CREATOR_STEPS;
-
-  /**
-   * The step the player is on. It only moves forward on its own; the summaries
-   * of finished steps move it back when one is reopened to change an answer.
-   */
-  const [current, setCurrent] = useState<CreatorStep>(
-    initialSetup ? "begin" : "route",
-  );
-  const currentIndex = Math.max(steps.indexOf(current), 0);
-  const isCurrent = (step: CreatorStep) => step === current;
-  const isDone = (step: CreatorStep) => {
-    const at = steps.indexOf(step);
-    return at !== -1 && at < currentIndex;
-  };
-  const advanceTo = (step: CreatorStep) =>
-    setCurrent((now) =>
-      steps.indexOf(step) > steps.indexOf(now) ? step : now,
-    );
-  const reopen = (step: CreatorStep) => {
-    if (step === "whoAreYou") setFinishedQuestions(false);
-    setCurrent(step);
-  };
-
-  const problems = newGameSetupProblems(committed);
-  /*
-   * Not answering is different from entering an invalid age: both keep Next
-   * disabled, but only an entered invalid value needs an error message.
-   */
-  const ageUsable =
-    ageChosen &&
-    Number.isSafeInteger(setup.startAge) &&
-    setup.startAge >= MINIMUM_START_AGE &&
-    setup.startAge <= MAXIMUM_START_AGE;
-  const place = selectedCreatorPlace(location);
-  const placeListOpen = creatorPlaceListOpen(location.placeKey, replacingPlace);
-
-  useEffect(() => {
-    const chosen = selectedCreatorPlace(location);
-    setPopulationFacts([]);
-    if (!chosen) return;
-    let cancelled = false;
-    void queryHometownPopulationFacts(chosen).then((facts) => {
-      if (!cancelled) setPopulationFacts(facts);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [location.placeKey]);
-  const officeAvailable =
-    place?.capabilities.legislativeScenarioKey !== null &&
-    setup.startAge >= LEGISLATIVE_OFFICE_MINIMUM_AGE;
-  const stateAgencyAvailable =
-    setup.startAge >= STATE_AGENCY_START_MINIMUM_AGE &&
-    stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null);
-  const chosenGender = statedCreatorGender(setup.gender);
-  const characterMissing = creatorCharacterMissing(committed, ageChosen).filter(
-    (field) => field !== "birthday",
-  );
-  const [birthdayCompletionProblem, setBirthdayCompletionProblem] = useState<
-    string | null
-  >(null);
-  const characterHint = creatorCharacterHint(characterMissing);
-  const birthDate = ageChosen ? creatorBirthDate(setup) : null;
-  // The compact summaries the finished steps collapse to.
-  const summaryText: Partial<Record<CreatorStep, string>> = {
-    route: custom ? "Custom start" : "Start a life",
-    character: [
-      [setup.givenName, setup.familyName].filter(Boolean).join(" ") ||
-        "A name you'll be given",
-      `age ${setup.startAge}`,
-      birthDate ? `born ${proseDate(birthDate)}` : null,
-      chosenGender ? GENDER_IDENTITY_LABELS[chosenGender] : null,
-    ]
-      .filter(Boolean)
-      .join(" · "),
-    place: place ? place.displayName : "",
-    background: custom
-      ? [
-          setup.household === "shares-a-home" ? "Shares a home" : "Lives alone",
-          setup.startingLife === "legislative-office"
-            ? "Legislative staff"
-            : setup.startingLife === "judicial-office-practice"
-              ? "Judicial office practice"
-              : setup.startingLife === "state-agency-director"
-                ? "State agency director"
-                : "Everyday life",
-        ].join(" · ")
-      : "",
-    whoAreYou:
-      setup.questionnaire === "skipped"
-        ? "Discover through play"
-        : "Answering a few questions",
-  };
-  const onReady = currentIndex >= steps.indexOf("begin");
-
-  return (
-    <main
-      className={`game-title game-setup game-creator${onReady && (finishedQuestions || !questionnaireScreenFor(committed)) ? " game-creator--appearance" : ""}`}
-      data-testid="setup-screen"
-    >
-      {/*
-            Finished steps, collapsed. Each is a one-line summary the player can
-            reopen; this is what keeps the whole active step inside the viewport
-            instead of stacking every section into a scrolling column.
-          */}
-      <div className="creator-summaries">
-        {steps
-          .filter(
-            (step) =>
-              step !== "begin" && isDone(step) && Boolean(summaryText[step]),
-          )
-          .map((step) => (
-            <button
-              key={step}
-              type="button"
-              className="creator-summary"
-              data-testid={`creator-summary-${step}`}
-              onClick={() => reopen(step)}
-            >
-              <span className="creator-summary-value">{summaryText[step]}</span>
-              <span className="creator-summary-edit" aria-hidden="true">
-                Change
-              </span>
-            </button>
-          ))}
-      </div>
-
-      {isCurrent("route") ? (
-        <section data-testid="creator-stage-route">
-          <h2>How do you want to start?</h2>
-          <div className="game-choices" data-testid="start-kind-choices">
-            <button
-              type="button"
-              data-testid="start-normal"
-              aria-pressed={!custom}
-              className={!custom ? "is-chosen" : undefined}
-              onClick={() => {
-                setSetup((now) => ({ ...now, startKind: "normal" }));
-                setLocation((now) => {
-                  const selected = selectedCreatorPlace(now);
-                  return selected && selected.scope === "state"
-                    ? { ...now, placeKey: null }
-                    : now;
-                });
-                setCurrent("character");
-              }}
-            >
-              Start a life
-              <small>
-                You say who you are and where you're from. Everything else —
-                your family, your home, the years behind you — the game builds
-                when you begin.
-              </small>
-            </button>
-            <button
-              type="button"
-              data-testid="start-custom"
-              aria-pressed={custom}
-              className={custom ? "is-chosen" : undefined}
-              onClick={() => {
-                setSetup((now) => ({ ...now, startKind: "custom" }));
-                setCurrent("character");
-              }}
-            >
-              Custom start
-              <small>
-                Set the background yourself — who's at home, whether you already
-                work somewhere, how much of the early years to play.
-              </small>
-            </button>
-          </div>
-        </section>
-      ) : null}
-
-      {isCurrent("character") ? (
-        <section data-testid="creator-stage-character">
-          <h2>Your character</h2>
-          {/*
-                Gender, asked rather than decided. Guessing it from the first
-                name would be wrong: the name corpus carries no demographic
-                attribute for anything to be guessed from. Normal Start exposes
-                gender only (owner override) — pronouns derive silently from it
-                and are never a player-facing control here.
-              */}
-          <fieldset
-            className="game-fieldset"
-            data-testid="gender-choices"
-            aria-required="true"
-          >
-            <legend>Gender (required)</legend>
-            <div className="game-choices game-choices-inline">
-              {GENDER_IDENTITY_KEYS.filter((key) => key !== "unstated").map(
-                (key) => (
-                  <button
-                    key={key}
-                    type="button"
-                    data-testid={`gender-${key}`}
-                    aria-pressed={setup.gender === key}
-                    className={setup.gender === key ? "is-chosen" : undefined}
-                    onClick={() => {
-                      setSetup((now) => ({
-                        ...now,
-                        gender: key,
-                        pronouns: defaultPronounsForGender(key),
-                      }));
-                    }}
-                  >
-                    {GENDER_IDENTITY_LABELS[key]}
-                  </button>
-                ),
-              )}
-            </div>
-          </fieldset>
-
-          <div className="creator-group creator-group-name">
-            <span className="creator-group-label">Name</span>
-            <div className="game-fields">
-              <label>
-                First name
-                <input
-                  type="text"
-                  required
-                  autoComplete="off"
-                  value={setup.givenName ?? ""}
-                  aria-describedby="creator-name-hint"
-                  onChange={(event) =>
-                    setSetup((now) => ({
-                      ...now,
-                      givenName: event.target.value || null,
-                    }))
-                  }
-                />
-              </label>
-              <label>
-                Last name
-                <input
-                  type="text"
-                  required
-                  autoComplete="off"
-                  value={setup.familyName ?? ""}
-                  aria-describedby="creator-name-hint"
-                  onChange={(event) =>
-                    setSetup((now) => ({
-                      ...now,
-                      familyName: event.target.value || null,
-                    }))
-                  }
-                />
-              </label>
-            </div>
-            <div className="creator-name-actions">
-              <button
-                type="button"
-                data-testid="creator-randomize-name"
-                disabled={chosenGender === null}
-                onClick={() => {
-                  if (chosenGender === null) return;
-                  const salt = nameDraws + 1;
-                  const draw = previewCreatorNames(
-                    setup.seed,
-                    chosenGender,
-                    salt,
-                    stateUsps(location.stateJurisdictionKey),
-                  );
-                  setNameDraws(salt);
-                  setSetup((now) => ({
-                    ...now,
-                    givenName: draw.givenName,
-                    familyName: draw.familyName,
-                  }));
-                }}
-              >
-                Randomize name
-              </button>
-              <p
-                className="game-hint"
-                id="creator-name-hint"
-                data-testid="creator-name-hint"
-              >
-                {chosenGender === null
-                  ? "Choose a gender first; Randomize name then draws a name for it."
-                  : "Type a first and last name, or use Randomize name."}
-              </p>
-            </div>
-          </div>
-
-          <div className="creator-group">
-            <CreatorBirthdayFields
-              setup={setup}
-              yearChosen={ageChosen}
-              onChange={(next, yearChosen) => {
-                setSetup(next);
-                if (yearChosen) setAgeChosen(true);
-              }}
-            />
-          </div>
-
-          <button
-            type="button"
-            className="game-creator-next"
-            data-testid="creator-continue-character"
-            aria-describedby={
-              characterHint ? "creator-character-missing" : undefined
-            }
-            disabled={characterMissing.length > 0 || (ageChosen && !ageUsable)}
-            onClick={() => {
-              const completed = resolveCreatorBirthday(setup, ageChosen);
-              if (!completed) {
-                setBirthdayCompletionProblem(
-                  "These date fields do not form a supported birthday. Check the day, month and year.",
-                );
-                return;
-              }
-              setBirthdayCompletionProblem(null);
-              setSetup(completed);
-              setAgeChosen(true);
-              advanceTo("place");
-            }}
-          >
-            Next
-          </button>
-          {characterHint ? (
-            <p
-              className="game-hint"
-              id="creator-character-missing"
-              data-testid="creator-character-missing"
-            >
-              {characterHint}
-            </p>
-          ) : null}
-          {birthdayCompletionProblem ? (
-            <p role="alert">{birthdayCompletionProblem}</p>
-          ) : null}
-        </section>
-      ) : null}
-
-      {isCurrent("place") ? (
-        <section data-testid="creator-stage-place">
-          <h2>Where are you from?</h2>
-          {location.stateJurisdictionKey ? (
-            <button
-              type="button"
-              className="creator-summary"
-              data-testid="creator-change-state"
-              onClick={() => {
-                setLocation(clearCreatorState());
-                setPlaceQuery("");
-                setReplacingPlace(false);
-                setSetup((now) => ({ ...now, placeKey: "" }));
-              }}
-            >
-              <span className="creator-summary-value">
-                {lifePlaceStateIdentities().find(
-                  (state) =>
-                    state.jurisdictionKey === location.stateJurisdictionKey,
-                )?.name ?? location.stateJurisdictionKey}
-              </span>
-              <span className="creator-summary-edit">Change</span>
-            </button>
-          ) : (
-            <>
-              <label className="game-search">
-                Choose a state
-                <input
-                  type="search"
-                  data-testid="state-search"
-                  value={stateQuery}
-                  placeholder="Type a state"
-                  onChange={(event) => setStateQuery(event.target.value)}
-                />
-              </label>
-              {matchingStates.length > 0 ? (
-                <div className="game-choices" data-testid="state-choices">
-                  {matchingStates.map((state) => (
-                    <button
-                      key={state.jurisdictionKey}
-                      type="button"
-                      data-testid={`state-${state.usps}`}
-                      onClick={() => {
-                        setLocation((now) =>
-                          selectCreatorState(now, state.jurisdictionKey),
-                        );
-                        setPlaceQuery("");
-                        setReplacingPlace(false);
-                        setSetup((now) => ({ ...now, placeKey: "" }));
-                      }}
-                    >
-                      {state.name}
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <p className="game-note" data-testid="state-no-match">
-                  Nothing here matches that yet.
-                </p>
-              )}
-            </>
-          )}
-          {location.stateJurisdictionKey ? (
-            <>
-              <label className="game-search">
-                Search places in this state
-                <input
-                  type="search"
-                  data-testid="place-search"
-                  value={placeQuery}
-                  placeholder="Type a city or town"
-                  onChange={(event) => {
-                    setPlaceQuery(event.target.value);
-                    if (location.placeKey) setReplacingPlace(true);
-                  }}
-                />
-              </label>
-              {custom && statewidePlace ? (
-                <div className="game-choices" data-testid="place-statewide">
-                  <button
-                    type="button"
-                    data-testid="place-statewide-choice"
-                    className={
-                      location.placeKey === statewidePlace.key
-                        ? "is-chosen"
-                        : undefined
-                    }
-                    onClick={() => {
-                      setLocation((now) =>
-                        selectCreatorPlace(now, statewidePlace),
-                      );
-                      setReplacingPlace(false);
-                      setSetup((now) => ({
-                        ...now,
-                        placeKey: statewidePlace.key,
-                      }));
-                    }}
-                  >
-                    {statewidePlace.displayName}
-                    <small data-place-scope="state">
-                      Statewide — not a hometown
-                    </small>
-                  </button>
-                </div>
-              ) : null}
-              {placeListOpen && matchingPlaces.length > 0 ? (
-                <div
-                  className="game-choices creator-place-scroll"
-                  data-testid="place-choices"
-                  key={`${location.stateJurisdictionKey}:${placeQuery}`}
-                  tabIndex={0}
-                  aria-label="Hometowns"
-                >
-                  {matchingPlaces.map((candidate) => (
-                    <button
-                      key={candidate.key}
-                      type="button"
-                      className={
-                        candidate.key === location.placeKey
-                          ? "is-chosen"
-                          : undefined
-                      }
-                      onClick={() => {
-                        setLocation((now) =>
-                          selectCreatorPlace(now, candidate),
-                        );
-                        setReplacingPlace(false);
-                        setSetup((now) => ({
-                          ...now,
-                          placeKey: candidate.key,
-                          startingLife:
-                            (now.startingLife === "legislative-office" &&
-                              candidate.capabilities.legislativeScenarioKey ===
-                                null) ||
-                            (now.startingLife === "state-agency-director" &&
-                              !stateAgencyStartAvailableFor(
-                                candidate.stateJurisdictionKey,
-                              ))
-                              ? "ordinary-life"
-                              : now.startingLife,
-                        }));
-                      }}
-                    >
-                      {candidate.displayName}
-                      <small data-place-scope={candidate.scope}>
-                        {candidate.withinName ?? ""}
-                      </small>
-                    </button>
-                  ))}
-                </div>
-              ) : null}
-              {placeListOpen && placePage && placePage.total > 0 ? (
-                <div className="creator-place-pager" data-testid="place-pager">
-                  <p
-                    className="game-hint"
-                    role="status"
-                    data-testid="place-page-status"
-                  >
-                    {placePage.status}
-                  </p>
-                </div>
-              ) : placeListOpen && placeQuery.trim().length === 0 ? (
-                <p className="game-note" data-testid="place-prompt">
-                  Choose a town in this state. {coverage.playerNote}
-                </p>
-              ) : placeListOpen ? (
-                <p className="game-note" data-testid="place-no-match">
-                  Nothing here matches that yet. {coverage.playerNote}
-                </p>
-              ) : null}
-            </>
-          ) : (
-            <p className="game-note" data-testid="place-prompt">
-              Choose a state first. A fresh start has no home selected.
-            </p>
-          )}
-          {place &&
-          creatorLocationIsReady(location, custom ? "custom" : "normal") ? (
-            <div className="creator-place-context" data-testid="place-context">
-              <button
-                type="button"
-                className="creator-summary"
-                data-testid="creator-change-place"
-                onClick={() => setReplacingPlace((open) => !open)}
-              >
-                <span
-                  className="creator-place-name"
-                  data-testid="place-canonical"
-                >
-                  {place.displayName}
-                </span>
-                <span className="creator-summary-edit">
-                  {replacingPlace ? "Keep" : "Change"}
-                </span>
-              </button>
-              {place.scope !== "locality" ? (
-                <p className="game-hint" data-testid="place-scope">
-                  {place.scope === "state"
-                    ? "Statewide start."
-                    : "County-wide start; a specific town is not selected."}
-                </p>
-              ) : null}
-              {placeStartFacts(place)
-                .filter((fact) => fact.kind !== "name")
-                .map((fact) => (
-                  <p
-                    key={`${fact.kind}:${fact.text}`}
-                    className="game-hint"
-                    data-testid={`place-${fact.kind}`}
-                  >
-                    {fact.text}
-                  </p>
-                ))}
-              {placeRegionalFacts(place).map((fact) => (
-                <p
-                  key={fact.key}
-                  className="game-hint"
-                  data-testid={`place-regional-${fact.key}`}
-                >
-                  {fact.text}
-                </p>
-              ))}
-              {populationFacts.map((fact) => (
-                <p
-                  key={`${fact.kind}:${fact.text}:${fact.asOf}`}
-                  className="game-hint"
-                  data-testid="place-population"
-                >
-                  {fact.geography
-                    ? `${fact.text} · ${fact.geography}`
-                    : fact.text}
-                </p>
-              ))}
-              {replacingPlace ? null : (
-                <button
-                  type="button"
-                  className="game-creator-next"
-                  data-testid="creator-continue-place"
-                  onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
-                >
-                  Next
-                </button>
-              )}
-            </div>
-          ) : location.stateJurisdictionKey ? (
-            <p className="game-note" data-testid="place-need-locality">
-              Next waits until you choose a place in this state.
-            </p>
-          ) : null}
-        </section>
-      ) : null}
-
-      {custom && isCurrent("background") ? (
-        <section data-testid="creator-stage-background">
-          <h2>Your background</h2>
-          <h3>How much of the early years to play</h3>
-          <div className="game-choices">
-            <button
-              type="button"
-              data-testid="depth-childhood"
-              className={
-                setup.depth === "play-formative-years" ? "is-chosen" : undefined
-              }
-              onClick={() =>
-                setSetup((now) => ({
-                  ...now,
-                  depth: "play-formative-years",
-                }))
-              }
-            >
-              Start in childhood
-              <small>
-                {setup.startAge < 18
-                  ? "Play the early years one at a time."
-                  : "Only for a character under eighteen."}
-              </small>
-            </button>
-            <button
-              type="button"
-              data-testid="depth-later"
-              className={
-                setup.depth === "summarize-earlier-life"
-                  ? "is-chosen"
-                  : undefined
-              }
-              onClick={() =>
-                setSetup((now) => ({
-                  ...now,
-                  depth: "summarize-earlier-life",
-                }))
-              }
-            >
-              Begin later
-              <small>The early years are already behind you.</small>
-            </button>
-          </div>
-
-          <h3>Work</h3>
-          <div className="game-choices">
-            <button
-              type="button"
-              className={
-                setup.startingLife === "ordinary-life" ? "is-chosen" : undefined
-              }
-              onClick={() =>
-                setSetup((now) => ({
-                  ...now,
-                  startingLife: "ordinary-life",
-                }))
-              }
-            >
-              Everyday life
-              <small>No office. No formal political role.</small>
-            </button>
-            <button
-              type="button"
-              data-testid="office-start"
-              className={
-                setup.startingLife === "legislative-office"
-                  ? "is-chosen"
-                  : undefined
-              }
-              disabled={!officeAvailable}
-              onClick={() =>
-                setSetup((now) => ({
-                  ...now,
-                  startingLife: "legislative-office",
-                }))
-              }
-            >
-              Legislative staff
-              <small>
-                {place?.capabilities.legislativeScenarioKey === null
-                  ? "A legislative staff start is not available for this selected place yet."
-                  : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
-                    ? `Available for characters ${LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.`
-                    : "Working for a state legislature."}
-              </small>
-            </button>
-          </div>
-
-          <button
-            type="button"
-            data-testid="judicial-office-start"
-            disabled={setup.startAge < 25}
-            className={
-              setup.startingLife === "judicial-office-practice"
-                ? "is-chosen"
-                : undefined
-            }
-            onClick={() =>
-              setSetup((now) => ({
-                ...now,
-                startingLife: "judicial-office-practice",
-                depth: "summarize-earlier-life",
-              }))
-            }
-          >
-            Judicial office practice
-            <small>
-              Fictional workplace and working relationships, for ages 25 and
-              older. This start grants no election, appointment, legal term or
-              authority to decide cases.
-            </small>
-          </button>
-          <button
-            type="button"
-            data-testid="state-agency-start"
-            disabled={!stateAgencyAvailable}
-            className={
-              setup.startingLife === "state-agency-director"
-                ? "is-chosen"
-                : undefined
-            }
-            onClick={() =>
-              setSetup((now) => ({
-                ...now,
-                startingLife: "state-agency-director",
-                depth: "summarize-earlier-life",
-              }))
-            }
-          >
-            State agency director
-            <small>
-              {stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null)
-                ? setup.startAge < STATE_AGENCY_START_MINIMUM_AGE
-                  ? `Available for characters ${STATE_AGENCY_START_MINIMUM_AGE} and older.`
-                  : "A fictional state agency with existing staff. Its charter makes you the appointing authority; personnel procedures apply only where acquired law supports them."
-                : "Available only in a state whose personnel procedures the game has compiled."}
-            </small>
-          </button>
-          <h3>At home</h3>
-          <div className="game-choices" data-testid="household-choices">
-            <button
-              type="button"
-              data-testid="lives-alone"
-              className={
-                setup.household === "lives-alone" ? "is-chosen" : undefined
-              }
-              onClick={() =>
-                setSetup((now) => ({ ...now, household: "lives-alone" }))
-              }
-            >
-              Nobody else
-              <small>
-                {setup.startAge < 18
-                  ? "One adult raising you, and no other children."
-                  : "You live on your own."}
-              </small>
-            </button>
-            <button
-              type="button"
-              data-testid="shares-a-home"
-              className={
-                setup.household === "shares-a-home" ? "is-chosen" : undefined
-              }
-              onClick={() =>
-                setSetup((now) => ({ ...now, household: "shares-a-home" }))
-              }
-            >
-              Somebody else
-              <small>
-                {setup.startAge < 18
-                  ? "A brother or a sister in the house too."
-                  : "One other adult shares the household."}
-              </small>
-            </button>
-          </div>
-          <button
-            type="button"
-            className="game-creator-next"
-            data-testid="creator-continue-background"
-            onClick={() => advanceTo("whoAreYou")}
-          >
-            Next
-          </button>
-        </section>
-      ) : null}
-
-      {isCurrent("whoAreYou") ? (
-        <section data-testid="creator-stage-whoareyou">
-          <h2>Who are you?</h2>
-          <p className="game-note" data-testid="whoareyou-note">
-            A few imagined situations. Choose what you would do, or skip. These
-            answers do not write your character’s biography.
-          </p>
-          <div className="game-choices" data-testid="whoareyou-choices">
-            <button
-              type="button"
-              data-testid="whoareyou-answer"
-              className={
-                setup.questionnaire === "short" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "short",
-                  priors: now.questionnaire === "short" ? now.priors : [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Answer a few questions
-            </button>
-            <button
-              type="button"
-              data-testid="whoareyou-deep"
-              className={
-                setup.questionnaire === "deep" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "deep",
-                  priors: now.questionnaire === "deep" ? now.priors : [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Answer more questions
-              <small>You can begin your life whenever you are ready.</small>
-            </button>
-            <button
-              type="button"
-              data-testid="whoareyou-play"
-              className={
-                setup.questionnaire === "skipped" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "skipped",
-                  priors: [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Discover through play
-            </button>
-          </div>
-        </section>
-      ) : null}
-
-      {problems.length > 0 && onReady ? (
-        <p className="game-problem" data-testid="setup-problem">
-          {problems[0]!.message}
-        </p>
-      ) : null}
-      {problem ? <p className="game-problem">{problem}</p> : null}
-
-      <div className="game-setup-actions">
-        <button type="button" onClick={onBack}>
-          Back
-        </button>
-        {onReady && !finishedQuestions && questionnaireScreenFor(committed) ? (
-          <button
-            type="button"
-            data-testid="begin"
-            disabled={problems.length > 0}
-            onClick={() => onBegin(committed, null)}
-          >
-            Continue to questions
-          </button>
-        ) : null}
-      </div>
-
-      {onReady &&
-      problems.length === 0 &&
-      (finishedQuestions || !questionnaireScreenFor(committed)) ? (
-        <CreatorAppearanceStep
-          key={JSON.stringify(committed)}
-          setup={committed}
-          mode={previewMode}
-          onBegin={(appearance) => onBegin(committed, appearance, true)}
-        />
-      ) : null}
-
-      {/*
-            Reproducibility, moved off the setup surface proper. A raw seed and
-            a replay address are development tools; they stay reachable behind a
-            collapsed Advanced disclosure rather than on the creator itself.
-          */}
-      <details className="game-dev" data-testid="setup-advanced">
-        <summary>Advanced &mdash; reproducing this world</summary>
-        <p>
-          This world is generated from{" "}
-          <code data-testid="setup-seed">{seed}</code>
-          {seedOrigin === "replay"
-            ? ", which was supplied to reproduce an earlier one."
-            : ", drawn fresh for this session."}{" "}
-          The address below carries the place, the age and any names you typed
-          as well, so it rebuilds the same world.
-        </p>
-        <p>
-          <code data-testid="setup-replay-link">
-            {replayDescriptorUrl("", "/", committed)}
-          </code>
-        </p>
-      </details>
-    </main>
-  );
-}
-
 /* -------------------------------------------------------------------------- */
-
-/**
- * The calibration.
- *
- * A situation and some ways of handling it. What is deliberately absent is
- * everything a quiz would have: no score, no summary at the end, and above all
- * no label. The game never tells a player what it has concluded about them,
- * because a game that does has stopped being able to be surprised by them.
- *
- * Two things left with this wave. The "1 of 26" progress line is gone, because
- * the deep path has no fixed length any more — it stops when it stops learning
- * — and a denominator promised one. What remains is a phase, which says that
- * this ends without saying when.
- *
- * And so has "I would rather not say". Declining twenty times in a row is a
- * worse experience than leaving, and the authority replaced it with the one
- * control that was always the honest exit: start the life now, keeping
- * whatever has been answered so far.
- */
-const PHASE_LINE: Readonly<Record<QuestionnairePhase, string>> = {
-  opening: "Somewhere to start",
-  widening: "A little wider",
-  closing: "Nearly there",
-};
-
-function QuestionnaireScreenView({
-  setup,
-  onAnswer,
-  onFinishEarly,
-  onBack,
-}: {
-  readonly setup: NewGameSetup;
-  readonly onAnswer: (choiceId: string | null) => void;
-  readonly onFinishEarly: () => void;
-  readonly onBack: () => void;
-}) {
-  const screen = questionnaireScreenFor(setup);
-  if (!screen) return null;
-  const note = questionnaireContentNote();
-  return (
-    <main
-      className="game-title game-setup game-creator"
-      data-testid="questionnaire-screen"
-    >
-      <h2>Who are you?</h2>
-      {/*
-            What these questions actually are, said once and plainly: they are
-            about the player, they orient what the game offers, and they decide
-            nothing about who the character becomes.
-          */}
-      <p className="game-note" data-testid="questionnaire-framing">
-        These are imagined situations. Choose what you would do, or skip. These
-        answers do not write your character’s biography.
-      </p>
-      <p className="game-band" data-testid="questionnaire-progress">
-        {PHASE_LINE[screen.phase]}
-      </p>
-      <p className="game-scene" data-testid="questionnaire-prompt">
-        {screen.prompt}
-      </p>
-      <div className="game-choices" data-testid="questionnaire-options">
-        {screen.options.map((option) => (
-          <button
-            key={option.key}
-            type="button"
-            onClick={() => onAnswer(option.key)}
-          >
-            {option.text}
-          </button>
-        ))}
-      </div>
-      <div className="game-setup-actions">
-        <button type="button" onClick={onBack}>
-          Back
-        </button>
-        <button
-          type="button"
-          data-testid="questionnaire-finish"
-          onClick={onFinishEarly}
-        >
-          Review appearance
-        </button>
-      </div>
-      {note ? <p className="game-note">{note}</p> : null}
-    </main>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-
-function SavesScreen({
-  store,
-  saves,
-  damaged,
-  savesUnavailable,
-  saveListing,
-  onRetrySaves,
-  notice,
-  problem,
-  artProvenance,
-  onBack,
-  onOpen,
-  onDelete,
-  onTransferSettled,
-}: {
-  readonly store: BrowserSaveStore | null;
-  readonly saves: readonly BrowserWorldSummary[];
-  readonly damaged: readonly QuarantinedSave[];
-  readonly savesUnavailable: boolean;
-  readonly saveListing: SaveListingState;
-  readonly onRetrySaves: () => void;
-  readonly notice: string | null;
-  readonly problem: string | null;
-  readonly artProvenance: "production" | "candidate-review";
-  readonly onBack: () => void;
-  readonly onOpen: (saveId: EntityId) => void;
-  readonly onDelete: (saveId: EntityId) => void;
-  readonly onTransferSettled: (
-    notice: string | null,
-    problem: string | null,
-  ) => void;
-}) {
-  const [confirming, setConfirming] = useState<EntityId | null>(null);
-  return (
-    <main className="game-saves" data-testid="saves-screen">
-      <h1>Saved games</h1>
-      {savesUnavailable ? (
-        <p className="game-note">
-          This browser will not let the game store anything.
-        </p>
-      ) : null}
-      {notice ? <p className="game-note">{notice}</p> : null}
-      {problem ? (
-        <p className="game-problem" role="alert">
-          {problem}
-        </p>
-      ) : null}
-      {saveListing === "loading" ? (
-        <p className="game-note" data-testid="saves-reading">
-          Opening your saved lives. A long life can take a moment.
-        </p>
-      ) : null}
-      {saveListing === "failed" ? (
-        <p className="game-problem" role="alert" data-testid="saves-unread">
-          Your saved lives could not be read just now. Nothing was deleted.{" "}
-          <button type="button" onClick={onRetrySaves}>
-            Try again
-          </button>
-        </p>
-      ) : null}
-      {saveListing === "outdated" ? (
-        <p className="game-problem" role="alert" data-testid="saves-outdated">
-          This page is an older copy of the game than the one that kept your
-          saved lives. Reload the page to open them. Nothing was deleted.{" "}
-          <button type="button" onClick={reloadPage}>
-            Reload
-          </button>
-        </p>
-      ) : null}
-      {saves.length === 0 && !savesUnavailable && saveListing === "read" ? (
-        <p className="game-note" data-testid="saves-empty">
-          No lives are saved in this browser yet. You can import a saved life
-          below.
-        </p>
-      ) : null}
-      <ul>
-        {saves.map((save) => (
-          <li key={save.saveId} data-testid="save-entry">
-            <div>
-              <strong>
-                {save.observing ? "Watching the world" : save.playerName}
-              </strong>
-              <span>
-                {save.observing ? "Nobody played" : save.playerAge}
-                {save.residence ? ` · ${save.residence.name}` : ""} ·{" "}
-                {proseDate(save.currentMoment.date)}
-              </span>
-            </div>
-            <div className="game-saves-actions">
-              <button type="button" onClick={() => onOpen(save.saveId)}>
-                Open
-              </button>
-              {store ? (
-                <SaveTransferControls
-                  store={store}
-                  saveId={save.saveId}
-                  playerName={save.playerName}
-                  onSettled={onTransferSettled}
-                  artProvenance={artProvenance}
-                />
-              ) : null}
-              {confirming === save.saveId ? (
-                <>
-                  <button
-                    type="button"
-                    data-testid="confirm-delete"
-                    onClick={() => {
-                      onDelete(save.saveId);
-                      setConfirming(null);
-                    }}
-                  >
-                    Delete for good
-                  </button>
-                  <button type="button" onClick={() => setConfirming(null)}>
-                    Keep it
-                  </button>
-                </>
-              ) : (
-                <button
-                  type="button"
-                  data-testid="delete-save"
-                  onClick={() => setConfirming(save.saveId)}
-                >
-                  Delete
-                </button>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      {damaged.length > 0 ? (
-        <section className="game-saves-damaged" data-testid="damaged-saves">
-          <h2>Set aside</h2>
-          <p className="game-note">
-            These could not be opened. They are still here — nothing was thrown
-            away — and the rest of your games are unaffected.
-          </p>
-          <ul>
-            {damaged.map((entry, index) => (
-              <li
-                key={entry.saveId ?? `damaged-${index}`}
-                data-testid="damaged-entry"
-              >
-                <span>{entry.reason}</span>
-                {entry.defect === "could-not-open-now" ? (
-                  <span className="game-note">
-                    The browser would not read it this time, so it cannot be
-                    removed now either. Try again later.
-                  </span>
-                ) : entry.mightBeReadableLater ? (
-                  <span className="game-note">
-                    A later version of the game may be able to open it, so it is
-                    worth keeping for now.
-                  </span>
-                ) : null}
-                {entry.saveId && entry.defect !== "could-not-open-now" ? (
-                  // Not offered for a save the browser would not read just
-                  // now: removing it reads the whole record, and would fail
-                  // on exactly that save.
-                  // The same two steps a healthy save gets. These are the ones
-                  // the screen has just said may open in a later version and
-                  // are worth keeping, so a single click was the weakest guard
-                  // on the most fragile thing in the list.
-                  confirming === entry.saveId ? (
-                    <>
-                      <button
-                        type="button"
-                        data-testid="confirm-delete-damaged"
-                        onClick={() => {
-                          onDelete(entry.saveId as EntityId);
-                          setConfirming(null);
-                        }}
-                      >
-                        Remove for good
-                      </button>
-                      <button type="button" onClick={() => setConfirming(null)}>
-                        Keep it
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      type="button"
-                      data-testid="delete-damaged"
-                      onClick={() => setConfirming(entry.saveId as EntityId)}
-                    >
-                      Remove it
-                    </button>
-                  )
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {store ? (
-        <SaveImportControl
-          store={store}
-          onSettled={onTransferSettled}
-          artProvenance={artProvenance}
-        />
-      ) : null}
-
-      <button type="button" onClick={onBack}>
-        Back
-      </button>
-    </main>
-  );
-}
 
 /* -------------------------------------------------------------------------- */
 
@@ -2609,9 +1213,30 @@ function PlayingScreen({
    * which references they have kept. It owns navigation and nothing else — the
    * gameplay writers below are still the only things that change the world.
    */
-  const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
-  /* What changed since the player last caught up; a read, never a writer. */
-  const recap = useWorldRecap(session.world, session.personId, shell);
+  const [shell, dispatch, shellRecordReady] = useShell(
+    session.world,
+    session.saveId,
+    shellStore,
+  );
+  /* Saved interface progress frames the existing Today and recap readers. */
+  const dayRhythm = useMemo(
+    () =>
+      shellRecordReady
+        ? projectDayRhythm(
+            session.world,
+            session.personId,
+            shell.progress,
+            shell.preferences,
+          )
+        : { summary: null, morningThought: null },
+    [
+      session.world,
+      session.personId,
+      shell.progress,
+      shell.preferences,
+      shellRecordReady,
+    ],
+  );
   /*
    * The world introduction follows a new, not-yet-saved life until it is
    * finished or skipped. Loaded lives never see it pushed at them; it stays
@@ -2685,7 +1310,17 @@ function PlayingScreen({
     world: session.world,
     personId: session.personId,
     interruptions: shell.preferences.interruptions,
-    onWorldChange,
+    onWorldChange: (next) => {
+      const alreadyAtMeeting =
+        projectOrdinaryMeetingScene(session.world, session.personId)?.phase ===
+        "active";
+      onWorldChange(next);
+      if (
+        !alreadyAtMeeting &&
+        projectOrdinaryMeetingScene(next, session.personId)?.phase === "active"
+      )
+        dispatch({ type: "go-to-scene" });
+    },
   });
   const { submit: submitTime } = timeRunner;
   /*
@@ -2722,6 +1357,21 @@ function PlayingScreen({
     },
     [crisisStop, submitTime, session.world, session.personId, dispatch],
   );
+  const passUntilNeeded = useCallback(() => {
+    crisisStop.watch();
+    submitTime({ kind: "quiet-stretch" }, (report) => {
+      setPassOutcome(describeTimeCommandReport(report));
+      if (
+        report.status === "accepted" &&
+        report.reached &&
+        acceptedOfferStarts(session.world, session.personId).some(
+          (entry) => entry.startOn === report.reached?.date,
+        )
+      ) {
+        dispatch({ type: "go-to-surface", surface: "work", section: "jobs" });
+      }
+    });
+  }, [crisisStop, submitTime, session.world, session.personId, dispatch]);
   const passTargets = useMemo(() => {
     const day = previewTimeCommand(session.world, session.personId, {
       kind: "days",
@@ -2731,8 +1381,17 @@ function PlayingScreen({
       kind: "days",
       days: 7,
     });
+    const untilNeeded = previewTimeCommand(session.world, session.personId, {
+      kind: "quiet-stretch",
+    });
     return day && week
-      ? { day: skipToLabel(day.target), week: skipToLabel(week.target) }
+      ? {
+          day: skipToLabel(day.target),
+          week: skipToLabel(week.target),
+          untilNeeded: untilNeeded
+            ? describeTimeCommandPreview(untilNeeded)
+            : null,
+        }
       : undefined;
   }, [session.world, session.personId]);
 
@@ -2744,6 +1403,11 @@ function PlayingScreen({
   const sceneVisuals = useMemo(
     () => locationReviewVisuals(Boolean(artPreview) && import.meta.env.DEV),
     [artPreview],
+  );
+
+  const guidanceScene = useMemo(
+    () => projectCandidateGuidanceScene(session.world, session.personId),
+    [session.world, session.personId],
   );
 
   const playScene = useMemo(() => {
@@ -2759,6 +1423,20 @@ function PlayingScreen({
         reason: "Recorded meeting entry or immediate aftermath.",
         placeLabel: meeting.location.label,
         presentPeople: meeting.actors.map((actor) => ({
+          personId: actor.personId,
+          name: actor.name,
+          relationship: null,
+          introduction: actor.role,
+        })),
+      };
+    if (guidanceScene)
+      return {
+        purpose: "activity" as const,
+        locationKey: guidanceScene.location.locationKey,
+        sceneId: PUBLIC_MEETING_ROOM_SCENE_ID,
+        reason: "Recorded candidate-guidance entry in the community room.",
+        placeLabel: guidanceScene.location.label,
+        presentPeople: guidanceScene.actors.map((actor) => ({
           personId: actor.personId,
           name: actor.name,
           relationship: null,
@@ -2811,9 +1489,27 @@ function PlayingScreen({
     projectedMoment,
     continuingLifeShown,
     sceneVisuals,
+    guidanceScene,
   ]);
 
   const sceneId = playScene.sceneId;
+  const placeBackdrop = useMemo(
+    () =>
+      sceneId
+        ? null
+        : backdropForLocation(
+            session.world,
+            session.personId,
+            playScene.purpose === "home" ? "home" : playScene.locationKey,
+          ),
+    [
+      sceneId,
+      session.world,
+      session.personId,
+      playScene.purpose,
+      playScene.locationKey,
+    ],
+  );
   const readableSurfaces = useMemo(() => {
     const news = projectLivingSceneSurface(session.world, session.personId, {
       kind: "news",
@@ -2899,6 +1595,13 @@ function PlayingScreen({
   );
 
   const view = activeView(shell);
+  const seenGuidanceEntry = useRef<EntityId | null>(null);
+  useEffect(() => {
+    if (!guidanceScene) return;
+    if (seenGuidanceEntry.current === guidanceScene.eventId) return;
+    seenGuidanceEntry.current = guidanceScene.eventId;
+    if (view.surface !== "scene") dispatch({ type: "go-to-scene" });
+  }, [guidanceScene, view.surface, dispatch]);
   const openSurface = view.surface;
   const previousSurface = useRef(openSurface);
   const newsPersonReturn = useRef<string | null>(null);
@@ -3563,6 +2266,7 @@ function PlayingScreen({
             ) : null}
             <SceneBackdrop
               sceneId={sceneId}
+              placeBackdrop={placeBackdrop}
               readableSurfaces={readableSurfaces}
               onOpenSurfaceEntity={openEntity}
               visualLibrary={sceneVisuals}
@@ -3623,6 +2327,19 @@ function PlayingScreen({
                   personId={session.personId}
                   onWorldChange={onWorldChange}
                   onOpenEntity={openEntity}
+                  onOutcome={setPassOutcome}
+                />
+              ) : null}
+              {view.surface === "scene" &&
+              !readOnly &&
+              !showOrientation &&
+              !conversation ? (
+                <CandidateGuidancePanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onOpenEntity={openEntity}
+                  onOutcome={setPassOutcome}
                 />
               ) : null}
               {view.surface === "scene" && !readOnly ? (
@@ -3942,17 +2659,32 @@ function PlayingScreen({
                   </button>
                 </p>
               ) : null}
-              {recap ? (
+              {dayRhythm.summary ? (
                 <WorldRecapPanel
-                  recap={recap}
-                  onDismiss={(throughSequence) =>
-                    dispatch({ type: "acknowledge-recap", throughSequence })
+                  summary={dayRhythm.summary}
+                  onDismiss={(throughSequence, throughMoment) =>
+                    dispatch({
+                      type: "acknowledge-recap",
+                      throughSequence,
+                      throughMoment,
+                    })
                   }
                   onOpenNews={() =>
                     dispatch({ type: "go-to-surface", surface: "news" })
                   }
                   onOpenPerson={(personId) =>
                     dispatch({ type: "open-quick-dossier", personId })
+                  }
+                />
+              ) : null}
+              {!dayRhythm.summary && dayRhythm.morningThought ? (
+                <MorningThoughtPanel
+                  thought={dayRhythm.morningThought}
+                  onDismiss={(date) =>
+                    dispatch({ type: "acknowledge-morning-thought", date })
+                  }
+                  onOpenToday={() =>
+                    dispatch({ type: "go-to-surface", surface: "calendar" })
                   }
                 />
               ) : null}
@@ -4011,7 +2743,13 @@ function PlayingScreen({
                 }}
                 onSaveAndLeave={() => void saveAndReturnToTitle()}
                 onLeave={leaveNow}
-                {...(readOnly ? {} : { onPassDays: passDays, passTargets })}
+                {...(readOnly
+                  ? {}
+                  : {
+                      onPassDays: passDays,
+                      onPassUntilNeeded: passUntilNeeded,
+                      passTargets,
+                    })}
                 passing={timeRunner.pending}
               />
             ) : null}
@@ -5634,8 +4372,7 @@ function renderWorkspace({
           title: "Your office",
           body: (
             <p className="game-note" data-testid="no-office">
-              You hold no office in this life yet. Running for one is under
-              Campaigns when the game supports it here.
+              You hold no office yet. Campaigns shows what you could run for.
             </p>
           ),
         });
@@ -6000,32 +4737,6 @@ function JournalView({
 }
 
 /* -------------------------------------------------------------------------- */
-
-/**
- * Options.
- *
- * Present because the main menu names it and a menu entry that goes nowhere is
- * worse than one that says what it has. What it has today is the accessibility
- * setting the title art actually honors and an honest note about the rest.
- */
-function OptionsScreen({ onBack }: { readonly onBack: () => void }) {
-  return (
-    <main className="game-setup" data-testid="options-screen">
-      <h1>Options</h1>
-      <p className="game-note">
-        Motion in the game follows your system&rsquo;s reduced-motion setting,
-        so nothing here has to be switched on to make it stop.
-      </p>
-      <p className="game-note">
-        There is not much else to set yet. As the game grows the settings it
-        actually needs will appear here rather than being invented in advance.
-      </p>
-      <button type="button" onClick={onBack}>
-        Back
-      </button>
-    </main>
-  );
-}
 
 /**
  * Today: what is happening, what is next, what is waiting, and the time.

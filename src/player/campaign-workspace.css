@@ -346,33 +346,45 @@
   outline-offset: 2px;
 }
 
-.game-campaign-strategy label.game-campaign-week-count,
-.game-campaign-strategy label.game-campaign-week-amount {
-  grid-template-columns: minmax(0, 1fr) 6rem;
-  align-items: center;
-  cursor: default;
-}
-
-.game-campaign-strategy label.game-campaign-week-amount small {
-  grid-column: 1 / -1;
-}
-
-.game-campaign-week input[type="number"],
-.game-campaign-week input[type="text"] {
-  width: 100%;
-  min-width: 0;
-  margin: 0;
-  border: 1px solid rgba(200, 212, 223, 0.36);
-  border-radius: 0.35rem;
-  padding: 0.3rem 0.45rem;
-  background: rgba(9, 15, 26, 0.6);
-  color: inherit;
-  font: inherit;
-}
-
-.game-campaign-week > .ui-action,
-.game-campaign-week-committed > .ui-action {
+.game-campaign-week > .ui-action {
   justify-self: start;
+}
+
+.game-campaign-action-list,
+.game-campaign-action-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.game-campaign-action-list > li,
+.game-campaign-action-results > li {
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+  min-width: 0;
+  border: 1px solid rgba(200, 212, 223, 0.25);
+  border-radius: 0.45rem;
+  padding: 0.7rem;
+}
+
+.game-campaign-action-list h4,
+.game-campaign-action-list p,
+.game-campaign-action-results p {
+  margin: 0;
+}
+
+.game-campaign-action-list > li > button {
+  justify-self: start;
+  margin-top: 0.3rem;
+}
+
+.game-campaign-action-choices > section {
+  display: grid;
+  gap: 0.6rem;
 }
 
 @media (max-width: 720px) {

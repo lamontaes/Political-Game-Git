@@ -258,6 +258,7 @@ test.describe("people, and who was chosen", () => {
     await beginOrdinaryLife(page);
     await goTo(page, "elsewhere-people");
     await page.locator('[data-testid^="people-person-"]').first().click();
+    // The small card is a glance; what the record says is under More details.
     await page.getByTestId("quick-dossier-full").click();
 
     /* Ordinary knowledge carries no badge; anything marked says which kind of

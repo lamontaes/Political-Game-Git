@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 
+import { officeLabel, runForPhrase } from "../presentation/english-grammar";
 import "./campaign-workspace.css";
 import { projectCampaignOffices } from "../presentation/campaign-office-discovery";
 import { displayMoney } from "../presentation/money-display";
@@ -29,7 +30,9 @@ import { candidacyEligibility, districtSeatMustBeNamed } from "../simulation";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { DistrictResidencePanel } from "./DistrictResidencePanel";
 import { CampaignWeekPanel } from "./CampaignWeekPanel";
+import { CampaignActionChoicesPanel } from "./CampaignActionChoicesPanel";
 import { projectCampaignWeekPanel } from "../presentation/campaign-life-surface";
+import { projectCampaignWeekActions } from "../simulation";
 import {
   campaignPlanningLayout,
   isPrimaryCampaignPlanningSlot,
@@ -54,11 +57,9 @@ import { MogulOffersPanel } from "./MogulOffersPanel";
  * shows nothing else, which is the only decent alternative to inventing an
  * office.
  *
- * One control per intent (UI FINISH). The plan section only edits how the next
- * piece of work is carried out — where, and how much the committee may spend
- * on advertising. Doing the work is one row of buttons, one per kind. Before
- * this there were two ways to run the same afternoon (the plan's own "carry
- * out" button and the row beneath it), and pressing both could book two.
+ * An active campaign leads with dated, hosted choices. The old count editor is
+ * gone; the immediate-action row is a fallback only when that typed route is
+ * unavailable. An already committed week from an older save stays finishable.
  */
 
 export interface CampaignWorkspaceProps {
@@ -153,6 +154,10 @@ export function CampaignWorkspace({
     () => projectCampaignWeekPanel(world, personId),
     [world, personId],
   );
+  const actionChoices = useMemo(
+    () => projectCampaignWeekActions(world, personId),
+    [world, personId],
+  );
   const [problem, setProblem] = useState<string | null>(null);
   const [selectedGeography, setSelectedGeography] = useState<string | null>(
     null,
@@ -224,6 +229,9 @@ export function CampaignWorkspace({
     : (strategy?.geographyChoices[0]?.key ?? null);
   const advertising = strategy?.priorityChoices.find(
     (choice) => choice.key === "advertising",
+  );
+  const advertisingOffer = view.offers.find(
+    (offer) => offer.kind === "advertising",
   );
   const advertisingSpendingKey = advertising?.spendingChoices.some(
     (choice) => choice.key === selectedSpending,
@@ -307,16 +315,21 @@ export function CampaignWorkspace({
   /*
    * One planning region, and one primary control in it.
    *
-   * CRUNCH47 EXPERIENCE decision: the campaign's weekly plan leads. What used
-   * to sit above it — the per-action plan editor and the one "do this now" row
-   * — are the same region's detailed editing and its explicit immediate
-   * action, drawn after the week rather than in front of it. The week is no
-   * longer a collapsed block a player has to find.
+   * The dated choices own the active route. Existing committed week sessions
+   * can still finish here; the old editing controls remain only for a World
+   * that cannot project the new choices.
    */
   const planning = campaignPlanningLayout({
-    weekPlanAvailable: view.phase === "active" && Boolean(weekPanel),
-    detailedEditingAvailable: Boolean(strategy) && view.offers.length > 0,
-    immediateActionsAvailable: view.offers.length > 0,
+    weekPlanAvailable:
+      view.phase === "active" &&
+      (actionChoices !== null || Boolean(weekPanel?.committed)),
+    detailedEditingAvailable:
+      actionChoices === null &&
+      !weekPanel?.committed &&
+      Boolean(strategy) &&
+      view.offers.length > 0,
+    immediateActionsAvailable:
+      actionChoices === null && !weekPanel?.committed && view.offers.length > 0,
   });
 
   return (
@@ -377,7 +390,7 @@ export function CampaignWorkspace({
                         />
                         <span className="game-campaign-office">
                           <span className="game-campaign-office-title">
-                            {office.title}
+                            {officeLabel(office.title)}
                           </span>
                           <span className="game-campaign-office-body">
                             {office.provider}
@@ -450,7 +463,7 @@ export function CampaignWorkspace({
         <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
             {selectedOffice
-              ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}.`
+              ? `There is an election for ${runForPhrase(selectedOffice.title)}${view.placeName ? ` in ${view.placeName}` : ""}.`
               : "Choose one of the offices above to see whether you can file for it."}
           </p>
           {needsDistrict && selectedOffice ? (
@@ -481,7 +494,7 @@ export function CampaignWorkspace({
              */}
             <span className="game-campaign-action-label">
               {selectedOffice
-                ? `Put your name in for the ${selectedOffice.title}`
+                ? `Put your name in for ${runForPhrase(selectedOffice.title)}`
                 : "Put your name in"}
             </span>
             <span className="game-campaign-action-note">
@@ -585,11 +598,20 @@ export function CampaignWorkspace({
                     : "false"
                 }
               >
-                <CampaignWeekPanel
-                  world={world}
-                  personId={personId}
-                  onWorldChange={onWorldChange}
-                />
+                {actionChoices ? (
+                  <CampaignActionChoicesPanel
+                    world={world}
+                    personId={personId}
+                    onWorldChange={onWorldChange}
+                  />
+                ) : null}
+                {weekPanel?.committed ? (
+                  <CampaignWeekPanel
+                    world={world}
+                    personId={personId}
+                    onWorldChange={onWorldChange}
+                  />
+                ) : null}
               </div>
             ) : null}
 
@@ -715,6 +737,77 @@ export function CampaignWorkspace({
               </section>
             ) : null}
           </div>
+
+          {actionChoices && advertising && advertisingOffer ? (
+            <section
+              className="game-campaign-strategy"
+              data-testid="campaign-paid-advertising"
+              aria-labelledby="campaign-paid-advertising-title"
+            >
+              <h3 id="campaign-paid-advertising-title">Paid advertising</h3>
+              <p>
+                Choose where the buy runs and the committee's spending ceiling.
+                This uses the recorded campaign account when you confirm it.
+              </p>
+              <fieldset>
+                <legend>Where it runs</legend>
+                {strategy!.geographyChoices.map((choice) => (
+                  <label key={choice.key}>
+                    <input
+                      type="radio"
+                      name="campaign-paid-advertising-geography"
+                      value={choice.key}
+                      checked={geographyKey === choice.key}
+                      onChange={() => setSelectedGeography(choice.key)}
+                    />
+                    <span>
+                      {choice.label}
+                      <small>{choice.explanation}</small>
+                    </span>
+                  </label>
+                ))}
+              </fieldset>
+              {advertising.spendingChoices.length > 0 ? (
+                <fieldset>
+                  <legend>Spending ceiling</legend>
+                  {advertising.spendingChoices.map((choice) => (
+                    <label key={choice.key}>
+                      <input
+                        type="radio"
+                        name="campaign-paid-advertising-ceiling"
+                        value={choice.key}
+                        checked={advertisingSpendingKey === choice.key}
+                        onChange={() => setSelectedSpending(choice.key)}
+                      />
+                      <span>
+                        {choice.label}
+                        <small>{choice.explanation}</small>
+                      </span>
+                    </label>
+                  ))}
+                </fieldset>
+              ) : null}
+              <button
+                type="button"
+                className="game-campaign-action"
+                data-testid="campaign-advertising-buy"
+                disabled={
+                  advertisingOffer.unavailable !== null ||
+                  !advertisingSpendingKey ||
+                  !geographyKey
+                }
+                title={advertisingOffer.unavailable ?? undefined}
+                onClick={() => doNow("advertising")}
+              >
+                <span className="game-campaign-action-label">
+                  {advertisingOffer.label}
+                </span>
+                <span className="game-campaign-action-note">
+                  {advertisingOffer.unavailable ?? advertisingOffer.cost}
+                </span>
+              </button>
+            </section>
+          ) : null}
 
           {/*
             The result leads. It used to sit below the whole session log, and

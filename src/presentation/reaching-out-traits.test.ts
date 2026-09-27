@@ -67,6 +67,22 @@ function everybody(
 }
 
 /**
+ * Everybody the player has a basis with is the sort who gets in touch.
+ *
+ * Whether a given seed's world happens to hold such a person with a long gap
+ * is up to that world's upbringings, not to this module, so the tests that
+ * need somebody to reach out say so rather than relying on the seed.
+ */
+function outgoing(world: World, personId: EntityId): World {
+  return everybody(
+    everybody(world, personId, "sociability", 2),
+    personId,
+    "reliability",
+    2,
+  );
+}
+
+/**
  * A month of ordinary days, asking each day whether somebody gets in touch.
  * Each pair has its own days for it, so one day is not a fair trial.
  */
@@ -82,12 +98,13 @@ function aMonthOfDays(start: World, personId: EntityId): World {
 
 describe("somebody gets back in touch on their own, or does not", () => {
   it("writes a proposal from the other person, not from the player", () => {
-    const { world, personId } = life("reach-a");
+    const { world: opened, personId } = life("reach-a");
     // The premise is real: these are people with a recorded long gap.
     expect(
-      contactBases(world, personId).some((basis) => basis.gap === "long-gap"),
+      contactBases(opened, personId).some((basis) => basis.gap === "long-gap"),
     ).toBe(true);
-    expect(contactProposals(world, personId)).toEqual([]);
+    expect(contactProposals(opened, personId)).toEqual([]);
+    const world = outgoing(opened, personId);
 
     const after = aMonthOfDays(world, personId);
     const proposals = contactProposals(after, personId);
@@ -116,19 +133,13 @@ describe("somebody gets back in touch on their own, or does not", () => {
 
   it("happens when they are the sort of person who does", () => {
     const { world, personId } = life("reach-b");
-    const outgoing = everybody(
-      everybody(world, personId, "sociability", 2),
-      personId,
-      "reliability",
-      2,
-    );
-    const after = aMonthOfDays(outgoing, personId);
+    const after = aMonthOfDays(outgoing(world, personId), personId);
     expect(contactProposals(after, personId).length).toBeGreaterThan(0);
   });
 
   it("does not ask again while the first ask is still standing", () => {
     const { world, personId } = life("reach-a");
-    const once = aMonthOfDays(world, personId);
+    const once = aMonthOfDays(outgoing(world, personId), personId);
     expect(contactProposals(once, personId).length).toBeGreaterThan(0);
     const twice = produceReachingOut(once, personId);
     expect(contactProposals(twice, personId)).toEqual(

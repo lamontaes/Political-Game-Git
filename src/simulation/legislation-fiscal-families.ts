@@ -130,7 +130,7 @@ const APPROPRIATIONS: ProgramFamily = {
       kind: "forecast-claim",
       note: "Money provided is not money spent, and the schedule on which it goes out is its own question.",
       unavailableReason:
-        "Nothing in this world records obligations or outlays against an appropriation, so the amount spent cannot be reported.",
+        "An appropriation alone records no commitment or payment. Before an office commits funds and an installment is paid, no outlay can be reported from the bill itself.",
     },
   },
   variants: [
@@ -146,7 +146,7 @@ const APPROPRIATIONS: ProgramFamily = {
       declaredLimits: [
         "It provides money. It does not change who qualifies, what the program does, or how long it runs.",
         "It cannot provide more than the authority it names allows.",
-        "Money provided is not money spent. Nothing here records an obligation or an outlay.",
+        "Money provided is not money spent. The governing office must commit it, and a payment must clear before an outlay is recorded.",
       ],
       defaults: {
         appropriation: {

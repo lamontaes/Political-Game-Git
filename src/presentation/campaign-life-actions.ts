@@ -24,6 +24,10 @@ import {
   type World,
 } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
+import {
+  arriveAtCandidateGuidance,
+  projectCandidateGuidanceScene,
+} from "./candidate-guidance-scene";
 import { lapsedAnswerSentence } from "./campaign-life-surface";
 import { declineVenueActivity } from "./scheduled-activity-choice";
 import { performVenueActivity, venueActivities } from "./venue-activity";
@@ -214,6 +218,18 @@ export function attendPartyWork(
       personId,
       view.scheduledActivityId,
       attendance,
+      handlers,
+    );
+  }
+  if (
+    view.form === "candidate-guidance" &&
+    projectCandidateGuidanceScene(world, personId)?.activityId !==
+      view.scheduledActivityId
+  ) {
+    return arriveAtCandidateGuidance(
+      world,
+      personId,
+      view.scheduledActivityId,
       handlers,
     );
   }

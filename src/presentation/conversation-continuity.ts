@@ -73,11 +73,10 @@ function contextualSceneTag(
 function openingProgress(
   subject: ConversationSubjectKey,
   world?: World,
-  personId?: EntityId,
 ): ConversationProgress | null {
   switch (subject) {
     case "household-obligation":
-      return createHouseholdObligationProgress(world, personId);
+      return createHouseholdObligationProgress();
     case "school-project-share":
       return createSchoolProjectProgress();
     case "neighborhood-meeting-notice":
@@ -205,7 +204,7 @@ export function conversationProgressFromHistory(
     const bound = activeSceneBinding(world, personId, familyOfSubject(subject));
     return bound ? replaySceneProgress(world, bound) : null;
   }
-  let progress = openingProgress(subject, world, personId);
+  let progress = openingProgress(subject, world);
   if (!progress) return null;
   for (const turn of recordedConversationTurns(world, personId, subject)) {
     try {
