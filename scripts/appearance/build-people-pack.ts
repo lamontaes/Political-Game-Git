@@ -10,7 +10,7 @@
  *
  * Usage: node --import tsx scripts/appearance/build-people-pack.ts <bodiesDir> <peopleAppearanceDir> [outDir]
  */
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { PNG } from "pngjs";
 import { measureBodyAnchors } from "../../src/presentation/appearance-engine/anchors";
@@ -67,16 +67,44 @@ const bodyFile = (sex: string, build: string) =>
   sex === "masculine" && build === "average"
     ? "masculine-average-standing-front-bare-v2"
     : `${sex}-${build}-standing-front-bare-v1`;
-const SOURCES = {
+/**
+ * Hair made in Firefly (Sept. 27): edits and hair sheets in the game's style,
+ * cut with Adobe's hair mask and fitted to the canonical heads by
+ * cto-notes/firefly/fit_sheet.py. Every hair-{sex}-{id}-front-v1.png there is
+ * a style.
+ */
+const FIREFLY_HAIR =
+  "/Users/lamontae/political-game-play/cto-notes/firefly/hair";
+function fireflyHair(sex: string): { id: string; stem: string; dir: string }[] {
+  const pattern = new RegExp(`^hair-${sex}-(.+)-front-v1[.]png$`);
+  return readdirSync(FIREFLY_HAIR)
+    .map((file) => pattern.exec(file)?.[1])
+    .filter((id): id is string => Boolean(id))
+    .sort()
+    .map((id) => ({ id, stem: `hair-${sex}-${id}`, dir: FIREFLY_HAIR }));
+}
+const SOURCES: Record<
+  "feminine" | "masculine",
+  {
+    faces: readonly { id: string; file: string }[];
+    hair: readonly { id: string; stem: string; dir?: string }[];
+  }
+> = {
   feminine: {
     faces: [{ id: "20s30s-01", file: "face-feminine-20s30s-01-v1.png" }],
-    hair: [{ id: "wavy-bob", stem: "hair-feminine-wavy-bob-01" }],
+    hair: [
+      { id: "wavy-bob", stem: "hair-feminine-wavy-bob-01" },
+      ...fireflyHair("feminine"),
+    ],
   },
   masculine: {
     faces: [{ id: "20s30s-01", file: "face-masculine-20s30s-01-v1.png" }],
-    hair: [{ id: "short-coils", stem: "hair-masculine-short-coils-01" }],
+    hair: [
+      { id: "short-coils", stem: "hair-masculine-short-coils-01" },
+      ...fireflyHair("masculine"),
+    ],
   },
-} as const;
+};
 
 const presentations: Record<string, PackPresentation> = {};
 for (const sex of ["feminine", "masculine"] as const) {
@@ -149,13 +177,23 @@ for (const sex of ["feminine", "masculine"] as const) {
     id: style.id,
     back: write(
       downscaleHalf(
-        read(join(appearanceDir, "hair", `${style.stem}-back-v1.png`)),
+        read(
+          join(
+            style.dir ?? join(appearanceDir, "hair"),
+            `${style.stem}-back-v1.png`,
+          ),
+        ),
       ),
       `hair-${sex}-${style.id}-back.png`,
     ),
     front: write(
       downscaleHalf(
-        read(join(appearanceDir, "hair", `${style.stem}-front-v1.png`)),
+        read(
+          join(
+            style.dir ?? join(appearanceDir, "hair"),
+            `${style.stem}-front-v1.png`,
+          ),
+        ),
       ),
       `hair-${sex}-${style.id}-front.png`,
     ),

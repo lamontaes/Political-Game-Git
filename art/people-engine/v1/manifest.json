@@ -112,6 +112,56 @@
           "id": "wavy-bob",
           "back": "hair-feminine-wavy-bob-back.png",
           "front": "hair-feminine-wavy-bob-front.png"
+        },
+        {
+          "id": "afro",
+          "back": "hair-feminine-afro-back.png",
+          "front": "hair-feminine-afro-front.png"
+        },
+        {
+          "id": "bob-bangs",
+          "back": "hair-feminine-bob-bangs-back.png",
+          "front": "hair-feminine-bob-bangs-front.png"
+        },
+        {
+          "id": "box-braids",
+          "back": "hair-feminine-box-braids-back.png",
+          "front": "hair-feminine-box-braids-front.png"
+        },
+        {
+          "id": "box-braids-2",
+          "back": "hair-feminine-box-braids-2-back.png",
+          "front": "hair-feminine-box-braids-2-front.png"
+        },
+        {
+          "id": "locs",
+          "back": "hair-feminine-locs-back.png",
+          "front": "hair-feminine-locs-front.png"
+        },
+        {
+          "id": "long-straight",
+          "back": "hair-feminine-long-straight-back.png",
+          "front": "hair-feminine-long-straight-front.png"
+        },
+        {
+          "id": "low-ponytail",
+          "back": "hair-feminine-low-ponytail-back.png",
+          "front": "hair-feminine-low-ponytail-front.png"
+        },
+        {
+          "id": "pixie",
+          "back": "hair-feminine-pixie-back.png",
+          "front": "hair-feminine-pixie-front.png"
+        },
+        {
+          "id": "top-bun",
+          "back": "hair-feminine-top-bun-back.png",
+          "front": "hair-feminine-top-bun-front.png"
+        },
+        {
+          "id": "wavy-shoulder",
+          "back": "hair-feminine-wavy-shoulder-back.png",
+          "front": "hair-feminine-wavy-shoulder-front.png"
         }
       ],
       "outfits": {
@@ -252,6 +302,76 @@
           "id": "short-coils",
           "back": "hair-masculine-short-coils-back.png",
           "front": "hair-masculine-short-coils-front.png"
+        },
+        {
+          "id": "buzz",
+          "back": "hair-masculine-buzz-back.png",
+          "front": "hair-masculine-buzz-front.png"
+        },
+        {
+          "id": "curly-top",
+          "back": "hair-masculine-curly-top-back.png",
+          "front": "hair-masculine-curly-top-front.png"
+        },
+        {
+          "id": "fade",
+          "back": "hair-masculine-fade-back.png",
+          "front": "hair-masculine-fade-front.png"
+        },
+        {
+          "id": "locs-long",
+          "back": "hair-masculine-locs-long-back.png",
+          "front": "hair-masculine-locs-long-front.png"
+        },
+        {
+          "id": "locs-short",
+          "back": "hair-masculine-locs-short-back.png",
+          "front": "hair-masculine-locs-short-front.png"
+        },
+        {
+          "id": "man-bun",
+          "back": "hair-masculine-man-bun-back.png",
+          "front": "hair-masculine-man-bun-front.png"
+        },
+        {
+          "id": "short-coils-2",
+          "back": "hair-masculine-short-coils-2-back.png",
+          "front": "hair-masculine-short-coils-2-front.png"
+        },
+        {
+          "id": "short-crop",
+          "back": "hair-masculine-short-crop-back.png",
+          "front": "hair-masculine-short-crop-front.png"
+        },
+        {
+          "id": "side-part",
+          "back": "hair-masculine-side-part-back.png",
+          "front": "hair-masculine-side-part-front.png"
+        },
+        {
+          "id": "slicked-back",
+          "back": "hair-masculine-slicked-back-back.png",
+          "front": "hair-masculine-slicked-back-front.png"
+        },
+        {
+          "id": "swept-back",
+          "back": "hair-masculine-swept-back-back.png",
+          "front": "hair-masculine-swept-back-front.png"
+        },
+        {
+          "id": "top-knot",
+          "back": "hair-masculine-top-knot-back.png",
+          "front": "hair-masculine-top-knot-front.png"
+        },
+        {
+          "id": "wavy-long",
+          "back": "hair-masculine-wavy-long-back.png",
+          "front": "hair-masculine-wavy-long-front.png"
+        },
+        {
+          "id": "wavy-medium",
+          "back": "hair-masculine-wavy-medium-back.png",
+          "front": "hair-masculine-wavy-medium-front.png"
         }
       ],
       "outfits": {

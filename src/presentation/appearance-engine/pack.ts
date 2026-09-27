@@ -3,6 +3,68 @@ import { OPAQUE_ALPHA } from "./anchors";
 import { assemblePerson, type PersonLayer } from "./assemble";
 import type { Raster } from "./raster";
 import { SKIN_RAMPS, recolorSkin, type MeasuredRamp } from "./skin";
+import {
+  measureFabricLuminance,
+  recolorFabric,
+  type FabricRamp,
+} from "./fabric";
+
+/**
+ * Hair colors, applied by code to hair painted in dark brown. "natural" keeps
+ * the painting. PLACEHOLDER(wave2): picked by eye.
+ */
+export const HAIR_COLORS: readonly (FabricRamp & { readonly label: string })[] =
+  [
+    {
+      id: "natural",
+      label: "Dark brown",
+      shadow: "#1c130e",
+      base: "#3a271c",
+      highlight: "#57402f",
+    },
+    {
+      id: "black",
+      label: "Black",
+      shadow: "#0c0b0b",
+      base: "#1a1818",
+      highlight: "#2e2b2a",
+    },
+    {
+      id: "brown",
+      label: "Brown",
+      shadow: "#2e1c10",
+      base: "#5c3a22",
+      highlight: "#7d5433",
+    },
+    {
+      id: "auburn",
+      label: "Auburn",
+      shadow: "#3a130a",
+      base: "#7a2f18",
+      highlight: "#9e4a28",
+    },
+    {
+      id: "blonde",
+      label: "Blonde",
+      shadow: "#7a5a2e",
+      base: "#b99156",
+      highlight: "#d7b57a",
+    },
+    {
+      id: "gray",
+      label: "Gray",
+      shadow: "#4d4b49",
+      base: "#8b8884",
+      highlight: "#aaa7a2",
+    },
+    {
+      id: "white",
+      label: "White",
+      shadow: "#8f8c88",
+      base: "#c9c6c1",
+      highlight: "#e3e0db",
+    },
+  ];
 
 /**
  * THE PEOPLE ENGINE'S RUNTIME PACK (art/people-engine/v1).
@@ -67,6 +129,8 @@ export interface EngineRecipe {
   readonly shade: number;
   readonly face: string;
   readonly hair: string;
+  /** One of HAIR_COLORS. */
+  readonly hairColor: string;
   readonly outfit: OutfitKind;
 }
 
@@ -77,6 +141,7 @@ export function engineRecipeKey(recipe: EngineRecipe): string {
     recipe.shade,
     recipe.face,
     recipe.hair,
+    recipe.hairColor,
     recipe.outfit,
   ].join("|");
 }
@@ -116,10 +181,16 @@ export function composeEnginePerson(
   const face = pack.faces.find((f) => f.id === recipe.face) ?? pack.faces[0]!;
   const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
   const outfit = pack.outfits[recipe.outfit][recipe.build];
+  const color = HAIR_COLORS.find((c) => c.id === recipe.hairColor);
+  const front = image(hair.front);
+  const tint = (layer: Raster) =>
+    color && color.id !== "natural"
+      ? recolorFabric(layer, color, measureFabricLuminance(front))
+      : layer;
   const layers: PersonLayer[] = [
     {
       slot: "back-hair",
-      raster: image(hair.back),
+      raster: tint(image(hair.back)),
       authoredFor: pack.canonical,
     },
     { slot: "body", raster: recolorSkin(image(body.file), ramp, body.skin) },
@@ -143,7 +214,7 @@ export function composeEnginePerson(
     },
     {
       slot: "front-hair",
-      raster: image(hair.front),
+      raster: tint(front),
       authoredFor: pack.canonical,
     },
   );

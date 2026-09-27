@@ -559,6 +559,8 @@ export interface EngineAppearanceChoice {
   readonly shade?: number;
   readonly face?: string;
   readonly hair?: string;
+  /** One of the engine's hair colors (appearance-engine/pack.ts HAIR_COLORS). */
+  readonly hairColor?: string;
   /** The outfit worn when the occasion does not decide. */
   readonly outfit?: "formal" | "casual";
 }
