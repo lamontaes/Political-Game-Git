@@ -79,10 +79,12 @@ export function ensureOfficeholderPrinciples(
 ): World {
   const catalog = world.policyCatalog;
   const inputs: PrincipleRecordInput[] = [];
+  const byPerson = principlesByPerson(world);
+  const rootRng = new SeededRng(world.seed);
   // Keyed on this draw's own rows, not on any principle: a person another
   // writer gave a single principle still gets the rest of the draw.
   const held = (personId: EntityId) =>
-    (principlesByPerson(world).get(personId) ?? []).some((row) =>
+    (byPerson.get(personId) ?? []).some((row) =>
       row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
     );
   for (const personId of new Set(personIds)) {
@@ -90,15 +92,13 @@ export function ensureOfficeholderPrinciples(
     if (world.control.kind === "person" && world.control.personId === personId)
       continue;
     const own = new Set(
-      (principlesByPerson(world).get(personId) ?? []).map(
-        (row) => row.principleId,
-      ),
+      (byPerson.get(personId) ?? []).map((row) => row.principleId),
     );
     for (const principleId of catalog.principleOrder) {
       if (own.has(principleId)) continue;
       const principle = catalog.principles[principleId]!;
       const stableKey = `${OFFICEHOLDER_PRINCIPLES_VERSION}:${personId}:${principle.stableKey}`;
-      const rng = new SeededRng(world.seed).fork(stableKey);
+      const rng = rootRng.fork(stableKey);
       const roll = rng.integer(0, 10);
       const stance: PrincipleStance | null =
         roll < PRINCIPLE_DRAW.endorses

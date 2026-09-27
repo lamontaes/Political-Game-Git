@@ -11,6 +11,7 @@ import {
   campaigns,
 } from "./campaign-queries";
 import { createStableId } from "./ids";
+import { municipalSeatChoiceByKey } from "./municipal-seat-identity";
 import type {
   CampaignActionRecord,
   CampaignActionResultRecord,
@@ -153,10 +154,19 @@ function assertCampaignRoots(
   const option = candidacyPackById(campaign.candidacyPackId)?.offices.find(
     (candidate) => candidate.officeKey === campaign.officeKey,
   );
+  const namedMunicipalSeat = contest.office.seatKey
+    ? municipalSeatChoiceByKey(campaign.officeKey, contest.office.seatKey)
+    : null;
+  // A pack offers a town's named seats under one office with no seat key; the
+  // contest carries the seat it is for.
+  const officeIdentityMatches =
+    option &&
+    (option.office.seatKey === contest.office.seatKey ||
+      (namedMunicipalSeat !== null && option.office.seatKey === null));
   if (
     !option ||
     option.office.officeKey !== contest.office.officeKey ||
-    option.office.seatKey !== contest.office.seatKey ||
+    !officeIdentityMatches ||
     option.office.occupationClassification !==
       contest.office.occupationClassification
   ) {

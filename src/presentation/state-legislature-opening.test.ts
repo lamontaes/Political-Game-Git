@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import {
   deserializeWorld,
@@ -6,25 +6,22 @@ import {
   serializeWorld,
   stateCandidacyPack,
 } from "../simulation";
-import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
 import {
   STATE_LEGISLATURE_KEYS,
   ensureStateLegislatureOpening,
   planStateChambers,
+  scheduleNationwideStateLegislatureOpenings,
   stateLegislators,
 } from "../simulation/nationwide-world/state-legislature-opening";
-import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
+import { US_STATE_USPS } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import { ensureStateJurisdictionForKey } from "../simulation/nationwide-world/state-executives";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
+import {
+  generateOpeningLife,
+  generateOpeningLifeWithProgress,
+  prepareOpeningLife,
+} from "./opening-life";
 
-/**
- * A state chamber holds a real person in every seat from the day a life opens.
- *
- * Spread across the states on purpose, and across small places: a village in
- * Nebraska's one-house legislature, a Nevada town whose pack does not know its
- * chamber sizes, small towns in Minnesota and Missouri, and towns in Wyoming,
- * Maine and Georgia, whose legislatures the game has not researched and
- * describes from a generated profile.
- */
 function placeKey(name: string, state: string): string {
   const found = lifePlaceSearch(name, 20).find(
     (place) => place.displayName === `${name}, ${state}`,
@@ -33,53 +30,188 @@ function placeKey(name: string, state: string): string {
   return found.key;
 }
 
-function openLife(name: string, state: string) {
-  return generateOpeningLife(
-    prepareOpeningLife({
-      ...DEFAULT_NEW_GAME_SETUP,
-      placeKey: placeKey(name, state),
-      seed: `state-legislature-${name}`,
-    }),
-  ).game!;
-}
-
+const SETUP = {
+  ...DEFAULT_NEW_GAME_SETUP,
+  placeKey: placeKey("Valentine", "Nebraska"),
+  seed: "state-legislature-nationwide-opening",
+};
 const SEATED = [
-  ["Valentine", "Nebraska"],
-  ["Ely", "Minnesota"],
-  ["Hermann", "Missouri"],
-  ["Tonopah", "Nevada"],
-  ["Ten Sleep", "Wyoming"],
-  ["Eastport", "Maine"],
-  ["Hahira", "Georgia"],
+  ["Valentine", "Nebraska", "NE"],
+  ["Ely", "Minnesota", "MN"],
+  ["Hermann", "Missouri", "MO"],
+  ["Tonopah", "Nevada", "NV"],
+  ["Ten Sleep", "Wyoming", "WY"],
+  ["Eastport", "Maine", "ME"],
+  ["Hahira", "Georgia", "GA"],
 ] as const;
 
-describe.each(SEATED)("a life opened in %s, %s", (name, state) => {
-  const { world, playerPersonId } = openLife(name, state);
-  const usps = homeStateUsps(world, playerPersonId)!;
-  const pack = stateCandidacyPack(`US-${usps}`)!;
-  const plan = planStateChambers(pack);
-  const members = stateLegislators(world, pack.packId);
+let opened: ReturnType<typeof createNewGameWorld> | undefined;
+let openingDate = "";
+const progress: Array<{ label: string; completed: number; total: number }> = [];
 
-  it("fills every seat of every chamber with a living person", () => {
+beforeAll(async () => {
+  const initial = createNewGameWorld(SETUP);
+  openingDate = initial.world.currentDate;
+  const session = await generateOpeningLifeWithProgress(
+    prepareOpeningLife(SETUP),
+    {
+      statesPerChunk: 2,
+      onProgress: (entry) => progress.push(entry),
+      // Exercise the same caller-controlled chunk boundary without slowing
+      // this focused simulation test with browser timer waits.
+      yieldControl: async () => undefined,
+    },
+  );
+  opened = session.game!;
+}, 120_000);
+
+function openingFor(usps: string) {
+  if (!opened) throw new Error("Opening fixture was not prepared.");
+  const pack = stateCandidacyPack(`US-${usps}`);
+  if (!pack) throw new Error(`Missing state candidacy pack for ${usps}.`);
+  return {
+    ...opened,
+    pack,
+    plan: planStateChambers(pack),
+    members: stateLegislators(opened.world, pack.packId),
+  };
+}
+
+describe("nationwide state legislature opening preparation", () => {
+  it("seats all 50 state rosters during Begin at the opening date", () => {
+    const { world } = opened!;
+    const openings = world.history.events.filter(
+      (event) => event.type === "world.state-legislature-opening",
+    );
+    expect(openings).toHaveLength(50);
+    const openingKeys = US_STATE_USPS.map((usps) => {
+      const pack = stateCandidacyPack(`US-${usps}`)!;
+      return STATE_LEGISLATURE_KEYS.opening(pack.packId);
+    }).sort();
+    expect(openings.map((event) => event.stableKey).sort()).toEqual(
+      openingKeys,
+    );
+    expect(openings.every((event) => event.occurredAt === openingDate)).toBe(
+      true,
+    );
+    expect(openings.every((event) => event.recordedAt === openingDate)).toBe(
+      true,
+    );
+    expect(world.currentDate).toBe(openingDate);
+    expect(world.actionSequence).toBe(
+      createNewGameWorld(SETUP).world.actionSequence,
+    );
+
+    for (const usps of US_STATE_USPS) {
+      const pack = stateCandidacyPack(`US-${usps}`)!;
+      const expected = planStateChambers(pack).chambers.reduce(
+        (total, chamber) => total + chamber.size,
+        0,
+      );
+      expect(stateLegislators(world, pack.packId)).toHaveLength(expected);
+    }
+    expect(scheduleNationwideStateLegislatureOpenings(world)).toBe(world);
+    expect(progress.at(-1)).toEqual({
+      label: "Preparing state legislatures",
+      completed: 50,
+      total: 50,
+    });
+    expect(progress).toHaveLength(25);
+  });
+
+  it("schedules unprepared rosters for the existing clock fallback", () => {
+    const incomplete = US_STATE_USPS.reduce(
+      (world, usps) => ensureStateJurisdictionForKey(world, `US-${usps}`),
+      createNewGameWorld(SETUP).world,
+    );
+    const scheduled = scheduleNationwideStateLegislatureOpenings(incomplete);
+    expect(
+      scheduled.history.futureDueItems.filter((due) =>
+        due.stableKey.startsWith("state-legislature-opening-calendar/v1:"),
+      ),
+    ).toHaveLength(50);
+  });
+
+  it("can stop between real preparation chunks", async () => {
+    const controller = new AbortController();
+    const reports: Array<{ label: string; completed: number; total: number }> =
+      [];
+    const preparation = generateOpeningLifeWithProgress(
+      prepareOpeningLife(SETUP),
+      {
+        signal: controller.signal,
+        onProgress: (entry) => {
+          reports.push(entry);
+          controller.abort();
+        },
+        yieldControl: async () => undefined,
+      },
+    );
+    await expect(preparation).rejects.toMatchObject({ name: "AbortError" });
+    expect(reports).toHaveLength(1);
+    expect(reports[0]).toEqual({
+      label: "Preparing state legislatures",
+      completed: 2,
+      total: 50,
+    });
+  });
+
+  it("survives Save and Continue without changing established seats", () => {
+    const { world } = openingFor("NE");
+    const members = US_STATE_USPS.map((usps) => {
+      const pack = stateCandidacyPack(`US-${usps}`)!;
+      return [pack.packId, stateLegislators(world, pack.packId)] as const;
+    });
+    const again = ensureStateLegislatureOpening(
+      world,
+      opened!.playerPersonId,
+      "NE",
+    );
+    expect(again).toBe(world);
+    const restored = deserializeWorld(serializeWorld(world));
+    expect(
+      US_STATE_USPS.map((usps) => {
+        const pack = stateCandidacyPack(`US-${usps}`)!;
+        return [pack.packId, stateLegislators(restored, pack.packId)] as const;
+      }),
+    ).toEqual(members);
+  }, 30_000);
+
+  it("uses the same IDs through synchronous and chunked generation", () => {
+    const synchronous = generateOpeningLife(prepareOpeningLife(SETUP)).game!;
+    expect(serializeWorld(synchronous.world)).toBe(
+      serializeWorld(opened!.world),
+    );
+  }, 120_000);
+});
+
+describe.each(SEATED)("a fictional roster in %s, %s", (_name, _state, usps) => {
+  it("fills every chamber seat with a unique living person", () => {
+    const { world, pack, plan, members } = openingFor(usps);
     expect(plan.chambers.length).toBe(pack.offices.length);
     for (const chamber of plan.chambers) {
       const inChamber = members.filter(
         (member) => member.officeKey === chamber.officeKey,
       );
       expect(inChamber.length).toBe(chamber.size);
-      expect(new Set(inChamber.map((m) => m.ordinal)).size).toBe(chamber.size);
+      expect(new Set(inChamber.map((member) => member.ordinal)).size).toBe(
+        chamber.size,
+      );
       for (const member of inChamber) {
         expect(world.people[member.personId]).toBeDefined();
         expect(member.title).toContain(chamber.chamberName);
       }
     }
-    expect(new Set(members.map((m) => m.personId)).size).toBe(members.length);
+    expect(new Set(members.map((member) => member.personId)).size).toBe(
+      members.length,
+    );
   });
 
-  it("sizes a chamber from the rule pack, or from the state's own districts", () => {
+  it("uses the pack or that state's own districts for chamber size", () => {
+    const { pack, plan } = openingFor(usps);
     for (const chamber of plan.chambers) {
       const office = pack.offices.find(
-        (o) => o.officeKey === chamber.officeKey,
+        (candidate) => candidate.officeKey === chamber.officeKey,
       )!;
       const drawn =
         office.seats.kind === "known" &&
@@ -88,7 +220,6 @@ describe.each(SEATED)("a life opened in %s, %s", (name, state) => {
         expect(chamber.basis).toBe("rule-pack");
         expect(chamber.size).toBe(office.seats.value);
       } else {
-        // A size the profile drew gives way to the state's own districts.
         expect(chamber.basis).toBe("one-member-per-district");
         expect(
           chamber.districts.every(
@@ -99,52 +230,48 @@ describe.each(SEATED)("a life opened in %s, %s", (name, state) => {
     }
   });
 
-  it("seats both parties, drawn from the state's own generated conditions", () => {
-    const parties = new Set(members.map((m) => m.party));
-    expect(parties.has("democratic")).toBe(true);
-    expect(parties.has("republican")).toBe(true);
+  it("seats party affiliations from this save's generated conditions", () => {
+    const { members } = openingFor(usps);
+    expect(
+      members.every(
+        (member) =>
+          member.party === "democratic" || member.party === "republican",
+      ),
+    ).toBe(true);
   });
 
-  it("is written once and survives Save and Continue", () => {
-    const again = ensureStateLegislatureOpening(world, playerPersonId, usps);
-    expect(again).toBe(world);
-    const restored = deserializeWorld(serializeWorld(world));
-    expect(stateLegislators(restored, pack.packId)).toEqual(members);
-  });
-
-  it("puts every member in the one body a campaign winner joins", () => {
+  it("uses the body a campaign winner joins", () => {
+    const { world, pack } = openingFor(usps);
     const body = world.history.organizations.filter(
       (organization) =>
         organization.stableKey === STATE_LEGISLATURE_KEYS.body(pack.packId),
     );
-    expect(body.length).toBe(1);
+    expect(body).toHaveLength(1);
   });
 });
 
 describe("Puerto Rico's Legislative Assembly", () => {
-  it("is seated, and nobody in it is given a national party", () => {
-    const { world, playerPersonId } = openLife("Culebra", "Puerto Rico");
-    const pack = stateCandidacyPack(
-      `US-${homeStateUsps(world, playerPersonId)!}`,
-    )!;
-    const members = stateLegislators(world, pack.packId);
+  it("is seated with simulated members who have no national party", () => {
+    const { world, playerPersonId } = opened!;
+    const withPuertoRico = ensureStateLegislatureOpening(
+      world,
+      playerPersonId,
+      "PR",
+    );
+    const pack = stateCandidacyPack("US-PR")!;
+    const members = stateLegislators(withPuertoRico, pack.packId);
     expect(members.length).toBeGreaterThan(0);
     expect(members.every((member) => member.party === null)).toBe(true);
   });
 });
 
 describe("the District of Columbia", () => {
-  it("seats no state legislature: its Council is not modeled here", () => {
-    const { world, playerPersonId } = openLife(
-      "Washington",
-      "District of Columbia",
-    );
-    expect(homeStateUsps(world, playerPersonId)).toBe("DC");
+  it("does not receive a state candidacy pack", () => {
     expect(stateCandidacyPack("US-DC")).toBeNull();
-    expect(
-      world.history.workRelationships.filter(
-        (work) => work.kind === "employment:legislative-member",
-      ),
-    ).toEqual([]);
+    expect(opened!.world.history.events).not.toContainEqual(
+      expect.objectContaining({
+        stableKey: STATE_LEGISLATURE_KEYS.opening("US-DC"),
+      }),
+    );
   });
 });

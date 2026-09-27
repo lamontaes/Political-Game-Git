@@ -9,7 +9,6 @@ import {
   localGoverningBodiesForJurisdiction,
   localGoverningBodyIdentity,
   localGoverningBodyIdentityForOfficeKey,
-  localGovernmentOrganizationKey,
   searchLifePlaces,
   serializeWorld,
 } from "../../src/simulation";
@@ -200,15 +199,15 @@ describe("a town's governing body, across the country", () => {
 });
 
 describe("standing for the town's governing body and taking the seat", () => {
-  // Bowling Green's government has been read in depth; Paducah's and American
-  // Falls' have not, and are seated in the government the listing records.
+  // Bowling Green uses its sourced government; Paducah and American Falls use
+  // their disclosed game profiles. All three have playable local screens.
   it.each([
-    ["Bowling Green, Kentucky", BOWLING_GREEN, true],
-    ["Paducah, Kentucky", PADUCAH, false],
-    ["American Falls, Idaho", AMERICAN_FALLS, false],
+    ["Bowling Green, Kentucky", BOWLING_GREEN],
+    ["Paducah, Kentucky", PADUCAH],
+    ["American Falls, Idaho", AMERICAN_FALLS],
   ])(
     "%s: listed, filed, won, seated in the town's own government",
-    (_, placeKey, expectCityScreen) => {
+    (_, placeKey) => {
       const { world, personId } = adultLifeAt(
         placeKey,
         `town-body-${placeKey}`,
@@ -242,7 +241,7 @@ describe("standing for the town's governing body and taking the seat", () => {
       const seat = localGoverningSeatFor(decided, personId);
       expect(seat).not.toBeNull();
       expect(seat!.since).toBe(contest.electionDate);
-      expect(seat!.hasCityScreen).toBe(expectCityScreen);
+      expect(seat!.hasCityScreen).toBe(true);
       expect(
         decided.history.workRelationships.some(
           (relationship) =>
@@ -250,12 +249,11 @@ describe("standing for the town's governing body and taking the seat", () => {
             relationship.kind.startsWith("employment:legislative-"),
         ),
       ).toBe(false);
-      if (!expectCityScreen)
-        expect(
-          decided.history.organizations.find(
-            (organization) => organization.id === seat!.organizationId,
-          )?.stableKey,
-        ).toBe(localGovernmentOrganizationKey(body.unit));
+      expect(
+        decided.history.organizations.find(
+          (organization) => organization.id === seat!.organizationId,
+        )?.stableKey,
+      ).toMatch(/^municipal-government:/);
 
       // A reloaded save keeps the seat and the campaign's authority.
       const reloaded: World = deserializeWorld(serializeWorld(decided));
@@ -309,11 +307,11 @@ describe("standing again after a race is over", () => {
     expect(projectWorkRole(world, personId).sentence).toBe(
       "Your role: Member of the City Council, City of Ely.",
     );
-    const ely = projectGovernmentBrowser(world, personId).localGovernments.find(
-      (entry) => entry.key === `unit:${body.unit.id}`,
-    );
-    expect(ely?.holderName).toBe(name);
-    expect(ely?.detail).toContain("Member of the Ely City Council.");
+    const council = projectGovernmentBrowser(world, personId)
+      .branches.find((branch) => branch.branch === "legislative")
+      ?.entries.find((entry) => entry.key === `local-body:${body.unit.id}`);
+    expect(council?.title).toBe("City Council");
+    expect(council?.roster?.map((seat) => seat.holderName)).toContain(name);
     // The county above it is named the way Minnesotans say it.
     expect(
       projectGovernmentBrowser(world, personId).alsoGoverning.map(

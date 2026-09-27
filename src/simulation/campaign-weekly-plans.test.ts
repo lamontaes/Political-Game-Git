@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
   GAME_ADULT_CANDIDACY_AGE,
@@ -93,6 +94,11 @@ function fundedCampaign(
     candidatePersonId: personId,
     jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
     officeKey: candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey,
+    districtBinding: namedSeatForFixture(
+      base,
+      personId,
+      candidacyPackById(KENTUCKY_PACK)!.offices[0]!.officeKey,
+    ),
     electionDate: addDays(base.currentDate, options.electionInDays ?? 45),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
@@ -195,7 +201,9 @@ describe("weekly campaign plans", { timeout: 900_000 }, () => {
     ).toBe(true);
     expect(view.geographyChoices.map((choice) => choice.kind)).toEqual([
       "jurisdiction",
+      "district",
     ]);
+    expect(view.geographyChoices[1]!.key).toContain("state-lower:");
 
     const before = treasury(filed, filed.world);
     const planned = commitCampaignWeek(
@@ -234,7 +242,7 @@ describe("weekly campaign plans", { timeout: 900_000 }, () => {
     expect(actions[0]!.strategy).toMatchObject({
       proposerPersonId: null,
       proposedActionKind: "advertising",
-      geographyKind: "jurisdiction",
+      geographyKind: "district",
       approvedSpendCeiling: { minorUnits: 0 },
     });
     expect(actions[2]!.plannedSpend?.minorUnits).toBe(20_000);

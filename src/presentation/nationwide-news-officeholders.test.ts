@@ -40,6 +40,14 @@ describe("NATIONWIDE News names the home-state governor the World produced", () 
       news.unfilledOffices.map((office) => office.displayName),
     ).not.toContain("Governor of Nevada");
 
+    // News reaches as far as the reader does: Nevada's governor and the
+    // nation's officers, not every other state's governor.
+    expect(
+      news.officeholders
+        .filter((holder) => /^Governor of /.test(holder.title))
+        .map((holder) => holder.title),
+    ).toEqual(["Governor of Nevada"]);
+
     // A dated federal office still reads with its start.
     const president = news.officeholders.find(
       (holder) => holder.officeKey === "us-president",

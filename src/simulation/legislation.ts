@@ -1,7 +1,7 @@
 import { addDays, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
-import { indexOverArrays } from "./history-index";
+import { recordById } from "./history-index";
 import {
   assertOriginationPermitted,
   chamberByKey,
@@ -1254,7 +1254,7 @@ function appendAction(world: World, input: AppendActionInput): World {
     amendmentId: amendmentRecord?.id ?? null,
   };
 
-  return {
+  const written = {
     ...next,
     history: {
       ...next.history,
@@ -1262,6 +1262,11 @@ function appendAction(world: World, input: AppendActionInput): World {
       legislativeActions: [...(next.history.legislativeActions ?? []), action],
     },
   };
+  const priorFamilies = stableKeyFamilies(world);
+  stableKeyFamilies(written).forEach((records, index) =>
+    transferLegislativeStableKeyIndex(priorFamilies[index]!, records),
+  );
+  return written;
 }
 
 function assertPhase(
@@ -1333,53 +1338,87 @@ export function nextMeasureStableKey(
   if (prefix.trim().length === 0) {
     throw new Error("A stable key prefix must not be empty.");
   }
-  const blocked = blockedStableKeys(world);
-  for (let n = 1; n <= blocked.size + 1; n += 1) {
+  const families = stableKeyFamilies(world);
+  // Each stored key can block at most one numbered candidate for this prefix.
+  const limit =
+    families.reduce((count, family) => count + family.length, 0) + 1;
+  for (let n = 1; n <= limit; n += 1) {
     const candidate = `${prefix}:${n}`;
-    if (!blocked.has(candidate)) return candidate;
+    if (!families.some((family) => stableKeyIsBlocked(family, candidate)))
+      return candidate;
   }
   throw new Error(`Could not derive a free stable key for '${prefix}'.`);
 }
 
-const BLOCKED_STABLE_KEYS_ANCHOR = {};
+type StableKeyRecord = { readonly stableKey: string };
+const SORTED_STABLE_KEYS = new WeakMap<readonly StableKeyRecord[], string[]>();
 
-/**
- * Every stable key a new legislative record may not take: each key already
- * written, and each key that another starts with followed by a colon. A key
- * collides when it is taken or when a taken key extends it. The legislative
- * clock asks for a new key at every step, and on a long save each answer used
- * to compare every candidate against every key in eight history families.
- */
-function blockedStableKeys(world: World): ReadonlySet<string> {
-  const history = world.history;
-  const families = [
-    history.legislativeActions,
-    history.committeeReferrals,
-    history.committeeActions,
-    history.legislativeAmendments,
-    history.legislativeVotes,
-    history.executiveDispositions,
-    history.legislativeEnactments,
-    history.futureDueItems,
-  ] as const;
-  return indexOverArrays(BLOCKED_STABLE_KEYS_ANCHOR, families, () => {
-    const blocked = new Set<string>();
-    for (const family of families) {
-      // Writers require globally unique keys within a history family. Another
-      // measure's use of the same operation prefix is still a collision.
-      for (const record of family ?? []) {
-        const key = record.stableKey;
-        blocked.add(key);
-        for (
-          let at = key.indexOf(":");
-          at !== -1;
-          at = key.indexOf(":", at + 1)
-        )
-          blocked.add(key.slice(0, at));
-      }
+/** Only append writers may call this with their own copied prefix. Moving the
+ * disposable cache keeps old Worlds independent: a later read rebuilds theirs. */
+export function transferLegislativeStableKeyIndex(
+  previous: readonly StableKeyRecord[],
+  next: readonly StableKeyRecord[],
+): void {
+  if (previous === next || SORTED_STABLE_KEYS.has(next)) return;
+  const keys = SORTED_STABLE_KEYS.get(previous);
+  if (!keys) return;
+  SORTED_STABLE_KEYS.delete(previous);
+  for (let index = previous.length; index < next.length; index += 1) {
+    const key = next[index]!.stableKey;
+    let low = 0;
+    let high = keys.length;
+    while (low < high) {
+      const middle = (low + high) >>> 1;
+      if (keys[middle]! < key) low = middle + 1;
+      else high = middle;
     }
-    return blocked;
-  });
+    keys.splice(low, 0, key);
+  }
+  SORTED_STABLE_KEYS.set(next, keys);
+}
+
+function stableKeyFamilies(
+  world: World,
+): readonly (readonly StableKeyRecord[])[] {
+  const history = world.history;
+  return [
+    history.legislativeActions ?? [],
+    history.committeeReferrals ?? [],
+    history.committeeActions ?? [],
+    history.legislativeAmendments ?? [],
+    history.legislativeVotes ?? [],
+    history.executiveDispositions ?? [],
+    history.legislativeEnactments ?? [],
+    history.futureDueItems ?? [],
+  ];
+}
+
+/** Index only changed families, keeping full keys rather than allocating every
+ * colon prefix again after each clock write. Binary search preserves exact and
+ * descendant collisions, including keys belonging to another measure. */
+function stableKeyIsBlocked(
+  records: readonly StableKeyRecord[],
+  candidate: string,
+): boolean {
+  let keys = SORTED_STABLE_KEYS.get(records);
+  if (!keys) {
+    keys = records.map((record) => record.stableKey).sort();
+    SORTED_STABLE_KEYS.set(records, keys);
+  }
+  const atOrAfter = (target: string) => {
+    let low = 0;
+    let high = keys.length;
+    while (low < high) {
+      const mid = (low + high) >>> 1;
+      if (keys[mid]! < target) low = mid + 1;
+      else high = mid;
+    }
+    return keys[low];
+  };
+  return (
+    atOrAfter(candidate) === candidate ||
+    (atOrAfter(`${candidate}:`)?.startsWith(`${candidate}:`) ?? false)
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -2987,42 +3026,32 @@ export function legislationHistoryRecords(
 
 type LegislationRecord = { readonly id: EntityId; readonly sequence: number };
 
-/** Anchors the id index below; its identity is all that matters. */
-const LEGISLATION_INDEX_ANCHOR = {};
-
-/**
- * Legislative records by id, the first one in `legislationHistoryRecords`
- * order, as a `.find` over that list would return. The integrity pass asks
- * this for every canonical source it checks, and each answer used to copy
- * eight history families into one array and scan it.
- */
-function legislationRecordIndex(
+/** Read each immutable family through its existing id index. An appended action
+ * must not force copying and reindexing all the unchanged votes and measures. */
+function legislationRecordById(
   world: World,
-): ReadonlyMap<EntityId, LegislationRecord> {
+  id: EntityId,
+): LegislationRecord | undefined {
   const history = world.history;
-  return indexOverArrays(
-    LEGISLATION_INDEX_ANCHOR,
-    [
-      history.legislativeMeasures,
-      history.legislativeActions,
-      history.committeeReferrals,
-      history.committeeActions,
-      history.legislativeAmendments,
-      history.legislativeVotes,
-      history.executiveDispositions,
-      history.legislativeEnactments,
-    ],
-    () => {
-      const index = new Map<EntityId, LegislationRecord>();
-      for (const record of legislationHistoryRecords(world))
-        if (!index.has(record.id)) index.set(record.id, record);
-      return index;
-    },
-  );
+  const families = [
+    history.legislativeMeasures,
+    history.legislativeActions,
+    history.committeeReferrals,
+    history.committeeActions,
+    history.legislativeAmendments,
+    history.legislativeVotes,
+    history.executiveDispositions,
+    history.legislativeEnactments,
+  ];
+  for (const family of families) {
+    const record = recordById<LegislationRecord>(family ?? [], id);
+    if (record) return record;
+  }
+  return undefined;
 }
 
 export function legislationEntityExists(world: World, id: EntityId): boolean {
-  return legislationRecordIndex(world).has(id);
+  return legislationRecordById(world, id) !== undefined;
 }
 
 export function legislationEntityAvailableAt(
@@ -3031,7 +3060,7 @@ export function legislationEntityAvailableAt(
   asOfDate: string,
   sequenceExclusive: number,
 ): boolean {
-  const record = legislationRecordIndex(world).get(id);
+  const record = legislationRecordById(world, id);
   if (!record || record.sequence >= sequenceExclusive) return false;
   const dated = record as unknown as {
     readonly introducedAt?: IsoDate;

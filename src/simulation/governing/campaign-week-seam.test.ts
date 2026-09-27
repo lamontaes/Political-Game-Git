@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../../tests/fixtures/campaign-fixture";
 
 import {
   GAME_ADULT_CANDIDACY_AGE,
@@ -81,6 +82,11 @@ function fundedCampaign(seed: string): Filed {
     candidatePersonId: personId,
     jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
     officeKey: candidacyPackById(PACK)!.offices[0]!.officeKey,
+    districtBinding: namedSeatForFixture(
+      base,
+      personId,
+      candidacyPackById(PACK)!.offices[0]!.officeKey,
+    ),
     electionDate: addDays(base.currentDate, 45),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,
