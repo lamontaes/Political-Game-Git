@@ -17,7 +17,11 @@ import {
   scheduledConflictExists,
 } from "../time-work";
 import type { EntityId, IsoDate, World } from "../types";
-import { recordWorldEvent } from "../world";
+import {
+  advanceWithWorldIntegrityAtEnd,
+  assertWorldIntegrity,
+  recordWorldEvent,
+} from "../world";
 
 export const SENATE_JUDICIARY_SLATE_EVENT = "judicial.senate-judiciary-slate";
 export const SENATE_JUDICIARY_ORGANIZATION_VOTE_EVENT =
@@ -197,6 +201,21 @@ export function organizeSenateJudiciary(
   world: World,
   playerChoice?: SenateOrganizationPlayerChoice,
   playerAttendanceEventId: EntityId | null = null,
+): World {
+  assertWorldIntegrity(world);
+  return advanceWithWorldIntegrityAtEnd(() =>
+    organizeSenateJudiciaryUnchecked(
+      world,
+      playerChoice,
+      playerAttendanceEventId,
+    ),
+  );
+}
+
+function organizeSenateJudiciaryUnchecked(
+  world: World,
+  playerChoice: SenateOrganizationPlayerChoice | undefined,
+  playerAttendanceEventId: EntityId | null,
 ): World {
   if (senateJudiciaryAppointment(world)) return world;
   const term = congressStartedAt(world);
