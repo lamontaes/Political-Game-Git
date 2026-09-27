@@ -5,6 +5,6 @@ impact: none
 
 Before: The weekly campaign plan offered counts of shifts, calls and advertising buys.
 
-After: The simulation can offer four dated choices with an existing host, place and calendar slot. Choosing one books the ordinary campaign life activity. Completing it can record named contacts and an actual lawful gift.
+After: Four dated choices use recorded staff or a chapter that agreed to support this campaign. Booking spends calendar time; attendance records named contacts and lawful gifts. Without an agreed host, the player can build that relationship through party work.
 
-This is a simulation API for Team E's player interface. The existing number-box panel remains until that adapter lands. The four-choice mapping is an overnight gameplay placeholder; Research 2's per-action minutes, costs and effects remain unknown. The focused test passed 2 of 2 cases. Full-suite, browser, desktop and three-week player checks were not run.
+This is a source API until Team E's interface lands. Four-choice mapping is PLACEHOLDER(overnight); Research 2's per-action time, cost and effects are unknown. Focused tests 5/5 and one covered Kentucky fundraiser case passed. Full-suite, browser, desktop and three-week play were not run.
