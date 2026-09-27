@@ -7,6 +7,7 @@ import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { courtById, effectiveCourtRulesAt, seatHolderAt } from "./courts";
 import { judicialSelectionProfile } from "./profiles";
 import type {
+  JudicialRuleField,
   JudicialSelectionRecord,
   JudicialSelectionStageRecord,
 } from "./types";
@@ -330,7 +331,37 @@ export function recordJudicialSelectionStage(
       "Judicial selection stage needs a recorded decision, contest, or event.",
     );
   const stage = input.plan.stages[progress.nextOrder - 1]!;
-  if (stage.actor.state !== "KNOWN" || !stage.actor.value)
+  const outcomeEvent = input.outcomeEventId
+    ? world.history.events.find((event) => event.id === input.outcomeEventId)
+    : null;
+  if (input.outcomeEventId && !outcomeEvent)
+    throw new Error("Judicial stage outcome event is not in World history.");
+  if (
+    input.decisionRecordId &&
+    !world.history.decisionTraces.some(
+      (row) => row.id === input.decisionRecordId,
+    )
+  )
+    throw new Error("Judicial stage decision trace is not in World history.");
+  if (
+    input.electionContestId &&
+    !world.history.electionContests?.some(
+      (row) => row.id === input.electionContestId,
+    ) &&
+    !world.judiciary?.retentionContests.some(
+      (row) => row.recordId === input.electionContestId,
+    )
+  )
+    throw new Error("Judicial stage election contest is not in World history.");
+  const approvedRetentionVoters =
+    stage.mechanism === "RETENTION_ELECTION" &&
+    outcomeEvent?.tags.includes("game-profile:judicial-retention-voters/v1") ===
+      true &&
+    input.actorPersonId === null;
+  if (
+    (stage.actor.state !== "KNOWN" || !stage.actor.value) &&
+    !approvedRetentionVoters
+  )
     throw new Error(
       "The next judicial selection stage has no established actor.",
     );
@@ -459,4 +490,86 @@ export function recordFederalJudicialNomination(
     electionContestId: null,
     outcomeEventId: next.history.events.at(-1)!.id,
   });
+}
+
+export type JudicialRetentionThreshold =
+  | { readonly kind: "majority"; readonly reportedToken: "50%+1" }
+  | {
+      readonly kind: "percent";
+      readonly percent: 57 | 60;
+      readonly reportedToken: "57%_supermajority" | "60%_supermajority";
+    };
+
+export function judicialRetentionThreshold(
+  world: World,
+  seatId: string,
+):
+  | {
+      readonly state: "ready";
+      readonly threshold: JudicialRetentionThreshold;
+      readonly rule: JudicialRuleField<string>;
+    }
+  | { readonly state: "unresolved"; readonly reason: string } {
+  const resolved = resolveJudicialSelectionPlan(world, seatId, "renewal");
+  if (resolved.state !== "ready") return resolved;
+  if (
+    !resolved.plan.stages.some(
+      (stage) => stage.mechanism === "RETENTION_ELECTION",
+    )
+  )
+    return {
+      state: "unresolved",
+      reason: "This judicial renewal is not a retention election.",
+    };
+  const profile = judicialSelectionProfile(resolved.plan.sourceRecordId)!;
+  const threshold = profile.renewal.value?.threshold;
+  if (threshold?.state !== "KNOWN" || !threshold.value)
+    return {
+      state: "unresolved",
+      reason: "The retention approval threshold is unknown.",
+    };
+  const token = threshold.value;
+  const parsed: JudicialRetentionThreshold | null =
+    token === "50%+1"
+      ? { kind: "majority", reportedToken: token }
+      : token === "57%_supermajority"
+        ? { kind: "percent", percent: 57, reportedToken: token }
+        : token === "60%_supermajority"
+          ? { kind: "percent", percent: 60, reportedToken: token }
+          : null;
+  if (!parsed)
+    return {
+      state: "unresolved",
+      reason: `The reported retention threshold needs a geographic branch or an unimplemented interpretation: ${token}.`,
+    };
+  return {
+    state: "ready",
+    threshold: parsed,
+    rule: {
+      state: "known",
+      value: token,
+      basis: "sourced",
+      referenceId: `${profile.recordId}:92l-research-synthesis`,
+    },
+  };
+}
+
+/** The recorded yes/no count, including a zero-turnout refusal. */
+export function judicialRetentionPasses(
+  yesVotes: number,
+  noVotes: number,
+  threshold: JudicialRetentionThreshold,
+): boolean {
+  if (
+    !Number.isSafeInteger(yesVotes) ||
+    !Number.isSafeInteger(noVotes) ||
+    yesVotes < 0 ||
+    noVotes < 0
+  )
+    throw new Error("Judicial retention votes must be nonnegative integers.");
+  const total = yesVotes + noVotes;
+  if (total === 0) return false;
+  return threshold.kind === "majority"
+    ? yesVotes > noVotes
+    : yesVotes * 100 >= total * threshold.percent;
 }

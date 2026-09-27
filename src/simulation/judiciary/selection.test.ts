@@ -12,6 +12,8 @@ import { addJudicialCourt } from "./courts";
 import {
   judicialSelectionById,
   judicialSelectionProgress,
+  judicialRetentionPasses,
+  judicialRetentionThreshold,
   openJudicialSelection,
   openJudicialSelectionFromProfile,
   recordFederalJudicialNomination,
@@ -71,6 +73,21 @@ function opening(recordId = sourceRecordId) {
 }
 
 describe("judicial selection lifecycle", () => {
+  it("uses the reported retention threshold without turning one incumbent into an automatic winner", () => {
+    const world = opening("us-il:highest_court");
+    const resolved = judicialRetentionThreshold(world, seatId);
+    expect(resolved.state).toBe("ready");
+    if (resolved.state !== "ready") return;
+    expect(resolved.threshold).toEqual({
+      kind: "percent",
+      percent: 60,
+      reportedToken: "60%_supermajority",
+    });
+    expect(judicialRetentionPasses(60, 40, resolved.threshold)).toBe(true);
+    expect(judicialRetentionPasses(59, 41, resolved.threshold)).toBe(false);
+    expect(judicialRetentionPasses(0, 0, resolved.threshold)).toBe(false);
+  });
+
   it("records a Presidential nominee but waits for the Senate to confirm", () => {
     const game = generateOpeningLife(
       prepareOpeningLife({
