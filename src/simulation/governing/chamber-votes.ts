@@ -41,10 +41,9 @@ import type {
  *   not a conviction, and it is weighed below a promise, so a member who
  *   made one keeps it over the cue.
  *
- * A member's private belief does not yet decide a vote. A bill records which
- * policy questions it bears on but not which way it answers them, so a view
- * on the question cannot be read as a view on the bill without inventing
- * that direction.
+ * A formed private belief can inform a vote when the bill records an explicit
+ * answer to its policy question. The saved ballot cites that belief by ID;
+ * a private reason is not by itself knowledge available to the player.
  *
  * PLACEHOLDER until research question
  * how-state-legislators-vote-without-a-stated-position is answered: the
@@ -269,10 +268,13 @@ export function decideChamberVote(
             ? "nay"
             : "present-not-voting",
       reason: decisive
-        ? decisive.stableKey.startsWith("member:party-cue:") ||
-          decisive.stableKey.startsWith("member:principle:")
-          ? decisive.stableKey
-          : decisive.stableKey.split(":").slice(0, 2).join(":")
+        ? decisive.sourceType === "belief:formed-position" &&
+          decisive.sourceRefs[0]?.kind === "private-belief"
+          ? `member:private-belief:${decisive.sourceRefs[0].beliefId}`
+          : decisive.stableKey.startsWith("member:party-cue:") ||
+              decisive.stableKey.startsWith("member:principle:")
+            ? decisive.stableKey
+            : decisive.stableKey.split(":").slice(0, 2).join(":")
         : "member:no-reason",
     };
   });
