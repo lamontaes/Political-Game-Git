@@ -4,7 +4,9 @@ import {
 } from "./life-scene-flow";
 import { describePlacesOutcome } from "./player-places";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
+import { projectCandidateGuidanceScene } from "./candidate-guidance-scene";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
+import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 import {
   addDays,
   addSimulationMinutes,
@@ -160,8 +162,13 @@ export function previewTimeCommand(
     const openingMeeting =
       entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
       projectOrdinaryMeetingScene(world, personId)?.phase !== "active";
+    const openingGuidance =
+      campaignLifeActivityForScheduledActivity(world, entry.activity.id)
+        ?.form === "candidate-guidance" &&
+      projectCandidateGuidanceScene(world, personId)?.activityId !==
+        entry.activity.id;
     const target =
-      openingMeeting && entry.journey
+      (openingMeeting || openingGuidance) && entry.journey
         ? scheduledActivityState(world, entry.journey.activity.id).end
         : scheduledActivityState(world, entry.activity.id).end;
     return {
@@ -250,6 +257,9 @@ function run(
         passOrdinaryDays(from, n, {
           handlers: interruptionHandlers(interruptions),
           stopForTentativeHolds: interruptions.stopForTentativeHolds,
+          // A chosen day count must not carry the player past a posted civic
+          // occasion. The ordinary clock already owns this stop boundary.
+          stopForCivicHolds: true,
         }),
       ),
     );
@@ -279,7 +289,7 @@ function run(
         world,
         next,
         request.personId,
-        simulationMinutesBetween(world.currentMoment, next.currentMoment),
+        simulationMinutesBetween(world.currentMoment, preview.target),
       ),
     ].join(" "),
   };

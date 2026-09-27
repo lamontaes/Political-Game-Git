@@ -193,11 +193,9 @@ export interface OrdinaryDay {
 /**
  * Whether the ordinary week is this character's to run.
  *
- * Covering the shopping and the appointments, and deciding whether to give up
- * an evening to a public meeting, are things a person does once nobody else is
- * responsible for them. While the formative interval is still running they are
- * not: a five-year-old does not carry the household week, and the game must not
- * write down that they do. The engine already draws that line — the formative
+ * Deciding whether to give up an evening to a public meeting is a choice a
+ * person can make after the formative interval. A five-year-old does not carry
+ * an ordinary-life schedule. The engine already draws that line — the formative
  * interval runs from birth to eighteen and then stops — so this reads that
  * contract rather than inventing a second age rule beside it.
  */
@@ -211,17 +209,15 @@ export function ordinaryLifeAvailableFor(
 /**
  * Opens an ordinary life, and keeps it open.
  *
- * Two jobs now, where there used to be one. The first is unchanged: the
- * household week and the posted meeting are written once, for somebody the
+ * Two jobs now, where there used to be one. First, the posted meeting is
+ * written once for somebody the
  * formative interval has finished with, and never for a five-year-old.
  *
  * The second is the repair this wave exists for. Opening an ordinary life is a
  * legitimate transition, so it is also a moment at which the world may write
- * whatever this life has come to be owed next — another week's errands once the
- * last week's are done, or one new opportunity from the bounded set in
- * `life-opportunities.ts`. Before this, a life had exactly two work items in it
- * for the rest of its existence, and the reachable scenes disappeared with the
- * first of them.
+ * one new opportunity from the bounded set in `life-opportunities.ts`.
+ * A legacy grocery item remains readable but no new ordinary life is assigned
+ * a recurring chore.
  */
 export function openOrdinaryLife(world: World, personId: EntityId): World {
   const person = world.people[personId];

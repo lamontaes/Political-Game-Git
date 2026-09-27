@@ -8,13 +8,16 @@ import {
   openJobListings,
 } from "../simulation/job-market";
 import { workStatusAt } from "../simulation/life-queries";
+import { scheduledActivityState } from "../simulation/time-work";
 import { letAdultTimePass } from "./adult-life";
 import { CAREER_PROVIDERS } from "./career-path7-provider";
+import { isCivicHold } from "./civic-hold";
 import { projectToday } from "./day-overview";
 import { projectLifeRecord } from "./life-record";
 import { createExplicitGeographyLife } from "./new-game-geography";
 import { openOrdinaryLife } from "./ordinary-life";
 import { submitTimeCommand } from "./time-command";
+import { declineVenueActivity } from "./venue-activity";
 
 /**
  * An offer of work never lapses unseen. In Atlanta, Fulton County offered
@@ -42,6 +45,32 @@ function skip(world: World, personId: EntityId, days: number) {
   });
 }
 
+/** The earlier civic stop is a player choice; decline it before continuing. */
+function skipAfterShownCivicStops(
+  world: World,
+  personId: EntityId,
+  days: number,
+) {
+  let result = skip(world, personId, days);
+  const shown: string[] = [];
+  for (let step = 0; step < 12; step += 1) {
+    const civic = result.world.history.scheduledActivities.find((activity) => {
+      if (!isCivicHold(activity)) return false;
+      const state = scheduledActivityState(result.world, activity.id);
+      return (
+        state.status === "scheduled" &&
+        state.start.date === result.world.currentDate
+      );
+    });
+    if (!civic) return { ...result, shown };
+    shown.push(civic.title);
+    const declined = declineVenueActivity(result.world, personId, civic.id);
+    expect(declined).not.toBe(result.world);
+    result = skip(declined, personId, days);
+  }
+  throw new Error("The skip did not get past the recorded civic stops.");
+}
+
 function recordSentences(world: World, personId: EntityId): string[] {
   return projectLifeRecord(world, personId).chapters.flatMap((chapter) =>
     chapter.entries.map((entry) => entry.sentence),
@@ -60,7 +89,12 @@ describe("an offer with a reply date", () => {
         /Answer by .+, or it lapses\./.test(entry.sentence),
       ),
     ).toBe(true);
-    const { world: after, receipt } = skip(sought, personId, 30);
+    const {
+      world: after,
+      receipt,
+      shown,
+    } = skipAfterShownCivicStops(sought, personId, 30);
+    expect(shown).toContain("Posted public meeting");
     expect(after.currentDate).toBe(replyBy);
     expect(workStatusAt(after, offer.id)?.status).toBe("expected");
     expect(receipt.outcome).toMatch(/Today is the last day to answer\./);
@@ -91,7 +125,11 @@ describe("an offer with a reply date", () => {
       const applied = applyForJob(world, start.personId, opening.id);
       if (!applied.ok) continue;
       const application = applicationsFor(applied.world, start.personId)[0]!;
-      const { world: after, receipt } = skip(applied.world, start.personId, 60);
+      const { world: after, receipt } = skipAfterShownCivicStops(
+        applied.world,
+        start.personId,
+        60,
+      );
       const step = latestApplicationStep(after, application.id);
       if (step?.kind !== "offered") continue;
       stopped = true;

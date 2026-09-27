@@ -5,6 +5,8 @@ import {
   compareSimulationMoments,
   createCampaignElectionTransitionRegistry,
   recordWorldEvent,
+  scheduledActivityState,
+  simulationMinutesBetween,
   type EntityId,
   type FutureTransitionHandlerRegistry,
   type World,
@@ -33,7 +35,23 @@ export function arriveAtOrdinaryMeeting(
   const offer = venueActivities(world, personId, handlers).find(
     (candidate) => candidate.activity.id === activityId,
   );
-  if (!offer || offer.refusal || !offer.journey) return world;
+  if (!offer || offer.refusal) return world;
+  if (!offer.journey) {
+    // An older save can already place the player in the room without an open
+    // travel leg. Play may wait for the meeting there, then open the same
+    // conversation; it cannot turn that wait into completed attendance.
+    const start = scheduledActivityState(world, activityId).start;
+    const minutes = simulationMinutesBetween(world.currentMoment, start);
+    if (minutes < 0) return world;
+    const waited = advanceWorldMinutes(
+      world,
+      minutes,
+      handlers ?? createCampaignElectionTransitionRegistry(),
+    );
+    return compareSimulationMoments(waited.currentMoment, start) === 0
+      ? enterOrdinaryMeeting(waited, personId, activityId)
+      : world;
+  }
   const arrived = offer.journey.alreadyCompleted
     ? world
     : performVenueActivity(

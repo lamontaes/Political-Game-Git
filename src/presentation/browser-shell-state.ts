@@ -20,7 +20,13 @@ import {
   type ShellPreferences,
   type ShellRef,
 } from "./shell-navigation";
-import type { EntityId } from "../simulation";
+import {
+  makeIsoDate,
+  makeSimulationMoment,
+  type EntityId,
+  type IsoDate,
+  type SimulationMoment,
+} from "../simulation";
 
 /**
  * Where the shell's saved references and preferences live.
@@ -219,6 +225,10 @@ function readPreferences(value: unknown): ShellPreferences {
     defaultPinSize,
     followedNewsOutletKeys,
     interruptions,
+    morningThoughts:
+      typeof value.morningThoughts === "boolean"
+        ? value.morningThoughts
+        : DEFAULT_PREFERENCES.morningThoughts,
     proposalLayout,
     newsMode,
     newsOutletKey,
@@ -267,6 +277,8 @@ export function readStoredShellState(value: unknown): StoredShellState | null {
 function readProgress(value: unknown): InterfaceProgress {
   if (!isRecord(value)) return LEGACY_INTERFACE_PROGRESS;
   const frontier = value.recapFrontier;
+  const throughMoment = readSimulationMoment(value.recapThroughMoment);
+  const seenOn = readIsoDate(value.morningThoughtSeenOn);
   return {
     orientationSeen:
       typeof value.orientationSeen === "boolean"
@@ -278,7 +290,39 @@ function readProgress(value: unknown): InterfaceProgress {
       frontier >= 0
         ? frontier
         : null,
+    ...(throughMoment ? { recapThroughMoment: throughMoment } : {}),
+    ...(seenOn ? { morningThoughtSeenOn: seenOn } : {}),
   };
+}
+
+function readIsoDate(value: unknown): IsoDate | null {
+  if (typeof value !== "string") return null;
+  try {
+    return makeIsoDate(value);
+  } catch {
+    return null;
+  }
+}
+
+function readSimulationMoment(value: unknown): SimulationMoment | null {
+  if (!isRecord(value)) return null;
+  if (
+    typeof value.date !== "string" ||
+    typeof value.minuteOfDay !== "number" ||
+    typeof value.timeZone !== "string" ||
+    typeof value.utcOffsetMinutes !== "number"
+  )
+    return null;
+  try {
+    return makeSimulationMoment({
+      date: value.date,
+      minuteOfDay: value.minuteOfDay,
+      timeZone: value.timeZone,
+      utcOffsetMinutes: value.utcOffsetMinutes,
+    });
+  } catch {
+    return null;
+  }
 }
 
 /** One validated wire codec for shell writes and portable transfers. */

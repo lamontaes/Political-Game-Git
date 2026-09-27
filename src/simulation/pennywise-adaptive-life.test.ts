@@ -873,16 +873,11 @@ describe("Acceptance 10 — adult situations are keyed to opportunity, never to 
     );
     const populated = buildAdultLifeContext(world, personId);
     const available = availableAdultSituations(populated);
-    // Four, not five: the floor follows a deliberate content change. Since the
-    // dialogue review of 2026-09-23 play no longer writes a friend's picnic
-    // favor or confidence, or a Saturday invitation with no reason in the
-    // host's own life (`initiator-occasions.ts`), so this demo life, whose
-    // people have no birthday, move or new job this week, is offered the
-    // household week, the extra hours, the meeting item and a good day.
+    // This demo life has a colleague's request and a posted meeting item.
+    // Its people have no grounded occasion for an invitation this week, and
+    // routine household errands no longer supply scenes by themselves.
     expect(available.map((situation) => situation.key).sort()).toEqual([
-      "adult.household-standing",
       "adult.local-issue-position",
-      "adult.ordinary-good-day",
       "adult.work-extra-hours",
     ]);
 

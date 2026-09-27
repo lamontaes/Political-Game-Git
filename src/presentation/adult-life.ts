@@ -502,8 +502,8 @@ export function adultSituationOpen(
  * Nothing is invented to fill the gap, and that has not changed. What has
  * changed is that a quiet stretch is also a legitimate transition, so when the
  * caller says whose stretch it is, the world may write down what has come to be
- * true for them by the end of it — another week's errands, or one request that
- * somebody made. Without this a player who chose to wait was choosing to end
+ * true for them by the end of it — a request that somebody made. Without this
+ * a player who chose to wait was choosing to end
  * their own game, which is what the audit reproduced.
  */
 export function letAdultTimePass(
