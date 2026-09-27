@@ -26,6 +26,7 @@ import type {
   SimulationMoment,
   World,
 } from "../simulation/types";
+import { assertWorldIntegrityFully } from "../simulation/world";
 import {
   BROWSER_WORLD_RECORD_KIND,
   BROWSER_WORLD_RECORD_VERSION,
@@ -540,6 +541,9 @@ export class BrowserSaveStore {
           reason: SLOT_MESSAGES.deleted,
         } as const;
       }
+      // A save the player asks for walks the whole World; the autosave that
+      // follows each Day relies on the check the Day already made.
+      assertWorldIntegrityFully(world);
       return this.#writeSlot(prepareWorldRecord(world), saveId);
     });
   }

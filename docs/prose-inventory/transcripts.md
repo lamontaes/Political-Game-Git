@@ -459,7 +459,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 5 — 2026-05-10, age 35 (ordinary-stretch)
 
 > Half a year on, and you're 35 now.
-> Judith Lewis tried to reach you.
+> Edward Miles tried to reach you.
 
 
 
@@ -468,7 +468,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 6 — 2026-06-10, age 35 (ordinary-stretch)
 
 > Half a year on, and you're 35 now.
-> Judith Lewis tried to reach you.
+> Edward Miles tried to reach you.
 
 
 
@@ -477,7 +477,7 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 #### Beat 7 — 2026-08-17, age 35 (adult)
 
 > Most of a year later, and you're 35 now.
-> Judith Lewis tried to reach you.
+> Edward Miles tried to reach you.
 
 David Todd, your dad: “My birthday’s Thursday. Do you want to come over Saturday?”
 
@@ -524,7 +524,7 @@ _Present: David Todd, your dad_
 
 > Half a year on.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> Judith Lewis tried to reach you.
+> You and David Todd were in and out of each other's business more than once.
 
 
 
@@ -534,7 +534,7 @@ _Present: David Todd, your dad_
 
 > Most of a year later, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> Judith Lewis tried to reach you.
+> What you said you'd do about David Todd came up.
 
 
 
@@ -544,7 +544,7 @@ _Present: David Todd, your dad_
 
 > A year on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> Judith Lewis tried to reach you.
+> What you said you'd do about David Todd came up.
 
 
 
@@ -554,7 +554,7 @@ _Present: David Todd, your dad_
 
 > A year on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> Judith Lewis tried to reach you.
+> What you said you'd do about David Todd came up.
 
 
 
@@ -564,7 +564,7 @@ _Present: David Todd, your dad_
 
 > A year and a half on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> Judith Lewis tried to reach you.
+> What you said you'd do about David Todd came up.
 
 
 
@@ -574,7 +574,7 @@ _Present: David Todd, your dad_
 
 > A year and a half on, and you're 36 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> Judith Lewis tried to reach you.
+> What you said you'd do about David Todd came up.
 
 
 
@@ -584,7 +584,7 @@ _Present: David Todd, your dad_
 
 > The better part of two years later, and you're 37 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> Judith Lewis tried to reach you.
+> What you said you'd do about David Todd came up.
 
 
 
@@ -594,7 +594,7 @@ _Present: David Todd, your dad_
 
 > 2 years later, and you're 37 now.
 > Your dad, David Todd, died after a serious illness on January 28, 2027.
-> Judith Lewis tried to reach you.
+> What you said you'd do about David Todd came up.
 
 
 
@@ -1216,27 +1216,18 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 **Intent.** A second candidacy on a different seed, so a contest outcome is not read from one run.
 
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
-6 beats, 19 realized lines, 7 linked back to a template.
+6 beats, 20 realized lines, 9 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:opening.adult.home.plan-week, legislative-measure-briefing, persistent-instance-continuation, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, episode:opening.adult.home.plan-week, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
 - Filed: true
 - Office: Seat in the Kentucky House of Representatives
 - Sessions: 6
-- Resolved: true (won)
+- Resolved: true (lost)
 
-### Legislative surface reached
-
-- HB 365 — The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.
-  - The bill has been filed in the House of Representatives and is waiting to be sent to a committee.
-  - Filed on 2027-02-08. Filed in the House of Representatives.
-  - Committee on Committees
-  - Committee on Committees decides which committee takes the measure.
-  - Ask for the bill to be sent to a committee
-  - Even-year sessions run 60 legislative days and adjourn by April 15; odd-year sessions run 30 legislative days and adjourn by March 30.
+_No legislative surface: the capability layer did not open one for this run._
 
 
 ### Beats
@@ -1273,32 +1264,34 @@ _Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requir
 
 
 
-#### Beat 3 — 2026-02-09, age 41 (ordinary-stretch)
+#### Beat 3 — 2026-02-09, age 41 (adult)
 
 > A month later.
 > Christopher Marshall tried to reach you.
 
+John Tillman, your dad: “My birthday’s Tuesday. Do you want to come over Saturday?”
+
+- **Say you will come** ← chosen
+- Decline the invitation
+
+_Present: John Tillman, your dad_
+
+#### Beat 4 — 2026-02-09, age 41 (ordinary-stretch)
 
 
 
 
-#### Beat 4 — 2026-03-28, age 42 (ordinary-stretch)
 
-> A couple of months on, and you're 42 now.
+
+
+#### Beat 5 — 2026-02-21, age 41 (ordinary-stretch)
+
+> A couple of weeks on.
 > Christopher Marshall tried to reach you.
 
 
 
-
-
-#### Beat 5 — 2026-05-14, age 42 (ordinary-stretch)
-
-> Half a year on, and you're 42 now.
-> Christopher Marshall tried to reach you.
-
-
-
-
+- **Attend: Saturday afternoon at John Tillman's** ← chosen
 
 
 ---

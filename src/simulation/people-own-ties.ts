@@ -152,8 +152,10 @@ export function ensureOwnTies(
       stableKey: `${OWN_TIES_VERSION}:${personId}:${otherId}`,
       personIds: [personId, otherId],
       eventId: null,
-      // Ties they already had when the played life began.
-      occurredAt: world.startedAt,
+      // Recorded when the played life first reaches them, like the town's own
+      // neighbor ties: someone who moved in during the life may be drawn, so
+      // a date before the life began would claim a past the record lacks.
+      occurredAt: world.currentDate,
       kind,
       change: "formed",
       significance: kind === "contact:friendship" ? "meaningful" : "minor",
@@ -164,6 +166,6 @@ export function ensureOwnTies(
   for (const id of neighbors)
     tie(id, "contact:neighbors", "Neighbors in the same town.");
   for (const id of friends)
-    tie(id, "contact:friendship", "Friends from before.");
+    tie(id, "contact:friendship", "Friends in the same town.");
   return next;
 }

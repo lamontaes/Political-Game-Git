@@ -10,6 +10,7 @@ import {
 } from "./character-history";
 import { ageOnDate, daysBetween } from "./dates";
 import { createStableId } from "./ids";
+import { recordsByStringField } from "./history-index";
 import { activeIncidentsAt } from "./incidents";
 import {
   activeAuthoritiesHeldByPersonAt,
@@ -20,6 +21,7 @@ import {
   activeOrganizationParticipationsAt,
   activePartnershipsAt,
   activeWorkRelationshipsAt,
+  workRelationshipHistoryForOrganization,
   currentLifeCutoff,
   householdMembershipsAt,
   kinshipRelationshipsAt,
@@ -853,22 +855,26 @@ export function episodeFacts(
   // cutoff-aware one: this fact's counterpart has to agree with the binding a
   // stage is composed around, and a rule that disagreed with it would withhold
   // the scene without saying why.
-  const coParticipant = [...world.personOrder].sort().flatMap((otherId) => {
-    if (
-      otherId === personId ||
-      !world.people[otherId] ||
-      world.history.personDeaths.some((death) => death.personId === otherId)
-    )
-      return [];
-    const shared = activeOrganizationParticipationsAt(
-      world,
-      otherId,
-      cutoff,
-    ).find((entry) =>
-      politicalOrganizationIds.has(entry.participation.organizationId),
-    );
-    return shared ? [{ otherId, shared }] : [];
-  })[0];
+  const coParticipant = (() => {
+    if (politicalOrganizationIds.size === 0) return undefined;
+    for (const otherId of [...world.personOrder].sort()) {
+      if (
+        otherId === personId ||
+        !world.people[otherId] ||
+        world.history.personDeaths.some((death) => death.personId === otherId)
+      )
+        continue;
+      const shared = activeOrganizationParticipationsAt(
+        world,
+        otherId,
+        cutoff,
+      ).find((entry) =>
+        politicalOrganizationIds.has(entry.participation.organizationId),
+      );
+      if (shared) return { otherId, shared };
+    }
+    return undefined;
+  })();
   facts.set("political.co-participant", {
     key: "political.co-participant",
     holds: coParticipant !== undefined,
@@ -1230,8 +1236,14 @@ export function episodeRoleBindings(
   for (const entry of activeWorkRelationshipsAt(world, personId, cutoff)) {
     const organizationId = entry.relationship.organizationId;
     if (organizationId === null) continue;
-    for (const other of Object.values(world.people)) {
-      if (other.id === personId) continue;
+    const candidates = new Set(
+      workRelationshipHistoryForOrganization(world, organizationId, cutoff).map(
+        (record) => record.personId,
+      ),
+    );
+    for (const otherId of candidates) {
+      const other = world.people[otherId];
+      if (!other || other.id === personId) continue;
       const shares = activeWorkRelationshipsAt(world, other.id, cutoff).some(
         (candidate) => candidate.relationship.organizationId === organizationId,
       );
@@ -1282,8 +1294,16 @@ export function episodeRoleBindings(
     personId,
     cutoff,
   )) {
-    for (const other of Object.values(world.people)) {
-      if (other.id === personId) continue;
+    const candidates = new Set(
+      recordsByStringField(
+        world.history.organizationParticipations,
+        "organizationId",
+        entry.participation.organizationId,
+      ).map((record) => record.personId),
+    );
+    for (const otherId of candidates) {
+      const other = world.people[otherId];
+      if (!other || other.id === personId) continue;
       const shares = activeOrganizationParticipationsAt(
         world,
         other.id,

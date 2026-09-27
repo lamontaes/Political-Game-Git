@@ -3,9 +3,13 @@ import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { personName, type EntityId, type World } from "../simulation";
 import {
   ORDINARY_MEETING_PRESENCE,
+  ORDINARY_MEETING_SPEECH_CHOICES,
   ordinaryMeetingEntry,
 } from "../simulation/ordinary-meeting-presence";
 import { completedActivityHere } from "./scene-venues";
+
+export type OrdinaryMeetingAction =
+  "read-agenda" | "speak" | "stay" | "go-briefly" | "leave";
 
 /** Read explicit entry or current aftermath; a calendar invite is never presence. */
 export function projectOrdinaryMeetingScene(world: World, personId: EntityId) {
@@ -70,23 +74,73 @@ export function projectOrdinaryMeetingScene(world: World, personId: EntityId) {
       ),
   );
   if (!chair) return null;
+  const residents = event.participants.filter(
+    (actor) =>
+      actor.role === "presence:participant" &&
+      actor.personId !== personId &&
+      actor.personId !== chair.personId &&
+      world.people[actor.personId] &&
+      !world.history.personDeaths.some(
+        (death) =>
+          death.personId === actor.personId &&
+          death.diedAt <= world.currentDate,
+      ),
+  );
+  const entryEvent =
+    phase === "active"
+      ? event
+      : world.history.events.find(
+          (candidate) =>
+            candidate.stableKey ===
+            `${ORDINARY_MEETING_PRESENCE}:${activity.id}:entry`,
+        );
+  const comment = world.history.events.find(
+    (candidate) =>
+      candidate.stableKey ===
+        `${ORDINARY_MEETING_PRESENCE}:${activity.id}:comment:${personId}` &&
+      !!entryEvent &&
+      candidate.tags.includes(`entry:${entryEvent.id}`),
+  );
+  const availableActions: readonly OrdinaryMeetingAction[] =
+    phase === "active"
+      ? [
+          "read-agenda",
+          ...(!comment ? (["speak"] as const) : []),
+          "stay",
+          "go-briefly",
+          "leave",
+        ]
+      : [];
   return {
     phase,
     activityId: activity.id,
     eventId: event.id,
     location: activity.location,
+    agendaText: event.context.socialContext,
+    speechChoices:
+      phase === "active" && !comment ? ORDINARY_MEETING_SPEECH_CHOICES : [],
+    spokenWords: comment?.context.choice ?? null,
+    availableActions,
     actors: [
       {
         personId: chair.personId,
         name: personName(world.people[chair.personId]!),
         role: "Meeting chair",
         recordIds: [event.id],
+        spokenLine: null,
       },
+      ...residents.map((resident) => ({
+        personId: resident.personId,
+        name: personName(world.people[resident.personId]!),
+        role: "Resident",
+        recordIds: [event.id],
+        spokenLine: resident.detail ?? null,
+      })),
     ],
     caption:
       phase === "active"
         ? `${personName(world.people[chair.personId]!)} chairs the meeting.`
-        : `The meeting has ended. ${personName(world.people[chair.personId]!)} chaired it.`,
+        : `The discussion ended without a vote. ${personName(world.people[chair.personId]!)} chaired it.`,
     stage:
       phase === "active"
         ? livingSceneStagePacket({
@@ -110,3 +164,7 @@ export function projectOrdinaryMeetingScene(world: World, personId: EntityId) {
     agendaSelection: { kind: "agenda" as const, activityId: activity.id },
   };
 }
+
+export type OrdinaryMeetingScene = NonNullable<
+  ReturnType<typeof projectOrdinaryMeetingScene>
+>;

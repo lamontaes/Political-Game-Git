@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import type { EntityId, World } from "../simulation";
 import { ageOnDate } from "../simulation/dates";
-import { OWN_TIES_TAG } from "../simulation/people-own-ties";
+import { OWN_TIES_TAG, ensureOwnTies } from "../simulation/people-own-ties";
 import { explicitNewGameSetup } from "./new-game-geography";
 import { createOpeningLifeController } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
@@ -78,7 +78,6 @@ describe("The people around a life have ties of their own", () => {
   ] as const) {
     it(`gives them neighbors and friends from their own town in ${label}`, () => {
       const opened = openLife(placeKey, `own-ties:${placeKey}`, 34);
-      const openingPeople = new Set(Object.keys(opened.world.people));
       const around = peopleAroundPlayer(opened.world, opened.playerId);
       expect(ownTies(opened.world)).toHaveLength(0);
 
@@ -90,9 +89,10 @@ describe("The people around a life have ties of their own", () => {
       expect([...around].some((id) => tiedPeople.has(id))).toBe(true);
       for (const tie of ties) {
         const [a, b] = tie.personIds;
-        // Nobody was created for the purpose, and the player is never drawn.
-        expect(openingPeople.has(a)).toBe(true);
-        expect(openingPeople.has(b)).toBe(true);
+        // The player is never drawn; everyone tied is a real person in the
+        // world (nobody is created for it: see the writer check below).
+        expect(later.people[a]).toBeDefined();
+        expect(later.people[b]).toBeDefined();
         expect(tie.personIds).not.toContain(opened.playerId);
         // Drawn from the same town.
         expect(later.people[a]!.homeJurisdictionId).toBe(
@@ -130,6 +130,27 @@ describe("The people around a life have ties of their own", () => {
         !event.involvedEntityIds.includes(opened.playerId),
     );
     expect(callsToOthers.length).toBeGreaterThan(0);
+  }, 180_000);
+
+  it("creates nobody: every tie is to someone already in the world", () => {
+    const opened = openLife("kentucky", "own-ties:writer", 34);
+    const around = [...peopleAroundPlayer(opened.world, opened.playerId)]
+      .filter(
+        (id) =>
+          ageOnDate(
+            opened.world.people[id]!.birthDate,
+            opened.world.currentDate,
+          ) >= 18,
+      )
+      .sort();
+    expect(around.length).toBeGreaterThan(0);
+    const before = Object.keys(opened.world.people).sort();
+    const tied = ensureOwnTies(opened.world, around[0]!, opened.playerId);
+    expect(ownTies(tied).length).toBeGreaterThan(0);
+    expect(Object.keys(tied.people).sort()).toEqual(before);
+    for (const tie of ownTies(tied)) {
+      expect(tie.occurredAt).toBe(opened.world.currentDate);
+    }
   }, 180_000);
 
   it("draws the same ties for the same seed", () => {

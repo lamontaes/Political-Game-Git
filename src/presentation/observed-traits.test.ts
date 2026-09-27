@@ -5,6 +5,7 @@ import {
   ensurePeopleTraits,
   observedTraitLabels,
   personTraits,
+  strongestObservedTraitLabels,
 } from "../simulation/people-traits";
 import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
 import { readTrait } from "../simulation/trait-readings";
@@ -61,6 +62,20 @@ describe("only an observed temperament is shown", () => {
 
     for (const id of strangers) {
       expect(observedTraitLabels(world, id)).toEqual([]);
+      // The small card's three are drawn from the same written records.
+      expect(strongestObservedTraitLabels(world, id, 3)).toEqual([]);
+    }
+  });
+
+  it("names at most three on the small card, all of them written", () => {
+    const { world, personId } = life("three-state-probe");
+    const others = world.personOrder.filter((id) => id !== personId);
+    const written = ensurePeopleTraits(world, others);
+    for (const id of others) {
+      const strongest = strongestObservedTraitLabels(written, id, 3);
+      const all = observedTraitLabels(written, id);
+      expect(strongest.length).toBe(Math.min(3, all.length));
+      for (const label of strongest) expect(all).toContain(label);
     }
   });
 
