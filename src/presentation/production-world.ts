@@ -354,14 +354,20 @@ export function buildProductionWorld(
     input.household,
     input.generation ?? null,
     input.familyStructureSeed ?? input.seed,
-    input.givenNameGenerationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
+    input.givenNameGenerationVersion ??
+      (input.preStartYear
+        ? COHORT_GIVEN_NAME_GENERATION_VERSION
+        : LEGACY_GIVEN_NAME_GENERATION_VERSION),
     input.earlierLifeGenerationVersion,
-    input.childhoodGenerationVersion,
+    input.childhoodGenerationVersion ??
+      (input.preStartYear ? CHILDHOOD_GENERATION_V2 : undefined),
     input.schoolNameVersion,
-    input.schoolStageVersion,
+    input.schoolStageVersion ??
+      (input.preStartYear ? SCHOOL_STAGES_V2 : undefined),
     input.familyBirthdayVersion,
     input.parentPartnerVersion,
     nameCorpusVersion,
+    input.preStartYear !== undefined,
   );
   if (
     input.preStartYear &&
@@ -529,14 +535,15 @@ export function finalizePreStartPlayer(
     input.household,
     input.generation ?? null,
     input.familyStructureSeed ?? input.seed,
-    input.givenNameGenerationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
+    input.givenNameGenerationVersion ?? COHORT_GIVEN_NAME_GENERATION_VERSION,
     input.earlierLifeGenerationVersion,
-    input.childhoodGenerationVersion,
+    input.childhoodGenerationVersion ?? CHILDHOOD_GENERATION_V2,
     input.schoolNameVersion,
-    input.schoolStageVersion,
+    input.schoolStageVersion ?? SCHOOL_STAGES_V2,
     input.familyBirthdayVersion,
     input.parentPartnerVersion,
     nameCorpusVersion,
+    true,
   );
   if (input.age < 18) {
     world = establishPreStartChildHistory(world, {
@@ -670,6 +677,7 @@ function establishAgeEligibleState(
   familyBirthdayVersion: FamilyBirthdayVersion | undefined,
   parentPartnerVersion: ParentPartnerVersion | undefined,
   nameCorpusVersion: string,
+  preStartDates: boolean,
 ): World {
   const jurisdictionId = place.context.jurisdiction.id;
   const age = ageOnDate(player.birthDate, world.currentDate);
@@ -756,6 +764,7 @@ function establishAgeEligibleState(
       childhoodGenerationVersion,
       schoolNameVersion,
       nameCorpusVersion,
+      preStartDates,
     );
     transitions.push({
       kind: "household-membership",
@@ -1521,13 +1530,10 @@ function summarizeEarlierLife(
   childhoodGenerationVersion: ChildhoodGenerationVersion | undefined,
   schoolNameVersion: SchoolNameVersion | undefined,
   nameCorpusVersion: string,
+  preStartDates: boolean,
 ): World {
   const stableKey = "production:earlier-life";
-  const generateHistory =
-    version === "context-v2"
-      ? generateContextualCharacterHistory
-      : generateQuickCharacterHistory;
-  const plan = generateHistory(world, {
+  const historyInput = {
     stableKey,
     personId: player.id,
     jurisdictionId,
@@ -1537,7 +1543,14 @@ function summarizeEarlierLife(
       : { childhoodGenerationVersion }),
     ...(schoolNameVersion === undefined ? {} : { schoolNameVersion }),
     nameCorpusVersion,
-  });
+  };
+  const plan =
+    version === "context-v2"
+      ? generateContextualCharacterHistory(world, historyInput)
+      : generateQuickCharacterHistory(world, {
+          ...historyInput,
+          ...(preStartDates ? { preStartDates: true } : {}),
+        });
   const next = applyCharacterHistoryPlan(world, {
     ...plan,
     transitions: cohortNamed(
