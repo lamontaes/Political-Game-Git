@@ -1,8 +1,11 @@
 /** Dated attempts to fill or renew a real seat in the saved judiciary. */
 
 import type { EntityId, IsoDate, World } from "../types";
-import { assertWorldIntegrity } from "../world";
+import { currentPresidentOf } from "../crisis/offices";
+import { personName } from "../people";
+import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { courtById, effectiveCourtRulesAt, seatHolderAt } from "./courts";
+import { judicialSelectionProfile } from "./profiles";
 import type {
   JudicialSelectionRecord,
   JudicialSelectionStageRecord,
@@ -19,7 +22,111 @@ export interface JudicialSelectionPlan {
   readonly stages: readonly {
     readonly order: number;
     readonly mechanism: string;
+    readonly actor: { readonly state: string; readonly value?: string };
   }[];
+}
+
+export type JudicialSelectionPlanResolution =
+  | {
+      readonly state: "ready";
+      readonly plan: JudicialSelectionPlan;
+      readonly evidenceTier: "RESEARCH_SYNTHESIS";
+      readonly primaryAuthorityStatus: "CITATIONS_REPORTED_NOT_RETRIEVED";
+    }
+  | { readonly state: "unresolved"; readonly reason: string };
+
+/**
+ * Reads the compact 92L projection, never its raw source corpus. A reported
+ * branch cannot be selected from a court name or geographic guess.
+ */
+export function resolveJudicialSelectionPlan(
+  world: World,
+  seatId: string,
+  kind: JudicialSelectionRecord["kind"],
+): JudicialSelectionPlanResolution {
+  const seat = world.judiciary?.seats[seatId];
+  if (!seat || seat.retiredAt !== null || seat.createdAt > world.currentDate)
+    return { state: "unresolved", reason: "The judicial seat is not active." };
+  const court = courtById(world, seat.courtId);
+  if (!court || !court.sourceRecordId || !court.rules.selectionRecordId)
+    return {
+      state: "unresolved",
+      reason: "The court has no admitted selection profile.",
+    };
+  if (court.sourceRecordId !== court.rules.selectionRecordId)
+    return {
+      state: "unresolved",
+      reason: "The court and its selection rule point to different records.",
+    };
+  const profile = judicialSelectionProfile(court.sourceRecordId);
+  if (
+    !profile ||
+    profile.officeExists.state !== "KNOWN" ||
+    profile.officeExists.value !== true
+  )
+    return {
+      state: "unresolved",
+      reason:
+        "No operative judicial selection profile establishes this office.",
+    };
+  const path = (() => {
+    if (kind === "vacancy") {
+      const vacancy = profile.interimVacancy;
+      if (vacancy.state !== "KNOWN" || !vacancy.value) return null;
+      return { pathId: "interim-vacancy", stages: vacancy.value.stages };
+    }
+    const pipeline =
+      kind === "renewal" ? profile.renewal : profile.initialSelection;
+    if (pipeline.state !== "KNOWN" || !pipeline.value) return null;
+    const paths = pipeline.value.paths;
+    if (
+      paths.length !== 1 ||
+      paths[0]!.applicability.state !== "NOT_APPLICABLE"
+    )
+      return null;
+    return paths[0]!;
+  })();
+  if (!path || path.stages.length === 0)
+    return {
+      state: "unresolved",
+      reason:
+        "The reported path is missing or needs a jurisdiction branch that the saved seat has not resolved.",
+    };
+  return {
+    state: "ready",
+    evidenceTier: profile.evidenceTier,
+    primaryAuthorityStatus: profile.primaryAuthorityStatus,
+    plan: {
+      sourceRecordId: profile.recordId,
+      pathId: path.pathId,
+      stages: path.stages.map((stage) => ({
+        order: stage.order,
+        mechanism: stage.mechanism,
+        actor: {
+          state: stage.actor.state,
+          ...(stage.actor.value ? { value: stage.actor.value } : {}),
+        },
+      })),
+    },
+  };
+}
+
+/** Open only the unambiguous ordered path read from the court's profile. */
+export function openJudicialSelectionFromProfile(
+  world: World,
+  input: {
+    readonly seatId: string;
+    readonly kind: JudicialSelectionRecord["kind"];
+    readonly candidatePersonIds: readonly EntityId[];
+  },
+): World {
+  const resolved = resolveJudicialSelectionPlan(
+    world,
+    input.seatId,
+    input.kind,
+  );
+  if (resolved.state !== "ready") throw new Error(resolved.reason);
+  return openJudicialSelection(world, { ...input, plan: resolved.plan });
 }
 
 export function judicialSelectionById(
@@ -53,7 +160,7 @@ export function judicialSelectionProgress(
   const selection = judicialSelectionById(world, selectionRecordId);
   if (!selection)
     throw new Error(`Unknown judicial selection: ${selectionRecordId}`);
-  assertSelectionPlan(world, selection.seatId, plan);
+  assertSelectionPlan(world, selection.seatId, selection.kind, plan);
   if (selection.pathId !== plan.pathId)
     throw new Error(
       "Judicial selection path does not match its saved attempt.",
@@ -70,6 +177,7 @@ export function judicialSelectionProgress(
 function assertSelectionPlan(
   world: World,
   seatId: string,
+  kind: JudicialSelectionRecord["kind"],
   plan: JudicialSelectionPlan,
 ): void {
   const seat = world.judiciary?.seats[seatId];
@@ -92,6 +200,12 @@ function assertSelectionPlan(
         "Judicial selection stages must be consecutive and named.",
       );
   }
+  const resolved = resolveJudicialSelectionPlan(world, seatId, kind);
+  if (resolved.state !== "ready") throw new Error(resolved.reason);
+  if (JSON.stringify(plan) !== JSON.stringify(resolved.plan))
+    throw new Error(
+      "Judicial selection plan differs from the admitted projection.",
+    );
 }
 
 /** Open an attempt without seating anyone or advancing the clock. */
@@ -104,7 +218,7 @@ export function openJudicialSelection(
     readonly candidatePersonIds: readonly EntityId[];
   },
 ): World {
-  assertSelectionPlan(world, input.seatId, input.plan);
+  assertSelectionPlan(world, input.seatId, input.kind, input.plan);
   const seat = world.judiciary!.seats[input.seatId]!;
   const holder = seatHolderAt(world, input.seatId);
   if (input.kind === "renewal" ? !holder : holder)
@@ -216,6 +330,10 @@ export function recordJudicialSelectionStage(
       "Judicial selection stage needs a recorded decision, contest, or event.",
     );
   const stage = input.plan.stages[progress.nextOrder - 1]!;
+  if (stage.actor.state !== "KNOWN" || !stage.actor.value)
+    throw new Error(
+      "The next judicial selection stage has no established actor.",
+    );
   const record: JudicialSelectionStageRecord = {
     recordId: `${selection.recordId}:stage:${progress.nextOrder}`,
     selectionRecordId: selection.recordId,
@@ -238,4 +356,107 @@ export function recordJudicialSelectionStage(
   };
   assertWorldIntegrity(next);
   return next;
+}
+
+/** A President's explicit nomination records the choice; it does not seat the nominee. */
+export function recordFederalJudicialNomination(
+  world: World,
+  input: {
+    readonly selectionRecordId: string;
+    readonly presidentPersonId: EntityId;
+    readonly nomineePersonId: EntityId;
+  },
+): World {
+  const selection = judicialSelectionById(world, input.selectionRecordId);
+  if (!selection) throw new Error("No judicial selection attempt matches.");
+  const seat = world.judiciary?.seats[selection.seatId];
+  const court = seat ? courtById(world, seat.courtId) : null;
+  if (!court || !court.level.startsWith("federal-"))
+    throw new Error("This is not a federal judicial seat.");
+  const president = currentPresidentOf(world);
+  if (president?.personId !== input.presidentPersonId)
+    throw new Error("Only the sitting President can make this nomination.");
+  if (!selection.candidatePersonIds.includes(input.nomineePersonId))
+    throw new Error("Nominee is outside the recorded candidate pool.");
+  const resolved = resolveJudicialSelectionPlan(
+    world,
+    selection.seatId,
+    selection.kind,
+  );
+  if (resolved.state !== "ready") throw new Error(resolved.reason);
+  const progress = judicialSelectionProgress(
+    world,
+    selection.recordId,
+    resolved.plan,
+  );
+  if (progress.status !== "pending")
+    throw new Error("Judicial nomination is not pending.");
+  const stage = resolved.plan.stages[progress.nextOrder - 1]!;
+  if (
+    stage.mechanism !== "EXECUTIVE_NOMINATION" ||
+    stage.actor.value !== "President of the United States"
+  )
+    throw new Error(
+      "The next judicial stage is not a Presidential nomination.",
+    );
+  const nominee = world.people[input.nomineePersonId];
+  const presidentPerson = world.people[input.presidentPersonId];
+  if (!nominee || !presidentPerson)
+    throw new Error("The President and nominee must be living World people.");
+  if (
+    world.history.personDeaths.some(
+      (death) =>
+        death.personId === nominee.id && death.diedAt <= world.currentDate,
+    )
+  )
+    throw new Error("A deceased person cannot be nominated.");
+  const next = recordWorldEvent(world, {
+    stableKey: `${selection.recordId}:nomination:${nominee.id}`,
+    type: "judicial.nomination",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: court.jurisdictionId,
+    involvedEntityIds: [input.presidentPersonId, nominee.id],
+    participants: [
+      {
+        personId: input.presidentPersonId,
+        role: "focus:actor",
+        detail: "President",
+      },
+      {
+        personId: nominee.id,
+        role: "focus:subject",
+        detail: "Judicial nominee",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      `court:${court.courtId}`,
+      `seat:${seat!.seatId}`,
+      `selection:${selection.recordId}`,
+      "evidence:92l-research-synthesis",
+      "primary-citations:not-retrieved",
+    ],
+    summary: `President ${personName(presidentPerson)} nominated ${personName(nominee)} for ${court.name}. The nomination awaits Senate action.`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return recordJudicialSelectionStage(next, {
+    selectionRecordId: selection.recordId,
+    plan: resolved.plan,
+    occurredAt: next.currentDate,
+    actorPersonId: input.presidentPersonId,
+    candidatePersonId: nominee.id,
+    outcome: "completed",
+    decisionRecordId: null,
+    electionContestId: null,
+    outcomeEventId: next.history.events.at(-1)!.id,
+  });
 }
