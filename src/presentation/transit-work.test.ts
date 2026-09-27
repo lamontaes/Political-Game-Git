@@ -16,6 +16,8 @@ import {
 } from "./legislation-world";
 import { passOrdinaryDays } from "./ordinary-life";
 import { addDays } from "../simulation/dates";
+import { STATE_TRANSIT_VARIANT_KEY } from "../simulation/legislation-transit-families";
+import { currentMeasureProvisions } from "../simulation/legislative-politics";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import { assertWorldIntegrity } from "../simulation/world";
 import type { World, EntityId } from "../simulation/types";
@@ -33,6 +35,11 @@ function enacted(chamber: "house" | "senate") {
   };
   const filed = fileTransitAppropriation(seat.world, input);
   const measureId = filed.bill.measureId;
+  expect(
+    filed.world.history.legislativeDraftLineages?.find(
+      (lineage) => lineage.measureId === measureId,
+    )?.variantKey,
+  ).toBe(STATE_TRANSIT_VARIANT_KEY);
   let world = prepareRecordedLegislativeSitting(filed.world, {
     measureId,
     playerPersonId: seat.personId,
@@ -161,10 +168,11 @@ it("uses each life's actual seat and refuses unsupported or ended office without
   expect(projectTransitWork(senate.world, senate.personId).bills).toHaveLength(
     1,
   );
-  for (const world of [
-    suppliedLegislativeSeat("US-NE", "legislature").world,
-    endSuppliedSeat(house.world),
-  ]) {
+  const nebraska = suppliedLegislativeSeat("US-NE", "legislature");
+  expect(projectTransitWork(nebraska.world, nebraska.personId).office.kind).toBe(
+    "available",
+  );
+  for (const world of [endSuppliedSeat(house.world)]) {
     const personId =
       world.control.kind === "person" ? world.control.personId : house.personId;
     const before = serializeWorld(world);
@@ -184,3 +192,33 @@ it("uses each life's actual seat and refuses unsupported or ended office without
     expect(serializeWorld(world)).toBe(before);
   }
 }, 30_000);
+
+it("files Colorado's complete state transit mandate through the ordinary office adapter", () => {
+  const seat = suppliedLegislativeSeat("US-CO", "house");
+  const filed = fileTransitAppropriation(seat.world, {
+    personId: seat.personId,
+    amountMinorUnits: 20_000,
+    serviceWindow: "weekday",
+  });
+  const lineage = filed.world.history.legislativeDraftLineages?.find(
+    (row) => row.measureId === filed.bill.measureId,
+  );
+  expect(lineage?.variantKey).toBe(STATE_TRANSIT_VARIANT_KEY);
+  expect(
+    currentMeasureProvisions(filed.world, filed.bill.measureId).map(
+      (row) => row.provisionKey,
+    ),
+  ).toEqual([
+    "authority-named",
+    "amount-provided",
+    "administrative-mandate",
+    "transit-effective-date",
+    "availability",
+    "service-report",
+  ]);
+  expect(
+    projectTransitWork(filed.world, seat.personId).bills.some(
+      (bill) => bill.measureId === filed.bill.measureId,
+    ),
+  ).toBe(true);
+});

@@ -1,7 +1,7 @@
 import { addDays } from "./dates";
+import { operativeDateForEnactment } from "./legislative-effective-date";
 import { measurePosition } from "./legislation";
 import { currentMeasureProvisions } from "./legislative-politics";
-import { stateJurisdictionForKey } from "./life-places";
 import {
   draftLineageForMeasure,
   draftParameterValues,
@@ -12,11 +12,11 @@ import {
   TRANSIT_FAMILY_KEY,
   TRANSIT_FAMILY_VERSION,
   TRANSIT_PROGRAM_KEY,
+  STATE_TRANSIT_VARIANT_KEY,
   TRANSIT_VARIANT_KEY,
 } from "./legislation-transit-families";
 import { legislativeWorkKey } from "./legislative-work-key";
 import { rulePackById } from "./legislature-rule-packs";
-import { PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY } from "./public-fiscal";
 import { stateTransitServiceProfileForMeasure } from "./state-transit-service-profile";
 import type { EntityId, IsoDate, MoneyAmount, World } from "./types";
 
@@ -55,7 +55,8 @@ export function resolveTransitFunding(
     !lineage ||
     lineage.familyKey !== TRANSIT_FAMILY_KEY ||
     lineage.familyVersion !== TRANSIT_FAMILY_VERSION ||
-    lineage.variantKey !== TRANSIT_VARIANT_KEY
+    (lineage.variantKey !== TRANSIT_VARIANT_KEY &&
+      lineage.variantKey !== STATE_TRANSIT_VARIANT_KEY)
   )
     return no(
       "No supported pinned transit appropriation and administrative mandate is recorded.",
@@ -74,18 +75,10 @@ export function resolveTransitFunding(
   );
   if (!enactment || measurePosition(world, measureId).outcome !== "enacted")
     return no("The transit appropriation has not become law.");
-  if (
-    measure.jurisdictionId !==
-    stateJurisdictionForKey(PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY)?.id
-  )
-    return no(
-      "No sourced effective-date and availability rule is compiled for this state's appropriations.",
-    );
-  const availableAt = addDays(enactment.resolvedAt, 90); // Explicit pinned prospective clause, not a generic default.
-  if (enactment.effectiveAt !== null && enactment.effectiveAt !== availableAt)
-    return no(
-      "The enacted effective date conflicts with this appropriation’s explicit clause.",
-    );
+  const operative = operativeDateForEnactment(enactment);
+  if (!operative)
+    return no("This appropriation has no resolved operative date.");
+  const availableAt = operative.date;
   const endsAt = addDays(availableAt, 365);
   if (world.currentDate < availableAt)
     return no(`This appropriation takes effect on ${availableAt}.`);

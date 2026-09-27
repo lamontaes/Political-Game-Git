@@ -15,6 +15,7 @@ import { taxActivationReadiness } from "./tax-policy-activation";
 import {
   TRANSIT_FAMILY_KEY,
   TRANSIT_PROGRAM_KEY,
+  STATE_TRANSIT_VARIANT_KEY,
   TRANSIT_VARIANT_KEY,
 } from "./legislation-transit-families";
 import { resolveTransitFunding } from "./transit-funding";
@@ -209,7 +210,8 @@ function isPinnedTransitMeasure(world: World, measureId: EntityId): boolean {
   const lineage = draftLineageForMeasure(world, measureId);
   return (
     lineage?.familyKey === TRANSIT_FAMILY_KEY &&
-    lineage.variantKey === TRANSIT_VARIANT_KEY &&
+    (lineage.variantKey === TRANSIT_VARIANT_KEY ||
+      lineage.variantKey === STATE_TRANSIT_VARIANT_KEY) &&
     lineage.authorityKey === TRANSIT_PROGRAM_KEY &&
     !lineage.authorityMeasureId
   );

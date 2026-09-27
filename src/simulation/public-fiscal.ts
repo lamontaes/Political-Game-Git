@@ -1,14 +1,11 @@
 import { canonicalJson } from "./canonical-json";
 import { addDays, makeIsoDate } from "./dates";
+import { operativeDateForEnactment } from "./legislative-effective-date";
 import { currentMeasureProvisions } from "./legislative-politics";
-import {
-  publicTaxAccountForJurisdiction,
-  taxPowerEvidenceFor,
-} from "./tax-policy";
+import { publicTaxAccountForJurisdiction } from "./tax-policy";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import { createResourceFlow, recordResourceTransferOutcome } from "./resources";
 import { recordWorldEvent } from "./world";
-import { stateJurisdictionForKey } from "./life-places";
 import { appropriationCommittedMinorUnits } from "./public-appropriation-balance";
 import type {
   EntityId,
@@ -72,9 +69,6 @@ export const fundingAvailabilityText = (endsAt: IsoDate | null) =>
     : `The amount appropriated by this Act remains available through ${endsAt}.`;
 export const PUBLIC_FUNDING_DEFAULT_DATE_TEXT =
   "This Act takes effect ninety days after enactment.";
-/** The one state whose sourced default effective date and acquired tax power
- * this funding contract has compiled. A reader names it; nothing infers it. */
-export const PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY = "US-AK";
 
 /** Pure shared checks also run on reload at the payment's sequence/date.
  * The adopted text must explicitly carry administrative/date/availability
@@ -117,16 +111,7 @@ export function assertPublicFundingMandate(
       row.provisionKey === "effective-date" ||
       row.provisionKey === "transit-effective-date",
   );
-  const power = taxPowerEvidenceFor(
-    PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY,
-  );
-  const defaultDate =
-    !!power &&
-    measure?.jurisdictionId ===
-      stateJurisdictionForKey(PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY)
-        ?.id &&
-    effective?.text === PUBLIC_FUNDING_DEFAULT_DATE_TEXT &&
-    mandate.availableAt === addDays(enactment?.resolvedAt ?? at, 90);
+  const operative = enactment ? operativeDateForEnactment(enactment) : null;
   const appropriation = mandate.appropriationId
     ? (world.history.publicProgramRecords ?? []).find(
         (record): record is PublicProgramAppropriationRecord =>
@@ -160,9 +145,9 @@ export function assertPublicFundingMandate(
           (mandate.appropriationId !== undefined &&
             mandate.endsAt === addDays(mandate.availableAt, 364))))
     ) ||
-    (enactment.effectiveAt === null
-      ? !defaultDate
-      : enactment.effectiveAt !== mandate.availableAt) ||
+    !effective ||
+    !operative ||
+    operative.date !== mandate.availableAt ||
     mandate.administrativeEventId !== enactment.outcomeEventId ||
     makeIsoDate(mandate.availableAt) > at ||
     (mandate.endsAt !== null &&
