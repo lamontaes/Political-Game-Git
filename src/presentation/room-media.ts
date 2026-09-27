@@ -5,7 +5,12 @@ import {
   type MediaOutletRecord,
 } from "../simulation/press/records";
 import { projectPublicInformationPanel } from "./public-information-adapters";
+import { addDays } from "../simulation";
 import { proseDate, proseWeekdayDate } from "./prose-dates";
+
+function weekdayOf(iso: string): string {
+  return proseWeekdayDate(iso).split(",")[0]!;
+}
 
 /**
  * The television and the newspaper in the player's room, as a broadcast and
@@ -180,12 +185,24 @@ export function projectRoomMedia(world: World, personId: EntityId): RoomMedia {
               item.publicationTime === today,
           )
           .sort(newest)[0];
-        const ticker = items
-          .filter((item) => item.publicationTime === today)
-          .sort(newest)
+        // Today's headlines; on a quiet day, the week's latest, each with
+        // the day it ran, so the band is never a bare date.
+        const others = items
           .filter((item) => item.publicationId !== own?.publicationId)
+          .sort(newest);
+        const todays = others.filter((item) => item.publicationTime === today);
+        const weekAgo = addDays(today, -7);
+        const ticker = (
+          todays.length > 0
+            ? todays
+            : others.filter((item) => item.publicationTime > weekAgo)
+        )
           .slice(0, 3)
-          .map((item) => `${item.outletName}: ${item.readerHeadline}`);
+          .map((item) =>
+            item.publicationTime === today
+              ? `${item.outletName}: ${item.readerHeadline}`
+              : `${weekdayOf(item.publicationTime)}, ${item.outletName}: ${item.readerHeadline}`,
+          );
         return {
           station,
           story: own ? storyOf(own) : null,
