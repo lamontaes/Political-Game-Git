@@ -29,7 +29,9 @@ import { candidacyEligibility, districtSeatMustBeNamed } from "../simulation";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { DistrictResidencePanel } from "./DistrictResidencePanel";
 import { CampaignWeekPanel } from "./CampaignWeekPanel";
+import { CampaignActionChoicesPanel } from "./CampaignActionChoicesPanel";
 import { projectCampaignWeekPanel } from "../presentation/campaign-life-surface";
+import { projectCampaignWeekActions } from "../simulation";
 import {
   campaignPlanningLayout,
   isPrimaryCampaignPlanningSlot,
@@ -54,11 +56,9 @@ import { MogulOffersPanel } from "./MogulOffersPanel";
  * shows nothing else, which is the only decent alternative to inventing an
  * office.
  *
- * One control per intent (UI FINISH). The plan section only edits how the next
- * piece of work is carried out — where, and how much the committee may spend
- * on advertising. Doing the work is one row of buttons, one per kind. Before
- * this there were two ways to run the same afternoon (the plan's own "carry
- * out" button and the row beneath it), and pressing both could book two.
+ * An active campaign leads with dated, hosted choices. The old count editor is
+ * gone; the immediate-action row is a fallback only when that typed route is
+ * unavailable. An already committed week from an older save stays finishable.
  */
 
 export interface CampaignWorkspaceProps {
@@ -151,6 +151,10 @@ export function CampaignWorkspace({
   // week to plan" is the panel's own answer rather than a guess from the phase.
   const weekPanel = useMemo(
     () => projectCampaignWeekPanel(world, personId),
+    [world, personId],
+  );
+  const actionChoices = useMemo(
+    () => projectCampaignWeekActions(world, personId),
     [world, personId],
   );
   const [problem, setProblem] = useState<string | null>(null);
@@ -307,16 +311,21 @@ export function CampaignWorkspace({
   /*
    * One planning region, and one primary control in it.
    *
-   * CRUNCH47 EXPERIENCE decision: the campaign's weekly plan leads. What used
-   * to sit above it — the per-action plan editor and the one "do this now" row
-   * — are the same region's detailed editing and its explicit immediate
-   * action, drawn after the week rather than in front of it. The week is no
-   * longer a collapsed block a player has to find.
+   * The dated choices own the active route. Existing committed week sessions
+   * can still finish here; the old editing controls remain only for a World
+   * that cannot project the new choices.
    */
   const planning = campaignPlanningLayout({
-    weekPlanAvailable: view.phase === "active" && Boolean(weekPanel),
-    detailedEditingAvailable: Boolean(strategy) && view.offers.length > 0,
-    immediateActionsAvailable: view.offers.length > 0,
+    weekPlanAvailable:
+      view.phase === "active" &&
+      (actionChoices !== null || Boolean(weekPanel?.committed)),
+    detailedEditingAvailable:
+      actionChoices === null &&
+      !weekPanel?.committed &&
+      Boolean(strategy) &&
+      view.offers.length > 0,
+    immediateActionsAvailable:
+      actionChoices === null && !weekPanel?.committed && view.offers.length > 0,
   });
 
   return (
@@ -585,11 +594,20 @@ export function CampaignWorkspace({
                     : "false"
                 }
               >
-                <CampaignWeekPanel
-                  world={world}
-                  personId={personId}
-                  onWorldChange={onWorldChange}
-                />
+                {actionChoices ? (
+                  <CampaignActionChoicesPanel
+                    world={world}
+                    personId={personId}
+                    onWorldChange={onWorldChange}
+                  />
+                ) : null}
+                {weekPanel?.committed ? (
+                  <CampaignWeekPanel
+                    world={world}
+                    personId={personId}
+                    onWorldChange={onWorldChange}
+                  />
+                ) : null}
               </div>
             ) : null}
 
