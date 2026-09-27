@@ -69,6 +69,16 @@ const CONVICTION_WEIGHT: Readonly<Record<BeliefConviction, number>> = {
 const VOTE_IMPORTANCE = { moderate: 3, strong: 6, decisive: 9 } as const;
 
 /**
+ * The note on each drawn principle. The rows are a sitting officeholder's own
+ * principles, drawn before play with no sources behind them. formedAt is the
+ * day the draw ran: read these rows as held before play by their reason, not
+ * their date. The note stays short because there are about fifty thousand of
+ * these rows once every legislature is seated.
+ */
+const DRAWN_BEFORE_PLAY_NOTE =
+  "Drawn before play; see officeholder-principles.ts.";
+
+/**
  * Draws principles for officeholders this draw has not reached yet.
  * Idempotent. A principle a person already holds from any other writer is
  * kept as it is and not drawn.
@@ -117,8 +127,10 @@ export function ensureOfficeholderPrinciples(
         conviction,
         flexibility: FLEXIBILITY_FOR[conviction],
         qualification: null,
+        // Every seated member in the country carries these rows, so the note
+        // is short: see DRAWN_BEFORE_PLAY_NOTE.
         formation: createFormationContext("other:drawn-before-play", {
-          note: "A sitting officeholder's own principles, drawn before play with no sources behind them; see officeholder-principles.ts. formedAt is the day the draw ran: read these rows as held before play by their reason, not their date.",
+          note: DRAWN_BEFORE_PLAY_NOTE,
         }),
         supersedesPrincipleRecordId: null,
       });
