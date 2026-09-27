@@ -88,8 +88,9 @@ function assertContactAvailable(
 }
 
 /**
- * The explicit contact spends time. Only relevant recorded values can support
- * a candidate's answer. Other philosophy axes stay unknown.
+ * The explicit contact spends time and lets the candidate state a new view.
+ * An existing value may inform the choice, but is never invented for it.
+ * Other philosophy axes stay unknown.
  */
 export function interviewFederalJudicialCandidate(
   world: World,
@@ -143,7 +144,7 @@ export function recordFederalJudicialCandidateResponse(
   );
   const groundedValue = privacy?.orientation === "embraces" ? privacy : null;
   const candidate = next.people[input.candidatePersonId]!;
-  if (!groundedValue) {
+  if (privacy && !groundedValue) {
     next = recordWorldEvent(next, {
       stableKey,
       type: JUDICIAL_CANDIDATE_INTERVIEW_EVENT,
@@ -219,36 +220,54 @@ export function recordFederalJudicialCandidateResponse(
         description:
           "Give government more room to request personal information.",
       },
-    ],
-    constraints: [],
-    considerations: [
       {
-        stableKey: `${stableKey}:value:${groundedValue.id}`,
-        optionKey: "protect-privacy",
-        sourceType: "mind:personal-value" as const,
-        direction: "supports" as const,
-        importance: "strong" as const,
-        confidence: "medium" as const,
-        explanation:
-          "The candidate's recorded privacy value informs this answer.",
-        sourceRefs: [
-          { kind: "personal-value" as const, valueRecordId: groundedValue.id },
-        ],
+        key: "decline",
+        label: "Decline to answer",
+        description: "Do not state a view on this question.",
       },
     ],
+    constraints: [],
+    considerations: groundedValue
+      ? [
+          {
+            stableKey: `${stableKey}:value:${groundedValue.id}`,
+            optionKey: "protect-privacy",
+            sourceType: "mind:personal-value" as const,
+            direction: "supports" as const,
+            importance: "strong" as const,
+            confidence: "medium" as const,
+            explanation:
+              "The candidate's recorded privacy value informs this answer.",
+            sourceRefs: [
+              {
+                kind: "personal-value" as const,
+                valueRecordId: groundedValue.id,
+              },
+            ],
+          },
+        ]
+      : [],
     perceptionIds: [],
+    // PLACEHOLDER(overnight): in the absence of a prior value, the candidate's
+    // own answer is a seeded fictional choice recorded here, not a prior fact.
     randomness: "close-choices",
     retention: "durable",
   });
   next = recordDurableDecisionTrace(next, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
   const answer = evaluation.selectedOptionKey;
-  if (answer !== "protect-privacy" && answer !== "allow-request")
+  if (
+    answer !== "protect-privacy" &&
+    answer !== "allow-request" &&
+    answer !== "decline"
+  )
     throw new Error("Candidate did not answer the judicial privacy question.");
   const response =
     answer === "protect-privacy"
       ? "I would give a person's privacy more weight when government requests information."
-      : "I would give government more room to request personal information.";
+      : answer === "allow-request"
+        ? "I would give government more room to request personal information."
+        : null;
   // COPY-PENDING: owner editorial review of the saved in-world response.
   next = recordWorldEvent(next, {
     stableKey,
@@ -276,8 +295,11 @@ export function recordFederalJudicialCandidateResponse(
       `candidate:${candidate.id}`,
       `court:${court.courtName}`,
       `decision:${traceId}`,
+      `answer:${response === null ? "unresolved" : "stated"}`,
     ],
-    summary: `${personName(candidate)} answered how a court should weigh privacy in a government information request: ${response}`,
+    summary: response
+      ? `${personName(candidate)} answered how a court should weigh privacy in a government information request: ${response}`
+      : `${personName(candidate)} did not state how a court should weigh personal privacy when government requests information.`,
     context: {
       location: null,
       socialContext: "A Presidential interview about a judicial nomination",
@@ -298,6 +320,7 @@ export function recordFederalJudicialCandidateResponse(
     confidence: "high",
     source: { kind: "direct" },
   });
+  if (response === null) return next;
   return recordJudicialPhilosophy(next, {
     stableKey: `${stableKey}:philosophy`,
     personId: candidate.id,
@@ -306,7 +329,9 @@ export function recordFederalJudicialCandidateResponse(
       rights: {
         strength: answer === "protect-privacy" ? 1 : -1,
         evidence: [
-          { kind: "personal-value", id: groundedValue.id },
+          ...(groundedValue
+            ? [{ kind: "personal-value" as const, id: groundedValue.id }]
+            : []),
           { kind: "decision-trace", id: traceId },
           { kind: "historical-event", id: event.id },
         ],

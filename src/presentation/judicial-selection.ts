@@ -2,6 +2,7 @@
 
 import { currentPresidentOf } from "../simulation/crisis/offices";
 import { courtById, seatHolderAt } from "../simulation/judiciary/courts";
+import { JUDICIAL_ROSTER_REVIEW_EVENT } from "../simulation/judiciary/candidate-discovery";
 import {
   judicialSelectionProgress,
   resolveJudicialSelectionPlan,
@@ -46,15 +47,35 @@ export function projectJudicialSelection(
   const selection = [...(world.judiciary?.selections ?? [])]
     .reverse()
     .find((row) => row.seatId === seatId);
+  const controlledPersonId =
+    world.control.kind === "person" ? world.control.personId : null;
   const controlledPresident =
-    world.control.kind === "person" &&
-    currentPresidentOf(world)?.personId === world.control.personId;
+    controlledPersonId !== null &&
+    currentPresidentOf(world)?.personId === controlledPersonId;
+  const learnedReview =
+    controlledPresident &&
+    selection &&
+    world.history.knowledge.some((knowledge) => {
+      if (
+        knowledge.personId !== controlledPersonId ||
+        knowledge.accuracy !== "accurate" ||
+        knowledge.learnedAt > world.currentDate
+      )
+        return false;
+      const event = world.history.events.find(
+        (candidate) => candidate.id === knowledge.eventId,
+      );
+      return (
+        event?.type === JUDICIAL_ROSTER_REVIEW_EVENT &&
+        event.tags.includes(`selection:${selection.recordId}`)
+      );
+    });
   const base = {
     seatId,
     courtName: court.name,
     holderName: holder ? personName(world.people[holder.personId]!) : null,
     selectionRecordId: selection?.recordId ?? null,
-    candidates: (controlledPresident
+    candidates: (learnedReview
       ? (selection?.candidatePersonIds ?? [])
       : []
     ).flatMap((personId) => {

@@ -7,7 +7,10 @@ import { advanceWorldMinutes } from "../time-work";
 import type { EntityId, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { courtById, seatHolderAt } from "./courts";
-import { openJudicialSelectionFromProfile } from "./selection";
+import {
+  openJudicialSelectionFromProfile,
+  resolveJudicialSelectionPlan,
+} from "./selection";
 
 export const JUDICIAL_ROSTER_REVIEW_EVENT = "judicial.roster-review";
 // PLACEHOLDER(overnight): a 30-minute review is a game duration, not a sourced rule.
@@ -18,6 +21,55 @@ export interface PublicSeatedJudge {
   readonly name: string;
   readonly seatId: string;
   readonly courtName: string;
+}
+
+export type FederalRosterReviewStatus =
+  | { readonly state: "ready"; readonly kind: "vacancy" | "new-seat" }
+  | { readonly state: "unavailable"; readonly reason: string };
+
+/** Refuse a saved path whose next actor cannot use the Presidential action. */
+export function federalRosterReviewStatus(
+  world: World,
+  seatId: string,
+): FederalRosterReviewStatus {
+  const president = currentPresidentOf(world);
+  if (
+    !president ||
+    world.control.kind !== "person" ||
+    world.control.personId !== president.personId
+  )
+    return {
+      state: "unavailable",
+      reason: "Only the player serving as President can review this vacancy.",
+    };
+  const seat = world.judiciary?.seats[seatId];
+  const court = seat ? courtById(world, seat.courtId) : null;
+  if (!seat || seat.retiredAt !== null || !court?.level.startsWith("federal-"))
+    return {
+      state: "unavailable",
+      reason: "A current federal judicial seat is required.",
+    };
+  if (seatHolderAt(world, seatId))
+    return { state: "unavailable", reason: "The judicial seat is not vacant." };
+  const kind = world.judiciary?.seatTenures.some(
+    (tenure) => tenure.seatId === seatId,
+  )
+    ? "vacancy"
+    : "new-seat";
+  const resolved = resolveJudicialSelectionPlan(world, seatId, kind);
+  if (resolved.state !== "ready")
+    return { state: "unavailable", reason: resolved.reason };
+  const first = resolved.plan.stages[0];
+  if (
+    first?.mechanism !== "EXECUTIVE_NOMINATION" ||
+    first.actor.value !== "President of the United States"
+  )
+    return {
+      state: "unavailable",
+      reason:
+        "The recorded vacancy path does not yet authorize a Presidential nomination.",
+    };
+  return { state: "ready", kind };
 }
 
 /** Court service is public; this view reveals no private philosophy or career file. */
@@ -61,21 +113,11 @@ export function reviewFederalJudicialVacancy(
     readonly candidatePersonIds: readonly EntityId[];
   },
 ): World {
-  const president = currentPresidentOf(world);
-  if (
-    !president ||
-    world.control.kind !== "person" ||
-    world.control.personId !== president.personId
-  )
-    throw new Error(
-      "Only the player serving as President can review this vacancy.",
-    );
-  const seat = world.judiciary?.seats[input.seatId];
-  const court = seat ? courtById(world, seat.courtId) : null;
-  if (!seat || seat.retiredAt !== null || !court?.level.startsWith("federal-"))
-    throw new Error("A current federal judicial seat is required.");
-  if (seatHolderAt(world, seat.seatId))
-    throw new Error("The judicial seat is not vacant.");
+  const readiness = federalRosterReviewStatus(world, input.seatId);
+  if (readiness.state !== "ready") throw new Error(readiness.reason);
+  const president = currentPresidentOf(world)!;
+  const seat = world.judiciary!.seats[input.seatId]!;
+  const court = courtById(world, seat.courtId)!;
   const candidateIds = [...new Set(input.candidatePersonIds)];
   if (
     candidateIds.length === 0 ||
@@ -93,19 +135,16 @@ export function reviewFederalJudicialVacancy(
     throw new Error("A scheduled commitment prevents this roster review.");
   if (currentPresidentOf(next)?.personId !== president.personId)
     throw new Error("The President left office during the roster review.");
+  const afterTime = federalRosterReviewStatus(next, input.seatId);
+  if (afterTime.state !== "ready") throw new Error(afterTime.reason);
   const afterReview = new Set(
     publicSeatedJudges(next).map((row) => row.personId),
   );
   if (candidateIds.some((personId) => !afterReview.has(personId)))
     throw new Error("A reviewed judge is no longer seated and living.");
-  const kind = next.judiciary?.seatTenures.some(
-    (tenure) => tenure.seatId === input.seatId,
-  )
-    ? "vacancy"
-    : "new-seat";
   next = openJudicialSelectionFromProfile(next, {
     seatId: input.seatId,
-    kind,
+    kind: afterTime.kind,
     candidatePersonIds: candidateIds,
   });
   const selection = next.judiciary!.selections.at(-1)!;
