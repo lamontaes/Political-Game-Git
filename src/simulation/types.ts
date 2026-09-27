@@ -563,6 +563,8 @@ export interface EngineAppearanceChoice {
   readonly hairColor?: string;
   /** The outfit worn when the occasion does not decide. */
   readonly outfit?: "formal" | "casual";
+  /** Fabric color per garment part (top, bottom, suit, shirt, tie). */
+  readonly colors?: Readonly<Record<string, string>>;
 }
 
 export type PersonGenerationProfile = "production" | "stress";
