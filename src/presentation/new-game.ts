@@ -276,6 +276,48 @@ export const MAXIMUM_START_AGE = 70;
 /** Below this the legislative office is not offered, and not silently granted. */
 export const LEGISLATIVE_OFFICE_MINIMUM_AGE = 21;
 
+/** Whether this creator choice can use the two-phase ordinary-life opening. */
+export function preStartYearAvailability(
+  setup: Pick<NewGameSetup, "startingLife" | "startAge">,
+):
+  | { readonly available: true }
+  | {
+      readonly available: false;
+      readonly field: "startingLife" | "startAge";
+      readonly reason: string;
+    } {
+  if (setup.startingLife !== "ordinary-life") {
+    return {
+      available: false,
+      field: "startingLife",
+      reason:
+        "The pre-start world year currently supports an ordinary life; office starts need their own dated transition.",
+    };
+  }
+  // PLACEHOLDER(overnight): these birthdays cross school or legal-adult
+  // boundaries while that year's canonical transition writers are incomplete.
+  if ([5, 6, 11, 14, 18].includes(setup.startAge)) {
+    return {
+      available: false,
+      field: "startAge",
+      reason:
+        "The pre-start world year cannot yet carry this age across its school or adulthood boundary.",
+    };
+  }
+  return { available: true };
+}
+
+/** Apply the visible creator choice without allowing an unsupported opening. */
+export function withPreStartYearChoice(
+  setup: NewGameSetup,
+  enabled: boolean,
+): NewGameSetup {
+  if (!enabled) return { ...setup, preStartYearVersion: undefined };
+  const availability = preStartYearAvailability(setup);
+  if (!availability.available) throw new Error(availability.reason);
+  return { ...setup, preStartYearVersion: "pre-start-world-year-v1" };
+}
+
 export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   startKind: "normal",
   // Compatibility default for old callers and encoded replays. A fresh
@@ -421,20 +463,11 @@ export function newGameSetupProblems(
     }
   }
   if (setup.preStartYearVersion !== undefined) {
-    if (setup.startingLife !== "ordinary-life") {
+    const availability = preStartYearAvailability(setup);
+    if (!availability.available) {
       problems.push({
-        field: "startingLife",
-        message:
-          "The pre-start world year currently supports an ordinary life; office starts need their own dated transition.",
-      });
-    }
-    // PLACEHOLDER(overnight): these birthdays cross school or legal-adult
-    // boundaries while that year's canonical transition writers are incomplete.
-    if ([5, 6, 11, 14, 18].includes(setup.startAge)) {
-      problems.push({
-        field: "startAge",
-        message:
-          "The pre-start world year cannot yet carry this age across its school or adulthood boundary.",
+        field: availability.field,
+        message: availability.reason,
       });
     }
   }

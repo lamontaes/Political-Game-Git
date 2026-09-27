@@ -10,7 +10,9 @@ import {
   DEFAULT_NEW_GAME_SETUP,
   createNewGameWorld,
   newGameSetupProblems,
+  preStartYearAvailability,
   productionWorldInputFor,
+  withPreStartYearChoice,
 } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
@@ -102,6 +104,45 @@ describe("a versioned pre-start world year", () => {
     expect(passOrdinaryDays(reopened, 1).currentDate).toBe(addDays(target, 1));
   }, 180_000);
 
+  it("opens a custom ordinary life through the same two-phase receiver", () => {
+    const setup = {
+      ...ordinarySetup,
+      startKind: "custom" as const,
+      depth: "summarize-earlier-life" as const,
+    };
+    const generated = generateOpeningLife(prepareOpeningLife(setup));
+    const world = generated.game!.world;
+    expect(world.currentDate).toBe(
+      generated.game!.place.context.initialMoment.date,
+    );
+    expect(world.control).toEqual({
+      kind: "person",
+      personId: generated.game!.playerPersonId,
+    });
+    expect(world.people[generated.game!.playerPersonId]?.givenName).toBe(
+      "Avery",
+    );
+  }, 180_000);
+
+  it("opens a child's ordinary life after the prior world year", () => {
+    const setup = {
+      ...ordinarySetup,
+      seed: "pre-start-year-ordinary-child-10",
+      startAge: 10,
+    };
+    const generated = generateOpeningLife(prepareOpeningLife(setup));
+    const world = generated.game!.world;
+    const player = world.people[generated.game!.playerPersonId]!;
+    expect(world.currentDate).toBe(
+      generated.game!.place.context.initialMoment.date,
+    );
+    expect(ageOnDate(player.birthDate, world.currentDate)).toBe(10);
+    expect(world.control).toEqual({
+      kind: "person",
+      personId: generated.game!.playerPersonId,
+    });
+  }, 180_000);
+
   it("keeps observer control while the background clock advances", () => {
     const input = preStartInput();
     const background = buildPreStartBackgroundWorld(input);
@@ -137,12 +178,48 @@ describe("a versioned pre-start world year", () => {
   });
 
   it("keeps unsupported office starts and birthday boundaries gated", () => {
+    const unselected = { ...ordinarySetup, preStartYearVersion: undefined };
+    expect(withPreStartYearChoice(unselected, true).preStartYearVersion).toBe(
+      "pre-start-world-year-v1",
+    );
+    expect(
+      withPreStartYearChoice(ordinarySetup, false).preStartYearVersion,
+    ).toBe(undefined);
+    for (const startKind of ["normal", "custom"] as const) {
+      expect(
+        preStartYearAvailability({
+          ...ordinarySetup,
+          startKind,
+        }),
+      ).toEqual({ available: true });
+    }
     for (const startAge of [5, 6, 11, 14, 18]) {
+      expect(() =>
+        withPreStartYearChoice({ ...unselected, startAge }, true),
+      ).toThrow("school or adulthood boundary");
+      expect(
+        preStartYearAvailability({ ...ordinarySetup, startAge }),
+      ).toMatchObject({
+        available: false,
+        field: "startAge",
+      });
       expect(
         newGameSetupProblems({ ...ordinarySetup, startAge }).some((problem) =>
           problem.message.includes("school or adulthood boundary"),
         ),
       ).toBe(true);
+    }
+    for (const startingLife of [
+      "legislative-office",
+      "judicial-office-practice",
+      "state-agency-director",
+    ] as const) {
+      expect(() =>
+        withPreStartYearChoice({ ...unselected, startingLife }, true),
+      ).toThrow("ordinary life");
+      expect(
+        preStartYearAvailability({ ...ordinarySetup, startingLife }),
+      ).toMatchObject({ available: false, field: "startingLife" });
     }
     expect(
       newGameSetupProblems({
