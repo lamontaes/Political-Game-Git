@@ -13,7 +13,7 @@ The source compiler produces the following observations. The commands in Method 
 | Source                             | Measured result                                                                                                                                            | Evidence                                                     |
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
 | BLS CPI                            | 490,922 observations, including national spending categories and the publisher's summary geographies                                                       | `scripts/source/regional-money/missing-money-sources.ts:475` |
-| EIA electricity                    | 310 observations across states, D.C., regional totals and the U.S. total; all 51 state/DC rows are present                                                 | `scripts/source/regional-money/missing-money-sources.ts:540` |
+| EIA electricity and gasoline       | 310 electricity observations plus 2,860 annual gasoline observations; the gasoline series covers 50 states, D.C. and the U.S. from 1970 to 2024            | `scripts/source/regional-money/missing-money-sources.ts`     |
 | Federal Reserve household finances | 13 published national transaction-account medians, grouped separately by age and income                                                                    | `scripts/source/regional-money/missing-money-sources.ts:597` |
 | Census trade                       | 28,314 observations retaining suppressed and unavailable cells                                                                                             | `scripts/source/regional-money/missing-money-sources.ts:648` |
 | Census government finances         | 511,362 observations for 24,520 government units                                                                                                           | `scripts/source/regional-money/missing-money-sources.ts:721` |
@@ -38,7 +38,7 @@ American Samoa, Guam, the Northern Mariana Islands, Puerto Rico and the U.S. Vir
 
 The NASBO and JPMorgan reports were retrieved, but their original bytes and receipt locks are now preserved outside this public repository while rights remain unresolved. They are not accepted as production inputs. The earlier public WIP branch for #710 already contains those originals in its history; this replacement branch omits them, but does not erase that historical exposure. Claude CTO owns its disposition.
 The federal student-loan catalog supplied an older workbook; acquisition of the current student-aid URL failed. Massachusetts' official Circular M PDF was retrieved with a plain curl GET after the shared client's bot user agent received HTTP 403. Its lock records the actual retrieval time, 279,731 bytes and SHA-256 digest.
-The gasoline workbook is retrieved but is not yet normalized. The 14 missing housing and business figures in ten counties remain blank.
+The saved weekly gasoline workbook is still not normalized. An additional official [EIA SEDS annual price CSV](https://www.eia.gov/state/seds/seds-data-complete.php?sid=US) now supplies the `MGTCD` motor-gasoline average for all sectors in dollars per million Btu, with a byte-bound receipt and source row/column references. This annual energy-price measure is not a weekly pump price or a dollars-per-gallon estimate. The 14 missing housing and business figures in ten counties remain blank.
 
 Claude will review the completed job at its exact pull-request head before merge.
 Jobs 1 and 2 follow this job in separate pull requests.
@@ -47,8 +47,9 @@ Jobs 1 and 2 follow this job in separate pull requests.
 
 The clean receiving branch is `codex/assignments-5-money-sources-safe`, based on cloud Team C head `b685834b9020892673c8e92dfad75ebe4bdbec96`. It contains only source files permitted for this public repository. The earlier draft #710 branch remains preserved for rights disposition. The table describes source files on this branch, not features on main. The last named main head seen before this handoff was `f4d50a1f3ab34a4684ab8e20e7f65e297320d6e6`.
 
-At the published `350a629d7` checkpoint, the offline compiler check verified locked publisher bytes and deterministic outputs for seven corpora. The focused source test passed nine checks, including IRS schedule separation and the state-guide inventory. After the New Hampshire and Tennessee URL edits, the offline check again verified all 48 locked state originals and seven compiled corpora; the report checker and targeted Prettier check passed. These URL edits do not add locked state originals.
-Targeted ESLint passed at the published checkpoint; this source-plan and report-only edit has no new TypeScript.
+At the published `350a629d7` checkpoint, the offline compiler check verified locked publisher bytes and deterministic outputs for seven corpora. The focused source test passed nine checks, including IRS schedule separation and the state-guide inventory. At `546d840b3`, the offline check again verified all 48 locked state originals and seven compiled corpora. The New Hampshire and Tennessee URL edits did not add locked state originals.
+
+The annual EIA gasoline addition passed the offline corpus/lock check with 3,170 EIA observations and five EIA artifacts. The focused source suite passed 10 checks; targeted ESLint, Prettier and the report checker passed. Full typecheck failed on the preserved unrelated untracked rail test's missing import, with no error reported in the new source compiler.
 
 The full typecheck failed on a preserved, unrelated untracked rail test whose imported module is absent from this base.
 No file was removed or hidden to make that check pass.

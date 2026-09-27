@@ -48,6 +48,33 @@ describe("money source calibration", () => {
     ).toBe(false);
   });
 
+  it("preserves EIA annual state gasoline prices in their published energy units", () => {
+    const data = corpus("eia-energy-prices");
+    const gasoline = data.rows.filter(
+      (row: { kind?: string }) => row.kind === "annual-motor-gasoline-price",
+    );
+    expect(gasoline).toHaveLength(52 * 55);
+    expect(data.coverage.gasolineAnnualGeographies).toHaveLength(52);
+    expect(data.coverage.gasolineAnnualYears).toEqual([1970, 2024]);
+    expect(
+      gasoline.find(
+        (row: { geographyCode: string; year: number }) =>
+          row.geographyCode === "AL" && row.year === 2024,
+      ),
+    ).toMatchObject({
+      value: 24.03,
+      raw: "24.03",
+      units: "USD per million Btu",
+      dataStatus: "2024F",
+      evidence: { artifactId: "gasoline-seds-annual-prices", msn: "MGTCD" },
+    });
+    expect(
+      gasoline.some(
+        (row: { geographyCode: string }) => row.geographyCode === "PR",
+      ),
+    ).toBe(false);
+  });
+
   it("keeps CPI annual averages distinct from monthly observations", () => {
     const data = corpus("bls-cpi");
     expect(

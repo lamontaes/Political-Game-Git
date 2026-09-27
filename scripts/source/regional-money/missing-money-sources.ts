@@ -174,6 +174,14 @@ export const sources: readonly Source[] = [
     vintage: null,
   },
   {
+    domain: "eia-energy-prices",
+    id: "gasoline-seds-annual-prices",
+    url: "https://www.eia.gov/state/seds/sep_prices/total/csv/pr_all.csv",
+    filename: "seds-prices-1970-2024.csv",
+    provider: "U.S. Energy Information Administration",
+    vintage: "1970–2024",
+  },
+  {
     domain: "federal-student-aid",
     id: "portfolio-location-current",
     url: "https://studentaid.gov/sites/default/files/fsawg/datacenter/library/portfolio-by-location.xls",
@@ -601,6 +609,69 @@ function compileElectricity(): Corpus {
     ],
   };
 }
+
+function compileEiaPrices(): Corpus {
+  const electricity = compileElectricity();
+  const parsed = parseDelimited(locked("gasoline-seds-annual-prices").bytes, {
+    delimiter: ",",
+    hasHeaderRow: true,
+    trimFields: true,
+    expectedFieldCount: 58,
+  });
+  const years = Array.from({ length: 55 }, (_, index) => String(1970 + index));
+  if (
+    parsed.defects.length ||
+    parsed.header?.join(",") !==
+      ["Data_Status", "State", "MSN", ...years].join(",")
+  )
+    throw new Error("Changed EIA SEDS price schema");
+  const published = parsed.rows.filter(({ fields }) => fields[2] === "MGTCD");
+  const stateCodes = new Set(
+    Object.keys(STATES).filter((code) => !TERRITORY_USPS.has(code)),
+  );
+  if (
+    published.length !== 52 ||
+    new Set(published.map(({ fields }) => fields[1])).size !== 52 ||
+    published.some(
+      ({ fields }) =>
+        fields[0] !== "2024F" ||
+        (fields[1] !== "US" && !stateCodes.has(fields[1])),
+    )
+  )
+    throw new Error("Changed EIA SEDS motor gasoline coverage or vintage");
+  const gasoline = published.flatMap(({ fields, line }) =>
+    years.map((year, index) => ({
+      kind: "annual-motor-gasoline-price",
+      geographyCode: fields[1],
+      year: Number(year),
+      units: "USD per million Btu",
+      dataStatus: fields[0],
+      ...figure(fields[index + 3]),
+      evidence: {
+        artifactId: "gasoline-seds-annual-prices",
+        msn: "MGTCD",
+        line,
+        column: index + 4,
+      },
+    })),
+  );
+  return {
+    rows: [...electricity.rows, ...gasoline],
+    coverage: {
+      ...electricity.coverage,
+      gasolineAnnualGeographies: [
+        ...published.map(({ fields }) => fields[1]),
+      ].sort(),
+      gasolineAnnualYears: [1970, 2024],
+      gasolineDataStatus: "2024F",
+    },
+    notes: [
+      ...electricity.notes,
+      "SEDS MGTCD is an annual motor gasoline average across all sectors in dollars per million Btu, not a weekly pump price or dollars per gallon.",
+      "EIA says these state annual estimates include federal and state gasoline taxes, excluding local taxes. The U.S. row is an aggregate, not an additional state.",
+    ],
+  };
+}
 function compileScf(): Corpus {
   const bytes = locked("scf-public-tables").bytes;
   const sheetName = "Table 6 22 %s & medians";
@@ -1007,8 +1078,8 @@ export function compile(check: boolean): void {
     },
     {
       domain: "eia-energy-prices",
-      inputs: ["electricity-prices-2024"],
-      run: compileElectricity,
+      inputs: ["electricity-prices-2024", "gasoline-seds-annual-prices"],
+      run: compileEiaPrices,
     },
     {
       domain: "scf-household-finance",

@@ -115,6 +115,35 @@
         "status": "public-domain-us-government"
       },
       "storage": "committed"
+    },
+    {
+      "artifactId": "gasoline-seds-annual-prices",
+      "bytes": {
+        "length": 2060495,
+        "sha256": "c80d9bca62b347514f43ca577f722d38988874e3db34bfce178bb45aef23ab78"
+      },
+      "localPath": "data/source/eia-energy-prices/raw/seds-prices-1970-2024.csv",
+      "mediaType": "text/plain",
+      "provider": "U.S. Energy Information Administration",
+      "publisher": {
+        "documentationUrl": "https://www.eia.gov/state/seds/sep_prices/total/csv/pr_all.csv",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "1970–2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2060495,
+        "retrievedAt": "2026-09-27T01:31:47.047Z",
+        "url": "https://www.eia.gov/state/seds/sep_prices/total/csv/pr_all.csv"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
     }
   ],
   "domain": "eia-energy-prices"
