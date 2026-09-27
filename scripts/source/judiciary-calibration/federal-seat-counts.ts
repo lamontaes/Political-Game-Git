@@ -25,6 +25,8 @@ const records: {
   allocation: "single-court" | "joint-districts";
   districtLabels: string[];
   authorizedSeats: number;
+  termYears?: number;
+  holdsUntilSuccessorQualified?: boolean;
   artifactId: string;
   sha256: string;
   citation: string;
@@ -113,14 +115,53 @@ for (const [role, opened] of Object.entries(input.artifacts)) {
     });
   }
 }
+const territorial = openProductionArtifacts("judiciary-calibration", lock, {
+  guam: "usc48-1424b",
+  virginIslands: "usc48-1614",
+  northernMariana: "usc48-1821",
+});
+for (const opened of Object.values(territorial.artifacts)) {
+  const html = Buffer.from(opened.bytes).toString("utf8");
+  const start = html.indexOf("<!-- field-start:statute -->");
+  const end = html.indexOf("<!-- field-end:statute -->", start);
+  if (start < 0 || end <= start)
+    throw new Error("Missing territorial operative text");
+  const statute = normalizeRetrievedText(Buffer.from(html.slice(start, end)));
+  const match =
+    /appoint (a judge|two judges) for the (District Court (?:of|for) (?:the )?(?:Guam|Virgin Islands|Northern Mariana Islands)),? who shall hold office for (?:the term|terms) of ten years and until (?:his successor is|their successors are) chosen and qualified/.exec(
+      statute,
+    );
+  if (!match)
+    throw new Error(
+      `${opened.artifact.artifactId}: territorial composition text changed`,
+    );
+  const section = opened.artifact.artifactId.replace("usc48-", "");
+  records.push({
+    kind: "district",
+    allocation: "single-court",
+    publishedLabel: match[2]!,
+    districtLabels: [match[2]!],
+    authorizedSeats: match[1] === "a judge" ? 1 : 2,
+    termYears: 10,
+    holdsUntilSuccessorQualified: true,
+    artifactId: opened.artifact.artifactId,
+    sha256: opened.artifact.bytes.sha256,
+    citation: `48 U.S.C. ${section}${section === "1821" ? "(b)(1)" : "(a)"}`,
+    row: 1,
+    sourceCurrentThrough:
+      /laws in effect on ([A-Za-z]+ \d{1,2}, \d{4})/.exec(
+        normalizeRetrievedText(Buffer.from(html)),
+      )?.[1] ?? null,
+  });
+}
 const keys = new Set(records.map((r) => `${r.kind}:${r.publishedLabel}`));
 if (keys.size !== records.length)
   throw new Error("Duplicate statutory seat row");
 const output = toCanonicalJson({
-  compilerVersion: "1",
+  compilerVersion: "2",
   runtimeWired: false,
   limits:
-    "Statutory table counts only; Joint rows allocate shared judgeships across the listed districts and must not be counted once per district. No current vacancies, judicial geography join, or territorial Article I seats inferred. Notes and later operative changes require separate review.",
+    "Statutory table counts only; Joint rows allocate shared judgeships across the listed districts and must not be counted once per district. No current vacancies, judicial geography join, inferred. Territorial district appointments are recorded separately from Article III seats; temporary assignments do not add permanent seats. Notes and later operative changes require separate review.",
   records,
 });
 const path = `${root}/federal-seat-counts.json`;

@@ -289,6 +289,93 @@
         "status": "public-domain-us-government"
       },
       "storage": "committed"
+    },
+    {
+      "artifactId": "usc48-1424b",
+      "bytes": {
+        "length": 149184,
+        "sha256": "d10c7ef9e79452f7b850e0f590cdda59beefe3a8d91b068cd06b585a11e27d02"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/usc48-1424b.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1424b&num=0&edition=prelim",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 149184,
+        "retrievedAt": "2026-09-27T01:49:34.500Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1424b&num=0&edition=prelim"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "usc48-1614",
+      "bytes": {
+        "length": 154637,
+        "sha256": "e14b93886ab947c049c17984d8eea4003d7488c7ca38ac82adf5f2f2e1608a30"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/usc48-1614.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1614&num=0&edition=prelim",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 154637,
+        "retrievedAt": "2026-09-27T01:49:40.275Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1614&num=0&edition=prelim"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "usc48-1821",
+      "bytes": {
+        "length": 153384,
+        "sha256": "d643577f7ada6dca88c5d987c70bb6fc00353a5b277856f873848af1dade7b40"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/usc48-1821.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1821&num=0&edition=prelim",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 153384,
+        "retrievedAt": "2026-09-27T01:49:47.535Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1821&num=0&edition=prelim"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
     }
   ],
   "domain": "judiciary-calibration"
