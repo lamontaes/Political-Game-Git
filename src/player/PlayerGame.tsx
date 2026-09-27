@@ -4884,6 +4884,7 @@ function renderWorkspace({
             personId={session.personId}
             place={shell.preferences.politicsPlace}
             scope={shell.preferences.governmentScope}
+            onWorldChange={onWorldChange}
             onSelectionChange={(patch) =>
               dispatch({ type: "set-reader-preferences", patch })
             }
