@@ -1414,43 +1414,58 @@ function planFundraiser(
     currency: campaign.treasuryCurrency,
   };
   const donor = world.people[donorPersonId]!;
+  const kentucky = campaignCompliancePackFor(world, campaign.id);
+  let planned: FundraiserPlan;
+  if (kentucky) {
+    planned = planKentuckyGift(
+      world,
+      campaign,
+      donorPersonId,
+      amount,
+      kentucky,
+    );
+  } else {
+    const ruling = assessContribution(world, {
+      campaignId: campaign.id,
+      sourcePersonId: donorPersonId,
+      incomingMinorUnits: amount.minorUnits,
+      statementOfOrganizationFiled: null,
+      treasurerPersonId: null,
+      treasurerQualifiedElector: null,
+    });
+    planned = {
+      amount,
+      allowed: ruling.decision !== "refused",
+      note:
+        ruling.decision === "refused"
+          ? `The committee could not accept the gift: ${ruling.reason}`
+          : ruling.reason,
+      decisionTag: `compliance:${ruling.decision}`,
+    };
+  }
+  if (!planned.allowed) return planned;
   const donorPosition = resourcePositionAt(
     world,
     { kind: "person", personId: donorPersonId },
-    amount.currency,
+    planned.amount.currency,
   );
-  if (
-    donorPosition &&
-    donorPosition.liquidBalance.minorUnits < amount.minorUnits
-  ) {
+  if (!donorPosition) {
     return {
-      amount,
+      ...planned,
       allowed: false,
-      note: `${personName(donor)} did not have ${formatMoney(amount)} to give, so nothing was collected.`,
+      note: `The available money for ${personName(donor)} is not established, so nothing was collected.`,
       decisionTag: "compliance:not-attempted",
     };
   }
-  const kentucky = campaignCompliancePackFor(world, campaign.id);
-  if (kentucky) {
-    return planKentuckyGift(world, campaign, donorPersonId, amount, kentucky);
+  if (donorPosition.liquidBalance.minorUnits < planned.amount.minorUnits) {
+    return {
+      ...planned,
+      allowed: false,
+      note: `${personName(donor)} did not have ${formatMoney(planned.amount)} to give, so nothing was collected.`,
+      decisionTag: "compliance:not-attempted",
+    };
   }
-  const ruling = assessContribution(world, {
-    campaignId: campaign.id,
-    sourcePersonId: donorPersonId,
-    incomingMinorUnits: amount.minorUnits,
-    statementOfOrganizationFiled: null,
-    treasurerPersonId: null,
-    treasurerQualifiedElector: null,
-  });
-  return {
-    amount,
-    allowed: ruling.decision !== "refused",
-    note:
-      ruling.decision === "refused"
-        ? `The committee could not accept the gift: ${ruling.reason}`
-        : ruling.reason,
-    decisionTag: `compliance:${ruling.decision}`,
-  };
+  return planned;
 }
 
 /** What this donor has already given this committee through recorded gifts. */
