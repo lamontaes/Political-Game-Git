@@ -63,32 +63,29 @@ export interface DisclosedJourney {
 /**
  * Authored route adapters, never guesses from similar-looking names.
  *
- * The current World has no fare model for this route. Saying so is important:
- * a displayed zero would be a fabricated price, while silently omitting cost
- * would make the commitment look cheaper than the rules can establish.
+ * No fare is charged on these routes, and the line says so plainly: a
+ * displayed "$0.00" would read as a priced ticket, and saying nothing would
+ * leave the player wondering what the trip costs.
  */
 const ATTEND_JOURNEYS = [
   {
     journeyLocationKey: "ordinary-life:to-meeting-room",
     destinationLocationKey: "ordinary-life:meeting-room",
     destinationSetting: "community room",
-    costDisclosure:
-      "Travel cost is not represented for this game-authored local route; no fare will be charged.",
+    costDisclosure: "There is no fare.",
   },
   {
     journeyLocationKey: "office-to-east-end",
     destinationLocationKey: "east-end-community-room",
     destinationSetting: "community room",
-    costDisclosure:
-      "Travel cost is not represented for this authored route; no fare will be charged.",
+    costDisclosure: "There is no fare.",
   },
   {
     // An invitation the player accepted: the asker's home, a short trip away.
     journeyLocationKey: SOCIAL_OCCASION_JOURNEY_KEY,
     destinationLocationKey: SOCIAL_OCCASION_LOCATION_KEY,
     destinationSetting: "home",
-    costDisclosure:
-      "Travel cost is not represented for this short local trip; no fare will be charged.",
+    costDisclosure: "There is no fare.",
   },
 ] as const;
 
