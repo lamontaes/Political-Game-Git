@@ -2,7 +2,7 @@
 
 Before: Team F had no sourced menu of things a candidate could do with a campaign day.
 
-After: The research lane has 42 concrete campaign actions with people, places, purposes, and sources. A separate evidence packet gives bounded time, contact, fundraising, and spending observations with office-level gaps. Exact action values remain unknown until measured or explicitly calibrated for play.
+After: The research lane has 42 concrete campaign actions with people, places, purposes, and sources. A separate evidence packet gives bounded time, contact, fundraising, staffing, spending, and postage observations with office-level gaps. Exact action values remain unknown until measured or explicitly calibrated for play.
 
 ## Player route
 
@@ -14,4 +14,4 @@ Both JSON files parse. All 42 action IDs are unique. Every action source referen
 
 ## Placeholders
 
-There are no placeholders in player code. Numeric duration, cash cost, contact rates, and effects remain open evidence or calibration gaps. The catalog represents them as unknown values.
+There are no placeholders in player code. The packet has one historical volunteer contact-rate range and one retail letter-postage unit price, but universal action duration, total cash cost, contact outcomes, and effects remain open evidence or calibration gaps. The catalog represents them as unknown values.

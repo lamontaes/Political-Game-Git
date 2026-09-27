@@ -71,6 +71,30 @@
       "path": "src/simulation/candidate-qualification.ts",
       "relatedPath": "src/simulation/campaign-life-activities.ts",
       "locator": "Qualification rule set and projectCampaignGuidance; filing fees and petitions remain not established"
+    },
+    "pipeline-2024-survey": {
+      "title": "Executive Summary: Survey of 2024 State and Local Candidates",
+      "publisher": "Pipeline Fund",
+      "url": "https://www.pipeline.fund/news/pipeline-fund-candidate-experience-survey-executive-summary/",
+      "locator": "Campaign staff, work-life, and volunteer support findings; methodology overview says partner-group and BallotReady respondent pool is unweighted and not nationally representative"
+    },
+    "usps-letter-rates": {
+      "title": "Rates for Domestic Letters Since 1863",
+      "publisher": "United States Postal Service",
+      "url": "https://about.usps.com/who/profile/history/domestic-letter-rates-since-1863.htm",
+      "locator": "January 21 and July 14, 2024, one-ounce retail letter postage"
+    },
+    "fec-funding-types": {
+      "title": "Types of contributions",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/types-contributions/",
+      "locator": "Individual and family contributions and loans"
+    },
+    "fec-personal-loans": {
+      "title": "Candidate personal funds loans",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/help-candidates-and-committees/filing-reports/candidate-personal-funds-loans/",
+      "locator": "Candidate loans and reporting"
     }
   },
   "officeLevels": [
@@ -80,7 +104,11 @@
       "nationalMedianCandidateHoursPerWeek": null,
       "staffCount": null,
       "volunteerCount": null,
-      "evidenceIds": ["nyc-council-limit", "nyc-citywide-spending"],
+      "evidenceIds": [
+        "nyc-council-limit",
+        "nyc-citywide-spending",
+        "state-local-staffing-survey"
+      ],
       "gap": "NYC program rules and totals do not describe a typical city council or school board race nationally."
     },
     {
@@ -89,7 +117,7 @@
       "nationalMedianCandidateHoursPerWeek": null,
       "staffCount": null,
       "volunteerCount": null,
-      "evidenceIds": [],
+      "evidenceIds": ["state-local-staffing-survey"],
       "gap": "No comparable national county candidate-spending or time series established."
     },
     {
@@ -102,7 +130,8 @@
         "ma-house-spend",
         "ma-senate-spend",
         "state-house-time",
-        "outside-work"
+        "outside-work",
+        "state-local-staffing-survey"
       ],
       "gap": "Massachusetts spending and 18-state 2008 time samples are not a current 50-state median."
     },
@@ -274,6 +303,45 @@
       "population": "Current projectCampaignGuidance across supported places",
       "sourceId": "local-candidate-corpus",
       "caveat": "The current game marks fees and petitions not established; do not substitute a national fee or treat unknown as zero."
+    },
+    {
+      "id": "state-local-staffing-survey",
+      "metric": "paid campaign staff counts in a surveyed state and local candidate pool",
+      "value": {
+        "shareWithZeroPaidStaffPercent": 58,
+        "shareWithOnePaidStaffPercent": 15
+      },
+      "population": "2024 state and local candidates recruited through Pipeline Fund partner organizations and BallotReady",
+      "period": "2024 election cycle",
+      "sourceId": "pipeline-2024-survey",
+      "caveat": "Unweighted, partner-sourced respondent pool; not nationally representative and not broken out by individual office. These percentages do not set a staffing distribution for every city, county, or state race."
+    },
+    {
+      "id": "state-local-volunteer-support-survey",
+      "metric": "reported volunteer mobilization help needed versus received",
+      "value": { "neededHelpPercent": 62, "receivedThirdPartyHelpPercent": 37 },
+      "population": "Same 2024 Pipeline Fund state and local candidate respondent pool",
+      "sourceId": "pipeline-2024-survey",
+      "caveat": "Perceived support need and receipt, not volunteer counts or a probability that a campaign receives a volunteer."
+    },
+    {
+      "id": "state-local-work-tradeoff-survey",
+      "metric": "candidate work and income tradeoffs while campaigning",
+      "value": {
+        "workLifeBalanceChallengingPercent": 52,
+        "tookPayCutOrScaledBackOrLeftPaidWorkPercent": 26
+      },
+      "population": "Same 2024 Pipeline Fund state and local candidate respondent pool",
+      "sourceId": "pipeline-2024-survey",
+      "caveat": "Self-reported outcomes in a nonrepresentative sample; no universal quit-job rule or salary loss amount."
+    },
+    {
+      "id": "usps-2024-letter-postage",
+      "metric": "retail postage for one domestic one-ounce letter, USD per piece",
+      "value": { "fromJanuary21": 0.68, "fromJuly14": 0.73 },
+      "population": "USPS retail domestic one-ounce letters in 2024",
+      "sourceId": "usps-letter-rates",
+      "caveat": "Postage only, not design, printing, list acquisition, labor, or bulk political mail pricing. This is a time-bound unit price, not the total cost of a campaign mailer."
     }
   ],
   "costDrivers": {
@@ -295,6 +363,22 @@
     "finalDays": "Shift capacity toward targeted persuasion, supporter contact, and election-day turnout work.",
     "sourceId": "ndi-planning",
     "caveat": "Qualitative planning pattern from an international training example. No fixed U.S. phase length or universal weekly schedule is established."
+  },
+  "fundingChannels": {
+    "federalCandidateCommittee": [
+      "candidate personal funds and reportable loans",
+      "individual contributions, including family subject to applicable limits",
+      "party committee contributions",
+      "PAC contributions"
+    ],
+    "localExample": "New York City's 2025 matching-funds program supplied public funds to participating candidates; this is not universal to local elections.",
+    "sourceIds": [
+      "fec-funding-types",
+      "fec-personal-loans",
+      "fec-2024-summary",
+      "nyc-cfb-2025"
+    ],
+    "caveat": "Independent expenditures by outside committees are not cash handed to the candidate campaign. Limits, eligibility, reporting, and public financing vary by office, election cycle, and jurisdiction."
   },
   "gameplayCalibration": {
     "recommendedNumericalValues": null,
