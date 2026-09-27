@@ -48,6 +48,31 @@ anchor establishes the 2026 regular cycle. This supersedes the older
 no-lieutenant-governor assumption for Arizona; it does not establish other
 states' lieutenant governor rules.
 
+Guam's election commission dates its 2026 primary for August 1. The Guam
+Organic Act establishes a jointly elected Governor and Lieutenant Governor,
+and names legislative members senators. Guam's election commission confirms
+the current unicameral chamber has fifteen elected members. These official
+sources support Guam's primary date, executive ticket, chamber name and member
+title; the remaining territories' primary dates and all territorial nomination systems remain
+unestablished in this packet. Its election commission also lists 2026
+Attorney General candidate packets, and the commission's qualification page
+gives that elected office a four-year term. The packet records this
+territory-wide executive office without inferring dates for Guam's other
+elected boards or offices.
+
+The Virgin Islands election office dates its 2026 primary for August 1 and
+states that its Governor and Lieutenant Governor are elected every four years
+in even years that are not leap years. That establishes both offices in the
+2026 cycle; the page does not establish whether they appear on a joint ticket.
+It also confirms that all legislative members stand every two years. The
+other territories' primary dates and nomination rules remain open.
+
+The Northern Mariana Islands constitution provides a four-year joint election
+for Governor and Lieutenant Governor and a four-year elected Attorney General.
+Its election commission lists both offices in the November 3, 2026 general
+election. The packet records those offices but leaves the territory's primary
+date unknown.
+
 This is a research and compiler checkpoint. No player route reads this packet
 until a rights-cleared source path and consumer are integrated and verified
 separately.

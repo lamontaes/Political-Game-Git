@@ -85,6 +85,7 @@
         "nominationSystem": "top-four",
         "voterAccess": "Top-Four",
         "stateOfficeDate": "2026-08-18",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-18",
         "exceptions": [],
         "sourceIds": [
@@ -144,6 +145,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-05-19",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-05-19",
         "exceptions": [
           {
@@ -209,6 +211,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-03-03",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-03-03",
         "exceptions": [],
         "sourceIds": [
@@ -313,6 +316,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open to Unaffiliated",
         "stateOfficeDate": "2026-07-21",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-07-21",
         "exceptions": [],
         "sourceIds": [
@@ -372,6 +376,7 @@
         "nominationSystem": "top-two",
         "voterAccess": "Top-Two",
         "stateOfficeDate": "2026-06-02",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-02",
         "exceptions": [],
         "sourceIds": [
@@ -431,6 +436,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open to Unaffiliated",
         "stateOfficeDate": "2026-06-30",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-30",
         "exceptions": [],
         "sourceIds": [
@@ -490,6 +496,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Closed",
         "stateOfficeDate": "2026-08-11",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-11",
         "exceptions": [],
         "sourceIds": [
@@ -549,6 +556,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Closed",
         "stateOfficeDate": "2026-09-15",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-09-15",
         "exceptions": [],
         "sourceIds": [
@@ -608,6 +616,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Closed",
         "stateOfficeDate": "2026-08-18",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-18",
         "exceptions": [],
         "sourceIds": [
@@ -667,6 +676,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-05-19",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-05-19",
         "exceptions": [],
         "sourceIds": [
@@ -726,6 +736,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-08-08",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-08",
         "exceptions": [],
         "sourceIds": [
@@ -785,6 +796,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Open",
         "stateOfficeDate": "2026-06-02",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-02",
         "exceptions": [],
         "sourceIds": [
@@ -844,6 +856,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Closed",
         "stateOfficeDate": "2026-05-19",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-05-19",
         "exceptions": [],
         "sourceIds": [
@@ -903,6 +916,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Open",
         "stateOfficeDate": "2026-03-17",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-03-17",
         "exceptions": [],
         "sourceIds": [
@@ -962,6 +976,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Open",
         "stateOfficeDate": "2026-05-05",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-05-05",
         "exceptions": [],
         "sourceIds": [
@@ -1080,6 +1095,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Closed",
         "stateOfficeDate": "2026-08-04",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-04",
         "exceptions": [],
         "sourceIds": [
@@ -1139,6 +1155,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Closed",
         "stateOfficeDate": "2026-05-19",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-05-19",
         "exceptions": [],
         "sourceIds": [
@@ -1198,6 +1215,7 @@
         "nominationSystem": "all-comers",
         "voterAccess": "All-Comers/Open to Unaffiliated",
         "stateOfficeDate": null,
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-05-16",
         "exceptions": [
           {
@@ -1263,6 +1281,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open to Unaffiliated",
         "stateOfficeDate": "2026-09-01",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-09-01",
         "exceptions": [],
         "sourceIds": [
@@ -1322,6 +1341,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Closed",
         "stateOfficeDate": "2026-06-23",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-23",
         "exceptions": [],
         "sourceIds": [
@@ -1381,6 +1401,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open to Unaffiliated",
         "stateOfficeDate": "2026-06-09",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-09",
         "exceptions": [],
         "sourceIds": [
@@ -1440,6 +1461,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-08-04",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-04",
         "exceptions": [],
         "sourceIds": [
@@ -1499,6 +1521,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-08-11",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-11",
         "exceptions": [],
         "sourceIds": [
@@ -1558,6 +1581,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-08-04",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-04",
         "exceptions": [],
         "sourceIds": [
@@ -1617,6 +1641,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": null,
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-03-10",
         "exceptions": [],
         "sourceIds": [
@@ -1676,6 +1701,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-06-02",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-02",
         "exceptions": [],
         "sourceIds": [
@@ -1735,6 +1761,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open to Unaffiliated",
         "stateOfficeDate": "2026-03-03",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-03-03",
         "exceptions": [],
         "sourceIds": [
@@ -1794,6 +1821,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-06-09",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-09",
         "exceptions": [],
         "sourceIds": [
@@ -1841,6 +1869,7 @@
         "nominationSystem": "mixed-nonpartisan-legislature",
         "voterAccess": "Nonpartisan/Open",
         "stateOfficeDate": "2026-05-12",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-05-12",
         "exceptions": [],
         "sourceIds": [
@@ -1900,6 +1929,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open to Unaffiliated",
         "stateOfficeDate": "2026-09-08",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-09-08",
         "exceptions": [],
         "sourceIds": [
@@ -1959,6 +1989,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Closed",
         "stateOfficeDate": null,
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-02",
         "exceptions": [],
         "sourceIds": [
@@ -2018,6 +2049,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open to Unaffiliated",
         "stateOfficeDate": "2026-06-02",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-02",
         "exceptions": [],
         "sourceIds": [
@@ -2077,6 +2109,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Open",
         "stateOfficeDate": "2026-06-09",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-09",
         "exceptions": [],
         "sourceIds": [
@@ -2136,6 +2169,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Closed",
         "stateOfficeDate": "2026-06-23",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-23",
         "exceptions": [],
         "sourceIds": [
@@ -2195,6 +2229,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Open",
         "stateOfficeDate": "2026-05-05",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-05-05",
         "exceptions": [],
         "sourceIds": [
@@ -2254,6 +2289,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Closed",
         "stateOfficeDate": "2026-06-16",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-16",
         "exceptions": [],
         "sourceIds": [
@@ -2313,6 +2349,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Closed",
         "stateOfficeDate": "2026-05-19",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-05-19",
         "exceptions": [],
         "sourceIds": [
@@ -2372,6 +2409,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Closed",
         "stateOfficeDate": "2026-05-19",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-05-19",
         "exceptions": [],
         "sourceIds": [
@@ -2431,6 +2469,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open to Unaffiliated",
         "stateOfficeDate": "2026-09-09",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-09-09",
         "exceptions": [],
         "sourceIds": [
@@ -2490,6 +2529,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-06-09",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-09",
         "exceptions": [],
         "sourceIds": [
@@ -2549,6 +2589,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Closed",
         "stateOfficeDate": "2026-06-02",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-02",
         "exceptions": [],
         "sourceIds": [
@@ -2608,6 +2649,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Closed",
         "stateOfficeDate": "2026-08-06",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-06",
         "exceptions": [],
         "sourceIds": [
@@ -2667,6 +2709,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-03-03",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-03-03",
         "exceptions": [],
         "sourceIds": [
@@ -2726,6 +2769,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Closed",
         "stateOfficeDate": "2026-06-23",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-23",
         "exceptions": [],
         "sourceIds": [
@@ -2785,6 +2829,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": null,
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-04",
         "exceptions": [],
         "sourceIds": [
@@ -2844,6 +2889,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-08-11",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-11",
         "exceptions": [],
         "sourceIds": [
@@ -2903,6 +2949,7 @@
         "nominationSystem": "top-two",
         "voterAccess": "Top-Two",
         "stateOfficeDate": "2026-08-04",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-04",
         "exceptions": [],
         "sourceIds": [
@@ -2962,6 +3009,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Open",
         "stateOfficeDate": "2026-08-11",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-11",
         "exceptions": [],
         "sourceIds": [
@@ -3021,6 +3069,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Partially Closed",
         "stateOfficeDate": "2026-05-12",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-05-12",
         "exceptions": [],
         "sourceIds": [
@@ -3080,6 +3129,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "Closed",
         "stateOfficeDate": "2026-08-18",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-08-18",
         "exceptions": [],
         "sourceIds": [
@@ -3127,6 +3177,7 @@
         "nominationSystem": "partisan",
         "voterAccess": "closed",
         "stateOfficeDate": "2026-06-16",
+        "territoryPrimaryDate": null,
         "congressionalDate": "2026-06-16",
         "exceptions": [],
         "sourceIds": [
@@ -3183,6 +3234,7 @@
         "nominationSystem": null,
         "voterAccess": null,
         "stateOfficeDate": null,
+        "territoryPrimaryDate": null,
         "congressionalDate": null,
         "exceptions": [],
         "sourceIds": []
@@ -3201,22 +3253,41 @@
         "onBallot2026": true,
         "sourceId": "nga-governor-elections"
       },
-      "lieutenantGovernorElection": null,
-      "otherElectedStatewideOffices": null,
+      "lieutenantGovernorElection": {
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "ballotRelationship": "joint-ticket",
+        "sourceIds": [
+          "guam-organic-act-section1422"
+        ]
+      },
+      "otherElectedStatewideOffices": [
+        {
+          "office": "Attorney General",
+          "referenceElectionYear": 2026,
+          "regularTermYears": 4,
+          "onBallot2026": true,
+          "sourceIds": [
+            "guam-candidate-qualifications",
+            "guam-2026-important-dates"
+          ]
+        }
+      ],
       "specialLegislativeElections2026": null,
       "legislature": {
         "chambers": [
           {
             "chamberKey": "unicameral",
-            "officialName": null,
-            "memberTitle": null,
+            "officialName": "Legislature of Guam",
+            "memberTitle": "Senator",
             "seatCount": 15,
             "termYears": 2,
             "seatsUpIn2026": 15,
             "districtsUpIn2026": null,
             "sourceId": "ncsl-2026-legislative-races",
             "sourceLocator": "NCSL 2026 races table: Guam",
-            "officialNameSource": null
+            "officialNameSource": "guam-organic-act-section1423"
           }
         ]
       },
@@ -3224,9 +3295,12 @@
         "nominationSystem": null,
         "voterAccess": null,
         "stateOfficeDate": null,
+        "territoryPrimaryDate": "2026-08-01",
         "congressionalDate": null,
         "exceptions": [],
-        "sourceIds": []
+        "sourceIds": [
+          "guam-2026-election-dates"
+        ]
       },
       "federalSenateClasses": null,
       "federalHouseDelegateTermYears": 2
@@ -3242,8 +3316,28 @@
         "onBallot2026": true,
         "sourceId": "nga-governor-elections"
       },
-      "lieutenantGovernorElection": null,
-      "otherElectedStatewideOffices": null,
+      "lieutenantGovernorElection": {
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "ballotRelationship": "joint-ticket",
+        "sourceIds": [
+          "mp-constitution",
+          "mp-2026-candidates"
+        ]
+      },
+      "otherElectedStatewideOffices": [
+        {
+          "office": "Attorney General",
+          "referenceElectionYear": 2026,
+          "regularTermYears": 4,
+          "onBallot2026": true,
+          "sourceIds": [
+            "mp-constitution",
+            "mp-2026-candidates"
+          ]
+        }
+      ],
       "specialLegislativeElections2026": null,
       "legislature": {
         "chambers": [
@@ -3277,6 +3371,7 @@
         "nominationSystem": null,
         "voterAccess": null,
         "stateOfficeDate": null,
+        "territoryPrimaryDate": null,
         "congressionalDate": null,
         "exceptions": [],
         "sourceIds": []
@@ -3330,6 +3425,7 @@
         "nominationSystem": null,
         "voterAccess": null,
         "stateOfficeDate": null,
+        "territoryPrimaryDate": null,
         "congressionalDate": null,
         "exceptions": [],
         "sourceIds": []
@@ -3348,7 +3444,15 @@
         "onBallot2026": true,
         "sourceId": "nga-governor-elections"
       },
-      "lieutenantGovernorElection": null,
+      "lieutenantGovernorElection": {
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "ballotRelationship": null,
+        "sourceIds": [
+          "vi-elections"
+        ]
+      },
       "otherElectedStatewideOffices": null,
       "specialLegislativeElections2026": null,
       "legislature": {
@@ -3371,9 +3475,12 @@
         "nominationSystem": null,
         "voterAccess": null,
         "stateOfficeDate": null,
+        "territoryPrimaryDate": "2026-08-01",
         "congressionalDate": null,
         "exceptions": [],
-        "sourceIds": []
+        "sourceIds": [
+          "vi-2026-primary"
+        ]
       },
       "federalSenateClasses": null,
       "federalHouseDelegateTermYears": 2
@@ -3433,10 +3540,7 @@
         "WY",
         "DC",
         "AS",
-        "GU",
-        "MP",
-        "PR",
-        "VI"
+        "PR"
       ],
       "reason": "The bounded NGA election page does not establish election method and timing for each jurisdiction's lieutenant-governor-equivalent office."
     },
@@ -3549,7 +3653,6 @@
         "WY",
         "DC",
         "AS",
-        "GU",
         "MP",
         "PR",
         "VI"
@@ -3679,7 +3782,16 @@
       "reason": "Only Kansas's identified 2026 special Senate districts were checked against an official election-office list; null elsewhere does not mean no special election."
     },
     {
-      "field": "primary2026",
+      "field": "primary2026.territoryPrimaryDate",
+      "jurisdictions": [
+        "AS",
+        "MP",
+        "PR"
+      ],
+      "reason": "The NCSL primary tables cover states; only Guam and the Virgin Islands have locked official 2026 primary dates here."
+    },
+    {
+      "field": "primary2026.nominationSystem",
       "jurisdictions": [
         "AS",
         "GU",
@@ -3687,7 +3799,7 @@
         "PR",
         "VI"
       ],
-      "reason": "The NCSL primary tables cover states; territorial official primary calendars are not yet locked."
+      "reason": "The locked territorial pages do not establish the complete nomination system and voter access rules for each territory."
     }
   ]
 }

@@ -5,7 +5,7 @@
     "name": "compile-civic-calendar",
     "version": "1.0.0"
   },
-  "canonicalSha256": "344e484288b50e80092421599e1a716c21a6ac4e6699d176c690646d846de943",
+  "canonicalSha256": "df8dac33a83c042b1146bcdc32ad80c43a45d64f3cdd2cf9d758452738e75ddf",
   "inputClass": "research-only",
   "coverage": {
     "isCompleteUniverse": true,
@@ -13,7 +13,7 @@
     "jurisdictions": 56,
     "stateLegislativeSeatsUp2026": 6139,
     "governorElections2026": 39,
-    "gapKinds": 6
+    "gapKinds": 7
   },
   "inputs": [
     {
@@ -63,6 +63,42 @@
     {
       "artifactId": "az-constitution-article5-section1",
       "sha256": "0ea06c412e84853e4c4dc95027c2e0e412c09223ab45857b48c738f1715cb5af"
+    },
+    {
+      "artifactId": "guam-2026-election-dates",
+      "sha256": "f15be7ff3a50a007117d1f766fb470cb48d7a2bc75a6dba1f748e33662999ac7"
+    },
+    {
+      "artifactId": "guam-candidate-qualifications",
+      "sha256": "485a3224d083cec38435105dbd6a7416fbb4d0d9ec766071647d444c1d1b7bc0"
+    },
+    {
+      "artifactId": "guam-2026-important-dates",
+      "sha256": "4104a2d708729c6e8fe908cec06f7f164b276fc39b1765f163d81cb05eef8102"
+    },
+    {
+      "artifactId": "guam-organic-act-section1422",
+      "sha256": "5d47070f73933240e6c328ec313bc4dc14f4385a7aa62314cc27d3ad4786bb99"
+    },
+    {
+      "artifactId": "guam-organic-act-section1423",
+      "sha256": "f1463accedcaad8c2651d284829b9e7e73ebe79a8b2f6e43a986b43dfa865c62"
+    },
+    {
+      "artifactId": "vi-elections",
+      "sha256": "9c28b95427afb58a5b27ba722642e0522ca19797777b98bcfb7c002e37bbe784"
+    },
+    {
+      "artifactId": "vi-2026-primary",
+      "sha256": "3c4991e6ed4c9a02053e42dc9e61cc082bbeaced92339ebd4d2054d4fec820e0"
+    },
+    {
+      "artifactId": "mp-constitution",
+      "sha256": "618257dcae8aa4aad5cea0b0c72b46852e171dada0414c31427a3c28cc127630"
+    },
+    {
+      "artifactId": "mp-2026-candidates",
+      "sha256": "51bcf205970f6fbd6f6fcd5c361101bb11ed55f779766b6142e3043026da69e7"
     }
   ],
   "reusedRepositorySources": [

@@ -156,8 +156,71 @@ describe("locked 2026 civic calendar", () => {
     ]);
   });
 
+  it("uses Guam's own election calendar and Organic Act for its 2026 territorial offices", () => {
+    expect(byUsps.get("GU")?.primary2026.territoryPrimaryDate).toBe(
+      "2026-08-01",
+    );
+    expect(byUsps.get("GU")?.lieutenantGovernorElection).toEqual(
+      expect.objectContaining({
+        onBallot2026: true,
+        ballotRelationship: "joint-ticket",
+        regularTermYears: 4,
+      }),
+    );
+    expect(byUsps.get("GU")?.legislature.chambers).toEqual([
+      expect.objectContaining({
+        officialName: "Legislature of Guam",
+        memberTitle: "Senator",
+        seatCount: 15,
+        seatsUpIn2026: 15,
+      }),
+    ]);
+    expect(byUsps.get("GU")?.otherElectedStatewideOffices).toEqual([
+      expect.objectContaining({
+        office: "Attorney General",
+        onBallot2026: true,
+        regularTermYears: 4,
+      }),
+    ]);
+    expect(byUsps.get("AS")?.primary2026.territoryPrimaryDate).toBeNull();
+  });
+
+  it("uses the Virgin Islands election office for its primary and executive cycle", () => {
+    expect(byUsps.get("VI")?.primary2026.territoryPrimaryDate).toBe(
+      "2026-08-01",
+    );
+    expect(byUsps.get("VI")?.lieutenantGovernorElection).toEqual(
+      expect.objectContaining({
+        onBallot2026: true,
+        regularTermYears: 4,
+        ballotRelationship: null,
+      }),
+    );
+    expect(byUsps.get("VI")?.legislature.chambers[0]).toEqual(
+      expect.objectContaining({ seatCount: 15, seatsUpIn2026: 15 }),
+    );
+  });
+
+  it("uses current CNMI law and the 2026 candidate list for its executive slate", () => {
+    expect(byUsps.get("MP")?.lieutenantGovernorElection).toEqual(
+      expect.objectContaining({
+        onBallot2026: true,
+        regularTermYears: 4,
+        ballotRelationship: "joint-ticket",
+      }),
+    );
+    expect(byUsps.get("MP")?.otherElectedStatewideOffices).toEqual([
+      expect.objectContaining({
+        office: "Attorney General",
+        onBallot2026: true,
+        regularTermYears: 4,
+      }),
+    ]);
+    expect(byUsps.get("MP")?.primary2026.territoryPrimaryDate).toBeNull();
+  });
+
   it("binds the committed corpus to its cache-only source receipts", () => {
-    expect(lock.artifacts).toHaveLength(12);
+    expect(lock.artifacts).toHaveLength(21);
     for (const artifact of lock.artifacts) {
       expect(artifact.localPath).toBeNull();
       expect(artifact.storage).toBe("cached-not-committed");

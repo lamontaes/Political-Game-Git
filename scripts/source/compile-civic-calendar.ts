@@ -91,6 +91,60 @@ const SOURCES = [
     "Arizona Legislature",
     "https://www.azleg.gov/const/5/1.htm",
   ],
+  [
+    "guam-2026-election-dates",
+    "guam-2026-election-dates.html",
+    "Guam Election Commission",
+    "https://gec.guam.gov/2024-election-dates/",
+  ],
+  [
+    "guam-candidate-qualifications",
+    "guam-candidate-qualifications.html",
+    "Guam Election Commission",
+    "https://gec.guam.gov/candidate-qualifications/",
+  ],
+  [
+    "guam-2026-important-dates",
+    "guam-2026-important-dates.html",
+    "Guam Election Commission",
+    "https://gec.guam.gov/2026-important-dates/",
+  ],
+  [
+    "guam-organic-act-section1422",
+    "guam-organic-act-section1422.html",
+    "Office of the Law Revision Counsel, U.S. House of Representatives",
+    "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1422&num=0&edition=prelim",
+  ],
+  [
+    "guam-organic-act-section1423",
+    "guam-organic-act-section1423.html",
+    "Office of the Law Revision Counsel, U.S. House of Representatives",
+    "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1423&num=0&edition=prelim",
+  ],
+  [
+    "vi-elections",
+    "vi-elections.html",
+    "Election System of the Virgin Islands",
+    "https://vivote.gov/elections/",
+  ],
+  [
+    "vi-2026-primary",
+    "vi-2026-primary.html",
+    "Election System of the Virgin Islands",
+    "https://vivote.gov/casting-of-lots-results-2026-primary-election/",
+  ],
+  [
+    "mp-constitution",
+    "mp-constitution.html",
+    "Commonwealth Law Revision Commission",
+    "https://www.cnmilaw.gov/constitution",
+  ],
+  [
+    "mp-2026-candidates",
+    "mp-2026-candidates.html",
+    "Commonwealth Election Commission",
+    "https://www.votecnmi.gov.mp/candidate/2026-certified-candidates-listing",
+  ],
 ] as const;
 
 type SourceId = (typeof SOURCES)[number][0];
@@ -151,6 +205,7 @@ type Jurisdiction = {
       | null;
     voterAccess: string | null;
     stateOfficeDate: string | null;
+    territoryPrimaryDate: string | null;
     congressionalDate: string | null;
     exceptions: readonly { office: string; date: string; note: string }[];
     sourceIds: readonly SourceId[];
@@ -638,6 +693,25 @@ export function compileCivicCalendar(root = ROOT) {
   const azConstitution = plainHtml(
     sourceText(root, "az-constitution-article5-section1.html"),
   );
+  const guamDates = plainHtml(
+    sourceText(root, "guam-2026-election-dates.html"),
+  );
+  const guamCandidates = plainHtml(
+    sourceText(root, "guam-candidate-qualifications.html"),
+  );
+  const guamImportantDates = plainHtml(
+    sourceText(root, "guam-2026-important-dates.html"),
+  );
+  const guamExecutiveLaw = plainHtml(
+    sourceText(root, "guam-organic-act-section1422.html"),
+  );
+  const guamLegislatureLaw = plainHtml(
+    sourceText(root, "guam-organic-act-section1423.html"),
+  );
+  const viElections = plainHtml(sourceText(root, "vi-elections.html"));
+  const viPrimary = plainHtml(sourceText(root, "vi-2026-primary.html"));
+  const mpConstitution = plainHtml(sourceText(root, "mp-constitution.html"));
+  const mpCandidates = plainHtml(sourceText(root, "mp-2026-candidates.html"));
   requireMatch(
     /PRIMARY ELECTION - June 16, 2026/i.test(plainHtml(dcElections)),
     "DC 2026 primary date",
@@ -687,6 +761,77 @@ export function compileCivicCalendar(root = ROOT) {
       ),
     "Arizona constitutional executive offices and joint ticket",
   );
+  requireMatch(
+    /2026 PRIMARY ELECTION SATURDAY, AUGUST 1, 2026/.test(guamDates) &&
+      /2026 GENERAL ELECTION TUESDAY, NOVEMBER 3, 2026/.test(guamDates),
+    "Guam 2026 election dates",
+  );
+  requireMatch(
+    /legislature shall be composed of not to exceed twenty-one members, to be known as senators/i.test(
+      guamLegislatureLaw,
+    ) &&
+      /unicameral body consisting of fifteen \(15\) Members who are elected at-large/i.test(
+        guamCandidates,
+      ),
+    "Guam legislature title and current seat count",
+  );
+  requireMatch(
+    /Governor and Lieutenant Governor shall be chosen jointly.*beginning with the year 1974.*elected every four years/i.test(
+      guamExecutiveLaw,
+    ),
+    "Guam joint governor cycle",
+  );
+  requireMatch(
+    /Attorney General of Guam.*elected by the people of Guam for a term of four \(4\) years/i.test(
+      guamCandidates,
+    ) &&
+      /2026.*Begin accepting candidate packets for Attorney General, GEB & CCU/i.test(
+        guamImportantDates,
+      ),
+    "Guam attorney general 2026 regular election",
+  );
+  const guamChamber = chamberByUsps.get("GU")?.[0];
+  requireMatch(
+    Boolean(guamChamber) && guamChamber!.seatCount === 15,
+    "Guam chamber source agreement",
+  );
+  guamChamber!.officialName = "Legislature of Guam";
+  guamChamber!.officialNameSource = "guam-organic-act-section1423";
+  guamChamber!.memberTitle = "Senator";
+  requireMatch(
+    /All members of the Virgin Islands Legislature \(Senate\).*election for governor and lieutenant governor is held every four \(4\) years during even-numbered years that are not leap years/i.test(
+      viElections,
+    ),
+    "Virgin Islands legislative and executive cycles",
+  );
+  requireMatch(
+    /Casting of Lots for the August 1, 2026, Primary Elections/i.test(
+      viPrimary,
+    ),
+    "Virgin Islands 2026 primary date",
+  );
+  const viChamber = chamberByUsps.get("VI")?.[0];
+  requireMatch(
+    Boolean(viChamber) &&
+      viChamber!.seatCount === 15 &&
+      viChamber!.seatsUpIn2026 === 15,
+    "Virgin Islands chamber source agreement",
+  );
+  requireMatch(
+    /governor and lieutenant governor shall be elected at large.*term of office of four years.*elected jointly with each voter casting a single vote/i.test(
+      mpConstitution,
+    ) &&
+      /attorney general shall be elected at large.*term of office of four years/i.test(
+        mpConstitution,
+      ),
+    "Northern Mariana Islands constitutional executive cycles",
+  );
+  requireMatch(
+    /2026 General Election Candidates Listing.*Election Day: November 3, 2026.*Governor & Lieutenant Governor.*3 tickets/i.test(
+      mpCandidates,
+    ) && /Attorney General 3 candidates/i.test(mpCandidates),
+    "Northern Mariana Islands 2026 governor ticket and attorney general ballot",
+  );
 
   const stateKeys = Object.keys(US_STATE_NAMES).sort();
   const territoryKeys = Object.keys(US_TERRITORY_GOVERNED_NAMES).sort();
@@ -706,6 +851,7 @@ export function compileCivicCalendar(root = ROOT) {
           nominationSystem: nominationSystem(usps, voterAccess),
           voterAccess,
           stateOfficeDate: isOddState ? null : date!.stateOfficeDate,
+          territoryPrimaryDate: null,
           congressionalDate: date!.congressionalDate,
           exceptions: date!.exceptions,
           sourceIds: [
@@ -718,6 +864,7 @@ export function compileCivicCalendar(root = ROOT) {
             nominationSystem: "partisan" as const,
             voterAccess: "closed",
             stateOfficeDate: "2026-06-16",
+            territoryPrimaryDate: null,
             congressionalDate: "2026-06-16",
             exceptions: [],
             sourceIds: [
@@ -725,14 +872,35 @@ export function compileCivicCalendar(root = ROOT) {
               "dc-election-definitions",
             ] as SourceId[],
           }
-        : {
-            nominationSystem: null,
-            voterAccess: null,
-            stateOfficeDate: null,
-            congressionalDate: null,
-            exceptions: [],
-            sourceIds: [] as SourceId[],
-          };
+        : usps === "GU"
+          ? {
+              nominationSystem: null,
+              voterAccess: null,
+              stateOfficeDate: null,
+              territoryPrimaryDate: "2026-08-01",
+              congressionalDate: null,
+              exceptions: [],
+              sourceIds: ["guam-2026-election-dates"] as SourceId[],
+            }
+          : usps === "VI"
+            ? {
+                nominationSystem: null,
+                voterAccess: null,
+                stateOfficeDate: null,
+                territoryPrimaryDate: "2026-08-01",
+                congressionalDate: null,
+                exceptions: [],
+                sourceIds: ["vi-2026-primary"] as SourceId[],
+              }
+            : {
+                nominationSystem: null,
+                voterAccess: null,
+                stateOfficeDate: null,
+                territoryPrimaryDate: null,
+                congressionalDate: null,
+                exceptions: [],
+                sourceIds: [] as SourceId[],
+              };
     return {
       usps,
       name:
@@ -778,7 +946,31 @@ export function compileCivicCalendar(root = ROOT) {
                 ballotRelationship: "joint-ticket",
                 sourceIds: ["az-constitution-article5-section1"],
               }
-            : null,
+            : usps === "GU"
+              ? {
+                  referenceElectionYear: 2026,
+                  regularTermYears: 4,
+                  onBallot2026: true,
+                  ballotRelationship: "joint-ticket",
+                  sourceIds: ["guam-organic-act-section1422"],
+                }
+              : usps === "VI"
+                ? {
+                    referenceElectionYear: 2026,
+                    regularTermYears: 4,
+                    onBallot2026: true,
+                    ballotRelationship: null,
+                    sourceIds: ["vi-elections"],
+                  }
+                : usps === "MP"
+                  ? {
+                      referenceElectionYear: 2026,
+                      regularTermYears: 4,
+                      onBallot2026: true,
+                      ballotRelationship: "joint-ticket",
+                      sourceIds: ["mp-constitution", "mp-2026-candidates"],
+                    }
+                  : null,
       otherElectedStatewideOffices:
         usps === "KS"
           ? [
@@ -809,7 +1001,33 @@ export function compileCivicCalendar(root = ROOT) {
                 onBallot2026: true as const,
                 sourceIds: ["az-constitution-article5-section1"] as SourceId[],
               }))
-            : null,
+            : usps === "GU"
+              ? [
+                  {
+                    office: "Attorney General",
+                    referenceElectionYear: 2026 as const,
+                    regularTermYears: 4 as const,
+                    onBallot2026: true as const,
+                    sourceIds: [
+                      "guam-candidate-qualifications",
+                      "guam-2026-important-dates",
+                    ] as SourceId[],
+                  },
+                ]
+              : usps === "MP"
+                ? [
+                    {
+                      office: "Attorney General",
+                      referenceElectionYear: 2026 as const,
+                      regularTermYears: 4 as const,
+                      onBallot2026: true as const,
+                      sourceIds: [
+                        "mp-constitution",
+                        "mp-2026-candidates",
+                      ] as SourceId[],
+                    },
+                  ]
+                : null,
       specialLegislativeElections2026:
         usps === "KS"
           ? [
@@ -848,7 +1066,9 @@ export function compileCivicCalendar(root = ROOT) {
   const gaps = [
     {
       field: "lieutenantGovernorElection",
-      jurisdictions: keys.filter((key) => !["KS", "AZ"].includes(key)),
+      jurisdictions: keys.filter(
+        (key) => !["KS", "AZ", "GU", "VI", "MP"].includes(key),
+      ),
       reason:
         "The bounded NGA election page does not establish election method and timing for each jurisdiction's lieutenant-governor-equivalent office.",
     },
@@ -860,7 +1080,7 @@ export function compileCivicCalendar(root = ROOT) {
     },
     {
       field: "legislature.memberTitle",
-      jurisdictions: keys,
+      jurisdictions: keys.filter((key) => key !== "GU"),
       reason:
         "The NCSL chamber table does not establish each chamber's member title.",
     },
@@ -877,10 +1097,16 @@ export function compileCivicCalendar(root = ROOT) {
         "Only Kansas's identified 2026 special Senate districts were checked against an official election-office list; null elsewhere does not mean no special election.",
     },
     {
-      field: "primary2026",
+      field: "primary2026.territoryPrimaryDate",
+      jurisdictions: territoryKeys.filter((key) => !["GU", "VI"].includes(key)),
+      reason:
+        "The NCSL primary tables cover states; only Guam and the Virgin Islands have locked official 2026 primary dates here.",
+    },
+    {
+      field: "primary2026.nominationSystem",
       jurisdictions: territoryKeys,
       reason:
-        "The NCSL primary tables cover states; territorial official primary calendars are not yet locked.",
+        "The locked territorial pages do not establish the complete nomination system and voter access rules for each territory.",
     },
   ];
   const corpus = {

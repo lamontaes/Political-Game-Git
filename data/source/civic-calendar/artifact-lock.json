@@ -383,6 +383,294 @@
         "termsUrl": null
       },
       "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "guam-2026-election-dates",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/guam-2026-election-dates.html",
+      "mediaType": "text/html",
+      "provider": "Guam Election Commission",
+      "publisher": {
+        "documentationUrl": "https://gec.guam.gov/2024-election-dates/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://gec.guam.gov/2024-election-dates/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 68819
+      },
+      "bytes": {
+        "length": 68819,
+        "sha256": "f15be7ff3a50a007117d1f766fb470cb48d7a2bc75a6dba1f748e33662999ac7"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "guam-candidate-qualifications",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/guam-candidate-qualifications.html",
+      "mediaType": "text/html",
+      "provider": "Guam Election Commission",
+      "publisher": {
+        "documentationUrl": "https://gec.guam.gov/candidate-qualifications/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://gec.guam.gov/candidate-qualifications/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 82831
+      },
+      "bytes": {
+        "length": 82831,
+        "sha256": "485a3224d083cec38435105dbd6a7416fbb4d0d9ec766071647d444c1d1b7bc0"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "guam-2026-important-dates",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/guam-2026-important-dates.html",
+      "mediaType": "text/html",
+      "provider": "Guam Election Commission",
+      "publisher": {
+        "documentationUrl": "https://gec.guam.gov/2026-important-dates/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://gec.guam.gov/2026-important-dates/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 128692
+      },
+      "bytes": {
+        "length": 128692,
+        "sha256": "4104a2d708729c6e8fe908cec06f7f164b276fc39b1765f163d81cb05eef8102"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "guam-organic-act-section1422",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/guam-organic-act-section1422.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1422&num=0&edition=prelim",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1422&num=0&edition=prelim",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 152693
+      },
+      "bytes": {
+        "length": 152693,
+        "sha256": "5d47070f73933240e6c328ec313bc4dc14f4385a7aa62314cc27d3ad4786bb99"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "guam-organic-act-section1423",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/guam-organic-act-section1423.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1423&num=0&edition=prelim",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1423&num=0&edition=prelim",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 147005
+      },
+      "bytes": {
+        "length": 147005,
+        "sha256": "f1463accedcaad8c2651d284829b9e7e73ebe79a8b2f6e43a986b43dfa865c62"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "vi-elections",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/vi-elections.html",
+      "mediaType": "text/html",
+      "provider": "Election System of the Virgin Islands",
+      "publisher": {
+        "documentationUrl": "https://vivote.gov/elections/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://vivote.gov/elections/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 146737
+      },
+      "bytes": {
+        "length": 146737,
+        "sha256": "9c28b95427afb58a5b27ba722642e0522ca19797777b98bcfb7c002e37bbe784"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "vi-2026-primary",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/vi-2026-primary.html",
+      "mediaType": "text/html",
+      "provider": "Election System of the Virgin Islands",
+      "publisher": {
+        "documentationUrl": "https://vivote.gov/casting-of-lots-results-2026-primary-election/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://vivote.gov/casting-of-lots-results-2026-primary-election/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 177336
+      },
+      "bytes": {
+        "length": 177336,
+        "sha256": "3c4991e6ed4c9a02053e42dc9e61cc082bbeaced92339ebd4d2054d4fec820e0"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "mp-constitution",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/mp-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Commonwealth Law Revision Commission",
+      "publisher": {
+        "documentationUrl": "https://www.cnmilaw.gov/constitution",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.cnmilaw.gov/constitution",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 158897
+      },
+      "bytes": {
+        "length": 158897,
+        "sha256": "618257dcae8aa4aad5cea0b0c72b46852e171dada0414c31427a3c28cc127630"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "mp-2026-candidates",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/mp-2026-candidates.html",
+      "mediaType": "text/html",
+      "provider": "Commonwealth Election Commission",
+      "publisher": {
+        "documentationUrl": "https://www.votecnmi.gov.mp/candidate/2026-certified-candidates-listing",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.votecnmi.gov.mp/candidate/2026-certified-candidates-listing",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 176681
+      },
+      "bytes": {
+        "length": 176681,
+        "sha256": "51bcf205970f6fbd6f6fcd5c361101bb11ed55f779766b6142e3043026da69e7"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
     }
   ]
 }
