@@ -18,6 +18,12 @@ import {
   toldSummary,
 } from "./life-talk-topics";
 import { currentKnownMatter, matterAwareness } from "./current-matters";
+import { linePartsTag, type ComposedPart } from "./english-composition";
+import {
+  greetAgainLine,
+  matterUninformedLine,
+  type SmallTalkLine,
+} from "./small-talk-english";
 import {
   answerRunning,
   isRunningIntent,
@@ -366,10 +372,29 @@ function activityPreference(world: World, personId: EntityId): string {
 }
 
 /** Replies follow the actual intent and this person's previous turn. No scoring. */
+/**
+ * The counterpart's reply, and the reviewed parts it was built from when the
+ * English engine worded it. The parts are saved with the turn so a person
+ * does not keep reaching for the same words with the player.
+ */
+function replyWithParts(
+  world: World,
+  context: LifeTalkContext,
+  intent: LifeTalkIntent,
+): { readonly text: string; readonly parts: readonly ComposedPart[] } {
+  let parts: readonly ComposedPart[] = [];
+  const text = replyFor(world, context, intent, (line) => {
+    parts = line.parts;
+    return line.text;
+  });
+  return { text, parts };
+}
+
 function replyFor(
   world: World,
   context: LifeTalkContext,
   intent: LifeTalkIntent,
+  worded: (line: SmallTalkLine) => string,
 ): string {
   const { playerPersonId, personId } = context;
   const history = turns(world, playerPersonId, personId);
@@ -499,9 +524,11 @@ function replyFor(
         return history.length
           ? "Hi, sweetheart. What is it?"
           : "Hi, sweetheart.";
-      return history.length
-        ? "Hi again."
-        : `Hi, ${world.people[playerPersonId]!.givenName}.`;
+      if (history.length) {
+        const again = greetAgainLine(world, personId, playerPersonId, history);
+        return again ? worded(again) : "Hi again.";
+      }
+      return `Hi, ${world.people[playerPersonId]!.givenName}.`;
     case "activity":
       if (activeOrdinaryGoal(world, personId, "privacy"))
         return "I need some privacy right now. Let's leave activities for another time.";
@@ -553,7 +580,16 @@ function replyFor(
       const matter = currentKnownMatter(world, playerPersonId);
       if (!matter) return "What did you want to talk about?";
       const awareness = matterAwareness(world, personId, matter.eventId);
-      if (awareness === "uninformed") return "I hadn't heard about that.";
+      if (awareness === "uninformed") {
+        const unheard = matterUninformedLine(
+          world,
+          personId,
+          playerPersonId,
+          history,
+          matter.eventId,
+        );
+        return unheard ? worded(unheard) : "I hadn't heard about that.";
+      }
       if (activeOrdinaryGoal(world, personId, "privacy"))
         return "I'd rather not get into that right now.";
       return awareness === "involved"
@@ -660,9 +696,9 @@ export function commitLifeConversation(
       minutes
   )
     return advanced;
-  const reply = running
-    ? running.reply
-    : replyFor(world, view.context, input.intent);
+  const { text: reply, parts: replyParts } = running
+    ? { text: running.reply, parts: [] as readonly ComposedPart[] }
+    : replyWithParts(world, view.context, input.intent);
   const tellTopic = isTellIntent(input.intent)
     ? findTellTopic(world, input.playerPersonId, input.personId, input.intent)
     : null;
@@ -797,6 +833,7 @@ export function commitLifeConversation(
       `scene:${currentLifeTalkScene(world, input.playerPersonId)!.eventId}`,
       `moment:${JSON.stringify(advanced.currentMoment)}`,
       `life.answer:${answer}`,
+      ...(replyParts.length > 0 ? [linePartsTag(replyParts)] : []),
       ...(input.intent === "matter" && view.matter
         ? [`life.matter:${view.matter.eventId}`]
         : []),
@@ -813,7 +850,8 @@ export function commitLifeConversation(
           ]
         : []),
     ],
-    summary: `${personName(world.people[input.playerPersonId]!)}: ${intentLabel}. ${personName(world.people[input.personId]!)}: ${reply}`,
+    // A news choice already ends with its headline's own period.
+    summary: `${personName(world.people[input.playerPersonId]!)}: ${intentLabel}${/[.?!]$/.test(intentLabel) ? "" : "."} ${personName(world.people[input.personId]!)}: ${reply}`,
     context: {
       location: {
         jurisdictionId: world.people[input.playerPersonId]!.homeJurisdictionId,

@@ -173,9 +173,7 @@ describe("the canonical time command", () => {
       fixedClock,
     );
     expect(receipt.stoppedEarly).toBe(true);
-    expect(receipt.outcome).toContain(
-      "Stopped for Neighborhood meeting; resolve this commitment before continuing.",
-    );
+    expect(receipt.outcome).toContain("Neighborhood meeting comes first.");
   });
 
   it("refuses a stale request so one click never advances twice", () => {

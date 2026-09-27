@@ -80,7 +80,7 @@ export function conversationExchangeTurns(
             event.occurredAt === world.currentDate &&
             event.tags.includes(`scene:${sceneId}`),
           playerLine: event.context.choice
-            ? `You ${lowerFirst(event.context.choice)}.`
+            ? `You ${lowerFirst(endSentence(event.context.choice))}`
             : null,
           speakerPersonId: speaker,
           speakerName: speaker ? nameOf(world, speaker) : null,
@@ -231,6 +231,16 @@ function lowerFirst(text: string): string {
  * Shown to the player it is the same sentence with the subject turned to
  * "You"; nothing else about it is rewritten.
  */
+/**
+ * A choice that already ends a sentence keeps its own mark: "Mention the
+ * news: …shared waters." must not become "…shared waters..".
+ */
+function endSentence(choice: string): string {
+  return /[.?!…]["”’)]?$/.test(choice.trimEnd())
+    ? choice.trimEnd()
+    : `${choice}.`;
+}
+
 /**
  * A record line about the player, said to the player.
  *

@@ -1,3 +1,4 @@
+import { describeInterval } from "../../presentation/time-target-label";
 import { openingChoiceMinutes } from "../../simulation/opening-life-content";
 import { projectOpeningLife } from "../../presentation/opening-life";
 import {
@@ -194,7 +195,7 @@ export function LifeScenePanel({
               >
                 {choice.label}
                 {openingChoiceMinutes(scene.definition, choice)
-                  ? ` · ${openingChoiceMinutes(scene.definition, choice)} minutes`
+                  ? ` · ${describeInterval(openingChoiceMinutes(scene.definition, choice))}`
                   : ""}
               </button>
             ))}
@@ -298,7 +299,7 @@ export function LifeScenePanel({
                       )
                     }
                   >
-                    {offer.label} · {offer.minutes} minutes
+                    {offer.label} · {describeInterval(offer.minutes)}
                   </button>
                   {offer.unavailable ? (
                     <small data-testid={`life-walk-${destination}-reason`}>
