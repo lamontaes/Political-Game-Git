@@ -21,6 +21,7 @@ import { QUIET_ADULT_STEPS } from "./life-story";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { createExplicitGeographyLife } from "./new-game-geography";
 import { openOrdinaryLife } from "./ordinary-life";
+import { declineVenueActivity } from "./venue-activity";
 import {
   describeTimeCommandPreview,
   nextKnownCalendarItem,
@@ -264,9 +265,28 @@ describe("the canonical time command", () => {
         work.stableKey.startsWith(`career-path7:${shop.id}:`),
     )!;
     const replyBy = careerReplyBy(sought.world, offer.id);
-    const unanswered = submitTimeCommand(
+    const firstStop = submitTimeCommand(
       sought.world,
       request(sought.world, personId, { kind: "days", days: 10 }),
+      fixedClock,
+    );
+    expect(firstStop.world.currentDate).toBe("2026-01-06");
+    expect(firstStop.receipt.outcome).toContain(
+      "Journey to the public meeting",
+    );
+    expect(careerReplyBy(firstStop.world, offer.id)).toBe(replyBy);
+    const meeting = firstStop.world.history.scheduledActivities.find(
+      (activity) => activity.title === "Posted public meeting",
+    )!;
+    const declined = declineVenueActivity(
+      firstStop.world,
+      personId,
+      meeting.id,
+    );
+    expect(declined).not.toBe(firstStop.world);
+    const unanswered = submitTimeCommand(
+      declined,
+      request(declined, personId, { kind: "days", days: 10 }),
       fixedClock,
     );
     expect(unanswered.world.currentDate).toBe(replyBy);
