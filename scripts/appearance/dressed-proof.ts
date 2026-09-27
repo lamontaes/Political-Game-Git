@@ -19,6 +19,10 @@ import {
 } from "../../src/presentation/appearance-engine/extract";
 import type { Raster } from "../../src/presentation/appearance-engine/raster";
 import {
+  registrationOffset,
+  translateRaster,
+} from "../../src/presentation/appearance-engine/register";
+import {
   SKIN_RAMPS,
   recolorSkin,
 } from "../../src/presentation/appearance-engine/skin";
@@ -75,11 +79,21 @@ for (const build of ["lean", "average", "fuller"]) {
   }
   const bare = read(join(bodiesDir, `${bodyFile(build)}.png`));
   const anchors = measureBodyAnchors(bare);
-  const garment = extractGarment(read(garmentPath), bare, anchors, slot);
+  // Paintings made over a fitting-suit figure stand a few rows off the bare
+  // body: move each onto it first.
+  const painting = read(garmentPath);
+  const offset = registrationOffset(measureBodyAnchors(painting), anchors);
+  const garment = extractGarment(
+    translateRaster(painting, offset.dx, offset.dy),
+    bare,
+    anchors,
+    slot,
+  );
   const skin = skinInGarment(garment.layer, bare);
   console.log(
     build,
     JSON.stringify({
+      offset,
       cloth: garment.clothPixels,
       refused: garment.refusedPixels,
       skinShare: Number(skin.share.toFixed(4)),
@@ -93,6 +107,7 @@ for (const build of ["lean", "average", "fuller"]) {
         slot,
         raster:
           slot === "outfit" ? recolorSkin(garment.layer, shade) : garment.layer,
+        hidesBody: garment.hidesBody,
       },
       {
         slot: "head",
