@@ -31,7 +31,6 @@ import type {
   AdultSituationOption,
   CharacterHistoryTransition,
   EntityId,
-  FutureTransitionHandlerRegistry,
   LifeSituationKey,
   IsoDate,
   LifeStakesTier,
@@ -355,8 +354,6 @@ export interface ChooseAdultOptionInput {
   readonly personId: EntityId;
   readonly situationKey: LifeSituationKey;
   readonly optionKey: string;
-  /** Carried into any work the choice itself performs, such as the errands. */
-  readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
 /**

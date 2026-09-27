@@ -219,8 +219,7 @@ export function ordinaryLifeAvailableFor(
  * The second is the repair this wave exists for. Opening an ordinary life is a
  * legitimate transition, so it is also a moment at which the world may write
  * one new opportunity from the bounded set in `life-opportunities.ts`.
- * A legacy grocery item remains readable but no new ordinary life is assigned
- * a recurring chore.
+ * No routine grocery chore is written by opening an ordinary life.
  */
 export function openOrdinaryLife(world: World, personId: EntityId): World {
   const person = world.people[personId];

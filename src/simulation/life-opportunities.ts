@@ -435,13 +435,9 @@ function playerRequirementFor(
  *
  * Called from the transitions a player actually takes — opening an ordinary
  * life, choosing something, letting a stretch of time go by — and from nowhere
- * that reads. Two things can happen, at most:
- *
- * 1. A legacy grocery item may lapse under its original week rule, preserving
- *    its history without creating another routine chore.
- * 2. At most one new opportunity is created, from the kinds this world can
- *    actually support today, preferring the one this life has seen least
- *    recently and breaking ties from the world's own seed.
+ * that reads. At most one new opportunity is created from the kinds this
+ * world can support today, preferring the one this life has seen least
+ * recently and breaking ties from the world's own seed.
  *
  * Both are idempotent at the day: everything written here is keyed by the date
  * it was written on, so calling this twice against the same world writes once.
