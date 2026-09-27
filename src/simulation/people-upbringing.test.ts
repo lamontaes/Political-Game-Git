@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { contactBases } from "./people-contact";
+import { ensurePeopleTraits } from "./people-traits";
 import { latestPersonalityTendenciesForPerson } from "./queries";
 import { traitDefinitionFromPack } from "./trait-packs";
 import { traitRegistryFor } from "./trait-registry";
@@ -46,31 +48,66 @@ function notableRecords(
   );
 }
 
+function expectNotableTraits(
+  world: ReturnType<typeof adultLife>["world"],
+  id: EntityId,
+) {
+  const records = notableRecords(world, id);
+  expect(records.length).toBeGreaterThanOrEqual(3);
+  expect(records.length).toBeLessThanOrEqual(5);
+  const inborn = records.filter(({ scopeTags }) =>
+    scopeTags.includes("personality-v1.inborn"),
+  );
+  expect(inborn.length).toBeGreaterThanOrEqual(1);
+  expect(inborn.length).toBeLessThanOrEqual(3);
+  expect(
+    records.every(({ scopeTags }) =>
+      scopeTags.some(
+        (tag) =>
+          tag === "personality-v1.inborn" ||
+          tag === "personality-v1.upbringing",
+      ),
+    ),
+  ).toBe(true);
+}
+
+/** A person's notable traits without the record ids a history assigns. */
+function drawn(world: ReturnType<typeof adultLife>["world"], id: EntityId) {
+  return notableRecords(world, id).map(
+    ({ stableKey, tendencyId, expressionKey, strength, scopeTags }) => ({
+      stableKey,
+      tendencyId,
+      expressionKey,
+      strength,
+      scopeTags,
+    }),
+  );
+}
+
 describe("upbringing and starting traits", () => {
-  it("gives every generated NPC in an ordinary opening three to five notable traits", () => {
+  it("gives every generated NPC three to five notable traits: the player's contacts at opening, anyone else when first needed", () => {
     const { world, playerId } = adultLife("upbringing-ordinary-route");
-    const people = world.personOrder.filter((id) => id !== playerId);
-    expect(people.length).toBeGreaterThan(20);
-    for (const id of people) {
-      const records = notableRecords(world, id);
-      expect(records.length).toBeGreaterThanOrEqual(3);
-      expect(records.length).toBeLessThanOrEqual(5);
-      const inborn = records.filter(({ scopeTags }) =>
-        scopeTags.includes("personality-v1.inborn"),
-      );
-      expect(inborn.length).toBeGreaterThanOrEqual(1);
-      expect(inborn.length).toBeLessThanOrEqual(3);
-      expect(
-        records.every(({ scopeTags }) =>
-          scopeTags.some(
-            (tag) =>
-              tag === "personality-v1.inborn" ||
-              tag === "personality-v1.upbringing",
-          ),
-        ),
-      ).toBe(true);
+    const contacts = new Set(
+      contactBases(world, playerId).map(({ personId }) => personId),
+    );
+    const others = world.personOrder.filter(
+      (id) => id !== playerId && !contacts.has(id),
+    );
+    expect(contacts.size).toBeGreaterThan(0);
+    expect(contacts.size + others.length).toBeGreaterThan(20);
+    // The player's household, family, work and other contacts hold their
+    // traits as soon as the life opens.
+    for (const id of contacts) expectNotableTraits(world, id);
+    // Nobody else is written at opening: writing the whole world made
+    // starting a life take about half an hour.
+    for (const id of others) expect(notableRecords(world, id)).toEqual([]);
+    // Anyone else is drawn the first time a decision asks for them.
+    for (const id of others) {
+      expectNotableTraits(ensurePeopleTraits(world, [id]), id);
     }
-  });
+    // The played character is never given any.
+    expect(notableRecords(world, playerId)).toEqual([]);
+  }, 120_000);
 
   it("is deterministic and labels unsourced calibration as a game profile", () => {
     const first = adultLife("upbringing-repeat");
@@ -89,7 +126,37 @@ describe("upbringing and starting traits", () => {
         ({ source }) => source.kind === "game-profile",
       ),
     ).toBe(true);
-  });
+
+    // The same opening writes the same traits for the same contacts.
+    const contacts = contactBases(first.world, first.playerId).map(
+      ({ personId }) => personId,
+    );
+    expect(contacts.length).toBeGreaterThan(0);
+    expect(
+      contactBases(second.world, second.playerId).map(
+        ({ personId }) => personId,
+      ),
+    ).toEqual(contacts);
+    for (const id of contacts) {
+      expect(drawn(first.world, id)).toEqual(drawn(second.world, id));
+    }
+
+    // Someone drawn later gets the same traits in both worlds, and the same
+    // traits whether they are drawn alone or alongside other people.
+    const others = first.world.personOrder.filter(
+      (id) => id !== first.playerId && !contacts.includes(id),
+    );
+    expect(others.length).toBeGreaterThan(1);
+    const [later, alongside] = others;
+    const alone = drawn(ensurePeopleTraits(first.world, [later!]), later!);
+    expect(alone.length).toBeGreaterThanOrEqual(3);
+    expect(drawn(ensurePeopleTraits(second.world, [later!]), later!)).toEqual(
+      alone,
+    );
+    expect(
+      drawn(ensurePeopleTraits(first.world, [alongside!, later!]), later!),
+    ).toEqual(alone);
+  }, 120_000);
 
   it("uses protective care as a counterweight after a parent's death", () => {
     const base: PersonUpbringing = {
