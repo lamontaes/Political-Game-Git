@@ -1,11 +1,13 @@
 /** A candidate's recorded public answer and the Senators who actually heard it. */
 
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import { addDays } from "../dates";
 import { seatedCongressChamber } from "../governing/congress-chambers";
 import { personName } from "../people";
 import { recordEventKnowledge } from "../records";
 import type { EntityId, World } from "../types";
 import { recordWorldEvent } from "../world";
+import { senateJudiciaryAppointment } from "./committee-organization";
 import { JUDICIAL_CANDIDATE_INTERVIEW_EVENT } from "./candidate-interview";
 import {
   JUDICIAL_CONFIRMATION_HEARING_EVENT,
@@ -21,6 +23,8 @@ export function recordFederalJudicialHearing(
   input: {
     readonly selectionRecordId: string;
     readonly attendeeSenatorPersonIds: readonly EntityId[];
+    readonly noticeEventId: EntityId;
+    readonly attendanceEventId: EntityId;
   },
 ): World {
   const pending = pendingFederalJudicialNomination(
@@ -38,6 +42,49 @@ export function recordFederalJudicialHearing(
   const seated = new Set(senate.body.members.map((member) => member.personId));
   if (attendees.some((personId) => !seated.has(personId)))
     throw new Error("A hearing attendee must be a seated Senator.");
+  const appointment = senateJudiciaryAppointment(world);
+  const notice = world.history.events.find(
+    (event) => event.id === input.noticeEventId,
+  );
+  const attendance = world.history.events.find(
+    (event) => event.id === input.attendanceEventId,
+  );
+  if (
+    !appointment ||
+    notice?.type !== "judicial.public-hearing-notice" ||
+    !notice.tags.includes(`selection:${input.selectionRecordId}`) ||
+    !notice.tags.includes(`appointment:${appointment.eventId}`) ||
+    addDays(notice.occurredAt, 7) > world.currentDate
+  )
+    throw new Error(
+      "A hearing needs an appointed chair and seven days' public notice.",
+    );
+  if (
+    attendance?.type !== "judicial.public-hearing-attendance" ||
+    attendance.occurredAt !== world.currentDate ||
+    !attendance.tags.includes(`selection:${input.selectionRecordId}`) ||
+    !attendance.tags.includes(`notice:${notice.id}`) ||
+    !attendance.participants.some(
+      (participant) =>
+        participant.personId === pending.nomineeId &&
+        participant.role === "focus:actor",
+    ) ||
+    attendees.some(
+      (personId) =>
+        !appointment.memberPersonIds.includes(personId) ||
+        !attendance.participants.some(
+          (participant) =>
+            participant.personId === personId &&
+            participant.role === "presence:participant",
+        ),
+    ) ||
+    attendance.participants.filter(
+      (participant) => participant.role === "presence:participant",
+    ).length !== attendees.length
+  )
+    throw new Error(
+      "A hearing needs the nominee and exactly its recorded Judiciary attendees.",
+    );
   if (
     world.control.kind === "person" &&
     world.control.personId === pending.nomineeId
@@ -109,17 +156,17 @@ export function recordFederalJudicialHearing(
         optionKey: "state",
         sourceType: "mind:own-prior-answer",
         direction: "supports",
-        importance: "strong",
-        confidence: "high",
+        importance: "slight",
+        confidence: "medium",
         explanation:
-          "The candidate already stated this position in a recorded contact.",
+          "The candidate may choose to repeat a position stated in a prior contact.",
         sourceRefs: [
           { kind: "decision-trace", decisionTraceId: priorTrace.id },
         ],
       },
     ],
     perceptionIds: [],
-    randomness: "none",
+    randomness: "close-choices",
     retention: "durable",
   });
   let next = recordDurableDecisionTrace(world, evaluation);
@@ -152,6 +199,8 @@ export function recordFederalJudicialHearing(
       `selection:${input.selectionRecordId}`,
       `candidate:${pending.nomineeId}`,
       `decision:${next.history.decisionTraces.at(-1)!.id}`,
+      `notice:${notice.id}`,
+      `attendance:${attendance.id}`,
       `answer:${answer === null ? "unresolved" : "stated"}`,
     ],
     summary: answer

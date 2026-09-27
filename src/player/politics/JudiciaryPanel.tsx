@@ -4,6 +4,7 @@ import type { EntityId, World } from "../../simulation/types";
 import { proseDate } from "../../presentation/prose-dates";
 import { projectJudicialSelection } from "../../presentation/judicial-selection";
 import { currentPresidentOf } from "../../simulation/crisis/offices";
+import { seatedCongressChamber } from "../../simulation/governing/congress-chambers";
 import {
   federalRosterReviewStatus,
   publicSeatedJudges,
@@ -17,6 +18,11 @@ import {
   recordFederalJudicialNomination,
   screenFederalJudicialNominee,
 } from "../../simulation/judiciary/selection";
+import {
+  recordControlledJudicialHearingParticipation,
+  recordControlledJudiciaryChairHearingChoice,
+  recordControlledOrganizationAndHearingNotice,
+} from "../../simulation/judiciary/senate-hearing-process";
 import { PersonPortrait } from "../PersonPortrait";
 import type {
   JudiciaryView,
@@ -63,17 +69,152 @@ function CourtRoster({
               <span>Vacant seat</span>
             )}
             {federal && !holder.personId && onWorldChange ? (
-              <FederalVacancyAction
-                world={world}
-                seatId={holder.seatId}
-                onWorldChange={onWorldChange}
-                onOpenPerson={onOpenPerson}
-              />
+              <>
+                <FederalVacancyAction
+                  world={world}
+                  seatId={holder.seatId}
+                  onWorldChange={onWorldChange}
+                  onOpenPerson={onOpenPerson}
+                />
+                <FederalSenateAction
+                  world={world}
+                  seatId={holder.seatId}
+                  onWorldChange={onWorldChange}
+                />
+              </>
             ) : null}
           </li>
         ))}
       </ul>
     </section>
+  );
+}
+
+function FederalSenateAction({
+  world,
+  seatId,
+  onWorldChange,
+}: {
+  readonly world: World;
+  readonly seatId: string;
+  readonly onWorldChange: (world: World) => void;
+}) {
+  const [message, setMessage] = useState<string | null>(null);
+  const controlledId =
+    world.control.kind === "person" ? world.control.personId : null;
+  const isSenator =
+    controlledId !== null &&
+    seatedCongressChamber(world, "senate")?.body.members.some(
+      (member) => member.personId === controlledId,
+    );
+  const selection = projectJudicialSelection(world, seatId);
+  if (!isSenator || !selection?.selectionRecordId || !selection.senateStatus)
+    return null;
+  const run = (action: () => World) => {
+    try {
+      onWorldChange(action());
+      setMessage(null);
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "That Senate action could not be completed.",
+      );
+    }
+  };
+  const recordOrganization = (
+    attendance: "attend" | "absent",
+    ballot: "approve" | "reject" | "present" | null,
+  ) =>
+    run(() =>
+      recordControlledOrganizationAndHearingNotice(
+        world,
+        selection.selectionRecordId!,
+        { attendance, ballot },
+      ),
+    );
+  return (
+    <div data-testid={`judicial-senate-action-${seatId}`}>
+      <p className="pg-government-note">{selection.senateStatus}</p>
+      {selection.playerSenateAction === "organization" ? (
+        <div>
+          <p>Choose your own Senate Judiciary organization vote.</p>
+          <button
+            type="button"
+            onClick={() => recordOrganization("attend", "approve")}
+          >
+            Attend and approve slate
+          </button>
+          <button
+            type="button"
+            onClick={() => recordOrganization("attend", "reject")}
+          >
+            Attend and reject slate
+          </button>
+          <button
+            type="button"
+            onClick={() => recordOrganization("attend", "present")}
+          >
+            Attend and answer present
+          </button>
+          <button
+            type="button"
+            onClick={() => recordOrganization("absent", null)}
+          >
+            Do not attend
+          </button>
+        </div>
+      ) : null}
+      {selection.playerSenateAction === "announce-hearing" ? (
+        <button
+          type="button"
+          onClick={() =>
+            run(() =>
+              recordControlledJudiciaryChairHearingChoice(
+                world,
+                selection.selectionRecordId!,
+                "announce",
+              ),
+            )
+          }
+        >
+          Announce public hearing
+        </button>
+      ) : null}
+      {selection.playerSenateAction === "hearing-attendance" ? (
+        <div>
+          <button
+            type="button"
+            onClick={() =>
+              run(() =>
+                recordControlledJudicialHearingParticipation(
+                  world,
+                  selection.selectionRecordId!,
+                  "attend",
+                ),
+              )
+            }
+          >
+            Attend hearing
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              run(() =>
+                recordControlledJudicialHearingParticipation(
+                  world,
+                  selection.selectionRecordId!,
+                  "decline",
+                ),
+              )
+            }
+          >
+            Decline hearing
+          </button>
+        </div>
+      ) : null}
+      {message ? <p role="alert">{message}</p> : null}
+    </div>
   );
 }
 

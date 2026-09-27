@@ -17,6 +17,11 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import {
+  announcePublicJudicialHearing,
+  JUDICIAL_PUBLIC_HEARING_TRANSITION,
+  judicialPublicHearingHandler,
+} from "./senate-hearing-process";
+import {
   organizeSenateJudiciary,
   senateJudiciaryAppointment,
 } from "./committee-organization";
@@ -260,6 +265,18 @@ export function judicialCommitteeConsiderationHandler(
       outcomeEventId: null,
     };
   const chairId = appointment.chairPersonId;
+  if (
+    organized.control.kind === "person" &&
+    organized.control.personId === chairId
+  )
+    return {
+      world: organized,
+      status: "blocked",
+      reasonKey: "judiciary:player-chair-scheduling-choice-needed",
+      context:
+        "The controlled Judiciary chair must choose whether to schedule consideration.",
+      outcomeEventId: null,
+    };
   const evaluation = evaluateDecision(organized, {
     stableKey: `judicial-committee-consideration:${selectionRecordId}:chair:${chairId}`,
     decisionType: "judiciary.committee-chair-scheduling",
@@ -406,14 +423,36 @@ export function judicialCommitteeSessionHandler(
         "The committee lacks a current appointment or three days' notice.",
       outcomeEventId: null,
     };
-  return {
-    world,
-    status: "blocked",
-    reasonKey: "judiciary:committee-attendance-unrecorded",
-    context:
-      "The meeting was noticed, but no member attendance or nomination report has been recorded.",
-    outcomeEventId: null,
-  };
+  try {
+    const announced = announcePublicJudicialHearing(world, selectionRecordId);
+    const hearingNotice = [...announced.history.events]
+      .reverse()
+      .find(
+        (event) =>
+          event.type === "judicial.public-hearing-notice" &&
+          event.tags.includes(`selection:${selectionRecordId}`),
+      );
+    return {
+      world: announced,
+      status: hearingNotice ? "resolved" : "blocked",
+      reasonKey: hearingNotice ? null : "judiciary:chair-hearing-deferred",
+      context: hearingNotice
+        ? "The chair separately announced a later public hearing; the business notice proves no meeting attendance."
+        : "The chair did not announce a public hearing; no business attendance is implied.",
+      outcomeEventId: hearingNotice?.id ?? null,
+    };
+  } catch (error) {
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "judiciary:public-hearing-notice-unavailable",
+      context:
+        error instanceof Error
+          ? error.message
+          : "No public hearing notice was recorded.",
+      outcomeEventId: null,
+    };
+  }
 }
 
 export const JUDICIAL_SENATE_HANDLERS = [
@@ -423,4 +462,5 @@ export const JUDICIAL_SENATE_HANDLERS = [
     judicialCommitteeConsiderationHandler,
   ],
   [JUDICIAL_COMMITTEE_SESSION_TRANSITION, judicialCommitteeSessionHandler],
+  [JUDICIAL_PUBLIC_HEARING_TRANSITION, judicialPublicHearingHandler],
 ] as const;

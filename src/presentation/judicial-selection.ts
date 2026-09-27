@@ -1,6 +1,7 @@
 /** Read-only account of a saved judicial selection attempt. */
 
 import { currentPresidentOf } from "../simulation/crisis/offices";
+import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
 import { courtById, seatHolderAt } from "../simulation/judiciary/courts";
 import { JUDICIAL_ROSTER_REVIEW_EVENT } from "../simulation/judiciary/candidate-discovery";
 import {
@@ -18,6 +19,12 @@ import {
   judicialSelectionProgress,
   resolveJudicialSelectionPlan,
 } from "../simulation/judiciary/selection";
+import {
+  JUDICIAL_PUBLIC_HEARING_NOTICE_EVENT,
+  JUDICIAL_PUBLIC_HEARING_PLAYER_CHOICE_EVENT,
+  JUDICIAL_PUBLIC_HEARING_TRANSITION,
+} from "../simulation/judiciary/senate-hearing-process";
+import { JUDICIAL_CONFIRMATION_HEARING_EVENT } from "../simulation/judiciary/federal-confirmation";
 import { personName } from "../simulation/people";
 import { proseDate } from "./prose-dates";
 import type {
@@ -49,6 +56,8 @@ export interface JudicialSelectionView {
     readonly name: string;
   }[];
   readonly playerMayNominate: boolean;
+  readonly playerSenateAction:
+    "organization" | "announce-hearing" | "hearing-attendance" | null;
   readonly senateStatus: string | null;
 }
 
@@ -107,6 +116,7 @@ export function projectJudicialSelection(
       reason: null,
       nextStage: null,
       playerMayNominate: false,
+      playerSenateAction: null,
       senateStatus: null,
     };
   const resolved = resolveJudicialSelectionPlan(world, seatId, selection.kind);
@@ -117,6 +127,7 @@ export function projectJudicialSelection(
       reason: "This court's selection route is unavailable.",
       nextStage: null,
       playerMayNominate: false,
+      playerSenateAction: null,
       senateStatus: null,
     };
   const progress = judicialSelectionProgress(
@@ -132,17 +143,79 @@ export function projectJudicialSelection(
     stage?.mechanism === "EXECUTIVE_NOMINATION" &&
     stage.actor.value === "President of the United States" &&
     controlledPresident;
-  const senateStatus = (() => {
-    if (
-      stage?.mechanism !== "LEGISLATIVE_CONFIRMATION" ||
-      stage.actor.value !== "United States Senate"
-    )
-      return null;
-    const referral = world.history.events.find(
-      (event) =>
-        event.type === JUDICIAL_SENATE_REFERRAL_EVENT &&
-        event.tags.includes(`selection:${selection.recordId}`),
+  const senateStage =
+    stage?.mechanism === "LEGISLATIVE_CONFIRMATION" &&
+    stage.actor.value === "United States Senate";
+  const referral = senateStage
+    ? world.history.events.find(
+        (event) =>
+          event.type === JUDICIAL_SENATE_REFERRAL_EVENT &&
+          event.tags.includes(`selection:${selection.recordId}`),
+      )
+    : null;
+  const appointment = senateStage ? senateJudiciaryAppointment(world) : null;
+  const hearingNotice = senateStage
+    ? world.history.events.find(
+        (event) =>
+          event.type === JUDICIAL_PUBLIC_HEARING_NOTICE_EVENT &&
+          event.tags.includes(`selection:${selection.recordId}`),
+      )
+    : null;
+  const hearing = senateStage
+    ? world.history.events.find(
+        (event) =>
+          event.type === JUDICIAL_CONFIRMATION_HEARING_EVENT &&
+          event.tags.includes(`selection:${selection.recordId}`),
+      )
+    : null;
+  const hearingDue = world.history.futureDueItems.find(
+    (item) =>
+      item.transitionKey === JUDICIAL_PUBLIC_HEARING_TRANSITION &&
+      item.stableKey.endsWith(`:${selection.recordId}`),
+  );
+  const organizationDue = world.history.futureDueItems.find(
+    (item) =>
+      item.transitionKey === JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION &&
+      item.stableKey.endsWith(`:${selection.recordId}`),
+  );
+  const controlledSenator =
+    controlledPersonId !== null &&
+    seatedCongressChamber(world, "senate")?.body.members.some(
+      (member) => member.personId === controlledPersonId,
     );
+  const organizationVoteRecorded =
+    referral !== null &&
+    referral !== undefined &&
+    world.history.events.some(
+      (event) =>
+        event.type === SENATE_JUDICIARY_ORGANIZATION_VOTE_EVENT &&
+        event.occurredAt >= referral.occurredAt,
+    );
+  const playerHearingChoiceRecorded = world.history.events.some(
+    (event) =>
+      event.type === JUDICIAL_PUBLIC_HEARING_PLAYER_CHOICE_EVENT &&
+      event.tags.includes(`selection:${selection.recordId}`),
+  );
+  const playerSenateAction =
+    !senateStage || !referral || controlledPersonId === null
+      ? null
+      : !appointment &&
+          controlledSenator &&
+          !organizationVoteRecorded &&
+          organizationDue &&
+          organizationDue.dueAt <= world.currentDate
+        ? ("organization" as const)
+        : appointment?.chairPersonId === controlledPersonId && !hearingNotice
+          ? ("announce-hearing" as const)
+          : hearingNotice &&
+              !hearing &&
+              !playerHearingChoiceRecorded &&
+              hearingDue?.dueAt === world.currentDate &&
+              appointment?.memberPersonIds.includes(controlledPersonId)
+            ? ("hearing-attendance" as const)
+            : null;
+  const senateStatus = (() => {
+    if (!senateStage) return null;
     const dueFor = (transitionKey: string) =>
       world.history.futureDueItems.find(
         (item) =>
@@ -158,6 +231,21 @@ export function projectJudicialSelection(
       return due
         ? `Senate referral is scheduled for ${proseDate(due.dueAt)}.`
         : "The Senate referral has not been scheduled.";
+    }
+    if (hearing)
+      return "The Senate Judiciary hearing and its actual attendees are recorded. A committee report is not recorded.";
+    if (hearingNotice) {
+      const state = hearingDue ? stateFor(hearingDue.id) : null;
+      if (
+        state?.status === "blocked" &&
+        playerSenateAction === "hearing-attendance"
+      )
+        return "The public hearing date is here. Choose whether to attend; no attendance or answer is recorded yet.";
+      if (state?.status === "blocked")
+        return "The public hearing was announced, but actual participation or the nominee's response is unavailable.";
+      return hearingDue
+        ? `A public Senate Judiciary hearing is announced for ${proseDate(hearingDue.dueAt)}. Attendance is not yet recorded.`
+        : "A public hearing notice is recorded without a valid hearing date.";
     }
     const notice = world.history.events.find(
       (event) =>
@@ -186,8 +274,8 @@ export function projectJudicialSelection(
         ? "The Senate did not appoint the Judiciary slate; no chair can schedule consideration."
         : "The nomination is referred. Committee consideration is waiting for an appointed chair.";
     }
-    if (senateJudiciaryAppointment(world))
-      return "The nomination is referred to an appointed Judiciary Committee; no consideration notice is recorded.";
+    if (appointment)
+      return "The nomination is referred to an appointed Judiciary Committee; no public hearing notice is recorded.";
     return committeeDue
       ? `The nomination is referred. Senate committee organization review is due ${proseDate(committeeDue.dueAt)}.`
       : "The nomination is before the Senate Judiciary Committee.";
@@ -207,6 +295,7 @@ export function projectJudicialSelection(
         }
       : null,
     playerMayNominate,
+    playerSenateAction,
     senateStatus,
   };
 }

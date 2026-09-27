@@ -1,11 +1,14 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as judicialSelection from "../../presentation/judicial-selection";
+import type { JudicialSelectionView } from "../../presentation/judicial-selection";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
 import { currentPresidentOf } from "../../simulation/crisis/offices";
+import { seatedCongressChamber } from "../../simulation/governing/congress-chambers";
 import { createDemoWorld } from "../../simulation/demo";
 import { makeIsoDate } from "../../simulation/dates";
 import {
@@ -187,5 +190,55 @@ describe("JudiciaryPanel", () => {
       />,
     );
     expect(blocked).toContain("Review judge for this vacancy");
+
+    const senatorId = seatedCongressChamber(world, "senate")!.body.members[0]!
+      .personId!;
+    const senatorWorld = {
+      ...world,
+      control: { kind: "person" as const, personId: senatorId },
+    };
+    const projected: JudicialSelectionView = {
+      seatId,
+      courtName: "Fixture United States District Court",
+      holderName: null,
+      selectionRecordId: "fixture:senate-action",
+      status: "pending",
+      reason: null,
+      nextStage: {
+        order: 2,
+        mechanism: "LEGISLATIVE_CONFIRMATION",
+        actor: "United States Senate",
+      },
+      candidates: [],
+      playerMayNominate: false,
+      playerSenateAction: "announce-hearing",
+      senateStatus: "The appointed chair may announce a public hearing.",
+    };
+    const projection = vi
+      .spyOn(judicialSelection, "projectJudicialSelection")
+      .mockReturnValue(projected);
+    try {
+      const renderSenator = () =>
+        renderToStaticMarkup(
+          <JudiciaryPanel
+            world={senatorWorld}
+            view={view}
+            scope="federal"
+            onOpenPerson={() => {}}
+            onWorldChange={() => {}}
+          />,
+        );
+      expect(renderSenator()).toContain("Announce public hearing");
+      projection.mockReturnValue({
+        ...projected,
+        playerSenateAction: "hearing-attendance",
+        senateStatus: "Choose your hearing attendance.",
+      });
+      const hearingHtml = renderSenator();
+      expect(hearingHtml).toContain("Attend hearing");
+      expect(hearingHtml).toContain("Decline hearing");
+    } finally {
+      projection.mockRestore();
+    }
   });
 });

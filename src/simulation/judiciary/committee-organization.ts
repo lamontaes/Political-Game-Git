@@ -10,7 +10,12 @@ import { congressSeats, seatTermWindow } from "../living-world/congress-seats";
 import { personName } from "../people";
 import { currentHistoricalCutoff } from "../queries";
 import { SeededRng } from "../rng";
-import { scheduledConflictExists } from "../time-work";
+import {
+  advanceWorldMinutes,
+  createScheduledActivity,
+  performScheduledActivity,
+  scheduledConflictExists,
+} from "../time-work";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 
@@ -23,6 +28,13 @@ export const SENATE_JUDICIARY_APPOINTMENT_EVENT =
   "judicial.senate-judiciary-appointment";
 export const SENATE_JUDICIARY_ORGANIZATION_PROFILE =
   "judiciary-senate-organization-placeholder/v1";
+export const SENATE_JUDICIARY_PLAYER_CHOICE_EVENT =
+  "judicial.senate-judiciary-player-choice";
+
+export interface SenateOrganizationPlayerChoice {
+  readonly attendance: "attend" | "absent";
+  readonly ballot: "approve" | "reject" | "present" | null;
+}
 
 export interface SenateJudiciaryAppointment {
   readonly eventId: EntityId;
@@ -162,7 +174,11 @@ export function senateJudiciaryAppointment(
  * actor-owned Senate ballots. The seeded roster is eligibility, not authority.
  * No controlled Senator is ever given an NPC ballot.
  */
-export function organizeSenateJudiciary(world: World): World {
+export function organizeSenateJudiciary(
+  world: World,
+  playerChoice?: SenateOrganizationPlayerChoice,
+  playerAttendanceEventId: EntityId | null = null,
+): World {
   if (senateJudiciaryAppointment(world)) return world;
   const term = congressStartedAt(world);
   if (
@@ -179,11 +195,24 @@ export function organizeSenateJudiciary(world: World): World {
   const { senate, proposed } = members;
   const controlledPersonId =
     world.control.kind === "person" ? world.control.personId : null;
-  if (
-    senate.body.members.some((member) => member.personId === controlledPersonId)
-  )
+  const controlledSenator = senate.body.members.find(
+    (member) => member.personId === controlledPersonId,
+  );
+  if (controlledSenator && !playerChoice)
     throw new Error(
       "The controlled Senator must cast their own organization ballot.",
+    );
+  if (!controlledSenator && playerChoice)
+    throw new Error(
+      "Only the controlled Senator can make this organization choice.",
+    );
+  if (
+    playerChoice &&
+    ((playerChoice.attendance === "attend" && !playerChoice.ballot) ||
+      (playerChoice.attendance === "absent" && playerChoice.ballot !== null))
+  )
+    throw new Error(
+      "An organization ballot requires the player's actual attendance.",
     );
 
   const partyCounts = new Map<string, number>();
@@ -261,10 +290,94 @@ export function organizeSenateJudiciary(world: World): World {
     });
   const meetingStart = meetingTime(10 * 60);
   const meetingEnd = meetingTime(11 * 60);
+  if (controlledSenator && playerChoice) {
+    const completion = world.history.events.find(
+      (event) => event.id === playerAttendanceEventId,
+    );
+    const activity = world.history.scheduledActivities.find(
+      (candidate) =>
+        completion?.involvedEntityIds.includes(candidate.id) &&
+        candidate.stableKey ===
+          `senate-judiciary-organization:${term}:controlled-attendance` &&
+        candidate.participantPersonIds.includes(controlledSenator.personId!),
+    );
+    if (
+      (playerChoice.attendance === "attend" &&
+        (!completion ||
+          completion.type !== "schedule.activity-completed" ||
+          completion.occurredAt !== world.currentDate ||
+          !completion.participants.some(
+            (participant) =>
+              participant.personId === controlledSenator.personId &&
+              participant.role === "presence:participant",
+          ) ||
+          !activity ||
+          !activity.sourceEntityIds.some((id) =>
+            world.history.events.some(
+              (event) =>
+                event.id === id && event.type === "judicial.senate-referral",
+            ),
+          ))) ||
+      (playerChoice.attendance === "absent" && playerAttendanceEventId !== null)
+    )
+      throw new Error(
+        "The controlled Senator has no performed organization attendance basis.",
+      );
+    if (
+      playerChoice.attendance === "attend" &&
+      scheduledConflictExists(
+        next,
+        [controlledSenator.personId!],
+        meetingStart,
+        meetingEnd,
+      )
+    )
+      throw new Error("A saved commitment prevents this Senator's attendance.");
+    next = recordWorldEvent(next, {
+      stableKey: `senate-judiciary-player-choice:${term}:${controlledSenator.personId}`,
+      type: SENATE_JUDICIARY_PLAYER_CHOICE_EVENT,
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [controlledSenator.personId!],
+      participants: [
+        {
+          personId: controlledSenator.personId!,
+          role: "focus:actor",
+          detail: "Controlled Senator",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        `congress-start:${term}`,
+        `slate:${slateEventId}`,
+        `attendance:${playerChoice.attendance}`,
+        `ballot:${playerChoice.ballot ?? "none"}`,
+        ...(playerAttendanceEventId
+          ? [`completion:${playerAttendanceEventId}`]
+          : []),
+      ],
+      summary: `${personName(nextPerson(next, controlledSenator.personId!))} chose ${playerChoice.attendance === "attend" ? `to attend and vote ${playerChoice.ballot}` : "not to attend"} the Senate Judiciary organization sitting.`,
+      context: {
+        location: null,
+        socialContext: "Player Senator's Judiciary organization choice",
+        pressure: null,
+        choice: playerChoice.ballot,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+  }
   const attending: SeatedMember[] = [];
   let absent = 0;
   for (const member of senate.body.members) {
     if (!member.personId) continue;
+    if (member.personId === controlledPersonId && playerChoice) {
+      if (playerChoice.attendance === "attend") attending.push(member);
+      else absent += 1;
+      continue;
+    }
     const conflict = scheduledConflictExists(
       next,
       [member.personId],
@@ -362,6 +475,12 @@ export function organizeSenateJudiciary(world: World): World {
   let nay = 0;
   let present = 0;
   for (const member of attending) {
+    if (member.personId === controlledPersonId && playerChoice) {
+      if (playerChoice.ballot === "approve") yea += 1;
+      else if (playerChoice.ballot === "reject") nay += 1;
+      else present += 1;
+      continue;
+    }
     const sameParty = member.partyKey === majorityParty;
     const evaluation = evaluateDecision(next, {
       stableKey: `senate-judiciary-organization:${term}:${member.personId}`,
@@ -490,6 +609,102 @@ export function organizeSenateJudiciary(world: World): World {
       immediateReaction: null,
     },
   });
+}
+
+/** A controlled Senator spends ordinary time and supplies the missing choice. */
+export function recordControlledSenateJudiciaryOrganizationChoice(
+  world: World,
+  choice: SenateOrganizationPlayerChoice,
+  organizationDueItemId: EntityId,
+): World {
+  const controlledPersonId =
+    world.control.kind === "person" ? world.control.personId : null;
+  if (
+    !controlledPersonId ||
+    !seatedCongressChamber(world, "senate")?.body.members.some(
+      (member) => member.personId === controlledPersonId,
+    )
+  )
+    throw new Error("Only a controlled seated Senator can choose this ballot.");
+  if (senateJudiciaryAppointment(world))
+    throw new Error(
+      "The Senate has already appointed Judiciary for this Congress.",
+    );
+  const due = world.history.futureDueItems.find(
+    (item) => item.id === organizationDueItemId,
+  );
+  if (
+    due?.transitionKey !== "judiciary:committee-consideration" ||
+    due.dueAt > world.currentDate
+  )
+    throw new Error("The Senate Judiciary organization sitting is not due.");
+  const referralEventId =
+    due.provenance.kind === "simulated"
+      ? due.provenance.sourceEntityIds.find((id) =>
+          world.history.events.some(
+            (event) =>
+              event.id === id && event.type === "judicial.senate-referral",
+          ),
+        )
+      : null;
+  if (!referralEventId)
+    throw new Error("The Senate Judiciary referral record is unavailable.");
+  if (choice.attendance === "absent") {
+    const spent = advanceWorldMinutes(world, 5);
+    if (spent === world)
+      throw new Error("A scheduled commitment blocks this Senate action.");
+    return organizeSenateJudiciary(spent, choice);
+  }
+  if (world.currentMoment.minuteOfDay > 10 * 60)
+    throw new Error("The Senate Judiciary organization sitting has passed.");
+  const meetingTime = (minuteOfDay: number) =>
+    simulationMomentAtLocalTime({
+      date: world.currentDate,
+      minuteOfDay,
+      timeZone: world.currentMoment.timeZone,
+      preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+    });
+  const start = meetingTime(10 * 60);
+  const end = meetingTime(11 * 60);
+  if (scheduledConflictExists(world, [controlledPersonId], start, end))
+    throw new Error("A saved commitment prevents this Senator's attendance.");
+  let next = createScheduledActivity(world, {
+    stableKey: `senate-judiciary-organization:${congressStartedAt(world)}:controlled-attendance`,
+    title: "Senate Judiciary organization sitting",
+    summary: "Attend the Senate sitting to appoint Judiciary members.",
+    kind: "confirmed",
+    start,
+    end,
+    participantPersonIds: [controlledPersonId],
+    responsiblePersonId: controlledPersonId,
+    location: {
+      locationKey: "senate-chamber",
+      label: "Senate chamber",
+      jurisdictionId: null,
+    },
+    sourceEntityIds: [referralEventId],
+    flexibility: { kind: "fixed" },
+    access: { kind: "office" },
+  });
+  const activityId = next.history.scheduledActivities.at(-1)!.id;
+  next = performScheduledActivity(next, activityId);
+  const completion = [...next.history.events]
+    .reverse()
+    .find(
+      (event) =>
+        event.type === "schedule.activity-completed" &&
+        event.involvedEntityIds.includes(activityId) &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === controlledPersonId &&
+            participant.role === "presence:participant",
+        ),
+    );
+  if (!completion)
+    throw new Error(
+      "The controlled Senator has no performed organization attendance basis.",
+    );
+  return organizeSenateJudiciary(next, choice, completion.id);
 }
 
 function nextPerson(world: World, personId: EntityId) {

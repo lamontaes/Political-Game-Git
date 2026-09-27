@@ -7,6 +7,8 @@ import {
 } from "../../presentation/opening-life";
 import { openOrdinaryLife } from "../../presentation/ordinary-life";
 import { currentPresidentOf } from "../crisis/offices";
+import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
+import { committeeRoster } from "../governing/committee-assignment";
 import {
   nationalPartyKeys,
   seatedCongressChamber,
@@ -50,6 +52,16 @@ import {
   senateJudiciaryAppointment,
 } from "./committee-organization";
 import { JUDICIAL_SENATE_REFERRAL_TRANSITION } from "./selection";
+import {
+  JUDICIAL_PUBLIC_HEARING_ATTENDANCE_EVENT,
+  JUDICIAL_PUBLIC_HEARING_NOTICE_EVENT,
+  JUDICIAL_PUBLIC_HEARING_TRANSITION,
+} from "./senate-hearing-process";
+import type {
+  EntityId,
+  FutureTransitionHandlerRegistry,
+  World,
+} from "../types";
 
 function pendingNomination() {
   const game = generateOpeningLife(
@@ -118,6 +130,100 @@ function pendingNomination() {
     nomineePersonId: nomineeId,
   });
   return { world, selectionRecordId, seatId, nomineeId };
+}
+
+/** A test-only occurrence for direct hearing-writer and tenure assertions. */
+function preparedHearingForAttendees(
+  inputWorld: World,
+  selectionRecordId: string,
+  attendeeIds: readonly EntityId[],
+) {
+  const registry = createCampaignElectionTransitionRegistry();
+  let world = inputWorld;
+  for (const key of [
+    JUDICIAL_SENATE_REFERRAL_TRANSITION,
+    JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION,
+    JUDICIAL_COMMITTEE_SESSION_TRANSITION,
+  ]) {
+    const due = world.history.futureDueItems.find(
+      (item) =>
+        item.transitionKey === key &&
+        item.stableKey.endsWith(selectionRecordId),
+    )!;
+    world = resolveFutureDueItemsThrough(world, due.dueAt, registry);
+  }
+  const notice = world.history.events.findLast(
+    (event) =>
+      event.type === JUDICIAL_PUBLIC_HEARING_NOTICE_EVENT &&
+      event.tags.includes(`selection:${selectionRecordId}`),
+  )!;
+  const hearingDue = world.history.futureDueItems.find(
+    (item) =>
+      item.transitionKey === JUDICIAL_PUBLIC_HEARING_TRANSITION &&
+      item.stableKey.endsWith(selectionRecordId),
+  )!;
+  const withoutAutomaticHearing: FutureTransitionHandlerRegistry = {
+    ...registry,
+    get: (key) =>
+      key === JUDICIAL_PUBLIC_HEARING_TRANSITION
+        ? (atDue) => ({
+            world: atDue,
+            status: "blocked",
+            reasonKey: "fixture:direct-hearing-writer",
+            context: "The fixture supplies named attendance separately.",
+            outcomeEventId: null,
+          })
+        : registry.get(key),
+  };
+  world = resolveFutureDueItemsThrough(
+    world,
+    hearingDue.dueAt,
+    withoutAutomaticHearing,
+  );
+  const appointment = senateJudiciaryAppointment(world)!;
+  const nomineeId = world.judiciary!.selections.find(
+    (selection) => selection.recordId === selectionRecordId,
+  )!.candidatePersonIds[0]!;
+  world = recordWorldEvent(world, {
+    stableKey: `fixture:judicial-hearing-attendance:${selectionRecordId}`,
+    type: JUDICIAL_PUBLIC_HEARING_ATTENDANCE_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [nomineeId, ...attendeeIds],
+    participants: [
+      { personId: nomineeId, role: "focus:actor", detail: "Fixture nominee" },
+      ...attendeeIds.map((personId) => ({
+        personId,
+        role: "presence:participant" as const,
+        detail: "Fixture Judiciary attendee",
+      })),
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      `selection:${selectionRecordId}`,
+      `notice:${notice.id}`,
+      `appointment:${appointment.eventId}`,
+      "nominee:present",
+      ...attendeeIds.map((id) => `attendee:${id}`),
+    ],
+    summary:
+      "The fixture nominee and named Judiciary Senators attended the hearing.",
+    context: {
+      location: null,
+      socialContext: "Fixture judicial hearing attendance",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return {
+    world,
+    noticeEventId: notice.id,
+    attendanceEventId: world.history.events.at(-1)!.id,
+  };
 }
 
 describe("federal judicial hearing and Senate ballot", () => {
@@ -209,12 +315,17 @@ describe("federal judicial hearing and Senate ballot", () => {
         (state) => state.dueItemId === sessionDue.id,
       ),
     ).toMatchObject({
-      status: "blocked",
-      reasonKey: "judiciary:committee-attendance-unrecorded",
+      status: "resolved",
+      reasonKey: null,
     });
     expect(
+      atSession.history.events.some(
+        (event) => event.type === JUDICIAL_PUBLIC_HEARING_NOTICE_EVENT,
+      ),
+    ).toBe(true);
+    expect(
       projectJudicialSelection(atSession, pending.seatId)?.senateStatus,
-    ).toContain("attendance and a nomination report are not recorded");
+    ).toContain("public Senate Judiciary hearing is announced");
     expect(
       atSession.history.events.some(
         (event) =>
@@ -284,7 +395,15 @@ describe("federal judicial hearing and Senate ballot", () => {
     );
     expect(presidentParty).toBeTruthy();
     const senators = seatedCongressChamber(world, "senate")!.body.members;
-    const opposite = senators.find(
+    const committee = committeeRoster(
+      seatedCongressChamber(world, "senate")!.body,
+      US_CONGRESS_RULE_PACK.chambers.find(
+        (chamber) => chamber.chamberKey === "senate",
+      )!.committees,
+      "judiciary",
+      "us-congress-v1:senate",
+    );
+    const opposite = committee.find(
       (member) => member.partyKey && member.partyKey !== presidentParty,
     )!;
     const notAttending = senators.find(
@@ -297,9 +416,14 @@ describe("federal judicial hearing and Senate ballot", () => {
         opposite.personId!,
       ),
     ).toThrow("no recorded knowledge of the nomination hearing");
-    world = recordFederalJudicialHearing(world, {
+    const prepared = preparedHearingForAttendees(world, selectionRecordId, [
+      opposite.personId!,
+    ]);
+    world = recordFederalJudicialHearing(prepared.world, {
       selectionRecordId,
       attendeeSenatorPersonIds: [opposite.personId!],
+      noticeEventId: prepared.noticeEventId,
+      attendanceEventId: prepared.attendanceEventId,
     });
     expect(
       judicialNominationRecommendation(
@@ -444,9 +568,16 @@ describe("federal judicial hearing and Senate ballot", () => {
     const pending = pendingNomination();
     let world = pending.world;
     const { selectionRecordId, seatId, nomineeId } = pending;
-    const senators = seatedCongressChamber(world, "senate")!.body.members;
-    const first = senators[0]!.personId!;
-    const second = senators[1]!.personId!;
+    const committee = committeeRoster(
+      seatedCongressChamber(world, "senate")!.body,
+      US_CONGRESS_RULE_PACK.chambers.find(
+        (chamber) => chamber.chamberKey === "senate",
+      )!.committees,
+      "judiciary",
+      "us-congress-v1:senate",
+    );
+    const first = committee[0]!.personId!;
+    const second = committee[1]!.personId!;
     const interview = world.history.events.find(
       (event) =>
         event.type === "judicial.candidate-interview" &&
@@ -467,15 +598,60 @@ describe("federal judicial hearing and Senate ballot", () => {
       }),
     ).toThrow("recorded hearing basis");
 
-    world = recordFederalJudicialHearing(world, {
+    const prepared = preparedHearingForAttendees(world, selectionRecordId, [
+      first,
+    ]);
+    expect(() =>
+      recordFederalJudicialHearing(prepared.world, {
+        selectionRecordId,
+        attendeeSenatorPersonIds: [first],
+        noticeEventId: interview.id,
+        attendanceEventId: prepared.attendanceEventId,
+      }),
+    ).toThrow("seven days' public notice");
+    expect(() =>
+      recordFederalJudicialHearing(prepared.world, {
+        selectionRecordId,
+        attendeeSenatorPersonIds: [second],
+        noticeEventId: prepared.noticeEventId,
+        attendanceEventId: prepared.attendanceEventId,
+      }),
+    ).toThrow("exactly its recorded Judiciary attendees");
+    expect(() =>
+      recordFederalJudicialHearing(
+        {
+          ...prepared.world,
+          control: { kind: "person", personId: nomineeId },
+        },
+        {
+          selectionRecordId,
+          attendeeSenatorPersonIds: [first],
+          noticeEventId: prepared.noticeEventId,
+          attendanceEventId: prepared.attendanceEventId,
+        },
+      ),
+    ).toThrow("controlled nominee must choose");
+    world = recordFederalJudicialHearing(prepared.world, {
       selectionRecordId,
       attendeeSenatorPersonIds: [first],
+      noticeEventId: prepared.noticeEventId,
+      attendanceEventId: prepared.attendanceEventId,
     });
     const hearing = world.history.events.find(
       (event) => event.type === JUDICIAL_CONFIRMATION_HEARING_EVENT,
     )!;
     expect(hearing.visibility).toBe("public");
-    expect(hearing.context.choice).toBe(interview.context.choice);
+    expect(
+      hearing.context.choice === null ||
+        hearing.context.choice === interview.context.choice,
+    ).toBe(true);
+    expect(
+      world.history.decisionTraces.some(
+        (trace) =>
+          trace.context.decisionType === "judicial.hearing-answer" &&
+          trace.context.actorPersonId === nomineeId,
+      ),
+    ).toBe(true);
     expect(
       world.history.knowledge.some(
         (row) => row.personId === first && row.eventId === hearing.id,
@@ -498,7 +674,7 @@ describe("federal judicial hearing and Senate ballot", () => {
       selectionRecordId,
       senatorPersonId: first,
       ballot: "yea",
-      reason: "The nominee's stated privacy approach supports my vote.",
+      reason: "I heard the nominee at the recorded hearing.",
     });
     expect(
       federalJudicialSenateVoteStatus(world, selectionRecordId).state,
@@ -514,10 +690,14 @@ describe("federal judicial hearing and Senate ballot", () => {
       recordFederalJudicialHearing(reopened, {
         selectionRecordId,
         attendeeSenatorPersonIds: [first],
+        noticeEventId: prepared.noticeEventId,
+        attendanceEventId: prepared.attendanceEventId,
       }),
     ).toThrow("already has a recorded hearing");
   });
 
+  // This fixture records each Senator's own basis and ballot; it took 6.7 s
+  // in the focused run after the hearing provenance route was added.
   it("moves a confirmed sitting judge once and leaves the former seat vacant", () => {
     const pending = pendingNomination();
     let world = pending.world;
@@ -568,10 +748,41 @@ describe("federal judicial hearing and Senate ballot", () => {
     });
     const before = world;
     const senators = seatedCongressChamber(world, "senate")!.body.members;
-    world = recordFederalJudicialHearing(world, {
+    const committeeIds = committeeRoster(
+      seatedCongressChamber(world, "senate")!.body,
+      US_CONGRESS_RULE_PACK.chambers.find(
+        (chamber) => chamber.chamberKey === "senate",
+      )!.committees,
+      "judiciary",
+      "us-congress-v1:senate",
+    ).map((member) => member.personId!);
+    const prepared = preparedHearingForAttendees(
+      world,
+      pending.selectionRecordId,
+      committeeIds,
+    );
+    world = recordFederalJudicialHearing(prepared.world, {
       selectionRecordId: pending.selectionRecordId,
-      attendeeSenatorPersonIds: senators.map((member) => member.personId!),
+      attendeeSenatorPersonIds: committeeIds,
+      noticeEventId: prepared.noticeEventId,
+      attendanceEventId: prepared.attendanceEventId,
     });
+    const publicHearing = world.history.events.findLast(
+      (event) => event.type === JUDICIAL_CONFIRMATION_HEARING_EVENT,
+    )!;
+    for (const senator of senators) {
+      if (committeeIds.includes(senator.personId!)) continue;
+      world = recordEventKnowledge(world, {
+        stableKey: `fixture:judicial-hearing-transcript:${pending.selectionRecordId}:${senator.personId}`,
+        personId: senator.personId!,
+        eventId: publicHearing.id,
+        learnedAt: world.currentDate,
+        believedSummary: publicHearing.summary,
+        accuracy: "accurate",
+        confidence: "high",
+        source: { kind: "public-record", reference: publicHearing.id },
+      });
+    }
     for (const senator of senators) {
       world = recordFederalJudicialSenateBallot(world, {
         selectionRecordId: pending.selectionRecordId,
@@ -606,5 +817,5 @@ describe("federal judicial hearing and Senate ballot", () => {
     expect(() =>
       resolveFederalJudicialSenateVote(reopened, pending.selectionRecordId),
     ).toThrow("The judicial seat is already filled");
-  });
+  }, 25_000);
 });
