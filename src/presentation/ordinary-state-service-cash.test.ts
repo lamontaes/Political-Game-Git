@@ -23,7 +23,11 @@ import {
   programInstallments,
   programOutturns,
   programPosition,
+  commitPublicProgram,
 } from "../simulation/governing/public-program";
+import { programOperatorOrganization } from "../simulation/governing/program-governing";
+import { projectWorld39News } from "./world39-news";
+import { projectWorld39Journal } from "./world39-journal";
 import { currentMeasureProvisions } from "../simulation/legislative-politics";
 import {
   availableMeasureSteps,
@@ -42,7 +46,7 @@ import {
   ensureStateExecutiveIncumbent,
 } from "../simulation/nationwide-world/state-executives";
 import { resourcePositionAt } from "../simulation/resource-queries";
-import { makeCurrencyCode } from "../simulation/resources";
+import { makeCurrencyCode, money } from "../simulation/resources";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
 import type { EntityId, IsoDate, World } from "../simulation/types";
@@ -263,6 +267,106 @@ describe("ordinary opening cash reaches a state service outturn", () => {
     const cashBeforeCommitment = cash(world, account.organizationId);
     expect(cashBeforeCommitment).toBeGreaterThan(0);
     expect(programInstallments(world, PROGRAM)).toHaveLength(0);
+
+    // A separate governor choice on the same enacted authority proves that
+    // operating cash creates exact modeled hours; the NPC maintenance route
+    // below remains its own saved alternative.
+    let operatingWorld = advanceTo(world, appropriation.availableFrom);
+    const operatingAgency = programOperatorOrganization(
+      operatingWorld,
+      PROGRAM,
+      jurisdictionId,
+    );
+    operatingWorld = operatingAgency.world;
+    const operating = commitPublicProgram(operatingWorld, {
+      appropriationId: appropriation.id,
+      alternative: {
+        key: "one-paid-vehicle-hour",
+        title: "Pay one modeled vehicle-service hour",
+        installments: [
+          { afterDays: 0, amount: money(10_000, "USD"), purpose: "operating" },
+        ],
+        deliveryLeadDays: null,
+      },
+      personId: governor!.personId,
+      office: { kind: "state-executive" },
+      recipientOrganizationId: operatingAgency.organizationId,
+    });
+    expect(operating.ok).toBe(true);
+    if (!operating.ok) throw new Error(operating.reason);
+    const service = operating.world.history.events.find(
+      (event) => event.type === "transit.program-paid-service-hours",
+    );
+    expect(service?.summary).toContain("1 vehicle-service hour");
+    expect(service?.involvedEntityIds).toContain(bill.id);
+    const area = operating.world.history.events.find(
+      (event) => event.type === "transit.modeled-service-area",
+    );
+    const ride = operating.world.history.events.find(
+      (event) => event.type === "transit.modeled-rider-experience",
+    );
+    expect(area).toBeDefined();
+    expect(ride).toBeDefined();
+    expect(ride?.jurisdictionId).toBe(area?.jurisdictionId);
+    const riderId = ride?.participants.find(
+      (participant) => participant.role === "presence:transit-rider",
+    )?.personId;
+    expect(riderId).toBeDefined();
+    expect(operating.world.people[riderId!]!.homeJurisdictionId).toBe(
+      area?.jurisdictionId,
+    );
+    const directExperience = operating.world.history.knowledge.find(
+      (row) => row.personId === riderId && row.eventId === ride?.id,
+    );
+    expect(directExperience?.source).toEqual({ kind: "direct" });
+    const reasonedView = operating.world.history.memories.find(
+      (row) =>
+        row.personId === riderId &&
+        row.relevanceTags.includes("public-funding-view"),
+    );
+    expect(reasonedView).toBeDefined();
+    const reportKnowledge = operating.world.history.knowledge.find(
+      (row) =>
+        row.personId === riderId &&
+        row.source.kind === "public-record" &&
+        row.believedSummary.includes("Governor"),
+    );
+    expect(reportKnowledge).toBeDefined();
+    expect(reasonedView!.sequence).toBeGreaterThan(reportKnowledge!.sequence);
+    expect(
+      projectWorld39Journal(operating.world, riderId!).entries.some(
+        (entry) => entry.sourceId === ride?.id,
+      ),
+    ).toBe(true);
+    const metric = Object.values(
+      operating.world.metricCatalog.definitions,
+    ).find(
+      (definition) =>
+        definition.stableKey === "transit.additional-vehicle-service-hours",
+    );
+    const savedHours = operating.world.history.metricStates.find(
+      (record) => record.metricId === metric?.id,
+    );
+    expect(savedHours?.value).toMatchObject({
+      kind: "quantity",
+      quantity: {
+        numerator: 1,
+        denominator: 1,
+        unit: "duration:vehicle-service-hour",
+      },
+    });
+    const resumedOperating = deserializeWorld(serializeWorld(operating.world));
+    expect(
+      projectWorld39News(
+        resumedOperating,
+        game.playerPersonId,
+      ).publications.items.some((item) => item.sourceEventId === service?.id),
+    ).toBe(true);
+    expect(
+      projectWorld39Journal(resumedOperating, game.playerPersonId).entries.some(
+        (entry) => entry.sourceId === service?.id,
+      ),
+    ).toBe(false);
 
     world = advanceTo(world, appropriation.availableFrom);
     world = openProgramMattersForAllOffices(world, new Set([appropriation.id]));

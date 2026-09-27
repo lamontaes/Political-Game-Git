@@ -6,6 +6,7 @@ import {
 } from "../legislation-draft-lineage";
 import { addYears } from "../legislation-drafting";
 import { currentMeasureProvisions } from "../legislative-politics";
+import { operativeDateForEnactment } from "../legislative-effective-date";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import {
@@ -13,6 +14,7 @@ import {
   TRANSIT_FAMILY_KEY,
   TRANSIT_FAMILY_VERSION,
   TRANSIT_PROGRAM_KEY,
+  TRANSIT_VARIANT_KEY,
 } from "../legislation-transit-families";
 import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
@@ -27,6 +29,7 @@ import { stableHash } from "../ids";
 import { programFamilyTitle } from "./program-families";
 import {
   programVariant,
+  standingAuthority,
   type ProgramVariant,
 } from "../legislation-program-families";
 import {
@@ -346,7 +349,8 @@ export function appropriationFromEnactedMeasure(
       const programKey =
         serviceProfile?.programKey ??
         transitProfile?.programKey ??
-        programKeyForGovernment(lineage.familyKey, governmentScope);
+        programKeyForEnactedAppropriation(lineage, governmentScope);
+      if (!programKey) continue;
       const written = recordAdoptedAppropriation(next, {
         familyKey: lineage.familyKey,
         ...(stateUsps ? { stateUsps } : {}),
@@ -390,6 +394,16 @@ export function appropriationFromEnactedMeasure(
   const lineage = draftLineageForMeasure(world, measureId);
   const availableThrough = lineage ? statedAvailability(lineage) : undefined;
   if (availableThrough === null) return world;
+  const pinnedLegacyTransit =
+    lineage?.familyKey === TRANSIT_FAMILY_KEY &&
+    lineage.familyVersion === TRANSIT_FAMILY_VERSION &&
+    lineage.variantKey === TRANSIT_VARIANT_KEY &&
+    lineage.authorityKey === TRANSIT_PROGRAM_KEY &&
+    lineage.authorityMeasureId === undefined;
+  const pinnedOperativeDate = pinnedLegacyTransit
+    ? operativeDateForEnactment(enactment)?.date
+    : null;
+  if (pinnedLegacyTransit && !pinnedOperativeDate) return world;
   const transitProfile =
     lineage?.variantKey === STATE_TRANSIT_VARIANT_KEY
       ? stateTransitProfileForLineage(world, measure, enactment, lineage)
@@ -432,7 +446,10 @@ export function appropriationFromEnactedMeasure(
   const programKey =
     serviceProfile?.programKey ??
     transitProfile?.programKey ??
-    programKeyForGovernment(familyKey, governmentScope);
+    (lineage
+      ? programKeyForEnactedAppropriation(lineage, governmentScope)
+      : programKeyForGovernment(familyKey, governmentScope));
+  if (!programKey) return world;
   const written = recordAdoptedAppropriation(world, {
     familyKey,
     ...(stateUsps ? { stateUsps } : {}),
@@ -440,14 +457,18 @@ export function appropriationFromEnactedMeasure(
     publicGovernmentIdentity: governmentScope.identity,
     programKey,
     amountMinorUnits: amount,
-    adoptedOn: transitProfile ? enactment.effectiveAt! : adoptedOn,
+    adoptedOn: transitProfile
+      ? enactment.effectiveAt!
+      : (pinnedOperativeDate ?? adoptedOn),
     ...(availableThrough !== undefined
       ? { availableThrough }
       : transitProfile
         ? { availableDays: transitProfile.availabilityDays }
-        : profileAuthorityMatches && gameProfile
-          ? { availableDays: gameProfile.appropriation.availabilityDays }
-          : {}),
+        : pinnedLegacyTransit
+          ? { availableDays: 366 }
+          : profileAuthorityMatches && gameProfile
+            ? { availableDays: gameProfile.appropriation.availabilityDays }
+            : {}),
     edition: editionBase,
     basisNote: transitProfile
       ? `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure. Profile ${transitProfile.ref.profileId} version ${transitProfile.ref.version} digest ${transitProfile.ref.digest} supplies the state transit program key and availability window; the saved enactment effective date starts availability. ${serviceProfile ? serviceCapacityBasisNote(serviceProfile) : ""}This is spending authority, not cash.`
@@ -968,6 +989,35 @@ function programKeyForGovernment(
     : `${familyKey}:${scope.programKeySuffix}`;
 }
 
+/**
+ * A spending authority belongs to one program, not to every appropriation in
+ * its state. A standing key names one authored program, so later bills against
+ * that same key keep its identity. A docket measure may contain several
+ * programs; its bill ID and aggregate ceiling are not a target program.
+ */
+function programKeyForEnactedAppropriation(
+  lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
+  scope: PublicProgramGovernmentScope,
+): string | null {
+  if (lineage.authorityMeasureId !== undefined || !lineage.authorityKey)
+    return null;
+  const authority = standingAuthority(lineage.authorityKey);
+  if (authority?.kind !== "standing-statute" || !authority.authorizesSpending)
+    return null;
+  // Existing state transit saves use this key. Other variants against the
+  // same named fund must join it rather than create a second transit program.
+  if (lineage.authorityKey === TRANSIT_PROGRAM_KEY && scope.stateUsps)
+    return governingProgramKey("transit", scope.stateUsps);
+  // The other currently authored spending authority is the school fund.
+  // Keep its existing state key so saved school appropriations and later
+  // supplementals remain in one program without rewriting old records.
+  if (lineage.authorityKey === "standing:school-facilities")
+    return programKeyForGovernment(lineage.familyKey, scope);
+  const target = lineage.authorityKey.slice("standing:".length);
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(target)) return null;
+  return `${lineage.familyKey}:${scope.programKeySuffix}-${target}`;
+}
+
 /** The organization the money is paid to when an office commits a program. */
 export function programOperatorOrganization(
   world: World,
@@ -1138,6 +1188,7 @@ export function openAppropriationsFor(
           publicGovernmentIdentityForRecord(record),
           identity,
         )) &&
+      record.availableFrom <= world.currentDate &&
       record.availableThrough >= world.currentDate &&
       programPosition(world, record.programKey, record.id).uncommitted
         .minorUnits > 0,
