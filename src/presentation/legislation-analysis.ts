@@ -182,7 +182,10 @@ export function draftFiscalNote(draft: CompiledBillDraft): BillFiscalNote {
 }
 
 /** Read from current saved provisions, so an adopted amendment changes the note. */
-export function filedFiscalNote(world: World, bill: DocketBill): BillFiscalNote {
+export function filedFiscalNote(
+  world: World,
+  bill: DocketBill,
+): BillFiscalNote {
   const dimensions = new Map<string, ClauseDimension>();
   for (const lineage of draftLineageComponents(world, bill.measureId)) {
     try {
@@ -238,14 +241,13 @@ function fiscalNoteParts(
     const amountKind: FiscalNotePart["amountKind"] =
       section.dimension === "revenue"
         ? "per-unit-charge"
-        : section.dimension === "funding-cap" &&
-            instrument === "appropriation"
+        : section.dimension === "funding-cap" && instrument === "appropriation"
           ? "appropriation"
           : section.dimension === "funding-cap"
             ? "authorization-ceiling"
             : section.statedAmountLabel !== null
               ? "other-stated-amount"
-            : "none";
+              : "none";
     const payerLabel =
       amountKind === "appropriation"
         ? "the government in this bill's jurisdiction"

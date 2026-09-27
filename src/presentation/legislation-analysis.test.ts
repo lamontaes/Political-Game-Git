@@ -66,7 +66,9 @@ describe("fiscal notes read every drafted part without claiming cash moved", () 
     const filed = kentuckyDocket("service-charges", "flat-permit-fee");
     const before = serializeWorld(filed.world);
     const preview = draftFiscalNote(filed.draft);
-    const fee = preview.parts.find((part) => part.provisionKey === "fee-imposed");
+    const fee = preview.parts.find(
+      (part) => part.provisionKey === "fee-imposed",
+    );
     expect(fee?.lever).toBe("rate");
     expect(fee?.payerLabel).toBe("every applicant for a permit");
     expect(fee?.amountKind).toBe("per-unit-charge");
@@ -82,7 +84,9 @@ describe("fiscal notes read every drafted part without claiming cash moved", () 
     const saved = filedFiscalNote(filed.world, filed.bill);
     expect(saved.status).toBe("filed");
     expect(saved.operativeAt).toBeNull();
-    expect(saved.parts.find((part) => part.provisionKey === "fee-imposed")).toMatchObject({
+    expect(
+      saved.parts.find((part) => part.provisionKey === "fee-imposed"),
+    ).toMatchObject({
       lever: "rate",
       statedAmountMinorUnits: 7_500,
       forecastMinorUnits: null,
