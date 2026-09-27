@@ -119,7 +119,20 @@ export function CampaignActionChoicesPanel({
                 <strong>{campaignLifeCatalogEntry(result.form).title}</strong>
                 <p>Held {proseDate(result.completedAt)}.</p>
                 {result.contactNames.length > 0 ? (
-                  <p>Met: {result.contactNames.join(", ")}</p>
+                  <p>
+                    {result.form === "door-canvass" ||
+                    result.form === "phone-shift"
+                      ? "Worked with"
+                      : "Met"}
+                    : {result.contactNames.join(", ")}
+                  </p>
+                ) : null}
+                {result.fieldReach?.estimatedCompletedConversations ? (
+                  <p data-testid={`campaign-result-reach-${result.activityId}`}>
+                    Estimated conversations:{" "}
+                    {result.fieldReach.estimatedCompletedConversations.min}–
+                    {result.fieldReach.estimatedCompletedConversations.max}
+                  </p>
                 ) : null}
                 {result.raisedAmount !== null ? (
                   <p>Raised: {displayMoney(result.raisedAmount)}</p>

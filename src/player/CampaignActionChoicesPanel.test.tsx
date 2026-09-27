@@ -24,6 +24,7 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { CampaignActionChoicesPanel } from "./CampaignActionChoicesPanel";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 
@@ -159,6 +160,15 @@ describe("campaign choices in the player UI", () => {
     const html = renderChoices(finished);
     expect(html).toContain('data-testid="campaign-recent-results"');
     expect(html).toContain(result.contactNames[0]!);
+    expect(html).toContain("Worked with:");
+    expect(result.fieldReach?.estimatedCompletedConversations).toEqual({
+      min: 10,
+      max: 15,
+    });
+    expect(html).toContain("Estimated conversations: 10–15");
+    expect(renderChoices(deserializeWorld(serializeWorld(finished)))).toContain(
+      "Estimated conversations: 10–15",
+    );
     expect(html).toContain("Held ");
     expect(html).not.toContain(result.summary);
   });
