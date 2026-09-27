@@ -74,7 +74,7 @@ describe("the week's groceries", () => {
       ),
     ).toHaveLength(1);
     assertWorldIntegrity(aged);
-  });
+  }, 10_000); // Three 7-day advances took 7.42 s in the changed-file gate.
 
   it("never tells the player the groceries have waited more than a week", () => {
     const day = projectOrdinaryDay(later, personId);
