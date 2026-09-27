@@ -1,12 +1,16 @@
 import { describe, expect, it } from "vitest";
 import {
   addSimulationMinutes,
+  createWorkItem,
   createScheduledActivity,
   deserializeWorld,
   serializeWorld,
   simulationMinutesBetween,
 } from "../simulation";
-import { openOrdinaryLifeRecords } from "../simulation/life-opportunities";
+import {
+  HOUSEHOLD_ERRANDS_KEY,
+  openOrdinaryLifeRecords,
+} from "../simulation/life-opportunities";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import {
@@ -28,10 +32,23 @@ function start(placeKey: string, startAge = 34) {
       household: "shares-a-home",
     }),
   ).game!;
-  return {
-    ...game,
-    world: openOrdinaryLifeRecords(game.world, game.playerPersonId),
-  };
+  const opened = openOrdinaryLifeRecords(game.world, game.playerPersonId);
+  const world = createWorkItem(opened, {
+    stableKey: HOUSEHOLD_ERRANDS_KEY,
+    title: "The week's groceries",
+    summary: "The household needs groceries for the week.",
+    jurisdictionId: opened.people[game.playerPersonId]!.homeJurisdictionId,
+    sourceEntityIds: [game.playerPersonId],
+    focus: { kind: "person", personId: game.playerPersonId },
+    effort: { kind: "authored-duration", requiredMinutes: 150 },
+    access: { kind: "private", personIds: [game.playerPersonId] },
+    assignedPersonIds: [game.playerPersonId],
+    playerRequirement: "decision",
+    waitingOnPersonIds: [],
+    blocker: null,
+    scheduledActivityId: null,
+  });
+  return { ...game, world };
 }
 
 describe("authored ordinary grocery journey", () => {
@@ -43,15 +60,14 @@ describe("authored ordinary grocery journey", () => {
       expect(ordinaryGroceryRoute(world, personId, "grocery").kind).toBe(
         "available",
       );
+      // Old saves retain their route record, but the player is no longer
+      // offered the removed grocery errand as a new choice.
+      const loadedPending = deserializeWorld(before);
       expect(
-        projectPlacesWorkspace(world, personId)?.offers.find(
+        projectPlacesWorkspace(loadedPending, personId)?.offers.some(
           (offer) => offer.id === "grocery-grocery",
         ),
-      ).toMatchObject({
-        groceryDestination: "grocery",
-        minutes: 15,
-        unavailable: null,
-      });
+      ).toBe(false);
       expect(serializeWorld(world)).toBe(before);
       const shop = travelToPlace(
         world,

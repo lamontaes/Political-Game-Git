@@ -129,6 +129,9 @@ describe("a quiet stretch stops for civic life", () => {
     )!;
     expect(isCivicHold(meeting)).toBe(true);
     const meetingDay = scheduledActivityState(world, meeting.id).start.date;
+    expect(nextKnownCalendarItem(world, personId)?.title).toBe(
+      "Posted public meeting",
+    );
 
     const next = letStoryTimePass(world, personId);
     expect(next.currentDate).toBe(meetingDay);

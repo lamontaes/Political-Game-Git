@@ -5,6 +5,7 @@ import {
 } from "../presentation/campaign-life-surface";
 import { projectBillPaper, type BillPaper } from "../presentation/bill-paper";
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
+import { DateFormatSetting } from "./OptionsScreen";
 import {
   clampWorkspace,
   defaultWorkspace,
@@ -752,7 +753,7 @@ export function CalendarWorkspaceSurface({
     () => projectPlayerCalendar(world, personId),
     [world, personId],
   );
-  const [dateOrder, setDateOrder] = useCalendarDateOrder();
+  const [dateOrder] = useCalendarDateOrder();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<EntityId | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
@@ -781,15 +782,6 @@ export function CalendarWorkspaceSurface({
         : result.outcome,
     );
   };
-  const dayTarget = previewTimeCommand(world, personId, {
-    kind: "days",
-    days: 1,
-  });
-  const weekTarget = previewTimeCommand(world, personId, {
-    kind: "days",
-    days: 7,
-  });
-
   /* Releasing a hold spends no time, so it does not wait on the runner. */
   function applyNow(result: {
     readonly world: World;
@@ -897,27 +889,6 @@ export function CalendarWorkspaceSurface({
         {calendarDisplayDate(calendar.today.date, dateOrder)} ·{" "}
         {formatMinute(calendar.today.minuteOfDay)}
       </p>
-      <fieldset className="ux39-calendar-date-order">
-        <legend>Date format</legend>
-        <label>
-          <input
-            type="radio"
-            name="calendar-date-order"
-            checked={dateOrder === "month-day"}
-            onChange={() => setDateOrder("month-day")}
-          />
-          Month / day / year
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="calendar-date-order"
-            checked={dateOrder === "day-month"}
-            onChange={() => setDateOrder("day-month")}
-          />
-          Day / month / year
-        </label>
-      </fieldset>
       <div
         className="pg-tabs"
         role="tablist"
@@ -960,38 +931,6 @@ export function CalendarWorkspaceSurface({
             }}
           />
           {today}
-          <div
-            className="game-choices"
-            data-testid="calendar-time-controls"
-            aria-busy={runner.pending}
-          >
-            <button
-              type="button"
-              className="ui-action"
-              data-testid="calendar-simulate-day"
-              aria-disabled={runner.pending || undefined}
-              onClick={() => runner.submit({ kind: "days", days: 1 }, report)}
-            >
-              Skip 1 day
-              <small>
-                {dayTarget ? `${skipToLabel(dayTarget.target)}. ` : ""}
-                Your routine runs. {PROTECTED_STOP_NOTE}
-              </small>
-            </button>
-            <button
-              type="button"
-              className="ui-action"
-              data-testid="calendar-simulate-week"
-              aria-disabled={runner.pending || undefined}
-              onClick={() => runner.submit({ kind: "days", days: 7 }, report)}
-            >
-              Skip 7 days
-              <small>
-                {weekTarget ? `${skipToLabel(weekTarget.target)}. ` : ""}
-                Same rules. {PROTECTED_STOP_NOTE}
-              </small>
-            </button>
-          </div>
           {runner.pending ? (
             <p
               className="game-note"
@@ -2065,6 +2004,10 @@ export function OptionsWorkspace({
 }) {
   return (
     <>
+      <section className="pg-personal-section">
+        <h3>Calendar</h3>
+        <DateFormatSetting />
+      </section>
       <section className="pg-personal-section">
         <h3>People</h3>
         <p className="game-note">How the People screen opens.</p>
