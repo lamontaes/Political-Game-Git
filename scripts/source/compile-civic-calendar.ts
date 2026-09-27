@@ -85,6 +85,12 @@ const SOURCES = [
     "Kansas Legislature",
     "https://www.kslegislature.gov/b2025_26/laws/025_000_0000_chapter/025_001_0000_article/025_001_0001_section/025_001_0001_k/",
   ],
+  [
+    "az-constitution-article5-section1",
+    "az-constitution-article5-section1.html",
+    "Arizona Legislature",
+    "https://www.azleg.gov/const/5/1.htm",
+  ],
 ] as const;
 
 type SourceId = (typeof SOURCES)[number][0];
@@ -115,6 +121,7 @@ type Jurisdiction = {
     referenceElectionYear: 2026;
     regularTermYears: 4;
     onBallot2026: true;
+    ballotRelationship: "joint-ticket" | null;
     sourceIds: readonly SourceId[];
   } | null;
   otherElectedStatewideOffices:
@@ -628,6 +635,9 @@ export function compileCivicCalendar(root = ROOT) {
   const ksStatute = plainHtml(
     sourceText(root, "ks-election-statute-25-101.html"),
   );
+  const azConstitution = plainHtml(
+    sourceText(root, "az-constitution-article5-section1.html"),
+  );
   requireMatch(
     /PRIMARY ELECTION - June 16, 2026/i.test(plainHtml(dcElections)),
     "DC 2026 primary date",
@@ -667,6 +677,15 @@ export function compileCivicCalendar(root = ROOT) {
       ksStatute,
     ),
     "Kansas statute regular statewide office cycle",
+  );
+  requireMatch(
+    /executive department shall consist of the governor, lieutenant governor, secretary of state, attorney general, state treasurer and superintendent of public instruction.*office for four years.*general election in 1970/i.test(
+      azConstitution,
+    ) &&
+      /nominee for the office of governor shall name a lieutenant governor nominee.*joint candidate in the general election/i.test(
+        azConstitution,
+      ),
+    "Arizona constitutional executive offices and joint ticket",
   );
 
   const stateKeys = Object.keys(US_STATE_NAMES).sort();
@@ -745,12 +764,21 @@ export function compileCivicCalendar(root = ROOT) {
               referenceElectionYear: 2026,
               regularTermYears: 4,
               onBallot2026: true,
+              ballotRelationship: null,
               sourceIds: [
                 "ks-sos-2026-candidates",
                 "ks-election-statute-25-101",
               ],
             }
-          : null,
+          : usps === "AZ"
+            ? {
+                referenceElectionYear: 2026,
+                regularTermYears: 4,
+                onBallot2026: true,
+                ballotRelationship: "joint-ticket",
+                sourceIds: ["az-constitution-article5-section1"],
+              }
+            : null,
       otherElectedStatewideOffices:
         usps === "KS"
           ? [
@@ -768,7 +796,20 @@ export function compileCivicCalendar(root = ROOT) {
                 "ks-election-statute-25-101",
               ] as SourceId[],
             }))
-          : null,
+          : usps === "AZ"
+            ? [
+                "Secretary of State",
+                "Attorney General",
+                "State Treasurer",
+                "Superintendent of Public Instruction",
+              ].map((office) => ({
+                office,
+                referenceElectionYear: 2026 as const,
+                regularTermYears: 4 as const,
+                onBallot2026: true as const,
+                sourceIds: ["az-constitution-article5-section1"] as SourceId[],
+              }))
+            : null,
       specialLegislativeElections2026:
         usps === "KS"
           ? [
@@ -807,13 +848,13 @@ export function compileCivicCalendar(root = ROOT) {
   const gaps = [
     {
       field: "lieutenantGovernorElection",
-      jurisdictions: keys.filter((key) => key !== "KS"),
+      jurisdictions: keys.filter((key) => !["KS", "AZ"].includes(key)),
       reason:
         "The bounded NGA election page does not establish election method and timing for each jurisdiction's lieutenant-governor-equivalent office.",
     },
     {
       field: "otherElectedStatewideOffices",
-      jurisdictions: stateKeys.filter((key) => key !== "KS"),
+      jurisdictions: stateKeys.filter((key) => !["KS", "AZ"].includes(key)),
       reason:
         "Office-by-office statewide ballot timing is not established by the locked item 1 sources.",
     },

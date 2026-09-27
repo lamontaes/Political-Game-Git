@@ -5,7 +5,7 @@
     "name": "compile-civic-calendar",
     "version": "1.0.0"
   },
-  "canonicalSha256": "3144f73d8208b80b9eee8b7005bab7bb20149efd3e0a22946d67db8f6ab2f0ab",
+  "canonicalSha256": "344e484288b50e80092421599e1a716c21a6ac4e6699d176c690646d846de943",
   "inputClass": "research-only",
   "coverage": {
     "isCompleteUniverse": true,
@@ -59,6 +59,10 @@
     {
       "artifactId": "ks-election-statute-25-101",
       "sha256": "07eddeea5c9512c1cdf7e58dd303eb3ea0c54f55d5b0b54eebb8a34637ece527"
+    },
+    {
+      "artifactId": "az-constitution-article5-section1",
+      "sha256": "0ea06c412e84853e4c4dc95027c2e0e412c09223ab45857b48c738f1715cb5af"
     }
   ],
   "reusedRepositorySources": [

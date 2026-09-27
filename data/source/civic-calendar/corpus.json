@@ -233,8 +233,53 @@
         "onBallot2026": true,
         "sourceId": "nga-governor-elections"
       },
-      "lieutenantGovernorElection": null,
-      "otherElectedStatewideOffices": null,
+      "lieutenantGovernorElection": {
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "ballotRelationship": "joint-ticket",
+        "sourceIds": [
+          "az-constitution-article5-section1"
+        ]
+      },
+      "otherElectedStatewideOffices": [
+        {
+          "office": "Secretary of State",
+          "referenceElectionYear": 2026,
+          "regularTermYears": 4,
+          "onBallot2026": true,
+          "sourceIds": [
+            "az-constitution-article5-section1"
+          ]
+        },
+        {
+          "office": "Attorney General",
+          "referenceElectionYear": 2026,
+          "regularTermYears": 4,
+          "onBallot2026": true,
+          "sourceIds": [
+            "az-constitution-article5-section1"
+          ]
+        },
+        {
+          "office": "State Treasurer",
+          "referenceElectionYear": 2026,
+          "regularTermYears": 4,
+          "onBallot2026": true,
+          "sourceIds": [
+            "az-constitution-article5-section1"
+          ]
+        },
+        {
+          "office": "Superintendent of Public Instruction",
+          "referenceElectionYear": 2026,
+          "regularTermYears": 4,
+          "onBallot2026": true,
+          "sourceIds": [
+            "az-constitution-article5-section1"
+          ]
+        }
+      ],
       "specialLegislativeElections2026": null,
       "legislature": {
         "chambers": [
@@ -945,6 +990,7 @@
         "referenceElectionYear": 2026,
         "regularTermYears": 4,
         "onBallot2026": true,
+        "ballotRelationship": null,
         "sourceIds": [
           "ks-sos-2026-candidates",
           "ks-election-statute-25-101"
@@ -3340,7 +3386,6 @@
         "AK",
         "AL",
         "AR",
-        "AZ",
         "CA",
         "CO",
         "CT",
@@ -3401,7 +3446,6 @@
         "AK",
         "AL",
         "AR",
-        "AZ",
         "CA",
         "CO",
         "CT",

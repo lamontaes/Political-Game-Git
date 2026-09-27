@@ -136,8 +136,28 @@ describe("locked 2026 civic calendar", () => {
     ]);
   });
 
+  it("recognizes Arizona's new joint-ticket lieutenant governor and executive slate", () => {
+    expect(byUsps.get("AZ")?.lieutenantGovernorElection).toEqual(
+      expect.objectContaining({
+        onBallot2026: true,
+        ballotRelationship: "joint-ticket",
+        regularTermYears: 4,
+      }),
+    );
+    expect(
+      byUsps
+        .get("AZ")
+        ?.otherElectedStatewideOffices?.map((office) => office.office),
+    ).toEqual([
+      "Secretary of State",
+      "Attorney General",
+      "State Treasurer",
+      "Superintendent of Public Instruction",
+    ]);
+  });
+
   it("binds the committed corpus to its cache-only source receipts", () => {
-    expect(lock.artifacts).toHaveLength(11);
+    expect(lock.artifacts).toHaveLength(12);
     for (const artifact of lock.artifacts) {
       expect(artifact.localPath).toBeNull();
       expect(artifact.storage).toBe("cached-not-committed");

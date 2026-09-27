@@ -40,6 +40,14 @@ regularly scheduled chamber cohort. The same official list names the Attorney
 General, Secretary of State, State Treasurer and Commissioner of Insurance on
 the 2026 ballot. This Kansas finding does not fill equivalent gaps elsewhere.
 
+Arizona's current constitution names the governor, new lieutenant governor,
+Secretary of State, Attorney General, State Treasurer and Superintendent of
+Public Instruction as four-year elected executive officers, and makes the
+lieutenant governor the governor's joint-ticket candidate. Its 1970 election
+anchor establishes the 2026 regular cycle. This supersedes the older
+no-lieutenant-governor assumption for Arizona; it does not establish other
+states' lieutenant governor rules.
+
 This is a research and compiler checkpoint. No player route reads this packet
 until a rights-cleared source path and consumer are integrated and verified
 separately.
