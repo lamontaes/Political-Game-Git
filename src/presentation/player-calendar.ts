@@ -35,7 +35,7 @@ export interface CalendarEntry {
   readonly title: string;
   readonly summary: string;
   readonly kind: ScheduledActivityKind;
-  /** "Confirmed", "Tentative hold", "Flexible work", "Travel". */
+  /** "Confirmed", "Maybe", "Flexible work", "Travel". */
   readonly kindLabel: string;
   readonly group: CalendarGroup;
   readonly start: SimulationMoment;
@@ -72,7 +72,7 @@ export interface PlayerCalendar {
 
 const KIND_LABELS: Readonly<Record<ScheduledActivityKind, string>> = {
   confirmed: "Confirmed",
-  tentative: "Tentative hold",
+  tentative: "Maybe",
   flexible: "Flexible work",
   travel: "Travel",
 };

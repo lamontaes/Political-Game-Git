@@ -50,7 +50,7 @@ function formatMinute(minuteOfDay: number): string {
 
 function kindLabel(entry: RunDAgendaEntry): string {
   if (entry.activity.kind === "confirmed") return "Confirmed";
-  if (entry.activity.kind === "tentative") return "Tentative hold";
+  if (entry.activity.kind === "tentative") return "Maybe";
   if (entry.activity.kind === "flexible") return "Flexible work";
   return "Travel";
 }
