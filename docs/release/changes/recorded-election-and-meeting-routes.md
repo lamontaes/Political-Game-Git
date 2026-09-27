@@ -1,6 +1,8 @@
 ---
 id: recorded-election-and-meeting-routes
 impact: minor
+section: Added
+title: Saved election results and meeting choices reach play
 ---
 
 The watched World's record now displays saved congressional and state
