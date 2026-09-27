@@ -530,6 +530,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   /* ---------------------------------------------------------------- home -- */
   {
     key: "adult.household-standing",
+    withheld: "Routine household errands are no longer a player scene.",
     companion: "household-member",
     stakes: "notable",
     // The active, accessible errands item establishes these tasks; it does
@@ -2507,6 +2508,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   /* -------------------------------------------------------- plain good -- */
   {
     key: "adult.ordinary-good-day",
+    withheld: "Routine errands no longer supply a generic day choice.",
     companion: null,
     stakes: "ordinary",
     prose:

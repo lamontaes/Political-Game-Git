@@ -36,7 +36,11 @@ const PT3_FIRST_SESSION_SOURCE = "prose-review/pt3-first-session";
 
 /** Retained for previously opened saves, but no longer offered in ordinary play. */
 export function isArchivedRoutineOpeningSceneKey(key: string): boolean {
-  return key === "young.home.choose-activity" || key === "adult.home.free-time";
+  return (
+    key === "young.home.choose-activity" ||
+    key === "adult.home.free-time" ||
+    key === "adult.home.plan-week"
+  );
 }
 
 /** Only these choices actually perform a sustained activity. Conversational

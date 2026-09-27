@@ -5,6 +5,8 @@ import {
   deserializeWorld,
   describePersonContext,
   introducePerson,
+  recordEventKnowledge,
+  recordWorldEvent,
   serializeWorld,
   type EntityId,
   type World,
@@ -61,6 +63,61 @@ function goalStatus(world: World, personId: EntityId, goal: string) {
   );
 }
 
+/** A saved scene opened by the earlier build remains answerable after its
+ * routine prompt is retired from new play. */
+function legacyPlanScene(world: World, personId: EntityId): World {
+  const key = `opening-life:scene:${personId}:adult.home.plan-week`;
+  const opened = recordWorldEvent(world, {
+    stableKey: key,
+    type: "life.scene.opened",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: world.people[personId]!.homeJurisdictionId,
+    involvedEntityIds: [personId],
+    participants: [
+      {
+        personId,
+        role: "focus:subject",
+        detail: "Present in the authored scene",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      "opening-life-v1",
+      "family:adult.home.plan-week",
+      "opening-stage:moment",
+      "provenance:authored-premise",
+      `moment:${JSON.stringify(world.currentMoment)}`,
+    ],
+    summary:
+      "You're at home, thinking about what to make time for in the days ahead.",
+    context: {
+      location: {
+        jurisdictionId: world.people[personId]!.homeJurisdictionId,
+        label: "Home",
+        setting: "home",
+      },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const event = opened.history.events.at(-1)!;
+  return recordEventKnowledge(opened, {
+    stableKey: `${key}:witness:${personId}`,
+    personId,
+    eventId: event.id,
+    learnedAt: world.currentDate,
+    believedSummary: event.summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
+}
+
 /** Open scenes, answering with the first choice, until `key` is the current one. */
 function openUntil(world: World, personId: EntityId, key: string): World {
   let next = openNextLifeScene(world, personId);
@@ -80,23 +137,21 @@ function openUntil(world: World, personId: EntityId, key: string): World {
 }
 
 describe("the first session reads differently in three different lives", () => {
-  it("offers an adult alone a decision, with quiet time available by choice", () => {
+  it("does not offer the retired plan-week leisure prompt to a new adult", () => {
     const life = start("pt3-alone", 22, "lives-alone");
     const offered = availableOpeningLifeScenes(life.world, life.personId).map(
       (entry) => entry.definition.key,
     );
-    expect([...offered].sort()).toEqual(["adult.home.plan-week"]);
+    expect(offered).not.toContain("adult.home.plan-week");
     expect(
       availableOptionalLifeActivities(life.world, life.personId).map(
         (entry) => entry.definition.key,
       ),
     ).not.toContain("adult.home.free-time");
     const opened = openNextLifeScene(life.world, life.personId);
-    const scene = currentOpeningLifeScene(opened, life.personId)!;
-    expect(scene.prose).toBe(
-      "You're at home, thinking about what to make time for in the days ahead.",
-    );
-    expect(scene.prose).not.toMatch(/a little free time|What would you like/);
+    expect(
+      currentOpeningLifeScene(opened, life.personId)?.definition.key,
+    ).not.toBe("adult.home.plan-week");
   });
 
   it("introduces the person an adult lives with by name and relation", () => {
@@ -153,7 +208,7 @@ describe("the first session reads differently in three different lives", () => {
 describe("a decision is recorded, and kept only by what the player then does", () => {
   it("records the plan, keeps it by reading, and survives reload", () => {
     const life = start("pt3-plan", 22, "lives-alone");
-    let world = openUntil(life.world, life.personId, "adult.home.plan-week");
+    let world = legacyPlanScene(life.world, life.personId);
     let scene = currentOpeningLifeScene(world, life.personId)!;
     expect(scene.definition.key).toBe("adult.home.plan-week");
     // The life starts with one plan of its own; clear the slate for "learning".
@@ -203,7 +258,7 @@ describe("a decision is recorded, and kept only by what the player then does", (
 
   it("leaves the plan standing when the player puts it off", () => {
     const life = start("pt3-plan-later", 22, "lives-alone");
-    let world = openUntil(life.world, life.personId, "adult.home.plan-week");
+    let world = legacyPlanScene(life.world, life.personId);
     let scene = currentOpeningLifeScene(world, life.personId)!;
     world = chooseOpeningLifeScene(
       world,
@@ -228,11 +283,7 @@ describe("a decision is recorded, and kept only by what the player then does", (
     const outcomes = (["learning", "connection", "privacy"] as const).map(
       (goal) => {
         const life = start("pt3-plan-each", 22, "lives-alone");
-        const world = openUntil(
-          life.world,
-          life.personId,
-          "adult.home.plan-week",
-        );
+        const world = legacyPlanScene(life.world, life.personId);
         const scene = currentOpeningLifeScene(world, life.personId)!;
         const after = chooseOpeningLifeScene(
           world,
@@ -250,7 +301,7 @@ describe("a decision is recorded, and kept only by what the player then does", (
 describe("reading is free, and saved words stay as they were saved", () => {
   it("projects the scene and its choice effects without changing the world", () => {
     const life = start("pt3-read-only", 22, "lives-alone");
-    const opened = openNextLifeScene(life.world, life.personId);
+    const opened = legacyPlanScene(life.world, life.personId);
     const saved = serializeWorld(opened);
     currentOpeningLifeScene(opened, life.personId);
     openingSceneChoiceEffects(opened, life.personId);
@@ -260,7 +311,7 @@ describe("reading is free, and saved words stay as they were saved", () => {
 
   it("shows an already-opened scene with the words it was opened with", () => {
     const life = start("pt3-saved-text", 22, "lives-alone");
-    const opened = openNextLifeScene(life.world, life.personId);
+    const opened = legacyPlanScene(life.world, life.personId);
     const scene = currentOpeningLifeScene(opened, life.personId)!;
     // An older build wrote this event with its own copy; the save keeps it.
     const older: World = {
