@@ -69,16 +69,17 @@ describe("a versioned pre-start world year", () => {
     expect(player.birthDate.slice(5)).toBe("02-12");
     expect([player.givenName, player.familyName]).toEqual(["Avery", "Stone"]);
     expect(player.identity?.gender).toBe("female");
+    // The finalizer appends retrospective childhood events at Begin. Their
+    // historical dates are backstory, not evidence that the earlier clock had
+    // this person. The receiver checks its actual pre-finalization World.
     expect(
-      world.history.events
-        .filter((event) => event.recordedAt < target)
-        .every(
-          (event) =>
-            !event.involvedEntityIds.includes(playerPersonId) &&
-            event.participants.every(
-              (participant) => participant.personId !== playerPersonId,
-            ),
-        ),
+      background.history.events.every(
+        (event) =>
+          !event.involvedEntityIds.includes(playerPersonId) &&
+          event.participants.every(
+            (participant) => participant.personId !== playerPersonId,
+          ),
+      ),
     ).toBe(true);
     expect(
       world.history.events.some(
