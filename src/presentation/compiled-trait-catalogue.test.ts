@@ -63,7 +63,7 @@ vi.mock("../simulation/compiled-trait-packs", async (importOriginal) => {
 });
 
 describe("a trait pack compiled into the build", () => {
-  it("is seeded for everybody, shown once written, and passes the save check", async () => {
+  it("is seeded for everybody once needed, shown once written, and passes the save check", async () => {
     const { ensurePeopleTraits, observedTraitLabels } =
       await import("../simulation/people-traits");
     const { assertProductionCatalogBoundary } =
@@ -73,6 +73,7 @@ describe("a trait pack compiled into the build", () => {
     const { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } =
       await import("./new-game");
     const { openOrdinaryLife } = await import("./ordinary-life");
+    const { contactBases } = await import("../simulation/people-contact");
 
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
@@ -88,11 +89,23 @@ describe("a trait pack compiled into the build", () => {
     const others = opened.personOrder.filter(
       (id) => id !== game.playerPersonId,
     );
-    const world = ensurePeopleTraits(opened, others);
-    const industry = traitRegistryFor(world).traits.get(
+    const industry = traitRegistryFor(opened).traits.get(
       "catalogue-test:industry",
     )!;
     expect(industry).toBeDefined();
+    // At opening the player's contacts already carry it; everybody else is
+    // seeded the first time something needs them.
+    const contacts = new Set(
+      contactBases(opened, game.playerPersonId).map(({ personId }) => personId),
+    );
+    expect(contacts.size).toBeGreaterThan(0);
+    expect(others.some((id) => !contacts.has(id))).toBe(true);
+    for (const id of others) {
+      expect(readTrait(opened, id, industry).state).toBe(
+        contacts.has(id) ? "recorded" : "unrecorded",
+      );
+    }
+    const world = ensurePeopleTraits(opened, others);
     const values = others.map((id) => readTrait(world, id, industry));
     expect(values.every((reading) => reading.state === "recorded")).toBe(true);
     // Every one of them carries their lean on it on their card.
