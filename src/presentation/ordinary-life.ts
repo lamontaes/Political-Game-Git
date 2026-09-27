@@ -701,11 +701,10 @@ export function householdConversationRoom(
 /**
  * A neighbor, and a notice that concerns both of them.
  *
- * Grounded in two records and nothing else: the character lives somewhere, and
- * so does somebody who is not in their household. That is what a neighbor is
- * — the game does not have a friendship score to consult and will not invent
- * one. Where the world has nobody in the same place outside the household,
- * there is no doorstep conversation, which is the truthful outcome.
+ * The posted meeting must still be ahead of this character. Its saved
+ * activity state closes the topic when attendance, cancellation, or a lapse
+ * ends the hold. The room also needs a real neighbor outside the household;
+ * the game does not have a friendship score to consult or invent.
  */
 export function neighborhoodConversationRoom(
   world: World,
@@ -713,6 +712,18 @@ export function neighborhoodConversationRoom(
 ): ConversationRoomContext | null {
   const person = world.people[personId];
   if (!person) return null;
+  const meeting = world.history.scheduledActivities.find(
+    (activity) =>
+      activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+      activity.participantPersonIds.includes(personId),
+  );
+  if (!meeting) return null;
+  const meetingState = scheduledActivityState(world, meeting.id);
+  if (
+    meetingState.status !== "scheduled" ||
+    compareSimulationMoments(world.currentMoment, meetingState.start) >= 0
+  )
+    return null;
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   const jurisdictionId =
     place?.context.jurisdiction.id ?? person.homeJurisdictionId;
