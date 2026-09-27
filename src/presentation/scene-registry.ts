@@ -23,6 +23,7 @@ import {
   RESIDENCE_APARTMENT_LIVING_CANONICAL_03_SCENE,
   RESIDENCE_APARTMENT_LIVING_ORDINARY_02_SCENE,
 } from "../environment/scenes/residence-apartment-living-production";
+import { HOME_SCENE_SPECS } from "./home-scenes";
 import { SHARED_WORKROOM_OFFICE_PRODUCTION_SCENE } from "../environment/scenes/shared-workroom-office-production";
 import { CAMPAIGN_STOREFRONT_PRODUCTION_SCENE } from "../environment/scenes/campaign-storefront-production";
 import { PARK_COMMUNITY_PAVILION_CANDIDATE_SCENE } from "../environment/scenes/park-community-pavilion-production";
@@ -329,6 +330,7 @@ const bundledSceneSpecs: readonly EnvironmentSceneSpec[] = [
   PRESS_BRIEFING_ROOM_CANDIDATE_SCENE,
   OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
   COMMITTEE_ROOM_FIXTURE_SCENE,
+  ...HOME_SCENE_SPECS,
 ];
 const receivedSceneSpecs = runtimeArtMetadata<{
   scenes: readonly EnvironmentSceneSpec[];
@@ -394,9 +396,19 @@ export const DOMESTIC_ORDINARY_SCENE_ID =
  * are ordinary apartments and neither carries a station: which household a
  * room stands for is canonical world truth, never a property of the plate.
  */
-export const DOMESTIC_SCENE_IDS: readonly string[] = [
+export const SHARED_DOMESTIC_SCENE_IDS: readonly string[] = [
   DOMESTIC_CANONICAL_SCENE_ID,
   DOMESTIC_ORDINARY_SCENE_ID,
+];
+
+/**
+ * Every home room: the two shared apartments above, which stand in for a home
+ * with no painted room of its own, and the 25 rooms for the six kinds of home
+ * (home-scenes.ts), chosen by dwelling type and light.
+ */
+export const DOMESTIC_SCENE_IDS: readonly string[] = [
+  ...SHARED_DOMESTIC_SCENE_IDS,
+  ...HOME_SCENE_SPECS.flatMap((spec) => (spec.scene_id ? [spec.scene_id] : [])),
 ];
 
 export const PRESS_BRIEFING_ROOM_SCENE_ID = "press-briefing-room-candidate";
