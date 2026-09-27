@@ -15,7 +15,15 @@ import { pinKindLabel } from "./ShellPinRail";
 import { PersonPortrait } from "./PersonPortrait";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { projectPersonContact } from "../presentation/person-contact";
-import { observedTraitLabels } from "../simulation/people-traits";
+import {
+  observedTraitLabels,
+  strongestObservedTraitLabels,
+} from "../simulation/people-traits";
+import {
+  CARD_TRAIT_LIMIT,
+  howYouKnowLine,
+  observedTraitsSentence,
+} from "../presentation/person-card-english";
 import "./people-web.css";
 
 /**
@@ -209,7 +217,7 @@ export function PersonCard({
   const presentNow = presentPersonIds
     ? presentPersonIds.includes(dossier.personId)
     : dossier.presentNow;
-  const facts = expanded ? dossier.details : dossier.details.slice(0, 3);
+  const facts = dossier.details;
   const testId =
     mode === "overlay" && !expanded ? "quick-dossier" : "full-dossier";
   const role =
@@ -224,7 +232,29 @@ export function PersonCard({
   const traitLabels =
     isYou || dossier.personId === played || !world.people[dossier.personId]
       ? []
-      : observedTraitLabels(world, dossier.personId);
+      : expanded
+        ? observedTraitLabels(world, dossier.personId)
+        : strongestObservedTraitLabels(
+            world,
+            dossier.personId,
+            CARD_TRAIT_LIMIT,
+          );
+  /*
+   * The small card is a glance: who this is, how you know them, what you
+   * have seen of them and when you last spoke. Everything else waits behind
+   * More details (owner's brief, 2026-09-27).
+   */
+  const knownAs = isYou
+    ? null
+    : howYouKnowLine(
+        dossier,
+        web.edges.filter(
+          (edge) =>
+            (edge.fromId === playerId && edge.toId === dossier.personId) ||
+            (edge.toId === playerId && edge.fromId === dossier.personId),
+        ),
+      );
+  const traitsSentence = expanded ? null : observedTraitsSentence(traitLabels);
   /*
    * Somebody who has died is not reached in any way, so the card offers
    * nothing, not even disabled buttons with reasons under them (Ketchikan
@@ -277,12 +307,12 @@ export function PersonCard({
                 {role}
               </p>
             ) : null}
-            {dossier.relationship ? (
+            {knownAs ? (
               <p
                 className="pg-person-card-relation"
                 data-testid="dossier-relation"
               >
-                {dossier.relationship}
+                {knownAs.charAt(0).toUpperCase() + knownAs.slice(1)}
               </p>
             ) : isYou ? (
               <p
@@ -292,7 +322,14 @@ export function PersonCard({
                 You
               </p>
             ) : null}
-            {traitLabels.length > 0 ? (
+            {traitsSentence ? (
+              <p
+                className="pg-person-card-traits"
+                data-testid="person-card-traits"
+              >
+                {traitsSentence}
+              </p>
+            ) : traitLabels.length > 0 ? (
               <p
                 className="pg-person-card-traits"
                 data-testid="person-card-traits"
@@ -307,7 +344,7 @@ export function PersonCard({
               <p className="pg-right-now" data-testid="person-card-deceased">
                 No longer living.
               </p>
-            ) : isYou ? null : presentNow ? (
+            ) : isYou || !expanded ? null : presentNow ? (
               <p className="pg-right-now" data-testid="person-card-present">
                 Here in the room with you.
               </p>
@@ -362,7 +399,7 @@ export function PersonCard({
             >
               {dossier.lastInteraction}
             </p>
-            {dossier.strain === null ? null : (
+            {!expanded || dossier.strain === null ? null : (
               <p
                 className="pg-person-card-read"
                 data-testid={expanded ? "dossier-strain" : "quick-strain"}
@@ -370,7 +407,7 @@ export function PersonCard({
                 {dossier.strain}
               </p>
             )}
-            {dossier.standing === null ? null : (
+            {!expanded || dossier.standing === null ? null : (
               <p
                 className="pg-person-card-read"
                 data-testid={expanded ? "dossier-standing" : "quick-standing"}
@@ -378,20 +415,13 @@ export function PersonCard({
                 {dossier.standing}
               </p>
             )}
-            {dossier.howYouKnowThem &&
-            dossier.howYouKnowThem !== dossier.relationship ? (
-              <p>{dossier.howYouKnowThem}</p>
+            {expanded ? (
+              <FactList facts={facts} testId="dossier-facts" />
             ) : null}
-            <FactList
-              facts={facts}
-              testId={expanded ? "dossier-facts" : "quick-facts"}
-            />
-            {facts.length === 0 ? (
+            {expanded && facts.length === 0 ? (
               <p
                 className="pg-person-card-note"
-                data-testid={
-                  expanded ? "dossier-facts-empty" : "quick-facts-empty"
-                }
+                data-testid="dossier-facts-empty"
               >
                 You don&rsquo;t know much about {dossier.shortName} yet.
               </p>
@@ -438,7 +468,7 @@ export function PersonCard({
             </section>
           ) : null}
 
-          {connections.length > 0 ? (
+          {expanded && connections.length > 0 ? (
             <section
               className="pg-dossier-section"
               aria-label="Connected people"
@@ -477,7 +507,8 @@ export function PersonCard({
             </section>
           ) : null}
 
-          {dossier.links.filter((link) => link.kind !== "person").length > 0 ? (
+          {expanded &&
+          dossier.links.filter((link) => link.kind !== "person").length > 0 ? (
             <section className="pg-dossier-section" aria-label="Also connected">
               <h3>Also connected</h3>
               <div className="pg-dossier-actions" data-testid="dossier-links">
@@ -517,7 +548,7 @@ export function PersonCard({
             Talk
           </button>
         ) : null}
-        {reachable ? (
+        {reachable && (expanded || contact.travel.available) ? (
           <button
             type="button"
             className="ui-action"
@@ -529,7 +560,7 @@ export function PersonCard({
             Travel to
           </button>
         ) : null}
-        {reachable ? (
+        {reachable && (expanded || contact.meet.available) ? (
           <button
             type="button"
             className="ui-action"
@@ -541,7 +572,7 @@ export function PersonCard({
             Meet
           </button>
         ) : null}
-        {reachable ? (
+        {reachable && (expanded || contact.contact.available) ? (
           <button
             type="button"
             className="ui-action"
@@ -577,12 +608,12 @@ export function PersonCard({
       <p className="sr-only" id={`person-travel-reason-${dossier.personId}`}>
         {contact.travel.reason}
       </p>
-      {contact.travel.available && reachable ? (
+      {expanded && contact.travel.available && reachable ? (
         <p className="pg-person-card-note" data-testid="person-contact-reason">
           {contact.travel.reason}
         </p>
       ) : null}
-      {unavailableReasons.length > 0 ? (
+      {expanded && unavailableReasons.length > 0 ? (
         <details className="pg-person-card-why">
           <summary>Why some actions are unavailable</summary>
           <ul data-testid="person-contact-unavailable">
