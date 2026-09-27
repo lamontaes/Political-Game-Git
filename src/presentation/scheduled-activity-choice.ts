@@ -220,7 +220,7 @@ export function declineVenueActivity(
 
 /**
  * The player can call off an upcoming party or campaign appointment they
- * agreed to. This records only their own choice; no record says the host was
+ * requested. This records only their own choice; no record says the host was
  * told. A confirmed appointment cannot be treated as an unanswered invitation
  * or silently lapsed by the clock.
  */
