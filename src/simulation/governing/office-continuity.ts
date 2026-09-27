@@ -71,6 +71,10 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import {
+  JUDICIAL_RETENTION_ELECTION,
+  judicialRetentionElectionHandler,
+} from "../judiciary/retention";
 
 /**
  * GOVERNING K3 — what happens to an office when its holder dies or loses
@@ -1311,6 +1315,7 @@ export function officeContinuityRulings(
 }
 
 export const OFFICE_CONTINUITY_HANDLERS = [
+  [JUDICIAL_RETENTION_ELECTION, judicialRetentionElectionHandler],
   [HOUSE_SPECIAL_ELECTION, houseSpecialElectionHandler],
   [SENATE_APPOINTMENT, senateAppointmentHandler],
   [VICE_PRESIDENT_NOMINATION, vicePresidentNominationHandler],

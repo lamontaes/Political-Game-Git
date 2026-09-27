@@ -7,6 +7,8 @@ import {
 import { openOrdinaryLife } from "../../presentation/ordinary-life";
 import { currentPresidentOf } from "../crisis/offices";
 import { createDemoWorld } from "../demo";
+import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
+import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import { recordWorldEvent } from "../world";
 import { addJudicialCourt } from "./courts";
 import {
@@ -44,12 +46,14 @@ const plan: JudicialSelectionPlan = {
 };
 
 function opening(recordId = sourceRecordId) {
-  const world = createDemoWorld("judicial-selection-stage-order", {
-    peopleCount: 3,
-  });
+  const usps = recordId.slice(3, 5).toUpperCase();
+  const world = ensureStateJurisdictionForKey(
+    createDemoWorld("judicial-selection-stage-order", { peopleCount: 3 }),
+    `US-${usps}`,
+  );
   return addJudicialCourt(world, {
     courtId,
-    jurisdictionId: world.jurisdictionOrder[0],
+    jurisdictionId: chiefExecutiveJurisdiction(usps)!.id,
     name: "Fixture Court",
     level: "local-highest",
     parentCourtId: null,

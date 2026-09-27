@@ -31,6 +31,12 @@ export function recordJudicialProfessionalQualification(
   )
     throw new Error("Legal practice cannot precede recorded bar admission.");
   if (
+    input.qualifiedElectorSince &&
+    (input.qualifiedElectorSince > world.currentDate ||
+      ageOnDate(person.birthDate, input.qualifiedElectorSince) < 18)
+  )
+    throw new Error("Elector qualification needs a dated adult history.");
+  if (
     world.history.personDeaths.some(
       (death) =>
         death.personId === input.personId && death.diedAt <= world.currentDate,
@@ -153,6 +159,36 @@ export function assessJudicialProfessionalQualification(
     return {
       verdict: "fails",
       reason: "Recorded legal practice is too short for this office.",
+      recordId: record.recordId,
+    };
+  return { verdict: "meets", recordId: record.recordId };
+}
+
+/** Elector status is explicit; residence and bar membership cannot imply it. */
+export function assessJudicialQualifiedElector(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly asOf: IsoDate;
+  },
+): JudicialProfessionalAssessment {
+  const record = world.judiciary?.professionalQualifications.find(
+    (row) =>
+      row.personId === input.personId &&
+      row.jurisdictionId === input.jurisdictionId &&
+      row.recordedAt <= input.asOf,
+  );
+  if (!record || !record.qualifiedElectorSince)
+    return {
+      verdict: "unproved",
+      reason:
+        "This World has no dated elector qualification for this person in this jurisdiction.",
+    };
+  if (record.qualifiedElectorSince > input.asOf)
+    return {
+      verdict: "fails",
+      reason: "Elector qualification begins after the requested election date.",
       recordId: record.recordId,
     };
   return { verdict: "meets", recordId: record.recordId };

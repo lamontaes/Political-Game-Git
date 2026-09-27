@@ -168,18 +168,15 @@ export function evaluateDeterministicContestOutcome(
     };
   }
 
-  const rng = new SeededRng(world.seed).fork(
+  const rawVotes = deterministicBallotVotes(
+    world,
     `election-contest:${contest.id}:${contest.stableKey}:${contest.electionDate}`,
-  );
-
-  const rawVotes: { candidatePersonId: EntityId; votes: number }[] = [];
-  let totalVotes = 0;
-
-  for (const candidatePersonId of contest.candidatePersonIds) {
-    const votes = rng.integer(1000, 10000);
-    rawVotes.push({ candidatePersonId, votes });
-    totalVotes += votes;
-  }
+    contest.candidatePersonIds,
+  ).map(({ optionKey, votes }) => ({
+    candidatePersonId: optionKey as EntityId,
+    votes,
+  }));
+  const totalVotes = rawVotes.reduce((sum, row) => sum + row.votes, 0);
 
   rawVotes.sort((a, b) => {
     if (b.votes !== a.votes) return b.votes - a.votes;
@@ -197,6 +194,32 @@ export function evaluateDeterministicContestOutcome(
     winnerPersonId,
     tallies,
   };
+}
+
+/** Shared deterministic tally baseline for candidate and yes/no ballots. */
+function deterministicBallotVotes(
+  world: World,
+  forkKey: string,
+  optionKeys: readonly string[],
+): readonly { readonly optionKey: string; readonly votes: number }[] {
+  const rng = new SeededRng(world.seed).fork(forkKey);
+  return optionKeys.map((optionKey) => ({
+    optionKey,
+    votes: rng.integer(1000, 10000),
+  }));
+}
+
+/** An explicit two-choice ballot; one incumbent never wins by default. */
+export function evaluateDeterministicYesNoBallot(
+  world: World,
+  stableKey: string,
+): { readonly yesVotes: number; readonly noVotes: number } {
+  const tallies = deterministicBallotVotes(
+    world,
+    `election-contest:yes-no:${stableKey}`,
+    ["yes", "no"],
+  );
+  return { yesVotes: tallies[0]!.votes, noVotes: tallies[1]!.votes };
 }
 
 export function resolveElectionContest(

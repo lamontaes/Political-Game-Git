@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "../simulation/demo";
+import { chiefExecutiveJurisdiction } from "../simulation/nationwide-world/government-jurisdiction";
+import { ensureStateJurisdictionForKey } from "../simulation/nationwide-world/state-executives";
 import { addJudicialCourt } from "../simulation/judiciary/courts";
 import { openJudicialSelectionFromProfile } from "../simulation/judiciary/selection";
 import { judicialSeatId } from "../simulation/judiciary/types";
@@ -7,12 +9,15 @@ import { projectJudicialSelection } from "./judicial-selection";
 
 describe("judicial selection presentation", () => {
   it("shows the saved next stage and research status without moving time", () => {
-    let world = createDemoWorld("judicial-selection-view", { peopleCount: 3 });
+    let world = ensureStateJurisdictionForKey(
+      createDemoWorld("judicial-selection-view", { peopleCount: 3 }),
+      "US-AK",
+    );
     const courtId = "fixture:alaska-highest";
     const seatId = judicialSeatId(courtId, 1);
     world = addJudicialCourt(world, {
       courtId,
-      jurisdictionId: world.jurisdictionOrder[0],
+      jurisdictionId: chiefExecutiveJurisdiction("AK")!.id,
       name: "Fixture Alaska Supreme Court",
       level: "local-highest",
       parentCourtId: null,

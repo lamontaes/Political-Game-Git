@@ -3,6 +3,7 @@
 import type { EntityId, IsoDate, World } from "../types";
 import { currentPresidentOf } from "../crisis/offices";
 import { personName } from "../people";
+import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { courtById, effectiveCourtRulesAt, seatHolderAt } from "./courts";
 import { judicialSelectionProfile } from "./profiles";
@@ -70,6 +71,20 @@ export function resolveJudicialSelectionPlan(
       reason:
         "No operative judicial selection profile establishes this office.",
     };
+  if (profile.jurisdictionId !== "us-fed") {
+    const expectedJurisdiction = chiefExecutiveJurisdiction(
+      profile.jurisdictionId.slice(3).toUpperCase(),
+    );
+    if (
+      !expectedJurisdiction ||
+      court.jurisdictionId !== expectedJurisdiction.id
+    )
+      return {
+        state: "unresolved",
+        reason:
+          "The court's jurisdiction does not match its judicial selection profile.",
+      };
+  }
   const path = (() => {
     if (kind === "vacancy") {
       const vacancy = profile.interimVacancy;

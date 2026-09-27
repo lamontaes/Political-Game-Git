@@ -6,6 +6,7 @@ import { factsForPerson } from "../people";
 import { advanceWorld } from "../world";
 import {
   assessJudicialProfessionalQualification,
+  assessJudicialQualifiedElector,
   recordJudicialProfessionalQualification,
 } from "./qualifications";
 
@@ -59,6 +60,7 @@ describe("judicial professional qualifications", () => {
       jurisdictionId: person.homeJurisdictionId,
       barAdmittedAt: admittedAt,
       legalPracticeSince: admittedAt,
+      qualifiedElectorSince: admittedAt,
       provenance: {
         kind: "generated-opening-background",
         seedKey: "judicial-professional-history",
@@ -83,12 +85,20 @@ describe("judicial professional qualifications", () => {
         minimumPracticeYears: 0,
       }).verdict,
     ).toBe("unproved");
+    expect(
+      assessJudicialQualifiedElector(world, {
+        personId: fixture.personId,
+        jurisdictionId: person.homeJurisdictionId,
+        asOf: world.currentDate,
+      }).verdict,
+    ).toBe("meets");
     expect(() =>
       recordJudicialProfessionalQualification(world, {
         personId: fixture.personId,
         jurisdictionId: person.homeJurisdictionId,
         barAdmittedAt: admittedAt,
         legalPracticeSince: admittedAt,
+        qualifiedElectorSince: admittedAt,
         provenance: {
           kind: "generated-opening-background",
           seedKey: "judicial-professional-history",
@@ -108,6 +118,7 @@ describe("judicial professional qualifications", () => {
         jurisdictionId: person.homeJurisdictionId,
         barAdmittedAt: dateAtAge(person.birthDate, 25),
         legalPracticeSince: null,
+        qualifiedElectorSince: null,
         provenance: {
           kind: "generated-opening-background",
           seedKey: "judicial-professional-history",
