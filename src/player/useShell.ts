@@ -46,7 +46,7 @@ export function useShell(
    * persistence it means.
    */
   store: BrowserShellStateStore,
-): readonly [ShellState, (action: ShellAction) => void] {
+): readonly [ShellState, (action: ShellAction) => void, boolean] {
   const [state, dispatch] = useReducer(shellReducer, INITIAL_SHELL_STATE);
   /*
    * The RECORD this session has finished reading — the slot AND the database.
@@ -133,18 +133,24 @@ export function useShell(
     state.progress,
   ]);
 
-  /*
-   * A life read for the first time starts its recap frontier at the world's
-   * current sequence. A stored frontier arriving afterwards replaces it through
-   * `restore`, so the order of these two effects does not matter.
-   */
+  /* Initialize both saved catch-up frontiers at the current World moment. */
   useEffect(() => {
-    if (state.progress.recapFrontier !== null) return;
+    if (
+      state.progress.recapFrontier !== null &&
+      state.progress.recapThroughMoment != null
+    )
+      return;
     dispatch({
-      type: "start-recap-frontier",
+      type: "start-day-rhythm",
       sequence: world.history.nextSequence,
+      moment: world.currentMoment,
     });
-  }, [world, state.progress.recapFrontier]);
+  }, [
+    world.currentMoment,
+    world.history.nextSequence,
+    state.progress.recapFrontier,
+    state.progress.recapThroughMoment,
+  ]);
 
   /* A pin the world cannot resolve is not shown as one that can be opened. */
   useEffect(() => {
@@ -166,5 +172,9 @@ export function useShell(
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  return [state, dispatch] as const;
+  return [
+    state,
+    dispatch,
+    recordKey === null || loadedRecord === recordKey,
+  ] as const;
 }

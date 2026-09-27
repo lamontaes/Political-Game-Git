@@ -1071,62 +1071,6 @@
     "evidence": "Mark your place and stop"
   },
   {
-    "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#line:0",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
-  },
-  {
-    "id": "prose:life:episode:opening.adult.home.plan-week/follow-through#option:later:description",
-    "severity": "REVIEW_WARNING",
-    "family": "label-restated-in-description",
-    "message": "The description repeats 100% of its own label's words.",
-    "evidence": "Leave it for another time"
-  },
-  {
-    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:connection:description",
-    "severity": "REVIEW_WARNING",
-    "family": "label-restated-in-description",
-    "message": "The description repeats 100% of its own label's words.",
-    "evidence": "Make time for people you know"
-  },
-  {
-    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:learning:description",
-    "severity": "REVIEW_WARNING",
-    "family": "label-restated-in-description",
-    "message": "The description repeats 100% of its own label's words.",
-    "evidence": "Make time to learn something"
-  },
-  {
-    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:learning:description",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
-  },
-  {
-    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:learning:label",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
-  },
-  {
-    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:learning:memory",
-    "severity": "REVIEW_WARNING",
-    "family": "vague-referent",
-    "message": "Uses \"something\". Legitimate in dialogue; a defect when it stands in for a fact the packet has.",
-    "evidence": "something"
-  },
-  {
-    "id": "prose:life:episode:opening.adult.home.plan-week/moment#option:privacy:description",
-    "severity": "REVIEW_WARNING",
-    "family": "label-restated-in-description",
-    "message": "The description repeats 100% of its own label's words.",
-    "evidence": "Make some time for yourself"
-  },
-  {
     "id": "prose:life:episode:opening.adult.home.shared-time/follow-through#option:alone:description",
     "severity": "REVIEW_WARNING",
     "family": "label-restated-in-description",

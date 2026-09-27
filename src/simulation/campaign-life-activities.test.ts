@@ -370,6 +370,7 @@ describe(
       const outcome = campaignLifeOutcomeRecords(done).at(-1)!;
       expect(outcome.attendance).toBe("attended");
       expect(outcome.contactPersonIds).toHaveLength(1);
+      expect(outcome.fieldReach).toBeNull();
       expect(outcome.supportStateIds).toEqual([]);
       expect(outcome.resourceFlowId).toBeNull();
       const event = done.history.events.find(
@@ -908,6 +909,11 @@ describe(
         running.personId,
       );
       const outcome = campaignLifeOutcomeRecords(done).at(-1)!;
+      expect(outcome.fieldReach).toMatchObject({
+        profileVersion: "research1-wave2-v1",
+        estimatedDoorKnocks: null,
+        estimatedCompletedConversations: { min: 4, max: 12 },
+      });
       expect(outcome.supportStateIds).toHaveLength(
         campaign.candidateSupportScopes.length,
       );

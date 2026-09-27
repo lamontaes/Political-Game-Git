@@ -1,3 +1,33 @@
+import { useCalendarDateOrder } from "./UX39CalendarGrid";
+
+/** One display preference for the title screen and in-game Options. */
+export function DateFormatSetting() {
+  const [dateOrder, setDateOrder] = useCalendarDateOrder();
+  return (
+    <fieldset className="ux39-calendar-date-order">
+      <legend>Date format</legend>
+      <label>
+        <input
+          type="radio"
+          name="calendar-date-order"
+          checked={dateOrder === "month-day"}
+          onChange={() => setDateOrder("month-day")}
+        />
+        Month / day / year
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="calendar-date-order"
+          checked={dateOrder === "day-month"}
+          onChange={() => setDateOrder("day-month")}
+        />
+        Day / month / year
+      </label>
+    </fieldset>
+  );
+}
+
 /**
  * Options.
  *
@@ -9,13 +39,10 @@ export function OptionsScreen({ onBack }: { readonly onBack: () => void }) {
   return (
     <main className="game-setup" data-testid="options-screen">
       <h1>Options</h1>
+      <DateFormatSetting />
       <p className="game-note">
         Motion in the game follows your system&rsquo;s reduced-motion setting,
         so nothing here has to be switched on to make it stop.
-      </p>
-      <p className="game-note">
-        There is not much else to set yet. As the game grows the settings it
-        actually needs will appear here rather than being invented in advance.
       </p>
       <button type="button" onClick={onBack}>
         Back

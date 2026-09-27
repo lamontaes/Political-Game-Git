@@ -79,6 +79,7 @@ function resolveMeetingHomeRoute(
   if (meetings.length !== 1)
     return unavailable("No eligible local meeting is recorded here.");
   const meeting = meetings[0]!;
+  const lateArrival = origin.tags.includes("travel:late-meeting");
   const journeys = world.history.scheduledActivities.filter(
     (activity) =>
       origin.involvedEntityIds.includes(activity.id) &&
@@ -87,7 +88,8 @@ function resolveMeetingHomeRoute(
       activity.sourceEntityIds.includes(meeting.id) &&
       activity.responsiblePersonId === personId &&
       canPersonAccess(activity.access, personId) &&
-      scheduledActivityState(world, activity.id).status === "completed",
+      scheduledActivityState(world, activity.id).status ===
+        (lateArrival ? "cancelled" : "completed"),
   );
   if (journeys.length !== 1)
     return unavailable("The outward journey is not recorded.");
@@ -120,6 +122,8 @@ function resolveMeetingHomeRoute(
   const minutes = simulationMinutesBetween(state.start, state.end);
   if (!Number.isSafeInteger(minutes) || minutes <= 0)
     return unavailable("The local journey's duration is not recorded.");
+  if (lateArrival && !origin.tags.includes(`duration-minutes:${minutes}`))
+    return unavailable("The outward travel time is not recorded.");
   return {
     kind: "available",
     route: {
