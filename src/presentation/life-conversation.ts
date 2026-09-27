@@ -339,20 +339,20 @@ function activityPreference(world: World, personId: EntityId): string {
  * English engine worded it. The parts are saved with the turn so a person
  * does not keep reaching for the same words with the player.
  */
-function replyFor(
+function replyWithParts(
   world: World,
   context: LifeTalkContext,
   intent: LifeTalkIntent,
 ): { readonly text: string; readonly parts: readonly ComposedPart[] } {
   let parts: readonly ComposedPart[] = [];
-  const text = replyText(world, context, intent, (line) => {
+  const text = replyFor(world, context, intent, (line) => {
     parts = line.parts;
     return line.text;
   });
   return { text, parts };
 }
 
-function replyText(
+function replyFor(
   world: World,
   context: LifeTalkContext,
   intent: LifeTalkIntent,
@@ -640,7 +640,7 @@ export function commitLifeConversation(
       minutes
   )
     return advanced;
-  const { text: reply, parts: replyParts } = replyFor(
+  const { text: reply, parts: replyParts } = replyWithParts(
     world,
     view.context,
     input.intent,
