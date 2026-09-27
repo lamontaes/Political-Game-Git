@@ -5,30 +5,39 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../presentation/opening-life";
-import { attendPartyWork } from "../presentation/campaign-life-actions";
+import {
+  attendPartyWork,
+  requestPartyWork,
+} from "../presentation/campaign-life-actions";
 import { fileForOffice } from "../presentation/campaign-projection";
 import {
   addDays,
   campaignLifeActivityRecords,
+  campaignLifeOutcomeRecords,
   candidacyPackForJurisdiction,
   chooseCampaignWeekAction,
   commitCampaignWeek,
+  homePartyChapters,
+  joinPartyChapter,
   projectCampaignWeek,
   projectCampaignWeekActions,
   type EntityId,
   type World,
 } from "../simulation";
+import { createOrganizationParticipation } from "../simulation/life";
+import { PARTY_AFFILIATION_KIND } from "../simulation/living-world/opening";
 import { CampaignActionChoicesPanel } from "./CampaignActionChoicesPanel";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 
 let world: World;
+let unhostedWorld: World;
 let personId: EntityId;
 
 beforeAll(() => {
   const opening = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
-      seed: "ui-campaign-week-choices",
+      seed: "campaign-week-recorded-backing",
       startAge: 34,
       placeKey: "kentucky",
     }),
@@ -37,13 +46,57 @@ beforeAll(() => {
   const office = candidacyPackForJurisdiction(
     opening.world.people[personId]!.homeJurisdictionId,
   )!.offices[0]!;
-  world = fileForOffice(
+  unhostedWorld = fileForOffice(
     opening.world,
     personId,
     null,
     office.officeKey,
     addDays(opening.world.currentDate, 28),
   );
+  const chapter = homePartyChapters(unhostedWorld)[0]!;
+  world = joinPartyChapter(unhostedWorld, personId, chapter.organizationId);
+  world = createOrganizationParticipation(world, {
+    stableKey: "team-e-ui:explicit-public-party-affiliation",
+    personId,
+    organizationId: chapter.partyOrganizationId,
+    startedAt: world.currentDate,
+    kind: PARTY_AFFILIATION_KIND,
+    roleKind: "member:public-affiliation",
+    context: "Test fixture public affiliation",
+    provenance: { kind: "authored", note: "Test fixture affiliation" },
+  });
+  world = requestPartyWork(
+    world,
+    personId,
+    "organization-meeting",
+    chapter.organizationId,
+  );
+  world = attendPartyWork(
+    world,
+    personId,
+    campaignLifeActivityRecords(world).at(-1)!.id,
+    "attended",
+  );
+  world = requestPartyWork(
+    world,
+    personId,
+    "support-request",
+    chapter.organizationId,
+  );
+  world = attendPartyWork(
+    world,
+    personId,
+    campaignLifeActivityRecords(world).at(-1)!.id,
+    "attended",
+  );
+  if (
+    campaignLifeOutcomeRecords(world).at(-1)?.supportDecision?.decision !==
+    "granted"
+  ) {
+    throw new Error(
+      "The seeded chapter support fixture did not grant support.",
+    );
+  }
 }, 300_000);
 
 function renderChoices(current: World) {
@@ -57,6 +110,17 @@ function renderChoices(current: World) {
 }
 
 describe("campaign choices in the player UI", () => {
+  it("routes an unhosted candidate to an actual chapter support request", () => {
+    const view = projectCampaignWeekActions(unhostedWorld, personId)!;
+    const html = renderChoices(unhostedWorld);
+    expect(view.availabilityReason).toBe("needs-host");
+    expect(view.choices).toEqual([]);
+    expect(html).toContain('href="#party-work-title"');
+    expect(html).toContain("Ask a local chapter organizer for support");
+    expect(html).not.toContain("open calendar");
+    expect(html).not.toContain("campaign-book-phone-shift");
+  });
+
   it("shows hosted dated choices without guessing a cash cost", () => {
     const view = projectCampaignWeekActions(world, personId)!;
     const html = renderChoices(world);

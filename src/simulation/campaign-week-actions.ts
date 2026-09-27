@@ -83,6 +83,7 @@ export interface CampaignWeekActionView {
   readonly proposerPersonId: EntityId | null;
   readonly proposerName: string | null;
   readonly choices: readonly CampaignWeekActionChoice[];
+  readonly availabilityReason: "needs-host" | "calendar-full" | null;
   readonly recentResults: readonly CampaignWeekActionResult[];
   readonly revision: string;
 }
@@ -108,8 +109,33 @@ function hostOrganizationId(
   staff: readonly EntityId[],
 ): EntityId | null {
   if (staff.length > 0) return campaign.organizationId;
+  const activities = new Map(
+    campaignLifeActivityRecords(world).map((activity) => [
+      activity.id,
+      activity,
+    ]),
+  );
+  const latestSupport = new Map<EntityId, string>();
+  for (const outcome of campaignLifeOutcomeRecords(world)) {
+    const activity = activities.get(outcome.activityId);
+    if (
+      activity?.campaignId !== campaign.id ||
+      activity.form !== "support-request" ||
+      !outcome.supportDecision ||
+      outcome.supportDecision.organizationId !== activity.hostOrganizationId
+    )
+      continue;
+    latestSupport.set(
+      outcome.supportDecision.organizationId,
+      outcome.supportDecision.decision,
+    );
+  }
   const chapters = homePartyChapters(world)
-    .filter((chapter) => chapter.organizerPersonId !== null)
+    .filter(
+      (chapter) =>
+        chapter.organizerPersonId !== null &&
+        latestSupport.get(chapter.organizationId) === "granted",
+    )
     .sort((a, b) => a.organizationId.localeCompare(b.organizationId));
   const partyId = publicPartyAffiliation(world, campaign.candidatePersonId);
   return (
@@ -140,7 +166,8 @@ function recentResults(
       records.some(
         (activity) =>
           activity.id === outcome.activityId &&
-          activity.campaignId === campaign.id,
+          activity.campaignId === campaign.id &&
+          ACTIONS.some((action) => action.form === activity.form),
       ),
     )
     .slice(-5)
@@ -243,6 +270,12 @@ export function projectCampaignWeekActions(
     proposerPersonId: staff[0] ?? null,
     proposerName: staff[0] ? personName(world.people[staff[0]]!) : null,
     choices,
+    availabilityReason:
+      organizationId === null
+        ? "needs-host"
+        : choices.length === 0
+          ? "calendar-full"
+          : null,
     recentResults: results,
     revision,
   };
