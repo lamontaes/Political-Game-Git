@@ -40,22 +40,22 @@ Checked, and it did happen at least once:
 
 ## The chronicle in numbers
 
-| Section | Lines |
-| --- | ---: |
-| Elections | 24 |
-| Offices changing hands | 191 |
-| Bills and laws | 274 |
-| Local government | 0 |
-| Executive decisions | 44 |
-| Parties | 56 |
-| Deaths | 51 |
-| Disasters and emergencies | 0 |
-| Scandals and the press | 291 |
-| Crime | 117 |
-| People near the place | 18 |
-| Economy and population | 127 |
-| Abroad | 78 |
-| Everything else the record shows | 73 |
+| Section                          | Lines |
+| -------------------------------- | ----: |
+| Elections                        |    24 |
+| Offices changing hands           |   191 |
+| Bills and laws                   |   274 |
+| Local government                 |     0 |
+| Executive decisions              |    44 |
+| Parties                          |    56 |
+| Deaths                           |    51 |
+| Disasters and emergencies        |     0 |
+| Scandals and the press           |   291 |
+| Crime                            |   117 |
+| People near the place            |    18 |
+| Economy and population           |   127 |
+| Abroad                           |    78 |
+| Everything else the record shows |    73 |
 
 ## Month by month
 
@@ -2961,4 +2961,3 @@ npm run world:report -- --years 5 --seed round-1 --place 1571550
 - Executive offices changing hands compare who held each office at the start of each month, read from the world's records on that day. Every other line is read from the final save.
 - People near the place are those living in it at the end, and anyone who moved into or out of it.
 - Each chronicle line ends with a hidden comment naming the ids of the records it came from. Open this file as text to see them.
-

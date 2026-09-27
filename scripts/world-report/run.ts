@@ -44,6 +44,7 @@ import { proseDate } from "../../src/presentation/prose-dates";
 import {
   anniversary,
   createObserverDayButton,
+  formattedMarkdown,
   openWatchedWorld,
 } from "../dev-lab/world-aging";
 
@@ -1837,7 +1838,7 @@ interface SavedRun extends Omit<WorldReportRun, "world"> {
   readonly world: string;
 }
 
-function main() {
+async function main() {
   const args = process.argv.slice(2);
   const opt = (name: string, fallback: string) => {
     const at = args.indexOf(`--${name}`);
@@ -1872,10 +1873,10 @@ function main() {
     `test-results/world-report/${slug(run.placeName)}-${run.options.seed}.md`,
   );
   mkdirSync(dirname(out), { recursive: true });
-  writeFileSync(out, worldReportMarkdown(run));
+  writeFileSync(out, await formattedMarkdown(out, worldReportMarkdown(run)));
   console.log(
     `Wrote ${out}: ${run.placeName}, ${run.daysPressed} Days to ${run.world.currentDate}.`,
   );
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (import.meta.url === `file://${process.argv[1]}`) await main();
