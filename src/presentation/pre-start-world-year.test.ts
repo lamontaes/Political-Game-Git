@@ -1,22 +1,38 @@
 import { describe, expect, it } from "vitest";
 
-import { addDays } from "../simulation/dates";
+import { addDays, ageOnDate } from "../simulation/dates";
 import { deserializeWorld, serializeWorld } from "../simulation";
-import { recordPersonDeath } from "../simulation/vitality";
 import {
   DEFAULT_NEW_GAME_SETUP,
   createNewGameWorld,
   newGameSetupProblems,
+  productionWorldInputFor,
 } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { completePreStartWorldYear } from "./pre-start-world-year";
+import {
+  buildPreStartBackgroundWorld,
+  type PreStartProductionWorldInput,
+} from "./production-world";
 
 const ordinarySetup = {
   ...DEFAULT_NEW_GAME_SETUP,
   seed: "pre-start-year-ordinary-22",
   startAge: 22,
+  birthMonth: 2,
+  birthDay: 12,
+  givenName: "Avery",
+  familyName: "Stone",
+  gender: "female" as const,
   preStartYearVersion: "pre-start-world-year-v1" as const,
+};
+
+const preStartInput = (): PreStartProductionWorldInput => {
+  const input = productionWorldInputFor(ordinarySetup);
+  if (!input.preStartYear)
+    throw new Error("Missing versioned pre-start dates.");
+  return { ...input, preStartYear: input.preStartYear };
 };
 
 describe("a versioned pre-start world year", () => {
@@ -28,40 +44,76 @@ describe("a versioned pre-start world year", () => {
     );
   }, 180_000);
 
-  it("runs canonical time from the prior date once and saves the target World", () => {
-    const built = createNewGameWorld(ordinarySetup);
-    const targetDated = createNewGameWorld({
-      ...ordinarySetup,
-      preStartYearVersion: undefined,
-    });
-    const target = built.place.context.initialMoment.date;
-    const prior = addDays(target, -365);
-    expect(built.world.currentDate).toBe(prior);
-    expect(built.playerPersonId).toBe(targetDated.playerPersonId);
-    expect(built.world.people[built.playerPersonId]?.birthDate).toBe(
-      targetDated.world.people[targetDated.playerPersonId]?.birthDate,
+  it("runs the world first, then adds the chosen player at Begin", () => {
+    expect(() => createNewGameWorld(ordinarySetup)).toThrow(
+      "two-phase opening",
     );
+    const input = preStartInput();
+    const target = input.preStartYear.targetStartDate;
+    const prior = input.preStartYear.priorYearStartDate;
+    const background = buildPreStartBackgroundWorld(input);
+    expect(background.currentDate).toBe(prior);
+    expect(background.control.kind).toBe("observer");
+    expect(background.personOrder.length).toBeGreaterThan(0);
+
     const generated = generateOpeningLife(prepareOpeningLife(ordinarySetup));
     const world = generated.game!.world;
+    const playerPersonId = generated.game!.playerPersonId;
     expect(world.currentDate).toBe(target);
     expect(world.currentMoment.date).toBe(target);
+    expect(world.control).toEqual({ kind: "person", personId: playerPersonId });
+    expect(background.people[playerPersonId]).toBeUndefined();
+    expect(background.personOrder).not.toContain(playerPersonId);
+    const player = world.people[playerPersonId]!;
+    expect(ageOnDate(player.birthDate, target)).toBe(22);
+    expect(player.birthDate.slice(5)).toBe("02-12");
+    expect([player.givenName, player.familyName]).toEqual(["Avery", "Stone"]);
+    expect(player.identity?.gender).toBe("female");
+    expect(
+      world.history.events
+        .filter((event) => event.recordedAt < target)
+        .every(
+          (event) =>
+            !event.involvedEntityIds.includes(playerPersonId) &&
+            event.participants.every(
+              (participant) => participant.personId !== playerPersonId,
+            ),
+        ),
+    ).toBe(true);
     expect(
       world.history.events.some(
         (event) => event.occurredAt > prior && event.occurredAt <= target,
       ),
     ).toBe(true);
-    expect(completePreStartWorldYear(world, built.playerPersonId, target)).toBe(
-      world,
-    );
     expect(generateOpeningLife(generated)).toBe(generated);
-    const opened = openOrdinaryLife(world, built.playerPersonId);
+    const opened = openOrdinaryLife(world, playerPersonId);
     const reopened = deserializeWorld(serializeWorld(opened));
     expect(reopened.currentDate).toBe(target);
     expect(reopened.history.events).toEqual(opened.history.events);
     expect(passOrdinaryDays(reopened, 1).currentDate).toBe(addDays(target, 1));
   }, 180_000);
 
-  it("rejects office starts and unresolved birthday boundaries in the pilot", () => {
+  it("keeps observer control while the background clock advances", () => {
+    const input = preStartInput();
+    const background = buildPreStartBackgroundWorld(input);
+    const target = input.preStartYear.targetStartDate;
+    const advanced = completePreStartWorldYear(background, target);
+    expect(advanced.currentDate).toBe(target);
+    expect(advanced.control.kind).toBe("observer");
+    expect(completePreStartWorldYear(advanced, target)).toBe(advanced);
+    const firstResident = background.personOrder[0]!;
+    expect(() =>
+      completePreStartWorldYear(
+        {
+          ...background,
+          control: { kind: "person", personId: firstResident },
+        },
+        target,
+      ),
+    ).toThrow("observer control");
+  }, 180_000);
+
+  it("keeps unsupported office starts and birthday boundaries gated", () => {
     for (const startAge of [5, 6, 11, 14, 18]) {
       expect(
         newGameSetupProblems({ ...ordinarySetup, startAge }).some((problem) =>
@@ -75,28 +127,5 @@ describe("a versioned pre-start world year", () => {
         startingLife: "legislative-office",
       }).some((problem) => problem.message.includes("ordinary life")),
     ).toBe(true);
-  });
-
-  it("refuses a canonical death of the prospective player", () => {
-    const built = createNewGameWorld(ordinarySetup);
-    const deceased = recordPersonDeath(built.world, {
-      stableKey: "pre-start-year:death-fixture",
-      personId: built.playerPersonId,
-      diedAt: built.world.currentDate,
-      causeKey: "cause:external-fixture",
-      sourceEntityIds: [built.world.id],
-      summary: "The prospective player died.",
-      provenance: {
-        kind: "authored",
-        note: "Pre-start survival boundary fixture; no mortality rate asserted.",
-      },
-    });
-    expect(() =>
-      completePreStartWorldYear(
-        deceased,
-        built.playerPersonId,
-        built.place.context.initialMoment.date,
-      ),
-    ).toThrow("The prospective player died");
   });
 });

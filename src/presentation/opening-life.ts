@@ -32,7 +32,13 @@ import {
   macroStartForHistory,
 } from "../simulation/macro-economy";
 import type { World, EntityId } from "../simulation";
-import { createNewGameWorld } from "./new-game";
+import { createNewGameWorld, productionWorldInputFor } from "./new-game";
+import { assignSplitHomeDistricts } from "../simulation/district-residence";
+import {
+  buildPreStartBackgroundWorld,
+  finalizePreStartPlayer,
+  type PreStartProductionWorldInput,
+} from "./production-world";
 import { proseDate } from "./prose-dates";
 import type { NewGameSetup, NewGame } from "./new-game";
 import { buildLifeIntroduction } from "./life-introduction";
@@ -74,6 +80,8 @@ export function generateOpeningLife(
 }
 
 function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
+  if (session.setup.preStartYearVersion)
+    return buildPreStartOpeningLife(session);
   const game = createNewGameWorld(session.setup);
   // Begin persists this save's generated starting conditions first, so every
   // later opening step reads the same world. A legacy descriptor writes none.
@@ -138,19 +146,124 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
     ),
     game.playerPersonId,
   );
-  const world = session.setup.preStartYearVersion
-    ? completePreStartWorldYear(
-        opened,
-        game.playerPersonId,
-        game.place.context.initialMoment.date,
-      )
-    : opened;
   return {
     ...session,
     phase: "world",
     game: {
       ...game,
-      world,
+      world: opened,
+    },
+  };
+}
+
+/**
+ * The prior year belongs to the surrounding world. A background resident
+ * supplies the home geography required by the existing institutional opening
+ * writers; the chosen player is created only after that year has elapsed.
+ */
+function buildPreStartOpeningLife(
+  session: OpeningLifeSession,
+): OpeningLifeSession {
+  const input = productionWorldInputFor(session.setup);
+  if (!input.preStartYear)
+    throw new Error("The pre-start opening needs its versioned dates.");
+  const preStartInput: PreStartProductionWorldInput = {
+    ...input,
+    preStartYear: input.preStartYear,
+  };
+  const background = buildPreStartBackgroundWorld(preStartInput);
+  const homeId = input.place.context.jurisdiction.id;
+  const homeAnchorId = background.personOrder.find(
+    (personId) => background.people[personId]?.homeJurisdictionId === homeId,
+  );
+  if (!homeAnchorId)
+    throw new Error("The pre-start place has no background resident.");
+
+  const conditioned = ensureWorldStartingConditions(background, {
+    openingVersion:
+      session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
+    political: generatePoliticalStartingConditions,
+  });
+  const economic = ensureMacroEconomyStarted(
+    conditioned,
+    macroStartForHistory(macroStartingConditions(conditioned)),
+  );
+  const openingData = session.setup.openingDataVersion;
+  const versionedOpening =
+    openingData === "playtest65-v1" || openingData === "playtest65-v2";
+  const staffed = establishOpeningOfficeholders(economic, homeAnchorId, {
+    datedTerms: session.setup.worldOpeningVersion !== undefined,
+    includeVicePresident: versionedOpening,
+  });
+  const withPriorRecords =
+    openingData === "playtest65-v1"
+      ? ensureOpeningPriorLocalRecords(staffed, homeAnchorId)
+      : staffed;
+  const opened = openedWorld(
+    ensureOpeningMortality(
+      ensureCrimeProduction(
+        ensureHazardProduction(
+          ensureLivingWorldDevelopments(
+            ensurePartyGoverningBodies(
+              ensureHomePartyChapters(
+                ensureHomeStateLegislature(
+                  ensureLivingWorldOpening(
+                    withPriorRecords,
+                    homeAnchorId,
+                    session.setup.livingWorldMemberNameVersion,
+                  ),
+                  homeAnchorId,
+                ),
+                homeAnchorId,
+                session.setup.partyChapterNameVersion,
+              ),
+              homeAnchorId,
+            ),
+            homeAnchorId,
+          ),
+        ),
+      ),
+      session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
+    ),
+    homeAnchorId,
+  );
+  const priorYear = completePreStartWorldYear(
+    opened,
+    input.preStartYear.targetStartDate,
+  );
+  const finalized = finalizePreStartPlayer(priorYear, preStartInput);
+  const playerPersonId = finalized.playerPersonId;
+  if (
+    priorYear.people[playerPersonId] ||
+    priorYear.personOrder.includes(playerPersonId) ||
+    priorYear.history.events.some(
+      (event) =>
+        event.involvedEntityIds.includes(playerPersonId) ||
+        event.participants.some(
+          (participant) => participant.personId === playerPersonId,
+        ),
+    )
+  )
+    throw new Error("The chosen player existed during the pre-start year.");
+  const districtPlaced =
+    session.setup.worldOpeningVersion === CRUNCH46_WORLD_OPENING_VERSION
+      ? assignSplitHomeDistricts(finalized.world, playerPersonId)
+      : finalized.world;
+  const placed = versionedOpening
+    ? establishOpeningLocation(districtPlaced, playerPersonId)
+    : districtPlaced;
+  const ready: World = {
+    ...placed,
+    control: { kind: "person", personId: playerPersonId },
+  };
+  return {
+    ...session,
+    phase: "world",
+    game: {
+      world: ready,
+      playerPersonId,
+      place: input.place,
+      setup: session.setup,
     },
   };
 }

@@ -1,30 +1,21 @@
 import { compareSimulationMoments, daysBetween } from "../simulation/dates";
-import type { EntityId, IsoDate, World } from "../simulation/types";
-import { isPersonAliveAt } from "../simulation/vitality-integrity";
+import type { IsoDate, World } from "../simulation/types";
 import { passOrdinaryDays } from "./ordinary-life";
 
 export const PRE_START_WORLD_YEAR_VERSION = "pre-start-world-year-v1";
 
 /**
  * Advance the actual dated World from Team C's prior-date constructor to the
- * target start. The ordinary clock owns its events, people, money, and office
- * transitions; this wrapper only bounds the advance and refuses a dead
- * prospective player. A completed World is returned unchanged on replay.
+ * target start. The chosen player does not exist in this World yet. The
+ * ordinary clock owns its events, people, money, and office transitions;
+ * this wrapper only bounds the advance. A completed World is unchanged.
  */
 export function completePreStartWorldYear(
   world: World,
-  playerPersonId: EntityId,
   targetStartDate: IsoDate,
 ): World {
-  const prospectivePlayerAlive = (candidate: World) =>
-    isPersonAliveAt(candidate, playerPersonId, {
-      asOfDate: candidate.currentDate,
-      historySequenceExclusive: candidate.history.nextSequence,
-    });
-  if (!prospectivePlayerAlive(world))
-    throw new Error(
-      "The prospective player died during the pre-start world year.",
-    );
+  if (world.control.kind !== "observer")
+    throw new Error("The pre-start world must have observer control.");
   if (world.currentDate === targetStartDate) return world;
   if (world.currentDate > targetStartDate)
     throw new Error("The pre-start world has passed the requested start date.");
@@ -43,10 +34,8 @@ export function completePreStartWorldYear(
         "The pre-start world year stopped before the start date.",
       );
     next = advanced;
-    if (!prospectivePlayerAlive(next))
-      throw new Error(
-        "The prospective player died during the pre-start world year.",
-      );
+    if (next.control.kind !== "observer")
+      throw new Error("The pre-start world gained a player before Begin.");
     if (next.currentDate > targetStartDate)
       throw new Error("The pre-start world passed the requested start date.");
   }

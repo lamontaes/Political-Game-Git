@@ -44,6 +44,7 @@ import {
   buildProductionWorld,
   FAMILY_BIRTHDAYS_V1,
   PARENT_PARTNERS_V1,
+  type ProductionWorldInput,
 } from "./production-world";
 import { assignSplitHomeDistricts } from "../simulation/district-residence";
 import {
@@ -505,14 +506,17 @@ export function resolvedDepth(setup: NewGameSetup): NewGameDepth {
     : "summarize-earlier-life";
 }
 
-export function createNewGameWorld(setup: NewGameSetup): NewGame {
+/** One setup input for normal creation and the two-phase pre-start receiver. */
+export function productionWorldInputFor(
+  setup: NewGameSetup,
+): ProductionWorldInput {
   const problems = newGameSetupProblems(setup);
   if (problems.length > 0) {
     throw new Error(problems[0]!.message);
   }
   const place = requireLifePlace(setup.placeKey);
   const priors = setupPriorStoreFor(setup);
-  const built = buildProductionWorld({
+  return {
     // The build seed, not the world's identity: the calibration is allowed to
     // change what the generator draws, and never which world this is.
     seed: buildSeedFor(setup),
@@ -591,7 +595,15 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     ...(setup.appearanceCatalogGeneration === undefined
       ? {}
       : { appearanceCatalogGeneration: setup.appearanceCatalogGeneration }),
-  });
+  };
+}
+
+export function createNewGameWorld(setup: NewGameSetup): NewGame {
+  const input = productionWorldInputFor(setup);
+  if (input.preStartYear)
+    throw new Error("A pre-start life must use the two-phase opening.");
+  const place = input.place;
+  const built = buildProductionWorld(input);
   // A town split across several districts gets its resident placed in one of
   // them (GAME PROFILE placeholder, see `assignSplitHomeDistricts`). Current
   // openings only: a legacy replay descriptor rebuilds the bytes it always did.
