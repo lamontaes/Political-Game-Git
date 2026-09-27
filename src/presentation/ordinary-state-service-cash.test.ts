@@ -299,7 +299,9 @@ describe("ordinary opening cash reaches a state service outturn", () => {
     );
     expect(service?.summary).toContain("1 vehicle-service hour");
     expect(service?.involvedEntityIds).toContain(appropriation.id);
-    const metric = Object.values(operating.world.metricCatalog.definitions).find(
+    const metric = Object.values(
+      operating.world.metricCatalog.definitions,
+    ).find(
       (definition) =>
         definition.stableKey === "transit.additional-vehicle-service-hours",
     );
@@ -308,15 +310,24 @@ describe("ordinary opening cash reaches a state service outturn", () => {
     );
     expect(savedHours?.value).toMatchObject({
       kind: "quantity",
-      quantity: { numerator: 1, denominator: 1, unit: "duration:vehicle-service-hour" },
+      quantity: {
+        numerator: 1,
+        denominator: 1,
+        unit: "duration:vehicle-service-hour",
+      },
     });
     const resumedOperating = deserializeWorld(serializeWorld(operating.world));
-    expect(projectWorld39News(resumedOperating, game.playerPersonId).publications.items.some(
-      (item) => item.sourceEventId === service?.id,
-    )).toBe(true);
-    expect(projectWorld39Journal(resumedOperating, game.playerPersonId).entries.some(
-      (entry) => entry.sourceId === service?.id,
-    )).toBe(false);
+    expect(
+      projectWorld39News(
+        resumedOperating,
+        game.playerPersonId,
+      ).publications.items.some((item) => item.sourceEventId === service?.id),
+    ).toBe(true);
+    expect(
+      projectWorld39Journal(resumedOperating, game.playerPersonId).entries.some(
+        (entry) => entry.sourceId === service?.id,
+      ),
+    ).toBe(false);
 
     world = advanceTo(world, appropriation.availableFrom);
     world = openProgramMattersForAllOffices(world, new Set([appropriation.id]));

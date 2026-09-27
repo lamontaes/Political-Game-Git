@@ -28,9 +28,18 @@ import {
   PUBLIC_FUNDING_DEFAULT_DATE_TEXT,
   settlePublicResourcePayment,
 } from "./public-fiscal";
-import { recordAdoptedAppropriation, programOperatorOrganization } from "./governing/program-governing";
-import { commitPublicProgram, programPosition } from "./governing/public-program";
-import { currentStateExecutiveHolders, ensureStateExecutiveIncumbent } from "./nationwide-world/state-executives";
+import {
+  recordAdoptedAppropriation,
+  programOperatorOrganization,
+} from "./governing/program-governing";
+import {
+  commitPublicProgram,
+  programPosition,
+} from "./governing/public-program";
+import {
+  currentStateExecutiveHolders,
+  ensureStateExecutiveIncumbent,
+} from "./nationwide-world/state-executives";
 import type {
   PublicFundingResolver,
   PublicPaymentInput,
@@ -115,7 +124,8 @@ function fundedFixture(saveAppropriation = true) {
         sourceMeasureId: measureId,
       })
     : null;
-  if (saveAppropriation && !adopted) throw new Error("Test appropriation was not recorded.");
+  if (saveAppropriation && !adopted)
+    throw new Error("Test appropriation was not recorded.");
   world = adopted?.world ?? world;
   const mandate: PublicFundingMandate = {
     version: "public-funding-test-v1",
@@ -160,23 +170,40 @@ function fundedWithCashForBothRoutes() {
     proposalId: fixture.proposalId,
     baseKey: TEST_TAX_TERMS.baseKey,
     amountMinorUnits: 4100,
-    assumptionNote: "One fictional test occurrence funds 200 USD cash, separate from the 100 USD appropriation.",
+    assumptionNote:
+      "One fictional test occurrence funds 200 USD cash, separate from the 100 USD appropriation.",
   });
   world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
   world = ensureStateExecutiveIncumbent(world, fixture.personId, "AK");
-  const governor = currentStateExecutiveHolders(world).find((holder) => holder.stateUsps === "AK");
+  const governor = currentStateExecutiveHolders(world).find(
+    (holder) => holder.stateUsps === "AK",
+  );
   if (!governor) throw new Error("The Alaska governor was not seated.");
-  const operator = programOperatorOrganization(world, fixture.mandate.programKey, fixture.jurisdictionId);
-  return { ...fixture, world: operator.world, governor: governor.personId, operatorId: operator.organizationId };
+  const operator = programOperatorOrganization(
+    world,
+    fixture.mandate.programKey,
+    fixture.jurisdictionId,
+  );
+  return {
+    ...fixture,
+    world: operator.world,
+    governor: governor.personId,
+    operatorId: operator.organizationId,
+  };
 }
 
-function commitEighty(world: ReturnType<typeof fundedWithCashForBothRoutes>["world"], fixture: ReturnType<typeof fundedWithCashForBothRoutes>) {
+function commitEighty(
+  world: ReturnType<typeof fundedWithCashForBothRoutes>["world"],
+  fixture: ReturnType<typeof fundedWithCashForBothRoutes>,
+) {
   return commitPublicProgram(world, {
     appropriationId: fixture.mandate.appropriationId!,
     alternative: {
       key: "shared-cap-operate-eighty",
       title: "Operate the authored service for eighty dollars",
-      installments: [{ afterDays: 0, amount: money(80, "USD"), purpose: "operating" }],
+      installments: [
+        { afterDays: 0, amount: money(80, "USD"), purpose: "operating" },
+      ],
       deliveryLeadDays: null,
     },
     personId: fixture.governor,
@@ -188,7 +215,11 @@ function commitEighty(world: ReturnType<typeof fundedWithCashForBothRoutes>["wor
 describe("shared public cash settlement for T", () => {
   it("counts pinned payment before an executive commitment against one appropriation", () => {
     const fixture = fundedWithCashForBothRoutes();
-    const first = settlePublicResourcePayment(fixture.world, fixture.input, fixture.resolver);
+    const first = settlePublicResourcePayment(
+      fixture.world,
+      fixture.input,
+      fixture.resolver,
+    );
     expect(first.kind).toBe("paid");
     if (first.kind !== "paid") throw new Error(first.reason);
     const attempted = commitPublicProgram(first.world, {
@@ -196,7 +227,9 @@ describe("shared public cash settlement for T", () => {
       alternative: {
         key: "shared-cap-operate-thirty",
         title: "Operate for thirty dollars",
-        installments: [{ afterDays: 0, amount: money(30, "USD"), purpose: "operating" }],
+        installments: [
+          { afterDays: 0, amount: money(30, "USD"), purpose: "operating" },
+        ],
         deliveryLeadDays: null,
       },
       personId: fixture.governor,
@@ -205,7 +238,11 @@ describe("shared public cash settlement for T", () => {
     });
     expect(attempted.ok).toBe(false);
     expect(attempted.world).toBe(first.world);
-    const position = programPosition(first.world, fixture.mandate.programKey, fixture.mandate.appropriationId);
+    const position = programPosition(
+      first.world,
+      fixture.mandate.programKey,
+      fixture.mandate.appropriationId,
+    );
     expect(position.committed.minorUnits).toBe(80);
     expect(position.posted.minorUnits).toBe(80);
     expect(position.uncommitted.minorUnits).toBe(20);
@@ -217,15 +254,23 @@ describe("shared public cash settlement for T", () => {
     const committed = commitEighty(fixture.world, fixture);
     expect(committed.ok).toBe(true);
     if (!committed.ok) throw new Error(committed.reason);
-    const position = programPosition(committed.world, fixture.mandate.programKey, fixture.mandate.appropriationId);
+    const position = programPosition(
+      committed.world,
+      fixture.mandate.programKey,
+      fixture.mandate.appropriationId,
+    );
     expect(position.committed.minorUnits).toBe(80);
     expect(position.posted.minorUnits).toBe(80);
     expect(position.uncommitted.minorUnits).toBe(20);
-    const refused = settlePublicResourcePayment(committed.world, {
-      ...fixture.input,
-      operationKey: "service:after-program-commitment",
-      requestedAmount: money(30, "USD"),
-    }, fixture.resolver);
+    const refused = settlePublicResourcePayment(
+      committed.world,
+      {
+        ...fixture.input,
+        operationKey: "service:after-program-commitment",
+        requestedAmount: money(30, "USD"),
+      },
+      fixture.resolver,
+    );
     expect(refused).toMatchObject({ kind: "refused", world: committed.world });
     expect(serializeWorld(refused.world)).toBe(serializeWorld(committed.world));
     assertWorldIntegrity(deserializeWorld(serializeWorld(committed.world)));
@@ -261,11 +306,14 @@ describe("shared public cash settlement for T", () => {
       proposalId: fixture.proposalId,
       baseKey: TEST_TAX_TERMS.baseKey,
       amountMinorUnits: 2100,
-      assumptionNote: "One fictional test occurrence; no income or purchase money.",
+      assumptionNote:
+        "One fictional test occurrence; no income or purchase money.",
     });
     world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
     const before = serializeWorld(world);
-    expect(settlePublicResourcePayment(world, fixture.input, fixture.resolver)).toMatchObject({
+    expect(
+      settlePublicResourcePayment(world, fixture.input, fixture.resolver),
+    ).toMatchObject({
       kind: "refused",
       world,
       reason: "This payment has no saved program appropriation.",

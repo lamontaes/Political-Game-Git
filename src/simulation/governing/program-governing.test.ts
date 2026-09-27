@@ -93,7 +93,11 @@ describe("one program identity per named spending target", () => {
       variantKey: "single-programme",
       authorityKey: "standing:rural-transit-assistance",
     });
-    expect(openAppropriationsFor(transit.world, jurisdictionId).map((record) => record.sourceMeasureId)).not.toContain(transit.measureId);
+    expect(
+      openAppropriationsFor(transit.world, jurisdictionId).map(
+        (record) => record.sourceMeasureId,
+      ),
+    ).not.toContain(transit.measureId);
     expect(appropriations(transit.world)).toMatchObject([
       {
         sourceMeasureId: schools.measureId,

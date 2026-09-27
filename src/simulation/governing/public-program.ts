@@ -350,8 +350,7 @@ export function programPosition(
     0,
   );
   const committed = appropriations.reduce(
-    (total, record) =>
-      total + appropriationCommittedMinorUnits(world, record),
+    (total, record) => total + appropriationCommittedMinorUnits(world, record),
     0,
   );
   const commitments = programCommitments(world, programKey, scope).filter(
