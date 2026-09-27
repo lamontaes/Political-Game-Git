@@ -44,6 +44,7 @@ import {
 } from "../../src/presentation/life-continuation-shell";
 import { createWorldChangeGuard } from "../../src/presentation/world-change-guard";
 import { BrowserSaveStore } from "../../src/presentation/browser-world-repository";
+import { proseDate } from "../../src/presentation/prose-dates";
 
 /** Columbus, Ohio: the Census place the aging run opens in by default. */
 export const DEFAULT_AGING_PLACE = "3918000";
@@ -768,34 +769,61 @@ function ms(value: number): string {
   return value >= 10 ? String(Math.round(value)) : value.toFixed(1);
 }
 
+function times(later: number, earlier: number): string {
+  if (earlier <= 0) return "an unmeasured multiple of";
+  const ratio = later / earlier;
+  return ratio >= 1.15 || ratio <= 0.87
+    ? `${ratio.toFixed(1)} times`
+    : "about the same as";
+}
+
+function historyTotal(counts: Record<string, number>): number {
+  return Object.values(counts).reduce((sum, value) => sum + value, 0);
+}
+
 export function agingBenchmarkMarkdown(result: AgingResult): string {
   const { options } = result;
   const lines: string[] = [];
+  const first = result.years[0];
   const last = result.years.at(-1);
+  const loads = result.years.map((year) => year.loadAverage);
+  const place = result.placeName;
+  if (!first || !last) {
+    lines.push(
+      `# A watched world in ${place} did not finish a game year`,
+      "",
+      result.stoppedEarly ?? "No year was recorded.",
+      "",
+    );
+    return `${lines.join("\n")}\n`;
+  }
+  const ratio = times(last.medianDayCpuMs, first.medianDayCpuMs);
   lines.push(
-    "# World aging benchmark",
+    ratio === "about the same as"
+      ? `# In ${place}, a Day in year ${last.year} costs about what it cost in year ${first.year}`
+      : `# In ${place}, a Day in year ${last.year} costs ${ratio} what it cost in year ${first.year}`,
     "",
-    `A world with nobody played, opened in ${result.placeName} (place ${options.placeKey}) from seed \`${options.seed}\` on ${result.startedOn}, moved forward one Day at a time by the observer clock's "A day" button for ${result.years.length} game year${result.years.length === 1 ? "" : "s"}${last ? `, to ${last.to}` : ""}.`,
-    "",
-    "```",
-    `npm run world:aging -- --years ${options.years} --seed ${options.seed} --place ${options.placeKey} --max-minutes ${options.maxMinutes} --profile-years ${options.profileYears.join(",")}`,
-    "```",
-    "",
-    `Node ${result.node}. Opening the world took ${ms(result.openingMs)} ms. The whole run took ${result.wallMinutes} minutes of wall time.`,
+    [
+      `A world with nobody played ran in ${place} for ${last.year} game year${last.year === 1 ? "" : "s"}, one Day at a time, from ${proseDate(result.startedOn)} to ${proseDate(last.to)}.`,
+      `The median Day took ${ms(first.medianDayCpuMs)} ms of processor time in year ${first.year} and ${ms(last.medianDayCpuMs)} ms in year ${last.year}.`,
+      `The slowest 5 percent of Days took ${ms(first.p95DayCpuMs)} ms and ${ms(last.p95DayCpuMs)} ms.`,
+      `The save grew from ${bytes(result.opening.saveBytes)} at the opening to ${bytes(last.saveBytes)}, and reopening it took ${ms(last.reopenCpuMs)} ms.`,
+      `The history went from ${historyTotal(result.opening.historyCounts).toLocaleString("en-US")} records to ${historyTotal(last.historyCounts).toLocaleString("en-US")}.`,
+      result.stoppedEarly
+        ? `The run stopped after year ${last.year} of ${options.years}.`
+        : "",
+      `Other work kept this computer busy throughout (load average ${Math.min(...loads)} to ${Math.max(...loads)} on 8 cores), so compare years rather than single numbers.`,
+    ]
+      .filter(Boolean)
+      .join(" "),
     "",
   );
   if (result.stoppedEarly)
-    lines.push(`**The run ended early.** ${result.stoppedEarly}`, "");
+    lines.push(`**Why it stopped.** ${result.stoppedEarly}`, "");
   lines.push(
-    "How to read this:",
-    "",
-    "- A Day is one press of the button: `advanceObservedWorld(world, 1)` committed through the player root's stale-world guard. Median and p95 are over every press in that game year.",
-    "- CPU time is this process's processor time for the press (all its threads, garbage collection included). Wall time also counts time spent waiting for a processor. Other work was running on this computer during the run, so read the CPU columns for cost and the wall columns for what a person at a busy computer would wait.",
-    "- Save is `BrowserSaveStore.save` on the world at the end of the year (snapshot, content hash, serialization, the conditional write). Reopen is what Continue does in a new tab: `mostRecent`, `load` and the shell's viewpoint. The IndexedDB under both is an in-memory stand-in that structured-clones values like a browser; no disk time is included.",
-    "- Save size is the UTF-8 bytes of the stored world payload. Heap is V8's used heap after the year's save and reopen. Load average is this machine's one-minute load when the year ended.",
-    `- Profiled years (${options.profileYears.join(", ")}, marked *) ran under V8's sampling profiler at 1 ms, which adds a little to their Day times.`,
-    "",
     "## Day time, per game year",
+    "",
+    "CPU is this process's processor time for one press of the Day button; wall is the time a person would have waited on this busy computer. Rows marked * ran under the CPU profiler.",
     "",
     "| Year | Dates | Days | Median Day CPU (ms) | p95 Day CPU (ms) | Slowest Day CPU (ms) | Median Day wall (ms) | p95 Day wall (ms) | Year CPU (s) | Year wall (s) | Load avg |",
     "| ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
@@ -833,14 +861,14 @@ export function agingBenchmarkMarkdown(result: AgingResult): string {
       "",
     );
   } else {
-    const { first, last: final } = result.profiles;
+    const { first: base, last: final } = result.profiles;
     lines.push(
-      `Year ${first.year} (${first.days} Days) against year ${final.year} (${final.days} Days), in milliseconds per Day of sampled time (the sampler counts wall time on the main thread, so a busy computer inflates both years). "Self" is time with the function itself on top of the stack; that is where a repeated scan of a growing array shows up, usually as the small callback passed to \`filter\`, \`find\` or \`some\`. "Inclusive" also counts everything it called.`,
+      `Year ${base.year} (${base.days} Days) against year ${final.year} (${final.days} Days), in milliseconds per Day of sampled time (the sampler counts wall time on the main thread, so a busy computer inflates both years). "Self" is time with the function itself on top of the stack; that is where a repeated scan of a growing array shows up, usually as the small callback passed to \`filter\`, \`find\` or \`some\`. "Inclusive" also counts everything it called.`,
       "",
       "### The 15 functions whose own time grew most",
       "",
       "| # | Function (file:line) | Year " +
-        first.year +
+        base.year +
         " ms/Day | Year " +
         final.year +
         " ms/Day | Growth ms/Day |",
@@ -856,7 +884,7 @@ export function agingBenchmarkMarkdown(result: AgingResult): string {
       "### The 15 functions whose inclusive time grew most",
       "",
       "| # | Function (file:line) | Year " +
-        first.year +
+        base.year +
         " ms/Day | Year " +
         final.year +
         " ms/Day | Growth ms/Day |",
@@ -916,6 +944,21 @@ export function agingBenchmarkMarkdown(result: AgingResult): string {
     everEmpty.length === 0
       ? "No history array stayed empty."
       : `Empty from the opening to the last year (${everEmpty.length}): ${everEmpty.map((key) => `\`${key}\``).join(", ")}.`,
+    "",
+    "## How this was measured",
+    "",
+    "```",
+    `npm run world:aging -- --years ${options.years} --seed ${options.seed} --place ${options.placeKey} --max-minutes ${options.maxMinutes} --profile-years ${options.profileYears.join(",")}`,
+    "```",
+    "",
+    `- The world was opened the way the title screen's "Watch the world" opens one, in place ${options.placeKey}, from seed \`${options.seed}\`. Opening took ${ms(result.openingMs)} ms.`,
+    "- A Day is one press of the observer clock's Day button: `advanceObservedWorld(world, 1)`, committed through the player root's stale-world guard. Median and p95 are over every press in that game year.",
+    "- CPU time counts every thread of the process, garbage collection included. Wall time also counts waiting for a processor.",
+    "- Save is `BrowserSaveStore.save` on the world at the end of the year: snapshot, content hash, serialization and the conditional write. Reopen is what Continue does in a new tab: the most recent save, then load, then the shell's viewpoint.",
+    "- Node has no IndexedDB, so the database under the save store is an in-memory stand-in that structured-clones values as a browser does. No disk time is included.",
+    "- Save size is the UTF-8 bytes of the stored world. Heap is V8's used heap after the year's save and reopen. Load average is the one-minute load when the year ended.",
+    `- Profiled years (${options.profileYears.join(", ")}) ran under V8's sampling profiler at 1 ms intervals, which adds a little to their Day times. Function lines come from the TypeScript source maps.`,
+    `- Node ${result.node}. The whole run took ${result.wallMinutes} minutes of wall time.`,
     "",
   );
   return `${lines.join("\n")}\n`;
