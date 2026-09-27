@@ -177,6 +177,8 @@ export interface JudicialProfessionalQualificationRecord {
   readonly jurisdictionId: EntityId;
   readonly barAdmittedAt: IsoDate;
   readonly legalPracticeSince: IsoDate | null;
+  /** Explicit jurisdiction-scoped elector eligibility; null means unproven. */
+  readonly qualifiedElectorSince: IsoDate | null;
   readonly recordedAt: IsoDate;
   readonly provenance: {
     readonly kind: "generated-opening-background" | "recorded-life";
