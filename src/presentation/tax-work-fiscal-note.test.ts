@@ -53,7 +53,7 @@ describe("Tax Work fiscal note", () => {
     const opening = createScenarioWorld(
       "team-g:fiscal-note-small-world",
       { ...KENTUCKY_CONTEXT, jurisdiction },
-      { peopleCount: 2 },
+      { peopleCount: 6 },
     );
     const world = appendWorldConditions(opening, [
       drawStateTaxServiceStartingConditions(opening),
