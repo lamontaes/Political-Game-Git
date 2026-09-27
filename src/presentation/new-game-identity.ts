@@ -38,6 +38,7 @@ import {
   LEGACY_WORLD_OPENING_VERSION,
 } from "../simulation/world-setup/types";
 import type { WorldOpeningVersion } from "../simulation/world-setup/types";
+import { PRE_START_FICTIONAL_DATES_V1 } from "../simulation/character-history";
 
 /**
  * What makes one new game a different new game from another.
@@ -261,6 +262,12 @@ export function canonicalReplayEncoding(setup: NewGameSetup): string {
     ...(setup.openingDataVersion === undefined
       ? {}
       : { openingDataVersion: setup.openingDataVersion }),
+    ...(setup.preStartYearVersion === undefined
+      ? {}
+      : { preStartYearVersion: setup.preStartYearVersion }),
+    ...(setup.preStartHistoryDateVersion === undefined
+      ? {}
+      : { preStartHistoryDateVersion: setup.preStartHistoryDateVersion }),
     ...(setup.livingWorldMemberNameVersion === undefined
       ? {}
       : { livingWorldMemberNameVersion: setup.livingWorldMemberNameVersion }),
@@ -351,6 +358,15 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   if (record.startKind !== undefined && record.startKind !== "custom") {
     return null;
   }
+  if (
+    (record.preStartYearVersion !== undefined &&
+      record.preStartYearVersion !== "pre-start-world-year-v1") ||
+    (record.preStartHistoryDateVersion !== undefined &&
+      record.preStartHistoryDateVersion !== PRE_START_FICTIONAL_DATES_V1) ||
+    (record.preStartHistoryDateVersion !== undefined &&
+      record.preStartYearVersion === undefined)
+  )
+    return null;
   const birthYear = record.birthYear;
   if (
     birthYear !== undefined &&
@@ -478,6 +494,12 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   const base: NewGameSetup = {
     ...(birthYear === undefined ? {} : { birthYear: birthYear as number }),
     ...(openingDataVersion === undefined ? {} : { openingDataVersion }),
+    ...(record.preStartYearVersion === undefined
+      ? {}
+      : { preStartYearVersion: "pre-start-world-year-v1" as const }),
+    ...(record.preStartHistoryDateVersion === undefined
+      ? {}
+      : { preStartHistoryDateVersion: PRE_START_FICTIONAL_DATES_V1 }),
     ...(livingWorldMemberNameVersion === undefined
       ? {}
       : { livingWorldMemberNameVersion }),

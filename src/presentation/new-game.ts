@@ -58,6 +58,10 @@ import {
 } from "../simulation/person-appearance";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
 import type { WorldOpeningVersion } from "../simulation/world-setup/types";
+import {
+  PRE_START_FICTIONAL_DATES_V1,
+  type PreStartHistoryDateVersion,
+} from "../simulation/character-history";
 
 /**
  * Starting a life.
@@ -163,6 +167,8 @@ export interface NewGameSetup {
   readonly openingDataVersion?: OpeningDataVersion;
   /** Opt-in pilot; absent replays and current creator starts keep their route. */
   readonly preStartYearVersion?: "pre-start-world-year-v1";
+  /** Absent preserves the original birthday dates for older pre-start inputs. */
+  readonly preStartHistoryDateVersion?: PreStartHistoryDateVersion;
   /** New descriptors opt in; absent preserves the original member-name draw. */
   readonly livingWorldMemberNameVersion?: "identity-v1" | "cohort-v1";
   readonly birthMonth?: number;
@@ -312,10 +318,19 @@ export function withPreStartYearChoice(
   setup: NewGameSetup,
   enabled: boolean,
 ): NewGameSetup {
-  if (!enabled) return { ...setup, preStartYearVersion: undefined };
+  if (!enabled)
+    return {
+      ...setup,
+      preStartYearVersion: undefined,
+      preStartHistoryDateVersion: undefined,
+    };
   const availability = preStartYearAvailability(setup);
   if (!availability.available) throw new Error(availability.reason);
-  return { ...setup, preStartYearVersion: "pre-start-world-year-v1" };
+  return {
+    ...setup,
+    preStartYearVersion: "pre-start-world-year-v1",
+    preStartHistoryDateVersion: PRE_START_FICTIONAL_DATES_V1,
+  };
 }
 
 export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
@@ -471,6 +486,16 @@ export function newGameSetupProblems(
       });
     }
   }
+  if (
+    setup.preStartHistoryDateVersion !== undefined &&
+    setup.preStartYearVersion === undefined
+  ) {
+    problems.push({
+      field: "preStartHistoryDateVersion",
+      message:
+        "The pre-start history date version needs a pre-start world year.",
+    });
+  }
   if (setup.seed.trim().length === 0) {
     problems.push({ field: "seed", message: "A world needs a seed." });
   }
@@ -565,6 +590,9 @@ export function productionWorldInputFor(
             priorYearStartDate: addDays(place.context.initialMoment.date, -365),
           },
         }),
+    ...(setup.preStartHistoryDateVersion === undefined
+      ? {}
+      : { preStartHistoryDateVersion: setup.preStartHistoryDateVersion }),
     age: setup.startAge,
     ...(setup.birthMonth === undefined || setup.birthDay === undefined
       ? {}
