@@ -70,7 +70,7 @@ export function measureFabricLuminance(layer: Raster): MeasuredFabric {
     if (data[i + 3]! <= OPAQUE_ALPHA) continue;
     values.push(luminance(data[i]!, data[i + 1]!, data[i + 2]!));
   }
-  if (values.length === 0) throw new Error("The garment layer is empty.");
+  if (values.length === 0) return { base: 128 };
   values.sort((a, b) => a - b);
   return { base: values[Math.floor(values.length / 2)]! };
 }

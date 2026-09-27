@@ -6,6 +6,7 @@ import type {
 } from "../presentation/appearance-engine/pack";
 import {
   BODY_BUILDS,
+  HAIR_COLORS,
   OUTFIT_KINDS,
 } from "../presentation/appearance-engine/pack";
 import { PEOPLE_PACK } from "../presentation/appearance-engine/runtime";
@@ -117,6 +118,22 @@ export function EngineAppearanceControls({
           },
         ]
       : []),
+    {
+      id: "hair-color",
+      label: "Hair color",
+      value:
+        HAIR_COLORS.find((c) => c.id === recipe.hairColor)?.label ??
+        "Dark brown",
+      swatch: HAIR_COLORS.find((c) => c.id === recipe.hairColor)?.base,
+      move: (by) => ({
+        ...recipe,
+        hairColor: step(
+          HAIR_COLORS.map((c) => c.id),
+          recipe.hairColor,
+          by,
+        ),
+      }),
+    },
     {
       id: "outfit",
       label: "Outfit",

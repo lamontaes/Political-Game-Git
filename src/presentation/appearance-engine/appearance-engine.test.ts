@@ -526,6 +526,7 @@ describe("the people engine in the game", () => {
       shade: 5,
       face: "",
       hair: "",
+      hairColor: "blonde",
       outfit: "formal",
     });
     expect([raster.width, raster.height]).toEqual([512, 768]);
