@@ -117,6 +117,12 @@ export interface ProductionWorldInput {
   /** World identity seed, before calibration; topology is not a shaped age range. */
   readonly familyStructureSeed?: string;
   readonly place: LifePlace;
+  /** The explicit new-life prior-date construction; absent for old replay. */
+  readonly preStartYear?: {
+    readonly version: "pre-start-world-year-v1";
+    readonly targetStartDate: IsoDate;
+    readonly priorYearStartDate: IsoDate;
+  };
   readonly age: number;
   readonly birthMonth?: number;
   readonly birthDay?: number;
@@ -258,6 +264,14 @@ export function buildProductionWorld(
   const place = input.place;
   const jurisdiction = place.context.jurisdiction;
   const currentDate = place.context.initialMoment.date as IsoDate;
+  const constructionDate =
+    input.preStartYear?.priorYearStartDate ?? currentDate;
+  if (
+    input.preStartYear &&
+    (input.preStartYear.targetStartDate !== currentDate ||
+      constructionDate >= currentDate)
+  )
+    throw new Error("Invalid pre-start world year dates.");
   const worldId = createWorldId(input.seed, "production");
   const nameCorpusVersion = nameCorpusVersionForPlace(
     stateUsps(place.stateJurisdictionKey),
@@ -271,6 +285,9 @@ export function buildProductionWorld(
     worldId,
     worldSeed: input.seed,
     currentDate,
+    ...(input.preStartYear === undefined
+      ? {}
+      : { initialResidenceDate: constructionDate }),
     homeJurisdictionId: jurisdiction.id,
     age: input.age,
     ...(input.birthMonth === undefined || input.birthDay === undefined
@@ -305,8 +322,11 @@ export function buildProductionWorld(
     // its generator stamp and the catalogs it starts with, so a player's save
     // can no longer be mistaken for — or built out of — a diagnostic fixture.
     lineage: "production",
-    currentDate,
-    currentMoment: place.context.initialMoment,
+    currentDate: constructionDate,
+    currentMoment: {
+      ...place.context.initialMoment,
+      date: constructionDate,
+    },
     jurisdictions: [jurisdiction],
     people: [player],
     setupPriors: input.priors,
