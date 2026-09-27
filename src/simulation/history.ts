@@ -1,4 +1,5 @@
 import { createStableId } from "./ids";
+import { stableKeysOf } from "./history-index";
 import type {
   AppraisalMeaning,
   AppraisalRecord,
@@ -635,14 +636,17 @@ export function appendPrincipleRecords(
 ): HistoryStore {
   if (inputs.length === 0) return history;
   const principles = [...history.principles];
-  const stableKeys = new Set(principles.map((record) => record.stableKey));
+  // Keys already in the ledger (an index that follows appends), and the
+  // keys this batch adds.
+  const existingKeys = stableKeysOf(history.principles);
+  const stableKeys = new Set<string>();
   let nextSequence = history.nextSequence;
   for (const input of inputs) {
     validateInput({ ...history, principles, nextSequence }, input);
     if (input.stableKey.trim().length === 0) {
       throw new Error("principle record stable key must not be empty.");
     }
-    if (stableKeys.has(input.stableKey)) {
+    if (existingKeys.has(input.stableKey) || stableKeys.has(input.stableKey)) {
       throw new Error(
         `principle record stable key already exists: ${input.stableKey}`,
       );
@@ -1023,7 +1027,7 @@ function assertUniqueStableKey(
   if (stableKey.trim().length === 0) {
     throw new Error(`${label} stable key must not be empty.`);
   }
-  if (records.some((record) => record.stableKey === stableKey)) {
+  if (stableKeysOf(records).has(stableKey)) {
     throw new Error(`${label} stable key already exists: ${stableKey}`);
   }
 }

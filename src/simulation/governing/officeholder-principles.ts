@@ -1,4 +1,5 @@
 import { createFormationContext, recordPrinciples } from "../politics";
+import { indexFollowingAppends } from "../history-index";
 import type { PrincipleRecordInput } from "../history";
 import { SeededRng } from "../rng";
 import type {
@@ -145,25 +146,47 @@ export function ensureOfficeholderPrinciples(
  * reading made a seated nation's bill day take minutes.
  */
 const principleIndex = new WeakMap<
-  readonly PrincipleRecord[],
-  ReadonlyMap<EntityId, readonly PrincipleRecord[]>
+  object,
+  Map<EntityId, readonly PrincipleRecord[]>
 >();
 
 function principlesByPerson(
   world: World,
 ): ReadonlyMap<EntityId, readonly PrincipleRecord[]> {
   const records = world.history.principles;
-  const cached = principleIndex.get(records);
-  if (cached) return cached;
-  const index = new Map<EntityId, PrincipleRecord[]>();
-  for (const record of records) {
-    const list = index.get(record.personId);
-    if (list) list.push(record);
-    else index.set(record.personId, [record]);
-  }
-  principleIndex.set(records, index);
-  return index;
+  // An appended ledger takes over the index of the one it extends; a person's
+  // list that gains rows is copied, so lists read earlier never change.
+  return indexFollowingAppends(
+    principleIndex,
+    RECENT_PRINCIPLES,
+    records,
+    () => {
+      const index = new Map<EntityId, PrincipleRecord[]>();
+      for (const record of records) {
+        const list = index.get(record.personId);
+        if (list) list.push(record);
+        else index.set(record.personId, [record]);
+      }
+      return index as Map<EntityId, readonly PrincipleRecord[]>;
+    },
+    (index, from) => {
+      const grown = new Map<EntityId, PrincipleRecord[]>();
+      for (let at = from; at < records.length; at += 1) {
+        const record = records[at]!;
+        let list = grown.get(record.personId);
+        if (!list) {
+          list = [...(index.get(record.personId) ?? [])];
+          grown.set(record.personId, list);
+        }
+        list.push(record);
+      }
+      for (const [personId, list] of grown) index.set(personId, list);
+      return index;
+    },
+  );
 }
+
+const RECENT_PRINCIPLES: (readonly unknown[])[] = [];
 
 /**
  * Which way a person's principles lean on a question, and how hard: a score

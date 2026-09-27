@@ -111,12 +111,21 @@ describe("nationwide state legislature opening preparation", () => {
       expect(stateLegislators(world, pack.packId)).toHaveLength(expected);
     }
     expect(scheduleNationwideStateLegislatureOpenings(world)).toBe(world);
-    expect(progress.at(-1)).toEqual({
+    // Congress principles are drawn after the rosters, so the last roster step is the
+    // one that reports all fifty.
+    expect(
+      progress
+        .filter((step) => step.label === "Preparing state legislatures")
+        .at(-1),
+    ).toEqual({
       label: "Preparing state legislatures",
       completed: 50,
       total: 50,
     });
-    expect(progress).toHaveLength(25);
+    // Two states per step: 25 roster steps, then the Congress principle steps.
+    expect(
+      progress.filter((step) => step.label === "Preparing state legislatures"),
+    ).toHaveLength(25);
   });
 
   it("schedules unprepared rosters for the existing clock fallback", () => {

@@ -118,6 +118,47 @@ function remember(
 }
 
 /**
+ * The same move for any index over one history array. `build` makes the index
+ * from nothing; `extend` adds records[from..] to an index taken from the array
+ * this one extends, and must not change anything it has already handed out.
+ */
+export function indexFollowingAppends<V>(
+  cache: WeakMap<object, V>,
+  recent: (readonly unknown[])[],
+  records: readonly unknown[],
+  build: () => V,
+  extend: (index: V, from: number) => V,
+): V {
+  const cached = cache.get(records);
+  if (cached !== undefined) return cached;
+  const adopted = adoptFromPrefix(cache, recent, records);
+  const index = adopted ? extend(adopted.value, adopted.from) : build();
+  cache.set(records, index);
+  remember(recent, records);
+  return index;
+}
+
+const STABLE_KEYS = new WeakMap<object, Set<string>>();
+const RECENT_STABLE_KEYS: (readonly unknown[])[] = [];
+
+/** Every stable key a history family holds, following appends. */
+export function stableKeysOf(
+  records: readonly { readonly stableKey: string }[],
+): ReadonlySet<string> {
+  return indexFollowingAppends(
+    STABLE_KEYS,
+    RECENT_STABLE_KEYS,
+    records,
+    () => new Set(records.map((record) => record.stableKey)),
+    (keys, from) => {
+      for (let at = from; at < records.length; at += 1)
+        keys.add(records[at]!.stableKey);
+      return keys;
+    },
+  );
+}
+
+/**
  * First-record lookup for append-oriented histories. Array identity is the
  * cache boundary: a writer's new array receives the index of the array it
  * extends (see above), while the many reads of an unchanged family reuse the

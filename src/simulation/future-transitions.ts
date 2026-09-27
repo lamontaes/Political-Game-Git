@@ -1,4 +1,8 @@
-import { recordById, recordsByStringField } from "./history-index";
+import {
+  recordById,
+  recordsByStringField,
+  stableKeysOf,
+} from "./history-index";
 import { crisisAmbientHandler } from "./crisis/ambient";
 import { worldIntegrityCheckMode } from "./world-integrity-changed";
 import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
@@ -1052,7 +1056,7 @@ function assertUniqueStableKey(
   label: string,
 ): void {
   assertNonEmpty(stableKey, `${label} stable key`);
-  if (records.some((record) => record.stableKey === stableKey)) {
+  if (stableKeysOf(records).has(stableKey)) {
     throw new Error(`Duplicate ${label} stable key: ${stableKey}`);
   }
 }

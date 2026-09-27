@@ -4258,10 +4258,29 @@ export const EVENT_PROOF_MONOTONE_CHECKS_COMPOSED: readonly string[] = [
 
 const JSON_SAFE = new WeakSet<object>();
 
+function needsJsonSafetyWalk(entry: unknown): boolean {
+  if (entry === null) return false;
+  switch (typeof entry) {
+    case "string":
+    case "boolean":
+      return false;
+    case "number":
+      return !Number.isFinite(entry);
+    case "object":
+      return !JSON_SAFE.has(entry);
+    default:
+      return true;
+  }
+}
+
 function assertJsonSafe(
   value: unknown,
   path: string,
   ancestors: Set<object> = new Set(),
+  /** How deep below the checked root this value sits. */
+  depth = 0,
+  /** Whether this value is an element of an array. */
+  element = false,
 ): void {
   if (
     value === null ||
@@ -4294,17 +4313,31 @@ function assertJsonSafe(
   }
 
   ancestors.add(value);
+  // A child already proven safe, or a plain string, needs no path: building
+  // one for each of a big family's records cost more than the check itself.
   if (Array.isArray(value)) {
-    value.forEach((entry, index) =>
-      assertJsonSafe(entry, `${path}[${index}]`, ancestors),
-    );
+    for (let index = 0; index < value.length; index += 1) {
+      // A hole is skipped, as forEach skipped it.
+      if (!(index in value)) continue;
+      const entry: unknown = value[index];
+      if (!needsJsonSafetyWalk(entry)) continue;
+      assertJsonSafe(entry, `${path}[${index}]`, ancestors, depth + 1, true);
+    }
   } else {
-    for (const [key, entry] of Object.entries(value)) {
-      assertJsonSafe(entry, `${path}.${key}`, ancestors);
+    for (const key in value) {
+      if (!Object.prototype.hasOwnProperty.call(value, key)) continue;
+      const entry: unknown = (value as Record<string, unknown>)[key];
+      if (!needsJsonSafetyWalk(entry)) continue;
+      assertJsonSafe(entry, `${path}.${key}`, ancestors, depth + 1, false);
     }
   }
   ancestors.delete(value);
-  JSON_SAFE.add(value);
+  // Remember the containers and records a later walk reaches again: the top
+  // levels of the World, and every element of an array (a history record).
+  // A record's own fields are only reached through the record, so they are
+  // not remembered: remembering every nested object filled this set with
+  // millions of entries, and growing it paused a Day for about a second.
+  if (element || depth <= 3) JSON_SAFE.add(value);
 }
 
 function cloneFact(fact: PersonFact): PersonFact {
