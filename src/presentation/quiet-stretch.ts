@@ -12,6 +12,7 @@ import {
   type World,
 } from "../simulation";
 import { isCivicHold } from "./civic-hold";
+import { acceptedOfferStarts, offerDeadlines } from "./offer-deadlines";
 import { nextOwnElection } from "./own-election";
 import { EARLIER_COMMITMENT_REFUSAL, venueActivities } from "./venue-activity";
 
@@ -129,6 +130,26 @@ export function capQuietStretch(
     if (until >= 1 && until <= days) {
       days = until;
       cappedBy = next;
+    }
+  }
+  // The clock already stops for these recorded work decisions. Show the same
+  // known boundary before the player commits, rather than a later pacing date.
+  const workStops: readonly KnownCalendarItem[] = [
+    ...offerDeadlines(world, personId).map((deadline) => ({
+      title: "Answer work offer",
+      date: deadline.replyBy,
+    })),
+    ...acceptedOfferStarts(world, personId).map((start) => ({
+      title: "Accepted work start",
+      date: start.startOn,
+    })),
+  ];
+  for (const workStop of workStops) {
+    if (workStop.date <= world.currentDate) continue;
+    const until = daysBetween(world.currentDate, workStop.date);
+    if (until >= 1 && (until < days || (until === days && !cappedBy))) {
+      days = until;
+      cappedBy = workStop;
     }
   }
   // The player's own election ends the stretch the morning after, when the

@@ -35,6 +35,7 @@ import { deathNewsBetween } from "./death-news";
 import { nextOwnElection, ownElectionResultsBetween } from "./own-election";
 import { letStoryTimePass, quietStepDays } from "./life-story";
 import {
+  acceptedOfferStarts,
   advanceStoppingForOfferDeadlines,
   offerDeadlines,
 } from "./offer-deadlines";
@@ -133,11 +134,34 @@ function wholeDaysBetween(from: IsoDate, to: IsoDate): number {
   );
 }
 
+function unresolvedWorkNow(
+  world: World,
+  personId: EntityId,
+): "offer" | "start" | null {
+  if (
+    offerDeadlines(world, personId).some(
+      (deadline) => deadline.replyBy === world.currentDate,
+    )
+  )
+    return "offer";
+  if (
+    acceptedOfferStarts(world, personId).some(
+      (entry) => entry.startOn <= world.currentDate,
+    )
+  )
+    return "start";
+  return null;
+}
+
 export function previewTimeCommand(
   world: World,
   personId: EntityId,
   command: TimeCommand,
 ): TimeCommandPreview | null {
+  // "Until something needs me" has already arrived. A further quiet stretch
+  // must hand the choice back; explicit Day/Week can still pass it knowingly.
+  if (command.kind === "quiet-stretch" && unresolvedWorkNow(world, personId))
+    return null;
   if (command.kind === "walk") {
     const offer = openingNeighborhoodWalkOffer(
       world,
@@ -335,7 +359,11 @@ export function submitTimeCommand(
       }),
     };
   const preview = previewTimeCommand(world, request.personId, request.command);
-  if (!preview)
+  if (!preview) {
+    const waiting =
+      request.command.kind === "quiet-stretch"
+        ? unresolvedWorkNow(world, request.personId)
+        : null;
     return {
       world,
       receipt: remember({
@@ -345,9 +373,15 @@ export function submitTimeCommand(
         reached: world.currentMoment,
         stoppedEarly: false,
         elapsedMs: now() - started,
-        outcome: "That event does not start later than now.",
+        outcome:
+          waiting === "offer"
+            ? "The work offer needs an answer under Work before another quiet stretch."
+            : waiting === "start"
+              ? "Your accepted work can begin under Work before another quiet stretch."
+              : "That event does not start later than now.",
       }),
     };
+  }
   const result = run(world, request, preview);
   return {
     world: result.world,
