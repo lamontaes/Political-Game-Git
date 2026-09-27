@@ -122,6 +122,7 @@ import { GoverningBriefing } from "./GoverningBriefing";
 import { GoverningOfficeDesk } from "./GoverningOfficeDesk";
 import { governingOfficeForPerson } from "../simulation/governing/state-governing";
 import { CampaignLifePanel } from "./CampaignLifePanel";
+import { CandidateGuidancePanel } from "./CandidateGuidancePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
@@ -208,6 +209,7 @@ import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
 import { PUBLIC_MEETING_ROOM_SCENE_ID } from "../presentation/scene-registry";
 import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
@@ -2756,6 +2758,11 @@ function PlayingScreen({
     [artPreview],
   );
 
+  const guidanceScene = useMemo(
+    () => projectCandidateGuidanceScene(session.world, session.personId),
+    [session.world, session.personId],
+  );
+
   const playScene = useMemo(() => {
     const meeting = projectOrdinaryMeetingScene(
       session.world,
@@ -2769,6 +2776,20 @@ function PlayingScreen({
         reason: "Recorded meeting entry or immediate aftermath.",
         placeLabel: meeting.location.label,
         presentPeople: meeting.actors.map((actor) => ({
+          personId: actor.personId,
+          name: actor.name,
+          relationship: null,
+          introduction: actor.role,
+        })),
+      };
+    if (guidanceScene)
+      return {
+        purpose: "activity" as const,
+        locationKey: guidanceScene.location.locationKey,
+        sceneId: PUBLIC_MEETING_ROOM_SCENE_ID,
+        reason: "Recorded candidate-guidance entry in the community room.",
+        placeLabel: guidanceScene.location.label,
+        presentPeople: guidanceScene.actors.map((actor) => ({
           personId: actor.personId,
           name: actor.name,
           relationship: null,
@@ -2821,6 +2842,7 @@ function PlayingScreen({
     projectedMoment,
     continuingLifeShown,
     sceneVisuals,
+    guidanceScene,
   ]);
 
   const sceneId = playScene.sceneId;
@@ -2909,6 +2931,13 @@ function PlayingScreen({
   );
 
   const view = activeView(shell);
+  const seenGuidanceEntry = useRef<EntityId | null>(null);
+  useEffect(() => {
+    if (!guidanceScene) return;
+    if (seenGuidanceEntry.current === guidanceScene.eventId) return;
+    seenGuidanceEntry.current = guidanceScene.eventId;
+    if (view.surface !== "scene") dispatch({ type: "go-to-scene" });
+  }, [guidanceScene, view.surface, dispatch]);
   const openSurface = view.surface;
   const previousSurface = useRef(openSurface);
   const newsPersonReturn = useRef<string | null>(null);
@@ -3629,6 +3658,18 @@ function PlayingScreen({
               !showOrientation &&
               !conversation ? (
                 <OrdinaryMeetingPanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onOpenEntity={openEntity}
+                  onOutcome={setPassOutcome}
+                />
+              ) : null}
+              {view.surface === "scene" &&
+              !readOnly &&
+              !showOrientation &&
+              !conversation ? (
+                <CandidateGuidancePanel
                   world={session.world}
                   personId={session.personId}
                   onWorldChange={onWorldChange}
