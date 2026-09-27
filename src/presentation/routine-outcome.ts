@@ -57,9 +57,10 @@ export function describeRoutineOutcome(
   // The first line is always the clock; `routineOutcomeAfterClock` relies on it.
   const lines = [
     elapsed > 0
-      ? `It is now ${proseWeekdayDate(after.currentDate)}, ${proseClockTime(
+      ? // "p.m." already ends the sentence; a second period would double it.
+        `It is now ${proseWeekdayDate(after.currentDate)}, ${proseClockTime(
           after.currentMoment.minuteOfDay,
-        )}.`
+        )}`
       : "No time passed.",
   ];
   const events = after.history.events.slice(before.history.events.length);
