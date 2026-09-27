@@ -4,7 +4,6 @@ import {
   settleJobPay,
 } from "../simulation/job-market";
 import { settleCareerOffers } from "../simulation/career-path7";
-import { ensurePeopleTraits } from "../simulation/people-traits";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
@@ -228,14 +227,18 @@ export function openOrdinaryLife(world: World, personId: EntityId): World {
   // opens, before anything else reads the week.
   const seated = seatWinnersOwedTheirTerm(world, personId);
   if (!ordinaryLifeAvailableFor(seated, personId)) return seated;
-  const opened = refreshLifeCircumstances(
+  // Traits are not written for the whole world here. Every decision that
+  // reads a person's traits first calls ensurePeopleTraits for that person,
+  // so each person's traits are drawn from their own seed and upbringing the
+  // first time anything needs them. Writing them for everyone at opening
+  // made starting a life take minutes.
+  return refreshLifeCircumstances(
     refreshLifeOpportunities(
       openOrdinaryLifeRecords(seated, personId),
       personId,
     ),
     personId,
   );
-  return ensurePeopleTraits(opened, opened.personOrder);
 }
 
 export function projectOrdinaryDay(
