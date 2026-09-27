@@ -45,6 +45,37 @@ export interface PlacedLayer {
   readonly dy: number;
 }
 
+/**
+ * Fades the bottom of a layer into what is under it: in each column, the
+ * last `rows` opaque rows ramp from full to no opacity. A head layer ends in
+ * a horizontal cut across the neck; faded, the body's own neck shows through
+ * the join and no line is left.
+ */
+export function featherBottomEdge(raster: Raster, rows: number): Raster {
+  const data = new Uint8ClampedArray(raster.data);
+  const { width, height } = raster;
+  for (let x = 0; x < width; x += 1) {
+    let bottom = -1;
+    for (let y = height - 1; y >= 0; y -= 1) {
+      if (data[(y * width + x) * 4 + 3]! > 0) {
+        bottom = y;
+        break;
+      }
+    }
+    if (bottom < 0) continue;
+    for (let k = 0; k < rows; k += 1) {
+      const y = bottom - k;
+      if (y < 0) break;
+      const i = (y * width + x) * 4 + 3;
+      data[i] = Math.round(data[i]! * ((k + 1) / (rows + 1)));
+    }
+  }
+  return { width, height, data };
+}
+
+/** How far up the neck a head layer fades into the body: 2% of the canvas. */
+export const HEAD_FEATHER_SHARE = 0.02;
+
 /** The layers in drawing order, each with the offset it is drawn at. */
 export function placeLayers(
   body: BodyAnchors,
@@ -64,7 +95,14 @@ export function placeLayers(
         HEAD_BOUND.has(layer.slot) && layer.authoredFor
           ? neckOffset(layer.authoredFor, body)
           : { dx: 0, dy: 0 };
-      return { slot: layer.slot, raster: layer.raster, ...offset };
+      const raster =
+        layer.slot === "head"
+          ? featherBottomEdge(
+              layer.raster,
+              Math.round(layer.raster.height * HEAD_FEATHER_SHARE),
+            )
+          : layer.raster;
+      return { slot: layer.slot, raster, ...offset };
     })
     .sort((a, b) => LAYER_ORDER.indexOf(a.slot) - LAYER_ORDER.indexOf(b.slot));
 }

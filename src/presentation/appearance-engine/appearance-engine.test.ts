@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { measureBodyAnchors, neckOffset } from "./anchors";
-import { assemblePerson, composite, placeLayers } from "./assemble";
+import {
+  assemblePerson,
+  composite,
+  featherBottomEdge,
+  placeLayers,
+} from "./assemble";
 import { neckJoin, skinInGarment } from "./checks";
 import { extractGarment } from "./extract";
 import { createRaster, luminance, type Raster } from "./raster";
@@ -215,5 +220,18 @@ describe("garment extraction", () => {
     expect(alpha(30, 8)).toBe(0); // head box refused
     expect(alpha(30, 62)).toBe(0); // underwear bottoms are not the top
     expect(skinInGarment(layer, bare).skinPixels).toBe(0);
+  });
+});
+
+describe("head blending", () => {
+  it("fades the bottom rows of a layer so a head's neck cut leaves no line", () => {
+    const head = createRaster(10, 20);
+    fill(head, 2, 0, 7, 15, SKIN);
+    const faded = featherBottomEdge(head, 4);
+    const alpha = (y: number) => faded.data[(y * 10 + 4) * 4 + 3]!;
+    expect(alpha(10)).toBe(255);
+    expect(alpha(15)).toBeLessThan(alpha(14));
+    expect(alpha(14)).toBeLessThan(alpha(13));
+    expect(alpha(15)).toBeGreaterThan(0);
   });
 });
