@@ -9,6 +9,7 @@ import type { EntityId, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { senateJudiciaryAppointment } from "./committee-organization";
 import { JUDICIAL_CANDIDATE_INTERVIEW_EVENT } from "./candidate-interview";
+import { publishJudiciaryMilestone } from "./news";
 import {
   JUDICIAL_CONFIRMATION_HEARING_EVENT,
   pendingFederalJudicialNomination,
@@ -228,5 +229,5 @@ export function recordFederalJudicialHearing(
       source: { kind: "direct" },
     });
   }
-  return next;
+  return publishJudiciaryMilestone(next, hearing.id);
 }

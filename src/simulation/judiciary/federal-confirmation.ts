@@ -1,9 +1,8 @@
 /** Senate advice and consent for a recorded federal judicial nomination. */
 
 import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
-import { FEDERAL_TENURE_EVENT, currentFederalTenure } from "../federal-tenures";
+import { currentPresidentOf } from "../crisis/offices";
 import { seatedCongressChamber } from "../governing/congress-chambers";
-import { leaveCongressSeatForConfirmedJudge } from "../governing/office-continuity";
 import { tallyDispositions } from "../legislation";
 import { resolveRequiredVotes } from "../legislature-rules";
 import { personName } from "../people";
@@ -15,12 +14,7 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
-import {
-  courtById,
-  releaseJudicialSeatForAppointment,
-  seatHolderAt,
-  seatJudge,
-} from "./courts";
+import { courtById, seatHolderAt } from "./courts";
 import {
   judicialSelectionById,
   judicialSelectionProgress,
@@ -28,6 +22,11 @@ import {
   recordJudicialSelectionStage,
   resolveJudicialSelectionPlan,
 } from "./selection";
+import {
+  commissionConfirmedFederalJudge,
+  federalJudicialExecutiveOfficeBlocker,
+} from "./federal-judicial-commission";
+import { publishJudiciaryMilestone } from "./news";
 
 export const JUDICIAL_SENATE_BALLOT_EVENT = "judicial.senate-ballot";
 export const JUDICIAL_SENATE_RESULT_EVENT = "judicial.senate-result";
@@ -38,7 +37,7 @@ export const JUDICIAL_CONFIRMATION_HEARING_EVENT =
 function admittedNominationAtFloorSitting(
   world: World,
   selectionRecordId: string,
-): boolean {
+): World["history"]["events"][number] | null {
   const report = world.history.events.find(
     (event) =>
       event.type === "judicial.committee-report-result" &&
@@ -53,16 +52,15 @@ function admittedNominationAtFloorSitting(
           event.tags.includes(`report:${report.id}`),
       )
     : null;
-  return Boolean(
-    calendar &&
-    world.history.events.some(
-      (event) =>
-        event.type === "judicial.senate-floor-sitting" &&
-        event.tags.includes(`selection:${selectionRecordId}`) &&
-        event.tags.includes(`calendar:${calendar.id}`) &&
-        event.occurredAt >= calendar.occurredAt,
-    ),
-  );
+  return calendar
+    ? (world.history.events.find(
+        (event) =>
+          event.type === "judicial.senate-floor-sitting" &&
+          event.tags.includes(`selection:${selectionRecordId}`) &&
+          event.tags.includes(`calendar:${calendar.id}`) &&
+          event.occurredAt >= calendar.occurredAt,
+      ) ?? null)
+    : null;
 }
 
 type SenateBallot = LegislativeMemberDisposition;
@@ -113,7 +111,6 @@ export function pendingFederalJudicialNomination(
 }
 
 /** The senator's choice is written by its actual actor, never inferred from party. */
-// PLACEHOLDER(overnight): an NPC hearing/decision producer has not yet supplied these choices.
 export function recordFederalJudicialSenateBallot(
   world: World,
   input: {
@@ -155,10 +152,11 @@ export function recordFederalJudicialSenateBallot(
           hearing.occurredAt <= event.occurredAt,
       );
     });
-  if (
-    !admittedNominationAtFloorSitting(world, input.selectionRecordId) &&
-    !legacyBallotAlreadyRecorded
-  )
+  const floorSitting = admittedNominationAtFloorSitting(
+    world,
+    input.selectionRecordId,
+  );
+  if (!floorSitting && !legacyBallotAlreadyRecorded)
     throw new Error(
       "A committee report, Executive Calendar admission, and actual floor sitting are needed before a new Senate ballot.",
     );
@@ -177,8 +175,31 @@ export function recordFederalJudicialSenateBallot(
     )
   )
     throw new Error("Unknown Senate ballot disposition.");
+  const recorded = world.history.events.find(
+    (event) =>
+      event.type === JUDICIAL_SENATE_BALLOT_EVENT &&
+      event.tags.includes(`selection:${input.selectionRecordId}`) &&
+      event.tags.includes(`senator:${input.senatorPersonId}`),
+  );
+  if (recorded) return world;
+  if (
+    floorSitting &&
+    floorSitting.tags.some(
+      (tag) => tag.startsWith("attendee:") || tag.startsWith("absent:"),
+    ) &&
+    floorSitting.tags.includes(`attendee:${input.senatorPersonId}`) !==
+      !["absent", "excused"].includes(input.ballot)
+  )
+    throw new Error(
+      "A Senate floor ballot must match recorded sitting attendance.",
+    );
   const heard = world.history.knowledge
-    .filter((knowledge) => knowledge.personId === input.senatorPersonId)
+    .filter(
+      (knowledge) =>
+        knowledge.personId === input.senatorPersonId &&
+        knowledge.learnedAt <= world.currentDate &&
+        knowledge.accuracy === "accurate",
+    )
     .map((knowledge) =>
       world.history.events.find((event) => event.id === knowledge.eventId),
     )
@@ -223,6 +244,7 @@ export function recordFederalJudicialSenateBallot(
       `selection:${pending.selection.recordId}`,
       `ballot:${input.ballot}`,
       `senator:${input.senatorPersonId}`,
+      ...(floorSitting ? [`sitting:${floorSitting.id}`] : []),
       ...(heard ? [`hearing:${heard.id}`] : []),
     ],
     // COPY-PENDING: Claude/CC1 owns final player-facing Senate wording.
@@ -374,6 +396,7 @@ export function resolveFederalJudicialSenateVote(
     },
   });
   const resultEventId = next.history.events.at(-1)!.id;
+  next = publishJudiciaryMilestone(next, resultEventId);
   next = recordJudicialSelectionStage(next, {
     selectionRecordId,
     plan: pending.plan,
@@ -386,70 +409,17 @@ export function resolveFederalJudicialSenateVote(
     outcomeEventId: resultEventId,
   });
   if (status.outcome === "rejected") return next;
-  // The completed roll call authorizes the move. A pure World update leaves
-  // the original save untouched if the source vacancy or destination fails.
-  next = releaseJudicialSeatForAppointment(
-    next,
-    pending.nomineeId,
-    pending.seat.seatId,
-  );
-  if (pending.seat.linkedOfficeId === "us-chief-justice") {
-    if (currentFederalTenure(next, "us-chief-justice"))
-      throw new Error("The Chief Justiceship is already filled.");
-    next = recordWorldEvent(next, {
-      stableKey: `${JUDICIAL_SENATE_RESULT_EVENT}:${selectionRecordId}:tenure`,
-      type: FEDERAL_TENURE_EVENT,
-      occurredAt: next.currentDate,
-      recordedAt: next.currentDate,
-      jurisdictionId: null,
-      involvedEntityIds: [pending.nomineeId],
-      participants: [
-        {
-          personId: pending.nomineeId,
-          role: "focus:subject",
-          detail: "Chief Justice of the United States",
-        },
-      ],
-      personFactConstraints: [],
-      visibility: "public",
-      tags: [
-        "office:us-chief-justice",
-        "basis:us-const-art-ii-s2-cl2",
-        `selection:${selectionRecordId}`,
-      ],
-      summary: `${personName(nominee)} began service as Chief Justice after Senate confirmation.`,
-      context: {
-        location: null,
-        socialContext: null,
-        pressure: null,
-        choice: null,
-        motivation: null,
-        immediateReaction: null,
-      },
-    });
-  } else {
-    if (
-      pending.court.rules.termYears.state !== "known" ||
-      pending.court.rules.termYears.value !== null
-    )
-      throw new Error(
-        "This federal seat needs its tenure duration resolved before seating.",
-      );
-    next = seatJudge(next, {
-      seatId: pending.seat.seatId,
-      personId: pending.nomineeId,
-      startedAt: next.currentDate,
-      selection: {
-        path: "confirmation",
-        selectionRecordId,
-        decisionRecordId: null,
-        selectingPersonId: pending.nomination.actorPersonId,
-        contestId: null,
-        note: `Senate result ${resultEventId}`,
-      },
-      termEndsAt: null,
-      retentionDueAt: null,
-    });
-  }
-  return leaveCongressSeatForConfirmedJudge(next, pending.nomineeId);
+  // A controlled President must issue the separate commission themselves.
+  const presidentId = currentPresidentOf(next)?.personId;
+  if (!presidentId) return next;
+  if (world.control.kind === "person" && world.control.personId === presidentId)
+    return next;
+  if (federalJudicialExecutiveOfficeBlocker(next, pending.nomineeId))
+    return next;
+  return commissionConfirmedFederalJudge(next, {
+    selectionRecordId,
+    resultEventId,
+    presidentPersonId: presidentId,
+    mode: "automatic-npc",
+  });
 }

@@ -11,6 +11,7 @@ import { currentPresidentOf } from "../../simulation/crisis/offices";
 import { seatedCongressChamber } from "../../simulation/governing/congress-chambers";
 import { createDemoWorld } from "../../simulation/demo";
 import { makeIsoDate } from "../../simulation/dates";
+import { createStableId } from "../../simulation/ids";
 import {
   publicSeatedJudges,
   reviewFederalJudicialVacancy,
@@ -141,6 +142,7 @@ describe("JudiciaryPanel", () => {
       control: { kind: "person", personId: game.playerPersonId },
     });
     expect(otherControl).not.toContain("Find a sitting judge");
+    expect(otherControl).toContain("No judicial selection is underway.");
 
     const reviewed = reviewFederalJudicialVacancy(world, {
       seatId,
@@ -151,6 +153,20 @@ describe("JudiciaryPanel", () => {
     expect(after).toContain("Interview (30 minutes)");
     expect(after).not.toContain("Nominate</button>");
     expect(after).not.toContain("Senate hearing");
+    const ordinaryHtml = renderToStaticMarkup(
+      <JudiciaryPanel
+        world={{
+          ...reviewed,
+          control: { kind: "person", personId: game.playerPersonId },
+        }}
+        view={view}
+        scope="federal"
+        onOpenPerson={() => {}}
+      />,
+    );
+    expect(ordinaryHtml).toContain("Selection pending. Next:");
+    expect(ordinaryHtml).not.toContain("Find a sitting judge");
+    expect(ordinaryHtml).not.toContain(judge.name);
 
     const federalJudge = publicSeatedJudges(world).find((row) =>
       world.judiciary!.courts[
@@ -253,6 +269,59 @@ describe("JudiciaryPanel", () => {
       expect(reportHtml).toContain("Attend and report favorably");
       expect(reportHtml).toContain("Attend and oppose reporting");
       expect(reportHtml).toContain("Do not attend report business");
+      projection.mockReturnValue({
+        ...projected,
+        playerSenateAction: "floor-vote",
+        senateStatus:
+          "Senate floor consideration is due today; no floor vote is recorded.",
+      });
+      const floorHtml = renderSenator();
+      expect(floorHtml).toContain("Reason for your floor choice");
+      expect(floorHtml).toContain('type="button" disabled=""');
+      expect(floorHtml).toContain("Attend and vote yea");
+      expect(floorHtml).toContain("Attend and vote nay");
+      expect(floorHtml).toContain("Attend and answer present");
+      expect(floorHtml).toContain("Do not attend floor vote");
+      expect(floorHtml).not.toContain("Record excused absence");
+      const publicHtml = renderToStaticMarkup(
+        <JudiciaryPanel
+          world={{
+            ...senatorWorld,
+            control: { kind: "person", personId: game.playerPersonId },
+          }}
+          view={view}
+          scope="federal"
+          onOpenPerson={() => {}}
+        />,
+      );
+      expect(publicHtml).toContain("Senate floor consideration is due today");
+      expect(publicHtml).not.toContain("Attend and vote yea");
+      projection.mockReturnValue({
+        ...projected,
+        status: "stages-completed",
+        nextStage: null,
+        playerSenateAction: null,
+        senateStatus: null,
+        playerMayCommission: true,
+        confirmedResultEventId: createStableId(
+          "event",
+          "fixture:confirmed-result",
+        ),
+      });
+      const confirmedPublic = renderToStaticMarkup(
+        <JudiciaryPanel
+          world={{
+            ...senatorWorld,
+            control: { kind: "person", personId: game.playerPersonId },
+          }}
+          view={view}
+          scope="federal"
+          onOpenPerson={() => {}}
+        />,
+      );
+      expect(confirmedPublic).toContain("The commission is pending.");
+      expect(confirmedPublic).not.toContain("Issue judicial commission");
+      expect(render(world)).toContain("Issue judicial commission");
     } finally {
       projection.mockRestore();
     }

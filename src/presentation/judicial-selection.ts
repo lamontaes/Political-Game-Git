@@ -4,6 +4,7 @@ import { currentPresidentOf } from "../simulation/crisis/offices";
 import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
 import { courtById, seatHolderAt } from "../simulation/judiciary/courts";
 import { JUDICIAL_ROSTER_REVIEW_EVENT } from "../simulation/judiciary/candidate-discovery";
+import { JUDICIAL_COMMISSION_EVENT } from "../simulation/judiciary/federal-judicial-commission";
 import {
   SENATE_JUDICIARY_ORGANIZATION_VOTE_EVENT,
   senateJudiciaryAppointment,
@@ -24,9 +25,14 @@ import {
   JUDICIAL_PUBLIC_HEARING_PLAYER_CHOICE_EVENT,
   JUDICIAL_PUBLIC_HEARING_TRANSITION,
 } from "../simulation/judiciary/senate-hearing-process";
-import { JUDICIAL_CONFIRMATION_HEARING_EVENT } from "../simulation/judiciary/federal-confirmation";
+import {
+  JUDICIAL_CONFIRMATION_HEARING_EVENT,
+  JUDICIAL_SENATE_RESULT_EVENT,
+} from "../simulation/judiciary/federal-confirmation";
 import {
   JUDICIAL_EXEC_CALENDAR_EVENT,
+  JUDICIAL_FLOOR_SITTING_EVENT,
+  JUDICIAL_FLOOR_TRANSITION,
   JUDICIAL_REPORT_NOTICE_EVENT,
   JUDICIAL_REPORT_RESULT_EVENT,
   JUDICIAL_REPORT_SITTING_EVENT,
@@ -63,12 +69,15 @@ export interface JudicialSelectionView {
     readonly name: string;
   }[];
   readonly playerMayNominate: boolean;
+  readonly playerMayCommission?: boolean;
+  readonly confirmedResultEventId?: EntityId | null;
   readonly playerSenateAction:
     | "organization"
     | "announce-hearing"
     | "hearing-attendance"
     | "report-notice"
     | "report-business"
+    | "floor-vote"
     | null;
   readonly senateStatus: string | null;
 }
@@ -147,6 +156,20 @@ export function projectJudicialSelection(
     selection.recordId,
     resolved.plan,
   );
+  const commissionRecorded = world.history.events.some(
+    (event) =>
+      event.type === JUDICIAL_COMMISSION_EVENT &&
+      event.tags.includes(`selection:${selection.recordId}`),
+  );
+  const confirmedResult =
+    progress.status === "stages-completed" && !holder && !commissionRecorded
+      ? world.history.events.find(
+          (event) =>
+            event.type === JUDICIAL_SENATE_RESULT_EVENT &&
+            event.tags.includes(`selection:${selection.recordId}`) &&
+            event.tags.includes("outcome:confirmed"),
+        )
+      : null;
   const stage =
     progress.status === "pending"
       ? resolved.plan.stages[progress.nextOrder - 1]!
@@ -208,11 +231,36 @@ export function projectJudicialSelection(
           event.tags.includes(`selection:${selection.recordId}`),
       )
     : null;
+  const floorSitting = senateStage
+    ? world.history.events.find(
+        (event) =>
+          event.type === JUDICIAL_FLOOR_SITTING_EVENT &&
+          event.tags.includes(`selection:${selection.recordId}`),
+      )
+    : null;
+  const floorResult = senateStage
+    ? world.history.events.find(
+        (event) =>
+          event.type === JUDICIAL_SENATE_RESULT_EVENT &&
+          event.tags.includes(`selection:${selection.recordId}`),
+      )
+    : null;
   const reportDue = world.history.futureDueItems.find(
     (item) =>
       item.transitionKey === JUDICIAL_REPORT_TRANSITION &&
       item.stableKey.endsWith(`:${selection.recordId}`),
   );
+  const floorDue = senateStage
+    ? world.history.futureDueItems.find(
+        (item) =>
+          item.transitionKey === JUDICIAL_FLOOR_TRANSITION &&
+          item.stableKey.endsWith(`:${selection.recordId}`),
+      )
+    : null;
+  const floorDueMatchesCalendar =
+    calendarAdmission &&
+    floorDue?.provenance.kind === "simulated" &&
+    floorDue.provenance.sourceEntityIds.includes(calendarAdmission.id);
   const hearingDue = world.history.futureDueItems.find(
     (item) =>
       item.transitionKey === JUDICIAL_PUBLIC_HEARING_TRANSITION &&
@@ -269,7 +317,13 @@ export function projectJudicialSelection(
                   reportDue?.dueAt === world.currentDate &&
                   appointment?.memberPersonIds.includes(controlledPersonId)
                 ? ("report-business" as const)
-                : null;
+                : floorDueMatchesCalendar &&
+                    !floorSitting &&
+                    !floorResult &&
+                    floorDue?.dueAt === world.currentDate &&
+                    controlledSenator
+                  ? ("floor-vote" as const)
+                  : null;
   const senateStatus = (() => {
     if (!senateStage) return null;
     const dueFor = (transitionKey: string) =>
@@ -288,10 +342,16 @@ export function projectJudicialSelection(
         ? `Senate referral is scheduled for ${proseDate(due.dueAt)}.`
         : "The Senate referral has not been scheduled.";
     }
-    if (reportResult?.tags.includes("result:reported"))
-      return calendarAdmission
-        ? "Judiciary reported the nomination and it entered the Executive Calendar. A final Senate vote is not recorded."
-        : "Judiciary reported the nomination, but Executive Calendar admission is missing.";
+    if (reportResult?.tags.includes("result:reported")) {
+      if (!calendarAdmission)
+        return "Judiciary reported the nomination, but Executive Calendar admission is missing.";
+      if (floorResult) return "The Senate recorded a final nomination result.";
+      if (floorSitting)
+        return "The Senate floor sat, but no final nomination result is recorded.";
+      return floorDueMatchesCalendar
+        ? `Judiciary reported the nomination and it entered the Executive Calendar. Senate floor consideration is due ${proseDate(floorDue!.dueAt)}; no floor vote is recorded.`
+        : "Judiciary reported the nomination and it entered the Executive Calendar. No valid floor date or final Senate vote is recorded.";
+    }
     if (reportResult)
       return "Judiciary did not report the nomination; it remains before the committee.";
     if (reportSitting)
@@ -363,6 +423,8 @@ export function projectJudicialSelection(
         }
       : null,
     playerMayNominate,
+    playerMayCommission: Boolean(confirmedResult && controlledPresident),
+    confirmedResultEventId: confirmedResult?.id ?? null,
     playerSenateAction,
     senateStatus,
   };

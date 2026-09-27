@@ -20,6 +20,7 @@ import {
 } from "./courts";
 import { judicialSelectionProfile } from "./profiles";
 import { judicialPhilosophyHasEvidence } from "./philosophy";
+import { publishJudiciaryMilestone } from "./news";
 import type {
   JudicialRuleField,
   JudicialPhilosophyRecord,
@@ -849,7 +850,7 @@ export function recordFederalJudicialNomination(
     electionContestId: null,
     outcomeEventId: next.history.events.at(-1)!.id,
   });
-  return scheduleFutureDueItem(nominated, {
+  const scheduled = scheduleFutureDueItem(nominated, {
     stableKey: `${JUDICIAL_SENATE_REFERRAL_TRANSITION}:${selection.recordId}`,
     dueAt: nextCongressSitting(nominated.currentDate),
     transitionKey: JUDICIAL_SENATE_REFERRAL_TRANSITION,
@@ -860,6 +861,7 @@ export function recordFederalJudicialNomination(
       sourceEntityIds: [next.history.events.at(-1)!.id],
     },
   });
+  return publishJudiciaryMilestone(scheduled, next.history.events.at(-1)!.id);
 }
 
 export type JudicialRetentionThreshold =

@@ -14,6 +14,7 @@ import {
   interviewFederalJudicialCandidate,
   JUDICIAL_CANDIDATE_INTERVIEW_EVENT,
 } from "../../simulation/judiciary/candidate-interview";
+import { commissionConfirmedFederalJudge } from "../../simulation/judiciary/federal-judicial-commission";
 import {
   recordFederalJudicialNomination,
   screenFederalJudicialNominee,
@@ -26,6 +27,8 @@ import {
 import {
   recordControlledJudiciaryReportChoice,
   recordControlledJudiciaryReportNotice,
+  recordControlledJudicialNominationFloorChoice,
+  type JudicialFloorChoice,
   type ReportBallot,
 } from "../../simulation/judiciary/senate-committee-report";
 import { PersonPortrait } from "../PersonPortrait";
@@ -73,25 +76,66 @@ function CourtRoster({
             ) : (
               <span>Vacant seat</span>
             )}
-            {federal && !holder.personId && onWorldChange ? (
+            {federal && !holder.personId ? (
               <>
-                <FederalVacancyAction
-                  world={world}
-                  seatId={holder.seatId}
-                  onWorldChange={onWorldChange}
-                  onOpenPerson={onOpenPerson}
-                />
-                <FederalSenateAction
-                  world={world}
-                  seatId={holder.seatId}
-                  onWorldChange={onWorldChange}
-                />
+                <FederalSelectionStatus world={world} seatId={holder.seatId} />
+                {onWorldChange ? (
+                  <>
+                    <FederalVacancyAction
+                      world={world}
+                      seatId={holder.seatId}
+                      onWorldChange={onWorldChange}
+                      onOpenPerson={onOpenPerson}
+                    />
+                    <FederalSenateAction
+                      world={world}
+                      seatId={holder.seatId}
+                      onWorldChange={onWorldChange}
+                    />
+                  </>
+                ) : null}
               </>
             ) : null}
           </li>
         ))}
       </ul>
     </section>
+  );
+}
+
+function FederalSelectionStatus({
+  world,
+  seatId,
+}: {
+  readonly world: World;
+  readonly seatId: string;
+}) {
+  const selection = projectJudicialSelection(world, seatId);
+  if (!selection) return null;
+  const summary =
+    selection.status === "no-attempt"
+      ? "No judicial selection is underway."
+      : selection.status === "pending"
+        ? `Selection pending. Next: ${selection.nextStage?.actor ?? "authority unresolved"}.`
+        : selection.status === "stages-completed"
+          ? selection.confirmedResultEventId
+            ? "The Senate confirmed the nominee. The commission is pending."
+            : "The recorded selection stages are complete."
+          : selection.status === "rejected"
+            ? "The latest selection was rejected."
+            : selection.status === "lapsed"
+              ? "The latest selection lapsed."
+              : "The selection route is unresolved.";
+  return (
+    <div data-testid={`judicial-selection-status-${seatId}`}>
+      <p className="pg-government-note">{summary}</p>
+      {selection.reason ? (
+        <p className="pg-government-note">{selection.reason}</p>
+      ) : null}
+      {selection.senateStatus ? (
+        <p className="pg-government-note">{selection.senateStatus}</p>
+      ) : null}
+    </div>
   );
 }
 
@@ -105,6 +149,8 @@ function FederalSenateAction({
   readonly onWorldChange: (world: World) => void;
 }) {
   const [message, setMessage] = useState<string | null>(null);
+  const floorReasonId = useId();
+  const [floorReason, setFloorReason] = useState("");
   const controlledId =
     world.control.kind === "person" ? world.control.personId : null;
   const isSenator =
@@ -138,9 +184,19 @@ function FederalSenateAction({
         { attendance, ballot },
       ),
     );
+  const recordFloorChoice = (
+    attendance: JudicialFloorChoice["attendance"],
+    ballot: JudicialFloorChoice["ballot"],
+  ) =>
+    run(() =>
+      recordControlledJudicialNominationFloorChoice(
+        world,
+        selection.selectionRecordId!,
+        { attendance, ballot, reason: floorReason },
+      ),
+    );
   return (
     <div data-testid={`judicial-senate-action-${seatId}`}>
-      <p className="pg-government-note">{selection.senateStatus}</p>
       {selection.playerSenateAction === "organization" ? (
         <div>
           <p>Choose your own Senate Judiciary organization vote.</p>
@@ -280,6 +336,41 @@ function FederalSenateAction({
           </button>
         </div>
       ) : null}
+      {selection.playerSenateAction === "floor-vote" ? (
+        <div>
+          <p>Choose your own attendance and Senate floor vote.</p>
+          <label htmlFor={floorReasonId}>Reason for your floor choice</label>
+          <input
+            id={floorReasonId}
+            type="text"
+            value={floorReason}
+            onChange={(event) => setFloorReason(event.target.value)}
+          />
+          {(
+            [
+              ["yea", "Attend and vote yea"],
+              ["nay", "Attend and vote nay"],
+              ["present-not-voting", "Attend and answer present"],
+            ] as const
+          ).map(([ballot, label]) => (
+            <button
+              key={ballot}
+              type="button"
+              disabled={!floorReason.trim()}
+              onClick={() => recordFloorChoice("attend", ballot)}
+            >
+              {label}
+            </button>
+          ))}
+          <button
+            type="button"
+            disabled={!floorReason.trim()}
+            onClick={() => recordFloorChoice("absent", null)}
+          >
+            Do not attend floor vote
+          </button>
+        </div>
+      ) : null}
       {message ? <p role="alert">{message}</p> : null}
     </div>
   );
@@ -395,12 +486,6 @@ function FederalVacancyAction({
       ) : null}
       {selection.status === "pending" ? (
         <div>
-          <p className="pg-government-note">
-            Next: {selection.nextStage?.actor ?? "Authority unresolved"}
-          </p>
-          {selection.senateStatus ? (
-            <p className="pg-government-note">{selection.senateStatus}</p>
-          ) : null}
           {selection.playerMayNominate ? (
             <ul>
               {selection.candidates.map((candidate) => {
@@ -466,6 +551,23 @@ function FederalVacancyAction({
             </ul>
           ) : null}
         </div>
+      ) : null}
+      {selection.playerMayCommission && selection.confirmedResultEventId ? (
+        <button
+          type="button"
+          onClick={() =>
+            run(() =>
+              commissionConfirmedFederalJudge(world, {
+                selectionRecordId: selection.selectionRecordId!,
+                resultEventId: selection.confirmedResultEventId!,
+                presidentPersonId: currentPresidentOf(world)!.personId,
+                mode: "player-choice",
+              }),
+            )
+          }
+        >
+          Issue judicial commission
+        </button>
       ) : null}
       {message ? <p role="status">{message}</p> : null}
     </div>
