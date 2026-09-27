@@ -118,6 +118,20 @@ export function ObserverRecordWorkspace({
   const [query, setQuery] = useState("");
   const people = useMemo(() => observerPeople(world, query), [world, query]);
   const [selected, setSelected] = useState<EntityId | null>(null);
+  const [summaryPage, setSummaryPage] = useState(0);
+  const [expandedSummaryId, setExpandedSummaryId] = useState<EntityId | null>(
+    null,
+  );
+  const summaryPageSize = 8;
+  const summaryPageCount = Math.max(
+    1,
+    Math.ceil(record.electionSummaries.length / summaryPageSize),
+  );
+  const visibleSummaryPage = Math.min(summaryPage, summaryPageCount - 1);
+  const visibleSummaries = record.electionSummaries.slice(
+    visibleSummaryPage * summaryPageSize,
+    (visibleSummaryPage + 1) * summaryPageSize,
+  );
   const file = useMemo(
     () => (selected ? projectObserverPerson(world, selected) : null),
     [world, selected],
@@ -251,9 +265,11 @@ export function ObserverRecordWorkspace({
 
       <section data-testid="world-record-elections">
         <h3>Elections</h3>
-        {record.elections.length === 0 ? (
+        {record.elections.length === 0 &&
+        record.electionSummaries.length === 0 ? (
           <p className="game-note">No election has been decided yet.</p>
-        ) : (
+        ) : null}
+        {record.elections.length > 0 ? (
           <ul>
             {record.elections.slice(0, 60).map((election) => (
               <li key={election.id}>
@@ -263,7 +279,97 @@ export function ObserverRecordWorkspace({
               </li>
             ))}
           </ul>
-        )}
+        ) : null}
+        {record.electionSummaries.length > 0 ? (
+          <div data-testid="world-record-election-summaries">
+            {/* PLACEHOLDER(overnight): Claude/CC1 must review these new record labels before publication. */}
+            <h4>Legislative results on record</h4>
+            <ul>
+              {visibleSummaries.map((summary) => (
+                <li
+                  key={summary.id}
+                  data-testid="world-record-election-summary"
+                >
+                  <strong>{summary.body}</strong>
+                  {summary.place ? `, ${summary.place}` : ""} ·{" "}
+                  {proseDate(summary.date)}
+                  <p>
+                    {summary.seatCount.toLocaleString("en-US")}{" "}
+                    {summary.seatCount === 1 ? "seat" : "seats"} counted;{" "}
+                    {summary.winnerCount.toLocaleString("en-US")}{" "}
+                    {summary.winnerCount === 1 ? "winner" : "winners"} named in
+                    this summary.
+                    {summary.separateContestCount > 0
+                      ? ` ${summary.separateContestCount.toLocaleString("en-US")} ${summary.separateContestCount === 1 ? "seat has" : "seats have"} separate contest records.`
+                      : ""}
+                  </p>
+                  {summary.offices.length > 0 ? (
+                    <ul>
+                      {summary.offices.map((office) => (
+                        <li key={office.key}>
+                          {office.title}:{" "}
+                          {office.winnerCount.toLocaleString("en-US")} named
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  {summary.winners.length > 0 ? (
+                    <>
+                      <button
+                        type="button"
+                        className="ui-action ui-action--subtle"
+                        aria-expanded={expandedSummaryId === summary.id}
+                        onClick={() =>
+                          setExpandedSummaryId((id) =>
+                            id === summary.id ? null : summary.id,
+                          )
+                        }
+                      >
+                        {expandedSummaryId === summary.id
+                          ? "Hide named winners"
+                          : "Show named winners"}
+                      </button>
+                      {expandedSummaryId === summary.id ? (
+                        <ul>
+                          {summary.winners.map((winner) => (
+                            <li key={`${summary.id}:${winner.seatKey}`}>
+                              {winner.personName
+                                ? personLink(winner.personId, winner.personName)
+                                : "Name unavailable in this save"}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+            {summaryPageCount > 1 ? (
+              <div role="group" aria-label="Legislative result pages">
+                <button
+                  type="button"
+                  className="ui-action ui-action--subtle"
+                  disabled={visibleSummaryPage === 0}
+                  onClick={() => setSummaryPage(visibleSummaryPage - 1)}
+                >
+                  Previous
+                </button>
+                <span>
+                  Page {visibleSummaryPage + 1} of {summaryPageCount}
+                </span>
+                <button
+                  type="button"
+                  className="ui-action ui-action--subtle"
+                  disabled={visibleSummaryPage + 1 === summaryPageCount}
+                  onClick={() => setSummaryPage(visibleSummaryPage + 1)}
+                >
+                  Next
+                </button>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
       </section>
 
       <section data-testid="world-record-offices">

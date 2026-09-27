@@ -1281,7 +1281,17 @@ function PlayingScreen({
     world: session.world,
     personId: session.personId,
     interruptions: shell.preferences.interruptions,
-    onWorldChange,
+    onWorldChange: (next) => {
+      const alreadyAtMeeting =
+        projectOrdinaryMeetingScene(session.world, session.personId)?.phase ===
+        "active";
+      onWorldChange(next);
+      if (
+        !alreadyAtMeeting &&
+        projectOrdinaryMeetingScene(next, session.personId)?.phase === "active"
+      )
+        dispatch({ type: "go-to-scene" });
+    },
   });
   const { submit: submitTime } = timeRunner;
   /*
@@ -2219,6 +2229,7 @@ function PlayingScreen({
                   personId={session.personId}
                   onWorldChange={onWorldChange}
                   onOpenEntity={openEntity}
+                  onOutcome={setPassOutcome}
                 />
               ) : null}
               {view.surface === "scene" && !readOnly ? (
