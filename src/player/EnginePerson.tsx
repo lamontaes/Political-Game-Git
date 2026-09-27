@@ -26,7 +26,6 @@ export function useEnginePersonImage(
       live = false;
     };
     // The key names the recipe completely.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
   return ready && ready.key === key ? ready.image : null;
 }

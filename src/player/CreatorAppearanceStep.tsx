@@ -95,9 +95,6 @@ export function CreatorAppearanceStep({
           </div>
           <div>
             <h2>How you look</h2>
-            <p className="creator-preview-note">
-              Choose your appearance before beginning.
-            </p>
             <EngineAppearanceControls
               recipe={engine}
               onChange={(recipe) =>
