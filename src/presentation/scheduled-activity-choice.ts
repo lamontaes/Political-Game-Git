@@ -12,6 +12,7 @@ import {
   type SimulationMoment,
   type World,
 } from "../simulation";
+import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 
 /**
  * The two different things that can happen to an optional hold.
@@ -210,6 +211,85 @@ export function declineVenueActivity(
       socialContext: null,
       pressure: null,
       choice: `Decline ${activity.title}`,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return releaseHold(recorded, personId, activityId);
+}
+
+/**
+ * The player can call off an upcoming party or campaign appointment they
+ * agreed to. This records only their own choice; no record says the host was
+ * told. A confirmed appointment cannot be treated as an unanswered invitation
+ * or silently lapsed by the clock.
+ */
+export function canCallOffCampaignLifeAppointment(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): boolean {
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === activityId,
+  );
+  const campaignLife = campaignLifeActivityForScheduledActivity(
+    world,
+    activityId,
+  );
+  if (!activity || !campaignLife) return false;
+  const state = scheduledActivityState(world, activityId);
+  return (
+    activity.kind === "confirmed" &&
+    campaignLife.origin === "subject-request" &&
+    campaignLife.subjectPersonId === personId &&
+    activity.responsiblePersonId === personId &&
+    activity.participantPersonIds.includes(personId) &&
+    state.status === "scheduled" &&
+    compareSimulationMoments(world.currentMoment, state.start) < 0 &&
+    world.control.kind === "person" &&
+    world.control.personId === personId &&
+    canPersonAccess(activity.access, personId)
+  );
+}
+
+/** Record the player's call-off, then release the appointment and its journey. */
+export function callOffCampaignLifeAppointment(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): World {
+  if (!canCallOffCampaignLifeAppointment(world, personId, activityId))
+    return world;
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === activityId,
+  )!;
+  const campaignLife = campaignLifeActivityForScheduledActivity(
+    world,
+    activityId,
+  )!;
+  const recorded = recordWorldEvent(world, {
+    stableKey: `venue-activity:called-off:${activityId}`,
+    type: ACTIVITY_DECLINED_EVENT,
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: activity.location.jurisdictionId,
+    involvedEntityIds: [personId, activityId, campaignLife.id],
+    participants: [
+      {
+        personId,
+        role: "agency:participant",
+        detail: `Called off ${activity.title}`,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["scheduled-activity", "called-off", "time-neutral", CHOSEN_TAG],
+    summary: `You called off ${activity.title}; its calendar hold was released.`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: `Call off ${activity.title}`,
       motivation: null,
       immediateReaction: null,
     },
