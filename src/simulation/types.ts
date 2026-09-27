@@ -57,6 +57,8 @@ export interface SimulationMoment {
 }
 
 export type EntityKind =
+  | "judicial-retention-contest"
+  | "judicial-retention-result"
   | "world-condition"
   | "party-record"
   | "constitutional-measure"
