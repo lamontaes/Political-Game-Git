@@ -104,8 +104,16 @@ describe(
       expect(recordDomainAttendance(requested, life.personId, "nothing")).toBe(
         requested,
       );
-      const went = attendPartyWork(
+      const entered = attendPartyWork(
         requested,
+        life.personId,
+        latest(requested, life.personId).lifeActivityId,
+        "attended",
+        REGISTRY,
+      );
+      expect(scheduledActivityState(entered, hold).status).toBe("scheduled");
+      const went = attendPartyWork(
+        entered,
         life.personId,
         latest(requested, life.personId).lifeActivityId,
         "attended",
@@ -133,7 +141,7 @@ describe(
       expect(recordDomainAttendance(went, life.organizerId, hold)).toBe(went);
     });
 
-    it("a requested talk about running is gone to briefly, with the same outcome as going", () => {
+    it("a requested talk opens first and records the same outcome for either attendance mode", () => {
       const life = adultLife("life-actions-a");
       const requested = requestPartyWork(
         life.world,
@@ -146,15 +154,32 @@ describe(
       expect(
         partyWorkBlockedReason(requested, life.personId, view.lifeActivityId),
       ).toBeNull();
-      const brief = attendPartyWork(
+      const briefArrival = attendPartyWork(
         requested,
         life.personId,
         view.lifeActivityId,
         "condensed",
         REGISTRY,
       );
-      const full = attendPartyWork(
+      const fullArrival = attendPartyWork(
         requested,
+        life.personId,
+        view.lifeActivityId,
+        "attended",
+        REGISTRY,
+      );
+      expect(
+        scheduledActivityState(briefArrival, view.scheduledActivityId).status,
+      ).toBe("scheduled");
+      const brief = attendPartyWork(
+        briefArrival,
+        life.personId,
+        view.lifeActivityId,
+        "condensed",
+        REGISTRY,
+      );
+      const full = attendPartyWork(
+        fullArrival,
         life.personId,
         view.lifeActivityId,
         "attended",

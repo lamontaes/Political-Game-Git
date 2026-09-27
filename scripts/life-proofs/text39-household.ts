@@ -5,14 +5,9 @@ import {
   DEFAULT_NEW_GAME_SETUP,
 } from "../../src/presentation/new-game";
 import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
-import {
-  availableAdultSituations,
-  buildAdultLifeContext,
-} from "../../src/simulation/adult-situations";
 import { projectPlayerConversation } from "../../src/presentation/player-conversation";
 import { commitConversationTurn } from "../../src/presentation/run-b-conversation";
-import { chooseAdultOption } from "../../src/presentation/adult-life";
-import { serializeWorld, deserializeWorld } from "../../src/simulation";
+import { serializeWorld } from "../../src/simulation";
 const game = createNewGameWorld({
   ...DEFAULT_NEW_GAME_SETUP,
   startKind: "custom",
@@ -26,25 +21,6 @@ const game = createNewGameWorld({
 const world = openOrdinaryLife(game.world, game.playerPersonId);
 const id = game.playerPersonId;
 const before = serializeWorld(world);
-const scene = availableAdultSituations(buildAdultLifeContext(world, id)).find(
-  (s) => s.key === "adult.household-standing",
-)!;
-const responses = scene.options.map((option) => {
-  const next = chooseAdultOption(world, {
-    personId: id,
-    situationKey: scene.key,
-    optionKey: option.key,
-  });
-  assert.deepEqual(next.currentMoment, world.currentMoment);
-  assert.deepEqual(next.history.workItems, world.history.workItems);
-  assert.deepEqual(deserializeWorld(serializeWorld(next)), next);
-  return {
-    choice: option.label,
-    description: option.description,
-    response: next.history.events.find((e) => e.tags.includes(scene.key))!
-      .summary,
-  };
-});
 const view = projectPlayerConversation(world, id, "household-obligation")!;
 const raised = commitConversationTurn(world, {
   session: view.session,
@@ -86,8 +62,6 @@ const output = {
   location: view.room.locationLabel,
   briefing: view.briefing,
   opening: view.openingLine,
-  scene: scene.prose,
-  responses,
   firstChoices: view.intents,
   firstReply: raised.world.history.events
     .filter((e) => e.type === "conversation.household-turn")

@@ -19,6 +19,20 @@ describe("the interruption checklist", () => {
     expect(row).toMatch(/checked=""/);
     expect(row).toMatch(/disabled=""/);
     expect(html).toContain('data-testid="shell-stop-always"');
-    expect(html).toContain('data-testid="shell-stop-stopForWorkShifts"');
+    expect(html).toContain('data-testid="shell-stop-stopForTentativeHolds"');
+    expect(html).not.toContain('data-testid="shell-stop-stopForWorkShifts"');
+  });
+
+  it("keeps an old saved work-shift preference out of the visible controls", () => {
+    const html = renderToStaticMarkup(
+      <InterruptionChecklist
+        interruptions={{ ...DEFAULT_INTERRUPTIONS, stopForWorkShifts: true }}
+        onChange={() => {}}
+        testIdPrefix="shell-stop"
+      />,
+    );
+    expect(html).not.toContain("stopForWorkShifts");
+    expect(html).not.toContain("work shifts");
+    expect(html).toContain('data-testid="shell-stop-stopForTentativeHolds"');
   });
 });

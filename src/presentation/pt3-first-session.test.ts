@@ -2,10 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   advanceWorldMinutes,
-  deserializeWorld,
   describePersonContext,
   introducePerson,
-  serializeWorld,
   type EntityId,
   type World,
 } from "../simulation";
@@ -19,7 +17,6 @@ import {
   availableOptionalLifeActivities,
   chooseOpeningLifeScene,
   currentOpeningLifeScene,
-  openingSceneChoiceEffects,
   openNextLifeScene,
 } from "./life-scene-flow";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -49,18 +46,6 @@ function start(
   return { world: game.world, personId: game.playerPersonId };
 }
 
-function goalStatus(world: World, personId: EntityId, goal: string) {
-  return (
-    world.history.goalStates
-      .filter(
-        (record) =>
-          record.personId === personId &&
-          record.goalKey === `opening-life:${goal}`,
-      )
-      .at(-1)?.status ?? null
-  );
-}
-
 /** Open scenes, answering with the first choice, until `key` is the current one. */
 function openUntil(world: World, personId: EntityId, key: string): World {
   let next = openNextLifeScene(world, personId);
@@ -80,23 +65,21 @@ function openUntil(world: World, personId: EntityId, key: string): World {
 }
 
 describe("the first session reads differently in three different lives", () => {
-  it("offers an adult alone a decision, with quiet time available by choice", () => {
+  it("does not offer the retired plan-week leisure prompt to a new adult", () => {
     const life = start("pt3-alone", 22, "lives-alone");
     const offered = availableOpeningLifeScenes(life.world, life.personId).map(
       (entry) => entry.definition.key,
     );
-    expect([...offered].sort()).toEqual(["adult.home.plan-week"]);
+    expect(offered).not.toContain("adult.home.plan-week");
     expect(
       availableOptionalLifeActivities(life.world, life.personId).map(
         (entry) => entry.definition.key,
       ),
     ).not.toContain("adult.home.free-time");
     const opened = openNextLifeScene(life.world, life.personId);
-    const scene = currentOpeningLifeScene(opened, life.personId)!;
-    expect(scene.prose).toBe(
-      "You're at home, thinking about what to make time for in the days ahead.",
-    );
-    expect(scene.prose).not.toMatch(/a little free time|What would you like/);
+    expect(
+      currentOpeningLifeScene(opened, life.personId)?.definition.key,
+    ).not.toBe("adult.home.plan-week");
   });
 
   it("introduces the person an adult lives with by name and relation", () => {
@@ -150,139 +133,7 @@ describe("the first session reads differently in three different lives", () => {
   });
 });
 
-describe("a decision is recorded, and kept only by what the player then does", () => {
-  it("records the plan, keeps it by reading, and survives reload", () => {
-    const life = start("pt3-plan", 22, "lives-alone");
-    let world = openUntil(life.world, life.personId, "adult.home.plan-week");
-    let scene = currentOpeningLifeScene(world, life.personId)!;
-    expect(scene.definition.key).toBe("adult.home.plan-week");
-    // The life starts with one plan of its own; clear the slate for "learning".
-    const learningBefore = goalStatus(world, life.personId, "learning");
-    const before = world.currentMoment;
-    world = chooseOpeningLifeScene(
-      world,
-      life.personId,
-      scene.eventId,
-      "learning",
-    );
-    expect(world.currentMoment).toEqual(before);
-    expect(goalStatus(world, life.personId, "learning")).toBe("active");
-    if (learningBefore !== "active")
-      expect(
-        world.history.goalStates.filter(
-          (record) =>
-            record.personId === life.personId &&
-            record.goalKey === "opening-life:learning",
-        ).length,
-      ).toBeGreaterThan(0);
-
-    world = openNextLifeScene(world, life.personId);
-    scene = currentOpeningLifeScene(world, life.personId)!;
-    expect(scene.stageKey).toBe("follow-through");
-    expect(scene.prose).toBe(
-      "You've just made a plan to learn something, and there are five minutes open right now.",
-    );
-    expect(openingSceneChoiceEffects(world, life.personId)).toEqual([
-      {
-        choiceKey: "read",
-        minutes: 5,
-        keeps: "Make time to learn something",
-        records: null,
-      },
-      { choiceKey: "later", minutes: 0, keeps: null, records: null },
-    ]);
-    const beforeReading = world.currentMoment.minuteOfDay;
-    world = chooseOpeningLifeScene(world, life.personId, scene.eventId, "read");
-    expect(world.currentMoment.minuteOfDay - beforeReading).toBe(5);
-    expect(goalStatus(world, life.personId, "learning")).toBe("completed");
-    const saved = serializeWorld(world);
-    const loaded = deserializeWorld(saved);
-    expect(serializeWorld(loaded)).toBe(saved);
-    expect(goalStatus(loaded, life.personId, "learning")).toBe("completed");
-  });
-
-  it("leaves the plan standing when the player puts it off", () => {
-    const life = start("pt3-plan-later", 22, "lives-alone");
-    let world = openUntil(life.world, life.personId, "adult.home.plan-week");
-    let scene = currentOpeningLifeScene(world, life.personId)!;
-    world = chooseOpeningLifeScene(
-      world,
-      life.personId,
-      scene.eventId,
-      "learning",
-    );
-    world = openNextLifeScene(world, life.personId);
-    scene = currentOpeningLifeScene(world, life.personId)!;
-    const beforePuttingItOff = world.currentMoment;
-    world = chooseOpeningLifeScene(
-      world,
-      life.personId,
-      scene.eventId,
-      "later",
-    );
-    expect(goalStatus(world, life.personId, "learning")).toBe("active");
-    expect(world.currentMoment).toEqual(beforePuttingItOff);
-  });
-
-  it("gives the three plan choices three different recorded outcomes", () => {
-    const outcomes = (["learning", "connection", "privacy"] as const).map(
-      (goal) => {
-        const life = start("pt3-plan-each", 22, "lives-alone");
-        const world = openUntil(
-          life.world,
-          life.personId,
-          "adult.home.plan-week",
-        );
-        const scene = currentOpeningLifeScene(world, life.personId)!;
-        const after = chooseOpeningLifeScene(
-          world,
-          life.personId,
-          scene.eventId,
-          goal,
-        );
-        return goalStatus(after, life.personId, goal);
-      },
-    );
-    expect(outcomes).toEqual(["active", "active", "active"]);
-  });
-});
-
-describe("reading is free, and saved words stay as they were saved", () => {
-  it("projects the scene and its choice effects without changing the world", () => {
-    const life = start("pt3-read-only", 22, "lives-alone");
-    const opened = openNextLifeScene(life.world, life.personId);
-    const saved = serializeWorld(opened);
-    currentOpeningLifeScene(opened, life.personId);
-    openingSceneChoiceEffects(opened, life.personId);
-    availableOpeningLifeScenes(opened, life.personId);
-    expect(serializeWorld(opened)).toBe(saved);
-  });
-
-  it("shows an already-opened scene with the words it was opened with", () => {
-    const life = start("pt3-saved-text", 22, "lives-alone");
-    const opened = openNextLifeScene(life.world, life.personId);
-    const scene = currentOpeningLifeScene(opened, life.personId)!;
-    // An older build wrote this event with its own copy; the save keeps it.
-    const older: World = {
-      ...opened,
-      history: {
-        ...opened.history,
-        events: opened.history.events.map((event) =>
-          event.id === scene.eventId
-            ? {
-                ...event,
-                summary:
-                  "You have a little free time at home. What would you like to do?",
-              }
-            : event,
-        ),
-      },
-    };
-    expect(currentOpeningLifeScene(older, life.personId)!.prose).toBe(
-      "You have a little free time at home. What would you like to do?",
-    );
-  });
-
+describe("scene labels", () => {
   it("never puts an unsubstituted slot in a label the scene panel shows", () => {
     for (const definition of OPENING_LIFE_SCENES) {
       for (const choice of [

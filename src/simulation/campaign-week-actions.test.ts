@@ -22,7 +22,12 @@ import {
   projectCampaignWeekActions,
 } from "./campaign-week-actions";
 import { GAME_ADULT_CANDIDACY_AGE, candidacyPackById } from "./candidacy-packs";
-import { addDays, ageOnDate, simulationMinutesBetween } from "./dates";
+import {
+  addDays,
+  ageOnDate,
+  compareSimulationMoments,
+  simulationMinutesBetween,
+} from "./dates";
 import {
   createScenarioWorld,
   ensureCampaignOpponents,
@@ -37,7 +42,11 @@ import {
 } from "./living-world/party-chapters";
 import { PARTY_AFFILIATION_KIND } from "./living-world/opening";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import { scheduledActivityState } from "./time-work";
+import {
+  createScheduledActivity,
+  performScheduledActivity,
+  scheduledActivityState,
+} from "./time-work";
 import type { World } from "./types";
 
 function filedLife(seed: string) {
@@ -217,8 +226,16 @@ describe("concrete campaign week actions", () => {
     const outcome = campaignLifeOutcomeRecords(finished).at(-1)!;
     expect(outcome.activityId).toBe(activity.id);
     expect(outcome.contactPersonIds.length).toBeGreaterThan(0);
+    expect(outcome.resourceFlowId).toBeNull();
+    expect(outcome.fieldReach).toMatchObject({
+      profileVersion: "research1-wave2-v1",
+      estimatedDoorKnocks: null,
+      estimatedPhoneDials: { min: 35, max: 35 },
+      estimatedCompletedConversations: { min: 10, max: 15 },
+    });
     const after = projectCampaignWeekActions(finished, life.personId)!;
     expect(after.recentResults.at(-1)?.contactNames.length).toBeGreaterThan(0);
+    expect(after.recentResults.at(-1)?.fieldReach).toEqual(outcome.fieldReach);
     expect(after.recentResults.at(-1)?.summary.length).toBeGreaterThan(0);
     expect(
       simulationMinutesBetween(booked.currentMoment, finished.currentMoment),
@@ -239,6 +256,110 @@ describe("concrete campaign week actions", () => {
     expect(resumedView.recentResults.at(-1)).toEqual(
       after.recentResults.at(-1),
     );
+  });
+
+  it("moves a hosted choice around a recorded commitment and charges time only once", () => {
+    const life = staffedLife("campaign-week-competing-commitment");
+    const first = projectCampaignWeekActions(life.world, life.personId)!;
+    const original = first.choices.find(
+      (choice) => choice.form === "phone-shift",
+    )!;
+    const committed = createScheduledActivity(life.world, {
+      stableKey: "campaign-week-test:prior-commitment",
+      title: "Prior commitment",
+      summary: "A personal commitment already occupies this evening.",
+      kind: "confirmed",
+      start: original.start,
+      end: original.end,
+      participantPersonIds: [life.personId],
+      responsiblePersonId: life.personId,
+      location: {
+        locationKey: "campaign-week-test:personal-commitment",
+        label: "At home",
+        jurisdictionId: null,
+      },
+      sourceEntityIds: [life.personId],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [life.personId] },
+    });
+    const commitmentId = committed.history.scheduledActivities.at(-1)!.id;
+    const moved = projectCampaignWeekActions(committed, life.personId)!;
+    const choice = moved.choices.find((item) => item.form === "phone-shift")!;
+    expect(
+      compareSimulationMoments(choice.start, original.end),
+    ).toBeGreaterThanOrEqual(0);
+    expect(choice.start).not.toEqual(original.start);
+    expect(() =>
+      chooseCampaignWeekAction(committed, life.personId, {
+        campaignId: first.campaignId,
+        choiceId: original.id,
+        revision: first.revision,
+      }),
+    ).toThrow(/calendar changed/);
+
+    const booked = chooseCampaignWeekAction(committed, life.personId, {
+      campaignId: moved.campaignId,
+      choiceId: choice.id,
+      revision: moved.revision,
+    });
+    const activity = campaignLifeActivityRecords(booked).at(-1)!;
+    const hold = scheduledActivityState(booked, activity.scheduledActivityId);
+    expect(simulationMinutesBetween(hold.start, hold.end)).toBe(
+      choice.activityMinutes,
+    );
+    expect(() =>
+      chooseCampaignWeekAction(booked, life.personId, {
+        campaignId: moved.campaignId,
+        choiceId: choice.id,
+        revision: moved.revision,
+      }),
+    ).toThrow(/calendar changed/);
+    const afterCommitment = performScheduledActivity(booked, commitmentId);
+    expect(scheduledActivityState(afterCommitment, commitmentId).status).toBe(
+      "completed",
+    );
+    expect(campaignLifeOutcomeRecords(afterCommitment)).toHaveLength(0);
+
+    const finished = attendPartyWork(
+      afterCommitment,
+      life.personId,
+      activity.id,
+      "attended",
+    );
+    expect(
+      compareSimulationMoments(finished.currentMoment, hold.end),
+    ).toBeGreaterThanOrEqual(0);
+    expect(
+      simulationMinutesBetween(
+        afterCommitment.currentMoment,
+        finished.currentMoment,
+      ),
+    ).toBeGreaterThanOrEqual(choice.activityMinutes);
+    const outcome = campaignLifeOutcomeRecords(finished).at(-1)!;
+    expect(outcome.activityId).toBe(activity.id);
+    expect(outcome.contactPersonIds.length).toBeGreaterThan(0);
+    expect(outcome.raisedAmount).toBeNull();
+    expect(
+      recordCampaignLifeAttendance(
+        finished,
+        life.personId,
+        activity.scheduledActivityId,
+        "attended",
+      ),
+    ).toBe(finished);
+    const resumed = deserializeWorld(serializeWorld(finished));
+    expect(campaignLifeOutcomeRecords(resumed)).toHaveLength(1);
+    expect(
+      recordCampaignLifeAttendance(
+        resumed,
+        life.personId,
+        activity.scheduledActivityId,
+        "attended",
+      ),
+    ).toBe(resumed);
+    expect(() =>
+      attendPartyWork(resumed, life.personId, activity.id, "attended"),
+    ).toThrow(/already known/);
   });
 
   it("a fundraiser transfers only the lawful recorded amount, once", () => {

@@ -6,13 +6,11 @@ import {
   homePartyChapters,
   oldEnoughForCampaignLife,
   personName,
-  projectCampaignGuidance,
   projectCampaignLifeActivities,
   projectCampaignWeek,
   projectKnownOpponentActivity,
   type CampaignAdChannel,
   type CampaignGeographyKind,
-  type CampaignGuidanceValue,
   type CampaignLifeActivityView,
   type CampaignLifeFamily,
   type CampaignLifeForm,
@@ -173,48 +171,6 @@ const SUPPORT_DECISION_TEXT = {
   deferred: "said the chapter will take it up later",
 } as const;
 
-function guidanceLines(world: World, personId: EntityId) {
-  const view = projectCampaignGuidance(world, personId);
-  const facts: string[] = [];
-  const sources = new Set<string>();
-  const say = <T>(
-    value: CampaignGuidanceValue<T>,
-    known: (v: T) => string,
-    unknown: string,
-  ): string => {
-    if (value.state !== "known") return unknown;
-    sources.add(value.citation);
-    return known(value.value);
-  };
-  if (view.offices.length === 0) {
-    facts.push(view.noOfficeReason ?? "No elected office is established here.");
-  }
-  for (const office of view.offices) {
-    facts.push(
-      `${office.chamberName}: ${say(
-        office.minimumAge,
-        (age) => `you must be at least ${age}`,
-        "the minimum age is not known to this game",
-      )}; ${say(
-        office.residency,
-        (text) => `residency: ${text}`,
-        "the residency rule is not known to this game",
-      )}; ${say(
-        office.termYears,
-        (years) => `a term is ${years} ${years === 1 ? "year" : "years"}`,
-        "the term length is not known to this game",
-      )}.`,
-    );
-  }
-  facts.push(
-    "Who accepts candidacy papers, the filing deadline, any filing fee and any petition requirement are not established by this game's sourced rules, so nobody here can tell you them.",
-  );
-  facts.push(
-    `The game itself will not put anyone under ${view.gameAdultCandidacyAge} on a ballot. That is the game's rule, not the law's.`,
-  );
-  return { facts, sources: [...sources] };
-}
-
 function outcomeLines(
   world: World,
   view: CampaignLifeActivityView,
@@ -320,11 +276,6 @@ export function projectPartyAndCommunityWork(
   const venue = needsVenue
     ? venueActivities(world, personId, transitionHandlers)
     : [];
-  const guidance = views.some(
-    (view) => view.form === "candidate-guidance" && view.outcome,
-  )
-    ? guidanceLines(world, personId)
-    : null;
   const rows = [...views].reverse().map((view): PartyWorkRow => {
     const hold = world.history.scheduledActivities.find(
       (activity) => activity.id === view.scheduledActivityId,
@@ -368,10 +319,7 @@ export function projectPartyAndCommunityWork(
             )?.refusal ?? null)
           : null,
       outcomeLines: outcomeLines(world, view, hostName),
-      guidanceFacts:
-        view.form === "candidate-guidance" && view.outcome && guidance
-          ? guidance.facts
-          : [],
+      guidanceFacts: [],
     };
   });
 
