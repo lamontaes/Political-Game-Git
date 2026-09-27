@@ -182,6 +182,14 @@ export const sources: readonly Source[] = [
     vintage: "1970–2024",
   },
   {
+    domain: "eia-energy-prices",
+    id: "gasoline-us-weekly-history",
+    url: "https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?f=W&n=PET&s=EMM_EPMR_PTE_NUS_DPG",
+    filename: "gasoline-us-weekly-history.html",
+    provider: "U.S. Energy Information Administration",
+    vintage: "1990–2026",
+  },
+  {
     domain: "federal-student-aid",
     id: "portfolio-location-current",
     url: "https://studentaid.gov/sites/default/files/fsawg/datacenter/library/portfolio-by-location.xls",
@@ -435,6 +443,7 @@ export function figure(raw: string | undefined): {
       "*",
       "-",
       "--",
+      "W",
       "(D)",
       "(S)",
     ].includes(text)
@@ -655,8 +664,77 @@ function compileEiaPrices(): Corpus {
       },
     })),
   );
+  const weeklyHtml = locked("gasoline-us-weekly-history").bytes.toString(
+    "utf8",
+  );
+  if (
+    !weeklyHtml.includes(
+      "Weekly U.S. Regular All Formulations Retail Gasoline Prices  (Dollars per Gallon)",
+    ) ||
+    (weeklyHtml.match(/<tbody>/g) ?? []).length !== 1
+  )
+    throw new Error("Changed EIA weekly gasoline page");
+  const body = weeklyHtml.match(/<tbody>([\s\S]*?)<\/tbody>/)?.[1];
+  if (!body) throw new Error("Missing EIA weekly gasoline table");
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const weekly = [...body.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/g)].flatMap(
+    ([, row], rowIndex) => {
+      const cells = [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map(
+        ([, cell]) =>
+          cell
+            .replace(/<[^>]*>/g, "")
+            .replace(/&nbsp;|&#160;/g, " ")
+            .trim(),
+      );
+      if (cells.length === 1 && row.includes("colspan='13'")) return [];
+      if (cells.length !== 11) throw new Error("Changed EIA weekly row width");
+      const period = cells[0]?.match(/^(\d{4})-([A-Z][a-z]{2})$/);
+      if (!period || !months.includes(period[2]))
+        throw new Error("Changed EIA weekly month label");
+      return [1, 3, 5, 7, 9].flatMap((dateColumn) => {
+        const end = cells[dateColumn];
+        if (!end) return [];
+        const date = end.match(/^(\d{2})\/(\d{2})$/);
+        if (!date || Number(date[1]) !== months.indexOf(period[2]) + 1)
+          throw new Error("Changed EIA weekly date");
+        return [
+          {
+            kind: "weekly-us-regular-gasoline-price",
+            geographyCode: "US",
+            weekEndDate: `${period[1]}-${date[1]}-${date[2]}`,
+            units: "USD per gallon, including taxes",
+            ...figure(cells[dateColumn + 1]),
+            evidence: {
+              artifactId: "gasoline-us-weekly-history",
+              monthRow: rowIndex + 1,
+              weekColumn: Math.floor((dateColumn + 1) / 2),
+            },
+          },
+        ];
+      });
+    },
+  );
+  if (
+    weekly.length !== 1884 ||
+    weekly[0]?.weekEndDate !== "1990-08-20" ||
+    weekly.at(-1)?.weekEndDate !== "2026-09-21"
+  )
+    throw new Error("Changed EIA weekly gasoline history coverage");
   return {
-    rows: [...electricity.rows, ...gasoline],
+    rows: [...electricity.rows, ...gasoline, ...weekly],
     coverage: {
       ...electricity.coverage,
       gasolineAnnualGeographies: [
@@ -664,11 +742,15 @@ function compileEiaPrices(): Corpus {
       ].sort(),
       gasolineAnnualYears: [1970, 2024],
       gasolineDataStatus: "2024F",
+      gasolineWeeklyNationalWeeks: weekly.length,
+      gasolineWeeklyMissingWeeks: weekly.filter((row) => row.value === null)
+        .length,
     },
     notes: [
       ...electricity.notes,
       "SEDS MGTCD is an annual motor gasoline average across all sectors in dollars per million Btu, not a weekly pump price or dollars per gallon.",
       "EIA says these state annual estimates include federal and state gasoline taxes, excluding local taxes. The U.S. row is an aggregate, not an additional state.",
+      "The separate weekly U.S. regular gasoline history is in dollars per gallon including taxes; six published no-data weeks remain null. It is not a state series.",
     ],
   };
 }
@@ -1078,7 +1160,11 @@ export function compile(check: boolean): void {
     },
     {
       domain: "eia-energy-prices",
-      inputs: ["electricity-prices-2024", "gasoline-seds-annual-prices"],
+      inputs: [
+        "electricity-prices-2024",
+        "gasoline-seds-annual-prices",
+        "gasoline-us-weekly-history",
+      ],
       run: compileEiaPrices,
     },
     {

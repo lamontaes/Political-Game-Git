@@ -13,7 +13,7 @@ function corpus(domain: string) {
 
 describe("money source calibration", () => {
   it("keeps suppression, unavailable values and real zero distinct", () => {
-    for (const raw of ["", "D", "N", "S", "A", "*", ".", "-"])
+    for (const raw of ["", "D", "N", "S", "A", "W", "*", ".", "-"])
       expect(figure(raw)).toEqual({ value: null, raw });
     expect(figure("0")).toEqual({ value: 0, raw: "0" });
     expect(figure("1,234.50").value).toBe(1234.5);
@@ -73,6 +73,36 @@ describe("money source calibration", () => {
         (row: { geographyCode: string }) => row.geographyCode === "PR",
       ),
     ).toBe(false);
+  });
+
+  it("keeps weekly U.S. pump prices separate and preserves published no-data weeks", () => {
+    const data = corpus("eia-energy-prices");
+    const weekly = data.rows.filter(
+      (row: { kind?: string }) =>
+        row.kind === "weekly-us-regular-gasoline-price",
+    );
+    expect(weekly).toHaveLength(1884);
+    expect(data.coverage.gasolineWeeklyNationalWeeks).toBe(1884);
+    expect(data.coverage.gasolineWeeklyMissingWeeks).toBe(6);
+    expect(weekly[0]).toMatchObject({
+      geographyCode: "US",
+      weekEndDate: "1990-08-20",
+      value: 1.191,
+      units: "USD per gallon, including taxes",
+      evidence: { artifactId: "gasoline-us-weekly-history" },
+    });
+    expect(weekly.at(-1)).toMatchObject({
+      weekEndDate: "2026-09-21",
+      value: 4.478,
+    });
+    expect(
+      weekly.filter((row: { raw: string }) => row.raw === "--"),
+    ).toHaveLength(6);
+    expect(
+      weekly.every(
+        (row: { geographyCode: string }) => row.geographyCode === "US",
+      ),
+    ).toBe(true);
   });
 
   it("keeps CPI annual averages distinct from monthly observations", () => {

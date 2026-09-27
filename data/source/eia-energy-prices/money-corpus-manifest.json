@@ -1,5 +1,5 @@
 {
-  "canonicalSha256": "d536015c7cee660b2457b68b9a7cccd9b576f0f2b64ed8fa5f411b5031923f55",
+  "canonicalSha256": "c20883faf7d161f8964bcd0089a2375e9b6bfa4c0bfafebd32a226283a09ed1d",
   "compiler": "scripts/source/regional-money/missing-money-sources.ts",
   "corpusPath": "data/source/eia-energy-prices/money-corpus.json.gz",
   "coverage": {
@@ -62,6 +62,8 @@
       2024
     ],
     "gasolineDataStatus": "2024F",
+    "gasolineWeeklyMissingWeeks": 6,
+    "gasolineWeeklyNationalWeeks": 1884,
     "geographies": [
       "New England",
       "Connecticut",
@@ -395,8 +397,13 @@
       "artifactId": "gasoline-seds-annual-prices",
       "localPath": "data/source/eia-energy-prices/raw/seds-prices-1970-2024.csv",
       "sha256": "c80d9bca62b347514f43ca577f722d38988874e3db34bfce178bb45aef23ab78"
+    },
+    {
+      "artifactId": "gasoline-us-weekly-history",
+      "localPath": "data/source/eia-energy-prices/raw/gasoline-us-weekly-history.html",
+      "sha256": "58fcbb150208216e2c245c48554ba23b1d431d2f8e2ccb29f78a7c9b110cca3b"
     }
   ],
-  "recordCount": 3170,
+  "recordCount": 5054,
   "runtimeWired": false
 }

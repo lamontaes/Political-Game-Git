@@ -144,6 +144,35 @@
         "status": "public-domain-us-government"
       },
       "storage": "committed"
+    },
+    {
+      "artifactId": "gasoline-us-weekly-history",
+      "bytes": {
+        "length": 197085,
+        "sha256": "58fcbb150208216e2c245c48554ba23b1d431d2f8e2ccb29f78a7c9b110cca3b"
+      },
+      "localPath": "data/source/eia-energy-prices/raw/gasoline-us-weekly-history.html",
+      "mediaType": "text/html",
+      "provider": "U.S. Energy Information Administration",
+      "publisher": {
+        "documentationUrl": "https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?f=W&n=PET&s=EMM_EPMR_PTE_NUS_DPG",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "1990–2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 197085,
+        "retrievedAt": "2026-09-27T01:58:57.087Z",
+        "url": "https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?f=W&n=PET&s=EMM_EPMR_PTE_NUS_DPG"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
     }
   ],
   "domain": "eia-energy-prices"
