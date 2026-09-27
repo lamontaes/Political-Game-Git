@@ -599,15 +599,21 @@ export function PersonCard({
         {talkUnavailable ??
           "Starts the established conversation with this person."}
       </p>
-      <p className="sr-only" id={`person-contact-reason-${dossier.personId}`}>
-        {contact.contact.reason}
-      </p>
-      <p className="sr-only" id={`person-meet-reason-${dossier.personId}`}>
-        {contact.meet.reason}
-      </p>
-      <p className="sr-only" id={`person-travel-reason-${dossier.personId}`}>
-        {contact.travel.reason}
-      </p>
+      {reachable && (expanded || contact.contact.available) ? (
+        <p className="sr-only" id={`person-contact-reason-${dossier.personId}`}>
+          {contact.contact.reason}
+        </p>
+      ) : null}
+      {reachable && (expanded || contact.meet.available) ? (
+        <p className="sr-only" id={`person-meet-reason-${dossier.personId}`}>
+          {contact.meet.reason}
+        </p>
+      ) : null}
+      {reachable && (expanded || contact.travel.available) ? (
+        <p className="sr-only" id={`person-travel-reason-${dossier.personId}`}>
+          {contact.travel.reason}
+        </p>
+      ) : null}
       {expanded && contact.travel.available && reachable ? (
         <p className="pg-person-card-note" data-testid="person-contact-reason">
           {contact.travel.reason}
