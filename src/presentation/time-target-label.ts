@@ -41,9 +41,8 @@ export function describeInterval(minutes: number): string {
 
 /** The line shown after a skip that did not reach its disclosed target. */
 export function stoppedEarlyLabel(target: SimulationMoment): string {
-  return `Stopped before ${describeTimeTarget(target)} for something protected that needs you.`;
+  return `Stopped before ${describeTimeTarget(target)}.`;
 }
 
 /** What every skip promises before it runs. */
-export const PROTECTED_STOP_NOTE =
-  "Stops early for a protected commitment or anything that needs you.";
+export const PROTECTED_STOP_NOTE = "Stops early if anything needs you first.";

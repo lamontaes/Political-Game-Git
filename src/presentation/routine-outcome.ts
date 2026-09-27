@@ -150,8 +150,8 @@ export function describeRoutineOutcome(
     );
     lines.push(
       activity
-        ? `Stopped for ${activity.title}; resolve this commitment before continuing.`
-        : "Stopped before the requested time; resolve the pending commitment before continuing.",
+        ? `${activity.title} comes first.`
+        : "Something on your calendar comes first.",
     );
   }
   return lines.join("\n");

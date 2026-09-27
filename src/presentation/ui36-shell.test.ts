@@ -115,7 +115,7 @@ describe("interruption preferences", () => {
     expect(stopping.reached).toEqual(
       scheduledActivityState(world, hold!.id).start,
     );
-    expect(stopping.outcome).toContain(`Stopped for ${hold!.title}`);
+    expect(stopping.outcome).toContain(`${hold!.title} comes first.`);
     /* Not asked: the hold lapses and the morning is reached. */
     expect(lapsing.reached.date > world.currentDate).toBe(true);
     expect(lapsing.reached.minuteOfDay).toBe(7 * 60);

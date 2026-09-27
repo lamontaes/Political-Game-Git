@@ -133,9 +133,7 @@ test("normal civilian career offer, keyboard consent, work, resignation and save
   await expect(career.getByRole("status")).toContainText(
     /passed \(\d+ minutes\)/,
   );
-  await expect(career.getByRole("status")).not.toContainText(
-    "resolve this commitment before continuing",
-  );
+  await expect(career.getByRole("status")).not.toContainText("comes first.");
   await career
     .getByRole("button", { name: "Begin accepted work", exact: true })
     .click();
