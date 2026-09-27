@@ -695,13 +695,21 @@ export function seatHolderAt(
         }
       : null;
   }
+  const holdover =
+    world.judiciary?.courts[seat.courtId]?.rules
+      .termHoldsUntilSuccessorQualified;
+  const holdsUntilSuccessor =
+    holdover?.state === "known" && holdover.value === true;
   const tenure = [...(world.judiciary?.seatTenures ?? [])]
     .reverse()
     .find(
       (entry) =>
         entry.seatId === seatId &&
         entry.startedAt <= asOf &&
-        (entry.endedAt === null || asOf < entry.endedAt),
+        (entry.endedAt === null || asOf < entry.endedAt) &&
+        (entry.termEndsAt === null ||
+          asOf < entry.termEndsAt ||
+          holdsUntilSuccessor),
     );
   if (!tenure) return null;
   if (
@@ -896,7 +904,10 @@ export function changeJudicialCourtRules(
     (seat) => seat.courtId === court.courtId && !seat.allocationRecordId,
   );
   const largestOrdinal = Math.max(0, ...existing.map((seat) => seat.ordinal));
-  for (let ordinal = largestOrdinal + 1; ordinal <= count; ordinal += 1) {
+  let activeCount = existing.filter((seat) => seat.retiredAt === null).length;
+  let ordinal = largestOrdinal;
+  while (activeCount < count) {
+    ordinal += 1;
     const seatId = judicialSeatId(court.courtId, ordinal);
     seats[seatId] = {
       seatId,
@@ -908,21 +919,7 @@ export function changeJudicialCourtRules(
       retiredAt: null,
       linkedOfficeId: null,
     };
-  }
-  let activeCount = Object.values(seats).filter(
-    (seat) =>
-      seat.courtId === court.courtId &&
-      !seat.allocationRecordId &&
-      seat.retiredAt === null,
-  ).length;
-  if (activeCount < count) {
-    for (const seat of existing
-      .filter((entry) => entry.retiredAt !== null)
-      .sort((a, b) => a.ordinal - b.ordinal)) {
-      if (activeCount >= count) break;
-      seats[seat.seatId] = { ...seat, retiredAt: null };
-      activeCount += 1;
-    }
+    activeCount += 1;
   }
   if (activeCount > count) {
     for (const seat of existing

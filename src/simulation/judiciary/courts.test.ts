@@ -8,6 +8,7 @@ import {
   effectiveCourtRulesAt,
   seatHolderAt,
   seatJudge,
+  seatsForCourt,
   vacateJudicialSeat,
   vacantSeatsAt,
 } from "./courts";
@@ -33,8 +34,10 @@ const rules = (count: number): JudicialCourtRules => ({
   amendmentRoute: { state: "unknown", reason: "not established in fixture" },
 });
 
-function opening() {
-  const world = createDemoWorld("judiciary-seat-contract", { peopleCount: 3 });
+function opening(count = 3) {
+  const world = createDemoWorld("judiciary-seat-contract", {
+    peopleCount: Math.max(3, count),
+  });
   return addJudicialCourt(world, {
     courtId,
     jurisdictionId: world.jurisdictionOrder[0],
@@ -44,7 +47,7 @@ function opening() {
     sourceRecordId: null,
     identityBasis: "game-profile",
     createdAt: world.currentDate,
-    rules: rules(3),
+    rules: rules(count),
   });
 }
 
@@ -113,6 +116,46 @@ describe("judicial seat contract", () => {
     expect(
       world.judiciary?.seatTenures.map((tenure) => tenure.personId),
     ).toEqual([first, second]);
+  });
+
+  it("ends a fixed-term holder unless a recorded holdover rule applies", () => {
+    const seatId = judicialSeatId(courtId, 1);
+    const termEndsAt = makeIsoDate("2027-01-01");
+    const selection = {
+      path: "initial-world" as const,
+      selectionRecordId: null,
+      decisionRecordId: null,
+      selectingPersonId: null,
+      contestId: null,
+      note: null,
+    };
+    let world = opening();
+    world = seatJudge(world, {
+      seatId,
+      personId: world.personOrder[0],
+      startedAt: world.currentDate,
+      selection,
+      termEndsAt,
+      retentionDueAt: null,
+    });
+    expect(seatHolderAt(world, seatId, termEndsAt)).toBeNull();
+    world = changeJudicialCourtRules(world, {
+      courtId,
+      effectiveAt: world.currentDate,
+      provisionId: "test:holdover-rule" as EntityId,
+      rules: {
+        ...rules(3),
+        termHoldsUntilSuccessorQualified: {
+          state: "known",
+          value: true,
+          basis: "game-profile",
+          referenceId: "test:holdover-rule",
+        },
+      },
+    });
+    expect(seatHolderAt(world, seatId, termEndsAt)?.personId).toBe(
+      world.personOrder[0],
+    );
   });
 
   it("retires vacant seats first and preserves an occupied seat", () => {
@@ -204,6 +247,85 @@ describe("judicial seat contract", () => {
     expect(seatHolderAt(world, judicialSeatId(courtId, 3))?.personId).toBe(
       world.personOrder[2],
     );
+  });
+
+  it("shrinks nine occupied seats to seven through attrition without reviving retired IDs", () => {
+    let world = opening(9);
+    const originalSeatIds = Object.keys(world.judiciary!.seats);
+    for (let ordinal = 1; ordinal <= 9; ordinal += 1) {
+      world = seatJudge(world, {
+        seatId: judicialSeatId(courtId, ordinal),
+        personId: world.personOrder[ordinal - 1],
+        startedAt: world.currentDate,
+        selection: {
+          path: "initial-world",
+          selectionRecordId: null,
+          decisionRecordId: null,
+          selectingPersonId: null,
+          contestId: null,
+          note: null,
+        },
+        termEndsAt: null,
+        retentionDueAt: null,
+      });
+    }
+    const originalTenures = world.judiciary!.seatTenures;
+    world = changeJudicialCourtRules(world, {
+      courtId,
+      effectiveAt: world.currentDate,
+      provisionId,
+      rules: rules(7),
+    });
+    expect(Object.keys(world.judiciary!.seats)).toEqual(originalSeatIds);
+    expect(world.judiciary!.seatTenures).toEqual(originalTenures);
+    expect(vacantSeatsAt(world, courtId)).toHaveLength(0);
+    for (const ordinal of [1, 2]) {
+      const seatId = judicialSeatId(courtId, ordinal);
+      world = vacateJudicialSeat(world, {
+        seatId,
+        vacatedAt: world.currentDate,
+        reason: "retirement",
+      });
+      expect(world.judiciary!.seats[seatId]?.retiredAt).toBe(world.currentDate);
+      expect(vacantSeatsAt(world, courtId)).toHaveLength(0);
+      expect(() =>
+        seatJudge(world, {
+          seatId,
+          personId: world.personOrder[8],
+          startedAt: world.currentDate,
+          selection: {
+            path: "appointment",
+            selectionRecordId: null,
+            decisionRecordId: null,
+            selectingPersonId: null,
+            contestId: null,
+            note: null,
+          },
+          termEndsAt: null,
+          retentionDueAt: null,
+        }),
+      ).toThrow("unavailable");
+    }
+    expect(seatsForCourt(world, courtId)).toHaveLength(7);
+    expect(world.judiciary!.seatTenures).toHaveLength(9);
+    expect(
+      world.judiciary!.seatTenures.filter((tenure) => tenure.endedAt),
+    ).toHaveLength(2);
+    world = changeJudicialCourtRules(world, {
+      courtId,
+      effectiveAt: world.currentDate,
+      provisionId: "test:restored-size" as EntityId,
+      rules: rules(9),
+    });
+    expect(world.judiciary!.seats[judicialSeatId(courtId, 1)]?.retiredAt).toBe(
+      world.currentDate,
+    );
+    expect(world.judiciary!.seats[judicialSeatId(courtId, 2)]?.retiredAt).toBe(
+      world.currentDate,
+    );
+    expect(seatsForCourt(world, courtId).map((seat) => seat.ordinal)).toEqual([
+      3, 4, 5, 6, 7, 8, 9, 10, 11,
+    ]);
   });
 
   it("uses the canonical Chief Justice tenure, never a parallel seat writer", () => {
