@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { workPendingEntriesFor } from "../simulation";
+import { workItemOccasionHasPassed } from "../simulation";
 import { createNewGameWorld } from "./new-game";
 import {
   PUBLIC_MEETING_KEY,
@@ -26,17 +26,19 @@ function lifeWithMeeting() {
   return { world, personId: game.playerPersonId };
 }
 
+/** What the "Waiting on you" list asks of the meeting's question. */
 const meetingIsWaiting = (
   world: ReturnType<typeof lifeWithMeeting>["world"],
-  personId: string,
-) =>
-  workPendingEntriesFor(world, personId).some(
-    (entry) => entry.item.stableKey === PUBLIC_MEETING_KEY,
-  );
+) => {
+  const item = world.history.workItems.find(
+    (entry) => entry.stableKey === PUBLIC_MEETING_KEY,
+  )!;
+  return !workItemOccasionHasPassed(world, item);
+};
 
 describe("a posted meeting is never raised as still ahead once it is over", () => {
   it(
-    "stops waiting on the player, and stops the doorstep talk, after its day",
+    "stops waiting on the player, and stops the doorstep talk, after its evening",
     { timeout: 300_000 },
     () => {
       const { world, personId } = lifeWithMeeting();
@@ -45,11 +47,11 @@ describe("a posted meeting is never raised as still ahead once it is over", () =
           (item) => item.stableKey === PUBLIC_MEETING_KEY,
         ),
       ).toBe(true);
-      expect(meetingIsWaiting(world, personId)).toBe(true);
+      expect(meetingIsWaiting(world)).toBe(true);
 
       const later = passOrdinaryDays(world, 10);
       // The meeting's evening went by without an answer.
-      expect(meetingIsWaiting(later, personId)).toBe(false);
+      expect(meetingIsWaiting(later)).toBe(false);
       expect(neighborhoodConversationRoom(later, personId)).toBeNull();
     },
   );

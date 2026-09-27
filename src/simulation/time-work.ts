@@ -947,7 +947,6 @@ export function workPendingEntriesFor(
 ): readonly WorkPendingEntry[] {
   return world.history.workItems
     .filter((item) => canPersonAccess(item.access, controlledPersonId))
-    .filter((item) => !workItemOccasionHasPassed(world, item))
     .map((item) => ({ item, state: workItemState(world, item.id) }))
     .map(({ item, state }) => ({
       item,

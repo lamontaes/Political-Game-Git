@@ -109,7 +109,9 @@ export function conversationExchangeTurns(
           current: event.occurredAt === world.currentDate,
           playerLine:
             (spokenStatement?.trim() ? spokenStatement : null) ??
-            (event.context.choice ? secondPerson(event.context.choice) : null),
+            (event.context.choice
+              ? recordLineInSecondPerson(event.context.choice)
+              : null),
           speakerPersonId: speaker,
           speakerName: speaker ? nameOf(world, speaker) : null,
           reply: event.context.immediateReaction ?? "",
@@ -238,7 +240,7 @@ function lowerFirst(text: string): string {
  * reporting verb whose subject is the player changes; a "they" meaning
  * somebody else is left alone.
  */
-function secondPerson(sentence: string): string {
+export function recordLineInSecondPerson(sentence: string): string {
   if (!/^The player\b/.test(sentence)) return sentence;
   return sentence
     .replace(/^The player's\b/, "Your")

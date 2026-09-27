@@ -239,6 +239,8 @@ export interface AdultLifeContext {
   readonly hasDwelling: boolean;
   readonly hasHousingTenure: boolean;
   readonly hasPostedMeeting: boolean;
+  /** The posted meeting's evening has not yet come. */
+  readonly postedMeetingAhead: boolean;
   readonly hasHouseholdWorkItem: boolean;
   /**
    * The requests, invitations and notices this life is currently carrying an
@@ -463,8 +465,12 @@ export function buildAdultLifeContext(
     civicParticipationCount: participations.length,
     hasDwelling: activeDwellingOccupanciesAt(world, resourceCutoff).length > 0,
     hasHousingTenure: activeHousingTenuresAt(world, resourceCutoff).length > 0,
-    // A meeting that has already happened is not something to decide about.
     hasPostedMeeting: world.history.workItems.some(
+      (item) => item.stableKey === PUBLIC_MEETING_KEY,
+    ),
+    // Whether to go is a question only while the meeting is still ahead; the
+    // proposal and the agenda item stay open after its evening.
+    postedMeetingAhead: world.history.workItems.some(
       (item) =>
         item.stableKey === PUBLIC_MEETING_KEY &&
         !workItemOccasionHasPassed(world, item),
@@ -1907,7 +1913,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       "A local volunteer group is short of hands for Saturdays, and somebody has asked for yours.",
     tensions: [],
     available: (context) =>
-      context.hasPostedMeeting && context.civicParticipationCount === 0,
+      context.postedMeetingAhead && context.civicParticipationCount === 0,
     options: [
       {
         key: "sign-up",
