@@ -46,6 +46,7 @@ import {
   type DocketBill,
   type DocketQuery,
   type DraftAuthorityOption,
+  type DraftOption,
 } from "../presentation/legislation-docket";
 import {
   selectDocketBill,
@@ -963,6 +964,99 @@ function BillCompositionEditor({
 /* The drafting table                                                          */
 /* -------------------------------------------------------------------------- */
 
+/** Only sections with a recorded enacted consumer belong in ordinary filing. */
+export function playerDraftOptions(
+  scenarioKey: string,
+): readonly DraftOption[] {
+  return availableDraftOptions(scenarioKey)
+    .map((option) => ({
+      ...option,
+      operativeSections: option.operativeSections.filter(
+        (section) => section.supported,
+      ),
+    }))
+    .filter((option) => option.operativeSections.length > 0);
+}
+
+export function DraftingOptionList({
+  options,
+  chosen,
+  onChoose,
+}: {
+  readonly options: readonly DraftOption[];
+  readonly chosen: string | null;
+  readonly onChoose: (key: string) => void;
+}) {
+  return (
+    <ul className="drafting-options" data-testid="drafting-options">
+      {options.map((entry) => {
+        const key = `${entry.familyKey}/${entry.variantKey}`;
+        return (
+          <li key={key}>
+            <button
+              type="button"
+              className={
+                key === chosen
+                  ? "drafting-option drafting-option-chosen"
+                  : "drafting-option"
+              }
+              data-testid={`drafting-option-${entry.familyKey}-${entry.variantKey}`}
+              onClick={() => onChoose(key)}
+            >
+              <span className="drafting-option-family">
+                {entry.familyTitle}
+              </span>
+              <span className="drafting-option-variant">
+                {entry.variantLabel}
+              </span>
+              <span className="drafting-option-instrument">
+                {entry.instrumentLabel}
+              </span>
+              <span className="drafting-option-synopsis">{entry.synopsis}</span>
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+export function DraftingSectionList({
+  sections,
+  selectedProvisionKeys,
+  onSelectionChange,
+}: {
+  readonly sections: DraftOption["operativeSections"];
+  readonly selectedProvisionKeys: readonly string[];
+  readonly onSelectionChange: (keys: readonly string[]) => void;
+}) {
+  return (
+    <ul data-testid="drafting-sections">
+      {sections.map((section) => (
+        <li key={section.provisionKey}>
+          <label>
+            <input
+              type="checkbox"
+              data-testid={`drafting-section-${section.provisionKey}`}
+              checked={selectedProvisionKeys.includes(section.provisionKey)}
+              onChange={(event) =>
+                onSelectionChange(
+                  event.target.checked
+                    ? [...selectedProvisionKeys, section.provisionKey]
+                    : selectedProvisionKeys.filter(
+                        (key) => key !== section.provisionKey,
+                      ),
+                )
+              }
+            />
+            {section.heading}
+          </label>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function DraftingTable({
   scenarioKey,
   jurisdictionId,
@@ -985,10 +1079,7 @@ function DraftingTable({
   ) => void;
 }) {
   const filingEntry = resolveLegislativeFilingEntry(world, playerPersonId);
-  const options = useMemo(
-    () => availableDraftOptions(scenarioKey),
-    [scenarioKey],
-  );
+  const options = useMemo(() => playerDraftOptions(scenarioKey), [scenarioKey]);
   const authorities = useMemo(
     () => availableAuthorities(world, { scenarioKey, playerPersonId }),
     [world, scenarioKey, playerPersonId],
@@ -1132,43 +1223,16 @@ function DraftingTable({
   return (
     <section className="drafting" data-testid="drafting-table">
       <h4 className="docket-subheading">What could this bill be about?</h4>
-      <ul className="drafting-options" data-testid="drafting-options">
-        {options.map((entry) => {
-          const key = `${entry.familyKey}/${entry.variantKey}`;
-          return (
-            <li key={key}>
-              <button
-                type="button"
-                className={
-                  key === chosen
-                    ? "drafting-option drafting-option-chosen"
-                    : "drafting-option"
-                }
-                data-testid={`drafting-option-${entry.familyKey}-${entry.variantKey}`}
-                onClick={() => {
-                  setChosen(key === chosen ? null : key);
-                  setValues({});
-                  setSelectedSections(null);
-                  setAuthorityKey(null);
-                }}
-              >
-                <span className="drafting-option-family">
-                  {entry.familyTitle}
-                </span>
-                <span className="drafting-option-variant">
-                  {entry.variantLabel}
-                </span>
-                <span className="drafting-option-instrument">
-                  {entry.instrumentLabel}
-                </span>
-                <span className="drafting-option-synopsis">
-                  {entry.synopsis}
-                </span>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      <DraftingOptionList
+        options={options}
+        chosen={chosen}
+        onChoose={(key) => {
+          setChosen(key === chosen ? null : key);
+          setValues({});
+          setSelectedSections(null);
+          setAuthorityKey(null);
+        }}
+      />
 
       {option ? (
         <div className="drafting-detail">
@@ -1186,37 +1250,13 @@ function DraftingTable({
             Choose the sections that would become operative if this bill becomes
             law.
           </p>
-          <ul data-testid="drafting-sections">
-            {option.operativeSections.map((section) => (
-              <li key={section.provisionKey}>
-                <label>
-                  <input
-                    type="checkbox"
-                    data-testid={`drafting-section-${section.provisionKey}`}
-                    checked={selectedProvisionKeys.includes(
-                      section.provisionKey,
-                    )}
-                    disabled={!section.supported}
-                    onChange={(event) =>
-                      setSelectedSections(
-                        event.target.checked
-                          ? [...selectedProvisionKeys, section.provisionKey]
-                          : selectedProvisionKeys.filter(
-                              (key) => key !== section.provisionKey,
-                            ),
-                      )
-                    }
-                  />
-                  {section.heading}
-                </label>
-                {!section.supported ? <p>{section.reason}</p> : null}
-              </li>
-            ))}
-          </ul>
+          <DraftingSectionList
+            sections={option.operativeSections}
+            selectedProvisionKeys={selectedProvisionKeys}
+            onSelectionChange={setSelectedSections}
+          />
           {selectedProvisionKeys.length === 0 ? (
-            <p role="status">
-              No operative sections are available for this configuration.
-            </p>
+            <p role="status">Choose the sections this bill would file.</p>
           ) : null}
 
           {option.requiresAuthority ? (
