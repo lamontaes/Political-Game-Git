@@ -274,6 +274,19 @@ export function SetupScreen({
     string | null
   >(null);
   const characterHint = creatorCharacterHint(characterMissing);
+  const continueCharacter = () => {
+    const completed = resolveCreatorBirthday(setup, ageChosen);
+    if (!completed) {
+      setBirthdayCompletionProblem(
+        "These date fields do not form a supported birthday. Check the day, month and year.",
+      );
+      return;
+    }
+    setBirthdayCompletionProblem(null);
+    setSetup(completed);
+    setAgeChosen(true);
+    advanceTo("place");
+  };
   const birthDate = ageChosen ? creatorBirthDate(setup) : null;
   // The compact summaries the finished steps collapse to.
   const summaryText: Partial<Record<CreatorStep, string>> = {
@@ -509,30 +522,6 @@ export function SetupScreen({
             />
           </div>
 
-          <button
-            type="button"
-            className="game-creator-next"
-            data-testid="creator-continue-character"
-            aria-describedby={
-              characterHint ? "creator-character-missing" : undefined
-            }
-            disabled={characterMissing.length > 0 || (ageChosen && !ageUsable)}
-            onClick={() => {
-              const completed = resolveCreatorBirthday(setup, ageChosen);
-              if (!completed) {
-                setBirthdayCompletionProblem(
-                  "These date fields do not form a supported birthday. Check the day, month and year.",
-                );
-                return;
-              }
-              setBirthdayCompletionProblem(null);
-              setSetup(completed);
-              setAgeChosen(true);
-              advanceTo("place");
-            }}
-          >
-            Next
-          </button>
           {characterHint ? (
             <p
               className="game-hint"
@@ -781,16 +770,6 @@ export function SetupScreen({
                     : fact.text}
                 </p>
               ))}
-              {replacingPlace ? null : (
-                <button
-                  type="button"
-                  className="game-creator-next"
-                  data-testid="creator-continue-place"
-                  onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
-                >
-                  Next
-                </button>
-              )}
             </div>
           ) : location.stateJurisdictionKey ? (
             <p className="game-note" data-testid="place-need-locality">
@@ -976,14 +955,6 @@ export function SetupScreen({
               </small>
             </button>
           </div>
-          <button
-            type="button"
-            className="game-creator-next"
-            data-testid="creator-continue-background"
-            onClick={() => advanceTo("whoAreYou")}
-          >
-            Next
-          </button>
         </section>
       ) : null}
 
@@ -1058,13 +1029,65 @@ export function SetupScreen({
       ) : null}
       {problem ? <p className="game-problem">{problem}</p> : null}
 
-      <div className="game-setup-actions">
-        <button type="button" onClick={onBack}>
-          Back
+      <div
+        className="game-setup-actions creator-navigation"
+        role="group"
+        aria-label="Creator navigation"
+      >
+        <button
+          type="button"
+          className="creator-back-action"
+          onClick={() => {
+            const previous = steps[currentIndex - 1];
+            if (previous) reopen(previous);
+            else onBack();
+          }}
+        >
+          {currentIndex === 0 ? "Return to title" : "Back"}
         </button>
+        {isCurrent("character") ? (
+          <button
+            type="button"
+            className="game-creator-next creator-primary-action"
+            data-testid="creator-continue-character"
+            aria-describedby={
+              characterHint ? "creator-character-missing" : undefined
+            }
+            disabled={characterMissing.length > 0 || (ageChosen && !ageUsable)}
+            onClick={continueCharacter}
+          >
+            Next
+          </button>
+        ) : null}
+        {isCurrent("place") ? (
+          <button
+            type="button"
+            className="game-creator-next creator-primary-action"
+            data-testid="creator-continue-place"
+            disabled={
+              !place ||
+              !creatorLocationIsReady(location, custom ? "custom" : "normal") ||
+              replacingPlace
+            }
+            onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
+          >
+            Next
+          </button>
+        ) : null}
+        {custom && isCurrent("background") ? (
+          <button
+            type="button"
+            className="game-creator-next creator-primary-action"
+            data-testid="creator-continue-background"
+            onClick={() => advanceTo("whoAreYou")}
+          >
+            Next
+          </button>
+        ) : null}
         {onReady && !finishedQuestions && questionnaireScreenFor(committed) ? (
           <button
             type="button"
+            className="creator-primary-action"
             data-testid="begin"
             disabled={problems.length > 0}
             onClick={() => onBegin(committed, null)}
