@@ -1,0 +1,23 @@
+{
+  "artifacts": [
+    {
+      "length": 143798,
+      "localPath": "data/source/cbsa-delineations/raw/cbsa-county-2023.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "members": [],
+      "sha256": "952c4b1e78acbb54e6ec9412434b7602fedacbf021736351a63c181bdb753629",
+      "url": "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2023/delineation-files/list1_2023.xlsx",
+      "vintage": "July 2023"
+    },
+    {
+      "length": 127583,
+      "localPath": "data/source/cbsa-delineations/raw/oews-area-definitions-2025.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "members": [],
+      "sha256": "6a0013fb0005c5492de8d13737193dc142806ca560147cd42f2bbae041c3c615",
+      "url": "https://www.bls.gov/oes/area_definitions_m2025.xlsx",
+      "vintage": "May 2025"
+    }
+  ],
+  "asOf": "2026-09-26"
+}

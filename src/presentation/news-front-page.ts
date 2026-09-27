@@ -15,6 +15,8 @@ import { projectPublicInformationPanel } from "./public-information-adapters";
 export interface NewsStory {
   readonly id: EntityId;
   readonly headline: string;
+  /** The short headline a reader sees above the saved copy. */
+  readonly readerHeadline: string;
   readonly sourceEventId: EntityId;
   readonly sourceRecordIds: readonly EntityId[];
   readonly body: string;
@@ -74,6 +76,7 @@ export function projectNewsFrontPage(
     sourceEventId: item.sourceEventId,
     sourceRecordIds: item.sourceRecordIds,
     headline: item.headline,
+    readerHeadline: item.readerHeadline,
     body: item.body,
     outletKey: item.outletKey,
     outletName: item.outletName,

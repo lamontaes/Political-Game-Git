@@ -221,11 +221,19 @@ it("preserves opening data and chosen birth year without changing legacy descrip
     current,
   );
   expect(worldSeedFor(current)).toBe(worldSeedFor(setup));
+  const judiciary = {
+    ...current,
+    openingDataVersion: "playtest65-v3" as const,
+  };
+  expect(
+    decodeReplayDescriptor(encodeReplayDescriptor(judiciary)),
+  ).toMatchObject(judiciary);
+  expect(worldSeedFor(judiciary)).toBe(worldSeedFor(current));
   expect(
     decodeReplayDescriptor(
       encodeReplayDescriptor({
         ...setup,
-        openingDataVersion: "playtest65-v3" as never,
+        openingDataVersion: "playtest65-v4" as never,
       }),
     ),
   ).toBeNull();

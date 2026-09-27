@@ -361,7 +361,8 @@ export function decodeReplayDescriptor(value: string): NewGameSetup | null {
   if (
     openingDataVersion !== undefined &&
     openingDataVersion !== "playtest65-v1" &&
-    openingDataVersion !== "playtest65-v2"
+    openingDataVersion !== "playtest65-v2" &&
+    openingDataVersion !== "playtest65-v3"
   )
     return null;
   const livingWorldMemberNameVersion = record.livingWorldMemberNameVersion;

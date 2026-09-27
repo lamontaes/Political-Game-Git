@@ -166,10 +166,12 @@ describe("a candidate's own money", () => {
         onWorldChange: () => undefined,
       }),
     );
-    expect(html).toContain("not tracking your own money");
+    expect(html).toContain(
+      "None of your own money can go into the campaign yet.",
+    );
     expect(html).not.toContain("<button");
     expect(() =>
       contributeOwnMoneyToCampaign(race.world, race.personId, 50_000),
-    ).toThrow(/not tracking/);
+    ).toThrow(/None of your own money can go into the campaign yet/);
   }, 300_000);
 });

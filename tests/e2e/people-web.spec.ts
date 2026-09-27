@@ -64,6 +64,8 @@ async function selectConnection(
         firstId,
       );
 
+      // Connected people are under More details on the small card.
+      await page.getByTestId("quick-dossier-full").click();
       const connections = page
         .getByTestId("person-card-connections")
         .getByRole("button");
@@ -93,6 +95,8 @@ async function selectConnection(
         );
         return { firstId, secondId, isPlayer: secondId === playerId };
       }
+      // The expanded card covers the web; close it before the next person.
+      await page.getByTestId("quick-dossier-close").click();
     }
   }
 

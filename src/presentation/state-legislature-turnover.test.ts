@@ -25,6 +25,13 @@ import {
   STATE_LEGISLATIVE_RESULTS_EVENT,
   nextStateSeatFilling,
 } from "../simulation/nationwide-world/state-legislature-turnover";
+import {
+  stateCandidateSeatKey,
+  stateCandidateSlate,
+  stateSeatDemocraticShare,
+} from "../simulation/nationwide-world/state-legislature-candidates";
+import { stateResidenceSince } from "../simulation/nationwide-world/residence-duration";
+import { districtResidenceIntervals } from "../simulation/district-residence";
 
 describe("STATE LEGISLATIVE CONTINUITY: seats are refilled at each regular election", () => {
   it("decides every Nevada seat on election day and seats the new members when the term begins", () => {
@@ -35,13 +42,91 @@ describe("STATE LEGISLATIVE CONTINUITY: seats are refilled at each regular elect
 
     // The day after the 2026 general election: results are recorded, but
     // nobody has changed seats yet.
-    const counted = passUntil(world, "2026-11-04");
+    const spring = passUntil(world, "2026-03-10");
+    const slates = spring.history.events.filter(
+      (event) => event.type === "election.state-legislative-candidate-slate",
+    );
+    expect(slates).toHaveLength(63);
+    expect(
+      slates.some((slate) =>
+        slate.tags.includes("incumbent-qualification:provisional-game-profile"),
+      ),
+    ).toBe(true);
+    expect(slates.every((slate) => slate.occurredAt < "2026-11-03")).toBe(true);
+    expect(
+      slates.every((slate) =>
+        slate.participants.every((candidate) =>
+          Boolean(spring.people[candidate.personId]),
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      spring.history.decisionTraces.some(
+        (trace) =>
+          trace.context.decisionType ===
+          "election.consider-state-legislative-run",
+      ),
+    ).toBe(true);
+    const newCandidate = slates
+      .flatMap((slate) => slate.participants)
+      .find(
+        (candidate) =>
+          candidate.detail?.endsWith("|new") &&
+          districtResidenceIntervals(spring).some(
+            (interval) =>
+              interval.personId === candidate.personId &&
+              interval.startedOn < "2026-01-01",
+          ),
+      )!;
+    expect(newCandidate).toBeDefined();
+    expect(
+      (stateResidenceSince(spring, newCandidate.personId, "US-NV") ?? "") <
+        "2026-01-01",
+    ).toBe(true);
+    expect(
+      districtResidenceIntervals(spring).some(
+        (interval) =>
+          interval.personId === newCandidate.personId &&
+          interval.startedOn < "2026-01-01" &&
+          interval.provenance.method === "simulated-event",
+      ),
+    ).toBe(true);
+    const openingSeat = opening[0]!;
+    expect(
+      stateSeatDemocraticShare(
+        spring,
+        packId,
+        openingSeat.officeKey,
+        openingSeat.ordinal,
+      ),
+    ).not.toBeNull();
+    const slate = stateCandidateSlate(
+      spring,
+      stateCandidateSeatKey(packId, openingSeat.officeKey, openingSeat.ordinal),
+      2026,
+    );
+    expect(slate).not.toBeNull();
+    expect(deserializeWorld(serializeWorld(spring)).history.events).toEqual(
+      spring.history.events,
+    );
+
+    const counted = passUntil(spring, "2026-11-04");
     const results = counted.history.events.filter(
       (event) => event.type === STATE_LEGISLATIVE_RESULTS_EVENT,
     );
     expect(results).toHaveLength(1);
     expect(results[0]!.occurredAt).toBe("2026-11-03");
     expect(results[0]!.participants).toHaveLength(63);
+    const slatedIds = new Set(
+      slates.flatMap((slate) =>
+        slate.participants.map((candidate) => candidate.personId),
+      ),
+    );
+    expect(
+      results[0]!.participants.every((winner) =>
+        slatedIds.has(winner.personId),
+      ),
+    ).toBe(true);
     const newcomers = results[0]!.participants.filter(
       (participant) => participant.detail?.split("|")[3] === "new",
     );
@@ -90,6 +175,126 @@ describe("STATE LEGISLATIVE CONTINUITY: seats are refilled at each regular elect
 
     const reopened = deserializeWorld(serializeWorld(seated));
     expect(stateLegislators(reopened, packId)).toEqual(members);
+
+    const countedAgain = passUntil(reopened, "2028-11-10");
+    const laterResults = countedAgain.history.events.filter(
+      (event) => event.type === STATE_LEGISLATIVE_RESULTS_EVENT,
+    );
+    expect(laterResults).toHaveLength(2);
+    const laterSlates = countedAgain.history.events.filter(
+      (event) =>
+        event.type === "election.state-legislative-candidate-slate" &&
+        event.occurredAt.startsWith("2028-"),
+    );
+    expect(laterSlates).toHaveLength(63);
+    const laterCandidateIds = new Set(
+      laterSlates.flatMap((slate) =>
+        slate.participants.map((candidate) => candidate.personId),
+      ),
+    );
+    expect(
+      laterResults[1]!.participants.every((winner) =>
+        laterCandidateIds.has(winner.personId),
+      ),
+    ).toBe(true);
+    expect(
+      deserializeWorld(serializeWorld(countedAgain)).history.events.filter(
+        (event) => event.type === STATE_LEGISLATIVE_RESULTS_EVENT,
+      ),
+    ).toEqual(laterResults);
+  }, 900_000);
+
+  it("keeps a seat vacant when every recorded candidate dies before voting", () => {
+    const { world } = adultLifeIn("NV", "state-legislative-unfilled-slate");
+    const packId = stateCandidacyPack("US-NV")!.packId;
+    const spring = passUntil(world, "2026-03-10");
+    const seat = stateLegislativeSeats(spring, packId)[0]!;
+    const slate = stateCandidateSlate(
+      spring,
+      stateCandidateSeatKey(packId, seat.officeKey, seat.ordinal),
+      2026,
+    )!;
+    expect(slate.participants.length).toBeGreaterThan(0);
+    let withoutCandidates = spring;
+    for (const candidate of slate.participants)
+      withoutCandidates = recordPersonDeath(withoutCandidates, {
+        stableKey: `test-candidate-death:${candidate.personId}`,
+        personId: candidate.personId,
+        diedAt: spring.currentDate,
+        causeKey: "cause:people-fixture",
+        sourceEntityIds: [spring.id],
+        summary: "Died; the cause is not recorded.",
+        provenance: { kind: "authored", note: "Unfilled slate fixture." },
+      });
+    const counted = passUntil(withoutCandidates, "2026-11-04");
+    const result = counted.history.events.find(
+      (event) => event.type === STATE_LEGISLATIVE_RESULTS_EVENT,
+    )!;
+    expect(
+      result.tags.some((tag) =>
+        tag.startsWith(`unfilled:${seat.officeKey}|${seat.ordinal}|`),
+      ),
+    ).toBe(true);
+    expect(
+      result.participants.some((participant) =>
+        participant.detail?.startsWith(`${seat.officeKey}|${seat.ordinal}|`),
+      ),
+    ).toBe(false);
+    const seated = passUntil(counted, "2027-01-03");
+    expect(
+      seated.history.events.some(
+        (event) =>
+          event.type === "election.state-legislative-seat-vacancy" &&
+          event.tags.includes(`seat:${seat.officeKey}|${seat.ordinal}`) &&
+          event.tags.includes("vacancy-cause:no-living-candidate"),
+      ),
+    ).toBe(true);
+    expect(
+      stateLegislativeSeats(seated, packId).find(
+        (row) =>
+          row.officeKey === seat.officeKey && row.ordinal === seat.ordinal,
+      )?.member,
+    ).toBeNull();
+    expect(
+      nextStateSeatFilling(seated, packId, seat.officeKey, seat.ordinal),
+    ).toEqual({ electedOn: "2028-11-07", takesOfficeOn: null });
+  }, 900_000);
+
+  it("uses the same intake for an odd-year state and nonpartisan Puerto Rico seats", () => {
+    const nj = adultLifeIn("NJ", "state-candidate-odd-year").world;
+    const njPack = stateCandidacyPack("US-NJ")!.packId;
+    const nj2026 = passUntil(nj, "2026-03-10");
+    expect(
+      nj2026.history.events.filter(
+        (event) => event.type === "election.state-legislative-candidate-slate",
+      ),
+    ).toHaveLength(0);
+    const nj2027 = passUntil(nj2026, "2027-03-10");
+    const njSlates = nj2027.history.events.filter(
+      (event) => event.type === "election.state-legislative-candidate-slate",
+    );
+    expect(njSlates).toHaveLength(stateLegislativeSeats(nj2027, njPack).length);
+    expect(njSlates.every((slate) => slate.occurredAt < "2027-11-02")).toBe(
+      true,
+    );
+
+    const pr = adultLifeIn("PR", "state-candidate-nonpartisan").world;
+    const prPack = stateCandidacyPack("US-PR")!.packId;
+    const prSpring = passUntil(pr, "2026-03-10");
+    const prSlates = prSpring.history.events.filter(
+      (event) => event.type === "election.state-legislative-candidate-slate",
+    );
+    expect(prSlates).toHaveLength(
+      stateLegislativeSeats(prSpring, prPack).length,
+    );
+    expect(prSlates.length).toBeGreaterThan(0);
+    expect(
+      prSlates.every((slate) =>
+        slate.participants.every((candidate) =>
+          candidate.detail?.startsWith("none|"),
+        ),
+      ),
+    ).toBe(true);
   }, 900_000);
 });
 
@@ -116,9 +321,10 @@ describe("STATE LEGISLATIVE CONTINUITY: a player's campaign decides their own di
     const officeKey = pack.offices.find((office) =>
       office.officeKey.endsWith(":assembly"),
     )!.officeKey;
-    const recorded = recordedDistrictForOffice(world, personId, officeKey);
+    const spring = passUntil(world, "2026-03-10");
+    const recorded = recordedDistrictForOffice(spring, personId, officeKey);
     expect(recorded).not.toBeNull();
-    const filed = fileForOffice(world, personId, recorded!.binding, officeKey);
+    const filed = fileForOffice(spring, personId, recorded!.binding, officeKey);
     const contest = filed.history.electionContests!.at(-1)!;
     expect(contest.electionDate).toBe("2026-11-03");
     const [seat] = stateSeatsInDistrict(
@@ -127,6 +333,13 @@ describe("STATE LEGISLATIVE CONTINUITY: a player's campaign decides their own di
       recorded!.binding.recordId,
     );
     expect(seat).toBeDefined();
+    expect(
+      stateCandidateSlate(
+        spring,
+        stateCandidateSeatKey(pack.packId, officeKey, seat!.ordinal),
+        2026,
+      ),
+    ).not.toBeNull();
     const sitting = stateLegislativeSeats(filed, pack.packId).find(
       (row) => row.officeKey === officeKey && row.ordinal === seat!.ordinal,
     )!.member;

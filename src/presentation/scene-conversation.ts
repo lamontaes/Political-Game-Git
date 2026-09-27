@@ -109,7 +109,9 @@ export function conversationExchangeTurns(
           current: event.occurredAt === world.currentDate,
           playerLine:
             (spokenStatement?.trim() ? spokenStatement : null) ??
-            (event.context.choice ? secondPerson(event.context.choice) : null),
+            (event.context.choice
+              ? recordLineInSecondPerson(event.context.choice)
+              : null),
           speakerPersonId: speaker,
           speakerName: speaker ? nameOf(world, speaker) : null,
           reply: event.context.immediateReaction ?? "",
@@ -239,10 +241,23 @@ function endSentence(choice: string): string {
     : `${choice}.`;
 }
 
-function secondPerson(sentence: string): string {
+/**
+ * A record line about the player, said to the player.
+ *
+ * "The player said they would go to the meeting." is about one person, so in
+ * second person the "they" that reports what the player said is "you" too:
+ * "You said you would go to the meeting." Only a "they" right after a
+ * reporting verb whose subject is the player changes; a "they" meaning
+ * somebody else is left alone.
+ */
+export function recordLineInSecondPerson(sentence: string): string {
   if (!/^The player\b/.test(sentence)) return sentence;
   return sentence
     .replace(/^The player's\b/, "Your")
     .replace(/^The player\b/, "You")
+    .replace(
+      /^(You (?:said|agreed|promised|decided|thought|admitted|offered|hoped)) they\b/,
+      "$1 you",
+    )
     .replace(/\bthemselves\b/g, "yourself");
 }

@@ -166,6 +166,11 @@ describe("PEOPLE B1: what a family learns when somebody dies", () => {
       (entry) => entry.binding.variant === "bereaved",
     )!;
     expect(bound, "a bereavement scene is offered").toBeTruthy();
+    // Their answer leans on their recorded sociability. They joined the family
+    // after the life opened, so their traits are drawn when the scene is.
+    expect(bound.binding.speakerPersonId).toBe(other);
+    expect(personTrait(told, other, "sociability").recordId).toBeNull();
+    expect(personTrait(offered, other, "sociability").recordId).not.toBeNull();
     const view = projectPlayerConversation(
       offered,
       player,

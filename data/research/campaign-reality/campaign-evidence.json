@@ -1,0 +1,436 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-09-27",
+  "scope": "Selected U.S. campaign time and money observations, with office-level gaps. These are not universal simulation constants.",
+  "sources": {
+    "miller-2015": {
+      "title": "Going all-in: gender and campaign commitment",
+      "author": "Michael G. Miller",
+      "publisher": "Research & Politics",
+      "url": "https://journals.sagepub.com/doi/full/10.1177/2053168015605105",
+      "locator": "Data and method; Results; Figures 1 and 2"
+    },
+    "nickerson-2005": {
+      "title": "Volunteer Phone Calls Can Increase Turnout: Evidence From Eight Field Experiments",
+      "author": "David W. Nickerson",
+      "publisher": "American Politics Research",
+      "publicationDate": "2006-05",
+      "doi": "10.1177/1532673X05275923",
+      "url": "https://sites.temple.edu/nickerson/files/2017/07/Nickerson.APR2005.pdf",
+      "locator": "PDF page 1 cover and DOI for title and May 2006 publication; PDF page 17 for volunteer door and phone contacts per hour",
+      "provenance": "The author-hosted PDF filename and this stable source ID say 2005, but the published article's cover says May 2006."
+    },
+    "dccc-schedule-secondary": {
+      "title": "Congressional Fundraising Dynamics and Their Implications for Problem-Solving",
+      "publisher": "Yale Institution for Social and Policy Studies",
+      "url": "https://isps.yale.edu/sites/default/files/publication/2025/02/brandice_canes-wrone_working_paper_12.5.24.web_.pdf",
+      "locator": "Discussion of leaked 2013 DCCC model schedule; original slide not acquired"
+    },
+    "ma-ocpf-2022": {
+      "title": "2022 Campaign Finance Activity by Legislative Candidates",
+      "publisher": "Massachusetts Office of Campaign and Political Finance",
+      "url": "https://ocpf2.blob.core.windows.net/pdf/studies/2022legislativestudy.pdf",
+      "locator": "PDF pages 2-3 and 9"
+    },
+    "fec-2024-median": {
+      "title": "21-Month Median Receipts of Senate and House Candidates",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/resources/campaign-finance-statistics/2024/tables/congressional/ConCand4_2024_21m.pdf",
+      "locator": "Congressional Table 4, reports January 1, 2023 through September 30, 2024"
+    },
+    "fec-2024-summary": {
+      "title": "Statistical Summary of 24-Month Campaign Activity of the 2023-2024 Election Cycle",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/updates/statistical-summary-of-24-month-campaign-activity-of-the-2023-2024-election-cycle/",
+      "locator": "Section II, congressional candidates"
+    },
+    "nyc-cfb-2025": {
+      "title": "2025 Post-Election Report",
+      "publisher": "New York City Campaign Finance Board",
+      "url": "https://www.nyccfb.info/media/reports/2025-post-election-report/",
+      "locator": "By the Numbers: individual contributions, public funds, campaign spending"
+    },
+    "nyc-limits-2025": {
+      "title": "2025 Limits and Thresholds",
+      "publisher": "New York City Campaign Finance Board",
+      "url": "https://nyccfb.info/candidate-services/limits-thresholds/2025",
+      "locator": "Spending limits table; applies only to program participants"
+    },
+    "fec-disbursements": {
+      "title": "Making disbursements",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/help-candidates-and-committees/making-disbursements/",
+      "locator": "Campaign-related expense examples"
+    },
+    "ndi-planning": {
+      "title": "Campaign Skills Trainer's Guide, Module 9: Campaign Planning",
+      "publisher": "National Democratic Institute",
+      "url": "https://www.ndi.org/sites/default/files/sites/default/files/Module%209_Campaign%20Planning_EN_0.pdf",
+      "locator": "Timeline and Time Management, sample final-days schedule; example is not a U.S. calendar"
+    },
+    "local-candidate-corpus": {
+      "title": "Existing game candidate qualification and campaign guidance corpus",
+      "publisher": "Our Civic Duty source repository",
+      "path": "src/simulation/candidate-qualification.ts",
+      "relatedPath": "src/simulation/campaign-life-activities.ts",
+      "locator": "Qualification rule set and projectCampaignGuidance; filing fees and petitions remain not established"
+    },
+    "pipeline-2024-survey": {
+      "title": "Executive Summary: Survey of 2024 State and Local Candidates",
+      "publisher": "Pipeline Fund",
+      "url": "https://www.pipeline.fund/news/pipeline-fund-candidate-experience-survey-executive-summary/",
+      "locator": "Campaign staff, work-life, and volunteer support findings; methodology overview says partner-group and BallotReady respondent pool is unweighted and not nationally representative"
+    },
+    "brookings-schoolboard-2026-tables": {
+      "title": "Results without enrollment weights: A survey of America's school board members",
+      "publisher": "Brookings Brown Center on Education Policy",
+      "url": "https://www.brookings.edu/wp-content/uploads/2026/06/Survey_Tables_NoWeights_FINAL.pdf",
+      "locator": "PDF pages 1 and 20, enrollment categories and Q24 candidate/committee spending table"
+    },
+    "brookings-schoolboard-2026-method": {
+      "title": "Brookings Brown Center School Board Member Survey: Methodology",
+      "publisher": "Brookings Brown Center on Education Policy",
+      "url": "https://www.brookings.edu/wp-content/uploads/2026/05/Survey_Methodology_FINAL.pdf",
+      "locator": "PDF pages 1-3, sampling, 10.0% response rate, and weighting"
+    },
+    "wa-pdc-record-spending": {
+      "title": "Record-setting campaigns",
+      "publisher": "Washington State Public Disclosure Commission",
+      "url": "https://pdc.wa.gov/political-disclosure-reporting-data/record-setting-campaigns",
+      "locator": "Statewide offices: Governor top five highest spenders; Other Statewide Offices top five highest spenders; page warns post-election reports may change totals"
+    },
+    "usps-letter-rates": {
+      "title": "Rates for Domestic Letters Since 1863",
+      "publisher": "United States Postal Service",
+      "url": "https://about.usps.com/who/profile/history/domestic-letter-rates-since-1863.htm",
+      "locator": "January 21 and July 14, 2024, one-ounce retail letter postage"
+    },
+    "fec-funding-types": {
+      "title": "Types of contributions",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/types-contributions/",
+      "locator": "Individual and family contributions and loans"
+    },
+    "fec-personal-loans": {
+      "title": "Candidate personal funds loans",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/help-candidates-and-committees/filing-reports/candidate-personal-funds-loans/",
+      "locator": "Candidate loans and reporting"
+    }
+  },
+  "officeLevels": [
+    {
+      "office": "city-council-or-school-board",
+      "nationalMedianSpendUsd": null,
+      "nationalMedianCandidateHoursPerWeek": null,
+      "staffCount": null,
+      "volunteerCount": null,
+      "evidenceIds": [
+        "nyc-council-limit",
+        "nyc-citywide-spending",
+        "school-board-spending-by-enrollment",
+        "state-local-staffing-survey"
+      ],
+      "gap": "NYC program rules and totals do not describe a typical city council race nationally. The school board survey reports spending bands for winning members by district enrollment, not a national candidate median or all races."
+    },
+    {
+      "office": "county",
+      "nationalMedianSpendUsd": null,
+      "nationalMedianCandidateHoursPerWeek": null,
+      "staffCount": null,
+      "volunteerCount": null,
+      "evidenceIds": ["state-local-staffing-survey"],
+      "gap": "No comparable national county candidate-spending or time series established."
+    },
+    {
+      "office": "state-legislature",
+      "nationalMedianSpendUsd": null,
+      "nationalMedianCandidateHoursPerWeek": null,
+      "staffCount": null,
+      "volunteerCount": null,
+      "evidenceIds": [
+        "ma-house-spend",
+        "ma-senate-spend",
+        "state-house-time",
+        "outside-work",
+        "state-local-staffing-survey"
+      ],
+      "gap": "Massachusetts spending and 18-state 2008 time samples are not a current 50-state median."
+    },
+    {
+      "office": "statewide",
+      "nationalMedianSpendUsd": null,
+      "nationalMedianCandidateHoursPerWeek": null,
+      "staffCount": null,
+      "volunteerCount": null,
+      "evidenceIds": ["wa-statewide-record-spending"],
+      "gap": "Washington high-spending record examples do not establish a like-for-like national median for governors or other statewide offices."
+    },
+    {
+      "office": "us-house",
+      "nationalMedianSpendUsd": null,
+      "nationalMedianCandidateHoursPerWeek": null,
+      "staffCount": null,
+      "volunteerCount": null,
+      "evidenceIds": [
+        "house-median-receipts",
+        "congressional-disbursements",
+        "dccc-call-time"
+      ],
+      "gap": "FEC median receipts are not spending; the call-time slide is a 2013 party recommendation, not an observed average."
+    },
+    {
+      "office": "us-senate",
+      "nationalMedianSpendUsd": null,
+      "nationalMedianCandidateHoursPerWeek": null,
+      "staffCount": null,
+      "volunteerCount": null,
+      "evidenceIds": ["senate-median-receipts", "congressional-disbursements"],
+      "gap": "FEC median receipts are not spending and Senate cycles differ in length and competitiveness."
+    }
+  ],
+  "observations": [
+    {
+      "id": "state-house-time",
+      "metric": "candidate campaign hours per week",
+      "value": {
+        "kind": "sample-group-means",
+        "examples": [
+          { "group": "inexperienced women", "hours": 48.6 },
+          { "group": "inexperienced men", "hours": 47.0 },
+          { "group": "incumbent women", "hours": 47.2 }
+        ]
+      },
+      "population": "820 major-party candidates in contested state lower-house races across 18 states, 2008",
+      "period": "first week of October 2008",
+      "sourceId": "miller-2015",
+      "caveat": "Selected group means, not a universal office-level weekly schedule; survey response rate 34.4 percent before the contested-race subset."
+    },
+    {
+      "id": "outside-work",
+      "metric": "outside employment while campaigning",
+      "value": "A majority of non-incumbent men in this survey worked full time during the election; a majority of women in all three experience groups worked less than full time.",
+      "population": "Same 18-state 2008 state lower-house candidate survey",
+      "sourceId": "miller-2015",
+      "caveat": "Association in one sample, not a rule by gender or a mandate to stop working."
+    },
+    {
+      "id": "dccc-call-time",
+      "metric": "recommended call time hours per day",
+      "value": 4,
+      "population": "Incoming Democratic U.S. House members in a reported 2013 model schedule",
+      "period": "2013",
+      "sourceId": "dccc-schedule-secondary",
+      "caveat": "Party prescription reported by a later academic paper; not measured behavior and not a national candidate average."
+    },
+    {
+      "id": "door-contact-rate",
+      "metric": "completed face-to-face person contacts per volunteer hour",
+      "value": { "low": 3, "high": 8 },
+      "unit": "completed-person-contacts/volunteer-hour",
+      "population": "Author's door-canvassing comparison in a 2006 paper about U.S. nonpartisan GOTV phone experiments; not a measured door estimate from the eight phone experiments",
+      "sourceId": "nickerson-2005",
+      "caveat": "Completed person contacts, not doors knocked; varies with density, answer rate, and context."
+    },
+    {
+      "id": "phone-contact-rate",
+      "metric": "completed phone person contacts per volunteer hour",
+      "value": { "low": 15, "high": 20 },
+      "unit": "completed-person-contacts/volunteer-hour",
+      "population": "Volunteer phone contact comparison in a 2006 paper reporting U.S. nonpartisan GOTV phone experiments",
+      "sourceId": "nickerson-2005",
+      "caveat": "Completed person contacts, not dials; phone availability and answer rates vary."
+    },
+    {
+      "id": "ma-house-spend",
+      "metric": "mean expenditures per state House candidate, USD",
+      "value": 32665,
+      "population": "274 Massachusetts House candidates who filed in 2022",
+      "period": "2022 election",
+      "sourceId": "ma-ocpf-2022",
+      "caveat": "Massachusetts mean; includes opposed and unopposed candidates; not a 50-state median or individual action cost."
+    },
+    {
+      "id": "ma-senate-spend",
+      "metric": "mean expenditures per state Senate candidate, USD",
+      "value": 84782,
+      "population": "76 Massachusetts Senate candidates who filed in 2022",
+      "period": "2022 election",
+      "sourceId": "ma-ocpf-2022",
+      "caveat": "Massachusetts mean; not a 50-state median or individual action cost."
+    },
+    {
+      "id": "house-median-receipts",
+      "metric": "median U.S. House candidate receipts, USD",
+      "value": {
+        "democraticIncumbent": 1732912,
+        "democraticChallenger": 67362,
+        "republicanIncumbent": 1831646,
+        "republicanChallenger": 60393
+      },
+      "population": "FEC-reporting House candidates in the listed party and status groups",
+      "period": "January 1, 2023 to September 30, 2024",
+      "sourceId": "fec-2024-median",
+      "caveat": "Receipts, not expenditures; open-seat and other-party categories omitted here but remain in the source table."
+    },
+    {
+      "id": "senate-median-receipts",
+      "metric": "median U.S. Senate candidate receipts, USD",
+      "value": {
+        "democraticIncumbent": 10038759,
+        "democraticChallenger": 36055,
+        "republicanIncumbent": 6935775,
+        "republicanChallenger": 83810
+      },
+      "population": "FEC-reporting Senate candidates in the listed party and status groups",
+      "period": "January 1, 2023 to September 30, 2024",
+      "sourceId": "fec-2024-median",
+      "caveat": "Receipts, not expenditures; open-seat and other-party categories omitted here but remain in the source table."
+    },
+    {
+      "id": "congressional-disbursements",
+      "metric": "aggregate federal candidate disbursements, USD",
+      "value": { "houseApprox": 2200000000, "senateApprox": 1500000000 },
+      "population": "1,886 House and 266 Senate candidate committees with financial activity in 2023-2024",
+      "period": "January 1, 2023 to December 31, 2024",
+      "sourceId": "fec-2024-summary",
+      "caveat": "Rounded aggregate totals, including listed special elections; not a typical candidate amount."
+    },
+    {
+      "id": "nyc-council-limit",
+      "metric": "NYC matching-funds program City Council spending limit, USD",
+      "value": { "outYear": 61000, "primary": 228000, "general": 228000 },
+      "population": "Participating 2025 New York City Council campaigns",
+      "sourceId": "nyc-limits-2025",
+      "caveat": "Legal cap for program participants, not actual spending or a national local-race benchmark."
+    },
+    {
+      "id": "nyc-citywide-spending",
+      "metric": "aggregate 2025 NYC campaign spending, USD",
+      "value": { "allOffices": 123500000, "mayoral": 72200000 },
+      "population": "2025 New York City election cycle, all campaigns and mayoral subset",
+      "sourceId": "nyc-cfb-2025",
+      "caveat": "Aggregate, not per-candidate. City Council public funds totaled $18.6 million; independent council spending is separate."
+    },
+    {
+      "id": "nyc-small-donors",
+      "metric": "NYC citywide contribution distribution",
+      "value": { "medianContributionUsd": 50, "shareUnder250Percent": 88.2 },
+      "population": "244,401 individual contributions to 2025 NYC campaigns across offices",
+      "sourceId": "nyc-cfb-2025",
+      "caveat": "Donation size, not campaign spending; not a city council-only statistic."
+    },
+    {
+      "id": "filing-unknown",
+      "metric": "filing fee and petition signature requirements in the existing game corpus",
+      "value": null,
+      "population": "Current projectCampaignGuidance across supported places",
+      "sourceId": "local-candidate-corpus",
+      "caveat": "The current game marks fees and petitions not established; do not substitute a national fee or treat unknown as zero."
+    },
+    {
+      "id": "state-local-staffing-survey",
+      "metric": "paid campaign staff counts in a surveyed state and local candidate pool",
+      "value": {
+        "shareWithZeroPaidStaffPercent": 58,
+        "shareWithOnePaidStaffPercent": 15
+      },
+      "population": "2024 state and local candidates recruited through Pipeline Fund partner organizations and BallotReady",
+      "period": "2024 election cycle",
+      "sourceId": "pipeline-2024-survey",
+      "caveat": "Unweighted, partner-sourced respondent pool; not nationally representative and not broken out by individual office. These percentages do not set a staffing distribution for every city, county, or state race."
+    },
+    {
+      "id": "state-local-volunteer-support-survey",
+      "metric": "reported volunteer mobilization help needed versus received",
+      "value": { "neededHelpPercent": 62, "receivedThirdPartyHelpPercent": 37 },
+      "population": "Same 2024 Pipeline Fund state and local candidate respondent pool",
+      "sourceId": "pipeline-2024-survey",
+      "caveat": "Perceived support need and receipt, not volunteer counts or a probability that a campaign receives a volunteer."
+    },
+    {
+      "id": "state-local-work-tradeoff-survey",
+      "metric": "candidate work and income tradeoffs while campaigning",
+      "value": {
+        "workLifeBalanceChallengingPercent": 52,
+        "tookPayCutOrScaledBackOrLeftPaidWorkPercent": 26
+      },
+      "population": "Same 2024 Pipeline Fund state and local candidate respondent pool",
+      "sourceId": "pipeline-2024-survey",
+      "caveat": "Self-reported outcomes in a nonrepresentative sample; no universal quit-job rule or salary loss amount."
+    },
+    {
+      "id": "school-board-spending-by-enrollment",
+      "metric": "self-reported candidate and committee spending band on most recent school board election",
+      "value": {
+        "districtsUnder2500StudentsShareUnder100UsdPercent": 65.6,
+        "districts15000OrMoreStudentsShareAtLeast5000UsdPercent": 54.4
+      },
+      "population": "Sitting U.S. school board members surveyed October 2024-January 2025, with 418 responses from districts under 2,500 students and 198 from districts with at least 15,000 students on the spending item",
+      "period": "Respondents' most recent election, mostly 2022-2024",
+      "sourceId": "brookings-schoolboard-2026-tables",
+      "methodologySourceId": "brookings-schoolboard-2026-method",
+      "caveat": "District-weighted, self-reported spending bands among elected members, not all candidates or a mean/median dollar amount. Survey excluded districts with 500 or fewer students and had a 10.0% response rate; weighting does not remove every nonresponse or winner-selection concern. The at-least-$5,000 share sums the six table bands beginning at $5,000."
+    },
+    {
+      "id": "wa-statewide-record-spending",
+      "metric": "Washington candidate spending in record-setting statewide campaigns, USD",
+      "value": {
+        "ferguson2024Governor": 14537971,
+        "brown2024AttorneyGeneral": 2234434
+      },
+      "population": "Washington PDC's highest-spending candidate lists for governor and other statewide offices, as shown September 27, 2026",
+      "period": "2024 election",
+      "sourceId": "wa-pdc-record-spending",
+      "caveat": "Selected high-spending campaigns, not typical, median, or all-candidate totals. Candidate spending excludes separate independent expenditures. PDC warns that post-election reports can change historical totals; consult current campaign reports before operational use."
+    },
+    {
+      "id": "usps-2024-letter-postage",
+      "metric": "retail postage for one domestic one-ounce letter, USD per piece",
+      "value": { "fromJanuary21": 0.68, "fromJuly14": 0.73 },
+      "population": "USPS retail domestic one-ounce letters in 2024",
+      "sourceId": "usps-letter-rates",
+      "caveat": "Postage only, not design, printing, list acquisition, labor, or bulk political mail pricing. This is a time-bound unit price, not the total cost of a campaign mailer."
+    }
+  ],
+  "costDrivers": {
+    "items": [
+      "staff salaries",
+      "rent",
+      "travel",
+      "advertising",
+      "telephones",
+      "office supplies and equipment",
+      "fundraising"
+    ],
+    "sourceId": "fec-disbursements",
+    "caveat": "Official federal expenditure categories, not prices."
+  },
+  "phasePattern": {
+    "preCampaign": "Build plan, donor and voter lists, budget, volunteer capacity, and issue positions before intensive field work.",
+    "campaign": "Combine direct voter contact, fundraising, public events, and media; allocate candidate hours against outside work and governing duties.",
+    "finalDays": "Shift capacity toward targeted persuasion, supporter contact, and election-day turnout work.",
+    "sourceId": "ndi-planning",
+    "caveat": "Qualitative planning pattern from an international training example. No fixed U.S. phase length or universal weekly schedule is established."
+  },
+  "fundingChannels": {
+    "federalCandidateCommittee": [
+      "candidate personal funds and reportable loans",
+      "individual contributions, including family subject to applicable limits",
+      "party committee contributions",
+      "PAC contributions"
+    ],
+    "localExample": "New York City's 2025 matching-funds program supplied public funds to participating candidates; this is not universal to local elections.",
+    "sourceIds": [
+      "fec-funding-types",
+      "fec-personal-loans",
+      "fec-2024-summary",
+      "nyc-cfb-2025"
+    ],
+    "caveat": "Independent expenditures by outside committees are not cash handed to the candidate campaign. Limits, eligibility, reporting, and public financing vary by office, election cycle, and jurisdiction."
+  },
+  "gameplayCalibration": {
+    "recommendedNumericalValues": null,
+    "reason": "Action durations, prices, contact probabilities, and electoral effects need separate design choices tied to office, geography, capacity, and phase. The observations above are samples and cannot be copied into every race."
+  }
+}

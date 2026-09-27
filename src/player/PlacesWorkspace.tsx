@@ -18,8 +18,38 @@ import { useTimeCommand, type TimeCommandReport } from "./time-command-runner";
 import { previewTimeCommand } from "../presentation/time-command";
 import { skipToLabel } from "../presentation/time-target-label";
 import { declineVenueActivity } from "../presentation/venue-activity";
-import { ordinaryGroceryRoute } from "../presentation/ordinary-grocery-route";
-import { travelToPlace } from "../presentation/place-travel";
+import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import {
+  canPlanOrdinaryMeetingAttendance,
+  planOrdinaryMeetingAttendance,
+  plannedOrdinaryMeetingAttendance,
+} from "../presentation/ordinary-meeting-actions";
+import {
+  scheduledActivityState,
+  compareSimulationMoments,
+} from "../simulation";
+
+function onTimeMeetingChoice(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): boolean {
+  const journey = world.history.scheduledActivities.find(
+    (item) =>
+      item.kind === "travel" &&
+      item.location.locationKey === "ordinary-life:to-meeting-room" &&
+      item.sourceEntityIds.includes(activityId) &&
+      item.responsiblePersonId === personId,
+  );
+  return (
+    !!journey &&
+    scheduledActivityState(world, journey.id).status === "scheduled" &&
+    compareSimulationMoments(
+      world.currentMoment,
+      scheduledActivityState(world, journey.id).start,
+    ) === 0
+  );
+}
 
 /** Entity references UI-core passes through `openEntity` / `togglePin`. */
 export type PlacesEntityRef =
@@ -41,7 +71,11 @@ export interface PlacesWorkspaceProps {
   readonly transitionHandlers?: FutureTransitionHandlerRegistry;
 }
 
-function actionLabel(offer: PlacesOfferView): string {
+function actionLabel(
+  offer: PlacesOfferView,
+  world: World,
+  personId: EntityId,
+): string {
   switch (offer.kind) {
     case "inspect":
       return "Inspect";
@@ -49,8 +83,17 @@ function actionLabel(offer: PlacesOfferView): string {
       return "Return home";
     case "travel":
       return "Travel";
-    case "attend":
-      return "Attend";
+    case "attend": {
+      const scene = projectOrdinaryMeetingScene(world, personId);
+      return offer.activityId &&
+        scene?.phase === "active" &&
+        scene.activityId === offer.activityId
+        ? "Stay through meeting"
+        : offer.activityId &&
+            onTimeMeetingChoice(world, personId, offer.activityId)
+          ? "Go to meeting"
+          : "Attend";
+    }
   }
 }
 
@@ -130,23 +173,6 @@ export function PlacesWorkspace({
         { kind: "walk", destination: fresh.walkDestination },
         report,
       );
-      return;
-    }
-    if (fresh.groceryDestination) {
-      const destination = fresh.groceryDestination;
-      runner.perform((current, handlers) => {
-        const next = travelToPlace(
-          current,
-          personId,
-          destination,
-          ordinaryGroceryRoute,
-          handlers,
-        );
-        return {
-          world: next,
-          outcome: describePlacesOutcome(current, next, personId),
-        };
-      }, report);
       return;
     }
     if (fresh.activityId) {
@@ -267,9 +293,7 @@ export function PlacesWorkspace({
       ) : null}
 
       <section aria-labelledby="places-offers-heading">
-        <h3 id="places-offers-heading">
-          Supported destinations and activities
-        </h3>
+        <h3 id="places-offers-heading">Places you can go</h3>
         {model.offers.length === 0 ? (
           <p data-testid="places-empty">
             Nothing reachable is recorded from here.
@@ -295,11 +319,11 @@ export function PlacesWorkspace({
                     disabled={offer.unavailable !== null}
                     aria-disabled={runner.pending || undefined}
                     aria-busy={runner.pending}
-                    aria-label={`${actionLabel(offer)}: ${offer.title}`}
+                    aria-label={`${actionLabel(offer, world, personId)}: ${offer.title}`}
                     data-testid={`places-offer-${offer.id}-action`}
                     onClick={() => runOffer(offer)}
                   >
-                    {actionLabel(offer)}
+                    {actionLabel(offer, world, personId)}
                     {(() => {
                       const command = offer.walkDestination
                         ? {
@@ -320,14 +344,49 @@ export function PlacesWorkspace({
                       ) : null;
                     })()}
                   </button>
+                  {offer.activityId &&
+                  canPlanOrdinaryMeetingAttendance(
+                    world,
+                    personId,
+                    offer.activityId,
+                  ) ? (
+                    <button
+                      type="button"
+                      data-testid={`places-offer-${offer.id}-plan`}
+                      onClick={() =>
+                        commit(() =>
+                          planOrdinaryMeetingAttendance(
+                            world,
+                            personId,
+                            offer.activityId!,
+                          ),
+                        )
+                      }
+                    >
+                      Plan to attend
+                    </button>
+                  ) : offer.activityId &&
+                    plannedOrdinaryMeetingAttendance(
+                      world,
+                      personId,
+                      offer.activityId,
+                    ) ? (
+                    <span>You plan to attend this meeting.</span>
+                  ) : null}
                   {offer.declineActivityId ? (
                     <button
                       type="button"
-                      aria-label={`Decline: ${offer.title}`}
+                      aria-label={`${onTimeMeetingChoice(world, personId, offer.declineActivityId) ? "Stay home" : "Decline"}: ${offer.title}`}
                       data-testid={`places-offer-${offer.id}-decline`}
                       onClick={() => declineOffer(offer)}
                     >
-                      Decline
+                      {onTimeMeetingChoice(
+                        world,
+                        personId,
+                        offer.declineActivityId,
+                      )
+                        ? "Stay home"
+                        : "Decline"}
                     </button>
                   ) : null}
                   {pinTargets(offer).map((target) => (

@@ -5,6 +5,8 @@ import { loadTraitPacks, type DecisionDeclaration } from "./trait-packs";
 import { readTrait, registeredTraitConsiderations } from "./trait-readings";
 import { ensurePeopleTraitCatalog, personTrait } from "./people-traits";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
+import { contactBases } from "./people-contact";
+import type { EntityId } from "./types";
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
@@ -35,6 +37,17 @@ function life(seed: string) {
   };
 }
 
+/**
+ * Somebody outside the player's contacts. A contact's traits are written when
+ * the life opens; nobody else's are written until something needs them.
+ */
+function stranger(world: ReturnType<typeof life>["world"], personId: EntityId) {
+  const contacts = new Set(
+    contactBases(world, personId).map((basis) => basis.personId),
+  );
+  return world.personOrder.find((id) => id !== personId && !contacts.has(id))!;
+}
+
 describe("a trait is read through whatever pack declares it", () => {
   it("agrees with the reader it generalizes, person for person", () => {
     const { world, personId } = life("reading-agrees");
@@ -63,7 +76,7 @@ describe("a trait is read through whatever pack declares it", () => {
 
   it("says unrecorded rather than guessing, before anything is written", () => {
     const { world, personId } = life("reading-unwritten");
-    const other = world.personOrder.find((id) => id !== personId)!;
+    const other = stranger(world, personId);
     for (const trait of registry().traits.values()) {
       // The value a person is born with is not a fact about them. The old
       // reader handed it out anyway, which is how the person card named a
@@ -74,11 +87,18 @@ describe("a trait is read through whatever pack declares it", () => {
 
   it("refuses a record whose pack no longer declares its strength", () => {
     const { world, personId } = life("reading-strange-strength");
-    const other = world.personOrder.find((id) => id !== personId)!;
-    const written = ensurePeopleTraits(ensurePeopleTraitCatalog(world), [
-      other,
-    ]);
     const trait = registry().traits.get("people-mind-v1:risk")!;
+    // A balanced record carries no strength to refuse, so this needs somebody
+    // who leans one way on risk. Starting traits come from each person's
+    // upbringing, and plenty of people are balanced on it.
+    const catalogued = ensurePeopleTraitCatalog(world);
+    const other = world.personOrder.find((id) => {
+      if (id === personId) return false;
+      const drawn = readTrait(ensurePeopleTraits(catalogued, [id]), id, trait);
+      return drawn.state === "recorded" && drawn.value !== 0;
+    })!;
+    expect(other).toBeDefined();
+    const written = ensurePeopleTraits(catalogued, [other]);
     const reading = readTrait(written, other, trait);
     expect(reading.state).toBe("recorded");
 
@@ -150,7 +170,7 @@ describe("a decision receives what packs declared, naming no trait itself", () =
 
   it("says nothing at all for somebody whose traits were never written", () => {
     const { world, personId } = life("considerations-unwritten");
-    const other = world.personOrder.find((id) => id !== personId)!;
+    const other = stranger(world, personId);
     expect(
       registeredTraitConsiderations(
         world,
