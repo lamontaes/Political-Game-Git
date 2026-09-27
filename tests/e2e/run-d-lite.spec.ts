@@ -89,7 +89,7 @@ test("renders canonical week geometry and enforces flexible and travel conflicts
   const detail = page.getByTestId("calendar-event-detail");
   await expect(detail).toBeVisible();
   await expect(week).toBeVisible();
-  await expect(detail).toContainText("10:30 AM–11:30 AM · 60 minutes");
+  await expect(detail).toContainText("10:30 AM–11:30 AM · 1 hour");
   await expect(office).toHaveAttribute("data-simulation-minute", "550");
   await expect(office).toHaveAttribute(
     "data-history-sequence",
@@ -177,7 +177,7 @@ test("derives truthful work groups and advances staff work during player activit
     .click();
   const detail = page.getByTestId("calendar-event-detail");
   await expect(detail).toContainText(
-    "This action waits 20 minutes until 9:30 AM, then attends the full 45-minute commitment. 65 minutes elapse, advancing the clock to 10:15 AM.",
+    "This action waits 20 minutes until 9:30 AM, then attends the full 45-minute commitment. 1 hour 5 minutes pass, and the clock moves to 10:15 AM.",
   );
   await detail
     .getByRole("button", {

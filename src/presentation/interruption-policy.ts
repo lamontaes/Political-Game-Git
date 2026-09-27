@@ -56,7 +56,7 @@ export const INTERRUPTION_CATEGORIES: readonly InterruptionCategory[] = [
   },
   {
     key: "stopForTentativeHolds",
-    label: "Invitations and tentative holds",
+    label: "Invitations and things you might go to",
     detail:
       "Off: a hold you never answered lapses when its time comes, recorded as declined. On: the skip stops at the hold.",
   },
