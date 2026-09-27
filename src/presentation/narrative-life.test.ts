@@ -654,7 +654,10 @@ describe("Play-proof 3 — an adult thread runs across several beats", () => {
   const life = play(
     setup({ seed: "proof-3", startAge: 36 }),
     18,
-    prefer("take-it-on", "swap", "sit-down", "go"),
+    // "quiet" is the answer that carries shared time at home into its
+    // follow-through. The week-planning scene that used to open this thread
+    // was retired with the other routine choices.
+    prefer("take-it-on", "swap", "sit-down", "go", "quiet"),
   );
 
   it("keeps one household episode running across more than one beat", () => {
@@ -762,9 +765,12 @@ describe("Play-proof 4 — a civic thread coexists with a personal one", () => {
   });
 
   it("mixes composed beats with the authored banks rather than one or the other", () => {
+    // Authored banks are episodes and adult situations; the ordinary stretch
+    // is composed. This life's only episode was the retired free-time scene,
+    // so an adult situation now carries the authored side.
     const kinds = new Set(life.beats.map((beat) => beat.sceneKind));
-    expect(kinds.has("episode")).toBe(true);
-    expect(kinds.size).toBeGreaterThan(1);
+    expect(kinds.has("episode") || kinds.has("adult")).toBe(true);
+    expect(kinds.has("ordinary-stretch")).toBe(true);
   });
 });
 

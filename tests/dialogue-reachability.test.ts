@@ -51,7 +51,12 @@ function start(overrides: Partial<NewGameSetup> = {}) {
     questionnaire: "skipped",
     ...overrides,
   } as NewGameSetup);
-  return { world: game.world, personId: game.playerPersonId };
+  // Play opens an ordinary life on Begin (PlayerGame does the same), and that
+  // transition is what posts the public meeting; a bare new world has none.
+  return {
+    world: openOrdinaryLife(game.world, game.playerPersonId),
+    personId: game.playerPersonId,
+  };
 }
 
 /** A child, old enough to be at school and to have classmates in it. */
