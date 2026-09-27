@@ -79,6 +79,10 @@ describe("fiscal notes read every drafted part without claiming cash moved", () 
       true,
     );
     expect(preview.parts.some((part) => part.lever === "process")).toBe(true);
+    expect(
+      preview.parts.find((part) => part.provisionKey === "fee-expiry")
+        ?.missingInput,
+    ).toContain("affected activity around the start or end date");
     expect(preview.operativeAt).toBe(filed.draft.startsOn);
 
     const saved = filedFiscalNote(filed.world, filed.bill);
