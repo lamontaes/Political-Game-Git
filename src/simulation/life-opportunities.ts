@@ -59,10 +59,9 @@ import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
  * cites as evidence would prove nothing at all, and the separation is the
  * whole point of asking for a premise in the first place.
  *
- * What it may write is deliberately small. Eight kinds, each one a proposition
+ * What it may write is deliberately small. Each kind is a proposition
  * an existing canonical record can already carry — somebody asked something,
- * of somebody, about something, at a time — plus the ordinary household week,
- * which recurs because households do. It is not a social engine, it does not
+ * of somebody, about something, at a time. It is not a social engine, it does not
  * model professions, and it decides nothing about what any of it means; the
  * bank still owns the scene and the player still owns the choice.
  */
@@ -156,7 +155,7 @@ export function lifeOpportunityTag(kind: LifeOpportunityKind): string {
  */
 export const OPEN_LIFE_OPPORTUNITY_LIMIT = 4;
 
-/** How long the household week runs before another one is written. */
+/** How long a legacy household week remains open before it lapses. */
 export const HOUSEHOLD_WEEK_DAYS = 7;
 
 export const HOUSEHOLD_ERRANDS_KEY = "ordinary-life:household-errands";
@@ -164,15 +163,8 @@ export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
 export const PUBLIC_MEETING_AGENDA =
   "Whether the public meeting room should open for one extra evening each week. No hours or funding proposal is attached.";
 
-/**
- * The two things an ordinary week actually puts in front of somebody.
- *
- * Authored data, and it lives in the simulation because the world builder
- * writes these items and a world may not read a screen to find out what an
- * ordinary week is. `src/presentation/ordinary-life.ts` re-exports both the
- * type and the constant, so the content bank that quotes the authored line
- * still quotes exactly one copy of it.
- */
+/** Authored definitions. The grocery row remains for older saves, while new
+ * ordinary lives are offered only the posted public meeting. */
 export interface OrdinaryLifeWorkItemDefinition {
   readonly key: string;
   readonly title: string;
@@ -340,19 +332,14 @@ export function hasActiveHouseholdWeek(
 /* -------------------------------------------------------------------------- */
 
 /**
- * The two records an ordinary week starts with, written once.
+ * The posted meeting an ordinary week starts with, written once.
  *
- * Moved here from the presentation surface without changing what it writes:
- * the same notice, the same meeting on the calendar, the same two work items
- * under the same stable keys, the same authored titles and summaries. It lives
- * in the simulation now because the canonical world builder needs it and a
- * world may not reach up into a screen to find out what an ordinary week is.
+ * The grocery work-item shape remains readable in older saves; a new life
+ * does not acquire a routine shopping task merely because a week begins.
  *
  * Once per world, and that is deliberate rather than incidental. The keys are
- * fixed strings that saves already carry, and the week they name is the week of
- * the life the world was opened for: a household's shopping is not six separate
- * people's shopping. Whether the week is a decision or merely work is the one
- * thing that varies, and it varies with who is playing.
+ * fixed strings that saves already carry. Whether the meeting is a decision
+ * or merely work varies with who is playing.
  */
 export function openOrdinaryLifeRecords(
   world: World,
@@ -363,8 +350,8 @@ export function openOrdinaryLifeRecords(
   if (formativeIntervalAt(world, personId) !== null) return world;
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   const jurisdictionId = place?.context.jurisdiction.id ?? null;
-  const alreadyOpen = world.history.workItems.some((item) =>
-    item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY),
+  const alreadyOpen = world.history.workItems.some(
+    (item) => item.stableKey === PUBLIC_MEETING_KEY,
   );
   if (alreadyOpen) return world;
 
@@ -443,22 +430,6 @@ export function openOrdinaryLifeRecords(
     access: { kind: "private", personIds: [personId] },
   });
 
-  next = createWorkItem(next, {
-    stableKey: HOUSEHOLD_ERRANDS_KEY,
-    title: authoredWorkItem(HOUSEHOLD_ERRANDS_KEY).title,
-    summary: authoredWorkItem(HOUSEHOLD_ERRANDS_KEY).summary,
-    jurisdictionId,
-    sourceEntityIds: [notice.id],
-    focus: { kind: "person", personId },
-    effort: { kind: "authored-duration", requiredMinutes: 150 },
-    access: { kind: "private", personIds: [personId] },
-    assignedPersonIds: [personId],
-    playerRequirement: playerRequirementFor(next, personId),
-    waitingOnPersonIds: [],
-    blocker: null,
-    scheduledActivityId: null,
-  });
-
   return createWorkItem(next, {
     stableKey: PUBLIC_MEETING_KEY,
     title: authoredWorkItem(PUBLIC_MEETING_KEY).title,
@@ -481,8 +452,8 @@ export function openOrdinaryLifeRecords(
  *
  * "decision" when this world is being played by this person, which is the case
  * every normal route reaches, and "none" in an observer world, where the
- * shopping still has to be covered but nobody is going to be shown a choice
- * about it. The engine enforces the same distinction — player-required work
+ * posted meeting remains a record but nobody is shown a choice about it.
+ * The engine enforces the same distinction — player-required work
  * against an unplayed person is refused — and stating it here keeps a canonical
  * fixture honest rather than dressing an observer up as a player.
  */
@@ -502,9 +473,8 @@ function playerRequirementFor(
  * life, choosing something, letting a stretch of time go by — and from nowhere
  * that reads. Two things can happen, at most:
  *
- * 1. The household week is written again once the last one is finished and a
- *    week has gone past. Households do not stop needing the shopping done, and
- *    a game in which they do is the game that ran out.
+ * 1. A legacy grocery item may lapse under its original week rule, preserving
+ *    its history without creating another routine chore.
  * 2. At most one new opportunity is created, from the kinds this world can
  *    actually support today, preferring the one this life has seen least
  *    recently and breaking ties from the world's own seed.
@@ -522,7 +492,7 @@ export function refreshLifeOpportunities(
   if (formativeIntervalAt(world, personId) !== null) return world;
 
   let next = refreshLocalEconomy(world, personId);
-  next = replenishHouseholdWeek(next, personId);
+  next = lapseLastHouseholdWeek(next, personId);
   next = settleOfficeSalaries(next, personId);
   next = advanceJobMarket(next, personId);
   next = settleMortgages(next, personId);
@@ -532,11 +502,11 @@ export function refreshLifeOpportunities(
 }
 
 /**
- * A week's groceries nobody bought lapse when the next week comes.
+ * A legacy grocery item nobody completed lapses when its week ends.
  *
  * Before this, an open week was never replaced: San Antonio's James carried
- * "Still not done, 61 weeks on" for a year, and no new week was written behind
- * it. The week is recorded as gone by, not as done, and nothing is said about
+ * "Still not done, 61 weeks on" for a year. The week is recorded as gone by,
+ * not as done, and nothing is said about
  * how the household ate. A week the player has put on the calendar for a day
  * still ahead stays, because they have a plan for it.
  */
@@ -564,61 +534,6 @@ function lapseLastHouseholdWeek(world: World, personId: EntityId): World {
     });
   }
   return next;
-}
-
-/**
- * Another week's errands, once the last week's are done and a week has passed.
- *
- * The item is the same authored item — the same title, the same summary, the
- * same hundred and fifty minutes — under a stable key that says which week it
- * is. That distinction is the whole repair: the old key could be written once
- * and never again, so a life had exactly one week of errands in it forever.
- *
- * It is not a source of variety and must not be used as one. One household week
- * is open at a time, and breadth comes from the opportunity kinds below.
- */
-function replenishHouseholdWeek(world: World, personId: EntityId): World {
-  world = lapseLastHouseholdWeek(world, personId);
-  if (hasActiveHouseholdWeek(world, personId)) return world;
-  const existing = world.history.workItems.filter((item) =>
-    item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY),
-  );
-  // Nothing at all yet: the opening write owns that case, not this one.
-  if (existing.length === 0) return world;
-
-  const stableKey = `${HOUSEHOLD_ERRANDS_KEY}:${world.currentDate}`;
-  if (existing.some((item) => item.stableKey === stableKey)) return world;
-
-  // A week, since the last one was written. The date comes off the work item's
-  // own creation moment rather than off its key, because the first week in a
-  // world is written under the fixed key a save already carries and has no date
-  // in it — and reading the key would have made that first week replenishable
-  // the instant it was finished.
-  const latest = existing.at(-1)!;
-  const openedOn = makeIsoDate(latest.createdAt.date);
-  if (addDays(openedOn, HOUSEHOLD_WEEK_DAYS) > world.currentDate) {
-    return world;
-  }
-
-  const person = world.people[personId]!;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  const jurisdictionId = place?.context.jurisdiction.id ?? null;
-
-  return createWorkItem(world, {
-    stableKey,
-    title: "Grocery shopping",
-    summary: "Buy groceries for the household.",
-    jurisdictionId,
-    sourceEntityIds: [latest.id],
-    focus: { kind: "person", personId },
-    effort: { kind: "authored-duration", requiredMinutes: 150 },
-    access: { kind: "private", personIds: [personId] },
-    assignedPersonIds: [personId],
-    playerRequirement: playerRequirementFor(world, personId),
-    waitingOnPersonIds: [],
-    blocker: null,
-    scheduledActivityId: null,
-  });
 }
 
 /* -------------------------------------------------------------------------- */

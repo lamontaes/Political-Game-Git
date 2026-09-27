@@ -25,11 +25,14 @@ import {
 import { openConversationWith } from "./person-conversation-entry";
 import { createNewGameWorld } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { arriveAtOrdinaryMeeting } from "./ordinary-meeting-actions";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { venueActivities } from "./venue-activity";
 import {
   cancelScheduledActivity,
   createCampaignElectionTransitionRegistry,
   recordWorldEvent,
+  scheduledActivityState,
   serializeWorld,
 } from "../simulation";
 
@@ -275,5 +278,14 @@ describe("PLAYTEST34 C contracts", () => {
     const played = playCalendarActivity(world, personId, activity.id);
     expect(played.world).not.toBe(world);
     expect(played.reached).not.toEqual(before);
+    expect(scheduledActivityState(played.world, activity.id).status).toBe(
+      "scheduled",
+    );
+    expect(projectOrdinaryMeetingScene(played.world, personId)?.phase).toBe(
+      "active",
+    );
+    expect(arriveAtOrdinaryMeeting(played.world, personId, activity.id)).toBe(
+      played.world,
+    );
   });
 });

@@ -102,10 +102,12 @@ describe("P2R1 canonical pre-offer counterexamples", () => {
     const context = buildAdultLifeContext(world, personId);
     expect(context.householdCompanionIds.length).toBeGreaterThan(0);
     expect(context.hasHouseholdWorkItem).toBe(true);
-    const scene = availableAdultSituations(context).find(
+    expect(availableAdultSituations(context).map((s) => s.key)).not.toContain(
+      "adult.household-standing",
+    );
+    const scene = adultSituationBank().find(
       (s) => s.key === "adult.household-standing",
     )!;
-    expect(scene).toBeDefined();
     expect(scene.prose).not.toMatch(/three weeks|nobody.*mention/);
     for (const option of scene.options)
       expect(option.memory).not.toMatch(

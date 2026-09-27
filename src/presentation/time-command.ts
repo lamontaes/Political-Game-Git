@@ -257,6 +257,9 @@ function run(
         passOrdinaryDays(from, n, {
           handlers: interruptionHandlers(interruptions),
           stopForTentativeHolds: interruptions.stopForTentativeHolds,
+          // A chosen day count must not carry the player past a posted civic
+          // occasion. The ordinary clock already owns this stop boundary.
+          stopForCivicHolds: true,
         }),
       ),
     );

@@ -170,11 +170,24 @@ function eligibleOpeningLifeScenes(world: World, personId: EntityId) {
   }).beats;
   return [...OPENING_LIFE_ADDITIONS, ...runtimeLifeScenes(world)].flatMap(
     (definition) => {
-      if (isArchivedRoutineOpeningSceneKey(definition.key)) return [];
       const beat = beats.find(
         (beat) => beat.episodeKey === `opening.${definition.key}`,
       );
       if (!beat) return [];
+      if (
+        isArchivedRoutineOpeningSceneKey(definition.key) &&
+        !(
+          beat.stageKey === "follow-through" &&
+          world.history.events.some(
+            (event) =>
+              event.type === OPEN &&
+              event.tags.includes(`family:${definition.key}`) &&
+              event.tags.includes("opening-stage:moment") &&
+              event.participants.some((actor) => actor.personId === personId),
+          )
+        )
+      )
+        return [];
       if (age < definition.ages[0] || age > definition.ages[1]) return [];
       if (
         definition.key === "early.home.bedtime-delay" &&

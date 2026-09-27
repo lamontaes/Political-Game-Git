@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
+  createWorkItem,
   deserializeWorld,
   serializeWorld,
 } from "../simulation";
@@ -14,10 +15,8 @@ import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, projectOrdinaryDay } from "./ordinary-life";
 
 /**
- * A grocery week nobody shops for lapses when the next week comes.
- *
- * Found in a San Antonio life, where the calendar said the groceries were
- * "Still not done, 61 weeks on". Played in Burlington, Vermont.
+ * A retired grocery chore does not recur in new lives. Older saved work items
+ * can still lapse under their original rule without being replaced.
  */
 const groceryWeeks = (world: World) =>
   world.history.workItems.filter((item) =>
@@ -39,25 +38,42 @@ describe("the week's groceries", () => {
   let later = openOrdinaryLife(game.world, personId);
   for (let week = 0; week < 10; week += 1) later = letAdultTimePass(later, 7);
 
-  it("lapses each unshopped week and opens the next, so one week is open at a time", () => {
+  it("does not create grocery weeks as ordinary time passes", () => {
     const weeks = groceryWeeks(later);
-    expect(weeks.length).toBeGreaterThan(5);
-    const open = weeks.filter(
-      (item) => workItemState(later, item.id).status === "active",
-    );
-    expect(open).toHaveLength(1);
-    const lapsed = weeks.filter(
-      (item) => workItemState(later, item.id).status === "cancelled",
-    );
-    expect(lapsed.length).toBe(weeks.length - 1);
+    expect(weeks).toHaveLength(0);
+    assertWorldIntegrity(later);
+  });
+
+  it("lapses one legacy grocery item without writing a replacement", () => {
+    const opened = openOrdinaryLife(game.world, personId);
+    const legacy = createWorkItem(opened, {
+      stableKey: HOUSEHOLD_ERRANDS_KEY,
+      title: "The week's groceries",
+      summary: "The household needs groceries for the week.",
+      jurisdictionId: opened.people[personId]!.homeJurisdictionId,
+      sourceEntityIds: [personId],
+      focus: { kind: "person", personId },
+      effort: { kind: "authored-duration", requiredMinutes: 150 },
+      access: { kind: "private", personIds: [personId] },
+      assignedPersonIds: [personId],
+      playerRequirement: "decision",
+      waitingOnPersonIds: [],
+      blocker: null,
+      scheduledActivityId: null,
+    });
+    const oldItem = groceryWeeks(legacy)[0]!;
+    let aged = legacy;
+    for (let week = 0; week < 3; week += 1) aged = letAdultTimePass(aged, 7);
+    expect(workItemState(aged, oldItem.id).status).toBe("cancelled");
+    expect(groceryWeeks(aged)).toHaveLength(1);
     expect(
-      later.history.events.filter(
+      aged.history.events.filter(
         (event) =>
           event.type === "work.item-lapsed" &&
           event.summary === "The week went by without the grocery shopping.",
       ),
-    ).toHaveLength(lapsed.length);
-    assertWorldIntegrity(later);
+    ).toHaveLength(1);
+    assertWorldIntegrity(aged);
   });
 
   it("never tells the player the groceries have waited more than a week", () => {

@@ -291,26 +291,35 @@ export function ordinaryMeetingEntry(
     !arrival ||
     arrival.type !== "life.scene.arrived" ||
     !arrival.involvedEntityIds.includes(activityId) ||
-    !arrival.tags.includes("route:ordinary-life:to-meeting-room") ||
     arrival.context.location?.jurisdictionId !==
       activity.location.jurisdictionId ||
     arrival.context.location.label !== activity.location.label
   )
     return null;
-  const journey = world.history.scheduledActivities.find(
-    (entry) =>
-      arrival.involvedEntityIds.includes(entry.id) &&
-      entry.kind === "travel" &&
-      entry.responsiblePersonId === personId &&
-      entry.location.locationKey === "ordinary-life:to-meeting-room" &&
-      entry.sourceEntityIds.includes(activityId) &&
-      scheduledActivityState(world, entry.id).status === "completed" &&
-      compareSimulationMoments(
-        scheduledActivityState(world, entry.id).end,
-        state.start,
-      ) === 0,
-  );
-  if (!journey) return null;
+  if (arrival.tags.includes("route:ordinary-life:to-meeting-room")) {
+    const journey = world.history.scheduledActivities.find(
+      (entry) =>
+        arrival.involvedEntityIds.includes(entry.id) &&
+        entry.kind === "travel" &&
+        entry.responsiblePersonId === personId &&
+        entry.location.locationKey === "ordinary-life:to-meeting-room" &&
+        entry.sourceEntityIds.includes(activityId) &&
+        scheduledActivityState(world, entry.id).status === "completed" &&
+        compareSimulationMoments(
+          scheduledActivityState(world, entry.id).end,
+          state.start,
+        ) === 0,
+    );
+    if (!journey) return null;
+  } else if (
+    // An older save can already record actual presence in this room without
+    // the journey record. The saved arrival must be for today's same meeting;
+    // a venue offer alone cannot manufacture presence.
+    !arrival.tags.includes("place:ordinary-life:meeting-room") ||
+    arrival.occurredAt !== world.currentDate
+  ) {
+    return null;
+  }
   const notice = world.history.events.find(
     (event) =>
       activity.sourceEntityIds.includes(event.id) &&

@@ -214,7 +214,7 @@ export interface ShellPreferences {
  * player's own decision always stop a skip; they are not preferences.
  */
 export interface InterruptionPreferences {
-  /** Stop before each ordinary work shift instead of letting routine run it. */
+  /** Older saved preference, retained for compatibility; routine shifts now run automatically. */
   readonly stopForWorkShifts: boolean;
   /** Stop when a tentative hold comes due instead of letting it lapse. */
   readonly stopForTentativeHolds: boolean;

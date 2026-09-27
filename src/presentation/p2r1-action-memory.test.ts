@@ -1,18 +1,12 @@
 import { describe, expect, it } from "vitest";
-import {
-  adultSituationBank,
-  bindRequestSituation,
-  buildAdultLifeContext,
-} from "../simulation/adult-situations";
+import { adultSituationBank } from "../simulation/adult-situations";
 import {
   assertWorldIntegrity,
   serializeWorld,
-  deserializeWorld,
   workItemState,
 } from "../simulation";
 import { chooseAdultOption } from "./adult-life";
-import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { openOrdinaryLife } from "./ordinary-life";
+import { fixture } from "../../tests/support/p2r1-worlds";
 
 describe("P2R1 action recaps do not invent reactions or completed outcomes", () => {
   for (const [sceneKey, optionKey, unsupported] of [
@@ -42,62 +36,24 @@ describe("P2R1 action recaps do not invent reactions or completed outcomes", () 
       expect(option.memory).not.toMatch(unsupported);
     });
   }
-  for (const optionKey of ["say-it", "absorb-it", "set-it-out"]) {
-    it(`household-standing/${optionKey} appends an action without completing the work item`, () => {
-      const game = createNewGameWorld({
-        ...DEFAULT_NEW_GAME_SETUP,
-        placeKey: "kentucky",
-        startAge: 34,
-        depth: "summarize-earlier-life",
-        startingLife: "ordinary-life",
-        household: "shares-a-home",
-        startKind: "custom",
-        questionnaire: "skipped",
-        seed: "p2r1-action-boundary",
-      });
-      const world = openOrdinaryLife(game.world, game.playerPersonId);
-      const before = serializeWorld(world);
-      const item = world.history.workItems.find(
-        (w) => w.stableKey === "ordinary-life:household-errands",
-      )!;
-      const state = workItemState(world, item.id);
-      const next = chooseAdultOption(world, {
-        personId: game.playerPersonId,
-        situationKey: "adult.household-standing",
-        optionKey,
-      });
+  it("keeps an older grocery item but refuses its archived confrontation", () => {
+    const { world, personId } = fixture();
+    const item = world.history.workItems.find(
+      (entry) => entry.stableKey === "ordinary-life:household-errands",
+    )!;
+    const state = workItemState(world, item.id);
+    const before = serializeWorld(world);
+    for (const optionKey of ["say-it", "absorb-it", "set-it-out"]) {
+      expect(() =>
+        chooseAdultOption(world, {
+          personId,
+          situationKey: "adult.household-standing",
+          optionKey,
+        }),
+      ).toThrow(/not available/);
       expect(serializeWorld(world)).toBe(before);
-      expect(next.history.workItems).toEqual(world.history.workItems);
-      expect(workItemState(next, item.id)).toEqual(state);
-      expect(next.history.lifeCommitments).toEqual(
-        world.history.lifeCommitments,
-      );
-      const event = next.history.events.find((e) =>
-        e.tags.includes("adult.household-standing"),
-      )!;
-      expect(event.tags).toContain(`choice.${optionKey}`);
-      const authored = adultSituationBank()
-        .find((s) => s.key === "adult.household-standing")!
-        .options.find((o) => o.key === optionKey)!;
-      expect(event.context.choice).toBe(authored.label);
-      const bound = bindRequestSituation(
-        buildAdultLifeContext(world, game.playerPersonId),
-        adultSituationBank().find((s) => s.key === "adult.household-standing")!,
-      );
-      expect(event.summary).toBe(
-        bound.options.find((option) => option.key === optionKey)!.memory,
-      );
-      expect(
-        next.history.memories.some(
-          (m) =>
-            m.personId === game.playerPersonId &&
-            m.eventId === event.id &&
-            m.rememberedSummary === event.summary,
-        ),
-      ).toBe(true);
-      expect(event.participants.length).toBe(authored.witnessed ? 2 : 1);
-      assertWorldIntegrity(next);
-      expect(deserializeWorld(serializeWorld(next))).toEqual(next);
-    });
-  }
+      expect(workItemState(world, item.id)).toEqual(state);
+    }
+    assertWorldIntegrity(world);
+  });
 });

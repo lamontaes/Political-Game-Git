@@ -386,7 +386,17 @@ function gatherCandidates(
         (!beat.episodeKey.startsWith("opening.") ||
           !isArchivedRoutineOpeningSceneKey(
             beat.episodeKey.slice("opening.".length),
-          )),
+          ) ||
+          (beat.stageKey === "follow-through" &&
+            world.history.events.some(
+              (event) =>
+                event.type === "life.scene.opened" &&
+                event.tags.includes(
+                  `family:${beat.episodeKey.slice("opening.".length)}`,
+                ) &&
+                event.tags.includes("opening-stage:moment") &&
+                event.participants.some((actor) => actor.personId === personId),
+            ))),
     )
     .map((beat) => {
       const thread = threadForEpisodeBeat(threads, beat);

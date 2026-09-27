@@ -24,7 +24,7 @@ import {
 import { submitTimeCommand } from "./time-command";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
-import { openOrdinaryLife, projectOrdinaryDay } from "./ordinary-life";
+import { openOrdinaryLife } from "./ordinary-life";
 import { fixture as p2r1Fixture } from "../../tests/support/p2r1-worlds";
 
 /**
@@ -140,36 +140,30 @@ describe("the week runs out, and the life does not", () => {
     );
   });
 
-  it("gives the household its next week back once a week has gone by", () => {
+  it("lets a legacy grocery week finish without creating another chore", () => {
     const { world, personId } = audited();
     const finished = advanceWorldMinutes(world, 151);
     expect(buildAdultLifeContext(finished, personId).hasHouseholdWorkItem).toBe(
       false,
     );
-    // Not immediately — the shopping is not done twice on the same day — and
-    // not never, which is what the audit found.
     const sameDay = refreshLifeOpportunities(finished, personId);
     expect(buildAdultLifeContext(sameDay, personId).hasHouseholdWorkItem).toBe(
       false,
     );
-    // The audited fixture is an observer world, so the transition has to be
-    // named rather than inferred from who is playing. A played world reaches
-    // the same call through `letAdultTimePass`, which the routes below use.
     const laterOn = refreshLifeOpportunities(
       letAdultTimePass(finished, 8),
       personId,
     );
     assertWorldIntegrity(laterOn);
     expect(buildAdultLifeContext(laterOn, personId).hasHouseholdWorkItem).toBe(
-      true,
+      false,
     );
-    expect(
-      projectOrdinaryDay(laterOn, personId).pending.length,
-    ).toBeGreaterThan(0);
+    expect(lifeOpportunitiesFor(laterOn, personId).length).toBeGreaterThan(0);
     const offered = availableAdultSituations(
       buildAdultLifeContext(laterOn, personId),
     ).map((s) => s.key);
-    expect(offered).toContain("adult.ordinary-good-day");
+    expect(offered).not.toContain("adult.ordinary-good-day");
+    expect(offered).not.toContain("adult.household-standing");
   });
 
   it("answers the audited six hundred and five thousand minutes", () => {
@@ -182,28 +176,30 @@ describe("the week runs out, and the life does not", () => {
     // Minutes alone still write nothing — a clock is not a transition, and
     // that part of the audit's reasoning was right.
     expect(lifeOpportunitiesFor(current, personId).length).toBeGreaterThan(0);
-    // And the ordinary week comes back through the route a player takes.
     const played = refreshLifeOpportunities(
       letAdultTimePass(current, 21),
       personId,
     );
     expect(buildAdultLifeContext(played, personId).hasHouseholdWorkItem).toBe(
-      true,
+      false,
     );
+    expect(lifeOpportunitiesFor(played, personId).length).toBeGreaterThan(0);
   });
 });
 
 describe("a normal route stays a normal route", () => {
   for (const seed of ["p2r2-sustained", "adaptive-life-test", "p1-quiet"]) {
-    it(`lets ${seed} continue through varied scenes and quiet weeks`, () => {
+    it(`lets ${seed} continue through real requests and quiet weeks`, () => {
       const { world, personId } = newLife({ seed });
       const played = playThrough(world, personId, 18);
       assertWorldIntegrity(played.world);
-      // Archived routine activities no longer count as decisions. The real
-      // situations in the original route remain varied, and the shell clock
-      // continues to move when none is offered.
-      expect(played.scenes.length).toBeGreaterThanOrEqual(6);
-      expect(new Set(played.scenes).size).toBeGreaterThan(4);
+      // The old variety count included grocery and leisure prompts. The
+      // existing grounded requests remain answerable after those are removed.
+      expect(played.scenes).toContain("adult.local-issue-position");
+      expect(played.scenes).toContain("adult.friend-favour");
+      expect(played.scenes).not.toContain("adult.household-standing");
+      expect(played.scenes).not.toContain("adult.ordinary-good-day");
+      expect(played.scenes).not.toContain("adult.home.plan-week");
       expect(played.quiet).toBeGreaterThan(0);
       const tail = playThrough(played.world, personId, 6);
       assertWorldIntegrity(tail.world);

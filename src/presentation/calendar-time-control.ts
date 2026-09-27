@@ -55,6 +55,8 @@ export function simulateCalendarDays(
   const next = passOrdinaryDays(world, days, {
     handlers: interruptionHandlers(interruptions),
     stopForTentativeHolds: interruptions.stopForTentativeHolds,
+    // The direct Calendar day/week controls use the same civic stop boundary.
+    stopForCivicHolds: true,
   });
   // The canonical day skip ends at the requested morning, not 24 hours
   // from the current time. Report that same target, including offset changes.
@@ -207,9 +209,8 @@ export function authorizeCalendarSimulation(
   if (!handlers.routine?.isAutoResolvableActivity(world, activityId)) {
     return {
       authorized: false,
-      reason: interruptions.stopForWorkShifts
-        ? "Your interruption preferences ask to stop for work shifts, so attendance is not simulated. Play it, or change the preference."
-        : "Standing preferences did not authorize simulated attendance. Advance and Play stay distinct.",
+      reason:
+        "Standing preferences did not authorize simulated attendance. Advance and Play stay distinct.",
     };
   }
   return {
