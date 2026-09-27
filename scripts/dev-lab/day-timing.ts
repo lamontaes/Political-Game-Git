@@ -21,6 +21,9 @@
  *   --write-opening F write the opened life to F before the first Day
  *   --from-save F     start from a life written by --write-opening instead
  *                     of opening a new one
+ *   --write-save F    with --save, also write the browser record to F
+ *   --open-only F     in a fresh process, open the record in F, open the
+ *                     week and show the scene; print the times and stop
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { Session } from "node:inspector";
@@ -119,18 +122,41 @@ let profiling = false;
 
 const openStarted = performance.now();
 const openingCpu = process.cpuUsage();
-const setup = explicitNewGameSetup({
-  placeKey,
-  seed,
-  startAge: startAge as never,
-  depth: "summarize-earlier-life",
-  gender: "female",
-});
 /*
  * --from-save reads a life written by --write-opening, so two builds can press
  * Day from the very same World however slowly either one opens a new life.
  */
 const fromSave = arg("from-save");
+const writeSave = arg("write-save");
+const openOnly = arg("open-only");
+if (openOnly) {
+  // A fresh process, as a player's Continue is: read the record the browser
+  // store wrote, open the week, and show the scene.
+  const raw = readFileSync(openOnly, "utf8");
+  const started = performance.now();
+  const read = readStoredRecord(JSON.parse(raw) as unknown);
+  const openMs = performance.now() - started;
+  if (read.kind !== "healthy")
+    throw new Error(`The save read as ${read.kind}.`);
+  const player = read.world.control;
+  if (player.kind !== "person") throw new Error("The save has no player.");
+  const resumeStarted = performance.now();
+  const resumed = openOrdinaryLife(read.world, player.personId);
+  const resumeMs = performance.now() - resumeStarted;
+  const sceneStarted = performance.now();
+  projectStoryMoment(resumed, player.personId);
+  const sceneMs = performance.now() - sceneStarted;
+  console.log(
+    JSON.stringify({
+      openOnly,
+      payloadMB: Number((raw.length / 1024 / 1024).toFixed(1)),
+      openMs: Math.round(openMs),
+      resumeMs: Math.round(resumeMs),
+      firstSceneMs: Math.round(sceneMs),
+    }),
+  );
+  process.exit(0);
+}
 const writeOpening = arg("write-opening");
 let personId: EntityId;
 let world: World;
@@ -140,6 +166,13 @@ if (fromSave) {
     throw new Error("--from-save needs a life with a played person.");
   personId = world.control.personId;
 } else {
+  const setup = explicitNewGameSetup({
+    placeKey,
+    seed,
+    startAge: startAge as never,
+    depth: "summarize-earlier-life",
+    gender: "female",
+  });
   const game = createOpeningLifeController(setup).finishTransition().game!;
   personId = game.playerPersonId;
   world = openOrdinaryLife(game.world, personId);
@@ -246,8 +279,10 @@ if (measureSave) {
   const record = createBrowserWorldRecord(world, savedAt);
   const writeMs = performance.now() - writeStarted;
   const writeCpuMs = cpuSince(writeCpu);
+  const written = JSON.stringify(record);
+  if (writeSave) writeFileSync(writeSave, written);
   // A clone, so the reader cannot lean on anything the writer cached.
-  const stored = JSON.parse(JSON.stringify(record)) as unknown;
+  const stored = JSON.parse(written) as unknown;
   if (profileOpen) await post("Profiler.start");
   const openStartedAt = performance.now();
   const openCpu = process.cpuUsage();
