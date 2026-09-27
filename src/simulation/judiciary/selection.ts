@@ -1,0 +1,241 @@
+/** Dated attempts to fill or renew a real seat in the saved judiciary. */
+
+import type { EntityId, IsoDate, World } from "../types";
+import { assertWorldIntegrity } from "../world";
+import { courtById, effectiveCourtRulesAt, seatHolderAt } from "./courts";
+import type {
+  JudicialSelectionRecord,
+  JudicialSelectionStageRecord,
+} from "./types";
+
+/**
+ * A path already admitted by the judicial profile adapter. The adapter owns
+ * legal authority and any explicitly approved game profile; this writer only
+ * checks that its identity belongs to the court and enforces the saved order.
+ */
+export interface JudicialSelectionPlan {
+  readonly sourceRecordId: string;
+  readonly pathId: string;
+  readonly stages: readonly {
+    readonly order: number;
+    readonly mechanism: string;
+  }[];
+}
+
+export function judicialSelectionById(
+  world: World,
+  recordId: string,
+): JudicialSelectionRecord | null {
+  return (
+    world.judiciary?.selections.find((row) => row.recordId === recordId) ?? null
+  );
+}
+
+export function judicialSelectionStages(
+  world: World,
+  selectionRecordId: string,
+): readonly JudicialSelectionStageRecord[] {
+  return (world.judiciary?.selectionStages ?? [])
+    .filter((row) => row.selectionRecordId === selectionRecordId)
+    .sort((a, b) => a.order - b.order);
+}
+
+export type JudicialSelectionProgress =
+  | { readonly status: "pending"; readonly nextOrder: number }
+  | { readonly status: "stages-completed"; readonly nextOrder: null }
+  | { readonly status: "rejected" | "lapsed"; readonly nextOrder: null };
+
+export function judicialSelectionProgress(
+  world: World,
+  selectionRecordId: string,
+  plan: JudicialSelectionPlan,
+): JudicialSelectionProgress {
+  const selection = judicialSelectionById(world, selectionRecordId);
+  if (!selection)
+    throw new Error(`Unknown judicial selection: ${selectionRecordId}`);
+  assertSelectionPlan(world, selection.seatId, plan);
+  if (selection.pathId !== plan.pathId)
+    throw new Error(
+      "Judicial selection path does not match its saved attempt.",
+    );
+  const stages = judicialSelectionStages(world, selectionRecordId);
+  const last = stages.at(-1);
+  if (last?.outcome === "rejected" || last?.outcome === "lapsed")
+    return { status: last.outcome, nextOrder: null };
+  if (last?.order === plan.stages.length)
+    return { status: "stages-completed", nextOrder: null };
+  return { status: "pending", nextOrder: (last?.order ?? 0) + 1 };
+}
+
+function assertSelectionPlan(
+  world: World,
+  seatId: string,
+  plan: JudicialSelectionPlan,
+): void {
+  const seat = world.judiciary?.seats[seatId];
+  if (!seat || seat.retiredAt !== null || seat.createdAt > world.currentDate)
+    throw new Error(`Judicial seat is not active: ${seatId}`);
+  const court = courtById(world, seat.courtId);
+  if (!court || !court.sourceRecordId || !court.rules.selectionRecordId)
+    throw new Error("Judicial court has no admitted selection profile.");
+  if (
+    court.sourceRecordId !== plan.sourceRecordId ||
+    court.rules.selectionRecordId !== plan.sourceRecordId
+  )
+    throw new Error("Judicial selection plan belongs to another court source.");
+  if (!plan.pathId || plan.stages.length === 0)
+    throw new Error("Judicial selection path must have ordered stages.");
+  for (let index = 0; index < plan.stages.length; index += 1) {
+    const stage = plan.stages[index]!;
+    if (stage.order !== index + 1 || !stage.mechanism)
+      throw new Error(
+        "Judicial selection stages must be consecutive and named.",
+      );
+  }
+}
+
+/** Open an attempt without seating anyone or advancing the clock. */
+export function openJudicialSelection(
+  world: World,
+  input: {
+    readonly seatId: string;
+    readonly kind: JudicialSelectionRecord["kind"];
+    readonly plan: JudicialSelectionPlan;
+    readonly candidatePersonIds: readonly EntityId[];
+  },
+): World {
+  assertSelectionPlan(world, input.seatId, input.plan);
+  const seat = world.judiciary!.seats[input.seatId]!;
+  const holder = seatHolderAt(world, input.seatId);
+  if (input.kind === "renewal" ? !holder : holder)
+    throw new Error(
+      input.kind === "renewal"
+        ? "Judicial renewal requires a sitting judge."
+        : "Judicial vacancy selection requires an empty seat.",
+    );
+  const effective = effectiveCourtRulesAt(world, seat.courtId);
+  if (!effective)
+    throw new Error("Judicial court has no effective rule record.");
+  const previous = world.judiciary!;
+  const pending = previous.selections.some((selection) => {
+    if (selection.seatId !== input.seatId) return false;
+    const stages = judicialSelectionStages(world, selection.recordId);
+    const last = stages.at(-1);
+    return (
+      !last ||
+      (last.outcome !== "rejected" &&
+        last.outcome !== "lapsed" &&
+        !previous.seatTenures.some(
+          (tenure) => tenure.selection.selectionRecordId === selection.recordId,
+        ))
+    );
+  });
+  if (pending)
+    throw new Error("A judicial selection is already pending for this seat.");
+  const candidatePersonIds = [...new Set(input.candidatePersonIds)];
+  for (const personId of candidatePersonIds) {
+    if (!world.people[personId])
+      throw new Error(`Unknown judicial candidate: ${personId}`);
+    if (
+      world.history.personDeaths.some(
+        (death) =>
+          death.personId === personId && death.diedAt <= world.currentDate,
+      )
+    )
+      throw new Error(`Deceased judicial candidate: ${personId}`);
+  }
+  const recordId = `judicial-selection:${world.id}:${input.seatId}:${world.currentDate}:${previous.selections.length + 1}`;
+  const selection: JudicialSelectionRecord = {
+    recordId,
+    seatId: input.seatId,
+    openedAt: world.currentDate,
+    kind: input.kind,
+    pathId: input.plan.pathId,
+    courtRuleRecordId: effective.recordId,
+    candidatePersonIds,
+    ballot: null,
+  };
+  const next = {
+    ...world,
+    judiciary: {
+      ...previous,
+      selections: [...previous.selections, selection],
+    },
+  };
+  assertWorldIntegrity(next);
+  return next;
+}
+
+/** Record one actual stage result, in the admitted path's exact order. */
+export function recordJudicialSelectionStage(
+  world: World,
+  input: {
+    readonly selectionRecordId: string;
+    readonly plan: JudicialSelectionPlan;
+    readonly occurredAt: IsoDate;
+    readonly actorPersonId: EntityId | null;
+    readonly candidatePersonId: EntityId | null;
+    readonly outcome: JudicialSelectionStageRecord["outcome"];
+    readonly decisionRecordId: EntityId | null;
+    readonly electionContestId: EntityId | null;
+    readonly outcomeEventId: EntityId | null;
+  },
+): World {
+  const selection = judicialSelectionById(world, input.selectionRecordId);
+  if (!selection)
+    throw new Error(`Unknown judicial selection: ${input.selectionRecordId}`);
+  const progress = judicialSelectionProgress(
+    world,
+    selection.recordId,
+    input.plan,
+  );
+  if (progress.status !== "pending")
+    throw new Error("Judicial selection has no next stage.");
+  if (
+    input.occurredAt < selection.openedAt ||
+    input.occurredAt > world.currentDate
+  )
+    throw new Error(
+      "Judicial selection stage date is outside the saved attempt.",
+    );
+  if (input.actorPersonId && !world.people[input.actorPersonId])
+    throw new Error(`Unknown judicial selection actor: ${input.actorPersonId}`);
+  if (
+    input.candidatePersonId &&
+    !selection.candidatePersonIds.includes(input.candidatePersonId)
+  )
+    throw new Error(
+      "Judicial selection stage names a candidate outside its attempt.",
+    );
+  if (
+    !input.decisionRecordId &&
+    !input.electionContestId &&
+    !input.outcomeEventId
+  )
+    throw new Error(
+      "Judicial selection stage needs a recorded decision, contest, or event.",
+    );
+  const stage = input.plan.stages[progress.nextOrder - 1]!;
+  const record: JudicialSelectionStageRecord = {
+    recordId: `${selection.recordId}:stage:${progress.nextOrder}`,
+    selectionRecordId: selection.recordId,
+    order: progress.nextOrder,
+    mechanism: stage.mechanism,
+    occurredAt: input.occurredAt,
+    actorPersonId: input.actorPersonId,
+    candidatePersonId: input.candidatePersonId,
+    outcome: input.outcome,
+    decisionRecordId: input.decisionRecordId,
+    electionContestId: input.electionContestId,
+    outcomeEventId: input.outcomeEventId,
+  };
+  const next = {
+    ...world,
+    judiciary: {
+      ...world.judiciary!,
+      selectionStages: [...world.judiciary!.selectionStages, record],
+    },
+  };
+  assertWorldIntegrity(next);
+  return next;
+}
