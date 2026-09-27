@@ -67,7 +67,8 @@ describe("campaign choices in the player UI", () => {
       expect(html).toContain(choice.hostName);
       expect(html).toContain(choice.place);
     }
-    expect(html).toContain("cost of these activities is not established");
+    expect(html).toContain("The committee opened with no money");
+    expect(html).not.toContain("cost of these activities is not established");
     expect(html).not.toContain("$0 cost");
   });
 
@@ -106,7 +107,29 @@ describe("campaign choices in the player UI", () => {
     const html = renderChoices(finished);
     expect(html).toContain('data-testid="campaign-recent-results"');
     expect(html).toContain(result.contactNames[0]!);
-    expect(html).toContain(result.summary);
+    expect(html).toContain("Held ");
+    expect(html).not.toContain(result.summary);
+  });
+
+  it("does not present an unreceived fundraiser gift as campaign cash", () => {
+    const view = projectCampaignWeekActions(world, personId)!;
+    const choice = view.choices.find((item) => item.form === "fundraiser")!;
+    const booked = chooseCampaignWeekAction(world, personId, {
+      campaignId: view.campaignId,
+      choiceId: choice.id,
+      revision: view.revision,
+    });
+    const activity = campaignLifeActivityRecords(booked).at(-1)!;
+    const finished = attendPartyWork(booked, personId, activity.id, "attended");
+    const result = projectCampaignWeekActions(
+      finished,
+      personId,
+    )!.recentResults.at(-1)!;
+    const html = renderChoices(finished);
+    expect(result.raisedAmount).toBeNull();
+    expect(html).toContain("No contribution was received by the committee");
+    expect(html).not.toContain("Raised:");
+    expect(html).not.toContain(result.summary);
   });
 
   it("keeps an older committed week's sessions available without its count editor", () => {

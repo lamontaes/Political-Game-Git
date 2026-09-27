@@ -57,10 +57,12 @@ export function CampaignActionChoicesPanel({
       </p>
       {view.proposerName ? <p>Campaign staff: {view.proposerName}</p> : null}
       <p>Committee balance: {displayMoney(view.committeeTreasury)}</p>
-      <p className="game-note">
-        The cost of these activities is not established here. Booking one does
-        not spend campaign cash.
-      </p>
+      {view.committeeTreasury.minorUnits === 0 ? (
+        <p>
+          The committee opened with no money. Its balance rises when it receives
+          a contribution.
+        </p>
+      ) : null}
       {view.choices.length === 0 ? (
         <p data-testid="campaign-action-choices-empty">
           No campaign activity fits the open calendar this week.
@@ -105,12 +107,17 @@ export function CampaignActionChoicesPanel({
             {view.recentResults.map((result) => (
               <li key={result.activityId}>
                 <strong>{campaignLifeCatalogEntry(result.form).title}</strong>
-                {result.summary ? <p>{result.summary}</p> : null}
+                <p>Held {proseDate(result.completedAt)}.</p>
                 {result.contactNames.length > 0 ? (
                   <p>Met: {result.contactNames.join(", ")}</p>
                 ) : null}
-                {result.raisedAmount ? (
+                {result.raisedAmount !== null ? (
                   <p>Raised: {displayMoney(result.raisedAmount)}</p>
+                ) : result.form === "fundraiser" ? (
+                  <p>
+                    No contribution was received by the committee at this
+                    gathering.
+                  </p>
                 ) : null}
               </li>
             ))}
