@@ -74,6 +74,7 @@ import {
   declineCalendarActivity,
   simulateAuthorizedCalendarActivity,
 } from "../presentation/calendar-time-control";
+import { canCallOffCampaignLifeAppointment } from "../presentation/scheduled-activity-choice";
 import {
   attendCalendarCampaignLifeActivity,
   calendarCampaignLifeEntry,
@@ -1140,7 +1141,7 @@ function CalendarEntryDetail({
   );
 }
 
-function CalendarEventActions({
+export function CalendarEventActions({
   selected,
   onOpen,
   runner,
@@ -1205,6 +1206,11 @@ function CalendarEventActions({
     kind: "attend-activity",
     activityId: selected.activityId,
   });
+  const canCallOff = canCallOffCampaignLifeAppointment(
+    world,
+    personId,
+    selected.activityId,
+  );
   return (
     <div
       className="game-choices pg-calendar-actions"
@@ -1324,7 +1330,7 @@ function CalendarEventActions({
           );
         }}
       >
-        Decline
+        {canCallOff ? "Call off" : "Decline"}
       </button>
     </div>
   );
