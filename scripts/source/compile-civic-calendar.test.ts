@@ -108,8 +108,36 @@ describe("locked 2026 civic calendar", () => {
     );
   });
 
+  it("uses Kansas's official 2026 list for statewide offices and special Senate districts", () => {
+    expect(byUsps.get("KS")?.lieutenantGovernorElection).toEqual(
+      expect.objectContaining({ onBallot2026: true, regularTermYears: 4 }),
+    );
+    expect(
+      byUsps
+        .get("KS")
+        ?.otherElectedStatewideOffices?.map((office) => office.office),
+    ).toEqual([
+      "Attorney General",
+      "Secretary of State",
+      "State Treasurer",
+      "Commissioner of Insurance",
+    ]);
+    expect(
+      byUsps
+        .get("KS")
+        ?.legislature.chambers.find((chamber) => chamber.chamberKey === "upper")
+        ?.seatsUpIn2026,
+    ).toBe(0);
+    expect(byUsps.get("KS")?.specialLegislativeElections2026).toEqual([
+      expect.objectContaining({
+        chamberKey: "upper",
+        districtNumbers: [24, 25],
+      }),
+    ]);
+  });
+
   it("binds the committed corpus to its cache-only source receipts", () => {
-    expect(lock.artifacts).toHaveLength(9);
+    expect(lock.artifacts).toHaveLength(11);
     for (const artifact of lock.artifacts) {
       expect(artifact.localPath).toBeNull();
       expect(artifact.storage).toBe("cached-not-committed");

@@ -32,6 +32,14 @@ backed by its legislature's statute. Chamber names are reused only where the
 existing state-legislature corpus marked them known. Congressional class data
 comes from the repository's existing Senate-class table.
 
+Kansas has an additional official election-office and statute cross-check for
+its 2026 statewide executive slate. Its regular Senate count remains zero;
+the Secretary of State separately lists special elections in Senate districts
+24 and 25. That distinction prevents a special race from being mistaken for a
+regularly scheduled chamber cohort. The same official list names the Attorney
+General, Secretary of State, State Treasurer and Commissioner of Insurance on
+the 2026 ballot. This Kansas finding does not fill equivalent gaps elsewhere.
+
 This is a research and compiler checkpoint. No player route reads this packet
 until a rights-cleared source path and consumer are integrated and verified
 separately.

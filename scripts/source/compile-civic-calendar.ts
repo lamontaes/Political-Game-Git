@@ -73,6 +73,18 @@ const SOURCES = [
     "Nebraska Legislature",
     "https://nebraskalegislature.gov/laws/statutes.php?statute=32-508",
   ],
+  [
+    "ks-sos-2026-candidates",
+    "ks-sos-2026-candidate-filing.html",
+    "Kansas Secretary of State",
+    "https://sos.ks.gov/media/press-releases/2026/06-01-26-candidate-filing-deadline-closes.html",
+  ],
+  [
+    "ks-election-statute-25-101",
+    "ks-election-statute-25-101.html",
+    "Kansas Legislature",
+    "https://www.kslegislature.gov/b2025_26/laws/025_000_0000_chapter/025_001_0000_article/025_001_0001_section/025_001_0001_k/",
+  ],
 ] as const;
 
 type SourceId = (typeof SOURCES)[number][0];
@@ -99,8 +111,28 @@ type Jurisdiction = {
     onBallot2026: boolean;
     sourceId: SourceId;
   };
-  lieutenantGovernorElection: null;
-  otherElectedStatewideOffices: null;
+  lieutenantGovernorElection: {
+    referenceElectionYear: 2026;
+    regularTermYears: 4;
+    onBallot2026: true;
+    sourceIds: readonly SourceId[];
+  } | null;
+  otherElectedStatewideOffices:
+    | readonly {
+        office: string;
+        referenceElectionYear: 2026;
+        regularTermYears: 4;
+        onBallot2026: true;
+        sourceIds: readonly SourceId[];
+      }[]
+    | null;
+  specialLegislativeElections2026:
+    | readonly {
+        chamberKey: "upper";
+        districtNumbers: readonly number[];
+        sourceId: SourceId;
+      }[]
+    | null;
   legislature: { chambers: Chamber[] };
   primary2026: {
     nominationSystem:
@@ -590,6 +622,12 @@ export function compileCivicCalendar(root = ROOT) {
     root,
     "nebraska-legislature-election-statute.html",
   );
+  const ksSos = plainHtml(
+    sourceText(root, "ks-sos-2026-candidate-filing.html"),
+  );
+  const ksStatute = plainHtml(
+    sourceText(root, "ks-election-statute-25-101.html"),
+  );
   requireMatch(
     /PRIMARY ELECTION - June 16, 2026/i.test(plainHtml(dcElections)),
     "DC 2026 primary date",
@@ -617,6 +655,18 @@ export function compileCivicCalendar(root = ROOT) {
       plainHtml(neStatute),
     ),
     "Nebraska district cohorts",
+  );
+  requireMatch(
+    /Governor and Lieutenant Governor Attorney General Secretary of State State Treasurer Commissioner of Insurance Kansas Senate – Districts 24 and 25 All seats in the Kansas House of Representatives/.test(
+      ksSos,
+    ),
+    "Kansas Secretary of State 2026 office and special-district list",
+  );
+  requireMatch(
+    /at each alternate election.*governor, lieutenant governor, secretary of state, attorney general, state treasurer and state commissioner of insurance/i.test(
+      ksStatute,
+    ),
+    "Kansas statute regular statewide office cycle",
   );
 
   const stateKeys = Object.keys(US_STATE_NAMES).sort();
@@ -689,8 +739,46 @@ export function compileCivicCalendar(root = ROOT) {
               ...governor!,
               sourceId: "nga-governor-elections",
             },
-      lieutenantGovernorElection: null,
-      otherElectedStatewideOffices: null,
+      lieutenantGovernorElection:
+        usps === "KS"
+          ? {
+              referenceElectionYear: 2026,
+              regularTermYears: 4,
+              onBallot2026: true,
+              sourceIds: [
+                "ks-sos-2026-candidates",
+                "ks-election-statute-25-101",
+              ],
+            }
+          : null,
+      otherElectedStatewideOffices:
+        usps === "KS"
+          ? [
+              "Attorney General",
+              "Secretary of State",
+              "State Treasurer",
+              "Commissioner of Insurance",
+            ].map((office) => ({
+              office,
+              referenceElectionYear: 2026 as const,
+              regularTermYears: 4 as const,
+              onBallot2026: true as const,
+              sourceIds: [
+                "ks-sos-2026-candidates",
+                "ks-election-statute-25-101",
+              ] as SourceId[],
+            }))
+          : null,
+      specialLegislativeElections2026:
+        usps === "KS"
+          ? [
+              {
+                chamberKey: "upper",
+                districtNumbers: [24, 25],
+                sourceId: "ks-sos-2026-candidates",
+              },
+            ]
+          : null,
       legislature: { chambers: chamberByUsps.get(usps) ?? [] },
       primary2026: primary,
       federalSenateClasses: isState
@@ -719,13 +807,13 @@ export function compileCivicCalendar(root = ROOT) {
   const gaps = [
     {
       field: "lieutenantGovernorElection",
-      jurisdictions: keys,
+      jurisdictions: keys.filter((key) => key !== "KS"),
       reason:
         "The bounded NGA election page does not establish election method and timing for each jurisdiction's lieutenant-governor-equivalent office.",
     },
     {
       field: "otherElectedStatewideOffices",
-      jurisdictions: stateKeys,
+      jurisdictions: stateKeys.filter((key) => key !== "KS"),
       reason:
         "Office-by-office statewide ballot timing is not established by the locked item 1 sources.",
     },
@@ -742,6 +830,12 @@ export function compileCivicCalendar(root = ROOT) {
         "NCSL provides counts, not district identities; Nebraska's official statute alone establishes its even-numbered 2026 cohort.",
     },
     {
+      field: "specialLegislativeElections2026",
+      jurisdictions: keys.filter((key) => key !== "KS"),
+      reason:
+        "Only Kansas's identified 2026 special Senate districts were checked against an official election-office list; null elsewhere does not mean no special election.",
+    },
+    {
       field: "primary2026",
       jurisdictions: territoryKeys,
       reason:
@@ -752,7 +846,7 @@ export function compileCivicCalendar(root = ROOT) {
     schema: "civic-calendar-v1",
     asOfDate: RETRIEVED_DATE,
     scope:
-      "Regular elections and 2026 primary dates only. Special elections and future state ballot orders are not asserted.",
+      "Regular elections and 2026 primary dates, plus specifically sourced Kansas special Senate districts. Other special elections and future state ballot orders are not asserted.",
     federal: {
       house: {
         regularElectionYears: [2026, 2028, 2030],

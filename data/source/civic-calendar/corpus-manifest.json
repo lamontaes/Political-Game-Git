@@ -5,7 +5,7 @@
     "name": "compile-civic-calendar",
     "version": "1.0.0"
   },
-  "canonicalSha256": "b1ea46c2ee31ab5c40a23876d17ad16e100b76ca30857bd12225387de27aac15",
+  "canonicalSha256": "3144f73d8208b80b9eee8b7005bab7bb20149efd3e0a22946d67db8f6ab2f0ab",
   "inputClass": "research-only",
   "coverage": {
     "isCompleteUniverse": true,
@@ -13,7 +13,7 @@
     "jurisdictions": 56,
     "stateLegislativeSeatsUp2026": 6139,
     "governorElections2026": 39,
-    "gapKinds": 5
+    "gapKinds": 6
   },
   "inputs": [
     {
@@ -51,6 +51,14 @@
     {
       "artifactId": "ne-legislature-election-statute",
       "sha256": "c75183fb194902d575cfc0454b2af365c48d3002b9ec1c70ac99e78d84bcd5dc"
+    },
+    {
+      "artifactId": "ks-sos-2026-candidates",
+      "sha256": "8496277f6d428788c55bc23a29f56d6a2a9628dbd9c6ea9e4612ba035a816881"
+    },
+    {
+      "artifactId": "ks-election-statute-25-101",
+      "sha256": "07eddeea5c9512c1cdf7e58dd303eb3ea0c54f55d5b0b54eebb8a34637ece527"
     }
   ],
   "reusedRepositorySources": [

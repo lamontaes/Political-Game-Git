@@ -287,6 +287,70 @@
         "termsUrl": null
       },
       "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "ks-sos-2026-candidates",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/ks-sos-2026-candidate-filing.html",
+      "mediaType": "text/html",
+      "provider": "Kansas Secretary of State",
+      "publisher": {
+        "documentationUrl": "https://sos.ks.gov/media/press-releases/2026/06-01-26-candidate-filing-deadline-closes.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://sos.ks.gov/media/press-releases/2026/06-01-26-candidate-filing-deadline-closes.html",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 33041
+      },
+      "bytes": {
+        "length": 33041,
+        "sha256": "8496277f6d428788c55bc23a29f56d6a2a9628dbd9c6ea9e4612ba035a816881"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "ks-election-statute-25-101",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/ks-election-statute-25-101.html",
+      "mediaType": "text/html",
+      "provider": "Kansas Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.kslegislature.gov/b2025_26/laws/025_000_0000_chapter/025_001_0000_article/025_001_0001_section/025_001_0001_k/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.kslegislature.gov/b2025_26/laws/025_000_0000_chapter/025_001_0000_article/025_001_0001_section/025_001_0001_k/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 59452
+      },
+      "bytes": {
+        "length": 59452,
+        "sha256": "07eddeea5c9512c1cdf7e58dd303eb3ea0c54f55d5b0b54eebb8a34637ece527"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
     }
   ]
 }
