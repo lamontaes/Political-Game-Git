@@ -110,7 +110,17 @@ export function measureSkinLuminance(raster: Raster): MeasuredRamp {
   values.sort((a, b) => a - b);
   const at = (fraction: number) =>
     values[Math.min(values.length - 1, Math.floor(values.length * fraction))]!;
-  return { shadow: at(0.06), base: at(0.5), highlight: at(0.995) };
+  const shadow = at(0.06);
+  const base = at(0.5);
+  // Painted skin is mostly flat base with thin highlights: the 99.5th
+  // percentile can sit only a few steps above the base, and then the paint's
+  // grain is stretched across the whole base-to-highlight range and shows as
+  // blotches on darker shades. The highlight is kept a real distance away.
+  const highlight = Math.max(
+    at(0.995),
+    base + Math.max(12, (base - shadow) * 0.4),
+  );
+  return { shadow, base, highlight };
 }
 
 function rampColor(ramp: SkinRamp, t: number): Rgb {
@@ -122,8 +132,8 @@ function rampColor(ramp: SkinRamp, t: number): Rgb {
     return { r: shadow.r * f, g: shadow.g * f, b: shadow.b * f };
   }
   if (t <= 0.5) return mix(shadow, base, t / 0.5);
-  if (t <= 1) return mix(base, highlight, (t - 0.5) / 0.5);
-  return mix(highlight, { r: 255, g: 255, b: 255 }, Math.min(1, (t - 1) * 0.5));
+  // Never past the ramp's own highlight: pushing toward white leaves specks.
+  return mix(base, highlight, Math.min(1, (t - 0.5) / 0.5));
 }
 
 /** Where a luminance sits on the painting's ramp: 0 shadow, 0.5 base, 1 highlight. */
