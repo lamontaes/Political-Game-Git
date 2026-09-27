@@ -1,6 +1,7 @@
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import {
   activeWorkRelationshipsAt,
+  workRelationshipHistoryForOrganization,
   householdMembershipsAt,
   kinshipRelationshipsAt,
 } from "../life-queries";
@@ -140,17 +141,31 @@ export function colleaguesOf(
       .filter((id): id is EntityId => id !== null),
   );
   if (organizations.size === 0) return [];
-  return world.personOrder
-    .filter((personId) => personId !== subjectPersonId)
-    .filter((personId) =>
+  const candidates = new Set<EntityId>();
+  for (const organizationId of organizations)
+    for (const record of workRelationshipHistoryForOrganization(
+      world,
+      organizationId,
+    ))
+      candidates.add(record.personId);
+  const colleagues: EntityId[] = [];
+  // Preserve personOrder and the existing six-person limit. The old query
+  // read everybody's employment even after the first six matches were known.
+  for (const personId of world.personOrder) {
+    if (personId === subjectPersonId || !candidates.has(personId)) continue;
+    if (
       activeWorkRelationshipsAt(world, personId).some(
         (entry) =>
           entry.relationship.organizationId !== null &&
           organizations.has(entry.relationship.organizationId) &&
           entry.role.occupationClassification !== "profession:journalism",
-      ),
-    )
-    .slice(0, 6);
+      )
+    ) {
+      colleagues.push(personId);
+      if (colleagues.length === 6) break;
+    }
+  }
+  return colleagues;
 }
 
 /**
