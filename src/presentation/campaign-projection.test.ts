@@ -18,6 +18,9 @@ import {
 } from "../simulation";
 import type { LifePlace } from "../simulation";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
+import { stateCandidacyPack } from "../simulation/candidacy-packs";
+import { planStateChambers } from "../simulation/nationwide-world/state-legislature-opening";
+import { bindingFromIdentity } from "../districts/query";
 import { buildProductionWorld } from "./production-world";
 import {
   ORDINARY_DAY_START_MINUTE,
@@ -25,7 +28,11 @@ import {
   passOrdinaryDays,
 } from "./ordinary-life";
 import { resolvePlayerCapabilities } from "./player-capabilities";
-import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
+import {
+  campaignElectionDate,
+  projectCampaign,
+  spendAnAfternoon,
+} from "./campaign-projection";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import { declineVenueActivity } from "./venue-activity";
 
@@ -262,6 +269,41 @@ describe("what the game will and will not offer", () => {
     );
     expect(view.unavailableReason).not.toMatch(/law says/i);
     expect(view.unavailableReason).not.toMatch(/has not read|the game/i);
+  });
+});
+
+describe("player filing follows the recorded regular seat cohort", () => {
+  it("offers Kansas Senate's 2028 race instead of a false 2026 regular election", () => {
+    const life = adultLife("ks-player-regular-date", "2055225");
+    const jurisdictionId = life.world.people[life.personId]!.homeJurisdictionId;
+    expect(
+      campaignElectionDate(
+        life.world,
+        jurisdictionId,
+        "us-ks-legislature-profile-v1:senate",
+      ),
+    ).toBe("2028-11-07");
+  });
+
+  it("uses the selected Nebraska district instead of a statewide date", () => {
+    const life = adultLife("ne-player-regular-date", "3137000");
+    const jurisdictionId = life.world.people[life.personId]!.homeJurisdictionId;
+    const pack = stateCandidacyPack("US-NE")!;
+    const officeKey = "us-ne-legislature-v1:legislature";
+    const chamber = planStateChambers(pack).chambers.find(
+      (row) => row.officeKey === officeKey,
+    )!;
+    const evenDistrict = bindingFromIdentity(chamber.districts[1]!);
+    const oddDistrict = bindingFromIdentity(chamber.districts[40]!);
+    expect(
+      campaignElectionDate(life.world, jurisdictionId, officeKey, evenDistrict),
+    ).toBe("2026-11-03");
+    expect(
+      campaignElectionDate(life.world, jurisdictionId, officeKey, oddDistrict),
+    ).toBe("2028-11-07");
+    expect(() =>
+      campaignElectionDate(life.world, jurisdictionId, officeKey),
+    ).toThrow(/recorded district/);
   });
 });
 

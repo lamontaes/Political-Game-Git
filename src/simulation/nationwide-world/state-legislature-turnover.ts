@@ -29,7 +29,10 @@ import {
   logistic,
   standardNormal,
 } from "../world-setup/deterministic-math";
-import { stateLegislativeElectionRule } from "./state-legislative-election-calendar";
+import {
+  isStateLegislativeSeatDue,
+  stateLegislativeElectionRule,
+} from "./state-legislative-election-calendar";
 import {
   generalElectionDay,
   isElectionYear,
@@ -63,9 +66,8 @@ import {
  * and nothing filled their seats. After sixteen years a 151-seat House listed
  * 103 members. Time now carries each seat forward:
  *
- * - On the state's regular legislative election day (the calendar in
- *   `state-legislative-election-calendar.ts`, which puts every seat of a
- *   chamber on the ballot at each regular election) each seat is decided,
+ * - On the state's regular legislative election day, only the seats due under
+ *   `state-legislative-election-calendar.ts` are decided,
  *   and one public results record names the winners.
  * - When the new term begins (`legislativeTermDates`: the sourced date where
  *   there is one, otherwise January 1 after the election) a member leaving
@@ -149,6 +151,16 @@ interface SeatOutcome {
 const termStartOf = (officeKey: string, electionDay: IsoDate) =>
   legislativeTermDates(officeKey, electionDay)?.startsAt ??
   makeIsoDate(`${Number(electionDay.slice(0, 4)) + 1}-01-01`);
+
+/** One regular ballot boundary for intake, result and future-seat queries. */
+function regularSeatsDue(world: World, packId: string, year: number) {
+  const pack = candidacyPackById(packId);
+  if (!pack) return [];
+  const usps = pack.jurisdictionKey.replace(/^US-/, "");
+  return stateLegislativeSeats(world, packId).filter((seat) =>
+    isStateLegislativeSeatDue(usps, seat.officeKey, seat.ordinal, year),
+  );
+}
 
 /** Assign recorded district contests to exact seats in multi-seat districts. */
 function contestedStateSeats(
@@ -442,7 +454,7 @@ function prepareStateIntake(
   return prepareStateCandidateSlates(next, year, plans);
 }
 
-/** Election day: every seat in the chambers is decided. */
+/** Election day: the regular seats due in these chambers are decided. */
 function holdStateLegislativeElection(
   world: World,
   packId: string,
@@ -457,13 +469,15 @@ function holdStateLegislativeElection(
     : null;
   if (!pack || !jurisdiction) return world;
   const year = Number(electionDay.slice(0, 4));
+  const dueSeats = regularSeatsDue(world, packId, year);
+  if (dueSeats.length === 0) return world;
   // An older save that missed the fictional intake window gets an honest
   // election-day slate; its record is dated today, not backdated to January.
   let next = prepareStateIntake(
     world,
     packId,
     electionDay,
-    stateLegislativeSeats(world, packId).map((seat) => ({
+    dueSeats.map((seat) => ({
       officeKey: seat.officeKey,
       ordinal: seat.ordinal,
       intakeDate: electionDay,
@@ -482,7 +496,7 @@ function holdStateLegislativeElection(
   const campaignSeats: string[] = [];
   const outcomes: SeatOutcome[] = [];
   const unfilled: string[] = [];
-  for (const seat of stateLegislativeSeats(next, packId)) {
+  for (const seat of regularSeatsDue(next, packId, year)) {
     const seatKey = `${seat.officeKey}|${seat.ordinal}`;
     const contestId = contested.get(seatKey);
     if (contestId) {
@@ -940,7 +954,15 @@ export function nextStateSeatFilling(
     year < Number(today.slice(0, 4)) + 8;
     year += 1
   ) {
-    if (!isElectionYear(rule, year)) continue;
+    if (
+      !isStateLegislativeSeatDue(
+        pack.jurisdictionKey.replace(/^US-/, ""),
+        officeKey,
+        ordinal,
+        year,
+      )
+    )
+      continue;
     const electionDay = generalElectionDay(rule, year);
     const termStart =
       legislativeTermDates(officeKey, electionDay)?.startsAt ??
@@ -1019,9 +1041,15 @@ export function applyStateLegislatureTurnover(
     const firstYear = Number(before.slice(0, 4)) - 4;
     const lastYear = Number(after.slice(0, 4));
     for (let year = firstYear; year <= lastYear; year += 1) {
+      // Every reviewed seat cycle is a subset of the state's regular general
+      // election years; this cheap check avoids a national seat scan each day.
       if (!isElectionYear(rule, year)) continue;
       const electionDay = generalElectionDay(rule, year);
       const due = stateLegislativeSeats(next, packId).flatMap((seat, index) => {
+        if (
+          !isStateLegislativeSeatDue(usps, seat.officeKey, seat.ordinal, year)
+        )
+          return [];
         const intakeDate = stateCandidateIntakeDay(year, index);
         return before < intakeDate && intakeDate <= after
           ? [{ officeKey: seat.officeKey, ordinal: seat.ordinal, intakeDate }]
