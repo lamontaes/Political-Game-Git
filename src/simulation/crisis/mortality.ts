@@ -28,6 +28,12 @@ import {
 } from "./mortality-table";
 import { recordOfficialContinuity } from "./continuity";
 import {
+  courtById,
+  seatHolderAt,
+  vacateJudicialSeat,
+} from "../judiciary/courts";
+import { scheduleNpcFederalJudicialNominationForDeath } from "../judiciary/npc-nomination";
+import {
   FATAL_ILLNESS_LEAD_DAYS,
   FATAL_ILLNESS_ONSET_KEY,
   deathCauseSummary,
@@ -341,6 +347,15 @@ function recordMortalityDeath(
   diedAt: IsoDate,
   sourceEntityId: EntityId,
 ): World {
+  const heldFederalSeats = Object.values(world.judiciary?.seats ?? {})
+    .filter((seat) => {
+      const level = courtById(world, seat.courtId)?.level;
+      return level === "federal-district" || level === "federal-appellate";
+    })
+    .filter(
+      (seat) => seatHolderAt(world, seat.seatId, diedAt)?.personId === personId,
+    )
+    .map((seat) => seat.seatId);
   const cause = hazardDeathCause(world, personId, diedAt);
   const sources = [
     ...new Set(
@@ -357,7 +372,20 @@ function recordMortalityDeath(
     provenance: { kind: "simulated", sourceEntityIds: sources },
   });
   const death = withDeath.history.personDeaths.at(-1)!;
-  const closed = closeHealthEpisodesForDeath(withDeath, personId, death.id);
+  let closed = closeHealthEpisodesForDeath(withDeath, personId, death.id);
+  for (const seatId of heldFederalSeats) {
+    closed = vacateJudicialSeat(closed, {
+      seatId,
+      vacatedAt: diedAt,
+      reason: "death",
+    });
+  }
+  if (heldFederalSeats.length > 0)
+    closed = scheduleNpcFederalJudicialNominationForDeath(
+      closed,
+      death.id,
+      personId,
+    );
   // The family learns of it the day it happens.
   return tellOfDeath(
     recordOfficialContinuity(world, closed, personId, "death"),

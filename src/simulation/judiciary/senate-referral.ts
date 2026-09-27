@@ -34,6 +34,10 @@ import {
 import { seatHolderAt } from "./courts";
 import { pendingFederalJudicialNomination } from "./federal-confirmation";
 import {
+  JUDICIAL_NPC_NOMINATION_TRANSITION,
+  npcFederalJudicialNominationHandler,
+} from "./npc-nomination";
+import {
   JUDICIAL_SENATE_REFERRAL_TRANSITION,
   judicialSelectionById,
   judicialSelectionStages,
@@ -462,6 +466,7 @@ export function judicialCommitteeSessionHandler(
 }
 
 export const JUDICIAL_SENATE_HANDLERS = [
+  [JUDICIAL_NPC_NOMINATION_TRANSITION, npcFederalJudicialNominationHandler],
   [JUDICIAL_SENATE_REFERRAL_TRANSITION, judicialSenateReferralHandler],
   [
     JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION,
