@@ -131,6 +131,7 @@ export const CHRONICLE_PARAGRAPH_SENTENCES = 4;
 const LOWERCASE_AFTER_LEAD = new Set([
   "You",
   "Your",
+  "My",
   "The",
   "A",
   "An",
