@@ -101,6 +101,26 @@ export interface CampaignLifeActivityRecord {
 
 export type CampaignSupportDecision = "granted" | "declined" | "deferred";
 
+/** A saved model estimate, never a list of voters known to the candidate. */
+export interface CampaignFieldReach {
+  readonly profileVersion: "research1-wave2-v1";
+  readonly volunteerEquivalentMinutes: number;
+  readonly estimatedDoorKnocks: {
+    readonly min: number;
+    readonly max: number;
+  } | null;
+  readonly estimatedPhoneDials: {
+    readonly min: number;
+    readonly max: number;
+  } | null;
+  readonly estimatedCompletedConversations: {
+    readonly min: number;
+    readonly max: number;
+  } | null;
+  /** Each estimate retains its own source denominator. */
+  readonly sourceObservationIds: readonly string[];
+}
+
 export interface CampaignLifeOutcomeRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -113,6 +133,8 @@ export interface CampaignLifeOutcomeRecord {
   readonly outcomeEventId: EntityId;
   /** Persistent people actually met (volunteer partner, donor, reporter). */
   readonly contactPersonIds: readonly EntityId[];
+  /** Model estimates are not persistent person contacts. */
+  readonly fieldReach: CampaignFieldReach | null;
   readonly relationshipInteractionIds: readonly EntityId[];
   /** Money that moved because of the activity (fundraiser proceeds). */
   readonly resourceFlowId: EntityId | null;

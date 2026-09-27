@@ -14,6 +14,8 @@ import {
 } from "./opening-officeholders";
 import { projectPersonalRecord } from "./personal-record";
 import { projectPlayerCalendar } from "./player-calendar";
+import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { enterLifePath } from "../simulation/life-paths2";
 import { filterDirectory, projectPeopleDirectory } from "./people-directory";
 
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
@@ -234,6 +236,22 @@ describe("personal and finances", () => {
 });
 
 describe("the calendar", () => {
+  it("shows the destination without a separate commute or routine work shift", () => {
+    const { world, personId } = newLife("calendar-no-routine-stops");
+    const opened = openOrdinaryLife(world, personId);
+    const employed = enterLifePath(opened, "shop-assistant").world;
+    const morning = passOrdinaryDays(employed);
+    const entries = projectPlayerCalendar(morning, personId).days.flatMap(
+      (day) => day.entries,
+    );
+    expect(
+      entries.some((entry) => entry.title === "Posted public meeting"),
+    ).toBe(true);
+    expect(entries.some((entry) => entry.kind === "travel")).toBe(false);
+    expect(entries.some((entry) => entry.title === "Shop assistant")).toBe(
+      false,
+    );
+  });
   it("reads the canonical clock and never moves it", () => {
     const { world, personId } = newLife("calendar");
     const before = world.currentMoment;

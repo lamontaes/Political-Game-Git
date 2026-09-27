@@ -2,8 +2,6 @@ import { eventById } from "./event-index";
 import { lifeRequestDetails } from "./life-request-details";
 import { describePersonContext } from "./person-context";
 import {
-  hasActiveHouseholdWeek,
-  householdErrandsFor,
   lifeOpportunitiesFor,
   PUBLIC_MEETING_KEY,
   type LifeOpportunityKind,
@@ -241,7 +239,6 @@ export interface AdultLifeContext {
   readonly hasPostedMeeting: boolean;
   /** The posted meeting's evening has not yet come. */
   readonly postedMeetingAhead: boolean;
-  readonly hasHouseholdWorkItem: boolean;
   /**
    * The requests, invitations and notices this life is currently carrying an
    * answer for, read from `life-opportunities.ts`.
@@ -492,7 +489,6 @@ export function buildAdultLifeContext(
         item.stableKey === PUBLIC_MEETING_KEY &&
         !workItemOccasionHasPassed(world, item),
     ),
-    hasHouseholdWorkItem: hasActiveHouseholdWeek(world, personId),
     openOpportunityKinds: new Set(opportunities.map((entry) => entry.kind)),
     opportunityCounterparts: Object.fromEntries(
       opportunities.map((entry) => [entry.kind, entry.counterpartPersonId]),
@@ -555,75 +551,6 @@ const always = (): boolean => true;
 
 const ADULT_SITUATIONS: readonly AdultSituation[] = [
   /* ---------------------------------------------------------------- home -- */
-  {
-    key: "adult.household-standing",
-    companion: "household-member",
-    stakes: "notable",
-    // The active, accessible errands item establishes these tasks; it does
-    // not establish past burden, anyone's silence or an agreed division.
-    prose: "How do you want to divide the errands?",
-    tensions: [
-      tension(
-        "personal-ties",
-        1,
-        "care-obligation",
-        -1,
-        "Keeping the peace, against saying what you are actually carrying.",
-      ),
-    ],
-    available: (context) =>
-      context.householdCompanionIds.length > 0 && context.hasHouseholdWorkItem,
-    options: [
-      {
-        key: "say-it",
-        label: "Discuss the errands",
-        description: "Ask what each of you can take on.",
-        memory: "You asked how to divide the errands.",
-        witnessed: "They asked how to divide the errands.",
-        stance: "engaged",
-        relationalChange: "maintained",
-        interactionKind: "exchange:household",
-        nudges: [
-          nudge("care-obligation", -0.45),
-          nudge("privacy-preference", -0.5),
-          nudge("personal-ties", -0.15),
-        ],
-        aftermath: null,
-      },
-      {
-        key: "absorb-it",
-        label: "Handle the errands yourself",
-        description: "Offer to handle the list yourself.",
-        memory: "You offered to handle the errands yourself.",
-        witnessed: null,
-        stance: "withdrawn",
-        relationalChange: "maintained",
-        interactionKind: "support:household",
-        nudges: [
-          nudge("care-obligation", 0.55),
-          nudge("privacy-preference", 0.4),
-          nudge("personal-ties", 0.2),
-        ],
-        hypotheses: [
-          { hypothesisKey: "care.welfare-first", support: 0.5 },
-          { hypothesisKey: "style.avoids-confrontation", support: 0.7 },
-        ],
-        aftermath: null,
-      },
-      {
-        key: "set-it-out",
-        label: "Propose a split",
-        description: "Suggest sharing the tasks on the list.",
-        memory: "You suggested sharing the errands.",
-        witnessed: "They suggested sharing the errands.",
-        stance: "engaged",
-        relationalChange: "strengthened",
-        interactionKind: "exchange:household",
-        nudges: [nudge("decision-style", 0.5), nudge("care-obligation", 0.2)],
-        aftermath: "obligation",
-      },
-    ],
-  },
   {
     key: "adult.household-repair",
     companion: null,
@@ -2533,47 +2460,6 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
 
   /* -------------------------------------------------------- plain good -- */
   {
-    key: "adult.ordinary-good-day",
-    companion: null,
-    stakes: "ordinary",
-    prose:
-      "The week's errands are still yours to fit in somewhere. How do you want to spend the day?",
-    tensions: [],
-    available: (context) => context.hasHouseholdWorkItem,
-    options: [
-      {
-        key: "go-out",
-        label: "Plan to spend time outside",
-        description: "Choose to go outside next.",
-        memory: "You decided to spend time outside.",
-        stance: "engaged",
-        nudges: [nudge("risk-appetite", 0.15)],
-        aftermath: null,
-      },
-      {
-        key: "get-things-done",
-        label: "Get things done",
-        description: "Work on the errands on your list.",
-        memory: "You decided to work on the errands on your list.",
-        stance: "engaged",
-        nudges: [
-          nudge("achievement-ambition", 0.25),
-          nudge("security-stability", 0.2),
-        ],
-        aftermath: null,
-      },
-      {
-        key: "do-nothing",
-        label: "Leave the errands for now",
-        description: "Take a break instead of starting the errands.",
-        memory: "You decided to leave the errands for now.",
-        stance: "engaged",
-        nudges: [nudge("privacy-preference", 0.25)],
-        aftermath: null,
-      },
-    ],
-  },
-  {
     key: "adult.weekend-invitation",
     // The invitation, the day it is for and the fact that nobody is required
     // there are the social-occasion opportunity's own three facts. It expires
@@ -2719,36 +2605,6 @@ export function bindRequestSituation(
   context: AdultLifeContext,
   situation: AdultSituation,
 ): AdultSituation {
-  if (
-    situation.key === "adult.household-standing" ||
-    situation.key === "adult.ordinary-good-day"
-  ) {
-    const item = householdErrandsFor(context.world, context.personId);
-    if (!item) return situation;
-    return {
-      ...situation,
-      prose: `${item.summary} ${situation.key === "adult.household-standing" ? "How do you want to divide the errands?" : "What do you want to do next?"}`,
-      options: situation.options.map((option) => ({
-        ...option,
-        description:
-          option.key === "say-it"
-            ? "Ask what each of you can take on."
-            : option.key === "absorb-it"
-              ? "Offer to handle the list yourself."
-              : option.key === "set-it-out"
-                ? "Suggest sharing the tasks on the list."
-                : option.description,
-        memory:
-          option.key === "say-it"
-            ? `You asked how to divide ${item.title.toLowerCase()}.`
-            : option.key === "absorb-it"
-              ? `You offered to handle ${item.title.toLowerCase()}.`
-              : option.key === "set-it-out"
-                ? `You suggested sharing ${item.title.toLowerCase()}.`
-                : option.memory,
-      })),
-    };
-  }
   if (!situation.opportunity) return situation;
   const request = lifeOpportunitiesFor(
     context.world,
