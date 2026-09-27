@@ -18,8 +18,11 @@
  *   --profile-days    write a CPU profile of every Day press
  *   --profile-date D  write a CPU profile of the one Day leaving date D
  *   --profile-open F  with --save, write a CPU profile of opening the save
+ *   --write-opening F write the opened life to F before the first Day
+ *   --from-save F     start from a life written by --write-opening instead
+ *                     of opening a new one
  */
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { Session } from "node:inspector";
 import { createOpeningLifeController } from "../../src/presentation/opening-life";
 import { explicitNewGameSetup } from "../../src/presentation/new-game-geography";
@@ -35,7 +38,11 @@ import {
   readStoredRecord,
 } from "../../src/presentation/browser-world-repository";
 import { createCampaignElectionTransitionRegistry } from "../../src/simulation";
-import type { World } from "../../src/simulation";
+import type { EntityId, World } from "../../src/simulation";
+import {
+  deserializeWorld,
+  serializeWorld,
+} from "../../src/simulation/serialization";
 import {
   lifePlaceStateIdentities,
   searchLifePlaces,
@@ -119,9 +126,25 @@ const setup = explicitNewGameSetup({
   depth: "summarize-earlier-life",
   gender: "female",
 });
-const game = createOpeningLifeController(setup).finishTransition().game!;
-const personId = game.playerPersonId;
-let world: World = openOrdinaryLife(game.world, personId);
+/*
+ * --from-save reads a life written by --write-opening, so two builds can press
+ * Day from the very same World however slowly either one opens a new life.
+ */
+const fromSave = arg("from-save");
+const writeOpening = arg("write-opening");
+let personId: EntityId;
+let world: World;
+if (fromSave) {
+  world = deserializeWorld(readFileSync(fromSave, "utf8"));
+  if (world.control.kind !== "person")
+    throw new Error("--from-save needs a life with a played person.");
+  personId = world.control.personId;
+} else {
+  const game = createOpeningLifeController(setup).finishTransition().game!;
+  personId = game.playerPersonId;
+  world = openOrdinaryLife(game.world, personId);
+}
+if (writeOpening) writeFileSync(writeOpening, serializeWorld(world));
 const openingMs = performance.now() - openStarted;
 const openingCpuMs = (() => {
   const used = process.cpuUsage(openingCpu);
@@ -266,6 +289,7 @@ const summary = {
   placeKey,
   startAge,
   seed,
+  fromSave: fromSave ?? null,
   days: times.length,
   startDate,
   endDate: world.currentDate,
