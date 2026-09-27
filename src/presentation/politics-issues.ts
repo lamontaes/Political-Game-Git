@@ -1,6 +1,5 @@
 import type { EntityId, World } from "../simulation";
-import { taxPowerEvidenceFor } from "../simulation/tax-policy";
-import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
+import { stateWageTaxForOffice } from "./tax-work";
 import { projectTransitWork } from "./transit-work";
 
 /**
@@ -22,10 +21,7 @@ export function politicsIssueAccess(
   personId: EntityId,
 ): PoliticsIssueAccess {
   const transit = projectTransitWork(world, personId);
-  const entry = resolveLegislativeFilingEntry(world, personId);
-  const taxPower =
-    entry.kind === "available" &&
-    taxPowerEvidenceFor(entry.seat.jurisdictionKey) !== null;
+  const taxWork = stateWageTaxForOffice(world, personId);
   const taxRecords = (world.history.taxProposals ?? []).some(
     (row) =>
       row.sponsorPersonId === personId ||
@@ -33,12 +29,12 @@ export function politicsIssueAccess(
   );
   return {
     transit: transit.office.kind === "available" || transit.bills.length > 0,
-    tax: taxPower || taxRecords,
+    tax: taxWork.kind === "available" || taxRecords,
   };
 }
 
 export const ISSUE_WITHHELD = {
   transit:
     "Transit service work opens when you hold an office that can propose a service appropriation.",
-  tax: "Tax work opens when you hold an office with power to propose taxes.",
+  tax: "Tax work opens when your current legislative office can file under a saved state tax law.",
 } as const;
