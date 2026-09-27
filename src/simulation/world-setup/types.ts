@@ -139,9 +139,9 @@ export interface LegislativeStartingProceduresRecord extends ConditionRecordBase
 
 /** Content version for one save's fictional state tax/service assumptions. */
 export const STATE_TAX_SERVICE_GAME_PROFILE_VERSION =
-  "state-tax-service-game-profile/v2" as const;
+  "state-tax-service-game-profile/v3" as const;
 export const STATE_TAX_SERVICE_STARTING_CONDITIONS_VERSION =
-  "crunch46-state-tax-service-start/v1" as const;
+  "crunch46-state-tax-service-start/v2" as const;
 
 export interface StateTaxServiceProfileRef {
   readonly profileId: string;
@@ -183,7 +183,7 @@ export interface StateTaxServiceStartingProfile {
   };
 }
 
-/** All fifty state profiles are appended once when a current World opens. */
+/** State and District profiles are appended once when a current World opens. */
 export interface StateTaxServiceStartingConditionsRecord extends ConditionRecordBase {
   readonly kind: "state-tax-service-starting-conditions";
   readonly contractVersion: typeof STATE_TAX_SERVICE_STARTING_CONDITIONS_VERSION;

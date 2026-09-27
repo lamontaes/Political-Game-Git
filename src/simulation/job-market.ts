@@ -25,6 +25,7 @@ import {
   resolveWorkCompensationPeriod,
 } from "./resources";
 import { SeededRng } from "./rng";
+import { assessPaycheckTaxes } from "./statutory-tax";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
 import type {
@@ -1352,11 +1353,28 @@ function isActiveOn(world: World, workId: EntityId, date: IsoDate): boolean {
  * nothing new.
  */
 export function settleJobPay(world: World, personId: EntityId): World {
-  return settleWeeklyRecordedPay(
+  const outcomesBefore = world.history.resourceTransferOutcomes.length;
+  let next = settleWeeklyRecordedPay(
     payFirstJob(retireSupersededFirstJob(world, personId), personId),
     personId,
     (flow, work) => flow.stableKey === payKey(work),
   );
+  // Assess only the real work transfers this settlement just recorded. The
+  // assessment writer is idempotent; repeated Day/Week presses cannot tax a
+  // previous week's pay twice or tax a blocked/zero transfer as earnings.
+  const newlyPaid = next.history.resourceTransferOutcomes.slice(outcomesBefore);
+  for (const outcome of newlyPaid) {
+    const flow = next.history.resourceFlows.find(
+      (row) => row.id === outcome.resourceFlowId,
+    );
+    if (
+      flow?.basisReference.kind === "work" &&
+      flow.recipient.kind === "person" &&
+      flow.recipient.personId === personId
+    )
+      next = assessPaycheckTaxes(next, outcome.id);
+  }
+  return next;
 }
 
 function settleWeeklyRecordedPay(

@@ -9,8 +9,8 @@ import {
 import {
   TEST_TAX_TERMS,
   enactedTaxFixture,
+  fileTestTaxProposalFromOffice,
 } from "../../tests/fixtures/tax-policy-fixture";
-import { fileTaxProposalFromOffice } from "./tax-work";
 import {
   ALASKA_REVENUE_RECORDED_SITTING,
   prepareRecordedLegislativeSitting,
@@ -38,7 +38,7 @@ function filed(chamber = "house") {
     daysBetween(member.world.currentDate, makeIsoDate("2027-02-01")),
     createTaxTransitionHandlerRegistry(),
   );
-  const result = fileTaxProposalFromOffice(beforeWorld, {
+  const result = fileTestTaxProposalFromOffice(beforeWorld, {
     personId: member.personId,
     stableKey: "tax-input:explicit-proposal",
     terms: TEST_TAX_TERMS,
@@ -150,7 +150,7 @@ describe("F pinned ordinary revenue identity and explicit S input contract", () 
         result.beforeWorld.history.decisionTraces,
       );
       expect(
-        fileTaxProposalFromOffice(world, {
+        fileTestTaxProposalFromOffice(world, {
           personId: result.personId,
           stableKey: "tax-input:explicit-proposal",
           terms: TEST_TAX_TERMS,

@@ -502,8 +502,9 @@ function localAuthorityForCouncil(
       (entry): entry is NonNullable<typeof entry> =>
         entry !== undefined && eligibleKeys.has(entry.stableKey),
     );
+  const members = councilMembers(world, governmentKey);
   for (const proposition of propositions) {
-    for (const member of councilMembers(world, governmentKey)) {
+    for (const member of members) {
       const grant = localFiscalAuthorityFor(
         withLocalSponsorControl(world, member.personId),
         governmentKey,

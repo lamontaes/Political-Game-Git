@@ -3,6 +3,7 @@ import { assertTaxDraftIdentityIntegrity } from "./legislation-tax-identity";
 import powerProjection from "../fiscal-authority/tax-powers.generated.json" with { type: "json" };
 import { canonicalJson } from "./canonical-json";
 import { addDays, makeIsoDate } from "./dates";
+import { operativeDateForEnactment } from "./legislative-effective-date";
 import { createStableId } from "./ids";
 import {
   currentMeasureProvisions,
@@ -13,11 +14,10 @@ import { rulePackById } from "./legislature-rule-packs";
 import { stateJurisdictionForKey } from "./life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { PUBLIC_CASH_OPENING_PROFILE_VERSION } from "./world-setup/types";
-import { stateFundedServiceGameProfileForJurisdictionKey } from "./state-funded-service-game-profiles";
 import {
   stateTaxServiceProfileByRef,
   stateTaxServiceProfileForJurisdictionKey,
-  stateTaxServiceStartingConditions,
+  taxTermsMatchStateWageLaw,
 } from "./world-setup/state-tax-service-profiles";
 import {
   assertPublicGovernmentIdentity,
@@ -45,6 +45,7 @@ import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  LegislativeEnactmentRecord,
   PublicGovernmentIdentity,
   World,
 } from "./types";
@@ -229,7 +230,7 @@ export function attachTaxProposal(
       profile.jurisdictionKey !==
         rulePackById(measure.rulePackId).jurisdictionKey ||
       profile.jurisdictionId !== measure.jurisdictionId ||
-      canonicalJson(profile.taxTerms) !== canonicalJson(input.terms))
+      !taxTermsMatchStateWageLaw(profile, input.terms))
   )
     throw new Error(
       "The tax proposal must match this save's exact fictional state profile, including its terms and digest.",
@@ -327,7 +328,54 @@ export function attachTaxProposal(
   return result;
 }
 
+/** The wage base every state's generated tax law uses. */
+export const STATE_WAGE_TAX_BASE_KEY = "tax-base:wages";
+
+/** "4.25%" for 425 of 10,000; exact, with no trailing zeros. */
+export function taxRatePercentText(terms: TaxTerms): string {
+  const percent = (terms.rateNumerator * 100) / terms.rateDenominator;
+  return `${Number(percent.toFixed(4))}%`;
+}
+
+/**
+ * The wage tax a state's law imposes on a date: the latest enacted rate in
+ * effect, or else the law the state opened with. Every state reads the same
+ * way; there is no per-state route.
+ */
+export function stateWageTaxInForce(
+  world: World,
+  jurisdictionKey: string,
+  at: IsoDate,
+): { readonly terms: TaxTerms; readonly policyId: EntityId | null } | null {
+  const profile = stateTaxServiceProfileForJurisdictionKey(
+    world,
+    jurisdictionKey,
+  );
+  if (!profile || profile.taxTerms.baseKey !== STATE_WAGE_TAX_BASE_KEY)
+    return null;
+  const policy = effectiveTaxPolicy(
+    world,
+    profile.jurisdictionId,
+    profile.taxTerms.seriesKey,
+    at,
+  );
+  return policy
+    ? {
+        terms: requireProposal(world, policy.proposalId).terms,
+        policyId: policy.id,
+      }
+    : { terms: profile.taxTerms, policyId: null };
+}
+
 export function taxLevyText(terms: TaxTerms): string {
+  if (terms.baseKey === STATE_WAGE_TAX_BASE_KEY) {
+    const delay = terms.effectiveDelayDays ?? 0;
+    const effectiveRule =
+      delay === 0
+        ? "This tax takes effect on the law's own effective date."
+        : `This tax takes effect no earlier than ${delay} days after enactment or the law's own effective date, whichever is later.`;
+    return `A tax of ${taxRatePercentText(terms)} of ${terms.baseLabel} is imposed on each resident's pay for ${terms.publicPurpose}. The employer withholds it from each paycheck on the day the pay is made, and it is deposited in the state's general public account. ${effectiveRule} ${terms.assumptionNote}`;
+  }
   const effectiveDelayDays = terms.effectiveDelayDays ?? 90;
   const effectiveDelay =
     effectiveDelayDays === 90 ? "ninety days" : `${effectiveDelayDays} days`;
@@ -346,23 +394,15 @@ export function taxLevyText(terms: TaxTerms): string {
  * law itself. Alaska retains its existing ninety-day source-backed date rule.
  */
 export function taxPolicyEffectiveDate(
-  enactment: {
-    readonly resolvedAt: IsoDate;
-    readonly effectiveAt: IsoDate | null;
-  },
+  enactment: LegislativeEnactmentRecord,
   terms: TaxTerms,
 ): IsoDate {
-  const profileDate = addDays(
-    enactment.resolvedAt,
-    terms.effectiveDelayDays ?? 90,
-  );
-  if (
-    terms.legalBaselineAssumption !== "authored-state-game-profile" ||
-    !enactment.effectiveAt ||
-    enactment.effectiveAt <= profileDate
-  )
-    return profileDate;
-  return enactment.effectiveAt;
+  const operative = operativeDateForEnactment(enactment);
+  const delay = terms.effectiveDelayDays;
+  if (!operative && delay === undefined)
+    throw new Error("The tax law has no resolved operative date.");
+  const floor = addDays(enactment.resolvedAt, delay ?? 0);
+  return operative && operative.date > floor ? operative.date : floor;
 }
 
 /** The existing enactment and its adopted text must precede any policy version.
@@ -1100,15 +1140,10 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       : null;
     const gameProfile =
       !sourcePower && measureJurisdictionKey
-        ? (stateTaxServiceProfileForJurisdictionKey(
+        ? stateTaxServiceProfileForJurisdictionKey(
             world,
             measureJurisdictionKey,
-          ) ??
-          (stateTaxServiceStartingConditions(world)
-            ? null
-            : stateFundedServiceGameProfileForJurisdictionKey(
-                measureJurisdictionKey,
-              )))
+          )
         : null;
     const sourceAuthorityValid = Boolean(
       sourcePower &&
@@ -1135,7 +1170,7 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       gameProfile.jurisdictionKey === measureJurisdictionKey &&
       (!("jurisdictionId" in gameProfile) ||
         gameProfile.jurisdictionId === proposal.jurisdictionId) &&
-      canonicalJson(gameProfile.taxTerms) === canonicalJson(proposal.terms),
+      taxTermsMatchStateWageLaw(gameProfile, proposal.terms),
     );
     if (
       !measure ||

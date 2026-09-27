@@ -7,7 +7,7 @@ import {
 import { STATE_TAX_SERVICE_GAME_PROFILE_VERSION } from "./types";
 
 describe("saved state tax and service starting profiles", () => {
-  it("generates all fifty canonical jurisdictions deterministically per seed", () => {
+  it("generates the fifty states and DC deterministically per seed", () => {
     const first = drawStateTaxServiceStartingConditions({
       seed: "profile-seed-a",
     });
@@ -19,7 +19,10 @@ describe("saved state tax and service starting profiles", () => {
       stateKeysForTaxServiceProfiles(),
     );
     expect(replay).toEqual(first);
-    expect(first.profiles).toHaveLength(50);
+    expect(first.profiles).toHaveLength(51);
+    expect(
+      first.profiles.some((profile) => profile.jurisdictionKey === "US-DC"),
+    ).toBe(true);
   });
 
   it("keeps profile identities canonical and rates inside the authored calibration", () => {
@@ -41,10 +44,12 @@ describe("saved state tax and service starting profiles", () => {
       expect(canonicalJson(profile.taxTerms)).toContain(
         '"legalBaselineAssumption":"authored-state-game-profile"',
       );
-      expect([400, 450, 500]).toContain(
+      const basisPoints =
         (profile.taxTerms.rateNumerator * 10_000) /
-          profile.taxTerms.rateDenominator,
-      );
+        profile.taxTerms.rateDenominator;
+      expect(basisPoints).toBeGreaterThanOrEqual(0);
+      expect(basisPoints).toBeLessThanOrEqual(1_000);
+      expect(profile.taxTerms.baseKey).toBe("tax-base:wages");
       expect(profile.capacity.unitsOperational).toBeLessThanOrEqual(
         profile.capacity.unitsTotal,
       );

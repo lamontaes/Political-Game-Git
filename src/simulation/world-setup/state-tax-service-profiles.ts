@@ -4,6 +4,7 @@ import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import { SeededRng } from "../rng";
 import type { TaxGameProfileRef } from "../tax-types";
+import type { TaxTerms } from "../tax-types";
 import type { CurrencyCode, World } from "../types";
 import {
   STATE_TAX_SERVICE_GAME_PROFILE_VERSION,
@@ -19,14 +20,131 @@ const WORLD_SETUP_PROFILE_STREAM = "world-setup:crunch46-v1";
 const STARTING_CONDITIONS_KEY =
   WORLD_SETUP_PROFILE_STREAM + ":state-tax-service-starting-conditions";
 const PROFILE_NOTICE =
-  "Fictional game-profile mechanics for a modeled school-facilities service. These values do not describe current state tax, appropriation, or service law, and they are not source evidence.";
-const RATE_CHOICES = [
-  { numerator: 4, denominator: 100, label: "4%" },
-  { numerator: 9, denominator: 200, label: "4.5%" },
-  { numerator: 5, denominator: 100, label: "5%" },
-] as const;
+  "Fictional game-profile mechanics: each government's legislature or council holds ordinary tax authority by default, and its opening law taxes the wages the game pays at a seeded rate. The rate is calibrated against the real jurisdiction and then drifts; it is not current law or source evidence.";
 
-const stateKeys = [...US_STATE_USPS]
+/**
+ * Calibration only (owner rule: real data calibrates, the game generates).
+ * A representative flat or middle-bracket state wage income tax rate in basis
+ * points; zero where the real state taxes no wages. The save's own opening
+ * rate is drawn from this with seeded drift, so no save quotes a real rate.
+ */
+const WAGE_TAX_CALIBRATION_BASIS_POINTS: Readonly<Record<string, number>> = {
+  "US-AK": 0,
+  "US-AL": 500,
+  "US-AR": 390,
+  "US-AZ": 250,
+  "US-CA": 600,
+  "US-CO": 440,
+  "US-CT": 500,
+  "US-DE": 520,
+  "US-FL": 0,
+  "US-GA": 540,
+  "US-HI": 720,
+  "US-IA": 380,
+  "US-ID": 570,
+  "US-IL": 495,
+  "US-IN": 300,
+  "US-KS": 520,
+  "US-KY": 400,
+  "US-LA": 300,
+  "US-MA": 500,
+  "US-MD": 475,
+  "US-ME": 675,
+  "US-MI": 425,
+  "US-MN": 680,
+  "US-MO": 470,
+  "US-MS": 440,
+  "US-MT": 590,
+  "US-NC": 425,
+  "US-ND": 195,
+  "US-NE": 520,
+  "US-NH": 0,
+  "US-NJ": 550,
+  "US-NM": 490,
+  "US-NV": 0,
+  "US-NY": 550,
+  "US-OH": 275,
+  "US-OK": 475,
+  "US-OR": 875,
+  "US-PA": 307,
+  "US-RI": 475,
+  "US-SC": 620,
+  "US-SD": 0,
+  "US-TN": 0,
+  "US-TX": 0,
+  "US-UT": 455,
+  "US-VA": 575,
+  "US-VT": 660,
+  "US-WA": 0,
+  "US-WI": 530,
+  "US-WV": 480,
+  "US-WY": 0,
+  // DC OTR's 2025 D-40 rate table retains 6.5% for $40k-$60k and is
+  // published for tax years beginning after 2021. This is calibration only.
+  // https://otr.cfo.dc.gov/page/dc-individual-and-fiduciary-income-tax-rates
+  "US-DC": 650,
+};
+
+/** The highest opening rate the drift can reach, in basis points. */
+export const STATE_WAGE_TAX_OPENING_CEILING_BASIS_POINTS = 1_000;
+/** The highest rate a state tax bill may set, in basis points. */
+export const STATE_WAGE_TAX_BILL_CEILING_BASIS_POINTS = 1_500;
+
+/**
+ * Drift from the calibration. A state that taxes no wages usually opens at
+ * zero (nine saves in ten); otherwise the rate moves up to half a point
+ * either way in quarter-point steps.
+ */
+function openingWageTaxBasisPoints(seed: string, jurisdictionKey: string) {
+  const rng = new SeededRng(seed).fork(
+    WORLD_SETUP_PROFILE_STREAM + ":state-wage-tax:" + jurisdictionKey,
+  );
+  const calibrated = WAGE_TAX_CALIBRATION_BASIS_POINTS[jurisdictionKey];
+  if (calibrated === undefined)
+    throw new Error("No wage-tax calibration for " + jurisdictionKey + ".");
+  if (calibrated === 0)
+    return rng.fork("zero").integer(0, 10) === 0
+      ? 100 + 50 * rng.fork("small").integer(0, 5)
+      : 0;
+  const step = rng.fork("drift").integer(-2, 3) * 25;
+  return Math.min(
+    STATE_WAGE_TAX_OPENING_CEILING_BASIS_POINTS,
+    Math.max(0, calibrated + step),
+  );
+}
+
+/** The wage tax a state's law carries: its terms at a given rate. */
+export function stateWageTaxTerms(
+  jurisdictionKey: string,
+  stateName: string,
+  rateBasisPoints: number,
+): TaxTerms & { readonly effectiveDelayDays: number } {
+  const stateUsps = jurisdictionKey.slice(3);
+  return {
+    seriesKey: "state-wage-income:" + stateUsps.toLowerCase(),
+    baseKey: "tax-base:wages",
+    baseLabel: "wages",
+    rateNumerator: rateBasisPoints,
+    rateDenominator: 10_000,
+    exemptBaseKeys: [],
+    allowanceMinorUnits: 0,
+    currency: "USD" as CurrencyCode,
+    // One law has one start: the tax takes effect on the law's own
+    // effective date (owner decision 2026-09-26), with no extra delay.
+    effectiveDelayDays: 0,
+    // Withheld from each paycheck the day it is paid; this lag is the dated
+    // route's settlement floor and is not used by withholding.
+    collectionLagDays: 1,
+    publicPurpose: "general " + stateName + " public services",
+    assumptionNote:
+      "The wage base, rate and payroll withholding are fictional " +
+      stateName +
+      " game-profile assumptions generated for this save; they are not jurisdiction law or sourced tax authority.",
+    legalBaselineAssumption: "authored-state-game-profile",
+  };
+}
+
+const stateKeys = [...US_STATE_USPS, "DC"]
   .sort()
   .map((stateUsps) => "US-" + stateUsps);
 
@@ -69,41 +187,17 @@ function buildProfile(
     );
   const stateUsps = jurisdictionKey.slice(3);
   const stateName = jurisdiction.name;
-  const rateIndex = new SeededRng(seed)
-    .fork(
-      WORLD_SETUP_PROFILE_STREAM +
-        ":state-tax-service:" +
-        jurisdictionKey +
-        ":rate",
-    )
-    .integer(0, RATE_CHOICES.length);
-  const selectedRate = RATE_CHOICES[rateIndex]!;
   const profileId = "state-funded-service:" + jurisdictionKey.toLowerCase();
   const definition: ProfileDefinition = {
     profileId,
     jurisdictionKey,
     jurisdictionId: jurisdiction.id,
     note: PROFILE_NOTICE,
-    taxTerms: {
-      seriesKey: "state-personal-occurrence:" + stateUsps.toLowerCase(),
-      baseKey: "tax-base:declared-personal-occurrence",
-      baseLabel: "declared personal occurrence",
-      rateNumerator: selectedRate.numerator,
-      rateDenominator: selectedRate.denominator,
-      exemptBaseKeys: [],
-      allowanceMinorUnits: 0,
-      currency: "USD" as CurrencyCode,
-      effectiveDelayDays: 90,
-      collectionLagDays: 30,
-      publicPurpose: "modeled school-facilities maintenance service",
-      assumptionNote:
-        "The " +
-        selectedRate.label +
-        " rate, declared occurrence base, timing, and purpose are fictional " +
-        stateName +
-        " game-profile assumptions generated for this save; they are not state law or sourced tax authority.",
-      legalBaselineAssumption: "authored-state-game-profile",
-    },
+    taxTerms: stateWageTaxTerms(
+      jurisdictionKey,
+      stateName,
+      openingWageTaxBasisPoints(seed, jurisdictionKey),
+    ),
     appropriation: {
       basis: {
         kind: "game-profile",
@@ -226,7 +320,7 @@ export function stateTaxServiceProfileByRef(
     : null;
 }
 
-/** Full-save integrity hook for the versioned, canonical fifty-state payload. */
+/** Full-save integrity hook for the canonical fifty states and District. */
 export function assertStateTaxServiceStartingConditions(
   record: StateTaxServiceStartingConditionsRecord,
 ): void {
@@ -236,7 +330,7 @@ export function assertStateTaxServiceStartingConditions(
     record.profiles.length !== stateKeys.length
   )
     throw new Error(
-      "State tax/service starting conditions must contain the current fifty-state contract.",
+      "State tax/service starting conditions have an invalid jurisdiction contract.",
     );
   for (let index = 0; index < stateKeys.length; index += 1) {
     const profile = record.profiles[index]!;
@@ -253,11 +347,50 @@ export function assertStateTaxServiceStartingConditions(
     const rateBasisPoints =
       (profile.taxTerms.rateNumerator * 10_000) /
       profile.taxTerms.rateDenominator;
-    if (![400, 450, 500].includes(rateBasisPoints))
+    const expected =
+      Number.isSafeInteger(rateBasisPoints) &&
+      rateBasisPoints >= 0 &&
+      rateBasisPoints <= STATE_WAGE_TAX_OPENING_CEILING_BASIS_POINTS
+        ? stateWageTaxTerms(
+            profile.jurisdictionKey,
+            jurisdiction.name,
+            rateBasisPoints,
+          )
+        : null;
+    if (
+      !expected ||
+      canonicalJson(profile.taxTerms) !== canonicalJson(expected)
+    )
       throw new Error(
         "State tax/service profile exceeds its authored rate calibration for " +
           stateKeys[index] +
           ".",
       );
   }
+}
+
+/**
+ * Whether filed tax terms are this state's wage-tax law at some rate a bill
+ * may set. A tax bill changes the rate; everything else about the law (the
+ * wage base, withholding, the state account) is the same in every state.
+ */
+export function taxTermsMatchStateWageLaw(
+  profile: StateTaxServiceStartingProfile,
+  terms: TaxTerms,
+): boolean {
+  const jurisdiction = stateJurisdictionForKey(profile.jurisdictionKey);
+  if (!jurisdiction || terms.rateDenominator !== 10_000) return false;
+  const rate = terms.rateNumerator;
+  if (
+    !Number.isSafeInteger(rate) ||
+    rate < 0 ||
+    rate > STATE_WAGE_TAX_BILL_CEILING_BASIS_POINTS
+  )
+    return false;
+  return (
+    canonicalJson(terms) ===
+    canonicalJson(
+      stateWageTaxTerms(profile.jurisdictionKey, jurisdiction.name, rate),
+    )
+  );
 }

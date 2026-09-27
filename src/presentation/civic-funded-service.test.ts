@@ -3,7 +3,11 @@ import {
   endSuppliedSeat,
   suppliedLegislativeSeat,
 } from "../../tests/fixtures/supplied-legislative-seat";
-import { TEST_TAX_TERMS } from "../../tests/fixtures/tax-policy-fixture";
+import {
+  TEST_TAX_TERMS,
+  fileTestTaxProposalFromOffice,
+  recordTestTaxOccurrence,
+} from "../../tests/fixtures/tax-policy-fixture";
 import { ordinaryAlaskaHouseMember } from "../../tests/fixtures/civic-funded-service-entry";
 import { CAREER_PROVIDERS } from "./career-path7-provider";
 import {
@@ -29,10 +33,6 @@ import {
   castMemberBallot,
   memberVotesAhead,
 } from "../simulation/governing/legislative-clock";
-import {
-  declarePersonalTaxOccurrence,
-  fileTaxProposalFromOffice,
-} from "./tax-work";
 import {
   cancelTransitImplementation,
   fileTransitAppropriation,
@@ -198,7 +198,7 @@ function fundedLife(occurrences: 1 | 2): Funded {
     serviceWindow: "weekday",
   });
   world = enactThroughSitting(transit.world, transit.bill.measureId, personId);
-  const tax = fileTaxProposalFromOffice(world, {
+  const tax = fileTestTaxProposalFromOffice(world, {
     personId,
     stableKey: "civic:tax",
     terms: TEST_TAX_TERMS,
@@ -216,7 +216,7 @@ function fundedLife(occurrences: 1 | 2): Funded {
     );
   const proposal = world.history.taxProposals!.at(-1)!;
   for (let n = 1; n <= occurrences; n++)
-    world = declarePersonalTaxOccurrence(world, {
+    world = recordTestTaxOccurrence(world, {
       personId,
       stableKey: `civic:occurrence-${n}`,
       proposalId: proposal.id,
@@ -505,7 +505,7 @@ describe("funded civic service: decision -> collected public cash -> payment -> 
         }),
       ).toThrow();
       expect(() =>
-        fileTaxProposalFromOffice(ended, {
+        fileTestTaxProposalFromOffice(ended, {
           personId,
           stableKey: "civic:ended-seat-tax",
           terms: TEST_TAX_TERMS,

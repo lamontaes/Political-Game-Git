@@ -6,11 +6,11 @@ import {
   proposalFixture,
   enactedTaxFixture,
   enactSecondTaxVersion,
+  recordTestTaxOccurrence,
 } from "../../tests/fixtures/tax-policy-fixture";
 import { createLegislativeScenario } from "./legislation-scenarios";
 import {
   fileTaxProposalFromOffice,
-  declarePersonalTaxOccurrence,
   readPublicTaxReceipts,
 } from "../presentation/tax-work";
 import { advanceWorld, assertWorldIntegrity } from "./world";
@@ -40,7 +40,7 @@ function onEffectiveDay(fixture: ReturnType<typeof enactedTaxFixture>) {
   return { ...fixture, world };
 }
 function declare(fixture: ReturnType<typeof enactedTaxFixture>, amount = 2100) {
-  return declarePersonalTaxOccurrence(fixture.world, {
+  return recordTestTaxOccurrence(fixture.world, {
     personId: fixture.personId,
     stableKey: "tax-test:occurrence",
     proposalId: fixture.proposalId,
@@ -307,7 +307,7 @@ describe("SYSTEMS30-F sourced proposal to enacted policy to due collection", () 
       expect(() => assertWorldIntegrity(variant)).toThrow();
     const before = serializeWorld(world);
     expect(() =>
-      declarePersonalTaxOccurrence(world, {
+      recordTestTaxOccurrence(world, {
         personId: fixture.personId,
         stableKey: "tax-test:occurrence",
         proposalId: fixture.proposalId,
@@ -353,7 +353,7 @@ describe("SYSTEMS30-F sourced proposal to enacted policy to due collection", () 
       ),
       createCampaignElectionTransitionRegistry(),
     );
-    world = declarePersonalTaxOccurrence(world, {
+    world = recordTestTaxOccurrence(world, {
       personId: fixture.personId,
       stableKey: "tax-test:new-version-occurrence",
       proposalId: fixture.secondProposalId,

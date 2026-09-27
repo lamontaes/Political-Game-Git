@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { recordTestTaxOccurrence } from "../../tests/fixtures/tax-policy-fixture";
 import { CAREER_PROVIDERS } from "./career-path7-provider";
 import { fileDraftFromOffice } from "./legislation-docket";
 import {
@@ -9,9 +10,10 @@ import {
 import { publishLegislativeTransition } from "./publish-legislative-transition";
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
 import {
-  declarePersonalTaxOccurrence,
+  fileStateWageTaxRateFromOffice,
   fileTaxProposalFromOffice,
 } from "./tax-work";
+import { operativeDateForEnactment } from "../simulation/legislative-effective-date";
 import {
   measurePosition,
   availableMeasureSteps,
@@ -565,10 +567,10 @@ function fundedServiceRoute(state: "KY" | "MN" | "NV") {
   ).toThrow(/exact tax terms/);
   expect(serializeWorld(world)).toBe(beforeWrongFiling);
 
-  const tax = fileTaxProposalFromOffice(world, {
+  const tax = fileStateWageTaxRateFromOffice(world, {
     personId,
     stableKey: `funded-service:${state}:tax`,
-    terms: profile.taxTerms,
+    rateBasisPoints: 500,
   });
   const filedTax = reopen(tax.world);
   expect(serializeWorld(filedTax)).toBe(serializeWorld(tax.world));
@@ -594,7 +596,7 @@ function fundedServiceRoute(state: "KY" | "MN" | "NV") {
     (row) => row.measureId === tax.measureId,
   )!;
   expect(taxPolicy.effectiveAt).toBe(
-    addDays(taxEnactment.resolvedAt, profile.taxTerms.effectiveDelayDays),
+    operativeDateForEnactment(taxEnactment)?.date,
   );
   const jurisdictionId = fixture.governingJurisdictionId;
   const initialAccount = publicTaxAccountForJurisdiction(world, jurisdictionId);
@@ -677,10 +679,10 @@ function fundedServiceRoute(state: "KY" | "MN" | "NV") {
   }
   const taxableAmount = Math.ceil(
     (profile.capacity.restorationCostPerUnitMinorUnits *
-      profile.taxTerms.rateDenominator) /
-      profile.taxTerms.rateNumerator,
+      proposal.terms.rateDenominator) /
+      proposal.terms.rateNumerator,
   );
-  world = declarePersonalTaxOccurrence(world, {
+  world = recordTestTaxOccurrence(world, {
     personId,
     stableKey: `funded-service:${state}:occurrence`,
     proposalId: proposal.id,

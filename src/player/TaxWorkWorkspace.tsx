@@ -1,27 +1,21 @@
 import "./tax-work.css";
 import { useEffect, useRef, useState } from "react";
-import { canonicalJson } from "../simulation/canonical-json";
 import {
   effectiveTaxPolicy,
-  previewTax,
   publicTaxAccountForJurisdiction,
-  taxPowerEvidenceFor,
+  taxRatePercentText,
 } from "../simulation/tax-policy";
-import { money } from "../simulation/resources";
 import { resourcePositionAt } from "../simulation/resource-queries";
-import { resolveLegislativeFilingEntry } from "../presentation/legislative-filing-entry";
 import { taxActivationReadiness } from "../simulation/tax-policy-activation";
 import { resolveLegislativeAssignmentForMeasure } from "../presentation/legislation-world";
 import { publishLegislativeTransition } from "../presentation/publish-legislative-transition";
 import {
-  declarePersonalTaxOccurrence,
-  fileTaxProposalFromOffice,
-  readPublicTaxReceipts,
+  fileStateWageTaxRateFromOffice,
+  stateWageTaxForOffice,
 } from "../presentation/tax-work";
+import { proseDate } from "../presentation/prose-dates";
 import { LegislationWorkspace } from "./LegislationWorkspace";
-import { RecordedSittingAdmission } from "./RecordedSittingAdmission";
 import type { EntityId, World } from "../simulation";
-import type { TaxTerms } from "../simulation/tax-types";
 
 export function exactDollarInput(value: string): number {
   if (!/^\d+(\.\d{1,2})?$/.test(value.trim()))
@@ -53,14 +47,7 @@ export function TaxWorkWorkspace({
   onWorldChange: (world: World) => void;
   onOpenMeasure: (measureId: EntityId) => void;
 }) {
-  const [baseLabel, setBaseLabel] = useState("");
   const [rate, setRate] = useState("");
-  const [allowance, setAllowance] = useState("");
-  const [lag, setLag] = useState("");
-  const [purpose, setPurpose] = useState("");
-  const [assumptions, setAssumptions] = useState("");
-  const [exempt, setExempt] = useState(false);
-  const [occurrence, setOccurrence] = useState("");
   const [following, setFollowing] = useState<EntityId | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -90,31 +77,13 @@ export function TaxWorkWorkspace({
     });
     return () => cancelAnimationFrame(frame);
   }, [revealFollowed, following]);
-  const entry = resolveLegislativeFilingEntry(world, personId);
-  const power =
-    entry.kind === "available"
-      ? taxPowerEvidenceFor(entry.seat.jurisdictionKey)
-      : null;
+  // Every state's legislature holds the same tax law route: the state's own
+  // tax on wages, whose rate a bill may change.
+  const office = stateWageTaxForOffice(world, personId);
   // The normal legislative action boundary: newly enacted supported tax terms
   // become a policy version here, exactly as on the Docket route.
   const onLegislativeChange = (next: World) =>
     onWorldChange(publishLegislativeTransition(world, next));
-  function terms(): TaxTerms {
-    return {
-      seriesKey: "tax:authored-selective-excise",
-      baseKey: "tax-base:declared-activity",
-      baseLabel,
-      rateNumerator: exactDollarInput(rate),
-      rateDenominator: 10000,
-      allowanceMinorUnits: exactDollarInput(allowance),
-      currency: money(0, "USD").currency,
-      collectionLagDays: /^\d+$/.test(lag) ? Number(lag) : NaN,
-      exemptBaseKeys: exempt ? ["tax-base:declared-activity"] : [],
-      publicPurpose: purpose,
-      assumptionNote: assumptions,
-      legalBaselineAssumption: "carry-forward-acquired-baseline-in-game",
-    };
-  }
   function act(action: () => void) {
     try {
       action();
@@ -124,15 +93,19 @@ export function TaxWorkWorkspace({
     }
     setFeedbackSeq((count) => count + 1);
   }
+  function rateBasisPoints(): number {
+    return exactDollarInput(rate);
+  }
   function file() {
     act(() => {
-      const candidate = terms();
-      // Each filing mints a new canonical proposal, so identical pending terms
-      // by the same sponsor are refused here rather than filed twice.
+      const basisPoints = rateBasisPoints();
+      // Each filing mints a new canonical proposal, so an identical pending
+      // rate by the same sponsor is refused here rather than filed twice.
       const pending = (world.history.taxProposals ?? []).find(
         (row) =>
           row.sponsorPersonId === personId &&
-          canonicalJson(row.terms) === canonicalJson(candidate) &&
+          row.terms.rateNumerator === basisPoints &&
+          row.terms.rateDenominator === 10_000 &&
           !world.history.legislativeEnactments?.some(
             (enactment) => enactment.measureId === row.measureId,
           ),
@@ -142,35 +115,28 @@ export function TaxWorkWorkspace({
         setRevealFollowed(true);
         setMessage(null);
         throw new Error(
-          "An identical tax proposal is already filed and not yet enacted. Its procedure is shown below.",
+          "An identical tax bill is already filed and not yet law. Its procedure is shown below.",
         );
       }
-      const result = fileTaxProposalFromOffice(world, {
+      const result = fileStateWageTaxRateFromOffice(world, {
         personId,
         stableKey: `tax-proposal:ordinary-${world.history.nextSequence}`,
-        terms: candidate,
+        rateBasisPoints: basisPoints,
       });
       onWorldChange(result.world);
       setFollowing(result.world.history.taxProposals!.at(-1)!.id);
       setRevealFollowed(true);
       setMessage(
-        "Tax proposal filed. It must complete the legislative and executive process before a policy can take effect.",
+        "Tax bill filed. It must pass the legislature and the governor before the new rate takes effect.",
       );
     });
   }
   function preview() {
     act(() => {
-      const result = previewTax(
-        terms(),
-        "tax-base:declared-activity",
-        occurrence.trim() === ""
-          ? null
-          : money(exactDollarInput(occurrence), "USD"),
-      );
+      const basisPoints = rateBasisPoints();
+      const tax = Math.round((100_000 * basisPoints) / 10_000);
       setMessage(
-        result.status === "unavailable"
-          ? result.reason
-          : `Preview only: ${display(result.taxAmount.minorUnits)} on ${display(result.taxableAmount.minorUnits)} of taxable base. No funds moved.`,
+        `At this rate, $1,000.00 of wages would have ${display(tax)} withheld for the state. Nothing is filed yet.`,
       );
     });
   }
@@ -187,47 +153,23 @@ export function TaxWorkWorkspace({
     >
       <h3>Tax work and receipts</h3>
       <p>
-        These are authored game taxes. Rates, bases, allowances and settlement
-        timing are declared assumptions. A declared base creates no income or
-        purchase money. Collection uses existing personal funds and the general
-        public account; campaign funds are separate.
+        Your jurisdiction taxes residents&rsquo; wages. Employers withhold the
+        tax from each paycheck and it goes to the public account. A tax bill
+        changes the rate once it becomes law and takes effect.
       </p>
       <div ref={feedbackRef} className="tax-work-feedback">
         {error ? <p role="alert">{error}</p> : null}
         {message ? <p role="status">{message}</p> : null}
       </div>
-      {power ? (
-        /*
-         * One readable flow over the same filing mechanics: what the tax is
-         * for, then the terms (with a preview), then the commitment to file.
-         */
+      {office.kind === "available" ? (
         <details>
-          <summary>Prepare an authored tax proposal</summary>
-          <p>
-            Your current office can propose a change to this state's taxing
-            power.
+          <summary>Propose a new state tax rate on wages</summary>
+          <p data-testid="tax-rate-in-force">
+            Employers here withhold {taxRatePercentText(office.inForce)} of each
+            resident's wages for the state today.
           </p>
           <fieldset className="tax-work-step">
-            <legend>1. Objective: what the tax is for</legend>
-            <label>
-              Public purpose{" "}
-              <input
-                aria-label="Tax public purpose"
-                value={purpose}
-                onChange={(event) => setPurpose(event.target.value)}
-              />
-            </label>
-            <label>
-              Tax base description{" "}
-              <input
-                aria-label="Tax base description"
-                value={baseLabel}
-                onChange={(event) => setBaseLabel(event.target.value)}
-              />
-            </label>
-          </fieldset>
-          <fieldset className="tax-work-step">
-            <legend>2. Proposal: the terms</legend>
+            <legend>The rate your bill would set</legend>
             <label>
               Rate, percent{" "}
               <input
@@ -237,75 +179,16 @@ export function TaxWorkWorkspace({
                 onChange={(event) => setRate(event.target.value)}
               />
             </label>
-            <label>
-              Allowance per occurrence, USD{" "}
-              <input
-                aria-label="Tax allowance USD"
-                inputMode="decimal"
-                value={allowance}
-                onChange={(event) => setAllowance(event.target.value)}
-              />
-            </label>
-            <label>
-              Settlement lag, days{" "}
-              <input
-                aria-label="Tax settlement lag days"
-                inputMode="numeric"
-                value={lag}
-                onChange={(event) => setLag(event.target.value)}
-              />
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={exempt}
-                onChange={(event) => setExempt(event.target.checked)}
-              />
-              Exempt this declared base
-            </label>
-            <label>
-              Model assumptions{" "}
-              <textarea
-                aria-label="Tax model assumptions"
-                value={assumptions}
-                onChange={(event) => setAssumptions(event.target.value)}
-              />
-            </label>
-            <label>
-              Declared occurrence base, USD{" "}
-              <input
-                aria-label="Declared occurrence base USD"
-                inputMode="decimal"
-                value={occurrence}
-                onChange={(event) => setOccurrence(event.target.value)}
-              />
-            </label>
             <button type="button" onClick={preview}>
               Preview tax
             </button>
-          </fieldset>
-          <fieldset className="tax-work-step">
-            <legend>3. Commitment: file it</legend>
-            <p>
-              This proposal is written against the taxing power as this game
-              records it for Alaska.
-            </p>
-            <p>
-              This route uses the ninety-day default after enactment, exact
-              half-up cent rounding and general public receipts. It models no
-              dedication exception or early effective-date vote.
-            </p>
             <button type="button" onClick={file}>
-              File tax proposal
+              File tax bill
             </button>
           </fieldset>
         </details>
       ) : (
-        <p data-testid="tax-proposal-withheld">
-          {entry.kind === "available"
-            ? "This office has no supported tax-power contract, so it cannot propose a tax."
-            : entry.reason}
-        </p>
+        <p data-testid="tax-proposal-withheld">{office.reason}</p>
       )}
       {proposals.map((proposal) => {
         const policy = world.history.taxPolicies?.find(
@@ -316,15 +199,6 @@ export function TaxWorkWorkspace({
           proposal.jurisdictionId,
           proposal.terms.seriesKey,
           world.currentDate,
-        );
-        const assessments = (world.history.taxAssessments ?? []).filter(
-          (row) =>
-            world.history.taxBases?.some(
-              (base) =>
-                base.id === row.baseId &&
-                base.payer.kind === "person" &&
-                base.payer.personId === personId,
-            ) && row.policyId === policy?.id,
         );
         const account = publicTaxAccountForJurisdiction(
           world,
@@ -351,10 +225,13 @@ export function TaxWorkWorkspace({
             ref={following === proposal.id ? followedRef : undefined}
             tabIndex={-1}
           >
-            <h4>{proposal.terms.baseLabel}</h4>
+            <h4>
+              Tax on {proposal.terms.baseLabel} at{" "}
+              {taxRatePercentText(proposal.terms)}
+            </h4>
             <p>
               {policy
-                ? `Enacted policy; effective ${policy.effectiveAt}${active?.id === policy.id ? ". Effective for new occurrences today." : ". Not the effective version today."}`
+                ? `Law; the rate took or takes effect on ${proseDate(policy.effectiveAt)}${active?.id === policy.id ? ", and it is the rate withheld from pay today." : ", and it is not the rate in force today."}`
                 : taxActivationReadiness(world, proposal.id).reason}
             </p>
             <div className="tax-work-actions">
@@ -378,22 +255,6 @@ export function TaxWorkWorkspace({
             </div>
             {assignment ? (
               <div className="tax-work-procedure">
-                {assignment.kind === "available" &&
-                !assignment.assignment.procedure.recordedSittingEventId ? (
-                  <RecordedSittingAdmission
-                    world={world}
-                    measureId={proposal.measureId}
-                    playerPersonId={personId}
-                    name={`tax-recorded-ballot-${proposal.id}`}
-                    testIdPrefix="tax"
-                    onWorldChange={onLegislativeChange}
-                    onAdmitted={() => setError(null)}
-                    onError={(refusal) => {
-                      setError(refusal);
-                      setFeedbackSeq((count) => count + 1);
-                    }}
-                  />
-                ) : null}
                 {assignment.kind === "available" ? (
                   <LegislationWorkspace
                     world={world}
@@ -405,60 +266,6 @@ export function TaxWorkWorkspace({
                 )}
               </div>
             ) : null}
-            {active?.id === policy?.id && policy ? (
-              <>
-                <label>
-                  Occurrence base, USD{" "}
-                  <input
-                    aria-label={`Occurrence base USD for ${proposal.terms.baseLabel}`}
-                    value={occurrence}
-                    inputMode="decimal"
-                    onChange={(event) => setOccurrence(event.target.value)}
-                  />
-                </label>
-                <button
-                  type="button"
-                  onClick={() =>
-                    act(() => {
-                      const next = declarePersonalTaxOccurrence(world, {
-                        personId,
-                        stableKey: `tax-occurrence:ordinary-${world.history.nextSequence}`,
-                        proposalId: proposal.id,
-                        baseKey: proposal.terms.baseKey,
-                        amountMinorUnits: exactDollarInput(occurrence),
-                        assumptionNote:
-                          "Explicitly declared fictional taxable occurrence; no underlying purchase, income or observed tax return is inferred.",
-                      });
-                      onWorldChange(next);
-                      setMessage(
-                        "Assessment recorded. Settlement occurs once through the calendar on its due date.",
-                      );
-                    })
-                  }
-                >
-                  Declare personal occurrence
-                </button>
-              </>
-            ) : null}
-            {assessments.map((assessment) => {
-              const collection = world.history.taxCollections?.find(
-                (row) => row.assessmentId === assessment.id,
-              );
-              return (
-                <p key={assessment.id}>
-                  Assessment: {display(assessment.taxAmount.minorUnits)}, due{" "}
-                  {assessment.dueAt}.{" "}
-                  {collection
-                    ? `${collection.status}: ${display(collection.transferredAmount.minorUnits)} transferred${collection.reason ? ` (${collection.reason})` : ""}.`
-                    : "Pending; no collection recorded."}
-                </p>
-              );
-            })}
-            <p>
-              Recorded general receipts under this jurisdiction:{" "}
-              {readPublicTaxReceipts(world, proposal.jurisdictionId).length}{" "}
-              settlement(s). Enactment and previews are excluded.
-            </p>
             <p data-testid="tax-public-cash">
               Public account cash now:{" "}
               {publicCash === undefined
