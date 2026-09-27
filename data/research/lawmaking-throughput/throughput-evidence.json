@@ -21,6 +21,24 @@
       "url": "https://www.nmlegis.gov/Publications/Session/24/highlights.pdf",
       "locator": "Appendix A, PDF pages 44-45, bill action summary"
     },
+    "florida-2024": {
+      "title": "2024 Regular Session Statistics Report",
+      "publisher": "Florida Legislature",
+      "url": "https://www.leg.state.fl.us/data/session/2024/citator/Daily/stats.pdf",
+      "locator": "PDF pages 1-2, filed/passed by measure type and governor action; report dated August 2, 2024"
+    },
+    "kentucky-2024": {
+      "title": "General Assembly Action: 2024 Regular Session",
+      "publisher": "Kentucky Legislative Research Commission",
+      "url": "https://legislature.ky.gov/LRC/Publications/Informational%20Bulletins/IB266.pdf",
+      "locator": "Foreword, PDF page 4, regular-session totals"
+    },
+    "texas-session-law": {
+      "title": "Government Code Chapter 301: Legislative Organization",
+      "publisher": "Texas Legislature",
+      "url": "https://statutes.capitol.texas.gov/Docs/GV/htm/GV.301.htm",
+      "locator": "Section 301.001, regular session in odd-numbered years"
+    },
     "minneapolis-2024": {
       "title": "Council Tracking Report: 2024 Session Complete",
       "publisher": "City of Minneapolis",
@@ -108,6 +126,42 @@
       "caveat": "Appendix A's bill action summary gives 583 introduced, 72 passed, 69 enacted, and 3 vetoed. Its adjacent table separately labels five partial vetoes in an enacted category that does not reconcile arithmetically with the 72 passed bills; use the bill action summary for these figures and do not add five to 69. No override count is established here."
     },
     {
+      "id": "florida-2024-regular",
+      "jurisdiction": "Florida",
+      "period": "2024 regular session; official statistics report dated August 2, 2024",
+      "generalBillsFiled": 1732,
+      "localBillsFiled": 35,
+      "generalBillsPassedBothChambers": 291,
+      "localBillsPassedBothChambers": 22,
+      "billsApprovedByGovernor": 299,
+      "billsVetoed": 14,
+      "billsWithLineItemVeto": 1,
+      "vetoOverrides": null,
+      "sourceId": "florida-2024",
+      "caveat": "Filed is the report's term and may include bills withdrawn before formal introduction. General and local bills are separate; joint resolutions, memorials, and one-chamber resolutions are excluded from these bill counts. The one line-item veto is separately identified and must not be added to the 14 whole-bill vetoes."
+    },
+    {
+      "id": "kentucky-2024-regular",
+      "jurisdiction": "Kentucky",
+      "period": "2024 regular session, 60 legislative days",
+      "billsIntroduced": 1218,
+      "billsBecameLaw": 212,
+      "billsVetoed": 26,
+      "billVetoesOverridden": 24,
+      "sourceId": "kentucky-2024",
+      "caveat": "The 212 enacted bills comprise 55 Senate bills and 157 House bills. The governor vetoed seven Senate bills and 19 House bills; six and 18, respectively, were overridden. Joint and concurrent resolution vetoes and overrides are excluded from these bill counts."
+    },
+    {
+      "id": "texas-2024-no-regular-session",
+      "jurisdiction": "Texas",
+      "period": "Calendar year 2024",
+      "regularSessionHeld": false,
+      "introducedRegularSessionBills": null,
+      "regularSessionBillsBecameLaw": null,
+      "sourceId": "texas-session-law",
+      "caveat": "Texas regular sessions begin in odd-numbered years. A 2024 regular-session passage rate is not zero; it is undefined because no regular session was scheduled. Special sessions are a separate event."
+    },
+    {
       "id": "minneapolis-2024",
       "jurisdiction": "Minneapolis, Minnesota",
       "period": "January 1 to December 31, 2024",
@@ -137,7 +191,7 @@
   ],
   "coverageGaps": {
     "allStateSessionSeries": null,
-    "allStateSessionSeriesReason": "NCSL's broad Bill Information Service, including session statistics, requires member access. Public topic databases cannot be combined into an all-subject 50-state total without duplicate and scope controls. This packet contains only official Kansas and New Mexico all-bill snapshots.",
+    "allStateSessionSeriesReason": "NCSL's broad Bill Information Service, including session statistics, requires member access. Public topic databases cannot be combined into an all-subject 50-state total without duplicate and scope controls. This packet contains official Kansas, New Mexico, Florida, and Kentucky all-bill snapshots plus the Texas off-year rule, not a 50-state series.",
     "stateRepealProbabilityAndTime": null,
     "federalRepealProbabilityAndTime": null,
     "repealReason": "Amendment, explicit repeal, sunset, and supersession are distinct outcomes. The located academic repeal study follows landmark federal enactments, not the population of all federal and state laws; it cannot support a general rate or time-to-repeal constant.",
