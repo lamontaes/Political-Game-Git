@@ -253,7 +253,7 @@ describe("ALIVE43 W2 home party chapters and organizer encounters", () => {
     // a refusal against their name, which is what this now proves it does not.
     expect(state.state).toBe("lapsed");
     // Nothing was recorded against the player for it. Other people's lives
-    // go on in the same fortnight (their own calls, an introduction through a
+    // go on in the same two weeks (their own calls, an introduction through a
     // relative's friend), so the check is on what touches the player, not on
     // the whole world's count.
     const added = lapsed.history.relationshipInteractions.slice(
