@@ -133,8 +133,8 @@ export interface CampaignLifeOutcomeRecord {
   readonly outcomeEventId: EntityId;
   /** Persistent people actually met (volunteer partner, donor, reporter). */
   readonly contactPersonIds: readonly EntityId[];
-  /** Optional for old saves; model estimates are not persistent person contacts. */
-  readonly fieldReach?: CampaignFieldReach | null;
+  /** Model estimates are not persistent person contacts. */
+  readonly fieldReach: CampaignFieldReach | null;
   readonly relationshipInteractionIds: readonly EntityId[];
   /** Money that moved because of the activity (fundraiser proceeds). */
   readonly resourceFlowId: EntityId | null;

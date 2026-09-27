@@ -256,23 +256,6 @@ describe("concrete campaign week actions", () => {
     expect(resumedView.recentResults.at(-1)).toEqual(
       after.recentResults.at(-1),
     );
-    const legacy = {
-      ...resumed,
-      history: {
-        ...resumed.history,
-        campaignLifeOutcomes: campaignLifeOutcomeRecords(resumed).map(
-          (outcome) => {
-            const prior = { ...outcome };
-            delete prior.fieldReach;
-            return prior;
-          },
-        ),
-      },
-    };
-    expect(
-      projectCampaignWeekActions(legacy, life.personId)?.recentResults.at(-1)
-        ?.fieldReach,
-    ).toBeNull();
   });
 
   it("moves a hosted choice around a recorded commitment and charges time only once", () => {
