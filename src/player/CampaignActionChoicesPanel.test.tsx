@@ -119,7 +119,14 @@ describe("campaign choices in the player UI", () => {
     for (const choice of view.choices) {
       expect(html).toContain(choice.hostName);
       expect(html).toContain(choice.place);
+      expect(choice.cashCost).toBeNull();
+      expect(html).toContain(
+        `data-testid="campaign-choice-cost-${choice.form}"`,
+      );
     }
+    expect(html.match(/Cost not estimated\./g)).toHaveLength(
+      view.choices.length,
+    );
     expect(html).toContain("The committee opened with no money");
     expect(html).not.toContain("cost of these activities is not established");
     expect(html).not.toContain("$0 cost");
