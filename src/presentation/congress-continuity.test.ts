@@ -10,6 +10,7 @@ import type { ChamberView, World } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
+import { seatStartingCondition } from "../simulation/world-setup/conditions";
 
 function openLife(seed: string) {
   const game = generateOpeningLife(
@@ -57,6 +58,18 @@ describe("GOVERNING 3: Congress continues across term boundaries", () => {
     expect(results[0]!.occurredAt).toBe("2026-11-03");
     // 435 House seats and the 33 Senate seats whose terms end.
     expect(results[0]!.participants).toHaveLength(468);
+    const clearLeanWinners = results[0]!.participants.flatMap((winner) => {
+      const [seatKey, party] = (winner.detail ?? "").split("|");
+      const share = seatStartingCondition(world, seatKey!)?.generatedShare;
+      if (share === null || share === undefined) return [];
+      if (share >= 0.6) return [{ party, expected: "democratic" }];
+      if (share <= 0.4) return [{ party, expected: "republican" }];
+      return [];
+    });
+    expect(clearLeanWinners.length).toBeGreaterThan(0);
+    expect(clearLeanWinners.every((row) => row.party === row.expected)).toBe(
+      true,
+    );
     expect(projectCongress(counted)!.house).toEqual(
       projectCongress(autumn)!.house,
     );

@@ -12,11 +12,12 @@ import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
+import { seatStartingCondition } from "../world-setup/conditions";
+import { aggregateCongressAffiliation } from "./congress-aggregate-outcome";
 import {
   endCongressSeatWork,
   takeCongressSeatWork,
 } from "./congress-member-work";
-import { LIVING_WORLD_SCENARIO_PROFILE as PROFILE } from "./contract";
 import { MINIMUM_AGE, congressSeats, seatTermWindow } from "./congress-seats";
 import type { CongressSeat } from "./congress-seats";
 import {
@@ -46,8 +47,8 @@ import {
  * - On January 3 each winner's new term record is written, dated that day.
  *   A member-elect who died in between leaves an actual vacancy with its cause.
  *
- * Who wins is the game's disclosed turnover profile, not a forecast or real
- * results. Only dates the clock actually crosses act: reading or reopening a
+ * Uncontested background seats use a disclosed aggregate game model, not a
+ * forecast or real result. Only dates the clock actually crosses act: reading or reopening a
  * save writes nothing, a save that already passed these dates keeps its
  * record, and no incumbent is extended without an election.
  */
@@ -55,18 +56,14 @@ import {
 export const CONGRESS_TURNOVER_VERSION = "congress-turnover/v1";
 
 /**
- * PROVISIONAL, and awaiting SOURCED RATES rather than anyone's sign-off. The
- * election day below is sourced to 2 U.S.C. section 7; none of these four is
- * sourced to anything. Filed as executive-terms-and-incumbency-turnover.
+ * PLACEHOLDER(overnight): an age-only incumbent filing floor is a game rule,
+ * pending a person-level candidacy decision with recorded reasons. The
+ * election day below is sourced to 2 U.S.C. section 7; this age is not.
  */
 export const CONGRESS_TURNOVER_PROFILE = {
-  id: "ocd-congress-turnover-game-profile/v1",
-  /** Chance an incumbent runs again and wins, per mille. */
-  incumbentReturnPermille: { "us-house": 850, "us-senate": 800 },
+  id: "ocd-congress-aggregate-game-profile/v2",
   /** Incumbents this old or older retire. */
   retirementAge: 82,
-  /** Chance an open seat stays with the departing member's party, per mille. */
-  samePartyPermille: 750,
 } as const;
 
 export const CONGRESS_ELECTION_SOURCE = {
@@ -254,10 +251,6 @@ function decideSeat(
   newStart: IsoDate,
   electionDay: IsoDate,
 ): SeatOutcome | null {
-  const rng = new SeededRng(world.seed).fork(
-    `${CONGRESS_TURNOVER_VERSION}:${seat.seatKey}:${year}`,
-  );
-  const majors: string[] = PROFILE.majorParties.map((party) => party.key);
   const incumbent =
     record?.type === SEAT_TENURE_EVENT
       ? record.participants.find((p) => p.role === "focus:subject")?.personId
@@ -295,40 +288,45 @@ function decideSeat(
         : newStart,
     };
   }
+  const seeking =
+    (seatCandidacyIntent(world, seat.seatKey, year) ?? eligible) && eligible;
+  const condition = seatStartingCondition(world, seat.seatKey);
+  const party = aggregateCongressAffiliation({
+    democraticShare: condition?.generatedShare ?? null,
+    baselineAffiliation: condition?.affiliation ?? null,
+    incumbentAffiliation: recordedParty,
+    incumbentSeeking: seeking,
+  });
+  // Unknown seat views and unknown prior affiliation are not a coin toss.
+  if (party === null) return null;
+  const caucus =
+    party === "democratic" || party === "republican"
+      ? party
+      : (condition?.caucus ?? recordedCaucus ?? "none");
   // The person being played keeps a seat only by winning it. With no contest
   // of theirs on the ballot, the background model neither returns them nor
   // retires them by chance: they did not file, so the seat goes to someone
   // new, the same as any member who stands down.
   if (incumbent !== undefined && isControlled(world, incumbent)) {
-    const party =
-      recordedParty && majors.includes(recordedParty)
-        ? recordedParty
-        : rng.pick(majors);
     return {
       seat,
       incumbentPersonId: null,
       successorKey: `${LIVING_WORLD_KEYS.seat(seat.seatKey)}:term:${newStart}:member`,
       party,
-      caucus: party,
+      caucus,
       serviceSince: newStart,
     };
   }
-  const intent = seatCandidacyIntent(world, seat.seatKey, year);
-  // Standing again is its own recorded decision. Only the contest that
-  // follows decides whether they keep the seat.
-  const seeking =
-    intent ??
-    (eligible &&
-      rng.integer(0, 1000) <
-        CONGRESS_TURNOVER_PROFILE.incumbentReturnPermille[seat.chamberKey]);
-  const returns = eligible && seeking;
+  // Standing again is separately recorded. The constituency projection can
+  // defeat a seeking incumbent; holding office does not elect them by itself.
+  const returns = seeking && recordedParty === party;
   if (returns && incumbent) {
     return {
       seat,
       incumbentPersonId: incumbent,
       successorKey: null,
-      party: recordedParty ?? "none",
-      caucus: recordedCaucus ?? rng.pick(majors),
+      party,
+      caucus,
       serviceSince:
         (record
           ? (tagValue(record, "service-since:") as IsoDate | null)
@@ -337,19 +335,12 @@ function decideSeat(
         newStart,
     };
   }
-  const priorParty =
-    recordedParty && majors.includes(recordedParty) ? recordedParty : null;
-  const party = !priorParty
-    ? rng.pick(majors)
-    : rng.integer(0, 1000) < CONGRESS_TURNOVER_PROFILE.samePartyPermille
-      ? priorParty
-      : majors.find((key) => key !== priorParty)!;
   return {
     seat,
     incumbentPersonId: null,
     successorKey: `${LIVING_WORLD_KEYS.seat(seat.seatKey)}:term:${newStart}:member`,
     party,
-    caucus: party,
+    caucus,
     serviceSince: newStart,
   };
 }
@@ -373,9 +364,6 @@ function holdCongressElection(world: World, year: number): World {
             ?.personId ?? null)
         : null;
     const person = incumbent ? intents.people[incumbent] : undefined;
-    const rng = new SeededRng(intents.seed).fork(
-      `${CONGRESS_TURNOVER_VERSION}:intent:${seat.seatKey}:${year}`,
-    );
     const tooOld =
       person !== undefined &&
       ageOn(person.birthDate, electionDay) >=
@@ -384,13 +372,7 @@ function holdCongressElection(world: World, year: number): World {
     const played = incumbent !== null && isControlled(intents, incumbent);
     const filed = recordedSeatContest(intents, seat, electionDay) !== undefined;
     const seeking =
-      incumbent !== null &&
-      alive &&
-      !tooOld &&
-      (played ? filed : true) &&
-      (played ||
-        rng.integer(0, 1000) <
-          CONGRESS_TURNOVER_PROFILE.incumbentReturnPermille[seat.chamberKey]);
+      incumbent !== null && alive && !tooOld && (played ? filed : true);
     intents = recordSeatCandidacyIntent(
       intents,
       seat,
