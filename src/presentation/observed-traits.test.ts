@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 
+import { contactBases } from "../simulation/people-contact";
 import {
   ensurePeopleTraits,
   observedTraitLabels,
   personTraits,
+  strongestObservedTraitLabels,
 } from "../simulation/people-traits";
 import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
 import { readTrait } from "../simulation/trait-readings";
@@ -39,19 +41,42 @@ function life(seed: string) {
 describe("only an observed temperament is shown", () => {
   it("says nothing about people whose traits were never written", () => {
     const { world, personId } = life("three-state-probe");
-    const others = world.personOrder.filter((id) => id !== personId);
-    expect(others.length).toBeGreaterThan(0);
+    // The player's contacts have their traits written when the life opens;
+    // nobody else does until something needs them.
+    const contacts = new Set(
+      contactBases(world, personId).map((basis) => basis.personId),
+    );
+    const strangers = world.personOrder.filter(
+      (id) => id !== personId && !contacts.has(id),
+    );
+    expect(strangers.length).toBeGreaterThan(0);
 
     // The premise: nothing is recorded, and the seed alone would speak.
-    const unrecorded = others.flatMap((id) =>
+    const unrecorded = strangers.flatMap((id) =>
       personTraits(world, id).filter((trait) => trait.recordId === null),
     );
-    expect(unrecorded).toHaveLength(others.length * 5);
+    expect(unrecorded).toHaveLength(strangers.length * 5);
     expect(
       unrecorded.filter((trait) => trait.label !== null).length,
     ).toBeGreaterThan(0);
 
-    for (const id of others) expect(observedTraitLabels(world, id)).toEqual([]);
+    for (const id of strangers) {
+      expect(observedTraitLabels(world, id)).toEqual([]);
+      // The small card's three are drawn from the same written records.
+      expect(strongestObservedTraitLabels(world, id, 3)).toEqual([]);
+    }
+  });
+
+  it("names at most three on the small card, all of them written", () => {
+    const { world, personId } = life("three-state-probe");
+    const others = world.personOrder.filter((id) => id !== personId);
+    const written = ensurePeopleTraits(world, others);
+    for (const id of others) {
+      const strongest = strongestObservedTraitLabels(written, id, 3);
+      const all = observedTraitLabels(written, id);
+      expect(strongest.length).toBe(Math.min(3, all.length));
+      for (const label of strongest) expect(all).toContain(label);
+    }
   });
 
   it("says what was written, once it is written", () => {

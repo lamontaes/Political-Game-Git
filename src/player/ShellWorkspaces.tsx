@@ -96,6 +96,7 @@ import {
 import {
   measureById,
   simulationMinutesBetween,
+  workItemOccasionHasPassed,
   workPendingEntriesFor,
   type EntityId,
   type MoneyAmount,
@@ -1835,7 +1836,13 @@ export function WorkWorkspace({
     () => workPendingEntriesFor(world, personId),
     [world, personId],
   );
-  const needsYou = pending.filter((entry) => entry.group === "needs-you");
+  // A question about an occasion that has already happened (a meeting whose
+  // evening went by) is not waiting on anybody.
+  const needsYou = pending.filter(
+    (entry) =>
+      entry.group === "needs-you" &&
+      !workItemOccasionHasPassed(world, entry.item),
+  );
 
   return (
     <>

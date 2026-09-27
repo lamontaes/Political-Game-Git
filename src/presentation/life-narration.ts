@@ -1,3 +1,4 @@
+import { deathNewsBetween } from "./death-news";
 import {
   CONTACT_COUNTERED_EVENT,
   CONTACT_DECLINED_EVENT,
@@ -294,11 +295,18 @@ export function composeConnectiveNarration(
   const results = ownElectionResultsDecided(world, personId, since, until);
 
   const crossed = toAge > fromAge;
+  // A death the character was told of in this stretch is said first after the
+  // gap: it is the news a person would lead with. Its words are the family
+  // notice's own, and the cause is in them only if it was disclosed.
+  const deaths = deathNewsBetween(world, personId, since, until);
 
   // The elapsed opener exists to situate what follows. When nothing follows —
   // no nameable movement, no birthday — it would be a sentence whose whole
   // payload is that time passed, and the composer stays silent instead.
-  if (days > 0 && (movements.length > 0 || results.length > 0 || crossed)) {
+  if (
+    days > 0 &&
+    (movements.length > 0 || results.length > 0 || crossed || deaths.length > 0)
+  ) {
     const opener = elapsedPhrase(days);
     say(
       crossed ? `${opener}, and you're ${toAge} now.` : `${opener}.`,
@@ -307,6 +315,25 @@ export function composeConnectiveNarration(
       crossed
         ? `${days} day(s) between ${since} and ${until}; a birthday falls inside it.`
         : `${days} day(s) between ${since} and ${until}.`,
+    );
+  }
+
+  for (const death of deaths) {
+    say(
+      death.sentence,
+      "household",
+      [
+        {
+          store: "events",
+          recordId: death.eventId,
+          stableKey: null,
+          at: death.learnedAt,
+          sequence: death.sequence,
+          role: "origin",
+          note: "Family notice of a death.",
+        },
+      ],
+      "The family notice of a death this character was told of in the interval.",
     );
   }
 

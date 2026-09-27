@@ -60,10 +60,9 @@ const sociability = registry.traits.get(`${PEOPLE_MIND_VERSION}:sociability`)!;
 describe("what a chain of records says about how movable somebody is", () => {
   it("says nothing at all about somebody the world never wrote down", () => {
     const { world, playerId } = life("resist-a");
-    const { personId } = somebody(world, playerId);
     const reading = traitResistance(
       world,
-      personId,
+      playerId,
       sociability,
       peopleTraitId("sociability"),
     );

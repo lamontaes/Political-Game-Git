@@ -1,0 +1,351 @@
+{
+  "baseline": "claude/traits-lazy-opening with the opening writing no personality traits, as main did before #708 (frontier 271)",
+  "candidate": "claude/traits-lazy-opening, where opening a life writes the personality traits of the player's contacts",
+  "reason": "Opening a life now writes the five core traits and three to five notable qualities of the player's contacts (four people in this life) instead of leaving them until a decision needs them, added 2026-09-27 because writing every person's traits at opening made starting a life take about half an hour. The ordinary conversation starts 38 records later; only identities and sequences move, no wording.",
+  "changes": [
+    {
+      "path": ["household", "initialNextSequence"],
+      "before": 271,
+      "after": 309
+    },
+    {
+      "path": ["household", "finalNextSequence"],
+      "before": 286,
+      "after": 324
+    },
+    {
+      "path": ["household", "records", "relationship", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:relationship",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:relationship"
+    },
+    {
+      "path": ["household", "records", "relationship", 0, "eventId"],
+      "before": "event_5f67ba3286f1e994",
+      "after": "event_b6f3d3cd2fc59eb8"
+    },
+    {
+      "path": ["household", "records", "relationship", 0, "id"],
+      "before": "relationship_edcf44090f61d29e",
+      "after": "relationship_7858dae3010a4322"
+    },
+    {
+      "path": ["household", "records", "relationship", 0, "sequence"],
+      "before": 277,
+      "after": 315
+    },
+    {
+      "path": ["household", "records", "relationship", 1, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:relationship",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:relationship"
+    },
+    {
+      "path": ["household", "records", "relationship", 1, "eventId"],
+      "before": "event_8c9bca556fc19301",
+      "after": "event_645757bfce295bd5"
+    },
+    {
+      "path": ["household", "records", "relationship", 1, "id"],
+      "before": "relationship_f8b63128b5dba93d",
+      "after": "relationship_94ea66c8be73e301"
+    },
+    {
+      "path": ["household", "records", "relationship", 1, "sequence"],
+      "before": 284,
+      "after": 322
+    },
+    {
+      "path": ["household", "records", "commitment", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:commitment",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:commitment"
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "commitment",
+        0,
+        "provenance",
+        "eventId"
+      ],
+      "before": "event_8c9bca556fc19301",
+      "after": "event_645757bfce295bd5"
+    },
+    {
+      "path": ["household", "records", "commitment", 0, "id"],
+      "before": "life-commitment_95e4c2594ba7fcd2",
+      "after": "life-commitment_98513c3c26aa5236"
+    },
+    {
+      "path": ["household", "records", "commitment", 0, "sequence"],
+      "before": 285,
+      "after": 323
+    },
+    {
+      "path": ["household", "records", "landed", 0, "id"],
+      "before": "event_5f67ba3286f1e994",
+      "after": "event_b6f3d3cd2fc59eb8"
+    },
+    {
+      "path": ["household", "records", "landed", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:event",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:event"
+    },
+    {
+      "path": ["household", "records", "landed", 0, "sequence"],
+      "before": 271,
+      "after": 309
+    },
+    {
+      "path": ["household", "records", "landed", 0, "tags", 4],
+      "before": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea",
+      "after": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea"
+    },
+    {
+      "path": ["household", "records", "landed", 1, "id"],
+      "before": "event_8c9bca556fc19301",
+      "after": "event_645757bfce295bd5"
+    },
+    {
+      "path": ["household", "records", "landed", 1, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:event",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:event"
+    },
+    {
+      "path": ["household", "records", "landed", 1, "sequence"],
+      "before": 278,
+      "after": 316
+    },
+    {
+      "path": ["household", "records", "landed", 1, "tags", 4],
+      "before": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea",
+      "after": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea"
+    },
+    {
+      "path": ["household", "records", "turns", 0, "semantic", "turnKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1"
+    },
+    {
+      "path": ["household", "records", "turns", 1, "semantic", "turnKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2"
+    },
+    {
+      "path": ["household", "records", "turns", 1, "semantic", "commitmentId"],
+      "before": "life-commitment_95e4c2594ba7fcd2",
+      "after": "life-commitment_98513c3c26aa5236"
+    },
+    {
+      "path": [
+        "household",
+        "records",
+        "turns",
+        1,
+        "semantic",
+        "supersededPerceptionIds",
+        0
+      ],
+      "before": "perception_8c1da824522b3dde",
+      "after": "perception_0a5e08b64e635006"
+    },
+    {
+      "path": ["householdCallback", "initialNextSequence"],
+      "before": 271,
+      "after": 309
+    },
+    {
+      "path": ["householdCallback", "finalNextSequence"],
+      "before": 289,
+      "after": 327
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:relationship",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:relationship"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 0, "eventId"],
+      "before": "event_5f67ba3286f1e994",
+      "after": "event_b6f3d3cd2fc59eb8"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 0, "id"],
+      "before": "relationship_edcf44090f61d29e",
+      "after": "relationship_7858dae3010a4322"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 0, "sequence"],
+      "before": 277,
+      "after": 315
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 1, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:relationship",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:relationship"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 1, "eventId"],
+      "before": "event_8c9bca556fc19301",
+      "after": "event_645757bfce295bd5"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 1, "id"],
+      "before": "relationship_f8b63128b5dba93d",
+      "after": "relationship_94ea66c8be73e301"
+    },
+    {
+      "path": ["householdCallback", "records", "relationship", 1, "sequence"],
+      "before": 285,
+      "after": 323
+    },
+    {
+      "path": ["householdCallback", "records", "commitment", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:commitment",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:commitment"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "commitment",
+        0,
+        "provenance",
+        "eventId"
+      ],
+      "before": "event_8c9bca556fc19301",
+      "after": "event_645757bfce295bd5"
+    },
+    {
+      "path": ["householdCallback", "records", "commitment", 0, "id"],
+      "before": "life-commitment_95e4c2594ba7fcd2",
+      "after": "life-commitment_98513c3c26aa5236"
+    },
+    {
+      "path": ["householdCallback", "records", "commitment", 0, "sequence"],
+      "before": 286,
+      "after": 324
+    },
+    {
+      "path": ["householdCallback", "records", "aftermath", 0, "id"],
+      "before": "future-due-item_4bc49fd9125fe950",
+      "after": "future-due-item_f5ca35abe268fe1c"
+    },
+    {
+      "path": ["householdCallback", "records", "aftermath", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:callback",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:callback"
+    },
+    {
+      "path": ["householdCallback", "records", "aftermath", 0, "sequence"],
+      "before": 287,
+      "after": 325
+    },
+    {
+      "path": ["householdCallback", "records", "aftermath", 0, "entityIds", 0],
+      "before": "event_8c9bca556fc19301",
+      "after": "event_645757bfce295bd5"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "aftermath",
+        0,
+        "provenance",
+        "sourceEntityIds",
+        0
+      ],
+      "before": "event_8c9bca556fc19301",
+      "after": "event_645757bfce295bd5"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 0, "id"],
+      "before": "event_5f67ba3286f1e994",
+      "after": "event_b6f3d3cd2fc59eb8"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 0, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:event",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1:event"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 0, "sequence"],
+      "before": 271,
+      "after": 309
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 0, "tags", 4],
+      "before": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea",
+      "after": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 1, "id"],
+      "before": "event_8c9bca556fc19301",
+      "after": "event_645757bfce295bd5"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 1, "stableKey"],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:event",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2:event"
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 1, "sequence"],
+      "before": 279,
+      "after": 317
+    },
+    {
+      "path": ["householdCallback", "records", "landed", 1, "tags", 4],
+      "before": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea",
+      "after": "conversation.session.run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        0,
+        "semantic",
+        "turnKey"
+      ],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:1"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        1,
+        "semantic",
+        "turnKey"
+      ],
+      "before": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-271:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2",
+      "after": "run-b:conversation:world_83c208b1686dad1f:ordinary-life:home:frontier-309:person_0b9f38a6a1c1e150+person_159b46fda48b2fea:turn:2"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        1,
+        "semantic",
+        "commitmentId"
+      ],
+      "before": "life-commitment_95e4c2594ba7fcd2",
+      "after": "life-commitment_98513c3c26aa5236"
+    },
+    {
+      "path": [
+        "householdCallback",
+        "records",
+        "turns",
+        1,
+        "semantic",
+        "supersededPerceptionIds",
+        0
+      ],
+      "before": "perception_8c1da824522b3dde",
+      "after": "perception_0a5e08b64e635006"
+    }
+  ]
+}

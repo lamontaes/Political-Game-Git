@@ -170,7 +170,7 @@ describe("PLAYTEST65 canonical opening", () => {
     const current = generateOpeningLife(
       prepareOpeningLife({ ...setup, openingDataVersion: "playtest65-v2" }),
     ).game!;
-    expect(DEFAULT_NEW_GAME_SETUP.openingDataVersion).toBe("playtest65-v2");
+    expect(DEFAULT_NEW_GAME_SETUP.openingDataVersion).toBe("playtest65-v3");
     expect(current.world.id).toBe(world.id);
     expect(current.playerPersonId).toBe(playerPersonId);
     expect(current.world.people[playerPersonId]).toEqual(

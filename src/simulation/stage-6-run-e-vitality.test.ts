@@ -12,6 +12,16 @@ import {
   makeIsoDate,
   yearOf,
 } from "./dates";
+import {
+  DEATH_CAUSE_ILLNESS_WITH_COURSE,
+  DEATH_CAUSE_INJURY,
+  DEATH_CAUSE_SUDDEN_ILLNESS,
+  deathCausePhrase,
+  deathCauseSummary,
+  fatalIllnessEpisodeKey,
+} from "./crisis/death-causes";
+import { beginHealthEpisode } from "./crisis/health";
+import { crisisRecords } from "./crisis/records";
 import { createDemoWorld } from "./demo";
 import {
   createFutureTransitionHandlerRegistry,
@@ -1599,5 +1609,79 @@ describe("Stage 6 Run E vitality and functional capacity", () => {
         currentCutoff(world),
       )?.status,
     ).toBe("scheduled");
+  });
+});
+
+describe("Run E annual-check deaths carry a cause", () => {
+  it("records a cause without changing whether or when the check kills", () => {
+    let world = bareWorld("run-e-vitality-cause");
+    const added = addMaterializedPerson(world, "cause-person", "1980-06-15");
+    world = added.world;
+    const table = mortalityTableByKey(
+      world,
+      "vitality.synthetic-certain-death",
+    );
+    world = scheduleNextCheck(world, added.personId, table, "mortality.cause");
+    const plan = world.history.mortalityCheckPlans.at(-1)!;
+    const rng = mortalityRngForPlan(world, plan);
+    expect(rng.died).toBe(true);
+
+    const done = advanceTo(world, addDays(plan.dueAt, 1));
+    const result = done.history.mortalityCheckResults.at(-1)!;
+    const death = done.history.personDeaths.at(-1)!;
+    expect(result.rng).toEqual(rng);
+    expect(result.outcome).toBe("died");
+    expect(death.diedAt).toBe(plan.dueAt);
+    // No illness was recorded first, so the check cannot claim one.
+    expect([
+      DEATH_CAUSE_SUDDEN_ILLNESS,
+      DEATH_CAUSE_INJURY,
+    ] as string[]).toContain(death.causeKey);
+    expect(death.sourceEntityIds).toEqual([plan.id]);
+    expect(
+      done.history.events.find((event) => event.id === death.eventId)?.summary,
+    ).toBe(deathCauseSummary(death.causeKey));
+    // Died means no later annual check.
+    expect(done.history.mortalityCheckPlans).toHaveLength(1);
+    assertWorldIntegrity(deserializeWorld(serializeWorld(done)));
+
+    // A save from before causes carries the plan's own key and still loads,
+    // and it is said plainly.
+    const legacy = structuredClone(done);
+    (
+      legacy.history.personDeaths.at(-1) as unknown as { causeKey: string }
+    ).causeKey = MORTALITY_TRANSITION_KEY;
+    expect(() => assertWorldIntegrity(legacy)).not.toThrow();
+    expect(deathCausePhrase(MORTALITY_TRANSITION_KEY)).toBeNull();
+  });
+
+  it("names an illness only when a fatal illness was recorded first", () => {
+    let world = bareWorld("run-e-vitality-illness");
+    const added = addMaterializedPerson(world, "ill-person", "1980-06-15");
+    world = added.world;
+    const table = mortalityTableByKey(
+      world,
+      "vitality.synthetic-certain-death",
+    );
+    world = scheduleNextCheck(world, added.personId, table, "mortality.ill");
+    const plan = world.history.mortalityCheckPlans.at(-1)!;
+    world = beginHealthEpisode(world, {
+      stableKey: fatalIllnessEpisodeKey(added.personId, plan.dueAt),
+      personId: added.personId,
+      severity: "serious",
+      initialLimitation: "limited",
+      origin: { kind: "authored", note: "Test fatal illness." },
+      causalParentIds: [],
+      course: [],
+    });
+    const episode = crisisRecords(world).find(
+      (record) => record.kind === "health-episode",
+    )!;
+    const done = advanceTo(world, addDays(plan.dueAt, 1));
+    const death = done.history.personDeaths.at(-1)!;
+    expect(death.diedAt).toBe(plan.dueAt);
+    expect(death.causeKey).toBe(DEATH_CAUSE_ILLNESS_WITH_COURSE);
+    expect(death.sourceEntityIds).toEqual([episode.id, plan.id].sort());
+    assertWorldIntegrity(deserializeWorld(serializeWorld(done)));
   });
 });

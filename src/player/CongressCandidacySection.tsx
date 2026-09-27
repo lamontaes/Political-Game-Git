@@ -66,7 +66,7 @@ export function CongressCandidacySection({
       {canStand ? (
         <>
           <label className="game-campaign-detail">
-            <span>Seat</span>{" "}
+            <span>Which seat</span>{" "}
             <select
               data-testid="congress-seat"
               value={seat.identity.officeKey}

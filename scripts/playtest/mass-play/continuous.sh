@@ -6,12 +6,14 @@
 # games sized to finish in about 15 minutes. Every batch folder records the
 # main commit it ran on. Stop with: touch <out>/STOP
 #
-#   scripts/playtest/mass-play/continuous.sh <out-dir> [games-per-round] [years] [mix]
+#   scripts/playtest/mass-play/continuous.sh <out-dir> [games-per-round] [years] [mix] [workers] [ages]
 set -u
 out=${1:?output folder}
 games=${2:-60}
 years=${3:-0.5}
 mix=${4:-short}
+workers=${5:-4}
+ages=${6:-10,16,18,21,25,30,40,55,70}
 mkdir -p "$out"
 round=0
 while [ ! -e "$out/STOP" ]; do
@@ -33,8 +35,8 @@ while [ ! -e "$out/STOP" ]; do
   dir="$out/round-$(printf %03d $round)-main-$main_sha"
   mkdir -p "$dir"
   echo "main $main_sha head $head_sha started $(date -u +%FT%TZ)" >"$dir/MAIN"
-  MASS_PLAY_MAIN="$main_sha" node --import tsx scripts/playtest/mass-play/run.ts --games "$games" --workers 4 \
-    --years "$years" --mix "$mix" --wall 600000 --out "$dir" \
+  MASS_PLAY_MAIN="$main_sha" node --import tsx scripts/playtest/mass-play/run.ts --games "$games" --workers "$workers" \
+    --years "$years" --mix "$mix" --ages "$ages" --wall 600000 --out "$dir" \
     --seed "r$round-$main_sha" >"$dir/run.log" 2>&1
   echo "finished $(date -u +%FT%TZ)" >>"$dir/MAIN"
   echo "round $round: main $main_sha, $(wc -l <"$dir/games.jsonl" 2>/dev/null || echo 0) games" >>"$out/rounds.log"
