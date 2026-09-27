@@ -25,17 +25,28 @@ import {
 import { serializeWorld, deserializeWorld } from "./serialization";
 import {
   administrativeMandateText,
-  fundingAvailabilityText,
   PUBLIC_FUNDING_DEFAULT_DATE_TEXT,
   settlePublicResourcePayment,
 } from "./public-fiscal";
+import {
+  recordAdoptedAppropriation,
+  programOperatorOrganization,
+} from "./governing/program-governing";
+import {
+  commitPublicProgram,
+  programPosition,
+} from "./governing/public-program";
+import {
+  currentStateExecutiveHolders,
+  ensureStateExecutiveIncumbent,
+} from "./nationwide-world/state-executives";
 import type {
   PublicFundingResolver,
   PublicPaymentInput,
   PublicFundingMandate,
 } from "./public-fiscal";
 
-function fundedFixture() {
+function fundedFixture(saveAppropriation = true) {
   const fixture = enactedTaxFixture(10000);
   let world = fixture.world;
   const jurisdictionId = world.history.taxProposals![0]!.jurisdictionId;
@@ -61,7 +72,11 @@ function fundedFixture() {
       ],
       ["administrative-mandate", administrativeMandateText(programKey), null],
       ["effective-date", PUBLIC_FUNDING_DEFAULT_DATE_TEXT, null],
-      ["availability", fundingAvailabilityText(null), null],
+      [
+        "availability",
+        "The appropriation remains available for 365 days after its effective date. No payment may be made before its effective date or after its availability expires.",
+        null,
+      ],
     ] as const
   ).entries())
     world = recordFiledProvision(world, {
@@ -94,6 +109,24 @@ function fundedFixture() {
   const enactment = world.history.legislativeEnactments!.find(
     (row) => row.measureId === measureId && row.outcome === "enacted",
   )!;
+  const availableAt = addDays(enactment.resolvedAt, 90);
+  const adopted = saveAppropriation
+    ? recordAdoptedAppropriation(world, {
+        familyKey: "program",
+        stateUsps: "AK",
+        jurisdictionId,
+        programKey,
+        amountMinorUnits: 10000,
+        adoptedOn: availableAt,
+        availableDays: 366,
+        edition: "public-funding-test-v1",
+        basisNote: "Explicit fictional payment authority; no cash opened.",
+        sourceMeasureId: measureId,
+      })
+    : null;
+  if (saveAppropriation && !adopted)
+    throw new Error("Test appropriation was not recorded.");
+  world = adopted?.world ?? world;
   const mandate: PublicFundingMandate = {
     version: "public-funding-test-v1",
     fundingId: enactment.id,
@@ -103,8 +136,9 @@ function fundedFixture() {
       .map((row) => row.id)
       .sort(),
     amount: money(10000, "USD"),
-    availableAt: addDays(enactment.resolvedAt, 90),
-    endsAt: null,
+    availableAt,
+    endsAt: addDays(availableAt, 365),
+    ...(adopted ? { appropriationId: adopted.appropriationId } : {}),
     administrativeEventId: enactment.outcomeEventId,
     programKey,
   };
@@ -128,7 +162,119 @@ function fundedFixture() {
   return { ...fixture, world, mandate, resolver, input, jurisdictionId };
 }
 
+function fundedWithCashForBothRoutes() {
+  const fixture = fundedFixture();
+  let world = recordTestTaxOccurrence(fixture.world, {
+    personId: fixture.personId,
+    stableKey: "public-payment-test:shared-cap-tax-base",
+    proposalId: fixture.proposalId,
+    baseKey: TEST_TAX_TERMS.baseKey,
+    amountMinorUnits: 4100,
+    assumptionNote:
+      "One fictional test occurrence funds 200 USD cash, separate from the 100 USD appropriation.",
+  });
+  world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
+  world = ensureStateExecutiveIncumbent(world, fixture.personId, "AK");
+  const governor = currentStateExecutiveHolders(world).find(
+    (holder) => holder.stateUsps === "AK",
+  );
+  if (!governor) throw new Error("The Alaska governor was not seated.");
+  const operator = programOperatorOrganization(
+    world,
+    fixture.mandate.programKey,
+    fixture.jurisdictionId,
+  );
+  return {
+    ...fixture,
+    world: operator.world,
+    governor: governor.personId,
+    operatorId: operator.organizationId,
+  };
+}
+
+function commitEighty(
+  world: ReturnType<typeof fundedWithCashForBothRoutes>["world"],
+  fixture: ReturnType<typeof fundedWithCashForBothRoutes>,
+) {
+  return commitPublicProgram(world, {
+    appropriationId: fixture.mandate.appropriationId!,
+    alternative: {
+      key: "shared-cap-operate-eighty",
+      title: "Operate the authored service for eighty dollars",
+      installments: [
+        { afterDays: 0, amount: money(80, "USD"), purpose: "operating" },
+      ],
+      deliveryLeadDays: null,
+    },
+    personId: fixture.governor,
+    office: { kind: "state-executive" },
+    recipientOrganizationId: fixture.operatorId,
+  });
+}
+
 describe("shared public cash settlement for T", () => {
+  it("counts pinned payment before an executive commitment against one appropriation", () => {
+    const fixture = fundedWithCashForBothRoutes();
+    const first = settlePublicResourcePayment(
+      fixture.world,
+      fixture.input,
+      fixture.resolver,
+    );
+    expect(first.kind).toBe("paid");
+    if (first.kind !== "paid") throw new Error(first.reason);
+    const attempted = commitPublicProgram(first.world, {
+      appropriationId: fixture.mandate.appropriationId!,
+      alternative: {
+        key: "shared-cap-operate-thirty",
+        title: "Operate for thirty dollars",
+        installments: [
+          { afterDays: 0, amount: money(30, "USD"), purpose: "operating" },
+        ],
+        deliveryLeadDays: null,
+      },
+      personId: fixture.governor,
+      office: { kind: "state-executive" },
+      recipientOrganizationId: fixture.operatorId,
+    });
+    expect(attempted.ok).toBe(false);
+    expect(attempted.world).toBe(first.world);
+    const position = programPosition(
+      first.world,
+      fixture.mandate.programKey,
+      fixture.mandate.appropriationId,
+    );
+    expect(position.committed.minorUnits).toBe(80);
+    expect(position.posted.minorUnits).toBe(80);
+    expect(position.uncommitted.minorUnits).toBe(20);
+    assertWorldIntegrity(deserializeWorld(serializeWorld(first.world)));
+  });
+
+  it("counts an executive reservation and posted installment once before a pinned payment", () => {
+    const fixture = fundedWithCashForBothRoutes();
+    const committed = commitEighty(fixture.world, fixture);
+    expect(committed.ok).toBe(true);
+    if (!committed.ok) throw new Error(committed.reason);
+    const position = programPosition(
+      committed.world,
+      fixture.mandate.programKey,
+      fixture.mandate.appropriationId,
+    );
+    expect(position.committed.minorUnits).toBe(80);
+    expect(position.posted.minorUnits).toBe(80);
+    expect(position.uncommitted.minorUnits).toBe(20);
+    const refused = settlePublicResourcePayment(
+      committed.world,
+      {
+        ...fixture.input,
+        operationKey: "service:after-program-commitment",
+        requestedAmount: money(30, "USD"),
+      },
+      fixture.resolver,
+    );
+    expect(refused).toMatchObject({ kind: "refused", world: committed.world });
+    expect(serializeWorld(refused.world)).toBe(serializeWorld(committed.world));
+    assertWorldIntegrity(deserializeWorld(serializeWorld(committed.world)));
+  });
   it("requires operative funding AND actual tax receipts; appropriation never opens cash", () => {
     const fixture = fundedFixture();
     const before = serializeWorld(fixture.world);
@@ -151,6 +297,28 @@ describe("shared public cash settlement for T", () => {
         money(0, "USD").currency,
       )?.liquidBalance.minorUnits,
     ).toBe(0);
+  });
+  it("refuses a paid delivery without a saved appropriation even when receipts exist", () => {
+    const fixture = fundedFixture(false);
+    let world = recordTestTaxOccurrence(fixture.world, {
+      personId: fixture.personId,
+      stableKey: "public-payment-test:unfunded-tax-base",
+      proposalId: fixture.proposalId,
+      baseKey: TEST_TAX_TERMS.baseKey,
+      amountMinorUnits: 2100,
+      assumptionNote:
+        "One fictional test occurrence; no income or purchase money.",
+    });
+    world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
+    const before = serializeWorld(world);
+    expect(
+      settlePublicResourcePayment(world, fixture.input, fixture.resolver),
+    ).toMatchObject({
+      kind: "refused",
+      world,
+      reason: "This payment has no saved program appropriation.",
+    });
+    expect(serializeWorld(world)).toBe(before);
   });
   it("spends actual collected public cash once and reloads with reconciled funding/debit identity", () => {
     const fixture = fundedFixture();

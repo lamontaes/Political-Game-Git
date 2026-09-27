@@ -17,12 +17,13 @@ import {
 } from "./legislation-transit-families";
 import { legislativeWorkKey } from "./legislative-work-key";
 import { rulePackById } from "./legislature-rule-packs";
-import { money } from "./resources";
+import { stateTransitServiceProfileForMeasure } from "./state-transit-service-profile";
 import type { EntityId, IsoDate, MoneyAmount, World } from "./types";
 
 export interface TransitFundingMandate {
   readonly version: "transit-funding-v1";
   readonly fundingId: EntityId;
+  readonly appropriationId: EntityId;
   readonly measureId: EntityId;
   readonly jurisdictionId: EntityId;
   readonly provisionIds: readonly EntityId[];
@@ -211,17 +212,37 @@ export function resolveTransitFunding(
     (servicePeriod.value !== "weekday" && servicePeriod.value !== "weekend")
   )
     return no("Transit amount or service period is unestablished.");
+  const profile = stateTransitServiceProfileForMeasure(world, measure);
+  const appropriations = (world.history.publicProgramRecords ?? []).filter(
+    (record) =>
+      record.kind === "appropriation" &&
+      record.sourceMeasureId === measureId &&
+      record.programKey === profile?.programKey,
+  );
+  const appropriation = appropriations[0];
+  if (
+    appropriations.length !== 1 ||
+    !appropriation ||
+    appropriation.kind !== "appropriation" ||
+    appropriation.amount.minorUnits !== amount ||
+    appropriation.availableFrom !== availableAt ||
+    appropriation.availableThrough > endsAt
+  )
+    return no("The transit program has no matching saved appropriation.");
+  if (world.currentDate > appropriation.availableThrough)
+    return no("The transit appropriation has expired.");
   return {
     kind: "available",
     mandate: {
       version: "transit-funding-v1",
       fundingId: enactment.id,
+      appropriationId: appropriation.id,
       measureId,
       jurisdictionId: measure.jurisdictionId,
       provisionIds: provisions.map((p) => p.id).sort(),
-      amount: money(amount, "USD"),
+      amount: appropriation.amount,
       availableAt,
-      endsAt,
+      endsAt: appropriation.availableThrough,
       administrativeEventId: enactment.outcomeEventId,
       programKey: TRANSIT_PROGRAM_KEY,
       serviceWindow: servicePeriod.value,
