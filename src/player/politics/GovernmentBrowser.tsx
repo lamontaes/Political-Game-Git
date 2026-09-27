@@ -33,6 +33,7 @@ export function GovernmentBrowser({
   place,
   scope,
   onSelectionChange,
+  onWorldChange,
   onOpenPerson,
   onOpenMeasure,
 }: {
@@ -44,6 +45,7 @@ export function GovernmentBrowser({
     readonly politicsPlace?: GovernmentPlace;
     readonly governmentScope?: GovernmentScope;
   }) => void;
+  readonly onWorldChange?: (world: World) => void;
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onOpenMeasure: (measureId: EntityId) => void;
 }) {
@@ -206,6 +208,7 @@ export function GovernmentBrowser({
           view={judiciary}
           world={world}
           scope={scope}
+          onWorldChange={onWorldChange}
           onOpenPerson={onOpenPerson}
         />
       ) : null}

@@ -157,6 +157,53 @@ function firstReviewAfter(date: IsoDate): IsoDate {
   return makeIsoDate(`${year}-${monthDay}`);
 }
 
+/** Recheck saved source ownership and chronology before a selection uses a view. */
+export function judicialPhilosophyHasEvidence(
+  world: World,
+  record: JudicialPhilosophyRecord,
+): boolean {
+  const person = world.people[record.personId];
+  if (
+    !person ||
+    record.formedAt < person.birthDate ||
+    record.formedAt > world.currentDate ||
+    !record.reason.trim()
+  )
+    return false;
+  let knownAxes = 0;
+  const globalIds = new Set(record.lifeEvidenceIds);
+  const valid = (evidence: readonly JudicialPhilosophyEvidence[] | undefined) =>
+    Boolean(
+      evidence?.length &&
+      evidence.every((source) => {
+        const date = sourceDate(world, record.personId, source);
+        return (
+          globalIds.has(source.id) && date !== null && date <= record.formedAt
+        );
+      }),
+    );
+  for (const axis of AXES) {
+    if (record.dimensions[axis] === null) continue;
+    knownAxes += 1;
+    if (
+      !record.dimensionReasons?.[axis]?.trim() ||
+      !valid(record.dimensionEvidence?.[axis])
+    )
+      return false;
+  }
+  if (knownAxes === 0) return false;
+  for (const subject of RIGHTS) {
+    if (record.rightsBySubject[subject] === null) continue;
+    if (
+      record.dimensions.rights === null ||
+      !record.rightsReasons?.[subject]?.trim() ||
+      !valid(record.rightsEvidence?.[subject])
+    )
+      return false;
+  }
+  return true;
+}
+
 /** Append a reasoned view from this person's dated life records. Never infer from party. */
 export function recordJudicialPhilosophy(
   world: World,

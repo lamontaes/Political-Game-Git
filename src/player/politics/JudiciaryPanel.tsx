@@ -1,5 +1,33 @@
+import { useId, useState } from "react";
+
 import type { EntityId, World } from "../../simulation/types";
 import { proseDate } from "../../presentation/prose-dates";
+import { projectJudicialSelection } from "../../presentation/judicial-selection";
+import { currentPresidentOf } from "../../simulation/crisis/offices";
+import { seatedCongressChamber } from "../../simulation/governing/congress-chambers";
+import {
+  federalRosterReviewStatus,
+  publicSeatedJudges,
+  reviewFederalJudicialVacancy,
+} from "../../simulation/judiciary/candidate-discovery";
+import {
+  interviewFederalJudicialCandidate,
+  JUDICIAL_CANDIDATE_INTERVIEW_EVENT,
+} from "../../simulation/judiciary/candidate-interview";
+import {
+  recordFederalJudicialNomination,
+  screenFederalJudicialNominee,
+} from "../../simulation/judiciary/selection";
+import {
+  recordControlledJudicialHearingParticipation,
+  recordControlledJudiciaryChairHearingChoice,
+  recordControlledOrganizationAndHearingNotice,
+} from "../../simulation/judiciary/senate-hearing-process";
+import {
+  recordControlledJudiciaryReportChoice,
+  recordControlledJudiciaryReportNotice,
+  type ReportBallot,
+} from "../../simulation/judiciary/senate-committee-report";
 import { PersonPortrait } from "../PersonPortrait";
 import type {
   JudiciaryView,
@@ -11,11 +39,15 @@ function CourtRoster({
   court,
   world,
   onOpenPerson,
+  onWorldChange,
+  federal = false,
   nested = false,
 }: {
   readonly court: JudicialCourtView;
   readonly world: World;
   readonly onOpenPerson: (personId: EntityId) => void;
+  readonly onWorldChange?: (world: World) => void;
+  readonly federal?: boolean;
   readonly nested?: boolean;
 }) {
   return (
@@ -41,6 +73,21 @@ function CourtRoster({
             ) : (
               <span>Vacant seat</span>
             )}
+            {federal && !holder.personId && onWorldChange ? (
+              <>
+                <FederalVacancyAction
+                  world={world}
+                  seatId={holder.seatId}
+                  onWorldChange={onWorldChange}
+                  onOpenPerson={onOpenPerson}
+                />
+                <FederalSenateAction
+                  world={world}
+                  seatId={holder.seatId}
+                  onWorldChange={onWorldChange}
+                />
+              </>
+            ) : null}
           </li>
         ))}
       </ul>
@@ -48,17 +95,396 @@ function CourtRoster({
   );
 }
 
-/** Public roster only; opening a person uses the existing observation-limited card. */
+function FederalSenateAction({
+  world,
+  seatId,
+  onWorldChange,
+}: {
+  readonly world: World;
+  readonly seatId: string;
+  readonly onWorldChange: (world: World) => void;
+}) {
+  const [message, setMessage] = useState<string | null>(null);
+  const controlledId =
+    world.control.kind === "person" ? world.control.personId : null;
+  const isSenator =
+    controlledId !== null &&
+    seatedCongressChamber(world, "senate")?.body.members.some(
+      (member) => member.personId === controlledId,
+    );
+  const selection = projectJudicialSelection(world, seatId);
+  if (!isSenator || !selection?.selectionRecordId || !selection.senateStatus)
+    return null;
+  const run = (action: () => World) => {
+    try {
+      onWorldChange(action());
+      setMessage(null);
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "That Senate action could not be completed.",
+      );
+    }
+  };
+  const recordOrganization = (
+    attendance: "attend" | "absent",
+    ballot: "approve" | "reject" | "present" | null,
+  ) =>
+    run(() =>
+      recordControlledOrganizationAndHearingNotice(
+        world,
+        selection.selectionRecordId!,
+        { attendance, ballot },
+      ),
+    );
+  return (
+    <div data-testid={`judicial-senate-action-${seatId}`}>
+      <p className="pg-government-note">{selection.senateStatus}</p>
+      {selection.playerSenateAction === "organization" ? (
+        <div>
+          <p>Choose your own Senate Judiciary organization vote.</p>
+          <button
+            type="button"
+            onClick={() => recordOrganization("attend", "approve")}
+          >
+            Attend and approve slate
+          </button>
+          <button
+            type="button"
+            onClick={() => recordOrganization("attend", "reject")}
+          >
+            Attend and reject slate
+          </button>
+          <button
+            type="button"
+            onClick={() => recordOrganization("attend", "present")}
+          >
+            Attend and answer present
+          </button>
+          <button
+            type="button"
+            onClick={() => recordOrganization("absent", null)}
+          >
+            Do not attend
+          </button>
+        </div>
+      ) : null}
+      {selection.playerSenateAction === "announce-hearing" ? (
+        <button
+          type="button"
+          onClick={() =>
+            run(() =>
+              recordControlledJudiciaryChairHearingChoice(
+                world,
+                selection.selectionRecordId!,
+                "announce",
+              ),
+            )
+          }
+        >
+          Announce public hearing
+        </button>
+      ) : null}
+      {selection.playerSenateAction === "hearing-attendance" ? (
+        <div>
+          <button
+            type="button"
+            onClick={() =>
+              run(() =>
+                recordControlledJudicialHearingParticipation(
+                  world,
+                  selection.selectionRecordId!,
+                  "attend",
+                ),
+              )
+            }
+          >
+            Attend hearing
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              run(() =>
+                recordControlledJudicialHearingParticipation(
+                  world,
+                  selection.selectionRecordId!,
+                  "decline",
+                ),
+              )
+            }
+          >
+            Decline hearing
+          </button>
+        </div>
+      ) : null}
+      {selection.playerSenateAction === "report-notice" ? (
+        <button
+          type="button"
+          onClick={() =>
+            run(() =>
+              recordControlledJudiciaryReportNotice(
+                world,
+                selection.selectionRecordId!,
+              ),
+            )
+          }
+        >
+          Schedule Judiciary report business
+        </button>
+      ) : null}
+      {selection.playerSenateAction === "report-business" ? (
+        <div>
+          <p>Choose your own attendance and committee report ballot.</p>
+          {(
+            [
+              ["report-favorably", "Attend and report favorably"],
+              ["report-unfavorably", "Attend and report unfavorably"],
+              [
+                "report-without-recommendation",
+                "Attend and report without recommendation",
+              ],
+              ["oppose-report", "Attend and oppose reporting"],
+              ["present", "Attend and answer present"],
+            ] as const
+          ).map(([ballot, label]) => (
+            <button
+              key={ballot}
+              type="button"
+              onClick={() =>
+                run(() =>
+                  recordControlledJudiciaryReportChoice(
+                    world,
+                    selection.selectionRecordId!,
+                    { attendance: "attend", ballot: ballot as ReportBallot },
+                  ),
+                )
+              }
+            >
+              {label}
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() =>
+              run(() =>
+                recordControlledJudiciaryReportChoice(
+                  world,
+                  selection.selectionRecordId!,
+                  { attendance: "absent", ballot: null },
+                ),
+              )
+            }
+          >
+            Do not attend report business
+          </button>
+        </div>
+      ) : null}
+      {message ? <p role="alert">{message}</p> : null}
+    </div>
+  );
+}
+
+function FederalVacancyAction({
+  world,
+  seatId,
+  onWorldChange,
+  onOpenPerson,
+}: {
+  readonly world: World;
+  readonly seatId: string;
+  readonly onWorldChange: (world: World) => void;
+  readonly onOpenPerson: (personId: EntityId) => void;
+}) {
+  const searchId = useId();
+  const judgeId = useId();
+  const [search, setSearch] = useState("");
+  const [selectedJudgeId, setSelectedJudgeId] = useState<EntityId | "">("");
+  const [message, setMessage] = useState<string | null>(null);
+  const controlledPresident =
+    world.control.kind === "person" &&
+    currentPresidentOf(world)?.personId === world.control.personId;
+  if (!controlledPresident) return null;
+  const selection = projectJudicialSelection(world, seatId);
+  if (!selection) return null;
+  const canBegin =
+    selection.status === "no-attempt" ||
+    selection.status === "rejected" ||
+    selection.status === "lapsed";
+  const review = canBegin ? federalRosterReviewStatus(world, seatId) : null;
+  const roster = review?.state === "ready" ? publicSeatedJudges(world) : [];
+  const query = search.trim().toLocaleLowerCase();
+  const matches = roster
+    .filter(
+      (judge) =>
+        judge.name.toLocaleLowerCase().includes(query) ||
+        judge.courtName.toLocaleLowerCase().includes(query),
+    )
+    .slice(0, 30);
+  const run = (action: () => World) => {
+    try {
+      const next = action();
+      onWorldChange(next);
+      setMessage(null);
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "That action could not be completed.",
+      );
+    }
+  };
+  return (
+    <div data-testid={`judicial-selection-${seatId}`}>
+      {review?.state === "ready" ? (
+        <div>
+          <p className="pg-government-note">
+            This seat is vacant. Review the public roster of sitting judges
+            before opening a nomination.
+          </p>
+          <label htmlFor={searchId}>Find a sitting judge</label>
+          <input
+            id={searchId}
+            type="search"
+            value={search}
+            onChange={(event) => {
+              setSearch(event.target.value);
+              setSelectedJudgeId("");
+            }}
+          />
+          <label htmlFor={judgeId}>Judge to consider</label>
+          <select
+            id={judgeId}
+            value={selectedJudgeId}
+            onChange={(event) => {
+              const chosen = matches.find(
+                (judge) => judge.personId === event.target.value,
+              );
+              setSelectedJudgeId(chosen?.personId ?? "");
+            }}
+          >
+            <option value="">Select a judge</option>
+            {matches.map((judge) => (
+              <option
+                key={`${judge.seatId}:${judge.personId}`}
+                value={judge.personId}
+              >
+                {judge.name} — {judge.courtName}
+              </option>
+            ))}
+          </select>
+          <button
+            type="button"
+            disabled={!selectedJudgeId}
+            onClick={() => {
+              const candidateId = selectedJudgeId;
+              if (!candidateId) return;
+              run(() =>
+                reviewFederalJudicialVacancy(world, {
+                  seatId,
+                  candidatePersonIds: [candidateId],
+                }),
+              );
+            }}
+          >
+            Review judge for this vacancy (30 minutes)
+          </button>
+        </div>
+      ) : review?.state === "unavailable" ? (
+        <p className="pg-government-note">{review.reason}</p>
+      ) : null}
+      {selection.status === "pending" ? (
+        <div>
+          <p className="pg-government-note">
+            Next: {selection.nextStage?.actor ?? "Authority unresolved"}
+          </p>
+          {selection.senateStatus ? (
+            <p className="pg-government-note">{selection.senateStatus}</p>
+          ) : null}
+          {selection.playerMayNominate ? (
+            <ul>
+              {selection.candidates.map((candidate) => {
+                const screen = screenFederalJudicialNominee(
+                  world,
+                  candidate.personId,
+                );
+                const interviewed = world.history.events.some(
+                  (event) =>
+                    event.type === JUDICIAL_CANDIDATE_INTERVIEW_EVENT &&
+                    event.tags.includes(
+                      `selection:${selection.selectionRecordId}`,
+                    ) &&
+                    event.tags.includes(`candidate:${candidate.personId}`),
+                );
+                return (
+                  <li key={candidate.personId}>
+                    <button
+                      type="button"
+                      onClick={() => onOpenPerson(candidate.personId)}
+                    >
+                      {candidate.name}
+                    </button>
+                    {screen.state === "unresolved" && !interviewed ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          run(() =>
+                            interviewFederalJudicialCandidate(world, {
+                              selectionRecordId: selection.selectionRecordId!,
+                              candidatePersonId: candidate.personId,
+                            }),
+                          )
+                        }
+                      >
+                        Interview (30 minutes)
+                      </button>
+                    ) : null}
+                    {screen.state === "ready" ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          run(() =>
+                            recordFederalJudicialNomination(world, {
+                              selectionRecordId: selection.selectionRecordId!,
+                              presidentPersonId:
+                                currentPresidentOf(world)!.personId,
+                              nomineePersonId: candidate.personId,
+                            }),
+                          )
+                        }
+                      >
+                        Nominate
+                      </button>
+                    ) : (
+                      <span className="pg-government-note">
+                        {screen.reason}
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          ) : null}
+        </div>
+      ) : null}
+      {message ? <p role="status">{message}</p> : null}
+    </div>
+  );
+}
+
+/** Public court roster plus bounded actions for a controlled President. */
 export function JudiciaryPanel({
   view,
   world,
   scope,
   onOpenPerson,
+  onWorldChange,
 }: {
   readonly view: JudiciaryView;
   readonly world: World;
   readonly scope: GovernmentScope;
   readonly onOpenPerson: (personId: EntityId) => void;
+  readonly onWorldChange?: (world: World) => void;
 }) {
   if (scope === "local") return null;
   if (scope === "state" && view.stateCourts.length === 0) return null;
@@ -95,6 +521,8 @@ export function JudiciaryPanel({
               court={view.supremeCourt}
               world={world}
               onOpenPerson={onOpenPerson}
+              onWorldChange={onWorldChange}
+              federal
             />
           ) : null}
           {view.federalCourts.length > 0 ? (
@@ -109,6 +537,8 @@ export function JudiciaryPanel({
                   court={court}
                   world={world}
                   onOpenPerson={onOpenPerson}
+                  onWorldChange={onWorldChange}
+                  federal
                 />
               ))}
             </details>

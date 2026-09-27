@@ -80,7 +80,8 @@ import { recordWorldEvent } from "../world";
  * compiled says follows, once per notice. Where the game has the rule it acts
  * (a Vice President succeeds under the Twenty-Fifth Amendment, § 1; a dead
  * Representative's seat is vacant until a special election; the President
- * nominates a new Vice President or Chief Justice). Where the route is law
+ * nominates a new Vice President). A vacant Chief Justiceship awaits an
+ * explicit nomination and recorded Senate vote. Where the route is law
  * but its pace or choices are not compiled, a marked placeholder fills the
  * gap (a governor's successor, a temporary senator, the nominee and the
  * confirmation). Where it
@@ -1124,6 +1125,21 @@ function congressSeatHeldBy(
   return held
     ? congressSeats().find((candidate) => candidate.seatKey === held.seatKey)
     : undefined;
+}
+
+/** A confirmed federal judge leaves any Congress seat through the normal vacancy route. */
+export function leaveCongressSeatForConfirmedJudge(
+  world: World,
+  personId: EntityId,
+): World {
+  const seat = congressSeatHeldBy(world, personId);
+  return seat
+    ? vacateSeat(world, seat, {
+        effectiveDate: world.currentDate,
+        key: "member-became-federal-judge",
+        clause: "after the member became a federal judge",
+      }).world
+    : world;
 }
 
 /** The Senate confirms a Chief Justice, who leaves any seat in Congress. */
