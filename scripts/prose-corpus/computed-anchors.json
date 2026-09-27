@@ -5182,9 +5182,9 @@
       "anchor": "opportunitiesFor-0004",
       "sourcePath": "src/presentation/people-goals.ts",
       "symbol": "opportunitiesFor",
-      "text": "You can file to run for {office.office.title}",
+      "text": "You can file to run for {runForPhrase(office.office.title)}",
       "occurrence": 0,
-      "textRevision": "426e138a13e9"
+      "textRevision": "e1979373e6f5"
     },
     {
       "anchor": "options-0001",
