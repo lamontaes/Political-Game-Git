@@ -161,6 +161,8 @@ export const HOUSEHOLD_WEEK_DAYS = 7;
 
 export const HOUSEHOLD_ERRANDS_KEY = "ordinary-life:household-errands";
 export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
+export const PUBLIC_MEETING_AGENDA =
+  "Whether the public meeting room should open for one extra evening each week. No hours or funding proposal is attached.";
 
 /**
  * The two things an ordinary week actually puts in front of somebody.
@@ -383,8 +385,7 @@ export function openOrdinaryLifeRecords(
     personFactConstraints: [],
     visibility: "public",
     tags: ["civic.public-meeting"],
-    summary:
-      "A public meeting was posted on the local calendar with its agenda attached.",
+    summary: `A public meeting was posted on the local calendar. Agenda: ${PUBLIC_MEETING_AGENDA}`,
     context: {
       location: jurisdictionId
         ? { jurisdictionId, label: "Public meeting room", setting: null }
