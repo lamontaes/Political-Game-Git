@@ -44,6 +44,17 @@ describe("a reader's headline for a saved publication", () => {
     ).toBe("Fishing-rights talks reach interim arrangement");
   });
 
+  it("keeps a corrected or separately written headline", () => {
+    const posted =
+      "City of Lincoln posted a proposal about the repair schedule for several local roads and opened a public comment period.";
+    expect(
+      readerHeadline(
+        worldWith(posted, ["family:local-matter", "stage:proposal-posted"]),
+        item("Corrected public record"),
+      ),
+    ).toBe("Corrected public record");
+  });
+
   it("keeps the saved headline for anything it does not recognize", () => {
     expect(
       readerHeadline(worldWith("Something else happened.", []), item("Saved")),

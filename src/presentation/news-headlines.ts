@@ -79,7 +79,9 @@ export function readerHeadline(
   const event = world.history.events.find(
     (candidate) => candidate.id === item.sourceEventId,
   );
-  if (!event) return item.headline;
+  // Only a headline that is still the record's own sentence is rewritten; a
+  // corrected or separately written headline is the paper's, and stays.
+  if (!event || item.headline !== event.summary) return item.headline;
   const family = tagValue(event.tags, FAMILY_TAG);
   const stage = tagValue(event.tags, STAGE_TAG);
   if (!stage) return item.headline;

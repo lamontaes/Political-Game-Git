@@ -70,7 +70,7 @@ export function projectPublicInformationHeadline(
   const lead = projectPublicInformationDigest(world, jurisdictionId).items[0];
   return lead
     ? {
-        text: lead.headline,
+        text: readerHeadline(world, lead),
         publicationId: lead.publicationId,
         sourceEventId: lead.sourceEventId,
       }
