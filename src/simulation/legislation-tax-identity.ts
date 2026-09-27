@@ -8,6 +8,11 @@ import {
 } from "./legislation-draft-lineage";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { assertTaxTerms, taxLevyText, taxPowerEvidenceFor } from "./tax-policy";
+import { stateFundedServiceGameProfileForJurisdictionKey } from "./state-funded-service-game-profiles";
+import {
+  stateTaxServiceProfileForJurisdictionKey,
+  stateTaxServiceStartingConditions,
+} from "./world-setup/state-tax-service-profiles";
 import type { TaxProposalRecord } from "./tax-types";
 import type { EntityId, World } from "./types";
 
@@ -30,6 +35,10 @@ function parameters(proposal: TaxProposalRecord) {
     "tax-power": {
       kind: "enumerated" as const,
       value: canonicalJson(proposal.power),
+    },
+    "tax-game-profile-ref": {
+      kind: "enumerated" as const,
+      value: canonicalJson(proposal.gameProfileRef ?? null),
     },
   };
 }
@@ -62,7 +71,7 @@ export function recordTaxDraftIdentity(
     compiledAt: world.currentDate,
     parameterValues: parameters(proposal),
     provenanceNote:
-      "F typed authored tax compiler. Exact filed terms, sourced power, proposal and levy provision are pinned; no appropriation, sitting decisions, executive response or cash is supplied.",
+      "F typed authored tax compiler. Exact filed terms and exactly one source-power or fictional game-profile authority reference, proposal and levy provision are pinned; no appropriation, sitting decisions, executive response or cash is supplied.",
   });
 }
 
@@ -137,14 +146,35 @@ export function readFiledTaxContentIdentity(
         "This tax measure has no pinned F compiler identity; legacy law/effects remain unchanged.",
     };
   try {
+    const packJurisdictionKey = rulePackById(
+      measure.rulePackId,
+    ).jurisdictionKey;
+    const profile = proposal.power
+      ? null
+      : (stateTaxServiceProfileForJurisdictionKey(world, packJurisdictionKey) ??
+        (stateTaxServiceStartingConditions(world)
+          ? null
+          : stateFundedServiceGameProfileForJurisdictionKey(
+              packJurisdictionKey,
+            )));
     if (
-      rulePackById(measure.rulePackId).jurisdictionKey !==
-        proposal.power.jurisdictionKey ||
-      stateJurisdictionForKey(proposal.power.jurisdictionKey)?.id !==
-        proposal.jurisdictionId
+      (proposal.power !== null &&
+        (packJurisdictionKey !== proposal.power.jurisdictionKey ||
+          stateJurisdictionForKey(proposal.power.jurisdictionKey)?.id !==
+            proposal.jurisdictionId)) ||
+      (proposal.power === null &&
+        (!profile ||
+          canonicalJson(profile.ref) !==
+            canonicalJson(proposal.gameProfileRef ?? null) ||
+          canonicalJson(profile.taxTerms) !== canonicalJson(proposal.terms) ||
+          ("jurisdictionId" in profile &&
+            profile.jurisdictionId !== proposal.jurisdictionId) ||
+          stateJurisdictionForKey(packJurisdictionKey)?.id !==
+            proposal.jurisdictionId)) ||
+      (proposal.power !== null && proposal.gameProfileRef != null)
     )
       throw new Error(
-        "This tax compiler belongs to another sourced jurisdiction or pack.",
+        "This tax compiler belongs to another authority, jurisdiction or pack.",
       );
     assertTaxTerms(proposal.terms);
     assertTaxDraftIdentityIntegrity(world);
@@ -157,11 +187,29 @@ export function readFiledTaxContentIdentity(
           : "Invalid tax compiler identity.",
     };
   }
-  const power = taxPowerEvidenceFor(proposal.power.jurisdictionKey);
+  const power = proposal.power
+    ? taxPowerEvidenceFor(proposal.power.jurisdictionKey)
+    : null;
+  const profile = proposal.power
+    ? null
+    : (stateTaxServiceProfileForJurisdictionKey(
+        world,
+        rulePackById(measure.rulePackId).jurisdictionKey,
+      ) ??
+      (stateTaxServiceStartingConditions(world)
+        ? null
+        : stateFundedServiceGameProfileForJurisdictionKey(
+            rulePackById(measure.rulePackId).jurisdictionKey,
+          )));
   const provisions = currentMeasureProvisions(world, measureId);
   if (
-    !power ||
-    canonicalJson(power) !== canonicalJson(proposal.power) ||
+    (proposal.power !== null &&
+      (!power || canonicalJson(power) !== canonicalJson(proposal.power))) ||
+    (proposal.power === null &&
+      (!profile ||
+        canonicalJson(profile.ref) !==
+          canonicalJson(proposal.gameProfileRef ?? null) ||
+        canonicalJson(profile.taxTerms) !== canonicalJson(proposal.terms))) ||
     measure.jurisdictionId !== proposal.jurisdictionId ||
     measure.sponsorPersonId !== proposal.sponsorPersonId ||
     provisions.length !== 1 ||
@@ -171,7 +219,7 @@ export function readFiledTaxContentIdentity(
     return {
       kind: "unavailable",
       reason:
-        "The current tax text or source no longer matches the pinned supported tax compiler.",
+        "The current tax text or authority reference no longer matches the pinned supported tax compiler.",
     };
   return {
     kind: "available",

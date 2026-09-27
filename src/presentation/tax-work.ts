@@ -3,6 +3,7 @@ import { createWorkItem } from "../simulation/time-work";
 import { introduceMeasure } from "../simulation/legislation";
 import { money } from "../simulation/resources";
 import { canonicalJson } from "../simulation/canonical-json";
+import { stateTaxServiceProfileForJurisdictionKey } from "../simulation/world-setup/state-tax-service-profiles";
 import { recordWorldEvent, assertWorldIntegrity } from "../simulation/world";
 import {
   attachTaxProposal,
@@ -27,9 +28,22 @@ export function fileTaxProposalFromOffice(
   const entry = resolveLegislativeFilingEntry(world, input.personId);
   if (entry.kind !== "available") throw new Error(entry.reason);
   const power = taxPowerEvidenceFor(entry.seat.jurisdictionKey);
-  if (!power)
+  const gameProfile = power
+    ? null
+    : stateTaxServiceProfileForJurisdictionKey(
+        world,
+        entry.seat.jurisdictionKey,
+      );
+  if (!power && !gameProfile)
     throw new Error(
-      "No acquired tax-power contract supports this office and instrument.",
+      "No sourced tax-power contract or fictional game profile supports this office and instrument.",
+    );
+  if (
+    gameProfile &&
+    canonicalJson(gameProfile.taxTerms) !== canonicalJson(input.terms)
+  )
+    throw new Error(
+      "This office may file only the exact tax terms in its saved state game profile.",
     );
   const prior = world.history.taxProposals?.find(
     (row) => row.stableKey === input.stableKey,
@@ -62,6 +76,7 @@ export function fileTaxProposalFromOffice(
     measureId,
     sponsorPersonId: input.personId,
     power,
+    gameProfileRef: gameProfile?.ref ?? null,
     terms: input.terms,
   });
   next = recordTaxDraftIdentity(next, next.history.taxProposals!.at(-1)!.id);
