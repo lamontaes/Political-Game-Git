@@ -13,6 +13,15 @@ import {
   fileStateWageTaxRateFromOffice,
   stateWageTaxForOffice,
 } from "../presentation/tax-work";
+import {
+  draftStateWageTaxFiscalNote,
+  filedStateWageTaxFiscalNote,
+  type TaxWorkFiscalNote,
+} from "../presentation/tax-work-fiscal-note";
+import {
+  STATE_WAGE_TAX_BILL_CEILING_BASIS_POINTS,
+  stateWageTaxTerms,
+} from "../simulation/world-setup/state-tax-service-profiles";
 import { proseDate } from "../presentation/prose-dates";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import type { EntityId, World } from "../simulation";
@@ -31,6 +40,47 @@ export function exactDollarInput(value: string): number {
 const display = (amount: number) =>
   `$${Math.floor(amount / 100).toLocaleString("en-US")}.${String(amount % 100).padStart(2, "0")}`;
 
+function TaxFiscalNoteView({ note }: { note: TaxWorkFiscalNote }) {
+  const section = note.fiscal.parts[0]!;
+  return (
+    <aside
+      data-testid="tax-fiscal-note"
+      data-fiscal-status={note.fiscal.status}
+    >
+      <h5>Fiscal note — {note.fiscal.designation}</h5>
+      <p>
+        Section {section.sectionNumber}, {section.heading}:{" "}
+        {note.fiscal.status === "draft"
+          ? "the proposed bill would set"
+          : "the saved levy states"}{" "}
+        a rate of {note.rateLabel} on {note.baseLabel}.
+      </p>
+      {note.lawfulZero ? (
+        <p>
+          {note.fiscal.status === "draft"
+            ? "If enacted at 0%, this bill would assess $0 on each covered wage amount."
+            : "At 0%, this levy assesses $0 on each covered wage amount once it is operative."}
+        </p>
+      ) : null}
+      <p>
+        Future taxable wage base: UNKNOWN. No measured future taxable wage
+        series is available to this note.
+      </p>
+      <p>
+        Aggregate cash change from current law: UNKNOWN. This note has no future
+        taxable wages or comparable receipts baseline.
+      </p>
+      <p>
+        Operative date:{" "}
+        {note.fiscal.operativeAt
+          ? proseDate(note.fiscal.operativeAt)
+          : "UNKNOWN until an operative tax policy is recorded"}
+        .
+      </p>
+    </aside>
+  );
+}
+
 /** Feature-local mount for A's ordinary Work surface. S's shared measure reader
  * receives onOpenMeasure; this component owns neither legislation nor storage.
  * A filed tax is not a docket bill, so its procedure is followed here through
@@ -48,6 +98,9 @@ export function TaxWorkWorkspace({
   onOpenMeasure: (measureId: EntityId) => void;
 }) {
   const [rate, setRate] = useState("");
+  const [previewNote, setPreviewNote] = useState<TaxWorkFiscalNote | null>(
+    null,
+  );
   const [following, setFollowing] = useState<EntityId | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -124,6 +177,7 @@ export function TaxWorkWorkspace({
         rateBasisPoints: basisPoints,
       });
       onWorldChange(result.world);
+      setPreviewNote(null);
       setFollowing(result.world.history.taxProposals!.at(-1)!.id);
       setRevealFollowed(true);
       setMessage(
@@ -134,6 +188,26 @@ export function TaxWorkWorkspace({
   function preview() {
     act(() => {
       const basisPoints = rateBasisPoints();
+      if (office.kind !== "available") throw new Error(office.reason);
+      if (
+        basisPoints < 0 ||
+        basisPoints > STATE_WAGE_TAX_BILL_CEILING_BASIS_POINTS
+      )
+        throw new Error(
+          `A state tax rate must be between 0% and ${STATE_WAGE_TAX_BILL_CEILING_BASIS_POINTS / 100}%.`,
+        );
+      const stateName =
+        world.jurisdictions[office.profile.jurisdictionId]?.name ??
+        office.profile.jurisdictionKey;
+      setPreviewNote(
+        draftStateWageTaxFiscalNote(
+          stateWageTaxTerms(
+            office.profile.jurisdictionKey,
+            stateName,
+            basisPoints,
+          ),
+        ),
+      );
       const tax = Math.round((100_000 * basisPoints) / 10_000);
       setMessage(
         `At this rate, $1,000.00 of wages would have ${display(tax)} withheld for the state. Nothing is filed yet.`,
@@ -176,7 +250,10 @@ export function TaxWorkWorkspace({
                 aria-label="Tax rate percent"
                 inputMode="decimal"
                 value={rate}
-                onChange={(event) => setRate(event.target.value)}
+                onChange={(event) => {
+                  setRate(event.target.value);
+                  setPreviewNote(null);
+                }}
               />
             </label>
             <button type="button" onClick={preview}>
@@ -186,6 +263,7 @@ export function TaxWorkWorkspace({
               File tax bill
             </button>
           </fieldset>
+          {previewNote ? <TaxFiscalNoteView note={previewNote} /> : null}
         </details>
       ) : (
         <p data-testid="tax-proposal-withheld">{office.reason}</p>
@@ -218,6 +296,7 @@ export function TaxWorkWorkspace({
                 playerPersonId: personId,
               })
             : null;
+        const fiscalNote = filedStateWageTaxFiscalNote(world, proposal);
         return (
           <article
             key={proposal.id}
@@ -234,6 +313,13 @@ export function TaxWorkWorkspace({
                 ? `Law; the rate took or takes effect on ${proseDate(policy.effectiveAt)}${active?.id === policy.id ? ", and it is the rate withheld from pay today." : ", and it is not the rate in force today."}`
                 : taxActivationReadiness(world, proposal.id).reason}
             </p>
+            {fiscalNote.kind === "available" ? (
+              <TaxFiscalNoteView note={fiscalNote.note} />
+            ) : (
+              <p data-testid="tax-fiscal-note-unavailable">
+                Fiscal note unavailable: {fiscalNote.reason}
+              </p>
+            )}
             <div className="tax-work-actions">
               <button
                 type="button"
