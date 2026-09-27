@@ -128,6 +128,61 @@ function days(world: World, count: number): World {
   return next;
 }
 
+function employeeWithholding(
+  world: World,
+  payOutcomeId: EntityId,
+  adultId: EntityId,
+): number {
+  const liabilities = (world.history.statutoryTaxLiabilities ?? []).filter(
+    (row) => row.sourceOutcomeId === payOutcomeId,
+  );
+  const federalEmployee = liabilities.filter(
+    (row) =>
+      row.taxKey === "us-federal:social-security-employee" ||
+      row.taxKey === "us-federal:medicare-employee",
+  );
+  expect(federalEmployee).toHaveLength(2);
+  expect(federalEmployee.every((row) => row.status === "assessed")).toBe(true);
+  expect(liabilities.some((row) => row.taxKey.endsWith(":wage-income-tax"))).toBe(
+    true,
+  );
+  const employeeLiabilities = liabilities.filter(
+    (row) =>
+      row.payer.kind === "person" &&
+      row.payer.personId === adultId &&
+      row.collection === "withheld-from-pay",
+  );
+  const liabilityIds = new Set(employeeLiabilities.map((row) => row.id));
+  const payments = (world.history.statutoryTaxPayments ?? []).filter((row) =>
+    liabilityIds.has(row.liabilityId),
+  );
+  const withheld = payments.reduce(
+    (sum, row) => sum + row.amount.minorUnits,
+    0,
+  );
+  expect(withheld).toBeGreaterThan(0);
+  expect(withheld).toBe(
+    employeeLiabilities.reduce(
+      (sum, row) => sum + (row.liability?.minorUnits ?? 0),
+      0,
+    ),
+  );
+  for (const payment of payments) {
+    const transfer = world.history.resourceTransferOutcomes.find(
+      (row) => row.id === payment.resourceOutcomeId,
+    );
+    const flow = world.history.resourceFlows.find(
+      (row) => row.id === transfer?.resourceFlowId,
+    );
+    expect(transfer?.transferredAmount.minorUnits).toBeGreaterThanOrEqual(
+      payment.amount.minorUnits,
+    );
+    expect(flow?.source).toEqual({ kind: "person", personId: adultId });
+    expect(flow?.recipient.kind).toBe("organization");
+  }
+  return withheld;
+}
+
 describe("recorded adult work in a child household", () => {
   it("settles two different saved wages on the child's clock without pooling them", () => {
     for (const [placeKey, seed, weeklyMinor] of [
@@ -144,18 +199,18 @@ describe("recorded adult work in a child household", () => {
       });
       const job = giveRecordedJob(world, child.adultId, weeklyMinor);
       world = days(job.world, 7);
-      expect(
-        world.history.resourceTransferOutcomes.filter(
-          (row) => row.resourceFlowId === job.flowId,
-        ),
-      ).toHaveLength(1);
+      const pay = world.history.resourceTransferOutcomes.filter(
+        (row) => row.resourceFlowId === job.flowId,
+      );
+      expect(pay).toHaveLength(1);
+      const withheld = employeeWithholding(world, pay[0]!.id, child.adultId);
       expect(
         resourcePositionAt(
           world,
           { kind: "person", personId: child.adultId },
           "USD",
         )?.liquidBalance.minorUnits,
-      ).toBe(weeklyMinor);
+      ).toBe(weeklyMinor - withheld);
       expect(
         resourcePositionAt(
           world,
@@ -171,6 +226,12 @@ describe("recorded adult work in a child household", () => {
       );
       expect(repeated.history.resourceTransferOutcomes).toEqual(
         reloaded.history.resourceTransferOutcomes,
+      );
+      expect(repeated.history.statutoryTaxLiabilities).toEqual(
+        reloaded.history.statutoryTaxLiabilities,
+      );
+      expect(repeated.history.statutoryTaxPayments).toEqual(
+        reloaded.history.statutoryTaxPayments,
       );
       assertWorldIntegrity(reloaded);
     }
@@ -203,11 +264,17 @@ describe("recorded adult work in a child household", () => {
       supersedesTermsId: previousTerms.id,
     });
     world = days(world, 7);
-    expect(
-      world.history.resourceTransferOutcomes
-        .filter((row) => row.resourceFlowId === job.flowId)
-        .map((row) => row.transferredAmount.minorUnits),
-    ).toEqual([80_000, 100_000]);
+    const pay = world.history.resourceTransferOutcomes.filter(
+      (row) => row.resourceFlowId === job.flowId,
+    );
+    expect(pay.map((row) => row.transferredAmount.minorUnits)).toEqual([
+      80_000, 100_000,
+    ]);
+    const withheld = pay.reduce(
+      (sum, row) =>
+        sum + employeeWithholding(world, row.id, child.adultId),
+      0,
+    );
     const status = workStatusAt(world, job.workId)!;
     world = recordWorkStatus(world, {
       stableKey: "child-pay-change:job-ended",
@@ -272,7 +339,7 @@ describe("recorded adult work in a child household", () => {
         { kind: "person", personId: child.adultId },
         "USD",
       )?.liquidBalance.minorUnits,
-    ).toBe(130_000);
+    ).toBe(130_000 - withheld);
     expect(world.currentDate).toBe(addDays(startedAt, 21));
     assertWorldIntegrity(deserializeWorld(serializeWorld(world)));
   });
@@ -287,13 +354,18 @@ describe("recorded adult work in a child household", () => {
     );
     expect(paid).toHaveLength(1);
     expect(paid[0]!.occurredAt).toBe(later.currentDate);
+    const withheld = employeeWithholding(
+      later,
+      paid[0]!.id,
+      child.adultId,
+    );
     expect(
       resourcePositionAt(
         later,
         { kind: "person", personId: child.adultId },
         "USD",
       )?.liquidBalance.minorUnits,
-    ).toBe(75_000);
+    ).toBe(75_000 - withheld);
   });
 
   it("does not infer work, pay, or a child's knowledge from an unknown livelihood", () => {

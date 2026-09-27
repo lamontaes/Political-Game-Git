@@ -1500,6 +1500,14 @@ export function settleHouseholdAdultJobPay(
           adultId,
           outcome.transferredAmount.currency,
         );
+        // The child's clock can pay an adult's existing job. Assess this new
+        // paycheck after opening the adult's own position, just as the
+        // controlled worker's pay is assessed at settlement.
+        if (
+          flow.basisReference.kind === "work" &&
+          flow.recipient.personId === adultId
+        )
+          next = assessPaycheckTaxes(next, outcome.id);
       }
     }
   }
