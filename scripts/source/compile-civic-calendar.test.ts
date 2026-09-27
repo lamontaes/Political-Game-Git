@@ -1,0 +1,264 @@
+import { createHash } from "node:crypto";
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { describe, expect, it } from "vitest";
+import {
+  verifyCommittedCivicCalendar,
+  writeCivicCalendar,
+} from "./compile-civic-calendar";
+import type { compileCivicCalendar } from "./compile-civic-calendar";
+
+const root = process.cwd();
+const corpusText = readFileSync(
+  `${root}/data/source/civic-calendar/corpus.json`,
+  "utf8",
+);
+const corpus = JSON.parse(corpusText) as ReturnType<
+  typeof compileCivicCalendar
+>["corpus"];
+const lock = JSON.parse(
+  readFileSync(`${root}/data/source/civic-calendar/artifact-lock.json`, "utf8"),
+) as ReturnType<typeof compileCivicCalendar>["lock"];
+const manifest = JSON.parse(
+  readFileSync(
+    `${root}/data/source/civic-calendar/corpus-manifest.json`,
+    "utf8",
+  ),
+) as ReturnType<typeof compileCivicCalendar>["manifest"];
+const byUsps = new Map(
+  corpus.jurisdictions.map((jurisdiction) => [jurisdiction.usps, jurisdiction]),
+);
+
+describe("locked 2026 civic calendar", () => {
+  it("covers exactly the fifty states, DC and five inhabited territories", () => {
+    expect(corpus.jurisdictions).toHaveLength(56);
+    expect(
+      new Set(corpus.jurisdictions.map((jurisdiction) => jurisdiction.usps))
+        .size,
+    ).toBe(56);
+    expect(
+      corpus.jurisdictions.filter(
+        (jurisdiction) => jurisdiction.kind === "state",
+      ),
+    ).toHaveLength(50);
+    expect(
+      corpus.jurisdictions.filter(
+        (jurisdiction) => jurisdiction.kind === "territory",
+      ),
+    ).toHaveLength(5);
+    expect(
+      corpus.jurisdictions.every(
+        (jurisdiction) => jurisdiction.legislature.chambers.length > 0,
+      ),
+    ).toBe(true);
+    expect(manifest.coverage.stateLegislativeSeatsUp2026).toBe(6139);
+    expect(manifest.coverage.governorElections2026).toBe(39);
+  });
+
+  it("keeps the source's office and district exceptions instead of flattening them", () => {
+    expect(byUsps.get("AL")?.primary2026.exceptions).toEqual([
+      expect.objectContaining({
+        office: "U.S. House districts 1, 2, 6 and 7",
+        date: "2026-08-11",
+      }),
+    ]);
+    expect(byUsps.get("LA")?.primary2026).toEqual(
+      expect.objectContaining({
+        nominationSystem: "all-comers",
+        stateOfficeDate: null,
+        congressionalDate: "2026-05-16",
+        exceptions: [
+          expect.objectContaining({ office: "U.S. House", date: "2026-11-03" }),
+        ],
+      }),
+    );
+    expect(byUsps.get("NE")?.legislature.chambers).toEqual([
+      expect.objectContaining({
+        chamberKey: "unicameral",
+        seatsUpIn2026: 24,
+        districtsUpIn2026: "even-numbered",
+      }),
+    ]);
+  });
+
+  it("distinguishes a source-backed zero from an unknown", () => {
+    expect(
+      byUsps
+        .get("PR")
+        ?.legislature.chambers.map((chamber) => chamber.seatsUpIn2026),
+    ).toEqual([0, 0]);
+    expect(byUsps.get("PR")?.primary2026.stateOfficeDate).toBeNull();
+    expect(
+      byUsps.get("PR")?.legislature.chambers[0]?.districtsUpIn2026,
+    ).toBeNull();
+    expect(byUsps.get("DC")?.primary2026).toEqual(
+      expect.objectContaining({
+        nominationSystem: "partisan",
+        voterAccess: "closed",
+        stateOfficeDate: "2026-06-16",
+      }),
+    );
+  });
+
+  it("uses Kansas's official 2026 list for statewide offices and special Senate districts", () => {
+    expect(byUsps.get("KS")?.lieutenantGovernorElection).toEqual(
+      expect.objectContaining({ onBallot2026: true, regularTermYears: 4 }),
+    );
+    expect(
+      byUsps
+        .get("KS")
+        ?.otherElectedStatewideOffices?.map((office) => office.office),
+    ).toEqual([
+      "Attorney General",
+      "Secretary of State",
+      "State Treasurer",
+      "Commissioner of Insurance",
+    ]);
+    expect(
+      byUsps
+        .get("KS")
+        ?.legislature.chambers.find((chamber) => chamber.chamberKey === "upper")
+        ?.seatsUpIn2026,
+    ).toBe(0);
+    expect(byUsps.get("KS")?.specialLegislativeElections2026).toEqual([
+      expect.objectContaining({
+        chamberKey: "upper",
+        districtNumbers: [24, 25],
+      }),
+    ]);
+  });
+
+  it("recognizes Arizona's new joint-ticket lieutenant governor and executive slate", () => {
+    expect(byUsps.get("AZ")?.lieutenantGovernorElection).toEqual(
+      expect.objectContaining({
+        onBallot2026: true,
+        ballotRelationship: "joint-ticket",
+        regularTermYears: 4,
+      }),
+    );
+    expect(
+      byUsps
+        .get("AZ")
+        ?.otherElectedStatewideOffices?.map((office) => office.office),
+    ).toEqual([
+      "Secretary of State",
+      "Attorney General",
+      "State Treasurer",
+      "Superintendent of Public Instruction",
+    ]);
+  });
+
+  it("uses Guam's own election calendar and Organic Act for its 2026 territorial offices", () => {
+    expect(byUsps.get("GU")?.primary2026.territoryPrimaryDate).toBe(
+      "2026-08-01",
+    );
+    expect(byUsps.get("GU")?.lieutenantGovernorElection).toEqual(
+      expect.objectContaining({
+        onBallot2026: true,
+        ballotRelationship: "joint-ticket",
+        regularTermYears: 4,
+      }),
+    );
+    expect(byUsps.get("GU")?.legislature.chambers).toEqual([
+      expect.objectContaining({
+        officialName: "Legislature of Guam",
+        memberTitle: "Senator",
+        seatCount: 15,
+        seatsUpIn2026: 15,
+      }),
+    ]);
+    expect(byUsps.get("GU")?.otherElectedStatewideOffices).toEqual([
+      expect.objectContaining({
+        office: "Attorney General",
+        onBallot2026: true,
+        regularTermYears: 4,
+      }),
+    ]);
+    expect(byUsps.get("AS")?.primary2026.territoryPrimaryDate).toBeNull();
+  });
+
+  it("uses the Virgin Islands election office for its primary and executive cycle", () => {
+    expect(byUsps.get("VI")?.primary2026.territoryPrimaryDate).toBe(
+      "2026-08-01",
+    );
+    expect(byUsps.get("VI")?.lieutenantGovernorElection).toEqual(
+      expect.objectContaining({
+        onBallot2026: true,
+        regularTermYears: 4,
+        ballotRelationship: null,
+      }),
+    );
+    expect(byUsps.get("VI")?.legislature.chambers[0]).toEqual(
+      expect.objectContaining({ seatCount: 15, seatsUpIn2026: 15 }),
+    );
+  });
+
+  it("uses current CNMI law and the 2026 candidate list for its executive slate", () => {
+    expect(byUsps.get("MP")?.lieutenantGovernorElection).toEqual(
+      expect.objectContaining({
+        onBallot2026: true,
+        regularTermYears: 4,
+        ballotRelationship: "joint-ticket",
+      }),
+    );
+    expect(byUsps.get("MP")?.otherElectedStatewideOffices).toEqual([
+      expect.objectContaining({
+        office: "Attorney General",
+        onBallot2026: true,
+        regularTermYears: 4,
+      }),
+    ]);
+    expect(byUsps.get("MP")?.primary2026.territoryPrimaryDate).toBeNull();
+  });
+
+  it("binds the committed corpus to its cache-only source receipts", () => {
+    expect(lock.artifacts).toHaveLength(21);
+    for (const artifact of lock.artifacts) {
+      expect(artifact.localPath).toBeNull();
+      expect(artifact.storage).toBe("cached-not-committed");
+      if (existsSync(artifact.cachePath)) {
+        const bytes = readFileSync(artifact.cachePath);
+        expect(bytes.length).toBe(artifact.bytes.length);
+        expect(createHash("sha256").update(bytes).digest("hex")).toBe(
+          artifact.bytes.sha256,
+        );
+      }
+    }
+    expect(createHash("sha256").update(corpusText).digest("hex")).toBe(
+      manifest.canonicalSha256,
+    );
+    expect(() => writeCivicCalendar(undefined, true)).not.toThrow();
+    expect(() => verifyCommittedCivicCalendar()).not.toThrow();
+  });
+
+  it("checks the portable research packet without distributing source pages", () => {
+    const portableRoot = mkdtempSync(
+      join(tmpdir(), "civic-calendar-portable-"),
+    );
+    try {
+      const outputDir = join(portableRoot, "data/source/civic-calendar");
+      mkdirSync(outputDir, { recursive: true });
+      for (const filename of [
+        "corpus.json",
+        "artifact-lock.json",
+        "corpus-manifest.json",
+      ]) {
+        copyFileSync(
+          join(root, "data/source/civic-calendar", filename),
+          join(outputDir, filename),
+        );
+      }
+      expect(() => writeCivicCalendar(portableRoot, true)).not.toThrow();
+    } finally {
+      rmSync(portableRoot, { recursive: true });
+    }
+  });
+});

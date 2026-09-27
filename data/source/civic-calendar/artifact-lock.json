@@ -1,0 +1,676 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "ncsl-2026-legislative-races",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/ncsl-2026-legislative-races.html",
+      "mediaType": "text/html",
+      "provider": "National Conference of State Legislatures",
+      "publisher": {
+        "documentationUrl": "https://www.ncsl.org/elections-and-campaigns/2026-legislative-races-by-state-and-chamber",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.ncsl.org/elections-and-campaigns/2026-legislative-races-by-state-and-chamber",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 77549
+      },
+      "bytes": {
+        "length": 77549,
+        "sha256": "be8e68a8d4287578474c578477b00599ef6a704b683e4de4cea3a390ac9fc8a0"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "permission-required-by-publisher-terms",
+        "termsUrl": "https://www.ncsl.org/terms-of-use"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "ncsl-2026-primary-dates",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/ncsl-2026-primary-dates.html",
+      "mediaType": "text/html",
+      "provider": "National Conference of State Legislatures",
+      "publisher": {
+        "documentationUrl": "https://www.ncsl.org/elections-and-campaigns/2026-state-primary-election-dates",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.ncsl.org/elections-and-campaigns/2026-state-primary-election-dates",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 77406
+      },
+      "bytes": {
+        "length": 77406,
+        "sha256": "4d71296459a24f02cfff2868ce2a098a9b303533cb1a0e67f3528ad6e6febf66"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "permission-required-by-publisher-terms",
+        "termsUrl": "https://www.ncsl.org/terms-of-use"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "ncsl-primary-types",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/ncsl-primary-types.html",
+      "mediaType": "text/html",
+      "provider": "National Conference of State Legislatures",
+      "publisher": {
+        "documentationUrl": "https://www.ncsl.org/elections-and-campaigns/state-primary-election-types",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.ncsl.org/elections-and-campaigns/state-primary-election-types",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 128537
+      },
+      "bytes": {
+        "length": 128537,
+        "sha256": "b18412147a6fd25c46622b2b8c615a86d83c03abc0e1b2f7a3f194c9db1f42e4"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "permission-required-by-publisher-terms",
+        "termsUrl": "https://www.ncsl.org/terms-of-use"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "nga-governor-elections",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/nga-2026-governors.html",
+      "mediaType": "text/html",
+      "provider": "National Governors Association",
+      "publisher": {
+        "documentationUrl": "https://www.nga.org/governors/elections/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.nga.org/governors/elections/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 455811
+      },
+      "bytes": {
+        "length": 455811,
+        "sha256": "9db4418f2d5daa2805241762164c7c4b341835afd762621477531e2a8c268a21"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "dc-2026-elections",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/dc-2026-elections.html",
+      "mediaType": "text/html",
+      "provider": "District of Columbia Board of Elections",
+      "publisher": {
+        "documentationUrl": "https://www.dcboe.org/elections/2026-elections",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.dcboe.org/elections/2026-elections",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 65086
+      },
+      "bytes": {
+        "length": 65086,
+        "sha256": "81fefe91989d678ddac04fc566573811ea22c3f198e361194842743422f6beea"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "dc-election-definitions",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/dc-election-definitions.html",
+      "mediaType": "text/html",
+      "provider": "District of Columbia Board of Elections",
+      "publisher": {
+        "documentationUrl": "https://www.dcboe.org/faqs/election-definitions",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.dcboe.org/faqs/election-definitions",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 41251
+      },
+      "bytes": {
+        "length": 41251,
+        "sha256": "e6249a2ac04df407fbc0275894d63ddc2421b50819246ca4809cf78bdf0b1cf4"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "dc-governance",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/dc-governance.html",
+      "mediaType": "text/html",
+      "provider": "District of Columbia Statehood Office",
+      "publisher": {
+        "documentationUrl": "https://statehood.dc.gov/page/dc-governance",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://statehood.dc.gov/page/dc-governance",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 96776
+      },
+      "bytes": {
+        "length": 96776,
+        "sha256": "ad849d1fad6574ff5e5ad48d015612fe4868f71165e5fdcc2b958ece8d9d672c"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "house-delegate-terms",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/house-delegate-terms.html",
+      "mediaType": "text/html",
+      "provider": "Clerk of the U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://clerk.house.gov/Help/ViewMemberFAQs",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://clerk.house.gov/Help/ViewMemberFAQs",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 10339
+      },
+      "bytes": {
+        "length": 10339,
+        "sha256": "0879fcccb7406f6a9d09e9915143da34088db8604a0dea01e2a9247ec55f1801"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "ne-legislature-election-statute",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/nebraska-legislature-election-statute.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-508",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-508",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 22518
+      },
+      "bytes": {
+        "length": 22518,
+        "sha256": "c75183fb194902d575cfc0454b2af365c48d3002b9ec1c70ac99e78d84bcd5dc"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "ks-sos-2026-candidates",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/ks-sos-2026-candidate-filing.html",
+      "mediaType": "text/html",
+      "provider": "Kansas Secretary of State",
+      "publisher": {
+        "documentationUrl": "https://sos.ks.gov/media/press-releases/2026/06-01-26-candidate-filing-deadline-closes.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://sos.ks.gov/media/press-releases/2026/06-01-26-candidate-filing-deadline-closes.html",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 33041
+      },
+      "bytes": {
+        "length": 33041,
+        "sha256": "8496277f6d428788c55bc23a29f56d6a2a9628dbd9c6ea9e4612ba035a816881"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "ks-election-statute-25-101",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/ks-election-statute-25-101.html",
+      "mediaType": "text/html",
+      "provider": "Kansas Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.kslegislature.gov/b2025_26/laws/025_000_0000_chapter/025_001_0000_article/025_001_0001_section/025_001_0001_k/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.kslegislature.gov/b2025_26/laws/025_000_0000_chapter/025_001_0000_article/025_001_0001_section/025_001_0001_k/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 59452
+      },
+      "bytes": {
+        "length": 59452,
+        "sha256": "07eddeea5c9512c1cdf7e58dd303eb3ea0c54f55d5b0b54eebb8a34637ece527"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "az-constitution-article5-section1",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/az-constitution-article5-section1.html",
+      "mediaType": "text/html",
+      "provider": "Arizona Legislature",
+      "publisher": {
+        "documentationUrl": "https://www.azleg.gov/const/5/1.htm",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.azleg.gov/const/5/1.htm",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 2370
+      },
+      "bytes": {
+        "length": 2370,
+        "sha256": "0ea06c412e84853e4c4dc95027c2e0e412c09223ab45857b48c738f1715cb5af"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "guam-2026-election-dates",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/guam-2026-election-dates.html",
+      "mediaType": "text/html",
+      "provider": "Guam Election Commission",
+      "publisher": {
+        "documentationUrl": "https://gec.guam.gov/2024-election-dates/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://gec.guam.gov/2024-election-dates/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 68819
+      },
+      "bytes": {
+        "length": 68819,
+        "sha256": "f15be7ff3a50a007117d1f766fb470cb48d7a2bc75a6dba1f748e33662999ac7"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "guam-candidate-qualifications",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/guam-candidate-qualifications.html",
+      "mediaType": "text/html",
+      "provider": "Guam Election Commission",
+      "publisher": {
+        "documentationUrl": "https://gec.guam.gov/candidate-qualifications/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://gec.guam.gov/candidate-qualifications/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 82831
+      },
+      "bytes": {
+        "length": 82831,
+        "sha256": "485a3224d083cec38435105dbd6a7416fbb4d0d9ec766071647d444c1d1b7bc0"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "guam-2026-important-dates",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/guam-2026-important-dates.html",
+      "mediaType": "text/html",
+      "provider": "Guam Election Commission",
+      "publisher": {
+        "documentationUrl": "https://gec.guam.gov/2026-important-dates/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://gec.guam.gov/2026-important-dates/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 128692
+      },
+      "bytes": {
+        "length": 128692,
+        "sha256": "4104a2d708729c6e8fe908cec06f7f164b276fc39b1765f163d81cb05eef8102"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "guam-organic-act-section1422",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/guam-organic-act-section1422.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1422&num=0&edition=prelim",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1422&num=0&edition=prelim",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 152693
+      },
+      "bytes": {
+        "length": 152693,
+        "sha256": "5d47070f73933240e6c328ec313bc4dc14f4385a7aa62314cc27d3ad4786bb99"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "guam-organic-act-section1423",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/guam-organic-act-section1423.html",
+      "mediaType": "text/html",
+      "provider": "Office of the Law Revision Counsel, U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1423&num=0&edition=prelim",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1423&num=0&edition=prelim",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 147005
+      },
+      "bytes": {
+        "length": 147005,
+        "sha256": "f1463accedcaad8c2651d284829b9e7e73ebe79a8b2f6e43a986b43dfa865c62"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "vi-elections",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/vi-elections.html",
+      "mediaType": "text/html",
+      "provider": "Election System of the Virgin Islands",
+      "publisher": {
+        "documentationUrl": "https://vivote.gov/elections/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://vivote.gov/elections/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 146737
+      },
+      "bytes": {
+        "length": 146737,
+        "sha256": "9c28b95427afb58a5b27ba722642e0522ca19797777b98bcfb7c002e37bbe784"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "vi-2026-primary",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/vi-2026-primary.html",
+      "mediaType": "text/html",
+      "provider": "Election System of the Virgin Islands",
+      "publisher": {
+        "documentationUrl": "https://vivote.gov/casting-of-lots-results-2026-primary-election/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://vivote.gov/casting-of-lots-results-2026-primary-election/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 177336
+      },
+      "bytes": {
+        "length": 177336,
+        "sha256": "3c4991e6ed4c9a02053e42dc9e61cc082bbeaced92339ebd4d2054d4fec820e0"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "mp-constitution",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/mp-constitution.html",
+      "mediaType": "text/html",
+      "provider": "Commonwealth Law Revision Commission",
+      "publisher": {
+        "documentationUrl": "https://www.cnmilaw.gov/constitution",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.cnmilaw.gov/constitution",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 158897
+      },
+      "bytes": {
+        "length": 158897,
+        "sha256": "618257dcae8aa4aad5cea0b0c72b46852e171dada0414c31427a3c28cc127630"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "mp-2026-candidates",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/mp-2026-candidates.html",
+      "mediaType": "text/html",
+      "provider": "Commonwealth Election Commission",
+      "publisher": {
+        "documentationUrl": "https://www.votecnmi.gov.mp/candidate/2026-certified-candidates-listing",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.votecnmi.gov.mp/candidate/2026-certified-candidates-listing",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 176681
+      },
+      "bytes": {
+        "length": 176681,
+        "sha256": "51bcf205970f6fbd6f6fcd5c361101bb11ed55f779766b6142e3043026da69e7"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
+      },
+      "storage": "cached-not-committed"
+    }
+  ]
+}

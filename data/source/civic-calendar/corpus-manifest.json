@@ -1,0 +1,108 @@
+{
+  "corpusId": "civic-calendar",
+  "asOf": "2026-09-27",
+  "compiler": {
+    "name": "compile-civic-calendar",
+    "version": "1.0.0"
+  },
+  "canonicalSha256": "df8dac33a83c042b1146bcdc32ad80c43a45d64f3cdd2cf9d758452738e75ddf",
+  "inputClass": "research-only",
+  "coverage": {
+    "isCompleteUniverse": true,
+    "universeDescription": "Fifty states, the District of Columbia and five inhabited territories; individual fields remain null where the locked sources do not establish them.",
+    "jurisdictions": 56,
+    "stateLegislativeSeatsUp2026": 6139,
+    "governorElections2026": 39,
+    "gapKinds": 7
+  },
+  "inputs": [
+    {
+      "artifactId": "ncsl-2026-legislative-races",
+      "sha256": "be8e68a8d4287578474c578477b00599ef6a704b683e4de4cea3a390ac9fc8a0"
+    },
+    {
+      "artifactId": "ncsl-2026-primary-dates",
+      "sha256": "4d71296459a24f02cfff2868ce2a098a9b303533cb1a0e67f3528ad6e6febf66"
+    },
+    {
+      "artifactId": "ncsl-primary-types",
+      "sha256": "b18412147a6fd25c46622b2b8c615a86d83c03abc0e1b2f7a3f194c9db1f42e4"
+    },
+    {
+      "artifactId": "nga-governor-elections",
+      "sha256": "9db4418f2d5daa2805241762164c7c4b341835afd762621477531e2a8c268a21"
+    },
+    {
+      "artifactId": "dc-2026-elections",
+      "sha256": "81fefe91989d678ddac04fc566573811ea22c3f198e361194842743422f6beea"
+    },
+    {
+      "artifactId": "dc-election-definitions",
+      "sha256": "e6249a2ac04df407fbc0275894d63ddc2421b50819246ca4809cf78bdf0b1cf4"
+    },
+    {
+      "artifactId": "dc-governance",
+      "sha256": "ad849d1fad6574ff5e5ad48d015612fe4868f71165e5fdcc2b958ece8d9d672c"
+    },
+    {
+      "artifactId": "house-delegate-terms",
+      "sha256": "0879fcccb7406f6a9d09e9915143da34088db8604a0dea01e2a9247ec55f1801"
+    },
+    {
+      "artifactId": "ne-legislature-election-statute",
+      "sha256": "c75183fb194902d575cfc0454b2af365c48d3002b9ec1c70ac99e78d84bcd5dc"
+    },
+    {
+      "artifactId": "ks-sos-2026-candidates",
+      "sha256": "8496277f6d428788c55bc23a29f56d6a2a9628dbd9c6ea9e4612ba035a816881"
+    },
+    {
+      "artifactId": "ks-election-statute-25-101",
+      "sha256": "07eddeea5c9512c1cdf7e58dd303eb3ea0c54f55d5b0b54eebb8a34637ece527"
+    },
+    {
+      "artifactId": "az-constitution-article5-section1",
+      "sha256": "0ea06c412e84853e4c4dc95027c2e0e412c09223ab45857b48c738f1715cb5af"
+    },
+    {
+      "artifactId": "guam-2026-election-dates",
+      "sha256": "f15be7ff3a50a007117d1f766fb470cb48d7a2bc75a6dba1f748e33662999ac7"
+    },
+    {
+      "artifactId": "guam-candidate-qualifications",
+      "sha256": "485a3224d083cec38435105dbd6a7416fbb4d0d9ec766071647d444c1d1b7bc0"
+    },
+    {
+      "artifactId": "guam-2026-important-dates",
+      "sha256": "4104a2d708729c6e8fe908cec06f7f164b276fc39b1765f163d81cb05eef8102"
+    },
+    {
+      "artifactId": "guam-organic-act-section1422",
+      "sha256": "5d47070f73933240e6c328ec313bc4dc14f4385a7aa62314cc27d3ad4786bb99"
+    },
+    {
+      "artifactId": "guam-organic-act-section1423",
+      "sha256": "f1463accedcaad8c2651d284829b9e7e73ebe79a8b2f6e43a986b43dfa865c62"
+    },
+    {
+      "artifactId": "vi-elections",
+      "sha256": "9c28b95427afb58a5b27ba722642e0522ca19797777b98bcfb7c002e37bbe784"
+    },
+    {
+      "artifactId": "vi-2026-primary",
+      "sha256": "3c4991e6ed4c9a02053e42dc9e61cc082bbeaced92339ebd4d2054d4fec820e0"
+    },
+    {
+      "artifactId": "mp-constitution",
+      "sha256": "618257dcae8aa4aad5cea0b0c72b46852e171dada0414c31427a3c28cc127630"
+    },
+    {
+      "artifactId": "mp-2026-candidates",
+      "sha256": "51bcf205970f6fbd6f6fcd5c361101bb11ed55f779766b6142e3043026da69e7"
+    }
+  ],
+  "reusedRepositorySources": [
+    "src/simulation/living-world/congress-seats.ts",
+    "data/source/state-legislatures/corpus.json"
+  ]
+}
