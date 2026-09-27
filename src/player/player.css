@@ -6433,6 +6433,18 @@
   position: absolute;
 }
 
+/* A place picture (art/backdrops) for a screen with no registered room. It
+   only covers the viewport; nobody stands in it. */
+.scene-place-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 62%;
+  user-select: none;
+}
+
 .scene-backdrop--art .scene-backdrop-stage::after {
   content: "";
   position: absolute;
