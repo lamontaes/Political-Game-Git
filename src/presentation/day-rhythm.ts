@@ -55,8 +55,8 @@ export function projectDayRhythm(
           recap,
         }
       : null;
-  // PLACEHOLDER(overnight): local noon bounds the optional morning thought
-  // until the owner chooses a more specific daily presentation window.
+  // PLACEHOLDER(wave2): local noon bounds the optional morning thought until
+  // the owner approves a more specific daily presentation window.
   const inMorning = world.currentMoment.minuteOfDay < 12 * 60;
   const morningThought =
     preferences.morningThoughts &&

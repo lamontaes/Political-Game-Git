@@ -19,7 +19,9 @@ import { cancelScheduledActivity } from "../simulation/time-work";
 
 export type CandidateGuidanceQuestion = "requirements" | "filing";
 
-// PLACEHOLDER(overnight): Exact spoken lines and choices await English review.
+// PLACEHOLDER(wave2): Replace these spoken lines and question labels only after
+// English review against the saved guidance fact packet; unknown filing rules
+// cannot become claims about what the organizer knows.
 export const CANDIDATE_GUIDANCE_OPENING =
   "We can talk through what is known about running here. What do you want to ask?";
 export const CANDIDATE_GUIDANCE_QUESTIONS: readonly {
