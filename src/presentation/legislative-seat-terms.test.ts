@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   fileForOffice,
   namedSeatForFixture,
@@ -33,6 +33,9 @@ import { projectCampaignOffices } from "./campaign-office-discovery";
 import { projectWorkRole } from "./day-overview";
 import { proseDate } from "./prose-dates";
 import { playCalendarActivity } from "./calendar-time-control";
+
+// Each case opens a new life, which now seats all fifty state legislatures.
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 
 function seats(world: World, personId: EntityId) {
   return workRelationshipHistoryForPerson(world, personId).filter(

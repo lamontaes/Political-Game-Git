@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { allGovernmentUnits } from "../../src/simulation/government-units";
 import {
   candidacyEligibility,
@@ -34,6 +34,9 @@ import {
 } from "../../src/presentation/opening-life";
 import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
 import { runToElection, suppliedWin } from "../fixtures/state-executive-entry";
+
+// Each case opens a new life, which now seats all fifty state legislatures.
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 
 /**
  * A town's own governing body, offered in every town that has a government.

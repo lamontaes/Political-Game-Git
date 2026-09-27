@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   assertWorldIntegrity,
@@ -17,6 +17,9 @@ import { municipalSeats } from "../simulation/municipal-public-work";
 import { requireLifePlace } from "../simulation/life-places";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
+
+// Each case opens a new life, which now seats all fifty state legislatures.
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 
 describe("ordinary municipal opening", () => {
   it("seats a fictional council from its compiled count once and preserves the roll on reload", () => {

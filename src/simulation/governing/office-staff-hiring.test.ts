@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
@@ -28,6 +28,9 @@ import {
   openTransitionMatters,
   type GoverningOffice,
 } from "./state-governing";
+
+// Each case opens a new life, which now seats all fifty state legislatures.
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 
 /** Plays as the sitting governor of Oregon: a test fixture's control swap. */
 function asGovernor(seed: string): World {

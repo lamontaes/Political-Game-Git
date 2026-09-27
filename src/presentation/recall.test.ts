@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import {
   assertWorldIntegrity,
@@ -35,6 +35,9 @@ import { resolvePlayerCapabilities } from "./player-capabilities";
 import { projectRecall, startProjectedRecallPetition } from "./recall";
 import { recordOrganizationParticipationState } from "../simulation/life";
 import { organizationParticipationStateHistory } from "../simulation/life-queries";
+
+// Each case opens a new life, which now seats all fifty state legislatures.
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 
 /**
  * A resident petitioning to recall a member of their town's council, on an

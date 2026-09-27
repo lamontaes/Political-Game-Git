@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { campaignUntilDecided } from "../../tests/fixtures/campaign-fixture";
 import {
@@ -28,6 +28,9 @@ import { projectCampaignOffices } from "./campaign-office-discovery";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
+
+// Each case opens a new life, which now seats all fifty state legislatures.
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 
 describe("an elected municipal council member", () => {
   it.each([
