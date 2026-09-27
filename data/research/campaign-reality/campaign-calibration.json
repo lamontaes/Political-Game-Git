@@ -106,6 +106,14 @@
       "locator": "Transaction-level operating expenditure fields",
       "sourceKind": "official-data-description",
       "acquisition": "Public FEC page read online September 27, 2026; page not copied into this repository"
+    },
+    "broockman-green-facebook-2013": {
+      "title": "Do Online Advertisements Increase Political Candidates’ Name Recognition or Favorability? Evidence from Randomized Field Experiments",
+      "publisher": "Political Behavior",
+      "url": "https://link.springer.com/article/10.1007/s11109-013-9239-z",
+      "locator": "Study 1 Treatment Delivery, 2012 state-legislative challenger bid and market context; Study 2 Treatment Delivery, 2012 U.S. House challenger bid, paid-price comparison and impressions",
+      "sourceKind": "research-paper",
+      "acquisition": "Public original article read online September 27, 2026; page not copied into this repository"
     }
   },
   "observations": [
@@ -424,7 +432,7 @@
     "No reliable office-specific multiplier across the five requested offices was established. Shared observations are not five independent office estimates.",
     "Cash cost of a volunteer door or phone shift remains UNKNOWN, not zero; transport, lists, materials, platform and supervision vary.",
     "USPS $0.26 is only EDDM Retail postage for an eligible flat; printing, design, labor, and route preparation are not priced by this source. A representative all-in mail-piece cost remains UNKNOWN.",
-    "No defensible general digital cost per thousand impressions, typical event cost, or fundraiser net yield was established. A CPM definition or a committee receipt total is not a price or net event yield.",
+    "No defensible current general digital cost per thousand impressions, typical event cost, or fundraiser net yield was established. The 2012 Facebook bid and market context are historical, not 2026 prices; a CPM definition or committee receipt total is not a price or net event yield.",
     "State House candidate-hour figures are 2008 self-reports for the first week of October among contested major-party lower-house candidates in 18 states. They are subgroup means, not national challenger/incumbent schedules. State Senate, city council, county, and U.S. House weekly hours remain UNKNOWN."
   ],
   "gapEvidence": [
@@ -438,9 +446,12 @@
     {
       "metric": "paid-digital-CPM",
       "status": "UNKNOWN",
-      "sourceIds": ["google-ads-cpm-definition"],
+      "sourceIds": [
+        "google-ads-cpm-definition",
+        "broockman-green-facebook-2013"
+      ],
       "actionCatalogIds": [],
-      "reason": "Official source defines average cost per 1,000 impressions but supplies no political-campaign price; merged action catalog has no distinct paid-digital purchase action."
+      "reason": "Google defines CPM but supplies no political price. A 2012 Facebook experiment reports bids and old market context, not a current paid CPM; merged action catalog has no distinct paid-digital purchase action."
     },
     {
       "metric": "typical-event-cost",
@@ -459,6 +470,28 @@
       "sourceIds": ["fec-recording-receipts", "fec-operating-expenditures"],
       "actionCatalogIds": ["home-fundraiser", "joint-fundraiser"],
       "reason": "Receipts and expenditures are separately recorded; these pages do not provide matched typical net event yield."
+    }
+  ],
+  "historicalDigitalContext": [
+    {
+      "id": "facebook-state-legislative-2012",
+      "officeLevel": null,
+      "population": "One state-legislative challenger in a 2012 Facebook field experiment; chamber unspecified",
+      "bidCpmUsd": 1.51,
+      "paidCpmUsd": null,
+      "marketContext": "Authors state that targeted Facebook advertising in that 2012 market typically cleared well below $0.30 per 1,000 impressions; the study does not give this candidate’s exact paid CPM.",
+      "sourceIds": ["broockman-green-facebook-2013"],
+      "notForCurrentCalibration": true
+    },
+    {
+      "id": "facebook-us-house-2012",
+      "officeLevel": "us-house",
+      "population": "One U.S. House challenger in a 2012 Facebook field experiment; 3.98 million reported impressions",
+      "bidCpmUsd": 0.8,
+      "paidCpmUsd": null,
+      "marketContext": "Authors say the $0.80 CPM bid was more than triple the market price actually paid; exact paid CPM is not stated.",
+      "sourceIds": ["broockman-green-facebook-2013"],
+      "notForCurrentCalibration": true
     }
   ]
 }

@@ -41,6 +41,15 @@ export type CampaignCalibration = {
     actionCatalogIds: string[];
     reason: string;
   }[];
+  historicalDigitalContext: {
+    id: string;
+    officeLevel: string | null;
+    bidCpmUsd: number;
+    paidCpmUsd: number | null;
+    marketContext: string;
+    sourceIds: string[];
+    notForCurrentCalibration: boolean;
+  }[];
   gaps: string[];
 };
 
@@ -165,6 +174,21 @@ export function validateCampaignCalibration(
       gap.actionCatalogIds.some((id) => !actionIds.has(id))
     ) {
       errors.push(`invalid or unsupported gap evidence ${gap.metric}`);
+    }
+  }
+  for (const context of packet.historicalDigitalContext) {
+    if (
+      !context.id ||
+      !Number.isFinite(context.bidCpmUsd) ||
+      context.bidCpmUsd <= 0 ||
+      context.paidCpmUsd !== null ||
+      !context.marketContext ||
+      context.notForCurrentCalibration !== true ||
+      !context.sourceIds.length ||
+      context.sourceIds.some((id) => !packet.sources[id]) ||
+      (context.officeLevel !== null && !expected.has(context.officeLevel))
+    ) {
+      errors.push(`invalid historical digital context ${context.id}`);
     }
   }
   if (!packet.gaps.length) errors.push("source gaps must be explicit");

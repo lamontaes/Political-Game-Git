@@ -92,4 +92,21 @@ describe("campaign contact calibration packet", () => {
       ),
     ).toBe(true);
   });
+
+  it("keeps 2012 Facebook bids out of current paid CPM calibration", () => {
+    expect(packet.historicalDigitalContext).toHaveLength(2);
+    expect(
+      packet.historicalDigitalContext.every((row) => row.paidCpmUsd === null),
+    ).toBe(true);
+    expect(
+      packet.historicalDigitalContext.every(
+        (row) => row.notForCurrentCalibration === true,
+      ),
+    ).toBe(true);
+    const changed = structuredClone(packet);
+    changed.historicalDigitalContext[0]!.paidCpmUsd = 1.51;
+    expect(validateCampaignCalibration(changed, actionIds)).toContain(
+      "invalid historical digital context facebook-state-legislative-2012",
+    );
+  });
 });
