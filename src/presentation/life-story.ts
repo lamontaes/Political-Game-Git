@@ -20,6 +20,14 @@ import {
 import { passOrdinaryDays } from "./ordinary-life";
 import { performVenueActivity } from "./venue-activity";
 import {
+  arriveAtCandidateGuidance,
+  projectCandidateGuidanceScene,
+} from "./candidate-guidance-scene";
+import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
+import { arriveAtOrdinaryMeeting } from "./ordinary-meeting-actions";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
+import {
   lifeActivityHandlers,
   type OrdinaryLifeDayAdvance,
 } from "./life-time-handlers";
@@ -660,6 +668,28 @@ export function chooseTodayCalendarOption(
       (candidate) => candidate.id === wanted,
     );
     if (!activity) return world;
+    if (
+      activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+      projectOrdinaryMeetingScene(world, input.personId)?.phase !== "active"
+    )
+      return arriveAtOrdinaryMeeting(
+        world,
+        input.personId,
+        activity.id,
+        input.transitionHandlers,
+      );
+    if (
+      campaignLifeActivityForScheduledActivity(world, activity.id)?.form ===
+        "candidate-guidance" &&
+      projectCandidateGuidanceScene(world, input.personId)?.activityId !==
+        activity.id
+    )
+      return arriveAtCandidateGuidance(
+        world,
+        input.personId,
+        activity.id,
+        input.transitionHandlers,
+      );
     return performVenueActivity(
       world,
       input.personId,

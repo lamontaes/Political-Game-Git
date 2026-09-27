@@ -109,8 +109,17 @@ describe(
         ),
       ).toBe(false);
 
-      const done = attendPartyWork(
+      const arrived = attendPartyWork(
         requested,
+        player,
+        row.lifeActivityId,
+        "condensed",
+      );
+      expect(projectPartyAndCommunityWork(arrived, player).rows[0]?.state).toBe(
+        "accepted",
+      );
+      const done = attendPartyWork(
+        arrived,
         player,
         row.lifeActivityId,
         "condensed",

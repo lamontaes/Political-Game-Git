@@ -14,9 +14,14 @@ import {
   CONTACT_LOCATION_KEY,
 } from "../simulation/people-contact";
 import { interruptionHandlers } from "./interruption-policy";
+import {
+  arriveAtCandidateGuidance,
+  projectCandidateGuidanceScene,
+} from "./candidate-guidance-scene";
 import { arriveAtOrdinaryMeeting } from "./ordinary-meeting-actions";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
+import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import { describeRoutineOutcome } from "./routine-outcome";
 import {
@@ -119,9 +124,15 @@ export function playCalendarActivity(
     const openingMeeting =
       entry?.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
       projectOrdinaryMeetingScene(world, personId)?.phase !== "active";
+    const openingGuidance =
+      campaignLifeActivityForScheduledActivity(world, activityId)?.form ===
+        "candidate-guidance" &&
+      projectCandidateGuidanceScene(world, personId)?.activityId !== activityId;
     next = openingMeeting
       ? arriveAtOrdinaryMeeting(world, personId, activityId)
-      : performVenueActivity(world, personId, activityId);
+      : openingGuidance
+        ? arriveAtCandidateGuidance(world, personId, activityId)
+        : performVenueActivity(world, personId, activityId);
   } catch (error) {
     // A writer that refuses (a buy the committee can no longer pay for, a
     // session that is not the week's next) says why, and nothing is written:
@@ -149,8 +160,11 @@ export function playCalendarActivity(
     outcome:
       projectOrdinaryMeetingScene(next, personId)?.phase === "active"
         ? projectOrdinaryMeetingScene(next, personId)!.caption
-        : (activityCompletionOutcome(next, personId, activityId) ??
-          describeRoutineOutcome(before, next, personId)),
+        : projectCandidateGuidanceScene(next, personId)?.activityId ===
+            activityId
+          ? projectCandidateGuidanceScene(next, personId)!.caption
+          : (activityCompletionOutcome(next, personId, activityId) ??
+            describeRoutineOutcome(before, next, personId)),
   };
 }
 

@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  addDays,
   campaignForCandidate,
+  createScheduledActivity,
   deserializeWorld,
   electionContestResult,
   serializeWorld,
+  simulationMomentAtLocalTime,
 } from "../simulation";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
@@ -119,6 +122,55 @@ describe("the canonical time command", () => {
     expect(long.world.currentDate > week.world.currentDate).toBe(true);
     if (!long.receipt.stoppedEarly)
       expect(long.world.currentDate).toBe(long.receipt.requestedTarget?.date);
+  });
+
+  it("names the commitment that stops an advance before its requested morning", () => {
+    const built = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "named-time-stop",
+      startAge: 34,
+      placeKey: "lexington-fayette",
+      questionnaire: "skipped",
+    });
+    const world = built.world;
+    const personId = built.playerPersonId;
+    const start = simulationMomentAtLocalTime({
+      date: addDays(world.currentDate, 1),
+      minuteOfDay: 18 * 60,
+      timeZone: world.currentMoment.timeZone,
+      preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+    });
+    const end = simulationMomentAtLocalTime({
+      ...start,
+      minuteOfDay: 19 * 60,
+    });
+    const booked = createScheduledActivity(world, {
+      stableKey: "named-time-stop:meeting",
+      title: "Neighborhood meeting",
+      summary: "A meeting on the calendar.",
+      kind: "confirmed",
+      start,
+      end,
+      participantPersonIds: [personId],
+      responsiblePersonId: personId,
+      location: {
+        locationKey: "named-time-stop:room",
+        label: "Community room",
+        jurisdictionId: null,
+      },
+      sourceEntityIds: [personId],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [personId] },
+    });
+    const { receipt } = submitTimeCommand(
+      booked,
+      request(booked, personId, { kind: "days", days: 2 }),
+      fixedClock,
+    );
+    expect(receipt.stoppedEarly).toBe(true);
+    expect(receipt.outcome).toContain(
+      "Stopped for Neighborhood meeting; resolve this commitment before continuing.",
+    );
   });
 
   it("refuses a stale request so one click never advances twice", () => {

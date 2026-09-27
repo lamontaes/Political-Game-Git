@@ -155,8 +155,13 @@ describe("a quiet stretch stops for civic life", () => {
       scene,
       optionKey: attend!.key,
     });
-    expect(scheduledActivityState(went, meeting.id).status).toBe("completed");
-    expect(goableToday(went, personId).map((a) => a.id)).not.toContain(
+    expect(scheduledActivityState(went, meeting.id).status).toBe("scheduled");
+    const stayed = chooseTodayCalendarOption(went, {
+      personId,
+      optionKey: `go-to:${meeting.id}`,
+    })!;
+    expect(scheduledActivityState(stayed, meeting.id).status).toBe("completed");
+    expect(goableToday(stayed, personId).map((a) => a.id)).not.toContain(
       meeting.id,
     );
   });
@@ -257,6 +262,15 @@ describe("beside the persistent Day and Week controls", () => {
       optionKey: `go-to:${meeting.id}`,
     });
     expect(went && scheduledActivityState(went, meeting.id).status).toBe(
+      "scheduled",
+    );
+    const stayed =
+      went &&
+      chooseTodayCalendarOption(went, {
+        personId,
+        optionKey: `go-to:${meeting.id}`,
+      });
+    expect(stayed && scheduledActivityState(stayed, meeting.id).status).toBe(
       "completed",
     );
     expect(
