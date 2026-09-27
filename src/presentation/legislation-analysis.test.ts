@@ -104,6 +104,32 @@ describe("fiscal notes read every drafted part without claiming cash moved", () 
     expect(charge(raised.draft).forecastMinorUnits).toBeNull();
   });
 
+  it("retains a stated amount when its fiscal role is not classified", () => {
+    const filed = kentuckyDocket("service-charges", "flat-permit-fee");
+    const unspecified = {
+      ...filed.draft,
+      clauses: filed.draft.clauses.map((clause) =>
+        clause.provisionKey === "exemption"
+          ? {
+              ...clause,
+              fiscalExposureLabel: "$25 per exemption",
+              fiscalExposureMinorUnits: 2_500,
+            }
+          : clause,
+      ),
+    };
+    expect(
+      draftFiscalNote(unspecified).parts.find(
+        (part) => part.provisionKey === "exemption",
+      ),
+    ).toMatchObject({
+      amountKind: "other-stated-amount",
+      statedAmountLabel: "$25 per exemption",
+      statedAmountMinorUnits: 2_500,
+      forecastMinorUnits: null,
+    });
+  });
+
   it("keeps authorization, rule, structure and process apart", () => {
     const authorization = kentuckyDocket(
       "transit-access",

@@ -132,6 +132,7 @@ export interface FiscalNotePart {
     | "appropriation"
     | "authorization-ceiling"
     | "per-unit-charge"
+    | "other-stated-amount"
     | "none";
   readonly forecastMinorUnits: number | null;
   readonly missingInput: string | null;
@@ -242,6 +243,8 @@ function fiscalNoteParts(
           ? "appropriation"
           : section.dimension === "funding-cap"
             ? "authorization-ceiling"
+            : section.statedAmountLabel !== null
+              ? "other-stated-amount"
             : "none";
     const payerLabel =
       amountKind === "appropriation"

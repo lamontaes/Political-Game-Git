@@ -1939,6 +1939,8 @@ function FiscalNoteView({
                   ? `Authorization ceiling, not money provided: ${part.statedAmountLabel ?? "not stated"}.`
                   : part.amountKind === "per-unit-charge"
                     ? `Charge per covered event: ${part.statedAmountLabel ?? "not stated"}.`
+                    : part.amountKind === "other-stated-amount"
+                      ? `Stated amount: ${part.statedAmountLabel}. Its fiscal role is not classified.`
                     : "No charge, appropriation, or authorization amount is classified for this section."}
             </p>
             <p>
