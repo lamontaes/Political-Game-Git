@@ -22,6 +22,7 @@ import {
   recordWorkStatus,
   startHouseholdMembership,
 } from "./life";
+import { COUPLE_KIND } from "./couples";
 import type {
   CreateCareResponsibilityInput,
   CreateChildAuthorityInput,
@@ -57,6 +58,7 @@ import {
 } from "./records";
 import {
   drawCanonicalName,
+  drawCanonicalNameForGender,
   drawCanonicalNamedIdentity,
   LEGACY_GIVEN_NAME_GENERATION_VERSION,
   type GivenNameGenerationVersion,
@@ -75,9 +77,11 @@ import {
   derivePersonAppearance,
 } from "./person-appearance";
 import { generatePersonIdentity } from "./person-identity";
+import { defaultPronounsForGender } from "./person-identity";
 import { birthCohortGivenName } from "./given-name-cohorts";
 import { DEFAULT_CORPUS_VERSION, familyNameFromParent } from "./names-data";
 import { SeededRng } from "./rng";
+import { recordPersonDeath } from "./vitality";
 import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
 import {
   createDwelling,
@@ -86,6 +90,7 @@ import {
   createResourceObligation,
   createResourcePosition,
   createWorkCompensation,
+  money,
   recordDwellingOccupancyState,
   recordHousingTenureState,
   recordResourceFlowTerms,
@@ -613,6 +618,516 @@ export function createCharacterHistoryContextPeople(
   if (personOrder.length === world.personOrder.length) return world;
   const next: World = { ...world, people, personOrder };
   assertWorldIntegrity(next);
+  return next;
+}
+
+/**
+ * Versioned close-circle and adult-year construction for a new life. This is
+ * invoked only while the pre-start world is still at its prior-year date.
+ * The people, kinships, work and shared moments are canonical records; no
+ * journal reader has to manufacture an unrecorded past.
+ */
+export function establishPreStartAdultHistory(
+  world: World,
+  input: {
+    readonly personId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly employerId: EntityId;
+    readonly employerName: string;
+    readonly employerFormedAt: IsoDate;
+    readonly monthlyWageMinor: number;
+  },
+): World {
+  const key = `pre-start-adult-history-v1:${input.personId}`;
+  if (
+    world.history.events.some((event) => event.stableKey === `${key}:year:18`)
+  )
+    return world;
+  const player = world.people[input.personId];
+  if (!player)
+    throw new Error(`Missing adult-history person ${input.personId}.`);
+  const age = ageOnDate(player.birthDate, world.currentDate);
+  if (age < 19) return world;
+  const firstParent = world.history.kinshipRelationships
+    .find(
+      (row) =>
+        row.kind === "lineal:parent-child" && row.personIds.includes(player.id),
+    )
+    ?.personIds.find((id) => id !== player.id);
+  if (!firstParent)
+    throw new Error("Adult history needs the established parent.");
+  const motherIsFirst =
+    world.people[firstParent]?.identity?.gender === "female";
+  const parentGender = motherIsFirst ? "male" : "female";
+  const rng = new SeededRng(world.seed).fork(key);
+  const corpusVersion = player.corpusVersion ?? DEFAULT_CORPUS_VERSION;
+  const parentKey = `${key}:second-parent`;
+  const siblingKey = `${key}:sibling`;
+  const grandparentKeys = [
+    `${key}:grandparent:1`,
+    `${key}:grandparent:2`,
+  ] as const;
+  const parentName = drawCanonicalNameForGender(
+    rng.fork(parentKey),
+    parentGender,
+    corpusVersion,
+  );
+  const siblingIdentity = generatePersonIdentity(rng.fork(siblingKey));
+  const siblingName = drawCanonicalNameForGender(
+    rng.fork(`${siblingKey}:name`),
+    siblingIdentity.gender,
+    corpusVersion,
+  );
+  const parentBirthDate = yearsBefore(player.birthDate, 29);
+  const grandparentPeople = grandparentKeys.map((stableKey, index) => {
+    const gender: "female" | "male" = index === 0 ? "female" : "male";
+    return {
+      stableKey,
+      ...drawCanonicalNameForGender(rng.fork(stableKey), gender, corpusVersion),
+      identity: { gender, pronouns: defaultPronounsForGender(gender) },
+      birthDate: yearsBefore(parentBirthDate, 24 + index * 4),
+      homeJurisdictionId: input.jurisdictionId,
+    };
+  });
+  let next = createCharacterHistoryContextPeople(world, [
+    {
+      stableKey: parentKey,
+      ...parentName,
+      familyName: player.familyName,
+      identity: {
+        gender: parentGender,
+        pronouns: defaultPronounsForGender(parentGender),
+      },
+      birthDate: parentBirthDate,
+      homeJurisdictionId: input.jurisdictionId,
+    },
+    {
+      stableKey: siblingKey,
+      ...siblingName,
+      familyName: player.familyName,
+      identity: siblingIdentity,
+      birthDate: yearsBefore(player.birthDate, 3),
+      homeJurisdictionId: input.jurisdictionId,
+    },
+    ...grandparentPeople,
+  ]);
+  const parentId = characterHistoryContextPersonId(next, parentKey);
+  const siblingId = characterHistoryContextPersonId(next, siblingKey);
+  const grandparentIds = grandparentKeys.map((stableKey) =>
+    characterHistoryContextPersonId(next, stableKey),
+  );
+  const generated = { kind: "generated" as const, generatorKey: key };
+  const kinships: {
+    stableKey: string;
+    personIds: readonly [EntityId, EntityId];
+    establishedAt: IsoDate;
+    kind:
+      | "lineal:parent-child"
+      | "collateral:sibling"
+      | "lineal:grandparent-grandchild";
+  }[] = [
+    {
+      stableKey: `${key}:parent`,
+      personIds: [parentId, player.id],
+      establishedAt: player.birthDate,
+      kind: "lineal:parent-child",
+    },
+    {
+      stableKey: `${key}:sibling`,
+      personIds: [siblingId, player.id],
+      establishedAt: player.birthDate,
+      kind: "collateral:sibling",
+    },
+    {
+      stableKey: `${key}:parent-sibling`,
+      personIds: [parentId, siblingId],
+      establishedAt: yearsBefore(player.birthDate, 3),
+      kind: "lineal:parent-child",
+    },
+    {
+      stableKey: `${key}:first-parent-sibling`,
+      personIds: [firstParent, siblingId],
+      establishedAt: yearsBefore(player.birthDate, 3),
+      kind: "lineal:parent-child",
+    },
+    ...grandparentIds.map((grandparentId, index) => ({
+      stableKey: `${key}:grandparent:${index + 1}`,
+      personIds: [grandparentId, player.id] as const,
+      establishedAt: player.birthDate,
+      kind: "lineal:grandparent-grandchild" as const,
+    })),
+    ...grandparentIds.map((grandparentId, index) => ({
+      stableKey: `${key}:grandparent-parent:${index + 1}`,
+      personIds: [grandparentId, parentId] as const,
+      establishedAt: parentBirthDate,
+      kind: "lineal:parent-child" as const,
+    })),
+  ];
+  for (const kinship of kinships)
+    next = recordKinship(next, { ...kinship, provenance: generated });
+
+  // The older starting ages have a recorded partner and grown child in their
+  // close circle. Neither is silently placed in a lives-alone household.
+  if (age >= 45) {
+    const partnerKey = `${key}:partner`;
+    const childKey = `${key}:child`;
+    const partnerIdentity = generatePersonIdentity(rng.fork(partnerKey));
+    const childIdentity = generatePersonIdentity(rng.fork(childKey));
+    next = createCharacterHistoryContextPeople(next, [
+      {
+        stableKey: partnerKey,
+        ...drawCanonicalNameForGender(
+          rng.fork(`${partnerKey}:name`),
+          partnerIdentity.gender,
+          corpusVersion,
+        ),
+        identity: partnerIdentity,
+        birthDate: yearsBefore(player.birthDate, -2),
+        homeJurisdictionId: input.jurisdictionId,
+      },
+      {
+        stableKey: childKey,
+        ...drawCanonicalNameForGender(
+          rng.fork(`${childKey}:name`),
+          childIdentity.gender,
+          corpusVersion,
+        ),
+        familyName: player.familyName,
+        identity: childIdentity,
+        birthDate: dateAtAge(player.birthDate, 30),
+        homeJurisdictionId: input.jurisdictionId,
+      },
+    ]);
+    const partnerId = characterHistoryContextPersonId(next, partnerKey);
+    const childId = characterHistoryContextPersonId(next, childKey);
+    const childBirthDate = next.people[childId]!.birthDate;
+    next = createPartnership(next, {
+      stableKey: `${key}:partnership`,
+      personIds: [player.id, partnerId],
+      startedAt: dateAtAge(player.birthDate, 27),
+      kind: COUPLE_KIND,
+      provenance: generated,
+    });
+    for (const parentId of [player.id, partnerId])
+      next = recordKinship(next, {
+        stableKey: `${key}:child-of:${parentId}`,
+        personIds: [parentId, childId],
+        establishedAt: childBirthDate,
+        kind: "lineal:parent-child",
+        provenance: generated,
+      });
+  }
+  for (const relativeId of [firstParent, parentId, ...grandparentIds]) {
+    if (
+      next.history.personDeaths.some((death) => death.personId === relativeId)
+    )
+      continue;
+    const relative = next.people[relativeId]!;
+    const lifespan = rng.fork(`lifespan:${relativeId}`).integer(78, 91);
+    const diedAt = dateAtAge(relative.birthDate, lifespan);
+    if (diedAt > world.currentDate) continue;
+    next = recordPersonDeath(next, {
+      stableKey: `${key}:relative-death:${relativeId}`,
+      personId: relativeId,
+      diedAt,
+      causeKey: "cause:unknown",
+      sourceEntityIds: [relativeId],
+      summary: `${relative.givenName} ${relative.familyName} died. The cause is not recorded.`,
+      provenance: {
+        kind: "authored",
+        note: "Generated fictional family history; lifespan band is a placeholder and no cause is inferred.",
+      },
+    });
+  }
+
+  const adultStart = dateAtAge(player.birthDate, 18);
+  const recentStart = yearsBefore(world.currentDate, Math.min(age - 18, 8));
+  const workStart =
+    recentStart > input.employerFormedAt ? recentStart : input.employerFormedAt;
+  if (workStart <= world.currentDate) {
+    next = createWorkRelationship(next, {
+      stableKey: `${key}:local-work`,
+      personId: player.id,
+      organizationId: input.employerId,
+      startedAt: workStart < adultStart ? adultStart : workStart,
+      kind: "employment:local-business",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance: generated,
+      initialRole: {
+        title: "Staff member",
+        occupationClassification: "custom:local-business-staff",
+        locationJurisdictionId: input.jurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 30, maximumHours: 40 },
+          attention: "moderate",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "mixed",
+          interruptibility: "interruptible",
+          locationJurisdictionId: input.jurisdictionId,
+        },
+      },
+    });
+    // The observed terms start now. A past work start is not a claim that
+    // every earlier salary was actually paid; the forward year settles only
+    // its own months through the local business wage flow.
+    next = createResourceFlow(next, {
+      stableKey: `${key}:local-pay`,
+      source: { kind: "organization", organizationId: input.employerId },
+      recipient: { kind: "person", personId: player.id },
+      startsAt: world.currentDate,
+      amount: money(input.monthlyWageMinor, "USD"),
+      cadenceKind: "schedule:monthly",
+      basisKind: "compensation:wages",
+      basisReference: {
+        kind: "work",
+        workRelationshipId: next.history.workRelationships.at(-1)!.id,
+      },
+      restrictionKind: null,
+      jurisdictionId: input.jurisdictionId,
+      provenance: generated,
+    });
+  }
+
+  const motherId = motherIsFirst ? firstParent : parentId;
+  const motherName = next.people[motherId]!.givenName;
+  const siblingNameRecorded = next.people[siblingId]!.givenName;
+  const playerName = `${player.givenName} ${player.familyName}`;
+  const earlyDate = dateAtAge(player.birthDate, 2);
+  next = recordWorldEvent(next, {
+    stableKey: `${key}:early-family-time`,
+    type: "life.family-time",
+    occurredAt: earlyDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: input.jurisdictionId,
+    involvedEntityIds: [player.id, motherId],
+    participants: [player.id, motherId].map((personId) => ({
+      personId,
+      role: "presence:participant",
+      detail: null,
+    })),
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: ["life.family-time"],
+    summary: `${playerName} and ${motherName} spent time together in ${earlyDate.slice(0, 4)}.`,
+    context: {
+      location: {
+        jurisdictionId: input.jurisdictionId,
+        label: "Home area",
+        setting: null,
+      },
+      socialContext: "Recorded time with family",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  for (let year = 18; year < age; year += 1) {
+    const occurredAt = dateAtAge(player.birthDate, year);
+    if (occurredAt >= world.currentDate) break;
+    const isFamily = occurredAt < workStart || year < 24 || year % 4 === 0;
+    const otherId = year < 35 ? motherId : siblingId;
+    const otherName = year < 35 ? motherName : siblingNameRecorded;
+    const summary = isFamily
+      ? `${playerName} and ${otherName} spent time together at age ${year}.`
+      : `${playerName} continued working at ${input.employerName} at age ${year}.`;
+    const involvedEntityIds = isFamily
+      ? [player.id, otherId]
+      : [player.id, input.employerId];
+    next = recordWorldEvent(next, {
+      stableKey: `${key}:year:${year}`,
+      type: isFamily ? "life.family-time" : "life.work-routine",
+      occurredAt,
+      recordedAt: world.currentDate,
+      jurisdictionId: input.jurisdictionId,
+      involvedEntityIds,
+      participants: involvedEntityIds
+        .filter((id) => next.people[id])
+        .map((personId, index) => ({
+          personId,
+          role: index === 0 ? "agency:participant" : "presence:participant",
+          detail: null,
+        })),
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: [isFamily ? "life.family-time" : "life.work-routine"],
+      summary,
+      context: {
+        location: {
+          jurisdictionId: input.jurisdictionId,
+          label: "Home area",
+          setting: null,
+        },
+        socialContext: isFamily
+          ? "Recorded time with family"
+          : "Recorded employment",
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+  }
+  return next;
+}
+
+/** The close family and dated shared childhood that a prior-year child can know. */
+export function establishPreStartChildHistory(
+  world: World,
+  input: { readonly personId: EntityId; readonly jurisdictionId: EntityId },
+): World {
+  const key = `pre-start-child-history-v1:${input.personId}`;
+  if (world.history.events.some((event) => event.stableKey === `${key}:age:2`))
+    return world;
+  const player = world.people[input.personId];
+  if (!player)
+    throw new Error(`Missing child-history person ${input.personId}.`);
+  const age = ageOnDate(player.birthDate, world.currentDate);
+  if (age < 9 || age >= 18) return world;
+  const parentIds = world.history.kinshipRelationships
+    .filter(
+      (row) =>
+        row.kind === "lineal:parent-child" && row.personIds.includes(player.id),
+    )
+    .flatMap((row) => row.personIds.filter((id) => id !== player.id));
+  const existingMother = parentIds.find(
+    (id) => world.people[id]?.identity?.gender === "female",
+  );
+  const existingSibling = world.history.kinshipRelationships
+    .find(
+      (row) =>
+        row.kind === "collateral:sibling" && row.personIds.includes(player.id),
+    )
+    ?.personIds.find((id) => id !== player.id);
+  const rng = new SeededRng(world.seed).fork(key);
+  const corpusVersion = player.corpusVersion ?? DEFAULT_CORPUS_VERSION;
+  const motherKey = `${key}:mother`;
+  const siblingKey = `${key}:sibling`;
+  const motherBirthDate = existingMother
+    ? world.people[existingMother]!.birthDate
+    : yearsBefore(player.birthDate, 29);
+  const grandparentKeys = [
+    `${key}:grandparent:1`,
+    `${key}:grandparent:2`,
+  ] as const;
+  const grandparentPeople = grandparentKeys.map((stableKey, index) => {
+    const gender: "female" | "male" = index === 0 ? "female" : "male";
+    return {
+      stableKey,
+      ...drawCanonicalNameForGender(rng.fork(stableKey), gender, corpusVersion),
+      identity: { gender, pronouns: defaultPronounsForGender(gender) },
+      birthDate: yearsBefore(motherBirthDate, 24 + index * 4),
+      homeJurisdictionId: input.jurisdictionId,
+    };
+  });
+  const added: CharacterHistoryContextPersonInput[] = [...grandparentPeople];
+  if (!existingMother)
+    added.push({
+      stableKey: motherKey,
+      ...drawCanonicalNameForGender(
+        rng.fork(motherKey),
+        "female",
+        corpusVersion,
+      ),
+      familyName: player.familyName,
+      identity: {
+        gender: "female",
+        pronouns: defaultPronounsForGender("female"),
+      },
+      birthDate: motherBirthDate,
+      homeJurisdictionId: input.jurisdictionId,
+    });
+  if (!existingSibling) {
+    const identity = generatePersonIdentity(rng.fork(siblingKey));
+    added.push({
+      stableKey: siblingKey,
+      ...drawCanonicalNameForGender(
+        rng.fork(`${siblingKey}:name`),
+        identity.gender,
+        corpusVersion,
+      ),
+      familyName: player.familyName,
+      identity,
+      birthDate: yearsBefore(player.birthDate, 3),
+      homeJurisdictionId: input.jurisdictionId,
+    });
+  }
+  let next = createCharacterHistoryContextPeople(world, added);
+  const motherId =
+    existingMother ?? characterHistoryContextPersonId(next, motherKey);
+  const siblingId =
+    existingSibling ?? characterHistoryContextPersonId(next, siblingKey);
+  const generated = { kind: "generated" as const, generatorKey: key };
+  if (!existingMother)
+    next = recordKinship(next, {
+      stableKey: `${key}:mother-child`,
+      personIds: [motherId, player.id],
+      establishedAt: player.birthDate,
+      kind: "lineal:parent-child",
+      provenance: generated,
+    });
+  if (!existingSibling)
+    next = recordKinship(next, {
+      stableKey: `${key}:sibling`,
+      personIds: [siblingId, player.id],
+      establishedAt: player.birthDate,
+      kind: "collateral:sibling",
+      provenance: generated,
+    });
+  for (const [index, stableKey] of grandparentKeys.entries()) {
+    const grandparentId = characterHistoryContextPersonId(next, stableKey);
+    next = recordKinship(next, {
+      stableKey: `${key}:grandparent-parent:${index}`,
+      personIds: [grandparentId, motherId],
+      establishedAt: motherBirthDate,
+      kind: "lineal:parent-child",
+      provenance: generated,
+    });
+    next = recordKinship(next, {
+      stableKey: `${key}:grandparent-child:${index}`,
+      personIds: [grandparentId, player.id],
+      establishedAt: player.birthDate,
+      kind: "lineal:grandparent-grandchild",
+      provenance: generated,
+    });
+  }
+  const motherName = next.people[motherId]!.givenName;
+  for (const childAge of [2, 6, 8]) {
+    const occurredAt = dateAtAge(player.birthDate, childAge);
+    if (occurredAt > world.currentDate) continue;
+    next = recordWorldEvent(next, {
+      stableKey: `${key}:age:${childAge}`,
+      type: "life.family-time",
+      occurredAt,
+      recordedAt: world.currentDate,
+      jurisdictionId: input.jurisdictionId,
+      involvedEntityIds: [player.id, motherId],
+      participants: [player.id, motherId].map((personId) => ({
+        personId,
+        role: "presence:participant",
+        detail: null,
+      })),
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: ["life.family-time"],
+      summary: `${player.givenName} ${player.familyName} and ${motherName} spent time together in ${occurredAt.slice(0, 4)}.`,
+      context: {
+        location: {
+          jurisdictionId: input.jurisdictionId,
+          label: "Home area",
+          setting: null,
+        },
+        socialContext: "Recorded time with family",
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+  }
   return next;
 }
 
