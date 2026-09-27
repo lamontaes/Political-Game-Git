@@ -28,36 +28,6 @@
         "status": "public-domain-us-government"
       },
       "storage": "committed"
-    },
-    {
-      "artifactId": "portfolio-location-current",
-      "bytes": {
-        "length": 51200,
-        "sha256": "d9e8608a82fa1e130c6a80bc5870d25d6f47c626ed200bd33b8f45a43e262dba"
-      },
-      "localPath": "data/source/federal-student-aid/raw/portfolio-location-current.xls",
-      "mediaType": "application/vnd.ms-excel",
-      "provider": "U.S. Department of Education, Federal Student Aid",
-      "publisher": {
-        "documentationUrl": "https://studentaid.gov/sites/default/files/fsawg/datacenter/library/Portfolio-by-Location.xls",
-        "releaseDate": null,
-        "schemaVersion": null,
-        "statedVintage": "Data as of Mar. 31, 2026 (workbook header)"
-      },
-      "retrieval": {
-        "deliveryNote": "Downloaded from the official portfolio page in the Codex in-app browser via its Portfolio by Location link. The browser tool returned the saved file path, not response headers; HTTP 200 is inferred from the completed download. retrievedAt is the browser-downloaded file's creation time, a proxy for retrieval completion rather than a response timestamp or publication date.",
-        "httpStatus": 200,
-        "method": "GET",
-        "responseBytes": 51200,
-        "retrievedAt": "2026-09-27T02:12:52.826Z",
-        "url": "https://studentaid.gov/sites/default/files/fsawg/datacenter/library/Portfolio-by-Location.xls"
-      },
-      "rights": {
-        "attributionRequired": false,
-        "declaredLicense": null,
-        "status": "public-domain-us-government"
-      },
-      "storage": "committed"
     }
   ],
   "domain": "federal-student-aid"
