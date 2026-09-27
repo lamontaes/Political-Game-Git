@@ -154,8 +154,12 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     chamberKeys: ["house", "senate"],
     municipal: false,
     candidacy: {
-      kind: "cannot-file",
-      because: ["The next election is November 3, 2026."],
+      kind: "stands",
+      /*
+       * Promoted on 2026-09-27. It refused while the game had no dated
+       * contest for the seat; measured on 730accec (main 044d5303), the lower
+       * chamber is offered and its filing button is enabled.
+       */
     },
     note: "A large city the municipal corpus does not carry, so the place has a state legislature but no city government record.",
   },
@@ -179,12 +183,17 @@ export const TEST_JURISDICTIONS: readonly TestJurisdiction[] = [
     chamberKeys: ["house", "senate"],
     municipal: true,
     candidacy: {
-      kind: "stands",
+      kind: "cannot-file",
       /*
-       * Promoted on 2026-09-26. It refused for the one-year district-residence
-       * rule until #662 counted a life's whole residence in its own district
-       * and 10e167ca4 let a split town's resident run; the seat is offered now.
+       * Not promoted with Omaha and Anchorage on 2026-09-26. The one-year
+       * district-residence refusal is gone, but the Ohio rows also carry the
+       * constitution's qualified-elector requirement (Ohio Const. art. XV,
+       * sec. 4), and the world keeps no voter registration to meet it with.
+       * `assessOfficeQualifications` deliberately reports that row
+       * "not-evaluated" rather than granting it, and an unproved row blocks
+       * (ab952819f), so the seat is listed but cannot be filed for.
        */
+      because: ["This office requires a candidate who is a qualified elector"],
     },
     note: "An ordinary city inside an ordinary county, which is what most of the country looks like.",
   },

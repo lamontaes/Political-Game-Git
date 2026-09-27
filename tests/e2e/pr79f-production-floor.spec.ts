@@ -1,4 +1,8 @@
-import { campaignUntilDecided, fileCandidacy } from "./support/campaign";
+import { fileCandidacy } from "./support/campaign";
+import {
+  campaignHostedUntilDecided,
+  secureCampaignHost,
+} from "./support/legislative-entry";
 import { expect, test, type Page } from "./fixtures";
 
 import {
@@ -6,7 +10,6 @@ import {
   expectNoDestination,
   goTo,
   openElsewhere,
-  passShellTime,
   shellIdentity,
   startLife,
 } from "./support/creator";
@@ -70,7 +73,9 @@ async function talkToFirstColleague(page: Page) {
 test("a winner reaches real bargaining from normal play, and keeps it through a reload", async ({
   page,
 }) => {
-  test.setTimeout(240_000);
+  // Measured on 730accec: the hosted campaign to the November result takes
+  // about 165 s, before the term walk, the floor and a reload.
+  test.setTimeout(420_000);
   const errors = watchForErrors(page);
   await freshBrowser(page);
   await page.goto("/?seed=p85c-owner-0");
@@ -89,10 +94,10 @@ test("a winner reaches real bargaining from normal play, and keeps it through a 
 
   await openCampaign(page);
   await fileCandidacy(page);
-  await page.getByTestId("campaign-fundraising").click();
-  expect(await campaignUntilDecided(page, (page) => passShellTime(page))).toBe(
-    true,
-  );
+  // Since c73ce6024 (PR #805) the campaign is worked through hosted, dated
+  // choices; the "Do this now" fundraising and outreach row is retired.
+  await secureCampaignHost(page);
+  expect(await campaignHostedUntilDecided(page)).toBe(true);
   await expect(page.getByTestId("campaign-afterword")).toContainText(
     /\bwon[,.]/,
   );

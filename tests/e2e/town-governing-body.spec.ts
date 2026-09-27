@@ -1,12 +1,10 @@
-import { campaignUntilDecided, fileCandidacy } from "./support/campaign";
-import { expect, test, type Page } from "./fixtures";
+import { fileCandidacy } from "./support/campaign";
 import {
-  enterLife,
-  goTo,
-  openElsewhere,
-  startLife,
-  waitForClockIdle,
-} from "./support/creator";
+  campaignHostedUntilDecided,
+  secureCampaignHost,
+} from "./support/legislative-entry";
+import { expect, test } from "./fixtures";
+import { enterLife, goTo, openElsewhere, startLife } from "./support/creator";
 import {
   lifePlaceByKey,
   localGoverningBodiesForJurisdiction,
@@ -55,15 +53,6 @@ const TOWNS = [
   },
 ] as const;
 
-async function passDay(page: Page) {
-  const control = page.getByTestId("shell-pass-day");
-  await expect(control).not.toHaveAttribute("aria-busy", "true");
-  await waitForClockIdle(page);
-  await control.click();
-  await expect(control).not.toHaveAttribute("aria-busy", "true");
-  await waitForClockIdle(page);
-}
-
 for (const town of TOWNS) {
   test(`${town.town}, ${town.state}: the town's own governing body is a race a life can run and win`, async ({
     page,
@@ -98,7 +87,11 @@ for (const town of TOWNS) {
       town.bodyName,
     );
 
-    expect(await campaignUntilDecided(page, passDay, 45)).toBe(true);
+    // Since c73ce6024 (PR #805) the campaign is worked through the hosted,
+    // dated choices; the "Do this now" outreach this walk used to take every
+    // day is retired, and a campaign that does nothing loses.
+    await secureCampaignHost(page);
+    expect(await campaignHostedUntilDecided(page)).toBe(true);
     const result = (
       await page.getByTestId("campaign-result").innerText()
     ).replace(/\s+/g, " ");
@@ -163,7 +156,8 @@ test("Presque Isle, Maine: the town's mayor is a race a life can run and win", a
     " for Mayor · ",
   );
 
-  expect(await campaignUntilDecided(page, passDay, 45)).toBe(true);
+  await secureCampaignHost(page);
+  expect(await campaignHostedUntilDecided(page)).toBe(true);
   const result = (
     await page.getByTestId("campaign-result").innerText()
   ).replace(/\s+/g, " ");

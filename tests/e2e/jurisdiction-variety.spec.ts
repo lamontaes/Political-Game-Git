@@ -126,11 +126,14 @@ for (const jurisdiction of TEST_JURISDICTIONS) {
     await expect(lower).toBeChecked();
 
     if (jurisdiction.candidacy.kind === "cannot-file") {
-      // Since c64c255cd the button stays, disabled, with the refusal beside it.
+      // Since c64c255cd a district-bound refusal keeps the button, disabled,
+      // with the refusal beside it; an office the list itself marks
+      // ineligible (Columbus's elector rule) draws no filing button at all.
+      // Either way there is no enabled one.
       await expect(
-        page.getByTestId("file-candidacy"),
+        page.getByTestId("file-candidacy").and(page.locator(":enabled")),
         `${jurisdiction.name} can file now; record it as "stands"`,
-      ).toBeDisabled();
+      ).toHaveCount(0);
       for (const fragment of jurisdiction.candidacy.because) {
         await expect(
           page.getByTestId("campaign-section"),

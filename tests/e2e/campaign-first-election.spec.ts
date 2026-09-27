@@ -1,4 +1,9 @@
-import { campaignUntilDecided, fileCandidacy } from "./support/campaign";
+import { fileCandidacy } from "./support/campaign";
+import {
+  campaignHostedUntilDecided,
+  secureCampaignHost,
+  workOfferedCampaignChoices,
+} from "./support/legislative-entry";
 import { expect, test, type Page } from "./fixtures";
 
 import {
@@ -227,13 +232,15 @@ test.describe("A life can stand for something", () => {
       }),
     ).toHaveCount(0);
 
-    /* The offer itself still reads like an offer. */
+    /* The offer itself still reads like an offer. Since 702852c0f (the
+       grammar layer) it names the election rather than a seat "to be
+       filled". */
     await page
       .getByTestId("campaign-office-browser")
       .locator('input[value="us-ky-general-assembly-v1:house"]')
       .check();
     await expect(page.getByTestId("campaign-offer")).toContainText(
-      /there is a .* to be filled/i,
+      /there is an election for .* House of Representatives/i,
     );
 
     expect(errors).toEqual([]);
@@ -311,19 +318,27 @@ test.describe("A life can stand for something", () => {
     await expect(page.getByTestId("campaign-treasury")).toContainText("$0.");
     await expect(page.getByTestId("campaign-no-memo")).toBeVisible();
 
-    // An afternoon on the phones puts money in the committee's account.
-    await page.getByTestId("campaign-fundraising").click();
-    await expect(page.getByTestId("campaign-treasury")).not.toContainText(
-      "$0.",
+    /*
+     * This case used to press "Do this now": an afternoon on the phones put
+     * money in the account and an afternoon on the doors produced the field
+     * memo ("give or take"). c73ce6024 (PR #805) removed that row for an
+     * active campaign; its work is now dated, hosted and attended, and field
+     * work records an estimated range of conversations rather than a memo.
+     * The memo is still written by the one campaign action left, the paid
+     * advertising buy, which a committee opened with nothing cannot make, so
+     * the memo half of this claim is not reachable from a new campaign.
+     */
+    await secureCampaignHost(page);
+    expect(
+      await workOfferedCampaignChoices(page, ["fundraiser", "door-canvass"]),
+    ).toBe(2);
+    const results = page.getByTestId("campaign-recent-results");
+    // A fundraiser reports only money the committee actually received.
+    await expect(results).toContainText(
+      /Raised: \$|No contribution was received/,
     );
-
-    // An afternoon on the doors produces a memo, and the memo admits a margin.
-    // A day only holds so much, so this one happens tomorrow.
-    await page.getByTestId("shell-pass-day").click();
-    await page.getByTestId("campaign-outreach").click();
-    const memo = page.getByTestId("campaign-memo");
-    await expect(memo).toContainText(/give or take/i);
-    await expect(memo).toContainText(/further out than that/i);
+    // Field work is an estimate with a range on it, never a count.
+    await expect(results).toContainText(/Estimated conversations: \d+–\d+/);
 
     // Nothing on this screen is a meter, a threshold, or a certainty.
     await expect(campaign.locator("progress")).toHaveCount(0);
@@ -343,39 +358,42 @@ test.describe("A life can stand for something", () => {
     await beginAdultLifeIn(page, "Kentucky");
 
     await fileCandidacy(page);
-    const strategy = page.getByTestId("campaign-strategy");
-    await expect(strategy).toBeVisible();
-    const geography = strategy.getByRole("group", {
-      name: "Represented geography",
-    });
-    await expect(geography).toBeVisible();
-    // With nothing in the account there is no advertising ceiling to set; the
-    // advertising action itself says why, so no empty group is drawn.
-    await expect(
-      strategy.getByRole("group", { name: "Advertising spending ceiling" }),
-    ).toHaveCount(0);
-
-    // One control per intent: the plan only edits how the work is done, and
-    // the work itself is the single "Do this now" row. The geography is chosen
-    // with the keyboard, then the alternative priority is done with a pointer.
-    await expect(strategy.getByTestId("campaign-strategy-commit")).toHaveCount(
+    /*
+     * c73ce6024 (PR #805) retired "Edit the plan" and the "Do this now" row
+     * for an active campaign: the priority is now the dated choice the
+     * player puts on the calendar, and the geography belongs to the one
+     * paid action left, the advertising buy. So the geography is chosen with
+     * the keyboard there, and the priority is a hosted choice booked with a
+     * pointer. The old report ("You chose direct outreach") came from the
+     * retired row and has no producer on this route.
+     */
+    await expect(page.getByTestId("campaign-strategy")).toHaveCount(0);
+    await expect(page.getByRole("group", { name: "Do this now" })).toHaveCount(
       0,
+    );
+    const paid = page.getByTestId("campaign-paid-advertising");
+    const geography = paid.getByRole("group", { name: "Where it runs" });
+    await expect(geography).toBeVisible();
+    // With nothing in the account there is no spending ceiling to set; the
+    // buy itself says why, so no empty group is drawn.
+    await expect(
+      paid.getByRole("group", { name: "Spending ceiling" }),
+    ).toHaveCount(0);
+    await expect(page.getByTestId("campaign-advertising-buy")).toBeDisabled();
+    await expect(page.getByTestId("campaign-advertising-buy")).toContainText(
+      "nothing in the account",
     );
     const place = geography.getByRole("radio").first();
     await place.focus();
     await page.keyboard.press("Space");
     await expect(place).toBeChecked();
-    await page
-      .getByRole("group", { name: "Do this now" })
-      .getByTestId("campaign-outreach")
-      .click();
+    await expect(place).toHaveAccessibleName(/Kentucky/);
 
-    const report = page.getByTestId("campaign-strategy-report");
-    await expect(report).toBeVisible();
-    await expect(report).toContainText(/You chose direct outreach/i);
-    await expect(report).toContainText(/with no money set aside/i);
-    await expect(report).toContainText(/Kentucky/i);
-    await expect(page.getByTestId("campaign-memo")).toBeVisible();
+    await secureCampaignHost(page);
+    expect(await workOfferedCampaignChoices(page, ["door-canvass"])).toBe(1);
+    await expect(page.getByTestId("campaign-recent-results")).toContainText(
+      "Door canvass",
+    );
     expect(errors).toEqual([]);
   });
 
@@ -389,11 +407,11 @@ test.describe("A life can stand for something", () => {
     await beginAdultLifeIn(page, "Kentucky");
 
     await fileCandidacy(page);
-    await page.getByTestId("campaign-outreach").click();
-    await expect(page.getByTestId("campaign-memo")).toBeVisible();
-    // A second afternoon, a day later, because a day only holds so much.
-    await pressTime(page, "shell-pass-day");
-    await page.getByTestId("campaign-outreach").click();
+    // Since c73ce6024 campaign work is booked from the hosted choices and
+    // attended; the retired "Do this now" outreach row is gone.
+    await secureCampaignHost(page);
+    expect(await workOfferedCampaignChoices(page)).toBeGreaterThan(0);
+    await expect(page.getByTestId("campaign-recent-results")).toBeVisible();
 
     // Nobody presses "hold the election". The world reaches the date.
     expect(await liveUntilDecided(page)).toBe(true);
@@ -417,7 +435,9 @@ test.describe("A life can stand for something", () => {
     if (/\blost[,.]/i.test(afterword)) {
       // The recorded loss stays in Campaigns after another Day.
       await openCampaign(page);
-      await expect(page.getByTestId("campaign-afterword")).toHaveText(afterword);
+      await expect(page.getByTestId("campaign-afterword")).toHaveText(
+        afterword,
+      );
       // And it opens no office it did not earn.
       await expect(page.getByTestId("office-section")).toHaveCount(0);
     } else {
@@ -442,7 +462,11 @@ test.describe("A life can stand for something", () => {
     await beginAdultLifeIn(page, "Kentucky");
 
     await fileCandidacy(page);
-    await page.getByTestId("campaign-fundraising").click();
+    // Since c73ce6024 the committee's work is a hosted, attended fundraiser.
+    await secureCampaignHost(page);
+    expect(await workOfferedCampaignChoices(page, ["fundraiser"])).toBe(1);
+    const results =
+      (await page.getByTestId("campaign-recent-results").textContent()) ?? "";
     const treasury = await page.getByTestId("campaign-treasury").textContent();
     const band = await page.getByTestId("campaign-band").textContent();
 
@@ -459,6 +483,9 @@ test.describe("A life can stand for something", () => {
       treasury ?? "",
     );
     await expect(page.getByTestId("campaign-band")).toHaveText(band ?? "");
+    await expect(page.getByTestId("campaign-recent-results")).toHaveText(
+      results,
+    );
 
     expect(errors).toEqual([]);
   });
@@ -512,7 +539,10 @@ test.describe("P85D integration through ordinary player controls", () => {
   test("a Lexington winner can activate Kentucky Work before and after reload", async ({
     page,
   }) => {
-    test.setTimeout(90_000);
+    // Measured on 730accec: securing a chapter host takes about 5 s and the
+    // hosted weekly campaign to the November result about 160 s, before the
+    // walk to the term and a reload.
+    test.setTimeout(360_000);
     const errors = watchForErrors(page);
     await freshBrowser(page);
     await page.goto("/?seed=p85c-owner-0");
@@ -525,12 +555,10 @@ test.describe("P85D integration through ordinary player controls", () => {
     await enterLife(page);
     await openCampaign(page);
     await fileCandidacy(page);
-    await page.getByTestId("campaign-fundraising").click();
-    expect(
-      await campaignUntilDecided(page, (page) =>
-        pressTime(page, "shell-pass-day"),
-      ),
-    ).toBe(true);
+    // Since c73ce6024 the campaign is won with hosted, attended field work
+    // rather than the retired "Do this now" row.
+    await secureCampaignHost(page);
+    expect(await campaignHostedUntilDecided(page)).toBe(true);
     await expect(page.getByTestId("campaign-afterword")).toContainText(
       /\bwon[,.]/,
     );
