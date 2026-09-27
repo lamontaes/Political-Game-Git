@@ -1,0 +1,464 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-09-27",
+  "scope": "Source-bounded campaign action planning evidence for five U.S. office levels. No figure is a universal game constant or an office-specific estimate unless its population says so.",
+  "officeLevels": [
+    "state-house",
+    "state-senate",
+    "city-council",
+    "county",
+    "us-house"
+  ],
+  "sources": {
+    "nickerson-2006": {
+      "title": "Volunteer Phone Calls Can Increase Turnout: Evidence From Eight Field Experiments",
+      "publisher": "American Politics Research",
+      "reusedSourceId": "nickerson-2005",
+      "url": "https://sites.temple.edu/nickerson/files/2017/07/Nickerson.APR2005.pdf",
+      "locator": "PDF pages 14 and 17; Table 3 and discussion of volunteer contacts per hour; published May 2006",
+      "sourceKind": "research-paper",
+      "acquisition": "Public author-hosted PDF read online; page not copied into this repository"
+    },
+    "knock-every-door-guide": {
+      "title": "Canvass Host Guide",
+      "publisher": "Knock Every Door, hosted by Bernalillo County Democrats",
+      "url": "https://bernalillodems.org/wp-content/uploads/KnockEveryDoor-Canvass-Host-Guide.docx.pdf",
+      "locator": "PDF page 12, Set Expectations and Goals; candidate-canvass scope on PDF page 2",
+      "sourceKind": "campaign-practice-guide",
+      "acquisition": "Public organization guide read online; page not copied into this repository"
+    },
+    "people-for-next-up-2018": {
+      "title": "Next Up Guide to Running for Office and Winning",
+      "publisher": "People For the American Way Next Up Victory Fund",
+      "url": "https://www.peoplefor.org/sites/default/files/wp/2018/09/NextUp_CandidateHandbook_V2_FINAL.pdf",
+      "locator": "PDF pages 12-13, voter contact formulas and state House field-plan example",
+      "sourceKind": "campaign-practice-guide",
+      "acquisition": "Public organization guide read online; page not copied into this repository"
+    },
+    "represent-us-phonebank": {
+      "title": "How to Phonebank",
+      "publisher": "RepresentUs",
+      "url": "https://act.represent.us/sign/phonebanking",
+      "locator": "Step 3, Make Your Calls",
+      "sourceKind": "campaign-practice-guide",
+      "acquisition": "Public organization page read online September 27, 2026; page not copied into this repository"
+    },
+    "blueprints-phonebank": {
+      "title": "Volunteer-led Phone Banking",
+      "publisher": "Blueprints for Change",
+      "url": "https://commonslibrary.org/wp-content/uploads/Volunteer-led-phone-banking.pdf",
+      "locator": "PDF pages 5 and 9, volunteer dialing-mode benchmarks",
+      "sourceKind": "campaign-practice-guide",
+      "acquisition": "Public author guide read online through Commons Library; page not copied into this repository"
+    },
+    "vote-for-change-mi-2026": {
+      "title": "Michigan Political Consulting — Rates Published Up Front",
+      "publisher": "Vote for Change Michigan",
+      "url": "https://voteforchangemi.com/services",
+      "locator": "Services, Field & voter contact; 20,000-voter planning universe and paid canvassing quote",
+      "sourceKind": "vendor-rate-card",
+      "acquisition": "Public vendor rate page read online September 27, 2026; page not copied into this repository"
+    },
+    "knock-ai-2026": {
+      "title": "Knock AI — Verified Field Execution",
+      "publisher": "Knock AI",
+      "url": "https://www.knockai.co/",
+      "locator": "Execution Cost Estimator, territory-density paid workforce rates",
+      "sourceKind": "vendor-rate-card",
+      "acquisition": "Public vendor rate page read online September 27, 2026; page not copied into this repository"
+    },
+    "usps-eddm-retail-2026": {
+      "title": "Every Door Direct Mail (EDDM) - Targeted Mail Marketing",
+      "publisher": "United States Postal Service",
+      "url": "https://www.usps.com/business/every-door-direct-mail.htm",
+      "locator": "Prices, USPS Marketing Mail Flats up to 3.3 oz; EDDM Retail Features, 200 to 5,000 pieces per day per ZIP Code and local political-campaign use",
+      "sourceKind": "official-price-page",
+      "acquisition": "Current official USPS page read online September 27, 2026; page not copied into this repository"
+    },
+    "miller-2015": {
+      "title": "Going all-in: gender and campaign commitment",
+      "publisher": "Research & Politics",
+      "url": "https://journals.sagepub.com/doi/full/10.1177/2053168015605105",
+      "locator": "Data and method and Results/Figure 1; first week of October 2008 in 18 contested state House populations",
+      "sourceKind": "research-paper",
+      "acquisition": "Public publisher article read online September 27, 2026; page not copied into this repository"
+    },
+    "google-ads-cpm-definition": {
+      "title": "About columns in your statistics table",
+      "publisher": "Google Ads Help",
+      "url": "https://support.google.com/google-ads/answer/2454071?hl=en",
+      "locator": "Performance columns, Avg. CPM definition",
+      "sourceKind": "official-definition",
+      "acquisition": "Public Google Ads help page read online September 27, 2026; page not copied into this repository"
+    },
+    "fec-recording-receipts": {
+      "title": "Recording receipts",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/help-candidates-and-committees/keeping-records/recording-receipts/",
+      "locator": "Fundraising-event receipt recordkeeping",
+      "sourceKind": "official-guidance",
+      "acquisition": "Public FEC page read online September 27, 2026; page not copied into this repository"
+    },
+    "fec-operating-expenditures": {
+      "title": "Operating expenditures file description",
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/campaign-finance-data/operating-expenditures-file-description/",
+      "locator": "Transaction-level operating expenditure fields",
+      "sourceKind": "official-data-description",
+      "acquisition": "Public FEC page read online September 27, 2026; page not copied into this repository"
+    }
+  },
+  "observations": [
+    {
+      "id": "volunteer-knocks-host-guide",
+      "metric": "doors-per-volunteer-hour",
+      "range": {
+        "min": 15,
+        "max": 20,
+        "unit": "knocked-doors/volunteer-hour"
+      },
+      "population": "Knock Every Door volunteer candidate or issue canvasses; expected goal, not measured performance",
+      "geography": "United States campaign guide",
+      "officeLevel": null,
+      "actionCatalogIds": ["survey-canvass", "persuasion-canvass", "gotv-door"],
+      "sourceIds": ["knock-every-door-guide"]
+    },
+    {
+      "id": "state-house-field-plan",
+      "metric": "doors-per-volunteer-hour",
+      "range": {
+        "min": 15,
+        "max": 15,
+        "unit": "knocked-doors/volunteer-hour"
+      },
+      "population": "Illustrative state House field plan; 3,600 targeted doors divided by 240 volunteer hours",
+      "geography": "United States campaign guide",
+      "officeLevel": "state-house",
+      "actionCatalogIds": ["gotv-door"],
+      "sourceIds": ["people-for-next-up-2018"]
+    },
+    {
+      "id": "volunteer-door-conversations",
+      "metric": "door-contacts-per-volunteer-hour",
+      "range": {
+        "min": 3,
+        "max": 8,
+        "unit": "completed-person-contacts/volunteer-hour"
+      },
+      "population": "Author's contextual door-canvassing comparison alongside U.S. nonpartisan GOTV phone experiments; not door attempts or a door estimate from the eight phone experiments",
+      "geography": "United States",
+      "officeLevel": null,
+      "actionCatalogIds": ["survey-canvass", "persuasion-canvass", "gotv-door"],
+      "sourceIds": ["nickerson-2006"]
+    },
+    {
+      "id": "volunteer-phone-conversations",
+      "metric": "phone-contacts-per-volunteer-hour",
+      "range": {
+        "min": 15,
+        "max": 20,
+        "unit": "completed-person-contacts/volunteer-hour"
+      },
+      "population": "Volunteer phone GOTV contacts discussed alongside U.S. nonpartisan experiments; not dials",
+      "geography": "United States",
+      "officeLevel": null,
+      "actionCatalogIds": ["persuasion-phonebank", "gotv-phone"],
+      "sourceIds": ["nickerson-2006"]
+    },
+    {
+      "id": "represent-us-phone-dials",
+      "metric": "phone-dials-per-volunteer-hour",
+      "range": {
+        "min": 25,
+        "max": 35,
+        "unit": "dial-attempts/volunteer-hour"
+      },
+      "population": "RepresentUs Call Team's stated average phonebanker goal; campaign calls include events and volunteering, not only candidate persuasion",
+      "geography": "United States advocacy campaigns",
+      "officeLevel": null,
+      "actionCatalogIds": ["persuasion-phonebank", "gotv-phone"],
+      "sourceIds": ["represent-us-phonebank"]
+    },
+    {
+      "id": "blueprints-manual-phone",
+      "metric": "phone-dials-per-volunteer-hour",
+      "range": {
+        "min": 35,
+        "max": 35,
+        "unit": "dial-attempts/volunteer-hour"
+      },
+      "relatedContactsRange": {
+        "min": 10,
+        "max": 15,
+        "unit": "completed-person-contacts/volunteer-hour"
+      },
+      "population": "Volunteer manual dialing benchmark in a campaign practice guide; list quality changes results",
+      "geography": "Campaign guide with U.S. and other examples",
+      "officeLevel": null,
+      "actionCatalogIds": ["persuasion-phonebank", "gotv-phone"],
+      "sourceIds": ["blueprints-phonebank"]
+    },
+    {
+      "id": "mi-managed-door-quote",
+      "metric": "cost-per-verified-door",
+      "range": {
+        "min": 1.35,
+        "max": 2.25,
+        "unit": "USD/knocked-door"
+      },
+      "population": "Vendor's illustrative paid Michigan canvass planning ballpark for a 20,000-targeted-voter universe, expressly not a quote; includes hiring, deployment, quality control and data; not volunteer cash cost",
+      "geography": "Michigan",
+      "officeLevel": null,
+      "actionCatalogIds": ["survey-canvass", "persuasion-canvass", "gotv-door"],
+      "sourceIds": ["vote-for-change-mi-2026"]
+    },
+    {
+      "id": "knock-ai-managed-door-quote",
+      "metric": "cost-per-knocked-door",
+      "range": {
+        "min": 2,
+        "max": 4,
+        "unit": "USD/verified-door"
+      },
+      "population": "Vendor's optional managed paid workforce estimator by urban through very-rural territory; separate annual plan, verification add-ons and data-license costs excluded",
+      "geography": "United States vendor offering",
+      "officeLevel": null,
+      "actionCatalogIds": ["survey-canvass", "persuasion-canvass", "gotv-door"],
+      "sourceIds": ["knock-ai-2026"]
+    },
+    {
+      "id": "nickerson-door-labor-scenario",
+      "metric": "labor-cost-per-completed-door-contact",
+      "range": {
+        "min": 2.5,
+        "max": 2.5,
+        "unit": "2006-published-assumed-USD/completed-person-contact"
+      },
+      "derivation": "$15 assumed hourly wage divided by six assumed completed door contacts per hour in Table 3; excludes supervision, travel, lists and materials",
+      "population": "Published cost-effectiveness scenario for nonpartisan GOTV, not a measured campaign invoice or 2026 full cost",
+      "geography": "United States",
+      "officeLevel": null,
+      "actionCatalogIds": ["gotv-door"],
+      "sourceIds": ["nickerson-2006"]
+    },
+    {
+      "id": "usps-eddm-retail-postage",
+      "metric": "postage-per-mail-piece",
+      "range": {
+        "min": 0.26,
+        "max": 0.26,
+        "unit": "2026-USD/EDDM-Retail-flat"
+      },
+      "population": "USPS EDDM Retail Marketing Mail flat up to 3.3 oz, local political campaigns eligible, 200 to 5,000 pieces per day per ZIP Code; postage only, excluding print/design/preparation; USPS page gives no rate effective date",
+      "geography": "United States",
+      "officeLevel": null,
+      "actionCatalogIds": ["print-mailer"],
+      "sourceIds": ["usps-eddm-retail-2026"],
+      "rateEffectiveDate": null
+    },
+    {
+      "metric": "candidate-campaign-hours-per-week",
+      "range": {
+        "min": 47.0,
+        "max": 47.0,
+        "unit": "self-reported-hours/candidate-week"
+      },
+      "geography": "Contested state House races in 18 U.S. states, 2008",
+      "officeLevel": "state-house",
+      "actionCatalogIds": [],
+      "sourceIds": ["miller-2015"],
+      "id": "state-house-inexperienced-challenger-men",
+      "population": "Mean for inexperienced male challengers responding to the 2008 contested state House survey, first week of October"
+    },
+    {
+      "metric": "candidate-campaign-hours-per-week",
+      "range": {
+        "min": 48.6,
+        "max": 48.6,
+        "unit": "self-reported-hours/candidate-week"
+      },
+      "geography": "Contested state House races in 18 U.S. states, 2008",
+      "officeLevel": "state-house",
+      "actionCatalogIds": [],
+      "sourceIds": ["miller-2015"],
+      "id": "state-house-inexperienced-challenger-women",
+      "population": "Mean for inexperienced female challengers responding to the 2008 contested state House survey, first week of October"
+    },
+    {
+      "metric": "candidate-campaign-hours-per-week",
+      "range": {
+        "min": 47.2,
+        "max": 47.2,
+        "unit": "self-reported-hours/candidate-week"
+      },
+      "geography": "Contested state House races in 18 U.S. states, 2008",
+      "officeLevel": "state-house",
+      "actionCatalogIds": [],
+      "sourceIds": ["miller-2015"],
+      "id": "state-house-incumbent-women",
+      "population": "Mean for incumbent women responding to the 2008 contested state House survey, first week of October"
+    },
+    {
+      "metric": "candidate-campaign-hours-per-week",
+      "range": {
+        "min": 42,
+        "max": 42,
+        "unit": "self-reported-hours/candidate-week"
+      },
+      "geography": "Contested state House races in 18 U.S. states, 2008",
+      "officeLevel": "state-house",
+      "actionCatalogIds": [],
+      "sourceIds": ["miller-2015"],
+      "id": "state-house-incumbent-men-derived",
+      "population": "Approximate incumbent-men mean for respondents to the 2008 contested state House survey, first week of October",
+      "derivation": "Paper reports incumbent women at 47.2 hours and says this is exactly five hours more than incumbent men; about 42 hours after rounding, not an independently published point estimate",
+      "precision": "approximate"
+    },
+    {
+      "metric": "candidate-campaign-hours-per-week",
+      "range": {
+        "min": 47.9,
+        "max": 47.9,
+        "unit": "self-reported-hours/candidate-week"
+      },
+      "geography": "Contested state House races in 18 U.S. states, 2008",
+      "officeLevel": "state-house",
+      "actionCatalogIds": [],
+      "sourceIds": ["miller-2015"],
+      "id": "state-house-experienced-nonincumbent-women",
+      "population": "Mean for women with prior elected-office experience but no incumbency in the 2008 contested state House survey, first week of October"
+    }
+  ],
+  "officeCoverage": [
+    {
+      "officeLevel": "state-house",
+      "directEvidenceIds": [
+        "state-house-field-plan",
+        "state-house-inexperienced-challenger-men",
+        "state-house-inexperienced-challenger-women",
+        "state-house-incumbent-women",
+        "state-house-incumbent-men-derived",
+        "state-house-experienced-nonincumbent-women"
+      ],
+      "sharedEvidenceIds": [
+        "volunteer-knocks-host-guide",
+        "volunteer-door-conversations",
+        "volunteer-phone-conversations",
+        "represent-us-phone-dials",
+        "blueprints-manual-phone",
+        "mi-managed-door-quote",
+        "knock-ai-managed-door-quote",
+        "nickerson-door-labor-scenario",
+        "usps-eddm-retail-postage"
+      ],
+      "officeSpecificCostAndReachStatus": "UNKNOWN"
+    },
+    {
+      "officeLevel": "state-senate",
+      "directEvidenceIds": [],
+      "sharedEvidenceIds": [
+        "volunteer-knocks-host-guide",
+        "volunteer-door-conversations",
+        "volunteer-phone-conversations",
+        "represent-us-phone-dials",
+        "blueprints-manual-phone",
+        "mi-managed-door-quote",
+        "knock-ai-managed-door-quote",
+        "nickerson-door-labor-scenario",
+        "usps-eddm-retail-postage"
+      ],
+      "officeSpecificCostAndReachStatus": "UNKNOWN"
+    },
+    {
+      "officeLevel": "city-council",
+      "directEvidenceIds": [],
+      "sharedEvidenceIds": [
+        "volunteer-knocks-host-guide",
+        "volunteer-door-conversations",
+        "volunteer-phone-conversations",
+        "represent-us-phone-dials",
+        "blueprints-manual-phone",
+        "mi-managed-door-quote",
+        "knock-ai-managed-door-quote",
+        "nickerson-door-labor-scenario",
+        "usps-eddm-retail-postage"
+      ],
+      "officeSpecificCostAndReachStatus": "UNKNOWN"
+    },
+    {
+      "officeLevel": "county",
+      "directEvidenceIds": [],
+      "sharedEvidenceIds": [
+        "volunteer-knocks-host-guide",
+        "volunteer-door-conversations",
+        "volunteer-phone-conversations",
+        "represent-us-phone-dials",
+        "blueprints-manual-phone",
+        "mi-managed-door-quote",
+        "knock-ai-managed-door-quote",
+        "nickerson-door-labor-scenario",
+        "usps-eddm-retail-postage"
+      ],
+      "officeSpecificCostAndReachStatus": "UNKNOWN"
+    },
+    {
+      "officeLevel": "us-house",
+      "directEvidenceIds": [],
+      "sharedEvidenceIds": [
+        "volunteer-knocks-host-guide",
+        "volunteer-door-conversations",
+        "volunteer-phone-conversations",
+        "represent-us-phone-dials",
+        "blueprints-manual-phone",
+        "mi-managed-door-quote",
+        "knock-ai-managed-door-quote",
+        "nickerson-door-labor-scenario",
+        "usps-eddm-retail-postage"
+      ],
+      "officeSpecificCostAndReachStatus": "UNKNOWN"
+    }
+  ],
+  "gaps": [
+    "A representative, current full cash cost per completed door conversation was not established. The Nickerson figure is a labor-only scenario published in 2006; vendor rate cards price attempted or verified doors, not conversations.",
+    "No source measured volunteer door attempts, completed contacts, dials, and costs in the same 2026 candidate campaign population. Do not divide one vendor's price by another guide's contact rate as though it were observed.",
+    "No reliable office-specific multiplier across the five requested offices was established. Shared observations are not five independent office estimates.",
+    "Cash cost of a volunteer door or phone shift remains UNKNOWN, not zero; transport, lists, materials, platform and supervision vary.",
+    "USPS $0.26 is only EDDM Retail postage for an eligible flat; printing, design, labor, and route preparation are not priced by this source. A representative all-in mail-piece cost remains UNKNOWN.",
+    "No defensible general digital cost per thousand impressions, typical event cost, or fundraiser net yield was established. A CPM definition or a committee receipt total is not a price or net event yield.",
+    "State House candidate-hour figures are 2008 self-reports for the first week of October among contested major-party lower-house candidates in 18 states. They are subgroup means, not national challenger/incumbent schedules. State Senate, city council, county, and U.S. House weekly hours remain UNKNOWN."
+  ],
+  "gapEvidence": [
+    {
+      "metric": "all-in-mail-piece-cost",
+      "status": "UNKNOWN",
+      "sourceIds": ["usps-eddm-retail-2026"],
+      "actionCatalogIds": ["print-mailer"],
+      "reason": "USPS price is postage only; design, print, preparation, and addressed-mail rates are not established."
+    },
+    {
+      "metric": "paid-digital-CPM",
+      "status": "UNKNOWN",
+      "sourceIds": ["google-ads-cpm-definition"],
+      "actionCatalogIds": [],
+      "reason": "Official source defines average cost per 1,000 impressions but supplies no political-campaign price; merged action catalog has no distinct paid-digital purchase action."
+    },
+    {
+      "metric": "typical-event-cost",
+      "status": "UNKNOWN",
+      "sourceIds": ["fec-operating-expenditures"],
+      "actionCatalogIds": [
+        "community-meeting",
+        "community-rally",
+        "media-event"
+      ],
+      "reason": "Transaction-level disbursement fields do not establish a representative cost per event or office."
+    },
+    {
+      "metric": "typical-fundraiser-net-yield",
+      "status": "UNKNOWN",
+      "sourceIds": ["fec-recording-receipts", "fec-operating-expenditures"],
+      "actionCatalogIds": ["home-fundraiser", "joint-fundraiser"],
+      "reason": "Receipts and expenditures are separately recorded; these pages do not provide matched typical net event yield."
+    }
+  ]
+}
