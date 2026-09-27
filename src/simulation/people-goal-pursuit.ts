@@ -1,5 +1,6 @@
 import { eventById } from "./event-index";
 import { createMindProvenance, recordGoalState } from "./mind";
+import { pursuitFamilyOf } from "./people-goal-pursuit-content";
 import type {
   DecisionConsideration,
   DecisionDirection,
@@ -73,6 +74,18 @@ const IMPORTANCE_BY_PRIORITY: Record<
 };
 
 /**
+ * A goal of keeping time for oneself is one reason among many: it tips a close
+ * answer toward no and never decides one alone, whatever its priority
+ * (Lamontae, September 27, 2026, through Claude CTO). Every other goal counts
+ * for its recorded priority.
+ */
+function goalLeanImportance(goal: GoalStateRecord): DecisionImportance {
+  return pursuitFamilyOf(goal.goalKey) === "privacy"
+    ? "slight"
+    : IMPORTANCE_BY_PRIORITY[goal.priority];
+}
+
+/**
  * The goal this person is currently pursuing under a key, if any.
  *
  * Goal states are append-only, so the standing answer is the last record for
@@ -134,7 +147,7 @@ export function goalConsiderations(
         optionKey: lean.optionKey,
         sourceType: "mind:goal",
         direction: lean.direction,
-        importance: IMPORTANCE_BY_PRIORITY[goal.priority],
+        importance: goalLeanImportance(goal),
         confidence: "medium",
         explanation: lean.explanation,
         sourceRefs: [ref],
