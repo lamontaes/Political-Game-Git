@@ -168,29 +168,53 @@
         "formal": {
           "lean": {
             "file": "outfit-feminine-formal-lean.png",
-            "hides": "outfit-feminine-formal-lean-hides.png"
+            "hides": "outfit-feminine-formal-lean-hides.png",
+            "regions": {
+              "suit": "outfit-feminine-formal-lean-suit.png",
+              "shirt": "outfit-feminine-formal-lean-shirt.png"
+            }
           },
           "average": {
             "file": "outfit-feminine-formal-average.png",
-            "hides": "outfit-feminine-formal-average-hides.png"
+            "hides": "outfit-feminine-formal-average-hides.png",
+            "regions": {
+              "suit": "outfit-feminine-formal-average-suit.png",
+              "shirt": "outfit-feminine-formal-average-shirt.png"
+            }
           },
           "fuller": {
             "file": "outfit-feminine-formal-fuller.png",
-            "hides": "outfit-feminine-formal-fuller-hides.png"
+            "hides": "outfit-feminine-formal-fuller-hides.png",
+            "regions": {
+              "suit": "outfit-feminine-formal-fuller-suit.png",
+              "shirt": "outfit-feminine-formal-fuller-shirt.png"
+            }
           }
         },
         "casual": {
           "lean": {
             "file": "outfit-feminine-casual-lean.png",
-            "hides": "outfit-feminine-casual-lean-hides.png"
+            "hides": "outfit-feminine-casual-lean-hides.png",
+            "regions": {
+              "top": "outfit-feminine-casual-lean-top.png",
+              "bottom": "outfit-feminine-casual-lean-bottom.png"
+            }
           },
           "average": {
             "file": "outfit-feminine-casual-average.png",
-            "hides": "outfit-feminine-casual-average-hides.png"
+            "hides": "outfit-feminine-casual-average-hides.png",
+            "regions": {
+              "top": "outfit-feminine-casual-average-top.png",
+              "bottom": "outfit-feminine-casual-average-bottom.png"
+            }
           },
           "fuller": {
             "file": "outfit-feminine-casual-fuller.png",
-            "hides": "outfit-feminine-casual-fuller-hides.png"
+            "hides": "outfit-feminine-casual-fuller-hides.png",
+            "regions": {
+              "top": "outfit-feminine-casual-fuller-top.png",
+              "bottom": "outfit-feminine-casual-fuller-bottom.png"
+            }
           }
         }
       }
@@ -378,29 +402,56 @@
         "formal": {
           "lean": {
             "file": "outfit-masculine-formal-lean.png",
-            "hides": "outfit-masculine-formal-lean-hides.png"
+            "hides": "outfit-masculine-formal-lean-hides.png",
+            "regions": {
+              "suit": "outfit-masculine-formal-lean-suit.png",
+              "shirt": "outfit-masculine-formal-lean-shirt.png",
+              "tie": "outfit-masculine-formal-lean-tie.png"
+            }
           },
           "average": {
             "file": "outfit-masculine-formal-average.png",
-            "hides": "outfit-masculine-formal-average-hides.png"
+            "hides": "outfit-masculine-formal-average-hides.png",
+            "regions": {
+              "suit": "outfit-masculine-formal-average-suit.png",
+              "shirt": "outfit-masculine-formal-average-shirt.png",
+              "tie": "outfit-masculine-formal-average-tie.png"
+            }
           },
           "fuller": {
             "file": "outfit-masculine-formal-fuller.png",
-            "hides": "outfit-masculine-formal-fuller-hides.png"
+            "hides": "outfit-masculine-formal-fuller-hides.png",
+            "regions": {
+              "suit": "outfit-masculine-formal-fuller-suit.png",
+              "shirt": "outfit-masculine-formal-fuller-shirt.png",
+              "tie": "outfit-masculine-formal-fuller-tie.png"
+            }
           }
         },
         "casual": {
           "lean": {
             "file": "outfit-masculine-casual-lean.png",
-            "hides": "outfit-masculine-casual-lean-hides.png"
+            "hides": "outfit-masculine-casual-lean-hides.png",
+            "regions": {
+              "top": "outfit-masculine-casual-lean-top.png",
+              "bottom": "outfit-masculine-casual-lean-bottom.png"
+            }
           },
           "average": {
             "file": "outfit-masculine-casual-average.png",
-            "hides": "outfit-masculine-casual-average-hides.png"
+            "hides": "outfit-masculine-casual-average-hides.png",
+            "regions": {
+              "top": "outfit-masculine-casual-average-top.png",
+              "bottom": "outfit-masculine-casual-average-bottom.png"
+            }
           },
           "fuller": {
             "file": "outfit-masculine-casual-fuller.png",
-            "hides": "outfit-masculine-casual-fuller-hides.png"
+            "hides": "outfit-masculine-casual-fuller-hides.png",
+            "regions": {
+              "top": "outfit-masculine-casual-fuller-top.png",
+              "bottom": "outfit-masculine-casual-fuller-bottom.png"
+            }
           }
         }
       }

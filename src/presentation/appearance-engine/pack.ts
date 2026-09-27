@@ -4,6 +4,7 @@ import { assemblePerson, type PersonLayer } from "./assemble";
 import type { Raster } from "./raster";
 import { SKIN_RAMPS, recolorSkin, type MeasuredRamp } from "./skin";
 import {
+  fabricRamp,
   measureFabricLuminance,
   recolorFabric,
   type FabricRamp,
@@ -104,12 +105,22 @@ export interface PackPresentation {
     readonly back: string;
     readonly front: string;
   }[];
-  /** Per outfit and body: the layer, and a mask of the body it hides. */
+  /**
+   * Per outfit and body: the layer, a mask of the body it hides, and a mask
+   * per garment part (top, bottom, suit, shirt, tie) that takes its own color.
+   */
   readonly outfits: Readonly<
     Record<
       OutfitKind,
       Partial<
-        Record<BodyBuild, { readonly file: string; readonly hides: string }>
+        Record<
+          BodyBuild,
+          {
+            readonly file: string;
+            readonly hides: string;
+            readonly regions?: Readonly<Record<string, string>>;
+          }
+        >
       >
     >
   >;
@@ -120,6 +131,48 @@ export interface PeoplePackManifest {
   readonly canvas: { readonly width: number; readonly height: number };
   readonly presentations: Readonly<Record<BodyPresentation, PackPresentation>>;
 }
+
+/**
+ * The colors each garment part may take, from fabric.ts. PLACEHOLDER(wave2):
+ * picked by eye for variety; formal wear stays in conservative colors.
+ */
+export const OUTFIT_PALETTES: Readonly<
+  Record<OutfitKind, Readonly<Record<string, readonly string[]>>>
+> = {
+  casual: {
+    top: [
+      "burgundy",
+      "forest",
+      "navy",
+      "slate-blue",
+      "light-blue",
+      "white",
+      "gray",
+      "teal",
+      "plum",
+      "mustard",
+      "cream",
+      "pink",
+      "olive",
+      "black",
+    ],
+    bottom: [
+      "gray",
+      "charcoal",
+      "navy",
+      "black",
+      "khaki",
+      "denim",
+      "brown",
+      "olive",
+    ],
+  },
+  formal: {
+    suit: ["navy", "charcoal", "black", "gray", "slate-blue", "brown"],
+    shirt: ["white", "light-blue", "cream", "pink", "gray"],
+    tie: ["navy", "burgundy", "forest", "black", "slate-blue"],
+  },
+};
 
 /** One whole person, as the engine draws them. */
 export interface EngineRecipe {
@@ -132,6 +185,8 @@ export interface EngineRecipe {
   /** One of HAIR_COLORS. */
   readonly hairColor: string;
   readonly outfit: OutfitKind;
+  /** Fabric color per garment part of the outfit (OUTFIT_PALETTES). */
+  readonly colors?: Readonly<Record<string, string>>;
 }
 
 export function engineRecipeKey(recipe: EngineRecipe): string {
@@ -143,6 +198,9 @@ export function engineRecipeKey(recipe: EngineRecipe): string {
     recipe.hair,
     recipe.hairColor,
     recipe.outfit,
+    ...Object.entries(recipe.colors ?? {})
+      .sort()
+      .map(([part, color]) => `${part}=${color}`),
   ].join("|");
 }
 
@@ -160,8 +218,33 @@ export function recipeFiles(
     face.file,
     hair.back,
     hair.front,
-    ...(outfit ? [outfit.file, outfit.hides] : []),
+    ...(outfit
+      ? [outfit.file, outfit.hides, ...Object.values(outfit.regions ?? {})]
+      : []),
   ];
+}
+
+/** The layer with one garment part (its mask's opaque pixels) recolored. */
+function recolorPart(layer: Raster, mask: Raster, color: FabricRamp): Raster {
+  const part = new Uint8ClampedArray(layer.data.length);
+  for (let i = 3; i < part.length; i += 4)
+    if (mask.data[i]! > OPAQUE_ALPHA) {
+      part.set(layer.data.subarray(i - 3, i + 1), i - 3);
+    }
+  const source = measureFabricLuminance({
+    width: layer.width,
+    height: layer.height,
+    data: part,
+  });
+  const tinted = recolorFabric(layer, color, source);
+  const out = new Uint8ClampedArray(layer.data);
+  for (let i = 3; i < out.length; i += 4) {
+    const t = mask.data[i]! / 255;
+    if (t === 0) continue;
+    for (let c = 1; c <= 3; c += 1)
+      out[i - c] = out[i - c]! * (1 - t) + tinted.data[i - c]! * t;
+  }
+  return { width: layer.width, height: layer.height, data: out };
 }
 
 /**
@@ -200,11 +283,12 @@ export function composeEnginePerson(
     const mask = new Uint8Array(hides.width * hides.height);
     for (let p = 0; p < mask.length; p += 1)
       mask[p] = hides.data[p * 4 + 3]! > OPAQUE_ALPHA ? 1 : 0;
-    layers.push({
-      slot: "outfit",
-      raster: recolorSkin(image(outfit.file), ramp, body.skin),
-      hidesBody: mask,
-    });
+    let clothes = recolorSkin(image(outfit.file), ramp, body.skin);
+    for (const [part, file] of Object.entries(outfit.regions ?? {})) {
+      const color = recipe.colors?.[part];
+      if (color) clothes = recolorPart(clothes, image(file), fabricRamp(color));
+    }
+    layers.push({ slot: "outfit", raster: clothes, hidesBody: mask });
   }
   layers.push(
     {

@@ -47,6 +47,15 @@ export const FABRIC_RAMPS: readonly FabricRamp[] = [
     base: "#475b76",
     highlight: "#5c7392",
   },
+  { id: "teal", shadow: "#123b3f", base: "#1f5f66", highlight: "#2d7881" },
+  { id: "plum", shadow: "#321827", base: "#5a2d4f", highlight: "#743d66" },
+  { id: "mustard", shadow: "#6e4f12", base: "#b88a2a", highlight: "#d1a444" },
+  { id: "cream", shadow: "#b3a88f", base: "#e8dfc9", highlight: "#f6f0e2" },
+  { id: "pink", shadow: "#a8737d", base: "#d9a3ad", highlight: "#ebbfc7" },
+  { id: "olive", shadow: "#383c1d", base: "#5e6433", highlight: "#787f45" },
+  { id: "brown", shadow: "#33221a", base: "#5a3d2b", highlight: "#76523b" },
+  { id: "khaki", shadow: "#7b6a48", base: "#b59d72", highlight: "#cbb68d" },
+  { id: "denim", shadow: "#23364b", base: "#3b5877", highlight: "#4f7094" },
 ];
 
 export function fabricRamp(id: string): FabricRamp {
