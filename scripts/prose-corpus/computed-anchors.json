@@ -2235,14 +2235,6 @@
       "textRevision": "ec06edfc7e99"
     },
     {
-      "anchor": "RETURN_SUMMARY-0011",
-      "sourcePath": "src/simulation/life-callbacks.ts",
-      "symbol": "RETURN_SUMMARY",
-      "text": "Who covers what at home is being asked again.",
-      "occurrence": 0,
-      "textRevision": "2b58acaadc37"
-    },
-    {
       "anchor": "RETURN_SUMMARY-0012",
       "sourcePath": "src/simulation/life-callbacks.ts",
       "symbol": "RETURN_SUMMARY",

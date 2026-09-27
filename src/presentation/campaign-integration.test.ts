@@ -2,14 +2,12 @@ import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-te
 import { describe, expect, it } from "vitest";
 
 import {
-  EPISODE_FAMILIES,
   activeWorkRelationshipsAt,
   advanceWorld,
   campaignForCandidate,
   createCampaignElectionTransitionRegistry,
   deserializeWorld,
   electionContestResult,
-  eligibleEpisodeBeats,
   requireLifePlace,
   serializeWorld,
   type World,
@@ -112,50 +110,6 @@ describe("every adult story route carries the world's pending election", () => {
     );
     expect(next.history.events.length).toBeGreaterThan(
       life.world.history.events.length,
-    );
-  });
-
-  it("a free canonical episode choice leaves it pending, then explicit time dispatches it", () => {
-    const life = filedLife();
-    // The first offered beat used to be the neighborhood meeting, which costs
-    // nothing to decide. The dialogue review of 2026-09-23 withheld it (no
-    // building, notice or meeting is recorded), and the first offered beat is
-    // now fifteen minutes of free time, which is an activity that spends its
-    // own minutes. Planning the week is still a free choice, so it carries the
-    // claim.
-    const beat = eligibleEpisodeBeats({
-      world: life.world,
-      personId: life.personId,
-      families: EPISODE_FAMILIES,
-    }).beats.find(
-      (candidate) =>
-        candidate.episodeKey === "opening.adult.home.plan-week" &&
-        candidate.stageKey === "moment",
-    )!;
-    expect(beat).toBeDefined();
-    const next = chooseStoryOption(life.world, {
-      personId: life.personId,
-      scene: {
-        kind: "episode",
-        beat,
-        prose: beat.prose,
-        options: beat.options,
-        withPeople: [],
-        presentPeople: [],
-      },
-      optionKey: beat.options[0]!.key,
-    });
-    expect(next.currentMoment).toEqual(life.world.currentMoment);
-    expect(
-      electionContestResult(
-        next,
-        campaignForCandidate(next, life.personId)!.contestId,
-      ),
-    ).toBeNull();
-    expectResolvedOnce(
-      next,
-      quietUntilDecided(next, life.personId),
-      life.personId,
     );
   });
 });

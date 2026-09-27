@@ -5,6 +5,7 @@ import {
 } from "../presentation/campaign-life-surface";
 import { projectBillPaper, type BillPaper } from "../presentation/bill-paper";
 import { UX39CalendarGrid, useCalendarDateOrder } from "./UX39CalendarGrid";
+import { DateFormatSetting } from "./OptionsScreen";
 import {
   clampWorkspace,
   defaultWorkspace,
@@ -81,6 +82,16 @@ import {
 import { previewTimeCommand } from "../presentation/time-command";
 import { acceptedOfferStarts } from "../presentation/offer-deadlines";
 import { venueActivities } from "../presentation/venue-activity";
+import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import {
+  canPlanOrdinaryMeetingAttendance,
+  planOrdinaryMeetingAttendance,
+  plannedOrdinaryMeetingAttendance,
+} from "../presentation/ordinary-meeting-actions";
+import {
+  scheduledActivityState,
+  compareSimulationMoments,
+} from "../simulation";
 import { proseDate, proseWeekdayDate } from "../presentation/prose-dates";
 import {
   PROTECTED_STOP_NOTE,
@@ -752,7 +763,7 @@ export function CalendarWorkspaceSurface({
     () => projectPlayerCalendar(world, personId),
     [world, personId],
   );
-  const [dateOrder, setDateOrder] = useCalendarDateOrder();
+  const [dateOrder] = useCalendarDateOrder();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<EntityId | null>(null);
   const [outcome, setOutcome] = useState<string | null>(null);
@@ -781,15 +792,6 @@ export function CalendarWorkspaceSurface({
         : result.outcome,
     );
   };
-  const dayTarget = previewTimeCommand(world, personId, {
-    kind: "days",
-    days: 1,
-  });
-  const weekTarget = previewTimeCommand(world, personId, {
-    kind: "days",
-    days: 7,
-  });
-
   /* Releasing a hold spends no time, so it does not wait on the runner. */
   function applyNow(result: {
     readonly world: World;
@@ -897,27 +899,6 @@ export function CalendarWorkspaceSurface({
         {calendarDisplayDate(calendar.today.date, dateOrder)} ·{" "}
         {formatMinute(calendar.today.minuteOfDay)}
       </p>
-      <fieldset className="ux39-calendar-date-order">
-        <legend>Date format</legend>
-        <label>
-          <input
-            type="radio"
-            name="calendar-date-order"
-            checked={dateOrder === "month-day"}
-            onChange={() => setDateOrder("month-day")}
-          />
-          Month / day / year
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="calendar-date-order"
-            checked={dateOrder === "day-month"}
-            onChange={() => setDateOrder("day-month")}
-          />
-          Day / month / year
-        </label>
-      </fieldset>
       <div
         className="pg-tabs"
         role="tablist"
@@ -960,38 +941,6 @@ export function CalendarWorkspaceSurface({
             }}
           />
           {today}
-          <div
-            className="game-choices"
-            data-testid="calendar-time-controls"
-            aria-busy={runner.pending}
-          >
-            <button
-              type="button"
-              className="ui-action"
-              data-testid="calendar-simulate-day"
-              aria-disabled={runner.pending || undefined}
-              onClick={() => runner.submit({ kind: "days", days: 1 }, report)}
-            >
-              Skip 1 day
-              <small>
-                {dayTarget ? `${skipToLabel(dayTarget.target)}. ` : ""}
-                Your routine runs. {PROTECTED_STOP_NOTE}
-              </small>
-            </button>
-            <button
-              type="button"
-              className="ui-action"
-              data-testid="calendar-simulate-week"
-              aria-disabled={runner.pending || undefined}
-              onClick={() => runner.submit({ kind: "days", days: 7 }, report)}
-            >
-              Skip 7 days
-              <small>
-                {weekTarget ? `${skipToLabel(weekTarget.target)}. ` : ""}
-                Same rules. {PROTECTED_STOP_NOTE}
-              </small>
-            </button>
-          </div>
           {runner.pending ? (
             <p
               className="game-note"
@@ -1206,6 +1155,29 @@ function CalendarEventActions({
     kind: "attend-activity",
     activityId: selected.activityId,
   });
+  const meetingScene = projectOrdinaryMeetingScene(world, personId);
+  const stayingAtMeeting =
+    meetingScene?.phase === "active" &&
+    meetingScene.activityId === selected.activityId;
+  const meetingJourney = world.history.scheduledActivities.find(
+    (activity) =>
+      activity.kind === "travel" &&
+      activity.location.locationKey === "ordinary-life:to-meeting-room" &&
+      activity.sourceEntityIds.includes(selected.activityId) &&
+      activity.responsiblePersonId === personId,
+  );
+  const onTimeMeetingChoice =
+    !!meetingJourney &&
+    scheduledActivityState(world, meetingJourney.id).status === "scheduled" &&
+    compareSimulationMoments(
+      world.currentMoment,
+      scheduledActivityState(world, meetingJourney.id).start,
+    ) === 0;
+  const canPlanMeeting = canPlanOrdinaryMeetingAttendance(
+    world,
+    personId,
+    selected.activityId,
+  );
   return (
     <div
       className="game-choices pg-calendar-actions"
@@ -1222,6 +1194,35 @@ function CalendarEventActions({
       >
         Open event record
       </button>
+      {canPlanMeeting ? (
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="calendar-plan-meeting"
+          aria-disabled={busy}
+          onClick={() => {
+            if (runner.pending) return;
+            const planned = planOrdinaryMeetingAttendance(
+              world,
+              personId,
+              selected.activityId,
+            );
+            onApplyNow({
+              world: planned,
+              outcome:
+                "You plan to attend the posted public meeting. Day or Week will take the scheduled trip when it is time to leave.",
+            });
+          }}
+        >
+          Plan to attend
+        </button>
+      ) : plannedOrdinaryMeetingAttendance(
+          world,
+          personId,
+          selected.activityId,
+        ) ? (
+        <p role="status">You plan to attend this meeting.</p>
+      ) : null}
       {skip ? (
         <button
           type="button"
@@ -1269,7 +1270,11 @@ function CalendarEventActions({
               )
         }
       >
-        Attend
+        {stayingAtMeeting
+          ? "Stay through meeting"
+          : onTimeMeetingChoice
+            ? "Go to meeting"
+            : "Attend"}
         {attendance
           ? ` · Until ${attendance.target.date === world.currentDate ? "" : `${proseWeekdayDate(attendance.target.date)}, `}${formatMinute(attendance.target.minuteOfDay)}`
           : ""}
@@ -1325,7 +1330,7 @@ function CalendarEventActions({
           );
         }}
       >
-        Decline
+        {onTimeMeetingChoice ? "Stay home" : "Decline"}
       </button>
     </div>
   );
@@ -2066,6 +2071,10 @@ export function OptionsWorkspace({
   return (
     <>
       <section className="pg-personal-section">
+        <h3>Calendar</h3>
+        <DateFormatSetting />
+      </section>
+      <section className="pg-personal-section">
         <h3>People</h3>
         <p className="game-note">How the People screen opens.</p>
         <div role="group" aria-label="People default view">
@@ -2113,6 +2122,28 @@ export function OptionsWorkspace({
             </button>
           ))}
         </div>
+      </section>
+
+      <section className="pg-personal-section">
+        <h3>Daily notes</h3>
+        <p className="game-note">
+          A morning note reads your current plans and decisions. You can turn it
+          off here; the day remains available in Calendar.
+        </p>
+        <label>
+          <input
+            type="checkbox"
+            checked={state.preferences.morningThoughts}
+            data-testid="option-morning-thoughts"
+            onChange={(event) =>
+              dispatch({
+                type: "set-morning-thoughts",
+                enabled: event.currentTarget.checked,
+              })
+            }
+          />{" "}
+          Show morning note
+        </label>
       </section>
 
       <section className="pg-personal-section">

@@ -39,7 +39,6 @@ import {
   scheduledActivityState,
   simulationMinutesBetween,
   simulationMomentAtLocalTime,
-  workItemOccasionHasPassed,
   workPendingEntriesFor,
   ORDINARY_LIFE_WORK_ITEMS,
 } from "../simulation";
@@ -57,6 +56,11 @@ import {
 } from "./scheduled-activity-choice";
 import { isCivicHold } from "./civic-hold";
 import { keepAcceptedSocialOccasion } from "./social-invitation";
+import {
+  arriveAtOrdinaryMeeting,
+  plannedOrdinaryMeetingAttendance,
+} from "./ordinary-meeting-actions";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 
 /**
@@ -68,11 +72,10 @@ import { composeFutureTransitionHandlerRegistries } from "../simulation/future-t
  * with a few things in it, not a dashboard of cards.
  */
 
-export const HOUSEHOLD_ERRANDS_KEY = "ordinary-life:household-errands";
 export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
 
 /**
- * The two things an ordinary week actually puts in front of somebody.
+ * The posted public meeting an ordinary week puts in front of somebody.
  *
  * Authored in `src/simulation/life-opportunities.ts`, beside the writer that
  * creates them, and re-exported here because that is where the content bank
@@ -193,11 +196,9 @@ export interface OrdinaryDay {
 /**
  * Whether the ordinary week is this character's to run.
  *
- * Covering the shopping and the appointments, and deciding whether to give up
- * an evening to a public meeting, are things a person does once nobody else is
- * responsible for them. While the formative interval is still running they are
- * not: a five-year-old does not carry the household week, and the game must not
- * write down that they do. The engine already draws that line — the formative
+ * Deciding whether to give up an evening to a public meeting is a choice a
+ * person can make after the formative interval. A five-year-old does not carry
+ * an ordinary-life schedule. The engine already draws that line — the formative
  * interval runs from birth to eighteen and then stops — so this reads that
  * contract rather than inventing a second age rule beside it.
  */
@@ -211,17 +212,14 @@ export function ordinaryLifeAvailableFor(
 /**
  * Opens an ordinary life, and keeps it open.
  *
- * Two jobs now, where there used to be one. The first is unchanged: the
- * household week and the posted meeting are written once, for somebody the
+ * Two jobs now, where there used to be one. First, the posted meeting is
+ * written once for somebody the
  * formative interval has finished with, and never for a five-year-old.
  *
  * The second is the repair this wave exists for. Opening an ordinary life is a
  * legitimate transition, so it is also a moment at which the world may write
- * whatever this life has come to be owed next — another week's errands once the
- * last week's are done, or one new opportunity from the bounded set in
- * `life-opportunities.ts`. Before this, a life had exactly two work items in it
- * for the rest of its existence, and the reachable scenes disappeared with the
- * first of them.
+ * one new opportunity from the bounded set in `life-opportunities.ts`.
+ * No routine grocery chore is written by opening an ordinary life.
  */
 export function openOrdinaryLife(world: World, personId: EntityId): World {
   const person = world.people[personId];
@@ -579,6 +577,26 @@ function advanceOrdinaryDays(
       );
     });
     if (!optional || stepped.control.kind !== "person") return stepped;
+    if (
+      plannedOrdinaryMeetingAttendance(
+        stepped,
+        stepped.control.personId,
+        optional.id,
+      )
+    ) {
+      const arrived = arriveAtOrdinaryMeeting(
+        stepped,
+        stepped.control.personId,
+        optional.id,
+        handlers,
+      );
+      if (
+        arrived !== stepped &&
+        projectOrdinaryMeetingScene(arrived, stepped.control.personId)
+          ?.phase === "active"
+      )
+        return arrived;
+    }
     // The player asked to be stopped here. The hold stays; they decide.
     if (options.stopForTentativeHolds) return stepped;
     // A civic hold stops the stretch too, unless the stretch began at it: then
@@ -705,11 +723,10 @@ export function householdConversationRoom(
 /**
  * A neighbor, and a notice that concerns both of them.
  *
- * Grounded in two records and nothing else: the character lives somewhere, and
- * so does somebody who is not in their household. That is what a neighbor is
- * — the game does not have a friendship score to consult and will not invent
- * one. Where the world has nobody in the same place outside the household,
- * there is no doorstep conversation, which is the truthful outcome.
+ * The posted meeting must still be ahead of this character. Its saved
+ * activity state closes the topic when attendance, cancellation, or a lapse
+ * ends the hold. The room also needs a real neighbor outside the household;
+ * the game does not have a friendship score to consult or invent.
  */
 export function neighborhoodConversationRoom(
   world: World,
@@ -717,17 +734,22 @@ export function neighborhoodConversationRoom(
 ): ConversationRoomContext | null {
   const person = world.people[personId];
   if (!person) return null;
+  const meeting = world.history.scheduledActivities.find(
+    (activity) =>
+      activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+      activity.participantPersonIds.includes(personId),
+  );
+  if (!meeting) return null;
+  const meetingState = scheduledActivityState(world, meeting.id);
+  if (
+    meetingState.status !== "scheduled" ||
+    compareSimulationMoments(world.currentMoment, meetingState.start) >= 0
+  )
+    return null;
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
   const jurisdictionId =
     place?.context.jurisdiction.id ?? person.homeJurisdictionId;
   if (!world.jurisdictions[jurisdictionId]) return null;
-  // The doorstep talk is about whether to go. Once the posted meeting has
-  // happened, there is nothing ahead to talk about going to.
-  const meeting = world.history.workItems.find(
-    (item) => item.stableKey === PUBLIC_MEETING_KEY,
-  );
-  if (meeting && workItemOccasionHasPassed(world, meeting)) return null;
-
   const cutoff = currentLifeCutoff(world);
   const household = new Set(
     householdMembershipsAt(world, personId, cutoff).map(
