@@ -5634,8 +5634,7 @@ function renderWorkspace({
           title: "Your office",
           body: (
             <p className="game-note" data-testid="no-office">
-              You hold no office in this life yet. Running for one is under
-              Campaigns when the game supports it here.
+              You hold no office yet. Campaigns shows what you could run for.
             </p>
           ),
         });

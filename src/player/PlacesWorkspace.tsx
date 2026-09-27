@@ -267,9 +267,7 @@ export function PlacesWorkspace({
       ) : null}
 
       <section aria-labelledby="places-offers-heading">
-        <h3 id="places-offers-heading">
-          Supported destinations and activities
-        </h3>
+        <h3 id="places-offers-heading">Places you can go</h3>
         {model.offers.length === 0 ? (
           <p data-testid="places-empty">
             Nothing reachable is recorded from here.

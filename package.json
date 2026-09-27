@@ -15,6 +15,8 @@
     "playtest:mass": "node --import tsx scripts/playtest/mass-play/run.ts",
     "playtest:mass-summary": "node --import tsx scripts/playtest/mass-play/summarize.ts",
     "dialogue:report": "node --import tsx scripts/dialogue-report/run.ts",
+    "wording:check": "node --import tsx scripts/english-check/wording.ts",
+    "wording:baseline": "node --import tsx scripts/english-check/wording.ts --write",
     "world:aging": "node --enable-source-maps --max-old-space-size=8192 --import tsx scripts/dev-lab/world-aging.ts",
     "world:report": "node --max-old-space-size=8192 --import tsx scripts/world-report/run.ts",
     "source:acquire": "node --import tsx scripts/source/acquire.ts",
