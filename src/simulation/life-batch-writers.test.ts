@@ -196,5 +196,15 @@ describe("life batch writers", () => {
       ]),
     ).toThrow(/organization participation stable key already exists/);
     expect(serializeWorld(world)).toBe(before);
+
+    // A refused batch must not reserve the valid first key in this old world.
+    const retried = createOrganizationParticipations(world, [membership]);
+    expect(retried.history.organizationParticipations).toHaveLength(
+      world.history.organizationParticipations.length + 1,
+    );
+    expect(retried.history.organizationParticipations.at(-1)?.stableKey).toBe(
+      membership.stableKey,
+    );
+    expect(serializeWorld(world)).toBe(before);
   });
 });

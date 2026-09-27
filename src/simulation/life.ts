@@ -1,5 +1,6 @@
 import { eventById } from "./event-index";
 import { addDays, makeIsoDate } from "./dates";
+import { stableKeysOf } from "./history-index";
 import { createStableId } from "./ids";
 import {
   assessLifeLoadAt,
@@ -617,15 +618,14 @@ export function createOrganizationParticipations(
   inputs: readonly CreateOrganizationParticipationInput[],
 ): World {
   if (inputs.length === 0) return world;
-  const existingKeys = new Set(
-    world.history.organizationParticipations.map((record) => record.stableKey),
-  );
+  const existingKeys = stableKeysOf(world.history.organizationParticipations);
+  const pendingKeys = new Set<string>();
   const participations: OrganizationParticipation[] = [];
   const states: OrganizationParticipationStateRecord[] = [];
   let nextSequence = world.history.nextSequence;
   for (const input of inputs) {
     assertNonEmpty(input.stableKey, "organization participation stable key");
-    if (existingKeys.has(input.stableKey)) {
+    if (existingKeys.has(input.stableKey) || pendingKeys.has(input.stableKey)) {
       throw new Error(
         `organization participation stable key already exists: ${input.stableKey}`,
       );
@@ -692,7 +692,7 @@ export function createOrganizationParticipations(
     };
     participations.push(participation);
     states.push(state);
-    existingKeys.add(input.stableKey);
+    pendingKeys.add(input.stableKey);
     nextSequence += 2;
   }
   return commit(world, {
