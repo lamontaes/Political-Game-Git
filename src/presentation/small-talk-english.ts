@@ -134,11 +134,17 @@ const MATTER_UNINFORMED: ComposedLineBank = {
           kind: "template",
           text: "I hadn't heard about that.",
         },
-        { key: "news-to-me", kind: "template", text: "that's news to me." },
+        {
+          key: "news-to-me",
+          kind: "template",
+          text: "that's news to me.",
+          stages: ["adult"],
+        },
         {
           key: "first-hearing",
           kind: "template",
           text: "this is the first I'm hearing of it.",
+          stages: ["adult"],
         },
         {
           key: "didnt-know",
@@ -168,12 +174,8 @@ const MATTER_UNINFORMED: ComposedLineBank = {
     closer: {
       variants: [
         { key: "what-happened", kind: "template", text: "What happened?" },
-        { key: "tell-me", kind: "template", text: "Tell me about it." },
-        {
-          key: "what-do-you-know",
-          kind: "template",
-          text: "What do you know?",
-        },
+        { key: "tell-me-more", kind: "template", text: "Tell me more." },
+
         {
           key: "fill-me-in",
           kind: "template",
