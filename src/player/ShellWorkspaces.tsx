@@ -68,6 +68,7 @@ import {
 } from "../presentation/shell-navigation";
 import { interruptionHandlers } from "../presentation/interruption-policy";
 import { pathForRelationship } from "../simulation/life-paths2";
+import { PERSONAL_WORK_SESSION_NOTE } from "../presentation/work-session-english";
 import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
 import {
@@ -1175,9 +1176,7 @@ function CalendarEventActions({
       }),
   );
   if (personalWorkSession) {
-    return (
-      <p>Work continues as time passes. Earned pay follows the work record.</p>
-    );
+    return <p>{PERSONAL_WORK_SESSION_NOTE}</p>;
   }
   const simulation = authorizeCalendarSimulation(
     world,
