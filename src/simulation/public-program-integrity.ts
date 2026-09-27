@@ -1,5 +1,6 @@
 import { createStableId } from "./ids";
 import { eventById } from "./event-index";
+import { appropriationPinnedPaymentsMinorUnits } from "./public-appropriation-balance";
 import {
   assertPublicGovernmentIdentity,
   publicGovernmentIdentityForRecord,
@@ -221,7 +222,17 @@ export function assertPublicProgramIntegrity(
         )
           fail(record, "was made outside the appropriation's availability.");
         const sum = (committed.get(appropriation.id) ?? 0n) + total;
-        if (sum > BigInt(appropriation.amount.minorUnits))
+        if (
+          sum +
+            BigInt(
+              appropriationPinnedPaymentsMinorUnits(
+                world,
+                appropriation,
+                record.sequence + 1,
+              ),
+            ) >
+          BigInt(appropriation.amount.minorUnits)
+        )
           fail(record, "commits more than the appropriation holds.");
         committed.set(appropriation.id, sum);
         break;

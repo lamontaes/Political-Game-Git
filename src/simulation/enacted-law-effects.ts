@@ -180,11 +180,9 @@ export function applyEnactedLawEffects(
   // enactment back or silently install the old tax effect.
   if (proposal && taxActivationReadiness(next, proposal.id).kind === "ready")
     next = adoptEnactedTaxPolicy(next, proposal.id);
-  // The pinned transit program reads its own enacted clause when service is
-  // requested (`transit-funding.ts`). A second, generic spending authority
-  // from the same clause would let a governor commit the same money twice.
-  if (!isPinnedTransitMeasure(next, measureId))
-    next = appropriationFromEnactedMeasure(next, measureId);
+  // Every enacted amount has one saved program authority. The pinned transit
+  // request consumes that same record and shares its committed balance.
+  next = appropriationFromEnactedMeasure(next, measureId);
   return next;
 }
 
