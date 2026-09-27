@@ -21,6 +21,7 @@ import {
   recordFederalJudicialNomination,
   recordJudicialSelectionStage,
   resolveJudicialSelectionPlan,
+  screenFederalJudicialNominee,
 } from "./selection";
 import type { JudicialSelectionPlan } from "./selection";
 import { judicialSeatId } from "./types";
@@ -149,6 +150,74 @@ describe("judicial selection lifecycle", () => {
         nomineePersonId: nomineeId,
       }),
     ).toThrow("Only the sitting President");
+    expect(screenFederalJudicialNominee(world, nomineeId)).toEqual({
+      state: "unresolved",
+      reason: "This person has no recorded judicial philosophy.",
+    });
+    expect(() =>
+      recordFederalJudicialNomination(world, {
+        selectionRecordId: selection.recordId,
+        presidentPersonId: president.personId,
+        nomineePersonId: nomineeId,
+      }),
+    ).toThrow("no recorded judicial philosophy");
+    world = recordWorldEvent(world, {
+      stableKey: "fixture:judicial-study",
+      type: "life.judicial-study",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [nomineeId],
+      participants: [
+        { personId: nomineeId, role: "focus:actor", detail: "Student" },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: ["fixture:judicial-study"],
+      summary: "The nominee considered a judicial problem in this fixture.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const evidenceId = world.history.events.at(-1)!.id;
+    world = {
+      ...world,
+      judiciary: {
+        ...world.judiciary!,
+        philosophies: [
+          ...world.judiciary!.philosophies,
+          {
+            recordId: "fixture:judicial-philosophy",
+            personId: nomineeId,
+            formedAt: world.currentDate,
+            dimensions: {
+              reading: 1,
+              deference: null,
+              federalism: null,
+              rights: null,
+              precedent: null,
+            },
+            rightsBySubject: {
+              speech: null,
+              religion: null,
+              guns: null,
+              "criminal-procedure": null,
+              property: null,
+              "economic-regulation": null,
+              "equal-treatment": null,
+            },
+            lifeEvidenceIds: [evidenceId],
+            reason:
+              "A recorded fixture experience supports this judicial reading view.",
+          },
+        ],
+      },
+    };
     world = recordFederalJudicialNomination(world, {
       selectionRecordId: selection.recordId,
       presidentPersonId: president.personId,

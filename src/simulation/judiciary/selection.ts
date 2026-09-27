@@ -3,18 +3,87 @@
 import type { EntityId, IsoDate, World } from "../types";
 import { currentPresidentOf } from "../crisis/offices";
 import { electionContestResult } from "../election-contests";
-import { personName } from "../people";
+import { factsForPerson, personName } from "../people";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { courtById, effectiveCourtRulesAt, seatHolderAt } from "./courts";
 import { judicialSelectionProfile } from "./profiles";
 import type {
   JudicialRuleField,
+  JudicialPhilosophyRecord,
   JudicialSelectionRecord,
   JudicialSelectionStageRecord,
 } from "./types";
 
 export const JUDICIAL_POPULAR_VOTER_PROFILE = "judicial-popular-voters/v1";
+
+export type FederalJudicialNomineeScreen =
+  | {
+      readonly state: "ready";
+      readonly philosophy: JudicialPhilosophyRecord;
+    }
+  | { readonly state: "unresolved"; readonly reason: string };
+
+/** A dated, evidenced philosophy is screening evidence; party is never a substitute. */
+export function screenFederalJudicialNominee(
+  world: World,
+  personId: EntityId,
+): FederalJudicialNomineeScreen {
+  const person = world.people[personId];
+  if (!person)
+    return { state: "unresolved", reason: "Nominee is not in this World." };
+  if (
+    world.history.personDeaths.some(
+      (death) =>
+        death.personId === personId && death.diedAt <= world.currentDate,
+    )
+  )
+    return {
+      state: "unresolved",
+      reason: "A deceased person cannot be nominated.",
+    };
+  const philosophy = [...(world.judiciary?.philosophies ?? [])]
+    .filter(
+      (record) =>
+        record.personId === personId && record.formedAt <= world.currentDate,
+    )
+    .sort((left, right) => left.formedAt.localeCompare(right.formedAt))
+    .at(-1);
+  if (!philosophy)
+    return {
+      state: "unresolved",
+      reason: "This person has no recorded judicial philosophy.",
+    };
+  const evidence = new Set([
+    ...factsForPerson(person)
+      .filter(
+        (fact) =>
+          (fact.kind === "education" || fact.kind === "occupation") &&
+          fact.occurredAt <= philosophy.formedAt,
+      )
+      .map((fact) => fact.id),
+    ...world.history.events
+      .filter(
+        (event) =>
+          event.involvedEntityIds.includes(personId) &&
+          event.occurredAt <= philosophy.formedAt &&
+          event.type !== "judicial.nomination",
+      )
+      .map((event) => event.id),
+  ]);
+  if (
+    philosophy.lifeEvidenceIds.length === 0 ||
+    philosophy.lifeEvidenceIds.some((id) => !evidence.has(id)) ||
+    !philosophy.reason.trim() ||
+    !Object.values(philosophy.dimensions).some((value) => value !== null)
+  )
+    return {
+      state: "unresolved",
+      reason:
+        "The recorded judicial philosophy lacks supported life evidence or an assessed dimension.",
+    };
+  return { state: "ready", philosophy };
+}
 
 /**
  * A path already admitted by the judicial profile adapter. The adapter owns
@@ -464,6 +533,8 @@ export function recordFederalJudicialNomination(
     throw new Error("Only the sitting President can make this nomination.");
   if (!selection.candidatePersonIds.includes(input.nomineePersonId))
     throw new Error("Nominee is outside the recorded candidate pool.");
+  const screened = screenFederalJudicialNominee(world, input.nomineePersonId);
+  if (screened.state !== "ready") throw new Error(screened.reason);
   const resolved = resolveJudicialSelectionPlan(
     world,
     selection.seatId,
