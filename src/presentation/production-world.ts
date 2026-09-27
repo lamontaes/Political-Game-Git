@@ -466,6 +466,10 @@ export function finalizePreStartPlayer(
   background: World,
   input: PreStartProductionWorldInput,
 ): ProductionWorld {
+  if (input.startingLife === "legislative-office")
+    throw new Error(
+      "A pre-start legislative staff job needs an office work path before player finalization.",
+    );
   const { targetStartDate } = input.preStartYear;
   const place = input.place;
   const jurisdiction = place.context.jurisdiction;
@@ -560,8 +564,6 @@ export function finalizePreStartPlayer(
     });
     world = ensureStartingPersonalMoney(world, player.id).world;
   }
-  if (input.startingLife === "legislative-office")
-    world = employInLegislativeOffice(world, player.id, place);
   for (const personId of world.personOrder) {
     if (
       world.history.personDeaths.some(

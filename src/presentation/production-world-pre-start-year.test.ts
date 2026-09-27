@@ -51,4 +51,30 @@ describe("versioned prior-date production construction", () => {
     expect(prior.world.currentMoment.date).toBe(targetStartDate);
     expect(legacy.world.currentDate).toBe(targetStartDate);
   });
+
+  it("refuses a pre-start staff job until its office work path is supported", () => {
+    const place = requireLifePlace("kentucky");
+    const targetStartDate = place.context.initialMoment.date;
+    const input = {
+      seed: "prior-year-office-guard",
+      place,
+      age: 35,
+      givenName: "Morgan",
+      familyName: "Reed",
+      startingLife: "legislative-office" as const,
+      depth: "summarize-earlier-life" as const,
+      household: "lives-alone" as const,
+      preStartYear: {
+        version: "pre-start-world-year-v1" as const,
+        targetStartDate,
+        priorYearStartDate: addDays(targetStartDate, -365),
+      },
+    };
+    const background = buildPreStartBackgroundWorld(input);
+    const advanced = advanceWorld(background, 365);
+    expect(() => finalizePreStartPlayer(advanced, input)).toThrow(
+      "A pre-start legislative staff job needs an office work path before player finalization.",
+    );
+    expect(advanced.control.kind).toBe("observer");
+  });
 });
