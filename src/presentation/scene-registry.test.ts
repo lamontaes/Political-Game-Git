@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { HOME_SCENE_SPECS } from "./home-scenes";
 
 import { CIVIC_HEARING_ROOM_PRODUCTION_SCENE } from "../environment/scenes/civic-hearing-room-production";
 import { COMMITTEE_ROOM_FIXTURE_SCENE } from "../environment/scenes/committee-room-fixture";
@@ -51,6 +52,7 @@ describe("scene registry", () => {
       EXECUTIVE_OFFICE_CANDIDATE_SCENE,
       OFFICE_COUNCIL_STAFF_FIXTURE_SCENE,
       COMMITTEE_ROOM_FIXTURE_SCENE,
+      ...HOME_SCENE_SPECS,
     ]) {
       const validation = validateEnvironmentSceneSpec(spec);
       expect(validation.errors, spec.scene_id).toEqual([]);
@@ -71,6 +73,7 @@ describe("scene registry", () => {
         PARK_COMMUNITY_PAVILION_SCENE_ID,
         "press-briefing-room-candidate",
         EXECUTIVE_OFFICE_SCENE_ID,
+        ...HOME_SCENE_SPECS.map((spec) => spec.scene_id),
       ].sort(),
     );
   });
@@ -96,6 +99,8 @@ describe("scene registry", () => {
         DOMESTIC_ORDINARY_SCENE_ID,
         COURTROOM_SCENE_ID,
         CAMPAIGN_STOREFRONT_SCENE_ID,
+        // The owner's 25 home pictures, approved as placeholders Sept. 27.
+        ...HOME_SCENE_SPECS.map((spec) => spec.scene_id),
       ].sort(),
     );
     for (const scene of production) {
@@ -154,24 +159,32 @@ describe("scene registry", () => {
    * project's numbers, so this is the assertion that stops it recurring.
    */
   it("shares no measured geometry between two different rooms", () => {
+    // One painting shown in several lights (morning, midday, night, rain) is
+    // one room: its variants share a family and may share its measurements.
+    // Two different rooms may not.
+    const room = (scene: { sceneId: string; familyId: string | null }) =>
+      scene.familyId ?? scene.sceneId;
     const ramps = new Map<string, string>();
     const widths = new Map<number, string>();
     for (const scene of SCENE_REGISTRY.scenes.values()) {
       if (scene.floorCalibration) {
         const { near, far } = scene.floorCalibration;
         const key = `${near.floor_y_percent}/${near.scale}/${far.floor_y_percent}/${far.scale}`;
-        expect(ramps.get(key), `${scene.sceneId} vs ${ramps.get(key)}`).toBe(
-          undefined,
-        );
-        ramps.set(key, scene.sceneId);
+        const owner = ramps.get(key);
+        expect(
+          owner === undefined || owner === room(scene),
+          `${scene.sceneId} vs ${owner}`,
+        ).toBe(true);
+        ramps.set(key, room(scene));
       }
       if (scene.standardBodyWidthPercent !== null) {
         const width = scene.standardBodyWidthPercent;
+        const owner = widths.get(width);
         expect(
-          widths.get(width),
-          `${scene.sceneId} vs ${widths.get(width)}`,
-        ).toBe(undefined);
-        widths.set(width, scene.sceneId);
+          owner === undefined || owner === room(scene),
+          `${scene.sceneId} vs ${owner}`,
+        ).toBe(true);
+        widths.set(width, room(scene));
       }
     }
   });
@@ -217,9 +230,12 @@ describe("scene registry", () => {
     for (const scene of SCENE_REGISTRY.scenes.values()) {
       if (scene.presentationStatus !== "production") continue;
       for (const tier of scene.raster?.ladder.tiers ?? []) {
-        expect(tier.derivation, `${scene.sceneId} ${tier.width}`).toBe(
-          "deterministic-downscale",
-        );
+        // A native master is shown at the size it was painted; only an
+        // upscale would be an enlargement.
+        expect(
+          ["deterministic-downscale", "native-master"],
+          `${scene.sceneId} ${tier.width}`,
+        ).toContain(tier.derivation);
       }
     }
   });
