@@ -4,6 +4,7 @@ import {
   settleJobPay,
 } from "../simulation/job-market";
 import { settleCareerOffers } from "../simulation/career-path7";
+import { contactBases } from "../simulation/people-contact";
 import { ensurePeopleTraits } from "../simulation/people-traits";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
@@ -235,7 +236,16 @@ export function openOrdinaryLife(world: World, personId: EntityId): World {
     ),
     personId,
   );
-  return ensurePeopleTraits(opened, opened.personOrder);
+  // Traits are written at opening only for the people the player has a real
+  // way of reaching: household, family, work and everyone else in their
+  // contact list. Everyone else's traits are drawn from their own seed and
+  // upbringing the first time a decision needs them (every decision calls
+  // ensurePeopleTraits first). Writing them for the whole world at opening
+  // made starting a life take about half an hour.
+  return ensurePeopleTraits(
+    opened,
+    contactBases(opened, personId).map((basis) => basis.personId),
+  );
 }
 
 export function projectOrdinaryDay(

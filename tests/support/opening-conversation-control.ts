@@ -3,6 +3,7 @@ import journeyDelta from "../fixtures/next24-journey-conversation-delta.json";
 import removalDelta from "../fixtures/sit-and-talk-removal-conversation-delta.json";
 import businessesDelta from "../fixtures/town-businesses-conversation-delta.json";
 import saturdayDelta from "../fixtures/opening-requests-removal-conversation-delta.json";
+import contactTraitsDelta from "../fixtures/contact-traits-at-opening-conversation-delta.json";
 import type { ordinaryConversationReplayRecords } from "./ordinary-conversation-replay";
 
 /** Undo only the inspected, source-accounted OPENING delta before comparing
@@ -13,12 +14,14 @@ export function acceptedMainComparableReplay(
   input: ReturnType<typeof ordinaryConversationReplayRecords>,
 ) {
   const result = structuredClone(input);
-  // Reverse the newest inspected delta first: the retired reasonless Saturday
-  // invitation and picnic favor and confidence, then the town's businesses
-  // (both 2026-09-23), the removed evening invitation, then the journey
-  // identity delta. No prose, unknown leaf, or missing reference can be
-  // normalized away.
+  // Reverse the newest inspected delta first: the contacts' personality traits
+  // now written when a life opens (2026-09-27), the retired reasonless
+  // Saturday invitation and picnic favor and confidence, then the town's
+  // businesses (both 2026-09-23), the removed evening invitation, then the
+  // journey identity delta. No prose, unknown leaf, or missing reference can
+  // be normalized away.
   for (const change of [
+    ...contactTraitsDelta.changes,
     ...saturdayDelta.changes,
     ...businessesDelta.changes,
     ...removalDelta.changes,
