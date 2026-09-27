@@ -9,6 +9,7 @@ import type {
 } from "../character-history";
 import { candidacyPackById, stateCandidacyPack } from "../candidacy-packs";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
+import { isStateLegislativeSeatDue } from "./state-legislative-election-calendar";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { addDays, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
@@ -1094,6 +1095,8 @@ export function campaignSeatHolders(
   world: World,
   packId: string,
 ): readonly CampaignSeatHolder[] {
+  const stateUsps =
+    candidacyPackById(packId)?.jurisdictionKey.replace(/^US-/, "") ?? null;
   const bodyId = createStableId(
     "organization",
     `${world.id}:${STATE_LEGISLATURE_KEYS.body(packId)}`,
@@ -1134,10 +1137,29 @@ export function campaignSeatHolders(
       officeKey,
       term!.contest.office.districtBinding!.recordId,
     );
+    const dueSeats = stateUsps
+      ? seats.filter((seat) =>
+          isStateLegislativeSeatDue(
+            stateUsps,
+            officeKey,
+            seat.ordinal,
+            Number(term!.contest.electionDate.slice(0, 4)),
+            stateLegislativeSeatIdentity(
+              world,
+              packId,
+              officeKey,
+              seat.ordinal,
+            ),
+          ),
+        )
+      : [];
+    // A saved contest from an older game calendar keeps its recorded seat
+    // even if that past election is absent from the new regular-cycle table.
+    const eligibleSeats = dueSeats.length > 0 ? dueSeats : seats;
     const seat =
-      seats.find(
+      eligibleSeats.find(
         (s) => held.get(`${officeKey}|${s.ordinal}`) === work.personId,
-      ) ?? seats.find((s) => !held.has(`${officeKey}|${s.ordinal}`));
+      ) ?? eligibleSeats.find((s) => !held.has(`${officeKey}|${s.ordinal}`));
     if (!seat) continue;
     held.set(`${officeKey}|${seat.ordinal}`, work.personId);
     holders.push({

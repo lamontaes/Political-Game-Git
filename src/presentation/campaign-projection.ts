@@ -981,8 +981,10 @@ export function campaignElectionDate(
         ),
       }).electionDate,
   );
-  if (new Set(dates).size > 1)
-    throw new Error("Choose the specific seat before filing in this district.");
+  // Multi-seat districts can stagger their seats. A district filing goes to
+  // its next due seat; the term and seat-holder readers resolve that ballot's
+  // particular seat from the saved opening plan.
+  dates.sort();
   return (
     dates[0] ??
     nextStateLegislativeElection(stateUsps, world.currentDate, {
