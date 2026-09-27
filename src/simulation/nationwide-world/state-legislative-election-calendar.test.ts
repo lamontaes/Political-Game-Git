@@ -186,6 +186,9 @@ describe("when a state legislative seat is next on the ballot", () => {
         plan,
         `${row.stateUsps}:${row.chamberKey} has an opening plan`,
       ).toBeDefined();
+      expect(plan.size, `${row.stateUsps}:${row.chamberKey} seat count`).toBe(
+        row.seatCount,
+      );
       const districtSlots = new Map<string, number>();
       for (const [index, district] of plan.districts.entries()) {
         const districtCode = district?.districtCode ?? null;
