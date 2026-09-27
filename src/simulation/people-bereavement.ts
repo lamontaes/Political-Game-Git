@@ -5,6 +5,7 @@ import { createStableId } from "./ids";
 import { addDays, spokenDate } from "./dates";
 import { personName } from "./people";
 import { describePersonContext } from "./person-context";
+import { ensurePeopleTraits } from "./people-traits";
 import { recordEventKnowledge } from "./records";
 import { recordSceneBinding } from "./scene-bindings";
 import { currentLifeCutoff } from "./life-queries";
@@ -264,8 +265,11 @@ export function offerBereavementScene(
     ) {
       continue;
     }
+    // How this person answers leans on their recorded sociability. They may
+    // not be one of the player's contacts, whose traits are written when the
+    // life opens, so theirs are drawn here if nothing has needed them yet.
     return recordSceneBinding(
-      world,
+      ensurePeopleTraits(world, [other]),
       {
         version: 1,
         family: "home-evening",

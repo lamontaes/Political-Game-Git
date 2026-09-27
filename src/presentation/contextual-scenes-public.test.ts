@@ -216,7 +216,26 @@ function candidateWithAcceptedMeeting(seed: string) {
 }
 
 describe("a reporter's question about an actual promise", () => {
-  const { player, world: before } = candidateWithAcceptedMeeting("prose-b-13");
+  const { player, world: accepted } =
+    candidateWithAcceptedMeeting("prose-b-13");
+  // The organizer is the only person who can tell a reporter, or later confirm,
+  // what was promised, and whether they do is their own temperament, not the
+  // seed's. The test says which kind of person they are, so the outcome
+  // follows from the world rather than from which life this happened to be.
+  const invitation = accepted.history.events.find(
+    (event) => event.type === "party.chapter-meeting-invited",
+  )!;
+  const organizerId = invitation.participants.find(
+    (entry) => entry.role === "agency:asked",
+  )!.personId;
+  // Somebody who talks to a lot of people mentions it to a reporter.
+  const before = recordTraitChange(accepted, {
+    personId: organizerId,
+    trait: "sociability",
+    value: 2,
+    eventId: invitation.id,
+    reason: "Test: somebody who talks to a lot of people.",
+  });
   const asked = passOrdinaryDays(before, 1, { stopForTentativeHolds: true });
 
   it("the reporter asks only because the organizer told them, and says so", () => {
@@ -260,16 +279,7 @@ describe("a reporter's question about an actual promise", () => {
     ).toBe(false);
   });
 
-  // The organizer is the only person who can confirm what was promised, and
-  // whether they will is their own temperament, not the seed's. The test says
-  // which kind of person they are, so the outcome follows from the world
-  // rather than from which life this happened to be.
-  const invitation = asked.history.events.find(
-    (event) => event.type === "party.chapter-meeting-invited",
-  )!;
-  const organizerId = invitation.participants.find(
-    (entry) => entry.role === "agency:asked",
-  )!.personId;
+  // Whether they then confirm it is the rest of their temperament.
   const sourceWho = (...changes: readonly [PeopleTrait, -2 | 2][]): World => {
     let world = asked;
     for (const [trait, value] of changes) {
