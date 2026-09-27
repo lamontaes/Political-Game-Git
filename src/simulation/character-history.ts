@@ -623,6 +623,49 @@ export function createCharacterHistoryContextPeople(
   return next;
 }
 
+/** Give a recorded family visit its contact history without inventing a visit. */
+function recordPreStartFamilyContact(
+  world: World,
+  eventStableKey: string,
+): World {
+  const stableKey = `${eventStableKey}:interaction`;
+  if (
+    world.history.relationshipInteractions.some(
+      (interaction) => interaction.stableKey === stableKey,
+    )
+  )
+    return world;
+  const event = world.history.events.find(
+    (record) => record.stableKey === eventStableKey,
+  );
+  const firstId = event?.participants[0]?.personId;
+  const secondId = event?.participants[1]?.personId;
+  if (
+    event?.type !== "life.family-time" ||
+    event.participants.length !== 2 ||
+    !firstId ||
+    !secondId ||
+    !world.history.kinshipRelationships.some(
+      (relationship) =>
+        relationship.establishedAt <= event.occurredAt &&
+        relationship.personIds.includes(firstId) &&
+        relationship.personIds.includes(secondId),
+    )
+  )
+    throw new Error("Pre-start family contact needs two recorded relatives.");
+  return recordRelationshipInteraction(world, {
+    stableKey,
+    personIds: [firstId, secondId],
+    eventId: event.id,
+    occurredAt: event.occurredAt,
+    kind: "care:family-time",
+    change: "maintained",
+    significance: "meaningful",
+    summary: event.summary,
+    tags: ["life.family-time"],
+  });
+}
+
 /**
  * Versioned close-circle and adult-year construction for a new life. This is
  * invoked only while the pre-start world is still at its prior-year date.
@@ -927,6 +970,7 @@ export function establishPreStartAdultHistory(
       immediateReaction: null,
     },
   });
+  next = recordPreStartFamilyContact(next, `${key}:early-family-time`);
   for (let year = 18; year < age; year += 1) {
     const occurredAt = dateAtAge(player.birthDate, year);
     if (occurredAt >= world.currentDate) break;
@@ -972,6 +1016,8 @@ export function establishPreStartAdultHistory(
         immediateReaction: null,
       },
     });
+    if (isFamily)
+      next = recordPreStartFamilyContact(next, `${key}:year:${year}`);
   }
   return next;
 }
@@ -1173,6 +1219,7 @@ export function establishPreStartChildHistory(
         immediateReaction: null,
       },
     });
+    next = recordPreStartFamilyContact(next, `${key}:age:${childAge}`);
   }
   return next;
 }
