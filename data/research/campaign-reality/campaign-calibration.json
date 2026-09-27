@@ -208,13 +208,13 @@
     },
     {
       "id": "mi-managed-door-quote",
-      "metric": "cost-per-verified-door",
+      "metric": "vendor-advertised-rate-per-door",
       "range": {
         "min": 1.35,
         "max": 2.25,
-        "unit": "USD/knocked-door"
+        "unit": "USD/vendor-priced-door"
       },
-      "population": "Vendor's illustrative paid Michigan canvass planning ballpark for a 20,000-targeted-voter universe, expressly not a quote; includes hiring, deployment, quality control and data; not volunteer cash cost",
+      "population": "Vendor's illustrative paid Michigan canvass planning ballpark for a 20,000-targeted-voter universe, expressly not a quote; its page says per door without specifying knocked or verified denominator; includes hiring, deployment, quality control and data; not volunteer cash cost",
       "geography": "Michigan",
       "officeLevel": null,
       "actionCatalogIds": ["survey-canvass", "persuasion-canvass", "gotv-door"],
@@ -222,7 +222,7 @@
     },
     {
       "id": "knock-ai-managed-door-quote",
-      "metric": "cost-per-knocked-door",
+      "metric": "managed-execution-cost-per-verified-door",
       "range": {
         "min": 2,
         "max": 4,
@@ -427,7 +427,7 @@
     }
   ],
   "gaps": [
-    "A representative, current full cash cost per completed door conversation was not established. The Nickerson figure is a labor-only scenario published in 2006; vendor rate cards price attempted or verified doors, not conversations.",
+    "A representative, current full cash cost per completed door conversation was not established. The Nickerson figure is a labor-only scenario published in 2006; the Michigan vendor says per door without defining knocked or verified, while Knock AI prices verified doors. Neither prices completed conversations.",
     "No source measured volunteer door attempts, completed contacts, dials, and costs in the same 2026 candidate campaign population. Do not divide one vendor's price by another guide's contact rate as though it were observed.",
     "No reliable office-specific multiplier across the five requested offices was established. Shared observations are not five independent office estimates.",
     "Cash cost of a volunteer door or phone shift remains UNKNOWN, not zero; transport, lists, materials, platform and supervision vary.",

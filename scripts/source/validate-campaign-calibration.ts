@@ -139,6 +139,30 @@ export function validateCampaignCalibration(
       errors.push(`unresolved action ${observation.id}`);
     }
   }
+  for (const [id, metric, unit, sourceId] of [
+    [
+      "mi-managed-door-quote",
+      "vendor-advertised-rate-per-door",
+      "USD/vendor-priced-door",
+      "vote-for-change-mi-2026",
+    ],
+    [
+      "knock-ai-managed-door-quote",
+      "managed-execution-cost-per-verified-door",
+      "USD/verified-door",
+      "knock-ai-2026",
+    ],
+  ]) {
+    const observation = byId.get(id);
+    if (
+      observation?.metric !== metric ||
+      observation.range.unit !== unit ||
+      observation.sourceIds.length !== 1 ||
+      observation.sourceIds[0] !== sourceId
+    ) {
+      errors.push(`vendor door denominator mismatch ${id}`);
+    }
+  }
   if (packet.officeCoverage.length !== expected.size) {
     errors.push("officeCoverage must contain five rows");
   }
