@@ -197,7 +197,7 @@ export function recordPaidTransitProgramService(
     metricId: metric.id,
     scope: {
       jurisdictionId: modeledAreaId ?? appropriation.jurisdictionId,
-      segmentKey: `public-program-installment:${installment.id}`,
+      segmentKey: `public-program.installment-${stableHash(installment.id)}`,
     },
     referencePeriod: { kind: "point", at: installment.recordedAt },
     value: {
