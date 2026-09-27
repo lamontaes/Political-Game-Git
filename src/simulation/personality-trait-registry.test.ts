@@ -3,9 +3,10 @@ import { describe, expect, it } from "vitest";
 import {
   PERSONALITY_TRAIT_READERS,
   PERSONALITY_TRAIT_REGISTRY,
+  NOT_YET_CONNECTED_TRAITS,
   TRAIT_LIFE_PARTS,
   TRAIT_STRENGTH_LEVELS,
-  traitsWithoutReaders,
+  traitsWithoutReaderOrDebt,
 } from "./personality-trait-registry";
 
 describe("the one personality trait registry", () => {
@@ -68,13 +69,36 @@ describe("the one personality trait registry", () => {
     expect(entries.has("personality-v1:facet-daydreaming")).toBe(true);
   });
 
-  it("fails its coverage question when any trait has no reader", () => {
-    expect(traitsWithoutReaders()).toEqual([]);
-    expect(PERSONALITY_TRAIT_READERS).toHaveLength(97);
+  it("names real behavior readers and makes every other trait explicit debt", () => {
+    expect(traitsWithoutReaderOrDebt()).toEqual([]);
+    expect(PERSONALITY_TRAIT_READERS).toHaveLength(5);
+    expect(NOT_YET_CONNECTED_TRAITS).toHaveLength(92);
     expect(
-      traitsWithoutReaders(PERSONALITY_TRAIT_REGISTRY, [
-        ...PERSONALITY_TRAIT_READERS.slice(1),
-      ]),
-    ).toEqual([PERSONALITY_TRAIT_REGISTRY[0]!.qualifiedKey]);
+      new Set(PERSONALITY_TRAIT_READERS.map(({ trait }) => trait)).size,
+    ).toBe(PERSONALITY_TRAIT_READERS.length);
+    expect(new Set(NOT_YET_CONNECTED_TRAITS).size).toBe(
+      NOT_YET_CONNECTED_TRAITS.length,
+    );
+    expect(
+      PERSONALITY_TRAIT_READERS.some(({ trait }) =>
+        NOT_YET_CONNECTED_TRAITS.includes(
+          trait as (typeof NOT_YET_CONNECTED_TRAITS)[number],
+        ),
+      ),
+    ).toBe(false);
+  });
+
+  it("fails when an unread trait is removed from the explicit debt", () => {
+    expect(
+      traitsWithoutReaderOrDebt(
+        PERSONALITY_TRAIT_REGISTRY,
+        PERSONALITY_TRAIT_READERS,
+        NOT_YET_CONNECTED_TRAITS.slice(1),
+      ),
+    ).toEqual([NOT_YET_CONNECTED_TRAITS[0]]);
+  });
+
+  it("does not let the debt list grow", () => {
+    expect(NOT_YET_CONNECTED_TRAITS.length).toBeLessThanOrEqual(92);
   });
 });
