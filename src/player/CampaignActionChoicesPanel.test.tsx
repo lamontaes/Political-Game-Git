@@ -84,6 +84,9 @@ describe("campaign choices in the player UI", () => {
     expect(html).not.toContain('data-testid="campaign-week-field"');
     expect(html).not.toContain('data-testid="campaign-week-commit"');
     expect(html).not.toContain('data-testid="campaign-offers"');
+    expect(html).toContain('data-testid="campaign-paid-advertising"');
+    expect(html).toContain('data-testid="campaign-advertising-buy"');
+    expect(html).toContain('data-testid="campaign-own-money"');
   });
 
   it("reads a named result after the scheduled activity is attended", () => {

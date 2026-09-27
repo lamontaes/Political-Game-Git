@@ -229,6 +229,9 @@ export function CampaignWorkspace({
   const advertising = strategy?.priorityChoices.find(
     (choice) => choice.key === "advertising",
   );
+  const advertisingOffer = view.offers.find(
+    (offer) => offer.kind === "advertising",
+  );
   const advertisingSpendingKey = advertising?.spendingChoices.some(
     (choice) => choice.key === selectedSpending,
   )
@@ -733,6 +736,77 @@ export function CampaignWorkspace({
               </section>
             ) : null}
           </div>
+
+          {actionChoices && advertising && advertisingOffer ? (
+            <section
+              className="game-campaign-strategy"
+              data-testid="campaign-paid-advertising"
+              aria-labelledby="campaign-paid-advertising-title"
+            >
+              <h3 id="campaign-paid-advertising-title">Paid advertising</h3>
+              <p>
+                Choose where the buy runs and the committee's spending ceiling.
+                This uses the recorded campaign account when you confirm it.
+              </p>
+              <fieldset>
+                <legend>Where it runs</legend>
+                {strategy!.geographyChoices.map((choice) => (
+                  <label key={choice.key}>
+                    <input
+                      type="radio"
+                      name="campaign-paid-advertising-geography"
+                      value={choice.key}
+                      checked={geographyKey === choice.key}
+                      onChange={() => setSelectedGeography(choice.key)}
+                    />
+                    <span>
+                      {choice.label}
+                      <small>{choice.explanation}</small>
+                    </span>
+                  </label>
+                ))}
+              </fieldset>
+              {advertising.spendingChoices.length > 0 ? (
+                <fieldset>
+                  <legend>Spending ceiling</legend>
+                  {advertising.spendingChoices.map((choice) => (
+                    <label key={choice.key}>
+                      <input
+                        type="radio"
+                        name="campaign-paid-advertising-ceiling"
+                        value={choice.key}
+                        checked={advertisingSpendingKey === choice.key}
+                        onChange={() => setSelectedSpending(choice.key)}
+                      />
+                      <span>
+                        {choice.label}
+                        <small>{choice.explanation}</small>
+                      </span>
+                    </label>
+                  ))}
+                </fieldset>
+              ) : null}
+              <button
+                type="button"
+                className="game-campaign-action"
+                data-testid="campaign-advertising-buy"
+                disabled={
+                  advertisingOffer.unavailable !== null ||
+                  !advertisingSpendingKey ||
+                  !geographyKey
+                }
+                title={advertisingOffer.unavailable ?? undefined}
+                onClick={() => doNow("advertising")}
+              >
+                <span className="game-campaign-action-label">
+                  {advertisingOffer.label}
+                </span>
+                <span className="game-campaign-action-note">
+                  {advertisingOffer.unavailable ?? advertisingOffer.cost}
+                </span>
+              </button>
+            </section>
+          ) : null}
 
           {/*
             The result leads. It used to sit below the whole session log, and
