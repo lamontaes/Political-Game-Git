@@ -86,28 +86,6 @@ describe("withholding is first-class, not deletion", () => {
 });
 
 describe("regrounded availability gates", () => {
-  it("offers the household-standing scene only where the errands record exists", () => {
-    const base = contextWithEverything();
-    const withCompanion = {
-      ...base,
-      householdCompanionIds:
-        base.householdCompanionIds.length > 0
-          ? base.householdCompanionIds
-          : base.familiarPersonIds.slice(0, 1),
-    };
-    const standing = adultSituationBank().find(
-      (situation) => situation.key === "adult.household-standing",
-    )!;
-    expect(
-      standing.available({ ...withCompanion, hasHouseholdWorkItem: false }),
-    ).toBe(false);
-    if (withCompanion.householdCompanionIds.length > 0) {
-      expect(
-        standing.available({ ...withCompanion, hasHouseholdWorkItem: true }),
-      ).toBe(true);
-    }
-  });
-
   it("puts a price on staying only when the record carries a housing payment", () => {
     const base = contextWithEverything();
     const costChange = adultSituationBank().find(

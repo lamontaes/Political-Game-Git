@@ -1,23 +1,31 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  addDays,
   campaignForCandidate,
+  createScheduledActivity,
   deserializeWorld,
   electionContestResult,
   serializeWorld,
+  simulationMomentAtLocalTime,
 } from "../simulation";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
+  careerOfferAccepted,
   careerReplyBy,
   respondCareerOffer,
   seekCareerOffer,
   startCareerWork,
 } from "../simulation/career-path7";
+import { workStatusAt } from "../simulation/life-queries";
 import { CAREER_PROVIDERS } from "./career-path7-provider";
+import { projectToday } from "./day-overview";
 import { QUIET_ADULT_STEPS } from "./life-story";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { createExplicitGeographyLife } from "./new-game-geography";
+import { acceptedOfferStarts } from "./offer-deadlines";
 import { openOrdinaryLife } from "./ordinary-life";
+import { declineVenueActivity } from "./venue-activity";
 import {
   describeTimeCommandPreview,
   nextKnownCalendarItem,
@@ -121,6 +129,55 @@ describe("the canonical time command", () => {
       expect(long.world.currentDate).toBe(long.receipt.requestedTarget?.date);
   });
 
+  it("names the commitment that stops an advance before its requested morning", () => {
+    const built = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "named-time-stop",
+      startAge: 34,
+      placeKey: "lexington-fayette",
+      questionnaire: "skipped",
+    });
+    const world = built.world;
+    const personId = built.playerPersonId;
+    const start = simulationMomentAtLocalTime({
+      date: addDays(world.currentDate, 1),
+      minuteOfDay: 18 * 60,
+      timeZone: world.currentMoment.timeZone,
+      preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+    });
+    const end = simulationMomentAtLocalTime({
+      ...start,
+      minuteOfDay: 19 * 60,
+    });
+    const booked = createScheduledActivity(world, {
+      stableKey: "named-time-stop:meeting",
+      title: "Neighborhood meeting",
+      summary: "A meeting on the calendar.",
+      kind: "confirmed",
+      start,
+      end,
+      participantPersonIds: [personId],
+      responsiblePersonId: personId,
+      location: {
+        locationKey: "named-time-stop:room",
+        label: "Community room",
+        jurisdictionId: null,
+      },
+      sourceEntityIds: [personId],
+      flexibility: { kind: "fixed" },
+      access: { kind: "private", personIds: [personId] },
+    });
+    const { receipt } = submitTimeCommand(
+      booked,
+      request(booked, personId, { kind: "days", days: 2 }),
+      fixedClock,
+    );
+    expect(receipt.stoppedEarly).toBe(true);
+    expect(receipt.outcome).toContain(
+      "Stopped for Neighborhood meeting; resolve this commitment before continuing.",
+    );
+  });
+
   it("refuses a stale request so one click never advances twice", () => {
     const { world, personId } = adultLife();
     const click = request(world, personId, { kind: "quiet-stretch" });
@@ -193,7 +250,7 @@ describe("the canonical time command", () => {
     ).toHaveLength(1);
   });
 
-  it("stops on an accepted work start after reload and preserves an unanswered deadline", () => {
+  it("a quiet stretch hands back a live offer and an accepted work start after reload", () => {
     const built = createExplicitGeographyLife({
       placeKey: "3825700",
       seed: "time-command-career-start",
@@ -212,25 +269,110 @@ describe("the canonical time command", () => {
         work.stableKey.startsWith(`career-path7:${shop.id}:`),
     )!;
     const replyBy = careerReplyBy(sought.world, offer.id);
-    const unanswered = submitTimeCommand(
+    const firstStop = submitTimeCommand(
       sought.world,
-      request(sought.world, personId, { kind: "days", days: 10 }),
+      request(sought.world, personId, { kind: "quiet-stretch" }),
+      fixedClock,
+    );
+    expect(firstStop.world.currentDate).toBe("2026-01-06");
+    expect(
+      previewTimeCommand(sought.world, personId, { kind: "quiet-stretch" })
+        ?.cappedBy?.title,
+    ).toBe("Posted public meeting");
+    expect(firstStop.receipt.requestedTarget?.date).toBe(
+      firstStop.world.currentDate,
+    );
+    expect(careerReplyBy(firstStop.world, offer.id)).toBe(replyBy);
+    const meeting = firstStop.world.history.scheduledActivities.find(
+      (activity) => activity.title === "Posted public meeting",
+    )!;
+    const declined = declineVenueActivity(
+      firstStop.world,
+      personId,
+      meeting.id,
+    );
+    expect(declined).not.toBe(firstStop.world);
+    expect(
+      previewTimeCommand(declined, personId, { kind: "quiet-stretch" }),
+    ).toMatchObject({
+      targetDate: replyBy,
+      cappedBy: { title: "Answer work offer", date: replyBy },
+    });
+    const unanswered = submitTimeCommand(
+      declined,
+      request(declined, personId, { kind: "quiet-stretch" }),
       fixedClock,
     );
     expect(unanswered.world.currentDate).toBe(replyBy);
+    expect(unanswered.receipt.status).toBe("accepted");
+    expect(unanswered.receipt.stoppedEarly).toBe(false);
     expect(careerReplyBy(unanswered.world, offer.id)).toBe(replyBy);
+    expect(workStatusAt(unanswered.world, offer.id)?.status).toBe("expected");
+    expect(careerOfferAccepted(unanswered.world, offer.id)).toBe(false);
+    expect(
+      unanswered.world.history.events.some(
+        (event) =>
+          event.type === "career-path7.offer-lapsed" &&
+          event.involvedEntityIds.includes(offer.id),
+      ),
+    ).toBe(false);
+    expect(
+      projectToday(unanswered.world, personId).waiting.some((entry) =>
+        entry.key.startsWith("work-offer:"),
+      ),
+    ).toBe(true);
+    expect(
+      previewTimeCommand(unanswered.world, personId, {
+        kind: "quiet-stretch",
+      }),
+    ).toBeNull();
+    const stillWaiting = submitTimeCommand(
+      unanswered.world,
+      request(unanswered.world, personId, { kind: "quiet-stretch" }),
+      fixedClock,
+    );
+    expect(stillWaiting.world).toBe(unanswered.world);
+    expect(stillWaiting.receipt.status).toBe("refused");
+    expect(stillWaiting.receipt.outcome).toMatch(/needs an answer under Work/);
 
     const accepted = respondCareerOffer(sought.world, offer.id, shop, true);
     expect(accepted.ok).toBe(true);
     const reloaded = deserializeWorld(serializeWorld(accepted.world));
+    expect(acceptedOfferStarts(reloaded, personId)).toContainEqual({
+      key: `career-start:${offer.id}`,
+      startOn: offer.startedAt,
+    });
+    expect(
+      previewTimeCommand(reloaded, personId, { kind: "quiet-stretch" }),
+    ).toMatchObject({
+      targetDate: offer.startedAt,
+      cappedBy: { date: offer.startedAt },
+    });
     const reached = submitTimeCommand(
       reloaded,
       request(reloaded, personId, { kind: "quiet-stretch" }),
       fixedClock,
     );
     expect(reached.world.currentDate).toBe(offer.startedAt);
+    expect(reached.receipt.status).toBe("accepted");
+    expect(reached.receipt.requestedTarget?.date).toBe(offer.startedAt);
+    expect(workStatusAt(reached.world, offer.id)?.status).toBe("expected");
+    expect(careerOfferAccepted(reached.world, offer.id)).toBe(true);
     expect(reached.receipt.outcome).not.toContain("under Work");
-    expect(startCareerWork(reached.world, offer.id, shop).ok).toBe(true);
+    expect(
+      previewTimeCommand(reached.world, personId, { kind: "quiet-stretch" }),
+    ).toBeNull();
+    const stillStartable = submitTimeCommand(
+      reached.world,
+      request(reached.world, personId, { kind: "quiet-stretch" }),
+      fixedClock,
+    );
+    expect(stillStartable.world).toBe(reached.world);
+    expect(stillStartable.receipt.status).toBe("refused");
+    expect(stillStartable.receipt.outcome).toMatch(/can begin under Work/);
+    const started = startCareerWork(reached.world, offer.id, shop);
+    expect(started.ok).toBe(true);
+    expect(workStatusAt(started.world, offer.id)?.status).toBe("active");
   });
 
   it("waits until a recorded activity and refuses one already begun", () => {
