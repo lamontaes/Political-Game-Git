@@ -19,6 +19,13 @@ import {
 } from "./life-talk-topics";
 import { currentKnownMatter, matterAwareness } from "./current-matters";
 import {
+  answerRunning,
+  isRunningIntent,
+  runningTopicLabel,
+  runningTopics,
+  type RunningIntent,
+} from "./life-talk-running";
+import {
   ageOnDate,
   describePersonContext,
   personName,
@@ -71,7 +78,9 @@ export const LIFE_TALK_INTENTS = {
  * life (`tell:<topic>`); see `life-talk-topics.ts`.
  */
 export type LifeTalkIntent =
-  keyof typeof LIFE_TALK_INTENTS | `${typeof TELL_PREFIX}${string}`;
+  | keyof typeof LIFE_TALK_INTENTS
+  | `${typeof TELL_PREFIX}${string}`
+  | RunningIntent;
 
 function isTellIntent(
   intent: LifeTalkIntent,
@@ -86,6 +95,8 @@ export function lifeTalkIntentLabel(
   personId: EntityId,
   intent: LifeTalkIntent,
 ): string {
+  if (isRunningIntent(intent))
+    return runningTopicLabel(world, playerPersonId, personId, intent);
   if (!isTellIntent(intent)) return LIFE_TALK_INTENTS[intent];
   return (
     findTellTopic(world, playerPersonId, personId, intent)?.label ??
@@ -156,7 +167,31 @@ export function projectLifeConversation(
   const previousIntent = previous?.tags
     .find((tag) => tag.startsWith("life.talk:"))
     ?.slice(10);
+  // Telling them you are thinking of running: while that talk is under way it
+  // is the whole conversation, three to eight exchanges (life-talk-running.ts).
+  const running = runningTopics(world, playerPersonId, personId);
+  if (running.inThread)
+    return {
+      context,
+      person: describePersonContext(world, playerPersonId, personId)!,
+      revision: world.history.nextSequence,
+      proposal: null,
+      matter: null,
+      intents: [
+        ...running.topics,
+        ...(running.mayLeave
+          ? [{ key: "leave" as LifeTalkIntent, label: LIFE_TALK_INTENTS.leave }]
+          : []),
+      ],
+      transcript: history.map((event) => ({
+        eventId: event.id,
+        date: event.occurredAt,
+        action: event.context.choice!,
+        reply: event.context.immediateReaction!,
+      })),
+    };
   const intents: LifeTalkIntent[] = ["greet", "scene", "activity", "share"];
+  intents.push(...running.topics.map((topic) => topic.key));
   // A current public or known matter the player could actually raise; the
   // counterpart's answer depends on what their own records say they know.
   const matter = currentKnownMatter(world, playerPersonId);
@@ -262,10 +297,13 @@ export function projectLifeConversation(
               ? `Decline to ${proposal.label}`
               : proposal && key === "spendTime"
                 ? `Spend 30 minutes: ${proposal.label}`
-                : isTellIntent(key)
-                  ? (topics.find((topic) => topic.key === key)?.label ??
-                    "Tell them something")
-                  : LIFE_TALK_INTENTS[key],
+                : isRunningIntent(key)
+                  ? (running.topics.find((topic) => topic.key === key)?.label ??
+                    LIFE_TALK_INTENTS.leave)
+                  : isTellIntent(key)
+                    ? (topics.find((topic) => topic.key === key)?.label ??
+                      "Tell them something")
+                    : LIFE_TALK_INTENTS[key],
     })),
     transcript: history.map((event) => ({
       eventId: event.id,
@@ -375,6 +413,10 @@ function replyFor(
   const privatePerson =
     latestPersonalValue(world, personId, LIFE_MIND_IDS.privacy)?.orientation ===
     "embraces";
+  if (isRunningIntent(intent))
+    throw new Error(
+      "A step of the talk about running is answered by answerRunning.",
+    );
   if (isTellIntent(intent)) {
     const topic = findTellTopic(world, playerPersonId, personId, intent);
     return topic
@@ -595,16 +637,32 @@ export function commitLifeConversation(
         "The half hour overlaps your scheduled activity or work. No time has passed; the agreed activity is still pending.",
       );
   }
-  const advanced = minutes
-    ? advanceWorldMinutes(world, minutes, handlers)
-    : world;
+  const stableKey = `opening-life:talk:${input.playerPersonId}:${input.personId}:${input.revision}`;
+  // A step of the talk about running: the listener's answer, and for a
+  // decision, the decision itself kept with its reasons before the turn.
+  const running = isRunningIntent(input.intent)
+    ? answerRunning(
+        world,
+        input.playerPersonId,
+        input.personId,
+        input.intent,
+        stableKey,
+      )
+    : null;
+  const advanced = running
+    ? running.world
+    : minutes
+      ? advanceWorldMinutes(world, minutes, handlers)
+      : world;
   if (
     minutes &&
     simulationMinutesBetween(world.currentMoment, advanced.currentMoment) !==
       minutes
   )
     return advanced;
-  const reply = replyFor(world, view.context, input.intent);
+  const reply = running
+    ? running.reply
+    : replyFor(world, view.context, input.intent);
   const tellTopic = isTellIntent(input.intent)
     ? findTellTopic(world, input.playerPersonId, input.personId, input.intent)
     : null;
@@ -669,10 +727,11 @@ export function commitLifeConversation(
         condition: null,
       }
     : null;
-  const answer =
-    input.intent === "suggestGame" ||
-    input.intent === "suggestQuiet" ||
-    input.intent === "acceptProposal"
+  const answer = running
+    ? running.answer
+    : input.intent === "suggestGame" ||
+        input.intent === "suggestQuiet" ||
+        input.intent === "acceptProposal"
       ? accepted
         ? "company-accepted"
         : "company-declined"
@@ -695,7 +754,6 @@ export function commitLifeConversation(
                   )?.orientation === "embraces"
                 ? "private"
                 : "open";
-  const stableKey = `opening-life:talk:${input.playerPersonId}:${input.personId}:${input.revision}`;
   const intentLabel = lifeTalkIntentLabel(
     world,
     input.playerPersonId,
