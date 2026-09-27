@@ -44,6 +44,7 @@ export function GovernmentBrowser({
     readonly politicsPlace?: GovernmentPlace;
     readonly governmentScope?: GovernmentScope;
   }) => void;
+  readonly onWorldChange?: (world: World) => void;
   readonly onOpenPerson: (personId: EntityId) => void;
   readonly onOpenMeasure: (measureId: EntityId) => void;
 }) {
