@@ -226,9 +226,9 @@ _Grounded by: Age 6; needs at least 5.; Age 6; needs to be under 8.; school-peer
 **Intent.** Adolescence: school, household load and the first work-standing situations.
 
 Seed `corpus-adolescence`, start age 15, Dawn Merritt.
-16 beats, 57 realized lines, 47 linked back to a template.
+16 beats, 42 realized lines, 22 linked back to a template.
 
-**Actually demonstrated:** age-band:adolescence, connective-narration, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adolescence, connective-narration, episode:opening.young.home.ask-about-childhood, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
 
 
@@ -263,30 +263,7 @@ _Present: Angela Merritt, your guardian_
 
 _Grounded by: Age 15; needs at least 8.; Age 15; needs to be under 18.; Requires a recorded current household.; guardian is Angela Merritt: A guardianship:ordinary authority record over the player.; At moment they chose ask, on 2026-01-05._
 
-#### Beat 2 — 2026-01-05, age 15 (episode, opening.young.home.choose-activity/moment)
-
-
-
-You're at home, and the next fifteen minutes are yours.
-
-- **Draw something** ← chosen
-- Read a book
-- Take a quiet break
-
-_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household._
-
-#### Beat 3 — 2026-01-05, age 15 (episode, opening.young.home.choose-activity/follow-through)
-
-
-
-Your drawing is in front of you. Do you want to add anything?
-
-- **Add to the picture** ← chosen
-- Put your picture somewhere safe
-
-_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-05._
-
-#### Beat 4 — 2026-01-05, age 15 (formative)
+#### Beat 2 — 2026-01-05, age 15 (formative)
 
 
 
@@ -296,7 +273,7 @@ Something local needs hands on a Saturday, and someone has asked whether you are
 - Observe first
 - Get other people to go
 
-#### Beat 5 — 2026-01-05, age 15 (formative)
+#### Beat 3 — 2026-01-05, age 15 (formative)
 
 
 
@@ -306,17 +283,7 @@ The school year at Lexington High School is running out, and people keep asking 
 - Keep your options open
 - Ask somebody who has done it
 
-#### Beat 6 — 2026-01-05, age 15 (formative)
-
-
-
-Somebody at home needs more looking after than the household can spread around, and you are old enough now for that to mean you.
-
-- **Take it on** ← chosen
-- Say what you can manage
-- Look for help from outside the house
-
-#### Beat 7 — 2026-01-05, age 15 (formative)
+#### Beat 4 — 2026-01-05, age 15 (formative)
 
 
 
@@ -327,7 +294,7 @@ Someone you respect says something you think is wrong, and says it as though it 
 
 _Present: Maria Nielsen_
 
-#### Beat 8 — 2026-01-05, age 15 (formative)
+#### Beat 5 — 2026-01-05, age 15 (formative)
 
 
 
@@ -336,7 +303,7 @@ There is a job going. The hours are real, and the law has something to say about
 - **Accept the opportunity** ← chosen
 - Decline for now
 
-#### Beat 9 — 2026-01-05, age 15 (formative)
+#### Beat 6 — 2026-01-05, age 15 (formative)
 
 
 
@@ -346,67 +313,77 @@ There is a rule at work that nobody follows, and today somebody older is telling
 - Say nobody does that
 - Do it, then say something after
 
-#### Beat 10 — 2026-01-05, age 15 (ordinary-stretch)
+#### Beat 7 — 2026-01-05, age 15 (ordinary-stretch)
 
 
 
 
 
-- **Let the year run on** ← chosen
-
-#### Beat 11 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/moment)
 
 
-
-You're at home, and the next fifteen minutes are yours.
-
-- **Draw something** ← chosen
-- Read a book
-- Take a quiet break
-
-_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household._
-
-#### Beat 12 — 2026-01-28, age 15 (episode, opening.young.home.choose-activity/follow-through)
-
-
-
-Your drawing is in front of you. Do you want to add anything?
-
-- **Add to the picture** ← chosen
-- Put your picture somewhere safe
-
-_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-28._
-
-#### Beat 13 — 2026-01-28, age 15 (ordinary-stretch)
+#### Beat 8 — 2026-01-28, age 15 (ordinary-stretch)
 
 
 
 
 
-- **Let the year run on** ← chosen
-
-#### Beat 14 — 2026-01-29, age 15 (episode, opening.young.home.choose-activity/moment)
 
 
-
-You're at home, and the next fifteen minutes are yours.
-
-- **Draw something** ← chosen
-- Read a book
-- Take a quiet break
-
-_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household._
-
-#### Beat 15 — 2026-01-29, age 15 (episode, opening.young.home.choose-activity/follow-through)
+#### Beat 9 — 2026-01-29, age 15 (ordinary-stretch)
 
 
 
-Your drawing is in front of you. Do you want to add anything?
 
-- **Add to the picture** ← chosen
-- Put your picture somewhere safe
 
-_Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-29._
+
+
+#### Beat 10 — 2026-06-18, age 15 (ordinary-stretch)
+
+
+
+
+
+
+
+#### Beat 11 — 2026-11-05, age 16 (ordinary-stretch)
+
+> Most of a year later, and you're 16 now.
+
+
+
+
+
+#### Beat 12 — 2026-11-06, age 16 (ordinary-stretch)
+
+> Most of a year later, and you're 16 now.
+
+
+
+
+
+#### Beat 13 — 2027-03-26, age 16 (ordinary-stretch)
+
+> A year on, and you're 16 now.
+
+
+
+
+
+#### Beat 14 — 2027-08-13, age 16 (ordinary-stretch)
+
+> A year and a half on, and you're 16 now.
+
+
+
+
+
+#### Beat 15 — 2027-08-14, age 16 (ordinary-stretch)
+
+> A year and a half on, and you're 16 now.
+
+
+
+
 
 
 ---
@@ -416,9 +393,9 @@ _Grounded by: Age 15; needs at least 5.; Age 15; needs to be under 18.; Requires
 **Intent.** Ordinary adult life: adult situations, quiet stretches and connective narration between them.
 
 Seed `corpus-ordinary-adult`, start age 34, Zachary Todd.
-20 beats, 72 realized lines, 49 linked back to a template.
+20 beats, 69 realized lines, 14 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, connective-narration, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, connective-narration, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
 
 
@@ -440,30 +417,7 @@ _Present: Gage Terrell, your housemate_
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; household-companion is Gage Terrell: Resident on the same household record._
 
-#### Beat 1 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/moment)
-
-
-
-You're at home with fifteen minutes free.
-
-- **Read** ← chosen
-- Rest
-- Sketch
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 2 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/follow-through)
-
-
-
-You've been reading for the last fifteen minutes. You can read for five more, or stop here.
-
-- **Read five more minutes** ← chosen
-- Mark your place and stop
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-01-05._
-
-#### Beat 3 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
+#### Beat 1 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/moment)
 
 
 
@@ -475,7 +429,7 @@ You're at home, thinking about what to make time for in the days ahead.
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
 
-#### Beat 4 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/follow-through)
+#### Beat 2 — 2026-01-05, age 34 (episode, opening.adult.home.plan-week/follow-through)
 
 
 
@@ -486,15 +440,15 @@ You've just made a plan to learn something, and there are five minutes open righ
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
 
-#### Beat 5 — 2026-01-05, age 34 (ordinary-stretch)
+#### Beat 3 — 2026-01-05, age 34 (ordinary-stretch)
 
 
 
 
 
-- **Let the weeks run on** ← chosen
 
-#### Beat 6 — 2026-03-24, age 34 (adult)
+
+#### Beat 4 — 2026-03-24, age 34 (adult)
 
 
 
@@ -506,143 +460,148 @@ David Todd, your dad: “There are a few things around the house I cannot manage
 
 _Present: David Todd, your dad_
 
-#### Beat 7 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/moment)
-
-
-
-You're at home with fifteen minutes free.
-
-- **Read** ← chosen
-- Rest
-- Sketch
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 8 — 2026-03-24, age 34 (episode, opening.adult.home.free-time/follow-through)
-
-
-
-You've been reading for the last fifteen minutes. You can read for five more, or stop here.
-
-- **Read five more minutes** ← chosen
-- Mark your place and stop
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-03-24._
-
-#### Beat 9 — 2026-03-24, age 34 (ordinary-stretch)
+#### Beat 5 — 2026-03-24, age 34 (ordinary-stretch)
 
 
 
 
 
-- **Let the weeks run on** ← chosen
 
-#### Beat 10 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/moment)
+
+#### Beat 6 — 2026-05-10, age 35 (ordinary-stretch)
 
 > A couple of months on, and you're 35 now.
 > Judith Lewis tried to reach you.
 
-You're at home with fifteen minutes free.
-
-- **Read** ← chosen
-- Rest
-- Sketch
-
-_Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 11 — 2026-05-10, age 35 (episode, opening.adult.home.free-time/follow-through)
-
-
-
-You've been reading for the last fifteen minutes. You can read for five more, or stop here.
-
-- **Read five more minutes** ← chosen
-- Mark your place and stop
-
-_Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-05-10._
-
-#### Beat 12 — 2026-05-10, age 35 (ordinary-stretch)
 
 
 
 
+#### Beat 7 — 2026-06-10, age 35 (ordinary-stretch)
 
-- **Let the weeks run on** ← chosen
-
-#### Beat 13 — 2026-06-10, age 35 (episode, opening.adult.home.free-time/moment)
-
-> A month later.
+> A couple of months on, and you're 35 now.
 > Judith Lewis tried to reach you.
 
-You're at home with fifteen minutes free.
-
-- **Read** ← chosen
-- Rest
-- Sketch
-
-_Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 14 — 2026-06-10, age 35 (episode, opening.adult.home.free-time/follow-through)
-
-
-
-You've been reading for the last fifteen minutes. You can read for five more, or stop here.
-
-- **Read five more minutes** ← chosen
-- Mark your place and stop
-
-_Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-06-10._
-
-#### Beat 15 — 2026-06-10, age 35 (ordinary-stretch)
 
 
 
 
+#### Beat 8 — 2026-08-17, age 35 (adult)
 
-- **Let the weeks run on** ← chosen
-
-#### Beat 16 — 2026-08-17, age 35 (adult)
-
-> A couple of months on.
+> Half a year on, and you're 35 now.
 > What you said you'd do about David Todd came up.
+> Judith Lewis tried to reach you.
 
-David Todd, your dad: “I turn 72 on Thursday, August 27, and I am having a few people over that Saturday afternoon. Would you come?”
+David Todd, your dad: “My birthday’s Thursday. Do you want to come over Saturday?”
 
 - **Say you will come** ← chosen
 - Decline the invitation
 
 _Present: David Todd, your dad_
 
-#### Beat 17 — 2026-08-17, age 35 (episode, opening.adult.home.free-time/moment)
-
-
-
-You're at home with fifteen minutes free.
-
-- **Read** ← chosen
-- Rest
-- Sketch
-
-_Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 18 — 2026-08-17, age 35 (episode, opening.adult.home.free-time/follow-through)
-
-
-
-You've been reading for the last fifteen minutes. You can read for five more, or stop here.
-
-- **Read five more minutes** ← chosen
-- Mark your place and stop
-
-_Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-08-17._
-
-#### Beat 19 — 2026-08-17, age 35 (ordinary-stretch)
+#### Beat 9 — 2026-08-17, age 35 (ordinary-stretch)
 
 
 
 
 
-- **Let the weeks run on** ← chosen
+
+
+#### Beat 10 — 2026-08-29, age 35 (ordinary-stretch)
+
+
+
+
+
+- **Attend: Saturday afternoon at David Todd's** ← chosen
+
+#### Beat 11 — 2026-08-29, age 35 (ordinary-stretch)
+
+> A couple of weeks on.
+> You and David Todd were in and out of each other's business more than once.
+
+
+
+
+
+#### Beat 12 — 2026-10-15, age 35 (ordinary-stretch)
+
+> A couple of months on.
+> You and David Todd were in and out of each other's business more than once.
+
+
+
+
+
+#### Beat 13 — 2027-02-16, age 35 (ordinary-stretch)
+
+> Half a year on.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
+> Judith Lewis tried to reach you.
+
+
+
+
+
+#### Beat 14 — 2027-05-05, age 36 (ordinary-stretch)
+
+> Most of a year later, and you're 36 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
+> Judith Lewis tried to reach you.
+
+
+
+
+
+#### Beat 15 — 2027-08-16, age 36 (ordinary-stretch)
+
+> A year on, and you're 36 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
+> Judith Lewis tried to reach you.
+
+
+
+
+
+#### Beat 16 — 2027-09-16, age 36 (ordinary-stretch)
+
+> A year on, and you're 36 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
+> Judith Lewis tried to reach you.
+
+
+
+
+
+#### Beat 17 — 2028-01-18, age 36 (ordinary-stretch)
+
+> A year and a half on, and you're 36 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
+> Judith Lewis tried to reach you.
+
+
+
+
+
+#### Beat 18 — 2028-04-05, age 36 (ordinary-stretch)
+
+> A year and a half on, and you're 36 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
+> Judith Lewis tried to reach you.
+
+
+
+
+
+#### Beat 19 — 2028-05-22, age 37 (ordinary-stretch)
+
+> The better part of two years later, and you're 37 now.
+> Your dad, David Todd, died after a serious illness on January 28, 2027.
+> Judith Lewis tried to reach you.
+
+
+
+
 
 
 ---
@@ -652,9 +611,9 @@ _Grounded by: Age 35; needs at least 18.; Age 35; needs to be under 111.; Requir
 **Intent.** Persistent cast across years: a family that binds one canonical person and returns to them in later beats. This lane does NOT claim the 92C childhood-pact callback specifically — that claim is only made when the pact stage and a later stage of the same instance are both actually played, which `demonstrated` reports separately.
 
 Seed `corpus-long-tail`, start age 7, Peter Fleming.
-40 beats, 147 realized lines, 111 linked back to a template.
+40 beats, 144 realized lines, 106 linked back to a template.
 
-**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.roughhouse-line, episode:opening.early.peer.secret-whisper, episode:opening.early.peer.sidewalk-game, episode:opening.early.peer.toy-damage-accidental, episode:opening.early.school.crayon-sharing, episode:opening.early.school.lunchbox-swap, episode:opening.early.school.playground-turn, episode:opening.early.school.spilled-paint, episode:opening.young.home.ask-about-childhood, episode:opening.young.home.choose-activity, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:childhood, connective-narration, episode:companionship.the-friend-you-named, episode:growing-up.a-friend-over-years, episode:home.someone-is-not-all-right, episode:opening.early.community.curious-neighbor, episode:opening.early.community.lost-pet-flyer, episode:opening.early.home.broken-mug, episode:opening.early.peer.dropped-treat, episode:opening.early.peer.roughhouse-line, episode:opening.early.peer.secret-whisper, episode:opening.early.peer.sidewalk-game, episode:opening.early.peer.toy-damage-accidental, episode:opening.early.school.crayon-sharing, episode:opening.early.school.lunchbox-swap, episode:opening.early.school.playground-turn, episode:opening.early.school.spilled-paint, episode:opening.young.home.ask-about-childhood, episode:school.the-thing-you-got-blamed-for, persistent-instance-continuation, person-introduction, scene:episode, scene:formative, scene:ordinary-stretch, thread-recap
 
 
 
@@ -1053,30 +1012,7 @@ _Present: Vanessa Hunter, your classmate_
 
 _Grounded by: Age 7; needs at least 6.; Age 7; needs to be under 8.; school-peer is Vanessa Hunter: Active enrollment in the same school.; school.enrolled: An active education enrollment.; At moment they chose apologize, on 2026-01-05._
 
-#### Beat 29 — 2026-01-05, age 7 (episode, opening.young.home.choose-activity/moment)
-
-
-
-You're at home, and the next fifteen minutes are yours.
-
-- **Draw something** ← chosen
-- Read a book
-- Take a quiet break
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 18.; Requires a recorded current household._
-
-#### Beat 30 — 2026-01-05, age 7 (episode, opening.young.home.choose-activity/follow-through)
-
-
-
-Your drawing is in front of you. Do you want to add anything?
-
-- **Add to the picture** ← chosen
-- Put your picture somewhere safe
-
-_Grounded by: Age 7; needs at least 5.; Age 7; needs to be under 18.; Requires a recorded current household.; At moment they chose draw, on 2026-01-05._
-
-#### Beat 31 — 2026-01-05, age 7 (formative)
+#### Beat 29 — 2026-01-05, age 7 (formative)
 
 
 
@@ -1085,7 +1021,7 @@ The first morning at Magnolia Elementary School: a room of children you do not k
 - **Join in** ← chosen
 - Hang back and watch
 
-#### Beat 32 — 2026-01-05, age 7 (formative)
+#### Beat 30 — 2026-01-05, age 7 (formative)
 
 
 
@@ -1096,16 +1032,7 @@ Something that mattered is in pieces on the floor. An adult is in the doorway as
 
 _Present: Tracy Fleming, your mom_
 
-#### Beat 33 — 2026-01-05, age 7 (formative)
-
-
-
-Someone at home has been in bed for days. The mornings are quieter than they should be, and nobody has explained why.
-
-- **Stay near them** ← chosen
-- Keep everything else going
-
-#### Beat 34 — 2026-01-05, age 7 (formative)
+#### Beat 31 — 2026-01-05, age 7 (formative)
 
 
 
@@ -1115,15 +1042,15 @@ A little money of your own, in a pocket, and nobody telling you what it is for.
 - Put it away
 - Share it
 
-#### Beat 35 — 2026-01-05, age 7 (ordinary-stretch)
+#### Beat 32 — 2026-01-05, age 7 (ordinary-stretch)
 
 
 
 
 
-- **Let the year run on** ← chosen
 
-#### Beat 36 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-was-still-there)
+
+#### Beat 33 — 2026-09-10, age 8 (episode, school.the-thing-you-got-blamed-for/it-was-still-there)
 
 > Most of a year later, and you're 8 now.
 
@@ -1134,7 +1061,7 @@ It's quiet work, and a kid is at the window again. You remember what you did the
 
 _Grounded by: Stage tattle-boundary was played on 2026-01-05.; 248 day(s) since tattle-boundary; needs 180.; school.enrolled: An active education enrollment.; answers-for-themselves does not hold, as required.; Age 8; needs to be under 9._
 
-#### Beat 37 — 2026-09-10, age 8 (episode, opening.young.home.ask-about-childhood/moment)
+#### Beat 34 — 2026-09-10, age 8 (episode, opening.young.home.ask-about-childhood/moment)
 
 
 
@@ -1148,7 +1075,7 @@ _Present: Tracy Fleming, your mom_
 
 _Grounded by: Age 8; needs at least 8.; Age 8; needs to be under 18.; Requires a recorded current household.; guardian is Tracy Fleming: A parental:primary authority record over the player._
 
-#### Beat 38 — 2026-09-10, age 8 (episode, opening.young.home.ask-about-childhood/follow-through)
+#### Beat 35 — 2026-09-10, age 8 (episode, opening.young.home.ask-about-childhood/follow-through)
 
 
 
@@ -1161,17 +1088,48 @@ _Present: Tracy Fleming, your mom_
 
 _Grounded by: Age 8; needs at least 8.; Age 8; needs to be under 18.; Requires a recorded current household.; guardian is Tracy Fleming: A parental:primary authority record over the player.; At moment they chose ask, on 2026-09-10._
 
-#### Beat 39 — 2026-09-10, age 8 (episode, opening.young.home.choose-activity/moment)
+#### Beat 36 — 2026-09-10, age 8 (formative)
 
 
 
-You're at home, and the next fifteen minutes are yours.
+Something got said that should not have been, and now the two of you are being careful with each other.
 
-- **Draw something** ← chosen
-- Read a book
-- Take a quiet break
+- **Try to repair it** ← chosen
+- Step back
+- Get somebody else involved
 
-_Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a recorded current household._
+_Present: Vanessa Hunter, your classmate_
+
+#### Beat 37 — 2026-09-10, age 8 (formative)
+
+
+
+Lunch at Magnolia Elementary School. The table is full except for one gap, and someone is standing at the end of it holding a tray.
+
+- **Make room** ← chosen
+- Look away
+- Go and sit somewhere else with them
+
+_Present: Vanessa Hunter, your classmate_
+
+#### Beat 38 — 2026-09-10, age 8 (formative)
+
+
+
+A teacher at Magnolia Elementary School keeps you back for a minute after the others go, and offers to help with the thing you keep getting wrong.
+
+- **Accept guidance** ← chosen
+- Handle it alone
+
+_Present: Felix Price_
+
+#### Beat 39 — 2026-09-10, age 8 (ordinary-stretch)
+
+
+
+
+
+
 
 
 ---
@@ -1181,9 +1139,9 @@ _Grounded by: Age 8; needs at least 5.; Age 8; needs to be under 18.; Requires a
 **Intent.** The PR #85 spine: filing a candidacy, running the campaign, and whatever the contest resolves to.
 
 Seed `p85c-owner-clock`, start age 34, Luke Vance.
-6 beats, 23 realized lines, 17 linked back to a template.
+4 beats, 15 realized lines, 10 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-won, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, legislative-measure-briefing, persistent-instance-continuation, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
@@ -1245,36 +1203,13 @@ You've just made a plan to learn something, and there are five minutes open righ
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
 
-#### Beat 3 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/moment)
-
-
-
-You're at home with fifteen minutes free.
-
-- **Read** ← chosen
-- Rest
-- Sketch
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 4 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/follow-through)
-
-
-
-You've been reading for the last fifteen minutes. You can read for five more, or stop here.
-
-- **Read five more minutes** ← chosen
-- Mark your place and stop
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-01-05._
-
-#### Beat 5 — 2026-01-05, age 34 (ordinary-stretch)
+#### Beat 3 — 2026-01-05, age 34 (ordinary-stretch)
 
 
 
 
 
-- **Let the weeks run on** ← chosen
+
 
 
 ---
@@ -1284,9 +1219,9 @@ _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requir
 **Intent.** A second candidacy on a different seed, so a contest outcome is not read from one run.
 
 Seed `corpus-campaign-b`, start age 41, Nadia Tillman.
-6 beats, 24 realized lines, 16 linked back to a template.
+6 beats, 20 realized lines, 9 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, campaign-sessions, candidacy-filed, connective-narration, election-lost, episode:opening.adult.home.plan-week, persistent-instance-continuation, person-introduction, scene:adult, scene:episode, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
@@ -1324,38 +1259,15 @@ You've just made a plan to learn something, and there are five minutes open righ
 
 _Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
 
-#### Beat 2 — 2026-01-05, age 41 (episode, opening.adult.home.free-time/moment)
-
-
-
-You're at home with fifteen minutes free.
-
-- **Read** ← chosen
-- Rest
-- Sketch
-
-_Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 3 — 2026-01-05, age 41 (episode, opening.adult.home.free-time/follow-through)
-
-
-
-You've been reading for the last fifteen minutes. You can read for five more, or stop here.
-
-- **Read five more minutes** ← chosen
-- Mark your place and stop
-
-_Grounded by: Age 41; needs at least 18.; Age 41; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-01-05._
-
-#### Beat 4 — 2026-01-05, age 41 (ordinary-stretch)
+#### Beat 2 — 2026-01-05, age 41 (ordinary-stretch)
 
 
 
 
 
-- **Let the weeks run on** ← chosen
 
-#### Beat 5 — 2026-02-09, age 41 (adult)
+
+#### Beat 3 — 2026-02-09, age 41 (adult)
 
 > A month later.
 > Christopher Marshall tried to reach you.
@@ -1368,6 +1280,23 @@ John Tillman, your dad: “There are a few things around the house I cannot mana
 
 _Present: John Tillman, your dad_
 
+#### Beat 4 — 2026-02-09, age 41 (ordinary-stretch)
+
+
+
+
+
+
+
+#### Beat 5 — 2026-03-28, age 42 (ordinary-stretch)
+
+> A couple of months on, and you're 42 now.
+> Christopher Marshall tried to reach you.
+
+
+
+
+
 
 ---
 
@@ -1376,9 +1305,9 @@ _Present: John Tillman, your dad_
 **Intent.** A filed candidacy that is never worked: the same control seed and the same life as `campaign-and-office`, with the campaign left alone. It is here so the matrix demonstrates a defeat for a reason it can name.
 
 Seed `p85c-owner-clock`, start age 34, Luke Vance.
-6 beats, 23 realized lines, 17 linked back to a template.
+4 beats, 15 realized lines, 10 linked back to a template.
 
-**Actually demonstrated:** age-band:adult, candidacy-filed, connective-narration, election-lost, episode:opening.adult.home.free-time, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
+**Actually demonstrated:** age-band:adult, candidacy-filed, connective-narration, election-lost, episode:opening.adult.home.plan-week, episode:opening.adult.home.shared-time, persistent-instance-continuation, person-introduction, scene:episode, scene:ordinary-stretch, thread-recap
 
 ### Campaign
 
@@ -1431,34 +1360,11 @@ You've just made a plan to learn something, and there are five minutes open righ
 
 _Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose learning, on 2026-01-05._
 
-#### Beat 3 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/moment)
-
-
-
-You're at home with fifteen minutes free.
-
-- **Read** ← chosen
-- Rest
-- Sketch
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household._
-
-#### Beat 4 — 2026-01-05, age 34 (episode, opening.adult.home.free-time/follow-through)
-
-
-
-You've been reading for the last fifteen minutes. You can read for five more, or stop here.
-
-- **Read five more minutes** ← chosen
-- Mark your place and stop
-
-_Grounded by: Age 34; needs at least 18.; Age 34; needs to be under 111.; Requires a recorded current household.; At moment they chose read, on 2026-01-05._
-
-#### Beat 5 — 2026-01-05, age 34 (ordinary-stretch)
+#### Beat 3 — 2026-01-05, age 34 (ordinary-stretch)
 
 
 
 
 
-- **Let the weeks run on** ← chosen
+
 

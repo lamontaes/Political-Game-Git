@@ -1,4 +1,10 @@
-import { crisisEntityAvailableAt } from "./crisis/records";
+import {
+  DEATH_CAUSE_ILLNESS_WITH_COURSE,
+  DEATH_CAUSE_INJURY,
+  DEATH_CAUSE_SUDDEN_ILLNESS,
+  FATAL_ILLNESS_EPISODE_PREFIX,
+} from "./crisis/death-causes";
+import { crisisEntityAvailableAt, crisisRecordIndex } from "./crisis/records";
 import { ageOnDate, dateAtAge, makeIsoDate, yearOf } from "./dates";
 import { eventById } from "./event-index";
 import { indexOverArrays } from "./history-index";
@@ -455,10 +461,12 @@ export function assertVitalityIntegrity(
         death.personId !== plan.personId ||
         death.diedAt !== plan.dueAt ||
         death.eventId !== result.deathEventId ||
-        death.causeKey !== MORTALITY_TRANSITION_KEY ||
-        JSON.stringify(death.sourceEntityIds) !== JSON.stringify([plan.id]) ||
+        !annualCheckDeathCauseMatches(world, plan, death) ||
         JSON.stringify(death.provenance) !==
-          JSON.stringify({ kind: "simulated", sourceEntityIds: [plan.id] })
+          JSON.stringify({
+            kind: "simulated",
+            sourceEntityIds: death.sourceEntityIds,
+          })
       ) {
         throw new Error(
           `Died mortality result has an invalid death link: ${result.id}`,
@@ -479,6 +487,9 @@ export function assertVitalityIntegrity(
 
   const deathKeys = new Set<string>();
   const deathsByPerson = new Set<EntityId>();
+  const planIds = new Set(
+    world.history.mortalityCheckPlans.map((plan) => plan.id),
+  );
   for (const death of world.history.personDeaths) {
     assertIdentity(ids, world, death, "person-death");
     assertUniqueKey(deathKeys, death.stableKey, "person death");
@@ -542,11 +553,17 @@ export function assertVitalityIntegrity(
         `Person-death simulated provenance does not match its cause sources: ${death.id}`,
       );
     }
-    if (death.causeKey === MORTALITY_TRANSITION_KEY) {
-      const planId = death.sourceEntityIds[0];
+    // A death that names an annual mortality plan as a source, or carries the
+    // plan's own cause key, must be that plan's exact died result.
+    const namedPlanIds = death.sourceEntityIds.filter((id) => planIds.has(id));
+    if (
+      death.causeKey === MORTALITY_TRANSITION_KEY ||
+      namedPlanIds.length > 0
+    ) {
+      const planId = namedPlanIds[0];
       const result = planId ? resultByPlan.get(planId) : undefined;
       if (
-        death.sourceEntityIds.length !== 1 ||
+        namedPlanIds.length !== 1 ||
         !result ||
         result.outcome !== "died" ||
         result.deathRecordId !== death.id ||
@@ -786,6 +803,39 @@ function validateMortalityLifecycles(
       );
     }
   }
+}
+
+/**
+ * The cause an annual check's death may carry. Saves from before causes keep
+ * the plan's own key with the plan as the only source. Since then the check
+ * records a sudden illness or an injury with the plan as the only source, or
+ * an illness with a course whose recorded fatal episode is the second source.
+ */
+function annualCheckDeathCauseMatches(
+  world: World,
+  plan: MortalityCheckPlanRecord,
+  death: PersonDeathRecord,
+): boolean {
+  const planOnly =
+    JSON.stringify(death.sourceEntityIds) === JSON.stringify([plan.id]);
+  if (
+    death.causeKey === MORTALITY_TRANSITION_KEY ||
+    death.causeKey === DEATH_CAUSE_SUDDEN_ILLNESS ||
+    death.causeKey === DEATH_CAUSE_INJURY
+  )
+    return planOnly;
+  if (death.causeKey !== DEATH_CAUSE_ILLNESS_WITH_COURSE) return false;
+  const episodeId = death.sourceEntityIds.find((id) => id !== plan.id);
+  const episode = episodeId
+    ? crisisRecordIndex(world).get(episodeId)
+    : undefined;
+  return (
+    death.sourceEntityIds.length === 2 &&
+    death.sourceEntityIds.includes(plan.id) &&
+    episode?.kind === "health-episode" &&
+    episode.personId === plan.personId &&
+    episode.stableKey.startsWith(FATAL_ILLNESS_EPISODE_PREFIX)
+  );
 }
 
 function mortalityDueWasNextAtFrontier(

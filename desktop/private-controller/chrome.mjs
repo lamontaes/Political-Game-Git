@@ -156,6 +156,8 @@ function render(state) {
     html += `<strong>${esc(item.title)}</strong>`;
     const shownVersion = releaseVersion(selected?.current);
     if (shownVersion) html += ` · ${esc(shownVersion)}`;
+    if (selected?.current?.revision)
+      html += ` · build ${esc(selected.current.revision.slice(0, 8))}`;
     // A recorded build whose payload is gone says so here, not "verified".
     // The pill above already carries the needs-rebuild wording, so the
     // sentence names the reason instead of repeating it.

@@ -1404,13 +1404,9 @@ function validateSupersession<
   dateOf: (candidate: T) => string,
   label: string,
 ): void {
-  const previous = records
-    .filter(
-      (candidate) =>
-        subjectOf(candidate) === subjectOf(record) &&
-        candidate.sequence < record.sequence,
-    )
-    .at(-1);
+  const previous = previousSupersession(records, subjectOf, label).get(
+    record.id,
+  ) as T | undefined;
   const prior = priorId === null ? undefined : byId(records, priorId);
   if (
     (previous === undefined && priorId !== null) ||
@@ -1423,6 +1419,42 @@ function validateSupersession<
   ) {
     throw new Error(`Invalid ${label} supersession: ${record.id}`);
   }
+}
+
+// History arrays are replaced on write. Indexing by array identity keeps a full
+// integrity pass linear even when nationwide officeholders add thousands of
+// records, while a changed history gets a fresh index.
+const PREVIOUS_SUPERSESSION = new WeakMap<
+  object,
+  Map<string, ReadonlyMap<EntityId, unknown>>
+>();
+
+function previousSupersession<
+  T extends { readonly id: EntityId; readonly sequence: number },
+  S,
+>(
+  records: readonly T[],
+  subjectOf: (candidate: T) => S,
+  label: string,
+): ReadonlyMap<EntityId, unknown> {
+  let indexes = PREVIOUS_SUPERSESSION.get(records);
+  if (!indexes) {
+    indexes = new Map();
+    PREVIOUS_SUPERSESSION.set(records, indexes);
+  }
+  let previous = indexes.get(label);
+  if (!previous) {
+    const byRecord = new Map<EntityId, T | undefined>();
+    const latestBySubject = new Map<S, T>();
+    for (const candidate of records) {
+      const subject = subjectOf(candidate);
+      byRecord.set(candidate.id, latestBySubject.get(subject));
+      latestBySubject.set(subject, candidate);
+    }
+    previous = byRecord;
+    indexes.set(label, previous);
+  }
+  return previous;
 }
 
 function validatePair(
@@ -1531,11 +1563,18 @@ function assertOrdered(
   }
 }
 
+const RECORDS_BY_ID = new WeakMap<object, ReadonlyMap<EntityId, unknown>>();
+
 function byId<T extends { readonly id: EntityId }>(
   records: readonly T[],
   id: EntityId,
 ): T | undefined {
-  return records.find((record) => record.id === id);
+  let index = RECORDS_BY_ID.get(records);
+  if (!index) {
+    index = new Map(records.map((record) => [record.id, record]));
+    RECORDS_BY_ID.set(records, index);
+  }
+  return index.get(id) as T | undefined;
 }
 
 function optional(value: string | null, label: string): void {

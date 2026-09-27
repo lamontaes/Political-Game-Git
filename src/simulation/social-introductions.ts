@@ -146,6 +146,51 @@ function closeCircle(world: World, personId: EntityId): readonly EntityId[] {
 }
 
 /**
+ * Everybody with any record at one of these organizations, in the World's
+ * person order: the only people who could share one of them now.
+ */
+const PEOPLE_BY_ORGANIZATION = new WeakMap<
+  object,
+  ReadonlyMap<EntityId | null, readonly EntityId[]>
+>();
+const PERSON_POSITION = new WeakMap<object, ReadonlyMap<EntityId, number>>();
+
+function peopleRecordedAt(
+  world: World,
+  records: readonly {
+    readonly personId: EntityId;
+    readonly organizationId: EntityId | null;
+  }[],
+  organizations: ReadonlySet<EntityId | null>,
+): readonly EntityId[] {
+  let byOrganization = PEOPLE_BY_ORGANIZATION.get(records);
+  if (!byOrganization) {
+    // A job with no employer on record is keyed as null, as the per-person
+    // comparison this replaces matched it.
+    const built = new Map<EntityId | null, EntityId[]>();
+    for (const record of records) {
+      const list = built.get(record.organizationId);
+      if (list) list.push(record.personId);
+      else built.set(record.organizationId, [record.personId]);
+    }
+    byOrganization = built;
+    PEOPLE_BY_ORGANIZATION.set(records, byOrganization);
+  }
+  let position = PERSON_POSITION.get(world.personOrder);
+  if (!position) {
+    position = new Map(world.personOrder.map((id, index) => [id, index]));
+    PERSON_POSITION.set(world.personOrder, position);
+  }
+  const people = new Set<EntityId>();
+  for (const organizationId of organizations) {
+    for (const id of byOrganization.get(organizationId) ?? []) people.add(id);
+  }
+  return [...people]
+    .filter((id) => position.has(id))
+    .sort((left, right) => position.get(left)! - position.get(right)!);
+}
+
+/**
  * Everybody this person could be introduced to now, by setting.
  *
  * Read only. A person may appear under more than one setting; each is a real
@@ -178,7 +223,13 @@ export function introductionCandidates(
     ),
   );
   if (employers.size > 0) {
-    for (const otherId of world.personOrder) {
+    // Only people with a record at one of these employers can share one, so
+    // the search starts from the employer rather than from everybody.
+    for (const otherId of peopleRecordedAt(
+      world,
+      world.history.workRelationships,
+      employers,
+    )) {
       if (otherId === personId) continue;
       const shared = activeWorkRelationshipsAt(world, otherId, cutoff).find(
         (entry) => employers.has(entry.relationship.organizationId),
@@ -208,7 +259,11 @@ export function introductionCandidates(
     ),
   );
   if (groups.size > 0) {
-    for (const otherId of world.personOrder) {
+    for (const otherId of peopleRecordedAt(
+      world,
+      world.history.organizationParticipations,
+      groups,
+    )) {
       if (otherId === personId || !sameAgeBand(otherId)) continue;
       const shared = activeOrganizationParticipationsAt(
         world,

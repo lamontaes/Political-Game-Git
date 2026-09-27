@@ -39,7 +39,9 @@ export function WorldRecapPanel({
             className="pg-recap-entry"
             data-testid={`recap-entry-${entry.eventId}`}
           >
-            <p className="pg-recap-headline">{entry.headline}</p>
+            <p className="pg-recap-headline">
+              {entry.readerHeadline ?? entry.headline}
+            </p>
             <p className="pg-recap-meta">
               {proseDate(entry.at)}
               {entry.attribution ? ` · ${entry.attribution}` : ""}

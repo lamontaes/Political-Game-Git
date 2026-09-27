@@ -3,6 +3,8 @@ import {
   walkOpeningNeighborhood,
 } from "./life-scene-flow";
 import { describePlacesOutcome } from "./player-places";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import {
   addDays,
   addSimulationMinutes,
@@ -27,6 +29,7 @@ import {
   advanceStoppingForPressRequests,
   interruptionHandlers,
 } from "./interruption-policy";
+import { deathNewsBetween } from "./death-news";
 import { nextOwnElection, ownElectionResultsBetween } from "./own-election";
 import { letStoryTimePass, quietStepDays } from "./life-story";
 import {
@@ -154,7 +157,13 @@ export function previewTimeCommand(
       (item) => item.activity.id === command.activityId,
     );
     if (!entry || entry.refusal) return null;
-    const target = scheduledActivityState(world, entry.activity.id).end;
+    const openingMeeting =
+      entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+      projectOrdinaryMeetingScene(world, personId)?.phase !== "active";
+    const target =
+      openingMeeting && entry.journey
+        ? scheduledActivityState(world, entry.journey.activity.id).end
+        : scheduledActivityState(world, entry.activity.id).end;
     return {
       target,
       elapsedMinutes: simulationMinutesBetween(world.currentMoment, target),
@@ -255,6 +264,12 @@ function run(
     reached: next.currentMoment,
     outcome: [
       ...ownElectionResultsBetween(world, next, request.personId),
+      ...deathNewsBetween(
+        next,
+        request.personId,
+        world.currentDate,
+        next.currentDate,
+      ).map((news) => news.sentence),
       ...offerDeadlines(next, request.personId)
         .filter((deadline) => deadline.replyBy === next.currentDate)
         .map(

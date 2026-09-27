@@ -2,7 +2,7 @@ import { canonicalJson } from "./canonical-json";
 import { createStableId } from "./ids";
 import { packRollCalls, unpackRollCalls } from "./roll-call-packing";
 import type { EntityId, IsoDate, World } from "./types";
-import { assertWorldIntegrity } from "./world";
+import { assertWorldIntegrity, assertWorldIntegrityFully } from "./world";
 
 /**
  * Format 15 changed how `snapshotId` is derived, not what a world is.
@@ -63,6 +63,9 @@ function snapshotIdOf(world: World): EntityId {
 }
 
 export function createWorldSnapshot(world: World): WorldSnapshot {
+  // An autosave follows every Day, so this takes the play-time check: a World
+  // already checked is not walked again. Opening a save and an explicit save
+  // walk it in full.
   assertWorldIntegrity(world);
   return {
     format: "political-life-world",
@@ -224,7 +227,8 @@ export function readWorldSnapshot(payload: string): {
       "World content packs require their supported snapshot format.",
     );
   }
-  assertWorldIntegrity(world);
+  // Whatever the play-time check mode, a World read from disk is walked whole.
+  assertWorldIntegrityFully(world);
   const expected = createWorldSnapshot(world);
   if (
     parsed.snapshotId !== expected.snapshotId ||

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 
+import { officeLabel, runForPhrase } from "../presentation/english-grammar";
 import "./campaign-workspace.css";
 import { projectCampaignOffices } from "../presentation/campaign-office-discovery";
 import { displayMoney } from "../presentation/money-display";
@@ -377,7 +378,7 @@ export function CampaignWorkspace({
                         />
                         <span className="game-campaign-office">
                           <span className="game-campaign-office-title">
-                            {office.title}
+                            {officeLabel(office.title)}
                           </span>
                           <span className="game-campaign-office-body">
                             {office.provider}
@@ -450,7 +451,7 @@ export function CampaignWorkspace({
         <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
             {selectedOffice
-              ? `There is a ${selectedOffice.title} to be filled${view.placeName ? ` in ${view.placeName}` : ""}.`
+              ? `There is an election for ${runForPhrase(selectedOffice.title)}${view.placeName ? ` in ${view.placeName}` : ""}.`
               : "Choose one of the offices above to see whether you can file for it."}
           </p>
           {needsDistrict && selectedOffice ? (
@@ -481,7 +482,7 @@ export function CampaignWorkspace({
              */}
             <span className="game-campaign-action-label">
               {selectedOffice
-                ? `Put your name in for the ${selectedOffice.title}`
+                ? `Put your name in for ${runForPhrase(selectedOffice.title)}`
                 : "Put your name in"}
             </span>
             <span className="game-campaign-action-note">
