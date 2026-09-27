@@ -13,6 +13,7 @@ import {
   partyWorkBlockingActivityId,
 } from "./campaign-life-actions";
 import { projectPartyAndCommunityWork } from "./campaign-life-surface";
+import { projectCandidateGuidanceScene } from "./candidate-guidance-scene";
 import { venueActivities } from "./venue-activity";
 
 /**
@@ -157,6 +158,10 @@ export function attendCalendarCampaignLifeActivity(
   }
 
   const after = calendarCampaignLifeEntry(next, personId, activityId, handlers);
+  const guidance = projectCandidateGuidanceScene(next, personId);
+  if (guidance?.activityId === activityId) {
+    return { world: next, outcome: guidance.caption };
+  }
   if (after && after.outcomeLines.length > 0) {
     return { world: next, outcome: after.outcomeLines.join(" ") };
   }

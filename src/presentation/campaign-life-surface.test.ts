@@ -109,8 +109,17 @@ describe(
         ),
       ).toBe(false);
 
-      const done = attendPartyWork(
+      const arrived = attendPartyWork(
         requested,
+        player,
+        row.lifeActivityId,
+        "condensed",
+      );
+      expect(projectPartyAndCommunityWork(arrived, player).rows[0]?.state).toBe(
+        "accepted",
+      );
+      const done = attendPartyWork(
+        arrived,
         player,
         row.lifeActivityId,
         "condensed",
@@ -123,9 +132,7 @@ describe(
       );
       expect(after.outcomeLines.join(" ")).toMatch(/You met /);
       expect(after.outcomeLines.join(" ")).toMatch(/less of the evening shown/);
-      expect(after.guidanceFacts.join(" ")).toMatch(
-        /not established by this game's sourced rules/,
-      );
+      expect(after.guidanceFacts).toEqual([]);
       expect(allText(after)).not.toMatch(/\b\d{4}-\d{2}-\d{2}\b/);
       expect(allText(after)).not.toMatch(METER_WORDS);
     });

@@ -13,7 +13,7 @@ import {
   serializeWorld,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import { chooseAdultOption, letAdultTimePass } from "./adult-life";
+import { chooseAdultOption } from "./adult-life";
 
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
@@ -24,21 +24,9 @@ import {
 import { submitTimeCommand } from "./time-command";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
-import { openOrdinaryLife, projectOrdinaryDay } from "./ordinary-life";
+import { openOrdinaryLife } from "./ordinary-life";
 import { fixture as p2r1Fixture } from "../../tests/support/p2r1-worlds";
-
-/**
- * The audited collapse, and the route out of it.
- *
- * P2A2 reproduced an adult life that ran out. One hundred and fifty-one
- * minutes finished the week's errands; both remaining scenes went with it;
- * another six hundred minutes and another five thousand brought nothing back;
- * and a normal browser route reached "Let the weeks run on" with no scene and
- * no choices for the rest of the character's existence.
- *
- * The original audit worlds and seeds remain here. Quiet intervals now move
- * through the shell clock; a missing situation must not manufacture a choice.
- */
+/** A new life keeps grounded requests and choices across quiet weeks. */
 
 function newLife(overrides: Partial<NewGameSetup> = {}): {
   world: World;
@@ -98,112 +86,47 @@ function playThrough(
   return { world, scenes, quiet };
 }
 
-describe("the week runs out, and the life does not", () => {
-  /** The audited world, unchanged: P2R1's own minimal-premise fixture. */
-  function audited() {
-    const built = p2r1Fixture();
-    return {
-      world: refreshLifeOpportunities(built.world, built.personId),
-      personId: built.personId,
-    };
-  }
+describe("grounded opportunities in a sparse life", () => {
+  const built = p2r1Fixture();
+  const world = refreshLifeOpportunities(built.world, built.personId);
+  const personId = built.personId;
 
-  it("still reproduces the empty bank the moment the errands are finished", () => {
-    const { world, personId } = audited();
-    expect(buildAdultLifeContext(world, personId).hasHouseholdWorkItem).toBe(
-      true,
-    );
-    // The audited step, unchanged: 151 minutes against a 150-minute item.
-    const finished = advanceWorldMinutes(world, 151);
-    assertWorldIntegrity(finished);
-    const context = buildAdultLifeContext(finished, personId);
-    expect(context.hasHouseholdWorkItem).toBe(false);
-    const offered = availableAdultSituations(context).map((s) => s.key);
-    expect(offered).not.toContain("adult.household-standing");
-    expect(offered).not.toContain("adult.ordinary-good-day");
-  });
-
-  it("leaves that same world with somewhere to go anyway", () => {
-    const { world, personId } = audited();
-    const finished = advanceWorldMinutes(world, 151);
-    // The two household scenes are genuinely gone, and the life is not: the
-    // requests somebody actually made are still open and still answerable.
+  it("offers a scene grounded in an open request", () => {
     const offered = availableAdultSituations(
-      buildAdultLifeContext(finished, personId),
+      buildAdultLifeContext(world, personId),
     );
     expect(offered.length).toBeGreaterThan(0);
-    for (const situation of offered) {
-      expect(situation.opportunity).toBeDefined();
-    }
-    expect(projectStoryMoment(finished, personId).scene.kind).not.toBe(
+    expect(
+      offered.every((situation) => situation.opportunity !== undefined),
+    ).toBe(true);
+    expect(projectStoryMoment(world, personId).scene.kind).not.toBe(
       "ordinary-stretch",
     );
   });
 
-  it("gives the household its next week back once a week has gone by", () => {
-    const { world, personId } = audited();
-    const finished = advanceWorldMinutes(world, 151);
-    expect(buildAdultLifeContext(finished, personId).hasHouseholdWorkItem).toBe(
-      false,
-    );
-    // Not immediately — the shopping is not done twice on the same day — and
-    // not never, which is what the audit found.
-    const sameDay = refreshLifeOpportunities(finished, personId);
-    expect(buildAdultLifeContext(sameDay, personId).hasHouseholdWorkItem).toBe(
-      false,
-    );
-    // The audited fixture is an observer world, so the transition has to be
-    // named rather than inferred from who is playing. A played world reaches
-    // the same call through `letAdultTimePass`, which the routes below use.
-    const laterOn = refreshLifeOpportunities(
-      letAdultTimePass(finished, 8),
-      personId,
-    );
-    assertWorldIntegrity(laterOn);
-    expect(buildAdultLifeContext(laterOn, personId).hasHouseholdWorkItem).toBe(
-      true,
-    );
-    expect(
-      projectOrdinaryDay(laterOn, personId).pending.length,
-    ).toBeGreaterThan(0);
-    const offered = availableAdultSituations(
-      buildAdultLifeContext(laterOn, personId),
-    ).map((s) => s.key);
-    expect(offered).toContain("adult.ordinary-good-day");
-  });
-
-  it("answers the audited six hundred and five thousand minutes", () => {
-    const { world, personId } = audited();
-    let current = advanceWorldMinutes(world, 151);
-    for (const minutes of [600, 5_000]) {
+  it("keeps those opportunities after 151, 600, and 5,000 elapsed minutes", () => {
+    let current = world;
+    for (const minutes of [151, 600, 5_000]) {
       current = advanceWorldMinutes(current, minutes);
       assertWorldIntegrity(current);
     }
-    // Minutes alone still write nothing — a clock is not a transition, and
-    // that part of the audit's reasoning was right.
     expect(lifeOpportunitiesFor(current, personId).length).toBeGreaterThan(0);
-    // And the ordinary week comes back through the route a player takes.
-    const played = refreshLifeOpportunities(
-      letAdultTimePass(current, 21),
-      personId,
-    );
-    expect(buildAdultLifeContext(played, personId).hasHouseholdWorkItem).toBe(
-      true,
-    );
   });
 });
 
 describe("a normal route stays a normal route", () => {
   for (const seed of ["p2r2-sustained", "adaptive-life-test", "p1-quiet"]) {
-    it(`lets ${seed} continue through varied scenes and quiet weeks`, () => {
+    it(`lets ${seed} continue through real requests and quiet weeks`, () => {
       const { world, personId } = newLife({ seed });
       const played = playThrough(world, personId, 18);
       assertWorldIntegrity(played.world);
-      // Archived routine activities no longer count as decisions. The real
-      // situations in the original route remain varied, and the shell clock
-      // continues to move when none is offered.
-      expect(played.scenes.length).toBeGreaterThanOrEqual(6);
-      expect(new Set(played.scenes).size).toBeGreaterThan(4);
+      // The old variety count included grocery and leisure prompts. The
+      // existing grounded requests remain answerable after those are removed.
+      expect(played.scenes).toContain("adult.local-issue-position");
+      expect(played.scenes).toContain("adult.friend-favour");
+      expect(played.scenes).not.toContain("adult.household-standing");
+      expect(played.scenes).not.toContain("adult.ordinary-good-day");
+      expect(played.scenes).not.toContain("adult.home.plan-week");
       expect(played.quiet).toBeGreaterThan(0);
       const tail = playThrough(played.world, personId, 6);
       assertWorldIntegrity(tail.world);

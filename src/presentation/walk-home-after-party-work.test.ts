@@ -108,8 +108,15 @@ describe("getting home after party work", { timeout: 600_000 }, () => {
         compareSimulationMoments(shift.end, meeting.start) <= 0,
     ).toBe(true);
 
-    const attended = attendPartyWork(
+    const arrived = attendPartyWork(
       bothBooked,
+      personId,
+      meeting.lifeActivityId,
+      "attended",
+      REGISTRY,
+    );
+    const attended = attendPartyWork(
+      arrived,
       personId,
       meeting.lifeActivityId,
       "attended",
@@ -151,8 +158,15 @@ describe("getting home after party work", { timeout: 600_000 }, () => {
       chapterId,
     );
     const meeting = latestWork(booked, personId);
-    const attended = attendPartyWork(
+    const arrived = attendPartyWork(
       booked,
+      personId,
+      meeting.lifeActivityId,
+      "attended",
+      REGISTRY,
+    );
+    const attended = attendPartyWork(
+      arrived,
       personId,
       meeting.lifeActivityId,
       "attended",
@@ -221,8 +235,15 @@ describe("getting home after party work", { timeout: 600_000 }, () => {
       chapterId,
     );
     const first = latestWork(booked, personId);
-    const attended = attendPartyWork(
+    const arrived = attendPartyWork(
       booked,
+      personId,
+      first.lifeActivityId,
+      "attended",
+      REGISTRY,
+    );
+    const attended = attendPartyWork(
+      arrived,
       personId,
       first.lifeActivityId,
       "attended",

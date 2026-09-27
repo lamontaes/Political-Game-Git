@@ -29,32 +29,21 @@ export function fixture() {
     kind: "collateral:sibling",
     provenance: authored,
   });
-  for (const stableKey of [
-    "ordinary-life:household-errands",
-    "ordinary-life:public-meeting",
-  ]) {
-    world = createWorkItem(world, {
-      stableKey,
-      title:
-        stableKey === "ordinary-life:household-errands"
-          ? "The week's errands"
-          : "Whether to go to the meeting",
-      summary:
-        stableKey === "ordinary-life:household-errands"
-          ? "The shopping and the two appointments after it still have to be covered by somebody."
-          : "The agenda is posted.",
-      jurisdictionId: world.jurisdictionOrder[0]!,
-      sourceEntityIds: [world.history.events[0]!.id],
-      focus: { kind: "person", personId },
-      effort: { kind: "authored-duration", requiredMinutes: 150 },
-      access: { kind: "private", personIds: [personId] },
-      assignedPersonIds: [personId],
-      playerRequirement: "none",
-      waitingOnPersonIds: [],
-      blocker: null,
-      scheduledActivityId: null,
-    });
-  }
+  world = createWorkItem(world, {
+    stableKey: "ordinary-life:public-meeting",
+    title: "Whether to go to the meeting",
+    summary: "The agenda is posted.",
+    jurisdictionId: world.jurisdictionOrder[0]!,
+    sourceEntityIds: [world.history.events[0]!.id],
+    focus: { kind: "person", personId },
+    effort: { kind: "authored-duration", requiredMinutes: 150 },
+    access: { kind: "private", personIds: [personId] },
+    assignedPersonIds: [personId],
+    playerRequirement: "none",
+    waitingOnPersonIds: [],
+    blocker: null,
+    scheduledActivityId: null,
+  });
   return { world, personId };
 }
 export function housingFixture() {

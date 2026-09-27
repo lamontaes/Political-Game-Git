@@ -1,6 +1,6 @@
 # Prose diagnostics — current main baseline
 
-**0 hard errors. 384 review warnings.**
+**0 hard errors. 376 review warnings.**
 
 A hard error is objectively wrong: an ID collision, a slot the record's own
 grounding cannot bind, a withheld record with no reason. A review warning is a
@@ -13,8 +13,8 @@ defect than the one it was aimed at.
 
 | Family | Count |
 | --- | --- |
-| vague-referent | 189 |
-| label-restated-in-description | 120 |
+| vague-referent | 185 |
+| label-restated-in-description | 116 |
 | and-it-scaffold | 40 |
 | rather-than-scaffold | 24 |
 | third-person-player | 10 |
@@ -22,10 +22,10 @@ defect than the one it was aimed at.
 
 ## Repetition
 
-- 3261 templates, 3042 distinct texts.
-- 193 exact duplicate groups.
-- 204 normalized duplicate groups.
-- 29 near-duplicate clusters (Jaccard ≥ 0.72).
+- 3219 templates, 3005 distinct texts.
+- 189 exact duplicate groups.
+- 200 normalized duplicate groups.
+- 27 near-duplicate clusters (Jaccard ≥ 0.72).
 
 Exact duplicate text at two semantic locations is not itself a defect: each
 keeps its own ID, and two banks may legitimately both offer "Say nothing".
@@ -42,13 +42,13 @@ keeps its own ID, and two banks may legitimately both offer "Say nothing".
 | `out of the` | 19 | 5 |
 | `it is not` | 18 | 4 |
 | `asked you to` | 17 | 6 |
-| `you want to` | 16 | 4 |
 | `at the end` | 15 | 4 |
 | `at the end of` | 15 | 4 |
 | `the end of` | 15 | 4 |
 | `a long time` | 14 | 4 |
 | `instrument read establishes` | 14 | 2 |
 | `the two of` | 14 | 4 |
+| `you want to` | 14 | 3 |
 | `existing saves are` | 13 | 1 |
 | `existing saves are unchanged` | 13 | 1 |
 | `has asked you` | 13 | 5 |
