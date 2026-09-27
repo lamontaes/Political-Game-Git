@@ -1197,7 +1197,7 @@ function CalendarEventActions({
       : venue?.journey
         ? venue.journey.alreadyCompleted
           ? `The journey to ${selected.locationLabel} is complete. Attend begins here.`
-          : `Includes the ${describeInterval(venue.journey.journeyMinutes)} journey to ${selected.locationLabel}. ${venue.journey.costDisclosure}`
+          : `Includes the trip to ${selected.locationLabel}, ${describeInterval(venue.journey.journeyMinutes)}. ${venue.journey.costDisclosure}`
         : null;
   const busy = runner.pending || undefined;
   const attendance = previewTimeCommand(world, personId, {

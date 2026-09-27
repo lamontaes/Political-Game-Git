@@ -149,10 +149,10 @@ function arrangementNote(
 ): string | null {
   const parts: string[] = [];
   const responsible = activity.responsiblePersonId;
-  if (responsible === personId) parts.push("You are responsible for it.");
+  if (responsible === personId) parts.push("You're in charge of it.");
   else if (responsible) {
     const [name] = namesOf(world, [responsible]);
-    if (name) parts.push(`${name} is responsible for it.`);
+    if (name) parts.push(`${name} is in charge of it.`);
   }
   const through = namesOf(
     world,
@@ -161,7 +161,7 @@ function arrangementNote(
     ),
   );
   if (through.length > 0)
-    parts.push(`The record ties it to ${through.join(", ")}.`);
+    parts.push(`It came about through ${through.join(", ")}.`);
   return parts.length > 0 ? parts.join(" ") : null;
 }
 
