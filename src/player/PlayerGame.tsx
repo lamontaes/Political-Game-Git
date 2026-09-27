@@ -159,8 +159,11 @@ import {
   MAXIMUM_START_AGE,
   MINIMUM_START_AGE,
   newGameSetupProblems,
+  preStartYearAvailability,
+  withPreStartYearChoice,
   type NewGameSetup,
 } from "../presentation/new-game";
+import { PreStartYearChoice } from "./PreStartYearChoice";
 import {
   clearCreatorState,
   creatorLocationFromPlaceKey,
@@ -1187,7 +1190,7 @@ const CUSTOM_CREATOR_STEPS = [
 type CreatorStep =
   (typeof NORMAL_CREATOR_STEPS)[number] | (typeof CUSTOM_CREATOR_STEPS)[number];
 
-function SetupScreen({
+export function SetupScreen({
   seed,
   seedOrigin,
   previewMode,
@@ -2126,6 +2129,19 @@ function SetupScreen({
             </button>
           </div>
         </section>
+      ) : null}
+
+      {onReady ? (
+        <PreStartYearChoice
+          setup={committed}
+          onToggle={(enabled) =>
+            setSetup((now) =>
+              enabled && !preStartYearAvailability(now).available
+                ? now
+                : withPreStartYearChoice(now, enabled),
+            )
+          }
+        />
       ) : null}
 
       {problems.length > 0 && onReady ? (
