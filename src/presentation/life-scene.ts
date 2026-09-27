@@ -5,7 +5,7 @@ import {
   type World,
 } from "../simulation";
 import {
-  DOMESTIC_SCENE_IDS,
+  SHARED_DOMESTIC_SCENE_IDS,
   requireScene,
   SCENE_REGISTRY,
   type SceneRegistry,
@@ -15,6 +15,12 @@ import {
   PRODUCTION_VISUAL_LIBRARY,
   type RuntimeVisualLibrary,
 } from "./visual-integration";
+import { homeSceneId } from "./home-scenes";
+import {
+  homePlaceForPerson,
+  placeBackdrop,
+  weatherKeyForPerson,
+} from "./place-backdrops";
 
 /** Household scene or the immediate aftermath of actual recorded attendance.
  * Household art establishes residence context, not a physical tracking claim.
@@ -41,7 +47,7 @@ function domesticSceneFor(
   scenes: SceneRegistry,
   library: RuntimeVisualLibrary,
 ): string | null {
-  const available = DOMESTIC_SCENE_IDS.filter((sceneId) => {
+  const available = SHARED_DOMESTIC_SCENE_IDS.filter((sceneId) => {
     const scene = scenes.scenes.get(sceneId);
     return scene?.raster ? library.has(scene.raster.assetId) : false;
   });
@@ -51,6 +57,35 @@ function domesticSceneFor(
     accumulator = (accumulator * 31 + character.charCodeAt(0)) % 2_147_483_647;
   }
   return available[accumulator % available.length]!;
+}
+
+/**
+ * The player's own kind of home (from the dwelling's building type) in the
+ * current light and weather: morning, midday, night or rain. Null when that
+ * home has no painted room, and the older shared living room is used.
+ */
+function homeSceneFor(
+  world: World,
+  personId: EntityId,
+  scenes: SceneRegistry,
+  library: RuntimeVisualLibrary,
+): string | null {
+  const place = homePlaceForPerson(world, personId);
+  const variant =
+    placeBackdrop(
+      place,
+      world.currentMoment,
+      weatherKeyForPerson(world, personId),
+    )?.variant ?? "midday";
+  for (const candidate of [
+    homeSceneId(place, variant),
+    homeSceneId(place, "midday"),
+  ]) {
+    if (!candidate) continue;
+    const scene = scenes.scenes.get(candidate);
+    if (scene?.raster && library.has(scene.raster.assetId)) return candidate;
+  }
+  return null;
 }
 
 /**
@@ -128,6 +163,14 @@ export function resolveLifeScene(
     };
   }
   const household = primary.household;
+  const ownHome = homeSceneFor(world, personId, scenes, library);
+  if (ownHome) {
+    requireScene(scenes, ownHome);
+    return {
+      sceneId: ownHome,
+      reason: `Household ${household.id} is on record as this person's home today; the room follows the kind of dwelling and the light.`,
+    };
+  }
   const sceneId = domesticSceneFor(household.id, scenes, library);
   if (!sceneId) {
     return {

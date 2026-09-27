@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { describeInterval } from "../presentation/time-target-label";
 import { lifeOpportunitiesFor } from "../simulation/life-opportunities";
 import {
   favorEntries,
@@ -40,7 +41,7 @@ export function LifeFavorPanel({
       <p role="status" data-testid="favor-outcome">
         {latest.outcome.summary}
         {latest.status === "performed"
-          ? ` Proofreading took ${latest.details.minutes} minutes.`
+          ? ` Proofreading took ${describeInterval(latest.details.minutes ?? 0)}.`
           : " No time passed."}
       </p>
     ) : null;
@@ -150,7 +151,8 @@ export function LifeFavorPanel({
               )
             }
           >
-            Proofread the invitation · {entry.details.minutes} minutes
+            Proofread the invitation ·{" "}
+            {describeInterval(entry.details.minutes ?? 0)}
           </button>
           <button
             type="button"

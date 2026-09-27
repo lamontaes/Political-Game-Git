@@ -14,6 +14,7 @@ import {
 import { isCivicHold } from "./civic-hold";
 import { acceptedOfferStarts, offerDeadlines } from "./offer-deadlines";
 import { nextOwnElection } from "./own-election";
+import { isRoutineLifePathWorkSession } from "./player-calendar";
 import { EARLIER_COMMITMENT_REFUSAL, venueActivities } from "./venue-activity";
 
 /**
@@ -60,9 +61,8 @@ export interface KnownCalendarOptions {
  * The earliest dated thing already waiting on this person after today: a
  * scheduled activity they take part in, or a due item that names them.
  *
- * When a journey and the thing it leads to fall on the same day, the thing
- * itself names the stop, because "Journey to the community room" says less
- * than the meeting it is a journey to.
+ * A journey has no scene during its trip, so only its destination names a
+ * stop. Routine work completes through the clock without asking for a turn.
  */
 export function nextKnownCalendarItem(
   world: World,
@@ -70,34 +70,25 @@ export function nextKnownCalendarItem(
   options: KnownCalendarOptions = {},
 ): KnownCalendarItem | null {
   const socialHolds = options.socialHolds ?? true;
-  let best: { title: string; date: IsoDate; travel: boolean } | null = null;
+  let best: KnownCalendarItem | null = null;
   for (const activity of world.history.scheduledActivities) {
     if (!activity.participantPersonIds.includes(personId)) continue;
+    // The destination is the stop. Its journey has no separate scene; routine
+    // life-path work completes as the clock crosses it.
+    if (
+      activity.kind === "travel" ||
+      isRoutineLifePathWorkSession(world, activity)
+    )
+      continue;
     if (!socialHolds && activity.kind === "tentative" && !isCivicHold(activity))
       continue;
     const state = scheduledActivityState(world, activity.id);
     if (state.status !== "scheduled") continue;
     if (state.start.date <= world.currentDate) continue;
-    // A journey is a stop only for what it leads to. One leading to a social
-    // hold this stretch lets lapse would otherwise stop it on that day anyway.
-    if (!socialHolds && activity.kind === "travel") {
-      const destination = world.history.scheduledActivities.find(
-        (candidate) =>
-          activity.sourceEntityIds.includes(candidate.id) &&
-          candidate.kind === "tentative",
-      );
-      if (destination && !isCivicHold(destination)) continue;
-    }
-    const travel = activity.kind === "travel";
-    if (
-      !best ||
-      state.start.date < best.date ||
-      (state.start.date === best.date && best.travel && !travel)
-    )
-      best = { title: activity.title, date: state.start.date, travel };
+    if (!best || state.start.date < best.date)
+      best = { title: activity.title, date: state.start.date };
   }
-  if (options.dueItems === false)
-    return best ? { title: best.title, date: best.date } : null;
+  if (options.dueItems === false) return best;
   const cutoff = currentLifeCutoff(world);
   for (const due of world.history.futureDueItems) {
     if (!due.entityIds.includes(personId)) continue;
@@ -105,9 +96,9 @@ export function nextKnownCalendarItem(
     if (futureDueItemStateAt(world, due.id, cutoff)?.status !== "scheduled")
       continue;
     if (!best || due.dueAt < best.date)
-      best = { title: "A dated matter", date: due.dueAt, travel: false };
+      best = { title: "A dated matter", date: due.dueAt };
   }
-  return best ? { title: best.title, date: best.date } : null;
+  return best;
 }
 
 /**

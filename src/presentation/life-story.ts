@@ -988,7 +988,6 @@ export function chooseStoryOption(
         personId: input.personId,
         situationKey: scene.situationKey,
         optionKey: input.optionKey,
-        transitionHandlers: lifeActivityHandlers(input.transitionHandlers),
       });
     case "ordinary-stretch": {
       const today = chooseTodayCalendarOption(world, input);

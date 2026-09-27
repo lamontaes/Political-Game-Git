@@ -96,7 +96,7 @@ describe("candidate guidance in the room", () => {
     ).toBe("What are the requirements to run here?");
     expect(
       projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response,
-    ).toContain("you must be at least");
+    ).toBe("Let's check the requirements before you decide to run.");
     expect(
       askCandidateGuidance(asked, personId, activityId, "requirements"),
     ).toBe(asked);
@@ -135,7 +135,7 @@ describe("candidate guidance in the room", () => {
     );
     expect(
       projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response,
-    ).toContain("not established");
+    ).toBe("Let's check the filing steps before you act.");
     const left = leaveCandidateGuidance(
       asked,
       personId,

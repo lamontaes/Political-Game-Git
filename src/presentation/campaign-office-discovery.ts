@@ -57,7 +57,7 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
         provider: option.recordedBy.packName,
         eligible: eligibility.eligible,
         eligibility: eligibility.eligible
-          ? "You can stand for this office."
+          ? "You can run for this office."
           : eligibility.blocks.map((block) => block.reason).join(" "),
         // The contest already on the record, else the office's own calendar:
         // the same date a filing today would stand in.

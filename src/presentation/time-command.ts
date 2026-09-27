@@ -191,8 +191,25 @@ export function previewTimeCommand(
         ?.form === "candidate-guidance" &&
       projectCandidateGuidanceScene(world, personId)?.activityId !==
         entry.activity.id;
-    const target =
-      (openingMeeting || openingGuidance) && entry.journey
+    const lateMeetingJourney =
+      openingMeeting &&
+      !entry.journey &&
+      entry.elapsedMinutes !== null &&
+      world.history.scheduledActivities.some(
+        (item) =>
+          item.kind === "travel" &&
+          item.location.locationKey === "ordinary-life:to-meeting-room" &&
+          item.sourceEntityIds.includes(entry.activity.id) &&
+          (scheduledActivityState(world, item.id).status === "cancelled" ||
+            (scheduledActivityState(world, item.id).status === "scheduled" &&
+              compareSimulationMoments(
+                world.currentMoment,
+                scheduledActivityState(world, item.id).start,
+              ) > 0)),
+      );
+    const target = lateMeetingJourney
+      ? addSimulationMinutes(world.currentMoment, entry.elapsedMinutes!)
+      : (openingMeeting || openingGuidance) && entry.journey
         ? scheduledActivityState(world, entry.journey.activity.id).end
         : scheduledActivityState(world, entry.activity.id).end;
     return {

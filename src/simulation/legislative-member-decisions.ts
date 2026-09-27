@@ -8,7 +8,7 @@ import {
   currentProvisionByKey,
   legislativeQuestionAnswers,
 } from "./legislative-politics";
-import { currentHistoricalCutoff } from "./queries";
+import { currentHistoricalCutoff, latestPrivateBelief } from "./queries";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
@@ -285,6 +285,57 @@ function memberConsiderations(
         "This is the question that puts in the bill the section the member asked for.",
       sourceRefs: [...sourceRefs],
     });
+  }
+
+  // A catalog question alone does not say which way this bill answers it.
+  // Only the measure's explicit answer can connect a formed private view to
+  // this vote. An amendment may change the answer without updating that field,
+  // so its pending text cannot borrow this reason from the unamended measure.
+  if (asked.purpose !== "amendment" && pending === null) {
+    const measure = requireMeasure(world, measureId);
+    for (const answer of measure.propositionAnswers ?? []) {
+      const belief = latestPrivateBelief(
+        world,
+        input.personId,
+        answer.propositionId,
+      );
+      if (belief?.position !== "support" && belief?.position !== "oppose")
+        continue;
+      const proposition =
+        world.policyCatalog.propositions[answer.propositionId];
+      if (!proposition) continue;
+      const agrees =
+        (belief.position === "support" && answer.answer === "yes") ||
+        (belief.position === "oppose" && answer.answer === "no");
+      // PLACEHOLDER(overnight): map recorded conviction and salience to the
+      // decision engine's ordinal weight until voting calibration is approved.
+      const importance =
+        belief.salience === "central"
+          ? "decisive"
+          : belief.salience === "high"
+            ? "strong"
+            : belief.salience === "moderate"
+              ? "moderate"
+              : "slight";
+      const confidence =
+        belief.conviction === "settled" || belief.conviction === "strong"
+          ? "high"
+          : belief.conviction === "moderate"
+            ? "medium"
+            : "low";
+      considerations.push({
+        stableKey: `member:private-belief:${answer.propositionId}`,
+        optionKey: agrees ? "vote-yea" : "vote-nay",
+        sourceType: "belief:formed-position",
+        direction: "supports",
+        importance,
+        confidence,
+        explanation: agrees
+          ? `The member's own view agrees with the bill's answer to ${proposition.question}`
+          : `The member's own view conflicts with the bill's answer to ${proposition.question}`,
+        sourceRefs: [{ kind: "private-belief", beliefId: belief.id }],
+      });
+    }
   }
 
   // What the bill would do, if this question carried, for the people this

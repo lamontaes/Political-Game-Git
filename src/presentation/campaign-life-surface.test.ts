@@ -98,7 +98,7 @@ describe(
       expect(row.actions).toEqual(["attend", "attend-condensed"]);
       expect(row.when).toMatch(/^[A-Z][a-z]+ \d{1,2}, \d{4}, 6:30 PM$/);
       expect(row.travelNote).toMatch(/20-minute local journey/);
-      expect(row.travelNote).toMatch(/no fare will be charged/);
+      expect(row.travelNote).toMatch(/There is no fare\./);
       expect(row.hostName.length).toBeGreaterThan(0);
       // The same request is not offered twice while it is on the calendar.
       expect(
@@ -132,9 +132,7 @@ describe(
       );
       expect(after.outcomeLines.join(" ")).toMatch(/You met /);
       expect(after.outcomeLines.join(" ")).toMatch(/less of the evening shown/);
-      expect(after.guidanceFacts.join(" ")).toMatch(
-        /not established by this game's sourced rules/,
-      );
+      expect(after.guidanceFacts).toEqual([]);
       expect(allText(after)).not.toMatch(/\b\d{4}-\d{2}-\d{2}\b/);
       expect(allText(after)).not.toMatch(METER_WORDS);
     });

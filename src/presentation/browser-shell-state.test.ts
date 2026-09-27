@@ -467,6 +467,7 @@ describe("the shell's own store", () => {
         stopForWorkShifts: false,
         stopForTentativeHolds: false,
       },
+      morningThoughts: true,
       // Reader layouts added later load with their defaults from older records.
       proposalLayout: "auto",
       newsMode: "front",

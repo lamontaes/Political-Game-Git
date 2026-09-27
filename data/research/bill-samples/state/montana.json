@@ -1,0 +1,142 @@
+[
+  {
+    "id": "mt-2025-hb231-property-tax",
+    "jurisdiction": "Montana",
+    "level": "state",
+    "session": "69th Legislature (2025)",
+    "bill_number": "HB 231",
+    "law_citation": null,
+    "short_title": "Tiered residential property tax rates",
+    "enacted_date": "2025-05",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://bills.legmt.gov/",
+    "aggregator_url": "https://legiscan.com/MT/bill/HB231/2025",
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Property taxes",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": ["lower", "raise"],
+    "parts": [
+      {
+        "kind": "rate",
+        "description": "Tiered tax rates by value; lower rates for lower-value tiers."
+      },
+      {
+        "kind": "credit",
+        "description": "Lower rates for primary residences and long-term rentals than for second homes and short-term rentals."
+      },
+      {
+        "kind": "rebate",
+        "description": "One-time rebate for primary residences.",
+        "numbers": [
+          {
+            "value": 400,
+            "unit": "USD",
+            "text": "400 USD"
+          }
+        ]
+      },
+      {
+        "kind": "phase-in",
+        "description": "Changes in 2025 and 2026 tax years (companion SB 542)."
+      }
+    ],
+    "touches": ["county assessors", "short-term rental owners"],
+    "daily_life": "A full-time resident's tax falls while an out-of-state second home's rises.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "mt-2025-hb245-medicaid-expansion",
+    "jurisdiction": "Montana",
+    "level": "state",
+    "session": "69th Legislature (2025)",
+    "bill_number": "HB 245",
+    "law_citation": null,
+    "short_title": "Medicaid expansion continued (sunset removed)",
+    "enacted_date": "2025-03-27",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://bills.legmt.gov/",
+    "aggregator_url": "https://legiscan.com/MT/bill/HB245/2025",
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Public coverage programs",
+    "secondary_menus": [],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "sunset",
+        "description": "Removes the recurring termination date on Medicaid expansion."
+      },
+      {
+        "kind": "covered-population",
+        "description": "Low-income adults 18 to 64.",
+        "numbers": [
+          {
+            "value": 75000,
+            "unit": "people approx",
+            "text": "75000 people approx"
+          }
+        ]
+      }
+    ],
+    "touches": ["Montana Medicaid budget", "rural hospitals"],
+    "daily_life": "75,000 adults keep health coverage without a new vote every few years.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": "Repeal of a sunset: operation is repeal, effect is to make a program permanent."
+  },
+  {
+    "id": "mt-2025-hb2-budget",
+    "jurisdiction": "Montana",
+    "level": "state",
+    "session": "69th Legislature (2025)",
+    "bill_number": "HB 2",
+    "law_citation": null,
+    "short_title": "General appropriations act for the 2027 biennium",
+    "enacted_date": "2025-05",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.legmt.gov/lfd/2025-session-materials/",
+    "aggregator_url": "https://legiscan.com/MT/bill/HB2/2025",
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "General appropriations by agency program for the 2027 biennium."
+      },
+      {
+        "kind": "availability-period",
+        "description": "Covers fiscal years 2026 and 2027, ending June 30, 2027.",
+        "numbers": [
+          {
+            "value": 2027,
+            "unit": "biennium ending year",
+            "text": "2027 biennium ending year"
+          }
+        ]
+      }
+    ],
+    "touches": ["all state agencies"],
+    "daily_life": "Funds state services for two years because the legislature meets only in odd years.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "Montana Legislative Fiscal Division lists 2025 HB 2 as the general appropriations bill and the 2025 session as the 2027 biennium. An exact signed date and chapter citation were not confirmed."
+  }
+]

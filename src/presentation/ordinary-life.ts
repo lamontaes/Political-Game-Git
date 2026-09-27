@@ -56,6 +56,11 @@ import {
 } from "./scheduled-activity-choice";
 import { isCivicHold } from "./civic-hold";
 import { keepAcceptedSocialOccasion } from "./social-invitation";
+import {
+  arriveAtOrdinaryMeeting,
+  plannedOrdinaryMeetingAttendance,
+} from "./ordinary-meeting-actions";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
 
 /**
@@ -67,11 +72,10 @@ import { composeFutureTransitionHandlerRegistries } from "../simulation/future-t
  * with a few things in it, not a dashboard of cards.
  */
 
-export const HOUSEHOLD_ERRANDS_KEY = "ordinary-life:household-errands";
 export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
 
 /**
- * The two things an ordinary week actually puts in front of somebody.
+ * The posted public meeting an ordinary week puts in front of somebody.
  *
  * Authored in `src/simulation/life-opportunities.ts`, beside the writer that
  * creates them, and re-exported here because that is where the content bank
@@ -215,8 +219,7 @@ export function ordinaryLifeAvailableFor(
  * The second is the repair this wave exists for. Opening an ordinary life is a
  * legitimate transition, so it is also a moment at which the world may write
  * one new opportunity from the bounded set in `life-opportunities.ts`.
- * A legacy grocery item remains readable but no new ordinary life is assigned
- * a recurring chore.
+ * No routine grocery chore is written by opening an ordinary life.
  */
 export function openOrdinaryLife(world: World, personId: EntityId): World {
   const person = world.people[personId];
@@ -574,6 +577,26 @@ function advanceOrdinaryDays(
       );
     });
     if (!optional || stepped.control.kind !== "person") return stepped;
+    if (
+      plannedOrdinaryMeetingAttendance(
+        stepped,
+        stepped.control.personId,
+        optional.id,
+      )
+    ) {
+      const arrived = arriveAtOrdinaryMeeting(
+        stepped,
+        stepped.control.personId,
+        optional.id,
+        handlers,
+      );
+      if (
+        arrived !== stepped &&
+        projectOrdinaryMeetingScene(arrived, stepped.control.personId)
+          ?.phase === "active"
+      )
+        return arrived;
+    }
     // The player asked to be stopped here. The hold stays; they decide.
     if (options.stopForTentativeHolds) return stepped;
     // A civic hold stops the stretch too, unless the stretch began at it: then
@@ -727,7 +750,6 @@ export function neighborhoodConversationRoom(
   const jurisdictionId =
     place?.context.jurisdiction.id ?? person.homeJurisdictionId;
   if (!world.jurisdictions[jurisdictionId]) return null;
-
   const cutoff = currentLifeCutoff(world);
   const household = new Set(
     householdMembershipsAt(world, personId, cutoff).map(

@@ -1,4 +1,5 @@
 import { LifeFavorPanel } from "../LifeFavorPanel";
+import { describeInterval } from "../../presentation/time-target-label";
 import { openingChoiceMinutes } from "../../simulation/opening-life-content";
 import { projectOpeningLife } from "../../presentation/opening-life";
 import {
@@ -24,8 +25,6 @@ import { openingLifeLocation } from "../../presentation/life-scene-flow";
 import {
   lifeReflectionOffer,
   chooseConversationApproach,
-  ORDINARY_LIFE_GOALS,
-  chooseOrdinaryLifeGoal,
 } from "../../simulation/life-personality";
 
 /**
@@ -67,7 +66,7 @@ export function LifeScenePanel({
   /**
    * Where the panel stands. In the room it is the scene alone — prose,
    * choices and who to talk to. Walks, the walking group and personal plans
-   * are errands of the life, not of the scene, and stay in Personal.
+   * are actions of the life, not of the scene, and stay in Personal.
    */
   variant?: "room" | "workspace";
 }) {
@@ -203,7 +202,7 @@ export function LifeScenePanel({
               >
                 {choice.label}
                 {openingChoiceMinutes(scene.definition, choice)
-                  ? ` · ${openingChoiceMinutes(scene.definition, choice)} minutes`
+                  ? ` · ${describeInterval(openingChoiceMinutes(scene.definition, choice))}`
                   : ""}
               </button>
             ))}
@@ -307,7 +306,7 @@ export function LifeScenePanel({
                       )
                     }
                   >
-                    {offer.label} · {offer.minutes} minutes
+                    {offer.label} · {describeInterval(offer.minutes)}
                   </button>
                   {offer.unavailable ? (
                     <small data-testid={`life-walk-${destination}-reason`}>
@@ -329,27 +328,6 @@ export function LifeScenePanel({
               Join a neighborhood walking group
             </button>
           ) : null}
-          <details>
-            <summary>Personal plans</summary>
-            {Object.entries(ORDINARY_LIFE_GOALS).map(([key, label]) => (
-              <button
-                className="ui-action"
-                type="button"
-                key={key}
-                onClick={() =>
-                  commit(() =>
-                    chooseOrdinaryLifeGoal(
-                      world,
-                      playerPersonId,
-                      key as keyof typeof ORDINARY_LIFE_GOALS,
-                    ),
-                  )
-                }
-              >
-                {label}
-              </button>
-            ))}
-          </details>
         </>
       )}
       {/*

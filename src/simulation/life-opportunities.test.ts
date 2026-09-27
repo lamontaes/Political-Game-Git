@@ -8,7 +8,6 @@ import {
 import { adultSituationBank } from "./adult-situations";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import {
-  HOUSEHOLD_ERRANDS_KEY,
   PUBLIC_MEETING_KEY,
   LIFE_OPPORTUNITY_ANSWERING_KEY,
   LIFE_OPPORTUNITY_KINDS,
@@ -60,7 +59,7 @@ describe("a life is given something to do", () => {
     );
     expect(
       world.history.workItems.some((item) =>
-        item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY),
+        item.stableKey.startsWith("ordinary-life:household-errands"),
       ),
     ).toBe(false);
   });

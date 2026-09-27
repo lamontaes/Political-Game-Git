@@ -47,7 +47,10 @@ export function QuickDossier({
   readonly presentPersonIds?: readonly EntityId[];
   readonly talkUnavailable?: string | null;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  // Expanded for one person only: moving to somebody else opens their small
+  // card, not the whole record the last one was showing.
+  const [expandedFor, setExpandedFor] = useState<EntityId | null>(null);
+  const expanded = expandedFor === dossier.personId;
   useReturnFocusToOpener();
   return (
     <PersonCard
@@ -59,7 +62,7 @@ export function QuickDossier({
       mode="overlay"
       anchor={anchor}
       onClose={onClose}
-      onExpand={() => setExpanded(true)}
+      onExpand={() => setExpandedFor(dossier.personId)}
       onTogglePin={onTogglePin}
       onOpenPerson={(personId) => onOpenPerson?.(personId)}
       onTalk={onTalk}

@@ -35,7 +35,7 @@ export interface CalendarEntry {
   readonly title: string;
   readonly summary: string;
   readonly kind: ScheduledActivityKind;
-  /** "Confirmed", "Tentative hold", "Flexible work", "Travel". */
+  /** "Confirmed", "Maybe", "Flexible work", "Travel". */
   readonly kindLabel: string;
   readonly group: CalendarGroup;
   readonly start: SimulationMoment;
@@ -72,10 +72,37 @@ export interface PlayerCalendar {
 
 const KIND_LABELS: Readonly<Record<ScheduledActivityKind, string>> = {
   confirmed: "Confirmed",
-  tentative: "Tentative hold",
+  tentative: "Maybe",
   flexible: "Flexible work",
   travel: "Travel",
 };
+
+/** Routine employment/study-path work runs with the clock, not as a Day stop. */
+export function isRoutineLifePathWorkSession(
+  world: World,
+  activity: ScheduledActivityRecord,
+): boolean {
+  return (
+    activity.location.locationKey.startsWith("life-paths2:") &&
+    world.history.workRelationships.some(
+      (work) =>
+        activity.sourceEntityIds.includes(work.id) &&
+        (work.kind.startsWith("employment:life-paths2-") ||
+          work.kind.startsWith("volunteer:life-paths2-")),
+    )
+  );
+}
+
+function isPlayerVisibleCalendarActivity(
+  world: World,
+  activity: ScheduledActivityRecord,
+): boolean {
+  // The destination's Attend control includes its journey. A commute has no
+  // scene during the trip and is not a separate calendar event.
+  return (
+    activity.kind !== "travel" && !isRoutineLifePathWorkSession(world, activity)
+  );
+}
 
 export function calendarKindLabel(kind: ScheduledActivityKind): string {
   return KIND_LABELS[kind];
@@ -122,7 +149,9 @@ function entryFor(
     locationLabel: activity.location.label,
     participantNames: namesOf(world, activity.participantPersonIds),
     ownershipNote: mine
-      ? "You are on this."
+      ? activity.kind === "tentative"
+        ? "You might go."
+        : "You're going."
       : "On the chamber's agenda. Not an appointment of yours.",
     arrangementNote: arrangementNote(world, personId, activity),
     attendeeNames: [
@@ -149,10 +178,10 @@ function arrangementNote(
 ): string | null {
   const parts: string[] = [];
   const responsible = activity.responsiblePersonId;
-  if (responsible === personId) parts.push("You are responsible for it.");
+  if (responsible === personId) parts.push("You're in charge of it.");
   else if (responsible) {
     const [name] = namesOf(world, [responsible]);
-    if (name) parts.push(`${name} is responsible for it.`);
+    if (name) parts.push(`${name} is in charge of it.`);
   }
   const through = namesOf(
     world,
@@ -161,7 +190,7 @@ function arrangementNote(
     ),
   );
   if (through.length > 0)
-    parts.push(`The record ties it to ${through.join(", ")}.`);
+    parts.push(`It came about through ${through.join(", ")}.`);
   return parts.length > 0 ? parts.join(" ") : null;
 }
 
@@ -177,7 +206,11 @@ export function projectPlayerCalendar(
   personId: EntityId,
 ): PlayerCalendar {
   const visible = world.history.scheduledActivities
-    .filter((activity) => canPersonAccess(activity.access, personId))
+    .filter(
+      (activity) =>
+        canPersonAccess(activity.access, personId) &&
+        isPlayerVisibleCalendarActivity(world, activity),
+    )
     .map((activity) => entryFor(world, personId, activity))
     .sort(
       (left, right) =>
@@ -224,5 +257,6 @@ export function calendarEntryFor(
   );
   if (!activity) return null;
   if (!canPersonAccess(activity.access, personId)) return null;
+  if (!isPlayerVisibleCalendarActivity(world, activity)) return null;
   return entryFor(world, personId, activity);
 }

@@ -1,0 +1,123 @@
+[
+  {
+    "id": "ma-2025-ch9-fy26-budget",
+    "jurisdiction": "Massachusetts",
+    "level": "state",
+    "session": "194th General Court (2025)",
+    "bill_number": "H.4240",
+    "law_citation": "Chapter 9 of the Acts of 2025",
+    "short_title": "FY2026 general appropriations act",
+    "enacted_date": "2025-07-04",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://malegislature.gov/Laws/SessionLaws/Acts/2025/Chapter9",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Appropriates FY2026 operating funds by department and line item."
+      },
+      {
+        "kind": "availability-period",
+        "description": "Provides for the fiscal year ending June 30, 2026."
+      },
+      {
+        "kind": "waiver",
+        "description": "Governor returned specified line items and wording for legislative reconsideration."
+      }
+    ],
+    "touches": ["local aid (Chapter 70 schools)", "MBTA"],
+    "daily_life": "Sets school aid and transit funding for the year.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": "Official Chapter 9 identifies original legislation H.4240, not H.4000. Governor message H.4250 documents the July 4, 2025 signing and returned items: https://malegislature.gov/Bills/194/H4250 . The previously inferred $61 billion figure was removed."
+  },
+  {
+    "id": "ma-2025-ch17-municipal-roads",
+    "jurisdiction": "Massachusetts",
+    "level": "state",
+    "session": "194th General Court (2025)",
+    "bill_number": "see Chapter 17",
+    "law_citation": "Chapter 17 of the Acts of 2025",
+    "short_title": "An Act financing improvements to municipal roads and bridges",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://malegislature.gov/Laws/SessionLaws/Acts/2025/Chapter17",
+    "aggregator_url": null,
+    "menu": "01",
+    "menu_name": "Infrastructure",
+    "sub_topic": "Roads & bridges - local road aid",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": ["other"],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "bond",
+        "description": "Authorizes state borrowing for local road aid (Chapter 90 program)."
+      },
+      {
+        "kind": "revenue-distribution",
+        "description": "Distributed to cities and towns by formula (road miles, population, employment) (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["every city and town public works department"],
+    "daily_life": "Your town repaves more streets this year.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ma-2025-ch16-shield-law",
+    "jurisdiction": "Massachusetts",
+    "level": "state",
+    "session": "194th General Court (2025)",
+    "bill_number": "see Chapter 16",
+    "law_citation": "Chapter 16 of the Acts of 2025",
+    "short_title": "An Act strengthening health care protections in the Commonwealth",
+    "enacted_date": "2025-08-07",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://malegislature.gov/Laws/SessionLaws/Acts/2025/Chapter16",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Reproductive health",
+    "secondary_menus": ["12"],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Limits cooperation with out-of-state investigations of legally protected health care."
+      },
+      {
+        "kind": "exemption",
+        "description": "Allows prescribers to omit their names from medication labels (as reported, inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "covered-population",
+        "description": "Patients and providers of reproductive and gender-affirming care."
+      }
+    ],
+    "touches": ["courts", "licensing boards"],
+    "daily_life": "Clinicians who provide legal care in the state are shielded from other states' subpoenas.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

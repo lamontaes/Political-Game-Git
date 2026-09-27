@@ -1,0 +1,217 @@
+[
+  {
+    "id": "denver-2025-cb25-1122-pet-sales",
+    "jurisdiction": "Denver, Colorado",
+    "level": "city",
+    "session": "2025",
+    "bill_number": "Council Bill 25-1122",
+    "law_citation": null,
+    "short_title": "Ban on retail sale of puppies, kittens and rabbits",
+    "enacted_date": "2025-09-18",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-09-18 (immediately)"],
+    "official_text_url": "https://denver.legistar.com/",
+    "aggregator_url": null,
+    "menu": "12",
+    "menu_name": "Rights, Family & Consumer Protection",
+    "sub_topic": "Consumer contracts and products",
+    "secondary_menus": ["08", "14"],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Pet stores may not sell dogs, cats or rabbits."
+      },
+      {
+        "kind": "exemption",
+        "description": "Direct sales by responsible breeders, adoption events with shelters, and the stock show's rabbit sales."
+      },
+      {
+        "kind": "effective-date",
+        "description": "Passed 12-0-1 and effective immediately.",
+        "numbers": [
+          {
+            "value": 12,
+            "unit": "votes for",
+            "text": "12 votes for"
+          }
+        ]
+      }
+    ],
+    "touches": ["pet stores", "animal shelters"],
+    "daily_life": "You adopt a puppy from a shelter or a breeder, not a mall pet store.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "denver-2025-single-stair",
+    "jurisdiction": "Denver, Colorado",
+    "level": "city",
+    "session": "2025",
+    "bill_number": "Single-stair building code amendment (Nov 2025)",
+    "law_citation": null,
+    "short_title": "Five-story single-stair residential buildings allowed",
+    "enacted_date": "2025-11-24",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://denver.legistar.com/",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Building permits and standards",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "standard",
+        "description": "Building code amended to allow residential buildings up to five stories with a single stairway.",
+        "numbers": [
+          {
+            "value": 5,
+            "unit": "stories",
+            "text": "5 stories"
+          }
+        ]
+      },
+      {
+        "kind": "standard",
+        "description": "Added fire safety conditions (sprinklers, unit counts) (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["fire department", "architects"],
+    "daily_life": "Small apartment buildings on narrow lots become possible.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "denver-2025-cb25-1053-transportation-bond",
+    "jurisdiction": "Denver, Colorado",
+    "level": "city",
+    "session": "2025",
+    "bill_number": "Council Bill 25-1053",
+    "law_citation": null,
+    "short_title": "Transportation and mobility bond question (Vibrant Denver)",
+    "enacted_date": "2025-08",
+    "enactment_path": "signed",
+    "effective_dates": ["ballot 2025-11-04"],
+    "official_text_url": "https://www.denvergov.org/files/assets/public/v/1/clerk-and-recorder/documents/elections/2025/measures/transportation-and-mobility-bond.pdf",
+    "aggregator_url": null,
+    "menu": "01",
+    "menu_name": "Infrastructure",
+    "sub_topic": "Roads & bridges / walking and cycling",
+    "secondary_menus": ["04"],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "bond",
+        "description": "General obligation bonds for transportation and mobility repairs, without a new tax.",
+        "numbers": [
+          {
+            "value": 441420000,
+            "unit": "USD (amended figure; final inferred)",
+            "text": "441420000 USD (amended figure; final inferred)"
+          },
+          {
+            "value": 906000000,
+            "unit": "USD maximum repayment cost",
+            "text": "906000000 USD maximum repayment cost"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "voter-approval",
+        "description": "State constitution (TABOR) requires voter approval for new debt.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-11-04 date",
+            "text": "2025-11-04 date"
+          }
+        ]
+      },
+      {
+        "kind": "earmark",
+        "description": "Named projects such as street safety and multimodal improvements."
+      }
+    ],
+    "touches": ["TABOR", "city capital plan"],
+    "daily_life": "Voters decide whether to borrow for sidewalks, bike lanes and street repairs.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  },
+  {
+    "id": "denver-2025-cb25-1056-facilities-bond",
+    "jurisdiction": "Denver, Colorado",
+    "level": "city",
+    "session": "2025",
+    "bill_number": "Council Bill 25-1056",
+    "law_citation": null,
+    "short_title": "City facilities bond question (arts, culture, libraries, public safety)",
+    "enacted_date": "2025-08",
+    "enactment_path": "signed",
+    "effective_dates": ["ballot 2025-11-04"],
+    "official_text_url": "https://www.denvergov.org/files/assets/public/v/1/clerk-and-recorder/documents/elections/2025/measures/city-facilities-bond.pdf",
+    "aggregator_url": null,
+    "menu": "15",
+    "menu_name": "Parks, Culture & Community Life",
+    "sub_topic": "Libraries / arts and museums / community facilities",
+    "secondary_menus": ["04", "10"],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "bond",
+        "description": "General obligation bonds for repairs to cultural, library and other city facilities.",
+        "numbers": [
+          {
+            "value": 244430000,
+            "unit": "USD (amended figure; final inferred)",
+            "text": "244430000 USD (amended figure; final inferred)"
+          },
+          {
+            "value": 485000000,
+            "unit": "USD maximum repayment cost",
+            "text": "485000000 USD maximum repayment cost"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "earmark",
+        "description": "Named facilities: branch libraries, museums, zoo, amphitheater, a first responder training center and the animal shelter."
+      },
+      {
+        "kind": "voter-approval",
+        "description": "Requires voter approval of new debt.",
+        "numbers": [
+          {
+            "value": 2025,
+            "unit": "-11-04 date",
+            "text": "2025-11-04 date"
+          }
+        ]
+      }
+    ],
+    "touches": ["TABOR", "cultural institutions"],
+    "daily_life": "Branch libraries and museums get repair money if voters agree.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  }
+]

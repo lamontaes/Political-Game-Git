@@ -16,6 +16,12 @@ import {
   preparedPortraitFrame,
 } from "../presentation/engine-people29-data";
 import { ModularCharacter } from "./ModularCharacter";
+import { EnginePortrait } from "./EnginePerson";
+import { engineRecipeFor } from "../presentation/appearance-engine/recipe";
+import {
+  PEOPLE_PACK,
+  peoplePackAvailable,
+} from "../presentation/appearance-engine/runtime";
 import { personName } from "../simulation";
 import type { EntityId, PersonAppearance, World } from "../simulation";
 
@@ -81,6 +87,37 @@ export function PersonPortrait({
       : undefined);
   if (!person) return null;
   const name = personName(person);
+  /*
+   * The people engine draws every adult (Sept. 27, 2026). The older modular
+   * art remains only for children, whom the engine cannot draw yet, and for
+   * the developer review surfaces that pass their own libraries.
+   */
+  const engine =
+    !visualLibraries && peoplePackAvailable()
+      ? engineRecipeFor(person, world.currentDate, PEOPLE_PACK)
+      : null;
+  if (engine) {
+    return (
+      <figure
+        className={`person-portrait person-portrait--${size}`}
+        data-testid="person-portrait"
+        data-likeness="engine"
+        data-refusal=""
+      >
+        <span
+          aria-hidden="true"
+          className="person-portrait-mark"
+          style={{ position: "relative", overflow: "hidden", flexShrink: 0 }}
+        >
+          <EnginePortrait recipe={engine} testId="person-portrait-engine" />
+        </span>
+        <figcaption>
+          <strong>{name}</strong>
+          {note ? <span>{note}</span> : null}
+        </figcaption>
+      </figure>
+    );
+  }
   let refusal: string | null = previewRefusal;
   let resolvedWardrobe = wardrobe;
   if (!wardrobe && savedWardrobe) {

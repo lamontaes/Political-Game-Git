@@ -1,0 +1,27 @@
+{
+  "asOf": "2026-09-26",
+  "canonicalSha256": "ed7601c3361eb58a7b1bc8589f5e009fe4b90b473b5bad7b8fd4e3b8d6fd0a7a",
+  "compiler": "scripts/source/regional-money/compile.ts",
+  "compression": "gzip",
+  "corpusPath": "data/source/career-occupations/regional-corpus.json.gz",
+  "coverage": {
+    "areaCount": 530,
+    "missingWageTokens": {
+      "#": 677,
+      "*": 5548
+    },
+    "requiredStateAndDcCount": 51,
+    "stateCount": 54
+  },
+  "inputs": [
+    {
+      "localPath": "data/source/career-occupations/raw/oews-state-2025.zip",
+      "sha256": "74d5be0e1df865517d22dc3bd1fc3a8af5f6f9e3052a2163143021505d8e04c6"
+    },
+    {
+      "localPath": "data/source/career-occupations/raw/oews-area-2025.zip",
+      "sha256": "cc3e6fa80edf64ab8fd0e8a6472ef1b513a6bcaef2f5018e9649c485793b0b99"
+    }
+  ],
+  "recordCount": 236120
+}

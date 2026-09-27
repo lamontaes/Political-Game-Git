@@ -45,5 +45,4 @@ export function stoppedEarlyLabel(target: SimulationMoment): string {
 }
 
 /** What every skip promises before it runs. */
-export const PROTECTED_STOP_NOTE =
-  "Stops early for a protected commitment or anything that needs you.";
+export const PROTECTED_STOP_NOTE = "Stops early if anything needs you first.";

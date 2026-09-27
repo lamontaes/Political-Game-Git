@@ -11,7 +11,6 @@ import {
 } from "../simulation";
 import { recordEventKnowledge } from "../simulation/records";
 import { recordWorldEvent } from "../simulation/world";
-import { guidanceLines } from "./campaign-life-surface";
 import { meetingDepartureRoute, meetingHomeRoute } from "./meeting-home-route";
 import { travelToPlace } from "./place-travel";
 import { performVenueActivity, venueActivities } from "./venue-activity";
@@ -19,9 +18,10 @@ import { cancelScheduledActivity } from "../simulation/time-work";
 
 export type CandidateGuidanceQuestion = "requirements" | "filing";
 
-// PLACEHOLDER(overnight): Exact spoken lines and choices await English review.
+// COPY-PENDING(wave2): Claude English will review these spoken lines against
+// the saved scene packet. No filing rule or host knowledge is asserted.
 export const CANDIDATE_GUIDANCE_OPENING =
-  "We can talk through what is known about running here. What do you want to ask?";
+  "We can talk about running for office. What would you like to ask?";
 export const CANDIDATE_GUIDANCE_QUESTIONS: readonly {
   readonly key: CandidateGuidanceQuestion;
   readonly words: string;
@@ -264,11 +264,12 @@ export function askCandidateGuidance(
     (choice) => choice.key === question,
   )?.words;
   if (!scene || scene.activityId !== activityId || !words) return world;
-  const advice = guidanceLines(world, personId);
+  // COPY-PENDING(wave2): Claude English will replace these short lines from
+  // the recorded scene packet. No filing rule or host knowledge is asserted.
   const response =
     question === "requirements"
-      ? advice.facts.slice(0, -2).join(" ")
-      : (advice.facts.at(-2) ?? "The filing rules are not known here.");
+      ? "Let's check the requirements before you decide to run."
+      : "Let's check the filing steps before you act.";
   const host = scene.actors[0]!;
   const key = `${baseKey(activityId)}:question:${question}`;
   const next = recordWorldEvent(world, {
@@ -288,13 +289,7 @@ export function askCandidateGuidance(
     ],
     personFactConstraints: [],
     visibility: "private",
-    tags: [
-      `entry:${scene.eventId}`,
-      `question:${question}`,
-      ...(question === "requirements"
-        ? advice.sources.map((citation) => `source:${citation}`)
-        : []),
-    ],
+    tags: [`entry:${scene.eventId}`, `question:${question}`],
     summary: `You asked ${host.name}: “${words}”`,
     context: {
       location: {

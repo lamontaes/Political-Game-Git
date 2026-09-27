@@ -7,6 +7,7 @@ import {
   enactedLawEffects,
   enactedLawsWithEffects,
 } from "../simulation/enacted-law-effects";
+import { addYears } from "../simulation/legislation-drafting";
 import {
   availableMeasureSteps,
   measurePosition,
@@ -31,6 +32,7 @@ function enactFromDocket(
     readonly familyKey: string;
     readonly variantKey: string;
     readonly authorityKey?: string;
+    readonly selectedProvisionKeys?: readonly string[];
   },
 ): { readonly world: World; readonly measureId: EntityId } {
   const scenario = createLegislativeScenario(scenarioKey);
@@ -93,6 +95,55 @@ describe("a law the player passes changes what it governs", () => {
     // than implying delivery.
     expect(money.committedMinorUnits).toBe(0);
     expect(money.paidMinorUnits).toBe(0);
+  });
+
+  it("uses the selected availability clause's saved date and reports no omitted duty", () => {
+    const { world, measureId } = enactFromDocket("nebraska", {
+      familyKey: "appropriations",
+      variantKey: "single-programme",
+      authorityKey: "standing:school-facilities",
+      selectedProvisionKeys: [
+        "authority-named",
+        "amount-provided",
+        "availability",
+      ],
+    });
+    expect(measurePosition(world, measureId).outcome).toBe("enacted");
+    const recorded = appropriations(world, measureId)[0]!;
+    expect(recorded.kind).toBe("appropriation");
+    if (recorded.kind !== "appropriation") return;
+    const filedAt = world.history.legislativeDraftLineages!.find(
+      (lineage) => lineage.measureId === measureId,
+    )!.compiledAt;
+    expect(recorded.availableThrough).toBe(addYears(filedAt, 2));
+    const effects = enactedLawEffects(world, measureId)!;
+    expect(effects.lines.some((line) => line.kind === "not-modeled")).toBe(
+      false,
+    );
+    expect(
+      effects.lines.find((line) => line.kind === "appropriation"),
+    ).toMatchObject({ availableThrough: recorded.availableThrough });
+  });
+
+  it("honors a supplemental appropriation's shorter lapse section", () => {
+    const { world, measureId } = enactFromDocket("nebraska", {
+      familyKey: "appropriations",
+      variantKey: "supplemental",
+      authorityKey: "standing:school-facilities",
+      selectedProvisionKeys: ["authority-named", "amount-provided", "lapse"],
+    });
+    const recorded = appropriations(world, measureId)[0]!;
+    expect(recorded.kind).toBe("appropriation");
+    if (recorded.kind !== "appropriation") return;
+    const filedAt = world.history.legislativeDraftLineages!.find(
+      (lineage) => lineage.measureId === measureId,
+    )!.compiledAt;
+    expect(recorded.availableThrough).toBe(addYears(filedAt, 1));
+    expect(
+      enactedLawEffects(world, measureId)!.lines.some(
+        (line) => line.kind === "not-modeled",
+      ),
+    ).toBe(false);
   });
 
   it("funds every part of a multi-part bill, a transit part included", () => {
