@@ -115,6 +115,11 @@ import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
 import { GoverningOfficeDesk } from "./GoverningOfficeDesk";
 import { governingOfficeForPerson } from "../simulation/governing/state-governing";
+import {
+  projectRoomMedia,
+  ROOM_PAPERS_SLOT_ID,
+  ROOM_TELEVISION_SLOT_ID,
+} from "../presentation/room-media";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
@@ -1438,13 +1443,28 @@ function PlayingScreen({
       playScene.locationKey,
     ],
   );
+  const roomMedia = useMemo(
+    () => projectRoomMedia(session.world, session.personId),
+    [session.world, session.personId],
+  );
   const readableSurfaces = useMemo(() => {
     const news = projectLivingSceneSurface(session.world, session.personId, {
       kind: "news",
     });
+    // The TV and the paper open the story they show, else the day's lead.
+    const shown = (publicationId: EntityId | undefined) =>
+      publicationId
+        ? projectLivingSceneSurface(session.world, session.personId, {
+            kind: "news",
+            publicationId,
+          })
+        : news;
     const records = new Map([
-      ["living-room-television", news],
-      ["coffee-table-papers", news],
+      [
+        ROOM_TELEVISION_SLOT_ID,
+        shown(roomMedia.broadcast?.story?.publicationId),
+      ],
+      [ROOM_PAPERS_SLOT_ID, shown(roomMedia.frontPage?.story?.publicationId)],
     ]);
     const meeting = projectOrdinaryMeetingScene(
       session.world,
@@ -1460,7 +1480,7 @@ function PlayingScreen({
         ),
       );
     return records;
-  }, [session.world, session.personId]);
+  }, [session.world, session.personId, roomMedia]);
 
   const surfaceProjection = useMemo(
     () =>
@@ -2189,6 +2209,7 @@ function PlayingScreen({
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
               readableSurfaces={readableSurfaces}
+              roomMedia={roomMedia}
               onOpenSurfaceEntity={openEntity}
               visualLibrary={sceneVisuals}
               people={scenePeople}

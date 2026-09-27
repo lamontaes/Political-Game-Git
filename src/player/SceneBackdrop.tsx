@@ -24,6 +24,14 @@ import {
   EMPTY_SURFACE_PROJECTION,
   type DynamicSurfaceProjection,
 } from "../presentation/surface-projection";
+import {
+  ROOM_PAPERS_SLOT_ID,
+  ROOM_TELEVISION_SLOT_ID,
+  roomBroadcastLine,
+  roomFrontPageLine,
+  type RoomMedia,
+} from "../presentation/room-media";
+import { RoomNewspaper, RoomTelevision } from "./RoomMedia";
 import { SceneSurfaceLayer } from "./SceneSurfaceLayer";
 import { SceneSurfaceReader } from "./SceneSurfaceReader";
 import {
@@ -86,6 +94,7 @@ export function SceneBackdrop({
   people = [],
   surfaces = EMPTY_SURFACE_PROJECTION,
   readableSurfaces,
+  roomMedia,
   onOpenSurfaceEntity,
   onSelectPerson,
   selectedPersonId = null,
@@ -104,6 +113,11 @@ export function SceneBackdrop({
    */
   readonly surfaces?: DynamicSurfaceProjection;
   readonly readableSurfaces?: ReadonlyMap<string, LivingSurfaceRecord>;
+  /**
+   * The room's live television and newspaper. Where the scene has the TV or
+   * papers slot, it is drawn as a broadcast or a front page every day.
+   */
+  readonly roomMedia?: RoomMedia;
   readonly onOpenSurfaceEntity?: (ref: ShellRef) => void;
   /**
    * The generated people standing in this room, positioned by the registry's
@@ -334,13 +348,15 @@ export function SceneBackdrop({
     () =>
       scene
         ? bindSceneSurfaces(scene, (contentClass, slot) => {
+            const live = roomMediaLine(roomMedia, slot.slot_id);
+            if (live) return live;
             const record = readableSurfaces?.get(slot.slot_id);
             return record
               ? livingSceneSurfacePayload(record)(contentClass, slot)
               : dynamicSurfacePayloads(surfaces)(contentClass, slot);
           })
         : [],
-    [scene, surfaces, readableSurfaces],
+    [scene, surfaces, readableSurfaces, roomMedia],
   );
   const readableSlotIds = new Set(
     bindings
@@ -445,6 +461,13 @@ export function SceneBackdrop({
               plate={plate}
               readableSlotIds={readableSlotIds}
               onRead={(slotId) => setReadingSlot({ sceneId, slotId })}
+              renderSurface={(slotId) =>
+                slotId === ROOM_TELEVISION_SLOT_ID && roomMedia?.broadcast ? (
+                  <RoomTelevision broadcast={roomMedia.broadcast} />
+                ) : slotId === ROOM_PAPERS_SLOT_ID && roomMedia?.frontPage ? (
+                  <RoomNewspaper frontPage={roomMedia.frontPage} />
+                ) : null
+              }
             />
           ) : null}
         </div>
@@ -761,4 +784,16 @@ export function SceneBackdrop({
       </div>
     </div>
   );
+}
+
+/** The one-line text a live TV or papers slot binds, or null for any other. */
+function roomMediaLine(
+  media: RoomMedia | undefined,
+  slotId: string,
+): string | null {
+  if (slotId === ROOM_TELEVISION_SLOT_ID && media?.broadcast)
+    return roomBroadcastLine(media.broadcast);
+  if (slotId === ROOM_PAPERS_SLOT_ID && media?.frontPage)
+    return roomFrontPageLine(media.frontPage);
+  return null;
 }
