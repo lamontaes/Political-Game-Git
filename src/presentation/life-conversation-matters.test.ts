@@ -9,6 +9,7 @@ import {
 import { activeOrdinaryGoal } from "../simulation/life-personality";
 import { publishPublicEvent } from "../simulation/public-information";
 import { matterAwareness } from "./current-matters";
+import { linePartsOf } from "./english-composition";
 import {
   MATTER_CHOICE_PREFIX,
   commitLifeConversation,
@@ -139,7 +140,14 @@ describe("current matters in ordinary talk", () => {
 
     const next = say(world, base.playerPersonId, base.parentId, "matter");
     const turn = next.history.events.at(-1)!;
-    expect(turn.context.immediateReaction).toBe("I hadn't heard about that.");
+    // Worded from the reviewed not-heard bank, with the parts saved on the
+    // turn, and never repeating the matter back as if the speaker knew it.
+    const parts = linePartsOf(turn.tags);
+    expect(parts?.[0]).toMatch(/^small-talk\.matter-uninformed:core:/);
+    expect(turn.context.immediateReaction).toBeTruthy();
+    expect(turn.context.immediateReaction).not.toContain(
+      world.history.publications![0]!.headline,
+    );
     expect(turn.tags).toContain(`life.matter:${eventId}`);
     expect(turn.tags).toContain("life.answer:matter-uninformed");
     expect(next.currentMoment).toEqual(world.currentMoment);
