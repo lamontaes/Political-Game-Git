@@ -22,7 +22,15 @@ async function inViewport(page: Page, testId: string) {
 test("UI36 non-Kentucky journey: quiet room, one card, conversation, News and return", async ({
   page,
 }, info) => {
-  await page.goto("/?art-preview=candidate");
+  /*
+   * A normal start generates the household (Task E), and without a replay
+   * seed every run drew a different one; about one draw in six lives alone,
+   * so the Talk checkpoint below had nobody to talk to and failed by chance.
+   * Measured at 730accec over six seeds: five opened with a housemate in the
+   * room, one alone. This seed opens with a housemate present, so the run is
+   * the same life every time.
+   */
+  await page.goto("/?art-preview=candidate&seed=ui36-aurora");
   await openCreator(page);
   await page.getByTestId("start-normal").click();
   await page.getByTestId("gender-female").click();
@@ -99,6 +107,8 @@ test("UI36 non-Kentucky journey: quiet room, one card, conversation, News and re
   await page.getByTestId("calendar-tab-interruptions").click();
   await page.getByTestId("interruption-stopForTentativeHolds").check();
   await page.getByTestId("calendar-tab-today").click();
-  await inViewport(page, "calendar-simulate-day");
+  /* The Calendar no longer carries its own skip controls (d8b61f140); Day
+     and Week are the shell's, and must stay reachable at this short height. */
+  await inViewport(page, "shell-pass-day");
   await page.screenshot({ path: info.outputPath("07-calendar-short.png") });
 });

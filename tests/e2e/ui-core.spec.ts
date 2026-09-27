@@ -138,8 +138,12 @@ test.describe("the corner cluster", () => {
     await expect(flyout).toHaveAttribute("data-level", "submenu");
     await expect(page.getByTestId("nav-personal")).toBeVisible();
 
+    /* Since the labeled section bar (20d9209d0), Personal is a bar section,
+       so its submenu's Back returns to the bar: the menu closes and the
+       keyboard is left on the section it came from. */
     await page.getByTestId("nav-submenu-back").click();
-    await expect(flyout).toHaveAttribute("data-level", "primary");
+    await expect(flyout).toHaveCount(0);
+    await expect(page.getByTestId("nav-group-personal")).toBeFocused();
   });
 });
 
@@ -152,6 +156,13 @@ test.describe("people, and who was chosen", () => {
 
     await goTo(page, "elsewhere-people");
     await expect(page.getByTestId("people-overlay")).toBeVisible();
+    /* People opens on the relationship web by default (peopleView "web"),
+       where the rows are not drawn; choose the list, as a player would. */
+    await page.getByTestId("people-view-list").click();
+    await expect(page.getByTestId("people-list")).toHaveAttribute(
+      "data-view",
+      "list",
+    );
 
     const people = await page
       .locator('[data-testid^="people-person-"]')
@@ -168,7 +179,12 @@ test.describe("people, and who was chosen", () => {
     const [first, second] = people;
 
     async function open(person: { id: string; name: string }) {
-      await page.getByTestId(`people-person-${person.id}`).click();
+      /* The expanded record (3b7ed34db) opens beside the list and covers the
+         right of each row, so the next person is chosen at the row's left,
+         by the portrait a player can see, not at its covered middle. */
+      await page
+        .getByTestId(`people-person-${person.id}`)
+        .click({ position: { x: 30, y: 20 } });
       // A row opens the person's card first; More details is the full record.
       await page.getByTestId("quick-dossier-full").click();
       const dossier = page.getByTestId("full-dossier");
@@ -304,6 +320,9 @@ test.describe("mixed pins", () => {
     expect(second).toBeTruthy();
     await page.getByTestId(`people-pin-${second}`).click();
     await page.getByTestId("people-overlay-close").click();
+    /* The closed workspace fades for 160ms (70d6f538b) and then settles the
+       shell, which also shuts a pin menu opened in that window. */
+    await expect(page.getByTestId("people-overlay")).toHaveCount(0);
     return [first, second];
   }
 
@@ -573,6 +592,10 @@ test.describe("the deliberate workspaces", () => {
       "true",
     );
     await page.getByTestId("options-workspace-close").click();
+    /* A closed workspace fades for 160ms (70d6f538b) and then settles the
+       shell, which also clears a person card opened in that window; wait,
+       as a player sees it go, before choosing somebody in the room. */
+    await expect(page.getByTestId("options-workspace")).toHaveCount(0);
 
     /* The preference is real: a new pin arrives at the size it asks for. */
     const people = await peopleInTheRoom(page);

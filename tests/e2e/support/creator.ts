@@ -403,6 +403,13 @@ export async function openShellMenu(page: Page): Promise<void> {
    * ends. The cluster's own aria-expanded is the state the shell keeps, it is
    * always there to be read, and it is what this decides and waits on.
    */
+  /*
+   * A workspace that was just closed fades for 160ms (70d6f538b) and only
+   * then tells the shell it has gone, which settles the shell and shuts any
+   * menu opened in the meantime. Wait for the fade to finish, as a player
+   * sees it do.
+   */
+  await expect(page.locator(".pg-workspace[data-closing]")).toHaveCount(0);
   if ((await cluster.getAttribute("aria-expanded")) !== "true") {
     await cluster.click();
   }
@@ -414,9 +421,16 @@ export async function openShellMenu(page: Page): Promise<void> {
    * not enough: a flyout left open on Personal holds no Politics entry at
    * all, and waiting for one there waits for something the player cannot see
    * either. Come back up the way a player does, with the menu's own Back.
+   *
+   * Since the labeled section bar (20d9209d0), a submenu belongs to its bar
+   * section, so its Back returns to the bar and closes the menu rather than
+   * showing the corner menu. The portrait is then pressed again to open it.
    */
   if ((await flyout.getAttribute("data-level")) === "submenu") {
     await page.getByTestId("nav-submenu-back").click();
+    await expect(cluster).toHaveAttribute("aria-expanded", "false");
+    await cluster.click();
+    await expect(cluster).toHaveAttribute("aria-expanded", "true");
     await expect(flyout).toHaveAttribute("data-level", "primary");
   }
 }

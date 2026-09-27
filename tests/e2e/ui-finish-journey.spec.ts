@@ -6,7 +6,6 @@ import {
   fillCreator,
   goTo,
   openCreator,
-  openShellMenu,
   saveLife,
   startLife,
   chooseStartAge,
@@ -203,8 +202,20 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   await shot(page, "06-calendar");
 
   // Politics: office statuses, then one execute control per intent.
-  await openShellMenu(page);
-  await page.getByRole("menuitem", { name: /^Politics/ }).click();
+  /*
+   * Politics is a labeled section of the bar now, not a corner-menu item
+   * (20d9209d0), and the hub opens on Government (owner, 2026-09-22), so the
+   * office list is one tab further in: Campaigns.
+   */
+  await page
+    .getByTestId("shell-menu-bar")
+    .getByRole("button", { name: /^Politics/ })
+    .click();
+  await page.getByTestId("politics-tab-campaigns").click();
+  await expect(page.getByTestId("politics-tab-campaigns")).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
   const offices = page.getByTestId("campaign-office-browser");
   await expect(offices).toBeVisible();
   for (const statusLine of await offices
@@ -221,11 +232,25 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
     await eligible.first().check();
     await expect(page.getByTestId("file-candidacy")).toBeEnabled();
     await page.getByTestId("file-candidacy").click();
-    const now = page.getByRole("group", { name: "Do this now" });
-    await expect(now).toBeVisible();
+    /*
+     * The "Do this now" row is gone (c73ce6024): a running campaign offers
+     * dated week choices with a named host, each put on the calendar, or
+     * says why it has none yet. Still no count boxes to commit.
+     */
+    const week = page.getByTestId("campaign-action-choices");
+    await expect(week).toBeVisible();
     await expect(page.getByTestId("campaign-strategy-commit")).toHaveCount(0);
-    await now.getByTestId("campaign-outreach").click();
-    await expect(page.getByTestId("campaign-strategy-report")).toBeVisible();
+    const book = week.locator('[data-testid^="campaign-book-"]');
+    if ((await book.count()) > 0) {
+      await book.first().click();
+      await expect(week.getByRole("status")).toHaveText(
+        "Added to your calendar. Open the activity there to go.",
+      );
+    } else {
+      await expect(
+        page.getByTestId("campaign-action-choices-empty"),
+      ).not.toBeEmpty();
+    }
     await shot(page, "08-campaign");
   } else {
     test.info().annotations.push({
