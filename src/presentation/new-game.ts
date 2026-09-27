@@ -16,6 +16,7 @@ import {
   STATE_AGENCY_START_MINIMUM_AGE,
 } from "../simulation/civil-personnel-start";
 import {
+  addDays,
   defaultPronounsForGender,
   COHORT_GIVEN_NAME_GENERATION_VERSION,
   CHILDHOOD_GENERATION_V2,
@@ -159,6 +160,8 @@ export interface NewGameSetup {
    * local matters; "playtest65-v2" (new games) opens without them.
    */
   readonly openingDataVersion?: OpeningDataVersion;
+  /** Opt-in pilot; absent replays and current creator starts keep their route. */
+  readonly preStartYearVersion?: "pre-start-world-year-v1";
   /** New descriptors opt in; absent preserves the original member-name draw. */
   readonly livingWorldMemberNameVersion?: "identity-v1" | "cohort-v1";
   readonly birthMonth?: number;
@@ -416,6 +419,24 @@ export function newGameSetupProblems(
       });
     }
   }
+  if (setup.preStartYearVersion !== undefined) {
+    if (setup.startingLife !== "ordinary-life") {
+      problems.push({
+        field: "startingLife",
+        message:
+          "The pre-start world year currently supports an ordinary life; office starts need their own dated transition.",
+      });
+    }
+    // PLACEHOLDER(overnight): these birthdays cross school or legal-adult
+    // boundaries while that year's canonical transition writers are incomplete.
+    if ([5, 6, 11, 14, 18].includes(setup.startAge)) {
+      problems.push({
+        field: "startAge",
+        message:
+          "The pre-start world year cannot yet carry this age across its school or adulthood boundary.",
+      });
+    }
+  }
   if (setup.seed.trim().length === 0) {
     problems.push({ field: "seed", message: "A world needs a seed." });
   }
@@ -498,6 +519,15 @@ export function createNewGameWorld(setup: NewGameSetup): NewGame {
     familyStructureSeed: worldSeedFor(setup),
     personalitySeed: setup.seed,
     place,
+    ...(setup.preStartYearVersion === undefined
+      ? {}
+      : {
+          preStartYear: {
+            version: setup.preStartYearVersion,
+            targetStartDate: place.context.initialMoment.date,
+            priorYearStartDate: addDays(place.context.initialMoment.date, -365),
+          },
+        }),
     age: setup.startAge,
     ...(setup.birthMonth === undefined || setup.birthDay === undefined
       ? {}

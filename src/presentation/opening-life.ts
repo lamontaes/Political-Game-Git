@@ -36,6 +36,7 @@ import { createNewGameWorld } from "./new-game";
 import { proseDate } from "./prose-dates";
 import type { NewGameSetup, NewGame } from "./new-game";
 import { buildLifeIntroduction } from "./life-introduction";
+import { completePreStartWorldYear } from "./pre-start-world-year";
 import {
   establishOpeningOfficeholders,
   openingOfficeholders,
@@ -105,52 +106,51 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
     openingData === "playtest65-v1"
       ? ensureOpeningPriorLocalRecords(staffed, game.playerPersonId)
       : staffed;
+  // Congress, national parties, and public affiliations follow executive
+  // seating. Current openings also seed mortality and hazards before time
+  // moves, so the prior-year clock sees the same canonical producers.
+  const opened = openedWorld(
+    ensureOpeningMortality(
+      ensureCrimeProduction(
+        ensureHazardProduction(
+          ensureLivingWorldDevelopments(
+            // Standing chapter committees exist only in current openings.
+            ensurePartyGoverningBodies(
+              ensureHomePartyChapters(
+                ensureHomeStateLegislature(
+                  ensureLivingWorldOpening(
+                    withPriorRecords,
+                    game.playerPersonId,
+                    session.setup.livingWorldMemberNameVersion,
+                  ),
+                  game.playerPersonId,
+                ),
+                game.playerPersonId,
+                session.setup.partyChapterNameVersion,
+              ),
+              game.playerPersonId,
+            ),
+            game.playerPersonId,
+          ),
+        ),
+      ),
+      session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
+    ),
+    game.playerPersonId,
+  );
+  const world = session.setup.preStartYearVersion
+    ? completePreStartWorldYear(
+        opened,
+        game.playerPersonId,
+        game.place.context.initialMoment.date,
+      )
+    : opened;
   return {
     ...session,
     phase: "world",
     game: {
       ...game,
-      // Congress, the national parties and public affiliations, once, after
-      // the executives exist so they receive an affiliation in the same pass.
-      // The hazard stream schedules its first monthly sample for a current
-      // opening that has something exposed; a legacy save gets none.
-      // CRUNCH47: the mortality model belongs to the world the player is
-      // handed, not to whichever control they happen to press first. It used
-      // to start only inside passOrdinaryDays, so a current opening shipped
-      // without it and paths that move time another way — waiting for a
-      // scheduled activity, a conversation, a venue — left a life that could
-      // not die. Starting it here costs the clock's hot path nothing, and the
-      // version gate keeps a legacy replay byte-identical: those saves still
-      // start it on their first ordinary-day pass, as before.
-      world: openedWorld(
-        ensureOpeningMortality(
-          ensureCrimeProduction(
-            ensureHazardProduction(
-              ensureLivingWorldDevelopments(
-                // Standing chapter committees exist only in current openings.
-                ensurePartyGoverningBodies(
-                  ensureHomePartyChapters(
-                    ensureHomeStateLegislature(
-                      ensureLivingWorldOpening(
-                        withPriorRecords,
-                        game.playerPersonId,
-                        session.setup.livingWorldMemberNameVersion,
-                      ),
-                      game.playerPersonId,
-                    ),
-                    game.playerPersonId,
-                    session.setup.partyChapterNameVersion,
-                  ),
-                  game.playerPersonId,
-                ),
-                game.playerPersonId,
-              ),
-            ),
-          ),
-          session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
-        ),
-        game.playerPersonId,
-      ),
+      world,
     },
   };
 }
