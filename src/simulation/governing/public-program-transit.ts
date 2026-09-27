@@ -84,50 +84,45 @@ export function recordPaidTransitProgramService(
   const key = `${installment.stableKey}:paid-service-hours`;
   if (world.history.events.some((event) => event.stableKey === key))
     return world;
-  const eligible = Object.values(world.people)
-    .filter((person) => {
-      const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-      return (
-        person.id !==
-          (world.control.kind === "person" ? world.control.personId : null) &&
-        person.birthDate <= installment.recordedAt &&
-        ageOnDate(person.birthDate, installment.recordedAt) >= 18 &&
-        !world.history.personDeaths.some(
-          (death) =>
-            death.personId === person.id &&
-            death.diedAt <= installment.recordedAt,
-        ) &&
-        place?.scope === "locality" &&
-        place.stateJurisdictionKey === profile.jurisdictionKey &&
-        world.jurisdictions[person.homeJurisdictionId] !== undefined
-      );
-    })
-    .sort(
-      (left, right) =>
-        stableHash(
-          `${installment.id}:${left.homeJurisdictionId}`,
-        ).localeCompare(
-          stableHash(`${installment.id}:${right.homeJurisdictionId}`),
-        ) ||
-        left.homeJurisdictionId.localeCompare(right.homeJurisdictionId) ||
-        left.id.localeCompare(right.id),
+  const eligibleResidents = Object.values(world.people).filter((person) => {
+    const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
+    return (
+      person.id !==
+        (world.control.kind === "person" ? world.control.personId : null) &&
+      person.birthDate <= installment.recordedAt &&
+      ageOnDate(person.birthDate, installment.recordedAt) >= 18 &&
+      !world.history.personDeaths.some(
+        (death) =>
+          death.personId === person.id &&
+          death.diedAt <= installment.recordedAt,
+      ) &&
+      place?.scope === "locality" &&
+      place.stateJurisdictionKey === profile.jurisdictionKey &&
+      world.jurisdictions[person.homeJurisdictionId] !== undefined
     );
-  const rider = eligible[0] ?? null;
-  const area = rider
-    ? lifePlaceByJurisdictionId(rider.homeJurisdictionId)
-    : null;
+  });
+  const modeledAreaId =
+    [
+      ...new Set(eligibleResidents.map((person) => person.homeJurisdictionId)),
+    ].sort(
+      (left, right) =>
+        stableHash(`${installment.id}:${left}`).localeCompare(
+          stableHash(`${installment.id}:${right}`),
+        ) || left.localeCompare(right),
+    )[0] ?? null;
+  const area = modeledAreaId ? lifePlaceByJurisdictionId(modeledAreaId) : null;
   let next = world;
-  if (rider && area) {
+  if (modeledAreaId && area) {
     next = recordWorldEvent(next, {
       stableKey: `${key}:modeled-area`,
       type: "transit.modeled-service-area",
       occurredAt: installment.recordedAt,
       recordedAt: installment.recordedAt,
-      jurisdictionId: rider.homeJurisdictionId,
+      jurisdictionId: modeledAreaId,
       involvedEntityIds: [
         measure!.id,
         installment.resourceFlowId,
-        rider.homeJurisdictionId,
+        modeledAreaId,
       ],
       participants: [],
       personFactConstraints: [],
@@ -136,7 +131,7 @@ export function recordPaidTransitProgramService(
       summary: `For this paid period, ${area.displayName} is the modeled local service area for ${measure!.designation}. This PLACEHOLDER(wave2) allocation is not a researched route or a rural classification of the locality.`,
       context: {
         location: {
-          jurisdictionId: rider.homeJurisdictionId,
+          jurisdictionId: modeledAreaId,
           label: area.displayName,
           setting: null,
         },
@@ -148,18 +143,26 @@ export function recordPaidTransitProgramService(
       },
     });
   }
+  const rider = modeledAreaId
+    ? (eligibleResidents
+        .filter((person) => person.homeJurisdictionId === modeledAreaId)
+        .sort(
+          (left, right) =>
+            stableHash(`${installment.id}:${left.id}`).localeCompare(
+              stableHash(`${installment.id}:${right.id}`),
+            ) || left.id.localeCompare(right.id),
+        )[0] ?? null)
+    : null;
   next = recordWorldEvent(next, {
     stableKey: key,
     type: "transit.program-paid-service-hours",
     occurredAt: installment.recordedAt,
     recordedAt: installment.recordedAt,
-    jurisdictionId: rider
-      ? rider.homeJurisdictionId
-      : appropriation.jurisdictionId,
+    jurisdictionId: modeledAreaId ?? appropriation.jurisdictionId,
     involvedEntityIds: [
       measure!.id,
       installment.resourceFlowId,
-      ...(rider ? [rider.homeJurisdictionId] : []),
+      ...(modeledAreaId ? [modeledAreaId] : []),
     ],
     participants: [],
     personFactConstraints: [],
@@ -193,9 +196,7 @@ export function recordPaidTransitProgramService(
     stableKey: `${key}:metric`,
     metricId: metric.id,
     scope: {
-      jurisdictionId: rider
-        ? rider.homeJurisdictionId
-        : appropriation.jurisdictionId,
+      jurisdictionId: modeledAreaId ?? appropriation.jurisdictionId,
       segmentKey: `public-program-installment:${installment.id}`,
     },
     referencePeriod: { kind: "point", at: installment.recordedAt },
