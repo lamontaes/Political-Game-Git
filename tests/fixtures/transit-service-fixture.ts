@@ -12,6 +12,7 @@ import {
   introduceMeasure,
   recordEnactment,
 } from "../../src/simulation/legislation";
+import { applyEnactedLawEffects } from "../../src/simulation/enacted-law-effects";
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
 import { addDays } from "../../src/simulation/dates";
 import {
@@ -121,6 +122,7 @@ export function transitAppropriationFixture(
   const enactment = world.history.legislativeEnactments!.find(
     (e) => e.measureId === measureId,
   )!;
+  world = applyEnactedLawEffects(world, measureId);
   return {
     world,
     personId,

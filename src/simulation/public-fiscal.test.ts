@@ -25,17 +25,17 @@ import {
 import { serializeWorld, deserializeWorld } from "./serialization";
 import {
   administrativeMandateText,
-  fundingAvailabilityText,
   PUBLIC_FUNDING_DEFAULT_DATE_TEXT,
   settlePublicResourcePayment,
 } from "./public-fiscal";
+import { recordAdoptedAppropriation } from "./governing/program-governing";
 import type {
   PublicFundingResolver,
   PublicPaymentInput,
   PublicFundingMandate,
 } from "./public-fiscal";
 
-function fundedFixture() {
+function fundedFixture(saveAppropriation = true) {
   const fixture = enactedTaxFixture(10000);
   let world = fixture.world;
   const jurisdictionId = world.history.taxProposals![0]!.jurisdictionId;
@@ -61,7 +61,11 @@ function fundedFixture() {
       ],
       ["administrative-mandate", administrativeMandateText(programKey), null],
       ["effective-date", PUBLIC_FUNDING_DEFAULT_DATE_TEXT, null],
-      ["availability", fundingAvailabilityText(null), null],
+      [
+        "availability",
+        "The appropriation remains available for 365 days after its effective date. No payment may be made before its effective date or after its availability expires.",
+        null,
+      ],
     ] as const
   ).entries())
     world = recordFiledProvision(world, {
@@ -94,6 +98,23 @@ function fundedFixture() {
   const enactment = world.history.legislativeEnactments!.find(
     (row) => row.measureId === measureId && row.outcome === "enacted",
   )!;
+  const availableAt = addDays(enactment.resolvedAt, 90);
+  const adopted = saveAppropriation
+    ? recordAdoptedAppropriation(world, {
+        familyKey: "program",
+        stateUsps: "AK",
+        jurisdictionId,
+        programKey,
+        amountMinorUnits: 10000,
+        adoptedOn: availableAt,
+        availableDays: 366,
+        edition: "public-funding-test-v1",
+        basisNote: "Explicit fictional payment authority; no cash opened.",
+        sourceMeasureId: measureId,
+      })
+    : null;
+  if (saveAppropriation && !adopted) throw new Error("Test appropriation was not recorded.");
+  world = adopted?.world ?? world;
   const mandate: PublicFundingMandate = {
     version: "public-funding-test-v1",
     fundingId: enactment.id,
@@ -103,8 +124,9 @@ function fundedFixture() {
       .map((row) => row.id)
       .sort(),
     amount: money(10000, "USD"),
-    availableAt: addDays(enactment.resolvedAt, 90),
-    endsAt: null,
+    availableAt,
+    endsAt: addDays(availableAt, 365),
+    ...(adopted ? { appropriationId: adopted.appropriationId } : {}),
     administrativeEventId: enactment.outcomeEventId,
     programKey,
   };
@@ -151,6 +173,25 @@ describe("shared public cash settlement for T", () => {
         money(0, "USD").currency,
       )?.liquidBalance.minorUnits,
     ).toBe(0);
+  });
+  it("refuses a paid delivery without a saved appropriation even when receipts exist", () => {
+    const fixture = fundedFixture(false);
+    let world = recordTestTaxOccurrence(fixture.world, {
+      personId: fixture.personId,
+      stableKey: "public-payment-test:unfunded-tax-base",
+      proposalId: fixture.proposalId,
+      baseKey: TEST_TAX_TERMS.baseKey,
+      amountMinorUnits: 2100,
+      assumptionNote: "One fictional test occurrence; no income or purchase money.",
+    });
+    world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
+    const before = serializeWorld(world);
+    expect(settlePublicResourcePayment(world, fixture.input, fixture.resolver)).toMatchObject({
+      kind: "refused",
+      world,
+      reason: "This payment has no saved program appropriation.",
+    });
+    expect(serializeWorld(world)).toBe(before);
   });
   it("spends actual collected public cash once and reloads with reconciled funding/debit identity", () => {
     const fixture = fundedFixture();
