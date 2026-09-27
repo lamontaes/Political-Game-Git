@@ -1,4 +1,5 @@
 import { applyNewlyEnactedLawEffects } from "../simulation/enacted-law-effects";
+import { closeResolvedMemberVoteNotices } from "../simulation/governing/legislative-clock";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { publishPublicEvent } from "../simulation/public-information";
 import { resolvePublicationSource } from "../simulation/public-information-integrity";
@@ -28,6 +29,13 @@ function publishNewProceedings(before: World, after: World): World {
   // A newly enacted law changes the records it governs (a tax policy,
   // spending authority) before its proceedings are published.
   let next = applyNewlyEnactedLawEffects(before, after);
+  const priorEnactments = new Set(
+    (before.history.legislativeEnactments ?? []).map((record) => record.id),
+  );
+  for (const enactment of after.history.legislativeEnactments ?? []) {
+    if (priorEnactments.has(enactment.id)) continue;
+    next = closeResolvedMemberVoteNotices(next, enactment.measureId);
+  }
   for (const action of after.history.legislativeActions ?? []) {
     if (existing.has(action.id)) continue;
     const event = next.history.events.find(

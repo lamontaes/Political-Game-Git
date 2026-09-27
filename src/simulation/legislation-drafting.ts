@@ -1,9 +1,25 @@
-import { legislativePackForWorkKey } from "./legislative-institutions";
+import {
+  legislativePackForJurisdiction,
+  legislativePackForWorkKey,
+} from "./legislative-institutions";
+import { governmentUnit } from "./government-units";
+import { stateJurisdictionForKey } from "./life-places";
+import {
+  localFiscalAuthorityScopeForRulePackId,
+  municipalAuthorityNarrowing,
+  municipalGovernmentForRulePackId,
+} from "./municipal-government";
+import type { LegislativeRulePack } from "./legislature-rules";
+import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
 import { addDays, makeIsoDate, yearOf } from "./dates";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   formatMinorUnits,
+  governmentMayEnactVariant,
   legalInstrumentRule,
   programVariant,
+  type EnactingGovernment,
+  type LocalAuthorityNarrowing,
   type AmendmentInvitation,
   type ClauseDimension,
   type LegalInstrument,
@@ -21,6 +37,7 @@ import type {
   EntityId,
   IsoDate,
   LegislativeProvisionBeneficiary,
+  LegislativeProvisionEffectIntent,
   MetricScope,
 } from "./types";
 import { moneyText } from "./money-text";
@@ -84,6 +101,7 @@ export interface CompileBillDraftInput {
 /** One numbered section of a compiled draft. */
 export interface CompiledClause {
   readonly fiscalPeriod?: "annual";
+  readonly operativeEffect?: LegislativeProvisionEffectIntent;
   readonly provisionKey: string;
   readonly sectionNumber: number;
   readonly dimension: ClauseDimension;
@@ -190,17 +208,8 @@ export class BillConfigurationError extends Error {
  * authority, and the honest answer for an unsupported one is a refusal rather
  * than Kentucky with the labels changed.
  */
-const SUPPORTED_SCENARIO_KEYS: readonly string[] = [
-  "kentucky",
-  "nebraska",
-  "alaska",
-];
-
 export function draftingSupportsScenario(scenarioKey: string): boolean {
-  return (
-    SUPPORTED_SCENARIO_KEYS.includes(scenarioKey) ||
-    legislativePackForWorkKey(scenarioKey) !== null
-  );
+  return legislativePackForWorkKey(scenarioKey) !== null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -384,6 +393,8 @@ function checkPredicateAuthority(
   variant: ProgramVariant,
   rule: LegalInstrumentRule,
   authority: PredicateAuthority | null,
+  jurisdictionId: EntityId,
+  rulePackId: string,
 ): PredicateAuthority | null {
   if (!rule.requiresPredicateAuthority) {
     if (authority !== null) {
@@ -398,7 +409,53 @@ function checkPredicateAuthority(
       `${rule.label} acts on something that already exists, and the ${variant.label} configuration was given no authority to act on.`,
     );
   }
-  if (rule.predicateMustAuthorizeSpending && !authority.authorizesSpending) {
+  if (authority.kind === "game-profile") {
+    const exactProfileIdentity =
+      authority.publicGovernmentIdentity.kind === "local-government"
+        ? authority.rulePackId ===
+            `${authority.publicGovernmentIdentity.governmentKey}:${authority.profileVersion}` ||
+          // A council under its own recorded charter holds ordinary
+          // authority too; its grant names its own pack.
+          localFiscalAuthorityScopeForRulePackId(authority.rulePackId)
+            ?.jurisdictionId ===
+            authority.publicGovernmentIdentity.jurisdictionId
+        : authority.rulePackId !== US_CONGRESS_PACK_ID ||
+          authority.publicGovernmentIdentity.jurisdictionId ===
+            NATIONAL_ELECTION_JURISDICTION.id;
+    if (
+      authority.publicGovernmentIdentity.jurisdictionId !== jurisdictionId ||
+      authority.rulePackId !== rulePackId ||
+      !exactProfileIdentity ||
+      !authority.authorityKey.trim() ||
+      !authority.authorityVersion.trim() ||
+      !authority.profileVersion.trim() ||
+      authority.permittedEffects.length === 0 ||
+      new Set(authority.permittedEffects).size !==
+        authority.permittedEffects.length ||
+      !authority.citationLabel.trim() ||
+      !authority.programLabel.trim() ||
+      (authority.publicGovernmentIdentity.kind === "local-government" &&
+        !authority.publicGovernmentIdentity.governmentKey.trim()) ||
+      (authority.authorizedCeilingMinorUnits !== null &&
+        (!Number.isSafeInteger(authority.authorizedCeilingMinorUnits) ||
+          authority.authorizedCeilingMinorUnits < 0))
+    )
+      throw new BillConfigurationError(
+        "The game-profile authority must match this measure's exact government identity and rule pack.",
+      );
+    if (
+      rule.predicateMustAuthorizeSpending &&
+      !authority.permittedEffects.includes("public-program-appropriation")
+    )
+      throw new BillConfigurationError(
+        `${authority.citationLabel} authorizes no public-program appropriation.`,
+      );
+  }
+  if (
+    rule.predicateMustAuthorizeSpending &&
+    authority.kind !== "game-profile" &&
+    !authority.authorizesSpending
+  ) {
     throw new BillConfigurationError(
       `${authority.citationLabel} authorizes no spending, so there is nothing for the ${variant.label} configuration to appropriate against.`,
     );
@@ -425,6 +482,11 @@ function checkAppropriationCeiling(
   if (appropriated === null) return;
   const ceiling = authority.authorizedCeilingMinorUnits;
   if (ceiling === null) {
+    if (
+      authority.kind === "game-profile" &&
+      authority.permittedEffects.includes("public-program-appropriation")
+    )
+      return;
     throw new BillConfigurationError(
       `${authority.citationLabel} states no ceiling, so an appropriation cannot be measured against it.`,
     );
@@ -446,22 +508,96 @@ function checkAppropriationCeiling(
 /* Compilation                                                                 */
 /* -------------------------------------------------------------------------- */
 
+const TERRITORY_KEYS = new Set(["US-PR", "US-GU", "US-VI", "US-AS", "US-MP"]);
+
+/**
+ * The kind of government whose legislature plays under this pack, with any
+ * recorded limit on a local government's ordinary authority. Null where the
+ * pack is not one the game can place.
+ */
+export function enactingGovernmentForPack(pack: LegislativeRulePack): {
+  readonly government: EnactingGovernment;
+  readonly narrowing: readonly LocalAuthorityNarrowing[];
+} | null {
+  if (pack.packId === US_CONGRESS_PACK_ID)
+    return { government: "federal", narrowing: [] };
+  const state = stateJurisdictionForKey(pack.jurisdictionKey);
+  if (state && legislativePackForJurisdiction(state.id)?.packId === pack.packId)
+    return {
+      government: TERRITORY_KEYS.has(pack.jurisdictionKey)
+        ? "territory"
+        : "state",
+      narrowing: [],
+    };
+  const local = municipalGovernmentForRulePackId(pack.packId);
+  if (!local) return null;
+  const unit = local.key.startsWith("gus2025:")
+    ? governmentUnit(local.key)
+    : null;
+  return {
+    government:
+      pack.jurisdictionKey === "US-DC"
+        ? "district-of-columbia"
+        : unit?.unitType === "county"
+          ? "county"
+          : "municipality",
+    narrowing: municipalAuthorityNarrowing(local),
+  };
+}
+
+/** The one authority rule applied to a drafting context's legislature. */
+export function packMayEnactVariant(
+  pack: LegislativeRulePack,
+  familyKey: string,
+  variantKey: string,
+): { readonly ok: true } | { readonly ok: false; readonly reason: string } {
+  const placed = enactingGovernmentForPack(pack);
+  if (!placed)
+    return {
+      ok: false,
+      reason: `${pack.displayName} is not a legislature the game can place.`,
+    };
+  return governmentMayEnactVariant(
+    placed.government,
+    familyKey,
+    variantKey,
+    placed.narrowing,
+  );
+}
+
 export function compileBillDraft(
   input: CompileBillDraftInput,
 ): CompiledBillDraft {
   const { family, variant } = programVariant(input.familyKey, input.variantKey);
 
-  if (!draftingSupportsScenario(input.scenarioKey)) {
+  const workPack = legislativePackForWorkKey(input.scenarioKey);
+  if (!workPack) {
     throw new BillConfigurationError(
       `No drafting authority is supported for the '${input.scenarioKey}' legislature, so a bill cannot be written for it.`,
     );
   }
+  if (workPack.packId !== input.rulePackId) {
+    throw new BillConfigurationError(
+      `The '${input.scenarioKey}' drafting context resolves to '${workPack.packId}', not '${input.rulePackId}'.`,
+    );
+  }
+
+  // Every filing path passes through here, so this is where the one
+  // authority rule refuses an act the legislature cannot pass.
+  const enactable = packMayEnactVariant(
+    workPack,
+    input.familyKey,
+    input.variantKey,
+  );
+  if (!enactable.ok) throw new BillConfigurationError(enactable.reason);
 
   const rule = legalInstrumentRule(variant.instrument);
   const authority = checkPredicateAuthority(
     variant,
     rule,
     input.predicateAuthority ?? null,
+    input.jurisdictionId,
+    input.rulePackId,
   );
   checkInstrumentShape(family, variant, rule);
 
@@ -549,6 +685,17 @@ export function compileBillDraft(
     values[spec.key] = value;
   }
 
+  if (
+    authority?.kind === "game-profile" &&
+    Object.values(values).some(
+      (value) =>
+        value.kind === "money" && value.currency !== authority.currency,
+    )
+  )
+    throw new BillConfigurationError(
+      "The bill's monetary parameters must use the game-profile authority's currency.",
+    );
+
   const timing =
     selectedKeys === undefined ||
     variant.parameters.some(
@@ -567,6 +714,15 @@ export function compileBillDraft(
 
   const clauses: CompiledClause[] = templates.map((template, index) => {
     const rendering = template.render(resolved);
+    const profileEffect =
+      authority?.kind === "game-profile" &&
+      authority.permittedEffects.includes("public-program-appropriation") &&
+      (template.provisionKey === "amount-provided" ||
+        template.provisionKey.endsWith(":amount-provided")) &&
+      rendering.fiscalExposureMinorUnits !== null &&
+      rendering.fiscalExposureMinorUnits > 0
+        ? { kind: "public-program-appropriation" as const }
+        : undefined;
     if (
       rendering.fiscalExposureMinorUnits !== null &&
       template.dimension !== "revenue" &&
@@ -590,6 +746,9 @@ export function compileBillDraft(
           : rendering.text,
       ...(rendering.fiscalPeriod !== undefined
         ? { fiscalPeriod: rendering.fiscalPeriod }
+        : {}),
+      ...((rendering.operativeEffect ?? profileEffect)
+        ? { operativeEffect: rendering.operativeEffect ?? profileEffect }
         : {}),
       beneficiary: rendering.beneficiary,
       fiscalExposureLabel: rendering.fiscalExposureLabel,

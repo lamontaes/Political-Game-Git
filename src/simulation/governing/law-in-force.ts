@@ -1,5 +1,4 @@
-import { addDays } from "../dates";
-import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
+import { operativeDateForEnactment } from "../legislative-effective-date";
 import {
   measurePropositionAnswer,
   type PropositionAnswer,
@@ -63,18 +62,14 @@ export function lawInForce(
     if (!level) continue;
     const answer = measurePropositionAnswer(measure, propositionId);
     if (!answer) continue;
-    const operativeAt =
-      enactment.effectiveAt ??
-      addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS);
-    if (operativeAt > onDate) continue;
+    const operative = operativeDateForEnactment(enactment);
+    if (!operative || operative.date > onDate) continue;
     const candidate = {
       answer,
       measureId: measure.id,
       level,
-      operativeAt,
-      operativeBasis: enactment.effectiveAt
-        ? ("enacted-date" as const)
-        : ("game-default" as const),
+      operativeAt: operative.date,
+      operativeBasis: operative.basis,
       sequence: enactment.sequence,
     };
     if (!best || governs(candidate, best)) best = candidate;

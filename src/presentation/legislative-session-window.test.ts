@@ -122,4 +122,26 @@ describe("P12 sourced regular-session outer boundary", () => {
       regularSessionWindow(scenario.pack, makeIsoDate("2037-03-31")),
     ).toEqual({ kind: "unresolved" });
   });
+
+  it("refuses a saved biennial off year before applying the session deadline", () => {
+    const scenario = createLegislativeScenario("kentucky");
+    const pack = {
+      ...scenario.pack,
+      session: {
+        ...scenario.pack.session,
+        regularSessionYears: {
+          kind: "known" as const,
+          value: "odd" as const,
+          source: scenario.pack.session.source,
+        },
+      },
+    };
+    expect(regularSessionWindow(pack, makeIsoDate("2038-03-01"))).toEqual({
+      kind: "outside-regular-session-year",
+      source: pack.session.source,
+    });
+    expect(regularSessionWindow(pack, makeIsoDate("2037-03-01")).kind).toBe(
+      "within-outer-limit",
+    );
+  });
 });

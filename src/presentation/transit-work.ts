@@ -27,6 +27,7 @@ import {
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { money } from "../simulation/resources";
+import { stateTaxServiceProfileForJurisdictionKey } from "../simulation/world-setup/state-tax-service-profiles";
 import type { EntityId, World } from "../simulation/types";
 
 export function transitOffice(world: World, personId: EntityId) {
@@ -46,6 +47,8 @@ export function transitOffice(world: World, personId: EntityId) {
   const capability = resolveStateFundedServiceCapability(
     seat.seat.jurisdictionKey,
     world.currentDate,
+    TRANSIT_PROGRAM_KEY,
+    stateTaxServiceProfileForJurisdictionKey(world, seat.seat.jurisdictionKey),
   );
   if (!capability.supported)
     return {

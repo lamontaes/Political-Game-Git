@@ -162,9 +162,7 @@ export function congressBlueprint(world: World): LegislativeBlueprint {
 /**
  * The federal issue a Congress bill is about.
  *
- * TEMPORARY: read from the bill's stable key, which the intake writes as
- * `congress-intake/v1:<issue key>:…`. The Legislation thread is adding a
- * field for the policy question a bill answers; this switches to it then.
+ * Legacy fallback for saves that filed no catalog question on the measure.
  */
 export function federalIssueOfMeasure(
   measure: LegislativeMeasureRecord,
@@ -175,17 +173,35 @@ export function federalIssueOfMeasure(
   return match ? match[1]! : null;
 }
 
+/** The filed question is the subject; a stable-key naming convention is not. */
+function filedIssueOfMeasure(
+  world: World,
+  measure: LegislativeMeasureRecord,
+): string | null {
+  for (const propositionId of measure.propositionIds ?? []) {
+    const proposition = world.policyCatalog.propositions[propositionId];
+    const issue = proposition
+      ? world.policyCatalog.issues[proposition.issueId]
+      : null;
+    if (issue?.stableKey.startsWith("us-federal:"))
+      return issue.stableKey.slice("us-federal:".length);
+  }
+  // Older saves filed the subject only in the intake key.
+  return federalIssueOfMeasure(measure);
+}
+
 /**
  * The committee a Congress bill is referred to, by its policy field. Null
  * for a bill that is not a Congress bill or names no field, so the caller
  * keeps its own default.
  */
 export function congressReferralCommittee(
+  world: World,
   measure: LegislativeMeasureRecord,
   chamberKey: string,
 ): string | null {
   if (!isCongressMeasure(measure)) return null;
-  const issue = federalIssueOfMeasure(measure);
+  const issue = filedIssueOfMeasure(world, measure);
   const domain = issue?.split(".")[0];
   const entry = domain ? CONGRESS_COMMITTEE_BY_DOMAIN[domain] : undefined;
   if (!entry) return null;

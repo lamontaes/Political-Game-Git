@@ -13,7 +13,13 @@ import { appropriationFromEnactedMeasure } from "../simulation/governing/program
 import type { MeasureStepKey } from "../simulation/legislation";
 import { applyLegislativeStep } from "./legislation-session";
 import {
+  endSuppliedSeat,
+  suppliedLegislativeSeat,
+} from "../../tests/fixtures/supplied-legislative-seat";
+import { resolvePlayerCapabilities } from "./player-capabilities";
+import {
   fileBundleDraft,
+  fileBundleDraftFromOffice,
   recompileSavedBundle,
   type FileBundleComponentInput,
 } from "./legislation-bundle-docket";
@@ -457,5 +463,43 @@ describe("enacting a measure with parts applies each part once", () => {
           record.sourceMeasureId === measureId,
       ),
     ).toEqual([]);
+  });
+});
+
+describe("the docket action for a measure with parts", () => {
+  it("files from the player's own office and refuses anyone without one", () => {
+    const seat = suppliedLegislativeSeat("US-KY", "house");
+    const capabilities = resolvePlayerCapabilities(seat.world);
+    const input = {
+      scenarioKey: capabilities.legislativeScenarioKey!,
+      playerPersonId: seat.personId,
+      jurisdictionId: seat.jurisdictionId,
+      subjectRule: "unrestricted" as const,
+      components: [
+        component("routes", "transit-access", "unserved-county-formula"),
+        component(
+          "reporting",
+          "agency-reporting",
+          "annual-legislative-report",
+          {
+            subject: "administration",
+          },
+        ),
+      ],
+    };
+    const filed = fileBundleDraftFromOffice(seat.world, input);
+    const measure = filed.world.history.legislativeMeasures!.find(
+      (entry) => entry.id === filed.bill.measureId,
+    )!;
+    expect(measure.sponsorPersonId).toBe(seat.personId);
+    expect(measure.rulePackId).toBe(seat.packId);
+    expect(filed.bundle.components.map((part) => part.componentKey)).toEqual([
+      "routes",
+      "reporting",
+    ]);
+
+    // Once the seat ends, the same action is refused before anything is written.
+    const ended = endSuppliedSeat(seat.world);
+    expect(() => fileBundleDraftFromOffice(ended, input)).toThrow();
   });
 });

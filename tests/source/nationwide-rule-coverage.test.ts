@@ -28,6 +28,29 @@ describe("nationwide rule coverage", () => {
 
     expect(report.totals.states).toBe(50);
     expect(report.states).toHaveLength(51);
+    expect(report.totals.statesWithLegislativePack).toBe(50);
+    expect(report.totals.statesWithResearchedLegislature).toBe(9);
+    expect(report.totals.statesWithGameProfileLegislature).toBe(41);
+    expect(report.totals.statesWithCandidacyPack).toBe(9);
+    expect(report.totals.statesWithBillProcessPack).toBe(50);
+    expect(report.totals.statesWithBillDraftSupport).toBe(50);
+    expect(
+      report.states
+        .filter((row) => row.isState)
+        .every(
+          (row) =>
+            row.legislativeWorkKey !== null &&
+            row.billProcessPackAvailable &&
+            row.billDraftSupported &&
+            row.ordinaryBillToEffect.startsWith("not measured by RULES"),
+        ),
+    ).toBe(true);
+    expect(report.totals.statesWithComputedSourceEffectiveDate).toBe(1);
+    expect(report.totals.statesWithSourceEffectiveDateNeedingAdapter).toBe(4);
+    expect(
+      report.totals.statesWithResearchedLegislature +
+        report.totals.statesWithGameProfileLegislature,
+    ).toBe(report.totals.statesWithLegislativePack);
     const counted = Object.values(report.totals.byUnitType).reduce(
       (sum, row) => sum + row.units,
       0,
@@ -66,11 +89,27 @@ describe("nationwide rule coverage", () => {
       ["upper", "admitted"],
     ]);
     const texas = report.states.find((row) => row.state === "TX")!;
+    expect(texas.legislatureBasis).toBe("game-profile");
+    expect(texas.legislaturePack).not.toBeNull();
+    expect(texas.defaultEffectiveDate).toBe("game-default");
+    expect(
+      report.states.find((row) => row.state === "AK")?.defaultEffectiveDate,
+    ).toBe("source-computed");
+    expect(
+      report.states.find((row) => row.state === "MD")?.defaultEffectiveDate,
+    ).toBe("game-default");
+    expect(
+      report.states.find((row) => row.state === "MD")
+        ?.sourceEffectiveDateUncomputed,
+    ).toBe(true);
     expect(
       texas.legislatorQualifications.every(
         (probe) => probe.standForOffice === "refused",
       ),
     ).toBe(true);
+    expect(
+      report.states.find((row) => row.state === "DC")?.legislaturePack,
+    ).toBeNull();
 
     // Producer columns are never claimed by a rule report.
     expect(

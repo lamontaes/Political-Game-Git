@@ -15,6 +15,7 @@ import { municipalGovernmentForLifePlace } from "../simulation/municipal-governm
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
 import { scheduleDcCouncilSitting } from "../simulation/dc-council-sittings";
+import { scheduleLocalMemberAgendaIntakes } from "../simulation/governing/member-agenda";
 import { seatedCongressChamber } from "../simulation/governing/congress-chambers";
 import { ensureOfficeholderPrinciples } from "../simulation/governing/officeholder-principles";
 import { homeStateUsps } from "../simulation/nationwide-world/state-executives";
@@ -329,10 +330,13 @@ function completeOpeningLife(
   start: OpeningLifeBuildStart,
   preparedWorld: World,
 ): OpeningLifeSession {
-  const { session, game } = start;
+  const { session, game, prewarmNationwide } = start;
+  const withLocalIntakes = prewarmNationwide
+    ? scheduleLocalMemberAgendaIntakes(preparedWorld)
+    : preparedWorld;
   const withParties = ensurePartyGoverningBodies(
     ensureHomePartyChapters(
-      preparedWorld,
+      withLocalIntakes,
       game.playerPersonId,
       session.setup.partyChapterNameVersion,
     ),

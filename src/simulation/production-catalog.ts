@@ -18,7 +18,10 @@ import type {
   WorldMetricCatalog,
 } from "./types";
 import { createVitalityCatalog } from "./vitality-catalog";
-import { createWorldMetricCatalog } from "./world-metrics";
+import {
+  createWorldMetricCatalog,
+  governmentFiscalMetricDefinitions,
+} from "./world-metrics";
 import { canonicalJson } from "./canonical-json";
 import { createStableId } from "./ids";
 import {
@@ -61,9 +64,9 @@ import {
  * a synthetic mortality table, a synthetic policy corpus, a storm model built
  * to exercise the engine. Those remain empty until sourced, and the allow-list
  * below is a list of names rather than a hole.
- * Transit adds exact authored physical contract definitions, shared as pure
- * data and compared in full here. It admits no empirical service-response model
- * and changes none of the initially empty production catalogs.
+ * Fiscal-flow definitions describe actual modeled transfers; transit adds an
+ * exact authored physical contract quantity. Neither admits an empirical
+ * response model or a derived outcome without a producer.
  */
 
 /**
@@ -71,13 +74,16 @@ import {
  *
  * Written out here rather than imported from the modules that own them:
  * `campaigns.ts` imports `world.ts`, which imports this file, so importing back
- * would close a cycle. Transit shares pure definition data without importing
- * its World/service module. A test beside each owning module asserts its key still
- * appears here, so the list cannot drift away from the code that relies on it.
+ * would close a cycle. Fiscal metrics share pure definitions from
+ * `world-metrics.ts`; transit shares pure data without importing its
+ * World/service module. Tests assert admitted keys and exact definitions.
  */
 export const SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS: readonly string[] = [
   // src/simulation/campaigns.ts — CAMPAIGN_SUPPORT_METRIC_STABLE_KEY
   "campaign.candidate-support-share",
+  // Exact sums of completed modeled tax receipts and public-program payments.
+  "government.revenue",
+  "government.outlays",
   // T's exact paid physical contract quantity; not an empirical measurement.
   TRANSIT_METRIC_INPUT.stableKey,
 ];
@@ -117,7 +123,9 @@ export function createProductionMindCatalog(): MindCatalog {
 }
 
 export function createProductionWorldMetricCatalog(): WorldMetricCatalog {
-  return createWorldMetricCatalog({ definitions: [] });
+  return createWorldMetricCatalog({
+    definitions: [...governmentFiscalMetricDefinitions()],
+  });
 }
 
 export function createProductionCausalMechanismCatalog(): CausalMechanismCatalog {
@@ -142,22 +150,31 @@ export function createProductionVitalityCatalog(): VitalityCatalog {
  */
 /** Metric definitions a production world did not establish for itself. */
 function simulationEstablishedMetricCount(catalog: WorldMetricCatalog): number {
+  const exactFiscalDefinitions = new Map(
+    governmentFiscalMetricDefinitions().map((definition) => [
+      definition.stableKey,
+      canonicalJson(definition),
+    ]),
+  );
   return catalog.definitionOrder.filter((id) => {
     const definition = catalog.definitions[id];
     return (
       definition !== undefined &&
-      (definition.stableKey === TRANSIT_METRIC_INPUT.stableKey
+      (exactFiscalDefinitions.has(definition.stableKey)
         ? canonicalJson(definition) !==
-          canonicalJson({
-            ...TRANSIT_METRIC_INPUT,
-            id: createStableId(
-              "world-metric-definition",
-              `definition:${TRANSIT_METRIC_INPUT.stableKey}`,
-            ),
-          })
-        : !SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS.includes(
-            definition.stableKey,
-          ))
+          exactFiscalDefinitions.get(definition.stableKey)
+        : definition.stableKey === TRANSIT_METRIC_INPUT.stableKey
+          ? canonicalJson(definition) !==
+            canonicalJson({
+              ...TRANSIT_METRIC_INPUT,
+              id: createStableId(
+                "world-metric-definition",
+                `definition:${TRANSIT_METRIC_INPUT.stableKey}`,
+              ),
+            })
+          : !SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS.includes(
+              definition.stableKey,
+            ))
     );
   }).length;
 }

@@ -13,6 +13,7 @@ import {
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng, pickDistinct } from "../rng";
+import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,
   committeeHearingTransitionHandler,
@@ -1901,6 +1902,14 @@ export function governingSeasonHandler(
       ? governingJurisdictionIdFor({ kind: "state", stateUsps })
       : null);
   let next = world;
+  const offCycleBill =
+    kind === "bill" &&
+    jurisdictionId !== null &&
+    !regularSessionYearForWorld(
+      world,
+      jurisdictionId,
+      Number(due.dueAt.slice(0, 4)),
+    );
   if (kind === "budget" && office) {
     const rng = new SeededRng(`${due.stableKey}:subject`);
     const pool = PROGRAM_FAMILIES.map((family) => family.familyKey);
@@ -1918,7 +1927,12 @@ export function governingSeasonHandler(
       instance: due.dueAt,
       programKeys,
     });
-  } else if (kind === "bill" && jurisdictionId !== null && stateUsps) {
+  } else if (
+    kind === "bill" &&
+    !offCycleBill &&
+    jurisdictionId !== null &&
+    stateUsps
+  ) {
     const intake = {
       jurisdictionId,
       intakeKey: `${officeKey}:${due.dueAt}`,
@@ -1955,7 +1969,12 @@ export function governingSeasonHandler(
   if (office) next = openProgramMatters(next, office);
   if (jurisdictionId)
     next = scheduleGoverningSeasons(next, officeKey!, jurisdictionId);
-  return resolved(next, `The ${kind} season arrived.`);
+  return resolved(
+    next,
+    offCycleBill
+      ? "The off-cycle bill date was skipped."
+      : `The ${kind} season arrived.`,
+  );
 }
 
 /**

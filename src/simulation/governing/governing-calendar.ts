@@ -1,5 +1,6 @@
 import { makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { regularSessionYearForWorld } from "../legislative-procedure-world";
 import type { EntityId, IsoDate, World } from "../types";
 
 /**
@@ -39,13 +40,26 @@ function seasonDates(kind: SeasonKind): readonly string[] {
     : STATE_GOVERNING_CALENDAR.billDays;
 }
 
-function nextSeasonDate(kind: SeasonKind, after: IsoDate): IsoDate {
+function nextSeasonDate(
+  world: World,
+  jurisdictionId: EntityId,
+  kind: SeasonKind,
+  after: IsoDate,
+): IsoDate {
   const year = Number(after.slice(0, 4));
-  for (let y = year; y <= year + 1; y += 1)
+  // A biennial legislature can have passed its final bill day in an active
+  // year. Search through the next active year instead of assuming next year.
+  for (let y = year; y <= year + 4; y += 1) {
+    if (
+      kind === "bill" &&
+      !regularSessionYearForWorld(world, jurisdictionId, y)
+    )
+      continue;
     for (const monthDay of seasonDates(kind)) {
       const date = makeIsoDate(`${y}-${monthDay}`);
       if (date > after) return date;
     }
+  }
   throw new Error("No season date found.");
 }
 
@@ -61,7 +75,7 @@ export function scheduleGoverningSeasons(
 ): World {
   let next = world;
   for (const kind of ["budget", "bill"] as const) {
-    const dueAt = nextSeasonDate(kind, next.currentDate);
+    const dueAt = nextSeasonDate(next, jurisdictionId, kind, next.currentDate);
     const stableKey = `${STATE_GOVERNING_VERSION}:season:${officeKey}:${kind}:${dueAt}`;
     if (next.history.futureDueItems.some((due) => due.stableKey === stableKey))
       continue;
