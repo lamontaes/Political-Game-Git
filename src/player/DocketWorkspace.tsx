@@ -39,7 +39,7 @@ import {
   docketBill,
   availableAuthorities,
   availableDraftOptions,
-  fileDraftFromOffice as fileDraft,
+  fileSelectedDraftFromOffice as fileDraft,
   previewDraft,
   queryDocket,
   resolveAuthority,
@@ -402,7 +402,13 @@ function DocketWorkspaceBody({
           scenarioKey={scenarioKey}
           jurisdictionId={jurisdictionId}
           nextSequence={page.total + 1}
-          onFile={(familyKey, variantKey, parameterValues, authorityKey) => {
+          onFile={(
+            familyKey,
+            variantKey,
+            parameterValues,
+            selectedProvisionKeys,
+            authorityKey,
+          ) => {
             try {
               const result = fileDraft(world, {
                 scenarioKey,
@@ -411,6 +417,7 @@ function DocketWorkspaceBody({
                 familyKey,
                 variantKey,
                 parameterValues,
+                selectedProvisionKeys,
                 ...(authorityKey !== null ? { authorityKey } : {}),
               });
               setQuery({});
@@ -973,6 +980,7 @@ function DraftingTable({
     familyKey: string,
     variantKey: string,
     parameterValues: Readonly<Record<string, ProgramParameterValue>>,
+    selectedProvisionKeys: readonly string[],
     authorityKey: string | null,
   ) => void;
 }) {
@@ -990,9 +998,31 @@ function DraftingTable({
   const [values, setValues] = useState<
     Readonly<Record<string, ProgramParameterValue>>
   >({});
+  const [selectedSections, setSelectedSections] = useState<
+    readonly string[] | null
+  >(null);
 
   const option = options.find(
     (entry) => `${entry.familyKey}/${entry.variantKey}` === chosen,
+  );
+  const selectedProvisionKeys =
+    selectedSections ??
+    option?.operativeSections
+      .filter((section) => section.supported)
+      .map((section) => section.provisionKey) ??
+    [];
+  const variant = option
+    ? programVariant(option.familyKey, option.variantKey).variant
+    : null;
+  const selectedParameters = new Set(
+    variant?.clauses
+      .filter((clause) => selectedProvisionKeys.includes(clause.provisionKey))
+      .flatMap((clause) =>
+        clause.parameterKey === null ? [] : [clause.parameterKey],
+      ) ?? [],
+  );
+  const selectedValues = Object.fromEntries(
+    Object.entries(values).filter(([key]) => selectedParameters.has(key)),
   );
 
   // Which authorities this kind of act can actually be written against. An
@@ -1015,6 +1045,23 @@ function DraftingTable({
       undefined
     );
   }, [option, authorityKey, world, scenarioKey, playerPersonId]);
+  const isProposedSpendingAuthority = (
+    candidate: DraftAuthorityOption,
+  ): boolean => {
+    if (
+      option?.instrument !== "appropriation" ||
+      candidate.kind !== "docket-measure"
+    )
+      return false;
+    const resolved = resolveAuthority(
+      world,
+      { scenarioKey, playerPersonId },
+      candidate.authorityKey,
+    );
+    return (
+      resolved?.kind === "docket-measure" && resolved.legalStatus === "proposed"
+    );
+  };
 
   // Two readings of the same configuration: the one the bank offers by
   // default, and the one the player has moved to. Comparing them is how a
@@ -1028,6 +1075,7 @@ function DraftingTable({
         jurisdictionId,
         familyKey: option.familyKey,
         variantKey: option.variantKey,
+        selectedProvisionKeys,
         filedOn: world.currentDate,
         provisionalSequence: nextSequence,
         ...(authority !== undefined ? { predicateAuthority: authority } : {}),
@@ -1037,6 +1085,7 @@ function DraftingTable({
     }
   }, [
     option,
+    selectedProvisionKeys,
     authority,
     scenarioKey,
     jurisdictionId,
@@ -1055,7 +1104,8 @@ function DraftingTable({
           jurisdictionId,
           familyKey: option.familyKey,
           variantKey: option.variantKey,
-          parameterValues: values,
+          parameterValues: selectedValues,
+          selectedProvisionKeys,
           filedOn: world.currentDate,
           provisionalSequence: nextSequence,
           ...(authority !== undefined ? { predicateAuthority: authority } : {}),
@@ -1066,7 +1116,8 @@ function DraftingTable({
     }
   }, [
     option,
-    values,
+    selectedValues,
+    selectedProvisionKeys,
     authority,
     scenarioKey,
     jurisdictionId,
@@ -1074,8 +1125,8 @@ function DraftingTable({
     nextSequence,
   ]);
 
-  const specs: readonly ProgramParameterSpec[] = option
-    ? programVariant(option.familyKey, option.variantKey).variant.parameters
+  const specs: readonly ProgramParameterSpec[] = variant
+    ? variant.parameters.filter((spec) => selectedParameters.has(spec.key))
     : [];
 
   return (
@@ -1097,6 +1148,7 @@ function DraftingTable({
                 onClick={() => {
                   setChosen(key === chosen ? null : key);
                   setValues({});
+                  setSelectedSections(null);
                   setAuthorityKey(null);
                 }}
               >
@@ -1118,7 +1170,7 @@ function DraftingTable({
         })}
       </ul>
 
-      {option && asOffered ? (
+      {option ? (
         <div className="drafting-detail">
           <p className="drafting-mechanism" data-testid="drafting-mechanism">
             {option.mechanism}
@@ -1128,6 +1180,44 @@ function DraftingTable({
             <strong>{option.instrumentLabel}.</strong>{" "}
             {option.instrumentDescription}
           </p>
+
+          <h5 className="docket-subheading">Sections this bill would file</h5>
+          <p>
+            Choose the sections that would become operative if this bill becomes
+            law.
+          </p>
+          <ul data-testid="drafting-sections">
+            {option.operativeSections.map((section) => (
+              <li key={section.provisionKey}>
+                <label>
+                  <input
+                    type="checkbox"
+                    data-testid={`drafting-section-${section.provisionKey}`}
+                    checked={selectedProvisionKeys.includes(
+                      section.provisionKey,
+                    )}
+                    disabled={!section.supported}
+                    onChange={(event) =>
+                      setSelectedSections(
+                        event.target.checked
+                          ? [...selectedProvisionKeys, section.provisionKey]
+                          : selectedProvisionKeys.filter(
+                              (key) => key !== section.provisionKey,
+                            ),
+                      )
+                    }
+                  />
+                  {section.heading}
+                </label>
+                {!section.supported ? <p>{section.reason}</p> : null}
+              </li>
+            ))}
+          </ul>
+          {selectedProvisionKeys.length === 0 ? (
+            <p role="status">
+              No operative sections are available for this configuration.
+            </p>
+          ) : null}
 
           {option.requiresAuthority ? (
             <div
@@ -1154,6 +1244,7 @@ function DraftingTable({
                             : "drafting-authority-option"
                         }
                         data-testid={`drafting-authority-${candidate.authorityKey}`}
+                        disabled={isProposedSpendingAuthority(candidate)}
                         onClick={() =>
                           setAuthorityKey(
                             candidate.authorityKey === authorityKey
@@ -1174,6 +1265,12 @@ function DraftingTable({
                             : `It authorizes ${candidate.authorizedCeilingLabel}.`}
                         </span>
                       </button>
+                      {isProposedSpendingAuthority(candidate) ? (
+                        <p>
+                          This proposed authority must become law before an
+                          appropriation can use it.
+                        </p>
+                      ) : null}
                     </li>
                   ))}
                 </ul>
@@ -1187,11 +1284,7 @@ function DraftingTable({
               <ParameterControl
                 key={spec.key}
                 spec={spec}
-                value={
-                  values[spec.key] ??
-                  programVariant(option.familyKey, option.variantKey).variant
-                    .defaults[spec.key]!
-                }
+                value={values[spec.key] ?? variant!.defaults[spec.key]!}
                 onChange={(next) =>
                   setValues((current) => ({ ...current, [spec.key]: next }))
                 }
@@ -1205,7 +1298,7 @@ function DraftingTable({
             </p>
           ) : null}
 
-          {asChosen && "draft" in asChosen ? (
+          {asChosen && "draft" in asChosen && asOffered ? (
             <>
               <h5 className="docket-subheading">
                 As offered, and as you would file it
@@ -1285,7 +1378,8 @@ function DraftingTable({
                   onFile(
                     option.familyKey,
                     option.variantKey,
-                    values,
+                    selectedValues,
+                    selectedProvisionKeys,
                     authorityKey,
                   )
                 }
