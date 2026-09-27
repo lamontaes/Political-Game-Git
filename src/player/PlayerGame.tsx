@@ -50,7 +50,10 @@ import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
-import { previewTimeCommand } from "../presentation/time-command";
+import {
+  describeTimeCommandPreview,
+  previewTimeCommand,
+} from "../presentation/time-command";
 import { acceptedOfferStarts } from "../presentation/offer-deadlines";
 import {
   createWorldChangeGuard,
@@ -65,6 +68,7 @@ import { authorityDecisions } from "../presentation/crisis-shell";
 import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 import { useCrisisStop } from "./use-crisis-stop";
 import {
+  describeTimeCommandReport,
   TimeCommandProvider,
   useTimeCommandRunner,
 } from "./time-command-runner";
@@ -2734,6 +2738,21 @@ function PlayingScreen({
     },
     [crisisStop, submitTime, session.world, session.personId, dispatch],
   );
+  const passUntilNeeded = useCallback(() => {
+    crisisStop.watch();
+    submitTime({ kind: "quiet-stretch" }, (report) => {
+      setPassOutcome(describeTimeCommandReport(report));
+      if (
+        report.status === "accepted" &&
+        report.reached &&
+        acceptedOfferStarts(session.world, session.personId).some(
+          (entry) => entry.startOn === report.reached?.date,
+        )
+      ) {
+        dispatch({ type: "go-to-surface", surface: "work", section: "jobs" });
+      }
+    });
+  }, [crisisStop, submitTime, session.world, session.personId, dispatch]);
   const passTargets = useMemo(() => {
     const day = previewTimeCommand(session.world, session.personId, {
       kind: "days",
@@ -2743,8 +2762,17 @@ function PlayingScreen({
       kind: "days",
       days: 7,
     });
+    const untilNeeded = previewTimeCommand(session.world, session.personId, {
+      kind: "quiet-stretch",
+    });
     return day && week
-      ? { day: skipToLabel(day.target), week: skipToLabel(week.target) }
+      ? {
+          day: skipToLabel(day.target),
+          week: skipToLabel(week.target),
+          untilNeeded: untilNeeded
+            ? describeTimeCommandPreview(untilNeeded)
+            : null,
+        }
       : undefined;
   }, [session.world, session.personId]);
 
@@ -4063,7 +4091,13 @@ function PlayingScreen({
                 }}
                 onSaveAndLeave={() => void saveAndReturnToTitle()}
                 onLeave={leaveNow}
-                {...(readOnly ? {} : { onPassDays: passDays, passTargets })}
+                {...(readOnly
+                  ? {}
+                  : {
+                      onPassDays: passDays,
+                      onPassUntilNeeded: passUntilNeeded,
+                      passTargets,
+                    })}
                 passing={timeRunner.pending}
               />
             ) : null}

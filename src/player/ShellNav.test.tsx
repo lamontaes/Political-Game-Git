@@ -5,7 +5,10 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
-import { previewTimeCommand } from "../presentation/time-command";
+import {
+  describeTimeCommandPreview,
+  previewTimeCommand,
+} from "../presentation/time-command";
 import { skipToLabel } from "../presentation/time-target-label";
 
 import {
@@ -180,7 +183,7 @@ describe("ShellNav interrupt checklist", () => {
     expect(html).not.toContain('data-testid="shell-stops"');
   });
 
-  it("keeps both shell clock controls available in a child's life", () => {
+  it("keeps Day, Week and Until needed available in a child's life", () => {
     const child = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "child-shell-day-week",
@@ -195,8 +198,12 @@ describe("ShellNav interrupt checklist", () => {
       kind: "days",
       days: 7,
     });
+    const untilNeeded = previewTimeCommand(child.world, child.playerPersonId, {
+      kind: "quiet-stretch",
+    });
     expect(day).not.toBeNull();
     expect(week).not.toBeNull();
+    expect(untilNeeded).not.toBeNull();
     const html = renderToStaticMarkup(
       <ShellNav
         state={INITIAL_SHELL_STATE}
@@ -210,15 +217,43 @@ describe("ShellNav interrupt checklist", () => {
         onSave={() => {}}
         onLeave={() => {}}
         onPassDays={() => {}}
+        onPassUntilNeeded={() => {}}
         passTargets={{
           day: skipToLabel(day!.target),
           week: skipToLabel(week!.target),
+          untilNeeded: describeTimeCommandPreview(untilNeeded!),
         }}
       />,
     );
     expect(html).toContain('data-testid="shell-pass-day"');
     expect(html).toContain('data-testid="shell-pass-week"');
+    expect(html).toContain('data-testid="shell-pass-until-needed"');
     expect(html).toContain(skipToLabel(day!.target));
     expect(html).toContain(skipToLabel(week!.target));
+    expect(html).toContain(describeTimeCommandPreview(untilNeeded!));
+  });
+
+  it("leaves an already due Work decision in the player's hands", () => {
+    const html = renderToStaticMarkup(
+      <ShellNav
+        state={INITIAL_SHELL_STATE}
+        dispatch={() => {}}
+        playerName="Jordan Avery Price"
+        dateLabel="Tuesday, January 20, 2026"
+        placeName={null}
+        destinations={DESTINATIONS}
+        canSave
+        unsaved={false}
+        onSave={() => {}}
+        onLeave={() => {}}
+        onPassDays={() => {}}
+        onPassUntilNeeded={() => {}}
+        passTargets={{ day: "Tomorrow", week: "Next week", untilNeeded: null }}
+      />,
+    );
+    expect(html).toMatch(
+      /data-testid="shell-pass-until-needed"[^>]*aria-disabled="true"/,
+    );
+    expect(html).toContain("Resolve the decision under Work");
   });
 });

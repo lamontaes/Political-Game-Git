@@ -239,6 +239,7 @@ export function ShellNav({
   leaving = false,
   leaveProblem = null,
   onPassDays,
+  onPassUntilNeeded,
   passTargets,
   passing = false,
 }: {
@@ -263,8 +264,14 @@ export function ShellNav({
   readonly leaveProblem?: string | null;
   /** Day and week through the canonical clock, including during childhood. */
   readonly onPassDays?: (days: 1 | 7) => void;
+  /** Run the existing quiet-stretch command until the next protected need. */
+  readonly onPassUntilNeeded?: () => void;
   /** Where each skip would land, said before it is pressed. */
-  readonly passTargets?: { readonly day: string; readonly week: string };
+  readonly passTargets?: {
+    readonly day: string;
+    readonly week: string;
+    readonly untilNeeded?: string | null;
+  };
   /** A time command is running; the controls keep focus but take no click. */
   readonly passing?: boolean;
 }) {
@@ -555,6 +562,27 @@ export function ShellNav({
             >
               Week <span aria-hidden="true">»</span>
             </button>
+            {onPassUntilNeeded ? (
+              <button
+                type="button"
+                className="pg-nav-day"
+                data-testid="shell-pass-until-needed"
+                aria-disabled={
+                  passing || !passTargets?.untilNeeded || undefined
+                }
+                aria-describedby="pg-nav-until-target"
+                title={
+                  passTargets?.untilNeeded
+                    ? `${passTargets.untilNeeded}. Your routine stops for the next thing that needs you.`
+                    : "Resolve the decision under Work before another quiet stretch."
+                }
+                onClick={() => {
+                  if (!passing && passTargets?.untilNeeded) onPassUntilNeeded();
+                }}
+              >
+                Until needed <span aria-hidden="true">»</span>
+              </button>
+            ) : null}
             <button
               type="button"
               className="pg-nav-day pg-nav-stops-toggle"
@@ -598,7 +626,7 @@ export function ShellNav({
                 </button>
               </div>
             ) : null}
-            {passTargets && raised ? (
+            {passTargets && raised && !stopsOpen ? (
               <small
                 className="pg-nav-days-target"
                 aria-hidden="true"
@@ -607,6 +635,13 @@ export function ShellNav({
                 Day: {passTargets.day.replace(/^Skip to /, "")}
                 <br />
                 Week: {passTargets.week.replace(/^Skip to /, "")}
+                {onPassUntilNeeded ? (
+                  <>
+                    <br />
+                    Until needed:{" "}
+                    {passTargets.untilNeeded ?? "Work needs you now"}
+                  </>
+                ) : null}
               </small>
             ) : null}
             {passTargets ? (
@@ -617,6 +652,12 @@ export function ShellNav({
                 <span className="sr-only" id="pg-nav-week-target">
                   {passTargets.week}
                 </span>
+                {onPassUntilNeeded ? (
+                  <span className="sr-only" id="pg-nav-until-target">
+                    {passTargets.untilNeeded ??
+                      "Resolve the decision under Work before another quiet stretch."}
+                  </span>
+                ) : null}
               </>
             ) : null}
             {passing ? (
