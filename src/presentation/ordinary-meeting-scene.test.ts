@@ -13,16 +13,19 @@ import { openOrdinaryLifeRecords } from "../simulation/life-opportunities";
 import {
   recordOrdinaryMeetingPresence,
   enterOrdinaryMeeting,
+  speakAtOrdinaryMeeting,
 } from "../simulation/ordinary-meeting-presence";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { walkOpeningNeighborhood } from "./life-scene-flow";
 import { performVenueActivity } from "./venue-activity";
 import {
+  goBrieflyToOrdinaryMeeting,
   leaveOrdinaryMeeting,
   ordinaryMeetingLeaveOffer,
 } from "./ordinary-meeting-actions";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
+import { previewTimeCommand, submitTimeCommand } from "./time-command";
 
 function start(placeKey: string) {
   const game = generateOpeningLife(
@@ -43,6 +46,77 @@ function start(placeKey: string) {
 }
 
 describe("prospective meeting presence", () => {
+  it("opens the posted meeting at its start through the normal Attend command, then finishes on a second choice", () => {
+    const { world, personId, activity } = start("2743000");
+    const command = {
+      kind: "attend-activity" as const,
+      activityId: activity.id,
+    };
+    const preview = previewTimeCommand(world, personId, command)!;
+    expect(preview.target).toEqual(
+      scheduledActivityState(world, activity.id).start,
+    );
+
+    const first = submitTimeCommand(world, {
+      requestId: "enter-posted-meeting",
+      personId,
+      sourceMoment: world.currentMoment,
+      command,
+    });
+    expect(first.receipt.status).toBe("accepted");
+    expect(first.receipt.stoppedEarly).toBe(false);
+    expect(first.world.currentMoment).toEqual(preview.target);
+    expect(scheduledActivityState(first.world, activity.id).status).toBe(
+      "scheduled",
+    );
+    const active = projectOrdinaryMeetingScene(first.world, personId)!;
+    expect(active.phase).toBe("active");
+    expect(active.availableActions).toContain("speak");
+    expect(active.speechChoices).toHaveLength(3);
+    const words = active.speechChoices.find(
+      (choice) => choice.key === "ask",
+    )!.words;
+    const beforeRead = serializeWorld(first.world);
+    expect(
+      projectOrdinaryMeetingScene(first.world, personId)?.agendaText,
+    ).toContain("funding");
+    expect(serializeWorld(first.world)).toBe(beforeRead);
+    const spoken = speakAtOrdinaryMeeting(
+      first.world,
+      personId,
+      activity.id,
+      "ask",
+    );
+    expect(spoken.history.events.at(-1)?.context.choice).toBe(words);
+    expect(
+      speakAtOrdinaryMeeting(spoken, personId, activity.id, "support"),
+    ).toBe(spoken);
+
+    const entered = deserializeWorld(serializeWorld(spoken));
+    const second = submitTimeCommand(entered, {
+      requestId: "stay-through-posted-meeting",
+      personId,
+      sourceMoment: entered.currentMoment,
+      command,
+    });
+    expect(second.receipt.status).toBe("accepted");
+    expect(scheduledActivityState(second.world, activity.id).status).toBe(
+      "completed",
+    );
+    expect(projectOrdinaryMeetingScene(second.world, personId)?.phase).toBe(
+      "immediate-aftermath",
+    );
+    expect(
+      projectOrdinaryMeetingScene(second.world, personId)?.spokenWords,
+    ).toBe(words);
+    expect(
+      simulationMinutesBetween(
+        entered.currentMoment,
+        second.world.currentMoment,
+      ),
+    ).toBe(75);
+  });
+
   it.each(["2743000", "1150000"])(
     "records a local chair only on successful attendance in %s",
     (placeKey) => {
@@ -69,13 +143,17 @@ describe("prospective meeting presence", () => {
       );
       const scene = projectOrdinaryMeetingScene(recorded, personId)!;
       expect(scene.phase).toBe("immediate-aftermath");
-      expect(scene.caption).toContain("The meeting has ended.");
-      expect(scene.actors).toHaveLength(1);
+      expect(scene.caption).toContain("The discussion ended without a vote.");
+      expect(scene.agendaText).toContain("one extra evening each week");
+      expect(scene.actors).toHaveLength(3);
+      expect(scene.actors.slice(1).every((actor) => actor.spokenLine)).toBe(
+        true,
+      );
       expect(
         recorded.people[scene.actors[0]!.personId]!.homeJurisdictionId,
       ).toBe(activity.location.jurisdictionId);
       expect(recorded.personOrder.length).toBe(
-        completed.personOrder.length + 1,
+        completed.personOrder.length + 3,
       );
       expect(
         simulationMinutesBetween(
@@ -216,6 +294,41 @@ describe("prospective meeting presence", () => {
     expect(home.history.events.at(-1)?.context.location?.setting).toBe("home");
     expect(projectOrdinaryMeetingScene(home, personId)).toBeNull();
     expect(leaveOrdinaryMeeting(home, personId, activity.id)).toBe(home);
+  });
+  it("records a short visit and returns home without full meeting credit", () => {
+    const { world, personId, activity } = start("2309585");
+    const first = submitTimeCommand(world, {
+      requestId: "visit-posted-meeting",
+      personId,
+      sourceMoment: world.currentMoment,
+      command: { kind: "attend-activity", activityId: activity.id },
+    });
+    const visited = goBrieflyToOrdinaryMeeting(
+      first.world,
+      personId,
+      activity.id,
+    );
+    expect(visited).not.toBe(first.world);
+    expect(
+      simulationMinutesBetween(
+        first.world.currentMoment,
+        visited.currentMoment,
+      ),
+    ).toBe(35);
+    expect(scheduledActivityState(visited, activity.id).status).toBe(
+      "cancelled",
+    );
+    expect(
+      visited.history.events.some(
+        (event) => event.type === "civic.meeting-brief-visit",
+      ),
+    ).toBe(true);
+    expect(
+      visited.history.events.some(
+        (event) => event.type === "civic.meeting-attended",
+      ),
+    ).toBe(false);
+    expect(projectOrdinaryMeetingScene(visited, personId)).toBeNull();
   });
   it("does not author presence for another person", () => {
     const { world, personId, activity } = start("2309585");

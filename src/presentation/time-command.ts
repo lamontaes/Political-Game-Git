@@ -3,6 +3,8 @@ import {
   walkOpeningNeighborhood,
 } from "./life-scene-flow";
 import { describePlacesOutcome } from "./player-places";
+import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import {
   addDays,
   addSimulationMinutes,
@@ -155,7 +157,13 @@ export function previewTimeCommand(
       (item) => item.activity.id === command.activityId,
     );
     if (!entry || entry.refusal) return null;
-    const target = scheduledActivityState(world, entry.activity.id).end;
+    const openingMeeting =
+      entry.activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+      projectOrdinaryMeetingScene(world, personId)?.phase !== "active";
+    const target =
+      openingMeeting && entry.journey
+        ? scheduledActivityState(world, entry.journey.activity.id).end
+        : scheduledActivityState(world, entry.activity.id).end;
     return {
       target,
       elapsedMinutes: simulationMinutesBetween(world.currentMoment, target),
