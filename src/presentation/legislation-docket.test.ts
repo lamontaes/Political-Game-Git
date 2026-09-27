@@ -19,12 +19,13 @@ import {
   availableDraftOptions,
   docketBill,
   fileDraft,
-  fileDraftFromOffice,
+  fileSelectedDraftFromOffice,
   previewDraft,
   queryDocket,
   readDocket,
   recompileSavedBill,
   type DocketBill,
+  type SelectedFileDraftInput,
 } from "./legislation-docket";
 import { billAnalysis } from "./legislation-analysis";
 import { suppliedLegislativeSeat } from "../../tests/fixtures/supplied-legislative-seat";
@@ -48,6 +49,23 @@ interface Fixture {
 }
 
 describe("selected sections at the ordinary office filing boundary", () => {
+  it("requires an explicit selection before the ordinary route writes", () => {
+    const seat = suppliedLegislativeSeat("US-AK", "house");
+    const input = {
+      scenarioKey: "alaska",
+      playerPersonId: seat.personId,
+      jurisdictionId: seat.jurisdictionId,
+      familyKey: "appropriations",
+      variantKey: "single-programme",
+      authorityKey: "standing:school-facilities",
+    };
+    const before = serializeWorld(seat.world);
+    expect(() =>
+      fileSelectedDraftFromOffice(seat.world, input as SelectedFileDraftInput),
+    ).toThrow(/Select the operative sections/);
+    expect(serializeWorld(seat.world)).toBe(before);
+  });
+
   it("refuses an effectless section without writing, then files and reloads the supported set", () => {
     const seat = suppliedLegislativeSeat("US-AK", "house");
     const input = {
@@ -65,11 +83,11 @@ describe("selected sections at the ordinary office filing boundary", () => {
       ],
     };
     const before = serializeWorld(seat.world);
-    expect(() => fileDraftFromOffice(seat.world, input)).toThrow(
+    expect(() => fileSelectedDraftFromOffice(seat.world, input)).toThrow(
       /Report of expenditure cannot be filed as an operative section/,
     );
     expect(serializeWorld(seat.world)).toBe(before);
-    const filed = fileDraftFromOffice(seat.world, {
+    const filed = fileSelectedDraftFromOffice(seat.world, {
       ...input,
       selectedProvisionKeys: input.selectedProvisionKeys.slice(0, 3),
     });

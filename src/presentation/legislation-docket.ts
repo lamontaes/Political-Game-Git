@@ -1065,7 +1065,7 @@ export function fileDraft(
   return { world: next, bill, draft };
 }
 
-/** Player-facing filing gate; trusted content fixtures retain the lower-level writer. */
+/** Legacy office filing route; existing callers may omit a section selection. */
 export function fileDraftFromOffice(
   world: World,
   input: FileDraftInput,
@@ -1136,6 +1136,22 @@ export function fileDraftFromOffice(
   });
   assertOperativeDraft(draft);
   return fileDraft(world, input);
+}
+
+export type SelectedFileDraftInput = FileDraftInput & {
+  readonly selectedProvisionKeys: readonly string[];
+};
+
+/** Ordinary filing route: an explicit operative section selection is required. */
+export function fileSelectedDraftFromOffice(
+  world: World,
+  input: SelectedFileDraftInput,
+): FileDraftResult {
+  if (!Array.isArray(input.selectedProvisionKeys))
+    throw new BillConfigurationError(
+      "Select the operative sections this bill will file.",
+    );
+  return fileDraftFromOffice(world, input);
 }
 
 /**
