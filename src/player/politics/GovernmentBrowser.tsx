@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 
 import type { EntityId, World } from "../../simulation";
+import { projectJudiciary } from "../../presentation/judiciary";
 import {
   GOVERNMENT_SCOPES,
   governmentScopeLabel,
@@ -15,6 +16,7 @@ import {
 } from "../../presentation/politics-government";
 import "./politics-hub.css";
 import { GuideTerm } from "../GuideTerm";
+import { JudiciaryPanel } from "./JudiciaryPanel";
 
 /**
  * Public government for a place, by scope and branch (OCD-UI-004).
@@ -63,6 +65,13 @@ export function GovernmentBrowser({
             : base.here.jurisdictionId,
       }),
     [world, personId, scope, chosen, base],
+  );
+  const judiciary = useMemo(
+    () =>
+      scope === "local"
+        ? null
+        : projectJudiciary(world, view.browsingState?.usps ?? null),
+    [world, scope, view.browsingState?.usps],
   );
 
   return (
@@ -190,6 +199,15 @@ export function GovernmentBrowser({
             </section>
           ))}
         </div>
+      ) : null}
+
+      {judiciary ? (
+        <JudiciaryPanel
+          view={judiciary}
+          world={world}
+          scope={scope}
+          onOpenPerson={onOpenPerson}
+        />
       ) : null}
 
       {view.alsoGoverning.length > 0 ? (

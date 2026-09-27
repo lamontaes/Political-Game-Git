@@ -265,7 +265,7 @@ describe("what the game will and will not offer", () => {
     // The requirement a player is held to, worded as any other requirement;
     // that it is the game's placeholder floor stays on the block's kind.
     expect(view.unavailableReason).toMatch(
-      /You must be at least 21 to stand for this office\./,
+      /You must be at least 21 to run for this office\./,
     );
     expect(view.unavailableReason).not.toMatch(/law says/i);
     expect(view.unavailableReason).not.toMatch(/has not read|the game/i);

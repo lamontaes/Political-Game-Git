@@ -26,14 +26,8 @@ import {
  * after it (`nextOwnElection`, read by the time command and the quiet
  * stretch), so the result is met rather than stepped over.
  *
- * Two categories have a real consumer today:
- *
- * - Work shifts. The routine hook lets an ordinary personal work window run on
- *   its own during a skip. Asking to be stopped for shifts makes that window
- *   a blocking commitment again, so the skip halts before the shift starts.
- *   The same answer gates "simulate attendance" on the calendar, so the
- *   player's standing preference and the calendar's gate cannot disagree.
- * - Tentative holds. Passing a day lets an optional hold lapse at its start,
+ * Tentative holds have a real optional consumer today. Passing a day lets an
+ * optional hold lapse at its start,
  *   recorded as a decline. Asking to be stopped for holds halts the skip at
  *   the hold instead, with the hold still standing.
  */
@@ -61,14 +55,8 @@ export const INTERRUPTION_CATEGORIES: readonly InterruptionCategory[] = [
       "A skip always stops the morning after an election you are running in, and says how it came out.",
   },
   {
-    key: "stopForWorkShifts",
-    label: "Ordinary work shifts",
-    detail:
-      "Off: routine shifts run on their own while time passes. On: the skip stops before each shift.",
-  },
-  {
     key: "stopForTentativeHolds",
-    label: "Invitations and tentative holds",
+    label: "Invitations and things you might go to",
     detail:
       "Off: a hold you never answered lapses when its time comes, recorded as declined. On: the skip stops at the hold.",
   },
@@ -77,20 +65,11 @@ export const INTERRUPTION_CATEGORIES: readonly InterruptionCategory[] = [
 export function interruptionHandlers(
   preferences: InterruptionPreferences = DEFAULT_INTERRUPTIONS,
 ): FutureTransitionHandlerRegistry {
-  const base = createCampaignElectionTransitionRegistry();
-  const routine = base.routine;
-  if (!routine || !preferences.stopForWorkShifts) return base;
-  return {
-    ...base,
-    routine: {
-      ...routine,
-      isAutoResolvableActivity: () => false,
-      projectWindows: (world, target) =>
-        routine
-          .projectWindows(world, target)
-          .map((window) => ({ ...window, autoResolvable: false })),
-    },
-  };
+  void preferences;
+  // The old work-shift preference remains readable in saved shell settings,
+  // but routine work now follows the canonical auto-resolving clock in every
+  // case. Confirmed commitments and player decisions still stop time.
+  return createCampaignElectionTransitionRegistry();
 }
 
 /**

@@ -2,7 +2,9 @@ import { addDays } from "../dates";
 import {
   draftLineageComponents,
   draftLineageForMeasure,
+  draftParameterValues,
 } from "../legislation-draft-lineage";
+import { addYears } from "../legislation-drafting";
 import { currentMeasureProvisions } from "../legislative-politics";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
@@ -58,6 +60,8 @@ export interface AdoptedAppropriationInput {
   readonly edition: string;
   readonly basisNote: string;
   readonly sourceMeasureId?: EntityId | null;
+  /** The enacted section's stated last day, when one is compiled. */
+  readonly availableThrough?: IsoDate;
 }
 
 /**
@@ -71,7 +75,9 @@ export function recordAdoptedAppropriation(
 ): { world: World; appropriationId: EntityId } | null {
   if (
     !Number.isSafeInteger(input.amountMinorUnits) ||
-    input.amountMinorUnits <= 0
+    input.amountMinorUnits <= 0 ||
+    (input.availableThrough !== undefined &&
+      input.availableThrough < input.adoptedOn)
   )
     return null;
   const programKey = governingProgramKey(input.familyKey, input.stateUsps);
@@ -93,7 +99,7 @@ export function recordAdoptedAppropriation(
     accountOrganizationId: account.organizationId,
     amount: money(input.amountMinorUnits, "USD"),
     availableFrom: input.adoptedOn,
-    availableThrough: addDays(input.adoptedOn, 364),
+    availableThrough: input.availableThrough ?? addDays(input.adoptedOn, 364),
     basis: { kind: "game-profile", note: input.basisNote },
     sourceMeasureId: input.sourceMeasureId ?? null,
   });
@@ -128,6 +134,40 @@ export function appropriationFromEnactedMeasure(
       : world.currentDate;
   const editionBase = `measure-${measure.designation.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
 
+  const statedAvailability = (
+    lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
+    componentKey?: string,
+  ): IsoDate | null | undefined => {
+    // Only these two variants have a compiled generic availability adapter.
+    // An adopted amendment to that date needs its own typed adapter; applying
+    // the filed date anyway would silently disregard the changed law.
+    if (lineage.familyKey !== "appropriations") return undefined;
+    const provisionKey =
+      lineage.variantKey === "single-programme"
+        ? "availability"
+        : lineage.variantKey === "supplemental"
+          ? "lapse"
+          : null;
+    if (provisionKey === null) return undefined;
+    const fullKey = componentKey
+      ? `${componentKey}:${provisionKey}`
+      : provisionKey;
+    const current = provisions.find(
+      (provision) => provision.provisionKey === fullKey,
+    );
+    if (!current || current.originAmendmentId !== null) return null;
+    const term = draftParameterValues(lineage)["availability-term"];
+    if (
+      term?.kind !== "duration-years" ||
+      term.years === null ||
+      !Number.isSafeInteger(term.years) ||
+      term.years <= 0
+    )
+      return null;
+    const through = addYears(lineage.compiledAt, term.years);
+    return through >= adoptedOn ? through : null;
+  };
+
   // A measure that carries parts is applied part by part. Each component's
   // own appropriation clause becomes its own spending authority, under its own
   // family and its own edition key, so two appropriating components of one
@@ -140,6 +180,11 @@ export function appropriationFromEnactedMeasure(
   if (components.length > 0) {
     let next = world;
     for (const lineage of components) {
+      const availableThrough = statedAvailability(
+        lineage,
+        lineage.componentKey,
+      );
+      if (availableThrough === null) continue;
       const amount = provisions.find(
         (provision) =>
           provision.provisionKey === `${lineage.componentKey}:amount-provided`,
@@ -151,6 +196,7 @@ export function appropriationFromEnactedMeasure(
         jurisdictionId: measure.jurisdictionId,
         amountMinorUnits: amount,
         adoptedOn,
+        ...(availableThrough !== undefined ? { availableThrough } : {}),
         edition: `${editionBase}-${lineage.componentKey}`,
         basisNote: `${PROGRAM_GOVERNING_VERSION}: adopted by the '${lineage.componentKey}' part of ${measure.designation}, ${measure.shortTitle}. The amount is that part's own enacted clause.`,
         sourceMeasureId: measureId,
@@ -165,6 +211,8 @@ export function appropriationFromEnactedMeasure(
   )?.fiscalExposureMinorUnits;
   if (amount === null || amount === undefined || amount <= 0) return world;
   const lineage = draftLineageForMeasure(world, measureId);
+  const availableThrough = lineage ? statedAvailability(lineage) : undefined;
+  if (availableThrough === null) return world;
   const familyKey = lineage?.familyKey ?? "appropriations";
   const written = recordAdoptedAppropriation(world, {
     familyKey,
@@ -172,6 +220,7 @@ export function appropriationFromEnactedMeasure(
     jurisdictionId: measure.jurisdictionId,
     amountMinorUnits: amount,
     adoptedOn,
+    ...(availableThrough !== undefined ? { availableThrough } : {}),
     edition: editionBase,
     basisNote: `${PROGRAM_GOVERNING_VERSION}: adopted by ${measure.designation}, ${measure.shortTitle}. The amount is the enacted clause's own figure.`,
     sourceMeasureId: measureId,

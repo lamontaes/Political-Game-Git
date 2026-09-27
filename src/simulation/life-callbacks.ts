@@ -115,7 +115,6 @@ export const RETURN_SUMMARY: Readonly<Record<string, string>> = {
   "adult.incident-neighbour-help": "Helping the neighbors came back to you.",
   "adult.promise-comes-due": "The promise came back round to you.",
   "adult.old-favour-returns": "The old favor got a mention.",
-  "adult.household-standing": "Who covers what at home is being asked again.",
   "adult.household-quiet-evening": "That evening came up between you again.",
   "adult.partner-plan": "The plans were put in front of you again.",
   "adult.debt-call": "Repayment came up between you again.",

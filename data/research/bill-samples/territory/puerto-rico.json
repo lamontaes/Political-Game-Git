@@ -1,0 +1,81 @@
+[
+  {
+    "id": "pr-2025-ley78-prescription-ivu",
+    "jurisdiction": "Puerto Rico",
+    "level": "territory",
+    "session": "2025 Ordinary Session (20th Legislative Assembly)",
+    "bill_number": "see Ley 78-2025",
+    "law_citation": "Ley 78-2025",
+    "short_title": "Sales and use tax (IVU) exemption for prescription medicines",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.oslpr.org/",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Sales and consumption taxes",
+    "secondary_menus": ["02"],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "repeal",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "exemption",
+        "description": "Full exemption from the sales and use tax (IVU) for prescription medications."
+      },
+      {
+        "kind": "transition",
+        "description": "Part of the first phase of a broader tax reform package (about ten laws)."
+      },
+      {
+        "kind": "administering-agency",
+        "description": "Departamento de Hacienda."
+      }
+    ],
+    "touches": ["pharmacies", "municipal IVU collections"],
+    "daily_life": "Prescriptions no longer carry the island sales tax.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "pr-2025-ley72-municipal-ivu-suri",
+    "jurisdiction": "Puerto Rico",
+    "level": "territory",
+    "session": "2025 Ordinary Session (20th Legislative Assembly)",
+    "bill_number": "see Ley 72-2025",
+    "law_citation": "Ley 72-2025",
+    "short_title": "Simplified municipal IVU collection through SURI",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.oslpr.org/",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Fees and charges / tax administration",
+    "secondary_menus": ["11"],
+    "instrument": "procedure/election rule",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "Municipal sales tax is filed and paid through the central Hacienda system (SURI)."
+      },
+      {
+        "kind": "revenue-distribution",
+        "description": "Hacienda distributes municipal shares (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["78 municipalities", "merchants"],
+    "daily_life": "A shop owner files one sales tax return instead of two.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

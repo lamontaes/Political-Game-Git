@@ -21,6 +21,7 @@ import {
 import { rulePackById } from "./legislature-rule-packs";
 import { personName } from "./people";
 import { recordPropositionExposure } from "./politics";
+import { schedulePoliticalReflectionForExposure } from "./living-world/political-reflection-schedule";
 import type {
   PolicyPropositionDefinition,
   CommitteeActionRecord,
@@ -1583,6 +1584,10 @@ function exposeSponsorToQuestions(
       summary: `Sponsored ${measure.designation}, which bears on the question${proposition ? ` "${proposition.name}"` : ""}.`,
       provenance: { kind: "direct-experience", eventId: filing.id },
     });
+    const exposure = next.history.propositionExposures.at(-1);
+    if (!exposure || exposure.propositionId !== propositionId)
+      throw new Error("The sponsor's recorded question was not retained.");
+    next = schedulePoliticalReflectionForExposure(next, exposure.id);
   }
   return next;
 }

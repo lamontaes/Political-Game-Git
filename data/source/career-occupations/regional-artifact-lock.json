@@ -1,0 +1,45 @@
+{
+  "artifacts": [
+    {
+      "length": 7563829,
+      "localPath": "data/source/career-occupations/raw/oews-state-2025.zip",
+      "mediaType": "application/zip",
+      "members": [
+        {
+          "length": 7675521,
+          "path": "oesm25st/state_M2025_dl.xlsx",
+          "sha256": "e9590ec791fd2941341631f84ee6445d3df931c1ad5776b80ea07c9f89fba95d"
+        }
+      ],
+      "sha256": "74d5be0e1df865517d22dc3bd1fc3a8af5f6f9e3052a2163143021505d8e04c6",
+      "url": "https://www.bls.gov/oes/special-requests/oesm25st.zip",
+      "vintage": "May 2025"
+    },
+    {
+      "length": 39932338,
+      "localPath": "data/source/career-occupations/raw/oews-area-2025.zip",
+      "mediaType": "application/zip",
+      "members": [
+        {
+          "length": 9891462,
+          "path": "oesm25ma/BOS_M2025_dl.xlsx",
+          "sha256": "2a06fc23e9c3d487d767b76f0efa749252f4ad55f745640064845aa2c4b1aa1b"
+        },
+        {
+          "length": 11986,
+          "path": "oesm25ma/file_descriptions.xlsx",
+          "sha256": "66f52b71018add12fd60826769a6ceb34f9d8c7b8f4f9609234854cf4ef91266"
+        },
+        {
+          "length": 30628700,
+          "path": "oesm25ma/MSA_M2025_dl.xlsx",
+          "sha256": "faf00eee127763c8c082d8fb862717ef2ad3a75f16f8975dc1e70935f27bcbb0"
+        }
+      ],
+      "sha256": "cc3e6fa80edf64ab8fd0e8a6472ef1b513a6bcaef2f5018e9649c485793b0b99",
+      "url": "https://www.bls.gov/oes/special-requests/oesm25ma.zip",
+      "vintage": "May 2025"
+    }
+  ],
+  "asOf": "2026-09-26"
+}
