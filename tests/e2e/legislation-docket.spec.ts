@@ -1,8 +1,8 @@
-import { programConfigurations } from "../../src/simulation/legislation-program-families";
 import { shotPath } from "./support/shot-path";
 import { expect, test, type Page } from "./fixtures";
 import { enterRecordedMemberTerm } from "./support/legislative-entry";
 import { chosenValue } from "./support/controls";
+import { selectDraftOption } from "./support/docket-navigation";
 
 import {
   enterLife,
@@ -109,34 +109,34 @@ test.describe("the docket, from the ordinary route", () => {
       "Nothing has been filed yet",
     );
 
-    // Every registered configuration is reachable; the original eight remain controls.
+    // The menu begins with supported subjects, then exposes only populated topics.
     await page.getByTestId("open-drafting-table").click();
-    const options = page.getByTestId("drafting-options");
-    await expect(options.getByRole("button")).toHaveCount(
-      programConfigurations().length,
+    const subjects = page.getByTestId("drafting-subjects");
+    await expect(subjects.getByRole("button")).not.toHaveCount(0);
+    await expect(subjects).toContainText("Infrastructure");
+    await expect(subjects).toContainText("Education");
+    await expect(subjects).not.toContainText("Immigration & Citizenship");
+
+    await page.getByTestId("drafting-subject-infrastructure").click();
+    await expect(page.getByTestId("drafting-topics")).toContainText(
+      "Transportation",
+    );
+    await expect(page.getByTestId("drafting-topics")).toContainText(
+      "Water and Wastewater",
     );
 
-    // Two genuinely different proposals, compared by reading them.
-    await expect(options).toContainText("Program authorization");
-    // british-spelling-ok: proves the old British label is gone from the list.
-    await expect(options).not.toContainText("Programme authorization");
-    await expect(options).toContainText("Transit access");
-    await expect(options).toContainText("Bridge and culvert maintenance");
-    await expect(options).toContainText("Broadband access");
-    await expect(options).toContainText("Water service lines");
-
     // Pick one that is not a spending bill at all, and read what it says.
-    await page
-      .getByTestId("drafting-option-water-service-lines-inventory-and-plan")
-      .click();
+    await selectDraftOption(page, "water-service-lines", "inventory-and-plan");
     await expect(page.getByTestId("drafting-total")).toContainText(
       "authorizes no money at all",
     );
 
     // Now pick one that is, and change something that matters.
-    await page
-      .getByTestId("drafting-option-bridge-maintenance-worst-first-condition")
-      .click();
+    await selectDraftOption(
+      page,
+      "bridge-maintenance",
+      "worst-first-condition",
+    );
     const compare = page.getByTestId("drafting-compare");
     await expect(compare).toBeVisible();
     await expect(compare).toContainText("condition rating of 4 or below");
@@ -198,6 +198,86 @@ test.describe("the docket, from the ordinary route", () => {
     expect(errors).toEqual([]);
   });
 
+  test("cross-links and shared groups return to the same available option", async ({
+    page,
+  }) => {
+    await wonSeatWithWorkOpen(page);
+    await page.getByTestId("open-drafting-table").click();
+    await selectDraftOption(page, "transit-access", "enrollment-fare-relief");
+
+    const primaryLocation = page.getByTestId("drafting-primary-location");
+    await expect(primaryLocation).toContainText(
+      "Infrastructure › Transportation › Public Transit › Fare Relief",
+    );
+    await page
+      .getByTestId(
+        "drafting-crosslink-assistance-social-insurance-transit-access-enrollment-fare-relief",
+      )
+      .click();
+    await expect(page.getByTestId("drafting-topic-home")).toContainText(
+      "Assistance & Social Insurance",
+    );
+    await expect(
+      page.getByTestId(
+        "drafting-content-link-assistance-social-insurance-transit-access-enrollment-fare-relief",
+      ),
+    ).toContainText("Primary topic: Infrastructure");
+    await page
+      .getByTestId(
+        "drafting-content-link-assistance-social-insurance-transit-access-enrollment-fare-relief",
+      )
+      .click();
+    await expect(primaryLocation).toContainText(
+      "Infrastructure › Transportation › Public Transit › Fare Relief",
+    );
+    const selectedGroups = page
+      .getByTestId("drafting-selected-groups")
+      .getByRole("button");
+    await expect(selectedGroups).not.toHaveCount(0);
+    await selectedGroups.first().click();
+    const sharedGroups = page
+      .getByTestId("drafting-shared-groups")
+      .getByRole("button");
+    await expect(
+      page.getByTestId("drafting-group-timing-and-transition"),
+    ).toBeVisible();
+    await expect(
+      page.getByTestId("drafting-group-amendment-and-repeal"),
+    ).toBeVisible();
+    await expect(sharedGroups).not.toHaveCount(0);
+    await expect(page.getByTestId("drafting-options")).toContainText(
+      "Transit access",
+    );
+    await expect(
+      page
+        .getByTestId("drafting-options")
+        .getByTestId("drafting-option-transit-access-enrollment-fare-relief"),
+    ).toHaveCount(1);
+  });
+
+  test("authority-required bills reveal their authority picker before preview", async ({
+    page,
+  }) => {
+    await wonSeatWithWorkOpen(page);
+    await page.getByTestId("open-drafting-table").click();
+    await selectDraftOption(page, "appropriations", "single-programme");
+
+    await expect(page.getByTestId("drafting-authority")).toBeVisible();
+    await expect(page.getByTestId("drafting-controls")).toBeVisible();
+    const authorityChoices = page
+      .getByTestId("drafting-authority")
+      .getByRole("button");
+    if ((await authorityChoices.count()) > 0) {
+      await authorityChoices.first().click();
+      await expect(page.getByTestId("drafting-compare")).toBeVisible();
+    } else {
+      await expect(page.getByTestId("drafting-no-authority")).toContainText(
+        "An appropriation has to name a program that is already authorized to spend",
+      );
+      await expect(page.getByTestId("file-the-draft")).not.toBeVisible();
+    }
+  });
+
   test("carries three bills at once, and reopens the first", async ({
     page,
   }) => {
@@ -205,13 +285,13 @@ test.describe("the docket, from the ordinary route", () => {
     await wonSeatWithWorkOpen(page);
 
     const configurations = [
-      "drafting-option-transit-access-enrollment-fare-relief",
-      "drafting-option-broadband-access-adoption-support",
-      "drafting-option-water-service-lines-inventory-and-plan",
-    ];
-    for (const configuration of configurations) {
+      ["transit-access", "enrollment-fare-relief"],
+      ["broadband-access", "adoption-support"],
+      ["water-service-lines", "inventory-and-plan"],
+    ] as const;
+    for (const [familyKey, variantKey] of configurations) {
       await page.getByTestId("open-drafting-table").click();
-      await page.getByTestId(configuration).click();
+      await selectDraftOption(page, familyKey, variantKey);
       await page.getByTestId("file-the-draft").click();
       await expect(page.getByTestId("docket-bill")).toBeVisible();
     }
@@ -254,9 +334,7 @@ test.describe("the docket, from the ordinary route", () => {
     await wonSeatWithWorkOpen(page);
 
     await page.getByTestId("open-drafting-table").click();
-    await page
-      .getByTestId("drafting-option-broadband-access-unserved-buildout")
-      .click();
+    await selectDraftOption(page, "broadband-access", "unserved-buildout");
     await page.getByTestId("file-the-draft").click();
     await expect(page.getByTestId("docket-bill")).toBeVisible();
 
@@ -306,11 +384,11 @@ test("saves compatible proposed changes through ordinary Work without rewriting 
   // committees have nobody on them.
   await expect(office).toContainText("its committees have no members");
   await page.getByTestId("open-drafting-table").click();
-  await page
-    .getByTestId(
-      "drafting-option-education-facilities-school-repair-authorization",
-    )
-    .click();
+  await selectDraftOption(
+    page,
+    "education-facilities",
+    "school-repair-authorization",
+  );
   await page.getByTestId("file-the-draft").click();
   await expect(page.getByTestId("docket-role")).toContainText(
     "You are the sponsor of record",
@@ -378,11 +456,11 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   const errors = watchForErrors(page);
   await wonSeatWithWorkOpen(page);
   await page.getByTestId("open-drafting-table").click();
-  await page
-    .getByTestId(
-      "drafting-option-education-facilities-school-repair-authorization",
-    )
-    .click();
+  await selectDraftOption(
+    page,
+    "education-facilities",
+    "school-repair-authorization",
+  );
   const choice = page.getByTestId("draft-param-operative-choice");
   await choice.focus();
   await choice.press("p");
@@ -419,11 +497,11 @@ test("new service clauses, saved selection and unavailable scenario refusal work
   });
 
   await page.getByTestId("open-drafting-table").click();
-  await page
-    .getByTestId(
-      "drafting-option-procurement-disclosure-award-reasons-publication",
-    )
-    .click();
+  await selectDraftOption(
+    page,
+    "procurement-disclosure",
+    "award-reasons-publication",
+  );
   await page.getByTestId("file-the-draft").click();
   await expect(page.getByTestId("docket-clauses")).toContainText(
     "selection criteria",

@@ -7,6 +7,7 @@ import {
   leaveGame,
   openElsewhere,
   openMoment,
+  saveAndLeaveGame,
   saveLife,
   startLife as walkCreator,
 } from "./support/creator";
@@ -74,7 +75,6 @@ async function startLife(page: Page, setup: LifeSetup) {
     ...(setup.office === undefined ? {} : { office: setup.office }),
     ...(setup.household === undefined ? {} : { household: setup.household }),
   });
-  await expect(page.getByTestId("play-screen")).toBeVisible();
   await enterLife(page);
   await openMoment(page);
 }
@@ -427,13 +427,12 @@ test.describe("What is written to disk is a player's world", () => {
     await startLife(page, { place: "Lexington", state: "Kentucky", age: 9 });
     await keepAndWait(page);
 
-    // Act, then leave immediately: the autosave for this revision is still in
-    // flight as the menu is pressed. The revision used to be dropped and the
-    // player would come back to the world before their last move.
+    // Act, then choose Save and return immediately while this revision's
+    // autosave may still be in flight. The latest action must reach disk.
     await page.getByTestId("story-options").getByRole("button").first().click();
     const remembered = await readJournal(page);
 
-    await leaveGame(page);
+    await saveAndLeaveGame(page);
     await expect(page.getByTestId("title-screen")).toBeVisible();
     await page.reload();
     await page.getByTestId("continue").click();

@@ -11,13 +11,13 @@ import { readSavedLegislativeWorld } from "./support/legislative-entry";
 import { shotPath } from "./support/shot-path";
 
 /**
- * Supplied-office boundary, labeled: one fictional Alaska House seat, advanced
- * to the 2027 regular session on the canonical tax-aware clock before play.
- * This proves governing, not ordinary candidacy. From the first screen on,
- * every step is an ordinary control in the composed game: shop work pays the
- * member, both bills pass through their disclosed recorded sittings, the tax
- * takes effect and is collected, and that collected cash pays for delivered
- * service. No cash, ballot, law or result is injected.
+ * The saved character begins as an ordinarily generated Alaska resident who
+ * filed for a district-bound House seat on the state's own election calendar.
+ * The test supplies only a deterministic winner; it does not construct an
+ * office or member relationship. From the seated term onward, every service
+ * step is an ordinary game action: earned wages, recorded sittings, enactment,
+ * effective tax terms, an explicit taxable occurrence, collection, payment,
+ * delivered service, publication and Save/Continue.
  */
 test.setTimeout(900_000);
 // A missing control fails in a minute, not at the whole journey's timeout.
@@ -36,29 +36,19 @@ async function goTo(
   await page.getByTestId(id).click();
 }
 
-async function seedSuppliedAlaskaSeat(page: Page) {
+async function seedOrdinaryAlaskaHouseMember(page: Page) {
   await page.goto("/");
   await page.evaluate(async () => {
     const load = (path: string) => import(/* @vite-ignore */ path);
-    const { suppliedLegislativeSeat } = await load(
-      "/tests/fixtures/supplied-legislative-seat.ts",
+    const { ordinaryAlaskaHouseMember } = await load(
+      "/tests/fixtures/civic-funded-service-entry.ts",
     );
     const { BrowserSaveStore } = await load(
       "/src/presentation/browser-world-repository.ts",
     );
-    const { advanceWorld } = await load("/src/simulation/world.ts");
-    const { daysBetween, makeIsoDate } = await load("/src/simulation/dates.ts");
-    const { createTaxTransitionHandlerRegistry } = await load(
-      "/src/simulation/tax-policy.ts",
-    );
-    const life = suppliedLegislativeSeat("US-AK", "house");
-    const world = advanceWorld(
-      life.world,
-      daysBetween(life.world.currentDate, makeIsoDate("2027-02-01")),
-      createTaxTransitionHandlerRegistry(),
-    );
+    const life = ordinaryAlaskaHouseMember();
     const store = new BrowserSaveStore();
-    const outcome = await store.save(world, store.newSaveId(world));
+    const outcome = await store.save(life.world, store.newSaveId(life.world));
     if (outcome.status !== "saved")
       throw new Error("Supplied seat save failed.");
   });
@@ -118,12 +108,12 @@ async function driveProcedure(page: Page, scope: Locator) {
   await expect(scope.getByTestId("legislation-options")).toHaveCount(0);
 }
 
-test("an Alaska member funds added transit service from a collected tax and sees what it delivered after reopening", async ({
+test("an ordinarily elected Alaska member funds transit from a collected tax and sees the saved delivery", async ({
   page,
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  await seedSuppliedAlaskaSeat(page);
+  await seedOrdinaryAlaskaHouseMember(page);
   await openSavedLife(page);
 
   // Personal: ordinary shop work is the member's only recorded money.
