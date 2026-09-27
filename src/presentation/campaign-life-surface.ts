@@ -173,7 +173,7 @@ const SUPPORT_DECISION_TEXT = {
   deferred: "said the chapter will take it up later",
 } as const;
 
-function guidanceLines(world: World, personId: EntityId) {
+export function guidanceLines(world: World, personId: EntityId) {
   const view = projectCampaignGuidance(world, personId);
   const facts: string[] = [];
   const sources = new Set<string>();
