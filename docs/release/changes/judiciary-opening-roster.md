@@ -1,6 +1,8 @@
 ---
 id: judiciary-opening-roster
 impact: minor
+section: Added
+title: Court rosters show named judges
 ---
 
 New games seat fictional, named judges in the saved federal and state court
@@ -13,5 +15,4 @@ The new opening is versioned. Earlier replay descriptors rebuild the same
 opening they recorded, and older saves gain no invented judges. The opening
 biographies and age ranges are game-authored placeholders; judicial philosophy,
 selection proceedings, and knowledge-limited trait disclosure remain later
-work. The surrounding government screen mounts the roster in a separate UI
-integration change.
+work. A separate UI change mounts the roster.
