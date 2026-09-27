@@ -4,8 +4,10 @@ import {
 } from "../simulation/contextual-character-history";
 import {
   CHILDHOOD_GENERATION_V2,
+  endPreStartAdultLocalWork,
   establishPreStartAdultHistory,
   establishPreStartChildHistory,
+  type PreStartHistoryDateVersion,
   type ChildhoodGenerationVersion,
 } from "../simulation/character-history";
 import { COUPLE_KIND } from "../simulation/couples";
@@ -131,6 +133,8 @@ export interface ProductionWorldInput {
     readonly targetStartDate: IsoDate;
     readonly priorYearStartDate: IsoDate;
   };
+  /** Absent preserves the birthday dates in older pre-start replay inputs. */
+  readonly preStartHistoryDateVersion?: PreStartHistoryDateVersion;
   readonly age: number;
   readonly birthMonth?: number;
   readonly birthDay?: number;
@@ -370,6 +374,7 @@ export function buildProductionWorld(
     world = establishPreStartChildHistory(world, {
       personId: player.id,
       jurisdictionId: jurisdiction.id,
+      preStartHistoryDateVersion: input.preStartHistoryDateVersion,
     });
   }
   if (
@@ -394,6 +399,7 @@ export function buildProductionWorld(
       employerName,
       employerFormedAt: employer.organization.formedAt,
       monthlyWageMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
+      preStartHistoryDateVersion: input.preStartHistoryDateVersion,
     });
     world = ensureStartingPersonalMoney(world, player.id).world;
   }
@@ -466,10 +472,6 @@ export function finalizePreStartPlayer(
   background: World,
   input: PreStartProductionWorldInput,
 ): ProductionWorld {
-  if (input.startingLife === "legislative-office")
-    throw new Error(
-      "A pre-start legislative staff job needs an office work path before player finalization.",
-    );
   const { targetStartDate } = input.preStartYear;
   const place = input.place;
   const jurisdiction = place.context.jurisdiction;
@@ -542,6 +544,7 @@ export function finalizePreStartPlayer(
     world = establishPreStartChildHistory(world, {
       personId: player.id,
       jurisdictionId: jurisdiction.id,
+      preStartHistoryDateVersion: input.preStartHistoryDateVersion,
     });
   } else {
     const employer = [...localBusinessesIn(world, jurisdiction.id)].sort(
@@ -561,8 +564,13 @@ export function finalizePreStartPlayer(
       employerName,
       employerFormedAt: employer.organization.formedAt,
       monthlyWageMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
+      preStartHistoryDateVersion: input.preStartHistoryDateVersion,
     });
     world = ensureStartingPersonalMoney(world, player.id).world;
+  }
+  if (input.startingLife === "legislative-office") {
+    world = endPreStartAdultLocalWork(world, player.id);
+    world = employInLegislativeOffice(world, player.id, place);
   }
   for (const personId of world.personOrder) {
     if (

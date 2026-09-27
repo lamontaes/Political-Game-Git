@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { addDays, ageOnDate } from "../simulation/dates";
+import {
+  activeWorkRelationshipsAt,
+  workStatusAt,
+} from "../simulation/life-queries";
 import { requireLifePlace } from "../simulation/life-places";
+import { settleLocalBusinesses } from "../simulation/local-economy";
+import { resourceFlowTermsAt } from "../simulation/resource-queries";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { advanceWorld } from "../simulation/world";
+import { projectPersonalRecord } from "./personal-record";
 import {
   buildPreStartBackgroundWorld,
   buildProductionWorld,
@@ -52,7 +60,7 @@ describe("versioned prior-date production construction", () => {
     expect(legacy.world.currentDate).toBe(targetStartDate);
   });
 
-  it("refuses a pre-start staff job until its office work path is supported", () => {
+  it("ends prior local work before the selected staff job begins", () => {
     const place = requireLifePlace("kentucky");
     const targetStartDate = place.context.initialMoment.date;
     const input = {
@@ -71,10 +79,46 @@ describe("versioned prior-date production construction", () => {
       },
     };
     const background = buildPreStartBackgroundWorld(input);
+    const legacy = buildProductionWorld(input);
+    expect(background.people[legacy.playerPersonId]).toBeUndefined();
     const advanced = advanceWorld(background, 365);
-    expect(() => finalizePreStartPlayer(advanced, input)).toThrow(
-      "A pre-start legislative staff job needs an office work path before player finalization.",
+    const { world, playerPersonId } = finalizePreStartPlayer(advanced, input);
+    const active = activeWorkRelationshipsAt(world, playerPersonId);
+    expect(active).toHaveLength(1);
+    expect(active[0]!.relationship.kind).toBe("employment:legislative-staff");
+    const priorJob = world.history.workRelationships.find(
+      (row) =>
+        row.personId === playerPersonId &&
+        row.kind === "employment:local-business",
     );
+    expect(priorJob).toBeDefined();
+    expect(workStatusAt(world, priorJob!.id)?.status).toBe("ended");
+    const priorPay = world.history.resourceFlows.find(
+      (row) =>
+        row.basisReference.kind === "work" &&
+        row.basisReference.workRelationshipId === priorJob!.id,
+    );
+    expect(resourceFlowTermsAt(world, priorPay!.id)?.status).toBe("ended");
+    const balance = projectPersonalRecord(world, playerPersonId)?.purses.find(
+      (purse) => purse.kind === "personal",
+    )?.balance?.minorUnits;
+    expect(balance).toBeGreaterThan(0);
+    const reloaded = deserializeWorld(serializeWorld(world));
+    expect(activeWorkRelationshipsAt(reloaded, playerPersonId)).toHaveLength(1);
+    expect(
+      projectPersonalRecord(reloaded, playerPersonId)?.purses.find(
+        (purse) => purse.kind === "personal",
+      )?.balance?.minorUnits,
+    ).toBe(balance);
+    const later = settleLocalBusinesses(
+      advanceWorld(reloaded, 35),
+      place.context.jurisdiction.id,
+    );
+    expect(
+      later.history.resourceTransferOutcomes.filter(
+        (row) => row.resourceFlowId === priorPay!.id,
+      ),
+    ).toHaveLength(0);
     expect(advanced.control.kind).toBe("observer");
   });
 });
