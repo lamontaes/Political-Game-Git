@@ -13,6 +13,26 @@ import type {
 } from "./types";
 import { judicialSeatId } from "./types";
 
+export interface FederalCourtProjection {
+  readonly courtId: string;
+  readonly courtKind: "court-of-appeals" | "district-court";
+  readonly courtName: string;
+  readonly establishedByCitation: string;
+  readonly statutoryTitle: 28 | 48;
+  readonly circuitDesignation: string | null;
+  readonly composition: readonly string[] | null;
+  readonly circuitId: string | null;
+  readonly jurisdictionName: string | null;
+  readonly divisions:
+    | readonly {
+        readonly divisionName: string;
+        readonly comprisesCounties: readonly string[];
+        readonly courtHeldAt: readonly string[];
+      }[]
+    | null;
+  readonly courtHeldAt: readonly string[] | null;
+}
+
 export const EMPTY_JUDICIARY: JudiciaryState = {
   courts: {},
   seats: {},
