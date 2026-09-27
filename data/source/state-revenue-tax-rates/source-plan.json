@@ -115,5 +115,551 @@
       "declaredLicense": null,
       "attributionRequired": "UNKNOWN"
     }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-il",
+    "url": "https://www.illinois.gov/content/dam/soi/en/web/tax/forms/withholding/documents/currentyear/il-700-t.pdf",
+    "filename": "il-withholding.pdf",
+    "provider": "Illinois Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-in",
+    "url": "https://www.in.gov/dor/files/dn01.pdf",
+    "filename": "in-withholding.pdf",
+    "provider": "Indiana Department of Revenue",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ia",
+    "url": "https://revenue.iowa.gov/media/52/download",
+    "filename": "ia-withholding.pdf",
+    "provider": "Iowa Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ks",
+    "url": "https://www.ksrevenue.gov/pdf/whtables.pdf",
+    "filename": "ks-withholding.pdf",
+    "provider": "Kansas Department of Revenue",
+    "vintage": "July 2024 revision",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ky",
+    "url": "https://revenue.ky.gov/Forms/2026%20WH%20Tax%20Tables.pdf",
+    "filename": "ky-withholding.pdf",
+    "provider": "Kentucky Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-me",
+    "url": "https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/26_wh_tab_instr_August2026.pdf",
+    "filename": "me-withholding.pdf",
+    "provider": "Maine Revenue Services",
+    "vintage": "August 2026 revision",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ma",
+    "url": "https://www.mass.gov/doc/massachusetts-circular-m-income-tax-withholding-tables-at-50-effective-january-1-2026/download",
+    "filename": "ma-withholding.pdf",
+    "provider": "Massachusetts Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-mn",
+    "url": "https://www.revenue.state.mn.us/sites/default/files/2025-12/wh-inst-26.pdf",
+    "filename": "mn-withholding.pdf",
+    "provider": "Minnesota Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-mo",
+    "url": "https://dor.mo.gov/forms/Withholding%20Table%20-%20ALL_2026.pdf",
+    "filename": "mo-withholding.pdf",
+    "provider": "Missouri Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ne",
+    "url": "https://revenue.nebraska.gov/sites/default/files/doc/business/Cir_En_2025/2026_percent.pdf",
+    "filename": "ne-withholding.pdf",
+    "provider": "Nebraska Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-md",
+    "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/instructions/withholding/2026/withholding-guide.pdf",
+    "filename": "md-withholding.pdf",
+    "provider": "Maryland Comptroller",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-mi",
+    "url": "https://www.michigan.gov/taxes/-/media/Project/Websites/taxes/Forms/SUW/TY2026/446_Withholding-Guide_2026.pdf",
+    "filename": "mi-withholding.pdf",
+    "provider": "Michigan Department of Treasury",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ms",
+    "url": "https://www.dor.ms.gov/sites/default/files/business/89700251.pdf",
+    "filename": "ms-withholding.pdf",
+    "provider": "Mississippi Department of Revenue",
+    "vintage": "August 2025 revision",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ny",
+    "url": "https://www.tax.ny.gov/pdf/publications/withholding/nys50_t_nys.pdf",
+    "filename": "ny-withholding.pdf",
+    "provider": "New York Department of Taxation and Finance",
+    "vintage": "January 2026 revision",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-nm",
+    "url": "https://realfile.tax.newmexico.gov/FYI-104.pdf",
+    "filename": "nm-withholding.pdf",
+    "provider": "New Mexico Taxation and Revenue Department",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-nc",
+    "url": "https://www.ncdor.gov/income-tax-withholding-tables-and-instructions-employers/open",
+    "filename": "nc-withholding.pdf",
+    "provider": "North Carolina Department of Revenue",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-nd",
+    "url": "https://www.tax.nd.gov/sites/www/files/documents/forms/individual/2026-iit/2026-income-tax-withholding-rates-booklet.pdf",
+    "filename": "nd-withholding.pdf",
+    "provider": "North Dakota Office of State Tax Commissioner",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ok",
+    "url": "https://www.oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/withholding-tables/WHTables-2026.pdf",
+    "filename": "ok-withholding.pdf",
+    "provider": "Oklahoma Tax Commission",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-or",
+    "url": "https://www.oregon.gov/dor/forms/FormsPubs/withholding-tax-formulas_206-436_2026.pdf",
+    "filename": "or-withholding.pdf",
+    "provider": "Oregon Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-pa",
+    "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/employer-withholding",
+    "filename": "pa-withholding.html",
+    "provider": "Pennsylvania Department of Revenue",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-sc",
+    "url": "https://dor.sc.gov/sites/dor/files/forms/WH1603_2026.pdf",
+    "filename": "sc-withholding.pdf",
+    "provider": "South Carolina Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ut",
+    "url": "https://tax.utah.gov/forms-pubs/pub-14/",
+    "filename": "ut-withholding.html",
+    "provider": "Utah State Tax Commission",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-id",
+    "url": "https://tax.idaho.gov/document-mngr/pubs_EPB00744",
+    "filename": "id-withholding.pdf",
+    "provider": "Idaho State Tax Commission",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-la",
+    "url": "https://dam.ldr.la.gov/taxforms/1306%281_25%29.pdf",
+    "filename": "la-withholding.pdf",
+    "provider": "Louisiana Department of Revenue",
+    "vintage": "January 2025 revision",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-mt",
+    "url": "https://revenuefiles.mt.gov/files/Forms/Montana_Employer_and_Information_Agent_Guide_with_Tax_Tables.pdf",
+    "filename": "mt-withholding.pdf",
+    "provider": "Montana Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-nj",
+    "url": "https://www.state.nj.us/treasury/taxation/pdf/current/njwt.pdf",
+    "filename": "nj-withholding.pdf",
+    "provider": "New Jersey Division of Taxation",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ri",
+    "url": "https://tax.ri.gov/sites/g/files/xkgbur541/files/2025-12/2026%20Withholding%20Tax%20Booklet.pdf",
+    "filename": "ri-withholding.pdf",
+    "provider": "Rhode Island Division of Taxation",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-va",
+    "url": "https://www.tax.virginia.gov/sites/default/files/taxforms/withholding/any/employer-withholding-tables-july-2025-and-later-any.pdf",
+    "filename": "va-withholding.pdf",
+    "provider": "Virginia Department of Taxation",
+    "vintage": "July 2025 and later",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-wv",
+    "url": "https://tax.wv.gov/Documents/Withholding/it100.2a.pdf",
+    "filename": "wv-withholding.pdf",
+    "provider": "West Virginia Tax Division",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-wi",
+    "url": "https://www.revenue.wi.gov/DOR%20Publications/pb166.pdf",
+    "filename": "wi-withholding.pdf",
+    "provider": "Wisconsin Department of Revenue",
+    "vintage": "January 2026 revision",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-vt",
+    "url": "https://tax.vermont.gov/sites/tax/files/documents/GB-1210-2026.pdf",
+    "filename": "vt-withholding.pdf",
+    "provider": "Vermont Department of Taxes",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ak",
+    "url": "https://courts.alaska.gov/shc/probate/tax-matters.htm",
+    "filename": "ak-withholding.html",
+    "provider": "Alaska Court System",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-fl",
+    "url": "https://floridarevenue.com/Pages/info_individuals.aspx",
+    "filename": "fl-withholding.html",
+    "provider": "Florida Department of Revenue",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-nv",
+    "url": "https://tax.nv.gov/about-nevada-department-of-taxation/income-tax-in-nevada/",
+    "filename": "nv-withholding.html",
+    "provider": "Nevada Department of Taxation",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-nh",
+    "url": "https://www.revenue.nh.gov/taxes-glance",
+    "filename": "nh-withholding.html",
+    "provider": "New Hampshire Department of Revenue Administration",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-sd",
+    "url": "https://dor.sd.gov/individuals/individual-faqs/",
+    "filename": "sd-withholding.html",
+    "provider": "South Dakota Department of Revenue",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-tn",
+    "url": "https://www.tn.gov/revenue/taxes/hall-income-tax.html",
+    "filename": "tn-withholding.html",
+    "provider": "Tennessee Department of Revenue",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-tx",
+    "url": "https://tcss.legis.texas.gov/resources/CN/htm/CN.8.htm",
+    "filename": "tx-withholding.html",
+    "provider": "Texas Legislature",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-wa",
+    "url": "https://dor.wa.gov/taxes-rates/income-tax/frequently-asked-questions-about-income-tax",
+    "filename": "wa-withholding.html",
+    "provider": "Washington Department of Revenue",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-wy",
+    "url": "https://www.wyo.gov/about-wyoming",
+    "filename": "wy-withholding.html",
+    "provider": "State of Wyoming",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-oh",
+    "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/employer_withholding/2025%20Withholding%20Tables/WHT_PercentageMethod_2025.pdf",
+    "filename": "oh-withholding.pdf",
+    "provider": "Ohio Department of Taxation",
+    "vintage": "October 2025",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-dc",
+    "url": "https://otr.cfo.dc.gov/sites/default/files/dc/sites/otr/publication/attachments/FR-230_012215_v4.pdf",
+    "filename": "dc-withholding.pdf",
+    "provider": "District of Columbia Office of Tax and Revenue",
+    "vintage": "2015; historic only",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
   }
 ]

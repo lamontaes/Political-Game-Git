@@ -12,6 +12,7 @@ import {
 } from "../../../src/source/domains/government-finances/production";
 import { gzipSync } from "node:zlib";
 import { readXlsxSheet } from "../../../src/source/core/archive/xlsx";
+import { normalizeRetrievedText } from "../../../src/source/core/parse/html-text";
 import { parseDelimited } from "../../../src/source/core/parse/delimited";
 import { parseBlsTimeSeries } from "../../../src/source/core/parse/bls-timeseries";
 import { pathToFileURL } from "node:url";
@@ -365,12 +366,18 @@ export async function acquire(ids: readonly string[]): Promise<void> {
           .filter((source) => source.domain === domain)
           .map(request),
       };
+      const requestFailures: string[] = [];
       for (const source of selected.filter(
         (entry) => entry.domain === domain,
       )) {
-        await acquirePlan(domain, plan, lockPath, source.id);
+        try {
+          await acquirePlan(domain, plan, lockPath, source.id);
+        } catch (error) {
+          requestFailures.push(`${source.id}: ${String(error)}`);
+        }
         await new Promise((resolve) => setTimeout(resolve, 2000));
       }
+      if (requestFailures.length) throw new Error(requestFailures.join("\n"));
     }),
   );
   const failures = results.flatMap((result, index) =>
@@ -846,8 +853,153 @@ function compileMortgage(): Corpus {
   };
 }
 
+/** These IRS tables contain no nested tables; reject a publisher layout change. */
+function irsTables(artifactId: string) {
+  const html = locked(artifactId).bytes.toString("utf8");
+  return [...html.matchAll(/<table\b[^>]*>[\s\S]*?<\/table>/gi)].map(
+    (match) => {
+      if ((match[0].match(/<table\b/gi) ?? []).length !== 1)
+        throw new Error("Nested IRS table requires explicit review");
+      return {
+        raw: match[0],
+        sourceLine: html.slice(0, match.index).split("\n").length,
+        cells: [...match[0].matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)].map(
+          (row) =>
+            [...row[1]!.matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)].map(
+              (cell) =>
+                normalizeRetrievedText(Buffer.from(cell[1]!), "text/html"),
+            ),
+        ),
+      };
+    },
+  );
+}
+function irsNumber(raw: string): number {
+  const parsed = figure(raw.replaceAll("$", "").replaceAll("%", ""));
+  if (parsed.value === null)
+    throw new Error(`Missing IRS numeric cell: ${raw}`);
+  return parsed.value;
+}
+function compileIrs(): Corpus {
+  const rows: unknown[] = [];
+  const annual = irsTables("irs-annual-brackets-2026").filter((t) =>
+    /summary="TABLE [1-4] - Section 1\(j\)/.test(t.raw),
+  );
+  if (annual.length !== 4)
+    throw new Error("Expected four individual annual tax schedules");
+  for (const table of annual) {
+    const title = normalizeRetrievedText(
+      Buffer.from(table.raw.match(/summary="([^"]+)"/)![1]!),
+    );
+    let count = 0;
+    for (const [index, cells] of table.cells.entries()) {
+      if (!cells[0]?.startsWith("Not over") && !cells[0]?.startsWith("Over"))
+        continue;
+      if (cells.length !== 2)
+        throw new Error("Changed annual IRS bracket layout");
+      const limits = [...cells[0].matchAll(/\$([\d,.]+)/g)].map((m) =>
+        irsNumber(m[1]!),
+      );
+      const first = cells[0].startsWith("Not over");
+      const rate = cells[1]!.match(/(\d+)%/);
+      const base = cells[1]!.match(/^\$([\d,.]+) plus /);
+      if (!rate || (!first && !base))
+        throw new Error("Unknown IRS annual formula");
+      rows.push({
+        kind: "annual-tax-liability-bracket",
+        year: 2026,
+        filingStatus: title,
+        lowerExclusive: first ? 0 : limits[0],
+        upperInclusive: first ? limits[0] : (limits[1] ?? null),
+        upperUnbounded: !first && limits.length === 1,
+        baseTax: first ? 0 : irsNumber(base![1]!),
+        ratePercent: irsNumber(rate[1]!),
+        units: "USD taxable annual income and tax; rate in percent",
+        raw: cells,
+        evidence: {
+          artifactId: "irs-annual-brackets-2026",
+          tableLine: table.sourceLine,
+          tableRow: index + 1,
+        },
+      });
+      count++;
+    }
+    if (count !== 7)
+      throw new Error("Expected seven brackets per individual schedule");
+  }
+  const payroll = irsTables("irs-15t-2026").filter(
+    (t) =>
+      t.cells[0]?.[0] ===
+      "2026 Percentage Method Tables for Automated Payroll Systems and Withholding on Periodic Payments of Pensions and Annuities",
+  );
+  if (payroll.length !== 1)
+    throw new Error("Expected one automated annual withholding table");
+  let status = "";
+  let payrollCount = 0;
+  for (const [index, cells] of payroll[0]!.cells.entries()) {
+    if (
+      [
+        "Married Filing Jointly",
+        "Single or Married Filing Separately",
+        "Head of Household",
+      ].includes(cells[0]!)
+    ) {
+      status = cells[0]!;
+      continue;
+    }
+    if (!cells[0]?.startsWith("$")) continue;
+    if (!status || cells.length !== 10)
+      throw new Error("Changed payroll table layout");
+    for (const offset of [0, 5]) {
+      rows.push({
+        kind: "automated-payroll-withholding-bracket",
+        year: 2026,
+        filingStatus: status,
+        step2Checkbox: offset === 5,
+        lowerInclusive: irsNumber(cells[offset]!),
+        upperExclusive:
+          cells[offset + 1] === "" ? null : irsNumber(cells[offset + 1]!),
+        upperUnbounded: cells[offset + 1] === "",
+        baseTax: irsNumber(cells[offset + 2]!),
+        ratePercent: irsNumber(cells[offset + 3]!),
+        excessOver: irsNumber(cells[offset + 4]!),
+        units:
+          "USD adjusted annual wages and tentative annual withholding; rate in percent",
+        raw: cells.slice(offset, offset + 5),
+        evidence: {
+          artifactId: "irs-15t-2026",
+          tableLine: payroll[0]!.sourceLine,
+          tableRow: index + 1,
+        },
+      });
+      payrollCount++;
+    }
+  }
+  if (payrollCount !== 48)
+    throw new Error(`Expected 48 payroll brackets, got ${payrollCount}`);
+  return {
+    rows,
+    coverage: {
+      geography: "United States federal",
+      annualIndividualSchedules: 4,
+      payrollSchedules: 6,
+      territories: "Territory-specific payroll rules are not compiled here",
+    },
+    notes: [
+      "Withholding is not annual tax liability. Apply Publication 15-T Worksheet 1A, Form W-4 adjustments, pay-period conversion and rounding before using these tentative rates.",
+      "Annual tax tables apply to taxable income, not gross wages. Deductions, credits, capital gains, alternative minimum tax and estates/trusts are outside this corpus.",
+      "An unbounded top bracket has a null upper bound with upperUnbounded=true; this is not an unpublished value. Original table rows and line references are retained.",
+    ],
+  };
+}
+
 export function compile(check: boolean): void {
   const compilers = [
+    {
+      domain: "irs-payroll-brackets",
+      inputs: ["irs-annual-brackets-2026", "irs-15t-2026"],
+      run: compileIrs,
+    },
     {
       domain: "bls-cpi",
       inputs: ["cpi-series", ...cpiInputs],

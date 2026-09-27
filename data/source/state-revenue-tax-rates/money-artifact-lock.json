@@ -260,6 +260,1108 @@
         "status": "UNKNOWN"
       },
       "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-in",
+      "bytes": {
+        "length": 195702,
+        "sha256": "5eb64923aaa1b0f21c105dd64ab318fef290b232864109cd571d7bb9375b5315"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/in-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Indiana Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://www.in.gov/dor/files/dn01.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 195702,
+        "retrievedAt": "2026-09-27T00:35:04.080Z",
+        "url": "https://www.in.gov/dor/files/dn01.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ia",
+      "bytes": {
+        "length": 101272,
+        "sha256": "a832d8c3a8271e43f9aa43edaf58608c5618f476a4b4c4945ab36c16079a5b07"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ia-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Iowa Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://revenue.iowa.gov/media/52/download",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 101272,
+        "retrievedAt": "2026-09-27T00:35:06.786Z",
+        "url": "https://revenue.iowa.gov/media/52/download"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ks",
+      "bytes": {
+        "length": 749445,
+        "sha256": "c0b487f5d88ee2c2698ae1e408e1fdc1a603ea8a244eed136398b10342361cc0"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ks-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Kansas Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://www.ksrevenue.gov/pdf/whtables.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "July 2024 revision"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 749445,
+        "retrievedAt": "2026-09-27T00:35:09.930Z",
+        "url": "https://www.ksrevenue.gov/pdf/whtables.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ky",
+      "bytes": {
+        "length": 396725,
+        "sha256": "d99d39807c2d56e72221d8371b480f3a5b9cb2aee912d1db8d47d21f7b3aec2d"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ky-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Kentucky Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://revenue.ky.gov/Forms/2026%20WH%20Tax%20Tables.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 396725,
+        "retrievedAt": "2026-09-27T00:35:14.994Z",
+        "url": "https://revenue.ky.gov/Forms/2026%20WH%20Tax%20Tables.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-me",
+      "bytes": {
+        "length": 1962820,
+        "sha256": "dbb7a2e2981ca9a9af9eee55647742663f51b9439688870dfcaeb63d5b6e5bdb"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/me-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Maine Revenue Services",
+      "publisher": {
+        "documentationUrl": "https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/26_wh_tab_instr_August2026.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "August 2026 revision"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1962820,
+        "retrievedAt": "2026-09-27T00:35:17.786Z",
+        "url": "https://www.maine.gov/revenue/sites/maine.gov.revenue/files/inline-files/26_wh_tab_instr_August2026.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-mo",
+      "bytes": {
+        "length": 138554,
+        "sha256": "25bdc58feaf9149c7825fc7366895936514e2b0e7ffcc7b25c956eaa7361a18a"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/mo-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Missouri Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://dor.mo.gov/forms/Withholding%20Table%20-%20ALL_2026.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 138554,
+        "retrievedAt": "2026-09-27T00:35:25.498Z",
+        "url": "https://dor.mo.gov/forms/Withholding%20Table%20-%20ALL_2026.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ne",
+      "bytes": {
+        "length": 52893,
+        "sha256": "3688c1c21a859c941d3ece99dafe99021b9178156c1075eccfe9637d4eef7c49"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ne-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Nebraska Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://revenue.nebraska.gov/sites/default/files/doc/business/Cir_En_2025/2026_percent.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 52893,
+        "retrievedAt": "2026-09-27T00:35:28.201Z",
+        "url": "https://revenue.nebraska.gov/sites/default/files/doc/business/Cir_En_2025/2026_percent.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-il",
+      "bytes": {
+        "length": 492017,
+        "sha256": "f8f05eda8025bc8b80b7dee5fa9a69af04e2c32b3320386ace7027b5fc6d635e"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/il-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Illinois Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://www.illinois.gov/content/dam/soi/en/web/tax/forms/withholding/documents/currentyear/il-700-t.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 492017,
+        "retrievedAt": "2026-09-27T00:36:13.773Z",
+        "url": "https://www.illinois.gov/content/dam/soi/en/web/tax/forms/withholding/documents/currentyear/il-700-t.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-md",
+      "bytes": {
+        "length": 1430746,
+        "sha256": "ce61cef90c00bc41ad4f4a4913ea1f9f5be65db9c08b015d43c191d20883e0bf"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/md-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Maryland Comptroller",
+      "publisher": {
+        "documentationUrl": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/instructions/withholding/2026/withholding-guide.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1430746,
+        "retrievedAt": "2026-09-27T00:36:16.870Z",
+        "url": "https://www.marylandcomptroller.gov/content/dam/mdcomp/tax/instructions/withholding/2026/withholding-guide.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ms",
+      "bytes": {
+        "length": 6999367,
+        "sha256": "9d89e5abe4bd7d8a9ff290b2ca80391818968b0320e692e094e44b0b62d415c1"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ms-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Mississippi Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://www.dor.ms.gov/sites/default/files/business/89700251.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "August 2025 revision"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 6999367,
+        "retrievedAt": "2026-09-27T00:36:21.888Z",
+        "url": "https://www.dor.ms.gov/sites/default/files/business/89700251.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ny",
+      "bytes": {
+        "length": 384460,
+        "sha256": "e1c2b3440572a10019efe8d8e4d727474c55afb37dd5d18a6a73b94463baf3e8"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ny-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "New York Department of Taxation and Finance",
+      "publisher": {
+        "documentationUrl": "https://www.tax.ny.gov/pdf/publications/withholding/nys50_t_nys.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "January 2026 revision"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 384460,
+        "retrievedAt": "2026-09-27T00:36:32.979Z",
+        "url": "https://www.tax.ny.gov/pdf/publications/withholding/nys50_t_nys.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-nc",
+      "bytes": {
+        "length": 570759,
+        "sha256": "56a00f942c48c51019c3b78d72da1f1cc04969890678c107fe9d0386c5d655be"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/nc-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "North Carolina Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://www.ncdor.gov/income-tax-withholding-tables-and-instructions-employers/open",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 570759,
+        "retrievedAt": "2026-09-27T00:36:38.564Z",
+        "url": "https://www.ncdor.gov/income-tax-withholding-tables-and-instructions-employers/open"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-nd",
+      "bytes": {
+        "length": 3837719,
+        "sha256": "b265477a04e5932a79efc5bbc1be6db812febbe018a4f8b7018b7a72553f0415"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/nd-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "North Dakota Office of State Tax Commissioner",
+      "publisher": {
+        "documentationUrl": "https://www.tax.nd.gov/sites/www/files/documents/forms/individual/2026-iit/2026-income-tax-withholding-rates-booklet.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 3837719,
+        "retrievedAt": "2026-09-27T00:36:41.300Z",
+        "url": "https://www.tax.nd.gov/sites/www/files/documents/forms/individual/2026-iit/2026-income-tax-withholding-rates-booklet.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ok",
+      "bytes": {
+        "length": 429817,
+        "sha256": "ec4327fe6153611ce6bf60f8e5914eb75c9b6132cf3122bbaaca0ed9dab478a7"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ok-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Oklahoma Tax Commission",
+      "publisher": {
+        "documentationUrl": "https://www.oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/withholding-tables/WHTables-2026.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 429817,
+        "retrievedAt": "2026-09-27T00:36:44.283Z",
+        "url": "https://www.oklahoma.gov/content/dam/ok/en/tax/documents/resources/publications/businesses/withholding-tables/WHTables-2026.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-or",
+      "bytes": {
+        "length": 261358,
+        "sha256": "5beea1190b4072da8fb027d211665a4899ffd43d4488ab9e910bde57261ed37d"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/or-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Oregon Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://www.oregon.gov/dor/forms/FormsPubs/withholding-tax-formulas_206-436_2026.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 261358,
+        "retrievedAt": "2026-09-27T00:36:48.826Z",
+        "url": "https://www.oregon.gov/dor/forms/FormsPubs/withholding-tax-formulas_206-436_2026.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-pa",
+      "bytes": {
+        "length": 401782,
+        "sha256": "37afe3ff6670129e25f4e87d3e64b67442776d4f4748b10dcbe55dffacf833fe"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/pa-withholding.html",
+      "mediaType": "text/html",
+      "provider": "Pennsylvania Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/employer-withholding",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 401782,
+        "retrievedAt": "2026-09-27T00:36:51.251Z",
+        "url": "https://www.pa.gov/agencies/revenue/resources/tax-types-and-information/employer-withholding"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-sc",
+      "bytes": {
+        "length": 103466,
+        "sha256": "26ae14870f86018aa4c040fe2be5ce0c443c43e0ce438e6e547c15b93645d5c2"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/sc-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "South Carolina Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://dor.sc.gov/sites/dor/files/forms/WH1603_2026.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 103466,
+        "retrievedAt": "2026-09-27T00:36:53.631Z",
+        "url": "https://dor.sc.gov/sites/dor/files/forms/WH1603_2026.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ut",
+      "bytes": {
+        "length": 493808,
+        "sha256": "6c40960f36c1e62a11d3c0171d5fca42441a99e7d8ed63692ad38c1f55145367"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ut-withholding.html",
+      "mediaType": "text/html",
+      "provider": "Utah State Tax Commission",
+      "publisher": {
+        "documentationUrl": "https://tax.utah.gov/forms-pubs/pub-14/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 493808,
+        "retrievedAt": "2026-09-27T00:36:56.238Z",
+        "url": "https://tax.utah.gov/forms-pubs/pub-14/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-mn",
+      "bytes": {
+        "length": 2068607,
+        "sha256": "47c22acd256bcb85fe6fd49a8012835acc5e97b1ebaec99362e6a154e1795da9"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/mn-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Minnesota Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://www.revenue.state.mn.us/sites/default/files/2025-12/wh-inst-26.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2068607,
+        "retrievedAt": "2026-09-27T00:37:40.329Z",
+        "url": "https://www.revenue.state.mn.us/sites/default/files/2025-12/wh-inst-26.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-id",
+      "bytes": {
+        "length": 316188,
+        "sha256": "c52b383684af433b12eb3b712fbb0de6b61326b5061562440b43464b332cb3d8"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/id-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Idaho State Tax Commission",
+      "publisher": {
+        "documentationUrl": "https://tax.idaho.gov/document-mngr/pubs_EPB00744",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 316188,
+        "retrievedAt": "2026-09-27T00:37:46.327Z",
+        "url": "https://tax.idaho.gov/document-mngr/pubs_EPB00744"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-la",
+      "bytes": {
+        "length": 345143,
+        "sha256": "baae8e6917750e061779ff20ec8382ff7531e160d069c7dff22deec4773807c6"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/la-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Louisiana Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://dam.ldr.la.gov/taxforms/1306%281_25%29.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "January 2025 revision"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 345143,
+        "retrievedAt": "2026-09-27T00:37:49.784Z",
+        "url": "https://dam.ldr.la.gov/taxforms/1306%281_25%29.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-mt",
+      "bytes": {
+        "length": 985472,
+        "sha256": "be5e53a31b7175ed17fd2457ef40dff1224e4e9737ac18248f1434c6d4b578eb"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/mt-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Montana Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://revenuefiles.mt.gov/files/Forms/Montana_Employer_and_Information_Agent_Guide_with_Tax_Tables.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 985472,
+        "retrievedAt": "2026-09-27T00:37:52.877Z",
+        "url": "https://revenuefiles.mt.gov/files/Forms/Montana_Employer_and_Information_Agent_Guide_with_Tax_Tables.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-nj",
+      "bytes": {
+        "length": 2317231,
+        "sha256": "0fbd45b2c7e9f5d8858ed4008c1436739e7a3ba655a823516ca4be8041cf01e9"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/nj-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "New Jersey Division of Taxation",
+      "publisher": {
+        "documentationUrl": "https://www.state.nj.us/treasury/taxation/pdf/current/njwt.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2317231,
+        "retrievedAt": "2026-09-27T00:37:58.001Z",
+        "url": "https://www.state.nj.us/treasury/taxation/pdf/current/njwt.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ri",
+      "bytes": {
+        "length": 601205,
+        "sha256": "1e6883fa1a02cc03eaa0be3a62a8e8bf34b2a02ed5246fc8bcc7c54b0bab37c1"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ri-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Rhode Island Division of Taxation",
+      "publisher": {
+        "documentationUrl": "https://tax.ri.gov/sites/g/files/xkgbur541/files/2025-12/2026%20Withholding%20Tax%20Booklet.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 601205,
+        "retrievedAt": "2026-09-27T00:38:00.980Z",
+        "url": "https://tax.ri.gov/sites/g/files/xkgbur541/files/2025-12/2026%20Withholding%20Tax%20Booklet.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-va",
+      "bytes": {
+        "length": 938740,
+        "sha256": "a9756739075a1118a5b41880e1b1f6c3c21bafa34d262a6e62e87fb8b4a411ab"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/va-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Virginia Department of Taxation",
+      "publisher": {
+        "documentationUrl": "https://www.tax.virginia.gov/sites/default/files/taxforms/withholding/any/employer-withholding-tables-july-2025-and-later-any.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "July 2025 and later"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 938740,
+        "retrievedAt": "2026-09-27T00:38:03.774Z",
+        "url": "https://www.tax.virginia.gov/sites/default/files/taxforms/withholding/any/employer-withholding-tables-july-2025-and-later-any.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-wi",
+      "bytes": {
+        "length": 2128837,
+        "sha256": "c400ce62d7a945f111d01f42e541415d27c3cae45eb30f3fbf25ac5220949fb7"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/wi-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Wisconsin Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://www.revenue.wi.gov/DOR%20Publications/pb166.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "January 2026 revision"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2128837,
+        "retrievedAt": "2026-09-27T00:38:10.245Z",
+        "url": "https://www.revenue.wi.gov/DOR%20Publications/pb166.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-vt",
+      "bytes": {
+        "length": 992046,
+        "sha256": "4656760209691fdd4404f2a10fa4edf57622e24dc7dbaa10ac113f2775f9687d"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/vt-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Vermont Department of Taxes",
+      "publisher": {
+        "documentationUrl": "https://tax.vermont.gov/sites/tax/files/documents/GB-1210-2026.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 992046,
+        "retrievedAt": "2026-09-27T00:38:46.596Z",
+        "url": "https://tax.vermont.gov/sites/tax/files/documents/GB-1210-2026.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ak",
+      "bytes": {
+        "length": 32491,
+        "sha256": "58d8971a864815daba2f9fae4e61c997a35aaa889ec727c2e351b1c0fad67e21"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ak-withholding.html",
+      "mediaType": "text/html",
+      "provider": "Alaska Court System",
+      "publisher": {
+        "documentationUrl": "https://courts.alaska.gov/shc/probate/tax-matters.htm",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 32491,
+        "retrievedAt": "2026-09-27T00:38:51.598Z",
+        "url": "https://courts.alaska.gov/shc/probate/tax-matters.htm"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-fl",
+      "bytes": {
+        "length": 58842,
+        "sha256": "a368cd50d39d9da37e0643a524e806ec0f2626e0cec222326d466e2e5f7cc301"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/fl-withholding.html",
+      "mediaType": "text/html",
+      "provider": "Florida Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://floridarevenue.com/Pages/info_individuals.aspx",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 58842,
+        "retrievedAt": "2026-09-27T00:38:54.454Z",
+        "url": "https://floridarevenue.com/Pages/info_individuals.aspx"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-nv",
+      "bytes": {
+        "length": 116629,
+        "sha256": "bc1fd459101b56380a95ea1cb4e6b9e401535baad873116a05b2b2ea015d1968"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/nv-withholding.html",
+      "mediaType": "text/html",
+      "provider": "Nevada Department of Taxation",
+      "publisher": {
+        "documentationUrl": "https://tax.nv.gov/about-nevada-department-of-taxation/income-tax-in-nevada/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 116629,
+        "retrievedAt": "2026-09-27T00:38:57.079Z",
+        "url": "https://tax.nv.gov/about-nevada-department-of-taxation/income-tax-in-nevada/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-sd",
+      "bytes": {
+        "length": 215246,
+        "sha256": "0fd43a13d78736e45b38072d08f8a5856f90b7185f6c542d03e3687b22571922"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/sd-withholding.html",
+      "mediaType": "text/html",
+      "provider": "South Dakota Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://dor.sd.gov/individuals/individual-faqs/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 215246,
+        "retrievedAt": "2026-09-27T00:39:02.463Z",
+        "url": "https://dor.sd.gov/individuals/individual-faqs/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-tx",
+      "bytes": {
+        "length": 119844,
+        "sha256": "97a72612a5f813691ddcb94af20e50da7770ab03f092838dfac5624f0581c3a5"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/tx-withholding.html",
+      "mediaType": "text/html",
+      "provider": "Texas Legislature",
+      "publisher": {
+        "documentationUrl": "https://tcss.legis.texas.gov/resources/CN/htm/CN.8.htm",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 119844,
+        "retrievedAt": "2026-09-27T00:39:07.669Z",
+        "url": "https://tcss.legis.texas.gov/resources/CN/htm/CN.8.htm"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-wa",
+      "bytes": {
+        "length": 59034,
+        "sha256": "09158d00256dd7a31d2d20f7ed642341601544bcd8fd4ee306282b23d01c1470"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/wa-withholding.html",
+      "mediaType": "text/html",
+      "provider": "Washington Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://dor.wa.gov/taxes-rates/income-tax/frequently-asked-questions-about-income-tax",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 59034,
+        "retrievedAt": "2026-09-27T00:39:10.190Z",
+        "url": "https://dor.wa.gov/taxes-rates/income-tax/frequently-asked-questions-about-income-tax"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-wy",
+      "bytes": {
+        "length": 284364,
+        "sha256": "c8f1743a61ca2254deb88b70b1feb253fc9f5c3747d3bf524634d048b4ecb81a"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/wy-withholding.html",
+      "mediaType": "text/html",
+      "provider": "State of Wyoming",
+      "publisher": {
+        "documentationUrl": "https://www.wyo.gov/about-wyoming",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 284364,
+        "retrievedAt": "2026-09-27T00:39:12.689Z",
+        "url": "https://www.wyo.gov/about-wyoming"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-nm",
+      "bytes": {
+        "length": 780041,
+        "sha256": "400f141e3cc28d352712cd0cb94f80d7c2dc1c40463fcdcf31561247b5889a82"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/nm-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "New Mexico Taxation and Revenue Department",
+      "publisher": {
+        "documentationUrl": "https://realfile.tax.newmexico.gov/FYI-104.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 780041,
+        "retrievedAt": "2026-09-27T00:39:52.019Z",
+        "url": "https://realfile.tax.newmexico.gov/FYI-104.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-wv",
+      "bytes": {
+        "length": 96507,
+        "sha256": "c103bacc00f5d3c6c02ce3831c76d328e3ada5ee8af3746a48100b9001ee68b2"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/wv-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "West Virginia Tax Division",
+      "publisher": {
+        "documentationUrl": "https://tax.wv.gov/Documents/Withholding/it100.2a.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 96507,
+        "retrievedAt": "2026-09-27T00:39:54.999Z",
+        "url": "https://tax.wv.gov/Documents/Withholding/it100.2a.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-oh",
+      "bytes": {
+        "length": 161776,
+        "sha256": "b726a7db435a59f5f9239059840b478d32ea8666b9e7813bb7b342b44099e2e1"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/oh-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Ohio Department of Taxation",
+      "publisher": {
+        "documentationUrl": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/employer_withholding/2025%20Withholding%20Tables/WHT_PercentageMethod_2025.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "October 2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 161776,
+        "retrievedAt": "2026-09-27T00:40:10.152Z",
+        "url": "https://dam.assets.ohio.gov/image/upload/tax.ohio.gov/employer_withholding/2025%20Withholding%20Tables/WHT_PercentageMethod_2025.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-dc",
+      "bytes": {
+        "length": 879391,
+        "sha256": "376ca5beb6f024050a771be9f49f64bb0088c63f1b72cb83a9331c9fc1e4d15c"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/dc-withholding.pdf",
+      "mediaType": "application/pdf",
+      "provider": "District of Columbia Office of Tax and Revenue",
+      "publisher": {
+        "documentationUrl": "https://otr.cfo.dc.gov/sites/default/files/dc/sites/otr/publication/attachments/FR-230_012215_v4.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2015; historic only"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 879391,
+        "retrievedAt": "2026-09-27T00:40:12.411Z",
+        "url": "https://otr.cfo.dc.gov/sites/default/files/dc/sites/otr/publication/attachments/FR-230_012215_v4.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
     }
   ],
   "domain": "state-revenue-tax-rates"
