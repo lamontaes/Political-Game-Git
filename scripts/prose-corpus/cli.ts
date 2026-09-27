@@ -336,7 +336,8 @@ ${campaign}
 ${beats}`;
   });
 
-  return `# Fixed-seed transcript matrix
+  return (
+    `# Fixed-seed transcript matrix
 
 Played through the real player seams — \`projectStoryMoment\`,
 \`chooseStoryOption\`, \`fileForOffice\`, \`spendAnAfternoon\`,
@@ -348,7 +349,8 @@ exposed, so a seed that stops demonstrating its surface is visible rather than
 quietly passing.
 
 ${sections.join("\n\n---\n\n")}
-`;
+`.trimEnd() + "\n"
+  );
 }
 
 function readme(

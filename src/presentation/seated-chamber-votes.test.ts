@@ -8,7 +8,12 @@ import {
   legislativeBlueprint,
   serializeWorld,
 } from "../simulation";
-import type { MeasureStepKey, World } from "../simulation";
+import type {
+  EntityId,
+  MeasureStepKey,
+  PrivateBeliefRecord,
+  World,
+} from "../simulation";
 import {
   decideChamberVote,
   publicPartyOf,
@@ -343,5 +348,73 @@ describe("a seated chamber deciding one question", () => {
       });
     }
     expect(new Set(override.map((entry) => entry.disposition)).size).toBe(2);
+  });
+
+  it("retains the exact formed belief behind a member's recorded reason", () => {
+    const proposition = Object.values(world.policyCatalog.propositions)[0]!;
+    const member = chamber.body.members.find(
+      (entry) => entry.personId !== assignment.sponsorPersonId,
+    )!;
+    const beliefId = "belief:seated-vote-reason" as EntityId;
+    const belief: PrivateBeliefRecord = {
+      id: beliefId,
+      stableKey: "test:seated-vote-reason",
+      sequence: world.history.nextSequence - 1,
+      personId: member.personId!,
+      propositionId: proposition.id,
+      formedAt: world.currentDate,
+      position: "oppose",
+      conviction: "settled",
+      salience: "central",
+      flexibility: "firm",
+      rationale: null,
+      formation: {
+        reason: "experience:test",
+        relevantEventIds: [],
+        sourceFactIds: [],
+        propositionExposureIds: [],
+        memoryIds: [],
+        eventKnowledgeIds: [],
+        claimIds: [],
+        relationshipInteractionIds: [],
+        subjectKnowledgeIds: [],
+        decisionTraceIds: [],
+        cue: null,
+        evidenceReference: null,
+        note: null,
+      },
+      supersedesBeliefId: null,
+    };
+    const informed: World = {
+      ...world,
+      history: {
+        ...world.history,
+        privateBeliefs: [...world.history.privateBeliefs, belief],
+        legislativeMeasures: world.history.legislativeMeasures!.map(
+          (measure) =>
+            measure.id === assignment.measureId
+              ? {
+                  ...measure,
+                  propositionAnswers: [
+                    { propositionId: proposition.id, answer: "yes" as const },
+                  ],
+                }
+              : measure,
+        ),
+      },
+    };
+    const decided = decideChamberVote(informed, {
+      stableKey: "test:belief-reason",
+      question,
+      members: [member],
+    });
+    expect(decided).toEqual([
+      {
+        memberKey: member.memberKey,
+        personId: member.personId,
+        disposition: "nay",
+        reason: `member:private-belief:${beliefId}`,
+      },
+    ]);
   });
 });

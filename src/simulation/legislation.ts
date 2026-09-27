@@ -30,6 +30,8 @@ import {
 } from "./legislative-procedure-world";
 import { personName } from "./people";
 import { recordPropositionExposure } from "./politics";
+import { recordEventKnowledge } from "./records";
+import { schedulePoliticalReflectionForExposure } from "./living-world/political-reflection-schedule";
 import type {
   PolicyPropositionDefinition,
   CommitteeActionRecord,
@@ -59,7 +61,12 @@ import type {
   LegislativeVoteTally,
   World,
 } from "./types";
-import { recordWorldEvent } from "./world";
+import {
+  assertWorldIntegrityFully,
+  recordWorldEvent,
+  withWorldIntegrityDeferred,
+  worldIntegrityDeferred,
+} from "./world";
 
 /**
  * Canonical legislative process.
@@ -1210,6 +1217,36 @@ function appendAction(world: World, input: AppendActionInput): World {
     if (refusal) throw new Error(refusal);
   }
   const eventStableKey = `event:${input.stableKey}`;
+  // A saved roll call proves participation only for named members recorded
+  // present. A chamber roster, public hearing, or absent ballot proves none.
+  const voteParticipantIds = [
+    ...new Set(
+      input.vote?.provenance.method === "member-decisions"
+        ? input.vote.dispositions.flatMap((entry) =>
+            entry.personId &&
+            world.people[entry.personId] &&
+            (entry.disposition === "yea" ||
+              entry.disposition === "nay" ||
+              entry.disposition === "present-not-voting")
+              ? [entry.personId]
+              : [],
+          )
+        : [],
+    ),
+  ];
+  const participants: EventParticipant[] = [
+    ...(input.participants ?? []),
+    ...voteParticipantIds
+      .filter(
+        (personId) =>
+          !input.participants?.some((entry) => entry.personId === personId),
+      )
+      .map((personId) => ({
+        personId,
+        role: "presence:recorded-roll-call" as const,
+        detail: null,
+      })),
+  ];
 
   let next = recordWorldEvent(world, {
     stableKey: eventStableKey,
@@ -1222,12 +1259,10 @@ function appendAction(world: World, input: AppendActionInput): World {
         measure.id,
         measure.jurisdictionId,
         ...(input.involvedEntityIds ?? []),
-        ...(input.participants ?? []).map(
-          (participant) => participant.personId,
-        ),
+        ...participants.map((participant) => participant.personId),
       ]),
     ],
-    participants: input.participants ?? [],
+    participants,
     personFactConstraints: [],
     visibility: "public",
     tags: ["legislation", ...input.tags],
@@ -1321,7 +1356,68 @@ function appendAction(world: World, input: AppendActionInput): World {
   stableKeyFamilies(written).forEach((records, index) =>
     transferLegislativeStableKeyIndex(priorFamilies[index]!, records),
   );
-  return written;
+  const recordedVote = input.vote;
+  if (!recordedVote || voteParticipantIds.length === 0) return written;
+  const inheritedDeferral = worldIntegrityDeferred();
+  const learned = withWorldIntegrityDeferred(() => {
+    let informed: World = written;
+    // An amendment or procedural ballot alone does not establish that the
+    // member encountered every question in the underlying bill.
+    const answeredQuestions =
+      recordedVote.purpose === "committee-report" ||
+      recordedVote.purpose === "floor-stage"
+        ? [
+            ...new Set(
+              (measure.propositionAnswers ?? []).map(
+                (row) => row.propositionId,
+              ),
+            ),
+          ].filter(
+            (id) => informed.policyCatalog.propositions[id] !== undefined,
+          )
+        : [];
+    for (const personId of voteParticipantIds) {
+      informed = recordEventKnowledge(informed, {
+        stableKey: `${input.stableKey}:vote-knowledge:${personId}`,
+        personId,
+        eventId: event.id,
+        learnedAt: event.occurredAt,
+        believedSummary: input.summary,
+        accuracy: "accurate",
+        confidence: "high",
+        source: { kind: "direct" },
+      });
+      for (const propositionId of answeredQuestions) {
+        const proposition = informed.policyCatalog.propositions[propositionId]!;
+        informed = recordPropositionExposure(informed, {
+          stableKey: `${input.stableKey}:vote-exposure:${personId}:${propositionId}`,
+          personId,
+          propositionId,
+          encounteredAt: event.occurredAt,
+          summary: `Took part in the recorded ${recordedVote.purpose} roll call on ${measure.designation}, which put the question "${proposition.question}".`,
+          provenance: { kind: "direct-experience", eventId: event.id },
+        });
+        const exposure = informed.history.propositionExposures.at(-1);
+        if (
+          !exposure ||
+          exposure.personId !== personId ||
+          exposure.propositionId !== propositionId
+        )
+          throw new Error(
+            "The participant's recorded question was not retained.",
+          );
+        informed = schedulePoliticalReflectionForExposure(
+          informed,
+          exposure.id,
+        );
+      }
+    }
+    return informed;
+  });
+  // The ordinary day advance validates the whole transition after its nested
+  // writers return. A direct vote writer validates this group once here.
+  if (!inheritedDeferral) assertWorldIntegrityFully(learned);
+  return learned;
 }
 
 function assertPhase(
@@ -1682,6 +1778,10 @@ function exposeSponsorToQuestions(
       summary: `Sponsored ${measure.designation}, which bears on the question${proposition ? ` "${proposition.name}"` : ""}.`,
       provenance: { kind: "direct-experience", eventId: filing.id },
     });
+    const exposure = next.history.propositionExposures.at(-1);
+    if (!exposure || exposure.propositionId !== propositionId)
+      throw new Error("The sponsor's recorded question was not retained.");
+    next = schedulePoliticalReflectionForExposure(next, exposure.id);
   }
   return next;
 }

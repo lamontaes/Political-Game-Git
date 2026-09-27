@@ -13,6 +13,7 @@ import {
   recordPersonalityTendency,
 } from "../simulation/mind";
 import { PERSONALITY_PACK } from "../simulation/personality-catalogue";
+import { RETIRED_QUALITIES } from "../../scripts/traits/personality-catalogue";
 import { CATALOGUE_SCALES } from "../simulation/personality-catalogue.generated";
 import {
   encodeRegisteredTrait,
@@ -68,7 +69,7 @@ const age = (world: World, id: EntityId) =>
   Number(world.people[id]!.birthDate.slice(0, 4));
 
 describe("the personality catalog", () => {
-  it("loads every scale the research sent, less the four the five already mean", () => {
+  it("loads the approved 92 notable qualities", () => {
     const registry = traitRegistryFor(
       openAt("0200065", "catalogue-load").world,
     );
@@ -77,7 +78,13 @@ describe("the personality catalog", () => {
     );
     const expected = received.scales
       .map((scale) => scale.key)
-      .filter((key) => !BOUND_TO_THE_FIVE.includes(key));
+      .filter(
+        (key) =>
+          !BOUND_TO_THE_FIVE.includes(key) &&
+          !RETIRED_QUALITIES.includes(
+            key as (typeof RETIRED_QUALITIES)[number],
+          ),
+      );
     expect(loaded.map((trait) => trait.key)).toEqual(expected);
     expect(
       registry.report.rejections.filter(
@@ -111,7 +118,7 @@ describe("the personality catalog", () => {
     ["3149950", "a small town in Nebraska"],
     ["0200065", "a small place in Alaska"],
   ])(
-    "gives each adult in %s (%s) one or two qualities of their own, and nobody else any",
+    "gives people in %s (%s) the approved age-appropriate notable qualities",
     (placeKey) => {
       const { world: opened, playerId } = openAt(
         placeKey,
@@ -123,16 +130,8 @@ describe("the personality catalog", () => {
       expect(adults.length).toBeGreaterThan(0);
       for (const id of adults) {
         const known = catalogueReadings(world, id);
-        expect(known.length).toBeGreaterThanOrEqual(1);
-        expect(known.length).toBeLessThanOrEqual(2);
-        // Two qualities never come from one family.
-        const families = new Set(
-          known.map(
-            ({ trait }) =>
-              CATALOGUE_SCALES.find((row) => row.key === trait.key)!.family,
-          ),
-        );
-        expect(families.size).toBe(known.length);
+        expect(known.length).toBeGreaterThanOrEqual(3);
+        expect(known.length).toBeLessThanOrEqual(5);
         for (const { trait, reading } of known) {
           if (reading.state !== "recorded") continue;
           // A one-sided quality is written at its marked end, never its absence.
@@ -142,9 +141,11 @@ describe("the personality catalog", () => {
           expect(observedTraitLabels(world, id)).toContain(reading.label);
         }
       }
-      // Children are left until they are adults.
+      // Children hold fewer qualities and gain more as they grow.
       for (const id of others.filter((id) => age(world, id) < 17)) {
-        expect(catalogueReadings(world, id)).toEqual([]);
+        const known = catalogueReadings(world, id);
+        expect(known.length).toBeGreaterThanOrEqual(1);
+        expect(known.length).toBeLessThanOrEqual(2);
       }
       // The played character is never given one.
       expect(catalogueReadings(world, playerId)).toEqual([]);
@@ -180,8 +181,10 @@ describe("the personality catalog", () => {
       supersedesTendencyId: null,
     });
     const next = ensurePeopleTraits(written, [adult]);
-    expect(
-      catalogueReadings(next, adult).map(({ trait }) => trait.key),
-    ).toEqual(["facet-cocky"]);
+    const keys = catalogueReadings(next, adult).map(({ trait }) => trait.key);
+    expect(keys).toContain("facet-cocky");
+    expect(keys.filter((key) => key === "facet-cocky")).toHaveLength(1);
+    expect(keys.length).toBeGreaterThanOrEqual(3);
+    expect(keys.length).toBeLessThanOrEqual(5);
   });
 });

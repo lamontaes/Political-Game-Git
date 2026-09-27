@@ -4,6 +4,8 @@ import {
   settleJobPay,
 } from "../simulation/job-market";
 import { settleCareerOffers } from "../simulation/career-path7";
+import { contactBases } from "../simulation/people-contact";
+import { ensurePeopleTraits } from "../simulation/people-traits";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
@@ -14,7 +16,12 @@ import { migrateLegacyLegislativeSeats } from "../simulation/legislative-office-
 import { catchUpTerritoryGovernor } from "../simulation/nationwide-world/territory-governor-catch-up";
 import { catchUpLegacySchoolStages } from "../simulation/school-stages";
 import { catchUpComingOfAge } from "../simulation/coming-of-age";
-import { ensureCrisisMortality } from "../simulation/crisis/mortality";
+import {
+  crisisMortalityRunning,
+  ensureCrisisMortality,
+  nextMortalityFrontier,
+} from "../simulation/crisis/mortality";
+import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import {
   activeChildAuthoritiesAt,
   currentLifeCutoff,
@@ -222,12 +229,22 @@ export function openOrdinaryLife(world: World, personId: EntityId): World {
   // opens, before anything else reads the week.
   const seated = seatWinnersOwedTheirTerm(world, personId);
   if (!ordinaryLifeAvailableFor(seated, personId)) return seated;
-  return refreshLifeCircumstances(
+  const opened = refreshLifeCircumstances(
     refreshLifeOpportunities(
       openOrdinaryLifeRecords(seated, personId),
       personId,
     ),
     personId,
+  );
+  // Traits are written at opening only for the people the player has a real
+  // way of reaching: household, family, work and everyone else in their
+  // contact list. Everyone else's traits are drawn from their own seed and
+  // upbringing the first time a decision needs them (every decision calls
+  // ensurePeopleTraits first). Writing them for the whole world at opening
+  // made starting a life take about half an hour.
+  return ensurePeopleTraits(
+    opened,
+    contactBases(opened, personId).map((basis) => basis.personId),
   );
 }
 
@@ -373,7 +390,7 @@ function passOrdinaryDaysUnchecked(
 ): World {
   // A birthday the stretch just crossed is answered in the same stretch, not
   // the next time somebody passes a day.
-  const stepped = advanceOrdinaryDays(world, days, supplied);
+  const stepped = advanceStoppingAtOwnDeath(world, days, supplied);
   const advanced = stepped === world ? stepped : catchUpComingOfAge(stepped);
   // A stretch that actually passed is a transition at which the world may bind
   // the situations it has made answerable (PROSE B). A refused advance writes
@@ -404,6 +421,61 @@ function passOrdinaryDaysUnchecked(
     ),
     personId,
   );
+}
+
+/**
+ * A long advance stops on the day the played character dies.
+ *
+ * The hazard model writes a death on the exact day it falls, but a quiet
+ * stretch of several weeks used to run straight on past it, so the ending
+ * screen appeared with the world's date weeks after the death it reported. The
+ * stretch is now crossed in legs that end on each day a death could be
+ * written for the character: a mortality window opening, or their own
+ * scheduled death. After each leg a death ends the advance there, on the
+ * morning of the day it happened. Nothing else about the advance changes; a
+ * leg that stops early for any other reason ends the advance as before.
+ */
+function advanceStoppingAtOwnDeath(
+  world: World,
+  days: number,
+  supplied: PassOrdinaryDaysOptions | FutureTransitionHandlerRegistry,
+): World {
+  if (world.control.kind !== "person")
+    return advanceOrdinaryDays(world, days, supplied);
+  const personId = world.control.personId;
+  const wholeDays = Math.max(1, Math.trunc(days));
+  const finalDate = addDays(world.currentDate, wholeDays);
+  let current = world;
+  for (let leg = 0; leg < 64; leg += 1) {
+    // A save from before the mortality model gets its first window during
+    // the first day passed; one day first lets the legs see it.
+    const frontier = crisisMortalityRunning(current)
+      ? nextMortalityFrontier(current, personId, finalDate)
+      : addDays(current.currentDate, 1);
+    const legEnd =
+      frontier !== null && frontier < finalDate ? frontier : finalDate;
+    const legDays = Math.max(1, daysBetween(current.currentDate, legEnd));
+    const next = advanceOrdinaryDays(current, legDays, supplied);
+    if (
+      !isPersonAliveAt(next, personId, {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      })
+    )
+      return next;
+    if (
+      legEnd >= finalDate ||
+      next === current ||
+      next.currentDate < legEnd ||
+      compareSimulationMoments(next.currentMoment, current.currentMoment) <=
+        0 ||
+      (next.currentDate === legEnd &&
+        next.currentMoment.minuteOfDay < ORDINARY_DAY_START_MINUTE)
+    )
+      return next;
+    current = next;
+  }
+  return current;
 }
 
 function advanceOrdinaryDays(
