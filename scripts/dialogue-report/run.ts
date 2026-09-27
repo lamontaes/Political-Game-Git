@@ -17,7 +17,11 @@
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
-import { personName } from "../../src/simulation";
+import {
+  createCampaignElectionTransitionRegistry,
+  personName,
+  scheduledActivityState,
+} from "../../src/simulation";
 import type { EntityId, World } from "../../src/simulation";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import { createOpeningLifeController } from "../../src/presentation/opening-life";
@@ -32,10 +36,16 @@ import {
 import { commitConversationTurn } from "../../src/presentation/run-b-conversation";
 import { conversationExchangeTurns } from "../../src/presentation/scene-conversation";
 import { linePartsOf } from "../../src/presentation/english-composition";
+import {
+  chooseStoryOption,
+  projectStoryMoment,
+} from "../../src/presentation/life-story";
 import { placeFor, rng } from "../playtest/mass-play/driver";
 
 /** The conversation box's own key for leaving; never chosen as a reply. */
 const LEAVE = "leave";
+/** Story moments answered in a day before the Day command is pressed. */
+const STORY_MOMENTS_PER_DAY = 5;
 /** Turns taken in one conversation before the report moves on. */
 const TURNS_PER_CONVERSATION = 6;
 
@@ -121,6 +131,7 @@ function playLife(
   let world: World | null = null;
   let personId: EntityId = "";
   let daysPlayed = 0;
+  let stopped: string | null = null;
   try {
     const setup = explicitNewGameSetup({
       placeKey,
@@ -131,19 +142,60 @@ function playLife(
     const game = createOpeningLifeController(setup).finishTransition().game!;
     personId = game.playerPersonId;
     world = openOrdinaryLife(game.world, personId);
+    const handlers = createCampaignElectionTransitionRegistry();
     for (let day = 0; day < days; day += 1) {
       world = talkToEveryone(world, personId, random, conversations);
       if (!world.people[personId]) break;
-      const result = submitTimeCommand(world, {
-        requestId: `${seed}-day-${day}`,
-        personId,
-        sourceMoment: world.currentMoment,
-        command: { kind: "days", days: 1 },
-        interruptions: DEFAULT_INTERRUPTIONS,
-      });
+      // A story moment waiting on the player holds the Day, as it does in
+      // play; answer it by seed from the options the player is shown.
+      for (let answered = 0; answered < STORY_MOMENTS_PER_DAY; answered += 1) {
+        const { scene } = projectStoryMoment(world, personId);
+        if (scene.kind === "ordinary-stretch" || scene.options.length === 0)
+          break;
+        const option =
+          scene.options[Math.floor(random() * scene.options.length)]!;
+        world = chooseStoryOption(world, {
+          personId,
+          scene,
+          optionKey: option.key,
+          transitionHandlers: handlers,
+        });
+      }
+      const pressDay = (attempt: string) =>
+        submitTimeCommand(world!, {
+          requestId: `${seed}-day-${day}-${attempt}`,
+          personId,
+          sourceMoment: world!.currentMoment,
+          command: { kind: "days", days: 1 },
+          interruptions: DEFAULT_INTERRUPTIONS,
+        });
+      let result = pressDay("first");
       world = result.world;
+      // A meeting already due holds the Day; a player goes to it, and the
+      // talk there is part of what this report is for.
+      const due = waitingActivities(world, personId);
+      if (result.receipt.status !== "accepted" && due.length > 0) {
+        const attended = submitTimeCommand(world, {
+          requestId: `${seed}-day-${day}-attend`,
+          personId,
+          sourceMoment: world.currentMoment,
+          command: { kind: "attend-activity", activityId: due[0]!.id },
+          interruptions: DEFAULT_INTERRUPTIONS,
+        });
+        world = attended.world;
+        world = talkToEveryone(world, personId, random, conversations);
+        result = pressDay("after-meeting");
+        world = result.world;
+      }
+      if (result.receipt.status !== "accepted") {
+        // A life whose Day is refused says why rather than ending quietly.
+        const waiting = waitingActivities(world, personId).map(
+          (activity) => `${activity.title} (${activity.kind})`,
+        );
+        stopped = `the Day command was ${result.receipt.status} on ${world.currentDate}: ${result.receipt.outcome}${waiting.length ? ` Waiting: ${waiting.join("; ")}.` : ""}`;
+        break;
+      }
       daysPlayed += 1;
-      if (result.receipt.status !== "accepted") break;
     }
     return {
       index,
@@ -153,7 +205,7 @@ function playLife(
       playerName: nameOf(world, personId),
       daysPlayed,
       conversations,
-      problem: null,
+      problem: stopped,
     };
   } catch (error) {
     return {
@@ -244,6 +296,17 @@ function talkToEveryone(
       });
   }
   return world;
+}
+
+/** Calendar items already due for this person. */
+function waitingActivities(world: World, personId: EntityId) {
+  return world.history.scheduledActivities.filter(
+    (activity) =>
+      activity.participantPersonIds.includes(personId) &&
+      scheduledActivityState(world, activity.id).status === "scheduled" &&
+      scheduledActivityState(world, activity.id).start.date <=
+        world.currentDate,
+  );
 }
 
 function nameOf(world: World, id: EntityId): string | null {
