@@ -1,7 +1,16 @@
-import { fileCandidacy, workOfferedOutreach } from "./support/campaign";
+import {
+  campaignWeeklyUntilDecided,
+  fileCandidacy,
+  workOfferedOutreach,
+} from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 
-import { enterLife, openElsewhere, startLife } from "./support/creator";
+import {
+  enterLife,
+  openElsewhere,
+  passShellTime,
+  startLife,
+} from "./support/creator";
 import { shotPath } from "./support/shot-path";
 import { selectDraftOption } from "./support/docket-navigation";
 
@@ -37,14 +46,6 @@ async function freshBrowser(page: Page) {
   });
 }
 
-async function liveUntilDecided(page: Page, maxDays = 45) {
-  for (let day = 0; day < maxDays; day += 1) {
-    if (await page.getByTestId("campaign-result").isVisible()) return true;
-    await page.getByTestId("shell-pass-day").click();
-  }
-  return page.getByTestId("campaign-result").isVisible();
-}
-
 test("captures the five-minute click path", async ({ page }) => {
   await freshBrowser(page);
   await page.goto("/?seed=p85c-owner-0");
@@ -65,10 +66,18 @@ test("captures the five-minute click path", async ({ page }) => {
   // still reaches one.
   for (let day = 0; day < 48; day += 1) {
     if (await page.getByTestId("campaign-result").isVisible()) break;
-    await page.getByTestId("shell-pass-day").click();
+    await passShellTime(page, "day");
     await workOfferedOutreach(page);
   }
-  expect(await liveUntilDecided(page)).toBe(true);
+  if (!(await page.getByTestId("campaign-result").isVisible())) {
+    const band = await page.getByTestId("campaign-band").textContent();
+    const daysLeft = Number(band?.match(/\b(\d+) days? to go\b/)?.[1]);
+    expect(daysLeft, `recorded election countdown: ${band}`).toBeGreaterThan(0);
+    // Weeks follow this campaign's recorded election date. The extra weeks
+    // allow ordinary time to stop early for protected player decisions.
+    const maxWeeks = Math.min(110, Math.ceil(daysLeft / 7) + 26);
+    expect(await campaignWeeklyUntilDecided(page, maxWeeks)).toBe(true);
+  }
   await openElsewhere(page, "work");
   await expect(page.getByTestId("office-section")).toBeVisible();
 

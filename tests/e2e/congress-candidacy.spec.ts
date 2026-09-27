@@ -1,5 +1,10 @@
 import { expect, test, type Locator, type Page } from "./fixtures";
-import { enterLife, goTo, startLife as walkCreator } from "./support/creator";
+import {
+  enterLife,
+  goTo,
+  passShellTime,
+  startLife as walkCreator,
+} from "./support/creator";
 
 /**
  * Running for Congress from an ordinary life, played in a browser: choose a
@@ -37,6 +42,7 @@ async function campaignEachWeekUntilDecided(
   limit: number,
 ) {
   for (let week = 0; week < limit; week += 1) {
+    await goTo(page, "nav-politics-candidacy");
     if ((await status.getAttribute("data-status")) !== "pending-election")
       return;
     for (const kind of ["campaign-outreach", "campaign-fundraising"]) {
@@ -49,9 +55,21 @@ async function campaignEachWeekUntilDecided(
         break;
       }
     }
-    await page.getByTestId("shell-pass-week").click();
-    await page.waitForTimeout(50);
+    await passShellTime(page, "week");
   }
+  await goTo(page, "nav-politics-candidacy");
+}
+
+const calendarDate =
+  /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s+\d{4}\b/;
+
+function datedText(text: string | null, label: string): number {
+  const date = text?.match(calendarDate)?.[0];
+  if (!date) throw new Error(`${label} has no readable date: ${text}`);
+  const day = Date.parse(`${date} GMT`);
+  if (Number.isNaN(day))
+    throw new Error(`${label} has an invalid date: ${date}`);
+  return day;
 }
 
 const LIVES = [
@@ -95,19 +113,67 @@ for (const life of LIVES) {
     if (outcome === "lost") return;
 
     await expect(status).toContainText("January 3, 2027");
+    const termStartText = await status.textContent();
+    const termStartsAt = datedText(termStartText, "Congress term start");
     await goTo(page, "elsewhere-work");
     await expect(page.getByText("Before you take office")).toBeVisible();
     await page.screenshot({
       path: testInfo.outputPath("congress-transition.png"),
     });
-    for (let week = 0; week < 12; week += 1) {
-      await page.getByTestId("shell-pass-week").click();
-      await page.waitForTimeout(50);
-      if ((await page.getByTestId("congress-seat-held").count()) > 0) break;
-    }
-    await expect(page.getByTestId("congress-seat-held")).toContainText(
-      life.state,
+    const today = datedText(
+      await page.getByTestId("story-when").textContent(),
+      "current world date",
     );
+    const daysToTerm = Math.max(
+      0,
+      Math.ceil((termStartsAt - today) / 86_400_000),
+    );
+    const maxWeeks = Math.min(52, Math.ceil(daysToTerm / 7) + 12);
+    for (let week = 0; week < maxWeeks; week += 1) {
+      const current = datedText(
+        await page.getByTestId("story-when").textContent(),
+        "current world date",
+      );
+      if (current >= termStartsAt) break;
+      await passShellTime(page, "week");
+    }
+    // Time may open a dated job offer and move the player to Jobs. Read the
+    // same Office route again before asking whether the Congress seat exists.
+    await goTo(page, "elsewhere-work");
+    const observedDate = await page.getByTestId("story-when").textContent();
+    const observedDay = datedText(observedDate, "current world date");
+    const officeTabBefore = await page
+      .getByTestId("politics-tab-office")
+      .getAttribute("aria-current");
+    const heldSeat = page.getByTestId("congress-seat-held");
+    const seatBefore = await heldSeat.count();
+    let statusAtTerm: string | null = null;
+    if (seatBefore === 0) {
+      await goTo(page, "nav-politics-candidacy");
+      statusAtTerm = (await status.count())
+        ? await status.getAttribute("data-status")
+        : "none";
+      await goTo(page, "elsewhere-work");
+    }
+    await testInfo.attach("congress-seating-observation.json", {
+      body: JSON.stringify({
+        state: life.state,
+        result: outcome,
+        termStartText,
+        observedDate,
+        officeTabBefore,
+        seatBefore,
+        statusAtTerm,
+        seatAfterReopen: await heldSeat.count(),
+      }),
+      contentType: "application/json",
+    });
+    expect(observedDay).toBeGreaterThanOrEqual(termStartsAt);
+    await expect(page.getByTestId("politics-tab-office")).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+    await expect(heldSeat).toContainText(life.state);
     await page.screenshot({
       path: testInfo.outputPath("congress-seat-held.png"),
     });
