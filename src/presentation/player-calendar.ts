@@ -122,7 +122,9 @@ function entryFor(
     locationLabel: activity.location.label,
     participantNames: namesOf(world, activity.participantPersonIds),
     ownershipNote: mine
-      ? "You're going."
+      ? activity.kind === "tentative"
+        ? "You might go."
+        : "You're going."
       : "On the chamber's agenda. Not an appointment of yours.",
     arrangementNote: arrangementNote(world, personId, activity),
     attendeeNames: [
