@@ -1,9 +1,5 @@
 import { addDays, makeIsoDate } from "./dates";
-import {
-  addAvailability,
-  indexOverArrays,
-  type AvailabilityEntry,
-} from "./history-index";
+import { recordById, type AvailabilityEntry } from "./history-index";
 import { createStableId } from "./ids";
 import {
   assessLifeLoadAt,
@@ -103,113 +99,60 @@ function lifeRecordCount(world: World): number {
   );
 }
 
-function lifeScan(world: World, id: EntityId): AvailabilityEntry | undefined {
+function lifeEntry(world: World, id: EntityId): AvailabilityEntry | undefined {
   const h = world.history;
+  const indexed = lifeRecordCount(world) >= INDEX_THRESHOLD;
+  const find = <T extends { readonly id: EntityId }>(
+    records: readonly T[],
+  ): T | undefined =>
+    indexed
+      ? recordById(records, id)
+      : records.find((record) => record.id === id);
   const earliest = (started: string, recorded: string) =>
     started < recorded ? started : recorded;
-  for (const record of h.organizations)
-    if (record.id === id)
-      return { date: record.formedAt, sequence: record.sequence };
-  for (const record of h.workRelationships)
-    if (record.id === id)
-      return {
-        date: earliest(record.startedAt, record.recordedAt),
-        sequence: record.sequence,
-      };
-  for (const record of h.educationEnrollments)
-    if (record.id === id)
-      return {
-        date: earliest(record.startedAt, record.recordedAt),
-        sequence: record.sequence,
-      };
-  for (const record of h.organizationParticipations)
-    if (record.id === id)
-      return {
-        date: earliest(record.startedAt, record.recordedAt),
-        sequence: record.sequence,
-      };
-  for (const record of h.households)
-    if (record.id === id)
-      return { date: record.formedAt, sequence: record.sequence };
-  for (const record of h.householdMemberships)
-    if (record.id === id)
-      return { date: record.startedAt, sequence: record.sequence };
-  for (const record of h.kinshipRelationships)
-    if (record.id === id)
-      return { date: record.establishedAt, sequence: record.sequence };
-  for (const record of h.partnerships)
-    if (record.id === id)
-      return { date: record.startedAt, sequence: record.sequence };
-  for (const record of h.careResponsibilities)
-    if (record.id === id)
-      return { date: record.startedAt, sequence: record.sequence };
-  for (const record of h.childAuthorities)
-    if (record.id === id)
-      return { date: record.establishedAt, sequence: record.sequence };
-  return undefined;
-}
 
-function lifeEntry(world: World, id: EntityId): AvailabilityEntry | undefined {
-  return lifeRecordCount(world) < INDEX_THRESHOLD
-    ? lifeScan(world, id)
-    : lifeIndex(world).get(id);
-}
-
-function lifeIndex(world: World): Map<EntityId, AvailabilityEntry> {
-  const h = world.history;
-  const sources = [
-    h.organizations,
-    h.workRelationships,
-    h.educationEnrollments,
-    h.organizationParticipations,
-    h.households,
-    h.householdMemberships,
-    h.kinshipRelationships,
-    h.partnerships,
-    h.careResponsibilities,
-    h.childAuthorities,
-  ];
-  return indexOverArrays(h.organizations, sources, () => {
-    const index = new Map<EntityId, AvailabilityEntry>();
-    const add = (
-      records: readonly { readonly id: EntityId; readonly sequence: number }[],
-      dateOf: (record: never) => string,
-    ) => {
-      for (const record of records)
-        addAvailability(
-          index,
-          record.id,
-          dateOf(record as never),
-          record.sequence,
-        );
+  // Keep the original family order and first matching record. Each large-world
+  // family follows its own append-only index: a participation write no longer
+  // rebuilds indexes for unchanged organizations, households, or work records.
+  const organization = find(h.organizations);
+  if (organization)
+    return { date: organization.formedAt, sequence: organization.sequence };
+  const work = find(h.workRelationships);
+  if (work)
+    return {
+      date: earliest(work.startedAt, work.recordedAt),
+      sequence: work.sequence,
     };
-    const earliest = (started: string, recorded: string) =>
-      started < recorded ? started : recorded;
-    add(h.organizations, (r: { formedAt: string }) => r.formedAt);
-    add(h.workRelationships, (r: { startedAt: string; recordedAt: string }) =>
-      earliest(r.startedAt, r.recordedAt),
-    );
-    add(
-      h.educationEnrollments,
-      (r: { startedAt: string; recordedAt: string }) =>
-        earliest(r.startedAt, r.recordedAt),
-    );
-    add(
-      h.organizationParticipations,
-      (r: { startedAt: string; recordedAt: string }) =>
-        earliest(r.startedAt, r.recordedAt),
-    );
-    add(h.households, (r: { formedAt: string }) => r.formedAt);
-    add(h.householdMemberships, (r: { startedAt: string }) => r.startedAt);
-    add(
-      h.kinshipRelationships,
-      (r: { establishedAt: string }) => r.establishedAt,
-    );
-    add(h.partnerships, (r: { startedAt: string }) => r.startedAt);
-    add(h.careResponsibilities, (r: { startedAt: string }) => r.startedAt);
-    add(h.childAuthorities, (r: { establishedAt: string }) => r.establishedAt);
-    return index;
-  });
+  const enrollment = find(h.educationEnrollments);
+  if (enrollment)
+    return {
+      date: earliest(enrollment.startedAt, enrollment.recordedAt),
+      sequence: enrollment.sequence,
+    };
+  const participation = find(h.organizationParticipations);
+  if (participation)
+    return {
+      date: earliest(participation.startedAt, participation.recordedAt),
+      sequence: participation.sequence,
+    };
+  const household = find(h.households);
+  if (household)
+    return { date: household.formedAt, sequence: household.sequence };
+  const membership = find(h.householdMemberships);
+  if (membership)
+    return { date: membership.startedAt, sequence: membership.sequence };
+  const kinship = find(h.kinshipRelationships);
+  if (kinship)
+    return { date: kinship.establishedAt, sequence: kinship.sequence };
+  const partnership = find(h.partnerships);
+  if (partnership)
+    return { date: partnership.startedAt, sequence: partnership.sequence };
+  const care = find(h.careResponsibilities);
+  if (care) return { date: care.startedAt, sequence: care.sequence };
+  const authority = find(h.childAuthorities);
+  if (authority)
+    return { date: authority.establishedAt, sequence: authority.sequence };
+  return undefined;
 }
 
 export function lifeEntityExists(world: World, id: EntityId): boolean {
