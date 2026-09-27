@@ -80,15 +80,18 @@ export interface PlacedLayer {
 export function featherBottomEdge(raster: Raster, rows: number): Raster {
   const data = new Uint8ClampedArray(raster.data);
   const { width, height } = raster;
-  for (let x = 0; x < width; x += 1) {
-    let bottom = -1;
-    for (let y = height - 1; y >= 0; y -= 1) {
+  const bottoms = new Int32Array(width).fill(-1);
+  for (let x = 0; x < width; x += 1)
+    for (let y = height - 1; y >= 0; y -= 1)
       if (data[(y * width + x) * 4 + 3]! > 0) {
-        bottom = y;
+        bottoms[x] = y;
         break;
       }
-    }
-    if (bottom < 0) continue;
+  const lowest = Math.max(...bottoms);
+  for (let x = 0; x < width; x += 1) {
+    const bottom = bottoms[x]!;
+    // Only the cut across the neck fades; an earlobe or a jaw stays solid.
+    if (bottom < 0 || bottom < lowest - rows) continue;
     for (let k = 0; k < rows; k += 1) {
       const y = bottom - k;
       if (y < 0) break;
@@ -216,6 +219,30 @@ function hideBody(raster: Raster, garments: readonly PersonLayer[]): Raster {
 }
 
 /**
+ * The body with its own head removed, when a head layer is drawn over it.
+ * Bodies are painted with heads of their own sizes (the fuller bodies' heads
+ * are about a tenth bigger), but every face and hairstyle is drawn for the
+ * canonical head. Left in place, the body's head shows around the face, as a
+ * band of bare scalp above the hair. Only the head box above the neck row is
+ * cleared, so a raised hand beside the head is kept.
+ */
+function withoutOwnHead(raster: Raster, body: BodyAnchors): Raster {
+  const data = new Uint8ClampedArray(raster.data);
+  const { left, right } = body.head;
+  for (let y = 0; y < body.neck.row && y < raster.height; y += 1)
+    for (
+      let x = Math.max(0, left - HEAD_MARGIN);
+      x <= Math.min(raster.width - 1, right + HEAD_MARGIN);
+      x += 1
+    )
+      data[(y * raster.width + x) * 4 + 3] = 0;
+  return { width: raster.width, height: raster.height, data };
+}
+
+/** Pixels of slack around the measured head box (anti-aliased edges). */
+const HEAD_MARGIN = 2;
+
+/**
  * Place and composite in one step, on the body's own canvas.
  *
  * The head is drawn above the clothes, so a collar can never cover a jaw.
@@ -234,14 +261,19 @@ export function assemblePerson(
   const hides = layers.filter(
     (layer) => layer.hidesBody && kept.has(layer.slot),
   );
+  const ownHeadHidden = kept.has("head");
   const placed =
-    hides.length === 0
+    hides.length === 0 && !ownHeadHidden
       ? drawn
-      : drawn.map((layer) =>
-          layer.slot === "body"
-            ? { ...layer, raster: hideBody(layer.raster, hides) }
-            : layer,
-        );
+      : drawn.map((layer) => {
+          if (layer.slot !== "body") return layer;
+          const hidden =
+            hides.length === 0 ? layer.raster : hideBody(layer.raster, hides);
+          return {
+            ...layer,
+            raster: ownHeadHidden ? withoutOwnHead(hidden, body) : hidden,
+          };
+        });
   const neckline =
     body.neck.row + Math.round((body.feet - body.top) * COLLAR_BAND_SHARE);
   const collars = placed
