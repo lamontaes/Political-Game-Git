@@ -8,7 +8,9 @@ import {
 } from "./assemble";
 import { neckJoin, skinInGarment } from "./checks";
 import { extractGarment } from "./extract";
+import { fabricRamp, recolorFabric } from "./fabric";
 import { createRaster, luminance, type Raster } from "./raster";
+import { registrationOffset, translateRaster } from "./register";
 import {
   SKIN_RAMPS,
   isSkinPixel,
@@ -266,5 +268,125 @@ describe("collars sit in front of the neck", () => {
       { slot: "outfit", raster: layer },
     ]).map((placed) => placed.slot);
     expect(slots).toEqual(["body", "outfit"]);
+  });
+});
+
+/** A figure whose arms hang apart from the hips, as on the six real bodies. */
+function figureWithArms(): Raster {
+  const r = createRaster(80, 120);
+  fill(r, 32, 5, 47, 22, SKIN); // head
+  fill(r, 37, 23, 42, 27, SKIN); // neck
+  fill(r, 10, 28, 69, 34, SKIN); // shoulders, joining the arms
+  fill(r, 26, 35, 53, 80, SKIN); // torso and hips
+  fill(r, 10, 35, 18, 85, SKIN); // left arm, apart from the hips
+  fill(r, 61, 35, 69, 85, SKIN); // right arm
+  fill(r, 28, 60, 51, 72, GRAY); // underwear bottoms
+  fill(r, 28, 81, 37, 115, SKIN_SHADOW); // left leg
+  fill(r, 42, 81, 51, 115, SKIN_SHADOW); // right leg
+  return r;
+}
+
+const copy = (r: Raster): Raster => ({
+  width: r.width,
+  height: r.height,
+  data: new Uint8ClampedArray(r.data),
+});
+const alphaOf = (r: Raster, x: number, y: number) =>
+  r.data[(y * r.width + x) * 4 + 3]!;
+
+describe("trousers from a gloved fitting suit", () => {
+  const bare = figureWithArms();
+  const anchors = measureBodyAnchors(bare);
+  const TROUSERS: Rgba = [96, 96, 100, 255];
+  const painting = copy(bare);
+  fill(painting, 26, 58, 53, 80, TROUSERS);
+  fill(painting, 28, 81, 37, 115, TROUSERS);
+  fill(painting, 43, 81, 51, 115, TROUSERS);
+  fill(painting, 42, 81, 42, 115, [0, 0, 0, 0]); // the painted right leg stands a pixel off the bare one
+  fill(painting, 10, 70, 18, 85, [120, 120, 120, 255]); // a glove on the left hand
+  const { layer, hidesBody } = extractGarment(
+    painting,
+    bare,
+    anchors,
+    "legwear",
+  );
+
+  it("keeps the trousers and drops the gloves", () => {
+    expect(alphaOf(layer, 32, 95)).toBe(255);
+    expect(alphaOf(layer, 30, 65)).toBe(255);
+    expect(alphaOf(layer, 14, 80)).toBe(0);
+  });
+
+  it("hides the bare legs under the trousers, but never the arms", () => {
+    expect(hidesBody).not.toBeNull();
+    expect(hidesBody![100 * 80 + 42]).toBe(1); // bare leg beside the narrower trouser leg
+    expect(hidesBody![80 * 80 + 14]).toBe(0); // the hand
+    const out = assemblePerson(anchors, [
+      { slot: "body", raster: bare },
+      { slot: "bottoms", raster: layer, hidesBody },
+    ]);
+    expect(alphaOf(out, 42, 100)).toBe(0); // no sliver of skin
+    expect(alphaOf(out, 14, 80)).toBe(255); // the hand is the body's own
+  });
+
+  it("keeps the body where the painting shows skin, like the top of a foot", () => {
+    const pumps = copy(painting);
+    fill(pumps, 30, 112, 35, 113, SKIN_SHADOW);
+    const { hidesBody: hides } = extractGarment(
+      pumps,
+      bare,
+      anchors,
+      "legwear",
+    );
+    expect(hides![112 * 80 + 32]).toBe(0);
+  });
+});
+
+describe("a top below the waist", () => {
+  it("keeps sleeves on the arms and drops the painting's own underwear on the hips", () => {
+    const bare = figureWithArms();
+    const anchors = measureBodyAnchors(bare);
+    const painting = copy(bare);
+    const SHIRT: Rgba = [150, 150, 152, 255];
+    fill(painting, 26, 36, 53, 59, SHIRT);
+    fill(painting, 10, 35, 18, 82, SHIRT); // a sleeve to the wrist
+    fill(painting, 26, 62, 27, 70, GRAY); // underwear painted over the bare hip's skin
+    const { layer } = extractGarment(painting, bare, anchors, "top");
+    expect(alphaOf(layer, 14, 78)).toBe(255);
+    expect(alphaOf(layer, 26, 66)).toBe(0);
+    expect(alphaOf(layer, 40, 45)).toBe(255);
+  });
+});
+
+describe("registration and fabric color", () => {
+  it("moves a painting so its soles and head line up with the body", () => {
+    const body = figureWithArms();
+    const painting = translateRaster(body, 2, -3);
+    const offset = registrationOffset(
+      measureBodyAnchors(painting),
+      measureBodyAnchors(body),
+    );
+    expect(offset).toEqual({ dx: -2, dy: 3 });
+    const back = translateRaster(painting, offset.dx, offset.dy);
+    expect(alphaOf(back, 32, 100)).toBe(alphaOf(body, 32, 100));
+  });
+
+  it("recolors gray cloth by its light and shade, and keeps ink lines dark on any color", () => {
+    const cloth = createRaster(10, 10);
+    fill(cloth, 0, 0, 9, 5, [128, 128, 128, 255]); // base
+    fill(cloth, 0, 6, 9, 7, [95, 95, 95, 255]); // shadow
+    fill(cloth, 0, 8, 9, 8, [175, 175, 175, 255]); // highlight
+    fill(cloth, 0, 9, 9, 9, [25, 25, 25, 255]); // ink
+    const lum = (r: Raster, y: number) => {
+      const i = y * r.width * 4;
+      return luminance(r.data[i]!, r.data[i + 1]!, r.data[i + 2]!);
+    };
+    const navy = recolorFabric(cloth, fabricRamp("navy"));
+    expect(Array.from(navy.data.slice(0, 3))).toEqual([37, 52, 89]); // navy base
+    expect(lum(navy, 6)).toBeLessThan(lum(navy, 0));
+    expect(lum(navy, 8)).toBeGreaterThan(lum(navy, 0));
+    const white = recolorFabric(cloth, fabricRamp("white"));
+    expect(lum(white, 0)).toBeGreaterThan(200);
+    expect(lum(white, 9)).toBeLessThan(40); // the drawing survives on white
   });
 });

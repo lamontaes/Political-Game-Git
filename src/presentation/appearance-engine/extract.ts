@@ -22,7 +22,9 @@ export type GarmentSlot =
   | "dress"
   | "outerwear"
   /** A whole outfit painted at once: everything from the collar to the soles. */
-  | "outfit";
+  | "outfit"
+  /** Trousers and shoes painted together: from the waist to the soles. */
+  | "legwear";
 
 /**
  * The standard neckline sits this share of the figure's height below the
@@ -90,6 +92,100 @@ export interface ExtractedGarment {
   readonly clothPixels: number;
   /** Non-skin paint the rules refused (outside what this slot may cover). */
   readonly refusedPixels: number;
+  /**
+   * Body pixels this garment hides entirely (1 = hidden), or null. Full-length
+   * trousers hide the bare legs below the underwear: a painted leg that
+   * stands a few pixels wider than the bare leg must not leave a sliver of
+   * skin beside it. Where the painting itself shows skin there (the top of a
+   * foot in a pump), the body stays.
+   */
+  readonly hidesBody: Uint8Array | null;
+}
+
+/** How far from empty background an outline pixel may be and still be the body's contour. */
+const EDGE_REACH = 6;
+
+/** Slots whose trousers run to the soles, so the bare legs never show. */
+const HIDES_LEGS: ReadonlySet<GarmentSlot> = new Set(["legwear", "outfit"]);
+
+/**
+ * Per row, the columns that belong to the hips and legs rather than the arms.
+ *
+ * On all six Sept. 27 bodies the arms hang apart from the hips and thighs,
+ * with a gap of 25 to 50 pixels, down to the fingertips. At the top of the
+ * underwear bottoms a row has three runs of body pixels: an arm, the hips
+ * (across the neck's center line) and an arm. Each arm is then followed down
+ * row by row, as the runs that overlap it in the row above, until the
+ * fingertips end; everything else is hips and legs, whichever way the legs
+ * part. The legs' columns reach halfway across each gap. Trousers painted on
+ * a gloved fitting suit keep their loose fit and lose the gloves.
+ */
+export function measureLegColumns(
+  bare: Raster,
+  anchors: BodyAnchors,
+  fromRow: number,
+): readonly (readonly [number, number])[] {
+  const all = [0, bare.width - 1] as const;
+  const columns: (readonly [number, number])[] = Array.from(
+    { length: bare.height },
+    () => all,
+  );
+  const runsAt = (y: number): [number, number][] => {
+    const runs: [number, number][] = [];
+    let start = -1;
+    for (let x = 0; x <= bare.width; x += 1) {
+      const opaque =
+        x < bare.width &&
+        bare.data[(y * bare.width + x) * 4 + 3]! > OPAQUE_ALPHA;
+      if (opaque && start < 0) start = x;
+      if (!opaque && start >= 0) {
+        const last = runs[runs.length - 1];
+        // Fingers and anti-aliasing split a hand into close runs: rejoin them.
+        if (last && start - last[1] <= 4) last[1] = x - 1;
+        else runs.push([start, x - 1]);
+        start = -1;
+      }
+    }
+    return runs;
+  };
+  const center = anchors.neck.centerX;
+  const first = runsAt(fromRow);
+  const hips = first.find(([a, b]) => a <= center && center <= b);
+  if (!hips) return columns;
+  let left: [number, number] | null =
+    [...first].reverse().find(([, b]) => b < hips[0]) ?? null;
+  let right: [number, number] | null = first.find(([a]) => a > hips[1]) ?? null;
+  let trunk: [number, number] = hips;
+  for (let y = fromRow; y < bare.height && (left || right); y += 1) {
+    const runs = runsAt(y);
+    const follow = (arm: [number, number] | null): [number, number] | null => {
+      if (!arm) return null;
+      const touching = runs.filter(
+        ([a, b]) => b >= arm[0] - 2 && a <= arm[1] + 2,
+      );
+      if (touching.length === 0) return null;
+      const next: [number, number] = [
+        Math.min(...touching.map(([a]) => a)),
+        Math.max(...touching.map(([, b]) => b)),
+      ];
+      // An arm that has met the hips can't be told apart from them: stop.
+      return next[1] >= trunk[0] && next[0] <= trunk[1] ? null : next;
+    };
+    left = follow(left);
+    right = follow(right);
+    const legs = runs.filter(
+      ([a, b]) =>
+        !(left && a >= left[0] && b <= left[1]) &&
+        !(right && a >= right[0] && b <= right[1]),
+    );
+    if (legs.length === 0) break;
+    trunk = [legs[0]![0], legs[legs.length - 1]![1]];
+    columns[y] = [
+      left ? Math.floor((left[1] + trunk[0]) / 2) + 1 : 0,
+      right ? Math.ceil((trunk[1] + right[0]) / 2) - 1 : bare.width - 1,
+    ] as const;
+  }
+  return columns;
 }
 
 type Under = "skin" | "underwear" | "outline" | "background";
@@ -126,26 +222,58 @@ export function extractGarment(
   const figure = anchors.feet - anchors.top;
   const shoeTop = anchors.feet - Math.round(figure * 0.08);
   const legTop = bands.bottomsTopRow - 10;
-  const covers = (under: Under, y: number): boolean => {
+  const legColumns =
+    slot === "outfit" || slot === "dress" || slot === "shoes"
+      ? null
+      : measureLegColumns(bare, anchors, legTop);
+  const onLegs = (x: number, y: number): boolean => {
+    const [left, right] = legColumns![y]!;
+    return x >= left && x <= right;
+  };
+  /** Within a few pixels of empty background along the row: the body's contour. */
+  const onEdge = (x: number, y: number): boolean => {
+    for (let d = 1; d <= EDGE_REACH; d += 1) {
+      for (const tx of [x - d, x + d]) {
+        if (tx < 0 || tx >= bare.width) return true;
+        if (bare.data[(y * bare.width + tx) * 4 + 3]! <= OPAQUE_ALPHA)
+          return true;
+      }
+    }
+    return false;
+  };
+  const covers = (under: Under, x: number, y: number): boolean => {
     switch (slot) {
       case "top":
       case "outerwear":
         if (y < bands.necklineRow) return false;
-        if (under === "skin") return y < shoeTop;
-        if (under === "underwear") return y < bands.bottomsTopRow;
-        return y <= bands.bottomsTopRow + hemAllowance;
+        if (y < bands.bottomsTopRow) return true;
+        // Below the waist: sleeves and cuffs on the arms, down to the wrists.
+        if (!onLegs(x, y))
+          return under === "skin"
+            ? y < shoeTop
+            : y <= bands.bottomsTopRow + hemAllowance;
+        // On the hips a hem may drape past the body's own edge, over empty
+        // background. Paint on the body there, even on its outline, is the
+        // painting's own underwear and its seams.
+        return (
+          under === "background" &&
+          y <= bands.bottomsTopRow + hemAllowance &&
+          onEdge(x, y)
+        );
       case "dress":
         if (y < bands.necklineRow) return false;
         return under === "skin" || under === "underwear"
           ? y < shoeTop
           : y < shoeTop;
       case "bottoms":
-        if (y < legTop) return false;
+        if (y < legTop || !onLegs(x, y)) return false;
         return under === "background" || under === "outline"
           ? y < shoeTop
           : y < shoeTop + Math.round(figure * 0.03);
       case "shoes":
         return y >= shoeTop;
+      case "legwear":
+        return y >= legTop && onLegs(x, y);
       case "outfit":
         // Collars and ties rise to the neck; everything below is the outfit.
         return y >= anchors.neck.row;
@@ -188,7 +316,7 @@ export function extractGarment(
         under[i + 2]!,
         under[i + 3]!,
       );
-      if (inHead || !covers(kind, y)) {
+      if (inHead || !covers(kind, x, y)) {
         refusedPixels += 1;
         continue;
       }
@@ -199,5 +327,18 @@ export function extractGarment(
       clothPixels += 1;
     }
   }
-  return { layer, clothPixels, refusedPixels };
+  let hidesBody: Uint8Array | null = null;
+  if (HIDES_LEGS.has(slot)) {
+    const columns = legColumns ?? measureLegColumns(bare, anchors, legTop);
+    hidesBody = new Uint8Array(bare.width * bare.height);
+    for (let y = bands.bottomsBottomRow + 1; y < bare.height; y += 1) {
+      const [left, right] = columns[y]!;
+      for (let x = left; x <= right; x += 1) {
+        const i = (y * bare.width + x) * 4;
+        if (!isSkinPixel(src[i]!, src[i + 1]!, src[i + 2]!, src[i + 3]!))
+          hidesBody[y * bare.width + x] = 1;
+      }
+    }
+  }
+  return { layer, clothPixels, refusedPixels, hidesBody };
 }

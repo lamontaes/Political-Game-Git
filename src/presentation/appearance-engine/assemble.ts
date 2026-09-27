@@ -37,6 +37,8 @@ export interface PersonLayer {
    * is moved by the difference between that body's neck and this body's.
    */
   readonly authoredFor?: BodyAnchors;
+  /** For garments: body pixels the garment hides entirely (see extract.ts). */
+  readonly hidesBody?: Uint8Array | null;
 }
 
 export interface PlacedLayer {
@@ -163,6 +165,16 @@ function collarBand(raster: Raster, fromRow: number, toRow: number): Raster {
   return { width: raster.width, height: raster.height, data };
 }
 
+/** The body with every pixel a garment hides made empty. */
+function hideBody(raster: Raster, garments: readonly PersonLayer[]): Raster {
+  const data = new Uint8ClampedArray(raster.data);
+  for (const garment of garments) {
+    const mask = garment.hidesBody!;
+    for (let p = 0; p < mask.length; p += 1) if (mask[p]) data[p * 4 + 3] = 0;
+  }
+  return { width: raster.width, height: raster.height, data };
+}
+
 /**
  * Place and composite in one step, on the body's own canvas.
  *
@@ -177,7 +189,19 @@ export function assemblePerson(
 ): Raster {
   const canvas = layers.find((layer) => layer.slot === "body")?.raster;
   if (!canvas) throw new Error("A person needs a body layer.");
-  const placed = placeLayers(body, layers);
+  const drawn = placeLayers(body, layers);
+  const kept = new Set(drawn.map((layer) => layer.slot));
+  const hides = layers.filter(
+    (layer) => layer.hidesBody && kept.has(layer.slot),
+  );
+  const placed =
+    hides.length === 0
+      ? drawn
+      : drawn.map((layer) =>
+          layer.slot === "body"
+            ? { ...layer, raster: hideBody(layer.raster, hides) }
+            : layer,
+        );
   const neckline =
     body.neck.row + Math.round((body.feet - body.top) * COLLAR_BAND_SHARE);
   const collars = placed
