@@ -6,9 +6,17 @@ import {
 } from "../../presentation/opening-life";
 import { openOrdinaryLife } from "../../presentation/ordinary-life";
 import { currentPresidentOf } from "../crisis/offices";
-import { seatedCongressChamber } from "../governing/congress-chambers";
+import {
+  nationalPartyKeys,
+  seatedCongressChamber,
+} from "../governing/congress-chambers";
+import { createStableId } from "../ids";
 import { LIFE_MIND_IDS } from "../life-mind-content";
+import { publicPartyAffiliation } from "../living-world/congress";
+import { recordEventKnowledge } from "../records";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { makeIsoDate } from "../dates";
+import { recordWorldEvent } from "../world";
 import { addJudicialCourt, seatHolderAt, seatJudge } from "./courts";
 import { recordFederalJudicialCandidateResponse } from "./candidate-interview";
 import {
@@ -18,6 +26,10 @@ import {
   resolveFederalJudicialSenateVote,
 } from "./federal-confirmation";
 import { recordFederalJudicialHearing } from "./federal-hearing";
+import {
+  judicialNominationRecommendation,
+  recordNpcFederalJudicialSenateBallot,
+} from "./nomination-reasoning";
 import {
   openJudicialSelectionFromProfile,
   recordFederalJudicialNomination,
@@ -94,6 +106,178 @@ function pendingNomination() {
 }
 
 describe("federal judicial hearing and Senate ballot", () => {
+  // This case opens the full named judiciary and Congress. It took 3.63 s
+  // alone and 18.71 s during concurrent typechecks; keep the deadline local.
+  it("grounds an NPC ballot in known party and qualification evidence without voting twice", () => {
+    const pending = pendingNomination();
+    let world = pending.world;
+    const { selectionRecordId, nomineeId } = pending;
+    const presidentId = currentPresidentOf(world)!.personId;
+    const presidentPartyOrganizationId = publicPartyAffiliation(
+      world,
+      presidentId,
+    )!;
+    const presidentParty = nationalPartyKeys(world).get(
+      presidentPartyOrganizationId,
+    );
+    expect(presidentParty).toBeTruthy();
+    const senators = seatedCongressChamber(world, "senate")!.body.members;
+    const opposite = senators.find(
+      (member) => member.partyKey && member.partyKey !== presidentParty,
+    )!;
+    const notAttending = senators.find(
+      (member) => member.personId !== opposite.personId,
+    )!;
+    expect(() =>
+      recordNpcFederalJudicialSenateBallot(
+        world,
+        selectionRecordId,
+        opposite.personId!,
+      ),
+    ).toThrow("no recorded knowledge of the nomination hearing");
+    world = recordFederalJudicialHearing(world, {
+      selectionRecordId,
+      attendeeSenatorPersonIds: [opposite.personId!],
+    });
+    expect(
+      judicialNominationRecommendation(
+        world,
+        selectionRecordId,
+        notAttending.personId!,
+      ).state,
+    ).toBe("unresolved");
+    const partyOnly = judicialNominationRecommendation(
+      world,
+      selectionRecordId,
+      opposite.personId!,
+    );
+    expect(partyOnly).toMatchObject({
+      state: "ready",
+      ballot: "nay",
+      score: -2,
+    });
+    if (partyOnly.state !== "ready") return;
+    expect(partyOnly.factors.map((factor) => factor.key)).toEqual(["party"]);
+    expect(partyOnly.unknownFactors).toContain(
+      "professional qualification known to this Senator",
+    );
+
+    const recordId = createStableId(
+      "judicial-professional-qualification",
+      `${nomineeId}:fixture:cross-party`,
+    );
+    world = {
+      ...world,
+      judiciary: {
+        ...world.judiciary!,
+        professionalQualifications: [
+          ...world.judiciary!.professionalQualifications,
+          {
+            recordId,
+            personId: nomineeId,
+            jurisdictionId: world.people[nomineeId]!.homeJurisdictionId,
+            barAdmittedAt: makeIsoDate("2015-01-01"),
+            legalPracticeSince: makeIsoDate("2015-01-01"),
+            qualifiedElectorSince: null,
+            recordedAt: world.currentDate,
+            provenance: {
+              kind: "recorded-life",
+              seedKey: null,
+              evidenceFactIds: [],
+            },
+          },
+        ],
+      },
+    };
+    expect(
+      judicialNominationRecommendation(
+        world,
+        selectionRecordId,
+        opposite.personId!,
+      ),
+    ).toMatchObject({ state: "ready", ballot: "nay", score: -2 });
+    world = recordWorldEvent(world, {
+      stableKey: `fixture:judicial-candidate-file:${recordId}`,
+      type: "judicial.fixture-candidate-file",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [nomineeId, opposite.personId!],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        `selection:${selectionRecordId}`,
+        `candidate:${nomineeId}`,
+        `qualification:${recordId}`,
+      ],
+      summary: "The fixture candidate file records bar admission and practice.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const fileEvent = world.history.events.at(-1)!;
+    world = recordEventKnowledge(world, {
+      stableKey: `fixture:judicial-candidate-file:heard:${opposite.personId}`,
+      personId: opposite.personId!,
+      eventId: fileEvent.id,
+      learnedAt: world.currentDate,
+      believedSummary: fileEvent.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+    const qualified = judicialNominationRecommendation(
+      world,
+      selectionRecordId,
+      opposite.personId!,
+    );
+    expect(qualified).toMatchObject({
+      state: "ready",
+      ballot: "present-not-voting",
+      score: 0,
+    });
+    if (qualified.state !== "ready") return;
+    expect(qualified.factors.map((factor) => factor.key)).toEqual([
+      "party",
+      "bar-admission",
+      "legal-practice",
+    ]);
+    expect(qualified.factors[1]!.sourceIds).toContain(fileEvent.id);
+    expect(() =>
+      recordNpcFederalJudicialSenateBallot(
+        {
+          ...world,
+          control: { kind: "person", personId: opposite.personId! },
+        },
+        selectionRecordId,
+        opposite.personId!,
+      ),
+    ).toThrow("player's Senate ballot requires their own choice");
+    world = recordNpcFederalJudicialSenateBallot(
+      world,
+      selectionRecordId,
+      opposite.personId!,
+    );
+    const ballot = world.history.events.at(-1)!;
+    expect(ballot.type).toBe("judicial.senate-ballot");
+    expect(ballot.tags).toContain("ballot:present-not-voting");
+    expect(ballot.context.motivation).toContain("Unresolved:");
+    const reopened = deserializeWorld(serializeWorld(world));
+    expect(
+      recordNpcFederalJudicialSenateBallot(
+        reopened,
+        selectionRecordId,
+        opposite.personId!,
+      ),
+    ).toBe(reopened);
+  }, 25_000);
+
   it("requires a newly stated public answer and each Senator's own knowledge", () => {
     const pending = pendingNomination();
     let world = pending.world;
