@@ -58,14 +58,75 @@ const SOURCED = new WeakMap<
   { sources: readonly unknown[]; value: unknown }
 >();
 
+/*
+ * A writer appends to a history family by making a new array that begins with
+ * every record of the old one. Rebuilding an index from scratch after each
+ * append made a big world's Day pay for every record of a family on every
+ * write: with every legislature seated, one Day rebuilt the due-item and
+ * legislative indexes thousands of times.
+ *
+ * So an index built for an array can move to the array that extends it. The
+ * move is made only after checking, record by record, that the new array
+ * starts with exactly the old one's records; anything else builds afresh, so
+ * the answer is always the one a fresh build would give. The old array loses
+ * its index and rebuilds it only if it is read again. Groups handed out
+ * earlier are never changed: a group that gains a record is copied.
+ */
+const RECENT_LIMIT = 16;
+
+function startsWith(
+  records: readonly unknown[],
+  prior: readonly unknown[],
+): boolean {
+  if (prior.length === 0 || prior.length > records.length) return false;
+  for (let index = prior.length - 1; index >= 0; index -= 1)
+    if (records[index] !== prior[index]) return false;
+  return true;
+}
+
+/** Takes the index of a recently indexed array that `records` extends. */
+function adoptFromPrefix<V>(
+  cache: WeakMap<object, V>,
+  recent: (readonly unknown[])[],
+  records: readonly unknown[],
+): { readonly value: V; readonly from: number } | null {
+  for (let at = recent.length - 1; at >= 0; at -= 1) {
+    const prior = recent[at]!;
+    // Cheap rejections first: most recent arrays belong to other families.
+    if (
+      prior.length === 0 ||
+      prior.length > records.length ||
+      records[prior.length - 1] !== prior[prior.length - 1] ||
+      records[0] !== prior[0]
+    )
+      continue;
+    const value = cache.get(prior);
+    if (value === undefined || !startsWith(records, prior)) continue;
+    cache.delete(prior);
+    recent.splice(at, 1);
+    return { value, from: prior.length };
+  }
+  return null;
+}
+
+function remember(
+  recent: (readonly unknown[])[],
+  records: readonly unknown[],
+): void {
+  recent.push(records);
+  if (recent.length > RECENT_LIMIT) recent.shift();
+}
+
 /**
  * First-record lookup for append-oriented histories. Array identity is the
- * cache boundary: a writer's new array receives a new index, while the many
- * reads of an unchanged family reuse the same one. Keeping the first record
- * preserves `records.find(record => record.id === id)` even for malformed
- * histories, which the integrity pass must still reject separately.
+ * cache boundary: a writer's new array receives the index of the array it
+ * extends (see above), while the many reads of an unchanged family reuse the
+ * same one. Keeping the first record preserves
+ * `records.find(record => record.id === id)` even for malformed histories,
+ * which the integrity pass must still reject separately.
  */
-const RECORDS_BY_ID = new WeakMap<object, ReadonlyMap<EntityId, unknown>>();
+const RECORDS_BY_ID = new WeakMap<object, Map<EntityId, unknown>>();
+const RECENT_BY_ID: (readonly unknown[])[] = [];
 
 export function recordById<T extends { readonly id: EntityId }>(
   records: readonly T[],
@@ -73,20 +134,24 @@ export function recordById<T extends { readonly id: EntityId }>(
 ): T | undefined {
   let index = RECORDS_BY_ID.get(records);
   if (!index) {
-    const built = new Map<EntityId, T>();
-    for (const record of records) {
+    const adopted = adoptFromPrefix(RECORDS_BY_ID, RECENT_BY_ID, records);
+    const built = adopted?.value ?? new Map<EntityId, unknown>();
+    for (let at = adopted?.from ?? 0; at < records.length; at += 1) {
+      const record = records[at]!;
       if (!built.has(record.id)) built.set(record.id, record);
     }
     index = built;
     RECORDS_BY_ID.set(records, index);
+    remember(RECENT_BY_ID, records);
   }
   return index.get(id) as T | undefined;
 }
 
 const RECORDS_BY_STRING_FIELD = new WeakMap<
   object,
-  Map<string, ReadonlyMap<string, readonly unknown[]>>
+  Map<string, Map<string, readonly unknown[]>>
 >();
+const RECENT_BY_STRING_FIELD: (readonly unknown[])[] = [];
 
 /** Preserve array order while narrowing a history scan to one owner. */
 export function recordsByStringField<T>(
@@ -96,26 +161,61 @@ export function recordsByStringField<T>(
 ): readonly T[] {
   let fields = RECORDS_BY_STRING_FIELD.get(records);
   if (!fields) {
+    const adopted = adoptFromPrefix(
+      RECORDS_BY_STRING_FIELD,
+      RECENT_BY_STRING_FIELD,
+      records,
+    );
     fields = new Map();
+    if (adopted) {
+      // Every field the old array was grouped by gains the appended records.
+      for (const [name, groups] of adopted.value) {
+        try {
+          fields.set(
+            name,
+            extendGroups(groups, records, adopted.from, name as keyof T),
+          );
+        } catch {
+          // A malformed appended record: leave this field to a fresh build,
+          // which reports it.
+        }
+      }
+    }
     RECORDS_BY_STRING_FIELD.set(records, fields);
+    remember(RECENT_BY_STRING_FIELD, records);
   }
   const fieldName = String(field);
   let groups = fields.get(fieldName);
   if (!groups) {
-    const built = new Map<string, T[]>();
-    for (const record of records) {
-      const key = record[field];
-      if (typeof key !== "string") {
-        throw new Error(`History field ${fieldName} must be a string.`);
-      }
-      const group = built.get(key) ?? [];
-      group.push(record);
-      built.set(key, group);
-    }
-    groups = built;
+    groups = extendGroups(new Map(), records, 0, field);
     fields.set(fieldName, groups);
   }
   return (groups.get(value) ?? []) as readonly T[];
+}
+
+/** Adds records[from..] to their groups, copying any group that grows. */
+function extendGroups<T>(
+  groups: Map<string, readonly unknown[]>,
+  records: readonly T[],
+  from: number,
+  field: keyof T,
+): Map<string, readonly unknown[]> {
+  const grown = new Map<string, unknown[]>();
+  for (let at = from; at < records.length; at += 1) {
+    const record = records[at]!;
+    const key = record[field];
+    if (typeof key !== "string") {
+      throw new Error(`History field ${String(field)} must be a string.`);
+    }
+    let group = grown.get(key);
+    if (!group) {
+      group = [...(groups.get(key) ?? [])];
+      grown.set(key, group);
+    }
+    group.push(record);
+  }
+  for (const [key, group] of grown) groups.set(key, group);
+  return groups;
 }
 
 export function indexOverArrays<T>(

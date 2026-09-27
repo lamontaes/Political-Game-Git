@@ -24,4 +24,30 @@ describe("immutable history lookup indexes", () => {
     ]);
     expect(recordById(records, changed[2]!.id)).toBeUndefined();
   });
+
+  it("moves an index to an appended array without changing earlier answers", () => {
+    const a = { id: "a" as EntityId, personId: "p", value: 1 };
+    const b = { id: "b" as EntityId, personId: "q", value: 2 };
+    const c = { id: "c" as EntityId, personId: "p", value: 3 };
+    const before = [a, b];
+    expect(recordById(before, b.id)).toBe(b);
+    const ownGroup = recordsByStringField(before, "personId", "p");
+    expect(ownGroup).toEqual([a]);
+
+    const after = [a, b, c];
+    expect(recordById(after, c.id)).toBe(c);
+    expect(recordsByStringField(after, "personId", "p")).toEqual([a, c]);
+    // The group handed out for the earlier array is not changed.
+    expect(ownGroup).toEqual([a]);
+    // The earlier array still answers for itself.
+    expect(recordById(before, c.id)).toBeUndefined();
+    expect(recordsByStringField(before, "personId", "p")).toEqual([a]);
+
+    // An array that replaced an old record is not treated as an append.
+    const replaced = [{ ...a, value: 9 }, b, c];
+    expect(recordById(replaced, a.id)).toBe(replaced[0]);
+    expect(recordsByStringField(replaced, "personId", "p")[0]).toBe(
+      replaced[0],
+    );
+  });
 });
