@@ -1,6 +1,8 @@
 ---
 id: labeled-player-navigation-bar
 impact: minor
+section: Changed
+title: The seven main player sections now stay labeled along the bottom of the game
 ---
 
 The seven main player sections now stay labeled along the bottom of the game.
