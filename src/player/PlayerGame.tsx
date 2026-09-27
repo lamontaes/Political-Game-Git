@@ -184,7 +184,10 @@ import { backdropForLocation } from "../presentation/place-backdrops";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
 import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
-import { PUBLIC_MEETING_ROOM_SCENE_ID } from "../presentation/scene-registry";
+import {
+  PUBLIC_MEETING_ROOM_SCENE_ID,
+  SCENE_REGISTRY,
+} from "../presentation/scene-registry";
 import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
   AmbientTableau,
@@ -1493,9 +1496,15 @@ function PlayingScreen({
   ]);
 
   const sceneId = playScene.sceneId;
+  // A place picture fills any screen whose room has no picture of its own:
+  // no room at all, or a room whose plate was retired (the public meeting).
+  const sceneHasPlate = useMemo(() => {
+    const raster = sceneId ? SCENE_REGISTRY.scenes.get(sceneId)?.raster : null;
+    return Boolean(raster && sceneVisuals.has(raster.assetId));
+  }, [sceneId, sceneVisuals]);
   const placeBackdrop = useMemo(
     () =>
-      sceneId
+      sceneHasPlate
         ? null
         : backdropForLocation(
             session.world,
@@ -1503,7 +1512,7 @@ function PlayingScreen({
             playScene.purpose === "home" ? "home" : playScene.locationKey,
           ),
     [
-      sceneId,
+      sceneHasPlate,
       session.world,
       session.personId,
       playScene.purpose,
