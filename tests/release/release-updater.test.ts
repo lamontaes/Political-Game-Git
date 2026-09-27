@@ -184,18 +184,18 @@ describe("source-only work", RELEASE_TEST_TIMEOUT, () => {
     }
   });
 
-  it("does not release a set containing only none-impact or consumed declarations", () => {
-    const none = {
-      id: "tooling-only",
-      impact: "none" as const,
-      body: "Tooling only; nothing a player sees.",
-    };
-    const consumed = { ...none, id: "already-shipped" };
+  it("does not release an all-impact-none batch", () => {
     const plan = planRelease({
       currentVersion: "0.2.0",
       notesText: FIXTURE_NOTES,
-      declarations: [none, consumed],
-      alreadyConsumed: new Set(["already-shipped"]),
+      declarations: [
+        {
+          id: "tooling-only",
+          impact: "none",
+          body: "Tooling only; nothing a player sees.",
+        },
+      ],
+      alreadyConsumed: new Set(),
       isoDate: DATE,
     });
     expect(plan.outcome).toBe("no-op");
@@ -299,7 +299,7 @@ describe("duplicate events and races", RELEASE_TEST_TIMEOUT, () => {
     }
   });
 
-  it("a reused change id is excluded from release and still refused by check", () => {
+  it("a reused change id is refused rather than released twice", () => {
     const fixture = makeFixture({
       declarations: { "a-fix": bugfix("a-fix", "A fix.") },
       ledger:
@@ -309,7 +309,10 @@ describe("duplicate events and races", RELEASE_TEST_TIMEOUT, () => {
     });
     try {
       const plan = releaseTree(fixture.root, DATE, REVISION);
-      expect(plan.outcome).toBe("no-op");
+      expect(plan.outcome).toBe("blocked");
+      expect(plan.reason).toContain(
+        "already appear in the traceability ledger",
+      );
       expect(check(fixture.root).join("\n")).toContain("already recorded");
     } finally {
       fixture.dispose();

@@ -40,14 +40,7 @@ function sortById(
 export function planRelease(inputs: PlanInputs): ReleasePlan {
   const current = inputs.currentVersion;
   parseVersion(current);
-  // The ledger is the authority for whether a declaration is still pending.
-  // Both preview and apply call this planner, so reduce the filesystem inputs
-  // to that one pending set before deciding whether a release exists.
-  const declarations = sortById(
-    inputs.declarations.filter(
-      (declaration) => !inputs.alreadyConsumed.has(declaration.id),
-    ),
-  );
+  const declarations = sortById(inputs.declarations);
 
   if (declarations.length === 0) {
     return {
@@ -56,6 +49,27 @@ export function planRelease(inputs: PlanInputs): ReleasePlan {
       nextVersion: current,
       consumed: [],
       reason: "No pending change declarations.",
+    };
+  }
+
+  // A replayed event finds its declarations already gone, so reaching here with
+  // a consumed id means an id was reused rather than an event repeated. That is
+  // a mistake worth stopping on: silently releasing it a second time would
+  // publish the same note twice under two version numbers.
+  const replayed = declarations.filter((entry) =>
+    inputs.alreadyConsumed.has(entry.id),
+  );
+  if (replayed.length > 0) {
+    return {
+      outcome: "blocked",
+      currentVersion: current,
+      nextVersion: current,
+      consumed: [],
+      reason:
+        `Change ${replayed.length === 1 ? "id" : "ids"} ` +
+        `${replayed.map((entry) => `'${entry.id}'`).join(", ")} ` +
+        `already appear in the traceability ledger. A change id is allocated once; ` +
+        `rename the pending declaration rather than releasing it twice.`,
     };
   }
 
