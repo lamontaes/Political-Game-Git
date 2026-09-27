@@ -1,18 +1,25 @@
 /** A saved Senate referral, followed by an explicit committee authority stop. */
 
 import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
+import { addDays } from "../dates";
+import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import {
   nextCongressSitting,
   seatedCongressChamber,
 } from "../governing/congress-chambers";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { personName } from "../people";
+import { currentHistoricalCutoff } from "../queries";
 import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import {
+  organizeSenateJudiciary,
+  senateJudiciaryAppointment,
+} from "./committee-organization";
 import { seatHolderAt } from "./courts";
 import { pendingFederalJudicialNomination } from "./federal-confirmation";
 import {
@@ -24,6 +31,10 @@ import {
 export const JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION =
   "judiciary:committee-consideration" as const;
 export const JUDICIAL_SENATE_REFERRAL_EVENT = "judicial.senate-referral";
+export const JUDICIAL_COMMITTEE_NOTICE_EVENT =
+  "judicial.committee-consideration-notice";
+export const JUDICIAL_COMMITTEE_SESSION_TRANSITION =
+  "judiciary:committee-consideration-session" as const;
 
 function selectionFromDueSource(
   world: World,
@@ -224,12 +235,183 @@ export function judicialCommitteeConsiderationHandler(
       world,
       "No Senate Judiciary Committee referral was recorded.",
     );
+  let organized = world;
+  try {
+    organized = organizeSenateJudiciary(world);
+  } catch (error) {
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "judiciary:committee-convener-unrecorded",
+      context:
+        error instanceof Error
+          ? error.message
+          : "The Senate has not appointed a Judiciary chair.",
+      outcomeEventId: null,
+    };
+  }
+  const appointment = senateJudiciaryAppointment(organized);
+  if (!appointment)
+    return {
+      world: organized,
+      status: "blocked",
+      reasonKey: "judiciary:committee-convener-unrecorded",
+      context: "The Senate did not appoint an authorized Judiciary chair.",
+      outcomeEventId: null,
+    };
+  const chairId = appointment.chairPersonId;
+  const evaluation = evaluateDecision(organized, {
+    stableKey: `judicial-committee-consideration:${selectionRecordId}:chair:${chairId}`,
+    decisionType: "judiciary.committee-chair-scheduling",
+    actorPersonId: chairId,
+    cutoff: currentHistoricalCutoff(organized),
+    subject: {
+      kind: "context:government",
+      key: `judicial-committee-consideration:${selectionRecordId}`,
+      entityId: null,
+    },
+    options: [
+      {
+        key: "schedule",
+        label: "Schedule consideration",
+        description: "Give notice of a Judiciary business meeting.",
+      },
+      {
+        key: "defer",
+        label: "Defer consideration",
+        description: "Leave the nomination pending without a meeting notice.",
+      },
+    ],
+    constraints: [],
+    considerations: [
+      {
+        stableKey: `judicial-committee-consideration:${selectionRecordId}:pending-referral`,
+        optionKey: "schedule",
+        sourceType: "context:government",
+        direction: "supports",
+        importance: "slight",
+        confidence: "medium",
+        explanation:
+          "PLACEHOLDER: an appointed chair has a referred nomination to consider.",
+        sourceRefs: [],
+      },
+    ],
+    perceptionIds: [],
+    randomness: "close-choices",
+    retention: "durable",
+  });
+  const decided = recordDurableDecisionTrace(organized, evaluation);
+  if (evaluation.selectedOptionKey !== "schedule")
+    return {
+      world: decided,
+      status: "blocked",
+      reasonKey: "judiciary:committee-chair-deferred",
+      context:
+        "The appointed chair deferred committee consideration; no meeting was scheduled.",
+      outcomeEventId: null,
+    };
+  const chair = decided.people[chairId]!;
+  const noticed = recordWorldEvent(decided, {
+    stableKey: `${JUDICIAL_COMMITTEE_NOTICE_EVENT}:${selectionRecordId}`,
+    type: JUDICIAL_COMMITTEE_NOTICE_EVENT,
+    occurredAt: decided.currentDate,
+    recordedAt: decided.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [chairId, ...(nomineeId ? [nomineeId] : [])],
+    participants: [
+      {
+        personId: chairId,
+        role: "focus:actor",
+        detail: "Appointed Judiciary chair",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      `selection:${selectionRecordId}`,
+      `appointment:${appointment.eventId}`,
+      `chair:${chairId}`,
+      `decision:${decided.history.decisionTraces.at(-1)!.id}`,
+      "notice:three-calendar-days",
+    ],
+    summary: `${personName(chair)} gave notice of Senate Judiciary consideration of the pending judicial nomination. This notice does not record a hearing or attendance.`,
+    context: {
+      location: null,
+      socialContext: "Senate Judiciary consideration notice",
+      pressure: null,
+      choice: "schedule",
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const noticeId = noticed.history.events.at(-1)!.id;
+  const scheduled = scheduleFutureDueItem(noticed, {
+    stableKey: `${JUDICIAL_COMMITTEE_SESSION_TRANSITION}:${selectionRecordId}`,
+    dueAt: nextCongressSitting(addDays(noticed.currentDate, 2)),
+    transitionKey: JUDICIAL_COMMITTEE_SESSION_TRANSITION,
+    entityIds: nomineeId ? [nomineeId] : [chairId],
+    jurisdictionId: null,
+    provenance: { kind: "simulated", sourceEntityIds: [noticeId] },
+  });
+  return {
+    world: scheduled,
+    status: "resolved",
+    reasonKey: null,
+    context:
+      "An appointed Judiciary chair gave three calendar days' notice of consideration.",
+    outcomeEventId: noticeId,
+  };
+}
+
+/** The meeting still needs real participation; a notice is not attendance. */
+export function judicialCommitteeSessionHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  const selectionRecordId = selectionFromDueSource(
+    world,
+    due,
+    JUDICIAL_COMMITTEE_NOTICE_EVENT,
+  );
+  if (!selectionRecordId)
+    return cancelled(world, "The committee notice has no judicial selection.");
+  try {
+    pendingFederalJudicialNomination(world, selectionRecordId);
+  } catch (error) {
+    return cancelled(
+      world,
+      error instanceof Error
+        ? error.message
+        : "The judicial nomination is no longer pending.",
+    );
+  }
+  const notice = world.history.events.find(
+    (event) =>
+      event.type === JUDICIAL_COMMITTEE_NOTICE_EVENT &&
+      event.tags.includes(`selection:${selectionRecordId}`),
+  );
+  const appointment = senateJudiciaryAppointment(world);
+  if (
+    !selectionRecordId ||
+    !notice ||
+    !appointment ||
+    !notice.tags.includes(`appointment:${appointment.eventId}`) ||
+    addDays(notice.occurredAt, 3) > world.currentDate
+  )
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "judiciary:committee-session-authority-unavailable",
+      context:
+        "The committee lacks a current appointment or three days' notice.",
+      outcomeEventId: null,
+    };
   return {
     world,
     status: "blocked",
-    reasonKey: "judiciary:committee-convener-unrecorded",
+    reasonKey: "judiciary:committee-attendance-unrecorded",
     context:
-      "The nomination is referred, but no authorized committee convener, actual attendees, or report is recorded. Senate confirmation remains pending.",
+      "The meeting was noticed, but no member attendance or nomination report has been recorded.",
     outcomeEventId: null,
   };
 }
@@ -240,4 +422,5 @@ export const JUDICIAL_SENATE_HANDLERS = [
     JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION,
     judicialCommitteeConsiderationHandler,
   ],
+  [JUDICIAL_COMMITTEE_SESSION_TRANSITION, judicialCommitteeSessionHandler],
 ] as const;

@@ -4,7 +4,13 @@ import { currentPresidentOf } from "../simulation/crisis/offices";
 import { courtById, seatHolderAt } from "../simulation/judiciary/courts";
 import { JUDICIAL_ROSTER_REVIEW_EVENT } from "../simulation/judiciary/candidate-discovery";
 import {
+  SENATE_JUDICIARY_ORGANIZATION_VOTE_EVENT,
+  senateJudiciaryAppointment,
+} from "../simulation/judiciary/committee-organization";
+import {
   JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION,
+  JUDICIAL_COMMITTEE_NOTICE_EVENT,
+  JUDICIAL_COMMITTEE_SESSION_TRANSITION,
   JUDICIAL_SENATE_REFERRAL_EVENT,
 } from "../simulation/judiciary/senate-referral";
 import {
@@ -137,35 +143,54 @@ export function projectJudicialSelection(
         event.type === JUDICIAL_SENATE_REFERRAL_EVENT &&
         event.tags.includes(`selection:${selection.recordId}`),
     );
-    const due = world.history.futureDueItems.find(
-      (item) =>
-        item.stableKey.endsWith(`:${selection.recordId}`) &&
-        item.transitionKey ===
-          (referral
-            ? JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION
-            : JUDICIAL_SENATE_REFERRAL_TRANSITION),
-    );
-    if (!due)
-      return referral
-        ? "The nomination is before the Senate Judiciary Committee."
+    const dueFor = (transitionKey: string) =>
+      world.history.futureDueItems.find(
+        (item) =>
+          item.stableKey.endsWith(`:${selection.recordId}`) &&
+          item.transitionKey === transitionKey,
+      );
+    const stateFor = (dueItemId: EntityId): FutureDueItemStateRecord | null =>
+      [...world.history.futureDueItemStates]
+        .reverse()
+        .find((row) => row.dueItemId === dueItemId) ?? null;
+    if (!referral) {
+      const due = dueFor(JUDICIAL_SENATE_REFERRAL_TRANSITION);
+      return due
+        ? `Senate referral is scheduled for ${proseDate(due.dueAt)}.`
         : "The Senate referral has not been scheduled.";
-    let state: FutureDueItemStateRecord | null = null;
-    for (
-      let index = world.history.futureDueItemStates.length - 1;
-      index >= 0;
-      index -= 1
-    ) {
-      const row = world.history.futureDueItemStates[index]!;
-      if (row.dueItemId === due.id) {
-        state = row;
-        break;
-      }
     }
-    if (state?.status === "blocked")
-      return "The nomination is referred. Committee consideration is waiting for an authorized convener and recorded attendance.";
-    if (referral)
-      return `The nomination is before the Senate Judiciary Committee. Consideration is scheduled for ${proseDate(due.dueAt)}.`;
-    return `Senate referral is scheduled for ${proseDate(due.dueAt)}.`;
+    const notice = world.history.events.find(
+      (event) =>
+        event.type === JUDICIAL_COMMITTEE_NOTICE_EVENT &&
+        event.tags.includes(`selection:${selection.recordId}`),
+    );
+    if (notice) {
+      const sessionDue = dueFor(JUDICIAL_COMMITTEE_SESSION_TRANSITION);
+      const sessionState = sessionDue ? stateFor(sessionDue.id) : null;
+      if (sessionState?.status === "blocked")
+        return "The appointed Judiciary chair gave notice, but committee attendance and a nomination report are not recorded.";
+      return sessionDue
+        ? `The appointed Judiciary chair gave notice. Consideration is scheduled for ${proseDate(sessionDue.dueAt)}; attendance is not yet recorded.`
+        : "The appointed Judiciary chair gave notice, but no consideration date is recorded.";
+    }
+    const committeeDue = dueFor(JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION);
+    const committeeState = committeeDue ? stateFor(committeeDue.id) : null;
+    if (committeeState?.status === "blocked") {
+      const organizationRejected = world.history.events.some(
+        (event) =>
+          event.type === SENATE_JUDICIARY_ORGANIZATION_VOTE_EVENT &&
+          event.occurredAt >= referral.occurredAt &&
+          event.tags.includes("result:rejected"),
+      );
+      return organizationRejected
+        ? "The Senate did not appoint the Judiciary slate; no chair can schedule consideration."
+        : "The nomination is referred. Committee consideration is waiting for an appointed chair.";
+    }
+    if (senateJudiciaryAppointment(world))
+      return "The nomination is referred to an appointed Judiciary Committee; no consideration notice is recorded.";
+    return committeeDue
+      ? `The nomination is referred. Senate committee organization review is due ${proseDate(committeeDue.dueAt)}.`
+      : "The nomination is before the Senate Judiciary Committee.";
   })();
   return {
     ...base,

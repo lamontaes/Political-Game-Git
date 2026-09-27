@@ -40,8 +40,15 @@ import {
 import { judicialSeatId } from "./types";
 import {
   JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION,
+  JUDICIAL_COMMITTEE_NOTICE_EVENT,
+  JUDICIAL_COMMITTEE_SESSION_TRANSITION,
   JUDICIAL_SENATE_REFERRAL_EVENT,
+  judicialCommitteeConsiderationHandler,
 } from "./senate-referral";
+import {
+  SENATE_JUDICIARY_APPOINTMENT_EVENT,
+  senateJudiciaryAppointment,
+} from "./committee-organization";
 import { JUDICIAL_SENATE_REFERRAL_TRANSITION } from "./selection";
 
 function pendingNomination() {
@@ -114,7 +121,7 @@ function pendingNomination() {
 }
 
 describe("federal judicial hearing and Senate ballot", () => {
-  it("refers a saved nomination on the master due registry and blocks committee consideration without its authority", () => {
+  it("refers a saved nomination, appoints Judiciary by Senate vote, and notices consideration", () => {
     const pending = pendingNomination();
     const referralDue = pending.world.history.futureDueItems.find(
       (item) =>
@@ -151,7 +158,7 @@ describe("federal judicial hearing and Senate ballot", () => {
     });
     expect(
       projectJudicialSelection(referred, pending.seatId)?.senateStatus,
-    ).toContain("before the Senate Judiciary Committee");
+    ).toContain("committee organization review is due");
     const committeeDue = referred.history.futureDueItems.find(
       (item) =>
         item.transitionKey === JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION &&
@@ -166,28 +173,99 @@ describe("federal judicial hearing and Senate ballot", () => {
     expect(
       committee.history.futureDueItemStates.findLast(
         (state) => state.dueItemId === committeeDue.id,
+      )?.status,
+    ).toBe("resolved");
+    expect(senateJudiciaryAppointment(committee)).not.toBeNull();
+    expect(
+      committee.history.events.some(
+        (event) => event.type === SENATE_JUDICIARY_APPOINTMENT_EVENT,
+      ),
+    ).toBe(true);
+    const notice = committee.history.events.findLast(
+      (event) => event.type === JUDICIAL_COMMITTEE_NOTICE_EVENT,
+    )!;
+    expect(notice.tags).toContain(`selection:${pending.selectionRecordId}`);
+    expect(
+      projectJudicialSelection(committee, pending.seatId)?.senateStatus,
+    ).toContain("appointed Judiciary chair gave notice");
+    const sessionDue = committee.history.futureDueItems.find(
+      (item) =>
+        item.transitionKey === JUDICIAL_COMMITTEE_SESSION_TRANSITION &&
+        item.stableKey.endsWith(pending.selectionRecordId),
+    )!;
+    expect(sessionDue.dueAt > committeeDue.dueAt).toBe(true);
+    const elapsed = Math.round(
+      (Date.parse(sessionDue.dueAt) - Date.parse(notice.occurredAt)) /
+        86_400_000,
+    );
+    expect(elapsed).toBeGreaterThanOrEqual(3);
+    const atSession = resolveFutureDueItemsThrough(
+      committee,
+      sessionDue.dueAt,
+      registry,
+    );
+    expect(
+      atSession.history.futureDueItemStates.findLast(
+        (state) => state.dueItemId === sessionDue.id,
       ),
     ).toMatchObject({
       status: "blocked",
-      reasonKey: "judiciary:committee-convener-unrecorded",
+      reasonKey: "judiciary:committee-attendance-unrecorded",
     });
     expect(
-      projectJudicialSelection(committee, pending.seatId)?.senateStatus,
-    ).toContain("waiting for an authorized convener");
+      projectJudicialSelection(atSession, pending.seatId)?.senateStatus,
+    ).toContain("attendance and a nomination report are not recorded");
     expect(
-      committee.history.events.some(
+      atSession.history.events.some(
         (event) =>
           event.type === JUDICIAL_CONFIRMATION_HEARING_EVENT ||
           event.type === "judicial.senate-ballot",
       ),
     ).toBe(false);
-    expect(seatHolderAt(committee, pending.seatId)).toBeNull();
-    const reopened = deserializeWorld(serializeWorld(referred));
+    expect(seatHolderAt(atSession, pending.seatId)).toBeNull();
+    const reopened = deserializeWorld(serializeWorld(atSession));
     expect(
       reopened.history.events.some(
         (event) => event.type === JUDICIAL_SENATE_REFERRAL_EVENT,
       ),
     ).toBe(true);
+    expect(senateJudiciaryAppointment(reopened)?.eventId).toBe(
+      senateJudiciaryAppointment(atSession)?.eventId,
+    );
+  }, 20_000);
+
+  it("keeps committee consideration blocked when the controlled Senator has not voted on organization", () => {
+    const pending = pendingNomination();
+    const registry = createCampaignElectionTransitionRegistry();
+    const referralDue = pending.world.history.futureDueItems.find(
+      (item) => item.transitionKey === JUDICIAL_SENATE_REFERRAL_TRANSITION,
+    )!;
+    const referred = resolveFutureDueItemsThrough(
+      pending.world,
+      referralDue.dueAt,
+      registry,
+    );
+    const senatorId = seatedCongressChamber(referred, "senate")!.body
+      .members[0]!.personId!;
+    const controlled = {
+      ...referred,
+      control: { kind: "person" as const, personId: senatorId },
+    };
+    const due = controlled.history.futureDueItems.find(
+      (item) =>
+        item.transitionKey === JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION,
+    )!;
+    const blocked = judicialCommitteeConsiderationHandler(controlled, due);
+    expect(blocked).toMatchObject({
+      status: "blocked",
+      reasonKey: "judiciary:committee-convener-unrecorded",
+    });
+    expect(senateJudiciaryAppointment(blocked.world)).toBeNull();
+    expect(
+      blocked.world.history.events.some(
+        (event) => event.type === JUDICIAL_COMMITTEE_NOTICE_EVENT,
+      ),
+    ).toBe(false);
   }, 20_000);
 
   // This case opens the full named judiciary and Congress. It took 3.63 s
