@@ -128,7 +128,7 @@ export function recordPaidTransitProgramService(
       personFactConstraints: [],
       visibility: "public",
       tags: ["transit.service", `program:${profile.programKey}`],
-      summary: `For this paid period, ${area.displayName} is the modeled local service area for ${measure!.designation}. This PLACEHOLDER(wave2) allocation is not a researched route or a rural classification of the locality.`,
+      summary: `For this paid period, ${area.displayName} is the modeled local service area for ${measure!.designation}. This assignment does not identify a researched route or classify the locality as rural.`,
       context: {
         location: {
           jurisdictionId: modeledAreaId,
@@ -168,7 +168,7 @@ export function recordPaidTransitProgramService(
     personFactConstraints: [],
     visibility: "public",
     tags: ["transit.service", `program:${profile.programKey}`],
-    summary: `The state paid ${plan.amount.minorUnits / 100} USD for ${hoursText(plan.amount.minorUnits)} of modeled added rural-transit service under ${measure!.designation}. This records paid service under ${TRANSIT_PROGRAM_COST_BASIS}; it does not establish ridership, travel time, access, or who learned of the payment.`,
+    summary: `The state paid ${plan.amount.minorUnits / 100} USD for ${hoursText(plan.amount.minorUnits)} of modeled added rural-transit service under ${measure!.designation}. This paid service record does not establish ridership, travel time, access, or who learned of the payment.`,
     context: {
       location: null,
       socialContext: "Paid state rural-transit service",
