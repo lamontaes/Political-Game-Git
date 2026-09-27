@@ -15,8 +15,8 @@ const SOURCE_MODULE = "src/presentation/ordinary-life.ts";
 /**
  * The week a character who does not work in a legislature actually has.
  *
- * Two items, deliberately unglamorous — and the bank that holds them declares
- * three things about each: a key, a title and a summary. That is the whole of
+ * The posted meeting is the authored item. Its bank declares a key, a title,
+ * and a summary. That is the whole of
  * `OrdinaryLifeWorkItemDefinition`, and it is the whole of what this adapter
  * may report as declared.
  *
@@ -29,9 +29,8 @@ const SOURCE_MODULE = "src/presentation/ordinary-life.ts";
  * it is declared by the bank.
  *
  * The index used to report all of it as though the bank had said it, and to
- * report a household-obligation conversation as a follow-up of both items —
- * a link that appears nowhere in this module at all, and that was simply false
- * of the public meeting. This is the same rule the formative situations are
+ * report a household-obligation conversation as a follow-up of the meeting —
+ * a link that appears nowhere in this module and was false. This is the same rule the formative situations are
  * held to: a procedural gate is named where it lives and reported undeclared
  * here, rather than restated as a declarative fact the source never wrote down.
  */
@@ -40,7 +39,7 @@ export function ordinaryLifeBank(): ContentBank {
     id: BANK_ID,
     title: "Ordinary life",
     description:
-      "The two things an ordinary week puts in front of somebody: a household week that has to be covered, and a public meeting they can go to or skip.",
+      "A posted public meeting the player can choose to attend or skip.",
     domain: "life",
     authority: "authored",
     status: "production",

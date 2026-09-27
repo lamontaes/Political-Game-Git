@@ -4698,7 +4698,6 @@ export type FormativeLifeSituationKey =
  * frequency, so none is claimed.
  */
 export type AdultLifeSituationKey =
-  | "adult.household-standing"
   | "adult.household-repair"
   | "adult.household-money-shortfall"
   | "adult.household-quiet-evening"
@@ -4729,7 +4728,6 @@ export type AdultLifeSituationKey =
   | "adult.incident-neighbour-help"
   | "adult.promise-comes-due"
   | "adult.old-favour-returns"
-  | "adult.ordinary-good-day"
   | "adult.weekend-invitation";
 
 export type LifeSituationKey =

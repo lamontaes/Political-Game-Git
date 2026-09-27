@@ -139,7 +139,7 @@ export function projectOrdinaryMeetingScene(world: World, personId: EntityId) {
     ],
     caption:
       phase === "active"
-        ? `${personName(world.people[chair.personId]!)} chairs the meeting.`
+        ? `${personName(world.people[chair.personId]!)} chairs the meeting${event.tags.includes("attendance:late-entry") ? ", which is underway" : ""}.`
         : `The discussion ended without a vote. ${personName(world.people[chair.personId]!)} chaired it.`,
     stage:
       phase === "active"
@@ -152,7 +152,11 @@ export function projectOrdinaryMeetingScene(world: World, personId: EntityId) {
                 name: personName(world.people[chair.personId]!),
               },
             ],
-            publicFacts: ["The meeting is starting."],
+            publicFacts: [
+              event.tags.includes("attendance:late-entry")
+                ? "The meeting is underway."
+                : "The meeting is starting.",
+            ],
             asOf: world.currentDate,
             regionKey: activity.location.jurisdictionId
               ? (lifePlaceByJurisdictionId(activity.location.jurisdictionId)

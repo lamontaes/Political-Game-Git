@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { modelCampaignFieldReach } from "./campaign-contact-calibration";
 import { wasRefused } from "./scheduled-activity-answer";
 import { rememberedAdverseFindingsAgainst } from "./press/findings";
 import {
@@ -1944,6 +1945,9 @@ export function recordCampaignLifeAttendance(
     attendance,
     outcomeEventId: outcomeEvent.id,
     contactPersonIds,
+    fieldReach: openCampaign
+      ? modelCampaignFieldReach(record.form, minutes)
+      : null,
     relationshipInteractionIds,
     resourceFlowId,
     raisedAmount,
