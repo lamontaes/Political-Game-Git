@@ -3,6 +3,7 @@ import { createDemoWorld } from "../demo";
 import {
   addJointJudicialSeatAllocation,
   buildOpeningCourtCatalog,
+  joinFederalSeatCounts,
   seatHolderAt,
   seatJudge,
   seatsForCourt,
@@ -11,6 +12,33 @@ import {
 import { judicialSeatId } from "./types";
 
 describe("opening court catalog", () => {
+  it("joins each Title 28 seat count once and preserves joint district allocations", () => {
+    const joined = joinFederalSeatCounts();
+    expect(Object.keys(joined.directCourtCounts)).toHaveLength(108);
+    expect(joined.sharedAllocations).toHaveLength(3);
+    expect(joined.courtsWithoutStatutoryCount).toEqual([]);
+    expect(Object.keys(joined.fixedTermRules).sort()).toEqual([
+      "d-gu",
+      "d-mp",
+      "d-vi",
+    ]);
+    expect(joined.fixedTermRules["d-gu"]).toMatchObject({
+      termYears: 10,
+      holdsUntilSuccessorQualified: true,
+    });
+    expect(joined.directCourtCounts["us-supreme-court"]).toMatchObject({
+      count: 9,
+      basis: "sourced",
+    });
+    const kentucky = joined.sharedAllocations.find((allocation) =>
+      allocation.servedCourtIds.includes("d-kentucky-eastern"),
+    );
+    expect(kentucky).toMatchObject({
+      seatCount: 1,
+      servedCourtIds: ["d-kentucky-eastern", "d-kentucky-western"],
+    });
+  });
+
   it("uses admitted identities nationwide and labels unresolved state trial geography", () => {
     const opened = buildOpeningCourtCatalog(
       createDemoWorld("judiciary-catalog"),
@@ -55,6 +83,14 @@ describe("opening court catalog", () => {
     expect(
       opened.judiciary?.seats["us-supreme-court:seat:1"].linkedOfficeId,
     ).toBe("us-chief-justice");
+    expect(opened.judiciary?.courts["d-gu"].rules.termYears).toMatchObject({
+      state: "known",
+      value: 10,
+      basis: "sourced",
+    });
+    expect(
+      opened.judiciary?.courts["d-gu"].rules.termHoldsUntilSuccessorQualified,
+    ).toMatchObject({ state: "known", value: true, basis: "sourced" });
     expect(buildOpeningCourtCatalog(opened)).toBe(opened);
   });
 });
