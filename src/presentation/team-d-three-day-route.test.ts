@@ -148,5 +148,5 @@ describe("a three-day ordinary-player route", () => {
     expect(finished.world.currentDate).toBe("2026-01-07");
     expect(finished.world.currentDate).not.toBe(startDate);
     assertWorldIntegrity(finished.world);
-  });
+  }, 10_000); // Two-room save/reload took 5.39–5.68 s under shared-host checks.
 });
