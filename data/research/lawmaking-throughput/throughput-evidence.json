@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-09-27",
+  "scope": "Bounded U.S. congressional, state, city, and county lawmaking observations. Counts are historical outcomes, not game rates or forecasts.",
+  "sources": {
+    "house-118": {
+      "title": "House Calendar: Final Calendar of the 118th Congress",
+      "publisher": "Clerk of the U.S. House of Representatives",
+      "url": "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf",
+      "locator": "PDF pages 336 and 357, statistical recapitulation and footnotes"
+    },
+    "kansas-2024": {
+      "title": "Summary of Legislation 2024 and Special Session 2024",
+      "publisher": "Kansas Legislative Research Department",
+      "url": "https://www.kslegislature.gov/li/b2025_26/committees/ctte_s_ed_1/documents/testimony/20250114_06.pdf",
+      "locator": "Introduction, PDF page 2; 2024 regular session figures precede appended special session"
+    },
+    "new-mexico-2024": {
+      "title": "Highlights 2024: A Summary of the Session",
+      "publisher": "New Mexico Legislative Council Service",
+      "url": "https://www.nmlegis.gov/Publications/Session/24/highlights.pdf",
+      "locator": "Appendix A, PDF pages 44-45, bill action summary"
+    },
+    "minneapolis-2024": {
+      "title": "Council Tracking Report: 2024 Session Complete",
+      "publisher": "City of Minneapolis",
+      "url": "https://lims.minneapolismn.gov/Download/RCAV2/48613/Council-Tracking-Report_COW_2024-Session-Complete.pdf",
+      "locator": "2024 Session Statistics; January 1 through December 31, 2024"
+    },
+    "cleburne-2024": {
+      "title": "2024 Ordinances",
+      "publisher": "Cleburne County, Arkansas",
+      "url": "https://www.cleburnecountyar.com/copy-of-2023-ordinances",
+      "locator": "Numbered 2024 ordinance list; 001-045 except 033"
+    },
+    "queen-annes-2024": {
+      "title": "2024 Ordinances",
+      "publisher": "Queen Anne's County, Maryland",
+      "url": "https://qac.org/1703/2024-Ordinances",
+      "locator": "Numbered ordinance table and Date Adopted column"
+    },
+    "ncsl-bis": {
+      "title": "50 State Bill Information Service",
+      "publisher": "National Conference of State Legislatures",
+      "url": "https://www.ncsl.org/about-us/50-state-bill-information-service",
+      "locator": "Access description; session statistics are member-only"
+    },
+    "repeal-method": {
+      "title": "The Lifecycle of Public Policy: An Event History Analysis of Repeals to Landmark Legislative Enactments, 1951-2006",
+      "publisher": "American Politics Research",
+      "url": "https://journals.sagepub.com/doi/10.1177/1532673X10374170",
+      "locator": "Abstract and research design; landmark U.S. laws, not all enacted laws"
+    }
+  },
+  "observations": [
+    {
+      "id": "us-118th-congress",
+      "jurisdiction": "United States Congress",
+      "period": "118th Congress, January 3, 2023 to January 3, 2025",
+      "introduced": {
+        "houseBills": 10555,
+        "senateBills": 5646,
+        "houseJointResolutions": 230,
+        "senateJointResolutions": 122
+      },
+      "publicLaws": {
+        "houseBills": 178,
+        "senateBills": 91,
+        "houseJointResolutions": 5,
+        "senateJointResolutions": 0,
+        "total": 274
+      },
+      "vetoedMeasures": 13,
+      "vetoOverrides": 0,
+      "sameOriginBillShareEnactedPercent": { "house": 1.69, "senate": 1.61 },
+      "sourceId": "house-118",
+      "caveat": "House and Senate bill shares use enacted bills from each originating chamber divided by that chamber's introduced bills. Joint resolutions are excluded from those shares. The 274 laws include five House joint resolutions; dividing 274 by only House bills would mix origins and measure types. Vetoed measures include joint resolutions."
+    },
+    {
+      "id": "kansas-2024-regular",
+      "jurisdiction": "Kansas",
+      "period": "2024 regular session in the 2023-2024 biennium",
+      "introducedInSessionBills": 605,
+      "carriedOverFrom2023Bills": 655,
+      "billsAliveFor2024Session": 1260,
+      "billsBecameLaw": 111,
+      "shareAliveBecameLawPercent": 8.81,
+      "billsVetoed": 21,
+      "billVetoesSustained": 14,
+      "billVetoesOverridden": 7,
+      "lineItemsVetoed": 44,
+      "lineItemVetoesSustained": 37,
+      "sourceId": "kansas-2024",
+      "caveat": "Law total includes bills introduced in 2023 and carried into 2024. Do not divide 111 by the 605 bills introduced only in 2024. Bill vetoes and line-item vetoes have different denominators. Special session is excluded."
+    },
+    {
+      "id": "new-mexico-2024-regular",
+      "jurisdiction": "New Mexico",
+      "period": "2024 regular session, 30-day even-year session",
+      "introducedBills": 583,
+      "billsPassedLegislature": 72,
+      "billsEnactedInBillActionSummary": 69,
+      "enactedShareOfIntroducedPercent": 11.84,
+      "billsVetoed": 3,
+      "vetoShareOfPassedPercent": 4.17,
+      "vetoOverrides": null,
+      "sourceId": "new-mexico-2024",
+      "caveat": "Appendix A's bill action summary gives 583 introduced, 72 passed, 69 enacted, and 3 vetoed. Its adjacent table separately labels five partial vetoes in an enacted category that does not reconcile arithmetically with the 72 passed bills; use the bill action summary for these figures and do not add five to 69. No override count is established here."
+    },
+    {
+      "id": "minneapolis-2024",
+      "jurisdiction": "Minneapolis, Minnesota",
+      "period": "January 1 to December 31, 2024",
+      "ordinancesIntroduced": 48,
+      "ordinancesEnacted": 47,
+      "ordinancesCodified": 17,
+      "resolutionsAdopted": 449,
+      "sourceId": "minneapolis-2024",
+      "caveat": "The city's session-statistics counts are activity totals, not necessarily a same-cohort introduction-to-enactment rate. Enacted is different from codified; resolutions and other actions are separate. This large city's count is not a typical U.S. city rate."
+    },
+    {
+      "id": "cleburne-county-2024",
+      "jurisdiction": "Cleburne County, Arkansas",
+      "period": "Calendar year 2024 list",
+      "listedOrdinances": 44,
+      "sourceId": "cleburne-2024",
+      "caveat": "Counted the county's numbered entries 2024-001 through 2024-045 with 033 absent. The page is an ordinance list; it does not establish introduced-versus-adopted statuses or a general county-size rate. Many entries amend appropriations or staffing."
+    },
+    {
+      "id": "queen-annes-county-2024",
+      "jurisdiction": "Queen Anne's County, Maryland",
+      "period": "Calendar year 2024 adoption dates on the 2024 list",
+      "numberedOrdinancesAdoptedIn2024": 13,
+      "sourceId": "queen-annes-2024",
+      "caveat": "Counted 13 main numbered ordinances with 2024 Date Adopted; 24-15 was adopted in 2025. Lettered amendment entries are excluded. This is a list count, not a general county-size rate."
+    }
+  ],
+  "coverageGaps": {
+    "allStateSessionSeries": null,
+    "allStateSessionSeriesReason": "NCSL's broad Bill Information Service, including session statistics, requires member access. Public topic databases cannot be combined into an all-subject 50-state total without duplicate and scope controls. This packet contains only official Kansas and New Mexico all-bill snapshots.",
+    "stateRepealProbabilityAndTime": null,
+    "federalRepealProbabilityAndTime": null,
+    "repealReason": "Amendment, explicit repeal, sunset, and supersession are distinct outcomes. The located academic repeal study follows landmark federal enactments, not the population of all federal and state laws; it cannot support a general rate or time-to-repeal constant.",
+    "localVolumeBySize": null,
+    "localVolumeBySizeReason": "The three local observations are individual jurisdictions with different ordinance definitions and no matched population-size sampling. They demonstrate nonzero local lawmaking, not a size-stratified annual distribution."
+  },
+  "gameplayCalibration": {
+    "recommendedNumericalValues": null,
+    "reason": "Preserve jurisdiction-specific session length, carryover, bill cohort, chamber origin, veto outcome, and local ordinance definition before deriving game probabilities. Do not apply one state, congressional, or city sample to all places."
+  }
+}

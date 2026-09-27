@@ -1,0 +1,26 @@
+# Lawmaking throughput: bounded evidence
+
+Official records show that lawmaking volume and success vary by jurisdiction, session length, and carryover. The evidence packet preserves each count's chamber, period, and measure type so legislative design can use the observations without treating them as default probabilities for a simulated bill.
+
+## What the official records show
+
+| Place and period                                                                                                                    |                                           Introduced or active |                                                                                              Became law | Boundary                                                                                                                                                                             |
+| ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------: | ------------------------------------------------------------------------------------------------------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [118th Congress](https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf), 2023–24                                |           10,555 House bills and 5,646 Senate bills introduced | 178 House-origin bills, 91 Senate-origin bills, and five House joint resolutions; 274 public laws total | Whole two-year Congress. The same-origin bill shares are 1.69% House and 1.61% Senate. Thirteen measures were vetoed; none became law over veto.                                     |
+| [Kansas 2024 regular session](https://www.kslegislature.gov/li/b2025_26/committees/ctte_s_ed_1/documents/testimony/20250114_06.pdf) | 605 newly introduced bills plus 655 carried over; 1,260 active |                                                                         111, or 8.8% of the active pool | Seven of 21 bill vetoes were overridden; line-item vetoes are separate. The 2024 enactments cannot be divided by the 605 new bills.                                                  |
+| [New Mexico 2024 regular session](https://www.nmlegis.gov/Publications/Session/24/highlights.pdf)                                   |                                           583 bills introduced |                                        72 passed the Legislature, 69 enacted in the bill action summary | Three vetoed; a 30-day even-year session. The adjacent partial-veto table does not reconcile with the action summary, so the packet preserves the summary and flags the discrepancy. |
+
+The [Minneapolis 2024 council report](https://lims.minneapolismn.gov/Download/RCAV2/48613/Council-Tracking-Report_COW_2024-Session-Complete.pdf) records 48 ordinances introduced, 47 enacted, 17 codified, and 449 resolutions adopted. These are activity totals, not necessarily the same ordinance cohort. The [Cleburne County 2024 list](https://www.cleburnecountyar.com/copy-of-2023-ordinances) has 44 numbered ordinances; many amend appropriations or staffing. [Queen Anne's County's 2024 table](https://qac.org/1703/2024-Ordinances) has 13 main numbered ordinances with 2024 adoption dates; one listed 2024 proposal was adopted in 2025 and lettered amendments are excluded. These local records show ordinary recurring legislation without establishing a national rate by population size.
+
+## How to use the packet
+
+- Keep a proposed bill, a bill passed by both chambers, an enacted law, a veto, and an override as distinct outcomes. The congressional record also counts joint resolutions as laws when enacted.
+- Preserve Kansas-style carryover where a biennium permits it. Session throughput should use the active pool; a bill introduced in a prior year can become law this year.
+- Allow local councils and counties to pass budget, staffing, fees, zoning, public-safety, and contract measures. A year with no local legislative activity is implausible for the sampled jurisdictions, but these counts do not set a universal quota.
+- Treat repeal separately from amendment and automatic expiration. A [landmark federal-law study](https://journals.sagepub.com/doi/10.1177/1532673X10374170) finds that repeal risk rises after enactment then declines as laws become established. Its selected corpus cannot set the probability or time to repeal for all federal, state, or local laws.
+
+## Gaps before numerical gameplay calibration
+
+The [NCSL Bill Information Service](https://www.ncsl.org/about-us/50-state-bill-information-service) includes state session statistics but requires legislator or legislative-staff access. Public topic trackers are not a complete all-subject 50-state series. This packet therefore has two official state snapshots, not a claim of all-state coverage. It also lacks a representative annual ordinance distribution by city or county size and a general repeal cohort. `null` means unestablished, not zero.
+
+Machine-readable observations and source locators are in `throughput-evidence.json`.
