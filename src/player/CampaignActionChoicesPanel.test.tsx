@@ -24,6 +24,7 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { CampaignActionChoicesPanel } from "./CampaignActionChoicesPanel";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 
@@ -118,7 +119,14 @@ describe("campaign choices in the player UI", () => {
     for (const choice of view.choices) {
       expect(html).toContain(choice.hostName);
       expect(html).toContain(choice.place);
+      expect(choice.cashCost).toBeNull();
+      expect(html).toContain(
+        `data-testid="campaign-choice-cost-${choice.form}"`,
+      );
     }
+    expect(html.match(/Cost not estimated\./g)).toHaveLength(
+      view.choices.length,
+    );
     expect(html).toContain("The committee opened with no money");
     expect(html).not.toContain("cost of these activities is not established");
     expect(html).not.toContain("$0 cost");
@@ -159,6 +167,15 @@ describe("campaign choices in the player UI", () => {
     const html = renderChoices(finished);
     expect(html).toContain('data-testid="campaign-recent-results"');
     expect(html).toContain(result.contactNames[0]!);
+    expect(html).toContain("Worked with:");
+    expect(result.fieldReach?.estimatedCompletedConversations).toEqual({
+      min: 10,
+      max: 15,
+    });
+    expect(html).toContain("Estimated conversations: 10–15");
+    expect(renderChoices(deserializeWorld(serializeWorld(finished)))).toContain(
+      "Estimated conversations: 10–15",
+    );
     expect(html).toContain("Held ");
     expect(html).not.toContain(result.summary);
   });

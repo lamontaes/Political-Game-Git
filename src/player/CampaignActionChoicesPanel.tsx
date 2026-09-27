@@ -89,6 +89,12 @@ export function CampaignActionChoicesPanel({
               <p>
                 {readableMoment(choice.start)} to {readableMoment(choice.end)}
               </p>
+              {/* COPY-PENDING: show unknown cost without inventing a charge. */}
+              {choice.cashCost === null ? (
+                <p data-testid={`campaign-choice-cost-${choice.form}`}>
+                  Cost not estimated.
+                </p>
+              ) : null}
               {choice.outboundTravelMinutes > 0 ? (
                 <p>
                   A {choice.outboundTravelMinutes}-minute journey there is
@@ -119,7 +125,20 @@ export function CampaignActionChoicesPanel({
                 <strong>{campaignLifeCatalogEntry(result.form).title}</strong>
                 <p>Held {proseDate(result.completedAt)}.</p>
                 {result.contactNames.length > 0 ? (
-                  <p>Met: {result.contactNames.join(", ")}</p>
+                  <p>
+                    {result.form === "door-canvass" ||
+                    result.form === "phone-shift"
+                      ? "Worked with"
+                      : "Met"}
+                    : {result.contactNames.join(", ")}
+                  </p>
+                ) : null}
+                {result.fieldReach?.estimatedCompletedConversations ? (
+                  <p data-testid={`campaign-result-reach-${result.activityId}`}>
+                    Estimated conversations:{" "}
+                    {result.fieldReach.estimatedCompletedConversations.min}–
+                    {result.fieldReach.estimatedCompletedConversations.max}
+                  </p>
                 ) : null}
                 {result.raisedAmount !== null ? (
                   <p>Raised: {displayMoney(result.raisedAmount)}</p>
