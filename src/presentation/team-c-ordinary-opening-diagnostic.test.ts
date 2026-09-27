@@ -89,6 +89,11 @@ describe("Team C ordinary opening projection diagnostic", () => {
         input,
       ).world;
       const birthday = opened.people[playerPersonId]!.birthDate;
+      const preBeginJournalLines = journal.sections.flatMap((section) =>
+        section.chronicle
+          .map((line) => line.entry)
+          .filter((entry) => entry.at < opened.currentDate),
+      );
       const ageForEvent = (stableKey: string): number | null => {
         const match = /:(?:age|year):(\d+)$/.exec(stableKey);
         if (match) return Number(match[1]);
@@ -122,6 +127,10 @@ describe("Team C ordinary opening projection diagnostic", () => {
           firstYear: years[0],
           lastYear: years.at(-1),
           maxGap,
+          preBeginJournalLines: preBeginJournalLines.length,
+          birthMonthJournalLines: preBeginJournalLines.filter(
+            (entry) => entry.at.slice(5, 7) === birthday.slice(5, 7),
+          ).length,
           totalFamily,
           familyContacts: familyContacts.length,
           familyWithPriorContact: familyContacts.filter(
