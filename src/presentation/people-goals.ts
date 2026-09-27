@@ -1,4 +1,5 @@
 import { proseDate } from "./prose-dates";
+import { runForPhrase } from "./english-grammar";
 import {
   ageOnDate,
   candidacyEligibility,
@@ -478,7 +479,7 @@ function opportunitiesFor(
         ? [
             {
               kind: "file-for-office" as const,
-              label: `You can file to run for ${office.office.title}`,
+              label: `You can file to run for ${runForPhrase(office.office.title)}`,
               personId: null,
               officeKey: office.officeKey,
               subject: null,

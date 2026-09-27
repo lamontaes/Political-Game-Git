@@ -10,6 +10,7 @@ import {
 } from "./life-opportunities";
 import { ageOnDate, makeIsoDate } from "./dates";
 import { activeIncidentsAt } from "./incidents";
+import { workItemOccasionHasPassed } from "./time-work";
 import {
   activeCareResponsibilitiesAt,
   activeLifeCommitmentsAt,
@@ -238,6 +239,8 @@ export interface AdultLifeContext {
   readonly hasDwelling: boolean;
   readonly hasHousingTenure: boolean;
   readonly hasPostedMeeting: boolean;
+  /** The posted meeting's evening has not yet come. */
+  readonly postedMeetingAhead: boolean;
   readonly hasHouseholdWorkItem: boolean;
   /**
    * The requests, invitations and notices this life is currently carrying an
@@ -306,11 +309,20 @@ export function buildAdultLifeContext(
       .map((entry) => entry.relationship.organizationId)
       .filter((id): id is EntityId => id !== null),
   );
+  // A shared employer can only come from a recorded relationship with that
+  // employer. Restrict the expensive active-work query to those people; the
+  // old scan queried every resident, even when this person had no employer.
+  const potentialColleagues = new Set(
+    world.history.workRelationships
+      .filter((relationship) => employerIds.has(relationship.organizationId))
+      .map((relationship) => relationship.personId),
+  );
   const colleagueIds = [
     ...new Set(
       world.personOrder.filter(
         (candidate) =>
           candidate !== personId &&
+          potentialColleagues.has(candidate) &&
           activeWorkRelationshipsAt(world, candidate, lifeCutoff).some(
             (entry) => employerIds.has(entry.relationship.organizationId),
           ),
@@ -326,11 +338,19 @@ export function buildAdultLifeContext(
   const participationOrganizationIds = new Set(
     participations.map((entry) => entry.participation.organizationId),
   );
+  const potentialCommunityMembers = new Set(
+    world.history.organizationParticipations
+      .filter((participation) =>
+        participationOrganizationIds.has(participation.organizationId),
+      )
+      .map((participation) => participation.personId),
+  );
   const communityMemberIds = [
     ...new Set(
       world.personOrder.filter(
         (candidate) =>
           candidate !== personId &&
+          potentialCommunityMembers.has(candidate) &&
           activeOrganizationParticipationsAt(world, candidate, lifeCutoff).some(
             (entry) =>
               participationOrganizationIds.has(
@@ -464,6 +484,13 @@ export function buildAdultLifeContext(
     hasHousingTenure: activeHousingTenuresAt(world, resourceCutoff).length > 0,
     hasPostedMeeting: world.history.workItems.some(
       (item) => item.stableKey === PUBLIC_MEETING_KEY,
+    ),
+    // Whether to go is a question only while the meeting is still ahead; the
+    // proposal and the agenda item stay open after its evening.
+    postedMeetingAhead: world.history.workItems.some(
+      (item) =>
+        item.stableKey === PUBLIC_MEETING_KEY &&
+        !workItemOccasionHasPassed(world, item),
     ),
     hasHouseholdWorkItem: hasActiveHouseholdWeek(world, personId),
     openOpportunityKinds: new Set(opportunities.map((entry) => entry.kind)),
@@ -1903,7 +1930,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       "A local volunteer group is short of hands for Saturdays, and somebody has asked for yours.",
     tensions: [],
     available: (context) =>
-      context.hasPostedMeeting && context.civicParticipationCount === 0,
+      context.postedMeetingAhead && context.civicParticipationCount === 0,
     options: [
       {
         key: "sign-up",

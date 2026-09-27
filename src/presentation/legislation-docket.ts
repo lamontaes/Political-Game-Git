@@ -31,6 +31,11 @@ import {
   draftingSupportsScenario,
   type CompiledBillDraft,
 } from "../simulation/legislation-drafting";
+import {
+  assertOperativeDraft,
+  operativeSectionSupport,
+  type OperativeSectionSupport,
+} from "../simulation/legislation-operative-sections";
 import { formatMinorUnits } from "../simulation/legislation-program-families";
 import {
   draftLineageForMeasure,
@@ -708,6 +713,7 @@ export interface DraftPreviewInput {
   readonly familyKey: string;
   readonly variantKey: string;
   readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
+  readonly selectedProvisionKeys?: readonly string[];
   readonly filedOn: IsoDate;
   /** Supplied by the caller so a preview is not numbered by writing anything. */
   readonly provisionalSequence: number;
@@ -737,6 +743,7 @@ export function previewDraft(input: DraftPreviewInput): CompiledBillDraft {
     familyKey: input.familyKey,
     variantKey: input.variantKey,
     parameterValues: input.parameterValues,
+    selectedProvisionKeys: input.selectedProvisionKeys,
     scenarioKey: input.scenarioKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: blueprint.pack.packId,
@@ -771,12 +778,16 @@ export interface DraftOption {
    */
   readonly requiresAuthority: boolean;
   readonly requiresSpendingAuthority: boolean;
+  /** A section's filed effect is available only when a canonical reader exists. */
+  readonly operativeSections: readonly OperativeSectionSupport[];
 }
 
 export function availableDraftOptions(
   scenarioKey: string,
 ): readonly DraftOption[] {
   if (!draftingSupportsScenario(scenarioKey)) return [];
+  const jurisdictionId =
+    legislativeBlueprint(scenarioKey).context.jurisdiction.id;
   return programConfigurations().map((configuration) => {
     const { family, variant } = programVariant(
       configuration.familyKey,
@@ -796,6 +807,11 @@ export function availableDraftOptions(
       instrumentDescription: rule.description,
       requiresAuthority: rule.requiresPredicateAuthority,
       requiresSpendingAuthority: rule.predicateMustAuthorizeSpending,
+      operativeSections: operativeSectionSupport(
+        configuration.familyKey,
+        configuration.variantKey,
+        jurisdictionId,
+      ),
     };
   });
 }
@@ -812,6 +828,7 @@ export interface FileDraftInput {
   readonly familyKey: string;
   readonly variantKey: string;
   readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
+  readonly selectedProvisionKeys?: readonly string[];
   /**
    * The authority key the player chose, where the configuration takes one.
    *
@@ -909,6 +926,7 @@ export function fileDraft(
     familyKey: input.familyKey,
     variantKey: input.variantKey,
     parameterValues: input.parameterValues,
+    selectedProvisionKeys: input.selectedProvisionKeys,
     scenarioKey: input.scenarioKey,
     jurisdictionId: input.jurisdictionId,
     rulePackId: blueprint.pack.packId,
@@ -1047,7 +1065,7 @@ export function fileDraft(
   return { world: next, bill, draft };
 }
 
-/** Player-facing filing gate; trusted content fixtures retain the lower-level writer. */
+/** Legacy office filing route; existing callers may omit a section selection. */
 export function fileDraftFromOffice(
   world: World,
   input: FileDraftInput,
@@ -1087,7 +1105,53 @@ export function fileDraftFromOffice(
       "This character has no active office for filing in this legislature.",
     );
   }
+  if (input.selectedProvisionKeys === undefined) return fileDraft(world, input);
+  const authority =
+    input.authorityKey === undefined
+      ? null
+      : resolveAuthority(
+          world,
+          {
+            scenarioKey: input.scenarioKey,
+            playerPersonId: input.playerPersonId,
+          },
+          input.authorityKey,
+        );
+  if (input.authorityKey !== undefined && authority === null)
+    throw new BillConfigurationError(
+      `Nothing on this docket or in the statute book answers to '${input.authorityKey}', so a bill cannot be written against it.`,
+    );
+  const blueprint = legislativeBlueprint(input.scenarioKey);
+  const draft = compileBillDraft({
+    familyKey: input.familyKey,
+    variantKey: input.variantKey,
+    parameterValues: input.parameterValues,
+    selectedProvisionKeys: input.selectedProvisionKeys,
+    scenarioKey: input.scenarioKey,
+    jurisdictionId: input.jurisdictionId,
+    rulePackId: blueprint.pack.packId,
+    designation: "Pending docket designation",
+    filedOn: world.currentDate,
+    ...(authority !== null ? { predicateAuthority: authority } : {}),
+  });
+  assertOperativeDraft(draft);
   return fileDraft(world, input);
+}
+
+export type SelectedFileDraftInput = FileDraftInput & {
+  readonly selectedProvisionKeys: readonly string[];
+};
+
+/** Ordinary filing route: an explicit operative section selection is required. */
+export function fileSelectedDraftFromOffice(
+  world: World,
+  input: SelectedFileDraftInput,
+): FileDraftResult {
+  if (!Array.isArray(input.selectedProvisionKeys))
+    throw new BillConfigurationError(
+      "Select the operative sections this bill will file.",
+    );
+  return fileDraftFromOffice(world, input);
 }
 
 /**
@@ -1148,10 +1212,29 @@ export function recompileSavedBill(
   }
   try {
     const blueprint = legislativeBlueprint(bill.scenarioKey);
+    // The original provision records preserve a partial selection even after
+    // amendments. A complete legacy bill keeps its original parameter shape.
+    const filedKeys = (world.history.legislativeProvisions ?? [])
+      .filter(
+        (provision) =>
+          provision.measureId === bill.measureId &&
+          provision.originAmendmentId === null,
+      )
+      .map((provision) => provision.provisionKey);
+    const variant = family.variants.find(
+      (row) => row.variantKey === lineage.variantKey,
+    );
+    const complete =
+      variant !== undefined &&
+      filedKeys.length === variant.clauses.length &&
+      variant.clauses.every((clause) =>
+        filedKeys.includes(clause.provisionKey),
+      );
     return compileBillDraft({
       familyKey: lineage.familyKey,
       variantKey: lineage.variantKey,
       parameterValues: draftParameterValues(lineage),
+      ...(!complete ? { selectedProvisionKeys: filedKeys } : {}),
       scenarioKey: bill.scenarioKey,
       jurisdictionId: bill.jurisdictionId,
       rulePackId: blueprint.pack.packId,

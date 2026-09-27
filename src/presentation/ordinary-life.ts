@@ -39,6 +39,7 @@ import {
   scheduledActivityState,
   simulationMinutesBetween,
   simulationMomentAtLocalTime,
+  workItemOccasionHasPassed,
   workPendingEntriesFor,
   ORDINARY_LIFE_WORK_ITEMS,
 } from "../simulation";
@@ -720,6 +721,12 @@ export function neighborhoodConversationRoom(
   const jurisdictionId =
     place?.context.jurisdiction.id ?? person.homeJurisdictionId;
   if (!world.jurisdictions[jurisdictionId]) return null;
+  // The doorstep talk is about whether to go. Once the posted meeting has
+  // happened, there is nothing ahead to talk about going to.
+  const meeting = world.history.workItems.find(
+    (item) => item.stableKey === PUBLIC_MEETING_KEY,
+  );
+  if (meeting && workItemOccasionHasPassed(world, meeting)) return null;
 
   const cutoff = currentLifeCutoff(world);
   const household = new Set(

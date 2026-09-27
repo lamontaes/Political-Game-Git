@@ -390,6 +390,7 @@ export function ensureStateLegislatureOpening(
     readonly district: DistrictIdentity | null;
     readonly memberKey: string;
     readonly party: string | null;
+    readonly democraticShare: number | null;
     readonly serviceSince: IsoDate;
     readonly person: CharacterHistoryContextPersonInput;
   }
@@ -406,9 +407,11 @@ export function ensureStateLegislatureOpening(
       const seatKey = STATE_LEGISLATURE_KEYS.seat(chamber.officeKey, ordinal);
       const seatRng = rng.fork(`seat:${chamber.officeKey}:${ordinal}`);
       let party: string | null = null;
+      let democraticShare: number | null = null;
       if (center !== null && parties.length === 2) {
         const lean = center + spread * standardNormal(seatRng.fork("lean"));
-        party = logistic(lean) >= 0.5 ? "democratic" : "republican";
+        democraticShare = logistic(lean);
+        party = democraticShare >= 0.5 ? "democratic" : "republican";
       }
       const age = seatRng.integer(minimumAge + 7, 81);
       const yearsServed = Math.min(
@@ -435,6 +438,7 @@ export function ensureStateLegislatureOpening(
         district: chamber.districts[ordinal - 1] ?? null,
         memberKey: `${seatKey}:member`,
         party,
+        democraticShare,
         serviceSince,
         person: {
           stableKey: `${seatKey}:member`,
@@ -529,6 +533,15 @@ export function ensureStateLegislatureOpening(
     tags: [
       V,
       `pack:${pack.packId}`,
+      // The opening's own generated seat view is saved so later fictional
+      // candidate choices and results read one durable baseline.
+      ...members.flatMap((member) =>
+        member.democraticShare === null
+          ? []
+          : [
+              `seat-share:${member.office.officeKey}|${member.ordinal}|${member.democraticShare.toFixed(6)}`,
+            ],
+      ),
       ...chambers.map(
         (chamber) =>
           `chamber:${chamber.chamberKey}:${chamber.size}:${chamber.basis}`,
