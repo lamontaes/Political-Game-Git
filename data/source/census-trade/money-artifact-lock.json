@@ -1,0 +1,92 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "manufacturing-trade-2022",
+      "bytes": {
+        "length": 2047065,
+        "sha256": "895d4c5b030d154647c70703f9515e5a985471dd871698e69a9b3445152f3ce7"
+      },
+      "localPath": "data/source/census-trade/raw/manufacturing-trade-2022.pdf",
+      "mediaType": "application/pdf",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/foreign-trade/Press-Release/MITR/2022/2022_Manufacturing_and_International_Trade_Report.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2022"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2047065,
+        "retrievedAt": "2026-09-27T00:06:26.347Z",
+        "url": "https://www.census.gov/foreign-trade/Press-Release/MITR/2022/2022_Manufacturing_and_International_Trade_Report.pdf"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "trade-index",
+      "bytes": {
+        "length": 97494,
+        "sha256": "fc1989ff1f6cdce9fcbf40a71d4152b69af02db93317f717960300097e15d804"
+      },
+      "localPath": "data/source/census-trade/raw/mitr-index.html",
+      "mediaType": "text/html",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/foreign-trade/Press-Release/mitr_index.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 97494,
+        "retrievedAt": "2026-09-27T00:07:26.989Z",
+        "url": "https://www.census.gov/foreign-trade/Press-Release/mitr_index.html"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "manufacturing-trade-2022-xlsx",
+      "bytes": {
+        "length": 597135,
+        "sha256": "26026c3eef405a18b59ff3f576eae69222203c6642d2819f6fd89527b6826bb2"
+      },
+      "localPath": "data/source/census-trade/raw/manufacturing-trade-2022.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/foreign-trade/Press-Release/MITR/2022/2022_Manufacturing_and_International_Trade_Report.xlsx",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2022"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 597135,
+        "retrievedAt": "2026-09-27T00:08:40.175Z",
+        "url": "https://www.census.gov/foreign-trade/Press-Release/MITR/2022/2022_Manufacturing_and_International_Trade_Report.xlsx"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "census-trade"
+}

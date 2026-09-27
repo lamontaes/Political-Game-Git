@@ -1,0 +1,19 @@
+{
+  "canonicalSha256": "c2c4752ad7ea98fe74c39aabe72a3f4a4b857d12d3b33b51ad987c548b8dc8d7",
+  "compiler": "scripts/source/regional-money/missing-money-sources.ts",
+  "corpusPath": "data/source/freddie-mac-mortgage-rates/money-corpus.json.gz",
+  "coverage": {
+    "geography": "United States",
+    "stateSpecific": false,
+    "territories": "No separate territory calibration supplied"
+  },
+  "inputs": [
+    {
+      "artifactId": "pmms-history",
+      "localPath": "data/source/freddie-mac-mortgage-rates/raw/PMMS_history.csv",
+      "sha256": "83206cc456e2dba3c6298dc7668a435499483c576095e70f9c3def8a43bf4a2b"
+    }
+  ],
+  "recordCount": 5792,
+  "runtimeWired": false
+}
