@@ -4,6 +4,7 @@ import {
   settleJobPay,
 } from "../simulation/job-market";
 import { settleCareerOffers } from "../simulation/career-path7";
+import { ensurePeopleTraits } from "../simulation/people-traits";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
@@ -227,13 +228,14 @@ export function openOrdinaryLife(world: World, personId: EntityId): World {
   // opens, before anything else reads the week.
   const seated = seatWinnersOwedTheirTerm(world, personId);
   if (!ordinaryLifeAvailableFor(seated, personId)) return seated;
-  return refreshLifeCircumstances(
+  const opened = refreshLifeCircumstances(
     refreshLifeOpportunities(
       openOrdinaryLifeRecords(seated, personId),
       personId,
     ),
     personId,
   );
+  return ensurePeopleTraits(opened, opened.personOrder);
 }
 
 export function projectOrdinaryDay(
