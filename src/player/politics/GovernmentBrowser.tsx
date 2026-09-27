@@ -33,6 +33,7 @@ export function GovernmentBrowser({
   place,
   scope,
   onSelectionChange,
+  onWorldChange,
   onOpenPerson,
   onOpenMeasure,
 }: {
@@ -207,6 +208,7 @@ export function GovernmentBrowser({
           view={judiciary}
           world={world}
           scope={scope}
+          onWorldChange={onWorldChange}
           onOpenPerson={onOpenPerson}
         />
       ) : null}
