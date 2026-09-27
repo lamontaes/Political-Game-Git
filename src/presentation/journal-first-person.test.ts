@@ -33,6 +33,9 @@ describe("the Journal in the character's own hand", () => {
         "Keanu Hall will host the community town hall on 2026-01-07.",
       ),
     ).toBe("Keanu Hall will host the community town hall on January 7, 2026.");
+    expect(journalInFirstPerson("Going is optional.")).toBe(
+      "Going was optional.",
+    );
     expect(
       journalInFirstPerson(
         "You began working as Store assistant at Neighborhood Market.",

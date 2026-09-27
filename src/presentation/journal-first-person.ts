@@ -144,6 +144,11 @@ function toldPart(text: string): string {
       return past ? `I ${adverb ?? ""}${past}` : match;
     },
   );
+  // A standing condition told at the time is past by the time it is written.
+  out = out.replace(
+    /\b(Going|Coming|Attending) is optional\./g,
+    "$1 was optional.",
+  );
   // "I and Dana went" is said "Dana and I went".
   out = out.replace(
     /\bI and ([A-Z][a-z]+(?: [A-Z][a-z]+)?)\b/g,
