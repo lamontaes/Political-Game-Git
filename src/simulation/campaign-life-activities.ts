@@ -1006,7 +1006,8 @@ export function requestCampaignLifeActivity(
 }
 
 /** Finds the host and the first shared free evening; throws one sentence. */
-function planCampaignLifeRequest(
+/** Read-only preview of the same host and free calendar slot the request writer uses. */
+export function planCampaignLifeRequest(
   world: World,
   personId: EntityId,
   input: RequestCampaignLifeActivityInput,
