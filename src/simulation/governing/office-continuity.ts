@@ -80,7 +80,8 @@ import { recordWorldEvent } from "../world";
  * compiled says follows, once per notice. Where the game has the rule it acts
  * (a Vice President succeeds under the Twenty-Fifth Amendment, § 1; a dead
  * Representative's seat is vacant until a special election; the President
- * nominates a new Vice President or Chief Justice). Where the route is law
+ * nominates a new Vice President). A vacant Chief Justiceship awaits an
+ * explicit nomination and recorded Senate vote. Where the route is law
  * but its pace or choices are not compiled, a marked placeholder fills the
  * gap (a governor's successor, a temporary senator, the nominee and the
  * confirmation). Where it
