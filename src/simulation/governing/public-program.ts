@@ -11,6 +11,10 @@ import {
 import { createWorkItem, workItemState } from "../time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordDailyGovernmentFiscalFlow } from "../government-fiscal-metrics";
+import {
+  appropriationCommittedMinorUnits,
+  appropriationPinnedPaymentsMinorUnits,
+} from "../public-appropriation-balance";
 import { currentPresidentOf } from "../crisis/offices";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import {
@@ -304,24 +308,6 @@ export function publicProgramKeys(world: World): readonly string[] {
   ];
 }
 
-function committedAgainst(world: World, appropriationId: EntityId): number {
-  return publicProgramRecords(world)
-    .filter(
-      (record): record is PublicProgramCommitmentRecord =>
-        record.kind === "commitment" &&
-        record.appropriationId === appropriationId,
-    )
-    .reduce(
-      (total, record) =>
-        total +
-        record.installments.reduce(
-          (sum, plan) => sum + plan.amount.minorUnits,
-          0,
-        ),
-      0,
-    );
-}
-
 export interface PublicProgramPosition {
   readonly programKey: string;
   readonly appropriated: MoneyAmount;
@@ -363,7 +349,8 @@ export function programPosition(
     0,
   );
   const committed = appropriations.reduce(
-    (total, record) => total + committedAgainst(world, record.id),
+    (total, record) =>
+      total + appropriationCommittedMinorUnits(world, record),
     0,
   );
   const commitments = programCommitments(world, programKey, scope).filter(
@@ -372,7 +359,11 @@ export function programPosition(
   const installments = programInstallments(world, programKey, scope).filter(
     (record) => commitments.some((c) => c.id === record.commitmentId),
   );
-  let posted = 0;
+  let posted = appropriations.reduce(
+    (total, record) =>
+      total + appropriationPinnedPaymentsMinorUnits(world, record),
+    0,
+  );
   let operating = 0;
   for (const record of installments) {
     if (record.status !== "posted") continue;
@@ -713,7 +704,8 @@ export function forecastProgramAlternative(
     0,
   );
   const uncommitted =
-    appropriation.amount.minorUnits - committedAgainst(world, appropriation.id);
+    appropriation.amount.minorUnits -
+    appropriationCommittedMinorUnits(world, appropriation);
   const position = resourcePositionAt(
     world,
     {

@@ -4,6 +4,7 @@ import {
   draftLineageForMeasure,
 } from "../legislation-draft-lineage";
 import { currentMeasureProvisions } from "../legislative-politics";
+import { operativeDateForEnactment } from "../legislative-effective-date";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import {
@@ -11,6 +12,7 @@ import {
   TRANSIT_FAMILY_KEY,
   TRANSIT_FAMILY_VERSION,
   TRANSIT_PROGRAM_KEY,
+  TRANSIT_VARIANT_KEY,
 } from "../legislation-transit-families";
 import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
@@ -343,6 +345,16 @@ export function appropriationFromEnactedMeasure(
   const amount = amountProvision?.fiscalExposureMinorUnits;
   if (amount === null || amount === undefined || amount <= 0) return world;
   const lineage = draftLineageForMeasure(world, measureId);
+  const pinnedLegacyTransit =
+    lineage?.familyKey === TRANSIT_FAMILY_KEY &&
+    lineage.familyVersion === TRANSIT_FAMILY_VERSION &&
+    lineage.variantKey === TRANSIT_VARIANT_KEY &&
+    lineage.authorityKey === TRANSIT_PROGRAM_KEY &&
+    lineage.authorityMeasureId === undefined;
+  const pinnedOperativeDate = pinnedLegacyTransit
+    ? operativeDateForEnactment(enactment)?.date
+    : null;
+  if (pinnedLegacyTransit && !pinnedOperativeDate) return world;
   const transitProfile =
     lineage?.variantKey === STATE_TRANSIT_VARIANT_KEY
       ? stateTransitProfileForLineage(world, measure, enactment, lineage)
@@ -396,10 +408,13 @@ export function appropriationFromEnactedMeasure(
     publicGovernmentIdentity: governmentScope.identity,
     programKey,
     amountMinorUnits: amount,
-    adoptedOn: transitProfile ? enactment.effectiveAt! : adoptedOn,
+    adoptedOn: transitProfile
+      ? enactment.effectiveAt!
+      : (pinnedOperativeDate ?? adoptedOn),
     ...(transitProfile
       ? { availableDays: transitProfile.availabilityDays }
       : {}),
+    ...(pinnedLegacyTransit ? { availableDays: 366 } : {}),
     ...(profileAuthorityMatches && gameProfile
       ? { availableDays: gameProfile.appropriation.availabilityDays }
       : {}),
