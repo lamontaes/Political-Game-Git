@@ -1,5 +1,11 @@
 import { adultLifeSituations } from "./adult-situations";
-import { addDays, ageOnDate, dateAtAge, makeIsoDate } from "./dates";
+import {
+  addDays,
+  ageOnDate,
+  dateAtAge,
+  daysBetween,
+  makeIsoDate,
+} from "./dates";
 import { createStableId } from "./ids";
 import {
   createCareResponsibility,
@@ -667,6 +673,34 @@ function recordPreStartFamilyContact(
 }
 
 /**
+ * PLACEHOLDER(overnight): an unfixed fictional memory can happen on any day
+ * while the person is the stated age, but never after the pre-start record is
+ * written. Each event owns a separate seeded draw so another draw cannot move
+ * its date. Already recorded events are left alone by their stable keys.
+ */
+export const PRE_START_FICTIONAL_DATES_V1 =
+  "pre-start-fictional-dates-v1" as const;
+export type PreStartHistoryDateVersion = typeof PRE_START_FICTIONAL_DATES_V1;
+
+function fictionalPreStartDateAtAge(
+  birthDate: IsoDate,
+  age: number,
+  recordedBefore: IsoDate,
+  rng: SeededRng,
+  version: PreStartHistoryDateVersion | undefined,
+): IsoDate {
+  const first = dateAtAge(birthDate, age);
+  // A replay descriptor without this version keeps its exact birthday dates.
+  if (version !== PRE_START_FICTIONAL_DATES_V1) return first;
+  const nextBirthday = dateAtAge(birthDate, age + 1);
+  const exclusiveEnd =
+    nextBirthday < recordedBefore ? nextBirthday : recordedBefore;
+  const availableDays = daysBetween(first, exclusiveEnd);
+  if (availableDays <= 0) return first;
+  return addDays(first, rng.integer(0, availableDays));
+}
+
+/**
  * Versioned close-circle and adult-year construction for a new life. This is
  * invoked only while the pre-start world is still at its prior-year date.
  * The people, kinships, work and shared moments are canonical records; no
@@ -681,6 +715,7 @@ export function establishPreStartAdultHistory(
     readonly employerName: string;
     readonly employerFormedAt: IsoDate;
     readonly monthlyWageMinor: number;
+    readonly preStartHistoryDateVersion?: PreStartHistoryDateVersion;
   },
 ): World {
   const key = `pre-start-adult-history-v1:${input.personId}`;
@@ -940,7 +975,13 @@ export function establishPreStartAdultHistory(
   const motherName = next.people[motherId]!.givenName;
   const siblingNameRecorded = next.people[siblingId]!.givenName;
   const playerName = `${player.givenName} ${player.familyName}`;
-  const earlyDate = dateAtAge(player.birthDate, 2);
+  const earlyDate = fictionalPreStartDateAtAge(
+    player.birthDate,
+    2,
+    world.currentDate,
+    rng.fork("early-family-time:date"),
+    input.preStartHistoryDateVersion,
+  );
   next = recordWorldEvent(next, {
     stableKey: `${key}:early-family-time`,
     type: "life.family-time",
@@ -972,9 +1013,16 @@ export function establishPreStartAdultHistory(
   });
   next = recordPreStartFamilyContact(next, `${key}:early-family-time`);
   for (let year = 18; year < age; year += 1) {
-    const occurredAt = dateAtAge(player.birthDate, year);
-    if (occurredAt >= world.currentDate) break;
-    const isFamily = occurredAt < workStart || year < 24 || year % 4 === 0;
+    const ageStart = dateAtAge(player.birthDate, year);
+    if (ageStart >= world.currentDate) break;
+    const occurredAt = fictionalPreStartDateAtAge(
+      player.birthDate,
+      year,
+      world.currentDate,
+      rng.fork(`year:${year}:date`),
+      input.preStartHistoryDateVersion,
+    );
+    const isFamily = ageStart < workStart || year < 24 || year % 4 === 0;
     const otherId = year < 35 ? motherId : siblingId;
     const otherName = year < 35 ? motherName : siblingNameRecorded;
     const summary = isFamily
@@ -1069,7 +1117,11 @@ export function endPreStartAdultLocalWork(
 /** The close family and dated shared childhood that a prior-year child can know. */
 export function establishPreStartChildHistory(
   world: World,
-  input: { readonly personId: EntityId; readonly jurisdictionId: EntityId },
+  input: {
+    readonly personId: EntityId;
+    readonly jurisdictionId: EntityId;
+    readonly preStartHistoryDateVersion?: PreStartHistoryDateVersion;
+  },
 ): World {
   const key = `pre-start-child-history-v1:${input.personId}`;
   if (world.history.events.some((event) => event.stableKey === `${key}:age:2`))
@@ -1188,8 +1240,15 @@ export function establishPreStartChildHistory(
   }
   const motherName = next.people[motherId]!.givenName;
   for (const childAge of [2, 6, 8]) {
-    const occurredAt = dateAtAge(player.birthDate, childAge);
-    if (occurredAt > world.currentDate) continue;
+    const ageStart = dateAtAge(player.birthDate, childAge);
+    if (ageStart > world.currentDate) continue;
+    const occurredAt = fictionalPreStartDateAtAge(
+      player.birthDate,
+      childAge,
+      world.currentDate,
+      rng.fork(`age:${childAge}:date`),
+      input.preStartHistoryDateVersion,
+    );
     next = recordWorldEvent(next, {
       stableKey: `${key}:age:${childAge}`,
       type: "life.family-time",
