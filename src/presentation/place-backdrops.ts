@@ -302,6 +302,9 @@ const LOCATION_PLACE: Readonly<Record<string, string>> = {
   "life-circumstance:covered-shift": "workplace",
   "incident-response:current-office": "workplace",
   "ordinary-life:to-meeting-room": "main-street",
+  // The posted public meeting's own plate was retired (FRONTDOOR44).
+  "ordinary-life:meeting-room": "public-meeting-room",
+  "east-end-community-room": "community-room",
   "office-to-east-end": "main-street",
   "executive-office": "governor-office",
   "executive-work:office": "governor-office",

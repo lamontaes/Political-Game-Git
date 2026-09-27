@@ -139,6 +139,11 @@ describe("place backdrops", () => {
     for (const place of named) expect(hasBackdrop(place)).toBe(true);
   });
 
+  it("gives the posted public meeting its room picture", () => {
+    expect(hasBackdrop("public-meeting-room")).toBe(true);
+    expect(hasBackdrop("community-room")).toBe(true);
+  });
+
   it("has a picture for every fixed place a location can name", () => {
     for (const place of [
       "classroom",
