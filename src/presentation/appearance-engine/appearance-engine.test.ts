@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { measureBodyAnchors, neckOffset } from "./anchors";
 import { assemblePerson, composite, placeLayers } from "./assemble";
 import { neckJoin, skinInGarment } from "./checks";
+import { extractGarment } from "./extract";
 import { createRaster, luminance, type Raster } from "./raster";
 import {
   SKIN_RAMPS,
@@ -193,5 +194,26 @@ describe("jigsaw checks", () => {
       body,
     );
     expect(shifted?.leftStep).toBe(5);
+  });
+});
+
+describe("garment extraction", () => {
+  it("keeps sleeves over bare skin at any height, drops the painting's skin and head, and leaves the underwear bottoms", () => {
+    const bare = figure(5, 25);
+    const anchors = measureBodyAnchors(bare);
+    const onBody = new Uint8ClampedArray(bare.data);
+    const painted = { width: bare.width, height: bare.height, data: onBody };
+    const SHIRT: Rgba = [150, 150, 152, 255];
+    fill(painted, 12, 32, 47, 58, SHIRT); // torso from the shoulders down over the top of the underwear
+    fill(painted, 12, 59, 15, 80, SHIRT); // a sleeve hanging far below the hem, over the arm's skin
+    fill(painted, 25, 5, 34, 12, [90, 90, 90, 255]); // paint in the head box must be refused
+    const { layer } = extractGarment(painted, bare, anchors, "top");
+    const alpha = (x: number, y: number) =>
+      layer.data[(y * layer.width + x) * 4 + 3]!;
+    expect(alpha(20, 40)).toBe(255); // torso
+    expect(alpha(13, 75)).toBe(255); // sleeve well below the hem
+    expect(alpha(30, 8)).toBe(0); // head box refused
+    expect(alpha(30, 62)).toBe(0); // underwear bottoms are not the top
+    expect(skinInGarment(layer, bare).skinPixels).toBe(0);
   });
 });
