@@ -243,12 +243,20 @@ export function recordNpcFederalJudicialSenateBallot(
     world.control.personId === senatorPersonId
   )
     throw new Error("The player's Senate ballot requires their own choice.");
+  const currentSitting = world.history.events.findLast(
+    (event) =>
+      event.type === "judicial.senate-floor-sitting" &&
+      event.tags.includes(`selection:${selectionRecordId}`),
+  );
   if (
     world.history.events.some(
       (event) =>
         event.type === JUDICIAL_SENATE_BALLOT_EVENT &&
         event.tags.includes(`selection:${selectionRecordId}`) &&
-        event.tags.includes(`senator:${senatorPersonId}`),
+        event.tags.includes(`senator:${senatorPersonId}`) &&
+        (currentSitting
+          ? event.tags.includes(`sitting:${currentSitting.id}`)
+          : !event.tags.some((tag) => tag.startsWith("sitting:"))),
     )
   )
     return world;

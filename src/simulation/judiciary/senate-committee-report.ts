@@ -97,17 +97,25 @@ const reportDue = (world: World, selectionRecordId: string) =>
       item.stableKey.endsWith(`:${selectionRecordId}`),
   );
 const floorDue = (world: World, selectionRecordId: string) =>
-  world.history.futureDueItems.find(
-    (item) =>
-      item.transitionKey === JUDICIAL_FLOOR_TRANSITION &&
-      item.stableKey.endsWith(`:${selectionRecordId}`),
-  );
+  world.history.futureDueItems
+    .filter(
+      (item) =>
+        item.transitionKey === JUDICIAL_FLOOR_TRANSITION &&
+        (item.stableKey ===
+          `${JUDICIAL_FLOOR_TRANSITION}:${selectionRecordId}` ||
+          item.stableKey.startsWith(
+            `${JUDICIAL_FLOOR_TRANSITION}:${selectionRecordId}:retry:`,
+          )),
+    )
+    .at(-1);
 const floorSitting = (world: World, selectionRecordId: string) =>
-  world.history.events.find(
-    (event) =>
-      event.type === JUDICIAL_FLOOR_SITTING_EVENT &&
-      event.tags.includes(selectionTag(selectionRecordId)),
-  );
+  world.history.events
+    .filter(
+      (event) =>
+        event.type === JUDICIAL_FLOOR_SITTING_EVENT &&
+        event.tags.includes(selectionTag(selectionRecordId)),
+    )
+    .at(-1);
 
 /** The chair's report-business notice is distinct from hearing notice. */
 export function scheduleJudicialReportBusiness(
@@ -909,9 +917,13 @@ export function conductJudicialNominationFloor(
     | (JudicialFloorChoice & { readonly completionEventId: EntityId | null })
     | null = null,
 ): World {
-  if (floorSitting(world, selectionRecordId)) return world;
   const pending = pendingFederalJudicialNomination(world, selectionRecordId);
   const due = floorDue(world, selectionRecordId);
+  if (
+    due &&
+    floorSitting(world, selectionRecordId)?.tags.includes(`due:${due.id}`)
+  )
+    return world;
   const calendar = world.history.events.find(
     (event) =>
       event.type === JUDICIAL_EXEC_CALENDAR_EVENT &&
@@ -994,7 +1006,7 @@ export function conductJudicialNominationFloor(
   let choiceEventId: EntityId | null = null;
   if (controlled && controlledId) {
     next = recordWorldEvent(next, {
-      stableKey: `${JUDICIAL_FLOOR_PLAYER_CHOICE_EVENT}:${selectionRecordId}`,
+      stableKey: `${JUDICIAL_FLOOR_PLAYER_CHOICE_EVENT}:${selectionRecordId}:${due.id}`,
       type: JUDICIAL_FLOOR_PLAYER_CHOICE_EVENT,
       occurredAt: next.currentDate,
       recordedAt: next.currentDate,
@@ -1011,6 +1023,7 @@ export function conductJudicialNominationFloor(
       visibility: "public",
       tags: [
         selectionTag(selectionRecordId),
+        `due:${due.id}`,
         `calendar:${calendar.id}`,
         `attendance:${controlled.attendance}`,
         `ballot:${controlled.ballot ?? controlled.attendance}`,
@@ -1046,7 +1059,7 @@ export function conductJudicialNominationFloor(
     }
     const conflict = scheduledConflictExists(next, [memberId], start, end);
     const decision = evaluateDecision(next, {
-      stableKey: `judicial-floor:${selectionRecordId}:attendance:${memberId}`,
+      stableKey: `judicial-floor:${selectionRecordId}:${due.id}:attendance:${memberId}`,
       decisionType: "judiciary.nomination-floor-attendance",
       actorPersonId: memberId,
       cutoff: currentHistoricalCutoff(next),
@@ -1070,7 +1083,7 @@ export function conductJudicialNominationFloor(
       constraints: conflict
         ? [
             {
-              stableKey: `judicial-floor:${selectionRecordId}:conflict:${memberId}`,
+              stableKey: `judicial-floor:${selectionRecordId}:${due.id}:conflict:${memberId}`,
               optionKey: "attend",
               kind: "calendar-conflict",
               explanation: "A saved activity overlaps the Senate sitting.",
@@ -1080,7 +1093,7 @@ export function conductJudicialNominationFloor(
         : [],
       considerations: [
         {
-          stableKey: `judicial-floor:${selectionRecordId}:calendar:${memberId}`,
+          stableKey: `judicial-floor:${selectionRecordId}:${due.id}:calendar:${memberId}`,
           optionKey: "attend",
           sourceType: "context:government",
           direction: "supports",
@@ -1106,7 +1119,7 @@ export function conductJudicialNominationFloor(
       });
   }
   next = recordWorldEvent(next, {
-    stableKey: `${JUDICIAL_FLOOR_SITTING_EVENT}:${selectionRecordId}`,
+    stableKey: `${JUDICIAL_FLOOR_SITTING_EVENT}:${selectionRecordId}:${due.id}`,
     type: JUDICIAL_FLOOR_SITTING_EVENT,
     occurredAt: next.currentDate,
     recordedAt: next.currentDate,
@@ -1121,9 +1134,13 @@ export function conductJudicialNominationFloor(
     visibility: "public",
     tags: [
       selectionTag(selectionRecordId),
+      `due:${due.id}`,
       `calendar:${calendar.id}`,
       `report:${report.id}`,
       `hearing:${hearing.id}`,
+      ...senate.body.members.flatMap((member) =>
+        member.personId ? [`roster:${member.personId}`] : [],
+      ),
       ...present.map((id) => `attendee:${id}`),
       ...[...absent.keys()].map((id) => `absent:${id}`),
       ...(controlled?.completionEventId
@@ -1177,6 +1194,7 @@ export function conductJudicialNominationFloor(
             ? controlled.ballot!
             : controlled.attendance,
         reason: controlled.reason,
+        expectedSittingId: sittingId,
       });
     } else if (absent.has(memberId)) {
       const disposition = absent.get(memberId)!;
@@ -1185,6 +1203,7 @@ export function conductJudicialNominationFloor(
         senatorPersonId: memberId,
         ballot: disposition.disposition,
         reason: disposition.reason,
+        expectedSittingId: sittingId,
       });
     } else {
       next = recordNpcFederalJudicialSenateBallot(
@@ -1195,7 +1214,21 @@ export function conductJudicialNominationFloor(
     }
   }
   const status = federalJudicialSenateVoteStatus(next, selectionRecordId);
-  if (status.state !== "ready") return next;
+  if (status.state !== "ready") {
+    // PLACEHOLDER(wave2): a nomination left unresolved at an actual sitting
+    // returns on the game's next Congress date. The earlier roll call remains.
+    return scheduleFutureDueItem(next, {
+      stableKey: `${JUDICIAL_FLOOR_TRANSITION}:${selectionRecordId}:retry:${sittingId}`,
+      dueAt: nextCongressSitting(next.currentDate),
+      transitionKey: JUDICIAL_FLOOR_TRANSITION,
+      entityIds: [pending.nomineeId],
+      jurisdictionId: null,
+      provenance: {
+        kind: "simulated",
+        sourceEntityIds: [calendar.id, sittingId],
+      },
+    });
+  }
   // PLACEHOLDER(wave2): the ordinary Senate majority rule is used by the
   // existing confirmation writer until a nomination-specific rule is saved.
   return resolveFederalJudicialSenateVote(next, selectionRecordId);
@@ -1228,7 +1261,8 @@ export function recordControlledJudicialNominationFloorChoice(
     throw new Error(
       "Only a controlled seated Senator can act on this floor date.",
     );
-  if (floorSitting(world, selectionRecordId)) return world;
+  if (floorSitting(world, selectionRecordId)?.tags.includes(`due:${due.id}`))
+    return world;
   if (
     !choice.reason.trim() ||
     !["attend", "absent"].includes(choice.attendance) ||
@@ -1249,7 +1283,7 @@ export function recordControlledJudicialNominationFloorChoice(
     if (scheduledConflictExists(world, [controlledId], start, end))
       throw new Error("A saved activity prevents Senate floor attendance.");
     next = createScheduledActivity(world, {
-      stableKey: `judicial-floor:${selectionRecordId}:controlled-attendance`,
+      stableKey: `judicial-floor:${selectionRecordId}:${due.id}:controlled-attendance`,
       title: "Senate judicial nomination floor sitting",
       summary: "Attend the Senate floor sitting for the reported nomination.",
       kind: "confirmed",

@@ -6,18 +6,25 @@ import {
 } from "../../presentation/opening-life";
 import { openOrdinaryLife } from "../../presentation/ordinary-life";
 import { currentPresidentOf } from "../crisis/offices";
+import { addDays } from "../dates";
 import { createDemoWorld } from "../demo";
 import { LIFE_MIND_IDS } from "../life-mind-content";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
-import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
+import {
+  currentStateExecutiveHolders,
+  ensureStateExecutiveIncumbent,
+  ensureStateJurisdictionForKey,
+} from "../nationwide-world/state-executives";
 import { deserializeWorld, serializeWorld } from "../serialization";
-import { recordWorldEvent } from "../world";
-import { addJudicialCourt, seatHolderAt } from "./courts";
+import type { World } from "../types";
+import { advanceWorld, recordWorldEvent } from "../world";
+import { addJudicialCourt, seatHolderAt, seatJudge } from "./courts";
 import {
   interviewFederalJudicialCandidate,
   recordFederalJudicialCandidateResponse,
 } from "./candidate-interview";
 import {
+  completeStateJudicialSelection,
   judicialSelectionById,
   judicialSelectionProgress,
   judicialRetentionPasses,
@@ -52,7 +59,7 @@ const plan: JudicialSelectionPlan = {
   ],
 };
 
-function opening(recordId = sourceRecordId) {
+function opening(recordId = sourceRecordId, termYears?: number) {
   const usps = recordId.slice(3, 5).toUpperCase();
   const world = ensureStateJurisdictionForKey(
     createDemoWorld("judicial-selection-stage-order", { peopleCount: 3 }),
@@ -74,7 +81,15 @@ function opening(recordId = sourceRecordId) {
         basis: "game-profile",
         referenceId: "fixture:size",
       },
-      termYears: { state: "unknown", reason: "fixture" },
+      termYears:
+        termYears === undefined
+          ? { state: "unknown", reason: "fixture" }
+          : {
+              state: "known",
+              value: termYears,
+              basis: "sourced",
+              referenceId: recordId,
+            },
       mandatoryRetirementAge: { state: "unknown", reason: "fixture" },
       caseJurisdiction: { state: "unknown", reason: "fixture" },
       selectionRecordId: recordId,
@@ -360,5 +375,126 @@ describe("judicial selection lifecycle", () => {
       nextOrder: 2,
     });
     expect(world.judiciary!.seatTenures).toHaveLength(0);
+  });
+
+  it("seats a completed state selection once and closes a due prior tenure", () => {
+    let world = opening("us-ct:highest_court", 8);
+    const priorId = world.personOrder[0]!;
+    const successorId = world.personOrder[1]!;
+    const actorId = world.personOrder[2]!;
+    world = ensureStateExecutiveIncumbent(world, priorId, "CT");
+    const governorId = currentStateExecutiveHolders(world).find(
+      (holder) => holder.stateUsps === "CT",
+    )!.personId;
+    world = seatJudge(world, {
+      seatId,
+      personId: priorId,
+      startedAt: world.currentDate,
+      selection: {
+        path: "initial-world",
+        selectionRecordId: null,
+        decisionRecordId: null,
+        selectingPersonId: null,
+        contestId: null,
+        note: "Fixture incumbent",
+      },
+      termEndsAt: addDays(world.currentDate, 1),
+      retentionDueAt: null,
+    });
+    world = advanceWorld(world, 1);
+    expect(seatHolderAt(world, seatId)).toBeNull();
+    expect(world.judiciary!.seatTenures[0]!.endedAt).toBeNull();
+    world = openJudicialSelectionFromProfile(world, {
+      seatId,
+      kind: "vacancy",
+      candidatePersonIds: [successorId],
+    });
+    const selectionRecordId = world.judiciary!.selections.at(-1)!.recordId;
+    const resolved = resolveJudicialSelectionPlan(world, seatId, "vacancy");
+    expect(resolved.state).toBe("ready");
+    if (resolved.state !== "ready") return;
+    expect(resolved.plan.stages.map((stage) => stage.mechanism)).toEqual([
+      "MERIT_COMMISSION_SHORTLIST",
+      "EXECUTIVE_APPOINTMENT",
+      "LEGISLATIVE_CONFIRMATION",
+    ]);
+    const stage = (
+      before: World,
+      order: number,
+      outcome: "completed" | "rejected",
+      actorPersonId = order === 2 ? governorId : actorId,
+    ) => {
+      const withEvent = recordWorldEvent(before, {
+        stableKey: `fixture:state-stage:${order}:${outcome}`,
+        type: "judicial.fixture-stage",
+        occurredAt: before.currentDate,
+        recordedAt: before.currentDate,
+        jurisdictionId: before.judiciary!.courts[courtId]!.jurisdictionId,
+        involvedEntityIds: [successorId, actorId],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: [`selection:${selectionRecordId}`],
+        summary: "A fixture state selection stage was recorded.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      return recordJudicialSelectionStage(withEvent, {
+        selectionRecordId,
+        plan: resolved.plan,
+        occurredAt: withEvent.currentDate,
+        actorPersonId,
+        candidatePersonId: successorId,
+        outcome,
+        decisionRecordId: null,
+        electionContestId: null,
+        outcomeEventId: withEvent.history.events.at(-1)!.id,
+      });
+    };
+    expect(() =>
+      completeStateJudicialSelection(world, selectionRecordId),
+    ).toThrow("not completed");
+    const failed = stage(world, 1, "rejected");
+    expect(() =>
+      completeStateJudicialSelection(failed, selectionRecordId),
+    ).toThrow("not completed");
+    expect(seatHolderAt(failed, seatId)).toBeNull();
+    expect(failed.judiciary!.seatTenures[0]!.endedAt).toBeNull();
+
+    world = stage(world, 1, "completed");
+    expect(() =>
+      completeStateJudicialSelection(world, selectionRecordId),
+    ).toThrow("not completed");
+    expect(() => stage(world, 2, "completed", actorId)).toThrow(
+      "not the sitting state executive",
+    );
+    world = stage(world, 2, "completed");
+    world = stage(world, 3, "completed");
+    const before = world;
+    world = completeStateJudicialSelection(world, selectionRecordId);
+    expect(before.judiciary!.seatTenures[0]!.endedAt).toBeNull();
+    expect(world.judiciary!.seatTenures[0]).toMatchObject({
+      personId: priorId,
+      endedAt: world.currentDate,
+      endReason: "term-expired",
+    });
+    expect(seatHolderAt(world, seatId)?.personId).toBe(successorId);
+    expect(world.judiciary!.seatTenures.at(-1)!.selection).toMatchObject({
+      path: "appointment",
+      selectionRecordId,
+      selectingPersonId: actorId,
+    });
+    expect(world.judiciary!.seatTenures.at(-1)!.retentionDueAt).toBeNull();
+    const reopened = deserializeWorld(serializeWorld(world));
+    expect(seatHolderAt(reopened, seatId)?.personId).toBe(successorId);
+    expect(() =>
+      completeStateJudicialSelection(reopened, selectionRecordId),
+    ).toThrow("already began a judicial tenure");
   });
 });

@@ -232,7 +232,7 @@ export function projectJudicialSelection(
       )
     : null;
   const floorSitting = senateStage
-    ? world.history.events.find(
+    ? world.history.events.findLast(
         (event) =>
           event.type === JUDICIAL_FLOOR_SITTING_EVENT &&
           event.tags.includes(`selection:${selection.recordId}`),
@@ -251,10 +251,14 @@ export function projectJudicialSelection(
       item.stableKey.endsWith(`:${selection.recordId}`),
   );
   const floorDue = senateStage
-    ? world.history.futureDueItems.find(
+    ? world.history.futureDueItems.findLast(
         (item) =>
           item.transitionKey === JUDICIAL_FLOOR_TRANSITION &&
-          item.stableKey.endsWith(`:${selection.recordId}`),
+          (item.stableKey ===
+            `${JUDICIAL_FLOOR_TRANSITION}:${selection.recordId}` ||
+            item.stableKey.startsWith(
+              `${JUDICIAL_FLOOR_TRANSITION}:${selection.recordId}:retry:`,
+            )),
       )
     : null;
   const floorDueMatchesCalendar =
@@ -318,7 +322,7 @@ export function projectJudicialSelection(
                   appointment?.memberPersonIds.includes(controlledPersonId)
                 ? ("report-business" as const)
                 : floorDueMatchesCalendar &&
-                    !floorSitting &&
+                    !floorSitting?.tags.includes(`due:${floorDue!.id}`) &&
                     !floorResult &&
                     floorDue?.dueAt === world.currentDate &&
                     controlledSenator
@@ -347,7 +351,10 @@ export function projectJudicialSelection(
         return "Judiciary reported the nomination, but Executive Calendar admission is missing.";
       if (floorResult) return "The Senate recorded a final nomination result.";
       if (floorSitting)
-        return "The Senate floor sat, but no final nomination result is recorded.";
+        return floorDue?.provenance.kind === "simulated" &&
+          floorDue.provenance.sourceEntityIds.includes(floorSitting.id)
+          ? `The Senate floor sat without a final nomination result. A new sitting is due ${proseDate(floorDue.dueAt)}.`
+          : "The Senate floor sat, but no final nomination result is recorded.";
       return floorDueMatchesCalendar
         ? `Judiciary reported the nomination and it entered the Executive Calendar. Senate floor consideration is due ${proseDate(floorDue!.dueAt)}; no floor vote is recorded.`
         : "Judiciary reported the nomination and it entered the Executive Calendar. No valid floor date or final Senate vote is recorded.";

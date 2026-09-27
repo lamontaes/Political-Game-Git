@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import { projectJudicialSelection } from "../../presentation/judicial-selection";
 import {
@@ -200,6 +200,124 @@ function withFixtureFloorAdmission(world: World, selectionRecordId: string) {
     `calendar:${calendarId}`,
   ]);
 }
+
+describe("judicial ballots across separate floor sittings", () => {
+  let pending: ReturnType<typeof pendingNomination>;
+  beforeAll(() => {
+    pending = pendingNomination();
+  });
+
+  it("refuses an earlier sitting and counts only the current sitting's ballots", () => {
+    const { selectionRecordId, nomineeId } = pending;
+    let world = withFixtureFloorAdmission(pending.world, selectionRecordId);
+    const firstSitting = world.history.events.at(-1)!;
+    const calendarId = firstSitting.tags
+      .find((tag) => tag.startsWith("calendar:"))!
+      .slice("calendar:".length);
+    const senate = seatedCongressChamber(world, "senate")!;
+    const senator = senate.body.members.find((member) => member.personId)!;
+    world = recordFederalJudicialSenateBallot(world, {
+      selectionRecordId,
+      senatorPersonId: senator.personId!,
+      ballot: "absent",
+      reason: "The Senator missed the first fixture sitting.",
+      expectedSittingId: firstSitting.id,
+    });
+    world = recordWorldEvent(world, {
+      stableKey: `fixture:judicial.senate-floor-sitting:${selectionRecordId}:retry`,
+      type: "judicial.senate-floor-sitting",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [nomineeId, senator.personId!],
+      participants: [
+        {
+          personId: senator.personId!,
+          role: "presence:participant",
+          detail: "Senator at second fixture sitting",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        `selection:${selectionRecordId}`,
+        `calendar:${calendarId}`,
+        ...senate.body.members.flatMap((member) =>
+          member.personId ? [`roster:${member.personId}`] : [],
+        ),
+        `attendee:${senator.personId}`,
+      ],
+      summary: "A second fixture Senate floor sitting began.",
+      context: {
+        location: null,
+        socialContext: "Fixture judicial nomination floor sitting",
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const secondSitting = world.history.events.at(-1)!;
+    expect(
+      federalJudicialSenateVoteStatus(world, selectionRecordId),
+    ).toMatchObject({
+      state: "unresolved",
+      reason: `The Senate has unrecorded ballots, beginning with ${senator.name}.`,
+    });
+    expect(() =>
+      recordFederalJudicialSenateBallot(world, {
+        selectionRecordId,
+        senatorPersonId: senator.personId!,
+        ballot: "present-not-voting",
+        reason: "A new sitting needs a new choice.",
+        expectedSittingId: firstSitting.id,
+      }),
+    ).toThrow("earlier floor sitting");
+    expect(() =>
+      recordFederalJudicialSenateBallot(world, {
+        selectionRecordId,
+        senatorPersonId: senator.personId!,
+        ballot: "absent",
+        reason: "The Senator was actually present.",
+        expectedSittingId: secondSitting.id,
+      }),
+    ).toThrow("match recorded sitting attendance");
+    world = recordFederalJudicialSenateBallot(world, {
+      selectionRecordId,
+      senatorPersonId: senator.personId!,
+      ballot: "present-not-voting",
+      reason: "The Senator attended without taking a position.",
+      expectedSittingId: secondSitting.id,
+    });
+    expect(world.history.events.at(-1)!.tags).toContain(
+      `sitting:${secondSitting.id}`,
+    );
+    expect(
+      world.history.events.filter(
+        (event) =>
+          event.type === "judicial.senate-ballot" &&
+          event.tags.includes(`senator:${senator.personId}`),
+      ),
+    ).toHaveLength(2);
+    expect(
+      recordFederalJudicialSenateBallot(world, {
+        selectionRecordId,
+        senatorPersonId: senator.personId!,
+        ballot: "present-not-voting",
+        reason: "Duplicate second-sitting choice.",
+        expectedSittingId: secondSitting.id,
+      }),
+    ).toBe(world);
+    const reopened = deserializeWorld(serializeWorld(world));
+    expect(
+      reopened.history.events.filter(
+        (event) =>
+          event.type === "judicial.senate-ballot" &&
+          event.tags.includes(`senator:${senator.personId}`),
+      ),
+    ).toHaveLength(2);
+  });
+});
 
 /** A test-only occurrence for direct hearing-writer and tenure assertions. */
 function preparedHearingForAttendees(

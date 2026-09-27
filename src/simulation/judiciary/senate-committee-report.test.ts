@@ -1,18 +1,20 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import { projectJudicialSelection } from "../../presentation/judicial-selection";
 import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { currentPresidentOf } from "../crisis/offices";
-import { addDays } from "../dates";
+import { addDays, simulationMomentAtLocalTime } from "../dates";
 import { currentFederalTenure } from "../federal-tenures";
 import { resolveFutureDueItemsThrough } from "../future-transitions";
 import { seatedCongressChamber } from "../governing/congress-chambers";
 import { LIFE_MIND_IDS } from "../life-mind-content";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { createScheduledActivity } from "../time-work";
 import type { EntityId, World } from "../types";
 import { seatHolderAt, seatsForCourt, vacateJudicialSeat } from "./courts";
 import { FEDERAL_COURTS_PROJECTION } from "./generated/federal-courts";
@@ -25,6 +27,7 @@ import {
   JUDICIAL_SENATE_BALLOT_EVENT,
   JUDICIAL_SENATE_RESULT_EVENT,
   JUDICIAL_CONFIRMATION_HEARING_EVENT,
+  federalJudicialSenateVoteStatus,
   recordFederalJudicialSenateBallot,
 } from "./federal-confirmation";
 import {
@@ -392,6 +395,159 @@ describe("judicial nomination report business", () => {
         (event) => event.type === JUDICIAL_SENATE_BALLOT_EVENT,
       ),
     ).toHaveLength(ballots.length);
+  });
+
+  it("returns a no-quorum nomination to a fresh saved floor sitting", () => {
+    let world = heardWorld;
+    const appointment = senateJudiciaryAppointment(world)!;
+    world = {
+      ...world,
+      control: { kind: "person", personId: appointment.chairPersonId },
+    };
+    if (
+      !world.history.events.some(
+        (event) =>
+          event.type === JUDICIAL_REPORT_NOTICE_EVENT &&
+          event.tags.includes(`selection:${pending.selectionRecordId}`),
+      )
+    )
+      world = recordControlledJudiciaryReportNotice(
+        world,
+        pending.selectionRecordId,
+      );
+    world = resolveFutureDueItemsThrough(
+      world,
+      dueFor(world, JUDICIAL_REPORT_TRANSITION).dueAt,
+      registry,
+    );
+    world = recordControlledJudiciaryReportChoice(
+      world,
+      pending.selectionRecordId,
+      {
+        attendance: "attend",
+        ballot: "report-favorably",
+      },
+    );
+    const calendar = world.history.events.findLast(
+      (event) =>
+        event.type === JUDICIAL_EXEC_CALENDAR_EVENT &&
+        event.tags.includes(`selection:${pending.selectionRecordId}`),
+    )!;
+    const firstDue = dueFor(world, JUDICIAL_FLOOR_TRANSITION);
+    world = resolveFutureDueItemsThrough(world, firstDue.dueAt, registry);
+    const npcIds = seatedCongressChamber(world, "senate")!
+      .body.members.flatMap((member) =>
+        member.personId ? [member.personId] : [],
+      )
+      .filter((id) => id !== appointment.chairPersonId);
+    const moment = (minuteOfDay: number) =>
+      simulationMomentAtLocalTime({
+        date: world.currentDate,
+        minuteOfDay,
+        timeZone: world.currentMoment.timeZone,
+        preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
+      });
+    world = createScheduledActivity(world, {
+      stableKey: `fixture:judicial-floor:npc-conflict:${pending.selectionRecordId}`,
+      title: "Fixture conflict for other Senators",
+      summary:
+        "A saved overlapping commitment prevents the other Senators from attending this sitting.",
+      kind: "confirmed",
+      start: moment(13 * 60),
+      end: moment(14 * 60),
+      participantPersonIds: npcIds,
+      responsiblePersonId: npcIds[0]!,
+      location: {
+        locationKey: "fixture:senate-other-business",
+        label: "Fixture Senate other business",
+        jurisdictionId: null,
+      },
+      sourceEntityIds: [calendar.id],
+      flexibility: { kind: "fixed" },
+      access: { kind: "office" },
+    });
+    world = recordControlledJudicialNominationFloorChoice(
+      world,
+      pending.selectionRecordId,
+      {
+        attendance: "attend",
+        ballot: "yea",
+        reason:
+          "I attended and support the nominee on the public hearing record.",
+      },
+    );
+    const firstSitting = world.history.events.findLast(
+      (event) =>
+        event.type === JUDICIAL_FLOOR_SITTING_EVENT &&
+        event.tags.includes(`selection:${pending.selectionRecordId}`),
+    )!;
+    expect(
+      federalJudicialSenateVoteStatus(world, pending.selectionRecordId),
+    ).toMatchObject({
+      state: "unresolved",
+      reason: expect.stringContaining("lacks a quorum"),
+    });
+    const retryDue = world.history.futureDueItems.findLast(
+      (item) =>
+        item.transitionKey === JUDICIAL_FLOOR_TRANSITION &&
+        item.provenance.kind === "simulated" &&
+        item.provenance.sourceEntityIds.includes(firstSitting.id),
+    )!;
+    expect(retryDue.dueAt > firstDue.dueAt).toBe(true);
+    const oldBallotIds = world.history.events
+      .filter(
+        (event) =>
+          event.type === JUDICIAL_SENATE_BALLOT_EVENT &&
+          event.tags.includes(`sitting:${firstSitting.id}`),
+      )
+      .map((event) => event.id);
+    world = resolveFutureDueItemsThrough(world, retryDue.dueAt, registry);
+    expect(
+      projectJudicialSelection(world, pending.seatId)?.playerSenateAction,
+    ).toBe("floor-vote");
+    world = recordControlledJudicialNominationFloorChoice(
+      world,
+      pending.selectionRecordId,
+      {
+        attendance: "attend",
+        ballot: "yea",
+        reason: "I made a fresh choice after attending the later sitting.",
+      },
+    );
+    const secondSitting = world.history.events.findLast(
+      (event) =>
+        event.type === JUDICIAL_FLOOR_SITTING_EVENT &&
+        event.tags.includes(`selection:${pending.selectionRecordId}`),
+    )!;
+    expect(secondSitting.id).not.toBe(firstSitting.id);
+    expect(secondSitting.tags).toContain(`due:${retryDue.id}`);
+    expect(
+      oldBallotIds.every((id) =>
+        world.history.events.some((event) => event.id === id),
+      ),
+    ).toBe(true);
+    expect(
+      world.history.events.filter(
+        (event) =>
+          event.type === JUDICIAL_SENATE_BALLOT_EVENT &&
+          event.tags.includes(`sitting:${secondSitting.id}`),
+      ).length,
+    ).toBeGreaterThan(0);
+    expect(
+      world.history.events.filter(
+        (event) =>
+          event.type === JUDICIAL_SENATE_RESULT_EVENT &&
+          event.tags.includes(`selection:${pending.selectionRecordId}`),
+      ),
+    ).toHaveLength(1);
+    const reopened = deserializeWorld(serializeWorld(world));
+    expect(
+      reopened.history.events.findLast(
+        (event) =>
+          event.type === JUDICIAL_SENATE_RESULT_EVENT &&
+          event.tags.includes(`selection:${pending.selectionRecordId}`),
+      )?.tags,
+    ).toContain(`sitting:${secondSitting.id}`);
   });
 
   it.each(

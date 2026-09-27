@@ -53,7 +53,7 @@ function admittedNominationAtFloorSitting(
       )
     : null;
   return calendar
-    ? (world.history.events.find(
+    ? (world.history.events.findLast(
         (event) =>
           event.type === "judicial.senate-floor-sitting" &&
           event.tags.includes(`selection:${selectionRecordId}`) &&
@@ -118,6 +118,7 @@ export function recordFederalJudicialSenateBallot(
     readonly senatorPersonId: EntityId;
     readonly ballot: SenateBallot;
     readonly reason: string;
+    readonly expectedSittingId?: EntityId;
   },
 ): World {
   const pending = pendingFederalJudicialNomination(
@@ -156,6 +157,8 @@ export function recordFederalJudicialSenateBallot(
     world,
     input.selectionRecordId,
   );
+  if (input.expectedSittingId && floorSitting?.id !== input.expectedSittingId)
+    throw new Error("The Senate ballot targets an earlier floor sitting.");
   if (!floorSitting && !legacyBallotAlreadyRecorded)
     throw new Error(
       "A committee report, Executive Calendar admission, and actual floor sitting are needed before a new Senate ballot.",
@@ -179,7 +182,10 @@ export function recordFederalJudicialSenateBallot(
     (event) =>
       event.type === JUDICIAL_SENATE_BALLOT_EVENT &&
       event.tags.includes(`selection:${input.selectionRecordId}`) &&
-      event.tags.includes(`senator:${input.senatorPersonId}`),
+      event.tags.includes(`senator:${input.senatorPersonId}`) &&
+      (floorSitting
+        ? event.tags.includes(`sitting:${floorSitting.id}`)
+        : !event.tags.some((tag) => tag.startsWith("sitting:"))),
   );
   if (recorded) return world;
   if (
@@ -294,14 +300,47 @@ export function federalJudicialSenateVoteStatus(
       state: "unresolved",
       reason: "The Senate vote rule is unresolved.",
     };
+  const sitting = admittedNominationAtFloorSitting(world, selectionRecordId);
+  const savedRoster = sitting
+    ? new Set(
+        sitting.tags
+          .filter((tag) => tag.startsWith("roster:"))
+          .map((tag) => tag.slice("roster:".length)),
+      )
+    : null;
+  // Earlier saved first sittings carry attendee/absent tags but no roster tag.
+  if (sitting && savedRoster && savedRoster.size === 0) {
+    for (const tag of sitting.tags) {
+      if (tag.startsWith("attendee:"))
+        savedRoster.add(tag.slice("attendee:".length));
+      if (tag.startsWith("absent:"))
+        savedRoster.add(tag.slice("absent:".length));
+    }
+  }
+  const members = senate.body.members.filter(
+    (member) => member.personId !== null,
+  );
+  if (
+    savedRoster &&
+    savedRoster.size > 0 &&
+    (members.length !== savedRoster.size ||
+      members.some((member) => !savedRoster.has(member.personId!)))
+  )
+    return {
+      state: "unresolved",
+      reason: "The Senate seating changed after this floor sitting.",
+    };
   const dispositions: LegislativeVoteDisposition[] = [];
-  for (const member of senate.body.members) {
+  for (const member of members) {
     const latest = world.history.events
       .filter(
         (event) =>
           event.type === JUDICIAL_SENATE_BALLOT_EVENT &&
           event.tags.includes(`selection:${selectionRecordId}`) &&
-          event.tags.includes(`senator:${member.personId}`),
+          event.tags.includes(`senator:${member.personId}`) &&
+          (sitting
+            ? event.tags.includes(`sitting:${sitting.id}`)
+            : !event.tags.some((tag) => tag.startsWith("sitting:"))),
       )
       .at(-1);
     const disposition = latest?.context.immediateReaction;
@@ -359,6 +398,7 @@ export function resolveFederalJudicialSenateVote(
   const pending = pendingFederalJudicialNomination(world, selectionRecordId);
   const status = federalJudicialSenateVoteStatus(world, selectionRecordId);
   if (status.state !== "ready") throw new Error(status.reason);
+  const sitting = admittedNominationAtFloorSitting(world, selectionRecordId);
   const nominee = world.people[pending.nomineeId]!;
   let next = recordWorldEvent(world, {
     stableKey: `${JUDICIAL_SENATE_RESULT_EVENT}:${selectionRecordId}`,
@@ -378,6 +418,7 @@ export function resolveFederalJudicialSenateVote(
     visibility: "public",
     tags: [
       `selection:${selectionRecordId}`,
+      ...(sitting ? [`sitting:${sitting.id}`] : []),
       `outcome:${status.outcome}`,
       `yea:${status.tally.yea}`,
       `nay:${status.tally.nay}`,
