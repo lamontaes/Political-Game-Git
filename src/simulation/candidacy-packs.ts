@@ -17,6 +17,8 @@ import type {
 import type { ElectiveOfficeRef } from "./types";
 import { candidateQualificationRuleSet } from "./candidate-qualification";
 import { makeIsoDate } from "./dates";
+import { judicialSelectionProfile } from "./judiciary/profiles";
+import { judicialSeatId } from "./judiciary/types";
 import { stateExecutiveCandidacyPacks } from "./nationwide-world/state-executive-candidacy-packs";
 import {
   congressCandidacyPack,
@@ -112,14 +114,117 @@ export interface ElectiveOfficeOption {
   readonly unresolvedGaps: readonly string[];
 }
 
-export interface CandidacyPack {
+interface CandidacyPackFields {
   readonly packId: string;
   readonly jurisdictionKey: string;
   readonly displayName: string;
-  /** The accepted legislative pack every office below is derived from. */
-  readonly legislativeRulePackId: string;
   readonly offices: readonly ElectiveOfficeOption[];
   readonly unresolvedGaps: readonly string[];
+}
+
+/** Existing legislative, executive, local and Congress filing authorities. */
+export interface LegislativeCandidacyPack extends CandidacyPackFields {
+  readonly authorityKind?: "legislative";
+  readonly legislativeRulePackId: string;
+}
+
+/** A court seat's election authority never masquerades as a legislature. */
+export interface JudicialCandidacyPack extends CandidacyPackFields {
+  readonly authorityKind: "judicial";
+  readonly legislativeRulePackId: null;
+  readonly judicialSelectionRecordId: string;
+  readonly judicialSeatId: string;
+}
+
+export type CandidacyPack = LegislativeCandidacyPack | JudicialCandidacyPack;
+
+const JUDICIAL_CANDIDACY_PREFIX = "judicial-candidacy:";
+const JUDICIAL_ELECTION_PREFIX = "judicial-election:";
+
+export function judicialElectionOfficeKey(seatId: string): string {
+  return `${JUDICIAL_ELECTION_PREFIX}${seatId}`;
+}
+
+export function judicialSeatIdForElectionOfficeKey(
+  officeKey: string,
+): string | null {
+  return officeKey.startsWith(JUDICIAL_ELECTION_PREFIX)
+    ? officeKey.slice(JUDICIAL_ELECTION_PREFIX.length)
+    : null;
+}
+
+/** Static authority reconstruction for saved campaigns; the live offer checks World. */
+export function judicialCandidacyPackForSeatId(
+  seatId: string,
+): JudicialCandidacyPack | null {
+  const marker = seatId.lastIndexOf(":seat:");
+  if (marker < 1) return null;
+  const courtId = seatId.slice(0, marker);
+  const ordinal = Number(seatId.slice(marker + ":seat:".length));
+  if (
+    !Number.isSafeInteger(ordinal) ||
+    ordinal < 1 ||
+    judicialSeatId(courtId, ordinal) !== seatId
+  )
+    return null;
+  const profile = judicialSelectionProfile(courtId);
+  if (
+    !profile ||
+    !/^us-[a-z]{2}$/.test(profile.jurisdictionId) ||
+    profile.officeExists.state !== "KNOWN" ||
+    profile.officeExists.value !== true ||
+    profile.courtName.state !== "KNOWN" ||
+    !profile.courtName.value
+  )
+    return null;
+  const officeKey = judicialElectionOfficeKey(seatId);
+  const jurisdictionKey = `US-${profile.jurisdictionId.slice(3).toUpperCase()}`;
+  const gaps = [
+    "The 92L selection record is retrieved research synthesis; its cited primary authorities have not been retrieved.",
+    "The seat and current election path must be verified against the saved World at filing.",
+    "The exact judicial election calendar and filing authority are unresolved.",
+    "Current judicial ballot qualification and runoff rules need an admitted dated workflow before filing opens.",
+  ];
+  return {
+    authorityKind: "judicial",
+    packId: `${JUDICIAL_CANDIDACY_PREFIX}${seatId}`,
+    jurisdictionKey,
+    displayName: profile.courtName.value,
+    legislativeRulePackId: null,
+    judicialSelectionRecordId: profile.recordId,
+    judicialSeatId: seatId,
+    offices: [
+      {
+        officeKey,
+        office: {
+          officeKey,
+          title: `${profile.courtName.value} Judge, Seat ${ordinal}`,
+          seatKey: seatId,
+          occupationClassification: null,
+        },
+        chamberName: profile.courtName.value,
+        seats: unknownRule(
+          "The authorized court size is read from the saved court rules, not the 92L office-family record.",
+        ),
+        recordedBy: {
+          packId: profile.recordId,
+          packName: "92L judicial selection research synthesis",
+        },
+        qualification: {
+          minimumAge: unknownRule(
+            "Assessed from the dated 92L judicial qualification record.",
+          ),
+          residency: unknownRule(
+            "Assessed from recorded home and residence facts.",
+          ),
+          termYears: unknownRule("Read from the operative saved court rules."),
+          filing: unknownRule("Judicial filing procedure is unresolved."),
+        },
+        unresolvedGaps: gaps,
+      },
+    ],
+    unresolvedGaps: gaps,
+  };
 }
 
 /**
@@ -413,7 +518,7 @@ export function stateChamberName(
  */
 export function candidacyPackFromRulePack(
   pack: LegislativeRulePack,
-): CandidacyPack {
+): LegislativeCandidacyPack {
   const offices = pack.chambers.map((chamber): ElectiveOfficeOption => {
     const officeKey = `${pack.packId}:${chamber.chamberKey}`;
     const chamberName = stateChamberName(pack.jurisdictionKey, chamber.name);
@@ -474,9 +579,8 @@ export function candidacyPackFromRulePack(
   };
 }
 
-const CANDIDACY_PACKS: readonly CandidacyPack[] = LEGISLATIVE_RULE_PACKS.map(
-  candidacyPackFromRulePack,
-);
+const CANDIDACY_PACKS: readonly LegislativeCandidacyPack[] =
+  LEGISLATIVE_RULE_PACKS.map(candidacyPackFromRulePack);
 
 export function candidacyPacks(): readonly CandidacyPack[] {
   return CANDIDACY_PACKS;
@@ -495,8 +599,17 @@ export function candidacyPackById(packId: string): CandidacyPack | null {
     stateExecutiveCandidacyPacks().find((pack) => pack.packId === packId) ??
     localGoverningBodyPack(packId) ??
     generatedCandidacyPackById(packId) ??
-    congressPack(packId)
+    congressPack(packId) ??
+    judicialPack(packId)
   );
+}
+
+function judicialPack(packId: string): JudicialCandidacyPack | null {
+  return packId.startsWith(JUDICIAL_CANDIDACY_PREFIX)
+    ? judicialCandidacyPackForSeatId(
+        packId.slice(JUDICIAL_CANDIDACY_PREFIX.length),
+      )
+    : null;
 }
 
 /** A seat in Congress, resolved from its own pack id; built on demand. */

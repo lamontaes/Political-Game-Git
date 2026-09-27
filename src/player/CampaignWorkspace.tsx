@@ -26,6 +26,7 @@ import type {
   World,
 } from "../simulation";
 import { candidacyEligibility, districtSeatMustBeNamed } from "../simulation";
+import { judicialSeatIdForElectionOfficeKey } from "../simulation/candidacy-packs";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { DistrictResidencePanel } from "./DistrictResidencePanel";
 import { CampaignWeekPanel } from "./CampaignWeekPanel";
@@ -486,9 +487,17 @@ export function CampaignWorkspace({
             </span>
             <span className="game-campaign-action-note">
               {selectedOffice && person
-                ? `The election is ${readableCampaignDate(campaignElectionDate(world, person.homeJurisdictionId, selectedOffice.officeKey))}. `
+                ? judicialSeatIdForElectionOfficeKey(
+                    selectedOffice.officeKey,
+                  ) !== null
+                  ? "The judicial election date is unresolved, so filing is unavailable."
+                  : `The election is ${readableCampaignDate(campaignElectionDate(world, person.homeJurisdictionId, selectedOffice.officeKey))}. `
                 : ""}
-              The committee opens with nothing in it.
+              {selectedOffice &&
+              judicialSeatIdForElectionOfficeKey(selectedOffice.officeKey) !==
+                null
+                ? ""
+                : "The committee opens with nothing in it."}
             </span>
           </button>
           {boundRefusal ? (

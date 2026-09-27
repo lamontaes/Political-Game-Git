@@ -10,6 +10,11 @@ import {
 import type { EntityId, World } from "../simulation";
 import { campaignElectionDate } from "./campaign-projection";
 import { proseDate } from "./prose-dates";
+import {
+  judicialCandidacyPackForSeatId,
+  judicialSeatIdForElectionOfficeKey,
+} from "../simulation/candidacy-packs";
+import { chiefExecutiveJurisdictionId } from "../simulation/nationwide-world/government-jurisdiction";
 
 /** Read-only established alternatives, not a national office/calendar engine. */
 export function projectCampaignOffices(world: World, personId: EntityId) {
@@ -17,8 +22,17 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
   if (!person) throw new Error("This character is not in the world.");
   const authority = candidacyAuthority(person.homeJurisdictionId);
   const campaign = campaignForCandidate(world, personId);
-  return electiveOfficesForJurisdiction(person.homeJurisdictionId).map(
+  return electiveOfficesForJurisdiction(person.homeJurisdictionId, world).map(
     (option) => {
+      const judicialSeatId = judicialSeatIdForElectionOfficeKey(
+        option.officeKey,
+      );
+      const judicialPack = judicialSeatId
+        ? judicialCandidacyPackForSeatId(judicialSeatId)
+        : null;
+      const contestJurisdictionId = judicialPack
+        ? chiefExecutiveJurisdictionId(judicialPack.jurisdictionKey.slice(3))
+        : person.homeJurisdictionId;
       const eligibility = candidacyEligibility(world, {
         personId,
         jurisdictionId: person.homeJurisdictionId,
@@ -27,7 +41,7 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
       });
       const contests = (world.history.electionContests ?? []).filter(
         (contest) =>
-          contest.jurisdictionId === person.homeJurisdictionId &&
+          contest.jurisdictionId === contestJurisdictionId &&
           contest.office.officeKey === option.officeKey,
       );
       const upcoming = contests
@@ -61,14 +75,18 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
           : eligibility.blocks.map((block) => block.reason).join(" "),
         // The contest already on the record, else the office's own calendar:
         // the same date a filing today would stand in.
-        timing: `The next election is ${proseDate(
-          upcoming[0]?.electionDate ??
-            campaignElectionDate(
-              world,
-              person.homeJurisdictionId,
-              option.officeKey,
-            ),
-        )}.`,
+        timing:
+          judicialSeatIdForElectionOfficeKey(option.officeKey) !== null &&
+          upcoming.length === 0
+            ? "The judicial election date is unresolved."
+            : `The next election is ${proseDate(
+                upcoming[0]?.electionDate ??
+                  campaignElectionDate(
+                    world,
+                    person.homeJurisdictionId,
+                    option.officeKey,
+                  ),
+              )}.`,
         connections: [
           ...(own ? ["Your recorded campaign is for this office."] : []),
           ...[...new Set(contacts)].map(

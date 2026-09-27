@@ -65,6 +65,11 @@ import type {
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
 import { personPronouns } from "../simulation/person-identity";
+import {
+  judicialCandidacyPackForSeatId,
+  judicialSeatIdForElectionOfficeKey,
+} from "../simulation/candidacy-packs";
+import { chiefExecutiveJurisdictionId } from "../simulation/nationwide-world/government-jurisdiction";
 
 /**
  * What a candidate can actually see.
@@ -318,11 +323,12 @@ function quantityPercent(value: {
  * identity is bound at filing from an explicit Gazetteer record.
  */
 function offeredOffice(
+  world: World,
   jurisdictionId: EntityId,
   officeKey: string,
 ): ElectiveOfficeOption | null {
   return (
-    electiveOfficesForJurisdiction(jurisdictionId).find(
+    electiveOfficesForJurisdiction(jurisdictionId, world).find(
       (option) => option.officeKey === officeKey,
     ) ?? null
   );
@@ -475,7 +481,11 @@ export function projectCampaign(
   const campaign = existing;
   const state = campaignState(world, campaign.id);
   const contest = requireElectionContest(world, campaign.contestId);
-  const option = offeredOffice(campaign.jurisdictionId, campaign.officeKey);
+  const option = offeredOffice(
+    world,
+    campaign.jurisdictionId,
+    campaign.officeKey,
+  );
   const treasury = campaignTreasuryPosition(world, campaign)?.liquidBalance ?? {
     minorUnits: 0,
     currency: campaign.treasuryCurrency,
@@ -657,9 +667,9 @@ function notYetFiled(
 ): CampaignView {
   const person = world.people[personId]!;
   const jurisdictionId = person.homeJurisdictionId;
-  const options = electiveOfficesForJurisdiction(jurisdictionId);
+  const options = electiveOfficesForJurisdiction(jurisdictionId, world);
   const option = selectedOfficeKey
-    ? offeredOffice(jurisdictionId, selectedOfficeKey)
+    ? offeredOffice(world, jurisdictionId, selectedOfficeKey)
     : null;
   const assessments = (
     selectedOfficeKey
@@ -935,6 +945,8 @@ export function campaignElectionDate(
   jurisdictionId: EntityId,
   officeKey: string,
 ) {
+  if (judicialSeatIdForElectionOfficeKey(officeKey) !== null)
+    throw new Error("This judicial office has no admitted election date yet.");
   const stateKey =
     lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ?? null;
   const town = localGoverningBodyIdentityForOfficeKey(officeKey);
@@ -969,10 +981,20 @@ export function fileForOffice(
 ): World {
   const person = world.people[personId];
   if (!person) throw new Error("This character is not in the world.");
-  const jurisdictionId = person.homeJurisdictionId;
   if (!officeKey)
     throw new Error("Choose an established office before filing.");
-  const option = offeredOffice(jurisdictionId, officeKey);
+  const judicialSeatId = judicialSeatIdForElectionOfficeKey(officeKey);
+  const judicialPack = judicialSeatId
+    ? judicialCandidacyPackForSeatId(judicialSeatId)
+    : null;
+  const jurisdictionId = judicialPack
+    ? chiefExecutiveJurisdictionId(judicialPack.jurisdictionKey.slice(3))
+    : person.homeJurisdictionId;
+  if (!jurisdictionId)
+    throw new Error(
+      "This judicial court has no registered state jurisdiction.",
+    );
+  const option = offeredOffice(world, person.homeJurisdictionId, officeKey);
   if (!option) {
     throw new Error("There is no office here the game has read the rules for.");
   }

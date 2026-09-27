@@ -218,6 +218,8 @@ function reconcileSeat(
   const pack = candidacyPackById(campaign.candidacyPackId);
   if (!pack)
     return unseated("This seat's office is not one you can hold here.");
+  if (pack.authorityKind === "judicial")
+    return unseated("A judicial seat is not legislative membership.");
   const governing = stateJurisdictionForKey(pack.jurisdictionKey);
   if (!governing) {
     return unseated("The seat's governing state is not established.");

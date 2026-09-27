@@ -1,5 +1,7 @@
 import {
   candidacyPackById,
+  judicialCandidacyPackForSeatId,
+  judicialSeatIdForElectionOfficeKey,
   stateCandidacyPack,
   GAME_ADULT_CANDIDACY_AGE,
 } from "./candidacy-packs";
@@ -15,7 +17,7 @@ import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
 } from "./life-places";
-import { isTerritoryUsps } from "./state-reference";
+import { isTerritoryUsps, STATES } from "./state-reference";
 import { chiefExecutiveJurisdictionId } from "./nationwide-world/government-jurisdiction";
 import { stateExecutiveIdentityForOfficeKey } from "./nationwide-world/state-executive-candidacy-packs";
 import {
@@ -51,6 +53,13 @@ import {
   recordedDistrictResidenceSince,
 } from "./district-residence";
 import { gazetteerChamberForOfficeChamberKey } from "../districts/query";
+import { courtById, seatHolderAt } from "./judiciary/courts";
+import { judicialSelectionProfile } from "./judiciary/profiles";
+import {
+  assessJudicialProfessionalQualification,
+  assessJudicialQualifiedElector,
+} from "./judiciary/qualifications";
+import { resolveJudicialSelectionPlan } from "./judiciary/selection";
 
 /**
  * Whether a particular character may stand, and where.
@@ -108,13 +117,74 @@ export function localGoverningBodiesForJurisdiction(
  */
 export function electiveOfficesForJurisdiction(
   jurisdictionId: EntityId,
+  world?: World,
 ): readonly ElectiveOfficeOption[] {
   return [
     ...(candidacyAuthority(jurisdictionId).pack?.offices ?? []),
     ...localGoverningBodiesForJurisdiction(jurisdictionId).flatMap(
       (identity) => localGoverningBodyCandidacyPack(identity).offices,
     ),
+    ...(world
+      ? judicialElectionOfficesForJurisdiction(world, jurisdictionId)
+      : []),
   ];
+}
+
+/** Read-only offers from active saved seats with an unambiguous popular ballot. */
+function stateKeyForJurisdictionId(jurisdictionId: EntityId): string | null {
+  return (
+    lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ??
+    Object.keys(STATES)
+      .map((usps) => `US-${usps}`)
+      .find((key) => stateJurisdictionForKey(key)?.id === jurisdictionId) ??
+    null
+  );
+}
+
+function judicialElectionOfficesForJurisdiction(
+  world: World,
+  jurisdictionId: EntityId,
+): readonly ElectiveOfficeOption[] {
+  const stateKey = stateKeyForJurisdictionId(jurisdictionId);
+  if (!stateKey) return [];
+  return Object.values(world.judiciary?.seats ?? {}).flatMap((seat) => {
+    if (
+      seat.retiredAt !== null ||
+      seat.createdAt > world.currentDate ||
+      seat.linkedOfficeId !== null ||
+      seatHolderAt(world, seat.seatId) ||
+      world.judiciary?.seatTenures.some((row) => row.seatId === seat.seatId) ||
+      world.judiciary?.selections.some((row) => row.seatId === seat.seatId)
+    )
+      return [];
+    const court = courtById(world, seat.courtId);
+    const pack = judicialCandidacyPackForSeatId(seat.seatId);
+    const profile = pack
+      ? judicialSelectionProfile(pack.judicialSelectionRecordId)
+      : null;
+    if (
+      !court ||
+      court.geographyDetail !== "exact-court" ||
+      !pack ||
+      profile?.geography.state !== "KNOWN" ||
+      profile.geography.value?.scope !== "statewide" ||
+      profile.geography.value.districtType !== "statewide" ||
+      profile.geography.value.notes !== "Statewide selection" ||
+      pack.jurisdictionKey !== stateKey ||
+      court.sourceRecordId !== pack.judicialSelectionRecordId ||
+      court.jurisdictionId !== chiefExecutiveJurisdictionId(stateKey.slice(3))
+    )
+      return [];
+    const path = resolveJudicialSelectionPlan(world, seat.seatId, "new-seat");
+    if (
+      path.state !== "ready" ||
+      !["PARTISAN_GENERAL_ELECTION", "NONPARTISAN_GENERAL_ELECTION"].includes(
+        path.plan.stages[0]?.mechanism ?? "",
+      )
+    )
+      return [];
+    return pack.offices;
+  });
 }
 
 /** The town governing body this office names, if this place has it. */
@@ -232,7 +302,9 @@ export type CandidacyBlockKind =
   | "unproved-sourced-qualification"
   | "term-limit"
   | "lives-elsewhere"
-  | "already-a-candidate";
+  | "already-a-candidate"
+  | "judicial-seat-unavailable"
+  | "unproved-judicial-qualification";
 
 export interface CandidacyBlock {
   readonly kind: CandidacyBlockKind;
@@ -290,6 +362,185 @@ export interface CandidacyEligibilityInput {
    * residence, and never treated as proved home membership by itself.
    */
   readonly districtBinding?: DistrictSeatBinding | null;
+}
+
+/** State judicial eligibility is checked against the actual saved seat and person facts. */
+function judicialCandidacyEligibility(
+  world: World,
+  input: CandidacyEligibilityInput,
+  seatId: string,
+): CandidacyEligibility {
+  const person = world.people[input.personId];
+  if (!person)
+    throw new Error(
+      "Candidacy eligibility asked about somebody missing from the World.",
+    );
+  const pack = judicialCandidacyPackForSeatId(seatId);
+  const office = pack?.offices[0] ?? null;
+  const blocks: CandidacyBlock[] = [];
+  const refuse = (
+    reason: string,
+    kind: CandidacyBlockKind = "unproved-judicial-qualification",
+  ) => blocks.push({ kind, reason });
+  const offered = judicialElectionOfficesForJurisdiction(
+    world,
+    input.jurisdictionId,
+  ).some((row) => row.officeKey === input.officeKey);
+  if (!pack || !office || !offered)
+    refuse(
+      "This saved court seat is not open for a judicial election here under a resolved 92L selection path.",
+      "judicial-seat-unavailable",
+    );
+  refuse(
+    "This court's judicial election date and term start have not yet been admitted from a current source.",
+    "judicial-seat-unavailable",
+  );
+  if (
+    !pack ||
+    stateKeyForJurisdictionId(person.homeJurisdictionId) !==
+      pack.jurisdictionKey ||
+    stateKeyForJurisdictionId(input.jurisdictionId) !== pack.jurisdictionKey
+  )
+    refuse(
+      "This person does not live in the state holding this judicial election.",
+      "lives-elsewhere",
+    );
+  if (input.alreadyACandidate)
+    refuse(
+      "This person is already running for something.",
+      "already-a-candidate",
+    );
+  const profile = pack
+    ? judicialSelectionProfile(pack.judicialSelectionRecordId)
+    : null;
+  const courtJurisdictionId = pack
+    ? chiefExecutiveJurisdictionId(pack.jurisdictionKey.slice(3))
+    : null;
+  if (!pack || !profile || !courtJurisdictionId)
+    return {
+      eligible: false,
+      personId: input.personId,
+      pack,
+      office,
+      qualificationAssessments: [],
+      blocks: distinctBlocks(blocks),
+    };
+  const age = ageOnDate(person.birthDate, world.currentDate);
+  const numberRule = (field: string, label: string): number | null => {
+    const rule = profile.qualifications[field];
+    if (
+      rule?.state === "NO_REQUIREMENT_FOUND" ||
+      rule?.state === "NOT_APPLICABLE"
+    )
+      return null;
+    if (rule?.state === "KNOWN" && typeof rule.value === "number")
+      return rule.value;
+    refuse(`The 92L ${label} requirement is unresolved for this court.`);
+    return null;
+  };
+  const minimumAge = numberRule("minimumAge", "minimum age");
+  if (minimumAge !== null && age < minimumAge)
+    refuse(
+      `This court requires a judicial candidate to be at least ${minimumAge}.`,
+      "sourced-minimum-age",
+    );
+  const maximumAge = numberRule("maximumAge", "maximum age");
+  if (maximumAge !== null && age > maximumAge)
+    refuse(`This court does not admit a candidate older than ${maximumAge}.`);
+  const residenceYears = numberRule("stateResidencyYears", "state residence");
+  if (residenceYears !== null) {
+    const since = stateResidenceSince(
+      world,
+      input.personId,
+      pack.jurisdictionKey,
+    );
+    if (
+      !since ||
+      completedMonthsBetween(since, world.currentDate) < residenceYears * 12
+    )
+      refuse(
+        `The saved residence history does not establish ${residenceYears} years in this state.`,
+        "sourced-state-residence",
+      );
+  }
+  const citizenshipYears = numberRule(
+    "stateCitizenshipYears",
+    "state citizenship",
+  );
+  if (citizenshipYears !== null)
+    refuse(
+      "This World has no dated state citizenship record for judicial candidacy.",
+    );
+  const barRule = profile.qualifications.barAdmissionRequirement;
+  let minimumBarYears = 0;
+  let needsBarRecord = false;
+  if (barRule?.state === "KNOWN" && typeof barRule.value === "string") {
+    needsBarRecord = true;
+    const years = /(?:at least|for)\s+(\d+)\s+years?/i.exec(barRule.value);
+    if (years) minimumBarYears = Number(years[1]);
+    else if (!/bar|admitted|licensed/i.test(barRule.value))
+      refuse(
+        "The reported bar admission requirement cannot be checked from the saved record.",
+      );
+  } else if (
+    barRule?.state !== "NO_REQUIREMENT_FOUND" &&
+    barRule?.state !== "NOT_APPLICABLE"
+  ) {
+    refuse("The 92L bar admission requirement is unresolved for this court.");
+  }
+  const practiceYears = numberRule("legalPracticeYears", "legal practice");
+  if (needsBarRecord || (practiceYears ?? 0) > 0) {
+    const assessment = assessJudicialProfessionalQualification(world, {
+      personId: input.personId,
+      jurisdictionId: courtJurisdictionId,
+      asOf: world.currentDate,
+      minimumBarYears,
+      minimumPracticeYears: practiceYears ?? 0,
+    });
+    if (assessment.verdict !== "meets") refuse(assessment.reason);
+  }
+  const electorRule = profile.qualifications.qualifiedElector;
+  if (electorRule?.state === "KNOWN" && electorRule.value === true) {
+    const assessment = assessJudicialQualifiedElector(world, {
+      personId: input.personId,
+      jurisdictionId: courtJurisdictionId,
+      asOf: world.currentDate,
+    });
+    if (assessment.verdict !== "meets") refuse(assessment.reason);
+  } else if (
+    electorRule?.state !== "NO_REQUIREMENT_FOUND" &&
+    electorRule?.state !== "NOT_APPLICABLE" &&
+    !(electorRule?.state === "KNOWN" && electorRule.value === false)
+  ) {
+    refuse(
+      "The 92L qualified-elector requirement is unresolved for this court.",
+    );
+  }
+  const extra = profile.qualifications.additionalRequirements;
+  if (extra?.state === "KNOWN" && typeof extra.value === "string") {
+    const onlyBarRequirement =
+      /^(?:admitted|licensed|member of (?:the )?bar)/i.test(extra.value) &&
+      !/citizen|resident|district|active|disciplin|judg|age|office/i.test(
+        extra.value,
+      );
+    if (!onlyBarRequirement)
+      refuse(
+        "Additional 92L judicial qualifications are not fully represented by this person's saved facts.",
+      );
+  } else if (
+    extra?.state !== "NO_REQUIREMENT_FOUND" &&
+    extra?.state !== "NOT_APPLICABLE"
+  ) {
+    refuse("The 92L additional judicial qualifications are unresolved.");
+  }
+  return {
+    eligible: blocks.length === 0,
+    personId: input.personId,
+    pack,
+    office,
+    qualificationAssessments: [],
+    blocks: distinctBlocks(blocks),
+  };
 }
 
 /**
@@ -461,6 +712,9 @@ export function candidacyEligibility(
   world: World,
   input: CandidacyEligibilityInput,
 ): CandidacyEligibility {
+  const judicialSeatId = judicialSeatIdForElectionOfficeKey(input.officeKey);
+  if (judicialSeatId !== null)
+    return judicialCandidacyEligibility(world, input, judicialSeatId);
   const blocks: CandidacyBlock[] = [];
   const authority = candidacyAuthority(input.jurisdictionId);
   // A state's executive office is the state's own, whatever legislature pack

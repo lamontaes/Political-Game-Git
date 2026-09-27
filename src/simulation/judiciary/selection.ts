@@ -2,6 +2,7 @@
 
 import type { EntityId, IsoDate, World } from "../types";
 import { currentPresidentOf } from "../crisis/offices";
+import { electionContestResult } from "../election-contests";
 import { personName } from "../people";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
@@ -12,6 +13,8 @@ import type {
   JudicialSelectionRecord,
   JudicialSelectionStageRecord,
 } from "./types";
+
+export const JUDICIAL_POPULAR_VOTER_PROFILE = "judicial-popular-voters/v1";
 
 /**
  * A path already admitted by the judicial profile adapter. The adapter owns
@@ -373,9 +376,46 @@ export function recordJudicialSelectionStage(
     outcomeEvent?.tags.includes("game-profile:judicial-retention-voters/v1") ===
       true &&
     input.actorPersonId === null;
+  const seat = world.judiciary?.seats[selection.seatId];
+  const court = seat ? courtById(world, seat.courtId) : null;
+  const profile = court?.sourceRecordId
+    ? judicialSelectionProfile(court.sourceRecordId)
+    : null;
+  const contest = input.electionContestId
+    ? world.history.electionContests?.find(
+        (row) => row.id === input.electionContestId,
+      )
+    : null;
+  const electionResult = contest
+    ? electionContestResult(world, contest.id)
+    : null;
+  const approvedPopularVoters =
+    (stage.mechanism === "PARTISAN_GENERAL_ELECTION" ||
+      stage.mechanism === "NONPARTISAN_GENERAL_ELECTION") &&
+    stage.actor.state === "UNKNOWN" &&
+    profile?.geography.state === "KNOWN" &&
+    profile.geography.value?.scope === "statewide" &&
+    profile.geography.value.districtType === "statewide" &&
+    profile.geography.value.notes === "Statewide selection" &&
+    typeof court?.jurisdictionId === "string" &&
+    contest?.jurisdictionId === court?.jurisdictionId &&
+    electionResult?.winnerPersonId === input.candidatePersonId &&
+    electionResult?.resolvedAt === input.occurredAt &&
+    input.outcome === "completed" &&
+    input.candidatePersonId !== null &&
+    outcomeEvent?.jurisdictionId === court?.jurisdictionId &&
+    outcomeEvent?.occurredAt === electionResult?.resolvedAt &&
+    outcomeEvent?.involvedEntityIds.includes(input.candidatePersonId) ===
+      true &&
+    outcomeEvent?.tags.includes(`contest:${contest?.id}`) === true &&
+    outcomeEvent?.tags.includes(
+      `game-profile:${JUDICIAL_POPULAR_VOTER_PROFILE}`,
+    ) === true &&
+    input.actorPersonId === null;
   if (
     (stage.actor.state !== "KNOWN" || !stage.actor.value) &&
-    !approvedRetentionVoters
+    !approvedRetentionVoters &&
+    !approvedPopularVoters
   )
     throw new Error(
       "The next judicial selection stage has no established actor.",
