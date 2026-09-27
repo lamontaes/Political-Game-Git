@@ -64,7 +64,13 @@ import {
   requestBillEstimate,
   projectBillEstimate,
 } from "../presentation/legislation-estimate-action";
-import { billAnalysis } from "../presentation/legislation-analysis";
+import {
+  billAnalysis,
+  draftFiscalNote,
+  filedFiscalNote,
+  type BillFiscalNote,
+  type FiscalNoteLever,
+} from "../presentation/legislation-analysis";
 import type { ProposalLayout } from "../presentation/shell-navigation";
 import { ProposalLayoutContext, ProposalView } from "./proposal/ProposalLayout";
 import { GuideTerm, GuideTermText } from "./GuideTerm";
@@ -481,6 +487,10 @@ function FiledBillPanel({
     bill.measureId,
   );
   const analysis = useMemo(() => billAnalysis(world, bill), [world, bill]);
+  const fiscalNote = useMemo(
+    () => filedFiscalNote(world, bill),
+    [world, bill],
+  );
   const [startsOn, setStartsOn] = useState<string>(world.currentDate);
   const [endsOn, setEndsOn] = useState<string>(addDays(world.currentDate, 365));
   const [estimateError, setEstimateError] = useState<string | null>(null);
@@ -665,6 +675,7 @@ function FiledBillPanel({
           }
         />
       </p>
+      <FiscalNoteView note={fiscalNote} testId="docket-fiscal-note" />
       {canEstimate ? (
         <fieldset
           className="docket-estimate-controls"
@@ -1699,6 +1710,10 @@ function DraftingTable({
                       ? "This configuration authorizes no money at all."
                       : `As you would file it, this Act authorizes up to ${asChosen.draft.authorizedCeilingLabel}. Stating a ceiling is not providing the money.`}
               </p>
+              <FiscalNoteView
+                note={draftFiscalNote(asChosen.draft)}
+                testId="drafting-fiscal-note"
+              />
 
               {filingEntry.kind === "unavailable" ? (
                 <p data-testid="drafting-filing-refusal">
@@ -1873,6 +1888,69 @@ function niceMoneyStep(range: number): number {
     if (range % candidate === 0) return candidate;
   }
   return Math.max(1, Math.round(range / 40));
+}
+
+const FISCAL_LEVER_LABELS: Readonly<Record<FiscalNoteLever, string>> = {
+  money: "Money",
+  rate: "Rate",
+  "who-qualifies": "Who qualifies",
+  rule: "Rule",
+  structure: "Structure",
+  process: "Process",
+  unclassified: "Classification unavailable",
+};
+
+function FiscalNoteView({
+  note,
+  testId,
+}: {
+  readonly note: BillFiscalNote;
+  readonly testId: string;
+}) {
+  return (
+    <section className="docket-analysis" data-testid={testId}>
+      <h5 className="docket-subheading">Fiscal note</h5>
+      <p>
+        {note.status === "draft"
+          ? `Proposed start: ${note.operativeAt ?? "not specified"}.`
+          : note.status === "enacted"
+            ? `Operative date: ${note.operativeAt ?? "not recorded"}.`
+            : "No enacted operative date has been recorded."}{" "}
+        {note.endsOn === null ? "" : `Proposed end: ${note.endsOn}. `}
+        This note describes the bill's terms. It is not a record of cash paid or
+        collected.
+      </p>
+      <ol>
+        {note.parts.map((part) => (
+          <li key={part.provisionKey}>
+            <strong>
+              Section {part.sectionNumber}. {part.heading} — {" "}
+              {FISCAL_LEVER_LABELS[part.lever]}
+            </strong>
+            <p>Affected: {part.affectedLabel}.</p>
+            {part.payerLabel ? <p>Cost bearer: {part.payerLabel}.</p> : null}
+            {part.recipientLabel ? (
+              <p>Recipient: {part.recipientLabel}.</p>
+            ) : null}
+            <p>
+              {part.amountKind === "appropriation"
+                ? `Amount this bill would provide: ${part.statedAmountLabel ?? "not stated"}.`
+                : part.amountKind === "authorization-ceiling"
+                  ? `Authorization ceiling, not money provided: ${part.statedAmountLabel ?? "not stated"}.`
+                  : part.amountKind === "per-unit-charge"
+                    ? `Charge per covered event: ${part.statedAmountLabel ?? "not stated"}.`
+                    : "This section states no separate money amount."}
+            </p>
+            <p>
+              {part.forecastMinorUnits === null
+                ? `Total cash change: unknown; needs ${part.missingInput ?? "more information"}.`
+                : `Estimated cash change: ${formatMinorUnits(part.forecastMinorUnits, "USD")}.`}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
 }
 
 function stageLabel(bill: DocketBill): string {
