@@ -15,3 +15,7 @@ do not create service hours. A separate modeled local ride is recorded in
 one existing resident's history. Only a later encounter with a public report
 supports that resident's private reaction to the funding decision. No car
 status, travel-time change, or election effect is inferred.
+
+Reading the published funding report from News takes time and records what
+the controlled resident learned. Their Journal keeps that public report
+separate from the modeled rider's private trip.

@@ -67,8 +67,8 @@ function fundedFixture(saveAppropriation = true) {
     [
       [
         "amount-provided",
-        "There is appropriated 100 USD for the authored public service.",
-        10000,
+        "There is appropriated 1 USD for the authored public service.",
+        100,
       ],
       ["administrative-mandate", administrativeMandateText(programKey), null],
       ["effective-date", PUBLIC_FUNDING_DEFAULT_DATE_TEXT, null],
@@ -92,7 +92,7 @@ function fundedFixture(saveAppropriation = true) {
       },
       applicationScope: { jurisdictionId, segmentKey: null },
       fiscalExposureMinorUnits: amount,
-      fiscalExposureLabel: amount === null ? null : "100 USD appropriated",
+      fiscalExposureLabel: amount === null ? null : "1 USD appropriated",
     });
   const procedure = { ...fixture.procedure, measureId };
   for (
@@ -116,7 +116,7 @@ function fundedFixture(saveAppropriation = true) {
         stateUsps: "AK",
         jurisdictionId,
         programKey,
-        amountMinorUnits: 10000,
+        amountMinorUnits: 100,
         adoptedOn: availableAt,
         availableDays: 366,
         edition: "public-funding-test-v1",
@@ -135,7 +135,7 @@ function fundedFixture(saveAppropriation = true) {
     provisionIds: currentMeasureProvisions(world, measureId)
       .map((row) => row.id)
       .sort(),
-    amount: money(10000, "USD"),
+    amount: money(100, "USD"),
     availableAt,
     endsAt: addDays(availableAt, 365),
     ...(adopted ? { appropriationId: adopted.appropriationId } : {}),
@@ -164,14 +164,14 @@ function fundedFixture(saveAppropriation = true) {
 
 function fundedWithCashForBothRoutes() {
   const fixture = fundedFixture();
-  let world = recordTestTaxOccurrence(fixture.world, {
+  let world = declarePersonalTaxOccurrence(fixture.world, {
     personId: fixture.personId,
     stableKey: "public-payment-test:shared-cap-tax-base",
     proposalId: fixture.proposalId,
     baseKey: TEST_TAX_TERMS.baseKey,
     amountMinorUnits: 4100,
     assumptionNote:
-      "One fictional test occurrence funds 200 USD cash, separate from the 100 USD appropriation.",
+      "One fictional test occurrence funds 2 USD cash, separate from the 1 USD appropriation.",
   });
   world = advanceWorld(world, 2, createTaxTransitionHandlerRegistry());
   world = ensureStateExecutiveIncumbent(world, fixture.personId, "AK");
@@ -200,7 +200,7 @@ function commitEighty(
     appropriationId: fixture.mandate.appropriationId!,
     alternative: {
       key: "shared-cap-operate-eighty",
-      title: "Operate the authored service for eighty dollars",
+      title: "Operate the authored service for eighty cents",
       installments: [
         { afterDays: 0, amount: money(80, "USD"), purpose: "operating" },
       ],
@@ -226,7 +226,7 @@ describe("shared public cash settlement for T", () => {
       appropriationId: fixture.mandate.appropriationId!,
       alternative: {
         key: "shared-cap-operate-thirty",
-        title: "Operate for thirty dollars",
+        title: "Operate for thirty cents",
         installments: [
           { afterDays: 0, amount: money(30, "USD"), purpose: "operating" },
         ],
@@ -300,7 +300,7 @@ describe("shared public cash settlement for T", () => {
   });
   it("refuses a paid delivery without a saved appropriation even when receipts exist", () => {
     const fixture = fundedFixture(false);
-    let world = recordTestTaxOccurrence(fixture.world, {
+    let world = declarePersonalTaxOccurrence(fixture.world, {
       personId: fixture.personId,
       stableKey: "public-payment-test:unfunded-tax-base",
       proposalId: fixture.proposalId,

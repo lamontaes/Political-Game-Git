@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import {
+  daysBetween,
+  makeIsoDate,
+  simulationMinutesBetween,
+} from "../simulation/dates";
 import { applyEnactedLawEffects } from "../simulation/enacted-law-effects";
 import {
   commitPublicProgram,
@@ -54,6 +60,14 @@ import { applyLegislativeStep } from "./legislation-session";
 import { fileDraft } from "./legislation-docket";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
+import {
+  readTransitDecisionReport,
+  unreadTransitDecisionReportIds,
+} from "./transit-report-reading";
+import { projectWorld39Journal } from "./world39-journal";
+import { projectWorld39News } from "./world39-news";
+import { NewsDesk } from "../player/news/NewsDesk";
+import { TimeCommandProvider } from "../player/time-command-runner";
 
 /** Synthetic passage inputs test the saved spending writers, not voter behavior. */
 function enactedTransitBill(stateUsps: string) {
@@ -296,6 +310,134 @@ describe("same fictional state transit bill reaches exact paid service", () => {
           (row) => row.type === "transit.program-paid-service-hours",
         ),
       ).toHaveLength(1);
+    },
+  );
+
+  it.each(["AK", "CO"])(
+    "%s: resident experience and a player's read report survive Continue",
+    (usps) => {
+      const world = paidService(usps);
+      if (world.control.kind !== "person")
+        throw new Error(`${usps}: no controlled player`);
+      const playerId = world.control.personId;
+      const ride = world.history.events.find(
+        (event) => event.type === "transit.modeled-rider-experience",
+      );
+      const report = world.history.events.find(
+        (event) => event.type === "transit.government-decision-reported",
+      );
+      expect(ride).toBeDefined();
+      expect(report?.jurisdictionId).toBe(
+        stateJurisdictionForKey(`US-${usps}`)?.id,
+      );
+      const riderId = ride?.participants.find(
+        (participant) => participant.role === "presence:transit-rider",
+      )?.personId;
+      expect(riderId).toBeDefined();
+      expect(riderId).not.toBe(playerId);
+      expect(
+        world.history.knowledge.some(
+          (row) =>
+            row.personId === riderId &&
+            row.eventId === ride?.id &&
+            row.source.kind === "direct",
+        ),
+      ).toBe(true);
+      expect(
+        projectWorld39Journal(world, riderId!).entries.some(
+          (entry) => entry.sourceId === ride?.id,
+        ),
+      ).toBe(true);
+      const publication = world.history.publications?.find(
+        (row) => row.sourceEventId === report?.id,
+      );
+      expect(publication).toBeDefined();
+      expect(
+        projectWorld39News(world, playerId).publications.items.some(
+          (item) => item.publicationId === publication?.id,
+        ),
+      ).toBe(true);
+      expect(unreadTransitDecisionReportIds(world).has(publication!.id)).toBe(
+        true,
+      );
+      const newsMarkup = renderToStaticMarkup(
+        createElement(
+          TimeCommandProvider,
+          {
+            runner: {
+              pending: false,
+              submit: () => {},
+              perform: () => {},
+            },
+          },
+          createElement(NewsDesk, {
+            world,
+            context: "read",
+            onContextChange: () => {},
+            mode: "front",
+            outletKey: null,
+            onModeChange: () => {},
+            onOutletChange: () => {},
+            onOpenPerson: () => {},
+            around: null,
+            directory: null,
+            press: null,
+          }),
+        ),
+      );
+      expect(newsMarkup).toContain(`data-story-id="${publication!.id}"`);
+      expect(newsMarkup).toContain("Reading this report takes 10 minutes");
+      expect(
+        projectWorld39Journal(world, playerId).entries.some(
+          (entry) => entry.sourceId === ride?.id,
+        ),
+      ).toBe(false);
+      const missing = readTransitDecisionReport(
+        world,
+        report!.id,
+        createCampaignElectionTransitionRegistry(),
+      );
+      expect(missing.completed).toBe(false);
+      expect(missing.world).toBe(world);
+
+      const read = readTransitDecisionReport(
+        world,
+        publication!.id,
+        createCampaignElectionTransitionRegistry(),
+      );
+      expect(read.completed).toBe(true);
+      expect(
+        simulationMinutesBetween(world.currentMoment, read.world.currentMoment),
+      ).toBe(10);
+      const knowledge = read.world.history.knowledge.find(
+        (row) => row.personId === playerId && row.eventId === report?.id,
+      );
+      expect(knowledge?.source).toEqual({
+        kind: "public-record",
+        reference: `publication:${publication!.id}`,
+      });
+      expect(knowledge?.believedSummary).toContain("Governor");
+      const continued = deserializeWorld(serializeWorld(read.world));
+      expect(
+        projectWorld39News(continued, playerId).learnedEventIds.has(report!.id),
+      ).toBe(true);
+      expect(
+        projectWorld39Journal(continued, playerId).entries.some(
+          (entry) => entry.sourceId === knowledge?.id,
+        ),
+      ).toBe(true);
+      expect(
+        projectWorld39Journal(continued, playerId).entries.some(
+          (entry) => entry.sourceId === ride?.id,
+        ),
+      ).toBe(false);
+      const repeated = readTransitDecisionReport(
+        continued,
+        publication!.id,
+        createCampaignElectionTransitionRegistry(),
+      );
+      expect(repeated.completed).toBe(false);
+      expect(serializeWorld(repeated.world)).toBe(serializeWorld(continued));
     },
   );
 });

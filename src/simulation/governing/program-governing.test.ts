@@ -27,10 +27,11 @@ import { applyLegislativeStep } from "../../presentation/legislation-session";
 import { publishLegislativeTransition } from "../../presentation/publish-legislative-transition";
 
 const scenario = createLegislativeScenario("nebraska");
-const jurisdictionId =
-  scenario.world.history.legislativeMeasures?.[0]?.jurisdictionId;
-if (!jurisdictionId)
-  throw new Error("The Nebraska legislature was not opened.");
+const jurisdictionId = (() => {
+  const id = scenario.world.history.legislativeMeasures?.[0]?.jurisdictionId;
+  if (!id) throw new Error("The Nebraska legislature was not opened.");
+  return id;
+})();
 
 function enact(
   startingWorld: World,
