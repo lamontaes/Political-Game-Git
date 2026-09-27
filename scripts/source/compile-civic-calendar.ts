@@ -5,7 +5,7 @@
  * cohort or every other statewide office. Unknowns stay null in the corpus.
  */
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -177,7 +177,7 @@ function rows(table: string): string[][] {
 }
 
 function sourceBytes(root: string, filename: string): Buffer {
-  return readFileSync(resolve(root, DATA, "raw", filename));
+  return readFileSync(resolve(root, ".source-cache/civic-calendar", filename));
 }
 
 function sourceText(root: string, filename: string): string {
@@ -190,7 +190,8 @@ function sourceLock(root: string) {
       const bytes = sourceBytes(root, filename);
       return {
         artifactId,
-        localPath: `${DATA}/raw/${filename}`,
+        localPath: null,
+        cachePath: `.source-cache/civic-calendar/${filename}`,
         mediaType: "text/html",
         provider,
         publisher: {
@@ -211,8 +212,16 @@ function sourceLock(root: string) {
           status: "not-assessed",
           declaredLicense: null,
           attributionRequired: null,
+          redistribution:
+            provider === "National Conference of State Legislatures"
+              ? "permission-required-by-publisher-terms"
+              : "not-assessed",
+          termsUrl:
+            provider === "National Conference of State Legislatures"
+              ? "https://www.ncsl.org/terms-of-use"
+              : null,
         },
-        storage: "committed",
+        storage: "cached-not-committed",
       };
     }),
   };
@@ -776,7 +785,7 @@ export function compileCivicCalendar(root = ROOT) {
     asOf: RETRIEVED_DATE,
     compiler: { name: "compile-civic-calendar", version: "1.0.0" },
     canonicalSha256: sha256(corpusText),
-    inputClass: "production",
+    inputClass: "research-only",
     coverage: {
       isCompleteUniverse: true,
       universeDescription:
@@ -801,6 +810,15 @@ export function compileCivicCalendar(root = ROOT) {
 }
 
 export function writeCivicCalendar(root = ROOT, check = false): void {
+  if (
+    check &&
+    !SOURCES.every(([, filename]) =>
+      existsSync(resolve(root, ".source-cache/civic-calendar", filename)),
+    )
+  ) {
+    verifyCommittedCivicCalendar(root);
+    return;
+  }
   const { corpusText, lock, manifest } = compileCivicCalendar(root);
   const outputs = [
     ["corpus.json", corpusText],
@@ -818,6 +836,57 @@ export function writeCivicCalendar(root = ROOT, check = false): void {
       writeFileSync(path, expected);
     }
   }
+}
+
+/** Verify portable corpus/lock integrity when publisher captures cannot be redistributed. */
+export function verifyCommittedCivicCalendar(root = ROOT): void {
+  const corpusText = readFileSync(resolve(root, DATA, "corpus.json"), "utf8");
+  const corpus = JSON.parse(corpusText) as ReturnType<
+    typeof compileCivicCalendar
+  >["corpus"];
+  const lock = JSON.parse(
+    readFileSync(resolve(root, DATA, "artifact-lock.json"), "utf8"),
+  ) as ReturnType<typeof sourceLock>;
+  const manifest = JSON.parse(
+    readFileSync(resolve(root, DATA, "corpus-manifest.json"), "utf8"),
+  ) as ReturnType<typeof compileCivicCalendar>["manifest"];
+  requireMatch(
+    sha256(corpusText) === manifest.canonicalSha256,
+    "committed corpus digest",
+  );
+  requireMatch(
+    corpus.jurisdictions.length === 56,
+    "committed jurisdiction count",
+  );
+  const stateSeatsUp = corpus.jurisdictions
+    .filter((j) => j.kind === "state")
+    .flatMap((j) => j.legislature.chambers)
+    .reduce((sum, chamber) => sum + chamber.seatsUpIn2026, 0);
+  requireMatch(
+    stateSeatsUp === 6139 &&
+      stateSeatsUp === manifest.coverage.stateLegislativeSeatsUp2026,
+    "committed seat total",
+  );
+  requireMatch(
+    lock.artifacts.length === SOURCES.length &&
+      lock.artifacts.every(
+        (artifact) =>
+          artifact.localPath === null &&
+          artifact.storage === "cached-not-committed",
+      ),
+    "committed cache-only lock",
+  );
+  requireMatch(
+    lock.artifacts.every(
+      (artifact, index) =>
+        artifact.bytes.sha256 === manifest.inputs[index]?.sha256,
+    ),
+    "committed input digests",
+  );
+  requireMatch(
+    manifest.inputClass === "research-only",
+    "research-only admission status",
+  );
 }
 
 if (process.argv[1]?.endsWith("compile-civic-calendar.ts")) {

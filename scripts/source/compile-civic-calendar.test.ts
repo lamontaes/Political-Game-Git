@@ -1,12 +1,38 @@
 import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
-  compileCivicCalendar,
+  verifyCommittedCivicCalendar,
   writeCivicCalendar,
 } from "./compile-civic-calendar";
+import type { compileCivicCalendar } from "./compile-civic-calendar";
 
-const { corpus, corpusText, lock, manifest } = compileCivicCalendar();
+const root = process.cwd();
+const corpusText = readFileSync(
+  `${root}/data/source/civic-calendar/corpus.json`,
+  "utf8",
+);
+const corpus = JSON.parse(corpusText) as ReturnType<
+  typeof compileCivicCalendar
+>["corpus"];
+const lock = JSON.parse(
+  readFileSync(`${root}/data/source/civic-calendar/artifact-lock.json`, "utf8"),
+) as ReturnType<typeof compileCivicCalendar>["lock"];
+const manifest = JSON.parse(
+  readFileSync(
+    `${root}/data/source/civic-calendar/corpus-manifest.json`,
+    "utf8",
+  ),
+) as ReturnType<typeof compileCivicCalendar>["manifest"];
 const byUsps = new Map(
   corpus.jurisdictions.map((jurisdiction) => [jurisdiction.usps, jurisdiction]),
 );
@@ -82,18 +108,46 @@ describe("locked 2026 civic calendar", () => {
     );
   });
 
-  it("binds the compiled bytes to the committed source artifacts", () => {
+  it("binds the committed corpus to its cache-only source receipts", () => {
     expect(lock.artifacts).toHaveLength(9);
     for (const artifact of lock.artifacts) {
-      const bytes = readFileSync(artifact.localPath);
-      expect(bytes.length).toBe(artifact.bytes.length);
-      expect(createHash("sha256").update(bytes).digest("hex")).toBe(
-        artifact.bytes.sha256,
-      );
+      expect(artifact.localPath).toBeNull();
+      expect(artifact.storage).toBe("cached-not-committed");
+      if (existsSync(artifact.cachePath)) {
+        const bytes = readFileSync(artifact.cachePath);
+        expect(bytes.length).toBe(artifact.bytes.length);
+        expect(createHash("sha256").update(bytes).digest("hex")).toBe(
+          artifact.bytes.sha256,
+        );
+      }
     }
     expect(createHash("sha256").update(corpusText).digest("hex")).toBe(
       manifest.canonicalSha256,
     );
     expect(() => writeCivicCalendar(undefined, true)).not.toThrow();
+    expect(() => verifyCommittedCivicCalendar()).not.toThrow();
+  });
+
+  it("checks the portable research packet without distributing source pages", () => {
+    const portableRoot = mkdtempSync(
+      join(tmpdir(), "civic-calendar-portable-"),
+    );
+    try {
+      const outputDir = join(portableRoot, "data/source/civic-calendar");
+      mkdirSync(outputDir, { recursive: true });
+      for (const filename of [
+        "corpus.json",
+        "artifact-lock.json",
+        "corpus-manifest.json",
+      ]) {
+        copyFileSync(
+          join(root, "data/source/civic-calendar", filename),
+          join(outputDir, filename),
+        );
+      }
+      expect(() => writeCivicCalendar(portableRoot, true)).not.toThrow();
+    } finally {
+      rmSync(portableRoot, { recursive: true });
+    }
   });
 });

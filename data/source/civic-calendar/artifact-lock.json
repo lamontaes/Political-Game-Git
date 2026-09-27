@@ -2,7 +2,8 @@
   "artifacts": [
     {
       "artifactId": "ncsl-2026-legislative-races",
-      "localPath": "data/source/civic-calendar/raw/ncsl-2026-legislative-races.html",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/ncsl-2026-legislative-races.html",
       "mediaType": "text/html",
       "provider": "National Conference of State Legislatures",
       "publisher": {
@@ -25,13 +26,16 @@
       "rights": {
         "status": "not-assessed",
         "declaredLicense": null,
-        "attributionRequired": null
+        "attributionRequired": null,
+        "redistribution": "permission-required-by-publisher-terms",
+        "termsUrl": "https://www.ncsl.org/terms-of-use"
       },
-      "storage": "committed"
+      "storage": "cached-not-committed"
     },
     {
       "artifactId": "ncsl-2026-primary-dates",
-      "localPath": "data/source/civic-calendar/raw/ncsl-2026-primary-dates.html",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/ncsl-2026-primary-dates.html",
       "mediaType": "text/html",
       "provider": "National Conference of State Legislatures",
       "publisher": {
@@ -54,13 +58,16 @@
       "rights": {
         "status": "not-assessed",
         "declaredLicense": null,
-        "attributionRequired": null
+        "attributionRequired": null,
+        "redistribution": "permission-required-by-publisher-terms",
+        "termsUrl": "https://www.ncsl.org/terms-of-use"
       },
-      "storage": "committed"
+      "storage": "cached-not-committed"
     },
     {
       "artifactId": "ncsl-primary-types",
-      "localPath": "data/source/civic-calendar/raw/ncsl-primary-types.html",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/ncsl-primary-types.html",
       "mediaType": "text/html",
       "provider": "National Conference of State Legislatures",
       "publisher": {
@@ -83,13 +90,16 @@
       "rights": {
         "status": "not-assessed",
         "declaredLicense": null,
-        "attributionRequired": null
+        "attributionRequired": null,
+        "redistribution": "permission-required-by-publisher-terms",
+        "termsUrl": "https://www.ncsl.org/terms-of-use"
       },
-      "storage": "committed"
+      "storage": "cached-not-committed"
     },
     {
       "artifactId": "nga-governor-elections",
-      "localPath": "data/source/civic-calendar/raw/nga-2026-governors.html",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/nga-2026-governors.html",
       "mediaType": "text/html",
       "provider": "National Governors Association",
       "publisher": {
@@ -112,13 +122,16 @@
       "rights": {
         "status": "not-assessed",
         "declaredLicense": null,
-        "attributionRequired": null
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
       },
-      "storage": "committed"
+      "storage": "cached-not-committed"
     },
     {
       "artifactId": "dc-2026-elections",
-      "localPath": "data/source/civic-calendar/raw/dc-2026-elections.html",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/dc-2026-elections.html",
       "mediaType": "text/html",
       "provider": "District of Columbia Board of Elections",
       "publisher": {
@@ -141,13 +154,16 @@
       "rights": {
         "status": "not-assessed",
         "declaredLicense": null,
-        "attributionRequired": null
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
       },
-      "storage": "committed"
+      "storage": "cached-not-committed"
     },
     {
       "artifactId": "dc-election-definitions",
-      "localPath": "data/source/civic-calendar/raw/dc-election-definitions.html",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/dc-election-definitions.html",
       "mediaType": "text/html",
       "provider": "District of Columbia Board of Elections",
       "publisher": {
@@ -170,13 +186,16 @@
       "rights": {
         "status": "not-assessed",
         "declaredLicense": null,
-        "attributionRequired": null
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
       },
-      "storage": "committed"
+      "storage": "cached-not-committed"
     },
     {
       "artifactId": "dc-governance",
-      "localPath": "data/source/civic-calendar/raw/dc-governance.html",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/dc-governance.html",
       "mediaType": "text/html",
       "provider": "District of Columbia Statehood Office",
       "publisher": {
@@ -199,13 +218,16 @@
       "rights": {
         "status": "not-assessed",
         "declaredLicense": null,
-        "attributionRequired": null
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
       },
-      "storage": "committed"
+      "storage": "cached-not-committed"
     },
     {
       "artifactId": "house-delegate-terms",
-      "localPath": "data/source/civic-calendar/raw/house-delegate-terms.html",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/house-delegate-terms.html",
       "mediaType": "text/html",
       "provider": "Clerk of the U.S. House of Representatives",
       "publisher": {
@@ -228,13 +250,16 @@
       "rights": {
         "status": "not-assessed",
         "declaredLicense": null,
-        "attributionRequired": null
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
       },
-      "storage": "committed"
+      "storage": "cached-not-committed"
     },
     {
       "artifactId": "ne-legislature-election-statute",
-      "localPath": "data/source/civic-calendar/raw/nebraska-legislature-election-statute.html",
+      "localPath": null,
+      "cachePath": ".source-cache/civic-calendar/nebraska-legislature-election-statute.html",
       "mediaType": "text/html",
       "provider": "Nebraska Legislature",
       "publisher": {
@@ -257,9 +282,11 @@
       "rights": {
         "status": "not-assessed",
         "declaredLicense": null,
-        "attributionRequired": null
+        "attributionRequired": null,
+        "redistribution": "not-assessed",
+        "termsUrl": null
       },
-      "storage": "committed"
+      "storage": "cached-not-committed"
     }
   ]
 }

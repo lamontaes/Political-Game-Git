@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "canonicalSha256": "b1ea46c2ee31ab5c40a23876d17ad16e100b76ca30857bd12225387de27aac15",
-  "inputClass": "production",
+  "inputClass": "research-only",
   "coverage": {
     "isCompleteUniverse": true,
     "universeDescription": "Fifty states, the District of Columbia and five inhabited territories; individual fields remain null where the locked sources do not establish them.",
