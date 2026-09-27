@@ -483,10 +483,7 @@ function FiledBillPanel({
     bill.measureId,
   );
   const analysis = useMemo(() => billAnalysis(world, bill), [world, bill]);
-  const fiscalNote = useMemo(
-    () => filedFiscalNote(world, bill),
-    [world, bill],
-  );
+  const fiscalNote = useMemo(() => filedFiscalNote(world, bill), [world, bill]);
   const [startsOn, setStartsOn] = useState<string>(world.currentDate);
   const [endsOn, setEndsOn] = useState<string>(addDays(world.currentDate, 365));
   const [estimateError, setEstimateError] = useState<string | null>(null);
@@ -1651,7 +1648,7 @@ function FiscalNoteView({
         {note.parts.map((part) => (
           <li key={part.provisionKey}>
             <strong>
-              Section {part.sectionNumber}. {part.heading} — {" "}
+              Section {part.sectionNumber}. {part.heading} —{" "}
               {FISCAL_LEVER_LABELS[part.lever]}
             </strong>
             <p>Affected: {part.affectedLabel}.</p>
@@ -1668,7 +1665,7 @@ function FiscalNoteView({
                     ? `Charge per covered event: ${part.statedAmountLabel ?? "not stated"}.`
                     : part.amountKind === "other-stated-amount"
                       ? `Stated amount: ${part.statedAmountLabel}. Its fiscal role is not classified.`
-                    : "No charge, appropriation, or authorization amount is classified for this section."}
+                      : "No charge, appropriation, or authorization amount is classified for this section."}
             </p>
             <p>
               {part.forecastMinorUnits === null
