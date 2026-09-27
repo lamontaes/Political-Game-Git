@@ -229,10 +229,23 @@ function lowerFirst(text: string): string {
  * Shown to the player it is the same sentence with the subject turned to
  * "You"; nothing else about it is rewritten.
  */
+/**
+ * A record line about the player, said to the player.
+ *
+ * "The player said they would go to the meeting." is about one person, so in
+ * second person the "they" that reports what the player said is "you" too:
+ * "You said you would go to the meeting." Only a "they" right after a
+ * reporting verb whose subject is the player changes; a "they" meaning
+ * somebody else is left alone.
+ */
 function secondPerson(sentence: string): string {
   if (!/^The player\b/.test(sentence)) return sentence;
   return sentence
     .replace(/^The player's\b/, "Your")
     .replace(/^The player\b/, "You")
+    .replace(
+      /^(You (?:said|agreed|promised|decided|thought|admitted|offered|hoped)) they\b/,
+      "$1 you",
+    )
     .replace(/\bthemselves\b/g, "yourself");
 }

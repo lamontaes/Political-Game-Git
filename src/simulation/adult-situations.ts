@@ -10,6 +10,7 @@ import {
 } from "./life-opportunities";
 import { ageOnDate, makeIsoDate } from "./dates";
 import { activeIncidentsAt } from "./incidents";
+import { workItemOccasionHasPassed } from "./time-work";
 import {
   activeCareResponsibilitiesAt,
   activeLifeCommitmentsAt,
@@ -462,8 +463,11 @@ export function buildAdultLifeContext(
     civicParticipationCount: participations.length,
     hasDwelling: activeDwellingOccupanciesAt(world, resourceCutoff).length > 0,
     hasHousingTenure: activeHousingTenuresAt(world, resourceCutoff).length > 0,
+    // A meeting that has already happened is not something to decide about.
     hasPostedMeeting: world.history.workItems.some(
-      (item) => item.stableKey === PUBLIC_MEETING_KEY,
+      (item) =>
+        item.stableKey === PUBLIC_MEETING_KEY &&
+        !workItemOccasionHasPassed(world, item),
     ),
     hasHouseholdWorkItem: hasActiveHouseholdWeek(world, personId),
     openOpportunityKinds: new Set(opportunities.map((entry) => entry.kind)),

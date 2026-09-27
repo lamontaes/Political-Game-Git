@@ -917,12 +917,37 @@ export function lapseWorkItem(world: World, input: LapseWorkItemInput): World {
   return next;
 }
 
+/**
+ * Whether the dated occasion a work item is about has already happened.
+ *
+ * A work item such as "Whether to go to the public meeting" carries its
+ * occasion as the calendar activity keyed `<item key>:activity`. Once that
+ * activity was attended, called off, or its start time went by, the question
+ * it asks is in the past, and nothing about it is still waiting on anybody.
+ * An item with no dated activity has no occasion to pass.
+ */
+export function workItemOccasionHasPassed(
+  world: World,
+  item: WorkItemRecord,
+): boolean {
+  const activity = world.history.scheduledActivities.find(
+    (entry) => entry.stableKey === `${item.stableKey}:activity`,
+  );
+  if (!activity) return false;
+  const state = scheduledActivityState(world, activity.id);
+  return (
+    state.status !== "scheduled" ||
+    compareSimulationMoments(state.start, world.currentMoment) <= 0
+  );
+}
+
 export function workPendingEntriesFor(
   world: World,
   controlledPersonId: EntityId,
 ): readonly WorkPendingEntry[] {
   return world.history.workItems
     .filter((item) => canPersonAccess(item.access, controlledPersonId))
+    .filter((item) => !workItemOccasionHasPassed(world, item))
     .map((item) => ({ item, state: workItemState(world, item.id) }))
     .map(({ item, state }) => ({
       item,
