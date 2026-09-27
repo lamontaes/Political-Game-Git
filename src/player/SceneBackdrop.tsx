@@ -15,6 +15,7 @@ import {
 
 import { SCENE_REGISTRY } from "../presentation/scene-registry";
 import type { PlacedScenePerson } from "../presentation/life-scene-people";
+import type { PlaceBackdrop } from "../presentation/place-backdrops";
 import {
   bindSceneSurfaces,
   dynamicSurfacePayloads,
@@ -89,6 +90,7 @@ export function SceneBackdrop({
   onSelectPerson,
   selectedPersonId = null,
   objects,
+  placeBackdrop = null,
   children,
 }: {
   readonly sceneId: string | null;
@@ -146,6 +148,12 @@ export function SceneBackdrop({
    * one because a caller asked for papers on it.
    */
   readonly objects?: readonly SceneObjectMount[];
+  /**
+   * A place picture for a screen with no registered room (work, school, the
+   * campaign, the street). Painted only when the scene has no plate of its
+   * own. Nobody stands in it and nothing on it is clickable.
+   */
+  readonly placeBackdrop?: PlaceBackdrop | null;
   readonly children: ReactNode;
 }) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -362,14 +370,23 @@ export function SceneBackdrop({
     });
   };
 
+  const placePainted = !painted && placeBackdrop !== null;
+
   return (
     <div
       className={
-        painted ? "scene-backdrop scene-backdrop--art" : "scene-backdrop"
+        painted
+          ? "scene-backdrop scene-backdrop--art"
+          : placePainted
+            ? "scene-backdrop scene-backdrop--art scene-backdrop--place"
+            : "scene-backdrop"
       }
       data-testid="scene-backdrop"
       data-scene-id={scene?.sceneId ?? ""}
       data-has-plate={painted ? "true" : "false"}
+      data-place-backdrop={
+        placePainted ? `${placeBackdrop.place}__${placeBackdrop.variant}` : ""
+      }
       data-headroom={headroom}
     >
       <div
@@ -377,6 +394,15 @@ export function SceneBackdrop({
         className="scene-backdrop-stage"
         aria-hidden={readableSlotIds.size ? undefined : true}
       >
+        {placePainted ? (
+          <img
+            className="scene-place-backdrop"
+            src={placeBackdrop.url}
+            alt=""
+            draggable="false"
+            data-testid="scene-place-backdrop"
+          />
+        ) : null}
         {/*
           Headroom is lowered camera, and the band it opens above the plate is
           filled with the same painting, softened, rather than left black. It
