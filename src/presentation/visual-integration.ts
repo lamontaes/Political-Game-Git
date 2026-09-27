@@ -1,4 +1,5 @@
 import { runtimeArtMetadata, runtimeArtUrls } from "./runtime-art";
+import { homeVisualAssets } from "./home-scenes";
 import { rasterUrls as runtimeUrls } from "./bundled-art";
 import bundledManifest from "../../art/manifest/asset_manifest.json";
 import characterCatalog from "../../art/manifest/character_catalog.json";
@@ -760,10 +761,14 @@ export function composeOfficeVisuals(
   };
 }
 
-export const PRODUCTION_VISUAL_LIBRARY = createRuntimeVisualLibrary(
-  assetManifest.assets as readonly RuntimeVisualAssetRecord[],
-  repositoryUrls(),
-);
+export const PRODUCTION_VISUAL_LIBRARY: RuntimeVisualLibrary = new Map([
+  ...createRuntimeVisualLibrary(
+    assetManifest.assets as readonly RuntimeVisualAssetRecord[],
+    repositoryUrls(),
+  ),
+  // The owner's home pictures (placeholders approved Sept. 27, 2026).
+  ...homeVisualAssets().map((asset) => [asset.assetId, asset] as const),
+]);
 
 /**
  * The morphology fit bank, derived from measured silhouettes by

@@ -50,7 +50,7 @@ function officeSentence(
     term === UNKNOWN
       ? "the term length is not known to this game"
       : `a term is ${years(Number(term))}`;
-  return `To stand for the ${chamber.trim()}, ${ageText}; ${residencyText}; and ${termText}`;
+  return `To run for the ${chamber.trim()}, ${ageText}; ${residencyText}; and ${termText}`;
 }
 
 export function plainCandidateGuidance(recorded: string): string {

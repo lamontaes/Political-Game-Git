@@ -58,7 +58,8 @@ export function describeRoutineOutcome(
   // The first line is always the clock; `routineOutcomeAfterClock` relies on it.
   const lines = [
     elapsed > 0
-      ? `It is now ${proseWeekdayDate(after.currentDate)}, ${proseClockTime(
+      ? // "p.m." already ends the sentence; a second period would double it.
+        `It is now ${proseWeekdayDate(after.currentDate)}, ${proseClockTime(
           after.currentMoment.minuteOfDay,
         )}`
       : "No time passed.",
@@ -158,8 +159,8 @@ export function describeRoutineOutcome(
       meeting
         ? `The public meeting starts at ${proseClockTime(scheduledActivityState(after, meeting.id).start.minuteOfDay)} Choose Go to meeting or Stay home.`
         : activity
-          ? `Stopped for ${activity.title}; resolve this commitment before continuing.`
-          : "Stopped before the requested time; resolve the pending commitment before continuing.",
+          ? `${activity.title} comes first.`
+          : "Something on your calendar comes first.",
     );
   }
   return lines.join("\n");

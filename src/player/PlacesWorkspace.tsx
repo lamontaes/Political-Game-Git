@@ -16,7 +16,7 @@ import { labelForRef } from "../presentation/person-dossier";
 import { PinToggle } from "./controls/PinToggle";
 import { useTimeCommand, type TimeCommandReport } from "./time-command-runner";
 import { previewTimeCommand } from "../presentation/time-command";
-import { skipToLabel } from "../presentation/time-target-label";
+import { describeTimeTarget } from "../presentation/time-target-label";
 import { declineVenueActivity } from "../presentation/venue-activity";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
 import {
@@ -340,7 +340,10 @@ export function PlacesWorkspace({
                         ? previewTimeCommand(world, personId, command)
                         : null;
                       return preview ? (
-                        <small>{skipToLabel(preview.target)}</small>
+                        <small>
+                          {" "}
+                          · until {describeTimeTarget(preview.target)}
+                        </small>
                       ) : null;
                     })()}
                   </button>

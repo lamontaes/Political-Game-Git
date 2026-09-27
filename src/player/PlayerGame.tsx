@@ -119,6 +119,11 @@ import { ExecutiveWorkWorkspace } from "./ExecutiveWorkWorkspace";
 import { GoverningBriefing } from "./GoverningBriefing";
 import { GoverningOfficeDesk } from "./GoverningOfficeDesk";
 import { governingOfficeForPerson } from "../simulation/governing/state-governing";
+import {
+  projectRoomMedia,
+  ROOM_PAPERS_SLOT_ID,
+  ROOM_TELEVISION_SLOT_ID,
+} from "../presentation/room-media";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { CandidateGuidancePanel } from "./CandidateGuidancePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
@@ -184,7 +189,10 @@ import { backdropForLocation } from "../presentation/place-backdrops";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
 import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
-import { PUBLIC_MEETING_ROOM_SCENE_ID } from "../presentation/scene-registry";
+import {
+  PUBLIC_MEETING_ROOM_SCENE_ID,
+  SCENE_REGISTRY,
+} from "../presentation/scene-registry";
 import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
   AmbientTableau,
@@ -1493,9 +1501,15 @@ function PlayingScreen({
   ]);
 
   const sceneId = playScene.sceneId;
+  // A place picture fills any screen whose room has no picture of its own:
+  // no room at all, or a room whose plate was retired (the public meeting).
+  const sceneHasPlate = useMemo(() => {
+    const raster = sceneId ? SCENE_REGISTRY.scenes.get(sceneId)?.raster : null;
+    return Boolean(raster && sceneVisuals.has(raster.assetId));
+  }, [sceneId, sceneVisuals]);
   const placeBackdrop = useMemo(
     () =>
-      sceneId
+      sceneHasPlate
         ? null
         : backdropForLocation(
             session.world,
@@ -1503,20 +1517,35 @@ function PlayingScreen({
             playScene.purpose === "home" ? "home" : playScene.locationKey,
           ),
     [
-      sceneId,
+      sceneHasPlate,
       session.world,
       session.personId,
       playScene.purpose,
       playScene.locationKey,
     ],
   );
+  const roomMedia = useMemo(
+    () => projectRoomMedia(session.world, session.personId),
+    [session.world, session.personId],
+  );
   const readableSurfaces = useMemo(() => {
     const news = projectLivingSceneSurface(session.world, session.personId, {
       kind: "news",
     });
+    // The TV and the paper open the story they show, else the day's lead.
+    const shown = (publicationId: EntityId | undefined) =>
+      publicationId
+        ? projectLivingSceneSurface(session.world, session.personId, {
+            kind: "news",
+            publicationId,
+          })
+        : news;
     const records = new Map([
-      ["living-room-television", news],
-      ["coffee-table-papers", news],
+      [
+        ROOM_TELEVISION_SLOT_ID,
+        shown(roomMedia.broadcast?.story?.publicationId),
+      ],
+      [ROOM_PAPERS_SLOT_ID, shown(roomMedia.frontPage?.story?.publicationId)],
     ]);
     const meeting = projectOrdinaryMeetingScene(
       session.world,
@@ -1532,7 +1561,7 @@ function PlayingScreen({
         ),
       );
     return records;
-  }, [session.world, session.personId]);
+  }, [session.world, session.personId, roomMedia]);
 
   const surfaceProjection = useMemo(
     () =>
@@ -2268,6 +2297,7 @@ function PlayingScreen({
               sceneId={sceneId}
               placeBackdrop={placeBackdrop}
               readableSurfaces={readableSurfaces}
+              roomMedia={roomMedia}
               onOpenSurfaceEntity={openEntity}
               visualLibrary={sceneVisuals}
               people={scenePeople}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { describeInterval } from "../presentation/time-target-label";
 import { proseDate } from "../presentation/prose-dates";
 import {
   projectJudicialOffice,
@@ -81,7 +82,7 @@ export function JudicialOfficeWork({
           </div>
           <p>
             {a.timing
-              ? `The review takes ${a.timing.activityMinutes} minutes, after a ${a.timing.waitMinutes}-minute wait.`
+              ? `The review takes ${describeInterval(a.timing.activityMinutes)}, after a wait of ${describeInterval(a.timing.waitMinutes)}.`
               : `The scheduled review is ${a.activityState.status}.`}{" "}
             A follow-up note reserves another 20 minutes for your preparation.
           </p>

@@ -1,0 +1,104 @@
+[
+  {
+    "id": "bozeman-2025-ord2151-udc",
+    "jurisdiction": "Bozeman, Montana",
+    "level": "city",
+    "session": "2025",
+    "bill_number": "Ordinance 2151",
+    "law_citation": null,
+    "short_title": "Replacement Unified Development Code",
+    "enacted_date": "2025-12-16",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://engage.bozemanmt.gov/udc/news_feed/unified-development-code-adopted",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Planning and zoning",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Replaces the city's entire development code chapter."
+      },
+      {
+        "kind": "standard",
+        "description": "Sets a maximum building height in one downtown district.",
+        "numbers": [
+          {
+            "value": 90,
+            "unit": "feet",
+            "text": "90 feet"
+          }
+        ]
+      },
+      {
+        "kind": "trigger",
+        "description": "Responds to state zoning reforms and local housing goals (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["Montana state zoning law", "developers"],
+    "daily_life": "Rules for what can be built on every lot in town change at once.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "bozeman-2025-ord2105-affordable-incentives",
+    "jurisdiction": "Bozeman, Montana",
+    "level": "city",
+    "session": "2025",
+    "bill_number": "Ordinance 2025-001 (reported locally as Ordinance 2105)",
+    "law_citation": null,
+    "short_title": "Affordable housing incentives replace requirements",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://frontierinstitute.org/wp-content/uploads/2025/08/Bozeman-Affordable-Housing-Ordinance-8.6.25.pdf",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Affordable and public housing",
+    "secondary_menus": [],
+    "instrument": "program creation",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Ends mandatory affordable housing requirements (inclusionary zoning)."
+      },
+      {
+        "kind": "benefit",
+        "description": "Offers incentives for builders who choose to include affordable homes (details inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "time-limit",
+        "description": "Affordable homes must stay affordable for a set period.",
+        "numbers": [
+          {
+            "value": 50,
+            "unit": "years",
+            "text": "50 years"
+          }
+        ]
+      },
+      {
+        "kind": "standard",
+        "description": "Amends parking standards for these projects."
+      }
+    ],
+    "touches": ["developers", "community housing plan"],
+    "daily_life": "Builders are rewarded rather than required to include cheaper homes.",
+    "provision_of": null,
+    "source_confidence": "official-text-checked",
+    "notes": null
+  }
+]

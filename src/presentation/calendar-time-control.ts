@@ -276,13 +276,13 @@ export function declineCalendarActivity(
       world,
       reached: world.currentMoment,
       outcome:
-        "Decline applies to a tentative hold you own. Confirmed commitments stay until they are played or otherwise resolved.",
+        "You can only decline something you might go to. A confirmed commitment stays until it happens or is settled.",
     };
   }
   return {
     world: next,
     reached: next.currentMoment,
-    outcome: "The tentative hold was released. No time passed.",
+    outcome: "You won't go. No time passed.",
   };
 }
 
