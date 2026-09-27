@@ -26,6 +26,7 @@ import {
   regularSessionYearForWorld,
 } from "../legislative-procedure-world";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
+import { typedTaxEnactmentDate } from "../tax-policy-activation";
 import {
   scheduleFutureDueItem,
   futureDueItemStateAt,
@@ -855,7 +856,8 @@ export function applyInstitutionStep(
       }),
       "present-to-executive",
     );
-  if (steps.includes("record-enactment"))
+  if (steps.includes("record-enactment")) {
+    const typedTaxDate = typedTaxEnactmentDate(world, measureId);
     return applied(
       // Enactment is also where the law changes what it governs: an
       // appropriation becomes spending authority the executive can commit, a
@@ -869,12 +871,15 @@ export function applyInstitutionStep(
           // Congress bill here says otherwise.
           ...(isCongressMeasure(measure)
             ? { effectiveAt: world.currentDate }
-            : {}),
+            : typedTaxDate
+              ? { effectiveAt: typedTaxDate }
+              : {}),
         }),
         measureId,
       ),
       "record-enactment",
     );
+  }
   return { kind: "idle" };
 }
 

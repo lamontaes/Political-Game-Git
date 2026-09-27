@@ -27,8 +27,10 @@ import { passOrdinaryDays } from "./ordinary-life";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
 import {
   castMemberBallot,
+  LEGISLATIVE_CLOCK_VERSION,
   memberVotesAhead,
 } from "../simulation/governing/legislative-clock";
+import { chamberQuestionKey } from "../simulation/governing/member-ballots";
 import {
   declarePersonalTaxOccurrence,
   fileTaxProposalFromOffice,
@@ -52,10 +54,16 @@ import {
   measurePosition,
 } from "../simulation/legislation";
 import { resourcePositionAt } from "../simulation/resource-queries";
+import {
+  addDays,
+  compareSimulationMoments,
+  daysBetween,
+} from "../simulation/dates";
 import { money } from "../simulation/resources";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
 import { assertWorldIntegrity } from "../simulation/world";
+import { scheduledActivityState } from "../simulation/time-work";
 import type { EntityId, World } from "../simulation/types";
 
 // The player starts as an ordinarily generated Alaska resident, files for a
@@ -121,6 +129,73 @@ function recordPendingMemberVotesYea(world: World, personId: EntityId): World {
         ballot: "yea",
       });
   }
+  return next;
+}
+
+/** Pass to the filed tax date through actual member-vote reminders. The player
+ * explicitly records a neutral ballot on unrelated measures that stop time;
+ * a missing or stale reminder remains a descriptive test failure.
+ */
+function passThroughMemberVoteNotices(
+  world: World,
+  personId: EntityId,
+  targetDate: string,
+): World {
+  let next = world;
+  for (let guard = 0; guard < 100 && next.currentDate < targetDate; guard++) {
+    const before = next;
+    next = passOrdinaryDays(
+      next,
+      Math.min(7, Math.max(1, daysBetween(next.currentDate, targetDate))),
+    );
+    if (compareSimulationMoments(before.currentMoment, next.currentMoment) < 0)
+      continue;
+    const activeNotices = next.history.scheduledActivities.filter(
+      (activity) => {
+        if (
+          !activity.stableKey.includes(":member-vote:") ||
+          !activity.participantPersonIds.includes(personId)
+        )
+          return false;
+        const state = scheduledActivityState(next, activity.id);
+        return (
+          state.status === "scheduled" &&
+          compareSimulationMoments(state.start, next.currentMoment) === 0
+        );
+      },
+    );
+    const dueVotes = memberVotesAhead(next, personId).filter(
+      (vote) =>
+        vote.ballot === null &&
+        vote.voteOn !== null &&
+        vote.voteOn <= addDays(next.currentDate, 1) &&
+        activeNotices.some(
+          (activity) =>
+            activity.stableKey ===
+            `${LEGISLATIVE_CLOCK_VERSION}:member-vote:${chamberQuestionKey(vote.question)}:${personId}`,
+        ),
+    );
+    if (dueVotes.length === 0)
+      throw new Error(
+        `Ordinary time stopped at ${next.currentDate} ${next.currentMoment.minuteOfDay}; no actionable member vote matches ${activeNotices.map((activity) => activity.id).join(", ") || "the stop"}.`,
+      );
+    for (const vote of dueVotes) {
+      const decided = castMemberBallot(next, {
+        personId,
+        question: vote.question,
+        ballot: "present-not-voting",
+      });
+      if (decided === next)
+        throw new Error(
+          `The explicit ballot for ${vote.measure.designation} made no progress.`,
+        );
+      next = decided;
+    }
+  }
+  if (next.currentDate < targetDate)
+    throw new Error(
+      `Ordinary time stopped at ${next.currentDate} before the tax date ${targetDate}.`,
+    );
   return next;
 }
 
@@ -205,15 +280,7 @@ function fundedLife(occurrences: 1 | 2): Funded {
   });
   world = enactThroughSitting(tax.world, tax.measureId, personId);
   const policy = world.history.taxPolicies!.at(-1)!;
-  for (
-    let guard = 0;
-    guard < 30 && world.currentDate < policy.effectiveAt;
-    guard++
-  )
-    world = passOrdinaryDays(
-      world,
-      world.currentDate < policy.effectiveAt ? 7 : 1,
-    );
+  world = passThroughMemberVoteNotices(world, personId, policy.effectiveAt);
   const proposal = world.history.taxProposals!.at(-1)!;
   for (let n = 1; n <= occurrences; n++)
     world = declarePersonalTaxOccurrence(world, {

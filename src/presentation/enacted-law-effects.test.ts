@@ -406,16 +406,34 @@ describe("a law the player passes changes what it governs", () => {
     expect(position.appropriated.minorUnits).toBe(record.amount.minorUnits);
     expect(position.committed.minorUnits).toBe(0);
     expect(position.posted.minorUnits).toBe(0);
+    // The single-family transit law reads its pinned mandate. Its saved
+    // appropriation above is the same authority, not a second effect line.
     expect(
       enactedLawEffects(world, measureId)?.lines.find(
-        (line) => line.kind === "appropriation",
+        (line) => line.kind === "transit",
       ),
     ).toMatchObject({
-      kind: "appropriation",
-      programKey: "transit:ne",
-      availableFrom: enactment.effectiveAt,
-      committedMinorUnits: 0,
-      paidMinorUnits: 0,
+      kind: "transit",
+      status: "unavailable",
+      reason: `This appropriation takes effect on ${enactment.effectiveAt}.`,
+      amountMinorUnits: null,
+    });
+    const operative = advanceWorld(world, 13);
+    expect(
+      enactedLawEffects(operative, measureId)?.lines.find(
+        (line) => line.kind === "transit",
+      ),
+    ).toMatchObject({
+      kind: "transit",
+      status: "available",
+      reason: null,
+      amountMinorUnits: record.amount.minorUnits,
+    });
+    expect(
+      programPosition(operative, record.programKey, record.id),
+    ).toMatchObject({
+      committed: { minorUnits: 0 },
+      posted: { minorUnits: 0 },
     });
   });
 

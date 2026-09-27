@@ -42,6 +42,7 @@ import {
   committeeHearingTransitionHandler,
 } from "../simulation/legislation";
 import { addDays, daysBetween } from "../simulation/dates";
+import { typedTaxEnactmentDate } from "../simulation/tax-policy-activation";
 import type {
   LegislativeQuestionIdentity,
   LegislativeVoteDisposition,
@@ -572,9 +573,11 @@ export function applyLegislativeStep(
       };
     }
     case "record-enactment": {
+      const typedTaxDate = typedTaxEnactmentDate(world, measureId);
       const next = recordEnactment(world, {
         stableKey: key("enactment"),
         measureId,
+        ...(typedTaxDate ? { effectiveAt: typedTaxDate } : {}),
       });
       return { world: next, message: "Your bill is now law." };
     }
