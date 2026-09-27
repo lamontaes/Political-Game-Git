@@ -8,13 +8,18 @@ import {
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import { attendPartyWork } from "../presentation/campaign-life-actions";
 import {
+  campaignById,
   campaignLifeActivityRecords,
   campaignLifeOutcomeRecords,
+  campaignTreasuryPosition,
 } from "./campaign-queries";
+import { recordCampaignLifeAttendance } from "./campaign-life-activities";
 import {
   chooseCampaignWeekAction,
   projectCampaignWeekActions,
 } from "./campaign-week-actions";
+import { simulationMinutesBetween } from "./dates";
+import { deserializeWorld, serializeWorld } from "./serialization";
 import { scheduledActivityState } from "./time-work";
 
 function filedLife(seed: string) {
@@ -102,5 +107,76 @@ describe("concrete campaign week actions", () => {
     const after = projectCampaignWeekActions(finished, life.personId)!;
     expect(after.recentResults.at(-1)?.contactNames.length).toBeGreaterThan(0);
     expect(after.recentResults.at(-1)?.summary.length).toBeGreaterThan(0);
+    expect(
+      simulationMinutesBetween(booked.currentMoment, finished.currentMoment),
+    ).toBeGreaterThan(0);
+    expect(
+      scheduledActivityState(finished, activity.scheduledActivityId).status,
+    ).toBe("completed");
+    expect(
+      recordCampaignLifeAttendance(
+        finished,
+        life.personId,
+        activity.scheduledActivityId,
+        "attended",
+      ),
+    ).toBe(finished);
+    const resumed = deserializeWorld(serializeWorld(finished));
+    const resumedView = projectCampaignWeekActions(resumed, life.personId)!;
+    expect(resumedView.recentResults.at(-1)).toEqual(
+      after.recentResults.at(-1),
+    );
+  });
+
+  it("a fundraiser transfers only the lawful recorded amount, once", () => {
+    const life = filedLife("campaign-week-fundraiser-once");
+    const view = projectCampaignWeekActions(life.world, life.personId)!;
+    const selected = view.choices.find(
+      (choice) => choice.form === "fundraiser",
+    )!;
+    const booked = chooseCampaignWeekAction(life.world, life.personId, {
+      campaignId: view.campaignId,
+      choiceId: selected.id,
+      revision: view.revision,
+    });
+    const activity = campaignLifeActivityRecords(booked).at(-1)!;
+    const campaign = campaignById(booked, view.campaignId)!;
+    const before = campaignTreasuryPosition(booked, campaign)!.liquidBalance
+      .minorUnits;
+    const transferCount = booked.history.resourceTransferOutcomes.length;
+    const finished = attendPartyWork(
+      booked,
+      life.personId,
+      activity.id,
+      "attended",
+    );
+    const outcome = campaignLifeOutcomeRecords(finished).at(-1)!;
+    // This opening predates the reviewed Kentucky pack, so the donor does
+    // not give money through an unknown legal threshold.
+    expect(outcome.raisedAmount).toBeNull();
+    expect(
+      projectCampaignWeekActions(finished, life.personId)!.recentResults.at(-1)
+        ?.summary,
+    ).toMatch(/itemization threshold is UNKNOWN/);
+    const after = campaignTreasuryPosition(finished, campaign)!.liquidBalance
+      .minorUnits;
+    expect(after - before).toBe(outcome.raisedAmount?.minorUnits ?? 0);
+    expect(
+      finished.history.resourceTransferOutcomes.length - transferCount,
+    ).toBe(outcome.raisedAmount ? 1 : 0);
+    expect(
+      recordCampaignLifeAttendance(
+        finished,
+        life.personId,
+        activity.scheduledActivityId,
+        "attended",
+      ),
+    ).toBe(finished);
+    expect(
+      projectCampaignWeekActions(
+        deserializeWorld(serializeWorld(finished)),
+        life.personId,
+      )!.recentResults.at(-1)?.raisedAmount,
+    ).toEqual(outcome.raisedAmount);
   });
 });
