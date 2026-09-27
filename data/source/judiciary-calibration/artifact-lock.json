@@ -1,0 +1,295 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "fjc-export-method",
+      "bytes": {
+        "length": 55553,
+        "sha256": "cd9ee4fd29b2b7af7161d240907c260840a5afb26f3b07e27551cca5bfaeac4f"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/fjc-export.html",
+      "mediaType": "text/html",
+      "provider": "Federal Judicial Center",
+      "publisher": {
+        "documentationUrl": "https://www.fjc.gov/node/7436",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 55553,
+        "retrievedAt": "2026-09-27T00:47:24.329Z",
+        "url": "https://www.fjc.gov/node/7436"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "fjc-education",
+      "bytes": {
+        "length": 682093,
+        "sha256": "0b8bb078b6edce88e25ba47bf87f72a45b475f0b0f562e0a7793c87d21c58e2a"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/fjc-education.csv",
+      "mediaType": "text/csv",
+      "provider": "Federal Judicial Center",
+      "publisher": {
+        "documentationUrl": "https://www.fjc.gov/sites/default/files/history/education.csv",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 682093,
+        "retrievedAt": "2026-09-27T00:47:26.513Z",
+        "url": "https://www.fjc.gov/sites/default/files/history/education.csv"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "fjc-careers",
+      "bytes": {
+        "length": 1955904,
+        "sha256": "bdad1a57390c640ab3df4d7cc4795ddda79a0acaf14db95d06038b531bbd9892"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/fjc-careers.csv",
+      "mediaType": "text/csv",
+      "provider": "Federal Judicial Center",
+      "publisher": {
+        "documentationUrl": "https://www.fjc.gov/sites/default/files/history/professional-career.csv",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1955904,
+        "retrievedAt": "2026-09-27T00:47:29.048Z",
+        "url": "https://www.fjc.gov/sites/default/files/history/professional-career.csv"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "fjc-service",
+      "bytes": {
+        "length": 1638945,
+        "sha256": "3ff5303ceb8b9cd39f15545a6d9a07874069535ff00c6d11d9a71379b00c7642"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/fjc-service.csv",
+      "mediaType": "text/csv",
+      "provider": "Federal Judicial Center",
+      "publisher": {
+        "documentationUrl": "https://www.fjc.gov/sites/default/files/history/federal-judicial-service.csv",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1638945,
+        "retrievedAt": "2026-09-27T00:47:31.410Z",
+        "url": "https://www.fjc.gov/sites/default/files/history/federal-judicial-service.csv"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "authorized-federal-seats",
+      "bytes": {
+        "length": 232051,
+        "sha256": "56ba7e4422a7bf44e91ff813cb03ba1e05c3331654caae103bb3c982db04c286"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/authorized-federal-seats.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Administrative Office of the United States Courts",
+      "publisher": {
+        "documentationUrl": "https://www.uscourts.gov/sites/default/files/2025-01/allauth.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 232051,
+        "retrievedAt": "2026-09-27T00:47:34.222Z",
+        "url": "https://www.uscourts.gov/sites/default/files/2025-01/allauth.pdf"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "scotus-caseload-2025",
+      "bytes": {
+        "length": 1136545,
+        "sha256": "cfb0c47973ea8a8c619bbd71d68d344c07df1151e5e4f219560c62d53e70d9f4"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/scotus-2025-report.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Supreme Court of the United States",
+      "publisher": {
+        "documentationUrl": "https://www.supremecourt.gov/publicinfo/year-end/2025year-endreport.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1136545,
+        "retrievedAt": "2026-09-27T00:47:36.866Z",
+        "url": "https://www.supremecourt.gov/publicinfo/year-end/2025year-endreport.pdf"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ussc-sourcebook-2025",
+      "bytes": {
+        "length": 2859756,
+        "sha256": "6cddc273309bec7cb15b02b7a3a3b0d7fc9b7d75ca6eff6d29c32bdfafa1149f"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/ussc-2025-sourcebook.pdf",
+      "mediaType": "application/pdf",
+      "provider": "United States Sentencing Commission",
+      "publisher": {
+        "documentationUrl": "https://www.ussc.gov/sites/default/files/pdf/research-and-publications/annual-reports-and-sourcebooks/2025/2025_Sourcebook.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "Fiscal year 2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2859756,
+        "retrievedAt": "2026-09-27T00:47:39.635Z",
+        "url": "https://www.ussc.gov/sites/default/files/pdf/research-and-publications/annual-reports-and-sourcebooks/2025/2025_Sourcebook.pdf"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "usc28-1",
+      "bytes": {
+        "length": 233881,
+        "sha256": "965e1b5875b569c785791f0fd32a13ad1ce0127662131b3b0eef9d1baebe5b40"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/usc28-1.html",
+      "mediaType": "text/html",
+      "provider": "U.S. House Office of the Law Revision Counsel",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=%28title%3A28+section%3A1+edition%3Aprelim%29",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "preliminary edition; operative date stated in capture"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 233881,
+        "retrievedAt": "2026-09-27T01:09:48.509Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=%28title%3A28+section%3A1+edition%3Aprelim%29"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "usc28-44",
+      "bytes": {
+        "length": 204418,
+        "sha256": "92311aaa7dbb0b2a8bf6e66564db3916f07e33c2bf0d6b44982dbeeac4a1d5ae"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/usc28-44.html",
+      "mediaType": "text/html",
+      "provider": "U.S. House Office of the Law Revision Counsel",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=%28title%3A28+section%3A44+edition%3Aprelim%29",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "preliminary edition; operative date stated in capture"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 204418,
+        "retrievedAt": "2026-09-27T01:09:55.874Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=%28title%3A28+section%3A44+edition%3Aprelim%29"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "usc28-133",
+      "bytes": {
+        "length": 365750,
+        "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288"
+      },
+      "localPath": "data/source/judiciary-calibration/raw/usc28-133.html",
+      "mediaType": "text/html",
+      "provider": "U.S. House Office of the Law Revision Counsel",
+      "publisher": {
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=%28title%3A28+section%3A133+edition%3Aprelim%29",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "preliminary edition; operative date stated in capture"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 365750,
+        "retrievedAt": "2026-09-27T01:10:01.404Z",
+        "url": "https://uscode.house.gov/view.xhtml?req=%28title%3A28+section%3A133+edition%3Aprelim%29"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "judiciary-calibration"
+}
