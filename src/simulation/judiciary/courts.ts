@@ -1,12 +1,18 @@
 /** Court and seat queries and bounded writers; no work runs on the Day clock. */
 
 import { currentFederalTenure } from "../federal-tenures";
+import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
+import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import type { EntityId, IsoDate, World } from "../types";
 import { assertWorldIntegrity } from "../world";
+import { FEDERAL_COURTS_PROJECTION } from "./generated/federal-courts";
+import { JUDICIAL_SELECTION_PROFILES } from "./generated/selection-profiles";
+import type { JudicialSelectionProfile, ReportedField } from "./profiles";
 import type {
   JudicialCourt,
   JudicialCourtRules,
   JudiciaryState,
+  JudicialSharedSeatAllocation,
   JudicialSeat,
   JudicialSeatTenure,
   JudicialSelectionProvenance,
@@ -33,15 +39,403 @@ export interface FederalCourtProjection {
   readonly courtHeldAt: readonly string[] | null;
 }
 
+export interface JudicialSeatCountBaseline {
+  readonly count: number;
+  readonly basis: "sourced" | "game-profile";
+  readonly referenceId: string;
+}
+
+const TERRITORY_LOCAL_COURTS = [
+  [
+    "US-DC",
+    "dc-court-of-appeals",
+    "District of Columbia Court of Appeals",
+    "local-highest",
+    null,
+  ],
+  [
+    "US-DC",
+    "dc-superior-court",
+    "Superior Court of the District of Columbia",
+    "local-general-trial",
+    "dc-court-of-appeals",
+  ],
+  [
+    "US-PR",
+    "pr-supreme-court",
+    "Supreme Court of Puerto Rico",
+    "local-highest",
+    null,
+  ],
+  [
+    "US-PR",
+    "pr-court-of-first-instance",
+    "Puerto Rico Court of First Instance",
+    "local-general-trial",
+    "pr-supreme-court",
+  ],
+  ["US-GU", "gu-supreme-court", "Supreme Court of Guam", "local-highest", null],
+  [
+    "US-GU",
+    "gu-superior-court",
+    "Superior Court of Guam",
+    "local-general-trial",
+    "gu-supreme-court",
+  ],
+  [
+    "US-MP",
+    "mp-supreme-court",
+    "Supreme Court of the Northern Mariana Islands",
+    "local-highest",
+    null,
+  ],
+  [
+    "US-MP",
+    "mp-superior-court",
+    "Superior Court of the Northern Mariana Islands",
+    "local-general-trial",
+    "mp-supreme-court",
+  ],
+  [
+    "US-VI",
+    "vi-supreme-court",
+    "Supreme Court of the Virgin Islands",
+    "local-highest",
+    null,
+  ],
+  [
+    "US-VI",
+    "vi-superior-court",
+    "Superior Court of the Virgin Islands",
+    "local-general-trial",
+    "vi-supreme-court",
+  ],
+  [
+    "US-AS",
+    "as-high-court",
+    "High Court of American Samoa",
+    "local-highest",
+    null,
+  ],
+  [
+    "US-AS",
+    "as-high-court-trial",
+    "High Court of American Samoa, Trial Division",
+    "local-general-trial",
+    "as-high-court",
+  ],
+] as const;
+
+const EXTRA_JURISDICTION_NAMES: Readonly<Record<string, string>> = {
+  "District of Columbia": "US-DC",
+  Guam: "US-GU",
+  "Northern Mariana Islands": "US-MP",
+  "Puerto Rico": "US-PR",
+  "Virgin Islands": "US-VI",
+};
+
+function knownRule<T>(
+  value: T,
+  basis: "sourced" | "game-profile",
+  referenceId: string,
+) {
+  return { state: "known" as const, value, basis, referenceId };
+}
+
+function reportedNumber(
+  field: ReportedField<number> | undefined,
+  recordId: string,
+): JudicialCourtRules["termYears"] {
+  return field?.state === "KNOWN" && Number.isFinite(field.value)
+    ? knownRule(field.value!, "sourced", recordId)
+    : {
+        state: "unknown",
+        reason:
+          field?.reason ?? `92L does not establish this value for ${recordId}.`,
+      };
+}
+
+function initialRules(
+  courtId: string,
+  level: JudicialCourt["level"],
+  selection: JudicialSelectionProfile | null,
+  countBaselines: Readonly<Record<string, JudicialSeatCountBaseline>>,
+): JudicialCourtRules {
+  const baseline = countBaselines[courtId];
+  const gameSize =
+    level === "federal-supreme"
+      ? 9
+      : level === "local-highest"
+        ? 5
+        : level === "federal-appellate" || level === "local-intermediate"
+          ? 3
+          : 1;
+  const seatCount = baseline ?? {
+    count: gameSize,
+    basis: "game-profile" as const,
+    referenceId: "judiciary-opening-size-game-profile/v1",
+  };
+  if (!Number.isSafeInteger(seatCount.count) || seatCount.count < 1)
+    throw new Error(`Invalid opening judicial seat count for ${courtId}.`);
+  const tenure = selection?.tenure.value;
+  const retirement = selection?.mandatoryRetirement.value;
+  return {
+    authorizedSeats: knownRule(
+      seatCount.count,
+      seatCount.basis,
+      seatCount.referenceId,
+    ),
+    termYears:
+      tenure?.kind === "GOOD_BEHAVIOR"
+        ? knownRule(null, "sourced", selection!.recordId)
+        : reportedNumber(
+            tenure?.termLengthYears,
+            selection?.recordId ?? courtId,
+          ),
+    mandatoryRetirementAge:
+      retirement?.established === false
+        ? knownRule(null, "sourced", selection!.recordId)
+        : reportedNumber(retirement?.age, selection?.recordId ?? courtId),
+    caseJurisdiction: {
+      state: "unknown",
+      reason: "The admitted court identity does not establish case categories.",
+    },
+    selectionRecordId: selection?.recordId ?? null,
+    amendmentRoute:
+      level === "federal-supreme"
+        ? knownRule(
+            "statute",
+            "game-profile",
+            "assignments-6-judiciary/part-a-4",
+          )
+        : {
+            state: "unknown",
+            reason:
+              "The admitted court record does not identify the court-size amendment route.",
+          },
+  };
+}
+
+/**
+ * Build court identities once at Begin. State trial rows stay office-family-only
+ * until real circuit or district units are admitted; no county is invented.
+ */
+export function buildOpeningCourtCatalog(
+  world: World,
+  seatCounts: Readonly<Record<string, JudicialSeatCountBaseline>> = {},
+): World {
+  if (world.judiciary) return world;
+  const stateProfiles = JUDICIAL_SELECTION_PROFILES.filter(
+    (profile) =>
+      profile.jurisdictionId !== "us-fed" &&
+      profile.officeExists.state === "KNOWN" &&
+      profile.officeExists.value === true &&
+      profile.courtName.state === "KNOWN" &&
+      !!profile.courtName.value,
+  );
+  const byJurisdictionName = new Map(
+    stateProfiles.map((profile) => [
+      profile.jurisdictionName.replace(/^(State|Commonwealth) of /, ""),
+      profile.jurisdictionId,
+    ]),
+  );
+  let next = world;
+  const jurisdictionKeys = new Set([
+    ...stateProfiles.map(
+      (profile) => `US-${profile.jurisdictionId.slice(3).toUpperCase()}`,
+    ),
+    ...TERRITORY_LOCAL_COURTS.map((court) => court[0]),
+  ]);
+  for (const key of jurisdictionKeys)
+    next = ensureStateJurisdictionForKey(next, key);
+  const courts: Record<string, JudicialCourt> = {};
+  const add = (court: JudicialCourt) => {
+    if (courts[court.courtId])
+      throw new Error(`Duplicate judicial court: ${court.courtId}`);
+    courts[court.courtId] = court;
+  };
+  const jurisdictionId = (key: string): EntityId => {
+    const jurisdiction = chiefExecutiveJurisdiction(key.slice(3));
+    if (!jurisdiction || !next.jurisdictions[jurisdiction.id])
+      throw new Error(`Missing judicial jurisdiction identity: ${key}`);
+    return jurisdiction.id;
+  };
+  add({
+    courtId: "us-supreme-court",
+    jurisdictionId: null,
+    name: "Supreme Court of the United States",
+    level: "federal-supreme",
+    parentCourtId: null,
+    sourceRecordId: null,
+    identityBasis: "game-profile",
+    geographyDetail: "exact-court",
+    createdAt: world.currentDate,
+    rules: initialRules(
+      "us-supreme-court",
+      "federal-supreme",
+      JUDICIAL_SELECTION_PROFILES.find(
+        (profile) => profile.recordId === "us-fed:highest_court",
+      ) ?? null,
+      seatCounts,
+    ),
+  });
+  for (const source of FEDERAL_COURTS_PROJECTION) {
+    const level =
+      source.courtKind === "court-of-appeals"
+        ? "federal-appellate"
+        : "federal-district";
+    const sourceKey = source.jurisdictionName
+      ? (byJurisdictionName.get(source.jurisdictionName) ?? null)
+      : null;
+    const key = source.jurisdictionName
+      ? sourceKey
+        ? `US-${sourceKey.slice(3).toUpperCase()}`
+        : (EXTRA_JURISDICTION_NAMES[source.jurisdictionName] ?? null)
+      : null;
+    add({
+      courtId: source.courtId,
+      jurisdictionId: key ? jurisdictionId(key) : null,
+      name: source.courtName,
+      level,
+      parentCourtId:
+        level === "federal-appellate" ? "us-supreme-court" : source.circuitId,
+      sourceRecordId: source.courtId,
+      identityBasis: "sourced",
+      geographyDetail: "exact-court",
+      createdAt: world.currentDate,
+      rules: initialRules(
+        source.courtId,
+        level,
+        JUDICIAL_SELECTION_PROFILES.find(
+          (profile) =>
+            profile.recordId ===
+            (level === "federal-appellate"
+              ? "us-fed:intermediate_appellate"
+              : "us-fed:general_trial"),
+        ) ?? null,
+        seatCounts,
+      ),
+    });
+  }
+  for (const profile of stateProfiles) {
+    const key = `US-${profile.jurisdictionId.slice(3).toUpperCase()}`;
+    const family = profile.officeFamily;
+    const level: JudicialCourt["level"] = family.startsWith("highest_court")
+      ? "local-highest"
+      : family === "intermediate_appellate"
+        ? "local-intermediate"
+        : family === "chancery_equity"
+          ? "local-chancery"
+          : "local-general-trial";
+    const appellate = stateProfiles.find(
+      (row) =>
+        row.jurisdictionId === profile.jurisdictionId &&
+        row.officeFamily === "intermediate_appellate",
+    );
+    const highCourts = stateProfiles.filter(
+      (row) =>
+        row.jurisdictionId === profile.jurisdictionId &&
+        row.officeFamily.startsWith("highest_court"),
+    );
+    const parentCourtId =
+      level === "local-highest"
+        ? null
+        : level === "local-intermediate"
+          ? highCourts.length === 1
+            ? highCourts[0]!.recordId
+            : null
+          : (appellate?.recordId ??
+            (highCourts.length === 1 ? highCourts[0]!.recordId : null));
+    add({
+      courtId: profile.recordId,
+      jurisdictionId: jurisdictionId(key),
+      name: profile.courtName.value!,
+      level,
+      parentCourtId,
+      sourceRecordId: profile.recordId,
+      identityBasis: "sourced",
+      geographyDetail:
+        level === "local-general-trial" ? "office-family-only" : "exact-court",
+      createdAt: world.currentDate,
+      rules: initialRules(profile.recordId, level, profile, seatCounts),
+    });
+  }
+  for (const [
+    key,
+    courtId,
+    name,
+    level,
+    parentCourtId,
+  ] of TERRITORY_LOCAL_COURTS) {
+    add({
+      courtId,
+      jurisdictionId: jurisdictionId(key),
+      name,
+      level,
+      parentCourtId,
+      sourceRecordId: null,
+      identityBasis: "game-profile",
+      geographyDetail:
+        level === "local-general-trial" ? "office-family-only" : "exact-court",
+      createdAt: world.currentDate,
+      rules: initialRules(courtId, level, null, seatCounts),
+    });
+  }
+  const seats: Record<string, JudicialSeat> = {};
+  const courtRuleVersions = Object.values(courts).map((court) => {
+    const count = court.rules.authorizedSeats;
+    for (
+      let ordinal = 1;
+      count.state === "known" && ordinal <= count.value;
+      ordinal += 1
+    ) {
+      const seatId = judicialSeatId(court.courtId, ordinal);
+      seats[seatId] = {
+        seatId,
+        courtId: court.courtId,
+        ordinal,
+        servesCourtIds: [court.courtId],
+        allocationRecordId: null,
+        createdAt: world.currentDate,
+        retiredAt: null,
+        linkedOfficeId:
+          court.courtId === "us-supreme-court" && ordinal === 1
+            ? "us-chief-justice"
+            : null,
+      };
+    }
+    return {
+      recordId: `judicial-rule:initial:${court.courtId}`,
+      courtId: court.courtId,
+      effectiveAt: world.currentDate,
+      provisionId: null,
+      rules: court.rules,
+    };
+  });
+  next = {
+    ...next,
+    judiciary: {
+      ...EMPTY_JUDICIARY,
+      courts,
+      seats,
+      courtRuleVersions,
+    },
+  };
+  assertWorldIntegrity(next);
+  return next;
+}
+
 export const EMPTY_JUDICIARY: JudiciaryState = {
   courts: {},
   seats: {},
+  sharedSeatAllocations: [],
   courtRuleVersions: [],
   seatTenures: [],
   selections: [],
   selectionStages: [],
   retentionContests: [],
   retentionResults: [],
+  professionalQualifications: [],
   philosophies: [],
 };
 
@@ -77,7 +471,7 @@ export function seatsForCourt(
   return Object.values(world.judiciary?.seats ?? {})
     .filter(
       (seat) =>
-        seat.courtId === courtId &&
+        (seat.servesCourtIds?.includes(courtId) ?? seat.courtId === courtId) &&
         seat.createdAt <= asOf &&
         (seat.retiredAt === null || seat.retiredAt > asOf),
     )
@@ -192,6 +586,8 @@ export function addJudicialCourt(world: World, court: JudicialCourt): World {
       seatId,
       courtId: court.courtId,
       ordinal,
+      servesCourtIds: [court.courtId],
+      allocationRecordId: null,
       createdAt: court.createdAt,
       retiredAt: null,
       linkedOfficeId:
@@ -213,6 +609,73 @@ export function addJudicialCourt(world: World, court: JudicialCourt): World {
         effectiveAt: court.createdAt,
         provisionId: null,
         rules: court.rules,
+      },
+    ],
+  });
+}
+
+/** One canonical seat pool shared by the listed courts; no duplicate tenures. */
+export function addJointJudicialSeatAllocation(
+  world: World,
+  input: JudicialSharedSeatAllocation,
+): World {
+  const previous = world.judiciary ?? EMPTY_JUDICIARY;
+  if (
+    previous.sharedSeatAllocations.some(
+      (allocation) =>
+        allocation.allocationRecordId === input.allocationRecordId,
+    )
+  )
+    return world;
+  if (input.effectiveAt > world.currentDate)
+    throw new Error(
+      "A future joint judicial allocation needs a scheduled transition.",
+    );
+  const count = input.authorizedSeats;
+  if (
+    count.state !== "known" ||
+    !Number.isSafeInteger(count.value) ||
+    count.value < 1
+  )
+    throw new Error(
+      "A joint judicial allocation needs a positive known seat count.",
+    );
+  if (
+    input.servedCourtIds.length < 2 ||
+    new Set(input.servedCourtIds).size !== input.servedCourtIds.length
+  )
+    throw new Error(
+      "A joint judicial allocation needs distinct member courts.",
+    );
+  for (const courtId of input.servedCourtIds) requireCourt(world, courtId);
+  const courtId = input.servedCourtIds[0]!;
+  const seats = { ...previous.seats };
+  for (let ordinal = 1; ordinal <= count.value; ordinal += 1) {
+    const seatId = judicialSeatId(
+      `judicial-allocation:${input.allocationRecordId}`,
+      ordinal,
+    );
+    if (seats[seatId])
+      throw new Error(`Joint judicial seat already exists: ${seatId}`);
+    seats[seatId] = {
+      seatId,
+      courtId,
+      ordinal,
+      servesCourtIds: [...input.servedCourtIds],
+      allocationRecordId: input.allocationRecordId,
+      createdAt: input.effectiveAt,
+      retiredAt: null,
+      linkedOfficeId: null,
+    };
+  }
+  return saveJudiciary(world, {
+    ...previous,
+    seats,
+    sharedSeatAllocations: [
+      ...previous.sharedSeatAllocations,
+      {
+        ...input,
+        servedCourtIds: [...input.servedCourtIds],
       },
     ],
   });
@@ -246,7 +709,7 @@ export function changeJudicialCourtRules(
     return world;
   const seats = { ...previous.seats };
   const existing = Object.values(seats).filter(
-    (seat) => seat.courtId === court.courtId,
+    (seat) => seat.courtId === court.courtId && !seat.allocationRecordId,
   );
   const largestOrdinal = Math.max(0, ...existing.map((seat) => seat.ordinal));
   for (let ordinal = largestOrdinal + 1; ordinal <= count; ordinal += 1) {
@@ -255,13 +718,18 @@ export function changeJudicialCourtRules(
       seatId,
       courtId: court.courtId,
       ordinal,
+      servesCourtIds: [court.courtId],
+      allocationRecordId: null,
       createdAt: input.effectiveAt,
       retiredAt: null,
       linkedOfficeId: null,
     };
   }
   let activeCount = Object.values(seats).filter(
-    (seat) => seat.courtId === court.courtId && seat.retiredAt === null,
+    (seat) =>
+      seat.courtId === court.courtId &&
+      !seat.allocationRecordId &&
+      seat.retiredAt === null,
   ).length;
   if (activeCount < count) {
     for (const seat of existing
@@ -384,8 +852,13 @@ export function vacateJudicialSeat(
     throw new Error(`Judicial seat is already vacant: ${input.seatId}`);
   const court = requireCourt(world, seat.courtId);
   const capacity = court.rules.authorizedSeats;
-  const activeCount = seatsForCourt(world, court.courtId).length;
-  const retiring = capacity.state === "known" && activeCount > capacity.value;
+  const activeCount = seatsForCourt(world, court.courtId).filter(
+    (active) => !active.allocationRecordId,
+  ).length;
+  const retiring =
+    !seat.allocationRecordId &&
+    capacity.state === "known" &&
+    activeCount > capacity.value;
   return saveJudiciary(world, {
     ...previous,
     seats: retiring

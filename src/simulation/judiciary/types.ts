@@ -53,6 +53,8 @@ export interface JudicialCourt {
   readonly sourceRecordId: string | null;
   /** "game-profile" only when the source universe does not specify the court. */
   readonly identityBasis: "sourced" | "game-profile" | "enacted-rule";
+  /** A 92L office family is not an enumerated trial district. */
+  readonly geographyDetail?: "exact-court" | "office-family-only";
   readonly createdAt: IsoDate;
   readonly rules: JudicialCourtRules;
 }
@@ -70,10 +72,20 @@ export interface JudicialSeat {
   readonly seatId: string;
   readonly courtId: string;
   readonly ordinal: number;
+  /** A joint statutory allocation serves several courts through one seat. */
+  readonly servesCourtIds?: readonly string[];
+  readonly allocationRecordId?: string | null;
   readonly createdAt: IsoDate;
   readonly retiredAt: IsoDate | null;
   /** Links the existing Chief Justice federal tenure without duplicating its authority. */
   readonly linkedOfficeId: "us-chief-justice" | null;
+}
+
+export interface JudicialSharedSeatAllocation {
+  readonly allocationRecordId: string;
+  readonly servedCourtIds: readonly string[];
+  readonly authorizedSeats: JudicialRuleField<number>;
+  readonly effectiveAt: IsoDate;
 }
 
 export interface JudicialSelectionProvenance {
@@ -158,6 +170,21 @@ export interface JudicialRetentionResultRecord {
   readonly decisionRecordId: EntityId | null;
 }
 
+/** Dated professional admission; a job title never proves bar eligibility. */
+export interface JudicialProfessionalQualificationRecord {
+  readonly recordId: EntityId;
+  readonly personId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly barAdmittedAt: IsoDate;
+  readonly legalPracticeSince: IsoDate | null;
+  readonly recordedAt: IsoDate;
+  readonly provenance: {
+    readonly kind: "generated-opening-background" | "recorded-life";
+    readonly seedKey: string | null;
+    readonly evidenceFactIds: readonly EntityId[];
+  };
+}
+
 export interface JudicialSelectionStageRecord {
   readonly recordId: string;
   readonly selectionRecordId: string;
@@ -208,12 +235,14 @@ export interface JudicialPhilosophyRecord {
 export interface JudiciaryState {
   readonly courts: Readonly<Record<string, JudicialCourt>>;
   readonly seats: Readonly<Record<string, JudicialSeat>>;
+  readonly sharedSeatAllocations: readonly JudicialSharedSeatAllocation[];
   readonly courtRuleVersions: readonly JudicialCourtRuleVersion[];
   readonly seatTenures: readonly JudicialSeatTenure[];
   readonly selections: readonly JudicialSelectionRecord[];
   readonly selectionStages: readonly JudicialSelectionStageRecord[];
   readonly retentionContests: readonly JudicialRetentionContestRecord[];
   readonly retentionResults: readonly JudicialRetentionResultRecord[];
+  readonly professionalQualifications: readonly JudicialProfessionalQualificationRecord[];
   readonly philosophies: readonly JudicialPhilosophyRecord[];
 }
 
