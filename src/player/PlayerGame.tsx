@@ -174,6 +174,7 @@ import {
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { SceneBackdrop } from "./SceneBackdrop";
+import { backdropForLocation } from "../presentation/place-backdrops";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
 import { PUBLIC_MEETING_ROOM_SCENE_ID } from "../presentation/scene-registry";
@@ -1420,6 +1421,23 @@ function PlayingScreen({
   ]);
 
   const sceneId = playScene.sceneId;
+  const placeBackdrop = useMemo(
+    () =>
+      sceneId
+        ? null
+        : backdropForLocation(
+            session.world,
+            session.personId,
+            playScene.purpose === "home" ? "home" : playScene.locationKey,
+          ),
+    [
+      sceneId,
+      session.world,
+      session.personId,
+      playScene.purpose,
+      playScene.locationKey,
+    ],
+  );
   const readableSurfaces = useMemo(() => {
     const news = projectLivingSceneSurface(session.world, session.personId, {
       kind: "news",
@@ -2169,6 +2187,7 @@ function PlayingScreen({
             ) : null}
             <SceneBackdrop
               sceneId={sceneId}
+              placeBackdrop={placeBackdrop}
               readableSurfaces={readableSurfaces}
               onOpenSurfaceEntity={openEntity}
               visualLibrary={sceneVisuals}
