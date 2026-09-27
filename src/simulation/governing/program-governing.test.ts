@@ -10,6 +10,10 @@ import {
 } from "../legislation";
 import { createLegislativeScenario } from "../legislation-scenarios";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { stateJurisdictionForKey } from "../life-places";
+import { legislatureProfilePackId } from "../legislature-game-profile";
+import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
+import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
 import { openAppropriationsFor } from "./program-governing";
 import type { EntityId, World } from "../types";
 import { fileDraft } from "../../presentation/legislation-docket";
@@ -82,6 +86,27 @@ function appropriations(world: World) {
 }
 
 describe("one program identity per named spending target", () => {
+  it("has one distinct state transit game profile in every state", () => {
+    const keys = new Set<string>();
+    for (const stateUsps of US_STATE_USPS) {
+      const jurisdictionKey = `US-${stateUsps}`;
+      const jurisdiction = stateJurisdictionForKey(jurisdictionKey);
+      expect(jurisdiction).not.toBeNull();
+      if (!jurisdiction) continue;
+      const profile = stateTransitServiceProfileForMeasure(
+        { jurisdictions: { [jurisdiction.id]: jurisdiction } },
+        {
+          jurisdictionId: jurisdiction.id,
+          rulePackId: legislatureProfilePackId(jurisdictionKey),
+        },
+      );
+      expect(profile?.jurisdictionKey).toBe(jurisdictionKey);
+      expect(profile?.programKey).toBe(`transit:${stateUsps.toLowerCase()}`);
+      expect(profile?.availabilityDays).toBe(365);
+      if (profile) keys.add(profile.programKey);
+    }
+    expect(keys.size).toBe(50);
+  });
   it("keeps separate standing funds in the same state distinct", () => {
     const schools = enact(scenario.world, {
       familyKey: "appropriations",
