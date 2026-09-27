@@ -11,6 +11,7 @@ import {
 import { createWorkItem, workItemState } from "../time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordDailyGovernmentFiscalFlow } from "../government-fiscal-metrics";
+import { recordPaidTransitProgramService } from "./public-program-transit";
 import {
   appropriationCommittedMinorUnits,
   appropriationPinnedPaymentsMinorUnits,
@@ -1074,12 +1075,19 @@ export function settleProgramInstallment(
   const installment = publicProgramRecords(next).at(
     -1,
   ) as PublicProgramInstallmentRecord;
-  if (installment.status === "posted")
+  if (installment.status === "posted") {
     next = recordProgramOutlaysForDate(
       next,
       installment.jurisdictionId,
       installment.recordedAt,
     );
+    next = recordPaidTransitProgramService(
+      next,
+      appropriation,
+      commitment,
+      installment,
+    );
+  }
   if (
     !reason &&
     plan.purpose === "maintenance" &&
