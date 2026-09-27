@@ -119,7 +119,13 @@ export interface ExtractedGarment {
 const EDGE_REACH = 6;
 
 /** Slots whose trousers run to the soles, so the bare legs never show. */
-const HIDES_LEGS: ReadonlySet<GarmentSlot> = new Set(["legwear", "outfit"]);
+const HIDES_LEGS: ReadonlySet<GarmentSlot> = new Set(["legwear"]);
+
+/** How far below the neckline an open collar's skin is the body's own, as a share of the figure. */
+const OPEN_COLLAR_SHARE = 0.15;
+
+/** How far to look for painted skin on each side of a line in the collar band. */
+const COLLAR_REACH = 4;
 
 /**
  * Per row, the columns that belong to the hips and legs rather than the arms.
@@ -355,6 +361,9 @@ export function extractGarment(
   const bands = measureBodyBands(bare, anchors);
   const figure = anchors.feet - anchors.top;
   const shoeTop = anchors.feet - Math.round(figure * 0.08);
+  /** An open collar or neckline reaches no lower than this. */
+  const openCollarEnd =
+    bands.necklineRow + Math.round(figure * OPEN_COLLAR_SHARE);
   const legTop = bands.bottomsTopRow - 10;
   const legColumns =
     slot === "outfit" || slot === "dress" || slot === "shoes"
@@ -380,6 +389,34 @@ export function extractGarment(
       }
     }
     return false;
+  };
+  const paintedSkin = (x: number, y: number): boolean => {
+    if (x < 0 || y < 0 || x >= onBody.width || y >= onBody.height) return false;
+    const i = (y * onBody.width + x) * 4;
+    return isSkinPixel(
+      onBody.data[i]!,
+      onBody.data[i + 1]!,
+      onBody.data[i + 2]!,
+      onBody.data[i + 3]!,
+    );
+  };
+  /**
+   * A thin line drawn across painted skin: skin within a few pixels on both
+   * sides, across or along the row. That is a jaw or neck line, never a
+   * collar, whose fabric is wide and whose edge has skin on one side only.
+   */
+  const lineOnSkin = (x: number, y: number): boolean => {
+    const within = (dx: number, dy: number) => {
+      for (let k = 1; k <= COLLAR_REACH; k += 1)
+        if (paintedSkin(x + dx * k, y + dy * k)) return true;
+      return false;
+    };
+    return (
+      (within(-1, 0) && within(1, 0)) ||
+      (within(0, -1) && within(0, 1)) ||
+      (within(-1, -1) && within(1, 1)) ||
+      (within(-1, 1) && within(1, -1))
+    );
   };
   const covers = (under: Under, x: number, y: number): boolean => {
     switch (slot) {
@@ -429,23 +466,29 @@ export function extractGarment(
       const i = (y * onBody.width + x) * 4;
       const a = src[i + 3]!;
       if (a <= OPAQUE_ALPHA) continue;
-      if (isSkinPixel(src[i]!, src[i + 1]!, src[i + 2]!, a)) {
-        // Skin the outfit leaves open where the bare body wears underwear (an
-        // open collar over the bra line) must be skin, not underwear: keep it
-        // so the assembly recolors it with the person's shade.
-        const bareKind = underKind(
-          under[i]!,
-          under[i + 1]!,
-          under[i + 2]!,
-          under[i + 3]!,
-        );
-        if (
-          slot !== "outfit" ||
-          bareKind !== "underwear" ||
-          y < anchors.neck.row
-        )
+      if (slot === "outfit") {
+        // A whole outfit IS the figure below the neckline, its own hands
+        // included, recolored to the person's shade at assembly. A painted
+        // arm or hand that stands a few pixels off the bare one then leaves
+        // no strip of bare skin and no stray outline. In an open collar the
+        // body's own skin shows instead, so the neck keeps the head's tone
+        // with no step at the neckline. Between the neck row and the
+        // neckline only the collar is taken: the generator redraws the head
+        // a little lower, and its jaw and neck lines there, thin lines across
+        // painted skin, must never cover the face.
+        const skin = isSkinPixel(src[i]!, src[i + 1]!, src[i + 2]!, a);
+        const keep =
+          (y >= bands.necklineRow && !(skin && y < openCollarEnd)) ||
+          (y >= anchors.neck.row && !skin && !lineOnSkin(x, y));
+        if (!keep) {
+          if (!skin) refusedPixels += 1;
           continue;
+        }
+        layer.data.set(src.subarray(i, i + 4), i);
+        clothPixels += 1;
+        continue;
       }
+      if (isSkinPixel(src[i]!, src[i + 1]!, src[i + 2]!, a)) continue;
       const inHead =
         y <= anchors.head.bottom &&
         x >= anchors.head.left &&
@@ -468,7 +511,18 @@ export function extractGarment(
     }
   }
   let hidesBody: Uint8Array | null = null;
-  if (HIDES_LEGS.has(slot)) {
+  if (slot === "outfit") {
+    // Below the neckline the outfit is the whole figure, except the skin of
+    // an open collar, which stays the body's.
+    hidesBody = new Uint8Array(bare.width * bare.height);
+    hidesBody.fill(1, bands.necklineRow * bare.width);
+    for (let y = bands.necklineRow; y < openCollarEnd; y += 1)
+      for (let x = 0; x < bare.width; x += 1) {
+        const i = (y * bare.width + x) * 4;
+        if (isSkinPixel(src[i]!, src[i + 1]!, src[i + 2]!, src[i + 3]!))
+          hidesBody[y * bare.width + x] = 0;
+      }
+  } else if (HIDES_LEGS.has(slot)) {
     const columns = legColumns ?? measureLegColumns(bare, anchors, legTop);
     hidesBody = new Uint8Array(bare.width * bare.height);
     for (let y = bands.bottomsBottomRow + 1; y < bare.height; y += 1) {

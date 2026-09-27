@@ -24,6 +24,7 @@ import {
 } from "../../src/presentation/appearance-engine/register";
 import {
   SKIN_RAMPS,
+  measureSkinLuminance,
   recolorSkin,
 } from "../../src/presentation/appearance-engine/skin";
 
@@ -82,7 +83,13 @@ for (const build of ["lean", "average", "fuller"]) {
   // Paintings made over a fitting-suit figure stand a few rows off the bare
   // body: move each onto it first.
   const painting = read(garmentPath);
-  const offset = registrationOffset(measureBodyAnchors(painting), anchors);
+  const offset = registrationOffset(
+    measureBodyAnchors(painting),
+    anchors,
+    slot === "bottoms" || slot === "shoes" || slot === "legwear"
+      ? "feet"
+      : "head",
+  );
   const garment = extractGarment(
     translateRaster(painting, offset.dx, offset.dy),
     bare,
@@ -106,7 +113,9 @@ for (const build of ["lean", "average", "fuller"]) {
       {
         slot,
         raster:
-          slot === "outfit" ? recolorSkin(garment.layer, shade) : garment.layer,
+          slot === "outfit"
+            ? recolorSkin(garment.layer, shade, measureSkinLuminance(bare))
+            : garment.layer,
         hidesBody: garment.hidesBody,
       },
       {

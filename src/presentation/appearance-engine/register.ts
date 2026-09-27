@@ -10,8 +10,7 @@ import { createRaster, type Raster } from "./raster";
  * separately and do not stand on exactly the same pixels: on the Sept. 27
  * pants-and-boots set the soles sit 2 to 12 rows off the bare bodies' soles,
  * while the figure's height matches within 3 rows. So a painting is moved to
- * the body before extraction: its soles onto the body's soles, and its head
- * box centered on the body's head box.
+ * the body before extraction (see registrationOffset).
  */
 
 export function translateRaster(
@@ -37,15 +36,26 @@ export function translateRaster(
   return out;
 }
 
-/** How far to move a painting so its soles and head line up with the body. */
+/**
+ * How far to move a painting so it lines up with the body.
+ *
+ * A garment lines up by what it hangs from. Tops, dresses and whole outfits
+ * hang from the shoulders, so they follow the head: on the Sept. 27 outfit
+ * paintings the heads and hands sit within two pixels of the bare bodies
+ * while the shoes end 11 rows lower (heeled pumps) or 9 rows higher, and
+ * moving by the feet would lift every collar and cuff. Trousers and shoes
+ * stand on the floor, so they follow the soles. Across the page both follow
+ * the head box's center.
+ */
 export function registrationOffset(
   painting: BodyAnchors,
   body: BodyAnchors,
+  by: "head" | "feet" = "feet",
 ): { readonly dx: number; readonly dy: number } {
   const center = (anchors: BodyAnchors) =>
     (anchors.head.left + anchors.head.right) / 2;
   return {
     dx: Math.round(center(body) - center(painting)),
-    dy: body.feet - painting.feet,
+    dy: by === "head" ? body.top - painting.top : body.feet - painting.feet,
   };
 }
