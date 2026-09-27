@@ -76,6 +76,23 @@ describe("judicial seat contract", () => {
     expect(seatHolderAt(world, seatId)?.personId).toBe(first);
     expect(() =>
       seatJudge(world, {
+        seatId: judicialSeatId(courtId, 2),
+        personId: first,
+        startedAt: world.currentDate,
+        selection: {
+          path: "appointment",
+          selectionRecordId: "selection:second-seat",
+          decisionRecordId: null,
+          selectingPersonId: null,
+          contestId: null,
+          note: null,
+        },
+        termEndsAt: null,
+        retentionDueAt: null,
+      }),
+    ).toThrow("already holds another judicial seat");
+    expect(() =>
+      seatJudge(world, {
         seatId,
         personId: second,
         startedAt: world.currentDate,

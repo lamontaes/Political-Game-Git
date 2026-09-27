@@ -957,6 +957,27 @@ export function changeJudicialCourtRules(
   });
 }
 
+function judicialSeatsHeldByPerson(
+  world: World,
+  personId: EntityId,
+  asOf: IsoDate,
+): readonly JudicialSeat[] {
+  const possible = new Set(
+    (world.judiciary?.seatTenures ?? [])
+      .filter((tenure) => tenure.personId === personId)
+      .map((tenure) => tenure.seatId),
+  );
+  for (const seat of Object.values(world.judiciary?.seats ?? {})) {
+    if (seat.linkedOfficeId) possible.add(seat.seatId);
+  }
+  return [...possible]
+    .map((seatId) => world.judiciary?.seats[seatId])
+    .filter((seat) => seat !== undefined)
+    .filter(
+      (seat) => seatHolderAt(world, seat.seatId, asOf)?.personId === personId,
+    );
+}
+
 export function seatJudge(
   world: World,
   input: {
@@ -984,6 +1005,12 @@ export function seatJudge(
   if (seatHolderAt(world, seat.seatId, input.startedAt))
     throw new Error(`Judicial seat already held: ${seat.seatId}`);
   if (
+    judicialSeatsHeldByPerson(world, input.personId, input.startedAt).some(
+      (other) => other.seatId !== seat.seatId,
+    )
+  )
+    throw new Error("The nominee already holds another judicial seat.");
+  if (
     world.history.personDeaths.some(
       (death) =>
         death.personId === input.personId && death.diedAt <= input.startedAt,
@@ -1008,6 +1035,30 @@ export function seatJudge(
   return saveJudiciary(world, {
     ...previous,
     seatTenures: [...previous.seatTenures, tenure],
+  });
+}
+
+/** End a judge's old tenure only when a confirmed new appointment is ready. */
+export function releaseJudicialSeatForAppointment(
+  world: World,
+  personId: EntityId,
+  destinationSeatId: string,
+): World {
+  const held = judicialSeatsHeldByPerson(world, personId, world.currentDate);
+  if (held.length === 0) return world;
+  if (held.length !== 1)
+    throw new Error("The nominee holds multiple judicial seats.");
+  const source = held[0]!;
+  if (source.seatId === destinationSeatId)
+    throw new Error("The nominee already holds the destination seat.");
+  if (source.linkedOfficeId)
+    throw new Error(
+      "The nominee's current judicial office needs its canonical vacancy route.",
+    );
+  return vacateJudicialSeat(world, {
+    seatId: source.seatId,
+    vacatedAt: world.currentDate,
+    reason: "appointment-to-another-seat",
   });
 }
 
