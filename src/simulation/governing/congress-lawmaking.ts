@@ -28,6 +28,7 @@ import type {
   World,
 } from "../types";
 import { recordWorldEvent } from "../world";
+import { JUDICIAL_SENATE_HANDLERS } from "../judiciary/senate-referral";
 import {
   CONGRESS_SITTING_TRANSITION,
   COSPONSOR_EVENT,
@@ -641,6 +642,7 @@ export function congressSittingHandler(
 export const CONGRESS_LAWMAKING_HANDLERS = [
   [CONGRESS_INTAKE_TRANSITION, congressIntakeHandler],
   [CONGRESS_SITTING_TRANSITION, congressSittingHandler],
+  ...JUDICIAL_SENATE_HANDLERS,
 ] as const;
 
 function emptyContext() {

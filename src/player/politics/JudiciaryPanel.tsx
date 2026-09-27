@@ -190,6 +190,9 @@ function FederalVacancyAction({
           <p className="pg-government-note">
             Next: {selection.nextStage?.actor ?? "Authority unresolved"}
           </p>
+          {selection.senateStatus ? (
+            <p className="pg-government-note">{selection.senateStatus}</p>
+          ) : null}
           {selection.playerMayNominate ? (
             <ul>
               {selection.candidates.map((candidate) => {

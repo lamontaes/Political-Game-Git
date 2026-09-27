@@ -3,6 +3,8 @@
 import type { EntityId, IsoDate, World } from "../types";
 import { makeIsoDate } from "../dates";
 import { currentPresidentOf } from "../crisis/offices";
+import { scheduleFutureDueItem } from "../future-transitions";
+import { nextCongressSitting } from "../governing/congress-chambers";
 import { electionContestResult } from "../election-contests";
 import { personName } from "../people";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
@@ -27,6 +29,8 @@ import type {
 } from "./types";
 
 export const JUDICIAL_POPULAR_VOTER_PROFILE = "judicial-popular-voters/v1";
+export const JUDICIAL_SENATE_REFERRAL_TRANSITION =
+  "judiciary:senate-referral" as const;
 
 export type FederalJudicialNomineeScreen =
   | {
@@ -834,7 +838,7 @@ export function recordFederalJudicialNomination(
       immediateReaction: null,
     },
   });
-  return recordJudicialSelectionStage(next, {
+  const nominated = recordJudicialSelectionStage(next, {
     selectionRecordId: selection.recordId,
     plan: resolved.plan,
     occurredAt: next.currentDate,
@@ -844,6 +848,17 @@ export function recordFederalJudicialNomination(
     decisionRecordId: null,
     electionContestId: null,
     outcomeEventId: next.history.events.at(-1)!.id,
+  });
+  return scheduleFutureDueItem(nominated, {
+    stableKey: `${JUDICIAL_SENATE_REFERRAL_TRANSITION}:${selection.recordId}`,
+    dueAt: nextCongressSitting(nominated.currentDate),
+    transitionKey: JUDICIAL_SENATE_REFERRAL_TRANSITION,
+    entityIds: [nominee.id],
+    jurisdictionId: null,
+    provenance: {
+      kind: "simulated",
+      sourceEntityIds: [next.history.events.at(-1)!.id],
+    },
   });
 }
 

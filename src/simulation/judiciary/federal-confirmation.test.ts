@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import { projectJudicialSelection } from "../../presentation/judicial-selection";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -16,6 +17,8 @@ import { publicPartyAffiliation } from "../living-world/congress";
 import { recordEventKnowledge } from "../records";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { makeIsoDate } from "../dates";
+import { createCampaignElectionTransitionRegistry } from "../campaigns";
+import { resolveFutureDueItemsThrough } from "../future-transitions";
 import { recordWorldEvent } from "../world";
 import { addJudicialCourt, seatHolderAt, seatJudge } from "./courts";
 import { recordFederalJudicialCandidateResponse } from "./candidate-interview";
@@ -35,6 +38,11 @@ import {
   recordFederalJudicialNomination,
 } from "./selection";
 import { judicialSeatId } from "./types";
+import {
+  JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION,
+  JUDICIAL_SENATE_REFERRAL_EVENT,
+} from "./senate-referral";
+import { JUDICIAL_SENATE_REFERRAL_TRANSITION } from "./selection";
 
 function pendingNomination() {
   const game = generateOpeningLife(
@@ -106,6 +114,82 @@ function pendingNomination() {
 }
 
 describe("federal judicial hearing and Senate ballot", () => {
+  it("refers a saved nomination on the master due registry and blocks committee consideration without its authority", () => {
+    const pending = pendingNomination();
+    const referralDue = pending.world.history.futureDueItems.find(
+      (item) =>
+        item.transitionKey === JUDICIAL_SENATE_REFERRAL_TRANSITION &&
+        item.stableKey.endsWith(pending.selectionRecordId),
+    )!;
+    expect(referralDue.dueAt > pending.world.currentDate).toBe(true);
+    expect(
+      projectJudicialSelection(pending.world, pending.seatId)?.senateStatus,
+    ).toContain("referral is scheduled");
+    const registry = createCampaignElectionTransitionRegistry();
+    expect(registry.get(referralDue.transitionKey)).toBeTypeOf("function");
+    const referred = resolveFutureDueItemsThrough(
+      pending.world,
+      referralDue.dueAt,
+      registry,
+    );
+    expect(
+      referred.history.futureDueItemStates.findLast(
+        (state) => state.dueItemId === referralDue.id,
+      )?.status,
+    ).toBe("resolved");
+    expect(
+      referred.history.events.findLast(
+        (event) => event.type === JUDICIAL_SENATE_REFERRAL_EVENT,
+      ),
+    ).toMatchObject({
+      type: JUDICIAL_SENATE_REFERRAL_EVENT,
+      occurredAt: referralDue.dueAt,
+      tags: expect.arrayContaining([
+        `selection:${pending.selectionRecordId}`,
+        "committee:senate-judiciary",
+      ]),
+    });
+    expect(
+      projectJudicialSelection(referred, pending.seatId)?.senateStatus,
+    ).toContain("before the Senate Judiciary Committee");
+    const committeeDue = referred.history.futureDueItems.find(
+      (item) =>
+        item.transitionKey === JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION &&
+        item.stableKey.endsWith(pending.selectionRecordId),
+    )!;
+    expect(registry.get(committeeDue.transitionKey)).toBeTypeOf("function");
+    const committee = resolveFutureDueItemsThrough(
+      referred,
+      committeeDue.dueAt,
+      registry,
+    );
+    expect(
+      committee.history.futureDueItemStates.findLast(
+        (state) => state.dueItemId === committeeDue.id,
+      ),
+    ).toMatchObject({
+      status: "blocked",
+      reasonKey: "judiciary:committee-convener-unrecorded",
+    });
+    expect(
+      projectJudicialSelection(committee, pending.seatId)?.senateStatus,
+    ).toContain("waiting for an authorized convener");
+    expect(
+      committee.history.events.some(
+        (event) =>
+          event.type === JUDICIAL_CONFIRMATION_HEARING_EVENT ||
+          event.type === "judicial.senate-ballot",
+      ),
+    ).toBe(false);
+    expect(seatHolderAt(committee, pending.seatId)).toBeNull();
+    const reopened = deserializeWorld(serializeWorld(referred));
+    expect(
+      reopened.history.events.some(
+        (event) => event.type === JUDICIAL_SENATE_REFERRAL_EVENT,
+      ),
+    ).toBe(true);
+  }, 20_000);
+
   // This case opens the full named judiciary and Congress. It took 3.63 s
   // alone and 18.71 s during concurrent typechecks; keep the deadline local.
   it("grounds an NPC ballot in known party and qualification evidence without voting twice", () => {

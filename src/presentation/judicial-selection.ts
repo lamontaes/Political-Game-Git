@@ -4,11 +4,21 @@ import { currentPresidentOf } from "../simulation/crisis/offices";
 import { courtById, seatHolderAt } from "../simulation/judiciary/courts";
 import { JUDICIAL_ROSTER_REVIEW_EVENT } from "../simulation/judiciary/candidate-discovery";
 import {
+  JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION,
+  JUDICIAL_SENATE_REFERRAL_EVENT,
+} from "../simulation/judiciary/senate-referral";
+import {
+  JUDICIAL_SENATE_REFERRAL_TRANSITION,
   judicialSelectionProgress,
   resolveJudicialSelectionPlan,
 } from "../simulation/judiciary/selection";
 import { personName } from "../simulation/people";
-import type { EntityId, World } from "../simulation/types";
+import { proseDate } from "./prose-dates";
+import type {
+  EntityId,
+  FutureDueItemStateRecord,
+  World,
+} from "../simulation/types";
 
 export interface JudicialSelectionView {
   readonly seatId: string;
@@ -33,6 +43,7 @@ export interface JudicialSelectionView {
     readonly name: string;
   }[];
   readonly playerMayNominate: boolean;
+  readonly senateStatus: string | null;
 }
 
 export function projectJudicialSelection(
@@ -90,6 +101,7 @@ export function projectJudicialSelection(
       reason: null,
       nextStage: null,
       playerMayNominate: false,
+      senateStatus: null,
     };
   const resolved = resolveJudicialSelectionPlan(world, seatId, selection.kind);
   if (resolved.state !== "ready")
@@ -99,6 +111,7 @@ export function projectJudicialSelection(
       reason: "This court's selection route is unavailable.",
       nextStage: null,
       playerMayNominate: false,
+      senateStatus: null,
     };
   const progress = judicialSelectionProgress(
     world,
@@ -113,6 +126,47 @@ export function projectJudicialSelection(
     stage?.mechanism === "EXECUTIVE_NOMINATION" &&
     stage.actor.value === "President of the United States" &&
     controlledPresident;
+  const senateStatus = (() => {
+    if (
+      stage?.mechanism !== "LEGISLATIVE_CONFIRMATION" ||
+      stage.actor.value !== "United States Senate"
+    )
+      return null;
+    const referral = world.history.events.find(
+      (event) =>
+        event.type === JUDICIAL_SENATE_REFERRAL_EVENT &&
+        event.tags.includes(`selection:${selection.recordId}`),
+    );
+    const due = world.history.futureDueItems.find(
+      (item) =>
+        item.stableKey.endsWith(`:${selection.recordId}`) &&
+        item.transitionKey ===
+          (referral
+            ? JUDICIAL_COMMITTEE_CONSIDERATION_TRANSITION
+            : JUDICIAL_SENATE_REFERRAL_TRANSITION),
+    );
+    if (!due)
+      return referral
+        ? "The nomination is before the Senate Judiciary Committee."
+        : "The Senate referral has not been scheduled.";
+    let state: FutureDueItemStateRecord | null = null;
+    for (
+      let index = world.history.futureDueItemStates.length - 1;
+      index >= 0;
+      index -= 1
+    ) {
+      const row = world.history.futureDueItemStates[index]!;
+      if (row.dueItemId === due.id) {
+        state = row;
+        break;
+      }
+    }
+    if (state?.status === "blocked")
+      return "The nomination is referred. Committee consideration is waiting for an authorized convener and recorded attendance.";
+    if (referral)
+      return `The nomination is before the Senate Judiciary Committee. Consideration is scheduled for ${proseDate(due.dueAt)}.`;
+    return `Senate referral is scheduled for ${proseDate(due.dueAt)}.`;
+  })();
   return {
     ...base,
     status: progress.status,
@@ -128,5 +182,6 @@ export function projectJudicialSelection(
         }
       : null,
     playerMayNominate,
+    senateStatus,
   };
 }
