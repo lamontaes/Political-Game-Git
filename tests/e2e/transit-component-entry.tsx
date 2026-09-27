@@ -7,6 +7,7 @@ import { DocketWorkspace } from "../../src/player/DocketWorkspace";
 import { resolveActiveMemberSeat } from "../../src/presentation/legislative-member-seat";
 import { projectTransitWork } from "../../src/presentation/transit-work";
 import { selectDocketBill } from "../../src/presentation/legislation-docket-selection";
+import { useTimeCommand } from "../../src/player/time-command-runner";
 import type { EntityId, World } from "../../src/simulation/types";
 
 // Component receipt, not a primary-root mount or an ordinary election producer.
@@ -32,6 +33,13 @@ function Entry() {
   const [message, setMessage] = useState("");
   if (world.control.kind !== "person")
     throw new Error("Expected the controlled member.");
+  // Time moves only from the shell's Day control since e79d4ec33, and this
+  // receipt mounts no shell, so it submits the same one-day command itself.
+  const clock = useTimeCommand({
+    world,
+    personId: world.control.personId,
+    onWorldChange: setWorld,
+  });
   const personId = world.control.personId;
   const view = projectTransitWork(world, personId);
   const seat = resolveActiveMemberSeat(world, personId);
@@ -64,6 +72,13 @@ function Entry() {
         producer acceptance remain separate.
       </p>
       <button onClick={() => void save()}>Save</button>
+      <button
+        data-testid="transit-pass-day"
+        aria-disabled={clock.pending || undefined}
+        onClick={() => clock.submit({ kind: "days", days: 1 })}
+      >
+        Continue one day
+      </button>
       <p role="status">{message}</p>
       {measureId ? (
         <>

@@ -277,12 +277,13 @@ test("the owner journey: brief → batch → restart → filter → approve → 
       state.projection.candidates[first.candidateId].decisions[0].eventId;
 
     // 5. Add tags after approval; the integration item stays; filters find it.
+    // Since 163b1e48 the tag editor sits in the "Organize this image"
+    // disclosure, closed until the owner opens it.
+    await page.getByText("Organize this image", { exact: true }).click();
     await page.getByTestId("art-desk-tag-region").fill("southwest");
     await page.getByTestId("art-desk-tag-assetType").fill("environment-plate");
     await page.getByTestId("art-desk-tags-save").click();
-    await expect(page.getByTestId("art-desk-status")).toContainText(
-      "Tags saved",
-    );
+    await expect(page.getByTestId("art-desk-status")).toHaveText("Saved.");
     state = await benchState(page);
     expect(state.projection.candidates[first.candidateId].tags.region).toEqual([
       "southwest",
@@ -312,7 +313,7 @@ test("the owner journey: brief → batch → restart → filter → approve → 
     await page.getByTestId("art-desk-revision-text").fill(instructions);
     await page.getByTestId("art-desk-revision-send").click();
     await expect(page.getByTestId("art-desk-status")).toContainText(
-      "request-revision recorded",
+      "Changes requested. Your note is saved.",
     );
     state = await benchState(page);
     const revisionDecision =
@@ -390,8 +391,10 @@ test("the owner journey: brief → batch → restart → filter → approve → 
     await expect(page.getByTestId("art-desk-lineage")).toContainText(
       "original → upscale",
     );
+    // The projection above already says "awaiting-review"; the panel words an
+    // undecided image as having no decision yet (since 163b1e48).
     await expect(page.getByTestId("art-desk-decisions")).toContainText(
-      "Awaiting review",
+      "No decision yet.",
     );
 
     // Transparent edit from the original card: alpha measured, checkerboard shown.

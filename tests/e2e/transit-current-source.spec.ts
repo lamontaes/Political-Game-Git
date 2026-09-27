@@ -1,6 +1,5 @@
 import { expect, test } from "./fixtures";
 import { shotPath } from "./support/shot-path";
-import { waitForClockIdle } from "./support/creator";
 
 /** Component entry only; primary PlayerGame mount remains A-owned.
  * Explicit supplied-seat boundary. Transit and recorded legislative controls
@@ -183,12 +182,12 @@ test("current-source transit component enacts two choices and preserves unpaid c
     });
     await expect(transit).toContainText("takes effect on");
     // Since e79d4ec33 time moves only from the shell's Day control; the
-    // Transit panel no longer carries a pass-day button of its own.
-    const continueDay = page.getByTestId("shell-pass-day");
+    // Transit panel no longer carries a pass-day button of its own, and this
+    // receipt mounts no shell, so its entry supplies the same one-day command.
+    const continueDay = page.getByTestId("transit-pass-day");
     for (let day = 0; day < 90; day++) {
       // A running time command marks the control busy; one press per day.
-      await waitForClockIdle(page);
-      await expect(continueDay).toBeEnabled();
+      await expect(continueDay).not.toHaveAttribute("aria-disabled", "true");
       if (index) {
         await continueDay.focus();
         await page.keyboard.press("Enter");
@@ -211,8 +210,12 @@ test("current-source transit component enacts two choices and preserves unpaid c
       await request.focus();
       await page.keyboard.press("Enter");
     } else await request.click();
-    for (let day = 0; day < 14; day++) await continueDay.click();
-    await expect(transit).toContainText("blocked");
+    for (let day = 0; day < 14; day++) {
+      await expect(continueDay).not.toHaveAttribute("aria-disabled", "true");
+      await continueDay.click();
+    }
+    // The panel states each period's canonical state in plain words.
+    await expect(transit).toContainText("Not delivered. Nothing was paid.");
     const cancel = transit.getByRole("button", {
       name: "Cancel undelivered periods",
       exact: true,
@@ -221,7 +224,7 @@ test("current-source transit component enacts two choices and preserves unpaid c
       await cancel.focus();
       await page.keyboard.press("Enter");
     } else await cancel.click();
-    await expect(transit).toContainText("cancelled");
+    await expect(transit).toContainText("Canceled before delivery.");
     const publish = transit
       .getByRole("button", {
         name: "Publish dated service report",
@@ -244,8 +247,9 @@ test("current-source transit component enacts two choices and preserves unpaid c
     await page.reload();
     await openSavedLife(index);
     await openTransit();
-    await expect(transit).toContainText("blocked");
-    await expect(transit).toContainText("cancelled");
+    // The panel states each period's canonical state in plain words.
+    await expect(transit).toContainText("Not delivered. Nothing was paid.");
+    await expect(transit).toContainText("Canceled before delivery.");
     await expect(
       transit.getByText("Published in Civic Ledger.", { exact: true }),
     ).toHaveCount(1);
