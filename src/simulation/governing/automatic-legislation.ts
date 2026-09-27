@@ -311,45 +311,36 @@ function contextSupportsMapping(
 }
 
 /**
- * The exact current consumer tuple for an automatic state appropriation.
- *
- * Until the clause carries that closed intent and the exact positive amount
- * compiled from its appropriation parameter, this producer refuses to create a
- * measure. Funding caps and informative clauses do not count as an operative
- * public-program appropriation.
+ * The bank row names the exact money parameter and operative provision.
+ * A positive ceiling elsewhere in the bill cannot stand in for that clause.
  */
 function hasRegisteredOperativeEffect(
   draft: CompiledBillDraft,
   mapping: AutomaticLawPositionMapping,
 ): boolean {
-  // This consumer currently writes public-program appropriations only. Other
-  // declared effect kinds remain ineligible until their own World writer exists.
-  if (
-    mapping.operativeEffectKind !== "public-program-appropriation" ||
-    mapping.effectProvisionKey !== "amount-provided" ||
-    mapping.effectParameterKey !== "appropriation"
-  )
+  // Other effect kinds still need their own World writer.
+  if (mapping.operativeEffectKind !== "public-program-appropriation")
     return false;
-  const appropriation = draft.parameterValues[mapping.effectParameterKey];
-  const amountClauses = draft.clauses.filter(
+  const amount = draft.parameterValues[mapping.effectParameterKey];
+  const operativeClauses = draft.clauses.filter(
     (clause) => clause.provisionKey === mapping.effectProvisionKey,
   );
-  const amountClause = amountClauses[0];
+  const operativeClause = operativeClauses[0];
   const spendingTotal = draft.clauses
     .filter((clause) => clause.dimension !== "revenue")
     .map((clause) => clause.fiscalExposureMinorUnits)
     .filter((amount): amount is number => amount !== null)
     .reduce((total, amount) => total + amount, 0);
   return (
-    appropriation?.kind === "money" &&
-    Number.isSafeInteger(appropriation.minorUnits) &&
-    appropriation.minorUnits > 0 &&
-    amountClauses.length === 1 &&
-    amountClause?.operativeEffect?.kind === "public-program-appropriation" &&
-    amountClause.parameterKey === "appropriation" &&
-    amountClause.fiscalExposureMinorUnits === appropriation.minorUnits &&
+    amount?.kind === "money" &&
+    Number.isSafeInteger(amount.minorUnits) &&
+    amount.minorUnits > 0 &&
+    operativeClauses.length === 1 &&
+    operativeClause?.operativeEffect?.kind === mapping.operativeEffectKind &&
+    operativeClause.parameterKey === mapping.effectParameterKey &&
+    operativeClause.fiscalExposureMinorUnits === amount.minorUnits &&
     draft.authorizesAppropriation &&
-    draft.appropriatedMinorUnits === appropriation.minorUnits &&
+    draft.appropriatedMinorUnits === amount.minorUnits &&
     spendingTotal === draft.appropriatedMinorUnits
   );
 }

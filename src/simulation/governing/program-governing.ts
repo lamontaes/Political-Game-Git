@@ -47,6 +47,7 @@ import {
 import type {
   EntityId,
   IsoDate,
+  LegislativeMeasureRecord,
   PublicGovernmentIdentity,
   PublicProgramBasis,
   PublicProgramAppropriationRecord,
@@ -215,6 +216,105 @@ export function recordAdoptedAppropriation(
   return { world: written.world, appropriationId: written.id };
 }
 
+/** A federal game-profile target must be the one the filed bill actually names. */
+function federalProgramKeyForAuthority(
+  lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
+): string {
+  // Preserve the existing passenger-rail program identity in saved worlds.
+  return lineage.authorityKey === "game-profile:federal-passenger-rail/v1"
+    ? `${lineage.familyKey}:us`
+    : `${lineage.familyKey}:us-${stableHash(lineage.authorityKey!)}`;
+}
+
+function federalAppropriationTarget(
+  world: World,
+  measure: LegislativeMeasureRecord,
+  lineage: ReturnType<typeof draftLineageForMeasure>,
+  provisions: ReturnType<typeof currentMeasureProvisions>,
+): {
+  readonly provision: (typeof provisions)[number];
+  readonly programKey: string;
+} | null {
+  if (
+    !lineage ||
+    lineage.authorityMeasureId !== undefined ||
+    lineage.componentKey !== undefined ||
+    !lineage.authorityKey ||
+    measure.propositionIds?.length !== 1 ||
+    measure.propositionAnswers?.length !== 1
+  )
+    return null;
+  const answer = measure.propositionAnswers[0]!;
+  if (answer.propositionId !== measure.propositionIds[0]) return null;
+  const proposition = world.policyCatalog.propositions[answer.propositionId];
+  if (
+    !proposition ||
+    !world.policyCatalog.issues[proposition.issueId]?.levels?.includes(
+      "federal",
+    )
+  )
+    return null;
+  let configuration: ReturnType<typeof programVariant>;
+  try {
+    configuration = programVariant(lineage.familyKey, lineage.variantKey);
+  } catch {
+    return null;
+  }
+  const { family, variant } = configuration;
+  if (
+    family.familyVersion !== lineage.familyVersion ||
+    variant.instrument !== "appropriation" ||
+    !variant.authorizesAppropriation
+  )
+    return null;
+  const mapping = variant.npcEligibility?.find(
+    (entry) =>
+      entry.governmentLevel === "federal" &&
+      entry.propositionKey === proposition.stableKey &&
+      entry.answer === answer.answer &&
+      entry.authorityKind === "game-profile" &&
+      entry.operativeEffectKind === "public-program-appropriation",
+  );
+  if (!mapping) return null;
+  const authorityKey =
+    mapping.authorityKey ??
+    `automatic:${lineage.familyKey}/${lineage.variantKey}:${measure.jurisdictionId}`;
+  if (lineage.authorityKey !== authorityKey) return null;
+  const parameter = variant.parameters.find(
+    (entry) =>
+      entry.key === mapping.effectParameterKey && entry.kind === "money",
+  );
+  const filedAmount = draftParameterValues(lineage)[mapping.effectParameterKey];
+  if (
+    parameter?.kind !== "money" ||
+    filedAmount?.kind !== "money" ||
+    !Number.isSafeInteger(filedAmount.minorUnits) ||
+    filedAmount.minorUnits < parameter.minMinorUnits ||
+    filedAmount.minorUnits > parameter.maxMinorUnits ||
+    filedAmount.currency !== parameter.currency
+  )
+    return null;
+  const operative = provisions.filter(
+    (entry) => entry.operativeEffect !== undefined,
+  );
+  const provision = operative[0];
+  if (
+    operative.length !== 1 ||
+    !provision ||
+    provision.provisionKey !== mapping.effectProvisionKey ||
+    provision.operativeEffect?.kind !== "public-program-appropriation" ||
+    provision.fiscalExposureMinorUnits === null ||
+    !Number.isSafeInteger(provision.fiscalExposureMinorUnits) ||
+    provision.fiscalExposureMinorUnits <= 0 ||
+    !provision.fiscalExposureLabel
+  )
+    return null;
+  return {
+    provision,
+    programKey: federalProgramKeyForAuthority(lineage),
+  };
+}
+
 /**
  * An enacted appropriation becomes spending authority the office can commit.
  * The amount is the measure's own recorded clause, never a figure invented
@@ -250,17 +350,14 @@ export function appropriationFromEnactedMeasure(
   const existingComponents = draftLineageComponents(world, measureId).filter(
     (lineage) => lineage.componentKey !== undefined,
   );
+  const lineage = draftLineageForMeasure(world, measureId);
+  const federalTarget =
+    governmentScope.kind === "federal"
+      ? federalAppropriationTarget(world, measure, lineage, provisions)
+      : null;
   if (
     governmentScope.kind === "federal" &&
-    (existingComponents.length > 0 ||
-      !programServiceCapacityProfileForEnactment({
-        world,
-        measure,
-        governmentScope,
-        lineage: draftLineageForMeasure(world, measureId),
-        provisions,
-        transitProfile: null,
-      }))
+    (existingComponents.length > 0 || !federalTarget)
   )
     return world;
   const adoptedOn =
@@ -381,9 +478,11 @@ export function appropriationFromEnactedMeasure(
     return next;
   }
 
-  const amountProvision = provisions.find(
-    (provision) => provision.provisionKey === "amount-provided",
-  );
+  const amountProvision =
+    federalTarget?.provision ??
+    provisions.find(
+      (provision) => provision.provisionKey === "amount-provided",
+    );
   if (
     amountProvision?.operativeEffect !== undefined &&
     amountProvision.operativeEffect.kind !== "public-program-appropriation"
@@ -391,7 +490,6 @@ export function appropriationFromEnactedMeasure(
     return world;
   const amount = amountProvision?.fiscalExposureMinorUnits;
   if (amount === null || amount === undefined || amount <= 0) return world;
-  const lineage = draftLineageForMeasure(world, measureId);
   const availableThrough = lineage ? statedAvailability(lineage) : undefined;
   if (availableThrough === null) return world;
   const pinnedLegacyTransit =
@@ -451,6 +549,7 @@ export function appropriationFromEnactedMeasure(
   const programKey =
     serviceProfile?.programKey ??
     transitProfile?.programKey ??
+    federalTarget?.programKey ??
     (lineage
       ? programKeyForEnactedAppropriation(lineage, governmentScope)
       : programKeyForGovernment(familyKey, governmentScope));
@@ -885,7 +984,10 @@ function npcProgramServiceCapacityProfileForEnactment(input: {
   return authoredProgramServiceCapacityProfile({
     profileId,
     profileScope,
-    programKey: programKeyForGovernment(lineage.familyKey, governmentScope),
+    programKey:
+      governmentScope.kind === "federal"
+        ? federalProgramKeyForAuthority(lineage)
+        : programKeyForGovernment(lineage.familyKey, governmentScope),
     jurisdictionId: measure.jurisdictionId,
     serviceLabel: authoredProfile.serviceLabel,
     unitLabel: authoredProfile.unitLabel,
