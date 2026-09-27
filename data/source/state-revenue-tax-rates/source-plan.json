@@ -561,7 +561,7 @@
   {
     "domain": "state-revenue-tax-rates",
     "id": "withholding-nh",
-    "url": "https://www.revenue.nh.gov/taxes-glance",
+    "url": "https://www.revenue.nh.gov/taxes-glance/interest-dividends-tax",
     "filename": "nh-withholding.html",
     "provider": "New Hampshire Department of Revenue Administration",
     "vintage": null,
@@ -587,7 +587,7 @@
   {
     "domain": "state-revenue-tax-rates",
     "id": "withholding-tn",
-    "url": "https://www.tn.gov/revenue/taxes/hall-income-tax.html",
+    "url": "https://revenue.support.tn.gov/hc/en-us/articles/360057595051-GEN-34-Income-Tax-Withholding",
     "filename": "tn-withholding.html",
     "provider": "Tennessee Department of Revenue",
     "vintage": null,
