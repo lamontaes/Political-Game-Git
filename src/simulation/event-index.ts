@@ -1,3 +1,4 @@
+import { indexFollowingAppends } from "./history-index";
 import type { EntityId, HistoricalEvent, World } from "./types";
 
 /**
@@ -14,15 +15,23 @@ const EVENT_INDEX = new WeakMap<
   Map<EntityId, HistoricalEvent>
 >();
 
+const RECENT_EVENTS: (readonly unknown[])[] = [];
+
 export function eventIndexOf(
   events: readonly HistoricalEvent[],
 ): Map<EntityId, HistoricalEvent> {
-  let index = EVENT_INDEX.get(events);
-  if (!index) {
-    index = new Map(events.map((event) => [event.id, event]));
-    EVENT_INDEX.set(events, index);
-  }
-  return index;
+  // An appended event array takes over the index of the array it extends.
+  return indexFollowingAppends(
+    EVENT_INDEX,
+    RECENT_EVENTS,
+    events,
+    () => new Map(events.map((event) => [event.id, event])),
+    (index, from) => {
+      for (let at = from; at < events.length; at += 1)
+        index.set(events[at]!.id, events[at]!);
+      return index;
+    },
+  );
 }
 
 /**

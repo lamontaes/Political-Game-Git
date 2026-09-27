@@ -29,6 +29,7 @@
  */
 
 import { createStableId } from "./ids";
+import { recordsByStringField } from "./history-index";
 import type { FutureTransitionHandlerRegistry } from "./types";
 import {
   activeOrganizationParticipationsAt,
@@ -37,8 +38,17 @@ import {
 import { createOrganization, createOrganizationParticipation } from "./life";
 import { lifePlaceByKey } from "./life-places";
 import {
+  governmentUnit,
+  governmentUnitJurisdictionId,
+} from "./government-units";
+import {
+  LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
+  localFiscalGameAuthorityForRulePackId,
+} from "./local-ordinance-game-profile";
+import {
   lawReading,
   municipalGovernmentByKey,
+  municipalGovernmentForPlaceGeoid,
   municipalRulePackFor,
   municipalRulePackId,
   municipalRuleSourceRef,
@@ -108,10 +118,54 @@ export function municipalOrganizationFor(
   governmentKey: string,
 ): Organization | null {
   const stableKey = municipalOrganizationKey(governmentKey);
+  const installed = recordsByStringField(
+    world.history.organizations,
+    "stableKey",
+    stableKey,
+  )[0];
+  if (installed) return installed;
+  const unit = governmentUnit(governmentKey);
+  if (unit?.unitType === "county") {
+    const packId = `${unit.id}:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
+    const scope = localFiscalGameAuthorityForRulePackId(packId);
+    const government = municipalGovernmentByKey(governmentKey);
+    const rules = government ? municipalRulePackFor(government) : null;
+    if (
+      !scope ||
+      scope.unit.id !== unit.id ||
+      scope.jurisdictionId !== governmentUnitJurisdictionId(unit) ||
+      !rules?.ok ||
+      rules.evidence !== "game-profile" ||
+      rules.pack.packId !== packId
+    )
+      return null;
+    const canonical = recordsByStringField(
+      world.history.organizations,
+      "stableKey",
+      `local-government:${unit.id}`,
+    )[0];
+    return canonical &&
+      world.jurisdictions[scope.jurisdictionId] &&
+      organizationProfileAt(world, canonical.id)?.locationJurisdictionId ===
+        scope.jurisdictionId
+      ? canonical
+      : null;
+  }
+  // Earlier saves recorded catalog-only municipalities under the local
+  // government key before their council gained an executable game profile.
+  // Reuse that identity rather than adding a second government beside it.
+  if (
+    unit?.unitType !== "municipality" ||
+    !unit.placeGeoid ||
+    municipalGovernmentForPlaceGeoid(unit.placeGeoid)?.key !== governmentKey
+  )
+    return null;
   return (
-    world.history.organizations.find(
-      (organization) => organization.stableKey === stableKey,
-    ) ?? null
+    recordsByStringField(
+      world.history.organizations,
+      "stableKey",
+      `local-government:${unit.id}`,
+    )[0] ?? null
   );
 }
 
@@ -219,10 +273,13 @@ function activeParticipations(
 }
 
 function latestParticipationState(world: World, participationId: EntityId) {
-  return world.history.organizationParticipationStates
+  return recordsByStringField(
+    world.history.organizationParticipationStates,
+    "participationId",
+    participationId,
+  )
     .filter(
       (state) =>
-        state.participationId === participationId &&
         state.effectiveAt <= world.currentDate &&
         state.sequence < world.history.nextSequence,
     )
@@ -610,19 +667,27 @@ export function installMunicipalGovernment(
     );
   }
   const existing = municipalOrganizationFor(world, input.governmentKey);
-  if (existing) return world;
+  if (governmentUnit(input.governmentKey)?.unitType === "county" && !existing) {
+    throw new Error(
+      `Install the county's canonical local-government organization before opening ${input.governmentKey}.`,
+    );
+  }
+  if (existing && municipalRecognitionEventId(world, input.governmentKey))
+    return world;
   const reading = primaryReading(government);
-  const withOrganization = createOrganization(world, {
-    stableKey: municipalOrganizationKey(input.governmentKey),
-    formedAt: input.formedAt,
-    detailLevel: "detailed",
-    provenance: corpusProvenance(government.key, reading, input.formedAt),
-    initialProfile: {
-      name: reading.bodyName ?? reading.displayName,
-      classification: "service:municipal-government",
-      locationJurisdictionId: input.jurisdictionId,
-    },
-  });
+  const withOrganization = existing
+    ? world
+    : createOrganization(world, {
+        stableKey: municipalOrganizationKey(input.governmentKey),
+        formedAt: input.formedAt,
+        detailLevel: "detailed",
+        provenance: corpusProvenance(government.key, reading, input.formedAt),
+        initialProfile: {
+          name: reading.bodyName ?? reading.displayName,
+          classification: "service:municipal-government",
+          locationJurisdictionId: input.jurisdictionId,
+        },
+      });
   const organization = municipalOrganizationFor(
     withOrganization,
     input.governmentKey,
@@ -630,6 +695,9 @@ export function installMunicipalGovernment(
   if (!organization) {
     throw new Error("Failed to install the municipal government.");
   }
+  const jurisdictionId =
+    municipalGovernmentJurisdictionId(withOrganization, input.governmentKey) ??
+    input.jurisdictionId;
   // The recognition event is what everything municipal later cites as its
   // provenance. An organization is not an accepted provenance anchor for a
   // scheduled activity or a work item — an event is — so the government's
@@ -640,10 +708,10 @@ export function installMunicipalGovernment(
     type: "municipal.government-recognized",
     occurredAt: withOrganization.currentDate,
     recordedAt: withOrganization.currentDate,
-    jurisdictionId: input.jurisdictionId,
+    jurisdictionId,
     involvedEntityIds: [
       organization.id,
-      ...(input.jurisdictionId ? [input.jurisdictionId] : []),
+      ...(jurisdictionId ? [jurisdictionId] : []),
     ],
     participants: [],
     personFactConstraints: [],
@@ -656,7 +724,7 @@ export function installMunicipalGovernment(
     } as of ${reading.asOf}.`,
     context: {
       location: {
-        jurisdictionId: input.jurisdictionId,
+        jurisdictionId,
         label: reading.displayName,
         setting: null,
       },
@@ -693,6 +761,8 @@ export interface SeatMunicipalMemberInput {
   readonly role: MunicipalRole;
   /** The seat in the body's own words — "Ward 3", "at large", "Mayor". */
   readonly seatLabel: string;
+  /** A fictional opening seat can cite its own recorded opening event. */
+  readonly provenance?: LifeRecordProvenance;
 }
 
 const ROLE_KIND_BY_ROLE: Readonly<Record<MunicipalRole, string>> = {
@@ -754,11 +824,9 @@ export function seatMunicipalMember(
     kind: "leadership:municipal-office",
     roleKind: ROLE_KIND_BY_ROLE[input.role] as never,
     context: input.seatLabel,
-    provenance: corpusProvenance(
-      `${government.key} seat`,
-      reading,
-      input.startedAt,
-    ),
+    provenance:
+      input.provenance ??
+      corpusProvenance(`${government.key} seat`, reading, input.startedAt),
   });
 }
 
@@ -1704,8 +1772,11 @@ export function municipalSeats(
   const organization = municipalOrganizationFor(world, governmentKey);
   if (!organization) return [];
   const seats: MunicipalSeat[] = [];
-  for (const participation of world.history.organizationParticipations) {
-    if (participation.organizationId !== organization.id) continue;
+  for (const participation of recordsByStringField(
+    world.history.organizationParticipations,
+    "organizationId",
+    organization.id,
+  )) {
     if (
       participation.startedAt > world.currentDate ||
       participation.recordedAt > world.currentDate

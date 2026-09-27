@@ -1124,7 +1124,7 @@ export function advanceWorldMinutes(
       addSimulationMinutes(world.currentMoment, minutes),
       transitionHandlers,
     );
-  });
+  }, world);
 }
 
 /** Spend real time while joining one already-started commitment. The caller
@@ -1534,7 +1534,7 @@ function advanceCanonicalMinutes(
   const transitions: ExactTransition[] = [];
   for (
     let date = addDays(start.date, 1);
-    date <= target.date;
+    date < target.date;
     date = addDays(date, 1)
   ) {
     const boundary = simulationMomentAtLocalTime({
@@ -1610,7 +1610,7 @@ function advanceCanonicalMinutes(
       );
       world = setCurrentMoment(world, transition.at, crossedFrom);
     } else if (transition.kind === "work-completion" && transition.entityId) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeStaffWork(
         world,
         transition.entityId,
@@ -1618,7 +1618,7 @@ function advanceCanonicalMinutes(
         inputWorld.actionSequence,
       );
     } else if (transition.kind === "work-progress" && transition.entityId) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = recordStaffProgress(
         world,
         transition.entityId,
@@ -1629,7 +1629,7 @@ function advanceCanonicalMinutes(
       transition.kind === "activity-completion" &&
       transition.entityId
     ) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeActivity(
         world,
         transition.entityId,
@@ -1642,7 +1642,7 @@ function advanceCanonicalMinutes(
         );
     }
   }
-  world = setCurrentMoment(world, target);
+  world = setCurrentMomentWithDue(world, target, transitionHandlers);
   const actionSequence = inputWorld.actionSequence;
   world = { ...world, actionSequence: actionSequence + 1 };
   world = recordWorldEvent(world, {
@@ -1959,6 +1959,20 @@ function appendWorkState(world: World, state: WorkItemStateRecord): World {
   };
   assertWorldIntegrity(next);
   return next;
+}
+
+function setCurrentMomentWithDue(
+  world: World,
+  moment: SimulationMoment,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  if (moment.date === world.currentDate) return setCurrentMoment(world, moment);
+  const crossedFrom = world.currentDate;
+  return setCurrentMoment(
+    resolveFutureDueItemsThrough(world, moment.date, transitionHandlers),
+    moment,
+    crossedFrom,
+  );
 }
 
 function setCurrentMoment(

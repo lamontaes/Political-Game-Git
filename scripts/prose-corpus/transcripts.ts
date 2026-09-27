@@ -24,6 +24,7 @@ import {
   openOrdinaryLife,
   passOrdinaryDays,
 } from "../../src/presentation/ordinary-life";
+import { recordedDistrictForOffice } from "../../src/presentation/district-selection";
 import { openLegislativeWork } from "../../src/presentation/legislation-world";
 import { projectMeasureBriefing } from "../../src/presentation/legislation-projection";
 import { resolvePlayerCapabilities } from "../../src/presentation/player-capabilities";
@@ -366,11 +367,14 @@ function runCampaign(
   // is dated four weeks out as the scenario was written rather than on the
   // state's November election.
   const opened = openOrdinaryLife(world, personId);
+  const houseKey = "us-ky-general-assembly-v1:house";
+  // A House seat is filed by its recorded district, as the Campaigns screen
+  // files it; an unnamed district is refused.
   let current = fileForOffice(
     opened,
     personId,
-    null,
-    "us-ky-general-assembly-v1:house",
+    recordedDistrictForOffice(opened, personId, houseKey)?.binding ?? null,
+    houseKey,
     addDays(opened.currentDate, 28),
   );
   const campaign = campaignForCandidate(current, personId);

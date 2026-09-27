@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
@@ -28,6 +28,9 @@ import {
   openTransitionMatters,
   type GoverningOffice,
 } from "./state-governing";
+
+// Each case opens a new life, which now seats all fifty state legislatures.
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 
 /** Plays as the sitting governor of Oregon: a test fixture's control swap. */
 function asGovernor(seed: string): World {
@@ -163,32 +166,43 @@ describe("a new governor inherits the last chief of staff", () => {
     return { world, office, matter, predecessor: seated.chief };
   }
 
-  it("offers to keep them, and keeping them hires nobody new", () => {
-    const { world, office, matter, predecessor } = transition("gov-keep-chief");
-    expect(matter.options).toHaveLength(4);
-    const keep = matter.options.find((o) => o.personId === predecessor)!;
-    expect(keep.label.startsWith("Keep ")).toBe(true);
-    expect(
-      matter.options.filter((o) => o.label.startsWith("Keep ")),
-    ).toHaveLength(1);
-    const kept = decideGoverningMatter(world, matter.id, keep.key);
-    if (!kept.ok) throw new Error(kept.reason);
-    expect(chiefJobs(kept.world, office)).toEqual([predecessor]);
-    expect(
-      kept.world.history.events.some((event) =>
-        event.summary.includes("on as chief of staff"),
-      ),
-    ).toBe(true);
+  describe("keeping the predecessor", () => {
+    let fixture: ReturnType<typeof transition>;
+    beforeAll(() => {
+      fixture = transition("gov-keep-chief");
+    });
+    it("offers to keep them, and keeping them hires nobody new", () => {
+      const { world, office, matter, predecessor } = fixture;
+      expect(matter.options).toHaveLength(4);
+      const keep = matter.options.find((o) => o.personId === predecessor)!;
+      expect(keep.label.startsWith("Keep ")).toBe(true);
+      expect(
+        matter.options.filter((o) => o.label.startsWith("Keep ")),
+      ).toHaveLength(1);
+      const kept = decideGoverningMatter(world, matter.id, keep.key);
+      if (!kept.ok) throw new Error(kept.reason);
+      expect(chiefJobs(kept.world, office)).toEqual([predecessor]);
+      expect(
+        kept.world.history.events.some((event) =>
+          event.summary.includes("on as chief of staff"),
+        ),
+      ).toBe(true);
+    });
   });
-
-  it("replaces them when somebody else is hired, leaving one chief", () => {
-    const { world, office, matter, predecessor } = transition("gov-new-chief");
-    const hire = matter.options.find(
-      (o) => o.personId && o.personId !== predecessor,
-    )!;
-    const hired = decideGoverningMatter(world, matter.id, hire.key);
-    if (!hired.ok) throw new Error(hired.reason);
-    expect(chiefJobs(hired.world, office)).toEqual([hire.personId]);
-    expect(chiefOfStaffFor(hired.world, office)).toBe(hire.personId);
+  describe("hiring a replacement", () => {
+    let fixture: ReturnType<typeof transition>;
+    beforeAll(() => {
+      fixture = transition("gov-new-chief");
+    });
+    it("replaces them when somebody else is hired, leaving one chief", () => {
+      const { world, office, matter, predecessor } = fixture;
+      const hire = matter.options.find(
+        (o) => o.personId && o.personId !== predecessor,
+      )!;
+      const hired = decideGoverningMatter(world, matter.id, hire.key);
+      if (!hired.ok) throw new Error(hired.reason);
+      expect(chiefJobs(hired.world, office)).toEqual([hire.personId]);
+      expect(chiefOfStaffFor(hired.world, office)).toBe(hire.personId);
+    });
   });
 });

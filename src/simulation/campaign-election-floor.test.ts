@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import { SUPPORT_FLOOR_BASIS_POINTS } from "./campaign-support";
 import { addDays } from "./dates";
@@ -35,7 +36,11 @@ describe("the result respects the floor the campaign respected", () => {
     let world = fileForOffice(
       created.game.world,
       created.game.playerPersonId,
-      null,
+      namedSeatForFixture(
+        created.game.world,
+        created.game.playerPersonId,
+        "us-ky-general-assembly-v1:house",
+      ),
       "us-ky-general-assembly-v1:house",
       // The floor on election night is the subject, not the calendar.
       addDays(created.game.world.currentDate, 28),

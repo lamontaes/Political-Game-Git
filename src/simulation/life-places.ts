@@ -857,6 +857,14 @@ export function searchLifePlaces(
     }
   }
 
+  // The first place alone needs no sort: the least under the same order.
+  if (limit === 1) {
+    let first: LifePlace | undefined;
+    for (const place of matches)
+      if (!first || compareLifePlaceSearchOrder(place, first, needle) < 0)
+        first = place;
+    return first ? [first] : [];
+  }
   matches.sort((left, right) =>
     compareLifePlaceSearchOrder(left, right, needle),
   );

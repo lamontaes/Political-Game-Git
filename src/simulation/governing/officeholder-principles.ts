@@ -1,4 +1,5 @@
 import { createFormationContext, recordPrinciples } from "../politics";
+import { indexFollowingAppends } from "../history-index";
 import type { PrincipleRecordInput } from "../history";
 import { SeededRng } from "../rng";
 import type {
@@ -69,6 +70,16 @@ const CONVICTION_WEIGHT: Readonly<Record<BeliefConviction, number>> = {
 const VOTE_IMPORTANCE = { moderate: 3, strong: 6, decisive: 9 } as const;
 
 /**
+ * The note on each drawn principle. The rows are a sitting officeholder's own
+ * principles, drawn before play with no sources behind them. formedAt is the
+ * day the draw ran: read these rows as held before play by their reason, not
+ * their date. The note stays short because there are about fifty thousand of
+ * these rows once every legislature is seated.
+ */
+const DRAWN_BEFORE_PLAY_NOTE =
+  "Drawn before play; see officeholder-principles.ts.";
+
+/**
  * Draws principles for officeholders this draw has not reached yet.
  * Idempotent. A principle a person already holds from any other writer is
  * kept as it is and not drawn.
@@ -79,10 +90,12 @@ export function ensureOfficeholderPrinciples(
 ): World {
   const catalog = world.policyCatalog;
   const inputs: PrincipleRecordInput[] = [];
+  const byPerson = principlesByPerson(world);
+  const rootRng = new SeededRng(world.seed);
   // Keyed on this draw's own rows, not on any principle: a person another
   // writer gave a single principle still gets the rest of the draw.
   const held = (personId: EntityId) =>
-    (principlesByPerson(world).get(personId) ?? []).some((row) =>
+    (byPerson.get(personId) ?? []).some((row) =>
       row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
     );
   for (const personId of new Set(personIds)) {
@@ -90,15 +103,13 @@ export function ensureOfficeholderPrinciples(
     if (world.control.kind === "person" && world.control.personId === personId)
       continue;
     const own = new Set(
-      (principlesByPerson(world).get(personId) ?? []).map(
-        (row) => row.principleId,
-      ),
+      (byPerson.get(personId) ?? []).map((row) => row.principleId),
     );
     for (const principleId of catalog.principleOrder) {
       if (own.has(principleId)) continue;
       const principle = catalog.principles[principleId]!;
       const stableKey = `${OFFICEHOLDER_PRINCIPLES_VERSION}:${personId}:${principle.stableKey}`;
-      const rng = new SeededRng(world.seed).fork(stableKey);
+      const rng = rootRng.fork(stableKey);
       const roll = rng.integer(0, 10);
       const stance: PrincipleStance | null =
         roll < PRINCIPLE_DRAW.endorses
@@ -117,8 +128,10 @@ export function ensureOfficeholderPrinciples(
         conviction,
         flexibility: FLEXIBILITY_FOR[conviction],
         qualification: null,
+        // Every seated member in the country carries these rows, so the note
+        // is short: see DRAWN_BEFORE_PLAY_NOTE.
         formation: createFormationContext("other:drawn-before-play", {
-          note: "A sitting officeholder's own principles, drawn before play with no sources behind them; see officeholder-principles.ts. formedAt is the day the draw ran: read these rows as held before play by their reason, not their date.",
+          note: DRAWN_BEFORE_PLAY_NOTE,
         }),
         supersedesPrincipleRecordId: null,
       });
@@ -133,25 +146,47 @@ export function ensureOfficeholderPrinciples(
  * reading made a seated nation's bill day take minutes.
  */
 const principleIndex = new WeakMap<
-  readonly PrincipleRecord[],
-  ReadonlyMap<EntityId, readonly PrincipleRecord[]>
+  object,
+  Map<EntityId, readonly PrincipleRecord[]>
 >();
 
 function principlesByPerson(
   world: World,
 ): ReadonlyMap<EntityId, readonly PrincipleRecord[]> {
   const records = world.history.principles;
-  const cached = principleIndex.get(records);
-  if (cached) return cached;
-  const index = new Map<EntityId, PrincipleRecord[]>();
-  for (const record of records) {
-    const list = index.get(record.personId);
-    if (list) list.push(record);
-    else index.set(record.personId, [record]);
-  }
-  principleIndex.set(records, index);
-  return index;
+  // An appended ledger takes over the index of the one it extends; a person's
+  // list that gains rows is copied, so lists read earlier never change.
+  return indexFollowingAppends(
+    principleIndex,
+    RECENT_PRINCIPLES,
+    records,
+    () => {
+      const index = new Map<EntityId, PrincipleRecord[]>();
+      for (const record of records) {
+        const list = index.get(record.personId);
+        if (list) list.push(record);
+        else index.set(record.personId, [record]);
+      }
+      return index as Map<EntityId, readonly PrincipleRecord[]>;
+    },
+    (index, from) => {
+      const grown = new Map<EntityId, PrincipleRecord[]>();
+      for (let at = from; at < records.length; at += 1) {
+        const record = records[at]!;
+        let list = grown.get(record.personId);
+        if (!list) {
+          list = [...(index.get(record.personId) ?? [])];
+          grown.set(record.personId, list);
+        }
+        list.push(record);
+      }
+      for (const [personId, list] of grown) index.set(personId, list);
+      return index;
+    },
+  );
 }
+
+const RECENT_PRINCIPLES: (readonly unknown[])[] = [];
 
 /**
  * Which way a person's principles lean on a question, and how hard: a score

@@ -99,6 +99,7 @@ import { applyExecutivePlayTransition } from "../presentation/executive-entry";
 import { PublicInformationPanel } from "./PublicInformationPanel";
 import { projectPublicInformationPanel } from "../presentation/public-information-adapters";
 import { LifeStartTransition } from "./LifeStartTransition";
+import { createBackgroundSavePreparer } from "./background-save-preparation";
 import { VenueActivityPanel } from "./VenueActivityPanel";
 import { completedActivityHere } from "../presentation/scene-venues";
 import {
@@ -139,6 +140,7 @@ import {
   BrowserSaveStore,
   SavesKeptByNewerBuildError,
   type BrowserWorldSummary,
+  type PreparedRecord,
   type QuarantinedSave,
 } from "../presentation/browser-world-repository";
 import { guardUnsavedWork } from "../presentation/unsaved-work-guard";
@@ -201,7 +203,7 @@ import {
   resolveSessionSeed,
 } from "../presentation/session-seed";
 import { readReplaySetup } from "../presentation/new-game-identity";
-import { personName } from "../simulation";
+import { ageOnDate, personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
   openLegislativeWork,
@@ -308,6 +310,7 @@ import {
 import { HomePurchasePanel } from "./HomePurchasePanel";
 import { PersonalRoutinePanel } from "./PersonalRoutinePanel";
 import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
+import { ObserverRunController } from "./observer-run-controller";
 import {
   observerSetup,
   openObserverWorld,
@@ -366,7 +369,6 @@ type Screen =
   | {
       readonly kind: "transition";
       readonly setup: NewGameSetup;
-      readonly controller: ReturnType<typeof createOpeningLifeController>;
     }
   | { readonly kind: "playing" };
 
@@ -418,6 +420,7 @@ export function PlayerGame() {
       // the ordinary save otherwise.
       return new BrowserSaveStore({
         databaseName: previewDatabaseName(previewMode),
+        prepareAutosave: createBackgroundSavePreparer(),
       });
     } catch {
       return null;
@@ -531,11 +534,13 @@ export function PlayerGame() {
   // could act, be told it was saved, leave, and lose it. Handing the store the
   // newest world and letting it coalesce and retry removes the whole class,
   // rather than making the gate cleverer.
+  const autosaveWorld = session?.world ?? null;
+  const autosaveId = session?.saveId ?? null;
   useEffect(() => {
-    if (!session || !store || session.saveId === null) return;
-    const saveId = session.saveId;
+    if (!autosaveWorld || !store || autosaveId === null) return;
+    const saveId = autosaveId;
     let watching = true;
-    void store.autosave(session.world, saveId).then((result) => {
+    void store.autosave(autosaveWorld, saveId).then((result) => {
       if (!watching) return;
       if (result.status === "saved") setProblem(null);
       else if (result.status === "failed") setProblem(result.reason);
@@ -561,7 +566,7 @@ export function PlayerGame() {
     return () => {
       watching = false;
     };
-  }, [session, store, refreshSaves]);
+  }, [autosaveWorld, autosaveId, store, refreshSaves]);
 
   // Closing the tab is a way of leaving, and it was the one nothing watched.
   useEffect(() => {
@@ -623,18 +628,22 @@ export function PlayerGame() {
   }, [screen.kind]);
 
   const saveInFlight = useRef(false);
-  async function keepThisWorld(shellState: StoredShellState): Promise<boolean> {
+  async function keepThisWorld(
+    shellState: StoredShellState,
+    observerCheckpoint?: World,
+  ): Promise<boolean> {
     if (!session || !store || saveInFlight.current) return false;
     saveInFlight.current = true;
     setNotice("Saving…");
+    const worldToSave = observerCheckpoint ?? session.world;
     // A slot of its own, so keeping this life never lands on top of another
     // save of the same world.
-    const saveId = session.saveId ?? store.newSaveId(session.world);
+    const saveId = session.saveId ?? store.newSaveId(worldToSave);
     try {
       // Persist presentation references first: a newly visible world slot must
       // already have its pins, even if the player reloads immediately afterward.
       const shellSaved = await shellStore.write(saveId, shellState);
-      const outcome = await store.save(session.world, saveId);
+      const outcome = await store.save(worldToSave, saveId);
       if (outcome.status !== "saved") {
         // A refused slot is not a broken browser, and saying so would send the
         // player looking for the wrong problem.
@@ -642,8 +651,13 @@ export function PlayerGame() {
         return false;
       }
       setSession((current) =>
-        current?.world.id === session.world.id
-          ? { ...current, unsavedSeed: null, saveId }
+        current?.world.id === worldToSave.id
+          ? {
+              ...current,
+              world: observerCheckpoint ?? current.world,
+              unsavedSeed: null,
+              saveId,
+            }
           : current,
       );
       setNotice(
@@ -889,18 +903,29 @@ export function PlayerGame() {
     setScreen({
       kind: "transition",
       setup,
-      controller: createOpeningLifeController(setup),
     });
   }
 
   if (screen.kind === "transition") {
     return (
-      <AmbientTableau resolved={resolvedTitlePresentation(saves)} still>
+      <AmbientTableau
+        resolved={resolvedTitlePresentation(saves)}
+        hero={resolvedTitleLecternHero(saves)}
+      >
         {() => (
           <LifeStartTransition
-            onComplete={() => {
+            onPrepare={async (report, signal) => {
               try {
-                const game = screen.controller.finishTransition().game!;
+                report({ label: "Creating your life", completed: 0, total: 0 });
+                const game = (
+                  await createOpeningLifeController(
+                    screen.setup,
+                  ).finishTransitionWithProgress({
+                    signal,
+                    onProgress: report,
+                  })
+                ).game!;
+                if (signal.aborted) return;
                 startPlaying(
                   prepareCandidateOpeningWorld(
                     game.world,
@@ -912,6 +937,7 @@ export function PlayerGame() {
                   null,
                 );
               } catch (error) {
+                if (signal.aborted) return;
                 setProblem(
                   error instanceof Error
                     ? error.message
@@ -1055,7 +1081,7 @@ export function PlayerGame() {
             : current,
         );
       }}
-      onControlChange={(world, base, change) => {
+      onControlChange={(world, base, change, prepared) => {
         if (!worldGuard.current.admit(base)) {
           recordStaleWorldChange(base, world);
           return;
@@ -1069,6 +1095,7 @@ export function PlayerGame() {
                 openOrdinaryLife(world, change.personId),
               )
             : world;
+        if (prepared) store?.registerPreparedWorld(next, prepared);
         setNotice(null);
         setSession((current) => {
           if (!current) return current;
@@ -1080,8 +1107,9 @@ export function PlayerGame() {
       onKeep={keepThisWorld}
       onLeave={() => void leaveGame(true)}
       returnToTitleRequest={returnToTitleRequest}
-      onSaveAndLeave={async (shellState) => {
-        if (await keepThisWorld(shellState)) return leaveGame();
+      onSaveAndLeave={async (shellState, observerCheckpoint) => {
+        if (await keepThisWorld(shellState, observerCheckpoint))
+          return leaveGame();
         finishReturnToTitle("save-failed");
         return false;
       }}
@@ -1098,6 +1126,39 @@ export function PlayerGame() {
 /* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */
+
+/** The observer shell needs a date and scene, never a playable life choice. */
+function observerShellMoment(world: World, personId: EntityId): StoryMoment {
+  const person = world.people[personId];
+  if (!person) throw new Error("The watched world has no viewpoint resident.");
+  const age = ageOnDate(person.birthDate, world.currentDate);
+  return {
+    personName: personName(person),
+    age,
+    dateLabel: proseDate(world.currentDate),
+    placeName: null,
+    connective: {
+      sentences: [],
+      sources: [],
+      from: world.currentDate,
+      to: world.currentDate,
+      days: 0,
+      fromAge: age,
+      toAge: age,
+      opening: false,
+    },
+    scene: {
+      kind: "ordinary-stretch",
+      prose: "",
+      options: [],
+      withPeople: [],
+      presentPeople: [],
+    },
+    openThreads: [],
+    people: [],
+    formativeYears: false,
+  };
+}
 
 function PlayingScreen({
   session: storedSession,
@@ -1129,13 +1190,20 @@ function PlayingScreen({
       | { readonly kind: "continued"; readonly personId: EntityId }
       | { readonly kind: "observing" }
       | { readonly kind: "retired" },
+    prepared?: PreparedRecord,
   ) => void;
-  readonly onKeep: (shellState: StoredShellState) => Promise<boolean>;
+  readonly onKeep: (
+    shellState: StoredShellState,
+    observerCheckpoint?: World,
+  ) => Promise<boolean>;
   readonly onLeave: () => void;
   /** Set while a Return to title (Options or desktop hub) is in progress. */
   readonly returnToTitleRequest: { current: ReturnToTitleRequest | null };
   /** "Save first" during a Return to title: save, then go to the title. */
-  readonly onSaveAndLeave: (shellState: StoredShellState) => Promise<boolean>;
+  readonly onSaveAndLeave: (
+    shellState: StoredShellState,
+    observerCheckpoint?: World,
+  ) => Promise<boolean>;
   readonly onReturnToTitleCancelled: () => void;
   readonly savesUnavailable: boolean;
   /**
@@ -1157,6 +1225,17 @@ function PlayingScreen({
    * through the last life played; that lens is never committed or saved.
    */
   const observing = isObserving(storedSession.world);
+  const observerRunner = useMemo(
+    () => new ObserverRunController(storedSession.world),
+    [storedSession.world.id],
+  );
+  observerRunner.setCommit((next, base, prepared) =>
+    onControlChange(next, base, { kind: "observing" }, prepared),
+  );
+  useLayoutEffect(() => {
+    observerRunner.syncWorld(storedSession.world);
+  }, [observerRunner, storedSession.world]);
+  useEffect(() => () => observerRunner.dispose(), [observerRunner]);
   const readOnly = useMemo(
     () => shellReadOnly(storedSession.world),
     [storedSession.world],
@@ -1247,7 +1326,9 @@ function PlayingScreen({
    */
   const orientation = useWorldOrientation(session.world, session.personId);
   const showOrientation =
-    session.unsavedSeed !== null && !shell.progress.orientationSeen;
+    !observing &&
+    session.unsavedSeed !== null &&
+    !shell.progress.orientationSeen;
 
   const [assignment, setAssignment] = useState<LegislativeAssignment | null>(
     null,
@@ -1376,6 +1457,7 @@ function PlayingScreen({
     });
   }, [crisisStop, submitTime, session.world, session.personId, dispatch]);
   const passTargets = useMemo(() => {
+    if (observing) return undefined;
     const day = previewTimeCommand(session.world, session.personId, {
       kind: "days",
       days: 1,
@@ -1396,11 +1478,14 @@ function PlayingScreen({
             : null,
         }
       : undefined;
-  }, [session.world, session.personId]);
+  }, [observing, session.world, session.personId]);
 
   const projectedMoment = useMemo(
-    () => projectStoryMoment(session.world, session.personId),
-    [session.world, session.personId],
+    () =>
+      observing
+        ? observerShellMoment(session.world, session.personId)
+        : projectStoryMoment(session.world, session.personId),
+    [observing, session.world, session.personId],
   );
 
   const sceneVisuals = useMemo(
@@ -1576,8 +1661,17 @@ function PlayingScreen({
   );
 
   const renderSnapshots = useMemo(
-    () => savedRenderSnapshots(session.world, shell.personWardrobes),
-    [session.world, shell.personWardrobes],
+    () =>
+      savedRenderSnapshots(session.world, shell.personWardrobes, [
+        session.personId,
+        ...moment.scene.presentPeople.map((person) => person.personId),
+      ]),
+    [
+      session.world.people,
+      session.personId,
+      shell.personWardrobes,
+      moment.scene.presentPeople,
+    ],
   );
 
   const scenePeople = useMemo(
@@ -2083,9 +2177,14 @@ function PlayingScreen({
     view.surface === "scene" &&
     (!observing || continuationOpen);
 
+  async function pauseAndKeep(shellState: StoredShellState): Promise<boolean> {
+    const checkpoint = observing ? await observerRunner.pause() : undefined;
+    return onKeep(shellState, checkpoint);
+  }
+
   const nativeSave = useRef(() => Promise.resolve(false));
   nativeSave.current = () =>
-    onKeep({
+    pauseAndKeep({
       pins: shell.pins,
       preferences: shell.preferences,
       journal: shell.legacyJournal,
@@ -2138,14 +2237,18 @@ function PlayingScreen({
     if (request) request.leaving = true;
     setSavingToTitle(true);
     try {
-      const saved = await onSaveAndLeave({
-        pins: shell.pins,
-        preferences: shell.preferences,
-        journal: shell.legacyJournal,
-        journals: shell.journals,
-        personWardrobes: shell.personWardrobes,
-        progress: shell.progress,
-      });
+      const checkpoint = observing ? await observerRunner.pause() : undefined;
+      const saved = await onSaveAndLeave(
+        {
+          pins: shell.pins,
+          preferences: shell.preferences,
+          journal: shell.legacyJournal,
+          journals: shell.journals,
+          personWardrobes: shell.personWardrobes,
+          progress: shell.progress,
+        },
+        checkpoint,
+      );
       if (!saved && request) {
         request.leaving = false;
         returnToTitleRequest.current = request;
@@ -2234,6 +2337,7 @@ function PlayingScreen({
           <main
             className="life-shell"
             data-testid="play-screen"
+            data-observing={observing ? "true" : "false"}
             data-scene-id={sceneId ?? ""}
             data-scene-purpose={playScene.purpose}
           >
@@ -2521,6 +2625,11 @@ function PlayingScreen({
                 view={continuation}
                 observing={observing}
                 onCommit={(next, personId) => {
+                  if (
+                    observerRunner.getSnapshot().running ||
+                    observerRunner.getSnapshot().busy
+                  )
+                    return;
                   onControlChange(
                     next,
                     storedSession.world,
@@ -2550,10 +2659,7 @@ function PlayingScreen({
                 <strong>Observing</strong>
                 <span>Nobody is being played. You can look, not act.</span>
                 <ObserverClock
-                  world={storedSession.world}
-                  onAdvance={(next, base) =>
-                    onControlChange(next, base, { kind: "observing" })
-                  }
+                  runner={observerRunner}
                   onOpenRecord={() =>
                     dispatch({ type: "go-to-surface", surface: "world-record" })
                   }
@@ -2565,8 +2671,13 @@ function PlayingScreen({
                     className="ui-action ui-action--subtle"
                     data-testid="open-continuation"
                     onClick={() => {
-                      setContinuationOpen(true);
-                      dispatch({ type: "go-to-scene" });
+                      void observerRunner
+                        .pause()
+                        .then(() => {
+                          setContinuationOpen(true);
+                          dispatch({ type: "go-to-scene" });
+                        })
+                        .catch(() => undefined);
                     }}
                   >
                     Who could be played next
@@ -2748,7 +2859,7 @@ function PlayingScreen({
                     personWardrobes: shell.personWardrobes,
                     progress: shell.progress,
                   };
-                  void onKeep(shellState);
+                  void pauseAndKeep(shellState);
                 }}
                 onSaveAndLeave={() => void saveAndReturnToTitle()}
                 onLeave={leaveNow}
@@ -4346,10 +4457,9 @@ function renderWorkspace({
           : null;
       if (townSeat) {
         /*
-         * A seat on the town's own governing body. Where the game has read the
-         * town's government, its business is on the city's own screen; where
-         * it has not, the seat is real and the game says plainly what it does
-         * not yet know, rather than telling a winner they hold nothing.
+         * A seat on the town's own governing body. Sourced and disclosed game
+         * profiles both open the local screen; an otherwise unprofiled seat
+         * still reads as held instead of disappearing from the office panel.
          */
         sections.push({
           key: "office",

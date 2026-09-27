@@ -20,6 +20,8 @@ import {
   residentNameForJurisdiction,
 } from "../life-places";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
+import { municipalGovernmentForPlaceGeoid } from "../municipal-government";
+import { municipalOrganizationFor } from "../municipal-public-work";
 import type { EntityId, IsoDate, Jurisdiction, World } from "../types";
 import { governingJurisdictionIdFor } from "./government-jurisdiction";
 import {
@@ -303,7 +305,7 @@ function jurisdictionForUnit(
 
 /**
  * Records each actual government serving this person's home as an organization,
- * once. A government compiled from its own enacted text keeps the municipal
+ * once. A government with a sourced or game municipal workspace keeps that
  * workspace's install path and is not duplicated here. Nothing about members,
  * powers or form is recorded: those are RULES facts, reported by
  * `homeLocalGovernmentStatus` as missing until admitted.
@@ -315,10 +317,21 @@ export function ensureHomeLocalGovernments(
   const units = homeLocalGovernmentUnits(world, personId);
   let next = world;
   for (const unit of [...units.municipal, ...units.counties]) {
-    if (municipalGovernmentForUnit(unit)) continue;
+    if (municipalWorkspaceGovernmentForUnit(unit)) continue;
     next = ensureLocalGovernmentOrganization(next, unit);
   }
   return next;
+}
+
+/** A matched city's game profile uses the same organization as a sourced city. */
+export function municipalWorkspaceGovernmentForUnit(
+  unit: GovernmentUnitIdentity,
+) {
+  const sourced = municipalGovernmentForUnit(unit);
+  if (sourced) return sourced;
+  if (unit.unitType !== "municipality" || !unit.placeGeoid) return null;
+  const matched = municipalGovernmentForPlaceGeoid(unit.placeGeoid);
+  return matched?.key === unit.id ? matched : null;
 }
 
 /**
@@ -405,15 +418,18 @@ export function homeLocalGovernmentStatus(
       onDate: world.currentDate,
       fields: MEMBERSHIP_FIELDS,
     });
-    const stableKey = localGovernmentOrganizationKey(unit);
+    const compiled = municipalWorkspaceGovernmentForUnit(unit);
+    const organization = compiled
+      ? municipalOrganizationFor(world, compiled.key)
+      : world.history.organizations.find(
+          (entry) => entry.stableKey === localGovernmentOrganizationKey(unit),
+        );
     return {
       unitId: unit.id,
       name: localGovernmentDisplayName(unit),
       unitType: unit.unitType,
-      compiledGovernmentKey: municipalGovernmentForUnit(unit)?.key ?? null,
-      organizationId:
-        world.history.organizations.find((o) => o.stableKey === stableKey)
-          ?.id ?? null,
+      compiledGovernmentKey: compiled?.key ?? null,
+      organizationId: organization?.id ?? null,
       membershipMissing: unadmittedRuleFields(resolution),
     };
   });

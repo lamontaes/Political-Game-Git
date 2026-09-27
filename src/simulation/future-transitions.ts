@@ -1,3 +1,8 @@
+import {
+  recordById,
+  recordsByStringField,
+  stableKeysOf,
+} from "./history-index";
 import { crisisAmbientHandler } from "./crisis/ambient";
 import { worldIntegrityCheckMode } from "./world-integrity-changed";
 import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
@@ -46,6 +51,7 @@ import {
 import {
   legislationEntityAvailableAt,
   legislationEntityExists,
+  transferLegislativeStableKeyIndex,
 } from "./legislation";
 import {
   electionContestEntityAvailableAt,
@@ -337,7 +343,11 @@ export function futureDueItemStateAt(
 ): FutureDueItemStateRecord | null {
   validateCutoff(world, cutoff);
   return (
-    world.history.futureDueItemStates
+    recordsByStringField(
+      world.history.futureDueItemStates,
+      "dueItemId",
+      dueItemId,
+    )
       .filter(
         (record) =>
           record.dueItemId === dueItemId &&
@@ -349,21 +359,49 @@ export function futureDueItemStateAt(
   );
 }
 
+const SCHEDULED_DUE_INDEX = new WeakMap<
+  readonly FutureDueItem[],
+  {
+    readonly states: readonly FutureDueItemStateRecord[];
+    readonly pending: readonly FutureDueItem[];
+  }
+>();
+
+function scheduledDueIndex(world: World): readonly FutureDueItem[] {
+  const items = world.history.futureDueItems;
+  const states = world.history.futureDueItemStates;
+  const cached = SCHEDULED_DUE_INDEX.get(items);
+  if (cached?.states === states) return cached.pending;
+  const latest = latestDueStateIndex(states);
+  const pending = items
+    .filter((item) => latest.get(item.id)?.status === "scheduled")
+    .sort(compareDueItems);
+  SCHEDULED_DUE_INDEX.set(items, { states, pending });
+  return pending;
+}
+
 export function scheduledFutureDueItemsThrough(
   world: World,
   fromInclusive: IsoDate,
   throughInclusive: IsoDate,
 ): readonly FutureDueItem[] {
-  return world.history.futureDueItems
-    .filter((item) => {
-      const state = latestDueItemStateAtCurrentFrontier(world, item.id);
-      return (
-        state?.status === "scheduled" &&
-        item.dueAt >= fromInclusive &&
-        item.dueAt <= throughInclusive
-      );
-    })
-    .sort(compareDueItems);
+  if (fromInclusive > throughInclusive) return [];
+  const pending = scheduledDueIndex(world);
+  let low = 0;
+  let high = pending.length;
+  while (low < high) {
+    const mid = (low + high) >>> 1;
+    if (pending[mid]!.dueAt < fromInclusive) low = mid + 1;
+    else high = mid;
+  }
+  const first = low;
+  high = pending.length;
+  while (low < high) {
+    const mid = (low + high) >>> 1;
+    if (pending[mid]!.dueAt <= throughInclusive) low = mid + 1;
+    else high = mid;
+  }
+  return pending.slice(first, low);
 }
 
 function handlerFor(
@@ -555,8 +593,9 @@ export function resolveFutureDueItemsThrough(
       after: readonly T[],
       before: readonly T[],
     ): boolean =>
-      after.length >= before.length &&
-      before.every((record, index) => after[index] === record);
+      after === before ||
+      (after.length >= before.length &&
+        before.every((record, index) => after[index] === record));
     if (
       !prefixUnchanged(resultDueItems, dueItemsBefore) ||
       !prefixUnchanged(resultDueStates, dueStatesBefore)
@@ -639,12 +678,10 @@ export function futureTransitionEntityAvailableAt(
   asOfDate: string,
   sequenceExclusive: number,
 ): boolean {
-  const item = world.history.futureDueItems.find((record) => record.id === id);
+  const item = recordById(world.history.futureDueItems, id);
   if (item)
     return item.scheduledAt <= asOfDate && item.sequence < sequenceExclusive;
-  const state = world.history.futureDueItemStates.find(
-    (record) => record.id === id,
-  );
+  const state = recordById(world.history.futureDueItemStates, id);
   return !!(
     state &&
     state.effectiveAt <= asOfDate &&
@@ -1019,7 +1056,7 @@ function assertUniqueStableKey(
   label: string,
 ): void {
   assertNonEmpty(stableKey, `${label} stable key`);
-  if (records.some((record) => record.stableKey === stableKey)) {
+  if (stableKeysOf(records).has(stableKey)) {
     throw new Error(`Duplicate ${label} stable key: ${stableKey}`);
   }
 }
@@ -1046,6 +1083,37 @@ function bySequence<T extends { readonly sequence: number }>(
 }
 
 function commit(world: World, history: World["history"]): World {
+  transferLegislativeStableKeyIndex(
+    world.history.futureDueItems,
+    history.futureDueItems,
+  );
+  // These two writers only append. Move disposable indexes to the new arrays;
+  // do not leave a mutable index attached to an older immutable snapshot.
+  for (const family of ["futureDueItems", "futureDueItemStates"] as const) {
+    const prior = world.history[family];
+    const records = history[family];
+    if (prior === records) continue;
+    const ids = ID_INDEX.get(prior);
+    if (ids) {
+      ID_INDEX.delete(prior);
+      for (let offset = prior.length; offset < records.length; offset += 1)
+        ids.add(records[offset]!.id);
+      ID_INDEX.set(records, ids);
+    }
+  }
+  const priorStates = world.history.futureDueItemStates;
+  const states = history.futureDueItemStates;
+  const latest = LATEST_DUE_STATE.get(priorStates);
+  if (latest && priorStates !== states) {
+    LATEST_DUE_STATE.delete(priorStates);
+    for (let offset = priorStates.length; offset < states.length; offset += 1) {
+      const row = states[offset]!;
+      const prior = latest.get(row.dueItemId);
+      if (!prior || row.sequence > prior.sequence)
+        latest.set(row.dueItemId, row);
+    }
+    LATEST_DUE_STATE.set(states, latest);
+  }
   const next = { ...world, history };
   assertWorldIntegrity(next);
   return next;

@@ -16,7 +16,10 @@ import {
 } from "../simulation";
 import { resolveActiveMemberSeat } from "./legislative-member-seat";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { campaignUntilDecided } from "../../tests/fixtures/campaign-fixture";
+import {
+  campaignUntilDecided,
+  namedSeatForFixture,
+} from "../../tests/fixtures/campaign-fixture";
 import { openOrdinaryLife } from "./ordinary-life";
 import { fileForOffice, projectCampaign } from "./campaign-projection";
 import { buildProductionWorld } from "./production-world";
@@ -55,7 +58,11 @@ function seatedFiscalReader(): {
   world = fileForOffice(
     world,
     built.playerPersonId,
-    null,
+    namedSeatForFixture(
+      world,
+      built.playerPersonId,
+      "us-ky-general-assembly-v1:house",
+    ),
     "us-ky-general-assembly-v1:house",
     // A seated legislator is the subject here, not the calendar.
     addDays(world.currentDate, 28),

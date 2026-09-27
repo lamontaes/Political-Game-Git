@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import {
   addDays,
   candidacyPackForJurisdiction,
@@ -176,6 +177,7 @@ function fileForFirstOffice(world: World, player: EntityId, key: string) {
     candidatePersonId: player,
     jurisdictionId: person.homeJurisdictionId,
     officeKey: option.officeKey,
+    districtBinding: namedSeatForFixture(world, player, option.officeKey),
     electionDate: addDays(world.currentDate, 60),
     rivalPersonIds: opponents.personIds,
     existingContestId: null,

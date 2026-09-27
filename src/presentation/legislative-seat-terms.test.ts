@@ -1,5 +1,9 @@
-import { describe, expect, it } from "vitest";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { setWorldIntegrityCheckMode } from "../simulation/world-integrity-changed";
+import {
+  fileForOffice,
+  namedSeatForFixture,
+} from "../../tests/fixtures/campaign-fixture";
 import {
   adultLifeAt,
   adultLifeIn,
@@ -10,8 +14,10 @@ import {
 import {
   activeWorkRelationshipsAt,
   campaignForCandidate,
+  compareSimulationMoments,
   legislativeTermForRelationship,
   requireElectionContest,
+  scheduledActivityState,
   serializeWorld,
   workRelationshipHistoryForPerson,
   workStatusAt,
@@ -27,6 +33,22 @@ import { stateExecutiveOfficeCalendar } from "./nationwide-candidacy";
 import { projectCampaignOffices } from "./campaign-office-discovery";
 import { projectWorkRole } from "./day-overview";
 import { proseDate } from "./prose-dates";
+import { playCalendarActivity } from "./calendar-time-control";
+
+// Each case opens a new life, which now seats all fifty state legislatures.
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
+
+// These cases pass whole terms, about two years of Days with fifty
+// legislatures sitting. They check what a Day changed, as play does; the full
+// check after every write is proved by the world-integrity tests, and after
+// every write here it took eighteen minutes for one term.
+let previousCheckMode: ReturnType<typeof setWorldIntegrityCheckMode>;
+beforeAll(() => {
+  previousCheckMode = setWorldIntegrityCheckMode("changed");
+});
+afterAll(() => {
+  setWorldIntegrityCheckMode(previousCheckMode);
+});
 
 function seats(world: World, personId: EntityId) {
   return workRelationshipHistoryForPerson(world, personId).filter(
@@ -38,6 +60,31 @@ function activeSeats(world: World, personId: EntityId) {
   return activeWorkRelationshipsAt(world, personId).filter(
     (entry) => entry.relationship.kind === "employment:legislative-member",
   );
+}
+
+/** A sitting member attends real floor reminders before passing more time. */
+function passTermAsMember(world: World, personId: EntityId, date: string) {
+  let next = world;
+  for (let step = 0; step < 400 && next.currentDate < date; step += 1) {
+    const moved = passUntil(next, date);
+    if (moved.currentDate !== next.currentDate) {
+      next = moved;
+      continue;
+    }
+    const due = moved.history.scheduledActivities.find(
+      (activity) =>
+        activity.stableKey.includes(":member-vote:") &&
+        activity.participantPersonIds.includes(personId) &&
+        scheduledActivityState(moved, activity.id).status === "scheduled" &&
+        compareSimulationMoments(
+          scheduledActivityState(moved, activity.id).start,
+          moved.currentMoment,
+        ) === 0,
+    );
+    if (!due) return moved;
+    next = playCalendarActivity(moved, personId, due.id).world;
+  }
+  return next;
 }
 
 describe("a Nevada Assembly seat's term", () => {
@@ -56,7 +103,7 @@ describe("a Nevada Assembly seat's term", () => {
     expect(workStatusAt(seated, seat.id)?.status).toBe("active");
     expect(projectWorkRole(seated, personId).roles).toContain(title);
 
-    const after = passUntil(seated, term.endsAt);
+    const after = passTermAsMember(seated, personId, term.endsAt);
     expect(after.currentDate >= term.endsAt).toBe(true);
     expect(workStatusAt(after, seat.id)?.status).toBe("ended");
     expect(activeSeats(after, personId)).toEqual([]);
@@ -160,7 +207,12 @@ describe("Anchorage, Alaska, filing in October of an election year", () => {
     const assembly = offices.find((office) =>
       office.officeKey.endsWith("-governing-body"),
     )!;
-    const filed = fileOnCalendar(world, personId, null, assembly.officeKey);
+    const filed = fileOnCalendar(
+      world,
+      personId,
+      namedSeatForFixture(world, personId, assembly.officeKey),
+      assembly.officeKey,
+    );
     const contest = requireElectionContest(
       filed,
       campaignForCandidate(filed, personId)!.contestId,
