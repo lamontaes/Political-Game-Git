@@ -4,6 +4,7 @@ import {
 } from "../simulation/contextual-character-history";
 import {
   CHILDHOOD_GENERATION_V2,
+  endPreStartAdultLocalWork,
   establishPreStartAdultHistory,
   establishPreStartChildHistory,
   type ChildhoodGenerationVersion,
@@ -466,10 +467,6 @@ export function finalizePreStartPlayer(
   background: World,
   input: PreStartProductionWorldInput,
 ): ProductionWorld {
-  if (input.startingLife === "legislative-office")
-    throw new Error(
-      "A pre-start legislative staff job needs an office work path before player finalization.",
-    );
   const { targetStartDate } = input.preStartYear;
   const place = input.place;
   const jurisdiction = place.context.jurisdiction;
@@ -563,6 +560,10 @@ export function finalizePreStartPlayer(
       monthlyWageMinor: LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor,
     });
     world = ensureStartingPersonalMoney(world, player.id).world;
+  }
+  if (input.startingLife === "legislative-office") {
+    world = endPreStartAdultLocalWork(world, player.id);
+    world = employInLegislativeOffice(world, player.id, place);
   }
   for (const personId of world.personOrder) {
     if (

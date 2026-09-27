@@ -45,6 +45,7 @@ import type {
   StartHouseholdMembershipInput,
 } from "./life";
 import { evaluateLifeEligibility } from "./life-eligibility";
+import { workStatusAt } from "./life-queries";
 import {
   createDevelopmentProposal,
   createMindProvenance,
@@ -81,6 +82,7 @@ import { defaultPronounsForGender } from "./person-identity";
 import { birthCohortGivenName } from "./given-name-cohorts";
 import { DEFAULT_CORPUS_VERSION, familyNameFromParent } from "./names-data";
 import { SeededRng } from "./rng";
+import { resourceFlowTermsAt } from "./resource-queries";
 import { recordPersonDeath } from "./vitality";
 import { recordWorldEvent, assertWorldIntegrity, advanceWorld } from "./world";
 import {
@@ -972,6 +974,50 @@ export function establishPreStartAdultHistory(
     });
   }
   return next;
+}
+
+/** Close the generated prior job when the chosen staff job begins at Begin. */
+export function endPreStartAdultLocalWork(
+  world: World,
+  personId: EntityId,
+): World {
+  const key = `pre-start-adult-history-v1:${personId}`;
+  const work = world.history.workRelationships.find(
+    (row) => row.stableKey === `${key}:local-work`,
+  );
+  const flow = world.history.resourceFlows.find(
+    (row) => row.stableKey === `${key}:local-pay`,
+  );
+  if (!work || !flow)
+    throw new Error("A pre-start staff job needs recorded prior adult work.");
+  const terms = resourceFlowTermsAt(world, flow.id);
+  const status = workStatusAt(world, work.id);
+  if (terms?.status !== "active" || status?.status !== "active")
+    throw new Error("Prior adult work must be active before the staff start.");
+  const provenance = {
+    kind: "generated" as const,
+    generatorKey: key,
+  };
+  const withoutPriorPay = recordResourceFlowTerms(world, {
+    stableKey: `${key}:local-pay:staff-start`,
+    resourceFlowId: flow.id,
+    effectiveAt: world.currentDate,
+    status: "ended",
+    amount: terms.amount,
+    cadenceKind: terms.cadenceKind,
+    reason: "The prior local job ended when legislative staff work began.",
+    provenance,
+    supersedesTermsId: terms.id,
+  });
+  return recordWorkStatus(withoutPriorPay, {
+    stableKey: `${key}:local-work:staff-start`,
+    workRelationshipId: work.id,
+    effectiveAt: world.currentDate,
+    status: "ended",
+    reason: "The prior local job ended when legislative staff work began.",
+    provenance,
+    supersedesStatusId: status.id,
+  });
 }
 
 /** The close family and dated shared childhood that a prior-year child can know. */
