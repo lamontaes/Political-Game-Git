@@ -438,7 +438,26 @@ export function stateExecutiveVacatedOn(
   return null;
 }
 
+/*
+ * A World is never edited in place, so its holders never change. Governing
+ * handlers ask for them many times against the same World in one Day.
+ */
+const HOLDERS_BY_WORLD = new WeakMap<
+  World,
+  readonly StateExecutiveHolderRecord[]
+>();
+
 export function currentStateExecutiveHolders(
+  world: World,
+): readonly StateExecutiveHolderRecord[] {
+  const cached = HOLDERS_BY_WORLD.get(world);
+  if (cached) return cached;
+  const holders = readStateExecutiveHolders(world);
+  HOLDERS_BY_WORLD.set(world, holders);
+  return holders;
+}
+
+function readStateExecutiveHolders(
   world: World,
 ): readonly StateExecutiveHolderRecord[] {
   const records: StateExecutiveHolderRecord[] = [];
