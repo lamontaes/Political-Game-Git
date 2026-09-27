@@ -1,0 +1,25 @@
+{
+  "asOf": "2026-09-26",
+  "canonicalSha256": "392ac42e2dfe3c32638341d519e5bc4054959409871163adb774fbf1a1e71e40",
+  "compiler": "scripts/source/regional-money/compile.ts",
+  "compression": "gzip",
+  "corpusPath": "data/source/cbsa-delineations/regional-corpus.json.gz",
+  "coverage": {
+    "areasWithoutWageRows": [],
+    "cbsaCountyCount": 1915,
+    "countyCount": 3222,
+    "requiredStateAndDcCount": 51,
+    "stateCount": 52
+  },
+  "inputs": [
+    {
+      "localPath": "data/source/cbsa-delineations/raw/cbsa-county-2023.xlsx",
+      "sha256": "952c4b1e78acbb54e6ec9412434b7602fedacbf021736351a63c181bdb753629"
+    },
+    {
+      "localPath": "data/source/cbsa-delineations/raw/oews-area-definitions-2025.xlsx",
+      "sha256": "6a0013fb0005c5492de8d13737193dc142806ca560147cd42f2bbae041c3c615"
+    }
+  ],
+  "recordCount": 3222
+}
