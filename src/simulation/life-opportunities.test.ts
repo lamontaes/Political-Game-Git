@@ -8,7 +8,7 @@ import {
 import { adultSituationBank } from "./adult-situations";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import {
-  HOUSEHOLD_ERRANDS_KEY,
+  PUBLIC_MEETING_KEY,
   LIFE_OPPORTUNITY_ANSWERING_KEY,
   LIFE_OPPORTUNITY_KINDS,
   LIFE_OPPORTUNITY_REPEATABLE,
@@ -45,16 +45,23 @@ function opened(): { world: World; personId: EntityId } {
 }
 
 describe("a life is given something to do", () => {
-  it("leaves an opened adult life with more than one thing in front of them", () => {
+  it("opens civic and personal opportunities without a routine grocery chore", () => {
     const { world, personId } = opened();
     const open = lifeOpportunitiesFor(world, personId);
     expect(open.length).toBeGreaterThan(1);
     expect(open.length).toBeLessThanOrEqual(OPEN_LIFE_OPPORTUNITY_LIMIT);
-    // Four, not five, since 2026-09-23: the Saturday invitation now needs a
-    // reason in the host's own life, and on the first day nobody has one.
+    const situations = availableAdultSituations(
+      buildAdultLifeContext(world, personId),
+    );
+    expect(situations.length).toBeGreaterThan(0);
+    expect(situations.map((situation) => situation.key)).not.toContain(
+      "adult.ordinary-good-day",
+    );
     expect(
-      availableAdultSituations(buildAdultLifeContext(world, personId)).length,
-    ).toBeGreaterThan(3);
+      world.history.workItems.some((item) =>
+        item.stableKey.startsWith("ordinary-life:household-errands"),
+      ),
+    ).toBe(false);
   });
 
   it("writes the same world twice when it is called twice", () => {
@@ -80,14 +87,11 @@ describe("a life is given something to do", () => {
     const { world, personId } = opened();
     const again = openOrdinaryLifeRecords(world, personId);
     expect(
-      again.history.workItems.filter((item) =>
-        item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY),
+      again.history.workItems.filter(
+        (item) => item.stableKey === PUBLIC_MEETING_KEY,
       ),
-    ).toHaveLength(
-      world.history.workItems.filter((item) =>
-        item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY),
-      ).length,
-    );
+    ).toHaveLength(1);
+    expect(again.history.workItems).toEqual(world.history.workItems);
   });
 
   it("writes nothing at all for somebody the formative interval still holds", () => {

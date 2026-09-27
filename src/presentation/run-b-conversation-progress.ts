@@ -1,7 +1,4 @@
-import {
-  householdErrandsFor,
-  PUBLIC_MEETING_KEY,
-} from "../simulation/life-opportunities";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import type { World } from "../simulation/types";
 import type { ContextualSceneProgress } from "./contextual-scenes";
 export type RunBConversationPhase =
@@ -383,18 +380,11 @@ export function isLegislativeBargainingProgress(
 /** Every subject family the game can currently hold a conversation about. */
 export type ConversationSubjectKey = ConversationProgress["subject"];
 
-export function createHouseholdObligationProgress(
-  world?: World,
-  personId?: EntityId,
-): HouseholdObligationConversationProgress {
+export function createHouseholdObligationProgress(): HouseholdObligationConversationProgress {
   return {
     subject: "household-obligation",
     subjectFacts: {
-      obligation:
-        world && personId
-          ? (householdErrandsFor(world, personId)?.summary ??
-            "The errands still need attention.")
-          : "The errands still need attention.",
+      obligation: "The errands still need attention.",
       shortObligation: "the week's errands",
     },
     phase: "opening",

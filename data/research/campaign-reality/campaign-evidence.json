@@ -11,11 +11,14 @@
       "locator": "Data and method; Results; Figures 1 and 2"
     },
     "nickerson-2005": {
-      "title": "Partisan Mobilization Using Volunteer Phone Banks and Door Hangers",
+      "title": "Volunteer Phone Calls Can Increase Turnout: Evidence From Eight Field Experiments",
       "author": "David W. Nickerson",
       "publisher": "American Politics Research",
+      "publicationDate": "2006-05",
+      "doi": "10.1177/1532673X05275923",
       "url": "https://sites.temple.edu/nickerson/files/2017/07/Nickerson.APR2005.pdf",
-      "locator": "PDF page 17, discussion of contact rates"
+      "locator": "PDF page 1 cover and DOI for title and May 2006 publication; PDF page 17 for volunteer door and phone contacts per hour",
+      "provenance": "The author-hosted PDF filename and this stable source ID say 2005, but the published article's cover says May 2006."
     },
     "dccc-schedule-secondary": {
       "title": "Congressional Fundraising Dynamics and Their Implications for Problem-Solving",
@@ -222,19 +225,21 @@
     },
     {
       "id": "door-contact-rate",
-      "metric": "volunteer face-to-face contacts per hour",
+      "metric": "completed face-to-face person contacts per volunteer hour",
       "value": { "low": 3, "high": 8 },
-      "population": "Volunteer mobilization settings discussed in a 2005 U.S. field-experiment paper",
+      "unit": "completed-person-contacts/volunteer-hour",
+      "population": "Author's door-canvassing comparison in a 2006 paper about U.S. nonpartisan GOTV phone experiments; not a measured door estimate from the eight phone experiments",
       "sourceId": "nickerson-2005",
-      "caveat": "Contacts, not doors knocked; varies with density, answer rate, and context."
+      "caveat": "Completed person contacts, not doors knocked; varies with density, answer rate, and context."
     },
     {
       "id": "phone-contact-rate",
-      "metric": "volunteer phone contacts per hour",
+      "metric": "completed phone person contacts per volunteer hour",
       "value": { "low": 15, "high": 20 },
-      "population": "Volunteer mobilization settings discussed in a 2005 U.S. field-experiment paper",
+      "unit": "completed-person-contacts/volunteer-hour",
+      "population": "Volunteer phone contact comparison in a 2006 paper reporting U.S. nonpartisan GOTV phone experiments",
       "sourceId": "nickerson-2005",
-      "caveat": "Contacts, not dials; phone availability and answer rates vary."
+      "caveat": "Completed person contacts, not dials; phone availability and answer rates vary."
     },
     {
       "id": "ma-house-spend",
