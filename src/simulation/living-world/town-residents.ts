@@ -52,6 +52,7 @@ import { organizationProfileAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { placePopulation } from "../nationwide-world/place-population";
 import { recordRelationshipInteraction } from "../records";
+import { ensureTownEmployment } from "./town-employment";
 import { DEFAULT_CORPUS_VERSION } from "../names-data";
 import { drawCanonicalNamedIdentity } from "../people";
 import { nameCorpusVersionForWorld } from "../place-name-corpus";
@@ -722,8 +723,14 @@ function seatTownResidents(world: World, playerPersonId: EntityId): World {
     }
   }
 
-  // Children of the written households go to the town's schools.
-  return enrollWrittenChildren(next, town);
+  // Children of the written households go to the town's schools, and then
+  // every working-age resident written out takes their place in the town's
+  // labor force (`town-employment.ts`), students already known.
+  return ensureTownEmployment(
+    enrollWrittenChildren(next, town),
+    town,
+    playerPersonId,
+  );
 }
 
 const SCHOOL_AGES: Readonly<Record<string, readonly [number, number]>> = {

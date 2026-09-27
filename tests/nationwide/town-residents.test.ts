@@ -156,7 +156,9 @@ describe("a new game's town has residents", { timeout: 180_000 }, () => {
       ),
     ).toBe(true);
     expect(staff.length).toBeGreaterThan(0);
-    for (const work of staff) expect(work.authority).toBe("directed");
+    // A principal or a store manager leads; most of the town takes direction.
+    const directed = staff.filter((work) => work.authority === "directed");
+    expect(directed.length).toBeGreaterThan(staff.length / 2);
   });
 
   it("the player knows the grown-ups next door, and nobody else in town yet", () => {
