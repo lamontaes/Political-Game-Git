@@ -1137,6 +1137,7 @@ export function openAppropriationsFor(
           publicGovernmentIdentityForRecord(record),
           identity,
         )) &&
+      record.availableFrom <= world.currentDate &&
       record.availableThrough >= world.currentDate &&
       programPosition(world, record.programKey, record.id).uncommitted
         .minorUnits > 0,

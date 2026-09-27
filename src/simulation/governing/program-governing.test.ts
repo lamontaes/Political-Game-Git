@@ -10,6 +10,7 @@ import {
 } from "../legislation";
 import { createLegislativeScenario } from "../legislation-scenarios";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { openAppropriationsFor } from "./program-governing";
 import type { EntityId, World } from "../types";
 import { fileDraft } from "../../presentation/legislation-docket";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
@@ -92,6 +93,7 @@ describe("one program identity per named spending target", () => {
       variantKey: "single-programme",
       authorityKey: "standing:rural-transit-assistance",
     });
+    expect(openAppropriationsFor(transit.world, jurisdictionId).map((record) => record.sourceMeasureId)).not.toContain(transit.measureId);
     expect(appropriations(transit.world)).toMatchObject([
       {
         sourceMeasureId: schools.measureId,
