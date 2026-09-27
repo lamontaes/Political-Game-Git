@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   createLegislativeScenario,
+  currentMeasureProvisions,
   deserializeWorld,
   serializeWorld,
 } from "../simulation";
@@ -18,6 +19,7 @@ import {
   availableDraftOptions,
   docketBill,
   fileDraft,
+  fileDraftFromOffice,
   previewDraft,
   queryDocket,
   readDocket,
@@ -25,6 +27,7 @@ import {
   type DocketBill,
 } from "./legislation-docket";
 import { billAnalysis } from "./legislation-analysis";
+import { suppliedLegislativeSeat } from "../../tests/fixtures/supplied-legislative-seat";
 
 /**
  * More than one bill, and each of them still itself.
@@ -43,6 +46,46 @@ interface Fixture {
   readonly jurisdictionId: EntityId;
   readonly scenarioKey: string;
 }
+
+describe("selected sections at the ordinary office filing boundary", () => {
+  it("refuses an effectless section without writing, then files and reloads the supported set", () => {
+    const seat = suppliedLegislativeSeat("US-AK", "house");
+    const input = {
+      scenarioKey: "alaska",
+      playerPersonId: seat.personId,
+      jurisdictionId: seat.jurisdictionId,
+      familyKey: "appropriations",
+      variantKey: "single-programme",
+      authorityKey: "standing:school-facilities",
+      selectedProvisionKeys: [
+        "authority-named",
+        "amount-provided",
+        "availability",
+        "spending-report",
+      ],
+    };
+    const before = serializeWorld(seat.world);
+    expect(() => fileDraftFromOffice(seat.world, input)).toThrow(
+      /Report of expenditure cannot be filed as an operative section/,
+    );
+    expect(serializeWorld(seat.world)).toBe(before);
+    const filed = fileDraftFromOffice(seat.world, {
+      ...input,
+      selectedProvisionKeys: input.selectedProvisionKeys.slice(0, 3),
+    });
+    expect(
+      currentMeasureProvisions(filed.world, filed.bill.measureId).map(
+        (provision) => provision.provisionKey,
+      ),
+    ).toEqual(["authority-named", "amount-provided", "availability"]);
+    const reloaded = deserializeWorld(serializeWorld(filed.world));
+    const recompiled = recompileSavedBill(reloaded, filed.bill, seat.personId);
+    expect(
+      "clauses" in recompiled &&
+        recompiled.clauses.map((clause) => clause.provisionKey),
+    ).toEqual(["authority-named", "amount-provided", "availability"]);
+  });
+});
 
 function kentucky(): Fixture {
   const scenario = createLegislativeScenario("kentucky");
