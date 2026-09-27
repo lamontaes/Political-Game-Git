@@ -4,7 +4,6 @@ import { passOrdinaryDays } from "./ordinary-life";
 import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
 import { bindRequestSituation } from "../simulation/adult-situations";
 import { recordFavorAgreement } from "../simulation/life-favors";
-import { doHouseholdErrands } from "../simulation/household-errands";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
 import {
   adaptiveSelectionSeed,
@@ -422,19 +421,7 @@ export function chooseAdultOption(
     otherPersonId: companionId,
   });
   if (result.status === "blocked") return result.world;
-  // "Get things done" is the one option whose words are an act rather than a
-  // decision, so it is carried out here, on the calendar, and the errand item
-  // closes only if the time was really spent. Before this the choice wrote
-  // nothing and the same list came back every week for years.
-  const acted =
-    input.situationKey === "adult.ordinary-good-day" &&
-    input.optionKey === "get-things-done"
-      ? doHouseholdErrands(
-          result.world,
-          input.personId,
-          input.transitionHandlers,
-        ).world
-      : result.world;
+  const acted = result.world;
 
   // What follows, decided here and from the world. Nothing about how the
   // situation was selected is in scope — `scheduleAftermath` cannot see the

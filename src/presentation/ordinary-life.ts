@@ -72,11 +72,10 @@ import { composeFutureTransitionHandlerRegistries } from "../simulation/future-t
  * with a few things in it, not a dashboard of cards.
  */
 
-export const HOUSEHOLD_ERRANDS_KEY = "ordinary-life:household-errands";
 export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
 
 /**
- * The two things an ordinary week actually puts in front of somebody.
+ * The posted public meeting an ordinary week puts in front of somebody.
  *
  * Authored in `src/simulation/life-opportunities.ts`, beside the writer that
  * creates them, and re-exported here because that is where the content bank

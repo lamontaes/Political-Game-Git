@@ -16,13 +16,7 @@ import {
 } from "./life-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { recordEventKnowledge } from "./records";
-import {
-  createScheduledActivity,
-  createWorkItem,
-  lapseWorkItem,
-  scheduledActivityState,
-  workPendingEntriesFor,
-} from "./time-work";
+import { createScheduledActivity, createWorkItem } from "./time-work";
 import { settleLivingCosts } from "./cost-of-living";
 import { settleOfficeSalaries } from "./office-salary";
 import { refreshLocalEconomy } from "./local-economy";
@@ -47,10 +41,8 @@ import type { EntityId, HistoricalCutoff, IsoDate, World } from "./types";
  * The adult scene bank reads premises and never invents them, which is right,
  * and on its own it is not enough: a world that never writes a request, an
  * invitation or a notice has nothing for the bank to read, and the life runs
- * out. The audited failure was exactly that shape — the week's errands are
- * completed after a hundred and fifty minutes, both remaining scenes lose the
- * record they stand on, and no amount of further time restores either, because
- * nothing in the game was ever going to write another one.
+ * out. The audited failure was exactly that shape: no later transition wrote
+ * another grounded opportunity after the first scenes had run their course.
  *
  * This module is the missing writer, and it is a writer: every function that
  * returns a `World` here creates canonical records during a transition the
@@ -155,16 +147,11 @@ export function lifeOpportunityTag(kind: LifeOpportunityKind): string {
  */
 export const OPEN_LIFE_OPPORTUNITY_LIMIT = 4;
 
-/** How long a legacy household week remains open before it lapses. */
-export const HOUSEHOLD_WEEK_DAYS = 7;
-
-export const HOUSEHOLD_ERRANDS_KEY = "ordinary-life:household-errands";
 export const PUBLIC_MEETING_KEY = "ordinary-life:public-meeting";
 export const PUBLIC_MEETING_AGENDA =
   "Whether the public meeting room should open for one extra evening each week. No hours or funding proposal is attached.";
 
-/** Authored definitions. The grocery row remains for older saves, while new
- * ordinary lives are offered only the posted public meeting. */
+/** Authored definitions for the posted public meeting. */
 export interface OrdinaryLifeWorkItemDefinition {
   readonly key: string;
   readonly title: string;
@@ -173,14 +160,6 @@ export interface OrdinaryLifeWorkItemDefinition {
 
 export const ORDINARY_LIFE_WORK_ITEMS: readonly OrdinaryLifeWorkItemDefinition[] =
   [
-    {
-      key: HOUSEHOLD_ERRANDS_KEY,
-      title: "The week's groceries",
-      // Only what the world can back. The grocery trip is a real route; the
-      // fitting and the cupboard hinge this used to name were never anything,
-      // and every new life was handed the same three errands.
-      summary: "The household needs groceries for the week.",
-    },
     {
       key: PUBLIC_MEETING_KEY,
       title: "Whether to go to the public meeting",
@@ -310,21 +289,6 @@ function occasionDatesBySource(world: World): ReadonlyMap<EntityId, IsoDate> {
     }
   }
   return byEvent;
-}
-
-/** Whether this life is currently carrying an active household week. */
-export function hasActiveHouseholdWeek(
-  world: World,
-  personId: EntityId,
-): boolean {
-  return workPendingEntriesFor(world, personId).some(
-    ({ item, state }) =>
-      item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY) &&
-      item.focus.kind === "person" &&
-      item.focus.personId === personId &&
-      state.assignedPersonIds.includes(personId) &&
-      state.status === "active",
-  );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -492,47 +456,11 @@ export function refreshLifeOpportunities(
   if (formativeIntervalAt(world, personId) !== null) return world;
 
   let next = refreshLocalEconomy(world, personId);
-  next = lapseLastHouseholdWeek(next, personId);
   next = settleOfficeSalaries(next, personId);
   next = advanceJobMarket(next, personId);
   next = settleMortgages(next, personId);
   next = settleLivingCosts(next, personId);
   next = writeNextOpportunity(next, personId);
-  return next;
-}
-
-/**
- * A legacy grocery item nobody completed lapses when its week ends.
- *
- * Before this, an open week was never replaced: San Antonio's James carried
- * "Still not done, 61 weeks on" for a year. The week is recorded as gone by,
- * not as done, and nothing is said about
- * how the household ate. A week the player has put on the calendar for a day
- * still ahead stays, because they have a plan for it.
- */
-function lapseLastHouseholdWeek(world: World, personId: EntityId): World {
-  let next = world;
-  for (const { item, state } of workPendingEntriesFor(world, personId)) {
-    if (
-      !item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY) ||
-      item.focus.kind !== "person" ||
-      item.focus.personId !== personId ||
-      state.status !== "active"
-    )
-      continue;
-    const openedOn = makeIsoDate(item.createdAt.date);
-    if (addDays(openedOn, HOUSEHOLD_WEEK_DAYS) > world.currentDate) continue;
-    if (state.scheduledActivityId !== null) {
-      const hold = scheduledActivityState(next, state.scheduledActivityId);
-      if (hold.status === "scheduled" && hold.start.date >= world.currentDate)
-        continue;
-    }
-    next = lapseWorkItem(next, {
-      workItemId: item.id,
-      stableKey: `${item.stableKey}:lapsed`,
-      summary: "The week went by without the grocery shopping.",
-    });
-  }
   return next;
 }
 
@@ -1616,17 +1544,4 @@ function momentOn(world: World, date: IsoDate, hour: number) {
     timeZone: world.currentMoment.timeZone,
     utcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
   });
-}
-
-/** Read the actual accessible task. Old saves retain their original summary;
- * the renderer never fills their unnamed appointments from current content. */
-export function householdErrandsFor(world: World, personId: EntityId) {
-  return (
-    workPendingEntriesFor(world, personId).find(
-      (entry) =>
-        entry.item.stableKey.startsWith(HOUSEHOLD_ERRANDS_KEY) &&
-        entry.state.status === "active" &&
-        entry.state.assignedPersonIds.includes(personId),
-    )?.item ?? null
-  );
 }
