@@ -35,9 +35,9 @@ const TENSE: RelationshipCondition = {
 };
 
 /*
- * Openers end mid-sentence, cores start lower case so they read after an
- * opener or alone (the first letter of the line is capitalized), and closers
- * follow a finished sentence, so they start with a capital.
+ * Cores start lower case (the engine capitalizes the first letter of the
+ * line), and closers follow a finished sentence, so they start with a
+ * capital.
  */
 const GREET_AGAIN: ComposedLineBank = {
   key: "small-talk.greet-again",
@@ -45,20 +45,23 @@ const GREET_AGAIN: ComposedLineBank = {
   surface: "dialogue",
   act: "greet",
   parts: {
-    opener: {
-      variants: [
-        { key: "oh", kind: "template", text: "oh,", weight: 2 },
-        { key: "hey", kind: "template", text: "hey,", weight: 2 },
-        { key: "oh-hey", kind: "template", text: "oh, hey," },
-        { key: "well", kind: "template", text: "well," },
-      ],
-    },
+    // Each core is a whole greeting. A separate opener stacked greetings
+    // ("Hey, hello.", "Oh, hey, hi.") in the round-1 report, so an
+    // interjection is written into the greeting it belongs to.
     core: {
       variants: [
         { key: "hi-plain", kind: "template", text: "hi." },
         { key: "hello-again", kind: "template", text: "hello again." },
         { key: "hi-name", kind: "template", text: "hi, {{player-name}}." },
+        { key: "oh-hi", kind: "template", text: "oh, hi." },
+        {
+          key: "oh-hi-name",
+          kind: "template",
+          text: "oh, hi, {{player-name}}.",
+        },
+        { key: "hey-name", kind: "template", text: "hey, {{player-name}}." },
         { key: "back-again", kind: "template", text: "back again?" },
+        { key: "hey-back-again", kind: "template", text: "hey, back again?" },
         {
           key: "we-just-talked",
           kind: "template",
@@ -68,6 +71,12 @@ const GREET_AGAIN: ComposedLineBank = {
           key: "good-to-see-you",
           kind: "template",
           text: "good to see you.",
+          requiresRelationship: [WARM],
+        },
+        {
+          key: "good-to-see-you-name",
+          kind: "template",
+          text: "good to see you, {{player-name}}.",
           requiresRelationship: [WARM],
         },
         {
@@ -92,15 +101,11 @@ const GREET_AGAIN: ComposedLineBank = {
           kind: "template",
           text: "Did you need something?",
         },
+        { key: "whats-up", kind: "template", text: "What's up?" },
         {
-          key: "whats-up",
+          key: "talk-some-more-adult",
           kind: "template",
-          text: "What's up?",
-        },
-        {
-          key: "want-to-talk",
-          kind: "template",
-          text: "Did you want to talk again?",
+          text: "Did you want to talk some more?",
           stages: ["adult"],
         },
         { key: "go-ahead", kind: "template", text: "Go ahead." },

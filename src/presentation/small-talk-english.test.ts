@@ -44,15 +44,6 @@ function greet(world: World, playerPersonId: string, personId: string): World {
   });
 }
 
-const GREET_TEXTS = (() => {
-  const bank = SMALL_TALK_BANKS[0];
-  return {
-    openers: bank.parts.opener!.variants.map((variant) =>
-      variant.kind === "template" ? variant.text : "",
-    ),
-  };
-})();
-
 describe("a second greeting, built from reviewed parts", () => {
   it(
     "answers from the greet-again bank, saves its parts, and gives the same words after a reload",
@@ -114,6 +105,5 @@ describe("a second greeting, built from reviewed parts", () => {
       for (const variant of bank.parts.closer?.variants ?? [])
         if (variant.kind === "template") expect(variant.text).toMatch(/^[A-Z]/);
     }
-    expect(GREET_TEXTS.openers.length).toBeGreaterThan(0);
   });
 });

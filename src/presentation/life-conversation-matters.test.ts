@@ -10,6 +10,7 @@ import { activeOrdinaryGoal } from "../simulation/life-personality";
 import { publishPublicEvent } from "../simulation/public-information";
 import { matterAwareness } from "./current-matters";
 import { linePartsOf } from "./english-composition";
+import { conversationExchangeTurns } from "./scene-conversation";
 import {
   MATTER_CHOICE_PREFIX,
   commitLifeConversation,
@@ -150,6 +151,16 @@ describe("current matters in ordinary talk", () => {
     );
     expect(turn.tags).toContain(`life.matter:${eventId}`);
     expect(turn.tags).toContain("life.answer:matter-uninformed");
+    // The headline's own period ends the player's line; no second one.
+    const shown = conversationExchangeTurns(
+      next,
+      base.playerPersonId,
+      "life-talk",
+      base.parentId,
+    ).at(-1)!;
+    expect(shown.playerLine).toMatch(/^You mention the news: /);
+    expect(shown.playerLine).not.toMatch(/\.\.$/);
+    expect(turn.summary).not.toMatch(/\.\. /);
     expect(next.currentMoment).toEqual(world.currentMoment);
     // Talking about it is not a record of learning the matter itself.
     expect(matterAwareness(next, base.parentId, eventId)).toBe("uninformed");
