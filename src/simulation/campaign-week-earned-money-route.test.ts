@@ -28,12 +28,16 @@ import { performCampaignAction } from "./campaigns";
 import { requireElectionContest } from "./election-contests";
 import { candidacyPackForJurisdiction } from "./candidacy";
 import { resourcePositionAt } from "./resource-queries";
+import { makeCurrencyCode } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { EntityId, World } from "./types";
 
 const personalCash = (world: World, personId: EntityId) =>
-  resourcePositionAt(world, { kind: "person", personId }, "USD")?.liquidBalance
-    .minorUnits ?? 0;
+  resourcePositionAt(
+    world,
+    { kind: "person", personId },
+    makeCurrencyCode("USD"),
+  )?.liquidBalance.minorUnits ?? 0;
 
 // Team F proof: every dollar starts with a completed shop shift and recorded
 // pay. No opening savings, donor funds, election date or media reach is authored.
@@ -138,7 +142,7 @@ it(
     const beforeBuy = world.history.resourceTransferOutcomes.length;
     const personalBeforeBuy = candidatePersonalBalance(world, personId);
     world = spendAnAfternoon(world, personId, "advertising");
-    const action = world.history.campaignActions.at(-1)!;
+    const action = (world.history.campaignActions ?? []).at(-1)!;
     const result = campaignActionResult(world, action.id)!;
     expect(action.campaignId).toBe(campaign.id);
     expect(result.spentAmount?.minorUnits).toBe(25_000);
