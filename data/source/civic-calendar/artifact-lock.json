@@ -1,0 +1,265 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "ncsl-2026-legislative-races",
+      "localPath": "data/source/civic-calendar/raw/ncsl-2026-legislative-races.html",
+      "mediaType": "text/html",
+      "provider": "National Conference of State Legislatures",
+      "publisher": {
+        "documentationUrl": "https://www.ncsl.org/elections-and-campaigns/2026-legislative-races-by-state-and-chamber",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.ncsl.org/elections-and-campaigns/2026-legislative-races-by-state-and-chamber",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 77549
+      },
+      "bytes": {
+        "length": 77549,
+        "sha256": "be8e68a8d4287578474c578477b00599ef6a704b683e4de4cea3a390ac9fc8a0"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ncsl-2026-primary-dates",
+      "localPath": "data/source/civic-calendar/raw/ncsl-2026-primary-dates.html",
+      "mediaType": "text/html",
+      "provider": "National Conference of State Legislatures",
+      "publisher": {
+        "documentationUrl": "https://www.ncsl.org/elections-and-campaigns/2026-state-primary-election-dates",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.ncsl.org/elections-and-campaigns/2026-state-primary-election-dates",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 77406
+      },
+      "bytes": {
+        "length": 77406,
+        "sha256": "4d71296459a24f02cfff2868ce2a098a9b303533cb1a0e67f3528ad6e6febf66"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ncsl-primary-types",
+      "localPath": "data/source/civic-calendar/raw/ncsl-primary-types.html",
+      "mediaType": "text/html",
+      "provider": "National Conference of State Legislatures",
+      "publisher": {
+        "documentationUrl": "https://www.ncsl.org/elections-and-campaigns/state-primary-election-types",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.ncsl.org/elections-and-campaigns/state-primary-election-types",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 128537
+      },
+      "bytes": {
+        "length": 128537,
+        "sha256": "b18412147a6fd25c46622b2b8c615a86d83c03abc0e1b2f7a3f194c9db1f42e4"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "nga-governor-elections",
+      "localPath": "data/source/civic-calendar/raw/nga-2026-governors.html",
+      "mediaType": "text/html",
+      "provider": "National Governors Association",
+      "publisher": {
+        "documentationUrl": "https://www.nga.org/governors/elections/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.nga.org/governors/elections/",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 455811
+      },
+      "bytes": {
+        "length": 455811,
+        "sha256": "9db4418f2d5daa2805241762164c7c4b341835afd762621477531e2a8c268a21"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "dc-2026-elections",
+      "localPath": "data/source/civic-calendar/raw/dc-2026-elections.html",
+      "mediaType": "text/html",
+      "provider": "District of Columbia Board of Elections",
+      "publisher": {
+        "documentationUrl": "https://www.dcboe.org/elections/2026-elections",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.dcboe.org/elections/2026-elections",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 65086
+      },
+      "bytes": {
+        "length": 65086,
+        "sha256": "81fefe91989d678ddac04fc566573811ea22c3f198e361194842743422f6beea"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "dc-election-definitions",
+      "localPath": "data/source/civic-calendar/raw/dc-election-definitions.html",
+      "mediaType": "text/html",
+      "provider": "District of Columbia Board of Elections",
+      "publisher": {
+        "documentationUrl": "https://www.dcboe.org/faqs/election-definitions",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://www.dcboe.org/faqs/election-definitions",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 41251
+      },
+      "bytes": {
+        "length": 41251,
+        "sha256": "e6249a2ac04df407fbc0275894d63ddc2421b50819246ca4809cf78bdf0b1cf4"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "dc-governance",
+      "localPath": "data/source/civic-calendar/raw/dc-governance.html",
+      "mediaType": "text/html",
+      "provider": "District of Columbia Statehood Office",
+      "publisher": {
+        "documentationUrl": "https://statehood.dc.gov/page/dc-governance",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://statehood.dc.gov/page/dc-governance",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 96776
+      },
+      "bytes": {
+        "length": 96776,
+        "sha256": "ad849d1fad6574ff5e5ad48d015612fe4868f71165e5fdcc2b958ece8d9d672c"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "house-delegate-terms",
+      "localPath": "data/source/civic-calendar/raw/house-delegate-terms.html",
+      "mediaType": "text/html",
+      "provider": "Clerk of the U.S. House of Representatives",
+      "publisher": {
+        "documentationUrl": "https://clerk.house.gov/Help/ViewMemberFAQs",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://clerk.house.gov/Help/ViewMemberFAQs",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 10339
+      },
+      "bytes": {
+        "length": 10339,
+        "sha256": "0879fcccb7406f6a9d09e9915143da34088db8604a0dea01e2a9247ec55f1801"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "ne-legislature-election-statute",
+      "localPath": "data/source/civic-calendar/raw/nebraska-legislature-election-statute.html",
+      "mediaType": "text/html",
+      "provider": "Nebraska Legislature",
+      "publisher": {
+        "documentationUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-508",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "method": "direct-GET",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-508",
+        "retrievedDate": "2026-09-27",
+        "httpStatus": 200,
+        "responseBytes": 22518
+      },
+      "bytes": {
+        "length": 22518,
+        "sha256": "c75183fb194902d575cfc0454b2af365c48d3002b9ec1c70ac99e78d84bcd5dc"
+      },
+      "rights": {
+        "status": "not-assessed",
+        "declaredLicense": null,
+        "attributionRequired": null
+      },
+      "storage": "committed"
+    }
+  ]
+}

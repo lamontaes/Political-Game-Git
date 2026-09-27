@@ -1,0 +1,3476 @@
+{
+  "schema": "civic-calendar-v1",
+  "asOfDate": "2026-09-27",
+  "scope": "Regular elections and 2026 primary dates only. Special elections and future state ballot orders are not asserted.",
+  "federal": {
+    "house": {
+      "regularElectionYears": [
+        2026,
+        2028,
+        2030
+      ],
+      "termYears": 2,
+      "seatSource": "src/simulation/living-world/congress-seats.ts"
+    },
+    "senate": {
+      "electionYearByClass": {
+        "1": 2030,
+        "2": 2026,
+        "3": 2028
+      },
+      "termYears": 6,
+      "classesByStateSource": "src/simulation/living-world/congress-seats.ts"
+    },
+    "delegates": {
+      "termYears": 2,
+      "jurisdictions": [
+        "AS",
+        "DC",
+        "GU",
+        "MP",
+        "VI"
+      ],
+      "sourceId": "house-delegate-terms"
+    },
+    "residentCommissioner": {
+      "termYears": 4,
+      "jurisdiction": "PR",
+      "sourceId": "house-delegate-terms"
+    }
+  },
+  "jurisdictions": [
+    {
+      "usps": "AK",
+      "name": "Alaska",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "senate",
+            "memberTitle": null,
+            "seatCount": 20,
+            "termYears": 4,
+            "seatsUpIn2026": 10,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Alaska",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "house of representatives",
+            "memberTitle": null,
+            "seatCount": 40,
+            "termYears": 2,
+            "seatsUpIn2026": 40,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Alaska",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "top-four",
+        "voterAccess": "Top-Four",
+        "stateOfficeDate": "2026-08-18",
+        "congressionalDate": "2026-08-18",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "AL",
+      "name": "Alabama",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 35,
+            "termYears": 4,
+            "seatsUpIn2026": 35,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Alabama",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 105,
+            "termYears": 4,
+            "seatsUpIn2026": 105,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Alabama",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-05-19",
+        "congressionalDate": "2026-05-19",
+        "exceptions": [
+          {
+            "office": "U.S. House districts 1, 2, 6 and 7",
+            "date": "2026-08-11",
+            "note": "Governor-ordered 2026 postponement recorded by NCSL."
+          }
+        ],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "AR",
+      "name": "Arkansas",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 35,
+            "termYears": 4,
+            "seatsUpIn2026": 17,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Arkansas",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 100,
+            "termYears": 2,
+            "seatsUpIn2026": 100,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Arkansas",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-03-03",
+        "congressionalDate": "2026-03-03",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "AZ",
+      "name": "Arizona",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 30,
+            "termYears": 2,
+            "seatsUpIn2026": 30,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Arizona",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 60,
+            "termYears": 2,
+            "seatsUpIn2026": 60,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Arizona",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open to Unaffiliated",
+        "stateOfficeDate": "2026-07-21",
+        "congressionalDate": "2026-07-21",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "CA",
+      "name": "California",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "Senate",
+            "memberTitle": null,
+            "seatCount": 40,
+            "termYears": 4,
+            "seatsUpIn2026": 20,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: California",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "Assembly",
+            "memberTitle": null,
+            "seatCount": 80,
+            "termYears": 2,
+            "seatsUpIn2026": 80,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: California",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "top-two",
+        "voterAccess": "Top-Two",
+        "stateOfficeDate": "2026-06-02",
+        "congressionalDate": "2026-06-02",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "CO",
+      "name": "Colorado",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 35,
+            "termYears": 4,
+            "seatsUpIn2026": 17,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Colorado",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 65,
+            "termYears": 2,
+            "seatsUpIn2026": 65,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Colorado",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open to Unaffiliated",
+        "stateOfficeDate": "2026-06-30",
+        "congressionalDate": "2026-06-30",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "CT",
+      "name": "Connecticut",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 36,
+            "termYears": 2,
+            "seatsUpIn2026": 36,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Connecticut",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 151,
+            "termYears": 2,
+            "seatsUpIn2026": 151,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Connecticut",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Closed",
+        "stateOfficeDate": "2026-08-11",
+        "congressionalDate": "2026-08-11",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "DE",
+      "name": "Delaware",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2024,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "Senate",
+            "memberTitle": null,
+            "seatCount": 21,
+            "termYears": 4,
+            "seatsUpIn2026": 11,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Delaware",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "House of Representatives",
+            "memberTitle": null,
+            "seatCount": 41,
+            "termYears": 2,
+            "seatsUpIn2026": 41,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Delaware",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Closed",
+        "stateOfficeDate": "2026-09-15",
+        "congressionalDate": "2026-09-15",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "FL",
+      "name": "Florida",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "senate",
+            "memberTitle": null,
+            "seatCount": 40,
+            "termYears": 4,
+            "seatsUpIn2026": 20,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Florida",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "house of representatives",
+            "memberTitle": null,
+            "seatCount": 120,
+            "termYears": 2,
+            "seatsUpIn2026": 120,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Florida",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Closed",
+        "stateOfficeDate": "2026-08-18",
+        "congressionalDate": "2026-08-18",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "GA",
+      "name": "Georgia",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 56,
+            "termYears": 2,
+            "seatsUpIn2026": 56,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Georgia",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 180,
+            "termYears": 2,
+            "seatsUpIn2026": 180,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Georgia",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-05-19",
+        "congressionalDate": "2026-05-19",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "HI",
+      "name": "Hawaii",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "senate",
+            "memberTitle": null,
+            "seatCount": 25,
+            "termYears": 4,
+            "seatsUpIn2026": 13,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Hawaii",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "house of representatives",
+            "memberTitle": null,
+            "seatCount": 51,
+            "termYears": 2,
+            "seatsUpIn2026": 51,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Hawaii",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-08-08",
+        "congressionalDate": "2026-08-08",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "IA",
+      "name": "Iowa",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 50,
+            "termYears": 4,
+            "seatsUpIn2026": 25,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Iowa",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 100,
+            "termYears": 2,
+            "seatsUpIn2026": 100,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Iowa",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Open",
+        "stateOfficeDate": "2026-06-02",
+        "congressionalDate": "2026-06-02",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "ID",
+      "name": "Idaho",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "senate",
+            "memberTitle": null,
+            "seatCount": 35,
+            "termYears": 2,
+            "seatsUpIn2026": 35,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Idaho",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "house of representatives",
+            "memberTitle": null,
+            "seatCount": 70,
+            "termYears": 2,
+            "seatsUpIn2026": 70,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Idaho",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Closed",
+        "stateOfficeDate": "2026-05-19",
+        "congressionalDate": "2026-05-19",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "IL",
+      "name": "Illinois",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "Senate",
+            "memberTitle": null,
+            "seatCount": 59,
+            "termYears": 4,
+            "seatsUpIn2026": 39,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Illinois",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "House of Representatives",
+            "memberTitle": null,
+            "seatCount": 118,
+            "termYears": 2,
+            "seatsUpIn2026": 118,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Illinois",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Open",
+        "stateOfficeDate": "2026-03-17",
+        "congressionalDate": "2026-03-17",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "IN",
+      "name": "Indiana",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2024,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 50,
+            "termYears": 4,
+            "seatsUpIn2026": 25,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Indiana",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 100,
+            "termYears": 2,
+            "seatsUpIn2026": 100,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Indiana",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Open",
+        "stateOfficeDate": "2026-05-05",
+        "congressionalDate": "2026-05-05",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "KS",
+      "name": "Kansas",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 40,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Kansas",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 125,
+            "termYears": 2,
+            "seatsUpIn2026": 125,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Kansas",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Closed",
+        "stateOfficeDate": "2026-08-04",
+        "congressionalDate": "2026-08-04",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "KY",
+      "name": "Kentucky",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2023,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 38,
+            "termYears": 4,
+            "seatsUpIn2026": 19,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Kentucky",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 100,
+            "termYears": 2,
+            "seatsUpIn2026": 100,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Kentucky",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Closed",
+        "stateOfficeDate": "2026-05-19",
+        "congressionalDate": "2026-05-19",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "LA",
+      "name": "Louisiana",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2023,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 39,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Louisiana",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 105,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Louisiana",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "all-comers",
+        "voterAccess": "All-Comers/Open to Unaffiliated",
+        "stateOfficeDate": null,
+        "congressionalDate": "2026-05-16",
+        "exceptions": [
+          {
+            "office": "U.S. House",
+            "date": "2026-11-03",
+            "note": "All-comers primary; December 12, 2026 general election recorded by NCSL."
+          }
+        ],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "MA",
+      "name": "Massachusetts",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 40,
+            "termYears": 2,
+            "seatsUpIn2026": 40,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Massachusetts",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 160,
+            "termYears": 2,
+            "seatsUpIn2026": 160,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Massachusetts",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open to Unaffiliated",
+        "stateOfficeDate": "2026-09-01",
+        "congressionalDate": "2026-09-01",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "MD",
+      "name": "Maryland",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 47,
+            "termYears": 4,
+            "seatsUpIn2026": 47,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Maryland",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 141,
+            "termYears": 4,
+            "seatsUpIn2026": 141,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Maryland",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Closed",
+        "stateOfficeDate": "2026-06-23",
+        "congressionalDate": "2026-06-23",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "ME",
+      "name": "Maine",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 35,
+            "termYears": 2,
+            "seatsUpIn2026": 35,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Maine",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 151,
+            "termYears": 2,
+            "seatsUpIn2026": 151,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Maine",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open to Unaffiliated",
+        "stateOfficeDate": "2026-06-09",
+        "congressionalDate": "2026-06-09",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "MI",
+      "name": "Michigan",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 38,
+            "termYears": 4,
+            "seatsUpIn2026": 38,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Michigan",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 110,
+            "termYears": 2,
+            "seatsUpIn2026": 110,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Michigan",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-08-04",
+        "congressionalDate": "2026-08-04",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "MN",
+      "name": "Minnesota",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "senate",
+            "memberTitle": null,
+            "seatCount": 67,
+            "termYears": 4,
+            "seatsUpIn2026": 67,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Minnesota",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "house of representatives",
+            "memberTitle": null,
+            "seatCount": 134,
+            "termYears": 2,
+            "seatsUpIn2026": 134,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Minnesota",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-08-11",
+        "congressionalDate": "2026-08-11",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "MO",
+      "name": "Missouri",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2024,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 34,
+            "termYears": 4,
+            "seatsUpIn2026": 17,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Missouri",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 163,
+            "termYears": 2,
+            "seatsUpIn2026": 163,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Missouri",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-08-04",
+        "congressionalDate": "2026-08-04",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "MS",
+      "name": "Mississippi",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2023,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 52,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Mississippi",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 122,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Mississippi",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": null,
+        "congressionalDate": "2026-03-10",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "MT",
+      "name": "Montana",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2024,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 50,
+            "termYears": 4,
+            "seatsUpIn2026": 25,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Montana",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 100,
+            "termYears": 2,
+            "seatsUpIn2026": 100,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Montana",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-06-02",
+        "congressionalDate": "2026-06-02",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "NC",
+      "name": "North Carolina",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2024,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "Senate",
+            "memberTitle": null,
+            "seatCount": 50,
+            "termYears": 2,
+            "seatsUpIn2026": 50,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: North Carolina",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "House of Representatives",
+            "memberTitle": null,
+            "seatCount": 120,
+            "termYears": 2,
+            "seatsUpIn2026": 120,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: North Carolina",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open to Unaffiliated",
+        "stateOfficeDate": "2026-03-03",
+        "congressionalDate": "2026-03-03",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "ND",
+      "name": "North Dakota",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2024,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 47,
+            "termYears": 4,
+            "seatsUpIn2026": 24,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: North Dakota",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 94,
+            "termYears": 4,
+            "seatsUpIn2026": 48,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: North Dakota",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-06-09",
+        "congressionalDate": "2026-06-09",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "NE",
+      "name": "Nebraska",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "unicameral",
+            "officialName": "Legislature",
+            "memberTitle": null,
+            "seatCount": 49,
+            "termYears": 4,
+            "seatsUpIn2026": 24,
+            "districtsUpIn2026": "even-numbered",
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Nebraska",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "mixed-nonpartisan-legislature",
+        "voterAccess": "Nonpartisan/Open",
+        "stateOfficeDate": "2026-05-12",
+        "congressionalDate": "2026-05-12",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "NH",
+      "name": "New Hampshire",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 2,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 24,
+            "termYears": 2,
+            "seatsUpIn2026": 24,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: New Hampshire",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 400,
+            "termYears": 2,
+            "seatsUpIn2026": 400,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: New Hampshire",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open to Unaffiliated",
+        "stateOfficeDate": "2026-09-08",
+        "congressionalDate": "2026-09-08",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "NJ",
+      "name": "New Jersey",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2025,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 40,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: New Jersey",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 80,
+            "termYears": 2,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: New Jersey",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Closed",
+        "stateOfficeDate": null,
+        "congressionalDate": "2026-06-02",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "NM",
+      "name": "New Mexico",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 42,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: New Mexico",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 70,
+            "termYears": 2,
+            "seatsUpIn2026": 70,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: New Mexico",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open to Unaffiliated",
+        "stateOfficeDate": "2026-06-02",
+        "congressionalDate": "2026-06-02",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "NV",
+      "name": "Nevada",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "Senate",
+            "memberTitle": null,
+            "seatCount": 21,
+            "termYears": 4,
+            "seatsUpIn2026": 11,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Nevada",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "Assembly",
+            "memberTitle": null,
+            "seatCount": 42,
+            "termYears": 2,
+            "seatsUpIn2026": 42,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Nevada",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Open",
+        "stateOfficeDate": "2026-06-09",
+        "congressionalDate": "2026-06-09",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "NY",
+      "name": "New York",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 63,
+            "termYears": 2,
+            "seatsUpIn2026": 63,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: New York",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 150,
+            "termYears": 2,
+            "seatsUpIn2026": 150,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: New York",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Closed",
+        "stateOfficeDate": "2026-06-23",
+        "congressionalDate": "2026-06-23",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "OH",
+      "name": "Ohio",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "senate",
+            "memberTitle": null,
+            "seatCount": 33,
+            "termYears": 4,
+            "seatsUpIn2026": 17,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Ohio",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "house of representatives",
+            "memberTitle": null,
+            "seatCount": 99,
+            "termYears": 2,
+            "seatsUpIn2026": 99,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Ohio",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Open",
+        "stateOfficeDate": "2026-05-05",
+        "congressionalDate": "2026-05-05",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "OK",
+      "name": "Oklahoma",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 48,
+            "termYears": 4,
+            "seatsUpIn2026": 24,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Oklahoma",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 101,
+            "termYears": 2,
+            "seatsUpIn2026": 101,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Oklahoma",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Closed",
+        "stateOfficeDate": "2026-06-16",
+        "congressionalDate": "2026-06-16",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "OR",
+      "name": "Oregon",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "Senate",
+            "memberTitle": null,
+            "seatCount": 30,
+            "termYears": 4,
+            "seatsUpIn2026": 15,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Oregon",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "House of Representatives",
+            "memberTitle": null,
+            "seatCount": 60,
+            "termYears": 2,
+            "seatsUpIn2026": 60,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Oregon",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Closed",
+        "stateOfficeDate": "2026-05-19",
+        "congressionalDate": "2026-05-19",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "PA",
+      "name": "Pennsylvania",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 50,
+            "termYears": 4,
+            "seatsUpIn2026": 25,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Pennsylvania",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 203,
+            "termYears": 2,
+            "seatsUpIn2026": 203,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Pennsylvania",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Closed",
+        "stateOfficeDate": "2026-05-19",
+        "congressionalDate": "2026-05-19",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "RI",
+      "name": "Rhode Island",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 38,
+            "termYears": 2,
+            "seatsUpIn2026": 38,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Rhode Island",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 75,
+            "termYears": 2,
+            "seatsUpIn2026": 75,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Rhode Island",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open to Unaffiliated",
+        "stateOfficeDate": "2026-09-09",
+        "congressionalDate": "2026-09-09",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "SC",
+      "name": "South Carolina",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 46,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: South Carolina",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 124,
+            "termYears": 2,
+            "seatsUpIn2026": 124,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: South Carolina",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-06-09",
+        "congressionalDate": "2026-06-09",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "SD",
+      "name": "South Dakota",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 35,
+            "termYears": 2,
+            "seatsUpIn2026": 35,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: South Dakota",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 70,
+            "termYears": 2,
+            "seatsUpIn2026": 70,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: South Dakota",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Closed",
+        "stateOfficeDate": "2026-06-02",
+        "congressionalDate": "2026-06-02",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        2,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "TN",
+      "name": "Tennessee",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 33,
+            "termYears": 4,
+            "seatsUpIn2026": 17,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Tennessee",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 99,
+            "termYears": 2,
+            "seatsUpIn2026": 99,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Tennessee",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Closed",
+        "stateOfficeDate": "2026-08-06",
+        "congressionalDate": "2026-08-06",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "TX",
+      "name": "Texas",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 31,
+            "termYears": 4,
+            "seatsUpIn2026": 16,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Texas",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 150,
+            "termYears": 2,
+            "seatsUpIn2026": 150,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Texas",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-03-03",
+        "congressionalDate": "2026-03-03",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "UT",
+      "name": "Utah",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2024,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 29,
+            "termYears": 4,
+            "seatsUpIn2026": 15,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Utah",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 75,
+            "termYears": 2,
+            "seatsUpIn2026": 75,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Utah",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Closed",
+        "stateOfficeDate": "2026-06-23",
+        "congressionalDate": "2026-06-23",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "VA",
+      "name": "Virginia",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2025,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": "Senate",
+            "memberTitle": null,
+            "seatCount": 40,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Virginia",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": "House of Delegates",
+            "memberTitle": null,
+            "seatCount": 100,
+            "termYears": 2,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Virginia",
+            "officialNameSource": "data/source/state-legislatures/corpus.json"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": null,
+        "congressionalDate": "2026-08-04",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "VT",
+      "name": "Vermont",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 2,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 30,
+            "termYears": 2,
+            "seatsUpIn2026": 30,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Vermont",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 150,
+            "termYears": 2,
+            "seatsUpIn2026": 150,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Vermont",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-08-11",
+        "congressionalDate": "2026-08-11",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "WA",
+      "name": "Washington",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2024,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 49,
+            "termYears": 4,
+            "seatsUpIn2026": 24,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Washington",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 98,
+            "termYears": 2,
+            "seatsUpIn2026": 98,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Washington",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "top-two",
+        "voterAccess": "Top-Two",
+        "stateOfficeDate": "2026-08-04",
+        "congressionalDate": "2026-08-04",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "WI",
+      "name": "Wisconsin",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 33,
+            "termYears": 4,
+            "seatsUpIn2026": 17,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Wisconsin",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 99,
+            "termYears": 2,
+            "seatsUpIn2026": 99,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Wisconsin",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Open",
+        "stateOfficeDate": "2026-08-11",
+        "congressionalDate": "2026-08-11",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        3
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "WV",
+      "name": "West Virginia",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2024,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 34,
+            "termYears": 4,
+            "seatsUpIn2026": 17,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: West Virginia",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 100,
+            "termYears": 2,
+            "seatsUpIn2026": 100,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: West Virginia",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Partially Closed",
+        "stateOfficeDate": "2026-05-12",
+        "congressionalDate": "2026-05-12",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "WY",
+      "name": "Wyoming",
+      "kind": "state",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 31,
+            "termYears": 4,
+            "seatsUpIn2026": 16,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Wyoming",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 62,
+            "termYears": 2,
+            "seatsUpIn2026": 62,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Wyoming",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "Closed",
+        "stateOfficeDate": "2026-08-18",
+        "congressionalDate": "2026-08-18",
+        "exceptions": [],
+        "sourceIds": [
+          "ncsl-2026-primary-dates",
+          "ncsl-primary-types"
+        ]
+      },
+      "federalSenateClasses": [
+        1,
+        2
+      ],
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "DC",
+      "name": "District of Columbia",
+      "kind": "district",
+      "executive": {
+        "office": "mayor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "dc-governance"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "council",
+            "officialName": "Council of the District of Columbia",
+            "memberTitle": null,
+            "seatCount": 13,
+            "termYears": 4,
+            "seatsUpIn2026": 7,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: District of Columbia",
+            "officialNameSource": "dc-governance"
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": "partisan",
+        "voterAccess": "closed",
+        "stateOfficeDate": "2026-06-16",
+        "congressionalDate": "2026-06-16",
+        "exceptions": [],
+        "sourceIds": [
+          "dc-2026-elections",
+          "dc-election-definitions"
+        ]
+      },
+      "federalSenateClasses": null,
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "AS",
+      "name": "American Samoa",
+      "kind": "territory",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2024,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 18,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: American Samoa",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 21,
+            "termYears": 2,
+            "seatsUpIn2026": 21,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: American Samoa",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": null,
+        "voterAccess": null,
+        "stateOfficeDate": null,
+        "congressionalDate": null,
+        "exceptions": [],
+        "sourceIds": []
+      },
+      "federalSenateClasses": null,
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "GU",
+      "name": "Guam",
+      "kind": "territory",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "unicameral",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 15,
+            "termYears": 2,
+            "seatsUpIn2026": 15,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Guam",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": null,
+        "voterAccess": null,
+        "stateOfficeDate": null,
+        "congressionalDate": null,
+        "exceptions": [],
+        "sourceIds": []
+      },
+      "federalSenateClasses": null,
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "MP",
+      "name": "Northern Mariana Islands",
+      "kind": "territory",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 9,
+            "termYears": 4,
+            "seatsUpIn2026": 6,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Northern Mariana Islands",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 20,
+            "termYears": 2,
+            "seatsUpIn2026": 20,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Northern Mariana Islands",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": null,
+        "voterAccess": null,
+        "stateOfficeDate": null,
+        "congressionalDate": null,
+        "exceptions": [],
+        "sourceIds": []
+      },
+      "federalSenateClasses": null,
+      "federalHouseDelegateTermYears": 2
+    },
+    {
+      "usps": "PR",
+      "name": "Puerto Rico",
+      "kind": "territory",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2024,
+        "regularTermYears": 4,
+        "onBallot2026": false,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "upper",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 27,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Puerto Rico",
+            "officialNameSource": null
+          },
+          {
+            "chamberKey": "lower",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 51,
+            "termYears": 4,
+            "seatsUpIn2026": 0,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: Puerto Rico",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": null,
+        "voterAccess": null,
+        "stateOfficeDate": null,
+        "congressionalDate": null,
+        "exceptions": [],
+        "sourceIds": []
+      },
+      "federalSenateClasses": null,
+      "federalHouseDelegateTermYears": 4
+    },
+    {
+      "usps": "VI",
+      "name": "U.S. Virgin Islands",
+      "kind": "territory",
+      "executive": {
+        "office": "governor",
+        "referenceElectionYear": 2026,
+        "regularTermYears": 4,
+        "onBallot2026": true,
+        "sourceId": "nga-governor-elections"
+      },
+      "lieutenantGovernorElection": null,
+      "otherElectedStatewideOffices": null,
+      "legislature": {
+        "chambers": [
+          {
+            "chamberKey": "unicameral",
+            "officialName": null,
+            "memberTitle": null,
+            "seatCount": 15,
+            "termYears": 2,
+            "seatsUpIn2026": 15,
+            "districtsUpIn2026": null,
+            "sourceId": "ncsl-2026-legislative-races",
+            "sourceLocator": "NCSL 2026 races table: U.S. Virgin Islands",
+            "officialNameSource": null
+          }
+        ]
+      },
+      "primary2026": {
+        "nominationSystem": null,
+        "voterAccess": null,
+        "stateOfficeDate": null,
+        "congressionalDate": null,
+        "exceptions": [],
+        "sourceIds": []
+      },
+      "federalSenateClasses": null,
+      "federalHouseDelegateTermYears": 2
+    }
+  ],
+  "gaps": [
+    {
+      "field": "lieutenantGovernorElection",
+      "jurisdictions": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY",
+        "DC",
+        "AS",
+        "GU",
+        "MP",
+        "PR",
+        "VI"
+      ],
+      "reason": "The bounded NGA election page does not establish election method and timing for each jurisdiction's lieutenant-governor-equivalent office."
+    },
+    {
+      "field": "otherElectedStatewideOffices",
+      "jurisdictions": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ],
+      "reason": "Office-by-office statewide ballot timing is not established by the locked item 1 sources."
+    },
+    {
+      "field": "legislature.memberTitle",
+      "jurisdictions": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY",
+        "DC",
+        "AS",
+        "GU",
+        "MP",
+        "PR",
+        "VI"
+      ],
+      "reason": "The NCSL chamber table does not establish each chamber's member title."
+    },
+    {
+      "field": "legislature.districtsUpIn2026",
+      "jurisdictions": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY",
+        "DC",
+        "AS",
+        "GU",
+        "MP",
+        "PR",
+        "VI"
+      ],
+      "reason": "NCSL provides counts, not district identities; Nebraska's official statute alone establishes its even-numbered 2026 cohort."
+    },
+    {
+      "field": "primary2026",
+      "jurisdictions": [
+        "AS",
+        "GU",
+        "MP",
+        "PR",
+        "VI"
+      ],
+      "reason": "The NCSL primary tables cover states; territorial official primary calendars are not yet locked."
+    }
+  ]
+}

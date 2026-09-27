@@ -1,0 +1,60 @@
+{
+  "corpusId": "civic-calendar",
+  "asOf": "2026-09-27",
+  "compiler": {
+    "name": "compile-civic-calendar",
+    "version": "1.0.0"
+  },
+  "canonicalSha256": "b1ea46c2ee31ab5c40a23876d17ad16e100b76ca30857bd12225387de27aac15",
+  "inputClass": "production",
+  "coverage": {
+    "isCompleteUniverse": true,
+    "universeDescription": "Fifty states, the District of Columbia and five inhabited territories; individual fields remain null where the locked sources do not establish them.",
+    "jurisdictions": 56,
+    "stateLegislativeSeatsUp2026": 6139,
+    "governorElections2026": 39,
+    "gapKinds": 5
+  },
+  "inputs": [
+    {
+      "artifactId": "ncsl-2026-legislative-races",
+      "sha256": "be8e68a8d4287578474c578477b00599ef6a704b683e4de4cea3a390ac9fc8a0"
+    },
+    {
+      "artifactId": "ncsl-2026-primary-dates",
+      "sha256": "4d71296459a24f02cfff2868ce2a098a9b303533cb1a0e67f3528ad6e6febf66"
+    },
+    {
+      "artifactId": "ncsl-primary-types",
+      "sha256": "b18412147a6fd25c46622b2b8c615a86d83c03abc0e1b2f7a3f194c9db1f42e4"
+    },
+    {
+      "artifactId": "nga-governor-elections",
+      "sha256": "9db4418f2d5daa2805241762164c7c4b341835afd762621477531e2a8c268a21"
+    },
+    {
+      "artifactId": "dc-2026-elections",
+      "sha256": "81fefe91989d678ddac04fc566573811ea22c3f198e361194842743422f6beea"
+    },
+    {
+      "artifactId": "dc-election-definitions",
+      "sha256": "e6249a2ac04df407fbc0275894d63ddc2421b50819246ca4809cf78bdf0b1cf4"
+    },
+    {
+      "artifactId": "dc-governance",
+      "sha256": "ad849d1fad6574ff5e5ad48d015612fe4868f71165e5fdcc2b958ece8d9d672c"
+    },
+    {
+      "artifactId": "house-delegate-terms",
+      "sha256": "0879fcccb7406f6a9d09e9915143da34088db8604a0dea01e2a9247ec55f1801"
+    },
+    {
+      "artifactId": "ne-legislature-election-statute",
+      "sha256": "c75183fb194902d575cfc0454b2af365c48d3002b9ec1c70ac99e78d84bcd5dc"
+    }
+  ],
+  "reusedRepositorySources": [
+    "src/simulation/living-world/congress-seats.ts",
+    "data/source/state-legislatures/corpus.json"
+  ]
+}
