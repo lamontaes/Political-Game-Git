@@ -1,4 +1,10 @@
+import { readFileSync } from "node:fs";
+import { PNG } from "pngjs";
 import { describe, expect, it } from "vitest";
+import type { Person, World } from "../../simulation/types";
+import { sceneOccasion } from "../life-scene-people";
+import { composeEnginePerson, type PeoplePackManifest } from "./pack";
+import { engineRecipeFor, withEngineChoice } from "./recipe";
 import { measureBodyAnchors, neckOffset } from "./anchors";
 import {
   assemblePerson,
@@ -440,5 +446,93 @@ describe("a shirt tucked into trousers", () => {
     expect(px(35, 50)).toEqual([200, 60, 60]); // shirt above the waistband
     expect(px(35, 55)).toEqual([20, 20, 22]); // the waistband's edge over it
     expect(px(35, 58)).toEqual([100, 100, 104]); // trousers, not shirt, below
+  });
+});
+
+describe("the people engine in the game", () => {
+  const manifest = JSON.parse(
+    readFileSync("art/people-engine/v1/manifest.json", "utf8"),
+  ) as PeoplePackManifest;
+  const adult = (overrides: Partial<Person> = {}): Person =>
+    ({
+      id: "person:test-1",
+      birthDate: "1990-04-01",
+      appearance: { seed: "seed-1", recipeVersion: "appearance-recipe-v1" },
+      ...overrides,
+    }) as unknown as Person;
+
+  it("gives the same person the same look every time, and none to a child", () => {
+    const first = engineRecipeFor(adult(), "2026-09-27", manifest);
+    expect(first).not.toBeNull();
+    expect(engineRecipeFor(adult(), "2026-09-27", manifest)).toEqual(first);
+    expect(
+      engineRecipeFor(
+        adult({ birthDate: "2015-01-01" }),
+        "2026-09-27",
+        manifest,
+      ),
+    ).toBeNull();
+  });
+
+  it("follows the recorded gender, the player's choices and the occasion", () => {
+    const woman = adult({
+      identity: { gender: "female", pronouns: "she-her" },
+    } as Partial<Person>);
+    expect(engineRecipeFor(woman, "2026-09-27", manifest)!.presentation).toBe(
+      "feminine",
+    );
+    const chosen = withEngineChoice(
+      { people: { [woman.id]: woman } } as unknown as World,
+      woman.id,
+      {
+        version: "people-engine-v1",
+        build: "fuller",
+        shade: 6,
+        outfit: "formal",
+      },
+    ).people[woman.id]!;
+    const recipe = engineRecipeFor(chosen, "2026-09-27", manifest)!;
+    expect([recipe.build, recipe.shade, recipe.outfit]).toEqual([
+      "fuller",
+      6,
+      "formal",
+    ]);
+    expect(
+      engineRecipeFor(chosen, "2026-09-27", manifest, { occasion: "casual" })!
+        .outfit,
+    ).toBe("casual");
+    expect(sceneOccasion("us-capitol-senate-chamber")).toBe("formal");
+    expect(sceneOccasion("residence-suburban-house-day-wave2")).toBe("casual");
+  });
+
+  it("has every outfit for every body, and composes a whole person from the pack", () => {
+    const read = (file: string): Raster => {
+      const png = PNG.sync.read(readFileSync(`art/people-engine/v1/${file}`));
+      return {
+        width: png.width,
+        height: png.height,
+        data: new Uint8ClampedArray(png.data),
+      };
+    };
+    for (const presentation of ["feminine", "masculine"] as const)
+      for (const outfit of ["formal", "casual"] as const)
+        for (const build of ["lean", "average", "fuller"] as const)
+          expect(
+            manifest.presentations[presentation].outfits[outfit][build],
+          ).toBeDefined();
+    const { raster, anchors } = composeEnginePerson(manifest, read, {
+      presentation: "masculine",
+      build: "average",
+      shade: 5,
+      face: "",
+      hair: "",
+      outfit: "formal",
+    });
+    expect([raster.width, raster.height]).toEqual([512, 768]);
+    // Opaque from the top of the head to the soles, at the neck point.
+    expect(
+      alphaOf(raster, Math.round(anchors.neck.centerX), anchors.neck.row),
+    ).toBe(255);
+    expect(skinInGarment(raster).share).toBeLessThan(0.5);
   });
 });

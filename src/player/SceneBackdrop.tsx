@@ -4,6 +4,7 @@ import {
   type SceneConversationFrame,
 } from "../presentation/scene-conversation-frame";
 import { MaterialGroup, MaterialImage } from "./ModularCharacter";
+import { EngineFigure } from "./EnginePerson";
 import {
   useLayoutEffect,
   useMemo,
@@ -605,7 +606,13 @@ export function SceneBackdrop({
                     }}
                   />
                 ) : null}
-                {person.hasArt ? (
+                {person.engine ? (
+                  <EngineFigure
+                    recipe={person.engine}
+                    className="scene-person-art scene-person-engine"
+                    testId={`scene-person-engine-${person.personId}`}
+                  />
+                ) : person.hasArt ? (
                   <MaterialGroup layers={person.layers}>
                     {person.layers.map((layer, index) => (
                       <MaterialImage
