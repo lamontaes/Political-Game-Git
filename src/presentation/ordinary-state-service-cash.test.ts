@@ -298,7 +298,46 @@ describe("ordinary opening cash reaches a state service outturn", () => {
       (event) => event.type === "transit.program-paid-service-hours",
     );
     expect(service?.summary).toContain("1 vehicle-service hour");
-    expect(service?.involvedEntityIds).toContain(appropriation.id);
+    expect(service?.involvedEntityIds).toContain(bill.id);
+    const area = operating.world.history.events.find(
+      (event) => event.type === "transit.modeled-service-area",
+    );
+    const ride = operating.world.history.events.find(
+      (event) => event.type === "transit.modeled-rider-experience",
+    );
+    expect(area).toBeDefined();
+    expect(ride).toBeDefined();
+    expect(ride?.jurisdictionId).toBe(area?.jurisdictionId);
+    const riderId = ride?.participants.find(
+      (participant) => participant.role === "presence:transit-rider",
+    )?.personId;
+    expect(riderId).toBeDefined();
+    expect(operating.world.people[riderId!]!.homeJurisdictionId).toBe(
+      area?.jurisdictionId,
+    );
+    const directExperience = operating.world.history.knowledge.find(
+      (row) => row.personId === riderId && row.eventId === ride?.id,
+    );
+    expect(directExperience?.source).toEqual({ kind: "direct" });
+    const reasonedView = operating.world.history.memories.find(
+      (row) =>
+        row.personId === riderId &&
+        row.relevanceTags.includes("public-funding-view"),
+    );
+    expect(reasonedView).toBeDefined();
+    const reportKnowledge = operating.world.history.knowledge.find(
+      (row) =>
+        row.personId === riderId &&
+        row.source.kind === "public-record" &&
+        row.believedSummary.includes("Governor"),
+    );
+    expect(reportKnowledge).toBeDefined();
+    expect(reasonedView!.sequence).toBeGreaterThan(reportKnowledge!.sequence);
+    expect(
+      projectWorld39Journal(operating.world, riderId!).entries.some(
+        (entry) => entry.sourceId === ride?.id,
+      ),
+    ).toBe(true);
     const metric = Object.values(
       operating.world.metricCatalog.definitions,
     ).find(

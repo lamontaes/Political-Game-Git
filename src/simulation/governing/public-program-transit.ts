@@ -1,6 +1,11 @@
 import { TRANSIT_METRIC_INPUT } from "../transit-contract-definitions";
 import { TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR } from "../legislation-transit-families";
 import { publishPublicEvent } from "../public-information";
+import { ageOnDate } from "../dates";
+import { stableHash } from "../ids";
+import { lifePlaceByJurisdictionId } from "../life-places";
+import { personName } from "../people";
+import { recordEventKnowledge, recordMemory } from "../records";
 import { createExactQuantity } from "../quantity";
 import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
 import {
@@ -79,18 +84,82 @@ export function recordPaidTransitProgramService(
   const key = `${installment.stableKey}:paid-service-hours`;
   if (world.history.events.some((event) => event.stableKey === key))
     return world;
-  let next = recordWorldEvent(world, {
+  const eligible = Object.values(world.people)
+    .filter((person) => {
+      const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
+      return (
+        person.id !==
+          (world.control.kind === "person" ? world.control.personId : null) &&
+        person.birthDate <= installment.recordedAt &&
+        ageOnDate(person.birthDate, installment.recordedAt) >= 18 &&
+        !world.history.personDeaths.some(
+          (death) =>
+            death.personId === person.id &&
+            death.diedAt <= installment.recordedAt,
+        ) &&
+        place?.scope === "locality" &&
+        place.stateJurisdictionKey === profile.jurisdictionKey &&
+        world.jurisdictions[person.homeJurisdictionId] !== undefined
+      );
+    })
+    .sort(
+      (left, right) =>
+        stableHash(
+          `${installment.id}:${left.homeJurisdictionId}`,
+        ).localeCompare(
+          stableHash(`${installment.id}:${right.homeJurisdictionId}`),
+        ) ||
+        left.homeJurisdictionId.localeCompare(right.homeJurisdictionId) ||
+        left.id.localeCompare(right.id),
+    );
+  const rider = eligible[0] ?? null;
+  const area = rider
+    ? lifePlaceByJurisdictionId(rider.homeJurisdictionId)
+    : null;
+  let next = world;
+  if (rider && area) {
+    next = recordWorldEvent(next, {
+      stableKey: `${key}:modeled-area`,
+      type: "transit.modeled-service-area",
+      occurredAt: installment.recordedAt,
+      recordedAt: installment.recordedAt,
+      jurisdictionId: rider.homeJurisdictionId,
+      involvedEntityIds: [
+        measure!.id,
+        installment.resourceFlowId,
+        rider.homeJurisdictionId,
+      ],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["transit.service", `program:${profile.programKey}`],
+      summary: `For this paid period, ${area.displayName} is the modeled local service area for ${measure!.designation}. This PLACEHOLDER(wave2) allocation is not a researched route or a rural classification of the locality.`,
+      context: {
+        location: {
+          jurisdictionId: rider.homeJurisdictionId,
+          label: area.displayName,
+          setting: null,
+        },
+        socialContext: "Modeled service-area allocation",
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+  }
+  next = recordWorldEvent(next, {
     stableKey: key,
     type: "transit.program-paid-service-hours",
     occurredAt: installment.recordedAt,
     recordedAt: installment.recordedAt,
-    jurisdictionId: appropriation.jurisdictionId,
+    jurisdictionId: rider
+      ? rider.homeJurisdictionId
+      : appropriation.jurisdictionId,
     involvedEntityIds: [
-      appropriation.id,
-      commitment.id,
-      installment.id,
+      measure!.id,
       installment.resourceFlowId,
-      outcome.id,
+      ...(rider ? [rider.homeJurisdictionId] : []),
     ],
     participants: [],
     personFactConstraints: [],
@@ -124,7 +193,9 @@ export function recordPaidTransitProgramService(
     stableKey: `${key}:metric`,
     metricId: metric.id,
     scope: {
-      jurisdictionId: appropriation.jurisdictionId,
+      jurisdictionId: rider
+        ? rider.homeJurisdictionId
+        : appropriation.jurisdictionId,
       segmentKey: `public-program-installment:${installment.id}`,
     },
     referencePeriod: { kind: "point", at: installment.recordedAt },
@@ -140,8 +211,172 @@ export function recordPaidTransitProgramService(
     provenance: { kind: "simulated", sourceEntityIds: [serviceEventId] },
     supersedesStateId: null,
   });
-  return publishPublicEvent(next, {
+  next = publishPublicEvent(next, {
     stableKey: `${key}:publication`,
     sourceEventId: serviceEventId,
+  });
+  if (!rider || !area) return next;
+  const riderName = personName(rider);
+  const rideSummary = `${riderName} took a modeled ride on the added service in ${area.displayName} and welcomed the trip. This event does not establish household vehicle access or travel-time change.`;
+  next = recordWorldEvent(next, {
+    stableKey: `${key}:rider-experience`,
+    type: "transit.modeled-rider-experience",
+    occurredAt: installment.recordedAt,
+    recordedAt: installment.recordedAt,
+    jurisdictionId: rider.homeJurisdictionId,
+    involvedEntityIds: [
+      rider.id,
+      rider.homeJurisdictionId,
+      measure!.id,
+      installment.resourceFlowId,
+    ],
+    participants: [
+      {
+        personId: rider.id,
+        role: "presence:transit-rider",
+        detail: "Took one modeled ride within the paid service area.",
+      },
+      {
+        personId: rider.id,
+        role: "impact:transit-rider",
+        detail: "Welcomed that ride.",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["transit.service", `program:${profile.programKey}`],
+    summary: rideSummary,
+    context: {
+      location: {
+        jurisdictionId: rider.homeJurisdictionId,
+        label: area.displayName,
+        setting: "modeled transit ride",
+      },
+      socialContext: "One ride during the paid service period",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: "Welcomed this trip without asserting who funded it.",
+    },
+  });
+  const rideEventId = next.history.events.at(-1)!.id;
+  next = recordEventKnowledge(next, {
+    stableKey: `${key}:rider-direct-knowledge`,
+    personId: rider.id,
+    eventId: rideEventId,
+    learnedAt: installment.recordedAt,
+    believedSummary: `I rode the added service in ${area.displayName} and welcomed the trip.`,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
+  next = recordMemory(next, {
+    stableKey: `${key}:rider-memory`,
+    personId: rider.id,
+    eventId: rideEventId,
+    formedAt: installment.recordedAt,
+    rememberedSummary: `I rode the added service in ${area.displayName} and welcomed the trip.`,
+    interpretation:
+      "The paid service gave me one trip I valued. I do not yet know who funded it.",
+    strength: "moderate",
+    relevanceTags: ["transit.service", "experienced-service"],
+    supersedesMemoryId: null,
+  });
+  const governor = world.people[commitment.decidedByPersonId];
+  const sponsor = measure!.sponsorPersonId
+    ? world.people[measure!.sponsorPersonId]
+    : null;
+  if (!governor || !sponsor) return next;
+  next = recordWorldEvent(next, {
+    stableKey: `${key}:decision-report`,
+    type: "transit.government-decision-reported",
+    occurredAt: installment.recordedAt,
+    recordedAt: installment.recordedAt,
+    jurisdictionId: appropriation.jurisdictionId,
+    involvedEntityIds: [
+      governor.id,
+      sponsor.id,
+      measure!.id,
+      installment.resourceFlowId,
+    ],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: ["transit.service", `program:${profile.programKey}`],
+    summary: `${personName(sponsor)} sponsored ${measure!.designation}; Governor ${personName(governor)} committed its saved appropriation to this paid service period. The payment funded ${hoursText(plan.amount.minorUnits)} of modeled added service.`,
+    context: {
+      location: null,
+      socialContext:
+        "Public record of sponsorship, executive decision, and payment",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const reportEventId = next.history.events.at(-1)!.id;
+  next = publishPublicEvent(next, {
+    stableKey: `${key}:decision-publication`,
+    sourceEventId: reportEventId,
+  });
+  const publication = next.history.publications!.at(-1)!;
+  next = recordWorldEvent(next, {
+    stableKey: `${key}:report-encounter`,
+    type: "transit.resident-read-decision-report",
+    occurredAt: installment.recordedAt,
+    recordedAt: installment.recordedAt,
+    jurisdictionId: rider.homeJurisdictionId,
+    involvedEntityIds: [rider.id, rider.homeJurisdictionId, publication.id],
+    participants: [
+      {
+        personId: rider.id,
+        role: "agency:read-report",
+        detail: "Read the saved public report after the ride.",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["transit.service", `program:${profile.programKey}`],
+    summary: `${riderName} read a public report naming ${personName(sponsor)} as the bill's sponsor and Governor ${personName(governor)} as the executive who committed its appropriation, after taking the modeled ride.`,
+    context: {
+      location: {
+        jurisdictionId: rider.homeJurisdictionId,
+        label: area.displayName,
+        setting: "reading a public report",
+      },
+      socialContext: "Encountered a published funding report",
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction:
+        "Welcomed the recorded funding decision after a valued trip.",
+    },
+  });
+  const encounterId = next.history.events.at(-1)!.id;
+  next = recordEventKnowledge(next, {
+    stableKey: `${key}:report-knowledge`,
+    personId: rider.id,
+    eventId: reportEventId,
+    learnedAt: installment.recordedAt,
+    believedSummary: next.history.events.find(
+      (event) => event.id === reportEventId,
+    )!.summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: {
+      kind: "public-record",
+      reference: `publication:${publication.id};encounter:${encounterId}`,
+    },
+  });
+  return recordMemory(next, {
+    stableKey: `${key}:reasoned-view`,
+    personId: rider.id,
+    eventId: encounterId,
+    formedAt: installment.recordedAt,
+    rememberedSummary: `I read that ${personName(sponsor)} sponsored the bill and Governor ${personName(governor)} committed the funding after I rode the added service.`,
+    interpretation: `I welcomed the trip, so I appreciate this recorded funding decision by Governor ${personName(governor)}. This is a private reaction, not a vote prediction.`,
+    strength: "moderate",
+    relevanceTags: ["transit.service", "public-funding-view"],
+    supersedesMemoryId: null,
   });
 }
