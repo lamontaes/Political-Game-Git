@@ -221,6 +221,16 @@ export type JudicialRightsSubject =
   | "economic-regulation"
   | "equal-treatment";
 
+/** A dated record of this person's life or own conduct, not a party label. */
+export type JudicialPhilosophyEvidence =
+  | { readonly kind: "person-fact"; readonly id: EntityId }
+  | { readonly kind: "personal-value"; readonly id: EntityId }
+  | { readonly kind: "personality-tendency"; readonly id: EntityId }
+  | { readonly kind: "private-belief"; readonly id: EntityId }
+  | { readonly kind: "mentorship"; readonly id: EntityId }
+  | { readonly kind: "historical-event"; readonly id: EntityId }
+  | { readonly kind: "decision-trace"; readonly id: EntityId };
+
 export interface JudicialPhilosophyRecord {
   readonly recordId: string;
   readonly personId: EntityId;
@@ -231,8 +241,25 @@ export interface JudicialPhilosophyRecord {
   readonly rightsBySubject: Readonly<
     Record<JudicialRightsSubject, JudicialPhilosophyStrength | null>
   >;
-  /** Life and career facts only. A party label is not philosophy evidence. */
+  /** Dated life and conduct records only. A party label is not evidence. */
   readonly lifeEvidenceIds: readonly EntityId[];
+  /** Each non-null axis retains the records used for its interpretation. */
+  readonly dimensionEvidence?: Readonly<
+    Partial<
+      Record<JudicialPhilosophyAxis, readonly JudicialPhilosophyEvidence[]>
+    >
+  >;
+  readonly dimensionReasons?: Readonly<
+    Partial<Record<JudicialPhilosophyAxis, string>>
+  >;
+  readonly rightsEvidence?: Readonly<
+    Partial<
+      Record<JudicialRightsSubject, readonly JudicialPhilosophyEvidence[]>
+    >
+  >;
+  readonly rightsReasons?: Readonly<
+    Partial<Record<JudicialRightsSubject, string>>
+  >;
   readonly reason: string;
 }
 
