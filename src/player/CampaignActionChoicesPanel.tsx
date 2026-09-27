@@ -89,12 +89,7 @@ export function CampaignActionChoicesPanel({
               <p>
                 {readableMoment(choice.start)} to {readableMoment(choice.end)}
               </p>
-              {/* COPY-PENDING: show unknown cost without inventing a charge. */}
-              {choice.cashCost === null ? (
-                <p data-testid={`campaign-choice-cost-${choice.form}`}>
-                  Cost not estimated.
-                </p>
-              ) : null}
+              {/* PLACEHOLDER(wave2): unknown cash cost has no player cost line. */}
               {choice.outboundTravelMinutes > 0 ? (
                 <p>
                   A {choice.outboundTravelMinutes}-minute journey there is
