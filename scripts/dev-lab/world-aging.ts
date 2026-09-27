@@ -4,7 +4,8 @@
  *   npm run world:aging -- --years 20 --seed aging-1 [--place 3918000] \
  *     [--out docs/reports/world-aging-benchmark.md] [--max-minutes 120] \
  *     [--profile-years 1,20]
- *   npm run world:aging -- --render test-results/world-aging/<run>.json [--out …]
+ *   npm run world:aging -- --render test-results/world-aging/<run>.json \
+ *     [--out …] [--append <markdown file to add at the end>]
  *
  * The world is opened the way the title screen's "Watch the world" opens one
  * (`openObserverWorld(observerSetup(seed, place))`, then the same read-only
@@ -31,6 +32,7 @@ import { loadavg } from "node:os";
 import { dirname, relative } from "node:path";
 import { performance } from "node:perf_hooks";
 import { fileURLToPath } from "node:url";
+import { format, resolveConfig } from "prettier";
 import type { EntityId, IsoDate, World } from "../../src/simulation";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import {
@@ -632,7 +634,7 @@ function round(value: number, places = 1): number {
 
 export async function runAgingBenchmark(
   options: AgingOptions,
-  onYear: (partial: AgingResult) => void = () => {},
+  onYear: (partial: AgingResult) => void | Promise<void> = () => {},
 ): Promise<AgingResult> {
   const began = performance.now();
   const openedAt = performance.now();
@@ -742,16 +744,16 @@ export async function runAgingBenchmark(
     });
     if (problem) {
       stoppedEarly = `The Day button stopped on ${button.world.currentDate}: ${problem}`;
-      onYear(snapshot());
+      await onYear(snapshot());
       break;
     }
     const minutes = (performance.now() - began) / 60000;
     if (year < options.years && minutes >= options.maxMinutes) {
       stoppedEarly = `Stopped after year ${year}: ${round(minutes, 1)} minutes of wall time passed the ${options.maxMinutes}-minute limit.`;
-      onYear(snapshot());
+      await onYear(snapshot());
       break;
     }
-    onYear(snapshot());
+    await onYear(snapshot());
   }
   return snapshot();
 }
@@ -968,6 +970,15 @@ export function agingBenchmarkMarkdown(result: AgingResult): string {
 /* Command line                                                                */
 /* -------------------------------------------------------------------------- */
 
+/** Markdown as the repository's formatter would write it at `path`. */
+export async function formattedMarkdown(
+  path: string,
+  text: string,
+): Promise<string> {
+  const options = (await resolveConfig(path)) ?? {};
+  return format(text, { ...options, filepath: path });
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const opt = (name: string, fallback: string) => {
@@ -981,7 +992,16 @@ async function main() {
       readFileSync(args[rendering + 1]!, "utf8"),
     ) as AgingResult;
     const out = opt("out", "docs/reports/world-aging-benchmark.md");
-    writeFileSync(out, agingBenchmarkMarkdown(saved));
+    // A hand-written section (what was not run, and why) can follow the
+    // measured report without being lost on the next render.
+    const append = opt("append", "");
+    writeFileSync(
+      out,
+      await formattedMarkdown(
+        out,
+        `${agingBenchmarkMarkdown(saved)}${append ? `\n${readFileSync(append, "utf8")}` : ""}`,
+      ),
+    );
     console.log(`Wrote ${out} from ${args[rendering + 1]}.`);
     return;
   }
@@ -1005,8 +1025,11 @@ async function main() {
   );
   mkdirSync(dirname(out), { recursive: true });
   mkdirSync(dirname(progress), { recursive: true });
-  const write = (result: AgingResult) => {
-    writeFileSync(out, agingBenchmarkMarkdown(result));
+  const write = async (result: AgingResult) => {
+    writeFileSync(
+      out,
+      await formattedMarkdown(out, agingBenchmarkMarkdown(result)),
+    );
     writeFileSync(progress, `${JSON.stringify(result, null, 2)}\n`);
     const year = result.years.at(-1);
     if (year)
@@ -1015,7 +1038,7 @@ async function main() {
       );
   };
   const result = await runAgingBenchmark(options, write);
-  write(result);
+  await write(result);
   console.log(`Wrote ${out} and ${progress}.`);
 }
 
