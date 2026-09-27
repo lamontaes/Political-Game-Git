@@ -83,6 +83,15 @@ import { previewTimeCommand } from "../presentation/time-command";
 import { acceptedOfferStarts } from "../presentation/offer-deadlines";
 import { venueActivities } from "../presentation/venue-activity";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import {
+  canPlanOrdinaryMeetingAttendance,
+  planOrdinaryMeetingAttendance,
+  plannedOrdinaryMeetingAttendance,
+} from "../presentation/ordinary-meeting-actions";
+import {
+  scheduledActivityState,
+  compareSimulationMoments,
+} from "../simulation";
 import { proseDate, proseWeekdayDate } from "../presentation/prose-dates";
 import {
   PROTECTED_STOP_NOTE,
@@ -1150,6 +1159,25 @@ function CalendarEventActions({
   const stayingAtMeeting =
     meetingScene?.phase === "active" &&
     meetingScene.activityId === selected.activityId;
+  const meetingJourney = world.history.scheduledActivities.find(
+    (activity) =>
+      activity.kind === "travel" &&
+      activity.location.locationKey === "ordinary-life:to-meeting-room" &&
+      activity.sourceEntityIds.includes(selected.activityId) &&
+      activity.responsiblePersonId === personId,
+  );
+  const onTimeMeetingChoice =
+    !!meetingJourney &&
+    scheduledActivityState(world, meetingJourney.id).status === "scheduled" &&
+    compareSimulationMoments(
+      world.currentMoment,
+      scheduledActivityState(world, meetingJourney.id).start,
+    ) === 0;
+  const canPlanMeeting = canPlanOrdinaryMeetingAttendance(
+    world,
+    personId,
+    selected.activityId,
+  );
   return (
     <div
       className="game-choices pg-calendar-actions"
@@ -1166,6 +1194,35 @@ function CalendarEventActions({
       >
         Open event record
       </button>
+      {canPlanMeeting ? (
+        <button
+          type="button"
+          className="ui-action"
+          data-testid="calendar-plan-meeting"
+          aria-disabled={busy}
+          onClick={() => {
+            if (runner.pending) return;
+            const planned = planOrdinaryMeetingAttendance(
+              world,
+              personId,
+              selected.activityId,
+            );
+            onApplyNow({
+              world: planned,
+              outcome:
+                "You plan to attend the posted public meeting. Day or Week will take the scheduled trip when it is time to leave.",
+            });
+          }}
+        >
+          Plan to attend
+        </button>
+      ) : plannedOrdinaryMeetingAttendance(
+          world,
+          personId,
+          selected.activityId,
+        ) ? (
+        <p role="status">You plan to attend this meeting.</p>
+      ) : null}
       {skip ? (
         <button
           type="button"
@@ -1213,7 +1270,11 @@ function CalendarEventActions({
               )
         }
       >
-        {stayingAtMeeting ? "Stay through meeting" : "Attend"}
+        {stayingAtMeeting
+          ? "Stay through meeting"
+          : onTimeMeetingChoice
+            ? "Go to meeting"
+            : "Attend"}
         {attendance
           ? ` · Until ${attendance.target.date === world.currentDate ? "" : `${proseWeekdayDate(attendance.target.date)}, `}${formatMinute(attendance.target.minuteOfDay)}`
           : ""}
@@ -1269,7 +1330,7 @@ function CalendarEventActions({
           );
         }}
       >
-        Decline
+        {onTimeMeetingChoice ? "Stay home" : "Decline"}
       </button>
     </div>
   );

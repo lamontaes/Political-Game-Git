@@ -6,10 +6,11 @@ title: Keep the ordinary day focused on choices that need the player
 ---
 
 The room calls its situation “What’s happening.” The Calendar shows dated
-activities without skip boxes or commute rows; time buttons move time. Date
-format lives in Options. Work sessions still earn saved pay without separate
-Calendar stops. The leisure plan, grocery route, and household-errand choices
-are gone. Candidate guidance no longer speaks unknown filing rules. Day and
-Week stop at the posted public meeting's start. Attend spends the authored
-local travel time and enters while the meeting remains open. Stay spends only
-the remaining time to its posted end.
+activities without skip boxes or commute rows. Date format lives in Options.
+Work earns saved pay without Calendar stops. The leisure plan,
+grocery route, and household-errand choices are gone. Candidate guidance no
+longer speaks unknown filing rules. A saved
+meeting plan takes the trip during Day or Week and opens the meeting
+at its start. Without a plan, Day or Week stops when the on-time trip
+must leave; Go spends the trip. A later choice still spends travel time and
+enters for the time left. Stay runs to the posted end.

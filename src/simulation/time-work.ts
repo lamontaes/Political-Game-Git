@@ -1149,7 +1149,10 @@ export function advanceWhileJoiningScheduledActivity(
     activity.responsiblePersonId !== world.control.personId ||
     !Number.isSafeInteger(minutes) ||
     minutes <= 0 ||
-    compareSimulationMoments(world.currentMoment, state.start) < 0
+    compareSimulationMoments(
+      addSimulationMinutes(world.currentMoment, minutes),
+      state.start,
+    ) <= 0
   )
     return world;
   const controlledPersonId = world.control.personId;

@@ -8,6 +8,7 @@ import {
   type World,
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
+import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { proseDate, proseWeekdayDate } from "./prose-dates";
 
 /** "7:00 a.m.": a time of day as a person would say it. */
@@ -59,7 +60,7 @@ export function describeRoutineOutcome(
     elapsed > 0
       ? `It is now ${proseWeekdayDate(after.currentDate)}, ${proseClockTime(
           after.currentMoment.minuteOfDay,
-        )}.`
+        )}`
       : "No time passed.",
   ];
   const events = after.history.events.slice(before.history.events.length);
@@ -144,10 +145,21 @@ export function describeRoutineOutcome(
         ids.includes(a.id) &&
         scheduledActivityState(after, a.id).status === "scheduled",
     );
+    const meeting =
+      activity?.kind === "travel" &&
+      activity.location.locationKey === "ordinary-life:to-meeting-room"
+        ? after.history.scheduledActivities.find(
+            (candidate) =>
+              candidate.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+              activity.sourceEntityIds.includes(candidate.id),
+          )
+        : null;
     lines.push(
-      activity
-        ? `Stopped for ${activity.title}; resolve this commitment before continuing.`
-        : "Stopped before the requested time; resolve the pending commitment before continuing.",
+      meeting
+        ? `The public meeting starts at ${proseClockTime(scheduledActivityState(after, meeting.id).start.minuteOfDay)} Choose Go to meeting or Stay home.`
+        : activity
+          ? `Stopped for ${activity.title}; resolve this commitment before continuing.`
+          : "Stopped before the requested time; resolve the pending commitment before continuing.",
     );
   }
   return lines.join("\n");

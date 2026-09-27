@@ -200,7 +200,12 @@ export function previewTimeCommand(
           item.kind === "travel" &&
           item.location.locationKey === "ordinary-life:to-meeting-room" &&
           item.sourceEntityIds.includes(entry.activity.id) &&
-          scheduledActivityState(world, item.id).status === "cancelled",
+          (scheduledActivityState(world, item.id).status === "cancelled" ||
+            (scheduledActivityState(world, item.id).status === "scheduled" &&
+              compareSimulationMoments(
+                world.currentMoment,
+                scheduledActivityState(world, item.id).start,
+              ) > 0)),
       );
     const target = lateMeetingJourney
       ? addSimulationMinutes(world.currentMoment, entry.elapsedMinutes!)

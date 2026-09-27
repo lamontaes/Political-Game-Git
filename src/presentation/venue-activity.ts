@@ -300,7 +300,14 @@ export function venueActivities(
                 item.location.locationKey === "ordinary-life:to-meeting-room" &&
                 item.sourceEntityIds.includes(activity.id) &&
                 item.responsiblePersonId === personId &&
-                scheduledActivityState(world, item.id).status === "cancelled",
+                (scheduledActivityState(world, item.id).status ===
+                  "cancelled" ||
+                  (scheduledActivityState(world, item.id).status ===
+                    "scheduled" &&
+                    compareSimulationMoments(
+                      world.currentMoment,
+                      scheduledActivityState(world, item.id).start,
+                    ) > 0)),
             )
           : null;
       const origin = openingLifeLocation(world, personId);
@@ -308,7 +315,10 @@ export function venueActivities(
         priorJourney &&
         origin?.setting === "home" &&
         origin.jurisdictionId === activity.location.jurisdictionId &&
-        compareSimulationMoments(world.currentMoment, state.start) >= 0 &&
+        compareSimulationMoments(
+          world.currentMoment,
+          scheduledActivityState(world, priorJourney.id).start,
+        ) > 0 &&
         compareSimulationMoments(world.currentMoment, state.end) < 0 &&
         compareSimulationMoments(
           scheduledActivityState(world, priorJourney.id).end,

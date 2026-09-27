@@ -19,6 +19,37 @@ import { previewTimeCommand } from "../presentation/time-command";
 import { skipToLabel } from "../presentation/time-target-label";
 import { declineVenueActivity } from "../presentation/venue-activity";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import {
+  canPlanOrdinaryMeetingAttendance,
+  planOrdinaryMeetingAttendance,
+  plannedOrdinaryMeetingAttendance,
+} from "../presentation/ordinary-meeting-actions";
+import {
+  scheduledActivityState,
+  compareSimulationMoments,
+} from "../simulation";
+
+function onTimeMeetingChoice(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): boolean {
+  const journey = world.history.scheduledActivities.find(
+    (item) =>
+      item.kind === "travel" &&
+      item.location.locationKey === "ordinary-life:to-meeting-room" &&
+      item.sourceEntityIds.includes(activityId) &&
+      item.responsiblePersonId === personId,
+  );
+  return (
+    !!journey &&
+    scheduledActivityState(world, journey.id).status === "scheduled" &&
+    compareSimulationMoments(
+      world.currentMoment,
+      scheduledActivityState(world, journey.id).start,
+    ) === 0
+  );
+}
 
 /** Entity references UI-core passes through `openEntity` / `togglePin`. */
 export type PlacesEntityRef =
@@ -58,7 +89,10 @@ function actionLabel(
         scene?.phase === "active" &&
         scene.activityId === offer.activityId
         ? "Stay through meeting"
-        : "Attend";
+        : offer.activityId &&
+            onTimeMeetingChoice(world, personId, offer.activityId)
+          ? "Go to meeting"
+          : "Attend";
     }
   }
 }
@@ -310,14 +344,49 @@ export function PlacesWorkspace({
                       ) : null;
                     })()}
                   </button>
+                  {offer.activityId &&
+                  canPlanOrdinaryMeetingAttendance(
+                    world,
+                    personId,
+                    offer.activityId,
+                  ) ? (
+                    <button
+                      type="button"
+                      data-testid={`places-offer-${offer.id}-plan`}
+                      onClick={() =>
+                        commit(() =>
+                          planOrdinaryMeetingAttendance(
+                            world,
+                            personId,
+                            offer.activityId!,
+                          ),
+                        )
+                      }
+                    >
+                      Plan to attend
+                    </button>
+                  ) : offer.activityId &&
+                    plannedOrdinaryMeetingAttendance(
+                      world,
+                      personId,
+                      offer.activityId,
+                    ) ? (
+                    <span>You plan to attend this meeting.</span>
+                  ) : null}
                   {offer.declineActivityId ? (
                     <button
                       type="button"
-                      aria-label={`Decline: ${offer.title}`}
+                      aria-label={`${onTimeMeetingChoice(world, personId, offer.declineActivityId) ? "Stay home" : "Decline"}: ${offer.title}`}
                       data-testid={`places-offer-${offer.id}-decline`}
                       onClick={() => declineOffer(offer)}
                     >
-                      Decline
+                      {onTimeMeetingChoice(
+                        world,
+                        personId,
+                        offer.declineActivityId,
+                      )
+                        ? "Stay home"
+                        : "Decline"}
                     </button>
                   ) : null}
                   {pinTargets(offer).map((target) => (

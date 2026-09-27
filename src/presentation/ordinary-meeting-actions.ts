@@ -3,6 +3,7 @@ import {
   advanceWorldMinutes,
   advanceWhileJoiningScheduledActivity,
   cancelScheduledActivity,
+  canPersonAccess,
   compareSimulationMoments,
   createCampaignElectionTransitionRegistry,
   recordWorldEvent,
@@ -20,6 +21,111 @@ import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { travelToPlace } from "./place-travel";
 import { performVenueActivity, venueActivities } from "./venue-activity";
 
+const meetingPlanKey = (activityId: EntityId, personId: EntityId) =>
+  `ordinary-meeting:plan:${activityId}:${personId}`;
+
+/** Only an explicit saved choice counts as a commitment to make this trip. */
+export function plannedOrdinaryMeetingAttendance(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): boolean {
+  return world.history.events.some(
+    (event) =>
+      event.stableKey === meetingPlanKey(activityId, personId) &&
+      event.type === "civic.meeting-attendance-planned" &&
+      event.involvedEntityIds.includes(activityId) &&
+      event.involvedEntityIds.includes(personId),
+  );
+}
+
+/** Read-only prospect for an on-time meeting plan. */
+export function canPlanOrdinaryMeetingAttendance(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): boolean {
+  const activity = world.history.scheduledActivities.find(
+    (item) => item.id === activityId,
+  );
+  const journey = world.history.scheduledActivities.find(
+    (item) =>
+      item.kind === "travel" &&
+      item.location.locationKey === "ordinary-life:to-meeting-room" &&
+      item.sourceEntityIds.includes(activityId) &&
+      item.responsiblePersonId === personId,
+  );
+  const origin = openingLifeLocation(world, personId);
+  return (
+    !!activity &&
+    activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
+    activity.responsiblePersonId === personId &&
+    canPersonAccess(activity.access, personId) &&
+    scheduledActivityState(world, activityId).status === "scheduled" &&
+    !!journey &&
+    scheduledActivityState(world, journey.id).status === "scheduled" &&
+    compareSimulationMoments(
+      world.currentMoment,
+      scheduledActivityState(world, journey.id).start,
+    ) < 0 &&
+    origin?.setting === "home" &&
+    origin.jurisdictionId === activity.location.jurisdictionId &&
+    world.control.kind === "person" &&
+    world.control.personId === personId &&
+    !plannedOrdinaryMeetingAttendance(world, personId, activityId)
+  );
+}
+
+/** Record the player's future choice without moving time or attending yet. */
+export function planOrdinaryMeetingAttendance(
+  world: World,
+  personId: EntityId,
+  activityId: EntityId,
+): World {
+  if (!canPlanOrdinaryMeetingAttendance(world, personId, activityId))
+    return world;
+  const journey = world.history.scheduledActivities.find(
+    (item) =>
+      item.kind === "travel" &&
+      item.sourceEntityIds.includes(activityId) &&
+      item.location.locationKey === "ordinary-life:to-meeting-room",
+  )!;
+  const activity = world.history.scheduledActivities.find(
+    (item) => item.id === activityId,
+  )!;
+  return recordWorldEvent(world, {
+    stableKey: meetingPlanKey(activityId, personId),
+    type: "civic.meeting-attendance-planned",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: activity.location.jurisdictionId,
+    involvedEntityIds: [activityId, journey.id, personId],
+    participants: [
+      {
+        personId,
+        role: "agency:actor",
+        detail: "Chose to attend the posted meeting",
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      "ordinary-meeting-plan-v1",
+      "choice:attend",
+      `journey:${journey.id}`,
+    ],
+    summary: "You plan to go to the posted public meeting.",
+    context: {
+      location: openingLifeLocation(world, personId),
+      socialContext: null,
+      pressure: null,
+      choice: "Plan to attend the posted public meeting",
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
 /** Attend takes the existing journey and opens the meeting at its start.
  * Staying through the scheduled interval remains a separate player choice. */
 export function arriveAtOrdinaryMeeting(
@@ -35,18 +141,22 @@ export function arriveAtOrdinaryMeeting(
   const entered = enterOrdinaryMeeting(world, personId, activityId);
   if (entered !== world) return entered;
   const state = scheduledActivityState(world, activityId);
+  const journey = world.history.scheduledActivities.find(
+    (candidate) =>
+      candidate.kind === "travel" &&
+      candidate.location.locationKey === "ordinary-life:to-meeting-room" &&
+      candidate.sourceEntityIds.includes(activityId) &&
+      candidate.responsiblePersonId === personId,
+  );
   if (
     state.status === "scheduled" &&
-    compareSimulationMoments(world.currentMoment, state.start) >= 0 &&
+    journey &&
+    compareSimulationMoments(
+      world.currentMoment,
+      scheduledActivityState(world, journey.id).start,
+    ) > 0 &&
     compareSimulationMoments(world.currentMoment, state.end) < 0
   ) {
-    const journey = world.history.scheduledActivities.find(
-      (candidate) =>
-        candidate.kind === "travel" &&
-        candidate.location.locationKey === "ordinary-life:to-meeting-room" &&
-        candidate.sourceEntityIds.includes(activityId) &&
-        candidate.responsiblePersonId === personId,
-    );
     const origin = openingLifeLocation(world, personId);
     if (
       !journey ||
@@ -60,19 +170,27 @@ export function arriveAtOrdinaryMeeting(
       journeyState.end,
     );
     if (
-      journeyState.status !== "cancelled" ||
+      (journeyState.status !== "cancelled" &&
+        !(
+          journeyState.status === "scheduled" &&
+          compareSimulationMoments(world.currentMoment, journeyState.start) > 0
+        )) ||
       compareSimulationMoments(journeyState.end, state.start) !== 0 ||
       !Number.isSafeInteger(minutes) ||
       minutes <= 0
     )
       return world;
+    const departure =
+      journeyState.status === "scheduled"
+        ? cancelScheduledActivity(world, journey.id)
+        : world;
     const arrived = advanceWhileJoiningScheduledActivity(
-      world,
+      departure,
       activityId,
       minutes,
       handlers ?? createCampaignElectionTransitionRegistry(),
     );
-    if (arrived === world) return world;
+    if (arrived === departure) return world;
     const placed = recordWorldEvent(arrived, {
       stableKey: `ordinary-meeting:late-arrival:${activityId}:${journey.id}`,
       type: "life.scene.arrived",
