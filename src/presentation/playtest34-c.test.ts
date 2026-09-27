@@ -260,7 +260,10 @@ describe("PLAYTEST34 C contracts", () => {
     );
     const gate = authorizeCalendarSimulation(world, personId, activity.id);
     expect(gate.authorized).toBe(false);
-    expect(gate.reason).toMatch(/Standing preferences did not authorize/i);
+    // The work-shift interruption preference was retired with manual shifts,
+    // so the refusal no longer names standing preferences; it says the
+    // activity does not run on its own.
+    expect(gate.reason).toMatch(/does not run on its own/i);
     const snapshot = serializeWorld(world);
     const before = world.currentMoment;
     const simulated = simulateAuthorizedCalendarActivity(
