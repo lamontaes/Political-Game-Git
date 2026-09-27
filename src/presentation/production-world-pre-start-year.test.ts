@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { addDays, ageOnDate } from "../simulation/dates";
 import { requireLifePlace } from "../simulation/life-places";
-import { buildProductionWorld } from "./production-world";
+import { advanceWorld } from "../simulation/world";
+import {
+  buildPreStartBackgroundWorld,
+  buildProductionWorld,
+  finalizePreStartPlayer,
+} from "./production-world";
 
 describe("versioned prior-date production construction", () => {
   it("derives identity at the target date while constructing the clock a year earlier", () => {
@@ -19,19 +24,31 @@ describe("versioned prior-date production construction", () => {
       household: "lives-alone" as const,
     };
     const legacy = buildProductionWorld(common);
-    const prior = buildProductionWorld({
+    const input = {
       ...common,
       preStartYear: {
-        version: "pre-start-world-year-v1",
+        version: "pre-start-world-year-v1" as const,
         targetStartDate,
         priorYearStartDate,
       },
-    });
+    };
+    const background = buildPreStartBackgroundWorld(input);
+    expect(background.currentDate).toBe(priorYearStartDate);
+    expect(background.currentMoment.date).toBe(priorYearStartDate);
+    expect(background.control.kind).toBe("observer");
+    expect(background.people[legacy.playerPersonId]).toBeUndefined();
+    expect(
+      background.history.events.some((event) =>
+        event.involvedEntityIds.includes(legacy.playerPersonId),
+      ),
+    ).toBe(false);
+    const advanced = advanceWorld(background, 365);
+    const prior = finalizePreStartPlayer(advanced, input);
     expect(prior.playerPersonId).toBe(legacy.playerPersonId);
     expect(prior.player.birthDate).toBe(legacy.player.birthDate);
     expect(ageOnDate(prior.player.birthDate, targetStartDate)).toBe(22);
-    expect(prior.world.currentDate).toBe(priorYearStartDate);
-    expect(prior.world.currentMoment.date).toBe(priorYearStartDate);
+    expect(prior.world.currentDate).toBe(targetStartDate);
+    expect(prior.world.currentMoment.date).toBe(targetStartDate);
     expect(legacy.world.currentDate).toBe(targetStartDate);
   });
 });
