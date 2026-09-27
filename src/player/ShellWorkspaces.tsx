@@ -1107,17 +1107,16 @@ function CalendarEntryDetail({
         {entry.title} · {entry.kindLabel}
         {entry.summary ? <span> {entry.summary}</span> : null}
       </dd>
-      <dt>On the record</dt>
+      <dt>How it was arranged</dt>
       <dd data-testid="calendar-event-arrangement">
-        {entry.arrangementNote ??
-          "The record does not say who arranged it or how it reached you."}{" "}
+        {entry.arrangementNote ? `${entry.arrangementNote} ` : ""}
         {entry.ownershipNote}
       </dd>
       <dt>Who is going</dt>
       <dd data-testid="calendar-event-attendees">
         {entry.attendeeNames.length > 0
           ? entry.attendeeNames.join(", ")
-          : "No attendees are on record."}
+          : "Nobody is listed yet."}
       </dd>
       <dt>Where</dt>
       <dd>{entry.locationLabel}</dd>

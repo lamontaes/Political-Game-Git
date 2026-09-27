@@ -455,7 +455,7 @@ test.describe("the deliberate workspaces", () => {
       .locator('[data-testid^="calendar-entry-"] small')
       .allTextContents();
     for (const note of notes) {
-      expect(note).toMatch(/You are on this|chamber's agenda/);
+      expect(note).toMatch(/You're going|chamber's agenda/);
     }
 
     await page.getByTestId("calendar-workspace-close").click();

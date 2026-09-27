@@ -1,3 +1,4 @@
+import { describeInterval } from "./time-target-label";
 import {
   activeChildAuthoritiesAt,
   ageOnDate,
@@ -103,7 +104,7 @@ export function projectPlacesWorkspace(
           ? "Walk to the store. Visiting does not buy anything or finish your household errands."
           : "Walk home along the recorded outward route.",
       minutes: offer.route.duration.minutes,
-      durationLabel: `${offer.route.duration.minutes} minutes`,
+      durationLabel: describeInterval(offer.route.duration.minutes),
       unavailable: null,
       companionLabel: null,
       groceryDestination: destination,
@@ -133,7 +134,7 @@ export function projectPlacesWorkspace(
           durationLabel:
             entry.elapsedMinutes === null
               ? null
-              : `${entry.elapsedMinutes} minutes, including the wait before the journey`,
+              : `${describeInterval(entry.elapsedMinutes)}, counting the wait before you set out`,
           unavailable: entry.refusal,
           companionLabel: null,
           activityId: entry.activity.id,
@@ -203,7 +204,7 @@ function projectWalkOffer(
     title: offer.label,
     detail: offer.fromLabel ? `From ${offer.fromLabel}.` : null,
     minutes: offer.minutes,
-    durationLabel: `${offer.minutes} minutes`,
+    durationLabel: describeInterval(offer.minutes),
     unavailable: offer.unavailable,
     companionLabel,
     walkDestination: destination,
@@ -278,7 +279,7 @@ function projectMunicipalMeetingOffer(
     else {
       try {
         const timing = scheduledActivityPerformanceTiming(world, meeting.id);
-        durationLabel = `${timing.totalElapsedMinutes} minutes for this session.`;
+        durationLabel = `${describeInterval(timing.totalElapsedMinutes)} for this session.`;
       } catch (error) {
         unavailable =
           error instanceof Error

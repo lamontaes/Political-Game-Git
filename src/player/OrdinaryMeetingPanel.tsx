@@ -1,4 +1,5 @@
 import { describePlacesOutcome } from "../presentation/player-places";
+import { describeInterval } from "../presentation/time-target-label";
 import { useState } from "react";
 import type { EntityId, World } from "../simulation";
 import {
@@ -114,7 +115,9 @@ export function OrdinaryMeetingPanel({
             }
           >
             Stay through the meeting
-            {stay ? ` · ${stay.elapsedMinutes} minutes` : ""}
+            {stay?.elapsedMinutes !== undefined
+              ? ` · ${describeInterval(stay.elapsedMinutes)}`
+              : ""}
           </button>
           <button
             type="button"
@@ -144,7 +147,7 @@ export function OrdinaryMeetingPanel({
           >
             Leave and return home
             {leave.kind === "available"
-              ? ` · ${leave.route.duration.minutes} minutes`
+              ? ` · ${describeInterval(leave.route.duration.minutes)}`
               : ""}
           </button>
           {leave.kind === "unavailable" ? <p>{leave.reason}</p> : null}
@@ -160,7 +163,10 @@ export function OrdinaryMeetingPanel({
             )
           }
         >
-          Return home{home ? ` · ${home.elapsedMinutes} minutes` : ""}
+          Return home
+          {home?.elapsedMinutes !== undefined
+            ? ` · ${describeInterval(home.elapsedMinutes)}`
+            : ""}
         </button>
       ) : null}
       {outcome ? <p role="status">{outcome}</p> : null}

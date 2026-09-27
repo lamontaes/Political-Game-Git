@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { describeInterval } from "../presentation/time-target-label";
 
 import type { EntityId } from "../simulation";
 import type {
@@ -307,8 +308,8 @@ function CalendarDetail({
       </header>
       <time>
         {formatMinute(entry.state.start.minuteOfDay)}–
-        {formatMinute(entry.state.end.minuteOfDay)} · {entry.durationMinutes}{" "}
-        minutes
+        {formatMinute(entry.state.end.minuteOfDay)} ·{" "}
+        {describeInterval(entry.durationMinutes)}
       </time>
       <strong>{entry.activity.location.label}</strong>
       <p>{entry.activity.summary}</p>
@@ -332,10 +333,10 @@ function CalendarDetail({
         <div className="calendar-detail-actions">
           <p>
             {execution.waitMinutes > 0
-              ? `This action waits ${execution.waitMinutes} minutes until ${formatMinute(entry.state.start.minuteOfDay)}, then ${executionPhrase(entry, execution.activityMinutes)}.`
+              ? `This action waits ${describeInterval(execution.waitMinutes)} until ${formatMinute(entry.state.start.minuteOfDay)}, then ${executionPhrase(entry, execution.activityMinutes)}.`
               : `This action ${executionPhrase(entry, execution.activityMinutes)}.`}{" "}
-            {execution.totalElapsedMinutes} minutes elapse, advancing the clock
-            to{" "}
+            {describeInterval(execution.totalElapsedMinutes)} pass, and the
+            clock moves to{" "}
             {formatResultingMoment(
               execution.resultingMoment.date,
               execution.resultingMoment.minuteOfDay,
@@ -347,7 +348,8 @@ function CalendarDetail({
             type="button"
             onClick={() => onPerformActivity(entry.activity.id)}
           >
-            {execution.verb} · {execution.totalElapsedMinutes} minutes to{" "}
+            {execution.verb} · {describeInterval(execution.totalElapsedMinutes)}
+            , until{" "}
             {formatResultingMoment(
               execution.resultingMoment.date,
               execution.resultingMoment.minuteOfDay,
