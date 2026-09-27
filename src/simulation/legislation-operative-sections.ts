@@ -3,7 +3,6 @@ import type { CompiledBillDraft } from "./legislation-drafting";
 import { BillConfigurationError } from "./legislation-drafting";
 import { stateJurisdictionForKey } from "./life-places";
 import { US_STATE_USPS } from "./nationwide-world/state-executive-candidacy-packs";
-import { PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY } from "./public-fiscal";
 import {
   TRANSIT_FAMILY_KEY,
   TRANSIT_FAMILY_VERSION,
@@ -70,9 +69,15 @@ export function operativeSectionSupport(
       reason =
         "No state appropriation consumer is compiled for this jurisdiction.";
     else if (pinnedTransit) {
-      if (jurisdictionState !== PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY)
+      // Every state's transit program reads its own saved service profile
+      // (state-transit-service-profile.ts), one rule for all fifty.
+      if (
+        !(US_STATE_USPS as readonly string[]).includes(
+          jurisdictionState.slice(3),
+        )
+      )
         reason =
-          "The enacted service and availability rules for this transit program are compiled only for Alaska.";
+          "The enacted service and availability rules for this transit program are compiled for the fifty states.";
     } else if (!generalKeys?.includes(clause.provisionKey))
       reason =
         "This section has no canonical enacted-rule or delivery consumer yet.";
