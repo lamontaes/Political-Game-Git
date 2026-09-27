@@ -21,6 +21,10 @@ import { OFFICE_CONTINUITY_HANDLERS } from "./governing/office-continuity";
 import { GOVERNOR_TURNOVER_HANDLERS } from "./nationwide-world/state-executive-turnover";
 import { CONSTITUTIONAL_REFORM_HANDLERS } from "./living-world/constitutional-reform";
 import { FEDERAL_REFORM_HANDLERS } from "./living-world/federal-reform";
+import {
+  POLITICAL_REFLECTION_TRANSITION_KEY,
+  politicalReflectionTransitionHandler,
+} from "./living-world/political-reflection";
 import { PRESIDENTIAL_TURNOVER_HANDLERS } from "./nationwide-world/presidential-turnover";
 import { RECALL_HANDLERS } from "./recall";
 import { COUNCIL_ACT_HANDLERS } from "./municipal-ordinance-procedure";
@@ -2036,6 +2040,10 @@ export function createCampaignElectionTransitionRegistry(): FutureTransitionHand
         ...DC_COUNCIL_SITTING_HANDLERS,
         ...PUBLIC_PROGRAM_HANDLERS,
         ...OFFICE_CONTINUITY_HANDLERS,
+        [
+          POLITICAL_REFLECTION_TRANSITION_KEY,
+          politicalReflectionTransitionHandler,
+        ],
         // ALIVE43 W2: a local chapter organizer acts while ordinary time passes.
         [CHAPTER_OUTREACH_TRANSITION_KEY, chapterOutreachTransitionHandler],
         // ALIVE43 W3: background public developments take their next step.

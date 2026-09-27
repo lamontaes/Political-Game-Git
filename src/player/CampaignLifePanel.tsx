@@ -13,6 +13,8 @@ import {
   type PartyWorkAction,
   type PartyWorkRow,
 } from "../presentation/campaign-life-surface";
+import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
+import { projectCampaignLifeActivities } from "../simulation";
 import type {
   EntityId,
   FutureTransitionHandlerRegistry,
@@ -64,6 +66,12 @@ export function CampaignLifePanel({
     [world, personId, transitionHandlers],
   );
   const [message, setMessage] = useState<string | null>(null);
+  const guidanceScene = projectCandidateGuidanceScene(world, personId);
+  const activeGuidanceLifeId = guidanceScene
+    ? (projectCampaignLifeActivities(world, personId).find(
+        (activity) => activity.scheduledActivityId === guidanceScene.activityId,
+      )?.lifeActivityId ?? null)
+    : null;
 
   function apply(
     work: () => World,
@@ -95,8 +103,18 @@ export function CampaignLifePanel({
       );
     // Time moved but the activity did not happen: the clock stopped for
     // something real on the way, and the World keeps what did happen.
-    const arrived = (next: World) =>
-      projectPartyAndCommunityWork(
+    const arrived = (next: World) => {
+      const entered = projectCandidateGuidanceScene(next, personId);
+      if (
+        entered &&
+        projectCampaignLifeActivities(next, personId).some(
+          (activity) =>
+            activity.lifeActivityId === row.lifeActivityId &&
+            activity.scheduledActivityId === entered.activityId,
+        )
+      )
+        return null;
+      return projectPartyAndCommunityWork(
         next,
         personId,
         transitionHandlers,
@@ -105,6 +123,7 @@ export function CampaignLifePanel({
       )?.state === "completed"
         ? null
         : "Something came up before you got there. The time that passed is kept; you can try again.";
+    };
     switch (action) {
       case "accept":
         return apply(() =>
@@ -160,9 +179,6 @@ export function CampaignLifePanel({
       aria-labelledby="party-work-title"
     >
       <h3 id="party-work-title">Party and community work</h3>
-      <p className="game-note">
-        Coming to any of this is not joining, endorsing or voting.
-      </p>
 
       {view.rows.length === 0 ? (
         <p data-testid="party-work-empty">
@@ -198,26 +214,39 @@ export function CampaignLifePanel({
                   {row.attendNote}
                 </span>
               ) : null}
-              {row.actions.length > 0 ? (
+              {row.lifeActivityId === activeGuidanceLifeId ? (
+                <span className="game-campaign-life-line">
+                  The conversation is open in the community room. Return to the
+                  room to ask, stay or leave.
+                </span>
+              ) : row.actions.length > 0 ? (
                 <span className="game-campaign-life-actions">
-                  {row.actions.map((action) => (
-                    <button
-                      key={action}
-                      type="button"
-                      className={
-                        action === "decline"
-                          ? "ui-action"
-                          : "ui-action ui-action--primary"
-                      }
-                      data-testid={`party-work-${action}-${row.lifeActivityId}`}
-                      onClick={() => act(row, action)}
-                    >
-                      {actionLabel(action, row)}
-                    </button>
-                  ))}
+                  {row.actions
+                    .filter(
+                      (action) =>
+                        row.form !== "candidate-guidance" ||
+                        action !== "attend-condensed" ||
+                        row.awaitingRecord,
+                    )
+                    .map((action) => (
+                      <button
+                        key={action}
+                        type="button"
+                        className={
+                          action === "decline"
+                            ? "ui-action"
+                            : "ui-action ui-action--primary"
+                        }
+                        data-testid={`party-work-${action}-${row.lifeActivityId}`}
+                        onClick={() => act(row, action)}
+                      >
+                        {actionLabel(action, row)}
+                      </button>
+                    ))}
                 </span>
               ) : null}
               {row.actions.includes("attend-condensed") &&
+              row.form !== "candidate-guidance" &&
               !row.awaitingRecord ? (
                 <small className="game-campaign-life-line">
                   Going briefly: same outcome, less of the evening shown.

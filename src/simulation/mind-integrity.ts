@@ -8,7 +8,7 @@ import { legislationEntityExists } from "./legislation";
 import { legislativePoliticsEntityExists } from "./legislative-politics";
 import { lifeEntityExists } from "./life-integrity";
 import { eventById } from "./event-index";
-import { indexOverArrays } from "./history-index";
+import { indexOverArrays, recordById } from "./history-index";
 import { resourceHousingEntityExists } from "./resource-integrity";
 import { factsForPerson } from "./people";
 import {
@@ -282,20 +282,18 @@ function validateGoalHistory(world: World): void {
       record.provenance,
     );
 
-    const previous = world.history.goalStates
-      .filter(
-        (candidate) =>
-          candidate.personId === record.personId &&
-          candidate.goalId === record.goalId &&
-          candidate.sequence < record.sequence,
-      )
-      .at(-1);
+    const previous = lastInGroupBefore(
+      world.history.goalStates,
+      "goal state",
+      goalOf,
+      record.personId,
+      record.goalId,
+      record.sequence,
+    );
     const prior =
       record.supersedesGoalStateId === null
         ? undefined
-        : world.history.goalStates.find(
-            (candidate) => candidate.id === record.supersedesGoalStateId,
-          );
+        : recordById(world.history.goalStates, record.supersedesGoalStateId);
     if (
       (previous === undefined && record.supersedesGoalStateId !== null) ||
       (previous !== undefined &&
@@ -319,14 +317,14 @@ function validateGoalHistory(world: World): void {
       throw new Error(`A new goal has an invalid initial state: ${record.id}`);
     }
     if (record.replacesGoalId !== null) {
-      const replaced = world.history.goalStates
-        .filter(
-          (candidate) =>
-            candidate.personId === record.personId &&
-            candidate.goalId === record.replacesGoalId &&
-            candidate.sequence < record.sequence,
-        )
-        .at(-1);
+      const replaced = lastInGroupBefore(
+        world.history.goalStates,
+        "goal state",
+        goalOf,
+        record.personId,
+        record.replacesGoalId,
+        record.sequence,
+      );
       if (
         !replaced ||
         replaced.status !== "superseded" ||
@@ -345,15 +343,11 @@ function validateAppraisalHistory(world: World): void {
     const memory =
       record.memoryId === null
         ? undefined
-        : world.history.memories.find(
-            (candidate) => candidate.id === record.memoryId,
-          );
+        : recordById(world.history.memories, record.memoryId);
     const knowledge =
       record.eventKnowledgeId === null
         ? undefined
-        : world.history.knowledge.find(
-            (candidate) => candidate.id === record.eventKnowledgeId,
-          );
+        : recordById(world.history.knowledge, record.eventKnowledgeId);
     if (
       !event ||
       event.sequence >= record.sequence ||
@@ -442,8 +436,9 @@ function validatePerceptionHistory(world: World): void {
     }
     validatePerceptionSource(world, record);
     if (record.supersedesPerceptionId !== null) {
-      const prior = world.history.perceptions.find(
-        (candidate) => candidate.id === record.supersedesPerceptionId,
+      const prior = recordById(
+        world.history.perceptions,
+        record.supersedesPerceptionId,
       );
       if (
         !prior ||
@@ -535,9 +530,7 @@ function validatePerceptionSource(
       );
       return;
     case "heard-claim": {
-      const knowledge = world.history.knowledge.find(
-        (candidate) => candidate.id === source.knowledgeId,
-      );
+      const knowledge = recordById(world.history.knowledge, source.knowledgeId);
       if (
         !knowledge ||
         knowledge.personId !== record.personId ||
@@ -619,18 +612,10 @@ function validateTrustedCue(
   let hasReception = false;
   let hasSourceExpression = false;
   for (const recordId of source.communicationRecordIds) {
-    const exposure = world.history.propositionExposures.find(
-      (candidate) => candidate.id === recordId,
-    );
-    const knowledge = world.history.knowledge.find(
-      (candidate) => candidate.id === recordId,
-    );
-    const position = world.history.publicPositions.find(
-      (candidate) => candidate.id === recordId,
-    );
-    const claim = world.history.claims.find(
-      (candidate) => candidate.id === recordId,
-    );
+    const exposure = recordById(world.history.propositionExposures, recordId);
+    const knowledge = recordById(world.history.knowledge, recordId);
+    const position = recordById(world.history.publicPositions, recordId);
+    const claim = recordById(world.history.claims, recordId);
     if (
       exposure &&
       exposure.sequence < record.sequence &&
@@ -693,8 +678,9 @@ function validateRelationshipSources(
     );
   }
   for (const interactionId of interactionIds) {
-    const interaction = world.history.relationshipInteractions.find(
-      (candidate) => candidate.id === interactionId,
+    const interaction = recordById(
+      world.history.relationshipInteractions,
+      interactionId,
     );
     if (
       !interaction ||
@@ -1011,8 +997,9 @@ function validateSourceRefs(
         break;
       case "personality-tendency":
         validateOwnedRecord(
-          world.history.personalityTendencies.find(
-            (candidate) => candidate.id === reference.tendencyRecordId,
+          recordById(
+            world.history.personalityTendencies,
+            reference.tendencyRecordId,
           ),
           personId,
           asOfDate,
@@ -1023,9 +1010,7 @@ function validateSourceRefs(
         break;
       case "personal-value":
         validateOwnedRecord(
-          world.history.personalValues.find(
-            (candidate) => candidate.id === reference.valueRecordId,
-          ),
+          recordById(world.history.personalValues, reference.valueRecordId),
           personId,
           asOfDate,
           sequenceExclusive,
@@ -1035,9 +1020,7 @@ function validateSourceRefs(
         break;
       case "goal-state":
         validateOwnedRecord(
-          world.history.goalStates.find(
-            (candidate) => candidate.id === reference.goalStateId,
-          ),
+          recordById(world.history.goalStates, reference.goalStateId),
           personId,
           asOfDate,
           sequenceExclusive,
@@ -1047,9 +1030,7 @@ function validateSourceRefs(
         break;
       case "temporary-state":
         validateOwnedRecord(
-          world.history.temporaryStates.find(
-            (candidate) => candidate.id === reference.temporaryStateId,
-          ),
+          recordById(world.history.temporaryStates, reference.temporaryStateId),
           personId,
           asOfDate,
           sequenceExclusive,
@@ -1059,8 +1040,9 @@ function validateSourceRefs(
         break;
       case "life-load-resolution":
         validateOwnedRecord(
-          world.history.lifeLoadResolutions.find(
-            (candidate) => candidate.id === reference.lifeLoadResolutionId,
+          recordById(
+            world.history.lifeLoadResolutions,
+            reference.lifeLoadResolutionId,
           ),
           personId,
           asOfDate,
@@ -1102,9 +1084,7 @@ function validateSourceRefs(
       }
       case "memory":
         validateOwnedRecord(
-          world.history.memories.find(
-            (candidate) => candidate.id === reference.memoryId,
-          ),
+          recordById(world.history.memories, reference.memoryId),
           personId,
           asOfDate,
           sequenceExclusive,
@@ -1114,9 +1094,7 @@ function validateSourceRefs(
         break;
       case "event-knowledge":
         validateOwnedRecord(
-          world.history.knowledge.find(
-            (candidate) => candidate.id === reference.knowledgeId,
-          ),
+          recordById(world.history.knowledge, reference.knowledgeId),
           personId,
           asOfDate,
           sequenceExclusive,
@@ -1125,9 +1103,7 @@ function validateSourceRefs(
         );
         break;
       case "claim": {
-        const claim = world.history.claims.find(
-          (candidate) => candidate.id === reference.claimId,
-        );
+        const claim = recordById(world.history.claims, reference.claimId);
         const heard = world.history.knowledge.some(
           (knowledge) =>
             ownKnowledgeIds.has(knowledge.id) &&
@@ -1147,8 +1123,9 @@ function validateSourceRefs(
         break;
       }
       case "relationship-interaction": {
-        const interaction = world.history.relationshipInteractions.find(
-          (candidate) => candidate.id === reference.interactionId,
+        const interaction = recordById(
+          world.history.relationshipInteractions,
+          reference.interactionId,
         );
         if (
           !interaction ||
@@ -1164,9 +1141,7 @@ function validateSourceRefs(
       }
       case "proposition-exposure":
         validateOwnedRecord(
-          world.history.propositionExposures.find(
-            (candidate) => candidate.id === reference.exposureId,
-          ),
+          recordById(world.history.propositionExposures, reference.exposureId),
           personId,
           asOfDate,
           sequenceExclusive,
@@ -1176,9 +1151,7 @@ function validateSourceRefs(
         break;
       case "private-belief":
         validateOwnedRecord(
-          world.history.privateBeliefs.find(
-            (candidate) => candidate.id === reference.beliefId,
-          ),
+          recordById(world.history.privateBeliefs, reference.beliefId),
           personId,
           asOfDate,
           sequenceExclusive,
@@ -1188,9 +1161,7 @@ function validateSourceRefs(
         break;
       case "political-principle":
         validateOwnedRecord(
-          world.history.principles.find(
-            (candidate) => candidate.id === reference.principleRecordId,
-          ),
+          recordById(world.history.principles, reference.principleRecordId),
           personId,
           asOfDate,
           sequenceExclusive,
@@ -1200,8 +1171,9 @@ function validateSourceRefs(
         break;
       case "subject-knowledge":
         validateOwnedRecord(
-          world.history.subjectKnowledge.find(
-            (candidate) => candidate.id === reference.subjectKnowledgeId,
+          recordById(
+            world.history.subjectKnowledge,
+            reference.subjectKnowledgeId,
           ),
           personId,
           asOfDate,
@@ -1212,9 +1184,7 @@ function validateSourceRefs(
         break;
       case "appraisal":
         validateOwnedRecord(
-          world.history.appraisals.find(
-            (candidate) => candidate.id === reference.appraisalId,
-          ),
+          recordById(world.history.appraisals, reference.appraisalId),
           personId,
           asOfDate,
           sequenceExclusive,
@@ -1224,9 +1194,7 @@ function validateSourceRefs(
         break;
       case "perception":
         validateOwnedRecord(
-          world.history.perceptions.find(
-            (candidate) => candidate.id === reference.perceptionId,
-          ),
+          recordById(world.history.perceptions, reference.perceptionId),
           personId,
           asOfDate,
           sequenceExclusive,
@@ -1235,8 +1203,9 @@ function validateSourceRefs(
         );
         break;
       case "decision-trace": {
-        const trace = world.history.decisionTraces.find(
-          (candidate) => candidate.id === reference.decisionTraceId,
+        const trace = recordById(
+          world.history.decisionTraces,
+          reference.decisionTraceId,
         );
         if (
           !trace ||
@@ -1278,6 +1247,83 @@ function validateOwnedRecord<
   }
 }
 
+const goalOf = (record: { readonly goalId: EntityId }): EntityId =>
+  record.goalId;
+
+/*
+ * The last record, in array order, of one person's one subject whose sequence
+ * is below `sequence`. The scan this replaces filtered the whole family for
+ * every record it checked, so opening a save walked each family once per
+ * record in it. History arrays are replaced on write, never edited, so a
+ * grouping keyed by the array is exact for as long as the array lives.
+ *
+ * A family whose records are not in sequence order (which the full check
+ * refuses elsewhere) keeps the original scan, so the answer is the same
+ * either way.
+ */
+interface SubjectGroups {
+  readonly ordered: boolean;
+  readonly groups: ReadonlyMap<
+    string,
+    readonly { readonly sequence: number }[]
+  >;
+}
+
+const SUBJECT_GROUPS = new WeakMap<object, Map<string, SubjectGroups>>();
+
+function lastInGroupBefore<
+  T extends { readonly personId: EntityId; readonly sequence: number },
+>(
+  records: readonly T[],
+  label: string,
+  subjectOf: (record: T) => EntityId,
+  personId: EntityId,
+  subject: EntityId,
+  sequence: number,
+): T | undefined {
+  let byLabel = SUBJECT_GROUPS.get(records);
+  if (!byLabel) {
+    byLabel = new Map();
+    SUBJECT_GROUPS.set(records, byLabel);
+  }
+  let grouped = byLabel.get(label);
+  if (!grouped) {
+    const groups = new Map<string, T[]>();
+    let ordered = true;
+    let last = -Infinity;
+    for (const record of records) {
+      if (!(record.sequence > last)) ordered = false;
+      last = record.sequence;
+      const key = `${record.personId}\u0000${subjectOf(record)}`;
+      const group = groups.get(key);
+      if (group) group.push(record);
+      else groups.set(key, [record]);
+    }
+    grouped = { ordered, groups };
+    byLabel.set(label, grouped);
+  }
+  if (!grouped.ordered) {
+    return records
+      .filter(
+        (candidate) =>
+          candidate.personId === personId &&
+          subjectOf(candidate) === subject &&
+          candidate.sequence < sequence,
+      )
+      .at(-1);
+  }
+  const group = (grouped.groups.get(`${personId}\u0000${subject}`) ??
+    []) as readonly T[];
+  let low = 0;
+  let high = group.length;
+  while (low < high) {
+    const middle = (low + high) >>> 1;
+    if (group[middle]!.sequence < sequence) low = middle + 1;
+    else high = middle;
+  }
+  return low > 0 ? group[low - 1] : undefined;
+}
+
 function validateImmediateSupersession<
   T extends {
     readonly id: EntityId;
@@ -1292,16 +1338,15 @@ function validateImmediateSupersession<
   dateOf: (record: T) => IsoDate,
   label: string,
 ): void {
-  const previous = records
-    .filter(
-      (candidate) =>
-        candidate.personId === record.personId &&
-        subjectOf(candidate) === subjectOf(record) &&
-        candidate.sequence < record.sequence,
-    )
-    .at(-1);
-  const prior =
-    priorId === null ? undefined : records.find((item) => item.id === priorId);
+  const previous = lastInGroupBefore(
+    records,
+    label,
+    subjectOf,
+    record.personId,
+    subjectOf(record),
+    record.sequence,
+  );
+  const prior = priorId === null ? undefined : recordById(records, priorId);
   if (
     (previous === undefined && priorId !== null) ||
     (previous !== undefined && previous.id !== priorId) ||

@@ -26,6 +26,7 @@ import {
 } from "../simulation";
 import { ensureMigrationSchedule } from "../simulation/migration";
 import { ensureCrimeProduction } from "../simulation/crime";
+import { ensureOpeningJudiciary } from "../simulation/judiciary/opening";
 import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 import {
   ensureMacroEconomyStarted,
@@ -93,7 +94,9 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
   // matters, which a replay descriptor recorded under it must keep rebuilding.
   const openingData = session.setup.openingDataVersion;
   const versionedOpening =
-    openingData === "playtest65-v1" || openingData === "playtest65-v2";
+    openingData === "playtest65-v1" ||
+    openingData === "playtest65-v2" ||
+    openingData === "playtest65-v3";
   const placed = versionedOpening
     ? establishOpeningLocation(economic, game.playerPersonId)
     : economic;
@@ -150,6 +153,7 @@ function buildOpeningLife(session: OpeningLifeSession): OpeningLifeSession {
           session.setup.worldOpeningVersion ?? LEGACY_WORLD_OPENING_VERSION,
         ),
         game.playerPersonId,
+        session.setup.openingDataVersion,
       ),
     },
   };
@@ -180,19 +184,25 @@ function ensureHomeStateLegislature(
  * legacy replay descriptor keeps exactly the world it always built, which is
  * what WORLD's unchanged-hash control depends on.
  */
-function openedWorld(world: World, playerPersonId: EntityId): World {
+function openedWorld(
+  world: World,
+  playerPersonId: EntityId,
+  openingDataVersion: NewGameSetup["openingDataVersion"],
+): World {
   // Migration is scheduled only for a current opening too, so a legacy replay
   // keeps the world it always built (MIGRATION_SEAMS "old-saves").
   // The town's residents are seated before migration is scheduled, so the
   // first quarterly review already has neighbors who might leave.
-  return pressOpeningApplies(world)
-    ? ensureMigrationSchedule(
-        ensureTownResidents(
-          ensurePressOpening(world, playerPersonId),
-          playerPersonId,
-        ),
-      )
-    : world;
+  if (!pressOpeningApplies(world)) return world;
+  const opened = ensureMigrationSchedule(
+    ensureTownResidents(
+      ensurePressOpening(world, playerPersonId),
+      playerPersonId,
+    ),
+  );
+  return openingDataVersion === "playtest65-v3"
+    ? ensureOpeningJudiciary(opened)
+    : opened;
 }
 
 /** Whether this world is an opening of the version the press setup is for. */

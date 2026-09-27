@@ -1,4 +1,5 @@
 import type { EntityId, IsoDate, LifeSituationKey, World } from "../simulation";
+import { officePhrase } from "./english-grammar";
 import { addDays } from "../simulation";
 import {
   acceptChapterInvitation,
@@ -124,11 +125,6 @@ function says(context: SceneContext, lines: readonly string[]): string[] {
 /** "See you Tuesday"; a date weeks away is just "See you then". */
 function seeYou(day: string): string {
   return day.startsWith("on ") ? "See you then" : `See you ${day}`;
-}
-
-/** "a seat in the House of Representatives", "Governor of Washington". */
-function officePhrase(title: string): string {
-  return /^seat in /i.test(title) ? `a ${lowerFirst(title)}` : title;
 }
 
 function lowerFirst(text: string): string {

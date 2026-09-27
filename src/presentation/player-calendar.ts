@@ -77,6 +77,33 @@ const KIND_LABELS: Readonly<Record<ScheduledActivityKind, string>> = {
   travel: "Travel",
 };
 
+/** Routine employment/study-path work runs with the clock, not as a Day stop. */
+export function isRoutineLifePathWorkSession(
+  world: World,
+  activity: ScheduledActivityRecord,
+): boolean {
+  return (
+    activity.location.locationKey.startsWith("life-paths2:") &&
+    world.history.workRelationships.some(
+      (work) =>
+        activity.sourceEntityIds.includes(work.id) &&
+        (work.kind.startsWith("employment:life-paths2-") ||
+          work.kind.startsWith("volunteer:life-paths2-")),
+    )
+  );
+}
+
+function isPlayerVisibleCalendarActivity(
+  world: World,
+  activity: ScheduledActivityRecord,
+): boolean {
+  // The destination's Attend control includes its journey. A commute has no
+  // scene during the trip and is not a separate calendar event.
+  return (
+    activity.kind !== "travel" && !isRoutineLifePathWorkSession(world, activity)
+  );
+}
+
 export function calendarKindLabel(kind: ScheduledActivityKind): string {
   return KIND_LABELS[kind];
 }
@@ -179,7 +206,11 @@ export function projectPlayerCalendar(
   personId: EntityId,
 ): PlayerCalendar {
   const visible = world.history.scheduledActivities
-    .filter((activity) => canPersonAccess(activity.access, personId))
+    .filter(
+      (activity) =>
+        canPersonAccess(activity.access, personId) &&
+        isPlayerVisibleCalendarActivity(world, activity),
+    )
     .map((activity) => entryFor(world, personId, activity))
     .sort(
       (left, right) =>
@@ -226,5 +257,6 @@ export function calendarEntryFor(
   );
   if (!activity) return null;
   if (!canPersonAccess(activity.access, personId)) return null;
+  if (!isPlayerVisibleCalendarActivity(world, activity)) return null;
   return entryFor(world, personId, activity);
 }

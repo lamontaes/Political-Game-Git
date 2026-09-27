@@ -4,6 +4,7 @@ import {
   readRelationshipStanding,
 } from "../simulation/relationship-standing";
 import { proseDate } from "./prose-dates";
+import { personWords } from "./english-grammar";
 import { organizationRefLabel } from "./organization-ref";
 import {
   ageOnDate,
@@ -207,7 +208,10 @@ function buildDetails(
     if (context?.relationship) {
       details.push({
         key: `kin-${kin.id}`,
-        text: `They are ${context.relationship}.`,
+        text: (() => {
+          const words = personWords(world.people[personId]);
+          return `${words.They} ${words.are} ${context.relationship}.`;
+        })(),
         attribution: "known",
       });
     }

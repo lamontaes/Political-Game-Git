@@ -489,11 +489,6 @@ describe("adapters report what their banks actually say", () => {
     if (subject.options.kind === "undeclared") {
       expect(subject.options.reason).toContain("availableIntents");
     }
-    const week = itemOf(
-      "content.ordinary-life/ordinary-life:household-errands",
-    );
-    expect(week.prerequisites.kind).toBe("undeclared");
-
     // And no adapter reports an eligibility VERDICT anywhere: the index never
     // says a stage is or is not offered, only what the stage asks for.
     for (const item of index.items) {

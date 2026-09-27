@@ -124,7 +124,7 @@ function buildPurses(world: World, personId: EntityId): readonly PurseLine[] {
       label: "The household",
       ownerNote: "Shared with everyone who lives here.",
       balance: shared,
-      absence: shared ? null : "The household keeps no balance on record yet.",
+      absence: shared ? null : "The household has no shared money yet.",
     });
   }
 

@@ -14,6 +14,15 @@ import type {
   World,
 } from "../types";
 import { politicalCultureFactors } from "../nationwide-world/political-culture";
+import { principledLeaning } from "../governing/officeholder-principles";
+import {
+  exposureReflectionKey,
+  POLITICAL_REFLECTION_TRANSITION_KEY,
+} from "./political-reflection-schedule";
+export {
+  POLITICAL_REFLECTION_TRANSITION_KEY,
+  schedulePoliticalReflectionForExposure,
+} from "./political-reflection-schedule";
 
 /**
  * A person comes to hold a political view, in the ordinary course of living.
@@ -28,26 +37,49 @@ import { politicalCultureFactors } from "../nationwide-world/political-culture";
  * are not the player, and it forms a view only out of what that person
  * actually has.
  *
- * WHAT IT DOES NOT DO, DELIBERATELY. It does not read a personality tendency,
- * a value or a party and turn it into a leaning. Nothing in this repository
- * establishes what a temperament implies about a policy question, and inventing
- * a weighting here would be a theory of politics authored by an engineer and
- * then indistinguishable, in a save, from a measured one. That question is
- * filed as `where-a-persons-politics-comes-from` and is settled by D-093:
- * a person's own character and history decide their positions. What this pass
- * can honestly read today is the history half — what happened to them and what
- * they made of it — so that is all it reads. When the weighting lands, it
- * arrives as additional factors in `factorsFor`, and nothing else here moves.
+ * A directly encountered proposition can prompt a dated reflection when the
+ * person's saved principles have an explicit bearing on that proposition.
+ * Personality, values and party are not silently mapped to a policy leaning.
+ * The strength of this first principle consideration is a game placeholder,
+ * while its direction and source records come from the existing catalog and
+ * the person's own append-only history.
  *
- * A person with nothing bearing on the question forms no opinion, and that is
- * a real answer rather than a gap: the engine's own default consideration says
- * so, and the durable decision trace records that it was considered.
+ * A person with nothing bearing on a newly encountered question gets no
+ * scheduled reflection and no invented opinion. A legacy periodic reflection
+ * can still record the engine's no-opinion outcome in its decision trace.
  */
 
-export const POLITICAL_REFLECTION_TRANSITION_KEY =
-  "people:political-reflection";
-
 const V = "people-reflection";
+
+// PLACEHOLDER: one newly encountered question starts or revisits a modest,
+// revisable position; conviction follows the decision's actual outcome.
+const REFLECTION_DIMENSIONS = {
+  conflicted: {
+    conviction: "moderate",
+    salience: "moderate",
+    flexibility: "open",
+  },
+  "tentative-support": {
+    conviction: "tentative",
+    salience: "moderate",
+    flexibility: "open",
+  },
+  support: {
+    conviction: "moderate",
+    salience: "moderate",
+    flexibility: "open",
+  },
+  "tentative-opposition": {
+    conviction: "tentative",
+    salience: "moderate",
+    flexibility: "open",
+  },
+  opposition: {
+    conviction: "moderate",
+    salience: "moderate",
+    flexibility: "open",
+  },
+} as const;
 
 /** How often somebody revisits where they stand. */
 export const POLITICAL_REFLECTION_CADENCE_DAYS = 90;
@@ -99,30 +131,53 @@ export function politicalReflectionTransitionHandler(
   if (!personId || !world.people[personId]) {
     return done(world, "person-not-present");
   }
+  const targeted = dueItem.stableKey.startsWith(`${V}:exposure:`);
+  const exposure = targeted
+    ? (world.history.propositionExposures.find(
+        (row) => exposureReflectionKey(row) === dueItem.stableKey,
+      ) ?? null)
+    : null;
+  if (targeted && (!exposure || exposure.personId !== personId))
+    return done(world, "exposure-not-present");
   // The player decides their own mind. The engine refuses this anyway; saying
   // so here keeps a scheduled item from throwing when control moves.
   if (world.control.kind === "person" && world.control.personId === personId) {
     return done(
-      schedulePoliticalReflection(world, personId),
+      targeted ? world : schedulePoliticalReflection(world, personId),
       "controlled-person",
     );
   }
-  const subject = openQuestionFor(world, personId);
+  if (
+    targeted &&
+    exposure &&
+    world.history.privateBeliefs.some(
+      (belief) =>
+        belief.personId === personId &&
+        belief.propositionId === exposure.propositionId &&
+        belief.sequence >= exposure.sequence,
+    )
+  )
+    return done(world, "already-held-view");
+  const subject = exposure ?? openQuestionFor(world, personId);
   if (!subject) {
     return done(
-      schedulePoliticalReflection(world, personId),
+      targeted ? world : schedulePoliticalReflection(world, personId),
       "nothing-encountered",
     );
   }
+  const factors = factorsFor(world, personId, subject);
+  if (targeted && factors.length === 0)
+    return done(world, "no-grounded-factor");
   const proposal = evaluatePoliticalBeliefFormation(world, {
     stableKey: `${V}:${dueItem.stableKey}`,
     personId,
     propositionId: subject.propositionId,
-    factors: factorsFor(world, personId, subject),
+    factors,
+    beliefDimensionsByOutcome: REFLECTION_DIMENSIONS,
   });
   const next = applyNpcPoliticalBeliefFormation(world, proposal);
   return done(
-    schedulePoliticalReflection(next, personId),
+    targeted ? next : schedulePoliticalReflection(next, personId),
     proposal.outcome === "no-opinion" || proposal.outcome === "defer"
       ? "considered-no-view"
       : "view-formed",
@@ -160,21 +215,13 @@ function openQuestionFor(
 /**
  * What this person has that bears on this question.
  *
- * One thing today, and it is empty until researched: the political culture of
- * the place they live, read through the principles the question engages
- * (`nationwide-world/political-culture.ts`). Every culture awaits research
- * question `political-culture-of-each-jurisdiction`, so for now this adds
- * nothing and people form views exactly as before.
+ * A saved principle whose catalog bearing names this proposition can matter.
+ * The place's political culture remains empty until its research question is
+ * answered (`nationwide-world/political-culture.ts`).
  *
- * Nothing else is supplied, and that is the finding rather than a stub. A
- * factor has to favor one of the engine's outcomes, so supplying one means
- * asserting which way something points. A memory does not carry a direction;
- * neither does a temperament. Mapping either to support or oppose would be a
- * theory of politics written by an engineer and then, in a save,
- * indistinguishable from a measured one. The engine separately reads what it
- * derives honestly, a prior belief and a trusted cue. Most people will form no
- * view, which is true of them today and is recorded as having been considered
- * rather than left blank.
+ * A memory or temperament still carries no inherent direction. The engine
+ * separately reads an existing belief and a trusted cue; this adapter adds
+ * only the recorded principle bearing, with references in the decision trace.
  *
  * Everything below a principle waits on the answer to
  * `where-a-persons-politics-comes-from` being turned into inputs.
@@ -184,8 +231,30 @@ function factorsFor(
   personId: EntityId,
   exposure: PropositionExposureRecord,
 ): readonly PoliticalBeliefFormationFactor[] {
-  // Where they live, once a place's culture is researched. Every culture is
-  // empty until `political-culture-of-each-jurisdiction` is answered, so this
-  // adds nothing today; see `nationwide-world/political-culture.ts`.
-  return politicalCultureFactors(world, personId, exposure.propositionId);
+  const leaning = principledLeaning(world, personId, exposure.propositionId);
+  const principle: PoliticalBeliefFormationFactor[] =
+    leaning.score === 0
+      ? []
+      : [
+          {
+            stableKey: `recorded-principles:${exposure.id}`,
+            favors: leaning.score > 0 ? "support" : "opposition",
+            sourceType: "belief:political-principle",
+            importance: "strong",
+            confidence: "high",
+            explanation:
+              "This encountered question bears on principles the person already holds.",
+            sourceRefs: [
+              { kind: "proposition-exposure", exposureId: exposure.id },
+              ...leaning.recordIds.map((principleRecordId) => ({
+                kind: "political-principle" as const,
+                principleRecordId,
+              })),
+            ],
+          },
+        ];
+  return [
+    ...principle,
+    ...politicalCultureFactors(world, personId, exposure.propositionId),
+  ];
 }

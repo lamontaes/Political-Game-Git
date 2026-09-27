@@ -119,9 +119,11 @@ export type NewGameStartKind = "normal" | "custom";
 
 /**
  * Opening-data construction a replay descriptor records. "playtest65-v1"
- * stays for replays written under it; new games use "playtest65-v2".
+ * stays for replays written under it; v2 also remains reconstructible. New
+ * games use v3 for the opening judiciary.
  */
-export type OpeningDataVersion = "playtest65-v1" | "playtest65-v2";
+export type OpeningDataVersion =
+  "playtest65-v1" | "playtest65-v2" | "playtest65-v3";
 
 export interface NewGameSetup {
   readonly startKind?: NewGameStartKind;
@@ -156,7 +158,7 @@ export interface NewGameSetup {
   /**
    * Additive initialization policy; absent descriptors preserve older
    * construction. "playtest65-v1" also writes two fixed, already-concluded
-   * local matters; "playtest65-v2" (new games) opens without them.
+   * local matters; v2 opens without them, and v3 adds the judiciary.
    */
   readonly openingDataVersion?: OpeningDataVersion;
   /** New descriptors opt in; absent preserves the original member-name draw. */
@@ -318,7 +320,7 @@ export const DEFAULT_NEW_GAME_SETUP: Omit<NewGameSetup, "seed"> = {
   questionnaireCopyVersion: "playtest65-v2",
   questionnaireSelectionVersion: "curated-v1",
   worldOpeningVersion: CRUNCH46_WORLD_OPENING_VERSION,
-  openingDataVersion: "playtest65-v2",
+  openingDataVersion: "playtest65-v3",
   livingWorldMemberNameVersion: "cohort-v1",
   questionnaire: "short",
   priors: [],
