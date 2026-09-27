@@ -4,6 +4,8 @@ import {
   settleJobPay,
 } from "../simulation/job-market";
 import { settleCareerOffers } from "../simulation/career-path7";
+import { contactBases } from "../simulation/people-contact";
+import { ensurePeopleTraits } from "../simulation/people-traits";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
@@ -227,17 +229,22 @@ export function openOrdinaryLife(world: World, personId: EntityId): World {
   // opens, before anything else reads the week.
   const seated = seatWinnersOwedTheirTerm(world, personId);
   if (!ordinaryLifeAvailableFor(seated, personId)) return seated;
-  // Traits are not written for the whole world here. Every decision that
-  // reads a person's traits first calls ensurePeopleTraits for that person,
-  // so each person's traits are drawn from their own seed and upbringing the
-  // first time anything needs them. Writing them for everyone at opening
-  // made starting a life take minutes.
-  return refreshLifeCircumstances(
+  const opened = refreshLifeCircumstances(
     refreshLifeOpportunities(
       openOrdinaryLifeRecords(seated, personId),
       personId,
     ),
     personId,
+  );
+  // Traits are written at opening only for the people the player has a real
+  // way of reaching: household, family, work and everyone else in their
+  // contact list. Everyone else's traits are drawn from their own seed and
+  // upbringing the first time a decision needs them (every decision calls
+  // ensurePeopleTraits first). Writing them for the whole world at opening
+  // made starting a life take about half an hour.
+  return ensurePeopleTraits(
+    opened,
+    contactBases(opened, personId).map((basis) => basis.personId),
   );
 }
 
