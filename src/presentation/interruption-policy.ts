@@ -64,8 +64,11 @@ export const INTERRUPTION_CATEGORIES: readonly InterruptionCategory[] = [
 ];
 
 export function interruptionHandlers(
-  _preferences: InterruptionPreferences = DEFAULT_INTERRUPTIONS,
+  preferences: InterruptionPreferences = DEFAULT_INTERRUPTIONS,
 ): FutureTransitionHandlerRegistry {
+  // No preference changes the handlers since the work-shift stop was retired
+  // with manual shifts; the stops that remain are read by the day skip itself.
+  void preferences;
   return createCampaignElectionTransitionRegistry();
 }
 
