@@ -3,10 +3,7 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import { chiefExecutiveJurisdictionId } from "./government-jurisdiction";
 import type { IsoDate, World } from "../types";
 import { scheduleGoverningSeasons } from "../governing/governing-calendar";
-import {
-  CHIEF_EXECUTIVE_JURISDICTIONS,
-  US_STATE_USPS,
-} from "./state-executive-candidacy-packs";
+import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./state-executive-candidacy-packs";
 import {
   ensureStateJurisdiction,
   stateExecutiveOffice,
