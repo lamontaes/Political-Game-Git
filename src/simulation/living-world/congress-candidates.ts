@@ -4,12 +4,13 @@ import {
   type CharacterHistoryContextPersonInput,
 } from "../character-history";
 import { addDays, makeIsoDate } from "../dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import {
+  electionProspectInput,
+  recordProspectRunChoice,
+} from "../election-candidate-prospect";
 import { createOrganizationParticipations } from "../life";
 import { stateJurisdictionForKey } from "../life-places";
-import { drawCanonicalNamedIdentity, personName } from "../people";
-import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { personName } from "../people";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { seatStartingCondition } from "../world-setup/conditions";
@@ -96,10 +97,6 @@ export function congressCandidates(
   });
 }
 
-function pad(value: number): string {
-  return String(value).padStart(2, "0");
-}
-
 function prospectKey(seat: CongressSeat, year: number, party: string): string {
   return `${CONGRESS_CANDIDATE_VERSION}:${seat.seatKey}:${year}:${party}:prospect`;
 }
@@ -111,19 +108,13 @@ function prospectInput(
   party: string,
 ): CharacterHistoryContextPersonInput {
   const stableKey = prospectKey(seat, year, party);
-  const rng = new SeededRng(world.seed).fork(stableKey);
-  const age = rng.integer(MINIMUM_AGE[seat.chamberKey] + 3, 71);
-  return {
+  return electionProspectInput({
+    world,
     stableKey,
-    ...drawCanonicalNamedIdentity(
-      rng.fork("name"),
-      generatePersonIdentity(rng.fork("identity")),
-    ),
-    birthDate: makeIsoDate(
-      `${year - age}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-    ),
+    year,
+    minimumAge: MINIMUM_AGE[seat.chamberKey],
     homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
-  };
+  });
 }
 
 function prospectDecision(
@@ -141,57 +132,17 @@ function prospectDecision(
       : party === "democratic"
         ? condition.generatedShare
         : 1 - condition.generatedShare;
-  const key = `${slateKey(plan.seat.seatKey, Number(plan.intakeDate.slice(0, 4)))}:decision:${party}:${personId}`;
-  const evaluation = evaluateDecision(world, {
-    stableKey: key,
+  return recordProspectRunChoice({
+    world,
+    stableKey: `${slateKey(plan.seat.seatKey, Number(plan.intakeDate.slice(0, 4)))}:decision:${party}:${personId}`,
     decisionType: "election.consider-congress-run",
-    actorPersonId: personId,
-    cutoff: {
-      asOfDate: plan.intakeDate,
-      historySequenceExclusive: world.history.nextSequence,
-    },
-    subject: { kind: "context:life", key: plan.seat.seatKey, entityId: null },
-    options: [
-      { key: "run", label: "Run", description: "Enter the race." },
-      { key: "decline", label: "Decline", description: "Do not enter." },
-    ],
-    constraints: [],
-    considerations: [
-      {
-        stableKey: `${key}:recruited`,
-        optionKey: "run",
-        sourceType: "institution:party-recruitment",
-        direction: "supports",
-        importance: "strong",
-        confidence: "high",
-        explanation: "A party asked this person to stand for this seat.",
-        sourceRefs: [{ kind: "historical-event", eventId: recruitmentEventId }],
-      },
-      ...(opportunity !== null &&
-      opportunity < CONGRESS_CANDIDATE_PROFILE.lowOpportunityShare
-        ? [
-            {
-              stableKey: `${key}:district-view`,
-              optionKey: "decline" as const,
-              sourceType: "context:district-view" as const,
-              direction: "supports" as const,
-              importance: "decisive" as const,
-              confidence: "high" as const,
-              explanation:
-                "This party starts with little support in the district.",
-              sourceRefs: [],
-            },
-          ]
-        : []),
-    ],
-    perceptionIds: [],
-    randomness: "none",
-    retention: "durable",
+    seatKey: plan.seat.seatKey,
+    personId,
+    intakeDate: plan.intakeDate,
+    recruitmentEventId,
+    opportunity,
+    lowOpportunityShare: CONGRESS_CANDIDATE_PROFILE.lowOpportunityShare,
   });
-  return {
-    world: recordDurableDecisionTrace(world, evaluation),
-    runs: evaluation.selectedOptionKey === "run",
-  };
 }
 
 /** Materialize candidates before the general election, in bounded daily batches. */
