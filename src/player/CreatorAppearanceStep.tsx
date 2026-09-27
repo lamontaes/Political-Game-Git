@@ -30,7 +30,10 @@ import {
   PEOPLE_PACK,
   peoplePackAvailable,
 } from "../presentation/appearance-engine/runtime";
-import { BODY_BUILDS } from "../presentation/appearance-engine/pack";
+import {
+  BODY_BUILDS,
+  HAIR_COLORS,
+} from "../presentation/appearance-engine/pack";
 
 /** Reuses the personal wardrobe transaction on an isolated prospective record. */
 export function CreatorAppearanceStep({
@@ -116,6 +119,7 @@ export function CreatorAppearanceStep({
                       shade: 1 + Math.floor(Math.random() * 7),
                       face: any(pack.faces).id,
                       hair: any(pack.hair).id,
+                      hairColor: any(HAIR_COLORS).id,
                     }),
                   ),
                 );

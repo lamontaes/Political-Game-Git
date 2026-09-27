@@ -8,6 +8,8 @@ import type {
 import { appearanceAgeState } from "../appearance-lifecycle";
 import {
   BODY_BUILDS,
+  HAIR_COLORS,
+  OUTFIT_PALETTES,
   type BodyBuild,
   type BodyPresentation,
   type EngineRecipe,
@@ -62,6 +64,41 @@ function buildFor(seed: string): BodyBuild {
   return "average";
 }
 
+/**
+ * Hair color from the seed, independent of skin and face (Lamontae: hair,
+ * face and skin are separate). Gray and white grow likelier with age.
+ * PLACEHOLDER(wave2) shares.
+ */
+function hairColorFor(seed: string, age: number): string {
+  const roll = draw(seed, "hair-color");
+  const gray =
+    age >= 70
+      ? 0.75
+      : age >= 60
+        ? 0.5
+        : age >= 50
+          ? 0.25
+          : age >= 40
+            ? 0.08
+            : 0;
+  if (roll < gray)
+    return draw(seed, "white") < (age >= 70 ? 0.5 : 0.2) ? "white" : "gray";
+  const rest = (roll - gray) / (1 - gray);
+  const shares: readonly (readonly [string, number])[] = [
+    ["black", 0.3],
+    ["natural", 0.32],
+    ["brown", 0.2],
+    ["auburn", 0.06],
+    ["blonde", 0.12],
+  ];
+  let edge = 0;
+  for (const [id, share] of shares) {
+    edge += share;
+    if (rest < edge) return id;
+  }
+  return "natural";
+}
+
 export interface EngineRecipeOptions {
   /** The occasion decides the outfit when it matters: formal at work in government. */
   readonly occasion?: OutfitKind;
@@ -84,6 +121,7 @@ export function engineRecipeFor(
   const pack = manifest.presentations[presentation];
   const pick = <T>(items: readonly T[], question: string): T =>
     items[Math.floor(draw(seed, question) * items.length)]!;
+  const outfit = options.occasion ?? choice?.outfit ?? "casual";
   const shade =
     choice?.shade ?? 1 + Math.floor(draw(seed, "shade") * SKIN_RAMPS.length);
   return {
@@ -96,9 +134,27 @@ export function engineRecipeFor(
     hair:
       pack.hair.find((h) => h.id === choice?.hair)?.id ??
       pick(pack.hair, "hair").id,
+    hairColor:
+      HAIR_COLORS.find((c) => c.id === choice?.hairColor)?.id ??
+      hairColorFor(
+        seed,
+        Number(onDate.slice(0, 4)) -
+          Number(String(person.birthDate).slice(0, 4)),
+      ),
     // Everyday clothes unless the person chose otherwise or the occasion is
     // formal (a chamber, an office, a hearing).
-    outfit: options.occasion ?? choice?.outfit ?? "casual",
+    outfit,
+    // Each garment part in a color of its own, kept per person.
+    colors: Object.fromEntries(
+      Object.entries(OUTFIT_PALETTES[outfit]).map(([part, palette]) => [
+        part,
+        palette.includes(choice?.colors?.[part] ?? "")
+          ? choice!.colors![part]!
+          : palette[
+              Math.floor(draw(seed, `color:${outfit}:${part}`) * palette.length)
+            ]!,
+      ]),
+    ),
   };
 }
 
@@ -132,6 +188,8 @@ export function choiceFromRecipe(recipe: EngineRecipe): EngineAppearanceChoice {
     shade: recipe.shade,
     face: recipe.face,
     hair: recipe.hair,
+    hairColor: recipe.hairColor,
     outfit: recipe.outfit,
+    colors: { ...recipe.colors },
   };
 }

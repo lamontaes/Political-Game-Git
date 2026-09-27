@@ -6,8 +6,11 @@ import type {
 } from "../presentation/appearance-engine/pack";
 import {
   BODY_BUILDS,
+  HAIR_COLORS,
   OUTFIT_KINDS,
+  OUTFIT_PALETTES,
 } from "../presentation/appearance-engine/pack";
+import { fabricRamp } from "../presentation/appearance-engine/fabric";
 import { PEOPLE_PACK } from "../presentation/appearance-engine/runtime";
 import { SKIN_RAMPS } from "../presentation/appearance-engine/skin";
 import "./creator-appearance.css";
@@ -26,6 +29,16 @@ const OUTFIT_LABEL: Record<OutfitKind, string> = {
   casual: "Everyday",
   formal: "Formal",
 };
+
+const PART_LABEL: Record<string, string> = {
+  top: "Top color",
+  bottom: "Bottom color",
+  suit: "Suit color",
+  shirt: "Shirt color",
+  tie: "Tie color",
+};
+const colorLabel = (id: string) =>
+  id.replace("-", " ").replace(/^./, (first) => first.toUpperCase());
 
 function step<T>(items: readonly T[], current: T, by: number): T {
   const index = Math.max(0, items.indexOf(current));
@@ -118,6 +131,22 @@ export function EngineAppearanceControls({
         ]
       : []),
     {
+      id: "hair-color",
+      label: "Hair color",
+      value:
+        HAIR_COLORS.find((c) => c.id === recipe.hairColor)?.label ??
+        "Dark brown",
+      swatch: HAIR_COLORS.find((c) => c.id === recipe.hairColor)?.base,
+      move: (by) => ({
+        ...recipe,
+        hairColor: step(
+          HAIR_COLORS.map((c) => c.id),
+          recipe.hairColor,
+          by,
+        ),
+      }),
+    },
+    {
       id: "outfit",
       label: "Outfit",
       value: OUTFIT_LABEL[recipe.outfit],
@@ -126,6 +155,19 @@ export function EngineAppearanceControls({
         outfit: step(OUTFIT_KINDS, recipe.outfit, by),
       }),
     },
+    ...Object.entries(OUTFIT_PALETTES[recipe.outfit]).map(([part, palette]) => {
+      const current = recipe.colors?.[part] ?? palette[0]!;
+      return {
+        id: `color-${part}`,
+        label: PART_LABEL[part] ?? "Color",
+        value: colorLabel(current),
+        swatch: fabricRamp(current).base,
+        move: (by: number) => ({
+          ...recipe,
+          colors: { ...recipe.colors, [part]: step(palette, current, by) },
+        }),
+      };
+    }),
   ];
   return (
     <div
