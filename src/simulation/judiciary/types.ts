@@ -35,6 +35,8 @@ export interface JudicialCourtRules {
   /** The authorized size may change by later law; nine is only the initial SCOTUS value. */
   readonly authorizedSeats: JudicialRuleField<number>;
   readonly termYears: JudicialRuleField<number | null>;
+  /** Present for sourced fixed-term courts that permit a statutory holdover. */
+  readonly termHoldsUntilSuccessorQualified?: JudicialRuleField<boolean>;
   readonly mandatoryRetirementAge: JudicialRuleField<number | null>;
   readonly caseJurisdiction: JudicialRuleField<readonly string[]>;
   readonly selectionRecordId: string | null;

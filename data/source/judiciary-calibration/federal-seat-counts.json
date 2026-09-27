@@ -1,6 +1,6 @@
 {
-  "compilerVersion": "1",
-  "limits": "Statutory table counts only; Joint rows allocate shared judgeships across the listed districts and must not be counted once per district. No current vacancies, judicial geography join, or territorial Article I seats inferred. Notes and later operative changes require separate review.",
+  "compilerVersion": "2",
+  "limits": "Statutory table counts only; Joint rows allocate shared judgeships across the listed districts and must not be counted once per district. No current vacancies, judicial geography join, inferred. Territorial district appointments are recorded separately from Article III seats; temporary assignments do not add permanent seats. Notes and later operative changes require separate review.",
   "records": [
     {
       "allocation": "single-court",
@@ -1489,6 +1489,54 @@
       "row": 118,
       "sha256": "6ea2474e4ed8c5002c3f44795cc5c10bd561985c3baf83bfabc2b5f75e1f7288",
       "sourceCurrentThrough": "September 25, 2026"
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc48-1424b",
+      "authorizedSeats": 1,
+      "citation": "48 U.S.C. 1424b(a)",
+      "districtLabels": [
+        "District Court of Guam"
+      ],
+      "holdsUntilSuccessorQualified": true,
+      "kind": "district",
+      "publishedLabel": "District Court of Guam",
+      "row": 1,
+      "sha256": "d10c7ef9e79452f7b850e0f590cdda59beefe3a8d91b068cd06b585a11e27d02",
+      "sourceCurrentThrough": "September 25, 2026",
+      "termYears": 10
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc48-1614",
+      "authorizedSeats": 2,
+      "citation": "48 U.S.C. 1614(a)",
+      "districtLabels": [
+        "District Court of the Virgin Islands"
+      ],
+      "holdsUntilSuccessorQualified": true,
+      "kind": "district",
+      "publishedLabel": "District Court of the Virgin Islands",
+      "row": 1,
+      "sha256": "e14b93886ab947c049c17984d8eea4003d7488c7ca38ac82adf5f2f2e1608a30",
+      "sourceCurrentThrough": "September 25, 2026",
+      "termYears": 10
+    },
+    {
+      "allocation": "single-court",
+      "artifactId": "usc48-1821",
+      "authorizedSeats": 1,
+      "citation": "48 U.S.C. 1821(b)(1)",
+      "districtLabels": [
+        "District Court for the Northern Mariana Islands"
+      ],
+      "holdsUntilSuccessorQualified": true,
+      "kind": "district",
+      "publishedLabel": "District Court for the Northern Mariana Islands",
+      "row": 1,
+      "sha256": "d643577f7ada6dca88c5d987c70bb6fc00353a5b277856f873848af1dade7b40",
+      "sourceCurrentThrough": "September 25, 2026",
+      "termYears": 10
     }
   ],
   "runtimeWired": false

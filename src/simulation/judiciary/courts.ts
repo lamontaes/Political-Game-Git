@@ -6,6 +6,7 @@ import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executi
 import type { EntityId, IsoDate, World } from "../types";
 import { assertWorldIntegrity } from "../world";
 import { FEDERAL_COURTS_PROJECTION } from "./generated/federal-courts";
+import { FEDERAL_SEAT_COUNT_ROWS } from "./generated/federal-seat-counts";
 import { JUDICIAL_SELECTION_PROFILES } from "./generated/selection-profiles";
 import type { JudicialSelectionProfile, ReportedField } from "./profiles";
 import type {
@@ -39,10 +40,142 @@ export interface FederalCourtProjection {
   readonly courtHeldAt: readonly string[] | null;
 }
 
+export interface FederalSeatCountProjection {
+  readonly kind: "supreme" | "circuit" | "district";
+  readonly allocation: "single-court" | "joint-districts";
+  readonly publishedLabel: string;
+  readonly districtLabels: readonly string[];
+  readonly authorizedSeats: number;
+  readonly citation: string;
+  readonly artifactId: string;
+  readonly sha256: string;
+  readonly sourceCurrentThrough: string;
+  readonly row: number;
+  readonly termYears?: number;
+  readonly holdsUntilSuccessorQualified?: boolean;
+}
+
 export interface JudicialSeatCountBaseline {
   readonly count: number;
   readonly basis: "sourced" | "game-profile";
   readonly referenceId: string;
+}
+
+export interface FederalSeatCountJoin {
+  readonly directCourtCounts: Readonly<
+    Record<string, JudicialSeatCountBaseline>
+  >;
+  readonly fixedTermRules: Readonly<
+    Record<
+      string,
+      {
+        readonly termYears: number;
+        readonly holdsUntilSuccessorQualified: boolean;
+        readonly referenceId: string;
+      }
+    >
+  >;
+  readonly sharedAllocations: readonly {
+    readonly allocationRecordId: string;
+    readonly servedCourtIds: readonly string[];
+    readonly seatCount: number;
+    readonly referenceId: string;
+  }[];
+  readonly courtsWithoutStatutoryCount: readonly string[];
+}
+
+function federalDistrictForLabel(label: string): FederalCourtProjection {
+  const [jurisdictionName, designation] = label.split(": ");
+  const matches = FEDERAL_COURTS_PROJECTION.filter(
+    (court) =>
+      court.courtKind === "district-court" &&
+      (court.courtName === label ||
+        (court.jurisdictionName === jurisdictionName &&
+          (designation === undefined ||
+            court.courtName.includes(
+              `${designation} District of ${jurisdictionName}`,
+            )))),
+  );
+  if (matches.length !== 1)
+    throw new Error(
+      `Federal seat label has ${matches.length} district matches: ${label}`,
+    );
+  return matches[0]!;
+}
+
+/** Exact label join: three Title 28 joint rows remain one shared seat pool each. */
+export function joinFederalSeatCounts(): FederalSeatCountJoin {
+  const directCourtCounts: Record<string, JudicialSeatCountBaseline> = {};
+  const fixedTermRules: Record<
+    string,
+    FederalSeatCountJoin["fixedTermRules"][string]
+  > = {};
+  const sharedAllocations: FederalSeatCountJoin["sharedAllocations"][number][] =
+    [];
+  for (const row of FEDERAL_SEAT_COUNT_ROWS) {
+    const referenceId = `${row.artifactId}:row:${row.row}:${row.citation}`;
+    if (row.allocation === "joint-districts") {
+      if (row.kind !== "district" || row.districtLabels.length < 2)
+        throw new Error(
+          `Invalid joint federal seat row: ${row.publishedLabel}`,
+        );
+      const servedCourtIds = row.districtLabels.map(
+        (label) => federalDistrictForLabel(label).courtId,
+      );
+      if (new Set(servedCourtIds).size !== servedCourtIds.length)
+        throw new Error(`Duplicate joint district in ${row.publishedLabel}`);
+      sharedAllocations.push({
+        allocationRecordId: `${row.artifactId}:joint-row:${row.row}`,
+        servedCourtIds,
+        seatCount: row.authorizedSeats,
+        referenceId,
+      });
+      continue;
+    }
+    const courtId =
+      row.kind === "supreme"
+        ? "us-supreme-court"
+        : row.kind === "circuit"
+          ? FEDERAL_COURTS_PROJECTION.find(
+              (court) =>
+                court.courtKind === "court-of-appeals" &&
+                court.circuitDesignation === row.publishedLabel,
+            )?.courtId
+          : federalDistrictForLabel(row.districtLabels[0] ?? row.publishedLabel)
+              .courtId;
+    if (!courtId || directCourtCounts[courtId])
+      throw new Error(
+        `Ambiguous federal seat count row: ${row.publishedLabel}`,
+      );
+    directCourtCounts[courtId] = {
+      count: row.authorizedSeats,
+      basis: "sourced",
+      referenceId,
+    };
+    if (row.termYears !== undefined) {
+      if (
+        !Number.isSafeInteger(row.termYears) ||
+        row.termYears < 1 ||
+        row.holdsUntilSuccessorQualified === undefined
+      )
+        throw new Error(`Invalid fixed term in ${row.publishedLabel}`);
+      fixedTermRules[courtId] = {
+        termYears: row.termYears,
+        holdsUntilSuccessorQualified: row.holdsUntilSuccessorQualified,
+        referenceId,
+      };
+    }
+  }
+  const courtsWithoutStatutoryCount = [
+    "us-supreme-court",
+    ...FEDERAL_COURTS_PROJECTION.map((court) => court.courtId),
+  ].filter((courtId) => !directCourtCounts[courtId]);
+  return {
+    directCourtCounts,
+    fixedTermRules,
+    sharedAllocations,
+    courtsWithoutStatutoryCount,
+  };
 }
 
 const TERRITORY_LOCAL_COURTS = [
@@ -160,6 +293,7 @@ function initialRules(
   level: JudicialCourt["level"],
   selection: JudicialSelectionProfile | null,
   countBaselines: Readonly<Record<string, JudicialSeatCountBaseline>>,
+  fixedTermRules: FederalSeatCountJoin["fixedTermRules"] = {},
 ): JudicialCourtRules {
   const baseline = countBaselines[courtId];
   const gameSize =
@@ -179,19 +313,30 @@ function initialRules(
     throw new Error(`Invalid opening judicial seat count for ${courtId}.`);
   const tenure = selection?.tenure.value;
   const retirement = selection?.mandatoryRetirement.value;
+  const fixedTerm = fixedTermRules[courtId];
   return {
     authorizedSeats: knownRule(
       seatCount.count,
       seatCount.basis,
       seatCount.referenceId,
     ),
-    termYears:
-      tenure?.kind === "GOOD_BEHAVIOR"
+    termYears: fixedTerm
+      ? knownRule(fixedTerm.termYears, "sourced", fixedTerm.referenceId)
+      : tenure?.kind === "GOOD_BEHAVIOR"
         ? knownRule(null, "sourced", selection!.recordId)
         : reportedNumber(
             tenure?.termLengthYears,
             selection?.recordId ?? courtId,
           ),
+    ...(fixedTerm
+      ? {
+          termHoldsUntilSuccessorQualified: knownRule(
+            fixedTerm.holdsUntilSuccessorQualified,
+            "sourced",
+            fixedTerm.referenceId,
+          ),
+        }
+      : {}),
     mandatoryRetirementAge:
       retirement?.established === false
         ? knownRule(null, "sourced", selection!.recordId)
@@ -225,6 +370,11 @@ export function buildOpeningCourtCatalog(
   seatCounts: Readonly<Record<string, JudicialSeatCountBaseline>> = {},
 ): World {
   if (world.judiciary) return world;
+  const federalSeats = joinFederalSeatCounts();
+  const resolvedSeatCounts = {
+    ...federalSeats.directCourtCounts,
+    ...seatCounts,
+  };
   const stateProfiles = JUDICIAL_SELECTION_PROFILES.filter(
     (profile) =>
       profile.jurisdictionId !== "us-fed" &&
@@ -276,7 +426,8 @@ export function buildOpeningCourtCatalog(
       JUDICIAL_SELECTION_PROFILES.find(
         (profile) => profile.recordId === "us-fed:highest_court",
       ) ?? null,
-      seatCounts,
+      resolvedSeatCounts,
+      federalSeats.fixedTermRules,
     ),
   });
   for (const source of FEDERAL_COURTS_PROJECTION) {
@@ -313,7 +464,8 @@ export function buildOpeningCourtCatalog(
               ? "us-fed:intermediate_appellate"
               : "us-fed:general_trial"),
         ) ?? null,
-        seatCounts,
+        resolvedSeatCounts,
+        federalSeats.fixedTermRules,
       ),
     });
   }
@@ -357,7 +509,7 @@ export function buildOpeningCourtCatalog(
       geographyDetail:
         level === "local-general-trial" ? "office-family-only" : "exact-court",
       createdAt: world.currentDate,
-      rules: initialRules(profile.recordId, level, profile, seatCounts),
+      rules: initialRules(profile.recordId, level, profile, resolvedSeatCounts),
     });
   }
   for (const [
@@ -378,7 +530,7 @@ export function buildOpeningCourtCatalog(
       geographyDetail:
         level === "local-general-trial" ? "office-family-only" : "exact-court",
       createdAt: world.currentDate,
-      rules: initialRules(courtId, level, null, seatCounts),
+      rules: initialRules(courtId, level, null, resolvedSeatCounts),
     });
   }
   const seats: Record<string, JudicialSeat> = {};
@@ -412,12 +564,44 @@ export function buildOpeningCourtCatalog(
       rules: court.rules,
     };
   });
+  const sharedSeatAllocations: JudicialSharedSeatAllocation[] =
+    federalSeats.sharedAllocations.map((allocation) => {
+      for (let ordinal = 1; ordinal <= allocation.seatCount; ordinal += 1) {
+        const seatId = judicialSeatId(
+          `judicial-allocation:${allocation.allocationRecordId}`,
+          ordinal,
+        );
+        if (seats[seatId])
+          throw new Error(`Duplicate joint judicial seat: ${seatId}`);
+        seats[seatId] = {
+          seatId,
+          courtId: allocation.servedCourtIds[0]!,
+          ordinal,
+          servesCourtIds: allocation.servedCourtIds,
+          allocationRecordId: allocation.allocationRecordId,
+          createdAt: world.currentDate,
+          retiredAt: null,
+          linkedOfficeId: null,
+        };
+      }
+      return {
+        allocationRecordId: allocation.allocationRecordId,
+        servedCourtIds: allocation.servedCourtIds,
+        authorizedSeats: knownRule(
+          allocation.seatCount,
+          "sourced",
+          allocation.referenceId,
+        ),
+        effectiveAt: world.currentDate,
+      };
+    });
   next = {
     ...next,
     judiciary: {
       ...EMPTY_JUDICIARY,
       courts,
       seats,
+      sharedSeatAllocations,
       courtRuleVersions,
     },
   };

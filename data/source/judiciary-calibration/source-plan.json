@@ -200,6 +200,66 @@
       },
       "storage": "committed",
       "localPath": "data/source/judiciary-calibration/raw/usc28-133.html"
+    },
+    {
+      "artifactId": "usc48-1424b",
+      "provider": "Office of the Law Revision Counsel",
+      "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1424b&num=0&edition=prelim",
+      "method": "GET",
+      "mediaType": "text/html",
+      "publisher": {
+        "statedVintage": null,
+        "releaseDate": null,
+        "schemaVersion": null,
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1424b&num=0&edition=prelim"
+      },
+      "rights": {
+        "status": "public-domain-us-government",
+        "declaredLicense": null,
+        "attributionRequired": false
+      },
+      "storage": "committed",
+      "localPath": "data/source/judiciary-calibration/raw/usc48-1424b.html"
+    },
+    {
+      "artifactId": "usc48-1614",
+      "provider": "Office of the Law Revision Counsel",
+      "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1614&num=0&edition=prelim",
+      "method": "GET",
+      "mediaType": "text/html",
+      "publisher": {
+        "statedVintage": null,
+        "releaseDate": null,
+        "schemaVersion": null,
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1614&num=0&edition=prelim"
+      },
+      "rights": {
+        "status": "public-domain-us-government",
+        "declaredLicense": null,
+        "attributionRequired": false
+      },
+      "storage": "committed",
+      "localPath": "data/source/judiciary-calibration/raw/usc48-1614.html"
+    },
+    {
+      "artifactId": "usc48-1821",
+      "provider": "Office of the Law Revision Counsel",
+      "url": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1821&num=0&edition=prelim",
+      "method": "GET",
+      "mediaType": "text/html",
+      "publisher": {
+        "statedVintage": null,
+        "releaseDate": null,
+        "schemaVersion": null,
+        "documentationUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title48-section1821&num=0&edition=prelim"
+      },
+      "rights": {
+        "status": "public-domain-us-government",
+        "declaredLicense": null,
+        "attributionRequired": false
+      },
+      "storage": "committed",
+      "localPath": "data/source/judiciary-calibration/raw/usc48-1821.html"
     }
   ]
 }
