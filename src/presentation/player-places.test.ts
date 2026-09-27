@@ -142,6 +142,9 @@ describe("player-places projection", () => {
     );
 
     const model = projectPlacesWorkspace(world, fixture.playerPersonId)!;
+    expect(
+      model.offers.some((offer) => offer.kind === "travel" && offer.activityId),
+    ).toBe(false);
     const meeting = model.offers.find(
       (offer) => offer.activityId === fixture.dLite.meetingActivityId,
     )!;

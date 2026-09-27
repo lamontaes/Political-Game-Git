@@ -44,7 +44,10 @@ import { OpeningLifeFlow } from "./opening-life/OpeningLifeFlow";
 import { LifeScenePanel } from "./opening-life/LifeScenePanel";
 import { PersonPortrait } from "./PersonPortrait";
 import { useContentViewportCss } from "./overlay-viewport";
-import { previewTimeCommand } from "../presentation/time-command";
+import {
+  describeTimeCommandPreview,
+  previewTimeCommand,
+} from "../presentation/time-command";
 import { acceptedOfferStarts } from "../presentation/offer-deadlines";
 import {
   createWorldChangeGuard,
@@ -59,6 +62,7 @@ import { authorityDecisions } from "../presentation/crisis-shell";
 import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 import { useCrisisStop } from "./use-crisis-stop";
 import {
+  describeTimeCommandReport,
   TimeCommandProvider,
   useTimeCommandRunner,
 } from "./time-command-runner";
@@ -116,6 +120,7 @@ import { GoverningBriefing } from "./GoverningBriefing";
 import { GoverningOfficeDesk } from "./GoverningOfficeDesk";
 import { governingOfficeForPerson } from "../simulation/governing/state-governing";
 import { CampaignLifePanel } from "./CampaignLifePanel";
+import { CandidateGuidancePanel } from "./CandidateGuidancePanel";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import {
@@ -157,6 +162,7 @@ import {
 } from "../presentation/setup-questionnaire-flow";
 import { resolvePlayerCapabilities } from "../presentation/player-capabilities";
 import { projectToday, projectWorkRole } from "../presentation/day-overview";
+import { projectDayRhythm } from "../presentation/day-rhythm";
 import { projectHouseholdPapers } from "../presentation/household-papers";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
 import {
@@ -177,6 +183,7 @@ import { SceneBackdrop } from "./SceneBackdrop";
 import { backdropForLocation } from "../presentation/place-backdrops";
 import { projectLivingSceneSurface } from "../presentation/living-scene-surfaces";
 import { projectOrdinaryMeetingScene } from "../presentation/ordinary-meeting-scene";
+import { projectCandidateGuidanceScene } from "../presentation/candidate-guidance-scene";
 import { PUBLIC_MEETING_ROOM_SCENE_ID } from "../presentation/scene-registry";
 import { OrdinaryMeetingPanel } from "./OrdinaryMeetingPanel";
 import {
@@ -255,7 +262,7 @@ import { useShell } from "./useShell";
 import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
 import { WorldRecapPanel } from "./WorldRecapPanel";
-import { useWorldRecap } from "./useWorldRecap";
+import { MorningThoughtPanel } from "./MorningThoughtPanel";
 import { WorldOrientationPanel } from "./WorldOrientationPanel";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
 import { useWorldOrientation } from "./useWorldOrientation";
@@ -1206,9 +1213,30 @@ function PlayingScreen({
    * which references they have kept. It owns navigation and nothing else — the
    * gameplay writers below are still the only things that change the world.
    */
-  const [shell, dispatch] = useShell(session.world, session.saveId, shellStore);
-  /* What changed since the player last caught up; a read, never a writer. */
-  const recap = useWorldRecap(session.world, session.personId, shell);
+  const [shell, dispatch, shellRecordReady] = useShell(
+    session.world,
+    session.saveId,
+    shellStore,
+  );
+  /* Saved interface progress frames the existing Today and recap readers. */
+  const dayRhythm = useMemo(
+    () =>
+      shellRecordReady
+        ? projectDayRhythm(
+            session.world,
+            session.personId,
+            shell.progress,
+            shell.preferences,
+          )
+        : { summary: null, morningThought: null },
+    [
+      session.world,
+      session.personId,
+      shell.progress,
+      shell.preferences,
+      shellRecordReady,
+    ],
+  );
   /*
    * The world introduction follows a new, not-yet-saved life until it is
    * finished or skipped. Loaded lives never see it pushed at them; it stays
@@ -1329,6 +1357,21 @@ function PlayingScreen({
     },
     [crisisStop, submitTime, session.world, session.personId, dispatch],
   );
+  const passUntilNeeded = useCallback(() => {
+    crisisStop.watch();
+    submitTime({ kind: "quiet-stretch" }, (report) => {
+      setPassOutcome(describeTimeCommandReport(report));
+      if (
+        report.status === "accepted" &&
+        report.reached &&
+        acceptedOfferStarts(session.world, session.personId).some(
+          (entry) => entry.startOn === report.reached?.date,
+        )
+      ) {
+        dispatch({ type: "go-to-surface", surface: "work", section: "jobs" });
+      }
+    });
+  }, [crisisStop, submitTime, session.world, session.personId, dispatch]);
   const passTargets = useMemo(() => {
     const day = previewTimeCommand(session.world, session.personId, {
       kind: "days",
@@ -1338,8 +1381,17 @@ function PlayingScreen({
       kind: "days",
       days: 7,
     });
+    const untilNeeded = previewTimeCommand(session.world, session.personId, {
+      kind: "quiet-stretch",
+    });
     return day && week
-      ? { day: skipToLabel(day.target), week: skipToLabel(week.target) }
+      ? {
+          day: skipToLabel(day.target),
+          week: skipToLabel(week.target),
+          untilNeeded: untilNeeded
+            ? describeTimeCommandPreview(untilNeeded)
+            : null,
+        }
       : undefined;
   }, [session.world, session.personId]);
 
@@ -1351,6 +1403,11 @@ function PlayingScreen({
   const sceneVisuals = useMemo(
     () => locationReviewVisuals(Boolean(artPreview) && import.meta.env.DEV),
     [artPreview],
+  );
+
+  const guidanceScene = useMemo(
+    () => projectCandidateGuidanceScene(session.world, session.personId),
+    [session.world, session.personId],
   );
 
   const playScene = useMemo(() => {
@@ -1366,6 +1423,20 @@ function PlayingScreen({
         reason: "Recorded meeting entry or immediate aftermath.",
         placeLabel: meeting.location.label,
         presentPeople: meeting.actors.map((actor) => ({
+          personId: actor.personId,
+          name: actor.name,
+          relationship: null,
+          introduction: actor.role,
+        })),
+      };
+    if (guidanceScene)
+      return {
+        purpose: "activity" as const,
+        locationKey: guidanceScene.location.locationKey,
+        sceneId: PUBLIC_MEETING_ROOM_SCENE_ID,
+        reason: "Recorded candidate-guidance entry in the community room.",
+        placeLabel: guidanceScene.location.label,
+        presentPeople: guidanceScene.actors.map((actor) => ({
           personId: actor.personId,
           name: actor.name,
           relationship: null,
@@ -1418,6 +1489,7 @@ function PlayingScreen({
     projectedMoment,
     continuingLifeShown,
     sceneVisuals,
+    guidanceScene,
   ]);
 
   const sceneId = playScene.sceneId;
@@ -1523,6 +1595,13 @@ function PlayingScreen({
   );
 
   const view = activeView(shell);
+  const seenGuidanceEntry = useRef<EntityId | null>(null);
+  useEffect(() => {
+    if (!guidanceScene) return;
+    if (seenGuidanceEntry.current === guidanceScene.eventId) return;
+    seenGuidanceEntry.current = guidanceScene.eventId;
+    if (view.surface !== "scene") dispatch({ type: "go-to-scene" });
+  }, [guidanceScene, view.surface, dispatch]);
   const openSurface = view.surface;
   const previousSurface = useRef(openSurface);
   const newsPersonReturn = useRef<string | null>(null);
@@ -2251,6 +2330,18 @@ function PlayingScreen({
                   onOutcome={setPassOutcome}
                 />
               ) : null}
+              {view.surface === "scene" &&
+              !readOnly &&
+              !showOrientation &&
+              !conversation ? (
+                <CandidateGuidancePanel
+                  world={session.world}
+                  personId={session.personId}
+                  onWorldChange={onWorldChange}
+                  onOpenEntity={openEntity}
+                  onOutcome={setPassOutcome}
+                />
+              ) : null}
               {view.surface === "scene" && !readOnly ? (
                 <OpeningLifeFlow
                   key={`${session.world.id}:${session.personId}`}
@@ -2568,17 +2659,32 @@ function PlayingScreen({
                   </button>
                 </p>
               ) : null}
-              {recap ? (
+              {dayRhythm.summary ? (
                 <WorldRecapPanel
-                  recap={recap}
-                  onDismiss={(throughSequence) =>
-                    dispatch({ type: "acknowledge-recap", throughSequence })
+                  summary={dayRhythm.summary}
+                  onDismiss={(throughSequence, throughMoment) =>
+                    dispatch({
+                      type: "acknowledge-recap",
+                      throughSequence,
+                      throughMoment,
+                    })
                   }
                   onOpenNews={() =>
                     dispatch({ type: "go-to-surface", surface: "news" })
                   }
                   onOpenPerson={(personId) =>
                     dispatch({ type: "open-quick-dossier", personId })
+                  }
+                />
+              ) : null}
+              {!dayRhythm.summary && dayRhythm.morningThought ? (
+                <MorningThoughtPanel
+                  thought={dayRhythm.morningThought}
+                  onDismiss={(date) =>
+                    dispatch({ type: "acknowledge-morning-thought", date })
+                  }
+                  onOpenToday={() =>
+                    dispatch({ type: "go-to-surface", surface: "calendar" })
                   }
                 />
               ) : null}
@@ -2637,7 +2743,13 @@ function PlayingScreen({
                 }}
                 onSaveAndLeave={() => void saveAndReturnToTitle()}
                 onLeave={leaveNow}
-                {...(readOnly ? {} : { onPassDays: passDays, passTargets })}
+                {...(readOnly
+                  ? {}
+                  : {
+                      onPassDays: passDays,
+                      onPassUntilNeeded: passUntilNeeded,
+                      passTargets,
+                    })}
                 passing={timeRunner.pending}
               />
             ) : null}
