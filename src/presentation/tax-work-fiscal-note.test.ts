@@ -2,13 +2,23 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
-import { deserializeWorld, serializeWorld } from "../simulation";
+import {
+  deserializeWorld,
+  serializeWorld,
+  stateJurisdictionForKey,
+} from "../simulation";
 import { addDays } from "../simulation/dates";
+import { createScenarioWorld } from "../simulation/demo";
+import { KENTUCKY_CONTEXT } from "../simulation/legislation-scenarios";
+import { KENTUCKY_RULE_PACK } from "../simulation/legislature-rule-packs";
+import { introduceStateWageTaxBill } from "../simulation/state-wage-tax";
 import type { TaxPolicyRecord } from "../simulation/tax-types";
-import { stateWageTaxTerms } from "../simulation/world-setup/state-tax-service-profiles";
+import { appendWorldConditions } from "../simulation/world-setup/conditions";
+import {
+  drawStateTaxServiceStartingConditions,
+  stateWageTaxTerms,
+} from "../simulation/world-setup/state-tax-service-profiles";
 import { TaxWorkWorkspace } from "../player/TaxWorkWorkspace";
-import { ordinaryStateHouseFilingEntry } from "../../tests/fixtures/multistate-funded-service-entry";
-import { fileStateWageTaxRateFromOffice } from "./tax-work";
 import {
   draftStateWageTaxFiscalNote,
   filedStateWageTaxFiscalNote,
@@ -37,13 +47,25 @@ describe("Tax Work fiscal note", () => {
   });
 
   it("shows a real filed zero-rate levy, survives reload, and refuses changed pinned terms", () => {
-    const entry = ordinaryStateHouseFilingEntry("KY", {
-      headlessElection: true,
-    });
-    const filed = fileStateWageTaxRateFromOffice(entry.world, {
-      personId: entry.personId,
+    // A small saved world exercises the canonical typed tax writer and reader.
+    // The ordinary election/seat route is a separate player acceptance step.
+    const jurisdiction = stateJurisdictionForKey("US-KY")!;
+    const opening = createScenarioWorld(
+      "team-g:fiscal-note-small-world",
+      { ...KENTUCKY_CONTEXT, jurisdiction },
+      { peopleCount: 2 },
+    );
+    const world = appendWorldConditions(opening, [
+      drawStateTaxServiceStartingConditions(opening),
+    ]);
+    const personId = world.personOrder[0]!;
+    const filed = introduceStateWageTaxBill(world, {
+      sponsorPersonId: personId,
+      jurisdictionKey: "US-KY",
+      rulePackId: KENTUCKY_RULE_PACK.packId,
+      originChamberKey: "house",
+      terms: stateWageTaxTerms("US-KY", jurisdiction.name, 0),
       stableKey: "team-g:fiscal-note-zero",
-      rateBasisPoints: 0,
     });
     const proposal = filed.world.history.taxProposals!.at(-1)!;
     const before = serializeWorld(filed.world);
@@ -64,7 +86,7 @@ describe("Tax Work fiscal note", () => {
     const html = renderToStaticMarkup(
       createElement(TaxWorkWorkspace, {
         world: filed.world,
-        personId: entry.personId,
+        personId,
         onWorldChange: () => {
           throw new Error("A read-only render must not write the world.");
         },
