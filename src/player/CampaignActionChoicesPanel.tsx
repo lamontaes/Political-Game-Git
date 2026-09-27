@@ -65,7 +65,17 @@ export function CampaignActionChoicesPanel({
       ) : null}
       {view.choices.length === 0 ? (
         <p data-testid="campaign-action-choices-empty">
-          No campaign activity fits the open calendar this week.
+          {view.availabilityReason === "needs-host" ? (
+            <>
+              No one has agreed to host campaign work yet. Ask a local chapter
+              organizer for support in{" "}
+              <a href="#party-work-title">Party and community work</a>.
+            </>
+          ) : view.availabilityReason === "calendar-full" ? (
+            "No campaign activity fits the open calendar this week."
+          ) : (
+            "No campaign activity is offered this week."
+          )}
         </p>
       ) : (
         <ul className="game-campaign-action-list">
