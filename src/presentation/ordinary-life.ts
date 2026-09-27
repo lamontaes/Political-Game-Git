@@ -223,29 +223,31 @@ export function ordinaryLifeAvailableFor(
  * first of them.
  */
 export function openOrdinaryLife(world: World, personId: EntityId): World {
-  const person = world.people[personId];
-  if (!person) throw new Error("This character is not in the world.");
-  // A save a since-fixed defect kept out of a won office is seated when it
-  // opens, before anything else reads the week.
-  const seated = seatWinnersOwedTheirTerm(world, personId);
-  if (!ordinaryLifeAvailableFor(seated, personId)) return seated;
-  const opened = refreshLifeCircumstances(
-    refreshLifeOpportunities(
-      openOrdinaryLifeRecords(seated, personId),
+  return advanceWithWorldIntegrityAtEnd(() => {
+    const person = world.people[personId];
+    if (!person) throw new Error("This character is not in the world.");
+    // A save a since-fixed defect kept out of a won office is seated when it
+    // opens, before anything else reads the week.
+    const seated = seatWinnersOwedTheirTerm(world, personId);
+    if (!ordinaryLifeAvailableFor(seated, personId)) return seated;
+    const opened = refreshLifeCircumstances(
+      refreshLifeOpportunities(
+        openOrdinaryLifeRecords(seated, personId),
+        personId,
+      ),
       personId,
-    ),
-    personId,
-  );
-  // Traits are written at opening only for the people the player has a real
-  // way of reaching: household, family, work and everyone else in their
-  // contact list. Everyone else's traits are drawn from their own seed and
-  // upbringing the first time a decision needs them (every decision calls
-  // ensurePeopleTraits first). Writing them for the whole world at opening
-  // made starting a life take about half an hour.
-  return ensurePeopleTraits(
-    opened,
-    contactBases(opened, personId).map((basis) => basis.personId),
-  );
+    );
+    // Traits are written at opening only for the people the player has a real
+    // way of reaching: household, family, work and everyone else in their
+    // contact list. Everyone else's traits are drawn from their own seed and
+    // upbringing the first time a decision needs them (every decision calls
+    // ensurePeopleTraits first). Writing them for the whole world at opening
+    // made starting a life take about half an hour.
+    return ensurePeopleTraits(
+      opened,
+      contactBases(opened, personId).map((basis) => basis.personId),
+    );
+  });
 }
 
 export function projectOrdinaryDay(

@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import { addDays, ageOnDate } from "../simulation/dates";
-import { deserializeWorld, serializeWorld } from "../simulation";
+import { deserializeWorld, serializeWorld, type EntityId } from "../simulation";
+import {
+  advanceWithWorldIntegrityAtEnd,
+  assertWorldIntegrity,
+} from "../simulation/world";
 import {
   DEFAULT_NEW_GAME_SETUP,
   createNewGameWorld,
@@ -88,6 +92,10 @@ describe("a versioned pre-start world year", () => {
     ).toBe(true);
     expect(generateOpeningLife(generated)).toBe(generated);
     const opened = openOrdinaryLife(world, playerPersonId);
+    const nested = advanceWithWorldIntegrityAtEnd(() =>
+      openOrdinaryLife(world, playerPersonId),
+    );
+    expect(serializeWorld(nested)).toEqual(serializeWorld(opened));
     const reopened = deserializeWorld(serializeWorld(opened));
     expect(reopened.currentDate).toBe(target);
     expect(reopened.history.events).toEqual(opened.history.events);
@@ -113,6 +121,20 @@ describe("a versioned pre-start world year", () => {
       ),
     ).toThrow("observer control");
   }, 180_000);
+
+  it("restores full integrity checks after an opening refusal", () => {
+    const background = buildPreStartBackgroundWorld(preStartInput());
+    const missing = "person_missing_pre_start" as EntityId;
+    expect(() => openOrdinaryLife(background, missing)).toThrow(
+      "not in the world",
+    );
+    expect(() =>
+      assertWorldIntegrity({
+        ...background,
+        control: { kind: "person", personId: missing },
+      }),
+    ).toThrow("missing person");
+  });
 
   it("keeps unsupported office starts and birthday boundaries gated", () => {
     for (const startAge of [5, 6, 11, 14, 18]) {
