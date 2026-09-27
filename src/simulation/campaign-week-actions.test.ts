@@ -13,14 +13,32 @@ import {
   campaignLifeOutcomeRecords,
   campaignTreasuryPosition,
 } from "./campaign-queries";
-import { recordCampaignLifeAttendance } from "./campaign-life-activities";
+import {
+  recordCampaignLifeAttendance,
+  requestCampaignLifeActivity,
+} from "./campaign-life-activities";
 import {
   chooseCampaignWeekAction,
   projectCampaignWeekActions,
 } from "./campaign-week-actions";
-import { simulationMinutesBetween } from "./dates";
+import { GAME_ADULT_CANDIDACY_AGE, candidacyPackById } from "./candidacy-packs";
+import { addDays, ageOnDate, simulationMinutesBetween } from "./dates";
+import {
+  createScenarioWorld,
+  ensureCampaignOpponents,
+  fileCampaign,
+  makeCurrencyCode,
+} from "./index";
+import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import { createOrganizationParticipation } from "./life";
+import {
+  homePartyChapters,
+  joinPartyChapter,
+} from "./living-world/party-chapters";
+import { PARTY_AFFILIATION_KIND } from "./living-world/opening";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { scheduledActivityState } from "./time-work";
+import type { World } from "./types";
 
 function filedLife(seed: string) {
   const opening = generateOpeningLife(
@@ -37,12 +55,107 @@ function filedLife(seed: string) {
   };
 }
 
+function staffedLife(seed: string) {
+  const scenario = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
+    peopleCount: 6,
+  });
+  const adults = scenario.personOrder.filter(
+    (id) =>
+      ageOnDate(scenario.people[id]!.birthDate, scenario.currentDate) >=
+      GAME_ADULT_CANDIDACY_AGE,
+  );
+  const personId = adults[0]!;
+  const staffPersonId = adults[1]!;
+  const base: World = {
+    ...scenario,
+    control: { kind: "person", personId },
+  };
+  const opponents = ensureCampaignOpponents(base, {
+    stableKey: "week-test-campaign",
+    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+    count: 1,
+    excludePersonIds: [personId, staffPersonId],
+  });
+  const filed = fileCampaign(opponents.world, {
+    stableKey: "week-test-campaign",
+    candidatePersonId: personId,
+    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+    officeKey: candidacyPackById("us-ky-general-assembly-v1:candidacy")!
+      .offices[0]!.officeKey,
+    electionDate: addDays(base.currentDate, 28),
+    rivalPersonIds: opponents.personIds,
+    existingContestId: null,
+    committeeName: "A committee for the test fixture",
+    donorPoolName: "Supporters, in aggregate",
+    advertisingVendorName: "Advertising, in aggregate",
+    staffPersonIds: [staffPersonId],
+    treasuryCurrency: makeCurrencyCode("USD"),
+  });
+  return { world: filed.world, personId };
+}
+
 describe("concrete campaign week actions", () => {
+  it("does not assign an unearned party chapter host to a new candidate", () => {
+    const life = filedLife("campaign-week-no-assumed-backing");
+    const before = JSON.stringify(life.world.history);
+    const view = projectCampaignWeekActions(life.world, life.personId)!;
+    expect(view.choices).toEqual([]);
+    expect(view.availabilityReason).toBe("needs-host");
+    expect(JSON.stringify(life.world.history)).toBe(before);
+  });
+
+  it("uses a chapter host only after its recorded support decision", () => {
+    const life = filedLife("campaign-week-recorded-backing");
+    const chapter = homePartyChapters(life.world)[0]!;
+    let world = joinPartyChapter(
+      life.world,
+      life.personId,
+      chapter.organizationId,
+    );
+    world = createOrganizationParticipation(world, {
+      stableKey: "week-test:explicit-public-party-affiliation",
+      personId: life.personId,
+      organizationId: chapter.partyOrganizationId,
+      startedAt: world.currentDate,
+      kind: PARTY_AFFILIATION_KIND,
+      roleKind: "member:public-affiliation",
+      context: "Test fixture public affiliation",
+      provenance: { kind: "authored", note: "Test fixture affiliation" },
+    });
+    world = requestCampaignLifeActivity(world, life.personId, {
+      form: "organization-meeting",
+      hostOrganizationId: chapter.organizationId,
+      earliestDate: world.currentDate,
+    });
+    const meeting = campaignLifeActivityRecords(world).at(-1)!;
+    world = attendPartyWork(world, life.personId, meeting.id, "attended");
+    world = requestCampaignLifeActivity(world, life.personId, {
+      form: "support-request",
+      hostOrganizationId: chapter.organizationId,
+      earliestDate: world.currentDate,
+    });
+    const request = campaignLifeActivityRecords(world).at(-1)!;
+    world = attendPartyWork(world, life.personId, request.id, "attended");
+    const decision =
+      campaignLifeOutcomeRecords(world).at(-1)!.supportDecision?.decision;
+    expect(decision).toBe("granted");
+    const view = projectCampaignWeekActions(world, life.personId)!;
+    expect(view.availabilityReason).toBeNull();
+    expect(view.choices).toHaveLength(4);
+    expect(
+      view.choices.every(
+        (choice) => choice.hostOrganizationId === chapter.organizationId,
+      ),
+    ).toBe(true);
+    expect(view.recentResults).toEqual([]);
+  });
+
   it("projects real hosts and free calendar slots, then books exactly the shown choice", () => {
-    const life = filedLife("campaign-week-concrete-choices");
+    const life = staffedLife("campaign-week-concrete-choices");
     const before = JSON.stringify(life.world.history);
     const view = projectCampaignWeekActions(life.world, life.personId)!;
     expect(view.choices).toHaveLength(4);
+    expect(view.availabilityReason).toBeNull();
     expect(view.choices.map((choice) => choice.form)).toEqual([
       "door-canvass",
       "phone-shift",
@@ -84,7 +197,7 @@ describe("concrete campaign week actions", () => {
   });
 
   it("a completed phone shift yields a named contact through the existing attendance writer", () => {
-    const life = filedLife("campaign-week-named-result");
+    const life = staffedLife("campaign-week-named-result");
     const view = projectCampaignWeekActions(life.world, life.personId)!;
     const selected = view.choices.find(
       (choice) => choice.form === "phone-shift",
@@ -129,7 +242,7 @@ describe("concrete campaign week actions", () => {
   });
 
   it("a fundraiser transfers only the lawful recorded amount, once", () => {
-    const life = filedLife("campaign-week-fundraiser-once");
+    const life = staffedLife("campaign-week-fundraiser-once");
     const view = projectCampaignWeekActions(life.world, life.personId)!;
     const selected = view.choices.find(
       (choice) => choice.form === "fundraiser",
