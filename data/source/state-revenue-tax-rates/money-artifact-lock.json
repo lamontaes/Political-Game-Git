@@ -1,0 +1,266 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "withholding-al",
+      "bytes": {
+        "length": 694535,
+        "sha256": "11aa9a42eb1ba920918bcb7ed9356d6b2aad5b446079ac14c170b46c7313f628"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/al-withholding-2026.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Alabama Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://www.revenue.alabama.gov/wp-content/uploads/2026/01/whbooklet_0126.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 694535,
+        "retrievedAt": "2026-09-27T00:23:25.807Z",
+        "url": "https://www.revenue.alabama.gov/wp-content/uploads/2026/01/whbooklet_0126.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-az",
+      "bytes": {
+        "length": 193041,
+        "sha256": "80a6c71c702824d80d9505575257bb052574a5b1cef17dd3da486c7bfe6b4b54"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/az-a4-2026.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Arizona Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://azdor.gov/sites/default/files/document/FORMS_WITHHOLDING_2026_A-4_f.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 193041,
+        "retrievedAt": "2026-09-27T00:23:28.304Z",
+        "url": "https://azdor.gov/sites/default/files/document/FORMS_WITHHOLDING_2026_A-4_f.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ar",
+      "bytes": {
+        "length": 2359679,
+        "sha256": "2724b6214d4e9377f90193a6f6ecee202659eb377d9fe6a5daaa2837eca106bf"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ar-withholding-2026.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Arkansas Department of Finance and Administration",
+      "publisher": {
+        "documentationUrl": "https://www.dfa.arkansas.gov/wp-content/uploads/withholdTaxTablesRegularIncome_2026.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2359679,
+        "retrievedAt": "2026-09-27T00:23:30.940Z",
+        "url": "https://www.dfa.arkansas.gov/wp-content/uploads/withholdTaxTablesRegularIncome_2026.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ca",
+      "bytes": {
+        "length": 403985,
+        "sha256": "145b570a333f22ff0b4c230ef8ee04bd6f5dc89f8351eb134754b4820f6c7047"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ca-withholding-2026.pdf",
+      "mediaType": "application/pdf",
+      "provider": "California Employment Development Department",
+      "publisher": {
+        "documentationUrl": "https://edd.ca.gov/siteassets/files/pdf_pub_ctr/26methb.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 403985,
+        "retrievedAt": "2026-09-27T00:23:33.455Z",
+        "url": "https://edd.ca.gov/siteassets/files/pdf_pub_ctr/26methb.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-co",
+      "bytes": {
+        "length": 493272,
+        "sha256": "b6376eaa0f531162e81fb9ddb7782295f5f50f5ba8823e27361c02aac8a279b5"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/co-dr1098.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Colorado Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://tax.colorado.gov/sites/tax/files/documents/DR_1098_Colorado_Withholding_Worksheet_for_Employees.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 493272,
+        "retrievedAt": "2026-09-27T00:23:35.793Z",
+        "url": "https://tax.colorado.gov/sites/tax/files/documents/DR_1098_Colorado_Withholding_Worksheet_for_Employees.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ct",
+      "bytes": {
+        "length": 6819574,
+        "sha256": "1df6a8f3dbdc4403e5c3910eea2bee72904fb3535323b4fc68cb9726afe664a2"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ct-withholding-2026.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Connecticut Department of Revenue Services",
+      "publisher": {
+        "documentationUrl": "https://portal.ct.gov/-/media/drs/publications/pubsip/2026/ip-2026-1.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 6819574,
+        "retrievedAt": "2026-09-27T00:23:39.575Z",
+        "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2026/ip-2026-1.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-de",
+      "bytes": {
+        "length": 118037,
+        "sha256": "45943478ba89e14386fdde8e52486609d94df1ec8d5a391615fedbcc6292a31f"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/de-withholding.html",
+      "mediaType": "text/html",
+      "provider": "Delaware Division of Revenue",
+      "publisher": {
+        "documentationUrl": "https://revenue.delaware.gov/employers-guide-withholding-regulations-employers-duties/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 118037,
+        "retrievedAt": "2026-09-27T00:23:45.337Z",
+        "url": "https://revenue.delaware.gov/employers-guide-withholding-regulations-employers-duties/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-ga",
+      "bytes": {
+        "length": 3474648,
+        "sha256": "759cf4fdc9707391f35da106b67ec7971ad9f16e551e54df2084da3f650d89c9"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/ga-withholding-2026.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Georgia Department of Revenue",
+      "publisher": {
+        "documentationUrl": "https://dor.georgia.gov/document/document/2026-employers-tax-guide-updated-september-2026/download",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2026"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 3474648,
+        "retrievedAt": "2026-09-27T00:24:59.141Z",
+        "url": "https://dor.georgia.gov/document/document/2026-employers-tax-guide-updated-september-2026/download"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "withholding-hi",
+      "bytes": {
+        "length": 4154063,
+        "sha256": "e819a8a48ed9f273014afe0046bc461152228953b545a9aad90e5f7378d3c051"
+      },
+      "localPath": "data/source/state-revenue-tax-rates/raw/hi-booklet-a-2025.pdf",
+      "mediaType": "application/pdf",
+      "provider": "Hawaii Department of Taxation",
+      "publisher": {
+        "documentationUrl": "https://files.hawaii.gov/tax/news/pubs/25BkltA.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2025 revision"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 4154063,
+        "retrievedAt": "2026-09-27T00:25:01.706Z",
+        "url": "https://files.hawaii.gov/tax/news/pubs/25BkltA.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "state-revenue-tax-rates"
+}

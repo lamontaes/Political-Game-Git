@@ -1,0 +1,121 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "electricity-prices",
+      "bytes": {
+        "length": 253341,
+        "sha256": "27af5b91bd669756e72912c454eb58cea88a195cc5f67548eda12213aaa24522"
+      },
+      "localPath": "data/source/eia-energy-prices/raw/avgprice_annual.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "U.S. Energy Information Administration",
+      "publisher": {
+        "documentationUrl": "https://www.eia.gov/electricity/data/state/avgprice_annual.xlsx",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 253341,
+        "retrievedAt": "2026-09-27T00:06:25.922Z",
+        "url": "https://www.eia.gov/electricity/data/state/avgprice_annual.xlsx"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "gasoline-index",
+      "bytes": {
+        "length": 114337,
+        "sha256": "62ef2a47436094d4666e6dadcd91666ced5a468ad4ea2cb213ef2e03dac6da67"
+      },
+      "localPath": "data/source/eia-energy-prices/raw/gasdiesel.html",
+      "mediaType": "text/html",
+      "provider": "U.S. Energy Information Administration",
+      "publisher": {
+        "documentationUrl": "https://www.eia.gov/petroleum/gasdiesel/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 114337,
+        "retrievedAt": "2026-09-27T00:06:26.474Z",
+        "url": "https://www.eia.gov/petroleum/gasdiesel/"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "gasoline-prices",
+      "bytes": {
+        "length": 7492608,
+        "sha256": "39ae7eca821524483abcf6012fa650bdadcc288d534566f7dccacca2fb296872"
+      },
+      "localPath": "data/source/eia-energy-prices/raw/pswrgvwall.xls",
+      "mediaType": "application/vnd.ms-excel",
+      "provider": "U.S. Energy Information Administration",
+      "publisher": {
+        "documentationUrl": "https://www.eia.gov/petroleum/gasdiesel/xls/pswrgvwall.xls",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 7492608,
+        "retrievedAt": "2026-09-27T00:07:26.987Z",
+        "url": "https://www.eia.gov/petroleum/gasdiesel/xls/pswrgvwall.xls"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "electricity-prices-2024",
+      "bytes": {
+        "length": 15262,
+        "sha256": "e5a6964b5100890fe67a1d7ced25ec069c89e218853b8ec17ca7b6933902fbc9"
+      },
+      "localPath": "data/source/eia-energy-prices/raw/table-4-2024.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "U.S. Energy Information Administration",
+      "publisher": {
+        "documentationUrl": "https://www.eia.gov/electricity/sales_revenue_price/xls/table_4.xlsx",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 15262,
+        "retrievedAt": "2026-09-27T00:08:40.145Z",
+        "url": "https://www.eia.gov/electricity/sales_revenue_price/xls/table_4.xlsx"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "eia-energy-prices"
+}

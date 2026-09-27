@@ -1,0 +1,63 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "cash-buffer-report",
+      "bytes": {
+        "length": 137347,
+        "sha256": "49089264788beabbf362222f656f3c6311a095530c73c59219cd206028b4c42f"
+      },
+      "localPath": "data/source/jpmci-business-cash/raw/cash-buffer-report.html",
+      "mediaType": "text/html",
+      "provider": "JPMorgan Chase Institute",
+      "publisher": {
+        "documentationUrl": "https://www.jpmorganchase.com/institute/all-topics/business-growth-and-entrepreneurship/report-cash-flows-balances-and-buffer-days",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2015 observations; 2016 report"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 137347,
+        "retrievedAt": "2026-09-27T00:06:26.319Z",
+        "url": "https://www.jpmorganchase.com/institute/all-topics/business-growth-and-entrepreneurship/report-cash-flows-balances-and-buffer-days"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cash-buffer-full",
+      "bytes": {
+        "length": 2818842,
+        "sha256": "e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7"
+      },
+      "localPath": "data/source/jpmci-business-cash/raw/cash-buffer-2016.pdf",
+      "mediaType": "application/pdf",
+      "provider": "JPMorgan Chase Institute",
+      "publisher": {
+        "documentationUrl": "https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2015 observations; 2016 report"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2818842,
+        "retrievedAt": "2026-09-27T00:07:29.529Z",
+        "url": "https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "jpmci-business-cash"
+}

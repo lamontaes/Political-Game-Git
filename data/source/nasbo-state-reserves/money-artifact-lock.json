@@ -1,0 +1,34 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "fiscal-survey-fall-2025",
+      "bytes": {
+        "length": 1507459,
+        "sha256": "740df6941e8dffcd4be769e6b54c839fd094ae27b35fed998438ca6f891b952e"
+      },
+      "localPath": "data/source/nasbo-state-reserves/raw/fall-2025.pdf",
+      "mediaType": "application/pdf",
+      "provider": "National Association of State Budget Officers",
+      "publisher": {
+        "documentationUrl": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Fiscal%20Survey/NASBO_Fall_2025_Fiscal_Survey_Full_Report_S.pdf",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "Fall 2025"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1507459,
+        "retrievedAt": "2026-09-27T00:06:26.109Z",
+        "url": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Fiscal%20Survey/NASBO_Fall_2025_Fiscal_Survey_Full_Report_S.pdf"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "nasbo-state-reserves"
+}

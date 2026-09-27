@@ -1,0 +1,34 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "finance-units-2024",
+      "bytes": {
+        "length": 4267040,
+        "sha256": "0967c4d30466593796acb26f2b30c1afb37b5b9a5de43766dc65e4ccc95bd89a"
+      },
+      "localPath": "data/source/government-finances/raw/2024-individual-units.zip",
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau",
+      "publisher": {
+        "documentationUrl": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2024"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 4267040,
+        "retrievedAt": "2026-09-27T00:06:26.168Z",
+        "url": "https://www2.census.gov/programs-surveys/gov-finances/tables/2024/2024_Individual_Unit_Files.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "government-finances"
+}

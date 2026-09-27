@@ -1,0 +1,119 @@
+[
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-al",
+    "url": "https://www.revenue.alabama.gov/wp-content/uploads/2026/01/whbooklet_0126.pdf",
+    "filename": "al-withholding-2026.pdf",
+    "provider": "Alabama Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-az",
+    "url": "https://azdor.gov/sites/default/files/document/FORMS_WITHHOLDING_2026_A-4_f.pdf",
+    "filename": "az-a4-2026.pdf",
+    "provider": "Arizona Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ar",
+    "url": "https://www.dfa.arkansas.gov/wp-content/uploads/withholdTaxTablesRegularIncome_2026.pdf",
+    "filename": "ar-withholding-2026.pdf",
+    "provider": "Arkansas Department of Finance and Administration",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ca",
+    "url": "https://edd.ca.gov/siteassets/files/pdf_pub_ctr/26methb.pdf",
+    "filename": "ca-withholding-2026.pdf",
+    "provider": "California Employment Development Department",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-co",
+    "url": "https://tax.colorado.gov/sites/tax/files/documents/DR_1098_Colorado_Withholding_Worksheet_for_Employees.pdf",
+    "filename": "co-dr1098.pdf",
+    "provider": "Colorado Department of Revenue",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ct",
+    "url": "https://portal.ct.gov/-/media/drs/publications/pubsip/2026/ip-2026-1.pdf",
+    "filename": "ct-withholding-2026.pdf",
+    "provider": "Connecticut Department of Revenue Services",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-de",
+    "url": "https://revenue.delaware.gov/employers-guide-withholding-regulations-employers-duties/",
+    "filename": "de-withholding.html",
+    "provider": "Delaware Division of Revenue",
+    "vintage": null,
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-ga",
+    "url": "https://dor.georgia.gov/document/document/2026-employers-tax-guide-updated-september-2026/download",
+    "filename": "ga-withholding-2026.pdf",
+    "provider": "Georgia Department of Revenue",
+    "vintage": "2026",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  },
+  {
+    "domain": "state-revenue-tax-rates",
+    "id": "withholding-hi",
+    "url": "https://files.hawaii.gov/tax/news/pubs/25BkltA.pdf",
+    "filename": "hi-booklet-a-2025.pdf",
+    "provider": "Hawaii Department of Taxation",
+    "vintage": "2025 revision",
+    "rights": {
+      "status": "UNKNOWN",
+      "declaredLicense": null,
+      "attributionRequired": "UNKNOWN"
+    }
+  }
+]
