@@ -1,5 +1,8 @@
 import { expect, it } from "vitest";
-import { suppliedLegislativeSeat } from "../../tests/fixtures/supplied-legislative-seat";
+import {
+  addSuppliedLegislativeSeat,
+  suppliedLegislativeSeat,
+} from "../../tests/fixtures/supplied-legislative-seat";
 import { endSuppliedSeat } from "../../tests/fixtures/supplied-legislative-seat";
 import {
   fileTransitAppropriation,
@@ -18,6 +21,11 @@ import { passOrdinaryDays } from "./ordinary-life";
 import { addDays } from "../simulation/dates";
 import { STATE_TRANSIT_VARIANT_KEY } from "../simulation/legislation-transit-families";
 import { currentMeasureProvisions } from "../simulation/legislative-politics";
+import { searchLifePlaces } from "../simulation/life-places";
+import { generatePoliticalStartingConditions } from "../simulation/world-setup/political-start";
+import { ensureWorldStartingConditions } from "../simulation/world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
+import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
 import { assertWorldIntegrity } from "../simulation/world";
 import type { World, EntityId } from "../simulation/types";
@@ -168,11 +176,10 @@ it("uses each life's actual seat and refuses unsupported or ended office without
   expect(projectTransitWork(senate.world, senate.personId).bills).toHaveLength(
     1,
   );
-  const nebraska = suppliedLegislativeSeat("US-NE", "legislature");
-  expect(projectTransitWork(nebraska.world, nebraska.personId).office.kind).toBe(
-    "available",
-  );
-  for (const world of [endSuppliedSeat(house.world)]) {
+  for (const world of [
+    suppliedLegislativeSeat("US-NE", "legislature").world,
+    endSuppliedSeat(house.world),
+  ]) {
     const personId =
       world.control.kind === "person" ? world.control.personId : house.personId;
     const before = serializeWorld(world);
@@ -194,7 +201,28 @@ it("uses each life's actual seat and refuses unsupported or ended office without
 }, 30_000);
 
 it("files Colorado's complete state transit mandate through the ordinary office adapter", () => {
-  const seat = suppliedLegislativeSeat("US-CO", "house");
+  const place = searchLifePlaces("", 1, {
+    stateJurisdictionKey: "US-CO",
+    scope: "locality",
+  })[0]!;
+  const game = createNewGameWorld({
+    ...DEFAULT_NEW_GAME_SETUP,
+    placeKey: place.key,
+    seed: "transit-filing-colorado",
+    startAge: 40,
+    startingLife: "ordinary-life",
+    questionnaire: "skipped",
+  });
+  const opened = ensureWorldStartingConditions(game.world, {
+    openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+    political: generatePoliticalStartingConditions,
+  });
+  const seat = addSuppliedLegislativeSeat(
+    opened,
+    game.playerPersonId,
+    "US-CO",
+    "house",
+  );
   const filed = fileTransitAppropriation(seat.world, {
     personId: seat.personId,
     amountMinorUnits: 20_000,
