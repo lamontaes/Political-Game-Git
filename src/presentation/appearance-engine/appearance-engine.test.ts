@@ -235,3 +235,36 @@ describe("head blending", () => {
     expect(alpha(15)).toBeGreaterThan(0);
   });
 });
+
+describe("collars sit in front of the neck", () => {
+  it("draws clothing over the head between the neck row and the neckline, and never above the neck row", () => {
+    const body = figure(5, 25);
+    const anchors = measureBodyAnchors(body);
+    const head = createRaster(60, 100);
+    fill(head, 22, 5, 37, 30, SKIN); // head with its neck reaching below the neck row
+    const shirt = createRaster(60, 100);
+    const COLLAR: Rgba = [40, 50, 90, 255];
+    fill(shirt, 20, anchors.neck.row - 3, 39, 60, COLLAR); // a collar that rises above the neck row
+    const out = assemblePerson(anchors, [
+      { slot: "body", raster: body },
+      { slot: "top", raster: shirt },
+      { slot: "head", raster: head },
+    ]);
+    const px = (x: number, y: number) =>
+      Array.from(out.data.slice((y * 60 + x) * 4, (y * 60 + x) * 4 + 3));
+    expect(px(30, anchors.neck.row + 1)).toEqual([40, 50, 90]); // collar in front of the neck
+    expect(px(30, anchors.neck.row - 2)).not.toEqual([40, 50, 90]); // the head wins above the neck row
+  });
+
+  it("lets an outfit replace separate top, bottoms, shoes and dress", () => {
+    const anchors = measureBodyAnchors(figure(5, 25));
+    const layer = createRaster(60, 100);
+    const slots = placeLayers(anchors, [
+      { slot: "body", raster: layer },
+      { slot: "top", raster: layer },
+      { slot: "shoes", raster: layer },
+      { slot: "outfit", raster: layer },
+    ]).map((placed) => placed.slot);
+    expect(slots).toEqual(["body", "outfit"]);
+  });
+});

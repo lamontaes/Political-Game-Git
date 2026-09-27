@@ -13,6 +13,7 @@ export const LAYER_ORDER = [
   "shoes",
   "top",
   "dress",
+  "outfit",
   "outerwear",
   "head",
   "front-hair",
@@ -88,6 +89,13 @@ export function placeLayers(
         !(
           slots.has("dress") &&
           (layer.slot === "top" || layer.slot === "bottoms")
+        ) &&
+        !(
+          slots.has("outfit") &&
+          (layer.slot === "top" ||
+            layer.slot === "bottoms" ||
+            layer.slot === "shoes" ||
+            layer.slot === "dress")
         ),
     )
     .map((layer) => {
@@ -139,12 +147,51 @@ export function composite(
   return out;
 }
 
-/** Place and composite in one step, on the body's own canvas. */
+const CLOTHING: ReadonlySet<LayerSlot> = new Set([
+  "top",
+  "dress",
+  "outerwear",
+  "outfit",
+]);
+
+/** The rows of a clothing layer that lie in the collar band, and nothing else. */
+function collarBand(raster: Raster, fromRow: number, toRow: number): Raster {
+  const data = new Uint8ClampedArray(raster.data.length);
+  const start = Math.max(0, fromRow) * raster.width * 4;
+  const end = Math.min(raster.height, toRow + 1) * raster.width * 4;
+  data.set(raster.data.subarray(start, end), start);
+  return { width: raster.width, height: raster.height, data };
+}
+
+/**
+ * Place and composite in one step, on the body's own canvas.
+ *
+ * The head is drawn above the clothes, so a collar can never cover a jaw.
+ * But a collar and a tie sit in FRONT of the neck: in the band between the
+ * measured neck row and the standard neckline, clothing is drawn once more on
+ * top of the head. Above the neck row the head always wins.
+ */
 export function assemblePerson(
   body: BodyAnchors,
   layers: readonly PersonLayer[],
 ): Raster {
   const canvas = layers.find((layer) => layer.slot === "body")?.raster;
   if (!canvas) throw new Error("A person needs a body layer.");
-  return composite(canvas.width, canvas.height, placeLayers(body, layers));
+  const placed = placeLayers(body, layers);
+  const neckline =
+    body.neck.row + Math.round((body.feet - body.top) * COLLAR_BAND_SHARE);
+  const collars = placed
+    .filter((layer) => CLOTHING.has(layer.slot))
+    .map((layer) => ({
+      ...layer,
+      raster: collarBand(
+        layer.raster,
+        body.neck.row - layer.dy,
+        neckline - layer.dy,
+      ),
+    }));
+  return composite(canvas.width, canvas.height, [...placed, ...collars]);
 }
+
+/** The collar band reaches this share of the figure's height below the neck row. */
+export const COLLAR_BAND_SHARE = 0.03;

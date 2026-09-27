@@ -15,7 +15,14 @@ import { isSkinPixel } from "./skin";
  * body at assembly.
  */
 
-export type GarmentSlot = "top" | "bottoms" | "shoes" | "dress" | "outerwear";
+export type GarmentSlot =
+  | "top"
+  | "bottoms"
+  | "shoes"
+  | "dress"
+  | "outerwear"
+  /** A whole outfit painted at once: everything from the collar to the soles. */
+  | "outfit";
 
 /**
  * The standard neckline sits this share of the figure's height below the
@@ -139,6 +146,9 @@ export function extractGarment(
           : y < shoeTop + Math.round(figure * 0.03);
       case "shoes":
         return y >= shoeTop;
+      case "outfit":
+        // Collars and ties rise to the neck; everything below is the outfit.
+        return y >= anchors.neck.row;
     }
   };
   const layer = createRaster(onBody.width, onBody.height);
@@ -151,7 +161,23 @@ export function extractGarment(
       const i = (y * onBody.width + x) * 4;
       const a = src[i + 3]!;
       if (a <= OPAQUE_ALPHA) continue;
-      if (isSkinPixel(src[i]!, src[i + 1]!, src[i + 2]!, a)) continue;
+      if (isSkinPixel(src[i]!, src[i + 1]!, src[i + 2]!, a)) {
+        // Skin the outfit leaves open where the bare body wears underwear (an
+        // open collar over the bra line) must be skin, not underwear: keep it
+        // so the assembly recolors it with the person's shade.
+        const bareKind = underKind(
+          under[i]!,
+          under[i + 1]!,
+          under[i + 2]!,
+          under[i + 3]!,
+        );
+        if (
+          slot !== "outfit" ||
+          bareKind !== "underwear" ||
+          y < anchors.neck.row
+        )
+          continue;
+      }
       const inHead =
         y <= anchors.head.bottom &&
         x >= anchors.head.left &&
