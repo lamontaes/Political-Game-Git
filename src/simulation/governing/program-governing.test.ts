@@ -8,8 +8,13 @@ import {
   nextMeasureStableKey,
   recordEnactment,
 } from "../legislation";
-import { createLegislativeScenario } from "../legislation-scenarios";
-import { createStableId } from "../ids";
+import {
+  createLegislativeScenario,
+  seatBodyForPack,
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
+} from "../legislation-scenarios";
+import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { createLightweightPerson } from "../people";
 import { createProductionPolicyCatalog } from "../production-catalog";
@@ -30,7 +35,7 @@ import {
   appropriationFromEnactedMeasure,
   openAppropriationsFor,
 } from "./program-governing";
-import type { EntityId, LegislativeEnactmentRecord, World } from "../types";
+import type { EntityId, World } from "../types";
 import { fileDraft } from "../../presentation/legislation-docket";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
 import { publishLegislativeTransition } from "../../presentation/publish-legislative-transition";
@@ -267,35 +272,61 @@ function enactedFederalRailFixture(): { world: World; measureId: EntityId } {
     principleScore: 1,
   });
   if (!filed) throw new Error("The federal rail bill was not compiled.");
-  // This writer fixture supplies the enacted record directly. Procedure and
-  // presentment are tested in their own route; only the consumer runs here.
-  const enactment: LegislativeEnactmentRecord = {
-    id: createStableId(
-      "legislative-enactment",
-      `${filed.measureId}:federal-writer-fixture`,
+  // Walk the canonical procedure so the writer sees an enactment with its
+  // legal action history and outcome event, rather than a forged ledger row.
+  const bodies = US_CONGRESS_RULE_PACK.chambers.map((chamber) =>
+    seatBodyForPack(
+      chamber.chamberKey,
+      chamber.name,
+      chamber.chamberKey === "senate" ? 100 : 435,
+      [],
+      false,
     ),
-    stableKey: "federal-writer-fixture:enactment",
-    sequence: filed.world.history.nextSequence,
+  );
+  const votePlan = Object.fromEntries(
+    US_CONGRESS_RULE_PACK.chambers.flatMap((chamber) => {
+      const body = bodies.find((row) => row.chamberKey === chamber.chamberKey)!;
+      return [
+        ...chamber.committees.map(
+          (committee) =>
+            [
+              votePlanKeyForCommittee(committee.committeeKey),
+              { yea: committee.appointedMembers },
+            ] as const,
+        ),
+        ...chamber.floorStages.map(
+          (stage) =>
+            [
+              votePlanKeyForFloor(chamber.chamberKey, stage.stageKey),
+              { yea: body.members.length },
+            ] as const,
+        ),
+      ];
+    }),
+  );
+  const procedure = {
+    pack: US_CONGRESS_RULE_PACK,
     measureId: filed.measureId,
-    resolvedAt: currentDate,
-    outcome: "enacted",
-    actDesignation: null,
-    effectiveAt: currentDate,
+    bodies,
+    committeeMemberCount: null,
+    votePlan,
+    governorAction: "signed" as const,
+    governorRationale: "The President signed the fixture bill.",
   };
-  return {
-    world: {
-      ...filed.world,
-      history: {
-        ...filed.world.history,
-        legislativeEnactments: [
-          ...(filed.world.history.legislativeEnactments ?? []),
-          enactment,
-        ],
-        nextSequence: filed.world.history.nextSequence + 1,
-      },
-    },
-    measureId: filed.measureId,
-  };
+  let enacted = filed.world;
+  for (
+    let guard = 0;
+    guard < 24 && measurePosition(enacted, filed.measureId).phase !== "enacted";
+    guard++
+  ) {
+    const step = availableMeasureSteps(enacted, filed.measureId).find(
+      (key) => key !== "offer-amendment" && key !== "request-committee-hearing",
+    );
+    if (!step) break;
+    enacted = applyLegislativeStep(procedure, enacted, step).world;
+  }
+  expect(measurePosition(enacted, filed.measureId).outcome).toBe("enacted");
+  return { world: enacted, measureId: filed.measureId };
 }
 
 describe("mapped federal appropriation writer", () => {
