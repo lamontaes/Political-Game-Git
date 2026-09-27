@@ -7478,6 +7478,11 @@ body:where(.pg-game) .game-campaign-tallies {
   align-self: flex-end;
   box-sizing: border-box;
   width: min(22rem, 100%);
+  max-height: calc(
+    var(--pg-vv-height, 100dvh) - var(--pg-content-top) -
+      var(--pg-nav-reserve, 5.5rem) - 3rem
+  );
+  overflow-y: auto;
   margin-bottom: var(--pg-nav-reserve, 5.5rem);
   padding: 0.8rem 0.9rem 0.9rem;
   color: var(--run-a-ink);
