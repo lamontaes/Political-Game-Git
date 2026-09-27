@@ -25,6 +25,7 @@ import { stableHash } from "../ids";
 import { programFamilyTitle } from "./program-families";
 import {
   programVariant,
+  standingAuthority,
   type ProgramVariant,
 } from "../legislation-program-families";
 import {
@@ -301,7 +302,8 @@ export function appropriationFromEnactedMeasure(
       const programKey =
         serviceProfile?.programKey ??
         transitProfile?.programKey ??
-        programKeyForGovernment(lineage.familyKey, governmentScope);
+        programKeyForEnactedAppropriation(lineage, governmentScope);
+      if (!programKey) continue;
       const written = recordAdoptedAppropriation(next, {
         familyKey: lineage.familyKey,
         ...(stateUsps ? { stateUsps } : {}),
@@ -383,7 +385,10 @@ export function appropriationFromEnactedMeasure(
   const programKey =
     serviceProfile?.programKey ??
     transitProfile?.programKey ??
-    programKeyForGovernment(familyKey, governmentScope);
+    (lineage
+      ? programKeyForEnactedAppropriation(lineage, governmentScope)
+      : programKeyForGovernment(familyKey, governmentScope));
+  if (!programKey) return world;
   const written = recordAdoptedAppropriation(world, {
     familyKey,
     ...(stateUsps ? { stateUsps } : {}),
@@ -916,6 +921,35 @@ function programKeyForGovernment(
   return scope.stateUsps
     ? governingProgramKey(familyKey, scope.stateUsps)
     : `${familyKey}:${scope.programKeySuffix}`;
+}
+
+/**
+ * A spending authority belongs to one program, not to every appropriation in
+ * its state. A standing key names one authored program, so later bills against
+ * that same key keep its identity. A docket measure may contain several
+ * programs; its bill ID and aggregate ceiling are not a target program.
+ */
+function programKeyForEnactedAppropriation(
+  lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
+  scope: PublicProgramGovernmentScope,
+): string | null {
+  if (lineage.authorityMeasureId !== undefined || !lineage.authorityKey)
+    return null;
+  const authority = standingAuthority(lineage.authorityKey);
+  if (authority?.kind !== "standing-statute" || !authority.authorizesSpending)
+    return null;
+  // Existing state transit saves use this key. Other variants against the
+  // same named fund must join it rather than create a second transit program.
+  if (lineage.authorityKey === TRANSIT_PROGRAM_KEY && scope.stateUsps)
+    return governingProgramKey("transit", scope.stateUsps);
+  // The other currently authored spending authority is the school fund.
+  // Keep its existing state key so saved school appropriations and later
+  // supplementals remain in one program without rewriting old records.
+  if (lineage.authorityKey === "standing:school-facilities")
+    return programKeyForGovernment(lineage.familyKey, scope);
+  const target = lineage.authorityKey.slice("standing:".length);
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(target)) return null;
+  return `${lineage.familyKey}:${scope.programKeySuffix}-${target}`;
 }
 
 /** The organization the money is paid to when an office commits a program. */
