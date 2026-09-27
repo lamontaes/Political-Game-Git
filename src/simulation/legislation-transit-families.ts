@@ -186,6 +186,12 @@ export const TRANSIT_SERVICE_VARIANT: ProgramVariant = {
 export const STATE_TRANSIT_SERVICE_VARIANT: ProgramVariant = {
   ...TRANSIT_SERVICE_VARIANT,
   variantKey: STATE_TRANSIT_VARIANT_KEY,
+  // An adopted invitation is scoped by jurisdiction and segment key, not by
+  // variant. Keep Alaska v1's saved key and give this state-wide v2 its own.
+  amendmentInvitation: {
+    ...TRANSIT_SERVICE_VARIANT.amendmentInvitation,
+    segmentKey: "transit.state-service-reporting",
+  },
   npcEligibility: [
     {
       propositionKey:

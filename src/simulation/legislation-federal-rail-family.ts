@@ -137,7 +137,7 @@ export const FEDERAL_PASSENGER_RAIL_VARIANT: ProgramVariant = {
             "The federal rail game-profile authority is missing.",
           );
         return clause(
-          `Under the federal game-profile authority, this appropriation is for ${authority.programLabel}. It cites no real statute and establishes no route or service entitlement.`,
+          `Under ${authority.citationLabel}, the federal game-profile appropriation is for ${authority.programLabel}. It cites no real statute and establishes no route or service entitlement.`,
         );
       },
     },

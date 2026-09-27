@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { compileBankConfigurationForTest } from "../../tests/fixtures/legislation-bank-draft";
 
 import {
   BillConfigurationError,
@@ -145,16 +146,7 @@ function compileAnywhere(
   familyKey: string,
   variantKey: string,
 ): CompiledBillDraft {
-  const { variant } = programVariant(familyKey, variantKey);
-  const rule = legalInstrumentRule(variant.instrument);
-  if (!rule.requiresPredicateAuthority) return compile(familyKey, variantKey);
-  const authority = standingAuthorities().find((candidate) =>
-    rule.predicateMustAuthorizeSpending ? candidate.authorizesSpending : true,
-  );
-  expect(authority).toBeDefined();
-  return compile(familyKey, variantKey, {
-    predicateAuthority: authority as PredicateAuthority,
-  });
+  return compileBankConfigurationForTest(familyKey, variantKey);
 }
 
 describe("the program bank offers genuinely different families", () => {

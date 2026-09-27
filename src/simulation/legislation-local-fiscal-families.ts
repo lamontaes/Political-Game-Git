@@ -135,7 +135,7 @@ export const LOCAL_FIX_IT_FIRST_VARIANT: ProgramVariant = {
         if (!authority)
           throw new Error("The local maintenance authority is missing.");
         return clause(
-          `Under the local public-works game profile, this appropriation is for ${authority.programLabel}. It establishes no separate service or project entitlement.`,
+          `Under ${authority.citationLabel}, the local public-works game-profile appropriation is for ${authority.programLabel}. It establishes no separate service or project entitlement.`,
         );
       },
     },
