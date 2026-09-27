@@ -1,10 +1,9 @@
 import { ARTICLE_V_STATE_KEYS } from "../simulation/constitutional-process";
-import { legislativeBlueprint } from "../simulation/legislation-scenarios";
+import { legislativePackForJurisdiction } from "../simulation/legislative-institutions";
 import { standingAuthority } from "../simulation/legislation-program-families";
 import { TRANSIT_PROGRAM_KEY } from "../simulation/legislation-transit-families";
 import { stateJurisdictionForKey } from "../simulation/life-places";
 import { MUNICIPAL_GOVERNMENTS_JSON } from "../simulation/municipal-governments.generated";
-import { PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY } from "../simulation/public-fiscal";
 import {
   RULES_CAPABILITY_VERSION,
   resolveCapability,
@@ -13,13 +12,9 @@ import { taxPowerEvidenceFor } from "../simulation/tax-policy";
 import { drawStateTaxServiceStartingConditions } from "../simulation/world-setup/state-tax-service-profiles";
 import type { StateTaxServiceStartingProfile } from "../simulation/world-setup/types";
 import type { IsoDate } from "../simulation/types";
-import {
-  ALASKA_RECORDED_SITTING,
-  ALASKA_REVENUE_RECORDED_SITTING,
-} from "./legislative-authored-sitting";
 
 /**
- * One funded-service route for every state: decision -> collected public cash
+ * One funded-service route for every state: decision -> recorded public cash
  * -> payment -> delivered service. The legal institution comes from RULES'
  * scoped resolver (rules-capability/v1); the fields that resolver does not
  * carry for a state (decision producers, tax power, the funding effective-date
@@ -49,7 +44,7 @@ const FIELD_LABEL: Readonly<Record<FundedServiceField, string>> = {
   "funding-effective-date":
     "a sourced or versioned-profile effective-date and availability rule",
   "service-program": "an authored standing service program",
-  "public-account": "a public receipts account that collected taxes can fund",
+  "public-account": "a public account that can hold recorded cash",
 };
 
 /** Fields rules-capability/v1 has no state-scope answer for, stated in each basis. */
@@ -85,23 +80,26 @@ export function resolveStateFundedServiceCapability(
     onDate,
   }).fields.find((entry) => entry.field === "institution.form");
   const institutionAdmitted = institution?.state === "ADMITTED";
-  // Only Alaska has the fixed authored sitting in this checkout. A state's
-  // tax/service profile is not evidence that its chamber has a usable ballot
-  // and institutional-clock route.
-  const alaskaRoute =
-    legislativeBlueprint("alaska").pack.jurisdictionKey === jurisdictionKey;
-  const sittings = institutionAdmitted && alaskaRoute;
-  const admittedServiceProgramKey = alaskaRoute
-    ? TRANSIT_PROGRAM_KEY
-    : (savedProfile?.appropriation.programKey ?? null);
+  // The game-profile legislature has the ordinary member ballot and clock
+  // adapter even where the sourced capability index has no compiled pack.
+  // This is route availability, not a claim that a chamber is seated today.
+  const jurisdiction = stateJurisdictionForKey(jurisdictionKey);
+  const pack =
+    jurisdiction && ARTICLE_V_STATE_KEYS.includes(jurisdictionKey)
+      ? legislativePackForJurisdiction(jurisdiction.id)
+      : null;
+  const decisionRoute = pack !== null;
+  const defaultServiceProgramKey =
+    savedProfile?.appropriation.programKey ??
+    (decisionRoute ? TRANSIT_PROGRAM_KEY : null);
   const serviceProgramKey =
-    requiredServiceProgramKey ?? admittedServiceProgramKey;
+    requiredServiceProgramKey ?? defaultServiceProgramKey;
   const power = taxPowerEvidenceFor(jurisdictionKey);
   const hasTaxAuthority = power !== null || savedProfile !== null;
   const serviceAuthorityKey =
     savedProfile && serviceProgramKey === savedProfile.appropriation.programKey
       ? savedProfile.appropriation.authorityKey
-      : alaskaRoute && serviceProgramKey === TRANSIT_PROGRAM_KEY
+      : decisionRoute && serviceProgramKey === TRANSIT_PROGRAM_KEY
         ? TRANSIT_PROGRAM_KEY
         : null;
   const reading = (
@@ -117,20 +115,22 @@ export function resolveStateFundedServiceCapability(
   const readings: FundedServiceReading[] = [
     reading(
       "legislative-procedure",
-      institutionAdmitted,
-      `${RULES_CAPABILITY_VERSION} institution.form (${institution?.ruleVersion}): ${institution?.source?.citation ?? "admitted"}.`,
+      institutionAdmitted || decisionRoute,
+      institutionAdmitted
+        ? `${RULES_CAPABILITY_VERSION} institution.form (${institution?.ruleVersion}): ${institution?.source?.citation ?? "admitted"}.`
+        : `Versioned ${pack?.packId} legislature game profile supplies the institutional route; this is not sourced state law.`,
       `${RULES_CAPABILITY_VERSION} institution.form: ${institution?.reason ?? "not established"}`,
     ),
     reading(
       "appropriation-decision",
-      sittings,
-      `Recorded fictional sitting ${ALASKA_RECORDED_SITTING}. ${OUTSIDE_RULES}`,
+      decisionRoute,
+      `Member ballots and the institutional clock for ${pack?.packId}. ${OUTSIDE_RULES}`,
       `No admitted member-ballot and institutional-clock route supplies the required decisions for this appropriation. A saved tax/service profile does not substitute for legislative procedure. ${OUTSIDE_RULES}`,
     ),
     reading(
       "revenue-decision",
-      sittings,
-      `Recorded fictional sitting ${ALASKA_REVENUE_RECORDED_SITTING}. ${OUTSIDE_RULES}`,
+      decisionRoute,
+      `Member ballots and the institutional clock for ${pack?.packId}. ${OUTSIDE_RULES}`,
       `No admitted member-ballot and institutional-clock route supplies the required decisions for this revenue bill. A saved tax/service profile does not substitute for legislative procedure. ${OUTSIDE_RULES}`,
     ),
     reading(
@@ -145,24 +145,21 @@ export function resolveStateFundedServiceCapability(
     ),
     reading(
       "funding-effective-date",
-      (power !== null &&
-        jurisdictionKey === PUBLIC_FUNDING_DEFAULT_DATE_JURISDICTION_KEY) ||
-        savedProfile !== null,
+      decisionRoute && (savedProfile !== null || power !== null),
       savedProfile
         ? `${savedProfile.taxTerms.effectiveDelayDays} days after enactment and ${savedProfile.appropriation.availabilityDays} days of modeled availability under ${savedProfile.profileId}. ${OUTSIDE_RULES}`
-        : `Ninety days after enactment, with an authored 365-day availability. ${OUTSIDE_RULES}`,
+        : `The enacted law's operative date and recorded availability control payment. ${OUTSIDE_RULES}`,
       `No effective-date and availability rule is saved for this state's appropriations. ${OUTSIDE_RULES}`,
     ),
     reading(
       "service-program",
       serviceProgramKey !== null &&
-        serviceProgramKey === admittedServiceProgramKey &&
         serviceAuthorityKey !== null &&
         standingAuthority(serviceAuthorityKey) !== null,
       savedProfile &&
         serviceProgramKey === savedProfile.appropriation.programKey
         ? `${serviceAuthorityKey} is a fictional authored standing program from this saved state service profile.`
-        : alaskaRoute && serviceProgramKey === TRANSIT_PROGRAM_KEY
+        : decisionRoute && serviceProgramKey === TRANSIT_PROGRAM_KEY
           ? "Authored standing rural transit assistance program (fictional content)."
           : "",
       "The selected standing service program is unavailable for this state.",
@@ -170,8 +167,8 @@ export function resolveStateFundedServiceCapability(
     reading(
       "public-account",
       hasTaxAuthority,
-      "Opened at zero with the first filed tax; only collected taxes add cash.",
-      "Without a supported tax source or saved fictional profile, no public receipts account can hold collected cash.",
+      "The same-jurisdiction public account can hold a saved world's fictional opening cash and later collected taxes. Its actual balance and each payment are checked separately.",
+      "Without a supported tax source or saved fictional profile, no public-account route is compiled for this state.",
     ),
   ];
   const missing = readings
@@ -252,28 +249,29 @@ export function renderFundedServiceCoverage(
     "Generated by `node --import tsx scripts/civic-service/coverage.ts`; check",
     "with `--check`. Do not edit by hand.",
     "",
-    "The funded-service route (appropriation and tax through their decisions,",
-    "collected public cash, paid delivery) is resolved per state on",
-    `${coverage.onDate}. The legislative institution comes from`,
+    "Required fields for a funded-service route (appropriation and tax decisions,",
+    "recorded public cash, and a paid-delivery adapter) are resolved per state on",
+    `${coverage.onDate}. This inventory does not prove enactment, payment, or`,
+    "resident delivery in an ordinary game. The legislative institution comes from",
     `${RULES_CAPABILITY_VERSION}; live tax and service assumptions come from`,
     "the current save. Nationwide inventory uses a deterministic test profile set.",
     "",
-    `States with the full route: ${supported.length} of ${coverage.states.length} (${
+    `States with every required field: ${supported.length} of ${coverage.states.length} (${
       supported.map((row) => row.name).join(", ") || "none"
     }).`,
     "",
-    "| State | Route | Missing |",
+    "| State | Fields | Missing |",
     "| --- | --- | --- |",
     ...coverage.states.map(
       (row) =>
-        `| ${row.name} | ${row.supported ? "playable" : "not yet"} | ${
+        `| ${row.name} | ${row.supported ? "available" : "missing"} | ${
           row.missing.join(", ") || "none"
         } |`,
     ),
     "",
     "## Local governments",
     "",
-    `Loaded local governments: ${coverage.local.governments} across ${coverage.local.stateKeys} state keys. With the full route: ${coverage.local.supported}.`,
+    `Loaded local governments: ${coverage.local.governments} across ${coverage.local.stateKeys} state keys. With every required field: ${coverage.local.supported}.`,
     "",
     "Every local government currently lacks:",
     "",
