@@ -13,7 +13,7 @@ import {
   serializeWorld,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import { chooseAdultOption } from "./adult-life";
+import { chooseAdultOption, letAdultTimePass } from "./adult-life";
 
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
@@ -26,7 +26,17 @@ import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 import { fixture as p2r1Fixture } from "../../tests/support/p2r1-worlds";
-/** A new life keeps grounded requests and choices across quiet weeks. */
+
+/**
+ * The audited collapse, and the route out of it.
+ *
+ * P2A2 reproduced an adult life that ran out after a week of errands. The
+ * errand producer has since been retired. This suite holds the remaining
+ * record-backed routes, clock, and save continuation to their own contracts.
+ *
+ * The original audit worlds and seeds remain here. Quiet intervals now move
+ * through the shell clock; a missing situation must not manufacture a choice.
+ */
 
 function newLife(overrides: Partial<NewGameSetup> = {}): {
   world: World;
@@ -86,47 +96,69 @@ function playThrough(
   return { world, scenes, quiet };
 }
 
-describe("grounded opportunities in a sparse life", () => {
-  const built = p2r1Fixture();
-  const world = refreshLifeOpportunities(built.world, built.personId);
-  const personId = built.personId;
+describe("the week runs out, and the life does not", () => {
+  /** The audited world, unchanged: P2R1's own minimal-premise fixture. */
+  function audited() {
+    const built = p2r1Fixture();
+    return {
+      world: refreshLifeOpportunities(built.world, built.personId),
+      personId: built.personId,
+    };
+  }
 
-  it("offers a scene grounded in an open request", () => {
+  it("leaves that same world with somewhere to go anyway", () => {
+    const { world, personId } = audited();
+    const finished = advanceWorldMinutes(world, 151);
+    // Requests actually made are still open and answerable.
     const offered = availableAdultSituations(
-      buildAdultLifeContext(world, personId),
+      buildAdultLifeContext(finished, personId),
     );
     expect(offered.length).toBeGreaterThan(0);
-    expect(
-      offered.every((situation) => situation.opportunity !== undefined),
-    ).toBe(true);
-    expect(projectStoryMoment(world, personId).scene.kind).not.toBe(
+    for (const situation of offered) {
+      expect(situation.opportunity).toBeDefined();
+    }
+    expect(projectStoryMoment(finished, personId).scene.kind).not.toBe(
       "ordinary-stretch",
     );
   });
 
-  it("keeps those opportunities after 151, 600, and 5,000 elapsed minutes", () => {
-    let current = world;
-    for (const minutes of [151, 600, 5_000]) {
+  it("does not restore retired scenes when the clock moves", () => {
+    const { world, personId } = audited();
+    let current = advanceWorldMinutes(world, 151);
+    for (const minutes of [600, 5_000]) {
       current = advanceWorldMinutes(current, minutes);
       assertWorldIntegrity(current);
     }
     expect(lifeOpportunitiesFor(current, personId).length).toBeGreaterThan(0);
+    const played = refreshLifeOpportunities(
+      letAdultTimePass(current, 21),
+      personId,
+    );
+    const offered = availableAdultSituations(
+      buildAdultLifeContext(played, personId),
+    ).map((situation) => situation.key);
+    for (const retired of [
+      "adult.household-standing",
+      "adult.household-quiet-evening",
+      "adult.friend-favour",
+      "adult.work-extra-hours",
+      "adult.ordinary-good-day",
+    ]) {
+      expect(offered).not.toContain(retired);
+    }
   });
 });
 
 describe("a normal route stays a normal route", () => {
   for (const seed of ["p2r2-sustained", "adaptive-life-test", "p1-quiet"]) {
-    it(`lets ${seed} continue through real requests and quiet weeks`, () => {
+    it(`lets ${seed} continue through choices and quiet weeks`, () => {
       const { world, personId } = newLife({ seed });
       const played = playThrough(world, personId, 18);
       assertWorldIntegrity(played.world);
-      // The old variety count included grocery and leisure prompts. The
-      // existing grounded requests remain answerable after those are removed.
+      // The shell clock continues when no record-backed choice is offered.
+      // Scene breadth is an open content gap after retirement of routine
+      // activities; this check only verifies that the remaining route works.
       expect(played.scenes).toContain("adult.local-issue-position");
-      expect(played.scenes).toContain("adult.friend-favour");
-      expect(played.scenes).not.toContain("adult.household-standing");
-      expect(played.scenes).not.toContain("adult.ordinary-good-day");
-      expect(played.scenes).not.toContain("adult.home.plan-week");
       expect(played.quiet).toBeGreaterThan(0);
       const tail = playThrough(played.world, personId, 6);
       assertWorldIntegrity(tail.world);
@@ -157,9 +189,7 @@ describe("a normal route stays a normal route", () => {
     const before = serializeWorld(world);
     // A scene whose request nobody made cannot be reached by naming it.
     for (const [key, option] of [
-      ["adult.friend-favour", "do-it"],
       ["adult.candidacy-approach", "say-maybe"],
-      ["adult.work-extra-hours", "take-them"],
     ] as const) {
       if (
         availableAdultSituations(buildAdultLifeContext(world, personId)).some(

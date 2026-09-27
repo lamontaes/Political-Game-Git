@@ -8,7 +8,7 @@ import type { ShellRef } from "../presentation/shell-navigation";
  * What this life can be expected to remember.
  *
  * The mount for PEOPLE's `projectRecallCards` seam (CRUNCH47 B1/P4). A card is
- * one thing somebody asked of them, or one thing they said, with the day it
+ * one thing they said, with the day it
  * happened. It is not a transcript and it reveals nothing: every card is
  * already the played person's own knowledge.
  *
@@ -44,8 +44,7 @@ export function RecallCardsPanel({
       <h3 id="recall-cards-title">What you remember</h3>
       {cards.length === 0 ? (
         <p data-testid="recall-cards-empty">
-          Nothing has been asked of you yet, and you have not gone on the record
-          with anybody.
+          You have not gone on the record with anybody yet.
         </p>
       ) : (
         <ul className="pg-recall-list">
@@ -54,7 +53,6 @@ export function RecallCardsPanel({
               key={card.eventId}
               data-testid={`recall-card-${card.eventId}`}
               data-kind={card.kind}
-              data-open-question={card.openQuestion ? "true" : "false"}
             >
               <strong>{card.title}</strong>
               <span className="pg-recall-line">{card.onSpoken}</span>

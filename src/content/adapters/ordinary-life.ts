@@ -28,9 +28,9 @@ const SOURCE_MODULE = "src/presentation/ordinary-life.ts";
  * at the moment it creates the work item, from a world, for a person. None of
  * it is declared by the bank.
  *
- * The index used to report all of it as though the bank had said it, and to
- * report a household-obligation conversation as a follow-up of the meeting —
- * a link that appears nowhere in this module and was false. This is the same rule the formative situations are
+ * The index used to report all of it as though the bank had said it, including
+ * a conversation follow-up absent from the public meeting. This is the same
+ * rule the formative situations are
  * held to: a procedural gate is named where it lives and reported undeclared
  * here, rather than restated as a declarative fact the source never wrote down.
  */
@@ -78,7 +78,7 @@ function toItem(definition: OrdinaryLifeWorkItemDefinition): ContentItem {
       "The week is opened as a work item; what can be done about it comes from the ordinary work-item and conversation surfaces rather than from this bank.",
     ),
     followUps: undeclared(
-      "The authored item names nothing that follows it. The module contains no link from either work item to a conversation subject or to any other content, so there is none to report.",
+      "The authored item names nothing that follows it. The module contains no link from this work item to a conversation subject or to any other content, so there is none to report.",
     ),
     attributes: declared([
       {

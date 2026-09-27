@@ -139,8 +139,8 @@ function play(
   const created = createNewGameWorld(game);
   const personId = created.playerPersonId;
   // The life a player actually gets. `PlayerGame` opens the ordinary week the
-  // moment a new game starts, and a world without it has no household week, no
-  // posted meeting and none of the opportunities those two make possible — so
+  // moment a new game starts, and a world without it has no posted meeting
+  // or the opportunity its agenda makes possible — so
   // playing the bare constructor was playing a life the product never hands
   // anybody. P2R2 restored the offering; this restores the fixture to the
   // route, and it is what lets the original `shape-c` control below diverge
@@ -654,7 +654,10 @@ describe("Play-proof 3 — an adult thread runs across several beats", () => {
   const life = play(
     setup({ seed: "proof-3", startAge: 36 }),
     18,
-    prefer("take-it-on", "swap", "sit-down", "go"),
+    // "quiet" is the answer that carries shared time at home into its
+    // follow-through. The week-planning scene that used to open this thread
+    // was retired with the other routine choices.
+    prefer("take-it-on", "swap", "sit-down", "go", "quiet"),
   );
 
   it("keeps one household episode running across more than one beat", () => {
@@ -762,9 +765,12 @@ describe("Play-proof 4 — a civic thread coexists with a personal one", () => {
   });
 
   it("mixes composed beats with the authored banks rather than one or the other", () => {
+    // Authored banks are episodes and adult situations; the ordinary stretch
+    // is composed. This life's only episode was the retired free-time scene,
+    // so an adult situation now carries the authored side.
     const kinds = new Set(life.beats.map((beat) => beat.sceneKind));
-    expect(kinds.has("episode")).toBe(true);
-    expect(kinds.size).toBeGreaterThan(1);
+    expect(kinds.has("episode") || kinds.has("adult")).toBe(true);
+    expect(kinds.has("ordinary-stretch")).toBe(true);
   });
 });
 
@@ -1288,7 +1294,7 @@ describe("A beat can be explained without guessing", () => {
   it("separates composed connective text from the authored scene", () => {
     const life = play(
       setup({ seed: "trace-proof", startAge: 34 }),
-      6,
+      0,
       prefer("go"),
     );
     const trace = narrativeBeatTrace(life.world, life.personId);

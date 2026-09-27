@@ -55,11 +55,11 @@ describe("the papers say where each thing is answered", () => {
     expect(papers.length).toBeGreaterThan(1);
 
     const kinds = new Set(papers.map((paper) => paper.destination.kind));
-    // An ordinary week puts the errands and the posted meeting in front of
-    // somebody, and the offer is waiting on top of them: an errand answered
-    // where they stand, a meeting that is a commitment, and work elsewhere.
+    // An ordinary week puts the posted meeting in front of somebody, and the
+    // offer is waiting on top of it: a meeting that is a commitment, and work
+    // elsewhere. The household errands that were answered where the player
+    // stood were retired with the chores (September 26, 2026).
     expect(kinds.size).toBeGreaterThan(1);
-    expect(kinds.has("here")).toBe(true);
     expect(kinds.has("commitment")).toBe(true);
     expect(kinds.has("surface")).toBe(true);
   });
