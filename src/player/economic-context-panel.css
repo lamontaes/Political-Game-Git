@@ -103,6 +103,16 @@
   stroke-width: 2;
 }
 
+.economic-axis-label,
+.economic-axis-period {
+  fill: var(--run-a-muted);
+  font-size: 14px;
+}
+
+.economic-axis-label {
+  font-weight: 600;
+}
+
 .economic-line {
   fill: none;
   stroke: #71b8d8;

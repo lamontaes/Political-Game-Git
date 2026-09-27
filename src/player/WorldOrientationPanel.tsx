@@ -26,6 +26,7 @@ import { isTerritoryUsps } from "../simulation/state-reference";
 import { OpeningStatePopulation } from "./OpeningStatePopulation";
 import { OpeningStateVoting } from "./OpeningStateVoting";
 import { SavedPersonFigure } from "./SavedPersonFigure";
+import { WorldTrendPanel } from "./WorldTrendPanel";
 import { SceneChapterTransition } from "./SceneChapterTransition";
 import { projectLivingSceneOpening } from "../presentation/living-scene-facts";
 import { candidateEstablishingPlate } from "./candidate-establishing-plate";
@@ -132,6 +133,13 @@ export function WorldOrientationPanel({
               }
             : step,
         ),
+      {
+        key: "your-world",
+        title: "Your world",
+        summary: "The numbers this world has recorded over time.",
+        people: [],
+        chambers: [],
+      },
       {
         key: "your-life",
         title: "Your life so far",
@@ -463,6 +471,16 @@ export function WorldOrientationPanel({
                     </li>
                   ))}
                 </ul>
+              ) : null}
+
+              {step.key === "your-world" &&
+              world &&
+              personId &&
+              world.people[personId]?.homeJurisdictionId ? (
+                <WorldTrendPanel
+                  world={world}
+                  jurisdictionId={world.people[personId]!.homeJurisdictionId}
+                />
               ) : null}
 
               {step.key === "your-life" && snapshot ? (

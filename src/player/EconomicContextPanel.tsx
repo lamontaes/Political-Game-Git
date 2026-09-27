@@ -328,6 +328,11 @@ export function EconomicGraph({
   const minimum = Math.min(...values, 0);
   const maximum = Math.max(...values, 0);
   const range = maximum - minimum || 1;
+  const periods = graph.series[0]?.points ?? [];
+  const firstPeriod = periods[0] ? graphPeriodInWords(periods[0].period) : null;
+  const lastPeriod = periods.at(-1)
+    ? graphPeriodInWords(periods.at(-1)!.period)
+    : null;
 
   return (
     <figure className="economic-graph" data-graph-kind={graph.kind}>
@@ -354,7 +359,7 @@ export function EconomicGraph({
         </span>
       </figcaption>
       <svg
-        viewBox="0 0 640 220"
+        viewBox="0 0 640 240"
         role="img"
         aria-label={
           diagnostics
@@ -364,6 +369,35 @@ export function EconomicGraph({
       >
         <line className="economic-axis" x1="52" y1="12" x2="52" y2="184" />
         <line className="economic-axis" x1="52" y1="184" x2="626" y2="184" />
+        <text
+          className="economic-axis-label"
+          transform="translate(19 103) rotate(-90)"
+        >
+          Value
+        </text>
+        <text
+          className="economic-axis-label"
+          x="339"
+          y="232"
+          textAnchor="middle"
+        >
+          Time
+        </text>
+        {firstPeriod ? (
+          <text className="economic-axis-period" x="52" y="207">
+            {firstPeriod}
+          </text>
+        ) : null}
+        {lastPeriod && lastPeriod !== firstPeriod ? (
+          <text
+            className="economic-axis-period"
+            x="626"
+            y="207"
+            textAnchor="end"
+          >
+            {lastPeriod}
+          </text>
+        ) : null}
         {graph.kind === "comparison-bars"
           ? graph.series.map((series, index) => {
               const point = series.points[0];
@@ -432,7 +466,9 @@ export function EconomicGraph({
                   <tr key={point.pointKey}>
                     <th scope="row">{series.label}</th>
                     <td>
-                      {diagnostics ? point.period : periodInWords(point.period)}
+                      {diagnostics
+                        ? point.period
+                        : graphPeriodInWords(point.period)}
                     </td>
                     {diagnostics ? (
                       <td>{recordClassLabel(point.recordClass)}</td>
@@ -464,6 +500,17 @@ export function EconomicGraph({
       ) : null}
     </figure>
   );
+}
+
+/** Saved macro periods already arrive as spoken month and quarter labels. */
+function graphPeriodInWords(period: string): string {
+  if (
+    /^(?:January|February|March|April|May|June|July|August|September|October|November|December|Q[1-4]) \d{4}$/.test(
+      period,
+    )
+  )
+    return period;
+  return periodInWords(period);
 }
 
 function lineSegments(

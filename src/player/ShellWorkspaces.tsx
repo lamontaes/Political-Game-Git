@@ -1448,6 +1448,18 @@ export function MeasureSurface({
           {readableDatesIn(briefing.outcomeNote)}
         </p>
       ) : null}
+      <section
+        className="pg-personal-section"
+        aria-label="Public opinion over time"
+        data-testid="measure-opinion-series-unavailable"
+      >
+        <h3>Public opinion over time</h3>
+        <p>
+          No aggregate, dated public opinion series is available for this
+          measure. The votes below show what lawmakers did; they do not measure
+          what the public thinks.
+        </p>
+      </section>
       {briefing.votes.length > 0 ? (
         <section className="pg-personal-section">
           <h3>Votes</h3>
