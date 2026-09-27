@@ -24,8 +24,6 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
-import { createOrganizationParticipation } from "../simulation/life";
-import { PARTY_AFFILIATION_KIND } from "../simulation/living-world/opening";
 import { CampaignActionChoicesPanel } from "./CampaignActionChoicesPanel";
 import { CampaignWorkspace } from "./CampaignWorkspace";
 
@@ -55,16 +53,6 @@ beforeAll(() => {
   );
   const chapter = homePartyChapters(unhostedWorld)[0]!;
   world = joinPartyChapter(unhostedWorld, personId, chapter.organizationId);
-  world = createOrganizationParticipation(world, {
-    stableKey: "team-e-ui:explicit-public-party-affiliation",
-    personId,
-    organizationId: chapter.partyOrganizationId,
-    startedAt: world.currentDate,
-    kind: PARTY_AFFILIATION_KIND,
-    roleKind: "member:public-affiliation",
-    context: "Test fixture public affiliation",
-    provenance: { kind: "authored", note: "Test fixture affiliation" },
-  });
   world = requestPartyWork(
     world,
     personId,
