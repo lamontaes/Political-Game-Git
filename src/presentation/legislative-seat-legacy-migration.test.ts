@@ -1,4 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { setWorldIntegrityCheckMode } from "../simulation/world-integrity-changed";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import {
   adultLifeIn,
@@ -22,6 +23,17 @@ import {
 import type * as LegislativeOfficeTerms from "../simulation/legislative-office-terms";
 import { passOrdinaryDays } from "./ordinary-life";
 import { projectWorkRole } from "./day-overview";
+
+// These cases pass whole terms with fifty legislatures sitting. They check
+// what a Day changed, as play does; the full check after every write is proved
+// by the world-integrity tests, and here it took half an hour for one term.
+let previousCheckMode: ReturnType<typeof setWorldIntegrityCheckMode>;
+beforeAll(() => {
+  previousCheckMode = setWorldIntegrityCheckMode("changed");
+});
+afterAll(() => {
+  setWorldIntegrityCheckMode(previousCheckMode);
+});
 
 /*
  * An older save, written the way the game wrote it before every state's

@@ -1,4 +1,5 @@
 import { applyCharacterHistoryPlan } from "../character-history";
+import { recordsByKey, recordsByStringField } from "../history-index";
 import type { CharacterHistoryTransition } from "../character-history";
 import { makeIsoDate } from "../dates";
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
@@ -446,7 +447,20 @@ export function currentStateExecutiveHolders(
     string,
     (typeof world.history.events)[number]
   >();
-  for (const event of world.history.events) {
+  // Only office consequences and state executive tenures bear on this; an
+  // index of those (following appends) replaces a walk of every event.
+  const holderEvents = recordsByKey(
+    world.history.events,
+    "state-executives:holder-events",
+    (event) =>
+      event.type === OFFICE_CONSEQUENCE_EVENT_TYPE ||
+      (event.type === "world.office-tenure" &&
+        event.stableKey.startsWith(`${STATE_EXECUTIVE_WRITER_VERSION}:`))
+        ? ["holder"]
+        : [],
+    "holder",
+  );
+  for (const event of holderEvents) {
     if (event.type === OFFICE_CONSEQUENCE_EVENT_TYPE) {
       const closed = event.tags.find((tag) =>
         tag.startsWith(OFFICE_TERM_CLOSED_TAG),
@@ -479,47 +493,37 @@ export function currentStateExecutiveHolders(
     )
       latestTenuresByPrefix.set(prefix, event);
   }
-  const executiveRelationshipsByOrganization = new Map<
-    EntityId,
-    (typeof world.history.workRelationships)[number][]
-  >();
-  for (const relationship of world.history.workRelationships) {
-    if (
-      relationship.kind !== "employment:executive-office" ||
-      !relationship.organizationId
-    )
-      continue;
-    const relationships =
-      executiveRelationshipsByOrganization.get(relationship.organizationId) ??
-      [];
-    relationships.push(relationship);
-    executiveRelationshipsByOrganization.set(
-      relationship.organizationId,
-      relationships,
+  const executiveRelationshipsFor = (organizationId: EntityId) =>
+    recordsByKey(
+      world.history.workRelationships,
+      "state-executives:executive-office-by-organization",
+      (relationship) =>
+        relationship.kind === "employment:executive-office" &&
+        relationship.organizationId
+          ? [relationship.organizationId]
+          : [],
+      organizationId,
     );
-  }
   const deceasedPersonIds = new Set(
     world.history.personDeaths
       .filter((death) => death.diedAt <= world.currentDate)
       .map((death) => death.personId),
   );
-  const organizationsByStableKey = new Map(
-    world.history.organizations.map((organization) => [
-      organization.stableKey,
-      organization,
-    ]),
-  );
+  // The last organization with a stable key, as a map built from all of
+  // them would hold.
+  const organizationByStableKey = (stableKey: string) =>
+    recordsByStringField(
+      world.history.organizations,
+      "stableKey",
+      stableKey,
+    ).at(-1);
   for (const stateUsps of CHIEF_EXECUTIVE_JURISDICTIONS) {
     const office = stateExecutiveOffice(stateUsps);
     if (!office) continue;
-    const organization = organizationsByStableKey.get(
-      office.organizationStableKey,
-    );
+    const organization = organizationByStableKey(office.organizationStableKey);
     if (!organization) continue;
     if (vacatedOfficeKeys.has(office.officeKey)) continue;
-    const elected = (
-      executiveRelationshipsByOrganization.get(organization.id) ?? []
-    )
+    const elected = executiveRelationshipsFor(organization.id)
       .map((relationship) =>
         activeElectedExecutiveTermEvidence(world, relationship.id),
       )

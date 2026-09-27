@@ -1,4 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { setWorldIntegrityCheckMode } from "../simulation/world-integrity-changed";
 import {
   fileForOffice,
   namedSeatForFixture,
@@ -36,6 +37,18 @@ import { playCalendarActivity } from "./calendar-time-control";
 
 // Each case opens a new life, which now seats all fifty state legislatures.
 vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
+
+// These cases pass whole terms, about two years of Days with fifty
+// legislatures sitting. They check what a Day changed, as play does; the full
+// check after every write is proved by the world-integrity tests, and after
+// every write here it took eighteen minutes for one term.
+let previousCheckMode: ReturnType<typeof setWorldIntegrityCheckMode>;
+beforeAll(() => {
+  previousCheckMode = setWorldIntegrityCheckMode("changed");
+});
+afterAll(() => {
+  setWorldIntegrityCheckMode(previousCheckMode);
+});
 
 function seats(world: World, personId: EntityId) {
   return workRelationshipHistoryForPerson(world, personId).filter(

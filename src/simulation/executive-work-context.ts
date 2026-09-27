@@ -1,4 +1,5 @@
 import { eventById } from "./event-index";
+import { recordById, recordsByKey } from "./history-index";
 import { activeLifePathWorkers } from "./life-paths2-workers";
 import { lateTermEntryRecorded } from "./late-term-entry-events";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -195,22 +196,31 @@ export function electedExecutiveTermForRelationship(
   world: World,
   relationshipId: EntityId,
 ) {
-  const entry = world.history.futureDueItems.find(
-    (due) =>
-      due.transitionKey === EXECUTIVE_ELECTED_TERM_ENTRY &&
-      due.entityIds.includes(relationshipId),
+  // Every governing office asks this of its holder several times a Day, so
+  // each lookup reads an index rather than every due item and contest.
+  const naming = recordsByKey(
+    world.history.futureDueItems,
+    "executive-terms:due-by-entity",
+    (due) => due.entityIds,
+    relationshipId,
   );
-  const expiry = world.history.futureDueItems.find(
-    (due) =>
-      due.transitionKey === EXECUTIVE_ELECTED_TERM_EXPIRY &&
-      due.entityIds.includes(relationshipId),
+  const entry = naming.find(
+    (due) => due.transitionKey === EXECUTIVE_ELECTED_TERM_ENTRY,
   );
-  const relationship = world.history.workRelationships.find(
-    (record) => record.id === relationshipId,
+  const expiry = naming.find(
+    (due) => due.transitionKey === EXECUTIVE_ELECTED_TERM_EXPIRY,
   );
-  const contest = (world.history.electionContests ?? []).find((record) =>
-    entry?.entityIds.includes(record.id),
+  const relationship = recordById(
+    world.history.workRelationships,
+    relationshipId,
   );
+  // The first contest in history order that the entry names.
+  const contest = entry
+    ? entry.entityIds
+        .map((id) => recordById(world.history.electionContests ?? [], id))
+        .filter((record) => record !== undefined)
+        .sort((left, right) => left.sequence - right.sequence)[0]
+    : undefined;
   const result = contest ? electionContestResult(world, contest.id) : null;
   const outcome = result && eventById(world, result.outcomeEventId);
   const office =

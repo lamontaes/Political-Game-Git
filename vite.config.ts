@@ -61,6 +61,10 @@ export default defineConfig({
     // The deep "a handler never mutates its input" proof runs in every test;
     // shipped and scripted runs keep only the cheap shape check.
     setupFiles: ["tests/support/deep-transition-guard.ts"],
+    // A new game seats all fifty state legislatures, so a test that opens a
+    // life takes several seconds before it checks anything.
+    testTimeout: 30_000,
+    hookTimeout: 60_000,
     exclude: [
       ...configDefaults.exclude,
       "tests/e2e/**",

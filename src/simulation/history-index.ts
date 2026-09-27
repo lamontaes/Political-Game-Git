@@ -158,6 +158,59 @@ export function stableKeysOf(
   );
 }
 
+const KEYED_INDEXES = new Map<
+  string,
+  {
+    readonly cache: WeakMap<object, Map<string, readonly unknown[]>>;
+    readonly recent: (readonly unknown[])[];
+  }
+>();
+
+/**
+ * Records grouped under the keys `keysOf` gives each one (none, one or
+ * several), in array order, following appends. `name` names the grouping;
+ * one name must always use the same `keysOf`.
+ */
+export function recordsByKey<T>(
+  records: readonly T[],
+  name: string,
+  keysOf: (record: T) => readonly string[],
+  key: string,
+): readonly T[] {
+  let slot = KEYED_INDEXES.get(name);
+  if (!slot) {
+    slot = { cache: new WeakMap(), recent: [] };
+    KEYED_INDEXES.set(name, slot);
+  }
+  const extend = (
+    groups: Map<string, readonly unknown[]>,
+    from: number,
+  ): Map<string, readonly unknown[]> => {
+    const grown = new Map<string, unknown[]>();
+    for (let at = from; at < records.length; at += 1) {
+      const record = records[at]!;
+      for (const recordKey of new Set(keysOf(record))) {
+        let group = grown.get(recordKey);
+        if (!group) {
+          group = [...(groups.get(recordKey) ?? [])];
+          grown.set(recordKey, group);
+        }
+        group.push(record);
+      }
+    }
+    for (const [recordKey, group] of grown) groups.set(recordKey, group);
+    return groups;
+  };
+  const groups = indexFollowingAppends(
+    slot.cache,
+    slot.recent,
+    records,
+    () => extend(new Map(), 0),
+    extend,
+  );
+  return (groups.get(key) ?? []) as readonly T[];
+}
+
 /**
  * First-record lookup for append-oriented histories. Array identity is the
  * cache boundary: a writer's new array receives the index of the array it

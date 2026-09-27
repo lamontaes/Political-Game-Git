@@ -29,6 +29,7 @@ import {
   gazetteerChamberForOfficeChamberKey,
   resolveDistrictBinding,
 } from "../districts/query";
+import { recordsByKey } from "./history-index";
 import { workStatusAt, workRoleAt } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -357,30 +358,49 @@ export function legacyLegislativeSeat(world: World, relationshipId: EntityId) {
     : null;
 }
 
+/** The due items that name this entity, in the order they were scheduled. */
+function dueItemsNaming(
+  world: World,
+  entityId: EntityId,
+): readonly FutureDueItem[] {
+  return recordsByKey(
+    world.history.futureDueItems,
+    "legislative-terms:due-by-entity",
+    (due) => due.entityIds,
+    entityId,
+  );
+}
+
 function legacyLegislativeSeatForRelationship(
   world: World,
   relationship: WorkRelationship,
 ) {
+  // Every Day asks this of every seated legislator, so each question reads
+  // an index of the records that can answer it rather than every record.
   if (
     relationship.kind !== "employment:legislative-member" ||
     relationship.provenance.kind !== "simulated-event" ||
-    world.history.futureDueItems.some(
-      (d) =>
-        d.transitionKey === LEGISLATIVE_TERM_ENTRY &&
-        d.entityIds.includes(relationship.id),
+    dueItemsNaming(world, relationship.id).some(
+      (d) => d.transitionKey === LEGISLATIVE_TERM_ENTRY,
     )
   )
     return null;
   const eventId = relationship.provenance.eventId;
-  const result = (world.history.electionContestResults ?? []).find(
-    (r) =>
-      r.outcomeEventId === eventId &&
-      r.winnerPersonId === relationship.personId,
-  );
+  const result = recordsByKey(
+    world.history.electionContestResults ?? [],
+    "legislative-terms:result-by-outcome-event",
+    (r) => (r.outcomeEventId ? [r.outcomeEventId] : []),
+    eventId,
+  ).find((r) => r.winnerPersonId === relationship.personId);
   const contest = result && electionContestById(world, result.contestId);
-  const campaign = (world.history.campaigns ?? []).find(
-    (candidate) => candidate.contestId === contest?.id,
-  );
+  const campaign = contest
+    ? recordsByKey(
+        world.history.campaigns ?? [],
+        "legislative-terms:campaign-by-contest",
+        (candidate) => (candidate.contestId ? [candidate.contestId] : []),
+        contest.id,
+      )[0]
+    : undefined;
   const timing =
     contest &&
     legislativeTermDates(contest.office.officeKey, contest.electionDate);
@@ -398,11 +418,10 @@ function legacyLegislativeSeatForRelationship(
     governingId,
     expiryStableKey,
     expiry:
-      world.history.futureDueItems.find(
+      dueItemsNaming(world, relationship.id).find(
         (d) =>
           d.stableKey === expiryStableKey &&
-          d.transitionKey === LEGISLATIVE_TERM_EXPIRY &&
-          d.entityIds.includes(relationship.id),
+          d.transitionKey === LEGISLATIVE_TERM_EXPIRY,
       ) ?? null,
     endsAt: timing.endsAt,
     seatKey:
