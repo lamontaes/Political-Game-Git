@@ -90,6 +90,12 @@
       "url": "https://www.brookings.edu/wp-content/uploads/2026/05/Survey_Methodology_FINAL.pdf",
       "locator": "PDF pages 1-3, sampling, 10.0% response rate, and weighting"
     },
+    "wa-pdc-record-spending": {
+      "title": "Record-setting campaigns",
+      "publisher": "Washington State Public Disclosure Commission",
+      "url": "https://pdc.wa.gov/political-disclosure-reporting-data/record-setting-campaigns",
+      "locator": "Statewide offices: Governor top five highest spenders; Other Statewide Offices top five highest spenders; page warns post-election reports may change totals"
+    },
     "usps-letter-rates": {
       "title": "Rates for Domestic Letters Since 1863",
       "publisher": "United States Postal Service",
@@ -154,8 +160,8 @@
       "nationalMedianCandidateHoursPerWeek": null,
       "staffCount": null,
       "volunteerCount": null,
-      "evidenceIds": [],
-      "gap": "No like-for-like national median for governors and other statewide offices established."
+      "evidenceIds": ["wa-statewide-record-spending"],
+      "gap": "Washington high-spending record examples do not establish a like-for-like national median for governors or other statewide offices."
     },
     {
       "office": "us-house",
@@ -360,6 +366,18 @@
       "sourceId": "brookings-schoolboard-2026-tables",
       "methodologySourceId": "brookings-schoolboard-2026-method",
       "caveat": "District-weighted, self-reported spending bands among elected members, not all candidates or a mean/median dollar amount. Survey excluded districts with 500 or fewer students and had a 10.0% response rate; weighting does not remove every nonresponse or winner-selection concern. The at-least-$5,000 share sums the six table bands beginning at $5,000."
+    },
+    {
+      "id": "wa-statewide-record-spending",
+      "metric": "Washington candidate spending in record-setting statewide campaigns, USD",
+      "value": {
+        "ferguson2024Governor": 14537971,
+        "brown2024AttorneyGeneral": 2234434
+      },
+      "population": "Washington PDC's highest-spending candidate lists for governor and other statewide offices, as shown September 27, 2026",
+      "period": "2024 election",
+      "sourceId": "wa-pdc-record-spending",
+      "caveat": "Selected high-spending campaigns, not typical, median, or all-candidate totals. Candidate spending excludes separate independent expenditures. PDC warns that post-election reports can change historical totals; consult current campaign reports before operational use."
     },
     {
       "id": "usps-2024-letter-postage",
