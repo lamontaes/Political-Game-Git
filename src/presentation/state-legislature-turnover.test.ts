@@ -455,7 +455,7 @@ describe("reviewed regular legislative seat cohorts", () => {
     ).toBe(true);
   }, 300_000);
 
-  it("keeps Georgia's disclosed whole-chamber 2026 game profile", () => {
+  it("elects both Georgia chambers on their reviewed 2026 regular cycle", () => {
     const opening = adultLifeIn("GA", "ga-existing-regular-seats").world;
     const packId = stateCandidacyPack("US-GA")!.packId;
     const spring = passUntil(opening, "2026-03-10");

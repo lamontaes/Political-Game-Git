@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
+import { stateCandidacyPack } from "../candidacy-packs";
 import { STATE_LEGISLATIVE_CHAMBER_CYCLES } from "../legislative-term-rules";
 import {
   legislativeTermDates,
   supportedLegislativeTermDates,
 } from "../legislative-office-terms";
 import { isElectionYear } from "./state-executive-term-rules";
+import { planStateChambers } from "./state-legislature-opening";
 import {
   isStateLegislativeSeatDue,
   nextStateLegislativeElection,
@@ -123,7 +125,7 @@ describe("when a state legislative seat is next on the ballot", () => {
     ).toBeNull();
   });
 
-  it("retains the disclosed whole-chamber game profile where no cohort was reviewed", () => {
+  it("keeps Georgia's reviewed biennial cycle and the earlier KS/NE receipts", () => {
     expect(
       isStateLegislativeSeatDue(
         "GA",
@@ -166,6 +168,73 @@ describe("when a state legislative seat is next on the ballot", () => {
             2026,
           ),
         ).toBeNull();
+    }
+  });
+
+  it("matches every planned state seat to one reviewed cohort and its next regular year", () => {
+    expect(STATE_LEGISLATIVE_CHAMBER_CYCLES).toHaveLength(99);
+    for (const row of STATE_LEGISLATIVE_CHAMBER_CYCLES) {
+      expect(row.sourceStatus).toBe(
+        "official-primary-reviewed-not-source-admitted",
+      );
+      expect(row.cohorts.length).toBeGreaterThan(0);
+      const pack = stateCandidacyPack(`US-${row.stateUsps}`)!;
+      const plan = planStateChambers(pack).chambers.find(
+        (chamber) => chamber.chamberKey === row.chamberKey,
+      )!;
+      expect(
+        plan,
+        `${row.stateUsps}:${row.chamberKey} has an opening plan`,
+      ).toBeDefined();
+      const districtSlots = new Map<string, number>();
+      for (const [index, district] of plan.districts.entries()) {
+        const districtCode = district?.districtCode ?? null;
+        const slotWithinDistrict = district
+          ? (districtSlots.get(district.recordId) ?? 0) + 1
+          : null;
+        if (district) districtSlots.set(district.recordId, slotWithinDistrict!);
+        const identity = { districtCode, slotWithinDistrict };
+        const matchingYears = [
+          2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035,
+        ].filter(
+          (year) =>
+            stateLegislativeSeatCyclePhase(
+              row.stateUsps,
+              plan.officeKey,
+              identity,
+              year,
+            ) !== null,
+        );
+        expect(
+          matchingYears.length,
+          `${row.stateUsps}:${row.chamberKey} seat ${index + 1}`,
+        ).toBeGreaterThan(0);
+        const next = nextStateLegislativeElection(
+          row.stateUsps,
+          makeIsoDate("2026-01-01"),
+          {
+            officeKey: plan.officeKey,
+            ordinal: index + 1,
+            ...identity,
+          },
+        );
+        expect(
+          Number(next.electionDate.slice(0, 4)),
+          `${row.stateUsps}:${row.chamberKey} seat ${index + 1}`,
+        ).toBe(matchingYears[0]);
+        for (const year of [2026, 2028, 2030]) {
+          expect(
+            isStateLegislativeSeatDue(
+              row.stateUsps,
+              plan.officeKey,
+              index + 1,
+              year,
+              identity,
+            ),
+            `${row.stateUsps}:${row.chamberKey} seat ${index + 1} in ${year}`,
+          ).toBe(matchingYears.includes(year));
+        }
+      }
     }
   });
 
